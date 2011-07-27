@@ -91,10 +91,73 @@ http://api.wordnik.com/v4
     </li>
 </script>
 
-<script id="endpointTemplate" type="text/x-jquery-tmpl">
+<script id="apiTemplate" type="text/x-jquery-tmpl">
     <li class='endpoint'>
         <ul class='operations'>
         </ul>
+    </li>
+</script>
+
+<script id="operationTemplate" type="text/x-jquery-tmpl">
+    <li class='${httpMethod} operation' id='${apiName}_${nickname}'>
+        <div class='heading'>
+            <h3>
+                <span class='http_method'><a href="#!/${apiName}/${nickname}"
+                                             onclick="Docs.toggleOperationContent('${apiName}_${nickname}_content');">${httpMethod}</a></span>
+                <span class='path'><a href="#!/${apiName}/${nickname}"
+                                      onclick="Docs.toggleOperationContent('${apiName}_${nickname}_content');">${path_json}</a></span>
+            </h3>
+            <ul class='options'>
+                <li><a href="#!/${apiName}/${nickname}"
+                       onclick="Docs.toggleOperationContent('${apiName}_${nickname}_content');">${summary}</a></li>
+            </ul>
+        </div>
+        <div class='content' id='${apiName}_${nickname}_content' style='display:none'>
+            <form accept-charset="UTF-8" action="#" class="sandbox" method="post">
+                <div style="margin:0;padding:0;display:inline"></div>
+                <h4>Parameters</h4>
+                <table class='fullwidth'>
+                    <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Value</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody id="${apiName}_${nickname}_params">
+
+                    </tbody>
+                </table>
+
+                <div class='sandbox_header' id='${apiName}_${nickname}_content_sandbox_response_header'>
+                    <input class="submit" id="${apiName}_${nickname}_content_sandbox_response_button" name="commit"
+                           type="submit" value="Try it out!"/>
+                    <a href="#" id="${apiName}_${nickname}_content_sandbox_response_hider"
+                       onclick="$('#${apiName}_${nickname}_content_sandbox_response').slideUp();$(this).fadeOut(); return false;"
+                       style="display:none">Hide Response</a>
+                    <img alt="Throbber" id="${apiName}_${nickname}_content_sandbox_response_throbber"
+                         src="images/throbber.gif" style="display:none"/>
+                </div>
+            </form>
+
+            <div class='response' id='${apiName}_${nickname}_content_sandbox_response' style='display:none'>
+                <h4>Request URL</h4>
+
+                <div class='block request_url'></div>
+                <h4>Response Body</h4>
+
+                <div class='block response_body'></div>
+                <h4>Response Code</h4>
+
+                <div class='block response_code'></div>
+                <h4>Response Headers</h4>
+
+                <div class='block response_headers'></div>
+                <h4>Example Ruby Request</h4>
+
+                <div class='block response_ruby_example'></div>
+            </div>
+        </div>
     </li>
 </script>
 
