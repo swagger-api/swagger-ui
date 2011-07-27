@@ -1,6 +1,9 @@
 jQuery(function($) {
     // create and initialize SwaggerService
-    var swaggerService = new SwaggerService("http://swagr.api.wordnik.com/v4");
+    var hostUrl = "http://swagr.api.wordnik.com/v4";
+
+    $("#api_host_url").html(hostUrl);
+    var swaggerService = new SwaggerService(hostUrl);
     swaggerService.init();
 
     // Create convenience references to Spine models
