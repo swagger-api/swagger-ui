@@ -1,0 +1,8 @@
+/* line 1, ../../../app/stylesheets/ie6.scss */
+a.button, form button {
+  background-image: none !important;
+}
+/* line 3, ../../../app/stylesheets/ie6.scss */
+a.button:hover, a.button:active, a.button:focus, form button:hover, form button:active, form button:focus {
+  background-image: none !important;
+}

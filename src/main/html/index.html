@@ -1,26 +1,104 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <title>Wordnik Developer</title>
     <title>Swagger Api Explorer</title>
     <meta charset="utf-8">
 
-    <link rel="stylesheet" media="screen" href="style/main.css">
-    <link rel="stylesheet" type="text/css" media="screen"
-          href="style/smoothness/jquery-ui-1.8.14.custom.css">
     <link rel="shortcut icon" type="image/png" href="images/favicon.png">
-    <script src="javascript/jquery-1.6.2.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="javascript/jquery-ui-1.8.14.custom.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="javascript/jquery.tmpl.js" type="text/javascript" charset="utf-8"></script>
-    <script src="javascript/spine.js" type="text/javascript" charset="utf-8"></script>
+
+    <link rel="stylesheet" type="text/css" media="screen"
+          href="style/smoothness/jquery-ui-1.8.14.custom.min.css">
+
+    <link href="style/app.ext.min.css" media="screen, projection" rel="stylesheet" type="text/css"/>
+    <!--<link href="style/app.min.css" media="screen, projection" rel="stylesheet" type="text/css"/>-->
+    <link rel="stylesheet" media="screen" href="style/main.css">
+
+    <script src="javascript/app.ext.min.js" type="text/javascript" charset="utf-8"></script>
+
     <script src="javascript/swagger-service.js" type="text/javascript" charset="utf-8"></script>
     <script src="javascript/swagger-service-sample.js" type="text/javascript" charset="utf-8"></script>
+    <script src="javascript/swagger-ui.js" type="text/javascript" charset="utf-8"></script>
 
 </head>
+<body>
+<div id='header'>
+    <div class='container'>
+        <h1 id='logo'>
+            <a href="/"><span>api</span><span class="light">&nbsp;explorer</span></a>
+        </h1>
+    </div>
+</div>
+<div id='content'>
+    <div class='container'>
+        <div class='fullwidth_column'>
+            <div class='heading_with_menu'>
+                <h1>
+                    You know my methods. Apply them.
+                </h1>
 
-<script id="userTemplate" type="text/x-jquery-tmpl">
+            </div>
+
+            <ul id="resources" class='resources'>
+
+            </ul>
+            <p>
+                The latest API base URL is
+<span class='code'> 
+http://api.wordnik.com/v4
+</span>
+            </p>
+        </div>
+
+    </div>
+</div>
+<div id='footer'>
+    <div class='container'>
+        <ul>
+            <li><a href="http://www.wordnik.com" class="strong">wordnik.com</a></li>
+            <li><a href="http://twitter.com/wordnik">@wordnik</a></li>
+            <li><a href="http://twitter.com/wordnikapi">@wordnikapi</a></li>
+            <li><a href="http://github.com/wordnik">github.com/wordnik</a></li>
+            <li><a href="irc://irc.freenode.net/wordnik">#wordnik on IRC</a></li>
+            <li><a href="http://www.wordnik.com/about">about</a></li>
+            <li><a href="http://smartwords.wordnik.com/">smartwords</a></li>
+            <li><a href="http://blog.wordnik.com">blog</a></li>
+            <li><a href="/terms">terms</a></li>
+        </ul>
+    </div>
+</div>
+
+<script id="resourceTemplate" type="text/x-jquery-tmpl">
+    <li class='resource' id='resource_${name}'>
+        <div class='heading'>
+            <h2>
+                <a href="#!/${name}" onclick="Docs.toggleEndpointListForResource('${name}');">/${name}</a>
+            </h2>
+            <ul class='options'>
+                <li><a href="#!/${name}" id="endpointListTogger_${name}"
+                       onclick="Docs.toggleEndpointListForResource('${name}');">Show/Hide</a></li>
+                <li><a href="#" onclick="Docs.collapseOperationsForResource('${name}'); return false;">List
+                    Operations</a></li>
+                <li><a href="#" onclick="Docs.expandOperationsForResource('${name}'); return false;">Expand
+                    Operations</a></li>
+                <li><a href="${baseUrl}${path_json}.json">Raw</a>
+                </li>
+            </ul>
+        </div>
+        <ul class='endpoints' id='${name}_endpoint_list' style='display:none'>
+        </ul>
+    </li>
 </script>
 
-<body>
+<script id="endpointTemplate" type="text/x-jquery-tmpl">
+    <li class='endpoint'>
+        <ul class='operations'>
+        </ul>
+    </li>
+</script>
+
 </body>
 
 </html>
+
