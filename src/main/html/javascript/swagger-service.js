@@ -1,7 +1,11 @@
 
-function SwaggerService(hostUrl) {
+function SwaggerService(hostUrl, rootResourcesApi) {
+    if(!hostUrl)
+        throw new Error("hostUrl must be passed while creating SwaggerService");
+
 	// constants
-	var apiHost = hostUrl || "http://swagr.api.wordnik.com/v4";
+	var apiHost = hostUrl;
+    var rootResourcesApiName = rootResourcesApi || "list";
 
 	// utility functions
 	function log(m) {
@@ -253,9 +257,12 @@ function SwaggerService(hostUrl) {
 		fetchEndpoints: function() {
             var controller = this;
 
-            $.getJSON(apiHost + "/list.json", function(response) {
+            $.getJSON(apiHost + "/" + rootResourcesApiName + ".json", function(response) {
 				//log(response);
 				ApiResource.createAll(response.apis);
+				ApiResource.findByAttribute("name", rootResourcesApiName).destroy();
+
+
                 controller.fetchResources();
 			});
 		},
