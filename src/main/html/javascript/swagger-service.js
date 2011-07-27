@@ -26,7 +26,7 @@ function SwaggerService(hostUrl) {
 			this.path_json = this.path + ".json";
 			this.path_xml = this.path + ".xml";
             this.baseUrl = apiHost;
-            this.name = this.path.substr(0, this.path.length);
+            this.name = this.path.substr(1, this.path.length);
             this.apiList = Api.sub();
             this.modelList = ApiModel.sub();
 		},
@@ -62,9 +62,9 @@ function SwaggerService(hostUrl) {
 				this.path_xml = prefix + ".xml" + suffix;;
 
                 if(this.path.indexOf("/") == 0) {
-                    this.name = this.path.substr(1, secondPathSeperatorIndex);
+                    this.name = this.path.substr(1, secondPathSeperatorIndex - 1);
                 } else {
-                    this.name = this.path.substr(0, secondPathSeperatorIndex);
+                    this.name = this.path.substr(0, secondPathSeperatorIndex - 1);
                 }
 			} else {
 				this.path_json = this.path + ".json";
@@ -78,16 +78,21 @@ function SwaggerService(hostUrl) {
 			}
 
 	        var value  = this.operations;
-	        this.operations = ApiOperation.sub();
-	        if (value) this.operations.refresh(value);
 
-            for(var i = 0; i < this.operations.all().length; i++) {
-                var operation = this.operations.all()[i];
-                operation.apiName = this.name;
-                operation.path = this.path;
-                operation.path_json = this.path_json;
-                operation.path_xml = this.path_xml;
+	        this.operations = ApiOperation.sub();
+	        if (value) {
+                for (var i = 0; i < value.length; i++) {
+                    var obj = value[i];
+                    obj.apiName = this.name;
+                    obj.path = this.path;
+                    obj.path_json = this.path_json;
+                    obj.path_xml = this.path_xml;
+
+                }
+
+                this.operations.refresh(value);
             }
+
 		},
 		
 		toString: function() {
@@ -106,14 +111,15 @@ function SwaggerService(hostUrl) {
     });
 
 	// Model: ApiOperation
-	var ApiOperation = Spine.Model.setup("ApiOperation", ["baseUrl", "path", "path_json", "path_xml", "summary", "deprecated", "open", "httpMethod", "nickname", "responseClass", "parameters", "apiName"]);
+	var ApiOperation = Spine.Model.setup("ApiOperation", ["baseUrl", "path", "path_json", "path_xml", "summary", "deprecated", "open", "httpMethod", "httpMethodLowercase", "nickname", "responseClass", "parameters", "apiName"]);
     ApiOperation.include({
 		init: function(atts) {
 	        if (atts) this.load(atts);
 
             this.baseUrl = apiHost;
+            this.httpMethodLowercase = this.httpMethod.toLowerCase();
 
-	        var value  = this.parameters;
+	        var value = this.parameters;
 	        this.parameters = ApiParameter.sub();
 	        if (value) this.parameters.refresh(value);
 		},
@@ -130,7 +136,7 @@ function SwaggerService(hostUrl) {
 			}
 			paramsString += ")";
 
-			return "{" + this.nickname  + paramsString + ": " + this.summary + "}";
+			return "{" + this.path_json + "| " + this.nickname  + paramsString + ": " + this.summary + "}";
 		}
 		
     });
@@ -140,6 +146,8 @@ function SwaggerService(hostUrl) {
 	ApiParameter.include({
 		init: function(atts) {
 	        if (atts) this.load(atts);
+
+            this.name = this.name || this.dataType;
 		},
 
 		toString: function() {

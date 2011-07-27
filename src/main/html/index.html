@@ -18,7 +18,6 @@
     <script src="javascript/app.ext.min.js" type="text/javascript" charset="utf-8"></script>
 
     <script src="javascript/swagger-service.js" type="text/javascript" charset="utf-8"></script>
-    <script src="javascript/swagger-service-sample.js" type="text/javascript" charset="utf-8"></script>
     <script src="javascript/swagger-ui.js" type="text/javascript" charset="utf-8"></script>
 
 </head>
@@ -93,26 +92,26 @@ http://api.wordnik.com/v4
 
 <script id="apiTemplate" type="text/x-jquery-tmpl">
     <li class='endpoint'>
-        <ul class='operations'>
+        <ul id='${name}_endpoint_${id}_operations' class='operations'>
         </ul>
     </li>
 </script>
 
 <script id="operationTemplate" type="text/x-jquery-tmpl">
-    <li class='${httpMethod} operation' id='${apiName}_${nickname}'>
+    <li class='${httpMethodLowercase} operation' id='${apiName}_${nickname}_${id}'>
         <div class='heading'>
             <h3>
-                <span class='http_method'><a href="#!/${apiName}/${nickname}"
-                                             onclick="Docs.toggleOperationContent('${apiName}_${nickname}_content');">${httpMethod}</a></span>
-                <span class='path'><a href="#!/${apiName}/${nickname}"
-                                      onclick="Docs.toggleOperationContent('${apiName}_${nickname}_content');">${path_json}</a></span>
+                <span class='http_method'><a href="#!/${apiName}/${nickname}_${id}"
+                                             onclick="Docs.toggleOperationContent('${apiName}_${nickname}_${id}_content');">${httpMethod}</a></span>
+                <span class='path'><a href="#!/${apiName}/${nickname}_${id}"
+                                      onclick="Docs.toggleOperationContent('${apiName}_${nickname}_${id}_content');">${path_json}</a></span>
             </h3>
             <ul class='options'>
-                <li><a href="#!/${apiName}/${nickname}"
-                       onclick="Docs.toggleOperationContent('${apiName}_${nickname}_content');">${summary}</a></li>
+                <li><a href="#!/${apiName}/${nickname}_${id}"
+                       onclick="Docs.toggleOperationContent('${apiName}_${nickname}_${id}_content');">${summary}</a></li>
             </ul>
         </div>
-        <div class='content' id='${apiName}_${nickname}_content' style='display:none'>
+        <div class='content' id='${apiName}_${nickname}_${id}_content' style='display:none'>
             <form accept-charset="UTF-8" action="#" class="sandbox" method="post">
                 <div style="margin:0;padding:0;display:inline"></div>
                 <h4>Parameters</h4>
@@ -120,27 +119,27 @@ http://api.wordnik.com/v4
                     <thead>
                     <tr>
                         <th>Parameter</th>
-                        <th>Value</th>
+                        <th id="${apiName}_${nickname}_${id}_value_header">Value</th>
                         <th>Description</th>
                     </tr>
                     </thead>
-                    <tbody id="${apiName}_${nickname}_params">
+                    <tbody id="${apiName}_${nickname}_${id}_params">
 
                     </tbody>
                 </table>
 
-                <div class='sandbox_header' id='${apiName}_${nickname}_content_sandbox_response_header'>
-                    <input class="submit" id="${apiName}_${nickname}_content_sandbox_response_button" name="commit"
+                <div class='sandbox_header' id='${apiName}_${nickname}_${id}_content_sandbox_response_header'>
+                    <input class="submit" id="${apiName}_${nickname}_${id}_content_sandbox_response_button" name="commit"
                            type="submit" value="Try it out!"/>
-                    <a href="#" id="${apiName}_${nickname}_content_sandbox_response_hider"
-                       onclick="$('#${apiName}_${nickname}_content_sandbox_response').slideUp();$(this).fadeOut(); return false;"
+                    <a href="#" id="${apiName}_${nickname}_${id}_content_sandbox_response_hider"
+                       onclick="$('#${apiName}_${nickname}_${id}_content_sandbox_response').slideUp();$(this).fadeOut(); return false;"
                        style="display:none">Hide Response</a>
-                    <img alt="Throbber" id="${apiName}_${nickname}_content_sandbox_response_throbber"
+                    <img alt="Throbber" id="${apiName}_${nickname}_${id}_content_sandbox_response_throbber"
                          src="images/throbber.gif" style="display:none"/>
                 </div>
             </form>
 
-            <div class='response' id='${apiName}_${nickname}_content_sandbox_response' style='display:none'>
+            <div class='response' id='${apiName}_${nickname}_${id}_content_sandbox_response' style='display:none'>
                 <h4>Request URL</h4>
 
                 <div class='block request_url'></div>
@@ -160,6 +159,42 @@ http://api.wordnik.com/v4
         </div>
     </li>
 </script>
+
+
+<script id="paramTemplateRequired" type="text/x-jquery-tmpl">
+    <tr>
+        <td class='code required'>${name}</td>
+        <td><input class="required" minlength="1" placeholder="(required)" type="text" value=""/></td>
+        <td width='500'><strong>${description}</strong>
+        </td>
+    </tr>
+</script>
+
+<script id="paramTemplate" type="text/x-jquery-tmpl">
+    <tr>
+        <td class='code'>${name}</td>
+        <td><input class="" minlength="0" placeholder="" type="text" value=""/></td>
+        <td width='500'>${description}</td>
+    </tr>
+</script>
+
+<script id="paramTemplateRequiredReadOnly" type="text/x-jquery-tmpl">
+    <tr>
+        <td class='code required'>${name}</td>
+        <td>-</td>
+        <td width='500'><strong>${description}</strong>
+        </td>
+    </tr>
+</script>
+
+<script id="paramTemplateReadOnly" type="text/x-jquery-tmpl">
+    <tr>
+        <td class='code'>${name}</td>
+        <td>-</td>
+        <td width='500'>${description}</td>
+    </tr>
+</script>
+
 
 </body>
 
