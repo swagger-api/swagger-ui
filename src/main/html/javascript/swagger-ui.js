@@ -22,7 +22,7 @@ jQuery(function($) {
 
             // Create convenience references to Spine models
             this.ApiResource = swaggerService.ApiResource();
-            
+
             this.ApiResource.bind("refresh", this.addAll);
         },
 
@@ -95,14 +95,21 @@ jQuery(function($) {
     });
 
     var OperationController = Spine.Controller.create({
+        proxied: ["submitOperation"],
+
         operation: null,
         templateName: "#operationTemplate",
+        elementScope: "#operationTemplate",
 
         init: function() {
             this.render();
 
             this.operation = this.item;
+            this.isGetOperation = (this.operation.httpMethodLowercase == "get");
+            this.elementScope = "#" + this.operation.apiName + "_" + this.operation.nickname + "_" + this.operation.id;
+
             this.renderParams();
+
         },
 
         render: function() {
@@ -111,9 +118,7 @@ jQuery(function($) {
 
         renderParams: function() {
             if (this.operation.parameters && this.operation.parameters.count() > 0) {
-                var isGetOpetation = (this.operation.httpMethodLowercase == "get");
-
-                var operationParamsContainer = "#" + this.operation.apiName + "_" + this.operation.nickname + "_" + this.operation.id + "_params";
+                var operationParamsContainer = this.elementScope + "_params";
                 log("operationParamsContainer = " + operationParamsContainer);
                 for (var p = 0; p < this.operation.parameters.count(); p++) {
                     var param = this.operation.parameters.all()[p];
@@ -122,25 +127,32 @@ jQuery(function($) {
                     if (param.required)
                         templateName += "Required";
 
-                    if (!isGetOpetation)
+                    if (!this.isGetOperation)
                         templateName += "ReadOnly";
 
                     $(templateName).tmpl(param).appendTo(operationParamsContainer);
-                    log("adding " + $(templateName).tmpl(param) + " TO " + operationParamsContainer);
-
-                    if (!isGetOpetation) {
-                        var submitButtonId = "#" + this.operation.apiName + "_" + this.operation.nickname + "_" + this.operation.id + "_content_sandbox_response_button";
-                        $(submitButtonId).hide();
-
-                        var valueHeader = "#" + this.operation.apiName + "_" + this.operation.nickname + "_" + this.operation.id + "_value_header";
-                        $(valueHeader).html("Default Value");
-
-                    }
-
-
+//                    log("adding " + $(templateName).tmpl(param) + " TO " + operationParamsContainer);
                 }
             }
+
+            var submitButtonId = this.elementScope + "_content_sandbox_response_button";
+            if (this.isGetOperation) {
+                $(submitButtonId).click(this.submitOperation);
+            } else {
+                $(submitButtonId).hide();
+
+                var valueHeader = this.elementScope + "_value_header";
+                $(valueHeader).html("Default Value");
+            }
+
+        },
+
+        submitOperation: function() {
+            var form = $(this.elementScope + "_form");
+            log(this.elementScope + "_form:: " + form);
+            log("submitOperation : '" + form.serialize() + "'");
         }
+
     });
 
     var resourceListController = ResourceListController.init();

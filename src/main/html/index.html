@@ -74,7 +74,7 @@
                     Operations</a></li>
                 <li><a href="#" onclick="Docs.expandOperationsForResource('${name}'); return false;">Expand
                     Operations</a></li>
-                <li><a href="${baseUrl}${path_json}.json">Raw</a>
+                <li><a href="${baseUrl}${path_json}">Raw</a>
                 </li>
             </ul>
         </div>
@@ -105,7 +105,7 @@
             </ul>
         </div>
         <div class='content' id='${apiName}_${nickname}_${id}_content' style='display:none'>
-            <form accept-charset="UTF-8" action="#" class="sandbox" method="post">
+            <form id="${apiName}_${nickname}_${id}_form" accept-charset="UTF-8" action="#" class="sandbox" method="post">
                 <div style="margin:0;padding:0;display:inline"></div>
                 <h4>Parameters</h4>
                 <table class='fullwidth'>
@@ -123,7 +123,7 @@
 
                 <div class='sandbox_header' id='${apiName}_${nickname}_${id}_content_sandbox_response_header'>
                     <input class="submit" id="${apiName}_${nickname}_${id}_content_sandbox_response_button" name="commit"
-                           type="submit" value="Try it out!"/>
+                           type="button" value="Try it out!"/>
                     <a href="#" id="${apiName}_${nickname}_${id}_content_sandbox_response_hider"
                        onclick="$('#${apiName}_${nickname}_${id}_content_sandbox_response').slideUp();$(this).fadeOut(); return false;"
                        style="display:none">Hide Response</a>
@@ -157,7 +157,7 @@
 <script id="paramTemplateRequired" type="text/x-jquery-tmpl">
     <tr>
         <td class='code required'>${name}</td>
-        <td><input class="required" minlength="1" placeholder="(required)" type="text" value=""/></td>
+        <td><input name="${name}" class="required" minlength="1" placeholder="(required)" type="text" value=""/></td>
         <td width='500'><strong>${description}</strong>
         </td>
     </tr>
@@ -166,7 +166,7 @@
 <script id="paramTemplate" type="text/x-jquery-tmpl">
     <tr>
         <td class='code'>${name}</td>
-        <td><input class="" minlength="0" placeholder="" type="text" value=""/></td>
+        <td><input name="${name}" class="" minlength="0" placeholder="" type="text" value=""/></td>
         <td width='500'>${description}</td>
     </tr>
 </script>
