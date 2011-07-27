@@ -1,84 +1,149 @@
 jQuery(function($) {
-    // create and initialize SwaggerService
-    var hostUrl = "http://swagr.api.wordnik.com/v4";
 
-    $("#api_host_url").html(hostUrl);
-    var swaggerService = new SwaggerService(hostUrl);
-    swaggerService.init();
+    // The following heirarchy is followed by these view controllers
+    // ResourceListController
+    //     >>> ResourceController
+    //         >>> ApiController
+    //             >>> OperationController
 
-    // Create convenience references to Spine models
-    var ApiResource = swaggerService.ApiResource();
+    var ResourceListController = Spine.Controller.create({
+        proxied: ["addAll", "addOne"],
 
-    // Register a callback for when apis are loaded
-    ApiResource.bind("refresh", apisLoaded);
+        ApiResource: null,
 
-    function apisLoaded() {
-        for (var i = 0; i < ApiResource.all().length; i++) {
-            var apiResource = ApiResource.all()[i];
-            log("------------- apiResource : " + apiResource.name);
+        init: function() {
 
-            $("#resourceTemplate").tmpl(apiResource).appendTo("#resources");
+            // create and initialize SwaggerService
+            var hostUrl = "http://swagr.api.wordnik.com/v4";
 
-//            apiResource.apiList.logAll();
-            var resourceApisContainer = "#" + apiResource.name + "_endpoint_list";
-            log("resourceApisContainer = " + resourceApisContainer);
-            for (var j = 0; j < apiResource.apiList.all().length; j++) {
-                var api = apiResource.apiList.all()[j];
-                $("#apiTemplate").tmpl(api).appendTo(resourceApisContainer);
-                renderOperations(api);
-            }
+            $("#api_host_url").html(hostUrl);
+            var swaggerService = new SwaggerService(hostUrl);
+            swaggerService.init();
 
-//            apiResource.modelList.logAll();
-            for (var k = 0; k < apiResource.modelList.all().length; k++) {
-                var apiModel = apiResource.modelList.all()[k];
-            }
+            // Create convenience references to Spine models
+            this.ApiResource = swaggerService.ApiResource();
+            
+            this.ApiResource.bind("refresh", this.addAll);
+        },
+
+        addAll: function() {
+            this.ApiResource.each(this.addOne);
+        },
+
+        addOne: function(apiResource) {
+            ResourceController.init({item: apiResource, container: "#resources"});
+        }
+    });
+
+    var ResourceController = Spine.Controller.create({
+        proxied: ["renderApi", "renderOperation"],
+
+        templateName: "#resourceTemplate",
+        apiResource: null,
+        apiList: null,
+        modelList: null,
+
+        init: function() {
+            this.render();
+
+            this.apiResource = this.item;
+            this.apiList = this.apiResource.apiList;
+            this.modelList = this.apiResource.modelList;
+
+//            log("------------- apiResource : " + this.apiResource.name);
+//            this.apiList.logAll();
+//            this.modelList.logAll();
+
+            this.apiList.each(this.renderApi);
+
+        },
+
+        render: function() {
+            $(this.templateName).tmpl(this.item).appendTo(this.container);
+        },
+
+        renderApi: function(api) {
+            var resourceApisContainer = "#" + this.apiResource.name + "_endpoint_list";
+            ApiController.init({item: api, container: resourceApisContainer});
         }
 
-        if (window.console) console.log("apis loaded");
-    }
+    });
 
-    function renderOperations(api) {
-        if (api.operations && api.operations.count() > 0) {
-            var operationsContainer = "#" + api.name + "_endpoint_" + api.id + "_operations";
-            for (var o = 0; o < api.operations.all().length; o++) {
-                var operation = api.operations.all()[o];
-                $("#operationTemplate").tmpl(operation).appendTo(operationsContainer);
-                renderParameters(operation, $);
-            }
+
+    var ApiController = Spine.Controller.create({
+        proxied: ["renderOperation"],
+
+        api: null,
+        templateName: "#apiTemplate",
+
+        init: function() {
+            this.render();
+
+            this.api = this.item;
+
+            this.api.operations.each(this.renderOperation);
+        },
+
+        render: function() {
+            $(this.templateName).tmpl(this.item).appendTo(this.container);
+        },
+
+        renderOperation: function(operation) {
+            var operationsContainer = "#" + this.api.name + "_endpoint_" + this.api.id + "_operations";
+            OperationController.init({item: operation, container: operationsContainer});
         }
-    }
+    });
 
-    function renderParameters(operation) {
-        if(operation.parameters && operation.parameters.count() > 0) {
-            var isGetOpetation = (operation.httpMethodLowercase == "get");
+    var OperationController = Spine.Controller.create({
+        operation: null,
+        templateName: "#operationTemplate",
 
-            var operationParamsContainer = "#" + operation.apiName + "_" + operation.nickname + "_" + operation.id + "_params";
-            log("operationParamsContainer= " + operationParamsContainer);
-            for (var p = 0; p < operation.parameters.all().length; p++) {
-                var param = operation.parameters.all()[p];
+        init: function() {
+            this.render();
 
-                var templateName = "#paramTemplate";
-                if (param.required)
-                    templateName += "Required";
+            this.operation = this.item;
+            this.renderParams();
+        },
 
-                if (!isGetOpetation)
-                    templateName += "ReadOnly";
+        render: function() {
+            $(this.templateName).tmpl(this.item).appendTo(this.container);
+        },
 
-                $(templateName).tmpl(param).appendTo(operationParamsContainer);
+        renderParams: function() {
+            if (this.operation.parameters && this.operation.parameters.count() > 0) {
+                var isGetOpetation = (this.operation.httpMethodLowercase == "get");
 
-                if (!isGetOpetation) {
-                    var submitButtonId = "#" + operation.apiName + "_" + operation.nickname + "_" + operation.id + "_content_sandbox_response_button";
-                    $(submitButtonId).hide();
+                var operationParamsContainer = "#" + this.operation.apiName + "_" + this.operation.nickname + "_" + this.operation.id + "_params";
+                log("operationParamsContainer = " + operationParamsContainer);
+                for (var p = 0; p < this.operation.parameters.count(); p++) {
+                    var param = this.operation.parameters.all()[p];
 
-                    var valueHeader = "#" + operation.apiName + "_" + operation.nickname + "_" + operation.id + "_value_header";
-                    $(valueHeader).html("Default Value");
+                    var templateName = "#paramTemplate";
+                    if (param.required)
+                        templateName += "Required";
+
+                    if (!isGetOpetation)
+                        templateName += "ReadOnly";
+
+                    $(templateName).tmpl(param).appendTo(operationParamsContainer);
+                    log("adding " + $(templateName).tmpl(param) + " TO " + operationParamsContainer);
+
+                    if (!isGetOpetation) {
+                        var submitButtonId = "#" + this.operation.apiName + "_" + this.operation.nickname + "_" + this.operation.id + "_content_sandbox_response_button";
+                        $(submitButtonId).hide();
+
+                        var valueHeader = "#" + this.operation.apiName + "_" + this.operation.nickname + "_" + this.operation.id + "_value_header";
+                        $(valueHeader).html("Default Value");
+
+                    }
+
 
                 }
-
-
             }
         }
-    }
+    });
+
+    var resourceListController = ResourceListController.init();
 
 });
 
