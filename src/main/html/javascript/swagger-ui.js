@@ -1,5 +1,36 @@
 jQuery(function($) {
 
+    var ApiSelectionController = Spine.Controller.create({
+        baseUrlList: new Array(),
+
+        init: function() {
+            if(this.supportsLocalStorage()) {
+                var baseUrls = localStorage.getItem("com.wordnik.swagger.ui.baseUrls");
+                if(baseUrls && jQuery.trim(baseUrls).length > 0) {
+                    this.baseUrlList = baseUrls.split(",");
+                }
+
+            } else {
+                log("local storage not supported, user will need to specifiy the api url")
+            }
+
+            this.render();
+
+        },
+
+        supportsLocalStorage: function() {
+            try {
+                return 'localStorage' in window && window['localStorage'] !== null;
+            } catch (e) {
+                return false;
+            }
+        },
+
+        render: function() {
+//            $("#baseUrlSelector").chosen();
+        }
+    });
+
     // The following heirarchy is followed by these view controllers
     // ResourceListController
     //     >>> ResourceController
@@ -12,12 +43,18 @@ jQuery(function($) {
         ApiResource: null,
 
         init: function() {
+            if(this.baseUrl == null) {
+                throw new Error("A baseUrl must be passed to ResourceListController");
+            }
+
+            var hostUrl = this.baseUrl.substr(0, this.baseUrl.lastIndexOf("/"));
+            var resourceListApi = this.baseUrl.substr(this.baseUrl.lastIndexOf("/") + 1, this.baseUrl.length);
+            log("resourceListApi=" + resourceListApi);
+            log("hostUrl=" + hostUrl);
 
             // create and initialize SwaggerService
-            var hostUrl = "http://swagr.api.wordnik.com/v4";
-
             $("#api_host_url").html(hostUrl);
-            var swaggerService = new SwaggerService(hostUrl);
+            var swaggerService = new SwaggerService(hostUrl, "list");
             swaggerService.init();
 
             // Create convenience references to Spine models
@@ -149,13 +186,37 @@ jQuery(function($) {
 
         submitOperation: function() {
             var form = $(this.elementScope + "_form");
-            log(this.elementScope + "_form:: " + form);
-            log("submitOperation : '" + form.serialize() + "'");
+
+            var error_free = true;
+            var missing_input = null;
+
+            // Cycle through the forms required inputs
+            form.find("input.required").each(function() {
+
+                // Remove any existing error styles from the input
+                $(this).removeClass('error');
+
+                // Tack the error style on if the input is empty..
+                if ($(this).val() == '') {
+                    if(missing_input == null)
+                        missing_input = $(this);
+                    $(this).addClass('error');
+                    $(this).wiggle();
+                    error_free = false;
+                }
+
+            });
+
+            log("error_free = " + error_free);
+
+
         }
 
     });
 
-    var resourceListController = ResourceListController.init();
+    var apiSelectionController = ApiSelectionController.init();
+
+    var resourceListController = ResourceListController.init({baseUrl: "http://swagr.api.wordnik.com/v4/list.json"});
 
 });
 

@@ -27,6 +27,12 @@
         <h1 id='logo'>
             <a href="/"><span>api</span><span class="light">&nbsp;explorer</span></a>
         </h1>
+
+        <ul id='nav'>
+            <li class="first odd"><input class="header-input" type="text" style="width: 400px" placeholder="http://awesome-api.com/rest/list.json"></li>
+            <li class="even"><input class="header-input" type="text" style="width: 200px" placeholder="(api key)"></li>
+            <li class="last odd"><a href="/support" class="active">Explore</a></li>
+        </ul>
     </div>
 </div>
 <div id='content'>
@@ -157,7 +163,7 @@
 <script id="paramTemplateRequired" type="text/x-jquery-tmpl">
     <tr>
         <td class='code required'>${name}</td>
-        <td><input name="${name}" class="required" minlength="1" placeholder="(required)" type="text" value=""/></td>
+        <td><input id="${name}_${id}" name="${name}" class="required" minlength="1" placeholder="(required)" type="text" value=""/></td>
         <td width='500'><strong>${description}</strong>
         </td>
     </tr>
@@ -166,7 +172,7 @@
 <script id="paramTemplate" type="text/x-jquery-tmpl">
     <tr>
         <td class='code'>${name}</td>
-        <td><input name="${name}" class="" minlength="0" placeholder="" type="text" value=""/></td>
+        <td><input id="${name}_${id}" name="${name}" class="" minlength="0" placeholder="" type="text" value=""/></td>
         <td width='500'>${description}</td>
     </tr>
 </script>
