@@ -1,12 +1,34 @@
 
-function SwaggerService(hostUrl, rootResourcesApi, statusCallback) {
-    if(!hostUrl)
-        throw new Error("hostUrl must be passed while creating SwaggerService");
+function SwaggerService(baseUrl, _apiKey, statusCallback) {
+    if(!baseUrl)
+        throw new Error("baseUrl must be passed while creating SwaggerService");
 
 	// constants
-	var apiHost = hostUrl;
-    var rootResourcesApiName = rootResourcesApi || "list";
+    baseUrl = jQuery.trim(baseUrl);
+    if(baseUrl.length == 0)
+        throw new Error("baseUrl must be passed while creating SwaggerService");
+
+    if(!(baseUrl.toLowerCase().indexOf("http:") == 0 || baseUrl.toLowerCase().indexOf("https:") == 0)) {
+        baseUrl = ("http://" + baseUrl);
+    }
+
+    log("using base url " + baseUrl);
+
+    var apiHost = baseUrl.substr(0, baseUrl.lastIndexOf("/"));
+    var rootResourcesApiName = baseUrl.substr(baseUrl.lastIndexOf("/") + 1, (baseUrl.lastIndexOf(".") - baseUrl.lastIndexOf("/") - 1));
+
     var statusListener = statusCallback;
+    var apiKey = _apiKey;
+
+    var apiKeySuffix = "";
+    if(apiKey) {
+        apiKey = jQuery.trim(apiKey);
+        if(apiKey.length > 0)
+            apiKeySuffix = "?api_key=" + apiKey;
+    }
+    log("apiHost=" + apiHost);
+    log("apiKey=" + apiKey);
+    log("rootResourcesApiName = " + rootResourcesApiName);
 
 	// utility functions
 	function log(m) {
@@ -148,7 +170,38 @@ function SwaggerService(hostUrl, rootResourcesApi, statusCallback) {
 			paramsString += ")";
 
 			return "{" + this.path_json + "| " + this.nickname  + paramsString + ": " + this.summary + "}";
-		}
+		},
+
+        invocationUrl: function(formValues) {
+            var formValuesMap = new Object();
+            for (var i = 0; i < formValues.length; i++) {
+                var formValue = formValues[i];
+                if(formValue.value && jQuery.trim(formValue.value).length > 0)
+                    formValuesMap[formValue.name] = formValue.value;
+            }
+
+            var urlTemplateText = this.path_json.split("{").join("${");
+            log("url template = " + urlTemplateText);
+            var urlTemplate = $.template(null, urlTemplateText);
+            var url = $.tmpl(urlTemplate, formValuesMap)[0].data;
+            log("url with path params = " + url);
+
+            var queryParams = apiKeySuffix;
+            this.parameters.each(function (param) {
+                var paramValue = jQuery.trim(formValuesMap[param.name]);
+                if(param.paramType == "query" && paramValue.length > 0) {
+                    queryParams += queryParams.length > 0 ? "&" : "?";
+                    queryParams += param.name;
+                    queryParams += "=";
+                    queryParams += formValuesMap[param.name];
+                }
+            });
+
+            url = this.baseUrl + url + queryParams;
+            log("final url with query params and base url = " + url);
+
+            return url;
+        }
 		
     });
 
@@ -267,10 +320,14 @@ function SwaggerService(hostUrl, rootResourcesApi, statusCallback) {
             var controller = this;
 
             updateStatus("Fetching API List...");
-            $.getJSON(apiHost + "/" + rootResourcesApiName + ".json", function(response) {
+            $.getJSON(apiHost + "/" + rootResourcesApiName + ".json" + apiKeySuffix, function(response) {
 				//log(response);
 				ApiResource.createAll(response.apis);
-				ApiResource.findByAttribute("name", rootResourcesApiName).destroy();
+
+                // get rid of the root resource list api since we're not going to document that
+                var obj = ApiResource.findByAttribute("name", rootResourcesApiName);
+                if(obj)
+                    obj.destroy();
 
 
                 controller.fetchResources();
@@ -290,7 +347,7 @@ function SwaggerService(hostUrl, rootResourcesApi, statusCallback) {
         fetchResource: function(apiResource) {
             var controller = this;
             updateStatus("Fetching " + apiResource.name + "...");
-            $.getJSON(apiHost + apiResource.path_json, function(response) {
+            $.getJSON(apiHost + apiResource.path_json + apiKeySuffix, function(response) {
                 controller.loadResources(response, apiResource);
             });
         },

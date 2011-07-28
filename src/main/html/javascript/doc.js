@@ -49,9 +49,6 @@ $(function() {
 		return error_free;
 	});
 
-	// Handle URL fragments
-	Docs.shebang();
-
 });
 
 function clippyCopiedCallback(a) {
@@ -91,8 +88,16 @@ var Docs = {
 				// Refer to the endpoint DOM element, e.g. #words_get_search
 				log('shebang endpoint: ' + fragments.join('_'));
 
+                // Expand Resource
+                Docs.expandEndpointListForResource(fragments[0]);
+                $("#"+dom_id).slideto({highlight: false});
+
+                // Expand operation
 				var li_dom_id = fragments.join('_');
 				var li_content_dom_id = li_dom_id + "_content";
+
+                log("li_dom_id " + li_dom_id);
+                log("li_content_dom_id " + li_content_dom_id);
 
 				Docs.expandOperation($('#'+li_content_dom_id));
 				$('#'+li_dom_id).slideto({highlight: false});
