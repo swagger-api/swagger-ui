@@ -29,14 +29,14 @@
         </h1>
 
         <ul id='nav'>
-            <li class="first odd"><input class="header-input" type="text" style="width: 400px" placeholder="http://awesome-api.com/rest/list.json"></li>
-            <li class="even"><input class="header-input" type="text" style="width: 200px" placeholder="(api key)"></li>
-            <li class="last odd"><a href="/support" class="active">Explore</a></li>
+            <li class="first odd"><input id="input_baseUrl" class="header-input" type="text" style="width: 400px" placeholder="http://awesome-api.com/rest/list.json"></li>
+            <li class="even"><input id="input_apiKey" class="header-input" type="text" style="width: 200px" placeholder="(api key)"></li>
+            <li class="last odd" id="button_explore"><a href="#" class="active">Explore</a></li>
         </ul>
     </div>
 </div>
 <div id='content'>
-    <div class='container'>
+    <div id="resources_container" class='container'>
         <div class='fullwidth_column'>
             <div class='heading_with_menu'>
                 <h1>
@@ -49,11 +49,14 @@
 
             </ul>
             <p>
-                <br>The latest API base URL is
+                <br>API base URL is
 <span id="api_host_url" class='code'></span>
             </p>
         </div>
 
+    </div>
+
+    <div id="content_message" class='container'>
     </div>
 </div>
 <div id='footer'>

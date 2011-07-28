@@ -1,11 +1,12 @@
 
-function SwaggerService(hostUrl, rootResourcesApi) {
+function SwaggerService(hostUrl, rootResourcesApi, statusCallback) {
     if(!hostUrl)
         throw new Error("hostUrl must be passed while creating SwaggerService");
 
 	// constants
 	var apiHost = hostUrl;
     var rootResourcesApiName = rootResourcesApi || "list";
+    var statusListener = statusCallback;
 
 	// utility functions
 	function log(m) {
@@ -15,7 +16,11 @@ function SwaggerService(hostUrl, rootResourcesApi) {
 	function error(m) {
 	    if (window.console) console.log("ERROR: " + m);
 	}
-	
+
+    function updateStatus(status) {
+        statusListener(status);
+    }
+
     // make some models public
 	this.ApiResource = function() {return ApiResource;};
 
@@ -97,6 +102,8 @@ function SwaggerService(hostUrl, rootResourcesApi) {
                 this.operations.refresh(value);
             }
 
+            updateStatus("Loading " + this.path + "...");
+
 		},
 		
 		toString: function() {
@@ -164,7 +171,7 @@ function SwaggerService(hostUrl, rootResourcesApi) {
     });
 
 	// Model: ApiModel
-	var ApiModel = Spine.Model.setup("ApiModel", ["id", "fields"]);;
+	var ApiModel = Spine.Model.setup("ApiModel", ["id", "fields"]);
 	ApiModel.include({
 		init: function(atts) {
 	        if (atts) this.load(atts);
@@ -184,6 +191,7 @@ function SwaggerService(hostUrl, rootResourcesApi) {
 					}
 				}
 				//log("got " + this.fields.count() + " fields for " + this.id);
+
 			}
 		},
 
@@ -231,6 +239,7 @@ function SwaggerService(hostUrl, rootResourcesApi) {
 					}
 				} else
 					this.dataType = atts.type;
+
 			}
 		},
 
@@ -257,6 +266,7 @@ function SwaggerService(hostUrl, rootResourcesApi) {
 		fetchEndpoints: function() {
             var controller = this;
 
+            updateStatus("Fetching API List...");
             $.getJSON(apiHost + "/" + rootResourcesApiName + ".json", function(response) {
 				//log(response);
 				ApiResource.createAll(response.apis);
@@ -279,6 +289,7 @@ function SwaggerService(hostUrl, rootResourcesApi) {
 
         fetchResource: function(apiResource) {
             var controller = this;
+            updateStatus("Fetching " + apiResource.name + "...");
             $.getJSON(apiHost + apiResource.path_json, function(response) {
                 controller.loadResources(response, apiResource);
             });
@@ -290,6 +301,7 @@ function SwaggerService(hostUrl, rootResourcesApi) {
 //				log(response);
 
 				apiResource.addApis(response.apis);
+//                updateStatus("Parsed Apis");
 
 				//log(response.models);
 				if(response.models) {
@@ -303,6 +315,8 @@ function SwaggerService(hostUrl, rootResourcesApi) {
 //						apiResource.modelList.create(m);
 					}
 				}
+
+                updateStatus();
 			} finally {
 				if(this.countLoaded == ApiResource.count()) {
 					log("all models/api loaded");

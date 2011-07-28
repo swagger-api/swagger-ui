@@ -1,6 +1,10 @@
 jQuery(function($) {
 
+    this.baseUrl = "http://swagr.api.wordnik.com/v4/list.json";
+
     var ApiSelectionController = Spine.Controller.create({
+        proxied: ["showApi"],
+
         baseUrlList: new Array(),
 
         init: function() {
@@ -16,6 +20,12 @@ jQuery(function($) {
 
             this.render();
 
+            $("#button_explore").click(this.showApi);
+        },
+
+        slapOn: function() {
+            messageController.showMessage("Please enter a base url for the api that you wish to explore.");
+            $("#resources_container").hide();
         },
 
         supportsLocalStorage: function() {
@@ -28,8 +38,35 @@ jQuery(function($) {
 
         render: function() {
 //            $("#baseUrlSelector").chosen();
+        },
+
+        showApi: function() {
+            var baseUrl = jQuery.trim($("#input_baseUrl").val());
+            if(baseUrl.length == 0) {
+                $("#input_baseUrl").wiggle();
+            } else {
+                var resourceListController = ResourceListController.init({baseUrl: baseUrl})
+            }
         }
     });
+
+    var MessageController = Spine.Controller.create({
+        showMessage: function(msg) {
+            if(msg) {
+                $("#content_message").html(msg);
+                $("#content_message").show();
+            } else {
+                $("#content_message").html("");
+                $("#content_message").hide();
+            }
+
+        },
+
+        clearMessage: function() {
+            this.showMessage();
+        }
+    });
+    var messageController = MessageController.init();
 
     // The following heirarchy is followed by these view controllers
     // ResourceListController
@@ -47,6 +84,10 @@ jQuery(function($) {
                 throw new Error("A baseUrl must be passed to ResourceListController");
             }
 
+            $("#content_message").hide();
+            $("#resources_container").hide();
+            $("#resources").html("");
+
             var hostUrl = this.baseUrl.substr(0, this.baseUrl.lastIndexOf("/"));
             var resourceListApi = this.baseUrl.substr(this.baseUrl.lastIndexOf("/") + 1, this.baseUrl.length);
             log("resourceListApi=" + resourceListApi);
@@ -54,7 +95,12 @@ jQuery(function($) {
 
             // create and initialize SwaggerService
             $("#api_host_url").html(hostUrl);
-            var swaggerService = new SwaggerService(hostUrl, "list");
+            var swaggerService = new SwaggerService(hostUrl, "list", function(msg) {
+                if(msg)
+                    messageController.showMessage(msg);
+                else
+                    messageController.showMessage("Rendering page...");
+            });
             swaggerService.init();
 
             // Create convenience references to Spine models
@@ -65,6 +111,8 @@ jQuery(function($) {
 
         addAll: function() {
             this.ApiResource.each(this.addOne);
+            messageController.clearMessage();
+            $("#resources_container").slideDown();
         },
 
         addOne: function(apiResource) {
@@ -102,6 +150,7 @@ jQuery(function($) {
         renderApi: function(api) {
             var resourceApisContainer = "#" + this.apiResource.name + "_endpoint_list";
             ApiController.init({item: api, container: resourceApisContainer});
+
         }
 
     });
@@ -214,9 +263,13 @@ jQuery(function($) {
 
     });
 
-    var apiSelectionController = ApiSelectionController.init();
 
-    var resourceListController = ResourceListController.init({baseUrl: "http://swagr.api.wordnik.com/v4/list.json"});
+    var apiSelectionController = ApiSelectionController.init();
+    if(this.baseUrl) {
+        var resourceListController = ResourceListController.init({baseUrl: this.baseUrl});
+    } else {
+        apiSelectionController.slapOn();
+    }
 
 });
 
