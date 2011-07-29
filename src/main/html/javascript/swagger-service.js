@@ -46,6 +46,8 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
     // make some models public
 	this.ApiResource = function() {return ApiResource;};
 
+    this.apiHost = function() {return apiHost;};
+
 	// Model: ApiResource
 	var ApiResource = Spine.Model.setup("ApiResource", ["name", "baseUrl", "path", "path_json", "path_xml", "description", "apiLists", "modelList"]);
     ApiResource.include({

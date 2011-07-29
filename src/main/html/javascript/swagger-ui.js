@@ -1,6 +1,6 @@
 jQuery(function($) {
 
-    this.baseUrl = "http://swagr.api.wordnik.com/v4/list.json";
+//    this.baseUrl = "http://swagr.api.wordnik.com/v4/list.json";
 //    this.apiKey = "my-api-key";
 
     var ApiSelectionController = Spine.Controller.create({
@@ -10,16 +10,23 @@ jQuery(function($) {
 
         init: function() {
             if (this.supportsLocalStorage()) {
-                var baseUrls = localStorage.getItem("com.wordnik.swagger.ui.baseUrls");
-                if (baseUrls && jQuery.trim(baseUrls).length > 0) {
-                    this.baseUrlList = baseUrls.split(",");
-                }
+                var baseUrl = localStorage.getItem("com.wordnik.swagger.ui.baseUrl");
+                var apiKey = localStorage.getItem("com.wordnik.swagger.ui.apiKey");
+
+                if(baseUrl && baseUrl.length > 0)
+                    $("#input_baseUrl").val(baseUrl);
+
+                if(apiKey && apiKey.length > 0)
+                    $("#input_apiKey").val(apiKey);
+
+
+//                if (baseUrls && jQuery.trim(baseUrls).length > 0) {
+//                    this.baseUrlList = baseUrls.split(",");
+//                }
 
             } else {
                 log("local storage not supported, user will need to specifiy the api url")
             }
-
-            this.render();
 
             $("#button_explore").click(this.showApi);
         },
@@ -27,6 +34,7 @@ jQuery(function($) {
         slapOn: function() {
             messageController.showMessage("Please enter a base url for the api that you wish to explore.");
             $("#resources_container").hide();
+            this.showApi();
         },
 
         supportsLocalStorage: function() {
@@ -37,10 +45,6 @@ jQuery(function($) {
             }
         },
 
-        render: function() {
-//            $("#baseUrlSelector").chosen();
-        },
-
         showApi: function() {
             var baseUrl = jQuery.trim($("#input_baseUrl").val());
             var apiKey = jQuery.trim($("#input_apiKey").val());
@@ -48,6 +52,11 @@ jQuery(function($) {
                 $("#input_baseUrl").wiggle();
             } else {
 
+                if(this.supportsLocalStorage()) {
+                    localStorage.setItem("com.wordnik.swagger.ui.apiKey", apiKey);
+                    localStorage.setItem("com.wordnik.swagger.ui.baseUrl", baseUrl);
+
+                }
                 var resourceListController = ResourceListController.init({baseUrl: baseUrl, apiKey: apiKey})
             }
         }
@@ -92,13 +101,13 @@ jQuery(function($) {
             $("#resources").html("");
 
             // create and initialize SwaggerService
-            $("#api_host_url").html(this.baseUrl);
             var swaggerService = new SwaggerService(this.baseUrl, this.apiKey, function(msg) {
                 if (msg)
                     messageController.showMessage(msg);
                 else
                     messageController.showMessage("Rendering page...");
             });
+            $("#api_host_url").html(swaggerService.apiHost());
             swaggerService.init();
 
             // Create convenience references to Spine models
