@@ -146,7 +146,7 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
     });
 
 	// Model: ApiOperation
-	var ApiOperation = Spine.Model.setup("ApiOperation", ["baseUrl", "path", "path_json", "path_xml", "summary", "deprecated", "open", "httpMethod", "httpMethodLowercase", "nickname", "responseClass", "parameters", "apiName"]);
+	var ApiOperation = Spine.Model.setup("ApiOperation", ["baseUrl", "path", "path_json", "path_xml", "summary", "notes", "deprecated", "open", "httpMethod", "httpMethodLowercase", "nickname", "responseClass", "parameters", "apiName"]);
     ApiOperation.include({
 		init: function(atts) {
 	        if (atts) this.load(atts);
