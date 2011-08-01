@@ -307,9 +307,9 @@ jQuery(function($) {
     });
 
 
-    var apiSelectionController = ApiSelectionController.init();
+    window.apiSelectionController = ApiSelectionController.init();
     if (this.baseUrl) {
-        var resourceListController = ResourceListController.init({baseUrl: this.baseUrl, apiKey: this.apiKey});
+        window.resourceListController = ResourceListController.init({baseUrl: this.baseUrl, apiKey: this.apiKey});
     } else {
         apiSelectionController.slapOn();
     }
