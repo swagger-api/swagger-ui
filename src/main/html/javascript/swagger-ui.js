@@ -290,6 +290,7 @@ jQuery(function($) {
         showErrorStatus: function(data) {
             log("error " + data.status);
             this.showStatus(data);
+            $(this.elementScope + "_content_sandbox_response").slideDown();
         },
 
         showCompleteStatus: function(data) {
@@ -301,6 +302,7 @@ jQuery(function($) {
             log(data);
             log(data.getAllResponseHeaders());
             $(".response_code", this.elementScope + "_content_sandbox_response").html("<pre>" + data.status + "</pre>");
+            $(".response_body", this.elementScope + "_content_sandbox_response").html("<pre>" + data.responseText + "</pre>");
             $(".response_headers", this.elementScope + "_content_sandbox_response").html("<pre>" + data.getAllResponseHeaders() + "</pre>");
         }
 
