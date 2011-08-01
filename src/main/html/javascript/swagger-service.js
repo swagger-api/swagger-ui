@@ -11,7 +11,7 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
     if(!(baseUrl.toLowerCase().indexOf("http:") == 0 || baseUrl.toLowerCase().indexOf("https:") == 0)) {
         baseUrl = ("http://" + baseUrl);
     }
-
+    baseUrl = baseUrl + "/resources.json"
     log("using base url " + baseUrl);
 
     var apiHost = baseUrl.substr(0, baseUrl.lastIndexOf("/"));
