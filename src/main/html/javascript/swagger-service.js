@@ -16,7 +16,7 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
 
     var apiHost = baseUrl.substr(0, baseUrl.lastIndexOf("/"));
     var rootResourcesApiName = baseUrl.substr(baseUrl.lastIndexOf("/") + 1, (baseUrl.lastIndexOf(".") - baseUrl.lastIndexOf("/") - 1));
-
+    var formatString = ".{format}"
     var statusListener = statusCallback;
     var apiKey = _apiKey;
 
@@ -48,6 +48,8 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
 
     this.apiHost = function() {return apiHost;};
 
+    this.formatString = function() {return formatString;};
+
 	// Model: ApiResource
 	var ApiResource = Spine.Model.setup("ApiResource", ["name", "baseUrl", "path", "path_json", "path_xml", "description", "apiLists", "modelList"]);
     ApiResource.include({
@@ -56,10 +58,11 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
 		
 		init: function(atts) {
 	        if (atts) this.load(atts);
-			this.path_json = this.path + ".json";
-			this.path_xml = this.path + ".xml";
+			this.path_json = this.path.replace("{format}", "json")
+			this.path_xml = this.path.replace("{format}", "xml")
             this.baseUrl = apiHost;
-            this.name = this.path.substr(1, this.path.length);
+            //execluded 9 letters to remove .{format} from name
+            this.name = this.path.substr(1, this.path.length- formatString.length-1);
             this.apiList = Api.sub();
             this.modelList = ApiModel.sub();
 		},
@@ -91,22 +94,22 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
 				var suffix = this.path.substr(secondPathSeperatorIndex, this.path.length);
 				// log(this.path + ":: " + prefix + "..." + suffix);
 
-				this.path_json = prefix + ".json" + suffix;
-				this.path_xml = prefix + ".xml" + suffix;;
+				this.path_json = prefix.replace("{format}", "json")  + suffix;
+				this.path_xml = prefix.replace("{format}", "xml") + suffix;;
 
                 if(this.path.indexOf("/") == 0) {
-                    this.name = this.path.substr(1, secondPathSeperatorIndex - 1);
+                    this.name = this.path.substr(1, secondPathSeperatorIndex - formatString.length-1);
                 } else {
-                    this.name = this.path.substr(0, secondPathSeperatorIndex - 1);
+                    this.name = this.path.substr(0, secondPathSeperatorIndex - formatString.length-1);
                 }
 			} else {
-				this.path_json = this.path + ".json";
-				this.path_xml = this.path + ".xml";
+				this.path_json = this.path.replace("{format}", "json");
+				this.path_xml = this.path.replace("{format}", "xml");
 
                 if(this.path.indexOf("/") == 0) {
-                    this.name = this.path.substr(1, this.path.length);
+                    this.name = this.path.substr(1, this.path.length- formatString.length-1);
                 } else {
-                    this.name = this.path.substr(0, this.path.length);
+                    this.name = this.path.substr(0, this.path.length- formatString.length-1);
                 }
 			}
 
