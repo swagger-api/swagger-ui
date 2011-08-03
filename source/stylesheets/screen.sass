@@ -1,6 +1,6 @@
 // Sass doesn't really like variables to be in a partial, so they're here..
-$orange_light: #FFA014
-$orange_dark: #FF5401
+$main_color_light: #89BF04
+$main_color_dark: #547F00
 $http_get_color: #0F6AB4
 $http_post_color: #10A54A
 $http_put_color: #C5862B
@@ -48,12 +48,12 @@ body
         text-decoration: none
         font-weight: bold
         padding: 8px 8px
-        font-size: 1em
+        font-size: .9em
         color: white
-        background-color: $orange_light
+        background-color: $main_color_light
         @include border-radius(4px)
         &:hover
-          background-color: $orange_dark
+          background-color: $main_color_dark
 
   ul#resources
     font-family: "Droid Sans", sans-serif
