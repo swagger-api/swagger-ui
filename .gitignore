@@ -15,3 +15,4 @@ src/main/java/com/wordnik/env/Version.scala
 lib/*.pom
 version.properties
 reports/*
+.sass-cache
