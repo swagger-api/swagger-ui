@@ -1,5 +1,99 @@
-<% content_for :head do %>
-  <title>The Middleman!</title>
-<% end%>
+%form#api_selector
+  %li= text_field_tag :baseUrl, :placeholder => "http://example.com/api", :id => 'input_baseUrl'
+  %li= text_field_tag :apiKey, :placeholder => "api_key", :id => 'input_apiKey'
+  %li= link_to('Explore', "#", :id => "explore")
 
-<h1>The Middleman is watching.</h1>
+#resources_container.container
+  %ul#resources
+
+#content_message
+
+= jquery_template :resourceTemplate do
+  %li.resource{:id => "resource_${name}"}
+    .heading
+      %h2
+        %a{:href => "#!/${name}", :onclick => "Docs.toggleEndpointListForResource('${name}');"} ${name}
+      %ul.options
+        %li
+          %a{:href => "#!/${name}", :id => "endpointListTogger_${name}", :onclick => "Docs.toggleEndpointListForResource('${name}');"} Show/Hide
+        %li
+          %a{:href => "#", :onclick => "Docs.collapseOperationsForResource('${name}'); return false;"}
+            List Operations
+        %li
+          %a{:href => "#", :onclick => "Docs.expandOperationsForResource('${name}'); return false;"}
+            Expand Operations
+        %li
+          %a{:href => "${baseUrl}${path_json}"} Raw
+    %ul.endpoints{:id => "${name}_endpoint_list", :style => "display:none"}
+
+
+= jquery_template :apiTemplate do
+  %li.endpoint
+    %ul.operations{:id => "${name}_endpoint_operations"}
+
+= jquery_template :operationTemplate do
+  %li.operation{:class => "${httpMethodLowercase}", :id => "${apiName}_${nickname}_${httpMethod}"}
+    .heading
+      %h3
+        %span.http_method
+          %a{:href => "#!/${apiName}/${nickname}_${httpMethod}", :onclick => "Docs.toggleOperationContent('${apiName}_${nickname}_${httpMethod}_content');"} ${httpMethod}
+        %span.path
+          %a{:href => "#!/${apiName}/${nickname}_${httpMethod}", :onclick => "Docs.toggleOperationContent('${apiName}_${nickname}_${httpMethod}_content');"} ${path_json}
+      %ul.options
+        %li
+          %a{:href => "#!/${apiName}/${nickname}_${httpMethod}", :onclick => "Docs.toggleOperationContent('${apiName}_${nickname}_${httpMethod}_content');"} ${summary}
+    .content{:id => "${apiName}_${nickname}_${httpMethod}_content", :style => "display:none"}
+      {{if notes}}
+      %h4 Implementation Notes
+      %p ${notes}
+      {{/if}}
+      %form.sandbox{"accept-charset" => "UTF-8", :action => "#", :id => "${apiName}_${nickname}_${httpMethod}_form", :method => "post"}
+        %div{:style => "margin:0;padding:0;display:inline"}
+        %h4 Parameters
+        %table.fullwidth
+          %thead
+            %tr
+              %th Parameter
+              %th{:id => "${apiName}_${nickname}_${httpMethod}_value_header"} Value
+              %th Description
+          %tbody{:id => "${apiName}_${nickname}_${httpMethod}_params"}
+        .sandbox_header{:id => "${apiName}_${nickname}_${httpMethod}_content_sandbox_response_header"}
+          %input.submit{:id => "${apiName}_${nickname}_${httpMethod}_content_sandbox_response_button", :name => "commit", :type => "button", :value => "Try it out!"}
+          %a{:href => "#", :id => "${apiName}_${nickname}_${httpMethod}_content_sandbox_response_hider", :onclick => "$('\#${apiName}_${nickname}_${httpMethod}_content_sandbox_response').slideUp();$(this).fadeOut(); return false;", :style => "display:none"} Hide Response
+          %img{:alt => "Throbber", :id => "${apiName}_${nickname}_${httpMethod}_content_sandbox_response_throbber", :src => "images/throbber.gif", :style => "display:none"}
+      .response{:id => "${apiName}_${nickname}_${httpMethod}_content_sandbox_response", :style => "display:none"}
+        %h4 Request URL
+        .block.request_url
+        %h4 Response Body
+        .block.response_body
+        %h4 Response Code
+        .block.response_code
+        %h4 Response Headers
+        .block.response_headers
+
+= jquery_template :paramTemplateRequired do
+  %tr
+    %td.code.required ${name}
+    %td
+      %input.required{:minlength => "1", :name => "${name}", :placeholder => "(required)", :type => "text", :value => ""}
+    %td{:width => "500"}
+      %strong ${description}
+
+= jquery_template :paramTemplate do
+  %tr
+    %td.code ${name}
+    %td
+      %input{:minlength => "0", :name => "${name}", :placeholder => "", :type => "text", :value => ""}
+    %td{:width => "500"} ${description}
+
+= jquery_template :paramTemplateRequiredReadOnly do
+  %tr
+    %td.code.required ${name}
+    %td -
+    %td{:width => "500"} ${description}
+
+= jquery_template :paramTemplateReadOnly do
+  %tr
+    %td.code ${name}
+    %td -
+    %td{:width => "500"} ${description}

@@ -1,0 +1,112 @@
+// Sass doesn't really like variables to be in a partial, so they're here..
+$orange_light: #FFA014
+$orange_dark: #FF5401
+$http_get_color: #0F6AB4
+$http_post_color: #10A54A
+$http_put_color: #C5862B
+$http_delete_color: #A41E22
+$code_bg_color: #FCF6DB
+$code_border_color: #E5E0C6
+$form_color: #0F6AB4
+$error_color: #CC0000
+$notice_color: #007F00
+
+$body_width: 960px
+$main_column_width: 630px
+$main_column_margin_right: 30px
+
+@import "compass/reset"
+@import "compass/css3"
+@import "zass"
+@import "fonts"
+@import "global"
+@import "custom_mixins"
+
+body
+  font-family: "Droid Sans", sans-serif
+  margin: 20px
+  
+  #content_message
+    margin: 10px 0
+    font-style: italic
+    color: #999
+  
+  form#api_selector
+    @include no_float
+    li
+      @include float_left
+      margin: 0 10px 0 0
+      input
+        font-size: 1em
+        padding: 3px
+      input#input_baseUrl
+        width: 500px
+      input#input_apiKey
+        width: 150px
+      a#explore
+        display: block
+        text-decoration: none
+        font-weight: bold
+        padding: 8px 8px
+        font-size: 1em
+        color: white
+        background-color: $orange_light
+        @include border-radius(4px)
+        &:hover
+          background-color: $orange_dark
+
+  ul#resources
+    font-family: "Droid Sans", sans-serif
+    font-size: .9em
+    
+    li.resource
+      border-bottom: 1px solid #DDD
+      &:last-child
+        border-bottom: none
+      div.heading
+        border: 1px solid transparent
+        @include no_float
+        h2
+          color: #999
+          padding-left: 0px
+          @include float_left
+          @include droid_sans_bold
+          a
+            color: #999
+            &:hover
+              color: black
+        ul.options
+          @include horizontal_list
+          @include float_right
+          margin: 14px 10px 0 0
+          li
+            color: #666
+            font-size: .9em
+            a
+              color: #AAA
+              text-decoration: none
+              &:hover
+                text-decoration: underline
+                color: black
+      &:hover, &.active
+        div.heading
+          h2
+            a
+              color: black
+          ul.options
+            li
+              a
+                color: #555
+
+      ul.endpoints
+        li.endpoint
+          ul.operations
+            li.operation
+              &.get
+                @include li_colored_operation($http_get_color)
+              &.post
+                @include li_colored_operation($http_post_color)
+              &.put
+                @include li_colored_operation($http_put_color)
+              &.delete
+                @include li_colored_operation($http_delete_color)

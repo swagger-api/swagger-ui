@@ -53,11 +53,13 @@
 ###
 
 # Methods defined in the helpers block are available in templates
-# helpers do
-#   def some_helper
-#     "Helping"
-#   end
-# end
+helpers do
+
+  def jquery_template(id, &block)
+    content_tag(:script, capture(&block), :id => id, :type => "text/x-jquery-tmpl")
+  end
+
+end
 
 # Change the CSS directory
 # set :css_dir, "alternative_css_directory"
