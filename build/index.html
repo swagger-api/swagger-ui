@@ -106,6 +106,30 @@
       </div>
     </li>
     </script>
+    <script id="paramTemplate" type="text/x-jquery-tmpl"><tr>
+      <td class='code'>${name}</td>
+      <td>
+        <input minlength='0' name='${name}' placeholder='' type='text' value='' />
+      </td>
+      <td width='500'>${description}</td>
+    </tr>
+    </script>
+    <script id="paramTemplateSelect" type="text/x-jquery-tmpl"><tr>
+      <td class='code'>${name}</td>
+      <td>
+        <select name='${name}'>
+          {{each allowableValues}}
+          {{if $value == defaultValue }}
+          <option selected='selected' value='${$value}'>${$value}</option>
+          {{else}}
+          <option value='${$value}'>${$value}</option>
+          {{/if}}
+          {{/each}}
+        </select>
+      </td>
+      <td width='500'>${description}</td>
+    </tr>
+    </script>
     <script id="paramTemplateRequired" type="text/x-jquery-tmpl"><tr>
       <td class='code required'>${name}</td>
       <td>
@@ -114,14 +138,6 @@
       <td width='500'>
         <strong>${description}</strong>
       </td>
-    </tr>
-    </script>
-    <script id="paramTemplate" type="text/x-jquery-tmpl"><tr>
-      <td class='code'>${name}</td>
-      <td>
-        <input minlength='0' name='${name}' placeholder='' type='text' value='' />
-      </td>
-      <td width='500'>${description}</td>
     </tr>
     </script>
     <script id="paramTemplateRequiredReadOnly" type="text/x-jquery-tmpl"><tr>
