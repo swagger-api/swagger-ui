@@ -60,7 +60,7 @@
         .sandbox_header{:id => "${apiName}_${nickname}_${httpMethod}_content_sandbox_response_header"}
           %input.submit{:id => "${apiName}_${nickname}_${httpMethod}_content_sandbox_response_button", :name => "commit", :type => "button", :value => "Try it out!"}
           %a{:href => "#", :id => "${apiName}_${nickname}_${httpMethod}_content_sandbox_response_hider", :onclick => "$('\#${apiName}_${nickname}_${httpMethod}_content_sandbox_response').slideUp();$(this).fadeOut(); return false;", :style => "display:none"} Hide Response
-          %img{:alt => "Throbber", :id => "${apiName}_${nickname}_${httpMethod}_content_sandbox_response_throbber", :src => "images/throbber.gif", :style => "display:none"}
+          %img{:alt => "Throbber", :id => "${apiName}_${nickname}_${httpMethod}_content_sandbox_response_throbber", :src => "http://swagger.wordnik.com/images/throbber.gif", :style => "display:none"}
       .response{:id => "${apiName}_${nickname}_${httpMethod}_content_sandbox_response", :style => "display:none"}
         %h4 Request URL
         .block.request_url
