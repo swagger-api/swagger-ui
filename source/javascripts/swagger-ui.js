@@ -215,6 +215,36 @@ jQuery(function($) {
     }
   });
 
+  
+  // Param Model
+  // ----------------------------------------------------------------------------------------------
+  var Param = Spine.Model.setup(
+    "Param",
+    ["name", "defaultValue", 'description', 'required', 'dataType', 'allowableValues', 'paramType', 'allowMultiple', "readOnly"]
+  );
+  
+  Param.include({
+
+    cleanup: function() {
+      this.defaultValue = this.defaultValue || '';
+    },
+
+    templateName: function(){
+      var n = "#paramTemplate";
+      
+      if (this.allowableValues && this.allowableValues.length > 0) {
+        n += "Select";
+      } else {
+        if (this.required) n += "Required";
+        if (this.readOnly) n += "ReadOnly";
+      }
+      
+      return(n);
+    }
+
+  });
+  
+  
   var OperationController = Spine.Controller.create({
     proxied: ["submitOperation", "showResponse", "showErrorStatus", "showCompleteStatus"],
 
@@ -230,7 +260,6 @@ jQuery(function($) {
       this.elementScope = "#" + this.operation.apiName + "_" + this.operation.nickname + "_" + this.operation.httpMethod;
 
       this.renderParams();
-
     },
 
     render: function() {
@@ -240,19 +269,14 @@ jQuery(function($) {
     renderParams: function() {
       if (this.operation.parameters && this.operation.parameters.count() > 0) {
         var operationParamsContainer = this.elementScope + "_params";
-        // log("operationParamsContainer = " + operationParamsContainer);
+
         for (var p = 0; p < this.operation.parameters.count(); p++) {
-          var param = this.operation.parameters.all()[p];
-
-          var templateName = "#paramTemplate";
-          if (param.required)
-          templateName += "Required";
-
-          if (!this.isGetOperation)
-          templateName += "ReadOnly";
-
-          $(templateName).tmpl(param).appendTo(operationParamsContainer);
-          // log("adding " + $(templateName).tmpl(param) + " TO " + operationParamsContainer);
+          var param = Param.init(this.operation.parameters.all()[p]);
+          // Only GET operations display forms..
+          param.readOnly = !this.isGetOperation;
+          param.cleanup();
+          
+          $(param.templateName()).tmpl(param).appendTo(operationParamsContainer);
         }
       }
 
@@ -273,7 +297,7 @@ jQuery(function($) {
       var error_free = true;
       var missing_input = null;
 
-      // Cycle through the forms required inputs
+      // Cycle through the form's required inputs
       form.find("input.required").each(function() {
 
         // Remove any existing error styles from the input
@@ -289,9 +313,7 @@ jQuery(function($) {
         }
 
       });
-
-      // log("error_free = " + error_free);
-
+      
       if (error_free) {
         var invocationUrl = this.operation.invocationUrl(form.serializeArray());
         $(".request_url", this.elementScope + "_content_sandbox_response").html("<pre>" + invocationUrl + "</pre>");

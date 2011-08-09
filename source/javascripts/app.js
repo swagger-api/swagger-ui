@@ -6,4 +6,5 @@
 //= require "jquery.wiggle.min"
 //= require "chosen.jquery"
 //= require "doc"
+//= require "underscore-min"
 //= require "spine"
