@@ -24,16 +24,17 @@ $main_column_margin_right: 30px
 
 body
   font-family: "Droid Sans", sans-serif
-  margin: 20px
-  
+
   #content_message
-    margin: 10px 0
+    margin: 10px 15px
     font-style: italic
     color: #999
   
   form#api_selector
+    background-color: $main_color_light
+    padding: 15px
     @include no_float
-    li
+    .input
       @include float_left
       margin: 0 10px 0 0
       input
@@ -42,7 +43,7 @@ body
       input#input_baseUrl
         width: 500px
       input#input_apiKey
-        width: 150px
+        width: 250px
       a#explore
         display: block
         text-decoration: none
@@ -50,12 +51,25 @@ body
         padding: 8px 8px
         font-size: .9em
         color: white
-        background-color: $main_color_light
+        background-color: $main_color_dark
         @include border-radius(4px)
         &:hover
           background-color: $main_color_dark
+  
+  p#colophon
+    margin: 0 15px 40px 15px
+    padding: 10px 0
+    font-size: .8em
+    border-top: 1px solid #DDD
+    @include droid_sans
+    color: #999
+    font-style: italic
+    a
+      text-decoration: none
+      color: $main_color_dark      
 
   ul#resources
+    padding: 0 15px
     font-family: "Droid Sans", sans-serif
     font-size: .9em
     

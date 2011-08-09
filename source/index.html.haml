@@ -1,7 +1,7 @@
 %form#api_selector
-  %li= text_field_tag :baseUrl, :placeholder => "http://example.com/api", :id => 'input_baseUrl'
-  %li= text_field_tag :apiKey, :placeholder => "api_key", :id => 'input_apiKey'
-  %li= link_to('Explore', "#", :id => "explore")
+  .input= text_field_tag :baseUrl, :placeholder => "http://example.com/api", :id => 'input_baseUrl'
+  .input= text_field_tag :apiKey, :placeholder => "api_key", :id => 'input_apiKey'
+  .input= link_to('Explore', "#", :id => "explore")
 
 #resources_container.container
   %ul#resources
