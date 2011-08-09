@@ -14,9 +14,9 @@
   </head>
   <body>
     <form id='api_selector'>
-      <li><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text" /></li>
-      <li><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text" /></li>
-      <li><a id="explore" href="#">Explore</a></li>
+      <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text" /></div>
+      <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text" /></div>
+      <div class='input'><a id="explore" href="#">Explore</a></div>
     </form>
     <div class='container' id='resources_container'>
       <ul id='resources'></ul>
@@ -136,5 +136,9 @@
       <td width='500'>${description}</td>
     </tr>
     </script>
+    <p id='colophon'>
+      Sexy API documentation from
+      <a href="http://swagger.wordnik.com">Swagger</a>.
+    </p>
   </body>
 </html>

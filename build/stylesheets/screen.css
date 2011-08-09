@@ -278,46 +278,59 @@ form.fullwidth ol li.string input, form.fullwidth ol li.url input, form.fullwidt
   width: 500px !important; }
 
 body {
-  font-family: "Droid Sans", sans-serif;
-  margin: 20px; }
+  font-family: "Droid Sans", sans-serif; }
   body #content_message {
-    margin: 10px 0;
+    margin: 10px 15px;
     font-style: italic;
     color: #999999; }
   body form#api_selector {
+    background-color: #89bf04;
+    padding: 15px;
     float: none;
     clear: both;
     overflow: hidden;
     display: block; }
-    body form#api_selector li {
+    body form#api_selector .input {
       display: block;
       clear: none;
       float: left;
       margin: 0 10px 0 0; }
-      body form#api_selector li input {
+      body form#api_selector .input input {
         font-size: 1em;
         padding: 3px; }
-      body form#api_selector li input#input_baseUrl {
+      body form#api_selector .input input#input_baseUrl {
         width: 500px; }
-      body form#api_selector li input#input_apiKey {
-        width: 150px; }
-      body form#api_selector li a#explore {
+      body form#api_selector .input input#input_apiKey {
+        width: 250px; }
+      body form#api_selector .input a#explore {
         display: block;
         text-decoration: none;
         font-weight: bold;
         padding: 8px 8px;
         font-size: 0.9em;
         color: white;
-        background-color: #89bf04;
+        background-color: #547f00;
         -moz-border-radius: 4px;
         -webkit-border-radius: 4px;
         -o-border-radius: 4px;
         -ms-border-radius: 4px;
         -khtml-border-radius: 4px;
         border-radius: 4px; }
-        body form#api_selector li a#explore:hover {
+        body form#api_selector .input a#explore:hover {
           background-color: #547f00; }
+  body p#colophon {
+    margin: 0 15px 40px 15px;
+    padding: 10px 0;
+    font-size: 0.8em;
+    border-top: 1px solid #dddddd;
+    font-family: "Droid Sans", sans-serif;
+    color: #999999;
+    font-style: italic; }
+    body p#colophon a {
+      text-decoration: none;
+      color: #547f00; }
   body ul#resources {
+    padding: 0 15px;
     font-family: "Droid Sans", sans-serif;
     font-size: 0.9em; }
     body ul#resources li.resource {

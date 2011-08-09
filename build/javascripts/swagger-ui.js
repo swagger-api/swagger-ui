@@ -24,6 +24,22 @@ jQuery(function($) {
       }
 
       $("a#explore").click(this.showApi);
+
+      this.adaptToScale();
+      $(window).resize(function() {
+      	apiSelectionController.adaptToScale();
+      });
+
+    },
+    
+    adaptToScale: function() {
+      var form_width = $('form#api_selector').width();
+      var inputs_width = 0;
+      $('form#api_selector div.input').each( function(){ inputs_width += $(this).outerWidth(); });
+
+      // Update with of baseUrl input
+      var free_width = form_width - inputs_width;
+      $('#input_baseUrl').width($('#input_baseUrl').width() + free_width - 50);
     },
 
     slapOn: function() {
@@ -315,8 +331,9 @@ jQuery(function($) {
 
   });
 
-
+  // Attach controller to window
   window.apiSelectionController = ApiSelectionController.init();
+  
   if (this.baseUrl) {
     window.resourceListController = ResourceListController.init({
       baseUrl: this.baseUrl,
