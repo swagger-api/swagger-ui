@@ -1,7 +1,9 @@
 jQuery(function($) {
 
-   // this.baseUrl = "http://swagr.api.wordnik.com/v4";
-  //  this.apiKey = "my-api-key";
+  // this.baseUrl = "http://swagr.api.wordnik.com/v4";
+
+  // this.baseUrl = "http://petstore.swagger.wordnik.com/api";
+  // this.apiKey = "special-key";
   
   var ApiSelectionController = Spine.Controller.create({
     proxied: ["showApi"],
@@ -33,17 +35,19 @@ jQuery(function($) {
     },
     
     adaptToScale: function() {
-      var form_width = $('form#api_selector').width();
-      var inputs_width = 0;
-      $('form#api_selector div.input').each( function(){ inputs_width += $(this).outerWidth(); });
-
-      // Update with of baseUrl input
-      var free_width = form_width - inputs_width;
-      $('#input_baseUrl').width($('#input_baseUrl').width() + free_width - 50);
+      // var form_width = $('form#api_selector').width();
+      // var inputs_width = 0;
+      // $('form#api_selector div.input').each( function(){ inputs_width += $(this).outerWidth(); });
+      // 
+      // // Update with of baseUrl input
+      // var free_width = form_width - inputs_width;
+      // $('#input_baseUrl').width($('#input_baseUrl').width() + free_width - 50);
     },
 
     slapOn: function() {
-      messageController.showMessage("Please enter the base URL of the API that you wish to explore.");
+      // messageController.showMessage("Please enter the base URL of the API that you wish to explore.");
+      $("#content_message").show();
+      
       $("#resources_container").hide();
       this.showApi();
     },
@@ -174,6 +178,7 @@ jQuery(function($) {
 
     render: function() {
       $(this.templateName).tmpl(this.item).appendTo(this.container);
+      $('#colophon').fadeIn();
     },
 
     renderApi: function(api) {

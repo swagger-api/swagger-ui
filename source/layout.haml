@@ -16,8 +16,23 @@
     %script{:src => "javascripts/swagger-ui.js", :type => "text/javascript"}
     
   %body
+    
+    #header
+      = link_to("swagger", "http://swagger.wordnik.com", :id => "logo")
+      
+      %form#api_selector
+        .input= text_field_tag :baseUrl, :placeholder => "http://example.com/api", :id => 'input_baseUrl'
+        .input= text_field_tag :apiKey, :placeholder => "api_key", :id => 'input_apiKey'
+        .input= link_to('Explore', "#", :id => "explore")
+  
     = yield
     
-    %p#colophon
+    #content_message
+      Enter the base URL of the API that you wish to explore, or try 
+      = link_to("swagr.api.wordnik.com/v4", "#", :onclick => "$('#input_baseUrl').val('http://swagr.api.wordnik.com/v4'); apiSelectionController.showApi(); return false;")
+      or
+      = link_to("petstore.swagger.wordnik.com/api", "#", :onclick => "$('#input_baseUrl').val('http://petstore.swagger.wordnik.com/api'); apiSelectionController.showApi(); return false;") + "."
+    
+    %p#colophon{:style => 'display:none'}
       Sexy API documentation from
       = link_to("Swagger", "http://swagger.wordnik.com") + "."

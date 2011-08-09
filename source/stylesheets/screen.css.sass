@@ -30,31 +30,42 @@ body
     font-style: italic
     color: #999
   
-  form#api_selector
+  #header
     background-color: $main_color_light
-    padding: 15px
-    @include no_float
-    .input
-      @include float_left
-      margin: 0 10px 0 0
-      input
-        font-size: 1em
-        padding: 3px
-      input#input_baseUrl
-        width: 500px
-      input#input_apiKey
-        width: 250px
-      a#explore
-        display: block
-        text-decoration: none
-        font-weight: bold
-        padding: 8px 8px
-        font-size: .9em
-        color: white
-        background-color: $main_color_dark
-        @include border-radius(4px)
-        &:hover
+    padding: 14px
+
+    a#logo
+      font-size: 1.5em
+      font-weight: bold
+      text-decoration: none
+      background: transparent image_url('http://local.wordnik.com:3000/images/logo_small.png') no-repeat left center
+      padding: 20px 0 20px 40px
+      color: white
+  
+    form#api_selector
+      @include float_right
+      .input
+        @include float_left
+        margin: 0 10px 0 0
+        input
+          font-size: .9em
+          padding: 3px
+          margin: 0
+        input#input_baseUrl
+          width: 400px
+        input#input_apiKey
+          width: 200px
+        a#explore
+          display: block
+          text-decoration: none
+          font-weight: bold
+          padding: 6px 8px
+          font-size: .9em
+          color: white
           background-color: $main_color_dark
+          @include border-radius(4px)
+          &:hover
+            background-color: $main_color_dark
   
   p#colophon
     margin: 0 15px 40px 15px
