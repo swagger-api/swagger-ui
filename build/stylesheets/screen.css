@@ -283,41 +283,49 @@ body {
     margin: 10px 15px;
     font-style: italic;
     color: #999999; }
-  body form#api_selector {
+  body #header {
     background-color: #89bf04;
-    padding: 15px;
-    float: none;
-    clear: both;
-    overflow: hidden;
-    display: block; }
-    body form#api_selector .input {
+    padding: 14px; }
+    body #header a#logo {
+      font-size: 1.5em;
+      font-weight: bold;
+      text-decoration: none;
+      background: transparent url(http://swagger.wordnik.com/images/logo_small.png) no-repeat left center;
+      padding: 20px 0 20px 40px;
+      color: white; }
+    body #header form#api_selector {
       display: block;
       clear: none;
-      float: left;
-      margin: 0 10px 0 0; }
-      body form#api_selector .input input {
-        font-size: 1em;
-        padding: 3px; }
-      body form#api_selector .input input#input_baseUrl {
-        width: 500px; }
-      body form#api_selector .input input#input_apiKey {
-        width: 250px; }
-      body form#api_selector .input a#explore {
+      float: right; }
+      body #header form#api_selector .input {
         display: block;
-        text-decoration: none;
-        font-weight: bold;
-        padding: 8px 8px;
-        font-size: 0.9em;
-        color: white;
-        background-color: #547f00;
-        -moz-border-radius: 4px;
-        -webkit-border-radius: 4px;
-        -o-border-radius: 4px;
-        -ms-border-radius: 4px;
-        -khtml-border-radius: 4px;
-        border-radius: 4px; }
-        body form#api_selector .input a#explore:hover {
-          background-color: #547f00; }
+        clear: none;
+        float: left;
+        margin: 0 10px 0 0; }
+        body #header form#api_selector .input input {
+          font-size: 0.9em;
+          padding: 3px;
+          margin: 0; }
+        body #header form#api_selector .input input#input_baseUrl {
+          width: 400px; }
+        body #header form#api_selector .input input#input_apiKey {
+          width: 200px; }
+        body #header form#api_selector .input a#explore {
+          display: block;
+          text-decoration: none;
+          font-weight: bold;
+          padding: 6px 8px;
+          font-size: 0.9em;
+          color: white;
+          background-color: #547f00;
+          -moz-border-radius: 4px;
+          -webkit-border-radius: 4px;
+          -o-border-radius: 4px;
+          -ms-border-radius: 4px;
+          -khtml-border-radius: 4px;
+          border-radius: 4px; }
+          body #header form#api_selector .input a#explore:hover {
+            background-color: #547f00; }
   body p#colophon {
     margin: 0 15px 40px 15px;
     padding: 10px 0;

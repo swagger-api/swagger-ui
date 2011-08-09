@@ -13,15 +13,17 @@
     <script src='javascripts/swagger-ui.js' type='text/javascript'></script>
   </head>
   <body>
-    <form id='api_selector'>
-      <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text" /></div>
-      <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text" /></div>
-      <div class='input'><a id="explore" href="#">Explore</a></div>
-    </form>
+    <div id='header'>
+      <a id="logo" href="http://swagger.wordnik.com">swagger</a>
+      <form id='api_selector'>
+        <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text" /></div>
+        <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text" /></div>
+        <div class='input'><a id="explore" href="#">Explore</a></div>
+      </form>
+    </div>
     <div class='container' id='resources_container'>
       <ul id='resources'></ul>
     </div>
-    <div id='content_message'></div>
     <script id="resourceTemplate" type="text/x-jquery-tmpl"><li class='resource' id='resource_${name}'>
       <div class='heading'>
         <h2>
@@ -152,7 +154,13 @@
       <td width='500'>${description}</td>
     </tr>
     </script>
-    <p id='colophon'>
+    <div id='content_message'>
+      Enter the base URL of the API that you wish to explore, or try
+      <a onclick="$('#input_baseUrl').val('http://swagr.api.wordnik.com/v4'); apiSelectionController.showApi(); return false;" href="#">swagr.api.wordnik.com/v4</a>
+      or
+      <a onclick="$('#input_baseUrl').val('http://petstore.swagger.wordnik.com/api'); apiSelectionController.showApi(); return false;" href="#">petstore.swagger.wordnik.com/api</a>.
+    </div>
+    <p id='colophon' style='display:none'>
       Sexy API documentation from
       <a href="http://swagger.wordnik.com">Swagger</a>.
     </p>
