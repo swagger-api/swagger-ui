@@ -77,8 +77,11 @@
     %td.code ${name}
     %td
       %select{:name => "${name}"}
+        {{if required == false }}
+        %option{:value => "", :selected => 'selected'}
+        {{/if}}
         {{each allowableValues}}
-        {{if $value == defaultValue }}
+        {{if $value == defaultValue && required == true }}
         %option{:value => "${$value}", :selected => 'selected'} ${$value}
         {{else}} 
         %option{:value => "${$value}"} ${$value}
