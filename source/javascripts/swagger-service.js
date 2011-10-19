@@ -219,16 +219,56 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
       if (atts) this.load(atts);
 
       this.name = this.name || this.dataType;
+
+      if(this.allowableValues){
+          var value = this.allowableValues;
+          if(value.valueType == "LIST"){
+              this.allowableValues = AllowableListValues.sub();
+          } else if (value.valueType == "RANGE"){
+              this.allowableValues = AllowableRangeValues.sub();
+          }
+          if (value) this.allowableValues = this.allowableValues.create(value);
+      }
     },
 
     toString: function() {
-      if (this.allowableValues && this.allowableValues.length > 0)
-      return this.name + ": " + this.dataType + " [" + this.allowableValues + "]";
+      if (this.allowableValues)
+      return this.name + ": " + this.dataType + " " + this.allowableValues;
       else
       return this.name + ": " + this.dataType;
     }
 
   });
+
+  var AllowableListValues = Spine.Model.setup("AllowableListValues", ["valueType", "values"]);
+  AllowableListValues.include({
+    init: function(atts) {
+      if (atts) this.load(atts);
+      this.name = "allowableValues";
+    },
+    toString: function() {
+      if (this.values)
+      return  "["+this.values+"]";
+      else
+      return "";
+    }
+  });
+
+  var AllowableRangeValues = Spine.Model.setup("AllowableRangeValues", ["valueType", "inclusive", "min", "max"]);
+  AllowableRangeValues.include({
+    init: function(atts) {
+      if (atts) this.load(atts);
+      this.name = "allowableValues";
+    },
+
+    toString: function() {
+      if (this.min && this.max)
+      return "[" + min + "," + max + "]";
+      else
+      return "";
+    }
+  });
+  
 
   // Model: ApiModel
   var ApiModel = Spine.Model.setup("ApiModel", ["id", "fields"]);

@@ -237,7 +237,7 @@ jQuery(function($) {
     templateName: function(){
       var n = "#paramTemplate";
       
-      if (this.allowableValues && this.allowableValues.length > 0) {
+      if (this.allowableValues && this.allowableValues.valueType == "LIST") {
         n += "Select";
       } else {
         if (this.required) n += "Required";

@@ -80,7 +80,7 @@
         {{if required == false }}
         %option{:value => "", :selected => 'selected'}
         {{/if}}
-        {{each allowableValues}}
+        {{each allowableValues.values}}
         {{if $value == defaultValue && required == true }}
         %option{:value => "${$value}", :selected => 'selected'} ${$value}
         {{else}} 
