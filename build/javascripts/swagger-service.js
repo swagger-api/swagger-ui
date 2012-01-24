@@ -65,7 +65,11 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
       this.path_xml = this.path.replace("{format}", "xml");
       this.baseUrl = apiHost;
       //execluded 9 letters to remove .{format} from name
-      this.name = this.path.substr(1, this.path.length - formatString.length - 1).replace(/\//g, "_");
+      if (this.path.indexOf(formatString) != -1){        
+        this.name = this.path.substr(1, this.path.length - formatString.length - 1).replace(/\//g, "_");
+      } else {
+        this.name = this.path.substr(1, this.path.length - 1).replace(/\//g, "_");
+      }
       this.apiList = Api.sub();
       this.modelList = ApiModel.sub();
     },
@@ -98,6 +102,10 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
         // log(this.path + ":: " + prefix + "..." + suffix);
         this.path_json = prefix.replace("{format}", "json") + suffix;
         this.path_xml = prefix.replace("{format}", "xml") + suffix;;
+
+        if (this.path.indexOf(formatString) == -1){
+          formatString = "";
+        }
 
         if (this.path.indexOf("/") == 0) {
           this.name = this.path.substr(1, secondPathSeperatorIndex - formatString.length - 1);
