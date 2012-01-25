@@ -10,10 +10,18 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
   if (! (baseUrl.toLowerCase().indexOf("http:") == 0 || baseUrl.toLowerCase().indexOf("https:") == 0)) {
     baseUrl = ("http://" + baseUrl);
   }
-  baseUrl = baseUrl + "/resources.json";
+
+  // baseUrl = baseUrl + "/resources.json";
+  
   // log("using base url " + baseUrl);
   var apiHost = baseUrl.substr(0, baseUrl.lastIndexOf("/"));
-  var rootResourcesApiName = baseUrl.substr(baseUrl.lastIndexOf("/") + 1, (baseUrl.lastIndexOf(".") - baseUrl.lastIndexOf("/") - 1));
+  // debugger
+  // var rootResourcesApiName = baseUrl.substr(baseUrl.lastIndexOf("/") + 1, (baseUrl.lastIndexOf(".") - baseUrl.lastIndexOf("/") - 1));
+  
+  // assuming root swagger is resources
+  var rootResourcesApiName = "resources";
+  if (baseUrl.indexOf(".json") > -1) rootResourcesApiName += ".json";
+  
   var formatString = ".{format}";
   var statusListener = statusCallback;
   var apiKey = _apiKey;
@@ -24,16 +32,13 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
     if (apiKey.length > 0)
     apiKeySuffix = "?api_key=" + apiKey;
   }
-  // log("apiHost=" + apiHost);
-  // log("apiKey=" + apiKey);
-  // log("rootResourcesApiName = " + rootResourcesApiName);
-  // utility functions
-  function log(m) {
-    if (window.console) console.log(m);
+
+  function log() {
+    if (window.console) console.log.apply(console,arguments);
   }
 
   function error(m) {
-    if (window.console) console.log("ERROR: " + m);
+    log("ERROR: " + m);
   }
 
   function updateStatus(status) {
@@ -65,16 +70,16 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
       this.path_xml = this.path.replace("{format}", "xml");
       this.baseUrl = apiHost;
       //execluded 9 letters to remove .{format} from name
-      if (this.path.indexOf(formatString) != -1){        
-        this.name = this.path.substr(1, this.path.length - formatString.length - 1).replace(/\//g, "_");
-      } else {
-        this.name = this.path.substr(1, this.path.length - 1).replace(/\//g, "_");
-      }
+      this.name = this.path.split("/");
+      this.name = this.name[this.name.length - 1];
+      this.name = this.name.replace(".{format}",'').replace(/\//g, "_");
+      // this.name = this.path.substr(1, this.path.length - formatString.length - 1).replace(/\//g, "_");
       this.apiList = Api.sub();
       this.modelList = ApiModel.sub();
     },
 
     addApis: function(apiObjects) {
+      log("apiObjects: %o", apiObjects);
       this.apiList.createAll(apiObjects);
     },
 
@@ -102,10 +107,6 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
         // log(this.path + ":: " + prefix + "..." + suffix);
         this.path_json = prefix.replace("{format}", "json") + suffix;
         this.path_xml = prefix.replace("{format}", "xml") + suffix;;
-
-        if (this.path.indexOf(formatString) == -1){
-          formatString = "";
-        }
 
         if (this.path.indexOf("/") == 0) {
           this.name = this.path.substr(1, secondPathSeperatorIndex - formatString.length - 1);
@@ -373,19 +374,19 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
       var controller = this;
 
       updateStatus("Fetching API List...");
-      $.getJSON(apiHost + "/" + rootResourcesApiName + ".json" + apiKeySuffix,
-      function(response) {
-        //log(response);
-        ApiResource.createAll(response.apis);
-
+      var url = apiHost + "/" + rootResourcesApiName + apiKeySuffix;
+      $.getJSON(url, function(response) {
+        
+        // if (response.apis) {
+          ApiResource.createAll(response.apis);  
+        // }
+        
         // get rid of the root resource list api since we're not going to document that
         var obj = ApiResource.findByAttribute("name", rootResourcesApiName);
         if (obj)
-        obj.destroy();
-
-
+          obj.destroy();
         controller.fetchResources();
-      });
+      });      
     },
 
     fetchResources: function() {
@@ -400,8 +401,11 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
     fetchResource: function(apiResource) {
       var controller = this;
       updateStatus("Fetching " + apiResource.name + "...");
-      $.getJSON(apiHost + apiResource.path_json + apiKeySuffix,
+      var resourceUrl = apiHost + apiResource.path_json + apiKeySuffix;
+      log("resourceUrl: %o", resourceUrl);
+      $.getJSON(resourceUrl,
       function(response) {
+        log(response);
         controller.loadResources(response, apiResource);
       });
     },
@@ -410,7 +414,9 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
       try {
         this.countLoaded++;
         //    log(response);
-        apiResource.addApis(response.apis);
+        // if (response.apis) {
+          apiResource.addApis(response.apis);  
+        // }
         //        updateStatus("Parsed Apis");
         //log(response.models);
         if (response.models) {

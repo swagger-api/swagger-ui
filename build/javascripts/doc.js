@@ -62,10 +62,10 @@ function clippyCopiedCallback(a) {
 }
 
 // Logging function that accounts for browsers that don't have window.console
-function log(m) {
-	if (window.console) console.log(m);
+function log() {
+  if (window.console) console.log.apply(console,arguments);
 }
-
+  
 var Docs = {
 
 	shebang: function() {

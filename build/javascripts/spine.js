@@ -233,12 +233,15 @@
 
 	// adeed by ayush
     createAll: function(values){
+      // debugger;
       values = this.fromJSON(values);
+      
+      // debugger;
 
       for (var i=0, il = values.length; i < il; i++) {    
         var record = values[i];
         record.newRecord = false;
-		record.id = record.id || Spine.guid();
+		    record.id = record.id || Spine.guid();
         this.records[record.id] = record;
       }
 
@@ -282,7 +285,7 @@
     },
 
     last: function(){
-      var values = this.recordsValues()
+      var values = this.recordsValues();
       var record = values[values.length - 1];
       return(record && record.clone());
     },
@@ -331,7 +334,7 @@
     fromJSON: function(objects){
       if ( !objects ) return;
       if ( typeof objects == "string" )
-        objects = JSON.parse(objects)
+        objects = JSON.parse(objects);
       if ( isArray(objects) ) {
         var results = [];
         for (var i=0; i < objects.length; i++)
