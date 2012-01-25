@@ -11,17 +11,9 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
     baseUrl = ("http://" + baseUrl);
   }
 
-  // baseUrl = baseUrl + "/resources.json";
-  
-  // log("using base url " + baseUrl);
   var apiHost = baseUrl.substr(0, baseUrl.lastIndexOf("/"));
-  // debugger
-  // var rootResourcesApiName = baseUrl.substr(baseUrl.lastIndexOf("/") + 1, (baseUrl.lastIndexOf(".") - baseUrl.lastIndexOf("/") - 1));
-  
-  // assuming root swagger is resources
-  var rootResourcesApiName = "resources";
-  if (baseUrl.indexOf(".json") > -1) rootResourcesApiName += ".json";
-  
+  var discoParts = baseUrl.split("/");
+  var rootResourcesApiName = discoParts[discoParts.length-1];
   var formatString = ".{format}";
   var statusListener = statusCallback;
   var apiKey = _apiKey;
@@ -79,7 +71,7 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
     },
 
     addApis: function(apiObjects) {
-      log("apiObjects: %o", apiObjects);
+      // log("apiObjects: %o", apiObjects);
       this.apiList.createAll(apiObjects);
     },
 
@@ -402,10 +394,9 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
       var controller = this;
       updateStatus("Fetching " + apiResource.name + "...");
       var resourceUrl = apiHost + apiResource.path_json + apiKeySuffix;
-      log("resourceUrl: %o", resourceUrl);
+      // log("resourceUrl: %o", resourceUrl);
       $.getJSON(resourceUrl,
       function(response) {
-        log(response);
         controller.loadResources(response, apiResource);
       });
     },
@@ -432,7 +423,7 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
         updateStatus();
       } finally {
         if (this.countLoaded == ApiResource.count()) {
-          log("all models/api loaded");
+          // log("all models/api loaded");
           ApiResource.trigger("refresh");
         }
       }

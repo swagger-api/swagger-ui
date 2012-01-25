@@ -1,8 +1,6 @@
 jQuery(function($) {
 
-  // this.baseUrl = "http://swagr.api.wordnik.com/v4";
-
-  // this.baseUrl = "http://petstore.swagger.wordnik.com/api";
+  // this.baseUrl = "http://petstore.swagger.wordnik.com/api/resources.json";
   // this.apiKey = "special-key";
   
   var ApiSelectionController = Spine.Controller.create({
@@ -37,15 +35,17 @@ jQuery(function($) {
     
     handleEnter: function(){
       var self = this;
-      var submit = function() { self.showApi() }
+      var submit = function() {
+        self.showApi();
+      };
       $('#input_baseUrl').keydown(function(e) {
         if(e.which != 13) return;
         submit();
-      })
+      });
       $('#input_apiKey').keydown(function(e) {
         if(e.which != 13) return;
         submit();
-      })
+      });
     },
     
     adaptToScale: function() {
@@ -145,7 +145,6 @@ jQuery(function($) {
       // Create convenience references to Spine models
       this.ApiResource = swaggerService.ApiResource();
 
-      debugger;
       this.ApiResource.bind("refresh", this.addAll);
     },
 
