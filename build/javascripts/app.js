@@ -2168,10 +2168,10 @@ function clippyCopiedCallback(a) {
 }
 
 // Logging function that accounts for browsers that don't have window.console
-function log(m) {
-	if (window.console) console.log(m);
+function log() {
+  if (window.console) console.log.apply(console,arguments);
 }
-
+  
 var Docs = {
 
 	shebang: function() {
@@ -2529,12 +2529,15 @@ arguments),this._chain)}});j.prototype.chain=function(){this._chain=!0;return th
 
 	// adeed by ayush
     createAll: function(values){
+      // debugger;
       values = this.fromJSON(values);
+      
+      // debugger;
 
       for (var i=0, il = values.length; i < il; i++) {    
         var record = values[i];
         record.newRecord = false;
-		record.id = record.id || Spine.guid();
+		    record.id = record.id || Spine.guid();
         this.records[record.id] = record;
       }
 
@@ -2578,7 +2581,7 @@ arguments),this._chain)}});j.prototype.chain=function(){this._chain=!0;return th
     },
 
     last: function(){
-      var values = this.recordsValues()
+      var values = this.recordsValues();
       var record = values[values.length - 1];
       return(record && record.clone());
     },
@@ -2627,7 +2630,7 @@ arguments),this._chain)}});j.prototype.chain=function(){this._chain=!0;return th
     fromJSON: function(objects){
       if ( !objects ) return;
       if ( typeof objects == "string" )
-        objects = JSON.parse(objects)
+        objects = JSON.parse(objects);
       if ( isArray(objects) ) {
         var results = [];
         for (var i=0; i < objects.length; i++)
