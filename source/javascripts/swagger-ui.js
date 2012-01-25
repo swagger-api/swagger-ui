@@ -32,6 +32,20 @@ jQuery(function($) {
       	apiSelectionController.adaptToScale();
       });
 
+      this.handleEnter();
+    },
+    
+    handleEnter: function(){
+      var self = this;
+      var submit = function() { self.showApi() }
+      $('#input_baseUrl').keydown(function(e) {
+        if(e.which != 13) return;
+        submit();
+      })
+      $('#input_apiKey').keydown(function(e) {
+        if(e.which != 13) return;
+        submit();
+      })
     },
     
     adaptToScale: function() {
@@ -44,10 +58,10 @@ jQuery(function($) {
       // $('#input_baseUrl').width($('#input_baseUrl').width() + free_width - 50);
     },
 
+    
     slapOn: function() {
       // messageController.showMessage("Please enter the base URL of the API that you wish to explore.");
       $("#content_message").show();
-      
       $("#resources_container").hide();
       this.showApi();
     },
@@ -66,11 +80,9 @@ jQuery(function($) {
       if (baseUrl.length == 0) {
         $("#input_baseUrl").wiggle();
       } else {
-
         if (this.supportsLocalStorage()) {
           localStorage.setItem("com.wordnik.swagger.ui.apiKey", apiKey);
           localStorage.setItem("com.wordnik.swagger.ui.baseUrl", baseUrl);
-
         }
         var resourceListController = ResourceListController.init({
           baseUrl: baseUrl,
@@ -133,6 +145,7 @@ jQuery(function($) {
       // Create convenience references to Spine models
       this.ApiResource = swaggerService.ApiResource();
 
+      debugger;
       this.ApiResource.bind("refresh", this.addAll);
     },
 
@@ -165,14 +178,9 @@ jQuery(function($) {
 
     init: function() {
       this.render();
-
       this.apiResource = this.item;
       this.apiList = this.apiResource.apiList;
       this.modelList = this.apiResource.modelList;
-
-      // log("------------- apiResource : " + this.apiResource.name);
-      // this.apiList.logAll();
-      // this.modelList.logAll();
       this.apiList.each(this.renderApi);
     },
 
@@ -358,7 +366,7 @@ jQuery(function($) {
 
   });
 
-  // Attach controller to window
+  // Attach controller to window*
   window.apiSelectionController = ApiSelectionController.init();
   
   if (this.baseUrl) {
