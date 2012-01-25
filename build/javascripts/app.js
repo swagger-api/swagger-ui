@@ -2529,12 +2529,8 @@ arguments),this._chain)}});j.prototype.chain=function(){this._chain=!0;return th
 
 	// adeed by ayush
     createAll: function(values){
-      // debugger;
       values = this.fromJSON(values);
-      
-      // debugger;
-
-      for (var i=0, il = values.length; i < il; i++) {    
+      for (var i=0, il = values.length; i < il; i++) {
         var record = values[i];
         record.newRecord = false;
 		    record.id = record.id || Spine.guid();
