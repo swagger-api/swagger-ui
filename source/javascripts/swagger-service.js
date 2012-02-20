@@ -72,11 +72,14 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
       this.modelList = ApiModel.sub();
     },
 
-    addApis: function(apiObjects) {
+    addApis: function(apiObjects, basePath) {
       // log("apiObjects: %o", apiObjects);
       this.apiList.createAll(apiObjects);
+	  this.apiList.each(function(api) {
+		api.setBaseUrl(basePath);
+	  });
     },
-
+    
     addModel: function(modelObject) {
       this.modelList.create(modelObject);
     },
@@ -91,8 +94,6 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
   Api.include({
     init: function(atts) {
       if (atts) this.load(atts);
-
-      this.baseUrl = globalBasePath;
 
       var secondPathSeperatorIndex = this.path.indexOf("/", 1);
       if (secondPathSeperatorIndex > 0) {
@@ -138,6 +139,13 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
 
     },
 
+    setBaseUrl: function(u) {
+		this.baseUrl = u;
+		this.operations.each(function(o) {
+			o.baseUrl = u;
+		});
+    },
+
     toString: function() {
       var opsString = "";
       for (var i = 0; i < this.operations.all().length; i++) {
@@ -159,7 +167,6 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
     init: function(atts) {
       if (atts) this.load(atts);
 
-      this.baseUrl = globalBasePath;
       this.httpMethodLowercase = this.httpMethod.toLowerCase();
 
       var value = this.parameters;
@@ -396,8 +403,8 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
 	      $.getJSON(url + apiKeySuffix, function(response) {
 	      })
 	      .success(function(response) {
-		      globalBasePath = url.substr(0, url.lastIndexOf("/"));
-		      log("Setting globalBasePath to " + globalBasePath);
+		      log("Setting globalBasePath to " + response.basePath);
+		      globalBasePath = response.basePath;
 		      ApiResource.createAll(response.apis);  
 	          controller.fetchResources(response.basePath);
 	      })
@@ -429,7 +436,7 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
       var controller = this;
       updateStatus("Fetching " + apiResource.name + "...");
       var resourceUrl = globalBasePath + apiResource.path_json + apiKeySuffix;
-      // log("resourceUrl: %o", resourceUrl);
+      log("resourceUrl: %o", resourceUrl);
       $.getJSON(resourceUrl,
       function(response) {
         controller.loadResources(response, apiResource);
@@ -440,9 +447,9 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
       try {
         this.countLoaded++;
         //    log(response);
-        // if (response.apis) {
-          apiResource.addApis(response.apis);  
-        // }
+        if (response.apis) {
+          apiResource.addApis(response.apis, response.basePath);  
+        }
         //        updateStatus("Parsed Apis");
         //log(response.models);
         if (response.models) {
