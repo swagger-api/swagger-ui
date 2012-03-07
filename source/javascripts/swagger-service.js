@@ -189,7 +189,7 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
       return "{" + this.path_json + "| " + this.nickname + paramsString + ": " + this.summary + "}";
     },
 
-    invocationUrl: function(formValues) {
+    invocationData: function(formValues) {
       var formValuesMap = new Object();
       for (var i = 0; i < formValues.length; i++) {
         var formValue = formValues[i];
@@ -203,21 +203,23 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
       var url = $.tmpl(urlTemplate, formValuesMap)[0].data;
       // log("url with path params = " + url);
 
-      var queryParams = apiKeySuffix;
+      var queryParams = {};
+      if (apiKey) {
+        apiKey = jQuery.trim(apiKey);
+        if (apiKey.length > 0)
+          queryParams['api_key'] = apiKey;
+      }
       this.parameters.each(function(param) {
         var paramValue = jQuery.trim(formValuesMap[param.name]);
         if (param.paramType == "query" && paramValue.length > 0) {
-          queryParams += queryParams.length > 0 ? "&": "?";
-          queryParams += param.name;
-          queryParams += "=";
-          queryParams += formValuesMap[param.name];
+          queryParams[param.name] = formValuesMap[param.name];
         }
       });
 
-      url = this.baseUrl + url + queryParams;
+      url = this.baseUrl + url;
       // log("final url with query params and base url = " + url);
 
-      return url;
+      return {url: url, queryParams: queryParams};
     }
 
   });
