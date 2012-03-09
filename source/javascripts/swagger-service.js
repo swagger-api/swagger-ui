@@ -7,7 +7,7 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
   if (discoveryUrl.length == 0)
   throw new Error("discoveryUrl must be passed while creating SwaggerService");
 
-  if (! (discoveryUrl.toLowerCase().indexOf("http:") == 0 || discoveryUrl.toLowerCase().indexOf("https:") == 0)) {
+  if ( discoveryUrl.indexOf("/")!=0 && ! (discoveryUrl.toLowerCase().indexOf("http:") == 0 || discoveryUrl.toLowerCase().indexOf("https:") == 0)) {
     discoveryUrl = ("http://" + discoveryUrl);
   }
 
