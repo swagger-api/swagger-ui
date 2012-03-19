@@ -5,7 +5,7 @@
   %li.resource{:id => "resource_${name}"}
     .heading
       %h2
-        %a{:href => "#!/${name}", :onclick => "Docs.toggleEndpointListForResource('${name}');"} ${name}
+        %a{:href => "#!/${name}", :onclick => "Docs.toggleEndpointListForResource('${name}');"} ${path}
       %ul.options
         %li
           %a{:href => "#!/${name}", :id => "endpointListTogger_${name}", :onclick => "Docs.toggleEndpointListForResource('${name}');"} Show/Hide

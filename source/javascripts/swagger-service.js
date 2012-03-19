@@ -57,17 +57,12 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
   ApiResource.include({
     path_json: null,
     path_xml: null,
-
     init: function(atts) {
       if (atts) this.load(atts);
+      this.name = this.path.replace(".{format}", "").replace(/\//g, "_");
       this.path_json = this.path.replace("{format}", "json");
       this.path_xml = this.path.replace("{format}", "xml");
       this.baseUrl = globalBasePath;
-      //execluded 9 letters to remove .{format} from name
-      this.name = this.path.split("/");
-      this.name = this.name[this.name.length - 1];
-      this.name = this.name.replace(".{format}",'').replace(/\//g, "_");
-      // this.name = this.path.substr(1, this.path.length - formatString.length - 1).replace(/\//g, "_");
       this.apiList = Api.sub();
       this.modelList = ApiModel.sub();
     },
@@ -95,6 +90,9 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
     init: function(atts) {
       if (atts) this.load(atts);
 
+      var sep = this.path.lastIndexOf("/");
+      this.name = this.path.substr(0, sep).replace(".{format}", "").replace(/\//g, "_");
+
       var secondPathSeperatorIndex = this.path.indexOf("/", 1);
       if (secondPathSeperatorIndex > 0) {
         var prefix = this.path.substr(0, secondPathSeperatorIndex);
@@ -102,21 +100,9 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
         // log(this.path + ":: " + prefix + "..." + suffix);
         this.path_json = prefix.replace("{format}", "json") + suffix;
         this.path_xml = prefix.replace("{format}", "xml") + suffix;;
-
-        if (this.path.indexOf("/") == 0) {
-          this.name = this.path.substr(1, secondPathSeperatorIndex - formatString.length - 1);
-        } else {
-          this.name = this.path.substr(0, secondPathSeperatorIndex - formatString.length - 1);
-        }
       } else {
         this.path_json = this.path.replace("{format}", "json");
         this.path_xml = this.path.replace("{format}", "xml");
-
-        if (this.path.indexOf("/") == 0) {
-          this.name = this.path.substr(1, this.path.length - formatString.length - 1);
-        } else {
-          this.name = this.path.substr(0, this.path.length - formatString.length - 1);
-        }
       }
 
       var value = this.operations;
