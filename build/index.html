@@ -14,20 +14,20 @@
   </head>
   <body>
     <div id='header'>
-      <a id="logo" href="http://swagger.wordnik.com">swagger</a>
+      <a href="http://swagger.wordnik.com" id="logo">swagger</a>
       <form id='api_selector'>
-        <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text" /></div>
-        <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text" /></div>
-        <div class='input'><a id="explore" href="#">Explore</a></div>
+        <div class='input'><input type="text" placeholder="http://example.com/api" name="baseUrl" id="input_baseUrl" /></div>
+        <div class='input'><input type="text" placeholder="api_key" name="apiKey" id="input_apiKey" /></div>
+        <div class='input'><a href="#" id="explore">Explore</a></div>
       </form>
     </div>
     <div class='container' id='resources_container'>
       <ul id='resources'></ul>
     </div>
-    <script id="resourceTemplate" type="text/x-jquery-tmpl"><li class='resource' id='resource_${name}'>
+    <script type="text/x-jquery-tmpl" id="resourceTemplate"><li class='resource' id='resource_${name}'>
       <div class='heading'>
         <h2>
-          <a href='#!/${name}' onclick="Docs.toggleEndpointListForResource('${name}');">${name}</a>
+          <a href='#!/${name}' onclick="Docs.toggleEndpointListForResource('${name}');">${path}</a>
         </h2>
         <ul class='options'>
           <li>
@@ -51,11 +51,11 @@
       <ul class='endpoints' id='${name}_endpoint_list' style='display:none'></ul>
     </li>
     </script>
-    <script id="apiTemplate" type="text/x-jquery-tmpl"><li class='endpoint'>
+    <script type="text/x-jquery-tmpl" id="apiTemplate"><li class='endpoint'>
       <ul class='operations' id='${name}_endpoint_operations'></ul>
     </li>
     </script>
-    <script id="operationTemplate" type="text/x-jquery-tmpl"><li class='${httpMethodLowercase} operation' id='${apiName}_${nickname}_${httpMethod}'>
+    <script type="text/x-jquery-tmpl" id="operationTemplate"><li class='${httpMethodLowercase} operation' id='${apiName}_${nickname}_${httpMethod}'>
       <div class='heading'>
         <h3>
           <span class='http_method'>
@@ -108,7 +108,7 @@
       </div>
     </li>
     </script>
-    <script id="paramTemplate" type="text/x-jquery-tmpl"><tr>
+    <script type="text/x-jquery-tmpl" id="paramTemplate"><tr>
       <td class='code'>${name}</td>
       <td>
         <input minlength='0' name='${name}' placeholder='' type='text' value='' />
@@ -116,7 +116,7 @@
       <td width='500'>${description}</td>
     </tr>
     </script>
-    <script id="paramTemplateSelect" type="text/x-jquery-tmpl"><tr>
+    <script type="text/x-jquery-tmpl" id="paramTemplateSelect"><tr>
       <td class='code'>${name}</td>
       <td>
         <select name='${name}'>
@@ -135,7 +135,7 @@
       <td width='500'>${description}</td>
     </tr>
     </script>
-    <script id="paramTemplateRequired" type="text/x-jquery-tmpl"><tr>
+    <script type="text/x-jquery-tmpl" id="paramTemplateRequired"><tr>
       <td class='code required'>${name}</td>
       <td>
         <input class='required' minlength='1' name='${name}' placeholder='(required)' type='text' value='' />
@@ -145,13 +145,13 @@
       </td>
     </tr>
     </script>
-    <script id="paramTemplateRequiredReadOnly" type="text/x-jquery-tmpl"><tr>
+    <script type="text/x-jquery-tmpl" id="paramTemplateRequiredReadOnly"><tr>
       <td class='code required'>${name}</td>
       <td>-</td>
       <td width='500'>${description}</td>
     </tr>
     </script>
-    <script id="paramTemplateReadOnly" type="text/x-jquery-tmpl"><tr>
+    <script type="text/x-jquery-tmpl" id="paramTemplateReadOnly"><tr>
       <td class='code'>${name}</td>
       <td>-</td>
       <td width='500'>${description}</td>
