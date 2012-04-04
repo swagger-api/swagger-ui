@@ -1,19 +1,17 @@
-function SwaggerService(baseUrl, _apiKey, statusCallback) {
-  if (!baseUrl)
-  throw new Error("baseUrl must be passed while creating SwaggerService");
+function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
+  if (!discoveryUrl)
+  throw new Error("discoveryUrl must be passed while creating SwaggerService");
 
   // constants
-  baseUrl = jQuery.trim(baseUrl);
-  if (baseUrl.length == 0)
-  throw new Error("baseUrl must be passed while creating SwaggerService");
+  discoveryUrl = jQuery.trim(discoveryUrl);
+  if (discoveryUrl.length == 0)
+  throw new Error("discoveryUrl must be passed while creating SwaggerService");
 
-  if (! (baseUrl.toLowerCase().indexOf("http:") == 0 || baseUrl.toLowerCase().indexOf("https:") == 0)) {
-    baseUrl = ("http://" + baseUrl);
+  if ( discoveryUrl.indexOf("/")!=0 && ! (discoveryUrl.toLowerCase().indexOf("http:") == 0 || discoveryUrl.toLowerCase().indexOf("https:") == 0)) {
+    discoveryUrl = ("http://" + discoveryUrl);
   }
 
-  var apiHost = baseUrl.substr(0, baseUrl.lastIndexOf("/"));
-  var discoParts = baseUrl.split("/");
-  var rootResourcesApiName = discoParts[discoParts.length-1];
+  var globalBasePath = null;
   var formatString = ".{format}";
   var statusListener = statusCallback;
   var apiKey = _apiKey;
@@ -37,13 +35,17 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
     statusListener(status);
   }
 
+  function endsWith(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+  }
+
   // make some models public
   this.ApiResource = function() {
     return ApiResource;
   };
 
   this.apiHost = function() {
-    return apiHost;
+    return globalBasePath;
   };
 
   this.formatString = function() {
@@ -55,26 +57,24 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
   ApiResource.include({
     path_json: null,
     path_xml: null,
-
     init: function(atts) {
       if (atts) this.load(atts);
+      this.name = this.path.replace(".{format}", "").replace(/\//g, "_");
       this.path_json = this.path.replace("{format}", "json");
       this.path_xml = this.path.replace("{format}", "xml");
-      this.baseUrl = apiHost;
-      //execluded 9 letters to remove .{format} from name
-      this.name = this.path.split("/");
-      this.name = this.name[this.name.length - 1];
-      this.name = this.name.replace(".{format}",'').replace(/\//g, "_");
-      // this.name = this.path.substr(1, this.path.length - formatString.length - 1).replace(/\//g, "_");
+      this.baseUrl = globalBasePath;
       this.apiList = Api.sub();
       this.modelList = ApiModel.sub();
     },
 
-    addApis: function(apiObjects) {
+    addApis: function(apiObjects, basePath) {
       // log("apiObjects: %o", apiObjects);
       this.apiList.createAll(apiObjects);
+	  this.apiList.each(function(api) {
+		api.setBaseUrl(basePath);
+	  });
     },
-
+    
     addModel: function(modelObject) {
       this.modelList.create(modelObject);
     },
@@ -90,7 +90,8 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
     init: function(atts) {
       if (atts) this.load(atts);
 
-      this.baseUrl = apiHost;
+      var sep = this.path.lastIndexOf("/");
+      this.name = this.path.substr(0, sep).replace(".{format}", "").replace(/\//g, "_");
 
       var secondPathSeperatorIndex = this.path.indexOf("/", 1);
       if (secondPathSeperatorIndex > 0) {
@@ -99,21 +100,9 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
         // log(this.path + ":: " + prefix + "..." + suffix);
         this.path_json = prefix.replace("{format}", "json") + suffix;
         this.path_xml = prefix.replace("{format}", "xml") + suffix;;
-
-        if (this.path.indexOf("/") == 0) {
-          this.name = this.path.substr(1, secondPathSeperatorIndex - formatString.length - 1);
-        } else {
-          this.name = this.path.substr(0, secondPathSeperatorIndex - formatString.length - 1);
-        }
       } else {
         this.path_json = this.path.replace("{format}", "json");
         this.path_xml = this.path.replace("{format}", "xml");
-
-        if (this.path.indexOf("/") == 0) {
-          this.name = this.path.substr(1, this.path.length - formatString.length - 1);
-        } else {
-          this.name = this.path.substr(0, this.path.length - formatString.length - 1);
-        }
       }
 
       var value = this.operations;
@@ -134,6 +123,13 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
 
       updateStatus("Loading " + this.path + "...");
 
+    },
+
+    setBaseUrl: function(u) {
+		this.baseUrl = u;
+		this.operations.each(function(o) {
+			o.baseUrl = u;
+		});
     },
 
     toString: function() {
@@ -157,7 +153,6 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
     init: function(atts) {
       if (atts) this.load(atts);
 
-      this.baseUrl = apiHost;
       this.httpMethodLowercase = this.httpMethod.toLowerCase();
 
       var value = this.parameters;
@@ -355,6 +350,8 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
   var ModelController = Spine.Controller.create({
     countLoaded: 0,
     proxied: ["fetchResources", "loadResources", "apisLoaded", "modelsLoaded"],
+    discoveryUrlList: [],
+	discoveryUrlListCursor: 0,
 
     init: function() {
       // log("ModelController.init");
@@ -363,26 +360,57 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
     },
 
     fetchEndpoints: function() {
-      var controller = this;
-
       updateStatus("Fetching API List...");
-      var url = apiHost + "/" + rootResourcesApiName + apiKeySuffix;
-      $.getJSON(url, function(response) {
-        
-        // if (response.apis) {
-          ApiResource.createAll(response.apis);  
-        // }
-        
-        // get rid of the root resource list api since we're not going to document that
-        var obj = ApiResource.findByAttribute("name", rootResourcesApiName);
-        if (obj)
-          obj.destroy();
-        controller.fetchResources();
-      });      
+	  var baseDiscoveryUrl = endsWith(discoveryUrl, "/") ? discoveryUrl.substr(0, discoveryUrl.length - 1) : discoveryUrl;
+	  if(endsWith(baseDiscoveryUrl, "/resources.json"))
+		baseDiscoveryUrl = baseDiscoveryUrl.substr(0, baseDiscoveryUrl.length - "/resources.json".length);
+	  else if(endsWith(baseDiscoveryUrl, "/resources"))
+		baseDiscoveryUrl = baseDiscoveryUrl.substr(0, baseDiscoveryUrl.length - "/resources".length);
+	
+	  this.discoveryUrlList.push(discoveryUrl);
+	  this.discoveryUrlList.push(baseDiscoveryUrl);
+	  this.discoveryUrlList.push(baseDiscoveryUrl + "/resources.json");
+	  this.discoveryUrlList.push(baseDiscoveryUrl + "/resources");
+	  
+	  log("Will try the following urls to discover api endpoints:")
+	  for(var i = 0; i < this.discoveryUrlList.length; i++)
+		log(" > " + this.discoveryUrlList[i]);
+	
+	  this.fetchEndpointsSeq();
     },
 
-    fetchResources: function() {
-      //log("fetchResources");
+    fetchEndpointsSeq: function() {
+      var controller = this;
+
+	  if(this.discoveryUrlListCursor < this.discoveryUrlList.length) {
+		  var url = this.discoveryUrlList[this.discoveryUrlListCursor++]
+	      updateStatus("Fetching API List from " + url);
+		  log("Trying url " + url);
+	      $.getJSON(url + apiKeySuffix, function(response) {
+	      })
+	      .success(function(response) {
+		      log("Setting globalBasePath to " + response.basePath);
+		      globalBasePath = response.basePath;
+		      ApiResource.createAll(response.apis);  
+	          controller.fetchResources(response.basePath);
+	      })
+	   	  .error(function(response) { 
+	          controller.fetchEndpointsSeq();
+		  });
+	  } else {
+	      log ('Error with resource discovery. Exhaused all possible endpoint urls');
+	
+		  var urlsTried = "";
+		  for(var i = 0; i < this.discoveryUrlList.length; i++) {
+			urlsTried = urlsTried + "<br/>" + this.discoveryUrlList[i];
+		  }
+			
+	      updateStatus("Unable to fetch API Listing. Tried the following urls:" + urlsTried);
+	  }
+    },
+
+    fetchResources: function(basePath) {
+      log("fetchResources: basePath = " + basePath);
       //ApiResource.logAll();
       for (var i = 0; i < ApiResource.all().length; i++) {
         var apiResource = ApiResource.all()[i];
@@ -393,8 +421,8 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
     fetchResource: function(apiResource) {
       var controller = this;
       updateStatus("Fetching " + apiResource.name + "...");
-      var resourceUrl = apiHost + apiResource.path_json + apiKeySuffix;
-      // log("resourceUrl: %o", resourceUrl);
+      var resourceUrl = globalBasePath + apiResource.path_json + apiKeySuffix;
+      log("resourceUrl: %o", resourceUrl);
       $.getJSON(resourceUrl,
       function(response) {
         controller.loadResources(response, apiResource);
@@ -405,9 +433,9 @@ function SwaggerService(baseUrl, _apiKey, statusCallback) {
       try {
         this.countLoaded++;
         //    log(response);
-        // if (response.apis) {
-          apiResource.addApis(response.apis);  
-        // }
+        if (response.apis) {
+          apiResource.addApis(response.apis, response.basePath);  
+        }
         //        updateStatus("Parsed Apis");
         //log(response.models);
         if (response.models) {
