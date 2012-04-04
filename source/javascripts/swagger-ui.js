@@ -284,8 +284,6 @@ jQuery(function($) {
 
         for (var p = 0; p < this.operation.parameters.count(); p++) {
           var param = Param.init(this.operation.parameters.all()[p]);
-          // Only GET operations display forms..
-          param.readOnly = !this.isGetOperation;
           param.cleanup();
           
           $(param.templateName()).tmpl(param).appendTo(operationParamsContainer);
@@ -293,14 +291,7 @@ jQuery(function($) {
       }
 
       var submitButtonId = this.elementScope + "_content_sandbox_response_button";
-      if (this.isGetOperation) {
-        $(submitButtonId).click(this.submitOperation);
-      } else {
-        $(submitButtonId).hide();
-
-        var valueHeader = this.elementScope + "_value_header";
-        $(valueHeader).html("Default Value");
-      }
+      $(submitButtonId).click(this.submitOperation);
 
     },
 
@@ -327,9 +318,15 @@ jQuery(function($) {
       });
       
       if (error_free) {
-        var invocationUrl = this.operation.invocationUrl(form.serializeArray());
-        $(".request_url", this.elementScope + "_content_sandbox_response").html("<pre>" + invocationUrl + "</pre>");
-        $.getJSON(invocationUrl, this.showResponse).complete(this.showCompleteStatus).error(this.showErrorStatus);
+        var invocationData = this.operation.invocationData(form.serializeArray());
+        $(".request_url", this.elementScope + "_content_sandbox_response").html("<pre>" + invocationData.url + "</pre>");
+        $.ajax({
+          url: invocationData.url,
+          dataType: 'json',
+          data: invocationData.queryParams,
+          success: this.showResponse,
+          type: this.operation.httpMethod.toUpperCase()
+        }).complete(this.showCompleteStatus).error(this.showErrorStatus);
       }
 
     },
