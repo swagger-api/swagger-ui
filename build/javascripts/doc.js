@@ -156,6 +156,7 @@ var Docs = {
 	},
 
 	toggleOperationContent: function(dom_id) {
+		dom_id = dom_id.replace(/([^a-zA-Z0-9\-\_])/g, "\\$1");
 		var elem = $('#' + dom_id);
 		(elem.is(':visible')) ? Docs.collapseOperation(elem) : Docs.expandOperation(elem);
 	}

@@ -89,18 +89,16 @@ div.heading_with_menu {
     display: block;
     clear: none;
     float: left;
-    -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
     box-sizing: border-box;
     width: 60%; }
   div.heading_with_menu ul {
     display: block;
     clear: none;
     float: right;
-    -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
     box-sizing: border-box;
     margin-top: 10px; }
 
@@ -318,11 +316,10 @@ body {
           font-size: 0.9em;
           color: white;
           background-color: #547f00;
-          -moz-border-radius: 4px;
           -webkit-border-radius: 4px;
-          -o-border-radius: 4px;
+          -moz-border-radius: 4px;
           -ms-border-radius: 4px;
-          -khtml-border-radius: 4px;
+          -o-border-radius: 4px;
           border-radius: 4px; }
           body #header form#api_selector .input a#explore:hover {
             background-color: #547f00; }
@@ -436,11 +433,10 @@ body {
                 font-size: 0.7em;
                 text-align: center;
                 padding: 7px 0 4px 0;
-                -moz-border-radius: 2px;
                 -webkit-border-radius: 2px;
-                -o-border-radius: 2px;
+                -moz-border-radius: 2px;
                 -ms-border-radius: 2px;
-                -khtml-border-radius: 2px;
+                -o-border-radius: 2px;
                 border-radius: 2px; }
               body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading h3 span.path {
                 padding-left: 10px; }
@@ -487,15 +483,13 @@ body {
           padding: 10px;
           -moz-border-radius-bottomleft: 6px;
           -webkit-border-bottom-left-radius: 6px;
-          -o-border-bottom-left-radius: 6px;
           -ms-border-bottom-left-radius: 6px;
-          -khtml-border-bottom-left-radius: 6px;
+          -o-border-bottom-left-radius: 6px;
           border-bottom-left-radius: 6px;
           -moz-border-radius-bottomright: 6px;
           -webkit-border-bottom-right-radius: 6px;
-          -o-border-bottom-right-radius: 6px;
           -ms-border-bottom-right-radius: 6px;
-          -khtml-border-bottom-right-radius: 6px;
+          -o-border-bottom-right-radius: 6px;
           border-bottom-right-radius: 6px;
           margin: 0 0 20px 0; }
           body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content h4 {
@@ -575,11 +569,10 @@ body {
                 font-size: 0.7em;
                 text-align: center;
                 padding: 7px 0 4px 0;
-                -moz-border-radius: 2px;
                 -webkit-border-radius: 2px;
-                -o-border-radius: 2px;
+                -moz-border-radius: 2px;
                 -ms-border-radius: 2px;
-                -khtml-border-radius: 2px;
+                -o-border-radius: 2px;
                 border-radius: 2px; }
               body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading h3 span.path {
                 padding-left: 10px; }
@@ -626,15 +619,13 @@ body {
           padding: 10px;
           -moz-border-radius-bottomleft: 6px;
           -webkit-border-bottom-left-radius: 6px;
-          -o-border-bottom-left-radius: 6px;
           -ms-border-bottom-left-radius: 6px;
-          -khtml-border-bottom-left-radius: 6px;
+          -o-border-bottom-left-radius: 6px;
           border-bottom-left-radius: 6px;
           -moz-border-radius-bottomright: 6px;
           -webkit-border-bottom-right-radius: 6px;
-          -o-border-bottom-right-radius: 6px;
           -ms-border-bottom-right-radius: 6px;
-          -khtml-border-bottom-right-radius: 6px;
+          -o-border-bottom-right-radius: 6px;
           border-bottom-right-radius: 6px;
           margin: 0 0 20px 0; }
           body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content h4 {
@@ -714,11 +705,10 @@ body {
                 font-size: 0.7em;
                 text-align: center;
                 padding: 7px 0 4px 0;
-                -moz-border-radius: 2px;
                 -webkit-border-radius: 2px;
-                -o-border-radius: 2px;
+                -moz-border-radius: 2px;
                 -ms-border-radius: 2px;
-                -khtml-border-radius: 2px;
+                -o-border-radius: 2px;
                 border-radius: 2px; }
               body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading h3 span.path {
                 padding-left: 10px; }
@@ -765,15 +755,13 @@ body {
           padding: 10px;
           -moz-border-radius-bottomleft: 6px;
           -webkit-border-bottom-left-radius: 6px;
-          -o-border-bottom-left-radius: 6px;
           -ms-border-bottom-left-radius: 6px;
-          -khtml-border-bottom-left-radius: 6px;
+          -o-border-bottom-left-radius: 6px;
           border-bottom-left-radius: 6px;
           -moz-border-radius-bottomright: 6px;
           -webkit-border-bottom-right-radius: 6px;
-          -o-border-bottom-right-radius: 6px;
           -ms-border-bottom-right-radius: 6px;
-          -khtml-border-bottom-right-radius: 6px;
+          -o-border-bottom-right-radius: 6px;
           border-bottom-right-radius: 6px;
           margin: 0 0 20px 0; }
           body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content h4 {
@@ -853,11 +841,10 @@ body {
                 font-size: 0.7em;
                 text-align: center;
                 padding: 7px 0 4px 0;
-                -moz-border-radius: 2px;
                 -webkit-border-radius: 2px;
-                -o-border-radius: 2px;
+                -moz-border-radius: 2px;
                 -ms-border-radius: 2px;
-                -khtml-border-radius: 2px;
+                -o-border-radius: 2px;
                 border-radius: 2px; }
               body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading h3 span.path {
                 padding-left: 10px; }
@@ -904,15 +891,13 @@ body {
           padding: 10px;
           -moz-border-radius-bottomleft: 6px;
           -webkit-border-bottom-left-radius: 6px;
-          -o-border-bottom-left-radius: 6px;
           -ms-border-bottom-left-radius: 6px;
-          -khtml-border-bottom-left-radius: 6px;
+          -o-border-bottom-left-radius: 6px;
           border-bottom-left-radius: 6px;
           -moz-border-radius-bottomright: 6px;
           -webkit-border-bottom-right-radius: 6px;
-          -o-border-bottom-right-radius: 6px;
           -ms-border-bottom-right-radius: 6px;
-          -khtml-border-bottom-right-radius: 6px;
+          -o-border-bottom-right-radius: 6px;
           border-bottom-right-radius: 6px;
           margin: 0 0 20px 0; }
           body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content h4 {
