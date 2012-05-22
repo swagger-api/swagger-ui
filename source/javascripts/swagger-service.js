@@ -59,7 +59,7 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
     path_xml: null,
     init: function(atts) {
       if (atts) this.load(atts);
-      this.name = this.path.replace(".{format}", "").replace(/\//g, "_");
+      this.name = this.path.replace(".{format}", "").replace(/\//g, "_").replace(/\{/g, "_").replace(/\}/g, "_");
       this.path_json = this.path.replace("{format}", "json");
       this.path_xml = this.path.replace("{format}", "xml");
       this.baseUrl = globalBasePath;
@@ -91,7 +91,7 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
       if (atts) this.load(atts);
 
       var sep = this.path.lastIndexOf("/");
-      this.name = this.path.substr(0, sep).replace(".{format}", "").replace(/\//g, "_");
+      this.name = this.path.substr(0, sep).replace(".{format}", "").replace(/\//g, "_").replace(/\{/g, "_").replace(/\}/g, "_");
 
       var secondPathSeperatorIndex = this.path.indexOf("/", 1);
       if (secondPathSeperatorIndex > 0) {
