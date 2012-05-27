@@ -11,7 +11,8 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
     discoveryUrl = ("http://" + discoveryUrl);
   }
 
-  var globalBasePath = null;
+  var baseDiscoveryUrl = "";
+  var globalBasePath = "";
   var formatString = ".{format}";
   var statusListener = statusCallback;
   var apiKey = _apiKey;
@@ -175,7 +176,7 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
       return "{" + this.path_json + "| " + this.nickname + paramsString + ": " + this.summary + "}";
     },
 
-    invocationData: function(formValues) {
+    invocationUrl: function(formValues) {
       var formValuesMap = new Object();
       for (var i = 0; i < formValues.length; i++) {
         var formValue = formValues[i];
@@ -189,23 +190,21 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
       var url = $.tmpl(urlTemplate, formValuesMap)[0].data;
       // log("url with path params = " + url);
 
-      var queryParams = {};
-      if (apiKey) {
-        apiKey = jQuery.trim(apiKey);
-        if (apiKey.length > 0)
-          queryParams['api_key'] = apiKey;
-      }
+      var queryParams = apiKeySuffix;
       this.parameters.each(function(param) {
         var paramValue = jQuery.trim(formValuesMap[param.name]);
         if (param.paramType == "query" && paramValue.length > 0) {
-          queryParams[param.name] = formValuesMap[param.name];
+          queryParams += queryParams.length > 0 ? "&": "?";
+          queryParams += param.name;
+          queryParams += "=";
+          queryParams += formValuesMap[param.name];
         }
       });
 
-      url = this.baseUrl + url;
+      url = this.baseUrl + url + queryParams;
       // log("final url with query params and base url = " + url);
 
-      return {url: url, queryParams: queryParams};
+      return url;
     }
 
   });
@@ -363,7 +362,7 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
 
     fetchEndpoints: function() {
       updateStatus("Fetching API List...");
-	  var baseDiscoveryUrl = endsWith(discoveryUrl, "/") ? discoveryUrl.substr(0, discoveryUrl.length - 1) : discoveryUrl;
+	  baseDiscoveryUrl = endsWith(discoveryUrl, "/") ? discoveryUrl.substr(0, discoveryUrl.length - 1) : discoveryUrl;
 	  if(endsWith(baseDiscoveryUrl, "/resources.json"))
 		baseDiscoveryUrl = baseDiscoveryUrl.substr(0, baseDiscoveryUrl.length - "/resources.json".length);
 	  else if(endsWith(baseDiscoveryUrl, "/resources"))
@@ -391,8 +390,14 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
 	      $.getJSON(url + apiKeySuffix, function(response) {
 	      })
 	      .success(function(response) {
-		      log("Setting globalBasePath to " + response.basePath);
-		      globalBasePath = response.basePath;
+	    	  if(response.basePath && response.basePath.slice(0,4) == "http") {
+		        log("Setting globalBasePath to " + response.basePath);
+			    globalBasePath = response.basePath;
+	    	  }
+	    	  else {
+	    		  globalBasePath = baseDiscoveryUrl;
+	    	  }
+		      
 		      ApiResource.createAll(response.apis);  
 	          controller.fetchResources(response.basePath);
 	      })
