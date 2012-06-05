@@ -184,6 +184,8 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
         formValuesMap[formValue.name] = formValue.value;
       }
 
+      this.baseUrl = globalBasePath;
+
       var urlTemplateText = this.path_json.split("{").join("${");
       // log("url template = " + urlTemplateText);
       var urlTemplate = $.template(null, urlTemplateText);
