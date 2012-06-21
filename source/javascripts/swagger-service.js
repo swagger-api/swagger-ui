@@ -92,7 +92,7 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
       if (atts) this.load(atts);
 
       var sep = this.path.lastIndexOf("/");
-      this.name = this.path.substr(0, sep).replace(".{format}", "").replace(/\//g, "_");
+      this.name = (sep!==0?this.path.substr(0, sep):this.path).replace(".{format}", "").replace(/\//g, "_");
 
       var secondPathSeperatorIndex = this.path.indexOf("/", 1);
       if (secondPathSeperatorIndex > 0) {
