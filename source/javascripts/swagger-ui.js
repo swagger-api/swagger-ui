@@ -189,7 +189,8 @@ jQuery(function($) {
     },
 
     renderApi: function(api) {
-      var resourceApisContainer = "#" + this.apiResource.name + "_endpoint_list";
+      var name = this.apiResource.name.replace(/([^a-zA-Z0-9\-\_])/g, "\\$1");
+      var resourceApisContainer = "#" + name + "_endpoint_list";
       ApiController.init({
         item: api,
         container: resourceApisContainer
@@ -219,7 +220,8 @@ jQuery(function($) {
     },
 
     renderOperation: function(operation) {
-      var operationsContainer = "#" + this.api.name + "_endpoint_operations";
+      var name = this.api.name.replace(/([^a-zA-Z0-9\-\_])/g, "\\$1");
+      var operationsContainer = "#" + name + "_endpoint_operations";
       OperationController.init({
         item: operation,
         container: operationsContainer
@@ -269,8 +271,7 @@ jQuery(function($) {
 
       this.operation = this.item;
       this.isGetOperation = (this.operation.httpMethodLowercase == "get");
-      this.elementScope = "#" + this.operation.apiName + "_" + this.operation.nickname + "_" + this.operation.httpMethod;
-
+      this.elementScope = "#" + this.operation.apiName.replace(/([^a-zA-Z0-9\-\_])/g, "\\$1") + "_" + this.operation.nickname + "_" + this.operation.httpMethod;
       this.renderParams();
     },
 
