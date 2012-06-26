@@ -184,6 +184,8 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
         formValuesMap[formValue.name] = formValue.value;
       }
 
+      this.baseUrl = globalBasePath;
+
       var urlTemplateText = this.path_json.split("{").join("${");
       // log("url template = " + urlTemplateText);
       var urlTemplate = $.template(null, urlTemplateText);
@@ -200,7 +202,7 @@ function SwaggerService(discoveryUrl, _apiKey, statusCallback) {
           queryParams += formValuesMap[param.name];
         }
       });
-
+          
       url = this.baseUrl + url + queryParams;
       // log("final url with query params and base url = " + url);
 
