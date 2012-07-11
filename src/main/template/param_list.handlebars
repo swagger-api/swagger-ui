@@ -1,0 +1,21 @@
+<td class='code'>{{name}}</td>
+<td>
+    <select name='{{name}}'>
+        {{#if required}}
+        {{else}}
+            {{#if defaultValue}}
+            {{else}}
+                <option selected="" value=''></option>
+            {{/if}}
+        {{/if}}
+        {{#each allowableValues.descriptiveValues}}
+            {{#if isDefault}}
+                <option value='{{value}}'>{{value}} (default)</option>
+            {{else}}
+                <option value='{{value}}'>{{value}}</option>
+            {{/if}}
+        {{/each}}
+    </select>
+</td>
+<td width='500'>{{description}}</td>
+
