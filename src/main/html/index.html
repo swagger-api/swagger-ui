@@ -41,12 +41,14 @@
 
     <script type="text/javascript">
         $(function () {
-            window.ui = new SwaggerUi({
+            window.swaggerUi = new SwaggerUi({
                 discoveryUrl:"http://petstore.swagger.wordnik.com/api/resources.json",
                 apiKey:"special-key",
                 dom_id:"swagger-ui-container",
                 supportHeaderParams: false
             });
+
+            window.swaggerUi.load();
         });
 
     </script>

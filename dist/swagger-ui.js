@@ -650,10 +650,9 @@ templates['resource'] = template(function (Handlebars,depth0,helpers,partials,da
       this.headerView = new HeaderView({
         el: $('#header')
       });
-      this.headerView.on('update-swagger-ui', function(data) {
+      return this.headerView.on('update-swagger-ui', function(data) {
         return _this.updateSwaggerUi(data);
       });
-      return this.load();
     };
 
     SwaggerUi.prototype.updateSwaggerUi = function(data) {
