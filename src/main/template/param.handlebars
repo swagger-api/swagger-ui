@@ -1,6 +1,10 @@
 <td class='code'>{{name}}</td>
 <td>
-    <input minlength='0' name='{{name}}' placeholder='' type='text' value=''/>
+	{{#if defaultValue}}
+		<input minlength='0' name='{{name}}' placeholder='' type='text' value='{{defaultValue}}'/>
+	{{else}}
+	    <input minlength='0' name='{{name}}' placeholder='' type='text' value=''/>
+	{{/if}}
 </td>
 <td width='500'>{{description}}</td>
 
