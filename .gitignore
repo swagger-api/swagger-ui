@@ -16,3 +16,4 @@ lib/*.pom
 version.properties
 reports/*
 .sass-cache
+swagger-ui.sublime-workspace
