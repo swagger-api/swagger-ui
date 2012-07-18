@@ -13,8 +13,6 @@ class SwaggerUi extends Backbone.Router
 
   # SwaggerUi accepts all the same options as SwaggerApi
   initialize: (options={}) ->
-    Backbone.history.start pushState: true
-
     # Allow dom_id to be overridden
     if options.dom_id?
       @dom_id = options.dom_id
@@ -48,6 +46,7 @@ class SwaggerUi extends Backbone.Router
     @mainView?.clear()
     @headerView.update(@options.discoveryUrl, @options.apiKey)
     @api = new SwaggerApi(@options)
+    Backbone.history.start pushState: true
 
   # This is bound to success handler for SwaggerApi
   #  so it gets called when SwaggerApi completes loading

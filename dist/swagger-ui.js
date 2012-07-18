@@ -808,9 +808,6 @@ templates['resource'] = template(function (Handlebars,depth0,helpers,partials,da
       if (options == null) {
         options = {};
       }
-      Backbone.history.start({
-        pushState: true
-      });
       if (options.dom_id != null) {
         this.dom_id = options.dom_id;
         delete options.dom_id;
@@ -848,7 +845,10 @@ templates['resource'] = template(function (Handlebars,depth0,helpers,partials,da
         _ref.clear();
       }
       this.headerView.update(this.options.discoveryUrl, this.options.apiKey);
-      return this.api = new SwaggerApi(this.options);
+      this.api = new SwaggerApi(this.options);
+      return Backbone.history.start({
+        pushState: true
+      });
     };
 
     SwaggerUi.prototype.render = function() {
