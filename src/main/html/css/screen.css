@@ -104,6 +104,11 @@ div.heading_with_menu {
     box-sizing: border-box;
     margin-top: 10px; }
 
+.body-textarea {
+  width: 300px;
+  height: 100px;
+}
+
 p {
   line-height: 1.4em;
   padding: 0 0 10px 0;

@@ -2,6 +2,8 @@ class ParameterView extends Backbone.View
   initialize: ->
 
   render: ->
+    @model.isBody = true if @model.paramType == 'body'
+
     template = @template()
     $(@el).html(template(@model))
     @

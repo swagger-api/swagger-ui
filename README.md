@@ -32,8 +32,18 @@ You may choose to customize Swagger UI for your organization. Here is an overvie
     -    src/main/html: the html files, some images and css
     -    src/main/javascript: some legacy javascript referenced by CofffeeScript code
 
+### HTTP Methods and API Invocation
+swagger-ui supports invocation of all HTTP methods APIs but only GET methods APIs are enabled by default. You can choose to enable other HTTP methods like POST, PUT and DELETE. This can be enabled by setting the supportedSubmitMethods parameter when creating SwaggerUI instance. 
+
+For example if you wanted to enable GET, POST and PUT but not for DELETE, you'd set this as: 
+
+```supportedSubmitMethods: ['get', 'post', 'put']
+```
+
+_Note that for POST/PUT body, you'd need to paste in the request data in an appropriate format which your service can unmarshall_
+
 ### Header Parameters
-Because of [Cross-Origin Resource Sharing](http://www.w3.org/TR/cors/) restrictions, swagger-ui, by default, does not send header parameters. This can be enabled by [setting the supportHeaderParams to false when creating SwaggerUI instance](https://github.com/wordnik/swagger-ui/blob/overhaul/src/main/html/index.html#L45).
+header parameters aere supported. However because of [Cross-Origin Resource Sharing](http://www.w3.org/TR/cors/) restrictions, swagger-ui, by default, does not send header parameters. This can be enabled by [setting the supportHeaderParams to false when creating SwaggerUI instance](https://github.com/wordnik/swagger-ui/blob/overhaul/src/main/html/index.html#L45).
 
 
 

@@ -8,6 +8,9 @@ class OperationView extends Backbone.View
   initialize: ->
 
   render: ->
+    isMethodSubmissionSupported = jQuery.inArray(@model.httpMethod, @model.supportedSubmitMethods()) >= 0
+    @model.isReadOnly = true unless isMethodSubmissionSupported
+
     $(@el).html(Handlebars.templates.operation(@model))
 
     # Render each parameter
@@ -16,9 +19,10 @@ class OperationView extends Backbone.View
 
   addParameter: (param) ->
     # Render a parameter
-    paramView = new ParameterView({model: param, tagName: 'tr', readOnly: !@model.isGetMethod})
+    paramView = new ParameterView({model: param, tagName: 'tr', readOnly: @model.isReadOnly})
     $('.operation-params', $(@el)).append paramView.render().el
 
+  
   submitOperation: ->
     # Check for errors
     form = $('.sandbox', $(@el))
@@ -38,6 +42,13 @@ class OperationView extends Backbone.View
         if(o.value? && jQuery.trim(o.value).length > 0)
           map[o.name] = o.value
 
+      bodyParam = null
+      for param in @model.parameters
+        if param.paramType is 'body'
+          bodyParam = map[param.name]
+
+      log "bodyParam = " + bodyParam 
+
       headerParams = null
       invocationUrl = 
         if @model.supportHeaderParams()
@@ -56,7 +67,7 @@ class OperationView extends Backbone.View
         type: @model.httpMethod
         url: invocationUrl
         headers: headerParams
-        # data: JSON.stringify(@body)
+        data: bodyParam
         dataType: 'json'
         error: (xhr, textStatus, error) =>
           @showErrorStatus(xhr, textStatus, error)

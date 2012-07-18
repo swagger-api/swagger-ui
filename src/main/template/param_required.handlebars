@@ -1,9 +1,18 @@
 <td class='code required'>{{name}}</td>
 <td>
-	{{#if defaultValue}}
-	    <input class='required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='{{defaultValue}}'/>
+	{{#if isBody}}
+		{{#if defaultValue}}
+			<textarea class='body-textarea' placeholder='(required)' name='{{name}}'>{{defaultValue}}</textarea>
+		{{else}}
+		    <textarea class='body-textarea' placeholder='(required)' name='{{name}}'></textarea>
+		{{/if}}
+		
 	{{else}}
-	    <input class='required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value=''/>
+		{{#if defaultValue}}
+		    <input class='required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='{{defaultValue}}'/>
+		{{else}}
+		    <input class='required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value=''/>
+		{{/if}}
 	{{/if}}
 </td>
 <td width='500'>
