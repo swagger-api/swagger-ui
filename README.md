@@ -37,8 +37,7 @@ swagger-ui supports invocation of all HTTP methods APIs but only GET methods API
 
 For example if you wanted to enable GET, POST and PUT but not for DELETE, you'd set this as: 
 
-```supportedSubmitMethods: ['get', 'post', 'put']
-```
+    supportedSubmitMethods: ['get', 'post', 'put']
 
 _Note that for POST/PUT body, you'd need to paste in the request data in an appropriate format which your service can unmarshall_
 
