@@ -1,13 +1,16 @@
 <td class='code'>{{name}}</td>
 <td>
-	
+
 	{{#if isBody}}
-		{{#if defaultValue}}
-			<textarea class='body-textarea' name='{{name}}'>{{defaultValue}}</textarea>
+		{{#if isFile}}
+			<input type="file" name='{{name}}'/>
 		{{else}}
-		    <textarea class='body-textarea' name='{{name}}'></textarea>
+			{{#if defaultValue}}
+				<textarea class='body-textarea' name='{{name}}'>{{defaultValue}}</textarea>
+			{{else}}
+			    <textarea class='body-textarea' name='{{name}}'></textarea>
+			{{/if}}
 		{{/if}}
-		
 	{{else}}
 		{{#if defaultValue}}
 			<input minlength='0' name='{{name}}' placeholder='' type='text' value='{{defaultValue}}'/>

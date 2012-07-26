@@ -42,15 +42,32 @@ class OperationView extends Backbone.View
         if(o.value? && jQuery.trim(o.value).length > 0)
           map[o.name] = o.value
 
-      bodyParam = null
-      for param in @model.parameters
-        if param.paramType is 'body'
-          bodyParam = map[param.name]
+      isFileUpload = $('input[type~="file"]').size != 0
 
-      log "bodyParam = " + bodyParam 
+      if isFileUpload
+        # requires HTML5 compatible browser
+        bodyParam = new FormData()
+
+        # add params
+        for param in @model.parameters
+          if param.paramType is 'body'
+            bodyParam.append(param.name, map[param.name])
+
+        # add files
+        $.each $('input[type~="file"]'), (i, el) ->
+          bodyParam.append($(el).attr('name'), el.files[0])
+
+        console.log(bodyParam)
+      else
+        bodyParam = null
+        for param in @model.parameters
+          if param.paramType is 'body'
+            bodyParam = map[param.name]
+
+      log "bodyParam = " + bodyParam
 
       headerParams = null
-      invocationUrl = 
+      invocationUrl =
         if @model.supportHeaderParams()
           headerParams = @model.getHeaderParams(map)
           @model.urlify(map, false)
@@ -63,12 +80,13 @@ class OperationView extends Backbone.View
       $(".request_url", $(@el)).html "<pre>" + invocationUrl + "</pre>"
       $(".response_throbber", $(@el)).show()
 
-      obj = 
+      obj =
         type: @model.httpMethod
         url: invocationUrl
         headers: headerParams
         data: bodyParam
         dataType: 'json'
+        processData: false
         error: (xhr, textStatus, error) =>
           @showErrorStatus(xhr, textStatus, error)
         success: (data) =>
@@ -77,7 +95,8 @@ class OperationView extends Backbone.View
           @showCompleteStatus(data)
 
       obj.contentType = "application/json" if (obj.type.toLowerCase() == "post" or obj.type.toLowerCase() == "put")
-    
+      obj.contentType = false if isFileUpload
+
       jQuery.ajax(obj)
       # $.getJSON(invocationUrl, (r) => @showResponse(r)).complete((r) => @showCompleteStatus(r)).error (r) => @showErrorStatus(r)
 
