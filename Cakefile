@@ -74,7 +74,7 @@ task 'dist', 'Build a distribution', ->
   pack = ->
     console.log '   : Packaging...'
     exec 'cp -r lib dist'
-    exec 'cp -r src/main/html/ dist'
+    exec 'cp -r src/main/html/* dist'
     console.log '   !'
 
 task 'spec', "Run the test suite", ->
