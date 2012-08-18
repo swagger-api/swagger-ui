@@ -1,4 +1,9 @@
 <td class='code required'>{{name}}</td>
-<td>-</td>
-<td width='500'>{{description}}</td>
-
+<td>
+    {{#if isBody}}
+        <textarea class='body-textarea'  readonly='readonly' placeholder='(required)' name='{{name}}'>{{defaultValue}}</textarea>
+    {{else}}
+        {{defaultValue}}
+    {{/if}}
+</td>
+<td width='500'>{{{description}}}</td>
