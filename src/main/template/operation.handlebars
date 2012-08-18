@@ -12,14 +12,14 @@
                 </h3>
                 <ul class='options'>
                     <li>
-                        <a href='#!/{{resourceName}}/{{nickname}}_{{httpMethod}}' class="toggleOperation">{{summary}}</a>
+                        <a href='#!/{{resourceName}}/{{nickname}}_{{httpMethod}}' class="toggleOperation">{{{summary}}}</a>
                     </li>
                 </ul>
             </div>
             <div class='content' id='{{resourceName}}_{{nickname}}_{{httpMethod}}_content' style='display:none'>
                 {{#if notes}}
                 <h4>Implementation Notes</h4>
-                <p>{{notes}}</p>
+                <p>{{{notes}}}</p>
                 {{/if}}
                 <form accept-charset='UTF-8' action='#' class='sandbox' method='post'>
                     <div style='margin:0;padding:0;display:inline'></div>
