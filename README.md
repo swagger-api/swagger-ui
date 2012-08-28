@@ -39,6 +39,24 @@ You may choose to customize Swagger UI for your organization. Here is an overvie
     -    src/main/html: the html files, some images and css
     -    src/main/javascript: some legacy javascript referenced by CofffeeScript code
 
+### SwaggerUi
+To use swagger-ui you should take a look at the [source of swagger-ui html page](https://github.com/wordnik/swagger-ui/tree/master/src/main/html) and customize it. This basically requires you to instantiate a SwaggerUi object and call load() on it as below:
+```javascript
+    window.swaggerUi = new SwaggerUi({
+        discoveryUrl:"http://petstore.swagger.wordnik.com/api/resources.json",
+        dom_id:"swagger-ui-container",
+        apiKey:"special-key",
+        supportHeaderParams: false,
+        supportedSubmitMethods: ['get', 'post', 'put']
+    });
+
+    window.swaggerUi.load();
+```
+* *discoveryUrl* parameter should point to a resource listing url as per [Swagger Spec](https://github.com/wordnik/swagger-core/wiki)
+* *dom_id parameter* is the the id of a dom element inside which SwaggerUi will put the user interface for swagger
+* All other parameters are explained in greater detail below
+
+
 ### HTTP Methods and API Invocation
 swagger-ui supports invocation of all HTTP methods APIs but only GET methods APIs are enabled by default. You can choose to enable other HTTP methods like POST, PUT and DELETE. This can be enabled by [setting the supportedSubmitMethods parameter when creating SwaggerUI instance](https://github.com/wordnik/swagger-ui/blob/f2e63c65a759421aad590b7275371cd0c06c74ea/src/main/html/index.html#L49). 
 
