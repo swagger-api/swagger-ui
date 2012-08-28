@@ -1,4 +1,5 @@
 wordnik*.zip
+.DS_STORE
 *.ipr
 *.iml
 *.iws

@@ -1,5 +1,6 @@
 class OperationView extends Backbone.View
   events: {
+  'submit .sandbox'         : 'submitOperation'
   'click .submit'           : 'submitOperation'
   'click .response_hider'   : 'hideResponse'
   'click .toggleOperation'  : 'toggleOperationContent'
@@ -23,7 +24,8 @@ class OperationView extends Backbone.View
     $('.operation-params', $(@el)).append paramView.render().el
 
   
-  submitOperation: ->
+  submitOperation: (e) ->
+    e?.preventDefault()
     # Check for errors
     form = $('.sandbox', $(@el))
     error_free = true
@@ -79,6 +81,7 @@ class OperationView extends Backbone.View
       obj.contentType = "application/json" if (obj.type.toLowerCase() == "post" or obj.type.toLowerCase() == "put")
     
       jQuery.ajax(obj)
+      false
       # $.getJSON(invocationUrl, (r) => @showResponse(r)).complete((r) => @showCompleteStatus(r)).error (r) => @showErrorStatus(r)
 
   # handler for hide response link

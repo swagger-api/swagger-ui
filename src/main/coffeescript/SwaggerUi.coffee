@@ -1,7 +1,5 @@
 class SwaggerUi extends Backbone.Router
-  # Routes
-  routes:
-    ''          : 'load'
+
   # Defaults
   dom_id: "swagger_ui"
 
@@ -46,7 +44,6 @@ class SwaggerUi extends Backbone.Router
     @mainView?.clear()
     @headerView.update(@options.discoveryUrl, @options.apiKey)
     @api = new SwaggerApi(@options)
-    Backbone.history.start pushState: true
 
   # This is bound to success handler for SwaggerApi
   #  so it gets called when SwaggerApi completes loading
