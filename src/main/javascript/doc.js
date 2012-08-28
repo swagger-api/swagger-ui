@@ -107,7 +107,7 @@ var Docs = {
 	},
 
 	toggleEndpointListForResource: function(resource) {
-		var elem = $('li#resource_' + resource + ' ul.endpoints');
+		var elem = $('li#resource_' + Docs.escapeResourceName(resource) + ' ul.endpoints');
 		if (elem.is(':visible')) {
 			Docs.collapseEndpointListForResource(resource);
 		} else {
@@ -119,7 +119,7 @@ var Docs = {
 	expandEndpointListForResource: function(resource) {
 		$('#resource_' + resource).addClass('active');
 
-		var elem = $('li#resource_' + resource + ' ul.endpoints');
+		var elem = $('li#resource_' + Docs.escapeResourceName(resource) + ' ul.endpoints');
 		elem.slideDown();
 	},
 
@@ -127,14 +127,14 @@ var Docs = {
 	collapseEndpointListForResource: function(resource) {
 		$('#resource_' + resource).removeClass('active');
 
-		var elem = $('li#resource_' + resource + ' ul.endpoints');
+		var elem = $('li#resource_' + Docs.escapeResourceName(resource) + ' ul.endpoints');
 		elem.slideUp();
 	},
 
 	expandOperationsForResource: function(resource) {
 		// Make sure the resource container is open..
 		Docs.expandEndpointListForResource(resource);
-		$('li#resource_' + resource + ' li.operation div.content').each(function() {
+		$('li#resource_' + Docs.escapeResourceName(resource) + ' li.operation div.content').each(function() {
 			Docs.expandOperation($(this));
 		});
 	},
@@ -142,9 +142,13 @@ var Docs = {
 	collapseOperationsForResource: function(resource) {
 		// Make sure the resource container is open..
 		Docs.expandEndpointListForResource(resource);
-		$('li#resource_' + resource + ' li.operation div.content').each(function() {
+		$('li#resource_' + Docs.escapeResourceName(resource) + ' li.operation div.content').each(function() {
 			Docs.collapseOperation($(this));
 		});
+	},
+
+	escapeResourceName: function(resource) {
+		 return resource.replace(/[!"#$%&'()*+,.\/:;<=>?@\[\\\]\^`{|}~]/g, "\\$&")
 	},
 
 	expandOperation: function(elem) {
