@@ -47,6 +47,7 @@ To use swagger-ui you should take a look at the [source of swagger-ui html page]
         dom_id:"swagger-ui-container",
         apiKey:"special-key",
         supportHeaderParams: false,
+        headers: { "Authorization": "XXXX", "someOtherHeader": "YYYY" },
         supportedSubmitMethods: ['get', 'post', 'put']
     });
 
@@ -70,6 +71,11 @@ _Note that for POST/PUT body, you'd need to paste in the request data in an appr
 header parameters are supported. However because of [Cross-Origin Resource Sharing](http://www.w3.org/TR/cors/) restrictions, swagger-ui, by default, does not send header parameters. This can be enabled by [setting the supportHeaderParams to true when creating SwaggerUI instance](https://github.com/wordnik/swagger-ui/blob/f2e63c65a759421aad590b7275371cd0c06c74ea/src/main/html/index.html#L48) as below:
 
     supportHeaderParams: true
+
+### Custom Header Parameters - (For Basic auth etc)
+If you have some header parameters which you need to send with every request, use the headers as below:
+
+     headers: { "Authorization": "XXXX", "someOtherHeader": "YYYY" }
 
 ### Api Key Parameter
 If you enter an api key in swagger-ui, it sends a parameter named 'api\_key' as a query (or as a header param if you've enabled it as described above). You may not want to use the name 'api\_key' as the name of this parameter. You can change its name by setting the _apiKeyName_ parameter when you instantiate a SwaggerUI instance. For example to call it 'sessionId'
