@@ -19,7 +19,7 @@ unpack and start using it.  If you like swagger-ui as-is, stop here.
 You can rebuild swagger-ui on your own to tweak it or just so you can say you did.  To do so, follow these steps:
  
 1. Install [CoffeeScript](http://coffeescript.org/#installation) which will give you [cake](http://coffeescript.org/#cake)
-2, Install handlebars using 'npm install handlebars -g'
+2. Install handlebars using 'npm install handlebars -g'
 3. Run cake dist
 4. You should see the distribution under the dist folder. Open ./dist/index.html to launch Swagger UI in a browser
 
