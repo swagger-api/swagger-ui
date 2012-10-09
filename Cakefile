@@ -3,7 +3,7 @@ path        = require 'path'
 {exec}      = require 'child_process'
 handlebars  = require 'handlebars'
 
-hb = "node_modules/handlebars/bin/handlebars"
+hb = "handlebars"
 
 sourceFiles  = [
   'SwaggerUi'
