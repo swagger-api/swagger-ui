@@ -88,6 +88,7 @@ task 'watch', 'Watch source files for changes and autocompile', ->
         if +curr.mtime isnt +prev.mtime
           invoke 'dist'
 
+  invoke "dist"
   notify "Watching source files for changes..."
 
   # Watch specific source files
@@ -98,6 +99,7 @@ task 'watch', 'Watch source files for changes and autocompile', ->
         invoke 'dist'
 
   # watch all files in these folders
+  watchFiles("lib")
   watchFiles("src/main/template")
   watchFiles("src/main/javascript")
   watchFiles("src/main/html")
