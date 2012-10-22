@@ -47,7 +47,8 @@ class OperationView extends Backbone.View
       bodyParam = null
       for param in @model.parameters
         if param.paramType is 'body'
-          bodyParam = map[param.name]
+          bodyParam = bodyParam or {}
+          bodyParam[param.name] = map[param.name]
 
       log "bodyParam = " + bodyParam 
 
@@ -61,15 +62,14 @@ class OperationView extends Backbone.View
 
       log 'submitting ' + invocationUrl
 
-
       $(".request_url", $(@el)).html "<pre>" + invocationUrl + "</pre>"
       $(".response_throbber", $(@el)).show()
 
-      obj = 
+      obj =
         type: @model.httpMethod
         url: invocationUrl
         headers: headerParams
-        data: bodyParam
+        data: JSON.stringify(bodyParam) if bodyParam
         dataType: 'json'
         error: (xhr, textStatus, error) =>
           @showErrorStatus(xhr, textStatus, error)
