@@ -14,9 +14,27 @@ class OperationView extends Backbone.View
 
     $(@el).html(Handlebars.templates.operation(@model))
 
+    @parameters = @flattenParameters @model.parameters, @model.resource.models
+
     # Render each parameter
-    @addParameter param for param in @model.parameters
+    @addParameter param for param in @parameters
     @
+
+  flattenParameters: (parameters, models) ->
+    flattenedParameters = [];
+    for parameter in parameters
+      type = models && models[parameter.dataType]
+      if type
+        for property in type.properties
+          flattenedParameters.push
+            name: property.name
+            description: property.description
+            paramType: 'body'
+            signature: property.dataType
+      else
+        flattenedParameters.push(parameter)
+
+    flattenedParameters
 
   addParameter: (param) ->
     # Render a parameter
@@ -45,9 +63,10 @@ class OperationView extends Backbone.View
           map[o.name] = o.value
 
       bodyParam = null
-      for param in @model.parameters
+      for param in @parameters
         if param.paramType is 'body'
-          bodyParam = map[param.name]
+          bodyParam = bodyParam or {}
+          bodyParam[param.name] = map[param.name]
 
       log "bodyParam = " + bodyParam 
 
@@ -61,16 +80,17 @@ class OperationView extends Backbone.View
 
       log 'submitting ' + invocationUrl
 
-
       $(".request_url", $(@el)).html "<pre>" + invocationUrl + "</pre>"
       $(".response_throbber", $(@el)).show()
 
-      obj = 
+      obj =
         type: @model.httpMethod
         url: invocationUrl
         headers: headerParams
-        data: bodyParam
+        contentType: 'application/json' if bodyParam
+        data: JSON.stringify(bodyParam) if bodyParam
         dataType: 'json'
+        processData: false if bodyParam
         error: (xhr, textStatus, error) =>
           @showErrorStatus(xhr, textStatus, error)
         success: (data) =>
