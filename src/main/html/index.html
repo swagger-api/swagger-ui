@@ -46,7 +46,10 @@
                 apiKey:"special-key",
                 dom_id:"swagger-ui-container",
                 supportHeaderParams: false,
-                supportedSubmitMethods: ['get', 'post', 'put']
+                supportedSubmitMethods: ['get', 'post', 'put'],
+                doneSuccess: function(){
+                	console.log("DONE!!!")
+                }
             });
 
             window.swaggerUi.load();
