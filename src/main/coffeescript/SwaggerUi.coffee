@@ -51,6 +51,9 @@ class SwaggerUi extends Backbone.Router
     @showMessage('Finished Loading Resource Information. Rendering Swagger UI...')
     @mainView = new MainView({model: @api, el: $('#' + @dom_id)}).render()
     @showMessage()
+    switch options.docStyle
+     when "expand" then Docs.expandOperationsForResource('')
+     when "list" then Docs.collapseOperationsForResource('')
     options.doneSuccess() if options.doneSuccess
     setTimeout(
       =>

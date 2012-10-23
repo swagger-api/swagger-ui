@@ -49,7 +49,11 @@
                 supportedSubmitMethods: ['get', 'post', 'put'],
                 doneSuccess: function(){
                 	console.log("DONE!!!")
-                }
+                },
+                // "" - default behavior
+                // list - list view of all resources
+                // expand - expanded view of all resources
+                docStyle: ""
             });
 
             window.swaggerUi.load();
