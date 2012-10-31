@@ -107,7 +107,7 @@ var Docs = {
 	},
 
 	toggleEndpointListForResource: function(resource) {
-		var elem = $('li#resource_' + Docs.escapeResourceName(resource) + ' ul.endpoints');
+		var elem = $('li[id^=resource_' + Docs.escapeResourceName(resource) + '] ul.endpoints');
 		if (elem.is(':visible')) {
 			Docs.collapseEndpointListForResource(resource);
 		} else {
@@ -117,24 +117,24 @@ var Docs = {
 
 	// Expand resource
 	expandEndpointListForResource: function(resource) {
-		$('#resource_' + resource).addClass('active');
+		$('[id^=resource_' + resource + ']').addClass('active');
 
-		var elem = $('li#resource_' + Docs.escapeResourceName(resource) + ' ul.endpoints');
+		var elem = $('li[id^=resource_' + Docs.escapeResourceName(resource) + '] ul.endpoints');
 		elem.slideDown();
 	},
 
 	// Collapse resource and mark as explicitly closed
 	collapseEndpointListForResource: function(resource) {
-		$('#resource_' + resource).removeClass('active');
+		$('[id^=resource_' + resource + ']').removeClass('active');
 
-		var elem = $('li#resource_' + Docs.escapeResourceName(resource) + ' ul.endpoints');
+		var elem = $('li[id^=resource_' + Docs.escapeResourceName(resource) + '] ul.endpoints');
 		elem.slideUp();
 	},
 
 	expandOperationsForResource: function(resource) {
 		// Make sure the resource container is open..
 		Docs.expandEndpointListForResource(resource);
-		$('li#resource_' + Docs.escapeResourceName(resource) + ' li.operation div.content').each(function() {
+		$('li[id^=resource_' + Docs.escapeResourceName(resource) + '] li.operation div.content').each(function() {
 			Docs.expandOperation($(this));
 		});
 	},
@@ -142,7 +142,7 @@ var Docs = {
 	collapseOperationsForResource: function(resource) {
 		// Make sure the resource container is open..
 		Docs.expandEndpointListForResource(resource);
-		$('li#resource_' + Docs.escapeResourceName(resource) + ' li.operation div.content').each(function() {
+		$('li[id^=resource_' + Docs.escapeResourceName(resource) + '] li.operation div.content').each(function() {
 			Docs.collapseOperation($(this));
 		});
 	},
