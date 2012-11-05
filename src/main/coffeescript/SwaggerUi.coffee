@@ -22,9 +22,9 @@ class SwaggerUi extends Backbone.Router
     @options = options
 
     # Set the callbacks
-    @options.success = => @render(options)
+    @options.success = => @render()
     @options.progress = (d) => @showMessage(d)
-    @options.failure = (d) => @onLoadFailure(d, options.doneFailure)
+    @options.failure = (d) => @onLoadFailure(d)
 
     # Create view to handle the header inputs
     @headerView = new HeaderView({el: $('#header')})
@@ -47,14 +47,14 @@ class SwaggerUi extends Backbone.Router
 
   # This is bound to success handler for SwaggerApi
   #  so it gets called when SwaggerApi completes loading
-  render:(options) ->
+  render:() ->
     @showMessage('Finished Loading Resource Information. Rendering Swagger UI...')
     @mainView = new MainView({model: @api, el: $('#' + @dom_id)}).render()
     @showMessage()
-    switch options.docStyle
-     when "expand" then Docs.expandOperationsForResource('')
+    switch @options.docExpansion
+     when "full" then Docs.expandOperationsForResource('')
      when "list" then Docs.collapseOperationsForResource('')
-    options.doneSuccess() if options.doneSuccess
+    @options.onComplete() if @options.onComplete
     setTimeout(
       =>
         Docs.shebang()
@@ -68,11 +68,11 @@ class SwaggerUi extends Backbone.Router
     $('#message-bar').html data
 
   # shows message in red
-  onLoadFailure: (data = '', doneFailure) ->
+  onLoadFailure: (data = '') ->
     $('#message-bar').removeClass 'message-success'
     $('#message-bar').addClass 'message-fail'
     val = $('#message-bar').html data
-    doneFailure() if doneFailure
+    @options.onFailure(data) if @options.onFailure?
     val
 
 window.SwaggerUi = SwaggerUi

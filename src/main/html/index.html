@@ -47,13 +47,16 @@
                 dom_id:"swagger-ui-container",
                 supportHeaderParams: false,
                 supportedSubmitMethods: ['get', 'post', 'put'],
-                doneSuccess: function(){
-                	console.log("DONE!!!")
+                onComplete: function(){
+                	if(console) console.log("Loaded SwaggerUI")
                 },
-                // "" - default behavior
-                // list - list view of all resources
-                // expand - expanded view of all resources
-                docStyle: ""
+                onFailure: function(data) {
+                	if(console) {
+                        console.log("Unable to Load SwaggerUI");
+                        console.log(data);
+                    }
+                },
+                docExpansion: "list"
             });
 
             window.swaggerUi.load();

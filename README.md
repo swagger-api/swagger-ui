@@ -28,7 +28,7 @@ Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstor
 You can enter your own server url and click explore to view the API.
 
 ### Customize
-You may choose to customize Swagger UI for your organization. Here is an overview of what the various directories contain
+You may choose to customize Swagger UI for your organization. Here is an overview of whats in its various directories:
 
 -    dist: Contains a distribution which you can deploy on a server or load from your local machine.
 -    bin: Contains files used by swagger-ui for its build/test. These are not required by the distribution.
@@ -56,6 +56,9 @@ To use swagger-ui you should take a look at the [source of swagger-ui html page]
 ```
 * *discoveryUrl* parameter should point to a resource listing url as per [Swagger Spec](https://github.com/wordnik/swagger-core/wiki)
 * *dom_id parameter* is the the id of a dom element inside which SwaggerUi will put the user interface for swagger
+* *docExpansion* controls how the API listing is displayed. It can be set to 'none' (default), 'list' (shows operations for each resource), or 'full' (fully expanded: shows operations and their details)
+* *onComplete* is a callback function parameter which can be passed to be notified of when SwaggerUI has completed rendering successfully.
+* *onFailure* is a callback function parameter which can be passed to be notified of when SwaggerUI encountered a failure was unable to render.
 * All other parameters are explained in greater detail below
 
 
