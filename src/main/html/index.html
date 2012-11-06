@@ -47,8 +47,12 @@
                 dom_id:"swagger-ui-container",
                 supportHeaderParams: false,
                 supportedSubmitMethods: ['get', 'post', 'put'],
-                onComplete: function(){
-                	if(console) console.log("Loaded SwaggerUI")
+                onComplete: function(swaggerApi, swaggerUi){
+                	if(console) {
+                        console.log("Loaded SwaggerUI")
+                        console.log(swaggerApi);
+                        console.log(swaggerUi);
+                    }
                 },
                 onFailure: function(data) {
                 	if(console) {
@@ -56,7 +60,7 @@
                         console.log(data);
                     }
                 },
-                docExpansion: "list"
+                docExpansion: "none"
             });
 
             window.swaggerUi.load();

@@ -54,7 +54,7 @@ class SwaggerUi extends Backbone.Router
     switch @options.docExpansion
      when "full" then Docs.expandOperationsForResource('')
      when "list" then Docs.collapseOperationsForResource('')
-    @options.onComplete() if @options.onComplete
+    @options.onComplete(@api, @) if @options.onComplete
     setTimeout(
       =>
         Docs.shebang()

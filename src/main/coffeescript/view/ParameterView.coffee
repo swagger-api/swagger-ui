@@ -6,6 +6,7 @@ class ParameterView extends Backbone.View
 
     template = @template()
     $(@el).html(template(@model))
+
     @
 
   # Return an appropriate template based on if the parameter is a list, readonly, required

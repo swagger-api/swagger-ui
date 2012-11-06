@@ -1502,3 +1502,16 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     max-height: 400px;
     overflow-y: auto;
 }
+
+
+.model-signature {
+    font-family: "Droid Sans", sans-serif;
+    font-size: 1em;
+    line-height: 1.5em;
+}
+.model-signature span {
+    font-size: 0.9em;
+    line-height: 1.5em;
+}
+.model-signature span:nth-child(odd)    { color:#333; }
+.model-signature span:nth-child(even)    { color:#C5862B; }
