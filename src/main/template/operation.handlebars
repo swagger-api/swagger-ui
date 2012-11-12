@@ -36,6 +36,21 @@
 
                         </tbody>
                     </table>
+                    {{#if errorResponses}}
+                    <div style='margin:0;padding:0;display:inline'></div>
+                    <h4>Status Codes</h4>
+                    <table class='fullwidth'>
+                        <thead>
+                        <tr>
+                            <th>HTTP Status Code</th>
+                            <th>Reason</th>
+                        </tr>
+                        </thead>
+                        <tbody class="operation-status">
+                        
+                        </tbody>
+                    </table>
+                    {{/if}}
                     {{#if isReadOnly}}
                     {{else}}
                     <div class='sandbox_header'>
