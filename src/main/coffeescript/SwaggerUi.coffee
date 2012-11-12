@@ -47,10 +47,14 @@ class SwaggerUi extends Backbone.Router
 
   # This is bound to success handler for SwaggerApi
   #  so it gets called when SwaggerApi completes loading
-  render: ->
+  render:() ->
     @showMessage('Finished Loading Resource Information. Rendering Swagger UI...')
     @mainView = new MainView({model: @api, el: $('#' + @dom_id)}).render()
     @showMessage()
+    switch @options.docExpansion
+     when "full" then Docs.expandOperationsForResource('')
+     when "list" then Docs.collapseOperationsForResource('')
+    @options.onComplete(@api, @) if @options.onComplete
     setTimeout(
       =>
         Docs.shebang()
@@ -67,7 +71,8 @@ class SwaggerUi extends Backbone.Router
   onLoadFailure: (data = '') ->
     $('#message-bar').removeClass 'message-success'
     $('#message-bar').addClass 'message-fail'
-    $('#message-bar').html data
-
+    val = $('#message-bar').html data
+    @options.onFailure(data) if @options.onFailure?
+    val
 
 window.SwaggerUi = SwaggerUi

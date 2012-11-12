@@ -86,7 +86,7 @@ class OperationView extends Backbone.View
         complete: (data) =>
           @showCompleteStatus(data)
 
-      obj.contentType = "application/json" if (obj.type.toLowerCase() == "post" or obj.type.toLowerCase() == "put" or obj.type.toLowerCase() == "patch")
+      obj.contentType = "application/json" if (obj.type.toLowerCase() == "put" or obj.type.toLowerCase() == "patch")
     
       jQuery.ajax(obj)
       false

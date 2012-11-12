@@ -19,7 +19,7 @@ unpack and start using it.  If you like swagger-ui as-is, stop here.
 You can rebuild swagger-ui on your own to tweak it or just so you can say you did.  To do so, follow these steps:
  
 1. Install [CoffeeScript](http://coffeescript.org/#installation) which will give you [cake](http://coffeescript.org/#cake)
-2. Install [handlebars](http://handlebarsjs.com/) using 'npm install handlebars@1.0.5beta -g'
+2. Install [handlebars](http://handlebarsjs.com/) using 'npm install handlebars -g'
 3. Run cake dist
 4. You should see the distribution under the dist folder. Open ./dist/index.html to launch Swagger UI in a browser
 
@@ -28,7 +28,7 @@ Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstor
 You can enter your own server url and click explore to view the API.
 
 ### Customize
-You may choose to customize Swagger UI for your organization. Here is an overview of what the various directories contain
+You may choose to customize Swagger UI for your organization. Here is an overview of whats in its various directories:
 
 -    dist: Contains a distribution which you can deploy on a server or load from your local machine.
 -    bin: Contains files used by swagger-ui for its build/test. These are not required by the distribution.
@@ -56,6 +56,10 @@ To use swagger-ui you should take a look at the [source of swagger-ui html page]
 ```
 * *discoveryUrl* parameter should point to a resource listing url as per [Swagger Spec](https://github.com/wordnik/swagger-core/wiki)
 * *dom_id parameter* is the the id of a dom element inside which SwaggerUi will put the user interface for swagger
+* *booleanValues* SwaggerUI renders boolean data types as a dropdown. By default it provides a 'true' and 'false' string as the possible choices. You can use this parameter to change the values in dropdown to be something else, for example 0 and 1 by setting booleanValues to new Array(0, 1)
+* *docExpansion* controls how the API listing is displayed. It can be set to 'none' (default), 'list' (shows operations for each resource), or 'full' (fully expanded: shows operations and their details)
+* *onComplete* is a callback function parameter which can be passed to be notified of when SwaggerUI has completed rendering successfully.
+* *onFailure* is a callback function parameter which can be passed to be notified of when SwaggerUI encountered a failure was unable to render.
 * All other parameters are explained in greater detail below
 
 
