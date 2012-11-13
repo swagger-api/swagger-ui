@@ -65,7 +65,15 @@ function clippyCopiedCallback(a) {
 function log() {
   if (window.console) console.log.apply(console,arguments);
 }
-  
+// Handle browsers that do console incorrectly (IE9 and below, see http://stackoverflow.com/a/5539378/7913)
+if (Function.prototype.bind && console && typeof console.log == "object") {
+    [
+      "log","info","warn","error","assert","dir","clear","profile","profileEnd"
+    ].forEach(function (method) {
+        console[method] = this.bind(console[method], console);
+    }, Function.prototype.call);
+}
+
 var Docs = {
 
 	shebang: function() {
