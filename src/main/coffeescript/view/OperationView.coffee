@@ -16,6 +16,10 @@ class OperationView extends Backbone.View
 
     # Render each parameter
     @addParameter param for param in @model.parameters
+
+    # Render each response code
+    @addStatusCode statusCode for statusCode in @model.errorResponses
+
     @
 
   addParameter: (param) ->
@@ -23,6 +27,10 @@ class OperationView extends Backbone.View
     paramView = new ParameterView({model: param, tagName: 'tr', readOnly: @model.isReadOnly})
     $('.operation-params', $(@el)).append paramView.render().el
 
+  addStatusCode: (statusCode) ->
+    # Render status codes
+    statusCodeView = new StatusCodeView({model: statusCode, tagName: 'tr'})
+    $('.operation-status', $(@el)).append statusCodeView.render().el
   
   submitOperation: (e) ->
     e?.preventDefault()

@@ -8,6 +8,7 @@ sourceFiles  = [
   'view/MainView'
   'view/ResourceView'
   'view/OperationView'
+  'view/StatusCodeView'
   'view/ParameterView'
 ]
 
