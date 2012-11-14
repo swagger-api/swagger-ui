@@ -10,6 +10,7 @@ sourceFiles  = [
   'view/OperationView'
   'view/StatusCodeView'
   'view/ParameterView'
+  'view/SignatureView'
 ]
 
 
