@@ -1515,3 +1515,64 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 }
 .model-signature span:nth-child(odd)    { color:#333; }
 .model-signature span:nth-child(even)    { color:#C5862B; }
+
+.model-signature .signature-nav a {
+    text-decoration: none;
+    color: #AAA;
+}
+
+.model-signature pre {
+    font-size: .85em;
+    line-height: 1.2em;
+    overflow: auto;
+    max-height: 200px;
+    cursor: pointer;
+}
+
+.model-signature pre:hover {
+    background-color: #ffffdd;
+}
+
+.model-signature .snippet small {
+    font-size: 0.75em;
+}
+
+.model-signature .signature-container {
+    clear: both;
+}
+
+.model-signature .signature-nav a:hover {
+    text-decoration: underline;
+    color: black;
+}
+
+.model-signature .signature-nav .selected {
+    color: black;
+    text-decoration: none;
+}
+
+.model-signature ul.signature-nav {
+    float: none;
+    clear: both;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    display: block;
+    clear: none;
+    float: right;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.model-signature ul.signature-nav li {
+    float: left;
+    clear: none;
+    margin: 0;
+    padding: 2px 10px;
+    border-right: 1px solid #dddddd;
+}
+
+.model-signature ul.signature-nav li:last-child {
+    padding-right: 0;
+    border-right: none;
+}
