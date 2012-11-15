@@ -7,7 +7,6 @@ class ParameterView extends Backbone.View
     template = @template()
     $(@el).html(template(@model))
 
-    console.log @model
     if @model.sampleJSON
         signatureView = new SignatureView({model: @model, tagName: 'div'})
         $('.model-signature', $(@el)).append signatureView.render().el
