@@ -52,6 +52,23 @@ class OperationView extends Backbone.View
         if(o.value? && jQuery.trim(o.value).length > 0)
           map[o.name] = o.value
 
+      isFileUpload = $('input[type~="file"]').size != 0
+
+      if isFileUpload
+        # requires HTML5 compatible browser
+        bodyParam = new FormData()
+
+        # add params
+        for param in @model.parameters
+          if param.paramType is 'body'
+            bodyParam.append(param.name, map[param.name])
+
+        # add files
+        $.each $('input[type~="file"]'), (i, el) ->
+          bodyParam.append($(el).attr('name'), el.files[0])
+
+        console.log(bodyParam)
+      else
       bodyParam = null
       for param in @model.parameters
         if param.paramType is 'body'
@@ -79,6 +96,7 @@ class OperationView extends Backbone.View
         headers: headerParams
         data: bodyParam
         dataType: 'json'
+        processData: false
         error: (xhr, textStatus, error) =>
           @showErrorStatus(xhr, textStatus, error)
         success: (data) =>
@@ -87,7 +105,7 @@ class OperationView extends Backbone.View
           @showCompleteStatus(data)
 
       obj.contentType = "application/json" if (obj.type.toLowerCase() == "put" or obj.type.toLowerCase() == "patch")
-    
+      obj.contentType = false if isFileUpload
       jQuery.ajax(obj)
       false
       # $.getJSON(invocationUrl, (r) => @showResponse(r)).complete((r) => @showCompleteStatus(r)).error (r) => @showErrorStatus(r)
