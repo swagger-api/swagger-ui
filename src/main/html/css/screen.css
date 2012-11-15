@@ -1509,13 +1509,12 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     font-size: 1em;
     line-height: 1.5em;
 }
-.model-signature span {
+.model-signature .description span {
     font-size: 0.9em;
     line-height: 1.5em;
 }
-.model-signature span:nth-child(odd)    { color:#333; }
-.model-signature span:nth-child(even)    { color:#C5862B; }
-
+.model-signature .description span:nth-child(odd)    { color:#333; }
+.model-signature .description span:nth-child(even)    { color:#C5862B; }
 .model-signature .signature-nav a {
     text-decoration: none;
     color: #AAA;
@@ -1575,4 +1574,8 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 .model-signature ul.signature-nav li:last-child {
     padding-right: 0;
     border-right: none;
+}
+
+pre code {
+  background: none;
 }

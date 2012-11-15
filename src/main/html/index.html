@@ -2,6 +2,7 @@
 <head>
     <title>Swagger UI</title>
     <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/>
+    <link href='css/hightlight.default.css' media='screen' rel='stylesheet' type='text/css'/>
     <link href='css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
     <script src='lib/jquery-1.8.0.min.js' type='text/javascript'></script>
     <script src='lib/jquery.slideto.min.js' type='text/javascript'></script>
@@ -12,6 +13,7 @@
     <script src='lib/backbone-min.js' type='text/javascript'></script>
     <script src='lib/swagger.js' type='text/javascript'></script>
     <script src='swagger-ui.js' type='text/javascript'></script>
+    <script src='lib/highlight.7.3.pack.js' type='text/javascript'></script>
 
     <style type="text/css">
         .swagger-ui-wrap {
@@ -53,6 +55,7 @@
                         console.log(swaggerApi);
                         console.log(swaggerUi);
                     }
+                  $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
                 },
                 onFailure: function(data) {
                 	if(console) {
