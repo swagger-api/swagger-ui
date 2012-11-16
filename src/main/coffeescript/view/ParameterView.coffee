@@ -8,6 +8,12 @@ class ParameterView extends Backbone.View
     template = @template()
     $(@el).html(template(@model))
 
+    if @model.sampleJSON
+        signatureView = new SignatureView({model: @model, tagName: 'div'})
+        $('.model-signature', $(@el)).append signatureView.render().el
+    else
+        $('.model-signature', $(@el)).html(@model.signature)
+
     @
 
   # Return an appropriate template based on if the parameter is a list, readonly, required

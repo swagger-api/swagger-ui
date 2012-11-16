@@ -134,7 +134,7 @@ class OperationView extends Backbone.View
   # puts the response data in UI
   showStatus: (data) ->
     try
-      response_body = "<pre>" + JSON.stringify(JSON.parse(data.responseText), null, 2).replace(/\n/g, "<br>") + "</pre>"
+      response_body = '<pre class="json"><code>' + JSON.stringify(JSON.parse(data.responseText), null, 2) + "</code></pre>"
     catch error
       response_body = "<span style='color:red'>&nbsp;&nbsp;&nbsp;[unable to parse as json; raw response below]</span><br><pre>" + data.responseText + "</pre>"
     $(".response_code", $(@el)).html "<pre>" + data.status + "</pre>"
@@ -143,6 +143,7 @@ class OperationView extends Backbone.View
     $(".response", $(@el)).slideDown()
     $(".response_hider", $(@el)).show()
     $(".response_throbber", $(@el)).hide()
+    hljs.highlightBlock($('.response_body', $(@el))[0])
 
   toggleOperationContent: ->
     elem = $('#' + @model.resourceName + "_" + @model.nickname + "_" + @model.httpMethod + "_content");
