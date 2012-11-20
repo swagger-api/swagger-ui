@@ -115,7 +115,7 @@ var Docs = {
 	},
 
 	toggleEndpointListForResource: function(resource) {
-		var elem = $('li[id^=resource_' + Docs.escapeResourceName(resource) + '] ul.endpoints');
+		var elem = $('li#resource_' + Docs.escapeResourceName(resource) + ' ul.endpoints');
 		if (elem.is(':visible')) {
 			Docs.collapseEndpointListForResource(resource);
 		} else {
@@ -125,24 +125,27 @@ var Docs = {
 
 	// Expand resource
 	expandEndpointListForResource: function(resource) {
-		$('[id^=resource_' + resource + ']').addClass('active');
+		var resource = Docs.escapeResourceName(resource);
+		$('li#resource_' + resource).addClass('active');
 
-		var elem = $('li[id^=resource_' + Docs.escapeResourceName(resource) + '] ul.endpoints');
+		var elem = $('li#resource_' + resource + ' ul.endpoints');
 		elem.slideDown();
 	},
 
 	// Collapse resource and mark as explicitly closed
 	collapseEndpointListForResource: function(resource) {
-		$('[id^=resource_' + resource + ']').removeClass('active');
+		var resource = Docs.escapeResourceName(resource);
+		$('li#resource_' + resource).removeClass('active');
 
-		var elem = $('li[id^=resource_' + Docs.escapeResourceName(resource) + '] ul.endpoints');
+		var elem = $('li#resource_' + resource + ' ul.endpoints');
 		elem.slideUp();
 	},
 
 	expandOperationsForResource: function(resource) {
 		// Make sure the resource container is open..
 		Docs.expandEndpointListForResource(resource);
-		$('li[id^=resource_' + Docs.escapeResourceName(resource) + '] li.operation div.content').each(function() {
+
+		$('li#resource_' + Docs.escapeResourceName(resource) + ' li.operation div.content').each(function() {
 			Docs.expandOperation($(this));
 		});
 	},
@@ -150,13 +153,14 @@ var Docs = {
 	collapseOperationsForResource: function(resource) {
 		// Make sure the resource container is open..
 		Docs.expandEndpointListForResource(resource);
-		$('li[id^=resource_' + Docs.escapeResourceName(resource) + '] li.operation div.content').each(function() {
+
+		$('li#resource_' + Docs.escapeResourceName(resource) + ' li.operation div.content').each(function() {
 			Docs.collapseOperation($(this));
 		});
 	},
 
 	escapeResourceName: function(resource) {
-		 return resource.replace(/[!"#$%&'()*+,.\/:;<=>?@\[\\\]\^`{|}~]/g, "\\$&")
+		return resource.replace(/[!"#$%&'()*+,.\/:;<=>?@\[\\\]\^`{|}~]/g, "\\$&");
 	},
 
 	expandOperation: function(elem) {

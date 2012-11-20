@@ -1145,9 +1145,9 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     display: block;
     margin: 0 0 0 0;
     padding: 0;
-    background-color: #faebf2;
+    background-color: #FCE9E3;
     border: 1px solid black;
-    border-color: #f0cecb;
+    border-color: #F5D5C3;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading h3 {
@@ -1168,7 +1168,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading h3 span.http_method a {
     text-transform: uppercase;
-    background-color: #993300;
+    background-color: #D38042;
     text-decoration: none;
     color: white;
     display: inline-block;
@@ -1228,12 +1228,12 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li {
     border-right-color: #f0cecb;
-    color: #993300;
+    color: #D38042;
     font-size: 0.9em;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li a {
-    color: #993300;
+    color: #D38042;
     text-decoration: none;
 }
 
@@ -1263,7 +1263,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content h4 {
-    color: #993300;
+    color: #D38042;
     font-size: 1.1em;
     margin: 0;
     padding: 15px 0 5px 0px;
@@ -1271,7 +1271,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content form input[type='text'].error {
     outline: 2px solid black;
-    outline-color: #cc0000;
+    outline-color: #F5D5C3;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content div.sandbox_header {
