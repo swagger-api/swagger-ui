@@ -20,3 +20,4 @@ reports/*
 swagger-ui.sublime-workspace
 .idea
 .project
+target/

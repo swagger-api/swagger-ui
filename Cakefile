@@ -16,12 +16,16 @@ sourceFiles  = [
 
 task 'clean', 'Removes distribution', ->
   console.log 'Clearing dist...'
-  exec 'rm -rf dist'
+  exec 'rm -rf target', (err, stdout, stderr) ->
+    if err
+      exec 'del /S /Q /F target'
+      exec 'rmdir target /S /Q'
+    
 
 task 'dist', 'Build a distribution', ->
-  console.log "Build distribution in ./dist"
-  fs.mkdirSync('dist') if not path.existsSync('dist')
-  fs.mkdirSync('dist/lib') if not path.existsSync('dist/lib')
+  console.log "Build distribution in ./target"
+  fs.mkdirSync('target') if not path.existsSync('target')
+  fs.mkdirSync('target/lib') if not path.existsSync('target/lib')
 
   appContents = new Array remaining = sourceFiles.length
   for file, index in sourceFiles then do (file, index) ->
@@ -37,43 +41,57 @@ task 'dist', 'Build a distribution', ->
     templateContents = new Array remaining = templateFiles.length
     for file, index in templateFiles then do (file, index) ->
       console.log "   : Compiling src/main/template/#{file}"
-      exec "handlebars src/main/template/#{file} -f dist/_#{file}.js", (err, stdout, stderr) ->
+      exec "handlebars src/main/template/#{file} -f target/_#{file}.js", (err, stdout, stderr) ->
         throw err if err
-        fs.readFile 'dist/_' + file + '.js', 'utf8', (err, fileContents) ->
+        fs.readFile 'target/_' + file + '.js', 'utf8', (err, fileContents) ->
           throw err if err
           templateContents[index] = fileContents
-          fs.unlink 'dist/_' + file + '.js'
+          fs.unlink 'target/_' + file + '.js'
           if --remaining is 0
             templateContents.push '\n\n'
-            fs.writeFile 'dist/_swagger-ui-templates.js', templateContents.join('\n\n'), 'utf8', (err) ->
+            fs.writeFile 'target/_swagger-ui-templates.js', templateContents.join('\n\n'), 'utf8', (err) ->
               throw err if err
               build()
 
 
   build = ->
-    console.log '   : Collecting Coffeescript source...'
-
+    console.log '   : Collecting Coffeescript source...'    
     appContents.push '\n\n'
-    fs.writeFile 'dist/_swagger-ui.coffee', appContents.join('\n\n'), 'utf8', (err) ->
+    fs.writeFile 'target/_swagger-ui.coffee', appContents.join('\n\n'), 'utf8', (err) ->
       throw err if err
       console.log '   : Compiling...'
-      exec 'coffee --compile dist/_swagger-ui.coffee', (err, stdout, stderr) ->
+      exec 'coffee --compile target/_swagger-ui.coffee', (err, stdout, stderr) ->
         throw err if err
-        fs.unlink 'dist/_swagger-ui.coffee'
+        fs.unlink 'target/_swagger-ui.coffee'
         console.log '   : Combining with javascript...'
-        exec 'cat src/main/javascript/doc.js dist/_swagger-ui-templates.js dist/_swagger-ui.js > dist/swagger-ui.js', (err, stdout, stderr) ->
-          throw err if err
-          fs.unlink 'dist/_swagger-ui.js'
-          fs.unlink 'dist/_swagger-ui-templates.js'
-          console.log '   : Minifying all...'
-          exec 'java -jar "./bin/yuicompressor-2.4.7.jar" --type js -o ' + 'dist/swagger-ui.min.js ' + 'dist/swagger-ui.js', (err, stdout, stderr) ->
-            throw err if err
-            pack()
+        exec 'cat src/main/javascript/doc.js target/_swagger-ui-templates.js target/_swagger-ui.js > target/swagger-ui.js', (err, stdout, stderr) ->          
+          if err 
+            exec 'type src/main/javascript/doc.js target/_swagger-ui-templates.js target/_swagger-ui.js > target/swagger-ui.js', (err, stdout, stderr) ->
+            comp()
+          else 
+            comp()
+          
+  comp = ->
+    fs.unlink 'target/_swagger-ui.js'
+    fs.unlink 'target/_swagger-ui-templates.js'
+    console.log '   : Minifying all...'
+    exec 'java -jar "./bin/yuicompressor-2.4.7.jar" --type js -o ' + 'target/swagger-ui.min.js ' + 'target/swagger-ui.js', (err, stdout, stderr) ->
+      throw err if err
+      pack()
 
   pack = ->
     console.log '   : Packaging...'
-    exec 'cp -r lib dist'
-    exec 'cp -r src/main/html/* dist'
+    exec 'cp -r lib target', (err, stdout, stderr) ->
+      if err 
+        exec 'xcopy .\\lib\\* .\\target\\lib\\ /S /Y', (err, stdout, stderr) ->
+          if err
+            notify(err)          
+	    
+    exec 'cp -r src/main/html/* target', (err, stdout, stderr) ->
+      if err
+        exec 'xcopy src\\main\\html\\* target\\ /S /Y', (err, stdout, stderr) ->        
+          if err
+            notify(err)
     console.log '   !'
 
 task 'spec', "Run the test suite", ->
