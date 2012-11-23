@@ -1,0 +1,8 @@
+{{#if supportedContentTypes}}
+<label for="contentType"></label>
+<select name="contentType">
+	{{#each supportedContentTypes}}
+	<option value="{{{this}}}">{{{this}}}</option>
+	{{/each}}
+</select>
+{{/if}}

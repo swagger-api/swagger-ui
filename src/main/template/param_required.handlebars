@@ -7,7 +7,9 @@
 			{{#if defaultValue}}
 				<textarea class='body-textarea' placeholder='(required)' name='{{name}}'>{{defaultValue}}</textarea>
 			{{else}}
-			    <textarea class='body-textarea' placeholder='(required)' name='{{name}}'></textarea>
+				<textarea class='body-textarea' placeholder='(required)' name='{{name}}'></textarea>
+				<br />
+				<div class="content-type" />
 			{{/if}}
 		{{/if}}
 	{{else}}
@@ -15,14 +17,14 @@
 			<input class='required' type='file' name='{{name}}'/>
 		{{else}}
 			{{#if defaultValue}}
-			    <input class='required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='{{defaultValue}}'/>
+				<input class='required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='{{defaultValue}}'/>
 			{{else}}
-			    <input class='required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value=''/>
+				<input class='required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value=''/>
 			{{/if}}
 		{{/if}}
 	{{/if}}
 </td>
 <td>
-    <strong>{{{description}}}</strong>
+	<strong>{{{description}}}</strong>
 </td>
 <td><span class="model-signature"></span></td>
