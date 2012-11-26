@@ -13,6 +13,11 @@ class SignatureView extends Backbone.View
 
     @switchToDescription()
 
+    @isParam = @model.isParam
+
+    if @isParam
+      $('.notice', $(@el)).text('Click to set as parameter value')
+
     @
 
   template: ->
@@ -36,8 +41,11 @@ class SignatureView extends Backbone.View
 
   # handler for snippet to text area
   snippetToTextArea: (e) ->
-    e?.preventDefault()
-    textArea = $('textarea', $(@el.parentNode.parentNode.parentNode))
-    if $.trim(textArea.val()) == ''
+    if @isParam
+      e?.preventDefault()
+      textArea = $('textarea', $(@el.parentNode.parentNode.parentNode))
+      if $.trim(textArea.val()) == ''
         textArea.val(@model.sampleJSON)
+
+
     
