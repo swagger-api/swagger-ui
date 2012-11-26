@@ -24,7 +24,13 @@ class OperationView extends Backbone.View
       $('.model-signature', $(@el)).append responseSignatureView.render().el
     else
       $('.model-signature', $(@el)).html(@model.responseClass)
-      
+
+    contentTypeModel =
+      isParam: false
+      supportedContentTypes: @model.supportedContentTypes
+
+    contentTypeView = new ContentTypeView({model: contentTypeModel})
+    $('.content-type', $(@el)).append contentTypeView.render().el
 
     # Render each parameter
     @addParameter param for param in @model.parameters
@@ -118,6 +124,14 @@ class OperationView extends Backbone.View
 
       obj.contentType = "application/json" if (obj.type.toLowerCase() == "post" or obj.type.toLowerCase() == "put" or obj.type.toLowerCase() == "patch")
       obj.contentType = false if isFileUpload
+      paramContentTypeField = $("td select[name=contentType]", $(@el)).val()
+      if paramContentTypeField
+        obj.contentType = paramContentTypeField
+
+      responseContentTypeField = $('.content > .content-type > div > select[name=contentType]', $(@el)).val()
+      if responseContentTypeField
+        obj.headers.accept = responseContentTypeField
+      
       jQuery.ajax(obj)
       false
       # $.getJSON(invocationUrl, (r) => @showResponse(r)).complete((r) => @showCompleteStatus(r)).error (r) => @showErrorStatus(r)
@@ -158,5 +172,5 @@ class OperationView extends Backbone.View
     hljs.highlightBlock($('.response_body', $(@el))[0])
 
   toggleOperationContent: ->
-    elem = $('#' + @model.resourceName + "_" + @model.nickname + "_" + @model.httpMethod + "_" + @model.number + "_content");
+    elem = $('#' + @model.resourceName + "_" + @model.nickname + "_" + @model.httpMethod + "_content");
     if elem.is(':visible') then Docs.collapseOperation(elem) else Docs.expandOperation(elem)

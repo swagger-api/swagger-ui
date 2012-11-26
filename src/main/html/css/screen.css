@@ -1579,3 +1579,12 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 pre code {
   background: none;
 }
+
+.content > .content-type > div > label {
+  clear: both;
+  display: block;
+  color: #0F6AB4;
+  font-size: 1.1em;
+  margin: 0;
+  padding: 15px 0 5px 0px;
+}
