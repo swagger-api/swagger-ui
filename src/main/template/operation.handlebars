@@ -22,12 +22,8 @@
                 <p>{{{notes}}}</p>
                 {{/if}}
                 {{#if responseClass}}
-                    <h4>Response Class</h4>
-                    {{#if responseClassSignature}}
-                        <p><span class="model-signature">{{{responseClassSignature}}}</span></p>
-                    {{else}}
-                        <p>{{{responseClass}}}</p>
-                    {{/if}}
+                    <h4>Response Model</h4>
+                    <span class="model-signature"></span>
                 {{/if}}
                 <form accept-charset='UTF-8' class='sandbox'>
                     <div style='margin:0;padding:0;display:inline'></div>
