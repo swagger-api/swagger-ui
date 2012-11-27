@@ -130,6 +130,7 @@ class OperationView extends Backbone.View
 
       responseContentTypeField = $('.content > .content-type > div > select[name=contentType]', $(@el)).val()
       if responseContentTypeField
+        obj.headers = if obj.headers? then obj.headers else {}
         obj.headers.accept = responseContentTypeField
       
       jQuery.ajax(obj)
@@ -146,7 +147,7 @@ class OperationView extends Backbone.View
   # Show response from server
   showResponse: (response) ->
     prettyJson = JSON.stringify(response, null, "\t").replace(/\n/g, "<br>")
-    $(".response_body", $(@el)).html prettyJson
+    $(".response_body", $(@el)).html escape(prettyJson)
 
 
   # Show error from server
@@ -157,12 +158,74 @@ class OperationView extends Backbone.View
   showCompleteStatus: (data) ->
     @showStatus data
 
+  # Adapted from http://stackoverflow.com/a/2893259/454004
+  formatXml: (xml) ->
+    reg = /(>)(<)(\/*)/g
+    wsexp = /[ ]*(.*)[ ]+\n/g
+    contexp = /(<.+>)(.+\n)/g
+    xml = xml.replace(reg, '$1\n$2$3').replace(wsexp, '$1\n').replace(contexp, '$1\n$2')
+    pad = 0
+    formatted = ''
+    lines = xml.split('\n')
+    indent = 0
+    lastType = 'other'
+    # 4 types of tags - single, closing, opening, other (text, doctype, comment) - 4*4 = 16 transitions 
+    transitions =
+      'single->single': 0
+      'single->closing': -1
+      'single->opening': 0
+      'single->other': 0
+      'closing->single': 0
+      'closing->closing': -1
+      'closing->opening': 0
+      'closing->other': 0
+      'opening->single': 1
+      'opening->closing': 0
+      'opening->opening': 1
+      'opening->other': 1
+      'other->single': 0
+      'other->closing': -1
+      'other->opening': 0
+      'other->other': 0
+
+    for ln in lines
+      do (ln) ->
+
+        types =
+          # is this line a single tag? ex. <br />
+          single: Boolean(ln.match(/<.+\/>/))
+          # is this a closing tag? ex. </a>
+          closing: Boolean(ln.match(/<\/.+>/))
+          # is this even a tag (that's not <!something>)
+          opening: Boolean(ln.match(/<[^!?].*>/))
+
+        [type] = (key for key, value of types when value)
+        type = if type is undefined then 'other' else type
+
+        fromTo = lastType + '->' + type
+        lastType = type
+        padding = ''
+
+        indent += transitions[fromTo]
+        padding = ('  ' for j in [0...(indent)]).join('')
+        if fromTo == 'opening->closing'
+          #substr removes line break (\n) from prev loop
+          formatted = formatted.substr(0, formatted.length - 1) + ln + '\n'
+        else
+          formatted += padding + ln + '\n'
+      
+    formatted
+    
+
   # puts the response data in UI
   showStatus: (data) ->
     try
-      response_body = '<pre class="json"><code>' + JSON.stringify(JSON.parse(data.responseText), null, 2) + "</code></pre>"
+      code = $('<code />').text(JSON.stringify(JSON.parse(data.responseText), null, 2))
+      pre = $('<pre class="json" />').append(code)
     catch error
-      response_body = "<span style='color:red'>&nbsp;&nbsp;&nbsp;[unable to parse as json; raw response below]</span><br><pre>" + data.responseText + "</pre>"
+      code = $('<code />').text(@formatXml(data.responseText))
+      pre = $('<pre class="xml" />').append(code)
+    response_body = pre
     $(".response_code", $(@el)).html "<pre>" + data.status + "</pre>"
     $(".response_body", $(@el)).html response_body
     $(".response_headers", $(@el)).html "<pre>" + data.getAllResponseHeaders() + "</pre>"
@@ -172,5 +235,5 @@ class OperationView extends Backbone.View
     hljs.highlightBlock($('.response_body', $(@el))[0])
 
   toggleOperationContent: ->
-    elem = $('#' + @model.resourceName + "_" + @model.nickname + "_" + @model.httpMethod + "_content");
+    elem = $('#' + @model.resourceName + "_" + @model.nickname + "_" + @model.httpMethod + "_" + @model.number + "_content")
     if elem.is(':visible') then Docs.collapseOperation(elem) else Docs.expandOperation(elem)
