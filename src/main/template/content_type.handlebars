@@ -1,8 +1,10 @@
-{{#if supportedContentTypes}}
 <label for="contentType"></label>
 <select name="contentType">
-	{{#each supportedContentTypes}}
+{{#if supportedContentTypes}}
+    {{#each supportedContentTypes}}
 	<option value="{{{this}}}">{{{this}}}</option>
 	{{/each}}
-</select>
+{{else}}
+    <option value="application/json">application/json</option>
 {{/if}}
+</select>
