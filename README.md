@@ -4,7 +4,7 @@ Swagger UI
 Swagger UI is part of [Swagger](http://swagger.wordnik.com/) project.  The Swagger project allows you to produce, visualize and consume your OWN RESTful
 services.  No proxy or 3rd party services required.  Do it your own way.
 
-Swagger UI is a dependency-free collection of HTML, Javascript, and CSS assets that dynamically 
+Swagger UI is a dependency-free collection of HTML, Javascript, and CSS assets that dynamically
 generate beautiful documentation and sandbox from a [Swagger-compliant](https://github.com/wordnik/swagger-core/wiki) API. Because Swagger UI has no
 dependencies, you can host it in any server environment, or on your local machine.
 
@@ -17,11 +17,10 @@ unpack and start using it.  If you like swagger-ui as-is, stop here.
 
 ### Build
 You can rebuild swagger-ui on your own to tweak it or just so you can say you did.  To do so, follow these steps:
- 
-1. Install [CoffeeScript](http://coffeescript.org/#installation) which will give you [cake](http://coffeescript.org/#cake)
-2. Install [handlebars](http://handlebarsjs.com/) using 'npm install handlebars -g'
-3. Run cake dist
-4. You should see the distribution under the dist folder. Open ./dist/index.html to launch Swagger UI in a browser
+
+1. npm install
+2. npm run-script build
+3. You should see the distribution under the dist folder. Open ./dist/index.html to launch Swagger UI in a browser
 
 ### Use
 Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstore.swagger.wordnik.com/api/resources.json) service and show its APIs.
@@ -64,9 +63,9 @@ To use swagger-ui you should take a look at the [source of swagger-ui html page]
 
 
 ### HTTP Methods and API Invocation
-swagger-ui supports invocation of all HTTP methods APIs but only GET methods APIs are enabled by default. You can choose to enable other HTTP methods like POST, PUT and DELETE. This can be enabled by [setting the supportedSubmitMethods parameter when creating SwaggerUI instance](https://github.com/wordnik/swagger-ui/blob/f2e63c65a759421aad590b7275371cd0c06c74ea/src/main/html/index.html#L49). 
+swagger-ui supports invocation of all HTTP methods APIs but only GET methods APIs are enabled by default. You can choose to enable other HTTP methods like POST, PUT and DELETE. This can be enabled by [setting the supportedSubmitMethods parameter when creating SwaggerUI instance](https://github.com/wordnik/swagger-ui/blob/f2e63c65a759421aad590b7275371cd0c06c74ea/src/main/html/index.html#L49).
 
-For example if you wanted to enable GET, POST and PUT but not for DELETE, you'd set this as: 
+For example if you wanted to enable GET, POST and PUT but not for DELETE, you'd set this as:
 
     supportedSubmitMethods: ['get', 'post', 'put']
 
