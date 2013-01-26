@@ -76,9 +76,9 @@ class OperationView extends Backbone.View
         # requires HTML5 compatible browser
         bodyParam = new FormData()
 
-        # add params
+        # add params except file
         for param in @model.parameters
-          if param.paramType is 'body'
+          if param.paramType is 'body' and param.name isnt 'file'
             bodyParam.append(param.name, map[param.name])
 
         # add files
@@ -87,10 +87,10 @@ class OperationView extends Backbone.View
 
         console.log(bodyParam)
       else
-      bodyParam = null
-      for param in @model.parameters
-        if param.paramType is 'body'
-          bodyParam = map[param.name]
+        bodyParam = null
+        for param in @model.parameters
+          if param.paramType is 'body'
+            bodyParam = map[param.name]
 
       log "bodyParam = " + bodyParam 
 
