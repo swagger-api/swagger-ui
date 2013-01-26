@@ -3,7 +3,6 @@ wordnik*.zip
 *.ipr
 *.iml
 *.iws
-dist/
 lib/*.jar
 META-INF/
 web/
