@@ -12,8 +12,7 @@ How to Use It
 -------------
 
 ### Download
-You can use the swagger-ui code AS-IS!  No need to build or recompile--just [download](https://github.com/wordnik/swagger-ui/downloads) the distribution,
-unpack and start using it.  If you like swagger-ui as-is, stop here.
+You can use the swagger-ui code AS-IS!  No need to build or recompile--just [download](https://github.com/wordnik/swagger-ui/dist) the distribution and start using it.  If you like swagger-ui as-is, stop here.
 
 ### Build
 You can rebuild swagger-ui on your own to tweak it or just so you can say you did.  To do so, follow these steps:
