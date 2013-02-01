@@ -252,12 +252,16 @@
     };
 
     SwaggerResource.prototype.addOperations = function(resource_path, ops) {
-      var o, op, _i, _len, _results;
+      var consumes, o, op, _i, _len, _results;
       if (ops) {
         _results = [];
         for (_i = 0, _len = ops.length; _i < _len; _i++) {
           o = ops[_i];
-          op = new SwaggerOperation(o.nickname, resource_path, o.httpMethod, o.parameters, o.summary, o.notes, o.responseClass, o.errorResponses, this, o.supportedContentTypes);
+          consumes = o.consumes;
+          if (o.supportedContentTypes) {
+            consumes = o.supportedContentTypes;
+          }
+          op = new SwaggerOperation(o.nickname, resource_path, o.httpMethod, o.parameters, o.summary, o.notes, o.responseClass, o.errorResponses, this, o.consumes);
           this.operations[op.nickname] = op;
           _results.push(this.operationsArray.push(op));
         }
@@ -415,7 +419,7 @@
 
   SwaggerOperation = (function() {
 
-    function SwaggerOperation(nickname, path, httpMethod, parameters, summary, notes, responseClass, errorResponses, resource, supportedContentTypes) {
+    function SwaggerOperation(nickname, path, httpMethod, parameters, summary, notes, responseClass, errorResponses, resource, consumes) {
       var parameter, v, _i, _j, _len, _len1, _ref, _ref1, _ref2,
         _this = this;
       this.nickname = nickname;
@@ -427,7 +431,7 @@
       this.responseClass = responseClass;
       this.errorResponses = errorResponses;
       this.resource = resource;
-      this.supportedContentTypes = supportedContentTypes;
+      this.consumes = consumes;
       this["do"] = __bind(this["do"], this);
 
       if (this.nickname == null) {

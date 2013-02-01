@@ -1,7 +1,7 @@
 <label for="contentType"></label>
 <select name="contentType">
-{{#if supportedContentTypes}}
-    {{#each supportedContentTypes}}
+{{#if consumes}}
+    {{#each consumes}}
 	<option value="{{{this}}}">{{{this}}}</option>
 	{{/each}}
 {{else}}

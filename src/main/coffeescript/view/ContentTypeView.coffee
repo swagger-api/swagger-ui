@@ -15,5 +15,5 @@ class ContentTypeView extends Backbone.View
     @
 
   template: ->
-      Handlebars.templates.content_type
+    Handlebars.templates.content_type
 

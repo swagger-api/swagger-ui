@@ -27,7 +27,13 @@ class OperationView extends Backbone.View
 
     contentTypeModel =
       isParam: false
-      supportedContentTypes: @model.supportedContentTypes
+
+    # support old syntax
+    if @model.supportedContentTypes
+      contentTypeModel.consumes = @model.supportedContentTypes
+
+    if @model.consumes
+      contentTypeModel.consumes = @model.consumes
 
     contentTypeView = new ContentTypeView({model: contentTypeModel})
     $('.content-type', $(@el)).append contentTypeView.render().el
@@ -70,7 +76,23 @@ class OperationView extends Backbone.View
         if(o.value? && jQuery.trim(o.value).length > 0)
           map[o.name] = o.value
 
-      isFileUpload = $('input[type~="file"]').size != 0
+      isFileUpload = form.children().find('input[type~="file"]').size() != 0
+
+      isFormPost = false
+      consumes = "application/json"
+      if @model.consumes and @model.consumes.length > 0
+        # honor the consumes setting above everything else
+        consumes = @model.consumes[0]
+      else 
+        for o in @model.parameters
+          if o.paramType == 'form'
+            isFormPost = true
+            consumes = false
+
+        if isFileUpload
+          consumes = false
+        else if @model.httpMethod.toLowerCase() == "post" and isFormPost is false
+          consumes = "application/json"
 
       if isFileUpload
         # requires HTML5 compatible browser
@@ -82,10 +104,14 @@ class OperationView extends Backbone.View
             bodyParam.append(param.name, map[param.name])
 
         # add files
-        $.each $('input[type~="file"]'), (i, el) ->
+        $.each form.children().find('input[type~="file"]'), (i, el) ->
           bodyParam.append($(el).attr('name'), el.files[0])
 
         console.log(bodyParam)
+      else if isFormPost
+        bodyParam = new FormData()
+        for param in @model.parameters
+          bodyParam.append(param.name, map[param.name])
       else
         bodyParam = null
         for param in @model.parameters
@@ -113,6 +139,7 @@ class OperationView extends Backbone.View
         url: invocationUrl
         headers: headerParams
         data: bodyParam
+        contentType: consumes
         dataType: 'json'
         processData: false
         error: (xhr, textStatus, error) =>
@@ -122,8 +149,6 @@ class OperationView extends Backbone.View
         complete: (data) =>
           @showCompleteStatus(data)
 
-      obj.contentType = "application/json" if (obj.type.toLowerCase() == "post" or obj.type.toLowerCase() == "put" or obj.type.toLowerCase() == "patch")
-      obj.contentType = false if isFileUpload
       paramContentTypeField = $("td select[name=contentType]", $(@el)).val()
       if paramContentTypeField
         obj.contentType = paramContentTypeField
