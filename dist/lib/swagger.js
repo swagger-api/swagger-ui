@@ -97,7 +97,15 @@
         }
         return _this;
       }).error(function(error) {
-        return _this.fail(error.status + ' : ' + error.statusText + ' ' + _this.discoveryUrl);
+        if (_this.discoveryUrl.substring(0, 4) !== 'http') {
+          return _this.fail('Please specify the protocol for ' + _this.discoveryUrl);
+        } else if (error.status === 0) {
+          return _this.fail('Can\'t read from server.  It may not have the appropriate access-control-origin settings.');
+        } else if (error.status === 404) {
+          return _this.fail('Can\'t read swagger JSON from ' + _this.discoveryUrl);
+        } else {
+          return _this.fail(error.status + ' : ' + error.statusText + ' ' + _this.discoveryUrl);
+        }
       });
     };
 
@@ -226,7 +234,7 @@
           _this.ready = true;
           return _this.api.selfReflect();
         }).error(function(error) {
-          return _this.api.fail(error.status + ' : ' + error.statusText + ' ' + _this.url);
+          return _this.api.fail("Unable to read api '" + _this.name + "' from path " + _this.url + " (server returned " + error.statusText + ")");
         });
       }
     }
