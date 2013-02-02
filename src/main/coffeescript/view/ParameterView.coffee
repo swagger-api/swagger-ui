@@ -24,10 +24,10 @@ class ParameterView extends Backbone.View
 
     # support old syntax
     if @model.supportedContentTypes
-      contentTypeModel.consumes = @model.supportedContentTypes
+      contentTypeModel.produces = @model.supportedContentTypes
 
-    if @model.consumes
-      contentTypeModel.consumes = @model.consumes
+    if @model.produces
+      contentTypeModel.produces = @model.produces
 
     contentTypeView = new ContentTypeView({model: contentTypeModel})
     $('.content-type', $(@el)).append contentTypeView.render().el

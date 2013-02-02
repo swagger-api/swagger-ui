@@ -192,8 +192,8 @@ function program1(depth0,data) {
   
   var buffer = "", stack1, stack2;
   buffer += "\n    ";
-  foundHelper = helpers.consumes;
-  stack1 = foundHelper || depth0.consumes;
+  foundHelper = helpers.produces;
+  stack1 = foundHelper || depth0.produces;
   stack2 = helpers.each;
   tmp1 = self.program(2, program2, data);
   tmp1.hash = {};
@@ -225,8 +225,8 @@ function program4(depth0,data) {
   return "\n    <option value=\"application/json\">application/json</option>\n";}
 
   buffer += "<label for=\"contentType\"></label>\n<select name=\"contentType\">\n";
-  foundHelper = helpers.consumes;
-  stack1 = foundHelper || depth0.consumes;
+  foundHelper = helpers.produces;
+  stack1 = foundHelper || depth0.produces;
   stack2 = helpers['if'];
   tmp1 = self.program(1, program1, data);
   tmp1.hash = {};
@@ -300,14 +300,19 @@ function program3(depth0,data) {
 function program5(depth0,data) {
   
   
-  return "\n                    <div style='margin:0;padding:0;display:inline'></div>\n                    <h4>Status Codes</h4>\n                    <table class='fullwidth'>\n                        <thead>\n                        <tr>\n                            <th>HTTP Status Code</th>\n                            <th>Reason</th>\n                        </tr>\n                        </thead>\n                        <tbody class=\"operation-status\">\n                        \n                        </tbody>\n                    </table>\n                    ";}
+  return "\n                    <h4>Parameters</h4>\n                    <table class='fullwidth'>\n                        <thead>\n                        <tr>\n                            <th style=\"width: 100px; max-width: 100px\" >Parameter</th>\n                            <th style=\"width: 310px; max-width: 310px\">Value</th>\n                            <th style=\"width: 200px; max-width: 200px\">Description</th>\n                            <th style=\"width: 320px; max-width: 330px\">Data Type</th>\n                        </tr>\n                        </thead>\n                        <tbody class=\"operation-params\">\n\n                        </tbody>\n                    </table>\n                    ";}
 
 function program7(depth0,data) {
   
   
-  return "\n                    ";}
+  return "\n                    <div style='margin:0;padding:0;display:inline'></div>\n                    <h4>Status Codes</h4>\n                    <table class='fullwidth'>\n                        <thead>\n                        <tr>\n                            <th>HTTP Status Code</th>\n                            <th>Reason</th>\n                        </tr>\n                        </thead>\n                        <tbody class=\"operation-status\">\n                        \n                        </tbody>\n                    </table>\n                    ";}
 
 function program9(depth0,data) {
+  
+  
+  return "\n                    ";}
+
+function program11(depth0,data) {
   
   
   return "\n                    <div class='sandbox_header'>\n                        <input class='submit' name='commit' type='button' value='Try it out!' />\n                        <a href='#' class='response_hider' style='display:none'>Hide Response</a>\n                        <img alt='Throbber' class='response_throbber' src='images/throbber.gif' style='display:none' />\n                    </div>\n                    ";}
@@ -453,11 +458,21 @@ function program9(depth0,data) {
   tmp1.inverse = self.noop;
   stack1 = stack2.call(depth0, stack1, tmp1);
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n                <form accept-charset='UTF-8' class='sandbox'>\n                    <div style='margin:0;padding:0;display:inline'></div>\n                    <h4>Parameters</h4>\n                    <table class='fullwidth'>\n                        <thead>\n                        <tr>\n                            <th style=\"width: 100px; max-width: 100px\" >Parameter</th>\n                            <th style=\"width: 310px; max-width: 310px\">Value</th>\n                            <th style=\"width: 200px; max-width: 200px\">Description</th>\n                            <th style=\"width: 320px; max-width: 330px\">Data Type</th>\n                        </tr>\n                        </thead>\n                        <tbody class=\"operation-params\">\n\n                        </tbody>\n                    </table>\n                    ";
+  buffer += "\n                <form accept-charset='UTF-8' class='sandbox'>\n                    <div style='margin:0;padding:0;display:inline'></div>\n                    ";
+  foundHelper = helpers.parameters;
+  stack1 = foundHelper || depth0.parameters;
+  stack2 = helpers['if'];
+  tmp1 = self.program(5, program5, data);
+  tmp1.hash = {};
+  tmp1.fn = tmp1;
+  tmp1.inverse = self.noop;
+  stack1 = stack2.call(depth0, stack1, tmp1);
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n                    ";
   foundHelper = helpers.errorResponses;
   stack1 = foundHelper || depth0.errorResponses;
   stack2 = helpers['if'];
-  tmp1 = self.program(5, program5, data);
+  tmp1 = self.program(7, program7, data);
   tmp1.hash = {};
   tmp1.fn = tmp1;
   tmp1.inverse = self.noop;
@@ -467,10 +482,10 @@ function program9(depth0,data) {
   foundHelper = helpers.isReadOnly;
   stack1 = foundHelper || depth0.isReadOnly;
   stack2 = helpers['if'];
-  tmp1 = self.program(7, program7, data);
+  tmp1 = self.program(9, program9, data);
   tmp1.hash = {};
   tmp1.fn = tmp1;
-  tmp1.inverse = self.program(9, program9, data);
+  tmp1.inverse = self.program(11, program11, data);
   stack1 = stack2.call(depth0, stack1, tmp1);
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n                </form>\n                <div class='response' style='display:none'>\n                    <h4>Request URL</h4>\n                    <div class='block request_url'></div>\n                    <h4>Response Body</h4>\n                    <div class='block response_body'></div>\n                    <h4>Response Code</h4>\n                    <div class='block response_code'></div>\n                    <h4>Response Headers</h4>\n                    <div class='block response_headers'></div>\n                </div>\n            </div>\n        </li>\n    </ul>\n";
@@ -1439,10 +1454,10 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
         isParam: false
       };
       if (this.model.supportedContentTypes) {
-        contentTypeModel.consumes = this.model.supportedContentTypes;
+        contentTypeModel.produces = this.model.supportedContentTypes;
       }
-      if (this.model.consumes) {
-        contentTypeModel.consumes = this.model.consumes;
+      if (this.model.produces) {
+        contentTypeModel.produces = this.model.produces;
       }
       contentTypeView = new ContentTypeView({
         model: contentTypeModel
@@ -1789,10 +1804,10 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
         isParam: false
       };
       if (this.model.supportedContentTypes) {
-        contentTypeModel.consumes = this.model.supportedContentTypes;
+        contentTypeModel.produces = this.model.supportedContentTypes;
       }
-      if (this.model.consumes) {
-        contentTypeModel.consumes = this.model.consumes;
+      if (this.model.produces) {
+        contentTypeModel.produces = this.model.produces;
       }
       contentTypeView = new ContentTypeView({
         model: contentTypeModel

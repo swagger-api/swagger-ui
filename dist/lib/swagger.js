@@ -269,7 +269,7 @@
           if (o.supportedContentTypes) {
             consumes = o.supportedContentTypes;
           }
-          op = new SwaggerOperation(o.nickname, resource_path, o.httpMethod, o.parameters, o.summary, o.notes, o.responseClass, o.errorResponses, this, o.consumes);
+          op = new SwaggerOperation(o.nickname, resource_path, o.httpMethod, o.parameters, o.summary, o.notes, o.responseClass, o.errorResponses, this, o.consumes, o.produces);
           this.operations[op.nickname] = op;
           _results.push(this.operationsArray.push(op));
         }
@@ -427,7 +427,7 @@
 
   SwaggerOperation = (function() {
 
-    function SwaggerOperation(nickname, path, httpMethod, parameters, summary, notes, responseClass, errorResponses, resource, consumes) {
+    function SwaggerOperation(nickname, path, httpMethod, parameters, summary, notes, responseClass, errorResponses, resource, consumes, produces) {
       var parameter, v, _i, _j, _len, _len1, _ref, _ref1, _ref2,
         _this = this;
       this.nickname = nickname;
@@ -440,6 +440,7 @@
       this.errorResponses = errorResponses;
       this.resource = resource;
       this.consumes = consumes;
+      this.produces = produces;
       this["do"] = __bind(this["do"], this);
 
       if (this.nickname == null) {
