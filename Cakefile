@@ -74,6 +74,7 @@ task 'dist', 'Build a distribution', ->
   pack = ->
     console.log '   : Packaging...'
     exec 'cp -r lib dist'
+    exec 'cp -r node_modules/swagger-client/lib/swagger.js dist/lib'
     exec 'cp -r src/main/html/* dist'
     console.log '   !'
 

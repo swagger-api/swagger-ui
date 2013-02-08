@@ -6,7 +6,7 @@ class MainView extends Backbone.View
     $(@el).html(Handlebars.templates.main(@model))
 
     # Render each resource
-    @addResource resource for resource in @model.resourcesArray
+    @addResource resource for resource in @model.apisArray
     @
 
   addResource: (resource) ->

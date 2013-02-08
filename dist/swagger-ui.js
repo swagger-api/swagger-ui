@@ -1347,7 +1347,7 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
     MainView.prototype.render = function() {
       var resource, _i, _len, _ref;
       $(this.el).html(Handlebars.templates.main(this.model));
-      _ref = this.model.resourcesArray;
+      _ref = this.model.apisArray;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         resource = _ref[_i];
         this.addResource(resource);

@@ -66,8 +66,8 @@
           _this.basePath = _this.discoveryUrl.substring(0, _this.discoveryUrl.lastIndexOf('/'));
           log('derived basepath from discoveryUrl as ' + _this.basePath);
         }
-        _this.resources = {};
-        _this.resourcesArray = [];
+        _this.apis = {};
+        _this.apisArray = [];
         if (response.resourcePath != null) {
           _this.resourcePath = response.resourcePath;
           res = null;
@@ -81,8 +81,8 @@
             }
           }
           if (res != null) {
-            _this.resources[res.name] = res;
-            _this.resourcesArray.push(res);
+            _this.apis[res.name] = res;
+            _this.apisArray.push(res);
             res.ready = true;
             _this.selfReflect();
           }
@@ -91,8 +91,8 @@
           for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
             resource = _ref1[_j];
             res = new SwaggerResource(resource, _this);
-            _this.resources[res.name] = res;
-            _this.resourcesArray.push(res);
+            _this.apis[res.name] = res;
+            _this.apisArray.push(res);
           }
         }
         return _this;
@@ -111,10 +111,10 @@
 
     SwaggerApi.prototype.selfReflect = function() {
       var resource, resource_name, _ref;
-      if (this.resources == null) {
+      if (this.apis == null) {
         return false;
       }
-      _ref = this.resources;
+      _ref = this.apis;
       for (resource_name in _ref) {
         resource = _ref[resource_name];
         if (resource.ready == null) {
@@ -137,7 +137,7 @@
       var model, modelName, resource, resource_name, _i, _len, _ref, _ref1, _results;
       this.modelsArray = [];
       this.models = {};
-      _ref = this.resources;
+      _ref = this.apis;
       for (resource_name in _ref) {
         resource = _ref[resource_name];
         for (modelName in resource.models) {
@@ -168,7 +168,7 @@
 
     SwaggerApi.prototype.help = function() {
       var operation, operation_name, parameter, resource, resource_name, _i, _len, _ref, _ref1, _ref2;
-      _ref = this.resources;
+      _ref = this.apis;
       for (resource_name in _ref) {
         resource = _ref[resource_name];
         console.log(resource_name);
