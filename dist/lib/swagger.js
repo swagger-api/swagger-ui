@@ -324,7 +324,7 @@
       return _results;
     };
 
-    SwaggerModel.prototype.getMockSignature = function(prefix, modelToIgnore) {
+    SwaggerModel.prototype.getMockSignature = function(prefix, modelsToIgnore) {
       var classClose, classOpen, prop, propertiesStr, returnVal, strong, strongClose, stronger, _i, _j, _len, _len1, _ref, _ref1;
       propertiesStr = [];
       _ref = this.properties;
@@ -341,11 +341,15 @@
       if (prefix != null) {
         returnVal = stronger + prefix + strongClose + '<br/>' + returnVal;
       }
+      if (!modelsToIgnore) {
+        modelsToIgnore = [];
+      }
+      modelsToIgnore.push(this);
       _ref1 = this.properties;
       for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
         prop = _ref1[_j];
-        if ((prop.refModel != null) && (!(prop.refModel === modelToIgnore))) {
-          returnVal = returnVal + ('<br>' + prop.refModel.getMockSignature(void 0, this));
+        if ((prop.refModel != null) && (modelsToIgnore.indexOf(prop.refModel)) === -1) {
+          returnVal = returnVal + ('<br>' + prop.refModel.getMockSignature(void 0, modelsToIgnore));
         }
       }
       return returnVal;
