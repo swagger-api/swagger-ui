@@ -260,5 +260,5 @@ class OperationView extends Backbone.View
     hljs.highlightBlock($('.response_body', $(@el))[0])
 
   toggleOperationContent: ->
-    elem = $('#' + @model.resourceName + "_" + @model.nickname + "_" + @model.httpMethod + "_" + @model.number + "_content")
+    elem = $('#' + Docs.escapeResourceName(@model.resourceName) + "_" + @model.nickname + "_" + @model.httpMethod + "_" + @model.number + "_content")
     if elem.is(':visible') then Docs.collapseOperation(elem) else Docs.expandOperation(elem)
