@@ -14,12 +14,12 @@
 		{{/if}}
 	{{else}}
 		{{#if isFile}}
-			<input class='required' type='file' name='{{name}}'/>
+			<input class='parameter' class='required' type='file' name='{{name}}'/>
 		{{else}}
 			{{#if defaultValue}}
-				<input class='required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='{{defaultValue}}'/>
+				<input class='parameter' class='required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='{{defaultValue}}'/>
 			{{else}}
-				<input class='required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value=''/>
+				<input class='parameter' class='required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value=''/>
 			{{/if}}
 		{{/if}}
 	{{/if}}

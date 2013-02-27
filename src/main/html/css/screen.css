@@ -133,9 +133,15 @@ div.heading_with_menu ul {
     margin-top: 10px;
 }
 
+input.parameter {
+    width: 300px;
+    border: 1px solid #aaa;
+}
+
 .body-textarea {
     width: 300px;
     height: 100px;
+    border: 1px solid #aaa;
 }
 
 p {
@@ -1509,12 +1515,24 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     font-size: 1em;
     line-height: 1.5em;
 }
-.model-signature .description span {
+
+.model-signature .description div {
     font-size: 0.9em;
     line-height: 1.5em;
+    margin-left: 1em;
 }
-.model-signature .description span:nth-child(odd)    { color:#333; }
-.model-signature .description span:nth-child(even)    { color:#C5862B; }
+
+.model-signature .description .strong {
+    font-weight: bold;
+    color: #000;
+    font-size: .9em;
+}
+
+.model-signature .description .stronger {
+    font-weight: bold;
+    color: #000;
+}
+
 .model-signature .signature-nav a {
     text-decoration: none;
     color: #AAA;
@@ -1551,24 +1569,16 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 }
 
 .model-signature ul.signature-nav {
-    float: none;
-    clear: both;
-    overflow: hidden;
+    display: block;
     margin: 0;
     padding: 0;
-    display: block;
-    clear: none;
-    float: right;
-    margin-right: 5px;
-    margin-bottom: 5px;
 }
 
 .model-signature ul.signature-nav li {
     float: left;
-    clear: none;
-    margin: 0;
-    padding: 2px 10px;
-    border-right: 1px solid #dddddd;
+    margin: 0 5px 5px 0;
+    padding: 2px 5px 2px 0;
+    border-right: 1px solid #ddd;
 }
 
 .model-signature ul.signature-nav li:last-child {
@@ -1576,8 +1586,27 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     border-right: none;
 }
 
+.model-signature .propName {
+  font-weight: bold;
+}
+.model-signature .propType {
+  color: #5555aa;
+}
+.model-signature .propOptKey {
+  font-style: italic;
+}
+.model-signature .propOpt {
+  color: #555;
+}
+
 pre code {
   background: none;
+}
+
+.content pre {
+  font-size: 12px;
+  margin-top: 5px;
+  padding: 5px;
 }
 
 .content > .content-type > div > label {
@@ -1587,4 +1616,28 @@ pre code {
   font-size: 1.1em;
   margin: 0;
   padding: 15px 0 5px 0px;
+}
+
+.swagger-ui-wrap {
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.icon-btn {
+  cursor: pointer;
+}
+
+#message-bar {
+  min-height: 30px;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.message-success {
+  color: #89BF04;
+}
+
+.message-fail {
+  color: #cc0000;
 }
