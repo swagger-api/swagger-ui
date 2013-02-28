@@ -55,6 +55,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     display: block;
 }
 
+b, strong {
+  font-weight: bold;
+}
+
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
     text-decoration: none;
 }
