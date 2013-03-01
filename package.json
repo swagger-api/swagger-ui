@@ -18,8 +18,8 @@
   "license": "Apache",
   "readmeFilename": "README.md",
   "dependencies": {
-    "coffee-script": "~1.4.0",
+    "coffee-script": "~1.5.0",
     "swagger-client": "1.0.1",
-    "handlebars": "~1.0.8"
+    "handlebars": "~1.0.10"
   }
 }
