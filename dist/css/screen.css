@@ -68,7 +68,6 @@ h1 span.divider, h2 span.divider, h3 span.divider, h4 span.divider, h5 span.divi
 }
 
 h1 {
-    color: #547f00;
     color: black;
     font-size: 1.5em;
     line-height: 1.3em;
@@ -78,7 +77,6 @@ h1 {
 }
 
 h2 {
-    color: #89bf04;
     color: black;
     font-size: 1.3em;
     padding: 10px 0 10px 0;
@@ -104,14 +102,14 @@ h3 {
     padding: 10px 0 10px 0;
 }
 
-div.heading_with_menu {
+.heading_with_menu {
     float: none;
     clear: both;
     overflow: hidden;
     display: block;
 }
 
-div.heading_with_menu h1, div.heading_with_menu h2, div.heading_with_menu h3, div.heading_with_menu h4, div.heading_with_menu h5, div.heading_with_menu h6 {
+.heading_with_menu h1, .heading_with_menu h2, .heading_with_menu h3, .heading_with_menu h4, .heading_with_menu h5, .heading_with_menu h6 {
     display: block;
     clear: none;
     float: left;
@@ -122,7 +120,7 @@ div.heading_with_menu h1, div.heading_with_menu h2, div.heading_with_menu h3, di
     width: 60%;
 }
 
-div.heading_with_menu ul {
+.heading_with_menu ul {
     display: block;
     clear: none;
     float: right;
@@ -133,19 +131,25 @@ div.heading_with_menu ul {
     margin-top: 10px;
 }
 
+input.parameter {
+    width: 300px;
+    border: 1px solid #aaa;
+}
+
 .body-textarea {
     width: 300px;
     height: 100px;
+    border: 1px solid #aaa;
 }
 
 p {
     line-height: 1.4em;
-    padding: 0 0 10px 0;
+    padding: 0 0 10px;
     color: #333333;
 }
 
 ol {
-    margin: 0px 0 10px 0;
+    margin: 0px 0 10px;
     padding: 0 0 0 18px;
     list-style-type: decimal;
 }
@@ -167,8 +171,7 @@ ol li {
 .markdown pre {
     font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
     background-color: #fcf6db;
-    border: 1px solid black;
-    border-color: #e5e0c6;
+    border: 1px solid #e5e0c6;
     padding: 10px;
     margin: 0 0 10px 0;
 }
@@ -186,7 +189,7 @@ ol li {
 
 .markdown ol, .markdown ul {
     font-family: "Droid Sans", sans-serif;
-    margin: 5px 0 10px 0;
+    margin: 5px 0 10px;
     padding: 0 0 0 18px;
     list-style-type: disc;
 }
@@ -219,9 +222,8 @@ a {
     color: #547f00;
 }
 
-strong {
+b, strong {
     font-family: "Droid Sans", sans-serif;
-    font-weight: bold;
     font-weight: bold;
 }
 
@@ -232,10 +234,8 @@ strong {
 pre {
     font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
     background-color: #fcf6db;
-    border: 1px solid black;
-    border-color: #e5e0c6;
+    border: 1px solid #e5e0c6;
     padding: 10px;
-    /* white-space: pre-line */
 }
 
 pre code {
@@ -279,8 +279,7 @@ table tbody tr.offset {
 
 form.form_box {
     background-color: #ebf3f9;
-    border: 1px solid black;
-    border-color: #c3d9ec;
+    border: 1px solid #c3d9ec;
     padding: 10px;
 }
 
@@ -295,7 +294,7 @@ form.form_box input[type=submit] {
 
 form.form_box p {
     font-size: 0.9em;
-    padding: 0 0 15px 0;
+    padding: 0 0 15px;
     color: #7e7b6d;
 }
 
@@ -322,7 +321,7 @@ form.formtastic fieldset.inputs ol li label {
     display: block;
     clear: both;
     width: auto;
-    padding: 0 0 3px 0;
+    padding: 0 0 3px;
     color: #666666;
 }
 
@@ -499,7 +498,7 @@ body ul#resources li.resource div.heading {
 
 body ul#resources li.resource div.heading h2 {
     color: #999999;
-    padding-left: 0px;
+    padding-left: 0;
     display: block;
     clear: none;
     float: left;
@@ -516,10 +515,7 @@ body ul#resources li.resource div.heading h2 a:hover {
 }
 
 body ul#resources li.resource div.heading ul.options {
-    float: none;
-    clear: both;
     overflow: hidden;
-    margin: 0;
     padding: 0;
     display: block;
     clear: none;
@@ -572,8 +568,8 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     clear: both;
     overflow: hidden;
     display: block;
-    margin: 0 0 10px 0;
-    padding: 0 0 0 0px;
+    margin: 0 0 10px;
+    padding: 0;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading {
@@ -581,11 +577,10 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     clear: both;
     overflow: hidden;
     display: block;
-    margin: 0 0 0 0;
+    margin: 0;
     padding: 0;
     background-color: #e7f0f7;
-    border: 1px solid black;
-    border-color: #c3d9ec;
+    border: 1px solid #c3d9ec;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading h3 {
@@ -636,10 +631,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options {
-    float: none;
-    clear: both;
     overflow: hidden;
-    margin: 0;
     padding: 0;
     display: block;
     clear: none;
@@ -681,8 +673,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content {
     background-color: #ebf3f9;
-    border: 1px solid black;
-    border-color: #c3d9ec;
+    border: 1px solid #c3d9ec;
     border-top: none;
     padding: 10px;
     -moz-border-radius-bottomleft: 6px;
@@ -697,14 +688,14 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     -ms-border-bottom-right-radius: 6px;
     -khtml-border-bottom-right-radius: 6px;
     border-bottom-right-radius: 6px;
-    margin: 0 0 20px 0;
+    margin: 0 0 20px;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content h4 {
     color: #0f6ab4;
     font-size: 1.1em;
     margin: 0;
-    padding: 15px 0 5px 0px;
+    padding: 15px 0 5px;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content form input[type='text'].error {
@@ -728,7 +719,6 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content div.sandbox_header img {
     display: block;
-    display: block;
     clear: none;
     float: right;
 }
@@ -738,12 +728,6 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     color: #6fa5d2;
     display: inline-block;
     font-size: 0.9em;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content div.response div.block {
-    background-color: #fcf6db;
-    border: 1px solid black;
-    border-color: #e5e0c6;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content div.response div.block pre {
@@ -759,8 +743,8 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     clear: both;
     overflow: hidden;
     display: block;
-    margin: 0 0 10px 0;
-    padding: 0 0 0 0px;
+    margin: 0 0 10px;
+    padding: 0;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading {
@@ -768,11 +752,10 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     clear: both;
     overflow: hidden;
     display: block;
-    margin: 0 0 0 0;
+    margin: 0;
     padding: 0;
     background-color: #e7f6ec;
-    border: 1px solid black;
-    border-color: #c3e8d1;
+    border: 1px solid #c3e8d1;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading h3 {
@@ -823,10 +806,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options {
-    float: none;
-    clear: both;
     overflow: hidden;
-    margin: 0;
     padding: 0;
     display: block;
     clear: none;
@@ -868,8 +848,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content {
     background-color: #ebf7f0;
-    border: 1px solid black;
-    border-color: #c3e8d1;
+    border: 1px solid #c3e8d1;
     border-top: none;
     padding: 10px;
     -moz-border-radius-bottomleft: 6px;
@@ -884,14 +863,14 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     -ms-border-bottom-right-radius: 6px;
     -khtml-border-bottom-right-radius: 6px;
     border-bottom-right-radius: 6px;
-    margin: 0 0 20px 0;
+    margin: 0 0 20px;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content h4 {
     color: #10a54a;
     font-size: 1.1em;
     margin: 0;
-    padding: 15px 0 5px 0px;
+    padding: 15px 0 5px;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content form input[type='text'].error {
@@ -915,7 +894,6 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content div.sandbox_header img {
     display: block;
-    display: block;
     clear: none;
     float: right;
 }
@@ -925,12 +903,6 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     color: #6fc992;
     display: inline-block;
     font-size: 0.9em;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content div.response div.block {
-    background-color: #fcf6db;
-    border: 1px solid black;
-    border-color: #e5e0c6;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content div.response div.block pre {
@@ -946,8 +918,8 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     clear: both;
     overflow: hidden;
     display: block;
-    margin: 0 0 10px 0;
-    padding: 0 0 0 0px;
+    margin: 0 0 10px;
+    padding: 0;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading {
@@ -955,11 +927,10 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     clear: both;
     overflow: hidden;
     display: block;
-    margin: 0 0 0 0;
+    margin: 0;
     padding: 0;
     background-color: #f9f2e9;
-    border: 1px solid black;
-    border-color: #f0e0ca;
+    border: 1px solid #f0e0ca;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading h3 {
@@ -987,7 +958,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     width: 50px;
     font-size: 0.7em;
     text-align: center;
-    padding: 7px 0 4px 0;
+    padding: 7px 0 4px;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
     -o-border-radius: 2px;
@@ -1010,10 +981,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options {
-    float: none;
-    clear: both;
     overflow: hidden;
-    margin: 0;
     padding: 0;
     display: block;
     clear: none;
@@ -1055,8 +1023,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content {
     background-color: #faf5ee;
-    border: 1px solid black;
-    border-color: #f0e0ca;
+    border: 1px solid #f0e0ca;
     border-top: none;
     padding: 10px;
     -moz-border-radius-bottomleft: 6px;
@@ -1071,14 +1038,14 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     -ms-border-bottom-right-radius: 6px;
     -khtml-border-bottom-right-radius: 6px;
     border-bottom-right-radius: 6px;
-    margin: 0 0 20px 0;
+    margin: 0 0 20px;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content h4 {
     color: #c5862b;
     font-size: 1.1em;
     margin: 0;
-    padding: 15px 0 5px 0px;
+    padding: 15px 0 5px;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content form input[type='text'].error {
@@ -1102,7 +1069,6 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content div.sandbox_header img {
     display: block;
-    display: block;
     clear: none;
     float: right;
 }
@@ -1114,12 +1080,6 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     font-size: 0.9em;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content div.response div.block {
-    background-color: #fcf6db;
-    border: 1px solid black;
-    border-color: #e5e0c6;
-}
-
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content div.response div.block pre {
     font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
     padding: 10px;
@@ -1128,14 +1088,13 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     overflow-y: auto;
 }
 
-
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch {
     float: none;
     clear: both;
     overflow: hidden;
     display: block;
-    margin: 0 0 10px 0;
-    padding: 0 0 0 0px;
+    margin: 0 0 10px;
+    padding: 0;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading {
@@ -1143,11 +1102,10 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     clear: both;
     overflow: hidden;
     display: block;
-    margin: 0 0 0 0;
+    margin: 0;
     padding: 0;
     background-color: #FCE9E3;
-    border: 1px solid black;
-    border-color: #F5D5C3;
+    border: 1px solid #F5D5C3;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading h3 {
@@ -1198,10 +1156,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options {
-    float: none;
-    clear: both;
     overflow: hidden;
-    margin: 0;
     padding: 0;
     display: block;
     clear: none;
@@ -1243,8 +1198,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content {
     background-color: #faf0ef;
-    border: 1px solid black;
-    border-color: #f0cecb;
+    border: 1px solid #f0cecb;
     border-top: none;
     padding: 10px;
     -moz-border-radius-bottomleft: 6px;
@@ -1259,14 +1213,14 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     -ms-border-bottom-right-radius: 6px;
     -khtml-border-bottom-right-radius: 6px;
     border-bottom-right-radius: 6px;
-    margin: 0 0 20px 0;
+    margin: 0 0 20px;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content h4 {
     color: #D38042;
     font-size: 1.1em;
     margin: 0;
-    padding: 15px 0 5px 0px;
+    padding: 15px 0 5px;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content form input[type='text'].error {
@@ -1290,7 +1244,6 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content div.sandbox_header img {
     display: block;
-    display: block;
     clear: none;
     float: right;
 }
@@ -1300,12 +1253,6 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     color: #dcb67f;
     display: inline-block;
     font-size: 0.9em;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content div.response div.block {
-    background-color: #fcf6db;
-    border: 1px solid black;
-    border-color: #e5e0c6;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content div.response div.block pre {
@@ -1321,8 +1268,8 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     clear: both;
     overflow: hidden;
     display: block;
-    margin: 0 0 10px 0;
-    padding: 0 0 0 0px;
+    margin: 0 0 10px;
+    padding: 0;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading {
@@ -1330,11 +1277,10 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     clear: both;
     overflow: hidden;
     display: block;
-    margin: 0 0 0 0;
+    margin: 0;
     padding: 0;
     background-color: #f5e8e8;
-    border: 1px solid black;
-    border-color: #e8c6c7;
+    border: 1px solid #e8c6c7;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading h3 {
@@ -1385,10 +1331,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options {
-    float: none;
-    clear: both;
     overflow: hidden;
-    margin: 0;
     padding: 0;
     display: block;
     clear: none;
@@ -1430,8 +1373,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content {
     background-color: #f7eded;
-    border: 1px solid black;
-    border-color: #e8c6c7;
+    border: 1px solid #e8c6c7;
     border-top: none;
     padding: 10px;
     -moz-border-radius-bottomleft: 6px;
@@ -1453,7 +1395,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     color: #a41e22;
     font-size: 1.1em;
     margin: 0;
-    padding: 15px 0 5px 0px;
+    padding: 15px 0 5px;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content form input[type='text'].error {
@@ -1477,7 +1419,6 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content div.sandbox_header img {
     display: block;
-    display: block;
     clear: none;
     float: right;
 }
@@ -1487,12 +1428,6 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     color: #c8787a;
     display: inline-block;
     font-size: 0.9em;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content div.response div.block {
-    background-color: #fcf6db;
-    border: 1px solid black;
-    border-color: #e5e0c6;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content div.response div.block pre {
@@ -1509,12 +1444,24 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     font-size: 1em;
     line-height: 1.5em;
 }
-.model-signature .description span {
+
+.model-signature .description div {
     font-size: 0.9em;
     line-height: 1.5em;
+    margin-left: 1em;
 }
-.model-signature .description span:nth-child(odd)    { color:#333; }
-.model-signature .description span:nth-child(even)    { color:#C5862B; }
+
+.model-signature .description .strong {
+    font-weight: bold;
+    color: #000;
+    font-size: .9em;
+}
+
+.model-signature .description .stronger {
+    font-weight: bold;
+    color: #000;
+}
+
 .model-signature .signature-nav a {
     text-decoration: none;
     color: #AAA;
@@ -1551,24 +1498,16 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 }
 
 .model-signature ul.signature-nav {
-    float: none;
-    clear: both;
-    overflow: hidden;
+    display: block;
     margin: 0;
     padding: 0;
-    display: block;
-    clear: none;
-    float: right;
-    margin-right: 5px;
-    margin-bottom: 5px;
 }
 
 .model-signature ul.signature-nav li {
     float: left;
-    clear: none;
-    margin: 0;
-    padding: 2px 10px;
-    border-right: 1px solid #dddddd;
+    margin: 0 5px 5px 0;
+    padding: 2px 5px 2px 0;
+    border-right: 1px solid #ddd;
 }
 
 .model-signature ul.signature-nav li:last-child {
@@ -1576,8 +1515,27 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     border-right: none;
 }
 
+.model-signature .propName {
+  font-weight: bold;
+}
+.model-signature .propType {
+  color: #5555aa;
+}
+.model-signature .propOptKey {
+  font-style: italic;
+}
+.model-signature .propOpt {
+  color: #555;
+}
+
 pre code {
   background: none;
+}
+
+.content pre {
+  font-size: 12px;
+  margin-top: 5px;
+  padding: 5px;
 }
 
 .content > .content-type > div > label {
@@ -1586,5 +1544,29 @@ pre code {
   color: #0F6AB4;
   font-size: 1.1em;
   margin: 0;
-  padding: 15px 0 5px 0px;
+  padding: 15px 0 5px;
+}
+
+.swagger-ui-wrap {
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.icon-btn {
+  cursor: pointer;
+}
+
+#message-bar {
+  min-height: 30px;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.message-success {
+  color: #89BF04;
+}
+
+.message-fail {
+  color: #cc0000;
 }

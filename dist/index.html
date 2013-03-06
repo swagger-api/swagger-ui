@@ -16,35 +16,9 @@
     <script src='swagger-ui.js' type='text/javascript'></script>
     <script src='lib/highlight.7.3.pack.js' type='text/javascript'></script>
 
-    <style type="text/css">
-        .swagger-ui-wrap {
-            max-width: 960px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .icon-btn {
-            cursor: pointer;
-        }
-
-        #message-bar {
-            min-height: 30px;
-            text-align: center;
-            padding-top: 10px;
-        }
-
-        .message-success {
-            color: #89BF04;
-        }
-
-        .message-fail {
-            color: #cc0000;
-        }
-    </style>
-
     <script type="text/javascript">
-        $(function () {
-            window.swaggerUi = new SwaggerUi({
+	$(function () {
+	    window.swaggerUi = new SwaggerUi({
                 discoveryUrl:"http://petstore.swagger.wordnik.com/api/api-docs.json",
                 apiKey:"special-key",
                 dom_id:"swagger-ui-container",
