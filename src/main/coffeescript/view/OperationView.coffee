@@ -111,7 +111,8 @@ class OperationView extends Backbone.View
       else if isFormPost
         bodyParam = new FormData()
         for param in @model.parameters
-          bodyParam.append(param.name, map[param.name])
+          if map[param.name]
+            bodyParam.append(param.name, map[param.name])
       else
         bodyParam = null
         for param in @model.parameters
