@@ -17,9 +17,9 @@
 			<input class='parameter' class='required' type='file' name='{{name}}'/>
 		{{else}}
 			{{#if defaultValue}}
-				<input class='parameter' class='required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='{{defaultValue}}'/>
+				<input class='parameter required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='{{defaultValue}}'/>
 			{{else}}
-				<input class='parameter' class='required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value=''/>
+				<input class='parameter required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value=''/>
 			{{/if}}
 		{{/if}}
 	{{/if}}

@@ -1031,7 +1031,7 @@ function program12(depth0,data) {
 function program13(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n				<input class='parameter' class='required' minlength='1' name='";
+  buffer += "\n				<input class='parameter required' minlength='1' name='";
   foundHelper = helpers.name;
   stack1 = foundHelper || depth0.name;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
@@ -1047,7 +1047,7 @@ function program13(depth0,data) {
 function program15(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n				<input class='parameter' class='required' minlength='1' name='";
+  buffer += "\n				<input class='parameter required' minlength='1' name='";
   foundHelper = helpers.name;
   stack1 = foundHelper || depth0.name;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
