@@ -1,7 +1,9 @@
 class OperationView extends Backbone.View
+
   events: {
   'submit .sandbox'         : 'submitOperation'
   'click .submit'           : 'submitOperation'
+  'click .close'            : 'closeOperation'
   'click .response_hider'   : 'hideResponse'
   'click .toggleOperation'  : 'toggleOperationContent'
   }
@@ -55,6 +57,13 @@ class OperationView extends Backbone.View
     # Render status codes
     statusCodeView = new StatusCodeView({model: statusCode, tagName: 'tr'})
     $('.operation-status', $(@el)).append statusCodeView.render().el
+
+  closeOperation: (e) ->
+    if @ws?
+      @ws.close()
+      $(".response_throbber", $(@el)).hide()
+      $(".close", $(@el)).attr('disabled', '')
+      $('input.submit', $(@el)).removeAttr('disabled')
   
   submitOperation: (e) ->
     e?.preventDefault()
@@ -133,6 +142,28 @@ class OperationView extends Backbone.View
 
       $(".request_url", $(@el)).html "<pre>" + invocationUrl + "</pre>"
       $(".response_throbber", $(@el)).show()
+
+      if @model.protocols and 'ws' in @model.protocols
+        protocolLength = invocationUrl.indexOf(':')
+        newUrl = 'ws' + invocationUrl.substring(protocolLength)
+        button = $('input.close[name="close"]', $(@el))
+        $('input.submit', $(@el)).attr('disabled', '')
+        @ws = new WebSocket(newUrl)
+        if bodyParam?
+          @ws.onopen = =>
+            @ws.send(bodyParam)
+        button.show()
+        button.removeAttr('disabled')
+        @ws.onmessage =  (e) =>
+          responseBodyPre = $(".response_body > pre", $(@el))
+          $(".response_hider", $(@el)).show()
+          $(".response_code_container", $(@el)).hide()
+          $(".response_headers_container", $(@el)).hide()
+          responseBodyPre.append(e.data + '\n')
+          responseBodyPre.animate({ scrollTop: responseBodyPre[0].scrollHeight }, 200);
+          $(".response", $(@el)).slideDown()
+
+        return false
 
       obj = 
         type: @model.httpMethod
@@ -251,9 +282,9 @@ class OperationView extends Backbone.View
       code = $('<code />').text(@formatXml(data.responseText))
       pre = $('<pre class="xml" />').append(code)
     response_body = pre
-    $(".response_code", $(@el)).html "<pre>" + data.status + "</pre>"
+    $(".response_code > pre", $(@el)).text data.status
     $(".response_body", $(@el)).html response_body
-    $(".response_headers", $(@el)).html "<pre>" + data.getAllResponseHeaders() + "</pre>"
+    $(".response_headers > pre", $(@el)).text  data.getAllResponseHeaders()
     $(".response", $(@el)).slideDown()
     $(".response_hider", $(@el)).show()
     $(".response_throbber", $(@el)).hide()

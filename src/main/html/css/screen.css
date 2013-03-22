@@ -1570,3 +1570,7 @@ pre code {
 .message-fail {
   color: #cc0000;
 }
+
+body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content div.sandbox_header input.close[name="close"] {
+    display: none;
+}
