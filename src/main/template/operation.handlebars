@@ -64,20 +64,37 @@
                     {{else}}
                     <div class='sandbox_header'>
                         <input class='submit' name='commit' type='button' value='Try it out!' />
+                        <input class='close' name='close' type='button' value='Close' />
                         <a href='#' class='response_hider' style='display:none'>Hide Response</a>
                         <img alt='Throbber' class='response_throbber' src='images/throbber.gif' style='display:none' />
                     </div>
                     {{/if}}
                 </form>
                 <div class='response' style='display:none'>
-                    <h4>Request URL</h4>
-                    <div class='block request_url'></div>
-                    <h4>Response Body</h4>
-                    <div class='block response_body'></div>
-                    <h4>Response Code</h4>
-                    <div class='block response_code'></div>
-                    <h4>Response Headers</h4>
-                    <div class='block response_headers'></div>
+                    <div class='request_uril_container'>
+                        <h4>Request URL</h4>
+                        <div class='block request_url'>
+                            <pre />
+                        </div>
+                    </div>
+                    <div class='response_body_container'>
+                        <h4>Response Body</h4>
+                        <div class='block response_body'>
+                            <pre />
+                        </div>
+                    </div>
+                    <div class='response_code_container'>
+                        <h4>Response Code</h4>
+                        <div class='block response_code'>
+                            <pre />
+                        </div>
+                    </div>
+                    <div class='response_headers_container'>
+                        <h4>Response Headers</h4>
+                        <div class='block response_headers'>
+                            <pre />
+                        </div>
+                    </div>
                 </div>
             </div>
         </li>
