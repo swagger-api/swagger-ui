@@ -1590,7 +1590,7 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
           _ref2 = this.model.parameters;
           for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
             param = _ref2[_k];
-            if (param.paramType === 'body' && param.name !== 'file') {
+            if ((param.paramType === 'body' || 'form') && param.name !== 'file') {
               bodyParam.append(param.name, map[param.name]);
             }
           }
