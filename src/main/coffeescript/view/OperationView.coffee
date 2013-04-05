@@ -153,8 +153,12 @@ class OperationView extends Backbone.View
       if paramContentTypeField
         obj.contentType = paramContentTypeField
 
-      if not obj.data
+      log 'content type = ' + obj.contentType
+
+      if not obj.data or (obj.type is 'GET' or obj.type is 'DELETE')
         obj.contentType = false
+
+      log 'content type is now = ' + obj.contentType
 
       responseContentTypeField = $('.content > .content-type > div > select[name=contentType]', $(@el)).val()
       if responseContentTypeField

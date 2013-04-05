@@ -1643,6 +1643,11 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
         if (paramContentTypeField) {
           obj.contentType = paramContentTypeField;
         }
+        log('content type = ' + obj.contentType);
+        if (!obj.data || (obj.type === 'GET' || obj.type === 'DELETE')) {
+          obj.contentType = false;
+        }
+        log('content type is now = ' + obj.contentType);
         responseContentTypeField = $('.content > .content-type > div > select[name=contentType]', $(this.el)).val();
         if (responseContentTypeField) {
           obj.headers = obj.headers != null ? obj.headers : {};
