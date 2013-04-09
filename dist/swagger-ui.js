@@ -1590,7 +1590,7 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
           _ref2 = this.model.parameters;
           for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
             param = _ref2[_k];
-            if ((param.paramType === 'body' || 'form') && param.name !== 'file') {
+            if ((param.paramType === 'body' || 'form') && param.name !== 'file' && (map[param.name] != null)) {
               bodyParam.append(param.name, map[param.name]);
             }
           }
@@ -1603,7 +1603,9 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
           _ref3 = this.model.parameters;
           for (_l = 0, _len3 = _ref3.length; _l < _len3; _l++) {
             param = _ref3[_l];
-            bodyParam.append(param.name, map[param.name]);
+            if (map[param.name] != null) {
+              bodyParam.append(param.name, map[param.name]);
+            }
           }
         } else {
           bodyParam = null;
