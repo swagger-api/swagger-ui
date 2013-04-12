@@ -433,11 +433,11 @@ body #header form#api_selector .input input {
 }
 
 body #header form#api_selector .input input#input_baseUrl {
-    width: 400px;
+    width: 270px;
 }
 
-body #header form#api_selector .input input#input_apiKey {
-    width: 200px;
+body #header form#api_selector .input input.input_consumerSmth {
+    width: 142px;
 }
 
 body #header form#api_selector .input a#explore {

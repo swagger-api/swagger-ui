@@ -36,14 +36,26 @@ class SwaggerUi extends Backbone.Router
   updateSwaggerUi: (data) ->
     @options.discoveryUrl = data.discoveryUrl
     @options.apiKey = data.apiKey
+    @options.consumerSecret = data.consumerSecret
     @load()
 
   # Create an api and render
   load: ->
     # Initialize the API object
     @mainView?.clear()
-    @headerView.update(@options.discoveryUrl, @options.apiKey)
+    @headerView.update(@options)
     @api = new SwaggerApi(@options)
+
+    if @options.apiKey and @options.consumerSecret
+      auth = ohauth.headerGenerator
+        consumer_key:    @options.apiKey
+        consumer_secret: @options.consumerSecret
+      @api.headersGen = (obj) ->
+        Authorization: auth(obj.type, obj.url, obj.data)
+
+      delete @options.apiKey
+    else
+      @api.headersGen = @options.headersGen or -> {}
 
   # This is bound to success handler for SwaggerApi
   #  so it gets called when SwaggerApi completes loading
