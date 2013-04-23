@@ -36,7 +36,7 @@ You may choose to customize Swagger UI for your organization. Here is an overvie
     -    src/main/coffeescript: main code in CoffeeScript
     -    src/main/templates: [handlebars](http://handlebarsjs.com/) templates used to render swagger-ui
     -    src/main/html: the html files, some images and css
-    -    src/main/javascript: some legacy javascript referenced by CofffeeScript code
+    -    src/main/javascript: some legacy javascript referenced by CoffeeScript code
 
 ### SwaggerUi
 To use swagger-ui you should take a look at the [source of swagger-ui html page](https://github.com/wordnik/swagger-ui/tree/master/src/main/html) and customize it. This basically requires you to instantiate a SwaggerUi object and call load() on it as below:
