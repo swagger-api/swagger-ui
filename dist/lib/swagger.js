@@ -324,7 +324,7 @@
       return _results;
     };
 
-    SwaggerModel.prototype.getMockSignature = function(prefix, modelsToIgnore) {
+    SwaggerModel.prototype.getMockSignature = function(modelsToIgnore) {
       var classClose, classOpen, prop, propertiesStr, returnVal, strong, strongClose, stronger, _i, _j, _len, _len1, _ref, _ref1;
       propertiesStr = [];
       _ref = this.properties;
@@ -332,15 +332,12 @@
         prop = _ref[_i];
         propertiesStr.push(prop.toString());
       }
-      strong = '<span style="font-weight: bold; color: #000; font-size: 1.0em">';
-      stronger = '<span style="font-weight: bold; color: #000; font-size: 1.1em">';
+      strong = '<span class="strong">';
+      stronger = '<span class="stronger">';
       strongClose = '</span>';
-      classOpen = strong + 'class ' + this.name + '(' + strongClose;
-      classClose = strong + ')' + strongClose;
-      returnVal = classOpen + '<span>' + propertiesStr.join('</span>, <span>') + '</span>' + classClose;
-      if (prefix != null) {
-        returnVal = stronger + prefix + strongClose + '<br/>' + returnVal;
-      }
+      classOpen = strong + this.name + ' {' + strongClose;
+      classClose = strong + '}' + strongClose;
+      returnVal = classOpen + '<div>' + propertiesStr.join(',</div><div>') + '</div>' + classClose;
       if (!modelsToIgnore) {
         modelsToIgnore = [];
       }
@@ -349,7 +346,7 @@
       for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
         prop = _ref1[_j];
         if ((prop.refModel != null) && (modelsToIgnore.indexOf(prop.refModel)) === -1) {
-          returnVal = returnVal + ('<br>' + prop.refModel.getMockSignature(void 0, modelsToIgnore));
+          returnVal = returnVal + ('<br>' + prop.refModel.getMockSignature(modelsToIgnore));
         }
       }
       return returnVal;
@@ -377,6 +374,7 @@
       this.dataType = obj.type;
       this.isArray = this.dataType.toLowerCase() === 'array';
       this.descr = obj.description;
+      this.required = obj.required;
       if (obj.items != null) {
         if (obj.items.type != null) {
           this.refDataType = obj.items.type;
@@ -414,13 +412,18 @@
     };
 
     SwaggerModelProperty.prototype.toString = function() {
-      var str;
-      str = this.name + ': ' + this.dataTypeWithRef;
+      var req, str;
+      req = this.required ? 'propReq' : 'propOpt';
+      str = '<span class="propName ' + req + '">' + this.name + '</span> (<span class="propType">' + this.dataTypeWithRef + '</span>';
+      if (!this.required) {
+        str += ', <span class="propOptKey">optional</span>';
+      }
+      str += ')';
       if (this.values != null) {
-        str += " = ['" + this.values.join("' or '") + "']";
+        str += " = <span class='propVals'>['" + this.values.join("' or '") + "']</span>";
       }
       if (this.descr != null) {
-        str += ' {' + this.descr + '}';
+        str += ': <span class="propDesc">' + this.descr + '</span>';
       }
       return str;
     };
@@ -525,9 +528,9 @@
         return dataType;
       } else {
         if (listType != null) {
-          return models[listType].getMockSignature(dataType);
+          return models[listType].getMockSignature();
         } else {
-          return models[dataType].getMockSignature(dataType);
+          return models[dataType].getMockSignature();
         }
       }
     };
