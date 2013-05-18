@@ -42,7 +42,7 @@ class OperationView extends Backbone.View
     @addParameter param for param in @model.parameters
 
     # Render each response code
-    @addStatusCode statusCode for statusCode in @model.errorResponses
+    @addStatusCode statusCode for statusCode in @model.responseCodes
 
     @
 
