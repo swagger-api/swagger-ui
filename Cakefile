@@ -5,6 +5,7 @@ path        = require 'path'
 sourceFiles  = [
   'SwaggerUi'
   'view/HeaderView'
+  'view/DocView'
   'view/MainView'
   'view/ResourceView'
   'view/OperationView'

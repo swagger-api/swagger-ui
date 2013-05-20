@@ -52,7 +52,7 @@
       var _this = this;
       this.progress('fetching resource list: ' + this.discoveryUrl);
       return jQuery.getJSON(this.discoveryUrl, function(response) {
-        var res, resource, _i, _j, _len, _len1, _ref, _ref1;
+        var modelsResource, res, resource, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
         if (response.apiVersion != null) {
           _this.apiVersion = response.apiVersion;
         }
@@ -86,10 +86,30 @@
             res.ready = true;
             _this.selfReflect();
           }
-        } else {
-          _ref1 = response.apis;
+        } else if (response.sharedModels != null) {
+          _ref1 = response.sharedModels;
           for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-            resource = _ref1[_j];
+            modelsResource = _ref1[_j];
+            res = new SwaggerResource(modelsResource, _this, function() {
+              var _k, _len2, _ref2, _results;
+              _this.apis[res.name] = res;
+              _this.setConsolidatedModels();
+              _this.apis = {};
+              _ref2 = response.apis;
+              _results = [];
+              for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+                resource = _ref2[_k];
+                res = new SwaggerResource(resource, _this);
+                _this.apis[res.name] = res;
+                _results.push(_this.apisArray.push(res));
+              }
+              return _results;
+            });
+          }
+        } else {
+          _ref2 = response.apis;
+          for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+            resource = _ref2[_k];
             res = new SwaggerResource(resource, _this);
             _this.apis[res.name] = res;
             _this.apisArray.push(res);
@@ -192,7 +212,7 @@
 
   SwaggerResource = (function() {
 
-    function SwaggerResource(resourceObj, api) {
+    function SwaggerResource(resourceObj, api, initializedCallback) {
       var parts,
         _this = this;
       this.api = api;
@@ -207,7 +227,7 @@
       this.models = {};
       if ((resourceObj.operations != null) && (this.api.resourcePath != null)) {
         this.api.progress('reading resource ' + this.name + ' models and operations');
-        this.addModels(resourceObj.models);
+        this.addModels(resourceObj.models, this.api.models);
         this.addOperations(resourceObj.path, resourceObj.operations);
         this.api[this.name] = this;
       } else {
@@ -216,30 +236,39 @@
         }
         this.url = this.api.suffixApiKey(this.api.basePath + this.path.replace('{format}', 'json'));
         this.api.progress('fetching resource ' + this.name + ': ' + this.url);
-        jQuery.getJSON(this.url, function(response) {
-          var endpoint, _i, _len, _ref;
-          if ((response.basePath != null) && jQuery.trim(response.basePath).length > 0) {
-            _this.basePath = response.basePath;
-            _this.basePath = _this.basePath.replace(/\/$/, '');
-          }
-          _this.addModels(response.models);
-          if (response.apis) {
-            _ref = response.apis;
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              endpoint = _ref[_i];
-              _this.addOperations(endpoint.path, endpoint.operations);
+        jQuery.ajax({
+          dataType: "json",
+          url: this.url,
+          cache: false,
+          success: function(response) {
+            var endpoint, _i, _len, _ref;
+            if ((response.basePath != null) && jQuery.trim(response.basePath).length > 0) {
+              _this.basePath = response.basePath;
+              _this.basePath = _this.basePath.replace(/\/$/, '');
             }
+            _this.addModels(response.models, _this.api.models);
+            if (response.apis) {
+              _ref = response.apis;
+              for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                endpoint = _ref[_i];
+                _this.addOperations(endpoint.path, endpoint.operations);
+              }
+            }
+            _this.api[_this.name] = _this;
+            _this.ready = true;
+            _this.overview = response.overview;
+            if (initializedCallback != null) {
+              initializedCallback();
+            }
+            return _this.api.selfReflect();
           }
-          _this.api[_this.name] = _this;
-          _this.ready = true;
-          return _this.api.selfReflect();
         }).error(function(error) {
           return _this.api.fail("Unable to read api '" + _this.name + "' from path " + _this.url + " (server returned " + error.statusText + ")");
         });
       }
     }
 
-    SwaggerResource.prototype.addModels = function(models) {
+    SwaggerResource.prototype.addModels = function(models, sharedModels) {
       var model, modelName, swaggerModel, _i, _len, _ref, _results;
       if (models != null) {
         for (modelName in models) {
@@ -253,7 +282,7 @@
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           model = _ref[_i];
-          _results.push(model.setReferencedModels(this.models));
+          _results.push(model.setReferencedModels(this.models, sharedModels));
         }
         return _results;
       }
@@ -307,16 +336,19 @@
       }
     }
 
-    SwaggerModel.prototype.setReferencedModels = function(allModels) {
+    SwaggerModel.prototype.setReferencedModels = function(models, sharedModels) {
       var prop, _i, _len, _ref, _results;
       _ref = this.properties;
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         prop = _ref[_i];
-        if (allModels[prop.dataType] != null) {
-          _results.push(prop.refModel = allModels[prop.dataType]);
-        } else if ((prop.refDataType != null) && (allModels[prop.refDataType] != null)) {
-          _results.push(prop.refModel = allModels[prop.refDataType]);
+        if (models[prop.dataType] != null) {
+          _results.push(prop.refModel = models[prop.dataType]);
+        } else if ((sharedModels != null) && (sharedModels[prop.dataType] != null)) {
+          models[prop.dataType] = sharedModels[prop.dataType];
+          _results.push(prop.refModel = models[prop.dataType]);
+        } else if ((prop.refDataType != null) && (models[prop.refDataType] != null)) {
+          _results.push(prop.refModel = models[prop.refDataType]);
         } else {
           _results.push(void 0);
         }
@@ -423,7 +455,7 @@
         str += " = <span class='propVals'>['" + this.values.join("' or '") + "']</span>";
       }
       if (this.descr != null) {
-        str += ': <span class="propDesc">' + this.descr + '</span>';
+        str += '<span class="propDesc">' + this.descr + '</span>';
       }
       return str;
     };

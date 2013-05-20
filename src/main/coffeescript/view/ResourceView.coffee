@@ -4,6 +4,14 @@ class ResourceView extends Backbone.View
   render: ->
     $(@el).html(Handlebars.templates.resource(@model))
 
+    # Render resource overview as a DOC section if it exists
+    if @model.overview
+      docView = new DocView({
+        model: @model,
+        tagName: 'li',
+        className: 'endpoint'})
+      $('.endpoints', $(@el)).append(docView.render().el)
+
     @number = 0
 
     # Render each operation
@@ -11,7 +19,6 @@ class ResourceView extends Backbone.View
     @
 
   addOperation: (operation) ->
-
     operation.number = @number
 
     # Render an operation and add it to operations li

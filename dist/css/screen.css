@@ -563,6 +563,136 @@ body ul#resources li.resource:hover div.heading ul.options li a, body ul#resourc
     color: #555555;
 }
 
+body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.doc {
+    float: none;
+    clear: both;
+    overflow: hidden;
+    display: block;
+    margin: 0 0 10px;
+    padding: 0;
+}
+
+body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.doc div.heading {
+    float: none;
+    clear: both;
+    overflow: hidden;
+    display: block;
+    margin: 0;
+    padding: 0;
+    background-color: #F7E7F5;
+    border: 1px solid #ecc3e6;
+}
+
+body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.doc div.heading h3 {
+    display: block;
+    clear: none;
+    float: left;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    line-height: 1.1em;
+    color: black;
+}
+
+body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.doc div.heading h3 span.http_method a {
+    text-transform: uppercase;
+    background-color: #B40F9B;
+    text-decoration: none;
+    color: white;
+    display: inline-block;
+    width: 50px;
+    font-size: 0.7em;
+    text-align: center;
+    padding: 7px 0 4px 0;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -o-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -khtml-border-radius: 2px;
+    border-radius: 2px;
+}
+
+body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.doc div.heading h3 span.path {
+    padding-left: 10px;
+}
+
+body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.doc div.heading h3 span.path a {
+    color: black;
+    text-decoration: none;
+}
+
+body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.doc div.heading h3 span.path a:hover {
+    text-decoration: underline;
+}
+
+body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.doc div.heading ul.options {
+    overflow: hidden;
+    padding: 0;
+    display: block;
+    clear: none;
+    float: right;
+    margin: 6px 10px 0 0;
+}
+
+body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.doc div.heading ul.options li {
+    float: left;
+    clear: none;
+    margin: 0;
+    padding: 2px 10px;
+    border-right: 1px solid #dddddd;
+}
+
+body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.doc div.heading ul.options li:first-child, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li.first {
+    padding-left: 0;
+}
+
+body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.doc div.heading ul.options li:last-child, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li.last {
+    padding-right: 0;
+    border-right: none;
+}
+
+body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.doc div.heading ul.options li {
+    border-right-color: #ECC3E6;
+    color: #0f6ab4;
+    font-size: 0.9em;
+}
+
+body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.doc div.heading ul.options li a {
+    color: #0f6ab4;
+    text-decoration: none;
+}
+
+body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.doc div.heading ul.options li a:hover, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li a:active, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li a.active {
+    text-decoration: underline;
+}
+
+body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.doc div.content {
+    background-color: #F9EBF7;
+    border: 1px solid #ecc3e6;
+    border-top: none;
+    padding: 10px;
+    -moz-border-radius-bottomleft: 6px;
+    -webkit-border-bottom-left-radius: 6px;
+    -o-border-bottom-left-radius: 6px;
+    -ms-border-bottom-left-radius: 6px;
+    -khtml-border-bottom-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    -moz-border-radius-bottomright: 6px;
+    -webkit-border-bottom-right-radius: 6px;
+    -o-border-bottom-right-radius: 6px;
+    -ms-border-bottom-right-radius: 6px;
+    -khtml-border-bottom-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    margin: 0 0 20px;
+}
+
+body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.doc div.content h4 {
+    color: #0f6ab4;
+    font-size: 1.1em;
+    margin: 0;
+    padding: 15px 0 5px;
+}
+
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get {
     float: none;
     clear: both;
@@ -1714,6 +1844,12 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 .model-signature .propOpt {
   color: #555;
 }
+.model-signature .propDesc {
+  color: #0A0;
+}
+.model-signature .propDesc:before {
+  content: ' // ';
+}
 
 pre code {
   background: none;
@@ -1756,4 +1892,20 @@ pre code {
 
 .message-fail {
   color: #cc0000;
+}
+
+.operation-params dl dt {
+    font-weight: bold;
+}
+
+.operation-params dl dd {
+    padding: 0 0 0 5px;
+}
+
+em.param-name, .operation-params em.param-name {
+    font-style: italic;
+}
+
+em.param-val {
+    font-weight: bold;
 }
