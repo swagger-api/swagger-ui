@@ -456,6 +456,23 @@
       if (this.httpMethod == null) {
         this.resource.api.fail("SwaggerOperation " + nickname + " is missing httpMethod.");
       }
+      n = path.match(/\{[^\}]*\}/g);
+      if (null !== n) {
+        n.sort();
+        num = 1;
+        length = n.length;
+        for (i=0; i!= length; i++) {
+          if (n+1 != length && n[i] === n[i+1]) {
+            ++num;
+          }
+          reg = new RegExp('\\\(\/' + n[i] + '\\\)', 'g');
+          n1 = path.match(reg);
+          if (null !== n1 && n1.length !== num)
+              this.resource.api.fail("SwaggerOperation " + nickname + " : Invalid path " + path + ". All of the path parameter, " + n[i] + " should be optional. ");
+          num = 1;
+        }
+      }
+
       this.path = this.path.replace('{format}', 'json');
       this.httpMethod = this.httpMethod.toLowerCase();
       this.isGetMethod = this.httpMethod === "get";
@@ -596,9 +613,15 @@
             reg = new RegExp('\{' + param.name + '[^\}]*\}', 'gi');
             url = url.replace(reg, encodeURIComponent(args[param.name]));
             delete args[param.name];
-          } else {
-            throw "" + param.name + " is a required path param.";
+          } else{
+            reg = new RegExp('\\\(\/\{' + param.name + '[^\}]*\}\\\)', 'gi');
+            replacedUrl = url.replace(reg, '');
+            if (replacedUrl === url)
+              throw "" + param.name + " is a required path param.";
+            url = replacedUrl;
           }
+          url = url.replace(/\(/, '');
+          url = url.replace(/\)/, '');
         }
       }
       if (includeApiKey && (this.resource.api.api_key != null) && this.resource.api.api_key.length > 0) {
