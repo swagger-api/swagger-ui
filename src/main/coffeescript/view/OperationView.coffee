@@ -100,7 +100,7 @@ class OperationView extends Backbone.View
 
         # add params except file
         for param in @model.parameters
-          if (param.paramType is 'body' or 'form') and param.name isnt 'file' and map[param.name]?
+          if (param.paramType is 'body' or 'form') and param.name isnt 'file' and param.name isnt 'File' and map[param.name]?
             bodyParam.append(param.name, map[param.name])
 
         # add files
