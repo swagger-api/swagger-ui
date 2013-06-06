@@ -403,20 +403,7 @@
         if (this.isCollection) {
           result = this.refDataType;
         } else {
-            if(this.dataType === 'int'){
-                result = 0;
-
-            }else if(this.dataType === 'long' || this.dataType === 'float'){
-                result = parseFloat("0.1");
-            }
-            else if(this.dataType === 'boolean')
-            {
-                result = false;
-            }
-            else
-            {
-                result = this.dataType;
-            }
+          result = this.dataType;
         }
       }
       if (this.isCollection) {
