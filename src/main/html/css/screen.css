@@ -475,20 +475,20 @@ body p#colophon a {
     color: #547f00;
 }
 
-body ul#resources {
+body ul.resources {
     font-family: "Droid Sans", sans-serif;
     font-size: 0.9em;
 }
 
-body ul#resources li.resource {
+body ul.resources li.resource {
     border-bottom: 1px solid #dddddd;
 }
 
-body ul#resources li.resource:last-child {
+body ul.resources li.resource:last-child {
     border-bottom: none;
 }
 
-body ul#resources li.resource div.heading {
+body ul.resources li.resource div.heading {
     border: 1px solid transparent;
     float: none;
     clear: both;
@@ -496,7 +496,7 @@ body ul#resources li.resource div.heading {
     display: block;
 }
 
-body ul#resources li.resource div.heading h2 {
+body ul.resources li.resource div.heading h2 {
     color: #999999;
     padding-left: 0;
     display: block;
@@ -506,15 +506,15 @@ body ul#resources li.resource div.heading h2 {
     font-weight: bold;
 }
 
-body ul#resources li.resource div.heading h2 a {
+body ul.resources li.resource div.heading h2 a {
     color: #999999;
 }
 
-body ul#resources li.resource div.heading h2 a:hover {
+body ul.resources li.resource div.heading h2 a:hover {
     color: black;
 }
 
-body ul#resources li.resource div.heading ul.options {
+body ul.resources li.resource div.heading ul.options {
     overflow: hidden;
     padding: 0;
     display: block;
@@ -523,7 +523,7 @@ body ul#resources li.resource div.heading ul.options {
     margin: 14px 10px 0 0;
 }
 
-body ul#resources li.resource div.heading ul.options li {
+body ul.resources li.resource div.heading ul.options li {
     float: left;
     clear: none;
     margin: 0;
@@ -531,39 +531,39 @@ body ul#resources li.resource div.heading ul.options li {
     border-right: 1px solid #dddddd;
 }
 
-body ul#resources li.resource div.heading ul.options li:first-child, body ul#resources li.resource div.heading ul.options li.first {
+body ul.resources li.resource div.heading ul.options li:first-child, body ul.resources li.resource div.heading ul.options li.first {
     padding-left: 0;
 }
 
-body ul#resources li.resource div.heading ul.options li:last-child, body ul#resources li.resource div.heading ul.options li.last {
+body ul.resources li.resource div.heading ul.options li:last-child, body ul.resources li.resource div.heading ul.options li.last {
     padding-right: 0;
     border-right: none;
 }
 
-body ul#resources li.resource div.heading ul.options li {
+body ul.resources li.resource div.heading ul.options li {
     color: #666666;
     font-size: 0.9em;
 }
 
-body ul#resources li.resource div.heading ul.options li a {
+body ul.resources li.resource div.heading ul.options li a {
     color: #aaaaaa;
     text-decoration: none;
 }
 
-body ul#resources li.resource div.heading ul.options li a:hover {
+body ul.resources li.resource div.heading ul.options li a:hover {
     text-decoration: underline;
     color: black;
 }
 
-body ul#resources li.resource:hover div.heading h2 a, body ul#resources li.resource.active div.heading h2 a {
+body ul.resources li.resource:hover div.heading h2 a, body ul.resources li.resource.active div.heading h2 a {
     color: black;
 }
 
-body ul#resources li.resource:hover div.heading ul.options li a, body ul#resources li.resource.active div.heading ul.options li a {
+body ul.resources li.resource:hover div.heading ul.options li a, body ul.resources li.resource.active div.heading ul.options li a {
     color: #555555;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get {
     float: none;
     clear: both;
     overflow: hidden;
@@ -572,7 +572,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     padding: 0;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading {
     float: none;
     clear: both;
     overflow: hidden;
@@ -583,7 +583,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     border: 1px solid #c3d9ec;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading h3 {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading h3 {
     display: block;
     clear: none;
     float: left;
@@ -594,12 +594,12 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     color: black;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading h3 span {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading h3 span {
     margin: 0;
     padding: 0;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading h3 span.http_method a {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading h3 span.http_method a {
     text-transform: uppercase;
     background-color: #0f6ab4;
     text-decoration: none;
@@ -617,20 +617,20 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     border-radius: 2px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading h3 span.path {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading h3 span.path {
     padding-left: 10px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading h3 span.path a {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading h3 span.path a {
     color: black;
     text-decoration: none;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading h3 span.path a:hover {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading h3 span.path a:hover {
     text-decoration: underline;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options {
     overflow: hidden;
     padding: 0;
     display: block;
@@ -639,7 +639,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     margin: 6px 10px 0 0;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li {
     float: left;
     clear: none;
     margin: 0;
@@ -647,31 +647,31 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     border-right: 1px solid #dddddd;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li:first-child, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li.first {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li:first-child, body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li.first {
     padding-left: 0;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li:last-child, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li.last {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li:last-child, body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li.last {
     padding-right: 0;
     border-right: none;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li {
     border-right-color: #c3d9ec;
     color: #0f6ab4;
     font-size: 0.9em;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li a {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li a {
     color: #0f6ab4;
     text-decoration: none;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li a:hover, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li a:active, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li a.active {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li a:hover, body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li a:active, body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading ul.options li a.active {
     text-decoration: underline;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content {
     background-color: #ebf3f9;
     border: 1px solid #c3d9ec;
     border-top: none;
@@ -691,46 +691,46 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     margin: 0 0 20px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content h4 {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content h4 {
     color: #0f6ab4;
     font-size: 1.1em;
     margin: 0;
     padding: 15px 0 5px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content form input[type='text'].error {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content form input[type='text'].error {
     outline: 2px solid black;
     outline-color: #cc0000;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content div.sandbox_header {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content div.sandbox_header {
     float: none;
     clear: both;
     overflow: hidden;
     display: block;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content div.sandbox_header input.submit {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content div.sandbox_header input.submit {
     display: block;
     clear: none;
     float: left;
     padding: 6px 8px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content div.sandbox_header img {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content div.sandbox_header img {
     display: block;
     clear: none;
     float: right;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content div.sandbox_header a {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content div.sandbox_header a {
     padding: 4px 0 0 10px;
     color: #6fa5d2;
     display: inline-block;
     font-size: 0.9em;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content div.response div.block pre {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content div.response div.block pre {
     font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
     padding: 10px;
     font-size: 0.9em;
@@ -738,7 +738,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     overflow-y: auto;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post {
     float: none;
     clear: both;
     overflow: hidden;
@@ -747,7 +747,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     padding: 0;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading {
     float: none;
     clear: both;
     overflow: hidden;
@@ -758,7 +758,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     border: 1px solid #c3e8d1;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading h3 {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading h3 {
     display: block;
     clear: none;
     float: left;
@@ -769,12 +769,12 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     color: black;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading h3 span {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading h3 span {
     margin: 0;
     padding: 0;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading h3 span.http_method a {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading h3 span.http_method a {
     text-transform: uppercase;
     background-color: #10a54a;
     text-decoration: none;
@@ -792,20 +792,20 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     border-radius: 2px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading h3 span.path {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading h3 span.path {
     padding-left: 10px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading h3 span.path a {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading h3 span.path a {
     color: black;
     text-decoration: none;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading h3 span.path a:hover {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading h3 span.path a:hover {
     text-decoration: underline;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options {
     overflow: hidden;
     padding: 0;
     display: block;
@@ -814,7 +814,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     margin: 6px 10px 0 0;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options li {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options li {
     float: left;
     clear: none;
     margin: 0;
@@ -822,31 +822,31 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     border-right: 1px solid #dddddd;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options li:first-child, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options li.first {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options li:first-child, body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options li.first {
     padding-left: 0;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options li:last-child, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options li.last {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options li:last-child, body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options li.last {
     padding-right: 0;
     border-right: none;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options li {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options li {
     border-right-color: #c3e8d1;
     color: #10a54a;
     font-size: 0.9em;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options li a {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options li a {
     color: #10a54a;
     text-decoration: none;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options li a:hover, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options li a:active, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options li a.active {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options li a:hover, body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options li a:active, body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.heading ul.options li a.active {
     text-decoration: underline;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content {
     background-color: #ebf7f0;
     border: 1px solid #c3e8d1;
     border-top: none;
@@ -866,46 +866,46 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     margin: 0 0 20px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content h4 {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content h4 {
     color: #10a54a;
     font-size: 1.1em;
     margin: 0;
     padding: 15px 0 5px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content form input[type='text'].error {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content form input[type='text'].error {
     outline: 2px solid black;
     outline-color: #cc0000;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content div.sandbox_header {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content div.sandbox_header {
     float: none;
     clear: both;
     overflow: hidden;
     display: block;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content div.sandbox_header input.submit {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content div.sandbox_header input.submit {
     display: block;
     clear: none;
     float: left;
     padding: 6px 8px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content div.sandbox_header img {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content div.sandbox_header img {
     display: block;
     clear: none;
     float: right;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content div.sandbox_header a {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content div.sandbox_header a {
     padding: 4px 0 0 10px;
     color: #6fc992;
     display: inline-block;
     font-size: 0.9em;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content div.response div.block pre {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content div.response div.block pre {
     font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
     padding: 10px;
     font-size: 0.9em;
@@ -913,7 +913,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     overflow-y: auto;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put {
     float: none;
     clear: both;
     overflow: hidden;
@@ -922,7 +922,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     padding: 0;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading {
     float: none;
     clear: both;
     overflow: hidden;
@@ -933,7 +933,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     border: 1px solid #f0e0ca;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading h3 {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading h3 {
     display: block;
     clear: none;
     float: left;
@@ -944,12 +944,12 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     color: black;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading h3 span {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading h3 span {
     margin: 0;
     padding: 0;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading h3 span.http_method a {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading h3 span.http_method a {
     text-transform: uppercase;
     background-color: #c5862b;
     text-decoration: none;
@@ -967,20 +967,20 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     border-radius: 2px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading h3 span.path {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading h3 span.path {
     padding-left: 10px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading h3 span.path a {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading h3 span.path a {
     color: black;
     text-decoration: none;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading h3 span.path a:hover {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading h3 span.path a:hover {
     text-decoration: underline;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options {
     overflow: hidden;
     padding: 0;
     display: block;
@@ -989,7 +989,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     margin: 6px 10px 0 0;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options li {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options li {
     float: left;
     clear: none;
     margin: 0;
@@ -997,31 +997,31 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     border-right: 1px solid #dddddd;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options li:first-child, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options li.first {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options li:first-child, body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options li.first {
     padding-left: 0;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options li:last-child, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options li.last {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options li:last-child, body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options li.last {
     padding-right: 0;
     border-right: none;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options li {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options li {
     border-right-color: #f0e0ca;
     color: #c5862b;
     font-size: 0.9em;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options li a {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options li a {
     color: #c5862b;
     text-decoration: none;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options li a:hover, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options li a:active, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options li a.active {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options li a:hover, body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options li a:active, body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading ul.options li a.active {
     text-decoration: underline;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content {
     background-color: #faf5ee;
     border: 1px solid #f0e0ca;
     border-top: none;
@@ -1041,46 +1041,46 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     margin: 0 0 20px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content h4 {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content h4 {
     color: #c5862b;
     font-size: 1.1em;
     margin: 0;
     padding: 15px 0 5px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content form input[type='text'].error {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content form input[type='text'].error {
     outline: 2px solid black;
     outline-color: #cc0000;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content div.sandbox_header {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content div.sandbox_header {
     float: none;
     clear: both;
     overflow: hidden;
     display: block;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content div.sandbox_header input.submit {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content div.sandbox_header input.submit {
     display: block;
     clear: none;
     float: left;
     padding: 6px 8px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content div.sandbox_header img {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content div.sandbox_header img {
     display: block;
     clear: none;
     float: right;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content div.sandbox_header a {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content div.sandbox_header a {
     padding: 4px 0 0 10px;
     color: #dcb67f;
     display: inline-block;
     font-size: 0.9em;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content div.response div.block pre {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content div.response div.block pre {
     font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
     padding: 10px;
     font-size: 0.9em;
@@ -1088,7 +1088,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     overflow-y: auto;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch {
     float: none;
     clear: both;
     overflow: hidden;
@@ -1097,7 +1097,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     padding: 0;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading {
     float: none;
     clear: both;
     overflow: hidden;
@@ -1108,7 +1108,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     border: 1px solid #F5D5C3;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading h3 {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading h3 {
     display: block;
     clear: none;
     float: left;
@@ -1119,12 +1119,12 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     color: black;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading h3 span {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading h3 span {
     margin: 0;
     padding: 0;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading h3 span.http_method a {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading h3 span.http_method a {
     text-transform: uppercase;
     background-color: #D38042;
     text-decoration: none;
@@ -1142,20 +1142,20 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     border-radius: 2px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading h3 span.path {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading h3 span.path {
     padding-left: 10px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading h3 span.path a {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading h3 span.path a {
     color: black;
     text-decoration: none;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading h3 span.path a:hover {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading h3 span.path a:hover {
     text-decoration: underline;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options {
     overflow: hidden;
     padding: 0;
     display: block;
@@ -1164,7 +1164,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     margin: 6px 10px 0 0;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li {
     float: left;
     clear: none;
     margin: 0;
@@ -1172,31 +1172,31 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     border-right: 1px solid #dddddd;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li:first-child, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li.first {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li:first-child, body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li.first {
     padding-left: 0;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li:last-child, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li.last {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li:last-child, body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li.last {
     padding-right: 0;
     border-right: none;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li {
     border-right-color: #f0cecb;
     color: #D38042;
     font-size: 0.9em;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li a {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li a {
     color: #D38042;
     text-decoration: none;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li a:hover, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li a:active, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li a.active {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li a:hover, body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li a:active, body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li a.active {
     text-decoration: underline;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content {
     background-color: #faf0ef;
     border: 1px solid #f0cecb;
     border-top: none;
@@ -1216,46 +1216,46 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     margin: 0 0 20px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content h4 {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content h4 {
     color: #D38042;
     font-size: 1.1em;
     margin: 0;
     padding: 15px 0 5px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content form input[type='text'].error {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content form input[type='text'].error {
     outline: 2px solid black;
     outline-color: #F5D5C3;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content div.sandbox_header {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content div.sandbox_header {
     float: none;
     clear: both;
     overflow: hidden;
     display: block;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content div.sandbox_header input.submit {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content div.sandbox_header input.submit {
     display: block;
     clear: none;
     float: left;
     padding: 6px 8px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content div.sandbox_header img {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content div.sandbox_header img {
     display: block;
     clear: none;
     float: right;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content div.sandbox_header a {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content div.sandbox_header a {
     padding: 4px 0 0 10px;
     color: #dcb67f;
     display: inline-block;
     font-size: 0.9em;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content div.response div.block pre {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content div.response div.block pre {
     font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
     padding: 10px;
     font-size: 0.9em;
@@ -1263,194 +1263,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     overflow-y: auto;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head {
-    float: none;
-    clear: both;
-    overflow: hidden;
-    display: block;
-    margin: 0 0 10px 0;
-    padding: 0 0 0 0px;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.heading {
-    float: none;
-    clear: both;
-    overflow: hidden;
-    display: block;
-    margin: 0 0 0 0;
-    padding: 0;
-    background-color: #fcffcd;
-    border: 1px solid black;
-    border-color: #ffd20f;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.heading h3 {
-    display: block;
-    clear: none;
-    float: left;
-    width: auto;
-    margin: 0;
-    padding: 0;
-    line-height: 1.1em;
-    color: black;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.heading h3 span {
-    margin: 0;
-    padding: 0;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.heading h3 span.http_method a {
-    text-transform: uppercase;
-    background-color: #ffd20f;
-    text-decoration: none;
-    color: white;
-    display: inline-block;
-    width: 50px;
-    font-size: 0.7em;
-    text-align: center;
-    padding: 7px 0 4px 0;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
-    -o-border-radius: 2px;
-    -ms-border-radius: 2px;
-    -khtml-border-radius: 2px;
-    border-radius: 2px;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.heading h3 span.path {
-    padding-left: 10px;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.heading h3 span.path a {
-    color: black;
-    text-decoration: none;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.heading h3 span.path a:hover {
-    text-decoration: underline;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.heading ul.options {
-    float: none;
-    clear: both;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-    display: block;
-    clear: none;
-    float: right;
-    margin: 6px 10px 0 0;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.heading ul.options li {
-    float: left;
-    clear: none;
-    margin: 0;
-    padding: 2px 10px;
-    border-right: 1px solid #dddddd;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.heading ul.options li:first-child, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.heading ul.options li.first {
-    padding-left: 0;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.heading ul.options li:last-child, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.heading ul.options li.last {
-    padding-right: 0;
-    border-right: none;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.heading ul.options li {
-    border-right-color: #ffd20f;
-    color: #ffd20f;
-    font-size: 0.9em;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.heading ul.options li a {
-    color: #ffd20f;
-    text-decoration: none;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.heading ul.options li a:hover, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.heading ul.options li a:active, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.heading ul.options li a.active {
-    text-decoration: underline;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.content {
-    background-color: #fcffcd;
-    border: 1px solid black;
-    border-color: #ffd20f;
-    border-top: none;
-    padding: 10px;
-    -moz-border-radius-bottomleft: 6px;
-    -webkit-border-bottom-left-radius: 6px;
-    -o-border-bottom-left-radius: 6px;
-    -ms-border-bottom-left-radius: 6px;
-    -khtml-border-bottom-left-radius: 6px;
-    border-bottom-left-radius: 6px;
-    -moz-border-radius-bottomright: 6px;
-    -webkit-border-bottom-right-radius: 6px;
-    -o-border-bottom-right-radius: 6px;
-    -ms-border-bottom-right-radius: 6px;
-    -khtml-border-bottom-right-radius: 6px;
-    border-bottom-right-radius: 6px;
-    margin: 0 0 20px 0;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.content h4 {
-    color: #ffd20f;
-    font-size: 1.1em;
-    margin: 0;
-    padding: 15px 0 5px 0px;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.content form input[type='text'].error {
-    outline: 2px solid black;
-    outline-color: #cc0000;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.content div.sandbox_header {
-    float: none;
-    clear: both;
-    overflow: hidden;
-    display: block;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.content div.sandbox_header input.submit {
-    display: block;
-    clear: none;
-    float: left;
-    padding: 6px 8px;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.content div.sandbox_header img {
-    display: block;
-    display: block;
-    clear: none;
-    float: right;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.content div.sandbox_header a {
-    padding: 4px 0 0 10px;
-    color: #6fc992;
-    display: inline-block;
-    font-size: 0.9em;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.content div.response div.block {
-    background-color: #fcf6db;
-    border: 1px solid black;
-    border-color: #e5e0c6;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.content div.response div.block pre {
-    font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
-    padding: 10px;
-    font-size: 0.9em;
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete {
     float: none;
     clear: both;
     overflow: hidden;
@@ -1459,7 +1272,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     padding: 0;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading {
     float: none;
     clear: both;
     overflow: hidden;
@@ -1470,7 +1283,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     border: 1px solid #e8c6c7;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading h3 {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading h3 {
     display: block;
     clear: none;
     float: left;
@@ -1481,12 +1294,12 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     color: black;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading h3 span {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading h3 span {
     margin: 0;
     padding: 0;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading h3 span.http_method a {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading h3 span.http_method a {
     text-transform: uppercase;
     background-color: #a41e22;
     text-decoration: none;
@@ -1504,20 +1317,20 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     border-radius: 2px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading h3 span.path {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading h3 span.path {
     padding-left: 10px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading h3 span.path a {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading h3 span.path a {
     color: black;
     text-decoration: none;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading h3 span.path a:hover {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading h3 span.path a:hover {
     text-decoration: underline;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options {
     overflow: hidden;
     padding: 0;
     display: block;
@@ -1526,7 +1339,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     margin: 6px 10px 0 0;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options li {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options li {
     float: left;
     clear: none;
     margin: 0;
@@ -1534,31 +1347,31 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     border-right: 1px solid #dddddd;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options li:first-child, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options li.first {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options li:first-child, body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options li.first {
     padding-left: 0;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options li:last-child, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options li.last {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options li:last-child, body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options li.last {
     padding-right: 0;
     border-right: none;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options li {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options li {
     border-right-color: #e8c6c7;
     color: #a41e22;
     font-size: 0.9em;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options li a {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options li a {
     color: #a41e22;
     text-decoration: none;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options li a:hover, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options li a:active, body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options li a.active {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options li a:hover, body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options li a:active, body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.heading ul.options li a.active {
     text-decoration: underline;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content {
     background-color: #f7eded;
     border: 1px solid #e8c6c7;
     border-top: none;
@@ -1578,46 +1391,46 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     margin: 0 0 20px 0;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content h4 {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content h4 {
     color: #a41e22;
     font-size: 1.1em;
     margin: 0;
     padding: 15px 0 5px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content form input[type='text'].error {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content form input[type='text'].error {
     outline: 2px solid black;
     outline-color: #cc0000;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content div.sandbox_header {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content div.sandbox_header {
     float: none;
     clear: both;
     overflow: hidden;
     display: block;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content div.sandbox_header input.submit {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content div.sandbox_header input.submit {
     display: block;
     clear: none;
     float: left;
     padding: 6px 8px;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content div.sandbox_header img {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content div.sandbox_header img {
     display: block;
     clear: none;
     float: right;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content div.sandbox_header a {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content div.sandbox_header a {
     padding: 4px 0 0 10px;
     color: #c8787a;
     display: inline-block;
     font-size: 0.9em;
 }
 
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content div.response div.block pre {
+body ul.resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content div.response div.block pre {
     font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
     padding: 10px;
     font-size: 0.9em;

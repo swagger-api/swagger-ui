@@ -352,15 +352,13 @@
       return returnVal;
     };
 
-    SwaggerModel.prototype.createJSONSample = function(modelsToIgnore) {
+    SwaggerModel.prototype.createJSONSample = function(modelToIgnore) {
       var prop, result, _i, _len, _ref;
       result = {};
-      modelsToIgnore = modelsToIgnore || [];
-      modelsToIgnore.push(this.name);
       _ref = this.properties;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         prop = _ref[_i];
-        result[prop.name] = prop.getSampleValue(modelsToIgnore);
+        result[prop.name] = prop.getSampleValue(modelToIgnore);
       }
       return result;
     };
@@ -374,7 +372,7 @@
     function SwaggerModelProperty(name, obj) {
       this.name = name;
       this.dataType = obj.type;
-      this.isCollection = this.dataType && (this.dataType.toLowerCase() === 'array' || this.dataType.toLowerCase() === 'list' || this.dataType.toLowerCase() === 'set');
+      this.isArray = this.dataType.toLowerCase() === 'array';
       this.descr = obj.description;
       this.required = obj.required;
       if (obj.items != null) {
@@ -395,31 +393,18 @@
       }
     }
 
-    SwaggerModelProperty.prototype.getSampleValue = function(modelsToIgnore) {
+    SwaggerModelProperty.prototype.getSampleValue = function(modelToIgnore) {
       var result;
-      if ((this.refModel != null) && (modelsToIgnore.indexOf(this.refModel.name) === -1)) {
-        result = this.refModel.createJSONSample(modelsToIgnore);
+      if ((this.refModel != null) && (!(this.refModel === modelToIgnore))) {
+        result = this.refModel.createJSONSample(this.refModel);
       } else {
-        if (this.isCollection) {
+        if (this.isArray) {
           result = this.refDataType;
         } else {
-            if(this.dataType === 'int'){
-                result = 0;
-
-            }else if(this.dataType === 'long' || this.dataType === 'float'){
-                result = parseFloat("0.1");
-            }
-            else if(this.dataType === 'boolean')
-            {
-                result = false;
-            }
-            else
-            {
-                result = this.dataType;
-            }
+          result = this.dataType;
         }
       }
-      if (this.isCollection) {
+      if (this.isArray) {
         return [result];
       } else {
         return result;
@@ -779,7 +764,5 @@
   window.SwaggerOperation = SwaggerOperation;
 
   window.SwaggerRequest = SwaggerRequest;
-
-  window.SwaggerModelProperty = SwaggerModelProperty;
 
 }).call(this);
