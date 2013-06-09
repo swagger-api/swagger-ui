@@ -156,7 +156,7 @@ class OperationView extends Backbone.View
 
       log 'content type = ' + obj.contentType
 
-      if not obj.data or (obj.type is 'GET' or obj.type is 'DELETE')
+      if not (obj.data or (obj.type is 'GET' or obj.type is 'DELETE')) and obj.contentType is not "application/x-www-form-urlencoded"
         obj.contentType = false
 
       log 'content type is now = ' + obj.contentType
