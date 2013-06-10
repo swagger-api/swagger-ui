@@ -7,6 +7,7 @@ sourceFiles  = [
   'view/HeaderView'
   'view/MainView'
   'view/ResourceView'
+  'view/EndpointView'
   'view/OperationView'
   'view/StatusCodeView'
   'view/ParameterView'
