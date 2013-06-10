@@ -1757,3 +1757,16 @@ pre code {
 .message-fail {
   color: #cc0000;
 }
+
+.endpoints > .description {
+  padding: 0.75em;
+  margin-bottom: 10px;
+  font-family: 'Droid Sans', sans-serif;
+  font-size: 15px;
+  line-height: 19px;
+  background: #f1f1f1;
+  border: 1px solid #dddddd;
+  color: #333;
+}
+
+
