@@ -261,7 +261,7 @@ class OperationView extends Backbone.View
     response_body = pre
     $(".response_code", $(@el)).html "<pre>" + data.status + "</pre>"
     $(".response_body", $(@el)).html response_body
-    $(".response_headers", $(@el)).html "<pre>" + data.getAllResponseHeaders() + "</pre>"
+    $(".response_headers", $(@el)).html "<pre>" + data.getAllResponseHeaders().replace( /</g, '&lt;' ).replace( />/g, '&gt;' ) + "</pre>"
     $(".response", $(@el)).slideDown()
     $(".response_hider", $(@el)).show()
     $(".response_throbber", $(@el)).hide()
