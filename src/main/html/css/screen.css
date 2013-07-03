@@ -131,15 +131,15 @@ h3 {
     margin-top: 10px;
 }
 
-input.parameter {
-    width: 300px;
+input.parameter,
+.body-textarea {
+    width: 95%;
+    min-width: 250px;
     border: 1px solid #aaa;
 }
 
 .body-textarea {
-    width: 300px;
     height: 100px;
-    border: 1px solid #aaa;
 }
 
 p {
@@ -1674,6 +1674,11 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     clear: both;
 }
 
+.operation-params .model-signature .signature-container {
+    max-height: 350px;
+    overflow-y: auto;
+}
+
 .model-signature .signature-nav a:hover {
     text-decoration: underline;
     color: black;
@@ -1735,7 +1740,8 @@ pre code {
 }
 
 .swagger-ui-wrap {
-  max-width: 960px;
+  width: 85%;
+  max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
 }
