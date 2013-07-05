@@ -1791,8 +1791,13 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
         code = $('<code />').text(JSON.stringify(JSON.parse(data.responseText), null, 2));
         pre = $('<pre class="json" />').append(code);
       } catch (error) {
-        code = $('<code />').text(this.formatXml(data.responseText));
-        pre = $('<pre class="xml" />').append(code);
+        try {
+          code = $('<code />').text(JSON.stringify(unserialise(data.responseText), undefined, 5));
+          pre = $('<pre class="serial" />').append(code);
+        } catch (error) {
+          code = $('<code />').text(this.formatXml(data.responseText));
+          pre = $('<pre class="xml" />').append(code);
+        }
       }
       response_body = pre;
       $(".response_code", $(this.el)).html("<pre>" + data.status + "</pre>");
