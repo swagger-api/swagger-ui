@@ -191,7 +191,7 @@ templates['content_type'] = template(function (Handlebars,depth0,helpers,partial
 function program1(depth0,data) {
   
   var buffer = "", stack1, stack2;
-  buffer += "\n    ";
+  buffer += "\n  ";
   foundHelper = helpers.produces;
   stack1 = foundHelper || depth0.produces;
   stack2 = helpers.each;
@@ -222,7 +222,7 @@ function program2(depth0,data) {
 function program4(depth0,data) {
   
   
-  return "\n    <option value=\"application/json\">application/json</option>\n";}
+  return "\n  <option value=\"application/json\">application/json</option>\n";}
 
   buffer += "<label for=\"contentType\"></label>\n<select name=\"contentType\">\n";
   foundHelper = helpers.produces;
@@ -295,12 +295,12 @@ function program1(depth0,data) {
 function program3(depth0,data) {
   
   
-  return "\n                    <h4>Response Class</h4>\n                    <p><span class=\"model-signature\" /></p>\n                    <br/>\n                    <div class=\"content-type\" />\n                ";}
+  return "\n                  <h4>Response Class</h4>\n                  <p><span class=\"model-signature\" /></p>\n                  <br/>\n                  <div class=\"response-content-type\" />\n                ";}
 
 function program5(depth0,data) {
   
   
-  return "\n                    <h4>Parameters</h4>\n                    <table class='fullwidth'>\n                        <thead>\n                        <tr>\n                            <th style=\"width: 100px; max-width: 100px\">Parameter</th>\n                            <th style=\"width: 310px; max-width: 310px\">Value</th>\n                            <th style=\"width: 200px; max-width: 200px\">Description</th>\n                            <th style=\"width: 100px; max-width: 100px\">Parameter Type</th>\n                            <th style=\"width: 220px; max-width: 230px\">Data Type</th>\n                        </tr>\n                        </thead>\n                        <tbody class=\"operation-params\">\n\n                        </tbody>\n                    </table>\n                    ";}
+  return "\n                  <h4>Parameters</h4>\n                  <table class='fullwidth'>\n                    <thead>\n                      <tr>\n                        <th style=\"width: 100px; max-width: 100px\">Parameter</th>\n                        <th style=\"width: 310px; max-width: 310px\">Value</th>\n                        <th style=\"width: 200px; max-width: 200px\">Description</th>\n                        <th style=\"width: 100px; max-width: 100px\">Parameter Type</th>\n                        <th style=\"width: 220px; max-width: 230px\">Data Type</th>\n                      </tr>\n                    </thead>\n                  <tbody class=\"operation-params\">\n\n                    </tbody>\n                    </table>\n                    ";}
 
 function program7(depth0,data) {
   
@@ -318,10 +318,10 @@ function program11(depth0,data) {
   return "\n                    <div class='sandbox_header'>\n                        <input class='submit' name='commit' type='button' value='Try it out!' />\n                        <a href='#' class='response_hider' style='display:none'>Hide Response</a>\n                        <img alt='Throbber' class='response_throbber' src='images/throbber.gif' style='display:none' />\n                    </div>\n                    ";}
 
   buffer += "\n    <ul class='operations' >\n      <li class='";
-  foundHelper = helpers.httpMethod;
-  stack1 = foundHelper || depth0.httpMethod;
+  foundHelper = helpers.method;
+  stack1 = foundHelper || depth0.method;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
-  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "httpMethod", { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "method", { hash: {} }); }
   buffer += escapeExpression(stack1) + " operation' id='";
   foundHelper = helpers.resourceName;
   stack1 = foundHelper || depth0.resourceName;
@@ -333,10 +333,10 @@ function program11(depth0,data) {
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "nickname", { hash: {} }); }
   buffer += escapeExpression(stack1) + "_";
-  foundHelper = helpers.httpMethod;
-  stack1 = foundHelper || depth0.httpMethod;
+  foundHelper = helpers.method;
+  stack1 = foundHelper || depth0.method;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
-  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "httpMethod", { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "method", { hash: {} }); }
   buffer += escapeExpression(stack1) + "_";
   foundHelper = helpers.number;
   stack1 = foundHelper || depth0.number;
@@ -353,20 +353,20 @@ function program11(depth0,data) {
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "nickname", { hash: {} }); }
   buffer += escapeExpression(stack1) + "_";
-  foundHelper = helpers.httpMethod;
-  stack1 = foundHelper || depth0.httpMethod;
+  foundHelper = helpers.method;
+  stack1 = foundHelper || depth0.method;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
-  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "httpMethod", { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "method", { hash: {} }); }
   buffer += escapeExpression(stack1) + "_";
   foundHelper = helpers.number;
   stack1 = foundHelper || depth0.number;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "number", { hash: {} }); }
   buffer += escapeExpression(stack1) + "' class=\"toggleOperation\">";
-  foundHelper = helpers.httpMethod;
-  stack1 = foundHelper || depth0.httpMethod;
+  foundHelper = helpers.method;
+  stack1 = foundHelper || depth0.method;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
-  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "httpMethod", { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "method", { hash: {} }); }
   buffer += escapeExpression(stack1) + "</a>\n                  </span>\n                  <span class='path'>\n                    <a href='#!/";
   foundHelper = helpers.resourceName;
   stack1 = foundHelper || depth0.resourceName;
@@ -378,10 +378,10 @@ function program11(depth0,data) {
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "nickname", { hash: {} }); }
   buffer += escapeExpression(stack1) + "_";
-  foundHelper = helpers.httpMethod;
-  stack1 = foundHelper || depth0.httpMethod;
+  foundHelper = helpers.method;
+  stack1 = foundHelper || depth0.method;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
-  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "httpMethod", { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "method", { hash: {} }); }
   buffer += escapeExpression(stack1) + "_";
   foundHelper = helpers.number;
   stack1 = foundHelper || depth0.number;
@@ -403,10 +403,10 @@ function program11(depth0,data) {
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "nickname", { hash: {} }); }
   buffer += escapeExpression(stack1) + "_";
-  foundHelper = helpers.httpMethod;
-  stack1 = foundHelper || depth0.httpMethod;
+  foundHelper = helpers.method;
+  stack1 = foundHelper || depth0.method;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
-  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "httpMethod", { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "method", { hash: {} }); }
   buffer += escapeExpression(stack1) + "_";
   foundHelper = helpers.number;
   stack1 = foundHelper || depth0.number;
@@ -429,10 +429,10 @@ function program11(depth0,data) {
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "nickname", { hash: {} }); }
   buffer += escapeExpression(stack1) + "_";
-  foundHelper = helpers.httpMethod;
-  stack1 = foundHelper || depth0.httpMethod;
+  foundHelper = helpers.method;
+  stack1 = foundHelper || depth0.method;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
-  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "httpMethod", { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "method", { hash: {} }); }
   buffer += escapeExpression(stack1) + "_";
   foundHelper = helpers.number;
   stack1 = foundHelper || depth0.number;
@@ -458,7 +458,7 @@ function program11(depth0,data) {
   tmp1.inverse = self.noop;
   stack1 = stack2.call(depth0, stack1, tmp1);
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n                <form accept-charset='UTF-8' class='sandbox'>\n                    <div style='margin:0;padding:0;display:inline'></div>\n                    ";
+  buffer += "\n                <form accept-charset='UTF-8' class='sandbox'>\n                  <div style='margin:0;padding:0;display:inline'></div>\n                  ";
   foundHelper = helpers.parameters;
   stack1 = foundHelper || depth0.parameters;
   stack2 = helpers['if'];
@@ -563,7 +563,7 @@ function program7(depth0,data) {
   stack1 = foundHelper || depth0.name;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "name", { hash: {} }); }
-  buffer += escapeExpression(stack1) + "'></textarea>\n				<br />\n				<div class=\"content-type\" />\n			";
+  buffer += escapeExpression(stack1) + "'></textarea>\n				<br />\n				<div class=\"parameter-content-type\" />\n			";
   return buffer;}
 
 function program9(depth0,data) {
@@ -635,7 +635,7 @@ function program12(depth0,data) {
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "paramType", { hash: {} }); }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</td>\n<td>\n	<span class=\"model-signature\"></span>\n</td>\n\n";
+  buffer += "</td>\n<td>\n	<span class=\"model-signature\"></span>\n</td>\n";
   return buffer;});
 })();
 
@@ -1008,7 +1008,7 @@ function program7(depth0,data) {
   stack1 = foundHelper || depth0.name;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "name", { hash: {} }); }
-  buffer += escapeExpression(stack1) + "'></textarea>\n				<br />\n				<div class=\"content-type\" />\n			";
+  buffer += escapeExpression(stack1) + "'></textarea>\n				<br />\n				<div class=\"parameter-content-type\" />\n			";
   return buffer;}
 
 function program9(depth0,data) {
@@ -1112,12 +1112,68 @@ function program15(depth0,data) {
 
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['parameter_content_type'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  helpers = helpers || Handlebars.helpers;
+  var buffer = "", stack1, stack2, foundHelper, tmp1, self=this, functionType="function", helperMissing=helpers.helperMissing, undef=void 0;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1, stack2;
+  buffer += "\n  ";
+  foundHelper = helpers.consumes;
+  stack1 = foundHelper || depth0.consumes;
+  stack2 = helpers.each;
+  tmp1 = self.program(2, program2, data);
+  tmp1.hash = {};
+  tmp1.fn = tmp1;
+  tmp1.inverse = self.noop;
+  stack1 = stack2.call(depth0, stack1, tmp1);
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n";
+  return buffer;}
+function program2(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n  <option value=\"";
+  stack1 = depth0;
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "this", { hash: {} }); }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\">";
+  stack1 = depth0;
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "this", { hash: {} }); }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "</option>\n  ";
+  return buffer;}
+
+function program4(depth0,data) {
+  
+  
+  return "\n  <option value=\"application/json\">application/json</option>\n";}
+
+  buffer += "<label for=\"parameterContentType\"></label>\n<select name=\"parameterContentType\">\n";
+  foundHelper = helpers.consumes;
+  stack1 = foundHelper || depth0.consumes;
+  stack2 = helpers['if'];
+  tmp1 = self.program(1, program1, data);
+  tmp1.hash = {};
+  tmp1.fn = tmp1;
+  tmp1.inverse = self.program(4, program4, data);
+  stack1 = stack2.call(depth0, stack1, tmp1);
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n</select>\n";
+  return buffer;});
+})();
+
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
 templates['resource'] = template(function (Handlebars,depth0,helpers,partials,data) {
   helpers = helpers || Handlebars.helpers;
   var buffer = "", stack1, foundHelper, self=this, functionType="function", helperMissing=helpers.helperMissing, undef=void 0, escapeExpression=this.escapeExpression;
 
 
-  buffer += "<div class='heading'>\n    <h2>\n        <a href='#!/";
+  buffer += "<div class='heading'>\n  <h2>\n    <a href='#!/";
   foundHelper = helpers.name;
   stack1 = foundHelper || depth0.name;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
@@ -1132,7 +1188,7 @@ templates['resource'] = template(function (Handlebars,depth0,helpers,partials,da
   stack1 = foundHelper || depth0.name;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "name", { hash: {} }); }
-  buffer += escapeExpression(stack1) + "</a>\n    </h2>\n    <ul class='options'>\n        <li>\n            <a href='#!/";
+  buffer += escapeExpression(stack1) + "</a>\n  </h2>\n  <ul class='options'>\n    <li>\n      <a href='#!/";
   foundHelper = helpers.name;
   stack1 = foundHelper || depth0.name;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
@@ -1142,32 +1198,88 @@ templates['resource'] = template(function (Handlebars,depth0,helpers,partials,da
   stack1 = foundHelper || depth0.name;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "name", { hash: {} }); }
-  buffer += escapeExpression(stack1) + "'\n               onclick=\"Docs.toggleEndpointListForResource('";
+  buffer += escapeExpression(stack1) + "'\n         onclick=\"Docs.toggleEndpointListForResource('";
   foundHelper = helpers.name;
   stack1 = foundHelper || depth0.name;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "name", { hash: {} }); }
-  buffer += escapeExpression(stack1) + "');\">Show/Hide</a>\n        </li>\n        <li>\n            <a href='#' onclick=\"Docs.collapseOperationsForResource('";
+  buffer += escapeExpression(stack1) + "');\">Show/Hide</a>\n    </li>\n    <li>\n      <a href='#' onclick=\"Docs.collapseOperationsForResource('";
   foundHelper = helpers.name;
   stack1 = foundHelper || depth0.name;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "name", { hash: {} }); }
-  buffer += escapeExpression(stack1) + "'); return false;\">\n                List Operations\n            </a>\n        </li>\n        <li>\n            <a href='#' onclick=\"Docs.expandOperationsForResource('";
+  buffer += escapeExpression(stack1) + "'); return false;\">\n        List Operations\n      </a>\n    </li>\n    <li>\n      <a href='#' onclick=\"Docs.expandOperationsForResource('";
   foundHelper = helpers.name;
   stack1 = foundHelper || depth0.name;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "name", { hash: {} }); }
-  buffer += escapeExpression(stack1) + "'); return false;\">\n                Expand Operations\n            </a>\n        </li>\n        <li>\n            <a href='";
+  buffer += escapeExpression(stack1) + "'); return false;\">\n        Expand Operations\n      </a>\n    </li>\n    <li>\n      <a href='";
   foundHelper = helpers.url;
   stack1 = foundHelper || depth0.url;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "url", { hash: {} }); }
-  buffer += escapeExpression(stack1) + "'>Raw</a>\n        </li>\n    </ul>\n</div>\n<ul class='endpoints' id='";
+  buffer += escapeExpression(stack1) + "'>Raw</a>\n    </li>\n  </ul>\n</div>\n<ul class='endpoints' id='";
   foundHelper = helpers.name;
   stack1 = foundHelper || depth0.name;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "name", { hash: {} }); }
   buffer += escapeExpression(stack1) + "_endpoint_list' style='display:none'>\n\n</ul>\n";
+  return buffer;});
+})();
+
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['response_content_type'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  helpers = helpers || Handlebars.helpers;
+  var buffer = "", stack1, stack2, foundHelper, tmp1, self=this, functionType="function", helperMissing=helpers.helperMissing, undef=void 0;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1, stack2;
+  buffer += "\n  ";
+  foundHelper = helpers.produces;
+  stack1 = foundHelper || depth0.produces;
+  stack2 = helpers.each;
+  tmp1 = self.program(2, program2, data);
+  tmp1.hash = {};
+  tmp1.fn = tmp1;
+  tmp1.inverse = self.noop;
+  stack1 = stack2.call(depth0, stack1, tmp1);
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n";
+  return buffer;}
+function program2(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n  <option value=\"";
+  stack1 = depth0;
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "this", { hash: {} }); }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\">";
+  stack1 = depth0;
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "this", { hash: {} }); }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "</option>\n  ";
+  return buffer;}
+
+function program4(depth0,data) {
+  
+  
+  return "\n  <option value=\"application/json\">application/json</option>\n";}
+
+  buffer += "<label for=\"responseContentType\"></label>\n<select name=\"responseContentType\">\n";
+  foundHelper = helpers.produces;
+  stack1 = foundHelper || depth0.produces;
+  stack2 = helpers['if'];
+  tmp1 = self.program(1, program1, data);
+  tmp1.hash = {};
+  tmp1.fn = tmp1;
+  tmp1.inverse = self.program(4, program4, data);
+  stack1 = stack2.call(depth0, stack1, tmp1);
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n</select>\n";
   return buffer;});
 })();
 
@@ -1219,7 +1331,7 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
 
 // Generated by CoffeeScript 1.4.0
 (function() {
-  var ContentTypeView, HeaderView, MainView, OperationView, ParameterView, ResourceView, SignatureView, StatusCodeView, SwaggerUi,
+  var ContentTypeView, HeaderView, MainView, OperationView, ParameterContentTypeView, ParameterView, ResourceView, ResponseContentTypeView, SignatureView, StatusCodeView, SwaggerUi,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -1500,8 +1612,8 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
     OperationView.prototype.initialize = function() {};
 
     OperationView.prototype.render = function() {
-      var contentTypeModel, contentTypeView, isMethodSubmissionSupported, param, responseSignatureView, signatureModel, statusCode, _i, _j, _len, _len1, _ref, _ref1;
-      isMethodSubmissionSupported = jQuery.inArray(this.model.httpMethod, this.model.supportedSubmitMethods()) >= 0;
+      var contentTypeModel, isMethodSubmissionSupported, param, responseContentTypeView, responseSignatureView, signatureModel, statusCode, _i, _j, _len, _len1, _ref, _ref1;
+      isMethodSubmissionSupported = true;
       if (!isMethodSubmissionSupported) {
         this.model.isReadOnly = true;
       }
@@ -1523,22 +1635,18 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
       contentTypeModel = {
         isParam: false
       };
-      if (this.model.supportedContentTypes) {
-        contentTypeModel.produces = this.model.supportedContentTypes;
-      }
-      if (this.model.produces) {
-        contentTypeModel.produces = this.model.produces;
-      }
-      contentTypeView = new ContentTypeView({
+      contentTypeModel.consumes = this.model.consumes;
+      contentTypeModel.produces = this.model.produces;
+      responseContentTypeView = new ResponseContentTypeView({
         model: contentTypeModel
       });
-      $('.content-type', $(this.el)).append(contentTypeView.render().el);
+      $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
       _ref = this.model.parameters;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         param = _ref[_i];
-        this.addParameter(param);
+        this.addParameter(param, contentTypeModel.consumes);
       }
-      _ref1 = this.model.errorResponses;
+      _ref1 = this.model.responseMessages;
       for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
         statusCode = _ref1[_j];
         this.addStatusCode(statusCode);
@@ -1546,8 +1654,9 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
       return this;
     };
 
-    OperationView.prototype.addParameter = function(param) {
+    OperationView.prototype.addParameter = function(param, consumes) {
       var paramView;
+      param.consumes = consumes;
       paramView = new ParameterView({
         model: param,
         tagName: 'tr',
@@ -1566,8 +1675,7 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
     };
 
     OperationView.prototype.submitOperation = function(e) {
-      var bodyParam, consumes, error_free, form, headerParams, invocationUrl, isFileUpload, isFormPost, map, o, obj, param, paramContentTypeField, responseContentTypeField, _i, _j, _k, _l, _len, _len1, _len2, _len3, _len4, _m, _ref, _ref1, _ref2, _ref3, _ref4,
-        _this = this;
+      var error_free, form, map, o, _i, _len, _ref;
       if (e != null) {
         e.preventDefault();
       }
@@ -1587,7 +1695,9 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
         }
       });
       if (error_free) {
-        map = {};
+        map = {
+          parent: this
+        };
         _ref = form.serializeArray();
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           o = _ref[_i];
@@ -1595,99 +1705,15 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
             map[o.name] = o.value;
           }
         }
-        isFileUpload = form.children().find('input[type~="file"]').size() !== 0;
-        isFormPost = false;
-        consumes = "application/json";
-        if (this.model.consumes && this.model.consumes.length > 0) {
-          consumes = this.model.consumes[0];
-        } else {
-          _ref1 = this.model.parameters;
-          for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-            o = _ref1[_j];
-            if (o.paramType === 'form') {
-              isFormPost = true;
-              consumes = false;
-            }
-          }
-          if (isFileUpload) {
-            consumes = false;
-          } else if (this.model.httpMethod.toLowerCase() === "post" && isFormPost === false) {
-            consumes = "application/json";
-          }
-        }
-        if (isFileUpload) {
-          bodyParam = new FormData();
-          _ref2 = this.model.parameters;
-          for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
-            param = _ref2[_k];
-            if ((param.paramType === 'body' || 'form') && param.name !== 'file' && param.name !== 'File' && (map[param.name] != null)) {
-              bodyParam.append(param.name, map[param.name]);
-            }
-          }
-          $.each(form.children().find('input[type~="file"]'), function(i, el) {
-            return bodyParam.append($(el).attr('name'), el.files[0]);
-          });
-          console.log(bodyParam);
-        } else if (isFormPost) {
-          bodyParam = new FormData();
-          _ref3 = this.model.parameters;
-          for (_l = 0, _len3 = _ref3.length; _l < _len3; _l++) {
-            param = _ref3[_l];
-            if (map[param.name] != null) {
-              bodyParam.append(param.name, map[param.name]);
-            }
-          }
-        } else {
-          bodyParam = null;
-          _ref4 = this.model.parameters;
-          for (_m = 0, _len4 = _ref4.length; _m < _len4; _m++) {
-            param = _ref4[_m];
-            if (param.paramType === 'body') {
-              bodyParam = map[param.name];
-            }
-          }
-        }
-        log("bodyParam = " + bodyParam);
-        headerParams = null;
-        invocationUrl = this.model.supportHeaderParams() ? (headerParams = this.model.getHeaderParams(map), this.model.urlify(map, false)) : this.model.urlify(map, true);
-        log('submitting ' + invocationUrl);
-        $(".request_url", $(this.el)).html("<pre>" + invocationUrl + "</pre>");
-        $(".response_throbber", $(this.el)).show();
-        obj = {
-          type: this.model.httpMethod,
-          url: invocationUrl,
-          headers: headerParams,
-          data: bodyParam,
-          contentType: consumes,
-          dataType: 'json',
-          processData: false,
-          error: function(xhr, textStatus, error) {
-            return _this.showErrorStatus(xhr, textStatus, error);
-          },
-          success: function(data) {
-            return _this.showResponse(data);
-          },
-          complete: function(data) {
-            return _this.showCompleteStatus(data);
-          }
-        };
-        paramContentTypeField = $("td select[name=contentType]", $(this.el)).val();
-        if (paramContentTypeField) {
-          obj.contentType = paramContentTypeField;
-        }
-        log('content type = ' + obj.contentType);
-        if (!(obj.data || (obj.type === 'GET' || obj.type === 'DELETE')) && obj.contentType === !"application/x-www-form-urlencoded") {
-          obj.contentType = false;
-        }
-        log('content type is now = ' + obj.contentType);
-        responseContentTypeField = $('.content > .content-type > div > select[name=contentType]', $(this.el)).val();
-        if (responseContentTypeField) {
-          obj.headers = obj.headers != null ? obj.headers : {};
-          obj.headers.accept = responseContentTypeField;
-        }
-        jQuery.ajax(obj);
-        return false;
+        console.log(map);
+        map["responseContentType"] = $("div select[name=responseContentType]", $(this.el)).val();
+        map["requestContentType"] = $("div select[name=parameterContentType]", $(this.el)).val();
+        return this.model["do"](map, this.showCompleteStatus, this.showErrorStatus, this);
       }
+    };
+
+    OperationView.prototype.success = function(response, parent) {
+      return parent.showCompleteStatus(response);
     };
 
     OperationView.prototype.hideResponse = function(e) {
@@ -1704,12 +1730,12 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
       return $(".response_body", $(this.el)).html(escape(prettyJson));
     };
 
-    OperationView.prototype.showErrorStatus = function(data) {
-      return this.showStatus(data);
+    OperationView.prototype.showErrorStatus = function(data, parent) {
+      return parent.showStatus(data);
     };
 
-    OperationView.prototype.showCompleteStatus = function(data) {
-      return this.showStatus(data);
+    OperationView.prototype.showCompleteStatus = function(data, parent) {
+      return parent.showStatus(data);
     };
 
     OperationView.prototype.formatXml = function(xml) {
@@ -1786,18 +1812,31 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
     };
 
     OperationView.prototype.showStatus = function(data) {
-      var code, pre, response_body;
-      try {
-        code = $('<code />').text(JSON.stringify(JSON.parse(data.responseText), null, 2));
+      var code, content, contentType, headers, pre, response_body;
+      content = data.content.data;
+      headers = data.getHeaders();
+      contentType = headers["Content-Type"];
+      if (content === void 0) {
+        code = $('<code />').text("no content");
         pre = $('<pre class="json" />').append(code);
-      } catch (error) {
-        code = $('<code />').text(this.formatXml(data.responseText));
+      } else if (contentType.indexOf("application/json") === 0) {
+        code = $('<code />').text(JSON.stringify(JSON.parse(content), null, 2));
+        pre = $('<pre class="json" />').append(code);
+      } else if (contentType.indexOf("application/xml") === 0) {
+        code = $('<code />').text(this.formatXml(content));
         pre = $('<pre class="xml" />').append(code);
+      } else if (contentType.indexOf("text/html") === 0) {
+        code = $('<code />').html(content);
+        pre = $('<pre class="xml" />').append(code);
+      } else {
+        code = $('<code />').text(content);
+        pre = $('<pre class="json" />').append(code);
       }
       response_body = pre;
+      $(".request_url").html("<pre>" + data.request.url + "</pre>");
       $(".response_code", $(this.el)).html("<pre>" + data.status + "</pre>");
       $(".response_body", $(this.el)).html(response_body);
-      $(".response_headers", $(this.el)).html("<pre>" + data.getAllResponseHeaders() + "</pre>");
+      $(".response_headers", $(this.el)).html("<pre>" + JSON.stringify(data.getHeaders()) + "</pre>");
       $(".response", $(this.el)).slideDown();
       $(".response_hider", $(this.el)).show();
       $(".response_throbber", $(this.el)).hide();
@@ -1806,7 +1845,7 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
 
     OperationView.prototype.toggleOperationContent = function() {
       var elem;
-      elem = $('#' + Docs.escapeResourceName(this.model.resourceName) + "_" + this.model.nickname + "_" + this.model.httpMethod + "_" + this.model.number + "_content");
+      elem = $('#' + Docs.escapeResourceName(this.model.resourceName) + "_" + this.model.nickname + "_" + this.model.method + "_" + this.model.number + "_content");
       if (elem.is(':visible')) {
         return Docs.collapseOperation(elem);
       } else {
@@ -1854,7 +1893,7 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
     ParameterView.prototype.initialize = function() {};
 
     ParameterView.prototype.render = function() {
-      var contentTypeModel, contentTypeView, signatureModel, signatureView, template;
+      var contentTypeModel, isParam, parameterContentTypeView, responseContentTypeView, signatureModel, signatureView, template;
       if (this.model.paramType === 'body') {
         this.model.isBody = true;
       }
@@ -1877,19 +1916,25 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
       } else {
         $('.model-signature', $(this.el)).html(this.model.signature);
       }
+      isParam = false;
+      if (this.model.isBody) {
+        isParam = true;
+      }
       contentTypeModel = {
-        isParam: false
+        isParam: isParam
       };
-      if (this.model.supportedContentTypes) {
-        contentTypeModel.produces = this.model.supportedContentTypes;
+      contentTypeModel.consumes = this.model.consumes;
+      if (isParam) {
+        parameterContentTypeView = new ParameterContentTypeView({
+          model: contentTypeModel
+        });
+        $('.parameter-content-type', $(this.el)).append(parameterContentTypeView.render().el);
+      } else {
+        responseContentTypeView = new ResponseContentTypeView({
+          model: contentTypeModel
+        });
+        $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
       }
-      if (this.model.produces) {
-        contentTypeModel.produces = this.model.produces;
-      }
-      contentTypeView = new ContentTypeView({
-        model: contentTypeModel
-      });
-      $('.content-type', $(this.el)).append(contentTypeView.render().el);
       return this;
     };
 
@@ -2000,12 +2045,7 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
       var template;
       template = this.template();
       $(this.el).html(template(this.model));
-      this.isParam = this.model.isParam;
-      if (this.isParam) {
-        $('label[for=contentType]', $(this.el)).text('Parameter content type:');
-      } else {
-        $('label[for=contentType]', $(this.el)).text('Response Content Type');
-      }
+      $('label[for=contentType]', $(this.el)).text('Response Content Type');
       return this;
     };
 
@@ -2014,6 +2054,58 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
     };
 
     return ContentTypeView;
+
+  })(Backbone.View);
+
+  ResponseContentTypeView = (function(_super) {
+
+    __extends(ResponseContentTypeView, _super);
+
+    function ResponseContentTypeView() {
+      return ResponseContentTypeView.__super__.constructor.apply(this, arguments);
+    }
+
+    ResponseContentTypeView.prototype.initialize = function() {};
+
+    ResponseContentTypeView.prototype.render = function() {
+      var template;
+      template = this.template();
+      $(this.el).html(template(this.model));
+      $('label[for=responseContentType]', $(this.el)).text('Response Content Type');
+      return this;
+    };
+
+    ResponseContentTypeView.prototype.template = function() {
+      return Handlebars.templates.response_content_type;
+    };
+
+    return ResponseContentTypeView;
+
+  })(Backbone.View);
+
+  ParameterContentTypeView = (function(_super) {
+
+    __extends(ParameterContentTypeView, _super);
+
+    function ParameterContentTypeView() {
+      return ParameterContentTypeView.__super__.constructor.apply(this, arguments);
+    }
+
+    ParameterContentTypeView.prototype.initialize = function() {};
+
+    ParameterContentTypeView.prototype.render = function() {
+      var template;
+      template = this.template();
+      $(this.el).html(template(this.model));
+      $('label[for=parameterContentType]', $(this.el)).text('Parameter content type:');
+      return this;
+    };
+
+    ParameterContentTypeView.prototype.template = function() {
+      return Handlebars.templates.parameter_content_type;
+    };
+
+    return ParameterContentTypeView;
 
   })(Backbone.View);
 
