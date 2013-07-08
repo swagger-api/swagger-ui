@@ -626,6 +626,7 @@
           }
         }
       }
+      url = url.replace(/%2[Ff]/g, "%252F");
       if (includeApiKey && (this.resource.api.api_key != null) && this.resource.api.api_key.length > 0) {
         args[this.apiKeyName] = this.resource.api.api_key;
       }
