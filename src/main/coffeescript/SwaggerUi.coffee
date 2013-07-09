@@ -35,14 +35,13 @@ class SwaggerUi extends Backbone.Router
   # Event handler for when url/key is received from user
   updateSwaggerUi: (data) ->
     @options.discoveryUrl = data.discoveryUrl
-    @options.apiKey = data.apiKey
     @load()
 
   # Create an api and render
   load: ->
     # Initialize the API object
     @mainView?.clear()
-    @headerView.update(@options.discoveryUrl, @options.apiKey)
+    @headerView.update(@options.discoveryUrl)
     @api = new SwaggerApi(@options)
 
   # This is bound to success handler for SwaggerApi

@@ -68,17 +68,18 @@ class OperationView extends Backbone.View
 
     # if error free submit it
     if error_free
-      map = {parent: @}
+      map = {}
+      opts = {parent: @}
       for o in form.serializeArray()
         if(o.value? && jQuery.trim(o.value).length > 0)
           map[o.name] = o.value
 
       console.log map
 
-      map["responseContentType"] = $("div select[name=responseContentType]", $(@el)).val()
-      map["requestContentType"] = $("div select[name=parameterContentType]", $(@el)).val()
+      opts.responseContentType = $("div select[name=responseContentType]", $(@el)).val()
+      opts.requestContentType = $("div select[name=parameterContentType]", $(@el)).val()
 
-      @model.do(map, @showCompleteStatus, @showErrorStatus, @)
+      @model.do(map, opts, @showCompleteStatus, @showErrorStatus, @)
 
   success: (response, parent) ->
     parent.showCompleteStatus response

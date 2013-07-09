@@ -9,17 +9,16 @@ class HeaderView extends Backbone.View
 
   initialize: ->
 
-
   showPetStore: (e) ->
     @trigger(
       'update-swagger-ui'
-      {discoveryUrl:"http://petstore.swagger.wordnik.com/api/api-docs.json", apiKey:"special-key"}
+      {discoveryUrl:"http://petstore.swagger.wordnik.com/api/api-docs.json"}
     )
 
   showWordnikDev: (e) ->
     @trigger(
       'update-swagger-ui'
-      {discoveryUrl:"http://api.wordnik.com/v4/resources.json", apiKey:""}
+      {discoveryUrl:"http://api.wordnik.com/v4/resources.json"}
     )
 
   showCustomOnKeyup: (e) ->

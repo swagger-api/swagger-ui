@@ -1183,7 +1183,7 @@ templates['resource'] = template(function (Handlebars,depth0,helpers,partials,da
   stack1 = foundHelper || depth0.name;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "name", { hash: {} }); }
-  buffer += escapeExpression(stack1) + "');\">/";
+  buffer += escapeExpression(stack1) + "');\">";
   foundHelper = helpers.name;
   stack1 = foundHelper || depth0.name;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
@@ -1385,7 +1385,6 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
 
     SwaggerUi.prototype.updateSwaggerUi = function(data) {
       this.options.discoveryUrl = data.discoveryUrl;
-      this.options.apiKey = data.apiKey;
       return this.load();
     };
 
@@ -1394,7 +1393,7 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
       if ((_ref = this.mainView) != null) {
         _ref.clear();
       }
-      this.headerView.update(this.options.discoveryUrl, this.options.apiKey);
+      this.headerView.update(this.options.discoveryUrl);
       return this.api = new SwaggerApi(this.options);
     };
 
@@ -1470,15 +1469,13 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
 
     HeaderView.prototype.showPetStore = function(e) {
       return this.trigger('update-swagger-ui', {
-        discoveryUrl: "http://petstore.swagger.wordnik.com/api/api-docs.json",
-        apiKey: "special-key"
+        discoveryUrl: "http://petstore.swagger.wordnik.com/api/api-docs.json"
       });
     };
 
     HeaderView.prototype.showWordnikDev = function(e) {
       return this.trigger('update-swagger-ui', {
-        discoveryUrl: "http://api.wordnik.com/v4/resources.json",
-        apiKey: ""
+        discoveryUrl: "http://api.wordnik.com/v4/resources.json"
       });
     };
 
@@ -1675,7 +1672,7 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
     };
 
     OperationView.prototype.submitOperation = function(e) {
-      var error_free, form, map, o, _i, _len, _ref;
+      var error_free, form, map, o, opts, _i, _len, _ref;
       if (e != null) {
         e.preventDefault();
       }
@@ -1695,7 +1692,8 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
         }
       });
       if (error_free) {
-        map = {
+        map = {};
+        opts = {
           parent: this
         };
         _ref = form.serializeArray();
@@ -1706,9 +1704,9 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
           }
         }
         console.log(map);
-        map["responseContentType"] = $("div select[name=responseContentType]", $(this.el)).val();
-        map["requestContentType"] = $("div select[name=parameterContentType]", $(this.el)).val();
-        return this.model["do"](map, this.showCompleteStatus, this.showErrorStatus, this);
+        opts.responseContentType = $("div select[name=responseContentType]", $(this.el)).val();
+        opts.requestContentType = $("div select[name=parameterContentType]", $(this.el)).val();
+        return this.model["do"](map, opts, this.showCompleteStatus, this.showErrorStatus, this);
       }
     };
 
