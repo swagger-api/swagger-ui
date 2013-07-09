@@ -55,26 +55,49 @@
             }
           },
           response: function(rawResponse) {
-            var res, resource, response, _i, _len, _ref;
+            var api, isApi, newName, operation, res, resource, response, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
             response = JSON.parse(rawResponse.content.data);
             if (response.apiVersion != null) {
               _this.apiVersion = response.apiVersion;
             }
             _this.apis = {};
             _this.apisArray = [];
-            if (response.basePath) {
-              _this.basePath = response.basePath;
-            } else if (_this.discoveryUrl.indexOf('?') > 0) {
-              _this.basePath = _this.discoveryUrl.substring(0, _this.discoveryUrl.lastIndexOf('?'));
-            } else {
-              _this.basePath = _this.discoveryUrl;
-            }
+            isApi = false;
             _ref = response.apis;
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              resource = _ref[_i];
-              res = new SwaggerResource(resource, _this);
-              _this.apis[res.name] = res;
+              api = _ref[_i];
+              if (api.operations) {
+                _ref1 = api.operations;
+                for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+                  operation = _ref1[_j];
+                  isApi = true;
+                }
+              }
+            }
+            if (isApi) {
+              newName = response.resourcePath.replace(/\//g, '');
+              _this.resourcePath = response.resourcePath;
+              res = new SwaggerResource(response, _this);
+              _this.apis[newName] = res;
               _this.apisArray.push(res);
+            } else {
+              if (response.basePath) {
+                _this.basePath = response.basePath;
+              } else if (_this.discoveryUrl.indexOf('?') > 0) {
+                _this.basePath = _this.discoveryUrl.substring(0, _this.discoveryUrl.lastIndexOf('?'));
+              } else {
+                _this.basePath = _this.discoveryUrl;
+              }
+              _ref2 = response.apis;
+              for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+                resource = _ref2[_k];
+                res = new SwaggerResource(resource, _this);
+                _this.apis[res.name] = res;
+                _this.apisArray.push(res);
+              }
+            }
+            if (_this.success) {
+              _this.success();
             }
             return _this;
           }
@@ -179,11 +202,8 @@
       this.operationsArray = [];
       this.modelsArray = [];
       this.models = {};
-      if ((resourceObj.operations != null) && (this.api.resourcePath != null)) {
-        this.api.progress('reading resource ' + this.name + ' models and operations');
-        this.addModels(resourceObj.models);
-        this.addOperations(resourceObj.path, resourceObj.operations);
-        this.api[this.name] = this;
+      if ((resourceObj.apis != null) && (this.api.resourcePath != null)) {
+        this.addApiDeclaration(resourceObj);
       } else {
         if (this.path == null) {
           this.api.fail("SwaggerResources must have a path.");
@@ -198,34 +218,39 @@
               return _this.api.fail("Unable to read api '" + _this.name + "' from path " + _this.url + " (server returned " + error.statusText + ")");
             },
             response: function(rawResponse) {
-              var endpoint, response, _i, _len, _ref;
-              response = JSON.parse(rawResponse.content._body);
-              if (response.produces != null) {
-                _this.produces = response.produces;
-              }
-              if (response.consumes != null) {
-                _this.consumes = response.consumes;
-              }
-              if ((response.basePath != null) && response.basePath.replace(/\s/g, '').length > 0) {
-                _this.basePath = response.basePath;
-              }
-              _this.addModels(response.models);
-              if (response.apis) {
-                _ref = response.apis;
-                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                  endpoint = _ref[_i];
-                  _this.addOperations(endpoint.path, endpoint.operations);
-                }
-              }
-              _this.api[_this.name] = _this;
-              _this.ready = true;
-              return _this.api.selfReflect();
+              var response;
+              response = JSON.parse(rawResponse.content.data);
+              return _this.addApiDeclaration(response);
             }
           }
         };
         new SwaggerHttp().execute(obj);
       }
     }
+
+    SwaggerResource.prototype.addApiDeclaration = function(response) {
+      var endpoint, _i, _len, _ref;
+      if (response.produces != null) {
+        this.produces = response.produces;
+      }
+      if (response.consumes != null) {
+        this.consumes = response.consumes;
+      }
+      if ((response.basePath != null) && response.basePath.replace(/\s/g, '').length > 0) {
+        this.basePath = response.basePath;
+      }
+      this.addModels(response.models);
+      if (response.apis) {
+        _ref = response.apis;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          endpoint = _ref[_i];
+          this.addOperations(endpoint.path, endpoint.operations);
+        }
+      }
+      this.api[this.name] = this;
+      this.ready = true;
+      return this.api.selfReflect();
+    };
 
     SwaggerResource.prototype.addModels = function(models) {
       var model, modelName, swaggerModel, _i, _len, _ref, _results;
@@ -989,7 +1014,6 @@
 
     ApiKeyAuthorization.prototype.apply = function(obj) {
       if (this.type === "query") {
-        console.log(this.value);
         if (obj.url.indexOf('?') > 0) {
           obj.url = obj.url + "&" + this.name + "=" + this.value;
         } else {
