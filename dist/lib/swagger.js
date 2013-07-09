@@ -44,7 +44,7 @@
     }
 
     SwaggerApi.prototype.build = function() {
-      var obj,
+      var e, obj,
         _this = this;
       this.progress('fetching resource list: ' + this.url);
       console.log('getting ' + this.url);
@@ -112,6 +112,13 @@
           }
         }
       };
+      e = {};
+      if (typeof window !== 'undefined') {
+        e = window;
+      } else {
+        e = exports;
+      }
+      e.authorizations.apply(obj);
       new SwaggerHttp().execute(obj);
       return this;
     };
@@ -196,7 +203,7 @@
     SwaggerResource.prototype.consumes = null;
 
     function SwaggerResource(resourceObj, api) {
-      var consumes, obj, parts, produces,
+      var consumes, e, obj, parts, produces,
         _this = this;
       this.api = api;
       this.api = this.api;
@@ -233,6 +240,13 @@
             }
           }
         };
+        e = {};
+        if (typeof window !== 'undefined') {
+          e = window;
+        } else {
+          e = exports;
+        }
+        e.authorizations.apply(obj);
         new SwaggerHttp().execute(obj);
       }
     }

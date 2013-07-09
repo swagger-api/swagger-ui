@@ -1394,7 +1394,9 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
         _ref.clear();
       }
       this.headerView.update(this.options.url);
-      return this.api = new SwaggerApi(this.options);
+      this.api = new SwaggerApi(this.options);
+      this.api.build();
+      return this.api;
     };
 
     SwaggerUi.prototype.render = function() {
@@ -1500,11 +1502,9 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
         trigger = false;
       }
       $('#input_baseUrl').val(url);
-      $('#input_apiKey').val(apiKey);
       if (trigger) {
         return this.trigger('update-swagger-ui', {
-          url: url,
-          apiKey: apiKey
+          url: url
         });
       }
     };

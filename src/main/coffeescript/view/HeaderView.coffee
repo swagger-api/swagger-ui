@@ -33,5 +33,5 @@ class HeaderView extends Backbone.View
 
   update: (url, apiKey, trigger = false) ->
     $('#input_baseUrl').val url
-    $('#input_apiKey').val apiKey
-    @trigger 'update-swagger-ui', {url:url, apiKey:apiKey} if trigger
+    #$('#input_apiKey').val apiKey
+    @trigger 'update-swagger-ui', {url:url} if trigger
