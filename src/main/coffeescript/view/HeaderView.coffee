@@ -12,13 +12,13 @@ class HeaderView extends Backbone.View
   showPetStore: (e) ->
     @trigger(
       'update-swagger-ui'
-      {discoveryUrl:"http://petstore.swagger.wordnik.com/api/api-docs.json"}
+      {url:"http://petstore.swagger.wordnik.com/api/api-docs.json"}
     )
 
   showWordnikDev: (e) ->
     @trigger(
       'update-swagger-ui'
-      {discoveryUrl:"http://api.wordnik.com/v4/resources.json"}
+      {url:"http://api.wordnik.com/v4/resources.json"}
     )
 
   showCustomOnKeyup: (e) ->
@@ -28,10 +28,10 @@ class HeaderView extends Backbone.View
     e?.preventDefault()
     @trigger(
       'update-swagger-ui'
-      {discoveryUrl: $('#input_baseUrl').val(), apiKey: $('#input_apiKey').val()}
+      {url: $('#input_baseUrl').val(), apiKey: $('#input_apiKey').val()}
     )
 
   update: (url, apiKey, trigger = false) ->
     $('#input_baseUrl').val url
     $('#input_apiKey').val apiKey
-    @trigger 'update-swagger-ui', {discoveryUrl:url, apiKey:apiKey} if trigger
+    @trigger 'update-swagger-ui', {url:url, apiKey:apiKey} if trigger

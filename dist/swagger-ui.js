@@ -1384,7 +1384,7 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
     };
 
     SwaggerUi.prototype.updateSwaggerUi = function(data) {
-      this.options.discoveryUrl = data.discoveryUrl;
+      this.options.url = data.url;
       return this.load();
     };
 
@@ -1393,7 +1393,7 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
       if ((_ref = this.mainView) != null) {
         _ref.clear();
       }
-      this.headerView.update(this.options.discoveryUrl);
+      this.headerView.update(this.options.url);
       return this.api = new SwaggerApi(this.options);
     };
 
@@ -1469,13 +1469,13 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
 
     HeaderView.prototype.showPetStore = function(e) {
       return this.trigger('update-swagger-ui', {
-        discoveryUrl: "http://petstore.swagger.wordnik.com/api/api-docs.json"
+        url: "http://petstore.swagger.wordnik.com/api/api-docs.json"
       });
     };
 
     HeaderView.prototype.showWordnikDev = function(e) {
       return this.trigger('update-swagger-ui', {
-        discoveryUrl: "http://api.wordnik.com/v4/resources.json"
+        url: "http://api.wordnik.com/v4/resources.json"
       });
     };
 
@@ -1490,7 +1490,7 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
         e.preventDefault();
       }
       return this.trigger('update-swagger-ui', {
-        discoveryUrl: $('#input_baseUrl').val(),
+        url: $('#input_baseUrl').val(),
         apiKey: $('#input_apiKey').val()
       });
     };
@@ -1503,7 +1503,7 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
       $('#input_apiKey').val(apiKey);
       if (trigger) {
         return this.trigger('update-swagger-ui', {
-          discoveryUrl: url,
+          url: url,
           apiKey: apiKey
         });
       }
