@@ -1757,3 +1757,31 @@ pre code {
 .message-fail {
   color: #cc0000;
 }
+
+.info_title {
+  padding-left: 25px;
+  padding-bottom: 10px;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.info_description {
+  padding-left: 25px;
+  padding-bottom: 10px;
+  font-size: 15px;
+}
+
+.info_tos {
+  padding-left: 25px;
+  padding-bottom: 5px;
+}
+
+.info_license {
+  padding-left: 25px;
+  padding-bottom: 5px;
+}
+
+.info_contact {
+  padding-left: 25px;
+  padding-bottom: 5px;
+}

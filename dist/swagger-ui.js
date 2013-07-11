@@ -246,6 +246,99 @@ templates['main'] = template(function (Handlebars,depth0,helpers,partials,data) 
 
 function program1(depth0,data) {
   
+  var buffer = "", stack1, stack2;
+  buffer += "\n    <div class=\"info_title\">";
+  foundHelper = helpers.info;
+  stack1 = foundHelper || depth0.info;
+  stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1.title);
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "info.title", { hash: {} }); }
+  buffer += escapeExpression(stack1) + "</div>\n    <div class=\"info_description\">";
+  foundHelper = helpers.info;
+  stack1 = foundHelper || depth0.info;
+  stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1.description);
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "info.description", { hash: {} }); }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "</div>\n    ";
+  foundHelper = helpers.info;
+  stack1 = foundHelper || depth0.info;
+  stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1.termsOfServiceUrl);
+  stack2 = helpers['if'];
+  tmp1 = self.program(2, program2, data);
+  tmp1.hash = {};
+  tmp1.fn = tmp1;
+  tmp1.inverse = self.noop;
+  stack1 = stack2.call(depth0, stack1, tmp1);
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n    ";
+  foundHelper = helpers.info;
+  stack1 = foundHelper || depth0.info;
+  stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1.contact);
+  stack2 = helpers['if'];
+  tmp1 = self.program(4, program4, data);
+  tmp1.hash = {};
+  tmp1.fn = tmp1;
+  tmp1.inverse = self.noop;
+  stack1 = stack2.call(depth0, stack1, tmp1);
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n    ";
+  foundHelper = helpers.info;
+  stack1 = foundHelper || depth0.info;
+  stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1.license);
+  stack2 = helpers['if'];
+  tmp1 = self.program(6, program6, data);
+  tmp1.hash = {};
+  tmp1.fn = tmp1;
+  tmp1.inverse = self.noop;
+  stack1 = stack2.call(depth0, stack1, tmp1);
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n  ";
+  return buffer;}
+function program2(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "<div class=\"info_tos\"><a href=\"";
+  foundHelper = helpers.info;
+  stack1 = foundHelper || depth0.info;
+  stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1.termsOfServiceUrl);
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "info.termsOfServiceUrl", { hash: {} }); }
+  buffer += escapeExpression(stack1) + "\">Terms of service</a></div>";
+  return buffer;}
+
+function program4(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "<div class='info_contact'><a href=\"mailto:";
+  foundHelper = helpers.info;
+  stack1 = foundHelper || depth0.info;
+  stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1.contact);
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "info.contact", { hash: {} }); }
+  buffer += escapeExpression(stack1) + "\">Contact the developer</a></div>";
+  return buffer;}
+
+function program6(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "<div class='info_license'><a href='";
+  foundHelper = helpers.info;
+  stack1 = foundHelper || depth0.info;
+  stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1.licenseUrl);
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "info.licenseUrl", { hash: {} }); }
+  buffer += escapeExpression(stack1) + "'>";
+  foundHelper = helpers.info;
+  stack1 = foundHelper || depth0.info;
+  stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1.license);
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "info.license", { hash: {} }); }
+  buffer += escapeExpression(stack1) + "</a></div>";
+  return buffer;}
+
+function program8(depth0,data) {
+  
   var buffer = "", stack1;
   buffer += "\n        , <span style=\"font-variant: small-caps\">api version</span>: ";
   foundHelper = helpers.apiVersion;
@@ -255,7 +348,17 @@ function program1(depth0,data) {
   buffer += escapeExpression(stack1) + "\n        ";
   return buffer;}
 
-  buffer += "\n<div class='container' id='resources_container'>\n    <ul id='resources'>\n    </ul>\n\n    <div class=\"footer\">\n        <br>\n        <br>\n        <h4 style=\"color: #999\">[ <span style=\"font-variant: small-caps\">base url</span>: ";
+  buffer += "<div class='info' id='api_info'>\n  ";
+  foundHelper = helpers.info;
+  stack1 = foundHelper || depth0.info;
+  stack2 = helpers['if'];
+  tmp1 = self.program(1, program1, data);
+  tmp1.hash = {};
+  tmp1.fn = tmp1;
+  tmp1.inverse = self.noop;
+  stack1 = stack2.call(depth0, stack1, tmp1);
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n</div>\n<div class='container' id='resources_container'>\n    <ul id='resources'>\n    </ul>\n\n    <div class=\"footer\">\n        <br>\n        <br>\n        <h4 style=\"color: #999\">[ <span style=\"font-variant: small-caps\">base url</span>: ";
   foundHelper = helpers.basePath;
   stack1 = foundHelper || depth0.basePath;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
@@ -264,7 +367,7 @@ function program1(depth0,data) {
   foundHelper = helpers.apiVersion;
   stack1 = foundHelper || depth0.apiVersion;
   stack2 = helpers['if'];
-  tmp1 = self.program(1, program1, data);
+  tmp1 = self.program(8, program8, data);
   tmp1.hash = {};
   tmp1.fn = tmp1;
   tmp1.inverse = self.noop;
@@ -1402,6 +1505,8 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
     SwaggerUi.prototype.render = function() {
       var _this = this;
       this.showMessage('Finished Loading Resource Information. Rendering Swagger UI...');
+      console.log("here it comes!");
+      console.log(this.api);
       this.mainView = new MainView({
         model: this.api,
         el: $('#' + this.dom_id)
