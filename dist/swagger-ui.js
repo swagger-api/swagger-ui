@@ -1505,8 +1505,6 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
     SwaggerUi.prototype.render = function() {
       var _this = this;
       this.showMessage('Finished Loading Resource Information. Rendering Swagger UI...');
-      console.log("here it comes!");
-      console.log(this.api);
       this.mainView = new MainView({
         model: this.api,
         el: $('#' + this.dom_id)

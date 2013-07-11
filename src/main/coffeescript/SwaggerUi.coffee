@@ -50,8 +50,6 @@ class SwaggerUi extends Backbone.Router
   #  so it gets called when SwaggerApi completes loading
   render:() ->
     @showMessage('Finished Loading Resource Information. Rendering Swagger UI...')
-    console.log "here it comes!"
-    console.log @api
     @mainView = new MainView({model: @api, el: $('#' + @dom_id)}).render()
     @showMessage()
     switch @options.docExpansion
