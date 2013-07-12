@@ -1661,7 +1661,7 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
           contentType: consumes,
           dataType: 'json',
           processData: false,
-          xhrFields: {widthCredentials: true},
+          xhrFields: {withCredentials: true},
           error: function(xhr, textStatus, error) {
             return _this.showErrorStatus(xhr, textStatus, error);
           },
