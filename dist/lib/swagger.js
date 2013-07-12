@@ -66,7 +66,11 @@
           }
           _this.basePath = _this.basePath.replace(/\/$/, '');
         } else {
-          _this.basePath = _this.discoveryUrl.substring(0, _this.discoveryUrl.lastIndexOf('/'));
+          if (_this.discoveryUrl.indexOf('?') > 0) {
+            _this.basePath = _this.discoveryUrl.substring(0, _this.discoveryUrl.lastIndexOf('?'));
+          } else {
+            _this.basePath = _this.discoveryUrl;
+          }
           log('derived basepath from discoveryUrl as ' + _this.basePath);
         }
         _this.apis = {};
@@ -204,6 +208,7 @@
       parts = this.path.split("/");
       this.name = parts[parts.length - 1].replace('.{format}', '');
       this.basePath = this.api.basePath;
+      console.log('bp: ' + this.basePath);
       this.operations = {};
       this.operationsArray = [];
       this.modelsArray = [];
@@ -218,6 +223,8 @@
           this.api.fail("SwaggerResources must have a path.");
         }
         this.url = this.api.suffixApiKey(this.api.basePath + this.path.replace('{format}', 'json'));
+        console.log('basePath: ' + this.api.basePath);
+        console.log('url: ' + this.url);
         this.api.progress('fetching resource ' + this.name + ': ' + this.url);
         jQuery.ajax({
           url: this.url,
@@ -284,6 +291,9 @@
           }
           if (o.errorResponses) {
             errorResponses = o.errorResponses;
+          }
+          if (o.method) {
+            o.httpMethod = o.method;
           }
           op = new SwaggerOperation(o.nickname, resource_path, o.httpMethod, o.parameters, o.summary, o.notes, o.responseClass, errorResponses, this, o.consumes, o.produces);
           this.operations[op.nickname] = op;
