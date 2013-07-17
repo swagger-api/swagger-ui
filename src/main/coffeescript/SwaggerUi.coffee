@@ -41,7 +41,12 @@ class SwaggerUi extends Backbone.Router
   load: ->
     # Initialize the API object
     @mainView?.clear()
-    @headerView.update(@options.url)
+    url = @options.url
+    if url.indexOf("http") isnt 0
+      url = @buildUrl(window.location.href.toString(), url)
+
+    @options.url = url
+    @headerView.update(url)
     @api = new SwaggerApi(@options)
     @api.build()
     @api
@@ -61,6 +66,16 @@ class SwaggerUi extends Backbone.Router
         Docs.shebang()
       400
     )
+
+  buildUrl: (base, url) ->
+    console.log "base is " + base
+    parts = base.split("/")
+    base = parts[0] + "//" + parts[2]
+    if url.indexOf("/") is 0
+      base + url
+    else
+      base + "/" + url
+
 
   # Shows message on topbar of the ui
   showMessage: (data = '') ->

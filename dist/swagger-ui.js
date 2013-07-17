@@ -624,7 +624,7 @@ function program2(depth0,data) {
   stack1 = foundHelper || depth0.name;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "name", { hash: {} }); }
-  buffer += escapeExpression(stack1) + "'/>\n		";
+  buffer += escapeExpression(stack1) + "'/>\n			<div class=\"parameter-content-type\" />\n		";
   return buffer;}
 
 function program4(depth0,data) {
@@ -1492,11 +1492,16 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
     };
 
     SwaggerUi.prototype.load = function() {
-      var _ref;
+      var url, _ref;
       if ((_ref = this.mainView) != null) {
         _ref.clear();
       }
-      this.headerView.update(this.options.url);
+      url = this.options.url;
+      if (url.indexOf("http") !== 0) {
+        url = this.buildUrl(window.location.href.toString(), url);
+      }
+      this.options.url = url;
+      this.headerView.update(url);
       this.api = new SwaggerApi(this.options);
       this.api.build();
       return this.api;
@@ -1523,6 +1528,18 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
       return setTimeout(function() {
         return Docs.shebang();
       }, 400);
+    };
+
+    SwaggerUi.prototype.buildUrl = function(base, url) {
+      var parts;
+      console.log("base is " + base);
+      parts = base.split("/");
+      base = parts[0] + "//" + parts[2];
+      if (url.indexOf("/") === 0) {
+        return base + url;
+      } else {
+        return base + "/" + url;
+      }
     };
 
     SwaggerUi.prototype.showMessage = function(data) {
@@ -1712,7 +1729,7 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
     OperationView.prototype.initialize = function() {};
 
     OperationView.prototype.render = function() {
-      var contentTypeModel, isMethodSubmissionSupported, param, responseContentTypeView, responseSignatureView, signatureModel, statusCode, _i, _j, _len, _len1, _ref, _ref1;
+      var contentTypeModel, isMethodSubmissionSupported, param, responseContentTypeView, responseSignatureView, signatureModel, statusCode, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
       isMethodSubmissionSupported = true;
       if (!isMethodSubmissionSupported) {
         this.model.isReadOnly = true;
@@ -1737,18 +1754,29 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
       };
       contentTypeModel.consumes = this.model.consumes;
       contentTypeModel.produces = this.model.produces;
+      _ref = this.model.parameters;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        param = _ref[_i];
+        console.log("looking at " + param.dataType);
+        if (param.dataType.toLowerCase() === 'file') {
+          if (!contentTypeModel.consumes) {
+            console.log("set content type ");
+            contentTypeModel.consumes = 'multipart/form-data';
+          }
+        }
+      }
       responseContentTypeView = new ResponseContentTypeView({
         model: contentTypeModel
       });
       $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
-      _ref = this.model.parameters;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        param = _ref[_i];
+      _ref1 = this.model.parameters;
+      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+        param = _ref1[_j];
         this.addParameter(param, contentTypeModel.consumes);
       }
-      _ref1 = this.model.responseMessages;
-      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-        statusCode = _ref1[_j];
+      _ref2 = this.model.responseMessages;
+      for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+        statusCode = _ref2[_k];
         this.addStatusCode(statusCode);
       }
       return this;
@@ -1799,7 +1827,7 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
         opts = {
           parent: this
         };
-        _ref = form.find(".body-textarea,.parameter");
+        _ref = form.find("input");
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           o = _ref[_i];
           if ((o.value != null) && jQuery.trim(o.value).length > 0) {
@@ -1997,7 +2025,7 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
       if (this.model.paramType === 'body') {
         this.model.isBody = true;
       }
-      if (this.model.dataType === 'file') {
+      if (this.model.dataType.toLowerCase() === 'file') {
         this.model.isFile = true;
       }
       template = this.template();
