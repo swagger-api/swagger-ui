@@ -1775,7 +1775,7 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
     };
 
     OperationView.prototype.submitOperation = function(e) {
-      var error_free, form, map, o, opts, _i, _j, _len, _len1, _ref, _ref1;
+      var error_free, form, map, o, opts, _i, _len, _ref;
       if (e != null) {
         e.preventDefault();
       }
@@ -1799,22 +1799,13 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
         opts = {
           parent: this
         };
-        _ref = form.serializeArray();
+        _ref = form.find(".body-textarea,.parameter");
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           o = _ref[_i];
           if ((o.value != null) && jQuery.trim(o.value).length > 0) {
-            map[o.name] = o.value;
-          }
-        }
-        _ref1 = form.find(".body-textarea,.parameter");
-        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-          o = _ref1[_j];
-          if ((o.value != null) && jQuery.trim(o.value).length > 0) {
-            console.log(o.name + ", " + o.value);
             map[o.name] = encodeURI(o.value);
           }
         }
-        console.log(map);
         opts.responseContentType = $("div select[name=responseContentType]", $(this.el)).val();
         opts.requestContentType = $("div select[name=parameterContentType]", $(this.el)).val();
         return this.model["do"](map, opts, this.showCompleteStatus, this.showErrorStatus, this);

@@ -70,16 +70,13 @@ class OperationView extends Backbone.View
     if error_free
       map = {}
       opts = {parent: @}
-      for o in form.serializeArray()
-        if(o.value? && jQuery.trim(o.value).length > 0)
-          map[o.name] = o.value
+      #for o in form.serializeArray()
+        #if(o.value? && jQuery.trim(o.value).length > 0)
+          #map[o.name] = o.value
 
       for o in form.find(".body-textarea,.parameter")
         if(o.value? && jQuery.trim(o.value).length > 0)
-          console.log o.name + ", " + o.value
           map[o.name] = encodeURI(o.value)
-
-      console.log map
 
       opts.responseContentType = $("div select[name=responseContentType]", $(@el)).val()
       opts.requestContentType = $("div select[name=parameterContentType]", $(@el)).val()
