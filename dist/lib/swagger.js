@@ -53,6 +53,7 @@
       obj = {
         url: this.url,
         method: "get",
+        headers: {},
         on: {
           error: function(response) {
             if (_this.url.substring(0, 4) !== 'http') {
@@ -234,6 +235,7 @@
         obj = {
           url: this.url,
           method: "get",
+          headers: {},
           on: {
             error: function(response) {
               return _this.api.fail("Unable to read api '" + _this.name + "' from path " + _this.url + " (server returned " + error.statusText + ")");
@@ -329,12 +331,22 @@
           if (o.errorResponses) {
             responseMessages = o.errorResponses;
           }
+          o.nickname = this.sanitize(o.nickname);
           op = new SwaggerOperation(o.nickname, resource_path, method, o.parameters, o.summary, o.notes, o.responseClass, responseMessages, this, consumes, produces);
           this.operations[op.nickname] = op;
           _results.push(this.operationsArray.push(op));
         }
         return _results;
       }
+    };
+
+    SwaggerResource.prototype.sanitize = function(nickname) {
+      var op;
+      op = nickname.replace(/[\s!@#$%^&*()_+=\[{\]};:<>|./?,\\'""-]/g, '_');
+      op = op.replace(/((_){2,})/g, '_');
+      op = op.replace(/^(_)*/g, '');
+      op = op.replace(/([_])*$/g, '');
+      return op;
     };
 
     SwaggerResource.prototype.help = function() {
@@ -664,7 +676,7 @@
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           param = _ref[_i];
-          if (param.paramType === "form") {
+          if (param.paramType === "form" || param.paramType.toLowerCase() === "file") {
             _results.push(param);
           }
         }
@@ -832,7 +844,22 @@
           }
           return _results;
         }).call(this)).length > 0) {
-          requestContentType = "application/x-www-form-urlencoded";
+          if (((function() {
+            var _i, _len, _ref, _results;
+            _ref = this.operation.parameters;
+            _results = [];
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              param = _ref[_i];
+              if (param.dataType.toLowerCase() === "file") {
+                _results.push(param);
+              }
+            }
+            return _results;
+          }).call(this)).length > 0) {
+            requestContentType = "multipart/form-data";
+          } else {
+            requestContentType = "application/x-www-form-urlencoded";
+          }
         } else if (this.type !== "DELETE") {
           requestContentType = null;
         }
@@ -974,7 +1001,7 @@
         return x;
       };
       toString = function(x) {
-        return x.toString;
+        return x.toString();
       };
       if (typeof window !== 'undefined') {
         this.content = require("./shred/content");
