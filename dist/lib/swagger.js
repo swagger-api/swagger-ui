@@ -362,6 +362,12 @@
 
     function SwaggerModel(modelName, obj) {
       var propertyName;
+      if (obj.required){
+        for (var i=0;i<obj.required.length;++i){
+          propertyName=obj.required[i];
+          obj.properties[propertyName].required = true;
+        }
+      }
       this.name = obj.id != null ? obj.id : modelName;
       this.properties = [];
       for (propertyName in obj.properties) {
