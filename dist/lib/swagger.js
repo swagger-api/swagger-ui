@@ -424,6 +424,7 @@
         prop = _ref[_i];
         result[prop.name] = prop.getSampleValue(modelsToIgnore);
       }
+      modelsToIgnore.pop(this.name);
       return result;
     };
 
