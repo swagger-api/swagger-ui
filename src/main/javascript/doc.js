@@ -102,6 +102,7 @@ var Docs = {
 
                 // Expand operation
 				var li_dom_id = fragments.join('_');
+				li_dom_id = li_dom_id.replace('.', '\\.');
 				var li_content_dom_id = li_dom_id + "_content";
 
 //                log("li_dom_id " + li_dom_id);
