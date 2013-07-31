@@ -216,6 +216,7 @@
       produces = [];
       consumes = [];
       this.path = this.api.resourcePath != null ? this.api.resourcePath : resourceObj.path;
+      console.log('using path ' + this.path);
       this.description = resourceObj.description;
       parts = this.path.split("/");
       this.name = parts[parts.length - 1].replace('.{format}', '');
@@ -230,7 +231,11 @@
         if (this.path == null) {
           this.api.fail("SwaggerResources must have a path.");
         }
-        this.url = this.api.basePath + this.path.replace('{format}', 'json');
+        if (this.path.substring(0, 4) === 'http') {
+          this.url = this.path.replace('{format}', 'json');
+        } else {
+          this.url = this.api.basePath + this.path.replace('{format}', 'json');
+        }
         this.api.progress('fetching resource ' + this.name + ': ' + this.url);
         obj = {
           url: this.url,

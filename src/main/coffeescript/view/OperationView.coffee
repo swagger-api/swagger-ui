@@ -32,7 +32,6 @@ class OperationView extends Backbone.View
     contentTypeModel.produces = @model.produces
 
     for param in @model.parameters
-      console.log "looking at " + param.dataType
       if param.dataType.toLowerCase() == 'file'
         if !contentTypeModel.consumes
           console.log "set content type "

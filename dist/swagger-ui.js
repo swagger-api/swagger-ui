@@ -1757,7 +1757,6 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
       _ref = this.model.parameters;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         param = _ref[_i];
-        console.log("looking at " + param.dataType);
         if (param.dataType.toLowerCase() === 'file') {
           if (!contentTypeModel.consumes) {
             console.log("set content type ");
