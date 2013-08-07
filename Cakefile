@@ -1,6 +1,7 @@
 fs          = require 'fs'
 path        = require 'path'
 {exec}      = require 'child_process'
+less        = require 'less'
 
 sourceFiles  = [
   'SwaggerUi'
@@ -69,7 +70,17 @@ task 'dist', 'Build a distribution', ->
           console.log '   : Minifying all...'
           exec 'java -jar "./bin/yuicompressor-2.4.7.jar" --type js -o ' + 'dist/swagger-ui.min.js ' + 'dist/swagger-ui.js', (err, stdout, stderr) ->
             throw err if err
-            pack()
+            lessc()
+
+  lessc = ->
+    # Someone who knows CoffeeScript should make this more Coffee-licious
+    console.log '   : Compiling LESS...'
+    lessFiles = fs.readdirSync('src/main/less')
+    for file in lessFiles then do (file) ->
+      less.render fs.readFileSync("src/main/less/#{file}", 'utf8'), (err, css) ->
+        file = file.slice(0, -1 * path.extname(file).length) + '.css'
+        fs.writeFileSync("src/main/html/css/#{file}", css)
+    pack()
 
   pack = ->
     console.log '   : Packaging...'
@@ -105,6 +116,7 @@ task 'watch', 'Watch source files for changes and autocompile', ->
   watchFiles("src/main/template")
   watchFiles("src/main/javascript")
   watchFiles("src/main/html")
+  watchFiles("src/main/less")
   watchFiles("src/test")
 
 notify = (message) ->
