@@ -687,8 +687,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content form input[type='text'].error {
-    outline: 2px solid black;
-    outline-color: #cc0000;
+    outline: 2px solid #cc0000;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content div.sandbox_header {
@@ -862,8 +861,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content form input[type='text'].error {
-    outline: 2px solid black;
-    outline-color: #cc0000;
+    outline: 2px solid #cc0000;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.post div.content div.sandbox_header {
@@ -946,7 +944,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     width: 50px;
     font-size: 0.7em;
     text-align: center;
-    padding: 7px 0 4px;
+    padding: 7px 0 4px 0;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
     -o-border-radius: 2px;
@@ -1037,8 +1035,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content form input[type='text'].error {
-    outline: 2px solid black;
-    outline-color: #cc0000;
+    outline: 2px solid #cc0000;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.content div.sandbox_header {
@@ -1092,8 +1089,8 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     display: block;
     margin: 0;
     padding: 0;
-    background-color: #FCE9E3;
-    border: 1px solid #F5D5C3;
+    background-color: #fce9e3;
+    border: 1px solid #f5d5c3;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading h3 {
@@ -1114,7 +1111,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading h3 span.http_method a {
     text-transform: uppercase;
-    background-color: #D38042;
+    background-color: #d38042;
     text-decoration: none;
     color: white;
     display: inline-block;
@@ -1170,13 +1167,13 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li {
-    border-right-color: #f0cecb;
-    color: #D38042;
+    border-right-color: #f5d5c3;
+    color: #d38042;
     font-size: 0.9em;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.heading ul.options li a {
-    color: #D38042;
+    color: #d38042;
     text-decoration: none;
 }
 
@@ -1186,7 +1183,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content {
     background-color: #faf0ef;
-    border: 1px solid #f0cecb;
+    border: 1px solid #f5d5c3;
     border-top: none;
     padding: 10px;
     -moz-border-radius-bottomleft: 6px;
@@ -1205,15 +1202,14 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content h4 {
-    color: #D38042;
+    color: #d38042;
     font-size: 1.1em;
     margin: 0;
     padding: 15px 0 5px;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content form input[type='text'].error {
-    outline: 2px solid black;
-    outline-color: #F5D5C3;
+    outline: 2px solid #cc0000;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.patch div.content div.sandbox_header {
@@ -1256,8 +1252,8 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     clear: both;
     overflow: hidden;
     display: block;
-    margin: 0 0 10px 0;
-    padding: 0 0 0 0px;
+    margin: 0 0 10px;
+    padding: 0;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.heading {
@@ -1265,11 +1261,10 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     clear: both;
     overflow: hidden;
     display: block;
-    margin: 0 0 0 0;
+    margin: 0;
     padding: 0;
     background-color: #fcffcd;
-    border: 1px solid black;
-    border-color: #ffd20f;
+    border: 1px solid #ffd20f;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.heading h3 {
@@ -1320,10 +1315,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.heading ul.options {
-    float: none;
-    clear: both;
     overflow: hidden;
-    margin: 0;
     padding: 0;
     display: block;
     clear: none;
@@ -1365,8 +1357,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.content {
     background-color: #fcffcd;
-    border: 1px solid black;
-    border-color: #ffd20f;
+    border: 1px solid #ffd20f;
     border-top: none;
     padding: 10px;
     -moz-border-radius-bottomleft: 6px;
@@ -1381,19 +1372,18 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     -ms-border-bottom-right-radius: 6px;
     -khtml-border-bottom-right-radius: 6px;
     border-bottom-right-radius: 6px;
-    margin: 0 0 20px 0;
+    margin: 0 0 20px;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.content h4 {
     color: #ffd20f;
     font-size: 1.1em;
     margin: 0;
-    padding: 15px 0 5px 0px;
+    padding: 15px 0 5px;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.content form input[type='text'].error {
-    outline: 2px solid black;
-    outline-color: #cc0000;
+    outline: 2px solid #cc0000;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.content div.sandbox_header {
@@ -1421,12 +1411,6 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     color: #6fc992;
     display: inline-block;
     font-size: 0.9em;
-}
-
-body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.content div.response div.block {
-    background-color: #fcf6db;
-    border: 1px solid black;
-    border-color: #e5e0c6;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.head div.content div.response div.block pre {
@@ -1562,7 +1546,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
     -ms-border-bottom-right-radius: 6px;
     -khtml-border-bottom-right-radius: 6px;
     border-bottom-right-radius: 6px;
-    margin: 0 0 20px 0;
+    margin: 0 0 20px;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content h4 {
@@ -1573,8 +1557,7 @@ body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operatio
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content form input[type='text'].error {
-    outline: 2px solid black;
-    outline-color: #cc0000;
+    outline: 2px solid #cc0000;
 }
 
 body ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.delete div.content div.sandbox_header {
