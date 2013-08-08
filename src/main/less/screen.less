@@ -767,28 +767,38 @@ body {
                     }
                 }
 
+                .operation1(@color) {
+                    .operation(
+                        (#ffffff - @color) * 0.9 + @color,
+                        (#ffffff - @color) * 0.75 + @color,
+                        (#ffffff - @color) * 0.915 + @color,
+                        @color,
+                        (#ffffff - @color) * 0.4 + @color
+                        );
+                }
+
                 li.operation.get {
-                    .operation(#e7f0f7, #c3d9ec, #ebf3f9, #0f6ab4, #6fa5d2);
+                    .operation1(#0f6ab4);
                 }
 
                 li.operation.post {
-                    .operation(#e7f6ec, #c3e8d1, #ebf7f0, #10a54a, #6fc992);
+                    .operation1(#10a54a);
                 }
 
                 li.operation.put {
-                    .operation(#f9f2e9, #f0e0ca, #faf5ee, #c5862b, #dcb67f);
+                    .operation1(#c5862b);
                 }
 
                 li.operation.patch {
-                    .operation(#fce9e3, #f5d5c3, #faf0ef, #d38042, #dcb67f);
+                    .operation1(#d38042);
                 }
 
                 li.operation.head {
-                    .operation(#fcffcd, #ffd20f, #fcffcd, #ffd20f, #6fc992);
+                    .operation1(#ffd20f);
                 }
 
                 li.operation.delete {
-                    .operation(#f5e8e8, #e8c6c7, #f7eded, #a41e22, #c8787a);
+                    .operation1(#a41e22);
                 }
             }
         }
