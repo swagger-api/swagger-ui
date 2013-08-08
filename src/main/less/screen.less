@@ -57,7 +57,46 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     display: block;
 }
 
-// End Reset
+// Colors
+
+@dark-green: #08592b;
+@light-green: #7dbd33;
+@black: #000000;
+@white: #ffffff;
+@dark-grey: #808080;
+@light-grey: #dedede;
+@tertiary-1: #d4470f;
+@tertiary-2: #0085a1;
+@tertiary-3: #470a59;
+@tertiary-4: #ff7f41;
+@tertiary-5: #00c1d5;
+@tertiary-6: #9063cd;
+
+// Fonts
+
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Ubuntu Light'), local('Ubuntu-Light'), url(/fonts/_aijTyevf54tkVDLy-dlnLO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Ubuntu Medium'), local('Ubuntu-Medium'), url(/fonts/OsJ2DjdpjqFRVUSto6IffLO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Ubuntu Bold'), local('Ubuntu-Bold'), url(/fonts/0ihfXUL2emPh0ROJezvraLO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
+}
+
+@body-stack: 'Ubuntu', sans-serif;
+@code-stack: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+
+// Styles
 
 h1, h2, h3, h4, h5, h6 {
     a {
@@ -78,7 +117,7 @@ h1 {
     font-size: 1.5em;
     line-height: 1.3em;
     padding: 10px 0 10px 0;
-    font-family: "Droid Sans", sans-serif;
+    font-family: @body-stack;
     font-weight: bold;
 }
 
@@ -176,7 +215,7 @@ ol {
     }
 
     pre {
-        font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+        font-family: @code-stack;
         background-color: #fcf6db;
         border: 1px solid #e5e0c6;
         padding: 10px;
@@ -188,14 +227,14 @@ ol {
     }
 
     p code, li code {
-        font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+        font-family: @code-stack;
         background-color: #f0f0f0;
         color: black;
         padding: 1px 3px;
     }
 
     ol, ul {
-        font-family: "Droid Sans", sans-serif;
+        font-family: @body-stack;
         margin: 5px 0 10px;
         padding: 0 0 0 18px;
         list-style-type: disc;
@@ -231,16 +270,16 @@ a {
 }
 
 b, strong {
-    font-family: "Droid Sans", sans-serif;
+    font-family: @body-stack;
     font-weight: bold;
 }
 
 .code {
-    font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+    font-family: @code-stack;
 }
 
 pre {
-    font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+    font-family: @code-stack;
     background-color: #fcf6db;
     border: 1px solid #e5e0c6;
     padding: 10px;
@@ -361,7 +400,7 @@ form.formtastic fieldset.inputs ol li {
     }
 
     &.text textarea {
-        font-family: "Droid Sans", sans-serif;
+        font-family: @body-stack;
         height: 250px;
         padding: 4px;
         display: block;
@@ -411,7 +450,8 @@ form.fullwidth ol li {
 }
 
 body {
-    font-family: "Droid Sans", sans-serif;
+    padding-top: 60px;
+    font-family: @body-stack;
 
     #content_message {
         margin: 10px 15px;
@@ -420,7 +460,10 @@ body {
     }
 
     #header {
-        background-color: #89bf04;
+        background-color: @dark-green;
+        position: fixed;
+        width: 100%;
+        top: 0;
         padding: 14px;
 
         a#logo {
@@ -428,7 +471,7 @@ body {
             font-weight: bold;
             text-decoration: none;
             background: transparent url(../images/logo_small.png) no-repeat left center;
-            padding: 20px 0 20px 40px;
+            padding: 20px 0 20px 60px;
             color: white;
         }
 
@@ -464,7 +507,7 @@ body {
                     padding: 6px 8px;
                     font-size: 0.9em;
                     color: white;
-                    background-color: #547f00;
+                    background-color: @light-green;
                     -moz-border-radius: 4px;
                     -webkit-border-radius: 4px;
                     -o-border-radius: 4px;
@@ -473,7 +516,7 @@ body {
                     border-radius: 4px;
 
                     &:hover {
-                        background-color: #547f00;
+                        background-color: @dark-grey;
                     }
                 }
             }
@@ -485,7 +528,7 @@ body {
         padding: 10px 0;
         font-size: 0.8em;
         border-top: 1px solid #dddddd;
-        font-family: "Droid Sans", sans-serif;
+        font-family: @body-stack;
         color: #999999;
         font-style: italic;
 
@@ -496,7 +539,7 @@ body {
     }
 
     ul#resources {
-        font-family: "Droid Sans", sans-serif;
+        font-family: @body-stack;
         font-size: 0.9em;
 
         li.resource {
@@ -519,7 +562,7 @@ body {
                     display: block;
                     clear: none;
                     float: left;
-                    font-family: "Droid Sans", sans-serif;
+                    font-family: @body-stack;
                     font-weight: bold;
 
                     a {
@@ -758,11 +801,20 @@ body {
                         }
 
                         div.response div.block pre {
-                            font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+                            font-family: @code-stack;
                             padding: 10px;
                             font-size: 0.9em;
                             max-height: 400px;
                             overflow-y: auto;
+                        }
+
+                        .content-type div label {
+                            clear: both;
+                            display: block;
+                            color: @pri-color;
+                            font-size: 1.1em;
+                            margin: 0;
+                            padding: 15px 0 5px;
                         }
                     }
                 }
@@ -778,27 +830,27 @@ body {
                 }
 
                 li.operation.get {
-                    .operation1(#0f6ab4);
+                    .operation1(@tertiary-2);
                 }
 
                 li.operation.post {
-                    .operation1(#10a54a);
+                    .operation1(@tertiary-6);
                 }
 
                 li.operation.put {
-                    .operation1(#c5862b);
+                    .operation1(@tertiary-3);
                 }
 
                 li.operation.patch {
-                    .operation1(#d38042);
+                    .operation1(@tertiary-5);
                 }
 
                 li.operation.head {
-                    .operation1(#ffd20f);
+                    .operation1(@tertiary-4);
                 }
 
                 li.operation.delete {
-                    .operation1(#a41e22);
+                    .operation1(@tertiary-1);
                 }
             }
         }
@@ -806,7 +858,7 @@ body {
 }
 
 .model-signature {
-    font-family: "Droid Sans", sans-serif;
+    font-family: @body-stack;
     font-size: 1em;
     line-height: 1.5em;
 
@@ -909,15 +961,6 @@ pre code {
   font-size: 12px;
   margin-top: 5px;
   padding: 5px;
-}
-
-.content > .content-type > div > label {
-  clear: both;
-  display: block;
-  color: #0F6AB4;
-  font-size: 1.1em;
-  margin: 0;
-  padding: 15px 0 5px;
 }
 
 .swagger-ui-wrap {
