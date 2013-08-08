@@ -21,6 +21,7 @@
   "dependencies": {
     "coffee-script": "~1.5.0",
     "swagger-client": "1.0.4",
-    "handlebars": "~1.0.10"
+    "handlebars": "~1.0.10",
+    "less": "~1.4.2"
   }
 }
