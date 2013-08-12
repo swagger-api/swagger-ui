@@ -32,7 +32,8 @@ class OperationView extends Backbone.View
     contentTypeModel.produces = @model.produces
 
     for param in @model.parameters
-      if param.dataType.toLowerCase() == 'file'
+      type = param.type || param.dataType
+      if type.toLowerCase() == 'file'
         if !contentTypeModel.consumes
           console.log "set content type "
           contentTypeModel.consumes = 'multipart/form-data'
@@ -83,6 +84,10 @@ class OperationView extends Backbone.View
       for o in form.find("input")
         if(o.value? && jQuery.trim(o.value).length > 0)
           map[o.name] = encodeURI(o.value)
+
+      for o in form.find("textarea")
+        if(o.value? && jQuery.trim(o.value).length > 0)
+          map["body"] = o.value
 
       opts.responseContentType = $("div select[name=responseContentType]", $(@el)).val()
       opts.requestContentType = $("div select[name=parameterContentType]", $(@el)).val()

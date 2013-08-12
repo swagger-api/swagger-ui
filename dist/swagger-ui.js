@@ -1729,7 +1729,7 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
     OperationView.prototype.initialize = function() {};
 
     OperationView.prototype.render = function() {
-      var contentTypeModel, isMethodSubmissionSupported, param, responseContentTypeView, responseSignatureView, signatureModel, statusCode, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
+      var contentTypeModel, isMethodSubmissionSupported, param, responseContentTypeView, responseSignatureView, signatureModel, statusCode, type, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
       isMethodSubmissionSupported = true;
       if (!isMethodSubmissionSupported) {
         this.model.isReadOnly = true;
@@ -1757,7 +1757,8 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
       _ref = this.model.parameters;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         param = _ref[_i];
-        if (param.dataType.toLowerCase() === 'file') {
+        type = param.type || param.dataType;
+        if (type.toLowerCase() === 'file') {
           if (!contentTypeModel.consumes) {
             console.log("set content type ");
             contentTypeModel.consumes = 'multipart/form-data';
@@ -1802,7 +1803,7 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
     };
 
     OperationView.prototype.submitOperation = function(e) {
-      var error_free, form, map, o, opts, _i, _len, _ref;
+      var error_free, form, map, o, opts, _i, _j, _len, _len1, _ref, _ref1;
       if (e != null) {
         e.preventDefault();
       }
@@ -1831,6 +1832,13 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
           o = _ref[_i];
           if ((o.value != null) && jQuery.trim(o.value).length > 0) {
             map[o.name] = encodeURI(o.value);
+          }
+        }
+        _ref1 = form.find("textarea");
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          o = _ref1[_j];
+          if ((o.value != null) && jQuery.trim(o.value).length > 0) {
+            map["body"] = o.value;
           }
         }
         opts.responseContentType = $("div select[name=responseContentType]", $(this.el)).val();
@@ -2020,11 +2028,12 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
     ParameterView.prototype.initialize = function() {};
 
     ParameterView.prototype.render = function() {
-      var contentTypeModel, isParam, parameterContentTypeView, responseContentTypeView, signatureModel, signatureView, template;
+      var contentTypeModel, isParam, parameterContentTypeView, responseContentTypeView, signatureModel, signatureView, template, type;
+      type = this.model.type || this.model.dataType;
       if (this.model.paramType === 'body') {
         this.model.isBody = true;
       }
-      if (this.model.dataType.toLowerCase() === 'file') {
+      if (type.toLowerCase() === 'file') {
         this.model.isFile = true;
       }
       template = this.template();

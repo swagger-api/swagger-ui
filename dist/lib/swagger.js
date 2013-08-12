@@ -49,7 +49,6 @@
       var e, obj,
         _this = this;
       this.progress('fetching resource list: ' + this.url);
-      console.log('getting ' + this.url);
       obj = {
         url: this.url,
         method: "get",
@@ -387,13 +386,14 @@
     }
 
     SwaggerModel.prototype.setReferencedModels = function(allModels) {
-      var prop, _i, _len, _ref, _results;
+      var prop, type, _i, _len, _ref, _results;
       _ref = this.properties;
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         prop = _ref[_i];
-        if (allModels[prop.dataType] != null) {
-          _results.push(prop.refModel = allModels[prop.dataType]);
+        type = prop.type || prop.dataType;
+        if (allModels[type] != null) {
+          _results.push(prop.refModel = allModels[type]);
         } else if ((prop.refDataType != null) && (allModels[prop.refDataType] != null)) {
           _results.push(prop.refModel = allModels[prop.refDataType]);
         } else {
@@ -516,7 +516,7 @@
   SwaggerOperation = (function() {
 
     function SwaggerOperation(nickname, path, method, parameters, summary, notes, responseClass, responseMessages, resource, consumes, produces) {
-      var parameter, v, _i, _j, _len, _len1, _ref, _ref1, _ref2,
+      var parameter, type, v, _i, _j, _len, _len1, _ref, _ref1, _ref2,
         _this = this;
       this.nickname = nickname;
       this.path = path;
@@ -555,13 +555,14 @@
       _ref1 = this.parameters;
       for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
         parameter = _ref1[_i];
-        parameter.name = parameter.name || parameter.dataType;
-        if (parameter.dataType.toLowerCase() === 'boolean') {
+        parameter.name = parameter.name || parameter.type || parameter.dataType;
+        type = parameter.type || parameter.dataType;
+        if (type.toLowerCase() === 'boolean') {
           parameter.allowableValues = {};
           parameter.allowableValues.values = this.resource.api.booleanValues;
         }
-        parameter.signature = this.getSignature(parameter.dataType, this.resource.models);
-        parameter.sampleJSON = this.getSampleJSON(parameter.dataType, this.resource.models);
+        parameter.signature = this.getSignature(type, this.resource.models);
+        parameter.sampleJSON = this.getSampleJSON(type, this.resource.models);
         if (parameter.allowableValues != null) {
           if (parameter.allowableValues.valueType === "RANGE") {
             parameter.isRange = true;
@@ -596,34 +597,34 @@
       };
     }
 
-    SwaggerOperation.prototype.isListType = function(dataType) {
-      if (dataType.indexOf('[') >= 0) {
-        return dataType.substring(dataType.indexOf('[') + 1, dataType.indexOf(']'));
+    SwaggerOperation.prototype.isListType = function(type) {
+      if (type.indexOf('[') >= 0) {
+        return type.substring(type.indexOf('[') + 1, type.indexOf(']'));
       } else {
         return void 0;
       }
     };
 
-    SwaggerOperation.prototype.getSignature = function(dataType, models) {
+    SwaggerOperation.prototype.getSignature = function(type, models) {
       var isPrimitive, listType;
-      listType = this.isListType(dataType);
-      isPrimitive = ((listType != null) && models[listType]) || (models[dataType] != null) ? false : true;
+      listType = this.isListType(type);
+      isPrimitive = ((listType != null) && models[listType]) || (models[type] != null) ? false : true;
       if (isPrimitive) {
-        return dataType;
+        return type;
       } else {
         if (listType != null) {
           return models[listType].getMockSignature();
         } else {
-          return models[dataType].getMockSignature();
+          return models[type].getMockSignature();
         }
       }
     };
 
-    SwaggerOperation.prototype.getSampleJSON = function(dataType, models) {
+    SwaggerOperation.prototype.getSampleJSON = function(type, models) {
       var isPrimitive, listType, val;
-      listType = this.isListType(dataType);
-      isPrimitive = ((listType != null) && models[listType]) || (models[dataType] != null) ? false : true;
-      val = isPrimitive ? void 0 : (listType != null ? models[listType].createJSONSample() : models[dataType].createJSONSample());
+      listType = this.isListType(type);
+      isPrimitive = ((listType != null) && models[listType]) || (models[type] != null) ? false : true;
+      val = isPrimitive ? void 0 : (listType != null ? models[listType].createJSONSample() : models[type].createJSONSample());
       if (val) {
         val = listType ? [val] : val;
         return JSON.stringify(val, null, 2);
@@ -849,13 +850,14 @@
           }
           return _results;
         }).call(this)).length > 0) {
+          type = param.type || param.dataType;
           if (((function() {
             var _i, _len, _ref, _results;
             _ref = this.operation.parameters;
             _results = [];
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
               param = _ref[_i];
-              if (param.dataType.toLowerCase() === "file") {
+              if (type.toLowerCase() === "file") {
                 _results.push(param);
               }
             }
@@ -878,14 +880,14 @@
         }
       }
       responseContentType = null;
-      if (this.type === "POST" || this.type === "GET") {
+      if (this.type === "POST" || this.type === "GET" || this.type === "PATCH" || this.type === "PUT") {
         if (this.opts.responseContentType) {
-          responseContentType = this.opts.responseContentType;
+          requestContentType = this.opts.requestContentType;
         } else {
-          responseContentType = "application/json";
+          requestContentType = "application/json";
         }
       } else {
-        responseContentType = null;
+        requestContentType = null;
       }
       if (responseContentType && this.operation.produces) {
         if (this.operation.produces.indexOf(responseContentType) === -1) {

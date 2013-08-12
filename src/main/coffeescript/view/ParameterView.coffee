@@ -2,8 +2,9 @@ class ParameterView extends Backbone.View
   initialize: ->
 
   render: ->
+    type = @model.type || @model.dataType
     @model.isBody = true if @model.paramType == 'body'
-    @model.isFile = true if @model.dataType.toLowerCase() == 'file'
+    @model.isFile = true if type.toLowerCase() == 'file'
 
     template = @template()
     $(@el).html(template(@model))
