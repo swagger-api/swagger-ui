@@ -4,13 +4,14 @@
 	{{#if isBody}}
 		{{#if isFile}}
 			<input type="file" name='{{name}}'/>
+			<div class="parameter-content-type" />
 		{{else}}
 			{{#if defaultValue}}
 				<textarea class='body-textarea' name='{{name}}'>{{defaultValue}}</textarea>
 			{{else}}
 				<textarea class='body-textarea' name='{{name}}'></textarea>
 				<br />
-				<div class="content-type" />
+				<div class="parameter-content-type" />
 			{{/if}}
 		{{/if}}
 	{{else}}
@@ -27,4 +28,3 @@
 <td>
 	<span class="model-signature"></span>
 </td>
-

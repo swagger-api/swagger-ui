@@ -9,7 +9,7 @@ class OperationView extends Backbone.View
   initialize: ->
 
   render: ->
-    isMethodSubmissionSupported = jQuery.inArray(@model.httpMethod, @model.supportedSubmitMethods()) >= 0
+    isMethodSubmissionSupported = true #jQuery.inArray(@model.method, @model.supportedSubmitMethods) >= 0
     @model.isReadOnly = true unless isMethodSubmissionSupported
 
     $(@el).html(Handlebars.templates.operation(@model))
@@ -23,31 +23,35 @@ class OperationView extends Backbone.View
       responseSignatureView = new SignatureView({model: signatureModel, tagName: 'div'})
       $('.model-signature', $(@el)).append responseSignatureView.render().el
     else
-      $('.model-signature', $(@el)).html(@model.responseClass)
+      $('.model-signature', $(@el)).html(@model.type)
 
     contentTypeModel =
       isParam: false
 
-    # support old syntax
-    if @model.supportedContentTypes
-      contentTypeModel.produces = @model.supportedContentTypes
+    contentTypeModel.consumes = @model.consumes
+    contentTypeModel.produces = @model.produces
 
-    if @model.produces
-      contentTypeModel.produces = @model.produces
+    for param in @model.parameters
+      type = param.type || param.dataType
+      if type.toLowerCase() == 'file'
+        if !contentTypeModel.consumes
+          console.log "set content type "
+          contentTypeModel.consumes = 'multipart/form-data'
 
-    contentTypeView = new ContentTypeView({model: contentTypeModel})
-    $('.content-type', $(@el)).append contentTypeView.render().el
+    responseContentTypeView = new ResponseContentTypeView({model: contentTypeModel})
+    $('.response-content-type', $(@el)).append responseContentTypeView.render().el
 
     # Render each parameter
-    @addParameter param for param in @model.parameters
+    @addParameter param, contentTypeModel.consumes for param in @model.parameters
 
     # Render each response code
-    @addStatusCode statusCode for statusCode in @model.errorResponses
+    @addStatusCode statusCode for statusCode in @model.responseMessages
 
     @
 
-  addParameter: (param) ->
+  addParameter: (param, consumes) ->
     # Render a parameter
+    param.consumes = consumes
     paramView = new ParameterView({model: param, tagName: 'tr', readOnly: @model.isReadOnly})
     $('.operation-params', $(@el)).append paramView.render().el
 
@@ -72,103 +76,27 @@ class OperationView extends Backbone.View
     # if error free submit it
     if error_free
       map = {}
-      for o in form.serializeArray()
+      opts = {parent: @}
+      #for o in form.serializeArray()
+        #if(o.value? && jQuery.trim(o.value).length > 0)
+          #map[o.name] = o.value
+
+      for o in form.find("input")
         if(o.value? && jQuery.trim(o.value).length > 0)
-          map[o.name] = o.value
+          map[o.name] = encodeURI(o.value)
 
-      isFileUpload = form.children().find('input[type~="file"]').size() != 0
+      for o in form.find("textarea")
+        if(o.value? && jQuery.trim(o.value).length > 0)
+          map["body"] = o.value
 
-      isFormPost = false
-      consumes = "application/json"
-      if @model.consumes and @model.consumes.length > 0
-        # honor the consumes setting above everything else
-        consumes = @model.consumes[0]
-      else 
-        for o in @model.parameters
-          if o.paramType == 'form'
-            isFormPost = true
-            consumes = false
+      opts.responseContentType = $("div select[name=responseContentType]", $(@el)).val()
+      opts.requestContentType = $("div select[name=parameterContentType]", $(@el)).val()
 
-        if isFileUpload
-          consumes = false
-        else if @model.httpMethod.toLowerCase() == "post" and isFormPost is false
-          consumes = "application/json"
+      @model.do(map, opts, @showCompleteStatus, @showErrorStatus, @)
 
-      if isFileUpload
-        # requires HTML5 compatible browser
-        bodyParam = new FormData()
+  success: (response, parent) ->
+    parent.showCompleteStatus response
 
-        # add params except file
-        for param in @model.parameters
-          if (param.paramType is 'body' or 'form') and param.name isnt 'file' and param.name isnt 'File' and map[param.name]?
-            bodyParam.append(param.name, map[param.name])
-
-        # add files
-        $.each form.children().find('input[type~="file"]'), (i, el) ->
-          bodyParam.append($(el).attr('name'), el.files[0])
-
-        console.log(bodyParam)
-      else if isFormPost
-        bodyParam = new FormData()
-        for param in @model.parameters
-          if map[param.name]?
-            bodyParam.append(param.name, map[param.name])
-      else
-        bodyParam = null
-        for param in @model.parameters
-          if param.paramType is 'body'
-            bodyParam = map[param.name]
-
-      log "bodyParam = " + bodyParam 
-
-      headerParams = null
-      invocationUrl = 
-        if @model.supportHeaderParams()
-          headerParams = @model.getHeaderParams(map)
-          @model.urlify(map, false)
-        else
-          @model.urlify(map, true)
-
-      log 'submitting ' + invocationUrl
-
-
-      $(".request_url", $(@el)).html "<pre>" + invocationUrl + "</pre>"
-      $(".response_throbber", $(@el)).show()
-
-      obj = 
-        type: @model.httpMethod
-        url: invocationUrl
-        headers: headerParams
-        data: bodyParam
-        contentType: consumes
-        dataType: 'json'
-        processData: false
-        error: (xhr, textStatus, error) =>
-          @showErrorStatus(xhr, textStatus, error)
-        success: (data) =>
-          @showResponse(data)
-        complete: (data) =>
-          @showCompleteStatus(data)
-
-      paramContentTypeField = $("td select[name=contentType]", $(@el)).val()
-      if paramContentTypeField
-        obj.contentType = paramContentTypeField
-
-      log 'content type = ' + obj.contentType
-
-      if not (obj.data or (obj.type is 'GET' or obj.type is 'DELETE')) and obj.contentType is not "application/x-www-form-urlencoded"
-        obj.contentType = false
-
-      log 'content type is now = ' + obj.contentType
-
-      responseContentTypeField = $('.content > .content-type > div > select[name=contentType]', $(@el)).val()
-      if responseContentTypeField
-        obj.headers = if obj.headers? then obj.headers else {}
-        obj.headers.accept = responseContentTypeField
-      
-      jQuery.ajax(obj)
-      false
-      # $.getJSON(invocationUrl, (r) => @showResponse(r)).complete((r) => @showCompleteStatus(r)).error (r) => @showErrorStatus(r)
 
   # handler for hide response link
   hideResponse: (e) ->
@@ -182,14 +110,13 @@ class OperationView extends Backbone.View
     prettyJson = JSON.stringify(response, null, "\t").replace(/\n/g, "<br>")
     $(".response_body", $(@el)).html escape(prettyJson)
 
-
   # Show error from server
-  showErrorStatus: (data) ->
-    @showStatus data
+  showErrorStatus: (data, parent) ->
+    parent.showStatus data
 
   # show the status codes
-  showCompleteStatus: (data) ->
-    @showStatus data
+  showCompleteStatus: (data, parent) ->
+    parent.showStatus data
 
   # Adapted from http://stackoverflow.com/a/2893259/454004
   formatXml: (xml) ->
@@ -252,21 +179,39 @@ class OperationView extends Backbone.View
 
   # puts the response data in UI
   showStatus: (data) ->
-    try
-      code = $('<code />').text(JSON.stringify(JSON.parse(data.responseText), null, 2))
+    content = data.content.data
+    headers = data.getHeaders()
+
+    # if server is nice, and sends content-type back, we can use it
+    contentType = headers["Content-Type"]
+
+    if content == undefined
+      code = $('<code />').text("no content")
       pre = $('<pre class="json" />').append(code)
-    catch error
-      code = $('<code />').text(@formatXml(data.responseText))
+    else if contentType.indexOf("application/json") == 0
+      code = $('<code />').text(JSON.stringify(JSON.parse(content), null, 2))
+      pre = $('<pre class="json" />').append(code)
+    else if contentType.indexOf("application/xml") == 0
+      code = $('<code />').text(@formatXml(content))
       pre = $('<pre class="xml" />').append(code)
+    else if contentType.indexOf("text/html") == 0
+      code = $('<code />').html(content)
+      pre = $('<pre class="xml" />').append(code)
+    else
+      # don't know what to render!
+      code = $('<code />').text(content)
+      pre = $('<pre class="json" />').append(code)
+
     response_body = pre
+    $(".request_url").html "<pre>" + data.request.url + "</pre>"
     $(".response_code", $(@el)).html "<pre>" + data.status + "</pre>"
     $(".response_body", $(@el)).html response_body
-    $(".response_headers", $(@el)).html "<pre>" + data.getAllResponseHeaders() + "</pre>"
+    $(".response_headers", $(@el)).html "<pre>" + JSON.stringify(data.getHeaders()) + "</pre>"
     $(".response", $(@el)).slideDown()
     $(".response_hider", $(@el)).show()
     $(".response_throbber", $(@el)).hide()
     hljs.highlightBlock($('.response_body', $(@el))[0])
 
   toggleOperationContent: ->
-    elem = $('#' + Docs.escapeResourceName(@model.resourceName) + "_" + @model.nickname + "_" + @model.httpMethod + "_" + @model.number + "_content")
+    elem = $('#' + Docs.escapeResourceName(@model.resourceName) + "_" + @model.nickname + "_" + @model.method + "_" + @model.number + "_content")
     if elem.is(':visible') then Docs.collapseOperation(elem) else Docs.expandOperation(elem)

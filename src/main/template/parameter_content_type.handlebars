@@ -1,0 +1,10 @@
+<label for="parameterContentType"></label>
+<select name="parameterContentType">
+{{#if consumes}}
+  {{#each consumes}}
+  <option value="{{{this}}}">{{{this}}}</option>
+  {{/each}}
+{{else}}
+  <option value="application/json">application/json</option>
+{{/if}}
+</select>

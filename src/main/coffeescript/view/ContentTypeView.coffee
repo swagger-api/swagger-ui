@@ -5,12 +5,7 @@ class ContentTypeView extends Backbone.View
     template = @template()
     $(@el).html(template(@model))
 
-    @isParam = @model.isParam
-
-    if @isParam
-      $('label[for=contentType]', $(@el)).text('Parameter content type:')
-    else
-      $('label[for=contentType]', $(@el)).text('Response Content Type')
+    $('label[for=contentType]', $(@el)).text('Response Content Type')
 
     @
 

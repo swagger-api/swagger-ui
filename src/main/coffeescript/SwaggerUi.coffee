@@ -34,16 +34,22 @@ class SwaggerUi extends Backbone.Router
 
   # Event handler for when url/key is received from user
   updateSwaggerUi: (data) ->
-    @options.discoveryUrl = data.discoveryUrl
-    @options.apiKey = data.apiKey
+    @options.url = data.url
     @load()
 
   # Create an api and render
   load: ->
     # Initialize the API object
     @mainView?.clear()
-    @headerView.update(@options.discoveryUrl, @options.apiKey)
+    url = @options.url
+    if url.indexOf("http") isnt 0
+      url = @buildUrl(window.location.href.toString(), url)
+
+    @options.url = url
+    @headerView.update(url)
     @api = new SwaggerApi(@options)
+    @api.build()
+    @api
 
   # This is bound to success handler for SwaggerApi
   #  so it gets called when SwaggerApi completes loading
@@ -52,14 +58,24 @@ class SwaggerUi extends Backbone.Router
     @mainView = new MainView({model: @api, el: $('#' + @dom_id)}).render()
     @showMessage()
     switch @options.docExpansion
-     when "full" then Docs.expandOperationsForResource('')
-     when "list" then Docs.collapseOperationsForResource('')
+      when "full" then Docs.expandOperationsForResource('')
+      when "list" then Docs.collapseOperationsForResource('')
     @options.onComplete(@api, @) if @options.onComplete
     setTimeout(
       =>
         Docs.shebang()
       400
     )
+
+  buildUrl: (base, url) ->
+    console.log "base is " + base
+    parts = base.split("/")
+    base = parts[0] + "//" + parts[2]
+    if url.indexOf("/") is 0
+      base + url
+    else
+      base + "/" + url
+
 
   # Shows message on topbar of the ui
   showMessage: (data = '') ->

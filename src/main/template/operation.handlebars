@@ -1,49 +1,49 @@
 
     <ul class='operations' >
-      <li class='{{httpMethod}} operation' id='{{resourceName}}_{{nickname}}_{{httpMethod}}_{{number}}'>
+      <li class='{{method}} operation' id='{{resourceName}}_{{nickname}}_{{method}}_{{number}}'>
             <div class='heading'>
                 <h3>
                   <span class='http_method'>
-                    <a href='#!/{{resourceName}}/{{nickname}}_{{httpMethod}}_{{number}}' class="toggleOperation">{{httpMethod}}</a>
+                    <a href='#!/{{resourceName}}/{{nickname}}_{{method}}_{{number}}' class="toggleOperation">{{method}}</a>
                   </span>
                   <span class='path'>
-                    <a href='#!/{{resourceName}}/{{nickname}}_{{httpMethod}}_{{number}}' class="toggleOperation">{{path}}</a>
+                    <a href='#!/{{resourceName}}/{{nickname}}_{{method}}_{{number}}' class="toggleOperation">{{path}}</a>
                   </span>
                 </h3>
                 <ul class='options'>
                     <li>
-                    <a href='#!/{{resourceName}}/{{nickname}}_{{httpMethod}}_{{number}}' class="toggleOperation">{{{summary}}}</a>
+                    <a href='#!/{{resourceName}}/{{nickname}}_{{method}}_{{number}}' class="toggleOperation">{{{summary}}}</a>
                     </li>
                 </ul>
             </div>
-            <div class='content' id='{{resourceName}}_{{nickname}}_{{httpMethod}}_{{number}}_content' style='display:none'>
+            <div class='content' id='{{resourceName}}_{{nickname}}_{{method}}_{{number}}_content' style='display:none'>
                 {{#if notes}}
                 <h4>Implementation Notes</h4>
                 <p>{{{notes}}}</p>
                 {{/if}}
-                {{#if responseClass}}
-                    <h4>Response Class</h4>
-                    <p><span class="model-signature" /></p>
-                    <br/>
-                    <div class="content-type" />
+                {{#if type}}
+                  <h4>Response Class</h4>
+                  <p><span class="model-signature" /></p>
+                  <br/>
+                  <div class="response-content-type" />
                 {{/if}}
                 <form accept-charset='UTF-8' class='sandbox'>
-                    <div style='margin:0;padding:0;display:inline'></div>
-                    {{#if parameters}}
-                    <h4>Parameters</h4>
-                    <table class='fullwidth'>
-                        <thead>
-                        <tr>
-                            <th style="width: 100px; max-width: 100px">Parameter</th>
-                            <th style="width: 310px; max-width: 310px">Value</th>
-                            <th style="width: 200px; max-width: 200px">Description</th>
-                            <th style="width: 100px; max-width: 100px">Parameter Type</th>
-                            <th style="width: 220px; max-width: 230px">Data Type</th>
-                        </tr>
-                        </thead>
-                        <tbody class="operation-params">
+                  <div style='margin:0;padding:0;display:inline'></div>
+                  {{#if parameters}}
+                  <h4>Parameters</h4>
+                  <table class='fullwidth'>
+                    <thead>
+                      <tr>
+                        <th style="width: 100px; max-width: 100px">Parameter</th>
+                        <th style="width: 310px; max-width: 310px">Value</th>
+                        <th style="width: 200px; max-width: 200px">Description</th>
+                        <th style="width: 100px; max-width: 100px">Parameter Type</th>
+                        <th style="width: 220px; max-width: 230px">Data Type</th>
+                      </tr>
+                    </thead>
+                  <tbody class="operation-params">
 
-                        </tbody>
+                    </tbody>
                     </table>
                     {{/if}}
                     {{#if errorResponses}}
