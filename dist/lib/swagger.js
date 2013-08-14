@@ -73,6 +73,7 @@
             }
             _this.apis = {};
             _this.apisArray = [];
+            _this.produces = response.produces;
             if (response.info != null) {
               _this.info = response.info;
             }
@@ -215,6 +216,7 @@
       produces = [];
       consumes = [];
       this.path = this.api.resourcePath != null ? this.api.resourcePath : resourceObj.path;
+      console.log("we produce " + resourceObj.produces);
       console.log('using path ' + this.path);
       this.description = resourceObj.description;
       parts = this.path.split("/");
@@ -278,7 +280,7 @@
         _ref = response.apis;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           endpoint = _ref[_i];
-          this.addOperations(endpoint.path, endpoint.operations);
+          this.addOperations(endpoint.path, endpoint.operations, response.consumes, response.produces);
         }
       }
       this.api[this.name] = this;
@@ -306,14 +308,14 @@
       }
     };
 
-    SwaggerResource.prototype.addOperations = function(resource_path, ops) {
-      var consumes, method, o, op, produces, responseMessages, _i, _len, _results;
+    SwaggerResource.prototype.addOperations = function(resource_path, ops, consumes, produces) {
+      var method, o, op, responseMessages, type, _i, _len, _results;
       if (ops) {
         _results = [];
         for (_i = 0, _len = ops.length; _i < _len; _i++) {
           o = ops[_i];
-          consumes = null;
-          produces = null;
+          consumes = this.consumes;
+          produces = this.produces;
           if (o.consumes != null) {
             consumes = o.consumes;
           } else {
@@ -324,6 +326,7 @@
           } else {
             produces = this.produces;
           }
+          type = o.type || o.responseClass;
           responseMessages = o.responseMessages;
           method = o.method;
           if (o.httpMethod) {
@@ -336,7 +339,7 @@
             responseMessages = o.errorResponses;
           }
           o.nickname = this.sanitize(o.nickname);
-          op = new SwaggerOperation(o.nickname, resource_path, method, o.parameters, o.summary, o.notes, o.responseClass, responseMessages, this, consumes, produces);
+          op = new SwaggerOperation(o.nickname, resource_path, method, o.parameters, o.summary, o.notes, type, responseMessages, this, consumes, produces);
           this.operations[op.nickname] = op;
           _results.push(this.operationsArray.push(op));
         }
@@ -515,8 +518,8 @@
 
   SwaggerOperation = (function() {
 
-    function SwaggerOperation(nickname, path, method, parameters, summary, notes, responseClass, responseMessages, resource, consumes, produces) {
-      var parameter, type, v, _i, _j, _len, _len1, _ref, _ref1, _ref2,
+    function SwaggerOperation(nickname, path, method, parameters, summary, notes, type, responseMessages, resource, consumes, produces) {
+      var parameter, v, _i, _j, _len, _len1, _ref, _ref1, _ref2,
         _this = this;
       this.nickname = nickname;
       this.path = path;
@@ -524,7 +527,7 @@
       this.parameters = parameters != null ? parameters : [];
       this.summary = summary;
       this.notes = notes;
-      this.responseClass = responseClass;
+      this.type = type;
       this.responseMessages = responseMessages;
       this.resource = resource;
       this.consumes = consumes;
@@ -544,12 +547,12 @@
       this.method = this.method.toLowerCase();
       this.isGetMethod = this.method === "get";
       this.resourceName = this.resource.name;
-      if (((_ref = this.responseClass) != null ? _ref.toLowerCase() : void 0) === 'void') {
-        this.responseClass = void 0;
+      if (((_ref = this.type) != null ? _ref.toLowerCase() : void 0) === 'void') {
+        this.type = void 0;
       }
-      if (this.responseClass != null) {
-        this.responseClassSignature = this.getSignature(this.responseClass, this.resource.models);
-        this.responseSampleJSON = this.getSampleJSON(this.responseClass, this.resource.models);
+      if (this.type != null) {
+        this.responseClassSignature = this.getSignature(this.type, this.resource.models);
+        this.responseSampleJSON = this.getSampleJSON(this.type, this.resource.models);
       }
       this.responseMessages = this.responseMessages || [];
       _ref1 = this.parameters;
@@ -880,14 +883,14 @@
         }
       }
       responseContentType = null;
-      if (this.type === "POST" || this.type === "GET" || this.type === "PATCH" || this.type === "PUT") {
+      if (this.type === "POST" || this.type === "GET" || this.type === "PATCH") {
         if (this.opts.responseContentType) {
-          requestContentType = this.opts.requestContentType;
+          responseContentType = this.opts.responseContentType;
         } else {
-          requestContentType = "application/json";
+          responseContentType = "application/json";
         }
       } else {
-        requestContentType = null;
+        responseContentType = null;
       }
       if (responseContentType && this.operation.produces) {
         if (this.operation.produces.indexOf(responseContentType) === -1) {

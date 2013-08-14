@@ -23,7 +23,7 @@ class OperationView extends Backbone.View
       responseSignatureView = new SignatureView({model: signatureModel, tagName: 'div'})
       $('.model-signature', $(@el)).append responseSignatureView.render().el
     else
-      $('.model-signature', $(@el)).html(@model.responseClass)
+      $('.model-signature', $(@el)).html(@model.type)
 
     contentTypeModel =
       isParam: false

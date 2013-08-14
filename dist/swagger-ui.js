@@ -552,8 +552,8 @@ function program11(depth0,data) {
   stack1 = stack2.call(depth0, stack1, tmp1);
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n                ";
-  foundHelper = helpers.responseClass;
-  stack1 = foundHelper || depth0.responseClass;
+  foundHelper = helpers.type;
+  stack1 = foundHelper || depth0.type;
   stack2 = helpers['if'];
   tmp1 = self.program(3, program3, data);
   tmp1.hash = {};
@@ -1747,7 +1747,7 @@ templates['status_code'] = template(function (Handlebars,depth0,helpers,partials
         });
         $('.model-signature', $(this.el)).append(responseSignatureView.render().el);
       } else {
-        $('.model-signature', $(this.el)).html(this.model.responseClass);
+        $('.model-signature', $(this.el)).html(this.model.type);
       }
       contentTypeModel = {
         isParam: false
