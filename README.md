@@ -1,12 +1,10 @@
 Swagger UI
 ==========
 
-Swagger UI is part of [Swagger](http://swagger.wordnik.com/) project.  The Swagger project allows you to produce, visualize and consume your OWN RESTful
-services.  No proxy or 3rd party services required.  Do it your own way.
+Swagger UI is part of [Swagger](http://swagger.wordnik.com/) project.  The Swagger project allows you to produce, visualize and consume your OWN RESTful services.  No proxy or 3rd party services required.  Do it your own way.
 
 Swagger UI is a dependency-free collection of HTML, Javascript, and CSS assets that dynamically
-generate beautiful documentation and sandbox from a [Swagger-compliant](https://github.com/wordnik/swagger-core/wiki) API. Because Swagger UI has no
-dependencies, you can host it in any server environment, or on your local machine.
+generate beautiful documentation and sandbox from a [Swagger-compliant](https://github.com/wordnik/swagger-core/wiki) API. Because Swagger UI has no dependencies, you can host it in any server environment, or on your local machine.
 
 How to Use It
 -------------
@@ -17,13 +15,13 @@ You can use the swagger-ui code AS-IS!  No need to build or recompile--just clon
 ### Build
 You can rebuild swagger-ui on your own to tweak it or just so you can say you did.  To do so, follow these steps:
 
-1. npm install
-2. npm run-script build
-3. You should see the distribution under the dist folder. Open ./dist/index.html to launch Swagger UI in a browser
+1. install [handlebars](http://handlebarsjs.com/)
+2. npm install
+3. npm run-script build
+4. You should see the distribution under the dist folder. Open ./dist/index.html to launch Swagger UI in a browser
 
 ### Use
-Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstore.swagger.wordnik.com/api/resources.json) service and show its APIs.
-You can enter your own server url and click explore to view the API.
+Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstore.swagger.wordnik.com/api/api-docs) service and show its APIs.  You can enter your own server url and click explore to view the API.
 
 ### Customize
 You may choose to customize Swagger UI for your organization. Here is an overview of whats in its various directories:
@@ -42,11 +40,8 @@ You may choose to customize Swagger UI for your organization. Here is an overvie
 To use swagger-ui you should take a look at the [source of swagger-ui html page](https://github.com/wordnik/swagger-ui/tree/master/src/main/html) and customize it. This basically requires you to instantiate a SwaggerUi object and call load() on it as below:
 ```javascript
     window.swaggerUi = new SwaggerUi({
-        discoveryUrl:"http://petstore.swagger.wordnik.com/api/resources.json",
+        discoveryUrl:"http://petstore.swagger.wordnik.com/api/api-docs",
         dom_id:"swagger-ui-container",
-        apiKey:"special-key",
-        supportHeaderParams: false,
-        headers: { "Authorization": "XXXX", "someOtherHeader": "YYYY" },
         supportedSubmitMethods: ['get', 'post', 'put']
     });
 
@@ -62,28 +57,32 @@ To use swagger-ui you should take a look at the [source of swagger-ui html page]
 
 
 ### HTTP Methods and API Invocation
-swagger-ui supports invocation of all HTTP methods APIs but only GET methods APIs are enabled by default. You can choose to enable other HTTP methods like POST, PUT and DELETE. This can be enabled by [setting the supportedSubmitMethods parameter when creating SwaggerUI instance](https://github.com/wordnik/swagger-ui/blob/f2e63c65a759421aad590b7275371cd0c06c74ea/src/main/html/index.html#L49).
+swagger-ui supports invocation of all HTTP methods APIs including GET, PUT, POST, DELETE, PATCH, OPTIONS.  These are handled in the [swagger-js](https://github.com/wordnik/swagger-js) project, please see there for specifics on their usage.
 
-For example if you wanted to enable GET, POST and PUT but not for DELETE, you'd set this as:
-
-    supportedSubmitMethods: ['get', 'post', 'put']
-
-_Note that for POST/PUT body, you'd need to paste in the request data in an appropriate format which your service can unmarshall_
 
 ### Header Parameters
-header parameters are supported. However because of [Cross-Origin Resource Sharing](http://www.w3.org/TR/cors/) restrictions, swagger-ui, by default, does not send header parameters. This can be enabled by [setting the supportHeaderParams to true when creating SwaggerUI instance](https://github.com/wordnik/swagger-ui/blob/f2e63c65a759421aad590b7275371cd0c06c74ea/src/main/html/index.html#L48) as below:
+Header params are supported through a pluggable mechanism in [swagger-js](https://github.com/wordnik/swagger-js).  You can see the [index.html](https://github.com/wordnik/swagger-ui/blob/master/dist/index.html) for a sample of how to dynamically set headers:
 
-    supportHeaderParams: true
+```js
+// add a new ApiKeyAuthorization when the api-key changes in the ui.
+$('#input_apiKey').change(function() {
+  var key = $('#input_apiKey')[0].value;
+  if(key && key.trim() != "") {
+    window.authorizations.add("key", new ApiKeyAuthorization("api_key", key, "header"));
+  }
+})
+```
+
+This will add header `api_key` with value `key` on every call to the server.  You can substitute `query` to send the values as a query param.
 
 ### Custom Header Parameters - (For Basic auth etc)
 If you have some header parameters which you need to send with every request, use the headers as below:
 
-     headers: { "Authorization": "XXXX", "someOtherHeader": "YYYY" }
+```js
+window.authorizations.add("key", new ApiKeyAuthorization("Authorization", "XXXX", "header"));
+```
 
-### Api Key Parameter
-If you enter an api key in swagger-ui, it sends a parameter named 'api\_key' as a query (or as a header param if you've enabled it as described above). You may not want to use the name 'api\_key' as the name of this parameter. You can change its name by setting the _apiKeyName_ parameter when you instantiate a SwaggerUI instance. For example to call it 'sessionId'
-
-    apiKeyName: "sessionId"
+Note!  You can pass multiple header params on a single request, just use unique names for them (`key` is used in the above example).
 
 How to Improve It
 -----------------
