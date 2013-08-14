@@ -216,8 +216,6 @@
       produces = [];
       consumes = [];
       this.path = this.api.resourcePath != null ? this.api.resourcePath : resourceObj.path;
-      console.log("we produce " + resourceObj.produces);
-      console.log('using path ' + this.path);
       this.description = resourceObj.description;
       parts = this.path.split("/");
       this.name = parts[parts.length - 1].replace('.{format}', '');
@@ -309,7 +307,7 @@
     };
 
     SwaggerResource.prototype.addOperations = function(resource_path, ops, consumes, produces) {
-      var method, o, op, responseMessages, type, _i, _len, _results;
+      var method, o, op, ref, responseMessages, type, _i, _len, _results;
       if (ops) {
         _results = [];
         for (_i = 0, _len = ops.length; _i < _len; _i++) {
@@ -327,6 +325,13 @@
             produces = this.produces;
           }
           type = o.type || o.responseClass;
+          if (type === "array") {
+            ref = null;
+            if (o.items) {
+              ref = o.items["type"] || o.items["$ref"];
+            }
+            type = "array[" + ref + "]";
+          }
           responseMessages = o.responseMessages;
           method = o.method;
           if (o.httpMethod) {
@@ -547,6 +552,7 @@
       this.method = this.method.toLowerCase();
       this.isGetMethod = this.method === "get";
       this.resourceName = this.resource.name;
+      console.log("model type: " + type);
       if (((_ref = this.type) != null ? _ref.toLowerCase() : void 0) === 'void') {
         this.type = void 0;
       }
