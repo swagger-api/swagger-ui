@@ -385,10 +385,17 @@
   SwaggerModel = (function() {
 
     function SwaggerModel(modelName, obj) {
-      var propertyName;
+      var propertyName, value;
       this.name = obj.id != null ? obj.id : modelName;
       this.properties = [];
       for (propertyName in obj.properties) {
+        if (obj["enum"] != null) {
+          for (value in obj["enum"]) {
+            if (propertyName === value) {
+              obj.properties[propertyName].required = true;
+            }
+          }
+        }
         this.properties.push(new SwaggerModelProperty(propertyName, obj.properties[propertyName]));
       }
     }
@@ -464,6 +471,7 @@
       this.isCollection = this.dataType && (this.dataType.toLowerCase() === 'array' || this.dataType.toLowerCase() === 'list' || this.dataType.toLowerCase() === 'set');
       this.descr = obj.description;
       this.required = obj.required;
+      console.log(this);
       if (obj.items != null) {
         if (obj.items.type != null) {
           this.refDataType = obj.items.type;
@@ -524,7 +532,7 @@
   SwaggerOperation = (function() {
 
     function SwaggerOperation(nickname, path, method, parameters, summary, notes, type, responseMessages, resource, consumes, produces) {
-      var parameter, v, _i, _j, _len, _len1, _ref, _ref1, _ref2,
+      var parameter, v, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _ref3,
         _this = this;
       this.nickname = nickname;
       this.path = path;
@@ -572,6 +580,26 @@
         }
         parameter.signature = this.getSignature(type, this.resource.models);
         parameter.sampleJSON = this.getSampleJSON(type, this.resource.models);
+        if (parameter["enum"] != null) {
+          parameter.isList = true;
+          parameter.allowableValues = {};
+          parameter.allowableValues.descriptiveValues = [];
+          _ref2 = parameter["enum"];
+          for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
+            v = _ref2[_j];
+            if ((parameter.defaultValue != null) && parameter.defaultValue === v) {
+              parameter.allowableValues.descriptiveValues.push({
+                value: v,
+                isDefault: true
+              });
+            } else {
+              parameter.allowableValues.descriptiveValues.push({
+                value: v,
+                isDefault: false
+              });
+            }
+          }
+        }
         if (parameter.allowableValues != null) {
           if (parameter.allowableValues.valueType === "RANGE") {
             parameter.isRange = true;
@@ -580,9 +608,9 @@
           }
           if (parameter.allowableValues.values != null) {
             parameter.allowableValues.descriptiveValues = [];
-            _ref2 = parameter.allowableValues.values;
-            for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
-              v = _ref2[_j];
+            _ref3 = parameter.allowableValues.values;
+            for (_k = 0, _len2 = _ref3.length; _k < _len2; _k++) {
+              v = _ref3[_k];
               if ((parameter.defaultValue != null) && parameter.defaultValue === v) {
                 parameter.allowableValues.descriptiveValues.push({
                   value: v,

@@ -89,6 +89,10 @@ class OperationView extends Backbone.View
         if(o.value? && jQuery.trim(o.value).length > 0)
           map["body"] = o.value
 
+      for o in form.find("select")
+        if(o.value? && jQuery.trim(o.value).length > 0)
+          map[o.name] = o.value
+
       opts.responseContentType = $("div select[name=responseContentType]", $(@el)).val()
       opts.requestContentType = $("div select[name=parameterContentType]", $(@el)).val()
 
