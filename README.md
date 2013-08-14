@@ -38,11 +38,11 @@ You may choose to customize Swagger UI for your organization. Here is an overvie
 
 ### SwaggerUi
 To use swagger-ui you should take a look at the [source of swagger-ui html page](https://github.com/wordnik/swagger-ui/tree/master/src/main/html) and customize it. This basically requires you to instantiate a SwaggerUi object and call load() on it as below:
+
 ```javascript
     window.swaggerUi = new SwaggerUi({
         discoveryUrl:"http://petstore.swagger.wordnik.com/api/api-docs",
-        dom_id:"swagger-ui-container",
-        supportedSubmitMethods: ['get', 'post', 'put']
+        dom_id:"swagger-ui-container"
     });
 
     window.swaggerUi.load();
