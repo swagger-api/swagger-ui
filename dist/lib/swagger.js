@@ -669,7 +669,7 @@
     };
 
     SwaggerOperation.prototype["do"] = function(args, opts, callback, error) {
-      var key, param, params, possibleParams, req, requestContentType, responseContentType, value;
+      var key, param, params, possibleParams, req, requestContentType, responseContentType, value, _i, _len, _ref;
       if (args == null) {
         args = {};
       }
@@ -705,20 +705,30 @@
         };
       }
       params = {};
+      params.headers = [];
       if (args.headers != null) {
         params.headers = args.headers;
         delete args.headers;
+      }
+      _ref = this.parameters;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        param = _ref[_i];
+        if (param.paramType === "header") {
+          if (args[param.name]) {
+            params.headers[param.name] = args[param.name];
+          }
+        }
       }
       if (args.body != null) {
         params.body = args.body;
         delete args.body;
       }
       possibleParams = (function() {
-        var _i, _len, _ref, _results;
-        _ref = this.parameters;
+        var _j, _len1, _ref1, _results;
+        _ref1 = this.parameters;
         _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          param = _ref[_i];
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          param = _ref1[_j];
           if (param.paramType === "form" || param.paramType.toLowerCase() === "file") {
             _results.push(param);
           }
@@ -839,7 +849,7 @@
   SwaggerRequest = (function() {
 
     function SwaggerRequest(type, url, params, opts, successCallback, errorCallback, operation, execution) {
-      var body, e, fields, headers, key, myHeaders, obj, param, parent, possibleParams, requestContentType, responseContentType, urlEncoded, value, values,
+      var body, e, fields, headers, key, myHeaders, name, obj, param, parent, possibleParams, requestContentType, responseContentType, urlEncoded, value, values,
         _this = this;
       this.type = type;
       this.url = url;
@@ -961,6 +971,9 @@
           urlEncoded += encodeURIComponent(key) + '=' + encodeURIComponent(value);
         }
         body = urlEncoded;
+      }
+      for (name in headers) {
+        myHeaders[name] = headers[name];
       }
       if (requestContentType) {
         myHeaders["Content-Type"] = requestContentType;
