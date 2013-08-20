@@ -576,7 +576,7 @@
         type = parameter.type || parameter.dataType;
         if (type.toLowerCase() === 'boolean') {
           parameter.allowableValues = {};
-          parameter.allowableValues.values = this.resource.api.booleanValues;
+          parameter.allowableValues.values = ["true", "false"];
         }
         parameter.signature = this.getSignature(type, this.resource.models);
         parameter.sampleJSON = this.getSampleJSON(type, this.resource.models);
