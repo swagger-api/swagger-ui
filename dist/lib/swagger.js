@@ -551,6 +551,13 @@
           this.valuesString = "'" + this.values.join("' or '") + "'";
         }
       }
+      if (obj["enum"] != null) {
+        this.valueType = "string";
+        this.values = obj["enum"];
+        if (this.values != null) {
+          this.valueString = "'" + this.values.join("' or '") + "'";
+        }
+      }
     }
 
     SwaggerModelProperty.prototype.getSampleValue = function(modelsToIgnore) {
