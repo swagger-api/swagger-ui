@@ -96,6 +96,8 @@ class OperationView extends Backbone.View
       opts.responseContentType = $("div select[name=responseContentType]", $(@el)).val()
       opts.requestContentType = $("div select[name=parameterContentType]", $(@el)).val()
 
+      $(".response_throbber", $(@el)).show()
+
       @model.do(map, opts, @showCompleteStatus, @showErrorStatus, @)
 
   success: (response, parent) ->

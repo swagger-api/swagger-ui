@@ -1562,6 +1562,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         }
         opts.responseContentType = $("div select[name=responseContentType]", $(this.el)).val();
         opts.requestContentType = $("div select[name=parameterContentType]", $(this.el)).val();
+        $(".response_throbber", $(this.el)).show();
         return this.model["do"](map, opts, this.showCompleteStatus, this.showErrorStatus, this);
       }
     };
