@@ -10,7 +10,7 @@
     {{/if}}
     {{#each allowableValues.descriptiveValues}}
       {{#if isDefault}}
-        <option value='{{value}}'>{{value}} (default)</option>
+        <option selected="" value='{{value}}'>{{value}} (default)</option>
       {{else}}
         <option value='{{value}}'>{{value}}</option>
       {{/if}}
