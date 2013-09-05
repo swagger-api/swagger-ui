@@ -1,11 +1,14 @@
 <td class='code'>{{name}}</td>
 <td>
-  <select class='parameter' name='{{name}}'>
+  <select {{#if allowMultiple}} multiple='multiple'{{/if}} class='parameter' name='{{name}}'>
     {{#if required}}
     {{else}}
       {{#if defaultValue}}
       {{else}}
-        <option selected="" value=''></option>
+        {{#if allowMultiple}}
+         {{else}}
+          <option selected="" value=''></option>
+         {{/if}}
       {{/if}}
     {{/if}}
     {{#each allowableValues.descriptiveValues}}
