@@ -598,43 +598,64 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   
-  return "\n    ";
+  return " multiple='multiple'";
   }
 
 function program3(depth0,data) {
   
+  
+  return "\n    ";
+  }
+
+function program5(depth0,data) {
+  
   var buffer = "", stack1;
   buffer += "\n      ";
-  stack1 = helpers['if'].call(depth0, depth0.defaultValue, {hash:{},inverse:self.program(6, program6, data),fn:self.program(4, program4, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.defaultValue, {hash:{},inverse:self.program(8, program8, data),fn:self.program(6, program6, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n    ";
   return buffer;
   }
-function program4(depth0,data) {
+function program6(depth0,data) {
   
   
   return "\n      ";
   }
 
-function program6(depth0,data) {
-  
-  
-  return "\n        <option selected=\"\" value=''></option>\n      ";
-  }
-
 function program8(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n      ";
-  stack1 = helpers['if'].call(depth0, depth0.isDefault, {hash:{},inverse:self.program(11, program11, data),fn:self.program(9, program9, data),data:data});
+  buffer += "\n        ";
+  stack1 = helpers['if'].call(depth0, depth0.allowMultiple, {hash:{},inverse:self.program(11, program11, data),fn:self.program(9, program9, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n    ";
+  buffer += "\n      ";
   return buffer;
   }
 function program9(depth0,data) {
   
+  
+  return "\n         ";
+  }
+
+function program11(depth0,data) {
+  
+  
+  return "\n          <option selected=\"\" value=''></option>\n         ";
+  }
+
+function program13(depth0,data) {
+  
   var buffer = "", stack1;
-  buffer += "\n        <option selected=\"\" value='";
+  buffer += "\n      ";
+  stack1 = helpers['if'].call(depth0, depth0.isDefault, {hash:{},inverse:self.program(16, program16, data),fn:self.program(14, program14, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n    ";
+  return buffer;
+  }
+function program14(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n        <option value='";
   if (stack1 = helpers.value) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.value; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -646,7 +667,7 @@ function program9(depth0,data) {
   return buffer;
   }
 
-function program11(depth0,data) {
+function program16(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n        <option value='";
@@ -665,15 +686,18 @@ function program11(depth0,data) {
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</td>\n<td>\n  <select class='parameter' name='";
+    + "</td>\n<td>\n  <select ";
+  stack1 = helpers['if'].call(depth0, depth0.allowMultiple, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += " class='parameter' name='";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "'>\n    ";
-  stack1 = helpers['if'].call(depth0, depth0.required, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.required, {hash:{},inverse:self.program(5, program5, data),fn:self.program(3, program3, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n    ";
-  stack2 = helpers.each.call(depth0, ((stack1 = depth0.allowableValues),stack1 == null || stack1 === false ? stack1 : stack1.descriptiveValues), {hash:{},inverse:self.noop,fn:self.program(8, program8, data),data:data});
+  stack2 = helpers.each.call(depth0, ((stack1 = depth0.allowableValues),stack1 == null || stack1 === false ? stack1 : stack1.descriptiveValues), {hash:{},inverse:self.noop,fn:self.program(13, program13, data),data:data});
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\n  </select>\n</td>\n<td>";
   if (stack2 = helpers.description) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
@@ -683,7 +707,7 @@ function program11(depth0,data) {
   if (stack2 = helpers.paramType) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
   else { stack2 = depth0.paramType; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
   if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += "</td>\n<td><span class=\"model-signature\"></span></td>\n";
+  buffer += "</td>\n<td><span class=\"model-signature\"></span></td>";
   return buffer;
   });
 })();
@@ -1515,7 +1539,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     OperationView.prototype.submitOperation = function(e) {
-      var error_free, form, map, o, opts, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
+      var error_free, form, map, o, opts, val, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
       if (e != null) {
         e.preventDefault();
       }
@@ -1556,8 +1580,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         _ref2 = form.find("select");
         for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
           o = _ref2[_k];
-          if ((o.value != null) && jQuery.trim(o.value).length > 0) {
-            map[o.name] = o.value;
+          val = this.getSelectedValue(o);
+          if ((val != null) && jQuery.trim(val).length > 0) {
+            map[o.name] = val;
           }
         }
         opts.responseContentType = $("div select[name=responseContentType]", $(this.el)).val();
@@ -1569,6 +1594,27 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
     OperationView.prototype.success = function(response, parent) {
       return parent.showCompleteStatus(response);
+    };
+
+    OperationView.prototype.getSelectedValue = function(select) {
+      var opt, options, _i, _len, _ref;
+      if (!select.multiple) {
+        return select.value;
+      } else {
+        options = [];
+        _ref = select.options;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          opt = _ref[_i];
+          if (opt.selected) {
+            options.push(opt.value);
+          }
+        }
+        if (options.length > 0) {
+          return options.join(",");
+        } else {
+          return null;
+        }
+      }
     };
 
     OperationView.prototype.hideResponse = function(e) {
