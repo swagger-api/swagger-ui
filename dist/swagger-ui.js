@@ -1567,7 +1567,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           o = _ref[_i];
           if ((o.value != null) && jQuery.trim(o.value).length > 0) {
-            map[o.name] = encodeURI(o.value);
+            map[o.name] = o.value;
           }
         }
         _ref1 = form.find("textarea");

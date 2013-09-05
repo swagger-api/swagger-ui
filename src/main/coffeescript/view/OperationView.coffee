@@ -83,7 +83,7 @@ class OperationView extends Backbone.View
 
       for o in form.find("input")
         if(o.value? && jQuery.trim(o.value).length > 0)
-          map[o.name] = encodeURI(o.value)
+          map[o.name] = o.value
 
       for o in form.find("textarea")
         if(o.value? && jQuery.trim(o.value).length > 0)
