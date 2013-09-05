@@ -89,9 +89,10 @@ class OperationView extends Backbone.View
         if(o.value? && jQuery.trim(o.value).length > 0)
           map["body"] = o.value
 
-      for o in form.find("select")
-        if(o.value? && jQuery.trim(o.value).length > 0)
-          map[o.name] = o.value
+      for o in form.find("select") 
+        val = this.getSelectedValue o
+        if(val? && jQuery.trim(val).length > 0)
+          map[o.name] = val
 
       opts.responseContentType = $("div select[name=responseContentType]", $(@el)).val()
       opts.requestContentType = $("div select[name=parameterContentType]", $(@el)).val()
@@ -102,7 +103,17 @@ class OperationView extends Backbone.View
 
   success: (response, parent) ->
     parent.showCompleteStatus response
-
+  
+  getSelectedValue: (select) ->
+  	if !select.multiple 
+      select.value
+    else
+      options = []
+      options.push opt.value for opt in select.options when opt.selected
+      if options.length > 0 
+        options.join ","
+      else
+        null
 
   # handler for hide response link
   hideResponse: (e) ->
