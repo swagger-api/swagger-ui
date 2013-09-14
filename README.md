@@ -41,7 +41,7 @@ To use swagger-ui you should take a look at the [source of swagger-ui html page]
 
 ```javascript
     window.swaggerUi = new SwaggerUi({
-        discoveryUrl:"http://petstore.swagger.wordnik.com/api/api-docs",
+        url:"http://petstore.swagger.wordnik.com/api/api-docs",
         dom_id:"swagger-ui-container"
     });
 
