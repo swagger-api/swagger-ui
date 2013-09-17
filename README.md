@@ -16,9 +16,10 @@ You can use the swagger-ui code AS-IS!  No need to build or recompile--just clon
 You can rebuild swagger-ui on your own to tweak it or just so you can say you did.  To do so, follow these steps:
 
 1. install [handlebars](http://handlebarsjs.com/)
-2. npm install
-3. npm run-script build
-4. You should see the distribution under the dist folder. Open ./dist/index.html to launch Swagger UI in a browser
+2. install java
+3. npm install
+4. npm run-script build
+5. You should see the distribution under the dist folder. Open ./dist/index.html to launch Swagger UI in a browser
 
 ### Use
 Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstore.swagger.wordnik.com/api/api-docs) service and show its APIs.  You can enter your own server url and click explore to view the API.
@@ -47,7 +48,7 @@ To use swagger-ui you should take a look at the [source of swagger-ui html page]
 
     window.swaggerUi.load();
 ```
-* *discoveryUrl* parameter should point to a resource listing url as per [Swagger Spec](https://github.com/wordnik/swagger-core/wiki)
+* *url* parameter should point to a resource listing url as per [Swagger Spec](https://github.com/wordnik/swagger-core/wiki)
 * *dom_id parameter* is the the id of a dom element inside which SwaggerUi will put the user interface for swagger
 * *booleanValues* SwaggerUI renders boolean data types as a dropdown. By default it provides a 'true' and 'false' string as the possible choices. You can use this parameter to change the values in dropdown to be something else, for example 0 and 1 by setting booleanValues to new Array(0, 1)
 * *docExpansion* controls how the API listing is displayed. It can be set to 'none' (default), 'list' (shows operations for each resource), or 'full' (fully expanded: shows operations and their details)
