@@ -1508,7 +1508,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       _ref5 = this.model.parameters;
       for (_i = 0, _len = _ref5.length; _i < _len; _i++) {
         param = _ref5[_i];
-        type = param.type || param.dataType;
+        type = param.type || param.dataType || param.items.type;
         if (type.toLowerCase() === 'file') {
           if (!contentTypeModel.consumes) {
             console.log("set content type ");
@@ -1810,7 +1810,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
     ParameterView.prototype.render = function() {
       var contentTypeModel, isParam, parameterContentTypeView, responseContentTypeView, signatureModel, signatureView, template, type;
-      type = this.model.type || this.model.dataType;
+      type = this.model.type || this.model.dataType || this.model.items.type;
       if (this.model.paramType === 'body') {
         this.model.isBody = true;
       }
