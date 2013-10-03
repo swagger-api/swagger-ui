@@ -1,0 +1,10 @@
+<label for="responseContentType"></label>
+<select name="responseContentType">
+{{#if produces}}
+  {{#each produces}}
+  <option value="{{{this}}}">{{{this}}}</option>
+  {{/each}}
+{{else}}
+  <option value="application/json">application/json</option>
+{{/if}}
+</select>

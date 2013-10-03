@@ -1,21 +1,24 @@
 <td class='code'>{{name}}</td>
 <td>
-    <select class='parameter' name='{{name}}'>
-        {{#if required}}
-        {{else}}
-            {{#if defaultValue}}
-            {{else}}
-                <option selected="" value=''></option>
-            {{/if}}
-        {{/if}}
-        {{#each allowableValues.descriptiveValues}}
-            {{#if isDefault}}
-                <option value='{{value}}'>{{value}} (default)</option>
-            {{else}}
-                <option value='{{value}}'>{{value}}</option>
-            {{/if}}
-        {{/each}}
-    </select>
+  <select {{#if allowMultiple}} multiple='multiple'{{/if}} class='parameter' name='{{name}}'>
+    {{#if required}}
+    {{else}}
+      {{#if defaultValue}}
+      {{else}}
+        {{#if allowMultiple}}
+         {{else}}
+          <option selected="" value=''></option>
+         {{/if}}
+      {{/if}}
+    {{/if}}
+    {{#each allowableValues.descriptiveValues}}
+      {{#if isDefault}}
+        <option selected="" value='{{value}}'>{{value}} (default)</option>
+      {{else}}
+        <option value='{{value}}'>{{value}}</option>
+      {{/if}}
+    {{/each}}
+  </select>
 </td>
 <td>{{{description}}}</td>
 <td>{{{paramType}}}</td>

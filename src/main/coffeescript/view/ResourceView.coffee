@@ -2,6 +2,7 @@ class ResourceView extends Backbone.View
   initialize: ->
 
   render: ->
+    console.log @model.description
     $(@el).html(Handlebars.templates.resource(@model))
 
     @number = 0
