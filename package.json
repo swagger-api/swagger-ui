@@ -19,11 +19,6 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "coffee-script": "~1.5.0",
-<<<<<<< HEAD
-    "swagger-client": "1.0.3",
-    "handlebars": "~1.0.0"
-=======
     "handlebars": "~1.0.10"
->>>>>>> upstream/master
   }
 }
