@@ -205,7 +205,7 @@ class OperationView extends Backbone.View
     if content == undefined
       code = $('<code />').text("no content")
       pre = $('<pre class="json" />').append(code)
-    else if contentType.indexOf("application/json") == 0
+    else if contentType.indexOf("application/json") == 0 || contentType.indexOf("application/hal+json") == 0
       code = $('<code />').text(JSON.stringify(JSON.parse(content), null, 2))
       pre = $('<pre class="json" />').append(code)
     else if contentType.indexOf("application/xml") == 0

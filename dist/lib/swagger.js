@@ -301,7 +301,7 @@
           headers: {},
           on: {
             error: function(response) {
-              return _this.api.fail("Unable to read api '" + _this.name + "' from path " + _this.url + " (server returned " + error.statusText + ")");
+              return _this.api.fail("Unable to read api '" + _this.name + "' from path " + _this.url + " (server returned " + response.statusText + ")");
             },
             response: function(rawResponse) {
               var response;
