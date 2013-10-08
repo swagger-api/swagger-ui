@@ -214,7 +214,7 @@ class OperationView extends Backbone.View
     else if contentType.indexOf("text/html") == 0
       code = $('<code />').html(content)
       pre = $('<pre class="xml" />').append(code)
-    else if contentType.indexOf("image/png") == 0 or contentType.indexOf("image/jpeg") == 0 or contentType.indexOf("image/gif") == 0
+    else if contentType.indexOf("image/") == 0
       pre = $('<img>').attr('src',data.request.url)
     else
       # don't know what to render!
