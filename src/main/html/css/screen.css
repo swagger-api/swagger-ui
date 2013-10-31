@@ -1068,3 +1068,36 @@ table {
   text-align: center;
   padding-top: 10px;
 }
+.fieldinfo{
+  display:inline-block;
+ }
+  
+.fieldinfo-wrapper {
+  display: inline-block;
+  background: url(../images/info_default.png) no-repeat;
+  height: 16px;
+  width:16px; 
+}
+
+.fieldinfo-wrapper:hover {
+  display: inline-block;
+  background: url(../images/info_hover.png) no-repeat;
+  height: 16px;
+  width: 16px; 
+}  
+.fieldinfo-wrapper + div {
+  border-radius: 5px 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; 
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1); 
+  font-family: Calibri, Tahoma, Geneva, sans-serif;
+  padding: 0.8em 0.8em;
+  background-color: #FFFFAA; border: 1px solid #FFAD33;
+  display: none;
+  position: absolute;   
+  max-width:300px;
+  word-wrap: break-word;
+  white-space: pre-line;
+}
+
+.fieldinfo-wrapper:hover + div, .fieldinfo-wrapper + div:hover {
+  display: inline-block; position: absolute;
+}
