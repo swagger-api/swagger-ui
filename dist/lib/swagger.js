@@ -366,7 +366,7 @@
     };
 
     SwaggerResource.prototype.addOperations = function(resource_path, ops, consumes, produces) {
-      var method, o, op, ref, responseMessages, type, _i, _len, _results;
+      var method, o, op, r, ref, responseMessages, type, _i, _j, _len, _len1, _results;
       if (ops) {
         _results = [];
         for (_i = 0, _len = ops.length; _i < _len; _i++) {
@@ -401,6 +401,11 @@
           }
           if (o.errorResponses) {
             responseMessages = o.errorResponses;
+            for (_j = 0, _len1 = responseMessages.length; _j < _len1; _j++) {
+              r = responseMessages[_j];
+              r.message = r.reason;
+              r.reason = null;
+            }
           }
           o.nickname = this.sanitize(o.nickname);
           op = new SwaggerOperation(o.nickname, resource_path, method, o.parameters, o.summary, o.notes, type, responseMessages, this, consumes, produces);
