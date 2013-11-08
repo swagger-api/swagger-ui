@@ -1,0 +1,182 @@
+// an operation style mixin
+.operation() {
+    float: none;
+    clear: both;
+    overflow: hidden;
+    display: block;
+    margin: 0 0 10px;
+    padding: 0;
+    div.heading {
+        float: none;
+        clear: both;
+        overflow: hidden;
+        display: block;
+        margin: 0;
+        padding: 0;
+        h3 {
+            display: block;
+            clear: none;
+            float: left;
+            width: auto;
+            margin: 0;
+            padding: 0;
+            line-height: 1.1em;
+            color: black;
+            span.path {
+                padding-left: 10px;
+                a {
+                    color: black;
+                    text-decoration: none;
+                }
+                a:hover {
+                    text-decoration: underline;
+                }
+            }
+            span.http_method {
+                a {
+                    text-transform: uppercase;
+                    text-decoration: none;
+                    color: white;
+                    display: inline-block;
+                    width: 50px;
+                    font-size: 0.7em;
+                    text-align: center;
+                    padding: 7px 0 4px;
+                    -moz-border-radius: 2px;
+                    -webkit-border-radius: 2px;
+                    -o-border-radius: 2px;
+                    -ms-border-radius: 2px;
+                    -khtml-border-radius: 2px;
+                    border-radius: 2px;
+                }
+            }
+            span {
+                margin: 0;
+                padding: 0;
+            }
+        }
+        ul.options {
+            overflow: hidden;
+            padding: 0;
+            display: block;
+            clear: none;
+            float: right;
+            margin: 6px 10px 0 0;
+            li {
+                float: left;
+                clear: none;
+                margin: 0;
+                padding: 2px 10px;
+                font-size: 0.9em;
+                a {
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+    div.content {
+        border-top: none;
+        padding: 10px;
+        -moz-border-radius-bottomleft: 6px;
+        -webkit-border-bottom-left-radius: 6px;
+        -o-border-bottom-left-radius: 6px;
+        -ms-border-bottom-left-radius: 6px;
+        -khtml-border-bottom-left-radius: 6px;
+        border-bottom-left-radius: 6px;
+        -moz-border-radius-bottomright: 6px;
+        -webkit-border-bottom-right-radius: 6px;
+        -o-border-bottom-right-radius: 6px;
+        -ms-border-bottom-right-radius: 6px;
+        -khtml-border-bottom-right-radius: 6px;
+        border-bottom-right-radius: 6px;
+        margin: 0 0 20px;
+        h4 {
+            font-size: 1.1em;
+            margin: 0;
+            padding: 15px 0 5px;
+        }
+        div.sandbox_header {
+            float: none;
+            clear: both;
+            overflow: hidden;
+            display: block;
+            a {
+                padding: 4px 0 0 10px;
+                display: inline-block;
+                font-size: 0.9em;
+            }
+            img {
+                display: block;
+                clear: none;
+                float: right;
+            }
+            input.submit {
+                display: block;
+                clear: none;
+                float: left;
+                padding: 6px 8px;
+            }
+        }
+        form {
+            input[type='text'].error {
+                outline: 2px solid black;
+                outline-color: #cc0000;
+            }
+        }
+        div.response {
+            div.block {
+                pre {
+                    font-family: @fontCode;
+                    padding: 10px;
+                    font-size: 0.9em;
+                    max-height: 400px;
+                    overflow-y: auto;
+                }
+            }
+        }
+    }
+
+    li.operation.get {
+       .operationType('Get');
+    }
+    li.operation.put {
+       .operationType('Put');
+    }
+    li.operation.post {
+       .operationType('Post');
+    }
+    li.operation.delete {
+        .operationType('Delete');
+    }
+    li.operation.head {
+        .operationType('Head');
+    }
+    li.operation.patch {
+        .operationType('Patch');
+    }
+
+    li.operation {
+        &.get, &.post, &.head, &.put, &.patch, &.delete {
+            div.content {
+                border-top: none;
+            }
+            div.heading ul.options li {
+                &:last-child, &.last {
+                    padding-right: 0;
+                    border-right: none;
+                }
+            }
+        }
+    }
+    ul.options li {
+        a:hover, a:active, a.active {
+            text-decoration: underline;
+        }       
+        &:first-child, &.first {
+            padding-left: 0;
+        }
+        &:first-child, &.first {
+            padding-left: 0;
+        }
+    }
+}

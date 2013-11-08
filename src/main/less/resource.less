@@ -1,0 +1,91 @@
+// a resource style mixin
+.resource() {
+    border-bottom: 1px solid #dddddd;
+    &:hover div.heading,
+    &.active div.heading {
+        h2 a {
+            color: black;
+        }
+        ul.options li a {
+            color: #555555;
+        }
+    }
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    div.heading {
+        border: 1px solid transparent;
+        float: none;
+        clear: both;
+        overflow: hidden;
+        display: block;
+        ul.options {
+            overflow: hidden;
+            padding: 0;
+            display: block;
+            clear: none;
+            float: right;
+            margin: 14px 10px 0 0;
+            li {
+                float: left;
+                clear: none;
+                margin: 0;
+                padding: 2px 10px;
+                border-right: 1px solid #dddddd;
+                color: #666666;
+                font-size: 0.9em;
+                a {
+                    color: #aaaaaa;
+                    text-decoration: none;
+                }
+                a:hover {
+                    text-decoration: underline;
+                    color: black;
+                }
+            }
+
+            li {
+                a:hover, a:active, a.active {
+                    text-decoration: underline;
+                }
+
+                &:first-child,
+                &.first {
+                    padding-left: 0;
+                }
+
+                &:last-child, &.last {
+                    padding-right: 0;
+                    border-right: none;
+                }
+            }
+            &:first-child, &.first {
+                padding-left: 0;
+            }
+        }
+        h2 {
+            color: #999999;
+            padding-left: 0;
+            display: block;
+            clear: none;
+            float: left;
+            font-family: @fontParagraph;
+            font-weight: bold;
+            a {
+                color: #999999;
+            }
+            a:hover {
+                color: black;
+            }
+        }
+    }
+    ul.endpoints {
+        li.endpoint {
+            ul.operations {
+                .operation;
+            }
+        }
+    }
+}
