@@ -509,16 +509,66 @@
       }
       return returnVal;
     };
+    
+	function createToolTip(prop, isRequest) {
+		var tooltip = '';
+		if(isRequest) {
+			if(typeof(prop.required) !== 'undefined' && prop.required == 'true')
+				tooltip = '<strong>Required </strong>field';
+			else
+				tooltip = '<strong>Optional </strong>field';
+				
+			if(prop.isCollection)
+				tooltip += ' (It is an <strong>Array</strong>)';
+			
+			tooltip += '<br/>'
+		} else {
+			if(prop.isCollection)
+				tooltip += 'It is an <strong>Array</strong><br/>';
+		}
+		if(typeof(prop.descr) !== 'undefined')
+			tooltip += '<strong>Descr: </strong>' + prop.descr + '<br/>';
+			
+		if(typeof(prop.valuesString) !== 'undefined')
+			tooltip += '<strong>Values: </strong>' + prop.valuesString + '<br/>';			
 
-    SwaggerModel.prototype.createJSONSample = function(modelsToIgnore) {
-      var prop, result, _i, _len, _ref;
+		if(typeof(prop.valueString) !== 'undefined')
+			tooltip += '<strong>Values: </strong>' + prop.valueString + '<br/>';			
+			
+		return tooltip;
+	}
+	
+    SwaggerModel.prototype.createJSONSample = function(modelsToIgnore, isRequest, isPlainJson) {
+      var prop, result, _i, _len, _ref, fieldName, fieldVal, tooltip;
+
       result = {};
       modelsToIgnore = modelsToIgnore || [];
       modelsToIgnore.push(this.name);
       _ref = this.properties;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         prop = _ref[_i];
-        result[prop.name] = prop.getSampleValue(modelsToIgnore);
+        fieldVal = prop.getSampleValue(modelsToIgnore, isRequest, isPlainJson);
+        
+	if(isRequest) {
+		if(typeof(prop.required) !== 'undefined' && prop.required == 'true') {
+			fieldName = '<strong>' + prop.name + '</strong>';
+		} else {
+			fieldName = prop.name;
+		}
+	} else {
+		fieldName = prop.name;
+	}
+
+	tooltip = createToolTip(prop, isRequest);
+	if(tooltip !== '')
+		fieldName = fieldName + "<div class=fieldinfo-wrapper onmouseover=switchPos(event);/><div class=fieldinfo>" + tooltip + "</div>";
+	    			
+        if(isPlainJson) {
+            result[prop.name] = fieldVal;
+        }
+        else {
+            result[fieldName] = fieldVal;                
+        }
       }
       modelsToIgnore.pop(this.name);
       return result;
@@ -560,10 +610,10 @@
       }
     }
 
-    SwaggerModelProperty.prototype.getSampleValue = function(modelsToIgnore) {
+    SwaggerModelProperty.prototype.getSampleValue = function(modelsToIgnore, isRequest, isPlainJson) {
       var result;
       if ((this.refModel != null) && (modelsToIgnore.indexOf(this.refModel.name) === -1)) {
-        result = this.refModel.createJSONSample(modelsToIgnore);
+        result = this.refModel.createJSONSample(modelsToIgnore, isRequest, isPlainJson);
       } else {
         if (this.isCollection) {
           result = this.refDataType;
@@ -646,7 +696,9 @@
           parameter.allowableValues.values = ["true", "false"];
         }
         parameter.signature = this.getSignature(type, this.resource.models);
-        parameter.sampleJSON = this.getSampleJSON(type, this.resource.models);
+        parameter.sampleJSON = this.getSampleJSON(type, this.resource.models, true);
+        parameter.sampleJSONPlain = this.getSampleJSON(type, this.resource.models, true, true);
+        
         if (parameter["enum"] != null) {
           parameter.isList = true;
           parameter.allowableValues = {};
@@ -724,11 +776,13 @@
       }
     };
 
-    SwaggerOperation.prototype.getSampleJSON = function(type, models) {
+    SwaggerOperation.prototype.getSampleJSON = function(type, models, isRequest, isPlainJson) {
+	
       var isPrimitive, listType, val;
       listType = this.isListType(type);
       isPrimitive = ((listType != null) && models[listType]) || (models[type] != null) ? false : true;
-      val = isPrimitive ? void 0 : (listType != null ? models[listType].createJSONSample() : models[type].createJSONSample());
+      val = isPrimitive ? void 0 : (listType != null ? models[listType].createJSONSample(null, isRequest, isPlainJson) : models[type].createJSONSample(null, isRequest, isPlainJson));
+	  
       if (val) {
         val = listType ? [val] : val;
         return JSON.stringify(val, null, 2);

@@ -13,6 +13,7 @@ class ParameterView extends Backbone.View
       sampleJSON: @model.sampleJSON
       isParam: true
       signature: @model.signature
+      sampleJSONPlain: @model.sampleJSONPlain
 
     if @model.sampleJSON
       signatureView = new SignatureView({model: signatureModel, tagName: 'div'})

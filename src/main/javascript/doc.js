@@ -61,6 +61,17 @@ function clippyCopiedCallback(a) {
   // 500))
 }
 
+
+//Handle position of tooltip for fields in code snippet 
+function switchPos(obj) {
+	var wrapperDiv = obj.target; offset = 15;
+	var msgDiv = wrapperDiv.nextSibling;	  
+	wrapperDiv.style.cursor = 'help';
+	msgDiv.style.top = obj.pageY + offset + 'px';   
+	msgDiv.style.left = obj.pageX + offset + 'px';            
+} 
+
+
 // Logging function that accounts for browsers that don't have window.console
 function log() {
   if (window.console) console.log.apply(console,arguments);
