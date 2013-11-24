@@ -32,6 +32,7 @@
       if (options.url != null) {
         this.url = options.url;
       }
+      this.supportedSubmitMethods = options.supportedSubmitMethods != null ? options.supportedSubmitMethods : ['get'];
       if (options.success != null) {
         this.success = options.success;
       }

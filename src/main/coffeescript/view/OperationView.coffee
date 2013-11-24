@@ -9,7 +9,7 @@ class OperationView extends Backbone.View
   initialize: ->
 
   render: ->
-    isMethodSubmissionSupported = true #jQuery.inArray(@model.method, @model.supportedSubmitMethods) >= 0
+    isMethodSubmissionSupported = jQuery.inArray(@model.method, @model.supportedSubmitMethods) >= 0
     @model.isReadOnly = true unless isMethodSubmissionSupported
 
     $(@el).html(Handlebars.templates.operation(@model))
