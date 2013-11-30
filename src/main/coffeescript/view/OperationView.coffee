@@ -1,4 +1,6 @@
 class OperationView extends Backbone.View
+  invocationUrl: null
+
   events: {
   'submit .sandbox'         : 'submitOperation'
   'click .submit'           : 'submitOperation'
@@ -77,13 +79,14 @@ class OperationView extends Backbone.View
     if error_free
       map = {}
       opts = {parent: @}
-      #for o in form.serializeArray()
-        #if(o.value? && jQuery.trim(o.value).length > 0)
-          #map[o.name] = o.value
+
+      isFileUpload = false
 
       for o in form.find("input")
         if(o.value? && jQuery.trim(o.value).length > 0)
           map[o.name] = o.value
+        if o.type is "file"
+          isFileUpload = true
 
       for o in form.find("textarea")
         if(o.value? && jQuery.trim(o.value).length > 0)
@@ -98,12 +101,85 @@ class OperationView extends Backbone.View
       opts.requestContentType = $("div select[name=parameterContentType]", $(@el)).val()
 
       $(".response_throbber", $(@el)).show()
-
-      @model.do(map, opts, @showCompleteStatus, @showErrorStatus, @)
+      if isFileUpload
+        @handleFileUpload map, form
+      else
+        @model.do(map, opts, @showCompleteStatus, @showErrorStatus, @)
 
   success: (response, parent) ->
     parent.showCompleteStatus response
-  
+
+  handleFileUpload: (map, form) ->
+    console.log "it's a file upload"
+    for o in form.serializeArray()
+      if(o.value? && jQuery.trim(o.value).length > 0)
+        map[o.name] = o.value
+
+    # requires HTML5 compatible browser
+    bodyParam = new FormData()
+
+    # add params
+    for param in @model.parameters
+      if param.paramType is 'form'
+        bodyParam.append(param.name, map[param.name])
+
+    # headers in operation
+    headerParams = {}
+    for param in @model.parameters
+      if param.paramType is 'header'
+        headerParams[param.name] = map[param.name]
+
+    console.log headerParams
+
+    # add files
+    $.each $('input[type~="file"]'), (i, el) ->
+      bodyParam.append($(el).attr('name'), el.files[0])
+
+    console.log(bodyParam)
+
+    @invocationUrl = 
+      if @model.supportHeaderParams()
+        headerParams = @model.getHeaderParams(map)
+        @model.urlify(map, false)
+      else
+        @model.urlify(map, true)
+
+    $(".request_url", $(@el)).html "<pre>" + @invocationUrl + "</pre>"
+
+    obj = 
+      type: @model.method
+      url: @invocationUrl
+      headers: headerParams
+      data: bodyParam
+      dataType: 'json'
+      contentType: false
+      processData: false
+      error: (data, textStatus, error) =>
+        @showErrorStatus(@wrap(data), @)
+      success: (data) =>
+        @showResponse(data, @)
+      complete: (data) =>
+        @showCompleteStatus(@wrap(data), @)
+
+    # apply authorizations
+    if window.authorizations
+      window.authorizations.apply obj
+
+    jQuery.ajax(obj)
+    false
+    # end of file-upload nastiness
+
+  # wraps a jquery response as a shred response  
+  wrap: (data) ->
+    o = {}
+    o.content = {}
+    o.content.data = data.responseText
+    o.getHeaders = () => {"Content-Type": data.getResponseHeader("Content-Type")}
+    o.request = {}
+    o.request.url = @invocationUrl
+    o.status = data.status
+    o
+
   getSelectedValue: (select) ->
     if !select.multiple 
       select.value
@@ -225,7 +301,7 @@ class OperationView extends Backbone.View
     $(".request_url", $(@el)).html "<pre>" + data.request.url + "</pre>"
     $(".response_code", $(@el)).html "<pre>" + data.status + "</pre>"
     $(".response_body", $(@el)).html response_body
-    $(".response_headers", $(@el)).html "<pre>" + JSON.stringify(data.getHeaders()) + "</pre>"
+    $(".response_headers", $(@el)).html "<pre>" + JSON.stringify(data.getHeaders(), null, "  ").replace(/\n/g, "<br>") + "</pre>"
     $(".response", $(@el)).slideDown()
     $(".response_hider", $(@el)).show()
     $(".response_throbber", $(@el)).hide()
