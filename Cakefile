@@ -1,7 +1,7 @@
 fs          = require 'fs'
-path        = require 'path'
 {exec}      = require 'child_process'
 less        = require 'less'
+ncp         = require 'ncp'
 
 sourceFiles  = [
   'SwaggerUi'
@@ -20,12 +20,12 @@ sourceFiles  = [
 
 task 'clean', 'Removes distribution', ->
   console.log 'Clearing dist...'
-  exec 'rm -rf dist'
+  rmDir('dist') if fs.existsSync('dist')
 
 task 'dist', 'Build a distribution', ->
   console.log "Build distribution in ./dist"
-  fs.mkdirSync('dist') if not path.existsSync('dist')
-  fs.mkdirSync('dist/lib') if not path.existsSync('dist/lib')
+  fs.mkdirSync('dist') if not fs.existsSync('dist')
+  fs.mkdirSync('dist/lib') if not fs.existsSync('dist/lib')
 
   appContents = new Array remaining = sourceFiles.length
   for file, index in sourceFiles then do (file, index) ->
@@ -65,14 +65,13 @@ task 'dist', 'Build a distribution', ->
         throw err if err
         fs.unlink 'dist/_swagger-ui.coffee'
         console.log '   : Combining with javascript...'
-        exec 'cat src/main/javascript/doc.js dist/_swagger-ui-templates.js dist/_swagger-ui.js > dist/swagger-ui.js', (err, stdout, stderr) ->
+        cat "dist/swagger-ui.js", ["src/main/javascript/doc.js", "dist/_swagger-ui-templates.js", "dist/_swagger-ui.js"]
+        fs.unlink 'dist/_swagger-ui.js'
+        fs.unlink 'dist/_swagger-ui-templates.js'
+        console.log '   : Minifying all...'
+        exec 'java -jar "./bin/yuicompressor-2.4.7.jar" --type js -o ' + 'dist/swagger-ui.min.js ' + 'dist/swagger-ui.js', (err, stdout, stderr) ->
           throw err if err
-          fs.unlink 'dist/_swagger-ui.js'
-          fs.unlink 'dist/_swagger-ui-templates.js'
-          console.log '   : Minifying all...'
-          exec 'java -jar "./bin/yuicompressor-2.4.7.jar" --type js -o ' + 'dist/swagger-ui.min.js ' + 'dist/swagger-ui.js', (err, stdout, stderr) ->
-            throw err if err
-            lessc()
+          lessc()
 
   lessc = ->
     # Someone who knows CoffeeScript should make this more Coffee-licious
@@ -85,13 +84,16 @@ task 'dist', 'Build a distribution', ->
 
   pack = ->
     console.log '   : Packaging...'
-    exec 'cp -r lib dist'
-    console.log '   : Copied swagger-ui libs'
-    exec 'cp -r node_modules/swagger-client/lib/swagger.js dist/lib'
-    console.log '   : Copied swagger dependencies'
-    exec 'cp -r src/main/html/* dist'
-    console.log '   : Copied html dependencies'
-    console.log '   !'
+    ncp.ncp 'lib', 'dist/lib', (err) ->
+      reportNcpErrors err
+      console.log '   : Copied swagger-ui libs'
+      fs.mkdirSync('dist/lib') if not fs.existsSync('dist/lib')
+      fs.createReadStream('node_modules/swagger-client/lib/swagger.js').pipe(fs.createWriteStream('dist/lib/swagger.js'));
+      console.log '   : Copied swagger dependencies'
+      ncp.ncp 'src/main/html', 'dist', (err) ->
+        reportNcpErrors err
+        console.log '   : Copied html dependencies'
+        console.log '   !'
 
 task 'spec', "Run the test suite", ->
   exec "open spec.html", (err, stdout, stderr) ->
@@ -130,3 +132,37 @@ notify = (message) ->
 #    title: 'CoffeeScript'
 #    image: 'bin/CoffeeScript.png'
 #  try require('growl') message, options
+
+cat = (dest, files) ->
+  for file in files
+    body = fs.readFileSync(file);
+    fs.appendFileSync(dest, body);
+    fs.appendFileSync(dest, "\n");
+
+rmDir = (dirPath) ->
+  try
+    files = fs.readdirSync(dirPath)
+  catch e
+    return
+  if files.length > 0
+    i = 0
+
+    while i < files.length
+      filePath = dirPath + "/" + files[i]
+      if fs.statSync(filePath).isFile()
+        fs.unlinkSync filePath
+      else
+        rmDir filePath
+      i++
+  fs.rmdirSync dirPath
+
+reportNcpErrors = (err) ->
+  if Array.isArray(err)
+    console.error "There were errors during the copy."
+    err.forEach (err) ->
+      console.error err.stack or err.message
+    process.exit 1
+  else if err
+    console.error "An error has occurred."
+    console.error err.stack or err.message
+    process.exit 1
