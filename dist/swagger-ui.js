@@ -1509,14 +1509,16 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       contentTypeModel.produces = this.model.produces;
       _ref5 = this.model.parameters;
       for (_i = 0, _len = _ref5.length; _i < _len; _i++) {
-        param = _ref5[_i];
-        type = param.type || param.dataType;
-        if (type.toLowerCase() === 'file') {
-          if (!contentTypeModel.consumes) {
-            console.log("set content type ");
-            contentTypeModel.consumes = 'multipart/form-data';
-          }
-        }
+	      param = _ref5[_i];
+	      type = param.type || param.dataType;
+	      
+	      if (typeof(type) != 'undefined' && type.toLowerCase() === 'file') {
+		      if (!contentTypeModel.consumes) {
+			      console.log("set content type ");
+			      contentTypeModel.consumes = 'multipart/form-data';
+		      }
+	      }
+	
       }
       responseContentTypeView = new ResponseContentTypeView({
         model: contentTypeModel
@@ -1904,8 +1906,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       if (this.model.paramType === 'body') {
         this.model.isBody = true;
       }
-      if (type.toLowerCase() === 'file') {
-        this.model.isFile = true;
+      if (typeof(type) != 'undefined' && type.toLowerCase() === 'file') {
+	      this.model.isFile = true;
       }
       template = this.template();
       $(this.el).html(template(this.model));
