@@ -69,12 +69,20 @@ class SwaggerUi extends Backbone.Router
 
   buildUrl: (base, url) ->
     console.log "base is " + base
-    parts = base.split("/")
-    base = parts[0] + "//" + parts[2]
     if url.indexOf("/") is 0
+      parts = base.split("/")
+      base = parts[0] + "//" + parts[2]
       base + url
     else
-      base + "/" + url
+      endOfPath = base.length
+      if base.indexOf("?") > -1
+        endOfPath = Math.min(endOfPath, base.indexOf("?"))
+      if base.indexOf("#") > -1
+        endOfPath = Math.min(endOfPath, base.indexOf("#"))
+      base = base.substring(0, endOfPath);
+      if base.indexOf( "/", base.length - 1 ) isnt -1
+        return base + url
+      return base + "/" + url
 
 
   # Shows message on topbar of the ui
