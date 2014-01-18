@@ -276,21 +276,21 @@ class OperationView extends Backbone.View
     headers = data.getHeaders()
 
     # if server is nice, and sends content-type back, we can use it
-    contentType = headers["Content-Type"]
+    contentType = if headers["Content-Type"] then headers["Content-Type"].split(";")[0].trim() else null
 
-    if content == undefined
+    if !content
       code = $('<code />').text("no content")
       pre = $('<pre class="json" />').append(code)
-    else if contentType.indexOf("application/json") == 0 || contentType.indexOf("application/hal+json") == 0
+    else if contentType is "application/json" || /\+json$/.test(contentType)
       code = $('<code />').text(JSON.stringify(JSON.parse(content), null, 2))
       pre = $('<pre class="json" />').append(code)
-    else if contentType.indexOf("application/xml") == 0
+    else if contentType is "application/xml" || /\+xml$/.test(contentType)
       code = $('<code />').text(@formatXml(content))
       pre = $('<pre class="xml" />').append(code)
-    else if contentType.indexOf("text/html") == 0
+    else if contentType is "text/html"
       code = $('<code />').html(content)
       pre = $('<pre class="xml" />').append(code)
-    else if contentType.indexOf("image/") == 0
+    else if /^image\//.test(contentType)
       pre = $('<img>').attr('src',data.request.url)
     else
       # don't know what to render!
