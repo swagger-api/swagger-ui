@@ -92,6 +92,8 @@ Create your own fork of [wordnik/swagger-ui](https://github.com/wordnik/swagger-
 
 To share your changes, [submit a pull request](https://github.com/wordnik/swagger-ui/pull/new/master).
 
+Since the javascript files are compiled from coffeescript, please submit changes in the *.coffee files!  We have to reject changes only in the .js files as they will be lost on each build of the ui.
+
 License
 -------
 

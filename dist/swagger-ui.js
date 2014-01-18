@@ -1622,7 +1622,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     OperationView.prototype.handleFileUpload = function(map, form) {
-      var bodyParam, headerParams, o, obj, param, _i, _j, _k, _len, _len1, _len2, _ref5, _ref6, _ref7,
+      var bodyParam, el, headerParams, o, obj, param, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref5, _ref6, _ref7, _ref8,
         _this = this;
       console.log("it's a file upload");
       _ref5 = form.serializeArray();
@@ -1649,9 +1649,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         }
       }
       console.log(headerParams);
-      $.each($('input[type~="file"]'), function(i, el) {
-        return bodyParam.append($(el).attr('name'), el.files[0]);
-      });
+      _ref8 = form.find('input[type~="file"]');
+      for (_l = 0, _len3 = _ref8.length; _l < _len3; _l++) {
+        el = _ref8[_l];
+        bodyParam.append($(el).attr('name'), el.files[0]);
+      }
       console.log(bodyParam);
       this.invocationUrl = this.model.supportHeaderParams() ? (headerParams = this.model.getHeaderParams(map), this.model.urlify(map, false)) : this.model.urlify(map, true);
       $(".request_url", $(this.el)).html("<pre>" + this.invocationUrl + "</pre>");
