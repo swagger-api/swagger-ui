@@ -1819,20 +1819,20 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       var code, content, contentType, headers, pre, response_body;
       content = data.content.data;
       headers = data.getHeaders();
-      contentType = headers["Content-Type"];
-      if (content === void 0) {
+      contentType = headers["Content-Type"] ? headers["Content-Type"].split(";")[0].trim() : null;
+      if (!content) {
         code = $('<code />').text("no content");
         pre = $('<pre class="json" />').append(code);
-      } else if (contentType.indexOf("application/json") === 0 || contentType.indexOf("application/hal+json") === 0) {
+      } else if (contentType === "application/json" || /\+json$/.test(contentType)) {
         code = $('<code />').text(JSON.stringify(JSON.parse(content), null, 2));
         pre = $('<pre class="json" />').append(code);
-      } else if (contentType.indexOf("application/xml") === 0) {
+      } else if (contentType === "application/xml" || /\+xml$/.test(contentType)) {
         code = $('<code />').text(this.formatXml(content));
         pre = $('<pre class="xml" />').append(code);
-      } else if (contentType.indexOf("text/html") === 0) {
+      } else if (contentType === "text/html") {
         code = $('<code />').html(content);
         pre = $('<pre class="xml" />').append(code);
-      } else if (contentType.indexOf("image/") === 0) {
+      } else if (/^image\//.test(contentType)) {
         pre = $('<img>').attr('src', data.request.url);
       } else {
         code = $('<code />').text(content);
