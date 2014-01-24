@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Swagger UI</title>
-  <link href='//fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/>
   <link href='css/highlight.default.css' media='screen' rel='stylesheet' type='text/css'/>
   <link href='css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
   <script type="text/javascript" src="lib/shred.bundle.js"></script>
@@ -23,25 +23,20 @@
       dom_id: "swagger-ui-container",
       supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
       onComplete: function(swaggerApi, swaggerUi){
-        if(console) {
-          console.log("Loaded SwaggerUI")
-        }
+        log("Loaded SwaggerUI")
         $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
       },
       onFailure: function(data) {
-        if(console) {
-          console.log("Unable to Load SwaggerUI");
-          console.log(data);
-        }
+        log("Unable to Load SwaggerUI");
       },
       docExpansion: "none"
     });
 
     $('#input_apiKey').change(function() {
       var key = $('#input_apiKey')[0].value;
-      console.log("key: " + key);
+      log("key: " + key);
       if(key && key.trim() != "") {
-        console.log("added key " + key);
+        log("added key " + key);
         window.authorizations.add("key", new ApiKeyAuthorization("api_key", key, "query"));
       }
     })

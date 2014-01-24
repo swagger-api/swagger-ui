@@ -68,7 +68,7 @@ class SwaggerUi extends Backbone.Router
     )
 
   buildUrl: (base, url) ->
-    console.log "base is " + base
+    log "base is " + base
     parts = base.split("/")
     base = parts[0] + "//" + parts[2]
     if url.indexOf("/") is 0

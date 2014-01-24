@@ -37,7 +37,7 @@ class OperationView extends Backbone.View
       type = param.type || param.dataType
       if type.toLowerCase() == 'file'
         if !contentTypeModel.consumes
-          console.log "set content type "
+          log "set content type "
           contentTypeModel.consumes = 'multipart/form-data'
 
     responseContentTypeView = new ResponseContentTypeView({model: contentTypeModel})
@@ -110,7 +110,7 @@ class OperationView extends Backbone.View
     parent.showCompleteStatus response
 
   handleFileUpload: (map, form) ->
-    console.log "it's a file upload"
+    log "it's a file upload"
     for o in form.serializeArray()
       if(o.value? && jQuery.trim(o.value).length > 0)
         map[o.name] = o.value
@@ -129,13 +129,13 @@ class OperationView extends Backbone.View
       if param.paramType is 'header'
         headerParams[param.name] = map[param.name]
 
-    console.log headerParams
+    log headerParams
 
     # add files
     for el in form.find('input[type~="file"]')
       bodyParam.append($(el).attr('name'), el.files[0])
 
-    console.log(bodyParam)
+    log(bodyParam)
 
     @invocationUrl = 
       if @model.supportHeaderParams()
@@ -174,7 +174,7 @@ class OperationView extends Backbone.View
     o = {}
     o.content = {}
     o.content.data = data.responseText
-    o.getHeaders = () => {"Content-Type": data.getResponseHeader("Content-Type")}
+    o.getHeaders = () => {"Content-Type": data.headers("Content-Type")}
     o.request = {}
     o.request.url = @invocationUrl
     o.status = data.status
@@ -271,9 +271,9 @@ class OperationView extends Backbone.View
     
 
   # puts the response data in UI
-  showStatus: (data) ->
-    content = data.content.data
-    headers = data.getHeaders()
+  showStatus: (response) ->
+    content = response.data
+    headers = response.headers
 
     # if server is nice, and sends content-type back, we can use it
     contentType = if headers["Content-Type"] then headers["Content-Type"].split(";")[0].trim() else null
@@ -282,7 +282,7 @@ class OperationView extends Backbone.View
       code = $('<code />').text("no content")
       pre = $('<pre class="json" />').append(code)
     else if contentType is "application/json" || /\+json$/.test(contentType)
-      code = $('<code />').text(JSON.stringify(JSON.parse(content), null, 2))
+      code = $('<code />').text(JSON.stringify(JSON.parse(content), null, "  "))
       pre = $('<pre class="json" />').append(code)
     else if contentType is "application/xml" || /\+xml$/.test(contentType)
       code = $('<code />').text(@formatXml(content))
@@ -291,17 +291,17 @@ class OperationView extends Backbone.View
       code = $('<code />').html(content)
       pre = $('<pre class="xml" />').append(code)
     else if /^image\//.test(contentType)
-      pre = $('<img>').attr('src',data.request.url)
+      pre = $('<img>').attr('src',response.url)
     else
       # don't know what to render!
       code = $('<code />').text(content)
       pre = $('<pre class="json" />').append(code)
 
     response_body = pre
-    $(".request_url", $(@el)).html "<pre>" + data.request.url + "</pre>"
-    $(".response_code", $(@el)).html "<pre>" + data.status + "</pre>"
+    $(".request_url", $(@el)).html "<pre>" + response.url + "</pre>"
+    $(".response_code", $(@el)).html "<pre>" + response.status + "</pre>"
     $(".response_body", $(@el)).html response_body
-    $(".response_headers", $(@el)).html "<pre>" + JSON.stringify(data.getHeaders(), null, "  ").replace(/\n/g, "<br>") + "</pre>"
+    $(".response_headers", $(@el)).html "<pre>" + JSON.stringify(response.headers, null, "  ").replace(/\n/g, "<br>") + "</pre>"
     $(".response", $(@el)).slideDown()
     $(".response_hider", $(@el)).show()
     $(".response_throbber", $(@el)).hide()
