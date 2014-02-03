@@ -53,7 +53,9 @@
         useJQuery: this.useJQuery,
         url: this.url,
         method: "get",
-        headers: {},
+        headers: {
+          accept: "application/json"
+        },
         on: {
           error: function(response) {
             if (_this.url.substring(0, 4) !== 'http') {
@@ -304,7 +306,9 @@
           url: this.url,
           method: "get",
           useJQuery: this.useJQuery,
-          headers: {},
+          headers: {
+            accept: "application/json"
+          },
           on: {
             error: function(response) {
               return _this.api.fail("Unable to read api '" + _this.name + "' from path " + _this.url + " (server returned " + response.statusText + ")");
