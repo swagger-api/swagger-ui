@@ -672,7 +672,7 @@
         parameter = _ref1[_i];
         parameter.name = parameter.name || parameter.type || parameter.dataType;
         type = parameter.type || parameter.dataType;
-        if (type.toLowerCase() === 'boolean') {
+        if (type != undefined && type.toLowerCase() === 'boolean') {
           parameter.allowableValues = {};
           parameter.allowableValues.values = ["true", "false"];
         }
@@ -1001,7 +1001,7 @@
             _results = [];
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
               param = _ref[_i];
-              if (type.toLowerCase() === "file") {
+              if (type != undefined && type.toLowerCase() === "file") {
                 _results.push(param);
               }
             }
