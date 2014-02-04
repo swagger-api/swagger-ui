@@ -533,7 +533,7 @@
       _ref1 = this.properties;
       for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
         prop = _ref1[_j];
-        if ((prop.refModel != null) && (modelsToIgnore[prop.refModel] !== 'undefined') === -1) {
+        if ((prop.refModel != null) && modelsToIgnore.indexOf(prop.refModel) === -1) {
           returnVal = returnVal + ('<br>' + prop.refModel.getMockSignature(modelsToIgnore));
         }
       }
