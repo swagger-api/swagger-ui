@@ -1001,7 +1001,7 @@
             _results = [];
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
               param = _ref[_i];
-              if (type.toLowerCase() === "file") {
+              if (typeof type !== 'undefined' && type.toLowerCase() === "file") {
                 _results.push(param);
               }
             }
