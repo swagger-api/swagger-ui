@@ -693,7 +693,7 @@
       for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
         parameter = _ref1[_i];
         parameter.name = parameter.name || parameter.type || parameter.dataType;
-        type = parameter.type || parameter.dataType;
+        type = parameter.type || parameter.dataType || parameter.items.type;
         if (type.toLowerCase() === 'boolean') {
           parameter.allowableValues = {};
           parameter.allowableValues.values = ["true", "false"];
