@@ -1693,16 +1693,16 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     OperationView.prototype.wrap = function(data) {
-      var o,
-        _this = this;
+      var headerArray, headers, i, o, _i, _ref5, _ref6;
+      headers = {};
+      headerArray = data.getAllResponseHeaders().split(":");
+      for (i = _i = 0, _ref5 = headerArray.length / 2, _ref6 = 2.; _ref6 > 0 ? _i <= _ref5 : _i >= _ref5; i = _i += _ref6) {
+        headers[headerArray[i]] = headerArray[i + 1];
+      }
       o = {};
       o.content = {};
       o.content.data = data.responseText;
-      o.getHeaders = function() {
-        return {
-          "Content-Type": data.headers("Content-Type")
-        };
-      };
+      o.headers = headers;
       o.request = {};
       o.request.url = this.invocationUrl;
       o.status = data.status;
@@ -1829,7 +1829,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       var code, content, contentType, headers, pre, response_body;
       content = response.data;
       headers = response.headers;
-      contentType = headers["Content-Type"] ? headers["Content-Type"].split(";")[0].trim() : null;
+      contentType = headers && headers["Content-Type"] ? headers["Content-Type"].split(";")[0].trim() : null;
       if (!content) {
         code = $('<code />').text("no content");
         pre = $('<pre class="json" />').append(code);

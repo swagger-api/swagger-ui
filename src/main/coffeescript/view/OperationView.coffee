@@ -169,12 +169,18 @@ class OperationView extends Backbone.View
     false
     # end of file-upload nastiness
 
-  # wraps a jquery response as a shred response  
+  # wraps a jquery response as a shred response
+
   wrap: (data) ->
+    headers = {}
+    headerArray = data.getAllResponseHeaders().split(":")
+    for i in [0..headerArray.length/2] by (2)
+      headers[headerArray[i]] = headerArray[i+1]
+
     o = {}
     o.content = {}
     o.content.data = data.responseText
-    o.getHeaders = () => {"Content-Type": data.headers("Content-Type")}
+    o.headers = headers
     o.request = {}
     o.request.url = @invocationUrl
     o.status = data.status
@@ -276,7 +282,7 @@ class OperationView extends Backbone.View
     headers = response.headers
 
     # if server is nice, and sends content-type back, we can use it
-    contentType = if headers["Content-Type"] then headers["Content-Type"].split(";")[0].trim() else null
+    contentType = if headers && headers["Content-Type"] then headers["Content-Type"].split(";")[0].trim() else null
 
     if !content
       code = $('<code />').text("no content")
