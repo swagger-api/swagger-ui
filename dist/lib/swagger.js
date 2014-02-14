@@ -659,19 +659,21 @@ var SwaggerOperation = function(nickname, path, method, parameters, summary, not
         param.isList = true;
       if(param.allowableValues != null) {
         param.allowableValues.descriptiveValues = [];
-        for(j = 0; j < param.allowableValues.values; j++){
-          var v = param.allowableValues.values[j];
-          if(param.defaultValue != null) {
-            param.allowableValues.descriptiveValues.push ({
-              value: String(v),
-              isDefault: (v === param.defaultValue)
-            });
-          }
-          else {
-            param.allowableValues.descriptiveValues.push ({
-              value: String(v),
-              isDefault: false
-            });
+        if(param.allowableValues.values) {
+          for(j = 0; j < param.allowableValues.values.length; j++){
+            var v = param.allowableValues.values[j];
+            if(param.defaultValue != null) {
+              param.allowableValues.descriptiveValues.push ({
+                value: String(v),
+                isDefault: (v === param.defaultValue)
+              });
+            }
+            else {
+              param.allowableValues.descriptiveValues.push ({
+                value: String(v),
+                isDefault: false
+              });
+            }
           }
         }
       }
