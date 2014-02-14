@@ -1827,7 +1827,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
     OperationView.prototype.showStatus = function(response) {
       var code, content, contentType, headers, pre, response_body;
-      content = response.data;
+      content = response.data.trim();
       headers = response.headers;
       contentType = headers && headers["Content-Type"] ? headers["Content-Type"].split(";")[0].trim() : null;
       if (!content) {

@@ -278,7 +278,7 @@ class OperationView extends Backbone.View
 
   # puts the response data in UI
   showStatus: (response) ->
-    content = response.data
+    content = response.data.trim()
     headers = response.headers
 
     # if server is nice, and sends content-type back, we can use it
