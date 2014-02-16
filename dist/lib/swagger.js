@@ -1,5 +1,5 @@
 // swagger.js
-// version 2.0.15
+// version 2.0.16
 
 var __bind = function(fn, me){
   return function(){
@@ -636,7 +636,7 @@ var SwaggerOperation = function(nickname, path, method, parameters, summary, not
       param.allowableValues = {};
       param.allowableValues.descriptiveValues = [];
 
-      for(j = 0; j < enumValue.length; j++) {
+      for(var j = 0; j < enumValue.length; j++) {
         var v = enumValue[j];
         if(param.defaultValue != null) {
           param.allowableValues.descriptiveValues.push ({
@@ -652,7 +652,7 @@ var SwaggerOperation = function(nickname, path, method, parameters, summary, not
         }
       }
     }
-    if(param.allowableValues != null) {
+    else if(param.allowableValues != null) {
       if(param.allowableValues.valueType === "RANGE")
         param.isRange = true;
       else
@@ -660,7 +660,7 @@ var SwaggerOperation = function(nickname, path, method, parameters, summary, not
       if(param.allowableValues != null) {
         param.allowableValues.descriptiveValues = [];
         if(param.allowableValues.values) {
-          for(j = 0; j < param.allowableValues.values.length; j++){
+          for(var j = 0; j < param.allowableValues.values.length; j++){
             var v = param.allowableValues.values[j];
             if(param.defaultValue != null) {
               param.allowableValues.descriptiveValues.push ({

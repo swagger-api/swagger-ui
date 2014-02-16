@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "2.0.9",
+  "version": "2.0.10",
   "description": "Swagger UI is a dependency-free collection of HTML, Javascript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API",
   "scripts": {
     "build": "PATH=$PATH:./node_modules/.bin cake dist",
@@ -19,7 +19,7 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "coffee-script": "~1.5.0",
-    "swagger-client": "2.0.14",
+    "swagger-client": "2.0.16",
     "handlebars": "~1.0.10",
     "less": "~1.4.2"
   }
