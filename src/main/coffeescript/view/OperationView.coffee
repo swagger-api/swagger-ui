@@ -9,6 +9,7 @@ class OperationView extends Backbone.View
   }
 
   initialize: ->
+    @model.id = Docs.escapeResourceName(@model.resourceName) + "_" + @model.nickname + "_" + @model.method + "_" + @model.number;
 
   render: ->
     isMethodSubmissionSupported = true #jQuery.inArray(@model.method, @model.supportedSubmitMethods) >= 0
@@ -54,6 +55,8 @@ class OperationView extends Backbone.View
   addParameter: (param, consumes) ->
     # Render a parameter
     param.consumes = consumes
+    param.id = @model.id + "_" + param.name
+    param.models = @model.resource.models
     paramView = new ParameterView({model: param, tagName: 'tr', readOnly: @model.isReadOnly})
     $('.operation-params', $(@el)).append paramView.render().el
 
