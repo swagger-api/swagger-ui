@@ -82,7 +82,7 @@ class OperationView extends Backbone.View
 
       isFileUpload = false
 
-      for o in form.find("input")
+      for o in form.find("input.parameter")
         if(o.value? && jQuery.trim(o.value).length > 0)
           map[o.name] = o.value
         if o.type is "file"
@@ -92,7 +92,7 @@ class OperationView extends Backbone.View
         if(o.value? && jQuery.trim(o.value).length > 0)
           map["body"] = o.value
 
-      for o in form.find("select") 
+      for o in form.find("select.parameter") 
         val = this.getSelectedValue o
         if(val? && jQuery.trim(val).length > 0)
           map[o.name] = val
