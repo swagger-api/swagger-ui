@@ -1,0 +1,111 @@
+.swagger-ui-wrap {
+
+    ul.document-nav {
+        display: block;
+        margin: 0;
+        padding: 0;
+        li:last-child {
+            padding-right: 0;
+            border-right: none;
+        }
+        li {
+            float: left;
+            margin: 0 5px 5px 0;
+            padding: 2px 5px 2px 0;
+            border-right: 1px solid #ddd;
+        }
+        a {
+            text-decoration: none;
+            color: #AAA;
+        }
+        a:hover {
+            text-decoration: underline;
+            color: black;
+        }
+        .selected {
+            color: black;
+            text-decoration: none;
+        }
+    }
+
+    .model-json {
+        clear: both;
+    }
+
+    .model-document {
+        clear: both;
+
+        label {
+            min-width: 130px;
+            display: inline-block;
+        }
+
+        .document-name {
+        }
+
+        .document-type {
+            margin-left: 5px;
+            border: solid #999 2px;
+            font-weight: bold;
+            font-size: 0.75em;
+            line-height: 1.2em;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            padding: 1px;
+        }
+
+        .document-undefined {
+            font-style: italic;
+            font-weight: bold;
+            color: #444;
+        }
+
+        .document-name {
+            font-weight: bold;
+        }
+
+        div.object,
+        div.array {
+            padding-top: 7px;
+        }
+        div.object-inner,
+        div.array-inner {
+            padding-left: 20px;
+            border-left: dotted 1px #aaa;
+        }
+        div.property {
+        }
+
+        .object-set,
+        .object-undefined,
+        .array-set,
+        .array-undefined,
+        .array-add,
+        .array-remove {
+            cursor: pointer;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            border-radius: 6px;
+            width: 12px;
+            height: 12px;
+            line-height: 12px;
+            color: white;
+            font-weight: bold;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .object-set,
+        .array-set,
+        .array-add {
+            background-color: #282;
+        }
+        .object-undefined,
+        .array-undefined,
+        .array-remove {
+            background-color: #822;
+        }
+
+    }
+}

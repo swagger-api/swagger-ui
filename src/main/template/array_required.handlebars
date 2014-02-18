@@ -1,0 +1,11 @@
+
+<div class='array'>
+    {{#unless isRoot}}<span class='document-name required'>{{name}}</span>:{{/unless}} [
+    <span class='document-type'>{{refDataType}}</span>
+</div>
+<div class='array-inner' id="{{id}}"></div>
+<input class='property' type='hidden' name="{{path}}." value="dummy"/>
+<div>],
+    <span class='array-add' id="{{id}}-add">+</span>
+    <span class='array-remove' id="{{id}}-remove">-</span></div>
+</div>
