@@ -1,5 +1,5 @@
 // swagger.js
-// version 2.0.14
+// version 2.0.16
 
 var __bind = function(fn, me){
   return function(){
@@ -392,7 +392,7 @@ SwaggerResource.prototype.addOperations = function(resource_path, ops, consumes,
       }
       if (o.errorResponses) {
         responseMessages = o.errorResponses;
-        for (j = 0; j < responseMessages.length; j++) {
+        for (var j = 0; j < responseMessages.length; j++) {
           r = responseMessages[j];
           r.message = r.reason;
           r.reason = null;
@@ -636,7 +636,7 @@ var SwaggerOperation = function(nickname, path, method, parameters, summary, not
       param.allowableValues = {};
       param.allowableValues.descriptiveValues = [];
 
-      for(j = 0; j < enumValue.length; j++) {
+      for(var j = 0; j < enumValue.length; j++) {
         var v = enumValue[j];
         if(param.defaultValue != null) {
           param.allowableValues.descriptiveValues.push ({
@@ -652,26 +652,28 @@ var SwaggerOperation = function(nickname, path, method, parameters, summary, not
         }
       }
     }
-    if(param.allowableValues != null) {
+    else if(param.allowableValues != null) {
       if(param.allowableValues.valueType === "RANGE")
         param.isRange = true;
       else
         param.isList = true;
       if(param.allowableValues != null) {
         param.allowableValues.descriptiveValues = [];
-        for(j = 0; j < param.allowableValues.values; j++){
-          var v = param.allowableValues.values[j];
-          if(param.defaultValue != null) {
-            param.allowableValues.descriptiveValues.push ({
-              value: String(v),
-              isDefault: (v === param.defaultValue)
-            });
-          }
-          else {
-            param.allowableValues.descriptiveValues.push ({
-              value: String(v),
-              isDefault: false
-            });
+        if(param.allowableValues.values) {
+          for(var j = 0; j < param.allowableValues.values.length; j++){
+            var v = param.allowableValues.values[j];
+            if(param.defaultValue != null) {
+              param.allowableValues.descriptiveValues.push ({
+                value: String(v),
+                isDefault: (v === param.defaultValue)
+              });
+            }
+            else {
+              param.allowableValues.descriptiveValues.push ({
+                value: String(v),
+                isDefault: false
+              });
+            }
           }
         }
       }
