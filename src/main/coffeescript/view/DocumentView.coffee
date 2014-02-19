@@ -93,7 +93,6 @@ class DocumentView extends Backbone.View
   # set a deep value of a nested set of objects and arrays, creating structures along the way
   # eg, setMapValue obj 'a.b.c[].2.d' 3  =>  obj['a']['b']['c'][2]['d'] = 3
   setMapValue: (map, name, value) ->
-    log name, value
     nameParts = name.split '.'
     dest = map
     while nameParts.length > 1

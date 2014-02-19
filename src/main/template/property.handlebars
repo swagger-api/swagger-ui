@@ -1,6 +1,12 @@
 
 <div class='property'>
-{{#unless isRoot}}<label for="{{path}}"><span class='document-name'>{{name}}</span>:</label>{{/unless}}
+{{#unless isRoot}}
+  {{#if required}}
+      <label for="{{path}}"><span class='document-name required'>{{name}}</span>:</label>
+  {{else}}
+      <label for="{{path}}"><span class='document-name'>{{name}}</span>:</label>
+  {{/if}}
+{{/unless}}
 {{#if selectValues}}
   <select class='property' name='{{path}}'>
     {{#each selectValues}}

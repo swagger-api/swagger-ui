@@ -38,73 +38,100 @@
         label {
             min-width: 130px;
             display: inline-block;
+            line-height: 2em;
+        }
+
+        legend {
+            padding-left: 4px;
+            padding-right: 4px;
         }
 
         .document-name {
         }
 
+        .undefined {
+            /* don't show undefined for objects or arrays */
+            display: none;
+            font-weight: bold;
+            font-style: italic;
+            color: #444;
+        }
+
         .document-type {
-            margin-left: 5px;
-            border: solid #999 2px;
+            border: solid #aaa 2px;
             font-weight: bold;
             font-size: 0.75em;
-            line-height: 1.2em;
             -webkit-border-radius: 4px;
             -moz-border-radius: 4px;
             border-radius: 4px;
             padding: 1px;
         }
 
-        .document-undefined {
-            font-style: italic;
-            font-weight: bold;
-            color: #444;
-        }
-
-        .document-name {
-            font-weight: bold;
-        }
-
-        div.object,
-        div.array {
-            padding-top: 7px;
+        fieldset {
+            border: solid 1px #333;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            padding: 1.2em;
         }
         div.object-inner,
         div.array-inner {
-            padding-left: 20px;
-            border-left: dotted 1px #aaa;
         }
         div.property {
         }
 
-        .object-set,
-        .object-undefined,
-        .array-set,
-        .array-undefined,
-        .array-add,
-        .array-remove {
+        a.object-set,
+        a.object-undefined,
+        a.array-set,
+        a.array-undefined,
+        a.array-add,
+        a.array-remove {
             cursor: pointer;
-            -webkit-border-radius: 6px;
-            -moz-border-radius: 6px;
-            border-radius: 6px;
-            width: 12px;
-            height: 12px;
-            line-height: 12px;
-            color: white;
-            font-weight: bold;
             display: inline-block;
-            text-align: center;
+            border: solid 2px;
+            -webkit-border-radius: 0.5em;
+            -moz-border-radius: 0.5em;
+            border-radius: 0.5em;
+            height: 1.2em;
+            line-height: 1.2em;
+            font-size: 0.8em;
+            margin-left: 0.25em;
+            margin-right: 0.25em;
+            padding-left: 0.4em;
+            padding-right: 0.4em;
+            color: #222;
+            font-weight: bold;
         }
 
-        .object-set,
-        .array-set,
-        .array-add {
-            background-color: #282;
+        a.object-set,
+        a.array-set {
+            border-color: #228;
         }
-        .object-undefined,
-        .array-undefined,
-        .array-remove {
+        a.array-add {
+            border-color: #282;
+        }
+        a.object-undefined,
+        a.array-undefined,
+        a.array-remove {
+            border-color: #822;
+        }
+
+        a.object-set:hover,
+        a.array-set:hover {
+            color: white;
+            background-color: #228;
+            border-color: #228;
+        }
+        a.array-add:hover {
+            color: white;
+            background-color: #282;
+            border-color: #282;
+        }
+        a.object-undefined:hover,
+        a.array-undefined:hover,
+        a.array-remove:hover {
+            color: white;
             background-color: #822;
+            border-color: #822;
         }
 
     }

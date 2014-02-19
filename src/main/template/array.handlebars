@@ -1,12 +1,12 @@
 
-<div class='array'>
-    {{#unless isRoot}}<span class='document-name'>{{name}}</span>:{{/unless}} [
-    <span class='document-type'>{{refDataType}}</span>
-    <span class='array-undefined' id="{{id}}-undefined">x</span>
-</div>
-<div class='array-inner' id="{{id}}"></div>
-<input class='property' type='hidden' name="{{path}}." value="dummy"/>
-<div>],
-    <span class='array-add' id="{{id}}-add">+</span>
-    <span class='array-remove' id="{{id}}-remove">-</span></div>
-</div>
+<fieldset>
+    <legend>
+        {{#unless isRoot}}<span class='document-name'>{{name}}</span>{{/unless}}
+        <span class='document-type'>array[ {{refDataType}} ]</span>
+        <a class='array-undefined' id="{{id}}-undefined">remove array</a>
+        <a class='array-remove' id="{{id}}-remove">delete item</a></div>
+        <a class='array-add' id="{{id}}-add">add item</a>
+    </legend>
+    <div class='array-inner' id="{{id}}"></div>
+    <input class='property' type='hidden' name="{{path}}." value="dummy"/>
+</fieldset>

@@ -1,7 +1,7 @@
 
 <div class='property'>
-    {{#unless isRoot}}<span class='document-name'>{{name}}</span>:{{/unless}}
-    <span class='document-undefined'>undefined</span>,
+{{#unless isRoot}}<label for="{{path}}"><span class='document-name'>{{name}}</span>:</label>{{/unless}}
+    <span class='undefined'>undefined</span>
     <span class='document-type'>{{dataType}}</span>
-    <span class='object-set' id="{{id}}-set">+</span>
+    <a class='object-set' id="{{id}}-set">create object</a>
 </div>

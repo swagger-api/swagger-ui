@@ -1,8 +1,9 @@
 
-<div class='object'>
-    {{#unless isRoot}}<span class='document-name required'>{{name}}</span>:{{/unless}} {
-    <span class='document-type'>{{dataType}}</span>
-</div>
-<div class='object-inner' id="{{id}}"></div>
-<input class='property' type='hidden' name="{{path}}." value="dummy"/>
-<div>},</div>
+<fieldset>
+    <legend>
+        {{#unless isRoot}}<span class='document-name required'>{{name}}</span>{{/unless}}
+        <span class='document-type'>{{dataType}}</span>
+    </legend>
+    <div class='object-inner' id="{{id}}"></div>
+    <input class='property' type='hidden' name="{{path}}." value="dummy"/>
+</fieldset>
