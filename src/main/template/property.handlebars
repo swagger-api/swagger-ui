@@ -16,12 +16,12 @@
         <option value='{{value}}'>{{name}}</option>
       {{/if}}
     {{/each}}
-  </select>,
+  </select>
 {{else}}
   {{#if required}}
-    <input class='property required {{numeric}}' minlength='1' name='{{path}}' placeholder='{{dataType}} (required)' type='text' value='{{{defaultValue}}}'/>,
+    <input class='property required {{numeric}}' minlength='1' name='{{path}}' placeholder='{{dataType}} (required)' type='text' value='{{{defaultValue}}}'/>
   {{else}}
-    <input class='property {{numeric}}' name='{{path}}' placeholder='{{dataType}}' type='text' value='{{{defaultValue}}}'/>,
+    <input class='property {{numeric}}' name='{{path}}' placeholder='{{dataType}}' type='text' value='{{{defaultValue}}}'/>
   {{/if}}
 {{/if}}
 </div>
