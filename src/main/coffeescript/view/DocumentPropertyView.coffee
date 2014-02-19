@@ -28,7 +28,7 @@ class DocumentPropertyView extends Backbone.View
         for value in @model.values
             @model.selectValues.push
                 name: value
-                value: if @model.numeric then parseInt value, 10 else JSON.stringify value
+                value: if @model.numeric then parseFloat value else JSON.stringify value
                 isDefault: value == @model.defaultValue
 
     @$el.html Handlebars.templates.property @model
