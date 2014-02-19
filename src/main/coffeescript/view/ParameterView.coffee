@@ -8,9 +8,11 @@ class ParameterView extends Backbone.View
 
     # see if we have a model definition for this body data type
     if @model.isBody && @model.models && !@model.isFile
+      if type == 'array'
+        @model.refDataType = @model.items?.$ref || @model.items?.type
       @model.refModel = @model.models[type] || @model.models[@model.refDataType]
 
-    if @model.refModel
+    if @model.refModel || @model.refDataType
       documentView = new DocumentView({model: @model, el: @el})
       documentView.render()
     else
