@@ -184,6 +184,140 @@ var Docs = {
 };
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['array'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "<span class='document-name'>";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</span>";
+  return buffer;
+  }
+
+  buffer += "\n<fieldset>\n    <legend>\n        ";
+  stack1 = helpers.unless.call(depth0, depth0.isRoot, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n        <span class='document-type'>array[ ";
+  if (stack1 = helpers.refDataType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.refDataType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + " ]</span>\n        <a class='array-undefined' id=\"";
+  if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "-undefined\">remove array</a>\n        <a class='array-remove' id=\"";
+  if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "-remove\">delete item</a></div>\n        <a class='array-add' id=\"";
+  if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "-add\">add item</a>\n    </legend>\n    <div class='array-inner' id=\"";
+  if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\"></div>\n    <input class='property' type='hidden' name=\"";
+  if (stack1 = helpers.path) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.path; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + ".\" value=\"dummy\"/>\n</fieldset>\n";
+  return buffer;
+  });
+})();
+
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['array_required'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "<span class='document-name required'>";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</span>";
+  return buffer;
+  }
+
+  buffer += "\n<fieldset>\n    <legend>\n        ";
+  stack1 = helpers.unless.call(depth0, depth0.isRoot, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n        <span class='document-type'>array[ ";
+  if (stack1 = helpers.refDataType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.refDataType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + " ]</span>\n        <a class='array-remove' id=\"";
+  if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "-remove\">delete item</a></div>\n        <a class='array-add' id=\"";
+  if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "-add\">add item</a>\n    </legend>\n    <div class='array-inner' id=\"";
+  if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\"></div>\n    <input class='property' type='hidden' name=\"";
+  if (stack1 = helpers.path) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.path; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + ".\" value=\"dummy\"/>\n</fieldset>\n";
+  return buffer;
+  });
+})();
+
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['array_undefined'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "<label for=\"";
+  if (stack1 = helpers.path) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.path; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\"><span class='document-name'>";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</span>:</label>";
+  return buffer;
+  }
+
+  buffer += "\n<div class='property'>\n";
+  stack1 = helpers.unless.call(depth0, depth0.isRoot, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n    <span class='undefined'>undefined</span>\n    <span class='document-type'>array[ ";
+  if (stack1 = helpers.refDataType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.refDataType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + " ]</span>\n    <a class='array-set' id=\"";
+  if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "-set\">create array</a>\n</div>\n";
+  return buffer;
+  });
+})();
+
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
 templates['content_type'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
@@ -221,6 +355,31 @@ function program4(depth0,data) {
   stack1 = helpers['if'].call(depth0, depth0.produces, {hash:{},inverse:self.program(4, program4, data),fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</select>\n";
+  return buffer;
+  });
+})();
+
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['document'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<td class='code'>";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</td>\n<td colspan=\"3\">\n    <ul class=\"document-nav\">\n        <li><a class=\"document-link\" href=\"#\">Document</a></li>\n        <li><a class=\"json-link\" href=\"#\">JSON</a></li>\n    </ul>\n    <div class='model-json'>\n        <textarea class='body-textarea' name='";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "'>";
+  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</textarea>\n        <br />\n        <div class=\"parameter-content-type\" />\n    </div>\n    <form class='model-document'></form>\n</td>\n<td><span class=\"model-signature\"></span></td>\n";
   return buffer;
   });
 })();
@@ -303,6 +462,124 @@ function program8(depth0,data) {
   stack1 = helpers['if'].call(depth0, depth0.apiVersion, {hash:{},inverse:self.noop,fn:self.program(8, program8, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "]</h4>\n    </div>\n</div>\n";
+  return buffer;
+  });
+})();
+
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['object'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "<span class='document-name'>";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</span>";
+  return buffer;
+  }
+
+  buffer += "\n<fieldset>\n    <legend>\n        ";
+  stack1 = helpers.unless.call(depth0, depth0.isRoot, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n        <span class='document-type'>";
+  if (stack1 = helpers.dataType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.dataType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</span>\n        <a class='object-undefined' id=\"";
+  if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "-undefined\">remove object</a>\n    </legend>\n    <div class='object-inner' id=\"";
+  if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\"></div>\n    <input class='property' type='hidden' name=\"";
+  if (stack1 = helpers.path) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.path; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + ".\" value=\"dummy\"/>\n</fieldset>\n";
+  return buffer;
+  });
+})();
+
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['object_required'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "<span class='document-name required'>";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</span>";
+  return buffer;
+  }
+
+  buffer += "\n<fieldset>\n    <legend>\n        ";
+  stack1 = helpers.unless.call(depth0, depth0.isRoot, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n        <span class='document-type'>";
+  if (stack1 = helpers.dataType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.dataType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</span>\n    </legend>\n    <div class='object-inner' id=\"";
+  if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\"></div>\n    <input class='property' type='hidden' name=\"";
+  if (stack1 = helpers.path) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.path; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + ".\" value=\"dummy\"/>\n</fieldset>\n";
+  return buffer;
+  });
+})();
+
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['object_undefined'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "<label for=\"";
+  if (stack1 = helpers.path) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.path; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\"><span class='document-name'>";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</span>:</label>";
+  return buffer;
+  }
+
+  buffer += "\n<div class='property'>\n";
+  stack1 = helpers.unless.call(depth0, depth0.isRoot, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n    <span class='undefined'>undefined</span>\n    <span class='document-type'>";
+  if (stack1 = helpers.dataType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.dataType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</span>\n    <a class='object-set' id=\"";
+  if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "-set\">create object</a>\n</div>";
   return buffer;
   });
 })();
@@ -490,7 +767,7 @@ function program1(depth0,data) {
 function program2(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n			<input type=\"file\" name='";
+  buffer += "\n			<input class='parameter' type=\"file\" name='";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -867,7 +1144,7 @@ function program1(depth0,data) {
 function program2(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n			<input type=\"file\" name='";
+  buffer += "\n			<input class='parameter' type=\"file\" name='";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -1030,6 +1307,170 @@ function program4(depth0,data) {
 
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['property'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n  ";
+  stack1 = helpers['if'].call(depth0, depth0.required, {hash:{},inverse:self.program(4, program4, data),fn:self.program(2, program2, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n";
+  return buffer;
+  }
+function program2(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n      <label for=\"";
+  if (stack1 = helpers.path) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.path; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\"><span class='document-name required'>";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</span>:</label>\n  ";
+  return buffer;
+  }
+
+function program4(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n      <label for=\"";
+  if (stack1 = helpers.path) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.path; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\"><span class='document-name'>";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</span>:</label>\n  ";
+  return buffer;
+  }
+
+function program6(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n  <select class='property' name='";
+  if (stack1 = helpers.path) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.path; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "'>\n    ";
+  stack1 = helpers.each.call(depth0, depth0.selectValues, {hash:{},inverse:self.noop,fn:self.program(7, program7, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n  </select>\n";
+  return buffer;
+  }
+function program7(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n      ";
+  stack1 = helpers['if'].call(depth0, depth0.isDefault, {hash:{},inverse:self.program(10, program10, data),fn:self.program(8, program8, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n    ";
+  return buffer;
+  }
+function program8(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n        <option selected=\"\" value='";
+  if (stack1 = helpers.value) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.value; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "'>";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + " (default)</option>\n      ";
+  return buffer;
+  }
+
+function program10(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n        <option value='";
+  if (stack1 = helpers.value) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.value; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "'>";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</option>\n      ";
+  return buffer;
+  }
+
+function program12(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n  ";
+  stack1 = helpers['if'].call(depth0, depth0.required, {hash:{},inverse:self.program(15, program15, data),fn:self.program(13, program13, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n";
+  return buffer;
+  }
+function program13(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n    <input class='property required ";
+  if (stack1 = helpers.numeric) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.numeric; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "' minlength='1' name='";
+  if (stack1 = helpers.path) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.path; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "' placeholder='";
+  if (stack1 = helpers.dataType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.dataType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + " (required)' type='text' value='";
+  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "'/>\n  ";
+  return buffer;
+  }
+
+function program15(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n    <input class='property ";
+  if (stack1 = helpers.numeric) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.numeric; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "' name='";
+  if (stack1 = helpers.path) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.path; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "' placeholder='";
+  if (stack1 = helpers.dataType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.dataType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "' type='text' value='";
+  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "'/>\n  ";
+  return buffer;
+  }
+
+  buffer += "\n<div class='property'>\n";
+  stack1 = helpers.unless.call(depth0, depth0.isRoot, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n";
+  stack1 = helpers['if'].call(depth0, depth0.selectValues, {hash:{},inverse:self.program(12, program12, data),fn:self.program(6, program6, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n</div>\n";
+  return buffer;
+  });
+})();
+
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
 templates['resource'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
@@ -1184,9 +1625,10 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
 // Generated by CoffeeScript 1.6.3
 (function() {
-  var ContentTypeView, HeaderView, MainView, OperationView, ParameterContentTypeView, ParameterView, ResourceView, ResponseContentTypeView, SignatureView, StatusCodeView, SwaggerUi, _ref, _ref1, _ref10, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9,
+  var ContentTypeView, DocumentArrayView, DocumentObjectView, DocumentPropertyView, DocumentView, HeaderView, MainView, OperationView, ParameterContentTypeView, ParameterView, ResourceView, ResponseContentTypeView, SignatureView, StatusCodeView, SwaggerUi, _ref, _ref1, _ref10, _ref11, _ref12, _ref13, _ref14, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9,
     __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   SwaggerUi = (function(_super) {
     __extends(SwaggerUi, _super);
@@ -1489,7 +1931,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       'click .toggleOperation': 'toggleOperationContent'
     };
 
-    OperationView.prototype.initialize = function() {};
+    OperationView.prototype.initialize = function() {
+      return this.model.id = Docs.escapeResourceName(this.model.resourceName) + "_" + this.model.nickname + "_" + this.model.method + "_" + this.model.number;
+    };
 
     OperationView.prototype.render = function() {
       var contentTypeModel, isMethodSubmissionSupported, param, responseContentTypeView, responseSignatureView, signatureModel, statusCode, type, _i, _j, _k, _len, _len1, _len2, _ref5, _ref6, _ref7;
@@ -1548,6 +1992,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     OperationView.prototype.addParameter = function(param, consumes) {
       var paramView;
       param.consumes = consumes;
+      param.id = this.model.id + "_" + param.name;
+      param.models = this.model.resource.models;
       paramView = new ParameterView({
         model: param,
         tagName: 'tr',
@@ -1582,8 +2028,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
               return $(_this).focus();
             }
           });
-          return error_free = false;
+          error_free = false;
         }
+        return true;
       });
       if (error_free) {
         map = {};
@@ -1591,7 +2038,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           parent: this
         };
         isFileUpload = false;
-        _ref5 = form.find("input");
+        _ref5 = form.find("input.parameter");
         for (_i = 0, _len = _ref5.length; _i < _len; _i++) {
           o = _ref5[_i];
           if ((o.value != null) && jQuery.trim(o.value).length > 0) {
@@ -1608,7 +2055,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
             map["body"] = o.value;
           }
         }
-        _ref7 = form.find("select");
+        _ref7 = form.find("select.parameter");
         for (_k = 0, _len2 = _ref7.length; _k < _len2; _k++) {
           o = _ref7[_k];
           val = this.getSelectedValue(o);
@@ -1909,7 +2356,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     ParameterView.prototype.initialize = function() {};
 
     ParameterView.prototype.render = function() {
-      var contentTypeModel, isParam, parameterContentTypeView, responseContentTypeView, signatureModel, signatureView, template, type;
+      var contentTypeModel, documentView, isParam, parameterContentTypeView, responseContentTypeView, signatureModel, signatureView, template, type, _ref7, _ref8;
       type = this.model.type || this.model.dataType;
       if (this.model.paramType === 'body') {
         this.model.isBody = true;
@@ -1917,8 +2364,22 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       if (type.toLowerCase() === 'file') {
         this.model.isFile = true;
       }
-      template = this.template();
-      $(this.el).html(template(this.model));
+      if (this.model.isBody && this.model.models && !this.model.isFile) {
+        if (type === 'array') {
+          this.model.refDataType = ((_ref7 = this.model.items) != null ? _ref7.$ref : void 0) || ((_ref8 = this.model.items) != null ? _ref8.type : void 0);
+        }
+        this.model.refModel = this.model.models[type] || this.model.models[this.model.refDataType];
+      }
+      if (this.model.refModel || this.model.refDataType) {
+        documentView = new DocumentView({
+          model: this.model,
+          el: this.el
+        });
+        documentView.render();
+      } else {
+        template = this.template();
+        $(this.el).html(template(this.model));
+      }
       signatureModel = {
         sampleJSON: this.model.sampleJSON,
         isParam: true,
@@ -2123,6 +2584,410 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     return ParameterContentTypeView;
+
+  })(Backbone.View);
+
+  DocumentView = (function(_super) {
+    __extends(DocumentView, _super);
+
+    function DocumentView() {
+      this.inputChanged = __bind(this.inputChanged, this);
+      this.switchToJSON = __bind(this.switchToJSON, this);
+      this.switchToDocument = __bind(this.switchToDocument, this);
+      this.fillDocument = __bind(this.fillDocument, this);
+      _ref11 = DocumentView.__super__.constructor.apply(this, arguments);
+      return _ref11;
+    }
+
+    DocumentView.prototype.events = {
+      'change input.property': 'inputChanged',
+      'change select.property': 'inputChanged',
+      'click a.document-link': 'switchToDocument',
+      'click a.json-link': 'switchToJSON'
+    };
+
+    DocumentView.prototype.initialize = function() {
+      var e;
+      try {
+        return this.value = JSON.parse(this.model.defaultValue);
+      } catch (_error) {
+        e = _error;
+      }
+    };
+
+    DocumentView.prototype.render = function() {
+      this.model.dataType = this.model.type || this.model.dataType;
+      this.model.isRoot = true;
+      this.model.isPresent = true;
+      this.model.document = this;
+      this.model.path = 'body';
+      if (this.model.dataType === 'array') {
+        this.model.path = this.model.path + '[]';
+      }
+      $(this.el).html(Handlebars.templates.document(this.model));
+      this.switchToDocument();
+      return this;
+    };
+
+    DocumentView.prototype.fillDocument = function() {
+      var documentView;
+      this.model.value = this.value;
+      if (this.model.dataType === 'array') {
+        documentView = new DocumentArrayView({
+          model: this.model
+        });
+      } else {
+        documentView = new DocumentObjectView({
+          model: this.model
+        });
+      }
+      return $('.model-document', this.$el).html(documentView.render().el);
+    };
+
+    DocumentView.prototype.switchToDocument = function(e) {
+      if (e != null) {
+        e.preventDefault();
+      }
+      try {
+        this.value = JSON.parse(e.target.value);
+      } catch (_error) {
+
+      }
+      this.fillDocument();
+      $('.model-json', this.$el).hide();
+      $('.model-document', this.$el).show();
+      $('.document-link', this.$el).addClass('selected');
+      return $('.json-link', this.$el).removeClass('selected');
+    };
+
+    DocumentView.prototype.switchToJSON = function(e) {
+      if (e != null) {
+        e.preventDefault();
+      }
+      $('.model-document', this.$el).hide();
+      $('.model-json', this.$el).show();
+      $('.json-link', this.$el).addClass('selected');
+      $('.document-link', this.$el).removeClass('selected');
+      return $('.model-document', this.$el).empty();
+    };
+
+    DocumentView.prototype.inputChanged = function(e) {
+      var error_free, form, map, o, _i, _j, _k, _len, _len1, _len2, _ref12, _ref13, _ref14;
+      map = {};
+      form = $('.model-document', this.$el);
+      error_free = true;
+      if (error_free) {
+        _ref12 = form.find("input.property");
+        for (_i = 0, _len = _ref12.length; _i < _len; _i++) {
+          o = _ref12[_i];
+          if ((o.value != null) && jQuery.trim(o.value).length > 0) {
+            this.setMapValue(map, o.name, $(o).hasClass('numeric') ? +o.value : o.value);
+          }
+        }
+        _ref13 = form.find("textarea.property");
+        for (_j = 0, _len1 = _ref13.length; _j < _len1; _j++) {
+          o = _ref13[_j];
+          if ((o.value != null) && jQuery.trim(o.value).length > 0) {
+            this.setMapValue(map, o.name, o.value);
+          }
+        }
+        _ref14 = form.find("select.property");
+        for (_k = 0, _len2 = _ref14.length; _k < _len2; _k++) {
+          o = _ref14[_k];
+          if ((o.value != null) && jQuery.trim(o.value).length > 0) {
+            this.setMapValue(map, o.name, JSON.parse(o.value));
+          }
+        }
+        this.value = map.body;
+        return $('.body-textarea', this.$el).val(JSON.stringify(this.value, null, '\t'));
+      }
+    };
+
+    DocumentView.prototype.setMapValue = function(map, name, value) {
+      var dest, isArray, namePart, nameParts, parent, valueKey;
+      nameParts = name.split('.');
+      dest = map;
+      while (nameParts.length > 1) {
+        parent = dest;
+        namePart = nameParts.shift();
+        if (isArray) {
+          namePart = +namePart;
+        }
+        isArray = false;
+        if (typeof namePart.match === "function" ? namePart.match(/\[\]$/) : void 0) {
+          isArray = true;
+          namePart = namePart.replace('[]', '');
+        }
+        dest = parent[namePart];
+        if (typeof dest !== 'object') {
+          dest = parent[namePart] = isArray ? [] : {};
+        }
+      }
+      valueKey = nameParts.shift();
+      if (valueKey !== '') {
+        return dest[valueKey] = value;
+      }
+    };
+
+    return DocumentView;
+
+  })(Backbone.View);
+
+  DocumentObjectView = (function(_super) {
+    __extends(DocumentObjectView, _super);
+
+    function DocumentObjectView() {
+      this.removeObject = __bind(this.removeObject, this);
+      this.setObject = __bind(this.setObject, this);
+      this.render = __bind(this.render, this);
+      this.initialize = __bind(this.initialize, this);
+      _ref12 = DocumentObjectView.__super__.constructor.apply(this, arguments);
+      return _ref12;
+    }
+
+    DocumentObjectView.prototype.initialize = function() {};
+
+    DocumentObjectView.prototype.render = function() {
+      var property, _i, _len, _ref13;
+      if (!this.model.isPresent) {
+        this.$el.html(Handlebars.templates.object_undefined(this.model));
+      } else {
+        if (this.model.required) {
+          this.$el.html(Handlebars.templates.object_required(this.model));
+        } else {
+          this.$el.html(Handlebars.templates.object(this.model));
+        }
+        _ref13 = this.model.refModel.properties;
+        for (_i = 0, _len = _ref13.length; _i < _len; _i++) {
+          property = _ref13[_i];
+          this.addProperty(property);
+        }
+      }
+      $('#' + this.model.id + '-set', this.$el).click(this.setObject);
+      $('#' + this.model.id + '-undefined', this.$el).click(this.removeObject);
+      return this;
+    };
+
+    DocumentObjectView.prototype.addProperty = function(type) {
+      var property, propertyView;
+      property = $.extend({}, type);
+      property.id = this.model.id + '_' + property.name;
+      property.path = this.model.path + '.' + property.name;
+      property.value = this.model.value && this.model.value[property.name];
+      if (property.refModel) {
+        property.document = this.model.document;
+        property.isPresent = !!property.value || property.required;
+        if (property.dataType === 'array') {
+          property.path = property.path + '[]';
+          propertyView = new DocumentArrayView({
+            model: property
+          });
+        } else {
+          propertyView = new DocumentObjectView({
+            model: property
+          });
+        }
+      } else {
+        propertyView = new DocumentPropertyView({
+          model: property
+        });
+      }
+      return $('#' + this.model.id, this.$el).append(propertyView.render().el);
+    };
+
+    DocumentObjectView.prototype.setObject = function() {
+      this.model.isPresent = true;
+      this.render();
+      return this.model.document.inputChanged();
+    };
+
+    DocumentObjectView.prototype.removeObject = function() {
+      this.model.isPresent = false;
+      this.render();
+      return this.model.document.inputChanged();
+    };
+
+    return DocumentObjectView;
+
+  })(Backbone.View);
+
+  DocumentArrayView = (function(_super) {
+    __extends(DocumentArrayView, _super);
+
+    function DocumentArrayView() {
+      this.removeArray = __bind(this.removeArray, this);
+      this.setArray = __bind(this.setArray, this);
+      this.removeItem = __bind(this.removeItem, this);
+      this.addItem = __bind(this.addItem, this);
+      this.newItem = __bind(this.newItem, this);
+      this.render = __bind(this.render, this);
+      this.initialize = __bind(this.initialize, this);
+      _ref13 = DocumentArrayView.__super__.constructor.apply(this, arguments);
+      return _ref13;
+    }
+
+    DocumentArrayView.prototype.initialize = function() {};
+
+    DocumentArrayView.prototype.render = function() {
+      var val, _i, _len, _ref14;
+      this.items = 0;
+      if (!this.model.isPresent) {
+        this.$el.html(Handlebars.templates.array_undefined(this.model));
+      } else {
+        if (this.model.required) {
+          this.$el.html(Handlebars.templates.array_required(this.model));
+        } else {
+          this.$el.html(Handlebars.templates.array(this.model));
+        }
+      }
+      $('#' + this.model.id + '-set', this.$el).click(this.setArray);
+      $('#' + this.model.id + '-undefined', this.$el).click(this.removeArray);
+      $('#' + this.model.id + '-add', this.$el).click(this.addItem);
+      $('#' + this.model.id + '-remove', this.$el).click(this.removeItem);
+      $('#' + this.model.id + '-remove', this.$el).hide();
+      _ref14 = this.model.values != null;
+      for (_i = 0, _len = _ref14.length; _i < _len; _i++) {
+        val = _ref14[_i];
+        this.newItem();
+      }
+      return this;
+    };
+
+    DocumentArrayView.prototype.newItem = function() {
+      var property, propertyView, _ref14;
+      property = {};
+      property.name = this.items;
+      property.id = this.model.id + '_' + property.name;
+      property.path = this.model.path + '.' + property.name;
+      property.dataType = ((_ref14 = this.model.refModel) != null ? _ref14.name : void 0) || this.model.refDataType;
+      property.refModel = this.model.refModel;
+      property.isPresent = true;
+      property.required = true;
+      property.value = this.model.value && this.model.value[property.name];
+      log('ADD', this.model);
+      if (this.model.refModel) {
+        property.document = this.model.document;
+        if (property.dataType === 'array') {
+          property.path = property.path + '[]';
+          propertyView = new DocumentArrayView({
+            model: property,
+            className: 'array-item'
+          });
+        } else {
+          propertyView = new DocumentObjectView({
+            model: property,
+            className: 'array-item'
+          });
+        }
+      } else {
+        propertyView = new DocumentPropertyView({
+          model: property,
+          className: 'array-item'
+        });
+      }
+      $('#' + this.model.id, this.$el).append(propertyView.render().el);
+      $('#' + this.model.id + '-remove', this.$el).show();
+      $('#' + this.model.id + '-undefined', this.$el).hide();
+      return this.items++;
+    };
+
+    DocumentArrayView.prototype.addItem = function() {
+      this.newItem();
+      return this.model.document.inputChanged();
+    };
+
+    DocumentArrayView.prototype.removeItem = function() {
+      if (this.items <= 1) {
+        $('#' + this.model.id, this.$el).empty();
+        $('#' + this.model.id + '-remove', this.$el).hide();
+        $('#' + this.model.id + '-undefined', this.$el).show();
+        this.items = 0;
+      } else {
+        $('#' + this.model.id, this.$el).children().last().remove();
+        this.items--;
+      }
+      return this.model.document.inputChanged();
+    };
+
+    DocumentArrayView.prototype.setArray = function() {
+      this.model.isPresent = true;
+      this.render();
+      this.newItem();
+      return this.model.document.inputChanged();
+    };
+
+    DocumentArrayView.prototype.removeArray = function() {
+      this.model.isPresent = false;
+      this.render();
+      return this.model.document.inputChanged();
+    };
+
+    return DocumentArrayView;
+
+  })(Backbone.View);
+
+  DocumentPropertyView = (function(_super) {
+    __extends(DocumentPropertyView, _super);
+
+    function DocumentPropertyView() {
+      this.render = __bind(this.render, this);
+      this.initialize = __bind(this.initialize, this);
+      _ref14 = DocumentPropertyView.__super__.constructor.apply(this, arguments);
+      return _ref14;
+    }
+
+    DocumentPropertyView.prototype.initialize = function() {};
+
+    DocumentPropertyView.prototype.render = function() {
+      var value, _i, _len, _ref15;
+      this.model.numeric = this.model.dataType === 'number' || this.model.dataType === 'integer' ? 'numeric' : '';
+      if (this.model.value) {
+        this.model.defaultValue = this.model.value;
+      }
+      if (this.model.dataType === 'boolean') {
+        this.model.selectValues = [];
+        if (!this.model.required) {
+          this.model.selectValues.push({
+            name: 'undefined',
+            value: '',
+            isDefault: void 0 === this.model.defaultValue
+          });
+        }
+        this.model.selectValues.push({
+          name: 'True',
+          value: 'true',
+          isDefault: true === this.model.defaultValue
+        });
+        this.model.selectValues.push({
+          name: 'False',
+          value: 'false',
+          isDefault: false === this.model.defaultValue
+        });
+      }
+      if (this.model.values) {
+        this.model.selectValues = [];
+        if (!this.model.required) {
+          this.model.selectValues.push({
+            name: 'undefined',
+            value: '',
+            isDefault: void 0 === this.model.defaultValue
+          });
+        }
+        _ref15 = this.model.values;
+        for (_i = 0, _len = _ref15.length; _i < _len; _i++) {
+          value = _ref15[_i];
+          this.model.selectValues.push({
+            name: value === null ? 'null' : value,
+            value: this.model.numeric ? parseFloat(value) : JSON.stringify(value),
+            isDefault: value === this.model.defaultValue
+          });
+        }
+      }
+      this.$el.html(Handlebars.templates.property(this.model));
+      return this;
+    };
+
+    return DocumentPropertyView;
 
   })(Backbone.View);
 
