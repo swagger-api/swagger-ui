@@ -25,9 +25,14 @@ class DocumentPropertyView extends Backbone.View
 
     if @model.values
         @model.selectValues = []
+        unless @model.required
+            @model.selectValues.push
+                name: 'undefined'
+                value: ''
+                isDefault: undefined == @model.defaultValue
         for value in @model.values
             @model.selectValues.push
-                name: value
+                name: if value == null then 'null' else value
                 value: if @model.numeric then parseFloat value else JSON.stringify value
                 isDefault: value == @model.defaultValue
 
