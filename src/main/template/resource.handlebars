@@ -1,19 +1,19 @@
 <div class='heading'>
   <h2>
-    <a href='#!/{{name}}' onclick="Docs.toggleEndpointListForResource('{{name}}');">{{name}}</a> {{#description}} : {{/description}}{{{description}}}
+    <a href='#!/{{id}}' onclick="Docs.toggleEndpointListForResource('{{id}}');">{{name}}</a> {{#description}} : {{/description}}{{{description}}}
   </h2>
   <ul class='options'>
     <li>
-      <a href='#!/{{name}}' id='endpointListTogger_{{name}}'
-         onclick="Docs.toggleEndpointListForResource('{{name}}');">Show/Hide</a>
+      <a href='#!/{{id}}' id='endpointListTogger_{{id}}'
+         onclick="Docs.toggleEndpointListForResource('{{id}}');">Show/Hide</a>
     </li>
     <li>
-      <a href='#' onclick="Docs.collapseOperationsForResource('{{name}}'); return false;">
+      <a href='#' onclick="Docs.collapseOperationsForResource('{{id}}'); return false;">
         List Operations
       </a>
     </li>
     <li>
-      <a href='#' onclick="Docs.expandOperationsForResource('{{name}}'); return false;">
+      <a href='#' onclick="Docs.expandOperationsForResource('{{id}}'); return false;">
         Expand Operations
       </a>
     </li>
@@ -22,6 +22,6 @@
     </li>
   </ul>
 </div>
-<ul class='endpoints' id='{{name}}_endpoint_list' style='display:none'>
+<ul class='endpoints' id='{{id}}_endpoint_list' style='display:none'>
 
 </ul>
