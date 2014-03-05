@@ -278,7 +278,12 @@ class OperationView extends Backbone.View
 
   # puts the response data in UI
   showStatus: (response) ->
-    content = response.data
+    if response.content is undefined
+            content = response.data
+            url = response.url
+    else
+        content = response.content.data
+        url = response.request.url
     headers = response.headers
 
     # if server is nice, and sends content-type back, we can use it
@@ -297,14 +302,14 @@ class OperationView extends Backbone.View
       code = $('<code />').html(content)
       pre = $('<pre class="xml" />').append(code)
     else if /^image\//.test(contentType)
-      pre = $('<img>').attr('src',response.url)
+      pre = $('<img>').attr('src',url)
     else
       # don't know what to render!
       code = $('<code />').text(content)
       pre = $('<pre class="json" />').append(code)
 
     response_body = pre
-    $(".request_url", $(@el)).html "<pre>" + response.url + "</pre>"
+    $(".request_url", $(@el)).html "<pre>" + url + "</pre>"
     $(".response_code", $(@el)).html "<pre>" + response.status + "</pre>"
     $(".response_body", $(@el)).html response_body
     $(".response_headers", $(@el)).html "<pre>" + JSON.stringify(response.headers, null, "  ").replace(/\n/g, "<br>") + "</pre>"
