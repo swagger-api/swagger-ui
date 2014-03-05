@@ -22,5 +22,11 @@
     "swagger-client": "2.0.14",
     "handlebars": "~1.0.10",
     "less": "~1.4.2"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.2",
+    "grunt-execute": "^0.1.5",
+    "grunt-contrib-watch": "^0.5.3",
+    "grunt-cli": "^0.1.13"
   }
 }
