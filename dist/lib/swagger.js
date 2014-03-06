@@ -1,5 +1,5 @@
 // swagger.js
-// version 2.0.23
+// version 2.0.22
 
 var __bind = function(fn, me){
   return function(){
@@ -17,68 +17,12 @@ log = function(){
 
 if (!Array.prototype.indexOf) {
   Array.prototype.indexOf = function(obj, start) {
-    for (var i = (start || 0), j = this.length; i < j; i++) {
-      if (this[i] === obj) { return i; }
-    }
-    return -1;
+     for (var i = (start || 0), j = this.length; i < j; i++) {
+         if (this[i] === obj) { return i; }
+     }
+     return -1;
   }
 }
-
-if (!('filter' in Array.prototype)) {
-    Array.prototype.filter= function(filter, that /*opt*/) {
-        var other= [], v;
-        for (var i=0, n= this.length; i<n; i++)
-            if (i in this && filter.call(that, v= this[i], i, this))
-                other.push(v);
-        return other;
-    };
-}
-
-if (!('map' in Array.prototype)) {
-  Array.prototype.map= function(mapper, that /*opt*/) {
-    var other= new Array(this.length);
-    for (var i= 0, n= this.length; i<n; i++)
-      if (i in this)
-        other[i]= mapper.call(that, this[i], i, this);
-    return other;
-  };
-}
-
-Object.keys = Object.keys || (function () {
-    var hasOwnProperty = Object.prototype.hasOwnProperty,
-        hasDontEnumBug = !{toString:null}.propertyIsEnumerable("toString"),
-        DontEnums = [
-            'toString',
-            'toLocaleString',
-            'valueOf',
-            'hasOwnProperty',
-            'isPrototypeOf',
-            'propertyIsEnumerable',
-            'constructor'
-        ],
-        DontEnumsLength = DontEnums.length;
-  
-    return function (o) {
-        if (typeof o != "object" && typeof o != "function" || o === null)
-            throw new TypeError("Object.keys called on a non-object");
-     
-        var result = [];
-        for (var name in o) {
-            if (hasOwnProperty.call(o, name))
-                result.push(name);
-        }
-     
-        if (hasDontEnumBug) {
-            for (var i = 0; i < DontEnumsLength; i++) {
-                if (hasOwnProperty.call(o, DontEnums[i]))
-                    result.push(DontEnums[i]);
-            }   
-        }
-     
-        return result;
-    };
-})();
-
 
 var SwaggerApi = function(url, options) {
   this.url = null;
@@ -160,12 +104,10 @@ SwaggerApi.prototype.buildFromSpec = function(response) {
     this.info = response.info;
   }
   var isApi = false;
-  var i;
-  for (i = 0; i < response.apis.length; i++) {
+  for (var i = 0; i < response.apis.length; i++) {
     var api = response.apis[i];
     if (api.operations) {
-      var j;
-      for (j = 0; j < api.operations.length; j++) {
+      for (var j = 0; j < api.operations.length; j++) {
         operation = api.operations[j];
         isApi = true;
       }
@@ -185,8 +127,7 @@ SwaggerApi.prototype.buildFromSpec = function(response) {
     this.apis[newName] = res;
     this.apisArray.push(res);
   } else {
-    var k;
-    for (k = 0; k < response.apis.length; k++) {
+    for (var k = 0; k < response.apis.length; k++) {
       var resource = response.apis[k];
       res = new SwaggerResource(resource, this);
       this.apis[res.name] = res;
@@ -409,7 +350,6 @@ SwaggerResource.prototype.addApiDeclaration = function(response) {
 
 SwaggerResource.prototype.addModels = function(models) {
   if (models != null) {
-    var modelName;
     for (modelName in models) {
       if (this.models[modelName] == null) {
         var swaggerModel = new SwaggerModel(modelName, models[modelName]);
@@ -489,7 +429,6 @@ SwaggerResource.prototype.sanitize = function(nickname) {
 SwaggerResource.prototype.help = function() {
   var op = this.operations;
   var output = [];
-  var operation_name;
   for (operation_name in op) {
     operation = op[operation_name];
     var msg = "  " + operation.nickname;
@@ -505,10 +444,8 @@ SwaggerResource.prototype.help = function() {
 var SwaggerModel = function(modelName, obj) {
   this.name = obj.id != null ? obj.id : modelName;
   this.properties = [];
-  var propertyName;
   for (propertyName in obj.properties) {
     if (obj.required != null) {
-      var value;
       for (value in obj.required) {
         if (propertyName === obj.required[value]) {
           obj.properties[propertyName].required = true;
@@ -856,7 +793,6 @@ SwaggerOperation.prototype["do"] = function(args, opts, callback, error) {
   }
 
   if (possibleParams) {
-    var key;
     for (key in possibleParams) {
       value = possibleParams[key];
       if (args[value.name]) {
@@ -939,7 +875,6 @@ SwaggerOperation.prototype.getMatchingParams = function(paramTypes, args) {
       matchingParams[param.name] = args[param.name];
   }
   var headers = this.resource.api.headers;
-  var name;
   for (name in headers) {
     var value = headers[name];
     matchingParams[name] = value;
@@ -1038,15 +973,14 @@ var SwaggerRequest = function(type, url, params, opts, successCallback, errorCal
     var fields = {};
     var possibleParams = {};
     var values = {};
-    var key;
-    for(key in formParams){
+
+    for(var key in formParams){
       var param = formParams[key];
       values[param.name] = param;
     }
 
     var encoded = "";
-    var key;
-    for(key in values) {
+    for(var key in values) {
       value = this.params[key];
       if(typeof value !== 'undefined'){
         if(encoded !== "")
@@ -1056,7 +990,6 @@ var SwaggerRequest = function(type, url, params, opts, successCallback, errorCal
     }
     body = encoded;
   }
-  var name;
   for (name in this.headers)
     myHeaders[name] = this.headers[name];
   if ((requestContentType && body !== "") || (requestContentType === "application/x-www-form-urlencoded"))
@@ -1108,7 +1041,6 @@ var SwaggerRequest = function(type, url, params, opts, successCallback, errorCal
 SwaggerRequest.prototype.asCurl = function() {
   var results = [];
   if(this.headers) {
-    var key;
     for(key in this.headers) {
       results.push("--header \"" + key + ": " + this.headers[v] + "\"");
     }
@@ -1163,7 +1095,6 @@ JQueryHttpClient.prototype.execute = function(obj) {
     var key, results;
     if (obj.headers) {
       results = [];
-      var key;
       for (key in obj.headers) {
         if (key.toLowerCase() === "content-type") {
           results.push(obj.contentType = obj.headers[key]);
@@ -1331,7 +1262,6 @@ SwaggerAuthorizations.prototype.remove = function(name) {
 
 SwaggerAuthorizations.prototype.apply = function(obj, authorizations) {
   status = null;
-  var key;
   for (key in this.authz) {
     value = this.authz[key];
     result = value.apply(obj, authorizations);
