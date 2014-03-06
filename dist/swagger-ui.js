@@ -1807,8 +1807,14 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     OperationView.prototype.showStatus = function(response) {
-      var code, content, contentType, headers, pre, response_body;
-      content = response.data;
+      var code, content, contentType, headers, pre, response_body, url;
+      if (response.content === void 0) {
+        content = response.data;
+        url = response.url;
+      } else {
+        content = response.content.data;
+        url = response.request.url;
+      }
       headers = response.headers;
       contentType = headers && headers["Content-Type"] ? headers["Content-Type"].split(";")[0].trim() : null;
       if (!content) {
@@ -1824,13 +1830,13 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         code = $('<code />').html(content);
         pre = $('<pre class="xml" />').append(code);
       } else if (/^image\//.test(contentType)) {
-        pre = $('<img>').attr('src', response.url);
+        pre = $('<img>').attr('src', url);
       } else {
         code = $('<code />').text(content);
         pre = $('<pre class="json" />').append(code);
       }
       response_body = pre;
-      $(".request_url", $(this.el)).html("<pre>" + response.url + "</pre>");
+      $(".request_url", $(this.el)).html("<pre>" + url + "</pre>");
       $(".response_code", $(this.el)).html("<pre>" + response.status + "</pre>");
       $(".response_body", $(this.el)).html(response_body);
       $(".response_headers", $(this.el)).html("<pre>" + JSON.stringify(response.headers, null, "  ").replace(/\n/g, "<br>") + "</pre>");
