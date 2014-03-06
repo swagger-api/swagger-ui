@@ -2,10 +2,10 @@ class OperationView extends Backbone.View
   invocationUrl: null
 
   events: {
-  'submit .sandbox'         : 'submitOperation'
-  'click .submit'           : 'submitOperation'
-  'click .response_hider'   : 'hideResponse'
-  'click .toggleOperation'  : 'toggleOperationContent'
+    'submit .sandbox'         : 'submitOperation'
+    'click .submit'           : 'submitOperation'
+    'click .response_hider'   : 'hideResponse'
+    'click .toggleOperation'  : 'toggleOperationContent'
   }
 
   initialize: ->
@@ -314,5 +314,5 @@ class OperationView extends Backbone.View
     hljs.highlightBlock($('.response_body', $(@el))[0])
 
   toggleOperationContent: ->
-    elem = $('#' + Docs.escapeResourceName(@model.resourceName) + "_" + @model.nickname + "_" + @model.method + "_" + @model.number + "_content")
+    elem = $('#' + Docs.escapeResourceName(@model.parentId) + "_" + @model.nickname + "_content")
     if elem.is(':visible') then Docs.collapseOperation(elem) else Docs.expandOperation(elem)
