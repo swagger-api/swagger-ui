@@ -121,7 +121,8 @@ class OperationView extends Backbone.View
     # add params
     for param in @model.parameters
       if param.paramType is 'form'
-        bodyParam.append(param.name, map[param.name])
+        if map[param.name] != undefined
+            bodyParam.append(param.name, map[param.name])
 
     # headers in operation
     headerParams = {}
