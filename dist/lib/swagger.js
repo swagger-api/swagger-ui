@@ -1380,7 +1380,8 @@ var PasswordAuthorization = function(name, username, password) {
 };
 
 PasswordAuthorization.prototype.apply = function(obj, authorizations) {
-  obj.headers["Authorization"] = "Basic " + this._btoa(this.username + ":" + this.password);
+  var base64encoder = this._btoa;
+  obj.headers["Authorization"] = "Basic " + base64encoder(this.username + ":" + this.password);
   return true;
 };
 
