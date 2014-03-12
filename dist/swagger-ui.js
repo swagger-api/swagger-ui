@@ -556,7 +556,7 @@ function program12(depth0,data) {
 templates['param_list'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, stack2, self=this, functionType="function", escapeExpression=this.escapeExpression;
+  var buffer = "", stack1, stack2, options, self=this, helperMissing=helpers.helperMissing, functionType="function", escapeExpression=this.escapeExpression;
 
 function program1(depth0,data) {
   
@@ -587,23 +587,24 @@ function program6(depth0,data) {
 
 function program8(depth0,data) {
   
-  var buffer = "", stack1;
+  var buffer = "", stack1, stack2, options;
   buffer += "\n        ";
-  stack1 = helpers['if'].call(depth0, depth0.allowMultiple, {hash:{},inverse:self.program(11, program11, data),fn:self.program(9, program9, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
+  options = {hash:{},inverse:self.program(11, program11, data),fn:self.program(9, program9, data),data:data};
+  stack2 = ((stack1 = helpers.isArray || depth0.isArray),stack1 ? stack1.call(depth0, depth0, options) : helperMissing.call(depth0, "isArray", depth0, options));
+  if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\n      ";
   return buffer;
   }
 function program9(depth0,data) {
   
   
-  return "\n         ";
+  return "\n        ";
   }
 
 function program11(depth0,data) {
   
   
-  return "\n          <option selected=\"\" value=''></option>\n         ";
+  return "\n          <option selected=\"\" value=''></option>\n        ";
   }
 
 function program13(depth0,data) {
@@ -650,15 +651,16 @@ function program16(depth0,data) {
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "</td>\n<td>\n  <select ";
-  stack1 = helpers['if'].call(depth0, depth0.allowMultiple, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
+  options = {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data};
+  stack2 = ((stack1 = helpers.isArray || depth0.isArray),stack1 ? stack1.call(depth0, depth0, options) : helperMissing.call(depth0, "isArray", depth0, options));
+  if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += " class='parameter' name='";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
+  if (stack2 = helpers.name) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
+  else { stack2 = depth0.name; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
+  buffer += escapeExpression(stack2)
     + "'>\n    ";
-  stack1 = helpers['if'].call(depth0, depth0.required, {hash:{},inverse:self.program(5, program5, data),fn:self.program(3, program3, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
+  stack2 = helpers['if'].call(depth0, depth0.required, {hash:{},inverse:self.program(5, program5, data),fn:self.program(3, program3, data),data:data});
+  if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\n    ";
   stack2 = helpers.each.call(depth0, ((stack1 = depth0.allowableValues),stack1 == null || stack1 === false ? stack1 : stack1.descriptiveValues), {hash:{},inverse:self.noop,fn:self.program(13, program13, data),data:data});
   if(stack2 || stack2 === 0) { buffer += stack2; }
@@ -1893,7 +1895,15 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       return _ref6;
     }
 
-    ParameterView.prototype.initialize = function() {};
+    ParameterView.prototype.initialize = function() {
+      return Handlebars.registerHelper('isArray', function(param, opts) {
+        if (param.type.toLowerCase() === 'array' || param.allowMultiple) {
+          return opts.fn(this);
+        } else {
+          return opts.inverse(this);
+        }
+      });
+    };
 
     ParameterView.prototype.render = function() {
       var contentTypeModel, isParam, parameterContentTypeView, responseContentTypeView, signatureModel, signatureView, template, type;

@@ -1,6 +1,12 @@
 class ParameterView extends Backbone.View
   initialize: ->
-
+    Handlebars.registerHelper 'isArray',
+      (param, opts) ->
+        if param.type.toLowerCase() == 'array' || param.allowMultiple
+          opts.fn(@)
+        else
+          opts.inverse(@)
+          
   render: ->
     type = @model.type || @model.dataType
     @model.isBody = true if @model.paramType == 'body'
