@@ -1227,7 +1227,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       this.showMessage('Finished Loading Resource Information. Rendering Swagger UI...');
       this.mainView = new MainView({
         model: this.api,
-        el: $('#' + this.dom_id)
+        el: $('#' + this.dom_id),
+        combinedBody: this.options.combinedBody
       }).render();
       this.showMessage();
       switch (this.options.docExpansion) {
@@ -1395,7 +1396,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         model: resource,
         tagName: 'li',
         id: 'resource_' + resource.id,
-        className: 'resource'
+        className: 'resource',
+        combinedBody: this.options.combinedBody
       });
       return $('#resources').append(resourceView.render().el);
     };
@@ -1445,7 +1447,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       operationView = new OperationView({
         model: operation,
         tagName: 'li',
-        className: 'endpoint'
+        className: 'endpoint',
+        combinedBody: this.options.combinedBody
       });
       $('.endpoints', $(this.el)).append(operationView.render().el);
       return this.number++;
@@ -1584,12 +1587,22 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
             isFileUpload = true;
           }
         }
+        if (this.options.combinedBody) {
+          map["body"] = {};
+        }
         _ref6 = form.find("textarea");
         for (_j = 0, _len1 = _ref6.length; _j < _len1; _j++) {
           o = _ref6[_j];
           if ((o.value != null) && jQuery.trim(o.value).length > 0) {
-            map["body"] = o.value;
+            if (this.options.combinedBody) {
+              map["body"][o.name] = o.value;
+            } else {
+              map["body"] = o.value;
+            }
           }
+        }
+        if (this.options.combinedBody) {
+          map["body"] = JSON.stringify(map["body"]);
         }
         _ref7 = form.find("select");
         for (_k = 0, _len2 = _ref7.length; _k < _len2; _k++) {

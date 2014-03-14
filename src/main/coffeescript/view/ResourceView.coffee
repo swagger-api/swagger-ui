@@ -27,7 +27,7 @@ class ResourceView extends Backbone.View
     operation.number = @number
 
     # Render an operation and add it to operations li
-    operationView = new OperationView({model: operation, tagName: 'li', className: 'endpoint'})
+    operationView = new OperationView({model: operation, tagName: 'li', className: 'endpoint', combinedBody: @options.combinedBody})
     $('.endpoints', $(@el)).append operationView.render().el
 
     @number++
