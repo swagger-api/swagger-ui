@@ -88,9 +88,19 @@ class OperationView extends Backbone.View
         if o.type is "file"
           isFileUpload = true
 
+      # If combinedBody is set, the body becomes {"name1": "value1", "name2": "value2", ...} for all fields with body parameters.
+      if(@options.combinedBody)
+        map["body"] = {}
+
       for o in form.find("textarea")
         if(o.value? && jQuery.trim(o.value).length > 0)
-          map["body"] = o.value
+          if(@options.combinedBody)
+            map["body"][o.name] = o.value
+          else
+            map["body"] = o.value
+
+      if(@options.combinedBody)
+        map["body"] = JSON.stringify(map["body"])
 
       for o in form.find("select") 
         val = this.getSelectedValue o
