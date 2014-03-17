@@ -1,0 +1,40 @@
+// a parametrized mixin for an operation type specific styles (parameter values: Get,Post...)
+.operationType (@operation) {
+    @colorDark: "color@{operation}Dark";
+    @colorMedium: "color@{operation}Medium";
+    @colorLight: "color@{operation}Light";
+    @colorLighter: "color@{operation}Lighter";
+    @colorUltraLight: "color@{operation}UltraLight";
+    div.heading {
+        background-color: @@colorLighter;
+        border: 1px solid @@colorLight;
+        h3 {
+            span.http_method {
+                a {
+                    background-color: @@colorDark;
+                }
+            }
+        }
+        ul.options {
+            li {
+                border-right: 1px solid @@colorLight;
+                color: @@colorDark;
+                a {
+                    color: @@colorDark;
+                }
+            }
+        }
+    }
+    div.content {
+        background-color: @@colorUltraLight;
+        border: 1px solid @@colorLight;
+        h4 {
+            color: @@colorDark;
+        }
+        div.sandbox_header {
+            a {
+                color: @@colorMedium;
+            }
+        }
+    }
+}
