@@ -279,8 +279,8 @@ class OperationView extends Backbone.View
   # puts the response data in UI
   showStatus: (response) ->
     if response.content is undefined
-            content = response.data
-            url = response.url
+        content = response.data
+        url = response.url
     else
         content = response.content.data
         url = response.request.url

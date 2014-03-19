@@ -1,5 +1,5 @@
 // swagger.js
-// version 2.0.23
+// version 2.0.25
 
 var __bind = function(fn, me){
   return function(){
@@ -697,6 +697,7 @@ var SwaggerOperation = function(nickname, path, method, parameters, summary, not
     if(type === 'array') {
       type = 'array[' + (param.items.$ref ? param.items.$ref : param.items.type) + ']';
     }
+    param.type = type;
 
     if(type.toLowerCase() === 'boolean') {
       param.allowableValues = {};
