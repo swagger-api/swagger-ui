@@ -1630,7 +1630,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       for (_j = 0, _len1 = _ref6.length; _j < _len1; _j++) {
         param = _ref6[_j];
         if (param.paramType === 'form') {
-          bodyParam.append(param.name, map[param.name]);
+          if (map[param.name] !== void 0) {
+            bodyParam.append(param.name, map[param.name]);
+          }
         }
       }
       headerParams = {};
