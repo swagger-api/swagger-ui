@@ -173,9 +173,11 @@ class OperationView extends Backbone.View
 
   wrap: (data) ->
     headers = {}
-    headerArray = data.getAllResponseHeaders().split(":")
-    for i in [0..headerArray.length/2] by (2)
-      headers[headerArray[i]] = headerArray[i+1]
+    headerArray = data.getAllResponseHeaders().split("\r")
+    for i in headerArray
+      h = i.split(':')
+      if (h[0] != undefined && h[1] != undefined)
+        headers[h[0].trim()] = h[1].trim()
 
     o = {}
     o.content = {}
