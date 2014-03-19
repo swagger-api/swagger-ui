@@ -935,7 +935,7 @@ table {
   color: #0f6ab4;
 }
 .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.options div.content {
-  background-color: #DFDF29;
+  background-color: #ebf3f9;
   border: 1px solid #c3d9ec;
 }
 .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.options div.content h4 {

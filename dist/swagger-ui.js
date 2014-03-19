@@ -1676,11 +1676,15 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     OperationView.prototype.wrap = function(data) {
-      var headerArray, headers, i, o, _i, _ref5, _ref6;
+      var h, headerArray, headers, i, o, _i, _len;
       headers = {};
-      headerArray = data.getAllResponseHeaders().split(":");
-      for (i = _i = 0, _ref5 = headerArray.length / 2, _ref6 = 2.; _ref6 > 0 ? _i <= _ref5 : _i >= _ref5; i = _i += _ref6) {
-        headers[headerArray[i]] = headerArray[i + 1];
+      headerArray = data.getAllResponseHeaders().split("\r");
+      for (_i = 0, _len = headerArray.length; _i < _len; _i++) {
+        i = headerArray[_i];
+        h = i.split(':');
+        if (h[0] !== void 0 && h[1] !== void 0) {
+          headers[h[0].trim()] = h[1].trim();
+        }
       }
       o = {};
       o.content = {};
