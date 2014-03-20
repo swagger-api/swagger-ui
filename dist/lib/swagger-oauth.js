@@ -1,10 +1,11 @@
+var appName;
+var popupMask;
+var popupDialog;
+var clientId;
+var realm;
+
 function handleLogin() {
   var scopes = [];
-  var appName;
-  var popupMask;
-  var popupDialog;
-  var clientId;
-  var realm;
 
   if(window.swaggerUi.api.authSchemes 
     && window.swaggerUi.api.authSchemes.oauth2
@@ -17,7 +18,8 @@ function handleLogin() {
     appName = window.swaggerUi.api.info.title;
   }
 
-  if(popupDialog.length > 0) popupDialog = popupDialog.last();
+  if(popupDialog.length > 0)
+    popupDialog = popupDialog.last();
   else {
     popupDialog = $(
       [
