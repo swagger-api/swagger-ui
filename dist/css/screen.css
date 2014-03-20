@@ -710,6 +710,9 @@ table {
 .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.heading ul.options li a {
   text-decoration: none;
 }
+.swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.heading ul.options li.access {
+  color: black;
+}
 .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.content {
   border-top: none;
   padding: 10px;
@@ -1030,6 +1033,132 @@ table {
 }
 .swagger-ui-wrap form.form_box p strong {
   color: black;
+}
+.title {
+  font-style: bold;
+}
+.secondary_form {
+  display: none;
+}
+.main_image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.oauth_body {
+  margin-left: 100px;
+  margin-right: 100px;
+}
+.oauth_submit {
+  text-align: center;
+}
+.api-popup-dialog {
+  z-index: 10000;
+  position: absolute;
+  width: 500px;
+  background: #FFF;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: none;
+  font-size: 13px;
+  color: #777;
+}
+.api-popup-dialog .api-popup-title {
+  font-size: 24px;
+  padding: 10px 0;
+}
+.api-popup-dialog .api-popup-title {
+  font-size: 24px;
+  padding: 10px 0;
+}
+.api-popup-dialog p.error-msg {
+  padding-left: 5px;
+  padding-bottom: 5px;
+}
+.api-popup-dialog button.api-popup-authbtn {
+  height: 30px;
+}
+.api-popup-dialog button.api-popup-cancel {
+  height: 30px;
+}
+.api-popup-scopes {
+  padding: 10px 20px;
+}
+.api-popup-scopes li {
+  padding: 5px 0;
+  line-height: 20px;
+}
+.api-popup-scopes .api-scope-desc {
+  padding-left: 20px;
+  font-style: italic;
+}
+.api-popup-scopes li input {
+  position: relative;
+  top: 2px;
+}
+.api-popup-actions {
+  padding-top: 10px;
+}
+.access {
+  float: right;
+}
+.auth {
+  float: right;
+}
+#api_information_panel {
+  position: absolute;
+  background: #FFF;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: none;
+  font-size: 13px;
+  max-width: 300px;
+  line-height: 30px;
+  color: black;
+  padding: 5px;
+}
+#api_information_panel p .api-msg-enabled {
+  color: green;
+}
+#api_information_panel p .api-msg-disabled {
+  color: red;
+}
+.api-ic {
+  height: 18px;
+  vertical-align: middle;
+  display: inline-block;
+  background: url(../images/explorer_icons.png) no-repeat;
+}
+.ic-info {
+  background-position: 0 0;
+  width: 18px;
+  margin-top: -7px;
+  margin-left: 4px;
+}
+.ic-warning {
+  background-position: -60px 0;
+  width: 18px;
+  margin-top: -7px;
+  margin-left: 4px;
+}
+.ic-error {
+  background-position: -30px 0;
+  width: 18px;
+  margin-top: -7px;
+  margin-left: 4px;
+}
+.ic-off {
+  background-position: -90px 0;
+  width: 58px;
+  margin-top: -4px;
+  cursor: pointer;
+}
+.ic-on {
+  background-position: -160px 0;
+  width: 58px;
+  margin-top: -4px;
+  cursor: pointer;
 }
 #header {
   background-color: #89bf04;

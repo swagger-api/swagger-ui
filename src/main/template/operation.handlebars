@@ -21,6 +21,22 @@
         <h4>Implementation Notes</h4>
         <p>{{{notes}}}</p>
         {{/if}}
+        {{#oauth}}
+        <div class="auth">
+        <span class="api-ic ic-error"></span>{{/oauth}}
+        {{#each oauth}}
+          <div id="api_information_panel" style="top: 526px; left: 776px; display: none;">
+          {{#each this}}
+            <div title='{{{this.description}}}'>{{this.scope}}</div>
+          {{/each}}
+          </div>
+        {{/each}}
+        {{#oauth}}</div>{{/oauth}}
+        {{#oauth}}
+        <div class='access'>
+          <span class="api-ic ic-off" title="click to authenticate"></span>
+        </div>
+        {{/oauth}}
         {{#if type}}
           <h4>Response Class</h4>
           <p><span class="model-signature" /></p>

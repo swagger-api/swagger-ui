@@ -6,13 +6,54 @@ class OperationView extends Backbone.View
     'click .submit'           : 'submitOperation'
     'click .response_hider'   : 'hideResponse'
     'click .toggleOperation'  : 'toggleOperationContent'
+    'mouseenter .api-ic'      : 'mouseEnter'
+    'mouseout .api-ic'        : 'mouseExit'
   }
 
   initialize: ->
 
+  mouseEnter: (e) ->
+    elem = $(e.currentTarget.parentNode).find('#api_information_panel')
+    x = event.pageX
+    y = event.pageY
+    scX = $(window).scrollLeft()
+    scY = $(window).scrollTop()
+    scMaxX = scX + $(window).width()
+    scMaxY = scY + $(window).height()
+    wd = elem.width()
+    hgh = elem.height()
+
+    if (x + wd > scMaxX)
+      x = scMaxX - wd
+    if (x < scX)
+      x = scX
+    if (y + hgh > scMaxY)
+      y = scMaxY - hgh
+    if (y < scY)
+      y = scY
+    pos = {}
+    pos.top = y
+    pos.left = x
+    elem.css(pos)
+    $(e.currentTarget.parentNode).find('#api_information_panel').show()
+
+  mouseExit: (e) ->
+    $(e.currentTarget.parentNode).find('#api_information_panel').hide()
+
   render: ->
     isMethodSubmissionSupported = true #jQuery.inArray(@model.method, @model.supportedSubmitMethods) >= 0
     @model.isReadOnly = true unless isMethodSubmissionSupported
+
+    @model.oauth = null
+    if @model.authorizations
+      for k, v of @model.authorizations
+        if k == "oauth2"
+          if @model.oauth == null
+            @model.oauth = {}
+          if @model.oauth.scopes is undefined
+            @model.oauth.scopes = []
+          for o in v
+            @model.oauth.scopes.push o
 
     $(@el).html(Handlebars.templates.operation(@model))
 
@@ -282,11 +323,11 @@ class OperationView extends Backbone.View
   # puts the response data in UI
   showStatus: (response) ->
     if response.content is undefined
-        content = response.data
-        url = response.url
+      content = response.data
+      url = response.url
     else
-        content = response.content.data
-        url = response.request.url
+      content = response.content.data
+      url = response.request.url
     headers = response.headers
 
     # if server is nice, and sends content-type back, we can use it
