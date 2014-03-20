@@ -1,10 +1,10 @@
 function handleLogin() {
   var scopes = [];
-  var appName = "unknown-app";
-  var popupMask = $('#api-common-mask');
-  var popupDialog = $('.api-popup-dialog');
-  var clientId = "your-client-id";
-  var realm = "your-realm";
+  var appName;
+  var popupMask;
+  var popupDialog;
+  var clientId;
+  var realm;
 
   if(window.swaggerUi.api.authSchemes 
     && window.swaggerUi.api.authSchemes.oauth2
@@ -124,7 +124,21 @@ function handleLogout() {
   $('.api-ic.ic-warning').removeClass('ic-warning');
 }
 
-function initOAuth() {
+function initOAuth(opts) {
+  var o = (opts||{});
+  var errors = [];
+
+  appName = (o.appName||errors.push("missing appName"));
+  popupMask = (o.popupMask||$('#api-common-mask'));
+  popupDialog = (o.popupDialog||$('.api-popup-dialog'));
+  clientId = (o.clientId||errors.push("missing client id"));
+  realm = (o.realm||errors.push("missing realm"));
+
+  if(errors.length > 0){
+    log("auth unable initialize oauth: " + errors);
+    return;
+  }
+
   $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
   $('.api-ic').click(function(s) {
     if($(s.target).hasClass('ic-off'))
