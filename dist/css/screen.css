@@ -1,133 +1,125 @@
-/* http://meyerweb.com/eric/tools/css/reset/ v2.0 | 20110126 */
-.swagger-section html,
-body.swagger-section,
-.swagger-section div,
-.swagger-section span,
-.swagger-section applet,
-.swagger-section object,
-.swagger-section iframe,
-.swagger-section h1,
-.swagger-section h2,
-.swagger-section h3,
-.swagger-section h4,
-.swagger-section h5,
-.swagger-section h6,
-.swagger-section p,
-.swagger-section blockquote,
-.swagger-section pre,
-.swagger-section a,
-.swagger-section abbr,
-.swagger-section acronym,
-.swagger-section address,
-.swagger-section big,
-.swagger-section cite,
-.swagger-section code,
-.swagger-section del,
-.swagger-section dfn,
-.swagger-section em,
-.swagger-section img,
-.swagger-section ins,
-.swagger-section kbd,
-.swagger-section q,
-.swagger-section s,
-.swagger-section samp,
-.swagger-section small,
-.swagger-section strike,
-.swagger-section strong,
-.swagger-section sub,
-.swagger-section sup,
-.swagger-section tt,
-.swagger-section var,
-.swagger-section b,
-.swagger-section u,
-.swagger-section i,
-.swagger-section center,
-.swagger-section dl,
-.swagger-section dt,
-.swagger-section dd,
-.swagger-section ol,
-.swagger-section ul,
-.swagger-section li,
-.swagger-section fieldset,
-.swagger-section form,
-.swagger-section label,
-.swagger-section legend,
-.swagger-section table,
-.swagger-section caption,
-.swagger-section tbody,
-.swagger-section tfoot,
-.swagger-section thead,
-.swagger-section tr,
-.swagger-section th,
-.swagger-section td,
-.swagger-section article,
-.swagger-section aside,
-.swagger-section canvas,
-.swagger-section details,
-.swagger-section embed,
-.swagger-section figure,
-.swagger-section figcaption,
-.swagger-section footer,
-.swagger-section header,
-.swagger-section hgroup,
-.swagger-section menu,
-.swagger-section nav,
-.swagger-section output,
-.swagger-section ruby,
-.swagger-section section,
-.swagger-section summary,
-.swagger-section time,
-.swagger-section mark,
-.swagger-section audio,
-.swagger-section video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-.swagger-section article,
-.swagger-section aside,
-.swagger-section details,
-.swagger-section figcaption,
-.swagger-section figure,
-.swagger-section footer,
-.swagger-section header,
-.swagger-section hgroup,
-.swagger-section menu,
-.swagger-section nav,
-.swagger-section section {
+/* Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org> */
+.swagger-section pre code {
   display: block;
+  padding: 0.5em;
+  background: #F0F0F0;
 }
-.swagger-section body {
-  line-height: 1;
+.swagger-section pre code,
+.swagger-section pre .subst,
+.swagger-section pre .tag .title,
+.swagger-section pre .lisp .title,
+.swagger-section pre .clojure .built_in,
+.swagger-section pre .nginx .title {
+  color: black;
 }
-.swagger-section ol,
-.swagger-section ul {
-  list-style: none;
+.swagger-section pre .string,
+.swagger-section pre .title,
+.swagger-section pre .constant,
+.swagger-section pre .parent,
+.swagger-section pre .tag .value,
+.swagger-section pre .rules .value,
+.swagger-section pre .rules .value .number,
+.swagger-section pre .preprocessor,
+.swagger-section pre .ruby .symbol,
+.swagger-section pre .ruby .symbol .string,
+.swagger-section pre .aggregate,
+.swagger-section pre .template_tag,
+.swagger-section pre .django .variable,
+.swagger-section pre .smalltalk .class,
+.swagger-section pre .addition,
+.swagger-section pre .flow,
+.swagger-section pre .stream,
+.swagger-section pre .bash .variable,
+.swagger-section pre .apache .tag,
+.swagger-section pre .apache .cbracket,
+.swagger-section pre .tex .command,
+.swagger-section pre .tex .special,
+.swagger-section pre .erlang_repl .function_or_atom,
+.swagger-section pre .markdown .header {
+  color: #800;
 }
-.swagger-section blockquote,
-.swagger-section q {
-  quotes: none;
+.swagger-section pre .comment,
+.swagger-section pre .annotation,
+.swagger-section pre .template_comment,
+.swagger-section pre .diff .header,
+.swagger-section pre .chunk,
+.swagger-section pre .markdown .blockquote {
+  color: #888;
 }
-.swagger-section blockquote:before,
-.swagger-section blockquote:after,
-.swagger-section q:before,
-.swagger-section q:after {
-  content: '';
-  content: none;
+.swagger-section pre .number,
+.swagger-section pre .date,
+.swagger-section pre .regexp,
+.swagger-section pre .literal,
+.swagger-section pre .smalltalk .symbol,
+.swagger-section pre .smalltalk .char,
+.swagger-section pre .go .constant,
+.swagger-section pre .change,
+.swagger-section pre .markdown .bullet,
+.swagger-section pre .markdown .link_url {
+  color: #080;
 }
-.swagger-section table {
-  border-collapse: collapse;
-  border-spacing: 0;
+.swagger-section pre .label,
+.swagger-section pre .javadoc,
+.swagger-section pre .ruby .string,
+.swagger-section pre .decorator,
+.swagger-section pre .filter .argument,
+.swagger-section pre .localvars,
+.swagger-section pre .array,
+.swagger-section pre .attr_selector,
+.swagger-section pre .important,
+.swagger-section pre .pseudo,
+.swagger-section pre .pi,
+.swagger-section pre .doctype,
+.swagger-section pre .deletion,
+.swagger-section pre .envvar,
+.swagger-section pre .shebang,
+.swagger-section pre .apache .sqbracket,
+.swagger-section pre .nginx .built_in,
+.swagger-section pre .tex .formula,
+.swagger-section pre .erlang_repl .reserved,
+.swagger-section pre .prompt,
+.swagger-section pre .markdown .link_label,
+.swagger-section pre .vhdl .attribute,
+.swagger-section pre .clojure .attribute,
+.swagger-section pre .coffeescript .property {
+  color: #8888ff;
 }
-
-
-/* Browser Override Ends Here */
-
-
+.swagger-section pre .keyword,
+.swagger-section pre .id,
+.swagger-section pre .phpdoc,
+.swagger-section pre .title,
+.swagger-section pre .built_in,
+.swagger-section pre .aggregate,
+.swagger-section pre .css .tag,
+.swagger-section pre .javadoctag,
+.swagger-section pre .phpdoc,
+.swagger-section pre .yardoctag,
+.swagger-section pre .smalltalk .class,
+.swagger-section pre .winutils,
+.swagger-section pre .bash .variable,
+.swagger-section pre .apache .tag,
+.swagger-section pre .go .typename,
+.swagger-section pre .tex .command,
+.swagger-section pre .markdown .strong,
+.swagger-section pre .request,
+.swagger-section pre .status {
+  font-weight: bold;
+}
+.swagger-section pre .markdown .emphasis {
+  font-style: italic;
+}
+.swagger-section pre .nginx .built_in {
+  font-weight: normal;
+}
+.swagger-section pre .coffeescript .javascript,
+.swagger-section pre .javascript .xml,
+.swagger-section pre .tex .formula,
+.swagger-section pre .xml .javascript,
+.swagger-section pre .xml .vbscript,
+.swagger-section pre .xml .css,
+.swagger-section pre .xml .cdata {
+  opacity: 0.5;
+}
 .swagger-section .swagger-ui-wrap {
   line-height: 1;
   font-family: "Droid Sans", sans-serif;
@@ -925,6 +917,31 @@ body.swagger-section,
   color: #0f6ab4;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content div.sandbox_header a {
+  color: #6fa5d2;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.options div.heading {
+  background-color: #e7f0f7;
+  border: 1px solid #c3d9ec;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.options div.heading h3 span.http_method a {
+  background-color: #0f6ab4;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.options div.heading ul.options li {
+  border-right: 1px solid #dddddd;
+  border-right-color: #c3d9ec;
+  color: #0f6ab4;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.options div.heading ul.options li a {
+  color: #0f6ab4;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.options div.content {
+  background-color: #ebf3f9;
+  border: 1px solid #c3d9ec;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.options div.content h4 {
+  color: #0f6ab4;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.options div.content div.sandbox_header a {
   color: #6fa5d2;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.content,

@@ -81,6 +81,9 @@ task 'dist', 'Build a distribution', ->
     less.render fs.readFileSync("src/main/less/screen.less", 'utf8'), (err, css) ->
       console.log err
       fs.writeFileSync("src/main/html/css/screen.css", css)
+    less.render fs.readFileSync("src/main/less/reset.less", 'utf8'), (err, css) ->
+      console.log err
+      fs.writeFileSync("src/main/html/css/reset.css", css)
     pack()
 
   pack = ->
