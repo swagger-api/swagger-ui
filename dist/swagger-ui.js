@@ -1573,9 +1573,19 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     OperationView.prototype.render = function() {
       var contentTypeModel, isMethodSubmissionSupported, k, o, param, responseContentTypeView, responseSignatureView, signatureModel, statusCode, type, v, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3;
       isMethodSubmissionSupported = true;
-      if (!isMethodSubmissionSupported) {
-        this.model.isReadOnly = true;
+        //// my changes   
+     function isAllowedMethod (method){
+    var allowedMethods = swaggerUi.options.supportedSubmitMethods
+     for (c = 0; c < allowedMethods.length; ++c) {
+       if (allowedMethods[c]==method){
+        return  true; }
       }
+      return false;
+}
+  
+    isMethodSubmissionSupported = isAllowedMethod(this.model.method)
+   
+   this.model.isReadOnly = !isMethodSubmissionSupported;
       this.model.oauth = null;
       if (this.model.authorizations) {
         _ref = this.model.authorizations;
