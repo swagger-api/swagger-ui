@@ -65,24 +65,27 @@ task 'dist', 'Build a distribution', ->
         throw err if err
         fs.unlink 'dist/_swagger-ui.coffee'
         console.log '   : Combining with javascript...'
-        exec 'cat src/main/javascript/doc.js dist/_swagger-ui-templates.js dist/_swagger-ui.js > dist/swagger-ui.js', (err, stdout, stderr) ->
-          throw err if err
-          fs.unlink 'dist/_swagger-ui.js'
-          fs.unlink 'dist/_swagger-ui-templates.js'
-          console.log '   : Minifying all...'
-          exec 'java -jar "./bin/yuicompressor-2.4.7.jar" --type js -o ' + 'dist/swagger-ui.min.js ' + 'dist/swagger-ui.js', (err, stdout, stderr) ->
+
+        fs.readFile 'package.json', 'utf8', (err, fileContents) ->
+          obj = JSON.parse(fileContents)
+          exec 'echo "// swagger-ui.js" > dist/swagger-ui.js'
+          exec 'echo "// version ' + obj.version + '" >> dist/swagger-ui.js'
+          exec 'cat src/main/javascript/doc.js dist/_swagger-ui-templates.js dist/_swagger-ui.js >> dist/swagger-ui.js', (err, stdout, stderr) ->
             throw err if err
-            lessc()
+            fs.unlink 'dist/_swagger-ui.js'
+            fs.unlink 'dist/_swagger-ui-templates.js'
+            console.log '   : Minifying all...'
+            exec 'java -jar "./bin/yuicompressor-2.4.7.jar" --type js -o ' + 'dist/swagger-ui.min.js ' + 'dist/swagger-ui.js', (err, stdout, stderr) ->
+              throw err if err
+              lessc()
 
   lessc = ->
     # Someone who knows CoffeeScript should make this more Coffee-licious
     console.log '   : Compiling LESS...'
 
     less.render fs.readFileSync("src/main/less/screen.less", 'utf8'), (err, css) ->
-      console.log err
       fs.writeFileSync("src/main/html/css/screen.css", css)
     less.render fs.readFileSync("src/main/less/reset.less", 'utf8'), (err, css) ->
-      console.log err
       fs.writeFileSync("src/main/html/css/reset.css", css)
     pack()
 
