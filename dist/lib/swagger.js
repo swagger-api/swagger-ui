@@ -1,5 +1,5 @@
 // swagger.js
-// version 2.0.26
+// version 2.0.29
 
 var __bind = function(fn, me){
   return function(){
@@ -25,13 +25,13 @@ if (!Array.prototype.indexOf) {
 }
 
 if (!('filter' in Array.prototype)) {
-    Array.prototype.filter= function(filter, that /*opt*/) {
-        var other= [], v;
-        for (var i=0, n= this.length; i<n; i++)
-            if (i in this && filter.call(that, v= this[i], i, this))
-                other.push(v);
-        return other;
-    };
+  Array.prototype.filter= function(filter, that /*opt*/) {
+    var other= [], v;
+    for (var i=0, n= this.length; i<n; i++)
+      if (i in this && filter.call(that, v= this[i], i, this))
+        other.push(v);
+    return other;
+  };
 }
 
 if (!('map' in Array.prototype)) {
@@ -562,15 +562,20 @@ SwaggerModel.prototype.getMockSignature = function(modelsToIgnore) {
 };
 
 SwaggerModel.prototype.createJSONSample = function(modelsToIgnore) {
-  var result = {};
-  var modelsToIgnore = (modelsToIgnore||[])
-  modelsToIgnore.push(this.name);
-  for (var i = 0; i < this.properties.length; i++) {
-    prop = this.properties[i];
-    result[prop.name] = prop.getSampleValue(modelsToIgnore);
+  if(sampleModels[this.name]) {
+    return sampleModels[this.name];
   }
-  modelsToIgnore.pop(this.name);
-  return result;
+  else {
+    var result = {};
+    var modelsToIgnore = (modelsToIgnore||[])
+    modelsToIgnore.push(this.name);
+    for (var i = 0; i < this.properties.length; i++) {
+      prop = this.properties[i];
+      result[prop.name] = prop.getSampleValue(modelsToIgnore);
+    }
+    modelsToIgnore.pop(this.name);
+    return result;
+  }
 };
 
 var SwaggerModelProperty = function(name, obj) {
@@ -793,7 +798,22 @@ SwaggerOperation.prototype.getSampleJSON = function(type, models) {
   val = isPrimitive ? void 0 : (listType != null ? models[listType].createJSONSample() : models[type].createJSONSample());
   if (val) {
     val = listType ? [val] : val;
-    return JSON.stringify(val, null, 2);
+    if(typeof val == "string")
+      return val;
+    else if(typeof val === "object") {
+      var t = val;
+      if(val instanceof Array && val.length > 0) {
+        t = val[0];
+      }
+      if(t.nodeName) {
+        var xmlString = new XMLSerializer().serializeToString(t);
+        return this.formatXml(xmlString);
+      }
+      else
+        return JSON.stringify(val, null, 2);
+    }
+    else 
+      return val;
   }
 };
 
@@ -882,6 +902,21 @@ SwaggerOperation.prototype.pathXml = function() {
   return this.path.replace("{format}", "xml");
 };
 
+SwaggerOperation.prototype.encodePathParam = function(pathParam) {
+  var encParts, part, parts, _i, _len;
+  if (pathParam.indexOf("/") === -1) {
+    return encodeURIComponent(pathParam);
+  } else {
+    parts = pathParam.split("/");
+    encParts = [];
+    for (_i = 0, _len = parts.length; _i < _len; _i++) {
+      part = parts[_i];
+      encParts.push(encodeURIComponent(part));
+    }
+    return encParts.join("/");
+  }
+};
+
 SwaggerOperation.prototype.urlify = function(args) {
   var url = this.resource.basePath + this.pathJson();
   var params = this.parameters;
@@ -891,7 +926,7 @@ SwaggerOperation.prototype.urlify = function(args) {
       if(args[param.name]) {
         // apply path params and remove from args
         var reg = new RegExp('\{' + param.name + '[^\}]*\}', 'gi');
-        url = url.replace(reg, encodeURIComponent(args[param.name]));
+        url = url.replace(reg, this.encodePathParam(args[param.name]));
         delete args[param.name];
       }
       else
@@ -958,6 +993,80 @@ SwaggerOperation.prototype.help = function() {
     msg += "* " + param.name + (param.required ? ' (required)' : '') + " - " + param.description;
   }
   return msg;
+};
+
+
+SwaggerOperation.prototype.formatXml = function(xml) {
+  var contexp, formatted, indent, lastType, lines, ln, pad, reg, transitions, wsexp, _fn, _i, _len;
+  reg = /(>)(<)(\/*)/g;
+  wsexp = /[ ]*(.*)[ ]+\n/g;
+  contexp = /(<.+>)(.+\n)/g;
+  xml = xml.replace(reg, '$1\n$2$3').replace(wsexp, '$1\n').replace(contexp, '$1\n$2');
+  pad = 0;
+  formatted = '';
+  lines = xml.split('\n');
+  indent = 0;
+  lastType = 'other';
+  transitions = {
+    'single->single': 0,
+    'single->closing': -1,
+    'single->opening': 0,
+    'single->other': 0,
+    'closing->single': 0,
+    'closing->closing': -1,
+    'closing->opening': 0,
+    'closing->other': 0,
+    'opening->single': 1,
+    'opening->closing': 0,
+    'opening->opening': 1,
+    'opening->other': 1,
+    'other->single': 0,
+    'other->closing': -1,
+    'other->opening': 0,
+    'other->other': 0
+  };
+  _fn = function(ln) {
+    var fromTo, j, key, padding, type, types, value;
+    types = {
+      single: Boolean(ln.match(/<.+\/>/)),
+      closing: Boolean(ln.match(/<\/.+>/)),
+      opening: Boolean(ln.match(/<[^!?].*>/))
+    };
+    type = ((function() {
+      var _results;
+      _results = [];
+      for (key in types) {
+        value = types[key];
+        if (value) {
+          _results.push(key);
+        }
+      }
+      return _results;
+    })())[0];
+    type = type === void 0 ? 'other' : type;
+    fromTo = lastType + '->' + type;
+    lastType = type;
+    padding = '';
+    indent += transitions[fromTo];
+    padding = ((function() {
+      var _j, _ref5, _results;
+      _results = [];
+      for (j = _j = 0, _ref5 = indent; 0 <= _ref5 ? _j < _ref5 : _j > _ref5; j = 0 <= _ref5 ? ++_j : --_j) {
+        _results.push('  ');
+      }
+      return _results;
+    })()).join('');
+    if (fromTo === 'opening->closing') {
+      return formatted = formatted.substr(0, formatted.length - 1) + ln + '\n';
+    } else {
+      return formatted += padding + ln + '\n';
+    }
+  };
+  for (_i = 0, _len = lines.length; _i < _len; _i++) {
+    ln = lines[_i];
+    _fn(ln);
+  }
+  return formatted;
 };
 
 var SwaggerRequest = function(type, url, params, opts, successCallback, errorCallback, operation, execution) {
@@ -1388,6 +1497,9 @@ PasswordAuthorization.prototype.apply = function(obj, authorizations) {
 
 var e = (typeof window !== 'undefined' ? window : exports);
 
+var sampleModels = {};
+
+e.SampleModels = sampleModels;
 e.SwaggerHttp = SwaggerHttp;
 e.SwaggerRequest = SwaggerRequest;
 e.authorizations = new SwaggerAuthorizations();
@@ -1400,3 +1512,4 @@ e.SwaggerModel = SwaggerModel;
 e.SwaggerModelProperty = SwaggerModelProperty;
 e.SwaggerResource = SwaggerResource;
 e.SwaggerApi = SwaggerApi;
+
