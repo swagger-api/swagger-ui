@@ -1,5 +1,4 @@
 // swagger-ui.js
-// version 2.0.15
 $(function() {
 
 	// Helper function for vertically aligning DOM elements
@@ -384,7 +383,7 @@ function program14(depth0,data) {
 function program16(depth0,data) {
   
   
-  return "\n          <div style='margin:0;padding:0;display:inline'></div>\n          <h4>Error Status Codes</h4>\n          <table class='fullwidth'>\n            <thead>\n            <tr>\n              <th>HTTP Status Code</th>\n              <th>Reason</th>\n            </tr>\n            </thead>\n            <tbody class=\"operation-status\">\n            \n            </tbody>\n          </table>\n          ";
+  return "\n          <div style='margin:0;padding:0;display:inline'></div>\n          <h4>Response Messages</h4>\n          <table class='fullwidth'>\n            <thead>\n            <tr>\n              <th>HTTP Status Code</th>\n              <th>Reason</th>\n              <th>Response Model</th>\n            </tr>\n            </thead>\n            <tbody class=\"operation-status\">\n            \n            </tbody>\n          </table>\n          ";
   }
 
 function program18(depth0,data) {
@@ -1202,7 +1201,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (stack1 = helpers.message) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.message; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</td>\n";
+  buffer += "</td>\n<td width='50%'><span class=\"model-signature\" /></td>";
   return buffer;
   });
 })();
@@ -1996,9 +1995,23 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     StatusCodeView.prototype.initialize = function() {};
 
     StatusCodeView.prototype.render = function() {
-      var template;
+      var responseModel, responseModelView, template;
       template = this.template();
       $(this.el).html(template(this.model));
+      if (swaggerUi.api.models.hasOwnProperty(this.model.responseModel)) {
+        responseModel = {
+          sampleJSON: JSON.stringify(swaggerUi.api.models[this.model.responseModel].createJSONSample(), null, 2),
+          isParam: false,
+          signature: swaggerUi.api.models[this.model.responseModel].getMockSignature()
+        };
+        responseModelView = new SignatureView({
+          model: responseModel,
+          tagName: 'div'
+        });
+        $('.model-signature', this.$el).append(responseModelView.render().el);
+      } else {
+        $('.model-signature', this.$el).html('');
+      }
       return this;
     };
 
