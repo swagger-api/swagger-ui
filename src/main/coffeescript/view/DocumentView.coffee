@@ -40,7 +40,7 @@ class DocumentView extends Backbone.View
     # rebuild document
     try
       @value = JSON.parse e.target.value
-    catch
+    catch e
     @fillDocument()
     $('.model-json', @$el).hide()
     $('.model-document', @$el).show()

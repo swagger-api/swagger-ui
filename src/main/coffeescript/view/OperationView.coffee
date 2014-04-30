@@ -2,18 +2,59 @@ class OperationView extends Backbone.View
   invocationUrl: null
 
   events: {
-  'submit .sandbox'         : 'submitOperation'
-  'click .submit'           : 'submitOperation'
-  'click .response_hider'   : 'hideResponse'
-  'click .toggleOperation'  : 'toggleOperationContent'
+    'submit .sandbox'         : 'submitOperation'
+    'click .submit'           : 'submitOperation'
+    'click .response_hider'   : 'hideResponse'
+    'click .toggleOperation'  : 'toggleOperationContent'
+    'mouseenter .api-ic'      : 'mouseEnter'
+    'mouseout .api-ic'        : 'mouseExit'
   }
 
   initialize: ->
     @model.id = Docs.escapeResourceName(@model.resourceName) + "_" + @model.nickname + "_" + @model.method + "_" + @model.number;
 
+  mouseEnter: (e) ->
+    elem = $(e.currentTarget.parentNode).find('#api_information_panel')
+    x = event.pageX
+    y = event.pageY
+    scX = $(window).scrollLeft()
+    scY = $(window).scrollTop()
+    scMaxX = scX + $(window).width()
+    scMaxY = scY + $(window).height()
+    wd = elem.width()
+    hgh = elem.height()
+
+    if (x + wd > scMaxX)
+      x = scMaxX - wd
+    if (x < scX)
+      x = scX
+    if (y + hgh > scMaxY)
+      y = scMaxY - hgh
+    if (y < scY)
+      y = scY
+    pos = {}
+    pos.top = y
+    pos.left = x
+    elem.css(pos)
+    $(e.currentTarget.parentNode).find('#api_information_panel').show()
+
+  mouseExit: (e) ->
+    $(e.currentTarget.parentNode).find('#api_information_panel').hide()
+
   render: ->
     isMethodSubmissionSupported = true #jQuery.inArray(@model.method, @model.supportedSubmitMethods) >= 0
     @model.isReadOnly = true unless isMethodSubmissionSupported
+
+    @model.oauth = null
+    if @model.authorizations
+      for k, v of @model.authorizations
+        if k == "oauth2"
+          if @model.oauth == null
+            @model.oauth = {}
+          if @model.oauth.scopes is undefined
+            @model.oauth.scopes = []
+          for o in v
+            @model.oauth.scopes.push o
 
     $(@el).html(Handlebars.templates.operation(@model))
 
@@ -125,7 +166,8 @@ class OperationView extends Backbone.View
     # add params
     for param in @model.parameters
       if param.paramType is 'form'
-        bodyParam.append(param.name, map[param.name])
+        if map[param.name] != undefined
+            bodyParam.append(param.name, map[param.name])
 
     # headers in operation
     headerParams = {}
@@ -177,9 +219,11 @@ class OperationView extends Backbone.View
 
   wrap: (data) ->
     headers = {}
-    headerArray = data.getAllResponseHeaders().split(":")
-    for i in [0..headerArray.length/2] by (2)
-      headers[headerArray[i]] = headerArray[i+1]
+    headerArray = data.getAllResponseHeaders().split("\r")
+    for i in headerArray
+      h = i.split(':')
+      if (h[0] != undefined && h[1] != undefined)
+        headers[h[0].trim()] = h[1].trim()
 
     o = {}
     o.content = {}
@@ -282,7 +326,12 @@ class OperationView extends Backbone.View
 
   # puts the response data in UI
   showStatus: (response) ->
-    content = response.data
+    if response.content is undefined
+      content = response.data
+      url = response.url
+    else
+      content = response.content.data
+      url = response.request.url
     headers = response.headers
 
     # if server is nice, and sends content-type back, we can use it
@@ -301,14 +350,14 @@ class OperationView extends Backbone.View
       code = $('<code />').html(content)
       pre = $('<pre class="xml" />').append(code)
     else if /^image\//.test(contentType)
-      pre = $('<img>').attr('src',response.url)
+      pre = $('<img>').attr('src',url)
     else
       # don't know what to render!
       code = $('<code />').text(content)
       pre = $('<pre class="json" />').append(code)
 
     response_body = pre
-    $(".request_url", $(@el)).html "<pre>" + response.url + "</pre>"
+    $(".request_url", $(@el)).html "<pre>" + url + "</pre>"
     $(".response_code", $(@el)).html "<pre>" + response.status + "</pre>"
     $(".response_body", $(@el)).html response_body
     $(".response_headers", $(@el)).html "<pre>" + JSON.stringify(response.headers, null, "  ").replace(/\n/g, "<br>") + "</pre>"
@@ -318,5 +367,5 @@ class OperationView extends Backbone.View
     hljs.highlightBlock($('.response_body', $(@el))[0])
 
   toggleOperationContent: ->
-    elem = $('#' + Docs.escapeResourceName(@model.resourceName) + "_" + @model.nickname + "_" + @model.method + "_" + @model.number + "_content")
+    elem = $('#' + Docs.escapeResourceName(@model.parentId) + "_" + @model.nickname + "_content")
     if elem.is(':visible') then Docs.collapseOperation(elem) else Docs.expandOperation(elem)

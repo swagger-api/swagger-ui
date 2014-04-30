@@ -1,5 +1,5 @@
 // swagger.js
-// version 2.0.16
+// version 2.0.30
 
 var __bind = function(fn, me){
   return function(){
@@ -14,6 +14,71 @@ log = function(){
     console.log( Array.prototype.slice.call(arguments) );
   }
 };
+
+if (!Array.prototype.indexOf) {
+  Array.prototype.indexOf = function(obj, start) {
+    for (var i = (start || 0), j = this.length; i < j; i++) {
+      if (this[i] === obj) { return i; }
+    }
+    return -1;
+  }
+}
+
+if (!('filter' in Array.prototype)) {
+  Array.prototype.filter= function(filter, that /*opt*/) {
+    var other= [], v;
+    for (var i=0, n= this.length; i<n; i++)
+      if (i in this && filter.call(that, v= this[i], i, this))
+        other.push(v);
+    return other;
+  };
+}
+
+if (!('map' in Array.prototype)) {
+  Array.prototype.map= function(mapper, that /*opt*/) {
+    var other= new Array(this.length);
+    for (var i= 0, n= this.length; i<n; i++)
+      if (i in this)
+        other[i]= mapper.call(that, this[i], i, this);
+    return other;
+  };
+}
+
+Object.keys = Object.keys || (function () {
+    var hasOwnProperty = Object.prototype.hasOwnProperty,
+        hasDontEnumBug = !{toString:null}.propertyIsEnumerable("toString"),
+        DontEnums = [
+            'toString',
+            'toLocaleString',
+            'valueOf',
+            'hasOwnProperty',
+            'isPrototypeOf',
+            'propertyIsEnumerable',
+            'constructor'
+        ],
+        DontEnumsLength = DontEnums.length;
+  
+    return function (o) {
+        if (typeof o != "object" && typeof o != "function" || o === null)
+            throw new TypeError("Object.keys called on a non-object");
+     
+        var result = [];
+        for (var name in o) {
+            if (hasOwnProperty.call(o, name))
+                result.push(name);
+        }
+     
+        if (hasDontEnumBug) {
+            for (var i = 0; i < DontEnumsLength; i++) {
+                if (hasOwnProperty.call(o, DontEnums[i]))
+                    result.push(DontEnums[i]);
+            }   
+        }
+     
+        return result;
+    };
+})();
+
 
 var SwaggerApi = function(url, options) {
   this.url = null;
@@ -95,10 +160,12 @@ SwaggerApi.prototype.buildFromSpec = function(response) {
     this.info = response.info;
   }
   var isApi = false;
-  for (var i = 0; i < response.apis.length; i++) {
+  var i;
+  for (i = 0; i < response.apis.length; i++) {
     var api = response.apis[i];
     if (api.operations) {
-      for (var j = 0; j < api.operations.length; j++) {
+      var j;
+      for (j = 0; j < api.operations.length; j++) {
         operation = api.operations[j];
         isApi = true;
       }
@@ -118,7 +185,8 @@ SwaggerApi.prototype.buildFromSpec = function(response) {
     this.apis[newName] = res;
     this.apisArray.push(res);
   } else {
-    for (var k = 0; k < response.apis.length; k++) {
+    var k;
+    for (k = 0; k < response.apis.length; k++) {
       var resource = response.apis[k];
       res = new SwaggerResource(resource, this);
       this.apis[res.name] = res;
@@ -341,6 +409,7 @@ SwaggerResource.prototype.addApiDeclaration = function(response) {
 
 SwaggerResource.prototype.addModels = function(models) {
   if (models != null) {
+    var modelName;
     for (modelName in models) {
       if (this.models[modelName] == null) {
         var swaggerModel = new SwaggerModel(modelName, models[modelName]);
@@ -420,6 +489,7 @@ SwaggerResource.prototype.sanitize = function(nickname) {
 SwaggerResource.prototype.help = function() {
   var op = this.operations;
   var output = [];
+  var operation_name;
   for (operation_name in op) {
     operation = op[operation_name];
     var msg = "  " + operation.nickname;
@@ -435,8 +505,10 @@ SwaggerResource.prototype.help = function() {
 var SwaggerModel = function(modelName, obj) {
   this.name = obj.id != null ? obj.id : modelName;
   this.properties = [];
+  var propertyName;
   for (propertyName in obj.properties) {
     if (obj.required != null) {
+      var value;
       for (value in obj.required) {
         if (propertyName === obj.required[value]) {
           obj.properties[propertyName].required = true;
@@ -490,15 +562,20 @@ SwaggerModel.prototype.getMockSignature = function(modelsToIgnore) {
 };
 
 SwaggerModel.prototype.createJSONSample = function(modelsToIgnore) {
-  var result = {};
-  var modelsToIgnore = (modelsToIgnore||[])
-  modelsToIgnore.push(this.name);
-  for (var i = 0; i < this.properties.length; i++) {
-    prop = this.properties[i];
-    result[prop.name] = prop.getSampleValue(modelsToIgnore);
+  if(sampleModels[this.name]) {
+    return sampleModels[this.name];
   }
-  modelsToIgnore.pop(this.name);
-  return result;
+  else {
+    var result = {};
+    var modelsToIgnore = (modelsToIgnore||[])
+    modelsToIgnore.push(this.name);
+    for (var i = 0; i < this.properties.length; i++) {
+      prop = this.properties[i];
+      result[prop.name] = prop.getSampleValue(modelsToIgnore);
+    }
+    modelsToIgnore.pop(this.name);
+    return result;
+  }
 };
 
 var SwaggerModelProperty = function(name, obj) {
@@ -625,6 +702,7 @@ var SwaggerOperation = function(nickname, path, method, parameters, summary, not
     if(type === 'array') {
       type = 'array[' + (param.items.$ref ? param.items.$ref : param.items.type) + ']';
     }
+    param.type = type;
 
     if(type.toLowerCase() === 'boolean') {
       param.allowableValues = {};
@@ -691,7 +769,7 @@ var SwaggerOperation = function(nickname, path, method, parameters, summary, not
 }
 
 SwaggerOperation.prototype.isListType = function(type) {
-  if (type.indexOf('[') >= 0) {
+  if (type && type.indexOf('[') >= 0) {
     return type.substring(type.indexOf('[') + 1, type.indexOf(']'));
   } else {
     return void 0;
@@ -720,7 +798,22 @@ SwaggerOperation.prototype.getSampleJSON = function(type, models) {
   val = isPrimitive ? void 0 : (listType != null ? models[listType].createJSONSample() : models[type].createJSONSample());
   if (val) {
     val = listType ? [val] : val;
-    return JSON.stringify(val, null, 2);
+    if(typeof val == "string")
+      return val;
+    else if(typeof val === "object") {
+      var t = val;
+      if(val instanceof Array && val.length > 0) {
+        t = val[0];
+      }
+      if(t.nodeName) {
+        var xmlString = new XMLSerializer().serializeToString(t);
+        return this.formatXml(xmlString);
+      }
+      else
+        return JSON.stringify(val, null, 2);
+    }
+    else 
+      return val;
   }
 };
 
@@ -784,6 +877,7 @@ SwaggerOperation.prototype["do"] = function(args, opts, callback, error) {
   }
 
   if (possibleParams) {
+    var key;
     for (key in possibleParams) {
       value = possibleParams[key];
       if (args[value.name]) {
@@ -808,6 +902,21 @@ SwaggerOperation.prototype.pathXml = function() {
   return this.path.replace("{format}", "xml");
 };
 
+SwaggerOperation.prototype.encodePathParam = function(pathParam) {
+  var encParts, part, parts, _i, _len;
+  if (pathParam.indexOf("/") === -1) {
+    return encodeURIComponent(pathParam);
+  } else {
+    parts = pathParam.split("/");
+    encParts = [];
+    for (_i = 0, _len = parts.length; _i < _len; _i++) {
+      part = parts[_i];
+      encParts.push(encodeURIComponent(part));
+    }
+    return encParts.join("/");
+  }
+};
+
 SwaggerOperation.prototype.urlify = function(args) {
   var url = this.resource.basePath + this.pathJson();
   var params = this.parameters;
@@ -817,7 +926,7 @@ SwaggerOperation.prototype.urlify = function(args) {
       if(args[param.name]) {
         // apply path params and remove from args
         var reg = new RegExp('\{' + param.name + '[^\}]*\}', 'gi');
-        url = url.replace(reg, encodeURIComponent(args[param.name]));
+        url = url.replace(reg, this.encodePathParam(args[param.name]));
         delete args[param.name];
       }
       else
@@ -829,10 +938,11 @@ SwaggerOperation.prototype.urlify = function(args) {
   for(var i = 0; i < params.length; i ++){
     var param = params[i];
     if(param.paramType === 'query') {
-      if(queryParams !== '')
-        queryParams += "&";
-      if(args[param.name] !== undefined)
+      if (args[param.name] !== undefined) {
+        if (queryParams !== '')
+          queryParams += "&";
         queryParams += encodeURIComponent(param.name) + '=' + encodeURIComponent(args[param.name]);
+      }
     }
   }
   if ((queryParams != null) && queryParams.length > 0)
@@ -865,6 +975,7 @@ SwaggerOperation.prototype.getMatchingParams = function(paramTypes, args) {
       matchingParams[param.name] = args[param.name];
   }
   var headers = this.resource.api.headers;
+  var name;
   for (name in headers) {
     var value = headers[name];
     matchingParams[name] = value;
@@ -882,6 +993,80 @@ SwaggerOperation.prototype.help = function() {
     msg += "* " + param.name + (param.required ? ' (required)' : '') + " - " + param.description;
   }
   return msg;
+};
+
+
+SwaggerOperation.prototype.formatXml = function(xml) {
+  var contexp, formatted, indent, lastType, lines, ln, pad, reg, transitions, wsexp, _fn, _i, _len;
+  reg = /(>)(<)(\/*)/g;
+  wsexp = /[ ]*(.*)[ ]+\n/g;
+  contexp = /(<.+>)(.+\n)/g;
+  xml = xml.replace(reg, '$1\n$2$3').replace(wsexp, '$1\n').replace(contexp, '$1\n$2');
+  pad = 0;
+  formatted = '';
+  lines = xml.split('\n');
+  indent = 0;
+  lastType = 'other';
+  transitions = {
+    'single->single': 0,
+    'single->closing': -1,
+    'single->opening': 0,
+    'single->other': 0,
+    'closing->single': 0,
+    'closing->closing': -1,
+    'closing->opening': 0,
+    'closing->other': 0,
+    'opening->single': 1,
+    'opening->closing': 0,
+    'opening->opening': 1,
+    'opening->other': 1,
+    'other->single': 0,
+    'other->closing': -1,
+    'other->opening': 0,
+    'other->other': 0
+  };
+  _fn = function(ln) {
+    var fromTo, j, key, padding, type, types, value;
+    types = {
+      single: Boolean(ln.match(/<.+\/>/)),
+      closing: Boolean(ln.match(/<\/.+>/)),
+      opening: Boolean(ln.match(/<[^!?].*>/))
+    };
+    type = ((function() {
+      var _results;
+      _results = [];
+      for (key in types) {
+        value = types[key];
+        if (value) {
+          _results.push(key);
+        }
+      }
+      return _results;
+    })())[0];
+    type = type === void 0 ? 'other' : type;
+    fromTo = lastType + '->' + type;
+    lastType = type;
+    padding = '';
+    indent += transitions[fromTo];
+    padding = ((function() {
+      var _j, _ref5, _results;
+      _results = [];
+      for (j = _j = 0, _ref5 = indent; 0 <= _ref5 ? _j < _ref5 : _j > _ref5; j = 0 <= _ref5 ? ++_j : --_j) {
+        _results.push('  ');
+      }
+      return _results;
+    })()).join('');
+    if (fromTo === 'opening->closing') {
+      return formatted = formatted.substr(0, formatted.length - 1) + ln + '\n';
+    } else {
+      return formatted += padding + ln + '\n';
+    }
+  };
+  for (_i = 0, _len = lines.length; _i < _len; _i++) {
+    ln = lines[_i];
+    _fn(ln);
+  }
+  return formatted;
 };
 
 var SwaggerRequest = function(type, url, params, opts, successCallback, errorCallback, operation, execution) {
@@ -948,7 +1133,7 @@ var SwaggerRequest = function(type, url, params, opts, successCallback, errorCal
     }
   }
 
-  responseContentType = null;
+  var responseContentType = null;
   if (this.opts.responseContentType) {
     responseContentType = this.opts.responseContentType;
   } else {
@@ -963,24 +1148,28 @@ var SwaggerRequest = function(type, url, params, opts, successCallback, errorCal
     var fields = {};
     var possibleParams = {};
     var values = {};
-
-    for(var i = 0; i < formParams.length; i++){
-      var param = formParams[i];
+    var key;
+    for(key in formParams){
+      var param = formParams[key];
       values[param.name] = param;
     }
 
     var encoded = "";
+    var key;
     for(key in values) {
       value = this.params[key];
-      if(encoded !== "")
-        encoded += "&";
-      encoded += encodeURIComponent(key) + '=' + encodeURIComponent(value);
+      if(typeof value !== 'undefined'){
+        if(encoded !== "")
+          encoded += "&";
+        encoded += encodeURIComponent(key) + '=' + encodeURIComponent(value);
+      }
     }
-    body = encoded
+    body = encoded;
   }
+  var name;
   for (name in this.headers)
     myHeaders[name] = this.headers[name];
-  if (requestContentType)
+  if ((requestContentType && body !== "") || (requestContentType === "application/x-www-form-urlencoded"))
     myHeaders["Content-Type"] = requestContentType;
   if (responseContentType)
     myHeaders["Accept"] = responseContentType;
@@ -1029,6 +1218,7 @@ var SwaggerRequest = function(type, url, params, opts, successCallback, errorCal
 SwaggerRequest.prototype.asCurl = function() {
   var results = [];
   if(this.headers) {
+    var key;
     for(key in this.headers) {
       results.push("--header \"" + key + ": " + this.headers[v] + "\"");
     }
@@ -1083,6 +1273,7 @@ JQueryHttpClient.prototype.execute = function(obj) {
     var key, results;
     if (obj.headers) {
       results = [];
+      var key;
       for (key in obj.headers) {
         if (key.toLowerCase() === "content-type") {
           results.push(obj.contentType = obj.headers[key]);
@@ -1113,7 +1304,7 @@ JQueryHttpClient.prototype.execute = function(obj) {
       headers: headers
     };
 
-    var contentType = (response._headers["content-type"]||response._headers["Content-Type"]||null)
+    var contentType = (headers["content-type"]||headers["Content-Type"]||null)
 
     if(contentType != null) {
       if(contentType.indexOf("application/json") == 0 || contentType.indexOf("+json") > 0) {
@@ -1250,6 +1441,7 @@ SwaggerAuthorizations.prototype.remove = function(name) {
 
 SwaggerAuthorizations.prototype.apply = function(obj, authorizations) {
   status = null;
+  var key;
   for (key in this.authz) {
     value = this.authz[key];
     result = value.apply(obj, authorizations);
@@ -1283,6 +1475,16 @@ ApiKeyAuthorization.prototype.apply = function(obj, authorizations) {
   }
 };
 
+var CookieAuthorization = function(cookie) {
+  this.cookie = cookie;
+}
+
+CookieAuthorization.prototype.apply = function(obj, authorizations) {
+  obj.cookieJar = obj.cookieJar || CookieJar();
+  obj.cookieJar.setCookie(this.cookie);
+  return true;
+}
+
 /**
  * Password Authorization is a basic auth implementation
  */
@@ -1291,24 +1493,30 @@ var PasswordAuthorization = function(name, username, password) {
   this.username = username;
   this.password = password;
   this._btoa = null;
-
   if (typeof window !== 'undefined')
-    return this._btoa = btoa;
+    this._btoa = btoa;
   else
-    return this._btoa = require("btoa");
+    this._btoa = require("btoa");
 };
 
 PasswordAuthorization.prototype.apply = function(obj, authorizations) {
-  obj.headers["Authorization"] = "Basic " + this._btoa(this.username + ":" + this.password);
+  var base64encoder = this._btoa;
+  obj.headers["Authorization"] = "Basic " + base64encoder(this.username + ":" + this.password);
   return true;
 };
 
 var e = (typeof window !== 'undefined' ? window : exports);
 
+var sampleModels = {};
+var cookies = {};
+
+e.SampleModels = sampleModels;
 e.SwaggerHttp = SwaggerHttp;
 e.SwaggerRequest = SwaggerRequest;
 e.authorizations = new SwaggerAuthorizations();
 e.ApiKeyAuthorization = ApiKeyAuthorization;
+e.PasswordAuthorization = PasswordAuthorization;
+e.CookieAuthorization = CookieAuthorization;
 e.JQueryHttpClient = JQueryHttpClient;
 e.ShredHttpClient = ShredHttpClient;
 e.SwaggerOperation = SwaggerOperation;
@@ -1316,3 +1524,4 @@ e.SwaggerModel = SwaggerModel;
 e.SwaggerModelProperty = SwaggerModelProperty;
 e.SwaggerResource = SwaggerResource;
 e.SwaggerApi = SwaggerApi;
+

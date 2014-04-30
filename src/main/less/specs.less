@@ -1,3 +1,5 @@
+.swagger-section {
+
 .swagger-ui-wrap {
 
     line-height: 1;
@@ -634,6 +636,11 @@
                                         }
                                     }
                                 }
+                                ul.options {
+                                    li.access {
+                                        color: black;
+                                    }
+                                }
                             }
                             div.content {
                                 border-top: none;
@@ -916,6 +923,41 @@
                                 }
                             }
                         }
+                        li.operation.options {
+                            div.heading {
+                                background-color: #e7f0f7;
+                                border: 1px solid #c3d9ec;
+                                h3 {
+                                    span.http_method {
+                                        a {
+                                            background-color: #0f6ab4;
+                                        }
+                                    }
+                                }
+                                ul.options {
+                                    li {
+                                        border-right: 1px solid #dddddd;
+                                        border-right-color: #c3d9ec;
+                                        color: #0f6ab4;
+                                        a {
+                                            color: #0f6ab4;
+                                        }
+                                    }
+                                }
+                            }
+                            div.content {
+                                background-color: #ebf3f9;
+                                border: 1px solid #c3d9ec;
+                                h4 {
+                                    color: #0f6ab4;
+                                }
+                                div.sandbox_header {
+                                    a {
+                                        color: #6fa5d2;
+                                    }
+                                }
+                            }
+                        }
                         li.operation {
                             &.get, &.post, &.head, &.put, &.patch, &.delete {
                                 div.content {
@@ -1002,5 +1044,6 @@
             }
         }
     }
+}
 
 }

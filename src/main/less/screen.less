@@ -1,6 +1,76 @@
-@import 'src/main/less/reset.less';
+@import 'src/main/less/highlight_default.less';
 @import 'src/main/less/specs.less';
 @import 'src/main/less/document.less';
+@import 'src/main/less/auth.less';
+
+.swagger-section {
+
+.access {
+    float: right;
+}
+
+.auth {
+    float: right;
+}
+
+#api_information_panel {
+    position: absolute;
+    background: #FFF;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: none;
+    font-size: 13px;
+    max-width: 300px;
+    line-height: 30px;
+    color: black;
+    padding: 5px;
+    p {
+        .api-msg-enabled {
+            color: green;
+        }
+        .api-msg-disabled {
+            color: red;
+        }
+    }
+}
+
+.api-ic {
+    height: 18px;
+    vertical-align: middle;
+    display: inline-block;
+    background: url(../images/explorer_icons.png) no-repeat;
+}
+
+.ic-info {
+    background-position: 0 0;
+    width: 18px;
+    margin-top: -7px;
+    margin-left: 4px;
+}
+.ic-warning {
+    background-position: -60px 0;
+    width: 18px;
+    margin-top: -7px;
+    margin-left: 4px;
+}
+.ic-error {
+    background-position: -30px 0;
+    width: 18px;
+    margin-top: -7px;
+    margin-left: 4px;
+}
+.ic-off {
+    background-position: -90px 0;
+    width: 58px;
+    margin-top: -4px;
+    cursor: pointer;
+}
+.ic-on {
+    background-position: -160px 0;
+    width: 58px;
+    margin-top: -4px;
+    cursor: pointer;
+}
 
 #header {
     background-color: #89bf04;
@@ -65,4 +135,6 @@
     min-height: 30px;
     text-align: center;
     padding-top: 10px;
+}
+
 }
