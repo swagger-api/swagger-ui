@@ -12,8 +12,18 @@ class ParameterView extends Backbone.View
     @model.isBody = true if @model.paramType == 'body'
     @model.isFile = true if type.toLowerCase() == 'file'
 
-    template = @template()
-    $(@el).html(template(@model))
+    # see if we have a model definition for this body data type
+    if @model.isBody && @model.models && !@model.isFile
+      if type == 'array'
+        @model.refDataType = @model.items?.$ref || @model.items?.type
+      @model.refModel = @model.models[type] || @model.models[@model.refDataType]
+
+    if @model.refModel || @model.refDataType
+      documentView = new DocumentView({model: @model, el: @el})
+      documentView.render()
+    else
+      template = @template()
+      $(@el).html(template(@model))
 
     signatureModel =
       sampleJSON: @model.sampleJSON

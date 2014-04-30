@@ -2,7 +2,7 @@
 <td>
 	{{#if isBody}}
 		{{#if isFile}}
-			<input type="file" name='{{name}}'/>
+			<input class='parameter' type="file" name='{{name}}'/>
 		{{else}}
 			{{#if defaultValue}}
 				<textarea class='body-textarea' placeholder='(required)' name='{{name}}'>{{defaultValue}}</textarea>

@@ -377,6 +377,10 @@
 .swagger-section .swagger-ui-wrap .model-signature .propOptKey {
   font-style: italic;
 }
+.swagger-section .swagger-ui-wrap .model-signature .description {
+  overflow: auto;
+  max-height: 200px;
+}
 .swagger-section .swagger-ui-wrap .model-signature .description .strong {
   font-weight: bold;
   color: #000;
@@ -1030,6 +1034,123 @@
 }
 .swagger-section .swagger-ui-wrap form.form_box p strong {
   color: black;
+}
+.swagger-ui-wrap ul.document-nav {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+.swagger-ui-wrap ul.document-nav li:last-child {
+  padding-right: 0;
+  border-right: none;
+}
+.swagger-ui-wrap ul.document-nav li {
+  float: left;
+  margin: 0 5px 5px 0;
+  padding: 2px 5px 2px 0;
+  border-right: 1px solid #ddd;
+}
+.swagger-ui-wrap ul.document-nav a {
+  text-decoration: none;
+  color: #AAA;
+}
+.swagger-ui-wrap ul.document-nav a:hover {
+  text-decoration: underline;
+  color: black;
+}
+.swagger-ui-wrap ul.document-nav .selected {
+  color: black;
+  text-decoration: none;
+}
+.swagger-ui-wrap .model-json {
+  clear: both;
+}
+.swagger-ui-wrap .model-document {
+  clear: both;
+}
+.swagger-ui-wrap .model-document label {
+  min-width: 130px;
+  display: inline-block;
+  line-height: 2em;
+}
+.swagger-ui-wrap .model-document legend {
+  padding-left: 4px;
+  padding-right: 4px;
+}
+.swagger-ui-wrap .model-document .undefined {
+  /* don't show undefined for objects or arrays */
+
+  display: none;
+  font-weight: bold;
+  font-style: italic;
+  color: #444;
+}
+.swagger-ui-wrap .model-document .document-type {
+  border: solid #aaa 2px;
+  font-weight: bold;
+  font-size: 0.75em;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  padding: 1px;
+}
+.swagger-ui-wrap .model-document fieldset {
+  border: solid 1px #333;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 1.2em;
+}
+.swagger-ui-wrap .model-document a.object-set,
+.swagger-ui-wrap .model-document a.object-undefined,
+.swagger-ui-wrap .model-document a.array-set,
+.swagger-ui-wrap .model-document a.array-undefined,
+.swagger-ui-wrap .model-document a.array-add,
+.swagger-ui-wrap .model-document a.array-remove {
+  cursor: pointer;
+  display: inline-block;
+  border: solid 2px;
+  -webkit-border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  border-radius: 0.5em;
+  height: 1.2em;
+  line-height: 1.2em;
+  font-size: 0.8em;
+  margin-left: 0.25em;
+  margin-right: 0.25em;
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+  color: #222;
+  font-weight: bold;
+}
+.swagger-ui-wrap .model-document a.object-set,
+.swagger-ui-wrap .model-document a.array-set {
+  border-color: #228;
+}
+.swagger-ui-wrap .model-document a.array-add {
+  border-color: #282;
+}
+.swagger-ui-wrap .model-document a.object-undefined,
+.swagger-ui-wrap .model-document a.array-undefined,
+.swagger-ui-wrap .model-document a.array-remove {
+  border-color: #822;
+}
+.swagger-ui-wrap .model-document a.object-set:hover,
+.swagger-ui-wrap .model-document a.array-set:hover {
+  color: white;
+  background-color: #228;
+  border-color: #228;
+}
+.swagger-ui-wrap .model-document a.array-add:hover {
+  color: white;
+  background-color: #282;
+  border-color: #282;
+}
+.swagger-ui-wrap .model-document a.object-undefined:hover,
+.swagger-ui-wrap .model-document a.array-undefined:hover,
+.swagger-ui-wrap .model-document a.array-remove:hover {
+  color: white;
+  background-color: #822;
+  border-color: #822;
 }
 .swagger-section .title {
   font-style: bold;

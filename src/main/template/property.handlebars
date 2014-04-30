@@ -1,0 +1,27 @@
+
+<div class='property'>
+{{#unless isRoot}}
+  {{#if required}}
+      <label for="{{path}}"><span class='document-name required'>{{name}}</span>:</label>
+  {{else}}
+      <label for="{{path}}"><span class='document-name'>{{name}}</span>:</label>
+  {{/if}}
+{{/unless}}
+{{#if selectValues}}
+  <select class='property' name='{{path}}'>
+    {{#each selectValues}}
+      {{#if isDefault}}
+        <option selected="" value='{{value}}'>{{name}} (default)</option>
+      {{else}}
+        <option value='{{value}}'>{{name}}</option>
+      {{/if}}
+    {{/each}}
+  </select>
+{{else}}
+  {{#if required}}
+    <input class='property required {{numeric}}' minlength='1' name='{{path}}' placeholder='{{dataType}} (required)' type='text' value='{{{defaultValue}}}'/>
+  {{else}}
+    <input class='property {{numeric}}' name='{{path}}' placeholder='{{dataType}}' type='text' value='{{{defaultValue}}}'/>
+  {{/if}}
+{{/if}}
+</div>

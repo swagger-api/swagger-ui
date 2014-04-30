@@ -1,0 +1,138 @@
+.swagger-ui-wrap {
+
+    ul.document-nav {
+        display: block;
+        margin: 0;
+        padding: 0;
+        li:last-child {
+            padding-right: 0;
+            border-right: none;
+        }
+        li {
+            float: left;
+            margin: 0 5px 5px 0;
+            padding: 2px 5px 2px 0;
+            border-right: 1px solid #ddd;
+        }
+        a {
+            text-decoration: none;
+            color: #AAA;
+        }
+        a:hover {
+            text-decoration: underline;
+            color: black;
+        }
+        .selected {
+            color: black;
+            text-decoration: none;
+        }
+    }
+
+    .model-json {
+        clear: both;
+    }
+
+    .model-document {
+        clear: both;
+
+        label {
+            min-width: 130px;
+            display: inline-block;
+            line-height: 2em;
+        }
+
+        legend {
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+
+        .document-name {
+        }
+
+        .undefined {
+            /* don't show undefined for objects or arrays */
+            display: none;
+            font-weight: bold;
+            font-style: italic;
+            color: #444;
+        }
+
+        .document-type {
+            border: solid #aaa 2px;
+            font-weight: bold;
+            font-size: 0.75em;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            padding: 1px;
+        }
+
+        fieldset {
+            border: solid 1px #333;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            padding: 1.2em;
+        }
+        div.object-inner,
+        div.array-inner {
+        }
+        div.property {
+        }
+
+        a.object-set,
+        a.object-undefined,
+        a.array-set,
+        a.array-undefined,
+        a.array-add,
+        a.array-remove {
+            cursor: pointer;
+            display: inline-block;
+            border: solid 2px;
+            -webkit-border-radius: 0.5em;
+            -moz-border-radius: 0.5em;
+            border-radius: 0.5em;
+            height: 1.2em;
+            line-height: 1.2em;
+            font-size: 0.8em;
+            margin-left: 0.25em;
+            margin-right: 0.25em;
+            padding-left: 0.4em;
+            padding-right: 0.4em;
+            color: #222;
+            font-weight: bold;
+        }
+
+        a.object-set,
+        a.array-set {
+            border-color: #228;
+        }
+        a.array-add {
+            border-color: #282;
+        }
+        a.object-undefined,
+        a.array-undefined,
+        a.array-remove {
+            border-color: #822;
+        }
+
+        a.object-set:hover,
+        a.array-set:hover {
+            color: white;
+            background-color: #228;
+            border-color: #228;
+        }
+        a.array-add:hover {
+            color: white;
+            background-color: #282;
+            border-color: #282;
+        }
+        a.object-undefined:hover,
+        a.array-undefined:hover,
+        a.array-remove:hover {
+            color: white;
+            background-color: #822;
+            border-color: #822;
+        }
+
+    }
+}

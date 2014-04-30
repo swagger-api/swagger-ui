@@ -11,6 +11,7 @@ class OperationView extends Backbone.View
   }
 
   initialize: ->
+    @model.id = Docs.escapeResourceName(@model.resourceName) + "_" + @model.nickname + "_" + @model.method + "_" + @model.number;
 
   mouseEnter: (e) ->
     elem = $(e.currentTarget.parentNode).find('#api_information_panel')
@@ -95,6 +96,8 @@ class OperationView extends Backbone.View
   addParameter: (param, consumes) ->
     # Render a parameter
     param.consumes = consumes
+    param.id = @model.id + "_" + param.name
+    param.models = @model.resource.models
     paramView = new ParameterView({model: param, tagName: 'tr', readOnly: @model.isReadOnly})
     $('.operation-params', $(@el)).append paramView.render().el
 
@@ -115,6 +118,7 @@ class OperationView extends Backbone.View
         $(@).wiggle
           callback: => $(@).focus()
         error_free = false
+      true
 
     # if error free submit it
     if error_free
@@ -123,7 +127,7 @@ class OperationView extends Backbone.View
 
       isFileUpload = false
 
-      for o in form.find("input")
+      for o in form.find("input.parameter")
         if(o.value? && jQuery.trim(o.value).length > 0)
           map[o.name] = o.value
         if o.type is "file"
@@ -133,7 +137,7 @@ class OperationView extends Backbone.View
         if(o.value? && jQuery.trim(o.value).length > 0)
           map["body"] = o.value
 
-      for o in form.find("select") 
+      for o in form.find("select.parameter") 
         val = this.getSelectedValue o
         if(val? && jQuery.trim(val).length > 0)
           map[o.name] = val

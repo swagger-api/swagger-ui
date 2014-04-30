@@ -15,6 +15,10 @@ sourceFiles  = [
   'view/ContentTypeView'
   'view/ResponseContentTypeView'
   'view/ParameterContentTypeView'
+  'view/DocumentView'
+  'view/DocumentObjectView'
+  'view/DocumentArrayView'
+  'view/DocumentPropertyView'
 ]
 
 
