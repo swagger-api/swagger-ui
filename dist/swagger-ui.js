@@ -2978,10 +2978,12 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       $('#' + this.model.id + '-add', this.$el).click(this.addItem);
       $('#' + this.model.id + '-remove', this.$el).click(this.removeItem);
       $('#' + this.model.id + '-remove', this.$el).hide();
-      _ref = this.model.values != null;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        val = _ref[_i];
-        this.newItem();
+      if (this.model.value) {
+        _ref = this.model.value;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          val = _ref[_i];
+          this.newItem();
+        }
       }
       return this;
     };

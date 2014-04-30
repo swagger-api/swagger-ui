@@ -22,8 +22,9 @@ class DocumentArrayView extends Backbone.View
     $('#'+@model.id+'-remove', @$el).hide()
 
     # add existing items
-    for val in @model.values?
-      @newItem()
+    if @model.value
+      for val in @model.value
+        @newItem()
 
     @
 
