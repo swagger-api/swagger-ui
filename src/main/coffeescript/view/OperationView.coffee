@@ -151,13 +151,13 @@ class OperationView extends Backbone.View
     parent.showCompleteStatus response
 
   handleFileUpload: (map, form) ->
-    log "it's a file upload"
     for o in form.serializeArray()
       if(o.value? && jQuery.trim(o.value).length > 0)
         map[o.name] = o.value
 
     # requires HTML5 compatible browser
     bodyParam = new FormData()
+    params = 0
 
     # add params
     for param in @model.parameters
@@ -175,7 +175,9 @@ class OperationView extends Backbone.View
 
     # add files
     for el in form.find('input[type~="file"]')
-      bodyParam.append($(el).attr('name'), el.files[0])
+      if typeof el.files[0] isnt 'undefined'
+        bodyParam.append($(el).attr('name'), el.files[0])
+        params += 1
 
     log(bodyParam)
 
@@ -206,6 +208,9 @@ class OperationView extends Backbone.View
     # apply authorizations
     if window.authorizations
       window.authorizations.apply obj
+
+    if params is 0
+      obj.data.append("fake", "true");
 
     jQuery.ajax(obj)
     false
