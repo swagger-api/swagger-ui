@@ -432,6 +432,7 @@ SwaggerResource.prototype.addOperations = function(resource_path, ops, consumes,
     output = [];
     for (var i = 0; i < ops.length; i++) {
       o = ops[i];
+
       consumes = this.consumes;
       produces = this.produces;
       if (o.consumes != null)
@@ -674,6 +675,7 @@ var SwaggerOperation = function(nickname, path, method, parameters, summary, not
   this.resource = (resource||errors.push("Resource is required"));
   this.consumes = consumes;
   this.produces = produces;
+
   this.authorizations = authorizations;
   this["do"] = __bind(this["do"], this);
 
@@ -1203,7 +1205,7 @@ var SwaggerRequest = function(type, url, params, opts, successCallback, errorCal
     } else {
       e = exports;
     }
-    status = e.authorizations.apply(obj, this.operation.authorizations);
+    status = e.authorizations.apply(obj, this.operation);
     if (opts.mock == null) {
       if (status !== false) {
         new SwaggerHttp().execute(obj);
@@ -1440,16 +1442,32 @@ SwaggerAuthorizations.prototype.remove = function(name) {
   return delete this.authz[name];
 };
 
-SwaggerAuthorizations.prototype.apply = function(obj, authorizations) {
+SwaggerAuthorizations.prototype.apply = function(obj, operation) {
   status = null;
   var key;
   for (key in this.authz) {
+    var authorizations = (operation||{}).authorizations
+    var applyAuth = false;
+    if(operation) {
+      if(!operation.authorizations)
+        applyAuth = true;
+      else if(typeof authorizations[key] !== 'undefined')
+        applyAuth = true;
+    }
+    else {
+      applyAuth = true;
+    }
+
     value = this.authz[key];
-    result = value.apply(obj, authorizations);
-    if (result === false)
-      status = false;
-    if (result === true)
-      status = true;
+    if(applyAuth) {
+      console.log('applying auth ' + key);
+      result = value.apply(obj, authorizations);
+      if (result === false)
+        status = false;
+      if (result === true)
+        status = true;
+    }
+    else status = false;
   }
   return status;
 };
@@ -1463,7 +1481,7 @@ var ApiKeyAuthorization = function(name, value, type) {
   this.type = type;
 };
 
-ApiKeyAuthorization.prototype.apply = function(obj, authorizations) {
+ApiKeyAuthorization.prototype.apply = function(obj, operation) {
   if (this.type === "query") {
     if (obj.url.indexOf('?') > 0)
       obj.url = obj.url + "&" + this.name + "=" + this.value;
@@ -1480,7 +1498,7 @@ var CookieAuthorization = function(cookie) {
   this.cookie = cookie;
 }
 
-CookieAuthorization.prototype.apply = function(obj, authorizations) {
+CookieAuthorization.prototype.apply = function(obj, operation) {
   obj.cookieJar = obj.cookieJar || CookieJar();
   obj.cookieJar.setCookie(this.cookie);
   return true;
@@ -1500,7 +1518,7 @@ var PasswordAuthorization = function(name, username, password) {
     this._btoa = require("btoa");
 };
 
-PasswordAuthorization.prototype.apply = function(obj, authorizations) {
+PasswordAuthorization.prototype.apply = function(obj, operation) {
   var base64encoder = this._btoa;
   obj.headers["Authorization"] = "Basic " + base64encoder(this.username + ":" + this.password);
   return true;
