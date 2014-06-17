@@ -1290,14 +1290,25 @@ JQueryHttpClient.prototype.execute = function(obj) {
 
   obj.data = obj.body;
   obj.complete = function(response, textStatus, opts) {
-    headers = {};
-    headerArray = response.getAllResponseHeaders().split(":");
+    var headers = {},
+        headerArray = response.getAllResponseHeaders().split("\n");
 
-    for(var i = 0; i < headerArray.length / 2; i++)
-      headers[headerArray[i] = headerArray[i+1]];
+    for(var i = 0; i < headerArray.length; i++) {
+      var toSplit = headerArray[i].trim();
+      if(toSplit.length === 0)
+        continue;
+      var separator = toSplit.indexOf(":");
+      if(separator === -1) {
+        // Name but no value in the header
+        headers[toSplit] = null;
+        continue;
+      }
+      var name = toSplit.substring(0, separator).trim(),
+          value = toSplit.substring(separator + 1).trim();
+      headers[name] = value;
+    }
 
-    out = {
-      headers: headers,
+    var out = {
       url: request.url,
       method: request.method,
       status: response.status,
