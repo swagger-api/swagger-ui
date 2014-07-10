@@ -592,7 +592,7 @@ var SwaggerModelProperty = function(name, obj) {
       this.refDataType = obj.items.$ref;
     }
   }
-  this.dataTypeWithRef = this.refDataType != null ? (this.dataType + '[' + this.refDataType + ']') : this.dataType;
+  this.dataTypeWithRef = this.refDataType != null ? (this.dataType[0].toUpperCase() + this.dataType.substring(1, this.dataType.length) + ' of ' + this.refDataType) : this.dataType;
   if (obj.allowableValues != null) {
     this.valueType = obj.allowableValues.valueType;
     this.values = obj.allowableValues.values;
@@ -781,7 +781,11 @@ SwaggerOperation.prototype.getSignature = function(type, models) {
   listType = this.isListType(type);
   isPrimitive = ((listType != null) && models[listType]) || (models[type] != null) ? false : true;
   if (isPrimitive) {
-    return type;
+    if (listType != null) {
+      return '<span class="strong">Array of </span>' + listType;
+    } else {
+      return type;
+    }
   } else {
     if (listType != null) {
       return '<span class="strong">Array of </span>' + models[listType].getMockSignature();
