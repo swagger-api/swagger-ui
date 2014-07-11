@@ -1,5 +1,5 @@
 // swagger.js
-// version 2.0.30
+// version 2.0.31
 
 var __bind = function(fn, me){
   return function(){
@@ -57,24 +57,24 @@ Object.keys = Object.keys || (function () {
             'constructor'
         ],
         DontEnumsLength = DontEnums.length;
-  
+
     return function (o) {
         if (typeof o != "object" && typeof o != "function" || o === null)
             throw new TypeError("Object.keys called on a non-object");
-     
+
         var result = [];
         for (var name in o) {
             if (hasOwnProperty.call(o, name))
                 result.push(name);
         }
-     
+
         if (hasDontEnumBug) {
             for (var i = 0; i < DontEnumsLength; i++) {
                 if (hasOwnProperty.call(o, DontEnums[i]))
                     result.push(DontEnums[i]);
-            }   
+            }
         }
-     
+
         return result;
     };
 })();
@@ -87,6 +87,7 @@ var SwaggerApi = function(url, options) {
   this.authorizations = null;
   this.authorizationScheme = null;
   this.info = null;
+  this.useJQuery = false;
 
   options = (options||{});
   if (url)
@@ -102,6 +103,9 @@ var SwaggerApi = function(url, options) {
 
   if (options.success != null)
     this.success = options.success;
+
+  if (typeof options.useJQuery === 'boolean')
+    this.useJQuery = options.useJQuery;
 
   this.failure = options.failure != null ? options.failure : function() {};
   this.progress = options.progress != null ? options.progress : function() {};
@@ -432,7 +436,6 @@ SwaggerResource.prototype.addOperations = function(resource_path, ops, consumes,
     output = [];
     for (var i = 0; i < ops.length; i++) {
       o = ops[i];
-
       consumes = this.consumes;
       produces = this.produces;
       if (o.consumes != null)
@@ -479,8 +482,7 @@ SwaggerResource.prototype.addOperations = function(resource_path, ops, consumes,
 
 SwaggerResource.prototype.sanitize = function(nickname) {
   var op;
-  op = nickname.replace(/[\s!@#$%^&*()_+=\[{\]};:<>|./?,\\'""-]/g, '_');
-  //'
+  op = nickname.replace(/[\s!@#$%^&*()_+=\[{\]};:<>|.\/?,\\'""-]/g, '_');
   op = op.replace(/((_){2,})/g, '_');
   op = op.replace(/^(_)*/g, '');
   op = op.replace(/([_])*$/g, '');
@@ -675,7 +677,6 @@ var SwaggerOperation = function(nickname, path, method, parameters, summary, not
   this.resource = (resource||errors.push("Resource is required"));
   this.consumes = consumes;
   this.produces = produces;
-
   this.authorizations = authorizations;
   this["do"] = __bind(this["do"], this);
 
@@ -814,7 +815,7 @@ SwaggerOperation.prototype.getSampleJSON = function(type, models) {
       else
         return JSON.stringify(val, null, 2);
     }
-    else 
+    else
       return val;
   }
 };
@@ -1075,7 +1076,7 @@ SwaggerOperation.prototype.formatXml = function(xml) {
 var SwaggerRequest = function(type, url, params, opts, successCallback, errorCallback, operation, execution) {
   var _this = this;
   var errors = [];
-  this.useJQuery = (typeof operation.useJQuery !== 'undefined' ? operation.useJQuery : null);
+  this.useJQuery = (typeof operation.resource.useJQuery !== 'undefined' ? operation.resource.useJQuery : null);
   this.type = (type||errors.push("SwaggerRequest type is required (get/post/put/delete/patch/options)."));
   this.url = (url||errors.push("SwaggerRequest url is required."));
   this.params = params;
@@ -1123,6 +1124,8 @@ var SwaggerRequest = function(type, url, params, opts, successCallback, errorCal
       else
         requestContentType = "application/x-www-form-urlencoded";
     }
+    else if (this.type == "DELETE")
+      body = "{}";
     else if (this.type != "DELETE")
       requestContentType = null;
   }
@@ -1205,7 +1208,7 @@ var SwaggerRequest = function(type, url, params, opts, successCallback, errorCal
     } else {
       e = exports;
     }
-    status = e.authorizations.apply(obj, this.operation);
+    status = e.authorizations.apply(obj, this.operation.authorizations);
     if (opts.mock == null) {
       if (status !== false) {
         new SwaggerHttp().execute(obj);
@@ -1261,9 +1264,16 @@ SwaggerHttp.prototype.isIE8 = function() {
 };
 
 /*
- * JQueryHttpClient lets a browser take advantage of JQuery's cross-browser magic
+ * JQueryHttpClient lets a browser take advantage of JQuery's cross-browser magic.
+ * NOTE: when jQuery is available it will export both '$' and 'jQuery' to the global space.
+ *       Since we are using closures here we need to alias it for internal use.
  */
-var JQueryHttpClient = function(options) {}
+var JQueryHttpClient = function(options) {
+  "use strict";
+  if(!jQuery){
+      var jQuery = window.jQuery;
+  }
+}
 
 JQueryHttpClient.prototype.execute = function(obj) {
   var cb = obj.on;
@@ -1336,9 +1346,9 @@ JQueryHttpClient.prototype.execute = function(obj) {
     else
       return cb.response(out);
   };
-
-  $.support.cors = true;
-  return $.ajax(obj);
+  
+  jQuery.support.cors = true;
+  return jQuery.ajax(obj);
 }
 
 /*
@@ -1453,33 +1463,32 @@ SwaggerAuthorizations.prototype.remove = function(name) {
   return delete this.authz[name];
 };
 
-SwaggerAuthorizations.prototype.apply = function(obj, operation) {
-  status = null;
+SwaggerAuthorizations.prototype.apply = function(obj, authorizations) {
+  var status = null;
   var key;
-  for (key in this.authz) {
-    var authorizations = (operation||{}).authorizations
-    var applyAuth = false;
-    if(operation) {
-      if(!operation.authorizations)
-        applyAuth = true;
-      else if(typeof authorizations[key] !== 'undefined')
-        applyAuth = true;
-    }
-    else {
-      applyAuth = true;
-    }
 
-    value = this.authz[key];
-    if(applyAuth) {
-      console.log('applying auth ' + key);
+  if(typeof authorizations === 'undefined') {
+    // apply all keys since no authorizations hash is defined
+    for (key in this.authz) {
+      value = this.authz[key];
       result = value.apply(obj, authorizations);
-      if (result === false)
-        status = false;
       if (result === true)
         status = true;
     }
-    else status = false;
   }
+  else {
+    for(name in authorizations) {
+      for (key in this.authz) {
+        if(key == name) {
+          value = this.authz[key];
+          result = value.apply(obj, authorizations);
+          if (result === true)
+            status = true;
+        }
+      }      
+    }
+  }
+
   return status;
 };
 
@@ -1492,7 +1501,7 @@ var ApiKeyAuthorization = function(name, value, type) {
   this.type = type;
 };
 
-ApiKeyAuthorization.prototype.apply = function(obj, operation) {
+ApiKeyAuthorization.prototype.apply = function(obj, authorizations) {
   if (this.type === "query") {
     if (obj.url.indexOf('?') > 0)
       obj.url = obj.url + "&" + this.name + "=" + this.value;
@@ -1509,7 +1518,7 @@ var CookieAuthorization = function(cookie) {
   this.cookie = cookie;
 }
 
-CookieAuthorization.prototype.apply = function(obj, operation) {
+CookieAuthorization.prototype.apply = function(obj, authorizations) {
   obj.cookieJar = obj.cookieJar || CookieJar();
   obj.cookieJar.setCookie(this.cookie);
   return true;
@@ -1529,7 +1538,7 @@ var PasswordAuthorization = function(name, username, password) {
     this._btoa = require("btoa");
 };
 
-PasswordAuthorization.prototype.apply = function(obj, operation) {
+PasswordAuthorization.prototype.apply = function(obj, authorizations) {
   var base64encoder = this._btoa;
   obj.headers["Authorization"] = "Basic " + base64encoder(this.username + ":" + this.password);
   return true;
