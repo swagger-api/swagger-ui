@@ -19,6 +19,8 @@ class ResourceView extends Backbone.View
 
       operation.nickname = id
       operation.parentId = @model.id
+      operation.swaggerRoot = $("script[src]").last().attr("src").split('?')[0].split('/').slice(0, -1).join('/')+'/..';
+
       @addOperation operation 
     @
 

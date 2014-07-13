@@ -395,8 +395,13 @@ function program18(depth0,data) {
 
 function program20(depth0,data) {
   
-  
-  return "\n          <div class='sandbox_header'>\n            <input class='submit' name='commit' type='button' value='Try it out!' />\n            <a href='#' class='response_hider' style='display:none'>Hide Response</a>\n            <img alt='Throbber' class='response_throbber' src='./images/throbber.gif' style='display:none' />\n          </div>\n          ";
+  var buffer = "", stack1;
+  buffer += "\n          <div class='sandbox_header'>\n            <input class='submit' name='commit' type='button' value='Try it out!' />\n            <a href='#' class='response_hider' style='display:none'>Hide Response</a>\n            <img alt='Throbber' class='response_throbber' src='";
+  if (stack1 = helpers.swaggerRoot) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.swaggerRoot; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "/images/throbber.gif' style='display:none' />\n          </div>\n          ";
+  return buffer;
   }
 
   buffer += "\n  <ul class='operations' >\n    <li class='";
@@ -1496,6 +1501,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         methods[id] = operation;
         operation.nickname = id;
         operation.parentId = this.model.id;
+        operation.swaggerRoot = $("script[src]").last().attr("src").split('?')[0].split('/').slice(0, -1).join('/') + '/..';
         this.addOperation(operation);
       }
       return this;
