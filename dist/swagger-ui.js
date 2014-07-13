@@ -2019,15 +2019,45 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
     StatusCodeView.prototype.initialize = function() {};
 
+    StatusCodeView.prototype.isListType = function(type) {
+      var listType;
+      listType = null;
+      if (type && type.indexOf('[') >= 0) {
+        listType = type.substring(type.indexOf('[') + 1, type.indexOf(']'));
+      } else {
+        listType = void 0;
+      }
+      return listType;
+    };
+
     StatusCodeView.prototype.render = function() {
-      var responseModel, responseModelView, template;
+      var isPrimitive, jsonSample, listType, mockSignature, responseModel, responseModelView, template;
       template = this.template();
       $(this.el).html(template(this.model));
-      if (swaggerUi.api.models.hasOwnProperty(this.model.responseModel)) {
+      listType = this.isListType(this.model.responseModel);
+      if (swaggerUi.api.models.hasOwnProperty(listType || this.model.responseModel)) {
+        isPrimitive = false;
+        if ((listType !== null && swaggerUi.api.models[listType]) || swaggerUi.api.models[this.model.responseModel] !== null) {
+          isPrimitive = false;
+        } else {
+          isPrimitive = true;
+        }
+        jsonSample = null;
+        mockSignature = null;
+        if (isPrimitive) {
+          jsonSample = void 0;
+          mockSignature = void 0;
+        } else if (listType) {
+          jsonSample = '[' + JSON.stringify(swaggerUi.api.models[listType].createJSONSample(), null, 2) + ']';
+          mockSignature = '<span class="strong">Array of </span>' + swaggerUi.api.models[listType].getMockSignature();
+        } else {
+          jsonSample = JSON.stringify(swaggerUi.api.models[this.model.responseModel].createJSONSample(), null, 2);
+          mockSignature = swaggerUi.api.models[this.model.responseModel].getMockSignature();
+        }
         responseModel = {
-          sampleJSON: JSON.stringify(swaggerUi.api.models[this.model.responseModel].createJSONSample(), null, 2),
+          sampleJSON: jsonSample,
           isParam: false,
-          signature: swaggerUi.api.models[this.model.responseModel].getMockSignature()
+          signature: mockSignature
         };
         responseModelView = new SignatureView({
           model: responseModel,
