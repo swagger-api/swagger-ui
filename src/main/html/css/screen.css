@@ -459,6 +459,9 @@
 .swagger-section .swagger-ui-wrap span.weak {
   color: #666666;
 }
+.swagger-section .swagger-ui-wrap .message-none {
+  display: none;
+}
 .swagger-section .swagger-ui-wrap .message-success {
   color: #89BF04;
 }

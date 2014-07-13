@@ -1339,8 +1339,13 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       if (data == null) {
         data = '';
       }
+      $('#message-bar').removeClass('message-none');
       $('#message-bar').removeClass('message-fail');
-      $('#message-bar').addClass('message-success');
+      if (data.length > 0) {
+        $('#message-bar').addClass('message-success');
+      } else {
+        $('#message-bar').addClass('message-none');
+      }
       return $('#message-bar').html(data);
     };
 
@@ -1349,8 +1354,13 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       if (data == null) {
         data = '';
       }
+      $('#message-bar').removeClass('message-none');
       $('#message-bar').removeClass('message-success');
-      $('#message-bar').addClass('message-fail');
+      if (data.length > 0) {
+        $('#message-bar').addClass('message-fail');
+      } else {
+        $('#message-bar').addClass('message-none');
+      }
       val = $('#message-bar').html(data);
       if (this.options.onFailure != null) {
         this.options.onFailure(data);
