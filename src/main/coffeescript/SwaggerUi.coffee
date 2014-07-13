@@ -86,8 +86,9 @@ class SwaggerUi extends Backbone.Router
 
   # Shows message on topbar of the ui
   showMessage: (data = '') ->
-    $('#message-bar').removeClass 'message-none'
     $('#message-bar').removeClass 'message-fail'
+    $('#message-bar').removeClass 'message-none'
+    $('#message-bar').removeClass 'message-success'
     if data.length > 0
       $('#message-bar').addClass 'message-success'
     else
@@ -96,6 +97,7 @@ class SwaggerUi extends Backbone.Router
 
   # shows message in red
   onLoadFailure: (data = '') ->
+    $('#message-bar').removeClass 'message-fail'
     $('#message-bar').removeClass 'message-none'
     $('#message-bar').removeClass 'message-success'
     if data.length > 0

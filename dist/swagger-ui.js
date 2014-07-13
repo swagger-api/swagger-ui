@@ -1339,8 +1339,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       if (data == null) {
         data = '';
       }
-      $('#message-bar').removeClass('message-none');
       $('#message-bar').removeClass('message-fail');
+      $('#message-bar').removeClass('message-none');
+      $('#message-bar').removeClass('message-success');
       if (data.length > 0) {
         $('#message-bar').addClass('message-success');
       } else {
@@ -1354,6 +1355,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       if (data == null) {
         data = '';
       }
+      $('#message-bar').removeClass('message-fail');
       $('#message-bar').removeClass('message-none');
       $('#message-bar').removeClass('message-success');
       if (data.length > 0) {
