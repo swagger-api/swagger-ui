@@ -120,6 +120,15 @@
 .swagger-section pre .xml .cdata {
   opacity: 0.5;
 }
+.swagger-section .message-fail {
+  color: #cc0000;
+}
+.swagger-section .message-none {
+  display: none;
+}
+.swagger-section .message-success {
+  color: #89BF04;
+}
 .swagger-section .swagger-ui-wrap {
   line-height: 1;
   font-family: "Droid Sans", sans-serif;
@@ -291,9 +300,6 @@
 .swagger-section .swagger-ui-wrap .info_tos {
   padding-bottom: 5px;
 }
-.swagger-section .swagger-ui-wrap .message-fail {
-  color: #cc0000;
-}
 .swagger-section .swagger-ui-wrap .info_contact {
   padding-bottom: 5px;
 }
@@ -458,12 +464,6 @@
 }
 .swagger-section .swagger-ui-wrap span.weak {
   color: #666666;
-}
-.swagger-section .swagger-ui-wrap .message-none {
-  display: none;
-}
-.swagger-section .swagger-ui-wrap .message-success {
-  color: #89BF04;
 }
 .swagger-section .swagger-ui-wrap caption,
 .swagger-section .swagger-ui-wrap th,
