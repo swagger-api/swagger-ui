@@ -2139,7 +2139,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       var template;
       template = this.template();
       $(this.el).html(template(this.model));
-      this.switchToDescription();
+      this.switchToSnippet();
       this.isParam = this.model.isParam;
       if (this.isParam) {
         $('.notice', $(this.el)).text('Click to set as parameter value');
