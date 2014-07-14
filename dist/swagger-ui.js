@@ -1,5 +1,4 @@
 // swagger-ui.js
-// version 2.0.18
 $(function() {
 
 	// Helper function for vertically aligning DOM elements
@@ -1970,7 +1969,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       $(".request_url", $(this.el)).html("<pre>" + url + "</pre>");
       $(".response_code", $(this.el)).html("<pre>" + response.status + "</pre>");
       $(".response_body", $(this.el)).html(response_body);
-      $(".response_headers", $(this.el)).html("<pre>" + JSON.stringify(response.headers, null, "  ").replace(/\n/g, "<br>") + "</pre>");
+      $(".response_headers", $(this.el)).html("<pre>" + _.escape(JSON.stringify(response.headers, null, "  ")).replace(/\n/g, "<br>") + "</pre>");
       $(".response", $(this.el)).slideDown();
       $(".response_hider", $(this.el)).show();
       $(".response_throbber", $(this.el)).hide();
