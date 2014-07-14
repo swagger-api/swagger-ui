@@ -12,6 +12,8 @@ class SignatureView extends Backbone.View
     $(@el).html(template(@model))
 
     @switchToDescription()
+    $('.description-link', $(this.el)).removeClass('selected')
+    $(".description", $(this.el)).hide()
 
     @isParam = @model.isParam
 

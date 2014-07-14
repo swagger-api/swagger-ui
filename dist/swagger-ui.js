@@ -1178,7 +1178,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "<div>\n<ul class=\"signature-nav\">\n    <li><a class=\"description-link\" href=\"#\">Model</a></li>\n    <li><a class=\"snippet-link\" href=\"#\">Model Schema</a></li>\n</ul>\n<div>\n\n<div class=\"signature-container\">\n    <div class=\"description\">\n        ";
+  buffer += "<div>\n<ul class=\"signature-nav\">\n    <li>";
+  if (stack1 = helpers.modelLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.modelLabel; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "</li>\n    <li><a class=\"description-link\" href=\"#\">Model</a></li>\n    <li><a class=\"snippet-link\" href=\"#\">Model Schema</a></li>\n</ul>\n<div>\n\n<div class=\"signature-container\">\n    <div class=\"description\">\n        ";
   if (stack1 = helpers.signature) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.signature; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
@@ -2031,7 +2035,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     StatusCodeView.prototype.render = function() {
-      var isPrimitive, jsonSample, listType, mockSignature, responseModel, responseModelView, template;
+      var isPrimitive, jsonSample, listType, mockSignature, modelLabel, responseModel, responseModelView, template;
       template = this.template();
       $(this.el).html(template(this.model));
       listType = this.isListType(this.model.responseModel);
@@ -2054,7 +2058,13 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           jsonSample = JSON.stringify(swaggerUi.api.models[this.model.responseModel].createJSONSample(), null, 2);
           mockSignature = swaggerUi.api.models[this.model.responseModel].getMockSignature();
         }
+        if (mockSignature.indexOf('{') > -1) {
+          modelLabel = mockSignature.substring(0, mockSignature.indexOf('{')) + '</span>';
+        } else {
+          modelLabel = mockSignature;
+        }
         responseModel = {
+          modelLabel: modelLabel,
           sampleJSON: jsonSample,
           isParam: false,
           signature: mockSignature
@@ -2188,6 +2198,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       template = this.template();
       $(this.el).html(template(this.model));
       this.switchToDescription();
+      $('.description-link', $(this.el)).removeClass('selected');
+      $(".description", $(this.el)).hide();
       this.isParam = this.model.isParam;
       if (this.isParam) {
         $('.notice', $(this.el)).text('Click to set as parameter value');
