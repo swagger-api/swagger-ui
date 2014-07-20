@@ -17,7 +17,6 @@ class MainView extends Backbone.View
     resources = {}
     counter = 0
     for resource in @model.apisArray
-      console.info(resource);
       id = resource.name
       while typeof resources[id] isnt 'undefined'
         id = id + "_" + counter
