@@ -113,9 +113,9 @@
     }
 
     pre {
-        font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
-        background-color: #fcf6db;
-        border: 1px solid #e5e0c6;
+        font-family: "Anonymous Pro", "Menlo", "Bitstream Vera Sans Mono", "Courier New", monospace;
+        background-color: #F1F1F1;
+        /*border: 1px solid #e5e0c6;*/
         padding: 10px;
         code {
             line-height: 1.6em;
@@ -231,7 +231,7 @@
             color: #5555aa;
         }
         pre:hover {
-            background-color: #ffffdd;
+            background-color: #F8F8F8;
         }
         pre {
             font-size: .85em;
@@ -259,8 +259,8 @@
             color: #555;
         }
         .snippet {
-            small {
-                font-size: 0.75em;
+            large {
+                font-size: 1em;
             }
         }
         .propOptKey {
@@ -297,7 +297,7 @@
     }
 
     .markdown p code, .markdown li code {
-        font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+        font-family: "Anonymous Pro", "Menlo", "Bitstream Vera Sans Mono", "Courier New", monospace;
         background-color: #f0f0f0;
         color: black;
         padding: 1px 3px;
@@ -370,7 +370,7 @@
     }
 
     .code {
-        font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+        font-family: "Anonymous Pro", "Menlo", "Bitstream Vera Sans Mono", "Courier New", monospace;
     }
 
     form.formtastic {
@@ -455,9 +455,9 @@
             color: #666666;
         }
         pre {
-            font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
-            background-color: #fcf6db;
-            border: 1px solid #e5e0c6;
+            font-family: "Anonymous Pro", "Menlo", "Bitstream Vera Sans Mono", "Courier New", monospace;
+            background-color: #F1F1F1;
+            /*border: 1px solid #e5e0c6;*/
             padding: 10px;
             margin: 0 0 10px 0;
             code {
@@ -515,6 +515,7 @@
                         a {
                             color: #aaaaaa;
                             text-decoration: none;
+                            font-size: 1.1em;
                         }
                         a:hover {
                             text-decoration: underline;
@@ -667,7 +668,7 @@
                                     overflow: hidden;
                                     display: block;
                                     a {
-                                        padding: 4px 0 0 10px;
+                                        padding: 0 0 0 10px;
                                         display: inline-block;
                                         font-size: 0.9em;
                                     }
@@ -681,6 +682,19 @@
                                         clear: none;
                                         float: left;
                                         padding: 6px 8px;
+                                        color: white;
+                                        border: none;
+                                        border-radius:2px;
+                                    }
+                                    input.response_hider {
+                                        display: block;
+                                        clear: none;
+                                        float: left;
+                                        padding: 6px 8px;
+                                        color: white;
+                                        border: none;
+                                        border-radius:2px;
+                                        margin-left: 10px;
                                     }
                                 }
                                 form {
@@ -692,7 +706,7 @@
                                 div.response {
                                     div.block {
                                         pre {
-                                            font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+                                            font-family: "Anonymous Pro", "Menlo", "Bitstream Vera Sans Mono", "Courier New", monospace;
                                             padding: 10px;
                                             font-size: 0.9em;
                                             max-height: 400px;
@@ -702,7 +716,7 @@
                                 }
                             }
                         }
-                        li.operation.put {
+                        li.operation.PUT {
                             div.heading {
                                 background-color: #f9f2e9;
                                 border: 1px solid #f0e0ca;
@@ -738,7 +752,7 @@
                                 }
                             }
                         }
-                        li.operation.head {
+                        li.operation.HEAD {
                             div.heading {
                                 background-color: #fcffcd;
                                 border: 1px solid black;
@@ -776,15 +790,15 @@
                                 }
                             }
                         }
-                        li.operation.delete {
+                        li.operation.DELETE {
                             div.heading {
-                                background-color: #f5e8e8;
-                                border: 1px solid #e8c6c7;
+                                background-color: #FFFFFF;
+                                /*border: 1px solid #B75555;*/
                                 h3 {
                                     span.http_method {
                                         a {
                                             text-transform: uppercase;
-                                            background-color: #a41e22;
+                                            background-color: #B75555;
 
                                         }
                                     }
@@ -792,7 +806,7 @@
                                 ul.options {
                                     li {
                                         border-right: 1px solid #dddddd;
-                                        border-right-color: #e8c6c7;
+                                        border-right-color: #000000;
                                         color: #a41e22;
                                         a {
                                             color: #a41e22;
@@ -801,54 +815,66 @@
                                 }
                             }
                             div.content {
-                                background-color: #f7eded;
-                                border: 1px solid #e8c6c7;
+                                background-color: #FFFFFF;
+                                /*border: 1px solid #B75555;*/
                                 h4 {
-                                    color: #a41e22;
+                                    color: #931F1F;
                                 }
                                 div.sandbox_header {
                                     a {
-                                        color: #c8787a;
+                                        color: #931F1F;
+                                    }
+                                    input.submit {
+                                        background: #B75555;
+                                    }
+                                    input.response_hider {
+                                        background: #B75555;
                                     }
                                 }
                             }
                         }
-                        li.operation.post {
+                        li.operation.POST {
                             div.heading {
-                                background-color: #e7f6ec;
-                                border: 1px solid #c3e8d1;
+                                background-color: #FFFFFF;
+                                /*border: 1px solid #34763B;*/
                                 h3 {
                                     span.http_method {
                                         a {
-                                            background-color: #10a54a;
+                                            background-color: #34763B;
                                         }
                                     }
                                 }
                                 ul.options {
                                     li {
                                         border-right: 1px solid #dddddd;
-                                        border-right-color: #c3e8d1;
-                                        color: #10a54a;
+                                        border-right-color: #34763B;
+                                        color: #1E5429;
                                         a {
-                                            color: #10a54a;
+                                            color: #34763B;
                                         }
                                     }
                                 }
                             }
                             div.content {
-                                background-color: #ebf7f0;
-                                border: 1px solid #c3e8d1;
+                                background-color: #FFFFFF;
+                                /*border: 1px solid #34763B;*/
                                 h4 {
-                                    color: #10a54a;
+                                    color: #1E5429;
                                 }
                                 div.sandbox_header {
                                     a {
-                                        color: #6fc992;
+                                        color: #1E5429;
+                                    }
+                                    input.submit {
+                                        background: #34763B;
+                                    }
+                                    input.response_hider {
+                                        background: #34763B;
                                     }
                                 }
                             }
                         }
-                        li.operation.patch {
+                        li.operation.PATCH {
                             div.heading {
                                 background-color: #FCE9E3;
                                 border: 1px solid #F5D5C3;
@@ -856,7 +882,6 @@
                                     span.http_method {
                                         a {
                                             background-color: #D38042;
-
                                         }
                                     }
                                 }
@@ -886,14 +911,14 @@
                                 }
                             }
                         }
-                        li.operation.get {
+                        li.operation.GET {
                             div.heading {
-                                background-color: #e7f0f7;
-                                border: 1px solid #c3d9ec;
+                                background-color: #FFFFFF;
+                                /*border: 1px solid #3EC0C4;*/
                                 h3 {
                                     span.http_method {
                                         a {
-                                            background-color: #0f6ab4;
+                                            background-color: #0F726F;
                                         }
                                     }
                                 }
@@ -901,34 +926,40 @@
                                     li {
                                         border-right: 1px solid #dddddd;
                                         border-right-color: #c3d9ec;
-                                        color: #0f6ab4;
+                                        color: #0F726F;
                                         a {
-                                            color: #0f6ab4;
+                                            color: #0F726F;
                                         }
                                     }
                                 }
                             }
                             div.content {
-                                background-color: #ebf3f9;
-                                border: 1px solid #c3d9ec;
+                                background-color: #FFFFFF;
+                                /*border: 1px solid #c3d9ec;*/
                                 h4 {
-                                    color: #0f6ab4;
+                                    color: #0F726F;
                                 }
                                 div.sandbox_header {
                                     a {
-                                        color: #6fa5d2;
+                                        color: #0F726F;
+                                    }
+                                    input.submit {
+                                        background: #0F726F;
+                                    }
+                                    input.response_hider {
+                                        background: #0F726F;
                                     }
                                 }
                             }
                         }
-                        li.operation.options {
+                        li.operation.OPTIONS {
                             div.heading {
-                                background-color: #e7f0f7;
+                                background-color: #d5e4f1;
                                 border: 1px solid #c3d9ec;
                                 h3 {
                                     span.http_method {
                                         a {
-                                            background-color: #0f6ab4;
+                                            background-color: #3EC0C4;
                                         }
                                     }
                                 }
@@ -938,7 +969,7 @@
                                         border-right-color: #c3d9ec;
                                         color: #0f6ab4;
                                         a {
-                                            color: #0f6ab4;
+                                            color: #000000;
                                         }
                                     }
                                 }
@@ -957,7 +988,7 @@
                             }
                         }
                         li.operation {
-                            &.get, &.post, &.head, &.put, &.patch, &.delete {
+                            &.GET, &.POST, &.HEAD, &.PUT, &.PATCH, &.DELETE {
                                 div.content {
                                     border-top: none;
                                 }

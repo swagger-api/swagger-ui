@@ -1,6 +1,6 @@
 <div class='heading'>
   <h2>
-    <a href='#!/{{id}}' onclick="Docs.toggleEndpointListForResource('{{id}}');">{{name}}</a> {{#description}} : {{/description}}{{{description}}}
+    <a href='#!/{{id}}' onclick="Docs.toggleEndpointListForResource('{{id}}');">{{name}}</a> {{#description}} {{/description}}{{{description}}}
   </h2>
   <ul class='options'>
     <li>
@@ -16,9 +16,6 @@
       <a href='#' onclick="Docs.expandOperationsForResource('{{id}}'); return false;">
         Expand Operations
       </a>
-    </li>
-    <li>
-      <a href='{{url}}'>Raw</a>
     </li>
   </ul>
 </div>

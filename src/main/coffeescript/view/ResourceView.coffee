@@ -31,3 +31,4 @@ class ResourceView extends Backbone.View
     $('.endpoints', $(@el)).append operationView.render().el
 
     @number++
+    
