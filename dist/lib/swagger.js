@@ -1,5 +1,5 @@
 // swagger.js
-// version 2.0.31
+// version 2.0.29
 
 var __bind = function(fn, me){
   return function(){
@@ -57,24 +57,24 @@ Object.keys = Object.keys || (function () {
             'constructor'
         ],
         DontEnumsLength = DontEnums.length;
-
+  
     return function (o) {
         if (typeof o != "object" && typeof o != "function" || o === null)
             throw new TypeError("Object.keys called on a non-object");
-
+     
         var result = [];
         for (var name in o) {
             if (hasOwnProperty.call(o, name))
                 result.push(name);
         }
-
+     
         if (hasDontEnumBug) {
             for (var i = 0; i < DontEnumsLength; i++) {
                 if (hasOwnProperty.call(o, DontEnums[i]))
                     result.push(DontEnums[i]);
-            }
+            }   
         }
-
+     
         return result;
     };
 })();
@@ -87,7 +87,6 @@ var SwaggerApi = function(url, options) {
   this.authorizations = null;
   this.authorizationScheme = null;
   this.info = null;
-  this.useJQuery = false;
 
   options = (options||{});
   if (url)
@@ -103,9 +102,6 @@ var SwaggerApi = function(url, options) {
 
   if (options.success != null)
     this.success = options.success;
-
-  if (typeof options.useJQuery === 'boolean')
-    this.useJQuery = options.useJQuery;
 
   this.failure = options.failure != null ? options.failure : function() {};
   this.progress = options.progress != null ? options.progress : function() {};
@@ -372,24 +368,20 @@ var SwaggerResource = function(resourceObj, api) {
   }
 }
 
-SwaggerResource.prototype.getAbsoluteBasePath = function (relativeBasePath) {
-  var pos, url;
+SwaggerResource.prototype.getAbsoluteBasePath = function(relativeBasePath) {
+  var parts, pos, url;
   url = this.api.basePath;
   pos = url.lastIndexOf(relativeBasePath);
-  var parts = url.split("/");
-  var rootUrl = parts[0] + "//" + parts[2];
-  //if the relative path is '/' return the root url
-  if (relativeBasePath === '/'){
-    return rootUrl
-  }
-  //if the relative path is not in the base path
-  else if (pos === -1 ) {
+  if (pos === -1) {
+    parts = url.split("/");
+    url = parts[0] + "//" + parts[2];
     if (relativeBasePath.indexOf("/") === 0) {
       return url + relativeBasePath;
     } else {
       return url + "/" + relativeBasePath;
     }
-    //If the relative path is in the base path
+  } else if (relativeBasePath === "/") {
+    return url.substring(0, pos);
   } else {
     return url.substring(0, pos) + relativeBasePath;
   }
@@ -486,7 +478,8 @@ SwaggerResource.prototype.addOperations = function(resource_path, ops, consumes,
 
 SwaggerResource.prototype.sanitize = function(nickname) {
   var op;
-  op = nickname.replace(/[\s!@#$%^&*()_+=\[{\]};:<>|.\/?,\\'""-]/g, '_');
+  op = nickname.replace(/[\s!@#$%^&*()_+=\[{\]};:<>|./?,\\'""-]/g, '_');
+  //'
   op = op.replace(/((_){2,})/g, '_');
   op = op.replace(/^(_)*/g, '');
   op = op.replace(/([_])*$/g, '');
@@ -819,7 +812,7 @@ SwaggerOperation.prototype.getSampleJSON = function(type, models) {
       else
         return JSON.stringify(val, null, 2);
     }
-    else
+    else 
       return val;
   }
 };
@@ -911,7 +904,6 @@ SwaggerOperation.prototype.pathXml = function() {
 
 SwaggerOperation.prototype.encodePathParam = function(pathParam) {
   var encParts, part, parts, _i, _len;
-  pathParam = pathParam.toString();
   if (pathParam.indexOf("/") === -1) {
     return encodeURIComponent(pathParam);
   } else {
@@ -1080,7 +1072,7 @@ SwaggerOperation.prototype.formatXml = function(xml) {
 var SwaggerRequest = function(type, url, params, opts, successCallback, errorCallback, operation, execution) {
   var _this = this;
   var errors = [];
-  this.useJQuery = (typeof operation.resource.useJQuery !== 'undefined' ? operation.resource.useJQuery : null);
+  this.useJQuery = (typeof operation.useJQuery !== 'undefined' ? operation.useJQuery : null);
   this.type = (type||errors.push("SwaggerRequest type is required (get/post/put/delete/patch/options)."));
   this.url = (url||errors.push("SwaggerRequest url is required."));
   this.params = params;
@@ -1128,8 +1120,6 @@ var SwaggerRequest = function(type, url, params, opts, successCallback, errorCal
       else
         requestContentType = "application/x-www-form-urlencoded";
     }
-    else if (this.type == "DELETE")
-      body = "{}";
     else if (this.type != "DELETE")
       requestContentType = null;
   }
@@ -1268,16 +1258,9 @@ SwaggerHttp.prototype.isIE8 = function() {
 };
 
 /*
- * JQueryHttpClient lets a browser take advantage of JQuery's cross-browser magic.
- * NOTE: when jQuery is available it will export both '$' and 'jQuery' to the global space.
- *       Since we are using closures here we need to alias it for internal use.
+ * JQueryHttpClient lets a browser take advantage of JQuery's cross-browser magic
  */
-var JQueryHttpClient = function(options) {
-  "use strict";
-  if(!jQuery){
-    var jQuery = window.jQuery;
-  }
-}
+var JQueryHttpClient = function(options) {}
 
 JQueryHttpClient.prototype.execute = function(obj) {
   var cb = obj.on;
@@ -1306,25 +1289,14 @@ JQueryHttpClient.prototype.execute = function(obj) {
 
   obj.data = obj.body;
   obj.complete = function(response, textStatus, opts) {
-    var headers = {},
-        headerArray = response.getAllResponseHeaders().split("\n");
+    headers = {};
+    headerArray = response.getAllResponseHeaders().split(":");
 
-    for(var i = 0; i < headerArray.length; i++) {
-      var toSplit = headerArray[i].trim();
-      if(toSplit.length === 0)
-        continue;
-      var separator = toSplit.indexOf(":");
-      if(separator === -1) {
-        // Name but no value in the header
-        headers[toSplit] = null;
-        continue;
-      }
-      var name = toSplit.substring(0, separator).trim(),
-          value = toSplit.substring(separator + 1).trim();
-      headers[name] = value;
-    }
+    for(var i = 0; i < headerArray.length / 2; i++)
+      headers[headerArray[i] = headerArray[i+1]];
 
-    var out = {
+    out = {
+      headers: headers,
       url: request.url,
       method: request.method,
       status: response.status,
@@ -1351,8 +1323,8 @@ JQueryHttpClient.prototype.execute = function(obj) {
       return cb.response(out);
   };
 
-  jQuery.support.cors = true;
-  return jQuery.ajax(obj);
+  $.support.cors = true;
+  return $.ajax(obj);
 }
 
 /*
@@ -1468,31 +1440,16 @@ SwaggerAuthorizations.prototype.remove = function(name) {
 };
 
 SwaggerAuthorizations.prototype.apply = function(obj, authorizations) {
-  var status = null;
+  status = null;
   var key;
-
-  // if the "authorizations" key is undefined, or has an empty array, add all keys
-  if(typeof authorizations === 'undefined' || Object.keys(authorizations).length == 0) {
-    for (key in this.authz) {
-      value = this.authz[key];
-      result = value.apply(obj, authorizations);
-      if (result === true)
-        status = true;
-    }
+  for (key in this.authz) {
+    value = this.authz[key];
+    result = value.apply(obj, authorizations);
+    if (result === false)
+      status = false;
+    if (result === true)
+      status = true;
   }
-  else {
-    for(name in authorizations) {
-      for (key in this.authz) {
-        if(key == name) {
-          value = this.authz[key];
-          result = value.apply(obj, authorizations);
-          if (result === true)
-            status = true;
-        }
-      }      
-    }
-  }
-
   return status;
 };
 
@@ -1518,16 +1475,6 @@ ApiKeyAuthorization.prototype.apply = function(obj, authorizations) {
   }
 };
 
-var CookieAuthorization = function(cookie) {
-  this.cookie = cookie;
-}
-
-CookieAuthorization.prototype.apply = function(obj, authorizations) {
-  obj.cookieJar = obj.cookieJar || CookieJar();
-  obj.cookieJar.setCookie(this.cookie);
-  return true;
-}
-
 /**
  * Password Authorization is a basic auth implementation
  */
@@ -1551,7 +1498,6 @@ PasswordAuthorization.prototype.apply = function(obj, authorizations) {
 var e = (typeof window !== 'undefined' ? window : exports);
 
 var sampleModels = {};
-var cookies = {};
 
 e.SampleModels = sampleModels;
 e.SwaggerHttp = SwaggerHttp;
@@ -1559,7 +1505,6 @@ e.SwaggerRequest = SwaggerRequest;
 e.authorizations = new SwaggerAuthorizations();
 e.ApiKeyAuthorization = ApiKeyAuthorization;
 e.PasswordAuthorization = PasswordAuthorization;
-e.CookieAuthorization = CookieAuthorization;
 e.JQueryHttpClient = JQueryHttpClient;
 e.ShredHttpClient = ShredHttpClient;
 e.SwaggerOperation = SwaggerOperation;
@@ -1567,3 +1512,4 @@ e.SwaggerModel = SwaggerModel;
 e.SwaggerModelProperty = SwaggerModelProperty;
 e.SwaggerResource = SwaggerResource;
 e.SwaggerApi = SwaggerApi;
+
