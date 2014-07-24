@@ -14,8 +14,8 @@ class OperationView extends Backbone.View
 
   mouseEnter: (e) ->
     elem = $(e.currentTarget.parentNode).find('#api_information_panel')
-    x = event.pageX
-    y = event.pageY
+    x = e.pageX
+    y = e.pageY
     scX = $(window).scrollLeft()
     scY = $(window).scrollTop()
     scMaxX = scX + $(window).width()
