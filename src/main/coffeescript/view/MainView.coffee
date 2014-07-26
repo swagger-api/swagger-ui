@@ -1,5 +1,8 @@
 class MainView extends Backbone.View
   initialize: ->
+    #Sort routes alphabetically
+    @model.apisArray.sort (a,b) ->
+      return if a.path.toUpperCase() >= b.path.toUpperCase() then 1 else -1
 
   render: ->
     # Render the outer container for resources
