@@ -59,6 +59,7 @@ To use swagger-ui you should take a look at the [source of swagger-ui html page]
 * *dom_id parameter* is the the id of a dom element inside which SwaggerUi will put the user interface for swagger
 * *booleanValues* SwaggerUI renders boolean data types as a dropdown. By default it provides a 'true' and 'false' string as the possible choices. You can use this parameter to change the values in dropdown to be something else, for example 0 and 1 by setting booleanValues to new Array(0, 1)
 * *docExpansion* controls how the API listing is displayed. It can be set to 'none' (default), 'list' (shows operations for each resource), or 'full' (fully expanded: shows operations and their details)
+* *sorter* apply a sort to the API list. It can be 'alpha' (sort paths alphanumerically) or 'method' (sort operations by HTTP method). Default is the order returned by the server unchanged.
 * *onComplete* is a callback function parameter which can be passed to be notified of when SwaggerUI has completed rendering successfully.
 * *onFailure* is a callback function parameter which can be passed to be notified of when SwaggerUI encountered a failure was unable to render.
 * All other parameters are explained in greater detail below
