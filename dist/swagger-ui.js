@@ -2216,9 +2216,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         e.preventDefault();
       }
       $(".snippet", $(this.el)).hide();
-      $(".description", $(this.el)).show();
-      $('.description-link', $(this.el)).addClass('selected');
-      return $('.snippet-link', $(this.el)).removeClass('selected');
+      $('.snippet-link', $(this.el)).removeClass('selected');
+      $(".description", $(this.el)).toggle();
+      return $('.description-link', $(this.el)).toggleClass('selected');
     };
 
     SignatureView.prototype.switchToSnippet = function(e) {
@@ -2226,9 +2226,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         e.preventDefault();
       }
       $(".description", $(this.el)).hide();
-      $(".snippet", $(this.el)).show();
-      $('.snippet-link', $(this.el)).addClass('selected');
-      return $('.description-link', $(this.el)).removeClass('selected');
+      $('.description-link', $(this.el)).removeClass('selected');
+      $(".snippet", $(this.el)).toggle();
+      return $('.snippet-link', $(this.el)).toggleClass('selected');
     };
 
     SignatureView.prototype.snippetToTextArea = function(e) {
