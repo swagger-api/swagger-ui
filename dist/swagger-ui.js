@@ -2039,44 +2039,47 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       template = this.template();
       $(this.el).html(template(this.model));
       listType = this.isListType(this.model.responseModel);
-      if (swaggerUi.api.models.hasOwnProperty(listType || this.model.responseModel)) {
+      isPrimitive = false;
+      if ((listType !== null && swaggerUi.api.models[listType]) || swaggerUi.api.models[this.model.responseModel]) {
         isPrimitive = false;
-        if ((listType !== null && swaggerUi.api.models[listType]) || swaggerUi.api.models[this.model.responseModel] !== null) {
-          isPrimitive = false;
-        } else {
-          isPrimitive = true;
-        }
-        jsonSample = null;
-        mockSignature = null;
-        if (isPrimitive) {
-          jsonSample = void 0;
-          mockSignature = void 0;
-        } else if (listType) {
-          jsonSample = '[' + JSON.stringify(swaggerUi.api.models[listType].createJSONSample(), null, 2) + ']';
-          mockSignature = '<span class="strong">Array of </span>' + swaggerUi.api.models[listType].getMockSignature();
-        } else {
-          jsonSample = JSON.stringify(swaggerUi.api.models[this.model.responseModel].createJSONSample(), null, 2);
-          mockSignature = swaggerUi.api.models[this.model.responseModel].getMockSignature();
-        }
-        if (mockSignature.indexOf('{') > -1) {
-          modelLabel = mockSignature.substring(0, mockSignature.indexOf('{')) + '</span>';
-        } else {
-          modelLabel = mockSignature;
-        }
-        responseModel = {
-          modelLabel: modelLabel,
-          sampleJSON: jsonSample,
-          isParam: false,
-          signature: mockSignature
-        };
-        responseModelView = new SignatureView({
-          model: responseModel,
-          tagName: 'div'
-        });
-        $('.model-signature', this.$el).append(responseModelView.render().el);
       } else {
-        $('.model-signature', this.$el).html('');
+        isPrimitive = true;
       }
+      jsonSample = null;
+      mockSignature = null;
+      if (isPrimitive) {
+        jsonSample = SwaggerModelProperty.prototype.toSampleValue(listType || this.model.responseModel);
+        mockSignature = listType || this.model.responseModel;
+        if ((listType || this.model.responseModel) === 'string') {
+          jsonSample = '"' + jsonSample + '"';
+        }
+        if (listType) {
+          jsonSample = '[' + jsonSample + ']';
+          mockSignature = '<span class="strong">Array of ' + mockSignature + '</span>';
+        }
+      } else if (listType) {
+        jsonSample = '[' + JSON.stringify(swaggerUi.api.models[listType].createJSONSample(), null, 2) + ']';
+        mockSignature = '<span class="strong">Array of </span>' + swaggerUi.api.models[listType].getMockSignature();
+      } else {
+        jsonSample = JSON.stringify(swaggerUi.api.models[this.model.responseModel].createJSONSample(), null, 2);
+        mockSignature = swaggerUi.api.models[this.model.responseModel].getMockSignature();
+      }
+      if (mockSignature.indexOf('{') > -1) {
+        modelLabel = mockSignature.substring(0, mockSignature.indexOf('{')) + '</span>';
+      } else {
+        modelLabel = mockSignature;
+      }
+      responseModel = {
+        modelLabel: modelLabel,
+        sampleJSON: jsonSample,
+        isParam: false,
+        signature: mockSignature
+      };
+      responseModelView = new SignatureView({
+        model: responseModel,
+        tagName: 'div'
+      });
+      $('.model-signature', this.$el).append(responseModelView.render().el);
       return this;
     };
 
