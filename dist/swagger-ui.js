@@ -1,5 +1,5 @@
 // swagger-ui.js
-// version 2.0.17
+// version 2.0.18
 $(function() {
 
 	// Helper function for vertically aligning DOM elements
@@ -1298,7 +1298,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       this.showMessage('Finished Loading Resource Information. Rendering Swagger UI...');
       this.mainView = new MainView({
         model: this.api,
-        el: $('#' + this.dom_id)
+        el: $('#' + this.dom_id),
+        swaggerOptions: this.options
       }).render();
       this.showMessage();
       switch (this.options.docExpansion) {
@@ -1443,6 +1444,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   })(Backbone.View);
 
   MainView = (function(_super) {
+    var sorters;
+
     __extends(MainView, _super);
 
     function MainView() {
@@ -1450,7 +1453,33 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       return _ref2;
     }
 
-    MainView.prototype.initialize = function() {};
+    sorters = {
+      'alpha': function(a, b) {
+        return a.path.localeCompare(b.path);
+      },
+      'method': function(a, b) {
+        return a.method.localeCompare(b.method);
+      }
+    };
+
+    MainView.prototype.initialize = function(opts) {
+      var route, sorter, sorterName, _i, _len, _ref3;
+      if (opts == null) {
+        opts = {};
+      }
+      if (opts.swaggerOptions.sorter) {
+        sorterName = opts.swaggerOptions.sorter;
+        sorter = sorters[sorterName];
+        _ref3 = this.model.apisArray;
+        for (_i = 0, _len = _ref3.length; _i < _len; _i++) {
+          route = _ref3[_i];
+          route.operationsArray.sort(sorter);
+        }
+        if (sorterName === "alpha") {
+          return this.model.apisArray.sort(sorter);
+        }
+      }
+    };
 
     MainView.prototype.render = function() {
       var counter, id, resource, resources, _i, _len, _ref3;
@@ -1563,8 +1592,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     OperationView.prototype.mouseEnter = function(e) {
       var elem, hgh, pos, scMaxX, scMaxY, scX, scY, wd, x, y;
       elem = $(e.currentTarget.parentNode).find('#api_information_panel');
-      x = event.pageX;
-      y = event.pageY;
+      x = e.pageX;
+      y = e.pageY;
       scX = $(window).scrollLeft();
       scY = $(window).scrollTop();
       scMaxX = scX + $(window).width();
@@ -1992,7 +2021,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       $(".request_url", $(this.el)).html("<pre>" + url + "</pre>");
       $(".response_code", $(this.el)).html("<pre>" + response.status + "</pre>");
       $(".response_body", $(this.el)).html(response_body);
-      $(".response_headers", $(this.el)).html("<pre>" + JSON.stringify(response.headers, null, "  ").replace(/\n/g, "<br>") + "</pre>");
+      $(".response_headers", $(this.el)).html("<pre>" + _.escape(JSON.stringify(response.headers, null, "  ")).replace(/\n/g, "<br>") + "</pre>");
       $(".response", $(this.el)).slideDown();
       $(".response_hider", $(this.el)).show();
       $(".response_throbber", $(this.el)).hide();
@@ -2200,9 +2229,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       var template;
       template = this.template();
       $(this.el).html(template(this.model));
-      this.switchToDescription();
-      $('.description-link', $(this.el)).removeClass('selected');
-      $(".description", $(this.el)).hide();
+      this.switchToSnippet();
+      $('.snippet-link', $(this.el)).removeClass('selected');
+      $(".snippet", $(this.el)).hide();
       this.isParam = this.model.isParam;
       if (this.isParam) {
         $('.notice', $(this.el)).text('Click to set as parameter value');

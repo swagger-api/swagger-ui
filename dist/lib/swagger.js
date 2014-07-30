@@ -372,20 +372,24 @@ var SwaggerResource = function(resourceObj, api) {
   }
 }
 
-SwaggerResource.prototype.getAbsoluteBasePath = function(relativeBasePath) {
-  var parts, pos, url;
+SwaggerResource.prototype.getAbsoluteBasePath = function (relativeBasePath) {
+  var pos, url;
   url = this.api.basePath;
   pos = url.lastIndexOf(relativeBasePath);
-  if (pos === -1) {
-    parts = url.split("/");
-    url = parts[0] + "//" + parts[2];
+  var parts = url.split("/");
+  var rootUrl = parts[0] + "//" + parts[2];
+  //if the relative path is '/' return the root url
+  if (relativeBasePath === '/'){
+    return rootUrl
+  }
+  //if the relative path is not in the base path
+  else if (pos === -1 ) {
     if (relativeBasePath.indexOf("/") === 0) {
       return url + relativeBasePath;
     } else {
       return url + "/" + relativeBasePath;
     }
-  } else if (relativeBasePath === "/") {
-    return url.substring(0, pos);
+    //If the relative path is in the base path
   } else {
     return url.substring(0, pos) + relativeBasePath;
   }
@@ -1275,7 +1279,7 @@ SwaggerHttp.prototype.isIE8 = function() {
 var JQueryHttpClient = function(options) {
   "use strict";
   if(!jQuery){
-      var jQuery = window.jQuery;
+    var jQuery = window.jQuery;
   }
 }
 
@@ -1350,7 +1354,7 @@ JQueryHttpClient.prototype.execute = function(obj) {
     else
       return cb.response(out);
   };
-  
+
   jQuery.support.cors = true;
   return jQuery.ajax(obj);
 }
@@ -1471,8 +1475,8 @@ SwaggerAuthorizations.prototype.apply = function(obj, authorizations) {
   var status = null;
   var key;
 
-  if(typeof authorizations === 'undefined') {
-    // apply all keys since no authorizations hash is defined
+  // if the "authorizations" key is undefined, or has an empty array, add all keys
+  if(typeof authorizations === 'undefined' || Object.keys(authorizations).length == 0) {
     for (key in this.authz) {
       value = this.authz[key];
       result = value.apply(obj, authorizations);

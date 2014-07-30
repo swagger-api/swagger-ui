@@ -14,8 +14,8 @@ class OperationView extends Backbone.View
 
   mouseEnter: (e) ->
     elem = $(e.currentTarget.parentNode).find('#api_information_panel')
-    x = event.pageX
-    y = event.pageY
+    x = e.pageX
+    y = e.pageY
     scX = $(window).scrollLeft()
     scY = $(window).scrollTop()
     scMaxX = scX + $(window).width()
@@ -361,7 +361,7 @@ class OperationView extends Backbone.View
     $(".request_url", $(@el)).html "<pre>" + url + "</pre>"
     $(".response_code", $(@el)).html "<pre>" + response.status + "</pre>"
     $(".response_body", $(@el)).html response_body
-    $(".response_headers", $(@el)).html "<pre>" + JSON.stringify(response.headers, null, "  ").replace(/\n/g, "<br>") + "</pre>"
+    $(".response_headers", $(@el)).html "<pre>" + _.escape(JSON.stringify(response.headers, null, "  ")).replace(/\n/g, "<br>") + "</pre>"
     $(".response", $(@el)).slideDown()
     $(".response_hider", $(@el)).show()
     $(".response_throbber", $(@el)).hide()
