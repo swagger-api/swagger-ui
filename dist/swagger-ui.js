@@ -1283,7 +1283,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         _ref1.clear();
       }
       url = this.options.url;
-      if (url.indexOf("http") !== 0) {
+      if (url.indexOf("http") !== 0 && url.indexOf("file") !== 0) {
         url = this.buildUrl(window.location.href.toString(), url);
       }
       this.options.url = url;
