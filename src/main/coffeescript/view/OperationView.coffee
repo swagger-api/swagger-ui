@@ -365,7 +365,10 @@ class OperationView extends Backbone.View
     $(".response", $(@el)).slideDown()
     $(".response_hider", $(@el)).show()
     $(".response_throbber", $(@el)).hide()
-    hljs.highlightBlock($('.response_body', $(@el))[0])
+    response_body_el = $('.response_body', $(@el))[0]
+    # only highlight the response if response is less than threshold, default state is highlight response
+    opts = @options.swaggerOptions
+    if opts.highlightSizeThreshold && response.data.length > opts.highlightSizeThreshold then response_body_el else hljs.highlightBlock(response_body_el)
 
   toggleOperationContent: ->
     elem = $('#' + Docs.escapeResourceName(@model.parentId) + "_" + @model.nickname + "_content")
