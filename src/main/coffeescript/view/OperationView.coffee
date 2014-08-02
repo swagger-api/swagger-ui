@@ -162,7 +162,7 @@ class OperationView extends Backbone.View
     # add params
     for param in @model.parameters
       if param.paramType is 'form'
-        if map[param.name] != undefined
+        if param.type.toLowerCase() isnt 'file' and map[param.name] != undefined
             bodyParam.append(param.name, map[param.name])
 
     # headers in operation
@@ -178,8 +178,6 @@ class OperationView extends Backbone.View
       if typeof el.files[0] isnt 'undefined'
         bodyParam.append($(el).attr('name'), el.files[0])
         params += 1
-
-    log(bodyParam)
 
     @invocationUrl = 
       if @model.supportHeaderParams()
