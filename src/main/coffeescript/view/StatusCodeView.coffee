@@ -34,7 +34,7 @@ class StatusCodeView extends Backbone.View
     else
       jsonSample = JSON.stringify(swaggerUi.api.models[@model.responseModel].createJSONSample(), null, 2)
       mockSignature = swaggerUi.api.models[@model.responseModel].getMockSignature()
-    if mockSignature.indexOf('{') > -1
+    if mockSignature && mockSignature.indexOf('{') > -1
       modelLabel = mockSignature.substring(0, mockSignature.indexOf('{')) + '</span>'
     else
       modelLabel = mockSignature

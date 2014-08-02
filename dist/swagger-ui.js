@@ -2093,7 +2093,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         jsonSample = JSON.stringify(swaggerUi.api.models[this.model.responseModel].createJSONSample(), null, 2);
         mockSignature = swaggerUi.api.models[this.model.responseModel].getMockSignature();
       }
-      if (mockSignature.indexOf('{') > -1) {
+      if (mockSignature && mockSignature.indexOf('{') > -1) {
         modelLabel = mockSignature.substring(0, mockSignature.indexOf('{')) + '</span>';
       } else {
         modelLabel = mockSignature;
