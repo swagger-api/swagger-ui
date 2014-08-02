@@ -1,5 +1,5 @@
 // swagger-ui.js
-// version 2.0.19
+// version 2.0.20
 $(function() {
 
 	// Helper function for vertically aligning DOM elements
@@ -1495,7 +1495,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         model: resource,
         tagName: 'li',
         id: 'resource_' + resource.id,
-        className: 'resource'
+        className: 'resource',
+        swaggerOptions: this.options.swaggerOptions
       });
       return $('#resources').append(resourceView.render().el);
     };
@@ -1545,7 +1546,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       operationView = new OperationView({
         model: operation,
         tagName: 'li',
-        className: 'endpoint'
+        className: 'endpoint',
+        swaggerOptions: this.options.swaggerOptions
       });
       $('.endpoints', $(this.el)).append(operationView.render().el);
       return this.number++;
@@ -1975,7 +1977,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     OperationView.prototype.showStatus = function(response) {
-      var code, content, contentType, headers, pre, response_body, url;
+      var code, content, contentType, headers, opts, pre, response_body, response_body_el, url;
       if (response.content === void 0) {
         content = response.data;
         url = response.url;
@@ -2011,7 +2013,13 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       $(".response", $(this.el)).slideDown();
       $(".response_hider", $(this.el)).show();
       $(".response_throbber", $(this.el)).hide();
-      return hljs.highlightBlock($('.response_body', $(this.el))[0]);
+      response_body_el = $('.response_body', $(this.el))[0];
+      opts = this.options.swaggerOptions;
+      if (opts.highlightSizeThreshold && response.data.length > opts.highlightSizeThreshold) {
+        return response_body_el;
+      } else {
+        return hljs.highlightBlock(response_body_el);
+      }
     };
 
     OperationView.prototype.toggleOperationContent = function() {
