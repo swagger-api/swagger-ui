@@ -62,6 +62,7 @@ To use swagger-ui you should take a look at the [source of swagger-ui html page]
 * *sorter* apply a sort to the API list. It can be 'alpha' (sort paths alphanumerically) or 'method' (sort operations by HTTP method). Default is the order returned by the server unchanged.
 * *onComplete* is a callback function parameter which can be passed to be notified of when SwaggerUI has completed rendering successfully.
 * *onFailure* is a callback function parameter which can be passed to be notified of when SwaggerUI encountered a failure was unable to render.
+* *highlightSizeThreshold* any size response below this threshold will be highlighted syntactically, attempting to highlight large responses can lead to browser hangs, not including a threshold will default to highlight all returned responses
 * All other parameters are explained in greater detail below
 
 
