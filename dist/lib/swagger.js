@@ -1,5 +1,5 @@
 // swagger.js
-// version 2.0.34
+// version 2.0.36
 
 var __bind = function(fn, me){
   return function(){
@@ -1104,27 +1104,47 @@ var SwaggerRequest = function(type, url, params, opts, successCallback, errorCal
   var body = params.body;
 
   // encode the body for form submits
-  if (headers["Accept"] && headers["Accept"].indexOf("application/x-www-form-urlencoded") === 0) {
-    var fields = {};
-    var possibleParams = {};
+  if (headers["Content-Type"]) {
     var values = {};
-    var key;
-    for(key in formParams){
-      var param = formParams[key];
-      values[param.name] = param;
+    var i;
+    var operationParams = this.operation.parameters;
+    for(i = 0; i < operationParams.length; i++) {
+      var param = operationParams[i];
+      if(param.paramType === "form")
+        values[param.name] = param;
     }
 
-    var encoded = "";
-    var key;
-    for(key in values) {
-      value = this.params[key];
-      if(typeof value !== 'undefined'){
-        if(encoded !== "")
-          encoded += "&";
-        encoded += encodeURIComponent(key) + '=' + encodeURIComponent(value);
+    if(headers["Content-Type"].indexOf("application/x-www-form-urlencoded") === 0) {
+      var encoded = "";
+      var key;
+      for(key in values) {
+        value = this.params[key];
+        if(typeof value !== 'undefined'){
+          if(encoded !== "")
+            encoded += "&";
+          encoded += encodeURIComponent(key) + '=' + encodeURIComponent(value);
+        }
       }
+      body = encoded;
     }
-    body = encoded;
+    else if (headers["Content-Type"].indexOf("multipart/form-data") === 0) {
+      // encode the body for form submits
+      var data = "";
+      var boundary = "----SwaggerFormBoundary" + Date.now();
+      var key;
+      for(key in values) {
+        value = this.params[key];
+        if(typeof value !== 'undefined') {
+          data += '--' + boundary + '\n';
+          data += 'Content-Disposition: form-data; name="' + key + '"';
+          data += '\n\n';
+          data += value + "\n";
+        }
+      }
+      data += "--" + boundary + "--\n";
+      headers["Content-Type"] = "multipart/form-data; boundary=" + boundary;
+      body = data;
+    }
   }
 
   if (!((this.headers != null) && (this.headers.mock != null))) {
@@ -1203,9 +1223,9 @@ SwaggerRequest.prototype.setHeaders = function(params, operation) {
     // if any form params, content type must be set
     if(definedFormParams.length > 0) {
       if(definedFileParams.length > 0)
-        accepts = "multipart/form-data";
+        consumes = "multipart/form-data";
       else
-        accepts = "application/x-www-form-urlencoded";
+        consumes = "application/x-www-form-urlencoded";
     }
     else if (this.type == "DELETE")
       body = "{}";
@@ -1213,10 +1233,10 @@ SwaggerRequest.prototype.setHeaders = function(params, operation) {
       accepts = null;
   }
 
-  if (contentType && this.operation.consumes) {
-    if (this.operation.consumes.indexOf(contentType) === -1) {
-      log("server doesn't consume " + contentType + ", try " + JSON.stringify(this.operation.consumes));
-      contentType = this.operation.consumes[0];
+  if (consumes && this.operation.consumes) {
+    if (this.operation.consumes.indexOf(consumes) === -1) {
+      log("server doesn't consume " + consumes + ", try " + JSON.stringify(this.operation.consumes));
+      consumes = this.operation.consumes[0];
     }
   }
 
@@ -1231,33 +1251,11 @@ SwaggerRequest.prototype.setHeaders = function(params, operation) {
       accepts = this.operation.produces[0];
     }
   }
-  if (contentType && contentType.indexOf("application/x-www-form-urlencoded") === 0) {
-    var fields = {};
-    var possibleParams = {};
-    var values = {};
-    var key;
-    for(key in formParams){
-      var param = formParams[key];
-      values[param.name] = param;
-    }
 
-    var encoded = "";
-    var key;
-    for(key in values) {
-      value = this.params[key];
-      if(typeof value !== 'undefined'){
-        if(encoded !== "")
-          encoded += "&";
-        encoded += encodeURIComponent(key) + '=' + encodeURIComponent(value);
-      }
-    }
-    body = encoded;
-  }
-  if ((contentType && body !== "") || (contentType === "application/x-www-form-urlencoded"))
-    headers["Content-Type"] = contentType;
+  if ((consumes && body !== "") || (consumes === "application/x-www-form-urlencoded"))
+    headers["Content-Type"] = consumes;
   if (accepts)
     headers["Accept"] = accepts;
-
   return headers;
 }
 
