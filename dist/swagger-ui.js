@@ -1,5 +1,5 @@
 // swagger-ui.js
-// version 2.0.18
+// version 2.0.19
 $(function() {
 
 	// Helper function for vertically aligning DOM elements
@@ -308,23 +308,6 @@ function program8(depth0,data) {
   stack1 = helpers['if'].call(depth0, depth0.apiVersion, {hash:{},inverse:self.noop,fn:self.program(8, program8, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "]</h4>\n    </div>\n</div>\n";
-  return buffer;
-  });
-})();
-
-(function() {
-  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
-templates['oauth_view'] = template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
-
-
-  buffer += "<div class='auth_button' id='oauth_button'><img class='auth_icon' alt='apply api key' src='images/oauth.jpeg'></div>\n<div class='auth_container' id='oauth_container'>\n  <div class='key_input_container'>\n    <div class='auth_label'>";
-  if (stack1 = helpers.keyName) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.keyName; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</div>\n    <div class='auth_submit'><a class='auth_submit_button' id=\"apply_basic_auth\" href=\"#\">apply</a></div>\n  </div>\n</div>\n";
   return buffer;
   });
 })();
