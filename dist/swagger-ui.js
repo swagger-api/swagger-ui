@@ -1,5 +1,5 @@
 // swagger-ui.js
-// version 2.0.18
+// version 2.0.21
 $(function() {
 
 	// Helper function for vertically aligning DOM elements
@@ -68,7 +68,7 @@ log = function(){
   log.history = log.history || [];
   log.history.push(arguments);
   if(this.console){
-    console.log( Array.prototype.slice.call(arguments) );
+    console.log( Array.prototype.slice.call(arguments)[0] );
   }
 };
 
@@ -567,7 +567,7 @@ function program9(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n		";
-  stack1 = helpers['if'].call(depth0, depth0.defaultValue, {hash:{},inverse:self.program(12, program12, data),fn:self.program(10, program10, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.isFile, {hash:{},inverse:self.program(10, program10, data),fn:self.program(2, program2, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n	";
   return buffer;
@@ -575,7 +575,16 @@ function program9(depth0,data) {
 function program10(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n			<input class='parameter' minlength='0' name='";
+  buffer += "\n			";
+  stack1 = helpers['if'].call(depth0, depth0.defaultValue, {hash:{},inverse:self.program(13, program13, data),fn:self.program(11, program11, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n		";
+  return buffer;
+  }
+function program11(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n				<input class='parameter' minlength='0' name='";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -583,18 +592,18 @@ function program10(depth0,data) {
   if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "'/>\n		";
+    + "'/>\n			";
   return buffer;
   }
 
-function program12(depth0,data) {
+function program13(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n			<input class='parameter' minlength='0' name='";
+  buffer += "\n				<input class='parameter' minlength='0' name='";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "' placeholder='' type='text' value=''/>\n		";
+    + "' placeholder='' type='text' value=''/>\n			";
   return buffer;
   }
 
@@ -1507,7 +1516,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         model: resource,
         tagName: 'li',
         id: 'resource_' + resource.id,
-        className: 'resource'
+        className: 'resource',
+        swaggerOptions: this.options.swaggerOptions
       });
       return $('#resources').append(resourceView.render().el);
     };
@@ -1558,7 +1568,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       operationView = new OperationView({
         model: operation,
         tagName: 'li',
-        className: 'endpoint'
+        className: 'endpoint',
+        swaggerOptions: this.options.swaggerOptions
       });
       $('.endpoints', $(this.el)).append(operationView.render().el);
       return this.number++;
@@ -1798,7 +1809,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       for (_j = 0, _len1 = _ref6.length; _j < _len1; _j++) {
         param = _ref6[_j];
         if (param.paramType === 'form') {
-          if (map[param.name] !== void 0) {
+          if (param.type.toLowerCase() !== 'file' && map[param.name] !== void 0) {
             bodyParam.append(param.name, map[param.name]);
           }
         }
@@ -1820,7 +1831,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           params += 1;
         }
       }
-      log(bodyParam);
       this.invocationUrl = this.model.supportHeaderParams() ? (headerParams = this.model.getHeaderParams(map), this.model.urlify(map, false)) : this.model.urlify(map, true);
       $(".request_url", $(this.el)).html("<pre>" + this.invocationUrl + "</pre>");
       obj = {
@@ -1989,7 +1999,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     OperationView.prototype.showStatus = function(response) {
-      var code, content, contentType, headers, pre, response_body, url;
+      var code, content, contentType, headers, opts, pre, response_body, response_body_el, url;
       if (response.content === void 0) {
         content = response.data;
         url = response.url;
@@ -2025,7 +2035,13 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       $(".response", $(this.el)).slideDown();
       $(".response_hider", $(this.el)).show();
       $(".response_throbber", $(this.el)).hide();
-      return hljs.highlightBlock($('.response_body', $(this.el))[0]);
+      response_body_el = $('.response_body', $(this.el))[0];
+      opts = this.options.swaggerOptions;
+      if (opts.highlightSizeThreshold && response.data.length > opts.highlightSizeThreshold) {
+        return response_body_el;
+      } else {
+        return hljs.highlightBlock(response_body_el);
+      }
     };
 
     OperationView.prototype.toggleOperationContent = function() {

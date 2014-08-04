@@ -162,7 +162,7 @@ class OperationView extends Backbone.View
     # add params
     for param in @model.parameters
       if param.paramType is 'form'
-        if map[param.name] != undefined
+        if param.type.toLowerCase() isnt 'file' and map[param.name] != undefined
             bodyParam.append(param.name, map[param.name])
 
     # headers in operation
@@ -178,8 +178,6 @@ class OperationView extends Backbone.View
       if typeof el.files[0] isnt 'undefined'
         bodyParam.append($(el).attr('name'), el.files[0])
         params += 1
-
-    log(bodyParam)
 
     @invocationUrl = 
       if @model.supportHeaderParams()
@@ -365,7 +363,10 @@ class OperationView extends Backbone.View
     $(".response", $(@el)).slideDown()
     $(".response_hider", $(@el)).show()
     $(".response_throbber", $(@el)).hide()
-    hljs.highlightBlock($('.response_body', $(@el))[0])
+    response_body_el = $('.response_body', $(@el))[0]
+    # only highlight the response if response is less than threshold, default state is highlight response
+    opts = @options.swaggerOptions
+    if opts.highlightSizeThreshold && response.data.length > opts.highlightSizeThreshold then response_body_el else hljs.highlightBlock(response_body_el)
 
   toggleOperationContent: ->
     elem = $('#' + Docs.escapeResourceName(@model.parentId) + "_" + @model.nickname + "_content")
