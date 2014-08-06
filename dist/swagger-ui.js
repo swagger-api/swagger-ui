@@ -1209,8 +1209,19 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 templates['status_code'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
 
+function program1(depth0,data) {
+  
+  
+  return "\n  <span class=\"model-signature\" />\n  ";
+  }
+
+function program3(depth0,data) {
+  
+  
+  return "\n  &nbsp;\n  ";
+  }
 
   buffer += "<td width='15%' class='code'>";
   if (stack1 = helpers.code) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
@@ -1220,7 +1231,10 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (stack1 = helpers.message) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.message; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</td>\n<td width='50%'><span class=\"model-signature\" /></td>";
+  buffer += "</td>\n<td width='50%'>\n  ";
+  stack1 = helpers['if'].call(depth0, depth0.hasResponseModel, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n</td>";
   return buffer;
   });
 })();
@@ -2082,6 +2096,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     StatusCodeView.prototype.render = function() {
       var isPrimitive, jsonSample, listType, mockSignature, modelLabel, responseModel, responseModelView, template;
       template = this.template();
+      this.model.hasResponseModel = this.model.responseModel && this.model.responseModel !== 'void';
       $(this.el).html(template(this.model));
       listType = this.isListType(this.model.responseModel);
       isPrimitive = false;

@@ -11,6 +11,7 @@ class StatusCodeView extends Backbone.View
 
   render: ->
     template = @template()
+    @model.hasResponseModel = @model.responseModel && @model.responseModel != 'void'
     $(@el).html(template(@model))
     listType = @isListType(@model.responseModel)
     isPrimitive = false
