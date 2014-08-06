@@ -13,13 +13,13 @@
     {{/if}}
     {{#each allowableValues.descriptiveValues}}
       {{#if isDefault}}
-        <option selected="" value='{{value}}'>{{value}} (default)</option>
+        <option selected="" value='{{join value}}'>{{join value}} (default)</option>
       {{else}}
-        <option value='{{value}}'>{{value}}</option>
+        <option value='{{join value}}'>{{join value}}</option>
       {{/if}}
     {{/each}}
   </select>
 </td>
-<td>{{{description}}}</td>
+<td>{{{join description}}}</td>
 <td>{{{paramType}}}</td>
 <td><span class="model-signature"></span></td>

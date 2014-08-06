@@ -18,7 +18,7 @@
       </div>
       <div class='content' id='{{parentId}}_{{nickname}}_content' style='display:none'>
         {{#if notes}}
-        <p>{{{notes}}}</p>
+        <p>{{{join notes}}}</p>
         {{/if}}
         {{#oauth}}
         <div class="auth">
@@ -26,7 +26,7 @@
         {{#each oauth}}
           <div id="api_information_panel" style="top: 526px; left: 776px; display: none;">
           {{#each this}}
-            <div title='{{{this.description}}}'>{{this.scope}}</div>
+            <div title='{{{join this.description}}}'>{{this.scope}}</div>
           {{/each}}
           </div>
         {{/each}}

@@ -12,7 +12,13 @@ class MainView extends Backbone.View
         route.operationsArray.sort sorter
       if (sorterName == "alpha") # sort top level paths if alpha 
         @model.apisArray.sort sorter
- 
+
+    Handlebars.registerHelper 'join', (input, opts) ->
+      if Array.isArray(input)
+        input.join(opts[0] || ' ')
+      else
+        input
+
   render: ->
     # Render the outer container for resources
     $(@el).html(Handlebars.templates.main(@model))
