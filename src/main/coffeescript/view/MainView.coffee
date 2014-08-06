@@ -1,7 +1,7 @@
 class MainView extends Backbone.View
   sorters = {
-    'alpha'   : (a,b) -> return a.path.localeCompare(b.path),
-    'method'  : (a,b) -> return a.method.localeCompare(b.method),
+    'alpha'   : (a,b) -> return a.path.localeCompare(b.path)
+    'method'  : (a,b) -> return a.method.localeCompare(b.method)
   }
 
   initialize: (opts={}) ->
