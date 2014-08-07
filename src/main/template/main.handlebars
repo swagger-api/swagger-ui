@@ -1,7 +1,7 @@
 <div class='info' id='api_info'>
   {{#if info}}
-    <div class="info_title">{{info.title}}</div>
-    <div class="info_description">{{{join info.description}}}</div>
+    {{#if info.title}}<div class="info_title">{{info.title}}</div>{{/if}}
+    {{#if info.description}}<div class="info_description">{{{join info.description}}}</div>{{/if}}
     {{#if info.termsOfServiceUrl}}<div class="info_tos"><a href="{{info.termsOfServiceUrl}}">Terms of service</a></div>{{/if}}
     {{#if info.contact}}<div class='info_contact'><a href="mailto:{{info.contact}}">Contact the developer</a></div>{{/if}}
     {{#if info.license}}<div class='info_license'><a href='{{info.licenseUrl}}'>{{info.license}}</a></div>{{/if}}
