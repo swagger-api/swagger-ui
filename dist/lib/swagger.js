@@ -593,6 +593,7 @@ var SwaggerModelProperty = function(name, obj) {
   this.isCollection = this.dataType && (this.dataType.toLowerCase() === 'array' || this.dataType.toLowerCase() === 'list' || this.dataType.toLowerCase() === 'set');
   this.descr = obj.description;
   this.required = obj.required;
+  this.defaultValue = obj.defaultValue;
   if (obj.items != null) {
     if (obj.items.type != null) {
       this.refDataType = obj.items.type;
@@ -620,6 +621,9 @@ var SwaggerModelProperty = function(name, obj) {
 
 SwaggerModelProperty.prototype.getSampleValue = function(modelsToIgnore) {
   var result;
+  if (this.defaultValue) {
+    return this.defaultValue;
+  }
   if ((this.refModel != null) && (modelsToIgnore.indexOf(prop.refModel.name) === -1)) {
     result = this.refModel.createJSONSample(modelsToIgnore);
   } else {
