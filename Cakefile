@@ -55,6 +55,7 @@ task 'dist', 'Build a distribution', ->
 
 
   build = ->
+    lessc()
     console.log '   : Collecting Coffeescript source...'
 
     appContents.push '\n\n'
@@ -77,7 +78,7 @@ task 'dist', 'Build a distribution', ->
             console.log '   : Minifying all...'
             exec 'java -jar "./bin/yuicompressor-2.4.7.jar" --type js -o ' + 'dist/swagger-ui.min.js ' + 'dist/swagger-ui.js', (err, stdout, stderr) ->
               throw err if err
-              lessc()
+              pack()
 
   lessc = ->
     # Someone who knows CoffeeScript should make this more Coffee-licious
