@@ -1,5 +1,6 @@
-# Swagger UI
+# Clover Swagger UI
 
+This is Clover's fork of Wordnik's Swagger-Ui project. Clover releases begin from version 2.0.19 onwards. View CHANGELOG.md, or the 'Releases' tab of the Github repo for detailed information on each release.
 
 Swagger UI is part of Swagger project.  The Swagger project allows you to produce, visualize and consume your OWN RESTful services.  No proxy or 3rd party services required.  Do it your own way.
 
