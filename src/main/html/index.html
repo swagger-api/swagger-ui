@@ -49,14 +49,16 @@
       });
     });
 
-    $('#input_apiKey').change(function() {
-      var key = $('#input_apiKey')[0].value;
+    $('#input_apiToken').change(function() {
+      var key = $('#input_apiToken')[0].value;
       log("key: " + key);
       if(key && key.trim() != "") {
         log("added key " + key);
         window.authorizations.add("key", new ApiKeyAuthorization("Authorization","Bearer " + key, "header"));
       }
     })
+    $('#mId_selector').submit(function() {return false});
+    $('#api_selector').submit(function() {return false});
     window.swaggerUi.load();
   });
   </script>
@@ -69,7 +71,7 @@
       <div class='input'><input placeholder="Merchant ID (mID)" id="input_mId" name="input_mId" type="text"/></div>
     </form>
     <form id='api_selector'>
-      <div class='input'><input placeholder="API Token" id="input_apiKey" name="apiKey" type="text"/></div>
+      <div class='input'><input placeholder="API Token" id="input_apiToken" name="apiKey" type="text"/></div>
     </form>
   </div>
 </div>
