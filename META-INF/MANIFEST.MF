@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: swagger-ui
+Bundle-SymbolicName: swagger-ui;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.core.runtime,org.eclipse.equinox.http.registry
+Import-Package: javax.servlet;version="[2,4)",javax.servlet.http;version="[2,4)"
