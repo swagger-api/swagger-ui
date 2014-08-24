@@ -1810,7 +1810,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         }
       }
       this.invocationUrl = this.model.supportHeaderParams() ? (headerParams = this.model.getHeaderParams(map), this.model.urlify(map, false)) : this.model.urlify(map, true);
-      $(".request_url", $(this.el)).html("<pre>" + this.invocationUrl + "</pre>");
+      $(".request_url", $(this.el)).html("<pre></pre>");
+      $(".request_url pre", $(this.el)).text(this.invocationUrl);
       obj = {
         type: this.model.method,
         url: this.invocationUrl,
@@ -2006,7 +2007,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         pre = $('<pre class="json" />').append(code);
       }
       response_body = pre;
-      $(".request_url", $(this.el)).html("<pre>" + url + "</pre>");
+      $(".request_url", $(this.el)).html("<pre></pre>");
+      $(".request_url pre", $(this.el)).text(url);
       $(".response_code", $(this.el)).html("<pre>" + response.status + "</pre>");
       $(".response_body", $(this.el)).html(response_body);
       $(".response_headers", $(this.el)).html("<pre>" + _.escape(JSON.stringify(response.headers, null, "  ")).replace(/\n/g, "<br>") + "</pre>");

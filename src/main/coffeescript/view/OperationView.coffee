@@ -186,8 +186,9 @@ class OperationView extends Backbone.View
       else
         @model.urlify(map, true)
 
-    $(".request_url", $(@el)).html "<pre>" + @invocationUrl + "</pre>"
-
+    $(".request_url", $(@el)).html("<pre></pre>") 
+    $(".request_url pre", $(@el)).text(@invocationUrl);
+    
     obj = 
       type: @model.method
       url: @invocationUrl
@@ -356,7 +357,8 @@ class OperationView extends Backbone.View
       pre = $('<pre class="json" />').append(code)
 
     response_body = pre
-    $(".request_url", $(@el)).html "<pre>" + url + "</pre>"
+    $(".request_url", $(@el)).html("<pre></pre>") 
+    $(".request_url pre", $(@el)).text(url);
     $(".response_code", $(@el)).html "<pre>" + response.status + "</pre>"
     $(".response_body", $(@el)).html response_body
     $(".response_headers", $(@el)).html "<pre>" + _.escape(JSON.stringify(response.headers, null, "  ")).replace(/\n/g, "<br>") + "</pre>"
