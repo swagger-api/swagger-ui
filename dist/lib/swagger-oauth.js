@@ -74,13 +74,13 @@ function handleLogin() {
 
     var authSchemes = window.swaggerUi.api.authSchemes;
     var host = window.location;
-    var redirectUrl = host.protocol + '//' + host.host + "/o2c.html";
+    var pathname = location.pathname.substring(0, location.pathname.lastIndexOf("/"));
+    var redirectUrl = host.protocol + '//' + host.host + pathname + "/o2c.html";
     var url = null;
 
-    var p = window.swaggerUi.api.authSchemes;
-    for (var key in p) {
-      if (p.hasOwnProperty(key)) {
-        var o = p[key].grantTypes;
+    for (var key in authSchemes) {
+      if (authSchemes.hasOwnProperty(key)) {
+        var o = authSchemes[key].grantTypes;
         for(var t in o) {
           if(o.hasOwnProperty(t) && t === 'implicit') {
             var dets = o[t];
