@@ -593,6 +593,7 @@ var SwaggerModelProperty = function(name, obj) {
   this.isCollection = this.dataType && (this.dataType.toLowerCase() === 'array' || this.dataType.toLowerCase() === 'list' || this.dataType.toLowerCase() === 'set');
   this.descr = obj.description;
   this.required = obj.required;
+  this.defaultValue = obj.defaultValue;
   if (obj.items != null) {
     if (obj.items.type != null) {
       this.refDataType = obj.items.type;
@@ -601,7 +602,7 @@ var SwaggerModelProperty = function(name, obj) {
       this.refDataType = obj.items.$ref;
     }
   }
-  this.dataTypeWithRef = this.refDataType != null ? (this.dataType + '[' + this.refDataType + ']') : this.dataType;
+  this.dataTypeWithRef = this.refDataType != null ? (this.dataType[0].toUpperCase() + this.dataType.substring(1, this.dataType.length) + ' of ' + this.refDataType) : this.dataType;
   if (obj.allowableValues != null) {
     this.valueType = obj.allowableValues.valueType;
     this.values = obj.allowableValues.values;
@@ -620,6 +621,9 @@ var SwaggerModelProperty = function(name, obj) {
 
 SwaggerModelProperty.prototype.getSampleValue = function(modelsToIgnore) {
   var result;
+  if (this.defaultValue) {
+    return this.defaultValue;
+  }
   if ((this.refModel != null) && (modelsToIgnore.indexOf(prop.refModel.name) === -1)) {
     result = this.refModel.createJSONSample(modelsToIgnore);
   } else {
@@ -663,7 +667,8 @@ SwaggerModelProperty.prototype.toString = function() {
     str += " = <span class='propVals'>['" + this.values.join("' or '") + "']</span>";
   }
   if (this.descr != null) {
-    str += ': <span class="propDesc">' + this.descr + '</span>';
+    var descr = Array.isArray(this.descr) ? this.descr.join(' ') : this.descr;
+    str += ': <span class="propDesc">' + descr + '</span>';
   }
   return str;
 };
@@ -697,8 +702,9 @@ var SwaggerOperation = function(nickname, path, method, parameters, summary, not
   if(typeof this.type !== 'undefined' && this.type === 'void')
     this.type = null;
   else {
-    this.responseClassSignature = this.getSignature(this.type, this.resource.models);
-    this.responseSampleJSON = this.getSampleJSON(this.type, this.resource.models);
+    var _this = this;
+    this.responseClassSignature = function() { return _this.getSignature(_this.type, _this.resource.models) }
+    this.responseSampleJSON = function() { return _this.getSampleJSON(_this.type, _this.resource.models) }
   }
 
   for(var i = 0; i < this.parameters.length; i ++) {
@@ -717,8 +723,9 @@ var SwaggerOperation = function(nickname, path, method, parameters, summary, not
       param.allowableValues = {};
       param.allowableValues.values = ["true", "false"];
     }
-    param.signature = this.getSignature(type, this.resource.models);
-    param.sampleJSON = this.getSampleJSON(type, this.resource.models);
+    var _this = this;
+    param.signature = function() { return _this.getSignature(type, _this.resource.models) }
+    param.sampleJSON = function() { return _this.getSampleJSON(type, _this.resource.models) }
 
     var enumValue = param["enum"];
     if(enumValue != null) {
@@ -790,10 +797,14 @@ SwaggerOperation.prototype.getSignature = function(type, models) {
   listType = this.isListType(type);
   isPrimitive = ((listType != null) && models[listType]) || (models[type] != null) ? false : true;
   if (isPrimitive) {
-    return type;
+    if (listType != null) {
+      return '<span class="strong">Array of </span>' + listType;
+    } else {
+      return type;
+    }
   } else {
     if (listType != null) {
-      return models[listType].getMockSignature();
+      return '<span class="strong">Array of </span>' + models[listType].getMockSignature();
     } else {
       return models[type].getMockSignature();
     }
