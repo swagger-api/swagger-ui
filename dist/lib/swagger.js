@@ -593,7 +593,6 @@ var SwaggerModelProperty = function(name, obj) {
   this.isCollection = this.dataType && (this.dataType.toLowerCase() === 'array' || this.dataType.toLowerCase() === 'list' || this.dataType.toLowerCase() === 'set');
   this.descr = obj.description;
   this.required = obj.required;
-  this.defaultValue = obj.defaultValue;
   if (obj.items != null) {
     if (obj.items.type != null) {
       this.refDataType = obj.items.type;
@@ -602,7 +601,7 @@ var SwaggerModelProperty = function(name, obj) {
       this.refDataType = obj.items.$ref;
     }
   }
-  this.dataTypeWithRef = this.refDataType != null ? (this.dataType[0].toUpperCase() + this.dataType.substring(1, this.dataType.length) + ' of ' + this.refDataType) : this.dataType;
+  this.dataTypeWithRef = this.refDataType != null ? (this.dataType + '[' + this.refDataType + ']') : this.dataType;
   if (obj.allowableValues != null) {
     this.valueType = obj.allowableValues.valueType;
     this.values = obj.allowableValues.values;
@@ -621,9 +620,6 @@ var SwaggerModelProperty = function(name, obj) {
 
 SwaggerModelProperty.prototype.getSampleValue = function(modelsToIgnore) {
   var result;
-  if (this.defaultValue) {
-    return this.defaultValue;
-  }
   if ((this.refModel != null) && (modelsToIgnore.indexOf(prop.refModel.name) === -1)) {
     result = this.refModel.createJSONSample(modelsToIgnore);
   } else {
@@ -667,8 +663,7 @@ SwaggerModelProperty.prototype.toString = function() {
     str += " = <span class='propVals'>['" + this.values.join("' or '") + "']</span>";
   }
   if (this.descr != null) {
-    var descr = Array.isArray(this.descr) ? this.descr.join(' ') : this.descr;
-    str += ': <span class="propDesc">' + descr + '</span>';
+    str += ': <span class="propDesc">' + this.descr + '</span>';
   }
   return str;
 };
@@ -795,14 +790,10 @@ SwaggerOperation.prototype.getSignature = function(type, models) {
   listType = this.isListType(type);
   isPrimitive = ((listType != null) && models[listType]) || (models[type] != null) ? false : true;
   if (isPrimitive) {
-    if (listType != null) {
-      return '<span class="strong">Array of </span>' + listType;
-    } else {
-      return type;
-    }
+    return type;
   } else {
     if (listType != null) {
-      return '<span class="strong">Array of </span>' + models[listType].getMockSignature();
+      return models[listType].getMockSignature();
     } else {
       return models[type].getMockSignature();
     }

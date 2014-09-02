@@ -2206,9 +2206,9 @@ function program3(depth0,data) {
       template = this.template();
       $(this.el).html(template(this.model));
       signatureModel = {
-        sampleJSON: this.model.sampleJSON,
+        sampleJSON: typeof this.model.sampleJSON === 'function' ? this.model.sampleJSON() : this.model.sampleJSON,
         isParam: true,
-        signature: this.model.signature
+        signature: typeof this.model.signature === 'function' ? this.model.signature() : this.model.signature
       };
       if (this.model.sampleJSON) {
         signatureView = new SignatureView({
