@@ -935,7 +935,7 @@ SwaggerOperation.prototype.urlify = function(args) {
     if (param.paramType === 'path') {
       if(args[param.name]) {
         // apply path params and remove from args
-        var reg = new RegExp('\{' + param.name + '[^\}]*\}', 'gi');
+        var reg = new RegExp('\\{' + param.name + '.*?\\}(?=\\s*?(\\/|$))', 'gi');
         url = url.replace(reg, this.encodePathParam(args[param.name]));
         delete args[param.name];
       }
