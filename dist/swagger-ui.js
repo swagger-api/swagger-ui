@@ -1637,6 +1637,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           }
         }
       }
+      if (this.options.swaggerOptions.hidePathRegex) {
+        this.model.path = this.model.path.replace(/(\/\s*?\{)\s*(.*?)\s*:.*?(?=\}\s*?(\/|$))/gi, '$1$2');
+      }
       $(this.el).html(Handlebars.templates.operation(this.model));
       if (this.model.responseClassSignature && this.model.responseClassSignature !== 'string') {
         signatureModel = {

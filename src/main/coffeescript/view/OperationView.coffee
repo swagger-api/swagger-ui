@@ -54,6 +54,9 @@ class OperationView extends Backbone.View
             @model.oauth.scopes = []
           for o in v
             @model.oauth.scopes.push o
+    
+    if @options.swaggerOptions.hidePathRegex
+      @model.path = @model.path.replace(/(\/\s*?\{)\s*(.*?)\s*:.*?(?=\}\s*?(\/|$))/gi, '$1$2')
 
     $(@el).html(Handlebars.templates.operation(@model))
 
