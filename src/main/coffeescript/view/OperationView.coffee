@@ -44,6 +44,9 @@ class OperationView extends Backbone.View
     isMethodSubmissionSupported = true #jQuery.inArray(@model.method, @model.supportedSubmitMethods) >= 0
     @model.isReadOnly = true unless isMethodSubmissionSupported
 
+    #@model.responseClassSignature = "hello"
+    #@model.responseSampleJSON = @model.createJSONSample
+
     @model.oauth = null
     if @model.authorizations
       for k, v of @model.authorizations
@@ -66,6 +69,7 @@ class OperationView extends Backbone.View
       responseSignatureView = new SignatureView({model: signatureModel, tagName: 'div'})
       $('.model-signature', $(@el)).append responseSignatureView.render().el
     else
+      @model.responseClassSignature = 'string'
       $('.model-signature', $(@el)).html(@model.type)
 
     contentTypeModel =
@@ -76,10 +80,18 @@ class OperationView extends Backbone.View
 
     for param in @model.parameters
       type = param.type || param.dataType
-      if type.toLowerCase() == 'file'
+      if typeof type is 'undefined'
+        schema = param.schema
+        if schema['$ref']
+          ref = schema['$ref']
+          if ref.indexOf('#/definitions/') is 0
+            type = ref.substring('#/definitions/'.length)
+          else
+            type = ref
+      if type and type.toLowerCase() == 'file'
         if !contentTypeModel.consumes
-          log "set content type "
           contentTypeModel.consumes = 'multipart/form-data'
+      param.type = type
 
     responseContentTypeView = new ResponseContentTypeView({model: contentTypeModel})
     $('.response-content-type', $(@el)).append responseContentTypeView.render().el
@@ -88,6 +100,8 @@ class OperationView extends Backbone.View
     @addParameter param, contentTypeModel.consumes for param in @model.parameters
 
     # Render each response code
+    if typeof @model.responseMessages is 'undefined'
+      @model.responseMessages = []
     @addStatusCode statusCode for statusCode in @model.responseMessages
 
     @
@@ -170,8 +184,6 @@ class OperationView extends Backbone.View
     for param in @model.parameters
       if param.paramType is 'header'
         headerParams[param.name] = map[param.name]
-
-    log headerParams
 
     # add files
     for el in form.find('input[type~="file"]')

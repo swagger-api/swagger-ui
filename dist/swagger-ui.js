@@ -93,7 +93,6 @@ var Docs = {
 		switch (fragments.length) {
 			case 1:
 				// Expand all operations for the resource and scroll to it
-				log('shebang resource:' + fragments[0]);
 				var dom_id = 'resource_' + fragments[0];
 
 				Docs.expandEndpointListForResource(fragments[0]);
@@ -101,7 +100,6 @@ var Docs = {
 				break;
 			case 2:
 				// Refer to the endpoint DOM element, e.g. #words_get_search
-				log('shebang endpoint: ' + fragments.join('_'));
 
         // Expand Resource
         Docs.expandEndpointListForResource(fragments[0]);
@@ -111,8 +109,6 @@ var Docs = {
 				var li_dom_id = fragments.join('_');
 				var li_content_dom_id = li_dom_id + "_content";
 
-        log("li_dom_id " + li_dom_id);
-        log("li_content_dom_id " + li_content_dom_id);
 
 				Docs.expandOperation($('#'+li_content_dom_id));
 				$('#'+li_dom_id).slideto({highlight: false});
@@ -1085,7 +1081,7 @@ function program1(depth0,data) {
   if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "');\">";
+    + "');\">/";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -1288,9 +1284,15 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       }
       this.options.url = url;
       this.headerView.update(url);
-      this.api = new SwaggerApi(this.options);
-      this.api.build();
-      return this.api;
+      if (url.indexOf('swagger.json') > 0) {
+        this.api = new SwaggerClient(this.options);
+        this.api.build();
+        return this.api;
+      } else {
+        this.api = new SwaggerApi(this.options);
+        this.api.build();
+        return this.api;
+      }
     };
 
     SwaggerUi.prototype.render = function() {
@@ -1458,13 +1460,15 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       if (opts.swaggerOptions.sorter) {
         sorterName = opts.swaggerOptions.sorter;
         sorter = sorters[sorterName];
-        _ref3 = this.model.apisArray;
-        for (_i = 0, _len = _ref3.length; _i < _len; _i++) {
-          route = _ref3[_i];
-          route.operationsArray.sort(sorter);
-        }
-        if (sorterName === "alpha") {
-          return this.model.apisArray.sort(sorter);
+        if (this.model.apisArray) {
+          _ref3 = this.model.apisArray;
+          for (_i = 0, _len = _ref3.length; _i < _len; _i++) {
+            route = _ref3[_i];
+            route.operationsArray.sort(sorter);
+          }
+          if (sorterName === "alpha") {
+            return this.model.apisArray.sort(sorter);
+          }
         }
       }
     };
@@ -1517,7 +1521,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       return _ref3;
     }
 
-    ResourceView.prototype.initialize = function() {};
+    ResourceView.prototype.initialize = function() {
+      if ("" === this.model.description) {
+        return this.model.description = null;
+      }
+    };
 
     ResourceView.prototype.render = function() {
       var counter, id, methods, operation, _i, _len, _ref4;
@@ -1613,7 +1621,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     OperationView.prototype.render = function() {
-      var contentTypeModel, isMethodSubmissionSupported, k, o, param, responseContentTypeView, responseSignatureView, signatureModel, statusCode, type, v, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref5, _ref6, _ref7, _ref8;
+      var contentTypeModel, isMethodSubmissionSupported, k, o, param, ref, responseContentTypeView, responseSignatureView, schema, signatureModel, statusCode, type, v, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref5, _ref6, _ref7, _ref8;
       isMethodSubmissionSupported = true;
       if (!isMethodSubmissionSupported) {
         this.model.isReadOnly = true;
@@ -1650,6 +1658,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         });
         $('.model-signature', $(this.el)).append(responseSignatureView.render().el);
       } else {
+        this.model.responseClassSignature = 'string';
         $('.model-signature', $(this.el)).html(this.model.type);
       }
       contentTypeModel = {
@@ -1661,12 +1670,23 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       for (_j = 0, _len1 = _ref6.length; _j < _len1; _j++) {
         param = _ref6[_j];
         type = param.type || param.dataType;
-        if (type.toLowerCase() === 'file') {
+        if (typeof type === 'undefined') {
+          schema = param.schema;
+          if (schema['$ref']) {
+            ref = schema['$ref'];
+            if (ref.indexOf('#/definitions/') === 0) {
+              type = ref.substring('#/definitions/'.length);
+            } else {
+              type = ref;
+            }
+          }
+        }
+        if (type && type.toLowerCase() === 'file') {
           if (!contentTypeModel.consumes) {
-            log("set content type ");
             contentTypeModel.consumes = 'multipart/form-data';
           }
         }
+        param.type = type;
       }
       responseContentTypeView = new ResponseContentTypeView({
         model: contentTypeModel
@@ -1676,6 +1696,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       for (_k = 0, _len2 = _ref7.length; _k < _len2; _k++) {
         param = _ref7[_k];
         this.addParameter(param, contentTypeModel.consumes);
+      }
+      if (typeof this.model.responseMessages === 'undefined') {
+        this.model.responseMessages = [];
       }
       _ref8 = this.model.responseMessages;
       for (_l = 0, _len3 = _ref8.length; _l < _len3; _l++) {
@@ -1800,7 +1823,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           headerParams[param.name] = map[param.name];
         }
       }
-      log(headerParams);
       _ref8 = form.find('input[type~="file"]');
       for (_l = 0, _len3 = _ref8.length; _l < _len3; _l++) {
         el = _ref8[_l];
@@ -2096,12 +2118,25 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     ParameterView.prototype.render = function() {
-      var contentTypeModel, isParam, parameterContentTypeView, responseContentTypeView, signatureModel, signatureView, template, type;
+      var contentTypeModel, isParam, parameterContentTypeView, ref, responseContentTypeView, schema, signatureModel, signatureView, template, type;
       type = this.model.type || this.model.dataType;
+      if (typeof type === 'undefined') {
+        schema = this.model.schema;
+        if (schema['$ref']) {
+          ref = schema['$ref'];
+          if (ref.indexOf('#/definitions/') === 0) {
+            type = ref.substring('#/definitions/'.length);
+          } else {
+            type = ref;
+          }
+        }
+      }
+      this.model.type = type;
+      this.model.paramType = this.model["in"] || this.model.paramType;
       if (this.model.paramType === 'body') {
         this.model.isBody = true;
       }
-      if (type.toLowerCase() === 'file') {
+      if (type && type.toLowerCase() === 'file') {
         this.model.isFile = true;
       }
       template = this.template();

@@ -8,10 +8,11 @@ class MainView extends Backbone.View
     if opts.swaggerOptions.sorter
       sorterName = opts.swaggerOptions.sorter
       sorter = sorters[sorterName]
-      for route in @model.apisArray
-        route.operationsArray.sort sorter
-      if (sorterName == "alpha") # sort top level paths if alpha 
-        @model.apisArray.sort sorter
+      if @model.apisArray
+        for route in @model.apisArray
+          route.operationsArray.sort sorter
+        if (sorterName == "alpha") # sort top level paths if alpha 
+          @model.apisArray.sort sorter
  
   render: ->
     # Render the outer container for resources

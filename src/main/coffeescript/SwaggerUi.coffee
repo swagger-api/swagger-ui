@@ -47,9 +47,16 @@ class SwaggerUi extends Backbone.Router
 
     @options.url = url
     @headerView.update(url)
-    @api = new SwaggerApi(@options)
-    @api.build()
-    @api
+
+    if url.indexOf('swagger.json') > 0
+      @api = new SwaggerClient(@options)
+      @api.build()
+      @api
+    else
+      @api = new SwaggerApi(@options)
+      @api.build()
+      @api
+
 
   # This is bound to success handler for SwaggerApi
   #  so it gets called when SwaggerApi completes loading
