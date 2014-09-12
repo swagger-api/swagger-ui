@@ -1,19 +1,18 @@
 <div class='heading'>
   <h2>
-    <a href='#!/{{id}}' onclick="Docs.toggleEndpointListForResource('{{id}}');">{{name}}</a> {{#description}} : {{/description}}{{{description}}}
+    <a href='#!/{{id}}' class="toggleEndpointList" data-id="{{id}}">{{name}}</a> {{#description}} : {{/description}}{{{description}}}
   </h2>
   <ul class='options'>
     <li>
-      <a href='#!/{{id}}' id='endpointListTogger_{{id}}'
-         onclick="Docs.toggleEndpointListForResource('{{id}}');">Show/Hide</a>
+      <a href='#!/{{id}}' id='endpointListTogger_{{id}}' class="toggleEndpointList" data-id="{{id}}">Show/Hide</a>
     </li>
     <li>
-      <a href='#' onclick="Docs.collapseOperationsForResource('{{id}}'); return false;">
+      <a href='#' class="collapseResource" data-id="{{id}}">
         List Operations
       </a>
     </li>
     <li>
-      <a href='#' onclick="Docs.expandOperationsForResource('{{id}}'); return false;">
+      <a href='#' class="expandResource" data-id={{id}}>
         Expand Operations
       </a>
     </li>

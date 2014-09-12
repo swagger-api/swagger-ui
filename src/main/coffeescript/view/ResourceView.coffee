@@ -20,7 +20,12 @@ class ResourceView extends Backbone.View
       operation.nickname = id
       operation.parentId = @model.id
       @addOperation operation 
-    @
+
+    $('.toggleEndpointList', @el).click(this.callDocs.bind(this, 'toggleEndpointListForResource'))
+    $('.collapseResource', @el).click(this.callDocs.bind(this, 'collapseOperationsForResource'))
+    $('.expandResource', @el).click(this.callDocs.bind(this, 'expandOperationsForResoruce'))
+    
+    return @
 
   addOperation: (operation) ->
 
@@ -31,3 +36,11 @@ class ResourceView extends Backbone.View
     $('.endpoints', $(@el)).append operationView.render().el
 
     @number++
+
+  #
+  # Generic Event handler (`Docs` is global)
+  #
+
+  callDocs: (fnName, e) ->
+    e.preventDefault()
+    Docs[fnName](e.currentTarget.getAttribute('data-id'))
