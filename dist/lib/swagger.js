@@ -1,5 +1,5 @@
 // swagger.js
-// version 2.0.37
+// version 2.0.38
 
 var __bind = function(fn, me){
   return function(){
@@ -80,6 +80,7 @@ Object.keys = Object.keys || (function () {
 })();
 
 var SwaggerApi = function(url, options) {
+  this.isBuilt = false;
   this.url = null;
   this.debug = false;
   this.basePath = null;
@@ -108,11 +109,15 @@ var SwaggerApi = function(url, options) {
 
   this.failure = options.failure != null ? options.failure : function() {};
   this.progress = options.progress != null ? options.progress : function() {};
-  if (options.success != null)
+  if (options.success != null) {
     this.build();
+    this.isBuilt = true;
+  }
 }
 
 SwaggerApi.prototype.build = function() {
+  if(this.isBuilt)
+    return this;
   var _this = this;
   this.progress('fetching resource list: ' + this.url);
   var obj = {
@@ -120,7 +125,7 @@ SwaggerApi.prototype.build = function() {
     url: this.url,
     method: "get",
     headers: {
-      accept: "application/json"
+      accept: "application/json,application/json;charset=\"utf-8\",*/*"
     },
     on: {
       error: function(response) {
@@ -353,7 +358,7 @@ var SwaggerResource = function(resourceObj, api) {
       method: "get",
       useJQuery: this.useJQuery,
       headers: {
-        accept: "application/json"
+        accept: "application/json,application/json;charset=\"utf-8\",*/*"
       },
       on: {
         response: function(resp) {
@@ -593,6 +598,7 @@ var SwaggerModelProperty = function(name, obj) {
   this.isCollection = this.dataType && (this.dataType.toLowerCase() === 'array' || this.dataType.toLowerCase() === 'list' || this.dataType.toLowerCase() === 'set');
   this.descr = obj.description;
   this.required = obj.required;
+  this.defaultValue = obj.defaultValue;
   if (obj.items != null) {
     if (obj.items.type != null) {
       this.refDataType = obj.items.type;
@@ -638,7 +644,9 @@ SwaggerModelProperty.prototype.getSampleValue = function(modelsToIgnore) {
 
 SwaggerModelProperty.prototype.toSampleValue = function(value) {
   var result;
-  if (value === "integer") {
+  if ((typeof this.defaultValue !== 'undefined') && this.defaultValue !== null) {
+    result = this.defaultValue;
+  } else if (value === "integer") {
     result = 0;
   } else if (value === "boolean") {
     result = false;
@@ -1218,7 +1226,7 @@ SwaggerRequest.prototype.setHeaders = function(params, operation) {
   // if there's a body, need to set the accepts header via requestContentType
   if (body && (this.type === "POST" || this.type === "PUT" || this.type === "PATCH" || this.type === "DELETE")) {
     if (this.opts.requestContentType)
-      accepts = this.opts.requestContentType;
+      consumes = this.opts.requestContentType;
   } else {
     // if any form params, content type must be set
     if(definedFormParams.length > 0) {
@@ -1227,7 +1235,7 @@ SwaggerRequest.prototype.setHeaders = function(params, operation) {
       else
         consumes = "application/x-www-form-urlencoded";
     }
-    else if (this.type == "DELETE")
+    else if (this.type === "DELETE")
       body = "{}";
     else if (this.type != "DELETE")
       accepts = null;
@@ -1461,10 +1469,35 @@ ShredHttpClient.prototype.execute = function(obj) {
     return out;
   };
 
+  // Transform an error into a usable response-like object
+  var transformError = function(error) {
+    var out = {
+      // Default to a status of 0 - The client will treat this as a generic permissions sort of error
+      status: 0,
+      data: error.message || error
+    };
+
+    if(error.code) {
+      out.obj = error;
+
+      if(error.code === 'ENOTFOUND' || error.code === 'ECONNREFUSED' ) {
+        // We can tell the client that this should be treated as a missing resource and not as a permissions thing
+        out.status = 404;
+      }
+    }
+
+    return out;
+  };
+
   res = {
     error: function(response) {
       if (obj)
         return cb.error(transform(response));
+    },
+    // Catch the Shred error raised when the request errors as it is made (i.e. No Response is coming)
+    request_error: function(err) {
+      if(obj)
+        return cb.error(transformError(err));
     },
     redirect: function(response) {
       if (obj)
@@ -1533,10 +1566,11 @@ SwaggerAuthorizations.prototype.apply = function(obj, authorizations) {
 /**
  * ApiKeyAuthorization allows a query param or header to be injected
  */
-var ApiKeyAuthorization = function(name, value, type) {
+var ApiKeyAuthorization = function(name, value, type, delimiter) {
   this.name = name;
   this.value = value;
   this.type = type;
+  this.delimiter = delimiter;
 };
 
 ApiKeyAuthorization.prototype.apply = function(obj, authorizations) {
@@ -1547,7 +1581,12 @@ ApiKeyAuthorization.prototype.apply = function(obj, authorizations) {
       obj.url = obj.url + "?" + this.name + "=" + this.value;
     return true;
   } else if (this.type === "header") {
-    obj.headers[this.name] = this.value;
+    if(typeof obj.headers[this.name] !== 'undefined') {
+      if(typeof this.delimiter !== 'undefined')
+        obj.headers[this.name] = obj.headers[this.name] + this.delimiter +  this.value;
+    }
+    else
+      obj.headers[this.name] = this.value;
     return true;
   }
 };

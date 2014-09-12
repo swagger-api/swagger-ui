@@ -186,6 +186,7 @@ var SwaggerClient = function(url, options) {
   this.authorizationScheme = null;
   this.info = null;
   this.useJQuery = false;
+  this.blocked = false;
 
   options = (options||{});
   if (url)
@@ -210,6 +211,7 @@ var SwaggerClient = function(url, options) {
 
 SwaggerClient.prototype.build = function() {
   var self = this;
+  this.blocked = false;
   this.progress('fetching resource list: ' + this.url);
   var obj = {
     useJQuery: this.useJQuery,
@@ -231,6 +233,7 @@ SwaggerClient.prototype.build = function() {
       },
       response: function(resp) {
         var responseObj = resp.obj || JSON.parse(resp.data);
+        self.blocked = false;
         self.swaggerVersion = responseObj.swaggerVersion;
 
         if(responseObj.swagger && responseObj.swagger === 2.0) {
@@ -242,9 +245,19 @@ SwaggerClient.prototype.build = function() {
   };
   var e = (typeof window !== 'undefined' ? window : exports);
   e.authorizations.apply(obj);
+  blocked = true;
   new SwaggerHttp().execute(obj);
+  function waitABit(obj) {
+    if(obj.blocked)
+      setTimeout(waitABit(obj), 5);
+  };
+  setTimeout(waitABit(this), 5);
   return this;
 };
+
+function blocking(obj) {
+  
+}
 
 SwaggerClient.prototype.buildFromSpec = function(response) {
   if(this.isBuilt)
