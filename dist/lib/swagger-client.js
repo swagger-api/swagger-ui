@@ -186,7 +186,6 @@ var SwaggerClient = function(url, options) {
   this.authorizationScheme = null;
   this.info = null;
   this.useJQuery = false;
-  this.blocked = false;
 
   options = (options||{});
   if (url)
@@ -211,14 +210,13 @@ var SwaggerClient = function(url, options) {
 
 SwaggerClient.prototype.build = function() {
   var self = this;
-  this.blocked = false;
   this.progress('fetching resource list: ' + this.url);
   var obj = {
     useJQuery: this.useJQuery,
     url: this.url,
     method: "get",
     headers: {
-      accept: "application/json"
+      accept: "application/json, */*"
     },
     on: {
       error: function(response) {
@@ -233,7 +231,6 @@ SwaggerClient.prototype.build = function() {
       },
       response: function(resp) {
         var responseObj = resp.obj || JSON.parse(resp.data);
-        self.blocked = false;
         self.swaggerVersion = responseObj.swaggerVersion;
 
         if(responseObj.swagger && responseObj.swagger === 2.0) {
@@ -245,19 +242,9 @@ SwaggerClient.prototype.build = function() {
   };
   var e = (typeof window !== 'undefined' ? window : exports);
   e.authorizations.apply(obj);
-  blocked = true;
   new SwaggerHttp().execute(obj);
-  function waitABit(obj) {
-    if(obj.blocked)
-      setTimeout(waitABit(obj), 5);
-  };
-  setTimeout(waitABit(this), 5);
   return this;
 };
-
-function blocking(obj) {
-  
-}
 
 SwaggerClient.prototype.buildFromSpec = function(response) {
   if(this.isBuilt)
@@ -272,6 +259,11 @@ SwaggerClient.prototype.buildFromSpec = function(response) {
   this.consumes = response.consumes;
   this.produces = response.produces;
   this.authSchemes = response.authorizations;
+
+  if(typeof this.host === 'undefined' || this.host === '') {
+    var location = this.parseUri(this.url);
+    this.host = location.host;
+  }
 
   this.definitions = response.definitions;
   var key;
@@ -341,6 +333,16 @@ SwaggerClient.prototype.buildFromSpec = function(response) {
   if (this.success)
     this.success();
   return this;
+}
+
+SwaggerClient.prototype.parseUri = function(uri) {
+  var urlParseRE = /^(((([^:\/#\?]+:)?(?:(\/\/)((?:(([^:@\/#\?]+)(?:\:([^:@\/#\?]+))?)@)?(([^:\/#\?\]\[]+|\[[^\/\]@#?]+\])(?:\:([0-9]+))?))?)?)?((\/?(?:[^\/\?#]+\/+)*)([^\?#]*)))?(\?[^#]+)?)(#.*)?/;
+  var parts = urlParseRE.exec(uri);
+  return {
+    scheme: parts[4].replace(':',''),
+    host: parts[11],
+    path: parts[15]
+  };
 }
 
 SwaggerClient.prototype.help = function() {
