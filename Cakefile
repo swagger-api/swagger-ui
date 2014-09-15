@@ -2,6 +2,7 @@ fs          = require 'fs'
 path        = require 'path'
 {exec}      = require 'child_process'
 less        = require 'less'
+handlebars  = require 'handlebars'
 
 sourceFiles  = [
   'SwaggerUi'
@@ -41,18 +42,17 @@ task 'dist', 'Build a distribution', ->
     templateContents = new Array remaining = templateFiles.length
     for file, index in templateFiles then do (file, index) ->
       console.log "   : Compiling src/main/template/#{file}"
-      exec "handlebars src/main/template/#{file} -f dist/_#{file}.js", (err, stdout, stderr) ->
+      fs.readFile "src/main/template/#{file}", 'utf8', (err, source) ->
         throw err if err
-        fs.readFile 'dist/_' + file + '.js', 'utf8', (err, fileContents) ->
-          throw err if err
-          templateContents[index] = fileContents
-          fs.unlink 'dist/_' + file + '.js'
-          if --remaining is 0
-            templateContents.push '\n\n'
-            fs.writeFile 'dist/_swagger-ui-templates.js', templateContents.join('\n\n'), 'utf8', (err) ->
-              throw err if err
-              build()
-
+        compiled = handlebars.precompile(source)
+        templateContents[index] = '(function() {\n  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};\ntemplates[\'' + file.replace('.handlebars', '') + '\'] = template(' + compiled + ');\n})();'
+        fs.unlink 'dist/_' + file + '.js', (err) ->
+          console.log "#{err.code}: #{err.path}" unless err.code == 'ENOENT'
+        if --remaining is 0
+          templateContents.push '\n\n'
+          fs.writeFile 'dist/_swagger-ui-templates.js', templateContents.join('\n\n'), 'utf8', (err) ->
+            throw err if err
+            build()
 
   build = ->
     console.log '   : Collecting Coffeescript source...'
