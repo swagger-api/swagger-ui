@@ -1,5 +1,5 @@
 // swagger.js
-// version 2.0.38
+// version 2.0.39
 
 var __bind = function(fn, me){
   return function(){
@@ -14,6 +14,16 @@ log = function(){
     console.log( Array.prototype.slice.call(arguments)[0] );
   }
 };
+
+// if you want to apply conditional formatting of parameter values
+parameterMacro = function(value) {
+  return value;
+}
+
+// if you want to apply conditional formatting of model property values
+modelPropertyMacro = function(value) {
+  return value;
+}
 
 if (!Array.prototype.indexOf) {
   Array.prototype.indexOf = function(obj, start) {
@@ -88,6 +98,7 @@ var SwaggerApi = function(url, options) {
   this.authorizationScheme = null;
   this.info = null;
   this.useJQuery = false;
+  this.modelsArray = [];
 
   options = (options||{});
   if (url)
@@ -281,7 +292,6 @@ SwaggerApi.prototype.fail = function(message) {
 
 SwaggerApi.prototype.setConsolidatedModels = function() {
   var model, modelName, resource, resource_name, _i, _len, _ref, _ref1, _results;
-  this.modelsArray = [];
   this.models = {};
   _ref = this.apis;
   for (resource_name in _ref) {
@@ -598,7 +608,7 @@ var SwaggerModelProperty = function(name, obj) {
   this.isCollection = this.dataType && (this.dataType.toLowerCase() === 'array' || this.dataType.toLowerCase() === 'list' || this.dataType.toLowerCase() === 'set');
   this.descr = obj.description;
   this.required = obj.required;
-  this.defaultValue = obj.defaultValue;
+  this.defaultValue = modelPropertyMacro(obj.defaultValue);
   if (obj.items != null) {
     if (obj.items.type != null) {
       this.refDataType = obj.items.type;
@@ -776,6 +786,7 @@ var SwaggerOperation = function(nickname, path, method, parameters, summary, not
         }
       }
     }
+    param.defaultValue = parameterMacro(param.defaultValue);
   }
   this.resource[this.nickname] = function(args, callback, error) {
     return _this["do"](args, callback, error);

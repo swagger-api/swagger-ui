@@ -19,7 +19,7 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "coffee-script": "~1.6.3",
-    "swagger-client": "2.0.36",
+    "swagger-client": "2.0.39",
     "handlebars": "~1.0.10",
     "less": "~1.4.2"
   }
