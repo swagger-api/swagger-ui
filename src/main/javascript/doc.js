@@ -94,7 +94,7 @@ var Docs = {
 				log('shebang resource:' + fragments[0]);
 				var dom_id = 'resource_' + fragments[0];
 
-				Docs.expandEndpointListForResource(fragments[0]);
+        Docs.expandContentForResource(fragments[0]);
 				$("#"+dom_id).slideto({highlight: false});
 				break;
 			case 2:
@@ -102,7 +102,7 @@ var Docs = {
 				log('shebang endpoint: ' + fragments.join('_'));
 
         // Expand Resource
-        Docs.expandEndpointListForResource(fragments[0]);
+        Docs.expandContentForResource(fragments[0]);
 
         // Expand operation
 				var li_dom_id = fragments.join('_');
@@ -119,7 +119,7 @@ var Docs = {
         log('shebang endpoint: ' + fragments.join('_'));
 
         // Expand Resource
-        Docs.expandEndpointListForResource(fragments[0]);
+        Docs.expandContentForResource(fragments[0]);
 
         // Expand operation
         var li_dom_id = fragments.slice(0, 2).join('_');
@@ -144,44 +144,44 @@ var Docs = {
 
 	},
 
-	toggleEndpointListForResource: function(resource) {
-		var elem = $('li#resource_' + Docs.escapeResourceName(resource) + ' ul.endpoints');
+  toggleContentForResource: function(resource) {
+		var elem = $('li#resource_' + Docs.escapeResourceName(resource) + ' div.resourceContent');
 		if (elem.is(':visible')) {
-			Docs.collapseEndpointListForResource(resource);
+			Docs.collapseContentForResource(resource);
 		} else {
-			Docs.expandEndpointListForResource(resource);
+			Docs.expandContentForResource(resource);
 		}
 	},
 
 	// Expand resource
-	expandEndpointListForResource: function(resource) {
+	expandContentForResource: function(resource) {
 		var resource = Docs.escapeResourceName(resource);
 		if (resource == '') {
-			$('.resource ul.endpoints').slideDown();
+			$('.resource div.resourceContent').slideDown();
 			return;
 		}
 		
 		$('li#resource_' + resource).addClass('active');
 
-		var elem = $('li#resource_' + resource + ' ul.endpoints');
+		var elem = $('li#resource_' + resource + ' div.resourceContent');
 		elem.slideDown();
 	},
 
 	// Collapse resource and mark as explicitly closed
-	collapseEndpointListForResource: function(resource) {
+	collapseContentForResource: function(resource) {
 		var resource = Docs.escapeResourceName(resource);
 		$('li#resource_' + resource).removeClass('active');
 
-		var elem = $('li#resource_' + resource + ' ul.endpoints');
+		var elem = $('li#resource_' + resource + ' div.resourceContent');
 		elem.slideUp();
 	},
 
 	expandOperationsForResource: function(resource) {
 		// Make sure the resource container is open..
-		Docs.expandEndpointListForResource(resource);
+		Docs.expandContentForResource(resource);
 		
 		if (resource == '') {
-			$('.resource ul.endpoints li.operation div.content').slideDown();
+			$('.resource div.resourceContent ul.endpoints li.operation div.content').slideDown();
 			return;
 		}
 
@@ -192,7 +192,7 @@ var Docs = {
 
 	collapseOperationsForResource: function(resource) {
 		// Make sure the resource container is open..
-		Docs.expandEndpointListForResource(resource);
+    Docs.expandContentForResource(resource);
 
 		$('li#resource_' + Docs.escapeResourceName(resource) + ' li.operation div.content').each(function() {
 			Docs.collapseOperation($(this));

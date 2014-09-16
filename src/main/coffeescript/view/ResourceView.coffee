@@ -6,6 +6,12 @@ class ResourceView extends Backbone.View
 
     methods = {}
 
+    if @model.basePaths && Object.keys(@model.basePaths).length > 0
+      $('div.resourceContent div.basePaths', $(@el)).css('display','block')
+
+    for env, basePath of @model.basePaths
+      @addBasePath(env, basePath)
+
     # Render each operation
     for operation in @model.operationsArray
       counter = 0
@@ -33,3 +39,8 @@ class ResourceView extends Backbone.View
     $('.endpoints', $(@el)).append operationView.render().el
 
     @number++
+
+  addBasePath: (env, basePath) ->
+    # Render a basePath and add it to basePath li
+    basePathView = new BasePathView({model: {env: env, basePath: basePath}, tagName: 'tr', className: 'basePath'})
+    $('.basePath-Values', $(@el)).append basePathView.render().el

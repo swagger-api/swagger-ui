@@ -96,7 +96,7 @@ var Docs = {
 				log('shebang resource:' + fragments[0]);
 				var dom_id = 'resource_' + fragments[0];
 
-				Docs.expandEndpointListForResource(fragments[0]);
+        Docs.expandContentForResource(fragments[0]);
 				$("#"+dom_id).slideto({highlight: false});
 				break;
 			case 2:
@@ -104,8 +104,7 @@ var Docs = {
 				log('shebang endpoint: ' + fragments.join('_'));
 
         // Expand Resource
-        Docs.expandEndpointListForResource(fragments[0]);
-        //$("#"+dom_id).slideto({highlight: false});
+        Docs.expandContentForResource(fragments[0]);
 
         // Expand operation
 				var li_dom_id = fragments.join('_');
@@ -122,8 +121,7 @@ var Docs = {
         log('shebang endpoint: ' + fragments.join('_'));
 
         // Expand Resource
-        Docs.expandEndpointListForResource(fragments[0]);
-        //$("#"+dom_id).slideto({highlight: false});
+        Docs.expandContentForResource(fragments[0]);
 
         // Expand operation
         var li_dom_id = fragments.slice(0, 2).join('_');
@@ -133,7 +131,6 @@ var Docs = {
         log("li_content_dom_id " + li_content_dom_id);
 
         Docs.expandOperation($('#'+li_content_dom_id));
-        //$('#'+li_dom_id).slideto({highlight: false});
 
         // Expand model
         var a_dom_id = fragments.join('_');
@@ -149,44 +146,44 @@ var Docs = {
 
 	},
 
-	toggleEndpointListForResource: function(resource) {
-		var elem = $('li#resource_' + Docs.escapeResourceName(resource) + ' ul.endpoints');
+  toggleContentForResource: function(resource) {
+		var elem = $('li#resource_' + Docs.escapeResourceName(resource) + ' div.resourceContent');
 		if (elem.is(':visible')) {
-			Docs.collapseEndpointListForResource(resource);
+			Docs.collapseContentForResource(resource);
 		} else {
-			Docs.expandEndpointListForResource(resource);
+			Docs.expandContentForResource(resource);
 		}
 	},
 
 	// Expand resource
-	expandEndpointListForResource: function(resource) {
+	expandContentForResource: function(resource) {
 		var resource = Docs.escapeResourceName(resource);
 		if (resource == '') {
-			$('.resource ul.endpoints').slideDown();
+			$('.resource div.resourceContent').slideDown();
 			return;
 		}
 		
 		$('li#resource_' + resource).addClass('active');
 
-		var elem = $('li#resource_' + resource + ' ul.endpoints');
+		var elem = $('li#resource_' + resource + ' div.resourceContent');
 		elem.slideDown();
 	},
 
 	// Collapse resource and mark as explicitly closed
-	collapseEndpointListForResource: function(resource) {
+	collapseContentForResource: function(resource) {
 		var resource = Docs.escapeResourceName(resource);
 		$('li#resource_' + resource).removeClass('active');
 
-		var elem = $('li#resource_' + resource + ' ul.endpoints');
+		var elem = $('li#resource_' + resource + ' div.resourceContent');
 		elem.slideUp();
 	},
 
 	expandOperationsForResource: function(resource) {
 		// Make sure the resource container is open..
-		Docs.expandEndpointListForResource(resource);
+		Docs.expandContentForResource(resource);
 		
 		if (resource == '') {
-			$('.resource ul.endpoints li.operation div.content').slideDown();
+			$('.resource div.resourceContent ul.endpoints li.operation div.content').slideDown();
 			return;
 		}
 
@@ -197,7 +194,7 @@ var Docs = {
 
 	collapseOperationsForResource: function(resource) {
 		// Make sure the resource container is open..
-		Docs.expandEndpointListForResource(resource);
+    Docs.expandContentForResource(resource);
 
 		$('li#resource_' + Docs.escapeResourceName(resource) + ' li.operation div.content').each(function() {
 			Docs.collapseOperation($(this));
@@ -220,6 +217,27 @@ var Docs = {
     elem.click();
   }
 };(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['basePath'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<td>";
+  if (stack1 = helpers.env) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.env; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</td>\n<td>";
+  if (stack1 = helpers.basePath) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.basePath; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</td>\n";
+  return buffer;
+  });
+})();
+
+(function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
 templates['content_type'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
@@ -1136,7 +1154,7 @@ function program1(depth0,data) {
   if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "' onclick=\"Docs.toggleEndpointListForResource('";
+    + "' onclick=\"Docs.toggleContentForResource('";
   if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -1161,7 +1179,7 @@ function program1(depth0,data) {
   if (stack2 = helpers.id) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
   else { stack2 = depth0.id; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
   buffer += escapeExpression(stack2)
-    + "'\n         onclick=\"Docs.toggleEndpointListForResource('";
+    + "'\n         onclick=\"Docs.toggleContentForResource('";
   if (stack2 = helpers.id) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
   else { stack2 = depth0.id; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
   buffer += escapeExpression(stack2)
@@ -1177,11 +1195,15 @@ function program1(depth0,data) {
   if (stack2 = helpers.url) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
   else { stack2 = depth0.url; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
   buffer += escapeExpression(stack2)
-    + "'>Raw</a>\n    </li>\n  </ul>\n</div>\n<ul class='endpoints' id='";
+    + "'>Raw</a>\n    </li>\n  </ul>\n</div>\n<div class='resourceContent' style='display:none'>\n  <div class='basePaths' style='display:none'>\n    <h4>Base Paths</h4>\n    <table class=\"fullwidth\">\n      <thead>\n        <tr>\n          <th style=\"width: 20%\">Environment</th>\n          <th style=\"width: 80%\">Base Path</th>\n        </tr>\n      </thead>\n      <tbody class=\"basePath-Values\" id='";
   if (stack2 = helpers.id) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
   else { stack2 = depth0.id; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
   buffer += escapeExpression(stack2)
-    + "_endpoint_list' style='display:none'>\n\n</ul>\n";
+    + "_basePath_container'>\n\n      </tbody>\n    </table>\n  </div>\n  <ul class='endpoints' id='";
+  if (stack2 = helpers.id) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
+  else { stack2 = depth0.id; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
+  buffer += escapeExpression(stack2)
+    + "_endpoint_list'>\n\n  </ul>\n</div>";
   return buffer;
   });
 })();
@@ -1317,7 +1339,7 @@ function program3(depth0,data) {
 
 // Generated by CoffeeScript 1.6.3
 (function() {
-  var ContentTypeView, HeaderView, MainView, OperationView, ParameterContentTypeView, ParameterView, ResourceView, ResponseContentTypeView, SignatureView, StatusCodeView, SwaggerUi, _ref, _ref1, _ref10, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9,
+  var BasePathView, ContentTypeView, HeaderView, MainView, OperationView, ParameterContentTypeView, ParameterView, ResourceView, ResponseContentTypeView, SignatureView, StatusCodeView, SwaggerUi, _ref, _ref1, _ref10, _ref11, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -1478,12 +1500,37 @@ function program3(depth0,data) {
 
   window.SwaggerUi = SwaggerUi;
 
+  BasePathView = (function(_super) {
+    __extends(BasePathView, _super);
+
+    function BasePathView() {
+      _ref1 = BasePathView.__super__.constructor.apply(this, arguments);
+      return _ref1;
+    }
+
+    BasePathView.prototype.initialize = function() {};
+
+    BasePathView.prototype.render = function() {
+      var template;
+      template = this.template();
+      $(this.el).html(template(this.model));
+      return this;
+    };
+
+    BasePathView.prototype.template = function() {
+      return Handlebars.templates.basePath;
+    };
+
+    return BasePathView;
+
+  })(Backbone.View);
+
   HeaderView = (function(_super) {
     __extends(HeaderView, _super);
 
     function HeaderView() {
-      _ref1 = HeaderView.__super__.constructor.apply(this, arguments);
-      return _ref1;
+      _ref2 = HeaderView.__super__.constructor.apply(this, arguments);
+      return _ref2;
     }
 
     HeaderView.prototype.events = {
@@ -1546,8 +1593,8 @@ function program3(depth0,data) {
     __extends(MainView, _super);
 
     function MainView() {
-      _ref2 = MainView.__super__.constructor.apply(this, arguments);
-      return _ref2;
+      _ref3 = MainView.__super__.constructor.apply(this, arguments);
+      return _ref3;
     }
 
     sorters = {
@@ -1560,16 +1607,16 @@ function program3(depth0,data) {
     };
 
     MainView.prototype.initialize = function(opts) {
-      var route, sorter, sorterName, _i, _len, _ref3;
+      var route, sorter, sorterName, _i, _len, _ref4;
       if (opts == null) {
         opts = {};
       }
       if (opts.swaggerOptions.sorter) {
         sorterName = opts.swaggerOptions.sorter;
         sorter = sorters[sorterName];
-        _ref3 = this.model.apisArray;
-        for (_i = 0, _len = _ref3.length; _i < _len; _i++) {
-          route = _ref3[_i];
+        _ref4 = this.model.apisArray;
+        for (_i = 0, _len = _ref4.length; _i < _len; _i++) {
+          route = _ref4[_i];
           route.operationsArray.sort(sorter);
         }
         if (sorterName === "alpha") {
@@ -1586,13 +1633,13 @@ function program3(depth0,data) {
     };
 
     MainView.prototype.render = function() {
-      var counter, id, resource, resources, _i, _len, _ref3;
+      var counter, id, resource, resources, _i, _len, _ref4;
       $(this.el).html(Handlebars.templates.main(this.model));
       resources = {};
       counter = 0;
-      _ref3 = this.model.apisArray;
-      for (_i = 0, _len = _ref3.length; _i < _len; _i++) {
-        resource = _ref3[_i];
+      _ref4 = this.model.apisArray;
+      for (_i = 0, _len = _ref4.length; _i < _len; _i++) {
+        resource = _ref4[_i];
         id = resource.name;
         while (typeof resources[id] !== 'undefined') {
           id = id + "_" + counter;
@@ -1629,19 +1676,27 @@ function program3(depth0,data) {
     __extends(ResourceView, _super);
 
     function ResourceView() {
-      _ref3 = ResourceView.__super__.constructor.apply(this, arguments);
-      return _ref3;
+      _ref4 = ResourceView.__super__.constructor.apply(this, arguments);
+      return _ref4;
     }
 
     ResourceView.prototype.initialize = function() {};
 
     ResourceView.prototype.render = function() {
-      var counter, id, methods, operation, _i, _len, _ref4;
+      var basePath, counter, env, id, methods, operation, _i, _len, _ref5, _ref6;
       $(this.el).html(Handlebars.templates.resource(this.model));
       methods = {};
-      _ref4 = this.model.operationsArray;
-      for (_i = 0, _len = _ref4.length; _i < _len; _i++) {
-        operation = _ref4[_i];
+      if (this.model.basePaths && Object.keys(this.model.basePaths).length > 0) {
+        $('div.resourceContent div.basePaths', $(this.el)).css('display', 'block');
+      }
+      _ref5 = this.model.basePaths;
+      for (env in _ref5) {
+        basePath = _ref5[env];
+        this.addBasePath(env, basePath);
+      }
+      _ref6 = this.model.operationsArray;
+      for (_i = 0, _len = _ref6.length; _i < _len; _i++) {
+        operation = _ref6[_i];
         counter = 0;
         id = operation.nickname;
         while (typeof methods[id] !== 'undefined') {
@@ -1670,6 +1725,19 @@ function program3(depth0,data) {
       return this.number++;
     };
 
+    ResourceView.prototype.addBasePath = function(env, basePath) {
+      var basePathView;
+      basePathView = new BasePathView({
+        model: {
+          env: env,
+          basePath: basePath
+        },
+        tagName: 'tr',
+        className: 'basePath'
+      });
+      return $('.basePath-Values', $(this.el)).append(basePathView.render().el);
+    };
+
     return ResourceView;
 
   })(Backbone.View);
@@ -1678,8 +1746,8 @@ function program3(depth0,data) {
     __extends(OperationView, _super);
 
     function OperationView() {
-      _ref4 = OperationView.__super__.constructor.apply(this, arguments);
-      return _ref4;
+      _ref5 = OperationView.__super__.constructor.apply(this, arguments);
+      return _ref5;
     }
 
     OperationView.prototype.invocationUrl = null;
@@ -1730,16 +1798,16 @@ function program3(depth0,data) {
     };
 
     OperationView.prototype.render = function() {
-      var contentTypeModel, isMethodSubmissionSupported, k, o, param, responseContentTypeView, responseSignatureView, signatureModel, statusCode, type, v, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref5, _ref6, _ref7, _ref8;
+      var contentTypeModel, isMethodSubmissionSupported, k, o, param, responseContentTypeView, responseSignatureView, signatureModel, statusCode, type, v, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref6, _ref7, _ref8, _ref9;
       isMethodSubmissionSupported = true;
       if (!isMethodSubmissionSupported) {
         this.model.isReadOnly = true;
       }
       this.model.oauth = null;
       if (this.model.authorizations) {
-        _ref5 = this.model.authorizations;
-        for (k in _ref5) {
-          v = _ref5[k];
+        _ref6 = this.model.authorizations;
+        for (k in _ref6) {
+          v = _ref6[k];
           if (k === "oauth2") {
             if (this.model.oauth === null) {
               this.model.oauth = {};
@@ -1777,9 +1845,9 @@ function program3(depth0,data) {
       };
       contentTypeModel.consumes = this.model.consumes;
       contentTypeModel.produces = this.model.produces;
-      _ref6 = this.model.parameters;
-      for (_j = 0, _len1 = _ref6.length; _j < _len1; _j++) {
-        param = _ref6[_j];
+      _ref7 = this.model.parameters;
+      for (_j = 0, _len1 = _ref7.length; _j < _len1; _j++) {
+        param = _ref7[_j];
         type = param.type || param.dataType;
         if (type.toLowerCase() === 'file') {
           if (!contentTypeModel.consumes) {
@@ -1792,14 +1860,14 @@ function program3(depth0,data) {
         model: contentTypeModel
       });
       $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
-      _ref7 = this.model.parameters;
-      for (_k = 0, _len2 = _ref7.length; _k < _len2; _k++) {
-        param = _ref7[_k];
+      _ref8 = this.model.parameters;
+      for (_k = 0, _len2 = _ref8.length; _k < _len2; _k++) {
+        param = _ref8[_k];
         this.addParameter(param, contentTypeModel.consumes, this.model);
       }
-      _ref8 = this.model.responseMessages;
-      for (_l = 0, _len3 = _ref8.length; _l < _len3; _l++) {
-        statusCode = _ref8[_l];
+      _ref9 = this.model.responseMessages;
+      for (_l = 0, _len3 = _ref9.length; _l < _len3; _l++) {
+        statusCode = _ref9[_l];
         this.addStatusCode(statusCode, this.model);
       }
       return this;
@@ -1832,7 +1900,7 @@ function program3(depth0,data) {
     };
 
     OperationView.prototype.submitOperation = function(e) {
-      var error_free, form, isFileUpload, map, o, opts, val, _i, _j, _k, _len, _len1, _len2, _ref5, _ref6, _ref7;
+      var error_free, form, isFileUpload, map, o, opts, val, _i, _j, _k, _len, _len1, _len2, _ref6, _ref7, _ref8;
       if (e != null) {
         e.preventDefault();
       }
@@ -1857,9 +1925,9 @@ function program3(depth0,data) {
           parent: this
         };
         isFileUpload = false;
-        _ref5 = form.find("input");
-        for (_i = 0, _len = _ref5.length; _i < _len; _i++) {
-          o = _ref5[_i];
+        _ref6 = form.find("input");
+        for (_i = 0, _len = _ref6.length; _i < _len; _i++) {
+          o = _ref6[_i];
           if ((o.value != null) && jQuery.trim(o.value).length > 0) {
             map[o.name] = o.value;
           }
@@ -1867,16 +1935,16 @@ function program3(depth0,data) {
             isFileUpload = true;
           }
         }
-        _ref6 = form.find("textarea");
-        for (_j = 0, _len1 = _ref6.length; _j < _len1; _j++) {
-          o = _ref6[_j];
+        _ref7 = form.find("textarea");
+        for (_j = 0, _len1 = _ref7.length; _j < _len1; _j++) {
+          o = _ref7[_j];
           if ((o.value != null) && jQuery.trim(o.value).length > 0) {
             map["body"] = o.value;
           }
         }
-        _ref7 = form.find("select");
-        for (_k = 0, _len2 = _ref7.length; _k < _len2; _k++) {
-          o = _ref7[_k];
+        _ref8 = form.find("select");
+        for (_k = 0, _len2 = _ref8.length; _k < _len2; _k++) {
+          o = _ref8[_k];
           val = this.getSelectedValue(o);
           if ((val != null) && jQuery.trim(val).length > 0) {
             map[o.name] = val;
@@ -1898,20 +1966,20 @@ function program3(depth0,data) {
     };
 
     OperationView.prototype.handleFileUpload = function(map, form) {
-      var bodyParam, el, headerParams, o, obj, param, params, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref5, _ref6, _ref7, _ref8,
+      var bodyParam, el, headerParams, o, obj, param, params, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref6, _ref7, _ref8, _ref9,
         _this = this;
-      _ref5 = form.serializeArray();
-      for (_i = 0, _len = _ref5.length; _i < _len; _i++) {
-        o = _ref5[_i];
+      _ref6 = form.serializeArray();
+      for (_i = 0, _len = _ref6.length; _i < _len; _i++) {
+        o = _ref6[_i];
         if ((o.value != null) && jQuery.trim(o.value).length > 0) {
           map[o.name] = o.value;
         }
       }
       bodyParam = new FormData();
       params = 0;
-      _ref6 = this.model.parameters;
-      for (_j = 0, _len1 = _ref6.length; _j < _len1; _j++) {
-        param = _ref6[_j];
+      _ref7 = this.model.parameters;
+      for (_j = 0, _len1 = _ref7.length; _j < _len1; _j++) {
+        param = _ref7[_j];
         if (param.paramType === 'form') {
           if (param.type.toLowerCase() !== 'file' && map[param.name] !== void 0) {
             bodyParam.append(param.name, map[param.name]);
@@ -1919,17 +1987,17 @@ function program3(depth0,data) {
         }
       }
       headerParams = {};
-      _ref7 = this.model.parameters;
-      for (_k = 0, _len2 = _ref7.length; _k < _len2; _k++) {
-        param = _ref7[_k];
+      _ref8 = this.model.parameters;
+      for (_k = 0, _len2 = _ref8.length; _k < _len2; _k++) {
+        param = _ref8[_k];
         if (param.paramType === 'header') {
           headerParams[param.name] = map[param.name];
         }
       }
       log(headerParams);
-      _ref8 = form.find('input[type~="file"]');
-      for (_l = 0, _len3 = _ref8.length; _l < _len3; _l++) {
-        el = _ref8[_l];
+      _ref9 = form.find('input[type~="file"]');
+      for (_l = 0, _len3 = _ref9.length; _l < _len3; _l++) {
+        el = _ref9[_l];
         if (typeof el.files[0] !== 'undefined') {
           bodyParam.append($(el).attr('name'), el.files[0]);
           params += 1;
@@ -1987,14 +2055,14 @@ function program3(depth0,data) {
     };
 
     OperationView.prototype.getSelectedValue = function(select) {
-      var opt, options, _i, _len, _ref5;
+      var opt, options, _i, _len, _ref6;
       if (!select.multiple) {
         return select.value;
       } else {
         options = [];
-        _ref5 = select.options;
-        for (_i = 0, _len = _ref5.length; _i < _len; _i++) {
-          opt = _ref5[_i];
+        _ref6 = select.options;
+        for (_i = 0, _len = _ref6.length; _i < _len; _i++) {
+          opt = _ref6[_i];
           if (opt.selected) {
             options.push(opt.value);
           }
@@ -2082,9 +2150,9 @@ function program3(depth0,data) {
         padding = '';
         indent += transitions[fromTo];
         padding = ((function() {
-          var _j, _ref5, _results;
+          var _j, _ref6, _results;
           _results = [];
-          for (j = _j = 0, _ref5 = indent; 0 <= _ref5 ? _j < _ref5 : _j > _ref5; j = 0 <= _ref5 ? ++_j : --_j) {
+          for (j = _j = 0, _ref6 = indent; 0 <= _ref6 ? _j < _ref6 : _j > _ref6; j = 0 <= _ref6 ? ++_j : --_j) {
             _results.push('  ');
           }
           return _results;
@@ -2166,8 +2234,8 @@ function program3(depth0,data) {
     __extends(StatusCodeView, _super);
 
     function StatusCodeView() {
-      _ref5 = StatusCodeView.__super__.constructor.apply(this, arguments);
-      return _ref5;
+      _ref6 = StatusCodeView.__super__.constructor.apply(this, arguments);
+      return _ref6;
     }
 
     StatusCodeView.prototype.initialize = function() {};
@@ -2252,8 +2320,8 @@ function program3(depth0,data) {
     __extends(ParameterView, _super);
 
     function ParameterView() {
-      _ref6 = ParameterView.__super__.constructor.apply(this, arguments);
-      return _ref6;
+      _ref7 = ParameterView.__super__.constructor.apply(this, arguments);
+      return _ref7;
     }
 
     ParameterView.prototype.initialize = function() {
@@ -2351,8 +2419,8 @@ function program3(depth0,data) {
     __extends(SignatureView, _super);
 
     function SignatureView() {
-      _ref7 = SignatureView.__super__.constructor.apply(this, arguments);
-      return _ref7;
+      _ref8 = SignatureView.__super__.constructor.apply(this, arguments);
+      return _ref8;
     }
 
     SignatureView.prototype.events = {
@@ -2419,8 +2487,8 @@ function program3(depth0,data) {
     __extends(ContentTypeView, _super);
 
     function ContentTypeView() {
-      _ref8 = ContentTypeView.__super__.constructor.apply(this, arguments);
-      return _ref8;
+      _ref9 = ContentTypeView.__super__.constructor.apply(this, arguments);
+      return _ref9;
     }
 
     ContentTypeView.prototype.initialize = function() {};
@@ -2445,8 +2513,8 @@ function program3(depth0,data) {
     __extends(ResponseContentTypeView, _super);
 
     function ResponseContentTypeView() {
-      _ref9 = ResponseContentTypeView.__super__.constructor.apply(this, arguments);
-      return _ref9;
+      _ref10 = ResponseContentTypeView.__super__.constructor.apply(this, arguments);
+      return _ref10;
     }
 
     ResponseContentTypeView.prototype.initialize = function() {};
@@ -2471,8 +2539,8 @@ function program3(depth0,data) {
     __extends(ParameterContentTypeView, _super);
 
     function ParameterContentTypeView() {
-      _ref10 = ParameterContentTypeView.__super__.constructor.apply(this, arguments);
-      return _ref10;
+      _ref11 = ParameterContentTypeView.__super__.constructor.apply(this, arguments);
+      return _ref11;
     }
 
     ParameterContentTypeView.prototype.initialize = function() {};

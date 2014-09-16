@@ -560,432 +560,462 @@
                     font-weight: 200;
                 }
             }
-            ul.endpoints {
-                li.endpoint {
-                    ul.operations {
-                        li.operation {
-                            float: none;
-                            clear: both;
-                            overflow: hidden;
-                            display: block;
-                            margin: 0 0 10px;
-                            padding: 0;
-                            div.heading {
+            div.resourceContent {
+                div.basePaths {
+                    background-color: #f9f2e9;
+                    border: 1px solid #ffe2c0;
+                    padding: 10px;
+                    -moz-border-radius-bottomleft: 6px;
+                    -webkit-border-bottom-left-radius: 6px;
+                    -o-border-bottom-left-radius: 6px;
+                    -ms-border-bottom-left-radius: 6px;
+                    -khtml-border-bottom-left-radius: 6px;
+                    border-bottom-left-radius: 6px;
+                    -moz-border-radius-bottomright: 6px;
+                    -webkit-border-bottom-right-radius: 6px;
+                    -o-border-bottom-right-radius: 6px;
+                    -ms-border-bottom-right-radius: 6px;
+                    -khtml-border-bottom-right-radius: 6px;
+                    border-bottom-right-radius: 6px;
+                    margin: 0 0 20px;
+
+                    h4 {
+                        font-size: 1.1em;
+                        margin: 0;
+                        padding: 0px 0 5px;
+                    }
+
+                    tr.basePath {
+                    }
+                }
+
+                ul.endpoints {
+                    li.endpoint {
+                        ul.operations {
+                            li.operation {
                                 float: none;
                                 clear: both;
                                 overflow: hidden;
                                 display: block;
-                                margin: 0;
+                                margin: 0 0 10px;
                                 padding: 0;
-                                h3 {
-                                    display: block;
-                                    clear: none;
-                                    float: left;
-                                    width: auto;
-                                    margin: 0;
-                                    padding: 0;
-                                    line-height: 1.1em;
-                                    color: black;
-                                    span.path {
-                                        padding-left: 10px;
-                                        a {
-                                            color: black;
-                                            text-decoration: none;
-                                        }
-                                        a:hover {
-                                            text-decoration: underline;
-                                        }
-                                    }
-                                    span.http_method {
-                                        a {
-                                            text-transform: uppercase;
-                                            text-decoration: none;
-                                            color: white;
-                                            display: inline-block;
-                                            width: 50px;
-                                            font-size: 0.7em;
-                                            text-align: center;
-                                            padding: 7px 0 4px;
-                                            -moz-border-radius: 2px;
-                                            -webkit-border-radius: 2px;
-                                            -o-border-radius: 2px;
-                                            -ms-border-radius: 2px;
-                                            -khtml-border-radius: 2px;
-                                            border-radius: 2px;
-                                        }
-                                    }
-                                    span {
-                                        margin: 0;
-                                        padding: 0;
-                                    }
-                                }
-                                ul.options {
-                                    overflow: hidden;
-                                    padding: 0;
-                                    display: block;
-                                    clear: none;
-                                    float: right;
-                                    margin: 6px 10px 0 0;
-                                    li {
-                                        float: left;
-                                        clear: none;
-                                        margin: 0;
-                                        padding: 2px 10px;
-                                        font-size: 0.9em;
-                                        a {
-                                            text-decoration: none;
-                                        }
-                                    }
-                                }
-                                ul.options {
-                                    li.access {
-                                        color: black;
-                                    }
-                                }
-                            }
-                            div.content {
-                                border-top: none;
-                                padding: 10px;
-                                -moz-border-radius-bottomleft: 6px;
-                                -webkit-border-bottom-left-radius: 6px;
-                                -o-border-bottom-left-radius: 6px;
-                                -ms-border-bottom-left-radius: 6px;
-                                -khtml-border-bottom-left-radius: 6px;
-                                border-bottom-left-radius: 6px;
-                                -moz-border-radius-bottomright: 6px;
-                                -webkit-border-bottom-right-radius: 6px;
-                                -o-border-bottom-right-radius: 6px;
-                                -ms-border-bottom-right-radius: 6px;
-                                -khtml-border-bottom-right-radius: 6px;
-                                border-bottom-right-radius: 6px;
-                                margin: 0 0 20px;
-                                h4 {
-                                    font-size: 1.1em;
-                                    margin: 0;
-                                    padding: 15px 0 5px;
-                                }
-                                div.sandbox_header {
+                                div.heading {
                                     float: none;
                                     clear: both;
                                     overflow: hidden;
-                                    margin-top: 10px;
                                     display: block;
-                                    a {
-                                        padding: 4px 0 0 10px;
-                                        display: inline-block;
-                                        font-size: 0.9em;
-                                    }
-                                    img {
-                                        display: block;
-                                        clear: none;
-                                        float: right;
-                                    }
-                                    input.submit {
+                                    margin: 0;
+                                    padding: 0;
+                                    h3 {
                                         display: block;
                                         clear: none;
                                         float: left;
-                                        padding: 6px 8px;
+                                        width: auto;
+                                        margin: 0;
+                                        padding: 0;
+                                        line-height: 1.1em;
+                                        color: black;
+                                        span.path {
+                                            padding-left: 10px;
+                                            a {
+                                                color: black;
+                                                text-decoration: none;
+                                            }
+                                            a:hover {
+                                                text-decoration: underline;
+                                            }
+                                        }
+                                        span.http_method {
+                                            a {
+                                                text-transform: uppercase;
+                                                text-decoration: none;
+                                                color: white;
+                                                display: inline-block;
+                                                width: 50px;
+                                                font-size: 0.7em;
+                                                text-align: center;
+                                                padding: 7px 0 4px;
+                                                -moz-border-radius: 2px;
+                                                -webkit-border-radius: 2px;
+                                                -o-border-radius: 2px;
+                                                -ms-border-radius: 2px;
+                                                -khtml-border-radius: 2px;
+                                                border-radius: 2px;
+                                            }
+                                        }
+                                        span {
+                                            margin: 0;
+                                            padding: 0;
+                                        }
                                     }
-                                }
-                                form {
-                                    input[type='text'].error {
-                                        outline: 2px solid black;
-                                        outline-color: #cc0000;
-                                    }
-                                }
-                                div.response {
-                                    div.block {
-                                        pre {
-                                            font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
-                                            padding: 10px;
+                                    ul.options {
+                                        overflow: hidden;
+                                        padding: 0;
+                                        display: block;
+                                        clear: none;
+                                        float: right;
+                                        margin: 6px 10px 0 0;
+                                        li {
+                                            float: left;
+                                            clear: none;
+                                            margin: 0;
+                                            padding: 2px 10px;
                                             font-size: 0.9em;
-                                            max-height: 400px;
-                                            overflow-y: auto;
+                                            a {
+                                                text-decoration: none;
+                                            }
+                                        }
+                                    }
+                                    ul.options {
+                                        li.access {
+                                            color: black;
                                         }
                                     }
                                 }
-                            }
-                        }
-                        li.operation.put {
-                            div.heading {
-                                background-color: #f9f2e9;
-                                border: 1px solid #ffe2c0;
-                                h3 {
-                                    span.http_method {
-                                        a {
-                                            background-color: #ff8a00;
-                                        }
-                                    }
-                                }
-                                ul.options {
-                                    li {
-                                        border-right: 1px solid #dddddd;
-                                        border-right-color: #ffe2c0;
-                                        color: #ff8a00;
-                                        a {
-                                            color: #ff8a00;
-                                        }
-                                    }
-                                }
-                            }
-                            div.content {
-                                background-color: #faf5ee;
-                                border: 1px solid #ffe2c0;
-                                h4 {
-                                    color: #ff8a00;
-                                }
-                                div.sandbox_header {
-                                    a {
-                                        color: #ffa940;
-
-                                    }
-                                }
-                            }
-                        }
-                        li.operation.head {
-                            div.heading {
-                                background-color: #fcffcd;
-                                border: 1px solid black;
-                                border-color: #ffd20f;
-                                h3 {
-                                    span.http_method {
-                                        a {
-                                            text-transform: uppercase;
-                                            background-color: #ffd20f;
-                                        }
-                                    }
-                                }
-                                ul.options {
-                                    li {
-                                        border-right: 1px solid #dddddd;
-                                        border-right-color: #ffd20f;
-                                        color: #ffd20f;
-                                        a {
-                                            color: #ffd20f;
-                                        }
-                                    }
-                                }
-                            }
-                            div.content {
-                                background-color: #fcffcd;
-                                border: 1px solid black;
-                                border-color: #ffd20f;
-                                h4 {
-                                    color: #ffd20f;
-                                }
-                                div.sandbox_header {
-                                    a {
-                                        color: #9eca41;
-                                    }
-                                }
-                            }
-                        }
-                        li.operation.delete {
-                            div.heading {
-                                background-color: #f5e8e8;
-                                border: 1px solid #ffd4d3;
-                                h3 {
-                                    span.http_method {
-                                        a {
-                                            text-transform: uppercase;
-                                            background-color: #fb4d4f;
-
-                                        }
-                                    }
-                                }
-                                ul.options {
-                                    li {
-                                        border-right: 1px solid #dddddd;
-                                        border-right-color: #ffd4d3;
-                                        color: #fb4d4f;
-                                        a {
-                                            color: #fb4d4f;
-                                        }
-                                    }
-                                }
-                            }
-                            div.content {
-                                background-color: #f7eded;
-                                border: 1px solid #ffd4d3;
-                                h4 {
-                                    color: #fb4d4f;
-                                }
-                                div.sandbox_header {
-                                    a {
-                                        color: #fd7a7c;
-                                    }
-                                }
-                            }
-                        }
-                        li.operation.post {
-                            div.heading {
-                                background-color: #e7f6ec;
-                                border: 1px solid #9eca41;
-                                h3 {
-                                    span.http_method {
-                                        a {
-                                            background-color: #7db701;
-                                        }
-                                    }
-                                }
-                                ul.options {
-                                    li {
-                                        border-right: 1px solid #dddddd;
-                                        border-right-color: #9eca41;
-                                        color: #7db701;
-                                        a {
-                                            color: #7db701;
-                                        }
-                                    }
-                                }
-                            }
-                            div.content {
-                                background-color: #ebf7f0;
-                                border: 1px solid #9eca41;
-                                h4 {
-                                    color: #7db701;
-                                }
-                                div.sandbox_header {
-                                    a {
-                                        color: #9eca41;
-                                    }
-                                }
-                            }
-                        }
-                        li.operation.patch {
-                            div.heading {
-                                background-color: #FCE9E3;
-                                border: 1px solid #F5D5C3;
-                                h3 {
-                                    span.http_method {
-                                        a {
-                                            background-color: #D38042;
-
-                                        }
-                                    }
-                                }
-                                ul.options {
-                                    li {
-                                        border-right: 1px solid #dddddd;
-                                        border-right-color: #f0cecb;
-                                        color: #D38042;
-                                        a {
-                                            color: #D38042;
-                                        }
-                                    }
-                                }
-                            }
-                            div.content {
-                                background-color: #faf0ef;
-                                border: 1px solid #f0cecb;
-
-                                h4 {
-                                    color: #D38042;
-
-                                }
-                                div.sandbox_header {
-                                    a {
-                                        color: #ffa940;
-                                    }
-                                }
-                            }
-                        }
-                        li.operation.get {
-                            div.heading {
-                                background-color: #e7f0f7;
-                                border: 1px solid #4fc6ec;
-                                h3 {
-                                    span.http_method {
-                                        a {
-                                            background-color: #14b1e5;
-                                        }
-                                    }
-                                }
-                                ul.options {
-                                    li {
-                                        border-right: 1px solid #dddddd;
-                                        border-right-color: #4fc6ec;
-                                        color: #14b1e5;
-                                        a {
-                                            color: #14b1e5;
-                                        }
-                                    }
-                                }
-                            }
-                            div.content {
-                                background-color: #ebf3f9;
-                                border: 1px solid #4fc6ec;
-                                h4 {
-                                    color: #14b1e5;
-                                }
-                                div.sandbox_header {
-                                    a {
-                                        color: #6fa5d2;
-                                    }
-                                }
-                            }
-                        }
-                        li.operation.options {
-                            div.heading {
-                                background-color: #e7f0f7;
-                                border: 1px solid #4fc6ec;
-                                h3 {
-                                    span.http_method {
-                                        a {
-                                            background-color: #14b1e5;
-                                        }
-                                    }
-                                }
-                                ul.options {
-                                    li {
-                                        border-right: 1px solid #dddddd;
-                                        border-right-color: #4fc6ec;
-                                        color: #14b1e5;
-                                        a {
-                                            color: #14b1e5;
-                                        }
-                                    }
-                                }
-                            }
-                            div.content {
-                                background-color: #ebf3f9;
-                                border: 1px solid #4fc6ec;
-                                h4 {
-                                    color: #14b1e5;
-                                }
-                                div.sandbox_header {
-                                    a {
-                                        color: #6fa5d2;
-                                    }
-                                }
-                            }
-                        }
-                        li.operation {
-                            &.get, &.post, &.head, &.put, &.patch, &.delete {
                                 div.content {
                                     border-top: none;
-                                }
-                                div.heading ul.options li {
-                                    &:last-child, &.last {
-                                        padding-right: 0;
-                                        border-right: none;
+                                    padding: 10px;
+                                    -moz-border-radius-bottomleft: 6px;
+                                    -webkit-border-bottom-left-radius: 6px;
+                                    -o-border-bottom-left-radius: 6px;
+                                    -ms-border-bottom-left-radius: 6px;
+                                    -khtml-border-bottom-left-radius: 6px;
+                                    border-bottom-left-radius: 6px;
+                                    -moz-border-radius-bottomright: 6px;
+                                    -webkit-border-bottom-right-radius: 6px;
+                                    -o-border-bottom-right-radius: 6px;
+                                    -ms-border-bottom-right-radius: 6px;
+                                    -khtml-border-bottom-right-radius: 6px;
+                                    border-bottom-right-radius: 6px;
+                                    margin: 0 0 20px;
+                                    h4 {
+                                        font-size: 1.1em;
+                                        margin: 0;
+                                        padding: 15px 0 5px;
+                                    }
+                                    div.sandbox_header {
+                                        float: none;
+                                        clear: both;
+                                        overflow: hidden;
+                                        margin-top: 10px;
+                                        display: block;
+                                        a {
+                                            padding: 4px 0 0 10px;
+                                            display: inline-block;
+                                            font-size: 0.9em;
+                                        }
+                                        img {
+                                            display: block;
+                                            clear: none;
+                                            float: right;
+                                        }
+                                        input.submit {
+                                            display: block;
+                                            clear: none;
+                                            float: left;
+                                            padding: 6px 8px;
+                                        }
+                                    }
+                                    form {
+                                        input[type='text'].error {
+                                            outline: 2px solid black;
+                                            outline-color: #cc0000;
+                                        }
+                                    }
+                                    div.response {
+                                        div.block {
+                                            pre {
+                                                font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+                                                padding: 10px;
+                                                font-size: 0.9em;
+                                                max-height: 400px;
+                                                overflow-y: auto;
+                                            }
+                                        }
                                     }
                                 }
                             }
-                        }
-                        ul.options li {
-                            a:hover, a:active, a.active {
-                                text-decoration: underline;
-                            }
+                            li.operation.put {
+                                div.heading {
+                                    background-color: #f9f2e9;
+                                    border: 1px solid #ffe2c0;
+                                    h3 {
+                                        span.http_method {
+                                            a {
+                                                background-color: #ff8a00;
+                                            }
+                                        }
+                                    }
+                                    ul.options {
+                                        li {
+                                            border-right: 1px solid #dddddd;
+                                            border-right-color: #ffe2c0;
+                                            color: #ff8a00;
+                                            a {
+                                                color: #ff8a00;
+                                            }
+                                        }
+                                    }
+                                }
+                                div.content {
+                                    background-color: #faf5ee;
+                                    border: 1px solid #ffe2c0;
+                                    h4 {
+                                        color: #ff8a00;
+                                    }
+                                    div.sandbox_header {
+                                        a {
+                                            color: #ffa940;
 
-                            &:first-child,
-                            &.first {
+                                        }
+                                    }
+                                }
+                            }
+                            li.operation.head {
+                                div.heading {
+                                    background-color: #fcffcd;
+                                    border: 1px solid black;
+                                    border-color: #ffd20f;
+                                    h3 {
+                                        span.http_method {
+                                            a {
+                                                text-transform: uppercase;
+                                                background-color: #ffd20f;
+                                            }
+                                        }
+                                    }
+                                    ul.options {
+                                        li {
+                                            border-right: 1px solid #dddddd;
+                                            border-right-color: #ffd20f;
+                                            color: #ffd20f;
+                                            a {
+                                                color: #ffd20f;
+                                            }
+                                        }
+                                    }
+                                }
+                                div.content {
+                                    background-color: #fcffcd;
+                                    border: 1px solid black;
+                                    border-color: #ffd20f;
+                                    h4 {
+                                        color: #ffd20f;
+                                    }
+                                    div.sandbox_header {
+                                        a {
+                                            color: #9eca41;
+                                        }
+                                    }
+                                }
+                            }
+                            li.operation.delete {
+                                div.heading {
+                                    background-color: #f5e8e8;
+                                    border: 1px solid #ffd4d3;
+                                    h3 {
+                                        span.http_method {
+                                            a {
+                                                text-transform: uppercase;
+                                                background-color: #fb4d4f;
+
+                                            }
+                                        }
+                                    }
+                                    ul.options {
+                                        li {
+                                            border-right: 1px solid #dddddd;
+                                            border-right-color: #ffd4d3;
+                                            color: #fb4d4f;
+                                            a {
+                                                color: #fb4d4f;
+                                            }
+                                        }
+                                    }
+                                }
+                                div.content {
+                                    background-color: #f7eded;
+                                    border: 1px solid #ffd4d3;
+                                    h4 {
+                                        color: #fb4d4f;
+                                    }
+                                    div.sandbox_header {
+                                        a {
+                                            color: #fd7a7c;
+                                        }
+                                    }
+                                }
+                            }
+                            li.operation.post {
+                                div.heading {
+                                    background-color: #e7f6ec;
+                                    border: 1px solid #9eca41;
+                                    h3 {
+                                        span.http_method {
+                                            a {
+                                                background-color: #7db701;
+                                            }
+                                        }
+                                    }
+                                    ul.options {
+                                        li {
+                                            border-right: 1px solid #dddddd;
+                                            border-right-color: #9eca41;
+                                            color: #7db701;
+                                            a {
+                                                color: #7db701;
+                                            }
+                                        }
+                                    }
+                                }
+                                div.content {
+                                    background-color: #ebf7f0;
+                                    border: 1px solid #9eca41;
+                                    h4 {
+                                        color: #7db701;
+                                    }
+                                    div.sandbox_header {
+                                        a {
+                                            color: #9eca41;
+                                        }
+                                    }
+                                }
+                            }
+                            li.operation.patch {
+                                div.heading {
+                                    background-color: #FCE9E3;
+                                    border: 1px solid #F5D5C3;
+                                    h3 {
+                                        span.http_method {
+                                            a {
+                                                background-color: #D38042;
+
+                                            }
+                                        }
+                                    }
+                                    ul.options {
+                                        li {
+                                            border-right: 1px solid #dddddd;
+                                            border-right-color: #f0cecb;
+                                            color: #D38042;
+                                            a {
+                                                color: #D38042;
+                                            }
+                                        }
+                                    }
+                                }
+                                div.content {
+                                    background-color: #faf0ef;
+                                    border: 1px solid #f0cecb;
+
+                                    h4 {
+                                        color: #D38042;
+
+                                    }
+                                    div.sandbox_header {
+                                        a {
+                                            color: #ffa940;
+                                        }
+                                    }
+                                }
+                            }
+                            li.operation.get {
+                                div.heading {
+                                    background-color: #e7f0f7;
+                                    border: 1px solid #4fc6ec;
+                                    h3 {
+                                        span.http_method {
+                                            a {
+                                                background-color: #14b1e5;
+                                            }
+                                        }
+                                    }
+                                    ul.options {
+                                        li {
+                                            border-right: 1px solid #dddddd;
+                                            border-right-color: #4fc6ec;
+                                            color: #14b1e5;
+                                            a {
+                                                color: #14b1e5;
+                                            }
+                                        }
+                                    }
+                                }
+                                div.content {
+                                    background-color: #ebf3f9;
+                                    border: 1px solid #4fc6ec;
+                                    h4 {
+                                        color: #14b1e5;
+                                    }
+                                    div.sandbox_header {
+                                        a {
+                                            color: #6fa5d2;
+                                        }
+                                    }
+                                }
+                            }
+                            li.operation.options {
+                                div.heading {
+                                    background-color: #e7f0f7;
+                                    border: 1px solid #4fc6ec;
+                                    h3 {
+                                        span.http_method {
+                                            a {
+                                                background-color: #14b1e5;
+                                            }
+                                        }
+                                    }
+                                    ul.options {
+                                        li {
+                                            border-right: 1px solid #dddddd;
+                                            border-right-color: #4fc6ec;
+                                            color: #14b1e5;
+                                            a {
+                                                color: #14b1e5;
+                                            }
+                                        }
+                                    }
+                                }
+                                div.content {
+                                    background-color: #ebf3f9;
+                                    border: 1px solid #4fc6ec;
+                                    h4 {
+                                        color: #14b1e5;
+                                    }
+                                    div.sandbox_header {
+                                        a {
+                                            color: #6fa5d2;
+                                        }
+                                    }
+                                }
+                            }
+                            li.operation {
+                                &.get, &.post, &.head, &.put, &.patch, &.delete {
+                                    div.content {
+                                        border-top: none;
+                                    }
+                                    div.heading ul.options li {
+                                        &:last-child, &.last {
+                                            padding-right: 0;
+                                            border-right: none;
+                                        }
+                                    }
+                                }
+                            }
+                            ul.options li {
+                                a:hover, a:active, a.active {
+                                    text-decoration: underline;
+                                }
+
+                                &:first-child,
+                                &.first {
+                                    padding-left: 0;
+                                }
+
+                            }
+                            &:first-child, &.first {
                                 padding-left: 0;
                             }
-
-                        }
-                        &:first-child, &.first {
-                            padding-left: 0;
                         }
                     }
                 }

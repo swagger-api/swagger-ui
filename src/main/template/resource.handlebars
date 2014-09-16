@@ -1,11 +1,11 @@
 <div class='heading'>
   <h2>
-    <a href='#!/{{id}}' onclick="Docs.toggleEndpointListForResource('{{id}}');">{{name}} {{#description}} : {{/description}}{{{join description}}}</a>
+    <a href='#!/{{id}}' onclick="Docs.toggleContentForResource('{{id}}');">{{name}} {{#description}} : {{/description}}{{{join description}}}</a>
   </h2>
   <ul class='options'>
     <li>
       <a href='#!/{{id}}' id='endpointListTogger_{{id}}'
-         onclick="Docs.toggleEndpointListForResource('{{id}}');">Show/Hide</a>
+         onclick="Docs.toggleContentForResource('{{id}}');">Show/Hide</a>
     </li>
     <li>
       <a href='#' onclick="Docs.collapseOperationsForResource('{{id}}'); return false;">
@@ -22,6 +22,22 @@
     </li>
   </ul>
 </div>
-<ul class='endpoints' id='{{id}}_endpoint_list' style='display:none'>
+<div class='resourceContent' style='display:none'>
+  <div class='basePaths' style='display:none'>
+    <h4>Base Paths</h4>
+    <table class="fullwidth">
+      <thead>
+        <tr>
+          <th style="width: 20%">Environment</th>
+          <th style="width: 80%">Base Path</th>
+        </tr>
+      </thead>
+      <tbody class="basePath-Values" id='{{id}}_basePath_container'>
 
-</ul>
+      </tbody>
+    </table>
+  </div>
+  <ul class='endpoints' id='{{id}}_endpoint_list'>
+
+  </ul>
+</div>
