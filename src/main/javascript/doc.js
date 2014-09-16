@@ -103,7 +103,6 @@ var Docs = {
 
         // Expand Resource
         Docs.expandEndpointListForResource(fragments[0]);
-        $("#"+dom_id).slideto({highlight: false});
 
         // Expand operation
 				var li_dom_id = fragments.join('_');
@@ -115,6 +114,32 @@ var Docs = {
 				Docs.expandOperation($('#'+li_content_dom_id));
 				$('#'+li_dom_id).slideto({highlight: false});
 				break;
+      case 3:
+        // Refer to the endpoint DOM element, e.g. #words_get_search
+        log('shebang endpoint: ' + fragments.join('_'));
+
+        // Expand Resource
+        Docs.expandEndpointListForResource(fragments[0]);
+
+        // Expand operation
+        var li_dom_id = fragments.slice(0, 2).join('_');
+        var li_content_dom_id = li_dom_id + "_content";
+
+        log("li_dom_id " + li_dom_id);
+        log("li_content_dom_id " + li_content_dom_id);
+
+        Docs.expandOperation($('#'+li_content_dom_id));
+
+        // Expand model
+        var a_dom_id = fragments.join('_');
+        var a_content_dom_id = a_dom_id + "_content";
+
+        log("a_dom_id " + a_dom_id);
+        log("a_content_dom_id " + a_content_dom_id);
+
+        Docs.expandModel($('#'+a_dom_id));
+        $('#'+a_dom_id).slideto({highlight: false});
+        break;
 		}
 
 	},
@@ -184,5 +209,9 @@ var Docs = {
 
 	collapseOperation: function(elem) {
 		elem.slideUp();
-	}
+	},
+
+  expandModel: function(elem) {
+    elem.click();
+  }
 };
