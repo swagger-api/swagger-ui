@@ -404,7 +404,7 @@
   clear: both;
 }
 .swagger-section .swagger-ui-wrap .body-textarea {
-  width: 300px;
+  width: 200px;
   height: 100px;
   border: 1px solid #aaa;
 }
@@ -419,7 +419,7 @@
   font-weight: bold;
 }
 .swagger-section .swagger-ui-wrap input.parameter {
-  width: 300px;
+  width: 200px;
   border: 1px solid #aaa;
 }
 .swagger-section .swagger-ui-wrap h1 {
@@ -471,9 +471,6 @@
   text-align: left;
   font-weight: normal;
   vertical-align: middle;
-}
-.swagger-section .swagger-ui-wrap .code {
-  font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
 }
 .swagger-section .swagger-ui-wrap form.formtastic fieldset.inputs ol li.text textarea {
   font-family: 'Helvetica Neue', 'Segoe UI', Segoe, Helvetica, Arial, 'Lucida Grande', sans-serif;
