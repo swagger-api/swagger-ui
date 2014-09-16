@@ -643,13 +643,13 @@ SwaggerModelProperty.prototype.getSampleValue = function(modelsToIgnore) {
 SwaggerModelProperty.prototype.toSampleValue = function(value) {
   var result;
   if (value === "integer") {
-    result = 0;
+    result = 1;
   } else if (value === "boolean") {
-    result = false;
+    result = true;
   } else if (value === "double" || value === "number") {
-    result = 0.0;
+    result = 1.1;
   } else if (value === "string") {
-    result = "";
+    result = ' ';
   } else {
     result = value;
   }
@@ -724,8 +724,8 @@ var SwaggerOperation = function(nickname, path, method, parameters, summary, not
       param.allowableValues.values = ["true", "false"];
     }
     var _this = this;
-    param.signature = function() { return _this.getSignature(type, _this.resource.models) }
-    param.sampleJSON = function() { return _this.getSampleJSON(type, _this.resource.models) }
+    param.signature = function(param) { return _this.getSignature(param.type || param.dataType, _this.resource.models) };
+    param.sampleJSON = function(param) { return _this.getSampleJSON(param.type || param.dataType, _this.resource.models) };
 
     var enumValue = param["enum"];
     if(enumValue != null) {
@@ -797,13 +797,13 @@ SwaggerOperation.prototype.getSignature = function(type, models) {
   listType = this.isListType(type);
   isPrimitive = ((listType != null) && models[listType]) || (models[type] != null) ? false : true;
   if (isPrimitive) {
-    if (listType != null) {
+    if (listType) {
       return '<span class="strong">Array of </span>' + listType;
     } else {
       return type;
     }
   } else {
-    if (listType != null) {
+    if (listType) {
       return '<span class="strong">Array of </span>' + models[listType].getMockSignature();
     } else {
       return models[type].getMockSignature();
@@ -815,12 +815,19 @@ SwaggerOperation.prototype.getSampleJSON = function(type, models) {
   var isPrimitive, listType, val;
   listType = this.isListType(type);
   isPrimitive = ((listType != null) && models[listType]) || (models[type] != null) ? false : true;
-  val = isPrimitive ? void 0 : (listType != null ? models[listType].createJSONSample() : models[type].createJSONSample());
+  val = null;
+  if (isPrimitive) {
+    val = SwaggerModelProperty.prototype.toSampleValue(listType || type);
+  } else {
+    val = models[listType || type].createJSONSample();
+  }
   if (val) {
-    val = listType ? [val] : val;
-    if(typeof val == "string")
-      return val;
-    else if(typeof val === "object") {
+    if (typeof val === "string") {
+      val = '"' + val + '"';
+    }
+    if (listType) {
+      return '[' + val + ']';
+    } else if (typeof val === "object") {
       var t = val;
       if(val instanceof Array && val.length > 0) {
         t = val[0];
