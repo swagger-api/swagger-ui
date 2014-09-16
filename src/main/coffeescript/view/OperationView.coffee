@@ -44,9 +44,6 @@ class OperationView extends Backbone.View
     isMethodSubmissionSupported = true #jQuery.inArray(@model.method, @model.supportedSubmitMethods) >= 0
     @model.isReadOnly = true unless isMethodSubmissionSupported
 
-    #@model.responseClassSignature = "hello"
-    #@model.responseSampleJSON = @model.createJSONSample
-
     @model.oauth = null
     if @model.authorizations
       for k, v of @model.authorizations
