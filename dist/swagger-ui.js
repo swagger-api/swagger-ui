@@ -105,7 +105,7 @@ var Docs = {
 
         // Expand Resource
         Docs.expandEndpointListForResource(fragments[0]);
-        $("#"+dom_id).slideto({highlight: false});
+        //$("#"+dom_id).slideto({highlight: false});
 
         // Expand operation
 				var li_dom_id = fragments.join('_');
@@ -117,6 +117,34 @@ var Docs = {
 				Docs.expandOperation($('#'+li_content_dom_id));
 				$('#'+li_dom_id).slideto({highlight: false});
 				break;
+      case 3:
+        // Refer to the endpoint DOM element, e.g. #words_get_search
+        log('shebang endpoint: ' + fragments.join('_'));
+
+        // Expand Resource
+        Docs.expandEndpointListForResource(fragments[0]);
+        //$("#"+dom_id).slideto({highlight: false});
+
+        // Expand operation
+        var li_dom_id = fragments.slice(0, 2).join('_');
+        var li_content_dom_id = li_dom_id + "_content";
+
+        log("li_dom_id " + li_dom_id);
+        log("li_content_dom_id " + li_content_dom_id);
+
+        Docs.expandOperation($('#'+li_content_dom_id));
+        //$('#'+li_dom_id).slideto({highlight: false});
+
+        // Expand model
+        var a_dom_id = fragments.join('_');
+        var a_content_dom_id = a_dom_id + "_content";
+
+        log("a_dom_id " + a_dom_id);
+        log("a_content_dom_id " + a_content_dom_id);
+
+        Docs.expandModel($('#'+a_dom_id));
+        $('#'+a_dom_id).slideto({highlight: false});
+        break;
 		}
 
 	},
@@ -186,7 +214,11 @@ var Docs = {
 
 	collapseOperation: function(elem) {
 		elem.slideUp();
-	}
+	},
+
+  expandModel: function(elem) {
+    elem.click();
+  }
 };(function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
 templates['content_type'] = template(function (Handlebars,depth0,helpers,partials,data) {
@@ -394,7 +426,7 @@ function program10(depth0,data) {
 function program12(depth0,data) {
   
   
-  return "\n          <h4>Parameters</h4>\n          <table class='fullwidth'>\n          <thead>\n            <tr>\n            <th style=\"width: 100px; max-width: 100px\">Parameter</th>\n            <th style=\"width: 310px; max-width: 310px\">Value</th>\n            <th style=\"width: 200px; max-width: 200px\">Description</th>\n            <th style=\"width: 100px; max-width: 100px\">Parameter Type</th>\n            <th style=\"width: 220px; max-width: 230px\">Data Type</th>\n            </tr>\n          </thead>\n          <tbody class=\"operation-params\">\n\n          </tbody>\n          </table>\n          ";
+  return "\n          <h4>Parameters</h4>\n          <table class='fullwidth'>\n          <thead>\n            <tr>\n            <th style=\"width: 100px; max-width: 100px\">Parameter</th>\n            <th style=\"width: 200px; max-width: 200px\">Value</th>\n            <th style=\"width: 300px; max-width: 300px\">Description</th>\n            <th style=\"width: 90px; max-width: 90px\">Param Type</th>\n            <th style=\"width: 220px; max-width: 220px\">Data Type</th>\n            </tr>\n          </thead>\n          <tbody class=\"operation-params\">\n\n          </tbody>\n          </table>\n          ";
   }
 
 function program14(depth0,data) {
@@ -406,7 +438,7 @@ function program14(depth0,data) {
 function program16(depth0,data) {
   
   
-  return "\n        <div style='margin:0;padding:0;display:inline'></div>\n        <h4>Response Messages</h4>\n        <table class='fullwidth'>\n          <thead>\n          <tr>\n            <th>HTTP Status Code</th>\n            <th>Reason</th>\n            <th>Response Model</th>\n          </tr>\n          </thead>\n          <tbody class=\"operation-status\">\n\n          </tbody>\n        </table>\n        ";
+  return "\n        <div style='margin:0;padding:0;display:inline'></div>\n        <h4>Response Messages</h4>\n        <table class='fullwidth'>\n          <thead>\n          <tr>\n            <th style=\"width: 60px; max-width: 60px\">Status</th>\n            <th style=\"width: 390px; max-width: 390px\">Reason</th>\n            <th style=\"width: 488px; max-width: 488px\">Model</th>\n          </tr>\n          </thead>\n          <tbody class=\"operation-status\">\n\n          </tbody>\n        </table>\n        ";
   }
 
 function program18(depth0,data) {
@@ -1209,7 +1241,31 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (stack1 = helpers.modelLabel) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.modelLabel; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</li>\n    <li><a class=\"description-link\" href=\"#\">Model</a></li>\n    <li><a class=\"snippet-link\" href=\"#\">Model Schema</a></li>\n</ul>\n<div>\n\n<div class=\"signature-container\">\n    <div class=\"description\">\n        ";
+  buffer += "</li>\n    <li><a class=\"description-link\" href=\"#!/";
+  if (stack1 = helpers.parentId) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.parentId; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "/";
+  if (stack1 = helpers.nickname) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.nickname; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "/";
+  if (stack1 = helpers.modelAnchor) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.modelAnchor; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\" id=\"";
+  if (stack1 = helpers.parentId) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.parentId; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "_";
+  if (stack1 = helpers.nickname) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.nickname; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "_";
+  if (stack1 = helpers.modelAnchor) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.modelAnchor; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\">Model</a></li>\n    <li><a class=\"snippet-link\">Sample</a></li>\n</ul>\n<div>\n\n<div class=\"signature-container\">\n    <div class=\"description\">\n        ";
   if (stack1 = helpers.signature) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.signature; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
@@ -1241,7 +1297,7 @@ function program3(depth0,data) {
   return "\n  &nbsp;\n  ";
   }
 
-  buffer += "<td width='15%' class='code'>";
+  buffer += "<td>";
   if (stack1 = helpers.code) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.code; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -1249,7 +1305,7 @@ function program3(depth0,data) {
   options = {hash:{},data:data};
   stack2 = ((stack1 = helpers.join || depth0.join),stack1 ? stack1.call(depth0, depth0.message, options) : helperMissing.call(depth0, "join", depth0.message, options));
   if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += "</td>\n<td width='50%'>\n  ";
+  buffer += "</td>\n<td>\n  ";
   stack2 = helpers['if'].call(depth0, depth0.hasResponseModel, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\n</td>";
@@ -1701,6 +1757,9 @@ function program3(depth0,data) {
       $(this.el).html(Handlebars.templates.operation(this.model));
       if (this.model.responseClassSignature && this.model.responseClassSignature !== 'string') {
         signatureModel = {
+          parentId: this.model.resourceName,
+          nickname: this.model.nickname,
+          modelAnchor: this.model.responseClassSignature,
           sampleJSON: this.model.responseSampleJSON,
           isParam: false,
           signature: this.model.responseClassSignature
@@ -1736,31 +1795,37 @@ function program3(depth0,data) {
       _ref7 = this.model.parameters;
       for (_k = 0, _len2 = _ref7.length; _k < _len2; _k++) {
         param = _ref7[_k];
-        this.addParameter(param, contentTypeModel.consumes);
+        this.addParameter(param, contentTypeModel.consumes, this.model);
       }
       _ref8 = this.model.responseMessages;
       for (_l = 0, _len3 = _ref8.length; _l < _len3; _l++) {
         statusCode = _ref8[_l];
-        this.addStatusCode(statusCode);
+        this.addStatusCode(statusCode, this.model);
       }
       return this;
     };
 
-    OperationView.prototype.addParameter = function(param, consumes) {
+    OperationView.prototype.addParameter = function(param, consumes, container) {
       var paramView;
       param.consumes = consumes;
       paramView = new ParameterView({
-        model: param,
+        model: {
+          param: param,
+          container: container
+        },
         tagName: 'tr',
         readOnly: this.model.isReadOnly
       });
       return $('.operation-params', $(this.el)).append(paramView.render().el);
     };
 
-    OperationView.prototype.addStatusCode = function(statusCode) {
+    OperationView.prototype.addStatusCode = function(statusCode, container) {
       var statusCodeView;
       statusCodeView = new StatusCodeView({
-        model: statusCode,
+        model: {
+          statusCode: statusCode,
+          container: container
+        },
         tagName: 'tr'
       });
       return $('.operation-status', $(this.el)).append(statusCodeView.render().el);
@@ -2119,35 +2184,39 @@ function program3(depth0,data) {
     };
 
     StatusCodeView.prototype.render = function() {
-      var isPrimitive, jsonSample, listType, mockSignature, modelLabel, responseModel, responseModelView, template;
+      var isPrimitive, jsonSample, listType, mockSignature, modelAnchor, modelLabel, responseModel, responseModelView, template;
       template = this.template();
-      this.model.hasResponseModel = this.model.responseModel && this.model.responseModel !== 'void';
-      $(this.el).html(template(this.model));
-      listType = this.isListType(this.model.responseModel);
+      this.model.statusCode.hasResponseModel = this.model.statusCode.responseModel && this.model.statusCode.responseModel !== 'void';
+      $(this.el).html(template(this.model.statusCode));
+      listType = this.isListType(this.model.statusCode.responseModel);
       isPrimitive = false;
-      if ((listType !== null && swaggerUi.api.models[listType]) || swaggerUi.api.models[this.model.responseModel]) {
+      if ((listType !== null && swaggerUi.api.models[listType]) || swaggerUi.api.models[this.model.statusCode.responseModel]) {
         isPrimitive = false;
       } else {
         isPrimitive = true;
       }
       jsonSample = null;
       mockSignature = null;
+      modelAnchor = null;
       if (isPrimitive) {
-        jsonSample = SwaggerModelProperty.prototype.toSampleValue(listType || this.model.responseModel);
-        mockSignature = listType || this.model.responseModel;
-        if ((listType || this.model.responseModel) === 'string') {
+        jsonSample = SwaggerModelProperty.prototype.toSampleValue(listType || this.model.statusCode.responseModel);
+        mockSignature = listType || this.model.statusCode.responseModel;
+        if (typeof jsonSample === 'string') {
           jsonSample = '"' + jsonSample + '"';
         }
         if (listType) {
           jsonSample = '[' + jsonSample + ']';
+          modelAnchor = 'ArrayOf' + mockSignature;
           mockSignature = '<span class="strong">Array of ' + mockSignature + '</span>';
         }
       } else if (listType) {
         jsonSample = '[' + JSON.stringify(swaggerUi.api.models[listType].createJSONSample(), null, 2) + ']';
         mockSignature = '<span class="strong">Array of </span>' + swaggerUi.api.models[listType].getMockSignature();
+        modelAnchor = 'ArrayOf' + swaggerUi.api.models[listType].name;
       } else {
-        jsonSample = JSON.stringify(swaggerUi.api.models[this.model.responseModel].createJSONSample(), null, 2);
-        mockSignature = swaggerUi.api.models[this.model.responseModel].getMockSignature();
+        jsonSample = JSON.stringify(swaggerUi.api.models[this.model.statusCode.responseModel].createJSONSample(), null, 2);
+        mockSignature = swaggerUi.api.models[this.model.statusCode.responseModel].getMockSignature();
+        modelAnchor = swaggerUi.api.models[this.model.statusCode.responseModel].name;
       }
       if (mockSignature && mockSignature.indexOf('{') > -1) {
         modelLabel = mockSignature.substring(0, mockSignature.indexOf('{')) + '</span>';
@@ -2155,6 +2224,9 @@ function program3(depth0,data) {
         modelLabel = mockSignature;
       }
       responseModel = {
+        parentId: this.model.container.resourceName,
+        nickname: this.model.container.nickname,
+        modelAnchor: modelAnchor,
         modelLabel: modelLabel,
         sampleJSON: jsonSample,
         isParam: false,
@@ -2195,38 +2267,48 @@ function program3(depth0,data) {
     };
 
     ParameterView.prototype.render = function() {
-      var contentTypeModel, isParam, parameterContentTypeView, responseContentTypeView, signatureModel, signatureView, template, type;
-      type = this.model.type || this.model.dataType;
-      if (this.model.paramType === 'body') {
-        this.model.isBody = true;
+      var contentTypeModel, isParam, modelAnchor, modelLabel, parameterContentTypeView, responseContentTypeView, signatureModel, signatureView, template, type;
+      type = this.model.param.type || this.model.param.dataType;
+      if (this.model.param.paramType === 'body') {
+        this.model.param.isBody = true;
       }
       if (type.toLowerCase() === 'file') {
-        this.model.isFile = true;
+        this.model.param.isFile = true;
       }
       template = this.template();
-      $(this.el).html(template(this.model));
+      $(this.el).html(template(this.model.param));
+      modelAnchor = this.model.param.type || this.model.param.dataType;
+      modelLabel = this.model.param.type || this.model.param.dataType;
+      if (modelAnchor.indexOf('[') >= 0) {
+        modelAnchor = modelAnchor.replace(/\[/, 'ArrayOf').replace(/\]/, '');
+        modelLabel = modelLabel.replace(/\[/, 'Array of ').replace(/\]/, '');
+      }
       signatureModel = {
-        sampleJSON: typeof this.model.sampleJSON === 'function' ? this.model.sampleJSON() : this.model.sampleJSON,
+        parentId: this.model.container.resourceName,
+        nickname: this.model.container.nickname,
+        modelAnchor: modelAnchor,
+        sampleJSON: typeof this.model.param.sampleJSON === 'function' ? this.model.param.sampleJSON(this.model.param) : this.model.param.sampleJSON,
         isParam: true,
-        signature: typeof this.model.signature === 'function' ? this.model.signature() : this.model.signature
+        signature: typeof this.model.param.signature === 'function' ? this.model.param.signature(this.model.param) : this.model.param.signature,
+        modelLabel: modelLabel
       };
-      if (this.model.sampleJSON) {
+      if (this.model.param.sampleJSON) {
         signatureView = new SignatureView({
           model: signatureModel,
           tagName: 'div'
         });
         $('.model-signature', $(this.el)).append(signatureView.render().el);
       } else {
-        $('.model-signature', $(this.el)).html(this.model.signature);
+        $('.model-signature', $(this.el)).html(this.model.param.signature);
       }
       isParam = false;
-      if (this.model.isBody) {
+      if (this.model.param.isBody) {
         isParam = true;
       }
       contentTypeModel = {
         isParam: isParam
       };
-      contentTypeModel.consumes = this.model.consumes;
+      contentTypeModel.consumes = this.model.param.consumes;
       if (isParam) {
         parameterContentTypeView = new ParameterContentTypeView({
           model: contentTypeModel
@@ -2242,17 +2324,17 @@ function program3(depth0,data) {
     };
 
     ParameterView.prototype.template = function() {
-      if (this.model.isList) {
+      if (this.model.param.isList) {
         return Handlebars.templates.param_list;
       } else {
         if (this.options.readOnly) {
-          if (this.model.required) {
+          if (this.model.param.required) {
             return Handlebars.templates.param_readonly_required;
           } else {
             return Handlebars.templates.param_readonly;
           }
         } else {
-          if (this.model.required) {
+          if (this.model.param.required) {
             return Handlebars.templates.param_required;
           } else {
             return Handlebars.templates.param;
@@ -2300,9 +2382,6 @@ function program3(depth0,data) {
     };
 
     SignatureView.prototype.switchToDescription = function(e) {
-      if (e != null) {
-        e.preventDefault();
-      }
       $(".snippet", $(this.el)).hide();
       $('.snippet-link', $(this.el)).removeClass('selected');
       $(".description", $(this.el)).toggle();

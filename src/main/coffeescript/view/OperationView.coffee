@@ -59,10 +59,13 @@ class OperationView extends Backbone.View
 
     if @model.responseClassSignature and @model.responseClassSignature != 'string'
       signatureModel =
+        parentId: @model.resourceName,
+        nickname: @model.nickname,
+        modelAnchor: @model.responseClassSignature,
         sampleJSON: @model.responseSampleJSON
         isParam: false
         signature: @model.responseClassSignature
-        
+
       responseSignatureView = new SignatureView({model: signatureModel, tagName: 'div'})
       $('.model-signature', $(@el)).append responseSignatureView.render().el
     else
@@ -85,22 +88,22 @@ class OperationView extends Backbone.View
     $('.response-content-type', $(@el)).append responseContentTypeView.render().el
 
     # Render each parameter
-    @addParameter param, contentTypeModel.consumes for param in @model.parameters
+    @addParameter(param, contentTypeModel.consumes, @model) for param in @model.parameters
 
     # Render each response code
-    @addStatusCode statusCode for statusCode in @model.responseMessages
+    @addStatusCode(statusCode, @model) for statusCode in @model.responseMessages
 
     @
 
-  addParameter: (param, consumes) ->
+  addParameter: (param, consumes, container) ->
     # Render a parameter
     param.consumes = consumes
-    paramView = new ParameterView({model: param, tagName: 'tr', readOnly: @model.isReadOnly})
+    paramView = new ParameterView({model: {param: param, container: container}, tagName: 'tr', readOnly: @model.isReadOnly})
     $('.operation-params', $(@el)).append paramView.render().el
 
-  addStatusCode: (statusCode) ->
+  addStatusCode: (statusCode, container) ->
     # Render status codes
-    statusCodeView = new StatusCodeView({model: statusCode, tagName: 'tr'})
+    statusCodeView = new StatusCodeView({model: {statusCode: statusCode, container: container}, tagName: 'tr'})
     $('.operation-status', $(@el)).append statusCodeView.render().el
   
   submitOperation: (e) ->

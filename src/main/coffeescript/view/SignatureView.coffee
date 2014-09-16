@@ -27,7 +27,7 @@ class SignatureView extends Backbone.View
 
   # handler for show signature
   switchToDescription: (e) ->
-    e?.preventDefault()
+    #e?.preventDefault()
     $(".snippet", $(@el)).hide()
     $('.snippet-link', $(@el)).removeClass('selected')
     $(".description", $(@el)).toggle()
