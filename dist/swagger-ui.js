@@ -1495,6 +1495,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
     MainView.prototype.addResource = function(resource) {
       var resourceView;
+      resource.id = resource.id.replace(/\s/g, '_');
       resourceView = new ResourceView({
         model: resource,
         tagName: 'li',
