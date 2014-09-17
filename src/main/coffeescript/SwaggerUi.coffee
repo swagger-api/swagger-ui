@@ -22,9 +22,16 @@ class SwaggerUi extends Backbone.Router
     @options = options
 
     # Set the callbacks
-    @options.success = => @render()
+    @options.success = => 
+      @render()
     @options.progress = (d) => @showMessage(d)
-    @options.failure = (d) => @onLoadFailure(d)
+    @options.failure = (d) => 
+      if @api and @api.isValid is false
+        log "not a valid 2.0 spec, loading legacy client"
+        @api = new SwaggerApi(@options)
+        @api.build()
+      else
+        @onLoadFailure(d)
 
     # Create view to handle the header inputs
     @headerView = new HeaderView({el: $('#header')})
@@ -48,15 +55,8 @@ class SwaggerUi extends Backbone.Router
     @options.url = url
     @headerView.update(url)
 
-    if url.indexOf('swagger.json') > 0
-      @api = new SwaggerClient(@options)
-      @api.build()
-      @api
-    else
-      @api = new SwaggerApi(@options)
-      @api.build()
-      @api
-
+    @api = new SwaggerClient(@options)
+    @api.build()    
 
   # This is bound to success handler for SwaggerApi
   #  so it gets called when SwaggerApi completes loading

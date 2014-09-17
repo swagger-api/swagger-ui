@@ -1258,7 +1258,13 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         return _this.showMessage(d);
       };
       this.options.failure = function(d) {
-        return _this.onLoadFailure(d);
+        if (_this.api && _this.api.isValid === false) {
+          log("not a valid 2.0 spec, loading legacy client");
+          _this.api = new SwaggerApi(_this.options);
+          return _this.api.build();
+        } else {
+          return _this.onLoadFailure(d);
+        }
       };
       this.headerView = new HeaderView({
         el: $('#header')
@@ -1284,15 +1290,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       }
       this.options.url = url;
       this.headerView.update(url);
-      if (url.indexOf('swagger.json') > 0) {
-        this.api = new SwaggerClient(this.options);
-        this.api.build();
-        return this.api;
-      } else {
-        this.api = new SwaggerApi(this.options);
-        this.api.build();
-        return this.api;
-      }
+      this.api = new SwaggerClient(this.options);
+      return this.api.build();
     };
 
     SwaggerUi.prototype.render = function() {
