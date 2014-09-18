@@ -1,5 +1,5 @@
 // swagger-ui.js
-// version 2.0.22
+// version 2.0.25
 $(function() {
 
 	// Helper function for vertically aligning DOM elements
@@ -275,9 +275,9 @@ function program6(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "<div class='info_license'><a href='"
-    + escapeExpression(((stack1 = ((stack1 = depth0.info),stack1 == null || stack1 === false ? stack1 : stack1.licenseUrl)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = depth0.info),stack1 == null || stack1 === false ? stack1 : stack1.license)),stack1 == null || stack1 === false ? stack1 : stack1.name)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "'>"
-    + escapeExpression(((stack1 = ((stack1 = depth0.info),stack1 == null || stack1 === false ? stack1 : stack1.license)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = depth0.info),stack1 == null || stack1 === false ? stack1 : stack1.license)),stack1 == null || stack1 === false ? stack1 : stack1.url)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "</a></div>";
   return buffer;
   }
@@ -1465,7 +1465,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     MainView.prototype.initialize = function(opts) {
-      var route, sorter, sorterName, _i, _len, _ref3;
+      var name, route, sorter, sorterName, url, _i, _len, _ref3;
       if (opts == null) {
         opts = {};
       }
@@ -1479,9 +1479,17 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
             route.operationsArray.sort(sorter);
           }
           if (sorterName === "alpha") {
-            return this.model.apisArray.sort(sorter);
+            this.model.apisArray.sort(sorter);
           }
         }
+      }
+      log(this.model);
+      if (this.model.info.license && typeof this.model.info.license === 'string') {
+        name = this.model.info.license;
+        url = this.model.info.licenseUrl;
+        this.model.info.license = {};
+        this.model.info.license.name = name;
+        return this.model.info.license.url = url;
       }
     };
 

@@ -13,6 +13,14 @@ class MainView extends Backbone.View
           route.operationsArray.sort sorter
         if (sorterName == "alpha") # sort top level paths if alpha 
           @model.apisArray.sort sorter
+
+    log @model
+    if @model.info.license and typeof @model.info.license is 'string'
+      name = @model.info.license
+      url = @model.info.licenseUrl
+      @model.info.license = {}
+      @model.info.license.name = name
+      @model.info.license.url = url
  
   render: ->
     # Render the outer container for resources
