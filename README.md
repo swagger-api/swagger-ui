@@ -19,6 +19,17 @@ Check out [Swagger-Spec](https://github.com/wordnik/swagger-spec) for additional
 ### Download
 You can use the swagger-ui code AS-IS!  No need to build or recompile--just clone this repo and use the pre-built files in the `dist` folder.  If you like swagger-ui as-is, stop here.
 
+
+## Compatability
+The Swagger Specification has undergone 3 revisions since initial creation in 2010.  The swagger-ui project has the following compatibilies with the swagger specification:
+
+Swagger UI Version | Release Date | Swagger Spec compatability | Notes
+------------------ | ------------ | -------------------------- | -----
+2.0.25 (in development)  | n/a          | 1,1, 1,2, 2.0 | [branch develop_2.0](https://github.com/wordnik/swagger-ui/tree/develop_2.0)
+2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/wordnik/swagger-ui/tree/v2.0.24)
+1.0.13             | 2013-03-08   | 1.1, 1.2 | [tag v1.0.13](https://github.com/wordnik/swagger-ui/tree/v1.0.13)
+1.0.1              | 2011-10-11   | 1.0, 1.1 | [tag v1.0.1](https://github.com/wordnik/swagger-ui/tree/v1.0.1)
+
 ### Build
 You can rebuild swagger-ui on your own to tweak it or just so you can say you did.  To do so, follow these steps:
 
