@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "2.0.22",
+  "version": "2.0.25",
   "description": "Swagger UI is a dependency-free collection of HTML, Javascript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API",
   "scripts": {
     "build": "PATH=$PATH:./node_modules/.bin cake dist",
