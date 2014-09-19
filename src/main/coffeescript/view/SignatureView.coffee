@@ -16,7 +16,7 @@ class SignatureView extends Backbone.View
     @isParam = @model.isParam
 
     if @isParam
-      $('.notice', $(@el)).text('Click to set as parameter value')
+      $('.notice', $(@el)).text('Clique para usar como parâmetro')
 
     @
 
@@ -30,7 +30,7 @@ class SignatureView extends Backbone.View
     $(".description", $(@el)).show()
     $('.description-link', $(@el)).addClass('selected')
     $('.snippet-link', $(@el)).removeClass('selected')
-    
+
   # handler for show sample
   switchToSnippet: (e) ->
     e?.preventDefault()
@@ -48,4 +48,4 @@ class SignatureView extends Backbone.View
         textArea.val(@model.sampleJSON)
 
 
-    
+

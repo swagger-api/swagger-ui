@@ -94,7 +94,7 @@ class SwaggerUi extends Backbone.Router
   onLoadFailure: (data = '') ->
     $('#message-bar').removeClass 'message-success'
     $('#message-bar').addClass 'message-fail'
-    val = $('#message-bar').html data
+    val = $('#message-bar').html('<p>Você precisa de uma chave de API válida para acessar esta documentação.</p><p>' + data + '</p>')
     @options.onFailure(data) if @options.onFailure?
     val
 

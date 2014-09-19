@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Swagger UI</title>
-  <link href='//fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/>
+  <meta charset="utf-8">
+  <title>API Vindi</title>
+  <link href='//fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
   <link href='css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
   <link href='css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
   <link href='css/reset.css' media='print' rel='stylesheet' type='text/css'/>
@@ -24,8 +25,28 @@
 
   <script type="text/javascript">
     $(function () {
+
+      function getQueryVariable(variable)
+      {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+          var pair = vars[i].split("=");
+          if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+      }
+
+      function setAuthorization(){
+        key = getQueryVariable('key');
+        if (key){
+          window.authorizations.add("Basic", new PasswordAuthorization("basic_auth", key, ''));
+          $('#input_apiKey').val(key);
+        }
+      }
+
       window.swaggerUi = new SwaggerUi({
-      url: "http://petstore.swagger.wordnik.com/api/api-docs",
+      url: getQueryVariable('url'),
       dom_id: "swagger-ui-container",
       supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
       onComplete: function(swaggerApi, swaggerUi){
@@ -47,7 +68,7 @@
       onFailure: function(data) {
         log("Unable to Load SwaggerUI");
       },
-      docExpansion: "none",
+      docExpansion: "list",
       sorter : "alpha"
     });
 
@@ -56,9 +77,10 @@
       log("key: " + key);
       if(key && key.trim() != "") {
         log("added key " + key);
-        window.authorizations.add("key", new ApiKeyAuthorization("api_key", key, "query"));
+        window.authorizations.add("Basic", new PasswordAuthorization("basic_auth", key, ''));
       }
     })
+    setAuthorization();
     window.swaggerUi.load();
   });
   </script>
@@ -67,22 +89,50 @@
 <body class="swagger-section">
 <div id='header'>
   <div class="swagger-ui-wrap">
-    <a id="logo" href="http://swagger.wordnik.com">swagger</a>
+    <a id="logo" href="http://swagger.wordnik.com"></a>
     <form id='api_selector'>
-      <div class='input icon-btn'>
-        <img id="show-pet-store-icon" src="images/pet_store_api.png" title="Show Swagger Petstore Example Apis">
-      </div>
-      <div class='input icon-btn'>
-        <img id="show-wordnik-dev-icon" src="images/wordnik_api.png" title="Show Wordnik Developer Apis">
-      </div>
-      <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
-      <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
-      <div class='input'><a id="explore" href="#">Explore</a></div>
+      <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text" disabled="disabled"/></div>
+      <div class='input'><input placeholder="Chave da API" id="input_apiKey" name="apiKey" type="text"/></div>
+      <div class='input'><a id="explore" href="#">Explorar</a></div>
     </form>
   </div>
 </div>
 
 <div id="message-bar" class="swagger-ui-wrap">&nbsp;</div>
+<div id="content" class="swagger-ui-wrap">
+  <h1>API Vindi</h1>
+  <p>Esta é a documentação online da API Vindi. API é o acrônimo de <i>application programming interface</i>, ou seja, a especificação da interface para integração entre sistemas. Nesta página você irá encontrar todas as informações necessárias para integrar seu sistema à plataforma Vindi.</p>
+
+  <p>O objetivo da API é oferecer a possibilidade de estender as funcionalidades básicas da nossa plataforma, afim de integrar a recorrência em novas soluções ou em sistemas pré-existentes.</p>
+
+  <h2>Requisitos</h2>
+  <p>Para utilizar nossa API é necessário que você tenha familiaridade com a terminologia básica utilizada no desenvolvimento de web services REST. É possível desenvolver a integração com praticamente todas as linguagens de programação disponíveis no mercado.</p>
+
+  <h2>Especificações técnicas</h2>
+  <h3>Formato</h3>
+  <p>A API Vindi é um web service REST-compliant, ou seja, além dos métodos tradicionais <code>POST</code> e <code>GET</code>, você também verá aqui operações que utilizam os métodos <code>PUT</code>, <code>PATCH</code> e <code>DELETE</code>. O retorno das requisições é realizado apenas no formato JSON, sempre acompanhado do código HTTP apropriado.</p>
+
+  <h3>Segurança e autenticação</h3>
+  <p>A autenticação na API é realizada através do método HTTP Basic, utilizando a chave da API no campo destinado ao usuário e a senha em branco. Vale lembrar que a API Vindi só pode ser utilizada através do protocolo HTTPS. Por motivos de segurança, requisições HTTP <strong>não</strong> serão redirecionadas automaticamente para o protocolo HTTPS.</p>
+
+  <h3>Parâmetros</h3>
+  <p>Cada método possui sua própria documentação para definir a forma de recepção de parâmetros. Para obter simetria entre envio e retorno,  utilizamos atributos do tipo <code>body</code> nos métodos <code>PUT</code>/<code>PATCH</code>/<code>POST</code> que devem ser enviados no corpo da requisição, utilizando o formato JSON. Requisições no método <code>GET</code> podem receber parâmetros no path.</p>
+
+  <h3>Bibliotecas</h3>
+  <p>No momento não dispomos de bibliotecas oficiais que implementem nossa API. Recomendamos a integração através de bibliotecas REST consolidadas:</p>
+  <ul>
+    <li>Java: </li>
+    <li>Ruby: <a href="https://github.com/rest-client/rest-client">REST Client</a></li>
+    <li>PHP: </li>
+    <li>Python: </li>
+    <li>.NET: </li>
+  </ul>
+
+  <h2>Como utilizar esta documentação?</h2>
+  <p>Abaixo você pode conferir a lista de recursos que podem ser manipulados através da API. Cada recurso possui uma série de métodos, como criar e atualizar. Clicando em cada um dos métodos, você poderá verificar a lista de parâmetros, possíveis retornos e também um formulário. Este formulário pode ser utilizado para efetuar <strong>requisições reais</strong> na API. Certifique-se que a chave de acesso está preenchida no topo desta página para este recurso funcionar da maneira correta.</p>
+
+  <h2>Recursos e métodos</h2>
+</div>
 <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
 </body>
 </html>

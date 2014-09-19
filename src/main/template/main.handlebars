@@ -3,7 +3,6 @@
     <div class="info_title">{{info.title}}</div>
     <div class="info_description">{{{info.description}}}</div>
     {{#if info.termsOfServiceUrl}}<div class="info_tos"><a href="{{info.termsOfServiceUrl}}">Terms of service</a></div>{{/if}}
-    {{#if info.contact}}<div class='info_contact'><a href="mailto:{{info.contact}}">Contact the developer</a></div>{{/if}}
     {{#if info.license}}<div class='info_license'><a href='{{info.licenseUrl}}'>{{info.license}}</a></div>{{/if}}
   {{/if}}
 </div>
@@ -14,9 +13,9 @@
     <div class="footer">
         <br>
         <br>
-        <h4 style="color: #999">[ <span style="font-variant: small-caps">base url</span>: {{basePath}}
+        <h4 style="color: #999"><span style="font-variant: small-caps">URL</span>: {{basePath}}
         {{#if apiVersion}}
-        , <span style="font-variant: small-caps">api version</span>: {{apiVersion}}
-        {{/if}}]</h4>
+        , <span style="font-variant: small-caps">Versão da API</span>: {{apiVersion}}
+        {{/if}}</h4>
     </div>
 </div>

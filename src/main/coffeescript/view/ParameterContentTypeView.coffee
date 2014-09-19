@@ -5,7 +5,7 @@ class ParameterContentTypeView extends Backbone.View
     template = @template()
     $(@el).html(template(@model))
 
-    $('label[for=parameterContentType]', $(@el)).text('Parameter content type:')
+    $('label[for=parameterContentType]', $(@el)).text('Content-Type do parâmetro:')
 
     @
 

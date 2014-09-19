@@ -5,7 +5,7 @@ class ContentTypeView extends Backbone.View
     template = @template()
     $(@el).html(template(@model))
 
-    $('label[for=contentType]', $(@el)).text('Response Content Type')
+    $('label[for=contentType]', $(@el)).text('Content Type do Retorno')
 
     @
 

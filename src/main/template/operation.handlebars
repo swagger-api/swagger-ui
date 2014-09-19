@@ -18,7 +18,7 @@
       </div>
       <div class='content' id='{{parentId}}_{{nickname}}_content' style='display:none'>
         {{#if notes}}
-        <h4>Implementation Notes</h4>
+        <h4>Informações adicionais</h4>
         <p>{{{notes}}}</p>
         {{/if}}
         {{#oauth}}
@@ -38,7 +38,7 @@
         </div>
         {{/oauth}}
         {{#if type}}
-          <h4>Response Class</h4>
+          <h4>Retorno</h4>
           <p><span class="model-signature" /></p>
           <br/>
           <div class="response-content-type" />
@@ -46,15 +46,15 @@
         <form accept-charset='UTF-8' class='sandbox'>
           <div style='margin:0;padding:0;display:inline'></div>
           {{#if parameters}}
-          <h4>Parameters</h4>
+          <h4>Parâmetros</h4>
           <table class='fullwidth'>
           <thead>
             <tr>
-            <th style="width: 100px; max-width: 100px">Parameter</th>
-            <th style="width: 310px; max-width: 310px">Value</th>
-            <th style="width: 200px; max-width: 200px">Description</th>
-            <th style="width: 100px; max-width: 100px">Parameter Type</th>
-            <th style="width: 220px; max-width: 230px">Data Type</th>
+            <th style="width: 100px; max-width: 100px">Parâmetro</th>
+            <th style="width: 310px; max-width: 310px">Valor</th>
+            <th style="width: 200px; max-width: 200px">Descrição</th>
+            <th style="width: 100px; max-width: 100px">Tipo do parâmetro</th>
+            <th style="width: 220px; max-width: 230px">Tipo de dado</th>
             </tr>
           </thead>
           <tbody class="operation-params">
@@ -64,37 +64,37 @@
           {{/if}}
           {{#if responseMessages}}
           <div style='margin:0;padding:0;display:inline'></div>
-          <h4>Response Messages</h4>
+          <h4>Códigos de retorno</h4>
           <table class='fullwidth'>
             <thead>
             <tr>
-              <th>HTTP Status Code</th>
-              <th>Reason</th>
-              <th>Response Model</th>
+              <th>Código HTTP</th>
+              <th>Motivo</th>
+              <th></th>
             </tr>
             </thead>
             <tbody class="operation-status">
-            
+
             </tbody>
           </table>
           {{/if}}
           {{#if isReadOnly}}
           {{else}}
           <div class='sandbox_header'>
-            <input class='submit' name='commit' type='button' value='Try it out!' />
-            <a href='#' class='response_hider' style='display:none'>Hide Response</a>
+            <input class='submit' name='commit' type='button' value='Enviar' />
+            <a href='#' class='response_hider' style='display:none'>Ocultar retorno</a>
             <span class='response_throbber' style='display:none'></span>
           </div>
           {{/if}}
         </form>
         <div class='response' style='display:none'>
-          <h4>Request URL</h4>
+          <h4>URL da requisição</h4>
           <div class='block request_url'></div>
-          <h4>Response Body</h4>
+          <h4>Conteúdo do retorno</h4>
           <div class='block response_body'></div>
-          <h4>Response Code</h4>
+          <h4>Código HTTP</h4>
           <div class='block response_code'></div>
-          <h4>Response Headers</h4>
+          <h4>Headers do retorno</h4>
           <div class='block response_headers'></div>
         </div>
       </div>
