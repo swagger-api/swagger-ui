@@ -51,14 +51,24 @@
       sorter : "alpha"
     });
 
+    function addApiKeyAuthorization() {
+        var key = $('#input_apiKey')[0].value;
+        log("key: " + key);
+        if(key && key.trim() != "") {
+            log("added key " + key);
+            window.authorizations.add("key", new ApiKeyAuthorization("api_key", key, "query"));
+        }
+    }
+
     $('#input_apiKey').change(function() {
-      var key = $('#input_apiKey')[0].value;
-      log("key: " + key);
-      if(key && key.trim() != "") {
-        log("added key " + key);
-        window.authorizations.add("key", new ApiKeyAuthorization("api_key", key, "query"));
-      }
-    })
+        addApiKeyAuthorization();
+    });
+
+    // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
+    // var apiKey = "myApiKeyXXXX123456789";
+    // $('#input_apiKey').val(apiKey);
+    // addApiKeyAuthorization();
+
     window.swaggerUi.load();
   });
   </script>
