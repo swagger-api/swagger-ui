@@ -25,8 +25,14 @@
 
   <script type="text/javascript">
     $(function () {
+      var url = window.location.search.match(/url=([^&]+)/);
+      if (url.length > 1) {
+        url = url[1];
+      } else {
+        url = "http://petstore.swagger.wordnik.com/v2/swagger.json";
+      }
       window.swaggerUi = new SwaggerUi({
-      url: "http://petstore.swagger.wordnik.com/v2/swagger.json",
+      url: url,
       dom_id: "swagger-ui-container",
       supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
       onComplete: function(swaggerApi, swaggerUi){
