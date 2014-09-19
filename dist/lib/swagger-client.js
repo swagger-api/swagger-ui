@@ -288,7 +288,7 @@ SwaggerClient.prototype.buildFromSpec = function(response) {
     for(httpMethod in response.paths[path]) {
       var operation = response.paths[path][httpMethod];
       var tags = operation.tags;
-      if(typeof tags === undefined)
+      if(typeof tags === 'undefined')
         tags = [];
       var operationId = this.idFromOp(path, httpMethod, operation);
       var operation = new Operation (
