@@ -8,10 +8,19 @@ class MainView extends Backbone.View
     if opts.swaggerOptions.sorter
       sorterName = opts.swaggerOptions.sorter
       sorter = sorters[sorterName]
-      for route in @model.apisArray
-        route.operationsArray.sort sorter
-      if (sorterName == "alpha") # sort top level paths if alpha 
-        @model.apisArray.sort sorter
+      if @model.apisArray
+        for route in @model.apisArray
+          route.operationsArray.sort sorter
+        if (sorterName == "alpha") # sort top level paths if alpha 
+          @model.apisArray.sort sorter
+
+    log @model
+    if @model.info.license and typeof @model.info.license is 'string'
+      name = @model.info.license
+      url = @model.info.licenseUrl
+      @model.info.license = {}
+      @model.info.license.name = name
+      @model.info.license.url = url
  
   render: ->
     # Render the outer container for resources
@@ -33,6 +42,7 @@ class MainView extends Backbone.View
 
   addResource: (resource) ->
     # Render a resource and add it to resources li
+    resource.id = resource.id.replace(/\s/g, '_')
     resourceView = new ResourceView({model: resource, tagName: 'li', id: 'resource_' + resource.id, className: 'resource', swaggerOptions: @options.swaggerOptions})
     $('#resources').append resourceView.render().el
 
