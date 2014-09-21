@@ -1,5 +1,5 @@
 // swagger-ui.js
-// version 2.0.25
+// version 2.1.0
 $(function() {
 
 	// Helper function for vertically aligning DOM elements
@@ -2036,7 +2036,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         code = $('<code />').text(this.formatXml(content));
         pre = $('<pre class="xml" />').append(code);
       } else if (contentType === "text/html") {
-        code = $('<code />').html(content);
+        code = $('<code />').html(_.escape(content));
         pre = $('<pre class="xml" />').append(code);
       } else if (/^image\//.test(contentType)) {
         pre = $('<img>').attr('src', url);
