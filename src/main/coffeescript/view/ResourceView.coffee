@@ -8,6 +8,8 @@ class ResourceView extends Backbone.View
 
     methods = {}
 
+    if @model.description
+      @model.summary = @model.description
     # Render each operation
     for operation in @model.operationsArray
       counter = 0

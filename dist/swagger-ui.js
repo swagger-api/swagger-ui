@@ -1087,12 +1087,12 @@ function program1(depth0,data) {
   buffer += escapeExpression(stack1)
     + "</a> ";
   options = {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data};
-  if (stack1 = helpers.description) { stack1 = stack1.call(depth0, options); }
-  else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  if (!helpers.description) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
+  if (stack1 = helpers.summary) { stack1 = stack1.call(depth0, options); }
+  else { stack1 = depth0.summary; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if (!helpers.summary) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if (stack1 = helpers.summary) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.summary; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n  </h2>\n  <ul class='options'>\n    <li>\n      <a href='#!/";
   if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
@@ -1539,6 +1539,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       var counter, id, methods, operation, _i, _len, _ref4;
       $(this.el).html(Handlebars.templates.resource(this.model));
       methods = {};
+      if (this.model.description) {
+        this.model.summary = this.model.description;
+      }
       _ref4 = this.model.operationsArray;
       for (_i = 0, _len = _ref4.length; _i < _len; _i++) {
         operation = _ref4[_i];
