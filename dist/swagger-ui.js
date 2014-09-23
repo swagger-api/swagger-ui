@@ -319,8 +319,8 @@ function program1(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n        <h4>Implementation Notes</h4>\n        <p>";
-  if (stack1 = helpers.notes) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.notes; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "</p>\n        ";
   return buffer;
@@ -452,7 +452,7 @@ function program20(depth0,data) {
   else { stack1 = depth0.nickname; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "_content' style='display:none'>\n        ";
-  stack1 = helpers['if'].call(depth0, depth0.notes, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.description, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n        ";
   options = {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data};
@@ -1471,7 +1471,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         }
       }
       log(this.model);
-      if (this.model.info.license && typeof this.model.info.license === 'string') {
+      if (this.model.info && this.model.info.license && typeof this.model.info.license === 'string') {
         name = this.model.info.license;
         url = this.model.info.licenseUrl;
         this.model.info.license = {};
@@ -1641,6 +1641,10 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       isMethodSubmissionSupported = true;
       if (!isMethodSubmissionSupported) {
         this.model.isReadOnly = true;
+      }
+      this.model.description = this.model.description || this.model.notes;
+      if (this.model.description) {
+        this.model.description = this.model.description.replace(/(?:\r\n|\r|\n)/g, '<br />');
       }
       this.model.oauth = null;
       if (this.model.authorizations) {

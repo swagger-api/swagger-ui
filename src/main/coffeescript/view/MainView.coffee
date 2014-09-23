@@ -15,7 +15,7 @@ class MainView extends Backbone.View
           @model.apisArray.sort sorter
 
     log @model
-    if @model.info.license and typeof @model.info.license is 'string'
+    if @model.info and @model.info.license and typeof @model.info.license is 'string'
       name = @model.info.license
       url = @model.info.licenseUrl
       @model.info.license = {}

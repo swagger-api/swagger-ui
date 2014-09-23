@@ -44,6 +44,10 @@ class OperationView extends Backbone.View
     isMethodSubmissionSupported = true #jQuery.inArray(@model.method, @model.supportedSubmitMethods) >= 0
     @model.isReadOnly = true unless isMethodSubmissionSupported
 
+    # 1.2 syntax for description was `notes`
+    @model.description = (@model.description || @model.notes)
+    if @model.description
+      @model.description = @model.description.replace(/(?:\r\n|\r|\n)/g, '<br />')
     @model.oauth = null
     if @model.authorizations
       for k, v of @model.authorizations

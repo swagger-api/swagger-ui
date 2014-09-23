@@ -406,6 +406,7 @@ var Operation = function(parent, operationId, httpMethod, path, args, definition
   this.responses = (args.responses||{});
   this.type = null;
   this.security = args.security;
+  this.description = args.description;
 
   var i;
   for(i = 0; i < this.parameters.length; i++) {
