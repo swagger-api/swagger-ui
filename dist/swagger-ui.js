@@ -1637,7 +1637,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     OperationView.prototype.render = function() {
-      var contentTypeModel, isMethodSubmissionSupported, k, o, param, ref, responseContentTypeView, responseSignatureView, schema, signatureModel, statusCode, type, v, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref5, _ref6, _ref7, _ref8;
+      var code, contentTypeModel, isMethodSubmissionSupported, k, o, param, ref, responseContentTypeView, responseSignatureView, schema, schemaObj, signatureModel, statusCode, type, v, value, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref5, _ref6, _ref7, _ref8, _ref9;
       isMethodSubmissionSupported = true;
       if (!isMethodSubmissionSupported) {
         this.model.isReadOnly = true;
@@ -1661,6 +1661,29 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           }
         }
       }
+      if (typeof this.model.responses !== 'undefined') {
+        this.model.responseMessages = [];
+        _ref6 = this.model.responses;
+        for (code in _ref6) {
+          value = _ref6[code];
+          schema = null;
+          schemaObj = this.model.responses[code].schema;
+          if (schemaObj && schemaObj['$ref']) {
+            schema = schemaObj['$ref'];
+            if (schema.indexOf('#/definitions/') === 0) {
+              schema = schema.substring('#/definitions/'.length);
+            }
+          }
+          this.model.responseMessages.push({
+            code: code,
+            message: value.description,
+            responseModel: schema
+          });
+        }
+      }
+      if (typeof this.model.responseMessages === 'undefined') {
+        this.model.responseMessages = [];
+      }
       $(this.el).html(Handlebars.templates.operation(this.model));
       if (this.model.responseClassSignature && this.model.responseClassSignature !== 'string') {
         signatureModel = {
@@ -1682,9 +1705,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       };
       contentTypeModel.consumes = this.model.consumes;
       contentTypeModel.produces = this.model.produces;
-      _ref6 = this.model.parameters;
-      for (_j = 0, _len1 = _ref6.length; _j < _len1; _j++) {
-        param = _ref6[_j];
+      _ref7 = this.model.parameters;
+      for (_j = 0, _len1 = _ref7.length; _j < _len1; _j++) {
+        param = _ref7[_j];
         type = param.type || param.dataType;
         if (typeof type === 'undefined') {
           schema = param.schema;
@@ -1708,17 +1731,14 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         model: contentTypeModel
       });
       $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
-      _ref7 = this.model.parameters;
-      for (_k = 0, _len2 = _ref7.length; _k < _len2; _k++) {
-        param = _ref7[_k];
+      _ref8 = this.model.parameters;
+      for (_k = 0, _len2 = _ref8.length; _k < _len2; _k++) {
+        param = _ref8[_k];
         this.addParameter(param, contentTypeModel.consumes);
       }
-      if (typeof this.model.responseMessages === 'undefined') {
-        this.model.responseMessages = [];
-      }
-      _ref8 = this.model.responseMessages;
-      for (_l = 0, _len3 = _ref8.length; _l < _len3; _l++) {
-        statusCode = _ref8[_l];
+      _ref9 = this.model.responseMessages;
+      for (_l = 0, _len3 = _ref9.length; _l < _len3; _l++) {
+        statusCode = _ref9[_l];
         this.addStatusCode(statusCode);
       }
       return this;

@@ -55,6 +55,20 @@ class OperationView extends Backbone.View
           for o in v
             @model.oauth.scopes.push o
 
+    if typeof @model.responses isnt 'undefined'
+      @model.responseMessages = []
+      for code, value of @model.responses
+        schema = null
+        schemaObj = @model.responses[code].schema
+        if schemaObj and schemaObj['$ref']
+          schema = schemaObj['$ref']
+          if schema.indexOf('#/definitions/') is 0
+            schema = schema.substring('#/definitions/'.length)
+        @model.responseMessages.push {code: code, message: value.description, responseModel: schema }
+
+    if typeof @model.responseMessages is 'undefined'
+      @model.responseMessages = []
+
     $(@el).html(Handlebars.templates.operation(@model))
 
     if @model.responseClassSignature and @model.responseClassSignature != 'string'
@@ -97,8 +111,6 @@ class OperationView extends Backbone.View
     @addParameter param, contentTypeModel.consumes for param in @model.parameters
 
     # Render each response code
-    if typeof @model.responseMessages is 'undefined'
-      @model.responseMessages = []
     @addStatusCode statusCode for statusCode in @model.responseMessages
 
     @
