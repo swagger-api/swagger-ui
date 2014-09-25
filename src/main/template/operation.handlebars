@@ -18,7 +18,7 @@
       </div>
       <div class='content' id='{{parentId}}_{{nickname}}_content' style='display:none'>
         {{#if notes}}
-        <p>{{{join notes}}}</p>
+        <p><strong>Notes</strong>:<br/>{{{join notes}}}</p>
         {{/if}}
         {{#oauth}}
         <div class="auth">
@@ -87,14 +87,42 @@
           </div>
         {{/if}}
         <div class='response' style='display:none'>
-          <h4>Request URL</h4>
-          <div class='block request_url'></div>
-          <h4>Response Body</h4>
-          <div class='block response_body'></div>
-          <h4>Response Code</h4>
-          <div class='block response_code'></div>
-          <h4>Response Headers</h4>
-          <div class='block response_headers'></div>
+          <h4>Request</h4>
+          <table>
+            <tr>
+              <td width="10" />
+              <td><br/>url</td>
+              <td><div class='block request_url'></div></td>
+            </tr>
+            <tr>
+              <td width="10" />
+              <td><br/>headers</td>
+              <td><div class='block request_headers'></div></td>
+            </tr>
+            <tr>
+              <td width="10" />
+              <td><br/>body</td>
+              <td><div class='block request_body'></div></td>
+            </tr>
+          </table>
+          <h4>Response</h4>
+          <table>
+            <tr>
+              <td width="10" />
+              <td><br/>code</td>
+              <td><div class='block response_code'></div></td>
+            </tr>
+            <tr>
+              <td width="10" />
+              <td><br/>headers</td>
+              <td><div class='block response_headers'></div></td>
+            </tr>
+            <tr>
+              <td width="10" />
+              <td><br/>body</td>
+              <td><div class='block response_body'></div></td>
+            </tr>
+          </table>
         </div>
       </div>
     </li>

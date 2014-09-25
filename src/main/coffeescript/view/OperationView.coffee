@@ -358,8 +358,19 @@ class OperationView extends Backbone.View
       code = $('<code />').text(content)
       pre = $('<pre class="json" />').append(code)
 
+    if !obj.data
+      reqcode = $('<code />').text("no content")
+      reqpre = $('<pre class="json" />').append(reqcode)
+    else
+      reqcode = $('<code />').text(obj.data)
+      reqpre = $('<pre class="json" />').append(reqcode)
+
+
     response_body = pre
+    req_body = reqpre
     $(".request_url", $(@el)).html "<pre>" + url + "</pre>"
+    $(".request_body", $(@el)).html req_body
+    $(".request_headers", $(@el)).html "<pre>" + _.escape(JSON.stringify(obj.headers, null, "  ")).replace(/\n/g, "<br>") + "</pre>"
     $(".response_code", $(@el)).html "<pre>" + response.status + "</pre>"
     $(".response_body", $(@el)).html response_body
     $(".response_headers", $(@el)).html "<pre>" + _.escape(JSON.stringify(response.headers, null, "  ")).replace(/\n/g, "<br>") + "</pre>"
