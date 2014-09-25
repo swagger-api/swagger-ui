@@ -99,39 +99,18 @@
 </div>
 
 <div id="message-bar" class="swagger-ui-wrap">&nbsp;</div>
-<div id="content" class="swagger-ui-wrap">
-  <h1>API Vindi</h1>
-  <p>Esta é a documentação online da API Vindi. API é o acrônimo de <i>application programming interface</i>, ou seja, a especificação da interface para integração entre sistemas. Nesta página você irá encontrar todas as informações necessárias para integrar seu sistema à plataforma Vindi.</p>
+<div>
+  <div id="content" class="swagger-ui-wrap">
+    <h1>API Vindi</h1>
+    <p>
+      Antes de começar a desenvolver sua integração, leia a documentação com os <a href="http://atendimento.vindi.com.br/hc/pt-br/articles/203020644">primeiros passos para começar a desenvolver com a API Vindi</a>. Lá você encontra instruções sobre autenticação, segurança e demais questões técnicas.
+    </p>
 
-  <p>O objetivo da API é oferecer a possibilidade de estender as funcionalidades básicas da nossa plataforma, afim de integrar a recorrência em novas soluções ou em sistemas pré-existentes.</p>
+    <h2>Como utilizar esta documentação?</h2>
+    <p>Abaixo você pode conferir a lista de recursos que podem ser manipulados através da API Vindi. Cada recurso possui uma série de métodos, como criar e atualizar. Clicando em cada um dos métodos, você poderá verificar a lista de parâmetros, possíveis retornos e também um formulário. Este formulário pode ser utilizado para efetuar <strong>requisições reais</strong> na API. Certifique-se que sua chave de acesso está preenchida no topo desta página para este recurso funcionar da maneira correta.</p>
 
-  <h2>Requisitos</h2>
-  <p>Para utilizar nossa API é necessário que você tenha familiaridade com a terminologia básica utilizada no desenvolvimento de web services REST. É possível desenvolver a integração com praticamente todas as linguagens de programação disponíveis no mercado.</p>
-
-  <h2>Especificações técnicas</h2>
-  <h3>Formato</h3>
-  <p>A API Vindi é um web service REST-compliant, ou seja, além dos métodos tradicionais <code>POST</code> e <code>GET</code>, você também verá aqui operações que utilizam os métodos <code>PUT</code>, <code>PATCH</code> e <code>DELETE</code>. O retorno das requisições é realizado apenas no formato JSON, sempre acompanhado do código HTTP apropriado.</p>
-
-  <h3>Segurança e autenticação</h3>
-  <p>A autenticação na API é realizada através do método HTTP Basic, utilizando a chave da API no campo destinado ao usuário e a senha em branco. Vale lembrar que a API Vindi só pode ser utilizada através do protocolo HTTPS. Por motivos de segurança, requisições HTTP <strong>não</strong> serão redirecionadas automaticamente para o protocolo HTTPS.</p>
-
-  <h3>Parâmetros</h3>
-  <p>Cada método possui sua própria documentação para definir a forma de recepção de parâmetros. Para obter simetria entre envio e retorno,  utilizamos atributos do tipo <code>body</code> nos métodos <code>PUT</code>/<code>PATCH</code>/<code>POST</code> que devem ser enviados no corpo da requisição, utilizando o formato JSON. Requisições no método <code>GET</code> podem receber parâmetros no path.</p>
-
-  <h3>Bibliotecas</h3>
-  <p>No momento não dispomos de bibliotecas oficiais que implementem nossa API. Recomendamos a integração através de bibliotecas REST consolidadas:</p>
-  <ul>
-    <li>Java: </li>
-    <li>Ruby: <a href="https://github.com/rest-client/rest-client">REST Client</a></li>
-    <li>PHP:  </li>
-    <li>Python: </li>
-    <li>.NET: </li>
-  </ul>
-
-  <h2>Como utilizar esta documentação?</h2>
-  <p>Abaixo você pode conferir a lista de recursos que podem ser manipulados através da API. Cada recurso possui uma série de métodos, como criar e atualizar. Clicando em cada um dos métodos, você poderá verificar a lista de parâmetros, possíveis retornos e também um formulário. Este formulário pode ser utilizado para efetuar <strong>requisições reais</strong> na API. Certifique-se que a chave de acesso está preenchida no topo desta página para este recurso funcionar da maneira correta.</p>
-
-  <h2>Recursos e métodos</h2>
+    <h2>Recursos e métodos</h2>
+  </div>
 </div>
 <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
 </body>
