@@ -3,8 +3,8 @@
   <div class="info_title">{{info.title}}</div>
   <div class="info_description">{{{info.description}}}</div>
   {{#if info.termsOfServiceUrl}}<div class="info_tos"><a href="{{info.termsOfServiceUrl}}">Terms of service</a></div>{{/if}}
-  {{#if info.contact}}<div class='info_contact'><a href="mailto:{{info.contact}}">Contact the developer</a></div>{{/if}}
-  {{#if info.license}}<div class='info_license'><a href='{{info.license.name}}'>{{info.license.url}}</a></div>{{/if}}
+  {{#if info.contact}}<div class='info_contact'><a href="mailto:{{info.contact.name}}">Contact the developer</a></div>{{/if}}
+  {{#if info.license}}<div class='info_license'><a href='{{info.license.url}}'>{{info.license.name}}</a></div>{{/if}}
   {{/if}}
 </div>
 <div class='container' id='resources_container'>
@@ -19,7 +19,7 @@
     , <span style="font-variant: small-caps">api version</span>: {{info.version}}
     {{/if}}]
     {{#if validatorUrl}}
-    <span style="float:right"><a href="http://online.swagger.io/validator/debug?url={{url}}"><img id="foo" src="http://online.swagger.io/validator?url={{url}}"></a>
+    <span style="float:right"><a href="http://online.swagger.io/validator/debug?url={{url}}"><img id="validator" src="http://online.swagger.io/validator?url={{url}}"></a>
     </span>
     {{/if}}
     </h4>
