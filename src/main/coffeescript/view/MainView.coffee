@@ -14,13 +14,15 @@ class MainView extends Backbone.View
         if (sorterName == "alpha") # sort top level paths if alpha 
           @model.apisArray.sort sorter
 
-    log @model
     if @model.info and @model.info.license and typeof @model.info.license is 'string'
       name = @model.info.license
       url = @model.info.licenseUrl
       @model.info.license = {}
       @model.info.license.name = name
       @model.info.license.url = url
+
+    if @model.url.indexOf('http://localhost') is -1 and @model.swaggerVersion is 2
+      @model.validatorUrl = @model.url
  
   render: ->
     # Render the outer container for resources

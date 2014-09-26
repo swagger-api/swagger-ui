@@ -17,6 +17,11 @@
     <h4 style="color: #999">[ <span style="font-variant: small-caps">base url</span>: {{basePath}}
     {{#if apiVersion}}
     , <span style="font-variant: small-caps">api version</span>: {{apiVersion}}
-    {{/if}}]</h4>
+    {{/if}}]
+    {{#if validatorUrl}}
+    <span style="float:right"><a href="http://online.swagger.io/validator/debug?url={{url}}"><img id="foo" src="http://online.swagger.io/validator?url={{url}}"></a>
+    </span>
+    {{/if}}
+    </h4>
     </div>
 </div>

@@ -293,6 +293,21 @@ function program8(depth0,data) {
   return buffer;
   }
 
+function program10(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n    <span style=\"float:right\"><a href=\"http://online.swagger.io/validator/debug?url=";
+  if (stack1 = helpers.url) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.url; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\"><img id=\"foo\" src=\"http://online.swagger.io/validator?url=";
+  if (stack1 = helpers.url) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.url; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\"></a>\n    </span>\n    ";
+  return buffer;
+  }
+
   buffer += "<div class='info' id='api_info'>\n  ";
   stack1 = helpers['if'].call(depth0, depth0.info, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
@@ -303,7 +318,10 @@ function program8(depth0,data) {
     + "\n    ";
   stack1 = helpers['if'].call(depth0, depth0.apiVersion, {hash:{},inverse:self.noop,fn:self.program(8, program8, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "]</h4>\n    </div>\n</div>\n";
+  buffer += "]\n    ";
+  stack1 = helpers['if'].call(depth0, depth0.validatorUrl, {hash:{},inverse:self.noop,fn:self.program(10, program10, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n    </h4>\n    </div>\n</div>\n";
   return buffer;
   });
 })();
@@ -1483,13 +1501,15 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           }
         }
       }
-      log(this.model);
       if (this.model.info && this.model.info.license && typeof this.model.info.license === 'string') {
         name = this.model.info.license;
         url = this.model.info.licenseUrl;
         this.model.info.license = {};
         this.model.info.license.name = name;
-        return this.model.info.license.url = url;
+        this.model.info.license.url = url;
+      }
+      if (this.model.url.indexOf('http://localhost') === -1 && this.model.swaggerVersion === 2) {
+        return this.model.validatorUrl = this.model.url;
       }
     };
 
