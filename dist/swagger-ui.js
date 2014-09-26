@@ -1595,7 +1595,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       }
       $('.toggleEndpointList', this.el).click(this.callDocs.bind(this, 'toggleEndpointListForResource'));
       $('.collapseResource', this.el).click(this.callDocs.bind(this, 'collapseOperationsForResource'));
-      $('.expandResource', this.el).click(this.callDocs.bind(this, 'expandOperationsForResoruce'));
+      $('.expandResource', this.el).click(this.callDocs.bind(this, 'expandOperationsForResource'));
       return this;
     };
 
