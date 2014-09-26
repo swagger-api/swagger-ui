@@ -310,11 +310,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n        <h4>Informações adicionais</h4>\n        <p>";
+  buffer += "\n          <div class=\"markdown\">\n            <h4>Informações adicionais</h4>\n            <p>";
   if (stack1 = helpers.notes) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.notes; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</p>\n        ";
+  buffer += "</p>\n          </div>\n        ";
   return buffer;
   }
 

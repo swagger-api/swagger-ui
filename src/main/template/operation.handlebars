@@ -18,8 +18,10 @@
       </div>
       <div class='content' id='{{parentId}}_{{nickname}}_content' style='display:none'>
         {{#if notes}}
-        <h4>Informações adicionais</h4>
-        <p>{{{notes}}}</p>
+          <div class="markdown">
+            <h4>Informações adicionais</h4>
+            <p>{{{notes}}}</p>
+          </div>
         {{/if}}
         {{#oauth}}
         <div class="auth">

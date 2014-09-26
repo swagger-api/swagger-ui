@@ -403,10 +403,12 @@
   border: 1px solid #aaa;
 }
 .swagger-section .swagger-ui-wrap .markdown p code,
-.swagger-section .swagger-ui-wrap .markdown li code {
+.swagger-section .swagger-ui-wrap .markdown li code,
+.swagger-section .swagger-ui-wrap markdown code {
   font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
   background-color: #f0f0f0;
   color: black;
+  font-size: 12px;
   padding: 1px 3px;
 }
 .swagger-section .swagger-ui-wrap .required {
