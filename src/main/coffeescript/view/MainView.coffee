@@ -21,6 +21,12 @@ class MainView extends Backbone.View
       @model.info.license.name = name
       @model.info.license.url = url
 
+    if !@model.info
+      @model.info = {}
+
+    if !@model.info.version
+      @model.info.version = @model.apiVersion
+
     if @model.url.indexOf('http://localhost') is -1 and @model.swaggerVersion is 2
       @model.validatorUrl = @model.url
  
