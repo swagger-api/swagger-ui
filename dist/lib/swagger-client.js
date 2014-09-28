@@ -206,6 +206,8 @@ var SwaggerClient = function(url, options) {
 
   this.failure = options.failure != null ? options.failure : function() {};
   this.progress = options.progress != null ? options.progress : function() {};
+  this.spec = options.spec;
+
   if (options.success != null)
     this.build();
 }
@@ -247,9 +249,18 @@ SwaggerClient.prototype.build = function() {
       }
     }
   };
-  var e = (typeof window !== 'undefined' ? window : exports);
-  var status = e.authorizations.apply(obj);
-  new SwaggerHttp().execute(obj);
+  if(this.spec) {
+    var self = this;
+    setTimeout(function() {
+      self.buildFromSpec(self.spec);
+    }, 10);
+  }
+  else {
+    var e = (typeof window !== 'undefined' ? window : exports);
+    var status = e.authorizations.apply(obj);
+    new SwaggerHttp().execute(obj);
+  }
+
   return this;
 };
 
