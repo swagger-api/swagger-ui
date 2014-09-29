@@ -2096,7 +2096,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       } else if (contentType === "application/json" || /\+json$/.test(contentType)) {
         json = null;
         try {
-          json = JSON.stringify(JSON.stringify(JSON.parse(content), null, "  "));
+          json = JSON.stringify(JSON.parse(content), null, "  ");
         } catch (_error) {
           e = _error;
           json = "can't parse JSON.  Raw result:\n\n" + content;

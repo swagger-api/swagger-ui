@@ -368,7 +368,7 @@ class OperationView extends Backbone.View
     else if contentType is "application/json" || /\+json$/.test(contentType)
       json = null
       try
-        json = JSON.stringify(JSON.stringify(JSON.parse(content), null, "  "))
+        json = JSON.stringify(JSON.parse(content), null, "  ")
       catch e
         json = "can't parse JSON.  Raw result:\n\n" + content
       code = $('<code />').text(json)
