@@ -366,7 +366,12 @@ class OperationView extends Backbone.View
       code = $('<code />').text("no content")
       pre = $('<pre class="json" />').append(code)
     else if contentType is "application/json" || /\+json$/.test(contentType)
-      code = $('<code />').text(JSON.stringify(JSON.parse(content), null, "  "))
+      json = null
+      try
+        json = JSON.stringify(JSON.stringify(JSON.parse(content), null, "  "))
+      catch e
+        json = "can't parse JSON.  Raw result:\n\n" + content
+      code = $('<code />').text(json)
       pre = $('<pre class="json" />').append(code)
     else if contentType is "application/xml" || /\+xml$/.test(contentType)
       code = $('<code />').text(@formatXml(content))

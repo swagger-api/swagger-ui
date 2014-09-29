@@ -2080,7 +2080,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     OperationView.prototype.showStatus = function(response) {
-      var code, content, contentType, headers, opts, pre, response_body, response_body_el, url;
+      var code, content, contentType, e, headers, json, opts, pre, response_body, response_body_el, url;
       if (response.content === void 0) {
         content = response.data;
         url = response.url;
@@ -2094,7 +2094,14 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         code = $('<code />').text("no content");
         pre = $('<pre class="json" />').append(code);
       } else if (contentType === "application/json" || /\+json$/.test(contentType)) {
-        code = $('<code />').text(JSON.stringify(JSON.parse(content), null, "  "));
+        json = null;
+        try {
+          json = JSON.stringify(JSON.stringify(JSON.parse(content), null, "  "));
+        } catch (_error) {
+          e = _error;
+          json = "can't parse JSON.  Raw result:\n\n" + content;
+        }
+        code = $('<code />').text(json);
         pre = $('<pre class="json" />').append(code);
       } else if (contentType === "application/xml" || /\+xml$/.test(contentType)) {
         code = $('<code />').text(this.formatXml(content));
