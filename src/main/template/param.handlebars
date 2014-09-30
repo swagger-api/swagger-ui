@@ -6,8 +6,8 @@
 			<input type="file" name='{{name}}'/>
 			<div class="parameter-content-type" />
 		{{else}}
-			{{#if defaultValue}}
-				<textarea class='body-textarea' name='{{name}}'>{{defaultValue}}</textarea>
+			{{#if default}}
+				<textarea class='body-textarea' name='{{name}}'>{{default}}</textarea>
 			{{else}}
 				<textarea class='body-textarea' name='{{name}}'></textarea>
 				<br />
@@ -19,8 +19,8 @@
 			<input type="file" name='{{name}}'/>
 			<div class="parameter-content-type" />
 		{{else}}
-			{{#if defaultValue}}
-				<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value='{{defaultValue}}'/>
+			{{#if default}}
+				<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value='{{default}}'/>
 			{{else}}
 				<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value=''/>
 			{{/if}}
