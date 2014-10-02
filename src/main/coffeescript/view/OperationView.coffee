@@ -97,7 +97,7 @@ class OperationView extends Backbone.View
       type = param.type || param.dataType
       if typeof type is 'undefined'
         schema = param.schema
-        if schema['$ref']
+        if schema and schema['$ref']
           ref = schema['$ref']
           if ref.indexOf('#/definitions/') is 0
             type = ref.substring('#/definitions/'.length)

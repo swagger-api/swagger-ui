@@ -12,7 +12,7 @@ class ParameterView extends Backbone.View
 
     if typeof type is 'undefined'
       schema = @model.schema
-      if schema['$ref']
+      if schema and schema['$ref']
         ref = schema['$ref']
         if ref.indexOf('#/definitions/') is 0
           type = ref.substring('#/definitions/'.length)

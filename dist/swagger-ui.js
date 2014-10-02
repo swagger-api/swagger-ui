@@ -1755,7 +1755,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         type = param.type || param.dataType;
         if (typeof type === 'undefined') {
           schema = param.schema;
-          if (schema['$ref']) {
+          if (schema && schema['$ref']) {
             ref = schema['$ref'];
             if (ref.indexOf('#/definitions/') === 0) {
               type = ref.substring('#/definitions/'.length);
@@ -2209,7 +2209,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       type = this.model.type || this.model.dataType;
       if (typeof type === 'undefined') {
         schema = this.model.schema;
-        if (schema['$ref']) {
+        if (schema && schema['$ref']) {
           ref = schema['$ref'];
           if (ref.indexOf('#/definitions/') === 0) {
             type = ref.substring('#/definitions/'.length);
