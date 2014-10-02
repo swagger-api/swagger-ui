@@ -439,6 +439,30 @@ var Operation = function(parent, operationId, httpMethod, path, args, definition
     response = responses['200'];
     defaultResponseCode = '200';
   }
+  else if(responses['201']) {
+    response = responses['201'];
+    defaultResponseCode = '201';
+  }
+  else if(responses['202']) {
+    response = responses['202'];
+    defaultResponseCode = '202';
+  }
+  else if(responses['203']) {
+    response = responses['203'];
+    defaultResponseCode = '203';
+  }
+  else if(responses['204']) {
+    response = responses['204'];
+    defaultResponseCode = '204';
+  }
+  else if(responses['205']) {
+    response = responses['205'];
+    defaultResponseCode = '205';
+  }
+  else if(responses['206']) {
+    response = responses['206'];
+    defaultResponseCode = '206';
+  }
   else if(responses['default']) {
     response = responses['default'];
     defaultResponseCode = 'default';
