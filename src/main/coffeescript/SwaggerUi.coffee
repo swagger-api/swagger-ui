@@ -39,6 +39,14 @@ class SwaggerUi extends Backbone.Router
     # Event handler for when the baseUrl/apiKey is entered by user
     @headerView.on 'update-swagger-ui', (data) => @updateSwaggerUi(data)
 
+  # Set an option after initializing
+  setOption: (option,value) ->
+      @options[option] = value
+
+  # Get the value of a previously set option
+  getOption: (option) ->
+      @options[option]
+
   # Event handler for when url/key is received from user
   updateSwaggerUi: (data) ->
     @options.url = data.url

@@ -294,11 +294,19 @@ function program8(depth0,data) {
 function program10(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n    <span style=\"float:right\"><a href=\"http://online.swagger.io/validator/debug?url=";
+  buffer += "\n    <span style=\"float:right\"><a href=\"";
+  if (stack1 = helpers.validatorUrl) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.validatorUrl; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "/debug?url=";
   if (stack1 = helpers.url) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.url; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\"><img id=\"validator\" src=\"http://online.swagger.io/validator?url=";
+    + "\"><img id=\"validator\" src=\"";
+  if (stack1 = helpers.validatorUrl) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.validatorUrl; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "?url=";
   if (stack1 = helpers.url) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.url; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -1303,6 +1311,14 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       });
     };
 
+    SwaggerUi.prototype.setOption = function(option, value) {
+      return this.options[option] = value;
+    };
+
+    SwaggerUi.prototype.getOption = function(option) {
+      return this.options[option];
+    };
+
     SwaggerUi.prototype.updateSwaggerUi = function(data) {
       this.options.url = data.url;
       return this.load();
@@ -1512,8 +1528,12 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       if (!this.model.info.version) {
         this.model.info.version = this.model.apiVersion;
       }
-      if (this.model.url.indexOf('http://localhost') === -1 && this.model.swaggerVersion === 2) {
+      if ("validatorUrl" in opts.swaggerOptions) {
+        return this.model.validatorUrl = opts.swaggerOptions.validatorUrl;
+      } else if (this.model.url.match(/https?:\/\/localhost/) && this.model.swaggerVersion === 2) {
         return this.model.validatorUrl = this.model.url;
+      } else {
+        return this.model.validatorUrl = "http://online.swagger.io/validator";
       }
     };
 
