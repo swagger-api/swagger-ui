@@ -38,6 +38,15 @@ You can rebuild swagger-ui on your own to tweak it or just so you can say you di
 4. npm run-script build
 5. You should see the distribution under the dist folder. Open ./dist/index.html to launch Swagger UI in a browser
 
+### Build using Docker
+
+To build swagger-ui using a docker container:
+
+```
+docker build -t swagger-ui-builder .
+docker run -v $PWD/dist:/build/dist swagger-ui-builder
+```
+
 ### Use
 Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstore.swagger.wordnik.com/api/api-docs) service and show its APIs.  You can enter your own server url and click explore to view the API.
 
