@@ -20,3 +20,4 @@ swagger-ui.sublime-workspace
 .idea
 .project
 node_modules/*
+npm-debug.log
