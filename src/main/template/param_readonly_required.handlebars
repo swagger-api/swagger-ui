@@ -1,15 +1,4 @@
 <td class='code required'>{{name}}</td>
-<td>
-    {{#if isBody}}
-        <textarea class='body-textarea'  readonly='readonly' placeholder='(required)' name='{{name}}'>{{defaultValue}}</textarea>
-    {{else}}
-        {{#if defaultValue}}
-            {{defaultValue}}
-        {{else}}
-            (empty)
-        {{/if}}
-    {{/if}}
-</td>
 <td>{{{description}}}</td>
 <td>{{{paramType}}}</td>
 <td><span class="model-signature"></span></td>
