@@ -38,3 +38,11 @@ npm run-script build
 As páginas e assets serão gerados no diretório `dist` do projeto e deverão ser enviadas ao controle de versão.
 
 Você poderá editar os arquivos do projeto em sua própria máquina (host), porém o comando `build` deverá ser executado dentro da máquina virtual.
+
+## Deploy
+Estratégia para deploy de um subdiretório no GitHub Pages (ver [http://yeoman.io/learning/deployment.html](http://yeoman.io/learning/deployment.html))
+
+```
+git subtree push --prefix dist origin gh-pages
+git push
+```
