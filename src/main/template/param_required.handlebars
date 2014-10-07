@@ -16,11 +16,19 @@
 		{{#if isFile}}
 			<input class='parameter' class='required' type='file' name='{{name}}'/>
 		{{else}}
-			{{#if defaultValue}}
-				<input class='parameter required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='{{defaultValue}}'/>
+			{{#if enum}}
+				<select name='{{name}}'>
+					{{#each enum}}
+						<option value='{{this}}' class='parameter'>{{this}}</option>
+					{{/each}}
+				</select>
 			{{else}}
-				<input class='parameter required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value=''/>
-			{{/if}}
+				{{#if defaultValue}}
+					<input class='parameter required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='{{defaultValue}}'/>
+				{{else}}
+					<input class='parameter required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value=''/>
+				{{/if}}
+			{{/if}}	
 		{{/if}}
 	{{/if}}
 </td>
