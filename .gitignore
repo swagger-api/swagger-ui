@@ -21,4 +21,3 @@ swagger-ui.sublime-workspace
 .project
 node_modules/*
 .vagrant/*
-dist/
