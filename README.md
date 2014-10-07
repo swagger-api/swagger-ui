@@ -1,5 +1,7 @@
 # API Docs Vindi
-Este repositório é usado para gerar e publicar a interface de acesso à API Vindi.
+Este repositório é usado para gerar e publicar a interface web da API Vindi.
+
+URL pública temporária: [https://vindibr.github.io/api-docs/dist](https://vindibr.github.io/api-docs/dist/)
 
 ## Vagrant
 
@@ -15,18 +17,11 @@ Efetue o acesso via SSH:
 vagrant ssh
 ```
 
-O diretório `/vagrant` contém os dados do projeto api-docs:
+Dentro da márquina virtual, o diretório `/vagrant` contém os dados do projeto api-docs:
 
 ```
 cd /vagrant
 ```
-Execute o script build para compilar o projeto:
-
-```
-npm run-script build
-```
-
-As páginas serão geradas no diretório `dist` do projeto.
 
 Para desligar a máquina virtual, utilize o comando abaixo:
 
@@ -35,4 +30,11 @@ vagrant halt
 ```
 
 ## Desenvolvimento
-Você poderá editar os arquivos do projeto em sua própria máquina, porém o comando `build` deverá ser executado dentro da máquina virtual.
+Todas as alterações devem ser realizadas no diretório `src` e compiladas com o comando `build`:
+
+```
+npm run-script build
+```
+As páginas e assets serão gerados no diretório `dist` do projeto e deverão ser enviadas ao controle de versão.
+
+Você poderá editar os arquivos do projeto em sua própria máquina (host), porém o comando `build` deverá ser executado dentro da máquina virtual.
