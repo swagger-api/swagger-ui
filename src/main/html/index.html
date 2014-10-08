@@ -68,7 +68,7 @@
       onFailure: function(data) {
         log("Unable to Load SwaggerUI");
       },
-      docExpansion: "list"
+      docExpansion: "none"
     });
 
     $('#input_apiKey').change(function() {
@@ -104,13 +104,15 @@
     <p>
       Antes de começar a desenvolver sua integração, leia a documentação com os <a href="http://atendimento.vindi.com.br/hc/pt-br/articles/203020644">primeiros passos para começar a desenvolver com a API Vindi</a>. Lá você encontra instruções sobre autenticação, segurança e demais questões técnicas.
     </p>
-
-    <h2>Como utilizar esta documentação?</h2>
-    <p>Abaixo você pode conferir a lista de recursos que podem ser manipulados através da API Vindi. Cada recurso possui uma série de métodos, como criar e atualizar. Clicando em cada um dos métodos, você poderá verificar a lista de parâmetros, possíveis retornos e também um formulário. Este formulário pode ser utilizado para efetuar <strong>requisições reais</strong> na API. Certifique-se que sua chave de acesso está preenchida no topo desta página para este recurso funcionar da maneira correta.</p>
-
-    <h2>Recursos e métodos</h2>
   </div>
 </div>
 <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+<div id="content" class="swagger-ui-wrap">
+  <div>
+    <br>
+    <h2>Como utilizar esta documentação?</h2>
+    <p>Certifique-se que sua chave da API está preenchida no topo desta página para este recurso funcionar da maneira correta. Acima você poderá conferir a lista de recursos que podem ser manipulados através da API Vindi. Cada recurso possui uma série de métodos, como criar e atualizar. Clicando em cada um dos métodos, você poderá verificar a lista de parâmetros, possíveis retornos e também um formulário. Este formulário pode ser utilizado para efetuar <strong>requisições reais</strong> na API.</p>
+  </div>
+</div>
 </body>
 </html>
