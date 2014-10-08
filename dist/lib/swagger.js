@@ -738,7 +738,7 @@
       }
       param.type = type;
 
-      if (type.toLowerCase() === 'boolean') {
+      if (type && type.toLowerCase() === 'boolean') {
         param.allowableValues = {};
         param.allowableValues.values = ["true", "false"];
       }
