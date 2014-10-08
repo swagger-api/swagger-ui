@@ -24,14 +24,14 @@
   <script src='lib/swagger-oauth.js' type='text/javascript'></script>
   <script type="text/javascript">
     $(function () {
-      var url = window.location.search.match(/url=([^&]+)/);
-      if (url && url.length > 1) {
-        url = url[1];
-      } else {
-        url = "http://petstore.swagger.wordnik.com/v2/swagger.json";
-      }
+      var apiUrl = window.location.protocol + "//" + window.location.host;
+      if (window.location.pathname.indexOf('/api') > 0) {
+        apiUrl += window.location.pathname.substring(0, window.location.pathname.indexOf('/api'))
+      }
+      apiUrl += "/api-docs";
+      log('API URL: ' + apiUrl);
       window.swaggerUi = new SwaggerUi({
-        url: url,
+        url: apiUrl,
         dom_id: "swagger-ui-container",
         supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
         onComplete: function(swaggerApi, swaggerUi){
