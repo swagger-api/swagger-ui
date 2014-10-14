@@ -401,5 +401,5 @@ class OperationView extends Backbone.View
     if opts.highlightSizeThreshold && response.data.length > opts.highlightSizeThreshold then response_body_el else hljs.highlightBlock(response_body_el)
 
   toggleOperationContent: ->
-    elem = $('#' + Docs.escapeResourceName(@model.parentId) + "_" + @model.nickname + "_content")
+    elem = $(this.el).find('.content')
     if elem.is(':visible') then Docs.collapseOperation(elem) else Docs.expandOperation(elem)
