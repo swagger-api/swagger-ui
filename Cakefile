@@ -96,11 +96,11 @@ task 'dist', 'Build a distribution', ->
 
   pack = ->
     console.log '   : Packaging...'
-    shelljs.cp('-r', 'lib', 'dist');
+    shelljs.cp('-fr', 'lib', 'dist');
     console.log '   : Copied swagger-ui libs'
-    shelljs.cp('-r', 'node_modules/swagger-client/lib/swagger.js', 'dist/lib')
+    shelljs.cp('-fr', 'node_modules/swagger-client/lib/swagger.js', 'dist/lib')
     console.log '   : Copied swagger dependencies'
-    shelljs.cp('-r', 'src/main/html/*', 'dist')
+    shelljs.cp('-fr', 'src/main/html/*', 'dist')
     console.log '   : Copied html dependencies'
     console.log '   !'
 
