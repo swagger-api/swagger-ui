@@ -35,7 +35,7 @@ You can rebuild swagger-ui on your own to tweak it or just so you can say you di
 1. install [handlebars](http://handlebarsjs.com/)
 2. install java
 3. npm install
-4. npm run-script build
+4. npm run-script build (or npm run-script build-win for Windows user)
 5. You should see the distribution under the dist folder. Open ./dist/index.html to launch Swagger UI in a browser
 
 ### Use
