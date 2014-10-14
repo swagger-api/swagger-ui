@@ -3,6 +3,7 @@ path        = require 'path'
 {exec}      = require 'child_process'
 less        = require 'less'
 handlebars  = require 'handlebars'
+shelljs     = require 'shelljs'
 
 sourceFiles  = [
   'SwaggerUi'
