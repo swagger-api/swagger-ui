@@ -552,6 +552,11 @@ var Operation = function(parent, operationId, httpMethod, path, args, definition
         param.allowableValues.descriptiveValues.push({value : value, isDefault: isDefault});
       }
     }
+    if(param.type === 'array' && typeof param.allowableValues === 'undefined') {
+      // can't show as a list if no values to select from
+      delete param.isList;
+      delete param.allowMultiple;
+    }
     param.signature = this.getSignature(innerType, models);
     param.sampleJSON = this.getSampleJSON(innerType, models);
     param.responseClassSignature = param.signature;
