@@ -266,7 +266,7 @@ class OperationView extends Backbone.View
       options = []
       options.push opt.value for opt in select.options when opt.selected
       if options.length > 0 
-        options.join ","
+        options
       else
         null
 

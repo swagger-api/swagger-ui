@@ -1,5 +1,5 @@
 // swagger-ui.js
-// version 2.1.0
+// version 2.1.0-alpha.1
 $(function() {
 
 	// Helper function for vertically aligning DOM elements
@@ -1977,7 +1977,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           }
         }
         if (options.length > 0) {
-          return options.join(",");
+          return options;
         } else {
           return null;
         }
