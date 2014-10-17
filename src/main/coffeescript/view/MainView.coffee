@@ -27,8 +27,15 @@ class MainView extends Backbone.View
     if !@model.info.version
       @model.info.version = @model.apiVersion
 
-    if @model.url.indexOf('http://localhost') is -1 and @model.swaggerVersion is 2
+    if "validatorUrl" of opts.swaggerOptions
+      # Validator URL specified explicitly
+      @model.validatorUrl = opts.swaggerOptions.validatorUrl
+    else if @model.url.match(/https?:\/\/localhost/) and @model.swaggerVersion is 2
+      # Localhost override
       @model.validatorUrl = @model.url
+    else
+      # Default validator
+      @model.validatorUrl = "http://online.swagger.io/validator"
  
   render: ->
     # Render the outer container for resources
