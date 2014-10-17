@@ -7,7 +7,7 @@
           <a href='#!/{{parentId}}/{{nickname}}' class="toggleOperation">{{method}}</a>
           </span>
           <span class='path'>
-          <a href='#!/{{parentId}}/{{nickname}}' class="toggleOperation">{{path}}</a>
+          <a href='#!/{{parentId}}/{{nickname}}' class="toggleOperation {{#if deprecated}}deprecated{{/if}}">{{path}}</a>
           </span>
         </h3>
         <ul class='options'>
@@ -17,6 +17,9 @@
         </ul>
       </div>
       <div class='content' id='{{parentId}}_{{nickname}}_content' style='display:none'>
+        {{#if deprecated}}
+            <h4>Warning: Deprecated</h4>
+        {{/if}}
         {{#if description}}
         <h4>Implementation Notes</h4>
         <p>{{{description}}}</p>
