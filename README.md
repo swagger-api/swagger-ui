@@ -1,3 +1,5 @@
+# Note!  The swagger-ui will be moving from the wordnik organization to swagger-api!
+
 # Swagger UI
 
 
