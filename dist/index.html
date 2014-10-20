@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Swagger UI</title>
+  <title>Photorank RESTful API</title>
   <link href='//fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/>
   <link href='css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
   <link href='css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
@@ -23,83 +23,111 @@
   <!-- enabling this will enable oauth2 implicit scope support -->
   <script src='lib/swagger-oauth.js' type='text/javascript'></script>
   <script type="text/javascript">
+  
     $(function () {
-      var url = window.location.search.match(/url=([^&]+)/);
-      if (url && url.length > 1) {
-        url = url[1];
-      } else {
-        url = "http://petstore.swagger.wordnik.com/v2/swagger.json";
-      }
-      window.swaggerUi = new SwaggerUi({
-        url: url,
-        dom_id: "swagger-ui-container",
-        supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
-        onComplete: function(swaggerApi, swaggerUi){
-          log("Loaded SwaggerUI");
-          if(typeof initOAuth == "function") {
-            /*
-            initOAuth({
-              clientId: "your-client-id",
-              realm: "your-realms",
-              appName: "your-app-name"
+      // $('#exp').
+      $.getJSON("config.json", function(data) {
+          var apis = data.apitree;
+          $.each(apis, function (index, value) {
+              $("#api").append('<option value="'+value.url+'">'+value.name+'</option>');
+              $('#api').on('change', function(){
+                for(var i = 0; i < apis.length; i++)
+                {
+                  if(apis[i].url == $(this).val()) 
+                  {
+                     // For Versions
+                     $('#version').html('<option value="#">Select a version</option>');
+                     $.each(apis[i].version, function (index, value) {
+                        $("#version").append('<option value="'+value+'">'+value+'</option>');
+                    });
+                    // For Auth Types
+                    $('#auth').html('<option value="#">Select a auth type</option>');
+                    $.each(apis[i].authType, function (index, value) {
+                        $("#auth").append('<option value="'+value+'">'+value+'</option>');
+                   });
+                   // Display the Input for the key
+                   $('#auth').on('change', function(){
+                        $('#authKey').show();
+                   });
+                  }
+                }
             });
-            */
-          }
-          $('pre code').each(function(i, e) {
-            hljs.highlightBlock(e)
           });
-        },
-        onFailure: function(data) {
-          log("Unable to Load SwaggerUI");
-        },
-        docExpansion: "none",
-        sorter : "alpha"
+
+
       });
 
-      function addApiKeyAuthorization() {
-        var key = $('#input_apiKey')[0].value;
-        log("key: " + key);
-        if(key && key.trim() != "") {
-            log("added key " + key);
-            window.authorizations.add("api_key", new ApiKeyAuthorization("api_key", key, "query"));
+      $('#exp').on('click', function(){
+        url = $("#api").val();
+        version = $("#version").val();
+        window.swaggerUi = new SwaggerUi({
+          url: url,
+          dom_id: "swagger-ui-container",
+          supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'link', 'unlink'],
+          onComplete: function(swaggerApi, swaggerUi){
+            log("Loaded SwaggerUI");
+            $('pre code').each(function(i, e) {
+              hljs.highlightBlock(e)
+            });
+          },
+          onFailure: function(data) {
+            log("Unable to Load SwaggerUI");
+          },
+          docExpansion: "none",
+          sorter : "alpha"
+        });
+
+        function addApiKeyAuthorization() {
+          token = $('#authKey').val();
+          if($('#auth').val() == 'access_token'){
+            qstoken = 'access_token';
+          } else {
+            qstoken = 'auth_token';
+          }
+
+          if(token && token.trim() != "") {
+              window.authorizations.add(qstoken, new ApiKeyAuthorization(qstoken, token, "query", version));
+          }
         }
-      }
 
-      $('#input_apiKey').change(function() {
+        window.swaggerUi.load();
         addApiKeyAuthorization();
+        event.preventDefault();
       });
-
-      // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
-      /*
-        var apiKey = "myApiKeyXXXX123456789";
-        $('#input_apiKey').val(apiKey);
-        addApiKeyAuthorization();
-      */
-
-      window.swaggerUi.load();
   });
+
   </script>
 </head>
 
 <body class="swagger-section">
 <div id='header'>
   <div class="swagger-ui-wrap">
-    <a id="logo" href="http://swagger.wordnik.com">swagger</a>
+    <a id="logo"></a>
+    <span id="logo-name">API Docs</span>
+    
     <form id='api_selector'>
-      <div class='input icon-btn'>
-        <img id="show-pet-store-icon" src="images/pet_store_api.png" title="Show Swagger Petstore Example Apis">
+      <div class='input'>
+        <select name="api" id="api">
+        <option value="0">Select your API</option>
+        </select>
       </div>
-      <div class='input icon-btn'>
-        <img id="show-wordnik-dev-icon" src="images/wordnik_api.png" title="Show Wordnik Developer Apis">
+      <div class='input'>
+        <select name="version" id="version">
+          <option value="0">Select a version</option>
+        </select>
       </div>
-      <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
-      <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
-      <div class='input'><a id="explore" href="#">Explore</a></div>
+      <div class='input'>
+        <select name="auth" id="auth">
+          <option value="0">Select a Auth Type</option>
+        </select>
+      </div>
+      <div class='input'><input id="authKey" name="authKey" type="text" style="display: none" /></div>
+      <div class='input'><a id="exp" name="exp" href="#">Explore</a></div>
     </form>
   </div>
 </div>
 
 <div id="message-bar" class="swagger-ui-wrap">&nbsp;</div>
-<div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+<div id="swagger-ui-container" class="swagger-ui-wrap"><h4>Please, select an API to check the documentation.</h4></div>
 </body>
 </html>
