@@ -1,0 +1,110 @@
+/* General CSS */
+.swagger-section #header {
+  background-color: #344661 !important;
+}
+.swagger-section #header a#logo {
+  background: transparent url(http://www.photorank.me/static/images/olapic/bo/olapic-logo-header.png) no-repeat left center !important;
+
+}
+
+.swagger-section .swagger-ui-wrap .http_method .toggleOperation {
+  color: white !important;
+}
+.swagger-section #header span#logo-name {
+  font-size: 1.5em;
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
+}
+
+.swagger-section #header form#api_selector .input a#exp {
+  display: block !important;
+  text-decoration: none !important;
+  font-weight: bold !important;
+  padding: 6px 8px !important;
+  font-size: 0.9em !important;
+  color: white !important;
+  background-color: #E74C3C !important;
+  -moz-border-radius: 4px !important;
+  -webkit-border-radius: 4px !important;
+  -o-border-radius: 4px !important;
+  -ms-border-radius: 4px !important;
+  -khtml-border-radius: 4px !important;
+  border-radius: 4px !important;
+}
+
+.swagger-section .swagger-ui-wrap a {
+  color: #344661 !important;
+}
+
+/* LINK */
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.link div.heading {
+  background-color: #f2efad;
+  border: 1px solid #e5dc06;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.link div.heading h3 span.http_method a {
+  background-color: #e5dc06;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.link div.heading ul.options li {
+  border-right-color: #e5dc06;
+  color: #d8d000 !important;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.link div.heading ul.options li a {
+  color: #d8d000;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.link div.content {
+  background-color: #f2efad !important;
+  border: 1px solid #e5dc06;
+  border-top: 0 !important;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.link div.content h4 {
+  color: #d8d000 !important;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.link div.content div.sandbox_header a {
+  color: #6fc992;
+}
+
+/* UNLINK */
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.unlink div.heading {
+  background-color: #f6c587 !important;
+  border: 1px solid #f28b0a;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.unlink div.heading h3 span.http_method a {
+  background-color: #f28b0a;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.unlink div.heading ul.options li {
+
+  border-right-color: #f28b0a;
+  color: #f28b0a !important;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.unlink div.heading ul.options li a {
+  color: #f28b0a;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.unlink div.content {
+  background-color: #f6c587 !important;
+  border: 1px solid #f28b0a;
+  border-top: 0 !important;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.unlink div.content h4 {
+  color: #f28b0a !important;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.unlink div.content div.sandbox_header a {
+  color: #6fc992;
+}
+
+/* Inputs */
+.swagger-section #header form#api_selector .input select, input {
+  font-size: 0.9em;
+  padding: 3px;
+  margin: 4px;
+  border: none;
+  box-shadow: none;
+  background: white;
+  background-image: none;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.swagger-section #header form#api_selector .input input {
+  width: 200px;
+}

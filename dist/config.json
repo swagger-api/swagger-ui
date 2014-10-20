@@ -1,0 +1,16 @@
+{
+    "apitree": [
+        {
+        	"name": "Olapic Restful API",
+            "url": "http://local.photorank.me/apidoc/docs/api-docs.json",
+            "version": ["2.1", "2.2"],
+            "authType": ["access_token", "auth_token"]
+        },
+        {
+        	"name": "Olapic Analytics API",
+            "url": "http://local.photorank.me/apidoc/docs-analytics/api-docs.json",
+            "version": ["1.0"],
+            "authType": ["auth_token"]
+        }
+      ]
+  }

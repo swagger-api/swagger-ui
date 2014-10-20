@@ -975,22 +975,9 @@
       var param = params[i];
       if (param.paramType === 'query') {
         if (args[param.name] !== undefined) {
-          var value = args[param.name];
           if (queryParams !== '')
-            queryParams += '&';
-          if (Array.isArray(value)) {
-            var j;
-            var output = '';
-            for(j = 0; j < value.length; j++) {
-              if(j > 0)
-                output += ',';
-              output += encodeURIComponent(value[j]);
-            }
-            queryParams += encodeURIComponent(param.name) + '=' + output;
-          }
-          else {
-            queryParams += encodeURIComponent(param.name) + '=' + encodeURIComponent(args[param.name]);            
-          }
+            queryParams += "&";
+          queryParams += encodeURIComponent(param.name) + '=' + encodeURIComponent(args[param.name]);
         }
       }
     }
