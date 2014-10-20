@@ -412,56 +412,58 @@ SwaggerClient.prototype.buildFromSpec = function(response) {
   var path;
   var operations = [];
   for(path in response.paths) {
-    var httpMethod;
-    for(httpMethod in response.paths[path]) {
-      var operation = response.paths[path][httpMethod];
-      var tags = operation.tags;
-      if(typeof tags === 'undefined') {
-        operation.tags = [ 'default' ];
-        tags = operation.tags;
-      }
-      var operationId = this.idFromOp(path, httpMethod, operation);
-      var operationObject = new Operation (
-        this,
-        operationId,
-        httpMethod,
-        path,
-        operation,
-        this.definitions
-      );
-      // bind this operation's execute command to the api
-      if(tags.length > 0) {
-        var i;
-        for(i = 0; i < tags.length; i++) {
-          var tag = this.tagFromLabel(tags[i]);
-          var operationGroup = this[tag];
-          if(typeof operationGroup === 'undefined') {
-            this[tag] = [];
-            operationGroup = this[tag];
-            operationGroup.label = tag;
-            operationGroup.apis = [];
-            this[tag].help = this.help.bind(operationGroup);
-            this.apisArray.push(new OperationGroup(tag, operationObject));
-          }
-          operationGroup[operationId] = operationObject.execute.bind(operationObject);
-          operationGroup[operationId].help = operationObject.help.bind(operationObject);
-          operationGroup.apis.push(operationObject);
+    if(typeof response.paths[path] === 'object') {
+      var httpMethod;
+      for(httpMethod in response.paths[path]) {
+        var operation = response.paths[path][httpMethod];
+        var tags = operation.tags;
+        if(typeof tags === 'undefined') {
+          operation.tags = [ 'default' ];
+          tags = operation.tags;
+        }
+        var operationId = this.idFromOp(path, httpMethod, operation);
+        var operationObject = new Operation (
+          this,
+          operationId,
+          httpMethod,
+          path,
+          operation,
+          this.definitions
+        );
+        // bind this operation's execute command to the api
+        if(tags.length > 0) {
+          var i;
+          for(i = 0; i < tags.length; i++) {
+            var tag = this.tagFromLabel(tags[i]);
+            var operationGroup = this[tag];
+            if(typeof operationGroup === 'undefined') {
+              this[tag] = [];
+              operationGroup = this[tag];
+              operationGroup.label = tag;
+              operationGroup.apis = [];
+              this[tag].help = this.help.bind(operationGroup);
+              this.apisArray.push(new OperationGroup(tag, operationObject));
+            }
+            operationGroup[operationId] = operationObject.execute.bind(operationObject);
+            operationGroup[operationId].help = operationObject.help.bind(operationObject);
+            operationGroup.apis.push(operationObject);
 
-          // legacy UI feature
-          var j;
-          var api;
-          for(j = 0; j < this.apisArray.length; j++) {
-            if(this.apisArray[j].tag === tag) {
-              api = this.apisArray[j];
+            // legacy UI feature
+            var j;
+            var api;
+            for(j = 0; j < this.apisArray.length; j++) {
+              if(this.apisArray[j].tag === tag) {
+                api = this.apisArray[j];
+              }
+            }
+            if(api) {
+              api.operationsArray.push(operationObject);
             }
           }
-          if(api) {
-            api.operationsArray.push(operationObject);
-          }
         }
-      }
-      else {
-        log('no group to bind to');
+        else {
+          log('no group to bind to');
+        }
       }
     }
   }
