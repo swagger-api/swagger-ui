@@ -1,5 +1,3 @@
-# Note!  The swagger-ui will be moving from the wordnik organization to swagger-api!
-
 # Swagger UI
 
 
@@ -13,7 +11,7 @@ generate beautiful documentation and sandbox from a Swagger-compliant API. Becau
 The goal of Swagger™ is to define a standard, language-agnostic interface to REST APIs which allows both humans and computers to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection. When properly defined via Swagger, a consumer can understand and interact with the remote service with a minimal amount of implementation logic. Similar to what interfaces have done for lower-level programming, Swagger removes the guesswork in calling the service.
 
 
-Check out [Swagger-Spec](https://github.com/wordnik/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more. 
+Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more. 
 
 
 ## Compatability
@@ -21,10 +19,10 @@ The Swagger Specification has undergone 3 revisions since initial creation in 20
 
 Swagger UI Version | Release Date | Swagger Spec compatability | Notes | Status
 ------------------ | ------------ | -------------------------- | ----- | ------
-2.1.0-alpha.1 (in development)  | 2014-10-06          | 1.1, 1.2, 2.0 | [master](https://github.com/wordnik/swagger-ui/tree/master) | [Issues](https://github.com/wordnik/swagger-ui/milestones/v2.1.0)
-2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/wordnik/swagger-ui/tree/v2.0.24) | 
-1.0.13             | 2013-03-08   | 1.1, 1.2 | [tag v1.0.13](https://github.com/wordnik/swagger-ui/tree/v1.0.13) |
-1.0.1              | 2011-10-11   | 1.0, 1.1 | [tag v1.0.1](https://github.com/wordnik/swagger-ui/tree/v1.0.1)   |
+2.1.0-alpha.1 (in development)  | 2014-10-06          | 1.1, 1.2, 2.0 | [master](https://github.com/swagger-api/swagger-ui/tree/master) | [Issues](https://github.com/swagger-api/swagger-ui/milestones/v2.1.0)
+2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) | 
+1.0.13             | 2013-03-08   | 1.1, 1.2 | [tag v1.0.13](https://github.com/swagger-api/swagger-ui/tree/v1.0.13) |
+1.0.1              | 2011-10-11   | 1.0, 1.1 | [tag v1.0.1](https://github.com/swagger-api/swagger-ui/tree/v1.0.1)   |
 
 ## How to Use It
 
@@ -57,7 +55,7 @@ You may choose to customize Swagger UI for your organization. Here is an overvie
     -    src/main/javascript: some legacy javascript referenced by CoffeeScript code
 
 ### SwaggerUi
-To use swagger-ui you should take a look at the [source of swagger-ui html page](https://github.com/wordnik/swagger-ui/tree/master/src/main/html) and customize it. This basically requires you to instantiate a SwaggerUi object and call load() on it as below:
+To use swagger-ui you should take a look at the [source of swagger-ui html page](https://github.com/swagger-api/swagger-ui/tree/master/src/main/html) and customize it. This basically requires you to instantiate a SwaggerUi object and call load() on it as below:
 
 ```javascript
     window.swaggerUi = new SwaggerUi({
@@ -67,7 +65,7 @@ To use swagger-ui you should take a look at the [source of swagger-ui html page]
 
     window.swaggerUi.load();
 ```
-* *url* parameter should point to a resource listing url as per [Swagger Spec](https://github.com/wordnik/swagger-core/wiki)
+* *url* parameter should point to a resource listing url as per [Swagger Spec](https://github.com/swagger-api/swagger-spec/)
 * *dom_id parameter* is the the id of a dom element inside which SwaggerUi will put the user interface for swagger
 * *booleanValues* SwaggerUI renders boolean data types as a dropdown. By default it provides a 'true' and 'false' string as the possible choices. You can use this parameter to change the values in dropdown to be something else, for example 0 and 1 by setting booleanValues to new Array(0, 1)
 * *docExpansion* controls how the API listing is displayed. It can be set to 'none' (default), 'list' (shows operations for each resource), or 'full' (fully expanded: shows operations and their details)
@@ -79,11 +77,11 @@ To use swagger-ui you should take a look at the [source of swagger-ui html page]
 
 
 ### HTTP Methods and API Invocation
-swagger-ui supports invocation of all HTTP methods APIs including GET, PUT, POST, DELETE, PATCH, OPTIONS.  These are handled in the [swagger-js](https://github.com/wordnik/swagger-js) project, please see there for specifics on their usage.
+swagger-ui supports invocation of all HTTP methods APIs including GET, PUT, POST, DELETE, PATCH, OPTIONS.  These are handled in the [swagger-js](https://github.com/swagger-api/swagger-js) project, please see there for specifics on their usage.
 
 
 ### Header Parameters
-Header params are supported through a pluggable mechanism in [swagger-js](https://github.com/wordnik/swagger-js).  You can see the [index.html](https://github.com/wordnik/swagger-ui/blob/master/dist/index.html) for a sample of how to dynamically set headers:
+Header params are supported through a pluggable mechanism in [swagger-js](https://github.com/swagger-api/swagger-js).  You can see the [index.html](https://github.com/swagger-api/swagger-ui/blob/master/dist/index.html) for a sample of how to dynamically set headers:
 
 ```js
 // add a new ApiKeyAuthorization when the api-key changes in the ui.
@@ -108,9 +106,9 @@ Note!  You can pass multiple header params on a single request, just use unique 
 
 ## How to Improve It
 
-Create your own fork of [wordnik/swagger-ui](https://github.com/wordnik/swagger-ui)
+Create your own fork of [wordnik/swagger-ui](https://github.com/swagger-api/swagger-ui)
 
-To share your changes, [submit a pull request](https://github.com/wordnik/swagger-ui/pull/new/master).
+To share your changes, [submit a pull request](https://github.com/swagger-api/swagger-ui/pull/new/master).
 
 Since the javascript files are compiled from coffeescript, please submit changes in the *.coffee files!  We have to reject changes only in the .js files as they will be lost on each build of the ui.
 
