@@ -3,6 +3,7 @@ path        = require 'path'
 {exec}      = require 'child_process'
 less        = require 'less'
 handlebars  = require 'handlebars'
+shelljs     = require 'shelljs'
 
 sourceFiles  = [
   'SwaggerUi'
@@ -18,10 +19,12 @@ sourceFiles  = [
   'view/ParameterContentTypeView'
 ]
 
+NODE_MODULES = path.join __dirname, 'node_modules/'
+NODE_BIN_DIR = "#{NODE_MODULES}.bin/"
 
 task 'clean', 'Removes distribution', ->
   console.log 'Clearing dist...'
-  exec 'rm -rf dist'
+  shelljs.rm('-rf', 'dist')
 
 task 'dist', 'Build a distribution', ->
   console.log "Build distribution in ./dist"
@@ -61,23 +64,25 @@ task 'dist', 'Build a distribution', ->
     fs.writeFile 'dist/_swagger-ui.coffee', appContents.join('\n\n'), 'utf8', (err) ->
       throw err if err
       console.log '   : Compiling...'
-      exec 'coffee --compile dist/_swagger-ui.coffee', (err, stdout, stderr) ->
+      exec "#{NODE_BIN_DIR}coffee --compile dist/_swagger-ui.coffee", (err, stdout, stderr) ->
         throw err if err
         fs.unlink 'dist/_swagger-ui.coffee'
         console.log '   : Combining with javascript...'
 
         fs.readFile 'package.json', 'utf8', (err, fileContents) ->
           obj = JSON.parse(fileContents)
-          exec 'echo "// swagger-ui.js" > dist/swagger-ui.js'
-          exec 'echo "// version ' + obj.version + '" >> dist/swagger-ui.js'
-          exec 'cat src/main/javascript/doc.js dist/_swagger-ui-templates.js dist/_swagger-ui.js >> dist/swagger-ui.js', (err, stdout, stderr) ->
+          shelljs.echo('"// swagger-ui.js" > dist/swagger-ui.js')
+          shelljs.echo('"// version ' + obj.version + '" >> dist/swagger-ui.js')
+          shelljs.cat('src/main/javascript/doc.js').toEnd('dist/swagger-ui.js');
+          shelljs.cat('dist/_swagger-ui-templates.js').toEnd('dist/swagger-ui.js');
+          shelljs.cat('dist/_swagger-ui.js').toEnd('dist/swagger-ui.js');
+
+          fs.unlink 'dist/_swagger-ui.js'
+          fs.unlink 'dist/_swagger-ui-templates.js'
+          console.log '   : Minifying all...'
+          exec 'java -jar "./bin/yuicompressor-2.4.7.jar" --type js -o ' + 'dist/swagger-ui.min.js ' + 'dist/swagger-ui.js', (err, stdout, stderr) ->
             throw err if err
-            fs.unlink 'dist/_swagger-ui.js'
-            fs.unlink 'dist/_swagger-ui-templates.js'
-            console.log '   : Minifying all...'
-            exec 'java -jar "./bin/yuicompressor-2.4.7.jar" --type js -o ' + 'dist/swagger-ui.min.js ' + 'dist/swagger-ui.js', (err, stdout, stderr) ->
-              throw err if err
-              lessc()
+            lessc()
 
   lessc = ->
     # Someone who knows CoffeeScript should make this more Coffee-licious
@@ -91,11 +96,11 @@ task 'dist', 'Build a distribution', ->
 
   pack = ->
     console.log '   : Packaging...'
-    exec 'cp -r lib dist'
+    shelljs.cp('-fr', 'lib', 'dist');
     console.log '   : Copied swagger-ui libs'
-    exec 'cp -r node_modules/swagger-client/lib/swagger.js dist/lib'
+    shelljs.cp('-fr', 'node_modules/swagger-client/lib/swagger.js', 'dist/lib')
     console.log '   : Copied swagger dependencies'
-    exec 'cp -r src/main/html/* dist'
+    shelljs.cp('-fr', 'src/main/html/*', 'dist')
     console.log '   : Copied html dependencies'
     console.log '   !'
 
