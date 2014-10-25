@@ -1,5 +1,6 @@
 class ResourceView extends Backbone.View
-  initialize: ->
+  initialize: (opts={}) ->
+    @auths = opts.auths
     if "" is @model.description 
       @model.description = null
 
@@ -36,7 +37,13 @@ class ResourceView extends Backbone.View
     operation.number = @number
 
     # Render an operation and add it to operations li
-    operationView = new OperationView({model: operation, tagName: 'li', className: 'endpoint', swaggerOptions: @options.swaggerOptions})
+    operationView = new OperationView({
+      model: operation,
+      tagName: 'li',
+      className: 'endpoint',
+      swaggerOptions: @options.swaggerOptions,
+      auths: @auths
+    })
     $('.endpoints', $(@el)).append operationView.render().el
 
     @number++

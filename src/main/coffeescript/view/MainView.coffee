@@ -5,14 +5,12 @@ class MainView extends Backbone.View
   }
 
   initialize: (opts={}) ->
-    if opts.swaggerOptions.sorter
-      sorterName = opts.swaggerOptions.sorter
-      sorter = sorters[sorterName]
-      if @model.apisArray
-        for route in @model.apisArray
-          route.operationsArray.sort sorter
-        if (sorterName == "alpha") # sort top level paths if alpha 
-          @model.apisArray.sort sorter
+    # set up the UI for input
+    @model.auths = []
+    for key, value of @model.securityDefinitions
+      auth = {name: key, type: value.type, value: value}
+      @model.auths.push auth
+
 
     if @model.info and @model.info.license and typeof @model.info.license is 'string'
       name = @model.info.license
@@ -39,6 +37,16 @@ class MainView extends Backbone.View
         @model.validatorUrl = "http://online.swagger.io/validator"
  
   render: ->
+    if @model.securityDefinitions
+      for name of @model.securityDefinitions
+        auth = @model.securityDefinitions[name]
+        if auth.type is "apiKey" and $("#apikey_button").length is 0
+          button = new ApiKeyButton({model: auth}).render().el
+          $('.auth_main_container').append button
+        if auth.type is "basicAuth" and $("#basic_auth_button").length is 0
+          button = new BasicAuthButton({model: auth}).render().el
+          $('.auth_main_container').append button
+
     # Render the outer container for resources
     $(@el).html(Handlebars.templates.main(@model))
 
@@ -53,13 +61,20 @@ class MainView extends Backbone.View
         counter += 1
       resource.id = id
       resources[id] = resource
-      @addResource resource
+      @addResource resource, @model.auths
     @
 
-  addResource: (resource) ->
+  addResource: (resource, auths) ->
     # Render a resource and add it to resources li
     resource.id = resource.id.replace(/\s/g, '_')
-    resourceView = new ResourceView({model: resource, tagName: 'li', id: 'resource_' + resource.id, className: 'resource', swaggerOptions: @options.swaggerOptions})
+    resourceView = new ResourceView({
+      model: resource, 
+      tagName: 'li', 
+      id: 'resource_' + resource.id, 
+      className: 'resource', 
+      auths: auths,
+      swaggerOptions: @options.swaggerOptions
+    })
     $('#resources').append resourceView.render().el
 
   clear: ->

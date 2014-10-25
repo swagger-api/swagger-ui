@@ -10,7 +10,10 @@ class OperationView extends Backbone.View
     'mouseout .api-ic'        : 'mouseExit'
   }
 
-  initialize: ->
+  initialize: (opts={}) ->
+    @auths = opts.auths
+
+    @
 
   mouseEnter: (e) ->
     elem = $(e.currentTarget.parentNode).find('#api_information_panel')
@@ -49,15 +52,28 @@ class OperationView extends Backbone.View
     if @model.description
       @model.description = @model.description.replace(/(?:\r\n|\r|\n)/g, '<br />')
     @model.oauth = null
+    log @model.authorizations
     if @model.authorizations
-      for k, v of @model.authorizations
-        if k == "oauth2"
-          if @model.oauth == null
-            @model.oauth = {}
-          if @model.oauth.scopes is undefined
-            @model.oauth.scopes = []
-          for o in v
-            @model.oauth.scopes.push o
+      if Array.isArray @model.authorizations
+        for auths in @model.authorizations
+          for key, auth of auths
+            for a of @auths
+              auth = @auths[a]
+              if auth.type == 'oauth2'
+                @model.oauth = {}
+                @model.oauth.scopes = []
+                for k, v of auth.value.scopes
+                  o = {scope: k, description: v}
+                  @model.oauth.scopes.push o
+      else
+        for k, v of @model.authorizations
+          if k == "oauth2"
+            if @model.oauth == null
+              @model.oauth = {}
+            if @model.oauth.scopes is undefined
+              @model.oauth.scopes = []
+            for o in v
+              @model.oauth.scopes.push o
 
     if typeof @model.responses isnt 'undefined'
       @model.responseMessages = []

@@ -87,15 +87,20 @@ SwaggerAuthorizations.prototype.apply = function(obj, authorizations) {
     }
   }
   else {
-    for(name in authorizations) {
-      for (key in this.authz) {
-        if(key == name) {
-          value = this.authz[key];
-          result = value.apply(obj, authorizations);
-          if (result === true)
-            status = true;
+    if(Array.isArray(authorizations)) {
+      var i;
+      for(i = 0; i < authorizations.length; i++) {
+        var auth = authorizations[i];
+        log(auth);
+        for (key in this.authz) {
+          var value = this.authz[key];
+          if(typeof value !== 'undefined') {
+            result = value.apply(obj, authorizations);
+            if (result === true)
+              status = true;
+          }
         }
-      }      
+      }
     }
   }
 
@@ -382,7 +387,7 @@ SwaggerClient.prototype.buildFromSpec = function(response) {
   this.apisArray = [];
   this.consumes = response.consumes;
   this.produces = response.produces;
-  this.authSchemes = response.authorizations;
+  this.securityDefinitions = response.securityDefinitions;
 
   var location = this.parseUri(this.url);
   if(typeof this.schemes === 'undefined' || this.schemes.length === 0) {
@@ -540,6 +545,7 @@ var Operation = function(parent, operationId, httpMethod, path, args, definition
   this.responses = (args.responses||{});
   this.type = null;
   this.security = args.security;
+  this.authorizations = args.security;
   this.description = args.description;
 
   var i;
