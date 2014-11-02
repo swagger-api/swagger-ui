@@ -377,6 +377,10 @@ class OperationView extends Backbone.View
 
     # if server is nice, and sends content-type back, we can use it
     contentType = if headers && headers["Content-Type"] then headers["Content-Type"].split(";")[0].trim() else null
+    
+    supportsAudioPlayback = (contentType) ->
+      audioElement = document.createElement('audio')
+      return !!(audioElement.canPlayType && audioElement.canPlayType(contentType).replace(/no/, ''))
 
     if !content
       code = $('<code />').text("no content")
@@ -397,6 +401,8 @@ class OperationView extends Backbone.View
       pre = $('<pre class="xml" />').append(code)
     else if /^image\//.test(contentType)
       pre = $('<img>').attr('src',url)
+    else if /^audio\//.test(contentType) and supportsAudioPlayback(contentType)
+      pre = $('<audio controls>').append($('<source>').attr('src', url).attr('type', contentType))
     else
       # don't know what to render!
       code = $('<code />').text(content)
