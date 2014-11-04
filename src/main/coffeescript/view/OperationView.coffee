@@ -376,7 +376,11 @@ class OperationView extends Backbone.View
     headers = response.headers
 
     # if server is nice, and sends content-type back, we can use it
-    contentType = if headers && headers["Content-Type"] then headers["Content-Type"].split(";")[0].trim() else null
+    contentType = null
+    if headers
+      contentType = headers["Content-Type"] or headers["content-type"]
+      if contentType
+        contentType = contentType.split(";")[0].trim()
 
     if !content
       code = $('<code />').text("no content")
