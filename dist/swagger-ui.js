@@ -1782,7 +1782,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         this.model.description = this.model.description.replace(/(?:\r\n|\r|\n)/g, '<br />');
       }
       this.model.oauth = null;
-      log(this.model.authorizations);
       if (this.model.authorizations) {
         if (Array.isArray(this.model.authorizations)) {
           _ref5 = this.model.authorizations;

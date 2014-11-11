@@ -389,6 +389,9 @@ SwaggerClient.prototype.buildFromSpec = function(response) {
   this.produces = response.produces;
   this.securityDefinitions = response.securityDefinitions;
 
+  // legacy support
+  this.authSchemes = response.securityDefinitions;
+
   var location = this.parseUri(this.url);
   if(typeof this.schemes === 'undefined' || this.schemes.length === 0) {
     this.scheme = location.scheme;

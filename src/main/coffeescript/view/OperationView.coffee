@@ -52,7 +52,6 @@ class OperationView extends Backbone.View
     if @model.description
       @model.description = @model.description.replace(/(?:\r\n|\r|\n)/g, '<br />')
     @model.oauth = null
-    log @model.authorizations
     if @model.authorizations
       if Array.isArray @model.authorizations
         for auths in @model.authorizations

@@ -1,5 +1,5 @@
 // swagger.js
-// version 2.0.41
+// version 2.0.42
 
 (function () {
 
@@ -974,16 +974,22 @@
     var queryParams = "";
     for (var i = 0; i < params.length; i++) {
       var param = params[i];
-      if (param.paramType === 'query') {
-        if (args[param.name] !== undefined) {
-          if (queryParams !== '')
-            queryParams += "&";
-          queryParams += encodeURIComponent(param.name) + '=' + encodeURIComponent(args[param.name]);
-        }
+      if (queryParams !== '')
+        queryParams += '&';    
+      if (Array.isArray(param)) {
+        var j;   
+        var output = '';   
+        for(j = 0; j < param.length; j++) {    
+          if(j > 0)    
+            output += ',';   
+          output += encodeURIComponent(param[j]);    
+        }    
+        queryParams += encodeURIComponent(param.name) + '=' + output;    
+      }    
+      else {   
+        queryParams += encodeURIComponent(param.name) + '=' + encodeURIComponent(args[param.name]);                
       }
     }
-    if ((queryParams != null) && queryParams.length > 0)
-      url += '?' + queryParams;
     return url;
   };
 
@@ -1477,8 +1483,8 @@
         data: response.content.data
       };
 
-      var contentType = (response._headers["content-type"] || response._headers["Content-Type"] || null)
-
+      var headers = response._headers.normalized || response._headers;
+      var contentType = (headers["content-type"] || headers["Content-Type"] || null)
       if (contentType != null) {
         if (contentType.indexOf("application/json") == 0 || contentType.indexOf("+json") > 0) {
           if (response.content.data && response.content.data !== "")
