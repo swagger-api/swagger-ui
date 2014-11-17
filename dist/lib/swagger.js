@@ -990,6 +990,10 @@
         queryParams += encodeURIComponent(param.name) + '=' + encodeURIComponent(args[param.name]);                
       }
     }
+    
+    if ((queryParams != null) && queryParams.length > 0)
+      url += '?' + queryParams;
+
     return url;
   };
 
