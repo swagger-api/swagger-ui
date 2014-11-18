@@ -1,5 +1,5 @@
 // swagger.js
-// version 2.0.43
+// version 2.0.44
 
 (function () {
 
@@ -974,20 +974,22 @@
     var queryParams = "";
     for (var i = 0; i < params.length; i++) {
       var param = params[i];
-      if (queryParams !== '')
-        queryParams += '&';    
-      if (Array.isArray(param)) {
-        var j;   
-        var output = '';   
-        for(j = 0; j < param.length; j++) {    
-          if(j > 0)    
-            output += ',';   
-          output += encodeURIComponent(param[j]);    
+      if(param.paramType === 'query') {
+        if (queryParams !== '')
+          queryParams += '&';    
+        if (Array.isArray(param)) {
+          var j;   
+          var output = '';   
+          for(j = 0; j < param.length; j++) {    
+            if(j > 0)    
+              output += ',';   
+            output += encodeURIComponent(param[j]);    
+          }    
+          queryParams += encodeURIComponent(param.name) + '=' + output;    
         }    
-        queryParams += encodeURIComponent(param.name) + '=' + output;    
-      }    
-      else {   
-        queryParams += encodeURIComponent(param.name) + '=' + encodeURIComponent(args[param.name]);                
+        else {   
+          queryParams += encodeURIComponent(param.name) + '=' + encodeURIComponent(args[param.name]);                
+        }
       }
     }
     if ((queryParams != null) && queryParams.length > 0)
