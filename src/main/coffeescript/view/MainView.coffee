@@ -29,9 +29,9 @@ class MainView extends Backbone.View
       if "validatorUrl" of opts.swaggerOptions
         # Validator URL specified explicitly
         @model.validatorUrl = opts.swaggerOptions.validatorUrl
-      else if @model.url.match(/https?:\/\/localhost/)
+      else if @model.url.indexOf("localhost") > 0
         # Localhost override
-        @model.validatorUrl = @model.url
+        @model.validatorUrl = null
       else
         # Default validator
         @model.validatorUrl = "http://online.swagger.io/validator"
