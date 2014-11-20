@@ -1,6 +1,6 @@
 # Swagger UI
 
-Swagger UI is part of Swagger project.  The Swagger project allows you to produce, visualize and consume your OWN RESTful services.  No proxy or 3rd party services required.  Do it your own way.
+Swagger UI is part of the Swagger project.  The Swagger project allows you to produce, visualize and consume your OWN RESTful services.  No proxy or 3rd party services required.  Do it your own way.
 
 Swagger UI is a dependency-free collection of HTML, Javascript, and CSS assets that dynamically
 generate beautiful documentation and sandbox from a Swagger-compliant API. Because Swagger UI has no dependencies, you can host it in any server environment, or on your local machine.
@@ -13,10 +13,10 @@ The goal of Swagger™ is to define a standard, language-agnostic interface to R
 Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more. 
 
 
-## Compatability
-The Swagger Specification has undergone 3 revisions since initial creation in 2010.  The swagger-ui project has the following compatibilies with the swagger specification:
+## Compatibility
+The Swagger Specification has undergone 3 revisions since initial creation in 2010.  Compatibility between swagger-ui and the Swagger specification is as follows:
 
-Swagger UI Version | Release Date | Swagger Spec compatability | Notes | Status
+Swagger UI Version | Release Date | Swagger Spec compatibility | Notes | Status
 ------------------ | ------------ | -------------------------- | ----- | ------
 2.1.0-alpha.1 (in development)  | 2014-10-06          | 1.1, 1.2, 2.0 | [master](https://github.com/swagger-api/swagger-ui/tree/master) | [Issues](https://github.com/swagger-api/swagger-ui/milestones/v2.1.0)
 2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) | 
