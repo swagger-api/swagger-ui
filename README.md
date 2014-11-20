@@ -14,9 +14,9 @@ Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additi
 
 
 ## Compatibility
-The Swagger Specification has undergone 3 revisions since initial creation in 2010.  The swagger-ui project has the following compatibilies with the swagger specification:
+The Swagger Specification has undergone 3 revisions since initial creation in 2010.  Compatibility between swagger-ui and the Swagger specification is as follows:
 
-Swagger UI Version | Release Date | Swagger Spec compatability | Notes | Status
+Swagger UI Version | Release Date | Swagger Spec compatibility | Notes | Status
 ------------------ | ------------ | -------------------------- | ----- | ------
 2.1.0-alpha.1 (in development)  | 2014-10-06          | 1.1, 1.2, 2.0 | [master](https://github.com/swagger-api/swagger-ui/tree/master) | [Issues](https://github.com/swagger-api/swagger-ui/milestones/v2.1.0)
 2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) | 
