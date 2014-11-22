@@ -3,7 +3,7 @@
   <select {{#isArray this}} multiple='multiple'{{/isArray}} class='parameter' name='{{name}}'>
     {{#if required}}
     {{else}}
-      {{#if defaultValue}}
+      {{#if default}}
       {{else}}
         {{#isArray this}}
         {{else}}

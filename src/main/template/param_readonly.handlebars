@@ -1,10 +1,10 @@
 <td class='code'>{{name}}</td>
 <td>
     {{#if isBody}}
-        <textarea class='body-textarea' readonly='readonly' name='{{name}}'>{{defaultValue}}</textarea>
+        <textarea class='body-textarea' readonly='readonly' name='{{name}}'>{{default}}</textarea>
     {{else}}
-        {{#if defaultValue}}
-            {{defaultValue}}
+        {{#if default}}
+            {{default}}
         {{else}}
             (empty)
         {{/if}}
