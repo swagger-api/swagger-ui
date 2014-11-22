@@ -1,5 +1,5 @@
 // swagger-ui.js
-// version 2.1.0-alpha.5
+// version 2.1.0-alpha.6
 $(function() {
 
 	// Helper function for vertically aligning DOM elements
@@ -712,7 +712,7 @@ function program5(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n      ";
-  stack1 = helpers['if'].call(depth0, depth0.defaultValue, {hash:{},inverse:self.program(8, program8, data),fn:self.program(6, program6, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0['default'], {hash:{},inverse:self.program(8, program8, data),fn:self.program(6, program6, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n    ";
   return buffer;
@@ -830,8 +830,8 @@ function program1(depth0,data) {
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "'>";
-  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if (stack1 = helpers['default']) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0['default']; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "</textarea>\n    ";
   return buffer;
@@ -841,7 +841,7 @@ function program3(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n        ";
-  stack1 = helpers['if'].call(depth0, depth0.defaultValue, {hash:{},inverse:self.program(6, program6, data),fn:self.program(4, program4, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0['default'], {hash:{},inverse:self.program(6, program6, data),fn:self.program(4, program4, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n    ";
   return buffer;
@@ -850,8 +850,8 @@ function program4(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n            ";
-  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if (stack1 = helpers['default']) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0['default']; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "\n        ";
   return buffer;
@@ -898,8 +898,8 @@ function program1(depth0,data) {
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "'>";
-  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if (stack1 = helpers['default']) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0['default']; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "</textarea>\n    ";
   return buffer;
@@ -909,7 +909,7 @@ function program3(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n        ";
-  stack1 = helpers['if'].call(depth0, depth0.defaultValue, {hash:{},inverse:self.program(6, program6, data),fn:self.program(4, program4, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0['default'], {hash:{},inverse:self.program(6, program6, data),fn:self.program(4, program4, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n    ";
   return buffer;
@@ -918,8 +918,8 @@ function program4(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n            ";
-  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if (stack1 = helpers['default']) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0['default']; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "\n        ";
   return buffer;
@@ -982,7 +982,7 @@ function program4(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n			";
-  stack1 = helpers['if'].call(depth0, depth0.defaultValue, {hash:{},inverse:self.program(7, program7, data),fn:self.program(5, program5, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0['default'], {hash:{},inverse:self.program(7, program7, data),fn:self.program(5, program5, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n		";
   return buffer;
@@ -995,8 +995,8 @@ function program5(depth0,data) {
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "'>";
-  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if (stack1 = helpers['default']) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0['default']; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "</textarea>\n			";
   return buffer;
@@ -1037,7 +1037,7 @@ function program12(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n			";
-  stack1 = helpers['if'].call(depth0, depth0.defaultValue, {hash:{},inverse:self.program(15, program15, data),fn:self.program(13, program13, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0['default'], {hash:{},inverse:self.program(15, program15, data),fn:self.program(13, program13, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n		";
   return buffer;
@@ -1050,8 +1050,8 @@ function program13(depth0,data) {
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "' placeholder='(required)' type='text' value='";
-  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if (stack1 = helpers['default']) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0['default']; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "'/>\n			";
   return buffer;
@@ -2354,6 +2354,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         this.model.isFile = true;
       }
       this.model["default"] = this.model["default"] || this.model.defaultValue;
+      if (this.model.allowableValues) {
+        this.model.isList = true;
+      }
       template = this.template();
       $(this.el).html(template(this.model));
       signatureModel = {

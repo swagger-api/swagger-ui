@@ -25,6 +25,9 @@ class ParameterView extends Backbone.View
     @model.isFile = true if type and type.toLowerCase() == 'file'
     @model.default = (@model.default || @model.defaultValue)
 
+    if@model.allowableValues
+      @model.isList = true
+
     template = @template()
     $(@el).html(template(@model))
 
