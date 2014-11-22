@@ -4,8 +4,8 @@
 		{{#if isFile}}
 			<input type="file" name='{{name}}'/>
 		{{else}}
-			{{#if defaultValue}}
-				<textarea class='body-textarea' placeholder='(required)' name='{{name}}'>{{defaultValue}}</textarea>
+			{{#if default}}
+				<textarea class='body-textarea' placeholder='(required)' name='{{name}}'>{{default}}</textarea>
 			{{else}}
 				<textarea class='body-textarea' placeholder='(required)' name='{{name}}'></textarea>
 				<br />
@@ -16,8 +16,8 @@
 		{{#if isFile}}
 			<input class='parameter' class='required' type='file' name='{{name}}'/>
 		{{else}}
-			{{#if defaultValue}}
-				<input class='parameter required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='{{defaultValue}}'/>
+			{{#if default}}
+				<input class='parameter required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='{{default}}'/>
 			{{else}}
 				<input class='parameter required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value=''/>
 			{{/if}}
