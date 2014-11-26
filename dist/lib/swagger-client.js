@@ -1,5 +1,5 @@
 // swagger-client.js
-// version 2.1.0-alpha.2
+// version 2.1.0-alpha.3
 /**
  * Array Model
  **/
@@ -840,7 +840,7 @@ Operation.prototype.execute = function(arg1, arg2, arg3, arg4, parent) {
         var reg = new RegExp('\{' + param.name + '[^\}]*\}', 'gi');
         requestUrl = requestUrl.replace(reg, this.encodePathParam(args[param.name]));
       }
-      else if (param.in === 'query') {
+      else if (param.in === 'query' && typeof args[param.name] !== 'undefined') {
         if(querystring === '')
           querystring += '?';
         else
@@ -1103,14 +1103,11 @@ Model.prototype.getMockSignature = function(modelsToIgnore) {
 var Property = function(name, obj, required) {
   this.schema = obj;
   this.required = required;
-  if(obj['$ref']) {
-    var refType = obj['$ref'];
-    refType = refType.indexOf('#/definitions') === -1 ? refType : refType.substring('#/definitions').length;
-    this['$ref'] = refType;
-  }
+  if(obj['$ref'])
+    this['$ref'] = simpleRef(obj['$ref']);
   else if (obj.type === 'array') {
     if(obj.items['$ref'])
-      this['$ref'] = obj.items['$ref'];
+      this['$ref'] = simpleRef(obj.items['$ref']);
     else
       obj = obj.items;
   }
@@ -1141,7 +1138,8 @@ Property.prototype.sampleValue = function(isArray, ignoredModels) {
   var output;
 
   if(this['$ref']) {
-    var refModel = models[this['$ref']];
+    var refModelName = simpleRef(this['$ref']);
+    var refModel = models[refModelName];
     if(refModel && typeof ignoredModels[type] === 'undefined') {
       ignoredModels[type] = this;
       output = refModel.getSampleValue(ignoredModels);
@@ -1200,14 +1198,18 @@ getStringSignature = function(obj) {
     str += 'double';
   else if(obj.type === 'boolean')
     str += 'boolean';
+  else if(obj['$ref'])
+    str += simpleRef(obj['$ref']);
   else
-    str += obj.type || obj['$ref'];
+    str += obj.type;
   if(obj.type === 'array')
     str += ']';
   return str;
 }
 
 simpleRef = function(name) {
+  if(typeof name === 'undefined')
+    return null;
   if(name.indexOf("#/definitions/") === 0)
     return name.substring('#/definitions/'.length)
   else
