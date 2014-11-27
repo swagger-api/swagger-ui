@@ -104,7 +104,7 @@ Note!  You can pass multiple header params on a single request, just use unique 
 
 ## How to Improve It
 
-Create your own fork of [wordnik/swagger-ui](https://github.com/swagger-api/swagger-ui)
+Create your own fork of [swagger-api/swagger-ui](https://github.com/swagger-api/swagger-ui)
 
 To share your changes, [submit a pull request](https://github.com/swagger-api/swagger-ui/pull/new/master).
 
@@ -112,7 +112,7 @@ Since the javascript files are compiled from coffeescript, please submit changes
 
 ## License
 
-Copyright 2011-2013 Wordnik, Inc.
+Copyright 2011-2014 Reverb technologies, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
