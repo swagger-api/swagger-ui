@@ -1,5 +1,5 @@
 // swagger.js
-// version 2.0.44
+// version 2.0.45
 
 (function () {
 
@@ -905,6 +905,12 @@
       }
       else if (param.paramType === 'form' || param.paramType.toLowerCase() === 'file')
         possibleParams.push(param);
+      else if (param.paramType === 'body' && param.name !== 'body') {
+        if (args.body) {
+          throw new Error("Saw two body params in an API listing; expecting a max of one.");
+        }
+        args.body = args[param.name];
+      }
     }
 
     if (args.body != null) {
