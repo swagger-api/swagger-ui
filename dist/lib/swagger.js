@@ -1,5 +1,5 @@
 // swagger.js
-// version 2.0.45
+// version 2.0.46
 
 (function () {
 
@@ -968,7 +968,7 @@
       if (param.paramType === 'path') {
         if (args[param.name]) {
           // apply path params and remove from args
-          var reg = new RegExp('\\{\\s*?' + param.name + '.*?\\}(?=\\s*?(\\/|$))', 'gi');
+          var reg = new RegExp('\\{\\s*?' + param.name + '.*?\\}(?=\\s*?(\\/?|$))', 'gi');
           url = url.replace(reg, this.encodePathParam(args[param.name]));
           delete args[param.name];
         }
