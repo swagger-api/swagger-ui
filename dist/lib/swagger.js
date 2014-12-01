@@ -993,7 +993,7 @@
           }    
           queryParams += encodeURIComponent(param.name) + '=' + output;    
         }    
-        else {   
+        else if (args[param.name] !== undefined) {
           queryParams += encodeURIComponent(param.name) + '=' + encodeURIComponent(args[param.name]);                
         }
       }
