@@ -141,6 +141,11 @@ var Docs = {
 	// Collapse resource and mark as explicitly closed
 	collapseEndpointListForResource: function(resource) {
 		var resource = Docs.escapeResourceName(resource);
+		if (resource == '') {
+			$('.resource ul.endpoints').slideUp();
+			return;
+		}
+
 		$('li#resource_' + resource).removeClass('active');
 
 		var elem = $('li#resource_' + resource + ' ul.endpoints');
@@ -164,6 +169,11 @@ var Docs = {
 	collapseOperationsForResource: function(resource) {
 		// Make sure the resource container is open..
 		Docs.expandEndpointListForResource(resource);
+
+		if (resource == '') {
+			$('.resource ul.endpoints li.operation div.content').slideUp();
+			return;
+		}
 
 		$('li#resource_' + Docs.escapeResourceName(resource) + ' li.operation div.content').each(function() {
 			Docs.collapseOperation($(this));
