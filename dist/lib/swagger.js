@@ -998,8 +998,12 @@
         }
       }
     }
-    if ((queryParams != null) && queryParams.length > 0)
-      url += '?' + queryParams;
+    if ((queryParams != null) && queryParams.length > 0) {
+      if ( url.indexOf('?') > -1 )
+        url += '&' + queryParams;
+      else
+        url += '?' + queryParams;
+    }
     return url;
   };
 
