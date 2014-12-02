@@ -993,13 +993,17 @@
           }    
           queryParams += encodeURIComponent(param.name) + '=' + output;    
         }    
-        else {   
+        else if (args[param.name] !== undefined) {
           queryParams += encodeURIComponent(param.name) + '=' + encodeURIComponent(args[param.name]);                
         }
       }
     }
-    if ((queryParams != null) && queryParams.length > 0)
-      url += '?' + queryParams;
+    if ((queryParams != null) && queryParams.length > 0) {
+      if ( url.indexOf('?') > -1 )
+        url += '&' + queryParams;
+      else
+        url += '?' + queryParams;
+    }
     return url;
   };
 
