@@ -990,7 +990,7 @@ function program4(depth0,data) {
 function program5(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n				<textarea class='body-textarea' placeholder='(required)' name='";
+  buffer += "\n				<textarea class='body-textarea required' placeholder='(required)' name='";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -1005,7 +1005,7 @@ function program5(depth0,data) {
 function program7(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n				<textarea class='body-textarea' placeholder='(required)' name='";
+  buffer += "\n				<textarea class='body-textarea required' placeholder='(required)' name='";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -1949,6 +1949,19 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           return error_free = false;
         }
       });
+      form.find("textarea.required").each(function() {
+        var _this = this;
+        $(this).removeClass("error");
+        if (jQuery.trim($(this).val()) === "") {
+          $(this).addClass("error");
+          $(this).wiggle({
+            callback: function() {
+              return $(_this).focus();
+            }
+          });
+          return error_free = false;
+        }
+      });
       if (error_free) {
         map = {};
         opts = {
@@ -2262,7 +2275,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
     OperationView.prototype.toggleOperationContent = function() {
       var elem;
-      elem = $('#' + Docs.escapeResourceName(this.model.parentId) + "_" + this.model.nickname + "_content");
+      elem = $('#' + Docs.escapeResourceName(this.model.parentId + "_" + this.model.nickname + "_content"));
       if (elem.is(':visible')) {
         return Docs.collapseOperation(elem);
       } else {

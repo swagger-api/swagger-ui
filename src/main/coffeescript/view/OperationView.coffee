@@ -157,6 +157,13 @@ class OperationView extends Backbone.View
         $(@).wiggle
           callback: => $(@).focus()
         error_free = false
+    form.find("textarea.required").each ->
+      $(@).removeClass "error"
+      if jQuery.trim($(@).val()) is ""
+        $(@).addClass "error"
+        $(@).wiggle
+          callback: => $(@).focus()
+        error_free = false
 
     # if error free submit it
     if error_free
@@ -420,5 +427,5 @@ class OperationView extends Backbone.View
     if opts.highlightSizeThreshold && response.data.length > opts.highlightSizeThreshold then response_body_el else hljs.highlightBlock(response_body_el)
 
   toggleOperationContent: ->
-    elem = $('#' + Docs.escapeResourceName(@model.parentId) + "_" + @model.nickname + "_content")
+    elem = $('#' + Docs.escapeResourceName(@model.parentId + "_" + @model.nickname + "_content"))
     if elem.is(':visible') then Docs.collapseOperation(elem) else Docs.expandOperation(elem)
