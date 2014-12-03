@@ -157,6 +157,13 @@ class OperationView extends Backbone.View
         $(@).wiggle
           callback: => $(@).focus()
         error_free = false
+    form.find("textarea.required").each ->
+      $(@).removeClass "error"
+      if jQuery.trim($(@).val()) is ""
+        $(@).addClass "error"
+        $(@).wiggle
+          callback: => $(@).focus()
+        error_free = false
 
     # if error free submit it
     if error_free
