@@ -1,5 +1,5 @@
 // swagger.js
-// version 2.0.46
+// version 2.0.47
 
 (function () {
 
@@ -992,9 +992,14 @@
             output += encodeURIComponent(param[j]);    
           }    
           queryParams += encodeURIComponent(param.name) + '=' + output;    
-        }    
-        else {   
-          queryParams += encodeURIComponent(param.name) + '=' + encodeURIComponent(args[param.name]);                
+        }
+        else {
+          if (args[param.name]) {
+            queryParams += encodeURIComponent(param.name) + '=' + encodeURIComponent(args[param.name]);
+          } else {
+            if (param.required)
+              throw "" + param.name + " is a required query param.";
+          }
         }
       }
     }
@@ -1275,7 +1280,7 @@
       else if (this.type === "DELETE")
         body = "{}";
       else if (this.type != "DELETE")
-        accepts = null;
+        consumes = null;
     }
 
     if (consumes && this.operation.consumes) {
