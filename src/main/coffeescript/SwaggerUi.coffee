@@ -66,6 +66,18 @@ class SwaggerUi extends Backbone.Router
     @api = new SwaggerClient(@options)
     @api.build()    
 
+  # collapse all sections
+  collapseAll:() ->
+    Docs.collapseEndpointListForResource('')
+
+  # list operations for all sections
+  listAll:() ->
+    Docs.collapseOperationsForResource('')
+
+  # expand operations for all sections
+  expandAll:() ->
+    Docs.expandOperationsForResource('')
+
   # This is bound to success handler for SwaggerApi
   #  so it gets called when SwaggerApi completes loading
   render:() ->
@@ -73,8 +85,8 @@ class SwaggerUi extends Backbone.Router
     @mainView = new MainView({model: @api, el: $('#' + @dom_id), swaggerOptions: @options}).render()
     @showMessage()
     switch @options.docExpansion
-      when "full" then Docs.expandOperationsForResource('')
-      when "list" then Docs.collapseOperationsForResource('')
+      when "full" then @expandAll()
+      when "list" then @listAll()
     @options.onComplete(@api, @) if @options.onComplete
     setTimeout(
       =>
