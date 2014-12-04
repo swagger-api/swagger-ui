@@ -1386,6 +1386,18 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       return this.api.build();
     };
 
+    SwaggerUi.prototype.collapseAll = function() {
+      return Docs.collapseEndpointListForResource('');
+    };
+
+    SwaggerUi.prototype.listAll = function() {
+      return Docs.collapseOperationsForResource('');
+    };
+
+    SwaggerUi.prototype.expandAll = function() {
+      return Docs.expandOperationsForResource('');
+    };
+
     SwaggerUi.prototype.render = function() {
       var _this = this;
       this.showMessage('Finished Loading Resource Information. Rendering Swagger UI...');
@@ -1397,10 +1409,10 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       this.showMessage();
       switch (this.options.docExpansion) {
         case "full":
-          Docs.expandOperationsForResource('');
+          this.expandAll();
           break;
         case "list":
-          Docs.collapseOperationsForResource('');
+          this.listAll();
       }
       if (this.options.onComplete) {
         this.options.onComplete(this.api, this);
