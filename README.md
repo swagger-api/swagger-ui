@@ -37,7 +37,7 @@ You can rebuild swagger-ui on your own to tweak it or just so you can say you di
 4. You should see the distribution under the dist folder. Open ./dist/index.html to launch Swagger UI in a browser
 
 ### Use
-Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstore.swagger.wordnik.com/api/api-docs) service and show its APIs.  You can enter your own server url and click explore to view the API.
+Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstore.swagger.wordnik.com/v2/swagger.json) service and show its APIs.  You can enter your own server url and click explore to view the API.
 
 ### Customize
 You may choose to customize Swagger UI for your organization. Here is an overview of whats in its various directories:
