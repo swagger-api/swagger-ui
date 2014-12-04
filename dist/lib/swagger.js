@@ -1506,7 +1506,7 @@
             try {
               out.obj = JSON.parse(response.content.data);
             }
-            catch () {
+            catch (ex) {
               // do not set out.obj
               log ("unable to parse JSON content");
             }
