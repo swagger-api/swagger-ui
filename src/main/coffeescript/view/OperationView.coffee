@@ -394,6 +394,7 @@ class OperationView extends Backbone.View
     else if contentType is "application/json" || /\+json$/.test(contentType)
       json = null
       try
+        content = content.replace(/^while\s*\(\s*1\s*\)\s*{\s*}\s*/, "")
         json = JSON.stringify(JSON.parse(content), null, "  ")
       catch e
         json = "can't parse JSON.  Raw result:\n\n" + content
