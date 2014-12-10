@@ -1,5 +1,5 @@
 // swagger-client.js
-// version 2.1.0-alpha.3
+// version 2.1.0-alpha.4
 /**
  * Array Model
  **/
@@ -936,7 +936,7 @@ Operation.prototype.setContentTypes = function(args, opts) {
   }
 
   // if there's a body, need to set the accepts header via requestContentType
-  if (body && (this.type === 'post' || this.type === 'put' || this.type === 'patch' || this.type === 'delete')) {
+  if (body && (this.method === 'post' || this.method === 'put' || this.method === 'patch' || this.method === 'delete')) {
     if (opts.requestContentType)
       consumes = opts.requestContentType;
   } else {
@@ -1350,7 +1350,7 @@ JQueryHttpClient.prototype.execute = function(obj) {
   obj.data = obj.body;
   obj.complete = function(response, textStatus, opts) {
     var headers = {},
-        headerArray = response.getAllResponseHeaders().split("\n");
+      headerArray = response.getAllResponseHeaders().split("\n");
 
     for(var i = 0; i < headerArray.length; i++) {
       var toSplit = headerArray[i].trim();
@@ -1363,7 +1363,7 @@ JQueryHttpClient.prototype.execute = function(obj) {
         continue;
       }
       var name = toSplit.substring(0, separator).trim(),
-          value = toSplit.substring(separator + 1).trim();
+        value = toSplit.substring(separator + 1).trim();
       headers[name] = value;
     }
 
@@ -1379,8 +1379,15 @@ JQueryHttpClient.prototype.execute = function(obj) {
 
     if(contentType != null) {
       if(contentType.indexOf("application/json") == 0 || contentType.indexOf("+json") > 0) {
-        if(response.responseText && response.responseText !== "")
-          out.obj = JSON.parse(response.responseText);
+        if(response.responseText && response.responseText !== "") {
+          try {
+            out.obj = JSON.parse(response.content.data);
+          }
+          catch (ex) {
+            // do not set out.obj
+            log ("unable to parse JSON content");
+          }
+        }
         else
           out.obj = {}
       }
