@@ -133,7 +133,7 @@ var Docs = {
 			$('.resource ul.endpoints').slideDown();
 			return;
 		}
-		
+
 		$('li#resource_' + resource).addClass('active');
 
 		var elem = $('li#resource_' + resource + ' ul.endpoints');
@@ -152,7 +152,7 @@ var Docs = {
 	expandOperationsForResource: function(resource) {
 		// Make sure the resource container is open..
 		Docs.expandEndpointListForResource(resource);
-		
+
 		if (resource == '') {
 			$('.resource ul.endpoints li.operation div.content').slideDown();
 			return;
@@ -296,7 +296,7 @@ function program4(depth0,data) {
   var buffer = "", stack1;
   buffer += "<div class='info_contact'><a href=\"mailto:"
     + escapeExpression(((stack1 = ((stack1 = ((stack1 = depth0.info),stack1 == null || stack1 === false ? stack1 : stack1.contact)),stack1 == null || stack1 === false ? stack1 : stack1.name)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\">Contact the developer</a></div>";
+    + "\">Contact Looker</a></div>";
   return buffer;
   }
 
@@ -1584,7 +1584,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       if (!this.model.info.version) {
         this.model.info.version = this.model.apiVersion;
       }
-      if (this.model.swaggerVersion === "2.0") {
+      if (false && this.model.swaggerVersion === "2.0") {
         if ("validatorUrl" in opts.swaggerOptions) {
           return this.model.validatorUrl = opts.swaggerOptions.validatorUrl;
         } else if (this.model.url.indexOf("localhost") > 0) {
@@ -1791,7 +1791,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       }
       this.model.description = this.model.description || this.model.notes;
       if (this.model.description) {
-        this.model.description = this.model.description.replace(/(?:\r\n|\r|\n)/g, '<br />');
+        this.model.description = marked(this.model.description);
       }
       this.model.oauth = null;
       if (this.model.authorizations) {

@@ -823,7 +823,7 @@ Operation.prototype.execute = function(arg1, arg2, arg3, arg4, parent) {
     }
   }
 
-  if(missingParams.length > 0) {
+  if(missingParams && missingParams.length > 0) {
     var message = 'missing required params: ' + missingParams;
     fail(message);
     return;
@@ -1012,7 +1012,7 @@ Operation.prototype.encodeCollection = function(type, name, value) {
 }
 
 /**
- * TODO this encoding needs to be changed 
+ * TODO this encoding needs to be changed
  **/
 Operation.prototype.encodeQueryParam = function(arg) {
   return escape(arg);
@@ -1052,7 +1052,7 @@ var Model = function(name, definition) {
       if(requiredFields.indexOf(key) >= 0)
         required = true;
       this.properties.push(new Property(key, property, required));
-    }    
+    }
   }
 }
 
@@ -1233,7 +1233,7 @@ Property.prototype.toString = function() {
       str += ', <span class="propOptKey">optional</span>';
     str += ')';
   }
-  else 
+  else
     str = this.name + ' (' + JSON.stringify(this.obj) + ')';
 
   if(typeof this.description !== 'undefined')
