@@ -25,7 +25,8 @@ class MainView extends Backbone.View
     if !@model.info.version
       @model.info.version = @model.apiVersion
 
-    if @model.swaggerVersion is "2.0"
+    # jband - ignore validator for now
+    if false && @model.swaggerVersion is "2.0"
       if "validatorUrl" of opts.swaggerOptions
         # Validator URL specified explicitly
         @model.validatorUrl = opts.swaggerOptions.validatorUrl
@@ -35,7 +36,7 @@ class MainView extends Backbone.View
       else
         # Default validator
         @model.validatorUrl = "http://online.swagger.io/validator"
- 
+
   render: ->
     if @model.securityDefinitions
       for name of @model.securityDefinitions
@@ -68,10 +69,10 @@ class MainView extends Backbone.View
     # Render a resource and add it to resources li
     resource.id = resource.id.replace(/\s/g, '_')
     resourceView = new ResourceView({
-      model: resource, 
-      tagName: 'li', 
-      id: 'resource_' + resource.id, 
-      className: 'resource', 
+      model: resource,
+      tagName: 'li',
+      id: 'resource_' + resource.id,
+      className: 'resource',
       auths: auths,
       swaggerOptions: @options.swaggerOptions
     })
