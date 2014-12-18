@@ -1,5 +1,5 @@
 // swagger.js
-// version 2.0.47
+// version 2.0.41
 
 (function () {
 
@@ -139,7 +139,7 @@
       url: this.url,
       method: "get",
       headers: {
-        accept: "application/json,application/json;charset=utf-8,*/*"
+        accept: "application/json,application/json;charset=\"utf-8\",*/*"
       },
       on: {
         error: function (response) {
@@ -373,7 +373,7 @@
         method: "get",
         useJQuery: this.useJQuery,
         headers: {
-          accept: "application/json,application/json;charset=utf-8,*/*"
+          accept: "application/json,application/json;charset=\"utf-8\",*/*"
         },
         on: {
           response: function (resp) {
@@ -498,7 +498,7 @@
           }
         }
         o.nickname = this.sanitize(o.nickname);
-        var op = new SwaggerOperation(o.nickname, resource_path, method, o.parameters, o.summary, o.notes, type, responseMessages, this, consumes, produces, o.authorizations, o.deprecated);
+        var op = new SwaggerOperation(o.nickname, resource_path, method, o.parameters, o.summary, o.notes, type, responseMessages, this, consumes, produces, o.authorizations);
         this.operations[op.nickname] = op;
         output.push(this.operationsArray.push(op));
       }
@@ -691,7 +691,7 @@
     return str;
   };
 
-  var SwaggerOperation = function (nickname, path, method, parameters, summary, notes, type, responseMessages, resource, consumes, produces, authorizations, deprecated) {
+  var SwaggerOperation = function (nickname, path, method, parameters, summary, notes, type, responseMessages, resource, consumes, produces, authorizations) {
     var _this = this;
 
     var errors = [];
@@ -707,7 +707,6 @@
     this.consumes = consumes;
     this.produces = produces;
     this.authorizations = authorizations;
-    this.deprecated = deprecated;
     this["do"] = __bind(this["do"], this);
 
     if (errors.length > 0) {
@@ -739,7 +738,7 @@
       }
       param.type = type;
 
-      if (type && type.toLowerCase() === 'boolean') {
+      if (type.toLowerCase() === 'boolean') {
         param.allowableValues = {};
         param.allowableValues.values = ["true", "false"];
       }
@@ -905,12 +904,6 @@
       }
       else if (param.paramType === 'form' || param.paramType.toLowerCase() === 'file')
         possibleParams.push(param);
-      else if (param.paramType === 'body' && param.name !== 'body') {
-        if (args.body) {
-          throw new Error("Saw two body params in an API listing; expecting a max of one.");
-        }
-        args.body = args[param.name];
-      }
     }
 
     if (args.body != null) {
@@ -968,7 +961,7 @@
       if (param.paramType === 'path') {
         if (args[param.name]) {
           // apply path params and remove from args
-          var reg = new RegExp('\\{\\s*?' + param.name + '.*?\\}(?=\\s*?(\\/?|$))', 'gi');
+          var reg = new RegExp('\\{\\s*?' + param.name + '.*?\\}(?=\\s*?(\\/|$))', 'gi');
           url = url.replace(reg, this.encodePathParam(args[param.name]));
           delete args[param.name];
         }
@@ -980,26 +973,11 @@
     var queryParams = "";
     for (var i = 0; i < params.length; i++) {
       var param = params[i];
-      if(param.paramType === 'query') {
-        if (queryParams !== '')
-          queryParams += '&';    
-        if (Array.isArray(param)) {
-          var j;   
-          var output = '';   
-          for(j = 0; j < param.length; j++) {    
-            if(j > 0)    
-              output += ',';   
-            output += encodeURIComponent(param[j]);    
-          }    
-          queryParams += encodeURIComponent(param.name) + '=' + output;    
-        }
-        else {
-          if (args[param.name]) {
-            queryParams += encodeURIComponent(param.name) + '=' + encodeURIComponent(args[param.name]);
-          } else {
-            if (param.required)
-              throw "" + param.name + " is a required query param.";
-          }
+      if (param.paramType === 'query') {
+        if (args[param.name] !== undefined) {
+          if (queryParams !== '')
+            queryParams += "&";
+          queryParams += encodeURIComponent(param.name) + '=' + encodeURIComponent(args[param.name]);
         }
       }
     }
@@ -1280,7 +1258,7 @@
       else if (this.type === "DELETE")
         body = "{}";
       else if (this.type != "DELETE")
-        consumes = null;
+        accepts = null;
     }
 
     if (consumes && this.operation.consumes) {
@@ -1498,18 +1476,12 @@
         data: response.content.data
       };
 
-      var headers = response._headers.normalized || response._headers;
-      var contentType = (headers["content-type"] || headers["Content-Type"] || null)
+      var contentType = (response._headers["content-type"] || response._headers["Content-Type"] || null)
+
       if (contentType != null) {
         if (contentType.indexOf("application/json") == 0 || contentType.indexOf("+json") > 0) {
           if (response.content.data && response.content.data !== "")
-            try {
-              out.obj = JSON.parse(response.content.data);
-            }
-            catch (ex) {
-              // do not set out.obj
-              log ("unable to parse JSON content");
-            }
+            out.obj = JSON.parse(response.content.data);
           else
             out.obj = {}
         }
@@ -1674,8 +1646,6 @@
   var sampleModels = {};
   var cookies = {};
 
-  e.parameterMacro = parameterMacro;
-  e.modelPropertyMacro = modelPropertyMacro;
   e.SampleModels = sampleModels;
   e.SwaggerHttp = SwaggerHttp;
   e.SwaggerRequest = SwaggerRequest;
