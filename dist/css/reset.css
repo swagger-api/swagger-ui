@@ -87,6 +87,11 @@ video {
   font: inherit;
   vertical-align: baseline;
 }
+
+div.footer h4 {
+   margin-top: 20px;
+}
+
 /* HTML5 display-role reset for older browsers */
 article,
 aside,
