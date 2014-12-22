@@ -965,7 +965,7 @@
     var params = this.parameters;
     for (var i = 0; i < params.length; i++) {
       var param = params[i];
-      if (param.paramType === 'path') {
+      if (param.paramType === 'path' && args[param.name]) {
         if (args[param.name]) {
           // apply path params and remove from args
           var reg = new RegExp('\\{\\s*?' + param.name + '.*?\\}(?=\\s*?(\\/?|$))', 'gi');
