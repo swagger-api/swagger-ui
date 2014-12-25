@@ -4,7 +4,6 @@ wordnik*.zip
 *.iml
 *.iws
 lib/*.jar
-META-INF/
 web/
 index
 lib/*.zip
@@ -18,5 +17,5 @@ reports/*
 .sass-cache
 swagger-ui.sublime-workspace
 .idea
-.project
 node_modules/*
+/.settings/
