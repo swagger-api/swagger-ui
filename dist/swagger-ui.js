@@ -2248,6 +2248,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       } else if (contentType === "application/json" || /\+json$/.test(contentType)) {
         json = null;
         try {
+          content = content.replace(/^while\s*\(\s*1\s*\)\s*{\s*}\s*/, "");
           json = JSON.stringify(JSON.parse(content), null, "  ");
         } catch (_error) {
           e = _error;
