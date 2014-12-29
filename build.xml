@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="developer" default="build">
+
+
+    <!-- ========================= site ========================= -->
+
+    <!-- NOTE: For now, we check in the built site. It can be recreated on a machine that has "npm" installed. See: README.md in this directory -->
+
+    <target name="test.dist.dir.does.not.exist">
+         <condition property="dist.dir.does.not.exist">
+             <not>
+                 <available file="dist" type="dir"/>
+             </not>
+         </condition>
+    </target>
+
+    <!-- build-site -->
+    <target name="build-site" if="dist.dir.does.not.exist" depends="test.dist.dir.does.not.exist" description="build-site">
+        <exec executable="npm" dir="." failonerror="true">
+            <arg value="run-script"/>
+            <arg value="build"/>
+        </exec>
+    </target>
+
+    <!-- clean-site -->
+    <target name="clean-site" description="clean-site">
+        <delete dir="dist"/>
+    </target>
+
+
+    <!-- ========================= package ========================= -->
+
+    <target name="test.package.does.not.exist">
+         <condition property="package.does.not.exist">
+             <not>
+                 <available file="target/swagger-ui-site-1.0.zip" type="dir"/>
+             </not>
+         </condition>
+    </target>
+
+    <!-- build-package -->
+    <target name="build-package" if="package.does.not.exist" depends="test.package.does.not.exist"  description="build-package">
+        <mkdir dir="target"/>
+        <zip
+            destfile="target/swagger-ui-site-1.0.zip"
+            basedir="dist"
+        />
+    </target>
+
+    <!-- clean-package -->
+    <target name="clean-package" description="clean-package">
+        <delete dir="target"/>
+    </target>
+
+
+    <!-- ========================= build ========================= -->
+
+    <target name="build" depends="build-site, build-package" description="build"/>
+
+
+    <!-- ========================= clean ========================= -->
+
+    <target name="clean" depends="clean-package" description="clean"/>
+
+
+    <!-- ========================= clean-all ========================= -->
+
+    <!-- Only do this if you're prepared to re-build the site, which requires having "npm" installed -->
+
+    <target name="clean-all" depends="clean-site, clean-package" description="clean"/>
+
+
+</project>
