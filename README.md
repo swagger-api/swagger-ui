@@ -31,10 +31,9 @@ You can use the swagger-ui code AS-IS!  No need to build or recompile--just clon
 ### Build
 You can rebuild swagger-ui on your own to tweak it or just so you can say you did.  To do so, follow these steps:
 
-1. install [handlebars](http://handlebarsjs.com/)
-2. npm install
-3. npm run-script build
-4. You should see the distribution under the dist folder. Open ./dist/index.html to launch Swagger UI in a browser
+1. npm install
+2. npm run-script build
+3. You should see the distribution under the dist folder. Open ./dist/index.html to launch Swagger UI in a browser
 
 ### Use
 Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstore.swagger.wordnik.com/api/api-docs) service and show its APIs.  You can enter your own server url and click explore to view the API.
