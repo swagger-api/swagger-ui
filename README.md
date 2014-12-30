@@ -70,7 +70,7 @@ Parameter Name | Description
 url | The url pointing to `swagger.json` (Swagger 2.0) or the resource listing (earlier versions) as per [Swagger Spec](https://github.com/swagger-api/swagger-spec/).
 spec | A JSON object describing the Swagger specification. When used, the `url` parameter will not be parsed. This is useful for testing manually-generated specifications without hosting them. Works for Swagger 2.0 specs only.
 validatorUrl | By default, Swagger-UI attempts to validate specs against swagger.io's online validator. You can use this parameter to set a different validator URL, for example for locally deployed validators ([Validator Badge](https://github.com/swagger-api/validator-badge)). Setting it to `null` will disable validation. This parameter is relevant for Swagger 2.0 specs only.
-dom_id parameter | The id of a dom element inside which SwaggerUi will put the user interface for swagger.
+dom_id | The id of a dom element inside which SwaggerUi will put the user interface for swagger.
 booleanValues | SwaggerUI renders boolean data types as a dropdown. By default it provides a 'true' and 'false' string as the possible choices. You can use this parameter to change the values in dropdown to be something else, for example 0 and 1 by setting booleanValues to new Array(0, 1).
 docExpansion | Controls how the API listing is displayed. It can be set to 'none' (default), 'list' (shows operations for each resource), or 'full' (fully expanded: shows operations and their details).
 sorter | Apply a sort to the API list. It can be 'alpha' (sort paths alphanumerically) or 'method' (sort operations by HTTP method). Default is the order returned by the server unchanged.
