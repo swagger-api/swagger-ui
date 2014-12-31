@@ -22,5 +22,10 @@
     "swagger-client": "2.0.41",
     "handlebars": "~1.0.10",
     "less": "~1.4.2"
+  },
+  "devDependencies": {
+    "express": "3.x",
+    "docco": "0.4.x",
+    "cors": "2.1.1"
   }
 }

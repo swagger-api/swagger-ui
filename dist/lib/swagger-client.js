@@ -749,6 +749,14 @@ Operation.prototype.getSignature = function(type, models) {
   }
 };
 
+Operation.prototype.supportHeaderParams = function () {
+  return this.resource.api.supportHeaderParams;
+};
+
+Operation.prototype.supportedSubmitMethods = function () {
+  return this.resource.api.supportedSubmitMethods;
+};
+
 /**
  * gets sample response for a single operation
  **/
