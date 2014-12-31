@@ -139,7 +139,7 @@
       url: this.url,
       method: "get",
       headers: {
-        accept: "application/json,application/json;charset=\"utf-8\",*/*"
+        accept: "application/json,application/json;charset=utf-8,*/*"
       },
       on: {
         error: function (response) {
@@ -373,7 +373,7 @@
         method: "get",
         useJQuery: this.useJQuery,
         headers: {
-          accept: "application/json,application/json;charset=\"utf-8\",*/*"
+          accept: "application/json,application/json;charset=utf-8,*/*"
         },
         on: {
           response: function (resp) {
@@ -1503,7 +1503,13 @@
       if (contentType != null) {
         if (contentType.indexOf("application/json") == 0 || contentType.indexOf("+json") > 0) {
           if (response.content.data && response.content.data !== "")
-            out.obj = JSON.parse(response.content.data);
+            try {
+              out.obj = JSON.parse(response.content.data);
+            }
+            catch (ex) {
+              // do not set out.obj
+              log ("unable to parse JSON content");
+            }
           else
             out.obj = {}
         }
