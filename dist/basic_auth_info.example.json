@@ -1,0 +1,5 @@
+{
+  "userId": "admin",
+  "password": "admin",
+  "comments": "Create your own basic_auth_info.json file to automatically authenticate your swagger-ui sessions"
+}

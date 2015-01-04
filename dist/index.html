@@ -43,6 +43,35 @@
         $('pre code').each(function(i, e) {
           hljs.highlightBlock(e)
         });
+        if (!window.authorizations.authz.key) {
+          $.getJSON('/swagger-ui/basic_auth_info.json').complete(function(response) {
+              if (response.statusText === 'OK') {
+                var login = JSON.parse(response.responseText);
+                delete login.comments;
+                $.ajax({
+                  type: "POST",
+                  url: '/login',
+                  data: JSON.stringify(login),
+                  contentType: "application/json;charset=utf-8",
+                  success: function(response) {
+                    if (response.status === 'Success') {
+                      window.authorizations.add(
+                        "key",
+                        new ApiKeyAuthorization(
+                          "Authorization",
+                          'Basic ' + btoa(response.token + ':'),
+                          "header"
+                        )
+                      );
+                    } else {
+                      log('Login credentials invalid');
+                    }
+                  },
+                  dataType: 'json'
+                });
+              }
+            });
+        }
       },
       onFailure: function(data) {
         log("Unable to Load SwaggerUI");
