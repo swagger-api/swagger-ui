@@ -19,8 +19,13 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "coffee-script": "~1.6.3",
-    "swagger-client": "2.0.41",
+    "swagger-client": "2.0.48",
     "handlebars": "~1.0.10",
     "less": "~1.4.2"
+  },
+  "devDependencies": {
+    "express": "3.x",
+    "docco": "0.4.x",
+    "cors": "2.1.1"
   }
 }
