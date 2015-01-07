@@ -229,6 +229,7 @@ class OperationView extends Backbone.View
     @invocationUrl = 
       if @model.supportHeaderParams()
         headerParams = @model.getHeaderParams(map)
+        delete headerParams['Content-Type']
         @model.urlify(map, false)
       else
         @model.urlify(map, true)
