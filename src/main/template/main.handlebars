@@ -3,7 +3,7 @@
   <div class="info_title">{{info.title}}</div>
   <div class="info_description">{{{info.description}}}</div>
   {{#if info.termsOfServiceUrl}}<div class="info_tos"><a href="{{info.termsOfServiceUrl}}">Terms of service</a></div>{{/if}}
-  {{#if info.contact}}<div class='info_contact'><a href="mailto:{{info.contact.name}}">Contact the developer</a></div>{{/if}}
+  {{#if info.contact}}<div class='info_contact'><a href="mailto:{{info.contact.email}}">Contact the developer</a></div>{{/if}}
   {{#if info.license}}<div class='info_license'><a href='{{info.license.url}}'>{{info.license.name}}</a></div>{{/if}}
   {{/if}}
 </div>
