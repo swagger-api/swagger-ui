@@ -83,10 +83,22 @@ var Docs = {
 
 	shebang: function() {
 
+		// Expand an operation and pre-fill parameter fields based on the shebang 
+		// e.g. /docs/#!/words/get_search?foo=bar
+		
+		var fragment = $.param.fragment(); // !/words/get_search?foo=bar
+
+		// Extract the queryString
+		var queryString = null;
+		var index = fragment.indexOf('?');
+		if (index >= 0) {
+			queryString = fragment.slice(index + 1); // foo=bar
+			fragment = fragment.slice(0, index); // !/words/get_search
+		}
+
 		// If shebang has an operation nickname in it..
-		// e.g. /docs/#!/words/get_search
-		var fragments = $.param.fragment().split('/');
-		fragments.shift(); // get rid of the bang
+		var fragments = fragment.split('/'); // ['!', 'words', 'get_search']
+		fragments.shift(); // get rid of the bang, ['words', 'get_search']
 
 		switch (fragments.length) {
 			case 1:
@@ -110,6 +122,38 @@ var Docs = {
 
 				Docs.expandOperation($('#'+li_content_dom_id));
 				$('#'+li_dom_id).slideto({highlight: false});
+
+				// Attempt to pre-fill parameter input fields with values from the
+				// given URL. Since a user may modify the URL manually, assume the
+				// URL may be malformed and wrap in try/catch.
+				if (queryString) {
+					try {
+
+						// Insert query parameters, e.g. foo=bar
+						var pairs = queryString.replace(/\+/g, ' ').split('&');
+						var map = {};
+						for (var i = 0; i < pairs.length; i++) {
+							var pair = pairs[i].split('=');
+							var key = decodeURIComponent(pair[0]);
+							var value = decodeURIComponent(pair[1]);
+							map[key] = value;
+						}
+
+						var sandbox = $('#'+li_dom_id).find('.sandbox');
+						
+						sandbox.find('input, textarea, select').each(function(i, el) {
+							var value = map[el.name];
+							if (typeof value !== 'undefined') {
+								$(el).val(value);
+							}
+						});
+
+					} catch (e) {
+						log('Failed to pre-fill query parameters from URL.')
+						log(e);
+					}
+				}
+
 				break;
 		}
 
