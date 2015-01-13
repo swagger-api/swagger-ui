@@ -87,6 +87,7 @@ class SwaggerUi extends Backbone.Router
     switch @options.docExpansion
       when "full" then @expandAll()
       when "list" then @listAll()
+    @renderGFM()
     @options.onComplete(@api, @) if @options.onComplete
     setTimeout(
       =>
@@ -124,5 +125,10 @@ class SwaggerUi extends Backbone.Router
     val = $('#message-bar').html data
     @options.onFailure(data) if @options.onFailure?
     val
+
+  # Renders GFM for elements with 'markdown' class
+  renderGFM: (data = '') ->
+    $('.markdown').each (index) ->
+      $(this).html(marked($(this).html()))
 
 window.SwaggerUi = SwaggerUi
