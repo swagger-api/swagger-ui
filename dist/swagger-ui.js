@@ -267,7 +267,7 @@ function program1(depth0,data) {
   var buffer = "", stack1, stack2;
   buffer += "\n  <div class=\"info_title\">"
     + escapeExpression(((stack1 = ((stack1 = depth0.info),stack1 == null || stack1 === false ? stack1 : stack1.title)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "</div>\n  <div class=\"info_description\">";
+    + "</div>\n  <div class=\"info_description markdown\">";
   stack2 = ((stack1 = ((stack1 = depth0.info),stack1 == null || stack1 === false ? stack1 : stack1.description)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1);
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "</div>\n  ";
@@ -383,7 +383,7 @@ function program3(depth0,data) {
 function program5(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n        <h4>Implementation Notes</h4>\n        <p>";
+  buffer += "\n        <h4>Implementation Notes</h4>\n        <p class=\"markdown\">";
   if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
@@ -676,7 +676,7 @@ function program13(depth0,data) {
     + "</td>\n<td>\n\n	";
   stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(9, program9, data),fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n\n</td>\n<td>";
+  buffer += "\n\n</td>\n<td class=\"markdown\">";
   if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
@@ -802,7 +802,7 @@ function program16(depth0,data) {
   buffer += "\n    ";
   stack2 = helpers.each.call(depth0, ((stack1 = depth0.allowableValues),stack1 == null || stack1 === false ? stack1 : stack1.descriptiveValues), {hash:{},inverse:self.noop,fn:self.program(13, program13, data),data:data});
   if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += "\n  </select>\n</td>\n<td>";
+  buffer += "\n  </select>\n</td>\n<td class=\"markdown\">";
   if (stack2 = helpers.description) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
   else { stack2 = depth0.description; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
   if(stack2 || stack2 === 0) { buffer += stack2; }
@@ -870,7 +870,7 @@ function program6(depth0,data) {
     + "</td>\n<td>\n    ";
   stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</td>\n<td>";
+  buffer += "\n</td>\n<td class=\"markdown\">";
   if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
@@ -938,7 +938,7 @@ function program6(depth0,data) {
     + "</td>\n<td>\n    ";
   stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</td>\n<td>";
+  buffer += "\n</td>\n<td class=\"markdown\">";
   if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
@@ -1075,11 +1075,11 @@ function program15(depth0,data) {
     + "</td>\n<td>\n	";
   stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(9, program9, data),fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</td>\n<td>\n	<strong>";
+  buffer += "\n</td>\n<td>\n	<strong><span class=\"markdown\">";
   if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</strong>\n</td>\n<td>";
+  buffer += "</span></strong>\n</td>\n<td>";
   if (stack1 = helpers.paramType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
@@ -1414,6 +1414,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         case "list":
           this.listAll();
       }
+      this.renderGFM();
       if (this.options.onComplete) {
         this.options.onComplete(this.api, this);
       }
@@ -1466,6 +1467,15 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         this.options.onFailure(data);
       }
       return val;
+    };
+
+    SwaggerUi.prototype.renderGFM = function(data) {
+      if (data == null) {
+        data = '';
+      }
+      return $('.markdown').each(function(index) {
+        return $(this).html(marked($(this).html()));
+      });
     };
 
     return SwaggerUi;
@@ -1629,7 +1639,12 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         resources[id] = resource;
         this.addResource(resource, this.model.auths);
       }
-      return this;
+      this;
+      return $('.propWrap').hover(function() {
+        return $('.optionsWrapper', $(this)).show();
+      }, function() {
+        return $('.optionsWrapper', $(this)).hide();
+      });
     };
 
     MainView.prototype.addResource = function(resource, auths) {
