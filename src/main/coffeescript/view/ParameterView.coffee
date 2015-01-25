@@ -49,7 +49,10 @@ class ParameterView extends Backbone.View
   # Return an appropriate template based on if the parameter is a list, readonly, required
   template: ->
     if @model.isList
-      Handlebars.templates.param_list
+      if @model.isBody and 'application/json' in @model.consumes
+        Handlebars.templates.param_list_json
+      else
+        Handlebars.templates.param_list
     else
       if @options.readOnly
         if @model.required
