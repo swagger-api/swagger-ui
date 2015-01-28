@@ -1,6 +1,8 @@
 var webdriver = require('selenium-webdriver');
 var createServer = require('http-server').createServer;
-var path = require('path');
+var expect = require('chai').expect;
+var path = require('path')
+
 var dist = path.join(__dirname, '..', '..', '..', 'dist');
 var PORT = 8080;
 
@@ -35,7 +37,10 @@ describe('basics', function () {
       return driver.getTitle().then(function(title) {
         var hasTitle = title.indexOf('Swagger UI') > -1;
 
-        if (hasTitle) { done(); }
+        if (hasTitle) {
+          expect(title).to.contain('Swagger UI');
+          done();
+        }
 
         return hasTitle;
       });
