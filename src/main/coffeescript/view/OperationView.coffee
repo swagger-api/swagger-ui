@@ -109,7 +109,7 @@ class OperationView extends Backbone.View
     contentTypeModel.produces = @model.produces
 
     for param in @model.parameters
-      type = param.type || param.dataType
+      type = param.type || param.dataType || ''
       if typeof type is 'undefined'
         schema = param.schema
         if schema and schema['$ref']
