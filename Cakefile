@@ -17,7 +17,8 @@ sourceFiles  = [
   'view/ResponseContentTypeView'
   'view/ParameterContentTypeView'
   'view/ApiKeyButton'
-  'view/BasicAuthButton'
+  'view/BasicAuthButton',
+  'helpers/handlebars'
 ]
 
 
