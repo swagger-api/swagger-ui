@@ -46,6 +46,15 @@ docker build -t swagger-ui-builder .
 docker run -v $PWD/dist:/build/dist swagger-ui-builder
 ```
 
+### Build using Docker
+
+To build swagger-ui using a docker container:
+
+```
+docker build -t swagger-ui-builder .
+docker run -v $PWD/dist:/build/dist swagger-ui-builder
+```
+
 ### Use
 Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstore.swagger.wordnik.com/api/api-docs) service and show its APIs.  You can enter your own server url and click explore to view the API.
 
