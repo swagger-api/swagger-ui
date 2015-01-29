@@ -64,6 +64,13 @@ class MainView extends Backbone.View
       @addResource resource, @model.auths
     @
 
+    $('.propWrap').hover(
+      ->
+        $('.optionsWrapper', $(this)).show()
+      ,->
+        $('.optionsWrapper', $(this)).hide()
+    )
+
   addResource: (resource, auths) ->
     # Render a resource and add it to resources li
     resource.id = resource.id.replace(/\s/g, '_')

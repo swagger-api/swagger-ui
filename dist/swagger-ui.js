@@ -1639,7 +1639,12 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         resources[id] = resource;
         this.addResource(resource, this.model.auths);
       }
-      return this;
+      this;
+      return $('.propWrap').hover(function() {
+        return $('.optionsWrapper', $(this)).show();
+      }, function() {
+        return $('.optionsWrapper', $(this)).hide();
+      });
     };
 
     MainView.prototype.addResource = function(resource, auths) {
