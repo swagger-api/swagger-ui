@@ -1,6 +1,6 @@
 /**
  * swagger-client - swagger.js is a javascript client for use with swaggering APIs.
- * @version v2.1.0-alpha.6
+ * @version v2.1.0-alpha.7
  * @link http://swagger.io
  * @license apache 2.0
  */
@@ -74,12 +74,12 @@ SwaggerAuthorizations.prototype.remove = function(name) {
   return delete this.authz[name];
 };
 
-SwaggerAuthorizations.prototype.apply = function(obj, authorizations) {
+SwaggerAuthorizations.prototype.apply = function (obj, authorizations) {
   var status = null;
-  var key;
+  var key, value, result;
 
   // if the "authorizations" key is undefined, or has an empty array, add all keys
-  if(typeof authorizations === 'undefined' || Object.keys(authorizations).length === 0) {
+  if (typeof authorizations === 'undefined' || Object.keys(authorizations).length == 0) {
     for (key in this.authz) {
       value = this.authz[key];
       result = value.apply(obj, authorizations);
@@ -88,13 +88,28 @@ SwaggerAuthorizations.prototype.apply = function(obj, authorizations) {
     }
   }
   else {
-    if(Array.isArray(authorizations)) {
-      var i;
-      for(i = 0; i < authorizations.length; i++) {
+    // 2.0 support
+    if (Array.isArray(authorizations)) {
+      for (var i = 0; i < authorizations.length; i++) {
         var auth = authorizations[i];
+        for (name in auth) {
+          for (key in this.authz) {
+            if (key == name) {
+              value = this.authz[key];
+              result = value.apply(obj, authorizations);
+              if (result === true)
+                status = true;
+            }
+          }
+        }
+      }
+    }
+    else {
+      // 1.2 support
+      for (name in authorizations) {
         for (key in this.authz) {
-          var value = this.authz[key];
-          if(typeof value !== 'undefined') {
+          if (key == name) {
+            value = this.authz[key];
             result = value.apply(obj, authorizations);
             if (result === true)
               status = true;
