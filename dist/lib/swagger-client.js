@@ -1508,338 +1508,6 @@ SwaggerRequest.prototype.setHeaders = function (params, opts, operation) {
   return headers;
 }
 
-/**
- * SwaggerHttp is a wrapper for executing requests
- */
-var SwaggerHttp = function () { };
-
-SwaggerHttp.prototype.execute = function (obj) {
-  if (obj && (typeof obj.useJQuery === 'boolean'))
-    this.useJQuery = obj.useJQuery;
-  else
-    this.useJQuery = this.isIE8();
-
-  if (this.useJQuery)
-    return new JQueryHttpClient().execute(obj);
-  else
-    return new ShredHttpClient().execute(obj);
-}
-
-SwaggerHttp.prototype.isIE8 = function () {
-  var detectedIE = false;
-  if (typeof navigator !== 'undefined' && navigator.userAgent) {
-    nav = navigator.userAgent.toLowerCase();
-    if (nav.indexOf('msie') !== -1) {
-      var version = parseInt(nav.split('msie')[1]);
-      if (version <= 8) {
-        detectedIE = true;
-      }
-    }
-  }
-  return detectedIE;
-};
-
-/*
- * JQueryHttpClient lets a browser take advantage of JQuery's cross-browser magic.
- * NOTE: when jQuery is available it will export both '$' and 'jQuery' to the global space.
- *     Since we are using closures here we need to alias it for internal use.
- */
-var JQueryHttpClient = function (options) {
-  this.options = options || {};
-  if (!jQuery) {
-    var jQuery = window.jQuery;
-  }
-}
-
-JQueryHttpClient.prototype.execute = function (obj) {
-  var cb = obj.on;
-  var request = obj;
-
-  obj.type = obj.method;
-  obj.cache = false;
-
-  obj.beforeSend = function (xhr) {
-    var key, results;
-    if (obj.headers) {
-      results = [];
-      var key;
-      for (key in obj.headers) {
-        if (key.toLowerCase() === 'content-type') {
-          results.push(obj.contentType = obj.headers[key]);
-        } else if (key.toLowerCase() === 'accept') {
-          results.push(obj.accepts = obj.headers[key]);
-        } else {
-          results.push(xhr.setRequestHeader(key, obj.headers[key]));
-        }
-      }
-      return results;
-    }
-  };
-
-  obj.data = obj.body;
-  obj.complete = function (response) {
-    var headers = {},
-        headerArray = response.getAllResponseHeaders().split('\n');
-
-    for (var i = 0; i < headerArray.length; i++) {
-      var toSplit = headerArray[i].trim();
-      if (toSplit.length === 0)
-        continue;
-      var separator = toSplit.indexOf(':');
-      if (separator === -1) {
-        // Name but no value in the header
-        headers[toSplit] = null;
-        continue;
-      }
-      var name = toSplit.substring(0, separator).trim(),
-          value = toSplit.substring(separator + 1).trim();
-      headers[name] = value;
-    }
-
-    var out = {
-      url: request.url,
-      method: request.method,
-      status: response.status,
-      data: response.responseText,
-      headers: headers
-    };
-
-    var contentType = (headers['content-type'] || headers['Content-Type'] || null)
-
-    if (contentType != null) {
-      if (contentType.indexOf('application/json') == 0 || contentType.indexOf('+json') > 0) {
-        if (response.responseText && response.responseText !== '')
-          out.obj = JSON.parse(response.responseText);
-        else
-          out.obj = {}
-      }
-    }
-
-    if (response.status >= 200 && response.status < 300)
-      cb.response(out);
-    else if (response.status === 0 || (response.status >= 400 && response.status < 599))
-      cb.error(out);
-    else
-      return cb.response(out);
-  };
-
-  jQuery.support.cors = true;
-  return jQuery.ajax(obj);
-}
-
-/*
- * ShredHttpClient is a light-weight, node or browser HTTP client
- */
-var ShredHttpClient = function (options) {
-  this.options = (options || {});
-  this.isInitialized = false;
-
-  if (typeof window !== 'undefined') {
-    this.Shred = require('./shred');
-    this.content = require('./shred/content');
-  }
-  else
-    this.Shred = require('shred');
-  this.shred = new this.Shred();
-}
-
-ShredHttpClient.prototype.initShred = function () {
-  this.isInitialized = true;
-  this.registerProcessors(this.shred);
-}
-
-ShredHttpClient.prototype.registerProcessors = function () {
-  var identity = function (x) {
-    return x;
-  };
-  var toString = function (x) {
-    return x.toString();
-  };
-
-  if (typeof window !== 'undefined') {
-    this.content.registerProcessor(['application/json; charset=utf-8', 'application/json', 'json'], {
-      parser: identity,
-      stringify: toString
-    });
-  } else {
-    this.Shred.registerProcessor(['application/json; charset=utf-8', 'application/json', 'json'], {
-      parser: identity,
-      stringify: toString
-    });
-  }
-}
-
-ShredHttpClient.prototype.execute = function (obj) {
-  if (!this.isInitialized)
-    this.initShred();
-
-  var cb = obj.on, res;
-
-  var transform = function (response) {
-    var out = {
-      headers: response._headers,
-      url: response.request.url,
-      method: response.request.method,
-      status: response.status,
-      data: response.content.data
-    };
-
-    var headers = response._headers.normalized || response._headers;
-    var contentType = (headers['content-type'] || headers['Content-Type'] || null)
-    if (contentType != null) {
-      if (contentType.indexOf('application/json') == 0 || contentType.indexOf('+json') > 0) {
-        if (response.content.data && response.content.data !== '')
-          try {
-            out.obj = JSON.parse(response.content.data);
-          }
-          catch (ex) {
-            // do not set out.obj
-            log('unable to parse JSON content');
-          }
-        else
-          out.obj = {}
-      }
-    }
-    return out;
-  };
-
-  // Transform an error into a usable response-like object
-  var transformError = function (error) {
-    var out = {
-      // Default to a status of 0 - The client will treat this as a generic permissions sort of error
-      status: 0,
-      data: error.message || error
-    };
-
-    if (error.code) {
-      out.obj = error;
-
-      if (error.code === 'ENOTFOUND' || error.code === 'ECONNREFUSED') {
-        // We can tell the client that this should be treated as a missing resource and not as a permissions thing
-        out.status = 404;
-      }
-    }
-
-    return out;
-  };
-
-  var res = {
-    error: function (response) {
-      if (obj)
-        return cb.error(transform(response));
-    },
-    // Catch the Shred error raised when the request errors as it is made (i.e. No Response is coming)
-    request_error: function (err) {
-      if (obj)
-        return cb.error(transformError(err));
-    },
-    response: function (response) {
-      if (obj)
-        return cb.response(transform(response));
-    }
-  };
-  if (obj) {
-    obj.on = res;
-  }
-  return this.shred.request(obj);
-};
-
-/**
- * SwaggerAuthorizations applys the correct authorization to an operation being executed
- */
-var SwaggerAuthorizations = function (name, auth) {
-  this.authz = {};
-  if(name && auth) {
-    this.authz[name] = auth;
-  }
-};
-
-SwaggerAuthorizations.prototype.add = function (name, auth) {
-  this.authz[name] = auth;
-  return auth;
-};
-
-SwaggerAuthorizations.prototype.remove = function (name) {
-  return delete this.authz[name];
-};
-
-SwaggerAuthorizations.prototype.apply = function (obj, authorizations) {
-  var status = null;
-  var key, value, result;
-
-  // if the "authorizations" key is undefined, or has an empty array, add all keys
-  if (typeof authorizations === 'undefined' || Object.keys(authorizations).length == 0) {
-    for (key in this.authz) {
-      value = this.authz[key];
-      result = value.apply(obj, authorizations);
-      if (result === true)
-        status = true;
-    }
-  }
-  else {
-    for (name in authorizations) {
-      for (key in this.authz) {
-        if (key == name) {
-          value = this.authz[key];
-          result = value.apply(obj, authorizations);
-          if (result === true)
-            status = true;
-        }
-      }
-    }
-  }
-
-  return status;
-};
-
-/**
- * ApiKeyAuthorization allows a query param or header to be injected
- */
-var ApiKeyAuthorization = function (name, value, type, delimiter) {
-  this.name = name;
-  this.value = value;
-  this.type = type;
-  this.delimiter = delimiter;
-};
-
-ApiKeyAuthorization.prototype.apply = function (obj) {
-  if (this.type === 'query') {
-    if (obj.url.indexOf('?') > 0)
-      obj.url = obj.url + '&' + this.name + '=' + this.value;
-    else
-      obj.url = obj.url + '?' + this.name + '=' + this.value;
-    return true;
-  } else if (this.type === 'header') {
-    if (typeof obj.headers[this.name] !== 'undefined') {
-      if (typeof this.delimiter !== 'undefined')
-        obj.headers[this.name] = obj.headers[this.name] + this.delimiter + this.value;
-    }
-    else
-      obj.headers[this.name] = this.value;
-    return true;
-  }
-};
-
-/**
- * Password Authorization is a basic auth implementation
- */
-var PasswordAuthorization = function (name, username, password) {
-  this.name = name;
-  this.username = username;
-  this.password = password;
-  this._btoa = null;
-  if (typeof window !== 'undefined')
-    this._btoa = btoa;
-  else
-    this._btoa = require('btoa');
-};
-
-PasswordAuthorization.prototype.apply = function (obj) {
-  var base64encoder = this._btoa;
-  obj.headers['Authorization'] = 'Basic ' + base64encoder(this.username + ':' + this.password);
-  return true;
-};
-
 var SwaggerClient = function(url, options) {
   this.isBuilt = false;
   this.url = null;
@@ -2002,6 +1670,7 @@ SwaggerClient.prototype.buildFromSpec = function(response) {
             if(typeof operationGroup === 'undefined') {
               this[tag] = [];
               operationGroup = this[tag];
+              operationGroup.operations = {};
               operationGroup.label = tag;
               operationGroup.apis = [];
               this[tag].help = this.help.bind(operationGroup);
@@ -2010,6 +1679,7 @@ SwaggerClient.prototype.buildFromSpec = function(response) {
             operationGroup[operationId] = operationObject.execute.bind(operationObject);
             operationGroup[operationId].help = operationObject.help.bind(operationObject);
             operationGroup.apis.push(operationObject);
+            operationGroup.operations[operationId] = operationObject;
 
             // legacy UI feature
             var j;
@@ -2061,16 +1731,8 @@ SwaggerClient.prototype.tagFromLabel = function(label) {
 };
 
 SwaggerClient.prototype.idFromOp = function(path, httpMethod, op) {
-  if(typeof op.operationId !== 'undefined') {
-    return (op.operationId);
-  }
-  else {
-    return path.substring(1)
-      .replace(/\//g, "_")
-      .replace(/\{/g, "")
-      .replace(/\}/g, "")
-      .replace(/\./g, "_") + "_" + httpMethod;
-  }
+  var opId = op.operationId || (path.substring(1) + '_' + httpMethod);
+  return opId.replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()\+\s]/g,'_');
 };
 
 SwaggerClient.prototype.fail = function(message) {
@@ -2093,6 +1755,7 @@ var Operation = function(parent, operationId, httpMethod, path, args, definition
   parent = parent||{};
   args = args||{};
 
+  this.operations = {};
   this.operation = args;
   this.deprecated = args.deprecated;
   this.consumes = args.consumes;
@@ -2112,6 +1775,7 @@ var Operation = function(parent, operationId, httpMethod, path, args, definition
   this.security = args.security;
   this.authorizations = args.security;
   this.description = args.description;
+  this.useJQuery = parent.useJQuery;
 
   var i;
   for(i = 0; i < this.parameters.length; i++) {
@@ -2240,12 +1904,12 @@ Operation.prototype.getType = function (param) {
     if(param.items)
       str = this.getType(param.items);
   }
-  if(param['$ref'])
-    str = param['$ref'];
+  if(param.$ref)
+    str = param.$ref;
 
   var schema = param.schema;
   if(schema) {
-    var ref = schema['$ref'];
+    var ref = schema.$ref;
     if(ref) {
       ref = simpleRef(ref);
       if(isArray)
@@ -2263,12 +1927,13 @@ Operation.prototype.getType = function (param) {
 };
 
 Operation.prototype.resolveModel = function (schema, definitions) {
-  if(typeof schema['$ref'] !== 'undefined') {
-    var ref = schema['$ref'];
+  if(typeof schema.$ref !== 'undefined') {
+    var ref = schema.$ref;
     if(ref.indexOf('#/definitions/') == 0)
       ref = ref.substring('#/definitions/'.length);
-    if(definitions[ref])
+    if(definitions[ref]) {
       return new Model(ref, definitions[ref]);
+    }
   }
   if(schema.type === 'array')
     return new ArrayModel(schema);
@@ -2402,8 +2067,11 @@ Operation.prototype.getBody = function(headers, args) {
   for(var i = 0; i < this.parameters.length; i++) {
     var param = this.parameters[i];
     if(typeof args[param.name] !== 'undefined') {
-      if (param.in === 'body')
+      if (param.in === 'body') {
         body = args[param.name];
+      } else if(param.in === 'formData') {
+        formParams[param.name] = args[param.name];
+      }
     }
   }
 
@@ -2484,6 +2152,10 @@ Operation.prototype.execute = function(arg1, arg2, arg3, arg4, parent) {
   success = (success||log);
   error = (error||log);
 
+  if(typeof opts.useJQuery === 'boolean') {
+    this.useJQuery = opts.useJQuery;
+  }
+
   var missingParams = this.getMissingParams(args);
   if(missingParams.length > 0) {
     var message = 'missing required params: ' + missingParams;
@@ -2497,7 +2169,7 @@ Operation.prototype.execute = function(arg1, arg2, arg3, arg4, parent) {
 
   var obj = {
     url: url,
-    method: this.method,
+    method: this.method.toUpperCase(),
     body: body,
     useJQuery: this.useJQuery,
     headers: headers,
@@ -2511,7 +2183,10 @@ Operation.prototype.execute = function(arg1, arg2, arg3, arg4, parent) {
     }
   };
   var status = e.authorizations.apply(obj, this.operation.security);
-  new SwaggerHttp().execute(obj);
+  if(opts.mock === true)
+    return obj;
+  else
+    new SwaggerHttp().execute(obj);
 };
 
 Operation.prototype.setContentTypes = function(args, opts) {
@@ -2688,7 +2363,10 @@ var Model = function(name, definition) {
   this.definition = definition || {};
   this.properties = [];
   var requiredFields = definition.required || [];
-
+  if(definition.type === 'array') {
+    var out = new ArrayModel(definition);
+    return out;
+  }
   var key;
   var props = definition.properties;
   if(props) {
@@ -2698,7 +2376,7 @@ var Model = function(name, definition) {
       if(requiredFields.indexOf(key) >= 0)
         required = true;
       this.properties.push(new Property(key, property, required));
-    }    
+    }
   }
 };
 
@@ -2746,7 +2424,7 @@ Model.prototype.getMockSignature = function(modelsToIgnore) {
   var i;
   for (i = 0; i < this.properties.length; i++) {
     var prop = this.properties[i];
-    var ref = prop['$ref'];
+    var ref = prop.$ref;
     var model = models[ref];
     if (model && typeof modelsToIgnore[model.name] === 'undefined') {
       returnVal = returnVal + ('<br>' + model.getMockSignature(modelsToIgnore));
@@ -2758,11 +2436,11 @@ Model.prototype.getMockSignature = function(modelsToIgnore) {
 var Property = function(name, obj, required) {
   this.schema = obj;
   this.required = required;
-  if(obj['$ref'])
-    this['$ref'] = simpleRef(obj['$ref']);
+  if(obj.$ref)
+    this.$ref = simpleRef(obj.$ref);
   else if (obj.type === 'array') {
-    if(obj.items['$ref'])
-      this['$ref'] = simpleRef(obj.items['$ref']);
+    if(obj.items.$ref)
+      this.$ref = simpleRef(obj.items.$ref);
     else
       obj = obj.items;
   }
@@ -2792,8 +2470,8 @@ Property.prototype.sampleValue = function(isArray, ignoredModels) {
   var type = getStringSignature(this.obj);
   var output;
 
-  if(this['$ref']) {
-    var refModelName = simpleRef(this['$ref']);
+  if(this.$ref) {
+    var refModelName = simpleRef(this.$ref);
     var refModel = models[refModelName];
     if(refModel && typeof ignoredModels[type] === 'undefined') {
       ignoredModels[type] = this;
@@ -2832,7 +2510,7 @@ Property.prototype.sampleValue = function(isArray, ignoredModels) {
 getStringSignature = function(obj) {
   var str = '';
   if(obj.type === 'array') {
-    obj = (obj.items || obj['$ref'] || {});
+    obj = (obj.items || obj.$ref || {});
     str += 'Array[';
   }
   if(obj.type === 'integer' && obj.format === 'int32')
@@ -2853,8 +2531,8 @@ getStringSignature = function(obj) {
     str += 'double';
   else if(obj.type === 'boolean')
     str += 'boolean';
-  else if(obj['$ref'])
-    str += simpleRef(obj['$ref']);
+  else if(obj.$ref)
+    str += simpleRef(obj.$ref);
   else
     str += obj.type;
   if(obj.type === 'array')
@@ -2879,7 +2557,7 @@ Property.prototype.toString = function() {
       str += ', <span class="propOptKey">optional</span>';
     str += ')';
   }
-  else 
+  else
     str = this.name + ' (' + JSON.stringify(this.obj) + ')';
 
   if(typeof this.description !== 'undefined')
@@ -3019,17 +2697,12 @@ JQueryHttpClient.prototype.execute = function(obj) {
     var contentType = (headers["content-type"]||headers["Content-Type"]||null);
     if(contentType != null) {
       if(contentType.indexOf("application/json") == 0 || contentType.indexOf("+json") > 0) {
-        if(response.responseText && response.responseText !== "") {
-          try {
-            out.obj = JSON.parse(response.content.data);
-          }
-          catch (ex) {
-            // do not set out.obj
-            log ("unable to parse JSON content");
-          }
+        try {
+          out.obj = response.responseJSON || {};
+        } catch (ex) {
+          // do not set out.obj
+          log("unable to parse JSON content");
         }
-        else
-          out.obj = {};
       }
     }
 
@@ -3162,6 +2835,7 @@ ShredHttpClient.prototype.execute = function(obj) {
   }
   return this.shred.request(obj);
 };
+
 
 var e = (typeof window !== 'undefined' ? window : exports);
 
