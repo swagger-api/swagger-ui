@@ -52,9 +52,10 @@ class OperationView extends Backbone.View
     if @model.description
       @model.description = @model.description.replace(/(?:\r\n|\r|\n)/g, '<br />')
     @model.oauth = null
-    if @model.authorizations
-      if Array.isArray @model.authorizations
-        for auths in @model.authorizations
+    modelAuths = @model.authorizations || @model.security
+    if modelAuths
+      if Array.isArray modelAuths
+        for auths in modelAuths
           for key, auth of auths
             for a of @auths
               auth = @auths[a]
@@ -62,10 +63,12 @@ class OperationView extends Backbone.View
                 @model.oauth = {}
                 @model.oauth.scopes = []
                 for k, v of auth.value.scopes
-                  o = {scope: k, description: v}
-                  @model.oauth.scopes.push o
+                  scopeIndex = auths[key].indexOf k
+                  if scopeIndex >= 0
+                    o = {scope: k, description: v}
+                    @model.oauth.scopes.push o
       else
-        for k, v of @model.authorizations
+        for k, v of modelAuths
           if k == "oauth2"
             if @model.oauth == null
               @model.oauth = {}
