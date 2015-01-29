@@ -96,7 +96,7 @@ task 'dist', 'Build a distribution', ->
       reportNcpErrors err
       console.log '   : Copied swagger-ui libs'
       fs.mkdirSync('dist/lib') if not fs.existsSync('dist/lib')
-      fs.createReadStream('node_modules/swagger-client/lib/swagger.js').pipe(fs.createWriteStream('dist/lib/swagger.js'));
+      fs.createReadStream('node_modules/swagger-client/lib/swagger-client.js');
       console.log '   : Copied swagger dependencies'
       ncp.ncp 'src/main/html', 'dist', (err) ->
         reportNcpErrors err

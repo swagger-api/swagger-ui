@@ -1885,7 +1885,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       _ref9 = this.model.parameters;
       for (_k = 0, _len2 = _ref9.length; _k < _len2; _k++) {
         param = _ref9[_k];
-        type = param.type || param.dataType;
+        type = param.type || param.dataType || '';
         if (typeof type === 'undefined') {
           schema = param.schema;
           if (schema && schema['$ref']) {

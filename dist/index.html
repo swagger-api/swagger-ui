@@ -2,9 +2,10 @@
 <html>
 <head>
   <title>Swagger UI</title>
-  <link href='//fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/>
+  <link href='css/typography.css' media='screen' rel='stylesheet' type='text/css'/>
   <link href='css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
   <link href='css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
+  <link href='css/typography.css' media='print' rel='stylesheet' type='text/css'/>
   <link href='css/reset.css' media='print' rel='stylesheet' type='text/css'/>
   <link href='css/screen.css' media='print' rel='stylesheet' type='text/css'/>
   <script type="text/javascript" src="lib/shred.bundle.js"></script>
@@ -37,13 +38,13 @@
         onComplete: function(swaggerApi, swaggerUi){
           log("Loaded SwaggerUI");
           if(typeof initOAuth == "function") {
-            
+            /*
             initOAuth({
               clientId: "your-client-id",
               realm: "your-realms",
               appName: "your-app-name"
             });
-            
+            */
           }
           $('pre code').each(function(i, e) {
             hljs.highlightBlock(e)
