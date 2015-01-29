@@ -30,6 +30,7 @@
     "express": "3.x",
     "http-server": "^0.7.4",
     "mocha": "^2.1.0",
+    "ncp": "^1.0.1",
     "selenium-webdriver": "^2.44.0"
   }
 }
