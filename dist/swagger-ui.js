@@ -1794,7 +1794,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     OperationView.prototype.render = function() {
-      var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, o, param, ref, responseContentTypeView, responseSignatureView, schema, schemaObj, signatureModel, statusCode, type, v, value, _i, _j, _k, _l, _len, _len1, _len2, _len3, _len4, _m, _ref10, _ref11, _ref5, _ref6, _ref7, _ref8, _ref9;
+      var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, modelAuths, o, param, ref, responseContentTypeView, responseSignatureView, schema, schemaObj, scopeIndex, signatureModel, statusCode, type, v, value, _i, _j, _k, _l, _len, _len1, _len2, _len3, _len4, _m, _ref5, _ref6, _ref7, _ref8, _ref9;
       isMethodSubmissionSupported = true;
       if (!isMethodSubmissionSupported) {
         this.model.isReadOnly = true;
@@ -1804,11 +1804,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         this.model.description = this.model.description.replace(/(?:\r\n|\r|\n)/g, '<br />');
       }
       this.model.oauth = null;
-      if (this.model.authorizations) {
-        if (Array.isArray(this.model.authorizations)) {
-          _ref5 = this.model.authorizations;
-          for (_i = 0, _len = _ref5.length; _i < _len; _i++) {
-            auths = _ref5[_i];
+      modelAuths = this.model.authorizations || this.model.security;
+      if (modelAuths) {
+        if (Array.isArray(modelAuths)) {
+          for (_i = 0, _len = modelAuths.length; _i < _len; _i++) {
+            auths = modelAuths[_i];
             for (key in auths) {
               auth = auths[key];
               for (a in this.auths) {
@@ -1816,23 +1816,25 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
                 if (auth.type === 'oauth2') {
                   this.model.oauth = {};
                   this.model.oauth.scopes = [];
-                  _ref6 = auth.value.scopes;
-                  for (k in _ref6) {
-                    v = _ref6[k];
-                    o = {
-                      scope: k,
-                      description: v
-                    };
-                    this.model.oauth.scopes.push(o);
+                  _ref5 = auth.value.scopes;
+                  for (k in _ref5) {
+                    v = _ref5[k];
+                    scopeIndex = auths[key].indexOf(k);
+                    if (scopeIndex >= 0) {
+                      o = {
+                        scope: k,
+                        description: v
+                      };
+                      this.model.oauth.scopes.push(o);
+                    }
                   }
                 }
               }
             }
           }
         } else {
-          _ref7 = this.model.authorizations;
-          for (k in _ref7) {
-            v = _ref7[k];
+          for (k in modelAuths) {
+            v = modelAuths[k];
             if (k === "oauth2") {
               if (this.model.oauth === null) {
                 this.model.oauth = {};
@@ -1850,9 +1852,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       }
       if (typeof this.model.responses !== 'undefined') {
         this.model.responseMessages = [];
-        _ref8 = this.model.responses;
-        for (code in _ref8) {
-          value = _ref8[code];
+        _ref6 = this.model.responses;
+        for (code in _ref6) {
+          value = _ref6[code];
           schema = null;
           schemaObj = this.model.responses[code].schema;
           if (schemaObj && schemaObj['$ref']) {
@@ -1892,9 +1894,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       };
       contentTypeModel.consumes = this.model.consumes;
       contentTypeModel.produces = this.model.produces;
-      _ref9 = this.model.parameters;
-      for (_k = 0, _len2 = _ref9.length; _k < _len2; _k++) {
-        param = _ref9[_k];
+      _ref7 = this.model.parameters;
+      for (_k = 0, _len2 = _ref7.length; _k < _len2; _k++) {
+        param = _ref7[_k];
         type = param.type || param.dataType || '';
         if (typeof type === 'undefined') {
           schema = param.schema;
@@ -1918,14 +1920,14 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         model: contentTypeModel
       });
       $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
-      _ref10 = this.model.parameters;
-      for (_l = 0, _len3 = _ref10.length; _l < _len3; _l++) {
-        param = _ref10[_l];
+      _ref8 = this.model.parameters;
+      for (_l = 0, _len3 = _ref8.length; _l < _len3; _l++) {
+        param = _ref8[_l];
         this.addParameter(param, contentTypeModel.consumes);
       }
-      _ref11 = this.model.responseMessages;
-      for (_m = 0, _len4 = _ref11.length; _m < _len4; _m++) {
-        statusCode = _ref11[_m];
+      _ref9 = this.model.responseMessages;
+      for (_m = 0, _len4 = _ref9.length; _m < _len4; _m++) {
+        statusCode = _ref9[_m];
         this.addStatusCode(statusCode);
       }
       return this;
