@@ -27,10 +27,9 @@ var driver = new webdriver.Builder().
  * Checks console errors and fails if there is any error
  * Note: It's a good idea to run this after each operation
 */
-function checkConsoleErros () {
+function checkConsoleErrors () {
   it('should not have any console errors', function (done) {
     driver.manage().logs().get('browser').then(function(browserLogs) {
-
       var errors = [];
 
       browserLogs.forEach(function(log){
@@ -41,7 +40,6 @@ function checkConsoleErros () {
           errors.push(log);
         }
       });
-
       expect(errors).to.be.empty;
 
       done();
@@ -49,35 +47,30 @@ function checkConsoleErros () {
   });
 }
 
-describe('basics', function () {
-
+describe('basics', function (done) {
   this.timeout(10 * 1000);
 
   beforeEach(function () {
-    driver.get('http://localhost:' + PORT);
+    driver.get('http://localhost:' + PORT + '/index.html');
   });
 
   it('should have "Swagger UI" in title', function (done) {
-
     driver.wait(function() {
       return driver.getTitle().then(function(title) {
         var hasTitle = title.indexOf('Swagger UI') > -1;
 
         if (hasTitle) {
           expect(title).to.contain('Swagger UI');
+          checkConsoleErrors();
           done();
         }
-
         return hasTitle;
       });
     }, 1000);
   });
-
-  checkConsoleErros();
 });
 
 describe('cleanup', function  () {
-
   it('kills the static server', function () {
     server.close();
   });
@@ -86,6 +79,3 @@ describe('cleanup', function  () {
     driver.quit();
   });
 })
-
-
-
