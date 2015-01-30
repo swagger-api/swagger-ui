@@ -23,6 +23,27 @@ var driver = new webdriver.Builder().
    build();
 
 
+/*
+ * Checks console errors and fails if there is any error
+ * Note: It's a good idea to run this after each operation
+*/
+function checkConsoleErros () {
+  it('should not have any console errors', function (done) {
+    driver.manage().logs().get('browser').then(function(browserLogs) {
+      browserLogs.forEach(function(log){
+        if (log.level.value > 900) {
+          console.error('browser error message:', log.message);
+        }
+
+        // 900 and above is "error" level. Console should not have any errors
+        expect(log.level.value).not.to.be.greaterThan(900);
+
+      });
+      done();
+    });
+  });
+}
+
 describe('basics', function () {
 
   this.timeout(10 * 1000);
@@ -46,6 +67,8 @@ describe('basics', function () {
       });
     }, 1000);
   });
+
+  checkConsoleErros();
 });
 
 describe('cleanup', function  () {
