@@ -19,7 +19,7 @@ var declare = require('gulp-declare');
 gulp.task('clean', function() {
 
   return gulp
-    .src('./dist/**/*', {read: false})
+    .src('./dist', {read: false})
     .pipe(clean({force: true}))
     .on('error', gutil.log);
 });
@@ -52,7 +52,7 @@ function coffeescript () {
 /*
  * Build a distribution
 */
-gulp.task('dist', function() {
+gulp.task('dist', ['clean'], function() {
 
   return es.merge(
       gulp.src('./src/main/javascript/doc.js'),
@@ -70,7 +70,7 @@ gulp.task('dist', function() {
 /*
  * Processes less files into CSS files
 */
-gulp.task('less', function() {
+gulp.task('less', ['clean'], function() {
 
   return gulp
     .src([
@@ -86,7 +86,7 @@ gulp.task('less', function() {
 /*
  * Copy lib and html folders
 */
-gulp.task('copy', function() {
+gulp.task('copy', ['clean'], function() {
 
   // copy JavaScript files inside lib folder
   gulp
@@ -102,4 +102,4 @@ gulp.task('copy', function() {
 });
 
 
-gulp.task('default', ['clean', 'dist', 'copy']);
+gulp.task('default', ['dist', 'less', 'copy']);
