@@ -12,6 +12,8 @@ var less = require('gulp-less');
 var handlebars = require('gulp-handlebars');
 var wrap = require('gulp-wrap');
 var declare = require('gulp-declare');
+var watch = require('gulp-watch');
+var connect = require('gulp-connect');
 
 /*
  * Clean ups ./dist folder
@@ -31,7 +33,7 @@ function templates() {
   return gulp
     .src(['./src/main/template/**/*'])
     .pipe(handlebars())
-    .pipe(wrap('Handlebars.template(/*__DEFINING__*/<%= contents %>)'))
+    .pipe(wrap('Handlebars.template(<%= contents %>)'))
     .pipe(declare({
       namespace: 'Handlebars.templates',
       noRedeclare: true, // Avoid duplicate declarations
@@ -64,7 +66,8 @@ gulp.task('dist', ['clean'], function() {
     .pipe(uglify())
     .pipe(rename({extname: '.min.js'}))
     .on('error', gutil.log)
-    .pipe(gulp.dest('./dist'));
+    .pipe(gulp.dest('./dist'))
+    .pipe(connect.reload());
 });
 
 /*
@@ -79,14 +82,15 @@ gulp.task('less', ['clean'], function() {
     ])
     .pipe(less())
     .on('error', gutil.log)
-    .pipe(gulp.dest('./src/main/html/css/'));
+    .pipe(gulp.dest('./src/main/html/css/'))
+    .pipe(connect.reload());
 });
 
 
 /*
  * Copy lib and html folders
 */
-gulp.task('copy', ['clean'], function() {
+gulp.task('copy', ['less'], function() {
 
   // copy JavaScript files inside lib folder
   gulp
@@ -101,5 +105,25 @@ gulp.task('copy', ['clean'], function() {
     .on('error', gutil.log)
 });
 
+/*
+ * Watch for changes and recompile
+*/
+gulp.task('watch', function() {
+  return watch(['./src/**/*.{coffee,js,less}'], function() {
+    gulp.start('default');
+  });
+});
 
-gulp.task('default', ['dist', 'less', 'copy']);
+/*
+ * Live reload web server of `dist`
+*/
+gulp.task('connect', function() {
+  connect.server({
+    root: 'dist',
+    livereload: true
+  });
+});
+
+
+gulp.task('default', ['dist', 'copy']);
+gulp.task('serve', ['connect', 'watch'])

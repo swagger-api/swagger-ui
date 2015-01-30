@@ -37,6 +37,9 @@ You can rebuild swagger-ui on your own to tweak it or just so you can say you di
 2. `npm run build`
 3. You should see the distribution under the dist folder. Open [`./dist/index.html`](./dist/index.html) to launch Swagger UI in a browser
 
+### Development
+Use `npm run build` to make a new build and `npm run serve` to start web server that will serve `dist` directory, watches for changes in files and reloads the page.
+
 ### Build using Docker
 
 To build swagger-ui using a docker container:
