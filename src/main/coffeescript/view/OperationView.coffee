@@ -392,6 +392,9 @@ class OperationView extends Backbone.View
       if contentType
         contentType = contentType.split(";")[0].trim()
 
+    $(".response_body", $(@el)).removeClass 'json'
+    $(".response_body", $(@el)).removeClass 'xml'
+
     if !content
       code = $('<code />').text("no content")
       pre = $('<pre class="json" />').append(code)

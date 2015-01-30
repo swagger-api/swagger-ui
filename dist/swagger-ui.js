@@ -1492,6 +1492,8 @@ OperationView = (function(_super) {
         contentType = contentType.split(";")[0].trim();
       }
     }
+    $(".response_body", $(this.el)).removeClass('json');
+    $(".response_body", $(this.el)).removeClass('xml');
     if (!content) {
       code = $('<code />').text("no content");
       pre = $('<pre class="json" />').append(code);
