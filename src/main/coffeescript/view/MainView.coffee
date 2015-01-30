@@ -62,7 +62,6 @@ class MainView extends Backbone.View
       resource.id = id
       resources[id] = resource
       @addResource resource, @model.auths
-    @
 
     $('.propWrap').hover(
       ->
@@ -70,6 +69,7 @@ class MainView extends Backbone.View
       ,->
         $('.optionsWrapper', $(this)).hide()
     )
+    @
 
   addResource: (resource, auths) ->
     # Render a resource and add it to resources li
