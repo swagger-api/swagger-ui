@@ -40,6 +40,7 @@ function checkConsoleErrors () {
           errors.push(log);
         }
       });
+
       expect(errors).to.be.empty;
 
       done();
@@ -55,17 +56,11 @@ describe('basics', function (done) {
   });
 
   it('should have "Swagger UI" in title', function (done) {
-    driver.wait(function() {
-      return driver.getTitle().then(function(title) {
-        var hasTitle = title.indexOf('Swagger UI') > -1;
-
-        if (hasTitle) {
-          expect(title).to.contain('Swagger UI');
-          done();
-        }
-        return hasTitle;
-      });
-    }, 1000);
+    driver.sleep(200);
+    driver.getTitle().then(function(title) {
+      expect(title).to.contain('Swagger UI');
+      done();
+    });
   });
 
   checkConsoleErrors();
