@@ -1163,8 +1163,12 @@ SwaggerOperation.prototype.encodePathParam = function (pathParam) {
 };
 
 SwaggerOperation.prototype.urlify = function (args) {
-  var i, j, param;
-  var url = this.resource.basePath + this.pathJson();
+  var i, j, param, url;
+  // ensure no double slashing...
+  if(this.resource.basePath.length > 1 && this.resource.basePath.slice(-1) === '/' && this.pathJson().charAt(0) === '/')
+    url = this.resource.basePath + this.pathJson().substring(1);
+  else
+    url = this.resource.basePath + this.pathJson();
   var params = this.parameters;
   for (i = 0; i < params.length; i++) {
     param = params[i];
