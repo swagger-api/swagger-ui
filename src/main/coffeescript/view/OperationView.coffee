@@ -272,7 +272,10 @@ class OperationView extends Backbone.View
     headers = {}
     headerArray = data.getAllResponseHeaders().split("\r")
     for i in headerArray
-      h = i.split(':')
+      h = i.match(/^([^:]*?):(.*)$/)
+      if(!h)
+        h = []
+      h.shift()
       if (h[0] != undefined && h[1] != undefined)
         headers[h[0].trim()] = h[1].trim()
 
