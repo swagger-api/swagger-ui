@@ -30,15 +30,20 @@ var driver = new webdriver.Builder().
 function checkConsoleErros () {
   it('should not have any console errors', function (done) {
     driver.manage().logs().get('browser').then(function(browserLogs) {
+
+      var errors = [];
+
       browserLogs.forEach(function(log){
-        if (log.level.value > 900) {
-          console.error('browser error message:', log.message);
-        }
 
         // 900 and above is "error" level. Console should not have any errors
-        expect(log.level.value).not.to.be.greaterThan(900);
-
+        if (log.level.value > 900) {
+          console.log('browser error message:', log.message);
+          errors.push(log);
+        }
       });
+
+      expect(errors).to.be.empty;
+
       done();
     });
   });
