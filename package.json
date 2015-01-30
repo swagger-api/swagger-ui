@@ -4,6 +4,7 @@
   "description": "Swagger UI is a dependency-free collection of HTML, Javascript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API",
   "scripts": {
     "build": "./node_modules/gulp/bin/gulp.js;",
+    "serve": "./node_modules/gulp/bin/gulp.js serve;",
     "test": "./node_modules/gulp/bin/gulp.js; ./node_modules/mocha/bin/mocha src/test/e2e/index.js"
   },
   "repository": {
@@ -19,7 +20,6 @@
   "readmeFilename": "README.md",
   "dependencies": {},
   "devDependencies": {
-    "swagger-client": "2.1.0-alpha.7",
     "chai": "^1.10.0",
     "cors": "2.1.1",
     "docco": "0.4.x",
@@ -29,16 +29,19 @@
     "gulp-clean": "^0.3.1",
     "gulp-coffee": "^2.2.0",
     "gulp-concat": "^2.4.3",
+    "gulp-connect": "^2.2.0",
     "gulp-declare": "^0.3.0",
     "gulp-handlebars": "^3.0.1",
     "gulp-less": "^2.0.1",
     "gulp-rename": "^1.2.0",
     "gulp-uglify": "^1.1.0",
     "gulp-util": "^3.0.2",
+    "gulp-watch": "^4.1.0",
     "gulp-wrap": "^0.10.1",
     "http-server": "^0.7.4",
     "less": "~1.4.2",
     "mocha": "^2.1.0",
-    "selenium-webdriver": "^2.44.0"
+    "selenium-webdriver": "^2.44.0",
+    "swagger-client": "2.1.0-alpha.7"
   }
 }
