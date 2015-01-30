@@ -12,6 +12,7 @@ var less = require('gulp-less');
 var handlebars = require('gulp-handlebars');
 var wrap = require('gulp-wrap');
 var declare = require('gulp-declare');
+var watch = require('gulp-watch');
 
 /*
  * Clean ups ./dist folder
@@ -86,7 +87,7 @@ gulp.task('less', ['clean'], function() {
 /*
  * Copy lib and html folders
 */
-gulp.task('copy', ['clean'], function() {
+gulp.task('copy', ['less'], function() {
 
   // copy JavaScript files inside lib folder
   gulp
@@ -101,5 +102,14 @@ gulp.task('copy', ['clean'], function() {
     .on('error', gutil.log)
 });
 
+/*
+ * Watch for changes and recompile
+*/
+gulp.task('watch', function() {
+  watch(['./src/**/*.{coffee,js,less}'], function() {
+    gulp.start('default');
+  });
+});
 
-gulp.task('default', ['dist', 'less', 'copy']);
+
+gulp.task('default', ['dist', 'copy']);
