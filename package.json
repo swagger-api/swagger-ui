@@ -17,10 +17,9 @@
   },
   "license": "Apache",
   "readmeFilename": "README.md",
-  "dependencies": {
-    "swagger-client": "2.1.0-alpha.5"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "swagger-client": "2.1.0-alpha.7",
     "chai": "^1.10.0",
     "cors": "2.1.1",
     "docco": "0.4.x",
