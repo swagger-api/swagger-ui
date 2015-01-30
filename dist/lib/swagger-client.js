@@ -204,21 +204,21 @@ if (!Array.prototype.indexOf) {
  * allows override of the default value based on the parameter being
  * supplied
  **/
-var applyParameterMacro = function (model, parameter) {
+var applyParameterMacro = function (operation, parameter) {
   var e = (typeof window !== 'undefined' ? window : exports);
   if(e.parameterMacro)
-    return e.parameterMacro(model, parameter);
+    return e.parameterMacro(operation, parameter);
   else
     return parameter.defaultValue;
 };
 
 /**
- * allows overriding the default value of an operation
+ * allows overriding the default value of an model property
  **/
-var applyModelPropertyMacro = function (operation, property) {
+var applyModelPropertyMacro = function (model, property) {
   var e = (typeof window !== 'undefined' ? window : exports);
   if(e.modelPropertyMacro)
-    return e.modelPropertyMacro(operation, property);
+    return e.modelPropertyMacro(model, property);
   else
     return property.defaultValue;
 };
@@ -913,7 +913,6 @@ var SwaggerOperation = function (nickname, path, method, parameters, summary, no
     var param = this.parameters[i];
     // might take this away
     param.name = param.name || param.type || param.dataType;
-
     // for 1.1 compatibility
     type = param.type || param.dataType;
     if (type === 'array') {
@@ -976,7 +975,7 @@ var SwaggerOperation = function (nickname, path, method, parameters, summary, no
         }
       }
     }
-    param.defaultValue = applyParameterMacro(param, this);
+    param.defaultValue = applyParameterMacro(this, param);
   }
   var defaultSuccessCallback = this.resource.api.defaultSuccessCallback || null;
   var defaultErrorCallback = this.resource.api.defaultErrorCallback || null;
