@@ -54,7 +54,11 @@ function coffeescript () {
 */
 gulp.task('dist', function() {
 
-  return es.merge(coffeescript(), templates())
+  return es.merge(
+      gulp.src('./src/main/javascript/doc.js'),
+      coffeescript(),
+      templates()
+    )
     .pipe(concat('swagger-ui.js'))
     .pipe(gulp.dest('./dist'))
     .pipe(uglify())
@@ -88,13 +92,13 @@ gulp.task('copy', function() {
   gulp
     .src(['./lib/**/*.js'])
     .pipe(gulp.dest('./dist/lib'))
-    .on('error', gutil.log);
+    .on('error', gutil.log)
 
   // copy all files inside html folder
   gulp
     .src(['./src/main/html/**/*'])
     .pipe(gulp.dest('./dist'))
-    .on('error', gutil.log);
+    .on('error', gutil.log)
 });
 
 
