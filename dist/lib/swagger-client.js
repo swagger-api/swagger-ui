@@ -1547,13 +1547,13 @@ var SwaggerClient = function(url, options) {
   this.models = {};
 
   options = (options||{});
-  if (url)
-    if (url.url) options = url;
-    else this.url = url;
-  else options = url;
 
-  if (typeof options.url === 'string')
+  if(typeof url === 'string')
+    this.url = url;
+  else if(typeof url === 'object') {
+    options = url;
     this.url = options.url;
+  }
 
   if (typeof options.success === 'function')
     this.success = options.success;
@@ -1636,9 +1636,14 @@ SwaggerClient.prototype.buildFromSpec = function(response) {
   // legacy support
   this.authSchemes = response.securityDefinitions;
 
-  var location = this.parseUri(this.url);
+  var location;
+
+  if(typeof this.url === 'string') {
+    location = this.parseUri(this.url);
+  }
+
   if(typeof this.schemes === 'undefined' || this.schemes.length === 0) {
-    this.scheme = location.scheme;
+    this.scheme = location.scheme || 'http';
   }
   else {
     this.scheme = this.schemes[0];

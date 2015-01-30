@@ -57,7 +57,7 @@ class SwaggerUi extends Backbone.Router
     # Initialize the API object
     @mainView?.clear()
     url = @options.url
-    if url.indexOf("http") isnt 0
+    if url && url.indexOf("http") isnt 0
       url = @buildUrl(window.location.href.toString(), url)
 
     @options.url = url
