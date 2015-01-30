@@ -1072,7 +1072,7 @@ OperationView = (function(_super) {
 
   OperationView.prototype.mouseEnter = function(e) {
     var elem, hgh, pos, scMaxX, scMaxY, scX, scY, wd, x, y;
-    elem = $(e.currentTarget.parentNode).find('#api_information_panel');
+    elem = $(this.el).find('.content');
     x = e.pageX;
     y = e.pageY;
     scX = $(window).scrollLeft();
