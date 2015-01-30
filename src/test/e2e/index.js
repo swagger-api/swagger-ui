@@ -61,13 +61,14 @@ describe('basics', function (done) {
 
         if (hasTitle) {
           expect(title).to.contain('Swagger UI');
-          checkConsoleErrors();
           done();
         }
         return hasTitle;
       });
     }, 1000);
   });
+
+  checkConsoleErrors();
 });
 
 describe('cleanup', function  () {
