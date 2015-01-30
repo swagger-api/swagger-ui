@@ -867,12 +867,12 @@ MainView = (function(_super) {
       resources[id] = resource;
       this.addResource(resource, this.model.auths);
     }
-    this;
-    return $('.propWrap').hover(function() {
+    $('.propWrap').hover(function() {
       return $('.optionsWrapper', $(this)).show();
     }, function() {
       return $('.optionsWrapper', $(this)).hide();
     });
+    return this;
   };
 
   MainView.prototype.addResource = function(resource, auths) {
