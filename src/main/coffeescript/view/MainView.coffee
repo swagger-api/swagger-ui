@@ -12,8 +12,6 @@ class MainView extends Backbone.View
       @model.auths.push auth
 
 
-    console.log @model.info
-
     if @model.info and @model.info.license and typeof @model.info.license is 'string'
       name = @model.info.license
       url = @model.info.licenseUrl
