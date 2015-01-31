@@ -6,28 +6,28 @@
  */
 (function(){
 var ArrayModel = function(definition) {
-  this.name = "name";
+  this.name = "arrayModel";
   this.definition = definition || {};
   this.properties = [];
   
   var requiredFields = definition.enum || [];
-  var items = definition.items;
-  if(items) {
-    var type = items.type;
-    if(items.type) {
-      this.type = typeFromJsonSchema(type.type, type.format);
+  var innerType = definition.items;
+  if(innerType) {
+    if(innerType.type) {
+      this.type = typeFromJsonSchema(innerType.type, innerType.format);
     }
     else {
-      this.ref = items.$ref;
+      this.ref = innerType.$ref;
     }
   }
+  return this;
 };
 
 ArrayModel.prototype.createJSONSample = function(modelsToIgnore) {
   var result;
   modelsToIgnore = (modelsToIgnore||{});
   if(this.type) {
-    result = type;
+    result = this.type;
   }
   else if (this.ref) {
     var name = simpleRef(this.ref);
@@ -2058,7 +2058,7 @@ Operation.prototype.urlify = function (args) {
     var param = this.parameters[i];
     if(typeof args[param.name] !== 'undefined') {
       if(param.in === 'path') {
-        var reg = new RegExp('\{' + param.name + '[^\}]*\}', 'gi');
+        var reg = new RegExp('\{' + param.name + '\}', 'gi');
         var value = args[param.name];
         if(Array.isArray(value))
           value = this.encodePathCollection(param.collectionFormat, param.name, value);
@@ -2969,21 +2969,6 @@ e.PasswordAuthorization = PasswordAuthorization;
 e.CookieAuthorization = CookieAuthorization;
 e.SwaggerClient = SwaggerClient;
 e.Operation = Operation;
-
-// 1.x compat
-// e.SampleModels = sampleModels;
-// e.SwaggerHttp = SwaggerHttp;
-// e.SwaggerRequest = SwaggerRequest;
-// e.SwaggerAuthorizations = SwaggerAuthorizations;
-// e.authorizations = new SwaggerAuthorizations();
-// e.ApiKeyAuthorization = ApiKeyAuthorization;
-// e.PasswordAuthorization = PasswordAuthorization;
-// e.CookieAuthorization = CookieAuthorization;
-// e.JQueryHttpClient = JQueryHttpClient;
-// e.ShredHttpClient = ShredHttpClient;
-// e.SwaggerOperation = SwaggerOperation;
-// e.SwaggerModel = SwaggerModel;
-// e.SwaggerModelProperty = SwaggerModelProperty;
-// e.SwaggerResource = SwaggerResource;
+e.Model = Model;
 e.SwaggerApi = SwaggerApi;
 })();
