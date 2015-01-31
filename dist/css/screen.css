@@ -294,7 +294,13 @@
 .swagger-section .swagger-ui-wrap .message-fail {
   color: #cc0000;
 }
-.swagger-section .swagger-ui-wrap .info_contact {
+.swagger-section .swagger-ui-wrap .info_url {
+  padding-bottom: 5px;
+}
+.swagger-section .swagger-ui-wrap .info_email {
+  padding-bottom: 5px;
+}
+.swagger-section .swagger-ui-wrap .info_name {
   padding-bottom: 5px;
 }
 .swagger-section .swagger-ui-wrap .info_description {
