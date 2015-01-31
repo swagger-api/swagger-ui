@@ -66,6 +66,33 @@ describe('basics', function (done) {
   checkConsoleErrors();
 });
 
+
+describe('should render key elements in document', function () {
+  var elementQueries = [
+    'swagger-ui-container',
+    'resources_container',
+    'api_info',
+    'resource_pet',
+    'resource_store',
+    'resource_user',
+    'header'
+  ];
+
+  this.timeout(10000);
+
+  elementQueries.forEach(function (id) {
+
+    it('should render element: ' + id, function (done) {
+
+      var locator = webdriver.By.id(id)
+      driver.isElementPresent(locator).then(function (isPresent) {
+        expect(isPresent).to.be.true;
+        done();
+      });
+    });
+  })
+});
+
 describe('cleanup', function  () {
   it('kills the static server', function () {
     server.close();
