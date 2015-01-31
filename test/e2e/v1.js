@@ -28,25 +28,16 @@ describe('swagger 1.x spec tests', function (done) {
   var swaggerUI, specServer, driver;
 
   before(function () {
-    swaggerUI = createServer({
-      root: dist,
-      headers: headers
-    });
-
-    specServer = createServer({
-      root: specs,
-      headers: headers
-    });
+    swaggerUI = createServer({ root: dist, headers: headers });
+    specServer = createServer({ root: specs, headers: headers });
+    driver = new webdriver.Builder().
+      withCapabilities(webdriver.Capabilities.firefox()).build();
 
     swaggerUI.listen(DOCS_PORT);
     specServer.listen(SPEC_SERVER_PORT);
 
-    driver = new webdriver.Builder().
-      withCapabilities(webdriver.Capabilities.firefox()).
-      build();
-
-    var encoded = encodeURIComponent('http://localhost:' + SPEC_SERVER_PORT + '/v1.2/petstore/api-docs')
-    driver.get('http://localhost:' + DOCS_PORT + '/index.html?url=' + encoded);
+    var swaggerSpecLocation = encodeURIComponent('http://localhost:' + SPEC_SERVER_PORT + '/v1.2/petstore/api-docs')
+    driver.get('http://localhost:' + DOCS_PORT + '/index.html?url=' + swaggerSpecLocation);
   });
 
   afterEach(function(){
@@ -55,12 +46,9 @@ describe('swagger 1.x spec tests', function (done) {
         var errors = [];
         browserLogs.forEach(function(log){
           // 900 and above is "error" level. Console should not have any errors
-          if (log.level.value > 900) {
-            console.log('browser error message:', log.message);
-            errors.push(log);
-          }
+          if (log.level.value > 900)
+            console.log('browser error message:', log.message); errors.push(log);
         });
-
         expect(errors).to.be.empty;
         done();
       });
