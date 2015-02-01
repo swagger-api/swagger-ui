@@ -21,7 +21,7 @@ class ParameterView extends Backbone.View
 
     @model.type = type
     @model.paramType = @model.in || @model.paramType
-    @model.isBody = true if @model.paramType == 'body'
+    @model.isBody = true if @model.paramType == 'body' or @model.in == 'body'
     @model.isFile = true if type and type.toLowerCase() == 'file'
     @model.default = (@model.default || @model.defaultValue)
 
