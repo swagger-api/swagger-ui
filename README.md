@@ -20,7 +20,7 @@ The Swagger Specification has undergone 3 revisions since initial creation in 20
 
 Swagger UI Version | Release Date | Swagger Spec compatibility | Notes | Status
 ------------------ | ------------ | -------------------------- | ----- | ------
-2.1.0-alpha.7 (in development)  | 2014-10-06          | 1.1, 1.2, 2.0 | [master](https://github.com/swagger-api/swagger-ui/tree/develop_2.0) | [Issues](https://github.com/swagger-api/swagger-ui/milestones/v2.1.0)
+2.1.0-M1           | 2015-01-31   | 1.1, 1.2, 2.0              | [master](https://github.com/swagger-api/swagger-ui) | [Issues](https://github.com/swagger-api/swagger-ui/issues)
 2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) |
 1.0.13             | 2013-03-08   | 1.1, 1.2 | [tag v1.0.13](https://github.com/swagger-api/swagger-ui/tree/v1.0.13) |
 1.0.1              | 2011-10-11   | 1.0, 1.1 | [tag v1.0.1](https://github.com/swagger-api/swagger-ui/tree/v1.0.1)   |
@@ -34,11 +34,11 @@ You can use the swagger-ui code AS-IS!  No need to build or recompile--just clon
 You can rebuild swagger-ui on your own to tweak it or just so you can say you did.  To do so, follow these steps:
 
 1. `npm install`
-2. `npm run build`
+2. `gulp`
 3. You should see the distribution under the dist folder. Open [`./dist/index.html`](./dist/index.html) to launch Swagger UI in a browser
 
 ### Development
-Use `npm run build` to make a new build and `npm run serve` to start web server that will serve `dist` directory, watches for changes in files and reloads the page.
+Use `gulp watch` to make a new build and watch for changes in files.
 
 ### Build using Docker
 
@@ -59,27 +59,26 @@ docker run -v $PWD/dist:/build/dist swagger-ui-builder
 ```
 
 ### Use
-Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstore.swagger.wordnik.com/api/api-docs) service and show its APIs.  You can enter your own server url and click explore to view the API.
+Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstore.swagger.wordnik.com/v2/swagger.json) service and show its APIs.  You can enter your own server url and click explore to view the API.
 
 ### Customize
 You may choose to customize Swagger UI for your organization. Here is an overview of whats in its various directories:
 
 -    dist: Contains a distribution which you can deploy on a server or load from your local machine.
--    bin: Contains files used by swagger-ui for its build/test. These are not required by the distribution.
 -    lib: Contains javascript dependencies which swagger-ui depends on
 -    node_modules: Contains node modules which swagger-ui uses for its development.
 -    src
-    -    src/main/coffeescript: main code in CoffeeScript
-    -    src/main/templates: [handlebars](http://handlebarsjs.com/) templates used to render swagger-ui
-    -    src/main/html: the html files, some images and css
-    -    src/main/javascript: some legacy javascript referenced by CoffeeScript code
+-    src/main/coffeescript: main code in CoffeeScript
+-    src/main/templates: [handlebars](http://handlebarsjs.com/) templates used to render swagger-ui
+-    src/main/html: the html files, some images and css
+-    src/main/javascript: some legacy javascript referenced by CoffeeScript code
 
 ### SwaggerUi
-To use swagger-ui you should take a look at the [source of swagger-ui html page](https://github.com/swagger-api/swagger-ui/tree/master/src/main/html) and customize it. This basically requires you to instantiate a SwaggerUi object and call load() on it as below:
+To use swagger-ui you should take a look at the [source of swagger-ui html page](https://github.com/swagger-api/swagger-ui/blob/master/dist/index.html) and customize it. This basically requires you to instantiate a SwaggerUi object and call load() on it as below:
 
 ```javascript
     window.swaggerUi = new SwaggerUi({
-        url:"http://petstore.swagger.wordnik.com/api/api-docs",
+        url:"http://petstore.swagger.wordnik.com/v2/swagger.json",
         dom_id:"swagger-ui-container"
     });
 
@@ -155,9 +154,9 @@ You can verify CORS support with one of three techniques:
 - Curl your API and inspect the headers.  For instance:
 
 ```bash
-$ curl -I "http://petstore.swagger.wordnik.com/api/api-docs"
+$ curl -I "http://petstore.swagger.wordnik.com/v2/swagger.json"
 HTTP/1.1 200 OK
-Date: Thu, 12 Sep 2013 17:05:44 GMT
+Date: Sat, 31 Jan 2015 23:05:44 GMT
 Access-Control-Allow-Origin: *
 Access-Control-Allow-Methods: GET, POST, DELETE, PUT, PATCH, OPTIONS
 Access-Control-Allow-Headers: Content-Type, api_key, Authorization
@@ -203,7 +202,7 @@ Since the javascript files are compiled from coffeescript, please submit changes
 
 ## License
 
-Copyright 2011-2014 Reverb technologies, Inc.
+Copyright 2011-2015 Reverb technologies, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

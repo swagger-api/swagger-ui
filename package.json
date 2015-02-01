@@ -18,7 +18,11 @@
   },
   "license": "Apache",
   "readmeFilename": "README.md",
-  "dependencies": {},
+  "dependencies": {
+    "shred": "0.8.10",
+    "btoa": "1.1.1",
+    "swagger-client": "2.1.0-M1"
+  },
   "devDependencies": {
     "chai": "^1.10.0",
     "cors": "2.1.1",
@@ -41,7 +45,6 @@
     "http-server": "^0.7.4",
     "less": "~1.4.2",
     "mocha": "^2.1.0",
-    "selenium-webdriver": "^2.44.0",
-    "swagger-client": "2.1.0-alpha.7"
+    "selenium-webdriver": "^2.44.0"
   }
 }
