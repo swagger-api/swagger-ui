@@ -1,6 +1,6 @@
 # Swagger UI
 
-[![Build Status](https://travis-ci.org/swagger-api/swagger-ui.svg?branch=develop_2.0)](https://travis-ci.org/swagger-api/swagger-ui)
+[![Build Status](https://travis-ci.org/swagger-api/swagger-ui.svg)](https://travis-ci.org/swagger-api/swagger-ui)
 
 Swagger UI is part of the Swagger project.  The Swagger project allows you to produce, visualize and consume your OWN RESTful services.  No proxy or 3rd party services required.  Do it your own way.
 
