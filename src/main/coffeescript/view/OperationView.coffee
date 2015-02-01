@@ -93,12 +93,26 @@ class OperationView extends Backbone.View
 
     $(@el).html(Handlebars.templates.operation(@model))
 
-    if @model.responseClassSignature and @model.responseClassSignature != 'string'
+    # 2.0
+    signatureModel = null
+    if @model.successResponse
+      successResponse = @model.successResponse
+      for key of successResponse
+        value = successResponse[key]
+        if typeof value is 'object' and typeof value.createJSONSample is 'function'
+          foo = 'bar'
+          signatureModel = 
+            sampleJSON: JSON.stringify(value.createJSONSample(), undefined, 2)
+            isParam: false
+            signature: value.getMockSignature()
+    # 1.2
+    else if @model.responseClassSignature and @model.responseClassSignature != 'string'
       signatureModel =
         sampleJSON: @model.responseSampleJSON
         isParam: false
         signature: @model.responseClassSignature
 
+    if signatureModel
       responseSignatureView = new SignatureView({model: signatureModel, tagName: 'div'})
       $('.model-signature', $(@el)).append responseSignatureView.render().el
     else

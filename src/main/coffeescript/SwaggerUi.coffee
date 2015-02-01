@@ -26,12 +26,7 @@ class SwaggerUi extends Backbone.Router
       @render()
     @options.progress = (d) => @showMessage(d)
     @options.failure = (d) => 
-      if @api and @api.isValid is false
-        log "not a valid 2.0 spec, loading legacy client"
-        @api = new SwaggerApi(@options)
-        @api.build()
-      else
-        @onLoadFailure(d)
+      @onLoadFailure(d)
 
     # Create view to handle the header inputs
     @headerView = new HeaderView({el: $('#header')})
@@ -41,11 +36,11 @@ class SwaggerUi extends Backbone.Router
 
   # Set an option after initializing
   setOption: (option,value) ->
-      @options[option] = value
+    @options[option] = value
 
   # Get the value of a previously set option
   getOption: (option) ->
-      @options[option]
+    @options[option]
 
   # Event handler for when url/key is received from user
   updateSwaggerUi: (data) ->
