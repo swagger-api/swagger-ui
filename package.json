@@ -1,31 +1,50 @@
 {
   "name": "swagger-ui",
-  "version": "2.1.0-alpha.7",
+  "version": "2.1.0-M1",
   "description": "Swagger UI is a dependency-free collection of HTML, Javascript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API",
   "scripts": {
-    "build": "PATH=$PATH:./node_modules/.bin cake dist",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "./node_modules/gulp/bin/gulp.js;",
+    "serve": "./node_modules/gulp/bin/gulp.js serve;",
+    "test": "./node_modules/gulp/bin/gulp.js; ./node_modules/mocha/bin/mocha"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/wordnik/swagger-ui.git"
+    "url": "https://github.com/swagger-api/swagger-ui.git"
   },
   "author": {
     "name": "Tony Tam",
     "email": "fehguy@gmail.com",
-    "url": "http://developer.wordnik.com"
+    "url": "http://swagger.io"
   },
   "license": "Apache",
   "readmeFilename": "README.md",
   "dependencies": {
-    "coffee-script": "~1.6.3",
-    "swagger-client": "2.0.49",
-    "handlebars": "~1.0.10",
-    "less": "~1.4.2"
+    "shred": "0.8.10",
+    "btoa": "1.1.1",
+    "swagger-client": "2.1.0-M1"
   },
   "devDependencies": {
-    "express": "3.x",
+    "chai": "^1.10.0",
+    "cors": "2.1.1",
     "docco": "0.4.x",
-    "cors": "2.1.1"
+    "event-stream": "^3.2.1",
+    "express": "3.x",
+    "gulp": "^3.8.10",
+    "gulp-clean": "^0.3.1",
+    "gulp-coffee": "^2.2.0",
+    "gulp-concat": "^2.4.3",
+    "gulp-connect": "^2.2.0",
+    "gulp-declare": "^0.3.0",
+    "gulp-handlebars": "^3.0.1",
+    "gulp-less": "^2.0.1",
+    "gulp-rename": "^1.2.0",
+    "gulp-uglify": "^1.1.0",
+    "gulp-util": "^3.0.2",
+    "gulp-watch": "^4.1.0",
+    "gulp-wrap": "^0.10.1",
+    "http-server": "^0.7.4",
+    "less": "~1.4.2",
+    "mocha": "^2.1.0",
+    "selenium-webdriver": "^2.44.0"
   }
 }

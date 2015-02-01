@@ -6,6 +6,8 @@
 		{{else}}
 			{{#if default}}
 				<textarea class='body-textarea required' placeholder='(required)' name='{{name}}'>{{default}}</textarea>
+        <br />
+        <div class="parameter-content-type" />
 			{{else}}
 				<textarea class='body-textarea required' placeholder='(required)' name='{{name}}'></textarea>
 				<br />
@@ -25,7 +27,7 @@
 	{{/if}}
 </td>
 <td>
-	<strong>{{{description}}}</strong>
+	<strong><span class="markdown">{{{description}}}</span></strong>
 </td>
 <td>{{{paramType}}}</td>
 <td><span class="model-signature"></span></td>

@@ -16,7 +16,7 @@ class OperationView extends Backbone.View
     @
 
   mouseEnter: (e) ->
-    elem = $(e.currentTarget.parentNode).find('#api_information_panel')
+    elem = $(@el).find '.content'
     x = e.pageX
     y = e.pageY
     scX = $(window).scrollLeft()
@@ -44,7 +44,7 @@ class OperationView extends Backbone.View
     $(e.currentTarget.parentNode).find('#api_information_panel').hide()
 
   render: ->
-    isMethodSubmissionSupported = jQuery.inArray(@model.method, @model.supportedSubmitMethods()) >= 0
+    isMethodSubmissionSupported = true #jQuery.inArray(@model.method, @model.supportedSubmitMethods) >= 0
     @model.isReadOnly = true unless isMethodSubmissionSupported
 
     # 1.2 syntax for description was `notes`
@@ -52,9 +52,10 @@ class OperationView extends Backbone.View
     if @model.description
       @model.description = @model.description.replace(/(?:\r\n|\r|\n)/g, '<br />')
     @model.oauth = null
-    if @model.authorizations
-      if Array.isArray @model.authorizations
-        for auths in @model.authorizations
+    modelAuths = @model.authorizations || @model.security
+    if modelAuths
+      if Array.isArray modelAuths
+        for auths in modelAuths
           for key, auth of auths
             for a of @auths
               auth = @auths[a]
@@ -62,10 +63,12 @@ class OperationView extends Backbone.View
                 @model.oauth = {}
                 @model.oauth.scopes = []
                 for k, v of auth.value.scopes
-                  o = {scope: k, description: v}
-                  @model.oauth.scopes.push o
+                  scopeIndex = auths[key].indexOf k
+                  if scopeIndex >= 0
+                    o = {scope: k, description: v}
+                    @model.oauth.scopes.push o
       else
-        for k, v of @model.authorizations
+        for k, v of modelAuths
           if k == "oauth2"
             if @model.oauth == null
               @model.oauth = {}
@@ -88,14 +91,29 @@ class OperationView extends Backbone.View
     if typeof @model.responseMessages is 'undefined'
       @model.responseMessages = []
 
-    $(@el).html(Handlebars.templates.operation(@model))
-
-    if @model.responseClassSignature and @model.responseClassSignature != 'string'
+    # 2.0
+    signatureModel = null
+    if @model.successResponse
+      successResponse = @model.successResponse
+      for key of successResponse
+        value = successResponse[key]
+        @model.successCode = key
+        if typeof value is 'object' and typeof value.createJSONSample is 'function'
+          signatureModel = 
+            sampleJSON: JSON.stringify(value.createJSONSample(), undefined, 2)
+            isParam: false
+            signature: value.getMockSignature()
+    # 1.2
+    else if @model.responseClassSignature and @model.responseClassSignature != 'string'
       signatureModel =
         sampleJSON: @model.responseSampleJSON
         isParam: false
         signature: @model.responseClassSignature
-        
+
+
+    $(@el).html(Handlebars.templates.operation(@model))
+
+    if signatureModel
       responseSignatureView = new SignatureView({model: signatureModel, tagName: 'div'})
       $('.model-signature', $(@el)).append responseSignatureView.render().el
     else
@@ -109,7 +127,7 @@ class OperationView extends Backbone.View
     contentTypeModel.produces = @model.produces
 
     for param in @model.parameters
-      type = param.type || param.dataType
+      type = param.type || param.dataType || ''
       if typeof type is 'undefined'
         schema = param.schema
         if schema and schema['$ref']
@@ -144,7 +162,7 @@ class OperationView extends Backbone.View
     # Render status codes
     statusCodeView = new StatusCodeView({model: statusCode, tagName: 'tr'})
     $('.operation-status', $(@el)).append statusCodeView.render().el
-  
+
   submitOperation: (e) ->
     e?.preventDefault()
     # Check for errors
@@ -182,7 +200,7 @@ class OperationView extends Backbone.View
         if(o.value? && jQuery.trim(o.value).length > 0)
           map[o.name] = o.value
 
-      for o in form.find("select") 
+      for o in form.find("select")
         val = this.getSelectedValue o
         if(val? && jQuery.trim(val).length > 0)
           map[o.name] = val
@@ -226,7 +244,7 @@ class OperationView extends Backbone.View
         bodyParam.append($(el).attr('name'), el.files[0])
         params += 1
 
-    @invocationUrl = 
+    @invocationUrl =
       if @model.supportHeaderParams()
         headerParams = @model.getHeaderParams(map)
         delete headerParams['Content-Type']
@@ -234,10 +252,10 @@ class OperationView extends Backbone.View
       else
         @model.urlify(map, true)
 
-    $(".request_url", $(@el)).html("<pre></pre>") 
+    $(".request_url", $(@el)).html("<pre></pre>")
     $(".request_url pre", $(@el)).text(@invocationUrl);
-    
-    obj = 
+
+    obj =
       type: @model.method
       url: @invocationUrl
       headers: headerParams
@@ -269,7 +287,10 @@ class OperationView extends Backbone.View
     headers = {}
     headerArray = data.getAllResponseHeaders().split("\r")
     for i in headerArray
-      h = i.split(':')
+      h = i.match(/^([^:]*?):(.*)$/)
+      if(!h)
+        h = []
+      h.shift()
       if (h[0] != undefined && h[1] != undefined)
         headers[h[0].trim()] = h[1].trim()
 
@@ -283,12 +304,12 @@ class OperationView extends Backbone.View
     o
 
   getSelectedValue: (select) ->
-    if !select.multiple 
+    if !select.multiple
       select.value
     else
       options = []
       options.push opt.value for opt in select.options when opt.selected
-      if options.length > 0 
+      if options.length > 0
         options
       else
         null
@@ -324,7 +345,7 @@ class OperationView extends Backbone.View
     lines = xml.split('\n')
     indent = 0
     lastType = 'other'
-    # 4 types of tags - single, closing, opening, other (text, doctype, comment) - 4*4 = 16 transitions 
+    # 4 types of tags - single, closing, opening, other (text, doctype, comment) - 4*4 = 16 transitions
     transitions =
       'single->single': 0
       'single->closing': -1
@@ -368,9 +389,9 @@ class OperationView extends Backbone.View
           formatted = formatted.substr(0, formatted.length - 1) + ln + '\n'
         else
           formatted += padding + ln + '\n'
-      
+
     formatted
-    
+
 
   # puts the response data in UI
   showStatus: (response) ->
@@ -388,6 +409,9 @@ class OperationView extends Backbone.View
       contentType = headers["Content-Type"] or headers["content-type"]
       if contentType
         contentType = contentType.split(";")[0].trim()
+
+    $(".response_body", $(@el)).removeClass 'json'
+    $(".response_body", $(@el)).removeClass 'xml'
 
     if !content
       code = $('<code />').text("no content")
@@ -414,7 +438,7 @@ class OperationView extends Backbone.View
       pre = $('<pre class="json" />').append(code)
 
     response_body = pre
-    $(".request_url", $(@el)).html("<pre></pre>") 
+    $(".request_url", $(@el)).html("<pre></pre>")
     $(".request_url pre", $(@el)).text(url);
     $(".response_code", $(@el)).html "<pre>" + response.status + "</pre>"
     $(".response_body", $(@el)).html response_body

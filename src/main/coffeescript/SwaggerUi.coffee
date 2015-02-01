@@ -26,12 +26,7 @@ class SwaggerUi extends Backbone.Router
       @render()
     @options.progress = (d) => @showMessage(d)
     @options.failure = (d) => 
-      if @api and @api.isValid is false
-        log "not a valid 2.0 spec, loading legacy client"
-        @api = new SwaggerApi(@options)
-        @api.build()
-      else
-        @onLoadFailure(d)
+      @onLoadFailure(d)
 
     # Create view to handle the header inputs
     @headerView = new HeaderView({el: $('#header')})
@@ -41,11 +36,11 @@ class SwaggerUi extends Backbone.Router
 
   # Set an option after initializing
   setOption: (option,value) ->
-      @options[option] = value
+    @options[option] = value
 
   # Get the value of a previously set option
   getOption: (option) ->
-      @options[option]
+    @options[option]
 
   # Event handler for when url/key is received from user
   updateSwaggerUi: (data) ->
@@ -57,7 +52,7 @@ class SwaggerUi extends Backbone.Router
     # Initialize the API object
     @mainView?.clear()
     url = @options.url
-    if url.indexOf("http") isnt 0
+    if url && url.indexOf("http") isnt 0
       url = @buildUrl(window.location.href.toString(), url)
 
     @options.url = url
@@ -87,6 +82,7 @@ class SwaggerUi extends Backbone.Router
     switch @options.docExpansion
       when "full" then @expandAll()
       when "list" then @listAll()
+    @renderGFM()
     @options.onComplete(@api, @) if @options.onComplete
     setTimeout(
       =>
@@ -95,7 +91,6 @@ class SwaggerUi extends Backbone.Router
     )
 
   buildUrl: (base, url) ->
-    log "base is " + base
     if url.indexOf("/") is 0
       parts = base.split("/")
       base = parts[0] + "//" + parts[2]
@@ -124,5 +119,10 @@ class SwaggerUi extends Backbone.Router
     val = $('#message-bar').html data
     @options.onFailure(data) if @options.onFailure?
     val
+
+  # Renders GFM for elements with 'markdown' class
+  renderGFM: (data = '') ->
+    $('.markdown').each (index) ->
+      $(this).html(marked($(this).html()))
 
 window.SwaggerUi = SwaggerUi

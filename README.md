@@ -1,5 +1,7 @@
 # Swagger UI
 
+[![Build Status](https://travis-ci.org/swagger-api/swagger-ui.svg?branch=develop_2.0)](https://travis-ci.org/swagger-api/swagger-ui)
+
 Swagger UI is part of the Swagger project.  The Swagger project allows you to produce, visualize and consume your OWN RESTful services.  No proxy or 3rd party services required.  Do it your own way.
 
 Swagger UI is a dependency-free collection of HTML, Javascript, and CSS assets that dynamically
@@ -10,7 +12,7 @@ generate beautiful documentation and sandbox from a Swagger-compliant API. Becau
 The goal of Swagger™ is to define a standard, language-agnostic interface to REST APIs which allows both humans and computers to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection. When properly defined via Swagger, a consumer can understand and interact with the remote service with a minimal amount of implementation logic. Similar to what interfaces have done for lower-level programming, Swagger removes the guesswork in calling the service.
 
 
-Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more. 
+Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more.
 
 
 ## Compatibility
@@ -18,8 +20,8 @@ The Swagger Specification has undergone 3 revisions since initial creation in 20
 
 Swagger UI Version | Release Date | Swagger Spec compatibility | Notes | Status
 ------------------ | ------------ | -------------------------- | ----- | ------
-2.1.0-alpha.1 (in development)  | 2014-10-06          | 1.1, 1.2, 2.0 | [master](https://github.com/swagger-api/swagger-ui/tree/master) | [Issues](https://github.com/swagger-api/swagger-ui/milestones/v2.1.0)
-2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) | 
+2.1.0-M1           | 2015-01-31   | 1.1, 1.2, 2.0              | [master](https://github.com/swagger-api/swagger-ui) | [Issues](https://github.com/swagger-api/swagger-ui/issues)
+2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) |
 1.0.13             | 2013-03-08   | 1.1, 1.2 | [tag v1.0.13](https://github.com/swagger-api/swagger-ui/tree/v1.0.13) |
 1.0.1              | 2011-10-11   | 1.0, 1.1 | [tag v1.0.1](https://github.com/swagger-api/swagger-ui/tree/v1.0.1)   |
 
@@ -31,32 +33,52 @@ You can use the swagger-ui code AS-IS!  No need to build or recompile--just clon
 ### Build
 You can rebuild swagger-ui on your own to tweak it or just so you can say you did.  To do so, follow these steps:
 
-1. npm install
-2. npm run-script build
-3. You should see the distribution under the dist folder. Open ./dist/index.html to launch Swagger UI in a browser
+1. `npm install`
+2. `gulp`
+3. You should see the distribution under the dist folder. Open [`./dist/index.html`](./dist/index.html) to launch Swagger UI in a browser
+
+### Development
+Use `gulp watch` to make a new build and watch for changes in files.
+
+### Build using Docker
+
+To build swagger-ui using a docker container:
+
+```
+docker build -t swagger-ui-builder .
+docker run -v $PWD/dist:/build/dist swagger-ui-builder
+```
+
+### Build using Docker
+
+To build swagger-ui using a docker container:
+
+```
+docker build -t swagger-ui-builder .
+docker run -v $PWD/dist:/build/dist swagger-ui-builder
+```
 
 ### Use
-Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstore.swagger.wordnik.com/api/api-docs) service and show its APIs.  You can enter your own server url and click explore to view the API.
+Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstore.swagger.wordnik.com/v2/swagger.json) service and show its APIs.  You can enter your own server url and click explore to view the API.
 
 ### Customize
 You may choose to customize Swagger UI for your organization. Here is an overview of whats in its various directories:
 
 -    dist: Contains a distribution which you can deploy on a server or load from your local machine.
--    bin: Contains files used by swagger-ui for its build/test. These are not required by the distribution.
 -    lib: Contains javascript dependencies which swagger-ui depends on
 -    node_modules: Contains node modules which swagger-ui uses for its development.
 -    src
-    -    src/main/coffeescript: main code in CoffeeScript
-    -    src/main/templates: [handlebars](http://handlebarsjs.com/) templates used to render swagger-ui
-    -    src/main/html: the html files, some images and css
-    -    src/main/javascript: some legacy javascript referenced by CoffeeScript code
+-    src/main/coffeescript: main code in CoffeeScript
+-    src/main/templates: [handlebars](http://handlebarsjs.com/) templates used to render swagger-ui
+-    src/main/html: the html files, some images and css
+-    src/main/javascript: some legacy javascript referenced by CoffeeScript code
 
 ### SwaggerUi
-To use swagger-ui you should take a look at the [source of swagger-ui html page](https://github.com/swagger-api/swagger-ui/tree/master/src/main/html) and customize it. This basically requires you to instantiate a SwaggerUi object and call load() on it as below:
+To use swagger-ui you should take a look at the [source of swagger-ui html page](https://github.com/swagger-api/swagger-ui/blob/master/dist/index.html) and customize it. This basically requires you to instantiate a SwaggerUi object and call load() on it as below:
 
 ```javascript
     window.swaggerUi = new SwaggerUi({
-        url:"http://petstore.swagger.wordnik.com/api/api-docs",
+        url:"http://petstore.swagger.wordnik.com/v2/swagger.json",
         dom_id:"swagger-ui-container"
     });
 
@@ -132,9 +154,9 @@ You can verify CORS support with one of three techniques:
 - Curl your API and inspect the headers.  For instance:
 
 ```bash
-$ curl -I "http://petstore.swagger.wordnik.com/api/api-docs"
+$ curl -I "http://petstore.swagger.wordnik.com/v2/swagger.json"
 HTTP/1.1 200 OK
-Date: Thu, 12 Sep 2013 17:05:44 GMT
+Date: Sat, 31 Jan 2015 23:05:44 GMT
 Access-Control-Allow-Origin: *
 Access-Control-Allow-Methods: GET, POST, DELETE, PUT, PATCH, OPTIONS
 Access-Control-Allow-Headers: Content-Type, api_key, Authorization
@@ -147,7 +169,7 @@ This tells us that the petstore resource listing supports OPTIONS, and the follo
 - Try swagger-ui from your file system and look at the debug console.  If CORS is not enabled, you'll see something like this:
 
 ```
-XMLHttpRequest cannot load http://sad.server.com/v2/api-docs. No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'null' is therefore not allowed access. 
+XMLHttpRequest cannot load http://sad.server.com/v2/api-docs. No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'null' is therefore not allowed access.
 ```
 
 Swagger-UI cannot easily show this error state.
@@ -180,7 +202,7 @@ Since the javascript files are compiled from coffeescript, please submit changes
 
 ## License
 
-Copyright 2011-2014 Reverb technologies, Inc.
+Copyright 2011-2015 Reverb technologies, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

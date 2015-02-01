@@ -22,7 +22,7 @@
         {{/if}}
         {{#if description}}
         <h4>Implementation Notes</h4>
-        <p>{{{description}}}</p>
+        <p class="markdown">{{{description}}}</p>
         {{/if}}
         {{#oauth}}
         <div class="auth">
@@ -41,7 +41,7 @@
         </div>
         {{/oauth}}
         {{#if type}}
-          <h4>Response Class</h4>
+          <h4>Response Class (Status {{successCode}})</h4>
           <p><span class="model-signature" /></p>
           <br/>
           <div class="response-content-type" />

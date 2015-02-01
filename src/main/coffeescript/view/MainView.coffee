@@ -11,20 +11,6 @@ class MainView extends Backbone.View
       auth = {name: key, type: value.type, value: value}
       @model.auths.push auth
 
-
-    if @model.info and @model.info.license and typeof @model.info.license is 'string'
-      name = @model.info.license
-      url = @model.info.licenseUrl
-      @model.info.license = {}
-      @model.info.license.name = name
-      @model.info.license.url = url
-
-    if !@model.info
-      @model.info = {}
-
-    if !@model.info.version
-      @model.info.version = @model.apiVersion
-
     if @model.swaggerVersion is "2.0"
       if "validatorUrl" of opts.swaggerOptions
         # Validator URL specified explicitly
@@ -62,6 +48,13 @@ class MainView extends Backbone.View
       resource.id = id
       resources[id] = resource
       @addResource resource, @model.auths
+
+    $('.propWrap').hover(
+      ->
+        $('.optionsWrapper', $(this)).show()
+      ,->
+        $('.optionsWrapper', $(this)).hide()
+    )
     @
 
   addResource: (resource, auths) ->
