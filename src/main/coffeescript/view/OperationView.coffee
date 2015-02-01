@@ -91,16 +91,14 @@ class OperationView extends Backbone.View
     if typeof @model.responseMessages is 'undefined'
       @model.responseMessages = []
 
-    $(@el).html(Handlebars.templates.operation(@model))
-
     # 2.0
     signatureModel = null
     if @model.successResponse
       successResponse = @model.successResponse
       for key of successResponse
         value = successResponse[key]
+        @model.successCode = key
         if typeof value is 'object' and typeof value.createJSONSample is 'function'
-          foo = 'bar'
           signatureModel = 
             sampleJSON: JSON.stringify(value.createJSONSample(), undefined, 2)
             isParam: false
@@ -111,6 +109,9 @@ class OperationView extends Backbone.View
         sampleJSON: @model.responseSampleJSON
         isParam: false
         signature: @model.responseClassSignature
+
+
+    $(@el).html(Handlebars.templates.operation(@model))
 
     if signatureModel
       responseSignatureView = new SignatureView({model: signatureModel, tagName: 'div'})
