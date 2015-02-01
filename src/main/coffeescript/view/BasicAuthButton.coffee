@@ -12,7 +12,6 @@ class BasicAuthButton extends Backbone.View
     "click #apply_basic_auth" : "applyPassword"
 
   applyPassword: ->
-    console.log "applying password"
     username = $(".input_username").val()
     password = $(".input_password").val()
     window.authorizations.add(@model.type, new PasswordAuthorization("basic", username, password))
