@@ -1,6 +1,6 @@
 /**
  * swagger-client - swagger.js is a javascript client for use with swaggering APIs.
- * @version v2.1.0-alpha.7
+ * @version v2.1.0-M1
  * @link http://swagger.io
  * @license apache 2.0
  */
@@ -1301,6 +1301,8 @@ Property.prototype.sampleValue = function(isArray, ignoredModels) {
     output = this.default;
   else if(type === 'date-time')
     output = new Date().toISOString();
+  else if(type === 'date')
+    output = new Date().toISOString().split("T")[0];
   else if(type === 'string')
     output = 'string';
   else if(type === 'integer')
