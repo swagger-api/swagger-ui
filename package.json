@@ -1,7 +1,10 @@
 {
   "name": "swagger-ui",
-  "version": "2.1.0-M1",
+  "author": "Tony Tam <fehguy@gmail.com>",
   "description": "Swagger UI is a dependency-free collection of HTML, Javascript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API",
+  "version": "2.1.1-M1",
+  "homepage": "http://swagger.io",
+  "license": "Apache 2.0",
   "scripts": {
     "build": "./node_modules/gulp/bin/gulp.js;",
     "serve": "./node_modules/gulp/bin/gulp.js serve;",
@@ -11,17 +14,11 @@
     "type": "git",
     "url": "https://github.com/swagger-api/swagger-ui.git"
   },
-  "author": {
-    "name": "Tony Tam",
-    "email": "fehguy@gmail.com",
-    "url": "http://swagger.io"
-  },
-  "license": "Apache",
   "readmeFilename": "README.md",
   "dependencies": {
     "shred": "0.8.10",
     "btoa": "1.1.1",
-    "swagger-client": "2.1.0-M1"
+    "swagger-client": "2.1.1-M1"
   },
   "devDependencies": {
     "chai": "^1.10.0",
@@ -36,6 +33,7 @@
     "gulp-connect": "^2.2.0",
     "gulp-declare": "^0.3.0",
     "gulp-handlebars": "^3.0.1",
+    "gulp-header": "1.2.2",
     "gulp-less": "^2.0.1",
     "gulp-rename": "^1.2.0",
     "gulp-uglify": "^1.1.0",
