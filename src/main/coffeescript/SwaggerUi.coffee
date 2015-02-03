@@ -16,6 +16,9 @@ class SwaggerUi extends Backbone.Router
       @dom_id = options.dom_id
       delete options.dom_id
 
+    if not options.supportedSubmitMethods?
+      options.supportedSubmitMethods = ['get','put','post','delete','head','options','patch']
+
     # Create an empty div which contains the dom_id
     $('body').append('<div id="' + @dom_id + '"></div>') if not $('#' + @dom_id)?
 
