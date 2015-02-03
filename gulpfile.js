@@ -14,21 +14,29 @@ var wrap = require('gulp-wrap');
 var declare = require('gulp-declare');
 var watch = require('gulp-watch');
 var connect = require('gulp-connect');
+var header = require('gulp-header');
+var pkg = require('./package.json');
+var banner = ['/**',
+  ' * <%= pkg.name %> - <%= pkg.description %>',
+  ' * @version v<%= pkg.version %>',
+  ' * @link <%= pkg.homepage %>',
+  ' * @license <%= pkg.license %>',
+  ' */',
+  ''].join('\n');
 
-/*
+/**
  * Clean ups ./dist folder
-*/
+ */
 gulp.task('clean', function() {
-
   return gulp
     .src('./dist', {read: false})
     .pipe(clean({force: true}))
     .on('error', gutil.log);
 });
 
-/*
+/**
  * Processes Handlebars templates
-*/
+ */
 function templates() {
   return gulp
     .src(['./src/main/template/**/*'])
@@ -41,9 +49,9 @@ function templates() {
     .on('error', gutil.log);
 }
 
-/*
+/**
  * Processes CoffeeScript files
-*/
+ */
 function coffeescript () {
   return gulp
     .src(['./src/main/coffeescript/**/*.coffee'])
@@ -51,9 +59,9 @@ function coffeescript () {
     .on('error', gutil.log);
 }
 
-/*
+/**
  * Build a distribution
-*/
+ */
 gulp.task('dist', ['clean'], function() {
 
   return es.merge(
@@ -62,6 +70,7 @@ gulp.task('dist', ['clean'], function() {
       templates()
     )
     .pipe(concat('swagger-ui.js'))
+    .pipe(header(banner, { pkg: pkg } ))
     .pipe(gulp.dest('./dist'))
     .pipe(uglify())
     .pipe(rename({extname: '.min.js'}))
@@ -70,9 +79,9 @@ gulp.task('dist', ['clean'], function() {
     .pipe(connect.reload());
 });
 
-/*
+/**
  * Processes less files into CSS files
-*/
+ */
 gulp.task('less', ['clean'], function() {
 
   return gulp
@@ -87,9 +96,9 @@ gulp.task('less', ['clean'], function() {
 });
 
 
-/*
+/**
  * Copy lib and html folders
-*/
+ */
 gulp.task('copy', ['less'], function() {
 
   // copy JavaScript files inside lib folder
@@ -105,18 +114,18 @@ gulp.task('copy', ['less'], function() {
     .on('error', gutil.log)
 });
 
-/*
+/**
  * Watch for changes and recompile
-*/
+ */
 gulp.task('watch', function() {
   return watch(['./src/**/*.{coffee,js,less}'], function() {
     gulp.start('default');
   });
 });
 
-/*
+/**
  * Live reload web server of `dist`
-*/
+ */
 gulp.task('connect', function() {
   connect.server({
     root: 'dist',
