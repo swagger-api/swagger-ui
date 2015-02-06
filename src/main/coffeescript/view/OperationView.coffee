@@ -12,7 +12,8 @@ class OperationView extends Backbone.View
 
   initialize: (opts={}) ->
     @auths = opts.auths
-
+    @parentId = @model.parentId
+    @nickname = @model.nickname
     @
 
   mouseEnter: (e) ->
@@ -452,5 +453,5 @@ class OperationView extends Backbone.View
     if opts.highlightSizeThreshold && response.data.length > opts.highlightSizeThreshold then response_body_el else hljs.highlightBlock(response_body_el)
 
   toggleOperationContent: ->
-    elem = $('#' + Docs.escapeResourceName(@model.parentId + "_" + @model.nickname + "_content"))
+    elem = $('#' + Docs.escapeResourceName(@parentId + "_" + @nickname + "_content"))
     if elem.is(':visible') then Docs.collapseOperation(elem) else Docs.expandOperation(elem)
