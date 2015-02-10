@@ -26,6 +26,7 @@ class SwaggerUi extends Backbone.Router
 
     # Set the callbacks
     @options.success = => 
+      console.log('rendering');
       @render()
     @options.progress = (d) => @showMessage(d)
     @options.failure = (d) => 
@@ -62,7 +63,6 @@ class SwaggerUi extends Backbone.Router
     @headerView.update(url)
 
     @api = new SwaggerClient(@options)
-    @api.build()    
 
   # collapse all sections
   collapseAll:() ->
@@ -90,7 +90,7 @@ class SwaggerUi extends Backbone.Router
     setTimeout(
       =>
         Docs.shebang()
-      400
+      4000
     )
 
   buildUrl: (base, url) ->
