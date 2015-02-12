@@ -1971,11 +1971,11 @@ ResourceView = (function(_super) {
 
   ResourceView.prototype.render = function() {
     var counter, id, methods, operation, _i, _len, _ref;
-    $(this.el).html(Handlebars.templates.resource(this.model));
     methods = {};
-    if (this.model.description) {
+    if (this.model.description != null) {
       this.model.summary = this.model.description;
     }
+    $(this.el).html(Handlebars.templates.resource(this.model));
     _ref = this.model.operationsArray;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       operation = _ref[_i];
