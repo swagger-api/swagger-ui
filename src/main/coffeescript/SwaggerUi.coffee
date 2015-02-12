@@ -26,7 +26,6 @@ class SwaggerUi extends Backbone.Router
 
     # Set the callbacks
     @options.success = => 
-      console.log('rendering');
       @render()
     @options.progress = (d) => @showMessage(d)
     @options.failure = (d) => 
