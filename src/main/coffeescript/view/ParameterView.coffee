@@ -6,7 +6,7 @@ class ParameterView extends Backbone.View
           opts.fn(@)
         else
           opts.inverse(@)
-          
+
   render: ->
     type = @model.type || @model.dataType
 
@@ -21,7 +21,7 @@ class ParameterView extends Backbone.View
 
     @model.type = type
     @model.paramType = @model.in || @model.paramType
-    @model.isBody = true if @model.paramType == 'body' or @model.in == 'body'
+    @model.isBody = true if @model.paramType == 'body' or @model.in == 'body' or @model.paramType == 'form' or @model.in == 'formData'
     @model.isFile = true if type and type.toLowerCase() == 'file'
     @model.default = (@model.default || @model.defaultValue)
 
