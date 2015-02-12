@@ -5,12 +5,13 @@ class ResourceView extends Backbone.View
       @model.description = null
 
   render: ->
-    $(@el).html(Handlebars.templates.resource(@model))
-
     methods = {}
 
-    if @model.description
+    if @model.description?
       @model.summary = @model.description
+
+    $(@el).html(Handlebars.templates.resource(@model))
+
     # Render each operation
     for operation in @model.operationsArray
       counter = 0
