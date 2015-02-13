@@ -291,7 +291,6 @@ var SwaggerClient = function(url, options) {
   this.isValid = false;
   this.info = null;
   this.useJQuery = false;
-  this.resourceCount = 0;
 
   if(typeof url !== 'undefined')
     return this.initialize(url, options);
@@ -1570,7 +1569,6 @@ SwaggerClient.prototype.buildFrom1_2Spec = function (response) {
     this.apisArray.push(res);
   } else {
     var k;
-    this.expectedResourceCount = response.apis.length;
     for (k = 0; k < response.apis.length; k++) {
       var resource = response.apis[k];
       res = new SwaggerResource(resource, this);
@@ -1579,16 +1577,11 @@ SwaggerClient.prototype.buildFrom1_2Spec = function (response) {
     }
   }
   this.isValid = true;
-  return this;
+  if (typeof this.success === 'function') {
+    this.success();
+  }  return this;
 };
 
-SwaggerClient.prototype.finish = function() {
-  if (typeof this.success === 'function') {
-    console.log('success');
-    this.selfReflect();
-    this.success();
-  }  
-}
 
 SwaggerClient.prototype.buildFrom1_1Spec = function (response) {
   log('This API is using a deprecated version of Swagger!  Please see http://github.com/wordnik/swagger-core/wiki for more info');
@@ -1735,11 +1728,9 @@ var SwaggerResource = function (resourceObj, api) {
       on: {
         response: function (resp) {
           var responseObj = resp.obj || JSON.parse(resp.data);
-          _this.api.resourceCount += 1;
           return _this.addApiDeclaration(responseObj);
         },
         error: function (response) {
-          _this.api.resourceCount += 1;
           return _this.api.fail('<span data-swTarnslate="1">Unable to read api</span> \'' +
           _this.name + '\' <span data-swTarnslate="1">from path</span> ' + _this.url + ' (<span data-swTarnslate="1">server returned</span> ' + response.statusText + ')');
         }
@@ -1793,9 +1784,7 @@ SwaggerResource.prototype.addApiDeclaration = function (response) {
   }
   this.api[this.name] = this;
   this.ready = true;
-  if(this.api.resourceCount === this.api.expectedResourceCount)
-    this.api.finish();
-  return this;
+  return this.api.selfReflect();
 };
 
 SwaggerResource.prototype.addModels = function (models) {

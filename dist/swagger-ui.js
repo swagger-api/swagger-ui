@@ -289,7 +289,6 @@ SwaggerUi = (function(_super) {
   };
 
   SwaggerUi.prototype.load = function() {
-      console.log(0)
     var url, _ref;
     if ((_ref = this.mainView) != null) {
       _ref.clear();
@@ -1938,7 +1937,6 @@ ResourceView = (function(_super) {
   };
 
   ResourceView.prototype.addOperation = function(operation) {
-      console.log(operation)
     var operationView;
     operation.number = this.number;
     operationView = new OperationView({
