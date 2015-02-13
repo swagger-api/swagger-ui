@@ -33,5 +33,19 @@ SwaggerTranslator.learn({
     "Created by":"Разработано",
     "See more at":"Еще тут",
     "Contact the developer":"Связаться с разработчиком",
-    "api version":"Версия API"    
+    "api version":"Версия API",
+    "Response Content Type":"Content Type ответа",
+    "fetching resource":"Получение ресурса",
+    "fetching resource list":"Получение ресурсов",
+    "Explore":"Поехали",
+    "Show Swagger Petstore Example Apis":"Показать примеры АПИ",
+    "Show Wordnik Developer Apis":"Показать АПИ Wordnik Developer",
+    "Can't read from server.  It may not have the appropriate access-control-origin settings.":"Не удается получить ответ от сервера. Возможно, какая-то лажа с настройками доступа",
+    "Please specify the protocol for":"Пожалуйста, укажите протогол для",
+    "Can't read swagger JSON from":"Не получается прочитать swagger json из",
+    "Finished Loading Resource Information. Rendering Swagger UI":"Загрузка информации о ресурсах завершена. Рендерим",
+    "Unable to read api":"Не удалось прочитать api",
+    "from path":"по адресу",
+    "server returned":"сервер сказал"
+                         
 });
