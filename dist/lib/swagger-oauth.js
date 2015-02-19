@@ -14,8 +14,8 @@ function handleLogin() {
     var defs = auths;
     for(key in defs) {
       var auth = defs[key];
+      oauth2KeyName = key;
       if(auth.type === 'oauth2' && auth.scopes) {
-        oauth2KeyName = key;
         var scope;
         if(Array.isArray(auth.scopes)) {
           // 1.2 support

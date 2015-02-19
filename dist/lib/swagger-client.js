@@ -1,6 +1,6 @@
 /**
  * swagger-client - swagger.js is a javascript client for use with swaggering APIs.
- * @version v2.1.0-alpha.7
+ * @version v2.1.5-M1
  * @link http://swagger.io
  * @license apache 2.0
  */
@@ -31,7 +31,13 @@ ArrayModel.prototype.createJSONSample = function(modelsToIgnore) {
   }
   else if (this.ref) {
     var name = simpleRef(this.ref);
-    result = models[name].createJSONSample();
+    if(typeof modelsToIgnore[name] === 'undefined') {
+      modelsToIgnore[name] = this;
+      result = models[name].createJSONSample(modelsToIgnore);
+    }
+    else {
+      return name;
+    }
   }
   return [ result ];
 };
@@ -51,10 +57,31 @@ ArrayModel.prototype.getSampleValue = function(modelsToIgnore) {
 
 ArrayModel.prototype.getMockSignature = function(modelsToIgnore) {
   var propertiesStr = [];
-
-  if(this.ref) {
-    return models[simpleRef(this.ref)].getMockSignature();
+  var i, prop;
+  for (i = 0; i < this.properties.length; i++) {
+    prop = this.properties[i];
+    propertiesStr.push(prop.toString());
   }
+
+  var strong = '<span class="strong">';
+  var stronger = '<span class="stronger">';
+  var strongClose = '</span>';
+  var classOpen = strong + 'array' + ' {' + strongClose;
+  var classClose = strong + '}' + strongClose;
+  var returnVal = classOpen + '<div>' + propertiesStr.join(',</div><div>') + '</div>' + classClose;
+
+  if (!modelsToIgnore)
+    modelsToIgnore = {};
+  modelsToIgnore[this.name] = this;
+  for (i = 0; i < this.properties.length; i++) {
+    prop = this.properties[i];
+    var ref = prop.$ref;
+    var model = models[ref];
+    if (model && typeof modelsToIgnore[ref] === 'undefined') {
+      returnVal = returnVal + ('<br>' + model.getMockSignature(modelsToIgnore));
+    }
+  }
+  return returnVal;
 };
 
 
@@ -76,10 +103,10 @@ SwaggerAuthorizations.prototype.remove = function(name) {
 
 SwaggerAuthorizations.prototype.apply = function (obj, authorizations) {
   var status = null;
-  var key, value, result;
+  var key, name, value, result;
 
   // if the "authorizations" key is undefined, or has an empty array, add all keys
-  if (typeof authorizations === 'undefined' || Object.keys(authorizations).length == 0) {
+  if (typeof authorizations === 'undefined' || Object.keys(authorizations).length === 0) {
     for (key in this.authz) {
       value = this.authz[key];
       result = value.apply(obj, authorizations);
@@ -90,6 +117,7 @@ SwaggerAuthorizations.prototype.apply = function (obj, authorizations) {
   else {
     // 2.0 support
     if (Array.isArray(authorizations)) {
+
       for (var i = 0; i < authorizations.length; i++) {
         var auth = authorizations[i];
         for (name in auth) {
@@ -273,6 +301,10 @@ PrimitiveModel.prototype.getMockSignature = function(modelsToIgnore) {
   }
   return returnVal;
 };
+var addModel = function(name, model) {
+  models[name] = model;
+};
+
 var SwaggerClient = function(url, options) {
   this.isBuilt = false;
   this.url = null;
@@ -284,13 +316,14 @@ var SwaggerClient = function(url, options) {
   this.isValid = false;
   this.info = null;
   this.useJQuery = false;
+  this.resourceCount = 0;
 
   if(typeof url !== 'undefined')
     return this.initialize(url, options);
 };
 
 SwaggerClient.prototype.initialize = function (url, options) {
-  this.models = models;
+  this.models = models = {};
 
   options = (options||{});
 
@@ -324,6 +357,7 @@ SwaggerClient.prototype.initialize = function (url, options) {
   this.options = options;
 
   if (typeof options.success === 'function') {
+    this.ready = true;
     this.build();
   }
 };
@@ -379,7 +413,6 @@ SwaggerClient.prototype.build = function(mock) {
       return obj;
     new SwaggerHttp().execute(obj);
   }
-
   return this;
 };
 
@@ -400,8 +433,16 @@ SwaggerClient.prototype.buildFromSpec = function(response) {
   // legacy support
   this.authSchemes = response.securityDefinitions;
 
-  var location;
+  var definedTags = {};
+  if(Array.isArray(response.tags)) {
+    definedTags = {};
+    for(k = 0; k < response.tags.length; k++) {
+      var t = response.tags[k];
+      definedTags[t.name] = t;
+    }
+  }
 
+  var location;
   if(typeof this.url === 'string') {
     location = this.parseUri(this.url);
   }
@@ -467,8 +508,13 @@ SwaggerClient.prototype.buildFromSpec = function(response) {
               operationGroup.operations = {};
               operationGroup.label = tag;
               operationGroup.apis = [];
+              var tagObject = definedTags[tag];
+              if(typeof tagObject === 'object') {
+                operationGroup.description = tagObject.description;
+                operationGroup.externalDocs = tagObject.externalDocs;
+              }
               this[tag].help = this.help.bind(operationGroup);
-              this.apisArray.push(new OperationGroup(tag, operationObject));
+              this.apisArray.push(new OperationGroup(tag, operationGroup.description, operationGroup.externalDocs, operationObject));
             }
             operationGroup[operationId] = operationObject.execute.bind(operationObject);
             operationGroup[operationId].help = operationObject.help.bind(operationObject);
@@ -495,8 +541,11 @@ SwaggerClient.prototype.buildFromSpec = function(response) {
     }
   }
   this.isBuilt = true;
-  if (this.success)
+  if (this.success) {
+    this.isValid = true;
+    this.isBuilt = true;
     this.success();
+  }
   return this;
 };
 
@@ -534,14 +583,14 @@ SwaggerClient.prototype.fail = function(message) {
   throw message;
 };
 
-var OperationGroup = function(tag, operation) {
+var OperationGroup = function(tag, description, externalDocs, operation) {
   this.tag = tag;
   this.path = tag;
+  this.description = description;
+  this.externalDocs = externalDocs;
   this.name = tag;
   this.operation = operation;
   this.operationsArray = [];
-
-  this.description = operation.description || "";
 };
 
 var Operation = function(parent, scheme, operationId, httpMethod, path, args, definitions) {
@@ -571,18 +620,32 @@ var Operation = function(parent, scheme, operationId, httpMethod, path, args, de
   this.description = args.description;
   this.useJQuery = parent.useJQuery;
 
+  if(typeof this.deprecated === 'string') {
+    switch(this.deprecated.toLowerCase()) {
+      case 'true': case 'yes': case '1': {
+        this.deprecated = true;
+        break;
+      }
+      case 'false': case 'no': case '0': case null: {
+        this.deprecated = false;
+        break;
+      }
+      default: this.deprecated = Boolean(this.deprecated);
+    }
+  }
+
+  var i, model;
+
   if(definitions) {
     // add to global models
     var key;
     for(key in this.definitions) {
-      var model = new Model(key, definitions[key]);
+      model = new Model(key, definitions[key]);
       if(model) {
         models[key] = model;
       }
     }
   }
-
-  var i;
   for(i = 0; i < this.parameters.length; i++) {
     var param = this.parameters[i];
     if(param.type === 'array') {
@@ -607,17 +670,20 @@ var Operation = function(parent, scheme, operationId, httpMethod, path, args, de
         param.allowableValues.descriptiveValues.push({value : value, isDefault: isDefault});
       }
     }
-    if(param.type === 'array' && typeof param.allowableValues === 'undefined') {
-      // can't show as a list if no values to select from
-      delete param.isList;
-      delete param.allowMultiple;
+    if(param.type === 'array') {
+      innerType = [innerType];
+      if(typeof param.allowableValues === 'undefined') {
+        // can't show as a list if no values to select from
+        delete param.isList;
+        delete param.allowMultiple;
+      }
     }
-    param.signature = this.getModelSignature(innerType, models);
+    param.signature = this.getModelSignature(innerType, models).toString();
     param.sampleJSON = this.getModelSampleJSON(innerType, models);
     param.responseClassSignature = param.signature;
   }
 
-  var defaultResponseCode, response, model, responses = this.responses;
+  var defaultResponseCode, response, responses = this.responses;
 
   if(responses['200']) {
     response = responses['200'];
@@ -689,10 +755,14 @@ Operation.prototype.getType = function (param) {
     str = 'long';
   else if(type === 'integer')
     str = 'integer';
-  else if(type === 'string' && format === 'date-time')
-    str = 'date-time';
-  else if(type === 'string' && format === 'date')
-    str = 'date';
+  else if(type === 'string') {
+    if(format === 'date-time')
+      str = 'date-time';
+    else if(format === 'date')
+      str = 'date';
+    else
+      str = 'string';
+  }
   else if(type === 'number' && format === 'float')
     str = 'float';
   else if(type === 'number' && format === 'double')
@@ -701,8 +771,6 @@ Operation.prototype.getType = function (param) {
     str = 'double';
   else if(type === 'boolean')
     str = 'boolean';
-  else if(type === 'string')
-    str = 'string';
   else if(type === 'array') {
     isArray = true;
     if(param.items)
@@ -764,16 +832,21 @@ Operation.prototype.getModelSignature = function(type, definitions) {
     listType = true;
     type = type[0];
   }
+  else if(typeof type === 'undefined')
+    type = 'undefined';
 
   if(type === 'string')
     isPrimitive = true;
   else
     isPrimitive = (listType && definitions[listType]) || (definitions[type]) ? false : true;
   if (isPrimitive) {
-    return type;
+    if(listType)
+      return 'Array[' + type + ']';
+    else
+      return type.toString();
   } else {
     if (listType)
-      return definitions[type].getMockSignature();
+      return 'Array[' + definitions[type].getMockSignature() + ']';
     else
       return definitions[type].getMockSignature();
   }
@@ -795,9 +868,7 @@ Operation.prototype.getHeaderParams = function (args) {
       if (param.in === 'header') {
         var value = args[param.name];
         if(Array.isArray(value))
-          value = this.encodePathCollection(param.collectionFormat, param.name, value);
-        else
-          value = this.encodePathParam(value);
+          value = value.toString();
         headers[param.name] = value;
       }
     }
@@ -965,8 +1036,13 @@ Operation.prototype.execute = function(arg1, arg2, arg3, arg4, parent) {
     fail(message);
     return;
   }
-  var headers = this.getHeaderParams(args);
-  headers = this.setContentTypes(args, opts);
+  var allHeaders = this.getHeaderParams(args);
+  var contentTypeHeaders = this.setContentTypes(args, opts);
+
+  var headers = {}, attrname;
+  for (attrname in allHeaders) { headers[attrname] = allHeaders[attrname]; }
+  for (attrname in contentTypeHeaders) { headers[attrname] = contentTypeHeaders[attrname]; }
+
   var body = this.getBody(headers, args);
   var url = this.urlify(args);
 
@@ -989,14 +1065,13 @@ Operation.prototype.execute = function(arg1, arg2, arg3, arg4, parent) {
   if(opts.mock === true)
     return obj;
   else
-    new SwaggerHttp().execute(obj);
+    new SwaggerHttp().execute(obj, opts);
 };
 
 Operation.prototype.setContentTypes = function(args, opts) {
   // default type
   var accepts = 'application/json';
   var consumes = args.parameterContentType || 'application/json';
-
   var allDefinedParams = this.parameters;
   var definedFormParams = [];
   var definedFileParams = [];
@@ -1013,10 +1088,10 @@ Operation.prototype.setContentTypes = function(args, opts) {
       else
         definedFormParams.push(param);
     }
-    else if(param.in === 'header' && this.headers) {
+    else if(param.in === 'header' && opts) {
       var key = param.name;
-      var headerValue = this.headers[param.name];
-      if(typeof this.headers[param.name] !== 'undefined')
+      var headerValue = opts[param.name];
+      if(typeof opts[param.name] !== 'undefined')
         headers[key] = headerValue;
     }
     else if(param.in === 'body' && typeof args[param.name] !== 'undefined') {
@@ -1184,21 +1259,20 @@ var Model = function(name, definition) {
 };
 
 Model.prototype.createJSONSample = function(modelsToIgnore) {
-  var result = {};
+  var i, result = {};
   modelsToIgnore = (modelsToIgnore||{});
   modelsToIgnore[this.name] = this;
-  var i;
   for (i = 0; i < this.properties.length; i++) {
     prop = this.properties[i];
-    result[prop.name] = prop.getSampleValue(modelsToIgnore);
+    var sample = prop.getSampleValue(modelsToIgnore);
+    result[prop.name] = sample;
   }
   delete modelsToIgnore[this.name];
   return result;
 };
 
 Model.prototype.getSampleValue = function(modelsToIgnore) {
-  var i;
-  var obj = {};
+  var i, obj = {};
   for(i = 0; i < this.properties.length; i++ ) {
     var property = this.properties[i];
     obj[property.name] = property.sampleValue(false, modelsToIgnore);
@@ -1207,8 +1281,7 @@ Model.prototype.getSampleValue = function(modelsToIgnore) {
 };
 
 Model.prototype.getMockSignature = function(modelsToIgnore) {
-  var propertiesStr = [];
-  var i, prop;
+  var i, prop, propertiesStr = [];
   for (i = 0; i < this.properties.length; i++) {
     prop = this.properties[i];
     propertiesStr.push(prop.toString());
@@ -1251,7 +1324,7 @@ var Property = function(name, obj, required) {
   this.optional = true;
   this.optional = !required;
   this.default = obj.default || null;
-  this.example = obj.example || null;
+  this.example = obj.example !== undefined ? obj.example : null;
   this.collectionFormat = obj.collectionFormat || null;
   this.maximum = obj.maximum || null;
   this.exclusiveMaximum = obj.exclusiveMaximum || null;
@@ -1282,7 +1355,7 @@ Property.prototype.isArray = function () {
 Property.prototype.sampleValue = function(isArray, ignoredModels) {
   isArray = (isArray || this.isArray());
   ignoredModels = (ignoredModels || {});
-  var type = getStringSignature(this.obj);
+  var type = getStringSignature(this.obj, true);
   var output;
 
   if(this.$ref) {
@@ -1292,8 +1365,9 @@ Property.prototype.sampleValue = function(isArray, ignoredModels) {
       ignoredModels[type] = this;
       output = refModel.getSampleValue(ignoredModels);
     }
-    else
-      type = refModel;
+    else {
+      output = refModelName;
+    }
   }
   else if(this.example)
     output = this.example;
@@ -1301,6 +1375,8 @@ Property.prototype.sampleValue = function(isArray, ignoredModels) {
     output = this.default;
   else if(type === 'date-time')
     output = new Date().toISOString();
+  else if(type === 'date')
+    output = new Date().toISOString().split("T")[0];
   else if(type === 'string')
     output = 'string';
   else if(type === 'integer')
@@ -1322,16 +1398,20 @@ Property.prototype.sampleValue = function(isArray, ignoredModels) {
     return output;
 };
 
-getStringSignature = function(obj) {
+getStringSignature = function(obj, baseComponent) {
   var str = '';
   if(typeof obj.$ref !== 'undefined')
     str += simpleRef(obj.$ref);
   else if(typeof obj.type === 'undefined')
     str += 'object';
   else if(obj.type === 'array') {
-    str += 'Array[';
-    str += getStringSignature((obj.items || obj.$ref || {}));
-    str += ']';
+    if(baseComponent)
+      str += getStringSignature((obj.items || obj.$ref || {}));
+    else {
+      str += 'Array[';
+      str += getStringSignature((obj.items || obj.$ref || {}));
+      str += ']';
+    }
   }
   else if(obj.type === 'integer' && obj.format === 'int32')
     str += 'integer';
@@ -1402,7 +1482,7 @@ Property.prototype.toString = function() {
       type = '';
   }
   else {
-    this.schema.type;
+    type = this.schema.type;
   }
 
   if (this.default)
@@ -1463,7 +1543,7 @@ Property.prototype.toString = function() {
 
 optionHtml = function(label, value) {
   return '<tr><td class="optionName">' + label + ':</td><td>' + value + '</td></tr>';
-}
+};
 
 typeFromJsonSchema = function(type, format) {
   var str;
@@ -1496,7 +1576,7 @@ var cookies = {};
 var models = {};
 
 SwaggerClient.prototype.buildFrom1_2Spec = function (response) {
-  if (response.apiVersion != null) {
+  if (response.apiVersion !== null) {
     this.apiVersion = response.apiVersion;
   }
   this.apis = {};
@@ -1532,6 +1612,7 @@ SwaggerClient.prototype.buildFrom1_2Spec = function (response) {
     this.apisArray.push(res);
   } else {
     var k;
+    this.expectedResourceCount = response.apis.length;
     for (k = 0; k < response.apis.length; k++) {
       var resource = response.apis[k];
       res = new SwaggerResource(resource, this);
@@ -1540,15 +1621,22 @@ SwaggerClient.prototype.buildFrom1_2Spec = function (response) {
     }
   }
   this.isValid = true;
-  if (typeof this.success === 'function') {
-    this.success();
-  }
   return this;
+};
+
+SwaggerClient.prototype.finish = function() {
+  if (typeof this.success === 'function') {
+    this.isValid = true;
+    this.ready = true;
+    this.isBuilt = true;
+    this.selfReflect();
+    this.success();
+  }  
 };
 
 SwaggerClient.prototype.buildFrom1_1Spec = function (response) {
   log('This API is using a deprecated version of Swagger!  Please see http://github.com/wordnik/swagger-core/wiki for more info');
-  if (response.apiVersion != null)
+  if (response.apiVersion !== null)
     this.apiVersion = response.apiVersion;
   this.apis = {};
   this.apisArray = [];
@@ -1594,7 +1682,7 @@ SwaggerClient.prototype.buildFrom1_1Spec = function (response) {
 
 SwaggerClient.prototype.convertInfo = function (resp) {
   if(typeof resp == 'object') {
-    var info = {}
+    var info = {};
 
     info.title = resp.title;
     info.description = resp.description;
@@ -1623,9 +1711,6 @@ SwaggerClient.prototype.selfReflect = function () {
   }
   this.setConsolidatedModels();
   this.ready = true;
-  if (typeof this.success === 'function') {
-    return this.success();
-  }
 };
 
 SwaggerClient.prototype.setConsolidatedModels = function () {
@@ -1658,13 +1743,14 @@ var SwaggerResource = function (resourceObj, api) {
   this.description = resourceObj.description;
   this.authorizations = (resourceObj.authorizations || {});
 
+
   var parts = this.path.split('/');
   this.name = parts[parts.length - 1].replace('.{format}', '');
   this.basePath = this.api.basePath;
   this.operations = {};
   this.operationsArray = [];
   this.modelsArray = [];
-  this.models = {};
+  this.models = api.models || {};
   this.rawModels = {};
   this.useJQuery = (typeof api.useJQuery !== 'undefined') ? api.useJQuery : null;
 
@@ -1690,9 +1776,11 @@ var SwaggerResource = function (resourceObj, api) {
       on: {
         response: function (resp) {
           var responseObj = resp.obj || JSON.parse(resp.data);
+          _this.api.resourceCount += 1;
           return _this.addApiDeclaration(responseObj);
         },
         error: function (response) {
+          _this.api.resourceCount += 1;
           return _this.api.fail('Unable to read api \'' +
           _this.name + '\' from path ' + _this.url + ' (server returned ' + response.statusText + ')');
         }
@@ -1736,7 +1824,7 @@ SwaggerResource.prototype.addApiDeclaration = function (response) {
     this.consumes = response.consumes;
   if ((typeof response.basePath === 'string') && response.basePath.replace(/\s/g, '').length > 0)
     this.basePath = response.basePath.indexOf('http') === -1 ? this.getAbsoluteBasePath(response.basePath) : response.basePath;
-
+  this.resourcePath = response.resourcePath;
   this.addModels(response.models);
   if (response.apis) {
     for (var i = 0 ; i < response.apis.length; i++) {
@@ -1746,7 +1834,9 @@ SwaggerResource.prototype.addApiDeclaration = function (response) {
   }
   this.api[this.name] = this;
   this.ready = true;
-  return this.api.selfReflect();
+  if(this.api.resourceCount === this.api.expectedResourceCount)
+    this.api.finish();
+  return this;
 };
 
 SwaggerResource.prototype.addModels = function (models) {
@@ -2015,8 +2105,22 @@ var SwaggerOperation = function (nickname, path, method, parameters, summary, no
   this.consumes = consumes;
   this.produces = produces;
   this.authorizations = typeof authorizations !== 'undefined' ? authorizations : resource.authorizations;
-  this.deprecated = (typeof deprecated === 'string' ? Boolean(deprecated) : deprecated);
+  this.deprecated = deprecated;
   this['do'] = __bind(this['do'], this);
+
+  if(typeof this.deprecated === 'string') {
+    switch(this.deprecated.toLowerCase()) {
+      case 'true': case 'yes': case '1': {
+        this.deprecated = true;
+        break;
+      }
+      case 'false': case 'no': case '0': case null: {
+        this.deprecated = false;
+        break;
+      }
+      default: this.deprecated = Boolean(this.deprecated);
+    }
+  }
 
   if (errors.length > 0) {
     console.error('SwaggerOperation errors', errors, arguments);
@@ -2025,7 +2129,7 @@ var SwaggerOperation = function (nickname, path, method, parameters, summary, no
 
   this.path = this.path.replace('{format}', 'json');
   this.method = this.method.toLowerCase();
-  this.isGetMethod = this.method === 'GET';
+  this.isGetMethod = this.method === 'get';
 
   var i, j, v;
   this.resourceName = this.resource.name;
@@ -2076,17 +2180,17 @@ var SwaggerOperation = function (nickname, path, method, parameters, summary, no
         }
       }
     }
-    else if (param.allowableValues != null) {
+    else if (param.allowableValues) {
       if (param.allowableValues.valueType === 'RANGE')
         param.isRange = true;
       else
         param.isList = true;
-      if (param.allowableValues != null) {
+      if (param.allowableValues) {
         param.allowableValues.descriptiveValues = [];
         if (param.allowableValues.values) {
           for (j = 0; j < param.allowableValues.values.length; j++) {
             v = param.allowableValues.values[j];
-            if (param.defaultValue != null) {
+            if (param.defaultValue !== null) {
               param.allowableValues.descriptiveValues.push({
                 value: String(v),
                 isDefault: (v === param.defaultValue)
@@ -2156,7 +2260,7 @@ SwaggerOperation.prototype.getSampleJSON = function (type, models) {
   var isPrimitive, listType, val;
   listType = this.isListType(type);
   isPrimitive = ((typeof listType !== 'undefined') && models[listType]) || (typeof models[type] !== 'undefined') ? false : true;
-  val = isPrimitive ? void 0 : (listType != null ? models[listType].createJSONSample() : models[type].createJSONSample());
+  val = isPrimitive ? void 0 : (listType ? models[listType].createJSONSample() : models[type].createJSONSample());
   if (val) {
     val = listType ? [val] : val;
     if (typeof val == 'string')
@@ -2191,7 +2295,7 @@ SwaggerOperation.prototype['do'] = function (args, opts, callback, error) {
     callback = function (response) {
       var content;
       content = null;
-      if (response != null) {
+      if (response !== null) {
         content = response.data;
       } else {
         content = 'no data';
@@ -2202,7 +2306,7 @@ SwaggerOperation.prototype['do'] = function (args, opts, callback, error) {
 
   params = {};
   params.headers = [];
-  if (args.headers != null) {
+  if (args.headers) {
     params.headers = args.headers;
     delete args.headers;
   }
@@ -2289,7 +2393,7 @@ SwaggerOperation.prototype.urlify = function (args) {
     if (param.paramType === 'path') {
       if (typeof args[param.name] !== 'undefined') {
         // apply path params and remove from args
-        var reg = new RegExp('\\{\\s*?' + param.name + '.*?\\}(?=\\s*?(\\/?|$))', 'gi');
+        var reg = new RegExp('\\{\\s*?' + param.name + '[^\\{\\}\\/]*(?:\\{.*?\\}[^\\{\\}\\/]*)*\\}(?=(\\/?|$))', 'gi');
         url = url.replace(reg, this.encodePathParam(args[param.name]));
         delete args[param.name];
       }
@@ -2323,7 +2427,7 @@ SwaggerOperation.prototype.urlify = function (args) {
       }
     }
   }
-  if ((queryParams != null) && queryParams.length > 0)
+  if ((queryParams) && queryParams.length > 0)
     url += '?' + queryParams;
   return url;
 };
@@ -2532,7 +2636,7 @@ var SwaggerRequest = function (type, url, params, opts, successCallback, errorCa
   }
 
   var obj;
-  if (!((this.headers != null) && (this.headers.mock != null))) {
+  if (!((this.headers) && (this.headers.mock))) {
     obj = {
       url: this.url,
       method: this.type,
@@ -2657,7 +2761,7 @@ SwaggerRequest.prototype.setHeaders = function (params, opts, operation) {
  */
 var SwaggerHttp = function() {};
 
-SwaggerHttp.prototype.execute = function(obj) {
+SwaggerHttp.prototype.execute = function(obj, opts) {
   if(obj && (typeof obj.useJQuery === 'boolean'))
     this.useJQuery = obj.useJQuery;
   else
@@ -2668,9 +2772,9 @@ SwaggerHttp.prototype.execute = function(obj) {
   }
 
   if(this.useJQuery)
-    return new JQueryHttpClient().execute(obj);
+    return new JQueryHttpClient(opts).execute(obj);
   else
-    return new ShredHttpClient().execute(obj);
+    return new ShredHttpClient(opts).execute(obj);
 };
 
 SwaggerHttp.prototype.isIE8 = function() {
@@ -2755,7 +2859,7 @@ JQueryHttpClient.prototype.execute = function(obj) {
     if(contentType) {
       if(contentType.indexOf("application/json") === 0 || contentType.indexOf("+json") > 0) {
         try {
-          out.obj = response.responseJSON || {};
+          out.obj = response.responseJSON || JSON.parse(out.data) || {};
         } catch (ex) {
           // do not set out.obj
           log("unable to parse JSON content");
@@ -2778,8 +2882,8 @@ JQueryHttpClient.prototype.execute = function(obj) {
 /*
  * ShredHttpClient is a light-weight, node or browser HTTP client
  */
-var ShredHttpClient = function(options) {
-  this.options = (options||{});
+var ShredHttpClient = function(opts) {
+  this.opts = (opts||{});
   this.isInitialized = false;
 
   var identity, toString;
@@ -2790,7 +2894,7 @@ var ShredHttpClient = function(options) {
   }
   else
     this.Shred = require("shred");
-  this.shred = new this.Shred(options);
+  this.shred = new this.Shred(opts);
 };
 
 ShredHttpClient.prototype.initShred = function () {
@@ -2901,7 +3005,9 @@ e.ApiKeyAuthorization = ApiKeyAuthorization;
 e.PasswordAuthorization = PasswordAuthorization;
 e.CookieAuthorization = CookieAuthorization;
 e.SwaggerClient = SwaggerClient;
+e.SwaggerApi = SwaggerClient;
 e.Operation = Operation;
 e.Model = Model;
-e.models = models;
+e.addModel = addModel;
+
 })();

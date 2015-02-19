@@ -12,7 +12,8 @@ class OperationView extends Backbone.View
 
   initialize: (opts={}) ->
     @auths = opts.auths
-
+    @parentId = @model.parentId
+    @nickname = @model.nickname
     @
 
   mouseEnter: (e) ->
@@ -44,7 +45,7 @@ class OperationView extends Backbone.View
     $(e.currentTarget.parentNode).find('#api_information_panel').hide()
 
   render: ->
-    isMethodSubmissionSupported = true #jQuery.inArray(@model.method, @model.supportedSubmitMethods) >= 0
+    isMethodSubmissionSupported = jQuery.inArray(@model.method, @model.supportedSubmitMethods()) >= 0
     @model.isReadOnly = true unless isMethodSubmissionSupported
 
     # 1.2 syntax for description was `notes`
@@ -452,5 +453,5 @@ class OperationView extends Backbone.View
     if opts.highlightSizeThreshold && response.data.length > opts.highlightSizeThreshold then response_body_el else hljs.highlightBlock(response_body_el)
 
   toggleOperationContent: ->
-    elem = $('#' + Docs.escapeResourceName(@model.parentId + "_" + @model.nickname + "_content"))
+    elem = $('#' + Docs.escapeResourceName(@parentId + "_" + @nickname + "_content"))
     if elem.is(':visible') then Docs.collapseOperation(elem) else Docs.expandOperation(elem)
