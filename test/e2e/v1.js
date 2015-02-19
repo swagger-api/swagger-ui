@@ -20,7 +20,7 @@ var elements = [
   'resource_pet',
   'resource_store',
   'resource_user',
-  'header'
+  'swagger-ui-header'
 ];
 
 describe('swagger 1.x spec tests', function (done) {
