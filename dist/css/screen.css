@@ -1131,13 +1131,11 @@
 .swagger-section .api-popup-actions {
   padding-top: 10px;
 }
-.swagger-section .access {
-  float: right;
-}
+.swagger-section .access,
 .swagger-section .auth {
   float: right;
 }
-.swagger-section #api_information_panel {
+#api_information_panel {
   position: absolute;
   background: #FFF;
   border: 1px solid #ccc;
@@ -1149,10 +1147,10 @@
   color: black;
   padding: 5px;
 }
-.swagger-section #api_information_panel p .api-msg-enabled {
+#api_information_panel .api-msg-enabled {
   color: green;
 }
-.swagger-section #api_information_panel p .api-msg-disabled {
+#api_information_panel .api-msg-disabled {
   color: red;
 }
 .swagger-section .api-ic {
@@ -1191,11 +1189,11 @@
   margin-top: -4px;
   cursor: pointer;
 }
-.swagger-section #header {
+#header {
   background-color: #89bf04;
   padding: 14px;
 }
-.swagger-section #header a#logo {
+#logo {
   font-size: 1.5em;
   font-weight: bold;
   text-decoration: none;
@@ -1203,24 +1201,29 @@
   padding: 20px 0 20px 40px;
   color: white;
 }
-.swagger-section #header form#api_selector {
+#api_selector {
   display: block;
   clear: none;
   float: right;
 }
-.swagger-section #header form#api_selector .input {
+#api_selector .input {
   display: block;
   clear: none;
   float: left;
   margin: 0 10px 0 0;
 }
-.swagger-section #header form#api_selector .input input#input_apiKey {
+#api_selector .input input {
+  font-size: 0.9em;
+  padding: 3px;
+  margin: 0;
+}
+#input_apiKey {
   width: 200px;
 }
-.swagger-section #header form#api_selector .input input#input_baseUrl {
+#input_baseUrl {
   width: 400px;
 }
-.swagger-section #header form#api_selector .input a#explore {
+#explore {
   display: block;
   text-decoration: none;
   font-weight: bold;
@@ -1235,20 +1238,12 @@
   -khtml-border-radius: 4px;
   border-radius: 4px;
 }
-.swagger-section #header form#api_selector .input a#explore:hover {
-  background-color: #547f00;
-}
-.swagger-section #header form#api_selector .input input {
-  font-size: 0.9em;
-  padding: 3px;
-  margin: 0;
-}
-.swagger-section #content_message {
+#content_message {
   margin: 10px 15px;
   font-style: italic;
   color: #999999;
 }
-.swagger-section #message-bar {
+#message-bar {
   min-height: 30px;
   text-align: center;
   padding-top: 10px;
