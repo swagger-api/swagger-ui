@@ -1,6 +1,6 @@
 /**
  * swagger-client - swagger.js is a javascript client for use with swaggering APIs.
- * @version v2.1.3-M1
+ * @version v2.1.5-M1
  * @link http://swagger.io
  * @license apache 2.0
  */
@@ -57,10 +57,31 @@ ArrayModel.prototype.getSampleValue = function(modelsToIgnore) {
 
 ArrayModel.prototype.getMockSignature = function(modelsToIgnore) {
   var propertiesStr = [];
-
-  if(this.ref) {
-    return models[simpleRef(this.ref)].getMockSignature();
+  var i, prop;
+  for (i = 0; i < this.properties.length; i++) {
+    prop = this.properties[i];
+    propertiesStr.push(prop.toString());
   }
+
+  var strong = '<span class="strong">';
+  var stronger = '<span class="stronger">';
+  var strongClose = '</span>';
+  var classOpen = strong + 'array' + ' {' + strongClose;
+  var classClose = strong + '}' + strongClose;
+  var returnVal = classOpen + '<div>' + propertiesStr.join(',</div><div>') + '</div>' + classClose;
+
+  if (!modelsToIgnore)
+    modelsToIgnore = {};
+  modelsToIgnore[this.name] = this;
+  for (i = 0; i < this.properties.length; i++) {
+    prop = this.properties[i];
+    var ref = prop.$ref;
+    var model = models[ref];
+    if (model && typeof modelsToIgnore[ref] === 'undefined') {
+      returnVal = returnVal + ('<br>' + model.getMockSignature(modelsToIgnore));
+    }
+  }
+  return returnVal;
 };
 
 
@@ -336,6 +357,7 @@ SwaggerClient.prototype.initialize = function (url, options) {
   this.options = options;
 
   if (typeof options.success === 'function') {
+    this.ready = true;
     this.build();
   }
 };
@@ -411,8 +433,16 @@ SwaggerClient.prototype.buildFromSpec = function(response) {
   // legacy support
   this.authSchemes = response.securityDefinitions;
 
-  var location;
+  var definedTags = {};
+  if(Array.isArray(response.tags)) {
+    definedTags = {};
+    for(k = 0; k < response.tags.length; k++) {
+      var t = response.tags[k];
+      definedTags[t.name] = t;
+    }
+  }
 
+  var location;
   if(typeof this.url === 'string') {
     location = this.parseUri(this.url);
   }
@@ -478,8 +508,13 @@ SwaggerClient.prototype.buildFromSpec = function(response) {
               operationGroup.operations = {};
               operationGroup.label = tag;
               operationGroup.apis = [];
+              var tagObject = definedTags[tag];
+              if(typeof tagObject === 'object') {
+                operationGroup.description = tagObject.description;
+                operationGroup.externalDocs = tagObject.externalDocs;
+              }
               this[tag].help = this.help.bind(operationGroup);
-              this.apisArray.push(new OperationGroup(tag, operationObject));
+              this.apisArray.push(new OperationGroup(tag, operationGroup.description, operationGroup.externalDocs, operationObject));
             }
             operationGroup[operationId] = operationObject.execute.bind(operationObject);
             operationGroup[operationId].help = operationObject.help.bind(operationObject);
@@ -548,14 +583,14 @@ SwaggerClient.prototype.fail = function(message) {
   throw message;
 };
 
-var OperationGroup = function(tag, operation) {
+var OperationGroup = function(tag, description, externalDocs, operation) {
   this.tag = tag;
   this.path = tag;
+  this.description = description;
+  this.externalDocs = externalDocs;
   this.name = tag;
   this.operation = operation;
   this.operationsArray = [];
-
-  this.description = operation.description || "";
 };
 
 var Operation = function(parent, scheme, operationId, httpMethod, path, args, definitions) {
@@ -720,10 +755,14 @@ Operation.prototype.getType = function (param) {
     str = 'long';
   else if(type === 'integer')
     str = 'integer';
-  else if(type === 'string' && format === 'date-time')
-    str = 'date-time';
-  else if(type === 'string' && format === 'date')
-    str = 'date';
+  else if(type === 'string') {
+    if(format === 'date-time')
+      str = 'date-time';
+    else if(format === 'date')
+      str = 'date';
+    else
+      str = 'string';
+  }
   else if(type === 'number' && format === 'float')
     str = 'float';
   else if(type === 'number' && format === 'double')
@@ -732,8 +771,6 @@ Operation.prototype.getType = function (param) {
     str = 'double';
   else if(type === 'boolean')
     str = 'boolean';
-  else if(type === 'string')
-    str = 'string';
   else if(type === 'array') {
     isArray = true;
     if(param.items)
@@ -1028,14 +1065,13 @@ Operation.prototype.execute = function(arg1, arg2, arg3, arg4, parent) {
   if(opts.mock === true)
     return obj;
   else
-    new SwaggerHttp().execute(obj);
+    new SwaggerHttp().execute(obj, opts);
 };
 
 Operation.prototype.setContentTypes = function(args, opts) {
   // default type
   var accepts = 'application/json';
   var consumes = args.parameterContentType || 'application/json';
-
   var allDefinedParams = this.parameters;
   var definedFormParams = [];
   var definedFileParams = [];
@@ -1288,7 +1324,7 @@ var Property = function(name, obj, required) {
   this.optional = true;
   this.optional = !required;
   this.default = obj.default || null;
-  this.example = obj.example || null;
+  this.example = obj.example !== undefined ? obj.example : null;
   this.collectionFormat = obj.collectionFormat || null;
   this.maximum = obj.maximum || null;
   this.exclusiveMaximum = obj.exclusiveMaximum || null;
@@ -1591,6 +1627,7 @@ SwaggerClient.prototype.buildFrom1_2Spec = function (response) {
 SwaggerClient.prototype.finish = function() {
   if (typeof this.success === 'function') {
     this.isValid = true;
+    this.ready = true;
     this.isBuilt = true;
     this.selfReflect();
     this.success();
@@ -2356,7 +2393,7 @@ SwaggerOperation.prototype.urlify = function (args) {
     if (param.paramType === 'path') {
       if (typeof args[param.name] !== 'undefined') {
         // apply path params and remove from args
-        var reg = new RegExp('\\{\\s*?' + param.name + '.*?\\}(?=\\s*?(\\/?|$))', 'gi');
+        var reg = new RegExp('\\{\\s*?' + param.name + '[^\\{\\}\\/]*(?:\\{.*?\\}[^\\{\\}\\/]*)*\\}(?=(\\/?|$))', 'gi');
         url = url.replace(reg, this.encodePathParam(args[param.name]));
         delete args[param.name];
       }
@@ -2724,7 +2761,7 @@ SwaggerRequest.prototype.setHeaders = function (params, opts, operation) {
  */
 var SwaggerHttp = function() {};
 
-SwaggerHttp.prototype.execute = function(obj) {
+SwaggerHttp.prototype.execute = function(obj, opts) {
   if(obj && (typeof obj.useJQuery === 'boolean'))
     this.useJQuery = obj.useJQuery;
   else
@@ -2735,9 +2772,9 @@ SwaggerHttp.prototype.execute = function(obj) {
   }
 
   if(this.useJQuery)
-    return new JQueryHttpClient().execute(obj);
+    return new JQueryHttpClient(opts).execute(obj);
   else
-    return new ShredHttpClient().execute(obj);
+    return new ShredHttpClient(opts).execute(obj);
 };
 
 SwaggerHttp.prototype.isIE8 = function() {
@@ -2845,8 +2882,8 @@ JQueryHttpClient.prototype.execute = function(obj) {
 /*
  * ShredHttpClient is a light-weight, node or browser HTTP client
  */
-var ShredHttpClient = function(options) {
-  this.options = (options||{});
+var ShredHttpClient = function(opts) {
+  this.opts = (opts||{});
   this.isInitialized = false;
 
   var identity, toString;
@@ -2857,7 +2894,7 @@ var ShredHttpClient = function(options) {
   }
   else
     this.Shred = require("shred");
-  this.shred = new this.Shred(options);
+  this.shred = new this.Shred(opts);
 };
 
 ShredHttpClient.prototype.initShred = function () {
