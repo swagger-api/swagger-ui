@@ -100,7 +100,7 @@ class OperationView extends Backbone.View
         value = successResponse[key]
         @model.successCode = key
         if typeof value is 'object' and typeof value.createJSONSample is 'function'
-          signatureModel = 
+          signatureModel =
             sampleJSON: JSON.stringify(value.createJSONSample(), undefined, 2)
             isParam: false
             signature: value.getMockSignature()
@@ -318,7 +318,7 @@ class OperationView extends Backbone.View
   # handler for hide response link
   hideResponse: (e) ->
     e?.preventDefault()
-    $(".response", $(@el)).slideUp()
+    $(".swagger-response", $(@el)).slideUp()
     $(".response_hider", $(@el)).fadeOut()
 
 
@@ -444,7 +444,7 @@ class OperationView extends Backbone.View
     $(".response_code", $(@el)).html "<pre>" + response.status + "</pre>"
     $(".response_body", $(@el)).html response_body
     $(".response_headers", $(@el)).html "<pre>" + _.escape(JSON.stringify(response.headers, null, "  ")).replace(/\n/g, "<br>") + "</pre>"
-    $(".response", $(@el)).slideDown()
+    $(".swagger-response", $(@el)).slideDown()
     $(".response_hider", $(@el)).show()
     $(".response_throbber", $(@el)).hide()
     response_body_el = $('.response_body', $(@el))[0]
