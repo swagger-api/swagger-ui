@@ -25,10 +25,10 @@ class SwaggerUi extends Backbone.Router
     @options = options
 
     # Set the callbacks
-    @options.success = => 
+    @options.success = =>
       @render()
     @options.progress = (d) => @showMessage(d)
-    @options.failure = (d) => 
+    @options.failure = (d) =>
       @onLoadFailure(d)
 
     # Create view to handle the header inputs
@@ -110,14 +110,14 @@ class SwaggerUi extends Backbone.Router
 
   # Shows message on topbar of the ui
   showMessage: (data = '') ->
-    $('#message-bar').removeClass 'message-fail'
-    $('#message-bar').addClass 'message-success'
+    $('#message-bar').removeClass 'swagger-message-fail'
+    $('#message-bar').addClass 'swagger-message-success'
     $('#message-bar').html data
 
   # shows message in red
   onLoadFailure: (data = '') ->
-    $('#message-bar').removeClass 'message-success'
-    $('#message-bar').addClass 'message-fail'
+    $('#message-bar').removeClass 'swagger-message-success'
+    $('#message-bar').addClass 'swagger-message-fail'
     val = $('#message-bar').html data
     @options.onFailure(data) if @options.onFailure?
     val

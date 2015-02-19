@@ -414,10 +414,10 @@ code {
   background-color: #f0f0f0;
   line-height: 1.6em;
 }
-.message-success.swagger-ui-wrap {
+.swagger-message-success {
   color: #89BF04;
 }
-.message-fail.swagger-ui-wrap {
+.swagger-message-fail {
   color: #cc0000;
 }
 .swagger-ui-wrap .info_title {
