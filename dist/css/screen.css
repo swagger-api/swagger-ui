@@ -420,28 +420,28 @@ code {
 .swagger-message-fail {
   color: #cc0000;
 }
-.swagger-ui-wrap .info_title {
+.swagger-info-title {
   padding-bottom: 10px;
   font-weight: bold;
   font-size: 25px;
 }
-.swagger-ui-wrap .info_description {
+.swagger-info-description {
   padding-bottom: 10px;
   font-size: 15px;
 }
-.swagger-ui-wrap .info_url {
+.swagger-info-tos {
   padding-bottom: 5px;
 }
-.swagger-ui-wrap .info_email {
+.swagger-info-name {
   padding-bottom: 5px;
 }
-.swagger-ui-wrap .info_license {
+.swagger-info-url {
   padding-bottom: 5px;
 }
-.swagger-ui-wrap .info_name {
+.swagger-info-email {
   padding-bottom: 5px;
 }
-.swagger-ui-wrap .info_tos {
+.swagger-info-license {
   padding-bottom: 5px;
 }
 .formtastic label {

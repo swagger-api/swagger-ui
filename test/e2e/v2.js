@@ -74,7 +74,7 @@ describe('swagger 2.0 spec tests', function (done) {
   });
 
   it('should find the contact name element', function(done){
-    var locator = webdriver.By.css('.info_name');
+    var locator = webdriver.By.css('.swagger-info-name');
     driver.isElementPresent(locator).then(function (isPresent) {
       expect(isPresent).to.be.true;
       done();
@@ -82,7 +82,7 @@ describe('swagger 2.0 spec tests', function (done) {
   });
 
   it('should find the contact email element', function(done){
-    var locator = webdriver.By.css('.info_email');
+    var locator = webdriver.By.css('.swagger-info-email');
     driver.isElementPresent(locator).then(function (isPresent) {
       expect(isPresent).to.be.true;
       done();
@@ -90,7 +90,7 @@ describe('swagger 2.0 spec tests', function (done) {
   });
 
   it('should find the contact url element', function(done){
-    var locator = webdriver.By.css('.info_url');
+    var locator = webdriver.By.css('.swagger-info-url');
     driver.isElementPresent(locator).then(function (isPresent) {
       expect(isPresent).to.be.true;
       done();

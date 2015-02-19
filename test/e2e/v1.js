@@ -74,7 +74,7 @@ describe('swagger 1.x spec tests', function (done) {
   });
 
   it('should find the contact name element', function(done){
-    var locator = webdriver.By.css('.info_name');
+    var locator = webdriver.By.css('.swagger-info-name');
     driver.isElementPresent(locator).then(function (isPresent) {
       expect(isPresent).to.be.true;
       done();
