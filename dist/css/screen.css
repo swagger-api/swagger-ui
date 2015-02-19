@@ -1,125 +1,123 @@
-.swagger-section {
-  /* Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org> */
-}
-.swagger-section pre code {
+/* Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org> */
+pre code {
   display: block;
   padding: 0.5em;
   background: #F0F0F0;
 }
-.swagger-section pre code,
-.swagger-section pre .subst,
-.swagger-section pre .tag .title,
-.swagger-section pre .lisp .title,
-.swagger-section pre .clojure .built_in,
-.swagger-section pre .nginx .title {
+pre code,
+pre .subst,
+pre .tag .title,
+pre .lisp .title,
+pre .clojure .built_in,
+pre .nginx .title {
   color: black;
 }
-.swagger-section pre .string,
-.swagger-section pre .title,
-.swagger-section pre .constant,
-.swagger-section pre .parent,
-.swagger-section pre .tag .value,
-.swagger-section pre .rules .value,
-.swagger-section pre .rules .value .number,
-.swagger-section pre .preprocessor,
-.swagger-section pre .ruby .symbol,
-.swagger-section pre .ruby .symbol .string,
-.swagger-section pre .aggregate,
-.swagger-section pre .template_tag,
-.swagger-section pre .django .variable,
-.swagger-section pre .smalltalk .class,
-.swagger-section pre .addition,
-.swagger-section pre .flow,
-.swagger-section pre .stream,
-.swagger-section pre .bash .variable,
-.swagger-section pre .apache .tag,
-.swagger-section pre .apache .cbracket,
-.swagger-section pre .tex .command,
-.swagger-section pre .tex .special,
-.swagger-section pre .erlang_repl .function_or_atom,
-.swagger-section pre .markdown .header {
+pre .string,
+pre .title,
+pre .constant,
+pre .parent,
+pre .tag .value,
+pre .rules .value,
+pre .rules .value .number,
+pre .preprocessor,
+pre .ruby .symbol,
+pre .ruby .symbol .string,
+pre .aggregate,
+pre .template_tag,
+pre .django .variable,
+pre .smalltalk .class,
+pre .addition,
+pre .flow,
+pre .stream,
+pre .bash .variable,
+pre .apache .tag,
+pre .apache .cbracket,
+pre .tex .command,
+pre .tex .special,
+pre .erlang_repl .function_or_atom,
+pre .markdown .header {
   color: #800;
 }
-.swagger-section pre .comment,
-.swagger-section pre .annotation,
-.swagger-section pre .template_comment,
-.swagger-section pre .diff .header,
-.swagger-section pre .chunk,
-.swagger-section pre .markdown .blockquote {
+pre .comment,
+pre .annotation,
+pre .template_comment,
+pre .diff .header,
+pre .chunk,
+pre .markdown .blockquote {
   color: #888;
 }
-.swagger-section pre .number,
-.swagger-section pre .date,
-.swagger-section pre .regexp,
-.swagger-section pre .literal,
-.swagger-section pre .smalltalk .symbol,
-.swagger-section pre .smalltalk .char,
-.swagger-section pre .go .constant,
-.swagger-section pre .change,
-.swagger-section pre .markdown .bullet,
-.swagger-section pre .markdown .link_url {
+pre .number,
+pre .date,
+pre .regexp,
+pre .literal,
+pre .smalltalk .symbol,
+pre .smalltalk .char,
+pre .go .constant,
+pre .change,
+pre .markdown .bullet,
+pre .markdown .link_url {
   color: #080;
 }
-.swagger-section pre .label,
-.swagger-section pre .javadoc,
-.swagger-section pre .ruby .string,
-.swagger-section pre .decorator,
-.swagger-section pre .filter .argument,
-.swagger-section pre .localvars,
-.swagger-section pre .array,
-.swagger-section pre .attr_selector,
-.swagger-section pre .important,
-.swagger-section pre .pseudo,
-.swagger-section pre .pi,
-.swagger-section pre .doctype,
-.swagger-section pre .deletion,
-.swagger-section pre .envvar,
-.swagger-section pre .shebang,
-.swagger-section pre .apache .sqbracket,
-.swagger-section pre .nginx .built_in,
-.swagger-section pre .tex .formula,
-.swagger-section pre .erlang_repl .reserved,
-.swagger-section pre .prompt,
-.swagger-section pre .markdown .link_label,
-.swagger-section pre .vhdl .attribute,
-.swagger-section pre .clojure .attribute,
-.swagger-section pre .coffeescript .property {
+pre .label,
+pre .javadoc,
+pre .ruby .string,
+pre .decorator,
+pre .filter .argument,
+pre .localvars,
+pre .array,
+pre .attr_selector,
+pre .important,
+pre .pseudo,
+pre .pi,
+pre .doctype,
+pre .deletion,
+pre .envvar,
+pre .shebang,
+pre .apache .sqbracket,
+pre .nginx .built_in,
+pre .tex .formula,
+pre .erlang_repl .reserved,
+pre .prompt,
+pre .markdown .link_label,
+pre .vhdl .attribute,
+pre .clojure .attribute,
+pre .coffeescript .property {
   color: #8888ff;
 }
-.swagger-section pre .keyword,
-.swagger-section pre .id,
-.swagger-section pre .phpdoc,
-.swagger-section pre .title,
-.swagger-section pre .built_in,
-.swagger-section pre .aggregate,
-.swagger-section pre .css .tag,
-.swagger-section pre .javadoctag,
-.swagger-section pre .phpdoc,
-.swagger-section pre .yardoctag,
-.swagger-section pre .smalltalk .class,
-.swagger-section pre .winutils,
-.swagger-section pre .bash .variable,
-.swagger-section pre .apache .tag,
-.swagger-section pre .go .typename,
-.swagger-section pre .tex .command,
-.swagger-section pre .markdown .strong,
-.swagger-section pre .request,
-.swagger-section pre .status {
+pre .keyword,
+pre .id,
+pre .phpdoc,
+pre .title,
+pre .built_in,
+pre .aggregate,
+pre .css .tag,
+pre .javadoctag,
+pre .phpdoc,
+pre .yardoctag,
+pre .smalltalk .class,
+pre .winutils,
+pre .bash .variable,
+pre .apache .tag,
+pre .go .typename,
+pre .tex .command,
+pre .markdown .strong,
+pre .request,
+pre .status {
   font-weight: bold;
 }
-.swagger-section pre .markdown .emphasis {
+pre .markdown .emphasis {
   font-style: italic;
 }
-.swagger-section pre .nginx .built_in {
+pre .nginx .built_in {
   font-weight: normal;
 }
-.swagger-section pre .coffeescript .javascript,
-.swagger-section pre .javascript .xml,
-.swagger-section pre .tex .formula,
-.swagger-section pre .xml .javascript,
-.swagger-section pre .xml .vbscript,
-.swagger-section pre .xml .css,
-.swagger-section pre .xml .cdata {
+pre .coffeescript .javascript,
+pre .javascript .xml,
+pre .tex .formula,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .xml .css,
+pre .xml .cdata {
   opacity: 0.5;
 }
 .swagger-section .title {
@@ -191,64 +189,6 @@
   font-family: "Droid Sans", sans-serif;
   line-height: 1;
 }
-.swagger-ui-wrap b,
-.swagger-ui-wrap strong {
-  font-family: "Droid Sans", sans-serif;
-  font-weight: bold;
-}
-.swagger-ui-wrap q,
-.swagger-ui-wrap blockquote {
-  quotes: none;
-}
-.swagger-ui-wrap q:before,
-.swagger-ui-wrap blockquote:before,
-.swagger-ui-wrap q:after,
-.swagger-ui-wrap blockquote:after {
-  content: none;
-}
-.swagger-ui-wrap p {
-  line-height: 1.4em;
-  padding: 0 0 10px;
-  color: #333333;
-}
-.swagger-ui-wrap table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-.swagger-ui-wrap th {
-  padding: 5px;
-  font-size: 0.9em;
-  color: #666666;
-  border-bottom: 1px solid #999999;
-}
-.swagger-ui-wrap tr:last-child td {
-  border-bottom: none;
-  vertical-align: top;
-}
-.swagger-ui-wrap .offset {
-  background-color: #f0f0f0;
-}
-.swagger-ui-wrap td {
-  padding: 6px;
-  font-size: 0.9em;
-  border-bottom: 1px solid #cccccc;
-  vertical-align: top;
-  line-height: 1.3em;
-}
-.swagger-ui-wrap ol {
-  margin: 0px 0 10px;
-  padding: 0 0 0 18px;
-  list-style-type: decimal;
-}
-.swagger-ui-wrap ol li {
-  padding: 5px 0px;
-  font-size: 0.9em;
-  color: #333333;
-}
-.swagger-ui-wrap ol,
-.swagger-ui-wrap ul {
-  list-style: none;
-}
 .swagger-ui-wrap h1 a,
 .swagger-ui-wrap h2 a,
 .swagger-ui-wrap h3 a,
@@ -273,218 +213,6 @@
 .swagger-ui-wrap h6 .divider {
   color: #aaaaaa;
 }
-.swagger-ui-wrap a {
-  color: #547f00;
-}
-.swagger-ui-wrap a img {
-  border: none;
-}
-.swagger-ui-wrap article,
-.swagger-ui-wrap aside,
-.swagger-ui-wrap details,
-.swagger-ui-wrap figcaption,
-.swagger-ui-wrap figure,
-.swagger-ui-wrap footer,
-.swagger-ui-wrap header,
-.swagger-ui-wrap hgroup,
-.swagger-ui-wrap menu,
-.swagger-ui-wrap nav,
-.swagger-ui-wrap section,
-.swagger-ui-wrap summary {
-  display: block;
-}
-.swagger-ui-wrap pre {
-  font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
-  background-color: #fcf6db;
-  border: 1px solid #e5e0c6;
-  padding: 10px;
-}
-.swagger-ui-wrap pre code {
-  line-height: 1.6em;
-  background: none;
-}
-.swagger-ui-wrap .content > .content-type > div > label {
-  clear: both;
-  display: block;
-  color: #0F6AB4;
-  font-size: 1.1em;
-  margin: 0;
-  padding: 15px 0 5px;
-}
-.swagger-ui-wrap .content pre {
-  font-size: 12px;
-  margin-top: 5px;
-  padding: 5px;
-}
-.swagger-ui-wrap .icon-btn {
-  cursor: pointer;
-}
-.swagger-ui-wrap .info_title {
-  padding-bottom: 10px;
-  font-weight: bold;
-  font-size: 25px;
-}
-.swagger-ui-wrap .big,
-.swagger-ui-wrap .big p {
-  font-size: 1em;
-  margin-bottom: 10px;
-}
-.swagger-ui-wrap .fullwidth .string input,
-.swagger-ui-wrap .fullwidth .url input,
-.swagger-ui-wrap .fullwidth .text textarea,
-.swagger-ui-wrap .fullwidth .numeric input {
-  width: 500px !important;
-}
-.swagger-ui-wrap .info_license {
-  padding-bottom: 5px;
-}
-.swagger-ui-wrap .info_tos {
-  padding-bottom: 5px;
-}
-.swagger-ui-wrap .message-fail {
-  color: #cc0000;
-}
-.swagger-ui-wrap .info_url {
-  padding-bottom: 5px;
-}
-.swagger-ui-wrap .info_email {
-  padding-bottom: 5px;
-}
-.swagger-ui-wrap .info_name {
-  padding-bottom: 5px;
-}
-.swagger-ui-wrap .info_description {
-  padding-bottom: 10px;
-  font-size: 15px;
-}
-.swagger-ui-wrap .formtastic .inputs .string input,
-.swagger-ui-wrap .formtastic .inputs .url input,
-.swagger-ui-wrap .formtastic .inputs .numeric input {
-  display: block;
-  padding: 4px;
-  width: auto;
-  clear: both;
-}
-.swagger-ui-wrap .formtastic .inputs .string input.title,
-.swagger-ui-wrap .formtastic .inputs .url input.title,
-.swagger-ui-wrap .formtastic .inputs .numeric input.title {
-  font-size: 1.3em;
-}
-.swagger-ui-wrap .fullwidth {
-  width: 100%;
-}
-.swagger-ui-wrap .model-signature {
-  font-family: "Droid Sans", sans-serif;
-  font-size: 1em;
-  line-height: 1.5em;
-}
-.swagger-ui-wrap .model-signature .signature-nav a {
-  text-decoration: none;
-  color: #AAA;
-}
-.swagger-ui-wrap .model-signature .signature-nav a:hover {
-  text-decoration: underline;
-  color: black;
-}
-.swagger-ui-wrap .model-signature .signature-nav .selected {
-  color: black;
-  text-decoration: none;
-}
-.swagger-ui-wrap .model-signature .propType {
-  color: #5555aa;
-}
-.swagger-ui-wrap .model-signature pre {
-  font-size: .85em;
-  line-height: 1.2em;
-  overflow: auto;
-  max-height: 200px;
-  cursor: pointer;
-}
-.swagger-ui-wrap .model-signature pre:hover {
-  background-color: #ffffdd;
-}
-.swagger-ui-wrap .model-signature .signature-nav {
-  display: block;
-  margin: 0;
-  padding: 0;
-}
-.swagger-ui-wrap .model-signature .signature-nav li {
-  float: left;
-  margin: 0 5px 5px 0;
-  padding: 2px 5px 2px 0;
-  border-right: 1px solid #ddd;
-}
-.swagger-ui-wrap .model-signature .signature-nav li:last-child {
-  padding-right: 0;
-  border-right: none;
-}
-.swagger-ui-wrap .model-signature .propOpt {
-  color: #555;
-}
-.swagger-ui-wrap .model-signature .snippet small {
-  font-size: 0.75em;
-}
-.swagger-ui-wrap .model-signature .propOptKey {
-  font-style: italic;
-}
-.swagger-ui-wrap .model-signature .description .strong {
-  font-weight: bold;
-  color: #000;
-  font-size: .9em;
-}
-.swagger-ui-wrap .model-signature .description div {
-  font-size: 0.9em;
-  line-height: 1.5em;
-  margin-left: 1em;
-}
-.swagger-ui-wrap .model-signature .description .stronger {
-  font-weight: bold;
-  color: #000;
-}
-.swagger-ui-wrap .model-signature .description .propWrap .optionsWrapper {
-  border-spacing: 0;
-  position: absolute;
-  background-color: #ffffff;
-  border: 1px solid #bbbbbb;
-  display: none;
-  font-size: 11px;
-  max-width: 400px;
-  line-height: 30px;
-  color: black;
-  padding: 5px;
-  margin-left: 10px;
-}
-.swagger-ui-wrap .model-signature .description .propWrap .optionsWrapper th {
-  text-align: center;
-  background-color: #eeeeee;
-  border: 1px solid #bbbbbb;
-  font-size: 11px;
-  color: #666666;
-  font-weight: bold;
-  padding: 5px;
-  line-height: 15px;
-}
-.swagger-ui-wrap .model-signature .description .propWrap .optionsWrapper .optionName {
-  font-weight: bold;
-}
-.swagger-ui-wrap .model-signature .propName {
-  font-weight: bold;
-}
-.swagger-ui-wrap .model-signature .signature-container {
-  clear: both;
-}
-.swagger-ui-wrap .body-textarea {
-  width: 300px;
-  height: 100px;
-  border: 1px solid #aaa;
-}
-.swagger-ui-wrap .required {
-  font-weight: bold;
-}
-.swagger-ui-wrap .parameter {
-  width: 300px;
-  border: 1px solid #aaa;
-}
 .swagger-ui-wrap h1 {
   color: black;
   font-size: 1.5em;
@@ -492,22 +220,6 @@
   padding: 10px 0 10px 0;
   font-family: "Droid Sans", sans-serif;
   font-weight: bold;
-}
-.swagger-ui-wrap .heading_with_menu {
-  float: none;
-  clear: both;
-  overflow: hidden;
-  display: block;
-}
-.swagger-ui-wrap .heading_with_menu ul {
-  display: block;
-  clear: none;
-  float: right;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  margin-top: 10px;
 }
 .swagger-ui-wrap h2 {
   color: black;
@@ -525,11 +237,58 @@
 .swagger-ui-wrap h2 .sub a {
   color: #777777;
 }
-.swagger-ui-wrap .weak {
-  color: #666666;
+.swagger-ui-wrap h3 {
+  color: black;
+  font-size: 1.1em;
+  padding: 10px 0 10px 0;
 }
-.swagger-ui-wrap .message-success {
-  color: #89BF04;
+.swagger-ui-wrap p {
+  line-height: 1.4em;
+  padding: 0 0 10px;
+  color: #333333;
+}
+.swagger-ui-wrap a {
+  color: #547f00;
+}
+.swagger-ui-wrap a img {
+  border: none;
+}
+.swagger-ui-wrap b,
+.swagger-ui-wrap strong {
+  font-family: "Droid Sans", sans-serif;
+  font-weight: bold;
+}
+.swagger-ui-wrap q,
+.swagger-ui-wrap blockquote {
+  quotes: none;
+}
+.swagger-ui-wrap q:before,
+.swagger-ui-wrap blockquote:before,
+.swagger-ui-wrap q:after,
+.swagger-ui-wrap blockquote:after {
+  content: none;
+}
+.swagger-ui-wrap table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.swagger-ui-wrap .fullwidth {
+  width: 100%;
+}
+.swagger-ui-wrap .fullwidth .string input,
+.swagger-ui-wrap .fullwidth .url input,
+.swagger-ui-wrap .fullwidth .text textarea,
+.swagger-ui-wrap .fullwidth .numeric input {
+  width: 500px !important;
+}
+.swagger-ui-wrap .offset {
+  background-color: #f0f0f0;
+}
+.swagger-ui-wrap th {
+  padding: 5px;
+  font-size: 0.9em;
+  color: #666666;
+  border-bottom: 1px solid #999999;
 }
 .swagger-ui-wrap caption,
 .swagger-ui-wrap th,
@@ -538,75 +297,288 @@
   font-weight: normal;
   vertical-align: middle;
 }
+.swagger-ui-wrap ol {
+  margin: 0px 0 10px;
+  padding: 0 0 0 18px;
+  list-style-type: decimal;
+}
+.swagger-ui-wrap ol li {
+  padding: 5px 0px;
+  font-size: 0.9em;
+  color: #333333;
+}
+.swagger-ui-wrap .body-textarea {
+  width: 300px;
+  height: 100px;
+  border: 1px solid #aaa;
+}
+.swagger-ui-wrap .required {
+  font-weight: bold;
+}
+.swagger-ui-wrap .parameter {
+  width: 300px;
+  border: 1px solid #aaa;
+}
+.swagger-ui-wrap .weak {
+  color: #666666;
+}
 .swagger-ui-wrap .code {
   font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
 }
-.swagger-ui-wrap .formtastic .inputs li label {
+.propWrap .optionsWrapper th {
+  text-align: center;
+  background-color: #eeeeee;
+  border: 1px solid #bbbbbb;
+  font-size: 11px;
+  color: #666666;
+  font-weight: bold;
+  padding: 5px;
+  line-height: 15px;
+}
+.swagger-ui-wrap td {
+  padding: 6px;
+  font-size: 0.9em;
+  border-bottom: 1px solid #cccccc;
+  vertical-align: top;
+  line-height: 1.3em;
+}
+tr:last-child td {
+  border-bottom: none;
+  vertical-align: top;
+}
+.swagger-ui-wrap ol,
+.swagger-ui-wrap ul {
+  list-style: none;
+}
+.markdown ol,
+.markdown ul {
+  font-family: "Droid Sans", sans-serif;
+  margin: 5px 0 10px;
+  padding: 0 0 0 18px;
+  list-style-type: disc;
+}
+pre {
+  font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+}
+.swagger-ui-wrap pre {
+  background-color: #fcf6db;
+  border: 1px solid #e5e0c6;
+  padding: 10px;
+}
+.model-signature pre {
+  font-size: .85em;
+  line-height: 1.2em;
+  overflow: auto;
+  max-height: 200px;
+  cursor: pointer;
+}
+.model-signature pre:hover {
+  background-color: #ffffdd;
+}
+.content pre {
+  margin-top: 5px;
+  padding: 5px;
+}
+.response pre {
+  padding: 10px;
+  font-size: 0.9em;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.markdown pre {
+  background-color: #fcf6db;
+  border: 1px solid #e5e0c6;
+  padding: 10px;
+  margin: 0 0 10px 0;
+}
+code {
+  line-height: 1.6em;
+}
+.swagger-ui-wrap code {
+  background: none;
+}
+.markdown code {
+  padding: 1px 3px;
+  color: black;
+  background-color: #f0f0f0;
+  line-height: 1.6em;
+}
+.message-success.swagger-ui-wrap {
+  color: #89BF04;
+}
+.message-fail.swagger-ui-wrap {
+  color: #cc0000;
+}
+.swagger-ui-wrap .info_title {
+  padding-bottom: 10px;
+  font-weight: bold;
+  font-size: 25px;
+}
+.swagger-ui-wrap .info_description {
+  padding-bottom: 10px;
+  font-size: 15px;
+}
+.swagger-ui-wrap .info_url {
+  padding-bottom: 5px;
+}
+.swagger-ui-wrap .info_email {
+  padding-bottom: 5px;
+}
+.swagger-ui-wrap .info_license {
+  padding-bottom: 5px;
+}
+.swagger-ui-wrap .info_name {
+  padding-bottom: 5px;
+}
+.swagger-ui-wrap .info_tos {
+  padding-bottom: 5px;
+}
+.formtastic label {
   display: block;
   clear: both;
   width: auto;
   padding: 0 0 3px;
   color: #666666;
 }
-.swagger-ui-wrap .formtastic .inputs li label abbr {
+.formtastic label abbr {
   padding-left: 3px;
   color: #888888;
 }
-.swagger-ui-wrap .formtastic .inputs li .inline-hints {
+.formtastic .inline-hints {
   margin-left: 0;
   font-style: italic;
   font-size: 0.9em;
   margin: 0;
 }
-.swagger-ui-wrap .formtastic .inputs .text textarea {
+.formtastic .text textarea {
   font-family: "Droid Sans", sans-serif;
   height: 250px;
   padding: 4px;
   display: block;
   clear: both;
 }
-.swagger-ui-wrap .formtastic .inputs .select select {
+.formtastic .select select {
   display: block;
   clear: both;
 }
-.swagger-ui-wrap .formtastic .inputs .boolean {
+.formtastic .boolean {
   float: none;
   clear: both;
   overflow: hidden;
   display: block;
 }
-.swagger-ui-wrap .formtastic .inputs .boolean label {
+.formtastic .boolean label {
   display: block;
   float: left;
   clear: none;
   margin: 0;
   padding: 0;
 }
-.swagger-ui-wrap .formtastic .inputs .boolean input {
+.formtastic .boolean input {
   display: block;
   float: left;
   clear: none;
   margin: 0 5px 0 0;
 }
-.swagger-ui-wrap .formtastic .inputs .required label {
+.formtastic .required label {
   color: black;
 }
-.swagger-ui-wrap .formtastic .buttons {
+.formtastic .string input,
+.formtastic .url input,
+.formtastic .numeric input {
+  display: block;
+  padding: 4px;
+  width: auto;
+  clear: both;
+}
+.formtastic .string input .title,
+.formtastic .url input .title,
+.formtastic .numeric input .title {
+  font-size: 1.3em;
+}
+.formtastic .buttons {
   margin: 0;
   padding: 0;
 }
-.swagger-ui-wrap .blank,
-.swagger-ui-wrap .empty {
-  color: #888888;
+.model-signature {
+  font-family: "Droid Sans", sans-serif;
+  font-size: 1em;
+  line-height: 1.5em;
+}
+.model-signature .propType {
+  color: #5555aa;
+}
+.model-signature .propOpt {
+  color: #555;
+}
+.model-signature .snippet small {
+  font-size: 0.75em;
+}
+.model-signature .propOptKey {
   font-style: italic;
 }
-.swagger-ui-wrap .gist {
-  margin: 20px 0 25px 0 !important;
+.model-signature .propName {
+  font-weight: bold;
 }
-.swagger-ui-wrap h3 {
+.model-signature .signature-container {
+  clear: both;
+}
+.signature-nav {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+.signature-nav li {
+  float: left;
+  margin: 0 5px 5px 0;
+  padding: 2px 5px 2px 0;
+  border-right: 1px solid #ddd;
+}
+.signature-nav li:last-child {
+  padding-right: 0;
+  border-right: none;
+}
+.signature-nav a {
+  text-decoration: none;
+  color: #AAA;
+}
+.signature-nav a:hover {
+  text-decoration: underline;
   color: black;
-  font-size: 1.1em;
-  padding: 10px 0 10px 0;
+}
+.signature-nav .selected {
+  color: black;
+  text-decoration: none;
+}
+.model-signature .description .strong {
+  font-weight: bold;
+  color: #000;
+  font-size: .9em;
+}
+.model-signature .description div {
+  font-size: 0.9em;
+  line-height: 1.5em;
+  margin-left: 1em;
+}
+.model-signature .description .stronger {
+  font-weight: bold;
+  color: #000;
+}
+.model-signature .description .propWrap .optionsWrapper {
+  border-spacing: 0;
+  position: absolute;
+  background-color: #ffffff;
+  border: 1px solid #bbbbbb;
+  display: none;
+  font-size: 11px;
+  max-width: 400px;
+  line-height: 30px;
+  color: black;
+  padding: 5px;
+  margin-left: 10px;
+}
+.model-signature .description .propWrap .optionsWrapper .optionName {
+  font-weight: bold;
 }
 #resources {
   font-family: "Droid Sans", sans-serif;
@@ -615,8 +587,8 @@
 .resource {
   border-bottom: 1px solid #dddddd;
 }
-.resource:hover .heading .options a,
-.resource.active .heading .options a {
+.resource:hover .options a,
+.resource.active .options a {
   color: #555555;
 }
 .resource:last-child {
@@ -681,7 +653,7 @@
   color: black;
 }
 .resource:hover .heading a,
-.resource:active .heading a {
+.resource.active .heading a {
   color: black;
 }
 .operation .heading {
@@ -705,7 +677,7 @@
 .operation .heading .http_method a {
   text-transform: uppercase;
   text-decoration: none;
-  color: white;
+  color: white !important;
   display: inline-block;
   width: 50px;
   font-size: 0.7em;
@@ -826,16 +798,6 @@
 .operation.options .heading a {
   color: #0f6ab4;
 }
-.operation .path {
-  padding-left: 10px;
-}
-.operation .path a {
-  color: black;
-  text-decoration: none;
-}
-.operation .path a:hover {
-  text-decoration: underline;
-}
 .heading .options {
   overflow: hidden;
   padding: 0;
@@ -902,7 +864,18 @@
   margin: 0 0 10px;
   padding: 0;
 }
+.operation .path {
+  padding-left: 10px;
+}
+.operation .path a {
+  color: black !important;
+  text-decoration: none;
+}
+.operation .path a:hover {
+  text-decoration: underline;
+}
 .operation .content {
+  border: 1px solid;
   border-top: none;
   padding: 10px;
   -moz-border-radius-bottomleft: 6px;
@@ -924,7 +897,7 @@
   margin: 0;
   padding: 15px 0 5px;
 }
-.operation .content input[type='text'].error {
+.operation .content .error {
   outline: 2px solid black;
   outline-color: #cc0000;
 }
@@ -937,7 +910,6 @@
 }
 .operation.head .content {
   background-color: #fcffcd;
-  border: 1px solid black;
   border-color: #ffd20f;
 }
 .operation.head .content h4 {
@@ -945,35 +917,35 @@
 }
 .operation.delete .content {
   background-color: #f7eded;
-  border: 1px solid #e8c6c7;
+  border-color: #e8c6c7;
 }
 .operation.delete .content h4 {
   color: #a41e22;
 }
 .operation.post .content {
   background-color: #ebf7f0;
-  border: 1px solid #c3e8d1;
+  border-color: #c3e8d1;
 }
 .operation.post .content h4 {
   color: #10a54a;
 }
 .operation.patch .content {
   background-color: #faf0ef;
-  border: 1px solid #f0cecb;
+  border-color: #f0cecb;
 }
 .operation.patch .content h4 {
   color: #D38042;
 }
 .operation.get .content {
   background-color: #ebf3f9;
-  border: 1px solid #c3d9ec;
+  border-color: #c3d9ec;
 }
 .operation.get .content h4 {
   color: #0f6ab4;
 }
 .operation.options .content {
   background-color: #ebf3f9;
-  border: 1px solid #c3d9ec;
+  border-color: #c3d9ec;
 }
 .operation.options .content h4 {
   color: #0f6ab4;
@@ -1024,45 +996,16 @@
   clear: none;
   float: right;
 }
-.operation .response pre {
-  font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
-  padding: 10px;
-  font-size: 0.9em;
-  max-height: 400px;
-  overflow-y: auto;
-}
 .markdown h3 {
   color: #547f00;
 }
 .markdown h4 {
   color: #666666;
 }
-.markdown ol,
-.markdown ul {
-  font-family: "Droid Sans", sans-serif;
-  margin: 5px 0 10px;
-  padding: 0 0 0 18px;
-  list-style-type: disc;
-}
 .markdown li {
   padding: 3px 0px;
   line-height: 1.4em;
   color: #333333;
-}
-.markdown pre {
-  font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
-  background-color: #fcf6db;
-  border: 1px solid #e5e0c6;
-  padding: 10px;
-  margin: 0 0 10px 0;
-}
-.markdown pre code {
-  line-height: 1.6em;
-}
-.markdown code {
-  background-color: #f0f0f0;
-  color: black;
-  padding: 1px 3px;
 }
 .swagger-section .access,
 .swagger-section .auth {
