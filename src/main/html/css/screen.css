@@ -214,7 +214,7 @@ pre .xml .cdata {
   color: #aaaaaa;
 }
 .swagger-ui-wrap p {
-  line-height: 1.4em;
+  line-height: 1.4;
   padding: 0 0 10px;
   color: #333333;
 }
@@ -281,20 +281,20 @@ pre .xml .cdata {
   font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
 }
 .swagger-ui-wrap h1 {
-  color: black;
+  color: #000000;
   font-size: 1.5em;
-  line-height: 1.3em;
+  line-height: 1.3;
   padding: 10px 0 10px 0;
   font-family: "Droid Sans", sans-serif;
   font-weight: bold;
 }
 .swagger-ui-wrap h2 {
-  color: black;
+  color: #000000;
   font-size: 1.3em;
   padding: 10px 0 10px 0;
 }
 .swagger-ui-wrap h2 a {
-  color: black;
+  color: #000000;
 }
 .swagger-ui-wrap h2 .sub {
   font-size: 0.7em;
@@ -305,7 +305,7 @@ pre .xml .cdata {
   color: #777777;
 }
 .swagger-ui-wrap h3 {
-  color: black;
+  color: #000000;
   font-size: 1.1em;
   padding: 10px 0 10px 0;
 }
@@ -378,7 +378,7 @@ pre {
 }
 .model-signature pre {
   font-size: .85em;
-  line-height: 1.2em;
+  line-height: 1.2;
   overflow: auto;
   max-height: 200px;
   cursor: pointer;
@@ -403,16 +403,16 @@ pre {
   margin: 0 0 10px 0;
 }
 code {
-  line-height: 1.6em;
+  line-height: 1.6;
 }
 .swagger-ui-wrap code {
   background: none;
 }
 .markdown code {
   padding: 1px 3px;
-  color: black;
+  color: #000000;
   background-color: #f0f0f0;
-  line-height: 1.6em;
+  line-height: 1.6;
 }
 .swagger-message-success {
   color: #89BF04;
@@ -492,7 +492,7 @@ code {
   margin: 0 5px 0 0;
 }
 .formtastic .required label {
-  color: black;
+  color: #000000;
 }
 .formtastic .string input,
 .formtastic .url input,
@@ -514,13 +514,13 @@ code {
 .model-signature {
   font-family: "Droid Sans", sans-serif;
   font-size: 1em;
-  line-height: 1.5em;
+  line-height: 1.5;
 }
 .model-signature .propType {
   color: #5555aa;
 }
 .model-signature .propOpt {
-  color: #555;
+  color: #555555;
 }
 .model-signature .snippet small {
   font-size: 0.75em;
@@ -555,25 +555,25 @@ code {
 }
 .signature-nav a:hover {
   text-decoration: underline;
-  color: black;
+  color: #000000;
 }
 .signature-nav .selected {
-  color: black;
+  color: #000000;
   text-decoration: none;
 }
 .model-signature .description .strong {
   font-weight: bold;
-  color: #000;
+  color: #000000;
   font-size: .9em;
 }
 .model-signature .description div {
   font-size: 0.9em;
-  line-height: 1.5em;
+  line-height: 1.5;
   margin-left: 1em;
 }
 .model-signature .description .stronger {
   font-weight: bold;
-  color: #000;
+  color: #000000;
 }
 .model-signature .description .optionsWrapper {
   border-spacing: 0;
@@ -584,7 +584,7 @@ code {
   font-size: 11px;
   max-width: 400px;
   line-height: 30px;
-  color: black;
+  color: #000000;
   padding: 5px;
   margin-left: 10px;
 }
@@ -619,7 +619,7 @@ code {
 }
 .resource.active .swagger-resource-heading h2 a,
 .swagger-resource-heading h2 a:hover {
-  color: black;
+  color: #000000;
 }
 .swagger-resource-heading .options a {
   color: #555555;
@@ -636,6 +636,7 @@ code {
   display: block;
   margin: 0;
   padding: 0;
+  border: 1px solid;
 }
 .swagger-operation-heading h3 {
   display: block;
@@ -645,11 +646,11 @@ code {
   margin: 0;
   padding: 0;
   line-height: 1.1em;
-  color: black;
+  color: #000000;
 }
 .put .swagger-operation-heading {
   background-color: #f9f2e9;
-  border: 1px solid #f0e0ca;
+  border-color: #f0e0ca;
 }
 .put .swagger-operation-heading .http_method a {
   background-color: #c5862b;
@@ -662,7 +663,6 @@ code {
 }
 .head .swagger-operation-heading {
   background-color: #fcffcd;
-  border: 1px solid black;
   border-color: #ffd20f;
 }
 .head .swagger-operation-heading .http_method a {
@@ -677,10 +677,9 @@ code {
 }
 .delete .swagger-operation-heading {
   background-color: #f5e8e8;
-  border: 1px solid #e8c6c7;
+  border-color: #e8c6c7;
 }
 .delete .swagger-operation-heading .http_method a {
-  text-transform: uppercase;
   background-color: #a41e22;
 }
 .delete .swagger-operation-heading a {
@@ -691,7 +690,7 @@ code {
 }
 .post .swagger-operation-heading {
   background-color: #e7f6ec;
-  border: 1px solid #c3e8d1;
+  border-color: #c3e8d1;
 }
 .post .swagger-operation-heading .http_method a {
   background-color: #10a54a;
@@ -704,20 +703,20 @@ code {
 }
 .patch .swagger-operation-heading {
   background-color: #FCE9E3;
-  border: 1px solid #F5D5C3;
+  border-color: #F5D5C3;
 }
 .patch .swagger-operation-heading .http_method a {
-  background-color: #D38042;
+  background-color: #d38042;
 }
 .patch .swagger-operation-heading a {
-  color: #D38042;
+  color: #d38042;
 }
 .patch .swagger-operation-heading a:hover {
-  color: #D38042;
+  color: #d38042;
 }
 .get .swagger-operation-heading {
   background-color: #e7f0f7;
-  border: 1px solid #c3d9ec;
+  border-color: #c3d9ec;
 }
 .get .swagger-operation-heading .http_method a {
   background-color: #0f6ab4;
@@ -730,7 +729,7 @@ code {
 }
 .options .swagger-operation-heading {
   background-color: #e7f0f7;
-  border: 1px solid #c3d9ec;
+  border-color: #c3d9ec;
 }
 .options .swagger-operation-heading .http_method a {
   background-color: #0f6ab4;
@@ -779,7 +778,7 @@ code {
   text-decoration: none;
 }
 .swagger-operation .options .access {
-  color: black;
+  color: #000000;
 }
 .options li {
   float: left;
@@ -811,7 +810,7 @@ code {
   text-decoration: underline;
 }
 .options a:hover {
-  color: black;
+  color: #000000;
 }
 .options:first-child,
 .options.first {
@@ -828,16 +827,9 @@ code {
 .path {
   padding-left: 10px;
 }
-.path a {
-  color: black !important;
-  text-decoration: none;
-}
-.path a:hover {
-  text-decoration: underline;
-}
 .resource:hover .path a,
 .resource.active .path a {
-  color: black;
+  color: #000000;
 }
 .swagger-operation .content {
   border: 1px solid;
@@ -899,7 +891,7 @@ code {
   border-color: #f0cecb;
 }
 .patch .content h4 {
-  color: #D38042;
+  color: #d38042;
 }
 .get .content {
   background-color: #ebf3f9;
