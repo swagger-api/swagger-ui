@@ -591,7 +591,7 @@ code {
 .model-signature .description .optionsWrapper .optionName {
   font-weight: bold;
 }
-#resources {
+#swagger-resources {
   font-family: "Droid Sans", sans-serif;
   font-size: 0.9em;
 }
