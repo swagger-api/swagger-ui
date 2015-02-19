@@ -89,7 +89,7 @@ class SwaggerUi extends Backbone.Router
     setTimeout(
       =>
         Docs.shebang()
-      4000
+      100
     )
 
   buildUrl: (base, url) ->
