@@ -213,6 +213,73 @@ pre .xml .cdata {
 .swagger-ui-wrap h6 .divider {
   color: #aaaaaa;
 }
+.swagger-ui-wrap p {
+  line-height: 1.4em;
+  padding: 0 0 10px;
+  color: #333333;
+}
+.swagger-ui-wrap a {
+  color: #547f00;
+}
+.swagger-ui-wrap a img {
+  border: none;
+}
+.swagger-ui-wrap b,
+.swagger-ui-wrap strong {
+  font-family: "Droid Sans", sans-serif;
+  font-weight: bold;
+}
+.swagger-ui-wrap q,
+.swagger-ui-wrap blockquote {
+  quotes: none;
+}
+.swagger-ui-wrap q:before,
+.swagger-ui-wrap blockquote:before,
+.swagger-ui-wrap q:after,
+.swagger-ui-wrap blockquote:after {
+  content: none;
+}
+.swagger-ui-wrap caption,
+.swagger-ui-wrap th,
+.swagger-ui-wrap td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+.swagger-ui-wrap table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.swagger-ui-wrap .fullwidth {
+  width: 100%;
+}
+.swagger-ui-wrap .fullwidth .string input,
+.swagger-ui-wrap .fullwidth .url input,
+.swagger-ui-wrap .fullwidth .text textarea,
+.swagger-ui-wrap .fullwidth .numeric input {
+  width: 500px !important;
+}
+.swagger-ui-wrap .offset {
+  background-color: #f0f0f0;
+}
+.swagger-ui-wrap .body-textarea {
+  width: 300px;
+  height: 100px;
+  border: 1px solid #aaa;
+}
+.swagger-ui-wrap .required {
+  font-weight: bold;
+}
+.swagger-ui-wrap .parameter {
+  width: 300px;
+  border: 1px solid #aaa;
+}
+.swagger-ui-wrap .weak {
+  color: #666666;
+}
+.swagger-ui-wrap .code {
+  font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+}
 .swagger-ui-wrap h1 {
   color: black;
   font-size: 1.5em;
@@ -242,47 +309,11 @@ pre .xml .cdata {
   font-size: 1.1em;
   padding: 10px 0 10px 0;
 }
-.swagger-ui-wrap p {
-  line-height: 1.4em;
-  padding: 0 0 10px;
-  color: #333333;
-}
-.swagger-ui-wrap a {
+.markdown h3 {
   color: #547f00;
 }
-.swagger-ui-wrap a img {
-  border: none;
-}
-.swagger-ui-wrap b,
-.swagger-ui-wrap strong {
-  font-family: "Droid Sans", sans-serif;
-  font-weight: bold;
-}
-.swagger-ui-wrap q,
-.swagger-ui-wrap blockquote {
-  quotes: none;
-}
-.swagger-ui-wrap q:before,
-.swagger-ui-wrap blockquote:before,
-.swagger-ui-wrap q:after,
-.swagger-ui-wrap blockquote:after {
-  content: none;
-}
-.swagger-ui-wrap table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-.swagger-ui-wrap .fullwidth {
-  width: 100%;
-}
-.swagger-ui-wrap .fullwidth .string input,
-.swagger-ui-wrap .fullwidth .url input,
-.swagger-ui-wrap .fullwidth .text textarea,
-.swagger-ui-wrap .fullwidth .numeric input {
-  width: 500px !important;
-}
-.swagger-ui-wrap .offset {
-  background-color: #f0f0f0;
+.markdown h4 {
+  color: #666666;
 }
 .swagger-ui-wrap th {
   padding: 5px;
@@ -290,42 +321,7 @@ pre .xml .cdata {
   color: #666666;
   border-bottom: 1px solid #999999;
 }
-.swagger-ui-wrap caption,
-.swagger-ui-wrap th,
-.swagger-ui-wrap td {
-  text-align: left;
-  font-weight: normal;
-  vertical-align: middle;
-}
-.swagger-ui-wrap ol {
-  margin: 0px 0 10px;
-  padding: 0 0 0 18px;
-  list-style-type: decimal;
-}
-.swagger-ui-wrap ol li {
-  padding: 5px 0px;
-  font-size: 0.9em;
-  color: #333333;
-}
-.swagger-ui-wrap .body-textarea {
-  width: 300px;
-  height: 100px;
-  border: 1px solid #aaa;
-}
-.swagger-ui-wrap .required {
-  font-weight: bold;
-}
-.swagger-ui-wrap .parameter {
-  width: 300px;
-  border: 1px solid #aaa;
-}
-.swagger-ui-wrap .weak {
-  color: #666666;
-}
-.swagger-ui-wrap .code {
-  font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
-}
-.propWrap .optionsWrapper th {
+.model-signature th {
   text-align: center;
   background-color: #eeeeee;
   border: 1px solid #bbbbbb;
@@ -356,6 +352,21 @@ tr:last-child td {
   margin: 5px 0 10px;
   padding: 0 0 0 18px;
   list-style-type: disc;
+}
+.swagger-ui-wrap ol {
+  margin: 0px 0 10px;
+  padding: 0 0 0 18px;
+  list-style-type: decimal;
+}
+.swagger-ui-wrap ol li {
+  padding: 5px 0px;
+  font-size: 0.9em;
+  color: #333333;
+}
+.markdown li {
+  padding: 3px 0px;
+  line-height: 1.4em;
+  color: #333333;
 }
 pre {
   font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
@@ -564,7 +575,7 @@ code {
   font-weight: bold;
   color: #000;
 }
-.model-signature .description .propWrap .optionsWrapper {
+.model-signature .description .optionsWrapper {
   border-spacing: 0;
   position: absolute;
   background-color: #ffffff;
@@ -577,7 +588,7 @@ code {
   padding: 5px;
   margin-left: 10px;
 }
-.model-signature .description .propWrap .optionsWrapper .optionName {
+.model-signature .description .optionsWrapper .optionName {
   font-weight: bold;
 }
 #resources {
@@ -995,17 +1006,6 @@ code {
   display: block;
   clear: none;
   float: right;
-}
-.markdown h3 {
-  color: #547f00;
-}
-.markdown h4 {
-  color: #666666;
-}
-.markdown li {
-  padding: 3px 0px;
-  line-height: 1.4em;
-  color: #333333;
 }
 .swagger-section .access,
 .swagger-section .auth {
