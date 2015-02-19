@@ -1051,19 +1051,6 @@
 .swagger-ui-wrap #resources .resource .endpoints .endpoint .operations.first {
   padding-left: 0;
 }
-.swagger-ui-wrap #colophon {
-  margin: 0 15px 40px 15px;
-  padding: 10px 0;
-  font-size: 0.8em;
-  border-top: 1px solid #dddddd;
-  font-family: "Droid Sans", sans-serif;
-  color: #999999;
-  font-style: italic;
-}
-.swagger-ui-wrap #colophon a {
-  text-decoration: none;
-  color: #547f00;
-}
 .swagger-ui-wrap h3 {
   color: black;
   font-size: 1.1em;
