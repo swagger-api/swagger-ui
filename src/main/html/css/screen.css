@@ -1,4 +1,6 @@
-/* Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org> */
+.swagger-section {
+  /* Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org> */
+}
 .swagger-section pre code {
   display: block;
   padding: 0.5em;
@@ -1099,10 +1101,6 @@
   font-size: 24px;
   padding: 10px 0;
 }
-.swagger-section .api-popup-dialog .api-popup-title {
-  font-size: 24px;
-  padding: 10px 0;
-}
 .swagger-section .api-popup-dialog .error-msg {
   padding-left: 5px;
   padding-bottom: 5px;
@@ -1120,13 +1118,13 @@
   padding: 5px 0;
   line-height: 20px;
 }
-.swagger-section .api-popup-scopes .api-scope-desc {
-  padding-left: 20px;
-  font-style: italic;
-}
 .swagger-section .api-popup-scopes li input {
   position: relative;
   top: 2px;
+}
+.swagger-section .api-popup-scopes .api-scope-desc {
+  padding-left: 20px;
+  font-style: italic;
 }
 .swagger-section .api-popup-actions {
   padding-top: 10px;
@@ -1153,37 +1151,37 @@
 #api_information_panel .api-msg-disabled {
   color: red;
 }
-.swagger-section .api-ic {
+.api-ic {
   height: 18px;
   vertical-align: middle;
   display: inline-block;
   background: url(../images/explorer_icons.png) no-repeat;
 }
-.swagger-section .ic-info {
+.ic-info {
   background-position: 0 0;
   width: 18px;
   margin-top: -7px;
   margin-left: 4px;
 }
-.swagger-section .ic-warning {
+.ic-warning {
   background-position: -60px 0;
   width: 18px;
   margin-top: -7px;
   margin-left: 4px;
 }
-.swagger-section .ic-error {
+.ic-error {
   background-position: -30px 0;
   width: 18px;
   margin-top: -7px;
   margin-left: 4px;
 }
-.swagger-section .ic-off {
+.ic-off {
   background-position: -90px 0;
   width: 58px;
   margin-top: -4px;
   cursor: pointer;
 }
-.swagger-section .ic-on {
+.ic-on {
   background-position: -160px 0;
   width: 58px;
   margin-top: -4px;

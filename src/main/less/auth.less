@@ -1,83 +1,77 @@
-.swagger-section {
+.title {
+  font-style: bold;
+}
 
-  .title {
-    font-style: bold;
+.secondary_form {
+  display: none;
+}
+
+.main_image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.oauth_body {
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
+.oauth_submit {
+  text-align: center;
+}
+
+.api-popup-dialog {
+  z-index: 10000;
+  position: absolute;
+  width: 500px;
+  background: #FFF;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: none;
+  font-size: 13px;
+  color: #777;
+
+  .api-popup-title{
+    font-size: 24px;
+    padding: 10px 0;
   }
 
-  .secondary_form {
-    display: none;
+  .error-msg { // p
+    padding-left: 5px;
+    padding-bottom: 5px;
   }
 
-  .main_image {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+  .api-popup-authbtn { // button
+    height: 30px;
   }
 
-  .oauth_body {
-    margin-left: 100px;
-    margin-right: 100px;
+  .api-popup-cancel { // button
+    height: 30px;
   }
+}
 
-  .oauth_submit {
-    text-align: center;
-  }
+.api-popup-scopes {
+  padding: 10px 20px;
 
-  .api-popup-dialog {
-    z-index: 10000;
-    position: absolute;
-    width: 500px;
-    background: #FFF;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    display: none;
-    font-size: 13px;
-    color: #777;
+  li {
+    padding: 5px 0;
+    line-height: 20px;
 
-    .api-popup-title{
-      font-size: 24px;
-      padding: 10px 0;
-    }
-
-    .api-popup-title{
-      font-size: 24px;
-      padding: 10px 0;
-    }
-
-
-    .error-msg { // p
-      padding-left: 5px;
-      padding-bottom: 5px;
-    }
-
-    .api-popup-authbtn { // button
-      height: 30px;
-    }
-    .api-popup-cancel { // button
-      height: 30px;
-    }
-  }
-
-  .api-popup-scopes {
-    padding: 10px 20px;
-
-    li {
-      padding: 5px 0;
-      line-height: 20px;
-    }
-
-    .api-scope-desc {
-      padding-left: 20px;
-      font-style: italic;
-    }
-    li input {
+    input {
       position: relative;
       top: 2px;
     }
   }
-  .api-popup-actions {
-    padding-top: 10px;
+
+  .api-scope-desc {
+    padding-left: 20px;
+    font-style: italic;
   }
 
-} // .swagger-section
+}
+
+.api-popup-actions {
+  padding-top: 10px;
+}
