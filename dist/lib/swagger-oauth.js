@@ -4,6 +4,7 @@ var popupDialog;
 var clientId;
 var realm;
 var oauth2KeyName;
+var redirect_uri;
 
 function handleLogin() {
   var scopes = [];
@@ -14,8 +15,8 @@ function handleLogin() {
     var defs = auths;
     for(key in defs) {
       var auth = defs[key];
-      oauth2KeyName = key;
       if(auth.type === 'oauth2' && auth.scopes) {
+        oauth2KeyName = key;
         var scope;
         if(Array.isArray(auth.scopes)) {
           // 1.2 support
@@ -141,6 +142,8 @@ function handleLogin() {
 
     window.enabledScopes=scopes;
 
+    redirect_uri = redirectUrl;
+
     url += '&redirect_uri=' + encodeURIComponent(redirectUrl);
     url += '&realm=' + encodeURIComponent(realm);
     url += '&client_id=' + encodeURIComponent(clientId);
@@ -199,7 +202,8 @@ function processOAuthCode(data) {
   var params = {
     'client_id': clientId,
     'code': data.code,
-    'grant_type': 'authorization_code'
+    'grant_type': 'authorization_code',
+    'redirect_uri': redirect_uri
   }
   $.ajax(
   {
