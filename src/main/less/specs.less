@@ -1,10 +1,10 @@
 .swagger-ui-wrap {
-
-    line-height: 1;
-    font-family: "Droid Sans", sans-serif;
     max-width: 960px;
     margin-left: auto;
     margin-right: auto;
+
+    font-family: "Droid Sans", sans-serif;
+    line-height: 1;
 
     b, strong {
         font-family: "Droid Sans", sans-serif;
@@ -13,29 +13,17 @@
 
     q, blockquote {
         quotes: none;
+
+        &:before,
+        &:after {
+            content: none;
+        }
     }
 
     p {
         line-height: 1.4em;
         padding: 0 0 10px;
         color: #333333;
-    }
-
-    q:before, q:after, blockquote:before, blockquote:after {
-        content: none;
-    }
-
-    .heading_with_menu {
-        h1, h2, h3, h4, h5, h6 {
-            display: block;
-            clear: none;
-            float: left;
-            -moz-box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-            -ms-box-sizing: border-box;
-            box-sizing: border-box;
-            width: 60%;
-        }
     }
 
     table {
@@ -94,7 +82,7 @@
             }
         }
 
-        span.divider {
+        .divider { // span
             color: #aaaaaa;
         }
     }
