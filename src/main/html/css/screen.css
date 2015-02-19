@@ -372,11 +372,6 @@
   padding-bottom: 10px;
   font-size: 15px;
 }
-.swagger-ui-wrap .markdown li {
-  padding: 3px 0px;
-  line-height: 1.4em;
-  color: #333333;
-}
 .swagger-ui-wrap .formtastic .inputs .string input,
 .swagger-ui-wrap .formtastic .inputs .url input,
 .swagger-ui-wrap .formtastic .inputs .numeric input {
@@ -497,12 +492,6 @@
   width: 300px;
   height: 100px;
   border: 1px solid #aaa;
-}
-.swagger-ui-wrap .markdown code {
-  font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
-  background-color: #f0f0f0;
-  color: black;
-  padding: 1px 3px;
 }
 .swagger-ui-wrap .required {
   font-weight: bold;
@@ -625,22 +614,6 @@
 .swagger-ui-wrap .empty {
   color: #888888;
   font-style: italic;
-}
-.swagger-ui-wrap .markdown h3 {
-  color: #547f00;
-}
-.swagger-ui-wrap .markdown h4 {
-  color: #666666;
-}
-.swagger-ui-wrap .markdown pre {
-  font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
-  background-color: #fcf6db;
-  border: 1px solid #e5e0c6;
-  padding: 10px;
-  margin: 0 0 10px 0;
-}
-.swagger-ui-wrap .markdown pre code {
-  line-height: 1.6em;
 }
 .swagger-ui-wrap .gist {
   margin: 20px 0 25px 0 !important;
@@ -1096,38 +1069,39 @@
   font-size: 1.1em;
   padding: 10px 0 10px 0;
 }
-.swagger-ui-wrap .markdown ol,
-.swagger-ui-wrap .markdown ul {
+.markdown h3 {
+  color: #547f00;
+}
+.markdown h4 {
+  color: #666666;
+}
+.markdown ol,
+.markdown ul {
   font-family: "Droid Sans", sans-serif;
   margin: 5px 0 10px;
   padding: 0 0 0 18px;
   list-style-type: disc;
 }
-.swagger-ui-wrap .form_box {
-  background-color: #ebf3f9;
-  border: 1px solid #c3d9ec;
+.markdown li {
+  padding: 3px 0px;
+  line-height: 1.4em;
+  color: #333333;
+}
+.markdown pre {
+  font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+  background-color: #fcf6db;
+  border: 1px solid #e5e0c6;
   padding: 10px;
+  margin: 0 0 10px 0;
 }
-.swagger-ui-wrap .form_box label {
-  color: #0f6ab4 !important;
+.markdown pre code {
+  line-height: 1.6em;
 }
-.swagger-ui-wrap .form_box input[type=submit] {
-  display: block;
-  padding: 10px;
-}
-.swagger-ui-wrap .form_box .weak {
-  font-size: 0.8em;
-}
-.swagger-ui-wrap .form_box p {
-  font-size: 0.9em;
-  padding: 0 0 15px;
-  color: #7e7b6d;
-}
-.swagger-ui-wrap .form_box p a {
-  color: #646257;
-}
-.swagger-ui-wrap .form_box p strong {
+.markdown code {
+  font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+  background-color: #f0f0f0;
   color: black;
+  padding: 1px 3px;
 }
 .swagger-section .access,
 .swagger-section .auth {

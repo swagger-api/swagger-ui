@@ -196,11 +196,6 @@
         font-size: 15px;
     }
 
-    .markdown li {
-        padding: 3px 0px;
-        line-height: 1.4em;
-        color: #333333;
-    }
 
     .formtastic .inputs { // form fieldset ol
         .string input, .url input, .numeric input { // li
@@ -347,13 +342,6 @@
         border: 1px solid #aaa;
     }
 
-    .markdown code { // p, li
-        font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
-        background-color: #f0f0f0;
-        color: black;
-        padding: 1px 3px;
-    }
-
     .required {
         font-weight: bold;
     }
@@ -496,25 +484,6 @@
     .blank, .empty { // span
         color: #888888;
         font-style: italic;
-    }
-
-    .markdown {
-        h3 {
-            color: #547f00;
-        }
-        h4 {
-            color: #666666;
-        }
-        pre {
-            font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
-            background-color: #fcf6db;
-            border: 1px solid #e5e0c6;
-            padding: 10px;
-            margin: 0 0 10px 0;
-            code {
-                line-height: 1.6em;
-            }
-        }
     }
 
     .gist { // div
@@ -1073,10 +1042,46 @@
         padding: 10px 0 10px 0;
     }
 
-    .markdown ol, .markdown ul {
+}
+
+.markdown {
+    h3 {
+        color: #547f00;
+    }
+
+    h4 {
+        color: #666666;
+    }
+
+    ol, ul {
         font-family: "Droid Sans", sans-serif;
         margin: 5px 0 10px;
         padding: 0 0 0 18px;
         list-style-type: disc;
+    }
+
+    li {
+        padding: 3px 0px;
+        line-height: 1.4em;
+        color: #333333;
+    }
+
+    pre {
+        font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+        background-color: #fcf6db;
+        border: 1px solid #e5e0c6;
+        padding: 10px;
+        margin: 0 0 10px 0;
+
+        code {
+            line-height: 1.6em;
+        }
+    }
+
+    code {
+        font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+        background-color: #f0f0f0;
+        color: black;
+        padding: 1px 3px;
     }
 }
