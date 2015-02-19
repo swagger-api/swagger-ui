@@ -82,14 +82,14 @@
           {{/if}}
           {{#if isReadOnly}}
           {{else}}
-          <div class="sandbox_header">
+          <div class="swagger-sandbox">
             <input class="submit" name="commit" type="button" value="Try it out!" />
             <a href="#" class="response_hider" style="display:none">Hide Response</a>
-            <span class="response_throbber" style="display:none"></span>
+            <span class="response_throbber" style="display: none;"></span>
           </div>
           {{/if}}
         </form>
-        <div class="response" style="display:none">
+        <div class="swagger-response">
           <h4>Request URL</h4>
           <div class="block request_url"></div>
           <h4>Response Body</h4>
