@@ -42,37 +42,28 @@
         border-collapse: collapse;
         border-spacing: 0;
     }
-        // thead {
-            // tr {
-                th {
-                    padding: 5px;
-                    font-size: 0.9em;
-                    color: #666666;
-                    border-bottom: 1px solid #999999;
-                }
-            // }
-        // }
-        // tbody {
-            tr:last-child {
-                td {
-                    border-bottom: none;
-                    vertical-align: top;
-                }
-            }
-            .offset { // tr
-                background-color: #f0f0f0;
-            }
-            // tr {
-                td {
-                    padding: 6px;
-                    font-size: 0.9em;
-                    border-bottom: 1px solid #cccccc;
-                    vertical-align: top;
-                    line-height: 1.3em;
-                }
-            // }
-        // }
-
+    th {
+        padding: 5px;
+        font-size: 0.9em;
+        color: #666666;
+        border-bottom: 1px solid #999999;
+    }
+    tr:last-child {
+        td {
+            border-bottom: none;
+            vertical-align: top;
+        }
+    }
+    .offset { // tr
+        background-color: #f0f0f0;
+    }
+    td {
+        padding: 6px;
+        font-size: 0.9em;
+        border-bottom: 1px solid #cccccc;
+        vertical-align: top;
+        line-height: 1.3em;
+    }
 
     ol {
         margin: 0px 0 10px;
@@ -96,9 +87,6 @@
                 text-decoration: underline;
             }
         }
-        // a:hover {
-        //     text-decoration: underline;
-        // }
         span.divider {
             color: #aaaaaa;
         }
@@ -228,10 +216,6 @@
                     color: black;
                 }
             }
-            // a:hover {
-            //     text-decoration: underline;
-            //     color: black;
-            // }
             .selected {
                 color: black;
                 text-decoration: none;
@@ -240,9 +224,6 @@
         .propType {
             color: #5555aa;
         }
-        // pre:hover {
-        //     background-color: #ffffdd;
-        // }
         pre {
             font-size: .85em;
             line-height: 1.2em;
@@ -258,10 +239,7 @@
             display: block;
             margin: 0;
             padding: 0;
-            // li:last-child {
-            //     padding-right: 0;
-            //     border-right: none;
-            // }
+
             li {
                 float: left;
                 margin: 0 5px 5px 0;
@@ -414,66 +392,64 @@
 
     .formtastic { // form
         .inputs { // fieldset
-            // ol {
-                li {
-                    label {
-                        display: block;
-                        clear: both;
-                        width: auto;
-                        padding: 0 0 3px;
-                        color: #666666;
-                        abbr {
-                            padding-left: 3px;
-                            color: #888888;
-                        }
-                    }
-                    p.inline-hints {
-                        margin-left: 0;
-                        font-style: italic;
-                        font-size: 0.9em;
-                        margin: 0;
-                    }
-                }
-                .text { // li
-                    textarea {
-                        font-family: "Droid Sans", sans-serif;
-                        height: 250px;
-                        padding: 4px;
-                        display: block;
-                        clear: both;
-                    }
-                }
-                .select { // li
-                    select {
-                        display: block;
-                        clear: both;
-                    }
-                }
-                .boolean { // li
-                    float: none;
-                    clear: both;
-                    overflow: hidden;
+            li {
+                label {
                     display: block;
-                    label {
-                        display: block;
-                        float: left;
-                        clear: none;
-                        margin: 0;
-                        padding: 0;
-                    }
-                    input {
-                        display: block;
-                        float: left;
-                        clear: none;
-                        margin: 0 5px 0 0;
+                    clear: both;
+                    width: auto;
+                    padding: 0 0 3px;
+                    color: #666666;
+                    abbr {
+                        padding-left: 3px;
+                        color: #888888;
                     }
                 }
-                .required { // li
-                    label {
-                        color: black;
-                    }
+                p.inline-hints {
+                    margin-left: 0;
+                    font-style: italic;
+                    font-size: 0.9em;
+                    margin: 0;
                 }
-            // }
+            }
+            .text { // li
+                textarea {
+                    font-family: "Droid Sans", sans-serif;
+                    height: 250px;
+                    padding: 4px;
+                    display: block;
+                    clear: both;
+                }
+            }
+            .select { // li
+                select {
+                    display: block;
+                    clear: both;
+                }
+            }
+            .boolean { // li
+                float: none;
+                clear: both;
+                overflow: hidden;
+                display: block;
+                label {
+                    display: block;
+                    float: left;
+                    clear: none;
+                    margin: 0;
+                    padding: 0;
+                }
+                input {
+                    display: block;
+                    float: left;
+                    clear: none;
+                    margin: 0 5px 0 0;
+                }
+            }
+            .required { // li
+                label {
+                    color: black;
+                }
+            }
         }
         .buttons { // fieldset
             margin: 0;
@@ -520,9 +496,6 @@
 
     &:hover .heading, // div
     &.active .heading { // div
-        h2 a {
-            color: black;
-        }
         .options a { // ul
             color: #555555;
         }
@@ -533,11 +506,7 @@
     }
 
     .heading { // div
-        border: 1px solid transparent;
-        float: none;
-        clear: both;
-        overflow: hidden;
-        display: block;
+
         .options { // ul
             overflow: hidden;
             padding: 0;
@@ -561,10 +530,6 @@
                         color: black;
                     }
                 }
-                // a:hover {
-                //     text-decoration: underline;
-                //     color: black;
-                // }
             }
 
             li {
@@ -600,11 +565,9 @@
                     color: black;
                 }
             }
-            // a:hover {
-            //     color: black;
-            // }
         }
     }
+
     .endpoints { // ul
         .endpoint { // li
             .operations { // ul
@@ -616,12 +579,6 @@
                     margin: 0 0 10px;
                     padding: 0;
                     .heading { // div
-                        float: none;
-                        clear: both;
-                        overflow: hidden;
-                        display: block;
-                        margin: 0;
-                        padding: 0;
                         h3 {
                             display: block;
                             clear: none;
@@ -640,9 +597,6 @@
                                         text-decoration: underline;
                                     }
                                 }
-                                // a:hover {
-                                //     text-decoration: underline;
-                                // }
                             }
                             .http_method { // span
                                 a {
@@ -758,8 +712,6 @@
                 }
                 .operation.put { // li
                     .heading { // div
-                        background-color: #f9f2e9;
-                        border: 1px solid #f0e0ca;
                         h3 {
                             .http_method { // span
                                 a {
@@ -794,9 +746,6 @@
                 }
                 .operation.head { // li
                     .heading { // div
-                        background-color: #fcffcd;
-                        border: 1px solid black;
-                        border-color: #ffd20f;
                         h3 {
                             .http_method { // span
                                 a {
@@ -832,8 +781,6 @@
                 }
                 .operation.delete { // li
                     .heading { // div
-                        background-color: #f5e8e8;
-                        border: 1px solid #e8c6c7;
                         h3 {
                             .http_method { // span
                                 a {
@@ -869,8 +816,6 @@
                 }
                 .operation.post { // li
                     .heading { // div
-                        background-color: #e7f6ec;
-                        border: 1px solid #c3e8d1;
                         h3 {
                             .http_method { // span
                                 a {
@@ -904,8 +849,6 @@
                 }
                 .operation.patch { // li
                     .heading { // div
-                        background-color: #FCE9E3;
-                        border: 1px solid #F5D5C3;
                         h3 {
                             .http_method { // span
                                 a {
@@ -942,8 +885,6 @@
                 }
                 .operation.get { // li
                     .heading { // div
-                        background-color: #e7f0f7;
-                        border: 1px solid #c3d9ec;
                         h3 {
                             .http_method { // span
                                 a {
@@ -977,8 +918,6 @@
                 }
                 .operation.options { // li
                     .heading { // div
-                        background-color: #e7f0f7;
-                        border: 1px solid #c3d9ec;
                         h3 {
                             .http_method { // span
                                 a {
@@ -1042,6 +981,71 @@
     }
 }
 
+
+
+.heading {
+    .resource & {
+        border: 1px solid transparent;
+        float: none;
+        clear: both;
+        overflow: hidden;
+        display: block;
+    }
+
+    .resource:hover &,
+    .resource:active & {
+        a {
+            color: black;
+        }
+    }
+
+    .operation & {
+        float: none;
+        clear: both;
+        overflow: hidden;
+        display: block;
+        margin: 0;
+        padding: 0;
+    }
+
+    .operation.put & {
+        background-color: #f9f2e9;
+        border: 1px solid #f0e0ca;
+    }
+
+    .operation.head & {
+        background-color: #fcffcd;
+        border: 1px solid black;
+        border-color: #ffd20f;
+    }
+
+    .operation.delete & {
+        background-color: #f5e8e8;
+        border: 1px solid #e8c6c7;
+    }
+
+    .operation.post & {
+        background-color: #e7f6ec;
+        border: 1px solid #c3e8d1;
+    }
+
+    .operation.patch & {
+        background-color: #FCE9E3;
+        border: 1px solid #F5D5C3;
+    }
+
+    .operation.get & {
+        background-color: #e7f0f7;
+        border: 1px solid #c3d9ec;
+    }
+
+    .operation.options & {
+        background-color: #e7f0f7;
+        border: 1px solid #c3d9ec;
+    }
+
+} // .heading
+
 .markdown {
     h3 {
         color: #547f00;
@@ -1077,9 +1081,8 @@
     }
 
     code {
-        font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
         background-color: #f0f0f0;
         color: black;
         padding: 1px 3px;
     }
-}
+} // .markdown

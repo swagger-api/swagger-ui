@@ -630,23 +630,12 @@
 .resource {
   border-bottom: 1px solid #dddddd;
 }
-.resource:hover .heading h2 a,
-.resource.active .heading h2 a {
-  color: black;
-}
 .resource:hover .heading .options a,
 .resource.active .heading .options a {
   color: #555555;
 }
 .resource:last-child {
   border-bottom: none;
-}
-.resource .heading {
-  border: 1px solid transparent;
-  float: none;
-  clear: both;
-  overflow: hidden;
-  display: block;
 }
 .resource .heading .options {
   overflow: hidden;
@@ -712,14 +701,6 @@
   overflow: hidden;
   display: block;
   margin: 0 0 10px;
-  padding: 0;
-}
-.resource .endpoints .endpoint .operations .operation .heading {
-  float: none;
-  clear: both;
-  overflow: hidden;
-  display: block;
-  margin: 0;
   padding: 0;
 }
 .resource .endpoints .endpoint .operations .operation .heading h3 {
@@ -841,10 +822,6 @@
   max-height: 400px;
   overflow-y: auto;
 }
-.resource .endpoints .endpoint .operations .operation.put .heading {
-  background-color: #f9f2e9;
-  border: 1px solid #f0e0ca;
-}
 .resource .endpoints .endpoint .operations .operation.put .heading h3 .http_method a {
   background-color: #c5862b;
 }
@@ -865,11 +842,6 @@
 }
 .resource .endpoints .endpoint .operations .operation.put .content .sandbox_header a {
   color: #dcb67f;
-}
-.resource .endpoints .endpoint .operations .operation.head .heading {
-  background-color: #fcffcd;
-  border: 1px solid black;
-  border-color: #ffd20f;
 }
 .resource .endpoints .endpoint .operations .operation.head .heading h3 .http_method a {
   text-transform: uppercase;
@@ -894,10 +866,6 @@
 .resource .endpoints .endpoint .operations .operation.head .content .sandbox_header a {
   color: #6fc992;
 }
-.resource .endpoints .endpoint .operations .operation.delete .heading {
-  background-color: #f5e8e8;
-  border: 1px solid #e8c6c7;
-}
 .resource .endpoints .endpoint .operations .operation.delete .heading h3 .http_method a {
   text-transform: uppercase;
   background-color: #a41e22;
@@ -920,10 +888,6 @@
 .resource .endpoints .endpoint .operations .operation.delete .content .sandbox_header a {
   color: #c8787a;
 }
-.resource .endpoints .endpoint .operations .operation.post .heading {
-  background-color: #e7f6ec;
-  border: 1px solid #c3e8d1;
-}
 .resource .endpoints .endpoint .operations .operation.post .heading h3 .http_method a {
   background-color: #10a54a;
 }
@@ -944,10 +908,6 @@
 }
 .resource .endpoints .endpoint .operations .operation.post .content .sandbox_header a {
   color: #6fc992;
-}
-.resource .endpoints .endpoint .operations .operation.patch .heading {
-  background-color: #FCE9E3;
-  border: 1px solid #F5D5C3;
 }
 .resource .endpoints .endpoint .operations .operation.patch .heading h3 .http_method a {
   background-color: #D38042;
@@ -970,10 +930,6 @@
 .resource .endpoints .endpoint .operations .operation.patch .content .sandbox_header a {
   color: #dcb67f;
 }
-.resource .endpoints .endpoint .operations .operation.get .heading {
-  background-color: #e7f0f7;
-  border: 1px solid #c3d9ec;
-}
 .resource .endpoints .endpoint .operations .operation.get .heading h3 .http_method a {
   background-color: #0f6ab4;
 }
@@ -994,10 +950,6 @@
 }
 .resource .endpoints .endpoint .operations .operation.get .content .sandbox_header a {
   color: #6fa5d2;
-}
-.resource .endpoints .endpoint .operations .operation.options .heading {
-  background-color: #e7f0f7;
-  border: 1px solid #c3d9ec;
 }
 .resource .endpoints .endpoint .operations .operation.options .heading h3 .http_method a {
   background-color: #0f6ab4;
@@ -1056,6 +1008,54 @@
 .resource .endpoints .endpoint .operations.first {
   padding-left: 0;
 }
+.resource .heading {
+  border: 1px solid transparent;
+  float: none;
+  clear: both;
+  overflow: hidden;
+  display: block;
+}
+.resource:hover .heading a,
+.resource:active .heading a {
+  color: black;
+}
+.operation .heading {
+  float: none;
+  clear: both;
+  overflow: hidden;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+.operation.put .heading {
+  background-color: #f9f2e9;
+  border: 1px solid #f0e0ca;
+}
+.operation.head .heading {
+  background-color: #fcffcd;
+  border: 1px solid black;
+  border-color: #ffd20f;
+}
+.operation.delete .heading {
+  background-color: #f5e8e8;
+  border: 1px solid #e8c6c7;
+}
+.operation.post .heading {
+  background-color: #e7f6ec;
+  border: 1px solid #c3e8d1;
+}
+.operation.patch .heading {
+  background-color: #FCE9E3;
+  border: 1px solid #F5D5C3;
+}
+.operation.get .heading {
+  background-color: #e7f0f7;
+  border: 1px solid #c3d9ec;
+}
+.operation.options .heading {
+  background-color: #e7f0f7;
+  border: 1px solid #c3d9ec;
+}
 .markdown h3 {
   color: #547f00;
 }
@@ -1085,7 +1085,6 @@
   line-height: 1.6em;
 }
 .markdown code {
-  font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
   background-color: #f0f0f0;
   color: black;
   padding: 1px 3px;
