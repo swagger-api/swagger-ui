@@ -568,59 +568,11 @@
         }
     }
 
-    .endpoints { // ul
-        .endpoint { // li
-            .operations { // ul
+    // .endpoints { // ul
+        // .endpoint { // li
+            // .operations { // ul
                 .operation { // li
-                    float: none;
-                    clear: both;
-                    overflow: hidden;
-                    display: block;
-                    margin: 0 0 10px;
-                    padding: 0;
                     .heading { // div
-                        h3 {
-                            display: block;
-                            clear: none;
-                            float: left;
-                            width: auto;
-                            margin: 0;
-                            padding: 0;
-                            line-height: 1.1em;
-                            color: black;
-                            .path { // span
-                                padding-left: 10px;
-                                a {
-                                    color: black;
-                                    text-decoration: none;
-                                    &:hover {
-                                        text-decoration: underline;
-                                    }
-                                }
-                            }
-                            .http_method { // span
-                                a {
-                                    text-transform: uppercase;
-                                    text-decoration: none;
-                                    color: white;
-                                    display: inline-block;
-                                    width: 50px;
-                                    font-size: 0.7em;
-                                    text-align: center;
-                                    padding: 7px 0 4px;
-                                    -moz-border-radius: 2px;
-                                    -webkit-border-radius: 2px;
-                                    -o-border-radius: 2px;
-                                    -ms-border-radius: 2px;
-                                    -khtml-border-radius: 2px;
-                                    border-radius: 2px;
-                                }
-                            }
-                            span {
-                                margin: 0;
-                                padding: 0;
-                            }
-                        }
                         .options { // ul
                             overflow: hidden;
                             padding: 0;
@@ -712,13 +664,6 @@
                 }
                 .operation.put { // li
                     .heading { // div
-                        h3 {
-                            .http_method { // span
-                                a {
-                                    background-color: #c5862b;
-                                }
-                            }
-                        }
                         .options { // ul
                             li {
                                 border-right: 1px solid #dddddd;
@@ -746,14 +691,6 @@
                 }
                 .operation.head { // li
                     .heading { // div
-                        h3 {
-                            .http_method { // span
-                                a {
-                                    text-transform: uppercase;
-                                    background-color: #ffd20f;
-                                }
-                            }
-                        }
                         .options { // ul
                             li {
                                 border-right: 1px solid #dddddd;
@@ -781,15 +718,6 @@
                 }
                 .operation.delete { // li
                     .heading { // div
-                        h3 {
-                            .http_method { // span
-                                a {
-                                    text-transform: uppercase;
-                                    background-color: #a41e22;
-
-                                }
-                            }
-                        }
                         .options { // ul
                             li {
                                 border-right: 1px solid #dddddd;
@@ -816,13 +744,6 @@
                 }
                 .operation.post { // li
                     .heading { // div
-                        h3 {
-                            .http_method { // span
-                                a {
-                                    background-color: #10a54a;
-                                }
-                            }
-                        }
                         .options { // ul
                             li {
                                 border-right: 1px solid #dddddd;
@@ -849,14 +770,6 @@
                 }
                 .operation.patch { // li
                     .heading { // div
-                        h3 {
-                            .http_method { // span
-                                a {
-                                    background-color: #D38042;
-
-                                }
-                            }
-                        }
                         .options { // ul
                             li {
                                 border-right: 1px solid #dddddd;
@@ -871,7 +784,6 @@
                     .content { // div
                         background-color: #faf0ef;
                         border: 1px solid #f0cecb;
-
                         h4 {
                             color: #D38042;
 
@@ -885,13 +797,6 @@
                 }
                 .operation.get { // li
                     .heading { // div
-                        h3 {
-                            .http_method { // span
-                                a {
-                                    background-color: #0f6ab4;
-                                }
-                            }
-                        }
                         .options { // ul
                             li {
                                 border-right: 1px solid #dddddd;
@@ -918,13 +823,6 @@
                 }
                 .operation.options { // li
                     .heading { // div
-                        h3 {
-                            .http_method { // span
-                                a {
-                                    background-color: #0f6ab4;
-                                }
-                            }
-                        }
                         .options { // ul
                             li {
                                 border-right: 1px solid #dddddd;
@@ -976,9 +874,9 @@
                 &:first-child, &.first {
                     padding-left: 0;
                 }
-            }
-        }
-    }
+            // }
+        // }
+    // }
 }
 
 
@@ -1006,45 +904,179 @@
         display: block;
         margin: 0;
         padding: 0;
+
+        h3 {
+            display: block;
+            clear: none;
+            float: left;
+            width: auto;
+            margin: 0;
+            padding: 0;
+            line-height: 1.1em;
+            color: black;
+
+            // span {
+            //     margin: 0;
+            //     padding: 0;
+            // }
+        }
+
+        .http_method { // span
+            a {
+                text-transform: uppercase;
+                text-decoration: none;
+                color: white;
+                display: inline-block;
+                width: 50px;
+                font-size: 0.7em;
+                text-align: center;
+                padding: 7px 0 4px;
+                -moz-border-radius: 2px;
+                -webkit-border-radius: 2px;
+                -o-border-radius: 2px;
+                -ms-border-radius: 2px;
+                -khtml-border-radius: 2px;
+                border-radius: 2px;
+            }
+        }
     }
 
     .operation.put & {
         background-color: #f9f2e9;
         border: 1px solid #f0e0ca;
+
+        .http_method a {
+            background-color: #c5862b;
+        }
     }
 
     .operation.head & {
         background-color: #fcffcd;
         border: 1px solid black;
         border-color: #ffd20f;
+
+        .http_method a {
+            text-transform: uppercase;
+            background-color: #ffd20f;
+        }
     }
 
     .operation.delete & {
         background-color: #f5e8e8;
         border: 1px solid #e8c6c7;
+
+        .http_method a {
+            text-transform: uppercase;
+            background-color: #a41e22;
+        }
     }
 
     .operation.post & {
         background-color: #e7f6ec;
         border: 1px solid #c3e8d1;
+
+        .http_method a {
+            background-color: #10a54a;
+        }
     }
 
     .operation.patch & {
         background-color: #FCE9E3;
         border: 1px solid #F5D5C3;
+
+        .http_method a {
+            background-color: #D38042;
+        }
     }
 
     .operation.get & {
         background-color: #e7f0f7;
         border: 1px solid #c3d9ec;
+
+        .http_method a {
+            background-color: #0f6ab4;
+        }
     }
 
     .operation.options & {
         background-color: #e7f0f7;
         border: 1px solid #c3d9ec;
+
+        .http_method a {
+            background-color: #0f6ab4;
+        }
     }
 
 } // .heading
+
+.path {
+    .heading & {
+        .operation & {
+            padding-left: 10px;
+
+            a {
+                color: black;
+                text-decoration: none;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
+.endpoints { // ul
+    .resource & {
+
+    }
+} // .endpoints
+
+.endpoint { // li
+    .endpoints & {
+
+    }
+
+    .resource & {
+
+    }
+
+    #resources & {
+
+    }
+} // .endpoint
+
+.operations { // ul
+    .endpoint & {
+
+    }
+
+    .resource & {
+
+    }
+
+    #resources & {
+
+    }
+} // .operations
+
+.operation { // li
+
+    .operations & {
+
+    }
+
+    float: none;
+    clear: both;
+    overflow: hidden;
+    display: block;
+    margin: 0 0 10px;
+    padding: 0;
+
+    .post {
+
+    }
+
+} // .operation
 
 .markdown {
     h3 {

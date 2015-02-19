@@ -695,55 +695,7 @@
 .resource .heading h2 a:hover {
   color: black;
 }
-.resource .endpoints .endpoint .operations .operation {
-  float: none;
-  clear: both;
-  overflow: hidden;
-  display: block;
-  margin: 0 0 10px;
-  padding: 0;
-}
-.resource .endpoints .endpoint .operations .operation .heading h3 {
-  display: block;
-  clear: none;
-  float: left;
-  width: auto;
-  margin: 0;
-  padding: 0;
-  line-height: 1.1em;
-  color: black;
-}
-.resource .endpoints .endpoint .operations .operation .heading h3 .path {
-  padding-left: 10px;
-}
-.resource .endpoints .endpoint .operations .operation .heading h3 .path a {
-  color: black;
-  text-decoration: none;
-}
-.resource .endpoints .endpoint .operations .operation .heading h3 .path a:hover {
-  text-decoration: underline;
-}
-.resource .endpoints .endpoint .operations .operation .heading h3 .http_method a {
-  text-transform: uppercase;
-  text-decoration: none;
-  color: white;
-  display: inline-block;
-  width: 50px;
-  font-size: 0.7em;
-  text-align: center;
-  padding: 7px 0 4px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  -o-border-radius: 2px;
-  -ms-border-radius: 2px;
-  -khtml-border-radius: 2px;
-  border-radius: 2px;
-}
-.resource .endpoints .endpoint .operations .operation .heading h3 span {
-  margin: 0;
-  padding: 0;
-}
-.resource .endpoints .endpoint .operations .operation .heading .options {
+.resource .operation .heading .options {
   overflow: hidden;
   padding: 0;
   display: block;
@@ -751,20 +703,20 @@
   float: right;
   margin: 6px 10px 0 0;
 }
-.resource .endpoints .endpoint .operations .operation .heading .options li {
+.resource .operation .heading .options li {
   float: left;
   clear: none;
   margin: 0;
   padding: 2px 10px;
   font-size: 0.9em;
 }
-.resource .endpoints .endpoint .operations .operation .heading .options li a {
+.resource .operation .heading .options li a {
   text-decoration: none;
 }
-.resource .endpoints .endpoint .operations .operation .heading .options .access {
+.resource .operation .heading .options .access {
   color: black;
 }
-.resource .endpoints .endpoint .operations .operation .content {
+.resource .operation .content {
   border-top: none;
   padding: 10px;
   -moz-border-radius-bottomleft: 6px;
@@ -781,29 +733,29 @@
   border-bottom-right-radius: 6px;
   margin: 0 0 20px;
 }
-.resource .endpoints .endpoint .operations .operation .content h4 {
+.resource .operation .content h4 {
   font-size: 1.1em;
   margin: 0;
   padding: 15px 0 5px;
 }
-.resource .endpoints .endpoint .operations .operation .content .sandbox_header {
+.resource .operation .content .sandbox_header {
   float: none;
   clear: both;
   overflow: hidden;
   display: block;
 }
-.resource .endpoints .endpoint .operations .operation .content .sandbox_header a {
+.resource .operation .content .sandbox_header a {
   padding: 4px 0 0 10px;
   display: inline-block;
   font-size: 0.9em;
 }
-.resource .endpoints .endpoint .operations .operation .content .sandbox_header .submit {
+.resource .operation .content .sandbox_header .submit {
   display: block;
   clear: none;
   float: left;
   padding: 6px 8px;
 }
-.resource .endpoints .endpoint .operations .operation .content .sandbox_header .response_throbber {
+.resource .operation .content .sandbox_header .response_throbber {
   background-image: url('../images/throbber.gif');
   width: 128px;
   height: 16px;
@@ -811,201 +763,178 @@
   clear: none;
   float: right;
 }
-.resource .endpoints .endpoint .operations .operation .content form input[type='text'].error {
+.resource .operation .content form input[type='text'].error {
   outline: 2px solid black;
   outline-color: #cc0000;
 }
-.resource .endpoints .endpoint .operations .operation .content .response .block pre {
+.resource .operation .content .response .block pre {
   font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
   padding: 10px;
   font-size: 0.9em;
   max-height: 400px;
   overflow-y: auto;
 }
-.resource .endpoints .endpoint .operations .operation.put .heading h3 .http_method a {
-  background-color: #c5862b;
-}
-.resource .endpoints .endpoint .operations .operation.put .heading .options li {
+.resource .operation.put .heading .options li {
   border-right: 1px solid #dddddd;
   border-right-color: #f0e0ca;
   color: #c5862b;
 }
-.resource .endpoints .endpoint .operations .operation.put .heading .options li a {
+.resource .operation.put .heading .options li a {
   color: #c5862b;
 }
-.resource .endpoints .endpoint .operations .operation.put .content {
+.resource .operation.put .content {
   background-color: #faf5ee;
   border: 1px solid #f0e0ca;
 }
-.resource .endpoints .endpoint .operations .operation.put .content h4 {
+.resource .operation.put .content h4 {
   color: #c5862b;
 }
-.resource .endpoints .endpoint .operations .operation.put .content .sandbox_header a {
+.resource .operation.put .content .sandbox_header a {
   color: #dcb67f;
 }
-.resource .endpoints .endpoint .operations .operation.head .heading h3 .http_method a {
-  text-transform: uppercase;
-  background-color: #ffd20f;
-}
-.resource .endpoints .endpoint .operations .operation.head .heading .options li {
+.resource .operation.head .heading .options li {
   border-right: 1px solid #dddddd;
   border-right-color: #ffd20f;
   color: #ffd20f;
 }
-.resource .endpoints .endpoint .operations .operation.head .heading .options li a {
+.resource .operation.head .heading .options li a {
   color: #ffd20f;
 }
-.resource .endpoints .endpoint .operations .operation.head .content {
+.resource .operation.head .content {
   background-color: #fcffcd;
   border: 1px solid black;
   border-color: #ffd20f;
 }
-.resource .endpoints .endpoint .operations .operation.head .content h4 {
+.resource .operation.head .content h4 {
   color: #ffd20f;
 }
-.resource .endpoints .endpoint .operations .operation.head .content .sandbox_header a {
+.resource .operation.head .content .sandbox_header a {
   color: #6fc992;
 }
-.resource .endpoints .endpoint .operations .operation.delete .heading h3 .http_method a {
-  text-transform: uppercase;
-  background-color: #a41e22;
-}
-.resource .endpoints .endpoint .operations .operation.delete .heading .options li {
+.resource .operation.delete .heading .options li {
   border-right: 1px solid #dddddd;
   border-right-color: #e8c6c7;
   color: #a41e22;
 }
-.resource .endpoints .endpoint .operations .operation.delete .heading .options li a {
+.resource .operation.delete .heading .options li a {
   color: #a41e22;
 }
-.resource .endpoints .endpoint .operations .operation.delete .content {
+.resource .operation.delete .content {
   background-color: #f7eded;
   border: 1px solid #e8c6c7;
 }
-.resource .endpoints .endpoint .operations .operation.delete .content h4 {
+.resource .operation.delete .content h4 {
   color: #a41e22;
 }
-.resource .endpoints .endpoint .operations .operation.delete .content .sandbox_header a {
+.resource .operation.delete .content .sandbox_header a {
   color: #c8787a;
 }
-.resource .endpoints .endpoint .operations .operation.post .heading h3 .http_method a {
-  background-color: #10a54a;
-}
-.resource .endpoints .endpoint .operations .operation.post .heading .options li {
+.resource .operation.post .heading .options li {
   border-right: 1px solid #dddddd;
   border-right-color: #c3e8d1;
   color: #10a54a;
 }
-.resource .endpoints .endpoint .operations .operation.post .heading .options li a {
+.resource .operation.post .heading .options li a {
   color: #10a54a;
 }
-.resource .endpoints .endpoint .operations .operation.post .content {
+.resource .operation.post .content {
   background-color: #ebf7f0;
   border: 1px solid #c3e8d1;
 }
-.resource .endpoints .endpoint .operations .operation.post .content h4 {
+.resource .operation.post .content h4 {
   color: #10a54a;
 }
-.resource .endpoints .endpoint .operations .operation.post .content .sandbox_header a {
+.resource .operation.post .content .sandbox_header a {
   color: #6fc992;
 }
-.resource .endpoints .endpoint .operations .operation.patch .heading h3 .http_method a {
-  background-color: #D38042;
-}
-.resource .endpoints .endpoint .operations .operation.patch .heading .options li {
+.resource .operation.patch .heading .options li {
   border-right: 1px solid #dddddd;
   border-right-color: #f0cecb;
   color: #D38042;
 }
-.resource .endpoints .endpoint .operations .operation.patch .heading .options li a {
+.resource .operation.patch .heading .options li a {
   color: #D38042;
 }
-.resource .endpoints .endpoint .operations .operation.patch .content {
+.resource .operation.patch .content {
   background-color: #faf0ef;
   border: 1px solid #f0cecb;
 }
-.resource .endpoints .endpoint .operations .operation.patch .content h4 {
+.resource .operation.patch .content h4 {
   color: #D38042;
 }
-.resource .endpoints .endpoint .operations .operation.patch .content .sandbox_header a {
+.resource .operation.patch .content .sandbox_header a {
   color: #dcb67f;
 }
-.resource .endpoints .endpoint .operations .operation.get .heading h3 .http_method a {
-  background-color: #0f6ab4;
-}
-.resource .endpoints .endpoint .operations .operation.get .heading .options li {
+.resource .operation.get .heading .options li {
   border-right: 1px solid #dddddd;
   border-right-color: #c3d9ec;
   color: #0f6ab4;
 }
-.resource .endpoints .endpoint .operations .operation.get .heading .options li a {
+.resource .operation.get .heading .options li a {
   color: #0f6ab4;
 }
-.resource .endpoints .endpoint .operations .operation.get .content {
+.resource .operation.get .content {
   background-color: #ebf3f9;
   border: 1px solid #c3d9ec;
 }
-.resource .endpoints .endpoint .operations .operation.get .content h4 {
+.resource .operation.get .content h4 {
   color: #0f6ab4;
 }
-.resource .endpoints .endpoint .operations .operation.get .content .sandbox_header a {
+.resource .operation.get .content .sandbox_header a {
   color: #6fa5d2;
 }
-.resource .endpoints .endpoint .operations .operation.options .heading h3 .http_method a {
-  background-color: #0f6ab4;
-}
-.resource .endpoints .endpoint .operations .operation.options .heading .options li {
+.resource .operation.options .heading .options li {
   border-right: 1px solid #dddddd;
   border-right-color: #c3d9ec;
   color: #0f6ab4;
 }
-.resource .endpoints .endpoint .operations .operation.options .heading .options li a {
+.resource .operation.options .heading .options li a {
   color: #0f6ab4;
 }
-.resource .endpoints .endpoint .operations .operation.options .content {
+.resource .operation.options .content {
   background-color: #ebf3f9;
   border: 1px solid #c3d9ec;
 }
-.resource .endpoints .endpoint .operations .operation.options .content h4 {
+.resource .operation.options .content h4 {
   color: #0f6ab4;
 }
-.resource .endpoints .endpoint .operations .operation.options .content .sandbox_header a {
+.resource .operation.options .content .sandbox_header a {
   color: #6fa5d2;
 }
-.resource .endpoints .endpoint .operations .operation.get .content,
-.resource .endpoints .endpoint .operations .operation.post .content,
-.resource .endpoints .endpoint .operations .operation.head .content,
-.resource .endpoints .endpoint .operations .operation.put .content,
-.resource .endpoints .endpoint .operations .operation.patch .content,
-.resource .endpoints .endpoint .operations .operation.delete .content {
+.resource .operation.get .content,
+.resource .operation.post .content,
+.resource .operation.head .content,
+.resource .operation.put .content,
+.resource .operation.patch .content,
+.resource .operation.delete .content {
   border-top: none;
 }
-.resource .endpoints .endpoint .operations .operation.get .heading .options li:last-child,
-.resource .endpoints .endpoint .operations .operation.post .heading .options li:last-child,
-.resource .endpoints .endpoint .operations .operation.head .heading .options li:last-child,
-.resource .endpoints .endpoint .operations .operation.put .heading .options li:last-child,
-.resource .endpoints .endpoint .operations .operation.patch .heading .options li:last-child,
-.resource .endpoints .endpoint .operations .operation.delete .heading .options li:last-child,
-.resource .endpoints .endpoint .operations .operation.get .heading .options li.last,
-.resource .endpoints .endpoint .operations .operation.post .heading .options li.last,
-.resource .endpoints .endpoint .operations .operation.head .heading .options li.last,
-.resource .endpoints .endpoint .operations .operation.put .heading .options li.last,
-.resource .endpoints .endpoint .operations .operation.patch .heading .options li.last,
-.resource .endpoints .endpoint .operations .operation.delete .heading .options li.last {
+.resource .operation.get .heading .options li:last-child,
+.resource .operation.post .heading .options li:last-child,
+.resource .operation.head .heading .options li:last-child,
+.resource .operation.put .heading .options li:last-child,
+.resource .operation.patch .heading .options li:last-child,
+.resource .operation.delete .heading .options li:last-child,
+.resource .operation.get .heading .options li.last,
+.resource .operation.post .heading .options li.last,
+.resource .operation.head .heading .options li.last,
+.resource .operation.put .heading .options li.last,
+.resource .operation.patch .heading .options li.last,
+.resource .operation.delete .heading .options li.last {
   padding-right: 0;
   border-right: none;
 }
-.resource .endpoints .endpoint .operations .options li a:hover,
-.resource .endpoints .endpoint .operations .options li a:active,
-.resource .endpoints .endpoint .operations .options li a.active {
+.resource .options li a:hover,
+.resource .options li a:active,
+.resource .options li a.active {
   text-decoration: underline;
 }
-.resource .endpoints .endpoint .operations .options li:first-child,
-.resource .endpoints .endpoint .operations .options li.first {
+.resource .options li:first-child,
+.resource .options li.first {
   padding-left: 0;
 }
-.resource .endpoints .endpoint .operations:first-child,
-.resource .endpoints .endpoint .operations.first {
+.resource:first-child,
+.resource.first {
   padding-left: 0;
 }
 .resource .heading {
@@ -1027,34 +956,101 @@
   margin: 0;
   padding: 0;
 }
+.operation .heading h3 {
+  display: block;
+  clear: none;
+  float: left;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  line-height: 1.1em;
+  color: black;
+}
+.operation .heading .http_method a {
+  text-transform: uppercase;
+  text-decoration: none;
+  color: white;
+  display: inline-block;
+  width: 50px;
+  font-size: 0.7em;
+  text-align: center;
+  padding: 7px 0 4px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -o-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -khtml-border-radius: 2px;
+  border-radius: 2px;
+}
 .operation.put .heading {
   background-color: #f9f2e9;
   border: 1px solid #f0e0ca;
+}
+.operation.put .heading .http_method a {
+  background-color: #c5862b;
 }
 .operation.head .heading {
   background-color: #fcffcd;
   border: 1px solid black;
   border-color: #ffd20f;
 }
+.operation.head .heading .http_method a {
+  text-transform: uppercase;
+  background-color: #ffd20f;
+}
 .operation.delete .heading {
   background-color: #f5e8e8;
   border: 1px solid #e8c6c7;
+}
+.operation.delete .heading .http_method a {
+  text-transform: uppercase;
+  background-color: #a41e22;
 }
 .operation.post .heading {
   background-color: #e7f6ec;
   border: 1px solid #c3e8d1;
 }
+.operation.post .heading .http_method a {
+  background-color: #10a54a;
+}
 .operation.patch .heading {
   background-color: #FCE9E3;
   border: 1px solid #F5D5C3;
+}
+.operation.patch .heading .http_method a {
+  background-color: #D38042;
 }
 .operation.get .heading {
   background-color: #e7f0f7;
   border: 1px solid #c3d9ec;
 }
+.operation.get .heading .http_method a {
+  background-color: #0f6ab4;
+}
 .operation.options .heading {
   background-color: #e7f0f7;
   border: 1px solid #c3d9ec;
+}
+.operation.options .heading .http_method a {
+  background-color: #0f6ab4;
+}
+.operation .heading .path {
+  padding-left: 10px;
+}
+.operation .heading .path a {
+  color: black;
+  text-decoration: none;
+}
+.operation .heading .path a:hover {
+  text-decoration: underline;
+}
+.operation {
+  float: none;
+  clear: both;
+  overflow: hidden;
+  display: block;
+  margin: 0 0 10px;
+  padding: 0;
 }
 .markdown h3 {
   color: #547f00;
