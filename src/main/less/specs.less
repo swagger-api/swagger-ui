@@ -578,21 +578,6 @@ code { // .code
         border-bottom: none;
     }
 
-    .operation { // li.swagger-operation
-        &.get, &.post, &.head, &.put, &.patch, &.delete {
-            .content { // div
-                border-top: none;
-            }
-
-            .heading .options li { // div ul
-                &:last-child, &.last {
-                    padding-right: 0;
-                    border-right: none;
-                }
-            }
-        }
-    }
-
     .options li { // ul
         a:hover, a:active, a.active {
             text-decoration: underline;
@@ -609,6 +594,25 @@ code { // .code
         padding-left: 0;
     }
 } // .resource
+
+.swagger-operations {
+
+}
+
+.swagger-operation {
+    &.get, &.post, &.head, &.put, &.patch, &.delete {
+        .content { // div
+            border-top: none;
+        }
+
+        .heading .options li { // div ul
+            &:last-child, &.last {
+                padding-right: 0;
+                border-right: none;
+            }
+        }
+    }
+}
 
 .heading { // .swagger-heading
     .resource & {
@@ -644,7 +648,7 @@ code { // .code
         }
     }
 
-    .operation & {
+    .swagger-operation & {
         float: none;
         clear: both;
         overflow: hidden;
@@ -683,7 +687,7 @@ code { // .code
         }
     }
 
-    .operation.put & {
+    .swagger-operation.put & {
         background-color: #f9f2e9;
         border: 1px solid #f0e0ca;
 
@@ -702,7 +706,7 @@ code { // .code
         }
     }
 
-    .operation.head & {
+    .swagger-operation.head & {
         background-color: #fcffcd;
         border: 1px solid black;
         border-color: #ffd20f;
@@ -723,7 +727,7 @@ code { // .code
         }
     }
 
-    .operation.delete & {
+    .swagger-operation.delete & {
         background-color: #f5e8e8;
         border: 1px solid #e8c6c7;
 
@@ -743,7 +747,7 @@ code { // .code
         }
     }
 
-    .operation.post & {
+    .swagger-operation.post & {
         background-color: #e7f6ec;
         border: 1px solid #c3e8d1;
 
@@ -762,7 +766,7 @@ code { // .code
         }
     }
 
-    .operation.patch & {
+    .swagger-operation.patch & {
         background-color: #FCE9E3;
         border: 1px solid #F5D5C3;
 
@@ -781,7 +785,7 @@ code { // .code
         }
     }
 
-    .operation.get & {
+    .swagger-operation.get & {
         background-color: #e7f0f7;
         border: 1px solid #c3d9ec;
 
@@ -800,7 +804,7 @@ code { // .code
         }
     }
 
-    .operation.options & {
+    .swagger-operation.options & {
         background-color: #e7f0f7;
         border: 1px solid #c3d9ec;
 
@@ -829,7 +833,7 @@ code { // .code
         float: right;
         margin: 14px 10px 0 0;
 
-        .operation & {
+        .swagger-operation & {
             margin: 6px 10px 0 0;
 
             li {
@@ -904,7 +908,7 @@ code { // .code
     }
 } // .endpoint
 
-.operations { // ul.swagger-operations
+.swagger-operations { // ul.swagger-operations
     .endpoint & {
 
     }
@@ -912,9 +916,9 @@ code { // .code
     .resource & {
 
     }
-} // .operations
+} // .swagger-operations
 
-.operation { // li.swagger-operation
+.swagger-operation { // li.swagger-operation
     float: none;
     clear: both;
     overflow: hidden;
@@ -922,7 +926,7 @@ code { // .code
     margin: 0 0 10px;
     padding: 0;
 
-    .operations & {
+    .swagger-operations & {
 
     }
 
@@ -939,10 +943,10 @@ code { // .code
         }
     }
 
-} // .operation
+} // .swagger-operation
 
 .content {
-    .operation & {
+    .swagger-operation & {
         border: 1px solid;
         border-top: none;
         padding: 10px;
@@ -972,7 +976,7 @@ code { // .code
         }
     }
 
-    .operation.put & {
+    .swagger-operation.put & {
         background-color: #faf5ee;
         border: 1px solid #f0e0ca;
 
@@ -981,7 +985,7 @@ code { // .code
         }
     }
 
-    .operation.head & {
+    .swagger-operation.head & {
         background-color: #fcffcd;
         border-color: #ffd20f;
 
@@ -990,7 +994,7 @@ code { // .code
         }
     }
 
-    .operation.delete & {
+    .swagger-operation.delete & {
         background-color: #f7eded;
         border-color: #e8c6c7;
 
@@ -999,7 +1003,7 @@ code { // .code
         }
     }
 
-    .operation.post & {
+    .swagger-operation.post & {
         background-color: #ebf7f0;
         border-color: #c3e8d1;
 
@@ -1008,7 +1012,7 @@ code { // .code
         }
     }
 
-    .operation.patch & {
+    .swagger-operation.patch & {
         background-color: #faf0ef;
         border-color: #f0cecb;
 
@@ -1017,7 +1021,7 @@ code { // .code
         }
     }
 
-    .operation.get & {
+    .swagger-operation.get & {
         background-color: #ebf3f9;
         border-color: #c3d9ec;
 
@@ -1026,7 +1030,7 @@ code { // .code
         }
     }
 
-    .operation.options & {
+    .swagger-operation.options & {
         background-color: #ebf3f9;
         border-color: #c3d9ec;
 
@@ -1042,7 +1046,7 @@ code { // .code
 
     }
 
-    .operation & {
+    .swagger-operation & {
         float: none;
         clear: both;
         overflow: hidden;
@@ -1056,44 +1060,44 @@ code { // .code
 
     }
 
-    .operation.put & {
+    .swagger-operation.put & {
         a {
             color: #dcb67f;
 
         }
     }
 
-    .operation.header & {
+    .swagger-operation.header & {
         a {
             color: #6fc992;
         }
     }
 
-    .operation.delete & {
+    .swagger-operation.delete & {
         a {
             color: #c8787a;
         }
     }
 
-    .operation.post & {
+    .swagger-operation.post & {
         a {
             color: #6fc992;
         }
     }
 
-    .operation.patch & {
+    .swagger-operation.patch & {
         a {
             color: #dcb67f;
         }
     }
 
-    .operation.get {
+    .swagger-operation.get {
         a {
             color: #6fa5d2;
         }
     }
 
-    .operation.option {
+    .swagger-operation.option {
         a {
             color: #6fa5d2;
         }
@@ -1118,7 +1122,7 @@ code { // .code
 }
 
 .response { // .swagger-response
-    .operation & {
+    .swagger-operation & {
 
     }
 } // .response

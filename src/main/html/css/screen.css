@@ -605,29 +605,6 @@ code {
 .resource:last-child {
   border-bottom: none;
 }
-.resource .operation.get .content,
-.resource .operation.post .content,
-.resource .operation.head .content,
-.resource .operation.put .content,
-.resource .operation.patch .content,
-.resource .operation.delete .content {
-  border-top: none;
-}
-.resource .operation.get .heading .options li:last-child,
-.resource .operation.post .heading .options li:last-child,
-.resource .operation.head .heading .options li:last-child,
-.resource .operation.put .heading .options li:last-child,
-.resource .operation.patch .heading .options li:last-child,
-.resource .operation.delete .heading .options li:last-child,
-.resource .operation.get .heading .options li.last,
-.resource .operation.post .heading .options li.last,
-.resource .operation.head .heading .options li.last,
-.resource .operation.put .heading .options li.last,
-.resource .operation.patch .heading .options li.last,
-.resource .operation.delete .heading .options li.last {
-  padding-right: 0;
-  border-right: none;
-}
 .resource .options li a:hover,
 .resource .options li a:active,
 .resource .options li a.active {
@@ -640,6 +617,29 @@ code {
 .resource:first-child,
 .resource.first {
   padding-left: 0;
+}
+.swagger-operation.get .content,
+.swagger-operation.post .content,
+.swagger-operation.head .content,
+.swagger-operation.put .content,
+.swagger-operation.patch .content,
+.swagger-operation.delete .content {
+  border-top: none;
+}
+.swagger-operation.get .heading .options li:last-child,
+.swagger-operation.post .heading .options li:last-child,
+.swagger-operation.head .heading .options li:last-child,
+.swagger-operation.put .heading .options li:last-child,
+.swagger-operation.patch .heading .options li:last-child,
+.swagger-operation.delete .heading .options li:last-child,
+.swagger-operation.get .heading .options li.last,
+.swagger-operation.post .heading .options li.last,
+.swagger-operation.head .heading .options li.last,
+.swagger-operation.put .heading .options li.last,
+.swagger-operation.patch .heading .options li.last,
+.swagger-operation.delete .heading .options li.last {
+  padding-right: 0;
+  border-right: none;
 }
 .resource .heading {
   border: 1px solid transparent;
@@ -667,7 +667,7 @@ code {
 .resource.active .heading a {
   color: black;
 }
-.operation .heading {
+.swagger-operation .heading {
   float: none;
   clear: both;
   overflow: hidden;
@@ -675,7 +675,7 @@ code {
   margin: 0;
   padding: 0;
 }
-.operation .heading h3 {
+.swagger-operation .heading h3 {
   display: block;
   clear: none;
   float: left;
@@ -685,7 +685,7 @@ code {
   line-height: 1.1em;
   color: black;
 }
-.operation .heading .http_method a {
+.swagger-operation .heading .http_method a {
   text-transform: uppercase;
   text-decoration: none;
   color: white !important;
@@ -701,112 +701,112 @@ code {
   -khtml-border-radius: 2px;
   border-radius: 2px;
 }
-.operation.put .heading {
+.swagger-operation.put .heading {
   background-color: #f9f2e9;
   border: 1px solid #f0e0ca;
 }
-.operation.put .heading .http_method a {
+.swagger-operation.put .heading .http_method a {
   background-color: #c5862b;
 }
-.operation.put .heading li {
+.swagger-operation.put .heading li {
   border-right: 1px solid #dddddd;
   border-right-color: #f0e0ca;
   color: #c5862b;
 }
-.operation.put .heading a {
+.swagger-operation.put .heading a {
   color: #c5862b;
 }
-.operation.head .heading {
+.swagger-operation.head .heading {
   background-color: #fcffcd;
   border: 1px solid black;
   border-color: #ffd20f;
 }
-.operation.head .heading .http_method a {
+.swagger-operation.head .heading .http_method a {
   text-transform: uppercase;
   background-color: #ffd20f;
 }
-.operation.head .heading li {
+.swagger-operation.head .heading li {
   border-right: 1px solid #dddddd;
   border-right-color: #ffd20f;
   color: #ffd20f;
 }
-.operation.head .heading a {
+.swagger-operation.head .heading a {
   color: #ffd20f;
 }
-.operation.delete .heading {
+.swagger-operation.delete .heading {
   background-color: #f5e8e8;
   border: 1px solid #e8c6c7;
 }
-.operation.delete .heading .http_method a {
+.swagger-operation.delete .heading .http_method a {
   text-transform: uppercase;
   background-color: #a41e22;
 }
-.operation.delete .heading li {
+.swagger-operation.delete .heading li {
   border-right: 1px solid #dddddd;
   border-right-color: #e8c6c7;
   color: #a41e22;
 }
-.operation.delete .heading a {
+.swagger-operation.delete .heading a {
   color: #a41e22;
 }
-.operation.post .heading {
+.swagger-operation.post .heading {
   background-color: #e7f6ec;
   border: 1px solid #c3e8d1;
 }
-.operation.post .heading .http_method a {
+.swagger-operation.post .heading .http_method a {
   background-color: #10a54a;
 }
-.operation.post .heading li {
+.swagger-operation.post .heading li {
   border-right: 1px solid #dddddd;
   border-right-color: #c3e8d1;
   color: #10a54a;
 }
-.operation.post .heading a {
+.swagger-operation.post .heading a {
   color: #10a54a;
 }
-.operation.patch .heading {
+.swagger-operation.patch .heading {
   background-color: #FCE9E3;
   border: 1px solid #F5D5C3;
 }
-.operation.patch .heading .http_method a {
+.swagger-operation.patch .heading .http_method a {
   background-color: #D38042;
 }
-.operation.patch .heading li {
+.swagger-operation.patch .heading li {
   border-right: 1px solid #dddddd;
   border-right-color: #f0cecb;
   color: #D38042;
 }
-.operation.patch .heading a {
+.swagger-operation.patch .heading a {
   color: #D38042;
 }
-.operation.get .heading {
+.swagger-operation.get .heading {
   background-color: #e7f0f7;
   border: 1px solid #c3d9ec;
 }
-.operation.get .heading .http_method a {
+.swagger-operation.get .heading .http_method a {
   background-color: #0f6ab4;
 }
-.operation.get .heading li {
+.swagger-operation.get .heading li {
   border-right: 1px solid #dddddd;
   border-right-color: #c3d9ec;
   color: #0f6ab4;
 }
-.operation.get .heading a {
+.swagger-operation.get .heading a {
   color: #0f6ab4;
 }
-.operation.options .heading {
+.swagger-operation.options .heading {
   background-color: #e7f0f7;
   border: 1px solid #c3d9ec;
 }
-.operation.options .heading .http_method a {
+.swagger-operation.options .heading .http_method a {
   background-color: #0f6ab4;
 }
-.operation.options .heading li {
+.swagger-operation.options .heading li {
   border-right: 1px solid #dddddd;
   border-right-color: #c3d9ec;
   color: #0f6ab4;
 }
-.operation.options .heading a {
+.swagger-operation.options .heading a {
   color: #0f6ab4;
 }
 .heading .options {
@@ -817,20 +817,20 @@ code {
   float: right;
   margin: 14px 10px 0 0;
 }
-.operation .heading .options {
+.swagger-operation .heading .options {
   margin: 6px 10px 0 0;
 }
-.operation .heading .options li {
+.swagger-operation .heading .options li {
   float: left;
   clear: none;
   margin: 0;
   padding: 2px 10px;
   font-size: 0.9em;
 }
-.operation .heading .options a {
+.swagger-operation .heading .options a {
   text-decoration: none;
 }
-.operation .heading .options .access {
+.swagger-operation .heading .options .access {
   color: black;
 }
 .options li {
@@ -867,7 +867,7 @@ code {
 .options.first {
   padding-left: 0;
 }
-.operation {
+.swagger-operation {
   float: none;
   clear: both;
   overflow: hidden;
@@ -875,17 +875,17 @@ code {
   margin: 0 0 10px;
   padding: 0;
 }
-.operation .path {
+.swagger-operation .path {
   padding-left: 10px;
 }
-.operation .path a {
+.swagger-operation .path a {
   color: black !important;
   text-decoration: none;
 }
-.operation .path a:hover {
+.swagger-operation .path a:hover {
   text-decoration: underline;
 }
-.operation .content {
+.swagger-operation .content {
   border: 1px solid;
   border-top: none;
   padding: 10px;
@@ -903,94 +903,94 @@ code {
   border-bottom-right-radius: 6px;
   margin: 0 0 20px;
 }
-.operation .content h4 {
+.swagger-operation .content h4 {
   font-size: 1.1em;
   margin: 0;
   padding: 15px 0 5px;
 }
-.operation .content .error {
+.swagger-operation .content .error {
   outline: 2px solid black;
   outline-color: #cc0000;
 }
-.operation.put .content {
+.swagger-operation.put .content {
   background-color: #faf5ee;
   border: 1px solid #f0e0ca;
 }
-.operation.put .content h4 {
+.swagger-operation.put .content h4 {
   color: #c5862b;
 }
-.operation.head .content {
+.swagger-operation.head .content {
   background-color: #fcffcd;
   border-color: #ffd20f;
 }
-.operation.head .content h4 {
+.swagger-operation.head .content h4 {
   color: #ffd20f;
 }
-.operation.delete .content {
+.swagger-operation.delete .content {
   background-color: #f7eded;
   border-color: #e8c6c7;
 }
-.operation.delete .content h4 {
+.swagger-operation.delete .content h4 {
   color: #a41e22;
 }
-.operation.post .content {
+.swagger-operation.post .content {
   background-color: #ebf7f0;
   border-color: #c3e8d1;
 }
-.operation.post .content h4 {
+.swagger-operation.post .content h4 {
   color: #10a54a;
 }
-.operation.patch .content {
+.swagger-operation.patch .content {
   background-color: #faf0ef;
   border-color: #f0cecb;
 }
-.operation.patch .content h4 {
+.swagger-operation.patch .content h4 {
   color: #D38042;
 }
-.operation.get .content {
+.swagger-operation.get .content {
   background-color: #ebf3f9;
   border-color: #c3d9ec;
 }
-.operation.get .content h4 {
+.swagger-operation.get .content h4 {
   color: #0f6ab4;
 }
-.operation.options .content {
+.swagger-operation.options .content {
   background-color: #ebf3f9;
   border-color: #c3d9ec;
 }
-.operation.options .content h4 {
+.swagger-operation.options .content h4 {
   color: #0f6ab4;
 }
-.operation .sandbox_header {
+.swagger-operation .sandbox_header {
   float: none;
   clear: both;
   overflow: hidden;
   display: block;
 }
-.operation .sandbox_header a {
+.swagger-operation .sandbox_header a {
   padding: 4px 0 0 10px;
   display: inline-block;
   font-size: 0.9em;
 }
-.operation.put .sandbox_header a {
+.swagger-operation.put .sandbox_header a {
   color: #dcb67f;
 }
-.operation.header .sandbox_header a {
+.swagger-operation.header .sandbox_header a {
   color: #6fc992;
 }
-.operation.delete .sandbox_header a {
+.swagger-operation.delete .sandbox_header a {
   color: #c8787a;
 }
-.operation.post .sandbox_header a {
+.swagger-operation.post .sandbox_header a {
   color: #6fc992;
 }
-.operation.patch .sandbox_header a {
+.swagger-operation.patch .sandbox_header a {
   color: #dcb67f;
 }
-.sandbox_header .operation.get a {
+.sandbox_header .swagger-operation.get a {
   color: #6fa5d2;
 }
-.sandbox_header .operation.option a {
+.sandbox_header .swagger-operation.option a {
   color: #6fa5d2;
 }
 .sandbox_header .submit {
