@@ -1,6 +1,6 @@
 /**
  * swagger-ui - Swagger UI is a dependency-free collection of HTML, Javascript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API
- * @version v2.1.5-M1
+ * @version v2.1.6-M1
  * @link http://swagger.io
  * @license Apache 2.0
  */
