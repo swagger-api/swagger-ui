@@ -230,7 +230,7 @@ class OperationView extends Backbone.View
 
     # add params
     for param in @model.parameters
-      if param.paramType is 'form'
+      if param.paramType is 'form' or param.in is 'formData'
         if param.type.toLowerCase() isnt 'file' and map[param.name] != undefined
             bodyParam.append(param.name, map[param.name])
 
