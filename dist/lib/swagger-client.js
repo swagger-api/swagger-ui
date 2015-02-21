@@ -1,10 +1,6 @@
 /**
  * swagger-client - swagger.js is a javascript client for use with swaggering APIs.
-<<<<<<< HEAD
  * @version v2.1.9-M1
-=======
- * @version v2.1.8-M1
->>>>>>> updated version, client
  * @link http://swagger.io
  * @license apache 2.0
  */
@@ -3047,10 +3043,6 @@ SwaggerHttp.prototype.execute = function(obj, opts) {
     else {
       obj.contentType = false;
       obj.processData = false;
-<<<<<<< HEAD
-=======
-      // delete obj.cache;
->>>>>>> updated version, client
       delete obj.headers['Content-Type'];
     }
   }
