@@ -18,7 +18,7 @@
   "dependencies": {
     "shred": "0.8.10",
     "btoa": "1.1.1",
-    "swagger-client": "2.1.7-M1"
+    "swagger-client": "2.1.8-M1"
   },
   "devDependencies": {
     "chai": "^1.10.0",
