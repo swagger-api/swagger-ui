@@ -195,6 +195,7 @@ class OperationView extends Backbone.View
         if(o.value? && jQuery.trim(o.value).length > 0)
           map[o.name] = o.value
         if o.type is "file"
+          map[o.name] = o.files[0]
           isFileUpload = true
 
       for o in form.find("textarea")
