@@ -364,7 +364,7 @@ SwaggerClient.prototype.initialize = function (url, options) {
 SwaggerClient.prototype.build = function(mock) {
   if (this.isBuilt) return this;
   var self = this;
-  this.progress('fetching resource list: ' + this.url);
+  this.progress('<span data-swTarnslate="1">fetching resource list</span>: ' + this.url);
   var obj = {
     useJQuery: this.useJQuery,
     url: this.url,
@@ -375,11 +375,11 @@ SwaggerClient.prototype.build = function(mock) {
     on: {
       error: function(response) {
         if (self.url.substring(0, 4) !== 'http')
-          return self.fail('Please specify the protocol for ' + self.url);
+          return self.fail('<span data-swTarnslate="1">Please specify the protocol for</span> ' + self.url);
         else if (response.status === 0)
-          return self.fail('Can\'t read from server.  It may not have the appropriate access-control-origin settings.');
+          return self.fail('<span data-swTarnslate="1">Can\'t read from server.  It may not have the appropriate access-control-origin settings.</span>');
         else if (response.status === 404)
-          return self.fail('Can\'t read swagger JSON from ' + self.url);
+          return self.fail('<span data-swTarnslate="1">Can\'t read swagger JSON from</span> ' + self.url);
         else
           return self.fail(response.status + ' : ' + response.statusText + ' ' + self.url);
       },
@@ -1683,6 +1683,7 @@ SwaggerClient.prototype.finish = function() {
   }  
 };
 
+
 SwaggerClient.prototype.buildFrom1_1Spec = function (response) {
   log('This API is using a deprecated version of Swagger!  Please see http://github.com/wordnik/swagger-core/wiki for more info');
   if (response.apiVersion !== null)
@@ -1814,7 +1815,7 @@ var SwaggerResource = function (resourceObj, api) {
     } else {
       this.url = this.api.basePath + this.path.replace('{format}', 'json');
     }
-    this.api.progress('fetching resource ' + this.name + ': ' + this.url);
+    this.api.progress('<span data-swTarnslate="1">fetching resource</span> ' + this.name + ': ' + this.url);
     var obj = {
       url: this.url,
       method: 'GET',
@@ -1830,8 +1831,8 @@ var SwaggerResource = function (resourceObj, api) {
         },
         error: function (response) {
           _this.api.resourceCount += 1;
-          return _this.api.fail('Unable to read api \'' +
-          _this.name + '\' from path ' + _this.url + ' (server returned ' + response.statusText + ')');
+          return _this.api.fail('<span data-swTarnslate="1">Unable to read api</span> \'' +
+          _this.name + '\' <span data-swTarnslate="1">from path</span> ' + _this.url + ' (<span data-swTarnslate="1">server returned</span> ' + response.statusText + ')');
         }
       }
     };
