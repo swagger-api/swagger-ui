@@ -105,6 +105,14 @@ describe('swagger 2.0 spec tests', function (done) {
     });
   });
 
+  it('should find the pet resource description', function(done){
+    var locator = webdriver.By.xpath("//div[contains(., 'Everything about your Pets')]");
+    driver.findElements(locator).then(function (elements) {
+      expect(elements.length).to.not.equal(0);
+      done();
+    });
+  });
+
   it('should find the user link', function(done){
     var locator = webdriver.By.xpath("//*[@data-id='user']");
     driver.isElementPresent(locator).then(function (isPresent) {

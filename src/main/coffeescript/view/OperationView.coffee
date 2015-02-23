@@ -12,7 +12,8 @@ class OperationView extends Backbone.View
 
   initialize: (opts={}) ->
     @auths = opts.auths
-
+    @parentId = @model.parentId
+    @nickname = @model.nickname
     @
 
   mouseEnter: (e) ->
@@ -194,6 +195,7 @@ class OperationView extends Backbone.View
         if(o.value? && jQuery.trim(o.value).length > 0)
           map[o.name] = o.value
         if o.type is "file"
+          map[o.name] = o.files[0]
           isFileUpload = true
 
       for o in form.find("textarea")
@@ -228,7 +230,7 @@ class OperationView extends Backbone.View
 
     # add params
     for param in @model.parameters
-      if param.paramType is 'form'
+      if param.paramType is 'form' or param.in is 'formData'
         if param.type.toLowerCase() isnt 'file' and map[param.name] != undefined
             bodyParam.append(param.name, map[param.name])
 
@@ -452,5 +454,5 @@ class OperationView extends Backbone.View
     if opts.highlightSizeThreshold && response.data.length > opts.highlightSizeThreshold then response_body_el else hljs.highlightBlock(response_body_el)
 
   toggleOperationContent: ->
-    elem = $('#' + Docs.escapeResourceName(@model.parentId + "_" + @model.nickname + "_content"))
+    elem = $('#' + Docs.escapeResourceName(@parentId + "_" + @nickname + "_content"))
     if elem.is(':visible') then Docs.collapseOperation(elem) else Docs.expandOperation(elem)

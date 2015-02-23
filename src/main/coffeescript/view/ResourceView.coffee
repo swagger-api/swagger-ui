@@ -1,16 +1,17 @@
 class ResourceView extends Backbone.View
   initialize: (opts={}) ->
     @auths = opts.auths
-    if "" is @model.description 
+    if "" is @model.description
       @model.description = null
+    if @model.description?
+      @model.summary = @model.description
 
   render: ->
-    $(@el).html(Handlebars.templates.resource(@model))
-
     methods = {}
 
-    if @model.description
-      @model.summary = @model.description
+
+    $(@el).html(Handlebars.templates.resource(@model))
+
     # Render each operation
     for operation in @model.operationsArray
       counter = 0

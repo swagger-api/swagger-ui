@@ -62,7 +62,6 @@ class SwaggerUi extends Backbone.Router
     @headerView.update(url)
 
     @api = new SwaggerClient(@options)
-    @api.build()    
 
   # collapse all sections
   collapseAll:() ->
@@ -90,7 +89,7 @@ class SwaggerUi extends Backbone.Router
     setTimeout(
       =>
         Docs.shebang()
-      400
+      100
     )
 
   buildUrl: (base, url) ->

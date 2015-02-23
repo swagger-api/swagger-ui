@@ -24,7 +24,7 @@ var elements = [
 ];
 
 describe('swagger 1.x spec tests', function (done) {
-  this.timeout(10 * 10000);
+  this.timeout(10 * 1000);
   var swaggerUI, specServer, driver;
 
   before(function () {
@@ -85,6 +85,14 @@ describe('swagger 1.x spec tests', function (done) {
     var locator = webdriver.By.xpath("//*[@data-id='pet']");
     driver.isElementPresent(locator).then(function (isPresent) {
       expect(isPresent).to.be.true;
+      done();
+    });
+  });
+
+  it('should find the pet resource description', function(done){
+    var locator = webdriver.By.xpath("//div[contains(., 'Operations about pets')]");
+    driver.findElements(locator).then(function (elements) {
+      expect(elements.length).to.not.equal(0);
       done();
     });
   });
