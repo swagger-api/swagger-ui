@@ -103,7 +103,7 @@ gulp.task('copy', ['less'], function() {
 
   // copy JavaScript files inside lib folder
   gulp
-    .src(['./lib/**/*.js'])
+    .src(['./lib/**/*.{js,map}'])
     .pipe(gulp.dest('./dist/lib'))
     .on('error', gutil.log)
 
