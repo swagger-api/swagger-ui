@@ -24,11 +24,14 @@ class SwaggerUi extends Backbone.Router
 
     @options = options
 
+    # set marked options
+    marked.setOptions(gfm: true)
+
     # Set the callbacks
-    @options.success = => 
+    @options.success = =>
       @render()
     @options.progress = (d) => @showMessage(d)
-    @options.failure = (d) => 
+    @options.failure = (d) =>
       @onLoadFailure(d)
 
     # Create view to handle the header inputs
