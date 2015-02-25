@@ -118,7 +118,7 @@ gulp.task('copy', ['less'], function() {
  * Watch for changes and recompile
  */
 gulp.task('watch', function() {
-  return watch(['./src/**/*.{coffee,js,less}'], function() {
+  return watch(['./src/**/*.{coffee,js,less,handlebars}'], function() {
     gulp.start('default');
   });
 });
