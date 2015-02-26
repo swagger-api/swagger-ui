@@ -28,7 +28,7 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-        url = "http://petstore.swagger.io/v2/swagger.json";
+    	  url = "http://localhost:8080/repox/rest/api-docs";
       }
       window.swaggerUi = new SwaggerUi({
         url: url,
@@ -74,6 +74,24 @@
         $('#input_apiKey').val(apiKey);
         addApiKeyAuthorization();
       */
+      
+      function addUserPassAuthorization() {
+    	  var username = $('#input_username')[0].value;
+          var password = $('#input_password')[0].value;
+//           log("key: " + key);
+//           if(key && key.trim() != "") {
+//               log("added key " + key);
+				window.authorizations.add("Authorization", new ApiKeyAuthorization("Authorization", "Basic " + btoa(username + ":" + password), "header"));
+//           }
+        }
+      
+      $('#input_username').change(function() {
+    	  addUserPassAuthorization();
+        });
+      
+      $('#input_password').change(function() {
+    	  addUserPassAuthorization();
+        });
 
       window.swaggerUi.load();
   });
@@ -85,8 +103,16 @@
   <div class="swagger-ui-wrap">
     <a id="logo" href="http://swagger.io">swagger</a>
     <form id='api_selector'>
+          <div class='input icon-btn'>
+        <img id="show-repox-dev-icon" src="images/repox-logo-24.png" title="Show Repox Developer Apis">
+      </div>
+      <div class='input icon-btn'>
+        <img id="show-repox-dev-icon2" src="images/repox-logo-24.png" title="Show Repox Developer Apis">
+      </div>
       <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
-      <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
+      <div class='input'><input placeholder="username" id="input_username" name="username" type="text"/></div>
+      <div class='input'><input placeholder="password" id="input_password" name="password" type="password"/></div>
+<!--       <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div> -->
       <div class='input'><a id="explore" href="#">Explore</a></div>
     </form>
   </div>
