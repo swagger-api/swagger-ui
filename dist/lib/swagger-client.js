@@ -343,7 +343,7 @@ SwaggerClient.prototype.initialize = function (url, options) {
 SwaggerClient.prototype.build = function(mock) {
   if (this.isBuilt) return this;
   var self = this;
-  this.progress('<span data-swTarnslate="1">fetching resource list</span>: ' + this.url);
+  this.progress('<span data-sw-translate>fetching resource list</span>: ' + this.url);
   var obj = {
     useJQuery: this.useJQuery,
     url: this.url,
@@ -354,11 +354,11 @@ SwaggerClient.prototype.build = function(mock) {
     on: {
       error: function(response) {
         if (self.url.substring(0, 4) !== 'http')
-          return self.fail('<span data-swTarnslate="1">Please specify the protocol for</span> ' + self.url);
+          return self.fail('<span data-sw-translate>Please specify the protocol for</span> ' + self.url);
         else if (response.status === 0)
-          return self.fail('<span data-swTarnslate="1">Can\'t read from server.  It may not have the appropriate access-control-origin settings.</span>');
+          return self.fail('<span data-sw-translate>Can\'t read from server.  It may not have the appropriate access-control-origin settings.</span>');
         else if (response.status === 404)
-          return self.fail('<span data-swTarnslate="1">Can\'t read swagger JSON from</span> ' + self.url);
+          return self.fail('<span data-sw-translate>Can\'t read swagger JSON from</span> ' + self.url);
         else
           return self.fail(response.status + ' : ' + response.statusText + ' ' + self.url);
       },
@@ -1729,7 +1729,7 @@ var SwaggerResource = function (resourceObj, api) {
     } else {
       this.url = this.api.basePath + this.path.replace('{format}', 'json');
     }
-    this.api.progress('<span data-swTarnslate="1">fetching resource</span> ' + this.name + ': ' + this.url);
+    this.api.progress('<span data-sw-translate>fetching resource</span> ' + this.name + ': ' + this.url);
     var obj = {
       url: this.url,
       method: 'GET',
@@ -1745,8 +1745,8 @@ var SwaggerResource = function (resourceObj, api) {
         },
         error: function (response) {
           _this.api.resourceCount += 1;
-          return _this.api.fail('<span data-swTarnslate="1">Unable to read api</span> \'' +
-          _this.name + '\' <span data-swTarnslate="1">from path</span> ' + _this.url + ' (<span data-swTarnslate="1">server returned</span> ' + response.statusText + ')');
+          return _this.api.fail('<span data-sw-translate>Unable to read api</span> \'' +
+          _this.name + '\' <span data-sw-translate>from path</span> ' + _this.url + ' (<span data-sw-translate>server returned</span> ' + response.statusText + ')');
         }
       }
     };
