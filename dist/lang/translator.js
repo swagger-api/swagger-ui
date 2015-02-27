@@ -8,7 +8,7 @@
  * If you wish to translate some new texsts you should do two things:
  * 1. Add a new phrase pair ("New Phrase": "New Translation") into your language file (for example lang/ru.js). It will be great if you add it in other language files too.
  * 2. Mark that text it templates this way <anyHtmlTag data-sw-translate>New Phrase</anyHtmlTag> or <anyHtmlTag data-sw-translate value='New Phrase'/>. 
- * The main thing here is attribute data-sw-translate. Only inner html, title-attribute and value-attribute are going to translate.
+ * The main thing here is attribute data-sw-translate. Only inner text, title-attribute and value-attribute are going to translate.
  *
  */
 SwaggerTranslator = {
@@ -16,29 +16,38 @@ SwaggerTranslator = {
     _words:[],
     
     translate: function() {
-	var $this = this;
-	$("[data-sw-translate]").each(
-	    function() {
-		$(this).html(
-		    $this._tryTranslate($(this).html())
-		);
-		$(this).val(
-		    $this._tryTranslate($(this).val())
-		);
-		$(this).attr(
-		    'title',
-		    $this._tryTranslate($(this).attr('title'))
-		);
-	    }
-	)
+    var $this = this;
+    $("[data-sw-translate]").each(
+        function() {
+            if ($(this).text() && $(this).children().length == 0) {
+                $(this).text(
+                    $this._tryTranslate($(this).text())
+                );
+            }
+            
+            if ($(this).val()) {
+                $(this).val(
+                    $this._tryTranslate($(this).val())
+                );
+            }
+            
+            
+            if ($(this).attr('title')) {
+                $(this).attr(
+                    'title',
+                    $this._tryTranslate($(this).attr('title'))
+                );
+            }
+        }
+    )
     },
     
     _tryTranslate: function(word) {
-	return this._words[word] != undefined ? this._words[word] : word;
+        return this._words[word] != undefined ? this._words[word] : word;
     },
     
     learn: function(wordsMap) {
-	this._words = wordsMap;
+        this._words = wordsMap;
     }
 }
 
