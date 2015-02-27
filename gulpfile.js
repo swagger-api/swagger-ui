@@ -89,6 +89,7 @@ gulp.task('less', ['clean'], function() {
   return gulp
     .src([
       './src/main/less/screen.less',
+      './src/main/less/print.less',
       './src/main/less/reset.less'
     ])
     .pipe(less())
