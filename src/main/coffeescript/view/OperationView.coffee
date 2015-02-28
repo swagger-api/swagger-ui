@@ -192,6 +192,8 @@ class OperationView extends Backbone.View
       isFileUpload = false
 
       for o in form.find("input")
+        if o.type is "button"
+          continue
         if(o.value? && jQuery.trim(o.value).length > 0)
           map[o.name] = o.value
         if o.type is "file"
@@ -214,7 +216,15 @@ class OperationView extends Backbone.View
       if isFileUpload
         @handleFileUpload map, form
       else
+        @updateLocationHash(map)
         @model.do(map, opts, @showCompleteStatus, @showErrorStatus, @)
+
+  updateLocationHash: (map) ->
+    queryString = ""
+    if _.size(map) > 0
+      queryString = "?" + $.param(map)
+
+    location.hash = "#!/#{@model.parentId}/#{@model.nickname}#{queryString}"
 
   success: (response, parent) ->
     parent.showCompleteStatus response
