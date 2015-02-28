@@ -1,17 +1,8 @@
-var webdriver = require('selenium-webdriver');
-var createServer = require('http-server').createServer;
 var expect = require('chai').expect;
-var path = require('path')
+var webdriver = require('selenium-webdriver');
+var driver = require('./driver');
+var servers = require('./servers');
 
-var dist = path.join(__dirname, '..', '..', 'dist');
-var specs = path.join(__dirname, '..', '..', 'test', 'specs');
-var DOCS_PORT = 8080;
-var SPEC_SERVER_PORT = 8081
-
-var headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-};
 
 var elements = [
   'swagger-ui-container',
@@ -25,19 +16,9 @@ var elements = [
 
 describe('swagger 2.0 spec tests', function (done) {
   this.timeout(10 * 1000);
-  var swaggerUI, specServer, driver;
 
-  before(function () {
-    swaggerUI = createServer({ root: dist, headers: headers });
-    specServer = createServer({ root: specs, headers: headers });
-    driver = new webdriver.Builder().
-      withCapabilities(webdriver.Capabilities.firefox()).build();
-
-    swaggerUI.listen(DOCS_PORT);
-    specServer.listen(SPEC_SERVER_PORT);
-
-    var swaggerSpecLocation = encodeURIComponent('http://localhost:' + SPEC_SERVER_PORT + '/v2/petstore.json')
-    driver.get('http://localhost:' + DOCS_PORT + '/index.html?url=' + swaggerSpecLocation);
+  before(function (done) {
+    servers.start('/v2/petstore.json', done);
   });
 
   afterEach(function(){
@@ -130,8 +111,6 @@ describe('swagger 2.0 spec tests', function (done) {
   });
 
   after(function() {
-    swaggerUI.close();
-    specServer.close();
-    driver.quit();
+    servers.close();
   });
 });
