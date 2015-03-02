@@ -219,6 +219,9 @@ To share your changes, [submit a pull request](https://github.com/swagger-api/sw
 
 Since the javascript files are compiled from coffeescript, please submit changes in the *.coffee files!  We have to reject changes only in the .js files as they will be lost on each build of the ui.
 
+## Change Log
+Plsee see [releases](https://github.com/swagger-api/swagger-ui/releases) for change log.
+
 ## License
 
 Copyright 2011-2015 Reverb technologies, Inc.
