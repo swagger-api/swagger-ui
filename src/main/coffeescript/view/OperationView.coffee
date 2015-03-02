@@ -100,7 +100,7 @@ class OperationView extends Backbone.View
         value = successResponse[key]
         @model.successCode = key
         if typeof value is 'object' and typeof value.createJSONSample is 'function'
-          signatureModel = 
+          signatureModel =
             sampleJSON: JSON.stringify(value.createJSONSample(), undefined, 2)
             isParam: false
             signature: value.getMockSignature()
@@ -415,6 +415,10 @@ class OperationView extends Backbone.View
     $(".response_body", $(@el)).removeClass 'json'
     $(".response_body", $(@el)).removeClass 'xml'
 
+    supportsAudioPlayback = (contentType) ->
+      audioElement = document.createElement('audio')
+      return !!(audioElement.canPlayType && audioElement.canPlayType(contentType).replace(/no/, ''))
+
     if !content
       code = $('<code />').text("no content")
       pre = $('<pre class="json" />').append(code)
@@ -434,6 +438,8 @@ class OperationView extends Backbone.View
       pre = $('<pre class="xml" />').append(code)
     else if /^image\//.test(contentType)
       pre = $('<img>').attr('src',url)
+    else if /^audio\//.test(contentType) and supportsAudioPlayback(contentType)
+      pre = $('<audio controls>').append($('<source>').attr('src', url).attr('type', contentType))
     else
       # don't know what to render!
       code = $('<code />').text(content)
