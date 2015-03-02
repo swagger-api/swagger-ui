@@ -1450,6 +1450,9 @@ OperationView = (function(superClass) {
         signature: this.model.responseClassSignature
       };
     }
+    if (this.options.swaggerOptions.hidePathRegex) {
+      this.model.path = this.model.path.replace(/(\/\s*?\{)\s*(.*?)\s*:.*?(?=\}\s*?(\/|$))/gi, '$1$2');
+    }
     $(this.el).html(Handlebars.templates.operation(this.model));
     if (signatureModel) {
       responseSignatureView = new SignatureView({

@@ -100,7 +100,7 @@ class OperationView extends Backbone.View
         value = successResponse[key]
         @model.successCode = key
         if typeof value is 'object' and typeof value.createJSONSample is 'function'
-          signatureModel = 
+          signatureModel =
             sampleJSON: JSON.stringify(value.createJSONSample(), undefined, 2)
             isParam: false
             signature: value.getMockSignature()
@@ -111,6 +111,8 @@ class OperationView extends Backbone.View
         isParam: false
         signature: @model.responseClassSignature
 
+    if @options.swaggerOptions.hidePathRegex
+      @model.path = @model.path.replace(/(\/\s*?\{)\s*(.*?)\s*:.*?(?=\}\s*?(\/|$))/gi, '$1$2')
 
     $(@el).html(Handlebars.templates.operation(@model))
 
