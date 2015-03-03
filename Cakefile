@@ -24,8 +24,8 @@ task 'clean', 'Removes distribution', ->
 
 task 'dist', 'Build a distribution', ->
   console.log "Build distribution in ./dist"
-  fs.mkdirSync('dist') if not path.existsSync('dist')
-  fs.mkdirSync('dist/lib') if not path.existsSync('dist/lib')
+  fs.mkdirSync('dist') if not fs.existsSync('dist')
+  fs.mkdirSync('dist/lib') if not fs.existsSync('dist/lib')
 
   appContents = new Array remaining = sourceFiles.length
   for file, index in sourceFiles then do (file, index) ->
