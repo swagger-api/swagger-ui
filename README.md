@@ -57,6 +57,7 @@ Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstor
 You may choose to customize Swagger UI for your organization. Here is an overview of whats in its various directories:
 
 -    dist: Contains a distribution which you can deploy on a server or load from your local machine.
+-    dist/lang: The swagger localisation
 -    lib: Contains javascript dependencies which swagger-ui depends on
 -    node_modules: Contains node modules which swagger-ui uses for its development.
 -    src
@@ -123,6 +124,31 @@ window.authorizations.add("key", new ApiKeyAuthorization("Authorization", "XXXX"
 ```
 
 Note!  You can pass multiple header params on a single request, just use unique names for them (`key` is used in the above example).
+
+### Localisation and translation
+The localisation files are in the dist/lang directory. 
+
+To enable translation you should append next two lines in your swagger's index.html (or another entry point you use)
+```html
+<script src='lang/translator.js' type='text/javascript'></script>
+<script src='lang/en.js' type='text/javascript'></script>
+```
+The first line script is a translator and the second one is your language lexemes.
+
+If you wish to append support for new language you just need to create lang/your_lang.js and fill it like it's done in existing files.
+
+To append new lexemex for translation you shoul do two things:
+1. Add lexeme into the language file. 
+    Example of new line: "new sentence":"translation of new sentence".
+2. Mark this lexeme in source html with attribute data-sw-translate.
+    Example of changed source: 
+```html
+        <anyHtmlTag data-sw-translate>new sentence</anyHtmlTag> 
+        or <anyHtmlTag data-sw-translate value='new sentence'/>
+```
+.
+
+At this moment only inner html, title-attribute and value-attribute are going to be translated.
 
 ## CORS Support
 
@@ -192,6 +218,9 @@ Create your own fork of [swagger-api/swagger-ui](https://github.com/swagger-api/
 To share your changes, [submit a pull request](https://github.com/swagger-api/swagger-ui/pull/new/master).
 
 Since the javascript files are compiled from coffeescript, please submit changes in the *.coffee files!  We have to reject changes only in the .js files as they will be lost on each build of the ui.
+
+## Change Log
+Plsee see [releases](https://github.com/swagger-api/swagger-ui/releases) for change log.
 
 ## License
 

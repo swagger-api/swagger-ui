@@ -1,3 +1,6 @@
+{{#if required}}
+<td class='code required'>{{name}}</td>
+{{/if}}
 <td class='code'>{{name}}</td>
 <td>
   <select {{#isArray this}} multiple='multiple'{{/isArray}} class='parameter' name='{{name}}'>

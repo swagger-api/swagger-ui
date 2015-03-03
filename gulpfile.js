@@ -16,6 +16,7 @@ var watch = require('gulp-watch');
 var connect = require('gulp-connect');
 var header = require('gulp-header');
 var pkg = require('./package.json');
+var order = require('gulp-order');
 var banner = ['/**',
   ' * <%= pkg.name %> - <%= pkg.description %>',
   ' * @version v<%= pkg.version %>',
@@ -69,6 +70,7 @@ gulp.task('dist', ['clean'], function() {
       coffeescript(),
       templates()
     )
+    .pipe(order(['docs.js', 'scripts.js', 'templates.js']))
     .pipe(concat('swagger-ui.js'))
     .pipe(header(banner, { pkg: pkg } ))
     .pipe(gulp.dest('./dist'))
@@ -103,7 +105,7 @@ gulp.task('copy', ['less'], function() {
 
   // copy JavaScript files inside lib folder
   gulp
-    .src(['./lib/**/*.js'])
+    .src(['./lib/**/*.{js,map}'])
     .pipe(gulp.dest('./dist/lib'))
     .on('error', gutil.log)
 
@@ -118,7 +120,7 @@ gulp.task('copy', ['less'], function() {
  * Watch for changes and recompile
  */
 gulp.task('watch', function() {
-  return watch(['./src/**/*.{coffee,js,less}'], function() {
+  return watch(['./src/**/*.{coffee,js,less,handlebars}'], function() {
     gulp.start('default');
   });
 });

@@ -9,7 +9,7 @@ var ArrayModel = function(definition) {
   this.name = "arrayModel";
   this.definition = definition || {};
   this.properties = [];
-  
+
   var requiredFields = definition.enum || [];
   var innerType = definition.items;
   if(innerType) {
@@ -301,7 +301,7 @@ PrimitiveModel.prototype.getMockSignature = function(modelsToIgnore) {
   }
   return returnVal;
 };
-/** 
+/**
  * Resolves a spec's remote references
  */
 var Resolver = function (){};
@@ -1721,7 +1721,7 @@ Property.prototype.toString = function() {
   }
 
 
-  var options = ''; 
+  var options = '';
   var isArray = this.schema.type === 'array';
   var type;
 
@@ -1783,11 +1783,11 @@ Property.prototype.toString = function() {
     }
 
     options += optionHtml('Enum', enumString);
-  }     
+  }
 
   if (options.length > 0)
     str = '<span class="propWrap">' + str + '<table class="optionsWrapper"><tr><th colspan="2">' + this.name + '</th></tr>' + options + '</table></span>';
-  
+
   return str;
 };
 
@@ -1882,7 +1882,7 @@ SwaggerClient.prototype.finish = function() {
     this.isBuilt = true;
     this.selfReflect();
     this.success();
-  }  
+  }
 };
 
 SwaggerClient.prototype.buildFrom1_1Spec = function (response) {
@@ -2089,7 +2089,7 @@ SwaggerResource.prototype.addApiDeclaration = function (response) {
   if (typeof response.consumes === 'string')
     this.consumes = response.consumes;
   if ((typeof response.basePath === 'string') && response.basePath.replace(/\s/g, '').length > 0)
-    this.basePath = response.basePath.indexOf('http') === -1 ? this.getAbsoluteBasePath(response.basePath) : response.basePath;
+    this.basePath = response.basePath.indexOf('http') !== 0 ? this.getAbsoluteBasePath(response.basePath) : response.basePath;
   this.resourcePath = response.resourcePath;
   this.addModels(response.models);
   if (response.apis) {
@@ -2173,11 +2173,11 @@ SwaggerResource.prototype.addOperations = function (resource_path, ops, consumes
           o.summary,
           o.notes,
           type,
-          responseMessages, 
-          this, 
-          consumes, 
-          produces, 
-          o.authorizations, 
+          responseMessages,
+          this,
+          consumes,
+          produces,
+          o.authorizations,
           o.deprecated);
 
       this.operations[op.nickname] = op;
@@ -2674,15 +2674,15 @@ SwaggerOperation.prototype.urlify = function (args) {
     param = params[i];
     if(param.paramType === 'query') {
       if (queryParams !== '')
-        queryParams += '&';    
+        queryParams += '&';
       if (Array.isArray(param)) {
-        var output = '';   
-        for(j = 0; j < param.length; j++) {    
-          if(j > 0)    
-            output += ',';   
-          output += encodeURIComponent(param[j]);    
-        }    
-        queryParams += encodeURIComponent(param.name) + '=' + output;    
+        var output = '';
+        for(j = 0; j < param.length; j++) {
+          if(j > 0)
+            output += ',';
+          output += encodeURIComponent(param[j]);
+        }
+        queryParams += encodeURIComponent(param.name) + '=' + output;
       }
       else {
         if (typeof args[param.name] !== 'undefined') {
@@ -2751,7 +2751,7 @@ SwaggerOperation.prototype.asCurl = function (args) {
   var results = [];
   var i;
 
-  var headers = SwaggerRequest.prototype.setHeaders(args, {}, this);    
+  var headers = SwaggerRequest.prototype.setHeaders(args, {}, this);
   for(i = 0; i < this.parameters.length; i++) {
     var param = this.parameters[i];
     if(param.paramType && param.paramType === 'header' && args[param.name]) {
@@ -3043,7 +3043,6 @@ SwaggerHttp.prototype.execute = function(obj, opts) {
     else {
       obj.contentType = false;
       obj.processData = false;
-      // delete obj.cache;
       delete obj.headers['Content-Type'];
     }
   }
