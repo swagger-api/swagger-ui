@@ -11,6 +11,7 @@ lib/*.zip
 dk/
 index_dict
 logs
+dist/
 src/main/java/com/wordnik/env/Version.scala
 lib/*.pom
 version.properties
