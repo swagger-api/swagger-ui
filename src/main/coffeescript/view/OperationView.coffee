@@ -8,6 +8,7 @@ class OperationView extends Backbone.View
     'click .toggleOperation'  : 'toggleOperationContent'
     'mouseenter .api-ic'      : 'mouseEnter'
     'mouseout .api-ic'        : 'mouseExit'
+    'change select'           : 'changedParameterContentType'
   }
 
   initialize: ->
@@ -84,6 +85,9 @@ class OperationView extends Backbone.View
     responseContentTypeView = new ResponseContentTypeView({model: contentTypeModel})
     $('.response-content-type', $(@el)).append responseContentTypeView.render().el
 
+    parameterContentTypeView = new ParameterContentTypeView({model: contentTypeModel})
+    $('.parameter-content-type', $(@el)).append parameterContentTypeView.render().el
+
     # Render each parameter
     @addParameter param, contentTypeModel.consumes for param in @model.parameters
 
@@ -123,7 +127,7 @@ class OperationView extends Backbone.View
 
       isFileUpload = false
 
-      for o in form.find("input")
+      for o in form.find("input:visible")
         if(o.value? && jQuery.trim(o.value).length > 0)
           map[o.name] = o.value
         if o.type is "file"
@@ -373,3 +377,6 @@ class OperationView extends Backbone.View
   toggleOperationContent: ->
     elem = $('#' + Docs.escapeResourceName(@model.parentId) + "_" + @model.nickname + "_content")
     if elem.is(':visible') then Docs.collapseOperation(elem) else Docs.expandOperation(elem)
+
+  changedParameterContentType: ->
+    Docs.showParamsBasedOnContentType($("#" + Docs.escapeResourceName(@model.parentId) + "_" + @model.nickname + "_content"))

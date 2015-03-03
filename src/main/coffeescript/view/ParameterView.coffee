@@ -26,24 +26,6 @@ class ParameterView extends Backbone.View
     else
       $('.model-signature', $(@el)).html(@model.signature)
 
-    isParam = false
-
-    if @model.isBody
-      isParam = true
-
-    contentTypeModel =
-      isParam: isParam
-
-    contentTypeModel.consumes = @model.consumes
-
-    if isParam
-      parameterContentTypeView = new ParameterContentTypeView({model: contentTypeModel})
-      $('.parameter-content-type', $(@el)).append parameterContentTypeView.render().el
-
-    else
-      responseContentTypeView = new ResponseContentTypeView({model: contentTypeModel})
-      $('.response-content-type', $(@el)).append responseContentTypeView.render().el
-
     @
 
   # Return an appropriate template based on if the parameter is a list, readonly, required

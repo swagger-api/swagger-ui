@@ -142,6 +142,19 @@ var Docs = {
 		elem.slideDown();
 	},
 
+    showParamsBasedOnContentType: function($activeModel) {
+        var selectedParameterContentType = $activeModel.find(".parameter-content-type option:selected").text()
+        if (selectedParameterContentType === "application/json") {
+            // hide file inputs, show others
+            $activeModel.find("input:file").closest("tr").hide()
+            $activeModel.find("textarea.body-textarea").closest("tr").show()
+        } else {
+            // hide file inputs, show others
+            $activeModel.find("textarea.body-textarea").closest("tr").hide()
+            $activeModel.find("input:file").closest("tr").show()
+        }
+    },
+
 	// Collapse resource and mark as explicitly closed
 	collapseEndpointListForResource: function(resource) {
 		var resource = Docs.escapeResourceName(resource);

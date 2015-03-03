@@ -61,6 +61,12 @@ class SwaggerUi extends Backbone.Router
       when "full" then Docs.expandOperationsForResource('')
       when "list" then Docs.collapseOperationsForResource('')
     @options.onComplete(@api, @) if @options.onComplete
+
+    # after everything rendered, need to show / hide param rows based on initial parameter content type that has been
+    # selected for each endpoint
+    $('.endpoints').each ->
+      Docs.showParamsBasedOnContentType($(@))
+
     setTimeout(
       =>
         Docs.shebang()
