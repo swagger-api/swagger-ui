@@ -18,6 +18,7 @@ describe('swagger 2.0 spec tests', function (done) {
   this.timeout(10 * 1000);
 
   before(function (done) {
+    this.timeout(25 * 1000);
     servers.start('/v2/petstore.json', done);
   });
 
