@@ -32,7 +32,7 @@ module.exports.start = function (specsLocation, done) {
   setTimeout(function(){
     driver.get(url);
     done();
-  }, process.env.TRAVIS ? 6000 : 3000);
+  }, process.env.TRAVIS ? 10000 : 3000);
 };
 
 module.exports.close = function(){
