@@ -111,6 +111,8 @@ class OperationView extends Backbone.View
         isParam: false
         signature: @model.responseClassSignature
 
+    if @options.swaggerOptions.hidePathRegex
+      @model.path = @model.path.replace(/(\/\s*?\{)\s*(.*?)\s*:.*?(?=\}\s*?(\/|$))/gi, '$1$2')
 
     $(@el).html(Handlebars.templates.operation(@model))
 
