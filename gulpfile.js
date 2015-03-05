@@ -15,6 +15,7 @@ var declare = require('gulp-declare');
 var watch = require('gulp-watch');
 var connect = require('gulp-connect');
 var header = require('gulp-header');
+var manifest = require('gulp-manifest');
 var pkg = require('./package.json');
 var banner = ['/**',
   ' * <%= pkg.name %> - <%= pkg.description %>',
@@ -58,6 +59,21 @@ function coffeescript () {
     .pipe(coffee({bare: true}))
     .on('error', gutil.log);
 }
+
+/**
+ * Create an offline manifest
+ */
+gulp.task('manifest', function(){
+  gulp.src(['dist/**'])
+    .pipe(manifest({
+      hash: true,
+      preferOnline: true,
+      network: ['http://*', 'https://*', '*'],
+      filename: 'app.manifest',
+      exclude: 'app.manifest'
+     }))
+    .pipe(gulp.dest('dist'));
+});
 
 /**
  * Build a distribution

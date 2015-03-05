@@ -1,0 +1,29 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0-alpha1",
+        "title": "Swagger-UI",
+        "description": "## Welcome to swagger.nova.scapp.io\nUse this swagger-ui instance as you see fit. \nYou may simply link to swagger files using the ``url`` \nquery param.\n\nYou can find links to our APIs in the [gravity-plattform registry](https://gravity-platform-registry.nova.scapp.io/ui/).\n"
+    },
+    "host": "swagger.nova.scapp.io",
+    "paths": {
+        "/?url={url}": {
+            "get": {
+                "description": "Return a swagger-ui",
+                "parameters": [
+                    {
+                        "name": "url",
+                        "in": "path",
+                        "description": "URL to ``swagger.json``",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Open swagger-ui at the specified url."
+                    }
+                }
+            }
+        }
+    }
+}

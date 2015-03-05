@@ -6,7 +6,7 @@
   "homepage": "http://swagger.io",
   "license": "Apache 2.0",
   "scripts": {
-    "build": "./node_modules/gulp/bin/gulp.js;",
+    "build": "./node_modules/gulp/bin/gulp.js; ./node_modules/gulp/bin/gulp.js manifest;",
     "serve": "./node_modules/gulp/bin/gulp.js serve;",
     "test": "./node_modules/gulp/bin/gulp.js; ./node_modules/mocha/bin/mocha"
   },
@@ -35,6 +35,7 @@
     "gulp-handlebars": "^3.0.1",
     "gulp-header": "1.2.2",
     "gulp-less": "^2.0.1",
+    "gulp-manifest": "0.0.6",
     "gulp-rename": "^1.2.0",
     "gulp-uglify": "^1.1.0",
     "gulp-util": "^3.0.2",
