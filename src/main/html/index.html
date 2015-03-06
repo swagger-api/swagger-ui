@@ -56,7 +56,7 @@
       });
 
       function addApiKeyAuthorization() {
-        var key = $('#input_apiKey')[0].value;
+        var key = encodeURIComponent($('#input_apiKey')[0].value);
         log("key: " + key);
         if(key && key.trim() != "") {
             log("added key " + key);
