@@ -16,9 +16,11 @@
         Expand Operations
       </a>
     </li>
-    {{#url}}<li>
+    {{#if url}}
+    <li>
       <a href='{{url}}'>Raw</a>
-    </li>{{/url}}
+    </li>
+    {{/if}}
   </ul>
 </div>
 <ul class='endpoints' id='{{id}}_endpoint_list' style='display:none'>
