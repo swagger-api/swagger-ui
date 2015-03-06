@@ -25,12 +25,12 @@ class ResourceView extends Backbone.View
 
       operation.nickname = id
       operation.parentId = @model.id
-      @addOperation operation 
+      @addOperation operation
 
     $('.toggleEndpointList', @el).click(this.callDocs.bind(this, 'toggleEndpointListForResource'))
     $('.collapseResource', @el).click(this.callDocs.bind(this, 'collapseOperationsForResource'))
     $('.expandResource', @el).click(this.callDocs.bind(this, 'expandOperationsForResource'))
-    
+
     return @
 
   addOperation: (operation) ->
