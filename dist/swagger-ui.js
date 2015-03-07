@@ -617,6 +617,7 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
   buffer += "        <form accept-charset='UTF-8' class='sandbox'>\n          <div style='margin:0;padding:0;display:inline'></div>\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.parameters : depth0), {"name":"if","hash":{},"fn":this.program(18, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
+  buffer += "          <h4>Cookies</h4>\n          <div class=\"cookies\">\n            <input class=\"cookie-input\" type=\"text\">\n            <button class=\"update-cookies\">Update</button>\n            <button class=\"clear-cookies\">Clear All</button>\n          </div>\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.responseMessages : depth0), {"name":"if","hash":{},"fn":this.program(20, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isReadOnly : depth0), {"name":"if","hash":{},"fn":this.program(22, data),"inverse":this.program(24, data),"data":data});
@@ -1324,6 +1325,8 @@ OperationView = (function(superClass) {
     'click .submit': 'submitOperation',
     'click .response_hider': 'hideResponse',
     'click .toggleOperation': 'toggleOperationContent',
+    'click .update-cookies': 'updateCookies',
+    'click .clear-cookies': 'clearCookies',
     'mouseenter .api-ic': 'mouseEnter',
     'mouseout .api-ic': 'mouseExit'
   };
@@ -1525,7 +1528,31 @@ OperationView = (function(superClass) {
       statusCode = ref5[q];
       this.addStatusCode(statusCode);
     }
+    $('.cookie-input', this.el).val(document.cookie);
     return this;
+  };
+
+  OperationView.prototype.updateCookies = function(event) {
+    var input;
+    input = $('.cookie-input', this.el);
+    document.cookie = input.val();
+    input.val(document.cookie);
+    return event.preventDefault();
+  };
+
+  OperationView.prototype.clearCookies = function(event) {
+    var cookie, l, len, len1, m, ref1, ref2, sp;
+    event.preventDefault();
+    ref1 = document.cookie.split(";");
+    for (l = 0, len = ref1.length; l < len; l++) {
+      cookie = ref1[l];
+      ref2 = cookie.split('=');
+      for (m = 0, len1 = ref2.length; m < len1; m++) {
+        sp = ref2[m];
+        document.cookie = sp + "=;expires=Thu, 21 Sep 1979 00:00:01 UTC;";
+      }
+    }
+    return $('.cookie-input', this.el).val(document.cookie);
   };
 
   OperationView.prototype.addParameter = function(param, consumes) {
