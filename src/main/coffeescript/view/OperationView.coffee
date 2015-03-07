@@ -6,6 +6,8 @@ class OperationView extends Backbone.View
     'click .submit'           : 'submitOperation'
     'click .response_hider'   : 'hideResponse'
     'click .toggleOperation'  : 'toggleOperationContent'
+    'click .update-cookies'   : 'updateCookies'
+    'click .clear-cookies'    : 'clearCookies'
     'mouseenter .api-ic'      : 'mouseEnter'
     'mouseout .api-ic'        : 'mouseExit'
   }
@@ -151,7 +153,21 @@ class OperationView extends Backbone.View
     # Render each response code
     @addStatusCode statusCode for statusCode in @model.responseMessages
 
+    $('.cookie-input', @el).val(document.cookie)
     @
+
+  updateCookies: (event)->
+    input = $('.cookie-input', @el)
+    document.cookie = input.val()
+    input.val(document.cookie)
+    event.preventDefault()
+
+  clearCookies: (event)->
+    event.preventDefault()
+    for cookie in document.cookie.split(";")
+      for sp in cookie.split('=')
+         document.cookie = sp + "=;expires=Thu, 21 Sep 1979 00:00:01 UTC;";
+    $('.cookie-input', @el).val(document.cookie)
 
   addParameter: (param, consumes) ->
     # Render a parameter

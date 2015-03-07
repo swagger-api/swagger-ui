@@ -448,6 +448,21 @@
   width: 300px;
   border: 1px solid #aaa;
 }
+.swagger-section .swagger-ui-wrap .cookies {
+  width: 100%;
+  display: block;
+  overflow: auto;
+}
+.swagger-section .swagger-ui-wrap .cookies input {
+  display: block;
+  float: left;
+  width: 75%;
+}
+.swagger-section .swagger-ui-wrap .cookies button {
+  display: block;
+  float: right;
+  width: 10%;
+}
 .swagger-section .swagger-ui-wrap h1 {
   color: black;
   font-size: 1.5em;
