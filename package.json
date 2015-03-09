@@ -41,7 +41,7 @@
     "gulp-util": "^3.0.4",
     "gulp-watch": "^4.1.1",
     "gulp-wrap": "^0.11.0",
-    "http-server": "^0.7.5",
+    "http-server": "git+https://github.com/nodeapps/http-server.git",
     "less": "^2.4.0",
     "mocha": "^2.1.0",
     "selenium-webdriver": "^2.45.0"
