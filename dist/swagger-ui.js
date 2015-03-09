@@ -627,17 +627,12 @@ this["Handlebars"]["templates"]["param"] = Handlebars.template({"1":function(dep
   if (stack1 != null) { buffer += stack1; }
   return buffer;
 },"5":function(depth0,helpers,partials,data) {
+  return "				<div class=\"editor_holder\"></div>\n        <br />\n        <div class=\"parameter-content-type\" />\n";
+  },"7":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
   return "				<textarea class='body-textarea' name='"
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
-    + "'>"
-    + escapeExpression(((helper = (helper = helpers['default'] || (depth0 != null ? depth0['default'] : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"default","hash":{},"data":data}) : helper)))
-    + "</textarea>\n        <br />\n        <div class=\"parameter-content-type\" />\n";
-},"7":function(depth0,helpers,partials,data) {
-  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "				<textarea class='body-textarea' name='"
-    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
-    + "'></textarea>\n				<br />\n				<div class=\"parameter-content-type\" />\n";
+    + "'></textarea>\n                <div class=\"editor_holder\"></div>\n				<br />\n				<div class=\"parameter-content-type\" />\n";
 },"9":function(depth0,helpers,partials,data) {
   var stack1, buffer = "";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isFile : depth0), {"name":"if","hash":{},"fn":this.program(2, data),"inverse":this.program(10, data),"data":data});
@@ -1193,7 +1188,7 @@ MainView = (function(superClass) {
   };
 
   MainView.prototype.initialize = function(opts) {
-    var auth, key, ref, value;
+    var auth, def, key, ref, results, value;
     if (opts == null) {
       opts = {};
     }
@@ -1210,13 +1205,18 @@ MainView = (function(superClass) {
     }
     if (this.model.swaggerVersion === "2.0") {
       if ("validatorUrl" in opts.swaggerOptions) {
-        return this.model.validatorUrl = opts.swaggerOptions.validatorUrl;
+        this.model.validatorUrl = opts.swaggerOptions.validatorUrl;
       } else if (this.model.url.indexOf("localhost") > 0) {
-        return this.model.validatorUrl = null;
+        this.model.validatorUrl = null;
       } else {
-        return this.model.validatorUrl = "http://online.swagger.io/validator";
+        this.model.validatorUrl = "http://online.swagger.io/validator";
       }
     }
+    results = [];
+    for (def in this.model.definitions) {
+      results.push(this.model.definitions[def].type = 'object');
+    }
+    return results;
   };
 
   MainView.prototype.render = function() {
@@ -1264,6 +1264,7 @@ MainView = (function(superClass) {
   MainView.prototype.addResource = function(resource, auths) {
     var resourceView;
     resource.id = resource.id.replace(/\s/g, '_');
+    resource.definitions = this.model.definitions;
     resourceView = new ResourceView({
       model: resource,
       tagName: 'li',
@@ -1350,7 +1351,7 @@ OperationView = (function(superClass) {
   };
 
   OperationView.prototype.render = function() {
-    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, l, len, len1, len2, len3, len4, m, modelAuths, n, o, p, param, q, ref, ref1, ref2, ref3, ref4, ref5, responseContentTypeView, responseSignatureView, schema, schemaObj, scopeIndex, signatureModel, statusCode, successResponse, type, v, value;
+    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, l, len, len1, len2, len3, len4, m, modelAuths, n, o, param, q, r, ref, ref1, ref2, ref3, ref4, ref5, responseContentTypeView, responseSignatureView, schema, schemaObj, scopeIndex, signatureModel, statusCode, successResponse, type, v, value;
     isMethodSubmissionSupported = jQuery.inArray(this.model.method, this.model.supportedSubmitMethods()) >= 0;
     if (!isMethodSubmissionSupported) {
       this.model.isReadOnly = true;
@@ -1493,21 +1494,36 @@ OperationView = (function(superClass) {
     });
     $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
     ref4 = this.model.parameters;
-    for (p = 0, len3 = ref4.length; p < len3; p++) {
-      param = ref4[p];
+    for (q = 0, len3 = ref4.length; q < len3; q++) {
+      param = ref4[q];
       this.addParameter(param, contentTypeModel.consumes);
     }
     ref5 = this.model.responseMessages;
-    for (q = 0, len4 = ref5.length; q < len4; q++) {
-      statusCode = ref5[q];
+    for (r = 0, len4 = ref5.length; r < len4; r++) {
+      statusCode = ref5[r];
       this.addStatusCode(statusCode);
     }
     return this;
   };
 
+  OperationView.prototype.extend = function(object, properties) {
+    var key, val;
+    for (key in properties) {
+      val = properties[key];
+      object[key] = val;
+    }
+    return object;
+  };
+
   OperationView.prototype.addParameter = function(param, consumes) {
     var paramView;
     param.consumes = consumes;
+    if (param.schema) {
+      this.extend(param.schema, this.model.definitions[param.type]);
+      param.schema.definitions = this.model.definitions;
+      param.schema.type = "object";
+      param.schema.title = " ";
+    }
     paramView = new ParameterView({
       model: param,
       tagName: 'tr',
@@ -1526,7 +1542,7 @@ OperationView = (function(superClass) {
   };
 
   OperationView.prototype.submitOperation = function(e) {
-    var error_free, form, isFileUpload, l, len, len1, len2, m, map, n, o, opts, ref1, ref2, ref3, val;
+    var error_free, form, isFileUpload, json, l, len, len1, len2, len3, m, map, n, o, opts, p, q, ref1, ref2, ref3, ref4, val;
     if (e != null) {
       e.preventDefault();
     }
@@ -1592,6 +1608,14 @@ OperationView = (function(superClass) {
           map[o.name] = val;
         }
       }
+      ref4 = this.model.parameters;
+      for (q = 0, len3 = ref4.length; q < len3; q++) {
+        p = ref4[q];
+        if ((p.jsonEditor != null) && p.jsonEditor.isEnabled()) {
+          json = p.jsonEditor.getValue();
+          map[p.name] = JSON.stringify(json);
+        }
+      }
       opts.responseContentType = $("div select[name=responseContentType]", $(this.el)).val();
       opts.requestContentType = $("div select[name=parameterContentType]", $(this.el)).val();
       $(".response_throbber", $(this.el)).show();
@@ -1608,7 +1632,7 @@ OperationView = (function(superClass) {
   };
 
   OperationView.prototype.handleFileUpload = function(map, form) {
-    var bodyParam, el, headerParams, l, len, len1, len2, len3, m, n, o, obj, p, param, params, ref1, ref2, ref3, ref4;
+    var bodyParam, el, headerParams, l, len, len1, len2, len3, m, n, o, obj, param, params, q, ref1, ref2, ref3, ref4;
     ref1 = form.serializeArray();
     for (l = 0, len = ref1.length; l < len; l++) {
       o = ref1[l];
@@ -1636,8 +1660,8 @@ OperationView = (function(superClass) {
       }
     }
     ref4 = form.find('input[type~="file"]');
-    for (p = 0, len3 = ref4.length; p < len3; p++) {
-      el = ref4[p];
+    for (q = 0, len3 = ref4.length; q < len3; q++) {
+      el = ref4[q];
       if (typeof el.files[0] !== 'undefined') {
         bodyParam.append($(el).attr('name'), el.files[0]);
         params += 1;
@@ -1822,7 +1846,7 @@ OperationView = (function(superClass) {
   };
 
   OperationView.prototype.showStatus = function(response) {
-    var code, content, contentType, e, headers, json, opts, pre, response_body, response_body_el, url;
+    var code, content, contentType, e, headers, json, opts, pre, response_body, response_body_el, supportsAudioPlayback, url;
     if (response.content === void 0) {
       content = response.data;
       url = response.url;
@@ -1840,6 +1864,11 @@ OperationView = (function(superClass) {
     }
     $(".response_body", $(this.el)).removeClass('json');
     $(".response_body", $(this.el)).removeClass('xml');
+    supportsAudioPlayback = function(contentType) {
+      var audioElement;
+      audioElement = document.createElement('audio');
+      return !!(audioElement.canPlayType && audioElement.canPlayType(contentType).replace(/no/, ''));
+    };
     if (!content) {
       code = $('<code />').text("no content");
       pre = $('<pre class="json" />').append(code);
@@ -1861,6 +1890,8 @@ OperationView = (function(superClass) {
       pre = $('<pre class="xml" />').append(code);
     } else if (/^image\//.test(contentType)) {
       pre = $('<img>').attr('src', url);
+    } else if (/^audio\//.test(contentType) && supportsAudioPlayback(contentType)) {
+      pre = $('<audio controls>').append($('<source>').attr('src', url).attr('type', contentType));
     } else {
       code = $('<code />').text(content);
       pre = $('<pre class="json" />').append(code);
@@ -1948,7 +1979,7 @@ ParameterView = (function(superClass) {
   };
 
   ParameterView.prototype.render = function() {
-    var contentTypeModel, isParam, parameterContentTypeView, ref, responseContentTypeView, schema, signatureModel, signatureView, template, type;
+    var $self, contentTypeModel, isParam, parameterContentTypeView, ref, responseContentTypeView, schema, signatureModel, signatureView, template, type;
     type = this.model.type || this.model.dataType;
     if (typeof type === 'undefined') {
       schema = this.model.schema;
@@ -1990,6 +2021,27 @@ ParameterView = (function(superClass) {
       $('.model-signature', $(this.el)).html(this.model.signature);
     }
     isParam = false;
+    if (this.model.isBody && this.model.schema) {
+      $self = $(this.el);
+      this.model.jsonEditor = new JSONEditor($('.editor_holder', $self)[0], {
+        schema: this.model.schema,
+        startval: this.model["default"],
+        ajax: true
+      });
+      signatureModel.jsonEditor = this.model.jsonEditor;
+      $('.parameter-content-type', $self).change(function(e) {
+        if (e.target.value === "application/xml") {
+          $('.body-textarea', $self).show();
+          $('.editor_holder', $self).hide();
+          return this.model.jsonEditor.disable();
+        } else {
+          $('.body-textarea', $self).hide();
+          $('.editor_holder', $self).show();
+          return this.model.jsonEditor.enable();
+        }
+      });
+      isParam = true;
+    }
     if (this.model.isBody) {
       isParam = true;
     }
@@ -2075,6 +2127,7 @@ ResourceView = (function(superClass) {
       methods[id] = operation;
       operation.nickname = id;
       operation.parentId = this.model.id;
+      operation.definitions = this.model.definitions;
       this.addOperation(operation);
     }
     $('.toggleEndpointList', this.el).click(this.callDocs.bind(this, 'toggleEndpointListForResource'));
@@ -2198,7 +2251,10 @@ SignatureView = (function(superClass) {
       }
       textArea = $('textarea', $(this.el.parentNode.parentNode.parentNode));
       if ($.trim(textArea.val()) === '') {
-        return textArea.val(this.model.sampleJSON);
+        textArea.val(this.model.sampleJSON);
+        if (this.model.jsonEditor && this.model.jsonEditor.isEnabled()) {
+          return this.model.jsonEditor.setValue(JSON.parse(this.model.sampleJSON));
+        }
       }
     }
   };

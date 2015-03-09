@@ -21,6 +21,11 @@ class MainView extends Backbone.View
       else
         # Default validator
         @model.validatorUrl = "http://online.swagger.io/validator"
+        
+    # JSonEditor requires type='object' to be present on defined types, we add it if it's missing
+    # is there any valid case were it should not be added ?
+    for def of @model.definitions
+      @model.definitions[def].type = 'object'
  
   render: ->
     if @model.securityDefinitions
@@ -60,6 +65,11 @@ class MainView extends Backbone.View
   addResource: (resource, auths) ->
     # Render a resource and add it to resources li
     resource.id = resource.id.replace(/\s/g, '_')
+    
+    # Make all definitions available at the root of the resource so that they can
+    # be loaded by the JSonEditor
+    resource.definitions = @model.definitions
+    
     resourceView = new ResourceView({
       model: resource, 
       tagName: 'li', 

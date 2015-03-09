@@ -46,6 +46,10 @@ class SignatureView extends Backbone.View
       textArea = $('textarea', $(@el.parentNode.parentNode.parentNode))
       if $.trim(textArea.val()) == ''
         textArea.val(@model.sampleJSON)
+        
+        # TODO move this code outside of the view and expose an event instead
+        if @model.jsonEditor && @model.jsonEditor.isEnabled()
+          @model.jsonEditor.setValue(JSON.parse(this.model.sampleJSON))
 
 
     

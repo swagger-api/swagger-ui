@@ -25,6 +25,7 @@ class ResourceView extends Backbone.View
 
       operation.nickname = id
       operation.parentId = @model.id
+      operation.definitions = @model.definitions # make Json Schema available for JSonEditor in this operation
       @addOperation operation 
 
     $('.toggleEndpointList', @el).click(this.callDocs.bind(this, 'toggleEndpointListForResource'))

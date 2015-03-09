@@ -433,6 +433,7 @@
   width: 300px;
   height: 100px;
   border: 1px solid #aaa;
+  display: none;
 }
 .swagger-section .swagger-ui-wrap .markdown p code,
 .swagger-section .swagger-ui-wrap .markdown li code {

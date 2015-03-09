@@ -152,10 +152,29 @@ class OperationView extends Backbone.View
     @addStatusCode statusCode for statusCode in @model.responseMessages
 
     @
-
+  
+  # Is this already available somewhere else ?
+  extend : (object, properties) ->
+    for key, val of properties
+      object[key] = val
+    object
+  
   addParameter: (param, consumes) ->
     # Render a parameter
     param.consumes = consumes
+    
+    # Copy this param JSON spec so that it will be available for JsonEditor
+    if param.schema
+      @extend param.schema, @model.definitions[param.type]
+      param.schema.definitions = @model.definitions
+      # This is required for JsonEditor to display the root properly
+      param.schema.type = "object" 
+      # This is the title that will be used by JsonEditor for the root
+      # Since we already display the parameter's name in the Parameter column
+      # We set this to space, we can't set it to null or space otherwise JsonEditor
+      # will replace it with the text "root" which won't look good on screen
+      param.schema.title = " " 
+      
     paramView = new ParameterView({model: param, tagName: 'tr', readOnly: @model.isReadOnly})
     $('.operation-params', $(@el)).append paramView.render().el
 
@@ -206,6 +225,11 @@ class OperationView extends Backbone.View
         val = this.getSelectedValue o
         if(val? && jQuery.trim(val).length > 0)
           map[o.name] = val
+
+      for p in @model.parameters
+        if p.jsonEditor? && p.jsonEditor.isEnabled()
+          json = p.jsonEditor.getValue()
+          map[p.name] = JSON.stringify(json)
 
       opts.responseContentType = $("div select[name=responseContentType]", $(@el)).val()
       opts.requestContentType = $("div select[name=parameterContentType]", $(@el)).val()
