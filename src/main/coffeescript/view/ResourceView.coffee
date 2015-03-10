@@ -43,7 +43,8 @@ class ResourceView extends Backbone.View
       tagName: 'li',
       className: 'endpoint',
       swaggerOptions: @options.swaggerOptions,
-      auths: @auths
+      auths: @auths,
+      parent: @
     })
     $('.endpoints', $(@el)).append operationView.render().el
 

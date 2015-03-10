@@ -57,7 +57,7 @@ function coffeescript () {
   return gulp
     .src(['./src/main/coffeescript/**/*.coffee'])
     .pipe(coffee({bare: true}))
-    .on('error', gutil.log);
+    .on('error', log);
 }
 
 /**
@@ -93,7 +93,7 @@ gulp.task('less', ['clean'], function() {
       './src/main/less/reset.less'
     ])
     .pipe(less())
-    .on('error', gutil.log)
+    .on('error', log)
     .pipe(gulp.dest('./src/main/html/css/'))
     .pipe(connect.reload());
 });
@@ -108,20 +108,20 @@ gulp.task('copy', ['less'], function() {
   gulp
     .src(['./lib/**/*.{js,map}'])
     .pipe(gulp.dest('./dist/lib'))
-    .on('error', gutil.log)
+    .on('error', log)
 
   // copy all files inside html folder
   gulp
     .src(['./src/main/html/**/*'])
     .pipe(gulp.dest('./dist'))
-    .on('error', gutil.log)
+    .on('error', log)
 });
 
 /**
  * Watch for changes and recompile
  */
 gulp.task('watch', function() {
-  return watch(['./src/**/*.{coffee,js,less,handlebars}'], function() {
+  return watch(['./src/**/*.{coffee,js,less,handlebars,html}'], function() {
     gulp.start('default');
   });
 });
@@ -136,6 +136,10 @@ gulp.task('connect', function() {
   });
 });
 
+function log(error) {
+  console.log(error.toString());
+}
+
 
 gulp.task('default', ['dist', 'copy']);
-gulp.task('serve', ['connect', 'watch'])
+gulp.task('serve', ['connect', 'watch', 'default'])

@@ -115,7 +115,7 @@ class OperationView extends Backbone.View
     $(@el).html(Handlebars.templates.operation(@model))
 
     if signatureModel
-      responseSignatureView = new SignatureView({model: signatureModel, tagName: 'div'})
+      responseSignatureView = new SignatureView({model: signatureModel, tagName: 'div', parent: @})
       $('.model-signature', $(@el)).append responseSignatureView.render().el
     else
       @model.responseClassSignature = 'string'
@@ -142,7 +142,7 @@ class OperationView extends Backbone.View
           contentTypeModel.consumes = 'multipart/form-data'
       param.type = type
 
-    responseContentTypeView = new ResponseContentTypeView({model: contentTypeModel})
+    responseContentTypeView = new ResponseContentTypeView({model: contentTypeModel, parent: @})
     $('.response-content-type', $(@el)).append responseContentTypeView.render().el
 
     # Render each parameter
@@ -156,12 +156,12 @@ class OperationView extends Backbone.View
   addParameter: (param, consumes) ->
     # Render a parameter
     param.consumes = consumes
-    paramView = new ParameterView({model: param, tagName: 'tr', readOnly: @model.isReadOnly})
+    paramView = new ParameterView({model: param, tagName: 'tr', readOnly: @model.isReadOnly, parent: @})
     $('.operation-params', $(@el)).append paramView.render().el
 
   addStatusCode: (statusCode) ->
     # Render status codes
-    statusCodeView = new StatusCodeView({model: statusCode, tagName: 'tr'})
+    statusCodeView = new StatusCodeView({model: statusCode, tagName: 'tr', parent: @})
     $('.operation-status', $(@el)).append statusCodeView.render().el
 
   submitOperation: (e) ->

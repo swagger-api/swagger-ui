@@ -1,7 +1,7 @@
 class SwaggerUi extends Backbone.Router
 
   # Defaults
-  dom_id: "swagger_ui"
+  domEl: $('#swagger_ui')
 
   # Attributes
   options: null
@@ -13,14 +13,27 @@ class SwaggerUi extends Backbone.Router
   initialize: (options={}) ->
     # Allow dom_id to be overridden
     if options.dom_id?
-      @dom_id = options.dom_id
+      @domEl = $('#' + options.dom_id)
       delete options.dom_id
 
-    if not options.supportedSubmitMethods?
-      options.supportedSubmitMethods = ['get','put','post','delete','head','options','patch']
+    # Allow domeEl to be specified
+    else if options.domEl?
+      @domEl = options.domEl
 
-    # Create an empty div which contains the dom_id
-    $('body').append('<div id="' + @dom_id + '"></div>') if not $('#' + @dom_id)?
+    if not options.supportedSubmitMethods?
+      options.supportedSubmitMethods = [
+        'get'
+        'put'
+        'post'
+        'delete'
+        'head'
+        'options'
+        'patch'
+      ]
+
+    # if domEl is not attached to document append it to <body>
+    if !$.contains(document, @domEl)
+      $('body').append(@domEl)
 
     @options = options
 
@@ -34,11 +47,12 @@ class SwaggerUi extends Backbone.Router
     @options.failure = (d) =>
       @onLoadFailure(d)
 
-    # Create view to handle the header inputs
-    @headerView = new HeaderView({el: $('#header')})
+    # Create view to handle the header inputs if there is header element
+    if $('#header').length
+      @headerView = new HeaderView({el: $('#header')})
 
-    # Event handler for when the baseUrl/apiKey is entered by user
-    @headerView.on 'update-swagger-ui', (data) => @updateSwaggerUi(data)
+      # Event handler for when the baseUrl/apiKey is entered by user
+      @headerView.on 'update-swagger-ui', (data) => @updateSwaggerUi(data)
 
   # Set an option after initializing
   setOption: (option,value) ->
@@ -62,7 +76,8 @@ class SwaggerUi extends Backbone.Router
       url = @buildUrl(window.location.href.toString(), url)
 
     @options.url = url
-    @headerView.update(url)
+    if @headerView
+      @headerView.update(url)
 
     @api = new SwaggerClient(@options)
 
@@ -82,7 +97,7 @@ class SwaggerUi extends Backbone.Router
   #  so it gets called when SwaggerApi completes loading
   render:() ->
     @showMessage('Finished Loading Resource Information. Rendering Swagger UI...')
-    @mainView = new MainView({model: @api, el: $('#' + @dom_id), swaggerOptions: @options}).render()
+    @mainView = new MainView({model: @api, el: @domEl, swaggerOptions: @options, router: @}).render()
     @showMessage()
     switch @options.docExpansion
       when "full" then @expandAll()

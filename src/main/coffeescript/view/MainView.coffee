@@ -66,9 +66,10 @@ class MainView extends Backbone.View
       id: 'resource_' + resource.id,
       className: 'resource',
       auths: auths,
-      swaggerOptions: @options.swaggerOptions
+      swaggerOptions: @options.swaggerOptions,
+      parent: @
     })
-    $('#resources').append resourceView.render().el
+    $('#resources', @el).append resourceView.render().el
 
   clear: ->
     $(@el).html ''
