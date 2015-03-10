@@ -3,7 +3,6 @@ class HeaderView extends Backbone.View
     'click #show-pet-store-icon'    : 'showPetStore'
     'click #show-wordnik-dev-icon'  : 'showWordnikDev'
     'click #show-repox-dev-icon'    : 'showRepoxDev'
-    'click #show-repox-dev-icon2'    : 'showRepoxDev2'
     'click #explore'                : 'showCustom'
     'keyup #input_baseUrl'          : 'showCustomOnKeyup'
     'keyup #input_apiKey'           : 'showCustomOnKeyup'
@@ -26,13 +25,7 @@ class HeaderView extends Backbone.View
   showRepoxDev: (e) ->
     @trigger(
       'update-swagger-ui'
-      {url:"http://localhost:8080/repox/rest/api-docs"}
-    )
-    
-  showRepoxDev2: (e) ->
-    @trigger(
-      'update-swagger-ui'
-      {url:"http://localhost:8080/repox-gui-2.6.0-SNAPSHOT/rest/api-docs"}
+      {url:"http://localhost:8080/repox/rest/swagger.json"}
     )
 
   showCustomOnKeyup: (e) ->

@@ -28,12 +28,12 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-    	  url = "http://localhost:8080/repox/rest/api-docs";
+    	  url = "http://localhost:8080/repox/rest/swagger.json";
       }
       window.swaggerUi = new SwaggerUi({
         url: url,
         dom_id: "swagger-ui-container",
-        supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
+        supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch', 'options'],
         onComplete: function(swaggerApi, swaggerUi){
           if(typeof initOAuth == "function") {
             /*
@@ -103,11 +103,8 @@
   <div class="swagger-ui-wrap">
     <a id="logo" href="http://swagger.io">swagger</a>
     <form id='api_selector'>
-          <div class='input icon-btn'>
-        <img id="show-repox-dev-icon" src="images/repox-logo-24.png" title="Show Repox Developer Apis">
-      </div>
       <div class='input icon-btn'>
-        <img id="show-repox-dev-icon2" src="images/repox-logo-24.png" title="Show Repox Developer Apis">
+        <img id="show-repox-dev-icon" src="images/repox-logo-24.png" title="Show Repox Developer Apis">
       </div>
       <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
       <div class='input'><input placeholder="username" id="input_username" name="username" type="text"/></div>
