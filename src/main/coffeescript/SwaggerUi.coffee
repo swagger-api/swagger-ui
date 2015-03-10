@@ -31,8 +31,11 @@ class SwaggerUi extends Backbone.Router
         'patch'
       ]
 
+    # Make sure this.domeEl is a jQuery element
+    @domEl = $(@domEl)
+
     # if domEl is not attached to document append it to <body>
-    if !$.contains(document, @domEl)
+    if !$.contains(document.documentElement, @domEl.get(0))
       $('body').append(@domEl)
 
     @options = options

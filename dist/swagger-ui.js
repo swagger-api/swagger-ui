@@ -38,7 +38,8 @@ SwaggerUi = (function(superClass) {
     if (options.supportedSubmitMethods == null) {
       options.supportedSubmitMethods = ['get', 'put', 'post', 'delete', 'head', 'options', 'patch'];
     }
-    if (!$.contains(document, this.domEl)) {
+    this.domEl = $(this.domEl);
+    if (!$.contains(document.documentElement, this.domEl.get(0))) {
       $('body').append(this.domEl);
     }
     this.options = options;
