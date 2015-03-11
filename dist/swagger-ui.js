@@ -15,7 +15,7 @@ SwaggerUi = (function(superClass) {
     return SwaggerUi.__super__.constructor.apply(this, arguments);
   }
 
-  SwaggerUi.prototype.dom_id = "swagger_ui";
+  SwaggerUi.prototype.domEl = $('#swagger_ui');
 
   SwaggerUi.prototype.options = null;
 
@@ -30,14 +30,17 @@ SwaggerUi = (function(superClass) {
       options = {};
     }
     if (options.dom_id != null) {
-      this.dom_id = options.dom_id;
+      this.domEl = $('#' + options.dom_id);
       delete options.dom_id;
+    } else if (options.domEl != null) {
+      this.domEl = options.domEl;
     }
     if (options.supportedSubmitMethods == null) {
       options.supportedSubmitMethods = ['get', 'put', 'post', 'delete', 'head', 'options', 'patch'];
     }
-    if ($('#' + this.dom_id) == null) {
-      $('body').append('<div id="' + this.dom_id + '"></div>');
+    this.domEl = $(this.domEl);
+    if (!$.contains(document.documentElement, this.domEl.get(0))) {
+      $('body').append(this.domEl);
     }
     this.options = options;
     marked.setOptions({
@@ -58,14 +61,16 @@ SwaggerUi = (function(superClass) {
         return _this.onLoadFailure(d);
       };
     })(this);
-    this.headerView = new HeaderView({
-      el: $('#header')
-    });
-    return this.headerView.on('update-swagger-ui', (function(_this) {
-      return function(data) {
-        return _this.updateSwaggerUi(data);
-      };
-    })(this));
+    if ($('#header').length) {
+      this.headerView = new HeaderView({
+        el: $('#header')
+      });
+      return this.headerView.on('update-swagger-ui', (function(_this) {
+        return function(data) {
+          return _this.updateSwaggerUi(data);
+        };
+      })(this));
+    }
   };
 
   SwaggerUi.prototype.setOption = function(option, value) {
@@ -91,7 +96,9 @@ SwaggerUi = (function(superClass) {
       url = this.buildUrl(window.location.href.toString(), url);
     }
     this.options.url = url;
-    this.headerView.update(url);
+    if (this.headerView) {
+      this.headerView.update(url);
+    }
     return this.api = new SwaggerClient(this.options);
   };
 
@@ -111,8 +118,9 @@ SwaggerUi = (function(superClass) {
     this.showMessage('Finished Loading Resource Information. Rendering Swagger UI...');
     this.mainView = new MainView({
       model: this.api,
-      el: $('#' + this.dom_id),
-      swaggerOptions: this.options
+      el: this.domEl,
+      swaggerOptions: this.options,
+      router: this
     }).render();
     this.showMessage();
     switch (this.options.docExpansion) {
@@ -1293,9 +1301,10 @@ MainView = (function(superClass) {
       id: 'resource_' + resource.id,
       className: 'resource',
       auths: auths,
-      swaggerOptions: this.options.swaggerOptions
+      swaggerOptions: this.options.swaggerOptions,
+      parent: this
     });
-    return $('#resources').append(resourceView.render().el);
+    return $('#resources', this.el).append(resourceView.render().el);
   };
 
   MainView.prototype.clear = function() {
@@ -1477,7 +1486,8 @@ OperationView = (function(superClass) {
     if (signatureModel) {
       responseSignatureView = new SignatureView({
         model: signatureModel,
-        tagName: 'div'
+        tagName: 'div',
+        parent: this
       });
       $('.model-signature', $(this.el)).append(responseSignatureView.render().el);
     } else {
@@ -1512,7 +1522,8 @@ OperationView = (function(superClass) {
       param.type = type;
     }
     responseContentTypeView = new ResponseContentTypeView({
-      model: contentTypeModel
+      model: contentTypeModel,
+      parent: this
     });
     $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
     ref4 = this.model.parameters;
@@ -1534,7 +1545,8 @@ OperationView = (function(superClass) {
     paramView = new ParameterView({
       model: param,
       tagName: 'tr',
-      readOnly: this.model.isReadOnly
+      readOnly: this.model.isReadOnly,
+      parent: this
     });
     return $('.operation-params', $(this.el)).append(paramView.render().el);
   };
@@ -1543,7 +1555,8 @@ OperationView = (function(superClass) {
     var statusCodeView;
     statusCodeView = new StatusCodeView({
       model: statusCode,
-      tagName: 'tr'
+      tagName: 'tr',
+      parent: this
     });
     return $('.operation-status', $(this.el)).append(statusCodeView.render().el);
   };
@@ -2121,7 +2134,8 @@ ResourceView = (function(superClass) {
       tagName: 'li',
       className: 'endpoint',
       swaggerOptions: this.options.swaggerOptions,
-      auths: this.auths
+      auths: this.auths,
+      parent: this
     });
     $('.endpoints', $(this.el)).append(operationView.render().el);
     return this.number++;
@@ -2251,14 +2265,16 @@ StatusCodeView = (function(superClass) {
   StatusCodeView.prototype.initialize = function() {};
 
   StatusCodeView.prototype.render = function() {
-    var responseModel, responseModelView, template;
+    var models, responseModel, responseModelView, template;
     template = this.template();
     $(this.el).html(template(this.model));
-    if (swaggerUi.api.models.hasOwnProperty(this.model.responseModel)) {
+    models = this.options.parent.options.parent.options.parent.model.models;
+    if (models.hasOwnProperty(this.model.responseModel)) {
+      models = this.options.parent.options.parent.options.parent.model.models;
       responseModel = {
-        sampleJSON: JSON.stringify(swaggerUi.api.models[this.model.responseModel].createJSONSample(), null, 2),
+        sampleJSON: JSON.stringify(models[this.model.responseModel].createJSONSample(), null, 2),
         isParam: false,
-        signature: swaggerUi.api.models[this.model.responseModel].getMockSignature()
+        signature: models[this.model.responseModel].getMockSignature()
       };
       responseModelView = new SignatureView({
         model: responseModel,
