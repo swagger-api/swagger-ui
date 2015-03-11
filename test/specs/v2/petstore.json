@@ -842,7 +842,7 @@
           "xml": {
             "name": "category"
           },
-          "$ref": "Category"
+          "$ref": "#/definitions/Category"
         },
         "name": {
           "type": "string",
@@ -868,7 +868,7 @@
             "wrapped": true
           },
           "items": {
-            "$ref": "Tag"
+            "$ref": "#/definitions/Tag"
           }
         },
         "status": {
