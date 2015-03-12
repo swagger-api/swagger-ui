@@ -627,12 +627,17 @@ this["Handlebars"]["templates"]["param"] = Handlebars.template({"1":function(dep
   if (stack1 != null) { buffer += stack1; }
   return buffer;
 },"5":function(depth0,helpers,partials,data) {
-  return "				<div class=\"editor_holder\"></div>\n        <br />\n        <div class=\"parameter-content-type\" />\n";
-  },"7":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "				<div class=\"editor_holder\"></div>\n		    	<textarea class='body-textarea' name='"
+    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
+    + "'>"
+    + escapeExpression(((helper = (helper = helpers['default'] || (depth0 != null ? depth0['default'] : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"default","hash":{},"data":data}) : helper)))
+    + "</textarea>\n        <br />\n        <div class=\"parameter-content-type\" />\n";
+},"7":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
   return "				<textarea class='body-textarea' name='"
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
-    + "'></textarea>\n                <div class=\"editor_holder\"></div>\n				<br />\n				<div class=\"parameter-content-type\" />\n";
+    + "'></textarea>\n               	<div class=\"editor_holder\"></div>\n				<br />\n				<div class=\"parameter-content-type\" />\n";
 },"9":function(depth0,helpers,partials,data) {
   var stack1, buffer = "";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isFile : depth0), {"name":"if","hash":{},"fn":this.program(2, data),"inverse":this.program(10, data),"data":data});
@@ -1527,7 +1532,8 @@ OperationView = (function(superClass) {
     paramView = new ParameterView({
       model: param,
       tagName: 'tr',
-      readOnly: this.model.isReadOnly
+      readOnly: this.model.isReadOnly,
+      swaggerOptions: this.options.swaggerOptions
     });
     return $('.operation-params', $(this.el)).append(paramView.render().el);
   };
@@ -2021,7 +2027,7 @@ ParameterView = (function(superClass) {
       $('.model-signature', $(this.el)).html(this.model.signature);
     }
     isParam = false;
-    if (this.model.isBody && this.model.schema) {
+    if (this.options.swaggerOptions.jsonEditor && this.model.isBody && this.model.schema) {
       $self = $(this.el);
       this.model.jsonEditor = new JSONEditor($('.editor_holder', $self)[0], {
         schema: this.model.schema,
@@ -2029,6 +2035,8 @@ ParameterView = (function(superClass) {
         ajax: true
       });
       signatureModel.jsonEditor = this.model.jsonEditor;
+      $('.body-textarea', $self).hide();
+      $('.editor_holder', $self).show();
       $('.parameter-content-type', $self).change(function(e) {
         if (e.target.value === "application/xml") {
           $('.body-textarea', $self).show();
@@ -2040,7 +2048,6 @@ ParameterView = (function(superClass) {
           return this.model.jsonEditor.enable();
         }
       });
-      isParam = true;
     }
     if (this.model.isBody) {
       isParam = true;

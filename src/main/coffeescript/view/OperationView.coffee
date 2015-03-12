@@ -175,7 +175,7 @@ class OperationView extends Backbone.View
       # will replace it with the text "root" which won't look good on screen
       param.schema.title = " " 
       
-    paramView = new ParameterView({model: param, tagName: 'tr', readOnly: @model.isReadOnly})
+    paramView = new ParameterView({model: param, tagName: 'tr', readOnly: @model.isReadOnly, swaggerOptions: @options.swaggerOptions})
     $('.operation-params', $(@el)).append paramView.render().el
 
   addStatusCode: (statusCode) ->

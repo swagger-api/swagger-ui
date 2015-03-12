@@ -44,7 +44,7 @@ class ParameterView extends Backbone.View
 
     isParam = false
 
-    if @model.isBody && @model.schema
+    if @options.swaggerOptions.jsonEditor && @model.isBody && @model.schema
       $self = $(@el)
       @model.jsonEditor = 
         new JSONEditor($('.editor_holder', $self)[0],
@@ -52,6 +52,8 @@ class ParameterView extends Backbone.View
       # This is so that the signature can send back the sample to the json editor
       # TODO: SignatureView should expose an event "onSampleClicked" instead
       signatureModel.jsonEditor = @model.jsonEditor
+      $('.body-textarea', $self).hide()
+      $('.editor_holder', $self).show()
       $('.parameter-content-type', $self)
         .change(
           (e) ->
@@ -63,8 +65,6 @@ class ParameterView extends Backbone.View
               $('.body-textarea', $self).hide()
               $('.editor_holder', $self).show()
               @model.jsonEditor.enable())
-      isParam = true
-
 
     if @model.isBody
       isParam = true
