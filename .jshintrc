@@ -21,6 +21,7 @@
     "Backbone": false,
     "_": false,
     "$": false,
+    "jQuery": false,
     "marked": false,
     "HeaderView": false,
     "MainView": false,
@@ -28,6 +29,7 @@
     "SwaggerClient": false,
     "Handlebars": false,
     "ApiKeyAuthorization": false,
-    "PasswordAuthorization": false
+    "PasswordAuthorization": false,
+    "hljs": false
   }
 }
