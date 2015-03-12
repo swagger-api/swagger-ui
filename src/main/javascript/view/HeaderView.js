@@ -1,6 +1,6 @@
 'use strict';
 
-var HeaderView = Backbone.View.extend({
+SwaggerUi.Views.HeaderView = Backbone.View.extend({
   events: {
     'click #show-pet-store-icon'    : 'showPetStore',
     'click #show-wordnik-dev-icon'  : 'showWordnikDev',

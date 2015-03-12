@@ -1,6 +1,6 @@
 'use strict';
 
-var MainView = Backbone.View.extend({
+SwaggerUi.Views.MainView = Backbone.View.extend({
 
   // TODO: sorters were not used in any place, do we need them?
   // sorters = {
@@ -50,12 +50,12 @@ var MainView = Backbone.View.extend({
         var button;
 
         if (auth.type === 'apiKey' && $('#apikey_button').length === 0) {
-          button = new ApiKeyButton({model: auth}).render().el;
+          button = new SwaggerUi.Views.ApiKeyButton({model: auth}).render().el;
           $('.auth_main_container').append(button);
         }
 
         if (auth.type === 'basicAuth' && $('#basic_auth_button').length === 0) {
-          button = new BasicAuthButton({model: auth}).render().el;
+          button = new SwaggerUi.Views.BasicAuthButton({model: auth}).render().el;
           $('.auth_main_container').append(button);
         }
       }
@@ -91,7 +91,7 @@ var MainView = Backbone.View.extend({
   addResource: function(resource, auths){
     // Render a resource and add it to resources li
     resource.id = resource.id.replace(/\s/g, '_');
-    var resourceView = new ResourceView({
+    var resourceView = new SwaggerUi.Views.ResourceView({
       model: resource,
       tagName: 'li',
       id: 'resource_' + resource.id,

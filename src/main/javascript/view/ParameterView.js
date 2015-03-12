@@ -1,6 +1,6 @@
 'use strict';
 
-var ParameterView = Backbone.View.extend({
+SwaggerUi.Views.ParameterView = Backbone.View.extend({
   initialize: function(){
     Handlebars.registerHelper('isArray', function(param, opts) {
       if (param.type.toLowerCase() === 'array' || param.allowMultiple) {
@@ -46,7 +46,7 @@ var ParameterView = Backbone.View.extend({
     };
 
     if (this.model.sampleJSON) {
-      var signatureView = new SignatureView({model: signatureModel, tagName: 'div'});
+      var signatureView = new SwaggerUi.Views.SignatureView({model: signatureModel, tagName: 'div'});
       $('.model-signature', $(this.el)).append(signatureView.render().el);
     }
     else {
@@ -66,12 +66,12 @@ var ParameterView = Backbone.View.extend({
     contentTypeModel.consumes = this.model.consumes;
 
     if (isParam) {
-      var parameterContentTypeView = new ParameterContentTypeView({model: contentTypeModel});
+      var parameterContentTypeView = new SwaggerUi.Views.ParameterContentTypeView({model: contentTypeModel});
       $('.parameter-content-type', $(this.el)).append(parameterContentTypeView.render().el);
     }
 
     else {
-      var responseContentTypeView = new ResponseContentTypeView({model: contentTypeModel});
+      var responseContentTypeView = new SwaggerUi.Views.ResponseContentTypeView({model: contentTypeModel});
       $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
     }
 

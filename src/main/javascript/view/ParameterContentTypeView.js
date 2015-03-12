@@ -1,6 +1,6 @@
 'use strict';
 
-var ParameterContentTypeView = Backbone.View.extend({
+SwaggerUi.Views.ParameterContentTypeView = Backbone.View.extend({
   initialize: function  () {},
 
   render: function(){

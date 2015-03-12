@@ -1,6 +1,6 @@
 'use strict';
 
-var SignatureView = Backbone.View.extend({
+SwaggerUi.Views.SignatureView = Backbone.View.extend({
   events: {
     'click a.description-link'       : 'switchToDescription',
     'click a.snippet-link'           : 'switchToSnippet',

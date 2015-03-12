@@ -15,7 +15,7 @@ var StatusCodeView = Backbone.View.extend({
         signature: swaggerUi.api.models[this.model.responseModel].getMockSignature(),
       };
 
-      var responseModelView = new SignatureView({model: responseModel, tagName: 'div'});
+      var responseModelView = new SwaggerUi.Views.SignatureView({model: responseModel, tagName: 'div'});
       $('.model-signature', this.$el).append(responseModelView.render().el);
     } else {
       $('.model-signature', this.$el).html('');

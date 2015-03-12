@@ -1,6 +1,6 @@
 'use strict';
 
-var ContentTypeView = Backbone.View.extend({
+SwaggerUi.Views.ContentTypeView = Backbone.View.extend({
   initialize: function() {},
 
   render: function(){

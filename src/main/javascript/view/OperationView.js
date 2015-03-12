@@ -1,6 +1,6 @@
 'use strict';
 
-var OperationView = Backbone.View.extend({
+SwaggerUi.Views.OperationView = Backbone.View.extend({
   invocationUrl: null,
 
   events: {
@@ -163,7 +163,7 @@ var OperationView = Backbone.View.extend({
     }
     $(this.el).html(Handlebars.templates.operation(this.model));
     if (signatureModel) {
-      responseSignatureView = new SignatureView({
+      responseSignatureView = new SwaggerUi.Views.SignatureView({
         model: signatureModel,
         tagName: 'div'
       });
@@ -199,7 +199,7 @@ var OperationView = Backbone.View.extend({
       }
       param.type = type;
     }
-    responseContentTypeView = new ResponseContentTypeView({
+    responseContentTypeView = new SwaggerUi.Views.ResponseContentTypeView({
       model: contentTypeModel
     });
     $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
@@ -219,7 +219,7 @@ var OperationView = Backbone.View.extend({
   addParameter: function(param, consumes) {
     // Render a parameter
     param.consumes = consumes;
-    var paramView = new ParameterView({
+    var paramView = new SwaggerUi.Views.ParameterView({
       model: param,
       tagName: 'tr',
       readOnly: this.model.isReadOnly

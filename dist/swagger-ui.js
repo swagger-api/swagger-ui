@@ -6,7 +6,7 @@
  */
 'use strict';
 
-var SwaggerUi = Backbone.Router.extend({
+window.SwaggerUi = Backbone.Router.extend({
 
   dom_id: 'swagger_ui',
 
@@ -55,7 +55,7 @@ var SwaggerUi = Backbone.Router.extend({
     this.options.failure = function(d) { return that.onLoadFailure(d); };
 
     // Create view to handle the header inputs
-    this.headerView = new HeaderView({el: $('#header')});
+    this.headerView = new SwaggerUi.Views.HeaderView({el: $('#header')});
 
     // Event handler for when the baseUrl/apiKey is entered by user
     this.headerView.on('update-swagger-ui', function(data) {
@@ -115,7 +115,7 @@ var SwaggerUi = Backbone.Router.extend({
   //  so it gets called when SwaggerApi completes loading
   render: function(){
     this.showMessage('Finished Loading Resource Information. Rendering Swagger UI...');
-    this.mainView = new MainView({
+    this.mainView = new SwaggerUi.Views.MainView({
       model: this.api,
       el: $('#' + this.dom_id),
       swaggerOptions: this.options
@@ -200,6 +200,7 @@ var SwaggerUi = Backbone.Router.extend({
 
 });
 
+window.SwaggerUi.Views = {};
 window.SwaggerUi = SwaggerUi;
 this["Handlebars"] = this["Handlebars"] || {};
 this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};
@@ -297,7 +298,7 @@ function clippyCopiedCallback(a) {
 }
 
 // Logging function that accounts for browsers that don't have window.console
-log = function(){
+function log(){
   log.history = log.history || [];
   log.history.push(arguments);
   if(this.console){
@@ -1003,7 +1004,7 @@ this["Handlebars"]["templates"]["status_code"] = Handlebars.template({"1":functi
 },"useData":true});
 'use strict';
 
-var ApiKeyButton = Backbone.View.extend({ // TODO: append this to global SwaggerUi
+SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to global SwaggerUi
 
   events:{
     'click #apikey_button' : 'toggleApiKeyContainer',
@@ -1054,7 +1055,7 @@ var ApiKeyButton = Backbone.View.extend({ // TODO: append this to global Swagger
 });
 'use strict';
 
-var BasicAuthButton = Backbone.View.extend({
+SwaggerUi.Views.BasicAuthButton = Backbone.View.extend({
 
 
   initialize: function () {},
@@ -1100,7 +1101,7 @@ var BasicAuthButton = Backbone.View.extend({
 });
 'use strict';
 
-var ContentTypeView = Backbone.View.extend({
+SwaggerUi.Views.ContentTypeView = Backbone.View.extend({
   initialize: function() {},
 
   render: function(){
@@ -1113,7 +1114,7 @@ var ContentTypeView = Backbone.View.extend({
 });
 'use strict';
 
-var HeaderView = Backbone.View.extend({
+SwaggerUi.Views.HeaderView = Backbone.View.extend({
   events: {
     'click #show-pet-store-icon'    : 'showPetStore',
     'click #show-wordnik-dev-icon'  : 'showWordnikDev',
@@ -1168,7 +1169,7 @@ var HeaderView = Backbone.View.extend({
 });
 'use strict';
 
-var MainView = Backbone.View.extend({
+SwaggerUi.Views.MainView = Backbone.View.extend({
 
   // TODO: sorters were not used in any place, do we need them?
   // sorters = {
@@ -1218,12 +1219,12 @@ var MainView = Backbone.View.extend({
         var button;
 
         if (auth.type === 'apiKey' && $('#apikey_button').length === 0) {
-          button = new ApiKeyButton({model: auth}).render().el;
+          button = new SwaggerUi.Views.ApiKeyButton({model: auth}).render().el;
           $('.auth_main_container').append(button);
         }
 
         if (auth.type === 'basicAuth' && $('#basic_auth_button').length === 0) {
-          button = new BasicAuthButton({model: auth}).render().el;
+          button = new SwaggerUi.Views.BasicAuthButton({model: auth}).render().el;
           $('.auth_main_container').append(button);
         }
       }
@@ -1259,7 +1260,7 @@ var MainView = Backbone.View.extend({
   addResource: function(resource, auths){
     // Render a resource and add it to resources li
     resource.id = resource.id.replace(/\s/g, '_');
-    var resourceView = new ResourceView({
+    var resourceView = new SwaggerUi.Views.ResourceView({
       model: resource,
       tagName: 'li',
       id: 'resource_' + resource.id,
@@ -1276,7 +1277,7 @@ var MainView = Backbone.View.extend({
 });
 'use strict';
 
-var OperationView = Backbone.View.extend({
+SwaggerUi.Views.OperationView = Backbone.View.extend({
   invocationUrl: null,
 
   events: {
@@ -1439,7 +1440,7 @@ var OperationView = Backbone.View.extend({
     }
     $(this.el).html(Handlebars.templates.operation(this.model));
     if (signatureModel) {
-      responseSignatureView = new SignatureView({
+      responseSignatureView = new SwaggerUi.Views.SignatureView({
         model: signatureModel,
         tagName: 'div'
       });
@@ -1475,7 +1476,7 @@ var OperationView = Backbone.View.extend({
       }
       param.type = type;
     }
-    responseContentTypeView = new ResponseContentTypeView({
+    responseContentTypeView = new SwaggerUi.Views.ResponseContentTypeView({
       model: contentTypeModel
     });
     $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
@@ -1495,7 +1496,7 @@ var OperationView = Backbone.View.extend({
   addParameter: function(param, consumes) {
     // Render a parameter
     param.consumes = consumes;
-    var paramView = new ParameterView({
+    var paramView = new SwaggerUi.Views.ParameterView({
       model: param,
       tagName: 'tr',
       readOnly: this.model.isReadOnly
@@ -1900,7 +1901,7 @@ var OperationView = Backbone.View.extend({
 });
 'use strict';
 
-var ParameterContentTypeView = Backbone.View.extend({
+SwaggerUi.Views.ParameterContentTypeView = Backbone.View.extend({
   initialize: function  () {},
 
   render: function(){
@@ -1914,7 +1915,7 @@ var ParameterContentTypeView = Backbone.View.extend({
 });
 'use strict';
 
-var ParameterView = Backbone.View.extend({
+SwaggerUi.Views.ParameterView = Backbone.View.extend({
   initialize: function(){
     Handlebars.registerHelper('isArray', function(param, opts) {
       if (param.type.toLowerCase() === 'array' || param.allowMultiple) {
@@ -1960,7 +1961,7 @@ var ParameterView = Backbone.View.extend({
     };
 
     if (this.model.sampleJSON) {
-      var signatureView = new SignatureView({model: signatureModel, tagName: 'div'});
+      var signatureView = new SwaggerUi.Views.SignatureView({model: signatureModel, tagName: 'div'});
       $('.model-signature', $(this.el)).append(signatureView.render().el);
     }
     else {
@@ -1980,12 +1981,12 @@ var ParameterView = Backbone.View.extend({
     contentTypeModel.consumes = this.model.consumes;
 
     if (isParam) {
-      var parameterContentTypeView = new ParameterContentTypeView({model: contentTypeModel});
+      var parameterContentTypeView = new SwaggerUi.Views.ParameterContentTypeView({model: contentTypeModel});
       $('.parameter-content-type', $(this.el)).append(parameterContentTypeView.render().el);
     }
 
     else {
-      var responseContentTypeView = new ResponseContentTypeView({model: contentTypeModel});
+      var responseContentTypeView = new SwaggerUi.Views.ResponseContentTypeView({model: contentTypeModel});
       $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
     }
 
@@ -2015,7 +2016,7 @@ var ParameterView = Backbone.View.extend({
 });
 'use strict';
 
-var ResourceView = Backbone.View.extend({
+SwaggerUi.Views.ResourceView = Backbone.View.extend({
   initialize: function(opts) {
     opts = opts || {};
     this.auths = opts.auths;
@@ -2063,7 +2064,7 @@ var ResourceView = Backbone.View.extend({
     operation.number = this.number;
 
     // Render an operation and add it to operations li
-    var operationView = new OperationView({
+    var operationView = new SwaggerUi.Views.OperationView({
       model: operation,
       tagName: 'li',
       className: 'endpoint',
@@ -2086,7 +2087,7 @@ var ResourceView = Backbone.View.extend({
 });
 'use strict';
 
-var ResponseContentTypeView = Backbone.View.extend({
+SwaggerUi.Views.ResponseContentTypeView = Backbone.View.extend({
   initialize: function(){},
 
   render: function(){
@@ -2099,7 +2100,7 @@ var ResponseContentTypeView = Backbone.View.extend({
 });
 'use strict';
 
-var SignatureView = Backbone.View.extend({
+SwaggerUi.Views.SignatureView = Backbone.View.extend({
   events: {
     'click a.description-link'       : 'switchToDescription',
     'click a.snippet-link'           : 'switchToSnippet',
@@ -2174,7 +2175,7 @@ var StatusCodeView = Backbone.View.extend({
         signature: swaggerUi.api.models[this.model.responseModel].getMockSignature(),
       };
 
-      var responseModelView = new SignatureView({model: responseModel, tagName: 'div'});
+      var responseModelView = new SwaggerUi.Views.SignatureView({model: responseModel, tagName: 'div'});
       $('.model-signature', this.$el).append(responseModelView.render().el);
     } else {
       $('.model-signature', this.$el).html('');

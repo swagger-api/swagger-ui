@@ -1,6 +1,6 @@
 'use strict';
 
-var SwaggerUi = Backbone.Router.extend({
+window.SwaggerUi = Backbone.Router.extend({
 
   dom_id: 'swagger_ui',
 
@@ -49,7 +49,7 @@ var SwaggerUi = Backbone.Router.extend({
     this.options.failure = function(d) { return that.onLoadFailure(d); };
 
     // Create view to handle the header inputs
-    this.headerView = new HeaderView({el: $('#header')});
+    this.headerView = new SwaggerUi.Views.HeaderView({el: $('#header')});
 
     // Event handler for when the baseUrl/apiKey is entered by user
     this.headerView.on('update-swagger-ui', function(data) {
@@ -109,7 +109,7 @@ var SwaggerUi = Backbone.Router.extend({
   //  so it gets called when SwaggerApi completes loading
   render: function(){
     this.showMessage('Finished Loading Resource Information. Rendering Swagger UI...');
-    this.mainView = new MainView({
+    this.mainView = new SwaggerUi.Views.MainView({
       model: this.api,
       el: $('#' + this.dom_id),
       swaggerOptions: this.options
@@ -194,4 +194,5 @@ var SwaggerUi = Backbone.Router.extend({
 
 });
 
+window.SwaggerUi.Views = {};
 window.SwaggerUi = SwaggerUi;

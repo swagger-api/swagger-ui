@@ -1,6 +1,6 @@
 'use strict';
 
-var BasicAuthButton = Backbone.View.extend({
+SwaggerUi.Views.BasicAuthButton = Backbone.View.extend({
 
 
   initialize: function () {},

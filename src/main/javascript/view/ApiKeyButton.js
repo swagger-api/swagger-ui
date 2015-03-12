@@ -1,6 +1,6 @@
 'use strict';
 
-var ApiKeyButton = Backbone.View.extend({ // TODO: append this to global SwaggerUi
+SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to global SwaggerUi
 
   events:{
     'click #apikey_button' : 'toggleApiKeyContainer',

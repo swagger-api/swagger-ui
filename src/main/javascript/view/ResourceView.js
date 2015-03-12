@@ -1,6 +1,6 @@
 'use strict';
 
-var ResourceView = Backbone.View.extend({
+SwaggerUi.Views.ResourceView = Backbone.View.extend({
   initialize: function(opts) {
     opts = opts || {};
     this.auths = opts.auths;
@@ -48,7 +48,7 @@ var ResourceView = Backbone.View.extend({
     operation.number = this.number;
 
     // Render an operation and add it to operations li
-    var operationView = new OperationView({
+    var operationView = new SwaggerUi.Views.OperationView({
       model: operation,
       tagName: 'li',
       className: 'endpoint',
