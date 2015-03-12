@@ -68,7 +68,8 @@ var MainView = Backbone.View.extend({
 
     var resources = {};
     var counter = 0;
-    this.model.apisArray.forEach(function(resource) {
+    for (var i = 0; i < this.model.apisArray.length; i++) {
+      var resource = this.model.apisArray[i];
       var id = resource.name;
       while (typeof resources[id] !== 'undefined') {
         id = id + '_' + counter;
@@ -77,7 +78,7 @@ var MainView = Backbone.View.extend({
       resource.id = id;
       resources[id] = resource;
       this.addResource(resource, this.model.auths);
-    });
+    }
 
     $('.propWrap').hover(function onHover(){
       $('.optionsWrapper', $(this)).show();

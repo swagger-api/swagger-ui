@@ -19,8 +19,8 @@ var ResourceView = Backbone.View.extend({
     $(this.el).html(Handlebars.templates.resource(this.model));
 
     // Render each operation
-    this.model.operationsArray.forEach(function(operation){
-
+    for (var i = 0; i < this.model.operationsArray.length; i++) {
+      var operation = this.model.operationsArray[i];
       var counter = 0;
       var id = operation.nickname;
 
@@ -34,7 +34,7 @@ var ResourceView = Backbone.View.extend({
       operation.nickname = id;
       operation.parentId = this.model.id;
       this.addOperation(operation);
-    });
+    };
 
     $('.toggleEndpointList', this.el).click(this.callDocs.bind(this, 'toggleEndpointListForResource'));
     $('.collapseResource', this.el).click(this.callDocs.bind(this, 'collapseOperationsForResource'));
