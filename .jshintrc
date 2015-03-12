@@ -26,6 +26,7 @@
     "MainView": false,
     "Docs": false,
     "SwaggerClient": false,
-    "Handlebars": false
+    "Handlebars": false,
+    "ApiKeyAuthorization": false
   }
 }
