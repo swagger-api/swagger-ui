@@ -25,6 +25,7 @@
     "HeaderView": false,
     "MainView": false,
     "Docs": false,
-    "SwaggerClient": false
+    "SwaggerClient": false,
+    "Handlebars": false
   }
 }
