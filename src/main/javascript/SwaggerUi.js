@@ -195,4 +195,3 @@ window.SwaggerUi = Backbone.Router.extend({
 });
 
 window.SwaggerUi.Views = {};
-window.SwaggerUi = SwaggerUi;

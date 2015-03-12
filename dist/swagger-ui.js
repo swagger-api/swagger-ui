@@ -201,7 +201,6 @@ window.SwaggerUi = Backbone.Router.extend({
 });
 
 window.SwaggerUi.Views = {};
-window.SwaggerUi = SwaggerUi;
 this["Handlebars"] = this["Handlebars"] || {};
 this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};
 this["Handlebars"]["templates"]["apikey_button_view"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
@@ -1159,7 +1158,7 @@ SwaggerUi.Views.HeaderView = Backbone.View.extend({
 
   update: function(url, apiKey, trigger){
     if (trigger === undefined) {
-      trigger = false
+      trigger = false;
     }
 
     $('#input_baseUrl').val(url);
@@ -1509,7 +1508,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   addStatusCode: function(statusCode) {
     // Render status codes
-    var statusCodeView = new StatusCodeView({model: statusCode, tagName: 'tr'});
+    var statusCodeView = new SwaggerUi.Views.StatusCodeView({model: statusCode, tagName: 'tr'});
     $('.operation-status', $(this.el)).append(statusCodeView.render().el);
   },
 
@@ -2053,7 +2052,7 @@ SwaggerUi.Views.ResourceView = Backbone.View.extend({
       operation.nickname = id;
       operation.parentId = this.model.id;
       this.addOperation(operation);
-    };
+    }
 
     $('.toggleEndpointList', this.el).click(this.callDocs.bind(this, 'toggleEndpointListForResource'));
     $('.collapseResource', this.el).click(this.callDocs.bind(this, 'collapseOperationsForResource'));
@@ -2163,7 +2162,7 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
 });
 'use strict';
 
-var StatusCodeView = Backbone.View.extend({
+SwaggerUi.Views.StatusCodeView = Backbone.View.extend({
   initialize: function () {
 
   },
@@ -2171,6 +2170,7 @@ var StatusCodeView = Backbone.View.extend({
   render: function(){
     $(this.el).html(Handlebars.templates.status_code(this.model));
 
+    // TODO get rid of "swaggerUi" global dependency
     if (swaggerUi.api.models.hasOwnProperty(this.model.responseModel)) {
       var responseModel = {
         sampleJSON: JSON.stringify(swaggerUi.api.models[this.model.responseModel].createJSONSample(), null, 2),

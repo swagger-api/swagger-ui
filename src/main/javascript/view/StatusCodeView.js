@@ -1,6 +1,6 @@
 'use strict';
 
-var StatusCodeView = Backbone.View.extend({
+SwaggerUi.Views.StatusCodeView = Backbone.View.extend({
   initialize: function () {
 
   },
@@ -8,6 +8,7 @@ var StatusCodeView = Backbone.View.extend({
   render: function(){
     $(this.el).html(Handlebars.templates.status_code(this.model));
 
+    // TODO get rid of "swaggerUi" global dependency
     if (swaggerUi.api.models.hasOwnProperty(this.model.responseModel)) {
       var responseModel = {
         sampleJSON: JSON.stringify(swaggerUi.api.models[this.model.responseModel].createJSONSample(), null, 2),

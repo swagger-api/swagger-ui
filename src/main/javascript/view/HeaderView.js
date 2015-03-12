@@ -42,7 +42,7 @@ SwaggerUi.Views.HeaderView = Backbone.View.extend({
 
   update: function(url, apiKey, trigger){
     if (trigger === undefined) {
-      trigger = false
+      trigger = false;
     }
 
     $('#input_baseUrl').val(url);

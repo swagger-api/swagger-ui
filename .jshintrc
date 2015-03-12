@@ -23,13 +23,13 @@
     "$": false,
     "jQuery": false,
     "marked": false,
-    "HeaderView": false,
-    "MainView": false,
     "Docs": false,
     "SwaggerClient": false,
     "Handlebars": false,
     "ApiKeyAuthorization": false,
     "PasswordAuthorization": false,
-    "hljs": false
+    "hljs": false,
+    "SwaggerUi": false,
+    "swaggerUi": false // TODO: remove me
   }
 }

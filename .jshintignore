@@ -1,3 +1,5 @@
+node_modules
+test
 src/main/javascript/doc.js
 dist
 lib

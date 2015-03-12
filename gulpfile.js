@@ -96,13 +96,13 @@ gulp.task('copy', ['less'], function() {
   gulp
     .src(['./lib/**/*.{js,map}'])
     .pipe(gulp.dest('./dist/lib'))
-    .on('error', log)
+    .on('error', log);
 
   // copy all files inside html folder
   gulp
     .src(['./src/main/html/**/*'])
     .pipe(gulp.dest('./dist'))
-    .on('error', log)
+    .on('error', log);
 });
 
 /**
@@ -130,4 +130,4 @@ function log(error) {
 
 
 gulp.task('default', ['dist', 'copy']);
-gulp.task('serve', ['connect', 'watch'])
+gulp.task('serve', ['connect', 'watch']);

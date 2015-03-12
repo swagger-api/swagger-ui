@@ -34,7 +34,7 @@ SwaggerUi.Views.ResourceView = Backbone.View.extend({
       operation.nickname = id;
       operation.parentId = this.model.id;
       this.addOperation(operation);
-    };
+    }
 
     $('.toggleEndpointList', this.el).click(this.callDocs.bind(this, 'toggleEndpointListForResource'));
     $('.collapseResource', this.el).click(this.callDocs.bind(this, 'collapseOperationsForResource'));
