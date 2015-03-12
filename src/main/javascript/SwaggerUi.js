@@ -62,7 +62,7 @@ var SwaggerUi = Backbone.Router.extend({
   },
 
   // Get the value of a previously set option
-  getOption(option) {
+  getOption: function(option) {
     return this.options[option];
   },
 
@@ -158,14 +158,20 @@ var SwaggerUi = Backbone.Router.extend({
   },
 
   // Shows message on topbar of the ui
-  showMessage: function(data = ''){
+  showMessage: function(data){
+    if (data === undefined) {
+      data = '';
+    }
     $('#message-bar').removeClass('message-fail');
     $('#message-bar').addClass('message-success');
     $('#message-bar').html(data);
   },
 
   // shows message in red
-  onLoadFailure: function(data = ''){
+  onLoadFailure: function(data){
+    if (data === undefined) {
+      data = '';
+    }
     $('#message-bar').removeClass('message-success');
     $('#message-bar').addClass('message-fail');
 

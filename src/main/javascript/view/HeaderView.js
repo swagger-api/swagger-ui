@@ -40,7 +40,11 @@ var HeaderView = Backbone.View.extend({
     });
   },
 
-  update: function(url, apiKey, trigger = false){
+  update: function(url, apiKey, trigger){
+    if (trigger === undefined) {
+      trigger = false
+    }
+
     $('#input_baseUrl').val(url);
 
     //$('#input_apiKey').val(apiKey);
