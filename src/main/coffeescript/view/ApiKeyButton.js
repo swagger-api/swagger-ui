@@ -18,8 +18,12 @@ var ApiKeyButton = Backbone.View.extend({ // TODO: append this to global Swagger
 
 
   applyApiKey: function(){
-    var authorizations = new ApiKeyAuthorization(this.model.name, $('#input_apiKey_entry').val(), this.model.in);
-    window.authorizations.add(this.model.name, authorizations);
+    var keyAuth = new ApiKeyAuthorization(
+      this.model.name,
+      $('#input_apiKey_entry').val(),
+      this.model.in
+    );
+    window.authorizations.add(this.model.name, keyAuth);
     window.swaggerUi.load();
     $('#apikey_container').show();
   },

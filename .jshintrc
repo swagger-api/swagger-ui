@@ -27,6 +27,7 @@
     "Docs": false,
     "SwaggerClient": false,
     "Handlebars": false,
-    "ApiKeyAuthorization": false
+    "ApiKeyAuthorization": false,
+    "PasswordAuthorization": false
   }
 }
