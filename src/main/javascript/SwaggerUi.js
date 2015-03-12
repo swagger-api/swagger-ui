@@ -43,9 +43,10 @@ var SwaggerUi = Backbone.Router.extend({
     marked.setOptions({gfm: true});
 
     // Set the callbacks
-    this.options.success = function() { return this.render(); };
-    this.options.progress = function(d) { return this.showMessage(d); };
-    this.options.failure = function(d) { return this.onLoadFailure(d); };
+    var that = this;
+    this.options.success = function() { return that.render(); };
+    this.options.progress = function(d) { return that.showMessage(d); };
+    this.options.failure = function(d) { return that.onLoadFailure(d); };
 
     // Create view to handle the header inputs
     this.headerView = new HeaderView({el: $('#header')});
