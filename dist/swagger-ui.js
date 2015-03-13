@@ -4,7 +4,7 @@
  * @link http://swagger.io
  * @license Apache 2.0
  */
-'use strict';
+(function(){'use strict';
 
 window.SwaggerUi = Backbone.Router.extend({
 
@@ -2185,4 +2185,4 @@ SwaggerUi.Views.StatusCodeView = Backbone.View.extend({
     }
     return this;
   }
-});
+});}).call(this);

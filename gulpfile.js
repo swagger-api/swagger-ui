@@ -59,6 +59,7 @@ gulp.task('dist', ['clean'], function() {
     )
     .pipe(order(['scripts.js', 'templates.js']))
     .pipe(concat('swagger-ui.js'))
+    .pipe(wrap('(function(){<%= contents %>}).call(this);'))
     .pipe(header(banner, { pkg: pkg } ))
     .pipe(gulp.dest('./dist'))
     .pipe(uglify())
