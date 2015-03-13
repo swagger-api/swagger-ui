@@ -1,3 +1,5 @@
+'use strict';
+
 var expect = require('chai').expect;
 var driver = require('./driver');
 var servers = require('./servers');
@@ -13,7 +15,7 @@ var elements = [
   'header'
 ];
 
-describe('swagger 1.x spec tests', function (done) {
+describe('swagger 1.x spec tests', function () {
   this.timeout(10 * 1000);
 
   before(function (done) {
@@ -27,8 +29,9 @@ describe('swagger 1.x spec tests', function (done) {
         var errors = [];
         browserLogs.forEach(function(log){
           // 900 and above is "error" level. Console should not have any errors
-          if (log.level.value > 900)
+          if (log.level.value > 900) {
             console.log('browser error message:', log.message); errors.push(log);
+          }
         });
         expect(errors).to.be.empty;
         done();
@@ -46,7 +49,7 @@ describe('swagger 1.x spec tests', function (done) {
 
   elements.forEach(function (id) {
     it('should render element: ' + id, function (done) {
-      var locator = webdriver.By.id(id)
+      var locator = webdriver.By.id(id);
       driver.isElementPresent(locator).then(function (isPresent) {
         expect(isPresent).to.be.true;
         done();
@@ -63,7 +66,7 @@ describe('swagger 1.x spec tests', function (done) {
   });
 
   it('should find the pet link', function(done){
-    var locator = webdriver.By.xpath("//*[@data-id='pet']");
+    var locator = webdriver.By.xpath('//*[@data-id="pet"]');
     driver.isElementPresent(locator).then(function (isPresent) {
       expect(isPresent).to.be.true;
       done();
@@ -71,7 +74,7 @@ describe('swagger 1.x spec tests', function (done) {
   });
 
   it('should find the pet resource description', function(done){
-    var locator = webdriver.By.xpath("//div[contains(., 'Operations about pets')]");
+    var locator = webdriver.By.xpath('//div[contains(., "Operations about pets")]');
     driver.findElements(locator).then(function (elements) {
       expect(elements.length).to.not.equal(0);
       done();
@@ -79,7 +82,7 @@ describe('swagger 1.x spec tests', function (done) {
   });
 
   it('should find the user link', function(done){
-    var locator = webdriver.By.xpath("//*[@data-id='user']");
+    var locator = webdriver.By.xpath('//*[@data-id="user"]');
     driver.isElementPresent(locator).then(function (isPresent) {
       expect(isPresent).to.be.true;
       done();
@@ -87,7 +90,7 @@ describe('swagger 1.x spec tests', function (done) {
   });
 
   it('should find the store link', function(done){
-    var locator = webdriver.By.xpath("//*[@data-id='store']");
+    var locator = webdriver.By.xpath('//*[@data-id="store"]');
     driver.isElementPresent(locator).then(function (isPresent) {
       expect(isPresent).to.be.true;
       done();

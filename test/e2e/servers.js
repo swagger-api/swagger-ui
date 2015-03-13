@@ -1,6 +1,8 @@
 /*
  * Swagger UI and Specs Servers
 */
+'use strict';
+
 var path = require('path');
 var createServer = require('http-server').createServer;
 
