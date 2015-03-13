@@ -91,7 +91,7 @@ describe('swagger 2.0 spec tests', function () {
   });
 
   it('should find the pet resource description', function(done){
-    var locator = webdriver.By.xpath('//div[contains(., "Operations about pets")]');
+    var locator = webdriver.By.xpath('//div[contains(., "Everything about your Pets")]');
     driver.findElements(locator).then(function (elements) {
       expect(elements.length).to.not.equal(0);
       done();
