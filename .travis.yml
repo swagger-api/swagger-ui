@@ -5,4 +5,9 @@ node_js:
 install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
+  - npm i -g jshint
   - npm install
+
+script:
+  - jshint .
+  - npm test

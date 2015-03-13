@@ -1,0 +1,108 @@
+'use strict';
+
+SwaggerUi.Views.MainView = Backbone.View.extend({
+
+  // TODO: sorters were not used in any place, do we need them?
+  // sorters = {
+  //   alpha   : function(a,b){ return a.path.localeCompare(b.path); },
+  //   method  : function(a,b){ return a.method.localeCompare(b.method); },
+  // },
+
+  initialize: function(opts){
+    opts = opts || {};
+    // set up the UI for input
+    this.model.auths = [];
+    var key, value;
+
+    for (key in this.model.securityDefinitions) {
+      value = this.model.securityDefinitions[key];
+
+      this.model.auths.push({
+        name: key,
+        type: value.type,
+        value: value
+      });
+    }
+
+    if (this.model.swaggerVersion === '2.0') {
+      if ('validatorUrl' in opts.swaggerOptions) {
+
+        // Validator URL specified explicitly
+        this.model.validatorUrl = opts.swaggerOptions.validatorUrl;
+
+      } else if (this.model.url.indexOf('localhost') > 0) {
+
+        // Localhost override
+        this.model.validatorUrl = null;
+
+      } else {
+
+        // Default validator
+        this.model.validatorUrl = 'http://online.swagger.io/validator';
+      }
+    }
+  },
+
+  render: function(){
+    if (this.model.securityDefinitions) {
+      for (var name in this.model.securityDefinitions) {
+        var auth = this.model.securityDefinitions[name];
+        var button;
+
+        if (auth.type === 'apiKey' && $('#apikey_button').length === 0) {
+          button = new SwaggerUi.Views.ApiKeyButton({model: auth}).render().el;
+          $('.auth_main_container').append(button);
+        }
+
+        if (auth.type === 'basicAuth' && $('#basic_auth_button').length === 0) {
+          button = new SwaggerUi.Views.BasicAuthButton({model: auth}).render().el;
+          $('.auth_main_container').append(button);
+        }
+      }
+    }
+
+    // Render the outer container for resources
+    $(this.el).html(Handlebars.templates.main(this.model));
+
+    // Render each resource
+
+    var resources = {};
+    var counter = 0;
+    for (var i = 0; i < this.model.apisArray.length; i++) {
+      var resource = this.model.apisArray[i];
+      var id = resource.name;
+      while (typeof resources[id] !== 'undefined') {
+        id = id + '_' + counter;
+        counter += 1;
+      }
+      resource.id = id;
+      resources[id] = resource;
+      this.addResource(resource, this.model.auths);
+    }
+
+    $('.propWrap').hover(function onHover(){
+      $('.optionsWrapper', $(this)).show();
+    }, function offhover(){
+      $('.optionsWrapper', $(this)).hide();
+    });
+    return this;
+  },
+
+  addResource: function(resource, auths){
+    // Render a resource and add it to resources li
+    resource.id = resource.id.replace(/\s/g, '_');
+    var resourceView = new SwaggerUi.Views.ResourceView({
+      model: resource,
+      tagName: 'li',
+      id: 'resource_' + resource.id,
+      className: 'resource',
+      auths: auths,
+      swaggerOptions: this.options.swaggerOptions
+    });
+    $('#resources').append(resourceView.render().el);
+  },
+
+  clear: function(){
+    $(this.el).html('');
+  }
+});

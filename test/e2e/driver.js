@@ -1,6 +1,7 @@
 /*
  * Web driver manager
 */
+'use strict';
 
 var webdriver = require('selenium-webdriver');
 

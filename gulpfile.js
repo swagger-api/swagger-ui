@@ -2,9 +2,7 @@
 
 var gulp = require('gulp');
 var es = require('event-stream');
-var gutil = require('gulp-util');
 var clean = require('gulp-clean');
-var coffee = require('gulp-coffee');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
@@ -32,7 +30,7 @@ gulp.task('clean', function() {
   return gulp
     .src('./dist', {read: false})
     .pipe(clean({force: true}))
-    .on('error', gutil.log);
+    .on('error', log);
 });
 
 /**
@@ -47,16 +45,6 @@ function templates() {
       namespace: 'Handlebars.templates',
       noRedeclare: true, // Avoid duplicate declarations
     }))
-    .on('error', gutil.log);
-}
-
-/**
- * Processes CoffeeScript files
- */
-function coffeescript () {
-  return gulp
-    .src(['./src/main/coffeescript/**/*.coffee'])
-    .pipe(coffee({bare: true}))
     .on('error', log);
 }
 
@@ -66,17 +54,17 @@ function coffeescript () {
 gulp.task('dist', ['clean'], function() {
 
   return es.merge(
-      gulp.src('./src/main/javascript/doc.js'),
-      coffeescript(),
+      gulp.src('./src/main/javascript/**/*.js'),
       templates()
     )
-    .pipe(order(['docs.js', 'scripts.js', 'templates.js']))
+    .pipe(order(['scripts.js', 'templates.js']))
     .pipe(concat('swagger-ui.js'))
     .pipe(header(banner, { pkg: pkg } ))
     .pipe(gulp.dest('./dist'))
     .pipe(uglify())
+    .on('error', log)
     .pipe(rename({extname: '.min.js'}))
-    .on('error', gutil.log)
+    .on('error', log)
     .pipe(gulp.dest('./dist'))
     .pipe(connect.reload());
 });
@@ -108,20 +96,20 @@ gulp.task('copy', ['less'], function() {
   gulp
     .src(['./lib/**/*.{js,map}'])
     .pipe(gulp.dest('./dist/lib'))
-    .on('error', log)
+    .on('error', log);
 
   // copy all files inside html folder
   gulp
     .src(['./src/main/html/**/*'])
     .pipe(gulp.dest('./dist'))
-    .on('error', log)
+    .on('error', log);
 });
 
 /**
  * Watch for changes and recompile
  */
 gulp.task('watch', function() {
-  return watch(['./src/**/*.{coffee,js,less,handlebars,html}'], function() {
+  return watch(['./src/**/*.{coffee,js,less,handlebars}'], function() {
     gulp.start('default');
   });
 });
@@ -137,9 +125,9 @@ gulp.task('connect', function() {
 });
 
 function log(error) {
-  console.log(error.toString());
+  console.error(error.toString && error.toString());
 }
 
 
 gulp.task('default', ['dist', 'copy']);
-gulp.task('serve', ['connect', 'watch', 'default'])
+gulp.task('serve', ['connect', 'watch']);
