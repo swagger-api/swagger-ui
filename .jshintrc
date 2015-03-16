@@ -32,7 +32,6 @@
 
     // Global object
     // TODO: remove these
-    "swaggerUi": false,
     "Docs": false
   }
 }

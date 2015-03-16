@@ -318,7 +318,7 @@ if (Function.prototype.bind && console && typeof console.log === "object") {
     }, Function.prototype.call);
 }
 
-var Docs = {
+window.Docs = {
 
 	shebang: function() {
 
