@@ -18,7 +18,7 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
 
 
   applyApiKey: function(){
-    var keyAuth = new ApiKeyAuthorization(
+    var keyAuth = new SwaggerClient.ApiKeyAuthorization(
       this.model.name,
       $('#input_apiKey_entry').val(),
       this.model.in
