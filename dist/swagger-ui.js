@@ -1014,7 +1014,10 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
     'click #apply_api_key' : 'applyApiKey'
   },
 
-  initialize: function(){},
+  initialize: function(opts){
+    this.options = opts || {};
+    this.router = this.options.router;
+  },
 
   render: function(){
     var template = this.template();
@@ -1030,13 +1033,13 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
       $('#input_apiKey_entry').val(),
       this.model.in
     );
-    window.authorizations.add(this.model.name, keyAuth);
-    window.swaggerUi.load();
+    this.router.api.clientAuthorizations.add(this.model.name, keyAuth);
+    this.router.load();
     $('#apikey_container').show();
   },
 
   toggleApiKeyContainer: function(){
-    if ($('#apikey_container').length > 0) {
+    if ($('#apikey_container').length) {
 
       var elem = $('#apikey_container').first();
 
@@ -1061,7 +1064,10 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
 SwaggerUi.Views.BasicAuthButton = Backbone.View.extend({
 
 
-  initialize: function () {},
+  initialize: function (opts) {
+    this.options = opts || {};
+    this.router = this.options.router;
+  },
 
   render: function(){
     var template = this.template();
@@ -1079,13 +1085,13 @@ SwaggerUi.Views.BasicAuthButton = Backbone.View.extend({
     var username = $('.input_username').val();
     var password = $('.input_password').val();
     var basicAuth = new SwaggerClient.PasswordAuthorization('basic', username, password);
-    window.authorizations.add(this.model.type, basicAuth);
-    window.swaggerUi.load();
+    this.router.api.clientAuthorizations.add(this.model.type, basicAuth);
+    this.router.load();
     $('#basic_auth_container').hide();
   },
 
   togglePasswordContainer: function(){
-    if ($('#basic_auth_container').length > 0) {
+    if ($('#basic_auth_container').length) {
       var elem = $('#basic_auth_container').show();
       if (elem.is(':visible')){
         elem.slideUp();
@@ -1516,7 +1522,11 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   addStatusCode: function(statusCode) {
     // Render status codes
-    var statusCodeView = new SwaggerUi.Views.StatusCodeView({model: statusCode, tagName: 'tr'});
+    var statusCodeView = new SwaggerUi.Views.StatusCodeView({
+      model: statusCode,
+      tagName: 'tr',
+      router: this.router
+    });
     $('.operation-status', $(this.el)).append(statusCodeView.render().el);
   },
 
@@ -2173,19 +2183,19 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
 'use strict';
 
 SwaggerUi.Views.StatusCodeView = Backbone.View.extend({
-  initialize: function () {
-
+  initialize: function (opts) {
+    this.options = opts || {};
+    this.router = this.options.router;
   },
 
   render: function(){
     $(this.el).html(Handlebars.templates.status_code(this.model));
 
-    // TODO get rid of "swaggerUi" global dependency
-    if (swaggerUi.api.models.hasOwnProperty(this.model.responseModel)) {
+    if (this.router.api.models.hasOwnProperty(this.model.responseModel)) {
       var responseModel = {
-        sampleJSON: JSON.stringify(swaggerUi.api.models[this.model.responseModel].createJSONSample(), null, 2),
+        sampleJSON: JSON.stringify(this.router.api.models[this.model.responseModel].createJSONSample(), null, 2),
         isParam: false,
-        signature: swaggerUi.api.models[this.model.responseModel].getMockSignature(),
+        signature: this.router.api.models[this.model.responseModel].getMockSignature(),
       };
 
       var responseModelView = new SwaggerUi.Views.SignatureView({model: responseModel, tagName: 'div'});
