@@ -25,7 +25,7 @@ class HeaderView extends Backbone.View
   showRepoxDev: (e) ->
     @trigger(
       'update-swagger-ui'
-      {url:"http://localhost:8080/repox/rest/swagger.json"}
+      {url:"http://localhost:8080/repox/rest/api-docs"}
     )
 
   showCustomOnKeyup: (e) ->
