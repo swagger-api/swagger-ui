@@ -53,7 +53,7 @@ window.SwaggerUi = Backbone.Router.extend({
 
     // Event handler for when the baseUrl/apiKey is entered by user
     this.headerView.on('update-swagger-ui', function(data) {
-      return this.updateSwaggerUi(data);
+      return that.updateSwaggerUi(data);
     });
   },
 
