@@ -33,7 +33,7 @@ window.SwaggerUi = Backbone.Router.extend({
     }
 
     // Create an empty div which contains the dom_id
-    if (! $('#' + this.dom_id)){
+    if (! $('#' + this.dom_id).length){
       $('body').append('<div id="' + this.dom_id + '"></div>') ;
     }
 
@@ -112,7 +112,8 @@ window.SwaggerUi = Backbone.Router.extend({
     this.mainView = new SwaggerUi.Views.MainView({
       model: this.api,
       el: $('#' + this.dom_id),
-      swaggerOptions: this.options
+      swaggerOptions: this.options,
+      router: this
     }).render();
     this.showMessage();
     switch (this.options.docExpansion) {

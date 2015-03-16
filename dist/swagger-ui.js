@@ -39,7 +39,7 @@ window.SwaggerUi = Backbone.Router.extend({
     }
 
     // Create an empty div which contains the dom_id
-    if (! $('#' + this.dom_id)){
+    if (! $('#' + this.dom_id).length){
       $('body').append('<div id="' + this.dom_id + '"></div>') ;
     }
 
@@ -118,7 +118,8 @@ window.SwaggerUi = Backbone.Router.extend({
     this.mainView = new SwaggerUi.Views.MainView({
       model: this.api,
       el: $('#' + this.dom_id),
-      swaggerOptions: this.options
+      swaggerOptions: this.options,
+      router: this
     }).render();
     this.showMessage();
     switch (this.options.docExpansion) {
@@ -1181,6 +1182,9 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
   initialize: function(opts){
     opts = opts || {};
+
+    this.router = opts.router;
+
     // set up the UI for input
     this.model.auths = [];
     var key, value;
@@ -1221,12 +1225,12 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
         var button;
 
         if (auth.type === 'apiKey' && $('#apikey_button').length === 0) {
-          button = new SwaggerUi.Views.ApiKeyButton({model: auth}).render().el;
+          button = new SwaggerUi.Views.ApiKeyButton({model: auth, router:  this.router}).render().el;
           $('.auth_main_container').append(button);
         }
 
         if (auth.type === 'basicAuth' && $('#basic_auth_button').length === 0) {
-          button = new SwaggerUi.Views.BasicAuthButton({model: auth}).render().el;
+          button = new SwaggerUi.Views.BasicAuthButton({model: auth, router: this.router}).render().el;
           $('.auth_main_container').append(button);
         }
       }
@@ -1264,6 +1268,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     resource.id = resource.id.replace(/\s/g, '_');
     var resourceView = new SwaggerUi.Views.ResourceView({
       model: resource,
+      router: this.router,
       tagName: 'li',
       id: 'resource_' + resource.id,
       className: 'resource',
@@ -1293,6 +1298,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   initialize: function(opts) {
     opts = opts || {};
+    this.router = opts.router;
     this.auths = opts.auths;
     this.parentId = this.model.parentId;
     this.nickname = this.model.nickname;
@@ -1444,6 +1450,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     if (signatureModel) {
       responseSignatureView = new SwaggerUi.Views.SignatureView({
         model: signatureModel,
+        router: this.router,
         tagName: 'div'
       });
       $('.model-signature', $(this.el)).append(responseSignatureView.render().el);
@@ -1479,7 +1486,8 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       param.type = type;
     }
     responseContentTypeView = new SwaggerUi.Views.ResponseContentTypeView({
-      model: contentTypeModel
+      model: contentTypeModel,
+      router: this.router
     });
     $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
     ref4 = this.model.parameters;
@@ -2021,6 +2029,7 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
 SwaggerUi.Views.ResourceView = Backbone.View.extend({
   initialize: function(opts) {
     opts = opts || {};
+    this.router = opts.router;
     this.auths = opts.auths;
     if ('' === this.model.description) {
       this.model.description = null;
@@ -2068,6 +2077,7 @@ SwaggerUi.Views.ResourceView = Backbone.View.extend({
     // Render an operation and add it to operations li
     var operationView = new SwaggerUi.Views.OperationView({
       model: operation,
+      router: this.router,
       tagName: 'li',
       className: 'endpoint',
       swaggerOptions: this.options.swaggerOptions,

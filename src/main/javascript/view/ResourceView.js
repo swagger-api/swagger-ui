@@ -3,6 +3,7 @@
 SwaggerUi.Views.ResourceView = Backbone.View.extend({
   initialize: function(opts) {
     opts = opts || {};
+    this.router = opts.router;
     this.auths = opts.auths;
     if ('' === this.model.description) {
       this.model.description = null;
@@ -50,6 +51,7 @@ SwaggerUi.Views.ResourceView = Backbone.View.extend({
     // Render an operation and add it to operations li
     var operationView = new SwaggerUi.Views.OperationView({
       model: operation,
+      router: this.router,
       tagName: 'li',
       className: 'endpoint',
       swaggerOptions: this.options.swaggerOptions,

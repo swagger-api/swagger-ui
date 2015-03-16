@@ -14,6 +14,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   initialize: function(opts) {
     opts = opts || {};
+    this.router = opts.router;
     this.auths = opts.auths;
     this.parentId = this.model.parentId;
     this.nickname = this.model.nickname;
@@ -165,6 +166,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     if (signatureModel) {
       responseSignatureView = new SwaggerUi.Views.SignatureView({
         model: signatureModel,
+        router: this.router,
         tagName: 'div'
       });
       $('.model-signature', $(this.el)).append(responseSignatureView.render().el);
@@ -200,7 +202,8 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       param.type = type;
     }
     responseContentTypeView = new SwaggerUi.Views.ResponseContentTypeView({
-      model: contentTypeModel
+      model: contentTypeModel,
+      router: this.router
     });
     $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
     ref4 = this.model.parameters;

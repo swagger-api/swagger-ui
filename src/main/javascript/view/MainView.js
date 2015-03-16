@@ -10,6 +10,9 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
   initialize: function(opts){
     opts = opts || {};
+
+    this.router = opts.router;
+
     // set up the UI for input
     this.model.auths = [];
     var key, value;
@@ -50,12 +53,12 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
         var button;
 
         if (auth.type === 'apiKey' && $('#apikey_button').length === 0) {
-          button = new SwaggerUi.Views.ApiKeyButton({model: auth}).render().el;
+          button = new SwaggerUi.Views.ApiKeyButton({model: auth, router:  this.router}).render().el;
           $('.auth_main_container').append(button);
         }
 
         if (auth.type === 'basicAuth' && $('#basic_auth_button').length === 0) {
-          button = new SwaggerUi.Views.BasicAuthButton({model: auth}).render().el;
+          button = new SwaggerUi.Views.BasicAuthButton({model: auth, router: this.router}).render().el;
           $('.auth_main_container').append(button);
         }
       }
@@ -93,6 +96,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     resource.id = resource.id.replace(/\s/g, '_');
     var resourceView = new SwaggerUi.Views.ResourceView({
       model: resource,
+      router: this.router,
       tagName: 'li',
       id: 'resource_' + resource.id,
       className: 'resource',
