@@ -1482,7 +1482,17 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       model: contentTypeModel
     });
     $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
-    ref4 = this.model.parameters;
+    ref4 = this.model.parameters.sort(function(a, b) {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    });
+
+    console.log(ref4);
     for (p = 0, len3 = ref4.length; p < len3; p++) {
       param = ref4[p];
       this.addParameter(param, contentTypeModel.consumes);
