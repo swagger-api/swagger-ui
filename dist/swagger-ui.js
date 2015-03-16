@@ -59,7 +59,7 @@ window.SwaggerUi = Backbone.Router.extend({
 
     // Event handler for when the baseUrl/apiKey is entered by user
     this.headerView.on('update-swagger-ui', function(data) {
-      return this.updateSwaggerUi(data);
+      return that.updateSwaggerUi(data);
     });
   },
 
@@ -1024,7 +1024,7 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
 
 
   applyApiKey: function(){
-    var keyAuth = new ApiKeyAuthorization(
+    var keyAuth = new SwaggerClient.ApiKeyAuthorization(
       this.model.name,
       $('#input_apiKey_entry').val(),
       this.model.in
@@ -1077,7 +1077,7 @@ SwaggerUi.Views.BasicAuthButton = Backbone.View.extend({
   applyPassword: function(){
     var username = $('.input_username').val();
     var password = $('.input_password').val();
-    var basicAuth = new PasswordAuthorization('basic', username, password);
+    var basicAuth = new SwaggerClient.PasswordAuthorization('basic', username, password);
     window.authorizations.add(this.model.type, basicAuth);
     window.swaggerUi.load();
     $('#basic_auth_container').hide();
