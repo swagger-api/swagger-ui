@@ -7,7 +7,10 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
     'click #apply_api_key' : 'applyApiKey'
   },
 
-  initialize: function(){},
+  initialize: function(opts){
+    this.options = opts || {};
+    this.router = this.options.router;
+  },
 
   render: function(){
     var template = this.template();
@@ -18,18 +21,18 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
 
 
   applyApiKey: function(){
-    var keyAuth = new ApiKeyAuthorization(
+    var keyAuth = new SwaggerClient.ApiKeyAuthorization(
       this.model.name,
       $('#input_apiKey_entry').val(),
       this.model.in
     );
-    window.authorizations.add(this.model.name, keyAuth);
-    window.swaggerUi.load();
+    this.router.api.clientAuthorizations.add(this.model.name, keyAuth);
+    this.router.load();
     $('#apikey_container').show();
   },
 
   toggleApiKeyContainer: function(){
-    if ($('#apikey_container').length > 0) {
+    if ($('#apikey_container').length) {
 
       var elem = $('#apikey_container').first();
 

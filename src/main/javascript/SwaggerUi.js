@@ -33,7 +33,7 @@ window.SwaggerUi = Backbone.Router.extend({
     }
 
     // Create an empty div which contains the dom_id
-    if (! $('#' + this.dom_id)){
+    if (! $('#' + this.dom_id).length){
       $('body').append('<div id="' + this.dom_id + '"></div>') ;
     }
 
@@ -53,7 +53,7 @@ window.SwaggerUi = Backbone.Router.extend({
 
     // Event handler for when the baseUrl/apiKey is entered by user
     this.headerView.on('update-swagger-ui', function(data) {
-      return this.updateSwaggerUi(data);
+      return that.updateSwaggerUi(data);
     });
   },
 
@@ -112,7 +112,8 @@ window.SwaggerUi = Backbone.Router.extend({
     this.mainView = new SwaggerUi.Views.MainView({
       model: this.api,
       el: $('#' + this.dom_id),
-      swaggerOptions: this.options
+      swaggerOptions: this.options,
+      router: this
     }).render();
     this.showMessage();
     switch (this.options.docExpansion) {
@@ -195,3 +196,36 @@ window.SwaggerUi = Backbone.Router.extend({
 });
 
 window.SwaggerUi.Views = {};
+
+// don't break backward compatibility with previous versions and warn users to upgrade their code
+(function(){
+  window.authorizations = {
+    add: function() {
+      warn('using window.authorizations is depreciated. Please use waggerUi.api.clientAuthorizations.add().');
+
+      if (typeof window.swaggerUi === 'undefined') {
+        throw new TypeError('window.swaggerUi is not defined');
+      }
+
+      if (window.swaggerUi instanceof SwaggerUi) {
+        window.swaggerUi.api.clientAuthorizations.add.apply(window.swaggerUi.api.clientAuthorizations, arguments);
+      }
+    }
+  };
+
+  window.ApiKeyAuthorization = function() {
+    warn('window.ApiKeyAuthorization is depreciated. Please use SwaggerClient.ApiKeyAuthorization.');
+    SwaggerClient.ApiKeyAuthorization.apply(window, arguments);
+  };
+
+  window.PasswordAuthorization = function() {
+    warn('window.PasswordAuthorization is depreciated. Please use SwaggerClient.PasswordAuthorization.');
+    SwaggerClient.PasswordAuthorization.apply(window, arguments);
+  };
+
+  function warn(message) {
+    if ('console' in window && typeof window.console.warn === 'function') {
+      console.warn(message);
+    }
+  }
+})();

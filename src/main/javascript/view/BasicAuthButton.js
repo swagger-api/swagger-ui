@@ -3,7 +3,10 @@
 SwaggerUi.Views.BasicAuthButton = Backbone.View.extend({
 
 
-  initialize: function () {},
+  initialize: function (opts) {
+    this.options = opts || {};
+    this.router = this.options.router;
+  },
 
   render: function(){
     var template = this.template();
@@ -20,14 +23,14 @@ SwaggerUi.Views.BasicAuthButton = Backbone.View.extend({
   applyPassword: function(){
     var username = $('.input_username').val();
     var password = $('.input_password').val();
-    var basicAuth = new PasswordAuthorization('basic', username, password);
-    window.authorizations.add(this.model.type, basicAuth);
-    window.swaggerUi.load();
+    var basicAuth = new SwaggerClient.PasswordAuthorization('basic', username, password);
+    this.router.api.clientAuthorizations.add(this.model.type, basicAuth);
+    this.router.load();
     $('#basic_auth_container').hide();
   },
 
   togglePasswordContainer: function(){
-    if ($('#basic_auth_container').length > 0) {
+    if ($('#basic_auth_container').length) {
       var elem = $('#basic_auth_container').show();
       if (elem.is(':visible')){
         elem.slideUp();

@@ -61,14 +61,13 @@
         var key = encodeURIComponent($('#input_apiKey')[0].value);
         log("key: " + key);
         if(key && key.trim() != "") {
+            var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("api_key", key, "query");
+            window.swaggerUi.api.clientAuthorizations.add("api_key", apiKeyAuth);
             log("added key " + key);
-            window.authorizations.add("api_key", new ApiKeyAuthorization("api_key", key, "query"));
         }
       }
 
-      $('#input_apiKey').change(function() {
-        addApiKeyAuthorization();
-      });
+      $('#input_apiKey').change(addApiKeyAuthorization);
 
       // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
       /*
@@ -78,6 +77,12 @@
       */
 
       window.swaggerUi.load();
+
+      function log() {
+        if ('console' in window) {
+          console.log.apply(console, arguments);
+        }
+      }
   });
   </script>
 </head>
