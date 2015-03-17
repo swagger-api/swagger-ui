@@ -18,18 +18,21 @@
   "trailing": true,
   "smarttabs": true,
   "globals": {
-    "Backbone": false,
+
+    // Libraries
     "_": false,
     "$": false,
+    "Backbone": false,
+    "Handlebars": false,
     "jQuery": false,
     "marked": false,
-    "Docs": false,
     "SwaggerClient": false,
-    "Handlebars": false,
-    "ApiKeyAuthorization": false,
-    "PasswordAuthorization": false,
     "hljs": false,
     "SwaggerUi": false,
-    "swaggerUi": false // TODO: remove me
+
+    // Global object
+    // TODO: remove these
+    "swaggerUi": false,
+    "Docs": false
   }
 }
