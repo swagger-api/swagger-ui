@@ -385,9 +385,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     if (window.authorizations) {
       window.authorizations.apply(obj);
     }
-    if (params === 0) {
-      obj.data.append('fake', 'true');
-    }
     jQuery.ajax(obj);
     return false;
     // end of file-upload nastiness
