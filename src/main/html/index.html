@@ -83,13 +83,6 @@
           console.log.apply(console, arguments);
         }
       }
-
-      // don't break backward compatibility with previous versions
-      window.authorizations = {
-        add: swaggerUi.api.clientAuthorizations.add
-      };
-      window.ApiKeyAuthorization = SwaggerClient.ApiKeyAuthorization;
-      window.PasswordAuthorization = SwaggerClient.PasswordAuthorization;
   });
   </script>
 </head>
