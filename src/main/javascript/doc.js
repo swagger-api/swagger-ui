@@ -90,7 +90,6 @@ window.Docs = {
 		// e.g. /docs/#!/words/get_search
 		var fragments = $.param.fragment().split('/');
 		fragments.shift(); // get rid of the bang
-		fragments = _.map(fragments, decodeURIComponent); // decode encoded paths
 
 		switch (fragments.length) {
 			case 1:
@@ -98,22 +97,22 @@ window.Docs = {
 				var dom_id = 'resource_' + fragments[0];
 
 				Docs.expandEndpointListForResource(fragments[0]);
-				$('[id="' + dom_id + '"]').slideto({highlight: false});
+				$("#"+dom_id).slideto({highlight: false});
 				break;
 			case 2:
 				// Refer to the endpoint DOM element, e.g. #words_get_search
 
         // Expand Resource
         Docs.expandEndpointListForResource(fragments[0]);
-        // $("#"+dom_id).slideto({highlight: false});
+        $("#"+dom_id).slideto({highlight: false});
 
         // Expand operation
 				var li_dom_id = fragments.join('_');
 				var li_content_dom_id = li_dom_id + "_content";
 
 
-				Docs.expandOperation($('[id="' + li_content_dom_id + '"]'));
-				$('[id="' + li_dom_id + '"]').slideto({highlight: false});
+				Docs.expandOperation($('#'+li_content_dom_id));
+				$('#'+li_dom_id).slideto({highlight: false});
 				break;
 		}
 
@@ -196,3 +195,4 @@ window.Docs = {
 		elem.slideUp();
 	}
 };
+>>>>>>> afe232747b3d2f972d358c43688185d8fe3e7406
