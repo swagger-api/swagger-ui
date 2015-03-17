@@ -195,4 +195,3 @@ window.Docs = {
 		elem.slideUp();
 	}
 };
->>>>>>> afe232747b3d2f972d358c43688185d8fe3e7406
