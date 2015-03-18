@@ -934,7 +934,7 @@ var MainView,
   __hasProp = {}.hasOwnProperty;
 
 MainView = (function(_super) {
-  var sorters;
+  var apisSorters, operationsSorters;
 
   __extends(MainView, _super);
 
@@ -942,7 +942,12 @@ MainView = (function(_super) {
     return MainView.__super__.constructor.apply(this, arguments);
   }
 
-  sorters = {
+  apisSorters = {
+    'alpha': function(a, b) {
+      return a.name.localeCompare(b.name);
+    }
+  };
+  operationsSorters = {
     'alpha': function(a, b) {
       return a.path.localeCompare(b.path);
     },
@@ -952,10 +957,32 @@ MainView = (function(_super) {
   };
 
   MainView.prototype.initialize = function(opts) {
-    var auth, key, value, _ref;
+    var auth, key, value, sorterName, sorter, _i, _len, _ref, _ref1;
     if (opts == null) {
       opts = {};
     }
+    if (opts.swaggerOptions.apisSorter) {
+      sorterName = opts.swaggerOptions.apisSorter;
+      if (typeof sorterName === "function") {
+        sorter = sorterName;
+      } else {
+        sorter = apisSorters[sorterName];
+      }
+      opts.model.apisArray.sort(sorter);
+    }
+    if (opts.swaggerOptions.operationsSorter) {
+      sorterName = opts.swaggerOptions.operationsSorter;
+      if (typeof sorterName === "function") {
+        sorter = sorterName;
+      } else {
+        sorter = operationsSorters[sorterName];
+      }
+      _ref1 = opts.model.apisArray;
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        _ref1[_i].operationsArray.sort(sorter);
+      }
+    }
+
     this.model.auths = [];
     _ref = this.model.securityDefinitions;
     for (key in _ref) {
