@@ -1555,7 +1555,7 @@ var Property = function(name, obj, required) {
   if(obj.$ref)
     this.$ref = simpleRef(obj.$ref);
   else if (obj.type === 'array' && obj.items) {
-    if(obj.items.$ref)
+    if(obj.items)
       this.$ref = simpleRef(obj.items.$ref);
     else
       obj = obj.items;
