@@ -91,7 +91,8 @@ validatorUrl | By default, Swagger-UI attempts to validate specs against swagger
 dom_id | The id of a dom element inside which SwaggerUi will put the user interface for swagger.
 booleanValues | SwaggerUI renders boolean data types as a dropdown. By default it provides a 'true' and 'false' string as the possible choices. You can use this parameter to change the values in dropdown to be something else, for example 0 and 1 by setting booleanValues to new Array(0, 1).
 docExpansion | Controls how the API listing is displayed. It can be set to 'none' (default), 'list' (shows operations for each resource), or 'full' (fully expanded: shows operations and their details).
-sorter | Apply a sort to the API list. It can be 'alpha' (sort paths alphanumerically) or 'method' (sort operations by HTTP method). Default is the order returned by the server unchanged.
+apisSorter | Apply a sort to the API/tags list. It can be 'alpha' (sort by name) or a function (see Array.prototype.sort() to know how sort function works). Default is the order returned by the server unchanged.
+operationsSorter | Apply a sort to the operation list of each API. It can be 'alpha' (sort by paths alphanumerically), 'method' (sort by HTTP method) or a function (see Array.prototype.sort() to know how sort function works). Default is the order returned by the server unchanged.
 onComplete | This is a callback function parameter which can be passed to be notified of when SwaggerUI has completed rendering successfully.
 onFailure | This is a callback function parameter which can be passed to be notified of when SwaggerUI encountered a failure was unable to render.
 highlightSizeThreshold | Any size response below this threshold will be highlighted syntactically, attempting to highlight large responses can lead to browser hangs, not including a threshold will default to highlight all returned responses.
