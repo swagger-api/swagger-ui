@@ -1,21 +1,48 @@
 'use strict';
 
 SwaggerUi.Views.MainView = Backbone.View.extend({
-
-  // TODO: sorters were not used in any place, do we need them?
-  // sorters = {
-  //   alpha   : function(a,b){ return a.path.localeCompare(b.path); },
-  //   method  : function(a,b){ return a.method.localeCompare(b.method); },
-  // },
-
+  apisSorters : {
+    alpha   : function(a,b){ return a.name.localeCompare(b.name); }
+  },
+  operationsSorters : {
+    alpha   : function(a,b){ return a.path.localeCompare(b.path); },
+    method  : function(a,b){ return a.method.localeCompare(b.method); }
+  },
   initialize: function(opts){
+    var sorterOption, sorterFn, key, value;
     opts = opts || {};
 
     this.router = opts.router;
 
+    // Sort APIs
+    if (opts.swaggerOptions.apisSorter) {
+      sorterOption = opts.swaggerOptions.apisSorter;
+      if (_.isFunction(sorterOption)) {
+        sorterFn = sorterOption;
+      } else {
+        sorterFn = this.apisSorters[sorterOption];
+      }
+      if (_.isFunction(sorterFn)) {
+        this.model.apisArray.sort(sorterFn);
+      }
+    }
+    // Sort operations of each API
+    if (opts.swaggerOptions.operationsSorter) {
+      sorterOption = opts.swaggerOptions.operationsSorter;
+      if (_.isFunction(sorterOption)) {
+        sorterFn = sorterOption;
+      } else {
+        sorterFn = this.operationsSorters[sorterOption];
+      }
+      if (_.isFunction(sorterFn)) {
+        for (key in this.model.apisArray) {
+          this.model.apisArray[key].operationsArray.sort(sorterFn);
+        }
+      }
+    }
+
     // set up the UI for input
     this.model.auths = [];
-    var key, value;
 
     for (key in this.model.securityDefinitions) {
       value = this.model.securityDefinitions[key];
