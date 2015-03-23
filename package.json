@@ -8,6 +8,7 @@
   "scripts": {
     "build": "./node_modules/gulp/bin/gulp.js;",
     "serve": "./node_modules/gulp/bin/gulp.js serve;",
+    "pretest": "jshint .",
     "test": "./node_modules/gulp/bin/gulp.js; ./node_modules/mocha/bin/mocha"
   },
   "repository": {

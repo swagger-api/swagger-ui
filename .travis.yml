@@ -7,7 +7,3 @@ install:
   - sh -e /etc/init.d/xvfb start
   - npm i -g jshint
   - npm install
-
-script:
-  - jshint .
-  - npm test

@@ -1,6 +1,6 @@
 'use strict';
 
-var SwaggerUi = Backbone.Router.extend({
+window.SwaggerUi = Backbone.Router.extend({
 
   dom_id: 'swagger_ui',
 
@@ -195,7 +195,6 @@ var SwaggerUi = Backbone.Router.extend({
 
 });
 
-window.SwaggerUi = SwaggerUi;
 window.SwaggerUi.Views = {};
 
 // don't break backward compatibility with previous versions and warn users to upgrade their code
