@@ -201,7 +201,7 @@ window.SwaggerUi.Views = {};
 (function(){
   window.authorizations = {
     add: function() {
-      warn('using window.authorizations is depreciated. Please use waggerUi.api.clientAuthorizations.add().');
+      warn('Using window.authorizations is deprecated. Please use SwaggerUi.api.clientAuthorizations.add().');
 
       if (typeof window.swaggerUi === 'undefined') {
         throw new TypeError('window.swaggerUi is not defined');
@@ -214,12 +214,12 @@ window.SwaggerUi.Views = {};
   };
 
   window.ApiKeyAuthorization = function() {
-    warn('window.ApiKeyAuthorization is depreciated. Please use SwaggerClient.ApiKeyAuthorization.');
+    warn('window.ApiKeyAuthorization is deprecated. Please use SwaggerClient.ApiKeyAuthorization.');
     SwaggerClient.ApiKeyAuthorization.apply(window, arguments);
   };
 
   window.PasswordAuthorization = function() {
-    warn('window.PasswordAuthorization is depreciated. Please use SwaggerClient.PasswordAuthorization.');
+    warn('window.PasswordAuthorization is deprecated. Please use SwaggerClient.PasswordAuthorization.');
     SwaggerClient.PasswordAuthorization.apply(window, arguments);
   };
 
