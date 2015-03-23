@@ -1,0 +1,26 @@
+{
+  "name": "swagger-ui",
+  "main": "dist/index.html",
+  "version": "2.1.8-M1",
+  "authors": [
+    "Mohsen Azimi <me@azimi.me>"
+  ],
+  "description": "Swagger UI",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "Swagger",
+    "API"
+  ],
+  "license": "Copyright 2015 Reverb Technologies, Inc.",
+  "homepage": "http://swagger.io",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

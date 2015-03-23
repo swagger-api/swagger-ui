@@ -1,22 +1,25 @@
+'use strict';
+
+
 $(function() {
 
 	// Helper function for vertically aligning DOM elements
 	// http://www.seodenver.com/simple-vertical-align-plugin-for-jquery/
 	$.fn.vAlign = function() {
-		return this.each(function(i){
-		var ah = $(this).height();
-		var ph = $(this).parent().height();
-		var mh = (ph - ah) / 2;
-		$(this).css('margin-top', mh);
+		return this.each(function(){
+			var ah = $(this).height();
+			var ph = $(this).parent().height();
+			var mh = (ph - ah) / 2;
+			$(this).css('margin-top', mh);
 		});
 	};
 
 	$.fn.stretchFormtasticInputWidthToParent = function() {
-		return this.each(function(i){
-		var p_width = $(this).closest("form").innerWidth();
-		var p_padding = parseInt($(this).closest("form").css('padding-left') ,10) + parseInt($(this).closest("form").css('padding-right'), 10);
-		var this_padding = parseInt($(this).css('padding-left'), 10) + parseInt($(this).css('padding-right'), 10);
-		$(this).css('width', p_width - p_padding - this_padding);
+		return this.each(function(){
+			var p_width = $(this).closest("form").innerWidth();
+			var p_padding = parseInt($(this).closest("form").css('padding-left') ,10) + parseInt($(this).closest('form').css('padding-right'), 10);
+			var this_padding = parseInt($(this).css('padding-left'), 10) + parseInt($(this).css('padding-right'), 10);
+			$(this).css('width', p_width - p_padding - this_padding);
 		});
 	};
 
@@ -38,7 +41,7 @@ $(function() {
 			$(this).removeClass('error');
 
 			// Tack the error style on if the input is empty..
-			if ($(this).val() == '') {
+			if ($(this).val() === '') {
 				$(this).addClass('error');
 				$(this).wiggle();
 				error_free = false;
@@ -51,7 +54,7 @@ $(function() {
 
 });
 
-function clippyCopiedCallback(a) {
+function clippyCopiedCallback() {
   $('#api_key_copied').fadeIn().delay(1000).fadeOut();
 
   // var b = $("#clippy_tooltip_" + a);
@@ -62,16 +65,16 @@ function clippyCopiedCallback(a) {
 }
 
 // Logging function that accounts for browsers that don't have window.console
-log = function(){
+function log(){
   log.history = log.history || [];
   log.history.push(arguments);
   if(this.console){
     console.log( Array.prototype.slice.call(arguments)[0] );
   }
-};
+}
 
 // Handle browsers that do console incorrectly (IE9 and below, see http://stackoverflow.com/a/5539378/7913)
-if (Function.prototype.bind && console && typeof console.log == "object") {
+if (Function.prototype.bind && console && typeof console.log === "object") {
     [
       "log","info","warn","error","assert","dir","clear","profile","profileEnd"
     ].forEach(function (method) {
@@ -79,7 +82,7 @@ if (Function.prototype.bind && console && typeof console.log == "object") {
     }, Function.prototype.call);
 }
 
-var Docs = {
+window.Docs = {
 
 	shebang: function() {
 
@@ -131,7 +134,7 @@ var Docs = {
 			$('.resource ul.endpoints').slideDown();
 			return;
 		}
-		
+
 		$('li#resource_' + resource).addClass('active');
 
 		var elem = $('li#resource_' + resource + ' ul.endpoints');
@@ -155,7 +158,7 @@ var Docs = {
 	expandOperationsForResource: function(resource) {
 		// Make sure the resource container is open..
 		Docs.expandEndpointListForResource(resource);
-		
+
 		if (resource == '') {
 			$('.resource ul.endpoints li.operation div.content').slideDown();
 			return;

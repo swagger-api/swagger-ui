@@ -1,17 +1,10 @@
-var webdriver = require('selenium-webdriver');
-var createServer = require('http-server').createServer;
+'use strict';
+
 var expect = require('chai').expect;
-var path = require('path')
+var webdriver = require('selenium-webdriver');
+var driver = require('./driver');
+var servers = require('./servers');
 
-var dist = path.join(__dirname, '..', '..', 'dist');
-var specs = path.join(__dirname, '..', '..', 'test', 'specs');
-var DOCS_PORT = 8080;
-var SPEC_SERVER_PORT = 8081
-
-var headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-};
 
 var elements = [
   'swagger-ui-container',
@@ -23,21 +16,12 @@ var elements = [
   'header'
 ];
 
-describe('swagger 2.0 spec tests', function (done) {
+describe('swagger 2.0 spec tests', function () {
   this.timeout(10 * 1000);
-  var swaggerUI, specServer, driver;
 
-  before(function () {
-    swaggerUI = createServer({ root: dist, headers: headers });
-    specServer = createServer({ root: specs, headers: headers });
-    driver = new webdriver.Builder().
-      withCapabilities(webdriver.Capabilities.firefox()).build();
-
-    swaggerUI.listen(DOCS_PORT);
-    specServer.listen(SPEC_SERVER_PORT);
-
-    var swaggerSpecLocation = encodeURIComponent('http://localhost:' + SPEC_SERVER_PORT + '/v2/petstore.json')
-    driver.get('http://localhost:' + DOCS_PORT + '/index.html?url=' + swaggerSpecLocation);
+  before(function (done) {
+    this.timeout(25 * 1000);
+    servers.start('/v2/petstore.json', done);
   });
 
   afterEach(function(){
@@ -46,8 +30,9 @@ describe('swagger 2.0 spec tests', function (done) {
         var errors = [];
         browserLogs.forEach(function(log){
           // 900 and above is "error" level. Console should not have any errors
-          if (log.level.value > 900)
+          if (log.level.value > 900) {
             console.log('browser error message:', log.message); errors.push(log);
+          }
         });
         expect(errors).to.be.empty;
         done();
@@ -98,7 +83,7 @@ describe('swagger 2.0 spec tests', function (done) {
   });
 
   it('should find the pet link', function(done){
-    var locator = webdriver.By.xpath("//*[@data-id='pet']");
+    var locator = webdriver.By.xpath('//*[@data-id="pet"]');
     driver.isElementPresent(locator).then(function (isPresent) {
       expect(isPresent).to.be.true;
       done();
@@ -106,7 +91,7 @@ describe('swagger 2.0 spec tests', function (done) {
   });
 
   it('should find the pet resource description', function(done){
-    var locator = webdriver.By.xpath("//div[contains(., 'Everything about your Pets')]");
+    var locator = webdriver.By.xpath('//div[contains(., "Everything about your Pets")]');
     driver.findElements(locator).then(function (elements) {
       expect(elements.length).to.not.equal(0);
       done();
@@ -114,7 +99,7 @@ describe('swagger 2.0 spec tests', function (done) {
   });
 
   it('should find the user link', function(done){
-    var locator = webdriver.By.xpath("//*[@data-id='user']");
+    var locator = webdriver.By.xpath('//*[@data-id="user"]');
     driver.isElementPresent(locator).then(function (isPresent) {
       expect(isPresent).to.be.true;
       done();
@@ -122,7 +107,7 @@ describe('swagger 2.0 spec tests', function (done) {
   });
 
   it('should find the store link', function(done){
-    var locator = webdriver.By.xpath("//*[@data-id='store']");
+    var locator = webdriver.By.xpath('//*[@data-id="store"]');
     driver.isElementPresent(locator).then(function (isPresent) {
       expect(isPresent).to.be.true;
       done();
@@ -130,8 +115,6 @@ describe('swagger 2.0 spec tests', function (done) {
   });
 
   after(function() {
-    swaggerUI.close();
-    specServer.close();
-    driver.quit();
+    servers.close();
   });
 });
