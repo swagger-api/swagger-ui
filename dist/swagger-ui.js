@@ -4,195 +4,237 @@
  * @link http://swagger.io
  * @license Apache 2.0
  */
-var SwaggerUi,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
+(function(){'use strict';
 
-SwaggerUi = (function(superClass) {
-  extend(SwaggerUi, superClass);
+window.SwaggerUi = Backbone.Router.extend({
 
-  function SwaggerUi() {
-    return SwaggerUi.__super__.constructor.apply(this, arguments);
-  }
+  dom_id: 'swagger_ui',
 
-  SwaggerUi.prototype.dom_id = "swagger_ui";
+  // Attributes
+  options: null,
+  api: null,
+  headerView: null,
+  mainView: null,
 
-  SwaggerUi.prototype.options = null;
+  // SwaggerUi accepts all the same options as SwaggerApi
+  initialize: function(options) {
+    options = options || {};
 
-  SwaggerUi.prototype.api = null;
-
-  SwaggerUi.prototype.headerView = null;
-
-  SwaggerUi.prototype.mainView = null;
-
-  SwaggerUi.prototype.initialize = function(options) {
-    if (options == null) {
-      options = {};
-    }
-    if (options.dom_id != null) {
+    // Allow dom_id to be overridden
+    if (options.dom_id) {
       this.dom_id = options.dom_id;
       delete options.dom_id;
     }
-    if (options.supportedSubmitMethods == null) {
-      options.supportedSubmitMethods = ['get', 'put', 'post', 'delete', 'head', 'options', 'patch'];
+
+    if (!options.supportedSubmitMethods){
+      options.supportedSubmitMethods = [
+        'get',
+        'put',
+        'post',
+        'delete',
+        'head',
+        'options',
+        'patch'
+      ];
     }
-    if ($('#' + this.dom_id) == null) {
-      $('body').append('<div id="' + this.dom_id + '"></div>');
+
+    // Create an empty div which contains the dom_id
+    if (! $('#' + this.dom_id).length){
+      $('body').append('<div id="' + this.dom_id + '"></div>') ;
     }
+
     this.options = options;
-    marked.setOptions({
-      gfm: true
-    });
-    this.options.success = (function(_this) {
-      return function() {
-        return _this.render();
-      };
-    })(this);
-    this.options.progress = (function(_this) {
-      return function(d) {
-        return _this.showMessage(d);
-      };
-    })(this);
-    this.options.failure = (function(_this) {
-      return function(d) {
-        return _this.onLoadFailure(d);
-      };
-    })(this);
-    this.headerView = new HeaderView({
-      el: $('#header')
-    });
-    return this.headerView.on('update-swagger-ui', (function(_this) {
-      return function(data) {
-        return _this.updateSwaggerUi(data);
-      };
-    })(this));
-  };
 
-  SwaggerUi.prototype.setOption = function(option, value) {
-    return this.options[option] = value;
-  };
+    // set marked options
+    marked.setOptions({gfm: true});
 
-  SwaggerUi.prototype.getOption = function(option) {
+    // Set the callbacks
+    var that = this;
+    this.options.success = function() { return that.render(); };
+    this.options.progress = function(d) { return that.showMessage(d); };
+    this.options.failure = function(d) { return that.onLoadFailure(d); };
+
+    // Create view to handle the header inputs
+    this.headerView = new SwaggerUi.Views.HeaderView({el: $('#header')});
+
+    // Event handler for when the baseUrl/apiKey is entered by user
+    this.headerView.on('update-swagger-ui', function(data) {
+      return that.updateSwaggerUi(data);
+    });
+  },
+
+  // Set an option after initializing
+  setOption: function(option, value) {
+    this.options[option] = value;
+  },
+
+  // Get the value of a previously set option
+  getOption: function(option) {
     return this.options[option];
-  };
+  },
 
-  SwaggerUi.prototype.updateSwaggerUi = function(data) {
+  // Event handler for when url/key is received from user
+  updateSwaggerUi: function(data){
     this.options.url = data.url;
-    return this.load();
-  };
+    this.load();
+  },
 
-  SwaggerUi.prototype.load = function() {
-    var ref, url;
-    if ((ref = this.mainView) != null) {
-      ref.clear();
+  // Create an api and render
+  load: function(){
+    // Initialize the API object
+    if (this.mainView) {
+      this.mainView.clear();
     }
-    url = this.options.url;
-    if (url && url.indexOf("http") !== 0) {
+    var url = this.options.url;
+    if (url && url.indexOf('http') !== 0) {
       url = this.buildUrl(window.location.href.toString(), url);
     }
+
     this.options.url = url;
     this.headerView.update(url);
-    return this.api = new SwaggerClient(this.options);
-  };
 
-  SwaggerUi.prototype.collapseAll = function() {
-    return Docs.collapseEndpointListForResource('');
-  };
+    this.api = new SwaggerClient(this.options);
+  },
 
-  SwaggerUi.prototype.listAll = function() {
-    return Docs.collapseOperationsForResource('');
-  };
+  // collapse all sections
+  collapseAll: function(){
+    Docs.collapseEndpointListForResource('');
+  },
 
-  SwaggerUi.prototype.expandAll = function() {
-    return Docs.expandOperationsForResource('');
-  };
+  // list operations for all sections
+  listAll: function(){
+    Docs.collapseOperationsForResource('');
+  },
 
-  SwaggerUi.prototype.render = function() {
+  // expand operations for all sections
+  expandAll: function(){
+    Docs.expandOperationsForResource('');
+  },
+
+  // This is bound to success handler for SwaggerApi
+  //  so it gets called when SwaggerApi completes loading
+  render: function(){
     this.showMessage('Finished Loading Resource Information. Rendering Swagger UI...');
-    this.mainView = new MainView({
+    this.mainView = new SwaggerUi.Views.MainView({
       model: this.api,
       el: $('#' + this.dom_id),
-      swaggerOptions: this.options
+      swaggerOptions: this.options,
+      router: this
     }).render();
     this.showMessage();
     switch (this.options.docExpansion) {
-      case "full":
-        this.expandAll();
+      case 'full':
+        this.expandAll(); break;
+      case 'list':
+        this.listAll(); break;
+      default:
         break;
-      case "list":
-        this.listAll();
     }
     this.renderGFM();
-    if (this.options.onComplete) {
+
+    if (this.options.onComplete){
       this.options.onComplete(this.api, this);
     }
-    return setTimeout((function(_this) {
-      return function() {
-        return Docs.shebang();
-      };
-    })(this), 100);
-  };
 
-  SwaggerUi.prototype.buildUrl = function(base, url) {
-    var endOfPath, parts;
-    if (url.indexOf("/") === 0) {
-      parts = base.split("/");
-      base = parts[0] + "//" + parts[2];
+    setTimeout(Docs.shebang.bind(this), 100);
+  },
+
+  buildUrl: function(base, url){
+    if (url.indexOf('/') === 0) {
+      var parts = base.split('/');
+      base = parts[0] + '//' + parts[2];
       return base + url;
     } else {
-      endOfPath = base.length;
-      if (base.indexOf("?") > -1) {
-        endOfPath = Math.min(endOfPath, base.indexOf("?"));
+      var endOfPath = base.length;
+
+      if (base.indexOf('?') > -1){
+        endOfPath = Math.min(endOfPath, base.indexOf('?'));
       }
-      if (base.indexOf("#") > -1) {
-        endOfPath = Math.min(endOfPath, base.indexOf("#"));
+
+      if (base.indexOf('#') > -1){
+        endOfPath = Math.min(endOfPath, base.indexOf('#'));
       }
+
       base = base.substring(0, endOfPath);
-      if (base.indexOf("/", base.length - 1) !== -1) {
+
+      if (base.indexOf('/', base.length - 1 ) !== -1){
         return base + url;
       }
-      return base + "/" + url;
-    }
-  };
 
-  SwaggerUi.prototype.showMessage = function(data) {
-    if (data == null) {
+      return base + '/' + url;
+    }
+  },
+
+  // Shows message on topbar of the ui
+  showMessage: function(data){
+    if (data === undefined) {
       data = '';
     }
     $('#message-bar').removeClass('message-fail');
     $('#message-bar').addClass('message-success');
-    return $('#message-bar').html(data);
-  };
+    $('#message-bar').html(data);
+  },
 
-  SwaggerUi.prototype.onLoadFailure = function(data) {
-    var val;
-    if (data == null) {
+  // shows message in red
+  onLoadFailure: function(data){
+    if (data === undefined) {
       data = '';
     }
     $('#message-bar').removeClass('message-success');
     $('#message-bar').addClass('message-fail');
-    val = $('#message-bar').html(data);
-    if (this.options.onFailure != null) {
+
+    var val = $('#message-bar').html(data);
+
+    if (this.options.onFailure) {
       this.options.onFailure(data);
     }
+
     return val;
-  };
+  },
 
-  SwaggerUi.prototype.renderGFM = function(data) {
-    if (data == null) {
-      data = '';
-    }
-    return $('.markdown').each(function(index) {
-      return $(this).html(marked($(this).html()));
+  // Renders GFM for elements with 'markdown' class
+  renderGFM: function(){
+    $('.markdown').each(function(){
+      $(this).html(marked($(this).html()));
     });
+  }
+
+});
+
+window.SwaggerUi.Views = {};
+
+// don't break backward compatibility with previous versions and warn users to upgrade their code
+(function(){
+  window.authorizations = {
+    add: function() {
+      warn('using window.authorizations is depreciated. Please use waggerUi.api.clientAuthorizations.add().');
+
+      if (typeof window.swaggerUi === 'undefined') {
+        throw new TypeError('window.swaggerUi is not defined');
+      }
+
+      if (window.swaggerUi instanceof SwaggerUi) {
+        window.swaggerUi.api.clientAuthorizations.add.apply(window.swaggerUi.api.clientAuthorizations, arguments);
+      }
+    }
   };
 
-  return SwaggerUi;
+  window.ApiKeyAuthorization = function() {
+    warn('window.ApiKeyAuthorization is depreciated. Please use SwaggerClient.ApiKeyAuthorization.');
+    SwaggerClient.ApiKeyAuthorization.apply(window, arguments);
+  };
 
-})(Backbone.Router);
+  window.PasswordAuthorization = function() {
+    warn('window.PasswordAuthorization is depreciated. Please use SwaggerClient.PasswordAuthorization.');
+    SwaggerClient.PasswordAuthorization.apply(window, arguments);
+  };
 
-window.SwaggerUi = SwaggerUi;
-
+  function warn(message) {
+    if ('console' in window && typeof window.console.warn === 'function') {
+      console.warn(message);
+    }
+  }
+})();
 this["Handlebars"] = this["Handlebars"] || {};
 this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};
 this["Handlebars"]["templates"]["apikey_button_view"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
@@ -225,25 +267,28 @@ this["Handlebars"]["templates"]["content_type"] = Handlebars.template({"1":funct
   if (stack1 != null) { buffer += stack1; }
   return buffer + "</select>\n";
 },"useData":true});
+'use strict';
+
+
 $(function() {
 
 	// Helper function for vertically aligning DOM elements
 	// http://www.seodenver.com/simple-vertical-align-plugin-for-jquery/
 	$.fn.vAlign = function() {
-		return this.each(function(i){
-		var ah = $(this).height();
-		var ph = $(this).parent().height();
-		var mh = (ph - ah) / 2;
-		$(this).css('margin-top', mh);
+		return this.each(function(){
+			var ah = $(this).height();
+			var ph = $(this).parent().height();
+			var mh = (ph - ah) / 2;
+			$(this).css('margin-top', mh);
 		});
 	};
 
 	$.fn.stretchFormtasticInputWidthToParent = function() {
-		return this.each(function(i){
-		var p_width = $(this).closest("form").innerWidth();
-		var p_padding = parseInt($(this).closest("form").css('padding-left') ,10) + parseInt($(this).closest("form").css('padding-right'), 10);
-		var this_padding = parseInt($(this).css('padding-left'), 10) + parseInt($(this).css('padding-right'), 10);
-		$(this).css('width', p_width - p_padding - this_padding);
+		return this.each(function(){
+			var p_width = $(this).closest("form").innerWidth();
+			var p_padding = parseInt($(this).closest("form").css('padding-left') ,10) + parseInt($(this).closest('form').css('padding-right'), 10);
+			var this_padding = parseInt($(this).css('padding-left'), 10) + parseInt($(this).css('padding-right'), 10);
+			$(this).css('width', p_width - p_padding - this_padding);
 		});
 	};
 
@@ -265,7 +310,7 @@ $(function() {
 			$(this).removeClass('error');
 
 			// Tack the error style on if the input is empty..
-			if ($(this).val() == '') {
+			if ($(this).val() === '') {
 				$(this).addClass('error');
 				$(this).wiggle();
 				error_free = false;
@@ -278,7 +323,7 @@ $(function() {
 
 });
 
-function clippyCopiedCallback(a) {
+function clippyCopiedCallback() {
   $('#api_key_copied').fadeIn().delay(1000).fadeOut();
 
   // var b = $("#clippy_tooltip_" + a);
@@ -289,16 +334,16 @@ function clippyCopiedCallback(a) {
 }
 
 // Logging function that accounts for browsers that don't have window.console
-log = function(){
+function log(){
   log.history = log.history || [];
   log.history.push(arguments);
   if(this.console){
     console.log( Array.prototype.slice.call(arguments)[0] );
   }
-};
+}
 
 // Handle browsers that do console incorrectly (IE9 and below, see http://stackoverflow.com/a/5539378/7913)
-if (Function.prototype.bind && console && typeof console.log == "object") {
+if (Function.prototype.bind && console && typeof console.log === "object") {
     [
       "log","info","warn","error","assert","dir","clear","profile","profileEnd"
     ].forEach(function (method) {
@@ -306,7 +351,7 @@ if (Function.prototype.bind && console && typeof console.log == "object") {
     }, Function.prototype.call);
 }
 
-var Docs = {
+window.Docs = {
 
 	shebang: function() {
 
@@ -358,7 +403,7 @@ var Docs = {
 			$('.resource ul.endpoints').slideDown();
 			return;
 		}
-		
+
 		$('li#resource_' + resource).addClass('active');
 
 		var elem = $('li#resource_' + resource + ' ul.endpoints');
@@ -382,7 +427,7 @@ var Docs = {
 	expandOperationsForResource: function(resource) {
 		// Make sure the resource container is open..
 		Docs.expandEndpointListForResource(resource);
-		
+
 		if (resource == '') {
 			$('.resource ul.endpoints li.operation div.content').slideDown();
 			return;
@@ -420,70 +465,84 @@ var Docs = {
 	}
 };
 
-Handlebars.registerHelper('sanitize', function(html) {
-  html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
-  return new Handlebars.SafeString(html);
-});
+'use strict';
 
+Handlebars.registerHelper('sanitize', function(html) {
+    // Strip the script tags from the html, and return it as a Handlebars.SafeString
+    html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+    return new Handlebars.SafeString(html);
+});
 this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "  <div class=\"info_title\">"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.title : stack1), depth0))
     + "</div>\n  <div class=\"info_description markdown\">";
   stack1 = lambda(((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.description : stack1), depth0);
   if (stack1 != null) { buffer += stack1; }
-  buffer += "</div>\n  ";
-  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.termsOfServiceUrl : stack1), {"name":"if","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
+  buffer += "</div>\n";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.externalDocs : depth0), {"name":"if","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  buffer += "  ";
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.termsOfServiceUrl : stack1), {"name":"if","hash":{},"fn":this.program(4, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "\n  ";
-  stack1 = helpers['if'].call(depth0, ((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.name : stack1), {"name":"if","hash":{},"fn":this.program(4, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, ((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.name : stack1), {"name":"if","hash":{},"fn":this.program(6, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "\n  ";
-  stack1 = helpers['if'].call(depth0, ((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.url : stack1), {"name":"if","hash":{},"fn":this.program(6, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, ((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.url : stack1), {"name":"if","hash":{},"fn":this.program(8, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "\n  ";
-  stack1 = helpers['if'].call(depth0, ((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.email : stack1), {"name":"if","hash":{},"fn":this.program(8, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, ((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.email : stack1), {"name":"if","hash":{},"fn":this.program(10, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "\n  ";
-  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.license : stack1), {"name":"if","hash":{},"fn":this.program(10, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.license : stack1), {"name":"if","hash":{},"fn":this.program(12, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "\n";
 },"2":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
+  return "  <h5>More documentations</h5>\n  <p>"
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.externalDocs : depth0)) != null ? stack1.description : stack1), depth0))
+    + "</p>\n  <a href=\""
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.externalDocs : depth0)) != null ? stack1.url : stack1), depth0))
+    + "\" target=\"_blank\">"
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.externalDocs : depth0)) != null ? stack1.url : stack1), depth0))
+    + "</a>\n";
+},"4":function(depth0,helpers,partials,data) {
+  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
   return "<div class=\"info_tos\"><a href=\""
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.termsOfServiceUrl : stack1), depth0))
     + "\">Terms of service</a></div>";
-},"4":function(depth0,helpers,partials,data) {
+},"6":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
   return "<div class='info_name'>Created by "
     + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.name : stack1), depth0))
     + "</div>";
-},"6":function(depth0,helpers,partials,data) {
+},"8":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
   return "<div class='info_url'>See more at <a href=\""
     + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.url : stack1), depth0))
     + "\">"
     + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.url : stack1), depth0))
     + "</a></div>";
-},"8":function(depth0,helpers,partials,data) {
+},"10":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
   return "<div class='info_email'><a href=\"mailto:"
     + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.email : stack1), depth0))
     + "?subject="
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.title : stack1), depth0))
     + "\">Contact the developer</a></div>";
-},"10":function(depth0,helpers,partials,data) {
+},"12":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
   return "<div class='info_license'><a href='"
     + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.license : stack1)) != null ? stack1.url : stack1), depth0))
     + "'>"
     + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.license : stack1)) != null ? stack1.name : stack1), depth0))
     + "</a></div>";
-},"12":function(depth0,helpers,partials,data) {
+},"14":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
   return "    , <span style=\"font-variant: small-caps\">api version</span>: "
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.version : stack1), depth0))
     + "\n    ";
-},"14":function(depth0,helpers,partials,data) {
+},"16":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
   return "    <span style=\"float:right\"><a href=\""
     + escapeExpression(((helper = (helper = helpers.validatorUrl || (depth0 != null ? depth0.validatorUrl : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"validatorUrl","hash":{},"data":data}) : helper)))
@@ -501,10 +560,10 @@ this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(dept
   buffer += "</div>\n<div class='container' id='resources_container'>\n  <ul id='resources'></ul>\n\n  <div class=\"footer\">\n    <br>\n    <br>\n    <h4 style=\"color: #999\">[ <span style=\"font-variant: small-caps\">base url</span>: "
     + escapeExpression(((helper = (helper = helpers.basePath || (depth0 != null ? depth0.basePath : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"basePath","hash":{},"data":data}) : helper)))
     + "\n";
-  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.version : stack1), {"name":"if","hash":{},"fn":this.program(12, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.version : stack1), {"name":"if","hash":{},"fn":this.program(14, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "]\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.validatorUrl : depth0), {"name":"if","hash":{},"fn":this.program(14, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.validatorUrl : depth0), {"name":"if","hash":{},"fn":this.program(16, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "    </h4>\n    </div>\n</div>\n";
 },"useData":true});
@@ -513,10 +572,10 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
   },"3":function(depth0,helpers,partials,data) {
   return "            <h4>Warning: Deprecated</h4>\n";
   },"5":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "        <h4>Implementation Notes</h4>\n        <p class=\"markdown\">";
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "        <h4>Implementation Notes</h4>\n        <div class=\"markdown\">";
   stack1 = ((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"description","hash":{},"data":data}) : helper));
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "</p>\n";
+  return buffer + "</div>\n";
 },"7":function(depth0,helpers,partials,data) {
   return "        <div class=\"auth\">\n        <span class=\"api-ic ic-error\"></span>";
   },"9":function(depth0,helpers,partials,data) {
@@ -543,7 +602,7 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
 },"18":function(depth0,helpers,partials,data) {
   return "          <h4>Parameters</h4>\n          <table class='fullwidth'>\n          <thead>\n            <tr>\n            <th style=\"width: 100px; max-width: 100px\">Parameter</th>\n            <th style=\"width: 310px; max-width: 310px\">Value</th>\n            <th style=\"width: 200px; max-width: 200px\">Description</th>\n            <th style=\"width: 100px; max-width: 100px\">Parameter Type</th>\n            <th style=\"width: 220px; max-width: 230px\">Data Type</th>\n            </tr>\n          </thead>\n          <tbody class=\"operation-params\">\n\n          </tbody>\n          </table>\n";
   },"20":function(depth0,helpers,partials,data) {
-  return "          <div style='margin:0;padding:0;display:inline'></div>\n          <h4>Response Messages</h4>\n          <table class='fullwidth'>\n            <thead>\n            <tr>\n              <th>HTTP Status Code</th>\n              <th>Reason</th>\n              <th>Response Model</th>\n            </tr>\n            </thead>\n            <tbody class=\"operation-status\">\n            \n            </tbody>\n          </table>\n";
+  return "          <div style='margin:0;padding:0;display:inline'></div>\n          <h4>Response Messages</h4>\n          <table class='fullwidth'>\n            <thead>\n            <tr>\n              <th>HTTP Status Code</th>\n              <th>Reason</th>\n              <th>Response Model</th>\n              <th>Headers</th>\n            </tr>\n            </thead>\n            <tbody class=\"operation-status\">\n\n            </tbody>\n          </table>\n";
   },"22":function(depth0,helpers,partials,data) {
   return "";
 },"24":function(depth0,helpers,partials,data) {
@@ -556,13 +615,13 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
     + "_"
     + escapeExpression(((helper = (helper = helpers.nickname || (depth0 != null ? depth0.nickname : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"nickname","hash":{},"data":data}) : helper)))
     + "'>\n      <div class='heading'>\n        <h3>\n          <span class='http_method'>\n          <a href='#!/"
-    + escapeExpression(((helper = (helper = helpers.parentId || (depth0 != null ? depth0.parentId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"parentId","hash":{},"data":data}) : helper)))
+    + escapeExpression(((helper = (helper = helpers.encodedParentId || (depth0 != null ? depth0.encodedParentId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"encodedParentId","hash":{},"data":data}) : helper)))
     + "/"
     + escapeExpression(((helper = (helper = helpers.nickname || (depth0 != null ? depth0.nickname : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"nickname","hash":{},"data":data}) : helper)))
     + "' class=\"toggleOperation\">"
     + escapeExpression(((helper = (helper = helpers.method || (depth0 != null ? depth0.method : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"method","hash":{},"data":data}) : helper)))
     + "</a>\n          </span>\n          <span class='path'>\n          <a href='#!/"
-    + escapeExpression(((helper = (helper = helpers.parentId || (depth0 != null ? depth0.parentId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"parentId","hash":{},"data":data}) : helper)))
+    + escapeExpression(((helper = (helper = helpers.encodedParentId || (depth0 != null ? depth0.encodedParentId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"encodedParentId","hash":{},"data":data}) : helper)))
     + "/"
     + escapeExpression(((helper = (helper = helpers.nickname || (depth0 != null ? depth0.nickname : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"nickname","hash":{},"data":data}) : helper)))
     + "' class=\"toggleOperation ";
@@ -571,7 +630,7 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
   buffer += "\">"
     + escapeExpression(((helper = (helper = helpers.path || (depth0 != null ? depth0.path : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"path","hash":{},"data":data}) : helper)))
     + "</a>\n          </span>\n        </h3>\n        <ul class='options'>\n          <li>\n          <a href='#!/"
-    + escapeExpression(((helper = (helper = helpers.parentId || (depth0 != null ? depth0.parentId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"parentId","hash":{},"data":data}) : helper)))
+    + escapeExpression(((helper = (helper = helpers.encodedParentId || (depth0 != null ? depth0.encodedParentId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"encodedParentId","hash":{},"data":data}) : helper)))
     + "/"
     + escapeExpression(((helper = (helper = helpers.nickname || (depth0 != null ? depth0.nickname : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"nickname","hash":{},"data":data}) : helper)))
     + "' class=\"toggleOperation\">";
@@ -897,9 +956,9 @@ this["Handlebars"]["templates"]["resource"] = Handlebars.template({"1":function(
   return " : ";
   },"3":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "<li>\n      <a href='"
+  return "    <li>\n      <a href='"
     + escapeExpression(((helper = (helper = helpers.url || (depth0 != null ? depth0.url : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"url","hash":{},"data":data}) : helper)))
-    + "'>Raw</a>\n    </li>";
+    + "'>Raw</a>\n    </li>\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var stack1, helper, options, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, blockHelperMissing=helpers.blockHelperMissing, buffer = "<div class='heading'>\n  <h2>\n    <a href='#!/"
     + escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"id","hash":{},"data":data}) : helper)))
@@ -923,11 +982,10 @@ this["Handlebars"]["templates"]["resource"] = Handlebars.template({"1":function(
     + escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"id","hash":{},"data":data}) : helper)))
     + "\">\n        List Operations\n      </a>\n    </li>\n    <li>\n      <a href='#' class=\"expandResource\" data-id=\""
     + escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"id","hash":{},"data":data}) : helper)))
-    + "\">\n        Expand Operations\n      </a>\n    </li>\n    ";
-  stack1 = ((helper = (helper = helpers.url || (depth0 != null ? depth0.url : depth0)) != null ? helper : helperMissing),(options={"name":"url","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data}),(typeof helper === functionType ? helper.call(depth0, options) : helper));
-  if (!helpers.url) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
+    + "\">\n        Expand Operations\n      </a>\n    </li>\n";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.url : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "\n  </ul>\n</div>\n<ul class='endpoints' id='"
+  return buffer + "  </ul>\n</div>\n<ul class='endpoints' id='"
     + escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"id","hash":{},"data":data}) : helper)))
     + "_endpoint_list' style='display:none'>\n\n</ul>\n";
 },"useData":true});
@@ -960,411 +1018,393 @@ this["Handlebars"]["templates"]["signature"] = Handlebars.template({"compiler":[
     + escapeExpression(((helper = (helper = helpers.sampleJSON || (depth0 != null ? depth0.sampleJSON : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"sampleJSON","hash":{},"data":data}) : helper)))
     + "</code></pre>\n    <small class=\"notice\"></small>\n  </div>\n</div>\n\n";
 },"useData":true});
-this["Handlebars"]["templates"]["status_code"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+this["Handlebars"]["templates"]["status_code"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
+  var lambda=this.lambda, escapeExpression=this.escapeExpression;
+  return "      <tr>\n        <td>"
+    + escapeExpression(lambda((data && data.key), depth0))
+    + "</td>\n        <td>"
+    + escapeExpression(lambda((depth0 != null ? depth0.description : depth0), depth0))
+    + "</td>\n        <td>"
+    + escapeExpression(lambda((depth0 != null ? depth0.type : depth0), depth0))
+    + "</td>\n      </tr>\n";
+},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<td width='15%' class='code'>"
     + escapeExpression(((helper = (helper = helpers.code || (depth0 != null ? depth0.code : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"code","hash":{},"data":data}) : helper)))
     + "</td>\n<td>";
   stack1 = ((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"message","hash":{},"data":data}) : helper));
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "</td>\n<td width='50%'><span class=\"model-signature\" /></td>";
+  buffer += "</td>\n<td width='50%'><span class=\"model-signature\" /></td>\n<td class=\"headers\">\n  <table>\n    <tbody>\n";
+  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.headers : depth0), {"name":"each","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "    </tbody>\n  </table>\n</td>";
 },"useData":true});
-var ApiKeyButton,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
+'use strict';
 
-ApiKeyButton = (function(superClass) {
-  extend(ApiKeyButton, superClass);
+SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to global SwaggerUi
 
-  function ApiKeyButton() {
-    return ApiKeyButton.__super__.constructor.apply(this, arguments);
-  }
+  events:{
+    'click #apikey_button' : 'toggleApiKeyContainer',
+    'click #apply_api_key' : 'applyApiKey'
+  },
 
-  ApiKeyButton.prototype.initialize = function() {};
+  initialize: function(opts){
+    this.options = opts || {};
+    this.router = this.options.router;
+  },
 
-  ApiKeyButton.prototype.render = function() {
-    var template;
-    template = this.template();
+  render: function(){
+    var template = this.template();
     $(this.el).html(template(this.model));
+
     return this;
-  };
+  },
 
-  ApiKeyButton.prototype.events = {
-    "click #apikey_button": "toggleApiKeyContainer",
-    "click #apply_api_key": "applyApiKey"
-  };
 
-  ApiKeyButton.prototype.applyApiKey = function() {
-    var elem;
-    window.authorizations.add(this.model.name, new ApiKeyAuthorization(this.model.name, $("#input_apiKey_entry").val(), this.model["in"]));
-    window.swaggerUi.load();
-    return elem = $('#apikey_container').show();
-  };
+  applyApiKey: function(){
+    var keyAuth = new SwaggerClient.ApiKeyAuthorization(
+      this.model.name,
+      $('#input_apiKey_entry').val(),
+      this.model.in
+    );
+    this.router.api.clientAuthorizations.add(this.model.name, keyAuth);
+    this.router.load();
+    $('#apikey_container').show();
+  },
 
-  ApiKeyButton.prototype.toggleApiKeyContainer = function() {
-    var elem;
-    if ($('#apikey_container').length > 0) {
-      elem = $('#apikey_container').first();
-      if (elem.is(':visible')) {
-        return elem.hide();
+  toggleApiKeyContainer: function(){
+    if ($('#apikey_container').length) {
+
+      var elem = $('#apikey_container').first();
+
+      if (elem.is(':visible')){
+        elem.hide();
       } else {
+
+        // hide others
         $('.auth_container').hide();
-        return elem.show();
+        elem.show();
       }
     }
-  };
+  },
 
-  ApiKeyButton.prototype.template = function() {
+  template: function(){
     return Handlebars.templates.apikey_button_view;
-  };
-
-  return ApiKeyButton;
-
-})(Backbone.View);
-
-var BasicAuthButton,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-BasicAuthButton = (function(superClass) {
-  extend(BasicAuthButton, superClass);
-
-  function BasicAuthButton() {
-    return BasicAuthButton.__super__.constructor.apply(this, arguments);
   }
 
-  BasicAuthButton.prototype.initialize = function() {};
+});
+'use strict';
 
-  BasicAuthButton.prototype.render = function() {
-    var template;
-    template = this.template();
+SwaggerUi.Views.BasicAuthButton = Backbone.View.extend({
+
+
+  initialize: function (opts) {
+    this.options = opts || {};
+    this.router = this.options.router;
+  },
+
+  render: function(){
+    var template = this.template();
     $(this.el).html(template(this.model));
+
     return this;
-  };
+  },
 
-  BasicAuthButton.prototype.events = {
-    "click #basic_auth_button": "togglePasswordContainer",
-    "click #apply_basic_auth": "applyPassword"
-  };
+  events: {
+    'click #basic_auth_button' : 'togglePasswordContainer',
+    'click #apply_basic_auth' : 'applyPassword'
+  },
 
-  BasicAuthButton.prototype.applyPassword = function() {
-    var elem, password, username;
-    username = $(".input_username").val();
-    password = $(".input_password").val();
-    window.authorizations.add(this.model.type, new PasswordAuthorization("basic", username, password));
-    window.swaggerUi.load();
-    return elem = $('#basic_auth_container').hide();
-  };
+  applyPassword: function(){
+    var username = $('.input_username').val();
+    var password = $('.input_password').val();
+    var basicAuth = new SwaggerClient.PasswordAuthorization('basic', username, password);
+    this.router.api.clientAuthorizations.add(this.model.type, basicAuth);
+    this.router.load();
+    $('#basic_auth_container').hide();
+  },
 
-  BasicAuthButton.prototype.togglePasswordContainer = function() {
-    var elem;
-    if ($('#basic_auth_container').length > 0) {
-      elem = $('#basic_auth_container').show();
-      if (elem.is(':visible')) {
-        return elem.slideUp();
+  togglePasswordContainer: function(){
+    if ($('#basic_auth_container').length) {
+      var elem = $('#basic_auth_container').show();
+      if (elem.is(':visible')){
+        elem.slideUp();
       } else {
+        // hide others
         $('.auth_container').hide();
-        return elem.show();
+        elem.show();
       }
     }
-  };
+  },
 
-  BasicAuthButton.prototype.template = function() {
+  template: function(){
     return Handlebars.templates.basic_auth_button_view;
-  };
-
-  return BasicAuthButton;
-
-})(Backbone.View);
-
-var ContentTypeView,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-ContentTypeView = (function(superClass) {
-  extend(ContentTypeView, superClass);
-
-  function ContentTypeView() {
-    return ContentTypeView.__super__.constructor.apply(this, arguments);
   }
 
-  ContentTypeView.prototype.initialize = function() {};
+});
+'use strict';
 
-  ContentTypeView.prototype.render = function() {
-    var template;
-    template = this.template();
-    $(this.el).html(template(this.model));
+SwaggerUi.Views.ContentTypeView = Backbone.View.extend({
+  initialize: function() {},
+
+  render: function(){
+    $(this.el).html(Handlebars.templates.content_type(this.model));
+
     $('label[for=contentType]', $(this.el)).text('Response Content Type');
+
     return this;
-  };
-
-  ContentTypeView.prototype.template = function() {
-    return Handlebars.templates.content_type;
-  };
-
-  return ContentTypeView;
-
-})(Backbone.View);
-
-var HeaderView,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-HeaderView = (function(superClass) {
-  extend(HeaderView, superClass);
-
-  function HeaderView() {
-    return HeaderView.__super__.constructor.apply(this, arguments);
   }
+});
+'use strict';
 
-  HeaderView.prototype.events = {
-    'click #show-pet-store-icon': 'showPetStore',
-    'click #show-wordnik-dev-icon': 'showWordnikDev',
-    'click #explore': 'showCustom',
-    'keyup #input_baseUrl': 'showCustomOnKeyup',
-    'keyup #input_apiKey': 'showCustomOnKeyup'
-  };
+SwaggerUi.Views.HeaderView = Backbone.View.extend({
+  events: {
+    'click #show-pet-store-icon'    : 'showPetStore',
+    'click #show-wordnik-dev-icon'  : 'showWordnikDev',
+    'click #explore'                : 'showCustom',
+    'keyup #input_baseUrl'          : 'showCustomOnKeyup',
+    'keyup #input_apiKey'           : 'showCustomOnKeyup'
+  },
 
-  HeaderView.prototype.initialize = function() {};
+  initialize: function(){},
 
-  HeaderView.prototype.showPetStore = function(e) {
-    return this.trigger('update-swagger-ui', {
-      url: "http://petstore.swagger.wordnik.com/api/api-docs"
+  showPetStore: function(){
+    this.trigger('update-swagger-ui', {
+      url:'http://petstore.swagger.wordnik.com/api/api-docs'
     });
-  };
+  },
 
-  HeaderView.prototype.showWordnikDev = function(e) {
-    return this.trigger('update-swagger-ui', {
-      url: "http://api.wordnik.com/v4/resources.json"
+  showWordnikDev: function(){
+    this.trigger('update-swagger-ui', {
+      url: 'http://api.wordnik.com/v4/resources.json'
     });
-  };
+  },
 
-  HeaderView.prototype.showCustomOnKeyup = function(e) {
+  showCustomOnKeyup: function(e){
     if (e.keyCode === 13) {
-      return this.showCustom();
+      this.showCustom();
     }
-  };
+  },
 
-  HeaderView.prototype.showCustom = function(e) {
-    if (e != null) {
+  showCustom: function(e){
+    if (e) {
       e.preventDefault();
     }
-    return this.trigger('update-swagger-ui', {
+
+    this.trigger('update-swagger-ui', {
       url: $('#input_baseUrl').val(),
       apiKey: $('#input_apiKey').val()
     });
-  };
+  },
 
-  HeaderView.prototype.update = function(url, apiKey, trigger) {
-    if (trigger == null) {
+  update: function(url, apiKey, trigger){
+    if (trigger === undefined) {
       trigger = false;
     }
+
     $('#input_baseUrl').val(url);
+
+    //$('#input_apiKey').val(apiKey);
     if (trigger) {
-      return this.trigger('update-swagger-ui', {
-        url: url
-      });
+      this.trigger('update-swagger-ui', {url:url});
     }
-  };
-
-  return HeaderView;
-
-})(Backbone.View);
-
-var MainView,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-MainView = (function(superClass) {
-  var sorters;
-
-  extend(MainView, superClass);
-
-  function MainView() {
-    return MainView.__super__.constructor.apply(this, arguments);
   }
+});
+'use strict';
 
-  sorters = {
-    'alpha': function(a, b) {
-      return a.path.localeCompare(b.path);
-    },
-    'method': function(a, b) {
-      return a.method.localeCompare(b.method);
-    }
-  };
+SwaggerUi.Views.MainView = Backbone.View.extend({
 
-  MainView.prototype.initialize = function(opts) {
-    var auth, def, key, ref, results, value;
-    if (opts == null) {
-      opts = {};
-    }
+  // TODO: sorters were not used in any place, do we need them?
+  // sorters = {
+  //   alpha   : function(a,b){ return a.path.localeCompare(b.path); },
+  //   method  : function(a,b){ return a.method.localeCompare(b.method); },
+  // },
+
+  initialize: function(opts){
+    opts = opts || {};
+
+    this.router = opts.router;
+
+    // set up the UI for input
     this.model.auths = [];
-    ref = this.model.securityDefinitions;
-    for (key in ref) {
-      value = ref[key];
-      auth = {
+    var key, value;
+
+    for (key in this.model.securityDefinitions) {
+      value = this.model.securityDefinitions[key];
+
+      this.model.auths.push({
         name: key,
         type: value.type,
         value: value
-      };
-      this.model.auths.push(auth);
+      });
     }
-    if (this.model.swaggerVersion === "2.0") {
-      if ("validatorUrl" in opts.swaggerOptions) {
-        this.model.validatorUrl = opts.swaggerOptions.validatorUrl;
-      } else if (this.model.url.indexOf("localhost") > 0) {
-        this.model.validatorUrl = null;
-      } else {
-        this.model.validatorUrl = "http://online.swagger.io/validator";
-      }
-    }
-    results = [];
-    for (def in this.model.definitions) {
-      results.push(this.model.definitions[def].type = 'object');
-    }
-    return results;
-  };
 
-  MainView.prototype.render = function() {
-    var auth, button, counter, i, id, len, name, ref, resource, resources;
+    if (this.model.swaggerVersion === '2.0') {
+      if ('validatorUrl' in opts.swaggerOptions) {
+
+        // Validator URL specified explicitly
+        this.model.validatorUrl = opts.swaggerOptions.validatorUrl;
+
+      } else if (this.model.url.indexOf('localhost') > 0) {
+
+        // Localhost override
+        this.model.validatorUrl = null;
+
+      } else {
+
+        // Default validator
+        this.model.validatorUrl = 'http://online.swagger.io/validator';
+      }
+    }
+
+    // JSonEditor requires type='object' to be present on defined types, we add it if it's missing
+    // is there any valid case were it should not be added ?
+    var def;
+    for(def in this.model.definitions){
+      this.model.definitions[def].type = 'object';
+    }
+
+  },
+
+  render: function(){
     if (this.model.securityDefinitions) {
-      for (name in this.model.securityDefinitions) {
-        auth = this.model.securityDefinitions[name];
-        if (auth.type === "apiKey" && $("#apikey_button").length === 0) {
-          button = new ApiKeyButton({
-            model: auth
-          }).render().el;
+      for (var name in this.model.securityDefinitions) {
+        var auth = this.model.securityDefinitions[name];
+        var button;
+
+        if (auth.type === 'apiKey' && $('#apikey_button').length === 0) {
+          button = new SwaggerUi.Views.ApiKeyButton({model: auth, router:  this.router}).render().el;
           $('.auth_main_container').append(button);
         }
-        if (auth.type === "basicAuth" && $("#basic_auth_button").length === 0) {
-          button = new BasicAuthButton({
-            model: auth
-          }).render().el;
+
+        if (auth.type === 'basicAuth' && $('#basic_auth_button').length === 0) {
+          button = new SwaggerUi.Views.BasicAuthButton({model: auth, router: this.router}).render().el;
           $('.auth_main_container').append(button);
         }
       }
     }
+
+    // Render the outer container for resources
     $(this.el).html(Handlebars.templates.main(this.model));
-    resources = {};
-    counter = 0;
-    ref = this.model.apisArray;
-    for (i = 0, len = ref.length; i < len; i++) {
-      resource = ref[i];
-      id = resource.name;
+
+    // Render each resource
+
+    var resources = {};
+    var counter = 0;
+    for (var i = 0; i < this.model.apisArray.length; i++) {
+      var resource = this.model.apisArray[i];
+      var id = resource.name;
       while (typeof resources[id] !== 'undefined') {
-        id = id + "_" + counter;
+        id = id + '_' + counter;
         counter += 1;
       }
       resource.id = id;
       resources[id] = resource;
       this.addResource(resource, this.model.auths);
     }
-    $('.propWrap').hover(function() {
-      return $('.optionsWrapper', $(this)).show();
-    }, function() {
-      return $('.optionsWrapper', $(this)).hide();
+
+    $('.propWrap').hover(function onHover(){
+      $('.optionsWrapper', $(this)).show();
+    }, function offhover(){
+      $('.optionsWrapper', $(this)).hide();
     });
     return this;
-  };
+  },
 
-  MainView.prototype.addResource = function(resource, auths) {
-    var resourceView;
+  addResource: function(resource, auths){
+    // Render a resource and add it to resources li
     resource.id = resource.id.replace(/\s/g, '_');
-    resource.definitions = this.model.definitions;
-    resourceView = new ResourceView({
+
+    // Make all definitions available at the root of the resource so that they can
+    // be loaded by the JSonEditor
+    resource.definitions = this.model.definitions
+
+    var resourceView = new SwaggerUi.Views.ResourceView({
       model: resource,
+      router: this.router,
       tagName: 'li',
       id: 'resource_' + resource.id,
       className: 'resource',
       auths: auths,
       swaggerOptions: this.options.swaggerOptions
     });
-    return $('#resources').append(resourceView.render().el);
-  };
+    $('#resources').append(resourceView.render().el);
+  },
 
-  MainView.prototype.clear = function() {
-    return $(this.el).html('');
-  };
-
-  return MainView;
-
-})(Backbone.View);
-
-var OperationView,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-OperationView = (function(superClass) {
-  extend(OperationView, superClass);
-
-  function OperationView() {
-    return OperationView.__super__.constructor.apply(this, arguments);
+  clear: function(){
+    $(this.el).html('');
   }
+});
+'use strict';
 
-  OperationView.prototype.invocationUrl = null;
+SwaggerUi.Views.OperationView = Backbone.View.extend({
+  invocationUrl: null,
 
-  OperationView.prototype.events = {
-    'submit .sandbox': 'submitOperation',
-    'click .submit': 'submitOperation',
-    'click .response_hider': 'hideResponse',
-    'click .toggleOperation': 'toggleOperationContent',
-    'mouseenter .api-ic': 'mouseEnter',
-    'mouseout .api-ic': 'mouseExit'
-  };
+  events: {
+    'submit .sandbox'         : 'submitOperation',
+    'click .submit'           : 'submitOperation',
+    'click .response_hider'   : 'hideResponse',
+    'click .toggleOperation'  : 'toggleOperationContent',
+    'mouseenter .api-ic'      : 'mouseEnter',
+    'mouseout .api-ic'        : 'mouseExit',
+  },
 
-  OperationView.prototype.initialize = function(opts) {
-    if (opts == null) {
-      opts = {};
-    }
+  initialize: function(opts) {
+    opts = opts || {};
+    this.router = opts.router;
     this.auths = opts.auths;
     this.parentId = this.model.parentId;
     this.nickname = this.model.nickname;
+    this.model.encodedParentId = encodeURIComponent(this.parentId);
     return this;
-  };
+  },
 
-  OperationView.prototype.mouseEnter = function(e) {
-    var elem, hgh, pos, scMaxX, scMaxY, scX, scY, wd, x, y;
-    elem = $(this.el).find('.content');
-    x = e.pageX;
-    y = e.pageY;
-    scX = $(window).scrollLeft();
-    scY = $(window).scrollTop();
-    scMaxX = scX + $(window).width();
-    scMaxY = scY + $(window).height();
-    wd = elem.width();
-    hgh = elem.height();
+  mouseEnter: function(e) {
+    var elem = $(this.el).find('.content');
+    var x = e.pageX;
+    var y = e.pageY;
+    var scX = $(window).scrollLeft();
+    var scY = $(window).scrollTop();
+    var scMaxX = scX + $(window).width();
+    var scMaxY = scY + $(window).height();
+    var wd = elem.width();
+    var hgh = elem.height();
+
     if (x + wd > scMaxX) {
       x = scMaxX - wd;
     }
+
     if (x < scX) {
       x = scX;
     }
+
     if (y + hgh > scMaxY) {
       y = scMaxY - hgh;
     }
+
     if (y < scY) {
       y = scY;
     }
-    pos = {};
+
+    var pos = {};
     pos.top = y;
     pos.left = x;
     elem.css(pos);
-    return $(e.currentTarget.parentNode).find('#api_information_panel').show();
-  };
+    $(e.currentTarget.parentNode).find('#api_information_panel').show();
+  },
 
-  OperationView.prototype.mouseExit = function(e) {
-    return $(e.currentTarget.parentNode).find('#api_information_panel').hide();
-  };
+  mouseExit: function(e) {
+    $(e.currentTarget.parentNode).find('#api_information_panel').hide();
+  },
 
-  OperationView.prototype.render = function() {
-    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, l, len, len1, len2, len3, len4, m, modelAuths, n, o, param, q, r, ref, ref1, ref2, ref3, ref4, ref5, responseContentTypeView, responseSignatureView, schema, schemaObj, scopeIndex, signatureModel, statusCode, successResponse, type, v, value;
+  // Note: copied from CoffeeScript compiled file
+  // TODO: redactor
+  render: function() {
+    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, l, len, len1, len2, len3, len4, m, modelAuths, n, o, p, param, q, ref, ref1, ref2, ref3, ref4, ref5, responseContentTypeView, responseSignatureView, schema, schemaObj, scopeIndex, signatureModel, statusCode, successResponse, type, v, value;
     isMethodSubmissionSupported = jQuery.inArray(this.model.method, this.model.supportedSubmitMethods()) >= 0;
     if (!isMethodSubmissionSupported) {
       this.model.isReadOnly = true;
     }
     this.model.description = this.model.description || this.model.notes;
-    if (this.model.description) {
-      this.model.description = this.model.description.replace(/(?:\r\n|\r|\n)/g, '<br />');
-    }
     this.model.oauth = null;
     modelAuths = this.model.authorizations || this.model.security;
     if (modelAuths) {
@@ -1397,7 +1437,7 @@ OperationView = (function(superClass) {
       } else {
         for (k in modelAuths) {
           v = modelAuths[k];
-          if (k === "oauth2") {
+          if (k === 'oauth2') {
             if (this.model.oauth === null) {
               this.model.oauth = {};
             }
@@ -1419,8 +1459,8 @@ OperationView = (function(superClass) {
         value = ref2[code];
         schema = null;
         schemaObj = this.model.responses[code].schema;
-        if (schemaObj && schemaObj['$ref']) {
-          schema = schemaObj['$ref'];
+        if (schemaObj && schemaObj.$ref) {
+          schema = schemaObj.$ref;
           if (schema.indexOf('#/definitions/') === 0) {
             schema = schema.substring('#/definitions/'.length);
           }
@@ -1458,8 +1498,9 @@ OperationView = (function(superClass) {
     }
     $(this.el).html(Handlebars.templates.operation(this.model));
     if (signatureModel) {
-      responseSignatureView = new SignatureView({
+      responseSignatureView = new SwaggerUi.Views.SignatureView({
         model: signatureModel,
+        router: this.router,
         tagName: 'div'
       });
       $('.model-signature', $(this.el)).append(responseSignatureView.render().el);
@@ -1478,8 +1519,8 @@ OperationView = (function(superClass) {
       type = param.type || param.dataType || '';
       if (typeof type === 'undefined') {
         schema = param.schema;
-        if (schema && schema['$ref']) {
-          ref = schema['$ref'];
+        if (schema && schema.$ref) {
+          ref = schema.$ref;
           if (ref.indexOf('#/definitions/') === 0) {
             type = ref.substring('#/definitions/'.length);
           } else {
@@ -1494,84 +1535,89 @@ OperationView = (function(superClass) {
       }
       param.type = type;
     }
-    responseContentTypeView = new ResponseContentTypeView({
-      model: contentTypeModel
+    responseContentTypeView = new SwaggerUi.Views.ResponseContentTypeView({
+      model: contentTypeModel,
+      router: this.router
     });
     $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
     ref4 = this.model.parameters;
-    for (q = 0, len3 = ref4.length; q < len3; q++) {
-      param = ref4[q];
+    for (p = 0, len3 = ref4.length; p < len3; p++) {
+      param = ref4[p];
       this.addParameter(param, contentTypeModel.consumes);
     }
     ref5 = this.model.responseMessages;
-    for (r = 0, len4 = ref5.length; r < len4; r++) {
-      statusCode = ref5[r];
+    for (q = 0, len4 = ref5.length; q < len4; q++) {
+      statusCode = ref5[q];
       this.addStatusCode(statusCode);
     }
     return this;
-  };
+  },
 
-  OperationView.prototype.extend = function(object, properties) {
-    var key, val;
-    for (key in properties) {
-      val = properties[key];
-      object[key] = val;
-    }
-    return object;
-  };
-
-  OperationView.prototype.addParameter = function(param, consumes) {
-    var paramView;
+  addParameter: function(param, consumes) {
+    // Render a parameter
     param.consumes = consumes;
-    if (param.schema) {
-      this.extend(param.schema, this.model.definitions[param.type]);
+
+
+    // Copy this param JSON spec so that it will be available for JsonEditor
+    if(param.schema){
+      $.extend(true, param.schema, this.model.definitions[param.type]);
       param.schema.definitions = this.model.definitions;
-      param.schema.type = "object";
+      // This is required for JsonEditor to display the root properly
+      param.schema.type = "object"; 
+      // This is the title that will be used by JsonEditor for the root
+      // Since we already display the parameter's name in the Parameter column
+      // We set this to space, we can't set it to null or space otherwise JsonEditor
+      // will replace it with the text "root" which won't look good on screen
       param.schema.title = " ";
-    }
-    paramView = new ParameterView({
+    } 
+     
+
+    var paramView = new SwaggerUi.Views.ParameterView({
       model: param,
       tagName: 'tr',
       readOnly: this.model.isReadOnly,
       swaggerOptions: this.options.swaggerOptions
     });
-    return $('.operation-params', $(this.el)).append(paramView.render().el);
-  };
+    $('.operation-params', $(this.el)).append(paramView.render().el);
+  },
 
-  OperationView.prototype.addStatusCode = function(statusCode) {
-    var statusCodeView;
-    statusCodeView = new StatusCodeView({
+  addStatusCode: function(statusCode) {
+    // Render status codes
+    var statusCodeView = new SwaggerUi.Views.StatusCodeView({
       model: statusCode,
-      tagName: 'tr'
+      tagName: 'tr',
+      router: this.router
     });
-    return $('.operation-status', $(this.el)).append(statusCodeView.render().el);
-  };
+    $('.operation-status', $(this.el)).append(statusCodeView.render().el);
+  },
 
-  OperationView.prototype.submitOperation = function(e) {
-    var error_free, form, isFileUpload, json, l, len, len1, len2, len3, m, map, n, o, opts, p, q, ref1, ref2, ref3, ref4, val;
-    if (e != null) {
+  // Note: copied from CoffeeScript compiled file
+  // TODO: redactor
+  submitOperation: function(e) {
+    var error_free, form, isFileUpload, l, len, len1, len2, m, map, n, o, opts, ref1, ref2, ref3, val;
+    if (e !== null) {
       e.preventDefault();
     }
     form = $('.sandbox', $(this.el));
     error_free = true;
-    form.find("input.required").each(function() {
-      $(this).removeClass("error");
-      if (jQuery.trim($(this).val()) === "") {
-        $(this).addClass("error");
+    form.find('input.required').each(function() {
+      $(this).removeClass('error');
+      if (jQuery.trim($(this).val()) === '') {
+        $(this).addClass('error');
         $(this).wiggle({
           callback: (function(_this) {
             return function() {
-              return $(_this).focus();
+              $(_this).focus();
             };
           })(this)
         });
-        return error_free = false;
+        error_free = false;
       }
     });
-    form.find("textarea.required").each(function() {
-      $(this).removeClass("error");
-      if (jQuery.trim($(this).val()) === "") {
-        $(this).addClass("error");
+    form.find('textarea.required').each(function() {
+      $(this).removeClass('error');
+      if (jQuery.trim($(this).val()) === '') {
+        $(this).addClass('error');
         $(this).wiggle({
           callback: (function(_this) {
             return function() {
@@ -1579,7 +1625,7 @@ OperationView = (function(superClass) {
             };
           })(this)
         });
-        return error_free = false;
+        error_free = false;
       }
     });
     if (error_free) {
@@ -1588,61 +1634,65 @@ OperationView = (function(superClass) {
         parent: this
       };
       isFileUpload = false;
-      ref1 = form.find("input");
+      ref1 = form.find('input');
       for (l = 0, len = ref1.length; l < len; l++) {
         o = ref1[l];
-        if ((o.value != null) && jQuery.trim(o.value).length > 0) {
+        if ((o.value !== null) && jQuery.trim(o.value).length > 0) {
           map[o.name] = o.value;
         }
-        if (o.type === "file") {
+        if (o.type === 'file') {
           map[o.name] = o.files[0];
           isFileUpload = true;
         }
       }
-      ref2 = form.find("textarea");
+      ref2 = form.find('textarea');
       for (m = 0, len1 = ref2.length; m < len1; m++) {
         o = ref2[m];
-        if ((o.value != null) && jQuery.trim(o.value).length > 0) {
+        if ((o.value !== null) && jQuery.trim(o.value).length > 0) {
           map[o.name] = o.value;
         }
       }
-      ref3 = form.find("select");
+      ref3 = form.find('select');
       for (n = 0, len2 = ref3.length; n < len2; n++) {
         o = ref3[n];
         val = this.getSelectedValue(o);
-        if ((val != null) && jQuery.trim(val).length > 0) {
+        if ((val !== null) && jQuery.trim(val).length > 0) {
           map[o.name] = val;
         }
       }
-      ref4 = this.model.parameters;
-      for (q = 0, len3 = ref4.length; q < len3; q++) {
-        p = ref4[q];
-        if ((p.jsonEditor != null) && p.jsonEditor.isEnabled()) {
-          json = p.jsonEditor.getValue();
+
+      var pi;
+      for(pi = 0; pi < this.model.parameters.length; pi++){
+        var p = this.model.parameters[pi];
+        if( p.jsonEditor && p.jsonEditor.isEnabled()){
+          var json = p.jsonEditor.getValue();
           map[p.name] = JSON.stringify(json);
         }
       }
-      opts.responseContentType = $("div select[name=responseContentType]", $(this.el)).val();
-      opts.requestContentType = $("div select[name=parameterContentType]", $(this.el)).val();
-      $(".response_throbber", $(this.el)).show();
+
+      opts.responseContentType = $('div select[name=responseContentType]', $(this.el)).val();
+      opts.requestContentType = $('div select[name=parameterContentType]', $(this.el)).val();
+      $('.response_throbber', $(this.el)).show();
       if (isFileUpload) {
         return this.handleFileUpload(map, form);
       } else {
-        return this.model["do"](map, opts, this.showCompleteStatus, this.showErrorStatus, this);
+        return this.model['do'](map, opts, this.showCompleteStatus, this.showErrorStatus, this);
       }
     }
-  };
+  },
 
-  OperationView.prototype.success = function(response, parent) {
-    return parent.showCompleteStatus(response);
-  };
+  success: function(response, parent) {
+    parent.showCompleteStatus(response);
+  },
 
-  OperationView.prototype.handleFileUpload = function(map, form) {
-    var bodyParam, el, headerParams, l, len, len1, len2, len3, m, n, o, obj, param, params, q, ref1, ref2, ref3, ref4;
+  // Note: This is compiled code
+  // TODO: Refactor
+  handleFileUpload: function(map, form) {
+    var bodyParam, el, headerParams, l, len, len1, len2, len3, m, n, o, obj, p, param, params, ref1, ref2, ref3, ref4;
     ref1 = form.serializeArray();
     for (l = 0, len = ref1.length; l < len; l++) {
       o = ref1[l];
-      if ((o.value != null) && jQuery.trim(o.value).length > 0) {
+      if ((o.value !== null) && jQuery.trim(o.value).length > 0) {
         map[o.name] = o.value;
       }
     }
@@ -1651,7 +1701,7 @@ OperationView = (function(superClass) {
     ref2 = this.model.parameters;
     for (m = 0, len1 = ref2.length; m < len1; m++) {
       param = ref2[m];
-      if (param.paramType === 'form' || param["in"] === 'formData') {
+      if (param.paramType === 'form' || param['in'] === 'formData') {
         if (param.type.toLowerCase() !== 'file' && map[param.name] !== void 0) {
           bodyParam.append(param.name, map[param.name]);
         }
@@ -1666,16 +1716,16 @@ OperationView = (function(superClass) {
       }
     }
     ref4 = form.find('input[type~="file"]');
-    for (q = 0, len3 = ref4.length; q < len3; q++) {
-      el = ref4[q];
+    for (p = 0, len3 = ref4.length; p < len3; p++) {
+      el = ref4[p];
       if (typeof el.files[0] !== 'undefined') {
         bodyParam.append($(el).attr('name'), el.files[0]);
         params += 1;
       }
     }
     this.invocationUrl = this.model.supportHeaderParams() ? (headerParams = this.model.getHeaderParams(map), delete headerParams['Content-Type'], this.model.urlify(map, false)) : this.model.urlify(map, true);
-    $(".request_url", $(this.el)).html("<pre></pre>");
-    $(".request_url pre", $(this.el)).text(this.invocationUrl);
+    $('.request_url', $(this.el)).html('<pre></pre>');
+    $('.request_url pre', $(this.el)).text(this.invocationUrl);
     obj = {
       type: this.model.method,
       url: this.invocationUrl,
@@ -1685,7 +1735,7 @@ OperationView = (function(superClass) {
       contentType: false,
       processData: false,
       error: (function(_this) {
-        return function(data, textStatus, error) {
+        return function(data) {
           return _this.showErrorStatus(_this.wrap(data), _this);
         };
       })(this),
@@ -1703,17 +1753,16 @@ OperationView = (function(superClass) {
     if (window.authorizations) {
       window.authorizations.apply(obj);
     }
-    if (params === 0) {
-      obj.data.append("fake", "true");
-    }
     jQuery.ajax(obj);
     return false;
-  };
+    // end of file-upload nastiness
+  },
+  // wraps a jquery response as a shred response
 
-  OperationView.prototype.wrap = function(data) {
-    var h, headerArray, headers, i, l, len, o;
+  wrap: function(data) {
+   var h, headerArray, headers, i, l, len, o;
     headers = {};
-    headerArray = data.getAllResponseHeaders().split("\r");
+    headerArray = data.getAllResponseHeaders().split('\r');
     for (l = 0, len = headerArray.length; l < len; l++) {
       i = headerArray[l];
       h = i.match(/^([^:]*?):(.*)$/);
@@ -1733,17 +1782,15 @@ OperationView = (function(superClass) {
     o.request.url = this.invocationUrl;
     o.status = data.status;
     return o;
-  };
+  },
 
-  OperationView.prototype.getSelectedValue = function(select) {
-    var l, len, opt, options, ref1;
+  getSelectedValue: function(select) {
     if (!select.multiple) {
       return select.value;
     } else {
-      options = [];
-      ref1 = select.options;
-      for (l = 0, len = ref1.length; l < len; l++) {
-        opt = ref1[l];
+      var options = [];
+      for (var l = 0, len = select.options.length; l < len; l++) {
+        var opt = select.options[l];
         if (opt.selected) {
           options.push(opt.value);
         }
@@ -1754,31 +1801,35 @@ OperationView = (function(superClass) {
         return null;
       }
     }
-  };
+  },
 
-  OperationView.prototype.hideResponse = function(e) {
-    if (e != null) {
-      e.preventDefault();
-    }
-    $(".response", $(this.el)).slideUp();
-    return $(".response_hider", $(this.el)).fadeOut();
-  };
+  // handler for hide response link
+  hideResponse: function(e) {
+    if (e) { e.preventDefault(); }
+    $('.response', $(this.el)).slideUp();
+    $('.response_hider', $(this.el)).fadeOut();
+  },
 
-  OperationView.prototype.showResponse = function(response) {
-    var prettyJson;
-    prettyJson = JSON.stringify(response, null, "\t").replace(/\n/g, "<br>");
-    return $(".response_body", $(this.el)).html(escape(prettyJson));
-  };
+  // Show response from server
+  showResponse: function(response) {
+    var prettyJson = JSON.stringify(response, null, '\t').replace(/\n/g, '<br>');
+    $('.response_body', $(this.el)).html(_.escape(prettyJson));
+  },
 
-  OperationView.prototype.showErrorStatus = function(data, parent) {
-    return parent.showStatus(data);
-  };
+  // Show error from server
+  showErrorStatus: function(data, parent) {
+    parent.showStatus(data);
+  },
 
-  OperationView.prototype.showCompleteStatus = function(data, parent) {
-    return parent.showStatus(data);
-  };
+  // show the status codes
+  showCompleteStatus: function(data, parent){
+    parent.showStatus(data);
+  },
 
-  OperationView.prototype.formatXml = function(xml) {
+  // Adapted from http://stackoverflow.com/a/2893259/454004
+  // Note: directly ported from CoffeeScript
+  // TODO: Cleanup CoffeeScript artifacts
+  formatXml: function(xml) {
     var contexp, fn, formatted, indent, l, lastType, len, lines, ln, pad, reg, transitions, wsexp;
     reg = /(>)(<)(\/*)/g;
     wsexp = /[ ]*(.*)[ ]+\n/g;
@@ -1839,9 +1890,9 @@ OperationView = (function(superClass) {
         return results;
       })()).join('');
       if (fromTo === 'opening->closing') {
-        return formatted = formatted.substr(0, formatted.length - 1) + ln + '\n';
+        formatted = formatted.substr(0, formatted.length - 1) + ln + '\n';
       } else {
-        return formatted += padding + ln + '\n';
+        formatted += padding + ln + '\n';
       }
     };
     for (l = 0, len = lines.length; l < len; l++) {
@@ -1849,49 +1900,54 @@ OperationView = (function(superClass) {
       fn(ln);
     }
     return formatted;
-  };
+  },
 
-  OperationView.prototype.showStatus = function(response) {
-    var code, content, contentType, e, headers, json, opts, pre, response_body, response_body_el, supportsAudioPlayback, url;
-    if (response.content === void 0) {
+  // puts the response data in UI
+  showStatus: function(response) {
+    var url, content;
+    if (response.content === undefined) {
       content = response.data;
       url = response.url;
     } else {
       content = response.content.data;
       url = response.request.url;
     }
-    headers = response.headers;
-    contentType = null;
+    var headers = response.headers;
+
+    // if server is nice, and sends content-type back, we can use it
+    var contentType = null;
     if (headers) {
-      contentType = headers["Content-Type"] || headers["content-type"];
+      contentType = headers['Content-Type'] || headers['content-type'];
       if (contentType) {
-        contentType = contentType.split(";")[0].trim();
+        contentType = contentType.split(';')[0].trim();
       }
     }
-    $(".response_body", $(this.el)).removeClass('json');
-    $(".response_body", $(this.el)).removeClass('xml');
-    supportsAudioPlayback = function(contentType) {
-      var audioElement;
-      audioElement = document.createElement('audio');
+    $('.response_body', $(this.el)).removeClass('json');
+    $('.response_body', $(this.el)).removeClass('xml');
+
+    var supportsAudioPlayback = function(contentType){
+      var audioElement = document.createElement('audio');
       return !!(audioElement.canPlayType && audioElement.canPlayType(contentType).replace(/no/, ''));
     };
+
+    var pre;
+    var code;
     if (!content) {
-      code = $('<code />').text("no content");
+      code = $('<code />').text('no content');
       pre = $('<pre class="json" />').append(code);
-    } else if (contentType === "application/json" || /\+json$/.test(contentType)) {
-      json = null;
+    } else if (contentType === 'application/json' || /\+json$/.test(contentType)) {
+      var json = null;
       try {
-        json = JSON.stringify(JSON.parse(content), null, "  ");
+        json = JSON.stringify(JSON.parse(content), null, '  ');
       } catch (_error) {
-        e = _error;
-        json = "can't parse JSON.  Raw result:\n\n" + content;
+        json = 'can\'t parse JSON.  Raw result:\n\n' + content;
       }
       code = $('<code />').text(json);
       pre = $('<pre class="json" />').append(code);
-    } else if (contentType === "application/xml" || /\+xml$/.test(contentType)) {
+    } else if (contentType === 'application/xml' || /\+xml$/.test(contentType)) {
       code = $('<code />').text(this.formatXml(content));
       pre = $('<pre class="xml" />').append(code);
-    } else if (contentType === "text/html") {
+    } else if (contentType === 'text/html') {
       code = $('<code />').html(_.escape(content));
       pre = $('<pre class="xml" />').append(code);
     } else if (/^image\//.test(contentType)) {
@@ -1902,95 +1958,70 @@ OperationView = (function(superClass) {
       code = $('<code />').text(content);
       pre = $('<pre class="json" />').append(code);
     }
-    response_body = pre;
-    $(".request_url", $(this.el)).html("<pre></pre>");
-    $(".request_url pre", $(this.el)).text(url);
-    $(".response_code", $(this.el)).html("<pre>" + response.status + "</pre>");
-    $(".response_body", $(this.el)).html(response_body);
-    $(".response_headers", $(this.el)).html("<pre>" + _.escape(JSON.stringify(response.headers, null, "  ")).replace(/\n/g, "<br>") + "</pre>");
-    $(".response", $(this.el)).slideDown();
-    $(".response_hider", $(this.el)).show();
-    $(".response_throbber", $(this.el)).hide();
-    response_body_el = $('.response_body', $(this.el))[0];
-    opts = this.options.swaggerOptions;
+    var response_body = pre;
+    $('.request_url', $(this.el)).html('<pre></pre>');
+    $('.request_url pre', $(this.el)).text(url);
+    $('.response_code', $(this.el)).html('<pre>' + response.status + '</pre>');
+    $('.response_body', $(this.el)).html(response_body);
+    $('.response_headers', $(this.el)).html('<pre>' + _.escape(JSON.stringify(response.headers, null, '  ')).replace(/\n/g, '<br>') + '</pre>');
+    $('.response', $(this.el)).slideDown();
+    $('.response_hider', $(this.el)).show();
+    $('.response_throbber', $(this.el)).hide();
+    var response_body_el = $('.response_body', $(this.el))[0];
+
+    // only highlight the response if response is less than threshold, default state is highlight response
+    var opts = this.options.swaggerOptions;
     if (opts.highlightSizeThreshold && response.data.length > opts.highlightSizeThreshold) {
       return response_body_el;
     } else {
       return hljs.highlightBlock(response_body_el);
     }
-  };
+  },
 
-  OperationView.prototype.toggleOperationContent = function() {
-    var elem;
-    elem = $('#' + Docs.escapeResourceName(this.parentId + "_" + this.nickname + "_content"));
-    if (elem.is(':visible')) {
-      return Docs.collapseOperation(elem);
+  toggleOperationContent: function() {
+    var elem = $('#' + Docs.escapeResourceName(this.parentId + '_' + this.nickname + '_content'));
+    if (elem.is(':visible')){
+      Docs.collapseOperation(elem);
     } else {
-      return Docs.expandOperation(elem);
+      Docs.expandOperation(elem);
     }
-  };
-
-  return OperationView;
-
-})(Backbone.View);
-
-var ParameterContentTypeView,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-ParameterContentTypeView = (function(superClass) {
-  extend(ParameterContentTypeView, superClass);
-
-  function ParameterContentTypeView() {
-    return ParameterContentTypeView.__super__.constructor.apply(this, arguments);
   }
+});
 
-  ParameterContentTypeView.prototype.initialize = function() {};
+'use strict';
 
-  ParameterContentTypeView.prototype.render = function() {
-    var template;
-    template = this.template();
-    $(this.el).html(template(this.model));
+SwaggerUi.Views.ParameterContentTypeView = Backbone.View.extend({
+  initialize: function  () {},
+
+  render: function(){
+    $(this.el).html(Handlebars.templates.parameter_content_type(this.model));
+
     $('label[for=parameterContentType]', $(this.el)).text('Parameter content type:');
+
     return this;
-  };
-
-  ParameterContentTypeView.prototype.template = function() {
-    return Handlebars.templates.parameter_content_type;
-  };
-
-  return ParameterContentTypeView;
-
-})(Backbone.View);
-
-var ParameterView,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-ParameterView = (function(superClass) {
-  extend(ParameterView, superClass);
-
-  function ParameterView() {
-    return ParameterView.__super__.constructor.apply(this, arguments);
   }
 
-  ParameterView.prototype.initialize = function() {
-    return Handlebars.registerHelper('isArray', function(param, opts) {
+});
+'use strict';
+
+SwaggerUi.Views.ParameterView = Backbone.View.extend({
+  initialize: function(){
+    Handlebars.registerHelper('isArray', function(param, opts) {
       if (param.type.toLowerCase() === 'array' || param.allowMultiple) {
-        return opts.fn(this);
+        opts.fn(this);
       } else {
-        return opts.inverse(this);
+        opts.inverse(this);
       }
     });
-  };
+  },
 
-  ParameterView.prototype.render = function() {
-    var $self, contentTypeModel, isParam, parameterContentTypeView, ref, responseContentTypeView, schema, signatureModel, signatureView, template, type;
-    type = this.model.type || this.model.dataType;
+  render: function() {
+    var type = this.model.type || this.model.dataType;
+
     if (typeof type === 'undefined') {
-      schema = this.model.schema;
-      if (schema && schema['$ref']) {
-        ref = schema['$ref'];
+      var schema = this.model.schema;
+      if (schema && schema.$ref) {
+        var ref = schema.$ref;
         if (ref.indexOf('#/definitions/') === 0) {
           type = ref.substring('#/definitions/'.length);
         } else {
@@ -1998,79 +2029,87 @@ ParameterView = (function(superClass) {
         }
       }
     }
+
     this.model.type = type;
-    this.model.paramType = this.model["in"] || this.model.paramType;
-    if (this.model.paramType === 'body' || this.model["in"] === 'body') {
-      this.model.isBody = true;
-    }
-    if (type && type.toLowerCase() === 'file') {
-      this.model.isFile = true;
-    }
-    this.model["default"] = this.model["default"] || this.model.defaultValue;
+    this.model.paramType = this.model.in || this.model.paramType;
+    this.model.isBody = this.model.paramType === 'body' || this.model.in === 'body';
+    this.model.isFile = type && type.toLowerCase() === 'file';
+    this.model.default = (this.model.default || this.model.defaultValue);
+
     if (this.model.allowableValues) {
       this.model.isList = true;
     }
-    template = this.template();
+
+    var template = this.template();
     $(this.el).html(template(this.model));
-    signatureModel = {
+
+    var signatureModel = {
       sampleJSON: this.model.sampleJSON,
       isParam: true,
       signature: this.model.signature
     };
+
     if (this.model.sampleJSON) {
-      signatureView = new SignatureView({
-        model: signatureModel,
-        tagName: 'div'
-      });
+      var signatureView = new SwaggerUi.Views.SignatureView({model: signatureModel, tagName: 'div'});
       $('.model-signature', $(this.el)).append(signatureView.render().el);
-    } else {
+    }
+    else {
       $('.model-signature', $(this.el)).html(this.model.signature);
     }
-    isParam = false;
-    if (this.options.swaggerOptions.jsonEditor && this.model.isBody && this.model.schema) {
-      $self = $(this.el);
-      this.model.jsonEditor = new JSONEditor($('.editor_holder', $self)[0], {
-        schema: this.model.schema,
-        startval: this.model["default"],
-        ajax: true
-      });
+
+    var isParam = false;
+
+    if( this.options.swaggerOptions.jsonEditor && this.model.isBody && this.model.schema){
+      var $self = $(this.el);
+      this.model.jsonEditor = 
+        new JSONEditor($('.editor_holder', $self)[0],
+                       {schema: this.model.schema, startval : this.model.default, ajax:true });
+      // This is so that the signature can send back the sample to the json editor
+      // TODO: SignatureView should expose an event "onSampleClicked" instead
       signatureModel.jsonEditor = this.model.jsonEditor;
       $('.body-textarea', $self).hide();
       $('.editor_holder', $self).show();
-      $('.parameter-content-type', $self).change(function(e) {
-        if (e.target.value === "application/xml") {
-          $('.body-textarea', $self).show();
-          $('.editor_holder', $self).hide();
-          return this.model.jsonEditor.disable();
-        } else {
-          $('.body-textarea', $self).hide();
-          $('.editor_holder', $self).show();
-          return this.model.jsonEditor.enable();
-        }
-      });
-    }
+      $('.parameter-content-type', $self)
+        .change(function(e){
+            if(e.target.value == "application/xml"){
+              $('.body-textarea', $self).show();
+              $('.editor_holder', $self).hide();
+              this.model.jsonEditor.disable();
+            }
+            else {
+              $('.body-textarea', $self).hide();
+              $('.editor_holder', $self).show();
+              this.model.jsonEditor.enable();
+            }
+        });
+      }
+
+
     if (this.model.isBody) {
       isParam = true;
     }
-    contentTypeModel = {
+
+    var contentTypeModel = {
       isParam: isParam
     };
+
     contentTypeModel.consumes = this.model.consumes;
+
     if (isParam) {
-      parameterContentTypeView = new ParameterContentTypeView({
-        model: contentTypeModel
-      });
+      var parameterContentTypeView = new SwaggerUi.Views.ParameterContentTypeView({model: contentTypeModel});
       $('.parameter-content-type', $(this.el)).append(parameterContentTypeView.render().el);
-    } else {
-      responseContentTypeView = new ResponseContentTypeView({
-        model: contentTypeModel
-      });
+    }
+
+    else {
+      var responseContentTypeView = new SwaggerUi.Views.ResponseContentTypeView({model: contentTypeModel});
       $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
     }
-    return this;
-  };
 
-  ParameterView.prototype.template = function() {
+    return this;
+  },
+
+  // Return an appropriate template based on if the parameter is a list, readonly, required
+  template: function(){
     if (this.model.isList) {
       return Handlebars.templates.param_list;
     } else {
@@ -2088,226 +2127,182 @@ ParameterView = (function(superClass) {
         }
       }
     }
-  };
-
-  return ParameterView;
-
-})(Backbone.View);
-
-var ResourceView,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-ResourceView = (function(superClass) {
-  extend(ResourceView, superClass);
-
-  function ResourceView() {
-    return ResourceView.__super__.constructor.apply(this, arguments);
   }
+});
+'use strict';
 
-  ResourceView.prototype.initialize = function(opts) {
-    if (opts == null) {
-      opts = {};
-    }
+SwaggerUi.Views.ResourceView = Backbone.View.extend({
+  initialize: function(opts) {
+    opts = opts || {};
+    this.router = opts.router;
     this.auths = opts.auths;
-    if ("" === this.model.description) {
+    if ('' === this.model.description) {
       this.model.description = null;
     }
-    if (this.model.description != null) {
-      return this.model.summary = this.model.description;
+    if (this.model.description) {
+      this.model.summary = this.model.description;
     }
-  };
+  },
 
-  ResourceView.prototype.render = function() {
-    var counter, i, id, len, methods, operation, ref;
-    methods = {};
+  render: function(){
+    var methods = {};
+
+
     $(this.el).html(Handlebars.templates.resource(this.model));
-    ref = this.model.operationsArray;
-    for (i = 0, len = ref.length; i < len; i++) {
-      operation = ref[i];
-      counter = 0;
-      id = operation.nickname;
+
+    // Render each operation
+    for (var i = 0; i < this.model.operationsArray.length; i++) {
+      var operation = this.model.operationsArray[i];
+      var counter = 0;
+      var id = operation.nickname;
+
       while (typeof methods[id] !== 'undefined') {
-        id = id + "_" + counter;
+        id = id + '_' + counter;
         counter += 1;
       }
+
       methods[id] = operation;
+
       operation.nickname = id;
       operation.parentId = this.model.id;
-      operation.definitions = this.model.definitions;
+      operation.definitions = this.model.definitions // make Json Schema available for JSonEditor in this operation
       this.addOperation(operation);
     }
+
     $('.toggleEndpointList', this.el).click(this.callDocs.bind(this, 'toggleEndpointListForResource'));
     $('.collapseResource', this.el).click(this.callDocs.bind(this, 'collapseOperationsForResource'));
     $('.expandResource', this.el).click(this.callDocs.bind(this, 'expandOperationsForResource'));
-    return this;
-  };
 
-  ResourceView.prototype.addOperation = function(operation) {
-    var operationView;
+    return this;
+  },
+
+  addOperation: function(operation) {
+
     operation.number = this.number;
-    operationView = new OperationView({
+
+    // Render an operation and add it to operations li
+    var operationView = new SwaggerUi.Views.OperationView({
       model: operation,
+      router: this.router,
       tagName: 'li',
       className: 'endpoint',
       swaggerOptions: this.options.swaggerOptions,
       auths: this.auths
     });
+
     $('.endpoints', $(this.el)).append(operationView.render().el);
-    return this.number++;
-  };
 
-  ResourceView.prototype.callDocs = function(fnName, e) {
+    this.number++;
+
+  },
+  // Generic Event handler (`Docs` is global)
+
+
+  callDocs: function(fnName, e) {
     e.preventDefault();
-    return Docs[fnName](e.currentTarget.getAttribute('data-id'));
-  };
-
-  return ResourceView;
-
-})(Backbone.View);
-
-var ResponseContentTypeView,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-ResponseContentTypeView = (function(superClass) {
-  extend(ResponseContentTypeView, superClass);
-
-  function ResponseContentTypeView() {
-    return ResponseContentTypeView.__super__.constructor.apply(this, arguments);
+    Docs[fnName](e.currentTarget.getAttribute('data-id'));
   }
+});
+'use strict';
 
-  ResponseContentTypeView.prototype.initialize = function() {};
+SwaggerUi.Views.ResponseContentTypeView = Backbone.View.extend({
+  initialize: function(){},
 
-  ResponseContentTypeView.prototype.render = function() {
-    var template;
-    template = this.template();
-    $(this.el).html(template(this.model));
+  render: function(){
+    $(this.el).html(Handlebars.templates.response_content_type(this.model));
+
     $('label[for=responseContentType]', $(this.el)).text('Response Content Type');
+
     return this;
-  };
-
-  ResponseContentTypeView.prototype.template = function() {
-    return Handlebars.templates.response_content_type;
-  };
-
-  return ResponseContentTypeView;
-
-})(Backbone.View);
-
-var SignatureView,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-SignatureView = (function(superClass) {
-  extend(SignatureView, superClass);
-
-  function SignatureView() {
-    return SignatureView.__super__.constructor.apply(this, arguments);
   }
+});
+'use strict';
 
-  SignatureView.prototype.events = {
-    'click a.description-link': 'switchToDescription',
-    'click a.snippet-link': 'switchToSnippet',
-    'mousedown .snippet': 'snippetToTextArea'
-  };
+SwaggerUi.Views.SignatureView = Backbone.View.extend({
+  events: {
+    'click a.description-link'       : 'switchToDescription',
+    'click a.snippet-link'           : 'switchToSnippet',
+    'mousedown .snippet'          : 'snippetToTextArea'
+  },
 
-  SignatureView.prototype.initialize = function() {};
+  initialize: function () {
 
-  SignatureView.prototype.render = function() {
-    var template;
-    template = this.template();
-    $(this.el).html(template(this.model));
+  },
+
+  render: function(){
+
+    $(this.el).html(Handlebars.templates.signature(this.model));
+
     this.switchToSnippet();
+
     this.isParam = this.model.isParam;
+
     if (this.isParam) {
       $('.notice', $(this.el)).text('Click to set as parameter value');
     }
+
     return this;
-  };
+  },
 
-  SignatureView.prototype.template = function() {
-    return Handlebars.templates.signature;
-  };
+  // handler for show signature
+  switchToDescription: function(e){
+    if (e) { e.preventDefault(); }
 
-  SignatureView.prototype.switchToDescription = function(e) {
-    if (e != null) {
-      e.preventDefault();
-    }
-    $(".snippet", $(this.el)).hide();
-    $(".description", $(this.el)).show();
+    $('.snippet', $(this.el)).hide();
+    $('.description', $(this.el)).show();
     $('.description-link', $(this.el)).addClass('selected');
-    return $('.snippet-link', $(this.el)).removeClass('selected');
-  };
+    $('.snippet-link', $(this.el)).removeClass('selected');
+  },
 
-  SignatureView.prototype.switchToSnippet = function(e) {
-    if (e != null) {
-      e.preventDefault();
-    }
-    $(".description", $(this.el)).hide();
-    $(".snippet", $(this.el)).show();
+  // handler for show sample
+  switchToSnippet: function(e){
+    if (e) { e.preventDefault(); }
+
+    $('.description', $(this.el)).hide();
+    $('.snippet', $(this.el)).show();
     $('.snippet-link', $(this.el)).addClass('selected');
-    return $('.description-link', $(this.el)).removeClass('selected');
-  };
+    $('.description-link', $(this.el)).removeClass('selected');
+  },
 
-  SignatureView.prototype.snippetToTextArea = function(e) {
-    var textArea;
+  // handler for snippet to text area
+  snippetToTextArea: function(e) {
     if (this.isParam) {
-      if (e != null) {
-        e.preventDefault();
-      }
-      textArea = $('textarea', $(this.el.parentNode.parentNode.parentNode));
+      if (e) { e.preventDefault(); }
+
+      var textArea = $('textarea', $(this.el.parentNode.parentNode.parentNode));
       if ($.trim(textArea.val()) === '') {
         textArea.val(this.model.sampleJSON);
-        if (this.model.jsonEditor && this.model.jsonEditor.isEnabled()) {
-          return this.model.jsonEditor.setValue(JSON.parse(this.model.sampleJSON));
+        // TODO move this code outside of the view and expose an event instead
+        if( this.model.jsonEditor && this.model.jsonEditor.isEnabled()){
+          this.model.jsonEditor.setValue(JSON.parse(this.model.sampleJSON));
         }
       }
     }
-  };
-
-  return SignatureView;
-
-})(Backbone.View);
-
-var StatusCodeView,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-StatusCodeView = (function(superClass) {
-  extend(StatusCodeView, superClass);
-
-  function StatusCodeView() {
-    return StatusCodeView.__super__.constructor.apply(this, arguments);
   }
+});
+'use strict';
 
-  StatusCodeView.prototype.initialize = function() {};
+SwaggerUi.Views.StatusCodeView = Backbone.View.extend({
+  initialize: function (opts) {
+    this.options = opts || {};
+    this.router = this.options.router;
+  },
 
-  StatusCodeView.prototype.render = function() {
-    var responseModel, responseModelView, template;
-    template = this.template();
-    $(this.el).html(template(this.model));
-    if (swaggerUi.api.models.hasOwnProperty(this.model.responseModel)) {
-      responseModel = {
-        sampleJSON: JSON.stringify(swaggerUi.api.models[this.model.responseModel].createJSONSample(), null, 2),
+  render: function(){
+    $(this.el).html(Handlebars.templates.status_code(this.model));
+
+    if (this.router.api.models.hasOwnProperty(this.model.responseModel)) {
+      var responseModel = {
+        sampleJSON: JSON.stringify(this.router.api.models[this.model.responseModel].createJSONSample(), null, 2),
         isParam: false,
-        signature: swaggerUi.api.models[this.model.responseModel].getMockSignature()
+        signature: this.router.api.models[this.model.responseModel].getMockSignature(),
       };
-      responseModelView = new SignatureView({
-        model: responseModel,
-        tagName: 'div'
-      });
+
+      var responseModelView = new SwaggerUi.Views.SignatureView({model: responseModel, tagName: 'div'});
       $('.model-signature', this.$el).append(responseModelView.render().el);
     } else {
       $('.model-signature', this.$el).html('');
     }
     return this;
-  };
-
-  StatusCodeView.prototype.template = function() {
-    return Handlebars.templates.status_code;
-  };
-
-  return StatusCodeView;
-
-})(Backbone.View);
+  }
+});}).call(this);
