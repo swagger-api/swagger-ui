@@ -38,6 +38,10 @@ window.SwaggerUi = Backbone.Router.extend({
       ];
     }
 
+    if (typeof options.redirectUrl === 'string') {
+      window.oAuthRedirectUrl = options.redirectUrl;
+    }
+
     // Create an empty div which contains the dom_id
     if (! $('#' + this.dom_id).length){
       $('body').append('<div id="' + this.dom_id + '"></div>') ;
