@@ -207,7 +207,7 @@ window.SwaggerUi.Views = {};
 (function(){
   window.authorizations = {
     add: function() {
-      warn('using window.authorizations is depreciated. Please use waggerUi.api.clientAuthorizations.add().');
+      warn('Using window.authorizations is deprecated. Please use SwaggerUi.api.clientAuthorizations.add().');
 
       if (typeof window.swaggerUi === 'undefined') {
         throw new TypeError('window.swaggerUi is not defined');
@@ -220,12 +220,12 @@ window.SwaggerUi.Views = {};
   };
 
   window.ApiKeyAuthorization = function() {
-    warn('window.ApiKeyAuthorization is depreciated. Please use SwaggerClient.ApiKeyAuthorization.');
+    warn('window.ApiKeyAuthorization is deprecated. Please use SwaggerClient.ApiKeyAuthorization.');
     SwaggerClient.ApiKeyAuthorization.apply(window, arguments);
   };
 
   window.PasswordAuthorization = function() {
-    warn('window.PasswordAuthorization is depreciated. Please use SwaggerClient.PasswordAuthorization.');
+    warn('window.PasswordAuthorization is deprecated. Please use SwaggerClient.PasswordAuthorization.');
     SwaggerClient.PasswordAuthorization.apply(window, arguments);
   };
 
@@ -235,6 +235,27 @@ window.SwaggerUi.Views = {};
     }
   }
 })();
+
+
+// UMD
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['b'], function (b) {
+            return (root.SwaggerUi = factory(b));
+        });
+    } else if (typeof exports === 'object') {
+        // Node. Does not work with strict CommonJS, but
+        // only CommonJS-like enviroments that support module.exports,
+        // like Node.
+        module.exports = factory(require('b'));
+    } else {
+        // Browser globals
+        root.SwaggerUi = factory(root.b);
+    }
+}(this, function () {
+    return SwaggerUi;
+}));
 this["Handlebars"] = this["Handlebars"] || {};
 this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};
 this["Handlebars"]["templates"]["apikey_button_view"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
@@ -572,10 +593,10 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
   },"3":function(depth0,helpers,partials,data) {
   return "            <h4>Warning: Deprecated</h4>\n";
   },"5":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "        <h4>Implementation Notes</h4>\n        <p class=\"markdown\">";
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "        <h4>Implementation Notes</h4>\n        <div class=\"markdown\">";
   stack1 = ((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"description","hash":{},"data":data}) : helper));
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "</p>\n";
+  return buffer + "</div>\n";
 },"7":function(depth0,helpers,partials,data) {
   return "        <div class=\"auth\">\n        <span class=\"api-ic ic-error\"></span>";
   },"9":function(depth0,helpers,partials,data) {
@@ -1212,21 +1233,48 @@ SwaggerUi.Views.HeaderView = Backbone.View.extend({
 'use strict';
 
 SwaggerUi.Views.MainView = Backbone.View.extend({
-
-  // TODO: sorters were not used in any place, do we need them?
-  // sorters = {
-  //   alpha   : function(a,b){ return a.path.localeCompare(b.path); },
-  //   method  : function(a,b){ return a.method.localeCompare(b.method); },
-  // },
-
+  apisSorters : {
+    alpha   : function(a,b){ return a.name.localeCompare(b.name); }
+  },
+  operationsSorters : {
+    alpha   : function(a,b){ return a.path.localeCompare(b.path); },
+    method  : function(a,b){ return a.method.localeCompare(b.method); }
+  },
   initialize: function(opts){
+    var sorterOption, sorterFn, key, value;
     opts = opts || {};
 
     this.router = opts.router;
 
+    // Sort APIs
+    if (opts.swaggerOptions.apisSorter) {
+      sorterOption = opts.swaggerOptions.apisSorter;
+      if (_.isFunction(sorterOption)) {
+        sorterFn = sorterOption;
+      } else {
+        sorterFn = this.apisSorters[sorterOption];
+      }
+      if (_.isFunction(sorterFn)) {
+        this.model.apisArray.sort(sorterFn);
+      }
+    }
+    // Sort operations of each API
+    if (opts.swaggerOptions.operationsSorter) {
+      sorterOption = opts.swaggerOptions.operationsSorter;
+      if (_.isFunction(sorterOption)) {
+        sorterFn = sorterOption;
+      } else {
+        sorterFn = this.operationsSorters[sorterOption];
+      }
+      if (_.isFunction(sorterFn)) {
+        for (key in this.model.apisArray) {
+          this.model.apisArray[key].operationsArray.sort(sorterFn);
+        }
+      }
+    }
+
     // set up the UI for input
     this.model.auths = [];
-    var key, value;
 
     for (key in this.model.securityDefinitions) {
       value = this.model.securityDefinitions[key];
@@ -1321,6 +1369,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     $(this.el).html('');
   }
 });
+
 'use strict';
 
 SwaggerUi.Views.OperationView = Backbone.View.extend({
@@ -1392,9 +1441,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       this.model.isReadOnly = true;
     }
     this.model.description = this.model.description || this.model.notes;
-    if (this.model.description) {
-      this.model.description = this.model.description.replace(/(?:\r\n|\r|\n)/g, '<br />');
-    }
     this.model.oauth = null;
     modelAuths = this.model.authorizations || this.model.security;
     if (modelAuths) {
@@ -1950,6 +1996,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
   }
 });
+
 'use strict';
 
 SwaggerUi.Views.ParameterContentTypeView = Backbone.View.extend({

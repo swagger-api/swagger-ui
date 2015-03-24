@@ -17,6 +17,7 @@
   "strict": true,
   "trailing": true,
   "smarttabs": true,
+  "validthis": true,
   "globals": {
 
     // Libraries
@@ -29,6 +30,7 @@
     "SwaggerClient": false,
     "hljs": false,
     "SwaggerUi": false,
+    "define": false,
 
     // Global object
     // TODO: remove these
