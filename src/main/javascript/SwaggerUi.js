@@ -32,7 +32,7 @@ window.SwaggerUi = Backbone.Router.extend({
       ];
     }
 
-    if (typeof options.redirectUrl === 'string') {
+    if (typeof options.oauth2RedirectUrl === 'string') {
       window.oAuthRedirectUrl = options.redirectUrl;
     }
 

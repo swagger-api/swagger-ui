@@ -97,7 +97,7 @@ onComplete | This is a callback function parameter which can be passed to be not
 onFailure | This is a callback function parameter which can be passed to be notified of when SwaggerUI encountered a failure was unable to render.
 highlightSizeThreshold | Any size response below this threshold will be highlighted syntactically, attempting to highlight large responses can lead to browser hangs, not including a threshold will default to highlight all returned responses.
 supportedSubmitMethods | An array of of the HTTP operations that will have the 'Try it out!` option. An empty array disables all operations. This does not filter the operations from the display.
-redirectUrl | OAuth redirect URL
+oauth2RedirectUrl | OAuth redirect URL
 
 * All other parameters are explained in greater detail below
 
