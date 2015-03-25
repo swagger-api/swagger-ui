@@ -20,7 +20,7 @@ describe('swagger 1.x spec tests', function () {
 
   before(function (done) {
     this.timeout(25 * 1000);
-    servers.start('/v1.2/petstore/api-docs', done);
+    servers.start('/v1.2/petstore/api-docs.json', done);
   });
 
   afterEach(function(){
