@@ -6,10 +6,10 @@
   "homepage": "http://swagger.io",
   "license": "Apache 2.0",
   "scripts": {
-    "build": "./node_modules/gulp/bin/gulp.js;",
-    "serve": "./node_modules/gulp/bin/gulp.js serve;",
+    "build": "gulp.js;",
+    "serve": "gulp.js serve;",
     "pretest": "jshint .",
-    "test": "./node_modules/gulp/bin/gulp.js; ./node_modules/mocha/bin/mocha",
+    "test": "gulp; mocha",
     "postinstall": "cd node_modules/swagger-client/; npm install; gulp"
   },
   "repository": {
