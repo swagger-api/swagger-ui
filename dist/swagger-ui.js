@@ -21354,6 +21354,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
         a.setAttribute('href', href);
         a.setAttribute('download', download);
+        a.innerText = 'Download ' + fileName;
 
         pre = $('<div/>').append(a);
       } else {
