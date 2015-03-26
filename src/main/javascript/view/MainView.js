@@ -1,7 +1,7 @@
 'use strict';
 
 SwaggerUi.Views.MainView = Backbone.View.extend({
-  apisSorters : {
+  apisSorter : {
     alpha   : function(a,b){ return a.name.localeCompare(b.name); }
   },
   operationsSorters : {
@@ -20,7 +20,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       if (_.isFunction(sorterOption)) {
         sorterFn = sorterOption;
       } else {
-        sorterFn = this.apisSorters[sorterOption];
+        sorterFn = this.apisSorter[sorterOption];
       }
       if (_.isFunction(sorterFn)) {
         this.model.apisArray.sort(sorterFn);
