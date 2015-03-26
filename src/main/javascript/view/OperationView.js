@@ -572,6 +572,8 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     if (!content) {
       code = $('<code />').text('no content');
       pre = $('<pre class="json" />').append(code);
+
+    // JSON
     } else if (contentType === 'application/json' || /\+json$/.test(contentType)) {
       var json = null;
       try {
@@ -581,16 +583,33 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       }
       code = $('<code />').text(json);
       pre = $('<pre class="json" />').append(code);
+
+    // XML
     } else if (contentType === 'application/xml' || /\+xml$/.test(contentType)) {
       code = $('<code />').text(this.formatXml(content));
       pre = $('<pre class="xml" />').append(code);
+
+    // HTML
     } else if (contentType === 'text/html') {
       code = $('<code />').html(_.escape(content));
       pre = $('<pre class="xml" />').append(code);
+
+    // Image
     } else if (/^image\//.test(contentType)) {
       pre = $('<img>').attr('src', url);
+
+    // Audio
     } else if (/^audio\//.test(contentType) && supportsAudioPlayback(contentType)) {
       pre = $('<audio controls>').append($('<source>').attr('src', url).attr('type', contentType));
+
+    // Download
+    } else if (headers['Content-Disposition'].test(/attachment/) ||
+               headers['content-disposition'].test(/attachment/) ||
+               headers['Content-Description'].test(/File Transfer/) ||
+               headers['content-description'].test(/File Transfer/)) {
+      window.location = response.url;
+
+    // Anything else (CORS)
     } else {
       code = $('<code />').text(content);
       pre = $('<pre class="json" />').append(code);
