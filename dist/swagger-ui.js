@@ -21362,7 +21362,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       }
 
     // Location header based redirect download
-    } else if(headers['location'] || headers['Location']) {
+    } else if(headers.location || headers.Location) {
       window.location = response.url;
 
     // Anything else (CORS)
