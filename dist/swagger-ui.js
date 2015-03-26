@@ -21343,6 +21343,25 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
                headers['content-disposition'].test(/attachment/) ||
                headers['Content-Description'].test(/File Transfer/) ||
                headers['content-description'].test(/File Transfer/)) {
+
+      if ('Blob' in window) {
+        var type = contentType || 'text/html';
+        var blob = new Blob([content], {type: type});
+        var a = document.createElement('a');
+        var href = window.URL.createObjectURL(blob);
+        var fileName = response.url.substr(response.url.lastIndexOf('/') + 1);
+        var download = [type, fileName, href].join(':');
+
+        a.setAttribute('href', href);
+        a.setAttribute('download', download);
+
+        pre = $('<div/>').append(a);
+      } else {
+        pre = $('<pre class="json" />').append('Download headers detected but your browser does not support downloading binary via XHR (Blob).');
+      }
+
+    // Location header based redirect download
+    } else if(headers['location'] || headers['Location']) {
       window.location = response.url;
 
     // Anything else (CORS)
