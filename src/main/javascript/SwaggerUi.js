@@ -32,6 +32,10 @@ window.SwaggerUi = Backbone.Router.extend({
       ];
     }
 
+    if (typeof options.oauth2RedirectUrl === 'string') {
+      window.oAuthRedirectUrl = options.redirectUrl;
+    }
+
     // Create an empty div which contains the dom_id
     if (! $('#' + this.dom_id).length){
       $('body').append('<div id="' + this.dom_id + '"></div>') ;
@@ -201,7 +205,7 @@ window.SwaggerUi.Views = {};
 (function(){
   window.authorizations = {
     add: function() {
-      warn('using window.authorizations is depreciated. Please use waggerUi.api.clientAuthorizations.add().');
+      warn('Using window.authorizations is deprecated. Please use SwaggerUi.api.clientAuthorizations.add().');
 
       if (typeof window.swaggerUi === 'undefined') {
         throw new TypeError('window.swaggerUi is not defined');
@@ -214,12 +218,12 @@ window.SwaggerUi.Views = {};
   };
 
   window.ApiKeyAuthorization = function() {
-    warn('window.ApiKeyAuthorization is depreciated. Please use SwaggerClient.ApiKeyAuthorization.');
+    warn('window.ApiKeyAuthorization is deprecated. Please use SwaggerClient.ApiKeyAuthorization.');
     SwaggerClient.ApiKeyAuthorization.apply(window, arguments);
   };
 
   window.PasswordAuthorization = function() {
-    warn('window.PasswordAuthorization is depreciated. Please use SwaggerClient.PasswordAuthorization.');
+    warn('window.PasswordAuthorization is deprecated. Please use SwaggerClient.PasswordAuthorization.');
     SwaggerClient.PasswordAuthorization.apply(window, arguments);
   };
 
@@ -229,3 +233,24 @@ window.SwaggerUi.Views = {};
     }
   }
 })();
+
+
+// UMD
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['b'], function (b) {
+            return (root.SwaggerUi = factory(b));
+        });
+    } else if (typeof exports === 'object') {
+        // Node. Does not work with strict CommonJS, but
+        // only CommonJS-like enviroments that support module.exports,
+        // like Node.
+        module.exports = factory(require('b'));
+    } else {
+        // Browser globals
+        root.SwaggerUi = factory(root.b);
+    }
+}(this, function () {
+    return SwaggerUi;
+}));

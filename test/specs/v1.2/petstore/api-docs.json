@@ -3,15 +3,15 @@
   "swaggerVersion": "1.2",
   "apis": [
     {
-      "path": "http://localhost:8081/v1.2/petstore/pet",
+      "path": "http://localhost:8081/v1.2/petstore/pet.json",
       "description": "Operations about pets"
     },
     {
-      "path": "http://localhost:8081/v1.2/petstore/user",
+      "path": "http://localhost:8081/v1.2/petstore/user.json",
       "description": "Operations about user"
     },
     {
-      "path": "http://localhost:8081/v1.2/petstore/store",
+      "path": "http://localhost:8081/v1.2/petstore/store.json",
       "description": "Operations about store"
     }
   ],

@@ -38,6 +38,10 @@ window.SwaggerUi = Backbone.Router.extend({
       ];
     }
 
+    if (typeof options.oauth2RedirectUrl === 'string') {
+      window.oAuthRedirectUrl = options.redirectUrl;
+    }
+
     // Create an empty div which contains the dom_id
     if (! $('#' + this.dom_id).length){
       $('body').append('<div id="' + this.dom_id + '"></div>') ;
@@ -207,7 +211,7 @@ window.SwaggerUi.Views = {};
 (function(){
   window.authorizations = {
     add: function() {
-      warn('using window.authorizations is depreciated. Please use waggerUi.api.clientAuthorizations.add().');
+      warn('Using window.authorizations is deprecated. Please use SwaggerUi.api.clientAuthorizations.add().');
 
       if (typeof window.swaggerUi === 'undefined') {
         throw new TypeError('window.swaggerUi is not defined');
@@ -220,12 +224,12 @@ window.SwaggerUi.Views = {};
   };
 
   window.ApiKeyAuthorization = function() {
-    warn('window.ApiKeyAuthorization is depreciated. Please use SwaggerClient.ApiKeyAuthorization.');
+    warn('window.ApiKeyAuthorization is deprecated. Please use SwaggerClient.ApiKeyAuthorization.');
     SwaggerClient.ApiKeyAuthorization.apply(window, arguments);
   };
 
   window.PasswordAuthorization = function() {
-    warn('window.PasswordAuthorization is depreciated. Please use SwaggerClient.PasswordAuthorization.');
+    warn('window.PasswordAuthorization is deprecated. Please use SwaggerClient.PasswordAuthorization.');
     SwaggerClient.PasswordAuthorization.apply(window, arguments);
   };
 
@@ -235,6 +239,27 @@ window.SwaggerUi.Views = {};
     }
   }
 })();
+
+
+// UMD
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['b'], function (b) {
+            return (root.SwaggerUi = factory(b));
+        });
+    } else if (typeof exports === 'object') {
+        // Node. Does not work with strict CommonJS, but
+        // only CommonJS-like enviroments that support module.exports,
+        // like Node.
+        module.exports = factory(require('b'));
+    } else {
+        // Browser globals
+        root.SwaggerUi = factory(root.b);
+    }
+}(this, function () {
+    return SwaggerUi;
+}));
 this["Handlebars"] = this["Handlebars"] || {};
 this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};
 this["Handlebars"]["templates"]["apikey_button_view"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
@@ -1212,21 +1237,48 @@ SwaggerUi.Views.HeaderView = Backbone.View.extend({
 'use strict';
 
 SwaggerUi.Views.MainView = Backbone.View.extend({
-
-  // TODO: sorters were not used in any place, do we need them?
-  // sorters = {
-  //   alpha   : function(a,b){ return a.path.localeCompare(b.path); },
-  //   method  : function(a,b){ return a.method.localeCompare(b.method); },
-  // },
-
+  apisSorter : {
+    alpha   : function(a,b){ return a.name.localeCompare(b.name); }
+  },
+  operationsSorters : {
+    alpha   : function(a,b){ return a.path.localeCompare(b.path); },
+    method  : function(a,b){ return a.method.localeCompare(b.method); }
+  },
   initialize: function(opts){
+    var sorterOption, sorterFn, key, value;
     opts = opts || {};
 
     this.router = opts.router;
 
+    // Sort APIs
+    if (opts.swaggerOptions.apisSorter) {
+      sorterOption = opts.swaggerOptions.apisSorter;
+      if (_.isFunction(sorterOption)) {
+        sorterFn = sorterOption;
+      } else {
+        sorterFn = this.apisSorter[sorterOption];
+      }
+      if (_.isFunction(sorterFn)) {
+        this.model.apisArray.sort(sorterFn);
+      }
+    }
+    // Sort operations of each API
+    if (opts.swaggerOptions.operationsSorter) {
+      sorterOption = opts.swaggerOptions.operationsSorter;
+      if (_.isFunction(sorterOption)) {
+        sorterFn = sorterOption;
+      } else {
+        sorterFn = this.operationsSorters[sorterOption];
+      }
+      if (_.isFunction(sorterFn)) {
+        for (key in this.model.apisArray) {
+          this.model.apisArray[key].operationsArray.sort(sorterFn);
+        }
+      }
+    }
+
     // set up the UI for input
     this.model.auths = [];
-    var key, value;
 
     for (key in this.model.securityDefinitions) {
       value = this.model.securityDefinitions[key];
@@ -1334,6 +1386,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     $(this.el).html('');
   }
 });
+
 'use strict';
 
 SwaggerUi.Views.OperationView = Backbone.View.extend({

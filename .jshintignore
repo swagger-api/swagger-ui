@@ -2,3 +2,4 @@ node_modules
 src/main/javascript/doc.js
 dist
 lib
+.log

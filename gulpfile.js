@@ -54,7 +54,10 @@ function templates() {
 gulp.task('dist', ['clean'], function() {
 
   return es.merge(
-      gulp.src('./src/main/javascript/**/*.js'),
+      gulp.src([
+        './src/main/javascript/**/*.js',
+        './node_modules/swagger-client/browser/swagger-client.js'
+      ]),
       templates()
     )
     .pipe(order(['scripts.js', 'templates.js']))
