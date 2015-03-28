@@ -1,26 +1,23 @@
 {
   "name": "swagger-ui",
   "author": "Tony Tam <fehguy@gmail.com>",
-  "description": "Swagger UI is a dependency-free collection of HTML, Javascript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API",
+  "description": "Swagger UI is a dependency-free collection of HTML, JavaScript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API",
   "version": "2.1.8-M1",
   "homepage": "http://swagger.io",
   "license": "Apache 2.0",
   "scripts": {
-    "build": "gulp.js;",
-    "serve": "gulp.js serve;",
-    "pretest": "jshint .",
-    "test": "gulp; mocha",
-    "postinstall": "cd node_modules/swagger-client/; npm install; gulp"
+    "build": "gulp",
+    "serve": "gulp serve",
+    "prejshint": "gulp",
+    "jshint": "jshint .",
+    "pretest": "npm run jshint",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/swagger-api/swagger-ui.git"
   },
   "readmeFilename": "README.md",
-  "dependencies": {
-    "btoa": "1.1.1",
-    "swagger-client": "2.1.9-M1"
-  },
   "devDependencies": {
     "chai": "^2.1.0",
     "cors": "^2.5.3",
@@ -44,6 +41,6 @@
     "less": "^2.4.0",
     "mocha": "^2.1.0",
     "selenium-webdriver": "^2.45.0",
-    "swagger-client": "git://github.com/swagger-api/swagger-js#develop_2.0"
+    "swagger-client": "2.1.0-M2.alpha2"
   }
 }
