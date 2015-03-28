@@ -1,7 +1,7 @@
 {
   "apiVersion": "1.0.0",
   "swaggerVersion": "1.2",
-  "basePath": "http://petstore.swagger.wordnik.com/api",
+  "basePath": "http://petstore.swagger.io/api",
   "resourcePath": "/pet",
   "produces": [
     "application/json",
