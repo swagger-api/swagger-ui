@@ -1,0 +1,10 @@
+{
+  "extends": "../.jshintrc",
+  "expr": true,
+  "jasmine": true,
+  "globals": {
+    "before": false,
+    "after": false,
+    "expect": true
+  }
+}

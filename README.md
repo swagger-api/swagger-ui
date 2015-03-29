@@ -30,6 +30,9 @@ Swagger UI Version | Release Date | Swagger Spec compatibility | Notes | Status
 ### Download
 You can use the swagger-ui code AS-IS!  No need to build or recompile--just clone this repo and use the pre-built files in the `dist` folder.  If you like swagger-ui as-is, stop here.
 
+##### Browser support
+Swagger UI works in all evergreen desktop browsers (Chrome, Safari, Firefox). Internet Explorer support is version 8 (IE8) and above.
+
 ### Build
 You can rebuild swagger-ui on your own to tweak it or just so you can say you did.  To do so, follow these steps:
 
@@ -57,24 +60,24 @@ Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstor
 You may choose to customize Swagger UI for your organization. Here is an overview of whats in its various directories:
 
 -    dist: Contains a distribution which you can deploy on a server or load from your local machine.
+-    dist/lang: The swagger localisation
 -    lib: Contains javascript dependencies which swagger-ui depends on
 -    node_modules: Contains node modules which swagger-ui uses for its development.
 -    src
--    src/main/coffeescript: main code in CoffeeScript
 -    src/main/templates: [handlebars](http://handlebarsjs.com/) templates used to render swagger-ui
 -    src/main/html: the html files, some images and css
--    src/main/javascript: some legacy javascript referenced by CoffeeScript code
+-    src/main/javascript: main code
 
 ### SwaggerUi
 To use swagger-ui you should take a look at the [source of swagger-ui html page](https://github.com/swagger-api/swagger-ui/blob/master/dist/index.html) and customize it. This basically requires you to instantiate a SwaggerUi object and call load() on it as below:
 
 ```javascript
-    window.swaggerUi = new SwaggerUi({
+    var swaggerUi = new SwaggerUi({
         url:"http://petstore.swagger.io/v2/swagger.json",
         dom_id:"swagger-ui-container"
     });
 
-    window.swaggerUi.load();
+    swaggerUi.load();
 ```
 
 ##### Parameters
@@ -87,11 +90,13 @@ validatorUrl | By default, Swagger-UI attempts to validate specs against swagger
 dom_id | The id of a dom element inside which SwaggerUi will put the user interface for swagger.
 booleanValues | SwaggerUI renders boolean data types as a dropdown. By default it provides a 'true' and 'false' string as the possible choices. You can use this parameter to change the values in dropdown to be something else, for example 0 and 1 by setting booleanValues to new Array(0, 1).
 docExpansion | Controls how the API listing is displayed. It can be set to 'none' (default), 'list' (shows operations for each resource), or 'full' (fully expanded: shows operations and their details).
-sorter | Apply a sort to the API list. It can be 'alpha' (sort paths alphanumerically) or 'method' (sort operations by HTTP method). Default is the order returned by the server unchanged.
+apisSorter | Apply a sort to the API/tags list. It can be 'alpha' (sort by name) or a function (see Array.prototype.sort() to know how sort function works). Default is the order returned by the server unchanged.
+operationsSorter | Apply a sort to the operation list of each API. It can be 'alpha' (sort by paths alphanumerically), 'method' (sort by HTTP method) or a function (see Array.prototype.sort() to know how sort function works). Default is the order returned by the server unchanged.
 onComplete | This is a callback function parameter which can be passed to be notified of when SwaggerUI has completed rendering successfully.
 onFailure | This is a callback function parameter which can be passed to be notified of when SwaggerUI encountered a failure was unable to render.
 highlightSizeThreshold | Any size response below this threshold will be highlighted syntactically, attempting to highlight large responses can lead to browser hangs, not including a threshold will default to highlight all returned responses.
 supportedSubmitMethods | An array of of the HTTP operations that will have the 'Try it out!` option. An empty array disables all operations. This does not filter the operations from the display.
+oauth2RedirectUrl | OAuth redirect URL
 
 * All other parameters are explained in greater detail below
 
@@ -104,11 +109,11 @@ swagger-ui supports invocation of all HTTP methods APIs including GET, PUT, POST
 Header params are supported through a pluggable mechanism in [swagger-js](https://github.com/swagger-api/swagger-js).  You can see the [index.html](https://github.com/swagger-api/swagger-ui/blob/master/dist/index.html) for a sample of how to dynamically set headers:
 
 ```js
-// add a new ApiKeyAuthorization when the api-key changes in the ui.
+// add a new SwaggerClient.ApiKeyAuthorization when the api-key changes in the ui.
 $('#input_apiKey').change(function() {
   var key = $('#input_apiKey')[0].value;
   if(key && key.trim() != "") {
-    window.authorizations.add("key", new ApiKeyAuthorization("api_key", key, "header"));
+    swaggerUi.api.clientAuthorizations.add("key", new SwaggerClient.ApiKeyAuthorization("api_key", key, "header"));
   }
 })
 ```
@@ -119,10 +124,35 @@ This will add header `api_key` with value `key` on every call to the server.  Yo
 If you have some header parameters which you need to send with every request, use the headers as below:
 
 ```js
-window.authorizations.add("key", new ApiKeyAuthorization("Authorization", "XXXX", "header"));
+swaggerUi.api.clientAuthorizations.add("key", new SwaggerClient.ApiKeyAuthorization("Authorization", "XXXX", "header"));
 ```
 
 Note!  You can pass multiple header params on a single request, just use unique names for them (`key` is used in the above example).
+
+### Localization and translation
+The localization files are in the dist/lang directory.
+
+To enable translation you should append next two lines in your Swagger's index.html (or another entry point you use)
+```html
+<script src='lang/translator.js' type='text/javascript'></script>
+<script src='lang/en.js' type='text/javascript'></script>
+```
+The first line script is a translator and the second one is your language lexemes.
+
+If you wish to append support for new language you just need to create lang/your_lang.js and fill it like it's done in existing files.
+
+To append new lexemex for translation you shoul do two things:
+1. Add lexeme into the language file.
+    Example of new line: "new sentence":"translation of new sentence".
+2. Mark this lexeme in source html with attribute data-sw-translate.
+    Example of changed source:
+```html
+        <anyHtmlTag data-sw-translate>new sentence</anyHtmlTag>
+        or <anyHtmlTag data-sw-translate value='new sentence'/>
+```
+.
+
+At this moment only inner html, title-attribute and value-attribute are going to be translated.
 
 ## CORS Support
 
@@ -191,7 +221,8 @@ Create your own fork of [swagger-api/swagger-ui](https://github.com/swagger-api/
 
 To share your changes, [submit a pull request](https://github.com/swagger-api/swagger-ui/pull/new/master).
 
-Since the javascript files are compiled from coffeescript, please submit changes in the *.coffee files!  We have to reject changes only in the .js files as they will be lost on each build of the ui.
+## Change Log
+Plsee see [releases](https://github.com/swagger-api/swagger-ui/releases) for change log.
 
 ## License
 
