@@ -313,7 +313,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       if (isFileUpload) {
         return this.handleFileUpload(map, form);
       } else {
-        return this.model['do'](map, opts, this.showCompleteStatus, this.showErrorStatus, this);
+        return this.model.execute(map, this.options.swaggerOptions, this.showCompleteStatus, this.showErrorStatus);
       }
     }
   },
