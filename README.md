@@ -1,6 +1,6 @@
 # Swagger UI
 
-[![Build Status](https://travis-ci.org/swagger-api/swagger-ui.svg)](https://travis-ci.org/swagger-api/swagger-ui)
+[![Build Status](https://travis-ci.org/swagger-api/swagger-ui.svg?branch=master)](https://travis-ci.org/swagger-api/swagger-ui)
 
 Swagger UI is part of the Swagger project.  The Swagger project allows you to produce, visualize and consume your OWN RESTful services.  No proxy or 3rd party services required.  Do it your own way.
 
@@ -64,10 +64,9 @@ You may choose to customize Swagger UI for your organization. Here is an overvie
 -    lib: Contains javascript dependencies which swagger-ui depends on
 -    node_modules: Contains node modules which swagger-ui uses for its development.
 -    src
--    src/main/coffeescript: main code in CoffeeScript
 -    src/main/templates: [handlebars](http://handlebarsjs.com/) templates used to render swagger-ui
 -    src/main/html: the html files, some images and css
--    src/main/javascript: some legacy javascript referenced by CoffeeScript code
+-    src/main/javascript: main code
 
 ### SwaggerUi
 To use swagger-ui you should take a look at the [source of swagger-ui html page](https://github.com/swagger-api/swagger-ui/blob/master/dist/index.html) and customize it. This basically requires you to instantiate a SwaggerUi object and call load() on it as below:
