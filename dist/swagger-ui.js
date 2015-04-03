@@ -1,6 +1,6 @@
 /**
- * swagger-ui - Swagger UI is a dependency-free collection of HTML, Javascript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API
- * @version v2.1.8-M1
+ * swagger-ui - Swagger UI is a dependency-free collection of HTML, JavaScript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API
+ * @version v2.1.0-M2
  * @link http://swagger.io
  * @license Apache 2.0
  */
@@ -20601,7 +20601,7 @@ SwaggerUi.Views.HeaderView = Backbone.View.extend({
 'use strict';
 
 SwaggerUi.Views.MainView = Backbone.View.extend({
-  apisSorters : {
+  apisSorter : {
     alpha   : function(a,b){ return a.name.localeCompare(b.name); }
   },
   operationsSorters : {
@@ -20620,7 +20620,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       if (_.isFunction(sorterOption)) {
         sorterFn = sorterOption;
       } else {
-        sorterFn = this.apisSorters[sorterOption];
+        sorterFn = this.apisSorter[sorterOption];
       }
       if (_.isFunction(sorterFn)) {
         this.model.apisArray.sort(sorterFn);
@@ -21312,6 +21312,8 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     if (!content) {
       code = $('<code />').text('no content');
       pre = $('<pre class="json" />').append(code);
+
+    // JSON
     } else if (contentType === 'application/json' || /\+json$/.test(contentType)) {
       var json = null;
       try {
@@ -21321,16 +21323,53 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       }
       code = $('<code />').text(json);
       pre = $('<pre class="json" />').append(code);
+
+    // XML
     } else if (contentType === 'application/xml' || /\+xml$/.test(contentType)) {
       code = $('<code />').text(this.formatXml(content));
       pre = $('<pre class="xml" />').append(code);
+
+    // HTML
     } else if (contentType === 'text/html') {
       code = $('<code />').html(_.escape(content));
       pre = $('<pre class="xml" />').append(code);
+
+    // Image
     } else if (/^image\//.test(contentType)) {
       pre = $('<img>').attr('src', url);
+
+    // Audio
     } else if (/^audio\//.test(contentType) && supportsAudioPlayback(contentType)) {
       pre = $('<audio controls>').append($('<source>').attr('src', url).attr('type', contentType));
+
+    // Download
+    } else if (headers['Content-Disposition'].test(/attachment/) ||
+               headers['content-disposition'].test(/attachment/) ||
+               headers['Content-Description'].test(/File Transfer/) ||
+               headers['content-description'].test(/File Transfer/)) {
+
+      if ('Blob' in window) {
+        var type = contentType || 'text/html';
+        var blob = new Blob([content], {type: type});
+        var a = document.createElement('a');
+        var href = window.URL.createObjectURL(blob);
+        var fileName = response.url.substr(response.url.lastIndexOf('/') + 1);
+        var download = [type, fileName, href].join(':');
+
+        a.setAttribute('href', href);
+        a.setAttribute('download', download);
+        a.innerText = 'Download ' + fileName;
+
+        pre = $('<div/>').append(a);
+      } else {
+        pre = $('<pre class="json" />').append('Download headers detected but your browser does not support downloading binary via XHR (Blob).');
+      }
+
+    // Location header based redirect download
+    } else if(headers.location || headers.Location) {
+      window.location = response.url;
+
+    // Anything else (CORS)
     } else {
       code = $('<code />').text(content);
       pre = $('<pre class="json" />').append(code);
