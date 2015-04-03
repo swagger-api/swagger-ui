@@ -16,13 +16,13 @@ Handlebars.registerHelper('renderTextParam', function(param) {
     }
 
     if(isArray) {
-        result = "<textarea class='body-textarea" + (param.required ? " required" : "") + "' name='" + param.name + "'"
-            + " placeholder='Provide multiple values in new lines" + (param.required ? " (at least one required)." : ".") + "'>"
-            + defaultValue + "</textarea>";
+        result = '<textarea class=\'body-textarea' + (param.required ? ' required' : '') + '\' name=\'' + param.name + '\'';
+        result += ' placeholder=\'Provide multiple values in new lines' + (param.required ? ' (at least one required).' : '.') + '\'>';
+        result += defaultValue + '</textarea>';
     } else {
-        result = "<input class='parameter'" + (param.required ? " class='required'" : "") + " minlength='" + (param.required ? 1 : 0)
-            + "' name='" + param.name +"' placeholder='" + (param.required ? "(required)" : "") + "'"
-            + " type='text' value='" + defaultValue + "'/>";
+        result = '<input class=\'parameter\'' + (param.required ? ' class=\'required\'' : '') + ' minlength=\'' + (param.required ? 1 : 0) + '\'';
+        result += ' name=\'' + param.name +'\' placeholder=\'' + (param.required ? '(required)' : '') + '\'';
+        result += ' type=\'text\' value=\'' + defaultValue + '\'/>';
     }
     return new Handlebars.SafeString(result);
 });
