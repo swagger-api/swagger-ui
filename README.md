@@ -1,7 +1,7 @@
 # API Docs Vindi
 Este repositório é usado para gerar e publicar a interface web da API Vindi.
 
-URL pública temporária: [https://vindibr.github.io/api-docs/dist](https://vindibr.github.io/api-docs/dist/)
+URL pública temporária: [https://vindi.github.io/api-docs/dist](https://vindi.github.io/api-docs/dist/)
 
 ## Vagrant
 
