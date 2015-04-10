@@ -1,4 +1,4 @@
 * text eol=lf
 
-dist/**/* binary
-src/main/html/images/* binary
+dist/images/* -text
+src/main/html/images/* -text
