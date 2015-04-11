@@ -45,6 +45,6 @@
     "less": "^2.4.0",
     "mocha": "^2.1.0",
     "selenium-webdriver": "^2.45.0",
-    "swagger-client": "2.1.0-M2"
+    "swagger-client": "2.1.1-M2"
   }
 }
