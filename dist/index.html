@@ -63,6 +63,8 @@
         }
       }
 
+      window.swaggerUi.load();
+      
       $('#input_apiKey').change(addApiKeyAuthorization);
 
       // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
@@ -71,8 +73,6 @@
         $('#input_apiKey').val(apiKey);
         addApiKeyAuthorization();
       */
-
-      window.swaggerUi.load();
 
       function log() {
         if ('console' in window) {
