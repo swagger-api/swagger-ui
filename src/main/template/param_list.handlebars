@@ -1,9 +1,9 @@
 {{#if required}}
-<td class='code required'>{{name}}</td>
+<td class='code required'><label for='{{valueId}}'>{{name}}</label></td>
 {{/if}}
-<td class='code'>{{name}}</td>
+<td class='code'><label for='{{valueId}}'>{{name}}</label></td>
 <td>
-  <select {{#isArray this}} multiple='multiple'{{/isArray}} class='parameter' name='{{name}}'>
+  <select {{#isArray this}} multiple='multiple'{{/isArray}} class='parameter' name='{{name}}' id='{{valueId}}'>
     {{#if required}}
     {{else}}
       {{#if default}}
