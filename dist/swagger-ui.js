@@ -20692,7 +20692,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       } else {
 
         // Default validator
-        this.model.validatorUrl = 'http://online.swagger.io/validator';
+        this.model.validatorUrl = window.location.protocol + '//online.swagger.io/validator';
       }
     }
   },
