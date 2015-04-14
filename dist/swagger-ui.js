@@ -2130,6 +2130,19 @@ SwaggerSpecConverter.prototype.declaration = function(obj, swagger) {
       swagger.basePath = '/';
     }
   }
+//Fix to support https
+  else if(obj.basePath.indexOf('https://') === 0) {
+    var p = obj.basePath.substring('https://'.length);
+    var pos = p.indexOf('/');
+    if(pos > 0) {
+      swagger.host = p.substring(0, pos);
+      swagger.basePath = p.substring(pos);
+    }
+    else{
+      swagger.host = p;
+      swagger.basePath = '/';
+    }
+}
   var resourceLevelAuth;
   if(obj.authorizations) {
     resourceLevelAuth = obj.authorizations;
