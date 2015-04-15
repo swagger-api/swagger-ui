@@ -63,16 +63,20 @@
         }
       }
 
-      window.swaggerUi.load();
-      
       $('#input_apiKey').change(addApiKeyAuthorization);
 
       // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
       /*
         var apiKey = "myApiKeyXXXX123456789";
         $('#input_apiKey').val(apiKey);
-        addApiKeyAuthorization();
       */
+
+      window.swaggerUi.load();
+
+      // Add authorization if auth input is not empty
+      if ($('#input_apiKey').val().length) {
+        addApiKeyAuthorization();
+      }
 
       function log() {
         if ('console' in window) {
