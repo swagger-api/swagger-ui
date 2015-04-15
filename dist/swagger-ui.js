@@ -20692,7 +20692,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       } else {
 
         // Default validator
-        this.model.validatorUrl = 'http://online.swagger.io/validator';
+        this.model.validatorUrl = window.location.protocol + '//online.swagger.io/validator';
       }
     }
   },
@@ -21357,6 +21357,12 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     } else if (contentType === 'text/html') {
       code = $('<code />').html(_.escape(content));
       pre = $('<pre class="xml" />').append(code);
+
+    // Plain Text
+    } else if (/text\/plain/.test(contentType)) {
+      code = $('<code />').text(content);
+      pre = $('<pre class="plain" />').append(code);
+
 
     // Image
     } else if (/^image\//.test(contentType)) {

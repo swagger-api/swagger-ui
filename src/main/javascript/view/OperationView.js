@@ -594,6 +594,12 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       code = $('<code />').html(_.escape(content));
       pre = $('<pre class="xml" />').append(code);
 
+    // Plain Text
+    } else if (/text\/plain/.test(contentType)) {
+      code = $('<code />').text(content);
+      pre = $('<pre class="plain" />').append(code);
+
+
     // Image
     } else if (/^image\//.test(contentType)) {
       pre = $('<img>').attr('src', url);
