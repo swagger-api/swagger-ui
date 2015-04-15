@@ -42,9 +42,12 @@
             });
             */
           }
+
           $('pre code').each(function(i, e) {
             hljs.highlightBlock(e)
           });
+
+          addApiKeyAuthorization();
         },
         onFailure: function(data) {
           log("Unable to Load SwaggerUI");
@@ -53,9 +56,8 @@
         sorter : "alpha"
       });
 
-      function addApiKeyAuthorization() {
+      function addApiKeyAuthorization(){
         var key = encodeURIComponent($('#input_apiKey')[0].value);
-        log("key: " + key);
         if(key && key.trim() != "") {
             var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("api_key", key, "query");
             window.swaggerUi.api.clientAuthorizations.add("api_key", apiKeyAuth);
