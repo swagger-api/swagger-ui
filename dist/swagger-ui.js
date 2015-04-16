@@ -20599,7 +20599,7 @@ SwaggerUi.Views.HeaderView = Backbone.View.extend({
 
   showPetStore: function(){
     this.trigger('update-swagger-ui', {
-      url:'http://petstore.swagger.wordnik.com/api/api-docs'
+      url:'http://petstore.swagger.io/v2/swagger.json'
     });
   },
 
@@ -20639,6 +20639,7 @@ SwaggerUi.Views.HeaderView = Backbone.View.extend({
     }
   }
 });
+
 'use strict';
 
 SwaggerUi.Views.MainView = Backbone.View.extend({
