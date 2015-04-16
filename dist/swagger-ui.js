@@ -2961,6 +2961,7 @@ var schemaToHTML = function (name, schema, models) {
 
 var schemaToJSON = function (schema, models, modelsToIgnore) {
   var type = schema.type || 'object';
+  var format = schema.format || undefined;
   var model;
   var output;
 
@@ -2989,19 +2990,17 @@ var schemaToJSON = function (schema, models, modelsToIgnore) {
       }
     } else if (!_.isUndefined(schema.default)) {
       output = schema.default;
-    } else if (type === 'date-time') {
-      output = new Date().toISOString();
-    } else if (type === 'date') {
-      output = new Date().toISOString().split('T')[0];
     } else if (type === 'string') {
-      output = 'string';
+      if (format === 'date-time') {
+        output = new Date().toISOString();
+      } else if (format === 'date') {
+        output = new Date().toISOString().split('T')[0];
+      } else {
+        output = 'string';
+      }
     } else if (type === 'integer') {
       output = 0;
-    } else if (type === 'long') {
-      output = 0;
-    } else if (type === 'float') {
-      output = 0.0;
-    } else if (type === 'double') {
+    } else if (type === 'number') {
       output = 0.0;
     } else if (type === 'boolean') {
       output = true;
