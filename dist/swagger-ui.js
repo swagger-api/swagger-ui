@@ -3004,8 +3004,6 @@ var schemaToJSON = function (schema, models, modelsToIgnore) {
       output = 0.0;
     } else if (type === 'boolean') {
       output = true;
-    } else if (type === 'number') {
-      output = 0.0;
     } else if (type === 'object') {
       output = {};
 
