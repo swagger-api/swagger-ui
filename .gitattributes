@@ -9,3 +9,5 @@ dist/**/*.woff binary
 dist/**/*.woff2 binary
 dist/**/*.png binary
 dist/*.html text
+
+src/main/html/images/*.png binary
