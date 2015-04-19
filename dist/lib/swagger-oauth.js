@@ -187,7 +187,7 @@ function initOAuth(opts) {
   realm = (o.realm||errors.push('missing realm'));
 
   if(errors.length > 0){
-    log('auth unable initialize oauth: ' + errors);
+    console.log('auth unable initialize oauth: ' + errors);
     return;
   }
 
