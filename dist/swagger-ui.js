@@ -20774,7 +20774,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
     // Make all definitions available at the root of the resource so that they can
     // be loaded by the JSonEditor
-    resource.definitions = this.model.definitions
+    resource.definitions = this.model.definitions;
 
     var resourceView = new SwaggerUi.Views.ResourceView({
       model: resource,
@@ -21022,12 +21022,12 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       $.extend(true, param.schema, this.model.definitions[param.type]);
       param.schema.definitions = this.model.definitions;
       // This is required for JsonEditor to display the root properly
-      param.schema.type = "object"; 
+      param.schema.type = 'object'; 
       // This is the title that will be used by JsonEditor for the root
       // Since we already display the parameter's name in the Parameter column
       // We set this to space, we can't set it to null or space otherwise JsonEditor
       // will replace it with the text "root" which won't look good on screen
-      param.schema.title = " ";
+      param.schema.title = ' ';
     } 
      
 
@@ -21565,6 +21565,7 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
     if( this.options.swaggerOptions.jsonEditor && this.model.isBody && this.model.schema){
       var $self = $(this.el);
       this.model.jsonEditor = 
+        /* global JSONEditor */
         new JSONEditor($('.editor_holder', $self)[0],
                        {schema: this.model.schema, startval : this.model.default, ajax:true });
       // This is so that the signature can send back the sample to the json editor
@@ -21574,7 +21575,7 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
       $('.editor_holder', $self).show();
       $('.parameter-content-type', $self)
         .change(function(e){
-            if(e.target.value == "application/xml"){
+            if(e.target.value === 'application/xml'){
               $('.body-textarea', $self).show();
               $('.editor_holder', $self).hide();
               this.model.jsonEditor.disable();
@@ -21668,7 +21669,7 @@ SwaggerUi.Views.ResourceView = Backbone.View.extend({
 
       operation.nickname = id;
       operation.parentId = this.model.id;
-      operation.definitions = this.model.definitions // make Json Schema available for JSonEditor in this operation
+      operation.definitions = this.model.definitions; // make Json Schema available for JSonEditor in this operation
       this.addOperation(operation);
     }
 

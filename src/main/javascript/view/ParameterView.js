@@ -58,6 +58,7 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
     if( this.options.swaggerOptions.jsonEditor && this.model.isBody && this.model.schema){
       var $self = $(this.el);
       this.model.jsonEditor = 
+        /* global JSONEditor */
         new JSONEditor($('.editor_holder', $self)[0],
                        {schema: this.model.schema, startval : this.model.default, ajax:true });
       // This is so that the signature can send back the sample to the json editor
@@ -67,7 +68,7 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
       $('.editor_holder', $self).show();
       $('.parameter-content-type', $self)
         .change(function(e){
-            if(e.target.value == "application/xml"){
+            if(e.target.value === 'application/xml'){
               $('.body-textarea', $self).show();
               $('.editor_holder', $self).hide();
               this.model.jsonEditor.disable();
