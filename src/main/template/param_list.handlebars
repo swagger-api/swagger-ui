@@ -1,7 +1,8 @@
 {{#if required}}
 <td class='code required'>{{name}}</td>
-{{/if}}
+{{else}}
 <td class='code'>{{name}}</td>
+{{/if}}
 <td>
   <select {{#isArray this}} multiple='multiple'{{/isArray}} class='parameter' name='{{name}}'>
     {{#if required}}
