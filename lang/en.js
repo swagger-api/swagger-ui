@@ -1,5 +1,7 @@
+'use strict';
 
-SwaggerTranslator.learn({
+/* jshint quotmark: double */
+window.SwaggerTranslator.learn({
     "Warning: Deprecated":"Warning: Deprecated",
     "Implementation Notes":"Implementation Notes",
     "Response Class":"Response Class",

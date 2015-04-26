@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Translator for documentation pages.
  *
@@ -11,33 +13,26 @@
  * The main thing here is attribute data-sw-translate. Only inner html, title-attribute and value-attribute are going to translate.
  *
  */
-SwaggerTranslator = {
+window.SwaggerTranslator = {
 
     _words:[],
 
     translate: function() {
-  var $this = this;
-  $("[data-sw-translate]").each(
-      function() {
-    $(this).html(
-        $this._tryTranslate($(this).html())
-    );
-    $(this).val(
-        $this._tryTranslate($(this).val())
-    );
-    $(this).attr(
-        'title',
-        $this._tryTranslate($(this).attr('title'))
-    );
-      }
-  )
+      var $this = this;
+
+      $('[data-sw-translate]').each(function() {
+        $(this).html($this._tryTranslate($(this).html()));
+
+        $(this).val($this._tryTranslate($(this).val()));
+        $(this).attr('title', $this._tryTranslate($(this).attr('title')));
+      });
     },
 
     _tryTranslate: function(word) {
-  return this._words[word] != undefined ? this._words[word] : word;
+      return this._words[word] !== undefined ? this._words[word] : word;
     },
 
     learn: function(wordsMap) {
-  this._words = wordsMap;
+      this._words = wordsMap;
     }
-}
+};
