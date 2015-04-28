@@ -15,6 +15,7 @@ var connect = require('gulp-connect');
 var header = require('gulp-header');
 var pkg = require('./package.json');
 var order = require('gulp-order');
+var argv = require('yargs').argv;
 var banner = ['/**',
   ' * <%= pkg.name %> - <%= pkg.description %>',
   ' * @version v<%= pkg.version %>',
@@ -53,11 +54,12 @@ function templates() {
  */
 gulp.task('dist', ['clean'], function() {
 
+  // Get local client or one specified on the command line
+  var swaggerClient = argv.client ? argv.client : './node_modules/swagger-client/browser/swagger-client.js';
+  log('swagger-client: ' + swaggerClient);
   return es.merge(
-      gulp.src([
-        './src/main/javascript/**/*.js',
-        './node_modules/swagger-client/browser/swagger-client.js'
-      ]),
+      gulp.src('./src/main/javascript/**/*.js'),
+      gulp.src(swaggerClient),
       templates()
     )
     .pipe(order(['scripts.js', 'templates.js']))
