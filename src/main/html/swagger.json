@@ -1,0 +1,1041 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Move your app forward with the Senodio IoT platform API",
+        "description": "Move your app forward with the Senodio API. The security and authorization api is provided by Auth0. For more information go to [Auth0 api documentation](https://auth0.com/docs/api). The authentication api is proxied through the Senodio server through the /authenticate path of the api server. The HTTP inteface to the MQTT message broker is an alternative to the raw MQTT api. You can explore the MQTT broker api at [ecs.mqtt.bobbytech.dk](http://ecs.mqtt.bobbytech.dk/)",
+        "version": "1.0.0",
+        "termsOfService": "http://senodio.dk/terms/",
+        "contact": {
+            "name": "api@senodio.dk"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "host": "ecs.api.bobbytech.dk",
+    "basePath": "/api",
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/authenticate/oauth/ro": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login to api server",
+                "description": "Login to api server",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "Login",
+                        "description": "Login information",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Login"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/auth/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get users",
+                "description": "Get users",
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get users",
+                "description": "Get users",
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/auth/users/{user_id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get a user",
+                "description": "Get a user",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "user_id",
+                        "description": "Id of user that needs to be fetched",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/installations": {
+            "get": {
+                "tags": [
+                    "Installation"
+                ],
+                "summary": "Retrieve all installations",
+                "description": "Gets `Installation` objects.",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "$ref": "#/definitions/Installation"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Installation"
+                ],
+                "summary": "Add an installation",
+                "description": "Add `Installation` object.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "Installation",
+                        "description": "Installation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Installation"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "$ref": "#/definitions/Installation"
+                        }
+                    }
+                }
+            }
+        },
+        "/installations/{installationId}": {
+            "get": {
+                "tags": [
+                    "Installation"
+                ],
+                "summary": "Retrieve an installation",
+                "description": "Gets `Installation` objects.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "installationId",
+                        "description": "ID of installation that needs to be fetched",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "$ref": "#/definitions/Installation"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Installation"
+                ],
+                "summary": "Update an installation",
+                "description": "Update `Installation` object.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "installationId",
+                        "description": "ID of installation that needs to be fetched",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "Installation",
+                        "description": "Installation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Installation"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "$ref": "#/definitions/Installation"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Installation"
+                ],
+                "summary": "Remove an installation",
+                "description": "Remove `Installation` object.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "installationId",
+                        "description": "ID of installation that needs to be fetched",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/installations/{installationId}/devices": {
+            "post": {
+                "tags": [
+                    "Device"
+                ],
+                "summary": "Add a device to an installation",
+                "description": "Add a `Device` object.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "installationId",
+                        "description": "ID of installation",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "Device",
+                        "description": "Device object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Device"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "$ref": "#/definitions/Device"
+                        }
+                    }
+                }
+            }
+        },
+        "/installations/{installationId}/devices/{deviceId}": {
+            "get": {
+                "tags": [
+                    "Device"
+                ],
+                "summary": "Retrieve a device",
+                "description": "Get `Device` object.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "installationId",
+                        "description": "ID of installation",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "deviceId",
+                        "description": "ID of device",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "$ref": "#/definitions/Device"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Device"
+                ],
+                "summary": "Update a device configuration",
+                "description": "Update `Device` object.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "installationId",
+                        "description": "ID of installation",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "deviceId",
+                        "description": "ID of device",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "Device",
+                        "description": "Device object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Device"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "$ref": "#/definitions/Device"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Device"
+                ],
+                "summary": "Remove a device from an installation",
+                "description": "Delete `Device` object.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "installationId",
+                        "description": "ID of installation",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "deviceId",
+                        "description": "ID of device",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/installations/{installationId}/devices/{deviceId}/controls": {
+            "post": {
+                "tags": [
+                    "Control/Sensor"
+                ],
+                "summary": "Add a control/sensor to a device",
+                "description": "Add a `Control` object to a 'Device' object.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "installationId",
+                        "description": "ID of installation",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "deviceId",
+                        "description": "ID of device",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "Control",
+                        "description": "Control object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Control"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "$ref": "#/definitions/Control"
+                        }
+                    }
+                }
+            }
+        },
+        "/installations/{installationId}/devices/{deviceId}/controls/{controlId}": {
+            "get": {
+                "tags": [
+                    "Control/Sensor"
+                ],
+                "summary": "Retrieve a control/sensor",
+                "description": "Get `Control` object.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "installationId",
+                        "description": "ID of installation",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "deviceId",
+                        "description": "ID of device",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "controlId",
+                        "description": "ID of control",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "$ref": "#/definitions/Control"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Control/Sensor"
+                ],
+                "summary": "Update a control/sensor configuration",
+                "description": "Update `Device` object.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "installationId",
+                        "description": "ID of installation",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "deviceId",
+                        "description": "Id of device",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "controlId",
+                        "description": "Id of control",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "Control",
+                        "description": "Control object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Device"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "$ref": "#/definitions/Control"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Control/Sensor"
+                ],
+                "summary": "Delete a control/sensor",
+                "description": "Delete `Control` object in Device",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "installationId",
+                        "description": "Id of installation",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "deviceId",
+                        "description": "Id of device",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "controlId",
+                        "description": "Id of control",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/agent/{deviceId}": {
+            "delete": {
+                "tags": [
+                    "Device agent"
+                ],
+                "summary": "Deactivate device",
+                "description": "Deactive device",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "installationId",
+                        "description": "Id of device",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "deviceId",
+                        "description": "Id of device",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Device agent"
+                ],
+                "summary": "Activate device",
+                "description": "Activate device with configuration query parameters.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "config",
+                        "description": "Id of device",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "installationId",
+                        "description": "Id of installation",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "deviceID",
+                        "description": "Id of device",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "interval",
+                        "description": "Post interval for sensor data",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "deviceId",
+                        "description": "Id of device",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/datastreams/{deviceId}/{controlId}": {
+            "get": {
+                "tags": [
+                    "Datastream"
+                ],
+                "summary": "Retrieve sensor data collection",
+                "description": "Retrieve sensor data collection",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "from",
+                        "description": "From date timestamp",
+                        "required": false,
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    {
+                        "in": "query",
+                        "name": "to",
+                        "description": "To date timestamp",
+                        "required": false,
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "Max number of observations",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "in": "query",
+                        "name": "interval",
+                        "description": "Resolution of observations. 1 (seconds), 60 (minutes), 3600 (hours)",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "in": "query",
+                        "name": "format",
+                        "description": "Format of response hash -> hash, timestamp -> [x,y], time -> [ms,y]",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "in": "path",
+                        "name": "deviceId",
+                        "description": "Id of device",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "controlId",
+                        "description": "Id of sensor",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/broker/{deviceId}/{controlId}": {
+            "post": {
+                "tags": [
+                    "Message broker"
+                ],
+                "summary": "Publish sensor data without retaining",
+                "description": "Publish sensor data without retaining",
+                "consumes": [
+                    "application/text"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "deviceId",
+                        "description": "Id of Device",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "controlId",
+                        "description": "Id of Control/Sensor",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Message broker"
+                ],
+                "summary": "Get latest published sensor data",
+                "description": "Get latest published sensor data",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "deviceId",
+                        "description": "Id of Device",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "controlId",
+                        "description": "Id of Control/Sensor",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Message broker"
+                ],
+                "summary": "Publish and retain sensor value",
+                "description": "Publish and retain sensor value",
+                "consumes": [
+                    "application/text"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "deviceId",
+                        "description": "Id of Device",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "controlId",
+                        "description": "Id of Control/Sensor",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Message broker"
+                ],
+                "summary": "Reset sensor value",
+                "description": "Reset sensor value",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "deviceId",
+                        "description": "Id of Device",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "path",
+                        "name": "controlId",
+                        "description": "Id of Control/Sensor",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Installation": {
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "placement": {
+                    "type": "string"
+                },
+                "address": {
+                    "type": "string"
+                },
+                "contact": {
+                    "$ref": "#/definitions/Contact"
+                },
+                "devices": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Device"
+                    }
+                }
+            }
+        },
+        "Contact": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "website": {
+                    "type": "string"
+                }
+            }
+        },
+        "Device": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "placement": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "noOfAlarms": {
+                    "type": "integer"
+                },
+                "interval": {
+                    "type": "integer"
+                },
+                "controls": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Control"
+                    }
+                }
+            }
+        },
+        "Control": {
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "isState": {
+                    "type": "boolean"
+                },
+                "metadata": {
+                    "type": "string"
+                },
+                "ctrlType": {
+                    "type": "string"
+                },
+                "minValue": {
+                    "type": "integer"
+                },
+                "maxValue": {
+                    "type": "integer"
+                },
+                "minCritical": {
+                    "type": "integer"
+                },
+                "maxCritical": {
+                    "type": "integer"
+                },
+                "scale": {
+                    "type": "integer"
+                },
+                "timers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Timer"
+                    }
+                },
+                "unit": {
+                    "$ref": "#/definitions/Unit"
+                }
+            }
+        },
+        "Unit": {
+            "properties": {
+                "symbol": {
+                    "type": "string"
+                },
+                "units": {
+                    "type": "string"
+                },
+                "precision": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "Timer": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "time": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "integer"
+                },
+                "duration": {
+                    "type": "integer"
+                }
+            }
+        },
+        "Login": {
+            "properties": {
+                "client_id": {
+                    "type": "string",
+                    "default": "kpWrEQ5gJclwuAljKpHgNcJA3NwNZ0FL"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "connection": {
+                    "type": "string",
+                    "default": "Username-Password-Authentication"
+                },
+                "grant_type": {
+                    "type": "string",
+                    "format": "password",
+                    "default": "password"
+                },
+                "scope": {
+                    "type": "string",
+                    "default": "openid"
+                }
+            }
+        }
+    }
+}

@@ -14,8 +14,8 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
   render: function(){
 
     $(this.el).html(Handlebars.templates.signature(this.model));
-
-    this.switchToSnippet();
+//JOG : open both repsonse snippet and schema
+    // this.switchToSnippet();
 
     this.isParam = this.model.isParam;
 

@@ -1,18 +1,25 @@
-<div>
-<ul class="signature-nav">
-  <li><a class="description-link" href="#">Model</a></li>
-  <li><a class="snippet-link" href="#">Model Schema</a></li>
-</ul>
-<div>
+<div class="samples">
+     <span class="model-signature">
+          <div>
+              <!--div data-accordion class="open"-->
+                  <h4 class="sample-title collapsed" data-control data-toggle="collapse" data-target="#signature1">Response Sample</h4>
 
-<div class="signature-container">
-  <div class="description">
-    {{{signature}}}
-  </div>
+                  <div data-content class="collapse" id="signature1">
+                      <div class="snippet">
+                          <pre><code>{{sampleJSON}}</code></pre>
+                          <span class="notice"></span>
+                      </div>
+                  </div>
+              <!--/div-->
+              <!--div data-accordion class="open"-->
+                  <h4 class="sample-title collapsed" data-control data-toggle="collapse" data-target="#signature2">Response Schema</h4>
 
-  <div class="snippet">
-    <pre><code>{{sampleJSON}}</code></pre>
-    <small class="notice"></small>
-  </div>
+                  <div data-content class="collapse" id="signature2">
+                      <div class="description">
+                          {{{signature}}}
+                      </div>
+                  </div>
+              <!--/div-->
+          </div>
+     </span>
 </div>
-

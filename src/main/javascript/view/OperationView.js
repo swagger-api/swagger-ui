@@ -222,7 +222,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     param.consumes = consumes;
     var paramView = new SwaggerUi.Views.ParameterView({
       model: param,
-      tagName: 'tr',
+      tagName: 'div',
       readOnly: this.model.isReadOnly
     });
     $('.operation-params', $(this.el)).append(paramView.render().el);

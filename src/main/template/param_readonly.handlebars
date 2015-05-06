@@ -1,5 +1,5 @@
-<td class='code'>{{name}}</td>
-<td>
+<div class='code'>{{name}}</div>
+<div>
     {{#if isBody}}
         <textarea class='body-textarea' readonly='readonly' name='{{name}}'>{{default}}</textarea>
     {{else}}
@@ -9,7 +9,5 @@
             (empty)
         {{/if}}
     {{/if}}
-</td>
-<td class="markdown">{{{description}}}</td>
-<td>{{{paramType}}}</td>
-<td><span class="model-signature"></span></td>
+</div>
+

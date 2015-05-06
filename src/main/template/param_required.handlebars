@@ -1,33 +1,40 @@
-<td class='code required'>{{name}}</td>
-<td>
-	{{#if isBody}}
-		{{#if isFile}}
-			<input type="file" name='{{name}}'/>
-		{{else}}
-			{{#if default}}
-				<textarea class='body-textarea required' placeholder='(required)' name='{{name}}'>{{default}}</textarea>
-        <br />
-        <div class="parameter-content-type" />
-			{{else}}
-				<textarea class='body-textarea required' placeholder='(required)' name='{{name}}'></textarea>
-				<br />
-				<div class="parameter-content-type" />
-			{{/if}}
-		{{/if}}
-	{{else}}
-		{{#if isFile}}
-			<input class='parameter' class='required' type='file' name='{{name}}'/>
-		{{else}}
-			{{#if default}}
-				<input class='parameter required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='{{default}}'/>
-			{{else}}
-				<input class='parameter required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value=''/>
-			{{/if}}
-		{{/if}}
-	{{/if}}
-</td>
-<td>
-	<strong><span class="markdown">{{{description}}}</span></strong>
-</td>
-<td>{{{paramType}}}</td>
-<td><span class="model-signature"></span></td>
+<div class="parameter-item">
+    <div class="param-property hide" data-label="name">'{{name}}'</div>
+    <div class="param-property" data-label="{{name}}">
+        {{#if isBody}}
+            {{#if isFile}}
+                <input type="file" name='{{name}}'/>
+            {{else}}
+                {{#if default}}
+                    <textarea class='body-textarea form-control required' placeholder='(required)'
+                              name='{{name}}'>{{default}}</textarea>
+                    <br/>
+                    <!--div class="parameter-content-type"/-->
+                {{else}}
+                    <textarea class='body-textarea form-control required' placeholder='(required)'
+                              name='{{name}}'></textarea>
+                    <br/>
+                    <!--div class="parameter-content-type"/-->
+                {{/if}}
+            {{/if}}
+        {{else}}
+            {{#if isFile}}
+                <input class='parameter form-control required' type='file' name='{{name}}'/>
+            {{else}}
+                {{#if default}}
+                    <input class='parameter form-control required' minlength='1' name='{{name}}'
+                           placeholder='(required)'
+                           type='text' value='{{default}}'/>
+                {{else}}
+                    <input class='parameter form-control required' minlength='1' name='{{name}}'
+                           placeholder='(required)'
+                           type='text' value=''/>
+                {{/if}}
+            {{/if}}
+        {{/if}}
+        <div class="small-description">
+            <code>{{type}}</code>  {{description}}
+        </div>
+    </div>
+</div>
+
