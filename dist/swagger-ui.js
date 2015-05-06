@@ -709,14 +709,22 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
     + escapeExpression(((helper = (helper = helpers.parentId || (depth0 != null ? depth0.parentId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"parentId","hash":{},"data":data}) : helper)))
     + "_"
     + escapeExpression(((helper = (helper = helpers.nickname || (depth0 != null ? depth0.nickname : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"nickname","hash":{},"data":data}) : helper)))
-    + "\">\n                    Test this endpoint</h4>\n\n                <div data-content class=\"collapse\" id=\"test-"
+    + "\">\n                    Test this endpoint</h4>\n\n                <!--div data-content class=\"collapse\" id=\"test-"
     + escapeExpression(((helper = (helper = helpers.parentId || (depth0 != null ? depth0.parentId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"parentId","hash":{},"data":data}) : helper)))
     + "_"
     + escapeExpression(((helper = (helper = helpers.nickname || (depth0 != null ? depth0.nickname : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"nickname","hash":{},"data":data}) : helper)))
-    + "\">\n                    <!-- style=\"max-height: 53px; overflow: hidden; -webkit-transition: max-height 300ms ease; transition: max-height 300ms ease;\"-->\n                    <div class=\"sandbox_header\">\n                        <input class=\"submit btn btn-primary\" name=\"commit\" type=\"button\" value=\"Try\"\n                               data-target=\"#get_clients-modal-request\"> or <a href=\"javascript:\"\n                                                                               class=\"curl-button\"\n                                                                               data-target=\"#get_clients-modal-curl\">get\n                        curl command</a>\n                        <a href=\"#\" class=\"response_hider hide\" style=\"display: inline;\">Hide Response</a>\n                        <small class=\"curl-copy-message hide\" style=\"display:none;\">Copied to clipboard</small>\n                        <span class=\"response_throbber hide\" style=\"display: none;\"></span>\n                    </div>\n                </div>\n                <!--div style=\"margin:0;padding:0;display:inline\"></div-->\n";
+    + "\"-->\n                <!-- style=\"max-height: 53px; overflow: hidden; -webkit-transition: max-height 300ms ease; transition: max-height 300ms ease;\"-->\n                <div class=\"sandbox_header collapse\" data-content class=\"collapse\" id=\"test-"
+    + escapeExpression(((helper = (helper = helpers.parentId || (depth0 != null ? depth0.parentId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"parentId","hash":{},"data":data}) : helper)))
+    + "_"
+    + escapeExpression(((helper = (helper = helpers.nickname || (depth0 != null ? depth0.nickname : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"nickname","hash":{},"data":data}) : helper)))
+    + "\">\n                    <input class=\"submit btn btn-primary\" name=\"commit\" type=\"submit\" value=\"Try\"\n                           data-target=\"#get_clients-modal-request\"> or <a href=\"javascript:\"\n                                                                           class=\"curl-button\"\n                                                                           data-target=\"#get_clients-modal-curl\">get\n                    curl command</a>\n                    <a href=\"#\" class=\"response_hider hide\" style=\"display: inline;\">Hide Response</a>\n                    <small class=\"curl-copy-message hide\" style=\"display:none;\">Copied to clipboard</small>\n                    <span class=\"response_throbber hide\" style=\"display: none;\"></span>\n                    <!--/div-->\n                </div>\n                <!--div style=\"margin:0;padding:0;display:inline\"></div-->\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.responseMessages : depth0), {"name":"if","hash":{},"fn":this.program(20, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "            </form>\n\n\n            <!--div class='response' style='display:none'>\n                <h4>Request URL</h4>\n\n                <div class='block request_url'></div>\n                <h4>Response Body</h4>\n\n                <div class='block response_body'></div>\n                <h4>Response Code</h4>\n\n                <div class='block response_code'></div>\n                <h4>Response Headers</h4>\n\n                <div class='block response_headers'></div>\n            </div-->\n        </div>\n        <div class=\"samples\">\n                <span class=\"model-signature\">\n                </span>\n\n            <!--div class=\"response-content-type hide\">\n                <div><label for=\"responseContentType\">Response Content Type</label>\n                    <select name=\"responseContentType\">\n\n\n                        <option value=\"application/json\">application/json</option>\n\n\n                    </select>\n                </div>\n            </div-->\n        </div>\n        <div class=\"modal\" id=\"get_clients-modal-request\" aria-hidden=\"true\" style=\"display: none;\">\n            <div class=\"modal-dialog\">\n                <div class=\"modal-content\">\n                    <div class=\"modal-header\">\n                        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span\n                                aria-hidden=\"true\">×</span></button>\n                        <h3 class=\"modal-title\">Get all clients <span class=\"http_method\"><span class=\"text\">get</span></span>\n                        </h3>\n                    </div>\n                    <div class=\"modal-body\">\n                        <div class=\"response\">\n                            <h5>Request URL</h5>\n\n                            <div class=\"block request_url\">\n                                <pre>https://login.auth0.com/api/v2/clients</pre>\n                            </div>\n                            <h5>Response Code</h5>\n\n                            <div class=\"block response_code\">\n                                <pre>403</pre>\n                            </div>\n                            <h5>Response Body</h5>\n\n                            <div class=\"block response_body\"><pre class=\"json\"><code class=\"json\">{\n                                \"<span class=\"attribute\">statusCode</span>\": <span class=\"value\"><span class=\"number\">403</span></span>,\n                                \"<span class=\"attribute\">error</span>\": <span class=\"value\"><span class=\"string\">\"Forbidden\"</span></span>,\n                                \"<span class=\"attribute\">message</span>\": <span class=\"value\"><span class=\"string\">\"Insufficient scope, expected any of: read:clients,read:client_keys\"</span>\n}</span></code></pre>\n                            </div>\n                            <h5>Response Headers</h5>\n\n                            <div class=\"block response_headers\"><pre class=\"json\"><code class=\"json\">{\n                                \"<span class=\"attribute\">content-type</span>\": <span class=\"value\"><span class=\"string\">\"application/json; charset=utf-8\"</span></span>,\n                                \"<span class=\"attribute\">cache-control</span>\": <span class=\"value\"><span\n                                        class=\"string\">\"no-cache\"</span>\n}</span></code></pre>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n                <!-- /.modal-content -->\n            </div>\n            <!-- /.modal-dialog -->\n        </div>\n    </li>\n</ul>\n\n\n";
+  return buffer + "            </form>\n\n\n            <!--div class='response' style='display:none'>\n                <h4>Request URL</h4>\n\n                <div class='block request_url'></div>\n                <h4>Response Body</h4>\n\n                <div class='block response_body'></div>\n                <h4>Response Code</h4>\n\n                <div class='block response_code'></div>\n                <h4>Response Headers</h4>\n\n                <div class='block response_headers'></div>\n            </div-->\n        </div>\n        <div class=\"samples\">\n                <span class=\"model-signature\">\n                </span>\n\n            <!--div class=\"response-content-type hide\">\n                <div><label for=\"responseContentType\">Response Content Type</label>\n                    <select name=\"responseContentType\">\n\n\n                        <option value=\"application/json\">application/json</option>\n\n\n                    </select>\n                </div>\n            </div-->\n        </div>\n        <div class=\"modal\" id=\"modal-"
+    + escapeExpression(((helper = (helper = helpers.parentId || (depth0 != null ? depth0.parentId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"parentId","hash":{},"data":data}) : helper)))
+    + "_"
+    + escapeExpression(((helper = (helper = helpers.nickname || (depth0 != null ? depth0.nickname : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"nickname","hash":{},"data":data}) : helper)))
+    + "\">\n            <div class=\"modal-dialog\">\n                <div class=\"modal-content\">\n                    <div class=\"modal-header\">\n                        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span\n                                aria-hidden=\"true\">×</span></button>\n                        <h3 class=\"modal-title\">Get all clients <span class=\"http_method\"><span class=\"text\">get</span></span>\n                        </h3>\n                    </div>\n                    <div class=\"modal-body\">\n                        <div class='response'>\n                            <h4>Request URL</h4>\n\n                            <div class='block request_url'></div>\n                            <h4>Response Body</h4>\n\n                            <div class='block response_body'></div>\n                            <h4>Response Code</h4>\n\n                            <div class='block response_code'></div>\n                            <h4>Response Headers</h4>\n\n                            <div class='block response_headers'></div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </li>\n</ul>\n\n\n";
 },"useData":true});
 this["Handlebars"]["templates"]["param"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var stack1, buffer = "";
@@ -20998,6 +21006,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   // Note: copied from CoffeeScript compiled file
   // TODO: redactor
   submitOperation: function(e) {
+    console.log('submitting...');
     var error_free, form, isFileUpload, l, len, len1, len2, m, map, n, o, opts, ref1, ref2, ref3, val;
     if (e !== null) {
       e.preventDefault();
@@ -21066,12 +21075,15 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       }
       opts.responseContentType = $('div select[name=responseContentType]', $(this.el)).val();
       opts.requestContentType = $('div select[name=parameterContentType]', $(this.el)).val();
+      console.log('preparing...');
       $('.response_throbber', $(this.el)).show();
       if (isFileUpload) {
         return this.handleFileUpload(map, form);
       } else {
+        console.log('submitted...');
         return this.model['do'](map, opts, this.showCompleteStatus, this.showErrorStatus, this);
       }
+      console.log('submitted...');
     }
   },
 
@@ -21211,11 +21223,13 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   // Show error from server
   showErrorStatus: function(data, parent) {
+    $('#modal-Installation_get_installations').modal();
     parent.showStatus(data);
   },
 
   // show the status codes
   showCompleteStatus: function(data, parent){
+    $('#modal-Installation_get_installations').modal();
     parent.showStatus(data);
   },
 
@@ -21396,6 +21410,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       code = $('<code />').text(content);
       pre = $('<pre class="json" />').append(code);
     }
+
     var response_body = pre;
     $('.request_url', $(this.el)).html('<pre></pre>');
     $('.request_url pre', $(this.el)).text(url);
@@ -21406,6 +21421,8 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     $('.response_hider', $(this.el)).show();
     $('.response_throbber', $(this.el)).hide();
     var response_body_el = $('.response_body', $(this.el))[0];
+
+    //$('#myModal').modal();
 
     // only highlight the response if response is less than threshold, default state is highlight response
     var opts = this.options.swaggerOptions;

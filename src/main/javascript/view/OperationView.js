@@ -241,6 +241,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   // Note: copied from CoffeeScript compiled file
   // TODO: redactor
   submitOperation: function(e) {
+    console.log('submitting...');
     var error_free, form, isFileUpload, l, len, len1, len2, m, map, n, o, opts, ref1, ref2, ref3, val;
     if (e !== null) {
       e.preventDefault();
@@ -309,12 +310,15 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       }
       opts.responseContentType = $('div select[name=responseContentType]', $(this.el)).val();
       opts.requestContentType = $('div select[name=parameterContentType]', $(this.el)).val();
+      console.log('preparing...');
       $('.response_throbber', $(this.el)).show();
       if (isFileUpload) {
         return this.handleFileUpload(map, form);
       } else {
+        console.log('submitted...');
         return this.model['do'](map, opts, this.showCompleteStatus, this.showErrorStatus, this);
       }
+      console.log('submitted...');
     }
   },
 
@@ -454,11 +458,13 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   // Show error from server
   showErrorStatus: function(data, parent) {
+    $('#modal-Installation_get_installations').modal();
     parent.showStatus(data);
   },
 
   // show the status codes
   showCompleteStatus: function(data, parent){
+    $('#modal-Installation_get_installations').modal();
     parent.showStatus(data);
   },
 
@@ -639,6 +645,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       code = $('<code />').text(content);
       pre = $('<pre class="json" />').append(code);
     }
+
     var response_body = pre;
     $('.request_url', $(this.el)).html('<pre></pre>');
     $('.request_url pre', $(this.el)).text(url);
@@ -649,6 +656,8 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     $('.response_hider', $(this.el)).show();
     $('.response_throbber', $(this.el)).hide();
     var response_body_el = $('.response_body', $(this.el))[0];
+
+    //$('#myModal').modal();
 
     // only highlight the response if response is less than threshold, default state is highlight response
     var opts = this.options.swaggerOptions;

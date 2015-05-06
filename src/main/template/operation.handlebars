@@ -72,18 +72,18 @@
                 <h4 data-control class="collapsed" data-toggle="collapse" data-target="#test-{{parentId}}_{{nickname}}">
                     Test this endpoint</h4>
 
-                <div data-content class="collapse" id="test-{{parentId}}_{{nickname}}">
-                    <!-- style="max-height: 53px; overflow: hidden; -webkit-transition: max-height 300ms ease; transition: max-height 300ms ease;"-->
-                    <div class="sandbox_header">
-                        <input class="submit btn btn-primary" name="commit" type="button" value="Try"
-                               data-target="#get_clients-modal-request"> or <a href="javascript:"
-                                                                               class="curl-button"
-                                                                               data-target="#get_clients-modal-curl">get
-                        curl command</a>
-                        <a href="#" class="response_hider hide" style="display: inline;">Hide Response</a>
-                        <small class="curl-copy-message hide" style="display:none;">Copied to clipboard</small>
-                        <span class="response_throbber hide" style="display: none;"></span>
-                    </div>
+                <!--div data-content class="collapse" id="test-{{parentId}}_{{nickname}}"-->
+                <!-- style="max-height: 53px; overflow: hidden; -webkit-transition: max-height 300ms ease; transition: max-height 300ms ease;"-->
+                <div class="sandbox_header collapse" data-content class="collapse" id="test-{{parentId}}_{{nickname}}">
+                    <input class="submit btn btn-primary" name="commit" type="submit" value="Try"
+                           data-target="#get_clients-modal-request"> or <a href="javascript:"
+                                                                           class="curl-button"
+                                                                           data-target="#get_clients-modal-curl">get
+                    curl command</a>
+                    <a href="#" class="response_hider hide" style="display: inline;">Hide Response</a>
+                    <small class="curl-copy-message hide" style="display:none;">Copied to clipboard</small>
+                    <span class="response_throbber hide" style="display: none;"></span>
+                    <!--/div-->
                 </div>
                 <!--div style="margin:0;padding:0;display:inline"></div-->
                 {{#if responseMessages}}
@@ -130,7 +130,7 @@
                 </div>
             </div-->
         </div>
-        <div class="modal" id="get_clients-modal-request" aria-hidden="true" style="display: none;">
+        <div class="modal" id="modal-{{parentId}}_{{nickname}}">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -140,39 +140,23 @@
                         </h3>
                     </div>
                     <div class="modal-body">
-                        <div class="response">
-                            <h5>Request URL</h5>
+                        <div class='response'>
+                            <h4>Request URL</h4>
 
-                            <div class="block request_url">
-                                <pre>https://login.auth0.com/api/v2/clients</pre>
-                            </div>
-                            <h5>Response Code</h5>
+                            <div class='block request_url'></div>
+                            <h4>Response Body</h4>
 
-                            <div class="block response_code">
-                                <pre>403</pre>
-                            </div>
-                            <h5>Response Body</h5>
+                            <div class='block response_body'></div>
+                            <h4>Response Code</h4>
 
-                            <div class="block response_body"><pre class="json"><code class="json">{
-                                "<span class="attribute">statusCode</span>": <span class="value"><span class="number">403</span></span>,
-                                "<span class="attribute">error</span>": <span class="value"><span class="string">"Forbidden"</span></span>,
-                                "<span class="attribute">message</span>": <span class="value"><span class="string">"Insufficient scope, expected any of: read:clients,read:client_keys"</span>
-}</span></code></pre>
-                            </div>
-                            <h5>Response Headers</h5>
+                            <div class='block response_code'></div>
+                            <h4>Response Headers</h4>
 
-                            <div class="block response_headers"><pre class="json"><code class="json">{
-                                "<span class="attribute">content-type</span>": <span class="value"><span class="string">"application/json; charset=utf-8"</span></span>,
-                                "<span class="attribute">cache-control</span>": <span class="value"><span
-                                        class="string">"no-cache"</span>
-}</span></code></pre>
-                            </div>
+                            <div class='block response_headers'></div>
                         </div>
                     </div>
                 </div>
-                <!-- /.modal-content -->
             </div>
-            <!-- /.modal-dialog -->
         </div>
     </li>
 </ul>
