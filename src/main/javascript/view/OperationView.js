@@ -325,7 +325,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   // Note: This is compiled code
   // TODO: Refactor
   handleFileUpload: function(map, form) {
-    var bodyParam, el, headerParams, l, len, len1, len2, len3, m, n, o, obj, p, param, params, ref1, ref2, ref3, ref4;
+    var bodyParam, el, headerParams, l, len, len1, len2, len3, m, n, o, p, param, params, ref1, ref2, ref3, ref4;
     ref1 = form.serializeArray();
     for (l = 0, len = ref1.length; l < len; l++) {
       o = ref1[l];
@@ -363,7 +363,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     this.invocationUrl = this.model.supportHeaderParams() ? (headerParams = this.model.getHeaderParams(map), delete headerParams['Content-Type'], this.model.urlify(map, false)) : this.model.urlify(map, true);
     $('.request_url', $(this.el)).html('<pre></pre>');
     $('.request_url pre', $(this.el)).text(this.invocationUrl);
-    obj = {
+
+    // TODO: don't use jQuery. Use SwaggerJS for handling the call.
+    var obj = {
       type: this.model.method,
       url: this.invocationUrl,
       headers: headerParams,
@@ -387,9 +389,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         };
       })(this)
     };
-    if (window.authorizations) {
-      window.authorizations.apply(obj);
-    }
     jQuery.ajax(obj);
     return false;
     // end of file-upload nastiness
@@ -593,6 +592,12 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     } else if (contentType === 'text/html') {
       code = $('<code />').html(_.escape(content));
       pre = $('<pre class="xml" />').append(code);
+
+    // Plain Text
+    } else if (/text\/plain/.test(contentType)) {
+      code = $('<code />').text(content);
+      pre = $('<pre class="plain" />').append(code);
+
 
     // Image
     } else if (/^image\//.test(contentType)) {
