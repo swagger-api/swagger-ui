@@ -108,6 +108,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       resource.id = id;
       resources[id] = resource;
       this.addResource(resource, this.model.auths);
+      this.addSidebarHeader(resource, this.model.auths);
     }
 
     $('.propWrap').hover(function onHover(){
@@ -124,13 +125,35 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     var resourceView = new SwaggerUi.Views.ResourceView({
       model: resource,
       router: this.router,
-      tagName: 'li',
+      tagName: 'div',
       id: 'resource_' + resource.id,
       className: 'resource',
       auths: auths,
       swaggerOptions: this.options.swaggerOptions
     });
+ //   console.log('ressorce view:', resourceView);
+ //   console.log('ressorce render:', resourceView.render());
     $('#resources').append(resourceView.render().el);
+  },
+
+  addSidebarHeader: function(resource, auths){
+    // Render a resource and add it to resources li
+    resource.id = resource.id.replace(/\s/g, '_');
+    var sidebarView = new SwaggerUi.Views.SidebarHeaderView({
+      model: resource,
+      router: this.router,
+      //tagName: 'div',
+      //id: 'resource_' + resource.id,
+      //className: 'resource',
+      //auths: auths,
+      swaggerOptions: this.options.swaggerOptions
+    });
+//    console.log('sidebar this:', this);
+//    console.log('sidebar view:', sidebarView);
+//    console.log('sidebar render:', sidebarView.render());
+//    console.log('sidebar render:', sidebarView.render());
+    console.log('model: ', resource);
+    $('#sidebar-header', $(this.el)).append(sidebarView.render().el);
   },
 
   clear: function(){

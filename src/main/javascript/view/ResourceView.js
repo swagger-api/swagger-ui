@@ -35,12 +35,14 @@ SwaggerUi.Views.ResourceView = Backbone.View.extend({
       operation.nickname = id;
       operation.parentId = this.model.id;
       this.addOperation(operation);
+      // this.addNavigation(operation);
     }
-
+/*
     $('.toggleEndpointList', this.el).click(this.callDocs.bind(this, 'toggleEndpointListForResource'));
     $('.collapseResource', this.el).click(this.callDocs.bind(this, 'collapseOperationsForResource'));
     $('.expandResource', this.el).click(this.callDocs.bind(this, 'expandOperationsForResource'));
 
+  */
     return this;
   },
 
@@ -63,6 +65,27 @@ SwaggerUi.Views.ResourceView = Backbone.View.extend({
     this.number++;
 
   },
+/*
+  addNavigation: function(operation) {
+
+    operation.number = this.number;
+
+    var navigationView = new SwaggerUi.Views.NavigationView({
+      model: operation,
+      router: this.router,
+      //tagName: 'div',
+      //className: 'resource_navitems',
+      swaggerOptions: this.options.swaggerOptions,
+      auths: this.auths
+    });
+
+    console.log('addnavigation', this.el);
+    $('#sidebar', $(this.el)).append(navigationView.render().el);
+
+    this.number++;
+
+  },
+*/
   // Generic Event handler (`Docs` is global)
 
 

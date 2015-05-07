@@ -309,11 +309,11 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       }
       opts.responseContentType = $('div select[name=responseContentType]', $(this.el)).val();
       opts.requestContentType = $('div select[name=parameterContentType]', $(this.el)).val();
-      //$('.response_throbber', $(this.el)).show();
+      $('.response_throbber', $(this.el)).show();
+      $(".submit", $(this.el)).button("loading");
       if (isFileUpload) {
         return this.handleFileUpload(map, form);
       } else {
-        console.log('submitted...');
         return this.model['do'](map, opts, this.showCompleteStatus, this.showErrorStatus, this);
       }
     }
@@ -455,7 +455,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   // Show error from server
   showErrorStatus: function(data, parent) {
-    console.log(parent);
     $('#modal-' + parent.parentId + '_' + parent.nickname).modal();
     parent.showStatus(data);
   },
@@ -655,15 +654,17 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     $('.response_throbber', $(this.el)).hide();
     var response_body_el = $('.response_body', $(this.el))[0];
 
-    //$('#myModal').modal();
+    $(".submit", $(this.el)).button("reset");
 
     // only highlight the response if response is less than threshold, default state is highlight response
+    /*
     var opts = this.options.swaggerOptions;
     if (opts.highlightSizeThreshold && response.data.length > opts.highlightSizeThreshold) {
       return response_body_el;
     } else {
       return hljs.highlightBlock(response_body_el);
     }
+    */
   },
 
   toggleOperationContent: function() {
