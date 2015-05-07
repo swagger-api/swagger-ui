@@ -3,7 +3,6 @@
         <div class='content'>
             <div class='heading'>
                 <h2 class='operation-title'>{{summary}}</h2>
-
                 <h3>
                     <span class='http_method'>
                         <a href='#!/{{encodedParentId}}/{{nickname}}'>{{method}}</a>
@@ -136,21 +135,21 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">×</span></button>
-                        <h3 class="modal-title">Get all clients <span class="http_method"><span class="text">get</span></span>
+                        <h3 class="modal-title">{{summary}} <span class="http_method"><span class="text">{{method}}</span></span>
                         </h3>
                     </div>
                     <div class="modal-body">
                         <div class='response'>
-                            <h4>Request URL</h4>
+                            <h5>Request URL</h5>
 
                             <div class='block request_url'></div>
-                            <h4>Response Body</h4>
+                            <h5>Response Body</h5>
 
                             <div class='block response_body'></div>
-                            <h4>Response Code</h4>
+                            <h5>Response Code</h5>
 
                             <div class='block response_code'></div>
-                            <h4>Response Headers</h4>
+                            <h5>Response Headers</h5>
 
                             <div class='block response_headers'></div>
                         </div>

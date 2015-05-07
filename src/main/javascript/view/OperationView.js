@@ -241,7 +241,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   // Note: copied from CoffeeScript compiled file
   // TODO: redactor
   submitOperation: function(e) {
-    console.log('submitting...');
     var error_free, form, isFileUpload, l, len, len1, len2, m, map, n, o, opts, ref1, ref2, ref3, val;
     if (e !== null) {
       e.preventDefault();
@@ -310,15 +309,13 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       }
       opts.responseContentType = $('div select[name=responseContentType]', $(this.el)).val();
       opts.requestContentType = $('div select[name=parameterContentType]', $(this.el)).val();
-      console.log('preparing...');
-      $('.response_throbber', $(this.el)).show();
+      //$('.response_throbber', $(this.el)).show();
       if (isFileUpload) {
         return this.handleFileUpload(map, form);
       } else {
         console.log('submitted...');
         return this.model['do'](map, opts, this.showCompleteStatus, this.showErrorStatus, this);
       }
-      console.log('submitted...');
     }
   },
 
@@ -458,13 +455,14 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   // Show error from server
   showErrorStatus: function(data, parent) {
-    $('#modal-Installation_get_installations').modal();
+    console.log(parent);
+    $('#modal-' + parent.parentId + '_' + parent.nickname).modal();
     parent.showStatus(data);
   },
 
   // show the status codes
   showCompleteStatus: function(data, parent){
-    $('#modal-Installation_get_installations').modal();
+    $('#modal-' + parent.parentId + '_' + parent.nickname).modal();
     parent.showStatus(data);
   },
 
