@@ -11,6 +11,7 @@
   "version": "2.1.2-M2",
   "homepage": "http://swagger.io",
   "license": "Apache 2.0",
+  "main": "dist/swagger-ui.js",
   "scripts": {
     "build": "gulp",
     "serve": "gulp serve",
