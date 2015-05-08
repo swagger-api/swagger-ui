@@ -68,7 +68,9 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       } else {
 
         // Default validator
-        this.model.validatorUrl = window.location.protocol + '//online.swagger.io/validator';
+        if(window.location.protocol.startsWith('http')) {
+          this.model.validatorUrl = window.location.protocol + '//online.swagger.io/validator';
+        }
       }
     }
   },
@@ -130,7 +132,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       auths: auths,
       swaggerOptions: this.options.swaggerOptions
     });
-    $('#resources').append(resourceView.render().el);
+    $('#resources', this.el).append(resourceView.render().el);
   },
 
   clear: function(){

@@ -18,11 +18,8 @@
 		{{#if isFile}}
 			<input class='parameter' class='required' type='file' name='{{name}}'/>
 		{{else}}
-			{{#if default}}
-				<input class='parameter required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='{{default}}'/>
-			{{else}}
-				<input class='parameter required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value=''/>
-			{{/if}}
+			{{#renderTextParam this}}
+			{{/renderTextParam}}
 		{{/if}}
 	{{/if}}
 </td>
