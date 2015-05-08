@@ -629,10 +629,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       pre = $('<audio controls>').append($('<source>').attr('src', url).attr('type', contentType));
 
     // Download
-    } else if ((headers['Content-Disposition'] && headers['Content-Disposition'].test(/attachment/)) ||
-               (headers['content-disposition'] && headers['content-disposition'].test(/attachment/)) ||
-               (headers['Content-Description'] && headers['Content-Description'].test(/File Transfer/)) ||
-               (headers['content-description'] && headers['content-description'].test(/File Transfer/))) {
+    } else if (headers['Content-Disposition'] && (/attachment/).test(headers['Content-Disposition']) ||
+               headers['content-disposition'] && (/attachment/).test(headers['content-disposition']) ||
+               headers['Content-Description'] && (/File Transfer/).test(headers['Content-Description']) ||
+               headers['content-description'] && (/File Transfer/).test(headers['content-description'])) {
 
       if ('Blob' in window) {
         var type = contentType || 'text/html';
