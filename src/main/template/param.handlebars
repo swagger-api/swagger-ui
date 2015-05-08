@@ -21,11 +21,8 @@
 			<input type="file" name='{{name}}'/>
 			<div class="parameter-content-type" />
 		{{else}}
-			{{#if default}}
-				<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value='{{default}}'/>
-			{{else}}
-				<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value=''/>
-			{{/if}}
+			{{#renderTextParam this}}
+			{{/renderTextParam}}
 		{{/if}}
 	{{/if}}
 
