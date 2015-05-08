@@ -569,6 +569,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       url = response.request.url;
     }
     var headers = response.headers;
+    content = jQuery.trim(content);
 
     // if server is nice, and sends content-type back, we can use it
     var contentType = null;
