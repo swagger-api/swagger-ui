@@ -4,9 +4,9 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
   initialize: function(){
     Handlebars.registerHelper('isArray', function(param, opts) {
       if (param.type.toLowerCase() === 'array' || param.allowMultiple) {
-        opts.fn(this);
+        return opts.fn(this);
       } else {
-        opts.inverse(this);
+        return opts.inverse(this);
       }
     });
   },

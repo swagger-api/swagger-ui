@@ -277,7 +277,7 @@ window.onOAuthComplete = function onOAuthComplete(token) {
             }
           }
         });
-        window.authorizations.add(oauth2KeyName, new ApiKeyAuthorization('Authorization', 'Bearer ' + b, 'header'));
+        window.swaggerUi.api.clientAuthorizations.add(oauth2KeyName, new SwaggerClient.ApiKeyAuthorization('Authorization', 'Bearer ' + b, 'header'));
       }
     }
   }
