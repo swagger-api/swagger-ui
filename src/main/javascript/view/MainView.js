@@ -130,7 +130,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       auths: auths,
       swaggerOptions: this.options.swaggerOptions
     });
-    $('#resources').append(resourceView.render().el);
+    $('#resources', this.el).append(resourceView.render().el);
   },
 
   clear: function(){
