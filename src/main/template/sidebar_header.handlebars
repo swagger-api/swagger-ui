@@ -1,14 +1,9 @@
-<!--div id="swagger_sidebar">
-    <div class="sticky-nav-placeholder">
-        <div class="sticky-nav">
-            <div class="mobile-nav">
-                <span class="select-label">API Reference: </span><span data-selected-value="">Get all clients</span>
-            </div>
-            <div id="resources_nav" data-navigator-->
-                <div class="active" data-resource="resource_{{name}}" label="{{name}}">
-                    <div class="resource_navitems"/>
-                </div>
-            <!--/div>
-        </div>
+{{#if nmbr}}
+    <div data-resource="resource_{{name}}" label="{{name}}">
+        <div class="resource_navitems"/>
     </div>
-</div-->
+{{else}}
+    <div class="active" data-resource="resource_{{name}}" label="{{name}}">
+        <div class="resource_navitems"/>
+    </div>
+{{/if}}

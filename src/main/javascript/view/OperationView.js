@@ -9,7 +9,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     'click .response_hider'   : 'hideResponse',
     'click .toggleOperation'  : 'toggleOperationContent',
     'mouseenter .api-ic'      : 'mouseEnter',
-    'mouseout .api-ic'        : 'mouseExit',
+    'mouseout .api-ic'        : 'mouseExit'
   },
 
   initialize: function(opts) {
@@ -309,7 +309,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       }
       opts.responseContentType = $('div select[name=responseContentType]', $(this.el)).val();
       opts.requestContentType = $('div select[name=parameterContentType]', $(this.el)).val();
-      $('.response_throbber', $(this.el)).show();
+      //$('.response_throbber', $(this.el)).show();
       $(".submit", $(this.el)).button("loading");
       if (isFileUpload) {
         return this.handleFileUpload(map, form);

@@ -880,7 +880,7 @@
 }
 
 .swagger-section .operations h4.collapsed {
-/*    box-shadow: inset 0 -1px 0 0 transparent;*/
+    box-shadow: inset 0 -1px 0 0 #e8eaeb;
     transition: box-shadow 0 0 ease
 }
 

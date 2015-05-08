@@ -1,7 +1,7 @@
 'use strict';
 
 SwaggerUi.Views.ResourceView = Backbone.View.extend({
-  initialize: function(opts) {
+  initialize: function (opts) {
     opts = opts || {};
     this.router = opts.router;
     this.auths = opts.auths;
@@ -13,7 +13,7 @@ SwaggerUi.Views.ResourceView = Backbone.View.extend({
     }
   },
 
-  render: function(){
+  render: function () {
     var methods = {};
 
 
@@ -37,16 +37,16 @@ SwaggerUi.Views.ResourceView = Backbone.View.extend({
       this.addOperation(operation);
       // this.addNavigation(operation);
     }
-/*
-    $('.toggleEndpointList', this.el).click(this.callDocs.bind(this, 'toggleEndpointListForResource'));
-    $('.collapseResource', this.el).click(this.callDocs.bind(this, 'collapseOperationsForResource'));
-    $('.expandResource', this.el).click(this.callDocs.bind(this, 'expandOperationsForResource'));
+    /*
+     $('.toggleEndpointList', this.el).click(this.callDocs.bind(this, 'toggleEndpointListForResource'));
+     $('.collapseResource', this.el).click(this.callDocs.bind(this, 'collapseOperationsForResource'));
+     $('.expandResource', this.el).click(this.callDocs.bind(this, 'expandOperationsForResource'));
 
-  */
+     */
     return this;
   },
 
-  addOperation: function(operation) {
+  addOperation: function (operation) {
 
     operation.number = this.number;
 
@@ -65,31 +65,11 @@ SwaggerUi.Views.ResourceView = Backbone.View.extend({
     this.number++;
 
   },
-/*
-  addNavigation: function(operation) {
 
-    operation.number = this.number;
-
-    var navigationView = new SwaggerUi.Views.NavigationView({
-      model: operation,
-      router: this.router,
-      //tagName: 'div',
-      //className: 'resource_navitems',
-      swaggerOptions: this.options.swaggerOptions,
-      auths: this.auths
-    });
-
-    console.log('addnavigation', this.el);
-    $('#sidebar', $(this.el)).append(navigationView.render().el);
-
-    this.number++;
-
-  },
-*/
   // Generic Event handler (`Docs` is global)
 
 
-  callDocs: function(fnName, e) {
+  callDocs: function (fnName, e) {
     e.preventDefault();
     Docs[fnName](e.currentTarget.getAttribute('data-id'));
   }

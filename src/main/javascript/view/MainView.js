@@ -1,14 +1,25 @@
 'use strict';
 
 SwaggerUi.Views.MainView = Backbone.View.extend({
-  apisSorter : {
-    alpha   : function(a,b){ return a.name.localeCompare(b.name); }
+
+  events: {
+    'click .mobile-nav, [data-navigator]' : 'clickSidebarNav'
   },
-  operationsSorters : {
-    alpha   : function(a,b){ return a.path.localeCompare(b.path); },
-    method  : function(a,b){ return a.method.localeCompare(b.method); }
+
+  apisSorter: {
+    alpha: function (a, b) {
+      return a.name.localeCompare(b.name);
+    }
   },
-  initialize: function(opts){
+  operationsSorters: {
+    alpha: function (a, b) {
+      return a.path.localeCompare(b.path);
+    },
+    method: function (a, b) {
+      return a.method.localeCompare(b.method);
+    }
+  },
+  initialize: function (opts) {
     var sorterOption, sorterFn, key, value;
     opts = opts || {};
 
@@ -73,14 +84,14 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     }
   },
 
-  render: function(){
+  render: function () {
     if (this.model.securityDefinitions) {
       for (var name in this.model.securityDefinitions) {
         var auth = this.model.securityDefinitions[name];
         var button;
 
         if (auth.type === 'apiKey' && $('#apikey_button').length === 0) {
-          button = new SwaggerUi.Views.ApiKeyButton({model: auth, router:  this.router}).render().el;
+          button = new SwaggerUi.Views.ApiKeyButton({model: auth, router: this.router}).render().el;
           $('.auth_main_container').append(button);
         }
 
@@ -107,36 +118,36 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       }
       resource.id = id;
       resources[id] = resource;
+      resource.nmbr = i;
+
       this.addResource(resource, this.model.auths);
       this.addSidebarHeader(resource, this.model.auths);
     }
 
-    $('.propWrap').hover(function onHover(){
+    $('.propWrap').hover(function onHover() {
       $('.optionsWrapper', $(this)).show();
-    }, function offhover(){
+    }, function offhover() {
       $('.optionsWrapper', $(this)).hide();
     });
     return this;
   },
 
-  addResource: function(resource, auths){
+  addResource: function (resource, auths) {
     // Render a resource and add it to resources li
     resource.id = resource.id.replace(/\s/g, '_');
     var resourceView = new SwaggerUi.Views.ResourceView({
       model: resource,
       router: this.router,
-      tagName: 'div',
+      tagName: 'li',
       id: 'resource_' + resource.id,
       className: 'resource',
       auths: auths,
       swaggerOptions: this.options.swaggerOptions
     });
- //   console.log('ressorce view:', resourceView);
- //   console.log('ressorce render:', resourceView.render());
     $('#resources').append(resourceView.render().el);
   },
 
-  addSidebarHeader: function(resource, auths){
+  addSidebarHeader: function (resource, auths) {
     // Render a resource and add it to resources li
     resource.id = resource.id.replace(/\s/g, '_');
     var sidebarView = new SwaggerUi.Views.SidebarHeaderView({
@@ -148,15 +159,14 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       //auths: auths,
       swaggerOptions: this.options.swaggerOptions
     });
-//    console.log('sidebar this:', this);
-//    console.log('sidebar view:', sidebarView);
-//    console.log('sidebar render:', sidebarView.render());
-//    console.log('sidebar render:', sidebarView.render());
-    console.log('model: ', resource);
     $('#sidebar-header', $(this.el)).append(sidebarView.render().el);
   },
 
-  clear: function(){
+  clear: function () {
     $(this.el).html('');
+  },
+
+  clickSidebarNav: function() {
+    $('.sticky-nav', $(this.el)).toggleClass("nav-open")
   }
 });

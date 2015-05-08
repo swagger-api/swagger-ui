@@ -6,10 +6,8 @@ SwaggerUi.Views.SidebarItemView = Backbone.View.extend({
     this.router = this.options.router;
   },
 
-  render: function(){
-    console.log('header', this.el);
+  render: function () {
     $(this.el).html(Handlebars.templates.sidebar_item(this.model));
-
     return this;
   }
 });

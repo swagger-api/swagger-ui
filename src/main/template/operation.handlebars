@@ -3,6 +3,7 @@
         <div class='content'>
             <div class='heading'>
                 <h2 class='operation-title'>{{summary}}</h2>
+
                 <h3>
                     <span class='http_method'>
                         <a href='#!/{{encodedParentId}}/{{nickname}}'>{{method}}</a>
@@ -12,29 +13,17 @@
                            class="{{#if deprecated}}deprecated{{/if}}">{{path}}</a>
                     </span>
                 </h3>
-                <!--ul class='options'>
-                    <li>
-                        <a href='#!/{{encodedParentId}}/{{nickname}}' class="toggleOperation">{{{summary}}}</a>
-                    </li>
-                </ul-->
             </div>
-            <a href="javascript:" class="toggle-samples" data-toggle="tooltip" data-placement="left"
-               data-original-title="" title="">
+            <a href="javascript:" class="toggle-samples" data-toggle="tooltip" data-placement="left">
                 <span class="text">Show samples</span><span class="circle-icon"></span>
             </a>
-
-            <p class="action-summary">{{description}}</p>
 
             {{#if deprecated}}
                 <h4>Warning: Deprecated</h4>
             {{/if}}
-            <!--
             {{#if description}}
-                <h4>Implementation Notes</h4>
-
-                <div class="markdown">{{{description}}}</div>
+                <div class="markdown action-summary">{{{description}}}</div>
             {{/if}}
-            -->
             {{#oauth}}
             <div class="auth">
                 <span class="api-ic ic-error"></span>{{/oauth}}
@@ -51,14 +40,6 @@
                     <span class="api-ic ic-off" title="click to authenticate"></span>
                 </div>
             {{/oauth}}
-            {{#if type}}
-                <h4>Response Class (Status {{successCode}})</h4>
-
-                <p></p>
-                <br/>
-
-                <!--div class="response-content-type"/-->
-            {{/if}}
 
             <form accept-charset="UTF-8" class="sandbox">
                 {{#if parameters}}
@@ -68,12 +49,10 @@
                     <div data-content class="operation-params collapse" id="parm-{{parentId}}_{{nickname}}">
                     </div>
                 {{/if}}
-                <h4 data-control class="collapsed" data-toggle="collapse" data-target="#test-{{parentId}}_{{nickname}}">
+                <!--h4 data-control class="collapsed" data-toggle="collapse" data-target="#test-{{parentId}}_{{nickname}}">
                     Test this endpoint</h4>
 
-                <!--div data-content class="collapse" id="test-{{parentId}}_{{nickname}}"-->
-                <!-- style="max-height: 53px; overflow: hidden; -webkit-transition: max-height 300ms ease; transition: max-height 300ms ease;"-->
-                <div class="sandbox_header collapse" data-content class="collapse" id="test-{{parentId}}_{{nickname}}">
+                <div class="sandbox_header collapse" data-content id="test-{{parentId}}_{{nickname}}">
                     <input class="submit btn btn-primary" name="commit" type="submit" value="Try"
                            data-target="#get_clients-modal-request"> or <a href="javascript:"
                                                                            class="curl-button"
@@ -82,9 +61,19 @@
                     <a href="#" class="response_hider hide" style="display: inline;">Hide Response</a>
                     <small class="curl-copy-message hide" style="display:none;">Copied to clipboard</small>
                     <span class="response_throbber hide" style="display: none;"></span>
-                    <!--/div-->
+                </div-->
+                <div data-accordion>
+                    <h4 data-control="">Test this endpoint</h4>
+
+                    <div data-content style="max-height: 0px; overflow: hidden; -webkit-transition: max-height 300ms ease; transition: max-height 300ms ease;">
+                        <div class="sandbox_header">
+                            <input class="submit btn btn-primary" name="commit" type="button" value="Try" data-target="#get_clients-modal-request"> or <a href="javascript:;" class="curl-button" data-target="#get_clients-modal-curl">get curl command</a>
+                            <a href="#" class="response_hider hide" style="display:none">Hide Response</a>
+                            <small class="curl-copy-message hide" style="display:none;">Copied to clipboard</small>
+                            <!--span class="response_throbber hide" style="display:none"></span-->
+                        </div>
+                    </div>
                 </div>
-                <!--div style="margin:0;padding:0;display:inline"></div-->
                 {{#if responseMessages}}
                     <h4 data-control class="collapsed" data-toggle="collapse"
                         data-target="#response-{{parentId}}_{{nickname}}">Response Messages</h4>
@@ -97,37 +86,10 @@
                 {{/if}}
             </form>
 
-
-            <!--div class='response' style='display:none'>
-                <h4>Request URL</h4>
-
-                <div class='block request_url'></div>
-                <h4>Response Body</h4>
-
-                <div class='block response_body'></div>
-                <h4>Response Code</h4>
-
-                <div class='block response_code'></div>
-                <h4>Response Headers</h4>
-
-                <div class='block response_headers'></div>
-            </div-->
         </div>
         <div class="samples">
                 <span class="model-signature">
                 </span>
-
-            <!--div class="response-content-type hide">
-                <div><label for="responseContentType">Response Content Type</label>
-                    <select name="responseContentType">
-
-
-                        <option value="application/json">application/json</option>
-
-
-                    </select>
-                </div>
-            </div-->
         </div>
         <div class="modal" id="modal-{{parentId}}_{{nickname}}">
             <div class="modal-dialog">
@@ -135,7 +97,8 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">×</span></button>
-                        <h3 class="modal-title">{{summary}} <span class="http_method"><span class="text">{{method}}</span></span>
+                        <h3 class="modal-title">{{summary}} <span class="http_method"><span
+                                class="text">{{method}}</span></span>
                         </h3>
                     </div>
                     <div class="modal-body">
@@ -159,5 +122,3 @@
         </div>
     </li>
 </ul>
-
-
