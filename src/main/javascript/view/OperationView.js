@@ -294,6 +294,11 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       opts = {
         parent: this
       };
+      if(this.options.swaggerOptions) {
+        for(var key in this.options.swaggerOptions) {
+          opts[key] = this.options.swaggerOptions[key];
+        }
+      }
       isFileUpload = false;
       ref1 = form.find('input');
       for (l = 0, len = ref1.length; l < len; l++) {
@@ -328,7 +333,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       if (isFileUpload) {
         return this.handleFileUpload(map, form);
       } else {
-        return this.model.execute(map, this.options.swaggerOptions || {}, this.showCompleteStatus, this.showErrorStatus, this);
+        return this.model.execute(map, opts, this.showCompleteStatus, this.showErrorStatus, this);
       }
     }
   },
