@@ -20397,6 +20397,9 @@ window.SwaggerUi = Backbone.Router.extend({
   // SwaggerUi accepts all the same options as SwaggerApi
   initialize: function(options) {
     options = options || {};
+    if(!options.highlightSizeThreshold) {
+      options.highlightSizeThreshold = 100000;
+    }
 
     // Allow dom_id to be overridden
     if (options.dom_id) {
