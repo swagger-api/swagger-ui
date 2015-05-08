@@ -594,7 +594,8 @@
             "name": "password",
             "description": "The password for login in clear text",
             "required": false,
-            "type": "string"
+            "type": "string",
+            "format": "password"
           }
         ],
         "responses": {

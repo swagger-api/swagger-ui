@@ -243,12 +243,16 @@ Handlebars.registerHelper('sanitize', function(html) {
 });
 
 Handlebars.registerHelper('renderTextParam', function(param) {
-    var result;
+    var result, type = 'text';
     var isArray = param.type.toLowerCase() === 'array' || param.allowMultiple;
     var defaultValue = isArray && Array.isArray(param.default) ? param.default.join('\n') : param.default;
 
     if (typeof defaultValue === 'undefined') {
         defaultValue = '';
+    }
+
+    if(param.format && param.format === 'password') {
+      type = 'password';
     }
 
     if(isArray) {
@@ -258,7 +262,7 @@ Handlebars.registerHelper('renderTextParam', function(param) {
     } else {
         result = '<input class=\'parameter\'' + (param.required ? ' class=\'required\'' : '') + ' minlength=\'' + (param.required ? 1 : 0) + '\'';
         result += ' name=\'' + param.name +'\' placeholder=\'' + (param.required ? '(required)' : '') + '\'';
-        result += ' type=\'text\' value=\'' + defaultValue + '\'/>';
+        result += ' type=\'' + type + '\' value=\'' + defaultValue + '\'/>';
     }
     return new Handlebars.SafeString(result);
 });
@@ -537,7 +541,7 @@ this["Handlebars"]["templates"]["param_list"] = Handlebars.template({"1":functio
 },"useData":true});
 this["Handlebars"]["templates"]["param_readonly_required"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "        <textarea class='body-textarea'  readonly='readonly' placeholder='(required)' name='"
+  return "        <textarea class='body-textarea' readonly='readonly' placeholder='(required)' name='"
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + "'>"
     + escapeExpression(((helper = (helper = helpers['default'] || (depth0 != null ? depth0['default'] : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"default","hash":{},"data":data}) : helper)))

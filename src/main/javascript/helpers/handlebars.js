@@ -7,12 +7,16 @@ Handlebars.registerHelper('sanitize', function(html) {
 });
 
 Handlebars.registerHelper('renderTextParam', function(param) {
-    var result;
+    var result, type = 'text';
     var isArray = param.type.toLowerCase() === 'array' || param.allowMultiple;
     var defaultValue = isArray && Array.isArray(param.default) ? param.default.join('\n') : param.default;
 
     if (typeof defaultValue === 'undefined') {
         defaultValue = '';
+    }
+
+    if(param.format && param.format === 'password') {
+      type = 'password';
     }
 
     if(isArray) {
@@ -22,7 +26,7 @@ Handlebars.registerHelper('renderTextParam', function(param) {
     } else {
         result = '<input class=\'parameter\'' + (param.required ? ' class=\'required\'' : '') + ' minlength=\'' + (param.required ? 1 : 0) + '\'';
         result += ' name=\'' + param.name +'\' placeholder=\'' + (param.required ? '(required)' : '') + '\'';
-        result += ' type=\'text\' value=\'' + defaultValue + '\'/>';
+        result += ' type=\'' + type + '\' value=\'' + defaultValue + '\'/>';
     }
     return new Handlebars.SafeString(result);
 });
