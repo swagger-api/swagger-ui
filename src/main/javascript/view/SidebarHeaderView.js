@@ -9,6 +9,7 @@ SwaggerUi.Views.SidebarHeaderView = Backbone.View.extend({
   events: {
     'click [data-resource]' : 'clickResource'
   },
+
   render: function () {
     $(this.el).html(Handlebars.templates.sidebar_header(this.model));
 
