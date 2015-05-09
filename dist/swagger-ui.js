@@ -498,7 +498,7 @@ Handlebars.registerHelper('sanitize', function(html) {
     return new Handlebars.SafeString(html);
 });
 this["Handlebars"]["templates"]["main"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<div id=\"swagger_sidebar\" style=\"padding-top: 30px\">\n    <div class=\"sticky-nav-placeholder fixed\">\n        <div class=\"sticky-nav\">\n            <div class=\"mobile-nav\">\n                <span class=\"select-label\">API Reference: </span><span data-selected-value></span>\n            </div>\n            <div id=\"resources_nav\" data-navigator>\n                <div id='sidebar-header'></div>\n            </div>\n        </div>\n    </div>\n</div>\n\n<div id='resources_container'>\n    <ul id='resources'></ul>\n</div>\n";
+  return "<div id=\"swagger_sidebar\">\n    <div class=\"sticky-nav-placeholder\">\n        <div class=\"sticky-nav fixed\">\n            <div class=\"mobile-nav\">\n                <span class=\"select-label\">API Reference: </span><span data-selected-value></span>\n            </div>\n            <div class=\"token-generator hide\">\n                <!--span data-close=\"\" class=\"icon-budicon-471\"></span>\n                <label for=\"input-api-token\">Token generator</label>\n                <input type=\"text\" autocorrect=\"off\" readonly=\"readonly\" class=\"form-control\" id=\"input-api-token\" placeholder=\"Login and add scopes to get a token\">\n                <a class=\"tg-link\" data-toggle=\"modal\" data-target=\"#credentials-modal\">API Key/Secret</a>\n                <a id=\"open-jwt-io\" class=\"hide tg-link\" target=\"_blank\">Debug in jwt.io</a>\n\n                <div class=\"scope-selector\">\n                    <label for=\"scopes\">Scopes</label>\n                    <div data-scope-list=\"\"></div>\n                    <div class=\"area controls\">\n                        <div class=\"custom-select\">\n                            <span data-select-value=\"\">entity</span>\n                            <select name=\"entity\" data-entity=\"\">\n                                <option value=\"\">entity</option>\n                                <option value=\"users\">users</option>\n                                <option value=\"users_app_metadata\">users_app_metadata</option>\n                                <option value=\"clients\">clients</option>\n                                <option value=\"client_keys\">client_keys</option>\n                                <option value=\"connections\">connections</option>\n                                <option value=\"rules\">rules</option>\n                                <option value=\"email_provider\">email_provider</option>\n                                <option value=\"tokens\">tokens</option>\n                                <option value=\"stats\">stats</option>\n                            </select>\n                        </div>\n                        <div class=\"custom-select disabled\">\n                            <span data-select-value=\"\">action</span>\n                            <select disabled=\"\" name=\"action\" data-action=\"\">\n                                <option value=\"\">action</option>\n                                <option value=\"read\">read</option>\n                                <option value=\"update\">update</option>\n                                <option value=\"delete\">delete</option>\n                                <option value=\"create\">create</option>\n                                <option value=\"blacklist\">blacklist</option>\n                            </select>\n                        </div>\n                    </div>\n\n                    <div class=\"area cta\">\n                        <div data-add-scope=\"\" class=\"btn disabled\"><span class=\"icon-budicon-519\"></span></div>\n                    </div>\n                </div-->\n            </div>\n            <div id=\"resources_nav\" data-navigator>\n                <div id='sidebar-header'></div>\n            </div>\n        </div>\n    </div>\n</div>\n\n<div id='resources_container'>\n    <ul id='resources'></ul>\n</div>\n";
   },"useData":true});
 this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   return "deprecated";
@@ -20533,7 +20533,7 @@ SwaggerUi.Views.HeaderView = Backbone.View.extend({
 SwaggerUi.Views.MainView = Backbone.View.extend({
 
   events: {
-    'click .mobile-nav, [data-navigator]' : 'clickSidebarNav'
+    'click .mobile-nav, [data-navigator]': 'clickSidebarNav'
   },
 
   apisSorter: {
@@ -20659,6 +20659,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     }, function offhover() {
       $('.optionsWrapper', $(this)).hide();
     });
+
     return this;
   },
 
@@ -20683,10 +20684,6 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     var sidebarView = new SwaggerUi.Views.SidebarHeaderView({
       model: resource,
       router: this.router,
-      //tagName: 'div',
-      //id: 'resource_' + resource.id,
-      //className: 'resource',
-      //auths: auths,
       swaggerOptions: this.options.swaggerOptions
     });
     $('#sidebar-header', $(this.el)).append(sidebarView.render().el);
@@ -20696,7 +20693,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     $(this.el).html('');
   },
 
-  clickSidebarNav: function() {
+  clickSidebarNav: function () {
     $('.sticky-nav', $(this.el)).toggleClass("nav-open")
   }
 });

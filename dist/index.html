@@ -6,8 +6,8 @@
     <script type="text/javascript" src="//use.typekit.net/iws6ohy.js"></script>
     <style type="text/css">
         .tk-proxima-nova, body {
-        font-family: "proxima-nova", sans-serif;
-    }
+            font-family: "proxima-nova", sans-serif;
+        }
     </style>
     <link rel="stylesheet"
           href="https://use.typekit.net/c/259039/1w;proxima-nova,6e4e643aac446d74e7aa4c02e23d1d0d451a8c2ca0697b53595944b68381e6e5,fsR:T:i3,cdh:T:i4,cdf:T:i6,cdb:T:n1,cdj:T:n3,cdg:T:n4,cdd:T:n6/d?3bb2a6e53c9684ffdc9a99fe1b5b2a626e1a2d8c466ac7b75352937ca888bec89f178eb9eabad11fd14b85f8232fbee01e9950c0a92e3d6daaa7dc885ccb57dd823bd5baf50b80fb811988f4113a1d612d29e7622dce2c2f6caa5074dbdc567f5ff2bb503d88b3751a7670e0f8fc2f776602fbdca8a45308e77e94cba5889297ea41ca2d586cc96dd40458e09cdc8df21a2e3219e13951220a85cf634565c7ceb123c0620fda241bf6b07da0b4ae2681f8901e12c29288d957cd517b42e9ff63cdc07625f2a798b2d704b788d3162af35e47732e30e56d3085f1af60dd89d3a9b639a08afa2dfac0daf86c9ad14eaaf5b38b664612968a8f2cd1aee8bc9a19ca6c36167910387967e57a8f56954d77a0cbe63d6c8c11131c3fb743c13284219b6e8bfa2b719cff89f377e3e32c07fec19cfe5864bbf8ba0e2edea6def3f1908a217bf60d0e858e75583f28c4fa53401f845af47e845a416e7b494f0d5c0e38a5bd254b5745ee28225e709d87a4e717682dec6bb94efc6dd22e54aca26c"
@@ -18,7 +18,8 @@
         } catch (e) {
         }
     </script>
-    <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
     <style type="text/css"></style>
 
     <link href="https://cdn.auth0.com/styleguide/latest/index.css" rel="stylesheet"/>
@@ -50,12 +51,12 @@
     <script type="text/javascript">
         $(function () {
             var url = window.location.search.match(/url=([^&]+)/);
-            console.log(url)
             if (url && url.length > 1) {
                 url = decodeURIComponent(url[1]);
             } else {
                 url = "http://localhost:8080/swagger.json";
             }
+
             window.swaggerUi = new SwaggerUi({
                 url: url,
                 dom_id: "swagger-ui-container",
@@ -76,6 +77,7 @@
                     });
 
                     addApiKeyAuthorization();
+
                 },
                 onFailure: function (data) {
                     log("Unable to Load SwaggerUI");
@@ -109,6 +111,75 @@
                     console.log.apply(console, arguments);
                 }
             }
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $(window).scroll(function () {
+                console.log('scroll');
+                var nav = $(".sticky-nav");
+                i(nav);
+                //r(nav);
+
+                function i(nav) {
+                    var navOffset = 0;
+                    nav.hasClass("fixed") || (navOffset = nav.offset().top);
+                    e();
+                    $(window).scrollTop() > navOffset ? $(".modal.in").length || nav.addClass("fixed") : nav.removeClass("fixed")
+                }
+
+                function n() {
+                    return window.matchMedia("(min-width: 992px)").matches
+                }
+
+                function e() {
+                    n() ? nav.parents(".sticky-nav-placeholder").removeAttr("style") : nav.parents(".sticky-nav-placeholder").css("min-height", $(".sticky-nav").outerHeight())
+                }
+
+                function r(e) {
+
+                    function i() {
+                        var i = $(window).scrollTop(), r = e.parents(".sticky-nav");
+                        return r.hasClass("fixed") && !n() && (i = i + r.outerHeight() + 40), i
+                    }
+
+                    function r(e) {
+                        var t = o.next("[data-endpoint]"), n = o.prev("[data-endpoint]");
+                        return "next" === e ? t.length ? t : o.parent().next().find("[data-endpoint]").first() : "prev" === e ? n.length ? n : o.parent().prev().find("[data-endpoint]").last() : []
+                    }
+
+                    function c(e) {
+                        {
+                            var n = $(".sticky-nav [data-navigator]");
+                            $("#" + e.attr("data-endpoint"))
+                        }
+                        n.find("[data-resource]").removeClass("active"), n.find("[data-selected]").removeAttr("data-selected"), e.closest("[data-resource]").addClass("active"), e.attr("data-selected", ""), u.find("[data-selected-value]").html(e.text())
+                    }
+
+                    var e = e.find("[data-navigator]");
+                    if (e.find("[data-endpoint][data-selected]").length) {
+                        var o = e.find("[data-endpoint][data-selected]"),
+                                a = $("#" + o.attr("data-endpoint")),
+                                s = a.offset().top,
+                                l = s + a.outerHeight();
+                        r("next");
+                        u = r("prev");
+                        if (l.length) {
+                            {
+                                var d = $("#" + l.attr("data-endpoint")), f = d.offset().top;
+                                f + d.outerHeight()
+                            }
+                            i() >= f && c(l)
+                        }
+                        if (u.length) {
+                            var p = $("#" + u.attr("data-endpoint")), g = u.offset().top, v = (g + p.outerHeight(), 100);
+                            i() < s - v && c(u)
+                        }
+                    }
+                }
+
+            })
         });
     </script>
 </head>

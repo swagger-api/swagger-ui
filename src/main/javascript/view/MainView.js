@@ -3,7 +3,7 @@
 SwaggerUi.Views.MainView = Backbone.View.extend({
 
   events: {
-    'click .mobile-nav, [data-navigator]' : 'clickSidebarNav'
+    'click .mobile-nav, [data-navigator]': 'clickSidebarNav'
   },
 
   apisSorter: {
@@ -129,6 +129,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     }, function offhover() {
       $('.optionsWrapper', $(this)).hide();
     });
+
     return this;
   },
 
@@ -153,10 +154,6 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     var sidebarView = new SwaggerUi.Views.SidebarHeaderView({
       model: resource,
       router: this.router,
-      //tagName: 'div',
-      //id: 'resource_' + resource.id,
-      //className: 'resource',
-      //auths: auths,
       swaggerOptions: this.options.swaggerOptions
     });
     $('#sidebar-header', $(this.el)).append(sidebarView.render().el);
@@ -166,7 +163,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     $(this.el).html('');
   },
 
-  clickSidebarNav: function() {
+  clickSidebarNav: function () {
     $('.sticky-nav', $(this.el)).toggleClass("nav-open")
   }
 });
