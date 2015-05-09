@@ -7,7 +7,7 @@ Handlebars.registerHelper('sanitize', function(html) {
 });
 
 Handlebars.registerHelper('renderTextParam', function(param) {
-    var result, type = 'text';
+    var result, type = 'text', elementId = '';
     var isArray = param.type.toLowerCase() === 'array' || param.allowMultiple;
     var defaultValue = isArray && Array.isArray(param.default) ? param.default.join('\n') : param.default;
 
@@ -16,16 +16,20 @@ Handlebars.registerHelper('renderTextParam', function(param) {
     }
 
     if(param.format && param.format === 'password') {
-      type = 'password';
+        type = 'password';
+    }
+
+    if(param.viewId) {
+        elementId = ' id=\'' + param.viewId + '\'';
     }
 
     if(isArray) {
-        result = '<textarea class=\'body-textarea' + (param.required ? ' required' : '') + '\' name=\'' + param.name + '\'';
+        result = '<textarea class=\'body-textarea' + (param.required ? ' required' : '') + '\' name=\'' + param.name + '\'' + elementId;
         result += ' placeholder=\'Provide multiple values in new lines' + (param.required ? ' (at least one required).' : '.') + '\'>';
         result += defaultValue + '</textarea>';
     } else {
         result = '<input class=\'parameter\'' + (param.required ? ' class=\'required\'' : '') + ' minlength=\'' + (param.required ? 1 : 0) + '\'';
-        result += ' name=\'' + param.name +'\' placeholder=\'' + (param.required ? '(required)' : '') + '\'';
+        result += ' name=\'' + param.name +'\' placeholder=\'' + (param.required ? '(required)' : '') + '\''  + elementId;
         result += ' type=\'' + type + '\' value=\'' + defaultValue + '\'/>';
     }
     return new Handlebars.SafeString(result);
