@@ -165,10 +165,10 @@ window.SwaggerUi = Backbone.Router.extend({
       base = base.substring(0, endOfPath);
 
       if (base.indexOf('/', base.length - 1 ) !== -1){
-        return base + url+'/';
+        return base + url;
       }
 
-      return base + '/' + url+'/';
+      return base + '/' + url;
     }
   },
 
