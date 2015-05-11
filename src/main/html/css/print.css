@@ -1,3 +1,30 @@
+/*Vitaliy Kanev*/
+.topLink {
+  background-color: #FFAD27;
+  width: 100%;
+  height: 17px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.topLink > div {
+  margin: 0px auto;
+  width: 960px;
+}
+.topLink ul {
+  margin: 0px;
+  padding: 0px;
+}
+.topLink ul li {
+  float: left;
+  margin-right: 10px;
+}
+.topLink ul li a {
+  text-decoration: none;
+  color: #713422;
+  font-size: 14px;
+  font-family: sans-serif;
+}
 /* Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org> */
 .swagger-section pre code {
   display: block;
