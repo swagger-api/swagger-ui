@@ -19,6 +19,10 @@ Handlebars.registerHelper('renderTextParam', function(param) {
       type = 'password';
     }
 
+    if(param.format && param.format === 'date') {
+        type = 'date';
+    }
+
     if(isArray) {
         result = '<textarea class=\'body-textarea' + (param.required ? ' required' : '') + '\' name=\'' + param.name + '\'';
         result += ' placeholder=\'Provide multiple values in new lines' + (param.required ? ' (at least one required).' : '.') + '\'>';
