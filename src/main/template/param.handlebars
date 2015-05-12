@@ -1,38 +1,41 @@
-<div class="parameter-item collapse" id="{{name}}">
-    <div class="param-property hide" data-label="name">{{name}}</div>
-    <div class="param-property" data-label="{{name}}">
-        {{#if isBody}}
-            {{#if isFile}}
-                <input type="file" name='{{name}}'/>
-                <!--div class="parameter-content-type" /-->
-            {{else}}
-                {{#if default}}
-                    <textarea class='body-textarea form-control' name='{{name}}'>{{default}}</textarea>
-                    <br/>
+<div class="param-property hide" data-label="name">{{name}}</div>
+<div class="param-property" data-label='{{name}}'>
+    {{#if isBody}}
+        {{#if isFile}}
+            <input type="file" name='{{name}}'/>
 
-                    <!--div class="parameter-content-type"/-->
-                {{else}}
-                    <textarea class='body-textarea form-control' name='{{name}}'></textarea>
-                    <br/>
-                    <!--div class="parameter-content-type" /-->
-                {{/if}}
-            {{/if}}
+            <div class="parameter-content-type"/>
         {{else}}
-            {{#if isFile}}
-                <input type="file" name='{{name}}'/>
-                <!--div class="parameter-content-type" /-->
+            {{#if default}}
+                <textarea class='body-textarea form-control' name='{{name}}'>{{default}}</textarea>
+                <br/>
+
+                <div class="parameter-content-type"/>
             {{else}}
-                {{#if default}}
-                    <input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text'
-                           value='{{default}}'/>
-                {{else}}
-                    <input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value=''/>
-                {{/if}}
+                <textarea class='body-textarea form-control' name='{{name}}'></textarea>
+                <br/>
+
+                <div class="parameter-content-type"/>
             {{/if}}
         {{/if}}
         <div class="small-description">
-            <code>string</code> A comma separated list of fields to include or exclude
-            (depending on exclude_fields) from the result, empty to retrieve all fields
+            <code>{{type}}</code>  {{description}}
         </div>
-    </div>
+    {{else}}
+        {{#if isFile}}
+            <input type="file" name='{{name}}'/>
+
+            <div class="parameter-content-type"/>
+        {{else}}
+            {{#if default}}
+                <input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text'
+                       value='{{default}}'/>
+            {{else}}
+                <input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value=''/>
+            {{/if}}
+        {{/if}}
+        <div class="small-description">
+            <code>{{type}}</code>  {{description}}
+        </div>
+    {{/if}}
 </div>

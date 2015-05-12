@@ -39,20 +39,6 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
     var template = this.template();
     $(this.el).html(template(this.model));
 
-    var signatureModel = {
-      sampleJSON: this.model.sampleJSON,
-      isParam: true,
-      signature: this.model.signature
-    };
-
-    if (this.model.sampleJSON) {
-      var signatureView = new SwaggerUi.Views.SignatureView({model: signatureModel, tagName: 'div'});
-      $('.model-signature', $(this.el)).append(signatureView.render().el);
-    }
-    else {
-      $('.model-signature', $(this.el)).html(this.model.signature);
-    }
-
     var isParam = false;
 
     if (this.model.isBody) {

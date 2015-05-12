@@ -1,19 +1,16 @@
-<div class="samples">
-     <span class="model-signature">
-          <div>
-                  <h4 class="sample-title collapsed" data-control data-toggle="collapse" data-target="#signature1">Response Sample</h4>
-                  <div data-content class="collapse" id="signature1">
-                      <div class="snippet">
-                          <pre><code>{{sampleJSON}}</code></pre>
-                          <span class="notice"></span>
-                      </div>
-                  </div>
-                  <h4 class="sample-title collapsed" data-control data-toggle="collapse" data-target="#signature2">Response Schema</h4>
-                  <div data-content class="collapse" id="signature2">
-                      <div class="description">
-                          {{{signature}}}
-                      </div>
-                  </div>
-          </div>
-     </span>
+<h4 class="sample-title" data-control data-toggle="collapse"
+    data-target="#sample-{{id}}">{{type}} Sample</h4>
+<div data-content class="collapse in" id="sample-{{id}}">
+    <div class="snippet">
+        <pre><code>{{sampleJSON}}</code></pre>
+        <span class="notice"></span>
+    </div>
+</div>
+
+<h4 class="schema-title collapsed" data-control data-toggle="collapse"
+    data-target="#schema-{{id}}">{{type}} Schema</h4>
+<div data-content class="collapse" id="schema-{{id}}">
+    <div class="description">
+        {{{signature}}}
+    </div>
 </div>

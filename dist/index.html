@@ -20,9 +20,9 @@
     </script>
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-    <style type="text/css"></style>
+    <!--style type="text/css"></style-->
 
-    <link href="https://cdn.auth0.com/styleguide/latest/index.css" rel="stylesheet"/>
+    <link href="css/index.css" rel="stylesheet"/>
     <link href='css/standalone.css' rel='stylesheet'/>
     <script src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
@@ -54,7 +54,7 @@
             if (url && url.length > 1) {
                 url = decodeURIComponent(url[1]);
             } else {
-                url = "http://localhost:8080/swagger.json";
+                url = "http://petstore.swagger.io/v2/swagger.json";
             }
 
             window.swaggerUi = new SwaggerUi({
@@ -90,7 +90,7 @@
                 //var key = encodeURIComponent($('#input_apiKey')[0].value);
                 //if (key && key.trim() != "") {
                 //var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("api_key", key, "query");
-                window.swaggerUi.api.clientAuthorizations.add("key", new SwaggerClient.ApiKeyAuthorization("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2RldmVsb3BtZW50LmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1NDFiZGFkNjFjYjhiZDcxMzIwMDAyZmQiLCJhdWQiOiJrcFdyRVE1Z0pjbHd1QWxqS3BIZ05jSkEzTndOWjBGTCIsImV4cCI6MTQzMTAyNzY4MiwiaWF0IjoxNDMwOTkxNjgyfQ.Tnob4b1pHlC5zCB6P5pk6LIJpRiIB-UzHoUsyvj91YE", "header"));
+                window.swaggerUi.api.clientAuthorizations.add("key", new SwaggerClient.ApiKeyAuthorization("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2RldmVsb3BtZW50LmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1NDFiZGFkNjFjYjhiZDcxMzIwMDAyZmQiLCJhdWQiOiJrcFdyRVE1Z0pjbHd1QWxqS3BIZ05jSkEzTndOWjBGTCIsImV4cCI6MTQzMTI4NTAzMSwiaWF0IjoxNDMxMjQ5MDMxfQ.Sbma1YKLGiaSDjlZiZ23YKfISx8V_G0Vu9LHUjxZ-ok", "header"));
                 //log("added key " + key);
                 //}
             }
@@ -116,68 +116,65 @@
 
     <script type="text/javascript">
         $(function () {
-            $(window).scroll(function () {
-                console.log('scroll');
-                var nav = $(".sticky-nav");
-                i(nav);
-                //r(nav);
 
-                function i(nav) {
-                    var navOffset = 0;
-                    nav.hasClass("fixed") || (navOffset = nav.offset().top);
-                    e();
-                    $(window).scrollTop() > navOffset ? $(".modal.in").length || nav.addClass("fixed") : nav.removeClass("fixed")
-                }
+            $(".sticky-nav").on("mobile_nav:update", function() {
+                console.log('init')
+            });
+
+            $(window).scroll(function () {
+                var u = $(".sticky-nav"),
+                    t = $;
+
+                i(u);
+                r(u);
 
                 function n() {
                     return window.matchMedia("(min-width: 992px)").matches
                 }
 
                 function e() {
-                    n() ? nav.parents(".sticky-nav-placeholder").removeAttr("style") : nav.parents(".sticky-nav-placeholder").css("min-height", $(".sticky-nav").outerHeight())
+                    n() ? u.parents(".sticky-nav-placeholder").removeAttr("style") : u.parents(".sticky-nav-placeholder").css("min-height", u.outerHeight())
                 }
-
+                function i(n) {
+                    n.hasClass("fixed") || (navOffset = n.offset().top), e(), t(window).scrollTop() > navOffset ? t(".modal.in").length || n.addClass("fixed") : n.removeClass("fixed")
+                }
                 function r(e) {
-
                     function i() {
-                        var i = $(window).scrollTop(), r = e.parents(".sticky-nav");
+                        var i = t(window).scrollTop(), r = e.parents(".sticky-nav");
                         return r.hasClass("fixed") && !n() && (i = i + r.outerHeight() + 40), i
                     }
-
                     function r(e) {
                         var t = o.next("[data-endpoint]"), n = o.prev("[data-endpoint]");
                         return "next" === e ? t.length ? t : o.parent().next().find("[data-endpoint]").first() : "prev" === e ? n.length ? n : o.parent().prev().find("[data-endpoint]").last() : []
                     }
-
-                    function c(e) {
-                        {
-                            var n = $(".sticky-nav [data-navigator]");
-                            $("#" + e.attr("data-endpoint"))
-                        }
-                        n.find("[data-resource]").removeClass("active"), n.find("[data-selected]").removeAttr("data-selected"), e.closest("[data-resource]").addClass("active"), e.attr("data-selected", ""), u.find("[data-selected-value]").html(e.text())
-                    }
-
                     var e = e.find("[data-navigator]");
                     if (e.find("[data-endpoint][data-selected]").length) {
-                        var o = e.find("[data-endpoint][data-selected]"),
-                                a = $("#" + o.attr("data-endpoint")),
-                                s = a.offset().top,
-                                l = s + a.outerHeight();
-                        r("next");
-                        u = r("prev");
+                        var o = e.find("[data-endpoint][data-selected]"), a = t("#" + o.attr("data-endpoint")), s = a.offset().top, l = (s + a.outerHeight(), r("next")), u = r("prev");
                         if (l.length) {
                             {
-                                var d = $("#" + l.attr("data-endpoint")), f = d.offset().top;
+                                var d = t("#" + l.attr("data-endpoint")), f = d.offset().top;
                                 f + d.outerHeight()
                             }
                             i() >= f && c(l)
                         }
                         if (u.length) {
-                            var p = $("#" + u.attr("data-endpoint")), g = u.offset().top, v = (g + p.outerHeight(), 100);
+                            var p = t("#" + u.attr("data-endpoint")), g = u.offset().top, v = (g + p.outerHeight(), 100);
                             i() < s - v && c(u)
                         }
                     }
                 }
+                function s() {
+                    var e = t(".sticky-nav [data-navigator]"), n = e.find("[data-endpoint]").first();
+                    n.attr("data-selected", ""), u.find("[data-selected-value]").html(n.text())
+                }
+                function c(e) {
+                    {
+                        var n = t(".sticky-nav [data-navigator]");
+                        t("#" + e.attr("data-endpoint"))
+                    }
+                    n.find("[data-resource]").removeClass("active"), n.find("[data-selected]").removeAttr("data-selected"), e.closest("[data-resource]").addClass("active"), e.attr("data-selected", ""), u.find("[data-selected-value]").html(e.text())
+                }
+
 
             })
         });
@@ -233,8 +230,8 @@
             </div>
         </div>
     </div>
+    <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"-->
     <link href='css/api-explorer.css' rel='stylesheet' type='text/css'/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 </section>
 </body>
 </html>

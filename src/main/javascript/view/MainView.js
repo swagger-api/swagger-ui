@@ -3,7 +3,9 @@
 SwaggerUi.Views.MainView = Backbone.View.extend({
 
   events: {
-    'click .mobile-nav, [data-navigator]': 'clickSidebarNav'
+    'click .mobile-nav, [data-navigator]': 'clickSidebarNav',
+    'click [data-resource]': 'clickResource'
+
   },
 
   apisSorter: {
@@ -121,7 +123,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       resource.nmbr = i;
 
       this.addResource(resource, this.model.auths);
-      this.addSidebarHeader(resource, this.model.auths);
+      this.addSidebarHeader(resource, i);
     }
 
     $('.propWrap').hover(function onHover() {
@@ -133,7 +135,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     return this;
   },
 
-  addResource: function (resource, auths) {
+  addResource: function (resource, i) {
     // Render a resource and add it to resources li
     resource.id = resource.id.replace(/\s/g, '_');
     var resourceView = new SwaggerUi.Views.ResourceView({
@@ -142,21 +144,28 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       tagName: 'li',
       id: 'resource_' + resource.id,
       className: 'resource',
-      auths: auths,
       swaggerOptions: this.options.swaggerOptions
     });
     $('#resources').append(resourceView.render().el);
   },
 
-  addSidebarHeader: function (resource, auths) {
-    // Render a resource and add it to resources li
+
+  addSidebarHeader: function (resource, i) {
     resource.id = resource.id.replace(/\s/g, '_');
     var sidebarView = new SwaggerUi.Views.SidebarHeaderView({
       model: resource,
+      tagName: 'div',
+      className: function () {
+        return i == 0 ? 'active' : ''
+      },
+      attributes: {
+        "data-resource": 'resource_' + resource.name,
+        "label": resource.name
+      },
       router: this.router,
       swaggerOptions: this.options.swaggerOptions
     });
-    $('#sidebar-header', $(this.el)).append(sidebarView.render().el);
+    $('#resources_nav', $(this.el)).append(sidebarView.render().el);
   },
 
   clear: function () {
@@ -165,5 +174,18 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
   clickSidebarNav: function () {
     $('.sticky-nav', $(this.el)).toggleClass("nav-open")
+  },
+
+  clickResource: function (e) {
+    if (e) {
+      e.stopPropagation()
+    }
+    if (!$(e.target).is(".item")) {
+      var n = $(e.target).find(".item").first();
+      $('.sticky-nav').find("[data-resource].active").removeClass("active");
+      $(e.target).find("[data-resource]").first().addClass("active");
+      n.trigger("click")
+    }
   }
+
 });

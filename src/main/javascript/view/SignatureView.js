@@ -15,14 +15,14 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
 
     $(this.el).html(Handlebars.templates.signature(this.model));
 //JOG : open both repsonse snippet and schema
-    // this.switchToSnippet();
+    /*/ this.switchToSnippet();
 
     this.isParam = this.model.isParam;
 
     if (this.isParam) {
       $('.notice', $(this.el)).text('Click to set as parameter value');
     }
-
+*/
     return this;
   },
 
