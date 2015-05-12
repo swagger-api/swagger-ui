@@ -20507,7 +20507,7 @@ SwaggerUi.Views.HeaderView = Backbone.View.extend({
 
     $('#input_baseUrl').val(url);
 
-    //$('#input_apiKey').val(apiKey);
+    $('#input_apiKey').val(apiKey);
     if (trigger) {
       this.trigger('update-swagger-ui', {url:url});
     }
@@ -20647,6 +20647,11 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     }, function offhover() {
       $('.optionsWrapper', $(this)).hide();
     });
+
+    var n = $(this.el).find("[data-resource]").first();
+    //$('.sticky-nav').find("[data-resource].active").removeClass("active");
+    //$(e.target).find("[data-resource]").first().addClass("active");
+    n.trigger("click")
 
     return this;
   },

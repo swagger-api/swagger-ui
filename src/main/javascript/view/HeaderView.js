@@ -47,7 +47,7 @@ SwaggerUi.Views.HeaderView = Backbone.View.extend({
 
     $('#input_baseUrl').val(url);
 
-    //$('#input_apiKey').val(apiKey);
+    $('#input_apiKey').val(apiKey);
     if (trigger) {
       this.trigger('update-swagger-ui', {url:url});
     }
