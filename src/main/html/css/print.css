@@ -274,6 +274,15 @@
   font-weight: bold;
   font-size: 25px;
 }
+.swagger-section .swagger-ui-wrap .footer {
+  margin-top: 20px;
+}
+.swagger-section .swagger-ui-wrap .footer h4.api-info {
+  color: #999;
+}
+.swagger-section .swagger-ui-wrap .footer h4.api-info .small {
+  font-variant: small-caps;
+}
 .swagger-section .swagger-ui-wrap p.big,
 .swagger-section .swagger-ui-wrap div.big p {
   font-size: 1em;
