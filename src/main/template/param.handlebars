@@ -23,15 +23,20 @@
         </div>
     {{else}}
         {{#if isFile}}
-            <input type="file" name='{{name}}'/>
+
+            <label class="btn btn-primary" for="my-file-selector">
+                <input id="my-file-selector" type="file" style="display:none;" name='{{name}}'>
+                Choose file
+            </label>
+            <!--input type="file" name='{{name}}'/-->
 
             <div class="parameter-content-type"/>
         {{else}}
             {{#if default}}
-                <input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text'
+                <input class='parameter form-control' minlength='0' name='{{name}}' placeholder='' type='text'
                        value='{{default}}'/>
             {{else}}
-                <input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value=''/>
+                <input class='parameter form-control' minlength='0' name='{{name}}' placeholder='' type='text' value=''/>
             {{/if}}
         {{/if}}
         <div class="small-description">

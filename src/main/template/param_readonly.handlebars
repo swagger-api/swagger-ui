@@ -1,13 +1,17 @@
-<div class='code'>{{name}}</div>
-<div>
-    {{#if isBody}}
-        <textarea class='body-textarea' readonly='readonly' name='{{name}}'>{{default}}</textarea>
-    {{else}}
-        {{#if default}}
-            {{default}}
+<div class="param-property hide" data-label="name">{{name}}</div>
+<div class="param-property" data-label='{{name}}'>
+    <div>
+        {{#if isBody}}
+            <textarea class='body-textarea form-control' readonly='readonly' name='{{name}}'>{{default}}</textarea>
         {{else}}
-            (empty)
+            {{#if default}}
+                {{default}}
+            {{else}}
+                (empty)
+            {{/if}}
         {{/if}}
-    {{/if}}
+        <div class="small-description">
+            <code>{{type}}</code>  {{description}}
+        </div>
+    </div>
 </div>
-

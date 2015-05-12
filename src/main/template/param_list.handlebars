@@ -1,22 +1,28 @@
-<div>
-  <select {{#isArray this}} multiple='multiple'{{/isArray}} class='parameter' name='{{name}}'>
-    {{#if required}}
-    {{else}}
-      {{#if default}}
-      {{else}}
-        {{#isArray this}}
-        {{else}}
-          <option selected="" value=''></option>
-        {{/isArray}}
-      {{/if}}
-    {{/if}}
-    {{#each allowableValues.descriptiveValues}}
-      {{#if isDefault}}
-        <option selected="" value='{{value}}'>{{value}} (default)</option>
-      {{else}}
-        <option value='{{value}}'>{{value}}</option>
-      {{/if}}
-    {{/each}}
-  </select>
+<div class="param-property hide" data-label="name">{{name}}</div>
+<div class="param-property" data-label='{{name}}'>
+    <div>
+        <select {{#isArray this}} multiple='multiple'{{/isArray}} class='parameter form-control' name='{{name}}'>
+            {{#if required}}
+            {{else}}
+                {{#if default}}
+                {{else}}
+                    {{#isArray this}}
+                    {{else}}
+                        <option selected="" value=''></option>
+                    {{/isArray}}
+                {{/if}}
+            {{/if}}
+            {{#each allowableValues.descriptiveValues}}
+                {{#if isDefault}}
+                    <option selected="" value='{{value}}'>{{value}} (default)</option>
+                {{else}}
+                    <option value='{{value}}'>{{value}}</option>
+                {{/if}}
+            {{/each}}
+        </select>
+        <div class="small-description">
+            <code>{{type}}</code>  {{description}}
+        </div>
+    </div>
 </div>
 
