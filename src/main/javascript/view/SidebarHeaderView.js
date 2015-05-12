@@ -38,9 +38,6 @@ SwaggerUi.Views.SidebarHeaderView = Backbone.View.extend({
   },
 
   clickSidebarItem: function (e) {
-    if (e) {
-      e.stopPropagation();
-    }
 
     var elem = $(e.target);
     var eln = $("#" + elem.attr("data-endpoint"));
@@ -86,6 +83,7 @@ SwaggerUi.Views.SidebarHeaderView = Backbone.View.extend({
         var n = $(window).scrollTop();
         return $(window).scrollTop(n)
       }
+
       return $(window).scrollTop(e)
     }
   }

@@ -135,6 +135,8 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     var n = $(this.el).find("[data-resource]").first();
     n.trigger("click")
 
+    $(window).scrollTop(0);
+
     return this;
   },
 
@@ -175,14 +177,11 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     $(this.el).html('');
   },
 
-  clickSidebarNav: function () {
-    $('.sticky-nav', $(this.el)).toggleClass("nav-open")
+  clickSidebarNav: function (e) {
+    $('.sticky-nav').toggleClass("nav-open")
   },
 
   clickResource: function (e) {
-    if (e) {
-      e.stopPropagation()
-    }
     if (!$(e.target).is(".item")) {
       var n = $(e.target).find(".item").first();
       $('.sticky-nav').find("[data-resource].active").removeClass("active");
