@@ -1,7 +1,7 @@
 # Swagger UI responsive theme
 
 
-[![Swagger Theme example](dist/image/swagger_explorer.png)](http://ecs.bobbytech.dk/api)
+[![Swagger Theme example](dist/images/swagger_explorer.png)](http://ecs.bobbytech.dk/api)
 Swagger UI is part of the Swagger project.  The Swagger project allows you to produce, visualize and consume your OWN RESTful services.  No proxy or 3rd party services required.  Do it your own way.
 
 Swagger UI is a dependency-free collection of HTML, Javascript, and CSS assets that dynamically
