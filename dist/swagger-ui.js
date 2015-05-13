@@ -20891,7 +20891,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       } else {
 
         // Default validator
-        if(window.location.protocol.startsWith('http')) {
+        if(window.location.protocol.indexOf('http') === 0) {
           this.model.validatorUrl = window.location.protocol + '//online.swagger.io/validator';
         }
       }
