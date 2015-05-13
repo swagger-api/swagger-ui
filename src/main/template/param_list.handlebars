@@ -24,6 +24,6 @@
     {{/each}}
   </select>
 </td>
-<td class="markdown">{{{description}}}</td>
+<td class="markdown">{{#if required}}<strong>{{/if}}{{{description}}}{{#if required}}</strong>{{/if}}</td>
 <td>{{{paramType}}}</td>
 <td><span class="model-signature"></span></td>
