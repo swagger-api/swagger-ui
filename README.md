@@ -13,7 +13,7 @@ Give it a [try](http://ecs.bobbytech.dk/api) and enter your own swagger definiti
 
 ## Discalimer
 
-This is not a full polished implementation and should be used with care.
+This is not a fully polished implementation and should be used with care.
 
 ## License
 
