@@ -5,10 +5,31 @@
                 <span class="select-label">API Reference: </span><span data-selected-value></span>
             </div>
 
-            <div class="token-generator hide" style="padding: 0px">
+            <div class="token-generator hide">
+                <span data-close class="icon-budicon-471"></span>
+                <label for="input-api-token">Url</label>
+                <input type="text" autocorrect="off" class="form-control" id="input_baseUrl" placeholder="http://example.com/api">
+
+                <div class="scope-selector">
+                    <label for="scopes">Token</label>
+
+                    <div class="area controls">
+                        <input type="text" autocorrect="off" class="form-control" id="input_apiKey" placeholder="Enter api key or token">
+                    </div>
+
+                    <div class="area cta">
+                        <div data-add-scope id="explore" class="btn"><span class="icon-budicon-519"></span>
+                        </div>
+                    </div>
+                </div>
 
             </div>
-            <div id="resources_nav" data-navigator>
+            <div data-navigator>
+                <div data-resource="" label="Tools">
+                    <div class="item" data-tg-switch="">Swagger resource <span class="status"></span></div>
+                </div>
+                <div id="resources_nav">
+                </div>
             </div>
         </div>
     </div>

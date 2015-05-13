@@ -14,9 +14,9 @@
                     </span>
                 </h3>
             </div>
-            <a href="javascript:" class="toggle-samples" data-toggle="tooltip" data-placement="left">
+            <!--a href="javascript:" class="toggle-samples" data-toggle="tooltip" data-placement="left">
                 <span class="text">Show samples</span><span class="circle-icon"></span>
-            </a>
+            </a-->
 
             {{#if deprecated}}
                 <h4>Warning: Deprecated</h4>
@@ -61,13 +61,9 @@
                 <div class="sandbox_header collapse" data-content id="test-{{parentId}}_{{nickname}}">
                     <input class="submit btn btn-primary" name="commit" type="submit" value="Try"
                            data-target="#get_clients-modal-request">
-                    or
-                    <a href="javascript:" class="curl-button" data-target="#get_clients-modal-curl">
-                        get curl command
-                    </a>
                     <a href="#" class="response_hider hide" style="display: inline;">Hide Response</a>
-                    <small class="curl-copy-message hide" style="display:none;">Copied to clipboard</small>
-                    <span class="response_throbber hide" style="display: none;"></span>
+                    <!--small class="curl-copy-message hide" style="display:none;">Copied to clipboard</small>
+                    <span class="response_throbber hide" style="display: none;"></span-->
                 </div>
                 {{#if responseMessages}}
                     <div style="margin:0;padding:0;display:inline"></div>

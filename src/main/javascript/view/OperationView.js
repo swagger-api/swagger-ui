@@ -230,13 +230,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       this.addStatusCode(statusCode);
     }
 
-/*
-    if (ref4.length > 0 ) {
-      var el = $(this.el).find("#data-parm-toggle");
-      console.log('found :', el);
-      el.trigger( "click" );
-    }
-*/
     return this;
   },
 

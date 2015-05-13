@@ -43,7 +43,6 @@ header.site-header nav .navbar-brand {
 }
 header.site-header nav .navbar-brand a {
     background: url("../images/senodio.png") center left no-repeat;
-    background-size: 50%;
     width: 130px;
     height: 40px;
     display: block;

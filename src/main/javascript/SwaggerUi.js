@@ -53,12 +53,14 @@ window.SwaggerUi = Backbone.Router.extend({
     this.options.failure = function(d) { return that.onLoadFailure(d); };
 
     // Create view to handle the header inputs
-    this.headerView = new SwaggerUi.Views.HeaderView({el: $('#header')});
+    //this.headerView = new SwaggerUi.Views.HeaderView({el: $('#header')});
 
     // Event handler for when the baseUrl/apiKey is entered by user
+    /*
     this.headerView.on('update-swagger-ui', function(data) {
       return that.updateSwaggerUi(data);
     });
+    */
   },
 
   // Set an option after initializing
@@ -74,24 +76,28 @@ window.SwaggerUi = Backbone.Router.extend({
   // Event handler for when url/key is received from user
   updateSwaggerUi: function(data){
     this.options.url = data.url;
+    this.options.apiKey = data.apiKey;
     this.load();
   },
 
   // Create an api and render
   load: function(){
+
     // Initialize the API object
     if (this.mainView) {
+      this.mainView.undelegateEvents();
       this.mainView.clear();
     }
+
     var url = this.options.url;
     if (url && url.indexOf('http') !== 0) {
       url = this.buildUrl(window.location.href.toString(), url);
     }
 
     this.options.url = url;
-    this.headerView.update(url);
 
     this.api = new SwaggerClient(this.options);
+
   },
 
   // collapse all sections
@@ -133,6 +139,13 @@ window.SwaggerUi = Backbone.Router.extend({
     if (this.options.onComplete){
       this.options.onComplete(this.api, this);
     }
+
+    var that= this;
+
+    // Event handler for when the baseUrl/apiKey is entered by user
+    this.mainView.on('update-swagger-ui', function(data) {
+      return that.updateSwaggerUi(data);
+    });
 
     setTimeout(Docs.shebang.bind(this), 100);
   },

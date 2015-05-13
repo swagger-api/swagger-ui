@@ -54,7 +54,9 @@
             if (url && url.length > 1) {
                 url = decodeURIComponent(url[1]);
             } else {
-                url = "http://petstore.swagger.io/v2/swagger.json";
+                url = "http://ecs.bobbytech.dk/api/swagger.json";
+                //url = "http://petstore.swagger.io/v2/swagger.json";
+                //url = "http://api.wordnik.com/v4/resources.json";
             }
 
             window.swaggerUi = new SwaggerUi({
@@ -76,8 +78,14 @@
                         hljs.highlightBlock(e)
                     });
 
-                    addApiKeyAuthorization();
+                    if (swaggerUi.options.url) {
+                        $('#input_baseUrl').val(swaggerUi.options.url);
+                    }
+                    if (swaggerUi.options.apiKey) {
+                        $('#input_apiKey').val(swaggerUi.options.apiKey);
+                    }
 
+                    addApiKeyAuthorization();
                 },
                 onFailure: function (data) {
                     log("Unable to Load SwaggerUI");
@@ -87,21 +95,19 @@
             });
 
             function addApiKeyAuthorization() {
-                //var key = encodeURIComponent($('#input_apiKey')[0].value);
-                //if (key && key.trim() != "") {
-                //var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("api_key", key, "query");
-                window.swaggerUi.api.clientAuthorizations.add("key", new SwaggerClient.ApiKeyAuthorization("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2RldmVsb3BtZW50LmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1NDFiZGFkNjFjYjhiZDcxMzIwMDAyZmQiLCJhdWQiOiJrcFdyRVE1Z0pjbHd1QWxqS3BIZ05jSkEzTndOWjBGTCIsImV4cCI6MTQzMTI4NTAzMSwiaWF0IjoxNDMxMjQ5MDMxfQ.Sbma1YKLGiaSDjlZiZ23YKfISx8V_G0Vu9LHUjxZ-ok", "header"));
-                //log("added key " + key);
-                //}
+                var key = encodeURIComponent($('#input_apiKey')[0].value);
+                if (key && key.trim() != "") {
+                    var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("Authorization", "Bearer " + key, "header");
+                    window.swaggerUi.api.clientAuthorizations.add("key", apiKeyAuth);
+                    log("added key " + key);
+                }
             }
 
             $('#input_apiKey').change(addApiKeyAuthorization);
-
             // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
             /*
              var apiKey = "myApiKeyXXXX123456789";
              $('#input_apiKey').val(apiKey);
-             addApiKeyAuthorization();
              */
 
             window.swaggerUi.load();
@@ -115,15 +121,12 @@
     </script>
 
     <script type="text/javascript">
-        $(function () {
 
-            $(".sticky-nav").on("mobile_nav:update", function() {
-                console.log('init')
-            });
+        $(function () {
 
             $(window).scroll(function () {
                 var u = $(".sticky-nav"),
-                    t = $;
+                        t = $;
 
                 i(u);
                 r(u);
@@ -135,18 +138,22 @@
                 function e() {
                     n() ? u.parents(".sticky-nav-placeholder").removeAttr("style") : u.parents(".sticky-nav-placeholder").css("min-height", u.outerHeight())
                 }
+
                 function i(n) {
                     n.hasClass("fixed") || (navOffset = n.offset().top), e(), t(window).scrollTop() > navOffset ? t(".modal.in").length || n.addClass("fixed") : n.removeClass("fixed")
                 }
+
                 function r(e) {
                     function i() {
                         var i = t(window).scrollTop(), r = e.parents(".sticky-nav");
                         return r.hasClass("fixed") && !n() && (i = i + r.outerHeight() + 40), i
                     }
+
                     function r(e) {
                         var t = o.next("[data-endpoint]"), n = o.prev("[data-endpoint]");
                         return "next" === e ? t.length ? t : o.parent().next().find("[data-endpoint]").first() : "prev" === e ? n.length ? n : o.parent().prev().find("[data-endpoint]").last() : []
                     }
+
                     var e = e.find("[data-navigator]");
                     if (e.find("[data-endpoint][data-selected]").length) {
                         var o = e.find("[data-endpoint][data-selected]"), a = t("#" + o.attr("data-endpoint")), s = a.offset().top, l = (s + a.outerHeight(), r("next")), u = r("prev");
@@ -163,10 +170,12 @@
                         }
                     }
                 }
+
                 function s() {
                     var e = t(".sticky-nav [data-navigator]"), n = e.find("[data-endpoint]").first();
                     n.attr("data-selected", ""), u.find("[data-selected-value]").html(n.text())
                 }
+
                 function c(e) {
                     {
                         var n = t(".sticky-nav [data-navigator]");
@@ -174,15 +183,12 @@
                     }
                     n.find("[data-resource]").removeClass("active"), n.find("[data-selected]").removeAttr("data-selected"), e.closest("[data-resource]").addClass("active"), e.attr("data-selected", ""), u.find("[data-selected-value]").html(e.text())
                 }
-
-
             })
         });
     </script>
 </head>
 
 <body data-swiftype-index="false" class="page-docs" style="zoom: 1;" cz-shortcut-listen="true">
-
 <header class="site-header">
     <nav role="navigation" class="navbar navbar-default">
         <div class="container">
@@ -190,12 +196,12 @@
                 <button type="button" data-toggle="collapse" data-target="#navbar-collapse" class="navbar-toggle"><span
                         class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span
                         class="icon-bar"></span><span class="icon-bar"></span></button>
-                <h1 class="navbar-brand"><a href="/"><span></span></a></h1>
+                <h1 class="navbar-brand"><a href="http://swagger.io"><span>swagger explorer</span></a></h1>
             </div>
             <div id="navbar-collapse" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-left">
-                    <li class="li-why"><a href="https://auth0.com/why-auth0">Why Auth0</a></li>
-                    <li class="li-how"><a href="https://auth0.com/how-it-works">How It Works</a></li>
+                    <li class="li-why"><a href="http://swagger.io" style="font-size: 25px; padding-left: 0px">Senodio api explorer</a></li>
+                    <!--li class="li-how"><a href="https://auth0.com/how-it-works">How It Works</a></li>
                     <li class="li-pricing"><a href="https://auth0.com/pricing">Pricing</a></li>
                     <li class="dropdown"><span role="button" data-toggle="dropdown" class="btn-dro">More<i
                             class="icon-budicon-460"></i></span>
@@ -209,13 +215,13 @@
                             <li><a href="https://auth0.com/opensource">Open Source</a></li>
                             <li><a href="https://auth0.com/jobs">Jobs</a></li>
                         </ul>
-                    </li>
+                    </li-->
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
+                <!--ul class="nav navbar-nav navbar-right">
                     <li class="li-docs"><a href="/support">Help &amp; Support</a></li>
                     <li class="li-docs"><a href="https://docs.auth0.com">Documentation</a></li>
                     <li><a href="javascript:login()" class="signin-button login">Login</a></li>
-                </ul>
+                </ul-->
             </div>
         </div>
     </nav>
