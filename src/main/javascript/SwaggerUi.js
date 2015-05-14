@@ -90,7 +90,9 @@ window.SwaggerUi = Backbone.Router.extend({
     if (url && url.indexOf('http') !== 0) {
       url = this.buildUrl(window.location.href.toString(), url);
     }
-
+    if(this.api) {
+      this.options.authorizations = this.api.clientAuthorizations;
+    }
     this.options.url = url;
     this.headerView.update(url);
 
