@@ -96,8 +96,9 @@ operationsSorter | Apply a sort to the operation list of each API. It can be 'al
 onComplete | This is a callback function parameter which can be passed to be notified of when SwaggerUI has completed rendering successfully.
 onFailure | This is a callback function parameter which can be passed to be notified of when SwaggerUI encountered a failure was unable to render.
 highlightSizeThreshold | Any size response below this threshold will be highlighted syntactically, attempting to highlight large responses can lead to browser hangs, not including a threshold will default to highlight all returned responses.
-supportedSubmitMethods | An array of of the HTTP operations that will have the 'Try it out!` option. An empty array disables all operations. This does not filter the operations from the display.
+supportedSubmitMethods | An array of of the HTTP operations that will have the 'Try it out!' option. An empty array disables all operations. This does not filter the operations from the display.
 oauth2RedirectUrl | OAuth redirect URL
+showRequestHeaders | Whether or not to show the headers that were sent when making a request via the 'Try it out!' option. Defaults to `false`.
 
 * All other parameters are explained in greater detail below
 
