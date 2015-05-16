@@ -331,7 +331,13 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       opts.requestContentType = $('div select[name=parameterContentType]', $(this.el)).val();
       $('.response_throbber', $(this.el)).show();
       if (isFileUpload) {
-        return this.handleFileUpload(map, form);
+        $('.request_url', $(this.el)).html('<pre></pre>');
+        $('.request_url pre', $(this.el)).text(this.invocationUrl);
+
+        opts.useJQuery = true;
+        map.parameterContentType = 'multipart/form-data';
+
+        return this.model.execute(map, opts, this.showCompleteStatus, this.showErrorStatus, this);
       } else {
         return this.model.execute(map, opts, this.showCompleteStatus, this.showErrorStatus, this);
       }
@@ -340,16 +346,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   success: function(response, parent) {
     parent.showCompleteStatus(response);
-  },
-
-  handleFileUpload: function(map, form,opts) {
-    $('.request_url', $(this.el)).html('<pre></pre>');
-    $('.request_url pre', $(this.el)).text(this.invocationUrl);
-
-    opts.useJQuery = true;
-    map.parameterContentType = 'multipart/form-data';
-
-    return this.model.execute(map, opts, this.showCompleteStatus, this.showErrorStatus, this);
   },
   // wraps a jquery response as a shred response
 
