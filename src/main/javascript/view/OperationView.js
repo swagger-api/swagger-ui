@@ -342,76 +342,14 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     parent.showCompleteStatus(response);
   },
 
-  // Note: This is compiled code
-  // TODO: Refactor
-  handleFileUpload: function(map, form) {
-    var bodyParam, el, headerParams, l, len, len1, len2, len3, m, n, o, p, param, params, ref1, ref2, ref3, ref4;
-    ref1 = form.serializeArray();
-    for (l = 0, len = ref1.length; l < len; l++) {
-      o = ref1[l];
-      if ((o.value !== null) && jQuery.trim(o.value).length > 0) {
-        map[o.name] = o.value;
-      }
-    }
-    bodyParam = new FormData();
-    params = 0;
-    ref2 = this.model.parameters;
-    for (m = 0, len1 = ref2.length; m < len1; m++) {
-      param = ref2[m];
-      if (param.paramType === 'form' || param['in'] === 'formData') {
-        if (param.type.toLowerCase() !== 'file' && map[param.name] !== void 0) {
-          bodyParam.append(param.name, map[param.name]);
-        }
-      }
-    }
-    headerParams = {};
-    ref3 = this.model.parameters;
-    for (n = 0, len2 = ref3.length; n < len2; n++) {
-      param = ref3[n];
-      if (param.paramType === 'header') {
-        headerParams[param.name] = map[param.name];
-      }
-    }
-    ref4 = form.find('input[type~="file"]');
-    for (p = 0, len3 = ref4.length; p < len3; p++) {
-      el = ref4[p];
-      if (typeof el.files[0] !== 'undefined') {
-        bodyParam.append($(el).attr('name'), el.files[0]);
-        params += 1;
-      }
-    }
-    this.invocationUrl = this.model.supportHeaderParams() ? (headerParams = this.model.getHeaderParams(map), delete headerParams['Content-Type'], this.model.urlify(map, false)) : this.model.urlify(map, true);
+  handleFileUpload: function(map, form,opts) {
     $('.request_url', $(this.el)).html('<pre></pre>');
     $('.request_url pre', $(this.el)).text(this.invocationUrl);
 
-    // TODO: don't use jQuery. Use SwaggerJS for handling the call.
-    var obj = {
-      type: this.model.method,
-      url: this.invocationUrl,
-      headers: headerParams,
-      data: bodyParam,
-      dataType: 'json',
-      contentType: false,
-      processData: false,
-      error: (function(_this) {
-        return function(data) {
-          return _this.showErrorStatus(_this.wrap(data), _this);
-        };
-      })(this),
-      success: (function(_this) {
-        return function(data) {
-          return _this.showResponse(data, _this);
-        };
-      })(this),
-      complete: (function(_this) {
-        return function(data) {
-          return _this.showCompleteStatus(_this.wrap(data), _this);
-        };
-      })(this)
-    };
-    jQuery.ajax(obj);
-    return false;
-    // end of file-upload nastiness
+    opts.useJQuery = true;
+    map.parameterContentType = 'multipart/form-data';
+
+    return this.model.execute(map, opts, this.showCompleteStatus, this.showErrorStatus, this);
   },
   // wraps a jquery response as a shred response
 
