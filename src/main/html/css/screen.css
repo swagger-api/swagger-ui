@@ -1254,3 +1254,9 @@
   text-align: center;
   padding-top: 10px;
 }
+.swagger-section .swagger-collapse:before {
+  content: "-";
+}
+.swagger-section .swagger-expand:before {
+  content: "+";
+}

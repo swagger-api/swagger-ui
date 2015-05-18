@@ -65,6 +65,16 @@ window.SwaggerUi = Backbone.Router.extend({
     this.headerView.on('update-swagger-ui', function(data) {
       return that.updateSwaggerUi(data);
     });
+
+    // JSon Editor custom theming
+     JSONEditor.defaults.iconlibs.swagger = JSONEditor.AbstractIconLib.extend({
+      mapping: {
+        collapse: 'collapse',
+        expand: 'expand'
+        },
+      icon_prefix: 'swagger-'
+      });
+
   },
 
   // Set an option after initializing
@@ -21567,7 +21577,11 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
       this.model.jsonEditor = 
         /* global JSONEditor */
         new JSONEditor($('.editor_holder', $self)[0],
-                       {schema: this.model.schema, startval : this.model.default, ajax:true, disable_properties:true, disable_edit_json:true });
+                       {schema: this.model.schema, startval : this.model.default, 
+                        ajax:true, 
+                        disable_properties:true, 
+                        disable_edit_json:true,
+                        iconlib: 'swagger' });
       // This is so that the signature can send back the sample to the json editor
       // TODO: SignatureView should expose an event "onSampleClicked" instead
       signatureModel.jsonEditor = this.model.jsonEditor;

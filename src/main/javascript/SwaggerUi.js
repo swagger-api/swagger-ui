@@ -59,6 +59,16 @@ window.SwaggerUi = Backbone.Router.extend({
     this.headerView.on('update-swagger-ui', function(data) {
       return that.updateSwaggerUi(data);
     });
+
+    // JSon Editor custom theming
+     JSONEditor.defaults.iconlibs.swagger = JSONEditor.AbstractIconLib.extend({
+      mapping: {
+        collapse: 'collapse',
+        expand: 'expand'
+        },
+      icon_prefix: 'swagger-'
+      });
+
   },
 
   // Set an option after initializing
