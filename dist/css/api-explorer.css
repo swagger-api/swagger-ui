@@ -522,6 +522,8 @@
     color: #fff
 }
 
+
+
 .swagger-section pre code {
     color: #fff;
     background: none !important
@@ -856,7 +858,7 @@
 }
 
 .swagger-section .operations h4:after {
-    content: "\E17A";
+    content: "\E17B";
     font-family: budicon-font !important;
     font-style: normal !important;
     font-weight: 400 !important;
@@ -879,13 +881,21 @@
     }
 }
 
-.swagger-section .operations h4.collapsed {
-    box-shadow: inset 0 -1px 0 0 #e8eaeb;
+/* change
+.swagger-section .operations [data-accordion].open h4 {
+    box-shadow: inset 0 -1px 0 0 transparent;
     transition: box-shadow 0 0 ease
 }
+*/
 
-.swagger-section .operations h4.collapsed:after {
-    content: "\E17B";
+
+.swagger-section .operations h4:not(.collapsed) {
+    box-shadow: inset 0 -1px 0 0 transparent;
+    transition: box-shadow 0 0 ease
+}
+/* change
+.swagger-section .operations [data-accordion].open h4:after {
+    content: "\E17A";
     font-family: budicon-font !important;
     font-style: normal !important;
     font-weight: 400 !important;
@@ -896,6 +906,22 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale
 }
+*/
+
+.swagger-section .operations h4:not(.collapsed):after {
+    content: "\E17A";
+    font-family: budicon-font !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    speak: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+}
+
+
 
 @media (min-width: 992px) {
     .swagger-section .scopes {

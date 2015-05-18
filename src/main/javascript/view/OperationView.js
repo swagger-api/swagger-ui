@@ -217,7 +217,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     for (p = 0, len3 = ref4.length; p < len3; p++) {
       param = ref4[p];
       this.addParameter(param, contentTypeModel.consumes);
-
       if (param.paramType === 'body' || param.in === 'body') {
         this.addBodyModel(param)
       }
