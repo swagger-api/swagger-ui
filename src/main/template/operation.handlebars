@@ -14,9 +14,6 @@
                     </span>
                 </h3>
             </div>
-            <!--a href="javascript:" class="toggle-samples" data-toggle="tooltip" data-placement="left">
-                <span class="text">Show samples</span><span class="circle-icon"></span>
-            </a-->
 
             {{#if deprecated}}
                 <h4>Warning: Deprecated</h4>
@@ -24,27 +21,13 @@
             {{#if description}}
                 <div class="markdown action-summary">{{{description}}}</div>
             {{/if}}
-            {{#oauth}}
-            <div class="auth">
-                <span class="api-ic ic-error"></span>{{/oauth}}
-            {{#each oauth}}
-                <div id="api_information_panel" style="top: 526px; left: 776px; display: none;">
-                    {{#each this}}
-                        <div title='{{{this.description}}}'>{{this.scope}}</div>
-                    {{/each}}
-                </div>
-            {{/each}}
-            {{#oauth}}</div>{{/oauth}}
-            {{#oauth}}
-                <div class='access'>
-                    <span class="api-ic ic-off" title="click to authenticate"></span>
-                </div>
-            {{/oauth}}
+
 
             <form accept-charset="UTF-8" class="sandbox">
 
                 {{#if parameters}}
-                    <h4 data-control data-parm-toggle data-toggle="collapse" data-target="#parm-{{parentId}}_{{nickname}}">
+                    <h4 data-control data-parm-toggle data-toggle="collapse"
+                        data-target="#parm-{{parentId}}_{{nickname}}">
                         Parameters
                     </h4>
 
@@ -60,9 +43,28 @@
                     <input class="submit btn btn-primary" name="commit" type="submit" value="Try"
                            data-target="#get_clients-modal-request">
                     <a href="#" class="response_hider hide" style="display: inline;">Hide Response</a>
-                    <!--small class="curl-copy-message hide" style="display:none;">Copied to clipboard</small>
-                    <span class="response_throbber hide" style="display: none;"></span-->
+                    <small class="curl-copy-message hide" style="display:none;">Copied to clipboard</small>
+                    <!--span class="response_throbber hide" style="display: none;"></span-->
+
+                    {{#oauth}}
+                    <div class="auth">
+                    {{/oauth}}
+
+                    {{#each oauth}}
+                        <div id="api_information_panel" style="top: 526px; left: 776px; display: none;">
+                            {{#each this}}
+                                <div title='{{{this.description}}}'>{{this.scope}}</div>
+                            {{/each}}
+                        </div>
+                    {{/each}}
+
+                    {{#oauth}}
+                        <button type="button" class="api-ic ic-off btn btn-primary pull-right">Oauth</button>
+                    </div>
+                    {{/oauth}}
+
                 </div>
+
                 {{#if responseMessages}}
                     <div style="margin:0;padding:0;display:inline"></div>
                     <h4 data-control data-toggle="collapse" data-target="#response-{{parentId}}_{{nickname}}">
@@ -77,7 +79,6 @@
                     </div>
                 {{/if}}
             </form>
-
 
         </div>
 

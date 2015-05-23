@@ -142,7 +142,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     return this;
   },
 
-  addResource: function (resource, i) {
+  addResource: function (resource, auths) {
     // Render a resource and add it to resources li
     resource.id = resource.id.replace(/\s/g, '_');
     var resourceView = new SwaggerUi.Views.ResourceView({
@@ -151,6 +151,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       tagName: 'li',
       id: 'resource_' + resource.id,
       className: 'resource',
+      auths: auths,
       swaggerOptions: this.options.swaggerOptions
     });
     $('#resources').append(resourceView.render().el);
@@ -246,21 +247,4 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       apiKey: $('#input_apiKey').val()
     });
   }
-/*
-  update: function(url, apiKey, trigger){
-    if (trigger === undefined) {
-      trigger = false;
-    }
-
-    console.log('url field received ', url);
-
-    console.log('url field BEFORE ', $('#input_baseUrl').val());
-    $('#input_baseUrl').val(url);
-    console.log('url field AFTER ', $('#input_baseUrl').val());
-
-    if (trigger) {
-      this.trigger('update-swagger-ui', {url:url, apiKey: apiKey});
-    }
-  }
-*/
 });

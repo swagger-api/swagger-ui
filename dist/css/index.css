@@ -15848,6 +15848,7 @@ a.btn.btn-lg {
     padding-right: 20px;
     font-size: 15px;
 }
+/*
 .btn.btn-success,
 a.btn.btn-success {
     background-color: #eb5424;
@@ -15859,6 +15860,19 @@ a.btn.btn-success:hover {
     background-color: #ae3610;
     color: #fff;
 }
+*/
+.btn.btn-success,
+a.btn.btn-success {
+    background-color: #5cb85c;
+    color: #fff;
+    border-color: transparent;
+}
+.btn.btn-success:hover,
+a.btn.btn-success:hover {
+    background-color: #449d44;
+    color: #fff;
+}
+
 .btn.btn-default,
 a.btn.btn-default {
     background: #fff;

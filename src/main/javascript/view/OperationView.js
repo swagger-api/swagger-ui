@@ -7,9 +7,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     'submit .sandbox': 'submitOperation',
     'click .submit': 'submitOperation',
     'click .response_hider': 'hideResponse',
-    'click .toggleOperation': 'toggleOperationContent',
-    'mouseenter .api-ic': 'mouseEnter',
-    'mouseout .api-ic': 'mouseExit'
+    'click .toggleOperation': 'toggleOperationContent'
+//    'mouseenter .api-ic': 'mouseEnter',
+//    'mouseout .api-ic': 'mouseExit'
   },
 
   initialize: function (opts) {
@@ -70,7 +70,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
     this.model.description = this.model.description || this.model.notes;
     this.model.oauth = null;
+
     modelAuths = this.model.authorizations || this.model.security;
+
     if (modelAuths) {
       if (Array.isArray(modelAuths)) {
         for (l = 0, len = modelAuths.length; l < len; l++) {
@@ -116,6 +118,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         }
       }
     }
+
     if (typeof this.model.responses !== 'undefined') {
       this.model.responseMessages = [];
       ref2 = this.model.responses;
@@ -338,7 +341,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       }
       opts.responseContentType = $('div select[name=responseContentType]', $(this.el)).val();
       opts.requestContentType = $('div select[name=parameterContentType]', $(this.el)).val();
-      //$('.response_throbber', $(this.el)).show();
       $(".submit", $(this.el)).button("loading");
       if (isFileUpload) {
         return this.handleFileUpload(map, form);

@@ -11,7 +11,7 @@ The theme will adapt to screen size and works on tablets and mobile phones.
 Give it a [try](http://ecs.bobbytech.dk/api) and enter your own swagger definition.
 
 
-## Discalimer
+## Disclaimer
 
 This is not a fully polished implementation and should be used with care.
 
