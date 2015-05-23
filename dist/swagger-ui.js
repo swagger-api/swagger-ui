@@ -274,7 +274,7 @@ this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(dept
     + "\n";
   stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.version : stack1), {"name":"if","hash":{},"fn":this.program(5, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "            </p>\n        </div>\n    </div>\n</div>\n\n<div id='resources_container'>\n    <ul id='resources'></ul>\n</div>\n";
+  return buffer + "            </p>\n        </div>\n    </div>\n</div>\n\n<div id='resources_container'>\n    <ul id='resources' class=\"samples-collapsed\"></ul>\n</div>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   return "deprecated";
@@ -347,7 +347,7 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
   if (stack1 != null) { buffer += stack1; }
   buffer += "\">"
     + escapeExpression(((helper = (helper = helpers.path || (depth0 != null ? depth0.path : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"path","hash":{},"data":data}) : helper)))
-    + "</a>\n                    </span>\n                </h3>\n            </div>\n\n";
+    + "</a>\n                    </span>\n                </h3>\n            </div>\n\n            <a href=\"javascript:;\" class=\"toggle-samples\" data-toggle=\"tooltip\" data-placement=\"left\" data-original-title title>\n                <span class=\"text\">Show samples</span><span class=\"circle-icon\"></span>\n            </a>\n\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.deprecated : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.description : depth0), {"name":"if","hash":{},"fn":this.program(5, data),"inverse":this.noop,"data":data});
@@ -21465,7 +21465,8 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     'submit .sandbox': 'submitOperation',
     'click .submit': 'submitOperation',
     'click .response_hider': 'hideResponse',
-    'click .toggleOperation': 'toggleOperationContent'
+    'click .toggleOperation': 'toggleOperationContent',
+    'click  a.toggle-samples': 'toggleSamples'
 //    'mouseenter .api-ic': 'mouseEnter',
 //    'mouseout .api-ic': 'mouseExit'
   },
@@ -22165,7 +22166,32 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     } else {
       Docs.expandOperation(elem);
     }
+  },
+
+
+  toggleSamples: function (e) {
+    function o(t) {
+      if ("self" === t) {
+        var n = $(window).scrollTop();
+        return $(window).scrollTop(n)
+      }
+      return $(window).scrollTop(t)
+    }
+
+    var r = $("#resources");
+        n = $(e.currentTarget);
+
+    r.toggleClass("samples-collapsed").addClass("is-collapsing");
+    n.find('.text').text("Collapse samples");
+    r.hasClass("samples-collapsed") && n.find('.text').text("Show samples");
+
+    setTimeout(function () {
+      var t = n.parents(".endpoint").first().offset().top;
+      r.removeClass("is-collapsing");
+      o(t)
+    }, 100)
   }
+
 });
 
 'use strict';

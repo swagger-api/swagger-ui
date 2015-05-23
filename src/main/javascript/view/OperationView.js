@@ -7,7 +7,8 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     'submit .sandbox': 'submitOperation',
     'click .submit': 'submitOperation',
     'click .response_hider': 'hideResponse',
-    'click .toggleOperation': 'toggleOperationContent'
+    'click .toggleOperation': 'toggleOperationContent',
+    'click  a.toggle-samples': 'toggleSamples'
 //    'mouseenter .api-ic': 'mouseEnter',
 //    'mouseout .api-ic': 'mouseExit'
   },
@@ -707,5 +708,30 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     } else {
       Docs.expandOperation(elem);
     }
+  },
+
+
+  toggleSamples: function (e) {
+    function o(t) {
+      if ("self" === t) {
+        var n = $(window).scrollTop();
+        return $(window).scrollTop(n)
+      }
+      return $(window).scrollTop(t)
+    }
+
+    var r = $("#resources");
+        n = $(e.currentTarget);
+
+    r.toggleClass("samples-collapsed").addClass("is-collapsing");
+    n.find('.text').text("Collapse samples");
+    r.hasClass("samples-collapsed") && n.find('.text').text("Show samples");
+
+    setTimeout(function () {
+      var t = n.parents(".endpoint").first().offset().top;
+      r.removeClass("is-collapsing");
+      o(t)
+    }, 100)
   }
+
 });

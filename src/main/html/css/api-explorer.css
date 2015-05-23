@@ -1033,6 +1033,7 @@
 }
 
 .api-popup-scopes .scopes .scope {
+    cursor: pointer;
     display: inline-block;
     border: 1px solid #e8eaeb;
     border-radius: 20px;
