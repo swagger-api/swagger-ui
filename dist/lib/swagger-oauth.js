@@ -171,7 +171,7 @@ function handleLogout() {
   }
   window.enabledScopes = null;
   var oauthBtn = $('.api-ic');
-  oauthBtn.addClass('btn-primary');
+  oauthBtn.addClass('btn-default');
   oauthBtn.removeClass('btn-success');
   oauthBtn.removeClass('btn-warning');
 
@@ -202,7 +202,7 @@ function initOAuth(opts) {
   var oauthBtn = $('.api-ic');
   oauthBtn.unbind();
   oauthBtn.click(function (s) {
-    if ($(s.target).hasClass('btn-primary'))
+    if ($(s.target).hasClass('btn-default'))
       handleLogin();
     else {
       handleLogout();
@@ -265,14 +265,14 @@ window.onOAuthComplete = function onOAuthComplete(token) {
               o = v.parentNode;
               // sorry, not all scopes are satisfied
               $(o).find('.api-ic').addClass('btn-warning');
-              $(o).find('.api-ic').removeClass('btn-primary');
+              $(o).find('.api-ic').removeClass('btn-default');
               $(o).find('.api-ic').removeClass('btn-success');
             }
             else {
               o = v.parentNode;
               // all scopes are satisfied
               $(o).find('.api-ic').addClass('btn-success');
-              $(o).find('.api-ic').removeClass('btn-primary');
+              $(o).find('.api-ic').removeClass('btn-default');
               $(o).find('.api-ic').removeClass('btn-warning');
             }
           }

@@ -311,7 +311,7 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
     + escapeExpression(lambda((depth0 != null ? depth0.scope : depth0), depth0))
     + "</div>\n";
 },"14":function(depth0,helpers,partials,data) {
-  return "                        <button type=\"button\" class=\"api-ic ic-off btn btn-primary pull-right\">Oauth</button>\n                    </div>\n";
+  return "                        <button type=\"button\" class=\"api-ic ic-off btn btn-default pull-right\">Oauth</button>\n                    </div>\n";
   },"16":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
   return "                    <div style=\"margin:0;padding:0;display:inline\"></div>\n                    <h4 data-control data-toggle=\"collapse\" data-target=\"#response-"
@@ -363,7 +363,7 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
     + escapeExpression(((helper = (helper = helpers.parentId || (depth0 != null ? depth0.parentId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"parentId","hash":{},"data":data}) : helper)))
     + "_"
     + escapeExpression(((helper = (helper = helpers.nickname || (depth0 != null ? depth0.nickname : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"nickname","hash":{},"data":data}) : helper)))
-    + "\">\n                    <input class=\"submit btn btn-primary\" name=\"commit\" type=\"submit\" value=\"Try\"\n                           data-target=\"#get_clients-modal-request\">\n                    <a href=\"#\" class=\"response_hider hide\" style=\"display: inline;\">Hide Response</a>\n                    <small class=\"curl-copy-message hide\" style=\"display:none;\">Copied to clipboard</small>\n                    <!--span class=\"response_throbber hide\" style=\"display: none;\"></span-->\n\n";
+    + "\">\n                    <input class=\"submit btn btn-primary\" name=\"commit\" type=\"submit\" value=\"Try\"\n                           data-target=\"#get_clients-modal-request\">\n                    <a href=\"#\" class=\"response_hider hide\" style=\"display: inline;\">Hide Response</a>\n                    <!--small class=\"curl-copy-message hide\" style=\"display:none;\">Copied to clipboard</small-->\n                    <!--span class=\"response_throbber hide\" style=\"display: none;\"></span-->\n\n";
   stack1 = ((helper = (helper = helpers.oauth || (depth0 != null ? depth0.oauth : depth0)) != null ? helper : helperMissing),(options={"name":"oauth","hash":{},"fn":this.program(9, data),"inverse":this.noop,"data":data}),(typeof helper === functionType ? helper.call(depth0, options) : helper));
   if (!helpers.oauth) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
   if (stack1 != null) { buffer += stack1; }
