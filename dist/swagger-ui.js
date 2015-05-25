@@ -8,7 +8,7 @@
 this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};
 this["Handlebars"]["templates"]["apikey_button_view"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "<div class='auth_button' id='apikey_button'><img class='auth_icon' alt='apply api key' src='images/apikey.jpeg'></div>\n<div class='auth_container' id='apikey_container'>\n  <div class='key_input_container'>\n    <div class='auth_label'>"
+  return "<div class='auth_button' id='apikey_button'>\n    <!--img class='auth_icon' alt='apply api key' src='images/apikey.jpeg'-->\n</div>\n<div class='auth_container' id='apikey_container'>\n  <div class='key_input_container'>\n    <div class='auth_label'>"
     + escapeExpression(((helper = (helper = helpers.keyName || (depth0 != null ? depth0.keyName : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"keyName","hash":{},"data":data}) : helper)))
     + "</div>\n    <input placeholder=\"api_key\" class=\"auth_input\" id=\"input_apiKey_entry\" name=\"apiKey\" type=\"text\"/>\n    <div class='auth_submit'><a class='auth_submit_button' id=\"apply_api_key\" href=\"#\">apply</a></div>\n  </div>\n</div>\n\n";
 },"useData":true});
@@ -39,56 +39,56 @@ this["Handlebars"]["templates"]["content_type"] = Handlebars.template({"1":funct
 'use strict';
 
 
-$(function() {
+$(function () {
 
-	// Helper function for vertically aligning DOM elements
-	// http://www.seodenver.com/simple-vertical-align-plugin-for-jquery/
-	$.fn.vAlign = function() {
-		return this.each(function(){
-			var ah = $(this).height();
-			var ph = $(this).parent().height();
-			var mh = (ph - ah) / 2;
-			$(this).css('margin-top', mh);
-		});
-	};
+  // Helper function for vertically aligning DOM elements
+  // http://www.seodenver.com/simple-vertical-align-plugin-for-jquery/
+  $.fn.vAlign = function () {
+    return this.each(function () {
+      var ah = $(this).height();
+      var ph = $(this).parent().height();
+      var mh = (ph - ah) / 2;
+      $(this).css('margin-top', mh);
+    });
+  };
 
-	$.fn.stretchFormtasticInputWidthToParent = function() {
-		return this.each(function(){
-			var p_width = $(this).closest("form").innerWidth();
-			var p_padding = parseInt($(this).closest("form").css('padding-left') ,10) + parseInt($(this).closest('form').css('padding-right'), 10);
-			var this_padding = parseInt($(this).css('padding-left'), 10) + parseInt($(this).css('padding-right'), 10);
-			$(this).css('width', p_width - p_padding - this_padding);
-		});
-	};
+  $.fn.stretchFormtasticInputWidthToParent = function () {
+    return this.each(function () {
+      var p_width = $(this).closest("form").innerWidth();
+      var p_padding = parseInt($(this).closest("form").css('padding-left'), 10) + parseInt($(this).closest('form').css('padding-right'), 10);
+      var this_padding = parseInt($(this).css('padding-left'), 10) + parseInt($(this).css('padding-right'), 10);
+      $(this).css('width', p_width - p_padding - this_padding);
+    });
+  };
 
-	$('form.formtastic li.string input, form.formtastic textarea').stretchFormtasticInputWidthToParent();
+  $('form.formtastic li.string input, form.formtastic textarea').stretchFormtasticInputWidthToParent();
 
-	// Vertically center these paragraphs
-	// Parent may need a min-height for this to work..
-	$('ul.downplayed li div.content p').vAlign();
+  // Vertically center these paragraphs
+  // Parent may need a min-height for this to work..
+  $('ul.downplayed li div.content p').vAlign();
 
-	// When a sandbox form is submitted..
-	$("form.sandbox").submit(function(){
+  // When a sandbox form is submitted..
+  $("form.sandbox").submit(function () {
 
-		var error_free = true;
+    var error_free = true;
 
-		// Cycle through the forms required inputs
- 		$(this).find("input.required").each(function() {
+    // Cycle through the forms required inputs
+    $(this).find("input.required").each(function () {
 
-			// Remove any existing error styles from the input
-			$(this).removeClass('error');
+      // Remove any existing error styles from the input
+      $(this).removeClass('error');
 
-			// Tack the error style on if the input is empty..
-			if ($(this).val() === '') {
-				$(this).addClass('error');
-				$(this).wiggle();
-				error_free = false;
-			}
+      // Tack the error style on if the input is empty..
+      if ($(this).val() === '') {
+        $(this).addClass('error');
+        $(this).wiggle();
+        error_free = false;
+      }
 
-		});
+    });
 
-		return error_free;
-	});
+    return error_free;
+  });
 
 });
 
@@ -103,135 +103,48 @@ function clippyCopiedCallback() {
 }
 
 // Logging function that accounts for browsers that don't have window.console
-function log(){
+function log() {
   log.history = log.history || [];
   log.history.push(arguments);
-  if(this.console){
-    console.log( Array.prototype.slice.call(arguments)[0] );
+  if (this.console) {
+    console.log(Array.prototype.slice.call(arguments)[0]);
   }
 }
 
 // Handle browsers that do console incorrectly (IE9 and below, see http://stackoverflow.com/a/5539378/7913)
 if (Function.prototype.bind && console && typeof console.log === "object") {
-    [
-      "log","info","warn","error","assert","dir","clear","profile","profileEnd"
-    ].forEach(function (method) {
-        console[method] = this.bind(console[method], console);
+  [
+    "log", "info", "warn", "error", "assert", "dir", "clear", "profile", "profileEnd"
+  ].forEach(function (method) {
+      console[method] = this.bind(console[method], console);
     }, Function.prototype.call);
 }
 
 window.Docs = {
 
-	shebang: function() {
+  shebang: function () {
 
-		// If shebang has an operation nickname in it..
-		// e.g. /docs/#!/words/get_search
-		var fragments = $.param.fragment().split('/');
-		fragments.shift(); // get rid of the bang
+    // If shebang has an operation nickname in it..
+    // e.g. /docs/#!/words/get_search
+    var fragments = $.param.fragment().split('/');
+    fragments.shift(); // get rid of the bang
 
-		switch (fragments.length) {
-			case 1:
-				// Expand all operations for the resource and scroll to it
-				var dom_id = 'resource_' + fragments[0];
+    switch (fragments.length) {
+      case 1:
+        break;
+      case 2:
+        var target = '#resources_nav [data-resource] [data-endpoint=' + fragments[0] + '_' + fragments[1] + ']',
+          n = $('#swagger_sidebar').find(target),
+          attr = n.attr('data-selected');
 
-				Docs.expandEndpointListForResource(fragments[0]);
-				$("#"+dom_id).slideto({highlight: false});
-				break;
-			case 2:
-				// Refer to the endpoint DOM element, e.g. #words_get_search
+        if (typeof attr == typeof undefined) {
+          n.trigger("click");
+        }
+        break;
+    }
 
-        // Expand Resource
-        Docs.expandEndpointListForResource(fragments[0]);
-        $("#"+dom_id).slideto({highlight: false});
+  }
 
-        // Expand operation
-				var li_dom_id = fragments.join('_');
-				var li_content_dom_id = li_dom_id + "_content";
-
-
-				Docs.expandOperation($('#'+li_content_dom_id));
-				$('#'+li_dom_id).slideto({highlight: false});
-				break;
-		}
-
-	},
-
-	toggleEndpointListForResource: function(resource) {
-		var elem = $('li#resource_' + Docs.escapeResourceName(resource) + ' ul.endpoints');
-		if (elem.is(':visible')) {
-			Docs.collapseEndpointListForResource(resource);
-		} else {
-			Docs.expandEndpointListForResource(resource);
-		}
-	},
-
-	// Expand resource
-	expandEndpointListForResource: function(resource) {
-		var resource = Docs.escapeResourceName(resource);
-		if (resource == '') {
-			$('.resource ul.endpoints').slideDown();
-			return;
-		}
-
-		$('li#resource_' + resource).addClass('active');
-
-		var elem = $('li#resource_' + resource + ' ul.endpoints');
-		elem.slideDown();
-	},
-
-	// Collapse resource and mark as explicitly closed
-	collapseEndpointListForResource: function(resource) {
-		var resource = Docs.escapeResourceName(resource);
-		if (resource == '') {
-			$('.resource ul.endpoints').slideUp();
-			return;
-		}
-
-		$('li#resource_' + resource).removeClass('active');
-
-		var elem = $('li#resource_' + resource + ' ul.endpoints');
-		elem.slideUp();
-	},
-
-	expandOperationsForResource: function(resource) {
-		// Make sure the resource container is open..
-		Docs.expandEndpointListForResource(resource);
-
-		if (resource == '') {
-			$('.resource ul.endpoints li.operation div.content').slideDown();
-			return;
-		}
-
-		$('li#resource_' + Docs.escapeResourceName(resource) + ' li.operation div.content').each(function() {
-			Docs.expandOperation($(this));
-		});
-	},
-
-	collapseOperationsForResource: function(resource) {
-		// Make sure the resource container is open..
-		Docs.expandEndpointListForResource(resource);
-
-		if (resource == '') {
-			$('.resource ul.endpoints li.operation div.content').slideUp();
-			return;
-		}
-
-		$('li#resource_' + Docs.escapeResourceName(resource) + ' li.operation div.content').each(function() {
-			Docs.collapseOperation($(this));
-		});
-	},
-
-	escapeResourceName: function(resource) {
-		return resource.replace(/[!"#$%&'()*+,.\/:;<=>?@\[\\\]\^`{|}~]/g, "\\$&");
-	},
-
-	expandOperation: function(elem) {
-		elem.slideDown();
-	},
-
-	collapseOperation: function(elem) {
-		elem.slideUp();
-	}
 };
 
 'use strict';
@@ -21341,10 +21254,11 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       $('.optionsWrapper', $(this)).hide();
     });
 
-    var n = $(this.el).find("#resources_nav [data-resource]").first();
-    n.trigger("click");
-
-    $(window).scrollTop(0);
+    if (window.location.hash.length === 0 ) {
+      var n = $(this.el).find("#resources_nav [data-resource]").first();
+      n.trigger("click");
+      $(window).scrollTop(0)
+    }
 
     return this;
   },
@@ -21464,8 +21378,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   events: {
     'submit .sandbox': 'submitOperation',
     'click .submit': 'submitOperation',
-    'click .response_hider': 'hideResponse',
-    'click .toggleOperation': 'toggleOperationContent',
     'click  a.toggle-samples': 'toggleSamples'
 //    'mouseenter .api-ic': 'mouseEnter',
 //    'mouseout .api-ic': 'mouseExit'
@@ -21930,15 +21842,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
   },
 
-  // handler for hide response link
-  hideResponse: function (e) {
-    if (e) {
-      e.preventDefault();
-    }
-    $('.response', $(this.el)).slideUp();
-    $('.response_hider', $(this.el)).fadeOut();
-  },
-
   // Show response from server
   showResponse: function (response) {
     var prettyJson = JSON.stringify(response, null, '\t').replace(/\n/g, '<br>');
@@ -22159,16 +22062,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
      */
   },
 
-  toggleOperationContent: function () {
-    var elem = $('#' + Docs.escapeResourceName(this.parentId + '_' + this.nickname + '_content'));
-    if (elem.is(':visible')) {
-      Docs.collapseOperation(elem);
-    } else {
-      Docs.expandOperation(elem);
-    }
-  },
-
-
   toggleSamples: function (e) {
     function o(t) {
       if ("self" === t) {
@@ -22189,7 +22082,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       var t = n.parents(".endpoint").first().offset().top;
       r.removeClass("is-collapsing");
       o(t)
-    }, 100)
+    }, 500)
   }
 
 });

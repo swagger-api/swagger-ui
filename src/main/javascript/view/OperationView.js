@@ -6,8 +6,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   events: {
     'submit .sandbox': 'submitOperation',
     'click .submit': 'submitOperation',
-    'click .response_hider': 'hideResponse',
-    'click .toggleOperation': 'toggleOperationContent',
     'click  a.toggle-samples': 'toggleSamples'
 //    'mouseenter .api-ic': 'mouseEnter',
 //    'mouseout .api-ic': 'mouseExit'
@@ -472,15 +470,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
   },
 
-  // handler for hide response link
-  hideResponse: function (e) {
-    if (e) {
-      e.preventDefault();
-    }
-    $('.response', $(this.el)).slideUp();
-    $('.response_hider', $(this.el)).fadeOut();
-  },
-
   // Show response from server
   showResponse: function (response) {
     var prettyJson = JSON.stringify(response, null, '\t').replace(/\n/g, '<br>');
@@ -701,16 +690,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
      */
   },
 
-  toggleOperationContent: function () {
-    var elem = $('#' + Docs.escapeResourceName(this.parentId + '_' + this.nickname + '_content'));
-    if (elem.is(':visible')) {
-      Docs.collapseOperation(elem);
-    } else {
-      Docs.expandOperation(elem);
-    }
-  },
-
-
   toggleSamples: function (e) {
     function o(t) {
       if ("self" === t) {
@@ -731,7 +710,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       var t = n.parents(".endpoint").first().offset().top;
       r.removeClass("is-collapsing");
       o(t)
-    }, 100)
+    }, 500)
   }
 
 });

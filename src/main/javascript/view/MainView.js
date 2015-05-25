@@ -134,10 +134,11 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       $('.optionsWrapper', $(this)).hide();
     });
 
-    var n = $(this.el).find("#resources_nav [data-resource]").first();
-    n.trigger("click");
-
-    $(window).scrollTop(0);
+    if (window.location.hash.length === 0 ) {
+      var n = $(this.el).find("#resources_nav [data-resource]").first();
+      n.trigger("click");
+      $(window).scrollTop(0)
+    }
 
     return this;
   },

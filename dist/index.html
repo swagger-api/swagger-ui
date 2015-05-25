@@ -2,30 +2,29 @@
 <html>
 <head>
     <title>Swagger explorer</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript" src="//use.typekit.net/iws6ohy.js"></script>
-    <style type="text/css">
-        .tk-proxima-nova, body {
-            font-family: "proxima-nova", sans-serif;
-        }
-    </style>
-    <link rel="stylesheet"
-          href="https://use.typekit.net/c/259039/1w;proxima-nova,6e4e643aac446d74e7aa4c02e23d1d0d451a8c2ca0697b53595944b68381e6e5,fsR:T:i3,cdh:T:i4,cdf:T:i6,cdb:T:n1,cdj:T:n3,cdg:T:n4,cdd:T:n6/d?3bb2a6e53c9684ffdc9a99fe1b5b2a626e1a2d8c466ac7b75352937ca888bec89f178eb9eabad11fd14b85f8232fbee01e9950c0a92e3d6daaa7dc885ccb57dd823bd5baf50b80fb811988f4113a1d612d29e7622dce2c2f6caa5074dbdc567f5ff2bb503d88b3751a7670e0f8fc2f776602fbdca8a45308e77e94cba5889297ea41ca2d586cc96dd40458e09cdc8df21a2e3219e13951220a85cf634565c7ceb123c0620fda241bf6b07da0b4ae2681f8901e12c29288d957cd517b42e9ff63cdc07625f2a798b2d704b788d3162af35e47732e30e56d3085f1af60dd89d3a9b639a08afa2dfac0daf86c9ad14eaaf5b38b664612968a8f2cd1aee8bc9a19ca6c36167910387967e57a8f56954d77a0cbe63d6c8c11131c3fb743c13284219b6e8bfa2b719cff89f377e3e32c07fec19cfe5864bbf8ba0e2edea6def3f1908a217bf60d0e858e75583f28c4fa53401f845af47e845a416e7b494f0d5c0e38a5bd254b5745ee28225e709d87a4e717682dec6bb94efc6dd22e54aca26c"
-          media="all">
-    <script>
-        try {
-            Typekit.load();
-        } catch (e) {
-        }
-    </script>
+
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
     <!--style type="text/css"></style-->
 
     <link href="css/index.css" rel="stylesheet"/>
     <link href='css/standalone.css' rel='stylesheet'/>
-    <script src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <link href='css/api-explorer.css' rel='stylesheet' type='text/css'/>
+
+    <script src='lib/jquery-1.8.0.min.js' type='text/javascript'></script>
+    <script src='lib/jquery.slideto.min.js' type='text/javascript'></script>
+    <script src='lib/jquery.wiggle.min.js' type='text/javascript'></script>
+    <script src='lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
+    <script src='lib/handlebars-2.0.0.js' type='text/javascript'></script>
+    <script src='lib/underscore-min.js' type='text/javascript'></script>
+    <script src='lib/backbone-min.js' type='text/javascript'></script>
+    <script src='swagger-ui.js' type='text/javascript'></script>
+    <script src='lib/highlight.7.3.pack.js' type='text/javascript'></script>
+    <script src='lib/marked.js' type='text/javascript'></script>
+    <script src='lib/swagger-oauth.js' type='text/javascript'></script>
+    <script src='lib/bootstrap.min.js' type='text/javascript'></script>
 
     <script>
         jQuery.browser = jQuery.browser || {};
@@ -38,16 +37,6 @@
             }
         })();
     </script>
-
-    <script src='lib/jquery.wiggle.min.js' type='text/javascript'></script>
-    <script src='lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
-    <script src='lib/handlebars-2.0.0.js' type='text/javascript'></script>
-    <script src='lib/underscore-min.js' type='text/javascript'></script>
-    <script src='lib/backbone-min.js' type='text/javascript'></script>
-    <script src='swagger-ui.js' type='text/javascript'></script>
-    <script src='lib/highlight.7.3.pack.js' type='text/javascript'></script>
-    <script src='lib/marked.js' type='text/javascript'></script>
-    <script src='lib/swagger-oauth.js' type='text/javascript'></script>
 
     <script type="text/javascript">
         $(function () {
@@ -124,27 +113,28 @@
         $(function () {
 
             $(window).scroll(function () {
-                var u = $(".sticky-nav"),
-                    t = $;
+                var sticky = $(".sticky-nav");
 
-                i(u);
-                r(u);
+                i(sticky);
+                r(sticky);
 
                 function n() {
                     return window.matchMedia("(min-width: 992px)").matches
                 }
 
                 function e() {
-                    n() ? u.parents(".sticky-nav-placeholder").removeAttr("style") : u.parents(".sticky-nav-placeholder").css("min-height", u.outerHeight())
+                    n() ? sticky.parents(".sticky-nav-placeholder").removeAttr("style") : sticky.parents(".sticky-nav-placeholder").css("min-height", sticky.outerHeight())
                 }
 
                 function i(n) {
-                    n.hasClass("fixed") || (navOffset = n.offset().top), e(), t(window).scrollTop() > navOffset ? t(".modal.in").length || n.addClass("fixed") : n.removeClass("fixed")
+                    n.hasClass("fixed") || (navOffset = n.offset().top);
+                    e();
+                    $(window).scrollTop() > navOffset ? $(".modal.in").length || n.addClass("fixed") : n.removeClass("fixed")
                 }
 
                 function r(e) {
                     function i() {
-                        var i = t(window).scrollTop(), r = e.parents(".sticky-nav");
+                        var i = $(window).scrollTop(), r = e.parents(".sticky-nav");
                         return r.hasClass("fixed") && !n() && (i = i + r.outerHeight() + 40), i
                     }
 
@@ -153,34 +143,46 @@
                         return "next" === e ? t.length ? t : o.parent().next().find("[data-endpoint]").first() : "prev" === e ? n.length ? n : o.parent().prev().find("[data-endpoint]").last() : []
                     }
 
-                    var e = e.find("[data-navigator]");
-                    if (e.find("[data-endpoint][data-selected]").length) {
-                        var o = e.find("[data-endpoint][data-selected]"), a = t("#" + o.attr("data-endpoint")), s = a.offset().top, l = (s + a.outerHeight(), r("next")), u = r("prev");
+                    var nav = e.find("[data-navigator]");
+                    if (nav.find("[data-endpoint][data-selected]").length) {
+                        var o = nav.find("[data-endpoint][data-selected]"),
+                            a = $("#" + o.attr("data-endpoint")),
+                            s = a.offset().top,
+                            l = (s + a.outerHeight(), r("next")),
+                            u = r("prev");
                         if (l.length) {
                             {
-                                var d = t("#" + l.attr("data-endpoint")), f = d.offset().top;
+                                var d = $("#" + l.attr("data-endpoint")), f = d.offset().top;
                                 f + d.outerHeight()
                             }
                             i() >= f && c(l)
                         }
                         if (u.length) {
-                            var p = t("#" + u.attr("data-endpoint")), g = u.offset().top, v = (g + p.outerHeight(), 100);
+                            var p = $("#" + u.attr("data-endpoint")),
+                            g = u.offset().top;
+                            v = (g + p.outerHeight(), 100);
                             i() < s - v && c(u)
                         }
                     }
                 }
 
                 function s() {
-                    var e = t(".sticky-nav [data-navigator]"), n = e.find("[data-endpoint]").first();
-                    n.attr("data-selected", ""), u.find("[data-selected-value]").html(n.text())
+                    var e = $(".sticky-nav [data-navigator]"),
+                        n = e.find("[data-endpoint]").first();
+                    n.attr("data-selected", "");
+                    u.find("[data-selected-value]").html(n.text())
                 }
 
                 function c(e) {
                     {
-                        var n = t(".sticky-nav [data-navigator]");
-                        t("#" + e.attr("data-endpoint"))
+                        var n = $(".sticky-nav [data-navigator]");
+                        $("#" + e.attr("data-endpoint"))
                     }
-                    n.find("[data-resource]").removeClass("active"), n.find("[data-selected]").removeAttr("data-selected"), e.closest("[data-resource]").addClass("active"), e.attr("data-selected", ""), u.find("[data-selected-value]").html(e.text())
+                    n.find("[data-resource]").removeClass("active");
+                    n.find("[data-selected]").removeAttr("data-selected");
+                    e.closest("[data-resource]").addClass("active");
+                    e.attr("data-selected", "");
+                    sticky.find("[data-selected-value]").html(e.text())
                 }
             });
 
@@ -188,7 +190,7 @@
     </script>
 </head>
 
-<body data-swiftype-index="false" class="page-docs" style="zoom: 1;" cz-shortcut-listen="true">
+<body class="page-docs" style="zoom: 1;">
 <header class="site-header">
     <nav role="navigation" class="navbar navbar-default">
         <div class="container">
@@ -209,7 +211,7 @@
     </nav>
 </header>
 
-<section data-swiftype-index="true" class="content">
+<section class="content">
     <div id="api2-explorer">
         <div class="swagger-section page-docs" style="zoom: 1">
             <div class="main-section">
@@ -218,8 +220,6 @@
             </div>
         </div>
     </div>
-    <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"-->
-    <link href='css/api-explorer.css' rel='stylesheet' type='text/css'/>
 </section>
 </body>
 </html>
