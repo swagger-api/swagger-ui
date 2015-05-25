@@ -699,7 +699,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       return $(window).scrollTop(t)
     }
 
-    var r = $("#resources");
+    var r = $("#resources"),
         n = $(e.currentTarget);
 
     r.toggleClass("samples-collapsed").addClass("is-collapsing");
