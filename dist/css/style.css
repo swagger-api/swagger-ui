@@ -1,0 +1,21 @@
+.curl {
+	padding: 10px;
+	font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+	font-size: 0.9em;
+  	max-height: 400px;
+  	margin-top: 5px;
+  	overflow-y: auto;
+  	background-color: #fcf6db;
+  	border: 1px solid #e5e0c6;
+  	border-radius: 4px;
+
+}
+
+.curl_title {
+	font-size: 1.1em;
+  	margin: 0;
+  	padding: 15px 0 5px;
+  	font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;
+  	font-weight: 500;
+  	line-height: 1.1;
+}
