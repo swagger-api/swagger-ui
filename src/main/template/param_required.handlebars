@@ -5,17 +5,10 @@
             <input type="file" name='{{name}}'/>
         {{else}}
             {{#if default}}
-                <textarea class='body-textarea form-control required'
-                          placeholder='(required)'
-                          name='{{name}}'>
-                    {{default}}
-                </textarea>
+                <textarea class='body-textarea form-control required' placeholder='(required)' name='{{name}}'>{{default}}</textarea>
                 <br/>
             {{else}}
-                <textarea class='body-textarea form-control required'
-                          placeholder='(required)'
-                          name='{{name}}'>
-                     </textarea>
+                <textarea class='body-textarea form-control required' placeholder='(required)' name='{{name}}'></textarea>
                 <br/>
             {{/if}}
         {{/if}}
@@ -24,16 +17,11 @@
             <input class='parameter form-control required' type='file' name='{{name}}'/>
         {{else}}
             {{#if default}}
-                <input class='parameter form-control required' minlength='1' name='{{name}}'
-                       placeholder='(required)'
-                       type='text' value='{{default}}'/>
+                <input class='parameter form-control required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='{{default}}'/>
             {{else}}
-                <input class='parameter form-control required' minlength='1' name='{{name}}'
-                       placeholder='(required)'
-                       type='text' value=''/>
+                <input class='parameter form-control required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value=''/>
             {{/if}}
         {{/if}}
-
     {{/if}}
     <div class="small-description">
         <code>{{type}}</code>  {{description}}
