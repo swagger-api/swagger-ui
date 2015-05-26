@@ -8,7 +8,7 @@ The theme will adapt to screen size and works on tablets and mobile phones.
 
 [![Swagger Theme example](dist/images/Swagger_explorer_min.png)](http://ecs.bobbytech.dk/api)
 
-Give it a [try](http://ecs.bobbytech.dk/api) and enter your own swagger definition.
+Give it a [try](http://senodio.com/site/swagger) and enter your own swagger definition.
 
 
 ## Disclaimer
