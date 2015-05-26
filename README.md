@@ -156,6 +156,7 @@ or <anyHtmlTag data-sw-translate value='new sentence'/>
 At this moment only inner html, title-attribute and value-attribute are going to be translated.
 
 ## CORS Support
+### OR: How to deal with "Can't read from server. It may not have the appropriate access-control-origin settings."
 
 CORS is a technique to prevent websites from doing bad things with your personal data.  Most browsers + javascript toolkits not only support CORS but enforce it, which has implications for your API server which supports Swagger.
 
