@@ -105,53 +105,63 @@
 <script type="text/javascript">
 $('body.swagger-section').on('click', '.sandbox_header', function(){ 
         setTimeout(function(){
+
           var parent = $(this).closest('.content');
           var nearest = parent.find('.response');
 
           //create a way to input specific username and password variables 
           //to generate base 64 bits. (i.e. a sign in menu)
-          var username = $("#user").val();
-          var password = $("#password").val();
+          //var username = $("#user").val();
+          //var password = $("#password").val();
 
 
-          var authcode = btoa(username + ":" + password);
+          //var authcode = btoa(username + ":" + password);
 
           parent.find('.response .curl').remove();
           parent.find('.response .curl_title').remove();
 
-          authcode = "Basic " + authcode;
+          //authcode = "Basic " + authcode;
+
+          var method = $(this).closest('.endpoint').find('.http_method .toggleOperation').html().toUpperCase();   
+          var parameters = $(this).closest('.endpoint').find('.body-textarea.required').val();
+
+          var tag = $(this).closest('.resource.active').attr('id').substring(9);
+
+          var methodId = $(this).closest('.endpoint').find('.operations').children().attr('id').substring(tag.length + 1);
+          var paras = $(this).closest('.endpoint').find('.operation-params').children();
+
+          function parametersFunc(){
+              var output = '';
+              var counter = 0;
+              var current = paras[counter];
+              var result = new Object();
+              console.log(result);
+
+              while (current != undefined){
+
+                  var parameter = $($(current).children()[0]).html();
+                  console.log(parameter);
+                  var value = $($(current).children()[1]).children().val();
+                  console.log(value);
+                  result[parameter] = value;
+                  counter++;
+                  current = paras[counter];
+              }
+              console.log(result);
+              return result;
+
+          };
+
+          
+
+          var curlCommand = swaggerUi.api[tag][methodId].asCurl(parametersFunc());
 
 
-            var url = $(this).closest('.endpoint').find('.block.request_url pre').html();    
-            var method = $(this).closest('.endpoint').find('.http_method .toggleOperation').html().toUpperCase();   
-            var parameters = $(this).closest('.endpoint').find('.body-textarea.required').val();
-
-            var text2;
-
-            if (username == "" || password == ""){
-              authcode = '<Please Sign in>'
-            }
-
-            if (method == 'GET'){
-                text2 = method + ' -H "Content-Type: application/json" -H "Cache-Control: no-cache" -H "Authorization: ' + authcode + '" ' ;
-            }
-
-            if (method == 'POST'){
-              text2 =  method + ' -H "Content-Type: application/json" -H "Authorization: ' + authcode +'" ' + '-H "Cache-Control: no-cache" -d \''  + parameters + '\' ';
-            }
-
-            if (method == 'DELETE') {
-              text2 = method + ' -H "Content-Type: application/json" -H "Authorization: ' + authcode + '" ';
-            }
-
-            if (method == 'PUT') {
-              text2 = method + ' -H "Content-Type: application/json" -H "Authorization: ' + authcode + '" ';
-            }
 
 
               $('<div/>', {
                     class: 'curl',
-                    text:'curl -X ' + text2 + url,
+                    text: curlCommand,
               }).prependTo(nearest);
 
               $('<h4>', {
@@ -164,6 +174,8 @@ $('body.swagger-section').on('click', '.sandbox_header', function(){
         }.bind(this), 500)});
 
 </script>
+
+
 
 <!--Double click to highlight all Curl -->
 <script type="text/javascript">
