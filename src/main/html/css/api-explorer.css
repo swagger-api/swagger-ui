@@ -217,7 +217,7 @@
     border: 1px solid rgba(0, 0, 0, .07)
 }
 
-.swagger-section .parameter-item .small-description code.model-signature {
+.swagger-section .parameter-item .small-description code.code-signature {
     background: 0 0;
     color: gray;
     margin-right: 5px

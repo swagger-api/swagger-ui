@@ -6,10 +6,8 @@
         {{else}}
             {{#if default}}
                 <textarea class='body-textarea form-control required' placeholder='(required)' name='{{name}}'>{{default}}</textarea>
-                <br/>
             {{else}}
                 <textarea class='body-textarea form-control required' placeholder='(required)' name='{{name}}'></textarea>
-                <br/>
             {{/if}}
         {{/if}}
     {{else}}
@@ -24,7 +22,10 @@
         {{/if}}
     {{/if}}
     <div class="small-description">
-        <code>{{type}}</code>  {{description}}
+        {{#if type}}
+            <code class="code-signature">{{type}}</code>
+        {{/if}}
+        {{description}}
     </div>
 </div>
 

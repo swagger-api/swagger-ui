@@ -8,18 +8,17 @@
         {{else}}
             {{#if default}}
                 <textarea class='body-textarea form-control' name='{{name}}'>{{default}}</textarea>
-                <br/>
-
                 <div class="parameter-content-type"/>
             {{else}}
                 <textarea class='body-textarea form-control' name='{{name}}'></textarea>
-                <br/>
-
                 <div class="parameter-content-type"/>
             {{/if}}
         {{/if}}
         <div class="small-description">
-            <code>{{type}}</code>  {{description}}
+            {{#if type}}
+                <code class="code-signature">{{type}}</code>
+            {{/if}}
+            {{description}}
         </div>
     {{else}}
         {{#if isFile}}
@@ -28,8 +27,6 @@
                 <input id="my-file-selector" type="file" style="display:none;" name='{{name}}'>
                 Choose file
             </label>
-            <!--input type="file" name='{{name}}'/-->
-
             <div class="parameter-content-type"/>
         {{else}}
             {{#if default}}
@@ -40,7 +37,10 @@
             {{/if}}
         {{/if}}
         <div class="small-description">
-            <code>{{type}}</code>  {{description}}
+            {{#if type}}
+                <code class="code-signature">{{type}}</code>
+            {{/if}}
+            {{description}}
         </div>
     {{/if}}
 </div>

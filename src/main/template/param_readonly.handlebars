@@ -11,7 +11,10 @@
             {{/if}}
         {{/if}}
         <div class="small-description">
-            <code>{{type}}</code>  {{description}}
+            {{#if type}}
+                <code class="code-signature">{{type}}</code>
+            {{/if}}
+            {{description}}
         </div>
     </div>
 </div>
