@@ -1,0 +1,7191 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "v1",
+    "title": "API"
+  },
+  "host": "localhost:443",
+  "basePath": "/api",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/v1/Places/{placeId}Analytics/Click": {
+      "put": {
+        "tags": [
+          "Analytic"
+        ],
+        "summary": "Add click tracking.",
+        "operationId": "Analytic_PutClickTracking",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "clicks",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.Analytic.ClickModel"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Applications/{applicationId}": {
+      "get": {
+        "tags": [
+          "Application"
+        ],
+        "summary": "Show an application.",
+        "operationId": "Application_GetApplication",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "path",
+            "description": "Id of the application.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "NOT SUPPORTED: Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.Application.ApplicationModel"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Application"
+        ],
+        "summary": "Delete application.",
+        "operationId": "Application_DeleteApplication",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "path",
+            "description": "Id of the application.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Applications": {
+      "get": {
+        "tags": [
+          "Application"
+        ],
+        "summary": "List applications.",
+        "operationId": "Application_GetApplications",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "NOT SUPPORTED: Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.Application.ApplicationBaseModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Application"
+        ],
+        "summary": "Add or update an application.",
+        "operationId": "Application_PutApplication",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "application",
+            "in": "body",
+            "description": "The application object to be saved",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.Application.ApplicationModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Applications/{applicationId}/Platforms/{platformId}": {
+      "get": {
+        "tags": [
+          "Application"
+        ],
+        "summary": "Show an application platform.",
+        "operationId": "Application_GetApplicationPlatform",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "path",
+            "description": "Id of the application.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "platformId",
+            "in": "path",
+            "description": "Id of the application platform.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.Application.ApplicationPlatformModel"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Application"
+        ],
+        "summary": "Delete platform.",
+        "operationId": "Application_DeleteApplicationPlatform",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "path",
+            "description": "Id of the application.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "platformId",
+            "in": "path",
+            "description": "Id of the platform to delete.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Applications/{applicationId}/Platforms": {
+      "get": {
+        "tags": [
+          "Application"
+        ],
+        "summary": "List application platforms for application.",
+        "operationId": "Application_GetApplicationPlatforms",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "path",
+            "description": "Id of the application.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.Application.ApplicationPlatformBaseModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Application"
+        ],
+        "summary": "Add or update platform.",
+        "operationId": "Application_PutPlatform",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "path",
+            "description": "Id of the application.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "platform",
+            "in": "body",
+            "description": "the application platform object to be saved",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.Application.ApplicationPlatformModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Users/Beacons/{beaconId}/Nearby": {
+      "get": {
+        "tags": [
+          "Beacon"
+        ],
+        "summary": "Lists users near beacon.",
+        "operationId": "Beacon_GetNearbyUsers",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "beaconId",
+            "in": "path",
+            "description": "The id of the beacon.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "sinceMs",
+            "in": "query",
+            "description": "Filter by entered after value as milliseconds since the Epoch (no filter: 0, default: 0)",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": 0
+          },
+          {
+            "name": "untilMs",
+            "in": "query",
+            "description": "Filter by entered before value as milliseconds since the Epoch (no filter: 0, default: 0)",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "default": 0
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limits the number of results. ( no limit: 0, default: 0)",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.Beacon.BeaconUserNearbyModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Brands/{brandId}/Booking/Destinations/Predictions": {
+      "get": {
+        "tags": [
+          "Booking"
+        ],
+        "summary": "List booking destination predictions.",
+        "operationId": "Booking_GetDestinationPredictions",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "brandId",
+            "in": "path",
+            "description": "Id of the place's brand.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Events": {
+      "get": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "List events.",
+        "operationId": "Event_GetEvents",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the event's parent place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.Event.EventModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Events/{eventId}": {
+      "get": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "Get event.",
+        "operationId": "Event_GetEvent",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the event's parent place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "eventId",
+            "in": "path",
+            "description": "Id of the event.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.Event.EventModel"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Flights": {
+      "get": {
+        "tags": [
+          "Flight"
+        ],
+        "summary": "List flights.",
+        "operationId": "Flight_GetFlights",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Airport code ID (e.g. \"OKC\").",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "nowMs",
+            "in": "query",
+            "description": "Unix timestamp in milliseconds. Defaults to now.",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "NOT SUPPORTED: Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.Flight.FlightModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Flights/Airports": {
+      "get": {
+        "tags": [
+          "Flight"
+        ],
+        "summary": "List airports.",
+        "operationId": "Flight_GetAirports",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "City, state, or postal.",
+            "required": false,
+            "type": "string",
+            "default": ""
+          },
+          {
+            "name": "latitude",
+            "in": "query",
+            "description": "Center latitude for airports.",
+            "required": false,
+            "type": "number",
+            "format": "float",
+            "default": 0.0
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "description": "Center longitude for airports.",
+            "required": false,
+            "type": "number",
+            "format": "float",
+            "default": 0.0
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "NOT SUPPORTED: Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.Flight.AirportSearchModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Maps/{mapId}": {
+      "get": {
+        "tags": [
+          "Map"
+        ],
+        "summary": "Get map.",
+        "operationId": "Map_GetMap",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the map's parent place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "mapId",
+            "in": "path",
+            "description": "Id of the map.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.Map.MapModel"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Maps": {
+      "get": {
+        "tags": [
+          "Map"
+        ],
+        "summary": "List maps.",
+        "operationId": "Map_GetMaps",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the map's parent place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.Map.MapModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Menus/{menuId}": {
+      "get": {
+        "tags": [
+          "Menu"
+        ],
+        "summary": "Get menu.",
+        "operationId": "Menu_GetMenu",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the menu's parent place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "menuId",
+            "in": "path",
+            "description": "Id of the menu.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.Menu.MenuModel"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Menus/{menuId}/POS": {
+      "get": {
+        "tags": [
+          "Menu"
+        ],
+        "summary": "",
+        "operationId": "Menu_GetPOSTotal",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the menu's parent place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "menuId",
+            "in": "path",
+            "description": "Id of the menu.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "cart",
+            "in": "body",
+            "description": "Cart Model",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.PointOfSale.CartModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.PointOfSale.TotalModel"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Menu"
+        ],
+        "summary": "",
+        "operationId": "Menu_PostPOSOrder",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the menu's parent place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "menuId",
+            "in": "path",
+            "description": "Id of the menu.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "lastName",
+            "in": "query",
+            "description": "Last name of the requester.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "room",
+            "in": "query",
+            "description": "Room of the requester.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "checkoutDateMs",
+            "in": "query",
+            "description": "Checkout DateTime in total milliseconds.",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.PointOfSale.OrderModel"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Messages": {
+      "get": {
+        "tags": [
+          "Message"
+        ],
+        "summary": "List messages.",
+        "operationId": "Message_GetMessages",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the message's parent place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "NOT SUPPORTED: Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.Message.MessageModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Messages/{messageId}": {
+      "get": {
+        "tags": [
+          "Message"
+        ],
+        "summary": "Get message.",
+        "operationId": "Message_GetMessage",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the message's parent place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "messageId",
+            "in": "path",
+            "description": "Id of the message.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "NOT SUPPORTED: Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.Message.MessageModel"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Messages/SMS/Import": {
+      "post": {
+        "tags": [
+          "Message"
+        ],
+        "summary": "Uploads a csv file and creates an sms job.\r\n            Expects a single Request file.",
+        "operationId": "Message_PostImport",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "notificationRecipents",
+            "in": "query",
+            "description": "semi-colon delimeted list of email addresses to be notified on job completion",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Ping": {
+      "get": {
+        "tags": [
+          "Ping"
+        ],
+        "summary": "Get \"Pong\".",
+        "operationId": "Ping_GetPong",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/v1/Ping/Secure": {
+      "get": {
+        "tags": [
+          "Ping"
+        ],
+        "summary": "Get \"Pong\".",
+        "operationId": "Ping_GetSecurePong",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Types": {
+      "get": {
+        "tags": [
+          "Place"
+        ],
+        "summary": "List place types.",
+        "operationId": "Place_GetPlaces",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "The place type. Can be amenity or enterprise.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.Place.PlaceHackBaseModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places": {
+      "get": {
+        "tags": [
+          "Place"
+        ],
+        "summary": "Search places.",
+        "operationId": "Place_GetPlaces",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "staff",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "type": "boolean",
+            "default": false
+          },
+          {
+            "name": "production",
+            "in": "query",
+            "description": "Include only production places.",
+            "required": false,
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "name": "brandId",
+            "in": "query",
+            "description": "Id of the brand.",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Place name, city, state, or postal.",
+            "required": false,
+            "type": "string",
+            "default": ""
+          },
+          {
+            "name": "latitude",
+            "in": "query",
+            "description": "Center latitude for places.",
+            "required": false,
+            "type": "number",
+            "format": "double",
+            "default": 0.0
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "description": "Center longitude for places.",
+            "required": false,
+            "type": "number",
+            "format": "double",
+            "default": 0.0
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number.",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "default": 1
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of places to return.",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.Place.PlaceHackBaseModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}": {
+      "get": {
+        "tags": [
+          "Place"
+        ],
+        "summary": "Get place.",
+        "operationId": "Place_GetPlace",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.Place.PlaceHackModel"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/UIConfig": {
+      "get": {
+        "tags": [
+          "Place"
+        ],
+        "summary": "List place UI configuration.",
+        "operationId": "Place_GetPlaceUIConfig",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.Place.PlaceUIConfigModel"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Dashboard": {
+      "get": {
+        "tags": [
+          "Place"
+        ],
+        "summary": "Gets Dashboard data for a place",
+        "operationId": "Place_GetPlaceDashboardInfo",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "NOT SUPPORTED: Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Postcards": {
+      "get": {
+        "tags": [
+          "Postcard"
+        ],
+        "summary": "List postcards.",
+        "operationId": "Postcard_GetPostcards",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the postcard's parent place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Postcards/Email": {
+      "post": {
+        "tags": [
+          "Postcard"
+        ],
+        "summary": "Send guest postcard email.",
+        "operationId": "Postcard_PostEmail",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the postcard's parent place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "message",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "imageUrl",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "subject",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Postcards/Send": {
+      "put": {
+        "tags": [
+          "Postcard"
+        ],
+        "summary": "Add guest postcard.",
+        "operationId": "Postcard_PutPostcard",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the postcard's parent place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "message",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "imageUrl",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Promos/Welcome/{welcomeTabletId}": {
+      "get": {
+        "tags": [
+          "Promo"
+        ],
+        "summary": "Get Welcome Tablet.",
+        "operationId": "Promo_GetWelcomeTablet",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "welcomeTabletId",
+            "in": "path",
+            "description": "Id of the welcome tablet.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.WelcomeTablet.WelcomeTabletModel"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Promos/Welcome": {
+      "get": {
+        "tags": [
+          "Promo"
+        ],
+        "summary": "Get Welcome Tablet.",
+        "operationId": "Promo_GetWelcomeTablet",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.WelcomeTablet.WelcomeTabletModel"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Ratings": {
+      "get": {
+        "tags": [
+          "Rating"
+        ],
+        "summary": "List ratings.",
+        "operationId": "Rating_GetRatings",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "staff",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "type": "boolean",
+            "default": false
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.Rating.RatingModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Rating"
+        ],
+        "summary": "Add rating.",
+        "operationId": "Rating_PutRating",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the parent place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "childPlaceId",
+            "in": "query",
+            "description": "Id of the place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "Id of the user.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "registrationId",
+            "in": "query",
+            "description": "Id of the client.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "positive",
+            "in": "query",
+            "description": "The text is positive.",
+            "required": true,
+            "type": "boolean"
+          },
+          {
+            "name": "text",
+            "in": "query",
+            "description": "The text.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/ReleaseNotes": {
+      "get": {
+        "tags": [
+          "ReleaseNote"
+        ],
+        "summary": "List release notes.",
+        "description": "Notes are in descending order by Release Date.",
+        "operationId": "ReleaseNote_GetReleaseNotes",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "current",
+            "in": "query",
+            "description": "(Optional) When set to '1', only the current Release Note will be returned.",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "NOT SUPPORTED: Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.ReleaseNote.ReleaseNoteModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/ReleaseNotes/{releaseNoteId}": {
+      "get": {
+        "tags": [
+          "ReleaseNote"
+        ],
+        "summary": "Get release note.",
+        "operationId": "ReleaseNote_GetReleaseNote",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "releaseNoteId",
+            "in": "path",
+            "description": "Id of the release note.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "NOT SUPPORTED: Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.ReleaseNote.ReleaseNoteModel"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Requests/{requestId}": {
+      "delete": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "Delete request.",
+        "operationId": "Request_DeleteRequest",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "Id of the request.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places{placeId}/Requests/Users": {
+      "get": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "List staff users.",
+        "operationId": "Request_GetUsers",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.User.UserModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places{placeId}/Requests/Welcome": {
+      "post": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "",
+        "operationId": "Request_PostWelcome",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "firstName",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "lastName",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "room",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "internationalPhoneCountryCode",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Requests/{requestId}/Eta": {
+      "put": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "Update ETA on request.",
+        "operationId": "Request_PutEta",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "Id of the request.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "etaMs",
+            "in": "query",
+            "description": "Unix timestamp in milliseconds to set the ETA to.",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Requests/{requestId}/Messages": {
+      "put": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "Add message to request.",
+        "operationId": "Request_PutMessage",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "Id of the request.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "message",
+            "in": "query",
+            "description": "The message to add to the request.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "etaSeconds",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "privateMessage",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "type": "boolean",
+            "default": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Requests": {
+      "put": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "Add request.",
+        "operationId": "Request_PutRequest",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "templateId",
+            "in": "query",
+            "description": "Id of the request template.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "options",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.Request.RequestOptionValueModel"
+              }
+            }
+          },
+          {
+            "name": "additionalDesc",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sms",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "requesterUserId",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "relatedRequestId",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "relationship",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places{placeId}/Requests/Groups": {
+      "get": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "List request groups.",
+        "operationId": "Request_GetGroups",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "The id of the place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "NOT SUPPORTED: Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.Request.RequestGroupBaseModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places{placeId}/Requests/Groups/{groupId}": {
+      "get": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "Get request group.",
+        "operationId": "Request_GetGroup",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "The id of the place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "The id of the request group.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "NOT SUPPORTED: Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.Request.RequestGroupModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Requests/{requestId}/Relations/{relatedRequestId}": {
+      "put": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "Add request relation.",
+        "operationId": "Request_PutRelation",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "Id of the request.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "relatedRequestId",
+            "in": "path",
+            "description": "Id of the related request.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "relationship",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "Delete request relation.",
+        "operationId": "Request_DeleteRelation",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "Id of the request.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "relatedRequestId",
+            "in": "path",
+            "description": "Id of the related request.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Requests/{requestId}/Followers/{removedUserId}": {
+      "delete": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "Delete follower from request.",
+        "operationId": "Request_DeleteFollower",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "Id of the request.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "removedUserId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Requests/{requestId}/Followers": {
+      "get": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "List request followers.",
+        "operationId": "Request_GetFollowers",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "Id of the request.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.User.UserModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Requests/{requestId}/Followers/{addedUserId}": {
+      "put": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "Add follower to request.",
+        "operationId": "Request_PutFollower",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "Id of the request.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "addedUserId",
+            "in": "path",
+            "description": "The user id to add as a follower.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Requests/{requestId}/Accept": {
+      "post": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "Accept a request.",
+        "operationId": "Request_PostAccept",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "Id of the request.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "message",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "eta",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Requests/{requestId}/Archive": {
+      "post": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "Archive a request.",
+        "operationId": "Request_PostArchive",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "Id of the request.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Requests/{requestId}/Close": {
+      "post": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "Close a request.",
+        "operationId": "Request_PostClose",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "Id of the request.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "message",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Requests/{requestId}/Forward/{groupId}": {
+      "post": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "Forward a request.",
+        "operationId": "Request_PostForward",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "Id of the request.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "Id of the request group.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Requests/Templates/{templateId}/StockResponses": {
+      "get": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "List stock responses.",
+        "operationId": "Request_GetStockResponses",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "templateId",
+            "in": "path",
+            "description": "Id of the request template.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "accept",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "boolean"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "NOT SUPPORTED: Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "placeId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.Request.RequestStockResponseModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Requests/Templates/{templateId}/StockResponses/{stockResponseId}": {
+      "get": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "Get stock response.",
+        "operationId": "Request_GetStockResponse",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "templateId",
+            "in": "path",
+            "description": "Id of the request template.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "stockResponseId",
+            "in": "path",
+            "description": "Id of the request stock response.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "NOT SUPPORTED: Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "placeId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.Request.RequestStockResponseModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Requests/Templates": {
+      "get": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "List request templates.",
+        "operationId": "Request_GetTemplates",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "The place ID to use.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "visibleAll",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "boolean"
+          },
+          {
+            "name": "visibleStaffOnly",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "boolean"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.Request.RequestTemplateModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Requests/Templates/{templateId}": {
+      "get": {
+        "tags": [
+          "Request"
+        ],
+        "summary": "Get request template.",
+        "operationId": "Request_GetTemplate",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "templateId",
+            "in": "path",
+            "description": "Id of the request template.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.Request.RequestTemplateModel"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Users/Me/CheckIn/{placeId}": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "",
+        "operationId": "User_PostCheckIn",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "personalDeviceId",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Users/Me/CheckOut/{placeId}": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "",
+        "operationId": "User_PostCheckOut",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Users/Me/Favorites": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "List favorites.",
+        "operationId": "User_GetFavorites",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.User.FavoriteModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Users/Me/PersonalDevices": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "User_GetPersonalDevicess",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.User.PersonalDevice.PersonalDeviceModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Users/Me/PersonalDevices/{personalDeviceId}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "User_GetPersonalDevicess",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "personalDeviceId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.User.PersonalDevice.PersonalDeviceModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Users/Me/Requests": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "List requests.",
+        "operationId": "User_GetRequests",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "lastKnownRequestActionId",
+            "in": "query",
+            "description": "Id of the last known request action.  Pass in 0 on the initial call, and pass in the lastKnownRequestActionId from the result on initial calls.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "archived",
+            "in": "query",
+            "description": "Include archived requests.",
+            "required": false,
+            "type": "boolean",
+            "default": false
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.Request.LastKnownRequestsModel"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Users/Me/Requests/{requestId}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get request.",
+        "operationId": "User_GetRequest",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "Id of the request.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.Request.RequestCommonModel"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Users/Me/Requests/{requestId}/Actions": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "List the request actions.",
+        "operationId": "User_GetActions",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "Id of the request.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "lastKnownRequestActionId",
+            "in": "query",
+            "description": "Id of the last known request action.  Pass in 0 on the initial call, and pass in the lastKnownRequestActionId from the result on initial calls.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "NOT SUPPORTED: Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.Request.LastKnownRequestModel"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Users/{userId}/Requests/Valid": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Check if a user request is validated.",
+        "description": "Gets a true or false on if the user is currently validated. This check is done by comparing the check out date, the user's current place, and if the user has already been valided by the current place's staff.",
+        "operationId": "User_GetUserValid",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "Id of the user.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "placeId",
+            "in": "query",
+            "description": "Id of the place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Users/{userId}/Requests/Approve": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Approve a user request.",
+        "operationId": "User_PostApprove",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "Id of the user.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "placeId",
+            "in": "query",
+            "description": "Id of the place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Users/{userId}/Requests/Block": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Block a user request.",
+        "operationId": "User_PostBlock",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "Id of the user.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "placeId",
+            "in": "query",
+            "description": "Id of the place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Users/{userId}/Requests/Deny": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Deny a user request.",
+        "operationId": "User_PostDeny",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "Id of the user.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "placeId",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Users/Me": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get logged in user.",
+        "operationId": "User_GetUser",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.User.UserModel"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update a user.",
+        "operationId": "User_PutUser",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "query",
+            "description": "Id of the place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "room",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "checkoutMs",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Users/{userId}": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update a user.",
+        "operationId": "User_PutUser",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "Id of the user.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "placeId",
+            "in": "query",
+            "description": "Id of the place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "room",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "checkoutMs",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Users/Me/Requests/{requestId}/LastViewed": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Show last viewed user request.",
+        "operationId": "User_PutLastViewedAction",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "Id of the request.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "lastViewedRequestActionId",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Users/Me/Social/Twitter": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Post a tweet for a user.",
+        "operationId": "User_PostTwitterTweet",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "oAuthToken",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "oAuthVerifier",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "tweet",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Users/Me/Social/Twitter/OAuth": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get twitter oauth url for a user.",
+        "operationId": "User_GetTwitterOAuthUrl",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "callbackUrl",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Valet/Cab": {
+      "post": {
+        "tags": [
+          "Valet"
+        ],
+        "summary": "",
+        "operationId": "Valet_PostCab",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the valet's parent place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "whenMs",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Valet/Car": {
+      "post": {
+        "tags": [
+          "Valet"
+        ],
+        "summary": "",
+        "operationId": "Valet_PostCar",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the valet's parent place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "ticket",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "minutes",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Valet/Limo": {
+      "post": {
+        "tags": [
+          "Valet"
+        ],
+        "summary": "",
+        "operationId": "Valet_PostLimo",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the valet's parent place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "whenMs",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Valet/Shuttle": {
+      "post": {
+        "tags": [
+          "Valet"
+        ],
+        "summary": "",
+        "operationId": "Valet_PostShuttle",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the valet's parent place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "whenMs",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/System.Object"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Places/{placeId}/Weather": {
+      "get": {
+        "tags": [
+          "Weather"
+        ],
+        "summary": "Get weather forecast.",
+        "operationId": "Weather_GetWeather",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "placeId",
+            "in": "path",
+            "description": "Id of the weather forecast's parent place.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "NOT SUPPORTED: Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.Weather.WeatherModel"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Weather": {
+      "get": {
+        "tags": [
+          "Weather"
+        ],
+        "summary": "List weather places.",
+        "operationId": "Weather_GetWeather",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "City, state, or postal.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "NOT SUPPORTED: Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MonsciergeAPI.Models.Weather.WeatherModel"
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Weather/Places": {
+      "get": {
+        "tags": [
+          "Weather"
+        ],
+        "summary": "Get weather forecast.",
+        "operationId": "Weather_GetWeatherPlaces",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Id weather place.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "culture",
+            "in": "query",
+            "description": "NOT SUPPORTED: Client culture. e.g. \"en_US\"",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MonsciergeAPI.Models.Weather.WeatherPlaceSearchModel"
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "oauth2": [
+              ""
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "MonsciergeAPI.Models.Analytic.ClickModel": {
+      "title": "analytic.click_model",
+      "type": "object",
+      "properties": {
+        "action": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "amenity_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "click_date_time": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "enterprise_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "menu_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "menu_item_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "place_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "platform_type": {
+          "format": "int32",
+          "enum": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "type": "integer"
+        },
+        "session_id": {
+          "type": "string"
+        },
+        "view": {
+          "type": "string"
+        }
+      }
+    },
+    "System.Object": {
+      "title": "object",
+      "type": "object",
+      "properties": {}
+    },
+    "MonsciergeAPI.Models.Application.ApplicationModel": {
+      "title": "application.application_model",
+      "type": "object",
+      "properties": {
+        "client_secret": {
+          "description": "The OAuth client secret.",
+          "default": "bbc6d0a803ec11e584181697f925ec7b",
+          "type": "string"
+        },
+        "description": {
+          "description": "A description of the application.",
+          "default": "Your application description.",
+          "type": "string"
+        },
+        "application_platforms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Application.ApplicationPlatformModel"
+          }
+        },
+        "name": {
+          "description": "The name of the application.",
+          "default": "App Name",
+          "type": "string"
+        },
+        "client_id": {
+          "description": "The application OAuth client ID.",
+          "default": "c034f59803ec11e584181697f925ec7b",
+          "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The application ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Application.ApplicationPlatformModel": {
+      "title": "application.application_platform_model",
+      "type": "object",
+      "properties": {
+        "android_activity": {
+          "description": "The platform's Android acivity.",
+          "type": "string"
+        },
+        "android_fingerprints": {
+          "description": "The platform's Android fingerprints.",
+          "type": "string"
+        },
+        "android_namespace": {
+          "description": "The platform's Android namespace.",
+          "type": "string"
+        },
+        "ios_ipad_store_id": {
+          "format": "int32",
+          "description": "The platform's iPad Store ID.",
+          "type": "integer"
+        },
+        "ios_ipod_store_id": {
+          "format": "int32",
+          "description": "The platform's iPod Store ID.",
+          "type": "integer"
+        },
+        "ios_bundle_ids": {
+          "description": "The platform's iOS bundle IDs.",
+          "type": "string"
+        },
+        "web_client_origins": {
+          "description": "Origins to allow in CORS headers for the platform separated by newlines.",
+          "default": "https://example.com",
+          "type": "string"
+        },
+        "web_redirect_urls": {
+          "description": "The platform redirect URIs to allow for OAuth authorization flow separated by newlines.",
+          "default": "https://example.com/auth/callback",
+          "type": "string"
+        },
+        "web_redirect_urls_mobile": {
+          "description": "The platform mobile redirect URIs to allow for OAuth authorization flow separated by newlines.",
+          "type": "string"
+        },
+        "type": {
+          "description": "The application type. Must be one of <code>Web</code>, <code>Ios</code>, or <code>Android</code>.",
+          "default": "Web",
+          "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The application platform ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Application.ApplicationBaseModel": {
+      "title": "application.application_base_model",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The name of the application.",
+          "default": "App Name",
+          "type": "string"
+        },
+        "client_id": {
+          "description": "The application OAuth client ID.",
+          "default": "c034f59803ec11e584181697f925ec7b",
+          "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The application ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Application.ApplicationPlatformBaseModel": {
+      "title": "application.application_platform_base_model",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "The application type. Must be one of <code>Web</code>, <code>Ios</code>, or <code>Android</code>.",
+          "default": "Web",
+          "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The application platform ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Beacon.BeaconUserNearbyModel": {
+      "title": "beacon.beacon_user_nearby_model",
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "beacon_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "entered_on_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "user": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.User.UserModel"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The beacon user ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.User.UserModel": {
+      "title": "user.user_model",
+      "type": "object",
+      "properties": {
+        "check_out_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "emails": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Base.EmailModel"
+          }
+        },
+        "personal_devices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.User.PersonalDevice.PersonalDeviceModel"
+          }
+        },
+        "room": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "phones": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Base.PhoneModel"
+          }
+        },
+        "id": {
+          "format": "int32",
+          "description": "The user ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Base.EmailModel": {
+      "title": "base.email_model",
+      "type": "object",
+      "properties": {
+        "address": {
+          "description": "The email address.",
+          "default": "developers@monscierge.com",
+          "type": "string"
+        },
+        "primary": {
+          "description": "Whether or not the email is the primary one. <code>True</code> for primary, <code>false</code> if not.",
+          "type": "boolean"
+        },
+        "type": {
+          "format": "int32",
+          "description": "The type of email. Will be one of <code>Unknown</code>, <code>Breakfasts2Go</code>, <code>Cab</code>, <code>Limo</code><code>RoomService</code>, <code>Shuttle</code> or <code>Valet</code>",
+          "enum": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "type": "integer"
+        },
+        "verified": {
+          "description": "Whether or not the email has been verified. <code>True</code> for verified, <code>false</code> if not.",
+          "type": "boolean"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.User.PersonalDevice.PersonalDeviceModel": {
+      "title": "user.personal_device.personal_device_model",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "model": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.User.PersonalDevice.PersonalDeviceModelModel"
+        },
+        "verified": {
+          "type": "boolean"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Base.PhoneModel": {
+      "title": "base.phone_model",
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "description": "The phone number ID.",
+          "default": 42,
+          "type": "integer"
+        },
+        "name": {
+          "description": "A name for the phone number.",
+          "default": "Main",
+          "type": "string"
+        },
+        "phone": {
+          "description": "The phone's number.",
+          "default": "1-555-876-5309",
+          "type": "string"
+        },
+        "primary": {
+          "description": "Whether or not the phone number is the primary one. <code>True</code> for primary, <code>false</code> if not.",
+          "type": "boolean"
+        },
+        "s_ms": {
+          "description": "Whether or not the phone number is a mobile phone supporting SMS. <code>True</code> for SMS supported, <code>false</code> if not.",
+          "type": "boolean"
+        },
+        "type": {
+          "format": "int32",
+          "description": "The type of phone number. Will be one of <code>Unknown</code>, <code>Cab</code>, <code>Conscierge</code>,\r\n            <code>Enterprise</code>, <code>Limo</code>, <code>Place</code>, <code>Shuttle</code>,\r\n            or <code>Valet</code>.",
+          "enum": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "type": "integer"
+        },
+        "verified": {
+          "description": "Whether or not the phone number has been verified. <code>True</code> for verified, <code>false</code> if not.",
+          "type": "boolean"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.User.PersonalDevice.PersonalDeviceModelModel": {
+      "title": "user.personal_device.personal_device_model_model",
+      "type": "object",
+      "properties": {
+        "manufacturer": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.User.PersonalDevice.PersonalDeviceManufacturerModel"
+        },
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The {0} ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.User.PersonalDevice.PersonalDeviceManufacturerModel": {
+      "title": "user.personal_device.personal_device_manufacturer_model",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The {0} ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Event.EventModel": {
+      "title": "event.event_model",
+      "type": "object",
+      "properties": {
+        "group_name": {
+          "type": "string"
+        },
+        "sections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Event.EventSectionModel"
+          }
+        },
+        "end_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "place": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "start_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The event ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Event.EventSectionModel": {
+      "title": "event.event_section_model",
+      "type": "object",
+      "properties": {
+        "attachments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Event.EventAttachmentModel"
+          }
+        },
+        "desc": {
+          "type": "string"
+        },
+        "image_urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "sponsorships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Event.EventSponsorshipModel"
+          }
+        },
+        "summary_visible": {
+          "type": "boolean"
+        },
+        "uris": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Base.UriModel"
+          }
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Event.EventAttachmentModel": {
+      "title": "event.event_attachment_model",
+      "type": "object",
+      "properties": {
+        "attachment_url": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Event.EventSponsorshipModel": {
+      "title": "event.event_sponsorship_model",
+      "type": "object",
+      "properties": {
+        "image_url": {
+          "type": "string"
+        },
+        "uri": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Base.UriModel"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Base.UriModel": {
+      "title": "base.uri_model",
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "description": "The URL ID.",
+          "type": "integer"
+        },
+        "name": {
+          "description": "The name of the URL.",
+          "default": "Homepage",
+          "type": "string"
+        },
+        "type": {
+          "format": "int32",
+          "description": "The type of URL. Will be one of <code>Unknown</code>, <code>AdHocEventSyncer</code>, <code>Booking</code>,\r\n            <code>Facebook</code>, <code>HotSOS</code>, <code>Rewards</code>, <code>Resource</code>,\r\n            <code>ShuttleTracker</code>, <code>Sponsorship</code>, <code>Synergey</code> or <code>Twitter</code>",
+          "enum": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "type": "integer"
+        },
+        "uri": {
+          "description": "The URL.",
+          "default": "http://monscierge.com",
+          "type": "string"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Flight.FlightModel": {
+      "title": "flight.flight_model",
+      "type": "object",
+      "properties": {
+        "arrival_airport": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Flight.AirportModel"
+        },
+        "arrival_ms": {
+          "format": "int64",
+          "description": "The time for arrival at the airport as a unix timestamp in milliseconds.",
+          "default": 1432717500000,
+          "type": "integer"
+        },
+        "departure_airport": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Flight.AirportModel"
+        },
+        "departure_ms": {
+          "format": "int64",
+          "description": "The time for departure from the airport as a unix timestamp in milliseconds.",
+          "default": 1432706400000,
+          "type": "integer"
+        },
+        "gate": {
+          "default": 22,
+          "type": "string"
+        },
+        "primary_share": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Flight.ShareModel"
+        },
+        "shares": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Flight.ShareModel"
+          }
+        },
+        "status": {
+          "description": "The status of the flight. Will be one of <code>Active</code>, <code>Cancelled</code>, <code>Diverted</code>,\r\n            <code>Data Source Needed</code>, <code>Landed</code>, <code>Not Operational</code>, <code>Redirected</code>,\r\n            <code>On Time</code>, <code>15-30 Min. Late</code>, <code>30-45 Min. Late</code>, <code>45+ Min. Late</code>,\r\n            or <code>Unknown</code>.",
+          "default": "Landed",
+          "type": "string"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Flight.AirportModel": {
+      "title": "flight.airport_model",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "The airport code ID.",
+          "default": "OKC",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the airport.",
+          "default": "Will Rogers World Airport",
+          "type": "string"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Flight.ShareModel": {
+      "title": "flight.share_model",
+      "type": "object",
+      "properties": {
+        "airline_id": {
+          "description": "The airline ID.",
+          "default": "DL",
+          "type": "string"
+        },
+        "airline_name": {
+          "description": "The name of the airline.",
+          "default": "Delta Air Line",
+          "type": "string"
+        },
+        "flight_number": {
+          "description": "The airline's flight number.",
+          "default": 5240,
+          "type": "string"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Flight.AirportSearchModel": {
+      "title": "flight.airport_search_model",
+      "type": "object",
+      "properties": {
+        "address": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Base.AddressModel"
+        },
+        "id": {
+          "description": "The airport code ID.",
+          "default": "OKC",
+          "type": "string"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Base.AddressModel": {
+      "title": "base.address_model",
+      "type": "object",
+      "properties": {
+        "city": {
+          "default": "Oklahoma City",
+          "type": "string"
+        },
+        "country": {
+          "default": "US",
+          "type": "string"
+        },
+        "state": {
+          "default": "OK",
+          "type": "string"
+        },
+        "street": {
+          "default": "1 North Broadway Ave.",
+          "type": "string"
+        },
+        "postal": {
+          "default": "73102",
+          "type": "string"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Map.MapModel": {
+      "title": "map.map_model",
+      "type": "object",
+      "properties": {
+        "image_urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "map_type": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The map ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Menu.MenuModel": {
+      "title": "menu.menu_model",
+      "type": "object",
+      "properties": {
+        "categories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Menu.MenuItemCategoryModel"
+          }
+        },
+        "request_template_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "close_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "has_menu_items": {
+          "type": "boolean"
+        },
+        "image_urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "open_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The menu ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Menu.MenuItemCategoryModel": {
+      "title": "menu.menu_item_category_model",
+      "type": "object",
+      "properties": {
+        "depth": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "item": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Menu.MenuItemBaseModel"
+        },
+        "section": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Menu.MenuItemSectionModel"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Menu.MenuItemBaseModel": {
+      "title": "menu.menu_item_base_model",
+      "type": "object",
+      "properties": {
+        "image_urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The menu item ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Menu.MenuItemSectionModel": {
+      "title": "menu.menu_item_section_model",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The menu section ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.PointOfSale.CartModel": {
+      "title": "point_of_sale.cart_model",
+      "type": "object",
+      "properties": {
+        "instructions": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.PointOfSale.CartItemModel"
+          }
+        },
+        "menu_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "place_id": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.PointOfSale.CartItemModel": {
+      "title": "point_of_sale.cart_item_model",
+      "type": "object",
+      "properties": {
+        "instructions": {
+          "type": "string"
+        },
+        "menu_item_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "modifiers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.PointOfSale.CartItemModifierModel"
+          }
+        }
+      }
+    },
+    "MonsciergeAPI.Models.PointOfSale.CartItemModifierModel": {
+      "title": "point_of_sale.cart_item_modifier_model",
+      "type": "object",
+      "properties": {
+        "menu_item_modifier_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "menu_item_modifier_value_id": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.PointOfSale.TotalModel": {
+      "title": "point_of_sale.total_model",
+      "type": "object",
+      "properties": {
+        "check_header": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.PointOfSale.CheckModel"
+        },
+        "c_cauth_code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "pms_message": {
+          "type": "string"
+        },
+        "pms_status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "workstation": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.PointOfSale.CheckModel": {
+      "title": "point_of_sale.check_model",
+      "type": "object",
+      "properties": {
+        "amount_due_total": {
+          "format": "double",
+          "type": "number"
+        },
+        "auto_fire_time": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "auto_grat_total": {
+          "format": "double",
+          "type": "number"
+        },
+        "check_close_time": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "check_id": {
+          "type": "string"
+        },
+        "check_open_time": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "check_status_bits": {
+          "type": "string"
+        },
+        "detail_line_count": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "employee_number": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "guest_count": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "guest_info": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.PointOfSale.UserModel"
+        },
+        "g_uid": {
+          "type": "string"
+        },
+        "is_closed": {
+          "type": "boolean"
+        },
+        "number": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "other_total": {
+          "format": "double",
+          "type": "number"
+        },
+        "order_type": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "payment_total": {
+          "format": "double",
+          "type": "number"
+        },
+        "sub_total": {
+          "format": "double",
+          "type": "number"
+        },
+        "table": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "tax_total": {
+          "format": "double",
+          "type": "number"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.PointOfSale.UserModel": {
+      "title": "point_of_sale.user_model",
+      "type": "object",
+      "properties": {
+        "address1": {
+          "type": "string"
+        },
+        "address2": {
+          "type": "string"
+        },
+        "address3": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "guest_info_guid": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "user_text1": {
+          "type": "string"
+        },
+        "user_text2": {
+          "type": "string"
+        },
+        "user_text3": {
+          "type": "string"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.PointOfSale.OrderModel": {
+      "title": "point_of_sale.order_model",
+      "type": "object",
+      "properties": {
+        "pms_info": {
+          "type": "string"
+        },
+        "position": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Message.MessageModel": {
+      "title": "message.message_model",
+      "type": "object",
+      "properties": {
+        "created_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "message": {
+          "type": "string"
+        },
+        "subject": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The message ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Place.PlaceHackBaseModel": {
+      "title": "place.place_hack_base_model",
+      "type": "object",
+      "properties": {
+        "amenity": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Amenity.AmenityBaseModel"
+        },
+        "enterprise": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Enterprise.EnterpriseBaseModel"
+        },
+        "place": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Place.PlaceBaseModel"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The place ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Amenity.AmenityBaseModel": {
+      "title": "amenity.amenity_base_model",
+      "type": "object",
+      "properties": {
+        "has_menus": {
+          "type": "boolean"
+        },
+        "image_urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The amenity ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Enterprise.EnterpriseBaseModel": {
+      "title": "enterprise.enterprise_base_model",
+      "type": "object",
+      "properties": {
+        "dollar_range": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "geocode": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Base.GeocodeModel"
+        },
+        "image_urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "schedules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Base.ScheduleModel"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "id": {
+          "format": "int32",
+          "description": "The enterprise ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Place.PlaceBaseModel": {
+      "title": "place.place_base_model",
+      "type": "object",
+      "properties": {
+        "address": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Base.AddressModel"
+        },
+        "geocode": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Base.GeocodeModel"
+        },
+        "name": {
+          "default": "Sheraton",
+          "type": "string"
+        },
+        "phones": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Base.PhoneModel"
+          }
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Base.GeocodeModel": {
+      "title": "base.geocode_model",
+      "type": "object",
+      "properties": {
+        "latitude": {
+          "format": "double",
+          "description": "The geographic coordinate point latitude.",
+          "default": 35.467079162597649,
+          "type": "number"
+        },
+        "longitude": {
+          "format": "double",
+          "description": "The geographic coordinate point longitude.",
+          "default": -97.515060424804688,
+          "type": "number"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Base.ScheduleModel": {
+      "title": "base.schedule_model",
+      "type": "object",
+      "properties": {
+        "close_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "day_of_week": {
+          "format": "int32",
+          "enum": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "type": "integer"
+        },
+        "open_ms": {
+          "format": "int64",
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Place.PlaceHackModel": {
+      "title": "place.place_hack_model",
+      "type": "object",
+      "properties": {
+        "amenity": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Amenity.AmenityModel"
+        },
+        "enterprise": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Enterprise.EnterpriseModel"
+        },
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "place": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Place.PlaceModel"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Amenity.AmenityModel": {
+      "title": "amenity.amenity_model",
+      "type": "object",
+      "properties": {
+        "contact_desc": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "menus": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Menu.MenuBaseModel"
+          }
+        },
+        "placemark": {
+          "type": "string"
+        },
+        "schedule_desc": {
+          "type": "string"
+        },
+        "schedules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Base.ScheduleModel"
+          }
+        },
+        "uris": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Base.UriModel"
+          }
+        },
+        "has_menus": {
+          "type": "boolean"
+        },
+        "image_urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The amenity ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Enterprise.EnterpriseModel": {
+      "title": "enterprise.enterprise_model",
+      "type": "object",
+      "properties": {
+        "address": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Base.AddressModel"
+        },
+        "child_friendly_desc": {
+          "type": "string"
+        },
+        "daily_specials_desc": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "group_friendly_desc": {
+          "type": "string"
+        },
+        "happy_hour_desc": {
+          "type": "string"
+        },
+        "live_music_desc": {
+          "type": "string"
+        },
+        "local_favorite_desc": {
+          "type": "string"
+        },
+        "outdoor_dining_desc": {
+          "type": "string"
+        },
+        "phones": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Base.PhoneModel"
+          }
+        },
+        "schedule_desc": {
+          "type": "string"
+        },
+        "smoking_desc": {
+          "type": "string"
+        },
+        "sports_bar_desc": {
+          "type": "string"
+        },
+        "uris": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Base.UriModel"
+          }
+        },
+        "wifi_desc": {
+          "type": "string"
+        },
+        "dollar_range": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "geocode": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Base.GeocodeModel"
+        },
+        "image_urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "schedules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Base.ScheduleModel"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "id": {
+          "format": "int32",
+          "description": "The enterprise ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Place.PlaceModel": {
+      "title": "place.place_model",
+      "type": "object",
+      "properties": {
+        "account_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "ad_hoc_events_sync_password": {
+          "type": "string"
+        },
+        "ad_hoc_events_sync_place_id": {
+          "type": "string"
+        },
+        "ad_hoc_events_sync_salt": {
+          "type": "string"
+        },
+        "ad_hoc_events_sync_username": {
+          "type": "string"
+        },
+        "airport_radius": {
+          "format": "float",
+          "type": "number"
+        },
+        "breakfast2_go_menu_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "default_lang": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "desc_lang": {
+          "type": "string"
+        },
+        "desc_translations": {
+          "type": "string"
+        },
+        "d_riproperty_key": {
+          "type": "string"
+        },
+        "emails": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Base.EmailModel"
+          }
+        },
+        "enable_amenities": {
+          "type": "boolean"
+        },
+        "enable_amenity_ads": {
+          "type": "boolean"
+        },
+        "enable_amenity_categories": {
+          "type": "boolean"
+        },
+        "enable_booking": {
+          "type": "boolean"
+        },
+        "enable_breakfast2_go": {
+          "type": "boolean"
+        },
+        "enable_call": {
+          "type": "boolean"
+        },
+        "enable_call_concierge": {
+          "type": "boolean"
+        },
+        "enable_directions": {
+          "type": "boolean"
+        },
+        "enable_directory": {
+          "type": "boolean"
+        },
+        "enable_events": {
+          "type": "boolean"
+        },
+        "enable_events_legacy_editor": {
+          "type": "boolean"
+        },
+        "enable_events_refresh": {
+          "type": "boolean"
+        },
+        "enable_flight_ads": {
+          "type": "boolean"
+        },
+        "enable_flights": {
+          "type": "boolean"
+        },
+        "enable_header": {
+          "type": "boolean"
+        },
+        "enable_home_ads": {
+          "type": "boolean"
+        },
+        "enable_hot_sos": {
+          "type": "boolean"
+        },
+        "enable_hot_sosfor_request_authentication": {
+          "type": "boolean"
+        },
+        "enable_lobby": {
+          "type": "boolean"
+        },
+        "enable_map_ads": {
+          "type": "boolean"
+        },
+        "enable_maps": {
+          "type": "boolean"
+        },
+        "enabled_menus": {
+          "type": "boolean"
+        },
+        "enable_messages": {
+          "type": "boolean"
+        },
+        "enable_micros": {
+          "type": "boolean"
+        },
+        "enable_postcard_ads": {
+          "type": "boolean"
+        },
+        "enable_postcards": {
+          "type": "boolean"
+        },
+        "enable_recommendation_ads": {
+          "type": "boolean"
+        },
+        "enable_recommendations": {
+          "type": "boolean"
+        },
+        "enable_rewards": {
+          "type": "boolean"
+        },
+        "enable_shuttle_tracker": {
+          "type": "boolean"
+        },
+        "enable_sales_force_syncer": {
+          "type": "boolean"
+        },
+        "enable_synergy_mms": {
+          "type": "boolean"
+        },
+        "enable_transportation": {
+          "type": "boolean"
+        },
+        "enable_valet": {
+          "type": "boolean"
+        },
+        "enable_weather": {
+          "type": "boolean"
+        },
+        "enable_weather_ads": {
+          "type": "boolean"
+        },
+        "envision_facility_id": {
+          "type": "string"
+        },
+        "envision_last_updated_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "events_refresh_timeout_m": {
+          "format": "float",
+          "type": "number"
+        },
+        "hot_sosdefault_request_user_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "hot_sospassword": {
+          "type": "string"
+        },
+        "hot_sossalt": {
+          "type": "string"
+        },
+        "hot_sosusername": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "import_file_name": {
+          "type": "string"
+        },
+        "import_unique_id": {
+          "type": "string"
+        },
+        "i_socountry_code": {
+          "type": "string"
+        },
+        "is_public": {
+          "type": "boolean"
+        },
+        "is_setup": {
+          "type": "boolean"
+        },
+        "jazz_location_code": {
+          "type": "string"
+        },
+        "jazz_property_code": {
+          "type": "string"
+        },
+        "master_event_access_code": {
+          "type": "string"
+        },
+        "micros_password": {
+          "type": "string"
+        },
+        "micros_salt": {
+          "type": "string"
+        },
+        "radius": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "rewards_image_url": {
+          "type": "string"
+        },
+        "room_key_code": {
+          "type": "string"
+        },
+        "room_service_request_template_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "sales_force_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "synergey_default_request_user_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "synergy_password": {
+          "type": "string"
+        },
+        "synergy_property_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "synergy_salt": {
+          "type": "string"
+        },
+        "synergy_username": {
+          "type": "string"
+        },
+        "theme_color1": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "theme_color2": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "welcome_smsrequest_template_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "welcome_smsmessage": {
+          "type": "string"
+        },
+        "welcome_smsmessage_translations": {
+          "type": "string"
+        },
+        "airport_id": {
+          "default": "OKC",
+          "type": "string"
+        },
+        "airport_name": {
+          "default": "Will Rogers World Airport",
+          "type": "string"
+        },
+        "background_image_url": {
+          "type": "string"
+        },
+        "cab_request_template_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "check_in_request_template_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "check_out_request_template_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "concierge_phone_replace": {
+          "type": "boolean"
+        },
+        "limo_request_template_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "postcard_hashtags": {
+          "type": "string"
+        },
+        "postcard_image_urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requests_enabled": {
+          "type": "boolean"
+        },
+        "shuttle_request_template_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "style_type": {
+          "format": "int32",
+          "enum": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "type": "integer"
+        },
+        "uris": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Base.UriModel"
+          }
+        },
+        "valet_request_template_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "last_modified_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "address": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Base.AddressModel"
+        },
+        "geocode": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Base.GeocodeModel"
+        },
+        "name": {
+          "default": "Sheraton",
+          "type": "string"
+        },
+        "phones": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Base.PhoneModel"
+          }
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Menu.MenuBaseModel": {
+      "title": "menu.menu_base_model",
+      "type": "object",
+      "properties": {
+        "close_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "has_menu_items": {
+          "type": "boolean"
+        },
+        "image_urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "open_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The menu ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Place.PlaceUIConfigModel": {
+      "title": "place.place_uiconfig_model",
+      "type": "object",
+      "properties": {
+        "amenties_visible": {
+          "type": "boolean"
+        },
+        "cab_enabled": {
+          "type": "boolean"
+        },
+        "concierge_phone_visible": {
+          "type": "boolean"
+        },
+        "directions_visibile": {
+          "type": "boolean"
+        },
+        "events_visible": {
+          "type": "boolean"
+        },
+        "facebook_page_id": {
+          "type": "string"
+        },
+        "flights_visible": {
+          "type": "boolean"
+        },
+        "layouts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Place.PlaceLayoutModel"
+          }
+        },
+        "limo_enabled": {
+          "type": "boolean"
+        },
+        "maps_visible": {
+          "type": "boolean"
+        },
+        "messages_visible": {
+          "type": "boolean"
+        },
+        "menus_visible": {
+          "type": "boolean"
+        },
+        "phones_visible": {
+          "type": "boolean"
+        },
+        "postcards_email_subject": {
+          "type": "string"
+        },
+        "postcards_visible": {
+          "type": "boolean"
+        },
+        "recommendations_visible": {
+          "type": "boolean"
+        },
+        "requests_visible": {
+          "type": "boolean"
+        },
+        "shuttle_enabled": {
+          "type": "boolean"
+        },
+        "transportation_visible": {
+          "type": "boolean"
+        },
+        "valet_visible": {
+          "type": "boolean"
+        },
+        "weather_visible": {
+          "type": "boolean"
+        },
+        "welcome_send_visible": {
+          "type": "boolean"
+        },
+        "airport_id": {
+          "default": "OKC",
+          "type": "string"
+        },
+        "airport_name": {
+          "default": "Will Rogers World Airport",
+          "type": "string"
+        },
+        "background_image_url": {
+          "type": "string"
+        },
+        "cab_request_template_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "check_in_request_template_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "check_out_request_template_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "concierge_phone_replace": {
+          "type": "boolean"
+        },
+        "limo_request_template_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "postcard_hashtags": {
+          "type": "string"
+        },
+        "postcard_image_urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requests_enabled": {
+          "type": "boolean"
+        },
+        "shuttle_request_template_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "style_type": {
+          "format": "int32",
+          "enum": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "type": "integer"
+        },
+        "uris": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Base.UriModel"
+          }
+        },
+        "valet_request_template_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "last_modified_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "address": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Base.AddressModel"
+        },
+        "geocode": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Base.GeocodeModel"
+        },
+        "name": {
+          "default": "Sheraton",
+          "type": "string"
+        },
+        "phones": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Base.PhoneModel"
+          }
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Place.PlaceLayoutModel": {
+      "title": "place.place_layout_model",
+      "type": "object",
+      "properties": {
+        "amenity": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Amenity.AmenityBaseModel"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "request_template": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Request.RequestTemplateBaseModel"
+        },
+        "type": {
+          "format": "int32",
+          "enum": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17
+          ],
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Request.RequestTemplateBaseModel": {
+      "title": "request.request_template_base_model",
+      "type": "object",
+      "properties": {
+        "image_url": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The request template ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.WelcomeTablet.WelcomeTabletModel": {
+      "title": "welcome_tablet.welcome_tablet_model",
+      "type": "object",
+      "properties": {
+        "beacon_id": {
+          "format": "int32",
+          "default": 55,
+          "type": "integer"
+        },
+        "marketing_campaign": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.WelcomeTablet.MarketingCampaignModel"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The Welcome Tablet ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.WelcomeTablet.MarketingCampaignModel": {
+      "title": "welcome_tablet.marketing_campaign_model",
+      "type": "object",
+      "properties": {
+        "default_screen": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.WelcomeTablet.MarketingCampaignScreenModel"
+        },
+        "marketing_campaign_exceptions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.WelcomeTablet.MarketingCampaignExceptionModel"
+          }
+        },
+        "welcome_message_background_image": {
+          "type": "string"
+        },
+        "welcome_message": {
+          "default": "Hello Derek",
+          "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The Marketing Campaign ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.WelcomeTablet.MarketingCampaignScreenModel": {
+      "title": "welcome_tablet.marketing_campaign_screen_model",
+      "type": "object",
+      "properties": {
+        "layout": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "marketing_campaign_screen_sections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.WelcomeTablet.MarketingCampaignScreenSectionModel"
+          }
+        },
+        "id": {
+          "format": "int32",
+          "description": "The Scene ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.WelcomeTablet.MarketingCampaignExceptionModel": {
+      "title": "welcome_tablet.marketing_campaign_exception_model",
+      "type": "object",
+      "properties": {
+        "start_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "end_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "marketing_campaign_screen": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.WelcomeTablet.MarketingCampaignScreenModel"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The Exception ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.WelcomeTablet.MarketingCampaignScreenSectionModel": {
+      "title": "welcome_tablet.marketing_campaign_screen_section_model",
+      "type": "object",
+      "properties": {
+        "ordinal": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "transition_duration": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "id": {
+          "format": "int32",
+          "description": "The Section ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Rating.RatingModel": {
+      "title": "rating.rating_model",
+      "type": "object",
+      "properties": {
+        "created_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "review": {
+          "type": "string"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.ReleaseNote.ReleaseNoteModel": {
+      "title": "release_note.release_note_model",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "short_title": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "short_desc": {
+          "type": "string"
+        },
+        "release_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "release_note_items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.ReleaseNote.ReleaseNoteItemModel"
+          }
+        },
+        "id": {
+          "format": "int32",
+          "description": "The release note ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.ReleaseNote.ReleaseNoteItemModel": {
+      "title": "release_note.release_note_item_model",
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "item_type": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "item_type_name": {
+          "type": "string",
+          "readOnly": true
+        },
+        "id": {
+          "format": "int32",
+          "description": "The release note item ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Request.RequestOptionValueModel": {
+      "title": "request.request_option_value_model",
+      "type": "object",
+      "properties": {
+        "option": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Request.RequestOptionModel"
+        },
+        "value_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "value_number": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "value_text": {
+          "type": "string"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Request.RequestOptionModel": {
+      "title": "request.request_option_model",
+      "type": "object",
+      "properties": {
+        "default_number": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "default_text": {
+          "type": "string"
+        },
+        "max_number": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "min_number": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "type": {
+          "format": "int32",
+          "enum": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "type": "integer"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The request option ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Request.RequestGroupBaseModel": {
+      "title": "request.request_group_base_model",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The request group ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Request.RequestGroupModel": {
+      "title": "request.request_group_model",
+      "type": "object",
+      "properties": {
+        "users": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.User.UserModel"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The request group ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Request.RequestStockResponseModel": {
+      "title": "request.request_stock_response_model",
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "eta_s": {
+          "format": "int32",
+          "description": "Seconds",
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The request stock response ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Request.RequestTemplateModel": {
+      "title": "request.request_template_model",
+      "type": "object",
+      "properties": {
+        "category_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "group_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "eta_s": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Request.RequestOptionModel"
+          }
+        },
+        "place_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "uris": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Base.UriModel"
+          }
+        },
+        "validation": {
+          "type": "boolean"
+        },
+        "visible_staff": {
+          "type": "boolean"
+        },
+        "image_url": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The request template ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.User.FavoriteModel": {
+      "title": "user.favorite_model",
+      "type": "object",
+      "properties": {
+        "menu_item": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Menu.MenuItemBaseModel"
+        },
+        "place": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Place.PlaceHackBaseModel"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The favorite ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Request.LastKnownRequestsModel": {
+      "title": "request.last_known_requests_model",
+      "type": "object",
+      "properties": {
+        "requests": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Request.RequestBaseModel"
+          }
+        },
+        "last_known_request_action_id": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Request.RequestBaseModel": {
+      "title": "request.request_base_model",
+      "type": "object",
+      "properties": {
+        "eta_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "following": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "requestor_user": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.User.UserModel"
+        },
+        "status": {
+          "format": "int32",
+          "enum": [
+            0,
+            1,
+            2,
+            3,
+            -2,
+            -1
+          ],
+          "type": "integer"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The request ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Request.RequestCommonModel": {
+      "title": "request.request_common_model",
+      "type": "object",
+      "properties": {
+        "request_template_id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Request.RequestOptionValueModel"
+          }
+        },
+        "eta_ms": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "following": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "requestor_user": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.User.UserModel"
+        },
+        "status": {
+          "format": "int32",
+          "enum": [
+            0,
+            1,
+            2,
+            3,
+            -2,
+            -1
+          ],
+          "type": "integer"
+        },
+        "id": {
+          "format": "int32",
+          "description": "The request ID.",
+          "default": 42,
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Request.LastKnownRequestModel": {
+      "title": "request.last_known_request_model",
+      "type": "object",
+      "properties": {
+        "request": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Request.RequestBaseModel"
+        },
+        "last_known_request_action_id": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Weather.WeatherModel": {
+      "title": "weather.weather_model",
+      "type": "object",
+      "properties": {
+        "feels_like_temperature": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Weather.TemperatureModel"
+        },
+        "forecasts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MonsciergeAPI.Models.Weather.ForecastModel"
+          }
+        },
+        "image_url": {
+          "type": "string"
+        },
+        "is_night": {
+          "type": "boolean"
+        },
+        "place": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Weather.WeatherPlaceModel"
+        },
+        "pressure": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Weather.PressureModel"
+        },
+        "relative_humidity": {
+          "format": "float",
+          "type": "number"
+        },
+        "temperature": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Weather.TemperatureModel"
+        },
+        "wind": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Weather.WindModel"
+        },
+        "current_weather": {
+          "type": "string"
+        },
+        "current_weather_icon_url": {
+          "type": "string"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Weather.TemperatureModel": {
+      "title": "weather.temperature_model",
+      "type": "object",
+      "properties": {
+        "c": {
+          "format": "float",
+          "type": "number"
+        },
+        "f": {
+          "format": "float",
+          "type": "number"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Weather.ForecastModel": {
+      "title": "weather.forecast_model",
+      "type": "object",
+      "properties": {
+        "chance_percipitation": {
+          "format": "float",
+          "type": "number"
+        },
+        "day_of_week": {
+          "format": "int32",
+          "enum": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "type": "integer"
+        },
+        "image_url": {
+          "type": "string"
+        },
+        "high_temperature": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Weather.TemperatureModel"
+        },
+        "low_temperature": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Weather.TemperatureModel"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Weather.WeatherPlaceModel": {
+      "title": "weather.weather_place_model",
+      "type": "object",
+      "properties": {
+        "address": {
+          "$ref": "#/definitions/MonsciergeAPI.Models.Base.AddressModel"
+        },
+        "metric": {
+          "type": "boolean"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Weather.PressureModel": {
+      "title": "weather.pressure_model",
+      "type": "object",
+      "properties": {
+        "i_n": {
+          "format": "float",
+          "type": "number"
+        },
+        "m_b": {
+          "format": "float",
+          "type": "number"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Weather.WindModel": {
+      "title": "weather.wind_model",
+      "type": "object",
+      "properties": {
+        "direction": {
+          "type": "string"
+        },
+        "k_ph": {
+          "format": "float",
+          "type": "number"
+        },
+        "m_ph": {
+          "format": "float",
+          "type": "number"
+        }
+      }
+    },
+    "MonsciergeAPI.Models.Weather.WeatherPlaceSearchModel": {
+      "title": "weather.weather_place_search_model",
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "oauth2": {
+      "type": "oauth2",
+      "description": "OAuth2 Implicit Grant",
+      "flow": "implicit",
+      "authorizationUrl": "https://localhost/auth/oauth/authorize",
+      "tokenUrl": "https://localhost/auth/oauth/token",
+      "scopes": {
+        "Connect": "Access to Connect account"
+      }
+    }
+  }
+}
