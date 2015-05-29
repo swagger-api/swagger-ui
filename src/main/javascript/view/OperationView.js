@@ -680,14 +680,12 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     $(".submit", $(this.el)).button("reset");
 
     // only highlight the response if response is less than threshold, default state is highlight response
-    /*
-     var opts = this.options.swaggerOptions;
-     if (opts.highlightSizeThreshold && response.data.length > opts.highlightSizeThreshold) {
-     return response_body_el;
-     } else {
-     return hljs.highlightBlock(response_body_el);
-     }
-     */
+    var opts = this.options.swaggerOptions;
+    if (opts.highlightSizeThreshold && response.data.length > opts.highlightSizeThreshold) {
+      return response_body_el;
+    } else {
+      return hljs.highlightBlock(response_body_el);
+    }
   },
 
   toggleSamples: function (e) {
@@ -700,7 +698,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
 
     var r = $("#resources"),
-        n = $(e.currentTarget);
+      n = $(e.currentTarget);
 
     r.toggleClass("samples-collapsed").addClass("is-collapsing");
     n.find('.text').text("Collapse samples");
