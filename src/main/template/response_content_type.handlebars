@@ -1,10 +1,17 @@
-<label for="responseContentType"></label>
-<select name="responseContentType">
-{{#if produces}}
-  {{#each produces}}
-  <option value="{{{this}}}">{{{this}}}</option>
-  {{/each}}
-{{else}}
-  <option value="application/json">application/json</option>
-{{/if}}
-</select>
+<div class="parameter-item">
+    <div class="param-property hide" data-label="name">Response Type</div>
+    <div class="param-property" data-label="Response Type">
+        <div>
+            <select class="parameter form-control" name="responseContentType">
+                {{#if produces}}
+                    {{#each produces}}
+                        <option value="{{{this}}}">{{{this}}}</option>
+                    {{/each}}
+                {{else}}
+                    <option value="application/json">application/json</option>
+                {{/if}}
+            </select>
+        </div>
+    </div>
+</div>
+

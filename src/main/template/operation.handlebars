@@ -15,7 +15,8 @@
                 </h3>
             </div>
 
-            <a href="javascript:;" class="toggle-samples" data-toggle="tooltip" data-placement="left" data-original-title title>
+            <a href="javascript:;" class="toggle-samples" data-toggle="tooltip" data-placement="left"
+               data-original-title title>
                 <span class="text">Show samples</span><span class="circle-icon"></span>
             </a>
 
@@ -43,29 +44,36 @@
                     Test this endpoint
                 </h4>
 
-                <div class="sandbox_header collapse in" data-content id="test-{{parentId}}_{{nickname}}">
-                    <input class="submit btn btn-primary" name="commit" type="submit" value="Try"
-                           data-target="#get_clients-modal-request">
-                    <a href="#" class="response_hider hide" style="display: inline;">Hide Response</a>
-                    <!--small class="curl-copy-message hide" style="display:none;">Copied to clipboard</small-->
-                    <!--span class="response_throbber hide" style="display: none;"></span-->
+                <div id="test-{{parentId}}_{{nickname}}">
+                    <div class="sandbox_header collapse in" data-content>
+                        <input class="submit btn btn-primary" name="commit" type="submit" value="Try"
+                               data-target="#get_clients-modal-request">
+                        <a href="#" class="response_hider hide" style="display: inline;">Hide Response</a>
+                        <!--small class="curl-copy-message hide" style="display:none;">Copied to clipboard</small-->
+                        <!--span class="response_throbber hide" style="display: none;"></span-->
 
-                    {{#oauth}}
-                    <div class="auth">
-                    {{/oauth}}
+                        {{#oauth}}
+                        <div class="auth">
+                        {{/oauth}}
 
-                    {{#each oauth}}
-                        <div id="api_information_panel" style="top: 526px; left: 776px; display: none;">
-                            {{#each this}}
-                                <div title='{{{this.description}}}'>{{this.scope}}</div>
-                            {{/each}}
+                        {{#each oauth}}
+                            <div id="api_information_panel" style="top: 526px; left: 776px; display: none;">
+                                {{#each this}}
+                                    <div title='{{{this.description}}}'>{{this.scope}}</div>
+                                {{/each}}
+                            </div>
+                        {{/each}}
+
+                        {{#oauth}}
+                            <button type="button" class="api-ic ic-off btn btn-default pull-right">Oauth</button>
                         </div>
-                    {{/each}}
+                        {{/oauth}}
 
-                    {{#oauth}}
-                        <button type="button" class="api-ic ic-off btn btn-default pull-right">Oauth</button>
                     </div>
-                    {{/oauth}}
+
+                    {{#if type}}
+                        <div class="response-content-type"/>
+                    {{/if}}
 
                 </div>
 
