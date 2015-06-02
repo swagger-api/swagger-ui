@@ -10,6 +10,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     'click .toggleOperation'  : 'toggleOperationContent',
     'mouseenter .api-ic'      : 'mouseEnter',
     'mouseout .api-ic'        : 'mouseExit',
+    'dblclick .curl'          : 'selectText',
   },
 
   initialize: function(opts) {
@@ -20,6 +21,24 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     this.nickname = this.model.nickname;
     this.model.encodedParentId = encodeURIComponent(this.parentId);
     return this;
+  },
+
+  selectText: function(event) {
+      var doc = document,
+          text = event.target.firstChild,
+          range,
+          selection;
+      if (doc.body.createTextRange) {
+          range = document.body.createTextRange();
+          range.moveToElementText(text);
+          range.select();
+      } else if (window.getSelection) {
+          selection = window.getSelection();        
+          range = document.createRange();
+          range.selectNodeContents(text);
+          selection.removeAllRanges();
+          selection.addRange(range);
+      }
   },
 
   mouseEnter: function(e) {
@@ -333,6 +352,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       if (isFileUpload) {
         return this.handleFileUpload(map, form);
       } else {
+        this.map = map
         return this.model.execute(map, opts, this.showCompleteStatus, this.showErrorStatus, this);
       }
     }
@@ -669,7 +689,16 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     $('.response', $(this.el)).slideDown();
     $('.response_hider', $(this.el)).show();
     $('.response_throbber', $(this.el)).hide();
+
+
+    //adds curloutput
+    var curlCommand = swaggerUi.api[this.parentId][this.nickname].asCurl(this.map);
+    console.log(curlCommand);
+    curlCommand = curlCommand.replace("!", "&#33;");
+    $( '.curl', $(this.el)).html('<pre>' + curlCommand + '</pre>');
+
     var response_body_el = $('.response_body', $(this.el))[0];
+
 
     // only highlight the response if response is less than threshold, default state is highlight response
     var opts = this.options.swaggerOptions;
