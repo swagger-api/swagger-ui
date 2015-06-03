@@ -242,10 +242,11 @@
     }
 }
 
+/*
 .swagger-section .parameter-item .parameter-content-type {
     display: none
 }
-
+*/
 .swagger-section .parameter-item .param-property {
     padding: 20px;
     line-height: 1.4;

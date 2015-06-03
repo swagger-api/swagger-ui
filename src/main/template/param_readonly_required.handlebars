@@ -3,6 +3,7 @@
     <div>
         {{#if isBody}}
             <textarea class='body-textarea form-control' readonly='readonly' placeholder='(required)' name='{{name}}'>{{default}}</textarea>
+            <div class="parameter-content-type"/>
         {{else}}
             {{#if default}}
                 {{default}}

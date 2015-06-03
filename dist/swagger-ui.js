@@ -208,7 +208,7 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
     + escapeExpression(((helper = (helper = helpers.parentId || (depth0 != null ? depth0.parentId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"parentId","hash":{},"data":data}) : helper)))
     + "_"
     + escapeExpression(((helper = (helper = helpers.nickname || (depth0 != null ? depth0.nickname : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"nickname","hash":{},"data":data}) : helper)))
-    + "\">\n                    </div>\n";
+    + "\">\n                    </div>\n\n";
 },"9":function(depth0,helpers,partials,data) {
   return "                        <div class=\"auth\">\n";
   },"11":function(depth0,helpers,partials,data) {
@@ -368,7 +368,7 @@ this["Handlebars"]["templates"]["param_readonly_required"] = Handlebars.template
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + "'>"
     + escapeExpression(((helper = (helper = helpers['default'] || (depth0 != null ? depth0['default'] : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"default","hash":{},"data":data}) : helper)))
-    + "</textarea>\n";
+    + "</textarea>\n            <div class=\"parameter-content-type\"/>\n";
 },"3":function(depth0,helpers,partials,data) {
   var stack1, buffer = "";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0['default'] : depth0), {"name":"if","hash":{},"fn":this.program(4, data),"inverse":this.program(6, data),"data":data});
@@ -407,7 +407,7 @@ this["Handlebars"]["templates"]["param_readonly"] = Handlebars.template({"1":fun
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + "'>"
     + escapeExpression(((helper = (helper = helpers['default'] || (depth0 != null ? depth0['default'] : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"default","hash":{},"data":data}) : helper)))
-    + "</textarea>\n";
+    + "</textarea>\n            <div class=\"parameter-content-type\"/>\n";
 },"3":function(depth0,helpers,partials,data) {
   var stack1, buffer = "";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0['default'] : depth0), {"name":"if","hash":{},"fn":this.program(4, data),"inverse":this.program(6, data),"data":data});
@@ -461,12 +461,12 @@ this["Handlebars"]["templates"]["param_required"] = Handlebars.template({"1":fun
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + "'>"
     + escapeExpression(((helper = (helper = helpers['default'] || (depth0 != null ? depth0['default'] : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"default","hash":{},"data":data}) : helper)))
-    + "</textarea>\n";
+    + "</textarea>\n                <div class=\"parameter-content-type\"/>\n";
 },"7":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
   return "                <textarea class='body-textarea form-control required' placeholder='(required)' name='"
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
-    + "'></textarea>\n";
+    + "'></textarea>\n                <div class=\"parameter-content-type\"/>\n";
 },"9":function(depth0,helpers,partials,data) {
   var stack1, buffer = "";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isFile : depth0), {"name":"if","hash":{},"fn":this.program(10, data),"inverse":this.program(12, data),"data":data});
@@ -599,7 +599,7 @@ this["Handlebars"]["templates"]["parameter_content_type"] = Handlebars.template(
   if (stack1 != null) { buffer += stack1; }
   return buffer;
 },"2":function(depth0,helpers,partials,data) {
-  var stack1, lambda=this.lambda, buffer = "  <option value=\"";
+  var stack1, lambda=this.lambda, buffer = "                <option value=\"";
   stack1 = lambda(depth0, depth0);
   if (stack1 != null) { buffer += stack1; }
   buffer += "\">";
@@ -607,12 +607,12 @@ this["Handlebars"]["templates"]["parameter_content_type"] = Handlebars.template(
   if (stack1 != null) { buffer += stack1; }
   return buffer + "</option>\n";
 },"4":function(depth0,helpers,partials,data) {
-  return "  <option value=\"application/json\">application/json</option>\n";
+  return "            <option value=\"application/json\">application/json</option>\n";
   },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, buffer = "<label for=\"parameterContentType\"></label>\n<select name=\"parameterContentType\">\n";
+  var stack1, buffer = "<div>\n    <label for=\"parameterContentType\">Content type:</label>\n    <select class=\"parameter form-control\" name=\"parameterContentType\">\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.consumes : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.program(4, data),"data":data});
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "</select>\n";
+  return buffer + "    </select>\n</div>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["resource"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
@@ -22133,7 +22133,7 @@ SwaggerUi.Views.ParameterContentTypeView = Backbone.View.extend({
   render: function(){
     $(this.el).html(Handlebars.templates.parameter_content_type(this.model));
 
-    $('label[for=parameterContentType]', $(this.el)).text('Parameter content type:');
+    //$('label[for=parameterContentType]', $(this.el)).text('Parameter content type:');
 
     return this;
   }

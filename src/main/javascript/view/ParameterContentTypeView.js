@@ -6,7 +6,7 @@ SwaggerUi.Views.ParameterContentTypeView = Backbone.View.extend({
   render: function(){
     $(this.el).html(Handlebars.templates.parameter_content_type(this.model));
 
-    $('label[for=parameterContentType]', $(this.el)).text('Parameter content type:');
+    //$('label[for=parameterContentType]', $(this.el)).text('Parameter content type:');
 
     return this;
   }
