@@ -758,6 +758,13 @@
                         "description": "Id of Control/Sensor",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "message",
+                        "description": "Message",
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -821,6 +828,13 @@
                         "in": "path",
                         "name": "controlId",
                         "description": "Id of Control/Sensor",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "message",
+                        "description": "Message",
                         "required": true,
                         "type": "string"
                     }
