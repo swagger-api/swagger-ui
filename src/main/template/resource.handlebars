@@ -1,6 +1,6 @@
 <div class='heading'>
   <h2>
-    <a href='#!/{{id}}' class="toggleEndpointList" data-id="{{id}}">{{name}}</a> {{#summary}} : {{/summary}}{{{summary}}}
+    <a href='#!/{{id}}' class="toggleEndpointList" data-id="{{id}}">{{name}} </a>
   </h2>
   <ul class='options'>
     <li>
@@ -23,6 +23,8 @@
     {{/if}}
   </ul>
 </div>
-<ul class='endpoints' id='{{id}}_endpoint_list' style='display:none'>
-
+<p class="markdown">
+    {{description}}
+</p>
+<ul class='endpoints' id='{{id}}_endpoint_list'>
 </ul>
