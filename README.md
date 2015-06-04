@@ -229,7 +229,7 @@ Plsee see [releases](https://github.com/swagger-api/swagger-ui/releases) for cha
 
 ## License
 
-Copyright 2011-2015 Reverb technologies, Inc.
+Copyright 2011-2015 SmartBear Software
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

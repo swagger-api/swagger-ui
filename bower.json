@@ -13,7 +13,7 @@
     "Swagger",
     "API"
   ],
-  "license": "Copyright 2015 Reverb Technologies, Inc.",
+  "license": "Copyright 2015 SmartBear Software",
   "homepage": "http://swagger.io",
   "private": true,
   "ignore": [
