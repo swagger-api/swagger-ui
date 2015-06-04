@@ -1,5 +1,5 @@
 ###
-# swagger-ui-builder - https://github.com/wordnik/swagger-ui/
+# swagger-ui-builder - https://github.com/swagger-api/swagger-ui/
 # Container for building the swagger-ui static site
 #
 # Build: docker build -t swagger-ui-builder .
