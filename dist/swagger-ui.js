@@ -1037,6 +1037,10 @@ window.SwaggerUi = Backbone.Router.extend({
     $('.markdown').each(function(){
       $(this).html(marked($(this).html()));
     });
+
+    $('.propDesc', '.model-signature .description').each(function () {
+      $(this).html(marked($(this).html())).addClass('markdown');
+    });
   }
 
 });
