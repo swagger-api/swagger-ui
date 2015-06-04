@@ -21437,6 +21437,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         };
       })(this)
     };
+    this.model.clientAuthorizations.apply(obj, this.model.operation.security);
     jQuery.ajax(obj);
     return false;
     // end of file-upload nastiness
