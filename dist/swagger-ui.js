@@ -131,11 +131,13 @@ window.Docs = {
 
 		switch (fragments.length) {
 			case 1:
-				// Expand all operations for the resource and scroll to it
-				var dom_id = 'resource_' + fragments[0];
+        if (fragments[0].length > 0) { // prevent matching "#/"
+          // Expand all operations for the resource and scroll to it
+          var dom_id = 'resource_' + fragments[0];
 
-				Docs.expandEndpointListForResource(fragments[0]);
-				$("#"+dom_id).slideto({highlight: false});
+          Docs.expandEndpointListForResource(fragments[0]);
+          $("#"+dom_id).slideto({highlight: false});
+        }
 				break;
 			case 2:
 				// Refer to the endpoint DOM element, e.g. #words_get_search
@@ -2092,9 +2094,11 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
   },
 
-  toggleOperationContent: function() {
+  toggleOperationContent: function (event) {
     var elem = $('#' + Docs.escapeResourceName(this.parentId + '_' + this.nickname + '_content'));
     if (elem.is(':visible')){
+      event.preventDefault();
+      $.bbq.pushState('#/', 2);
       Docs.collapseOperation(elem);
     } else {
       Docs.expandOperation(elem);
