@@ -20675,7 +20675,7 @@ window.SwaggerUi = Backbone.Router.extend({
     }
     $('#message-bar').removeClass('message-fail');
     $('#message-bar').addClass('message-success');
-    $('#message-bar').html(data);
+    $('#message-bar').text(data);
   },
 
   // shows message in red
@@ -20686,7 +20686,7 @@ window.SwaggerUi = Backbone.Router.extend({
     $('#message-bar').removeClass('message-success');
     $('#message-bar').addClass('message-fail');
 
-    var val = $('#message-bar').html(data);
+    var val = $('#message-bar').text(data);
 
     if (this.options.onFailure) {
       this.options.onFailure(data);
@@ -20763,6 +20763,7 @@ window.SwaggerUi.Views = {};
 }(this, function () {
     return SwaggerUi;
 }));
+
 'use strict';
 
 SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to global SwaggerUi
