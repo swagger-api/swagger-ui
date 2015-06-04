@@ -335,7 +335,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
         return this.model.execute(map, opts, this.showCompleteStatus, this.showErrorStatus, this);
       } else {
-        this.map = map
+        this.map = map;
         return this.model.execute(map, opts, this.showCompleteStatus, this.showErrorStatus, this);
       }
     }
@@ -647,14 +647,11 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     $('.response_throbber', $(this.el)).hide();
 
 
-    //adds curloutput
-    var curlCommand = swaggerUi.api[this.parentId][this.nickname].asCurl(this.map);
+    //adds curl output
+    var curlCommand = this.model.asCurl(this.map);
     console.log(curlCommand);
-    curlCommand = curlCommand.replace("!", "&#33;");
+    curlCommand = curlCommand.replace('!', '&#33;');
     $( '.curl', $(this.el)).html('<pre>' + curlCommand + '</pre>');
-
-    var response_body_el = $('.response_body', $(this.el))[0];
-
 
     // only highlight the response if response is less than threshold, default state is highlight response
     var opts = this.options.swaggerOptions;
