@@ -479,7 +479,7 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
   if (stack1 != null) { buffer += stack1; }
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isReadOnly : depth0), {"name":"if","hash":{},"fn":this.program(22, data),"inverse":this.program(24, data),"data":data});
   if (stack1 != null) { buffer += stack1; }
-  buffer += "        </form>\n        <div class='response' style='display:none'>\n          <h4>Request URL</h4>\n          <div class='block request_url'></div>\n";
+  buffer += "        </form>\n        <div class='response' style='display:none'>\n          <h4>Curl</h4>\n          <div class='block curl'></div>\n          <h4>Request URL</h4>\n          <div class='block request_url'></div>\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.showRequestHeaders : depth0), {"name":"if","hash":{},"fn":this.program(26, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "          <h4>Response Body</h4>\n          <div class='block response_body'></div>\n          <h4>Response Code</h4>\n          <div class='block response_code'></div>\n          <h4>Response Headers</h4>\n          <div class='block response_headers'></div>\n        </div>\n      </div>\n    </li>\n  </ul>\n";
@@ -21083,6 +21083,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     'click .toggleOperation'  : 'toggleOperationContent',
     'mouseenter .api-ic'      : 'mouseEnter',
     'mouseout .api-ic'        : 'mouseExit',
+    'dblclick .curl'          : 'selectText',
   },
 
   initialize: function(opts) {
@@ -21093,6 +21094,24 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     this.nickname = this.model.nickname;
     this.model.encodedParentId = encodeURIComponent(this.parentId);
     return this;
+  },
+
+  selectText: function(event) {
+      var doc = document,
+          text = event.target.firstChild,
+          range,
+          selection;
+      if (doc.body.createTextRange) {
+          range = document.body.createTextRange();
+          range.moveToElementText(text);
+          range.select();
+      } else if (window.getSelection) {
+          selection = window.getSelection();        
+          range = document.createRange();
+          range.selectNodeContents(text);
+          selection.removeAllRanges();
+          selection.addRange(range);
+      }
   },
 
   mouseEnter: function(e) {
@@ -21389,6 +21408,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
         return this.model.execute(map, opts, this.showCompleteStatus, this.showErrorStatus, this);
       } else {
+        this.map = map
         return this.model.execute(map, opts, this.showCompleteStatus, this.showErrorStatus, this);
       }
     }
@@ -21699,6 +21719,17 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     $('.response_hider', $(this.el)).show();
     $('.response_throbber', $(this.el)).hide();
 
+
+    //adds curloutput
+    var curlCommand = swaggerUi.api[this.parentId][this.nickname].asCurl(this.map);
+    console.log(curlCommand);
+    curlCommand = curlCommand.replace("!", "&#33;");
+    $( '.curl', $(this.el)).html('<pre>' + curlCommand + '</pre>');
+
+    var response_body_el = $('.response_body', $(this.el))[0];
+
+
+    // only highlight the response if response is less than threshold, default state is highlight response
     var opts = this.options.swaggerOptions;
 
     if (opts.showRequestHeaders) {
