@@ -30,7 +30,13 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
     this.model.paramType = this.model.in || this.model.paramType;
     this.model.isBody = this.model.paramType === 'body' || this.model.in === 'body';
     this.model.isFile = type && type.toLowerCase() === 'file';
-    this.model.default = (this.model.default || this.model.defaultValue);
+
+    // Allow for default === false
+    if(typeof this.model.default === 'undefined') {
+      this.model.default = this.model.defaultValue;
+    }
+
+    this.model.hasDefault = (typeof this.model.default !== 'undefined');
     this.model.valueId = 'm' + this.model.name + Math.random();
 
     if (this.model.allowableValues) {
