@@ -408,6 +408,8 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
   return "";
 },"24":function(depth0,helpers,partials,data) {
   return "          <div class='sandbox_header'>\n            <input class='submit' type='button' value='Try it out!' />\n            <a href='#' class='response_hider' style='display:none'>Hide Response</a>\n            <span class='response_throbber' style='display:none'></span>\n          </div>\n";
+  },"26":function(depth0,helpers,partials,data) {
+  return "          <h4>Request Headers</h4>\n          <div class='block request_headers'></div>\n";
   },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var stack1, helper, options, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, blockHelperMissing=helpers.blockHelperMissing, buffer = "\n  <ul class='operations' >\n    <li class='"
     + escapeExpression(((helper = (helper = helpers.method || (depth0 != null ? depth0.method : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"method","hash":{},"data":data}) : helper)))
@@ -469,7 +471,10 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
   if (stack1 != null) { buffer += stack1; }
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isReadOnly : depth0), {"name":"if","hash":{},"fn":this.program(22, data),"inverse":this.program(24, data),"data":data});
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "        </form>\n        <div class='response' style='display:none'>\n          <h4>Request URL</h4>\n          <div class='block request_url'></div>\n          <h4>Response Body</h4>\n          <div class='block response_body'></div>\n          <h4>Response Code</h4>\n          <div class='block response_code'></div>\n          <h4>Response Headers</h4>\n          <div class='block response_headers'></div>\n        </div>\n      </div>\n    </li>\n  </ul>\n";
+  buffer += "        </form>\n        <div class='response' style='display:none'>\n          <h4>Request URL</h4>\n          <div class='block request_url'></div>\n";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.showRequestHeaders : depth0), {"name":"if","hash":{},"fn":this.program(26, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "          <h4>Response Body</h4>\n          <div class='block response_body'></div>\n          <h4>Response Code</h4>\n          <div class='block response_code'></div>\n          <h4>Response Headers</h4>\n          <div class='block response_headers'></div>\n        </div>\n      </div>\n    </li>\n  </ul>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["param_list"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
@@ -1574,6 +1579,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         signature: this.model.responseClassSignature
       };
     }
+    var opts = this.options.swaggerOptions;
+    if (opts.showRequestHeaders) {
+      this.model.showRequestHeaders = true;
+    }
     $(this.el).html(Handlebars.templates.operation(this.model));
     if (signatureModel) {
       responseSignatureView = new SwaggerUi.Views.SignatureView({
@@ -1655,7 +1664,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   // Note: copied from CoffeeScript compiled file
   // TODO: redactor
   submitOperation: function(e) {
-    var error_free, form, isFileUpload, l, len, len1, len2, m, map, n, o, opts, ref1, ref2, ref3, val;
+    var error_free, form, isFileUpload, map, opts;
     if (e !== null) {
       e.preventDefault();
     }
@@ -1704,41 +1713,14 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       }
     });
     if (error_free) {
-      map = {};
+      map = this.getInputMap(form);
+      isFileUpload = this.isFileUpload(form);
       opts = {
         parent: this
       };
-      if(this.options.swaggerOptions) {
+      if (this.options.swaggerOptions) {
         for(var key in this.options.swaggerOptions) {
           opts[key] = this.options.swaggerOptions[key];
-        }
-      }
-      isFileUpload = false;
-      ref1 = form.find('input');
-      for (l = 0, len = ref1.length; l < len; l++) {
-        o = ref1[l];
-        if ((o.value !== null) && jQuery.trim(o.value).length > 0) {
-          map[o.name] = o.value;
-        }
-        if (o.type === 'file') {
-          map[o.name] = o.files[0];
-          isFileUpload = true;
-        }
-      }
-      ref2 = form.find('textarea');
-      for (m = 0, len1 = ref2.length; m < len1; m++) {
-        o = ref2[m];
-        val = this.getTextAreaValue(o);
-        if ((val !== null) && jQuery.trim(val).length > 0) {
-          map[o.name] = val;
-        }
-      }
-      ref3 = form.find('select');
-      for (n = 0, len2 = ref3.length; n < len2; n++) {
-        o = ref3[n];
-        val = this.getSelectedValue(o);
-        if ((val !== null) && jQuery.trim(val).length > 0) {
-          map[o.name] = val;
         }
       }
       opts.responseContentType = $('div select[name=responseContentType]', $(this.el)).val();
@@ -1752,6 +1734,51 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
   },
 
+  getInputMap: function (form) {
+    var map, ref1, l, len, o, ref2, m, len1, val, ref3, n, len2;
+    map = {};
+    ref1 = form.find('input');
+    for (l = 0, len = ref1.length; l < len; l++) {
+      o = ref1[l];
+      if ((o.value !== null) && jQuery.trim(o.value).length > 0) {
+        map[o.name] = o.value;
+      }
+      if (o.type === 'file') {
+        map[o.name] = o.files[0];
+      }
+    }
+    ref2 = form.find('textarea');
+    for (m = 0, len1 = ref2.length; m < len1; m++) {
+      o = ref2[m];
+      val = this.getTextAreaValue(o);
+      if ((val !== null) && jQuery.trim(val).length > 0) {
+        map[o.name] = val;
+      }
+    }
+    ref3 = form.find('select');
+    for (n = 0, len2 = ref3.length; n < len2; n++) {
+      o = ref3[n];
+      val = this.getSelectedValue(o);
+      if ((val !== null) && jQuery.trim(val).length > 0) {
+        map[o.name] = val;
+      }
+    }
+    return map;
+  },
+
+  isFileUpload: function (form) {
+    var ref1, l, len, o;
+    var isFileUpload = false;
+    ref1 = form.find('input');
+    for (l = 0, len = ref1.length; l < len; l++) {
+      o = ref1[l];
+      if (o.type === 'file') {
+        isFileUpload = true;
+      }
+    }
+    return isFileUpload;
+  },
+
   success: function(response, parent) {
     parent.showCompleteStatus(response);
   },
@@ -1759,7 +1786,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   // Note: This is compiled code
   // TODO: Refactor
   handleFileUpload: function(map, form) {
-    var bodyParam, el, headerParams, l, len, len1, len2, len3, m, n, o, p, param, params, ref1, ref2, ref3, ref4;
+    var bodyParam, el, headerParams, l, len, len1, len3, m, o, p, param, params, ref1, ref2, ref4;
     ref1 = form.serializeArray();
     for (l = 0, len = ref1.length; l < len; l++) {
       o = ref1[l];
@@ -1776,14 +1803,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         if (param.type.toLowerCase() !== 'file' && map[param.name] !== void 0) {
           bodyParam.append(param.name, map[param.name]);
         }
-      }
-    }
-    headerParams = {};
-    ref3 = this.model.parameters;
-    for (n = 0, len2 = ref3.length; n < len2; n++) {
-      param = ref3[n];
-      if (param.paramType === 'header') {
-        headerParams[param.name] = map[param.name];
       }
     }
     ref4 = form.find('input[type~="file"]');
@@ -2083,11 +2102,20 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     $('.response', $(this.el)).slideDown();
     $('.response_hider', $(this.el)).show();
     $('.response_throbber', $(this.el)).hide();
-    var response_body_el = $('.response_body', $(this.el))[0];
 
-    // only highlight the response if response is less than threshold, default state is highlight response
     var opts = this.options.swaggerOptions;
-    if (opts.highlightSizeThreshold && response.data.length > opts.highlightSizeThreshold) {
+
+    if (opts.showRequestHeaders) {
+      var form = $('.sandbox', $(this.el)),
+        map = this.getInputMap(form),
+        requestHeaders = this.model.getHeaderParams(map);
+      delete requestHeaders['Content-Type'];
+      $('.request_headers', $(this.el)).html('<pre>' + _.escape(JSON.stringify(requestHeaders, null, '  ')).replace(/\n/g, '<br>') + '</pre>');
+    }
+
+    var response_body_el = $('.response_body', $(this.el))[0];
+    // only highlight the response if response is less than threshold, default state is highlight response
+    if (opts.highlightSizeThreshold && typeof response.data !== 'undefined' && response.data.length > opts.highlightSizeThreshold) {
       return response_body_el;
     } else {
       return hljs.highlightBlock(response_body_el);
