@@ -29,7 +29,7 @@ window.SwaggerTranslator = {
     },
 
     _tryTranslate: function(word) {
-      return this._words[word] !== undefined ? this._words[word] : word;
+      return this._words[$.trim(word)] !== undefined ? this._words[$.trim(word)] : word;
     },
 
     learn: function(wordsMap) {
