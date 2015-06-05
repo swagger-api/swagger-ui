@@ -42,7 +42,6 @@ window.SwaggerTranslator.learn({
     "fetching resource list":"fetching resource list",
     "Explore":"Explore",
     "Show Swagger Petstore Example Apis":"Show Swagger Petstore Example Apis",
-    "Show Wordnik Developer Apis":"Show Wordnik Developer Apis",
     "Can't read from server.  It may not have the appropriate access-control-origin settings.":"Can't read from server.  It may not have the appropriate access-control-origin settings.",
     "Please specify the protocol for":"Please specify the protocol for",
     "Can't read swagger JSON from":"Can't read swagger JSON from",
