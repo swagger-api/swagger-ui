@@ -321,6 +321,19 @@
                     }
                 }
             }
+            .propDesc.markdown {
+                > p:first-child,
+                > p:last-child {
+                    display: inline;
+                }
+                > p:not(:first-child):before {
+                    display: block;
+                    content: '';
+                }
+            }
+            span:last-of-type.propDesc.markdown > p:only-child {
+                margin-right: -3px; // otherwise there is a gap before the comma
+            }
         }
         .propName {
             font-weight: bold;

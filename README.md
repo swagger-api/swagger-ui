@@ -20,7 +20,7 @@ The Swagger Specification has undergone 4 revisions since initial creation in 20
 
 Swagger UI Version | Release Date | Swagger Spec compatibility | Notes | Status
 ------------------ | ------------ | -------------------------- | ----- | ------
-2.1.1-M2           | 2015-04-16   | 1.1, 1.2, 2.0              | [master](https://github.com/swagger-api/swagger-ui) |
+2.1.1              | 2015-06-06   | 1.1, 1.2, 2.0              | [master](https://github.com/swagger-api/swagger-ui) |
 2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) |
 1.0.13             | 2013-03-08   | 1.1, 1.2 | [tag v1.0.13](https://github.com/swagger-api/swagger-ui/tree/v1.0.13) |
 1.0.1              | 2011-10-11   | 1.0, 1.1 | [tag v1.0.1](https://github.com/swagger-api/swagger-ui/tree/v1.0.1)   |
@@ -96,8 +96,9 @@ operationsSorter | Apply a sort to the operation list of each API. It can be 'al
 onComplete | This is a callback function parameter which can be passed to be notified of when SwaggerUI has completed rendering successfully.
 onFailure | This is a callback function parameter which can be passed to be notified of when SwaggerUI encountered a failure was unable to render.
 highlightSizeThreshold | Any size response below this threshold will be highlighted syntactically, attempting to highlight large responses can lead to browser hangs, not including a threshold will default to highlight all returned responses.
-supportedSubmitMethods | An array of of the HTTP operations that will have the 'Try it out!` option. An empty array disables all operations. This does not filter the operations from the display.
+supportedSubmitMethods | An array of of the HTTP operations that will have the 'Try it out!' option. An empty array disables all operations. This does not filter the operations from the display.
 oauth2RedirectUrl | OAuth redirect URL
+showRequestHeaders | Whether or not to show the headers that were sent when making a request via the 'Try it out!' option. Defaults to `false`.
 
 * All other parameters are explained in greater detail below
 
@@ -228,7 +229,7 @@ Plsee see [releases](https://github.com/swagger-api/swagger-ui/releases) for cha
 
 ## License
 
-Copyright 2011-2015 Reverb technologies, Inc.
+Copyright 2011-2015 SmartBear Software
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
