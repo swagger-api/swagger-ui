@@ -152,7 +152,14 @@
 
 @media (min-width: 992px) {
     .swagger-section .heading .path a {
-        font-size: 16px
+        font-size: 16px;
+        max-width: 545px;
+    }
+}
+
+@media (min-width: 1400px) {
+     .swagger-section .heading .path a {
+        max-width: 405px;
     }
 }
 
@@ -1570,7 +1577,6 @@ body {
 @media (min-width: 992px) {
     .swagger-section #resources.samples-collapsed {
         width: 130%;
-        width: 130vw
     }
 
     .swagger-section #resources.samples-collapsed a.toggle-samples .circle-icon:before {
