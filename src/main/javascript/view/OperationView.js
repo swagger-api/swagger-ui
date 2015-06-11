@@ -111,53 +111,56 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   },
 
+  renderResponseClass: function () {
 
-
-  renderSignature: function () {
-
-    var signatureModel = null, successResponse;
+    var signatureModel = null;
 
     // Get the last response with an object?
     if (this.model.successResponse) {
       successResponse = this.model.successResponse;
-      for (var key in successResponse) {
-        var resp = successResponse[key];
-        this.model.successCode = key;
-        if (resp && typeof resp === 'object') {
-          signatureModel = {
-            sampleJSON: this.createSample(resp),
-            isParam: false,
-            signature: this.createSampleMarkup(resp)
-          };
-        }
-      }
+      var resp;
 
-      // What is responseClassSignature? TODO: do we need this?
-    // } else if (this.model.responseClassSignature && this.model.responseClassSignature !== 'string') {
-    //   signatureModel = {
-    //     sampleJSON: this.model.responseSampleJSON,
-    //     isParam: false,
-    //     signature: this.model.responseClassSignature
-    //   };
-    }
+      // Get last key/value
+      for (var key in successResponse) { resp = successResponse[key]; }
 
-    if (signatureModel) {
-      responseSignatureView = new SwaggerUi.Views.SignatureView({
+      this.model.successCode = key;
+      signatureModel = {
+        sampleJSON: this.createSample(resp),
+        isParam: false,
+        signature: this.createSampleMarkup(resp)
+      };
+
+     } else if (this.model.responseClassSignature && this.model.responseClassSignature !== 'string') {
+       signatureModel = {
+         sampleJSON: this.model.responseSampleJSON,
+         isParam: false,
+         signature: this.model.responseClassSignature
+       }
+     }
+
+     if(signatureModel) {
+
+      var responseSignatureView = new SwaggerUi.Views.SignatureView({
         model: signatureModel,
         router: this.router,
         tagName: 'div'
       });
+
       $('.model-signature', $(this.el)).append(responseSignatureView.render().el);
-    } else {
+
+     } else {
+
       this.model.responseClassSignature = 'string';
       $('.model-signature', $(this.el)).html(this.model.type);
-    }
+
+     }
+
   },
 
   // Note: copied from CoffeeScript compiled file
   // TODO: redactor
   render: function() {
-    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, l, len, len1, len2, len3, len4, m, modelAuths, n, o, p, param, q, ref, ref1, ref2, ref3, ref4, ref5, responseContentTypeView, responseSignatureView, schema, schemaObj, scopeIndex, signatureModel, statusCode, successResponse, type, v, value;
+    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, l, len, len1, len2, len3, len4, m, modelAuths, n, o, p, param, q, ref, ref1, ref2, ref3, ref4, ref5, responseContentTypeView, schema, schemaObj, scopeIndex, signatureModel, statusCode, successResponse, type, v, value;
     isMethodSubmissionSupported = jQuery.inArray(this.model.method, this.model.supportedSubmitMethods()) >= 0;
     if (!isMethodSubmissionSupported) {
       this.model.isReadOnly = true;
@@ -241,7 +244,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
     $(this.el).html(Handlebars.templates.operation(this.model));
 
-    this.renderSignature();
+    this.renderResponseClass();
 
     contentTypeModel = {
       isParam: false
