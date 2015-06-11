@@ -33,7 +33,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
           range.moveToElementText(text);
           range.select();
       } else if (window.getSelection) {
-          selection = window.getSelection();        
+          selection = window.getSelection();
           range = document.createRange();
           range.selectNodeContents(text);
           selection.removeAllRanges();
@@ -77,6 +77,81 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   mouseExit: function(e) {
     $(e.currentTarget.parentNode).find('#api_information_panel').hide();
+  },
+
+  createSample: function(response) {
+    var json;
+
+    if(typeof response !== 'object') {
+      return;
+    }
+
+    if(typeof response.createJSONSample === 'function') {
+      json = response.createJSONSample();
+    } else {
+      json = SwaggerClient.SchemaMarkup.schemaToJSON(response);
+    }
+
+    return JSON.stringify(json, null, 2);
+  },
+
+  createSampleMarkup: function (response) {
+    var markup = '';
+    if(typeof response !== 'object') {
+      return;
+    }
+
+    if(typeof response.getMockSignature === 'function') {
+      markup += response.getMockSignature();
+    } else {
+      markup += SwaggerClient.SchemaMarkup.schemaToHTML(response);
+    }
+
+    return markup;
+
+  },
+
+
+
+  renderSignature: function () {
+
+    var signatureModel = null, successResponse;
+
+    // Get the last response with an object?
+    if (this.model.successResponse) {
+      successResponse = this.model.successResponse;
+      for (var key in successResponse) {
+        var resp = successResponse[key];
+        this.model.successCode = key;
+        if (resp && typeof resp === 'object') {
+          signatureModel = {
+            sampleJSON: this.createSample(resp),
+            isParam: false,
+            signature: this.createSampleMarkup(resp)
+          };
+        }
+      }
+
+      // What is responseClassSignature? TODO: do we need this?
+    // } else if (this.model.responseClassSignature && this.model.responseClassSignature !== 'string') {
+    //   signatureModel = {
+    //     sampleJSON: this.model.responseSampleJSON,
+    //     isParam: false,
+    //     signature: this.model.responseClassSignature
+    //   };
+    }
+
+    if (signatureModel) {
+      responseSignatureView = new SwaggerUi.Views.SignatureView({
+        model: signatureModel,
+        router: this.router,
+        tagName: 'div'
+      });
+      $('.model-signature', $(this.el)).append(responseSignatureView.render().el);
+    } else {
+      this.model.responseClassSignature = 'string';
+      $('.model-signature', $(this.el)).html(this.model.type);
+    }
   },
 
   // Note: copied from CoffeeScript compiled file
@@ -158,43 +233,16 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     if (typeof this.model.responseMessages === 'undefined') {
       this.model.responseMessages = [];
     }
-    signatureModel = null;
-    if (this.model.successResponse) {
-      successResponse = this.model.successResponse;
-      for (key in successResponse) {
-        value = successResponse[key];
-        this.model.successCode = key;
-        if (typeof value === 'object' && typeof value.createJSONSample === 'function') {
-          signatureModel = {
-            sampleJSON: JSON.stringify(value.createJSONSample(), void 0, 2),
-            isParam: false,
-            signature: value.getMockSignature()
-          };
-        }
-      }
-    } else if (this.model.responseClassSignature && this.model.responseClassSignature !== 'string') {
-      signatureModel = {
-        sampleJSON: this.model.responseSampleJSON,
-        isParam: false,
-        signature: this.model.responseClassSignature
-      };
-    }
+
+
     var opts = this.options.swaggerOptions;
     if (opts.showRequestHeaders) {
       this.model.showRequestHeaders = true;
     }
     $(this.el).html(Handlebars.templates.operation(this.model));
-    if (signatureModel) {
-      responseSignatureView = new SwaggerUi.Views.SignatureView({
-        model: signatureModel,
-        router: this.router,
-        tagName: 'div'
-      });
-      $('.model-signature', $(this.el)).append(responseSignatureView.render().el);
-    } else {
-      this.model.responseClassSignature = 'string';
-      $('.model-signature', $(this.el)).html(this.model.type);
-    }
+
+    this.renderSignature();
+
     contentTypeModel = {
       isParam: false
     };
