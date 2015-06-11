@@ -9,7 +9,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     'click .response_hider'   : 'hideResponse',
     'click .toggleOperation'  : 'toggleOperationContent',
     'mouseenter .api-ic'      : 'mouseEnter',
-    'mouseout .api-ic'        : 'mouseExit',
     'dblclick .curl'          : 'selectText',
   },
 
@@ -72,11 +71,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     pos.top = y;
     pos.left = x;
     elem.css(pos);
-    // $(e.currentTarget.parentNode).find('#api_information_panel').show();
-  },
-
-  mouseExit: function(e) {
-    // $(e.currentTarget.parentNode).find('#api_information_panel').hide();
   },
 
   // Note: copied from CoffeeScript compiled file
