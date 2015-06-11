@@ -33,7 +33,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
           range.moveToElementText(text);
           range.select();
       } else if (window.getSelection) {
-          selection = window.getSelection();        
+          selection = window.getSelection();
           range = document.createRange();
           range.selectNodeContents(text);
           selection.removeAllRanges();
@@ -72,11 +72,11 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     pos.top = y;
     pos.left = x;
     elem.css(pos);
-    $(e.currentTarget.parentNode).find('#api_information_panel').show();
+    // $(e.currentTarget.parentNode).find('#api_information_panel').show();
   },
 
   mouseExit: function(e) {
-    $(e.currentTarget.parentNode).find('#api_information_panel').hide();
+    // $(e.currentTarget.parentNode).find('#api_information_panel').hide();
   },
 
   // Note: copied from CoffeeScript compiled file
