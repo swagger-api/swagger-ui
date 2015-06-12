@@ -83,7 +83,8 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   // Note: copied from CoffeeScript compiled file
   // TODO: redactor
   render: function() {
-    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, len1, len4, m, modelAuths, o, q, ref1, ref2, ref5,  schema, schemaObj, scopeIndex, statusCode, v, value;
+    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, len1,  m, modelAuths, o, ref1, ref2,  schema, schemaObj, scopeIndex, v, value;
+    var self = this;
     isMethodSubmissionSupported = jQuery.inArray(this.model.method, this.model.supportedSubmitMethods()) >= 0;
     if (!isMethodSubmissionSupported) {
       this.model.isReadOnly = true;
@@ -136,41 +137,19 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         }
       }
     }
-    if (typeof this.model.responses !== 'undefined') {
-      this.model.responseMessages = [];
-      ref2 = this.model.responses;
-      for (code in ref2) {
-        value = ref2[code];
-        schema = null;
-        schemaObj = this.model.responses[code].schema;
-        if (schemaObj && schemaObj.$ref) {
-          schema = schemaObj.$ref;
-          if (schema.indexOf('#/definitions/') === 0) {
-            schema = schema.substring('#/definitions/'.length);
-          }
-        }
-        this.model.responseMessages.push({
-          code: code,
-          message: value.description,
-          responseModel: schema
-        });
-      }
-    }
-    if (typeof this.model.responseMessages === 'undefined') {
-      this.model.responseMessages = [];
-    }
-
 
     var opts = this.options.swaggerOptions;
     if (opts.showRequestHeaders) {
       this.model.showRequestHeaders = true;
     }
+
     $(this.el).html(Handlebars.templates.operation(this.model));
 
     // Render Response Class
     $('.response-class', this.$el).html(new SwaggerUi.Views.ResponseClassView({model: this.model}).render().el);
 
     // Look for file types, and make sure we include multipart/form-data
+    // Add parameters
     for (var n = 0, len2 = this.model.parameters.length; n < len2; n++) {
       var param = this.model.parameters[n];
       var type = param.type || param.dataType || '';
@@ -186,11 +165,25 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       this.addParameter(param, contentTypeModel.consumes);
     }
 
-    ref5 = this.model.responseMessages;
-    for (q = 0, len4 = ref5.length; q < len4; q++) {
-      statusCode = ref5[q];
-      this.addStatusCode(statusCode);
-    }
+    // Add Secondary Responses
+    _.each(this.model.responses, function (response,code) {
+
+      if(typeof response !== 'object') { response = {};}
+
+      var statusCodeView = new SwaggerUi.Views.StatusCodeView({
+        model: {
+          schema: response.schema,
+          message: response.description,
+          headers: response.headers,
+          code: code
+        },
+        tagName: 'tr',
+        router: self.router
+      });
+
+      self.$el.find('.operation-status').append(statusCodeView.render().el);
+    });
+
     return this;
   },
 
@@ -203,16 +196,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       readOnly: this.model.isReadOnly
     });
     $('.operation-params', $(this.el)).append(paramView.render().el);
-  },
-
-  addStatusCode: function(statusCode) {
-    // Render status codes
-    var statusCodeView = new SwaggerUi.Views.StatusCodeView({
-      model: statusCode,
-      tagName: 'tr',
-      router: this.router
-    });
-    $('.operation-status', $(this.el)).append(statusCodeView.render().el);
   },
 
   // Note: copied from CoffeeScript compiled file

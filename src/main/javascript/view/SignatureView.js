@@ -7,8 +7,9 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
     'mousedown .snippet'          : 'snippetToTextArea'
   },
 
-  initialize: function () {
-
+  initialize: function (opts) {
+    opts = opts || {};
+    this.models = ((opts.router || {}).api || {}).models || []; // this.router.api.models or []
   },
 
   render: function(){
@@ -43,7 +44,7 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
     if(typeof response.createJSONSample === 'function') {
       json = response.createJSONSample();
     } else {
-      json = SwaggerClient.SchemaMarkup.schemaToJSON(response);
+      json = SwaggerClient.SchemaMarkup.schemaToJSON(response, this.models);
     }
 
     return JSON.stringify(json, null, 2);
@@ -59,13 +60,11 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
     if(typeof response.getMockSignature === 'function') {
       markup += response.getMockSignature();
     } else {
-      markup += SwaggerClient.SchemaMarkup.schemaToHTML(response);
+      markup += SwaggerClient.SchemaMarkup.schemaToHTML(response,this.models);
     }
 
     return markup;
-
   },
-
 
   // handler for show signature
   switchToDescription: function(e){

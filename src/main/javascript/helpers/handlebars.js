@@ -6,6 +6,15 @@ Handlebars.registerHelper('sanitize', function(html) {
     return new Handlebars.SafeString(html);
 });
 
+// Iterates over collections (array or map)... provides else block
+Handlebars.registerHelper( 'ifAny', function ( collection, block ) {
+   if(!_.isEmpty(collection)) {
+     return  block.fn(this);
+   } else {
+     return  block.inverse(this);
+   }
+});
+
 Handlebars.registerHelper('renderTextParam', function(param) {
     var result, type = 'text', idAtt = '';
     var isArray = param.type.toLowerCase() === 'array' || param.allowMultiple;

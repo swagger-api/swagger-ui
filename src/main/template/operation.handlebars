@@ -64,7 +64,7 @@
           </tbody>
           </table>
           {{/if}}
-          {{#if responseMessages}}
+          {{#ifAny responses}}
           <div style='margin:0;padding:0;display:inline'></div>
           <h4>Response Messages</h4>
           <table class='fullwidth'>
@@ -80,7 +80,7 @@
 
             </tbody>
           </table>
-          {{/if}}
+          {{/ifAny}}
           {{#if isReadOnly}}
           {{else}}
           <div class='sandbox_header'>
