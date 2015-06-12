@@ -126,6 +126,12 @@
     }
 }
 
+@media (min-width: 1400px) {
+    .swagger-section h2.operation-title {
+        padding-right: 0;
+    }
+}
+
 .swagger-section h3 {
     font-weight: 400
 }
