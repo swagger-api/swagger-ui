@@ -79,88 +79,11 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     $(e.currentTarget.parentNode).find('#api_information_panel').hide();
   },
 
-  createSample: function(response) {
-    var json;
-
-    if(typeof response !== 'object') {
-      return;
-    }
-
-    if(typeof response.createJSONSample === 'function') {
-      json = response.createJSONSample();
-    } else {
-      json = SwaggerClient.SchemaMarkup.schemaToJSON(response);
-    }
-
-    return JSON.stringify(json, null, 2);
-  },
-
-  createSampleMarkup: function (response) {
-    var markup = '';
-    if(typeof response !== 'object') {
-      return;
-    }
-
-    if(typeof response.getMockSignature === 'function') {
-      markup += response.getMockSignature();
-    } else {
-      markup += SwaggerClient.SchemaMarkup.schemaToHTML(response);
-    }
-
-    return markup;
-
-  },
-
-  renderResponseClass: function () {
-
-    var signatureModel = null;
-
-    // Get the last response with an object?
-    if (this.model.successResponse) {
-      successResponse = this.model.successResponse;
-      var resp;
-
-      // Get last key/value
-      for (var key in successResponse) { resp = successResponse[key]; }
-
-      this.model.successCode = key;
-      signatureModel = {
-        sampleJSON: this.createSample(resp),
-        isParam: false,
-        signature: this.createSampleMarkup(resp)
-      };
-
-     } else if (this.model.responseClassSignature && this.model.responseClassSignature !== 'string') {
-       signatureModel = {
-         sampleJSON: this.model.responseSampleJSON,
-         isParam: false,
-         signature: this.model.responseClassSignature
-       }
-     }
-
-     if(signatureModel) {
-
-      var responseSignatureView = new SwaggerUi.Views.SignatureView({
-        model: signatureModel,
-        router: this.router,
-        tagName: 'div'
-      });
-
-      $('.model-signature', $(this.el)).append(responseSignatureView.render().el);
-
-     } else {
-
-      this.model.responseClassSignature = 'string';
-      $('.model-signature', $(this.el)).html(this.model.type);
-
-     }
-
-  },
 
   // Note: copied from CoffeeScript compiled file
   // TODO: redactor
   render: function() {
-    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, l, len, len1, len2, len3, len4, m, modelAuths, n, o, p, param, q, ref, ref1, ref2, ref3, ref4, ref5, responseContentTypeView, schema, schemaObj, scopeIndex, signatureModel, statusCode, successResponse, type, v, value;
+    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, l, len, len1, len3, len4, m, modelAuths, o, p, param, q, ref1, ref2, ref4, ref5,  schema, schemaObj, scopeIndex, statusCode, v, value;
     isMethodSubmissionSupported = jQuery.inArray(this.model.method, this.model.supportedSubmitMethods()) >= 0;
     if (!isMethodSubmissionSupported) {
       this.model.isReadOnly = true;
@@ -244,40 +167,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
     $(this.el).html(Handlebars.templates.operation(this.model));
 
-    this.renderResponseClass();
+    // Render Response Class
+    $('.response-class', this.$el).html(new SwaggerUi.Views.ResponseClassView({model: this.model}).render().el);
 
-    contentTypeModel = {
-      isParam: false
-    };
-    contentTypeModel.consumes = this.model.consumes;
-    contentTypeModel.produces = this.model.produces;
-    ref3 = this.model.parameters;
-    for (n = 0, len2 = ref3.length; n < len2; n++) {
-      param = ref3[n];
-      type = param.type || param.dataType || '';
-      if (typeof type === 'undefined') {
-        schema = param.schema;
-        if (schema && schema.$ref) {
-          ref = schema.$ref;
-          if (ref.indexOf('#/definitions/') === 0) {
-            type = ref.substring('#/definitions/'.length);
-          } else {
-            type = ref;
-          }
-        }
-      }
-      if (type && type.toLowerCase() === 'file') {
-        if (!contentTypeModel.consumes) {
-          contentTypeModel.consumes = 'multipart/form-data';
-        }
-      }
-      param.type = type;
-    }
-    responseContentTypeView = new SwaggerUi.Views.ResponseContentTypeView({
-      model: contentTypeModel,
-      router: this.router
-    });
-    $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
+
     ref4 = this.model.parameters;
     for (p = 0, len3 = ref4.length; p < len3; p++) {
       param = ref4[p];

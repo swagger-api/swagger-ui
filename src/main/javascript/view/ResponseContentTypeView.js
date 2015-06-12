@@ -5,7 +5,7 @@ SwaggerUi.Views.ResponseContentTypeView = Backbone.View.extend({
 
   render: function(){
     this.model.responseContentTypeId = 'rct' + Math.random();
-    $(this.el).html(Handlebars.templates.response_content_type(this.model));
+    this.$el.html(Handlebars.templates.response_content_type(this.model));
     return this;
   }
 });

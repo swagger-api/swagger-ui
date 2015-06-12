@@ -13,7 +13,13 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
 
   render: function(){
 
-    $(this.el).html(Handlebars.templates.signature(this.model));
+    // Allow passing in schema as well
+    var model = {
+      signature: this.model.signature || this.createSampleMarkup(this.model.schema),
+      sampleJSON: this.model.sampleJSON || this.createSample(this.model.schema)
+    };
+
+    $(this.el).html(Handlebars.templates.signature(model));
 
     this.switchToSnippet();
 
@@ -25,6 +31,41 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
 
     return this;
   },
+
+  createSample: function(response) {
+    var json;
+
+    if(typeof response !== 'object') {
+      return;
+    }
+
+    // Allow for model objects with #createJSONSample...
+    if(typeof response.createJSONSample === 'function') {
+      json = response.createJSONSample();
+    } else {
+      json = SwaggerClient.SchemaMarkup.schemaToJSON(response);
+    }
+
+    return JSON.stringify(json, null, 2);
+  },
+
+  createSampleMarkup: function (response) {
+    var markup = '';
+    if(typeof response !== 'object') {
+      return;
+    }
+
+    // Allow for model objects with #getMockSignature...
+    if(typeof response.getMockSignature === 'function') {
+      markup += response.getMockSignature();
+    } else {
+      markup += SwaggerClient.SchemaMarkup.schemaToHTML(response);
+    }
+
+    return markup;
+
+  },
+
 
   // handler for show signature
   switchToDescription: function(e){

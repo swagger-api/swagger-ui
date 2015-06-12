@@ -40,12 +40,11 @@
           <span class="api-ic ic-off" title="click to authenticate"></span>
         </div>
         {{/oauth}}
+
         {{#if type}}
-          <h4>Response Class (Status {{successCode}})</h4>
-          <p><span class="model-signature" /></p>
-          <br/>
-          <div class="response-content-type" />
+          <div class="response-class"> </div>
         {{/if}}
+
         <form accept-charset='UTF-8' class='sandbox'>
           <div style='margin:0;padding:0;display:inline'></div>
           {{#if parameters}}
