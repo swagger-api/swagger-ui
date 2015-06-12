@@ -83,7 +83,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   // Note: copied from CoffeeScript compiled file
   // TODO: redactor
   render: function() {
-    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, l, len, len1, len3, len4, m, modelAuths, o, p, param, q, ref1, ref2, ref4, ref5,  schema, schemaObj, scopeIndex, statusCode, v, value;
+    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, len1, len4, m, modelAuths, o, q, ref1, ref2, ref5,  schema, schemaObj, scopeIndex, statusCode, v, value;
     isMethodSubmissionSupported = jQuery.inArray(this.model.method, this.model.supportedSubmitMethods()) >= 0;
     if (!isMethodSubmissionSupported) {
       this.model.isReadOnly = true;
@@ -93,7 +93,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     modelAuths = this.model.authorizations || this.model.security;
     if (modelAuths) {
       if (Array.isArray(modelAuths)) {
-        for (l = 0, len = modelAuths.length; l < len; l++) {
+        for (var l = 0, len = modelAuths.length; l < len; l++) {
           auths = modelAuths[l];
           for (key in auths) {
             auth = auths[key];
@@ -171,7 +171,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     $('.response-class', this.$el).html(new SwaggerUi.Views.ResponseClassView({model: this.model}).render().el);
 
     // Look for file types, and make sure we include multipart/form-data
-    for (var n = 0, len = this.model.parameters; n < len; n++) {
+    for (var n = 0, len2 = this.model.parameters.length; n < len2; n++) {
       var param = this.model.parameters[n];
       var type = param.type || param.dataType || '';
 
@@ -296,10 +296,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   },
 
   getInputMap: function (form) {
-    var map, ref1, l, len, o, ref2, m, len1, val, ref3, n, len2;
+    var map, ref1, o, ref2, m, len1, val, ref3, n, len2;
     map = {};
     ref1 = form.find('input');
-    for (l = 0, len = ref1.length; l < len; l++) {
+    for (var l = 0, len = ref1.length; l < len; l++) {
       o = ref1[l];
       if ((o.value !== null) && jQuery.trim(o.value).length > 0) {
         map[o.name] = o.value;
@@ -328,10 +328,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   },
 
   isFileUpload: function (form) {
-    var ref1, l, len, o;
+    var ref1, o;
     var isFileUpload = false;
     ref1 = form.find('input');
-    for (l = 0, len = ref1.length; l < len; l++) {
+    for (var l = 0, len = ref1.length; l < len; l++) {
       o = ref1[l];
       if (o.type === 'file') {
         isFileUpload = true;
@@ -346,10 +346,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   // wraps a jquery response as a shred response
   wrap: function(data) {
-   var h, headerArray, headers, i, l, len, o;
+   var h, headerArray, headers, i, o;
     headers = {};
     headerArray = data.getAllResponseHeaders().split('\r');
-    for (l = 0, len = headerArray.length; l < len; l++) {
+    for (var l = 0, len = headerArray.length; l < len; l++) {
       i = headerArray[l];
       h = i.match(/^([^:]*?):(.*)$/);
       if (!h) {
@@ -416,7 +416,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   // Note: directly ported from CoffeeScript
   // TODO: Cleanup CoffeeScript artifacts
   formatXml: function(xml) {
-    var contexp, fn, formatted, indent, l, lastType, len, lines, ln, pad, reg, transitions, wsexp;
+    var contexp, fn, formatted, indent, lastType, lines, ln, pad, reg, transitions, wsexp;
     reg = /(>)(<)(\/*)/g;
     wsexp = /[ ]*(.*)[ ]+\n/g;
     contexp = /(<.+>)(.+\n)/g;
@@ -481,7 +481,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         formatted += padding + ln + '\n';
       }
     };
-    for (l = 0, len = lines.length; l < len; l++) {
+    for (var l = 0, len = lines.length; l < len; l++) {
       ln = lines[l];
       fn(ln);
     }
