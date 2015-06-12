@@ -162,7 +162,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         }
       }
 
-      this.addParameter(param, contentTypeModel.consumes);
+      this.addParameter(param, this.model.consumes);
     }
 
     // Add Secondary Responses
