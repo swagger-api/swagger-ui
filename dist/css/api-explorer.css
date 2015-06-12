@@ -322,7 +322,6 @@
 }
 
 .swagger-section .parameter-item .form-control {
-    resize: none;
     width: auto;
     max-width: 100%
 }
