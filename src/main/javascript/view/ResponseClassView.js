@@ -6,19 +6,6 @@ SwaggerUi.Views.ResponseClassView = Backbone.View.extend({
 
   renderResponseContentType: function() {
 
-    // Look for file types, and make sure we include multipart/form-data
-    for (var n = 0, len = this.model.parameters; n < len; n++) {
-      var param = this.model.parameters[n];
-      var type = param.type || param.dataType || '';
-
-      if (typeof type === 'string' && type.toLowerCase() === 'file') {
-        // If there is a consumes... can it overide the need for multipart/form-data?
-        if (!this.model.consumes) {
-          this.model.consumes = ['multipart/form-data'];
-        }
-      }
-    }
-
     var responseContentTypeView = new SwaggerUi.Views.ResponseContentTypeView({
       model: {produces: this.model.produces},
       router: this.router
@@ -28,7 +15,6 @@ SwaggerUi.Views.ResponseClassView = Backbone.View.extend({
   },
 
   render: function(){
-
 
     var signatureModel = null;
 

@@ -170,12 +170,22 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     // Render Response Class
     $('.response-class', this.$el).html(new SwaggerUi.Views.ResponseClassView({model: this.model}).render().el);
 
+    // Look for file types, and make sure we include multipart/form-data
+    for (var n = 0, len = this.model.parameters; n < len; n++) {
+      var param = this.model.parameters[n];
+      var type = param.type || param.dataType || '';
 
-    ref4 = this.model.parameters;
-    for (p = 0, len3 = ref4.length; p < len3; p++) {
-      param = ref4[p];
+      if (typeof type === 'string' && type.toLowerCase() === 'file') {
+        // If there is a consumes... can it overide the need for multipart/form-data?
+        // WARNING: this modifes the spec itself! Why?
+        if (!this.model.consumes) {
+          this.model.consumes = ['multipart/form-data'];
+        }
+      }
+
       this.addParameter(param, contentTypeModel.consumes);
     }
+
     ref5 = this.model.responseMessages;
     for (q = 0, len4 = ref5.length; q < len4; q++) {
       statusCode = ref5[q];
