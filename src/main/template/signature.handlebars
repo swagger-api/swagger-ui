@@ -6,12 +6,12 @@
     </div>
 </div>
 
-<h4 class="schema-title collapsed" data-control data-toggle="collapse"
-    data-target="#schema-{{id}}">{{type}} Schema</h4>
-<div data-content class="collapse" id="schema-{{id}}">
-    <div class="description">
-        {{{signature}}}
+{{#if signature}}
+    <h4 class="schema-title collapsed" data-control data-toggle="collapse"
+        data-target="#schema-{{id}}">{{type}} Schema</h4>
+    <div data-content class="collapse" id="schema-{{id}}">
+        <div class="description">
+            {{{signature}}}
+        </div>
     </div>
-</div>
-
-
+{{/if}}
