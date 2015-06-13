@@ -235,6 +235,8 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   },
 
   addBodyModel: function (param) {
+    if (param.type === 'file') return;
+
     var bodySample = {
       sampleJSON: param.sampleJSON,
       isParam: true,
