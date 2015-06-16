@@ -173,9 +173,13 @@ window.SwaggerUi = Backbone.Router.extend({
     if (data === undefined) {
       data = '';
     }
-    $('#message-bar').removeClass('message-fail');
-    $('#message-bar').addClass('message-success');
-    $('#message-bar').text(data);
+    var $msgbar = $('#message-bar');
+    $msgbar.removeClass('message-fail');
+    $msgbar.addClass('message-success');
+    $msgbar.html(data);
+    if(window.SwaggerTranslator) {
+      window.SwaggerTranslator.translate($msgbar);
+    }
   },
 
   // shows message in red
