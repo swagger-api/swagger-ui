@@ -19,7 +19,7 @@ window.SwaggerTranslator = {
 
     translate: function(sel) {
       var $this = this;
-      var sel = sel || '[data-sw-translate]';
+      sel = sel || '[data-sw-translate]';
 
       $(sel).each(function() {
         $(this).html($this._tryTranslate($(this).html()));
