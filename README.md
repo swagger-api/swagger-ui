@@ -225,7 +225,7 @@ Create your own fork of [swagger-api/swagger-ui](https://github.com/swagger-api/
 To share your changes, [submit a pull request](https://github.com/swagger-api/swagger-ui/pull/new/develop_2.0).
 
 ## Change Log
-Plsee see [releases](https://github.com/swagger-api/swagger-ui/releases) for change log.
+Please see [releases](https://github.com/swagger-api/swagger-ui/releases) for change log.
 
 ## License
 
