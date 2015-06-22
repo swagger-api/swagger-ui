@@ -521,7 +521,7 @@ Handlebars.registerHelper('renderTextParam', function(param) {
 
     var dataVendorExtensions = Object.keys(param).filter(function(property) {
         // filter X-data- properties
-        return property.match(/^X-data-/) !== null;
+        return property.match(/^X-data-/i) !== null;
     }).reduce(function(result, property) {
         // remove X- from property name, so it results in html attributes like data-foo='bar'
         return result += ' ' + property.substring(2, property.length) + '=\'' + param[property] + '\'';
