@@ -236,6 +236,22 @@
     margin-right: 5px
 }
 
+.swagger-section .parameter-item .small-description .markdown {
+    display: inline-table;
+}
+
+.swagger-section .parameter-item .small-description .markdown h1,
+.swagger-section .parameter-item .small-description .markdown h2,
+.swagger-section .parameter-item .small-description .markdown h3,
+.swagger-section .parameter-item .small-description .markdown h4,
+.swagger-section .parameter-item .small-description .markdown h5,
+.swagger-section .parameter-item .small-description .markdown p,
+.swagger-section .parameter-item .small-description .markdown li,
+.swagger-section .parameter-item .small-description .markdown pre
+{
+    margin: 5px 0;
+}
+
 @media (min-width: 992px) {
     .swagger-section .parameter-item {
         margin: 0 20px 20px;
