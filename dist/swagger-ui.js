@@ -21815,6 +21815,15 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     this.invocationUrl = this.model.supportHeaderParams() ? (headerParams = this.model.getHeaderParams(map), delete headerParams['Content-Type'], this.model.urlify(map, false)) : this.model.urlify(map, true);
     $('.request_url', $(this.el)).html('<pre></pre>');
     $('.request_url pre', $(this.el)).text(this.invocationUrl);
+    
+    var clientAuths = window.swaggerUi.api.clientAuthorizations;
+    if (typeof clientAuths !== 'undefined' && typeof(clientAuths.authz) !== 'undefined') {
+      _.forEach(clientAuths.authz, function(auth, key) {
+        if (auth.type == 'header') {
+          headerParams[auth.name] = auth.value;
+        }
+      });
+    }
 
     // TODO: don't use jQuery. Use SwaggerJS for handling the call.
     var obj = {
