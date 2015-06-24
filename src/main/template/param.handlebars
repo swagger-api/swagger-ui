@@ -1,4 +1,4 @@
-<div class="param-property hide" data-label="name">{{name}}</div>
+<div class="param-property hide">{{name}}</div>
 <div class="param-property" data-label='{{name}}'>
     {{#if isBody}}
         {{#if isFile}}
@@ -7,10 +7,10 @@
             <div class="parameter-content-type"/>
         {{else}}
             {{#if default}}
-                <textarea class='body-textarea form-control' name='{{name}}'>{{default}}</textarea>
+                <textarea class='body-textarea form-control' name='{{name}}' data-toggle="tooltip" data-placement="top" title="" data-original-title='{{name}}'>{{default}}</textarea>
                 <div class="parameter-content-type"/>
             {{else}}
-                <textarea class='body-textarea form-control' name='{{name}}'></textarea>
+                <textarea class='body-textarea form-control' name='{{name}}' data-toggle="tooltip" data-placement="top" title="" data-original-title='{{name}}'></textarea>
                 <div class="parameter-content-type"/>
             {{/if}}
         {{/if}}
@@ -30,10 +30,9 @@
             <div class="parameter-content-type"/>
         {{else}}
             {{#if default}}
-                <input class='parameter form-control' minlength='0' name='{{name}}' placeholder='' type='text'
-                       value='{{default}}'/>
+                <input class='parameter form-control' minlength='0' name='{{name}}' placeholder='' type='text' value='{{default}}'  data-toggle="tooltip" data-placement="right" title="" data-original-title='{{name}}'/>
             {{else}}
-                <input class='parameter form-control' minlength='0' name='{{name}}' placeholder='' type='text' value=''/>
+                <input class='parameter form-control' minlength='0' name='{{name}}' placeholder='' type='text' value=''  data-toggle="tooltip" data-placement="right" title="" data-original-title='{{name}}'/>
             {{/if}}
         {{/if}}
         <div class="small-description">

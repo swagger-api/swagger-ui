@@ -1,14 +1,14 @@
-<div class="param-property hide" data-label="name">{{name}}</div>
+<div class="param-property hide">{{name}}</div>
 <div class="param-property" data-label='{{name}}'>
     {{#if isBody}}
         {{#if isFile}}
             <input type="file" name='{{name}}'/>
         {{else}}
             {{#if default}}
-                <textarea class='body-textarea form-control required' placeholder='(required)' name='{{name}}'>{{default}}</textarea>
+                <textarea class='body-textarea form-control required' placeholder='(required)' name='{{name}}'  data-toggle="tooltip" data-placement="top" title="" data-original-title='{{name}}'>{{default}}</textarea>
                 <div class="parameter-content-type"/>
             {{else}}
-                <textarea class='body-textarea form-control required' placeholder='(required)' name='{{name}}'></textarea>
+                <textarea class='body-textarea form-control required' placeholder='(required)' name='{{name}}' data-toggle="tooltip" data-placement="top" title="" data-original-title='{{name}}'></textarea>
                 <div class="parameter-content-type"/>
             {{/if}}
         {{/if}}
@@ -17,9 +17,9 @@
             <input class='parameter form-control required' type='file' name='{{name}}'/>
         {{else}}
             {{#if default}}
-                <input class='parameter form-control required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='{{default}}'/>
+                <input class='parameter form-control required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='{{default}}' data-toggle="tooltip" data-placement="right" title="" data-original-title='{{name}}'/>
             {{else}}
-                <input class='parameter form-control required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value=''/>
+                <input class='parameter form-control required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='' data-toggle="tooltip" data-placement="right" title="" data-original-title='{{name}}'/>
             {{/if}}
         {{/if}}
     {{/if}}

@@ -298,7 +298,10 @@
     content: attr(data-label);
     display: block;
     font-weight: 700;
-    margin-bottom: 15px
+    margin-bottom: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 @media (min-width: 992px) {

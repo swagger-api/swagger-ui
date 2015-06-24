@@ -1,7 +1,7 @@
 <div class="param-property hide" data-label="name">{{name}}</div>
 <div class="param-property" data-label='{{name}}'>
     <div>
-        <select {{#isArray this}} multiple='multiple'{{/isArray}} class='parameter form-control' name='{{name}}'>
+        <select {{#isArray this}} multiple='multiple'{{/isArray}} class='parameter form-control' name='{{name}}'  data-toggle="tooltip" data-placement="right" title="" data-original-title='{{name}}'>
             {{#if required}}
             {{else}}
                 {{#if default}}

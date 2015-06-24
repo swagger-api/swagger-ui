@@ -2,7 +2,7 @@
 <div class="param-property" data-label='{{name}}'>
     <div>
         {{#if isBody}}
-            <textarea class='body-textarea form-control' readonly='readonly' name='{{name}}'>{{default}}</textarea>
+            <textarea class='body-textarea form-control' readonly='readonly' name='{{name}}'  data-toggle="tooltip" data-placement="top" title="" data-original-title='{{name}}'>{{default}}</textarea>
             <div class="parameter-content-type"/>
         {{else}}
             {{#if default}}
