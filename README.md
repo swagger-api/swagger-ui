@@ -131,6 +131,17 @@ swaggerUi.api.clientAuthorizations.add("key", new SwaggerClient.ApiKeyAuthorizat
 
 Note!  You can pass multiple header params on a single request, just use unique names for them (`key` is used in the above example).
 
+If the header parameters are required when loading the `swagger.json`, you will need to pass the authorizations as part of the `SwaggerUi` constructor so they are available when swagger-ui retrieves those documents.
+```js
+new SwaggerUi({
+// ...
+  authorizations {
+    "apiKey": new SwaggerClient.ApiKeyAuthorization("X-YOUR-API-KEY-HEADER", "YOUR-API-KEY-VALUE", "header")
+  },
+// ...
+});
+```
+
 ### Localization and translation
 The localization files are in the [lang](/lang) directory. Note that language files and translator is not included in SwaggerUI by default. You need to add them manually.
 
