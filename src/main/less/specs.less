@@ -3,13 +3,13 @@
 .swagger-ui-wrap {
 
     line-height: 1;
-    font-family: "Droid Sans", sans-serif;
-    max-width: 960px;
+    font-family: Helvetica, arial, sans-serif;
+    max-width: 100%;
     margin-left: auto;
     margin-right: auto;
 
     b, strong {
-        font-family: "Droid Sans", sans-serif;
+        font-family: Helvetica, arial, sans-serif;
         font-weight: bold;
     }
 
@@ -114,9 +114,10 @@
 
     pre {
         font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
-        background-color: #fcf6db;
-        border: 1px solid #e5e0c6;
+        background-color: #3E4049;
+        border: 1px solid #3E4049;
         padding: 10px;
+        color: #fff;
         code {
             line-height: 1.6em;
             background: none;
@@ -222,7 +223,7 @@
     }
 
     .model-signature {
-        font-family: "Droid Sans", sans-serif;
+        font-family: Helvetica, arial, sans-serif;
         font-size: 1em;
         line-height: 1.5em;
         .signature-nav {
@@ -243,8 +244,9 @@
             color: #5555aa;
         }
         pre:hover {
-            background-color: #ffffdd;
+            background-color: #3E4049;
         }
+
         pre {
             font-size: .85em;
             line-height: 1.2em;
@@ -333,7 +335,8 @@
     .body-textarea {
         width: 300px;
         height: 100px;
-        border: 1px solid #aaa;
+        border: 1px solid #d7d7d7;
+        padding: 10px;
     }
 
     .markdown p code, .markdown li code {
@@ -349,7 +352,8 @@
 
     input.parameter {
         width: 300px;
-        border: 1px solid #aaa;
+        border: 1px solid #d7d7d7;
+        padding: 10px;
     }
 
     h1 {
@@ -357,7 +361,7 @@
         font-size: 1.5em;
         line-height: 1.3em;
         padding: 10px 0 10px 0;
-        font-family: "Droid Sans", sans-serif;
+        font-family: Helvetica, arial, sans-serif;
         font-weight: bold;
     }
 
@@ -418,7 +422,7 @@
             ol {
                 li.text {
                     textarea {
-                        font-family: "Droid Sans", sans-serif;
+                        font-family: Helvetica, arial, sans-serif;
                         height: 250px;
                         padding: 4px;
                         display: block;
@@ -496,8 +500,8 @@
         }
         pre {
             font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
-            background-color: #fcf6db;
-            border: 1px solid #e5e0c6;
+            background-color: #3E4049;
+            border: 1px solid #3E4049;
             padding: 10px;
             margin: 0 0 10px 0;
             code {
@@ -511,28 +515,22 @@
     }
 
     ul#resources {
-        font-family: "Droid Sans", sans-serif;
+        font-family: Helvetica, arial, sans-serif;
         font-size: 0.9em;
 
         li.resource {
-            border-bottom: 1px solid #dddddd;
-
-            &:hover div.heading,
-            &.active div.heading {
-                h2 a {
-                    color: black;
-                }
-                ul.options li a {
-                    color: #555555;
-                }
-            }
+            padding: 0 0 30px 0;
+            border-bottom: 2px solid #d7d7d7;
 
             &:last-child {
                 border-bottom: none;
             }
 
             div.heading {
-                border: 1px solid transparent;
+                background: #f8f8f8;
+                padding: 10px 0;
+                border-bottom: 1px solid #d7d7d7 !important;
+                margin-bottom: 20px;
                 float: none;
                 clear: both;
                 overflow: hidden;
@@ -553,7 +551,7 @@
                         color: #666666;
                         font-size: 0.9em;
                         a {
-                            color: #aaaaaa;
+                            color: #2678BA;
                             text-decoration: none;
                         }
                         a:hover {
@@ -582,15 +580,15 @@
                     }
                 }
                 h2 {
-                    color: #999999;
+                    color: #000;
                     padding-left: 0;
                     display: block;
                     clear: none;
                     float: left;
-                    font-family: "Droid Sans", sans-serif;
+                    font-family: Helvetica, arial, sans-serif;
                     font-weight: bold;
                     a {
-                        color: #999999;
+                        color: #000;
                     }
                     a:hover {
                         color: black;
@@ -643,12 +641,6 @@
                                             font-size: 0.7em;
                                             text-align: center;
                                             padding: 7px 0 4px;
-                                            -moz-border-radius: 2px;
-                                            -webkit-border-radius: 2px;
-                                            -o-border-radius: 2px;
-                                            -ms-border-radius: 2px;
-                                            -khtml-border-radius: 2px;
-                                            border-radius: 2px;
                                         }
                                     }
                                     span {
@@ -683,18 +675,6 @@
                             div.content {
                                 border-top: none;
                                 padding: 10px;
-                                -moz-border-radius-bottomleft: 6px;
-                                -webkit-border-bottom-left-radius: 6px;
-                                -o-border-bottom-left-radius: 6px;
-                                -ms-border-bottom-left-radius: 6px;
-                                -khtml-border-bottom-left-radius: 6px;
-                                border-bottom-left-radius: 6px;
-                                -moz-border-radius-bottomright: 6px;
-                                -webkit-border-bottom-right-radius: 6px;
-                                -o-border-bottom-right-radius: 6px;
-                                -ms-border-bottom-right-radius: 6px;
-                                -khtml-border-bottom-right-radius: 6px;
-                                border-bottom-right-radius: 6px;
                                 margin: 0 0 20px;
                                 h4 {
                                     font-size: 1.1em;
@@ -931,12 +911,15 @@
                         }
                         li.operation.get {
                             div.heading {
-                                background-color: #e7f0f7;
-                                border: 1px solid #c3d9ec;
+                                background-color: #f8f8f8;
+                                border: 1px solid #d7d7d7;
+
                                 h3 {
                                     span.http_method {
                                         a {
-                                            background-color: #0f6ab4;
+                                          background-color: #2678BA;
+                                          padding: 10px;
+                                          font-size: 16px;
                                         }
                                     }
                                 }
@@ -952,11 +935,15 @@
                                 }
                             }
                             div.content {
-                                background-color: #ebf3f9;
-                                border: 1px solid #c3d9ec;
+                                background-color: #f8f8f8;
+                                border: 1px solid #d7d7d7;
+                                border-top: none;
+
                                 h4 {
-                                    color: #0f6ab4;
+                                    color: #333;
+                                    font-weight: bold;
                                 }
+
                                 div.sandbox_header {
                                     a {
                                         color: #6fa5d2;
@@ -1037,7 +1024,7 @@
         padding: 10px 0;
         font-size: 0.8em;
         border-top: 1px solid #dddddd;
-        font-family: "Droid Sans", sans-serif;
+        font-family: Helvetica, arial, sans-serif;
         color: #999999;
         font-style: italic;
         a {
@@ -1053,7 +1040,7 @@
     }
 
     .markdown ol, .markdown ul {
-        font-family: "Droid Sans", sans-serif;
+        font-family: Helvetica, arial, sans-serif;
         margin: 5px 0 10px;
         padding: 0 0 0 18px;
         list-style-type: disc;

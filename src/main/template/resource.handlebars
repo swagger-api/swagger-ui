@@ -1,30 +1,38 @@
 <div class='heading'>
-  <h2>
-    <a href='#!/{{id}}' class="toggleEndpointList" data-id="{{id}}">{{name}} </a>
-  </h2>
-  <ul class='options'>
-    <li>
-      <a href='#!/{{id}}' id='endpointListTogger_{{id}}' class="toggleEndpointList" data-id="{{id}}">Show/Hide</a>
-    </li>
-    <li>
-      <a href='#' class="collapseResource" data-id="{{id}}">
-        List Operations
-      </a>
-    </li>
-    <li>
-      <a href='#' class="expandResource" data-id="{{id}}">
-        Expand Operations
-      </a>
-    </li>
-    {{#if url}}
-    <li>
-      <a href='{{url}}'>Raw</a>
-    </li>
-    {{/if}}
+  <div class="container">
+    <h2>
+      <a href='#!/{{id}}' class="toggleEndpointList code" data-id="{{id}}">/{{name}}/ </a>
+    </h2>
+    <ul class='options'>
+      <li>
+        <a href='#!/{{id}}' id='endpointListTogger_{{id}}' class="toggleEndpointList" data-id="{{id}}">Show/Hide</a>
+      </li>
+      <li>
+        <a href='#' class="collapseResource" data-id="{{id}}">
+          List Operations
+        </a>
+      </li>
+      <li>
+        <a href='#' class="expandResource" data-id="{{id}}">
+          Expand Operations
+        </a>
+      </li>
+      {{#if url}}
+      <li>
+        <a href='{{url}}'>Raw</a>
+      </li>
+      {{/if}}
+    </ul>
+  </div>
+</div>
+
+<div class="container">
+  <div class="resource-intro">
+    <p class="markdown">
+        {{description}}
+    </p>
+  </div>
+  <ul class='endpoints' id='{{id}}_endpoint_list'>
+    <li class="endpoints-heading"><h4>Operations</h4></li>
   </ul>
 </div>
-<p class="markdown">
-    {{description}}
-</p>
-<ul class='endpoints' id='{{id}}_endpoint_list'>
-</ul>
