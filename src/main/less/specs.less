@@ -4,7 +4,7 @@
 
     line-height: 1;
     font-family: Helvetica, arial, sans-serif;
-    max-width: 960px;
+    max-width: 100%;
     margin-left: auto;
     margin-right: auto;
 
@@ -114,9 +114,10 @@
 
     pre {
         font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
-        background-color: #fcf6db;
-        border: 1px solid #e5e0c6;
+        background-color: #3E4049;
+        border: 1px solid #3E4049;
         padding: 10px;
+        color: #fff;
         code {
             line-height: 1.6em;
             background: none;
@@ -243,8 +244,9 @@
             color: #5555aa;
         }
         pre:hover {
-            background-color: #ffffdd;
+            background-color: #3E4049;
         }
+
         pre {
             font-size: .85em;
             line-height: 1.2em;
@@ -498,8 +500,8 @@
         }
         pre {
             font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
-            background-color: #fcf6db;
-            border: 1px solid #e5e0c6;
+            background-color: #3E4049;
+            border: 1px solid #3E4049;
             padding: 10px;
             margin: 0 0 10px 0;
             code {
@@ -517,24 +519,18 @@
         font-size: 0.9em;
 
         li.resource {
-            border-bottom: 1px solid #dddddd;
-
-            &:hover div.heading,
-            &.active div.heading {
-                h2 a {
-                    color: black;
-                }
-                ul.options li a {
-                    color: #2678BA;
-                }
-            }
+            padding: 0 0 30px 0;
+            border-bottom: 2px solid #d7d7d7;
 
             &:last-child {
                 border-bottom: none;
             }
 
             div.heading {
-                border: 1px solid transparent;
+                background: #f8f8f8;
+                padding: 10px 0;
+                border-bottom: 1px solid #d7d7d7 !important;
+                margin-bottom: 20px;
                 float: none;
                 clear: both;
                 overflow: hidden;
@@ -645,12 +641,6 @@
                                             font-size: 0.7em;
                                             text-align: center;
                                             padding: 7px 0 4px;
-                                            -moz-border-radius: 2px;
-                                            -webkit-border-radius: 2px;
-                                            -o-border-radius: 2px;
-                                            -ms-border-radius: 2px;
-                                            -khtml-border-radius: 2px;
-                                            border-radius: 2px;
                                         }
                                     }
                                     span {
@@ -685,18 +675,6 @@
                             div.content {
                                 border-top: none;
                                 padding: 10px;
-                                -moz-border-radius-bottomleft: 6px;
-                                -webkit-border-bottom-left-radius: 6px;
-                                -o-border-bottom-left-radius: 6px;
-                                -ms-border-bottom-left-radius: 6px;
-                                -khtml-border-bottom-left-radius: 6px;
-                                border-bottom-left-radius: 6px;
-                                -moz-border-radius-bottomright: 6px;
-                                -webkit-border-bottom-right-radius: 6px;
-                                -o-border-bottom-right-radius: 6px;
-                                -ms-border-bottom-right-radius: 6px;
-                                -khtml-border-bottom-right-radius: 6px;
-                                border-bottom-right-radius: 6px;
                                 margin: 0 0 20px;
                                 h4 {
                                     font-size: 1.1em;
@@ -933,12 +911,15 @@
                         }
                         li.operation.get {
                             div.heading {
-                                background-color: #e7f0f7;
-                                border: 1px solid #c3d9ec;
+                                background-color: #f8f8f8;
+                                border: 1px solid #d7d7d7;
+
                                 h3 {
                                     span.http_method {
                                         a {
-                                            background-color: #0f6ab4;
+                                          background-color: #2678BA;
+                                          padding: 10px;
+                                          font-size: 16px;
                                         }
                                     }
                                 }
@@ -954,11 +935,15 @@
                                 }
                             }
                             div.content {
-                                background-color: #ebf3f9;
-                                border: 1px solid #c3d9ec;
+                                background-color: #f8f8f8;
+                                border: 1px solid #d7d7d7;
+                                border-top: none;
+
                                 h4 {
-                                    color: #0f6ab4;
+                                    color: #333;
+                                    font-weight: bold;
                                 }
+
                                 div.sandbox_header {
                                     a {
                                         color: #6fa5d2;
