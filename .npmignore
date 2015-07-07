@@ -4,4 +4,6 @@ example.html
 .classpath
 .project
 .npmignore
+*.swp
+npm-debug.log
 node_modules

@@ -20,3 +20,6 @@ swagger-ui.sublime-workspace
 .idea
 .project
 node_modules/*
+*.swp
+npm-debug.log
+dist/
