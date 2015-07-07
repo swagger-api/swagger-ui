@@ -85,15 +85,21 @@
           {{#if isReadOnly}}
           {{else}}
           <div class='sandbox_header'>
-            <input class='submit' name='commit' type='button' value='Try it out!' />
+            <input class='submit' type='button' value='Try it out!' />
             <a href='#' class='response_hider' style='display:none'>Hide Response</a>
             <span class='response_throbber' style='display:none'></span>
           </div>
           {{/if}}
         </form>
         <div class='response' style='display:none'>
+          <h4>Curl</h4>
+          <div class='block curl'></div>
           <h4>Request URL</h4>
           <div class='block request_url'></div>
+          {{#if showRequestHeaders}}
+          <h4>Request Headers</h4>
+          <div class='block request_headers'></div>
+          {{/if}}
           <h4>Response Body</h4>
           <div class='block response_body'></div>
           <h4>Response Code</h4>

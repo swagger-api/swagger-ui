@@ -54,21 +54,19 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       });
     }
 
-    if (this.model.swaggerVersion === '2.0') {
-      if ('validatorUrl' in opts.swaggerOptions) {
-
-        // Validator URL specified explicitly
-        this.model.validatorUrl = opts.swaggerOptions.validatorUrl;
-
-      } else if (this.model.url.indexOf('localhost') > 0) {
-
-        // Localhost override
-        this.model.validatorUrl = null;
-
-      } else {
-
-        // Default validator
-        this.model.validatorUrl = window.location.protocol + '//online.swagger.io/validator';
+    if ('validatorUrl' in opts.swaggerOptions) {
+      // Validator URL specified explicitly
+      this.model.validatorUrl = opts.swaggerOptions.validatorUrl;
+    } else if (this.model.url.indexOf('localhost') > 0) {
+      // Localhost override
+      this.model.validatorUrl = null;
+    } else {
+      // Default validator
+      if(window.location.protocol === 'https') {
+        this.model.validatorUrl = 'https://online.swagger.io/validator';
+      }
+      else {
+        this.model.validatorUrl = 'http://online.swagger.io/validator';
       }
     }
 
@@ -143,7 +141,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       auths: auths,
       swaggerOptions: this.options.swaggerOptions
     });
-    $('#resources').append(resourceView.render().el);
+    $('#resources', this.el).append(resourceView.render().el);
   },
 
   clear: function(){

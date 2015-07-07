@@ -4,7 +4,7 @@
     "description": "This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters",
     "version": "1.0.0",
     "title": "Swagger Petstore",
-    "termsOfService": "http://helloreverb.com/terms/",
+    "termsOfService": "http://swagger.io/terms/",
     "contact": {
       "url": "http://swagger.io",
       "name": "Your pals at Swagger",
@@ -594,7 +594,8 @@
             "name": "password",
             "description": "The password for login in clear text",
             "required": false,
-            "type": "string"
+            "type": "string",
+            "format": "password"
           }
         ],
         "responses": {

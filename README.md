@@ -20,7 +20,7 @@ The Swagger Specification has undergone 4 revisions since initial creation in 20
 
 Swagger UI Version | Release Date | Swagger Spec compatibility | Notes | Status
 ------------------ | ------------ | -------------------------- | ----- | ------
-2.1.1-M2           | 2015-04-16   | 1.1, 1.2, 2.0              | [master](https://github.com/swagger-api/swagger-ui) |
+2.1.1              | 2015-06-06   | 1.1, 1.2, 2.0              | [master](https://github.com/swagger-api/swagger-ui) |
 2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) |
 1.0.13             | 2013-03-08   | 1.1, 1.2 | [tag v1.0.13](https://github.com/swagger-api/swagger-ui/tree/v1.0.13) |
 1.0.1              | 2011-10-11   | 1.0, 1.1 | [tag v1.0.1](https://github.com/swagger-api/swagger-ui/tree/v1.0.1)   |
@@ -96,8 +96,9 @@ operationsSorter | Apply a sort to the operation list of each API. It can be 'al
 onComplete | This is a callback function parameter which can be passed to be notified of when SwaggerUI has completed rendering successfully.
 onFailure | This is a callback function parameter which can be passed to be notified of when SwaggerUI encountered a failure was unable to render.
 highlightSizeThreshold | Any size response below this threshold will be highlighted syntactically, attempting to highlight large responses can lead to browser hangs, not including a threshold will default to highlight all returned responses.
-supportedSubmitMethods | An array of of the HTTP operations that will have the 'Try it out!` option. An empty array disables all operations. This does not filter the operations from the display.
+supportedSubmitMethods | An array of of the HTTP operations that will have the 'Try it out!' option. An empty array disables all operations. This does not filter the operations from the display.
 oauth2RedirectUrl | OAuth redirect URL
+showRequestHeaders | Whether or not to show the headers that were sent when making a request via the 'Try it out!' option. Defaults to `false`.
 
 * All other parameters are explained in greater detail below
 
@@ -131,7 +132,7 @@ swaggerUi.api.clientAuthorizations.add("key", new SwaggerClient.ApiKeyAuthorizat
 Note!  You can pass multiple header params on a single request, just use unique names for them (`key` is used in the above example).
 
 ### Localization and translation
-The localization files are in the dist/lang directory.
+The localization files are in the [lang](/lang) directory. Note that language files and translator is not included in SwaggerUI by default. You need to add them manually.
 
 To enable translation you should append next two lines in your Swagger's index.html (or another entry point you use)
 ```html
@@ -156,6 +157,7 @@ or <anyHtmlTag data-sw-translate value='new sentence'/>
 At this moment only inner html, title-attribute and value-attribute are going to be translated.
 
 ## CORS Support
+### OR: How to deal with "Can't read from server. It may not have the appropriate access-control-origin settings."
 
 CORS is a technique to prevent websites from doing bad things with your personal data.  Most browsers + javascript toolkits not only support CORS but enforce it, which has implications for your API server which supports Swagger.
 
@@ -223,11 +225,11 @@ Create your own fork of [swagger-api/swagger-ui](https://github.com/swagger-api/
 To share your changes, [submit a pull request](https://github.com/swagger-api/swagger-ui/pull/new/develop_2.0).
 
 ## Change Log
-Plsee see [releases](https://github.com/swagger-api/swagger-ui/releases) for change log.
+Please see [releases](https://github.com/swagger-api/swagger-ui/releases) for change log.
 
 ## License
 
-Copyright 2011-2015 Reverb technologies, Inc.
+Copyright 2011-2015 SmartBear Software
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

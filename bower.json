@@ -1,7 +1,7 @@
 {
   "name": "swagger-ui",
   "main": "dist/index.html",
-  "version": "2.1.8-M1",
+  "version": "2.1.0",
   "authors": [
     "Mohsen Azimi <me@azimi.me>"
   ],
@@ -13,7 +13,7 @@
     "Swagger",
     "API"
   ],
-  "license": "Copyright 2015 Reverb Technologies, Inc.",
+  "license": "Copyright 2015 SmartBear Software",
   "homepage": "http://swagger.io",
   "private": true,
   "ignore": [
