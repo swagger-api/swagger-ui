@@ -1170,12 +1170,6 @@
   width: 960px;
   margin: 0 auto;
 }
-.resource .heading {
-  background: #f8f8f8;
-  padding: 10px 0;
-  border-bottom: 1px solid #d7d7d7 !important;
-  margin-bottom: 20px;
-}
 .resource-intro {
   background-color: #f8f8f8;
   border: 1px solid #d7d7d7;
