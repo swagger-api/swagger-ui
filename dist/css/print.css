@@ -278,6 +278,10 @@
 .swagger-section .swagger-ui-wrap .footer {
   margin-top: 20px;
 }
+.swagger-section .swagger-ui-wrap .footer p,
+.swagger-section .swagger-ui-wrap .footer a {
+  color: #fff;
+}
 .swagger-section .swagger-ui-wrap p.big,
 .swagger-section .swagger-ui-wrap div.big p {
   font-size: 1em;
