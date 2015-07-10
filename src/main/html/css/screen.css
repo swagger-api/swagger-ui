@@ -459,6 +459,10 @@
 .swagger-section .swagger-ui-wrap .required {
   font-weight: bold;
 }
+.swagger-section .swagger-ui-wrap .editor_holder {
+  font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+  font-size: 0.9em;
+}
 .swagger-section .swagger-ui-wrap .editor_holder label {
   font-weight: normal!important;
   /* JSONEditor uses bold by default for all labels, we revert that back to normal to not give the impression that by default fields are required */
