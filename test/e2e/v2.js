@@ -114,6 +114,18 @@ describe('swagger 2.0 spec tests', function () {
     });
   });
 
+  ['root.id','root.username','root.firstName','root.lastName', 'root.email', 'root.password', 'root.phone', 'root.userStatus']
+  .forEach(function (id) {
+    it('should find a jsoneditor for user post with field: ' + id, function (done) {
+      var locator = webdriver.By.xpath('//*[@id=\'user_createUser\']//*[@data-schemapath=\''+id+'\']');
+      driver
+        .wait(webdriver.until.elementLocated(locator),2000)
+        .then(function() { done(); });
+    });
+  });
+
+  // TODO JSonEditor Tests for POST/PUT
+
   after(function() {
     servers.close();
   });
