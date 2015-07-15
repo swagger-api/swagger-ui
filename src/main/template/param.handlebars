@@ -30,9 +30,9 @@
             <div class="parameter-content-type"/>
         {{else}}
             {{#if default}}
-                <input class='parameter form-control' minlength='0' name='{{name}}' placeholder='' type='text' value='{{default}}'  data-toggle="tooltip" data-placement="right" title="" data-original-title='{{name}}'/>
+                <input class='parameter form-control' minlength='0' name='{{name}}' placeholder='' type='{{inputType}}' value='{{default}}'  data-toggle="tooltip" data-placement="right" title="" data-original-title='{{name}}'/>
             {{else}}
-                <input class='parameter form-control' minlength='0' name='{{name}}' placeholder='' type='text' value=''  data-toggle="tooltip" data-placement="right" title="" data-original-title='{{name}}'/>
+                <input class='parameter form-control' minlength='0' name='{{name}}' placeholder='' type='{{inputType}}' value=''  data-toggle="tooltip" data-placement="right" title="" data-original-title='{{name}}'/>
             {{/if}}
         {{/if}}
         <div class="small-description">

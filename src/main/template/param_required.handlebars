@@ -17,9 +17,9 @@
             <input class='parameter form-control required' type='file' name='{{name}}'/>
         {{else}}
             {{#if default}}
-                <input class='parameter form-control required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='{{default}}' data-toggle="tooltip" data-placement="right" title="" data-original-title='{{name}}'/>
+                <input class='parameter form-control required' minlength='1' name='{{name}}' placeholder='(required)' type='{{inputType}}' value='{{default}}' data-toggle="tooltip" data-placement="right" title="" data-original-title='{{name}}'/>
             {{else}}
-                <input class='parameter form-control required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='' data-toggle="tooltip" data-placement="right" title="" data-original-title='{{name}}'/>
+                <input class='parameter form-control required' minlength='1' name='{{name}}' placeholder='(required)' type='{{inputType}}' value='' data-toggle="tooltip" data-placement="right" title="" data-original-title='{{name}}'/>
             {{/if}}
         {{/if}}
     {{/if}}
