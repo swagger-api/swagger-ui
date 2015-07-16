@@ -538,7 +538,7 @@ this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(dept
     + " API (Beta) Documentation</h1>\n    <div class=\"info_description markdown\">";
   stack1 = lambda(((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.description : stack1), depth0);
   if (stack1 != null) { buffer += stack1; }
-  buffer += "</div>\n";
+  buffer += "</div>\n    <div class=\"basic-info\">\n      <table>\n        <tbody>\n          <tr>\n            <td>Base URI</td>\n            <td>https://api.open.fec.gov/v2/</td>\n          </tr>\n          <tr>\n            <td>HTTP Method</td>\n            <td>GET</td>\n          </tr>\n          <tr>\n            <td>Response format</td>\n            <td>.json</td>\n          </tr>\n        </tbody>\n      </table>\n    </div>\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.externalDocs : depth0), {"name":"if","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "    ";
@@ -614,7 +614,7 @@ this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(dept
     + escapeExpression(((helper = (helper = helpers.url || (depth0 != null ? depth0.url : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"url","hash":{},"data":data}) : helper)))
     + "\"></a>\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<header class=\"site-header\">\n  <div class=\"container\">\n    <span class=\"site-title\">/developers</span>\n    <nav class=\"site-nav\">\n      <ul>\n        <li><a href=\"https://github.com/18f/openfec\">Contribute on GitHub</a></li>\n      </ul>\n    </nav>\n  </div>\n</header>\n\n<div class='info' id='api_info'>\n  <div class=\"container\">\n";
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<header class=\"site-header\">\n  <div class=\"container\">\n    <span class=\"site-title\">api.open.fec.gov/developers</span>\n    <nav class=\"site-nav\">\n      <ul>\n        <li><a href=\"https://github.com/18f/openfec\">Contribute on GitHub</a></li>\n      </ul>\n    </nav>\n  </div>\n</header>\n\n<div class='info' id='api_info'>\n  <div class=\"container\">\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.info : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "  </div>\n</div>\n\n<div id='resources_container'>\n  <ul id='resources'></ul>\n</div>\n\n<div class=\"footer\">\n  <div class=\"container\">\n    <p>A project of <a href=\"https://18f.gsa.gov\">18F</a></p>\n    <p>[ base url</span>: "
@@ -678,9 +678,7 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
     + escapeExpression(((helper = (helper = helpers.encodedParentId || (depth0 != null ? depth0.encodedParentId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"encodedParentId","hash":{},"data":data}) : helper)))
     + "/"
     + escapeExpression(((helper = (helper = helpers.nickname || (depth0 != null ? depth0.nickname : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"nickname","hash":{},"data":data}) : helper)))
-    + "' class=\"toggleOperation\">"
-    + escapeExpression(((helper = (helper = helpers.method || (depth0 != null ? depth0.method : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"method","hash":{},"data":data}) : helper)))
-    + "</a>\n          </span>\n          <span class='path'>\n          <a href='#!/"
+    + "' class=\"toggleOperation\">+</a>\n          </span>\n          <span class='path'>\n          <a href='#!/"
     + escapeExpression(((helper = (helper = helpers.encodedParentId || (depth0 != null ? depth0.encodedParentId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"encodedParentId","hash":{},"data":data}) : helper)))
     + "/"
     + escapeExpression(((helper = (helper = helpers.nickname || (depth0 != null ? depth0.nickname : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"nickname","hash":{},"data":data}) : helper)))
