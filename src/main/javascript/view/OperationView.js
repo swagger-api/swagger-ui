@@ -83,7 +83,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   // Note: copied from CoffeeScript compiled file
   // TODO: redactor
   render: function() {
-    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, len1,  m, modelAuths, o, ref1, ref2,  schema, schemaObj, scopeIndex, v, value;
+    var a, auth, auths,  isMethodSubmissionSupported, k, key, len1,  m, modelAuths, o, ref1, scopeIndex, v;
     var self = this;
     isMethodSubmissionSupported = jQuery.inArray(this.model.method, this.model.supportedSubmitMethods()) >= 0;
     if (!isMethodSubmissionSupported) {
