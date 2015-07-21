@@ -248,6 +248,15 @@ Handlebars.registerHelper('sanitize', function(html) {
     return new Handlebars.SafeString(html);
 });
 
+// Iterates over collections (array or map)... provides else block
+Handlebars.registerHelper( 'ifAny', function ( collection, block ) {
+   if(!_.isEmpty(collection)) {
+     return  block.fn(this);
+   } else {
+     return  block.inverse(this);
+   }
+});
+
 Handlebars.registerHelper('renderTextParam', function(param) {
     var result, type = 'text', idAtt = '';
     var isArray = param.type.toLowerCase() === 'array' || param.allowMultiple;
@@ -404,11 +413,8 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
   },"14":function(depth0,helpers,partials,data) {
   return "        <div class='access'>\n          <span class=\"api-ic ic-off\" title=\"click to authenticate\"></span>\n        </div>\n";
   },"16":function(depth0,helpers,partials,data) {
-  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "          <h4>Response Class (Status "
-    + escapeExpression(((helper = (helper = helpers.successCode || (depth0 != null ? depth0.successCode : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"successCode","hash":{},"data":data}) : helper)))
-    + ")</h4>\n          <p><span class=\"model-signature\" /></p>\n          <br/>\n          <div class=\"response-content-type\" />\n";
-},"18":function(depth0,helpers,partials,data) {
+  return "          <div class=\"response-class\"> </div>\n";
+  },"18":function(depth0,helpers,partials,data) {
   return "          <h4>Parameters</h4>\n          <table class='fullwidth'>\n          <thead>\n            <tr>\n            <th style=\"width: 100px; max-width: 100px\">Parameter</th>\n            <th style=\"width: 310px; max-width: 310px\">Value</th>\n            <th style=\"width: 200px; max-width: 200px\">Description</th>\n            <th style=\"width: 100px; max-width: 100px\">Parameter Type</th>\n            <th style=\"width: 220px; max-width: 230px\">Data Type</th>\n            </tr>\n          </thead>\n          <tbody class=\"operation-params\">\n\n          </tbody>\n          </table>\n";
   },"20":function(depth0,helpers,partials,data) {
   return "          <div style='margin:0;padding:0;display:inline'></div>\n          <h4>Response Messages</h4>\n          <table class='fullwidth'>\n            <thead>\n            <tr>\n              <th>HTTP Status Code</th>\n              <th>Reason</th>\n              <th>Response Model</th>\n              <th>Headers</th>\n            </tr>\n            </thead>\n            <tbody class=\"operation-status\">\n\n            </tbody>\n          </table>\n";
@@ -470,12 +476,13 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
   stack1 = ((helper = (helper = helpers.oauth || (depth0 != null ? depth0.oauth : depth0)) != null ? helper : helperMissing),(options={"name":"oauth","hash":{},"fn":this.program(14, data),"inverse":this.noop,"data":data}),(typeof helper === functionType ? helper.call(depth0, options) : helper));
   if (!helpers.oauth) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
   if (stack1 != null) { buffer += stack1; }
+  buffer += "\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.type : depth0), {"name":"if","hash":{},"fn":this.program(16, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  buffer += "        <form accept-charset='UTF-8' class='sandbox'>\n          <div style='margin:0;padding:0;display:inline'></div>\n";
+  buffer += "\n        <form accept-charset='UTF-8' class='sandbox'>\n          <div style='margin:0;padding:0;display:inline'></div>\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.parameters : depth0), {"name":"if","hash":{},"fn":this.program(18, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.responseMessages : depth0), {"name":"if","hash":{},"fn":this.program(20, data),"inverse":this.noop,"data":data});
+  stack1 = ((helpers.ifAny || (depth0 && depth0.ifAny) || helperMissing).call(depth0, (depth0 != null ? depth0.responses : depth0), {"name":"ifAny","hash":{},"fn":this.program(20, data),"inverse":this.noop,"data":data}));
   if (stack1 != null) { buffer += stack1; }
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isReadOnly : depth0), {"name":"if","hash":{},"fn":this.program(22, data),"inverse":this.program(24, data),"data":data});
   if (stack1 != null) { buffer += stack1; }
@@ -818,6 +825,12 @@ this["Handlebars"]["templates"]["resource"] = Handlebars.template({"1":function(
     + escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"id","hash":{},"data":data}) : helper)))
     + "_endpoint_list' style='display:none'>\n\n</ul>\n";
 },"useData":true});
+this["Handlebars"]["templates"]["response_class"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "<h4>Response Class (Status "
+    + escapeExpression(((helper = (helper = helpers.successCode || (depth0 != null ? depth0.successCode : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"successCode","hash":{},"data":data}) : helper)))
+    + ")</h4>\n<p><span class=\"model-signature\" /></p>\n<br/>\n<div class=\"response-content-type\" />\n\n";
+},"useData":true});
 this["Handlebars"]["templates"]["response_content_type"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var stack1, buffer = "";
   stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.produces : depth0), {"name":"each","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
@@ -869,7 +882,7 @@ this["Handlebars"]["templates"]["status_code"] = Handlebars.template({"1":functi
   buffer += "</td>\n<td width='50%'><span class=\"model-signature\" /></td>\n<td class=\"headers\">\n  <table>\n    <tbody>\n";
   stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.headers : depth0), {"name":"each","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "    </tbody>\n  </table>\n</td>";
+  return buffer + "    </tbody>\n  </table>\n</td>\n";
 },"useData":true});
 /**
  * swagger-client - swagger-client is a javascript client for use with swaggering APIs.
@@ -31175,7 +31188,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
           range.moveToElementText(text);
           range.select();
       } else if (window.getSelection) {
-          selection = window.getSelection();        
+          selection = window.getSelection();
           range = document.createRange();
           range.selectNodeContents(text);
           selection.removeAllRanges();
@@ -31221,10 +31234,12 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     $(e.currentTarget.parentNode).find('#api_information_panel').hide();
   },
 
+
   // Note: copied from CoffeeScript compiled file
   // TODO: redactor
   render: function() {
-    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, l, len, len1, len2, len3, len4, m, modelAuths, n, o, p, param, q, ref, ref1, ref2, ref3, ref4, ref5, responseContentTypeView, responseSignatureView, schema, schemaObj, scopeIndex, signatureModel, statusCode, successResponse, type, v, value;
+    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, len1,  m, modelAuths, o, ref1, ref2,  schema, schemaObj, scopeIndex, v, value;
+    var self = this;
     isMethodSubmissionSupported = jQuery.inArray(this.model.method, this.model.supportedSubmitMethods()) >= 0;
     if (!isMethodSubmissionSupported) {
       this.model.isReadOnly = true;
@@ -31234,7 +31249,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     modelAuths = this.model.authorizations || this.model.security;
     if (modelAuths) {
       if (Array.isArray(modelAuths)) {
-        for (l = 0, len = modelAuths.length; l < len; l++) {
+        for (var l = 0, len = modelAuths.length; l < len; l++) {
           auths = modelAuths[l];
           for (key in auths) {
             auth = auths[key];
@@ -31277,108 +31292,53 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         }
       }
     }
-    if (typeof this.model.responses !== 'undefined') {
-      this.model.responseMessages = [];
-      ref2 = this.model.responses;
-      for (code in ref2) {
-        value = ref2[code];
-        schema = null;
-        schemaObj = this.model.responses[code].schema;
-        if (schemaObj && schemaObj.$ref) {
-          schema = schemaObj.$ref;
-          if (schema.indexOf('#/definitions/') === 0) {
-            schema = schema.substring('#/definitions/'.length);
-          }
-        }
-        this.model.responseMessages.push({
-          code: code,
-          message: value.description,
-          responseModel: schema
-        });
-      }
-    }
-    if (typeof this.model.responseMessages === 'undefined') {
-      this.model.responseMessages = [];
-    }
-    signatureModel = null;
-    if (this.model.successResponse) {
-      successResponse = this.model.successResponse;
-      for (key in successResponse) {
-        value = successResponse[key];
-        this.model.successCode = key;
-        if (typeof value === 'object' && typeof value.createJSONSample === 'function') {
-          signatureModel = {
-            sampleJSON: JSON.stringify(value.createJSONSample(), void 0, 2),
-            isParam: false,
-            signature: value.getMockSignature()
-          };
-        }
-      }
-    } else if (this.model.responseClassSignature && this.model.responseClassSignature !== 'string') {
-      signatureModel = {
-        sampleJSON: this.model.responseSampleJSON,
-        isParam: false,
-        signature: this.model.responseClassSignature
-      };
-    }
+
     var opts = this.options.swaggerOptions;
     if (opts.showRequestHeaders) {
       this.model.showRequestHeaders = true;
     }
+
     $(this.el).html(Handlebars.templates.operation(this.model));
-    if (signatureModel) {
-      responseSignatureView = new SwaggerUi.Views.SignatureView({
-        model: signatureModel,
-        router: this.router,
-        tagName: 'div'
+
+    // Render Response Class
+    $('.response-class', this.$el).html(new SwaggerUi.Views.ResponseClassView({model: this.model}).render().el);
+
+    // Look for file types, and make sure we include multipart/form-data
+    // Add parameters
+    for (var n = 0, len2 = this.model.parameters.length; n < len2; n++) {
+      var param = this.model.parameters[n];
+      var type = param.type || param.dataType || '';
+
+      if (typeof type === 'string' && type.toLowerCase() === 'file') {
+        // If there is a consumes... can it overide the need for multipart/form-data?
+        // WARNING: this modifes the spec itself! Why?
+        if (!this.model.consumes) {
+          this.model.consumes = ['multipart/form-data'];
+        }
+      }
+
+      this.addParameter(param, this.model.consumes);
+    }
+
+    // Add Secondary Responses
+    _.each(this.model.responses, function (response,code) {
+
+      if(typeof response !== 'object') { response = {};}
+
+      var statusCodeView = new SwaggerUi.Views.StatusCodeView({
+        model: {
+          schema: response.schema,
+          message: response.description,
+          headers: response.headers,
+          code: code
+        },
+        tagName: 'tr',
+        router: self.router
       });
-      $('.model-signature', $(this.el)).append(responseSignatureView.render().el);
-    } else {
-      this.model.responseClassSignature = 'string';
-      $('.model-signature', $(this.el)).html(this.model.type);
-    }
-    contentTypeModel = {
-      isParam: false
-    };
-    contentTypeModel.consumes = this.model.consumes;
-    contentTypeModel.produces = this.model.produces;
-    ref3 = this.model.parameters;
-    for (n = 0, len2 = ref3.length; n < len2; n++) {
-      param = ref3[n];
-      type = param.type || param.dataType || '';
-      if (typeof type === 'undefined') {
-        schema = param.schema;
-        if (schema && schema.$ref) {
-          ref = schema.$ref;
-          if (ref.indexOf('#/definitions/') === 0) {
-            type = ref.substring('#/definitions/'.length);
-          } else {
-            type = ref;
-          }
-        }
-      }
-      if (type && type.toLowerCase() === 'file') {
-        if (!contentTypeModel.consumes) {
-          contentTypeModel.consumes = 'multipart/form-data';
-        }
-      }
-      param.type = type;
-    }
-    responseContentTypeView = new SwaggerUi.Views.ResponseContentTypeView({
-      model: contentTypeModel,
-      router: this.router
+
+      self.$el.find('.operation-status').append(statusCodeView.render().el);
     });
-    $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
-    ref4 = this.model.parameters;
-    for (p = 0, len3 = ref4.length; p < len3; p++) {
-      param = ref4[p];
-      this.addParameter(param, contentTypeModel.consumes);
-    }
-    ref5 = this.model.responseMessages;
-    for (q = 0, len4 = ref5.length; q < len4; q++) {
-      statusCode = ref5[q];
-      this.addStatusCode(statusCode);
-    }
+
     return this;
   },
 
@@ -31391,16 +31351,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       readOnly: this.model.isReadOnly
     });
     $('.operation-params', $(this.el)).append(paramView.render().el);
-  },
-
-  addStatusCode: function(statusCode) {
-    // Render status codes
-    var statusCodeView = new SwaggerUi.Views.StatusCodeView({
-      model: statusCode,
-      tagName: 'tr',
-      router: this.router
-    });
-    $('.operation-status', $(this.el)).append(statusCodeView.render().el);
   },
 
   // Note: copied from CoffeeScript compiled file
@@ -31484,10 +31434,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   },
 
   getInputMap: function (form) {
-    var map, ref1, l, len, o, ref2, m, len1, val, ref3, n, len2;
+    var map, ref1, o, ref2, m, len1, val, ref3, n, len2;
     map = {};
     ref1 = form.find('input');
-    for (l = 0, len = ref1.length; l < len; l++) {
+    for (var l = 0, len = ref1.length; l < len; l++) {
       o = ref1[l];
       if ((o.value !== null) && jQuery.trim(o.value).length > 0) {
         map[o.name] = o.value;
@@ -31516,10 +31466,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   },
 
   isFileUpload: function (form) {
-    var ref1, l, len, o;
+    var ref1, o;
     var isFileUpload = false;
     ref1 = form.find('input');
-    for (l = 0, len = ref1.length; l < len; l++) {
+    for (var l = 0, len = ref1.length; l < len; l++) {
       o = ref1[l];
       if (o.type === 'file') {
         isFileUpload = true;
@@ -31534,10 +31484,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   // wraps a jquery response as a shred response
   wrap: function(data) {
-   var h, headerArray, headers, i, l, len, o;
+   var h, headerArray, headers, i, o;
     headers = {};
     headerArray = data.getAllResponseHeaders().split('\r');
-    for (l = 0, len = headerArray.length; l < len; l++) {
+    for (var l = 0, len = headerArray.length; l < len; l++) {
       i = headerArray[l];
       h = i.match(/^([^:]*?):(.*)$/);
       if (!h) {
@@ -31604,7 +31554,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   // Note: directly ported from CoffeeScript
   // TODO: Cleanup CoffeeScript artifacts
   formatXml: function(xml) {
-    var contexp, fn, formatted, indent, l, lastType, len, lines, ln, pad, reg, transitions, wsexp;
+    var contexp, fn, formatted, indent, lastType, lines, ln, pad, reg, transitions, wsexp;
     reg = /(>)(<)(\/*)/g;
     wsexp = /[ ]*(.*)[ ]+\n/g;
     contexp = /(<.+>)(.+\n)/g;
@@ -31669,7 +31619,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         formatted += padding + ln + '\n';
       }
     };
-    for (l = 0, len = lines.length; l < len; l++) {
+    for (var l = 0, len = lines.length; l < len; l++) {
       ln = lines[l];
       fn(ln);
     }
@@ -32055,15 +32005,84 @@ SwaggerUi.Views.ResourceView = Backbone.View.extend({
 });
 'use strict';
 
+SwaggerUi.Views.ResponseClassView = Backbone.View.extend({
+
+  initialize: function () { },
+
+  renderResponseContentType: function() {
+
+    var responseContentTypeView = new SwaggerUi.Views.ResponseContentTypeView({
+      model: {produces: this.model.produces},
+      router: this.router
+    });
+
+    $('.response-content-type', $(this.el)).html(responseContentTypeView.render().el);
+  },
+
+  render: function(){
+
+    var signatureModel = null;
+
+    // Get the last response with an object?
+    if (this.model.successResponse) {
+      var successResponse = this.model.successResponse;
+
+      // Get last key/value
+      var key,resp;
+      for (key in successResponse) { resp = successResponse[key]; }
+
+      this.model.successCode = key;
+      signatureModel = {
+        isParam: false,
+        schema: resp
+      };
+
+     } else if (this.model.responseClassSignature && this.model.responseClassSignature !== 'string') {
+       signatureModel = {
+         sampleJSON: this.model.responseSampleJSON,
+         isParam: false,
+         signature: this.model.responseClassSignature
+       };
+     }
+
+     this.$el.html(Handlebars.templates.response_class(this.model));
+
+     if(signatureModel) {
+
+      var responseSignatureView = new SwaggerUi.Views.SignatureView({
+        model: signatureModel,
+        router: this.router,
+        tagName: 'div'
+      });
+
+      $('.model-signature', $(this.el)).append(responseSignatureView.render().el);
+
+     } else {
+
+      this.model.responseClassSignature = 'string';
+      $('.model-signature', $(this.el)).html(this.model.type);
+
+     }
+
+     this.renderResponseContentType();
+
+    return this;
+  }
+
+});
+
+'use strict';
+
 SwaggerUi.Views.ResponseContentTypeView = Backbone.View.extend({
   initialize: function(){},
 
   render: function(){
     this.model.responseContentTypeId = 'rct' + Math.random();
-    $(this.el).html(Handlebars.templates.response_content_type(this.model));
+    this.$el.html(Handlebars.templates.response_content_type(this.model));
     return this;
   }
 });
+
 'use strict';
 
 SwaggerUi.Views.SignatureView = Backbone.View.extend({
@@ -32073,13 +32092,20 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
     'mousedown .snippet'          : 'snippetToTextArea'
   },
 
-  initialize: function () {
-
+  initialize: function (opts) {
+    opts = opts || {};
+    this.models = ((opts.router || {}).api || {}).models || []; // this.router.api.models or []
   },
 
   render: function(){
 
-    $(this.el).html(Handlebars.templates.signature(this.model));
+    // Allow passing in schema as well
+    var model = {
+      signature: this.model.signature || this.createSampleMarkup(this.model.schema),
+      sampleJSON: this.model.sampleJSON || this.createSample(this.model.schema)
+    };
+
+    $(this.el).html(Handlebars.templates.signature(model));
 
     this.switchToSnippet();
 
@@ -32090,6 +32116,39 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
     }
 
     return this;
+  },
+
+  createSample: function(response) {
+    var json;
+
+    if(typeof response !== 'object') {
+      return;
+    }
+
+    // Allow for model objects with #createJSONSample...
+    if(typeof response.createJSONSample === 'function') {
+      json = response.createJSONSample();
+    } else {
+      json = SwaggerClient.SchemaMarkup.schemaToJSON(response, this.models);
+    }
+
+    return JSON.stringify(json, null, 2);
+  },
+
+  createSampleMarkup: function (response) {
+    var markup = '';
+    if(typeof response !== 'object') {
+      return;
+    }
+
+    // Allow for model objects with #getMockSignature...
+    if(typeof response.getMockSignature === 'function') {
+      markup += response.getMockSignature();
+    } else {
+      markup += SwaggerClient.SchemaMarkup.schemaToHTML(response,this.models);
+    }
+
+    return markup;
   },
 
   // handler for show signature
@@ -32124,6 +32183,7 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
     }
   }
 });
+
 'use strict';
 
 SwaggerUi.Views.StatusCodeView = Backbone.View.extend({
@@ -32133,20 +32193,23 @@ SwaggerUi.Views.StatusCodeView = Backbone.View.extend({
   },
 
   render: function(){
-    $(this.el).html(Handlebars.templates.status_code(this.model));
 
-    if (this.router.api.models.hasOwnProperty(this.model.responseModel)) {
-      var responseModel = {
-        sampleJSON: JSON.stringify(this.router.api.models[this.model.responseModel].createJSONSample(), null, 2),
-        isParam: false,
-        signature: this.router.api.models[this.model.responseModel].getMockSignature(),
-      };
+    this.$el.html(Handlebars.templates.status_code(this.model));
 
-      var responseModelView = new SwaggerUi.Views.SignatureView({model: responseModel, tagName: 'div'});
-      $('.model-signature', this.$el).append(responseModelView.render().el);
-    } else {
-      $('.model-signature', this.$el).html('');
-    }
+    // Add signature view of model
+    var schema = this.model.schema || {};
+    var responseModel = {
+      schema: schema,
+      isParam: false,
+    };
+    var responseModelView = new SwaggerUi.Views.SignatureView({
+      model: responseModel,
+      tagName: 'div',
+      router: this.router
+    });
+    $('.model-signature', this.$el).append(responseModelView.render().el);
+
     return this;
   }
-});}).call(this);
+});
+}).call(this);
