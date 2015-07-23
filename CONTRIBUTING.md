@@ -1,5 +1,5 @@
 ## Pull Requests
-Plase make your pull requests are made to the [**`develop_2.0`**](https://github.com/swagger-api/swagger-ui/tree/develop_2.0) branch at this time.
+Please open your pull requests against the [**`develop_2.0`**](https://github.com/swagger-api/swagger-ui/tree/develop_2.0) branch at this time.
 
 ## Issues
 SwaggerUI uses [SwaggerJS](https://github.com/swagger-api/swagger-js) library for many internal operations. If you see errors in
