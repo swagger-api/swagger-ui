@@ -6,6 +6,7 @@ var realm;
 var oauth2KeyName;
 var redirect_uri;
 var clientSecret;
+var scopeSeparator;
 
 function handleLogin() {
   var scopes = [];
@@ -153,7 +154,7 @@ function handleLogin() {
     url += '&redirect_uri=' + encodeURIComponent(redirectUrl);
     url += '&realm=' + encodeURIComponent(realm);
     url += '&client_id=' + encodeURIComponent(clientId);
-    url += '&scope=' + encodeURIComponent(scopes.join(' '));
+    url += '&scope=' + encodeURIComponent(scopes.join(scopeSeparator));
     url += '&state=' + encodeURIComponent(state);
 
     window.open(url);
@@ -188,6 +189,7 @@ function initOAuth(opts) {
   clientId = (o.clientId||errors.push('missing client id'));
   clientSecret = (o.clientSecret||errors.push('missing client secret'));
   realm = (o.realm||errors.push('missing realm'));
+  scopeSeparator = (o.scopeSeparator||' ');
 
   if(errors.length > 0){
     log('auth unable initialize oauth: ' + errors);
