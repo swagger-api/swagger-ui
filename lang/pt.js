@@ -20,6 +20,7 @@ window.SwaggerTranslator.learn({
     "Response Body":"Corpo da resposta",
     "Response Code":"Código da resposta",
     "Response Headers":"Cabeçalho da resposta",
+    "Headers":"Cabeçalhos",
     "Hide Response":"Esconder resposta",
     "Try it out!":"Tente agora!",
     "Show/Hide":"Mostrar/Esconder",
