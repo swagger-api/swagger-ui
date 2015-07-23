@@ -297,7 +297,7 @@ this["Handlebars"]["templates"]["content_type"] = Handlebars.template({"1":funct
 },"4":function(depth0,helpers,partials,data) {
   return "  <option value=\"application/json\">application/json</option>\n";
   },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<label for=\""
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<label data-sw-translate for=\""
     + escapeExpression(((helper = (helper = helpers.contentTypeId || (depth0 != null ? depth0.contentTypeId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"contentTypeId","hash":{},"data":data}) : helper)))
     + "\">Response Content Type</label>\n<select name=\"contentType\" id=\""
     + escapeExpression(((helper = (helper = helpers.contentTypeId || (depth0 != null ? depth0.contentTypeId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"contentTypeId","hash":{},"data":data}) : helper)))
@@ -1100,7 +1100,7 @@ this["Handlebars"]["templates"]["response_content_type"] = Handlebars.template({
 },"4":function(depth0,helpers,partials,data) {
   return "  <option value=\"application/json\">application/json</option>\n";
   },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<label for=\""
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<label data-sw-translate for=\""
     + escapeExpression(((helper = (helper = helpers.responseContentTypeId || (depth0 != null ? depth0.responseContentTypeId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"responseContentTypeId","hash":{},"data":data}) : helper)))
     + "\">Response Content Type</label>\n<select name=\"responseContentType\" id=\""
     + escapeExpression(((helper = (helper = helpers.responseContentTypeId || (depth0 != null ? depth0.responseContentTypeId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"responseContentTypeId","hash":{},"data":data}) : helper)))
