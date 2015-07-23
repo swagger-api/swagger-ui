@@ -73,10 +73,12 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     elem.css(pos);
   },
 
+
   // Note: copied from CoffeeScript compiled file
   // TODO: redactor
   render: function() {
-    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, l, len, len1, len2, len3, len4, m, modelAuths, n, o, p, param, q, ref, ref1, ref2, ref3, ref4, ref5, responseContentTypeView, responseSignatureView, schema, schemaObj, scopeIndex, signatureModel, statusCode, successResponse, type, v, value;
+    var a, auth, auths,  isMethodSubmissionSupported, k, key, len1,  m, modelAuths, o, ref1, scopeIndex, v;
+    var self = this;
     isMethodSubmissionSupported = jQuery.inArray(this.model.method, this.model.supportedSubmitMethods()) >= 0;
     if (!isMethodSubmissionSupported) {
       this.model.isReadOnly = true;
@@ -86,7 +88,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     modelAuths = this.model.authorizations || this.model.security;
     if (modelAuths) {
       if (Array.isArray(modelAuths)) {
-        for (l = 0, len = modelAuths.length; l < len; l++) {
+        for (var l = 0, len = modelAuths.length; l < len; l++) {
           auths = modelAuths[l];
           for (key in auths) {
             auth = auths[key];
@@ -129,108 +131,53 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         }
       }
     }
-    if (typeof this.model.responses !== 'undefined') {
-      this.model.responseMessages = [];
-      ref2 = this.model.responses;
-      for (code in ref2) {
-        value = ref2[code];
-        schema = null;
-        schemaObj = this.model.responses[code].schema;
-        if (schemaObj && schemaObj.$ref) {
-          schema = schemaObj.$ref;
-          if (schema.indexOf('#/definitions/') === 0) {
-            schema = schema.substring('#/definitions/'.length);
-          }
-        }
-        this.model.responseMessages.push({
-          code: code,
-          message: value.description,
-          responseModel: schema
-        });
-      }
-    }
-    if (typeof this.model.responseMessages === 'undefined') {
-      this.model.responseMessages = [];
-    }
-    signatureModel = null;
-    if (this.model.successResponse) {
-      successResponse = this.model.successResponse;
-      for (key in successResponse) {
-        value = successResponse[key];
-        this.model.successCode = key;
-        if (typeof value === 'object' && typeof value.createJSONSample === 'function') {
-          signatureModel = {
-            sampleJSON: JSON.stringify(value.createJSONSample(), void 0, 2),
-            isParam: false,
-            signature: value.getMockSignature()
-          };
-        }
-      }
-    } else if (this.model.responseClassSignature && this.model.responseClassSignature !== 'string') {
-      signatureModel = {
-        sampleJSON: this.model.responseSampleJSON,
-        isParam: false,
-        signature: this.model.responseClassSignature
-      };
-    }
+
     var opts = this.options.swaggerOptions;
     if (opts.showRequestHeaders) {
       this.model.showRequestHeaders = true;
     }
+
     $(this.el).html(Handlebars.templates.operation(this.model));
-    if (signatureModel) {
-      responseSignatureView = new SwaggerUi.Views.SignatureView({
-        model: signatureModel,
-        router: this.router,
-        tagName: 'div'
+
+    // Render Response Class
+    $('.response-class', this.$el).html(new SwaggerUi.Views.ResponseClassView({model: this.model}).render().el);
+
+    // Look for file types, and make sure we include multipart/form-data
+    // Add parameters
+    for (var n = 0, len2 = this.model.parameters.length; n < len2; n++) {
+      var param = this.model.parameters[n];
+      var type = param.type || param.dataType || '';
+
+      if (typeof type === 'string' && type.toLowerCase() === 'file') {
+        // If there is a consumes... can it overide the need for multipart/form-data?
+        // WARNING: this modifes the spec itself! Why?
+        if (!this.model.consumes) {
+          this.model.consumes = ['multipart/form-data'];
+        }
+      }
+
+      this.addParameter(param, this.model.consumes);
+    }
+
+    // Add Secondary Responses
+    _.each(this.model.responses, function (response,code) {
+
+      if(typeof response !== 'object') { response = {};}
+
+      var statusCodeView = new SwaggerUi.Views.StatusCodeView({
+        model: {
+          schema: response.schema,
+          message: response.description,
+          headers: response.headers,
+          code: code
+        },
+        tagName: 'tr',
+        router: self.router
       });
-      $('.model-signature', $(this.el)).append(responseSignatureView.render().el);
-    } else {
-      this.model.responseClassSignature = 'string';
-      $('.model-signature', $(this.el)).html(this.model.type);
-    }
-    contentTypeModel = {
-      isParam: false
-    };
-    contentTypeModel.consumes = this.model.consumes;
-    contentTypeModel.produces = this.model.produces;
-    ref3 = this.model.parameters;
-    for (n = 0, len2 = ref3.length; n < len2; n++) {
-      param = ref3[n];
-      type = param.type || param.dataType || '';
-      if (typeof type === 'undefined') {
-        schema = param.schema;
-        if (schema && schema.$ref) {
-          ref = schema.$ref;
-          if (ref.indexOf('#/definitions/') === 0) {
-            type = ref.substring('#/definitions/'.length);
-          } else {
-            type = ref;
-          }
-        }
-      }
-      if (type && type.toLowerCase() === 'file') {
-        if (!contentTypeModel.consumes) {
-          contentTypeModel.consumes = 'multipart/form-data';
-        }
-      }
-      param.type = type;
-    }
-    responseContentTypeView = new SwaggerUi.Views.ResponseContentTypeView({
-      model: contentTypeModel,
-      router: this.router
+
+      self.$el.find('.operation-status').append(statusCodeView.render().el);
     });
-    $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
-    ref4 = this.model.parameters;
-    for (p = 0, len3 = ref4.length; p < len3; p++) {
-      param = ref4[p];
-      this.addParameter(param, contentTypeModel.consumes);
-    }
-    ref5 = this.model.responseMessages;
-    for (q = 0, len4 = ref5.length; q < len4; q++) {
-      statusCode = ref5[q];
-      this.addStatusCode(statusCode);
-    }
+
     return this;
   },
 
@@ -243,16 +190,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       readOnly: this.model.isReadOnly
     });
     $('.operation-params', $(this.el)).append(paramView.render().el);
-  },
-
-  addStatusCode: function(statusCode) {
-    // Render status codes
-    var statusCodeView = new SwaggerUi.Views.StatusCodeView({
-      model: statusCode,
-      tagName: 'tr',
-      router: this.router
-    });
-    $('.operation-status', $(this.el)).append(statusCodeView.render().el);
   },
 
   // Note: copied from CoffeeScript compiled file
@@ -336,10 +273,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   },
 
   getInputMap: function (form) {
-    var map, ref1, l, len, o, ref2, m, len1, val, ref3, n, len2;
+    var map, ref1, o, ref2, m, len1, val, ref3, n, len2;
     map = {};
     ref1 = form.find('input');
-    for (l = 0, len = ref1.length; l < len; l++) {
+    for (var l = 0, len = ref1.length; l < len; l++) {
       o = ref1[l];
       if ((o.value !== null) && jQuery.trim(o.value).length > 0) {
         map[o.name] = o.value;
@@ -368,10 +305,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   },
 
   isFileUpload: function (form) {
-    var ref1, l, len, o;
+    var ref1, o;
     var isFileUpload = false;
     ref1 = form.find('input');
-    for (l = 0, len = ref1.length; l < len; l++) {
+    for (var l = 0, len = ref1.length; l < len; l++) {
       o = ref1[l];
       if (o.type === 'file') {
         isFileUpload = true;
@@ -386,10 +323,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   // wraps a jquery response as a shred response
   wrap: function(data) {
-   var h, headerArray, headers, i, l, len, o;
+   var h, headerArray, headers, i, o;
     headers = {};
     headerArray = data.getAllResponseHeaders().split('\r');
-    for (l = 0, len = headerArray.length; l < len; l++) {
+    for (var l = 0, len = headerArray.length; l < len; l++) {
       i = headerArray[l];
       h = i.match(/^([^:]*?):(.*)$/);
       if (!h) {
@@ -456,7 +393,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   // Note: directly ported from CoffeeScript
   // TODO: Cleanup CoffeeScript artifacts
   formatXml: function(xml) {
-    var contexp, fn, formatted, indent, l, lastType, len, lines, ln, pad, reg, transitions, wsexp;
+    var contexp, fn, formatted, indent, lastType, lines, ln, pad, reg, transitions, wsexp;
     reg = /(>)(<)(\/*)/g;
     wsexp = /[ ]*(.*)[ ]+\n/g;
     contexp = /(<.+>)(.+\n)/g;
@@ -521,7 +458,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         formatted += padding + ln + '\n';
       }
     };
-    for (l = 0, len = lines.length; l < len; l++) {
+    for (var l = 0, len = lines.length; l < len; l++) {
       ln = lines[l];
       fn(ln);
     }

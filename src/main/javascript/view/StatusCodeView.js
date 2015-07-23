@@ -7,20 +7,22 @@ SwaggerUi.Views.StatusCodeView = Backbone.View.extend({
   },
 
   render: function(){
-    $(this.el).html(Handlebars.templates.status_code(this.model));
 
-    if (this.router.api.models.hasOwnProperty(this.model.responseModel)) {
-      var responseModel = {
-        sampleJSON: JSON.stringify(this.router.api.models[this.model.responseModel].createJSONSample(), null, 2),
-        isParam: false,
-        signature: this.router.api.models[this.model.responseModel].getMockSignature(),
-      };
+    this.$el.html(Handlebars.templates.status_code(this.model));
 
-      var responseModelView = new SwaggerUi.Views.SignatureView({model: responseModel, tagName: 'div'});
-      $('.model-signature', this.$el).append(responseModelView.render().el);
-    } else {
-      $('.model-signature', this.$el).html('');
-    }
+    // Add signature view of model
+    var schema = this.model.schema || {};
+    var responseModel = {
+      schema: schema,
+      isParam: false,
+    };
+    var responseModelView = new SwaggerUi.Views.SignatureView({
+      model: responseModel,
+      tagName: 'div',
+      router: this.router
+    });
+    $('.model-signature', this.$el).append(responseModelView.render().el);
+
     return this;
   }
 });
