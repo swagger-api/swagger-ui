@@ -25,8 +25,13 @@ window.SwaggerTranslator.learn({
     "Show/Hide":"Mostrar/Esconder",
     "List Operations":"Listar operações",
     "Expand Operations":"Expandir operações",
+<<<<<<< HEAD
     "Raw":"Cru",
     "can't parse JSON.  Raw result":"Falha ao analisar JSON.  Resulto cru",
+=======
+    "Raw":"Raw",
+    "can't parse JSON.  Raw result":"can't parse JSON.  Raw result",
+>>>>>>> stable
     "Model Schema":"Modelo esquema",
     "Model":"Modelo",
     "apply":"Aplicar",
