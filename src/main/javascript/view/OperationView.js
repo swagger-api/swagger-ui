@@ -9,7 +9,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     'click .response_hider'   : 'hideResponse',
     'click .toggleOperation'  : 'toggleOperationContent',
     'mouseenter .api-ic'      : 'mouseEnter',
-    'mouseout .api-ic'        : 'mouseExit',
     'dblclick .curl'          : 'selectText',
   },
 
@@ -33,7 +32,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
           range.moveToElementText(text);
           range.select();
       } else if (window.getSelection) {
-          selection = window.getSelection();        
+          selection = window.getSelection();
           range = document.createRange();
           range.selectNodeContents(text);
           selection.removeAllRanges();
@@ -72,11 +71,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     pos.top = y;
     pos.left = x;
     elem.css(pos);
-    $(e.currentTarget.parentNode).find('#api_information_panel').show();
-  },
-
-  mouseExit: function(e) {
-    $(e.currentTarget.parentNode).find('#api_information_panel').hide();
   },
 
   // Note: copied from CoffeeScript compiled file
@@ -95,22 +89,23 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         for (l = 0, len = modelAuths.length; l < len; l++) {
           auths = modelAuths[l];
           for (key in auths) {
-            auth = auths[key];
             for (a in this.auths) {
               auth = this.auths[a];
-              if (auth.type === 'oauth2') {
-                this.model.oauth = {};
-                this.model.oauth.scopes = [];
-                ref1 = auth.value.scopes;
-                for (k in ref1) {
-                  v = ref1[k];
-                  scopeIndex = auths[key].indexOf(k);
-                  if (scopeIndex >= 0) {
-                    o = {
-                      scope: k,
-                      description: v
-                    };
-                    this.model.oauth.scopes.push(o);
+              if (key === auth.name) {
+                if (auth.type === 'oauth2') {
+                  this.model.oauth = {};
+                  this.model.oauth.scopes = [];
+                  ref1 = auth.value.scopes;
+                  for (k in ref1) {
+                    v = ref1[k];
+                    scopeIndex = auths[key].indexOf(k);
+                    if (scopeIndex >= 0) {
+                      o = {
+                        scope: k,
+                        description: v
+                      };
+                      this.model.oauth.scopes.push(o);
+                    }
                   }
                 }
               }
