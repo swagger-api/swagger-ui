@@ -5,6 +5,7 @@ var clientId;
 var realm;
 var oauth2KeyName;
 var redirect_uri;
+var clientSecret;
 
 function handleLogin() {
   var scopes = [];
@@ -185,6 +186,7 @@ function initOAuth(opts) {
   popupMask = (o.popupMask||$('#api-common-mask'));
   popupDialog = (o.popupDialog||$('.api-popup-dialog'));
   clientId = (o.clientId||errors.push('missing client id'));
+  clientSecret = (o.clientSecret||errors.push('missing client secret'));
   realm = (o.realm||errors.push('missing realm'));
 
   if(errors.length > 0){
@@ -207,6 +209,7 @@ function initOAuth(opts) {
 window.processOAuthCode = function processOAuthCode(data) {
   var params = {
     'client_id': clientId,
+    'client_secret': clientSecret,
     'code': data.code,
     'grant_type': 'authorization_code',
     'redirect_uri': redirect_uri
