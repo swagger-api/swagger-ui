@@ -1,5 +1,5 @@
 ###
-# swagger-ui-builder - https://github.com/wordnik/swagger-ui/
+# swagger-ui-builder - https://github.com/swagger-api/swagger-ui/
 # Container for building the swagger-ui static site
 #
 # Build: docker build -t swagger-ui-builder .
@@ -19,6 +19,4 @@ WORKDIR /build
 ADD     package.json    /build/package.json
 RUN     npm install
 ADD     .   /build
-CMD     PATH=$PATH:node_modules/.bin cake dist
-=======
-CMD     PATH=$PATH:node_modules/.bin cake dist
+CMD     ./node_modules/gulp/bin/gulp.js serve

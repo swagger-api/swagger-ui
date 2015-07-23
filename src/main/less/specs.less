@@ -153,6 +153,10 @@
         font-size: 25px;
     }
 
+    .footer {
+        margin-top: 20px;
+    }
+
     p.big, div.big p {
         font-size: 1em;
         margin-bottom: 10px;
@@ -316,6 +320,19 @@
                         font-weight: bold;
                     }
                 }
+            }
+            .propDesc.markdown {
+                > p:first-child,
+                > p:last-child {
+                    display: inline;
+                }
+                > p:not(:first-child):before {
+                    display: block;
+                    content: '';
+                }
+            }
+            span:last-of-type.propDesc.markdown > p:only-child {
+                margin-right: -3px; // otherwise there is a gap before the comma
             }
         }
         .propName {
@@ -1080,6 +1097,10 @@
                 color: black;
             }
         }
+    }
+
+    .operation-status td.markdown > p:last-child {
+        padding-bottom: 0;
     }
 }
 

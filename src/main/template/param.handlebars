@@ -1,31 +1,28 @@
-<td class='code'>{{name}}</td>
+<td class='code'><label for='{{valueId}}'>{{name}}</label></td>
 <td>
 
 	{{#if isBody}}
 		{{#if isFile}}
-			<input type="file" name='{{name}}'/>
+			<input type="file" name='{{name}}' id='{{valueId}}'/>
 			<div class="parameter-content-type" />
 		{{else}}
 			{{#if default}}
-				<textarea class='body-textarea' name='{{name}}'>{{default}}</textarea>
+				<textarea class='body-textarea' name='{{name}}' id='{{valueId}}'>{{default}}</textarea>
         <br />
         <div class="parameter-content-type" />
 			{{else}}
-				<textarea class='body-textarea' name='{{name}}'></textarea>
+				<textarea class='body-textarea' name='{{name}}' id='{{valueId}}'></textarea>
 				<br />
 				<div class="parameter-content-type" />
 			{{/if}}
 		{{/if}}
 	{{else}}
 		{{#if isFile}}
-			<input type="file" name='{{name}}'/>
+			<input type="file" name='{{name}}' id='{{valueId}}'/>
 			<div class="parameter-content-type" />
 		{{else}}
-			{{#if default}}
-				<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value='{{default}}'/>
-			{{else}}
-				<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value=''/>
-			{{/if}}
+			{{#renderTextParam this}}
+			{{/renderTextParam}}
 		{{/if}}
 	{{/if}}
 

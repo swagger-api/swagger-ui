@@ -12,50 +12,58 @@
     float: right;
 }
 
-#api_information_panel {
-    position: absolute;
-    background: #FFF;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    display: none;
-    font-size: 13px;
-    max-width: 300px;
-    line-height: 30px;
-    color: black;
-    padding: 5px;
-    p {
-        .api-msg-enabled {
-            color: green;
-        }
-        .api-msg-disabled {
-            color: red;
-        }
-    }
-}
-
 .api-ic {
     height: 18px;
     vertical-align: middle;
     display: inline-block;
     background: url(../images/explorer_icons.png) no-repeat;
+    .api_information_panel {
+        position: relative;
+        margin-top: 20px;
+        margin-left: -5px;
+        background: #FFF;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        display: none;
+        font-size: 13px;
+        max-width: 300px;
+        line-height: 30px;
+        color: black;
+        padding: 5px;
+        p {
+            .api-msg-enabled {
+                color: green;
+            }
+            .api-msg-disabled {
+                color: red;
+            }
+        }
+    }
+}
+
+.api-ic:hover {
+    .api_information_panel {
+        position: absolute;
+        display: block;
+    }
 }
 
 .ic-info {
     background-position: 0 0;
     width: 18px;
-    margin-top: -7px;
+    margin-top: -6px;
     margin-left: 4px;
 }
 .ic-warning {
     background-position: -60px 0;
     width: 18px;
-    margin-top: -7px;
+    margin-top: -6px;
     margin-left: 4px;
 }
 .ic-error {
     background-position: -30px 0;
     width: 18px;
-    margin-top: -7px;
+    margin-top: -6px;
     margin-left: 4px;
 }
 .ic-off {
