@@ -40,6 +40,7 @@ function handleLogin() {
     appName = window.swaggerUi.api.info.title;
   }
 
+  $('.api-popup-dialog').remove(); 
   popupDialog = $(
     [
       '<div class="api-popup-dialog">',
@@ -240,7 +241,7 @@ window.onOAuthComplete = function onOAuthComplete(token) {
       if(b){
         // if all roles are satisfied
         var o = null;
-        $.each($('.auth #api_information_panel'), function(k, v) {
+        $.each($('.auth .api-ic .api_information_panel'), function(k, v) {
           var children = v;
           if(children && children.childNodes) {
             var requiredScopes = [];
@@ -257,7 +258,7 @@ window.onOAuthComplete = function onOAuthComplete(token) {
               }
             }
             if(diff.length > 0){
-              o = v.parentNode;
+              o = v.parentNode.parentNode;
               $(o.parentNode).find('.api-ic.ic-on').addClass('ic-off');
               $(o.parentNode).find('.api-ic.ic-on').removeClass('ic-on');
 
@@ -266,7 +267,7 @@ window.onOAuthComplete = function onOAuthComplete(token) {
               $(o).find('.api-ic').removeClass('ic-error');
             }
             else {
-              o = v.parentNode;
+              o = v.parentNode.parentNode;
               $(o.parentNode).find('.api-ic.ic-off').addClass('ic-on');
               $(o.parentNode).find('.api-ic.ic-off').removeClass('ic-off');
 
