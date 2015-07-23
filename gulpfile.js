@@ -113,6 +113,12 @@ gulp.task('copy', ['less'], function() {
     .pipe(gulp.dest('./dist/lib'))
     .on('error', log);
 
+  // copy `lang` for translations
+  gulp
+    .src(['./lang/**/*.js'])
+    .pipe(gulp.dest('./dist/lang'))
+    .on('error', log);
+
   // copy all files inside html folder
   gulp
     .src(['./src/main/html/**/*'])
