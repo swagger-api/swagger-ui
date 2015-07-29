@@ -20,8 +20,9 @@ SwaggerUi.Views.ResourceView = Backbone.View.extend({
     $(this.el).html(Handlebars.templates.resource(this.model));
 
     // Render each operation
-    for (var i = 0; i < this.model.operationsArray.length; i++) {
-      var operation = this.model.operationsArray[i];
+
+    window.async.map(this.model.operationsArray, function (operation) {
+
       var counter = 0;
       var id = operation.nickname;
 
@@ -35,7 +36,8 @@ SwaggerUi.Views.ResourceView = Backbone.View.extend({
       operation.nickname = id;
       operation.parentId = this.model.id;
       this.addOperation(operation);
-    }
+
+    }.bind(this));
 
     $('.toggleEndpointList', this.el).click(this.callDocs.bind(this, 'toggleEndpointListForResource'));
     $('.collapseResource', this.el).click(this.callDocs.bind(this, 'collapseOperationsForResource'));
@@ -58,7 +60,11 @@ SwaggerUi.Views.ResourceView = Backbone.View.extend({
       auths: this.auths
     });
 
-    $('.endpoints', $(this.el)).append(operationView.render().el);
+    if(!this._$endpoints) {
+      this._$endpoints = $('.endpoints', $(this.el));
+    }
+
+    this._$endpoints.append(operationView.render().el);
 
     this.number++;
 

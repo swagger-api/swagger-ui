@@ -133,7 +133,12 @@ window.SwaggerUi = Backbone.Router.extend({
       default:
         break;
     }
-    this.renderGFM();
+
+    // For performance you can ignore rendering GFM in descriptions
+    if(!this.options.ignoreGFM) {
+      console.log('running gfm');
+      this.renderGFM();
+    }
 
     if (this.options.onComplete){
       this.options.onComplete(this.api, this);
