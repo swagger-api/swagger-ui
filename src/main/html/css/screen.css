@@ -224,7 +224,7 @@
   color: #aaaaaa;
 }
 .swagger-section .swagger-ui-wrap a {
-  color: #547f00;
+  color: #2678BA;
 }
 .swagger-section .swagger-ui-wrap a img {
   border: none;
@@ -574,7 +574,7 @@
   font-style: italic;
 }
 .swagger-section .swagger-ui-wrap .markdown h3 {
-  color: #547f00;
+  color: #2678BA;
 }
 .swagger-section .swagger-ui-wrap .markdown h4 {
   color: #666666;
@@ -757,6 +757,8 @@
   clear: both;
   overflow: hidden;
   display: block;
+  padding: 10px;
+  background: #e3e3e3;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.content div.sandbox_header a {
   padding: 4px 0 0 10px;
@@ -764,10 +766,16 @@
   font-size: 0.9em;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.content div.sandbox_header input.submit {
-  display: block;
-  clear: none;
-  float: left;
-  padding: 6px 8px;
+  background: #2678BA;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.content div.sandbox_header input.submit:hover {
+  background-color: #1C629A;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.content div.sandbox_header span.response_throbber {
   background-image: url('../images/throbber.gif');
@@ -1018,7 +1026,7 @@
 }
 .swagger-section .swagger-ui-wrap p#colophon a {
   text-decoration: none;
-  color: #547f00;
+  color: #2678BA;
 }
 .swagger-section .swagger-ui-wrap h3 {
   color: black;
@@ -1161,6 +1169,9 @@
   border-bottom: 1px solid #fff;
   margin-bottom: 30px;
 }
+.swagger-section .swagger-ui-wrap .info h2 {
+  color: #fff;
+}
 .swagger-section .swagger-ui-wrap .info p {
   color: #fff;
   font-size: 16px;
@@ -1169,6 +1180,22 @@
 .swagger-section .swagger-ui-wrap .info a,
 .swagger-section .swagger-ui-wrap .info a:hover {
   color: #fff;
+}
+.basic-info {
+  padding-top: 10px;
+  border-top: 1px solid #fff;
+}
+.basic-info table {
+  font-size: 18px;
+}
+.basic-info table tr td {
+  padding: 10px 5px !important;
+  border-bottom: none !important;
+}
+.basic-info table tr td:first-child {
+  font-weight: bold;
+  width: 20%;
+  padding-left: 0 !important;
 }
 .container {
   width: 960px;

@@ -1,6 +1,6 @@
 <header class="site-header">
   <div class="container">
-    <span class="site-title">/developers</span>
+    <span class="site-title">api.open.fec.gov/developers</span>
     <nav class="site-nav">
       <ul>
         <li><a href="https://github.com/18f/openfec">Contribute on GitHub</a></li>
@@ -14,6 +14,24 @@
     {{#if info}}
     <h1 class="info_title">{{info.title}} API (Beta) Documentation</h1>
     <div class="info_description markdown">{{{info.description}}}</div>
+    <div class="basic-info">
+      <table>
+        <tbody>
+          <tr>
+            <td>Base URI</td>
+            <td>https://api.open.fec.gov/v2/</td>
+          </tr>
+          <tr>
+            <td>HTTP Method</td>
+            <td>GET</td>
+          </tr>
+          <tr>
+            <td>Response format</td>
+            <td>.json</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     {{#if externalDocs}}
     <h5>More documentations</h5>
     <p>{{externalDocs.description}}</p>
