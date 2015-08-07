@@ -21,6 +21,7 @@
   <script src='lib/highlight.7.3.pack.js' type='text/javascript'></script>
   <script src='lib/marked.js' type='text/javascript'></script>
   <script src='lib/swagger-oauth.js' type='text/javascript'></script>
+  <script src='lib/async.min.js' type='text/javascript'></script>
 
   <!-- Some basic translations -->
   <!-- <script src='lang/translator.js' type='text/javascript'></script> -->
@@ -44,6 +45,8 @@
         url: url,
         dom_id: "swagger-ui-container",
         supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
+        // ignoreGFM: true,
+        // ignoreCodeHighlight: true,
         onComplete: function(swaggerApi, swaggerUi){
           if(typeof initOAuth == "function") {
             initOAuth({
@@ -59,9 +62,11 @@
             window.SwaggerTranslator.translate();
           }
 
-          $('pre code').each(function(i, e) {
-            hljs.highlightBlock(e)
-          });
+          if(!swaggerUi.ignoreCodeHighlight) {
+            $('pre code').each(function(i, e) {
+              hljs.highlightBlock(e)
+            });
+          }
 
           addApiKeyAuthorization();
         },
