@@ -176,7 +176,7 @@ window.SwaggerUi = Backbone.Router.extend({
     var $msgbar = $('#message-bar');
     $msgbar.removeClass('message-fail');
     $msgbar.addClass('message-success');
-    $msgbar.html(data);
+    $msgbar.text(data);
     if(window.SwaggerTranslator) {
       window.SwaggerTranslator.translate($msgbar);
     }
