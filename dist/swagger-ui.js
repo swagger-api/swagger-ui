@@ -2643,7 +2643,8 @@ function schemaToHTML(name, schema, models, modelPropertyMacro) {
   // Dereference $ref from 'models'
   if(typeof schema.$ref === 'string') {
     name = Helpers.simpleRef(schema.$ref);
-    schema = models[name];
+    // Assign schema only if $ref is not undefined
+    if(name != 'undefined') schema = models[name];
   }
 
   if(typeof name !== 'string') {
