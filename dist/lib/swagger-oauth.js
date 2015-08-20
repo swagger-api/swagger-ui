@@ -167,8 +167,8 @@ function handleLogin() {
 
 
 function handleLogout() {
-  for(key in window.authorizations.authz){
-    window.authorizations.remove(key)
+  for(key in window.swaggerUi.api.clientAuthorizations.authz){
+    window.swaggerUi.api.clientAuthorizations.remove(key)
   }
   window.enabledScopes = null;
   $('.api-ic.ic-on').addClass('ic-off');
