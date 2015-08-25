@@ -1513,10 +1513,8 @@ SwaggerClient.prototype.build = function (mock) {
 
         self.swaggerVersion = responseObj.swaggerVersion;
         self.swaggerObject = responseObj
-
         if (responseObj.swagger && parseInt(responseObj.swagger) === 2) {
           self.swaggerVersion = responseObj.swagger;
-
           new Resolver().resolve(responseObj, self.url, self.buildFromSpec, self);
 
           self.isValid = true;
@@ -1546,7 +1544,6 @@ SwaggerClient.prototype.build = function (mock) {
     if (mock) {
       return obj;
     }
-
     new SwaggerHttp().execute(obj, this.options);
   }
 
@@ -2108,7 +2105,6 @@ SuperagentHttpClient.prototype.execute = function (obj) {
     if (!err && res.error) {
       err = res.error;
     }
-
     if (err && obj.on && obj.on.error) {
       response.obj = err;
       response.status = res ? res.status : 500;
@@ -2116,7 +2112,6 @@ SuperagentHttpClient.prototype.execute = function (obj) {
       cb = obj.on.error;
     } else if (res && obj.on && obj.on.response) {
       var possibleObj;
-
       // Already parsed by by superagent?
       if(res.body && Object.keys(res.body).length > 0) {
         possibleObj = res.body;
@@ -2516,7 +2511,12 @@ Resolver.prototype.retainRoot = function(obj, root) {
     var item = obj[key];
     if(key === '$ref' && typeof item === 'string') {
       // stop and inspect
-      if(item.indexOf('http://') !== 0 && item.indexOf('https://') !== 0) {
+      if (item.indexOf('../') == 0) {
+        var lastSlashIndex = root.lastIndexOf('/');
+        var nextSlashIndex = root.lastIndexOf('/', lastSlashIndex - 1);
+        item = root.substring(0, nextSlashIndex) + '/' + item.substring('../'.length);
+        obj[key] = item;
+      } else if(item.indexOf('http://') !== 0 && item.indexOf('https://') !== 0) {
         if(item.indexOf('#') !== 0) {
           item = '#' + item;
         }
@@ -30860,7 +30860,7 @@ Emitter.prototype.hasListeners = function(event){
  * TODO: combatible error handling?
  */
 
-module.exports = function(arr, fn, initial){  
+module.exports = function(arr, fn, initial){
   var idx = 0;
   var len = arr.length;
   var curr = arguments.length == 3
@@ -30870,7 +30870,7 @@ module.exports = function(arr, fn, initial){
   while (idx < len) {
     curr = fn.call(null, curr, arr[idx], ++idx, arr);
   }
-  
+
   return curr;
 };
 },{}]},{},[1])(1)
