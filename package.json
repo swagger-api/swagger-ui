@@ -45,7 +45,7 @@
     "gulp-uglify": "^1.1.0",
     "gulp-watch": "^4.1.1",
     "gulp-wrap": "^0.11.0",
-    "http-server": "git+https://github.com/nodeapps/http-server.git",
+    "http-server": "^0.8.0",
     "jshint-stylish": "^1.0.1",
     "less": "^2.4.0",
     "mocha": "^2.1.0",
