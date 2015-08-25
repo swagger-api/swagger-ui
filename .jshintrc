@@ -1,0 +1,39 @@
+{
+  "node": true,
+  "browser": true,
+  "esnext": true,
+  "bitwise": true,
+  "curly": true,
+  "eqeqeq": true,
+  "immed": true,
+  "indent": 2,
+  "latedef": false,
+  "newcap": true,
+  "noarg": true,
+  "quotmark": "single",
+  "regexp": true,
+  "undef": true,
+  "unused": true,
+  "strict": true,
+  "trailing": true,
+  "smarttabs": true,
+  "validthis": true,
+  "globals": {
+
+    // Libraries
+    "_": false,
+    "$": false,
+    "Backbone": false,
+    "Handlebars": false,
+    "jQuery": false,
+    "marked": false,
+    "SwaggerClient": false,
+    "hljs": false,
+    "SwaggerUi": false,
+    "define": false,
+
+    // Global object
+    // TODO: remove these
+    "Docs": false
+  }
+}

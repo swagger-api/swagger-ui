@@ -1,0 +1,299 @@
+{
+  "apiVersion": "1.0.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://petstore.swagger.io/api",
+  "resourcePath": "/user",
+  "produces": [
+    "application/json"
+  ],
+  "apis": [
+    {
+      "path": "/user",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Create user",
+          "notes": "This can only be done by the logged in user.",
+          "type": "void",
+          "nickname": "createUser",
+          "authorizations": {
+            "oauth2": [
+              {
+                "scope": "test:anything",
+                "description": "anything"
+              }
+            ]
+          },
+          "parameters": [
+            {
+              "name": "body",
+              "description": "Created user object",
+              "required": true,
+              "type": "User",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/user/logout",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Logs out current logged in user session",
+          "notes": "",
+          "type": "void",
+          "nickname": "logoutUser",
+          "authorizations": {},
+          "parameters": []
+        }
+      ]
+    },
+    {
+      "path": "/user/createWithArray",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Creates list of users with given input array",
+          "notes": "",
+          "type": "void",
+          "nickname": "createUsersWithArrayInput",
+          "authorizations": {
+            "oauth2": [
+              {
+                "scope": "test:anything",
+                "description": "anything"
+              }
+            ]
+          },
+          "parameters": [
+            {
+              "name": "body",
+              "description": "List of user object",
+              "required": true,
+              "type": "array",
+              "items": {
+                "$ref": "User"
+              },
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/user/createWithList",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Creates list of users with given list input",
+          "notes": "",
+          "type": "void",
+          "nickname": "createUsersWithListInput",
+          "authorizations": {
+            "oauth2": [
+              {
+                "scope": "test:anything",
+                "description": "anything"
+              }
+            ]
+          },
+          "parameters": [
+            {
+              "name": "body",
+              "description": "List of user object",
+              "required": true,
+              "type": "array",
+              "items": {
+                "$ref": "User"
+              },
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/user/{username}",
+      "operations": [
+        {
+          "method": "PUT",
+          "summary": "Updated user",
+          "notes": "This can only be done by the logged in user.",
+          "type": "void",
+          "nickname": "updateUser",
+          "authorizations": {
+            "oauth2": [
+              {
+                "scope": "test:anything",
+                "description": "anything"
+              }
+            ]
+          },
+          "parameters": [
+            {
+              "name": "username",
+              "description": "name that need to be deleted",
+              "required": true,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "description": "Updated user object",
+              "required": true,
+              "type": "User",
+              "paramType": "body"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid username supplied"
+            },
+            {
+              "code": 404,
+              "message": "User not found"
+            }
+          ]
+        },
+        {
+          "method": "DELETE",
+          "summary": "Delete user",
+          "notes": "This can only be done by the logged in user.",
+          "type": "void",
+          "nickname": "deleteUser",
+          "authorizations": {
+            "oauth2": [
+              {
+                "scope": "test:anything",
+                "description": "anything"
+              }
+            ]
+          },
+          "parameters": [
+            {
+              "name": "username",
+              "description": "The name that needs to be deleted",
+              "required": true,
+              "type": "string",
+              "paramType": "path"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid username supplied"
+            },
+            {
+              "code": 404,
+              "message": "User not found"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "summary": "Get user by user name",
+          "notes": "",
+          "type": "User",
+          "nickname": "getUserByName",
+          "authorizations": {},
+          "parameters": [
+            {
+              "name": "username",
+              "description": "The name that needs to be fetched. Use user1 for testing.",
+              "required": true,
+              "type": "string",
+              "paramType": "path"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid username supplied"
+            },
+            {
+              "code": 404,
+              "message": "User not found"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/user/login",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Logs user into the system",
+          "notes": "",
+          "type": "string",
+          "nickname": "loginUser",
+          "authorizations": {},
+          "parameters": [
+            {
+              "name": "username",
+              "description": "The user name for login",
+              "required": true,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "password",
+              "description": "The password for login in clear text",
+              "required": true,
+              "type": "string",
+              "paramType": "query"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid username and password combination"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "User": {
+      "id": "User",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "userStatus": {
+          "type": "integer",
+          "format": "int32",
+          "description": "User Status",
+          "enum": [
+            "1-registered",
+            "2-active",
+            "3-closed"
+          ]
+        }
+      }
+    }
+  }
+}

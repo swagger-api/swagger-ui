@@ -1,5 +1,5 @@
-<label for="parameterContentType"></label>
-<select name="parameterContentType">
+<label for="{{parameterContentTypeId}}">Parameter content type:</label>
+<select name="parameterContentType" id="{{parameterContentTypeId}}">
 {{#if consumes}}
   {{#each consumes}}
   <option value="{{{this}}}">{{{this}}}</option>
