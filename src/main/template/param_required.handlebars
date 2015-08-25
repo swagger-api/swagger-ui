@@ -1,31 +1,30 @@
-<td class='code required'>{{name}}</td>
+<td class='code required'><label for='{{valueId}}'>{{name}}</label></td>
 <td>
 	{{#if isBody}}
 		{{#if isFile}}
-			<input type="file" name='{{name}}'/>
+			<input type="file" name='{{name}}' id='{{valueId}}'/>
 		{{else}}
-			{{#if defaultValue}}
-				<textarea class='body-textarea' placeholder='(required)' name='{{name}}'>{{defaultValue}}</textarea>
+			{{#if default}}
+				<textarea class='body-textarea required' placeholder='(required)' name='{{name}}' id="{{valueId}}">{{default}}</textarea>
+        <br />
+        <div class="parameter-content-type" />
 			{{else}}
-				<textarea class='body-textarea' placeholder='(required)' name='{{name}}'></textarea>
+				<textarea class='body-textarea required' placeholder='(required)' name='{{name}}' id='{{valueId}}'></textarea>
 				<br />
 				<div class="parameter-content-type" />
 			{{/if}}
 		{{/if}}
 	{{else}}
 		{{#if isFile}}
-			<input class='parameter' class='required' type='file' name='{{name}}'/>
+			<input class='parameter' class='required' type='file' name='{{name}}' id='{{valueId}}'/>
 		{{else}}
-			{{#if defaultValue}}
-				<input class='parameter required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='{{defaultValue}}'/>
-			{{else}}
-				<input class='parameter required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value=''/>
-			{{/if}}
+			{{#renderTextParam this}}
+			{{/renderTextParam}}
 		{{/if}}
 	{{/if}}
 </td>
 <td>
-	<strong>{{{description}}}</strong>
+	<strong><span class="markdown">{{{description}}}</span></strong>
 </td>
 <td>{{{paramType}}}</td>
 <td><span class="model-signature"></span></td>

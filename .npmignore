@@ -4,4 +4,6 @@ example.html
 .classpath
 .project
 .npmignore
+dist/sample.html
+dist/spec.js
 node_modules

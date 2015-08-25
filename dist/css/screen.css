@@ -274,6 +274,9 @@
   font-weight: bold;
   font-size: 25px;
 }
+.swagger-section .swagger-ui-wrap .footer {
+  margin-top: 20px;
+}
 .swagger-section .swagger-ui-wrap p.big,
 .swagger-section .swagger-ui-wrap div.big p {
   font-size: 1em;
@@ -294,7 +297,13 @@
 .swagger-section .swagger-ui-wrap .message-fail {
   color: #cc0000;
 }
-.swagger-section .swagger-ui-wrap .info_contact {
+.swagger-section .swagger-ui-wrap .info_url {
+  padding-bottom: 5px;
+}
+.swagger-section .swagger-ui-wrap .info_email {
+  padding-bottom: 5px;
+}
+.swagger-section .swagger-ui-wrap .info_name {
   padding-bottom: 5px;
 }
 .swagger-section .swagger-ui-wrap .info_description {
@@ -390,6 +399,43 @@
 .swagger-section .swagger-ui-wrap .model-signature .description .stronger {
   font-weight: bold;
   color: #000;
+}
+.swagger-section .swagger-ui-wrap .model-signature .description .propWrap .optionsWrapper {
+  border-spacing: 0;
+  position: absolute;
+  background-color: #ffffff;
+  border: 1px solid #bbbbbb;
+  display: none;
+  font-size: 11px;
+  max-width: 400px;
+  line-height: 30px;
+  color: black;
+  padding: 5px;
+  margin-left: 10px;
+}
+.swagger-section .swagger-ui-wrap .model-signature .description .propWrap .optionsWrapper th {
+  text-align: center;
+  background-color: #eeeeee;
+  border: 1px solid #bbbbbb;
+  font-size: 11px;
+  color: #666666;
+  font-weight: bold;
+  padding: 5px;
+  line-height: 15px;
+}
+.swagger-section .swagger-ui-wrap .model-signature .description .propWrap .optionsWrapper .optionName {
+  font-weight: bold;
+}
+.swagger-section .swagger-ui-wrap .model-signature .description .propDesc.markdown > p:first-child,
+.swagger-section .swagger-ui-wrap .model-signature .description .propDesc.markdown > p:last-child {
+  display: inline;
+}
+.swagger-section .swagger-ui-wrap .model-signature .description .propDesc.markdown > p:not(:first-child):before {
+  display: block;
+  content: '';
+}
+.swagger-section .swagger-ui-wrap .model-signature .description span:last-of-type.propDesc.markdown > p:only-child {
+  margin-right: -3px;
 }
 .swagger-section .swagger-ui-wrap .model-signature .propName {
   font-weight: bold;
@@ -743,16 +789,19 @@
   display: inline-block;
   font-size: 0.9em;
 }
-.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.content div.sandbox_header img {
-  display: block;
-  clear: none;
-  float: right;
-}
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.content div.sandbox_header input.submit {
   display: block;
   clear: none;
   float: left;
   padding: 6px 8px;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.content div.sandbox_header span.response_throbber {
+  background-image: url('../images/throbber.gif');
+  width: 128px;
+  height: 16px;
+  display: block;
+  clear: none;
+  float: right;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.content form input[type='text'].error {
   outline: 2px solid black;
@@ -1031,6 +1080,9 @@
 .swagger-section .swagger-ui-wrap form.form_box p strong {
   color: black;
 }
+.swagger-section .swagger-ui-wrap .operation-status td.markdown > p:last-child {
+  padding-bottom: 0;
+}
 .swagger-section .title {
   font-style: bold;
 }
@@ -1103,8 +1155,16 @@
 .swagger-section .auth {
   float: right;
 }
-.swagger-section #api_information_panel {
-  position: absolute;
+.swagger-section .api-ic {
+  height: 18px;
+  vertical-align: middle;
+  display: inline-block;
+  background: url(../images/explorer_icons.png) no-repeat;
+}
+.swagger-section .api-ic .api_information_panel {
+  position: relative;
+  margin-top: 20px;
+  margin-left: -5px;
   background: #FFF;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -1115,34 +1175,32 @@
   color: black;
   padding: 5px;
 }
-.swagger-section #api_information_panel p .api-msg-enabled {
+.swagger-section .api-ic .api_information_panel p .api-msg-enabled {
   color: green;
 }
-.swagger-section #api_information_panel p .api-msg-disabled {
+.swagger-section .api-ic .api_information_panel p .api-msg-disabled {
   color: red;
 }
-.swagger-section .api-ic {
-  height: 18px;
-  vertical-align: middle;
-  display: inline-block;
-  background: url(../images/explorer_icons.png) no-repeat;
+.swagger-section .api-ic:hover .api_information_panel {
+  position: absolute;
+  display: block;
 }
 .swagger-section .ic-info {
   background-position: 0 0;
   width: 18px;
-  margin-top: -7px;
+  margin-top: -6px;
   margin-left: 4px;
 }
 .swagger-section .ic-warning {
   background-position: -60px 0;
   width: 18px;
-  margin-top: -7px;
+  margin-top: -6px;
   margin-left: 4px;
 }
 .swagger-section .ic-error {
   background-position: -30px 0;
   width: 18px;
-  margin-top: -7px;
+  margin-top: -6px;
   margin-left: 4px;
 }
 .swagger-section .ic-off {
