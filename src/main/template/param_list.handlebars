@@ -1,25 +1,19 @@
-<td class='code'>{{name}}</td>
+<td class='code{{#if required}} required{{/if}}'><label for='{{valueId}}'>{{name}}</label></td>
 <td>
-  <select {{#isArray this}} multiple='multiple'{{/isArray}} class='parameter' name='{{name}}'>
-    {{#if required}}
-    {{else}}
-      {{#if defaultValue}}
-      {{else}}
-        {{#isArray this}}
-        {{else}}
-          <option selected="" value=''></option>
-        {{/isArray}}
-      {{/if}}
-    {{/if}}
+  <select {{#isArray this}} multiple="multiple"{{/isArray}} class="parameter {{#if required}} required {{/if}}" name="{{name}}" id="{{valueId}}">
+
+    {{#unless required}}
+      <option {{#unless hasDefault}}  selected="" {{/unless}} value=''></option>
+    {{/unless}}
+
     {{#each allowableValues.descriptiveValues}}
-      {{#if isDefault}}
-        <option selected="" value='{{value}}'>{{value}} (default)</option>
-      {{else}}
-        <option value='{{value}}'>{{value}}</option>
-      {{/if}}
+
+      <option {{#if isDefault}} selected=""  {{/if}}  value='{{value}}'> {{value}} {{#if isDefault}} (default) {{/if}} </option>
+
     {{/each}}
+
   </select>
 </td>
-<td>{{{description}}}</td>
+<td class="markdown">{{#if required}}<strong>{{/if}}{{{description}}}{{#if required}}</strong>{{/if}}</td>
 <td>{{{paramType}}}</td>
 <td><span class="model-signature"></span></td>

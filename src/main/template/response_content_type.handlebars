@@ -1,5 +1,5 @@
-<label for="responseContentType"></label>
-<select name="responseContentType">
+<label data-sw-translate for="{{responseContentTypeId}}">Response Content Type</label>
+<select name="responseContentType" id="{{responseContentTypeId}}">
 {{#if produces}}
   {{#each produces}}
   <option value="{{{this}}}">{{{this}}}</option>
