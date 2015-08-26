@@ -33,8 +33,7 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-        // url = location.protocol + '//' + location.host + '/api-docs';
-        url = "http://localhost:8000/sdmain/src/java/sd/src/main/resources/swagger/generated/swagger.json";
+        url = location.protocol + '//' + location.host + '/api-docs';
       }
 
       // Pre load translate...
@@ -64,7 +63,7 @@
             hljs.highlightBlock(e)
           });
 
-          addApiKeyAuthorization();
+          // addApiKeyAuthorization();
         },
         onFailure: function(data) {
           log("Unable to Load SwaggerUI");
@@ -83,7 +82,7 @@
         }
       }
 
-      $('#input_apiKey').change(addApiKeyAuthorization);
+      // $('#input_apiKey').change(addApiKeyAuthorization);
 
       // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
       /*
