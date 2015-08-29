@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>Swagger UI</title>
   <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
   <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
@@ -47,8 +48,10 @@
           if(typeof initOAuth == "function") {
             initOAuth({
               clientId: "your-client-id",
+              clientSecret: "your-client-secret",
               realm: "your-realms",
-              appName: "your-app-name"
+              appName: "your-app-name", 
+              scopeSeparator: ","
             });
           }
 
