@@ -42,7 +42,7 @@ window.SwaggerUi = Backbone.Router.extend({
     }
 
     if (typeof options.oauth2RedirectUrl === 'string') {
-      window.oAuthRedirectUrl = options.oauth2RedirectUrl;
+      window.oAuthRedirectUrl = options.redirectUrl;
     }
 
     // Create an empty div which contains the dom_id
@@ -31823,7 +31823,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
 
     //adds curl output
-    var curlCommand = this.model.asCurl(this.map);
+    var curlCommand = this.model.asCurl(this.map,  {responseContentType: contentType});
     curlCommand = curlCommand.replace('!', '&#33;');
     $( '.curl', $(this.el)).html('<pre>' + curlCommand + '</pre>');
 

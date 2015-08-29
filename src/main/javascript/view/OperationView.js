@@ -643,7 +643,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
 
     //adds curl output
-    var curlCommand = this.model.asCurl(this.map);
+    var curlCommand = this.model.asCurl(this.map,  {responseContentType: contentType});
     curlCommand = curlCommand.replace('!', '&#33;');
     $( '.curl', $(this.el)).html('<pre>' + curlCommand + '</pre>');
 
