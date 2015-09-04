@@ -146,7 +146,8 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         this.model.responseMessages.push({
           code: code,
           message: value.description,
-          responseModel: schema
+          responseModel: schema,
+		  headers: this.model.responses[code].headers
         });
       }
     }
