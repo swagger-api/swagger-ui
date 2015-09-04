@@ -63,6 +63,34 @@
             hljs.highlightBlock(e)
           });
 
+          if (!window.swaggerUi.api.clientAuthorizations.authz.key) {
+            $.getJSON('/swagger-ui/basic_auth_info.json',
+              function(login) {
+                delete login.comments;
+                $.ajax({
+                  type: "POST",
+                  url: '/login',
+                  data: JSON.stringify(login),
+                  contentType: "application/json;charset=utf-8",
+                  success: function(response) {
+                    if (response.status === 'Success') {
+                      window.swaggerUi.api.clientAuthorizations.add(
+                        "oauth2",
+                        new SwaggerClient.ApiKeyAuthorization(
+                          "Authorization",
+                          'Basic ' + btoa(response.token + ':'),
+                          "header"
+                        )
+                      );
+                    } else {
+                      log('Login credentials invalid');
+                    }
+                  },
+                  dataType: 'json'
+                });
+              }
+            ).error(function(error, message) { /* Empty */ });
+          }
           // addApiKeyAuthorization();
         },
         onFailure: function(data) {
@@ -73,14 +101,14 @@
         showRequestHeaders: false
       });
 
-      function addApiKeyAuthorization(){
-        var key = encodeURIComponent($('#input_apiKey')[0].value);
-        if(key && key.trim() != "") {
-            var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("api_key", key, "query");
-            window.swaggerUi.api.clientAuthorizations.add("api_key", apiKeyAuth);
-            log("added key " + key);
-        }
-      }
+      // function addApiKeyAuthorization(){
+      //   var key = encodeURIComponent($('#input_apiKey')[0].value);
+      //   if(key && key.trim() != "") {
+      //       var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("api_key", key, "query");
+      //       window.swaggerUi.api.clientAuthorizations.add("api_key", apiKeyAuth);
+      //       log("added key " + key);
+      //   }
+      // }
 
       // $('#input_apiKey').change(addApiKeyAuthorization);
 
