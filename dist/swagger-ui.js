@@ -1918,9 +1918,20 @@ var SuperagentHttpClient = function () {};
  */
 var SwaggerHttp = module.exports = function () {};
 
-SwaggerHttp.prototype.execute = function (obj, opts) {
-  var client;
+// URL -> JSON data
+SwaggerHttp.cache = {};
+// URL -> [callback functions to execute upon AJAX return]
+SwaggerHttp.callbacks = {};
 
+SwaggerHttp.prototype.execute = function (obj, opts) {
+  // If the JSON data has already been retrieved, return immediately.
+  var cacheData = SwaggerHttp.cache[obj.url];
+  if (cacheData) {
+    obj.on.response(cacheData);
+    return;
+  }
+
+  var client;
   if(opts && opts.client) {
     client = opts.client;
   }
@@ -1935,17 +1946,42 @@ SwaggerHttp.prototype.execute = function (obj, opts) {
 
   var success = obj.on.response;
 
+  // If a callback queue has already formed, this means there is a network
+  // request currently in flight. Add the callback to the queue, which will
+  // be cleared when the AJAX response has been received.
+  if (SwaggerHttp.callbacks[obj.url]) {
+    var responseInterceptor = function(data) {
+      if(opts && opts.responseInterceptor) {
+        data = opts.responseInterceptor.apply(data);
+      }
+      success(data);
+    };
+    SwaggerHttp.callbacks[obj.url].push(responseInterceptor);
+    return;
+  }
+
+  // This is the first request for this URL, so start with an empty queue.
+  SwaggerHttp.callbacks[obj.url] = [];
+
   var responseInterceptor = function(data) {
     if(opts && opts.responseInterceptor) {
       data = opts.responseInterceptor.apply(data);
     }
+    // Add the received JSON data to the cache.
+    SwaggerHttp.cache[obj.url] = data;
     success(data);
+
+    // Iterate through the callback queue and call all response functions.
+    var callbacks = SwaggerHttp.callbacks[obj.url];
+    for (var i = 0; i < callbacks.length; ++i) {
+      var callback = callbacks[i];
+      callback(data);
+    }
   };
 
   obj.on.response = function(data) {
     responseInterceptor(data);
   };
-
 
   if (_.isObject(obj) && _.isObject(obj.body)) {
     // special processing for file uploads via jquery
@@ -1958,6 +1994,7 @@ SwaggerHttp.prototype.execute = function (obj, opts) {
       obj.body = JSON.stringify(obj.body);
     }
   }
+
   client.execute(obj);
 };
 
