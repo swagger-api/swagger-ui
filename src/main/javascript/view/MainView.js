@@ -74,7 +74,9 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     // is there any valid case were it should not be added ?
     var def;
     for(def in this.model.definitions){
-      this.model.definitions[def].type = 'object';
+      if (this.model.definitions[def].type === null){
+        this.model.definitions[def].type = 'object';
+      }
     }
 
   },
