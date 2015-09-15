@@ -4,7 +4,7 @@ var expect = require('chai').expect;
 var webdriver = require('selenium-webdriver');
 var driver = require('./driver');
 var servers = require('./servers');
-
+var until = webdriver.until;
 
 var elements = [
   'swagger-ui-container',
@@ -40,12 +40,8 @@ describe('swagger 2.0 spec tests', function () {
     });
   });
 
-  it('should have "Swagger UI" in title', function (done) {
-    driver.sleep(200);
-    driver.getTitle().then(function(title) {
-      expect(title).to.contain('Swagger UI');
-      done();
-    });
+  it('should have "Swagger UI" in title', function () {
+    return driver.wait(until.titleIs('Swagger UI'), 1000);
   });
 
   elements.forEach(function (id) {

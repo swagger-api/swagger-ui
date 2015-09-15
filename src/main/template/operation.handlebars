@@ -26,22 +26,22 @@
         {{/if}}
         {{#oauth}}
         <div class="auth">
-        <span class="api-ic ic-error"></span>{{/oauth}}
+        <span class="api-ic ic-error">{{/oauth}}
         {{#each oauth}}
-          <div id="api_information_panel" style="top: 526px; left: 776px; display: none;">
+          <div class="api_information_panel">
           {{#each this}}
             <div title='{{{this.description}}}'>{{this.scope}}</div>
           {{/each}}
           </div>
         {{/each}}
-        {{#oauth}}</div>{{/oauth}}
+        {{#oauth}}</span></div>{{/oauth}}
         {{#oauth}}
         <div class='access'>
           <span class="api-ic ic-off" title="click to authenticate"></span>
         </div>
         {{/oauth}}
         {{#if type}}
-          <h4>Response Class (Status {{successCode}})</h4>
+          <h4><span data-sw-translate>Response Class</span> (<span data-sw-translate>Status</span> {{successCode}})</h4>
           <p><span class="model-signature" /></p>
           <br/>
           <div class="response-content-type" />
@@ -49,15 +49,15 @@
         <form accept-charset='UTF-8' class='sandbox'>
           <div style='margin:0;padding:0;display:inline'></div>
           {{#if parameters}}
-          <h4>Parameters</h4>
+          <h4 data-sw-translate>Parameters</h4>
           <table class='fullwidth'>
           <thead>
             <tr>
-            <th style="width: 100px; max-width: 100px">Parameter</th>
-            <th style="width: 310px; max-width: 310px">Value</th>
-            <th style="width: 200px; max-width: 200px">Description</th>
-            <th style="width: 100px; max-width: 100px">Parameter Type</th>
-            <th style="width: 220px; max-width: 230px">Data Type</th>
+            <th style="width: 100px; max-width: 100px" data-sw-translate>Parameter</th>
+            <th style="width: 310px; max-width: 310px" data-sw-translate>Value</th>
+            <th style="width: 200px; max-width: 200px" data-sw-translate>Description</th>
+            <th style="width: 100px; max-width: 100px" data-sw-translate>Parameter Type</th>
+            <th style="width: 220px; max-width: 230px" data-sw-translate>Data Type</th>
             </tr>
           </thead>
           <tbody class="operation-params">
@@ -67,14 +67,14 @@
           {{/if}}
           {{#if responseMessages}}
           <div style='margin:0;padding:0;display:inline'></div>
-          <h4>Response Messages</h4>
+          <h4 data-sw-translate>Response Messages</h4>
           <table class='fullwidth'>
             <thead>
             <tr>
-              <th>HTTP Status Code</th>
-              <th>Reason</th>
-              <th>Response Model</th>
-              <th>Headers</th>
+              <th data-sw-translate>HTTP Status Code</th>
+              <th data-sw-translate>Reason</th>
+              <th data-sw-translate>Response Model</th>
+              <th data-sw-translate>Headers</th>
             </tr>
             </thead>
             <tbody class="operation-status">
@@ -85,8 +85,8 @@
           {{#if isReadOnly}}
           {{else}}
           <div class='sandbox_header'>
-            <input class='submit' type='button' value='Try it out!' />
-            <a href='#' class='response_hider' style='display:none'>Hide Response</a>
+            <input class='submit' type='button' value='Try it out!' data-sw-translate/>
+            <a href='#' class='response_hider' style='display:none' data-sw-translate>Hide Response</a>
             <span class='response_throbber' style='display:none'></span>
           </div>
           {{/if}}
@@ -94,17 +94,17 @@
         <div class='response' style='display:none'>
           <h4>Curl</h4>
           <div class='block curl'></div>
-          <h4>Request URL</h4>
+          <h4 data-sw-translate>Request URL</h4>
           <div class='block request_url'></div>
           {{#if showRequestHeaders}}
-          <h4>Request Headers</h4>
+          <h4 data-sw-translate>Request Headers</h4>
           <div class='block request_headers'></div>
           {{/if}}
-          <h4>Response Body</h4>
+          <h4 data-sw-translate>Response Body</h4>
           <div class='block response_body'></div>
-          <h4>Response Code</h4>
+          <h4 data-sw-translate>Response Code</h4>
           <div class='block response_code'></div>
-          <h4>Response Headers</h4>
+          <h4 data-sw-translate>Response Headers</h4>
           <div class='block response_headers'></div>
         </div>
       </div>

@@ -20,7 +20,7 @@ The Swagger Specification has undergone 4 revisions since initial creation in 20
 
 Swagger UI Version | Release Date | Swagger Spec compatibility | Notes | Status
 ------------------ | ------------ | -------------------------- | ----- | ------
-2.1.1              | 2015-06-06   | 1.1, 1.2, 2.0              | [master](https://github.com/swagger-api/swagger-ui) |
+2.1.1              | 2015-07-23   | 1.1, 1.2, 2.0              | [tag v.2.1.1](https://github.com/swagger-api/swagger-ui/tree/v2.1.1) |
 2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) |
 1.0.13             | 2013-03-08   | 1.1, 1.2 | [tag v1.0.13](https://github.com/swagger-api/swagger-ui/tree/v1.0.13) |
 1.0.1              | 2011-10-11   | 1.0, 1.1 | [tag v1.0.1](https://github.com/swagger-api/swagger-ui/tree/v1.0.1)   |
