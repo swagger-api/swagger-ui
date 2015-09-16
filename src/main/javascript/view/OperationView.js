@@ -674,6 +674,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       $.bbq.pushState('#/', 2);
       Docs.collapseOperation(elem);
     } else {
+      event.preventDefault();
       Docs.expandOperation(elem);
     }
   },
