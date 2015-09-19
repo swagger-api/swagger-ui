@@ -17,10 +17,10 @@ var elements = [
 ];
 
 describe('swagger 2.0 spec tests', function () {
-  this.timeout(10 * 3000);
+  this.timeout(20 * 1000);
 
   before(function (done) {
-    this.timeout(25 * 3000);
+    this.timeout(30 * 1000);
     servers.start('/v2/petstore.json', done);
   });
 
@@ -110,7 +110,8 @@ describe('swagger 2.0 spec tests', function () {
     });
   });
 
-  after(function() {
+  after(function(done) {
     servers.close();
+    done();
   });
 });
