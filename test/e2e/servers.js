@@ -28,8 +28,12 @@ module.exports.start = function (specsLocation, done) {
 
   setTimeout(function(){
     driver.get(url);
-    done();
+    setTimeout(function() {
+      done();
+    }, 2000);
+    console.log('waiting for UI to load');
   }, process.env.TRAVIS ? 20000 : 5000);
+  console.log('waiting for server to start');
 };
 
 module.exports.close = function() {
