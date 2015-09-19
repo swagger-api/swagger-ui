@@ -96,7 +96,8 @@ describe('swagger 1.x spec tests', function () {
     });
   });
 
-  after(function(){
+  after(function(done){
     servers.close();
+    done();
   });
 });
