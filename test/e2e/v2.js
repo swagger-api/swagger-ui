@@ -17,10 +17,10 @@ var elements = [
 ];
 
 describe('swagger 2.0 spec tests', function () {
-  this.timeout(10 * 1000);
+  this.timeout(40 * 1000);
 
   before(function (done) {
-    this.timeout(25 * 1000);
+    this.timeout(50 * 1000);
     servers.start('/v2/petstore.json', done);
   });
 
@@ -110,6 +110,7 @@ describe('swagger 2.0 spec tests', function () {
     });
   });
 
+<<<<<<< HEAD
   ['root.id','root.username','root.firstName','root.lastName', 'root.email', 'root.password', 'root.phone', 'root.userStatus']
   .forEach(function (id) {
     it('should find a jsoneditor for user post with field: ' + id, function (done) {
@@ -122,7 +123,8 @@ describe('swagger 2.0 spec tests', function () {
 
   // TODO JSonEditor Tests for POST/PUT
 
-  after(function() {
+  after(function(done) {
     servers.close();
+    done();
   });
 });
