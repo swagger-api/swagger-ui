@@ -9,17 +9,23 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
         return opts.inverse(this);
       }
     });
+
+    this.validationStatusModel = new Backbone.Model({
+      status: 'success',
+      message: ''
+    });
   },
 
   // Check that input fields are corrent and display error message if something
   // is not valid.
   // Returns boolean: is entered data is correct.
   validate: function() {
-    var error_free = true;
-    var form = $(this.el);
+    var hasError = false;
+    var errorMessages = [];
 
     // TODO: use knowledge about what exactly and how should be validated
     // from model.
+    var form = $(this.el);
     form.find('input.required').each(function() {
       $(this).removeClass('error');
       if (jQuery.trim($(this).val()) === '') {
@@ -31,7 +37,7 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
             };
           })(this)
         });
-        error_free = false;
+        hasError = true;
       }
     });
     form.find('textarea.required').each(function() {
@@ -45,7 +51,7 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
             };
           })(this)
         });
-        error_free = false;
+        hasError = true;
       }
     });
     form.find('select.required').each(function() {
@@ -59,11 +65,37 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
             };
           })(this)
         });
-        error_free = false;
+        hasError = true;
       }
     });
 
-    return error_free;
+    if (this.model.isBody) {
+      var requestContentType = $('div select[name=parameterContentType]', $(this.el)).val();
+      if (requestContentType === 'application/json') {
+        try {
+          JSON.parse(this.getValue());
+        } catch (error) {
+          hasError = true;
+          // TODO: translate
+          var errorMessage = 'Invalid JSON: ' + error.message;
+          errorMessages.push(errorMessage);
+        }
+      }
+    }
+
+    if (hasError) {
+      this.validationStatusModel.set({
+        status: 'error',
+        message: errorMessages.join('\n')
+      });
+    } else {
+      this.validationStatusModel.set({
+        status: 'success',
+        message: ''
+      });
+    }
+
+    return !hasError;
   },
 
   // Return currently entered data into parameter
@@ -223,6 +255,13 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
     else {
       var responseContentTypeView = new SwaggerUi.Views.ResponseContentTypeView({model: contentTypeModel});
       $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
+    }
+
+    var validationStatusNodes = $('.parameter-validation-status', $(this.el));
+    if (validationStatusNodes.length > 0) {
+      var validationStatusView = new SwaggerUi.Views.ParameterValidationStatusView(
+        {model: this.validationStatusModel});
+      validationStatusNodes.append(validationStatusView.render().el);
     }
 
     return this;
