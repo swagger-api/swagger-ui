@@ -19,6 +19,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     this.parentId = this.model.parentId;
     this.nickname = this.model.nickname;
     this.model.encodedParentId = encodeURIComponent(this.parentId);
+    this.parametersViews = [];
     return this;
   },
 
@@ -223,6 +224,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     });
     $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
     ref4 = this.model.parameters;
+    this.parametersViews = [];
     for (p = 0, len3 = ref4.length; p < len3; p++) {
       param = ref4[p];
       this.addParameter(param, contentTypeModel.consumes);
@@ -243,6 +245,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       tagName: 'tr',
       readOnly: this.model.isReadOnly
     });
+    this.parametersViews.push(paramView);
     $('.operation-params', $(this.el)).append(paramView.render().el);
   },
 
