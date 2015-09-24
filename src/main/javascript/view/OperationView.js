@@ -296,7 +296,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         error_free = false;
       }
     });
-    form.find('textarea.required').each(function() {
+    form.find('textarea.required:visible').each(function() {
       $(this).removeClass('error');
       if (jQuery.trim($(this).val()) === '') {
         $(this).addClass('error');
