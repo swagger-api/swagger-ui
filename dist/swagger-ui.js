@@ -1924,11 +1924,15 @@ SwaggerHttp.cache = {};
 SwaggerHttp.callbacks = {};
 
 SwaggerHttp.prototype.execute = function (obj, opts) {
+  // Only use the caches if opts.noCache is not true.
+  var useCaches = !(opts && opts.noCache);
   // If the JSON data has already been retrieved, return immediately.
-  var cacheData = SwaggerHttp.cache[obj.url];
-  if (cacheData) {
-    obj.on.response(cacheData);
-    return;
+  if (useCaches) {
+    var cacheData = SwaggerHttp.cache[obj.url];
+    if (cacheData) {
+      obj.on.response(cacheData);
+      return;
+    }
   }
 
   var client;
@@ -1949,7 +1953,7 @@ SwaggerHttp.prototype.execute = function (obj, opts) {
   // If a callback queue has already formed, this means there is a network
   // request currently in flight. Add the callback to the queue, which will
   // be cleared when the AJAX response has been received.
-  if (SwaggerHttp.callbacks[obj.url]) {
+  if (useCaches && SwaggerHttp.callbacks[obj.url]) {
     var responseInterceptor = function(data) {
       if(opts && opts.responseInterceptor) {
         data = opts.responseInterceptor.apply(data);
@@ -1961,21 +1965,28 @@ SwaggerHttp.prototype.execute = function (obj, opts) {
   }
 
   // This is the first request for this URL, so start with an empty queue.
-  SwaggerHttp.callbacks[obj.url] = [];
+  if (useCaches) {
+    SwaggerHttp.callbacks[obj.url] = [];
+  }
 
   var responseInterceptor = function(data) {
     if(opts && opts.responseInterceptor) {
       data = opts.responseInterceptor.apply(data);
     }
     // Add the received JSON data to the cache.
-    SwaggerHttp.cache[obj.url] = data;
+    if (useCaches) {
+      SwaggerHttp.cache[obj.url] = data;
+    }
+
     success(data);
 
     // Iterate through the callback queue and call all response functions.
-    var callbacks = SwaggerHttp.callbacks[obj.url];
-    for (var i = 0; i < callbacks.length; ++i) {
-      var callback = callbacks[i];
-      callback(data);
+    if (useCaches) {
+      var callbacks = SwaggerHttp.callbacks[obj.url];
+      for (var i = 0; i < callbacks.length; ++i) {
+        var callback = callbacks[i];
+        callback(data);
+      }
     }
   };
 
@@ -4637,6 +4648,8 @@ Operation.prototype.execute = function (arg1, arg2, arg3, arg4, parent) {
   if (opts.mock === true) {
     return obj;
   } else {
+    // Turn off cache for REST API calls.
+    opts.noCache = true;
     new SwaggerHttp().execute(obj, opts);
   }
 };
