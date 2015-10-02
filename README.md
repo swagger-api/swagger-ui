@@ -166,7 +166,7 @@ You can read about CORS here: http://www.w3.org/TR/cors.
 There are two cases where no action is needed for CORS support:
 
 1. swagger-ui is hosted on the same server as the application itself (same host *and* port).
-2. The application is located behind a proxy that enables the requires CORS headers. This may already be covered within your organization.
+2. The application is located behind a proxy that enables the required CORS headers. This may already be covered within your organization.
 
 Otherwise, CORS support needs to be enabled for:
 
