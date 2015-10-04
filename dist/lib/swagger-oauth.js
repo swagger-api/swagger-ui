@@ -7,6 +7,7 @@ var oauth2KeyName;
 var redirect_uri;
 var clientSecret;
 var scopeSeparator;
+var additionalQueryStringParams;
 
 function handleLogin() {
   var scopes = [];
@@ -156,6 +157,9 @@ function handleLogin() {
     url += '&client_id=' + encodeURIComponent(clientId);
     url += '&scope=' + encodeURIComponent(scopes.join(scopeSeparator));
     url += '&state=' + encodeURIComponent(state);
+    for (var key in additionalQueryStringParams) {
+        url += '&' + key + '=' + encodeURIComponent(additionalQueryStringParams[key]);
+    }
 
     window.open(url);
   });
@@ -190,6 +194,7 @@ function initOAuth(opts) {
   clientSecret = (o.clientSecret||errors.push('missing client secret'));
   realm = (o.realm||errors.push('missing realm'));
   scopeSeparator = (o.scopeSeparator||' ');
+  additionalQueryStringParams = (o.additionalQueryStringParams||{});
 
   if(errors.length > 0){
     log('auth unable initialize oauth: ' + errors);
