@@ -4244,7 +4244,7 @@ Operation.prototype.getBody = function (headers, args, opts) {
   }
 
   // handle form params
-  if (headers['Content-Type'] === 'application/x-www-form-urlencoded') {
+  if (headers['Content-Type'] === 'application/x-www-form-urlencoded' && param.in === 'formData') {
     var encoded = '';
 
     for (key in formParams) {
