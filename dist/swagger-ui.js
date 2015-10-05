@@ -31451,12 +31451,16 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       $.extend(true, param.schema, this.model.definitions[param.type]);
       param.schema.definitions = this.model.definitions;
       // This is required for JsonEditor to display the root properly
-      param.schema.type = 'object'; 
+      if(!param.schema.type){
+        param.schema.type = 'object';
+      } 
       // This is the title that will be used by JsonEditor for the root
       // Since we already display the parameter's name in the Parameter column
       // We set this to space, we can't set it to null or space otherwise JsonEditor
       // will replace it with the text "root" which won't look good on screen
-      param.schema.title = ' ';
+      if(!param.schema.title){
+        param.schema.title = ' ';
+      }
     } 
      
 
