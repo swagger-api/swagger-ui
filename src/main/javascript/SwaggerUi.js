@@ -201,12 +201,12 @@ window.SwaggerUi = Backbone.Router.extend({
 
   // Renders GFM for elements with 'markdown' class
   renderGFM: function(){
-    $('.markdown').each(function(){
-      $(this).html(marked($(this).html()));
+    $('#' + this.dom_id +  ' .markdown').each(function(){
+      $(this).html(marked(_.unescape($(this).html())));
     });
 
-    $('.propDesc', '.model-signature .description').each(function () {
-      $(this).html(marked($(this).html())).addClass('markdown');
+    $('.propDesc', '#' + this.dom_id +  ' .model-signature .description').each(function () {
+      $(this).html(marked(_.unescape($(this).html()))).addClass('markdown');
     });
   }
 
