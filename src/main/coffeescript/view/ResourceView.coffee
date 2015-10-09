@@ -1,5 +1,6 @@
 class ResourceView extends Backbone.View
-  initialize: ->
+  initialize: (opts={}) ->
+    @options = opts
 
   render: ->
     $(@el).html(Handlebars.templates.resource(@model))
@@ -19,12 +20,12 @@ class ResourceView extends Backbone.View
 
       operation.nickname = id
       operation.parentId = @model.id
-      @addOperation operation 
+      @addOperation operation
 
     $('.toggleEndpointList', @el).click(this.callDocs.bind(this, 'toggleEndpointListForResource'))
     $('.collapseResource', @el).click(this.callDocs.bind(this, 'collapseOperationsForResource'))
     $('.expandResource', @el).click(this.callDocs.bind(this, 'expandOperationsForResoruce'))
-    
+
     return @
 
   addOperation: (operation) ->

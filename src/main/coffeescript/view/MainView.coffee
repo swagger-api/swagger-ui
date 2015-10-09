@@ -5,14 +5,15 @@ class MainView extends Backbone.View
   }
 
   initialize: (opts={}) ->
+    @options = opts
     if opts.swaggerOptions.sorter
       sorterName = opts.swaggerOptions.sorter
       sorter = sorters[sorterName]
       for route in @model.apisArray
         route.operationsArray.sort sorter
-      if (sorterName == "alpha") # sort top level paths if alpha 
+      if (sorterName == "alpha") # sort top level paths if alpha
         @model.apisArray.sort sorter
- 
+
   render: ->
     # Render the outer container for resources
     $(@el).html(Handlebars.templates.main(@model))
