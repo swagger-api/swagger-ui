@@ -22,5 +22,6 @@
     "swagger-client": "2.0.36",
     "handlebars": "~1.0.10",
     "less": "~1.4.2"
-  }
+  },
+  "main": "dist/swagger-ui.js"
 }
