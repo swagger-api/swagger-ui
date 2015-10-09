@@ -42,7 +42,7 @@ class OperationView extends Backbone.View
     $(e.currentTarget.parentNode).find('#api_information_panel').hide()
 
   render: ->
-    isMethodSubmissionSupported = true #jQuery.inArray(@model.method, @model.supportedSubmitMethods) >= 0
+    isMethodSubmissionSupported = jQuery.inArray(@model.method, @options.swaggerOptions.supportedSubmitMethods) >= 0
     @model.isReadOnly = true unless isMethodSubmissionSupported
 
     @model.oauth = null
