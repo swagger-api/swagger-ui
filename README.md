@@ -1,5 +1,16 @@
 # Clover Swagger UI
 
+# ATTENTION Clover Developers
+To update Swagger UI for manage, do the following:
+
+- Commit changes
+- run `npm run-script build`
+- commit changes to `/dist` to repository
+- tag and push a new version of the repository
+
+This is done so that we don't have to constantly rebuild docs for deploy/development. This is especially important since this version of swagger-ui fails to build on node versions newer than 0.10.x
+
+
 This is Clover's fork of Wordnik's Swagger-Ui project. Clover releases begin from version 2.0.19 onwards. View CHANGELOG.md, or the 'Releases' tab of the Github repo for detailed information on each release.
 
 Swagger UI is part of Swagger project.  The Swagger project allows you to produce, visualize and consume your OWN RESTful services.  No proxy or 3rd party services required.  Do it your own way.
