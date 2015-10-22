@@ -1,9 +1,20 @@
 .swagger-section #header a#logo {
-  font-size: 1.5em;
+  font-size: 2.2em;
   font-weight: bold;
   text-decoration: none;
-  background: transparent url(../images/logo.png) no-repeat left center;
-  padding: 20px 0 20px 40px;
+  background: transparent url(../images/logo_branco.jpg) no-repeat left center;
+  padding: 30px 0 30px 170px;
+  color: white;
+  background-size: 170px;
+}
+.swagger-section #header .text {
+  display: block;
+  clear: none;
+  float: right;
+  font-size: 2em;
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
 }
 #text-head {
   font-size: 80px;

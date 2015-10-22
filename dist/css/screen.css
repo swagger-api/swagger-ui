@@ -82,7 +82,7 @@
 .swagger-section pre .vhdl .attribute,
 .swagger-section pre .clojure .attribute,
 .swagger-section pre .coffeescript .property {
-  color: #8888ff;
+  color: #88F;
 }
 .swagger-section pre .keyword,
 .swagger-section pre .id,
@@ -1152,6 +1152,73 @@
 .swagger-section .api-popup-actions {
   padding-top: 10px;
 }
+.swagger-section .auth_main_container .auth_button {
+  border: 1px solid #dfdfDf;
+  padding: 5px;
+  background: #F1F1F1;
+  cursor: pointer;
+}
+.swagger-section .auth_main_container .auth_button .auth_icon {
+  vertical-align: middle;
+  width: 24px;
+}
+.swagger-section .auth_main_container .auth_button span {
+  margin-left: 5px;
+  line-height: 22px;
+  vertical-align: bottom;
+}
+.swagger-section .auth_main_container #shadow {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background: #000;
+  opacity: 0.5;
+}
+.swagger-section .auth_main_container .auth_container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+}
+.swagger-section .auth_main_container .auth_container .key_input_container {
+  width: 600px;
+  margin: 30px auto;
+  padding: 30px;
+  background: #ffffff;
+  border: 1px solid #afafaf;
+  opacity: 1 !important;
+  margin-top: 15%;
+}
+.swagger-section .auth_main_container .auth_container .auth_label {
+  display: inline-block;
+  line-height: 28px;
+}
+.swagger-section .auth_main_container .auth_container .auth_input {
+  width: 510px;
+  padding: 5px;
+  margin: 5px 0;
+  display: inline;
+}
+.swagger-section .auth_main_container .auth_container .auth_submit {
+  float: right;
+  padding: 6px 10px;
+  margin: 4px 0px 0px 0px;
+  border: 1px solid #dedede;
+  background-color: #1E77B8;
+  display: inline;
+}
+.swagger-section .auth_main_container .auth_container .auth_submit :hover {
+  background-color: #6598BD;
+}
+.swagger-section .auth_main_container .auth_container .auth_submit a {
+  color: #FFFFFF;
+  text-decoration: none;
+}
 .swagger-section .access {
   float: right;
 }
@@ -1219,15 +1286,25 @@
   cursor: pointer;
 }
 .swagger-section #header {
-  background-color: #89bf04;
+  background-color: #1E77B8;
   padding: 14px;
 }
 .swagger-section #header a#logo {
-  font-size: 1.5em;
+  font-size: 2.2em;
   font-weight: bold;
   text-decoration: none;
-  background: transparent url(../images/logo_small.png) no-repeat left center;
-  padding: 20px 0 20px 40px;
+  background: transparent url(../images/logo_branco.jpg) no-repeat left center;
+  padding: 30px 0 30px 170px;
+  color: white;
+  background-size: 170px;
+}
+.swagger-section #header .text {
+  display: block;
+  clear: none;
+  float: right;
+  font-size: 2em;
+  font-weight: bold;
+  text-decoration: none;
   color: white;
 }
 .swagger-section #header form#api_selector {

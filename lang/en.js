@@ -49,5 +49,9 @@ window.SwaggerTranslator.learn({
     "Finished Loading Resource Information. Rendering Swagger UI":"Finished Loading Resource Information. Rendering Swagger UI",
     "Unable to read api":"Unable to read api",
     "from path":"from path",
-    "server returned":"server returned"
+    "server returned":"server returned",
+    "Config api key":"Config api key",
+    "API Key": "API Key",
+    "Security: API Key": "Security: API Key",
+    "Authorization" : "Authorization"
 });
