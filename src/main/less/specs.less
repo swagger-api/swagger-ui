@@ -616,10 +616,23 @@
                         li.operation {
                             float: none;
                             clear: both;
-                            overflow: hidden;
                             display: block;
                             margin: 0 0 10px;
                             padding: 0;
+                            position: relative;
+
+                            .implementation {
+                              background: #c40416;
+                              height: 10px;
+                              margin: 9px 0 0 5px;
+                              position: absolute;
+                              width: 10px;
+                              border-radius: 50%; 
+
+                              &.isImplemented {
+                                background: #89bf04;
+                              }
+                            }
                             div.heading {
                                 float: none;
                                 clear: both;
@@ -668,7 +681,7 @@
                                         margin: 0;
                                         padding: 0;
                                     }
-                                }
+                                }  
                                 ul.options {
                                     overflow: hidden;
                                     padding: 0;
