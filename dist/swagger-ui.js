@@ -7,8 +7,11 @@
 (function(){this["Handlebars"] = this["Handlebars"] || {};
 this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};
 this["Handlebars"]["templates"]["apikey_button_view"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "\n<div>\n  <div class='auth_button' id='apikey_button'><img class=\"auth_icon\" alt=\"apply api key\" src=\"images/icon-software-config.png\"><span data-sw-translate>Config api key</span></div>\n</div>\n\n<div class='auth_container' id='apikey_container' style=\"display:none\">\n  <div class='key_input_container'>\n    <div class='auth_label'><label for='input_apiKey_entry' data-sw-translate>Authorization</label></div>\n    <input placeholder='api_key' class='auth_input' id='input_apiKey_entry' name='apiKey' type='text'/>\n    <div class='auth_submit'><a class='auth_submit_button' id='apply_api_key' href='#' data-sw-translate>apply</a></div>\n  </div>  \n</div>\n<div id=\"shadow\" style=\"display:none\"></div>\n";
-  },"useData":true});
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "\n<div>\n  <div class='auth_button' id='apikey_button'><img class=\"auth_icon\" alt=\"apply api key\" src=\"images/icon-software-config.png\"><span data-sw-translate>Config api key</span></div>\n</div>\n\n<div class='auth_container' id='apikey_container' style=\"display:none\">\n  <div class='key_input_container'>\n    <div class='auth_label'><label for='input_apiKey_entry'>"
+    + escapeExpression(((helper = (helper = helpers.keyName || (depth0 != null ? depth0.keyName : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"keyName","hash":{},"data":data}) : helper)))
+    + "</label></div>\n    <input placeholder='api_key' class='auth_input' id='input_apiKey_entry' name='apiKey' type='text'/>\n    <div class='auth_submit'><a class='auth_submit_button' id='apply_api_key' href='#' data-sw-translate>apply</a></div>\n  </div>\n</div>\n<div id=\"shadow\" style=\"display:none\"></div>\n";
+},"useData":true});
 this["Handlebars"]["templates"]["basic_auth_button_view"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   return "<div class='auth_button' id='basic_auth_button'><img class='auth_icon' src='images/password.jpeg'></div>\n<div class='auth_container' id='basic_auth_container'>\n  <div class='key_input_container'>\n    <div class=\"auth_label\"><label for=\"input_username\" data-sw-translate>Username</label></div>\n    <input placeholder=\"username\" class=\"auth_input\" id=\"input_username\" name=\"username\" type=\"text\"/>\n    <div class=\"auth_label\"><label for=\"password\" data-sw-translate>Password</label></div>\n    <input placeholder=\"password\" class=\"auth_input\" id=\"input_password\" name=\"password\" type=\"password\"/>\n    <div class='auth_submit'><a class='auth_submit_button' id=\"apply_basic_auth\" href=\"#\">apply</a></div>\n  </div>\n</div>\n\n";
   },"useData":true});
@@ -30984,7 +30987,8 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
   events:{
     'click #apikey_button' : 'toggleApiKeyContainer',
     'click #apply_api_key' : 'applyApiKey',
-    'click #apikey_container' : 'toggleApiKeyContainer'
+    'click .auth_container' : 'toggleApiKeyContainer',
+    'click .auth_container > *': 'stopPropagation'
   },
 
   initialize: function(opts){
@@ -31011,7 +31015,12 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
     $('#apikey_container').show();
   },
 
-  toggleApiKeyContainer: function(){
+  stopPropagation: function(e){
+    e.stopPropagation();
+  },
+
+  toggleApiKeyContainer: function(e){
+    e.stopPropagation();
     if ($('#apikey_container').length) {
 
       var elem = $('#apikey_container').first();
@@ -31035,6 +31044,7 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
   }
 
 });
+
 'use strict';
 
 SwaggerUi.Views.BasicAuthButton = Backbone.View.extend({
