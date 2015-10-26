@@ -31307,7 +31307,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     this.parentId = this.model.parentId;
     this.nickname = this.model.nickname;
     this.model.encodedParentId = encodeURIComponent(this.parentId);
-
     return this;
   },
 
@@ -31370,8 +31369,8 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     if (!isMethodSubmissionSupported) {
       this.model.isReadOnly = true;
     }
-    this.model.description = this.model.description || this.model.notes;
     this.model.implemented = this.model.operation.implemented || false;
+    this.model.description = this.model.description || this.model.notes;
     this.model.oauth = null;
     modelAuths = this.model.authorizations || this.model.security;
     if (modelAuths) {
@@ -31522,8 +31521,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       statusCode = ref5[q];
       this.addStatusCode(statusCode);
     }
-
-    console.log(this);
     return this;
   },
 
