@@ -31928,7 +31928,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     //adds curl output
     var curlCommand = this.model.asCurl(this.map);
     curlCommand = curlCommand.replace('!', '&#33;');
-    $( '.curl', $(this.el)).html('<pre>' + curlCommand + '</pre>');
+    $( 'div.curl', $(this.el)).html('<pre>' + curlCommand + '</pre>');
 
     // only highlight the response if response is less than threshold, default state is highlight response
     var opts = this.options.swaggerOptions;
