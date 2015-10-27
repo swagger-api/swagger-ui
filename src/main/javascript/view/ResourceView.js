@@ -20,7 +20,7 @@ SwaggerUi.Views.ResourceView = Backbone.View.extend({
 
     $('.toggleEndpointList', this.el).click(this.renderOperations.bind(this, 'toggleEndpointListForResource'));
     $('.collapseResource', this.el).click(this.renderOperations.bind(this, 'collapseOperationsForResource'));
-    $('.expandResource', this.el).click(this.renderOperations.bind(this, 'expandOperationsForResource'));   
+    $('.expandResource', this.el).click(this.renderOperations.bind(this, 'expandOperationsForResource'));
 
     return this;
   },
@@ -28,7 +28,7 @@ SwaggerUi.Views.ResourceView = Backbone.View.extend({
   {
      e.preventDefault();
      var data = e.currentTarget;
-     if ($('.endpoints', this.el).children().length == 0) {
+     if ($('.endpoints', this.el).children().length === 0) {
          var methods = {};
          // Render each operation
          for (var i = 0; i < this.model.operationsArray.length; i++) {
