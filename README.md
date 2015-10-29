@@ -1,6 +1,10 @@
 # Swagger UI
 
 [![Build Status](https://travis-ci.org/swagger-api/swagger-ui.svg?branch=master)](https://travis-ci.org/swagger-api/swagger-ui)
+[![NPM version](https://badge.fury.io/js/swagger-ui.png)](http://badge.fury.io/js/swagger-ui)
+
+[![Dependency Status](https://david-dm.org/swagger-api/swagger-ui/status.svg)](https://david-dm.org/swagger-api/swagger-ui)
+[![devDependency Status](https://david-dm.org/swagger-api/swagger-ui/dev-status.svg)](https://david-dm.org/swagger-api/swagger-ui#info=devDependencies)
 
 Swagger UI is part of the Swagger project.  The Swagger project allows you to produce, visualize and consume your OWN RESTful services.  No proxy or 3rd party services required.  Do it your own way.
 
@@ -86,6 +90,7 @@ swaggerUi.load();
 Parameter Name | Description
 --- | ---
 url | The url pointing to `swagger.json` (Swagger 2.0) or the resource listing (earlier versions) as per [Swagger Spec](https://github.com/swagger-api/swagger-spec/).
+authorizations | An authorization object to be passed to swagger-js.  Setting it here will trigger inclusion of any authorization or custom signing logic when fetching the swagger description file.  Note the object structure should be `{ key: AuthorizationObject }`
 spec | A JSON object describing the Swagger specification. When used, the `url` parameter will not be parsed. This is useful for testing manually-generated specifications without hosting them. Works for Swagger 2.0 specs only.
 validatorUrl | By default, Swagger-UI attempts to validate specs against swagger.io's online validator. You can use this parameter to set a different validator URL, for example for locally deployed validators ([Validator Badge](https://github.com/swagger-api/validator-badge)). Setting it to `null` will disable validation. This parameter is relevant for Swagger 2.0 specs only.
 dom_id | The id of a dom element inside which SwaggerUi will put the user interface for swagger.
@@ -166,7 +171,7 @@ You can read about CORS here: http://www.w3.org/TR/cors.
 There are two cases where no action is needed for CORS support:
 
 1. swagger-ui is hosted on the same server as the application itself (same host *and* port).
-2. The application is located behind a proxy that enables the requires CORS headers. This may already be covered within your organization.
+2. The application is located behind a proxy that enables the required CORS headers. This may already be covered within your organization.
 
 Otherwise, CORS support needs to be enabled for:
 
