@@ -148,7 +148,7 @@ The first line script is a translator and the second one is your language lexeme
 
 If you wish to append support for new language you just need to create lang/your_lang.js and fill it like it's done in existing files.
 
-To append new lexemex for translation you shoul do two things:
+To append new lexemex for translation you should do two things:
 1. Add lexeme into the language file.
     Example of new line: "new sentence":"translation of new sentence".
 2. Mark this lexeme in source html with attribute data-sw-translate.
