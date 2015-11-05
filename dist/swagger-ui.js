@@ -1297,12 +1297,17 @@ SwaggerClient.prototype.buildFromSpec = function (response) {
   this.apisArray = [];
   this.basePath = response.basePath || '';
   this.consumes = response.consumes;
-  this.host = response.host || '';
   this.info = response.info || {};
   this.produces = response.produces;
   this.schemes = response.schemes || [];
   this.securityDefinitions = response.securityDefinitions;
   this.title = response.title || '';
+  
+  if(this.options.host){
+	this.host = this.options.host;
+  } else{
+	this.host = response.host || '';
+  }
 
   if (response.externalDocs) {
     this.externalDocs = response.externalDocs;

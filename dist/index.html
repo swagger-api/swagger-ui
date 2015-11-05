@@ -29,12 +29,9 @@
 
   <script type="text/javascript">
     $(function () {
-      var url = window.location.search.match(/url=([^&]+)/);
-      if (url && url.length > 1) {
-        url = decodeURIComponent(url[1]);
-      } else {
-        url = "http://petstore.swagger.io/v2/swagger.json";
-      }
+      var url = getQueryParam("url") || "http://petstore.swagger.io/v2/swagger.json";
+	  var host = getQueryParam("host");
+	  var scheme = getQueryParam("scheme");
 
       // Pre load translate...
       if(window.SwaggerTranslator) {
@@ -65,6 +62,8 @@
 
           addApiKeyAuthorization();
         },
+		host:host,
+		scheme:scheme,
         onFailure: function(data) {
           log("Unable to Load SwaggerUI");
         },
@@ -96,8 +95,15 @@
         if ('console' in window) {
           console.log.apply(console, arguments);
         }
-      }
-  });
+      } 
+	  function getQueryParam(param) {
+		var value = window.location.search.match(new RegExp(param+"=([^&]+)"));
+		if (value && value.length > 1) {
+		  return decodeURIComponent(value[1]);
+		} else {
+		  return null;
+		}
+  }});
   </script>
 </head>
 
