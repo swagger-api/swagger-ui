@@ -4,7 +4,9 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
 
   events:{
     'click #apikey_button' : 'toggleApiKeyContainer',
-    'click #apply_api_key' : 'applyApiKey'
+    'click #apply_api_key' : 'applyApiKey',
+    'click .auth_container' : 'toggleApiKeyContainer',
+    'click .auth_container > *': 'stopPropagation'
   },
 
   initialize: function(opts){
@@ -31,18 +33,26 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
     $('#apikey_container').show();
   },
 
-  toggleApiKeyContainer: function(){
+  stopPropagation: function(e){
+    e.stopPropagation();
+  },
+
+  toggleApiKeyContainer: function(e){
+    e.stopPropagation();
     if ($('#apikey_container').length) {
 
       var elem = $('#apikey_container').first();
+      var shadow = $('#shadow').first();
 
       if (elem.is(':visible')){
         elem.hide();
+        shadow.hide();
       } else {
 
         // hide others
         $('.auth_container').hide();
         elem.show();
+        shadow.show();
       }
     }
   },
