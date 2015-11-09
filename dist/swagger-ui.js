@@ -1330,7 +1330,7 @@ SwaggerClient.prototype.buildFromSpec = function (response) {
     if (typeof this.scheme === 'undefined' && typeof this.schemes === 'undefined' || this.schemes.length === 0) {
       this.scheme = location.scheme || 'http';
     } else if (typeof this.scheme === 'undefined') {
-      this.scheme = this.schemes[0];
+      this.scheme = location.scheme || this.schemes[0];
     }
 
     if (typeof this.host === 'undefined' || this.host === '') {
@@ -30693,7 +30693,7 @@ Emitter.prototype.hasListeners = function(event){
  * TODO: combatible error handling?
  */
 
-module.exports = function(arr, fn, initial){  
+module.exports = function(arr, fn, initial){
   var idx = 0;
   var len = arr.length;
   var curr = arguments.length == 3
@@ -30703,7 +30703,7 @@ module.exports = function(arr, fn, initial){
   while (idx < len) {
     curr = fn.call(null, curr, arr[idx], ++idx, arr);
   }
-  
+
   return curr;
 };
 },{}]},{},[1])(1)
