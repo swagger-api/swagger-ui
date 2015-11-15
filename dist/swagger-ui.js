@@ -31610,7 +31610,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
         opts.useJQuery = true;
         map.parameterContentType = 'multipart/form-data';
-
+        this.map = map;
         return this.model.execute(map, opts, this.showCompleteStatus, this.showErrorStatus, this);
       } else {
         this.map = map;
