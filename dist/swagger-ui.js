@@ -3555,7 +3555,7 @@ SwaggerSpecConverter.prototype.resourceListing = function(obj, swagger, callback
 };
 
 SwaggerSpecConverter.prototype.getAbsolutePath = function(version, docLocation, path)  {
-  if(version === '1.0') {
+  if(version === '1.0' || version === '1.1' || version === '1.2') {
     if(docLocation.endsWith('.json')) {
       // get root path
       var pos = docLocation.lastIndexOf('/');
