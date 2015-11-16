@@ -74,7 +74,7 @@ You may choose to customize Swagger UI for your organization. Here is an overvie
 -    src/main/javascript: main code
 
 ### SwaggerUi
-To use swagger-ui you should take a look at the [source of swagger-ui html page](https://github.com/swagger-api/swagger-ui/blob/master/dist/index.html) and customize it. This basically requires you to instantiate a SwaggerUi object and call load() on it as below:
+To use swagger-ui you should take a look at the [source of swagger-ui config.js page](https://github.com/swagger-api/swagger-ui/blob/master/dist/config.js) and customize it. This basically requires you to instantiate a SwaggerUi object and call load() on it as below:
 
 ```javascript
 var swaggerUi = new SwaggerUi({
