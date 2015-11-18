@@ -62,7 +62,7 @@ This will start Swagger UI at `http://localhost:8080`.
 Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstore.swagger.io/v2/swagger.json) service and show its APIs.  You can enter your own server url and click explore to view the API.
 
 ### Customize
-You may choose to customize Swagger UI for your organization. Here is an overview of whats in its various directories:
+You may choose to customize Swagger UI for your organization. Here is an overview of what's in its various directories:
 
 -    dist: Contains a distribution which you can deploy on a server or load from your local machine.
 -    dist/lang: The swagger localization
