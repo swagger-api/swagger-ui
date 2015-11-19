@@ -61,10 +61,12 @@ gulp.task('lint', function () {
 /**
  * Build a distribution
  */
-gulp.task('dist', ['clean','lint'], function() {
+gulp.task('dist', ['clean', 'lint'], _dist);
+gulp.task('dev-dist', ['lint', 'copy'], _dist);
 
+function _dist() {
   return es.merge(
-      gulp.src([
+    gulp.src([
         './src/main/javascript/**/*.js',
         './node_modules/swagger-client/browser/swagger-client.js'
       ]),
@@ -73,7 +75,7 @@ gulp.task('dist', ['clean','lint'], function() {
     .pipe(order(['scripts.js', 'templates.js']))
     .pipe(concat('swagger-ui.js'))
     .pipe(wrap('(function(){<%= contents %>}).call(this);'))
-    .pipe(header(banner, { pkg: pkg } ))
+    .pipe(header(banner, { pkg: pkg }))
     .pipe(gulp.dest('./dist'))
     .pipe(uglify())
     .on('error', log)
@@ -81,7 +83,7 @@ gulp.task('dist', ['clean','lint'], function() {
     .on('error', log)
     .pipe(gulp.dest('./dist'))
     .pipe(connect.reload());
-});
+}
 
 /**
  * Processes less files into CSS files
@@ -124,14 +126,20 @@ gulp.task('copy', ['less'], function() {
     .src(['./src/main/html/**/*'])
     .pipe(gulp.dest('./dist'))
     .on('error', log);
+
+    // copy the test specs
+    gulp
+      .src(['./test/specs/**/*'])
+      .pipe(gulp.dest('./dist/specs'))
+      .on('error', log);
 });
 
 /**
  * Watch for changes and recompile
  */
 gulp.task('watch', function() {
-  return watch(['./src/**/*.{js,less,handlebars}'], function() {
-    gulp.start('default');
+  return watch(['./src/**/*.{js,less,handlebars}', './test/specs/**/*.{json,yaml}'], function() {
+    gulp.start('dev-dist');
   });
 });
 
@@ -152,3 +160,4 @@ function log(error) {
 
 gulp.task('default', ['dist', 'copy']);
 gulp.task('serve', ['connect', 'watch']);
+gulp.task('dev', ['default', 'serve']);
