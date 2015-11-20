@@ -13,7 +13,12 @@ window.SwaggerUi = Backbone.Router.extend({
   // SwaggerUi accepts all the same options as SwaggerApi
   initialize: function(options) {
     options = options || {};
-    if(!options.highlightSizeThreshold) {
+    
+    if (options.defaultModelRendering !== 'model') {
+      options.defaultModelRendering = 'schema';
+    }
+    
+    if (!options.highlightSizeThreshold) {
       options.highlightSizeThreshold = 100000;
     }
 

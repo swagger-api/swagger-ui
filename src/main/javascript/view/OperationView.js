@@ -19,6 +19,14 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     this.parentId = this.model.parentId;
     this.nickname = this.model.nickname;
     this.model.encodedParentId = encodeURIComponent(this.parentId);
+    
+    if (opts.swaggerOptions) {
+      this.model.defaultRendering = opts.swaggerOptions.defaultModelRendering;
+      
+      if (opts.swaggerOptions.showRequestHeaders) {
+        this.model.showRequestHeaders = true;
+      }
+    }
     return this;
   },
 
@@ -174,12 +182,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         signature: this.model.responseClassSignature
       };
     }
-    var opts = this.options.swaggerOptions;
-    if (opts.showRequestHeaders) {
-      this.model.showRequestHeaders = true;
-    }
     $(this.el).html(Handlebars.templates.operation(this.model));
     if (signatureModel) {
+      signatureModel.defaultRendering = this.model.defaultRendering;
       responseSignatureView = new SwaggerUi.Views.SignatureView({
         model: signatureModel,
         router: this.router,
@@ -238,6 +243,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   addParameter: function(param, consumes) {
     // Render a parameter
     param.consumes = consumes;
+    param.defaultRendering = this.model.defaultRendering;
     var paramView = new SwaggerUi.Views.ParameterView({
       model: param,
       tagName: 'tr',
@@ -248,6 +254,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   addStatusCode: function(statusCode) {
     // Render status codes
+    statusCode.defaultRendering = this.model.defaultRendering;
     var statusCodeView = new SwaggerUi.Views.StatusCodeView({
       model: statusCode,
       tagName: 'tr',
