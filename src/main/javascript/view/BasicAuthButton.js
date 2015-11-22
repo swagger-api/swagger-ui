@@ -31,13 +31,13 @@ SwaggerUi.Views.BasicAuthButton = Backbone.View.extend({
 
   togglePasswordContainer: function(){
     if ($('#basic_auth_container').length) {
-      var elem = $('#basic_auth_container').show();
+      var elem = $('#basic_auth_container');
       if (elem.is(':visible')){
         elem.slideUp();
       } else {
         // hide others
         $('.auth_container').hide();
-        elem.show();
+        elem.slideDown();
       }
     }
   },
