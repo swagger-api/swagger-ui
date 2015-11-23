@@ -12,7 +12,7 @@
         </h3>
         <ul class='options'>
           <li>
-          <a href='#!/{{encodedParentId}}/{{nickname}}' class="toggleOperation">{{{summary}}}</a>
+          <a href='#!/{{encodedParentId}}/{{nickname}}' class="toggleOperation">{{summary}}</a>
           </li>
         </ul>
       </div>
@@ -22,7 +22,7 @@
         {{/if}}
         {{#if description}}
         <h4>Implementation Notes</h4>
-        <div class="markdown">{{{description}}}</div>
+        <div class="markdown">{{description}}</div>
         {{/if}}
         {{#oauth}}
         <div class="auth">
@@ -30,7 +30,7 @@
         {{#each oauth}}
           <div class="api_information_panel">
           {{#each this}}
-            <div title='{{{this.description}}}'>{{this.scope}}</div>
+            <div title='{{this.description}}'>{{this.scope}}</div>
           {{/each}}
           </div>
         {{/each}}
