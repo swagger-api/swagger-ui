@@ -3863,6 +3863,10 @@ SwaggerSpecConverter.prototype.securityDefinitions = function(obj, swagger) {
         securityDefinition.name = definition.keyname || name;
         isValid = true;
       }
+      else if(definition.type === 'basicAuth') {
+        securityDefinition.type = 'basicAuth';
+        isValid = true;
+      }
       else if(definition.type === 'oauth2') {
         var existingScopes = definition.scopes || [];
         var scopes = {};
