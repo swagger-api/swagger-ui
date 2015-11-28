@@ -250,7 +250,8 @@ Handlebars.registerHelper('sanitize', function(html) {
 
 Handlebars.registerHelper('renderTextParam', function(param) {
     var result, type = 'text', idAtt = '';
-    var isArray = param.type.toLowerCase() === 'array' || param.allowMultiple;
+    var paramType = param.type || param.schema.type || '';
+    var isArray = paramType.toLowerCase() === 'array' || param.allowMultiple;
     var defaultValue = isArray && Array.isArray(param.default) ? param.default.join('\n') : param.default;
 
     var dataVendorExtensions = Object.keys(param).filter(function(property) {
@@ -24888,9 +24889,10 @@ SwaggerUi.Views.BasicAuthButton = Backbone.View.extend({
     'click #apply_basic_auth' : 'applyPassword'
   },
 
-  applyPassword: function(){
-    var username = $('.input_username').val();
-    var password = $('.input_password').val();
+  applyPassword: function(event){
+    event.preventDefault();
+    var username = $('#input_username').val();
+    var password = $('#input_password').val();
     var basicAuth = new SwaggerClient.PasswordAuthorization('basic', username, password);
     this.router.api.clientAuthorizations.add(this.model.type, basicAuth);
     this.router.load();
