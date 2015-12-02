@@ -19,6 +19,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     this.parentId = this.model.parentId;
     this.nickname = this.model.nickname;
     this.model.encodedParentId = encodeURIComponent(this.parentId);
+    this.parametersViews = [];
     return this;
   },
 
@@ -223,6 +224,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     });
     $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
     ref4 = this.model.parameters;
+    this.parametersViews = [];
     for (p = 0, len3 = ref4.length; p < len3; p++) {
       param = ref4[p];
       this.addParameter(param, contentTypeModel.consumes);
@@ -243,6 +245,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       tagName: 'tr',
       readOnly: this.model.isReadOnly
     });
+    this.parametersViews.push(paramView);
     $('.operation-params', $(this.el)).append(paramView.render().el);
   },
 
@@ -265,51 +268,14 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
     form = $('.sandbox', $(this.el));
     error_free = true;
-    form.find('input.required').each(function() {
-      $(this).removeClass('error');
-      if (jQuery.trim($(this).val()) === '') {
-        $(this).addClass('error');
-        $(this).wiggle({
-          callback: (function(_this) {
-            return function() {
-              $(_this).focus();
-            };
-          })(this)
-        });
-        error_free = false;
-      }
+
+    _.each(this.parametersViews, function(paramView) {
+      error_free = error_free && paramView.validate();
     });
-    form.find('textarea.required').each(function() {
-      $(this).removeClass('error');
-      if (jQuery.trim($(this).val()) === '') {
-        $(this).addClass('error');
-        $(this).wiggle({
-          callback: (function(_this) {
-            return function() {
-              return $(_this).focus();
-            };
-          })(this)
-        });
-        error_free = false;
-      }
-    });
-    form.find('select.required').each(function() {
-      $(this).removeClass('error');
-      if (this.selectedIndex === -1) {
-        $(this).addClass('error');
-        $(this).wiggle({
-          callback: (function(_this) {
-            return function() {
-              $(_this).focus();
-            };
-          })(this)
-        });
-        error_free = false;
-      }
-    });
+
     if (error_free) {
-      map = this.getInputMap(form);
-      isFileUpload = this.isFileUpload(form);
+      map = this.getInputMap();
+      isFileUpload = this.isFileUpload();
       opts = {
         parent: this
       };
@@ -336,49 +302,26 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
   },
 
-  getInputMap: function (form) {
-    var map, ref1, l, len, o, ref2, m, len1, val, ref3, n, len2;
-    map = {};
-    ref1 = form.find('input');
-    for (l = 0, len = ref1.length; l < len; l++) {
-      o = ref1[l];
-      if ((o.value !== null) && jQuery.trim(o.value).length > 0) {
-        map[o.name] = o.value;
+  getInputMap: function () {
+    var map = {};
+
+    _.each(this.parametersViews, function(paramView) {
+      var value = paramView.getValue();
+      if (typeof value !== 'undefined') {
+        map[paramView.model.name] = value;
       }
-      if (o.type === 'file') {
-        map[o.name] = o.files[0];
-      }
-    }
-    ref2 = form.find('textarea');
-    for (m = 0, len1 = ref2.length; m < len1; m++) {
-      o = ref2[m];
-      val = this.getTextAreaValue(o);
-      if ((val !== null) && jQuery.trim(val).length > 0) {
-        map[o.name] = val;
-      }
-    }
-    ref3 = form.find('select');
-    for (n = 0, len2 = ref3.length; n < len2; n++) {
-      o = ref3[n];
-      val = this.getSelectedValue(o);
-      if ((val !== null) && jQuery.trim(val).length > 0) {
-        map[o.name] = val;
-      }
-    }
+    });
+
+    map.responseContentType = $('div select[name=responseContentType]', $(this.el)).val();
+    map.requestContentType = $('div select[name=parameterContentType]', $(this.el)).val();
+
     return map;
   },
 
-  isFileUpload: function (form) {
-    var ref1, l, len, o;
-    var isFileUpload = false;
-    ref1 = form.find('input');
-    for (l = 0, len = ref1.length; l < len; l++) {
-      o = ref1[l];
-      if (o.type === 'file') {
-        isFileUpload = true;
-      }
-    }
-    return isFileUpload;
+  isFileUpload: function () {
+    return _.any(this.model.parameters, function(param) {
+      return param.isFile;
+    });
   },
 
   success: function(response, parent) {
@@ -409,25 +352,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     o.request.url = this.invocationUrl;
     o.status = data.status;
     return o;
-  },
-
-  getSelectedValue: function(select) {
-    if (!select.multiple) {
-      return select.value;
-    } else {
-      var options = [];
-      for (var l = 0, len = select.options.length; l < len; l++) {
-        var opt = select.options[l];
-        if (opt.selected) {
-          options.push(opt.value);
-        }
-      }
-      if (options.length > 0) {
-        return options;
-      } else {
-        return null;
-      }
-    }
   },
 
   // handler for hide response link
@@ -651,8 +575,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     var opts = this.options.swaggerOptions;
 
     if (opts.showRequestHeaders) {
-      var form = $('.sandbox', $(this.el)),
-        map = this.getInputMap(form),
+      var map = this.getInputMap(),
         requestHeaders = this.model.getHeaderParams(map);
       delete requestHeaders['Content-Type'];
       $('.request_headers', $(this.el)).html('<pre>' + _.escape(JSON.stringify(requestHeaders, null, '  ')).replace(/\n/g, '<br>') + '</pre>');
@@ -677,38 +600,5 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       event.preventDefault();
       Docs.expandOperation(elem);
     }
-  },
-
-  getTextAreaValue: function(textArea) {
-    var param, parsed, result, i;
-    if (textArea.value === null || jQuery.trim(textArea.value).length === 0) {
-      return null;
-    }
-    param = this.getParamByName(textArea.name);
-    if (param && param.type && param.type.toLowerCase() === 'array') {
-      parsed = textArea.value.split('\n');
-      result = [];
-      for (i = 0; i < parsed.length; i++) {
-        if (parsed[i] !== null && jQuery.trim(parsed[i]).length > 0) {
-          result.push(parsed[i]);
-        }
-      }
-      return result.length > 0 ? result : null;
-    } else {
-      return textArea.value;
-    }
-  },
-
-  getParamByName: function(name) {
-    var i;
-    if (this.model.parameters) {
-      for(i = 0; i < this.model.parameters.length; i++) {
-        if (this.model.parameters[i].name === name) {
-          return this.model.parameters[i];
-        }
-      }
-    }
-    return null;
   }
-
 });
