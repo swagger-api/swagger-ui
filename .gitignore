@@ -11,3 +11,5 @@ swagger-ui.sublime-workspace
 .project
 node_modules/*
 /nbproject/private/
+dist/specs/
+test/specs/local/

@@ -24558,7 +24558,12 @@ window.SwaggerUi = Backbone.Router.extend({
   // SwaggerUi accepts all the same options as SwaggerApi
   initialize: function(options) {
     options = options || {};
-    if(!options.highlightSizeThreshold) {
+    
+    if (options.defaultModelRendering !== 'model') {
+      options.defaultModelRendering = 'schema';
+    }
+    
+    if (!options.highlightSizeThreshold) {
       options.highlightSizeThreshold = 100000;
     }
 
@@ -25136,6 +25141,14 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     this.parentId = this.model.parentId;
     this.nickname = this.model.nickname;
     this.model.encodedParentId = encodeURIComponent(this.parentId);
+    
+    if (opts.swaggerOptions) {
+      this.model.defaultRendering = opts.swaggerOptions.defaultModelRendering;
+      
+      if (opts.swaggerOptions.showRequestHeaders) {
+        this.model.showRequestHeaders = true;
+      }
+    }
     return this;
   },
 
@@ -25291,12 +25304,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         signature: this.model.responseClassSignature
       };
     }
-    var opts = this.options.swaggerOptions;
-    if (opts.showRequestHeaders) {
-      this.model.showRequestHeaders = true;
-    }
     $(this.el).html(Handlebars.templates.operation(this.model));
     if (signatureModel) {
+      signatureModel.defaultRendering = this.model.defaultRendering;
       responseSignatureView = new SwaggerUi.Views.SignatureView({
         model: signatureModel,
         router: this.router,
@@ -25355,6 +25365,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   addParameter: function(param, consumes) {
     // Render a parameter
     param.consumes = consumes;
+    param.defaultRendering = this.model.defaultRendering;
     var paramView = new SwaggerUi.Views.ParameterView({
       model: param,
       tagName: 'tr',
@@ -25365,6 +25376,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   addStatusCode: function(statusCode) {
     // Render status codes
+    statusCode.defaultRendering = this.model.defaultRendering;
     var statusCodeView = new SwaggerUi.Views.StatusCodeView({
       model: statusCode,
       tagName: 'tr',
@@ -25893,7 +25905,8 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
     var signatureModel = {
       sampleJSON: this.model.sampleJSON,
       isParam: true,
-      signature: this.model.signature
+      signature: this.model.signature,
+      defaultRendering: this.model.defaultRendering
     };
 
     if (this.model.sampleJSON) {
@@ -26052,8 +26065,12 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
 
     $(this.el).html(Handlebars.templates.signature(this.model));
 
-    this.switchToSnippet();
-
+    if (this.model.defaultRendering === 'model') {
+      this.switchToDescription();
+    } else {
+      this.switchToSnippet();
+    }
+    
     this.isParam = this.model.isParam;
 
     if (this.isParam) {
@@ -26113,6 +26130,7 @@ SwaggerUi.Views.StatusCodeView = Backbone.View.extend({
         sampleJSON: JSON.stringify(this.router.api.models[this.model.responseModel].createJSONSample(), null, 2),
         isParam: false,
         signature: this.router.api.models[this.model.responseModel].getMockSignature(),
+        defaultRendering: this.model.defaultRendering
       };
 
       var responseModelView = new SwaggerUi.Views.SignatureView({model: responseModel, tagName: 'div'});
