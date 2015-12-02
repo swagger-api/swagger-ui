@@ -4167,6 +4167,8 @@ Operation.prototype.getType = function (param) {
     if (param.items) {
       str = this.getType(param.items);
     }
+  } else if (type === 'file') {
+	str = 'file';
   }
 
   if (param.$ref) {
