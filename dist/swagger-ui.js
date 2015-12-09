@@ -389,9 +389,9 @@ this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(dept
 this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   return "deprecated";
   },"3":function(depth0,helpers,partials,data) {
-  return "            <h4>Warning: Deprecated</h4>\n";
+  return "            <h4><span data-sw-translate>Warning: Deprecated</span></h4>\n";
   },"5":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "        <h4>Implementation Notes</h4>\n        <div class=\"markdown\">";
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "        <h4><span data-sw-translate>Implementation Notes</span></h4>\n        <div class=\"markdown\">";
   stack1 = ((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"description","hash":{},"data":data}) : helper));
   if (stack1 != null) { buffer += stack1; }
   return buffer + "</div>\n";
@@ -24732,7 +24732,7 @@ window.SwaggerUi = Backbone.Router.extend({
     var $msgbar = $('#message-bar');
     $msgbar.removeClass('message-fail');
     $msgbar.addClass('message-success');
-    $msgbar.html(data);
+    $msgbar.text(data);
     if(window.SwaggerTranslator) {
       window.SwaggerTranslator.translate($msgbar);
     }
