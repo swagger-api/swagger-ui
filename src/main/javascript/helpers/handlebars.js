@@ -32,6 +32,8 @@ Handlebars.registerHelper('renderTextParam', function(param) {
         idAtt = ' id=\'' + param.valueId + '\'';
     }
 
+    defaultValue = defaultValue.replace(/'/g,'&apos;');
+
     if(isArray) {
         result = '<textarea class=\'body-textarea' + (param.required ? ' required' : '') + '\' name=\'' + param.name + '\'' + idAtt + dataVendorExtensions;
         result += ' placeholder=\'Provide multiple values in new lines' + (param.required ? ' (at least one required).' : '.') + '\'>';
