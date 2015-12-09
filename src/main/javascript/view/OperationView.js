@@ -168,6 +168,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         value = successResponse[key];
         this.model.successCode = key;
         if (typeof value === 'object' && typeof value.createJSONSample === 'function') {
+          this.model.successDescription = value.description;
           signatureModel = {
             sampleJSON: JSON.stringify(value.createJSONSample(), void 0, 2),
             isParam: false,
