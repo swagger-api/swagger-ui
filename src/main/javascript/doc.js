@@ -123,8 +123,10 @@ window.Docs = {
 	toggleEndpointListForResource: function(resource) {
 		var elem = $('li#resource_' + Docs.escapeResourceName(resource) + ' ul.endpoints');
 		if (elem.is(':visible')) {
+			$.bbq.pushState('#/', 2);
 			Docs.collapseEndpointListForResource(resource);
 		} else {
+            $.bbq.pushState('#/' + resource, 2);
 			Docs.expandEndpointListForResource(resource);
 		}
 	},
