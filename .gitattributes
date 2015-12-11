@@ -1,5 +1,5 @@
 * text eol=lf
-
+src/**/*.ttf binary
 dist/**/*.js binary
 dist/**/*.ttf binary
 dist/**/*.map binary
