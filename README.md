@@ -105,6 +105,7 @@ highlightSizeThreshold | Any size response below this threshold will be highligh
 supportedSubmitMethods | An array of of the HTTP operations that will have the 'Try it out!' option. An empty array disables all operations. This does not filter the operations from the display.
 oauth2RedirectUrl | OAuth redirect URL
 showRequestHeaders | Whether or not to show the headers that were sent when making a request via the 'Try it out!' option. Defaults to `false`.
+jsonEditor | Enables a graphical view for editing complex bodies.  Defaults to `false`.
 
 * All other parameters are explained in greater detail below
 
