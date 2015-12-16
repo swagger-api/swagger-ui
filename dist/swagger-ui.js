@@ -21,10 +21,9 @@ this["Handlebars"]["templates"]["content_type"] = Handlebars.template({"1":funct
   if (stack1 != null) { buffer += stack1; }
   return buffer;
 },"2":function(depth0,helpers,partials,data) {
-  var stack1, lambda=this.lambda, buffer = "	<option value=\"";
-  stack1 = lambda(depth0, depth0);
-  if (stack1 != null) { buffer += stack1; }
-  buffer += "\">";
+  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "	<option value=\""
+    + escapeExpression(lambda(depth0, depth0))
+    + "\">";
   stack1 = lambda(depth0, depth0);
   if (stack1 != null) { buffer += stack1; }
   return buffer + "</option>\n";
@@ -150,23 +149,24 @@ window.Docs = {
         Docs.expandEndpointListForResource(fragments[0]);
         $("#"+dom_id).slideto({highlight: false});
 
-        // Expand operation
-				var li_dom_id = fragments.join('_');
-				var li_content_dom_id = li_dom_id + "_content";
+            // Expand operation
+            var li_dom_id = fragments.join('_');
+            var li_content_dom_id = li_dom_id + "_content";
 
 
-				Docs.expandOperation($('#'+li_content_dom_id));
-				$('#'+li_dom_id).slideto({highlight: false});
-				break;
+            Docs.expandOperation($('#'+li_content_dom_id));
+            $('#'+li_dom_id).slideto({highlight: false});
+            break;
 		}
-
 	},
 
 	toggleEndpointListForResource: function(resource) {
 		var elem = $('li#resource_' + Docs.escapeResourceName(resource) + ' ul.endpoints');
 		if (elem.is(':visible')) {
+			$.bbq.pushState('#/', 2);
 			Docs.collapseEndpointListForResource(resource);
 		} else {
+            $.bbq.pushState('#/' + resource, 2);
 			Docs.expandEndpointListForResource(resource);
 		}
 	},
@@ -250,7 +250,8 @@ Handlebars.registerHelper('sanitize', function(html) {
 
 Handlebars.registerHelper('renderTextParam', function(param) {
     var result, type = 'text', idAtt = '';
-    var isArray = param.type.toLowerCase() === 'array' || param.allowMultiple;
+    var paramType = param.type || param.schema.type || '';
+    var isArray = paramType.toLowerCase() === 'array' || param.allowMultiple;
     var defaultValue = isArray && Array.isArray(param.default) ? param.default.join('\n') : param.default;
 
     var dataVendorExtensions = Object.keys(param).filter(function(property) {
@@ -272,6 +273,8 @@ Handlebars.registerHelper('renderTextParam', function(param) {
     if(param.valueId) {
         idAtt = ' id=\'' + param.valueId + '\'';
     }
+
+    defaultValue = defaultValue.replace(/'/g,'&apos;');
 
     if(isArray) {
         result = '<textarea class=\'body-textarea' + (param.required ? ' required' : '') + '\' name=\'' + param.name + '\'' + idAtt + dataVendorExtensions;
@@ -387,9 +390,9 @@ this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(dept
 this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   return "deprecated";
   },"3":function(depth0,helpers,partials,data) {
-  return "            <h4>Warning: Deprecated</h4>\n";
+  return "            <h4><span data-sw-translate>Warning: Deprecated</span></h4>\n";
   },"5":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "        <h4>Implementation Notes</h4>\n        <div class=\"markdown\">";
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "        <h4><span data-sw-translate>Implementation Notes</span></h4>\n        <div class=\"markdown\">";
   stack1 = ((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"description","hash":{},"data":data}) : helper));
   if (stack1 != null) { buffer += stack1; }
   return buffer + "</div>\n";
@@ -412,19 +415,26 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
   },"14":function(depth0,helpers,partials,data) {
   return "        <div class='access'>\n          <span class=\"api-ic ic-off\" title=\"click to authenticate\"></span>\n        </div>\n";
   },"16":function(depth0,helpers,partials,data) {
-  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "          <h4><span data-sw-translate>Response Class</span> (<span data-sw-translate>Status</span> "
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "          <h4><span data-sw-translate>Response Class</span> (<span data-sw-translate>Status</span> "
     + escapeExpression(((helper = (helper = helpers.successCode || (depth0 != null ? depth0.successCode : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"successCode","hash":{},"data":data}) : helper)))
-    + ")</h4>\n          <p><span class=\"model-signature\" /></p>\n          <br/>\n          <div class=\"response-content-type\" />\n";
-},"18":function(depth0,helpers,partials,data) {
+    + ")</h4>\n            ";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.successDescription : depth0), {"name":"if","hash":{},"fn":this.program(17, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "\n          <p><span class=\"model-signature\" /></p>\n          <br/>\n          <div class=\"response-content-type\" />\n\n";
+},"17":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "<div class=\"markdown\">";
+  stack1 = ((helper = (helper = helpers.successDescription || (depth0 != null ? depth0.successDescription : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"successDescription","hash":{},"data":data}) : helper));
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "</div>";
+},"19":function(depth0,helpers,partials,data) {
   return "          <h4 data-sw-translate>Parameters</h4>\n          <table class='fullwidth'>\n          <thead>\n            <tr>\n            <th style=\"width: 100px; max-width: 100px\" data-sw-translate>Parameter</th>\n            <th style=\"width: 310px; max-width: 310px\" data-sw-translate>Value</th>\n            <th style=\"width: 200px; max-width: 200px\" data-sw-translate>Description</th>\n            <th style=\"width: 100px; max-width: 100px\" data-sw-translate>Parameter Type</th>\n            <th style=\"width: 220px; max-width: 230px\" data-sw-translate>Data Type</th>\n            </tr>\n          </thead>\n          <tbody class=\"operation-params\">\n\n          </tbody>\n          </table>\n";
-  },"20":function(depth0,helpers,partials,data) {
-  return "          <div style='margin:0;padding:0;display:inline'></div>\n          <h4 data-sw-translate>Response Messages</h4>\n          <table class='fullwidth'>\n            <thead>\n            <tr>\n              <th data-sw-translate>HTTP Status Code</th>\n              <th data-sw-translate>Reason</th>\n              <th data-sw-translate>Response Model</th>\n              <th data-sw-translate>Headers</th>\n            </tr>\n            </thead>\n            <tbody class=\"operation-status\">\n\n            </tbody>\n          </table>\n";
-  },"22":function(depth0,helpers,partials,data) {
+  },"21":function(depth0,helpers,partials,data) {
+  return "          <div style='margin:0;padding:0;display:inline'></div>\n          <h4 data-sw-translate>Response Messages</h4>\n          <table class='fullwidth'>\n            <thead>\n            <tr>\n              <th data-sw-translate>HTTP Status Code</th>\n              <th data-sw-translate>Reason</th>\n              <th data-sw-translate>Response Model</th>\n              <th data-sw-translate>Headers</th>\n            </tr>\n            </thead>\n            <tbody class=\"operation-status\">\n            </tbody>\n          </table>\n";
+  },"23":function(depth0,helpers,partials,data) {
   return "";
-},"24":function(depth0,helpers,partials,data) {
+},"25":function(depth0,helpers,partials,data) {
   return "          <div class='sandbox_header'>\n            <input class='submit' type='button' value='Try it out!' data-sw-translate/>\n            <a href='#' class='response_hider' style='display:none' data-sw-translate>Hide Response</a>\n            <span class='response_throbber' style='display:none'></span>\n          </div>\n";
-  },"26":function(depth0,helpers,partials,data) {
+  },"27":function(depth0,helpers,partials,data) {
   return "          <h4 data-sw-translate>Request Headers</h4>\n          <div class='block request_headers'></div>\n";
   },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var stack1, helper, options, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, blockHelperMissing=helpers.blockHelperMissing, buffer = "\n  <ul class='operations' >\n    <li class='"
@@ -481,14 +491,14 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.type : depth0), {"name":"if","hash":{},"fn":this.program(16, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "        <form accept-charset='UTF-8' class='sandbox'>\n          <div style='margin:0;padding:0;display:inline'></div>\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.parameters : depth0), {"name":"if","hash":{},"fn":this.program(18, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.parameters : depth0), {"name":"if","hash":{},"fn":this.program(19, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.responseMessages : depth0), {"name":"if","hash":{},"fn":this.program(20, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.responseMessages : depth0), {"name":"if","hash":{},"fn":this.program(21, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isReadOnly : depth0), {"name":"if","hash":{},"fn":this.program(22, data),"inverse":this.program(24, data),"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isReadOnly : depth0), {"name":"if","hash":{},"fn":this.program(23, data),"inverse":this.program(25, data),"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "        </form>\n        <div class='response' style='display:none'>\n          <h4 class='curl'>Curl</h4>\n          <div class='block curl'></div>\n          <h4 data-sw-translate>Request URL</h4>\n          <div class='block request_url'></div>\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.showRequestHeaders : depth0), {"name":"if","hash":{},"fn":this.program(26, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.showRequestHeaders : depth0), {"name":"if","hash":{},"fn":this.program(27, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "          <h4 data-sw-translate>Response Body</h4>\n          <div class='block response_body'></div>\n          <h4 data-sw-translate>Response Code</h4>\n          <div class='block response_code'></div>\n          <h4 data-sw-translate>Response Headers</h4>\n          <div class='block response_headers'></div>\n        </div>\n      </div>\n    </li>\n  </ul>\n";
 },"useData":true});
@@ -606,7 +616,7 @@ this["Handlebars"]["templates"]["param_readonly"] = Handlebars.template({"1":fun
     + escapeExpression(((helper = (helper = helpers.valueId || (depth0 != null ? depth0.valueId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"valueId","hash":{},"data":data}) : helper)))
     + "'>"
     + escapeExpression(((helper = (helper = helpers['default'] || (depth0 != null ? depth0['default'] : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"default","hash":{},"data":data}) : helper)))
-    + "</textarea>\n";
+    + "</textarea>\n        <div class=\"parameter-content-type\" />\n";
 },"3":function(depth0,helpers,partials,data) {
   var stack1, buffer = "";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0['default'] : depth0), {"name":"if","hash":{},"fn":this.program(4, data),"inverse":this.program(6, data),"data":data});
@@ -770,10 +780,9 @@ this["Handlebars"]["templates"]["parameter_content_type"] = Handlebars.template(
   if (stack1 != null) { buffer += stack1; }
   return buffer;
 },"2":function(depth0,helpers,partials,data) {
-  var stack1, lambda=this.lambda, buffer = "  <option value=\"";
-  stack1 = lambda(depth0, depth0);
-  if (stack1 != null) { buffer += stack1; }
-  buffer += "\">";
+  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "  <option value=\""
+    + escapeExpression(lambda(depth0, depth0))
+    + "\">";
   stack1 = lambda(depth0, depth0);
   if (stack1 != null) { buffer += stack1; }
   return buffer + "</option>\n";
@@ -832,10 +841,9 @@ this["Handlebars"]["templates"]["response_content_type"] = Handlebars.template({
   if (stack1 != null) { buffer += stack1; }
   return buffer;
 },"2":function(depth0,helpers,partials,data) {
-  var stack1, lambda=this.lambda, buffer = "  <option value=\"";
-  stack1 = lambda(depth0, depth0);
-  if (stack1 != null) { buffer += stack1; }
-  buffer += "\">";
+  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "  <option value=\""
+    + escapeExpression(lambda(depth0, depth0))
+    + "\">";
   stack1 = lambda(depth0, depth0);
   if (stack1 != null) { buffer += stack1; }
   return buffer + "</option>\n";
@@ -30726,7 +30734,12 @@ window.SwaggerUi = Backbone.Router.extend({
   // SwaggerUi accepts all the same options as SwaggerApi
   initialize: function(options) {
     options = options || {};
-    if(!options.highlightSizeThreshold) {
+    
+    if (options.defaultModelRendering !== 'model') {
+      options.defaultModelRendering = 'schema';
+    }
+    
+    if (!options.highlightSizeThreshold) {
       options.highlightSizeThreshold = 100000;
     }
 
@@ -30899,7 +30912,7 @@ window.SwaggerUi = Backbone.Router.extend({
     var $msgbar = $('#message-bar');
     $msgbar.removeClass('message-fail');
     $msgbar.addClass('message-success');
-    $msgbar.html(data);
+    $msgbar.text(data);
     if(window.SwaggerTranslator) {
       window.SwaggerTranslator.translate($msgbar);
     }
@@ -31067,9 +31080,10 @@ SwaggerUi.Views.BasicAuthButton = Backbone.View.extend({
     'click #apply_basic_auth' : 'applyPassword'
   },
 
-  applyPassword: function(){
-    var username = $('.input_username').val();
-    var password = $('.input_password').val();
+  applyPassword: function(event){
+    event.preventDefault();
+    var username = $('#input_username').val();
+    var password = $('#input_password').val();
     var basicAuth = new SwaggerClient.PasswordAuthorization('basic', username, password);
     this.router.api.clientAuthorizations.add(this.model.type, basicAuth);
     this.router.load();
@@ -31328,6 +31342,14 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     this.parentId = this.model.parentId;
     this.nickname = this.model.nickname;
     this.model.encodedParentId = encodeURIComponent(this.parentId);
+    
+    if (opts.swaggerOptions) {
+      this.model.defaultRendering = opts.swaggerOptions.defaultModelRendering;
+      
+      if (opts.swaggerOptions.showRequestHeaders) {
+        this.model.showRequestHeaders = true;
+      }
+    }
     return this;
   },
 
@@ -31469,6 +31491,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         value = successResponse[key];
         this.model.successCode = key;
         if (typeof value === 'object' && typeof value.createJSONSample === 'function') {
+          this.model.successDescription = value.description;
           signatureModel = {
             sampleJSON: JSON.stringify(value.createJSONSample(), void 0, 2),
             isParam: false,
@@ -31483,12 +31506,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         signature: this.model.responseClassSignature
       };
     }
-    var opts = this.options.swaggerOptions;
-    if (opts.showRequestHeaders) {
-      this.model.showRequestHeaders = true;
-    }
     $(this.el).html(Handlebars.templates.operation(this.model));
     if (signatureModel) {
+      signatureModel.defaultRendering = this.model.defaultRendering;
       responseSignatureView = new SwaggerUi.Views.SignatureView({
         model: signatureModel,
         router: this.router,
@@ -31547,7 +31567,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   addParameter: function(param, consumes) {
     // Render a parameter
     param.consumes = consumes;
-
+    param.defaultRendering = this.model.defaultRendering;
 
     // Copy this param JSON spec so that it will be available for JsonEditor
     if(param.schema){
@@ -31565,7 +31585,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         param.schema.title = ' ';
       }
     } 
-     
 
     var paramView = new SwaggerUi.Views.ParameterView({
       model: param,
@@ -31578,6 +31597,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   addStatusCode: function(statusCode) {
     // Render status codes
+    statusCode.defaultRendering = this.model.defaultRendering;
     var statusCodeView = new SwaggerUi.Views.StatusCodeView({
       model: statusCode,
       tagName: 'tr',
@@ -31982,8 +32002,8 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     $('.response_throbber', $(this.el)).hide();
 
 
-    //adds curl output
-    var curlCommand = this.model.asCurl(this.map);
+    // adds curl output
+    var curlCommand = this.model.asCurl(this.map, {responseContentType: contentType});
     curlCommand = curlCommand.replace('!', '&#33;');
     $( 'div.curl', $(this.el)).html('<pre>' + curlCommand + '</pre>');
 
@@ -32010,11 +32030,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   toggleOperationContent: function (event) {
     var elem = $('#' + Docs.escapeResourceName(this.parentId + '_' + this.nickname + '_content'));
     if (elem.is(':visible')){
-      event.preventDefault();
       $.bbq.pushState('#/', 2);
+      event.preventDefault();
       Docs.collapseOperation(elem);
     } else {
-      event.preventDefault();
       Docs.expandOperation(elem);
     }
   },
@@ -32116,7 +32135,8 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
     var signatureModel = {
       sampleJSON: this.model.sampleJSON,
       isParam: true,
-      signature: this.model.signature
+      signature: this.model.signature,
+      defaultRendering: this.model.defaultRendering
     };
 
     if (this.model.sampleJSON) {
@@ -32307,8 +32327,12 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
 
     $(this.el).html(Handlebars.templates.signature(this.model));
 
-    this.switchToSnippet();
-
+    if (this.model.defaultRendering === 'model') {
+      this.switchToDescription();
+    } else {
+      this.switchToSnippet();
+    }
+    
     this.isParam = this.model.isParam;
 
     if (this.isParam) {
@@ -32372,6 +32396,7 @@ SwaggerUi.Views.StatusCodeView = Backbone.View.extend({
         sampleJSON: JSON.stringify(this.router.api.models[this.model.responseModel].createJSONSample(), null, 2),
         isParam: false,
         signature: this.router.api.models[this.model.responseModel].getMockSignature(),
+        defaultRendering: this.model.defaultRendering
       };
 
       var responseModelView = new SwaggerUi.Views.SignatureView({model: responseModel, tagName: 'div'});

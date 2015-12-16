@@ -14,6 +14,7 @@ SwaggerUi.Views.StatusCodeView = Backbone.View.extend({
         sampleJSON: JSON.stringify(this.router.api.models[this.model.responseModel].createJSONSample(), null, 2),
         isParam: false,
         signature: this.router.api.models[this.model.responseModel].getMockSignature(),
+        defaultRendering: this.model.defaultRendering
       };
 
       var responseModelView = new SwaggerUi.Views.SignatureView({model: responseModel, tagName: 'div'});

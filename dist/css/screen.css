@@ -1136,14 +1136,14 @@
   font-size: 24px;
   padding: 10px 0;
 }
-.swagger-section .api-popup-dialog p.error-msg {
+.swagger-section .api-popup-dialog .error-msg {
   padding-left: 5px;
   padding-bottom: 5px;
 }
-.swagger-section .api-popup-dialog button.api-popup-authbtn {
+.swagger-section .api-popup-dialog .api-popup-authbtn {
   height: 30px;
 }
-.swagger-section .api-popup-dialog button.api-popup-cancel {
+.swagger-section .api-popup-dialog .api-popup-cancel {
   height: 30px;
 }
 .swagger-section .api-popup-scopes {
@@ -1153,13 +1153,13 @@
   padding: 5px 0;
   line-height: 20px;
 }
-.swagger-section .api-popup-scopes .api-scope-desc {
-  padding-left: 20px;
-  font-style: italic;
-}
 .swagger-section .api-popup-scopes li input {
   position: relative;
   top: 2px;
+}
+.swagger-section .api-popup-scopes .api-scope-desc {
+  padding-left: 20px;
+  font-style: italic;
 }
 .swagger-section .api-popup-actions {
   padding-top: 10px;
@@ -1234,32 +1234,29 @@
   background-color: #89bf04;
   padding: 14px;
 }
-.swagger-section #header a#logo {
-  font-size: 1.5em;
-  font-weight: bold;
-  text-decoration: none;
-  background: transparent url(../images/logo_small.png) no-repeat left center;
-  padding: 20px 0 20px 40px;
-  color: white;
+.swagger-section #input_baseUrl {
+  width: 400px;
 }
-.swagger-section #header form#api_selector {
+.swagger-section #api_selector {
   display: block;
   clear: none;
   float: right;
 }
-.swagger-section #header form#api_selector .input {
+.swagger-section #api_selector .input {
   display: block;
   clear: none;
   float: left;
   margin: 0 10px 0 0;
 }
-.swagger-section #header form#api_selector .input input#input_apiKey {
+.swagger-section #api_selector input {
+  font-size: 0.9em;
+  padding: 3px;
+  margin: 0;
+}
+.swagger-section #input_apiKey {
   width: 200px;
 }
-.swagger-section #header form#api_selector .input input#input_baseUrl {
-  width: 400px;
-}
-.swagger-section #header form#api_selector .input a#explore {
+.swagger-section #explore {
   display: block;
   text-decoration: none;
   font-weight: bold;
@@ -1274,13 +1271,16 @@
   -khtml-border-radius: 4px;
   border-radius: 4px;
 }
-.swagger-section #header form#api_selector .input a#explore:hover {
+.swagger-section #explore:hover {
   background-color: #547f00;
 }
-.swagger-section #header form#api_selector .input input {
-  font-size: 0.9em;
-  padding: 3px;
-  margin: 0;
+.swagger-section #header #logo {
+  font-size: 1.5em;
+  font-weight: bold;
+  text-decoration: none;
+  background: transparent url(../images/logo_small.png) no-repeat left center;
+  padding: 20px 0 20px 40px;
+  color: white;
 }
 .swagger-section #content_message {
   margin: 10px 15px;

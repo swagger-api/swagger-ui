@@ -1136,14 +1136,14 @@
   font-size: 24px;
   padding: 10px 0;
 }
-.swagger-section .api-popup-dialog p.error-msg {
+.swagger-section .api-popup-dialog .error-msg {
   padding-left: 5px;
   padding-bottom: 5px;
 }
-.swagger-section .api-popup-dialog button.api-popup-authbtn {
+.swagger-section .api-popup-dialog .api-popup-authbtn {
   height: 30px;
 }
-.swagger-section .api-popup-dialog button.api-popup-cancel {
+.swagger-section .api-popup-dialog .api-popup-cancel {
   height: 30px;
 }
 .swagger-section .api-popup-scopes {
@@ -1153,13 +1153,13 @@
   padding: 5px 0;
   line-height: 20px;
 }
-.swagger-section .api-popup-scopes .api-scope-desc {
-  padding-left: 20px;
-  font-style: italic;
-}
 .swagger-section .api-popup-scopes li input {
   position: relative;
   top: 2px;
+}
+.swagger-section .api-popup-scopes .api-scope-desc {
+  padding-left: 20px;
+  font-style: italic;
 }
 .swagger-section .api-popup-actions {
   padding-top: 10px;

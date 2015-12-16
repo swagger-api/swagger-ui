@@ -18,10 +18,10 @@
       </div>
       <div class='content' id='{{parentId}}_{{nickname}}_content' style='display:none'>
         {{#if deprecated}}
-            <h4>Warning: Deprecated</h4>
+            <h4><span data-sw-translate>Warning: Deprecated</span></h4>
         {{/if}}
         {{#if description}}
-        <h4>Implementation Notes</h4>
+        <h4><span data-sw-translate>Implementation Notes</span></h4>
         <div class="markdown">{{{description}}}</div>
         {{/if}}
         {{#oauth}}
@@ -42,9 +42,11 @@
         {{/oauth}}
         {{#if type}}
           <h4><span data-sw-translate>Response Class</span> (<span data-sw-translate>Status</span> {{successCode}})</h4>
+            {{#if successDescription}}<div class="markdown">{{{successDescription}}}</div>{{/if}}
           <p><span class="model-signature" /></p>
           <br/>
           <div class="response-content-type" />
+
         {{/if}}
         <form accept-charset='UTF-8' class='sandbox'>
           <div style='margin:0;padding:0;display:inline'></div>
@@ -78,7 +80,6 @@
             </tr>
             </thead>
             <tbody class="operation-status">
-
             </tbody>
           </table>
           {{/if}}
