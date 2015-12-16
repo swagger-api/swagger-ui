@@ -360,6 +360,19 @@
         font-weight: bold;
     }
 
+    /* JSONEditor specific styling */
+    .editor_holder {
+       font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+       font-size: 0.9em;
+        label {
+            font-weight:normal!important; /* JSONEditor uses bold by default for all labels, we revert that back to normal to not give the impression that by default fields are required */
+        }    
+    }
+    
+    .editor_holder label.required {
+        font-weight:bold!important; 
+    }
+
     input.parameter {
         width: 300px;
         border: 1px solid #aaa;

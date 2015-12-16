@@ -7,11 +7,13 @@
 			<div class="parameter-content-type" />
 		{{else}}
 			{{#if default}}
+				<div class="editor_holder"></div>
 				<textarea class='body-textarea' name='{{name}}' id='{{valueId}}'>{{default}}</textarea>
         <br />
         <div class="parameter-content-type" />
 			{{else}}
 				<textarea class='body-textarea' name='{{name}}' id='{{valueId}}'></textarea>
+				<div class="editor_holder"></div>
 				<br />
 				<div class="parameter-content-type" />
 			{{/if}}

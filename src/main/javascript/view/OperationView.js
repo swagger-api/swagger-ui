@@ -245,10 +245,29 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     // Render a parameter
     param.consumes = consumes;
     param.defaultRendering = this.model.defaultRendering;
+
+    // Copy this param JSON spec so that it will be available for JsonEditor
+    if(param.schema){
+      $.extend(true, param.schema, this.model.definitions[param.type]);
+      param.schema.definitions = this.model.definitions;
+      // This is required for JsonEditor to display the root properly
+      if(!param.schema.type){
+        param.schema.type = 'object';
+      } 
+      // This is the title that will be used by JsonEditor for the root
+      // Since we already display the parameter's name in the Parameter column
+      // We set this to space, we can't set it to null or space otherwise JsonEditor
+      // will replace it with the text "root" which won't look good on screen
+      if(!param.schema.title){
+        param.schema.title = ' ';
+      }
+    } 
+
     var paramView = new SwaggerUi.Views.ParameterView({
       model: param,
       tagName: 'tr',
-      readOnly: this.model.isReadOnly
+      readOnly: this.model.isReadOnly,
+      swaggerOptions: this.options.swaggerOptions
     });
     $('.operation-params', $(this.el)).append(paramView.render().el);
   },
@@ -287,7 +306,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         error_free = false;
       }
     });
-    form.find('textarea.required').each(function() {
+    form.find('textarea.required:visible').each(function() {
       $(this).removeClass('error');
       if (jQuery.trim($(this).val()) === '') {
         $(this).addClass('error');
@@ -326,6 +345,16 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
           opts[key] = this.options.swaggerOptions[key];
         }
       }
+
+      var pi;
+      for(pi = 0; pi < this.model.parameters.length; pi++){
+        var p = this.model.parameters[pi];
+        if( p.jsonEditor && p.jsonEditor.isEnabled()){
+          var json = p.jsonEditor.getValue();
+          map[p.name] = JSON.stringify(json);
+        }
+      }
+
       opts.responseContentType = $('div select[name=responseContentType]', $(this.el)).val();
       opts.requestContentType = $('div select[name=parameterContentType]', $(this.el)).val();
       $('.response_throbber', $(this.el)).show();

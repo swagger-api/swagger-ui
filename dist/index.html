@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,6 +20,7 @@
   <script src='lib/backbone-min.js' type='text/javascript'></script>
   <script src='swagger-ui.js' type='text/javascript'></script>
   <script src='lib/highlight.7.3.pack.js' type='text/javascript'></script>
+  <script src='lib/jsoneditor.min.js' type='text/javascript'></script>
   <script src='lib/marked.js' type='text/javascript'></script>
   <script src='lib/swagger-oauth.js' type='text/javascript'></script>
 
@@ -70,6 +72,7 @@
           log("Unable to Load SwaggerUI");
         },
         docExpansion: "none",
+        jsonEditor: false,
         apisSorter: "alpha",
         defaultModelRendering: 'schema',
         showRequestHeaders: false
