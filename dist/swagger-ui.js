@@ -274,7 +274,9 @@ Handlebars.registerHelper('renderTextParam', function(param) {
         idAtt = ' id=\'' + param.valueId + '\'';
     }
 
-    defaultValue = defaultValue.replace(/'/g,'&apos;');
+    if (typeof defaultValue === 'string' || defaultValue instanceof String) {
+        defaultValue = defaultValue.replace(/'/g,'&apos;');
+    }
 
     if(isArray) {
         result = '<textarea class=\'body-textarea' + (param.required ? ' required' : '') + '\' name=\'' + param.name + '\'' + idAtt + dataVendorExtensions;
