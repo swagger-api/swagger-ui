@@ -48,6 +48,31 @@
           <div class="response-content-type" />
 
         {{/if}}
+
+        {{#if headers}}
+          <h4 data-sw-translate>Headers</h4>
+          <table class="headers">
+            <thead>
+              <tr>
+                <th style="width: 100px; max-width: 100px" data-sw-translate>Header</th>
+                <th style="width: 310px; max-width: 310px" data-sw-translate>Description</th>
+                <th style="width: 200px; max-width: 200px" data-sw-translate>Type</th>
+                <th style="width: 320px; max-width: 320px" data-sw-translate>Other</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each headers}}
+              <tr>
+                <td>{{@key}}</td>
+                <td>{{this.description}}</td>
+                <td>{{this.type}}</td>
+                <td>{{this.other}}</td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        {{/if}}
+
         <form accept-charset='UTF-8' class='sandbox'>
           <div style='margin:0;padding:0;display:inline'></div>
           {{#if parameters}}
