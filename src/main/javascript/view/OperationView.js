@@ -154,7 +154,8 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         this.model.responseMessages.push({
           code: code,
           message: value.description,
-          responseModel: schema
+          responseModel: schema,
+          headers: value.headers
         });
       }
     }
@@ -169,6 +170,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         this.model.successCode = key;
         if (typeof value === 'object' && typeof value.createJSONSample === 'function') {
           this.model.successDescription = value.description;
+          this.model.headers = this.parseResponseHeaders(value.headers);
           signatureModel = {
             sampleJSON: JSON.stringify(value.createJSONSample(), void 0, 2),
             isParam: false,
@@ -239,6 +241,26 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       this.addStatusCode(statusCode);
     }
     return this;
+  },
+
+  parseResponseHeaders: function (data) {
+    var HEADERS_SEPARATOR = '; ';
+    var headers = _.clone(data);
+
+    _.forEach(headers, function (header) {
+      var other = [];
+      _.forEach(header, function (value, key) {
+        var properties = ['type', 'description'];
+        if (properties.indexOf(key.toLowerCase()) === -1) {
+          other.push(key + ': ' + value);
+        }
+      });
+
+      other.join(HEADERS_SEPARATOR);
+      header.other = other;
+    });
+
+    return headers;
   },
 
   addParameter: function(param, consumes) {
