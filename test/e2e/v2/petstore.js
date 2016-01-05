@@ -2,9 +2,10 @@
 
 var expect = require('chai').expect;
 var webdriver = require('selenium-webdriver');
-var driver = require('./driver');
-var servers = require('./servers');
+var driver = require('../driver');
+var servers = require('../servers');
 var until = webdriver.until;
+var helpers = require('../helpers');
 
 var elements = [
   'swagger-ui-container',
@@ -16,12 +17,14 @@ var elements = [
   'header'
 ];
 
+var specPath = helpers.parseSpecFilename(__filename);
+
 describe('swagger 2.0 spec tests', function () {
   this.timeout(40 * 1000);
 
   before(function (done) {
     this.timeout(50 * 1000);
-    servers.start('/v2/petstore.json', done);
+    servers.start(specPath, done);
   });
 
   afterEach(function(){
