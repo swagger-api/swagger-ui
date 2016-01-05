@@ -27,6 +27,7 @@ window.SwaggerTranslator.learn({
     "Expand Operations":"Операции подробно",
     "Raw":"В сыром виде",
     "can't parse JSON.  Raw result":"Не удается распарсить ответ:",
+    "Example Value":"Пример",
     "Model Schema":"Структура",
     "Model":"Описание",
     "apply":"применить",
