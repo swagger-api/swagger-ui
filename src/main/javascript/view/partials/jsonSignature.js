@@ -612,9 +612,9 @@ SwaggerUi.partials.jsonSignature = (function () {
     innerType = listType ? type[0] : type;
 
     if(models[innerType]) {
-      sampleJson = models[innerType].createJSONSample();
+      sampleJson = createJSONSample(models[innerType]);
     } else if (getInlineModel(innerType)){
-      sampleJson = getInlineModel(innerType).createJSONSample(); // may return null, if type isn't correct
+      sampleJson = createJSONSample(getInlineModel(innerType)); // may return null, if type isn't correct
     }
 
 
