@@ -4856,7 +4856,7 @@ Operation.prototype.asCurl = function (args1, args2) {
     results.push('-d \'' + body.replace(/\'/g, '\\u0027') + '\'');
   }
 
-  return 'curl ' + (results.join(' ')) + ' "' + trimAnchor(obj.url) + '"';
+  return 'curl ' + (results.join(' ')) + ' \'' + trimAnchor(obj.url) + '\'';
 };
 
 Operation.prototype.encodePathCollection = function (type, name, value) {
