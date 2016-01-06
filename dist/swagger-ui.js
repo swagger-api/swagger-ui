@@ -294,6 +294,13 @@ Handlebars.registerHelper('renderTextParam', function(param) {
     return new Handlebars.SafeString(result);
 });
 
+var trimAnchor = function trimAnchor(s) { // Trim trailing #anchorTag from paths
+    if (s.indexOf('#') > -1)
+         return s.substring(0, s.indexOf('#'));
+    else
+        return s;
+};
+
 this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "  <div class=\"info_title\">"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.title : stack1), depth0))
@@ -475,7 +482,7 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.deprecated : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "\">"
-    + escapeExpression(((helper = (helper = helpers.path || (depth0 != null ? depth0.path : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"path","hash":{},"data":data}) : helper)))
+   + trimAnchor(escapeExpression(((helper = (helper = helpers.path || (depth0 != null ? depth0.path : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"path","hash":{},"data":data}) : helper))))
     + "</a>\n          </span>\n        </h3>\n        <ul class='options'>\n          <li>\n          <a href='#!/"
     + escapeExpression(((helper = (helper = helpers.encodedParentId || (depth0 != null ? depth0.encodedParentId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"encodedParentId","hash":{},"data":data}) : helper)))
     + "/"
@@ -1932,7 +1939,7 @@ SuperagentHttpClient.prototype.execute = function (obj) {
     method = 'del';
   }
   var headers = obj.headers || {};
-  var r = request[method](obj.url);
+  var r = request[method](trimAnchor(obj.url));
   var name;
   for (name in headers) {
     r.set(name, headers[name]);
@@ -4849,7 +4856,7 @@ Operation.prototype.asCurl = function (args1, args2) {
     results.push('-d \'' + body.replace(/\'/g, '\\u0027') + '\'');
   }
 
-  return 'curl ' + (results.join(' ')) + ' \'' + obj.url + '\'';
+  return 'curl ' + (results.join(' ')) + ' "' + trimAnchor(obj.url) + '"';
 };
 
 Operation.prototype.encodePathCollection = function (type, name, value) {
@@ -25604,7 +25611,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       $('.response_throbber', $(this.el)).show();
       if (isFileUpload) {
         $('.request_url', $(this.el)).html('<pre></pre>');
-        $('.request_url pre', $(this.el)).text(this.invocationUrl);
+        $('.request_url pre', $(this.el)).text(trimAnchor(this.invocationUrl));
 
         opts.useJQuery = true;
         map.parameterContentType = 'multipart/form-data';
@@ -25914,7 +25921,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
     var response_body = pre;
     $('.request_url', $(this.el)).html('<pre></pre>');
-    $('.request_url pre', $(this.el)).text(url);
+    $('.request_url pre', $(this.el)).text(trimAnchor(url));
     $('.response_code', $(this.el)).html('<pre>' + response.status + '</pre>');
     $('.response_body', $(this.el)).html(response_body);
     $('.response_headers', $(this.el)).html('<pre>' + _.escape(JSON.stringify(response.headers, null, '  ')).replace(/\n/g, '<br>') + '</pre>');
