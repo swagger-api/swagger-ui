@@ -1,28 +1,113 @@
 'use strict';
 
-SwaggerUi.Views.partials.jsonSignature = (function () {
+/* jshint -W122 */
+SwaggerUi.partials.jsonSignature = (function () {
+  var resolveSchema = function (schema) {
+    if (_.isPlainObject(schema.schema)) {
+      schema = resolveSchema(schema.schema);
+    }
+
+    return schema;
+  };
+
+  var simpleRef = function (name) {
+    if (typeof name === 'undefined') {
+      return null;
+    }
+
+    if (name.indexOf('#/definitions/') === 0) {
+      return name.substring('#/definitions/'.length);
+    } else {
+      return name;
+    }
+  };
+
+  var getInlineModel = function(inlineStr) {
+    if(/^Inline Model \d+$/.test(inlineStr)) {
+      var id = parseInt(inlineStr.substr('Inline Model'.length).trim(),10); //
+      var model = this.inlineModels[id];
+      return model;
+    }
+    // I'm returning null here, should I rather throw an error?
+    return null;
+  };
+
+  var formatXml = function(xml) {
+    var contexp, fn, formatted, indent, l, lastType, len, lines, ln, pad, reg, transitions, wsexp;
+    reg = /(>)(<)(\/*)/g;
+    wsexp = /[ ]*(.*)[ ]+\n/g;
+    contexp = /(<.+>)(.+\n)/g;
+    xml = xml.replace(reg, '$1\n$2$3').replace(wsexp, '$1\n').replace(contexp, '$1\n$2');
+    pad = 0;
+    formatted = '';
+    lines = xml.split('\n');
+    indent = 0;
+    lastType = 'other';
+    transitions = {
+      'single->single': 0,
+      'single->closing': -1,
+      'single->opening': 0,
+      'single->other': 0,
+      'closing->single': 0,
+      'closing->closing': -1,
+      'closing->opening': 0,
+      'closing->other': 0,
+      'opening->single': 1,
+      'opening->closing': 0,
+      'opening->opening': 1,
+      'opening->other': 1,
+      'other->single': 0,
+      'other->closing': -1,
+      'other->opening': 0,
+      'other->other': 0
+    };
+    fn = function(ln) {
+      var fromTo, j, key, padding, type, types, value;
+      types = {
+        single: Boolean(ln.match(/<.+\/>/)),
+        closing: Boolean(ln.match(/<\/.+>/)),
+        opening: Boolean(ln.match(/<[^!?].*>/))
+      };
+      type = ((function() {
+        var results;
+        results = [];
+        for (key in types) {
+          value = types[key];
+          if (value) {
+            results.push(key);
+          }
+        }
+        return results;
+      })())[0];
+      type = type === void 0 ? 'other' : type;
+      fromTo = lastType + '->' + type;
+      lastType = type;
+      padding = '';
+      indent += transitions[fromTo];
+      padding = ((function() {
+        var m, ref1, results;
+        results = [];
+        for (j = m = 0, ref1 = indent; 0 <= ref1 ? m < ref1 : m > ref1; j = 0 <= ref1 ? ++m : --m) {
+          results.push('  ');
+        }
+        return results;
+      })()).join('');
+      if (fromTo === 'opening->closing') {
+        formatted = formatted.substr(0, formatted.length - 1) + ln + '\n';
+      } else {
+        formatted += padding + ln + '\n';
+      }
+    };
+    for (l = 0, len = lines.length; l < len; l++) {
+      ln = lines[l];
+      fn(ln);
+    }
+    return formatted;
+  };
+
   var getModelSignature = function (name, schema, models, modelPropertyMacro) {
     var strongOpen = '<span class="strong">';
     var strongClose = '</span>';
-    var resolveSchema = function (schema) {
-      if (_.isPlainObject(schema.schema)) {
-        schema = resolveSchema(schema.schema);
-      }
-
-      return schema;
-    };
-
-    var simpleRef = function (name) {
-      if (typeof name === 'undefined') {
-        return null;
-      }
-
-      if (name.indexOf('#/definitions/') === 0) {
-        return name.substring('#/definitions/'.length);
-      } else {
-        return name;
-      }
-    };
 
     var optionHtml = function (label, value) {
       return '<tr><td class="optionName">' + label + ':</td><td>' + value + '</td></tr>';
@@ -372,26 +457,6 @@ SwaggerUi.Views.partials.jsonSignature = (function () {
   };
 
   var schemaToJSON = function (schema, models, modelsToIgnore, modelPropertyMacro) {
-    var resolveSchema = function (schema) {
-      if (_.isPlainObject(schema.schema)) {
-        schema = resolveSchema(schema.schema);
-      }
-
-      return schema;
-    };
-
-    var simpleRef = function (name) {
-      if (typeof name === 'undefined') {
-        return null;
-      }
-
-      if (name.indexOf('#/definitions/') === 0) {
-        return name.substring('#/definitions/'.length);
-      } else {
-        return name;
-      }
-    };
-
     // Resolve the schema (Handle nested schemas)
     schema = resolveSchema(schema);
 
@@ -497,9 +562,92 @@ SwaggerUi.Views.partials.jsonSignature = (function () {
     return schemaToJSON(value.definition, value.models, modelsToIgnore, value.modelPropertyMacro);
   };
 
+  var getParameterModelSignature = function (type, definitions) {
+      var isPrimitive, listType;
+
+      if (type instanceof Array) {
+        listType = true;
+        type = type[0];
+      }
+
+      // Convert undefined to string of 'undefined'
+      if (typeof type === 'undefined') {
+        type = 'undefined';
+        isPrimitive = true;
+
+      } else if (definitions[type]){
+        // a model def exists?
+        type = definitions[type]; /* Model */
+        isPrimitive = false;
+
+      } else if (getInlineModel(type)) {
+        type = getInlineModel(type); /* Model */
+        isPrimitive = false;
+
+      } else {
+        // We default to primitive
+        isPrimitive = true;
+      }
+
+      if (isPrimitive) {
+        if (listType) {
+          return 'Array[' + type + ']';
+        } else {
+          return type.toString();
+        }
+      } else {
+        if (listType) {
+          return 'Array[' + getModelSignature(type.name, type.definition, type.models, type.modelPropertyMacro) + ']';
+        } else {
+          return getModelSignature(type.name, type.definition, type.models, type.modelPropertyMacro);
+        }
+      }
+  };
+
+  var createParameterJSONSample = function (type, models) {
+    var listType, sampleJson, innerType;
+    models = models || {};
+
+    listType = (type instanceof Array);
+    innerType = listType ? type[0] : type;
+
+    if(models[innerType]) {
+      sampleJson = models[innerType].createJSONSample();
+    } else if (getInlineModel(innerType)){
+      sampleJson = getInlineModel(innerType).createJSONSample(); // may return null, if type isn't correct
+    }
+
+
+    if (sampleJson) {
+      sampleJson = listType ? [sampleJson] : sampleJson;
+
+      if (typeof sampleJson === 'string') {
+        return sampleJson;
+      } else if (_.isObject(sampleJson)) {
+        var t = sampleJson;
+
+        if (sampleJson instanceof Array && sampleJson.length > 0) {
+          t = sampleJson[0];
+        }
+
+        if (t.nodeName && typeof t === 'Node') {
+          var xmlString = new XMLSerializer().serializeToString(t);
+
+          return formatXml(xmlString);
+        } else {
+          return JSON.stringify(sampleJson, null, 2);
+        }
+      } else {
+        return sampleJson;
+      }
+    }
+  };
+
   return {
       getModelSignature: getModelSignature,
-      createJSONSample: createJSONSample
+      createJSONSample: createJSONSample,
+      getParameterModelSignature: getParameterModelSignature,
+      createParameterJSONSample: createParameterJSONSample
   };
 
 })();
