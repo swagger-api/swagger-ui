@@ -1,7 +1,7 @@
 'use strict';
 
 /* jshint -W122 */
-SwaggerUi.partials.jsonSignature = (function () {
+SwaggerUi.partials.signature = (function () {
   var resolveSchema = function (schema) {
     if (_.isPlainObject(schema.schema)) {
       schema = resolveSchema(schema.schema);

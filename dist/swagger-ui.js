@@ -1,4 +1,4 @@
-/**
+§/**
  * swagger-ui - Swagger UI is a dependency-free collection of HTML, JavaScript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API
  * @version v2.1.4
  * @link http://swagger.io
@@ -25411,9 +25411,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
           this.model.successDescription = value.description;
           this.model.headers = this.parseResponseHeaders(value.headers);
           signatureModel = {
-            sampleJSON: JSON.stringify(SwaggerUi.partials.jsonSignature.createJSONSample(value), void 0, 2),
+            sampleJSON: JSON.stringify(SwaggerUi.partials.signature.createJSONSample(value), void 0, 2),
             isParam: false,
-            signature: SwaggerUi.partials.jsonSignature.getModelSignature(value.name, value.definition, value.models, value.modelPropertyMacro)
+            signature: SwaggerUi.partials.signature.getModelSignature(value.name, value.definition, value.models, value.modelPropertyMacro)
           };
         }
       }
@@ -26073,9 +26073,9 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
     $(this.el).html(template(this.model));
 
     var signatureModel = {
-      sampleJSON: SwaggerUi.partials.jsonSignature.createParameterJSONSample(modelType, modelDefinitions),
+      sampleJSON: SwaggerUi.partials.signature.createParameterJSONSample(modelType, modelDefinitions),
       isParam: true,
-      signature: SwaggerUi.partials.jsonSignature.getParameterModelSignature(modelType, modelDefinitions),
+      signature: SwaggerUi.partials.signature.getParameterModelSignature(modelType, modelDefinitions),
       defaultRendering: this.model.defaultRendering
     };
 
@@ -26168,7 +26168,7 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
 'use strict';
 
 /* jshint -W122 */
-SwaggerUi.partials.jsonSignature = (function () {
+SwaggerUi.partials.signature = (function () {
   var resolveSchema = function (schema) {
     if (_.isPlainObject(schema.schema)) {
       schema = resolveSchema(schema.schema);

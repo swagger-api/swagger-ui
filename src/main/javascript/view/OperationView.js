@@ -172,9 +172,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
           this.model.successDescription = value.description;
           this.model.headers = this.parseResponseHeaders(value.headers);
           signatureModel = {
-            sampleJSON: JSON.stringify(SwaggerUi.partials.jsonSignature.createJSONSample(value), void 0, 2),
+            sampleJSON: JSON.stringify(SwaggerUi.partials.signature.createJSONSample(value), void 0, 2),
             isParam: false,
-            signature: SwaggerUi.partials.jsonSignature.getModelSignature(value.name, value.definition, value.models, value.modelPropertyMacro)
+            signature: SwaggerUi.partials.signature.getModelSignature(value.name, value.definition, value.models, value.modelPropertyMacro)
           };
         }
       }
