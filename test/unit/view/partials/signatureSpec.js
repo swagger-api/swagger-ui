@@ -88,6 +88,31 @@ describe('SwaggerUi.partials.signature tests', function () {
 
                 expect(sut.createXMLSample(name, definition)).to.equal('<test:tagname>string</test:tagname>');
             });
+
+            it('returns tag <test:tagname >string</test:tagname> when passing type string and xml:{"namespace": "http://swagger.io/schema/sample", "prefix": "sample"}', function () {
+                var name = 'name';
+                var definition = {
+                    "type": "string",
+                    "xml": {
+                        "namespace": "http://swagger.io/schema/sample",
+                        "prefix": "sample"
+                    }
+                };
+
+                expect(sut.createXMLSample(name, definition)).to.equal('<sample:name xlmns:sample="http://swagger.io/schema/sample">string</sample:name>');
+            });
+
+            it('returns tag <test:tagname >string</test:tagname> when passing type string and xml:{"namespace": "http://swagger.io/schema/sample"}', function () {
+                var name = 'name';
+                var definition = {
+                    "type": "string",
+                    "xml": {
+                        "namespace": "http://swagger.io/schema/sample"
+                    }
+                };
+
+                expect(sut.createXMLSample(name, definition)).to.equal('<name xlmns="http://swagger.io/schema/sample">string</name>');
+            });
         });
     });
 });

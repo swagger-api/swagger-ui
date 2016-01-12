@@ -643,10 +643,20 @@ SwaggerUi.partials.signature = (function () {
     }
   };
 
-  var wrapTag = function (name, value) {
-    var str = [
-      '<', name, '>',
-        value,
+  var wrapTag = function (name, value, attrs) {
+    var str, attributes;
+
+    attrs = attrs || [];
+
+    attributes = attrs.map(function (attr) {
+      return ' ' + attr.name + '="' + attr.value + '"';
+    });
+
+    str = [
+      '<', name,
+      attributes.join(''),
+      '>',
+      value,
       '</', name, '>'
     ];
 
@@ -669,6 +679,28 @@ SwaggerUi.partials.signature = (function () {
     return result;
   };
 
+  var getNamespace = function (xml) {
+    var namespace = '';
+    var name = 'xlmns';
+
+    xml = xml || {};
+
+    if (xml.namespace) {
+      namespace = xml.namespace;
+    } else {
+      return namespace;
+    }
+
+    if (xml.prefix) {
+      name += ':' + xml.prefix;
+    }
+
+    return {
+      name: name,
+      value: namespace
+    };
+  };
+
   var createXMLSample = function (name, definition) {
     var primitivesMap = {
       'string': {
@@ -689,15 +721,22 @@ SwaggerUi.partials.signature = (function () {
     var type = definition.type;
     var format = definition.format;
     var xml = definition.xml || {};
+    var attributes = [];
+    var namespace = getNamespace(xml);
     var value;
 
     name = getName(name, xml);
 
+    if (namespace) {
+      attributes.push(namespace);
+    }
+
+
     // Here are going to be else statements for Array and Object types
     if (_.keys(primitivesMap).indexOf(type) !== -1) {
-      value = format ? primitivesMap[type][format] : primitivesMap[type].default;
+      value = primitivesMap[type][format] || primitivesMap[type].default;
 
-      return wrapTag(name, value);
+      return wrapTag(name, value, attributes);
     }
 
     return '';
