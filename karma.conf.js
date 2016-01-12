@@ -22,8 +22,8 @@ module.exports = function(config) {
       'test/unit/**/*.js'
     ],
 
-    reporters: [ 'dots' ],
+    singleRun: true,
 
-    browsers: [ 'PhantomJS', /* 'Chrome' */]
+    browsers: [ 'PhantomJS'/*,  'Chrome' */]
   });
 };

@@ -643,11 +643,50 @@ SwaggerUi.partials.signature = (function () {
     }
   };
 
+  var wrapTag = function (name, value) {
+    var str = [
+      '<', name, '>',
+        value,
+      '</', name, '>'
+    ];
+
+    return str.join('');
+  };
+
+  var createXMLSample = function (name, definition) {
+    var primitivesMap = {
+      'string': {
+        'date': new Date(1).toISOString().split('T')[0],
+        'date-time' : new Date(1).toISOString(),
+        'default': 'string'
+      },
+      'integer': 1,
+      'number': 1.1,
+      'boolean': true
+    };
+    var type = definition.type;
+    var format = definition.format;
+    var value;
+
+    if (_.keys(primitivesMap).indexOf(type) !== -1) {
+      if (type === 'string') {
+        value = format ? primitivesMap.string[format] : primitivesMap.string.default;
+      } else {
+        value = primitivesMap[type];
+      }
+
+      return wrapTag(name, value);
+    }
+
+    return '';
+  };
+
   return {
       getModelSignature: getModelSignature,
       createJSONSample: createJSONSample,
       getParameterModelSignature: getParameterModelSignature,
-      createParameterJSONSample: createParameterJSONSample
+      createParameterJSONSample: createParameterJSONSample,
+      createXMLSample: createXMLSample
   };
 
 })();
