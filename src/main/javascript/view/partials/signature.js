@@ -666,7 +666,16 @@ SwaggerUi.partials.signature = (function () {
     };
     var type = definition.type;
     var format = definition.format;
+    var xml = definition.xml || {};
     var value;
+
+    if (xml.name) {
+      name = xml.name;
+    }
+
+    if (xml.prefix) {
+      name = xml.prefix + ':' + name;
+    }
 
     if (_.keys(primitivesMap).indexOf(type) !== -1) {
       if (type === 'string') {
