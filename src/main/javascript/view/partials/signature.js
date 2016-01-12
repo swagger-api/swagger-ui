@@ -2,6 +2,20 @@
 
 /* jshint -W122 */
 SwaggerUi.partials.signature = (function () {
+  var sampleDate = new Date();
+
+  var getSampleDate = function (type) {
+    var date;
+
+    switch(type) {
+      case 'date-time': date = sampleDate.toISOString(); break;
+      case 'date': date = sampleDate.toISOString().split('T')[0]; break;
+      default: date = sampleDate.toISOString().split('T')[0];
+    }
+
+    return date;
+  };
+
   var resolveSchema = function (schema) {
     if (_.isPlainObject(schema.schema)) {
       schema = resolveSchema(schema.schema);
@@ -656,8 +670,8 @@ SwaggerUi.partials.signature = (function () {
   var createXMLSample = function (name, definition) {
     var primitivesMap = {
       'string': {
-        'date': new Date(1).toISOString().split('T')[0],
-        'date-time' : new Date(1).toISOString(),
+        'date': getSampleDate('date'),
+        'date-time' : getSampleDate('date-time'),
         'default': 'string'
       },
       'integer': 1,
@@ -695,7 +709,8 @@ SwaggerUi.partials.signature = (function () {
       createJSONSample: createJSONSample,
       getParameterModelSignature: getParameterModelSignature,
       createParameterJSONSample: createParameterJSONSample,
-      createXMLSample: createXMLSample
+      createXMLSample: createXMLSample,
+      getSampleDate: getSampleDate
   };
 
 })();

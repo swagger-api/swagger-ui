@@ -22,7 +22,7 @@ module.exports = function(config) {
       'test/unit/**/*.js'
     ],
 
-    singleRun: true,
+    //singleRun: true,
 
     browsers: [ 'PhantomJS'/*,  'Chrome' */]
   });
