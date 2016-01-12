@@ -4,8 +4,8 @@ describe('SwaggerUi.partials.signature tests', function () {
     var sut = SwaggerUi.partials.signature;
 
     describe('method createXMLSample', function () {
-        var date = sut.getSampleDate('date');
-        var dateTime = sut.getSampleDate('date-time');
+        var date = new Date(1).toISOString().split('T')[0];
+        var dateTime = new Date(1).toISOString();
 
         describe('simple types with no xml property', function () {
             it('returns tag <tagname>string</tagname> when passing type string', function () {

@@ -2,20 +2,6 @@
 
 /* jshint -W122 */
 SwaggerUi.partials.signature = (function () {
-  var sampleDate = new Date();
-
-  var getSampleDate = function (type) {
-    var date;
-
-    switch(type) {
-      case 'date-time': date = sampleDate.toISOString(); break;
-      case 'date': date = sampleDate.toISOString().split('T')[0]; break;
-      default: date = sampleDate.toISOString().split('T')[0];
-    }
-
-    return date;
-  };
-
   var resolveSchema = function (schema) {
     if (_.isPlainObject(schema.schema)) {
       schema = resolveSchema(schema.schema);
@@ -667,36 +653,49 @@ SwaggerUi.partials.signature = (function () {
     return str.join('');
   };
 
+  var getName = function (name, xml) {
+    var result = name || '';
+
+    xml = xml || {};
+
+    if (xml.name) {
+      result = xml.name;
+    }
+
+    if (xml.prefix) {
+      result = xml.prefix + ':' + result;
+    }
+
+    return result;
+  };
+
   var createXMLSample = function (name, definition) {
     var primitivesMap = {
       'string': {
-        'date': getSampleDate('date'),
-        'date-time' : getSampleDate('date-time'),
+        'date': new Date(1).toISOString().split('T')[0],
+        'date-time' : new Date(1).toISOString(),
         'default': 'string'
       },
-      'integer': 1,
-      'number': 1.1,
-      'boolean': true
+      'integer': {
+        'default': 1
+      },
+      'number': {
+        'default': 1.1
+      },
+      'boolean': {
+        'default': true
+      }
     };
     var type = definition.type;
     var format = definition.format;
     var xml = definition.xml || {};
     var value;
 
-    if (xml.name) {
-      name = xml.name;
-    }
+    name = getName(name, xml);
 
-    if (xml.prefix) {
-      name = xml.prefix + ':' + name;
-    }
-
+    // Here are going to be else statements for Array and Object types
     if (_.keys(primitivesMap).indexOf(type) !== -1) {
-      if (type === 'string') {
-        value = format ? primitivesMap.string[format] : primitivesMap.string.default;
-      } else {
-        value = primitivesMap[type];
-      }
+      value = format ? primitivesMap[type][format] : primitivesMap[type].default;
 
       return wrapTag(name, value);
     }
@@ -709,8 +708,7 @@ SwaggerUi.partials.signature = (function () {
       createJSONSample: createJSONSample,
       getParameterModelSignature: getParameterModelSignature,
       createParameterJSONSample: createParameterJSONSample,
-      createXMLSample: createXMLSample,
-      getSampleDate: getSampleDate
+      createXMLSample: createXMLSample
   };
 
 })();
