@@ -146,9 +146,7 @@ describe('SwaggerUi.partials.signature tests', function () {
 
                 expect(sut.createXMLSample(name, definition)).to.equal(expected);
             });
-        });
 
-        describe('array', function () {
             it('returns tag <animals><animal>string</animal><animal>string</animal></animals> when passing string items with name', function () {
                 var expected = '<animals><animal>string</animal><animal>string</animal></animals>';
                 var name = 'animals';
@@ -167,9 +165,7 @@ describe('SwaggerUi.partials.signature tests', function () {
 
                 expect(sut.createXMLSample(name, definition)).to.equal(expected);
             });
-        });
 
-        describe('array', function () {
             it('returns tag <aliens><animal>string</animal><animal>string</animal></aliens> when passing string items with name and {wrapped: true}', function () {
                 var expected = '<aliens><animal>string</animal><animal>string</animal></aliens>';
                 var name = 'animals';
@@ -179,6 +175,59 @@ describe('SwaggerUi.partials.signature tests', function () {
                         type: 'string',
                         xml: {
                             name: 'animal'
+                        }
+                    },
+                    xml: {
+                        wrapped: true,
+                        name: 'aliens'
+                    }
+                };
+
+                expect(sut.createXMLSample(name, definition)).to.equal(expected);
+            });
+
+            it('return correct nested wrapped array', function () {
+                var expected = '<aliens><cat>string</cat><cat>string</cat><cat>string</cat><cat>string</cat></aliens>';
+                var name = 'animals';
+                var definition = {
+                    type: 'array',
+                    items: {
+                        type: 'array',
+                        items: {
+                           type: 'string'
+                        },
+                        xml: {
+                            name: 'cat'
+                        }
+                    },
+                    xml: {
+                        wrapped: true,
+                        name: 'aliens'
+                    }
+                };
+
+                expect(sut.createXMLSample(name, definition)).to.equal(expected);
+            });
+
+            it('return correct nested wrapped array', function () {
+                var expected = '<aliens>' +
+                    '<cats><cat>string</cat><cat>string</cat></cats>' +
+                    '<cats><cat>string</cat><cat>string</cat></cats>' +
+                    '</aliens>';
+                var name = 'animals';
+                var definition = {
+                    type: 'array',
+                    items: {
+                        type: 'array',
+                        items: {
+                            type: 'string',
+                            xml: {
+                                name: 'cat'
+                            }
+                        },
+                        xml: {
+                            name: 'cats',
+                            wrapped: true
                         }
                     },
                     xml: {
