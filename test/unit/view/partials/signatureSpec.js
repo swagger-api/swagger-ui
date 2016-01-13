@@ -239,5 +239,129 @@ describe('SwaggerUi.partials.signature tests', function () {
                 expect(sut.createXMLSample(name, definition)).to.equal(expected);
             });
         });
+
+        describe('object', function () {
+            it('returns object with 2 properties', function () {
+                var expected = '<aliens>' +
+                    '<alien>string</alien>' +
+                    '<cat>1</cat>' +
+                    '</aliens>';
+                var name = 'animals';
+                var definition = {
+                    type: 'object',
+                    properties: {
+                        alien: {
+                            type: 'string'
+                        },
+                        cat: {
+                            type: 'integer'
+                        }
+                    },
+                    xml: {
+                        name: 'aliens'
+                    }
+                };
+
+                expect(sut.createXMLSample(name, definition)).to.equal(expected);
+            });
+
+            it('returns object with integer property and array property', function () {
+                var expected = '<animals>' +
+                    '<aliens>string</aliens>' +
+                    '<aliens>string</aliens>' +
+                    '<cat>1</cat>' +
+                    '</animals>';
+                var name = 'animals';
+                var definition = {
+                    type: 'object',
+                    properties: {
+                        aliens: {
+                            type: 'array',
+                            items: {
+                                type: 'string'
+                            }
+                        },
+                        cat: {
+                            type: 'integer'
+                        }
+                    },
+                    xml: {
+                        name: 'animals'
+                    }
+                };
+
+                expect(sut.createXMLSample(name, definition)).to.equal(expected);
+            });
+
+            it('returns object with integer property and array property', function () {
+                var expected = '<animals>' +
+                    '<aliens><alien>string</alien><alien>string</alien></aliens>' +
+                    '<cat>1</cat>' +
+                    '</animals>';
+                var name = 'animals';
+                var definition = {
+                    type: 'object',
+                    properties: {
+                        aliens: {
+                            type: 'array',
+                            items: {
+                                type: 'string',
+                                xml: {
+                                    name: 'alien'
+                                }
+                            },
+                            xml: {
+                                wrapped: true
+                            }
+                        },
+                        cat: {
+                            type: 'integer'
+                        }
+                    },
+                    xml: {
+                        name: 'animals'
+                    }
+                };
+
+                expect(sut.createXMLSample(name, definition)).to.equal(expected);
+            });
+
+            it('returns nested objects', function () {
+                var expected = '<animals>' +
+                        '<aliens>' +
+                            '<alien>string</alien>' +
+                        '</aliens>' +
+                        '<cat>string</cat>' +
+                    '</animals>';
+                var name = 'animals';
+                var definition = {
+                    type: 'object',
+                    properties: {
+                        aliens: {
+                            type: 'object',
+                            properties: {
+                                alien: {
+                                    type: 'string',
+                                    xml: {
+                                        name: 'alien'
+                                    }
+                                }
+                            },
+                            xml: {
+                                wrapped: true
+                            }
+                        },
+                        cat: {
+                            type: 'string'
+                        }
+                    },
+                    xml: {
+                        name: 'animals'
+                    }
+                };
+
+                expect(sut.createXMLSample(name, definition)).to.equal(expected);
+            });
+        });
     });
 });

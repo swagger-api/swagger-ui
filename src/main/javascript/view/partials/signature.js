@@ -701,7 +701,7 @@ SwaggerUi.partials.signature = (function () {
     };
   };
 
-  var createArray = function (name, items, xml) {
+  var createArrayXML = function (name, items, xml) {
     var value;
 
     if (!items) { return ''; }
@@ -717,7 +717,21 @@ SwaggerUi.partials.signature = (function () {
     return value;
   };
 
-  var createXMLSample = function (name, definition) {
+  function createObjectXML (name, properties, xml) {
+    var props;
+
+    if (!properties) { return ''; }
+
+    properties = properties || {};
+
+    props = _.map(properties, function (prop, key) {
+      return createXMLSample(key, prop);
+    }).join('');
+
+    return wrapTag(name, props);
+  }
+
+  function createXMLSample (name, definition) {
     var primitivesMap = {
       'string': {
         'date': new Date(1).toISOString().split('T')[0],
@@ -734,7 +748,7 @@ SwaggerUi.partials.signature = (function () {
         'default': true
       }
     };
-    var type = definition.type;
+    var type = definition.type || 'object';
     var format = definition.format;
     var xml = definition.xml || {};
     var attributes = [];
@@ -750,15 +764,16 @@ SwaggerUi.partials.signature = (function () {
 
     // Here are going to be else statements for Array and Object types
     if (_.keys(primitivesMap).indexOf(type) !== -1) {
-      value = primitivesMap[type][format] || primitivesMap[type].default;
-
+      value = definition.example || primitivesMap[type][format] || primitivesMap[type].default;
       return wrapTag(name, value, attributes);
     } else if (type === 'array') {
-      return createArray(name, definition.items, xml);
+      return createArrayXML(name, definition.items, xml);
+    } else if (type === 'object') {
+      return createObjectXML(name, definition.properties, xml);
     }
 
     return '';
-  };
+  }
 
   return {
       getModelSignature: getModelSignature,
