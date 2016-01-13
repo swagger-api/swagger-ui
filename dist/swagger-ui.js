@@ -21,12 +21,12 @@ this["Handlebars"]["templates"]["content_type"] = Handlebars.template({"1":funct
   if (stack1 != null) { buffer += stack1; }
   return buffer;
 },"2":function(depth0,helpers,partials,data) {
-  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "	<option value=\""
+  var lambda=this.lambda, escapeExpression=this.escapeExpression;
+  return "	<option value=\""
     + escapeExpression(lambda(depth0, depth0))
-    + "\">";
-  stack1 = lambda(depth0, depth0);
-  if (stack1 != null) { buffer += stack1; }
-  return buffer + "</option>\n";
+    + "\">"
+    + escapeExpression(lambda(depth0, depth0))
+    + "</option>\n";
 },"4":function(depth0,helpers,partials,data) {
   return "  <option value=\"application/json\">application/json</option>\n";
   },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
@@ -801,12 +801,12 @@ this["Handlebars"]["templates"]["parameter_content_type"] = Handlebars.template(
   if (stack1 != null) { buffer += stack1; }
   return buffer;
 },"2":function(depth0,helpers,partials,data) {
-  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "  <option value=\""
+  var lambda=this.lambda, escapeExpression=this.escapeExpression;
+  return "  <option value=\""
     + escapeExpression(lambda(depth0, depth0))
-    + "\">";
-  stack1 = lambda(depth0, depth0);
-  if (stack1 != null) { buffer += stack1; }
-  return buffer + "</option>\n";
+    + "\">"
+    + escapeExpression(lambda(depth0, depth0))
+    + "</option>\n";
 },"4":function(depth0,helpers,partials,data) {
   return "  <option value=\"application/json\">application/json</option>\n";
   },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
@@ -862,12 +862,12 @@ this["Handlebars"]["templates"]["response_content_type"] = Handlebars.template({
   if (stack1 != null) { buffer += stack1; }
   return buffer;
 },"2":function(depth0,helpers,partials,data) {
-  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "  <option value=\""
+  var lambda=this.lambda, escapeExpression=this.escapeExpression;
+  return "  <option value=\""
     + escapeExpression(lambda(depth0, depth0))
-    + "\">";
-  stack1 = lambda(depth0, depth0);
-  if (stack1 != null) { buffer += stack1; }
-  return buffer + "</option>\n";
+    + "\">"
+    + escapeExpression(lambda(depth0, depth0))
+    + "</option>\n";
 },"4":function(depth0,helpers,partials,data) {
   return "  <option value=\"application/json\">application/json</option>\n";
   },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {

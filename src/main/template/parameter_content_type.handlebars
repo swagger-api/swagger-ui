@@ -2,7 +2,7 @@
 <select name="parameterContentType" id="{{parameterContentTypeId}}">
 {{#if consumes}}
   {{#each consumes}}
-  <option value="{{this}}">{{{this}}}</option>
+  <option value="{{this}}">{{this}}</option>
   {{/each}}
 {{else}}
   <option value="application/json">application/json</option>
