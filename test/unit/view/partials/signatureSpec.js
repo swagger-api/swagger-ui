@@ -114,5 +114,81 @@ describe('SwaggerUi.partials.signature tests', function () {
                 expect(sut.createXMLSample(name, definition)).to.equal('<name xlmns="http://swagger.io/schema/sample">string</name>');
             });
         });
+
+        describe('array', function () {
+            it('returns tag <tagname>string</tagname><tagname>string</tagname> when passing string items', function () {
+                var expected = '<tagname>string</tagname><tagname>string</tagname>';
+                var name = 'tagname';
+                var definition = {
+                    type: 'array',
+                    items: {
+                        type: 'string'
+                    }
+                };
+
+                expect(sut.createXMLSample(name, definition)).to.equal(expected);
+            });
+        });
+
+        describe('array', function () {
+            it('returns tag <animal>string</animal><animal>string</animal> when passing string items with name', function () {
+                var expected = '<animal>string</animal><animal>string</animal>';
+                var name = 'animals';
+                var definition = {
+                    type: 'array',
+                    items: {
+                        type: 'string',
+                        xml: {
+                            name: 'animal'
+                        }
+                    }
+                };
+
+                expect(sut.createXMLSample(name, definition)).to.equal(expected);
+            });
+        });
+
+        describe('array', function () {
+            it('returns tag <animals><animal>string</animal><animal>string</animal></animals> when passing string items with name', function () {
+                var expected = '<animals><animal>string</animal><animal>string</animal></animals>';
+                var name = 'animals';
+                var definition = {
+                    type: 'array',
+                    items: {
+                        type: 'string',
+                        xml: {
+                            name: 'animal'
+                        }
+                    },
+                    xml: {
+                        wrapped: true
+                    }
+                };
+
+                expect(sut.createXMLSample(name, definition)).to.equal(expected);
+            });
+        });
+
+        describe('array', function () {
+            it('returns tag <aliens><animal>string</animal><animal>string</animal></aliens> when passing string items with name and {wrapped: true}', function () {
+                var expected = '<aliens><animal>string</animal><animal>string</animal></aliens>';
+                var name = 'animals';
+                var definition = {
+                    type: 'array',
+                    items: {
+                        type: 'string',
+                        xml: {
+                            name: 'animal'
+                        }
+                    },
+                    xml: {
+                        wrapped: true,
+                        name: 'aliens'
+                    }
+                };
+
+                expect(sut.createXMLSample(name, definition)).to.equal(expected);
+            });
+        });
     });
 });

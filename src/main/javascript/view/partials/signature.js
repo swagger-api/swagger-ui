@@ -650,11 +650,11 @@ SwaggerUi.partials.signature = (function () {
 
     attributes = attrs.map(function (attr) {
       return ' ' + attr.name + '="' + attr.value + '"';
-    });
+    }).join('');
 
     str = [
       '<', name,
-      attributes.join(''),
+      attributes,
       '>',
       value,
       '</', name, '>'
@@ -701,6 +701,22 @@ SwaggerUi.partials.signature = (function () {
     };
   };
 
+  var createArray = function (name, items, xml) {
+    var value;
+
+    if (!items) { return ''; }
+
+    value = createXMLSample(name, items) + createXMLSample(name, items);
+
+    xml = xml || {};
+
+    if (xml.wrapped) {
+      value = wrapTag(name, value);
+    }
+
+    return value;
+  };
+
   var createXMLSample = function (name, definition) {
     var primitivesMap = {
       'string': {
@@ -737,6 +753,8 @@ SwaggerUi.partials.signature = (function () {
       value = primitivesMap[type][format] || primitivesMap[type].default;
 
       return wrapTag(name, value, attributes);
+    } else if (type === 'array') {
+      return createArray(name, definition.items, xml);
     }
 
     return '';
