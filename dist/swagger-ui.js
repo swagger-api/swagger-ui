@@ -25241,10 +25241,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     this.parentId = this.model.parentId;
     this.nickname = this.model.nickname;
     this.model.encodedParentId = encodeURIComponent(this.parentId);
-    
+
     if (opts.swaggerOptions) {
       this.model.defaultRendering = opts.swaggerOptions.defaultModelRendering;
-      
+
       if (opts.swaggerOptions.showRequestHeaders) {
         this.model.showRequestHeaders = true;
       }
@@ -25497,7 +25497,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       // This is required for JsonEditor to display the root properly
       if(!param.schema.type){
         param.schema.type = 'object';
-      } 
+      }
       // This is the title that will be used by JsonEditor for the root
       // Since we already display the parameter's name in the Parameter column
       // We set this to space, we can't set it to null or space otherwise JsonEditor
@@ -25505,7 +25505,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       if(!param.schema.title){
         param.schema.title = ' ';
       }
-    } 
+    }
 
     var paramView = new SwaggerUi.Views.ParameterView({
       model: param,
@@ -25926,7 +25926,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     // adds curl output
     var curlCommand = this.model.asCurl(this.map, {responseContentType: contentType});
     curlCommand = curlCommand.replace('!', '&#33;');
-    $( 'div.curl', $(this.el)).html('<pre>' + curlCommand + '</pre>');
+    $( 'div.curl', $(this.el)).html('<pre>' + _.escape(curlCommand) + '</pre>');
 
     // only highlight the response if response is less than threshold, default state is highlight response
     var opts = this.options.swaggerOptions;
