@@ -2,6 +2,7 @@
 
 /* jshint -W122 */
 SwaggerUi.partials.signature = (function () {
+  // copy-pasted from swagger-js
   var resolveSchema = function (schema) {
     if (_.isPlainObject(schema.schema)) {
       schema = resolveSchema(schema.schema);
@@ -10,6 +11,7 @@ SwaggerUi.partials.signature = (function () {
     return schema;
   };
 
+  // copy-pasted from swagger-js
   var simpleRef = function (name) {
     if (typeof name === 'undefined') {
       return null;
@@ -22,6 +24,7 @@ SwaggerUi.partials.signature = (function () {
     }
   };
 
+  // copy-pasted from swagger-js
   var getInlineModel = function(inlineStr) {
     if(/^Inline Model \d+$/.test(inlineStr)) {
       var id = parseInt(inlineStr.substr('Inline Model'.length).trim(),10); //
@@ -32,6 +35,7 @@ SwaggerUi.partials.signature = (function () {
     return null;
   };
 
+  // copy-pasted from swagger-js
   var formatXml = function(xml) {
     var contexp, fn, formatted, indent, l, lastType, len, lines, ln, pad, reg, transitions, wsexp;
     reg = /(>)(<)(\/*)/g;
@@ -105,6 +109,7 @@ SwaggerUi.partials.signature = (function () {
     return formatted;
   };
 
+  // copy-pasted from swagger-js
   var getModelSignature = function (name, schema, models, modelPropertyMacro) {
     var strongOpen = '<span class="strong">';
     var strongClose = '</span>';
@@ -456,6 +461,7 @@ SwaggerUi.partials.signature = (function () {
 
   };
 
+  // copy-pasted from swagger-js
   var schemaToJSON = function (schema, models, modelsToIgnore, modelPropertyMacro) {
     // Resolve the schema (Handle nested schemas)
     schema = resolveSchema(schema);
@@ -543,6 +549,7 @@ SwaggerUi.partials.signature = (function () {
     return output;
   };
 
+  // copy-pasted from swagger-js
   var createJSONSample = function (value, modelsToIgnore) {
     modelsToIgnore = modelsToIgnore || {};
 
@@ -562,6 +569,7 @@ SwaggerUi.partials.signature = (function () {
     return schemaToJSON(value.definition, value.models, modelsToIgnore, value.modelPropertyMacro);
   };
 
+  // copy-pasted from swagger-js
   var getParameterModelSignature = function (type, definitions) {
       var isPrimitive, listType;
 
@@ -604,6 +612,7 @@ SwaggerUi.partials.signature = (function () {
       }
   };
 
+  // copy-pasted from swagger-js
   var createParameterJSONSample = function (type, models) {
     var listType, sampleJson, innerType;
     models = models || {};
