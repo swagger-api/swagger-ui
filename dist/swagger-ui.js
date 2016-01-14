@@ -26868,12 +26868,13 @@ SwaggerUi.partials.signature = (function () {
     };
   };
 
-  var createArrayXML = function (name, items, xml) {
+  var createArrayXML = function (name, items, xml, models) {
     var value;
 
     if (!items) { return ''; }
 
-    value = createXMLSample(name, items) + createXMLSample(name, items);
+    value = createXMLSample(name, items, models);
+    value += value;
 
     xml = xml || {};
 
@@ -26884,7 +26885,19 @@ SwaggerUi.partials.signature = (function () {
     return value;
   };
 
-  function createObjectXML (name, properties, xml) {
+  var getModelXML = function (modelType, models) {
+    var type = simpleRef(modelType);
+    var model = models[type] || {};
+    var name = model.name || modelType;
+
+    if (!model.definition) {
+      return '';
+    }
+
+    return createXMLSample(name, model.definition, models);
+  };
+
+  function createObjectXML (name, properties, xml, models) {
     var props;
 
     if (!properties) { return ''; }
@@ -26892,13 +26905,13 @@ SwaggerUi.partials.signature = (function () {
     properties = properties || {};
 
     props = _.map(properties, function (prop, key) {
-      return createXMLSample(key, prop);
+      return createXMLSample(key, prop, models);
     }).join('');
 
     return wrapTag(name, props);
   }
 
-  function createXMLSample (name, definition) {
+  function createXMLSample (name, definition, models) {
     var primitivesMap = {
       'string': {
         'date': new Date(1).toISOString().split('T')[0],
@@ -26920,7 +26933,12 @@ SwaggerUi.partials.signature = (function () {
     var xml = definition.xml || {};
     var attributes = [];
     var namespace = getNamespace(xml);
+    var $ref = definition.$ref;
     var value;
+
+    if (_.isString($ref)) {
+      return getModelXML($ref, models);
+    }
 
     name = getName(name, xml);
 
@@ -26931,12 +26949,16 @@ SwaggerUi.partials.signature = (function () {
 
     // Here are going to be else statements for Array and Object types
     if (_.keys(primitivesMap).indexOf(type) !== -1) {
-      value = definition.example || primitivesMap[type][format] || primitivesMap[type].default;
+      if (_.isArray(definition.enum)){
+        value = definition.enum[0];
+      } else {
+        value = definition.example || primitivesMap[type][format] || primitivesMap[type].default;
+      }
       return wrapTag(name, value, attributes);
     } else if (type === 'array') {
-      return createArrayXML(name, definition.items, xml);
+      return createArrayXML(name, definition.items, xml, models);
     } else if (type === 'object') {
-      return createObjectXML(name, definition.properties, xml);
+      return createObjectXML(name, definition.properties, xml, models);
     }
 
     return '';

@@ -2,6 +2,67 @@
 
 describe('SwaggerUi.partials.signature tests', function () {
     var sut = SwaggerUi.partials.signature;
+    var models = {
+         'Pet': {
+             'definition': {
+                 'type': 'object',
+                 'required': [ 'name', 'photoUrls' ],
+                 'properties': {
+                     'id': {
+                         'type': 'integer',
+                         'format': 'int64 '
+                     },
+                     'category': { '$ref': '#/definitions/Category' },
+                     'name': {
+                         'type': 'string',
+                         'example': 'doggie'
+                     },
+                     'photoUrls': {
+                         'type': 'array',
+                         'xml': {
+                             'name': 'photoUrl',
+                             'wrapped':true
+                         },
+                         'items': { 'type': 'string' }
+                     },
+                     'tags': {
+                         'type': 'array',
+                         'xml': { 'name': 'tag', 'wrapped':true},
+                         'items': { '$ref': '#/definitions/Tag' }
+                     },
+                     'status': {
+                         'type': 'string',
+                         'description': 'pet status in the store',
+                         'enum':[ 'available', 'pending', 'sold' ]
+                     }
+                 },
+                 'xml': { 'name': 'Pet' }
+            },
+             'name': 'Pet'
+         },
+         'Category': {
+             'definition': {
+                 'type': 'object',
+                 'properties': {
+                     'id': { 'type': 'integer', 'format': 'int64' },
+                     'name': { 'type': 'string' }
+                 },
+                 'xml': { 'name': 'Category' }
+             },
+             'name': 'Category'
+         },
+         'Tag': {
+             'definition': {
+                 'type': 'object',
+                 'properties': {
+                     'id': { 'type': 'integer', 'format': 'int64' },
+                     'name': { 'type': 'string' }
+                 },
+                 'xml': { 'name': 'Tag' }
+             },
+             'name': 'Tag'
+        }
+    };
 
     describe('method createXMLSample', function () {
         var date = new Date(1).toISOString().split('T')[0];
@@ -128,9 +189,7 @@ describe('SwaggerUi.partials.signature tests', function () {
 
                 expect(sut.createXMLSample(name, definition)).to.equal(expected);
             });
-        });
 
-        describe('array', function () {
             it('returns tag <animal>string</animal><animal>string</animal> when passing string items with name', function () {
                 var expected = '<animal>string</animal><animal>string</animal>';
                 var name = 'animals';
@@ -346,9 +405,6 @@ describe('SwaggerUi.partials.signature tests', function () {
                                         name: 'alien'
                                     }
                                 }
-                            },
-                            xml: {
-                                wrapped: true
                             }
                         },
                         cat: {
@@ -361,6 +417,53 @@ describe('SwaggerUi.partials.signature tests', function () {
                 };
 
                 expect(sut.createXMLSample(name, definition)).to.equal(expected);
+            });
+        });
+
+        describe('schema is in definitions', function () {
+            
+            it('returns array of Tags wrapped into Tags', function () {
+                var expected = '<Tags>' +
+                    '<Tag><id>1</id><name>string</name></Tag>' +
+                    '<Tag><id>1</id><name>string</name></Tag>' +
+                    '</Tags>';
+                var schema = {
+                    type: 'array',
+                    items: {
+                        $ref: '#/definitions/Tag'
+                    },
+                    xml: {
+                        name: 'Tags',
+                        wrapped: true
+                    }
+                };
+
+                expect(sut.createXMLSample('', schema, models)).to.equal(expected);
+            });
+
+            it('returns Object with properties Pet and name', function () {
+                var expected = '<Pet>' +
+                    '<id>1</id>' +
+                    '<Category>' +
+                        '<id>1</id>' +
+                        '<name>string</name>' +
+                    '</Category>' +
+                    '<name>doggie</name>' +
+                    '<photoUrl>' +
+                        '<photoUrl>string</photoUrl>' +
+                        '<photoUrl>string</photoUrl>' +
+                    '</photoUrl>' +
+                    '<tag>' +
+                        '<Tag><id>1</id><name>string</name></Tag>' +
+                        '<Tag><id>1</id><name>string</name></Tag>' +
+                    '</tag>' +
+                    '<status>available</status>' +
+                    '</Pet>';
+                var schema = {
+                    $ref: '#/definitions/Pet'
+                };
+
+                expect(sut.createXMLSample('', schema, models)).to.equal(expected);
             });
         });
     });
