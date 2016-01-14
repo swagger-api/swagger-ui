@@ -701,8 +701,10 @@ SwaggerUi.partials.signature = (function () {
     };
   };
 
-  var createArrayXML = function (name, items, xml, models) {
+  var createArrayXML = function (name, definition, models) {
     var value;
+    var items = definition.items;
+    var xml = definition.xml || {};
 
     if (!items) { return ''; }
 
@@ -768,16 +770,19 @@ SwaggerUi.partials.signature = (function () {
     return wrapTag(name, value, attributes);
   };
 
-  function createObjectXML (name, properties, xml, models) {
+  function createObjectXML (name, definition, models) {
     var props;
     var attrs = [];
+    var properties = definition.properties;
+    var additionalProperties = definition.additionalProperties;
+    var xml = definition.xml;
     var namespace = getNamespace(xml);
 
     if (namespace) {
       attrs.push(namespace);
     }
 
-    if (!properties) { return ''; }
+    if (!properties && !additionalProperties) { return ''; }
 
     properties = properties || {};
 
@@ -785,7 +790,11 @@ SwaggerUi.partials.signature = (function () {
       return createXMLSample(key, prop, models);
     }).join('');
 
-    return wrapTag(name, props);
+    if (additionalProperties) {
+      props += '<!-- additional elements allowed -->';
+    }
+
+    return wrapTag(name, props, attrs);
   }
 
   function createXMLSample (name, definition, models) {
@@ -809,9 +818,9 @@ SwaggerUi.partials.signature = (function () {
     name = getName(name, xml);
 
     if (type === 'array') {
-      return createArrayXML(name, definition.items, xml, models);
+      return createArrayXML(name, definition, models);
     } else if (type === 'object') {
-      return createObjectXML(name, definition.properties, xml, models);
+      return createObjectXML(name, definition, models);
     } else {
       return createPrimitiveXML(name, definition);
     }
