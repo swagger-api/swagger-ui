@@ -30,12 +30,55 @@
   <!-- <script src='lang/en.js' type='text/javascript'></script> -->
 
   <script type="text/javascript">
+
+    // Default API key for Swagger UI application
+    var _apiKey = "36fda24fe5588fa4285ac6c6c2fdfbdb6b6bc9834699774c9bf777f706d05a88";
+
+    // Session inherited from query parameter, iframe, or opener
+    function getSessionToken() {
+      var phpSessionId = getQueryParameter('session_id');
+      if (phpSessionId)
+        return phpSessionId;
+
+      phpSessionId = parent.document.cookie.match(/PHPSESSID=[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\;/i);
+
+      if ((phpSessionId == null) && (window.opener))
+        phpSessionId = window.opener.document.cookie.match(/PHPSESSID=[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\;/i);
+
+      if (phpSessionId == null)
+        return '';
+
+      if (typeof(phpSessionId) == 'undefined')
+        return '';
+
+      if (phpSessionId.length <= 0)
+        return '';
+
+      phpSessionId = phpSessionId[0];
+
+      var end = phpSessionId.lastIndexOf(';');
+      if (end == -1) end = phpSessionId.length;
+
+      return phpSessionId.substring(10, end);
+    }
+
+    /**
+     * Simplified access to the Query string on the current page's URL
+     * @param key
+     * @returns {Boolean}
+     */
+    function getQueryParameter(key) {
+      key = key.replace(/[*+?^$.\[\]{}()|\\\/]/g, "\\$&");
+      var match = location.search.match(new RegExp("[?&]" + key + "=([^&]+)(&|$)"));
+      return match && decodeURIComponent(match[1].replace(/\+/g, " "));
+    }
+
     $(function () {
       var url = window.location.search.match(/url=([^&]+)/);
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-        url = "http://petstore.swagger.io/v2/swagger.json";
+        url = location.protocol + "//" + location.host + "/api/v2/api_docs";
       }
 
       // Pre load translate...
@@ -45,7 +88,7 @@
       window.swaggerUi = new SwaggerUi({
         url: url,
         dom_id: "swagger-ui-container",
-        supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
+        supportedSubmitMethods: ['get', 'post', 'put', 'patch', 'delete'],
         onComplete: function(swaggerApi, swaggerUi){
           if(typeof initOAuth == "function") {
             initOAuth({
@@ -67,6 +110,8 @@
           });
 
           addApiKeyAuthorization();
+          addSessionTokenAuthorization();
+          addHttpAuthorization();
         },
         onFailure: function(data) {
           log("Unable to Load SwaggerUI");
@@ -75,25 +120,54 @@
         jsonEditor: false,
         apisSorter: "alpha",
         defaultModelRendering: 'schema',
+        debug: false,
         showRequestHeaders: false
       });
 
       function addApiKeyAuthorization(){
         var key = encodeURIComponent($('#input_apiKey')[0].value);
+        if(!key || key.trim() == "") {
+          key = _apiKey; // default
+        }
+//        var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("api_key", key, "query");
+        var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("X-DreamFactory-Api-Key", key, "header");
+        window.swaggerUi.api.clientAuthorizations.add("api_key", apiKeyAuth);
+        log("added api key " + key);
+      }
+
+      function addSessionTokenAuthorization(){
+        var key = encodeURIComponent($('#input_sessionToken')[0].value);
+        if(!key || key.trim() == "") {
+          key = getSessionToken();
+        }
+
         if(key && key.trim() != "") {
-            var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("api_key", key, "query");
-            window.swaggerUi.api.clientAuthorizations.add("api_key", apiKeyAuth);
-            log("added key " + key);
+//            var tokenAuth = new SwaggerClient.ApiKeyAuthorization("session_token", key, "query");
+            var tokenAuth = new SwaggerClient.ApiKeyAuthorization("X-DreamFactory-Session-Token", key, "header");
+            window.swaggerUi.api.clientAuthorizations.add("session_token", tokenAuth);
+            log("added session token " + key);
+        } else {
+          window.swaggerUi.api.clientAuthorizations.remove("session_token");
+        }
+      }
+
+      function addHttpAuthorization(){
+        var username = $('#input_authUsername')[0].value;
+        var password = $('#input_authPassword')[0].value;
+        if(username && password){
+          var key = "Basic "+btoa(username+':'+password);
+          var httpAuth = new SwaggerClient.ApiKeyAuthorization("Authorization", key, "header");
+          window.swaggerUi.api.clientAuthorizations.add("http_auth", httpAuth);
+          log("added http auth " + key);
+        } else {
+          window.swaggerUi.api.clientAuthorizations.remove("http_auth");
         }
       }
 
       $('#input_apiKey').change(addApiKeyAuthorization);
-
-      // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
-      /*
-        var apiKey = "myApiKeyXXXX123456789";
-        $('#input_apiKey').val(apiKey);
-      */
+      $('#input_sessionToken').change(addSessionTokenAuthorization);
+      $('#input_authUsername').change(addHttpAuthorization);
+      $('#input_authPassword').change(addHttpAuthorization);
 
       window.swaggerUi.load();
 
@@ -109,10 +183,13 @@
 <body class="swagger-section">
 <div id='header'>
   <div class="swagger-ui-wrap">
-    <a id="logo" href="http://swagger.io">swagger</a>
+    <a id="logo" href="http://www.dreamfactory.com">DreamFactory</a>
     <form id='api_selector'>
-      <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
+      <div class='input'><input placeholder="http://example.com/api/v2/api_docs" id="input_baseUrl" name="baseUrl" type="text"/></div>
       <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
+      <div class='input'><input placeholder="username" id="input_authUsername" name="authUsername" type="text"/></div>
+      <div class='input'><input placeholder="password" id="input_authPassword" name="authPassword" type="text"/></div>
+      <div class='input'><input placeholder="session_token" id="input_sessionToken" name="sessionToken" type="text"/></div>
       <div class='input'><a id="explore" href="#" data-sw-translate>Explore</a></div>
     </form>
   </div>
