@@ -40,6 +40,8 @@ Swagger UI works in all evergreen desktop browsers (Chrome, Safari, Firefox). In
 ### Build
 You can rebuild swagger-ui on your own to tweak it or just so you can say you did.  To do so, follow these steps:
 
+### Windows Users: Please install [Python](https://www.python.org/downloads/windows/) before follow below guidelines for node-gyp rebuild to run.
+
 1. `npm install`
 2. `gulp`
 3. You should see the distribution under the dist folder. Open [`./dist/index.html`](./dist/index.html) to launch Swagger UI in a browser
