@@ -2,6 +2,9 @@
 <ul class="signature-nav">
   <li><a class="description-link" href="#" data-sw-translate>Model</a></li>
   <li><a class="snippet-link" href="#" data-sw-translate>Example Value</a></li>
+  {{#if sampleXML}}
+      <li><a class="snippet-xml-link" href="#" data-sw-translate>XML Example</a></li>
+  {{/if}}
 </ul>
 <div>
 
@@ -10,8 +13,14 @@
     {{{signature}}}
   </div>
 
-  <div class="snippet">
+  <div class="snippet snippet_json">
     <pre><code>{{sampleJSON}}</code></pre>
-    <small class="notice"></small>
+    {{#if isParam}}<small class="notice">Click to set as parameter value</small>{{/if}}
   </div>
+  {{#if sampleXML}}
+    <div class="snippet snippet_xml">
+      <pre><code>{{sampleXML}}</code></pre>
+      {{#if isParam}}<small class="notice">Click to set as parameter value</small>{{/if}}
+    </div>
+  {{/if}}
 </div>

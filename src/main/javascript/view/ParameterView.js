@@ -15,10 +15,12 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
     var type = this.model.type || this.model.dataType;
     var modelType = this.model.modelSignature.type;
     var modelDefinitions = this.model.modelSignature.definitions;
+    var schema = this.model.schema || {};
+    var consumes = this.model.consumes || [];
+
 
     if (typeof type === 'undefined') {
-      var schema = this.model.schema;
-      if (schema && schema.$ref) {
+      if (schema.$ref) {
         var ref = schema.$ref;
         if (ref.indexOf('#/definitions/') === 0) {
           type = ref.substring('#/definitions/'.length);
@@ -45,11 +47,18 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
       this.model.isList = true;
     }
 
+    var isXML = consumes.filter(function (val) {
+        if (val.indexOf('xml') > -1) {
+            return true;
+        }
+    }).length;
+
     var template = this.template();
     $(this.el).html(template(this.model));
 
     var signatureModel = {
       sampleJSON: SwaggerUi.partials.signature.createParameterJSONSample(modelType, modelDefinitions),
+      sampleXML: isXML ? SwaggerUi.partials.signature.createXMLSample(schema, modelDefinitions) : false,
       isParam: true,
       signature: SwaggerUi.partials.signature.getParameterModelSignature(modelType, modelDefinitions),
       defaultRendering: this.model.defaultRendering

@@ -811,6 +811,8 @@ SwaggerUi.partials.signature = (function () {
     xml = definition.xml || {};
     $ref = definition.$ref;
 
+    if (!_.isObject(definition)) { return getErrorMessage(); }
+
     if (_.isString($ref)) {
       return getModelXML($ref, models);
     }

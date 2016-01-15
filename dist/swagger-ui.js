@@ -880,13 +880,33 @@ this["Handlebars"]["templates"]["response_content_type"] = Handlebars.template({
   if (stack1 != null) { buffer += stack1; }
   return buffer + "</select>\n";
 },"useData":true});
-this["Handlebars"]["templates"]["signature"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div>\n<ul class=\"signature-nav\">\n  <li><a class=\"description-link\" href=\"#\" data-sw-translate>Model</a></li>\n  <li><a class=\"snippet-link\" href=\"#\" data-sw-translate>Example Value</a></li>\n</ul>\n<div>\n\n<div class=\"signature-container\">\n  <div class=\"description\">\n    ";
+this["Handlebars"]["templates"]["signature"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
+  return "      <li><a class=\"snippet-xml-link\" href=\"#\" data-sw-translate>XML Example</a></li>\n";
+  },"3":function(depth0,helpers,partials,data) {
+  return "<small class=\"notice\">Click to set as parameter value</small>";
+  },"5":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "    <div class=\"snippet snippet_xml\">\n      <pre><code>"
+    + escapeExpression(((helper = (helper = helpers.sampleXML || (depth0 != null ? depth0.sampleXML : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"sampleXML","hash":{},"data":data}) : helper)))
+    + "</code></pre>\n      ";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isParam : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "\n    </div>\n";
+},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div>\n<ul class=\"signature-nav\">\n  <li><a class=\"description-link\" href=\"#\" data-sw-translate>Model</a></li>\n  <li><a class=\"snippet-link\" href=\"#\" data-sw-translate>Example Value</a></li>\n";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.sampleXML : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  buffer += "</ul>\n<div>\n\n<div class=\"signature-container\">\n  <div class=\"description\">\n    ";
   stack1 = ((helper = (helper = helpers.signature || (depth0 != null ? depth0.signature : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"signature","hash":{},"data":data}) : helper));
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "\n  </div>\n\n  <div class=\"snippet\">\n    <pre><code>"
+  buffer += "\n  </div>\n\n  <div class=\"snippet snippet_json\">\n    <pre><code>"
     + escapeExpression(((helper = (helper = helpers.sampleJSON || (depth0 != null ? depth0.sampleJSON : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"sampleJSON","hash":{},"data":data}) : helper)))
-    + "</code></pre>\n    <small class=\"notice\"></small>\n  </div>\n</div>\n";
+    + "</code></pre>\n    ";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isParam : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  buffer += "\n  </div>\n";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.sampleXML : depth0), {"name":"if","hash":{},"fn":this.program(5, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "</div>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["status_code"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var lambda=this.lambda, escapeExpression=this.escapeExpression;
@@ -26039,10 +26059,12 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
     var type = this.model.type || this.model.dataType;
     var modelType = this.model.modelSignature.type;
     var modelDefinitions = this.model.modelSignature.definitions;
+    var schema = this.model.schema || {};
+    var consumes = this.model.consumes || [];
+
 
     if (typeof type === 'undefined') {
-      var schema = this.model.schema;
-      if (schema && schema.$ref) {
+      if (schema.$ref) {
         var ref = schema.$ref;
         if (ref.indexOf('#/definitions/') === 0) {
           type = ref.substring('#/definitions/'.length);
@@ -26069,11 +26091,18 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
       this.model.isList = true;
     }
 
+    var isXML = consumes.filter(function (val) {
+        if (val.indexOf('xml') > -1) {
+            return true;
+        }
+    }).length;
+
     var template = this.template();
     $(this.el).html(template(this.model));
 
     var signatureModel = {
       sampleJSON: SwaggerUi.partials.signature.createParameterJSONSample(modelType, modelDefinitions),
+      sampleXML: isXML ? SwaggerUi.partials.signature.createXMLSample(schema, modelDefinitions) : false,
       isParam: true,
       signature: SwaggerUi.partials.signature.getParameterModelSignature(modelType, modelDefinitions),
       defaultRendering: this.model.defaultRendering
@@ -26978,6 +27007,8 @@ SwaggerUi.partials.signature = (function () {
     xml = definition.xml || {};
     $ref = definition.$ref;
 
+    if (!_.isObject(definition)) { return getErrorMessage(); }
+
     if (_.isString($ref)) {
       return getModelXML($ref, models);
     }
@@ -27105,7 +27136,9 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
   events: {
     'click a.description-link'       : 'switchToDescription',
     'click a.snippet-link'           : 'switchToSnippet',
-    'mousedown .snippet'          : 'snippetToTextArea'
+    'click a.snippet-xml-link'       : 'switchToXMLSnippet',
+    'mousedown .snippet_json'          : 'jsonSnippetMouseDown',
+    'mousedown .snippet_xml'          : 'xmlSnippetMouseDown'
   },
 
   initialize: function () {
@@ -27121,12 +27154,6 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
     } else {
       this.switchToSnippet();
     }
-    
-    this.isParam = this.model.isParam;
-
-    if (this.isParam) {
-      $('.notice', $(this.el)).text('Click to set as parameter value');
-    }
 
     return this;
   },
@@ -27139,33 +27166,59 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
     $('.description', $(this.el)).show();
     $('.description-link', $(this.el)).addClass('selected');
     $('.snippet-link', $(this.el)).removeClass('selected');
+    $('.snippet-xml-link', $(this.el)).removeClass('selected');
   },
 
   // handler for show sample
   switchToSnippet: function(e){
     if (e) { e.preventDefault(); }
 
+    $('.snippet_json', $(this.el)).show();
     $('.description', $(this.el)).hide();
-    $('.snippet', $(this.el)).show();
+    $('.snippet_xml', $(this.el)).hide();
     $('.snippet-link', $(this.el)).addClass('selected');
     $('.description-link', $(this.el)).removeClass('selected');
+    $('.snippet-xml-link', $(this.el)).removeClass('selected');
+  },
+
+  switchToXMLSnippet: function (e) {
+    if (e) { e.preventDefault();}
+
+    $('.snippet_xml', $(this.el)).show();
+    $('.snippet_json', $(this.el)).hide();
+    $('.description', $(this.el)).hide();
+    $('.snippet-xml-link', $(this.el)).addClass('selected');
+    $('.description-link', $(this.el)).removeClass('selected');
+    $('.snippet-link', $(this.el)).removeClass('selected');
   },
 
   // handler for snippet to text area
-  snippetToTextArea: function(e) {
-    if (this.isParam) {
+  snippetToTextArea: function(val) {
+    var textArea = $('textarea', $(this.el.parentNode.parentNode.parentNode));
+
+    // Fix for bug in IE 10/11 which causes placeholder text to be copied to "value"
+    if ($.trim(textArea.val()) === '' || textArea.prop('placeholder') === textArea.val()) {
+      textArea.val(val);
+      // TODO move this code outside of the view and expose an event instead
+      if( this.model.jsonEditor && this.model.jsonEditor.isEnabled()){
+        this.model.jsonEditor.setValue(JSON.parse(this.model.sampleJSON));
+      }
+    }
+  },
+
+  jsonSnippetMouseDown: function (e) {
+    if (this.model.isParam) {
       if (e) { e.preventDefault(); }
 
-      var textArea = $('textarea', $(this.el.parentNode.parentNode.parentNode));
+      this.snippetToTextArea(this.model.sampleJSON);
+    }
+  },
 
-      // Fix for bug in IE 10/11 which causes placeholder text to be copied to "value"
-      if ($.trim(textArea.val()) === '' || textArea.prop('placeholder') === textArea.val()) {
-        textArea.val(this.model.sampleJSON);
-        // TODO move this code outside of the view and expose an event instead
-        if( this.model.jsonEditor && this.model.jsonEditor.isEnabled()){
-          this.model.jsonEditor.setValue(JSON.parse(this.model.sampleJSON));
-        }
-      }
+  xmlSnippetMouseDown: function (e) {
+    if (this.model.isParam) {
+      if (e) { e.preventDefault(); }
+
+      this.snippetToTextArea(this.model.sampleXML);
     }
   }
 });
