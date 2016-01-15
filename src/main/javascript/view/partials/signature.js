@@ -835,7 +835,7 @@ SwaggerUi.partials.signature = (function () {
   function createXMLSample (definition, models) {
     var prolog = '<?xml version="1.0"?>';
 
-    return prolog + createSchemaXML('', definition, models);
+    return formatXml(prolog + createSchemaXML('', definition, models));
   }
 
   return {
