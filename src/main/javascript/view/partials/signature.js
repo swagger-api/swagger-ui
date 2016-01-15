@@ -715,9 +715,9 @@ SwaggerUi.partials.signature = (function () {
     var items = definition.items;
     var xml = definition.xml || {};
 
-    if (!items) { return ''; }
+    if (!items) { return getErrorMessage(); }
 
-    value = createXMLSample(name, items, models);
+    value = createSchemaXML(name, items, models);
     value += value;
 
     xml = xml || {};
@@ -734,11 +734,9 @@ SwaggerUi.partials.signature = (function () {
     var model = models[type] || {};
     var name = model.name || modelType;
 
-    if (!model.definition) {
-      return '';
-    }
+    if (!model.definition) { return getErrorMessage(); }
 
-    return createXMLSample(name, model.definition, models);
+    return createSchemaXML(name, model.definition, models);
   };
 
   var createPrimitiveXML = function (name, definition) {
@@ -764,7 +762,7 @@ SwaggerUi.partials.signature = (function () {
     var attributes = [];
     var value;
 
-    if (_.keys(primitivesMap).indexOf(type) < 0) { return ''; }
+    if (_.keys(primitivesMap).indexOf(type) < 0) { return getErrorMessage(); }
 
     if (namespace) {
       attributes.push(namespace);
@@ -780,7 +778,7 @@ SwaggerUi.partials.signature = (function () {
   };
 
   function createObjectXML (name, definition, models) {
-    var props;
+    var serializedProperties;
     var attrs = [];
     var properties = definition.properties;
     var additionalProperties = definition.additionalProperties;
@@ -791,30 +789,23 @@ SwaggerUi.partials.signature = (function () {
       attrs.push(namespace);
     }
 
-    if (!properties && !additionalProperties) { return ''; }
+    if (!properties && !additionalProperties) { return getErrorMessage(); }
 
     properties = properties || {};
 
-    props = _.map(properties, function (prop, key) {
-      return createXMLSample(key, prop, models);
+    serializedProperties = _.map(properties, function (prop, key) {
+      return createSchemaXML(key, prop, models);
     }).join('');
 
     if (additionalProperties) {
-      props += '<!-- additional elements allowed -->';
+      serializedProperties += '<!-- additional elements allowed -->';
     }
 
-    return wrapTag(name, props, attrs);
+    return wrapTag(name, serializedProperties, attrs);
   }
 
-  function createXMLSample (name, definition, models) {
+  function createSchemaXML (name, definition, models) {
     var type, xml, $ref;
-
-    // allow ingnoring 'name' parameter
-    if (arguments.length === 2) {
-      models = arguments[1];
-      definition = arguments[0];
-      name = '';
-    }
 
     type = definition.type || 'object';
     xml = definition.xml || {};
@@ -835,11 +826,22 @@ SwaggerUi.partials.signature = (function () {
     }
   }
 
+  function getErrorMessage () {
+    return '<!-- invalid XML -->';
+  }
+
+  function createXMLSample (definition, models) {
+    var prolog = '<?xml version="1.0"?>';
+
+    return prolog + createSchemaXML('', definition, models);
+  }
+
   return {
       getModelSignature: getModelSignature,
       createJSONSample: createJSONSample,
       getParameterModelSignature: getParameterModelSignature,
       createParameterJSONSample: createParameterJSONSample,
+      createSchemaXML: createSchemaXML,
       createXMLSample: createXMLSample
   };
 
