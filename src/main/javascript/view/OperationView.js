@@ -84,7 +84,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   // Note: copied from CoffeeScript compiled file
   // TODO: redactor
   render: function() {
-    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, l, len, len1, len2, len3, len4, m, modelAuths, n, o, p, param, q, ref, ref1, ref2, ref3, ref4, ref5, responseContentTypeView, responseSignatureView, schema, schemaObj, scopeIndex, signatureModel, statusCode, successResponse, type, v, value;
+    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, l, len, len1, len2, len3, len4, m, modelAuths, n, o, p, param, q, ref, ref1, ref2, ref3, ref4, ref5, responseContentTypeView, responseSignatureView, schema, schemaObj, scopeIndex, signatureModel, statusCode, successResponse, type, v, value, produces, isXML;
     isMethodSubmissionSupported = jQuery.inArray(this.model.method, this.model.supportedSubmitMethods()) >= 0;
     if (!isMethodSubmissionSupported) {
       this.model.isReadOnly = true;
@@ -163,6 +163,13 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       this.model.responseMessages = [];
     }
     signatureModel = null;
+    produces = this.model.produces;
+    isXML = produces.filter(function (val) {
+      if (val.indexOf('xml') > -1) {
+        return true;
+      }
+    }).length;
+
     if (this.model.successResponse) {
       successResponse = this.model.successResponse;
       for (key in successResponse) {
@@ -174,6 +181,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
           signatureModel = {
             sampleJSON: JSON.stringify(SwaggerUi.partials.signature.createJSONSample(value), void 0, 2),
             isParam: false,
+            sampleXML: isXML ? SwaggerUi.partials.signature.createXMLSample(value.definition, value.models) : false,
             signature: SwaggerUi.partials.signature.getModelSignature(value.name, value.definition, value.models, value.modelPropertyMacro)
           };
         }
