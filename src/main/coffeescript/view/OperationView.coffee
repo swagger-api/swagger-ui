@@ -6,8 +6,8 @@ class OperationView extends Backbone.View
     'click .submit'           : 'submitOperation'
     'click .response_hider'   : 'hideResponse'
     'click .toggleOperation'  : 'toggleOperationContent'
-    'mouseenter .api-ic'      : 'mouseEnter'
-    'mouseout .api-ic'        : 'mouseExit'
+    # 'mouseenter .api-ic'      : 'mouseEnter'
+    # 'mouseout .api-ic'        : 'mouseExit'
   }
 
   initialize: ->

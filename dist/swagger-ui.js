@@ -1538,9 +1538,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       'submit .sandbox': 'submitOperation',
       'click .submit': 'submitOperation',
       'click .response_hider': 'hideResponse',
-      'click .toggleOperation': 'toggleOperationContent',
-      'mouseenter .api-ic': 'mouseEnter',
-      'mouseout .api-ic': 'mouseExit'
+      'click .toggleOperation': 'toggleOperationContent'
     };
 
     OperationView.prototype.initialize = function() {};
