@@ -26914,7 +26914,10 @@ SwaggerUi.partials.signature = (function () {
     };
   };
 
-  var createArrayXML = function (name, definition, models) {
+  var createArrayXML = function (descriptor) {
+    var name = descriptor.name;
+    var definition = descriptor.definition;
+    var models = descriptor.models;
     var value;
     var items = definition.items;
     var xml = definition.xml || {};
@@ -26933,17 +26936,9 @@ SwaggerUi.partials.signature = (function () {
     return value;
   };
 
-  var getModelXML = function (modelType, models) {
-    var type = simpleRef(modelType);
-    var model = models[type] || {};
-    var name = model.name || modelType;
-
-    if (!model.definition) { return getErrorMessage(); }
-
-    return createSchemaXML(name, model.definition, models);
-  };
-
-  var createPrimitiveXML = function (name, definition) {
+  var createPrimitiveXML = function (descriptor) {
+    var name = descriptor.name;
+    var definition = descriptor.definition;
     var primitivesMap = {
       'string': {
         'date': new Date(1).toISOString().split('T')[0],
@@ -26981,7 +26976,10 @@ SwaggerUi.partials.signature = (function () {
     return wrapTag(name, value, attributes);
   };
 
-  function createObjectXML (name, definition, models) {
+  function createObjectXML (descriptor) {
+    var name = descriptor.name;
+    var definition = descriptor.definition;
+    var models = descriptor.models;
     var serializedProperties;
     var attrs = [];
     var properties = definition.properties;
@@ -27008,32 +27006,64 @@ SwaggerUi.partials.signature = (function () {
     return wrapTag(name, serializedProperties, attrs);
   }
 
+  function getErrorMessage () {
+    return '<!-- invalid XML -->';
+  }
+
   function createSchemaXML (name, definition, models) {
-    var type, xml, $ref;
+    var $ref = definition.$ref;
+    var descriptor = _.isString($ref) ? getDescriptorByRef($ref, models)
+        : getDescriptor(name, definition, models);
 
-    type = definition.type || 'object';
-    xml = definition.xml || {};
-    $ref = definition.$ref;
+    if (!descriptor) {
+      return getErrorMessage();
+    }
 
-    if (!_.isObject(definition)) { return getErrorMessage(); }
+    switch (descriptor.type) {
+      case 'array':
+        return createArrayXML(descriptor);
+      case 'object':
+        return createObjectXML(descriptor);
+      default:
+        return createPrimitiveXML(descriptor);
+    }
+  }
 
-    if (_.isString($ref)) {
-      return getModelXML($ref, models);
+  function Descriptor (name, type, definition, models) {
+    if (arguments.length < 4) {
+      throw new Error();
+    }
+
+    this.name = name;
+    this.definition = definition;
+    this.models = models;
+    this.type = type;
+  }
+
+  function getDescriptorByRef($ref, models) {
+    var modelType = simpleRef($ref);
+    var model = models[modelType] || {};
+    var name = model.name || modelType;
+    var type = model.type || 'object';
+
+    if (!model.definition) {
+      return null;
+    }
+
+    return new Descriptor (name, type, model.definition, models);
+  }
+
+  function getDescriptor (name, definition, models){
+    var type = definition.type || 'object';
+    var xml = definition.xml || {};
+
+    if (!definition) {
+      return null;
     }
 
     name = getName(name, xml);
 
-    if (type === 'array') {
-      return createArrayXML(name, definition, models);
-    } else if (type === 'object') {
-      return createObjectXML(name, definition, models);
-    } else {
-      return createPrimitiveXML(name, definition);
-    }
-  }
-
-  function getErrorMessage () {
-    return '<!-- invalid XML -->';
+    return new Descriptor(name, type, definition, models);
   }
 
   function createXMLSample (definition, models) {
