@@ -16,15 +16,15 @@ generate beautiful documentation and sandbox from a Swagger-compliant API. Becau
 The goal of Swagger™ is to define a standard, language-agnostic interface to REST APIs which allows both humans and computers to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection. When properly defined via Swagger, a consumer can understand and interact with the remote service with a minimal amount of implementation logic. Similar to what interfaces have done for lower-level programming, Swagger removes the guesswork in calling the service.
 
 
-Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more.
+Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for additional information about the Swagger project, including additional libraries with support for other languages and more.
 
 
 ## Compatibility
-The Swagger Specification has undergone 4 revisions since initial creation in 2010.  Compatibility between swagger-ui and the Swagger specification is as follows:
+The OpenAPI Specification has undergone 4 revisions since initial creation in 2010.  Compatibility between swagger-ui and the OpenAPI Specification is as follows:
 
-Swagger UI Version | Release Date | Swagger Spec compatibility | Notes | Status
+Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes | Status
 ------------------ | ------------ | -------------------------- | ----- | ------
-2.1.1              | 2015-07-23   | 1.1, 1.2, 2.0              | [tag v.2.1.1](https://github.com/swagger-api/swagger-ui/tree/v2.1.1) |
+2.1.4              | 2016-01-06   | 1.1, 1.2, 2.0              | [tag v.2.1.4](https://github.com/swagger-api/swagger-ui/tree/v2.1.1) |
 2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) |
 1.0.13             | 2013-03-08   | 1.1, 1.2 | [tag v1.0.13](https://github.com/swagger-api/swagger-ui/tree/v1.0.13) |
 1.0.1              | 2011-10-11   | 1.0, 1.1 | [tag v1.0.1](https://github.com/swagger-api/swagger-ui/tree/v1.0.1)   |
@@ -89,9 +89,9 @@ swaggerUi.load();
 
 Parameter Name | Description
 --- | ---
-url | The url pointing to `swagger.json` (Swagger 2.0) or the resource listing (earlier versions) as per [Swagger Spec](https://github.com/swagger-api/swagger-spec/).
+url | The url pointing to `swagger.json` (Swagger 2.0) or the resource listing (earlier versions) as per [OpenAPI Spec](https://github.com/OAI/OpenAPI-Specification/).
 authorizations | An authorization object to be passed to swagger-js.  Setting it here will trigger inclusion of any authorization or custom signing logic when fetching the swagger description file.  Note the object structure should be `{ key: AuthorizationObject }`
-spec | A JSON object describing the Swagger specification. When used, the `url` parameter will not be parsed. This is useful for testing manually-generated specifications without hosting them. Works for Swagger 2.0 specs only.
+spec | A JSON object describing the OpenAPI Specification. When used, the `url` parameter will not be parsed. This is useful for testing manually-generated specifications without hosting them. Works for Swagger 2.0 specs only.
 validatorUrl | By default, Swagger-UI attempts to validate specs against swagger.io's online validator. You can use this parameter to set a different validator URL, for example for locally deployed validators ([Validator Badge](https://github.com/swagger-api/validator-badge)). Setting it to `null` will disable validation. This parameter is relevant for Swagger 2.0 specs only.
 dom_id | The id of a dom element inside which SwaggerUi will put the user interface for swagger.
 booleanValues | SwaggerUI renders boolean data types as a dropdown. By default it provides a 'true' and 'false' string as the possible choices. You can use this parameter to change the values in dropdown to be something else, for example 0 and 1 by setting booleanValues to new Array(0, 1).
@@ -236,7 +236,7 @@ Please see [releases](https://github.com/swagger-api/swagger-ui/releases) for ch
 
 ## License
 
-Copyright 2011-2015 SmartBear Software
+Copyright 2016 SmartBear Software
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
