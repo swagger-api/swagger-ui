@@ -12,33 +12,35 @@ class OperationView extends Backbone.View
 
   initialize: ->
 
-  mouseEnter: (e) ->
-    elem = $(e.currentTarget.parentNode).find('#api_information_panel')
-    x = event.pageX
-    y = event.pageY
-    scX = $(window).scrollLeft()
-    scY = $(window).scrollTop()
-    scMaxX = scX + $(window).width()
-    scMaxY = scY + $(window).height()
-    wd = elem.width()
-    hgh = elem.height()
 
-    if (x + wd > scMaxX)
-      x = scMaxX - wd
-    if (x < scX)
-      x = scX
-    if (y + hgh > scMaxY)
-      y = scMaxY - hgh
-    if (y < scY)
-      y = scY
-    pos = {}
-    pos.top = y
-    pos.left = x
-    elem.css(pos)
-    $(e.currentTarget.parentNode).find('#api_information_panel').show()
+# This applies to an element we don't currently use in our 
+  # mouseEnter: (e) ->
+  #   elem = $(e.currentTarget.parentNode).find('#api_information_panel')
+  #   x = event.pageX
+  #   y = event.pageY
+  #   scX = $(window).scrollLeft()
+  #   scY = $(window).scrollTop()
+  #   scMaxX = scX + $(window).width()
+  #   scMaxY = scY + $(window).height()
+  #   wd = elem.width()
+  #   hgh = elem.height()
 
-  mouseExit: (e) ->
-    $(e.currentTarget.parentNode).find('#api_information_panel').hide()
+  #   if (x + wd > scMaxX)
+  #     x = scMaxX - wd
+  #   if (x < scX)
+  #     x = scX
+  #   if (y + hgh > scMaxY)
+  #     y = scMaxY - hgh
+  #   if (y < scY)
+  #     y = scY
+  #   pos = {}
+  #   pos.top = y
+  #   pos.left = x
+  #   elem.css(pos)
+  #   $(e.currentTarget.parentNode).find('#api_information_panel').show()
+
+  # mouseExit: (e) ->
+  #   $(e.currentTarget.parentNode).find('#api_information_panel').hide()
 
   render: ->
     isMethodSubmissionSupported = true #jQuery.inArray(@model.method, @model.supportedSubmitMethods) >= 0

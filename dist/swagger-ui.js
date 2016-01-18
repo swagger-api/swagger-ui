@@ -1,5 +1,5 @@
 // swagger-ui.js
-// version 2.0.20
+// version 2.0.21
 $(function() {
 
 	// Helper function for vertically aligning DOM elements
@@ -553,7 +553,7 @@ function program9(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n		";
-  stack1 = helpers['if'].call(depth0, depth0.defaultValue, {hash:{},inverse:self.program(12, program12, data),fn:self.program(10, program10, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.isExpand, {hash:{},inverse:self.program(12, program12, data),fn:self.program(10, program10, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n	";
   return buffer;
@@ -565,22 +565,42 @@ function program10(depth0,data) {
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "' placeholder='' type='text' value='";
-  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "'/>\n		";
+    + "' placeholder='' type='text' value='EXPANDY VALUE'/>\n		";
   return buffer;
   }
 
 function program12(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n			<input class='parameter' minlength='0' name='";
+  buffer += "\n			";
+  stack1 = helpers['if'].call(depth0, depth0.defaultValue, {hash:{},inverse:self.program(15, program15, data),fn:self.program(13, program13, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n		";
+  return buffer;
+  }
+function program13(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n				<input class='parameter' minlength='0' name='";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "' placeholder='' type='text' value=''/>\n		";
+    + "' placeholder='' type='text' value='";
+  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "'/>\n			";
+  return buffer;
+  }
+
+function program15(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n				<input class='parameter' minlength='0' name='";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "' placeholder='' type='text' value=''/>\n			";
   return buffer;
   }
 
@@ -1525,40 +1545,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
     OperationView.prototype.initialize = function() {};
 
-    OperationView.prototype.mouseEnter = function(e) {
-      var elem, hgh, pos, scMaxX, scMaxY, scX, scY, wd, x, y;
-      elem = $(e.currentTarget.parentNode).find('#api_information_panel');
-      x = event.pageX;
-      y = event.pageY;
-      scX = $(window).scrollLeft();
-      scY = $(window).scrollTop();
-      scMaxX = scX + $(window).width();
-      scMaxY = scY + $(window).height();
-      wd = elem.width();
-      hgh = elem.height();
-      if (x + wd > scMaxX) {
-        x = scMaxX - wd;
-      }
-      if (x < scX) {
-        x = scX;
-      }
-      if (y + hgh > scMaxY) {
-        y = scMaxY - hgh;
-      }
-      if (y < scY) {
-        y = scY;
-      }
-      pos = {};
-      pos.top = y;
-      pos.left = x;
-      elem.css(pos);
-      return $(e.currentTarget.parentNode).find('#api_information_panel').show();
-    };
-
-    OperationView.prototype.mouseExit = function(e) {
-      return $(e.currentTarget.parentNode).find('#api_information_panel').hide();
-    };
-
     OperationView.prototype.render = function() {
       var contentTypeModel, isMethodSubmissionSupported, k, o, param, responseContentTypeView, responseSignatureView, signatureModel, statusCode, type, v, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3;
       isMethodSubmissionSupported = true;
@@ -2044,6 +2030,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       }
       if (type.toLowerCase() === 'file') {
         this.model.isFile = true;
+      }
+      if (this.model.paramType === 'expand') {
+        this.model.isExpand = true;
       }
       template = this.template();
       $(this.el).html(template(this.model));

@@ -15,10 +15,14 @@
 			{{/if}}
 		{{/if}}
 	{{else}}
-		{{#if defaultValue}}
-			<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value='{{defaultValue}}'/>
+		{{#if isExpand}}
+			<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value='EXPANDY VALUE'/>
 		{{else}}
-			<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value=''/>
+			{{#if defaultValue}}
+				<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value='{{defaultValue}}'/>
+			{{else}}
+				<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value=''/>
+			{{/if}}
 		{{/if}}
 	{{/if}}
 
