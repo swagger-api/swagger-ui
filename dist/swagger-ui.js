@@ -26110,7 +26110,7 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
 
     var signatureModel = {
       sampleJSON: SwaggerUi.partials.signature.createParameterJSONSample(modelType, modelDefinitions),
-      sampleXML: isXML ? SwaggerUi.partials.signature.createXMLSample(schema, modelDefinitions) : false,
+      sampleXML: isXML ? SwaggerUi.partials.signature.createXMLSample(schema, modelDefinitions, true) : false,
       isParam: true,
       signature: SwaggerUi.partials.signature.getParameterModelSignature(modelType, modelDefinitions),
       defaultRendering: this.model.defaultRendering
@@ -26980,6 +26980,7 @@ SwaggerUi.partials.signature = (function () {
     var name = descriptor.name;
     var definition = descriptor.definition;
     var models = descriptor.models;
+    var isParam = descriptor.isParam;
     var serializedProperties;
     var attrs = [];
     var properties = definition.properties;
@@ -26996,6 +26997,8 @@ SwaggerUi.partials.signature = (function () {
     properties = properties || {};
 
     serializedProperties = _.map(properties, function (prop, key) {
+      if (isParam && prop.readOnly) { return ''; }
+
       return createSchemaXML(key, prop, models);
     }).join('');
 
@@ -27010,10 +27013,10 @@ SwaggerUi.partials.signature = (function () {
     return '<!-- invalid XML -->';
   }
 
-  function createSchemaXML (name, definition, models) {
+  function createSchemaXML (name, definition, models, isParam) {
     var $ref = definition.$ref;
     var descriptor = _.isString($ref) ? getDescriptorByRef($ref, models)
-        : getDescriptor(name, definition, models);
+        : getDescriptor(name, definition, models, isParam);
 
     if (!descriptor) {
       return getErrorMessage();
@@ -27029,7 +27032,7 @@ SwaggerUi.partials.signature = (function () {
     }
   }
 
-  function Descriptor (name, type, definition, models) {
+  function Descriptor (name, type, definition, models, isParam) {
     if (arguments.length < 4) {
       throw new Error();
     }
@@ -27038,6 +27041,7 @@ SwaggerUi.partials.signature = (function () {
     this.definition = definition;
     this.models = models;
     this.type = type;
+    this.isParam = isParam;
   }
 
   function getDescriptorByRef($ref, models) {
@@ -27053,7 +27057,7 @@ SwaggerUi.partials.signature = (function () {
     return new Descriptor (name, type, model.definition, models);
   }
 
-  function getDescriptor (name, definition, models){
+  function getDescriptor (name, definition, models, isParam){
     var type = definition.type || 'object';
     var xml = definition.xml || {};
 
@@ -27063,13 +27067,13 @@ SwaggerUi.partials.signature = (function () {
 
     name = getName(name, xml);
 
-    return new Descriptor(name, type, definition, models);
+    return new Descriptor(name, type, definition, models,isParam);
   }
 
-  function createXMLSample (definition, models) {
+  function createXMLSample (definition, models, isParam) {
     var prolog = '<?xml version="1.0"?>';
 
-    return formatXml(prolog + createSchemaXML('', definition, models));
+    return formatXml(prolog + createSchemaXML('', definition, models, isParam));
   }
 
   return {

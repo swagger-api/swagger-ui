@@ -418,6 +418,30 @@ describe('SwaggerUi.partials.signature tests', function () {
 
                 expect(sut.createSchemaXML(name, definition, models)).to.equal(expected);
             });
+
+            it('returns object with no readonly fields for parameter', function () {
+                var expected = '<animals>' +
+                    '<id>1</id>'+
+                    '</animals>';
+                var name = 'animals';
+                var definition = {
+                    type: 'object',
+                    properties: {
+                        id: {
+                            type: 'integer'
+                        },
+                        cat: {
+                            readOnly: true,
+                            type: 'string'
+                        }
+                    },
+                    xml: {
+                        name: 'animals'
+                    }
+                };
+
+                expect(sut.createSchemaXML(name, definition, models, true)).to.equal(expected);
+            });
         });
 
         describe('schema is in definitions', function () {
