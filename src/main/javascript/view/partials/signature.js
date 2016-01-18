@@ -402,7 +402,7 @@ SwaggerUi.partials.signature = (function () {
               var cProperty = _.cloneDeep(property);
 
               var requiredClass = propertyIsRequired ? 'required' : '';
-              var html = '<div' + (property.readOnly ? ' class="readOnly"' : '') + '><span class="propName ' + requiredClass + '">' + name + '</span> (';
+              var html = '<span class="propName ' + requiredClass + '">' + name + '</span> (';
               var model;
               var propDescription;
 
@@ -444,7 +444,7 @@ SwaggerUi.partials.signature = (function () {
                 html += ' = <span class="propVals">[\'' + cProperty.enum.join('\', \'') + '\']</span>';
               }
 
-              return primitiveToOptionsHTML(cProperty, html);
+              return '<div' + (property.readOnly ? ' class="readOnly"' : '') + '>' + primitiveToOptionsHTML(cProperty, html);
             }).join(',</div>');
           }
 
