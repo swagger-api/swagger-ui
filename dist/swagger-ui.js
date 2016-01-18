@@ -553,7 +553,7 @@ function program9(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n		";
-  stack1 = helpers['if'].call(depth0, depth0.isExpand, {hash:{},inverse:self.program(12, program12, data),fn:self.program(10, program10, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.isQuery, {hash:{},inverse:self.program(12, program12, data),fn:self.program(10, program10, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n	";
   return buffer;
@@ -565,7 +565,7 @@ function program10(depth0,data) {
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "' placeholder='' type='text' value='EXPANDY VALUE'/>\n		";
+    + "' placeholder='' type='text' value='QUERY TYPE VALUE'/>\n		";
   return buffer;
   }
 
@@ -2029,8 +2029,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       if (type.toLowerCase() === 'file') {
         this.model.isFile = true;
       }
-      if (this.model.paramType === 'expand') {
-        this.model.isExpand = true;
+      if (this.model.paramType === 'query') {
+        this.model.isQuery = true;
       }
       template = this.template();
       $(this.el).html(template(this.model));

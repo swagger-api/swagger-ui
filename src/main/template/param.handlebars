@@ -15,8 +15,8 @@
 			{{/if}}
 		{{/if}}
 	{{else}}
-		{{#if isExpand}}
-			<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value='EXPANDY VALUE'/>
+		{{#if isQuery }}
+			<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value='QUERY TYPE VALUE'/>
 		{{else}}
 			{{#if defaultValue}}
 				<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value='{{defaultValue}}'/>
