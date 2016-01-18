@@ -753,20 +753,25 @@ SwaggerUi.partials.signature = (function () {
     };
     var type = definition.type;
     var format = definition.format;
-    var namespace = getNamespace(definition.xml);
+    var xml = definition.xml || {};
+    var namespace = getNamespace(xml);
     var attributes = [];
     var value;
 
     if (_.keys(primitivesMap).indexOf(type) < 0) { return getErrorMessage(); }
 
-    if (namespace) {
-      attributes.push(namespace);
-    }
-
     if (_.isArray(definition.enum)){
       value = definition.enum[0];
     } else {
       value = definition.example || primitivesMap[type][format] || primitivesMap[type].default;
+    }
+
+    if (xml.attribute) {
+      return {name: name, value: value};
+    }
+
+    if (namespace) {
+      attributes.push(namespace);
     }
 
     return wrapTag(name, value, attributes);
@@ -793,9 +798,19 @@ SwaggerUi.partials.signature = (function () {
     properties = properties || {};
 
     serializedProperties = _.map(properties, function (prop, key) {
+      var xml, result;
+
       if (isParam && prop.readOnly) { return ''; }
 
-      return createSchemaXML(key, prop, models);
+      xml = prop.xml || {};
+      result = createSchemaXML(key, prop, models);
+
+      if (xml.attribute) {
+        attrs.push(result);
+        return '';
+      }
+
+      return result;
     }).join('');
 
     if (additionalProperties) {

@@ -442,6 +442,32 @@ describe('SwaggerUi.partials.signature tests', function () {
 
                 expect(sut.createSchemaXML(name, definition, models, true)).to.equal(expected);
             });
+
+            it('returns object with passed parameter as attribute', function () {
+                var expected = '<animals id="1">' +
+                    '<dog>string</dog>' +
+                    '</animals>';
+                var name = 'animals';
+                var definition = {
+                    type: 'object',
+                    properties: {
+                        id: {
+                            type: 'integer',
+                            xml: {
+                                attribute: true
+                            }
+                        },
+                        dog: {
+                            type: 'string'
+                        }
+                    },
+                    xml: {
+                        name: 'animals'
+                    }
+                };
+
+                expect(sut.createSchemaXML(name, definition, models, true)).to.equal(expected);
+            });
         });
 
         describe('schema is in definitions', function () {
