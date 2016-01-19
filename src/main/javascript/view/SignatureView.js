@@ -4,7 +4,6 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
   events: {
     'click a.description-link'       : 'switchToDescription',
     'click a.snippet-link'           : 'switchToSnippet',
-    'click a.snippet-xml-link'       : 'switchToXMLSnippet',
     'mousedown .snippet_json'          : 'jsonSnippetMouseDown',
     'mousedown .snippet_xml'          : 'xmlSnippetMouseDown'
   },
@@ -34,30 +33,16 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
     $('.description', $(this.el)).show();
     $('.description-link', $(this.el)).addClass('selected');
     $('.snippet-link', $(this.el)).removeClass('selected');
-    $('.snippet-xml-link', $(this.el)).removeClass('selected');
   },
 
   // handler for show sample
   switchToSnippet: function(e){
     if (e) { e.preventDefault(); }
 
-    $('.snippet_json', $(this.el)).show();
+    $('.snippet', $(this.el)).show();
     $('.description', $(this.el)).hide();
-    $('.snippet_xml', $(this.el)).hide();
     $('.snippet-link', $(this.el)).addClass('selected');
     $('.description-link', $(this.el)).removeClass('selected');
-    $('.snippet-xml-link', $(this.el)).removeClass('selected');
-  },
-
-  switchToXMLSnippet: function (e) {
-    if (e) { e.preventDefault();}
-
-    $('.snippet_xml', $(this.el)).show();
-    $('.snippet_json', $(this.el)).hide();
-    $('.description', $(this.el)).hide();
-    $('.snippet-xml-link', $(this.el)).addClass('selected');
-    $('.description-link', $(this.el)).removeClass('selected');
-    $('.snippet-link', $(this.el)).removeClass('selected');
   },
 
   // handler for snippet to text area

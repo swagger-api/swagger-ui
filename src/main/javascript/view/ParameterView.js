@@ -1,6 +1,10 @@
 'use strict';
 
 SwaggerUi.Views.ParameterView = Backbone.View.extend({
+  events: {
+    'change [name=parameterContentType]' : 'toggleParameterSnippet'
+  },
+
   initialize: function(){
     Handlebars.registerHelper('isArray', function(param, opts) {
       if (param.type.toLowerCase() === 'array' || param.allowMultiple) {
@@ -47,17 +51,14 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
       this.model.isList = true;
     }
 
-    var isXML = consumes.filter(function (val) {
-        if (val.indexOf('xml') > -1) {
-            return true;
-        }
-    }).length;
+    var isXML = this.contains(consumes, 'xml');
+    var isJSON = isXML ? this.contains(consumes, 'json') : true;
 
     var template = this.template();
     $(this.el).html(template(this.model));
 
     var signatureModel = {
-      sampleJSON: SwaggerUi.partials.signature.createParameterJSONSample(modelType, modelDefinitions),
+      sampleJSON: isJSON ? SwaggerUi.partials.signature.createParameterJSONSample(modelType, modelDefinitions) : false,
       sampleXML: isXML ? SwaggerUi.partials.signature.createXMLSample(schema, modelDefinitions, true) : false,
       isParam: true,
       signature: SwaggerUi.partials.signature.getParameterModelSignature(modelType, modelDefinitions),
@@ -118,14 +119,48 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
     if (isParam) {
       var parameterContentTypeView = new SwaggerUi.Views.ParameterContentTypeView({model: contentTypeModel});
       $('.parameter-content-type', $(this.el)).append(parameterContentTypeView.render().el);
+      this.toggleParameterSnippet();
     }
 
     else {
       var responseContentTypeView = new SwaggerUi.Views.ResponseContentTypeView({model: contentTypeModel});
       $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
+      this.toggleResponseSnippet();
     }
 
     return this;
+  },
+
+  contains: function (consumes, type) {
+    return consumes.filter(function (val) {
+      if (val.indexOf(type) > -1) {
+        return true;
+      }
+    }).length;
+  },
+
+  toggleParameterSnippet: function () {
+    var contentType = this.$('[name=parameterContentType]').val();
+
+    this.toggleSnippet(contentType);
+  },
+
+  toggleResponseSnippet: function () {
+    var contentEl = this.$('[name=responseContentType]');
+
+    if (!contentEl.length) { return; }
+
+    this.toggleSnippet(contentEl.val());
+  },
+
+  toggleSnippet: function (type) {
+    if (type.indexOf('xml') > -1) {
+      this.$('.snippet_xml').show();
+      this.$('.snippet_json').hide();
+    } else {
+      this.$('.snippet_json').show();
+      this.$('.snippet_xml').hide();
+    }
   },
 
   // Return an appropriate template based on if the parameter is a list, readonly, required

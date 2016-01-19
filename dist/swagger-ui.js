@@ -881,32 +881,31 @@ this["Handlebars"]["templates"]["response_content_type"] = Handlebars.template({
   return buffer + "</select>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["signature"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
-  return "      <li><a class=\"snippet-xml-link\" href=\"#\" data-sw-translate>XML Example</a></li>\n";
-  },"3":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "      <div class=\"snippet_json\">\n        <pre><code>"
+    + escapeExpression(((helper = (helper = helpers.sampleJSON || (depth0 != null ? depth0.sampleJSON : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"sampleJSON","hash":{},"data":data}) : helper)))
+    + "</code></pre>\n        ";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isParam : depth0), {"name":"if","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "\n      </div>\n";
+},"2":function(depth0,helpers,partials,data) {
   return "<small class=\"notice\">Click to set as parameter value</small>";
-  },"5":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "    <div class=\"snippet snippet_xml\">\n      <pre><code>"
+  },"4":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "    <div class=\"snippet_xml\">\n      <pre><code>"
     + escapeExpression(((helper = (helper = helpers.sampleXML || (depth0 != null ? depth0.sampleXML : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"sampleXML","hash":{},"data":data}) : helper)))
     + "</code></pre>\n      ";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isParam : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isParam : depth0), {"name":"if","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "\n    </div>\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div>\n<ul class=\"signature-nav\">\n  <li><a class=\"description-link\" href=\"#\" data-sw-translate>Model</a></li>\n  <li><a class=\"snippet-link\" href=\"#\" data-sw-translate>Example Value</a></li>\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.sampleXML : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  buffer += "</ul>\n<div>\n\n<div class=\"signature-container\">\n  <div class=\"description\">\n    ";
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "<div>\n<ul class=\"signature-nav\">\n  <li><a class=\"description-link\" href=\"#\" data-sw-translate>Model</a></li>\n  <li><a class=\"snippet-link\" href=\"#\" data-sw-translate>Example Value</a></li>\n</ul>\n<div>\n\n<div class=\"signature-container\">\n  <div class=\"description\">\n    ";
   stack1 = ((helper = (helper = helpers.signature || (depth0 != null ? depth0.signature : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"signature","hash":{},"data":data}) : helper));
   if (stack1 != null) { buffer += stack1; }
-  buffer += "\n  </div>\n\n  <div class=\"snippet snippet_json\">\n    <pre><code>"
-    + escapeExpression(((helper = (helper = helpers.sampleJSON || (depth0 != null ? depth0.sampleJSON : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"sampleJSON","hash":{},"data":data}) : helper)))
-    + "</code></pre>\n    ";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isParam : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
+  buffer += "\n  </div>\n\n  <div class=\"snippet\">\n";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.sampleJSON : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  buffer += "\n  </div>\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.sampleXML : depth0), {"name":"if","hash":{},"fn":this.program(5, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.sampleXML : depth0), {"name":"if","hash":{},"fn":this.program(4, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "</div>\n";
+  return buffer + "  </div>\n</div>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["status_code"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var lambda=this.lambda, escapeExpression=this.escapeExpression;
@@ -19401,6 +19400,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     'click .toggleOperation'  : 'toggleOperationContent',
     'mouseenter .api-ic'      : 'mouseEnter',
     'dblclick .curl'          : 'selectText',
+    'change [name=responseContentType]' : 'showSnippet'
   },
 
   initialize: function(opts) {
@@ -19475,7 +19475,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   // Note: copied from CoffeeScript compiled file
   // TODO: redactor
   render: function() {
-    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, l, len, len1, len2, len3, len4, m, modelAuths, n, o, p, param, q, ref, ref1, ref2, ref3, ref4, ref5, responseContentTypeView, responseSignatureView, schema, schemaObj, scopeIndex, signatureModel, statusCode, successResponse, type, v, value, produces, isXML;
+    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, l, len, len1, len2, len3, len4, m, modelAuths, n, o, p, param, q, ref, ref1, ref2, ref3, ref4, ref5, responseContentTypeView, responseSignatureView, schema, schemaObj, scopeIndex, signatureModel, statusCode, successResponse, type, v, value, produces, isXML, isJSON;
     isMethodSubmissionSupported = jQuery.inArray(this.model.method, this.model.supportedSubmitMethods()) >= 0;
     if (!isMethodSubmissionSupported) {
       this.model.isReadOnly = true;
@@ -19555,11 +19555,8 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
     signatureModel = null;
     produces = this.model.produces;
-    isXML = produces.filter(function (val) {
-      if (val.indexOf('xml') > -1) {
-        return true;
-      }
-    }).length;
+    isXML = this.contains(produces, 'xml');
+    isJSON = isXML ? this.contains(produces, 'json') : true;
 
     if (this.model.successResponse) {
       successResponse = this.model.successResponse;
@@ -19570,7 +19567,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
           this.model.successDescription = value.description;
           this.model.headers = this.parseResponseHeaders(value.headers);
           signatureModel = {
-            sampleJSON: JSON.stringify(SwaggerUi.partials.signature.createJSONSample(value), void 0, 2),
+            sampleJSON: isJSON ? JSON.stringify(SwaggerUi.partials.signature.createJSONSample(value), void 0, 2) : false,
             isParam: false,
             sampleXML: isXML ? SwaggerUi.partials.signature.createXMLSample(value.definition, value.models) : false,
             signature: SwaggerUi.partials.signature.getModelSignature(value.name, value.definition, value.models, value.modelPropertyMacro)
@@ -19629,6 +19626,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       router: this.router
     });
     $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
+    this.showSnippet();
     ref4 = this.model.parameters;
     for (p = 0, len3 = ref4.length; p < len3; p++) {
       param = ref4[p];
@@ -19640,6 +19638,14 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       this.addStatusCode(statusCode);
     }
     return this;
+  },
+
+  contains: function (produces, type) {
+    return produces.filter(function (val) {
+      if (val.indexOf(type) > -1) {
+        return true;
+      }
+    }).length;
   },
 
   parseResponseHeaders: function (data) {
@@ -20156,6 +20162,22 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
   },
 
+  showSnippet: function () {
+    var contentTypeEl = this.$('[name=responseContentType]');
+    var contentType;
+
+    if (!contentTypeEl.length) { return; }
+    contentType = contentTypeEl.val();
+
+    if (contentType.indexOf('xml') > -1) {
+      this.$('.snippet_xml').show();
+      this.$('.snippet_json').hide();
+    } else {
+      this.$('.snippet_json').show();
+      this.$('.snippet_xml').hide();
+    }
+  },
+
   getParamByName: function(name) {
     var i;
     if (this.model.parameters) {
@@ -20185,6 +20207,10 @@ SwaggerUi.Views.ParameterContentTypeView = Backbone.View.extend({
 'use strict';
 
 SwaggerUi.Views.ParameterView = Backbone.View.extend({
+  events: {
+    'change [name=parameterContentType]' : 'toggleParameterSnippet'
+  },
+
   initialize: function(){
     Handlebars.registerHelper('isArray', function(param, opts) {
       if (param.type.toLowerCase() === 'array' || param.allowMultiple) {
@@ -20231,17 +20257,14 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
       this.model.isList = true;
     }
 
-    var isXML = consumes.filter(function (val) {
-        if (val.indexOf('xml') > -1) {
-            return true;
-        }
-    }).length;
+    var isXML = this.contains(consumes, 'xml');
+    var isJSON = isXML ? this.contains(consumes, 'json') : true;
 
     var template = this.template();
     $(this.el).html(template(this.model));
 
     var signatureModel = {
-      sampleJSON: SwaggerUi.partials.signature.createParameterJSONSample(modelType, modelDefinitions),
+      sampleJSON: isJSON ? SwaggerUi.partials.signature.createParameterJSONSample(modelType, modelDefinitions) : false,
       sampleXML: isXML ? SwaggerUi.partials.signature.createXMLSample(schema, modelDefinitions, true) : false,
       isParam: true,
       signature: SwaggerUi.partials.signature.getParameterModelSignature(modelType, modelDefinitions),
@@ -20302,14 +20325,48 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
     if (isParam) {
       var parameterContentTypeView = new SwaggerUi.Views.ParameterContentTypeView({model: contentTypeModel});
       $('.parameter-content-type', $(this.el)).append(parameterContentTypeView.render().el);
+      this.toggleParameterSnippet();
     }
 
     else {
       var responseContentTypeView = new SwaggerUi.Views.ResponseContentTypeView({model: contentTypeModel});
       $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
+      this.toggleResponseSnippet();
     }
 
     return this;
+  },
+
+  contains: function (consumes, type) {
+    return consumes.filter(function (val) {
+      if (val.indexOf(type) > -1) {
+        return true;
+      }
+    }).length;
+  },
+
+  toggleParameterSnippet: function () {
+    var contentType = this.$('[name=parameterContentType]').val();
+
+    this.toggleSnippet(contentType);
+  },
+
+  toggleResponseSnippet: function () {
+    var contentEl = this.$('[name=responseContentType]');
+
+    if (!contentEl.length) { return; }
+
+    this.toggleSnippet(contentEl.val());
+  },
+
+  toggleSnippet: function (type) {
+    if (type.indexOf('xml') > -1) {
+      this.$('.snippet_xml').show();
+      this.$('.snippet_json').hide();
+    } else {
+      this.$('.snippet_json').show();
+      this.$('.snippet_xml').hide();
+    }
   },
 
   // Return an appropriate template based on if the parameter is a list, readonly, required
@@ -21325,7 +21382,6 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
   events: {
     'click a.description-link'       : 'switchToDescription',
     'click a.snippet-link'           : 'switchToSnippet',
-    'click a.snippet-xml-link'       : 'switchToXMLSnippet',
     'mousedown .snippet_json'          : 'jsonSnippetMouseDown',
     'mousedown .snippet_xml'          : 'xmlSnippetMouseDown'
   },
@@ -21355,30 +21411,16 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
     $('.description', $(this.el)).show();
     $('.description-link', $(this.el)).addClass('selected');
     $('.snippet-link', $(this.el)).removeClass('selected');
-    $('.snippet-xml-link', $(this.el)).removeClass('selected');
   },
 
   // handler for show sample
   switchToSnippet: function(e){
     if (e) { e.preventDefault(); }
 
-    $('.snippet_json', $(this.el)).show();
+    $('.snippet', $(this.el)).show();
     $('.description', $(this.el)).hide();
-    $('.snippet_xml', $(this.el)).hide();
     $('.snippet-link', $(this.el)).addClass('selected');
     $('.description-link', $(this.el)).removeClass('selected');
-    $('.snippet-xml-link', $(this.el)).removeClass('selected');
-  },
-
-  switchToXMLSnippet: function (e) {
-    if (e) { e.preventDefault();}
-
-    $('.snippet_xml', $(this.el)).show();
-    $('.snippet_json', $(this.el)).hide();
-    $('.description', $(this.el)).hide();
-    $('.snippet-xml-link', $(this.el)).addClass('selected');
-    $('.description-link', $(this.el)).removeClass('selected');
-    $('.snippet-link', $(this.el)).removeClass('selected');
   },
 
   // handler for snippet to text area
