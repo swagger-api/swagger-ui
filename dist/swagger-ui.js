@@ -565,7 +565,7 @@ function program10(depth0,data) {
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "' placeholder='' type='text' value='QUERY TYPE VALUE'/>\n		";
+    + "' placeholder='' type='text' value='QUERY TYPE VALUE' disabled/>\n		";
   return buffer;
   }
 
@@ -604,6 +604,39 @@ function program15(depth0,data) {
   return buffer;
   }
 
+function program17(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n		";
+  stack1 = helpers.each.call(depth0, depth0.choices, {hash:{},inverse:self.noop,fn:self.program(18, program18, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n	";
+  return buffer;
+  }
+function program18(depth0,data) {
+  
+  var buffer = "";
+  buffer += "\n			<input type=\"checkbox\" name=\"queryparamchoice\" value=\""
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "\">\n			<label for=\""
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "\">"
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "</label>\n		";
+  return buffer;
+  }
+
+function program20(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n		";
+  if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n	";
+  return buffer;
+  }
+
   buffer += "<td class='code'>";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
@@ -611,11 +644,10 @@ function program15(depth0,data) {
     + "</td>\n<td>\n\n	";
   stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(9, program9, data),fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n\n</td>\n<td>";
-  if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += "\n\n</td>\n<td>\n	";
+  stack1 = helpers['if'].call(depth0, depth0.isQuery, {hash:{},inverse:self.program(20, program20, data),fn:self.program(17, program17, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</td>\n<td>";
+  buffer += "\n</td>\n<td>";
   if (stack1 = helpers.paramType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
@@ -2021,7 +2053,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     ParameterView.prototype.render = function() {
-      var contentTypeModel, isParam, parameterContentTypeView, responseContentTypeView, signatureModel, signatureView, template, type;
+      var choicesString, contentTypeModel, isParam, parameterContentTypeView, responseContentTypeView, signatureModel, signatureView, template, type;
       type = this.model.type || this.model.dataType;
       if (this.model.paramType === 'body') {
         this.model.isBody = true;
@@ -2066,6 +2098,10 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           model: contentTypeModel
         });
         $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
+      }
+      if (this.model.isQuery) {
+        choicesString = this.model.description.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]"));
+        this.model.choices(choicesString.split(/[\s,]+/));
       }
       return this;
     };

@@ -16,7 +16,7 @@
 		{{/if}}
 	{{else}}
 		{{#if isQuery }}
-			<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value='QUERY TYPE VALUE'/>
+			<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value='QUERY TYPE VALUE' disabled/>
 		{{else}}
 			{{#if defaultValue}}
 				<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value='{{defaultValue}}'/>
@@ -27,7 +27,16 @@
 	{{/if}}
 
 </td>
-<td>{{{description}}}</td>
+<td>
+	{{#if isQuery}}
+		{{#each choices}}
+			<input type="checkbox" name="queryparamchoice" value="{{this}}">
+			<label for="{{this}}">{{this}}</label>
+		{{/each}}
+	{{else}}
+		{{{description}}}
+	{{/if}}
+</td>
 <td>{{{paramType}}}</td>
 <td>
 	<span class="model-signature"></span>
