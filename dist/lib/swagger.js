@@ -618,8 +618,10 @@ var SwaggerModelProperty = function(name, obj) {
 
 SwaggerModelProperty.prototype.getSampleValue = function(modelsToIgnore) {
   var result;
+  //This is where references are unpacked into the sample JSON
   if ((this.refModel != null) && (modelsToIgnore.indexOf(prop.refModel.name) === -1)) {
-    result = this.refModel.createJSONSample(modelsToIgnore);
+    result = "<Associated " + this.refModel.name + " object>";
+    // result = this.refModel.createJSONSample(modelsToIgnore);
   } else {
     if (this.isCollection) {
       result = this.toSampleValue(this.refDataType);

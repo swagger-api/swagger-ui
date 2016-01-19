@@ -2064,6 +2064,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       if (this.model.paramType === 'query') {
         this.model.isQuery = true;
       }
+      if (this.model.isQuery) {
+        choicesString = this.model.description;
+        choicesString = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]"));
+        this.model.choices = choicesString.split(/[\s,]+/);
+      }
       template = this.template();
       $(this.el).html(template(this.model));
       signatureModel = {
@@ -2098,11 +2103,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           model: contentTypeModel
         });
         $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
-      }
-      if (this.model.isQuery) {
-        choicesString = this.model.description;
-        choicesString = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]"));
-        this.model.choices = choicesString.split(/[\s,]+/);
       }
       return this;
     };

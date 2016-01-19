@@ -13,6 +13,11 @@ class ParameterView extends Backbone.View
     @model.isFile = true if type.toLowerCase() == 'file'
     @model.isQuery = true if @model.paramType == 'query'
 
+    if @model.isQuery
+      choicesString = @model.description
+      choicesString = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]"))
+      @model.choices = choicesString.split(/[\s,]+/)
+
     template = @template()
     $(@el).html(template(@model))
 
@@ -44,11 +49,6 @@ class ParameterView extends Backbone.View
     else
       responseContentTypeView = new ResponseContentTypeView({model: contentTypeModel})
       $('.response-content-type', $(@el)).append responseContentTypeView.render().el
-
-    if @model.isQuery
-      choicesString = @model.description
-      choicesString = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]"))
-      @model.choices = choicesString.split(/[\s,]+/)
     @
 
   # Return an appropriate template based on if the parameter is a list, readonly, required
