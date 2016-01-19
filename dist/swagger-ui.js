@@ -2100,8 +2100,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
       }
       if (this.model.isQuery) {
-        choicesString = this.model.description.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]"));
-        this.model.choices(choicesString.split(/[\s,]+/));
+        choicesString = this.model.description;
+        choicesString = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]"));
+        this.model.choices = choicesString.split(/[\s,]+/);
       }
       return this;
     };
