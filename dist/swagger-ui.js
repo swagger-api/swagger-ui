@@ -1581,8 +1581,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
     OperationView.prototype.initialize = function(options) {
       this.eventAggregator = options.eventAggregator;
-      this.eventAggregator.bind('applyExpansions', this.applyExpansions);
-      return _.bindAll(this, 'applyExpansions', 'updateSignature');
+      _.bindAll(this, 'applyExpansions', 'updateSignature');
+      return this.eventAggregator.bind('applyExpansions', this.applyExpansions);
     };
 
     OperationView.prototype.render = function() {
@@ -1644,7 +1644,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         }
       }
       if (!this.hasExpandableFields) {
-        this.updateSignature(this.model.responseSampleJSON);
+        this.applyExpansions({});
       }
       _ref3 = this.model.responseMessages;
       for (_l = 0, _len3 = _ref3.length; _l < _len3; _l++) {
@@ -1658,10 +1658,12 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       var baseJSON, expandableFields, field, _i, _len;
       expandableFields = Object.keys(currentExpansions);
       baseJSON = $.parseJSON(this.model.responseSampleJSON);
-      for (_i = 0, _len = expandableFields.length; _i < _len; _i++) {
-        field = expandableFields[_i];
-        if (!currentExpansions[field]) {
-          baseJSON[field] = "<Expandable Field>";
+      if (baseJSON) {
+        for (_i = 0, _len = expandableFields.length; _i < _len; _i++) {
+          field = expandableFields[_i];
+          if (!currentExpansions[field]) {
+            baseJSON[field] = "<Expandable Field>";
+          }
         }
       }
       return this.updateSignature(JSON.stringify(baseJSON));
@@ -1679,7 +1681,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           model: signatureModel,
           tagName: 'div'
         });
-        return $('.model-signature', $(this.el)).append(responseSignatureView.render().el);
+        return $('.model-signature', $(this.el)).html(responseSignatureView.render().el);
       } else {
         return $('.model-signature', $(this.el)).html(this.model.type);
       }
@@ -2129,14 +2131,12 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         isParam: true,
         signature: this.model.signature
       };
-      if (this.model.sampleJSON) {
+      if (this.model.sampleJSON && this.model.isBody) {
         signatureView = new SignatureView({
           model: signatureModel,
           tagName: 'div'
         });
         $('.model-signature', $(this.el)).append(signatureView.render().el);
-      } else {
-        $('.model-signature', $(this.el)).html(this.model.signature);
       }
       isParam = false;
       if (this.model.isBody) {
@@ -2207,7 +2207,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       'mousedown .snippet': 'snippetToTextArea'
     };
 
-    SignatureView.prototype.initialize = function() {};
+    SignatureView.prototype.initialize = function() {
+      return _.bindAll(this, 'snippetToTextArea');
+    };
 
     SignatureView.prototype.render = function() {
       var template;

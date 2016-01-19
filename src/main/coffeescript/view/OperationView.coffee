@@ -12,8 +12,9 @@ class OperationView extends Backbone.View
 
   initialize: (options) ->
     this.eventAggregator = options.eventAggregator
-    this.eventAggregator.bind('applyExpansions', this.applyExpansions)
     _.bindAll(this, 'applyExpansions', 'updateSignature')
+    this.eventAggregator.bind('applyExpansions', this.applyExpansions)
+    
 
 # This applies to an element we don't currently use in our UI
   # mouseEnter: (e) ->
@@ -87,7 +88,7 @@ class OperationView extends Backbone.View
       else
         @addParameter(param, contentTypeModel.consumes)
 
-    @updateSignature(@model.responseSampleJSON) unless this.hasExpandableFields
+    @applyExpansions({}) unless this.hasExpandableFields
 
     # Render each response code
     @addStatusCode statusCode for statusCode in @model.responseMessages
@@ -98,10 +99,10 @@ class OperationView extends Backbone.View
     # currentExpansions is an object of {expansionField: currentlyChecked}
     expandableFields = Object.keys(currentExpansions)
     baseJSON = $.parseJSON(@model.responseSampleJSON)
-
-    for field in expandableFields
-      unless currentExpansions[field]
-        baseJSON[field] = "<Expandable Field>"
+    if baseJSON
+      for field in expandableFields
+        unless currentExpansions[field]
+          baseJSON[field] = "<Expandable Field>"
 
     @updateSignature(JSON.stringify(baseJSON))
 
@@ -115,7 +116,7 @@ class OperationView extends Backbone.View
         signature: @model.responseClassSignature
         
       responseSignatureView = new SignatureView({model: signatureModel, tagName: 'div'})
-      $('.model-signature', $(@el)).append responseSignatureView.render().el
+      $('.model-signature', $(@el)).html(responseSignatureView.render().el)
     else
       $('.model-signature', $(@el)).html(@model.type)
 

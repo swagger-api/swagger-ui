@@ -6,6 +6,7 @@ class SignatureView extends Backbone.View
   }
 
   initialize: ->
+    _.bindAll(this, 'snippetToTextArea')
 
   render: ->
     template = @template()

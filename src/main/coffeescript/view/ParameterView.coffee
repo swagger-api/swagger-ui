@@ -41,11 +41,9 @@ class ParameterView extends Backbone.View
       isParam: true
       signature: @model.signature
 
-    if @model.sampleJSON
+    if @model.sampleJSON and @model.isBody
       signatureView = new SignatureView({model: signatureModel, tagName: 'div'})
       $('.model-signature', $(@el)).append signatureView.render().el
-    else
-      $('.model-signature', $(@el)).html(@model.signature)
 
     isParam = false
 
