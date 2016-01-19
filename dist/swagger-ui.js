@@ -615,8 +615,12 @@ function program17(depth0,data) {
   }
 function program18(depth0,data) {
   
-  var buffer = "";
-  buffer += "\n			<input type=\"checkbox\" name=\"queryparamchoice\" value=\""
+  var buffer = "", stack1;
+  buffer += "\n			<input type=\"checkbox\" class=\"";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "-checkbox\" name=\"queryparamchoice\" value=\""
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
     + "\">\n			<label for=\""
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
@@ -1541,12 +1545,14 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     ResourceView.prototype.addOperation = function(operation) {
-      var operationView;
+      var eventAggregator, operationView;
       operation.number = this.number;
+      eventAggregator = _.extend({}, Backbone.Events);
       operationView = new OperationView({
         model: operation,
         tagName: 'li',
-        className: 'endpoint'
+        className: 'endpoint',
+        eventAggregator: eventAggregator
       });
       $('.endpoints', $(this.el)).append(operationView.render().el);
       return this.number++;
@@ -1573,10 +1579,13 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       'click .toggleOperation': 'toggleOperationContent'
     };
 
-    OperationView.prototype.initialize = function() {};
+    OperationView.prototype.initialize = function(options) {
+      this.eventAggregator = options.eventAggregator;
+      return this.eventAggregator.bind("applyExpansions", this.applyExpansions);
+    };
 
     OperationView.prototype.render = function() {
-      var contentTypeModel, isMethodSubmissionSupported, k, o, param, responseContentTypeView, responseSignatureView, signatureModel, statusCode, type, v, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3;
+      var contentTypeModel, isMethodSubmissionSupported, k, o, param, responseContentTypeView, statusCode, type, v, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3;
       isMethodSubmissionSupported = true;
       if (!isMethodSubmissionSupported) {
         this.model.isReadOnly = true;
@@ -1602,20 +1611,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       }
       this.model.method = this.model.method.toUpperCase();
       $(this.el).html(Handlebars.templates.operation(this.model));
-      if (this.model.responseClassSignature && this.model.responseClassSignature !== 'string') {
-        signatureModel = {
-          sampleJSON: this.model.responseSampleJSON,
-          isParam: false,
-          signature: this.model.responseClassSignature
-        };
-        responseSignatureView = new SignatureView({
-          model: signatureModel,
-          tagName: 'div'
-        });
-        $('.model-signature', $(this.el)).append(responseSignatureView.render().el);
-      } else {
-        $('.model-signature', $(this.el)).html(this.model.type);
-      }
       contentTypeModel = {
         isParam: false
       };
@@ -1636,10 +1631,19 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         model: contentTypeModel
       });
       $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
+      this.hasExpandableFields = false;
       _ref2 = this.model.parameters;
       for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
         param = _ref2[_k];
-        this.addParameter(param, contentTypeModel.consumes);
+        if (param.name === 'expand') {
+          this.hasExpandableFields = true;
+          this.addParameter(param, contentTypeModel.consumes, this.eventAggregator);
+        } else {
+          this.addParameter(param, contentTypeModel.consumes);
+        }
+      }
+      if (!this.hasExpandableFields) {
+        this.updateSignature(this.model.responseSampleJSON);
       }
       _ref3 = this.model.responseMessages;
       for (_l = 0, _len3 = _ref3.length; _l < _len3; _l++) {
@@ -1649,13 +1653,45 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       return this;
     };
 
-    OperationView.prototype.addParameter = function(param, consumes) {
+    OperationView.prototype.applyExpansions = function(currentExpansions) {
+      var baseJSON, expandableFields, field, _i, _len;
+      expandableFields = Object.keys(currentExpansions);
+      baseJSON = $.parseJSON(this.model.responseSampleJSON);
+      for (_i = 0, _len = expandableFields.length; _i < _len; _i++) {
+        field = expandableFields[_i];
+        if (!currentExpansions[field]) {
+          baseJSON[field] = "<Expandable Field>";
+        }
+      }
+      return this.updateSignature(JSON.stringify(baseJSON));
+    };
+
+    OperationView.prototype.updateSignature = function(signatureAsExpanded) {
+      var responseSignatureView, signatureModel;
+      if (this.model.responseClassSignature && this.model.responseClassSignature !== 'string') {
+        signatureModel = {
+          sampleJSON: this.model.responseSampleJSON,
+          isParam: false,
+          signature: this.model.responseClassSignature
+        };
+        responseSignatureView = new SignatureView({
+          model: signatureModel,
+          tagName: 'div'
+        });
+        return $('.model-signature', $(this.el)).append(responseSignatureView.render().el);
+      } else {
+        return $('.model-signature', $(this.el)).html(this.model.type);
+      }
+    };
+
+    OperationView.prototype.addParameter = function(param, consumes, eventAggregator) {
       var paramView;
       param.consumes = consumes;
       paramView = new ParameterView({
         model: param,
         tagName: 'tr',
-        readOnly: this.model.isReadOnly
+        readOnly: this.model.isReadOnly,
+        eventAggregator: eventAggregator
       });
       return $('.operation-params', $(this.el)).append(paramView.render().el);
     };
@@ -2042,7 +2078,10 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       ParameterView.__super__.constructor.apply(this, arguments);
     }
 
-    ParameterView.prototype.initialize = function() {
+    ParameterView.prototype.initialize = function(options) {
+      if (options.eventAggregator) {
+        this.eventAggregator = options.eventAggregator;
+      }
       return Handlebars.registerHelper('isArray', function(param, opts) {
         if (param.type.toLowerCase() === 'array' || param.allowMultiple) {
           return opts.fn(this);
@@ -2052,8 +2091,12 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       });
     };
 
+    ParameterView.prototype.events = {
+      'click input.expand-checkbox': 'expandToggled'
+    };
+
     ParameterView.prototype.render = function() {
-      var choicesString, contentTypeModel, isParam, parameterContentTypeView, responseContentTypeView, signatureModel, signatureView, template, type;
+      var choice, choicesString, contentTypeModel, isParam, parameterContentTypeView, responseContentTypeView, signatureModel, signatureView, template, type, _i, _len, _ref;
       type = this.model.type || this.model.dataType;
       if (this.model.paramType === 'body') {
         this.model.isBody = true;
@@ -2068,6 +2111,15 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         choicesString = this.model.description;
         choicesString = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]"));
         this.model.choices = choicesString.split(/[\s,]+/);
+        if (this.model.name === 'expand') {
+          this.model.activeExpansions = {};
+          _ref = this.model.choices;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            choice = _ref[_i];
+            model.activeExpansions[choice] = false;
+          }
+          this.expandToggled();
+        }
       }
       template = this.template();
       $(this.el).html(template(this.model));
@@ -2125,6 +2177,15 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           }
         }
       }
+    };
+
+    ParameterView.prototype.expandToggled = function(ev) {
+      var $checkbox;
+      if (ev) {
+        $checkbox = $(ev.currentTarget);
+        this.model.activeExpansions[$checkbox.val()] = $checkbox.prop("checked");
+      }
+      return this.eventAggregator.trigger('applyExpansions', this.model.activeExpansions);
     };
 
     return ParameterView;
@@ -2191,7 +2252,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         }
         textArea = $('textarea', $(this.el.parentNode.parentNode.parentNode));
         if ($.trim(textArea.val()) === '') {
-          return textArea.val(this.model.sampleJSON);
+          return textArea.val(this.getCurrentJSON());
         }
       }
     };

@@ -26,8 +26,10 @@ class ResourceView extends Backbone.View
 
     operation.number = @number
 
+    eventAggregator = _.extend({}, Backbone.Events);
+
     # Render an operation and add it to operations li
-    operationView = new OperationView({model: operation, tagName: 'li', className: 'endpoint'})
+    operationView = new OperationView({model: operation, tagName: 'li', className: 'endpoint', eventAggregator: eventAggregator})
     $('.endpoints', $(@el)).append operationView.render().el
 
     @number++

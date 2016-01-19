@@ -10,10 +10,11 @@ class OperationView extends Backbone.View
     # 'mouseout .api-ic'        : 'mouseExit'
   }
 
-  initialize: ->
+  initialize: (options) ->
+    this.eventAggregator = options.eventAggregator
+    this.eventAggregator.bind("applyExpansions", this.applyExpansions)
 
-
-# This applies to an element we don't currently use in our 
+# This applies to an element we don't currently use in our UI
   # mouseEnter: (e) ->
   #   elem = $(e.currentTarget.parentNode).find('#api_information_panel')
   #   x = event.pageX
@@ -60,17 +61,6 @@ class OperationView extends Backbone.View
     @model.method = @model.method.toUpperCase()
     $(@el).html(Handlebars.templates.operation(@model))
 
-    if @model.responseClassSignature and @model.responseClassSignature != 'string'
-      signatureModel =
-        sampleJSON: @model.responseSampleJSON
-        isParam: false
-        signature: @model.responseClassSignature
-        
-      responseSignatureView = new SignatureView({model: signatureModel, tagName: 'div'})
-      $('.model-signature', $(@el)).append responseSignatureView.render().el
-    else
-      $('.model-signature', $(@el)).html(@model.type)
-
     contentTypeModel =
       isParam: false
 
@@ -87,18 +77,52 @@ class OperationView extends Backbone.View
     responseContentTypeView = new ResponseContentTypeView({model: contentTypeModel})
     $('.response-content-type', $(@el)).append responseContentTypeView.render().el
 
+    this.hasExpandableFields = false
     # Render each parameter
-    @addParameter param, contentTypeModel.consumes for param in @model.parameters
+    for param in @model.parameters
+      if param.name == 'expand'
+        this.hasExpandableFields = true
+        @addParameter(param, contentTypeModel.consumes, this.eventAggregator)
+      else
+        @addParameter(param, contentTypeModel.consumes)
+
+    @updateSignature(@model.responseSampleJSON) unless this.hasExpandableFields
 
     # Render each response code
     @addStatusCode statusCode for statusCode in @model.responseMessages
 
     @
 
-  addParameter: (param, consumes) ->
+  applyExpansions: (currentExpansions) ->
+    # currentExpansions is an object of {expansionField: currentlyChecked}
+    expandableFields = Object.keys(currentExpansions)
+    baseJSON = $.parseJSON(@model.responseSampleJSON)
+
+    for field in expandableFields
+      unless currentExpansions[field]
+        baseJSON[field] = "<Expandable Field>"
+
+    @updateSignature(JSON.stringify(baseJSON))
+
+
+
+  updateSignature: (signatureAsExpanded) ->
+    if @model.responseClassSignature and @model.responseClassSignature != 'string'
+      signatureModel =
+        sampleJSON: @model.responseSampleJSON
+        isParam: false
+        signature: @model.responseClassSignature
+        
+      responseSignatureView = new SignatureView({model: signatureModel, tagName: 'div'})
+      $('.model-signature', $(@el)).append responseSignatureView.render().el
+    else
+      $('.model-signature', $(@el)).html(@model.type)
+
+
+  addParameter: (param, consumes, eventAggregator) ->
     # Render a parameter
     param.consumes = consumes
-    paramView = new ParameterView({model: param, tagName: 'tr', readOnly: @model.isReadOnly})
+    paramView = new ParameterView({model: param, tagName: 'tr', readOnly: @model.isReadOnly, eventAggregator: eventAggregator})
     $('.operation-params', $(@el)).append paramView.render().el
 
   addStatusCode: (statusCode) ->

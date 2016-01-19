@@ -45,7 +45,7 @@ class SignatureView extends Backbone.View
       e?.preventDefault()
       textArea = $('textarea', $(@el.parentNode.parentNode.parentNode))
       if $.trim(textArea.val()) == ''
-        textArea.val(@model.sampleJSON)
+        textArea.val(this.getCurrentJSON())
 
 
     

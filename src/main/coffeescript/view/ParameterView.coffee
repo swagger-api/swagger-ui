@@ -1,11 +1,18 @@
 class ParameterView extends Backbone.View
-  initialize: ->
+  initialize: (options) ->
+    if (options.eventAggregator)
+      this.eventAggregator = options.eventAggregator
+
     Handlebars.registerHelper 'isArray',
       (param, opts) ->
         if param.type.toLowerCase() == 'array' || param.allowMultiple
           opts.fn(@)
         else
           opts.inverse(@)
+
+  events: {
+    'click input.expand-checkbox': 'expandToggled'
+  }
           
   render: ->
     type = @model.type || @model.dataType
@@ -17,6 +24,14 @@ class ParameterView extends Backbone.View
       choicesString = @model.description
       choicesString = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]"))
       @model.choices = choicesString.split(/[\s,]+/)
+      
+      if @model.name == 'expand'
+        @model.activeExpansions = {}
+        for choice in @model.choices
+          model.activeExpansions[choice] = false
+
+        @expandToggled()
+
 
     template = @template()
     $(@el).html(template(@model))
@@ -66,3 +81,10 @@ class ParameterView extends Backbone.View
           Handlebars.templates.param_required
         else
           Handlebars.templates.param
+
+  expandToggled: (ev) ->
+    if (ev)
+      $checkbox = $(ev.currentTarget)
+      @model.activeExpansions[$checkbox.val()] = $checkbox.prop( "checked" )
+
+    this.eventAggregator.trigger('applyExpansions', @model.activeExpansions)
