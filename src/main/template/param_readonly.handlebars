@@ -1,7 +1,7 @@
 <td class='code'><label for='{{valueId}}'>{{name}}</label></td>
 <td>
     {{#if isBody}}
-        <textarea class='body-textarea' readonly='readonly' name='{{name}}' id='{{valueId}}'>{{default}}</textarea>
+        <textarea class='body-textarea' readonly='readonly' name='{{safeName}}' id='{{valueId}}'>{{default}}</textarea>
         <div class="parameter-content-type" />
     {{else}}
         {{#if default}}

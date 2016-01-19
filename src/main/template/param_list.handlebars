@@ -1,6 +1,6 @@
 <td class='code{{#if required}} required{{/if}}'><label for='{{valueId}}'>{{name}}</label></td>
 <td>
-  <select {{#isArray this}} multiple="multiple"{{/isArray}} class="parameter {{#if required}} required {{/if}}" name="{{name}}" id="{{valueId}}">
+  <select {{#isArray this}} multiple="multiple"{{/isArray}} class="parameter {{#if required}} required {{/if}}" name="{{safeName}}" id="{{valueId}}">
 
     {{#unless required}}
       <option {{#unless hasDefault}}  selected="" {{/unless}} value=''></option>

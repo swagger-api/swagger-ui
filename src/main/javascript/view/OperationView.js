@@ -306,7 +306,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   },
 
   // Note: copied from CoffeeScript compiled file
-  // TODO: redactor
+  // TODO: refactor
   submitOperation: function(e) {
     var error_free, form, isFileUpload, map, opts;
     if (e !== null) {
@@ -396,35 +396,49 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   },
 
   getInputMap: function (form) {
-    var map, ref1, l, len, o, ref2, m, len1, val, ref3, n, len2;
+    var map, ref1, l, len, o, ref2, m, len1, val, ref3, n, len2, name;
     map = {};
     ref1 = form.find('input');
+
     for (l = 0, len = ref1.length; l < len; l++) {
       o = ref1[l];
+      name = this.unescapeName(o.name);
       if ((o.value !== null) && jQuery.trim(o.value).length > 0) {
-        map[o.name] = o.value;
+        map[name] = o.value;
       }
       if (o.type === 'file') {
-        map[o.name] = o.files[0];
+        map[name] = o.files[0];
       }
     }
     ref2 = form.find('textarea');
     for (m = 0, len1 = ref2.length; m < len1; m++) {
       o = ref2[m];
+      name = this.unescapeName(o.name);
       val = this.getTextAreaValue(o);
       if ((val !== null) && jQuery.trim(val).length > 0) {
-        map[o.name] = val;
+        map[name] = val;
       }
     }
     ref3 = form.find('select');
     for (n = 0, len2 = ref3.length; n < len2; n++) {
       o = ref3[n];
+      name = this.unescapeName(o.name);
       val = this.getSelectedValue(o);
       if ((val !== null) && jQuery.trim(val).length > 0) {
-        map[o.name] = val;
+        map[name] = val;
       }
     }
     return map;
+  },
+
+  escapeName: function(unescaped) {
+    return btoa(unescaped);
+  },
+
+  unescapeName: function(escaped) {
+    if(escaped) {
+      return atob(escaped);
+    }
   },
 
   isFileUpload: function (form) {

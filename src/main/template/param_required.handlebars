@@ -2,15 +2,15 @@
 <td>
 	{{#if isBody}}
 		{{#if isFile}}
-			<input type="file" name='{{name}}' id='{{valueId}}'/>
+			<input type="file" name='{{safeName}}' id='{{valueId}}'/>
 		{{else}}
 			{{#if default}}
 				<div class="editor_holder"></div>
-				<textarea class='body-textarea required' placeholder='(required)' name='{{name}}' id="{{valueId}}">{{default}}</textarea>
+				<textarea class='body-textarea required' placeholder='(required)' name='{{safeName}}' id="{{valueId}}">{{default}}</textarea>
         <br />
         <div class="parameter-content-type" />
 			{{else}}
-				<textarea class='body-textarea required' placeholder='(required)' name='{{name}}' id='{{valueId}}'></textarea>
+				<textarea class='body-textarea required' placeholder='(required)' name='{{safeName}}' id='{{valueId}}'></textarea>
 				<div class="editor_holder"></div>
 				<br />
 				<div class="parameter-content-type" />
@@ -18,7 +18,7 @@
 		{{/if}}
 	{{else}}
 		{{#if isFile}}
-			<input class='parameter' class='required' type='file' name='{{name}}' id='{{valueId}}'/>
+			<input class='parameter' class='required' type='file' name='{{safeName}}' id='{{valueId}}'/>
 		{{else}}
 			{{#renderTextParam this}}
 			{{/renderTextParam}}
