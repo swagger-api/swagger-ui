@@ -12,7 +12,8 @@ class OperationView extends Backbone.View
 
   initialize: (options) ->
     this.eventAggregator = options.eventAggregator
-    this.eventAggregator.bind("applyExpansions", this.applyExpansions)
+    this.eventAggregator.bind('applyExpansions', this.applyExpansions)
+    _.bindAll(this, 'applyExpansions', 'updateSignature')
 
 # This applies to an element we don't currently use in our UI
   # mouseEnter: (e) ->

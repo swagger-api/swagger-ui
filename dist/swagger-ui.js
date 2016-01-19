@@ -1581,7 +1581,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
     OperationView.prototype.initialize = function(options) {
       this.eventAggregator = options.eventAggregator;
-      return this.eventAggregator.bind("applyExpansions", this.applyExpansions);
+      this.eventAggregator.bind('applyExpansions', this.applyExpansions);
+      return _.bindAll(this, 'applyExpansions', 'updateSignature');
     };
 
     OperationView.prototype.render = function() {
@@ -2116,7 +2117,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           _ref = this.model.choices;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             choice = _ref[_i];
-            model.activeExpansions[choice] = false;
+            this.model.activeExpansions[choice] = false;
           }
           this.expandToggled();
         }

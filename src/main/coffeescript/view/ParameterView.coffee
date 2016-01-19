@@ -24,11 +24,11 @@ class ParameterView extends Backbone.View
       choicesString = @model.description
       choicesString = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]"))
       @model.choices = choicesString.split(/[\s,]+/)
-      
+
       if @model.name == 'expand'
         @model.activeExpansions = {}
         for choice in @model.choices
-          model.activeExpansions[choice] = false
+          @model.activeExpansions[choice] = false
 
         @expandToggled()
 
