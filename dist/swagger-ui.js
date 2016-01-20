@@ -2289,7 +2289,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       for (_i = 0, _len = allChoices.length; _i < _len; _i++) {
         choice = allChoices[_i];
         if (this.model.activeChoices[choice]) {
-          queryParamString = queryParamString.concat(choice, "&");
+          queryParamString = queryParamString.concat(choice, ",");
         }
       }
       queryParamString = queryParamString.slice(0, -1);

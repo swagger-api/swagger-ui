@@ -100,7 +100,7 @@ class ParameterView extends Backbone.View
     queryParamString = ""
     for choice in allChoices
       if @model.activeChoices[choice]
-        queryParamString = queryParamString.concat(choice, "&")
+        queryParamString = queryParamString.concat(choice, ",")
 
     queryParamString = queryParamString.slice(0, -1);
 
