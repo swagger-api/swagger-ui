@@ -177,8 +177,8 @@ describe('SwaggerUi.partials.signature tests', function () {
         });
 
         describe('array', function () {
-            it('returns tag <tagname>string</tagname><tagname>string</tagname> when passing string items', function () {
-                var expected = '<tagname>string</tagname><tagname>string</tagname>';
+            it('returns tag <tagname>string</tagname> when passing string items', function () {
+                var expected = '<tagname>string</tagname>';
                 var name = 'tagname';
                 var definition = {
                     type: 'array',
@@ -190,8 +190,8 @@ describe('SwaggerUi.partials.signature tests', function () {
                 expect(sut.createSchemaXML(name, definition, models)).to.equal(expected);
             });
 
-            it('returns tag <animal>string</animal><animal>string</animal> when passing string items with name', function () {
-                var expected = '<animal>string</animal><animal>string</animal>';
+            it('returns tag <animal>string</animal> when passing string items with name', function () {
+                var expected = '<animal>string</animal>';
                 var name = 'animals';
                 var definition = {
                     type: 'array',
@@ -206,8 +206,8 @@ describe('SwaggerUi.partials.signature tests', function () {
                 expect(sut.createSchemaXML(name, definition, models)).to.equal(expected);
             });
 
-            it('returns tag <animals><animal>string</animal><animal>string</animal></animals> when passing string items with name', function () {
-                var expected = '<animals><animal>string</animal><animal>string</animal></animals>';
+            it('returns tag <animals><animal>string</animal></animals> when passing string items with name', function () {
+                var expected = '<animals><animal>string</animal></animals>';
                 var name = 'animals';
                 var definition = {
                     type: 'array',
@@ -225,8 +225,8 @@ describe('SwaggerUi.partials.signature tests', function () {
                 expect(sut.createSchemaXML(name, definition, models)).to.equal(expected);
             });
 
-            it('returns tag <aliens><animal>string</animal><animal>string</animal></aliens> when passing string items with name and {wrapped: true}', function () {
-                var expected = '<aliens><animal>string</animal><animal>string</animal></aliens>';
+            it('returns tag <aliens><animal>string</animal></aliens> when passing string items with name and {wrapped: true}', function () {
+                var expected = '<aliens><animal>string</animal></aliens>';
                 var name = 'animals';
                 var definition = {
                     type: 'array',
@@ -246,7 +246,7 @@ describe('SwaggerUi.partials.signature tests', function () {
             });
 
             it('return correct nested wrapped array', function () {
-                var expected = '<aliens><cat>string</cat><cat>string</cat><cat>string</cat><cat>string</cat></aliens>';
+                var expected = '<aliens><cat>string</cat></aliens>';
                 var name = 'animals';
                 var definition = {
                     type: 'array',
@@ -270,8 +270,7 @@ describe('SwaggerUi.partials.signature tests', function () {
 
             it('return correct nested wrapped array', function () {
                 var expected = '<aliens>' +
-                    '<cats><cat>string</cat><cat>string</cat></cats>' +
-                    '<cats><cat>string</cat><cat>string</cat></cats>' +
+                    '<cats><cat>string</cat></cats>' +
                     '</aliens>';
                 var name = 'animals';
                 var definition = {
@@ -327,7 +326,6 @@ describe('SwaggerUi.partials.signature tests', function () {
             it('returns object with integer property and array property', function () {
                 var expected = '<animals>' +
                     '<aliens>string</aliens>' +
-                    '<aliens>string</aliens>' +
                     '<cat>1</cat>' +
                     '</animals>';
                 var name = 'animals';
@@ -354,7 +352,7 @@ describe('SwaggerUi.partials.signature tests', function () {
 
             it('returns object with integer property and array property', function () {
                 var expected = '<animals>' +
-                    '<aliens><alien>string</alien><alien>string</alien></aliens>' +
+                    '<aliens><alien>string</alien></aliens>' +
                     '<cat>1</cat>' +
                     '</animals>';
                 var name = 'animals';
@@ -475,7 +473,6 @@ describe('SwaggerUi.partials.signature tests', function () {
             it('returns array of Tags wrapped into Tags', function () {
                 var expected = '<Tags>' +
                     '<Tag><id>1</id><name>string</name></Tag>' +
-                    '<Tag><id>1</id><name>string</name></Tag>' +
                     '</Tags>';
                 var schema = {
                     type: 'array',
@@ -501,10 +498,8 @@ describe('SwaggerUi.partials.signature tests', function () {
                     '<name>doggie</name>' +
                     '<photoUrl>' +
                         '<photoUrl>string</photoUrl>' +
-                        '<photoUrl>string</photoUrl>' +
                     '</photoUrl>' +
                     '<tag>' +
-                        '<Tag><id>1</id><name>string</name></Tag>' +
                         '<Tag><id>1</id><name>string</name></Tag>' +
                     '</tag>' +
                     '<status>available</status>' +

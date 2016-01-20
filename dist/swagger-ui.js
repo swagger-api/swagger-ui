@@ -21114,7 +21114,6 @@ SwaggerUi.partials.signature = (function () {
     if (!items) { return getErrorMessage(); }
 
     value = createSchemaXML(name, items, models);
-    value += value;
 
     xml = xml || {};
 
