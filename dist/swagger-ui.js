@@ -565,7 +565,7 @@ function program10(depth0,data) {
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "' placeholder='' type='text' value='QUERY TYPE VALUE' disabled/>\n		";
+    + "' placeholder='' type='text' disabled/>\n		";
   return buffer;
   }
 
@@ -608,17 +608,15 @@ function program17(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n		";
-  stack1 = helpers.each.call(depth0, depth0.choices, {hash:{},inverse:self.noop,fn:self.programWithDepth(18, program18, data, depth0),data:data});
+  stack1 = helpers.each.call(depth0, depth0.choices, {hash:{},inverse:self.noop,fn:self.program(18, program18, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n	";
   return buffer;
   }
-function program18(depth0,data,depth1) {
+function program18(depth0,data) {
   
-  var buffer = "", stack1;
-  buffer += "\n			<input type=\"checkbox\" class=\""
-    + escapeExpression(((stack1 = depth1.name),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "-checkbox\" name=\"queryparamchoice\" value=\""
+  var buffer = "";
+  buffer += "\n			<input type=\"checkbox\" class=\"choice-checkbox\" name=\"queryparamchoice\" value=\""
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
     + "\">\n			<label for=\""
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
@@ -2168,7 +2166,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     ParameterView.prototype.events = {
-      'click input.expand-checkbox': 'expandToggled'
+      'click input.choice-checkbox': 'choiceToggled'
     };
 
     ParameterView.prototype.render = function() {
@@ -2183,19 +2181,20 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       if (this.model.paramType === 'query') {
         this.model.isQuery = true;
       }
+      if (this.model.name === 'expand') {
+        this.model.isExpand = true;
+      }
       if (this.model.isQuery) {
         choicesString = this.model.description;
         choicesString = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]"));
         this.model.choices = choicesString.split(/[\s,]+/);
-        if (this.model.name === 'expand') {
-          this.model.activeExpansions = {};
-          _ref = this.model.choices;
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            choice = _ref[_i];
-            this.model.activeExpansions[choice] = false;
-          }
-          this.expandToggled();
+        this.model.activeChoices = {};
+        _ref = this.model.choices;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          choice = _ref[_i];
+          this.model.activeChoices[choice] = false;
         }
+        this.choiceToggled();
       }
       template = this.template();
       $(this.el).html(template(this.model));
@@ -2255,14 +2254,33 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       }
     };
 
-    ParameterView.prototype.expandToggled = function(ev) {
+    ParameterView.prototype.choiceToggled = function(ev) {
       var $checkbox;
       if (ev) {
         $checkbox = $(ev.currentTarget);
-        this.model.activeExpansions[$checkbox.val()] = $checkbox.prop("checked");
+        this.model.activeChoices[$checkbox.val()] = $checkbox.prop("checked");
       }
-      return this.eventAggregator.trigger('applyExpansions', this.model.activeExpansions);
+      if (this.model.isExpand) {
+        this.updateExpansionsString();
+        return this.eventAggregator.trigger('applyExpansions', this.model.activeChoices);
+      }
     };
+
+    ParameterView.prototype.updateExpansionsString = function() {
+      var allChoices, choice, queryParamString, _i, _len;
+      allChoices = Object.keys(this.model.activeChoices);
+      queryParamString = "";
+      for (_i = 0, _len = allChoices.length; _i < _len; _i++) {
+        choice = allChoices[_i];
+        if (this.model.activeChoices[choice]) {
+          queryParamString = queryParamString.concat(choice, "&");
+        }
+      }
+      queryParamString = queryParamString.slice(0, -1);
+      return $('input.parameter', $(this.el)).val(queryParamString);
+    };
+
+    ParameterView.prototype.parseChoices = function() {};
 
     return ParameterView;
 

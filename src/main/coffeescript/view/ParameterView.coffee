@@ -11,7 +11,7 @@ class ParameterView extends Backbone.View
           opts.inverse(@)
 
   events: {
-    'click input.expand-checkbox': 'expandToggled'
+    'click input.choice-checkbox': 'choiceToggled'
   }
           
   render: ->
@@ -19,18 +19,18 @@ class ParameterView extends Backbone.View
     @model.isBody = true if @model.paramType == 'body'
     @model.isFile = true if type.toLowerCase() == 'file'
     @model.isQuery = true if @model.paramType == 'query'
+    @model.isExpand = true if @model.name == 'expand'
 
     if @model.isQuery
       choicesString = @model.description
       choicesString = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]"))
       @model.choices = choicesString.split(/[\s,]+/)
 
-      if @model.name == 'expand'
-        @model.activeExpansions = {}
-        for choice in @model.choices
-          @model.activeExpansions[choice] = false
+      @model.activeChoices = {}
+      for choice in @model.choices
+        @model.activeChoices[choice] = false
 
-        @expandToggled()
+      @choiceToggled()
 
 
     template = @template()
@@ -82,9 +82,30 @@ class ParameterView extends Backbone.View
         else
           Handlebars.templates.param
 
-  expandToggled: (ev) ->
+  choiceToggled: (ev) ->
     if (ev)
       $checkbox = $(ev.currentTarget)
-      @model.activeExpansions[$checkbox.val()] = $checkbox.prop( "checked" )
+      @model.activeChoices[$checkbox.val()] = $checkbox.prop( "checked" )
+      
 
-    this.eventAggregator.trigger('applyExpansions', @model.activeExpansions)
+    if @model.isExpand
+      @updateExpansionsString()
+      this.eventAggregator.trigger('applyExpansions', @model.activeChoices)
+
+  updateExpansionsString: ->
+    allChoices = Object.keys(@model.activeChoices)
+    queryParamString = ""
+    for choice in allChoices
+      if @model.activeChoices[choice]
+        queryParamString = queryParamString.concat(choice, "&")
+
+    queryParamString = queryParamString.slice(0, -1);
+
+    $('input.parameter', $(@el)).val(queryParamString)
+
+
+
+  parseChoices: ->
+
+
+
