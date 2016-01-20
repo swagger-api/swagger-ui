@@ -28,4 +28,8 @@
 	<strong>{{{description}}}</strong>
 </td>
 <td>{{{paramType}}}</td>
-<td><span class="model-signature"></span></td>
+<td>
+	{{#if isBody}}
+		<span class="model-signature"></span>
+	{{/if}}
+</td>

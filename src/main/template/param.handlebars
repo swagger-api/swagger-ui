@@ -30,7 +30,7 @@
 <td>
 	{{#if isQuery}}
 		{{#each choices}}
-			<input type="checkbox" class="{{name}}-checkbox" name="queryparamchoice" value="{{this}}">
+			<input type="checkbox" class="{{../name}}-checkbox" name="queryparamchoice" value="{{this}}">
 			<label for="{{this}}">{{this}}</label>
 		{{/each}}
 	{{else}}
@@ -39,5 +39,7 @@
 </td>
 <td>{{{paramType}}}</td>
 <td>
-	<span class="model-signature"></span>
+	{{#if isBody}}
+		<span class="model-signature"></span>
+	{{/if}}
 </td>

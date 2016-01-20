@@ -98,20 +98,20 @@ class OperationView extends Backbone.View
   applyExpansions: (currentExpansions) ->
     # currentExpansions is an object of {expansionField: currentlyChecked}
     expandableFields = Object.keys(currentExpansions)
-    baseJSON = $.parseJSON(@model.responseSampleJSON)
-    if baseJSON
+    modelJSON = $.parseJSON(@model.responseSampleJSON)
+    if modelJSON
       for field in expandableFields
         unless currentExpansions[field]
-          baseJSON[field] = "<Expandable Field>"
+          modelJSON[field] = "<Expandable Field>"
 
-    @updateSignature(JSON.stringify(baseJSON))
+    @updateSignature(JSON.stringify(modelJSON, null, '  '))
 
 
 
-  updateSignature: (signatureAsExpanded) ->
+  updateSignature: (expandedJSON) ->
     if @model.responseClassSignature and @model.responseClassSignature != 'string'
       signatureModel =
-        sampleJSON: @model.responseSampleJSON
+        sampleJSON: expandedJSON
         isParam: false
         signature: @model.responseClassSignature
         

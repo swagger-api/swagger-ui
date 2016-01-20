@@ -6,7 +6,6 @@ class SignatureView extends Backbone.View
   }
 
   initialize: ->
-    _.bindAll(this, 'snippetToTextArea')
 
   render: ->
     template = @template()
@@ -46,7 +45,4 @@ class SignatureView extends Backbone.View
       e?.preventDefault()
       textArea = $('textarea', $(@el.parentNode.parentNode.parentNode))
       if $.trim(textArea.val()) == ''
-        textArea.val(this.getCurrentJSON())
-
-
-    
+        textArea.val(@model.sampleJSON)
