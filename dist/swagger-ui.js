@@ -645,6 +645,12 @@ function program22(depth0,data) {
   return "\n		<span class=\"model-signature\"></span>\n	";
   }
 
+function program24(depth0,data) {
+  
+  
+  return "\n		<span class=\"data-type\"></span>\n	";
+  }
+
   buffer += "<td class='code'>";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
@@ -660,7 +666,7 @@ function program22(depth0,data) {
   else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "</td>\n<td>\n	";
-  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.noop,fn:self.program(22, program22, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(24, program24, data),fn:self.program(22, program22, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</td>\n";
   return buffer;
@@ -768,6 +774,12 @@ function program18(depth0,data) {
   return "\n    <span class=\"model-signature\"></span>\n  ";
   }
 
+function program20(depth0,data) {
+  
+  
+  return "\n    <span class=\"data-type\"></span>\n  ";
+  }
+
   buffer += "<td class='code'>";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
@@ -795,7 +807,7 @@ function program18(depth0,data) {
   else { stack2 = depth0.paramType; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "</td>\n<td>\n  ";
-  stack2 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.noop,fn:self.program(18, program18, data),data:data});
+  stack2 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(20, program20, data),fn:self.program(18, program18, data),data:data});
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\n</td>";
   return buffer;
@@ -853,7 +865,13 @@ function program6(depth0,data) {
 function program8(depth0,data) {
   
   
-  return "\n		<span class=\"model-signature\"></span>\n	";
+  return "\n        <span class=\"model-signature\"></span>\n    ";
+  }
+
+function program10(depth0,data) {
+  
+  
+  return "\n        <span class=\"data-type\"></span>\n    ";
   }
 
   buffer += "<td class='code'>";
@@ -871,8 +889,8 @@ function program8(depth0,data) {
   if (stack1 = helpers.paramType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</td>\n<td>\n	";
-  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.noop,fn:self.program(8, program8, data),data:data});
+  buffer += "</td>\n<td>\n    ";
+  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(10, program10, data),fn:self.program(8, program8, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</td>\n";
   return buffer;
@@ -930,7 +948,13 @@ function program6(depth0,data) {
 function program8(depth0,data) {
   
   
-  return "\n		<span class=\"model-signature\"></span>\n	";
+  return "\n        <span class=\"model-signature\"></span>\n    ";
+  }
+
+function program10(depth0,data) {
+  
+  
+  return "\n        <span class=\"data-type\"></span>\n    ";
   }
 
   buffer += "<td class='code required'>";
@@ -948,8 +972,8 @@ function program8(depth0,data) {
   if (stack1 = helpers.paramType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</td>\n<td>\n	";
-  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.noop,fn:self.program(8, program8, data),data:data});
+  buffer += "</td>\n<td>\n    ";
+  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(10, program10, data),fn:self.program(8, program8, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</td>\n";
   return buffer;
@@ -1079,6 +1103,12 @@ function program17(depth0,data) {
   return "\n		<span class=\"model-signature\"></span>\n	";
   }
 
+function program19(depth0,data) {
+  
+  
+  return "\n		<span class=\"data-type\"></span>\n	";
+  }
+
   buffer += "<td class='code required'>";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
@@ -1095,7 +1125,7 @@ function program17(depth0,data) {
   else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "</td>\n<td>\n	";
-  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.noop,fn:self.program(17, program17, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(19, program19, data),fn:self.program(17, program17, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</td>\n";
   return buffer;
@@ -1726,7 +1756,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         });
         return $('.model-signature', $(this.el)).html(responseSignatureView.render().el);
       } else {
-        return $('.model-signature', $(this.el)).html(this.model.type);
+        return $('.data-type', $(this.el)).html(this.model.type);
       }
     };
 
@@ -2101,8 +2131,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           model: responseModel,
           tagName: 'div'
         });
+        $('.model-signature', this.$el).append(responseModelView.render().el);
       } else {
-
+        $('.data-type', this.$el).html('');
       }
       return this;
     };
@@ -2179,6 +2210,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           tagName: 'div'
         });
         $('.model-signature', $(this.el)).append(signatureView.render().el);
+      } else {
+        $('.data-type', $(this.el)).html(this.model.type);
       }
       isParam = false;
       if (this.model.isBody) {
