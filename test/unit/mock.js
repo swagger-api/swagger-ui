@@ -1,3 +1,4 @@
+/* jshint ignore:start */
 $(function () {
   'use strict';
   var url = window.location.search.match(/url=([^&]+)/);
@@ -54,3 +55,5 @@ $(function () {
     }
   }
 });
+
+/* jshint ignore:end */
