@@ -10,6 +10,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     'click .toggleOperation'  : 'toggleOperationContent',
     'mouseenter .api-ic'      : 'mouseEnter',
     'dblclick .curl'          : 'selectText',
+    'change [name=responseContentType]' : 'showSnippet'
   },
 
   initialize: function(opts) {
@@ -84,7 +85,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   // Note: copied from CoffeeScript compiled file
   // TODO: redactor
   render: function() {
-    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, l, len, len1, len2, len3, len4, m, modelAuths, n, o, p, param, q, ref, ref1, ref2, ref3, ref4, ref5, responseContentTypeView, responseSignatureView, schema, schemaObj, scopeIndex, signatureModel, statusCode, successResponse, type, v, value;
+    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, l, len, len1, len2, len3, len4, m, modelAuths, n, o, p, param, q, ref, ref1, ref2, ref3, ref4, ref5, responseContentTypeView, responseSignatureView, schema, schemaObj, scopeIndex, signatureModel, statusCode, successResponse, type, v, value, produces, isXML, isJSON;
     isMethodSubmissionSupported = jQuery.inArray(this.model.method, this.model.supportedSubmitMethods()) >= 0;
     if (!isMethodSubmissionSupported) {
       this.model.isReadOnly = true;
@@ -163,6 +164,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       this.model.responseMessages = [];
     }
     signatureModel = null;
+    produces = this.model.produces;
+    isXML = this.contains(produces, 'xml');
+    isJSON = isXML ? this.contains(produces, 'json') : true;
+
     if (this.model.successResponse) {
       successResponse = this.model.successResponse;
       for (key in successResponse) {
@@ -172,9 +177,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
           this.model.successDescription = value.description;
           this.model.headers = this.parseResponseHeaders(value.headers);
           signatureModel = {
-            sampleJSON: JSON.stringify(value.createJSONSample(), void 0, 2),
+            sampleJSON: isJSON ? JSON.stringify(SwaggerUi.partials.signature.createJSONSample(value), void 0, 2) : false,
             isParam: false,
-            signature: value.getMockSignature()
+            sampleXML: isXML ? SwaggerUi.partials.signature.createXMLSample(value.definition, value.models) : false,
+            signature: SwaggerUi.partials.signature.getModelSignature(value.name, value.definition, value.models, value.modelPropertyMacro)
           };
         }
       }
@@ -230,6 +236,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       router: this.router
     });
     $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
+    this.showSnippet();
     ref4 = this.model.parameters;
     for (p = 0, len3 = ref4.length; p < len3; p++) {
       param = ref4[p];
@@ -241,6 +248,14 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       this.addStatusCode(statusCode);
     }
     return this;
+  },
+
+  contains: function (produces, type) {
+    return produces.filter(function (val) {
+      if (val.indexOf(type) > -1) {
+        return true;
+      }
+    }).length;
   },
 
   parseResponseHeaders: function (data) {
@@ -754,6 +769,22 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       return result.length > 0 ? result : null;
     } else {
       return textArea.value;
+    }
+  },
+
+  showSnippet: function () {
+    var contentTypeEl = this.$('[name=responseContentType]');
+    var contentType;
+
+    if (!contentTypeEl.length) { return; }
+    contentType = contentTypeEl.val();
+
+    if (contentType.indexOf('xml') > -1) {
+      this.$('.snippet_xml').show();
+      this.$('.snippet_json').hide();
+    } else {
+      this.$('.snippet_json').show();
+      this.$('.snippet_xml').hide();
     }
   },
 

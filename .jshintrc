@@ -30,6 +30,7 @@
     "SwaggerClient": false,
     "hljs": false,
     "SwaggerUi": false,
+    "jsyaml": false,
     "define": false,
 
     // Global object
