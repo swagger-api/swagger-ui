@@ -506,7 +506,7 @@ function program1(depth0,data) {
 function program2(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n			<input type=\"file\" name='";
+  buffer += "\n			<input type='file' name='";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -608,25 +608,38 @@ function program17(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n		";
-  stack1 = helpers.each.call(depth0, depth0.choices, {hash:{},inverse:self.noop,fn:self.program(18, program18, data),data:data});
+  stack1 = helpers.each.call(depth0, depth0.choices, {hash:{},inverse:self.noop,fn:self.programWithDepth(18, program18, data, depth0),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n	";
   return buffer;
   }
-function program18(depth0,data) {
+function program18(depth0,data,depth1) {
+  
+  var buffer = "", stack1;
+  buffer += "\n			<input type='checkbox' class='choice-checkbox' name='queryparamchoice' value='"
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "'>\n			<label for='"
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "'>"
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "</label>\n			";
+  stack1 = helpers['if'].call(depth0, depth1.isFilter, {hash:{},inverse:self.noop,fn:self.program(19, program19, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n			<br>\n		";
+  return buffer;
+  }
+function program19(depth0,data) {
   
   var buffer = "";
-  buffer += "\n			<input type=\"checkbox\" class=\"choice-checkbox\" name=\"queryparamchoice\" value=\""
+  buffer += "\n				<select class='"
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "\">\n			<label for=\""
+    + "-filter-operator'>\n					<option value='=='>==</option>\n					<option value='!='>!=</option>\n					<option value='>'>&gt;</option>\n					<option value='<'>&lt;</option>\n					<option value='>='>&gt;=</option>\n					<option value='<='>&lt;=</option>\n				</select>\n				\n				<input class='"
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "\">"
-    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "</label>\n		";
+    + "-filter-argument'>\n			";
   return buffer;
   }
 
-function program20(depth0,data) {
+function program21(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n		";
@@ -637,16 +650,16 @@ function program20(depth0,data) {
   return buffer;
   }
 
-function program22(depth0,data) {
+function program23(depth0,data) {
   
   
-  return "\n		<span class=\"model-signature\"></span>\n	";
+  return "\n		<span class='model-signature'></span>\n	";
   }
 
-function program24(depth0,data) {
+function program25(depth0,data) {
   
   
-  return "\n		<span class=\"data-type\"></span>\n	";
+  return "\n		<span class='data-type'></span>\n	";
   }
 
   buffer += "<td class='code'>";
@@ -657,14 +670,14 @@ function program24(depth0,data) {
   stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(9, program9, data),fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n\n</td>\n<td>\n	";
-  stack1 = helpers['if'].call(depth0, depth0.isQuery, {hash:{},inverse:self.program(20, program20, data),fn:self.program(17, program17, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.isQuery, {hash:{},inverse:self.program(21, program21, data),fn:self.program(17, program17, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</td>\n<td>";
   if (stack1 = helpers.paramType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "</td>\n<td>\n	";
-  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(24, program24, data),fn:self.program(22, program22, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(25, program25, data),fn:self.program(23, program23, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</td>\n";
   return buffer;
@@ -2181,8 +2194,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       if (this.model.paramType === 'query') {
         this.model.isQuery = true;
       }
-      if (this.model.name === 'expand') {
-        this.model.isExpand = true;
+      if (this.model.name === 'filter') {
+        this.model.isFilter = true;
       }
       if (this.model.isQuery) {
         choicesString = this.model.description;
@@ -2260,9 +2273,12 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         $checkbox = $(ev.currentTarget);
         this.model.activeChoices[$checkbox.val()] = $checkbox.prop("checked");
       }
-      if (this.model.isExpand) {
+      if (this.model.name === 'expand') {
         this.updateExpansionsString();
-        return this.eventAggregator.trigger('applyExpansions', this.model.activeChoices);
+        this.eventAggregator.trigger('applyExpansions', this.model.activeChoices);
+      }
+      if (this.model.isFilter) {
+        return this.updateFiltersString();
       }
     };
 
@@ -2279,6 +2295,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       queryParamString = queryParamString.slice(0, -1);
       return $('input.parameter', $(this.el)).val(queryParamString);
     };
+
+    ParameterView.prototype.updateFiltersString = function() {};
 
     ParameterView.prototype.parseChoices = function() {};
 

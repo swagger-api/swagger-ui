@@ -19,7 +19,7 @@ class ParameterView extends Backbone.View
     @model.isBody = true if @model.paramType == 'body'
     @model.isFile = true if type.toLowerCase() == 'file'
     @model.isQuery = true if @model.paramType == 'query'
-    @model.isExpand = true if @model.name == 'expand'
+    @model.isFilter = true if @model.name == 'filter'
 
     if @model.isQuery
       choicesString = @model.description
@@ -88,9 +88,12 @@ class ParameterView extends Backbone.View
       @model.activeChoices[$checkbox.val()] = $checkbox.prop( "checked" )
       
 
-    if @model.isExpand
+    if @model.name == 'expand'
       @updateExpansionsString()
       this.eventAggregator.trigger('applyExpansions', @model.activeChoices)
+
+    if @model.isFilter
+      @updateFiltersString()
 
   updateExpansionsString: ->
     allChoices = Object.keys(@model.activeChoices)
@@ -102,6 +105,9 @@ class ParameterView extends Backbone.View
     queryParamString = queryParamString.slice(0, -1);
 
     $('input.parameter', $(@el)).val(queryParamString)
+
+  updateFiltersString: ->
+
 
 
 

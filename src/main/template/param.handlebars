@@ -3,7 +3,7 @@
 
 	{{#if isBody}}
 		{{#if isFile}}
-			<input type="file" name='{{name}}'/>
+			<input type='file' name='{{name}}'/>
 			<div class="parameter-content-type" />
 		{{else}}
 			{{#if defaultValue}}
@@ -30,8 +30,21 @@
 <td>
 	{{#if isQuery}}
 		{{#each choices}}
-			<input type="checkbox" class="choice-checkbox" name="queryparamchoice" value="{{this}}">
-			<label for="{{this}}">{{this}}</label>
+			<input type='checkbox' class='choice-checkbox' name='queryparamchoice' value='{{this}}'>
+			<label for='{{this}}'>{{this}}</label>
+			{{#if ../isFilter}}
+				<select class='{{this}}-filter-operator'>
+					<option value='=='>==</option>
+					<option value='!='>!=</option>
+					<option value='>'>&gt;</option>
+					<option value='<'>&lt;</option>
+					<option value='>='>&gt;=</option>
+					<option value='<='>&lt;=</option>
+				</select>
+				
+				<input class='{{this}}-filter-argument'>
+			{{/if}}
+			<br>
 		{{/each}}
 	{{else}}
 		{{{description}}}
@@ -40,8 +53,8 @@
 <td>{{{paramType}}}</td>
 <td>
 	{{#if isBody}}
-		<span class="model-signature"></span>
+		<span class='model-signature'></span>
 	{{else}}
-		<span class="data-type"></span>
+		<span class='data-type'></span>
 	{{/if}}
 </td>
