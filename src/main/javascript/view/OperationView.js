@@ -236,7 +236,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       router: this.router
     });
     $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
-    this.showSnippet();
     ref4 = this.model.parameters;
     for (p = 0, len3 = ref4.length; p < len3; p++) {
       param = ref4[p];
@@ -245,9 +244,36 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     ref5 = this.model.responseMessages;
     for (q = 0, len4 = ref5.length; q < len4; q++) {
       statusCode = ref5[q];
+      statusCode.isXML = isXML;
+      statusCode.isJSON = isJSON;
+      if (!_.isUndefined(statusCode.headers)) {
+        statusCode.headers = this.parseHeadersType(statusCode.headers);
+      }
       this.addStatusCode(statusCode);
     }
+
+    this.showSnippet();
     return this;
+  },
+
+  parseHeadersType: function (headers) {
+    var map = {
+      'string': {
+        'date-time': 'dateTime',
+        'date'     : 'date'
+      }
+    };
+
+    _.forEach(headers, function (header) {
+      var value;
+      header = header || {};
+      value = map[header.type] && map[header.type][header.format];
+      if (!_.isUndefined(value)) {
+        header.type = value;
+      }
+    });
+
+    return headers;
   },
 
   contains: function (produces, type) {

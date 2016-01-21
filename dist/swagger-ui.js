@@ -25533,7 +25533,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       router: this.router
     });
     $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
-    this.showSnippet();
     ref4 = this.model.parameters;
     for (p = 0, len3 = ref4.length; p < len3; p++) {
       param = ref4[p];
@@ -25542,9 +25541,36 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     ref5 = this.model.responseMessages;
     for (q = 0, len4 = ref5.length; q < len4; q++) {
       statusCode = ref5[q];
+      statusCode.isXML = isXML;
+      statusCode.isJSON = isJSON;
+      if (!_.isUndefined(statusCode.headers)) {
+        statusCode.headers = this.parseHeadersType(statusCode.headers);
+      }
       this.addStatusCode(statusCode);
     }
+
+    this.showSnippet();
     return this;
+  },
+
+  parseHeadersType: function (headers) {
+    var map = {
+      'string': {
+        'date-time': 'dateTime',
+        'date'     : 'date'
+      }
+    };
+
+    _.forEach(headers, function (header) {
+      var value;
+      header = header || {};
+      value = map[header.type] && map[header.type][header.format];
+      if (!_.isUndefined(value)) {
+        header.type = value;
+      }
+    });
+
+    return headers;
   },
 
   contains: function (produces, type) {
@@ -27021,7 +27047,6 @@ SwaggerUi.partials.signature = (function () {
     if (!items) { return getErrorMessage(); }
 
     value = createSchemaXML(name, items, models);
-    value += value;
 
     xml = xml || {};
 
@@ -27369,13 +27394,15 @@ SwaggerUi.Views.StatusCodeView = Backbone.View.extend({
   },
 
   render: function(){
+    var value = this.router.api.models[this.model.responseModel];
     $(this.el).html(Handlebars.templates.status_code(this.model));
 
     if (this.router.api.models.hasOwnProperty(this.model.responseModel)) {
       var responseModel = {
-        sampleJSON: JSON.stringify(this.router.api.models[this.model.responseModel].createJSONSample(), null, 2),
+        sampleJSON: JSON.stringify(SwaggerUi.partials.signature.createJSONSample(value), void 0, 2),
+        sampleXML: this.model.isXML ? SwaggerUi.partials.signature.createXMLSample(value.definition, value.models) : false,
         isParam: false,
-        signature: this.router.api.models[this.model.responseModel].getMockSignature(),
+        signature: SwaggerUi.partials.signature.getModelSignature(this.model.responseModel, value, this.router.api.models),
         defaultRendering: this.model.defaultRendering
       };
 
