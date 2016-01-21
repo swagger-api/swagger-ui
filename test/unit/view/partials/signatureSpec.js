@@ -61,6 +61,44 @@ describe('SwaggerUi.partials.signature tests', function () {
                  'xml': { 'name': 'Tag' }
              },
              'name': 'Tag'
+        },
+        'Loop1': {
+            'definition': {
+                'type': 'object',
+                'properties': {
+                    'id': { 'type': 'integer'},
+                    'loop2': {
+                        '$ref': '#/definitions/Loop2'
+                    }
+                },
+                'xml': { 'name': 'Loop1' }
+            },
+            'name': 'Loop1'
+        },
+        'Loop2': {
+            'definition': {
+                'type': 'object',
+                'properties': {
+                    'id': { 'type': 'integer'},
+                    'loop1': {
+                        '$ref': '#/definitions/Loop1'
+                    }
+                },
+                'xml': { 'name': 'Loop2' }
+            },
+            'name': 'Loop2'
+        },
+        'Loop3': {
+            'definition': {
+                'type': 'object',
+                'properties' : {
+                    'loop1': {
+                        '$ref': '#/definitions/Loop1'
+                    }
+                },
+                'xml': { 'name': 'Loop3' }
+            },
+            'name': 'Loop3'
         }
     };
 
@@ -438,7 +476,7 @@ describe('SwaggerUi.partials.signature tests', function () {
                     }
                 };
 
-                expect(sut.createSchemaXML(name, definition, models, true)).to.equal(expected);
+                expect(sut.createSchemaXML(name, definition, models, { isParam: true })).to.equal(expected);
             });
 
             it('returns object with passed parameter as attribute', function () {
@@ -506,6 +544,38 @@ describe('SwaggerUi.partials.signature tests', function () {
                     '</Pet>';
                 var schema = {
                     $ref: '#/definitions/Pet'
+                };
+
+                expect(sut.createSchemaXML('', schema, models)).to.equal(expected);
+            });
+
+            it('infinite loop Loop1 => Loop2, Loop2 => Loop1', function () {
+                var expected = '<Loop1>' +
+                    '<id>1</id>' +
+                    '<Loop2>' +
+                        '<id>1</id>' +
+                        '<!-- Infinite loop to model Loop1 -->' +
+                    '</Loop2>' +
+                    '</Loop1>';
+                var schema = {
+                    $ref: '#/definitions/Loop1'
+                };
+
+                expect(sut.createSchemaXML('', schema, models)).to.equal(expected);
+            });
+
+            it('infinite loop Loop3 => Loop1, Loop1 => Loop2, Loop2 => Loop1', function () {
+                var expected = '<Loop3>' +
+                    '<Loop1>' +
+                        '<id>1</id>' +
+                        '<Loop2>' +
+                            '<id>1</id>' +
+                            '<!-- Infinite loop to model Loop1 -->' +
+                        '</Loop2>' +
+                    '</Loop1>' +
+                    '</Loop3>';
+                var schema = {
+                    $ref: '#/definitions/Loop3'
                 };
 
                 expect(sut.createSchemaXML('', schema, models)).to.equal(expected);
