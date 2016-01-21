@@ -246,11 +246,34 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       statusCode = ref5[q];
       statusCode.isXML = isXML;
       statusCode.isJSON = isJSON;
+      if (!_.isUndefined(statusCode.headers)) {
+        statusCode.headers = this.parseHeadersType(statusCode.headers);
+      }
       this.addStatusCode(statusCode);
     }
 
     this.showSnippet();
     return this;
+  },
+
+  parseHeadersType: function (headers) {
+    var map = {
+      'string': {
+        'date-time': 'dateTime',
+        'date'     : 'date'
+      }
+    };
+
+    _.forEach(headers, function (header) {
+      var value;
+      header = header || {};
+      value = map[header.type] && map[header.type][header.format];
+      if (!_.isUndefined(value)) {
+        header.type = value;
+      }
+    });
+
+    return headers;
   },
 
   contains: function (produces, type) {
