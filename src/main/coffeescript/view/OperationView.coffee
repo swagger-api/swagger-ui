@@ -11,11 +11,6 @@ class OperationView extends Backbone.View
   }
 
   initialize: (options) ->
-    this.eventAggregator = options.eventAggregator
-    _.bindAll(this, 'applyExpansions', 'updateSignature')
-    this.eventAggregator.bind('applyExpansions', this.applyExpansions)
-    
-
 # This applies to an element we don't currently use in our UI
   # mouseEnter: (e) ->
   #   elem = $(e.currentTarget.parentNode).find('#api_information_panel')
@@ -82,12 +77,11 @@ class OperationView extends Backbone.View
     this.hasExpandableFields = false
     # Render each parameter
     for param in @model.parameters
+      @addParameter(param, contentTypeModel.consumes)
       if param.name == 'expand'
         this.hasExpandableFields = true
-        @addParameter(param, contentTypeModel.consumes, this.eventAggregator)
-      else
-        @addParameter(param, contentTypeModel.consumes)
 
+    #unless there are expansions, show full JSON
     @applyExpansions({}) unless this.hasExpandableFields
 
     # Render each response code
@@ -121,10 +115,11 @@ class OperationView extends Backbone.View
       $('.data-type', $(@el)).html(@model.type)
 
 
-  addParameter: (param, consumes, eventAggregator) ->
+  addParameter: (param, consumes) ->
     # Render a parameter
     param.consumes = consumes
-    paramView = new ParameterView({model: param, tagName: 'tr', readOnly: @model.isReadOnly, eventAggregator: eventAggregator})
+    paramView = new ParameterView({model: param, tagName: 'tr', readOnly: @model.isReadOnly})
+    @listenTo(paramView, 'applyExpansions', @applyExpansions)
     $('.operation-params', $(@el)).append paramView.render().el
 
   addStatusCode: (statusCode) ->

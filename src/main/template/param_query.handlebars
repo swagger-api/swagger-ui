@@ -1,0 +1,15 @@
+<td class='code'>{{name}}</td>
+<td>
+	<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' disabled/>
+</td>
+<td>
+	<form class='query-choices'></form>
+</td>
+<td>{{{paramType}}}</td>
+<td>
+	{{#if isBody}}
+		<span class='model-signature'></span>
+	{{else}}
+		<span class='data-type'></span>
+	{{/if}}
+</td>

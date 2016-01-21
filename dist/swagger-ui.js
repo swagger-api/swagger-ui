@@ -553,7 +553,7 @@ function program9(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n		";
-  stack1 = helpers['if'].call(depth0, depth0.isQuery, {hash:{},inverse:self.program(12, program12, data),fn:self.program(10, program10, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.defaultValue, {hash:{},inverse:self.program(12, program12, data),fn:self.program(10, program10, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n	";
   return buffer;
@@ -565,98 +565,32 @@ function program10(depth0,data) {
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "' placeholder='' type='text' disabled/>\n		";
+    + "' placeholder='' type='text' value='";
+  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "'/>\n		";
   return buffer;
   }
 
 function program12(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n			";
-  stack1 = helpers['if'].call(depth0, depth0.defaultValue, {hash:{},inverse:self.program(15, program15, data),fn:self.program(13, program13, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n		";
-  return buffer;
-  }
-function program13(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n				<input class='parameter' minlength='0' name='";
+  buffer += "\n			<input class='parameter' minlength='0' name='";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "' placeholder='' type='text' value='";
-  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "'/>\n			";
+    + "' placeholder='' type='text' value=''/>\n		";
   return buffer;
   }
 
-function program15(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n				<input class='parameter' minlength='0' name='";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "' placeholder='' type='text' value=''/>\n			";
-  return buffer;
-  }
-
-function program17(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n		";
-  stack1 = helpers.each.call(depth0, depth0.choices, {hash:{},inverse:self.noop,fn:self.programWithDepth(18, program18, data, depth0),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n	";
-  return buffer;
-  }
-function program18(depth0,data,depth1) {
-  
-  var buffer = "", stack1;
-  buffer += "\n			<input type='checkbox' class='choice-checkbox' name='queryparamchoice' value='"
-    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "'>\n			<label for='"
-    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "'>"
-    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "</label>\n			";
-  stack1 = helpers['if'].call(depth0, depth1.isFilter, {hash:{},inverse:self.noop,fn:self.program(19, program19, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n			<br>\n		";
-  return buffer;
-  }
-function program19(depth0,data) {
-  
-  var buffer = "";
-  buffer += "\n				<select class='"
-    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "-filter-operator'>\n					<option value='=='>==</option>\n					<option value='!='>!=</option>\n					<option value='>'>&gt;</option>\n					<option value='<'>&lt;</option>\n					<option value='>='>&gt;=</option>\n					<option value='<='>&lt;=</option>\n				</select>\n				\n				<input class='"
-    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "-filter-argument'>\n			";
-  return buffer;
-  }
-
-function program21(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n		";
-  if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n	";
-  return buffer;
-  }
-
-function program23(depth0,data) {
+function program14(depth0,data) {
   
   
   return "\n		<span class='model-signature'></span>\n	";
   }
 
-function program25(depth0,data) {
+function program16(depth0,data) {
   
   
   return "\n		<span class='data-type'></span>\n	";
@@ -666,20 +600,79 @@ function program25(depth0,data) {
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</td>\n<td>\n\n	";
+    + "</td>\n<td>\n	";
   stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(9, program9, data),fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n\n</td>\n<td>\n	";
-  stack1 = helpers['if'].call(depth0, depth0.isQuery, {hash:{},inverse:self.program(21, program21, data),fn:self.program(17, program17, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</td>\n<td>";
+  if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "</td>\n<td>";
   if (stack1 = helpers.paramType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "</td>\n<td>\n	";
-  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(25, program25, data),fn:self.program(23, program23, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(16, program16, data),fn:self.program(14, program14, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</td>\n";
+  return buffer;
+  });
+})();
+
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['param_choice_expansion'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<input type='checkbox' class='expansion-checkbox' name='queryparamchoice' value='";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "'>\n<label for='";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "'>";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</label>\n<br>\n";
+  return buffer;
+  });
+})();
+
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['param_choice_filter'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<input type='checkbox' class='filter-checkbox' name='queryparamchoice' value='";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "'>\n<label for='";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "'>";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</label>\n\n<select class='";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "-filter-operator'>\n	<option value='=='>==</option>\n	<option value='!='>!=</option>\n	<option value='>'>&gt;</option>\n	<option value='<'>&lt;</option>\n	<option value='>='>&gt;=</option>\n	<option value='<='>&lt;=</option>\n</select>\n\n<input class='";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "-filter-argument'>\n\n<br>";
   return buffer;
   });
 })();
@@ -821,6 +814,45 @@ function program20(depth0,data) {
   stack2 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(20, program20, data),fn:self.program(18, program18, data),data:data});
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\n</td>";
+  return buffer;
+  });
+})();
+
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['param_query'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  
+  return "\n		<span class='model-signature'></span>\n	";
+  }
+
+function program3(depth0,data) {
+  
+  
+  return "\n		<span class='data-type'></span>\n	";
+  }
+
+  buffer += "<td class='code'>";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</td>\n<td>\n	<input class='parameter' minlength='0' name='";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "' placeholder='' type='text' disabled/>\n</td>\n<td>\n	<form class='query-choices'></form>\n</td>\n<td>";
+  if (stack1 = helpers.paramType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "</td>\n<td>\n	";
+  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n</td>\n";
   return buffer;
   });
 })();
@@ -1338,7 +1370,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
 // Generated by CoffeeScript 1.5.0
 (function() {
-  var ContentTypeView, HeaderView, MainView, OperationView, ParameterContentTypeView, ParameterView, ResourceView, ResponseContentTypeView, SignatureView, StatusCodeView, SwaggerUi,
+  var ContentTypeView, HeaderView, MainView, OperationView, ParameterChoiceView, ParameterContentTypeView, ParameterView, ResourceView, ResponseContentTypeView, SignatureView, StatusCodeView, SwaggerUi,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -1629,14 +1661,12 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     ResourceView.prototype.addOperation = function(operation) {
-      var eventAggregator, operationView;
+      var operationView;
       operation.number = this.number;
-      eventAggregator = _.extend({}, Backbone.Events);
       operationView = new OperationView({
         model: operation,
         tagName: 'li',
-        className: 'endpoint',
-        eventAggregator: eventAggregator
+        className: 'endpoint'
       });
       $('.endpoints', $(this.el)).append(operationView.render().el);
       return this.number++;
@@ -1663,11 +1693,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       'click .toggleOperation': 'toggleOperationContent'
     };
 
-    OperationView.prototype.initialize = function(options) {
-      this.eventAggregator = options.eventAggregator;
-      _.bindAll(this, 'applyExpansions', 'updateSignature');
-      return this.eventAggregator.bind('applyExpansions', this.applyExpansions);
-    };
+    OperationView.prototype.initialize = function(options) {};
 
     OperationView.prototype.render = function() {
       var contentTypeModel, isMethodSubmissionSupported, k, o, param, responseContentTypeView, statusCode, type, v, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3;
@@ -1720,11 +1746,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       _ref2 = this.model.parameters;
       for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
         param = _ref2[_k];
+        this.addParameter(param, contentTypeModel.consumes);
         if (param.name === 'expand') {
           this.hasExpandableFields = true;
-          this.addParameter(param, contentTypeModel.consumes, this.eventAggregator);
-        } else {
-          this.addParameter(param, contentTypeModel.consumes);
         }
       }
       if (!this.hasExpandableFields) {
@@ -1771,15 +1795,15 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       }
     };
 
-    OperationView.prototype.addParameter = function(param, consumes, eventAggregator) {
+    OperationView.prototype.addParameter = function(param, consumes) {
       var paramView;
       param.consumes = consumes;
       paramView = new ParameterView({
         model: param,
         tagName: 'tr',
-        readOnly: this.model.isReadOnly,
-        eventAggregator: eventAggregator
+        readOnly: this.model.isReadOnly
       });
+      this.listenTo(paramView, 'applyExpansions', this.applyExpansions);
       return $('.operation-params', $(this.el)).append(paramView.render().el);
     };
 
@@ -2166,9 +2190,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     }
 
     ParameterView.prototype.initialize = function(options) {
-      if (options.eventAggregator) {
-        this.eventAggregator = options.eventAggregator;
-      }
+      this.options = options || {};
       return Handlebars.registerHelper('isArray', function(param, opts) {
         if (param.type.toLowerCase() === 'array' || param.allowMultiple) {
           return opts.fn(this);
@@ -2178,12 +2200,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       });
     };
 
-    ParameterView.prototype.events = {
-      'click input.choice-checkbox': 'choiceToggled'
-    };
-
     ParameterView.prototype.render = function() {
-      var choice, choicesString, contentTypeModel, isParam, parameterContentTypeView, responseContentTypeView, signatureModel, signatureView, template, type, _i, _len, _ref;
+      var choice, choiceType, template, type, _i, _len, _ref;
       type = this.model.type || this.model.dataType;
       if (this.model.paramType === 'body') {
         this.model.isBody = true;
@@ -2197,20 +2215,70 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       if (this.model.name === 'filter') {
         this.model.isFilter = true;
       }
+      if (this.model.name === 'expand') {
+        this.model.isExpand = true;
+      }
       if (this.model.isQuery) {
-        choicesString = this.model.description;
-        choicesString = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]"));
-        this.model.choices = choicesString.split(/[\s,]+/);
-        this.model.activeChoices = {};
-        _ref = this.model.choices;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          choice = _ref[_i];
-          this.model.activeChoices[choice] = false;
+        this.parseChoices();
+        if (this.model.isExpand) {
+          this.trigger('applyExpansions', this.model.activeChoices);
         }
-        this.choiceToggled();
       }
       template = this.template();
       $(this.el).html(template(this.model));
+      this.addSignatureView();
+      this.addPerameterContentTypeView();
+      if (this.model.isQuery) {
+        choiceType = this.model.name;
+        _ref = this.model.choices;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          choice = _ref[_i];
+          this.addChoiceView(choice, choiceType);
+        }
+      }
+      return this;
+    };
+
+    ParameterView.prototype.template = function() {
+      if (this.model.isList) {
+        return Handlebars.templates.param_list;
+      } else {
+        if (this.model.isQuery) {
+          return Handlebars.templates.param_query;
+        } else {
+          if (this.options.readOnly) {
+            if (this.model.required) {
+              return Handlebars.templates.param_readonly_required;
+            } else {
+              return Handlebars.templates.param_readonly;
+            }
+          } else {
+            if (this.model.required) {
+              return Handlebars.templates.param_required;
+            } else {
+              return Handlebars.templates.param;
+            }
+          }
+        }
+      }
+    };
+
+    ParameterView.prototype.parseChoices = function() {
+      var choice, choicesString, _i, _len, _ref, _results;
+      choicesString = this.model.description;
+      this.model.choices = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]")).split(/[\s,]+/);
+      this.model.activeChoices = {};
+      _ref = this.model.choices;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        choice = _ref[_i];
+        _results.push(this.model.activeChoices[choice] = false);
+      }
+      return _results;
+    };
+
+    ParameterView.prototype.addSignatureView = function() {
+      var signatureModel, signatureView;
       signatureModel = {
         sampleJSON: this.model.sampleJSON,
         isParam: true,
@@ -2221,10 +2289,14 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           model: signatureModel,
           tagName: 'div'
         });
-        $('.model-signature', $(this.el)).append(signatureView.render().el);
+        return $('.model-signature', $(this.el)).append(signatureView.render().el);
       } else {
-        $('.data-type', $(this.el)).html(this.model.type);
+        return $('.data-type', $(this.el)).html(this.model.type);
       }
+    };
+
+    ParameterView.prototype.addPerameterContentTypeView = function() {
+      var contentTypeModel, isParam, parameterContentTypeView, responseContentTypeView;
       isParam = false;
       if (this.model.isBody) {
         isParam = true;
@@ -2237,45 +2309,32 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         parameterContentTypeView = new ParameterContentTypeView({
           model: contentTypeModel
         });
-        $('.parameter-content-type', $(this.el)).append(parameterContentTypeView.render().el);
+        return $('.parameter-content-type', $(this.el)).append(parameterContentTypeView.render().el);
       } else {
         responseContentTypeView = new ResponseContentTypeView({
           model: contentTypeModel
         });
-        $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
+        return $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
       }
-      return this;
     };
 
-    ParameterView.prototype.template = function() {
-      if (this.model.isList) {
-        return Handlebars.templates.param_list;
-      } else {
-        if (this.options.readOnly) {
-          if (this.model.required) {
-            return Handlebars.templates.param_readonly_required;
-          } else {
-            return Handlebars.templates.param_readonly;
-          }
-        } else {
-          if (this.model.required) {
-            return Handlebars.templates.param_required;
-          } else {
-            return Handlebars.templates.param;
-          }
+    ParameterView.prototype.addChoiceView = function(choiceName, choiceType) {
+      var choiceView;
+      choiceView = new ParameterChoiceView({
+        model: {
+          name: choiceName,
+          choiceType: choiceType
         }
-      }
+      });
+      this.listenTo(choiceView, 'choiceToggled', this.choiceToggled);
+      return $('.query-choices', $(this.el)).append(choiceView.render().el);
     };
 
-    ParameterView.prototype.choiceToggled = function(ev) {
-      var $checkbox;
-      if (ev) {
-        $checkbox = $(ev.currentTarget);
-        this.model.activeChoices[$checkbox.val()] = $checkbox.prop("checked");
-      }
-      if (this.model.name === 'expand') {
+    ParameterView.prototype.choiceToggled = function(choice) {
+      this.model.activeChoices[choice.name] = choice.checked;
+      if (this.model.isExpand) {
         this.updateExpansionsString();
-        this.eventAggregator.trigger('applyExpansions', this.model.activeChoices);
+        this.trigger('applyExpansions', this.model.activeChoices);
       }
       if (this.model.isFilter) {
         return this.updateFiltersString();
@@ -2283,11 +2342,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     ParameterView.prototype.updateExpansionsString = function() {
-      var allChoices, choice, queryParamString, _i, _len;
-      allChoices = Object.keys(this.model.activeChoices);
+      var choice, queryParamString, _i, _len, _ref;
       queryParamString = "";
-      for (_i = 0, _len = allChoices.length; _i < _len; _i++) {
-        choice = allChoices[_i];
+      _ref = this.model.choices;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        choice = _ref[_i];
         if (this.model.activeChoices[choice]) {
           queryParamString = queryParamString.concat(choice, ",");
         }
@@ -2297,8 +2356,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     ParameterView.prototype.updateFiltersString = function() {};
-
-    ParameterView.prototype.parseChoices = function() {};
 
     return ParameterView;
 
@@ -2448,6 +2505,49 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     return ParameterContentTypeView;
+
+  })(Backbone.View);
+
+  ParameterChoiceView = (function(_super) {
+
+    __extends(ParameterChoiceView, _super);
+
+    function ParameterChoiceView() {
+      ParameterChoiceView.__super__.constructor.apply(this, arguments);
+    }
+
+    ParameterChoiceView.prototype.events = {
+      'click input.expansion-checkbox': 'expansionToggled',
+      'click input.filter-checkbox': 'filterToggled'
+    };
+
+    ParameterChoiceView.prototype.initialize = function() {};
+
+    ParameterChoiceView.prototype.render = function() {
+      var template;
+      template = this.template();
+      $(this.el).html(template(this.model));
+      return this;
+    };
+
+    ParameterChoiceView.prototype.template = function() {
+      if (this.model.choiceType === 'expand') {
+        return Handlebars.templates.param_choice_expansion;
+      } else {
+        return Handlebars.templates.param_choice_filter;
+      }
+    };
+
+    ParameterChoiceView.prototype.expansionToggled = function(ev) {
+      return this.trigger('choiceToggled', {
+        name: this.model.name,
+        checked: $(ev.currentTarget).prop('checked')
+      });
+    };
+
+    ParameterChoiceView.prototype.filterToggled = function(ev) {};
+
+    return ParameterChoiceView;
 
   })(Backbone.View);
 

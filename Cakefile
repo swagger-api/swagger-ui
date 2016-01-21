@@ -15,6 +15,7 @@ sourceFiles  = [
   'view/ContentTypeView'
   'view/ResponseContentTypeView'
   'view/ParameterContentTypeView'
+  'view/ParameterChoiceView'
 ]
 
 

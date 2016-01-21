@@ -1,7 +1,6 @@
 class ParameterView extends Backbone.View
   initialize: (options) ->
-    if (options.eventAggregator)
-      this.eventAggregator = options.eventAggregator
+    this.options = options || {}
 
     Handlebars.registerHelper 'isArray',
       (param, opts) ->
@@ -9,10 +8,6 @@ class ParameterView extends Backbone.View
           opts.fn(@)
         else
           opts.inverse(@)
-
-  events: {
-    'click input.choice-checkbox': 'choiceToggled'
-  }
           
   render: ->
     type = @model.type || @model.dataType
@@ -20,22 +15,56 @@ class ParameterView extends Backbone.View
     @model.isFile = true if type.toLowerCase() == 'file'
     @model.isQuery = true if @model.paramType == 'query'
     @model.isFilter = true if @model.name == 'filter'
+    @model.isExpand = true if @model.name == 'expand'
 
     if @model.isQuery
-      choicesString = @model.description
-      choicesString = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]"))
-      @model.choices = choicesString.split(/[\s,]+/)
-
-      @model.activeChoices = {}
-      for choice in @model.choices
-        @model.activeChoices[choice] = false
-
-      @choiceToggled()
-
+      @parseChoices()
+      if @model.isExpand
+        #notify OperationView to build JSON based on default expansions (none)
+        @trigger('applyExpansions', @model.activeChoices)
 
     template = @template()
     $(@el).html(template(@model))
 
+    @addSignatureView()
+    @addPerameterContentTypeView()
+
+    if @model.isQuery
+      choiceType = @model.name
+      for choice in @model.choices
+        @addChoiceView(choice, choiceType)
+
+    @
+
+  # Return an appropriate template based on if the parameter is a list, readonly, required
+  template: ->
+    if @model.isList
+      Handlebars.templates.param_list
+    else
+      if @model.isQuery
+        Handlebars.templates.param_query
+      else
+        if @options.readOnly
+          if @model.required
+            Handlebars.templates.param_readonly_required
+          else
+            Handlebars.templates.param_readonly
+        else
+          if @model.required
+            Handlebars.templates.param_required
+          else
+            Handlebars.templates.param
+
+
+  parseChoices: ->
+    #Based on current practice of having all choices in a string representation of an array
+    choicesString = @model.description
+    @model.choices = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]")).split(/[\s,]+/)
+    @model.activeChoices = {}
+    for choice in @model.choices
+      @model.activeChoices[choice] = false
+
+  addSignatureView: ->
     signatureModel =
       sampleJSON: @model.sampleJSON
       isParam: true
@@ -47,6 +76,7 @@ class ParameterView extends Backbone.View
     else
       $('.data-type', $(@el)).html(@model.type)
 
+  addPerameterContentTypeView: ->
     isParam = false
 
     if @model.isBody
@@ -60,45 +90,29 @@ class ParameterView extends Backbone.View
     if isParam
       parameterContentTypeView = new ParameterContentTypeView({model: contentTypeModel})
       $('.parameter-content-type', $(@el)).append parameterContentTypeView.render().el
-
     else
       responseContentTypeView = new ResponseContentTypeView({model: contentTypeModel})
       $('.response-content-type', $(@el)).append responseContentTypeView.render().el
-    @
 
-  # Return an appropriate template based on if the parameter is a list, readonly, required
-  template: ->
-    if @model.isList
-      Handlebars.templates.param_list
-    else
-      if @options.readOnly
-        if @model.required
-          Handlebars.templates.param_readonly_required
-        else
-          Handlebars.templates.param_readonly
-      else
-        if @model.required
-          Handlebars.templates.param_required
-        else
-          Handlebars.templates.param
+  addChoiceView: (choiceName, choiceType) ->
+    # Render a query choice
+    choiceView = new ParameterChoiceView({model: {name: choiceName, choiceType: choiceType}})
+    @listenTo(choiceView, 'choiceToggled', @choiceToggled)
+    $('.query-choices', $(@el)).append choiceView.render().el
 
-  choiceToggled: (ev) ->
-    if (ev)
-      $checkbox = $(ev.currentTarget)
-      @model.activeChoices[$checkbox.val()] = $checkbox.prop( "checked" )
-      
+  choiceToggled: (choice) ->
+    @model.activeChoices[choice.name] = choice.checked
 
-    if @model.name == 'expand'
+    if @model.isExpand
       @updateExpansionsString()
-      this.eventAggregator.trigger('applyExpansions', @model.activeChoices)
+      @trigger('applyExpansions', @model.activeChoices)
 
     if @model.isFilter
       @updateFiltersString()
 
   updateExpansionsString: ->
-    allChoices = Object.keys(@model.activeChoices)
     queryParamString = ""
-    for choice in allChoices
+    for choice in @model.choices
       if @model.activeChoices[choice]
         queryParamString = queryParamString.concat(choice, ",")
 
@@ -111,7 +125,6 @@ class ParameterView extends Backbone.View
 
 
 
-  parseChoices: ->
 
 
 

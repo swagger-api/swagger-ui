@@ -1,6 +1,5 @@
 <td class='code'>{{name}}</td>
 <td>
-
 	{{#if isBody}}
 		{{#if isFile}}
 			<input type='file' name='{{name}}'/>
@@ -15,41 +14,14 @@
 			{{/if}}
 		{{/if}}
 	{{else}}
-		{{#if isQuery }}
-			<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' disabled/>
+		{{#if defaultValue}}
+			<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value='{{defaultValue}}'/>
 		{{else}}
-			{{#if defaultValue}}
-				<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value='{{defaultValue}}'/>
-			{{else}}
-				<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value=''/>
-			{{/if}}
+			<input class='parameter' minlength='0' name='{{name}}' placeholder='' type='text' value=''/>
 		{{/if}}
 	{{/if}}
-
 </td>
-<td>
-	{{#if isQuery}}
-		{{#each choices}}
-			<input type='checkbox' class='choice-checkbox' name='queryparamchoice' value='{{this}}'>
-			<label for='{{this}}'>{{this}}</label>
-			{{#if ../isFilter}}
-				<select class='{{this}}-filter-operator'>
-					<option value='=='>==</option>
-					<option value='!='>!=</option>
-					<option value='>'>&gt;</option>
-					<option value='<'>&lt;</option>
-					<option value='>='>&gt;=</option>
-					<option value='<='>&lt;=</option>
-				</select>
-				
-				<input class='{{this}}-filter-argument'>
-			{{/if}}
-			<br>
-		{{/each}}
-	{{else}}
-		{{{description}}}
-	{{/if}}
-</td>
+<td>{{{description}}}</td>
 <td>{{{paramType}}}</td>
 <td>
 	{{#if isBody}}
