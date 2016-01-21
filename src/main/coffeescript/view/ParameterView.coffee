@@ -101,7 +101,7 @@ class ParameterView extends Backbone.View
     $('.query-choices', $(@el)).append choiceView.render().el
 
   choiceToggled: (choice) ->
-    @model.activeChoices[choice.name] = choice.checked
+    @model.activeChoices[choice.name] = choice.activeParam
 
     if @model.isExpand
       @updateExpansionsString()
@@ -121,6 +121,16 @@ class ParameterView extends Backbone.View
     $('input.parameter', $(@el)).val(queryParamString)
 
   updateFiltersString: ->
+    queryParamString = ""
+    for choice in @model.choices
+      if @model.activeChoices[choice]
+        activeParam = @model.activeChoices[choice]
+        filterString = "filter=#{choice}#{activeParam.operator}#{activeParam.argument}"
+        queryParamString = queryParamString.concat(filterString, "&")
+
+    queryParamString = queryParamString.slice(0, -1);
+
+    $('input.parameter', $(@el)).val(queryParamString)
 
 
 
