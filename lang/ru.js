@@ -28,6 +28,7 @@ window.SwaggerTranslator.learn({
     "Expand Operations":"Операции подробно",
     "Raw":"В сыром виде",
     "can't parse JSON.  Raw result":"Не удается распарсить ответ:",
+    "Example Value":"Пример",
     "Model Schema":"Структура",
     "Model":"Описание",
     "Click to set as parameter value":"Нажмите, чтобы испльзовать в качестве значения параметра",

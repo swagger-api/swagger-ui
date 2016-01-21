@@ -365,6 +365,7 @@
 }
 .swagger-section .swagger-ui-wrap .model-signature ul.signature-nav {
   display: block;
+  min-width: 230px;
   margin: 0;
   padding: 0;
 }
