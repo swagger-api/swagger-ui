@@ -125,10 +125,9 @@ class ParameterView extends Backbone.View
     for choice in @model.choices
       if @model.activeChoices[choice]
         activeParam = @model.activeChoices[choice]
-        filterString = "filter=#{choice}#{activeParam.operator}#{activeParam.argument}"
-        queryParamString = queryParamString.concat(filterString, "&")
+        queryParamString = queryParamString.concat(activeParam, "&filter=")
 
-    queryParamString = queryParamString.slice(0, -1);
+    queryParamString = queryParamString.slice(0, -8);
 
     $('input.parameter', $(@el)).val(queryParamString)
 

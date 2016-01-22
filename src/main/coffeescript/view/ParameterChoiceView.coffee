@@ -41,7 +41,7 @@ class ParameterChoiceView extends Backbone.View
     # if not empty argument and checked
     if checked and argument.trim()
       operator = $('.filter-operator', $(@el)).val()
-      @trigger('choiceToggled', {name: @model.name, activeParam: {operator: operator, argument: argument}})
+      @trigger('choiceToggled', {name: @model.name, activeParam: "#{@model.name}#{operator}#{argument}"})
     else
       @trigger('choiceToggled', {name: @model.name, activeParam: false})
 

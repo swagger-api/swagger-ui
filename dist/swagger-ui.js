@@ -2348,18 +2348,17 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     ParameterView.prototype.updateFiltersString = function() {
-      var activeParam, choice, filterString, queryParamString, _i, _len, _ref;
+      var activeParam, choice, queryParamString, _i, _len, _ref;
       queryParamString = "";
       _ref = this.model.choices;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         choice = _ref[_i];
         if (this.model.activeChoices[choice]) {
           activeParam = this.model.activeChoices[choice];
-          filterString = "filter=" + choice + activeParam.operator + activeParam.argument;
-          queryParamString = queryParamString.concat(filterString, "&");
+          queryParamString = queryParamString.concat(activeParam, "&filter=");
         }
       }
-      queryParamString = queryParamString.slice(0, -1);
+      queryParamString = queryParamString.slice(0, -8);
       return $('input.parameter', $(this.el)).val(queryParamString);
     };
 
@@ -2574,10 +2573,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         operator = $('.filter-operator', $(this.el)).val();
         return this.trigger('choiceToggled', {
           name: this.model.name,
-          activeParam: {
-            operator: operator,
-            argument: argument
-          }
+          activeParam: "" + this.model.name + operator + argument
         });
       } else {
         return this.trigger('choiceToggled', {
