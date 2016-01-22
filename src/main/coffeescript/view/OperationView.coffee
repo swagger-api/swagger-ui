@@ -382,7 +382,7 @@ class OperationView extends Backbone.View
       pre = $('<pre class="json" />').append(code)
 
     response_body = pre
-    $(".request_url", $(@el)).html "<pre>" + url + "</pre>"
+    $(".request_url", $(@el)).html "<pre>" + decodeURIComponent(url) + "</pre>"
     $(".response_code", $(@el)).html "<pre>" + response.status + "</pre>"
     $(".response_body", $(@el)).html response_body
     $(".response_headers", $(@el)).html "<pre>" + JSON.stringify(response.headers, null, "  ").replace(/\n/g, "<br>") + "</pre>"
