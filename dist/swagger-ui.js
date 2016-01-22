@@ -664,7 +664,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</label>\n\n<select disabled class='filter-operator'>\n	<option value='=='>==</option>\n	<option value='!='>!=</option>\n	<option value='>'>&gt;</option>\n	<option value='<'>&lt;</option>\n	<option value='>='>&gt;=</option>\n	<option value='<='>&lt;=</option>\n</select>\n\n<input disabled class='filter-argument'>\n\n<br>";
+    + "</label>\n\n<select disabled class='filter-operator'>\n	<option value='=='>==</option>\n	<option value='!='>!=</option>\n	<option value='>'>&gt;</option>\n	<option value='<'>&lt;</option>\n	<option value='>='>&gt;=</option>\n	<option value='<='>&lt;=</option>\n</select>\n\n<input disabled class='filter-argument'>\n";
   return buffer;
   });
 })();
@@ -2522,6 +2522,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     }
 
     ParameterChoiceView.prototype.events = {
+      'click': 'enableIfDisabled',
       'click input.expansion-checkbox': 'expansionToggled',
       'click input.filter-checkbox': 'filterToggled',
       'blur input.filter-argument': 'checkForCompleteFilter',
@@ -2545,17 +2546,37 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       }
     };
 
+    ParameterChoiceView.prototype.enableIfDisabled = function() {
+      if (this.model.choiceType === 'expand') {
+        $('.expansion-checkbox', $(this.el)).prop('checked', true);
+        return this.expansionToggled();
+      } else {
+        $('.filter-checkbox', $(this.el)).prop('checked', true);
+        return this.filterToggled();
+      }
+    };
+
     ParameterChoiceView.prototype.expansionToggled = function(ev) {
+      var checked;
+      if (ev != null) {
+        checked = $(ev.currentTarget).prop('checked');
+        ev.stopPropagation();
+      } else {
+        checked = true;
+      }
       return this.trigger('choiceToggled', {
         name: this.model.name,
-        activeParam: $(ev.currentTarget).prop('checked')
+        activeParam: checked
       });
     };
 
     ParameterChoiceView.prototype.filterToggled = function(ev) {
-      var isChecked;
-      isChecked = $(ev.currentTarget).prop('checked');
-      if (isChecked) {
+      var checked;
+      if (ev != null) {
+        ev.stopPropagation();
+      }
+      checked = $('.filter-checkbox', $(this.el)).prop('checked');
+      if (checked) {
         $('.filter-operator', $(this.el)).prop('disabled', false);
         $('.filter-argument', $(this.el)).prop('disabled', false);
       } else {

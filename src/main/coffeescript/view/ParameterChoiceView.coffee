@@ -1,10 +1,12 @@
 class ParameterChoiceView extends Backbone.View
     
   events: {
+    'click' : 'enableIfDisabled'
     'click input.expansion-checkbox': 'expansionToggled'
     'click input.filter-checkbox': 'filterToggled'
     'blur input.filter-argument': 'checkForCompleteFilter'
     'change select.filter-operator': 'checkForCompleteFilter'
+
   }
 
   initialize: ->
@@ -21,12 +23,27 @@ class ParameterChoiceView extends Backbone.View
     else
         Handlebars.templates.param_choice_filter
 
+  enableIfDisabled: ->
+    if @model.choiceType == 'expand'
+      $('.expansion-checkbox', $(@el)).prop('checked', true)
+      @expansionToggled()
+    else
+      $('.filter-checkbox', $(@el)).prop('checked', true)
+      @filterToggled()
+
   expansionToggled: (ev) ->
-    @trigger('choiceToggled', {name: @model.name, activeParam: $(ev.currentTarget).prop('checked')})
+    if ev?
+      checked = $(ev.currentTarget).prop('checked')
+      ev.stopPropagation()
+    else
+      checked = true
+    @trigger('choiceToggled', {name: @model.name, activeParam: checked})
 
   filterToggled: (ev) ->
-    isChecked = $(ev.currentTarget).prop('checked')
-    if isChecked
+    if ev?
+      ev.stopPropagation()
+    checked = $('.filter-checkbox', $(@el)).prop('checked')
+    if checked
       $('.filter-operator', $(@el)).prop('disabled', false)
       $('.filter-argument', $(@el)).prop('disabled', false)
     else
@@ -34,7 +51,7 @@ class ParameterChoiceView extends Backbone.View
       $('.filter-argument', $(@el)).prop('disabled', true)
     @checkForCompleteFilter()
 
-  checkForCompleteFilter: () ->
+  checkForCompleteFilter: ->
     checked = $('.filter-checkbox', $(@el)).prop('checked')
     argument = $('.filter-argument', $(@el)).val()
 
