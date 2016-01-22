@@ -502,7 +502,7 @@ describe('SwaggerUi.partials.signature tests', function () {
                     }
                 };
 
-                expect(sut.createSchemaXML(name, definition, models, true)).to.equal(expected);
+                expect(sut.createSchemaXML(name, definition, models, {isParam: true})).to.equal(expected);
             });
         });
 
@@ -554,7 +554,7 @@ describe('SwaggerUi.partials.signature tests', function () {
                     '<id>1</id>' +
                     '<Loop2>' +
                         '<id>1</id>' +
-                        '<!-- Infinite loop to model Loop1 -->' +
+                        '<!-- Infinite loop $ref:Loop1 -->' +
                     '</Loop2>' +
                     '</Loop1>';
                 var schema = {
@@ -570,12 +570,80 @@ describe('SwaggerUi.partials.signature tests', function () {
                         '<id>1</id>' +
                         '<Loop2>' +
                             '<id>1</id>' +
-                            '<!-- Infinite loop to model Loop1 -->' +
+                            '<!-- Infinite loop $ref:Loop1 -->' +
                         '</Loop2>' +
                     '</Loop1>' +
                     '</Loop3>';
                 var schema = {
                     $ref: '#/definitions/Loop3'
+                };
+
+                expect(sut.createSchemaXML('', schema, models)).to.equal(expected);
+            });
+
+            it('infinite loop Loop1 => Loop2, Loop2 => Loop1 with 2 different loops on one level', function () {
+                var expected = '<Pet><Loop1>' +
+                    '<id>1</id>' +
+                    '<Loop2>' +
+                    '<id>1</id>' +
+                    '<!-- Infinite loop $ref:Loop1 -->' +
+                    '</Loop2>' +
+                    '</Loop1>' +
+                    '<Loop2>' +
+                    '<id>1</id>' +
+                    '<Loop1>' +
+                    '<id>1</id>' +
+                    '<!-- Infinite loop $ref:Loop2 -->' +
+                    '</Loop1>' +
+                    '</Loop2>' +
+                    '</Pet>';
+                var schema = {
+                    type: 'object',
+                    properties: {
+                        item1: {
+                            $ref: '#/definitions/Loop1'
+                        },
+                        item2: {
+                            $ref: '#/definitions/Loop2'
+                        }
+                    },
+                    xml: {
+                        name: 'Pet'
+                    }
+                };
+
+                expect(sut.createSchemaXML('', schema, models)).to.equal(expected);
+            });
+
+            it('infinite loop Loop1 => Loop2, Loop2 => Loop1 with 2 different loops on one level', function () {
+                var expected = '<Pet><Loop1>' +
+                    '<id>1</id>' +
+                    '<Loop2>' +
+                    '<id>1</id>' +
+                    '<!-- Infinite loop $ref:Loop1 -->' +
+                    '</Loop2>' +
+                    '</Loop1>' +
+                    '<Loop1>' +
+                    '<id>1</id>' +
+                    '<Loop2>' +
+                    '<id>1</id>' +
+                    '<!-- Infinite loop $ref:Loop1 -->' +
+                    '</Loop2>' +
+                    '</Loop1>' +
+                    '</Pet>';
+                var schema = {
+                    type: 'object',
+                    properties: {
+                        item1: {
+                            $ref: '#/definitions/Loop1'
+                        },
+                        item2: {
+                            $ref: '#/definitions/Loop1'
+                        }
+                    },
+                    xml: {
+                        name: 'Pet'
+                    }
                 };
 
                 expect(sut.createSchemaXML('', schema, models)).to.equal(expected);

@@ -824,7 +824,7 @@ SwaggerUi.partials.signature = (function () {
   }
 
   function getInfiniteLoopMessage (name) {
-    return '<!-- Infinite loop to model ' + name + ' -->';
+    return '<!-- Infinite loop $ref:' + name + ' -->';
   }
 
   function getErrorMessage () {
@@ -832,7 +832,10 @@ SwaggerUi.partials.signature = (function () {
   }
 
   function createSchemaXML (name, definition, models, config) {
-    var $ref = definition.$ref;
+    var $ref = _.isObject(definition) ? definition.$ref : null;
+    var output, index;
+    config = config || {};
+    config.modelsToIgnore = config.modelsToIgnore || [];
     var descriptor = _.isString($ref) ? getDescriptorByRef($ref, models, config)
         : getDescriptor(name, definition, models, config);
 
@@ -842,14 +845,23 @@ SwaggerUi.partials.signature = (function () {
 
     switch (descriptor.type) {
       case 'array':
-        return createArrayXML(descriptor);
+        output = createArrayXML(descriptor); break;
       case 'object':
-        return createObjectXML(descriptor);
+        output = createObjectXML(descriptor); break;
       case 'loop':
-        return getInfiniteLoopMessage(descriptor.name);
+        output = getInfiniteLoopMessage(descriptor.name); break;
       default:
-        return createPrimitiveXML(descriptor);
+        output = createPrimitiveXML(descriptor);
     }
+
+    if ($ref) {
+      index = config.modelsToIgnore.indexOf($ref);
+      if (index > -1) {
+        config.modelsToIgnore.splice(index, 1);
+      }
+    }
+
+    return output;
   }
 
   function Descriptor (name, type, definition, models, config) {
@@ -871,12 +883,10 @@ SwaggerUi.partials.signature = (function () {
     var name = model.name || modelType;
     var type = model.type || 'object';
 
-    config = config || {};
-    config.modelsToIgnore = config.modelsToIgnore || [];
-    if (config.modelsToIgnore.indexOf(name) > -1) {
+    if (config.modelsToIgnore.indexOf($ref) > -1) {
       type = 'loop';
     } else {
-      config.modelsToIgnore.push(modelType);
+      config.modelsToIgnore.push($ref);
     }
 
     if (!model.definition) {
