@@ -27038,6 +27038,7 @@ SwaggerUi.partials.signature = (function () {
 
   var createArrayXML = function (descriptor) {
     var name = descriptor.name;
+    var config = descriptor.config;
     var definition = descriptor.definition;
     var models = descriptor.models;
     var value;
@@ -27046,7 +27047,7 @@ SwaggerUi.partials.signature = (function () {
 
     if (!items) { return getErrorMessage(); }
 
-    value = createSchemaXML(name, items, models);
+    value = createSchemaXML(name, items, models, config);
 
     xml = xml || {};
 
@@ -27105,8 +27106,9 @@ SwaggerUi.partials.signature = (function () {
   function createObjectXML (descriptor) {
     var name = descriptor.name;
     var definition = descriptor.definition;
+    var config = descriptor.config;
     var models = descriptor.models;
-    var isParam = descriptor.isParam;
+    var isParam = descriptor.config.isParam;
     var serializedProperties;
     var attrs = [];
     var properties = definition.properties;
@@ -27125,10 +27127,12 @@ SwaggerUi.partials.signature = (function () {
     serializedProperties = _.map(properties, function (prop, key) {
       var xml, result;
 
-      if (isParam && prop.readOnly) { return ''; }
+      if (isParam && prop.readOnly) {
+        return '';
+      }
 
       xml = prop.xml || {};
-      result = createSchemaXML(key, prop, models);
+      result = createSchemaXML(key, prop, models, config);
 
       if (xml.attribute) {
         attrs.push(result);
@@ -27145,14 +27149,21 @@ SwaggerUi.partials.signature = (function () {
     return wrapTag(name, serializedProperties, attrs);
   }
 
+  function getInfiniteLoopMessage (name) {
+    return '<!-- Infinite loop $ref:' + name + ' -->';
+  }
+
   function getErrorMessage () {
     return '<!-- invalid XML -->';
   }
 
-  function createSchemaXML (name, definition, models, isParam) {
-    var $ref = definition.$ref;
-    var descriptor = _.isString($ref) ? getDescriptorByRef($ref, models)
-        : getDescriptor(name, definition, models, isParam);
+  function createSchemaXML (name, definition, models, config) {
+    var $ref = _.isObject(definition) ? definition.$ref : null;
+    var output, index;
+    config = config || {};
+    config.modelsToIgnore = config.modelsToIgnore || [];
+    var descriptor = _.isString($ref) ? getDescriptorByRef($ref, models, config)
+        : getDescriptor(name, definition, models, config);
 
     if (!descriptor) {
       return getErrorMessage();
@@ -27160,40 +27171,58 @@ SwaggerUi.partials.signature = (function () {
 
     switch (descriptor.type) {
       case 'array':
-        return createArrayXML(descriptor);
+        output = createArrayXML(descriptor); break;
       case 'object':
-        return createObjectXML(descriptor);
+        output = createObjectXML(descriptor); break;
+      case 'loop':
+        output = getInfiniteLoopMessage(descriptor.name); break;
       default:
-        return createPrimitiveXML(descriptor);
+        output = createPrimitiveXML(descriptor);
     }
+
+    if ($ref) {
+      index = config.modelsToIgnore.indexOf($ref);
+      if (index > -1) {
+        config.modelsToIgnore.splice(index, 1);
+      }
+    }
+
+    return output;
   }
 
-  function Descriptor (name, type, definition, models, isParam) {
+  function Descriptor (name, type, definition, models, config) {
     if (arguments.length < 4) {
       throw new Error();
     }
 
+    this.config = config || {};
+    this.config.modelsToIgnore = this.config.modelsToIgnore || [];
     this.name = name;
     this.definition = definition;
     this.models = models;
     this.type = type;
-    this.isParam = isParam;
   }
 
-  function getDescriptorByRef($ref, models) {
+  function getDescriptorByRef($ref, models, config) {
     var modelType = simpleRef($ref);
     var model = models[modelType] || {};
     var name = model.name || modelType;
     var type = model.type || 'object';
 
+    if (config.modelsToIgnore.indexOf($ref) > -1) {
+      type = 'loop';
+    } else {
+      config.modelsToIgnore.push($ref);
+    }
+
     if (!model.definition) {
       return null;
     }
 
-    return new Descriptor (name, type, model.definition, models);
+    return new Descriptor(name, type, model.definition, models, config);
   }
 
-  function getDescriptor (name, definition, models, isParam){
+  function getDescriptor (name, definition, models, config){
     var type = definition.type || 'object';
     var xml = definition.xml || {};
 
@@ -27203,13 +27232,13 @@ SwaggerUi.partials.signature = (function () {
 
     name = getName(name, xml);
 
-    return new Descriptor(name, type, definition, models,isParam);
+    return new Descriptor(name, type, definition, models, config);
   }
 
   function createXMLSample (definition, models, isParam) {
     var prolog = '<?xml version="1.0"?>';
 
-    return formatXml(prolog + createSchemaXML('', definition, models, isParam));
+    return formatXml(prolog + createSchemaXML('', definition, models, { isParam: isParam } ));
   }
 
   return {
