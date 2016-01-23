@@ -768,6 +768,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   },
 
   toggleOperationContent: function (event) {
+    if (event) {
+      event.preventDefault();
+    }
     var elem = $('#' + Docs.escapeResourceName(this.parentId + '_' + this.nickname + '_content'));
     if (elem.is(':visible')){
       $.bbq.pushState('#/', 2);

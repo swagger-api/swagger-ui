@@ -347,7 +347,7 @@ this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(dept
     + "</a></div>";
 },"10":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
-  return "<div class='info_email'><a href=\"mailto:"
+  return "<div class='info_email'><a target=\"_parent\" href=\"mailto:"
     + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.email : stack1), depth0))
     + "?subject="
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.title : stack1), depth0))
