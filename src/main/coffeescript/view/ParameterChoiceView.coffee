@@ -1,66 +1,40 @@
 class ParameterChoiceView extends Backbone.View
     
   events: {
-    'click' : 'enableIfDisabled'
-    'click input.expansion-checkbox': 'expansionToggled'
-    'click input.filter-checkbox': 'filterToggled'
     'blur input.filter-argument': 'checkForCompleteFilter'
-    'change select.filter-operator': 'checkForCompleteFilter'
+    'change select': 'checkForCompleteFilter'
 
   }
 
   initialize: ->
 
   render: ->
+    if @model.choiceType == 'expand'
+      @model.isExpand = true
+    else
+      @model.isFilter = true
+
     template = @template()
     $(@el).html(template(@model))
     @
 
   template: ->
-    if @model.choiceType == 'expand'
+    if @model.isExpand
         Handlebars.templates.param_choice_expansion
-    #else == 'filter'
     else
         Handlebars.templates.param_choice_filter
 
-  enableIfDisabled: ->
-    if @model.choiceType == 'expand'
-      $('.expansion-checkbox', $(@el)).prop('checked', true)
-      @expansionToggled()
-    else
-      $('.filter-checkbox', $(@el)).prop('checked', true)
-      @filterToggled()
-
-  expansionToggled: (ev) ->
-    if ev?
-      checked = $(ev.currentTarget).prop('checked')
-      ev.stopPropagation()
-    else
-      checked = true
-    @trigger('choiceToggled', {name: @model.name, activeParam: checked})
-
-  filterToggled: (ev) ->
-    if ev?
-      ev.stopPropagation()
-    checked = $('.filter-checkbox', $(@el)).prop('checked')
-    if checked
-      $('.filter-operator', $(@el)).prop('disabled', false)
-      $('.filter-argument', $(@el)).prop('disabled', false)
-    else
-      $('.filter-operator', $(@el)).prop('disabled', true)
-      $('.filter-argument', $(@el)).prop('disabled', true)
-    @checkForCompleteFilter()
-
   checkForCompleteFilter: ->
-    checked = $('.filter-checkbox', $(@el)).prop('checked')
+    choice = $('.param-choice', $(@el)).val()
     argument = $('.filter-argument', $(@el)).val()
-
-    # if not empty argument and checked
-    if checked and argument.trim()
-      operator = $('.filter-operator', $(@el)).val()
-      @trigger('choiceToggled', {name: @model.name, activeParam: "#{@model.name}#{operator}#{argument}"})
+    if argument
+      argument = argument.trim()
+    operator = $('.filter-operator', $(@el)).val()
+    if @model.isExpand and choice
+      @trigger('choiceSet', {name: choice, activeParam: true})
+    else if @model.isFilter and choice and argument
+      @trigger('choiceSet', {name: choice, activeParam: "#{choice}#{operator}#{argument}"})
     else
-      @trigger('choiceToggled', {name: @model.name, activeParam: false})
-
+      @trigger('choiceSet', {name: choice, activeParam: false})
 
     

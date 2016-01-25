@@ -624,22 +624,23 @@ function program16(depth0,data) {
 templates['param_choice_expansion'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
 
+function program1(depth0,data) {
+  
+  var buffer = "";
+  buffer += "\n		<option value=\""
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "\">"
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "</option>\n	";
+  return buffer;
+  }
 
-  buffer += "<input type='checkbox' class='expansion-checkbox' name='queryparamchoice' value='";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "'>\n<label for='";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "'>";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</label>\n<br>\n";
+  buffer += "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n<span>Expand:</span>\n<select class=\"param-choice\">\n	<option disabled selected> -- select an option -- </option>\n	";
+  stack1 = helpers.each.call(depth0, depth0.choices, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n</select>\n<br>\n";
   return buffer;
   });
 })();
@@ -649,22 +650,23 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 templates['param_choice_filter'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
 
+function program1(depth0,data) {
+  
+  var buffer = "";
+  buffer += "\n		<option value=\""
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "\">"
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "</option>\n	";
+  return buffer;
+  }
 
-  buffer += "<input type='checkbox' class='filter-checkbox' name='queryparamchoice' value='";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "'>\n<label for='";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "'>";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</label>\n\n<select disabled class='filter-operator'>\n	<option value='=='>==</option>\n	<option value='!='>!=</option>\n	<option value='>'>&gt;</option>\n	<option value='<'>&lt;</option>\n	<option value='>='>&gt;=</option>\n	<option value='<='>&lt;=</option>\n</select>\n\n<input disabled class='filter-argument'>\n";
+  buffer += "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n<select class=\"param-choice\">\n	<option disabled selected> -- select an option -- </option>\n	";
+  stack1 = helpers.each.call(depth0, depth0.choices, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n</select>\n<select class='filter-operator'>\n	<option value='=='>==</option>\n	<option value='!='>!=</option>\n	<option value='>'>&gt;</option>\n	<option value='<'>&lt;</option>\n	<option value='>='>&gt;=</option>\n	<option value='<='>&lt;=</option>\n</select>\n<input class='filter-argument'>\n";
   return buffer;
   });
 })();
@@ -837,7 +839,11 @@ function program3(depth0,data) {
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "' placeholder='' type='text' disabled/>\n</td>\n<td>\n	<form class='query-choices'></form>\n</td>\n<td>";
+    + "' placeholder='' type='text' disabled/>\n	<form class='query-choices'></form>\n</td>\n<td>\n	";
+  if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n</td>\n<td>";
   if (stack1 = helpers.paramType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
@@ -2193,7 +2199,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     ParameterView.prototype.render = function() {
-      var choice, choiceType, template, type, _i, _len, _ref;
+      var template, type;
       type = this.model.type || this.model.dataType;
       if (this.model.paramType === 'body') {
         this.model.isBody = true;
@@ -2221,12 +2227,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       this.addSignatureView();
       this.addPerameterContentTypeView();
       if (this.model.isQuery) {
-        choiceType = this.model.name;
-        _ref = this.model.choices;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          choice = _ref[_i];
-          this.addChoiceView(choice, choiceType);
-        }
+        this.addChoiceView();
       }
       return this;
     };
@@ -2310,19 +2311,19 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       }
     };
 
-    ParameterView.prototype.addChoiceView = function(choiceName, choiceType) {
+    ParameterView.prototype.addChoiceView = function(choices, choiceType) {
       var choiceView;
       choiceView = new ParameterChoiceView({
         model: {
-          name: choiceName,
-          choiceType: choiceType
+          choices: this.model.choices,
+          choiceType: this.model.name
         }
       });
-      this.listenTo(choiceView, 'choiceToggled', this.choiceToggled);
+      this.listenTo(choiceView, 'choiceSet', this.choiceSet);
       return $('.query-choices', $(this.el)).append(choiceView.render().el);
     };
 
-    ParameterView.prototype.choiceToggled = function(choice) {
+    ParameterView.prototype.choiceSet = function(choice) {
       this.model.activeChoices[choice.name] = choice.activeParam;
       if (this.model.isExpand) {
         this.updateExpansionsString();
@@ -2522,83 +2523,53 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     }
 
     ParameterChoiceView.prototype.events = {
-      'click': 'enableIfDisabled',
-      'click input.expansion-checkbox': 'expansionToggled',
-      'click input.filter-checkbox': 'filterToggled',
       'blur input.filter-argument': 'checkForCompleteFilter',
-      'change select.filter-operator': 'checkForCompleteFilter'
+      'change select': 'checkForCompleteFilter'
     };
 
     ParameterChoiceView.prototype.initialize = function() {};
 
     ParameterChoiceView.prototype.render = function() {
       var template;
+      if (this.model.choiceType === 'expand') {
+        this.model.isExpand = true;
+      } else {
+        this.model.isFilter = true;
+      }
       template = this.template();
       $(this.el).html(template(this.model));
       return this;
     };
 
     ParameterChoiceView.prototype.template = function() {
-      if (this.model.choiceType === 'expand') {
+      if (this.model.isExpand) {
         return Handlebars.templates.param_choice_expansion;
       } else {
         return Handlebars.templates.param_choice_filter;
       }
     };
 
-    ParameterChoiceView.prototype.enableIfDisabled = function() {
-      if (this.model.choiceType === 'expand') {
-        $('.expansion-checkbox', $(this.el)).prop('checked', true);
-        return this.expansionToggled();
-      } else {
-        $('.filter-checkbox', $(this.el)).prop('checked', true);
-        return this.filterToggled();
-      }
-    };
-
-    ParameterChoiceView.prototype.expansionToggled = function(ev) {
-      var checked;
-      if (ev != null) {
-        checked = $(ev.currentTarget).prop('checked');
-        ev.stopPropagation();
-      } else {
-        checked = true;
-      }
-      return this.trigger('choiceToggled', {
-        name: this.model.name,
-        activeParam: checked
-      });
-    };
-
-    ParameterChoiceView.prototype.filterToggled = function(ev) {
-      var checked;
-      if (ev != null) {
-        ev.stopPropagation();
-      }
-      checked = $('.filter-checkbox', $(this.el)).prop('checked');
-      if (checked) {
-        $('.filter-operator', $(this.el)).prop('disabled', false);
-        $('.filter-argument', $(this.el)).prop('disabled', false);
-      } else {
-        $('.filter-operator', $(this.el)).prop('disabled', true);
-        $('.filter-argument', $(this.el)).prop('disabled', true);
-      }
-      return this.checkForCompleteFilter();
-    };
-
     ParameterChoiceView.prototype.checkForCompleteFilter = function() {
-      var argument, checked, operator;
-      checked = $('.filter-checkbox', $(this.el)).prop('checked');
+      var argument, choice, operator;
+      choice = $('.param-choice', $(this.el)).val();
       argument = $('.filter-argument', $(this.el)).val();
-      if (checked && argument.trim()) {
-        operator = $('.filter-operator', $(this.el)).val();
-        return this.trigger('choiceToggled', {
-          name: this.model.name,
-          activeParam: "" + this.model.name + operator + argument
+      if (argument) {
+        argument = argument.trim();
+      }
+      operator = $('.filter-operator', $(this.el)).val();
+      if (this.model.isExpand && choice) {
+        return this.trigger('choiceSet', {
+          name: choice,
+          activeParam: true
+        });
+      } else if (this.model.isFilter && choice && argument) {
+        return this.trigger('choiceSet', {
+          name: choice,
+          activeParam: "" + choice + operator + argument
         });
       } else {
-        return this.trigger('choiceToggled', {
-          name: this.model.name,
+        return this.trigger('choiceSet', {
+          name: choice,
           activeParam: false
         });
       }

@@ -1,7 +1,11 @@
-<input type='checkbox' class='filter-checkbox' name='queryparamchoice' value='{{name}}'>
-<label for='{{name}}'>{{name}}</label>
-
-<select disabled class='filter-operator'>
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<select class="param-choice">
+	<option disabled selected> -- select an option -- </option>
+	{{#each choices}}
+		<option value="{{this}}">{{this}}</option>
+	{{/each}}
+</select>
+<select class='filter-operator'>
 	<option value='=='>==</option>
 	<option value='!='>!=</option>
 	<option value='>'>&gt;</option>
@@ -9,5 +13,4 @@
 	<option value='>='>&gt;=</option>
 	<option value='<='>&lt;=</option>
 </select>
-
-<input disabled class='filter-argument'>
+<input class='filter-argument'>

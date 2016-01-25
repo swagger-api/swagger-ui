@@ -29,10 +29,10 @@ class ParameterView extends Backbone.View
     @addSignatureView()
     @addPerameterContentTypeView()
 
+    # render each choice
+
     if @model.isQuery
-      choiceType = @model.name
-      for choice in @model.choices
-        @addChoiceView(choice, choiceType)
+      @addChoiceView()
 
     @
 
@@ -94,13 +94,13 @@ class ParameterView extends Backbone.View
       responseContentTypeView = new ResponseContentTypeView({model: contentTypeModel})
       $('.response-content-type', $(@el)).append responseContentTypeView.render().el
 
-  addChoiceView: (choiceName, choiceType) ->
+  addChoiceView: (choices, choiceType) ->
     # Render a query choice
-    choiceView = new ParameterChoiceView({model: {name: choiceName, choiceType: choiceType}})
-    @listenTo(choiceView, 'choiceToggled', @choiceToggled)
+    choiceView = new ParameterChoiceView({model: {choices: @model.choices, choiceType: @model.name}})
+    @listenTo(choiceView, 'choiceSet', @choiceSet)
     $('.query-choices', $(@el)).append choiceView.render().el
 
-  choiceToggled: (choice) ->
+  choiceSet: (choice) ->
     @model.activeChoices[choice.name] = choice.activeParam
 
     if @model.isExpand

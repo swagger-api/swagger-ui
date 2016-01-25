@@ -1,3 +1,9 @@
-<input type='checkbox' class='expansion-checkbox' name='queryparamchoice' value='{{name}}'>
-<label for='{{name}}'>{{name}}</label>
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<span>Expand:</span>
+<select class="param-choice">
+	<option disabled selected> -- select an option -- </option>
+	{{#each choices}}
+		<option value="{{this}}">{{this}}</option>
+	{{/each}}
+</select>
 <br>
