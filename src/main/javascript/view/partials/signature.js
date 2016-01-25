@@ -661,6 +661,10 @@ SwaggerUi.partials.signature = (function () {
       return ' ' + attr.name + '="' + attr.value + '"';
     }).join('');
 
+    if (!name) {
+      return getErrorMessage('Node name is not provided');
+    }
+
     str = [
       '<', name,
       attributes,
@@ -827,8 +831,9 @@ SwaggerUi.partials.signature = (function () {
     return '<!-- Infinite loop $ref:' + name + ' -->';
   }
 
-  function getErrorMessage () {
-    return '<!-- invalid XML -->';
+  function getErrorMessage (details) {
+    details = details ? ': ' + details : '';
+    return '<!-- invalid XML' + details + ' -->';
   }
 
   function createSchemaXML (name, definition, models, config) {

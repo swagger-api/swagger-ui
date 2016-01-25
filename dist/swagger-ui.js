@@ -25453,7 +25453,8 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
           code: code,
           message: value.description,
           responseModel: schema,
-          headers: value.headers
+          headers: value.headers,
+          schema: schemaObj
         });
       }
     }
@@ -26987,6 +26988,10 @@ SwaggerUi.partials.signature = (function () {
       return ' ' + attr.name + '="' + attr.value + '"';
     }).join('');
 
+    if (!name) {
+      return getErrorMessage('Node name is not provided');
+    }
+
     str = [
       '<', name,
       attributes,
@@ -27153,8 +27158,9 @@ SwaggerUi.partials.signature = (function () {
     return '<!-- Infinite loop $ref:' + name + ' -->';
   }
 
-  function getErrorMessage () {
-    return '<!-- invalid XML -->';
+  function getErrorMessage (details) {
+    details = details ? ': ' + details : '';
+    return '<!-- invalid XML' + details + ' -->';
   }
 
   function createSchemaXML (name, definition, models, config) {
@@ -27429,7 +27435,7 @@ SwaggerUi.Views.StatusCodeView = Backbone.View.extend({
     if (this.router.api.models.hasOwnProperty(this.model.responseModel)) {
       var responseModel = {
         sampleJSON: JSON.stringify(SwaggerUi.partials.signature.createJSONSample(value), void 0, 2),
-        sampleXML: this.model.isXML ? SwaggerUi.partials.signature.createXMLSample(value.definition, value.models) : false,
+        sampleXML: this.model.isXML ? SwaggerUi.partials.signature.createXMLSample(this.model.schema, value.models) : false,
         isParam: false,
         signature: SwaggerUi.partials.signature.getModelSignature(this.model.responseModel, value, this.router.api.models),
         defaultRendering: this.model.defaultRendering
