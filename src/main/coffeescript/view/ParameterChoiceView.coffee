@@ -2,20 +2,18 @@ class ParameterChoiceView extends Backbone.View
     
   events: {
     'blur input.filter-argument': 'checkForCompleteFilter'
-    'change select': 'checkForCompleteFilter'
+    'change select': 'choiceChanged'
+    'click .close' : 'removeThisView'
 
   }
 
   initialize: ->
 
   render: ->
-    if @model.choiceType == 'expand'
-      @model.isExpand = true
-    else
-      @model.isFilter = true
-
     template = @template()
-    $(@el).html(template(@model))
+    $(@el).html(template($.extend({}, @model, {currentValue: @currentValue})))
+    if @currentValue
+      @enableCloseButton()
     @
 
   template: ->
@@ -24,17 +22,30 @@ class ParameterChoiceView extends Backbone.View
     else
         Handlebars.templates.param_choice_filter
 
-  checkForCompleteFilter: ->
+  choiceChanged: ->
     choice = $('.param-choice', $(@el)).val()
     argument = $('.filter-argument', $(@el)).val()
+    @enableCloseButton()
     if argument
       argument = argument.trim()
     operator = $('.filter-operator', $(@el)).val()
     if @model.isExpand and choice
-      @trigger('choiceSet', {name: choice, activeParam: true})
+      @currentValue = choice
+      @trigger('choiceSet')
     else if @model.isFilter and choice and argument
-      @trigger('choiceSet', {name: choice, activeParam: "#{choice}#{operator}#{argument}"})
+      @currentValue = "#{choice}#{operator}#{argument}"
+      @trigger('choiceSet')
     else
-      @trigger('choiceSet', {name: choice, activeParam: false})
+      @currentValue = null
+      @trigger('choiceSet')
+
+  removeThisView: ->
+    @trigger('removeChoiceView', @cid)
+
+  enableCloseButton: ->
+    $('.close', $(@el)).prop('disabled', false)
+
+
+
 
     

@@ -628,6 +628,27 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
 function program1(depth0,data) {
   
+  var buffer = "", stack1;
+  buffer += "\n		<option selected value=\"";
+  if (stack1 = helpers.currentValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.currentValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\">";
+  if (stack1 = helpers.currentValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.currentValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</option>\n	";
+  return buffer;
+  }
+
+function program3(depth0,data) {
+  
+  
+  return "\n		<option disabled selected> -- select an option -- </option>\n	";
+  }
+
+function program5(depth0,data) {
+  
   var buffer = "";
   buffer += "\n		<option value=\""
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
@@ -637,8 +658,11 @@ function program1(depth0,data) {
   return buffer;
   }
 
-  buffer += "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n<span>Expand:</span>\n<select class=\"param-choice\">\n	<option disabled selected> -- select an option -- </option>\n	";
-  stack1 = helpers.each.call(depth0, depth0.choices, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  buffer += "<button disabled type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n<span>Expand:</span>\n<select class=\"param-choice\">\n	";
+  stack1 = helpers['if'].call(depth0, depth0.currentValue, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n	";
+  stack1 = helpers.each.call(depth0, depth0.availableChoices, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</select>\n<br>\n";
   return buffer;
@@ -663,7 +687,7 @@ function program1(depth0,data) {
   return buffer;
   }
 
-  buffer += "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n<select class=\"param-choice\">\n	<option disabled selected> -- select an option -- </option>\n	";
+  buffer += "<button disabled type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n<select class=\"param-choice\">\n	<option disabled selected> -- select an option -- </option>\n	";
   stack1 = helpers.each.call(depth0, depth0.choices, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</select>\n<select class='filter-operator'>\n	<option value='=='>==</option>\n	<option value='!='>!=</option>\n	<option value='>'>&gt;</option>\n	<option value='<'>&lt;</option>\n	<option value='>='>&gt;=</option>\n	<option value='<='>&lt;=</option>\n</select>\n<input class='filter-argument'>\n";
@@ -1370,7 +1394,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 (function() {
   var ContentTypeView, HeaderView, MainView, OperationView, ParameterChoiceView, ParameterContentTypeView, ParameterView, ResourceView, ResponseContentTypeView, SignatureView, StatusCodeView, SwaggerUi,
     __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   SwaggerUi = (function(_super) {
 
@@ -1750,7 +1775,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         }
       }
       if (!this.hasExpandableFields) {
-        this.applyExpansions({});
+        this.applyUnexpandedFields([]);
       }
       _ref3 = this.model.responseMessages;
       for (_l = 0, _len3 = _ref3.length; _l < _len3; _l++) {
@@ -1760,16 +1785,13 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       return this;
     };
 
-    OperationView.prototype.applyExpansions = function(currentExpansions) {
-      var expandableFields, field, modelJSON, _i, _len;
-      expandableFields = Object.keys(currentExpansions);
+    OperationView.prototype.applyUnexpandedFields = function(unexpandedFields) {
+      var field, modelJSON, _i, _len;
       modelJSON = $.parseJSON(this.model.responseSampleJSON);
       if (modelJSON) {
-        for (_i = 0, _len = expandableFields.length; _i < _len; _i++) {
-          field = expandableFields[_i];
-          if (!currentExpansions[field]) {
-            modelJSON[field] = "<Expandable Field>";
-          }
+        for (_i = 0, _len = unexpandedFields.length; _i < _len; _i++) {
+          field = unexpandedFields[_i];
+          modelJSON[field] = "<Expandable Field>";
         }
       }
       return this.updateSignature(JSON.stringify(modelJSON, null, '  '));
@@ -1801,7 +1823,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         tagName: 'tr',
         readOnly: this.model.isReadOnly
       });
-      this.listenTo(paramView, 'applyExpansions', this.applyExpansions);
+      this.listenTo(paramView, 'applyUnexpandedFields', this.applyUnexpandedFields);
       return $('.operation-params', $(this.el)).append(paramView.render().el);
     };
 
@@ -2219,7 +2241,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       if (this.model.isQuery) {
         this.parseChoices();
         if (this.model.isExpand) {
-          this.trigger('applyExpansions', this.model.activeChoices);
+          this.trigger('applyUnexpandedFields', this.model.availableChoices);
         }
       }
       template = this.template();
@@ -2257,17 +2279,13 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     ParameterView.prototype.parseChoices = function() {
-      var choice, choicesString, _i, _len, _ref, _results;
+      var choicesString;
       choicesString = this.model.description;
       this.model.choices = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]")).split(/[\s,]+/);
-      this.model.activeChoices = {};
-      _ref = this.model.choices;
-      _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        choice = _ref[_i];
-        _results.push(this.model.activeChoices[choice] = false);
-      }
-      return _results;
+      this.model.availableChoices = this.model.choices.slice();
+      this.model.currentChoices = [];
+      this.choiceViews = {};
+      return this.currentChoiceViewValues = {};
     };
 
     ParameterView.prototype.addSignatureView = function() {
@@ -2314,53 +2332,88 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     ParameterView.prototype.addChoiceView = function(choices, choiceType) {
       var choiceView;
       choiceView = new ParameterChoiceView({
-        model: {
-          choices: this.model.choices,
-          choiceType: this.model.name
-        }
+        model: this.model
       });
+      this.choiceViews[choiceView.cid] = choiceView;
       this.listenTo(choiceView, 'choiceSet', this.choiceSet);
+      this.listenTo(choiceView, 'removeChoiceView', this.removeChoiceView);
       return $('.query-choices', $(this.el)).append(choiceView.render().el);
     };
 
     ParameterView.prototype.choiceSet = function(choice) {
-      this.model.activeChoices[choice.name] = choice.activeParam;
       if (this.model.isExpand) {
-        this.updateExpansionsString();
-        this.trigger('applyExpansions', this.model.activeChoices);
+        this.updateExpansions();
+        this.trigger('applyUnexpandedFields', this.model.availableChoices);
       }
       if (this.model.isFilter) {
         return this.updateFiltersString();
       }
     };
 
-    ParameterView.prototype.updateExpansionsString = function() {
-      var choice, queryParamString, _i, _len, _ref;
+    ParameterView.prototype.updateExpansions = function() {
+      var choice, lastChoiceIsBlank, queryParamString, viewId, _i, _j, _len, _len1, _ref, _ref1;
       queryParamString = "";
-      _ref = this.model.choices;
+      this.model.availableChoices = [];
+      this.model.currentChoices = [];
+      lastChoiceIsBlank = false;
+      _ref = Object.keys(this.choiceViews);
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        choice = _ref[_i];
-        if (this.model.activeChoices[choice]) {
+        viewId = _ref[_i];
+        lastChoiceIsBlank = false;
+        choice = this.choiceViews[viewId].currentValue;
+        if (choice) {
+          this.model.currentChoices.push(choice);
           queryParamString = queryParamString.concat(choice, ",");
+        } else {
+          lastChoiceIsBlank = true;
         }
       }
       queryParamString = queryParamString.slice(0, -1);
-      return $('input.parameter', $(this.el)).val(queryParamString);
+      _ref1 = this.model.choices;
+      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+        choice = _ref1[_j];
+        if (__indexOf.call(this.model.currentChoices, choice) < 0) {
+          this.model.availableChoices.push(choice);
+        }
+      }
+      $('input.parameter', $(this.el)).val(queryParamString);
+      this.refreshChoiceViews();
+      if (!lastChoiceIsBlank) {
+        return this.addChoiceView();
+      }
     };
 
     ParameterView.prototype.updateFiltersString = function() {
-      var activeParam, choice, queryParamString, _i, _len, _ref;
+      var choiceView, queryParamString, _i, _len, _ref;
       queryParamString = "";
-      _ref = this.model.choices;
+      _ref = Object.keys(this.choiceViews);
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        choice = _ref[_i];
-        if (this.model.activeChoices[choice]) {
-          activeParam = this.model.activeChoices[choice];
-          queryParamString = queryParamString.concat(activeParam, "&filter=");
+        choiceView = _ref[_i];
+        if (choiceView.currentValue) {
+          queryParamString = queryParamString.concat(choiceView.activeParam, "&filter=");
         }
       }
       queryParamString = queryParamString.slice(0, -8);
       return $('input.parameter', $(this.el)).val(queryParamString);
+    };
+
+    ParameterView.prototype.removeChoiceView = function(viewId) {
+      var view;
+      view = this.choiceViews[viewId];
+      view.remove();
+      delete this.choiceViews[viewId];
+      return this.choiceSet();
+    };
+
+    ParameterView.prototype.refreshChoiceViews = function() {
+      var viewId, _i, _len, _ref, _results;
+      _ref = Object.keys(this.choiceViews);
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        viewId = _ref[_i];
+        _results.push(this.choiceViews[viewId].render());
+      }
+      return _results;
     };
 
     return ParameterView;
@@ -2524,20 +2577,21 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
     ParameterChoiceView.prototype.events = {
       'blur input.filter-argument': 'checkForCompleteFilter',
-      'change select': 'checkForCompleteFilter'
+      'change select': 'choiceChanged',
+      'click .close': 'removeThisView'
     };
 
     ParameterChoiceView.prototype.initialize = function() {};
 
     ParameterChoiceView.prototype.render = function() {
       var template;
-      if (this.model.choiceType === 'expand') {
-        this.model.isExpand = true;
-      } else {
-        this.model.isFilter = true;
-      }
       template = this.template();
-      $(this.el).html(template(this.model));
+      $(this.el).html(template($.extend({}, this.model, {
+        currentValue: this.currentValue
+      })));
+      if (this.currentValue) {
+        this.enableCloseButton();
+      }
       return this;
     };
 
@@ -2549,30 +2603,33 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       }
     };
 
-    ParameterChoiceView.prototype.checkForCompleteFilter = function() {
+    ParameterChoiceView.prototype.choiceChanged = function() {
       var argument, choice, operator;
       choice = $('.param-choice', $(this.el)).val();
       argument = $('.filter-argument', $(this.el)).val();
+      this.enableCloseButton();
       if (argument) {
         argument = argument.trim();
       }
       operator = $('.filter-operator', $(this.el)).val();
       if (this.model.isExpand && choice) {
-        return this.trigger('choiceSet', {
-          name: choice,
-          activeParam: true
-        });
+        this.currentValue = choice;
+        return this.trigger('choiceSet');
       } else if (this.model.isFilter && choice && argument) {
-        return this.trigger('choiceSet', {
-          name: choice,
-          activeParam: "" + choice + operator + argument
-        });
+        this.currentValue = "" + choice + operator + argument;
+        return this.trigger('choiceSet');
       } else {
-        return this.trigger('choiceSet', {
-          name: choice,
-          activeParam: false
-        });
+        this.currentValue = null;
+        return this.trigger('choiceSet');
       }
+    };
+
+    ParameterChoiceView.prototype.removeThisView = function() {
+      return this.trigger('removeChoiceView', this.cid);
+    };
+
+    ParameterChoiceView.prototype.enableCloseButton = function() {
+      return $('.close', $(this.el)).prop('disabled', false);
     };
 
     return ParameterChoiceView;

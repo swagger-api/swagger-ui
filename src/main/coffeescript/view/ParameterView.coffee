@@ -21,7 +21,8 @@ class ParameterView extends Backbone.View
       @parseChoices()
       if @model.isExpand
         #notify OperationView to build JSON based on default expansions (none)
-        @trigger('applyExpansions', @model.activeChoices)
+        @trigger('applyUnexpandedFields', @model.availableChoices)
+
 
     template = @template()
     $(@el).html(template(@model))
@@ -60,9 +61,11 @@ class ParameterView extends Backbone.View
     #Based on current practice of having all choices in a string representation of an array
     choicesString = @model.description
     @model.choices = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]")).split(/[\s,]+/)
-    @model.activeChoices = {}
-    for choice in @model.choices
-      @model.activeChoices[choice] = false
+    @model.availableChoices = @model.choices.slice()
+    @model.currentChoices = []
+    @choiceViews = {}
+    @currentChoiceViewValues = {}
+
 
   addSignatureView: ->
     signatureModel =
@@ -96,40 +99,70 @@ class ParameterView extends Backbone.View
 
   addChoiceView: (choices, choiceType) ->
     # Render a query choice
-    choiceView = new ParameterChoiceView({model: {choices: @model.choices, choiceType: @model.name}})
+    choiceView = new ParameterChoiceView({model: @model})
+    @choiceViews[choiceView.cid] = choiceView
     @listenTo(choiceView, 'choiceSet', @choiceSet)
+    @listenTo(choiceView, 'removeChoiceView', @removeChoiceView)
     $('.query-choices', $(@el)).append choiceView.render().el
 
   choiceSet: (choice) ->
-    @model.activeChoices[choice.name] = choice.activeParam
 
     if @model.isExpand
-      @updateExpansionsString()
-      @trigger('applyExpansions', @model.activeChoices)
+      @updateExpansions()
+      @trigger('applyUnexpandedFields', @model.availableChoices)
 
     if @model.isFilter
       @updateFiltersString()
 
-  updateExpansionsString: ->
+  updateExpansions: ->
     queryParamString = ""
-    for choice in @model.choices
-      if @model.activeChoices[choice]
+    @model.availableChoices = []
+    @model.currentChoices = []
+    lastChoiceIsBlank = false
+    for viewId in Object.keys(@choiceViews)
+      lastChoiceIsBlank = false
+      choice = @choiceViews[viewId].currentValue
+      if choice
+        @model.currentChoices.push(choice)
         queryParamString = queryParamString.concat(choice, ",")
+      else
+        lastChoiceIsBlank = true
 
     queryParamString = queryParamString.slice(0, -1);
+      
+    for choice in @model.choices
+      if choice not in @model.currentChoices
+        @model.availableChoices.push(choice)
 
     $('input.parameter', $(@el)).val(queryParamString)
 
+    @refreshChoiceViews()
+
+    unless lastChoiceIsBlank
+      @addChoiceView()
+
   updateFiltersString: ->
     queryParamString = ""
-    for choice in @model.choices
-      if @model.activeChoices[choice]
-        activeParam = @model.activeChoices[choice]
-        queryParamString = queryParamString.concat(activeParam, "&filter=")
+    for choiceView in Object.keys(@choiceViews)
+      if choiceView.currentValue
+        queryParamString = queryParamString.concat(choiceView.activeParam, "&filter=")
 
     queryParamString = queryParamString.slice(0, -8);
 
     $('input.parameter', $(@el)).val(queryParamString)
+
+  removeChoiceView: (viewId) ->
+    view = @choiceViews[viewId]
+    view.remove()
+    delete @choiceViews[viewId]
+    @choiceSet()
+
+  refreshChoiceViews: ->
+    for viewId in Object.keys(@choiceViews)
+      @choiceViews[viewId].render()
+
+
+
 
 
 

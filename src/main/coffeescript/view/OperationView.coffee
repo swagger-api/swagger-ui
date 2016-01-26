@@ -82,21 +82,19 @@ class OperationView extends Backbone.View
         this.hasExpandableFields = true
 
     #unless there are expansions, show full JSON
-    @applyExpansions({}) unless this.hasExpandableFields
+    @applyUnexpandedFields([]) unless this.hasExpandableFields
 
     # Render each response code
     @addStatusCode statusCode for statusCode in @model.responseMessages
 
     @
 
-  applyExpansions: (currentExpansions) ->
+  applyUnexpandedFields: (unexpandedFields) ->
     # currentExpansions is an object of {expansionField: currentlyChecked}
-    expandableFields = Object.keys(currentExpansions)
     modelJSON = $.parseJSON(@model.responseSampleJSON)
     if modelJSON
-      for field in expandableFields
-        unless currentExpansions[field]
-          modelJSON[field] = "<Expandable Field>"
+      for field in unexpandedFields
+        modelJSON[field] = "<Expandable Field>"
 
     @updateSignature(JSON.stringify(modelJSON, null, '  '))
 
@@ -119,7 +117,7 @@ class OperationView extends Backbone.View
     # Render a parameter
     param.consumes = consumes
     paramView = new ParameterView({model: param, tagName: 'tr', readOnly: @model.isReadOnly})
-    @listenTo(paramView, 'applyExpansions', @applyExpansions)
+    @listenTo(paramView, 'applyUnexpandedFields', @applyUnexpandedFields)
     $('.operation-params', $(@el)).append paramView.render().el
 
   addStatusCode: (statusCode) ->
