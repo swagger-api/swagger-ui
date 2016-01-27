@@ -1822,12 +1822,14 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     OperationView.prototype.updateSignature = function(expandedJSON) {
-      var responseSignatureView, signatureModel;
-      if (this.model.responseClassSignature && this.model.responseClassSignature !== 'string') {
+      var RCS, abridgedRCS, responseSignatureView, signatureModel;
+      RCS = this.model.responseClassSignature;
+      if (RCS && RCS !== 'string') {
+        abridgedRCS = RCS.slice(0, RCS.indexOf('}</span>') + 8);
         signatureModel = {
           sampleJSON: expandedJSON,
           isParam: false,
-          signature: this.model.responseClassSignature
+          signature: abridgedRCS
         };
         responseSignatureView = new SignatureView({
           model: signatureModel,

@@ -101,11 +101,14 @@ class OperationView extends Backbone.View
 
 
   updateSignature: (expandedJSON) ->
-    if @model.responseClassSignature and @model.responseClassSignature != 'string'
+    RCS = @model.responseClassSignature
+    if RCS and RCS != 'string'
+      # display only the first model (none of the expansion models)
+      abridgedRCS = RCS.slice(0, RCS.indexOf('}</span>') + 8)
       signatureModel =
         sampleJSON: expandedJSON
         isParam: false
-        signature: @model.responseClassSignature
+        signature: abridgedRCS
         
       responseSignatureView = new SignatureView({model: signatureModel, tagName: 'div'})
       $('.model-signature', $(@el)).html(responseSignatureView.render().el)
