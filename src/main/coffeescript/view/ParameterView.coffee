@@ -143,13 +143,21 @@ class ParameterView extends Backbone.View
 
   updateFiltersString: ->
     queryParamString = ""
-    for choiceView in Object.keys(@choiceViews)
-      if choiceView.currentValue
-        queryParamString = queryParamString.concat(choiceView.activeParam, "&filter=")
+    lastChoiceIsBlank = false
+    for viewId in Object.keys(@choiceViews)
+      lastChoiceIsBlank = false
+      choice = @choiceViews[viewId].currentValue
+      if choice
+        queryParamString = queryParamString.concat(choice, "&filter=")
+      else
+        lastChoiceIsBlank = true
 
     queryParamString = queryParamString.slice(0, -8);
 
     $('input.parameter', $(@el)).val(queryParamString)
+
+    unless lastChoiceIsBlank
+      @addChoiceView()
 
   removeChoiceView: (viewId) ->
     view = @choiceViews[viewId]

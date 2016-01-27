@@ -1,7 +1,7 @@
 class ParameterChoiceView extends Backbone.View
     
   events: {
-    'blur input.filter-argument': 'checkForCompleteFilter'
+    'blur input.filter-argument': 'choiceChanged'
     'change select': 'choiceChanged'
     'click .close' : 'removeThisView'
 

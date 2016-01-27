@@ -1,7 +1,12 @@
 <button disabled type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<span>Filter:</span>
 <select class="param-choice">
-	<option disabled selected> -- select an option -- </option>
-	{{#each choices}}
+	{{#if currentValue}}
+		<option selected value="{{currentValue}}">{{currentValue}}</option>
+	{{else}}
+		<option disabled selected> -- select an option -- </option>
+	{{/if}}
+	{{#each availableChoices}}
 		<option value="{{this}}">{{this}}</option>
 	{{/each}}
 </select>
