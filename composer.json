@@ -1,8 +1,8 @@
 {
-    "name":              "dreamfactory/swagger-ui",
+    "name":              "dreamfactory/df-swagger-ui",
     "type":              "dreamfactory-app",
     "description":       "DreamFactory(tm) Swagger UI",
-    "homepage":          "https://github.com/dreamfactorysoftware/swagger-ui/",
+    "homepage":          "https://github.com/dreamfactorysoftware/df-swagger-ui/",
     "keywords":          [
         "rest",
         "api",
@@ -18,8 +18,8 @@
         }
     ],
     "support":           {
-        "source": "https://github.com/dreamfactorysoftware/swagger-ui",
-        "issues": "https://github.com/dreamfactorysoftware/swagger-ui/issues",
+        "source": "https://github.com/dreamfactorysoftware/df-swagger-ui",
+        "issues": "https://github.com/dreamfactorysoftware/df-swagger-ui/issues",
         "email":  "support@dreamfactory.com",
         "wiki":   "https://wiki.dreamfactory.com"
     },
