@@ -18,6 +18,11 @@ class SignatureView extends Backbone.View
     if @isParam
       $('.notice', $(@el)).text('Click above to set as body')
 
+    $("code", $(@el)).each (i, block) =>
+      hljs.highlightBlock(block)
+    
+    @enableExpandableSpans()
+
     @
 
   template: ->
@@ -38,6 +43,13 @@ class SignatureView extends Backbone.View
     $(".snippet", $(@el)).show()
     $('.snippet-link', $(@el)).addClass('selected')
     $('.description-link', $(@el)).removeClass('selected')
+
+  enableExpandableSpans: ->
+    $("span.string", $(@el)).each(
+      ()->
+        if $(this).text() == '"<Expandable Field>"'
+          $(this).addClass("expandable")
+    )
 
   # handler for snippet to text area
   snippetToTextArea: (e) ->

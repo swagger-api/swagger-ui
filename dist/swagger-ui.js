@@ -2471,7 +2471,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     SignatureView.prototype.initialize = function() {};
 
     SignatureView.prototype.render = function() {
-      var template;
+      var template,
+        _this = this;
       template = this.template();
       $(this.el).html(template(this.model));
       this.switchToSnippet();
@@ -2479,6 +2480,10 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       if (this.isParam) {
         $('.notice', $(this.el)).text('Click above to set as body');
       }
+      $("code", $(this.el)).each(function(i, block) {
+        return hljs.highlightBlock(block);
+      });
+      this.enableExpandableSpans();
       return this;
     };
 
@@ -2504,6 +2509,14 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       $(".snippet", $(this.el)).show();
       $('.snippet-link', $(this.el)).addClass('selected');
       return $('.description-link', $(this.el)).removeClass('selected');
+    };
+
+    SignatureView.prototype.enableExpandableSpans = function() {
+      return $("span.string", $(this.el)).each(function() {
+        if ($(this).text() === '"<Expandable Field>"') {
+          return $(this).addClass("expandable");
+        }
+      });
     };
 
     SignatureView.prototype.snippetToTextArea = function(e) {

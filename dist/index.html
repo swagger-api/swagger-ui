@@ -34,11 +34,6 @@
       url: window.location.origin + "/v3/api/api_docs",
       dom_id: "swagger-ui-container",
       supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
-      onComplete: function(swaggerApi, swaggerUi){
-        $('pre code').each(function(i, e) {
-          hljs.highlightBlock(e)
-        });
-      },
       docExpansion: "none"
     });
 

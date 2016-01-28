@@ -90,7 +90,7 @@ class OperationView extends Backbone.View
     @
 
   applyUnexpandedFields: (unexpandedFields) ->
-    # currentExpansions is an object of {expansionField: currentlyChecked}
+    # currentExpansions is an object of the following pattern: {expansionField: currentlyUnexpanded}
     modelJSON = $.parseJSON(@model.responseSampleJSON)
     if modelJSON
       for field in unexpandedFields
