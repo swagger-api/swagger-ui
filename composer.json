@@ -30,6 +30,6 @@
         "branch-alias":   {
             "dev-develop": "0.0.x-dev"
         },
-        "installer-name": "swagger-ui"
+        "installer-name": "df-swagger-ui"
     }
 }
