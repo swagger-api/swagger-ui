@@ -41,11 +41,11 @@ Swagger UI works in all evergreen desktop browsers (Chrome, Safari, Firefox). In
 You can rebuild swagger-ui on your own to tweak it or just so you can say you did.  To do so, follow these steps:
 
 1. `npm install`
-2. `gulp`
+2. `npm run build`
 3. You should see the distribution under the dist folder. Open [`./dist/index.html`](./dist/index.html) to launch Swagger UI in a browser
 
 ### Development
-Use `gulp watch` to make a new build and watch for changes in files.
+Use `npm run serve` to make a new build, watch for changes, and serve the result at http://localhost:8080/.
 
 ### Build using Docker
 
