@@ -27021,7 +27021,7 @@ SwaggerUi.partials.signature = (function () {
 
   var getNamespace = function (xml) {
     var namespace = '';
-    var name = 'xlmns';
+    var name = 'xmlns';
 
     xml = xml || {};
 
