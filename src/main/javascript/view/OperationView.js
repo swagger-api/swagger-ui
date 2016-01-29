@@ -801,17 +801,19 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   showSnippet: function () {
     var contentTypeEl = this.$('[name=responseContentType]');
+    var xmlSnippetEl = this.$('.operation-status .snippet_xml, .response-class .snippet_xml');
+    var jsonSnippetEl = this.$('.operation-status .snippet_json, .response-class .snippet_json');
     var contentType;
 
     if (!contentTypeEl.length) { return; }
     contentType = contentTypeEl.val();
 
     if (contentType.indexOf('xml') > -1) {
-      this.$('.snippet_xml').show();
-      this.$('.snippet_json').hide();
+      xmlSnippetEl.show();
+      jsonSnippetEl.hide();
     } else {
-      this.$('.snippet_json').show();
-      this.$('.snippet_xml').hide();
+      jsonSnippetEl.show();
+      xmlSnippetEl.hide();
     }
   },
 
