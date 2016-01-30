@@ -28,7 +28,7 @@
     },
     "extra":             {
         "branch-alias":   {
-            "dev-develop": "0.0.x-dev"
+            "dev-develop": "0.2.x-dev"
         },
         "installer-name": "df-swagger-ui"
     }
