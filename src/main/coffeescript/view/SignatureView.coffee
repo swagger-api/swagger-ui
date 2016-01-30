@@ -6,22 +6,19 @@ class SignatureView extends Backbone.View
   }
 
   initialize: ->
+    @listenTo(@model.get("JSONExpansions"), "change", @updateSignature)
 
   render: ->
     template = @template()
-    $(@el).html(template(@model))
+    $(@el).html(template(@model.toJSON()))
 
     @switchToSnippet()
 
-    @isParam = @model.isParam
-
-    if @isParam
+    if @model.get("isParam")
       $('.notice', $(@el)).text('Click above to set as body')
 
-    $("code", $(@el)).each (i, block) =>
-      hljs.highlightBlock(block)
+    @updateSignature()
     
-    @enableExpandableSpans()
 
     @
 
@@ -44,10 +41,19 @@ class SignatureView extends Backbone.View
     $('.snippet-link', $(@el)).addClass('selected')
     $('.description-link', $(@el)).removeClass('selected')
 
+  updateSignature: ->
+    $("code", $(@el)).html(@model.getExpandedJSON())
+    @highlightJSON()
+    @enableExpandableSpans()
+
+  highlightJSON: ->
+    $("code", $(@el)).each (i, block) =>
+      hljs.highlightBlock(block)
+
   enableExpandableSpans: ->
     $("span.string", $(@el)).each(
       ()->
-        if $(this).text() == '"<Expandable Field>"'
+        if $(this).text() == '"--Expandable Field--"'
           $(this).addClass("expandable")
     )
 
@@ -57,4 +63,4 @@ class SignatureView extends Backbone.View
       e?.preventDefault()
       textArea = $('textarea', $(@el.parentNode.parentNode.parentNode))
       if $.trim(textArea.val()) == ''
-        textArea.val(@model.sampleJSON)
+        textArea.val(@model.get("sampleJSON"))

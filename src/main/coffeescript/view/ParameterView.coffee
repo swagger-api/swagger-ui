@@ -2,8 +2,6 @@ class ParameterView extends Backbone.View
   initialize: (options) ->
     if @model.get("isExpand")
       @listenTo(@model.get("choices"), "change", @updateChoices);
-    else if @model.get("isBody")
-      @listenTo(@expansions, "change", @updateSignature)
 
     Handlebars.registerHelper 'isArray',
       (param, opts) ->
@@ -46,10 +44,8 @@ class ParameterView extends Backbone.View
 
 
   addSignatureView: ->
-    signatureModel = @getSignatureModel()
-
     if @model.get("sampleJSON") and @model.get("isBody")
-      signatureView = new SignatureView({model: signatureModel, tagName: 'div'})
+      signatureView = new SignatureView({model: @model.getSignature(), tagName: 'div'})
       $('.model-signature', $(@el)).append(signatureView.render().el)
     else
       $('.data-type', $(@el)).html(@model.get("type"))
@@ -76,10 +72,9 @@ class ParameterView extends Backbone.View
     $('.query-choices', $(@el)).append choiceView.render().el
 
   updateChoices: ->
-    $('input.parameter', $(@el)).val(@model.get("choices").queryParamString())
+    $('input.parameter', $(@el)).val(@model.get("choices").get("queryParamString"))
     unless $('.close', $(@el)).last().prop('disabled')
-      addChoiceView()
-
+      @addChoiceView()
 
   removeChoiceView: (viewId) ->
     view = @choiceViews[viewId]
@@ -90,21 +85,6 @@ class ParameterView extends Backbone.View
   refreshChoiceViews: ->
     for viewId in Object.keys(@choiceViews)
       @choiceViews[viewId].render()
-
-  updateSignature: (expandedJSON) ->
-    signatureModel = @getSignatureModel()
-    
-    if signatureModel["sampleJSON"]
-      responseSignatureView = new SignatureView({model: signatureModel, tagName: 'div'})
-      $('.model-signature', $(@el)).html(responseSignatureView.render().el)
-    else
-      $('.data-type', $(@el)).html(@model.get("type"))
-
-  getSignatureModel: ->
-    signatureModel =
-      sampleJSON: @model.getExpandedJSON()
-      isParam: true
-      signature: @model.get("abridgedSignature")
 
 
 

@@ -232,6 +232,55 @@ function program4(depth0,data) {
 
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['expansion_select'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n		<option selected value=\"";
+  if (stack1 = helpers.currentValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.currentValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\">";
+  if (stack1 = helpers.currentValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.currentValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</option>\n	";
+  return buffer;
+  }
+
+function program3(depth0,data) {
+  
+  
+  return "\n		<option disabled selected> -- select an option -- </option>\n	";
+  }
+
+function program5(depth0,data) {
+  
+  var buffer = "";
+  buffer += "\n		<option value=\""
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "\">"
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "</option>\n	";
+  return buffer;
+  }
+
+  buffer += "	";
+  stack1 = helpers['if'].call(depth0, depth0.currentValue, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n	";
+  stack1 = helpers.each.call(depth0, depth0.unexpandedFields, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  return buffer;
+  });
+})();
+
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
 templates['main'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
@@ -628,27 +677,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
 function program1(depth0,data) {
   
-  var buffer = "", stack1;
-  buffer += "\n		<option selected value=\"";
-  if (stack1 = helpers.currentValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.currentValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\">";
-  if (stack1 = helpers.currentValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.currentValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</option>\n	";
-  return buffer;
-  }
-
-function program3(depth0,data) {
-  
-  
-  return "\n		<option disabled selected> -- select an option -- </option>\n	";
-  }
-
-function program5(depth0,data) {
-  
   var buffer = "";
   buffer += "\n		<option value=\""
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
@@ -658,11 +686,8 @@ function program5(depth0,data) {
   return buffer;
   }
 
-  buffer += "<button disabled type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n<span>Expand:</span>\n<select class=\"param-choice\">\n	";
-  stack1 = helpers['if'].call(depth0, depth0.currentValue, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n	";
-  stack1 = helpers.each.call(depth0, depth0.availableChoices, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+  buffer += "<button disabled type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n<span>Expand:</span>\n<select class=\"param-choice\">\n	<option disabled selected> -- select an option -- </option>\n	";
+  stack1 = helpers.each.call(depth0, depth0.unexpandedFields, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</select>\n<br>\n";
   return buffer;
@@ -1375,14 +1400,10 @@ function program4(depth0,data) {
 templates['signature'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+  var buffer = "", stack1, functionType="function";
 
 
-  buffer += "<div>\n<ul class=\"signature-nav\">\n    <li><a class=\"description-link\" href=\"#\">Model</a></li>\n    <li><a class=\"snippet-link\" href=\"#\">Model Schema</a></li>\n</ul>\n<div>\n\n<div class=\"signature-container\">\n    <div class=\"snippet\">\n        <pre><code>";
-  if (stack1 = helpers.sampleJSON) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.sampleJSON; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</code></pre>\n        <large class=\"notice\"></large>\n    </div>\n        <div class=\"description\">\n        ";
+  buffer += "<div>\n<ul class=\"signature-nav\">\n    <li><a class=\"description-link\" href=\"#\">Model</a></li>\n    <li><a class=\"snippet-link\" href=\"#\">Model Schema</a></li>\n</ul>\n<div>\n\n<div class=\"signature-container\">\n    <div class=\"snippet\">\n        <pre><code></code></pre>\n        <large class=\"notice\"></large>\n    </div>\n        <div class=\"description\">\n        ";
   if (stack1 = helpers.signature) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.signature; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
@@ -1416,7 +1437,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
 // Generated by CoffeeScript 1.5.0
 (function() {
-  var Choices, ContentTypeView, Expansions, Filters, HeaderView, MainView, OperationView, Param, ParameterChoiceView, ParameterContentTypeView, ParameterView, ResourceView, ResponseContentTypeView, SignatureView, StatusCodeView, SwaggerUi,
+  var Choices, ContentTypeView, Expansions, Filters, HeaderView, MainView, OperationView, Param, ParameterChoiceView, ParameterContentTypeView, ParameterView, ResourceView, ResponseContentTypeView, Signature, SignatureView, StatusCodeView, SwaggerUi,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -1746,17 +1767,40 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       }
     };
 
-    Param.prototype.getExpandedJSON = function(unexpandedFields) {
-      var JSONobject, expandedJSON, field, jsonExpansions, _i, _len;
+    Param.prototype.getSignature = function() {
+      var signatureAttributes;
+      signatureAttributes = {
+        sampleJSON: this.get("sampleJSON"),
+        isParam: true,
+        signature: this.get("abridgedSignature"),
+        JSONExpansions: this.get("JSONExpansions")
+      };
+      return new Signature(signatureAttributes);
+    };
+
+    return Param;
+
+  })(Backbone.Model);
+
+  Signature = (function(_super) {
+
+    __extends(Signature, _super);
+
+    function Signature() {
+      Signature.__super__.constructor.apply(this, arguments);
+    }
+
+    Signature.prototype.getExpandedJSON = function() {
+      var JSONobject, expandedJSON, field, jsonExpansions, unexpandedFields, _i, _len;
       expandedJSON = this.get("sampleJSON");
       if (expandedJSON) {
-        jsonExpansions = this.get("JSONexpansions");
+        jsonExpansions = this.get("JSONExpansions");
         if (jsonExpansions) {
           unexpandedFields = jsonExpansions.get("unexpandedFields");
           JSONobject = $.parseJSON(expandedJSON);
           for (_i = 0, _len = unexpandedFields.length; _i < _len; _i++) {
             field = unexpandedFields[_i];
-            JSONobject[field] = "<Expandable Field>";
+            JSONobject[field] = "--Expandable Field--";
           }
           expandedJSON = JSON.stringify(JSONobject, null, '  ');
         }
@@ -1764,7 +1808,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       return expandedJSON;
     };
 
-    return Param;
+    return Signature;
 
   })(Backbone.Model);
 
@@ -1994,7 +2038,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       for (_j = 0, _len1 = params.length; _j < _len1; _j++) {
         param = params[_j];
         if (expansions) {
-          param.set("JSONexpansions", expansions);
+          param.set("JSONExpansions", expansions);
+          this.listenTo(expansions, "change", this.updateSignature);
         }
         _results.push(this.addParameterView(param));
       }
@@ -2399,8 +2444,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     ParameterView.prototype.initialize = function(options) {
       if (this.model.get("isExpand")) {
         this.listenTo(this.model.get("choices"), "change", this.updateChoices);
-      } else if (this.model.get("isBody")) {
-        this.listenTo(this.expansions, "change", this.updateSignature);
       }
       return Handlebars.registerHelper('isArray', function(param, opts) {
         if (param.type.toLowerCase() === 'array' || param.allowMultiple) {
@@ -2448,11 +2491,10 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     ParameterView.prototype.addSignatureView = function() {
-      var signatureModel, signatureView;
-      signatureModel = this.getSignatureModel();
+      var signatureView;
       if (this.model.get("sampleJSON") && this.model.get("isBody")) {
         signatureView = new SignatureView({
-          model: signatureModel,
+          model: this.model.getSignature(),
           tagName: 'div'
         });
         return $('.model-signature', $(this.el)).append(signatureView.render().el);
@@ -2492,9 +2534,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     ParameterView.prototype.updateChoices = function() {
-      $('input.parameter', $(this.el)).val(this.model.get("choices").queryParamString());
+      $('input.parameter', $(this.el)).val(this.model.get("choices").get("queryParamString"));
       if (!$('.close', $(this.el)).last().prop('disabled')) {
-        return addChoiceView();
+        return this.addChoiceView();
       }
     };
 
@@ -2517,29 +2559,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       return _results;
     };
 
-    ParameterView.prototype.updateSignature = function(expandedJSON) {
-      var responseSignatureView, signatureModel;
-      signatureModel = this.getSignatureModel();
-      if (signatureModel["sampleJSON"]) {
-        responseSignatureView = new SignatureView({
-          model: signatureModel,
-          tagName: 'div'
-        });
-        return $('.model-signature', $(this.el)).html(responseSignatureView.render().el);
-      } else {
-        return $('.data-type', $(this.el)).html(this.model.get("type"));
-      }
-    };
-
-    ParameterView.prototype.getSignatureModel = function() {
-      var signatureModel;
-      return signatureModel = {
-        sampleJSON: this.model.getExpandedJSON(),
-        isParam: true,
-        signature: this.model.get("abridgedSignature")
-      };
-    };
-
     return ParameterView;
 
   })(Backbone.View);
@@ -2558,22 +2577,19 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       'mousedown .snippet': 'snippetToTextArea'
     };
 
-    SignatureView.prototype.initialize = function() {};
+    SignatureView.prototype.initialize = function() {
+      return this.listenTo(this.model.get("JSONExpansions"), "change", this.updateSignature);
+    };
 
     SignatureView.prototype.render = function() {
-      var template,
-        _this = this;
+      var template;
       template = this.template();
-      $(this.el).html(template(this.model));
+      $(this.el).html(template(this.model.toJSON()));
       this.switchToSnippet();
-      this.isParam = this.model.isParam;
-      if (this.isParam) {
+      if (this.model.get("isParam")) {
         $('.notice', $(this.el)).text('Click above to set as body');
       }
-      $("code", $(this.el)).each(function(i, block) {
-        return hljs.highlightBlock(block);
-      });
-      this.enableExpandableSpans();
+      this.updateSignature();
       return this;
     };
 
@@ -2601,9 +2617,22 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       return $('.description-link', $(this.el)).removeClass('selected');
     };
 
+    SignatureView.prototype.updateSignature = function() {
+      $("code", $(this.el)).html(this.model.getExpandedJSON());
+      this.highlightJSON();
+      return this.enableExpandableSpans();
+    };
+
+    SignatureView.prototype.highlightJSON = function() {
+      var _this = this;
+      return $("code", $(this.el)).each(function(i, block) {
+        return hljs.highlightBlock(block);
+      });
+    };
+
     SignatureView.prototype.enableExpandableSpans = function() {
       return $("span.string", $(this.el)).each(function() {
-        if ($(this).text() === '"<Expandable Field>"') {
+        if ($(this).text() === '"--Expandable Field--"') {
           return $(this).addClass("expandable");
         }
       });
@@ -2617,7 +2646,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         }
         textArea = $('textarea', $(this.el.parentNode.parentNode.parentNode));
         if ($.trim(textArea.val()) === '') {
-          return textArea.val(this.model.sampleJSON);
+          return textArea.val(this.model.get("sampleJSON"));
         }
       }
     };
@@ -2718,7 +2747,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       'click .close': 'removeThisView'
     };
 
-    ParameterChoiceView.prototype.initialize = function() {};
+    ParameterChoiceView.prototype.initialize = function() {
+      if (this.model.get("isExpansions")) {
+        return this.listenTo(this.model, "change", this.updateSelect);
+      }
+    };
 
     ParameterChoiceView.prototype.render = function() {
       var template;
@@ -2731,7 +2764,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     ParameterChoiceView.prototype.template = function() {
-      if (this.model.isExpand) {
+      if (this.model.get("isExpansions")) {
         return Handlebars.templates.param_choice_expansion;
       } else {
         return Handlebars.templates.param_choice_filter;
@@ -2741,22 +2774,20 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     ParameterChoiceView.prototype.choiceChanged = function() {
       this.enableCloseButton();
       if (this.model.get("isExpansions")) {
-        return this.updatedExpansion;
+        return this.updateExpansion();
       } else {
-        return this.updateFilter;
+        return this.updateFilter();
       }
     };
 
-    ParameterChoiceView.prototype.updatedExpansion = function() {
+    ParameterChoiceView.prototype.updateExpansion = function() {
       var choice;
       choice = $('.param-choice', $(this.el)).val();
-      if (choice) {
-        this.currentValue = choice;
-        return this.model.setExpansion(this.currentValue, true);
-      } else if (this.currentValue) {
+      if (this.currentValue) {
         this.model.setExpansion(this.currentValue, false);
-        return this.currentValue = null;
       }
+      this.currentValue = choice;
+      return this.model.setExpansion(this.currentValue, true);
     };
 
     ParameterChoiceView.prototype.updateFilter = function() {
@@ -2774,7 +2805,25 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       }
     };
 
+    ParameterChoiceView.prototype.updateSelect = function() {
+      var $select, data;
+      $select = $('select.param-choice', $(this.el));
+      $select.empty();
+      data = {
+        currentValue: this.currentValue,
+        unexpandedFields: this.model.get("unexpandedFields")
+      };
+      return $select.html(Handlebars.templates.expansion_select(data));
+    };
+
     ParameterChoiceView.prototype.removeThisView = function() {
+      if (this.currentValue) {
+        if (this.model.get("isExpansions")) {
+          this.model.setExpansion(this.currentValue, false);
+        } else {
+
+        }
+      }
       return this.remove();
     };
 

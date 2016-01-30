@@ -20,21 +20,14 @@ class Param extends Backbone.Model
       # display only the first model (none of the expansion models)
       @set("abridgedSignature", signature.slice(0, signature.indexOf('}</span>') + 8))
 
+  getSignature: () ->
+    signatureAttributes =
+      sampleJSON: @get("sampleJSON")
+      isParam: true
+      signature: @get("abridgedSignature")
+      JSONExpansions: @get("JSONExpansions")
 
-  getExpandedJSON: (unexpandedFields) ->
-    # currentExpansions is an object of the following pattern: {expansionField: currentlyUnexpanded}
-    expandedJSON = @get("sampleJSON")
-    if expandedJSON
-      jsonExpansions = @get("JSONexpansions")
-      if jsonExpansions
-        unexpandedFields = jsonExpansions.get("unexpandedFields")
-        JSONobject = $.parseJSON(expandedJSON)
-        for own field in unexpandedFields
-          JSONobject[field] = "<Expandable Field>"
-
-        expandedJSON = JSON.stringify(JSONobject, null, '  ')
-
-    return expandedJSON
+    return new Signature(signatureAttributes)
 
 
 

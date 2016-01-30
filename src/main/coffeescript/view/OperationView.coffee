@@ -51,7 +51,8 @@ class OperationView extends Backbone.View
     # Second iteration to allow for @expansions
     for param in params
       if expansions
-        param.set("JSONexpansions", expansions)
+        param.set("JSONExpansions", expansions)
+        @listenTo(expansions, "change", @updateSignature)
       @addParameterView(param)
 
   addParameterView: (param) ->

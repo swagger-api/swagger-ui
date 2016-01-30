@@ -8,7 +8,8 @@ class ParameterChoiceView extends Backbone.View
   }
 
   initialize: ->
-
+    if @model.get("isExpansions")
+      @listenTo(@model, "change", @updateSelect)
   render: ->
     template = @template()
     $(@el).html(template(@model.toJSON()))
@@ -17,7 +18,7 @@ class ParameterChoiceView extends Backbone.View
     @
 
   template: ->
-    if @model.isExpand
+    if @model.get("isExpansions")
         Handlebars.templates.param_choice_expansion
     else
         Handlebars.templates.param_choice_filter
@@ -25,18 +26,16 @@ class ParameterChoiceView extends Backbone.View
   choiceChanged: ->
     @enableCloseButton()
     if @model.get("isExpansions")
-      @updatedExpansion
+      @updateExpansion()
     else
-      @updateFilter
+      @updateFilter()
 
-  updatedExpansion: ->
+  updateExpansion: ->
     choice = $('.param-choice', $(@el)).val()
-    if choice
-      @currentValue = choice
-      @model.setExpansion(@currentValue, true)
-    else if @currentValue
+    if @currentValue
       @model.setExpansion(@currentValue, false)
-      @currentValue = null
+    @currentValue = choice
+    @model.setExpansion(@currentValue, true)
 
   updateFilter: ->
     choice = $('.param-choice', $(@el)).val()
@@ -50,7 +49,21 @@ class ParameterChoiceView extends Backbone.View
     else
       @model.removeChoiceViewFilter(@cid)
 
+  updateSelect: ->
+    $select = $('select.param-choice', $(@el))
+    $select.empty()
+    data = {
+      currentValue: @currentValue
+      unexpandedFields: @model.get("unexpandedFields")
+    }
+    $select.html(Handlebars.templates.expansion_select(data))
+
   removeThisView: ->
+    if @currentValue
+      if @model.get("isExpansions")
+        @model.setExpansion(@currentValue, false)
+      else
+
     @remove()
     
   enableCloseButton: ->
