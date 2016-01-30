@@ -6,122 +6,59 @@ class OperationView extends Backbone.View
     'click .submit'           : 'submitOperation'
     'click .response_hider'   : 'hideResponse'
     'click .toggleOperation'  : 'toggleOperationContent'
-    # 'mouseenter .api-ic'      : 'mouseEnter'
-    # 'mouseout .api-ic'        : 'mouseExit'
+    'click .expandable'       : 'expandedFromJSON'
   }
 
-  initialize: (options) ->
-# This applies to an element we don't currently use in our UI
-  # mouseEnter: (e) ->
-  #   elem = $(e.currentTarget.parentNode).find('#api_information_panel')
-  #   x = event.pageX
-  #   y = event.pageY
-  #   scX = $(window).scrollLeft()
-  #   scY = $(window).scrollTop()
-  #   scMaxX = scX + $(window).width()
-  #   scMaxY = scY + $(window).height()
-  #   wd = elem.width()
-  #   hgh = elem.height()
+  initialize: ->
+    @operationExpansions = null
 
-  #   if (x + wd > scMaxX)
-  #     x = scMaxX - wd
-  #   if (x < scX)
-  #     x = scX
-  #   if (y + hgh > scMaxY)
-  #     y = scMaxY - hgh
-  #   if (y < scY)
-  #     y = scY
-  #   pos = {}
-  #   pos.top = y
-  #   pos.left = x
-  #   elem.css(pos)
-  #   $(e.currentTarget.parentNode).find('#api_information_panel').show()
-
-  # mouseExit: (e) ->
-  #   $(e.currentTarget.parentNode).find('#api_information_panel').hide()
+  template: ->
+    Handlebars.templates.operation
 
   render: ->
     isMethodSubmissionSupported = true #jQuery.inArray(@model.method, @model.supportedSubmitMethods) >= 0
     @model.isReadOnly = true unless isMethodSubmissionSupported
 
-    @model.oauth = null
-    if @model.authorizations
-      for k, v of @model.authorizations
-        if k == "oauth2"
-          if @model.oauth == null
-            @model.oauth = {}
-          if @model.oauth.scopes is undefined
-            @model.oauth.scopes = []
-          for o in v
-            @model.oauth.scopes.push o
-
     @model.method = @model.method.toUpperCase()
-    $(@el).html(Handlebars.templates.operation(@model))
+
+    template = @template()
+    $(@el).html(template(@model))
 
     contentTypeModel =
       isParam: false
 
-    contentTypeModel.consumes = @model.consumes
-    contentTypeModel.produces = @model.produces
-
-    for param in @model.parameters
-      type = param.type || param.dataType
-      if type.toLowerCase() == 'file'
-        if !contentTypeModel.consumes
-          log "set content type "
-          contentTypeModel.consumes = 'multipart/form-data'
-
     responseContentTypeView = new ResponseContentTypeView({model: contentTypeModel})
     $('.response-content-type', $(@el)).append responseContentTypeView.render().el
 
-    this.hasExpandableFields = false
-    # Render each parameter
-    for param in @model.parameters
-      @addParameter(param, contentTypeModel.consumes)
-      if param.name == 'expand'
-        this.hasExpandableFields = true
-
-    #unless there are expansions, show full JSON
-    @applyUnexpandedFields([]) unless this.hasExpandableFields
+    @buildParams()
 
     # Render each response code
     @addStatusCode statusCode for statusCode in @model.responseMessages
 
     @
 
-  applyUnexpandedFields: (unexpandedFields) ->
-    # currentExpansions is an object of the following pattern: {expansionField: currentlyUnexpanded}
-    modelJSON = $.parseJSON(@model.responseSampleJSON)
-    if modelJSON
-      for field in unexpandedFields
-        modelJSON[field] = "<Expandable Field>"
+  buildParams: ->
+    params = []
+    for paramBaseData in @model.parameters
+      param = new Param(paramBaseData)
+      param.set("isReadOnly", @model.isReadOnly)
+      params.push(param)
 
-    @updateSignature(JSON.stringify(modelJSON, null, '  '))
+      if param.get("name") == "expand"
+        #a Choices Model subclass
+        expansions = param.get("choices")
 
+    # Second iteration to allow for @expansions
+    for param in params
+      if expansions
+        param.set("JSONexpansions", expansions)
+      @addParameterView(param)
 
-
-  updateSignature: (expandedJSON) ->
-    RCS = @model.responseClassSignature
-    if RCS and RCS != 'string'
-      # display only the first model (none of the expansion models)
-      abridgedRCS = RCS.slice(0, RCS.indexOf('}</span>') + 8)
-      signatureModel =
-        sampleJSON: expandedJSON
-        isParam: false
-        signature: abridgedRCS
-        
-      responseSignatureView = new SignatureView({model: signatureModel, tagName: 'div'})
-      $('.model-signature', $(@el)).html(responseSignatureView.render().el)
-    else
-      $('.data-type', $(@el)).html(@model.type)
-
-
-  addParameter: (param, consumes) ->
+  addParameterView: (param) ->
     # Render a parameter
-    param.consumes = consumes
-    paramView = new ParameterView({model: param, tagName: 'tr', readOnly: @model.isReadOnly})
-    @listenTo(paramView, 'applyUnexpandedFields', @applyUnexpandedFields)
+    paramView = new ParameterView({model: param, tagName: 'tr'})
     $('.operation-params', $(@el)).append paramView.render().el
+
 
   addStatusCode: (statusCode) ->
     # Render status codes
@@ -391,6 +328,11 @@ class OperationView extends Backbone.View
     $(".response_hider", $(@el)).show()
     $(".response_throbber", $(@el)).hide()
     hljs.highlightBlock($('.response_body', $(@el))[0])
+
+  expandedFromJSON: (e) ->
+    # TO DO either use event aggregator or model for expansions
+    @expandParamView.expandedFromJSON(e)
+
 
   toggleOperationContent: ->
     elem = $('#' + Docs.escapeResourceName(@model.parentId) + "_" + @model.nickname + "_content")

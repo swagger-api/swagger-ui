@@ -11,7 +11,7 @@ class ParameterChoiceView extends Backbone.View
 
   render: ->
     template = @template()
-    $(@el).html(template($.extend({}, @model, {currentValue: @currentValue})))
+    $(@el).html(template(@model.toJSON()))
     if @currentValue
       @enableCloseButton()
     @
@@ -23,25 +23,36 @@ class ParameterChoiceView extends Backbone.View
         Handlebars.templates.param_choice_filter
 
   choiceChanged: ->
-    choice = $('.param-choice', $(@el)).val()
-    argument = $('.filter-argument', $(@el)).val()
     @enableCloseButton()
+    if @model.get("isExpansions")
+      @updatedExpansion
+    else
+      @updateFilter
+
+  updatedExpansion: ->
+    choice = $('.param-choice', $(@el)).val()
+    if choice
+      @currentValue = choice
+      @model.setExpansion(@currentValue, true)
+    else if @currentValue
+      @model.setExpansion(@currentValue, false)
+      @currentValue = null
+
+  updateFilter: ->
+    choice = $('.param-choice', $(@el)).val()
+    operator = $('.filter-operator', $(@el)).val()
+    argument = $('.filter-argument', $(@el)).val()
     if argument
       argument = argument.trim()
-    operator = $('.filter-operator', $(@el)).val()
-    if @model.isExpand and choice
-      @currentValue = choice
-      @trigger('choiceSet')
-    else if @model.isFilter and choice and argument
-      @currentValue = "#{choice}#{operator}#{argument}"
-      @trigger('choiceSet')
+
+    if choice and argument
+      @model.setChoiceViewFilter(@cid, "#{choice}#{operator}#{argument}")
     else
-      @currentValue = null
-      @trigger('choiceSet')
+      @model.removeChoiceViewFilter(@cid)
 
   removeThisView: ->
-    @trigger('removeChoiceView', @cid)
-
+    @remove()
+    
   enableCloseButton: ->
     $('.close', $(@el)).prop('disabled', false)
 
