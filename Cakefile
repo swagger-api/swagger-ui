@@ -5,6 +5,12 @@ less        = require 'less'
 
 sourceFiles  = [
   'SwaggerUi'
+  'model/Choices'
+  'model/Expansions'
+  'model/Filters'
+  'model/Param'
+  'model/Signature'
+  'model/Operation'
   'view/HeaderView'
   'view/MainView'
   'view/ResourceView'

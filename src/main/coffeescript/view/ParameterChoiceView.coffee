@@ -1,66 +1,82 @@
 class ParameterChoiceView extends Backbone.View
     
   events: {
-    'click' : 'enableIfDisabled'
-    'click input.expansion-checkbox': 'expansionToggled'
-    'click input.filter-checkbox': 'filterToggled'
-    'blur input.filter-argument': 'checkForCompleteFilter'
-    'change select.filter-operator': 'checkForCompleteFilter'
+    'blur input.filter-argument': 'choiceChanged'
+    'change select': 'choiceChanged'
+    'click .close' : 'removeThisView'
 
   }
 
-  initialize: ->
+  initialize: (options) ->
+    this.options = options || {}
+    @currentValue = options.currentValue
+    if @model.get("isExpansions")
+      @listenTo(@model, "change", @updateSelect)
 
   render: ->
     template = @template()
-    $(@el).html(template(@model))
+    modelJSON = @model.toJSON()
+    modelJSON["currentValue"] = @currentValue
+    $(@el).html(template(modelJSON))
+    if @currentValue
+      @enableCloseButton()
     @
 
   template: ->
-    if @model.choiceType == 'expand'
+    if @model.get("isExpansions")
         Handlebars.templates.param_choice_expansion
-    #else == 'filter'
     else
         Handlebars.templates.param_choice_filter
 
-  enableIfDisabled: ->
-    if @model.choiceType == 'expand'
-      $('.expansion-checkbox', $(@el)).prop('checked', true)
-      @expansionToggled()
+  choiceChanged: ->
+    @enableCloseButton()
+    if @model.get("isExpansions")
+      @updateExpansion()
     else
-      $('.filter-checkbox', $(@el)).prop('checked', true)
-      @filterToggled()
+      @updateFilter()
 
-  expansionToggled: (ev) ->
-    if ev?
-      checked = $(ev.currentTarget).prop('checked')
-      ev.stopPropagation()
-    else
-      checked = true
-    @trigger('choiceToggled', {name: @model.name, activeParam: checked})
+  updateExpansion: ->
+    choice = $('.param-choice', $(@el)).val()
+    if @currentValue
+      @model.setExpansion(@currentValue, false)
+    @currentValue = choice
+    @model.setExpansion(@currentValue, true)
 
-  filterToggled: (ev) ->
-    if ev?
-      ev.stopPropagation()
-    checked = $('.filter-checkbox', $(@el)).prop('checked')
-    if checked
-      $('.filter-operator', $(@el)).prop('disabled', false)
-      $('.filter-argument', $(@el)).prop('disabled', false)
-    else
-      $('.filter-operator', $(@el)).prop('disabled', true)
-      $('.filter-argument', $(@el)).prop('disabled', true)
-    @checkForCompleteFilter()
-
-  checkForCompleteFilter: ->
-    checked = $('.filter-checkbox', $(@el)).prop('checked')
+  updateFilter: ->
+    choice = $('.param-choice', $(@el)).val()
+    operator = $('.filter-operator', $(@el)).val()
     argument = $('.filter-argument', $(@el)).val()
+    if argument
+      argument = argument.trim()
 
-    # if not empty argument and checked
-    if checked and argument.trim()
-      operator = $('.filter-operator', $(@el)).val()
-      @trigger('choiceToggled', {name: @model.name, activeParam: "#{@model.name}#{operator}#{argument}"})
+    if choice and argument
+      @currentValue = "#{choice}#{operator}#{argument}"
+      @model.setChoiceViewFilter(@cid, @currentValue)
     else
-      @trigger('choiceToggled', {name: @model.name, activeParam: false})
+      @model.removeChoiceViewFilter(@cid)
+
+  updateSelect: ->
+    $select = $('select.param-choice', $(@el))
+    $select.empty()
+    data = {
+      currentValue: @currentValue
+      unexpandedFields: @model.get("unexpandedFields")
+    }
+    $select.html(Handlebars.templates.expansion_select(data))
+
+  removeThisView: ->
+    if @currentValue
+      if @model.get("isExpansions")
+        @model.setExpansion(@currentValue, false)
+      else
+        @model.removeChoiceViewFilter(@cid)
+
+    @remove()
+    
+  enableCloseButton: ->
+    $('.close', $(@el)).prop('disabled', false)
+
+
 
 
     

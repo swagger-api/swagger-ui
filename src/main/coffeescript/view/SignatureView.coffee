@@ -3,20 +3,23 @@ class SignatureView extends Backbone.View
   'click a.description-link'       : 'switchToDescription'
   'click a.snippet-link'           : 'switchToSnippet'
   'mousedown .snippet'          : 'snippetToTextArea'
+  'click span.expandable' : 'expansionFromJSON'
   }
 
   initialize: ->
+    @listenTo(@model.get("JSONExpansions"), "change", @updateSignature)
 
   render: ->
     template = @template()
-    $(@el).html(template(@model))
+    $(@el).html(template(@model.toJSON()))
 
     @switchToSnippet()
 
-    @isParam = @model.isParam
-
-    if @isParam
+    if @model.get("isParam")
       $('.notice', $(@el)).text('Click above to set as body')
+
+    @updateSignature()
+    
 
     @
 
@@ -39,10 +42,30 @@ class SignatureView extends Backbone.View
     $('.snippet-link', $(@el)).addClass('selected')
     $('.description-link', $(@el)).removeClass('selected')
 
+  updateSignature: ->
+    $("code", $(@el)).html(@model.getExpandedJSON())
+    @highlightJSON()
+    @enableExpandableSpans()
+
+  highlightJSON: ->
+    $("code", $(@el)).each (i, block) =>
+      hljs.highlightBlock(block)
+
+  enableExpandableSpans: ->
+    $("span.string", $(@el)).each(
+      ()->
+        if $(this).text() == '"--Expandable Field--"'
+          $(this).addClass("expandable")
+    )
+
+  expansionFromJSON: (e) ->
+    field = $(e.currentTarget).parent().prev().text()
+    @model.get("JSONExpansions").expansionFromJSON(field)
+
   # handler for snippet to text area
   snippetToTextArea: (e) ->
     if @isParam
       e?.preventDefault()
       textArea = $('textarea', $(@el.parentNode.parentNode.parentNode))
       if $.trim(textArea.val()) == ''
-        textArea.val(@model.sampleJSON)
+        textArea.val(@model.get("sampleJSON"))

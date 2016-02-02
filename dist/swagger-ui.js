@@ -232,6 +232,55 @@ function program4(depth0,data) {
 
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['expansion_select'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n		<option selected value=\"";
+  if (stack1 = helpers.currentValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.currentValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\">";
+  if (stack1 = helpers.currentValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.currentValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</option>\n	";
+  return buffer;
+  }
+
+function program3(depth0,data) {
+  
+  
+  return "\n		<option disabled selected> -- select an option -- </option>\n	";
+  }
+
+function program5(depth0,data) {
+  
+  var buffer = "";
+  buffer += "\n		<option value=\""
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "\">"
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "</option>\n	";
+  return buffer;
+  }
+
+  buffer += "	";
+  stack1 = helpers['if'].call(depth0, depth0.currentValue, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n	";
+  stack1 = helpers.each.call(depth0, depth0.unexpandedFields, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  return buffer;
+  });
+})();
+
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
 templates['main'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
@@ -369,27 +418,6 @@ function program16(depth0,data) {
   return "\n          <h4>Response Class</h4>\n          <p><span class=\"model-signature\" /></p>\n          <br/>\n          ";
   }
 
-function program18(depth0,data) {
-  
-  
-  return "\n          ";
-  }
-
-function program20(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n          <div class='sandbox_header'>\n            <input class='submit ";
-  if (stack1 = helpers.method) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.method; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "' name='commit' type='button' value='Submit ";
-  if (stack1 = helpers.method) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.method; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "'/>\n            <input class='response_hider' type='button' style='display:none' value='Hide Response' href='#'/>\n          </div>\n          ";
-  return buffer;
-  }
-
   buffer += "\n  <ul class='operations' >\n    <li class='";
   if (stack1 = helpers.method) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.method; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
@@ -479,10 +507,15 @@ function program20(depth0,data) {
   buffer += "\n          ";
   stack1 = helpers['if'].call(depth0, depth0.type, {hash:{},inverse:self.noop,fn:self.program(16, program16, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n          ";
-  stack1 = helpers['if'].call(depth0, depth0.isReadOnly, {hash:{},inverse:self.program(20, program20, data),fn:self.program(18, program18, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n        </form>\n        <div class='response' style='display:none'>\n          <h4>Request URL</h4>\n          <div class='block request_url'></div>\n          <h4>Response Body</h4>\n          <div class='block response_body'></div>\n          <h4>Response Code</h4>\n          <div class='block response_code'></div>\n          <h4>Response Headers</h4>\n          <div class='block response_headers'></div>\n        </div>\n      </div>\n    </li>\n  </ul>\n";
+  buffer += "\n          <div class='sandbox_header'>\n            <input class='submit ";
+  if (stack1 = helpers.method) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.method; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "' name='commit' type='button' value='Submit ";
+  if (stack1 = helpers.method) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.method; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "'/>\n            <input class='response_hider' type='button' style='display:none' value='Hide Response' href='#'/>\n          </div>\n        </form>\n        <div class='response' style='display:none'>\n          <h4>Request URL</h4>\n          <div class='block request_url'></div>\n          <h4>Response Body</h4>\n          <div class='block response_body'></div>\n          <h4>Response Code</h4>\n          <div class='block response_code'></div>\n          <h4>Response Headers</h4>\n          <div class='block response_headers'></div>\n        </div>\n      </div>\n    </li>\n  </ul>\n";
   return buffer;
   });
 })();
@@ -624,22 +657,47 @@ function program16(depth0,data) {
 templates['param_choice_expansion'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
 
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n		<option selected value=\"";
+  if (stack1 = helpers.currentValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.currentValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\">";
+  if (stack1 = helpers.currentValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.currentValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</option>\n	";
+  return buffer;
+  }
 
-  buffer += "<input type='checkbox' class='expansion-checkbox' name='queryparamchoice' value='";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "'>\n<label for='";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "'>";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</label>\n<br>\n";
+function program3(depth0,data) {
+  
+  
+  return "\n		<option disabled selected> -- select an option -- </option>\n	";
+  }
+
+function program5(depth0,data) {
+  
+  var buffer = "";
+  buffer += "\n		<option value=\""
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "\">"
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "</option>\n	";
+  return buffer;
+  }
+
+  buffer += "<button disabled type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n<span>Expand:</span>\n<select class=\"param-choice\">\n	";
+  stack1 = helpers['if'].call(depth0, depth0.currentValue, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n	";
+  stack1 = helpers.each.call(depth0, depth0.unexpandedFields, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n</select>\n<br>\n";
   return buffer;
   });
 })();
@@ -649,22 +707,23 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 templates['param_choice_filter'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
 
+function program1(depth0,data) {
+  
+  var buffer = "";
+  buffer += "\n		<option value=\""
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "\">"
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "</option>\n	";
+  return buffer;
+  }
 
-  buffer += "<input type='checkbox' class='filter-checkbox' name='queryparamchoice' value='";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "'>\n<label for='";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "'>";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</label>\n\n<select disabled class='filter-operator'>\n	<option value='=='>==</option>\n	<option value='!='>!=</option>\n	<option value='>'>&gt;</option>\n	<option value='<'>&lt;</option>\n	<option value='>='>&gt;=</option>\n	<option value='<='>&lt;=</option>\n</select>\n\n<input disabled class='filter-argument'>\n";
+  buffer += "<button disabled type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n<span>Filter:</span>\n<select class=\"param-choice\">\n	<option disabled selected> -- select an option -- </option>\n	";
+  stack1 = helpers.each.call(depth0, depth0.allChoices, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n</select>\n<select class='filter-operator'>\n	<option value='=='>==</option>\n	<option value='!='>!=</option>\n	<option value='>'>&gt;</option>\n	<option value='<'>&lt;</option>\n	<option value='>='>&gt;=</option>\n	<option value='<='>&lt;=</option>\n</select>\n<input class='filter-argument'>\n";
   return buffer;
   });
 })();
@@ -837,178 +896,16 @@ function program3(depth0,data) {
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "' placeholder='' type='text' disabled/>\n</td>\n<td>\n	<form class='query-choices'></form>\n</td>\n<td>";
+    + "' placeholder='' type='text' disabled/>\n	<form class='query-choices'></form>\n</td>\n<td>\n	";
+  if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n</td>\n<td>";
   if (stack1 = helpers.paramType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "</td>\n<td>\n	";
   stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</td>\n";
-  return buffer;
-  });
-})();
-
-(function() {
-  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
-templates['param_readonly'] = template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
-
-function program1(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n        <textarea class='body-textarea' readonly='readonly' name='";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "'>";
-  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</textarea>\n    ";
-  return buffer;
-  }
-
-function program3(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n        ";
-  stack1 = helpers['if'].call(depth0, depth0.defaultValue, {hash:{},inverse:self.program(6, program6, data),fn:self.program(4, program4, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n    ";
-  return buffer;
-  }
-function program4(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n            ";
-  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\n        ";
-  return buffer;
-  }
-
-function program6(depth0,data) {
-  
-  
-  return "\n            (empty)\n        ";
-  }
-
-function program8(depth0,data) {
-  
-  
-  return "\n        <span class=\"model-signature\"></span>\n    ";
-  }
-
-function program10(depth0,data) {
-  
-  
-  return "\n        <span class=\"data-type\"></span>\n    ";
-  }
-
-  buffer += "<td class='code'>";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</td>\n<td>\n    ";
-  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</td>\n<td>";
-  if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</td>\n<td>";
-  if (stack1 = helpers.paramType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</td>\n<td>\n    ";
-  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(10, program10, data),fn:self.program(8, program8, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</td>\n";
-  return buffer;
-  });
-})();
-
-(function() {
-  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
-templates['param_readonly_required'] = template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
-
-function program1(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n        <textarea class='body-textarea'  readonly='readonly' placeholder='(required)' name='";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "'>";
-  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</textarea>\n    ";
-  return buffer;
-  }
-
-function program3(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n        ";
-  stack1 = helpers['if'].call(depth0, depth0.defaultValue, {hash:{},inverse:self.program(6, program6, data),fn:self.program(4, program4, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n    ";
-  return buffer;
-  }
-function program4(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n            ";
-  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\n        ";
-  return buffer;
-  }
-
-function program6(depth0,data) {
-  
-  
-  return "\n            (empty)\n        ";
-  }
-
-function program8(depth0,data) {
-  
-  
-  return "\n        <span class=\"model-signature\"></span>\n    ";
-  }
-
-function program10(depth0,data) {
-  
-  
-  return "\n        <span class=\"data-type\"></span>\n    ";
-  }
-
-  buffer += "<td class='code required'>";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</td>\n<td>\n    ";
-  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</td>\n<td>";
-  if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</td>\n<td>";
-  if (stack1 = helpers.paramType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</td>\n<td>\n    ";
-  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(10, program10, data),fn:self.program(8, program8, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</td>\n";
   return buffer;
@@ -1321,14 +1218,10 @@ function program4(depth0,data) {
 templates['signature'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+  var buffer = "", stack1, functionType="function";
 
 
-  buffer += "<div>\n<ul class=\"signature-nav\">\n    <li><a class=\"description-link\" href=\"#\">Model</a></li>\n    <li><a class=\"snippet-link\" href=\"#\">Model Schema</a></li>\n</ul>\n<div>\n\n<div class=\"signature-container\">\n    <div class=\"snippet\">\n        <pre><code>";
-  if (stack1 = helpers.sampleJSON) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.sampleJSON; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</code></pre>\n        <large class=\"notice\"></large>\n    </div>\n        <div class=\"description\">\n        ";
+  buffer += "<div>\n<ul class=\"signature-nav\">\n    <li><a class=\"description-link\" href=\"#\">Model</a></li>\n    <li><a class=\"snippet-link\" href=\"#\">Model Schema</a></li>\n</ul>\n<div>\n\n<div class=\"signature-container\">\n    <div class=\"snippet\">\n        <pre><code></code></pre>\n        <large class=\"notice\"></large>\n    </div>\n        <div class=\"description\">\n        ";
   if (stack1 = helpers.signature) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.signature; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
@@ -1362,7 +1255,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
 // Generated by CoffeeScript 1.5.0
 (function() {
-  var ContentTypeView, HeaderView, MainView, OperationView, ParameterChoiceView, ParameterContentTypeView, ParameterView, ResourceView, ResponseContentTypeView, SignatureView, StatusCodeView, SwaggerUi,
+  var Choices, ContentTypeView, Expansions, Filters, HeaderView, MainView, Operation, OperationView, Param, ParameterChoiceView, ParameterContentTypeView, ParameterView, ResourceView, ResponseContentTypeView, Signature, SignatureView, StatusCodeView, SwaggerUi,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -1510,6 +1403,305 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
   window.SwaggerUi = SwaggerUi;
 
+  Choices = (function(_super) {
+
+    __extends(Choices, _super);
+
+    function Choices() {
+      Choices.__super__.constructor.apply(this, arguments);
+    }
+
+    Choices.prototype.initialize = function() {
+      this.parseChoices;
+      this.valueSetExternally = null;
+      this.set("currentValues", {});
+      this.set("queryParamString", "");
+      return this.update();
+    };
+
+    Choices.prototype.parseChoices = function() {
+      var choiceArray, choicesString;
+      choicesString = this.get("description");
+      choiceArray = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]")).split(/[\s,]+/);
+      return this.set("allChoices", choiceArray);
+    };
+
+    Choices.prototype.setSelectedValue = function(choiceViewId, value) {
+      this.get("currentValues")[choiceViewId] = value;
+      return this.update();
+    };
+
+    Choices.prototype.update = function() {};
+
+    return Choices;
+
+  })(Backbone.Model);
+
+  Expansions = (function(_super) {
+
+    __extends(Expansions, _super);
+
+    function Expansions() {
+      Expansions.__super__.constructor.apply(this, arguments);
+    }
+
+    Expansions.prototype.initialize = function() {
+      this.set("isExpansions", true);
+      this.parseChoices();
+      this.set("queryParamString", "");
+      return this.update();
+    };
+
+    Expansions.prototype.parseChoices = function() {
+      var choiceArray, choicesString, currentExpansions, field, _i, _len;
+      choicesString = this.get("description");
+      choiceArray = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]")).split(/[\s,]+/);
+      currentExpansions = {};
+      for (_i = 0, _len = choiceArray.length; _i < _len; _i++) {
+        field = choiceArray[_i];
+        currentExpansions[field] = false;
+      }
+      this.set("currentExpansions", currentExpansions);
+      return this.set("allChoices", choiceArray);
+    };
+
+    Expansions.prototype.setExpansion = function(field, expanded) {
+      this.get("currentExpansions")[field] = expanded;
+      return this.update();
+    };
+
+    Expansions.prototype.expansionFromJSON = function(field) {
+      if (!this.get("currentExpansions")[field]) {
+        this.get("currentExpansions")[field] = true;
+        this.update();
+        return this.trigger("expansionFromJSON", field);
+      }
+    };
+
+    Expansions.prototype.update = function() {
+      var currentExpansions, expandedFields, field, queryParamString, unexpandedFields;
+      currentExpansions = this.get("currentExpansions");
+      queryParamString = "";
+      expandedFields = [];
+      unexpandedFields = [];
+      for (field in currentExpansions) {
+        if (!__hasProp.call(currentExpansions, field)) continue;
+        if (currentExpansions[field]) {
+          expandedFields.push(field);
+          queryParamString = queryParamString.concat(field, ",");
+        } else {
+          unexpandedFields.push(field);
+        }
+      }
+      this.set("queryParamString", queryParamString.slice(0, -1));
+      this.set("expandedFields", expandedFields);
+      return this.set("unexpandedFields", unexpandedFields);
+    };
+
+    return Expansions;
+
+  })(Choices);
+
+  Filters = (function(_super) {
+
+    __extends(Filters, _super);
+
+    function Filters() {
+      Filters.__super__.constructor.apply(this, arguments);
+    }
+
+    Filters.prototype.initialize = function() {
+      this.set("isFilters", true);
+      this.parseChoices();
+      this.set("currentFilters", {});
+      return this.set("queryParamString", "");
+    };
+
+    Filters.prototype.parseChoices = function() {
+      var choiceArray, choicesString;
+      choicesString = this.get("description");
+      choiceArray = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]")).split(/[\s,]+/);
+      return this.set("allChoices", choiceArray);
+    };
+
+    Filters.prototype.setChoiceViewFilter = function(choiceViewId, value) {
+      this.get("currentFilters")[choiceViewId] = value;
+      return this.update();
+    };
+
+    Filters.prototype.removeChoiceViewFilter = function(choiceViewId) {
+      delete this.get("currentFilters")[choiceViewId];
+      return this.update();
+    };
+
+    Filters.prototype.update = function() {
+      var currentValues, queryParamString, value, viewId;
+      currentValues = this.get("currentFilters");
+      queryParamString = "";
+      for (viewId in currentValues) {
+        if (!__hasProp.call(currentValues, viewId)) continue;
+        value = currentValues[viewId];
+        queryParamString = queryParamString.concat(value, "&filter=");
+      }
+      return this.set("queryParamString", queryParamString.slice(0, -8));
+    };
+
+    return Filters;
+
+  })(Choices);
+
+  Param = (function(_super) {
+
+    __extends(Param, _super);
+
+    function Param() {
+      Param.__super__.constructor.apply(this, arguments);
+    }
+
+    Param.prototype.initialize = function() {
+      var signature, type;
+      if (this.get("paramType") === "query") {
+        if (this.get("name") === "expand") {
+          this.set("choices", new Expansions({
+            description: this.get("description")
+          }));
+        } else {
+          this.set("choices", new Filters({
+            description: this.get("description")
+          }));
+        }
+      }
+      type = this.get("type") || this.get("dataType");
+      if (type.toLowerCase() === 'file') {
+        this.set("isFile", true);
+      }
+      if (this.get("paramType") === 'body') {
+        this.set("isBody", true);
+      }
+      if (this.get("paramType") === 'query') {
+        this.set("isQuery", true);
+      }
+      if (this.get("name") === 'filter') {
+        this.set("isFilter", true);
+      }
+      if (this.get("name") === 'expand') {
+        this.set("isExpand", true);
+      }
+      signature = this.get("signature");
+      if (signature && signature !== 'string') {
+        return this.set("abridgedSignature", signature.slice(0, signature.indexOf('}</span>') + 8));
+      }
+    };
+
+    Param.prototype.getSignatureModel = function() {
+      var signatureAttributes, signatureModel;
+      signatureModel = null;
+      if (this.get("sampleJSON")) {
+        signatureAttributes = {
+          sampleJSON: this.get("sampleJSON"),
+          isParam: true,
+          signature: this.get("abridgedSignature"),
+          JSONExpansions: this.get("JSONExpansions")
+        };
+        signatureModel = new Signature(signatureAttributes);
+      }
+      return signatureModel;
+    };
+
+    return Param;
+
+  })(Backbone.Model);
+
+  Signature = (function(_super) {
+
+    __extends(Signature, _super);
+
+    function Signature() {
+      Signature.__super__.constructor.apply(this, arguments);
+    }
+
+    Signature.prototype.getExpandedJSON = function() {
+      var JSONobject, expandedJSON, field, jsonExpansions, unexpandedFields, _i, _len;
+      expandedJSON = this.get("sampleJSON");
+      if (expandedJSON) {
+        jsonExpansions = this.get("JSONExpansions");
+        if (jsonExpansions) {
+          unexpandedFields = jsonExpansions.get("unexpandedFields");
+          JSONobject = $.parseJSON(expandedJSON);
+          for (_i = 0, _len = unexpandedFields.length; _i < _len; _i++) {
+            field = unexpandedFields[_i];
+            JSONobject[field] = "--Expandable Field--";
+          }
+          expandedJSON = JSON.stringify(JSONobject, null, '  ');
+        }
+      }
+      return expandedJSON;
+    };
+
+    return Signature;
+
+  })(Backbone.Model);
+
+  Operation = (function(_super) {
+
+    __extends(Operation, _super);
+
+    function Operation() {
+      Operation.__super__.constructor.apply(this, arguments);
+    }
+
+    Operation.prototype.initialize = function() {
+      var signature;
+      this.urlify = this.get("urlify");
+      this.getHeaderParams = this.get("getHeaderParams");
+      this.supportHeaderParams = this.get("supportHeaderParams");
+      this["do"] = this.get("do");
+      this.set("method", this.get("method").toUpperCase());
+      signature = this.get("responseClassSignature");
+      if (signature && signature !== 'string') {
+        this.set("abridgedSignature", signature.slice(0, signature.indexOf('}</span>') + 8));
+      }
+      return this.buildParamModels();
+    };
+
+    Operation.prototype.buildParamModels = function() {
+      var param, paramBaseData, params, _i, _j, _len, _len1, _ref;
+      params = [];
+      _ref = this.get("parameters");
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        paramBaseData = _ref[_i];
+        param = new Param(paramBaseData);
+        params.push(param);
+        if (param.get("name") === "expand") {
+          this.set("JSONExpansions", param.get("choices"));
+        }
+      }
+      for (_j = 0, _len1 = params.length; _j < _len1; _j++) {
+        param = params[_j];
+        param.set("JSONExpansions", this.get("JSONExpansions"));
+      }
+      return this.set("parameterModels", params);
+    };
+
+    Operation.prototype.getSignatureModel = function() {
+      var signatureAttributes, signatureModel;
+      signatureModel = null;
+      if (this.get("responseSampleJSON")) {
+        signatureAttributes = {
+          sampleJSON: this.get("responseSampleJSON"),
+          isParam: true,
+          signature: this.get("abridgedSignature"),
+          JSONExpansions: this.get("JSONExpansions")
+        };
+        signatureModel = new Signature(signatureAttributes);
+      }
+      return signatureModel;
+    };
+
+    return Operation;
+
+  })(Backbone.Model);
+
   HeaderView = (function(_super) {
 
     __extends(HeaderView, _super);
@@ -1632,29 +1824,30 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     ResourceView.prototype.initialize = function() {};
 
     ResourceView.prototype.render = function() {
-      var counter, id, methods, operation, _i, _len, _ref;
+      var counter, id, methods, swaggerOperation, _i, _len, _ref;
       $(this.el).html(Handlebars.templates.resource(this.model));
       methods = {};
       _ref = this.model.operationsArray;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        operation = _ref[_i];
+        swaggerOperation = _ref[_i];
         counter = 0;
-        id = operation.nickname;
+        id = swaggerOperation.nickname;
         while (typeof methods[id] !== 'undefined') {
           id = id + "_" + counter;
           counter += 1;
         }
-        methods[id] = operation;
-        operation.nickname = id;
-        operation.parentId = this.model.id;
-        this.addOperation(operation);
+        methods[id] = swaggerOperation;
+        swaggerOperation.nickname = id;
+        swaggerOperation.parentId = this.model.id;
+        this.addOperation(swaggerOperation);
       }
       return this;
     };
 
-    ResourceView.prototype.addOperation = function(operation) {
-      var operationView;
-      operation.number = this.number;
+    ResourceView.prototype.addOperation = function(swaggerOperation) {
+      var operation, operationView;
+      swaggerOperation.number = this.number;
+      operation = new Operation(swaggerOperation);
       operationView = new OperationView({
         model: operation,
         tagName: 'li',
@@ -1682,121 +1875,63 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       'submit .sandbox': 'submitOperation',
       'click .submit': 'submitOperation',
       'click .response_hider': 'hideResponse',
-      'click .toggleOperation': 'toggleOperationContent'
+      'click .toggleOperation': 'toggleOperationContent',
+      'click .expandable': 'expandedFromJSON'
     };
 
-    OperationView.prototype.initialize = function(options) {};
+    OperationView.prototype.initialize = function() {};
+
+    OperationView.prototype.template = function() {
+      return Handlebars.templates.operation;
+    };
 
     OperationView.prototype.render = function() {
-      var contentTypeModel, isMethodSubmissionSupported, k, o, param, responseContentTypeView, statusCode, type, v, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3;
-      isMethodSubmissionSupported = true;
-      if (!isMethodSubmissionSupported) {
-        this.model.isReadOnly = true;
-      }
-      this.model.oauth = null;
-      if (this.model.authorizations) {
-        _ref = this.model.authorizations;
-        for (k in _ref) {
-          v = _ref[k];
-          if (k === "oauth2") {
-            if (this.model.oauth === null) {
-              this.model.oauth = {};
-            }
-            if (this.model.oauth.scopes === void 0) {
-              this.model.oauth.scopes = [];
-            }
-            for (_i = 0, _len = v.length; _i < _len; _i++) {
-              o = v[_i];
-              this.model.oauth.scopes.push(o);
-            }
-          }
-        }
-      }
-      this.model.method = this.model.method.toUpperCase();
-      $(this.el).html(Handlebars.templates.operation(this.model));
+      var contentTypeModel, responseContentTypeView, statusCode, template, _i, _len, _ref;
+      template = this.template();
+      $(this.el).html(template(this.model.toJSON()));
       contentTypeModel = {
         isParam: false
       };
-      contentTypeModel.consumes = this.model.consumes;
-      contentTypeModel.produces = this.model.produces;
-      _ref1 = this.model.parameters;
-      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-        param = _ref1[_j];
-        type = param.type || param.dataType;
-        if (type.toLowerCase() === 'file') {
-          if (!contentTypeModel.consumes) {
-            log("set content type ");
-            contentTypeModel.consumes = 'multipart/form-data';
-          }
-        }
-      }
       responseContentTypeView = new ResponseContentTypeView({
         model: contentTypeModel
       });
       $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
-      this.hasExpandableFields = false;
-      _ref2 = this.model.parameters;
-      for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
-        param = _ref2[_k];
-        this.addParameter(param, contentTypeModel.consumes);
-        if (param.name === 'expand') {
-          this.hasExpandableFields = true;
-        }
-      }
-      if (!this.hasExpandableFields) {
-        this.applyExpansions({});
-      }
-      _ref3 = this.model.responseMessages;
-      for (_l = 0, _len3 = _ref3.length; _l < _len3; _l++) {
-        statusCode = _ref3[_l];
+      this.addParameterViews();
+      this.addSignatureView();
+      _ref = this.model.get("responseMessages");
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        statusCode = _ref[_i];
         this.addStatusCode(statusCode);
       }
       return this;
     };
 
-    OperationView.prototype.applyExpansions = function(currentExpansions) {
-      var expandableFields, field, modelJSON, _i, _len;
-      expandableFields = Object.keys(currentExpansions);
-      modelJSON = $.parseJSON(this.model.responseSampleJSON);
-      if (modelJSON) {
-        for (_i = 0, _len = expandableFields.length; _i < _len; _i++) {
-          field = expandableFields[_i];
-          if (!currentExpansions[field]) {
-            modelJSON[field] = "<Expandable Field>";
-          }
-        }
-      }
-      return this.updateSignature(JSON.stringify(modelJSON, null, '  '));
-    };
-
-    OperationView.prototype.updateSignature = function(expandedJSON) {
-      var responseSignatureView, signatureModel;
-      if (this.model.responseClassSignature && this.model.responseClassSignature !== 'string') {
-        signatureModel = {
-          sampleJSON: expandedJSON,
-          isParam: false,
-          signature: this.model.responseClassSignature
-        };
-        responseSignatureView = new SignatureView({
-          model: signatureModel,
-          tagName: 'div'
+    OperationView.prototype.addSignatureView = function() {
+      var signatureModel, signatureView;
+      signatureModel = this.model.getSignatureModel();
+      if (signatureModel) {
+        signatureView = new SignatureView({
+          model: signatureModel
         });
-        return $('.model-signature', $(this.el)).html(responseSignatureView.render().el);
+        return $('.model-signature', $(this.el)).append(signatureView.render().el);
       } else {
-        return $('.data-type', $(this.el)).html(this.model.type);
+        return $('.data-type', $(this.el)).html(this.model.get("type"));
       }
     };
 
-    OperationView.prototype.addParameter = function(param, consumes) {
-      var paramView;
-      param.consumes = consumes;
-      paramView = new ParameterView({
-        model: param,
-        tagName: 'tr',
-        readOnly: this.model.isReadOnly
-      });
-      this.listenTo(paramView, 'applyExpansions', this.applyExpansions);
-      return $('.operation-params', $(this.el)).append(paramView.render().el);
+    OperationView.prototype.addParameterViews = function() {
+      var param, paramView, _i, _len, _ref, _results;
+      _ref = this.model.get("parameterModels");
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        param = _ref[_i];
+        paramView = new ParameterView({
+          model: param,
+          tagName: 'tr'
+        });
+        _results.push($('.operation-params', $(this.el)).append(paramView.render().el));
+      }
+      return _results;
     };
 
     OperationView.prototype.addStatusCode = function(statusCode) {
@@ -1886,7 +2021,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       }
       bodyParam = new FormData();
       params = 0;
-      _ref1 = this.model.parameters;
+      _ref1 = this.model.get("parameters");
       for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
         param = _ref1[_j];
         if (param.paramType === 'form') {
@@ -1896,7 +2031,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         }
       }
       headerParams = {};
-      _ref2 = this.model.parameters;
+      _ref2 = this.model.get("parameters");
       for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
         param = _ref2[_k];
         if (param.paramType === 'header') {
@@ -1916,7 +2051,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       this.invocationUrl = this.model.supportHeaderParams() ? (headerParams = this.model.getHeaderParams(map), this.model.urlify(map, false)) : this.model.urlify(map, true);
       $(".request_url", $(this.el)).html("<pre>" + this.invocationUrl + "</pre>");
       obj = {
-        type: this.model.method,
+        type: this.model.get("method"),
         url: this.invocationUrl,
         headers: headerParams,
         data: bodyParam,
@@ -2122,7 +2257,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
     OperationView.prototype.toggleOperationContent = function() {
       var elem;
-      elem = $('#' + Docs.escapeResourceName(this.model.parentId) + "_" + this.model.nickname + "_content");
+      elem = $('#' + Docs.escapeResourceName(this.model.get("parentId")) + "_" + this.model.get("nickname") + "_content");
       if (elem.is(':visible')) {
         return Docs.collapseOperation(elem);
       } else {
@@ -2181,8 +2316,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       ParameterView.__super__.constructor.apply(this, arguments);
     }
 
-    ParameterView.prototype.initialize = function(options) {
-      this.options = options || {};
+    ParameterView.prototype.initialize = function() {
+      if (this.model.get("isQuery")) {
+        this.listenTo(this.model.get("choices"), "change", this.updateChoices);
+        this.listenTo(this.model.get("choices"), "expansionFromJSON", this.expansionFromJSON);
+      }
       return Handlebars.registerHelper('isArray', function(param, opts) {
         if (param.type.toLowerCase() === 'array' || param.allowMultiple) {
           return opts.fn(this);
@@ -2193,110 +2331,55 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     ParameterView.prototype.render = function() {
-      var choice, choiceType, template, type, _i, _len, _ref;
-      type = this.model.type || this.model.dataType;
-      if (this.model.paramType === 'body') {
-        this.model.isBody = true;
-      }
-      if (type.toLowerCase() === 'file') {
-        this.model.isFile = true;
-      }
-      if (this.model.paramType === 'query') {
-        this.model.isQuery = true;
-      }
-      if (this.model.name === 'filter') {
-        this.model.isFilter = true;
-      }
-      if (this.model.name === 'expand') {
-        this.model.isExpand = true;
-      }
-      if (this.model.isQuery) {
-        this.parseChoices();
-        if (this.model.isExpand) {
-          this.trigger('applyExpansions', this.model.activeChoices);
-        }
-      }
+      var template;
       template = this.template();
-      $(this.el).html(template(this.model));
+      $(this.el).html(template(this.model.toJSON()));
       this.addSignatureView();
       this.addPerameterContentTypeView();
-      if (this.model.isQuery) {
-        choiceType = this.model.name;
-        _ref = this.model.choices;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          choice = _ref[_i];
-          this.addChoiceView(choice, choiceType);
-        }
+      if (this.model.get("isQuery")) {
+        this.addChoiceView();
       }
       return this;
     };
 
     ParameterView.prototype.template = function() {
-      if (this.model.isList) {
+      if (this.model.get("isList")) {
         return Handlebars.templates.param_list;
       } else {
-        if (this.model.isQuery) {
+        if (this.model.get("isQuery")) {
           return Handlebars.templates.param_query;
         } else {
-          if (this.options.readOnly) {
-            if (this.model.required) {
-              return Handlebars.templates.param_readonly_required;
-            } else {
-              return Handlebars.templates.param_readonly;
-            }
+          if (this.model.get("required")) {
+            return Handlebars.templates.param_required;
           } else {
-            if (this.model.required) {
-              return Handlebars.templates.param_required;
-            } else {
-              return Handlebars.templates.param;
-            }
+            return Handlebars.templates.param;
           }
         }
       }
     };
 
-    ParameterView.prototype.parseChoices = function() {
-      var choice, choicesString, _i, _len, _ref, _results;
-      choicesString = this.model.description;
-      this.model.choices = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]")).split(/[\s,]+/);
-      this.model.activeChoices = {};
-      _ref = this.model.choices;
-      _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        choice = _ref[_i];
-        _results.push(this.model.activeChoices[choice] = false);
-      }
-      return _results;
-    };
-
     ParameterView.prototype.addSignatureView = function() {
       var signatureModel, signatureView;
-      signatureModel = {
-        sampleJSON: this.model.sampleJSON,
-        isParam: true,
-        signature: this.model.signature
-      };
-      if (this.model.sampleJSON && this.model.isBody) {
+      signatureModel = this.model.getSignatureModel();
+      if (signatureModel && this.model.get("isBody")) {
         signatureView = new SignatureView({
-          model: signatureModel,
-          tagName: 'div'
+          model: signatureModel
         });
         return $('.model-signature', $(this.el)).append(signatureView.render().el);
       } else {
-        return $('.data-type', $(this.el)).html(this.model.type);
+        return $('.data-type', $(this.el)).html(this.model.get("type"));
       }
     };
 
     ParameterView.prototype.addPerameterContentTypeView = function() {
       var contentTypeModel, isParam, parameterContentTypeView, responseContentTypeView;
       isParam = false;
-      if (this.model.isBody) {
+      if (this.model.get("isBody")) {
         isParam = true;
       }
       contentTypeModel = {
         isParam: isParam
       };
-      contentTypeModel.consumes = this.model.consumes;
       if (isParam) {
         parameterContentTypeView = new ParameterContentTypeView({
           model: contentTypeModel
@@ -2310,56 +2393,47 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       }
     };
 
-    ParameterView.prototype.addChoiceView = function(choiceName, choiceType) {
+    ParameterView.prototype.addChoiceView = function(currentValue) {
       var choiceView;
       choiceView = new ParameterChoiceView({
-        model: {
-          name: choiceName,
-          choiceType: choiceType
-        }
+        model: this.model.get("choices"),
+        currentValue: currentValue
       });
-      this.listenTo(choiceView, 'choiceToggled', this.choiceToggled);
-      return $('.query-choices', $(this.el)).append(choiceView.render().el);
-    };
-
-    ParameterView.prototype.choiceToggled = function(choice) {
-      this.model.activeChoices[choice.name] = choice.activeParam;
-      if (this.model.isExpand) {
-        this.updateExpansionsString();
-        this.trigger('applyExpansions', this.model.activeChoices);
-      }
-      if (this.model.isFilter) {
-        return this.updateFiltersString();
+      if (currentValue) {
+        return $('.query-choices div:last-child', $(this.el)).before(choiceView.render().el);
+      } else {
+        return $('.query-choices', $(this.el)).append(choiceView.render().el);
       }
     };
 
-    ParameterView.prototype.updateExpansionsString = function() {
-      var choice, queryParamString, _i, _len, _ref;
-      queryParamString = "";
-      _ref = this.model.choices;
+    ParameterView.prototype.updateChoices = function() {
+      $('input.parameter', $(this.el)).val(this.model.get("choices").get("queryParamString"));
+      if (!$('.close', $(this.el)).last().prop('disabled')) {
+        return this.addChoiceView();
+      }
+    };
+
+    ParameterView.prototype.removeChoiceView = function(viewId) {
+      var view;
+      view = this.choiceViews[viewId];
+      view.remove();
+      delete this.choiceViews[viewId];
+      return this.choiceSet();
+    };
+
+    ParameterView.prototype.refreshChoiceViews = function() {
+      var viewId, _i, _len, _ref, _results;
+      _ref = Object.keys(this.choiceViews);
+      _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        choice = _ref[_i];
-        if (this.model.activeChoices[choice]) {
-          queryParamString = queryParamString.concat(choice, ",");
-        }
+        viewId = _ref[_i];
+        _results.push(this.choiceViews[viewId].render());
       }
-      queryParamString = queryParamString.slice(0, -1);
-      return $('input.parameter', $(this.el)).val(queryParamString);
+      return _results;
     };
 
-    ParameterView.prototype.updateFiltersString = function() {
-      var activeParam, choice, queryParamString, _i, _len, _ref;
-      queryParamString = "";
-      _ref = this.model.choices;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        choice = _ref[_i];
-        if (this.model.activeChoices[choice]) {
-          activeParam = this.model.activeChoices[choice];
-          queryParamString = queryParamString.concat(activeParam, "&filter=");
-        }
-      }
-      queryParamString = queryParamString.slice(0, -8);
-      return $('input.parameter', $(this.el)).val(queryParamString);
+    ParameterView.prototype.expansionFromJSON = function(field) {
+      return this.addChoiceView(field);
     };
 
     return ParameterView;
@@ -2377,20 +2451,23 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     SignatureView.prototype.events = {
       'click a.description-link': 'switchToDescription',
       'click a.snippet-link': 'switchToSnippet',
-      'mousedown .snippet': 'snippetToTextArea'
+      'mousedown .snippet': 'snippetToTextArea',
+      'click span.expandable': 'expansionFromJSON'
     };
 
-    SignatureView.prototype.initialize = function() {};
+    SignatureView.prototype.initialize = function() {
+      return this.listenTo(this.model.get("JSONExpansions"), "change", this.updateSignature);
+    };
 
     SignatureView.prototype.render = function() {
       var template;
       template = this.template();
-      $(this.el).html(template(this.model));
+      $(this.el).html(template(this.model.toJSON()));
       this.switchToSnippet();
-      this.isParam = this.model.isParam;
-      if (this.isParam) {
+      if (this.model.get("isParam")) {
         $('.notice', $(this.el)).text('Click above to set as body');
       }
+      this.updateSignature();
       return this;
     };
 
@@ -2418,6 +2495,33 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       return $('.description-link', $(this.el)).removeClass('selected');
     };
 
+    SignatureView.prototype.updateSignature = function() {
+      $("code", $(this.el)).html(this.model.getExpandedJSON());
+      this.highlightJSON();
+      return this.enableExpandableSpans();
+    };
+
+    SignatureView.prototype.highlightJSON = function() {
+      var _this = this;
+      return $("code", $(this.el)).each(function(i, block) {
+        return hljs.highlightBlock(block);
+      });
+    };
+
+    SignatureView.prototype.enableExpandableSpans = function() {
+      return $("span.string", $(this.el)).each(function() {
+        if ($(this).text() === '"--Expandable Field--"') {
+          return $(this).addClass("expandable");
+        }
+      });
+    };
+
+    SignatureView.prototype.expansionFromJSON = function(e) {
+      var field;
+      field = $(e.currentTarget).parent().prev().text();
+      return this.model.get("JSONExpansions").expansionFromJSON(field);
+    };
+
     SignatureView.prototype.snippetToTextArea = function(e) {
       var textArea;
       if (this.isParam) {
@@ -2426,7 +2530,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         }
         textArea = $('textarea', $(this.el.parentNode.parentNode.parentNode));
         if ($.trim(textArea.val()) === '') {
-          return textArea.val(this.model.sampleJSON);
+          return textArea.val(this.model.get("sampleJSON"));
         }
       }
     };
@@ -2522,86 +2626,98 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     }
 
     ParameterChoiceView.prototype.events = {
-      'click': 'enableIfDisabled',
-      'click input.expansion-checkbox': 'expansionToggled',
-      'click input.filter-checkbox': 'filterToggled',
-      'blur input.filter-argument': 'checkForCompleteFilter',
-      'change select.filter-operator': 'checkForCompleteFilter'
+      'blur input.filter-argument': 'choiceChanged',
+      'change select': 'choiceChanged',
+      'click .close': 'removeThisView'
     };
 
-    ParameterChoiceView.prototype.initialize = function() {};
+    ParameterChoiceView.prototype.initialize = function(options) {
+      this.options = options || {};
+      this.currentValue = options.currentValue;
+      if (this.model.get("isExpansions")) {
+        return this.listenTo(this.model, "change", this.updateSelect);
+      }
+    };
 
     ParameterChoiceView.prototype.render = function() {
-      var template;
+      var modelJSON, template;
       template = this.template();
-      $(this.el).html(template(this.model));
+      modelJSON = this.model.toJSON();
+      modelJSON["currentValue"] = this.currentValue;
+      $(this.el).html(template(modelJSON));
+      if (this.currentValue) {
+        this.enableCloseButton();
+      }
       return this;
     };
 
     ParameterChoiceView.prototype.template = function() {
-      if (this.model.choiceType === 'expand') {
+      if (this.model.get("isExpansions")) {
         return Handlebars.templates.param_choice_expansion;
       } else {
         return Handlebars.templates.param_choice_filter;
       }
     };
 
-    ParameterChoiceView.prototype.enableIfDisabled = function() {
-      if (this.model.choiceType === 'expand') {
-        $('.expansion-checkbox', $(this.el)).prop('checked', true);
-        return this.expansionToggled();
+    ParameterChoiceView.prototype.choiceChanged = function() {
+      this.enableCloseButton();
+      if (this.model.get("isExpansions")) {
+        return this.updateExpansion();
       } else {
-        $('.filter-checkbox', $(this.el)).prop('checked', true);
-        return this.filterToggled();
+        return this.updateFilter();
       }
     };
 
-    ParameterChoiceView.prototype.expansionToggled = function(ev) {
-      var checked;
-      if (ev != null) {
-        checked = $(ev.currentTarget).prop('checked');
-        ev.stopPropagation();
-      } else {
-        checked = true;
+    ParameterChoiceView.prototype.updateExpansion = function() {
+      var choice;
+      choice = $('.param-choice', $(this.el)).val();
+      if (this.currentValue) {
+        this.model.setExpansion(this.currentValue, false);
       }
-      return this.trigger('choiceToggled', {
-        name: this.model.name,
-        activeParam: checked
-      });
+      this.currentValue = choice;
+      return this.model.setExpansion(this.currentValue, true);
     };
 
-    ParameterChoiceView.prototype.filterToggled = function(ev) {
-      var checked;
-      if (ev != null) {
-        ev.stopPropagation();
-      }
-      checked = $('.filter-checkbox', $(this.el)).prop('checked');
-      if (checked) {
-        $('.filter-operator', $(this.el)).prop('disabled', false);
-        $('.filter-argument', $(this.el)).prop('disabled', false);
-      } else {
-        $('.filter-operator', $(this.el)).prop('disabled', true);
-        $('.filter-argument', $(this.el)).prop('disabled', true);
-      }
-      return this.checkForCompleteFilter();
-    };
-
-    ParameterChoiceView.prototype.checkForCompleteFilter = function() {
-      var argument, checked, operator;
-      checked = $('.filter-checkbox', $(this.el)).prop('checked');
+    ParameterChoiceView.prototype.updateFilter = function() {
+      var argument, choice, operator;
+      choice = $('.param-choice', $(this.el)).val();
+      operator = $('.filter-operator', $(this.el)).val();
       argument = $('.filter-argument', $(this.el)).val();
-      if (checked && argument.trim()) {
-        operator = $('.filter-operator', $(this.el)).val();
-        return this.trigger('choiceToggled', {
-          name: this.model.name,
-          activeParam: "" + this.model.name + operator + argument
-        });
-      } else {
-        return this.trigger('choiceToggled', {
-          name: this.model.name,
-          activeParam: false
-        });
+      if (argument) {
+        argument = argument.trim();
       }
+      if (choice && argument) {
+        this.currentValue = "" + choice + operator + argument;
+        return this.model.setChoiceViewFilter(this.cid, this.currentValue);
+      } else {
+        return this.model.removeChoiceViewFilter(this.cid);
+      }
+    };
+
+    ParameterChoiceView.prototype.updateSelect = function() {
+      var $select, data;
+      $select = $('select.param-choice', $(this.el));
+      $select.empty();
+      data = {
+        currentValue: this.currentValue,
+        unexpandedFields: this.model.get("unexpandedFields")
+      };
+      return $select.html(Handlebars.templates.expansion_select(data));
+    };
+
+    ParameterChoiceView.prototype.removeThisView = function() {
+      if (this.currentValue) {
+        if (this.model.get("isExpansions")) {
+          this.model.setExpansion(this.currentValue, false);
+        } else {
+          this.model.removeChoiceViewFilter(this.cid);
+        }
+      }
+      return this.remove();
+    };
+
+    ParameterChoiceView.prototype.enableCloseButton = function() {
+      return $('.close', $(this.el)).prop('disabled', false);
     };
 
     return ParameterChoiceView;

@@ -6,121 +6,46 @@ class OperationView extends Backbone.View
     'click .submit'           : 'submitOperation'
     'click .response_hider'   : 'hideResponse'
     'click .toggleOperation'  : 'toggleOperationContent'
-    # 'mouseenter .api-ic'      : 'mouseEnter'
-    # 'mouseout .api-ic'        : 'mouseExit'
+    'click .expandable'       : 'expandedFromJSON'
   }
 
-  initialize: (options) ->
-# This applies to an element we don't currently use in our UI
-  # mouseEnter: (e) ->
-  #   elem = $(e.currentTarget.parentNode).find('#api_information_panel')
-  #   x = event.pageX
-  #   y = event.pageY
-  #   scX = $(window).scrollLeft()
-  #   scY = $(window).scrollTop()
-  #   scMaxX = scX + $(window).width()
-  #   scMaxY = scY + $(window).height()
-  #   wd = elem.width()
-  #   hgh = elem.height()
+  initialize: ->
 
-  #   if (x + wd > scMaxX)
-  #     x = scMaxX - wd
-  #   if (x < scX)
-  #     x = scX
-  #   if (y + hgh > scMaxY)
-  #     y = scMaxY - hgh
-  #   if (y < scY)
-  #     y = scY
-  #   pos = {}
-  #   pos.top = y
-  #   pos.left = x
-  #   elem.css(pos)
-  #   $(e.currentTarget.parentNode).find('#api_information_panel').show()
-
-  # mouseExit: (e) ->
-  #   $(e.currentTarget.parentNode).find('#api_information_panel').hide()
+  template: ->
+    Handlebars.templates.operation
 
   render: ->
-    isMethodSubmissionSupported = true #jQuery.inArray(@model.method, @model.supportedSubmitMethods) >= 0
-    @model.isReadOnly = true unless isMethodSubmissionSupported
-
-    @model.oauth = null
-    if @model.authorizations
-      for k, v of @model.authorizations
-        if k == "oauth2"
-          if @model.oauth == null
-            @model.oauth = {}
-          if @model.oauth.scopes is undefined
-            @model.oauth.scopes = []
-          for o in v
-            @model.oauth.scopes.push o
-
-    @model.method = @model.method.toUpperCase()
-    $(@el).html(Handlebars.templates.operation(@model))
+    template = @template()
+    $(@el).html(template(@model.toJSON()))
 
     contentTypeModel =
       isParam: false
 
-    contentTypeModel.consumes = @model.consumes
-    contentTypeModel.produces = @model.produces
-
-    for param in @model.parameters
-      type = param.type || param.dataType
-      if type.toLowerCase() == 'file'
-        if !contentTypeModel.consumes
-          log "set content type "
-          contentTypeModel.consumes = 'multipart/form-data'
-
     responseContentTypeView = new ResponseContentTypeView({model: contentTypeModel})
     $('.response-content-type', $(@el)).append responseContentTypeView.render().el
 
-    this.hasExpandableFields = false
-    # Render each parameter
-    for param in @model.parameters
-      @addParameter(param, contentTypeModel.consumes)
-      if param.name == 'expand'
-        this.hasExpandableFields = true
+    @addParameterViews()
 
-    #unless there are expansions, show full JSON
-    @applyExpansions({}) unless this.hasExpandableFields
+    @addSignatureView()
 
-    # Render each response code
-    @addStatusCode statusCode for statusCode in @model.responseMessages
+    # Render each response code 
+    @addStatusCode statusCode for statusCode in @model.get("responseMessages")
 
     @
 
-  applyExpansions: (currentExpansions) ->
-    # currentExpansions is an object of {expansionField: currentlyChecked}
-    expandableFields = Object.keys(currentExpansions)
-    modelJSON = $.parseJSON(@model.responseSampleJSON)
-    if modelJSON
-      for field in expandableFields
-        unless currentExpansions[field]
-          modelJSON[field] = "<Expandable Field>"
-
-    @updateSignature(JSON.stringify(modelJSON, null, '  '))
-
-
-
-  updateSignature: (expandedJSON) ->
-    if @model.responseClassSignature and @model.responseClassSignature != 'string'
-      signatureModel =
-        sampleJSON: expandedJSON
-        isParam: false
-        signature: @model.responseClassSignature
-        
-      responseSignatureView = new SignatureView({model: signatureModel, tagName: 'div'})
-      $('.model-signature', $(@el)).html(responseSignatureView.render().el)
+  addSignatureView: ->
+    signatureModel = @model.getSignatureModel()
+    if signatureModel
+      signatureView = new SignatureView({model: signatureModel})
+      $('.model-signature', $(@el)).append(signatureView.render().el)
     else
-      $('.data-type', $(@el)).html(@model.type)
+      $('.data-type', $(@el)).html(@model.get("type"))
 
+  addParameterViews: ->
+    for param in @model.get("parameterModels")
+      paramView = new ParameterView({model: param, tagName: 'tr'})
+      $('.operation-params', $(@el)).append paramView.render().el
 
-  addParameter: (param, consumes) ->
-    # Render a parameter
-    param.consumes = consumes
-    paramView = new ParameterView({model: param, tagName: 'tr', readOnly: @model.isReadOnly})
-    @listenTo(paramView, 'applyExpansions', @applyExpansions)
-    $('.operation-params', $(@el)).append paramView.render().el
 
   addStatusCode: (statusCode) ->
     # Render status codes
@@ -184,14 +109,14 @@ class OperationView extends Backbone.View
     params = 0
 
     # add params
-    for param in @model.parameters
+    for param in @model.get("parameters")
       if param.paramType is 'form'
         if map[param.name] != undefined
             bodyParam.append(param.name, map[param.name])
 
     # headers in operation
     headerParams = {}
-    for param in @model.parameters
+    for param in @model.get("parameters")
       if param.paramType is 'header'
         headerParams[param.name] = map[param.name]
 
@@ -215,7 +140,7 @@ class OperationView extends Backbone.View
     $(".request_url", $(@el)).html "<pre>" + @invocationUrl + "</pre>"
 
     obj = 
-      type: @model.method
+      type: @model.get("method")
       url: @invocationUrl
       headers: headerParams
       data: bodyParam
@@ -392,5 +317,5 @@ class OperationView extends Backbone.View
     hljs.highlightBlock($('.response_body', $(@el))[0])
 
   toggleOperationContent: ->
-    elem = $('#' + Docs.escapeResourceName(@model.parentId) + "_" + @model.nickname + "_content")
+    elem = $('#' + Docs.escapeResourceName(@model.get("parentId")) + "_" + @model.get("nickname") + "_content")
     if elem.is(':visible') then Docs.collapseOperation(elem) else Docs.expandOperation(elem)

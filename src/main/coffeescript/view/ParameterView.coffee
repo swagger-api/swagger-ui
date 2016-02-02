@@ -1,6 +1,8 @@
 class ParameterView extends Backbone.View
-  initialize: (options) ->
-    this.options = options || {}
+  initialize: ->
+    if @model.get("isQuery")
+      @listenTo(@model.get("choices"), "change", @updateChoices);
+      @listenTo(@model.get("choices"), "expansionFromJSON", @expansionFromJSON)
 
     Handlebars.registerHelper 'isArray',
       (param, opts) ->
@@ -10,82 +12,48 @@ class ParameterView extends Backbone.View
           opts.inverse(@)
           
   render: ->
-    type = @model.type || @model.dataType
-    @model.isBody = true if @model.paramType == 'body'
-    @model.isFile = true if type.toLowerCase() == 'file'
-    @model.isQuery = true if @model.paramType == 'query'
-    @model.isFilter = true if @model.name == 'filter'
-    @model.isExpand = true if @model.name == 'expand'
-
-    if @model.isQuery
-      @parseChoices()
-      if @model.isExpand
-        #notify OperationView to build JSON based on default expansions (none)
-        @trigger('applyExpansions', @model.activeChoices)
-
     template = @template()
-    $(@el).html(template(@model))
+    $(@el).html(template(@model.toJSON()))
 
     @addSignatureView()
     @addPerameterContentTypeView()
 
-    if @model.isQuery
-      choiceType = @model.name
-      for choice in @model.choices
-        @addChoiceView(choice, choiceType)
+    # render each choice
 
+    if @model.get("isQuery")
+      @addChoiceView()
     @
 
   # Return an appropriate template based on if the parameter is a list, readonly, required
   template: ->
-    if @model.isList
+    if @model.get("isList")
       Handlebars.templates.param_list
     else
-      if @model.isQuery
+      if @model.get("isQuery")
         Handlebars.templates.param_query
       else
-        if @options.readOnly
-          if @model.required
-            Handlebars.templates.param_readonly_required
-          else
-            Handlebars.templates.param_readonly
+        if @model.get("required")
+          Handlebars.templates.param_required
         else
-          if @model.required
-            Handlebars.templates.param_required
-          else
-            Handlebars.templates.param
+          Handlebars.templates.param
 
-
-  parseChoices: ->
-    #Based on current practice of having all choices in a string representation of an array
-    choicesString = @model.description
-    @model.choices = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]")).split(/[\s,]+/)
-    @model.activeChoices = {}
-    for choice in @model.choices
-      @model.activeChoices[choice] = false
 
   addSignatureView: ->
-    signatureModel =
-      sampleJSON: @model.sampleJSON
-      isParam: true
-      signature: @model.signature
-
-    if @model.sampleJSON and @model.isBody
-      signatureView = new SignatureView({model: signatureModel, tagName: 'div'})
-      $('.model-signature', $(@el)).append signatureView.render().el
+    signatureModel = @model.getSignatureModel()
+    if signatureModel and @model.get("isBody")
+      signatureView = new SignatureView({model: signatureModel})
+      $('.model-signature', $(@el)).append(signatureView.render().el)
     else
-      $('.data-type', $(@el)).html(@model.type)
+      $('.data-type', $(@el)).html(@model.get("type"))
 
   addPerameterContentTypeView: ->
     isParam = false
 
-    if @model.isBody
+    if @model.get("isBody")
       isParam = true
 
     contentTypeModel =
       isParam: isParam
-
-    contentTypeModel.consumes = @model.consumes
 
     if isParam
       parameterContentTypeView = new ParameterContentTypeView({model: contentTypeModel})
@@ -94,42 +62,34 @@ class ParameterView extends Backbone.View
       responseContentTypeView = new ResponseContentTypeView({model: contentTypeModel})
       $('.response-content-type', $(@el)).append responseContentTypeView.render().el
 
-  addChoiceView: (choiceName, choiceType) ->
+  addChoiceView: (currentValue) ->
     # Render a query choice
-    choiceView = new ParameterChoiceView({model: {name: choiceName, choiceType: choiceType}})
-    @listenTo(choiceView, 'choiceToggled', @choiceToggled)
-    $('.query-choices', $(@el)).append choiceView.render().el
+    choiceView = new ParameterChoiceView({model: @model.get("choices"), currentValue: currentValue})
+    if currentValue
+      $('.query-choices div:last-child', $(@el)).before(choiceView.render().el)
+    else
+      $('.query-choices', $(@el)).append choiceView.render().el
 
-  choiceToggled: (choice) ->
-    @model.activeChoices[choice.name] = choice.activeParam
+  updateChoices: ->
+    $('input.parameter', $(@el)).val(@model.get("choices").get("queryParamString"))
+    unless $('.close', $(@el)).last().prop('disabled')
+      @addChoiceView()
 
-    if @model.isExpand
-      @updateExpansionsString()
-      @trigger('applyExpansions', @model.activeChoices)
+  removeChoiceView: (viewId) ->
+    view = @choiceViews[viewId]
+    view.remove()
+    delete @choiceViews[viewId]
+    @choiceSet()
 
-    if @model.isFilter
-      @updateFiltersString()
+  refreshChoiceViews: ->
+    for viewId in Object.keys(@choiceViews)
+      @choiceViews[viewId].render()
 
-  updateExpansionsString: ->
-    queryParamString = ""
-    for choice in @model.choices
-      if @model.activeChoices[choice]
-        queryParamString = queryParamString.concat(choice, ",")
+  expansionFromJSON: (field) ->
+    @addChoiceView(field)
 
-    queryParamString = queryParamString.slice(0, -1);
 
-    $('input.parameter', $(@el)).val(queryParamString)
 
-  updateFiltersString: ->
-    queryParamString = ""
-    for choice in @model.choices
-      if @model.activeChoices[choice]
-        activeParam = @model.activeChoices[choice]
-        queryParamString = queryParamString.concat(activeParam, "&filter=")
-
-    queryParamString = queryParamString.slice(0, -8);
-
-    $('input.parameter', $(@el)).val(queryParamString)
 
 
 
