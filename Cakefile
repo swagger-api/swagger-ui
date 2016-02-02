@@ -10,6 +10,7 @@ sourceFiles  = [
   'model/Filters'
   'model/Param'
   'model/Signature'
+  'model/Operation'
   'view/HeaderView'
   'view/MainView'
   'view/ResourceView'

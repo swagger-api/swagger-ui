@@ -20,14 +20,17 @@ class Param extends Backbone.Model
       # display only the first model (none of the expansion models)
       @set("abridgedSignature", signature.slice(0, signature.indexOf('}</span>') + 8))
 
-  getSignature: () ->
-    signatureAttributes =
-      sampleJSON: @get("sampleJSON")
-      isParam: true
-      signature: @get("abridgedSignature")
-      JSONExpansions: @get("JSONExpansions")
+  getSignatureModel: ->
+    signatureModel = null
+    if @get("sampleJSON")
+      signatureAttributes =
+        sampleJSON: @get("sampleJSON")
+        isParam: true
+        signature: @get("abridgedSignature")
+        JSONExpansions: @get("JSONExpansions")
 
-    return new Signature(signatureAttributes)
+      signatureModel = new Signature(signatureAttributes)
+    return signatureModel
 
 
 

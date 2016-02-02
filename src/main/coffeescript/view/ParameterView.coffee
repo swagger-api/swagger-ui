@@ -31,21 +31,16 @@ class ParameterView extends Backbone.View
       if @model.get("isQuery")
         Handlebars.templates.param_query
       else
-        if @model.get("isReadOnly")
-          if @model.get("required")
-            Handlebars.templates.param_readonly_required
-          else
-            Handlebars.templates.param_readonly
+        if @model.get("required")
+          Handlebars.templates.param_required
         else
-          if @model.get("required")
-            Handlebars.templates.param_required
-          else
-            Handlebars.templates.param
+          Handlebars.templates.param
 
 
   addSignatureView: ->
-    if @model.get("sampleJSON") and @model.get("isBody")
-      signatureView = new SignatureView({model: @model.getSignature(), tagName: 'div'})
+    signatureModel = @model.getSignatureModel()
+    if signatureModel and @model.get("isBody")
+      signatureView = new SignatureView({model: signatureModel})
       $('.model-signature', $(@el)).append(signatureView.render().el)
     else
       $('.data-type', $(@el)).html(@model.get("type"))

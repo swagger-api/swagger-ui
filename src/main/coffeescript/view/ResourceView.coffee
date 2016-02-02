@@ -7,24 +7,26 @@ class ResourceView extends Backbone.View
     methods = {}
 
     # Render each operation
-    for operation in @model.operationsArray
+    for swaggerOperation in @model.operationsArray
       counter = 0
 
-      id = operation.nickname
+      id = swaggerOperation.nickname
       while typeof methods[id] isnt 'undefined'
         id = id + "_" + counter
         counter += 1
 
-      methods[id] = operation
+      methods[id] = swaggerOperation
 
-      operation.nickname = id
-      operation.parentId = @model.id
-      @addOperation operation 
+      swaggerOperation.nickname = id
+      swaggerOperation.parentId = @model.id
+      @addOperation swaggerOperation 
     @
 
-  addOperation: (operation) ->
+  addOperation: (swaggerOperation) ->
 
-    operation.number = @number
+    swaggerOperation.number = @number
+    #wrap SwaggerOperation in a Backbone Model
+    operation = new Operation(swaggerOperation)
 
     # Render an operation and add it to operations li
     operationView = new OperationView({model: operation, tagName: 'li', className: 'endpoint'})

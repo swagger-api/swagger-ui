@@ -10,19 +10,13 @@ class OperationView extends Backbone.View
   }
 
   initialize: ->
-    @operationExpansions = null
 
   template: ->
     Handlebars.templates.operation
 
   render: ->
-    isMethodSubmissionSupported = true #jQuery.inArray(@model.method, @model.supportedSubmitMethods) >= 0
-    @model.isReadOnly = true unless isMethodSubmissionSupported
-
-    @model.method = @model.method.toUpperCase()
-
     template = @template()
-    $(@el).html(template(@model))
+    $(@el).html(template(@model.toJSON()))
 
     contentTypeModel =
       isParam: false
@@ -30,35 +24,27 @@ class OperationView extends Backbone.View
     responseContentTypeView = new ResponseContentTypeView({model: contentTypeModel})
     $('.response-content-type', $(@el)).append responseContentTypeView.render().el
 
-    @buildParams()
+    @addParameterViews()
 
-    # Render each response code
-    @addStatusCode statusCode for statusCode in @model.responseMessages
+    @addSignatureView()
+
+    # Render each response code 
+    @addStatusCode statusCode for statusCode in @model.get("responseMessages")
 
     @
 
-  buildParams: ->
-    params = []
-    for paramBaseData in @model.parameters
-      param = new Param(paramBaseData)
-      param.set("isReadOnly", @model.isReadOnly)
-      params.push(param)
+  addSignatureView: ->
+    signatureModel = @model.getSignatureModel()
+    if signatureModel
+      signatureView = new SignatureView({model: signatureModel})
+      $('.model-signature', $(@el)).append(signatureView.render().el)
+    else
+      $('.data-type', $(@el)).html(@model.get("type"))
 
-      if param.get("name") == "expand"
-        #a Choices Model subclass
-        expansions = param.get("choices")
-
-    # Second iteration to allow for @expansions
-    for param in params
-      if expansions
-        param.set("JSONExpansions", expansions)
-        @listenTo(expansions, "change", @updateSignature)
-      @addParameterView(param)
-
-  addParameterView: (param) ->
-    # Render a parameter
-    paramView = new ParameterView({model: param, tagName: 'tr'})
-    $('.operation-params', $(@el)).append paramView.render().el
+  addParameterViews: ->
+    for param in @model.get("parameterModels")
+      paramView = new ParameterView({model: param, tagName: 'tr'})
+      $('.operation-params', $(@el)).append paramView.render().el
 
 
   addStatusCode: (statusCode) ->
@@ -123,14 +109,14 @@ class OperationView extends Backbone.View
     params = 0
 
     # add params
-    for param in @model.parameters
+    for param in @model.get("parameters")
       if param.paramType is 'form'
         if map[param.name] != undefined
             bodyParam.append(param.name, map[param.name])
 
     # headers in operation
     headerParams = {}
-    for param in @model.parameters
+    for param in @model.get("parameters")
       if param.paramType is 'header'
         headerParams[param.name] = map[param.name]
 
@@ -154,7 +140,7 @@ class OperationView extends Backbone.View
     $(".request_url", $(@el)).html "<pre>" + @invocationUrl + "</pre>"
 
     obj = 
-      type: @model.method
+      type: @model.get("method")
       url: @invocationUrl
       headers: headerParams
       data: bodyParam
@@ -336,5 +322,5 @@ class OperationView extends Backbone.View
 
 
   toggleOperationContent: ->
-    elem = $('#' + Docs.escapeResourceName(@model.parentId) + "_" + @model.nickname + "_content")
+    elem = $('#' + Docs.escapeResourceName(@model.get("parentId")) + "_" + @model.get("nickname") + "_content")
     if elem.is(':visible') then Docs.collapseOperation(elem) else Docs.expandOperation(elem)

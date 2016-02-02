@@ -418,27 +418,6 @@ function program16(depth0,data) {
   return "\n          <h4>Response Class</h4>\n          <p><span class=\"model-signature\" /></p>\n          <br/>\n          ";
   }
 
-function program18(depth0,data) {
-  
-  
-  return "\n          ";
-  }
-
-function program20(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n          <div class='sandbox_header'>\n            <input class='submit ";
-  if (stack1 = helpers.method) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.method; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "' name='commit' type='button' value='Submit ";
-  if (stack1 = helpers.method) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.method; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "'/>\n            <input class='response_hider' type='button' style='display:none' value='Hide Response' href='#'/>\n          </div>\n          ";
-  return buffer;
-  }
-
   buffer += "\n  <ul class='operations' >\n    <li class='";
   if (stack1 = helpers.method) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.method; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
@@ -528,10 +507,15 @@ function program20(depth0,data) {
   buffer += "\n          ";
   stack1 = helpers['if'].call(depth0, depth0.type, {hash:{},inverse:self.noop,fn:self.program(16, program16, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n          ";
-  stack1 = helpers['if'].call(depth0, depth0.isReadOnly, {hash:{},inverse:self.program(20, program20, data),fn:self.program(18, program18, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n        </form>\n        <div class='response' style='display:none'>\n          <h4>Request URL</h4>\n          <div class='block request_url'></div>\n          <h4>Response Body</h4>\n          <div class='block response_body'></div>\n          <h4>Response Code</h4>\n          <div class='block response_code'></div>\n          <h4>Response Headers</h4>\n          <div class='block response_headers'></div>\n        </div>\n      </div>\n    </li>\n  </ul>\n";
+  buffer += "\n          <div class='sandbox_header'>\n            <input class='submit ";
+  if (stack1 = helpers.method) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.method; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "' name='commit' type='button' value='Submit ";
+  if (stack1 = helpers.method) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.method; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "'/>\n            <input class='response_hider' type='button' style='display:none' value='Hide Response' href='#'/>\n          </div>\n        </form>\n        <div class='response' style='display:none'>\n          <h4>Request URL</h4>\n          <div class='block request_url'></div>\n          <h4>Response Body</h4>\n          <div class='block response_body'></div>\n          <h4>Response Code</h4>\n          <div class='block response_code'></div>\n          <h4>Response Headers</h4>\n          <div class='block response_headers'></div>\n        </div>\n      </div>\n    </li>\n  </ul>\n";
   return buffer;
   });
 })();
@@ -930,172 +914,6 @@ function program3(depth0,data) {
 
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
-templates['param_readonly'] = template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
-
-function program1(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n        <textarea class='body-textarea' readonly='readonly' name='";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "'>";
-  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</textarea>\n    ";
-  return buffer;
-  }
-
-function program3(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n        ";
-  stack1 = helpers['if'].call(depth0, depth0.defaultValue, {hash:{},inverse:self.program(6, program6, data),fn:self.program(4, program4, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n    ";
-  return buffer;
-  }
-function program4(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n            ";
-  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\n        ";
-  return buffer;
-  }
-
-function program6(depth0,data) {
-  
-  
-  return "\n            (empty)\n        ";
-  }
-
-function program8(depth0,data) {
-  
-  
-  return "\n        <span class=\"model-signature\"></span>\n    ";
-  }
-
-function program10(depth0,data) {
-  
-  
-  return "\n        <span class=\"data-type\"></span>\n    ";
-  }
-
-  buffer += "<td class='code'>";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</td>\n<td>\n    ";
-  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</td>\n<td>";
-  if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</td>\n<td>";
-  if (stack1 = helpers.paramType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</td>\n<td>\n    ";
-  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(10, program10, data),fn:self.program(8, program8, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</td>\n";
-  return buffer;
-  });
-})();
-
-(function() {
-  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
-templates['param_readonly_required'] = template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
-
-function program1(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n        <textarea class='body-textarea'  readonly='readonly' placeholder='(required)' name='";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "'>";
-  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</textarea>\n    ";
-  return buffer;
-  }
-
-function program3(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n        ";
-  stack1 = helpers['if'].call(depth0, depth0.defaultValue, {hash:{},inverse:self.program(6, program6, data),fn:self.program(4, program4, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n    ";
-  return buffer;
-  }
-function program4(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n            ";
-  if (stack1 = helpers.defaultValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.defaultValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\n        ";
-  return buffer;
-  }
-
-function program6(depth0,data) {
-  
-  
-  return "\n            (empty)\n        ";
-  }
-
-function program8(depth0,data) {
-  
-  
-  return "\n        <span class=\"model-signature\"></span>\n    ";
-  }
-
-function program10(depth0,data) {
-  
-  
-  return "\n        <span class=\"data-type\"></span>\n    ";
-  }
-
-  buffer += "<td class='code required'>";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</td>\n<td>\n    ";
-  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</td>\n<td>";
-  if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</td>\n<td>";
-  if (stack1 = helpers.paramType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</td>\n<td>\n    ";
-  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(10, program10, data),fn:self.program(8, program8, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</td>\n";
-  return buffer;
-  });
-})();
-
-(function() {
-  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
 templates['param_required'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
@@ -1437,7 +1255,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
 // Generated by CoffeeScript 1.5.0
 (function() {
-  var Choices, ContentTypeView, Expansions, Filters, HeaderView, MainView, OperationView, Param, ParameterChoiceView, ParameterContentTypeView, ParameterView, ResourceView, ResponseContentTypeView, Signature, SignatureView, StatusCodeView, SwaggerUi,
+  var Choices, ContentTypeView, Expansions, Filters, HeaderView, MainView, Operation, OperationView, Param, ParameterChoiceView, ParameterContentTypeView, ParameterView, ResourceView, ResponseContentTypeView, Signature, SignatureView, StatusCodeView, SwaggerUi,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -1767,15 +1585,19 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       }
     };
 
-    Param.prototype.getSignature = function() {
-      var signatureAttributes;
-      signatureAttributes = {
-        sampleJSON: this.get("sampleJSON"),
-        isParam: true,
-        signature: this.get("abridgedSignature"),
-        JSONExpansions: this.get("JSONExpansions")
-      };
-      return new Signature(signatureAttributes);
+    Param.prototype.getSignatureModel = function() {
+      var signatureAttributes, signatureModel;
+      signatureModel = null;
+      if (this.get("sampleJSON")) {
+        signatureAttributes = {
+          sampleJSON: this.get("sampleJSON"),
+          isParam: true,
+          signature: this.get("abridgedSignature"),
+          JSONExpansions: this.get("JSONExpansions")
+        };
+        signatureModel = new Signature(signatureAttributes);
+      }
+      return signatureModel;
     };
 
     return Param;
@@ -1809,6 +1631,66 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     return Signature;
+
+  })(Backbone.Model);
+
+  Operation = (function(_super) {
+
+    __extends(Operation, _super);
+
+    function Operation() {
+      Operation.__super__.constructor.apply(this, arguments);
+    }
+
+    Operation.prototype.initialize = function() {
+      var signature;
+      this.urlify = this.get("urlify");
+      this.getHeaderParams = this.get("getHeaderParams");
+      this.supportHeaderParams = this.get("supportHeaderParams");
+      this["do"] = this.get("do");
+      this.set("method", this.get("method").toUpperCase());
+      signature = this.get("responseClassSignature");
+      if (signature && signature !== 'string') {
+        this.set("abridgedSignature", signature.slice(0, signature.indexOf('}</span>') + 8));
+      }
+      return this.buildParamModels();
+    };
+
+    Operation.prototype.buildParamModels = function() {
+      var param, paramBaseData, params, _i, _j, _len, _len1, _ref;
+      params = [];
+      _ref = this.get("parameters");
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        paramBaseData = _ref[_i];
+        param = new Param(paramBaseData);
+        params.push(param);
+        if (param.get("name") === "expand") {
+          this.set("JSONExpansions", param.get("choices"));
+        }
+      }
+      for (_j = 0, _len1 = params.length; _j < _len1; _j++) {
+        param = params[_j];
+        param.set("JSONExpansions", this.get("JSONExpansions"));
+      }
+      return this.set("parameterModels", params);
+    };
+
+    Operation.prototype.getSignatureModel = function() {
+      var signatureAttributes, signatureModel;
+      signatureModel = null;
+      if (this.get("responseSampleJSON")) {
+        signatureAttributes = {
+          sampleJSON: this.get("responseSampleJSON"),
+          isParam: true,
+          signature: this.get("abridgedSignature"),
+          JSONExpansions: this.get("JSONExpansions")
+        };
+        signatureModel = new Signature(signatureAttributes);
+      }
+      return signatureModel;
+    };
+
+    return Operation;
 
   })(Backbone.Model);
 
@@ -1934,29 +1816,30 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     ResourceView.prototype.initialize = function() {};
 
     ResourceView.prototype.render = function() {
-      var counter, id, methods, operation, _i, _len, _ref;
+      var counter, id, methods, swaggerOperation, _i, _len, _ref;
       $(this.el).html(Handlebars.templates.resource(this.model));
       methods = {};
       _ref = this.model.operationsArray;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        operation = _ref[_i];
+        swaggerOperation = _ref[_i];
         counter = 0;
-        id = operation.nickname;
+        id = swaggerOperation.nickname;
         while (typeof methods[id] !== 'undefined') {
           id = id + "_" + counter;
           counter += 1;
         }
-        methods[id] = operation;
-        operation.nickname = id;
-        operation.parentId = this.model.id;
-        this.addOperation(operation);
+        methods[id] = swaggerOperation;
+        swaggerOperation.nickname = id;
+        swaggerOperation.parentId = this.model.id;
+        this.addOperation(swaggerOperation);
       }
       return this;
     };
 
-    ResourceView.prototype.addOperation = function(operation) {
-      var operationView;
-      operation.number = this.number;
+    ResourceView.prototype.addOperation = function(swaggerOperation) {
+      var operation, operationView;
+      swaggerOperation.number = this.number;
+      operation = new Operation(swaggerOperation);
       operationView = new OperationView({
         model: operation,
         tagName: 'li',
@@ -1988,23 +1871,16 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       'click .expandable': 'expandedFromJSON'
     };
 
-    OperationView.prototype.initialize = function() {
-      return this.operationExpansions = null;
-    };
+    OperationView.prototype.initialize = function() {};
 
     OperationView.prototype.template = function() {
       return Handlebars.templates.operation;
     };
 
     OperationView.prototype.render = function() {
-      var contentTypeModel, isMethodSubmissionSupported, responseContentTypeView, statusCode, template, _i, _len, _ref;
-      isMethodSubmissionSupported = true;
-      if (!isMethodSubmissionSupported) {
-        this.model.isReadOnly = true;
-      }
-      this.model.method = this.model.method.toUpperCase();
+      var contentTypeModel, responseContentTypeView, statusCode, template, _i, _len, _ref;
       template = this.template();
-      $(this.el).html(template(this.model));
+      $(this.el).html(template(this.model.toJSON()));
       contentTypeModel = {
         isParam: false
       };
@@ -2012,8 +1888,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         model: contentTypeModel
       });
       $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
-      this.buildParams();
-      _ref = this.model.responseMessages;
+      this.addParameterViews();
+      this.addSignatureView();
+      _ref = this.model.get("responseMessages");
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         statusCode = _ref[_i];
         this.addStatusCode(statusCode);
@@ -2021,38 +1898,32 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       return this;
     };
 
-    OperationView.prototype.buildParams = function() {
-      var expansions, param, paramBaseData, params, _i, _j, _len, _len1, _ref, _results;
-      params = [];
-      _ref = this.model.parameters;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        paramBaseData = _ref[_i];
-        param = new Param(paramBaseData);
-        param.set("isReadOnly", this.model.isReadOnly);
-        params.push(param);
-        if (param.get("name") === "expand") {
-          expansions = param.get("choices");
-        }
+    OperationView.prototype.addSignatureView = function() {
+      var signatureModel, signatureView;
+      signatureModel = this.model.getSignatureModel();
+      if (signatureModel) {
+        signatureView = new SignatureView({
+          model: signatureModel
+        });
+        return $('.model-signature', $(this.el)).append(signatureView.render().el);
+      } else {
+        return $('.data-type', $(this.el)).html(this.model.get("type"));
       }
-      _results = [];
-      for (_j = 0, _len1 = params.length; _j < _len1; _j++) {
-        param = params[_j];
-        if (expansions) {
-          param.set("JSONExpansions", expansions);
-          this.listenTo(expansions, "change", this.updateSignature);
-        }
-        _results.push(this.addParameterView(param));
-      }
-      return _results;
     };
 
-    OperationView.prototype.addParameterView = function(param) {
-      var paramView;
-      paramView = new ParameterView({
-        model: param,
-        tagName: 'tr'
-      });
-      return $('.operation-params', $(this.el)).append(paramView.render().el);
+    OperationView.prototype.addParameterViews = function() {
+      var param, paramView, _i, _len, _ref, _results;
+      _ref = this.model.get("parameterModels");
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        param = _ref[_i];
+        paramView = new ParameterView({
+          model: param,
+          tagName: 'tr'
+        });
+        _results.push($('.operation-params', $(this.el)).append(paramView.render().el));
+      }
+      return _results;
     };
 
     OperationView.prototype.addStatusCode = function(statusCode) {
@@ -2142,7 +2013,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       }
       bodyParam = new FormData();
       params = 0;
-      _ref1 = this.model.parameters;
+      _ref1 = this.model.get("parameters");
       for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
         param = _ref1[_j];
         if (param.paramType === 'form') {
@@ -2152,7 +2023,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         }
       }
       headerParams = {};
-      _ref2 = this.model.parameters;
+      _ref2 = this.model.get("parameters");
       for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
         param = _ref2[_k];
         if (param.paramType === 'header') {
@@ -2172,7 +2043,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       this.invocationUrl = this.model.supportHeaderParams() ? (headerParams = this.model.getHeaderParams(map), this.model.urlify(map, false)) : this.model.urlify(map, true);
       $(".request_url", $(this.el)).html("<pre>" + this.invocationUrl + "</pre>");
       obj = {
-        type: this.model.method,
+        type: this.model.get("method"),
         url: this.invocationUrl,
         headers: headerParams,
         data: bodyParam,
@@ -2382,7 +2253,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
     OperationView.prototype.toggleOperationContent = function() {
       var elem;
-      elem = $('#' + Docs.escapeResourceName(this.model.parentId) + "_" + this.model.nickname + "_content");
+      elem = $('#' + Docs.escapeResourceName(this.model.get("parentId")) + "_" + this.model.get("nickname") + "_content");
       if (elem.is(':visible')) {
         return Docs.collapseOperation(elem);
       } else {
@@ -2473,29 +2344,21 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         if (this.model.get("isQuery")) {
           return Handlebars.templates.param_query;
         } else {
-          if (this.model.get("isReadOnly")) {
-            if (this.model.get("required")) {
-              return Handlebars.templates.param_readonly_required;
-            } else {
-              return Handlebars.templates.param_readonly;
-            }
+          if (this.model.get("required")) {
+            return Handlebars.templates.param_required;
           } else {
-            if (this.model.get("required")) {
-              return Handlebars.templates.param_required;
-            } else {
-              return Handlebars.templates.param;
-            }
+            return Handlebars.templates.param;
           }
         }
       }
     };
 
     ParameterView.prototype.addSignatureView = function() {
-      var signatureView;
-      if (this.model.get("sampleJSON") && this.model.get("isBody")) {
+      var signatureModel, signatureView;
+      signatureModel = this.model.getSignatureModel();
+      if (signatureModel && this.model.get("isBody")) {
         signatureView = new SignatureView({
-          model: this.model.getSignature(),
-          tagName: 'div'
+          model: signatureModel
         });
         return $('.model-signature', $(this.el)).append(signatureView.render().el);
       } else {
