@@ -45,7 +45,8 @@ class ParameterChoiceView extends Backbone.View
       argument = argument.trim()
 
     if choice and argument
-      @model.setChoiceViewFilter(@cid, "#{choice}#{operator}#{argument}")
+      @currentValue = "#{choice}#{operator}#{argument}"
+      @model.setChoiceViewFilter(@cid, @currentValue)
     else
       @model.removeChoiceViewFilter(@cid)
 
@@ -63,6 +64,7 @@ class ParameterChoiceView extends Backbone.View
       if @model.get("isExpansions")
         @model.setExpansion(@currentValue, false)
       else
+        @model.removeChoiceViewFilter(@cid)
 
     @remove()
     

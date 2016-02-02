@@ -2634,7 +2634,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         argument = argument.trim();
       }
       if (choice && argument) {
-        return this.model.setChoiceViewFilter(this.cid, "" + choice + operator + argument);
+        this.currentValue = "" + choice + operator + argument;
+        return this.model.setChoiceViewFilter(this.cid, this.currentValue);
       } else {
         return this.model.removeChoiceViewFilter(this.cid);
       }
@@ -2656,7 +2657,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         if (this.model.get("isExpansions")) {
           this.model.setExpansion(this.currentValue, false);
         } else {
-
+          this.model.removeChoiceViewFilter(this.cid);
         }
       }
       return this.remove();
