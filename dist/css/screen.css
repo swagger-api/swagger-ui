@@ -1,8 +1,34 @@
 /* Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org> */
+h1,
+h2,
+h3 {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+h1 {
+  font-size: 24px;
+}
+h2 {
+  font-size: 20px;
+}
+h3 {
+  font-size: 18px;
+}
+p {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+}
+pre,
+code,
+kbd {
+  font-family: "Source Code Pro", "Anonymous Pro", Consolas, Monaco, monospace;
+}
+a {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 .swagger-section pre code {
   display: block;
   padding: 0.5em;
-  background: #F0F0F0;
+  background: #fafafa;
 }
 .swagger-section pre code,
 .swagger-section pre .subst,
@@ -10,7 +36,7 @@
 .swagger-section pre .lisp .title,
 .swagger-section pre .clojure .built_in,
 .swagger-section pre .nginx .title {
-  color: black;
+  color: #404040;
 }
 .swagger-section pre .string,
 .swagger-section pre .title,
@@ -36,7 +62,7 @@
 .swagger-section pre .tex .special,
 .swagger-section pre .erlang_repl .function_or_atom,
 .swagger-section pre .markdown .header {
-  color: #800;
+  color: #b75454;
 }
 .swagger-section pre .comment,
 .swagger-section pre .annotation,
@@ -44,7 +70,7 @@
 .swagger-section pre .diff .header,
 .swagger-section pre .chunk,
 .swagger-section pre .markdown .blockquote {
-  color: #888;
+  color: #777777;
 }
 .swagger-section pre .number,
 .swagger-section pre .date,
@@ -56,7 +82,7 @@
 .swagger-section pre .change,
 .swagger-section pre .markdown .bullet,
 .swagger-section pre .markdown .link_url {
-  color: #080;
+  color: #007e3b;
 }
 .swagger-section pre .label,
 .swagger-section pre .javadoc,
@@ -82,7 +108,7 @@
 .swagger-section pre .vhdl .attribute,
 .swagger-section pre .clojure .attribute,
 .swagger-section pre .coffeescript .property {
-  color: #8888ff;
+  color: #3ec0c4;
 }
 .swagger-section pre .keyword,
 .swagger-section pre .id,
@@ -120,32 +146,9 @@
 .swagger-section pre .xml .cdata {
   opacity: 0.5;
 }
-h1,
-h2,
-h3 {
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-h1 {
-  font-size: 24px;
-}
-h2 {
-  font-size: 20px;
-}
-h3 {
-  font-size: 18px;
-}
-p {
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-}
-pre,
-code {
-  font-family: "Source Code Pro", "Anonymous Pro", Consolas, Monaco, monospace;
-}
 .swagger-section .swagger-ui-wrap {
   line-height: 1;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  max-width: 960px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -943,7 +946,6 @@ code {
   color: #dcb67f;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.GET div.heading {
-  background-color: #FFFFFF;
   /*border: 1px solid #3EC0C4;*/
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.GET div.heading h3 span.http_method a {
@@ -1212,11 +1214,10 @@ code {
   cursor: pointer;
 }
 .swagger-section #header {
-  background-color: #578057;
+  background-color: #007e3b;
   padding: 14px;
 }
 .swagger-section #header a#logo {
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 1.5em;
   font-weight: bold;
   text-decoration: none;
@@ -1265,7 +1266,7 @@ code {
 }
 .swagger-section #instructions {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background-color: white;
+  background-color: #ffffff;
   opacity: 1;
   text-align: center;
 }
@@ -1278,9 +1279,4 @@ code {
   min-height: 30px;
   text-align: center;
   padding-top: 10px;
-}
-body {
-  background: url("../images/clover_tile@2x.png");
-  background-repeat: repeat;
-  background-size: 11px 12px;
 }
