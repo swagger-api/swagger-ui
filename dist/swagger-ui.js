@@ -687,27 +687,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
 function program1(depth0,data) {
   
-  var buffer = "", stack1;
-  buffer += "\n		<option selected value=\"";
-  if (stack1 = helpers.currentValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.currentValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\">";
-  if (stack1 = helpers.currentValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.currentValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</option>\n	";
-  return buffer;
-  }
-
-function program3(depth0,data) {
-  
-  
-  return "\n		<option disabled selected> -- select an option -- </option>\n	";
-  }
-
-function program5(depth0,data) {
-  
   var buffer = "";
   buffer += "\n		<option value=\""
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
@@ -717,11 +696,8 @@ function program5(depth0,data) {
   return buffer;
   }
 
-  buffer += "<button disabled type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n<span>Filter:</span>\n<select class=\"param-choice\">\n	";
-  stack1 = helpers['if'].call(depth0, depth0.currentValue, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n	";
-  stack1 = helpers.each.call(depth0, depth0.availableChoices, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+  buffer += "<button disabled type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n<span>Filter:</span>\n<select class=\"param-choice\">\n	<option disabled selected> -- select an option -- </option>\n	";
+  stack1 = helpers.each.call(depth0, depth0.allChoices, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</select>\n<select class='filter-operator'>\n	<option value='=='>==</option>\n	<option value='!='>!=</option>\n	<option value='>'>&gt;</option>\n	<option value='<'>&lt;</option>\n	<option value='>='>&gt;=</option>\n	<option value='<='>&lt;=</option>\n</select>\n<input class='filter-argument'>\n";
   return buffer;
@@ -2247,10 +2223,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       return hljs.highlightBlock($('.response_body', $(this.el))[0]);
     };
 
-    OperationView.prototype.expandedFromJSON = function(e) {
-      return this.expandParamView.expandedFromJSON(e);
-    };
-
     OperationView.prototype.toggleOperationContent = function() {
       var elem;
       elem = $('#' + Docs.escapeResourceName(this.model.get("parentId")) + "_" + this.model.get("nickname") + "_content");
@@ -2313,7 +2285,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     }
 
     ParameterView.prototype.initialize = function(options) {
-      if (this.model.get("isExpand")) {
+      if (this.model.get("isQuery")) {
         this.listenTo(this.model.get("choices"), "change", this.updateChoices);
       }
       return Handlebars.registerHelper('isArray', function(param, opts) {

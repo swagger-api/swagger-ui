@@ -1,4 +1,5 @@
 class Operation extends Backbone.Model
+  #All of the child models of an Operation (and the associated views) have access to the same Expansions model
 
   initialize: ->
     #This class is a wrapper for the SwaggerOperation passed to it

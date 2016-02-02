@@ -1,6 +1,6 @@
 class ParameterView extends Backbone.View
   initialize: (options) ->
-    if @model.get("isExpand")
+    if @model.get("isQuery")
       @listenTo(@model.get("choices"), "change", @updateChoices);
 
     Handlebars.registerHelper 'isArray',

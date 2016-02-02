@@ -316,11 +316,6 @@ class OperationView extends Backbone.View
     $(".response_throbber", $(@el)).hide()
     hljs.highlightBlock($('.response_body', $(@el))[0])
 
-  expandedFromJSON: (e) ->
-    # TO DO either use event aggregator or model for expansions
-    @expandParamView.expandedFromJSON(e)
-
-
   toggleOperationContent: ->
     elem = $('#' + Docs.escapeResourceName(@model.get("parentId")) + "_" + @model.get("nickname") + "_content")
     if elem.is(':visible') then Docs.collapseOperation(elem) else Docs.expandOperation(elem)
