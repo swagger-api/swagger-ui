@@ -3,6 +3,7 @@ class SignatureView extends Backbone.View
   'click a.description-link'       : 'switchToDescription'
   'click a.snippet-link'           : 'switchToSnippet'
   'mousedown .snippet'          : 'snippetToTextArea'
+  'click span.expandable' : 'expansionFromJSON'
   }
 
   initialize: ->
@@ -56,6 +57,10 @@ class SignatureView extends Backbone.View
         if $(this).text() == '"--Expandable Field--"'
           $(this).addClass("expandable")
     )
+
+  expansionFromJSON: (e) ->
+    field = $(e.currentTarget).parent().prev().text()
+    @model.get("JSONExpansions").expansionFromJSON(field)
 
   # handler for snippet to text area
   snippetToTextArea: (e) ->

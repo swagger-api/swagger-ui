@@ -661,6 +661,27 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
 function program1(depth0,data) {
   
+  var buffer = "", stack1;
+  buffer += "\n		<option selected value=\"";
+  if (stack1 = helpers.currentValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.currentValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\">";
+  if (stack1 = helpers.currentValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.currentValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</option>\n	";
+  return buffer;
+  }
+
+function program3(depth0,data) {
+  
+  
+  return "\n		<option disabled selected> -- select an option -- </option>\n	";
+  }
+
+function program5(depth0,data) {
+  
   var buffer = "";
   buffer += "\n		<option value=\""
     + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
@@ -670,8 +691,11 @@ function program1(depth0,data) {
   return buffer;
   }
 
-  buffer += "<button disabled type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n<span>Expand:</span>\n<select class=\"param-choice\">\n	<option disabled selected> -- select an option -- </option>\n	";
-  stack1 = helpers.each.call(depth0, depth0.unexpandedFields, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  buffer += "<button disabled type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n<span>Expand:</span>\n<select class=\"param-choice\">\n	";
+  stack1 = helpers['if'].call(depth0, depth0.currentValue, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n	";
+  stack1 = helpers.each.call(depth0, depth0.unexpandedFields, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</select>\n<br>\n";
   return buffer;
@@ -1444,6 +1468,14 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     Expansions.prototype.setExpansion = function(field, expanded) {
       this.get("currentExpansions")[field] = expanded;
       return this.update();
+    };
+
+    Expansions.prototype.expansionFromJSON = function(field) {
+      if (!this.get("currentExpansions")[field]) {
+        this.get("currentExpansions")[field] = true;
+        this.update();
+        return this.trigger("expansionFromJSON", field);
+      }
     };
 
     Expansions.prototype.update = function() {
@@ -2284,9 +2316,10 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       ParameterView.__super__.constructor.apply(this, arguments);
     }
 
-    ParameterView.prototype.initialize = function(options) {
+    ParameterView.prototype.initialize = function() {
       if (this.model.get("isQuery")) {
         this.listenTo(this.model.get("choices"), "change", this.updateChoices);
+        this.listenTo(this.model.get("choices"), "expansionFromJSON", this.expansionFromJSON);
       }
       return Handlebars.registerHelper('isArray', function(param, opts) {
         if (param.type.toLowerCase() === 'array' || param.allowMultiple) {
@@ -2363,9 +2396,14 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     ParameterView.prototype.addChoiceView = function(currentValue) {
       var choiceView;
       choiceView = new ParameterChoiceView({
-        model: this.model.get("choices")
+        model: this.model.get("choices"),
+        currentValue: currentValue
       });
-      return $('.query-choices', $(this.el)).append(choiceView.render().el);
+      if (currentValue) {
+        return $('.query-choices div:last-child', $(this.el)).before(choiceView.render().el);
+      } else {
+        return $('.query-choices', $(this.el)).append(choiceView.render().el);
+      }
     };
 
     ParameterView.prototype.updateChoices = function() {
@@ -2394,6 +2432,10 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       return _results;
     };
 
+    ParameterView.prototype.expansionFromJSON = function(field) {
+      return this.addChoiceView(field);
+    };
+
     return ParameterView;
 
   })(Backbone.View);
@@ -2409,7 +2451,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     SignatureView.prototype.events = {
       'click a.description-link': 'switchToDescription',
       'click a.snippet-link': 'switchToSnippet',
-      'mousedown .snippet': 'snippetToTextArea'
+      'mousedown .snippet': 'snippetToTextArea',
+      'click span.expandable': 'expansionFromJSON'
     };
 
     SignatureView.prototype.initialize = function() {
@@ -2471,6 +2514,12 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           return $(this).addClass("expandable");
         }
       });
+    };
+
+    SignatureView.prototype.expansionFromJSON = function(e) {
+      var field;
+      field = $(e.currentTarget).parent().prev().text();
+      return this.model.get("JSONExpansions").expansionFromJSON(field);
     };
 
     SignatureView.prototype.snippetToTextArea = function(e) {
@@ -2582,16 +2631,20 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       'click .close': 'removeThisView'
     };
 
-    ParameterChoiceView.prototype.initialize = function() {
+    ParameterChoiceView.prototype.initialize = function(options) {
+      this.options = options || {};
+      this.currentValue = options.currentValue;
       if (this.model.get("isExpansions")) {
         return this.listenTo(this.model, "change", this.updateSelect);
       }
     };
 
     ParameterChoiceView.prototype.render = function() {
-      var template;
+      var modelJSON, template;
       template = this.template();
-      $(this.el).html(template(this.model.toJSON()));
+      modelJSON = this.model.toJSON();
+      modelJSON["currentValue"] = this.currentValue;
+      $(this.el).html(template(modelJSON));
       if (this.currentValue) {
         this.enableCloseButton();
       }

@@ -22,6 +22,12 @@ class Expansions extends Choices
     @get("currentExpansions")[field] = expanded
     @update()
 
+  expansionFromJSON: (field) ->
+    unless @get("currentExpansions")[field]
+      @get("currentExpansions")[field] = true
+      @update()
+      @trigger("expansionFromJSON", field)
+
   update: ->
     currentExpansions = @get("currentExpansions")
     queryParamString = ""

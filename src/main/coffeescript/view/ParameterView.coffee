@@ -1,7 +1,8 @@
 class ParameterView extends Backbone.View
-  initialize: (options) ->
+  initialize: ->
     if @model.get("isQuery")
       @listenTo(@model.get("choices"), "change", @updateChoices);
+      @listenTo(@model.get("choices"), "expansionFromJSON", @expansionFromJSON)
 
     Handlebars.registerHelper 'isArray',
       (param, opts) ->
@@ -63,8 +64,11 @@ class ParameterView extends Backbone.View
 
   addChoiceView: (currentValue) ->
     # Render a query choice
-    choiceView = new ParameterChoiceView({model: @model.get("choices")})
-    $('.query-choices', $(@el)).append choiceView.render().el
+    choiceView = new ParameterChoiceView({model: @model.get("choices"), currentValue: currentValue})
+    if currentValue
+      $('.query-choices div:last-child', $(@el)).before(choiceView.render().el)
+    else
+      $('.query-choices', $(@el)).append choiceView.render().el
 
   updateChoices: ->
     $('input.parameter', $(@el)).val(@model.get("choices").get("queryParamString"))
@@ -80,6 +84,9 @@ class ParameterView extends Backbone.View
   refreshChoiceViews: ->
     for viewId in Object.keys(@choiceViews)
       @choiceViews[viewId].render()
+
+  expansionFromJSON: (field) ->
+    @addChoiceView(field)
 
 
 

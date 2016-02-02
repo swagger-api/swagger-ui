@@ -7,12 +7,17 @@ class ParameterChoiceView extends Backbone.View
 
   }
 
-  initialize: ->
+  initialize: (options) ->
+    this.options = options || {}
+    @currentValue = options.currentValue
     if @model.get("isExpansions")
       @listenTo(@model, "change", @updateSelect)
+
   render: ->
     template = @template()
-    $(@el).html(template(@model.toJSON()))
+    modelJSON = @model.toJSON()
+    modelJSON["currentValue"] = @currentValue
+    $(@el).html(template(modelJSON))
     if @currentValue
       @enableCloseButton()
     @

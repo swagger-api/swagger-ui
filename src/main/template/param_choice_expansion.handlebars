@@ -1,7 +1,11 @@
 <button disabled type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 <span>Expand:</span>
 <select class="param-choice">
-	<option disabled selected> -- select an option -- </option>
+	{{#if currentValue}}
+		<option selected value="{{currentValue}}">{{currentValue}}</option>
+	{{else}}
+		<option disabled selected> -- select an option -- </option>
+	{{/if}}
 	{{#each unexpandedFields}}
 		<option value="{{this}}">{{this}}</option>
 	{{/each}}
