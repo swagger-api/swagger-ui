@@ -31,8 +31,8 @@ task 'clean', 'Removes distribution', ->
 
 task 'dist', 'Build a distribution', ->
   console.log "Build distribution in ./dist"
-  fs.mkdirSync('dist') if not path.existsSync('dist')
-  fs.mkdirSync('dist/lib') if not path.existsSync('dist/lib')
+  fs.mkdirSync('dist') if not fs.existsSync('dist')
+  fs.mkdirSync('dist/lib') if not fs.existsSync('dist/lib')
 
   appContents = new Array remaining = sourceFiles.length
   for file, index in sourceFiles then do (file, index) ->
@@ -91,10 +91,10 @@ task 'dist', 'Build a distribution', ->
     # Someone who knows CoffeeScript should make this more Coffee-licious
     console.log '   : Compiling LESS...'
 
-    less.render fs.readFileSync("src/main/less/screen.less", 'utf8'), (err, css) ->
-      fs.writeFileSync("src/main/html/css/screen.css", css)
-    less.render fs.readFileSync("src/main/less/reset.less", 'utf8'), (err, css) ->
-      fs.writeFileSync("src/main/html/css/reset.css", css)
+    less.render(fs.readFileSync("src/main/less/screen.less", 'utf8')).then((output) ->
+      fs.writeFileSync("src/main/html/css/screen.css", output.css))
+    less.render(fs.readFileSync("src/main/less/reset.less", 'utf8')).then((output) ->
+      fs.writeFileSync("src/main/html/css/reset.css", output.css))
     pack()
 
   pack = ->
