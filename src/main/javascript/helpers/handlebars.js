@@ -1,5 +1,4 @@
 'use strict';
-/*jslint eqeq: true*/
 
 Handlebars.registerHelper('sanitize', function(html) {
     // Strip the script tags from the html, and return it as a Handlebars.SafeString
@@ -53,6 +52,13 @@ Handlebars.registerHelper('renderTextParam', function(param) {
     return new Handlebars.SafeString(result);
 });
 
+
+Handlebars.registerHelper('if_or', function(v1, v2, options) {
+    if (v1 || v2) {
+        return options.fn(this);
+    }
+    return options.inverse(this);
+});
 Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
 
     switch (operator) {

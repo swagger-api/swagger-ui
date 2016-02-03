@@ -736,6 +736,20 @@ SwaggerUi.partials.signature = (function () {
     return value;
   };
 
+  var getPrimitiveSignature = function (schema) {
+    var type, items;
+
+    schema = schema || {};
+    items = schema.items || {};
+    type = schema.type || '';
+
+    switch (type) {
+      case 'object': return 'Object is not a primitive';
+      case 'array' : return 'Array[' + items.type + ']';
+      default: return type;
+    }
+  };
+
   var createPrimitiveXML = function (descriptor) {
     var name = descriptor.name;
     var definition = descriptor.definition;
@@ -924,7 +938,8 @@ SwaggerUi.partials.signature = (function () {
       getParameterModelSignature: getParameterModelSignature,
       createParameterJSONSample: createParameterJSONSample,
       createSchemaXML: createSchemaXML,
-      createXMLSample: createXMLSample
+      createXMLSample: createXMLSample,
+      getPrimitiveSignature: getPrimitiveSignature
   };
 
 })();

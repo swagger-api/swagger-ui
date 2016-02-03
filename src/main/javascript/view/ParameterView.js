@@ -21,6 +21,7 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
     var modelDefinitions = this.model.modelSignature.definitions;
     var schema = this.model.schema || {};
     var consumes = this.model.consumes || [];
+    var sampleJSON, signatureView;
 
 
     if (typeof type === 'undefined') {
@@ -53,20 +54,21 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
 
     var isXML = this.contains(consumes, 'xml');
     var isJSON = isXML ? this.contains(consumes, 'json') : true;
+    sampleJSON = SwaggerUi.partials.signature.createParameterJSONSample(modelType, modelDefinitions);
 
     var template = this.template();
     $(this.el).html(template(this.model));
 
     var signatureModel = {
-      sampleJSON: isJSON ? SwaggerUi.partials.signature.createParameterJSONSample(modelType, modelDefinitions) : false,
-      sampleXML: isXML ? SwaggerUi.partials.signature.createXMLSample(schema, modelDefinitions, true) : false,
+      sampleJSON: isJSON ? sampleJSON : false,
+      sampleXML: sampleJSON && isXML ? SwaggerUi.partials.signature.createXMLSample(schema, modelDefinitions, true) : false,
       isParam: true,
       signature: SwaggerUi.partials.signature.getParameterModelSignature(modelType, modelDefinitions),
       defaultRendering: this.model.defaultRendering
     };
 
-    if (this.model.sampleJSON) {
-      var signatureView = new SwaggerUi.Views.SignatureView({model: signatureModel, tagName: 'div'});
+    if (sampleJSON) {
+      signatureView = new SwaggerUi.Views.SignatureView({model: signatureModel, tagName: 'div'});
       $('.model-signature', $(this.el)).append(signatureView.render().el);
     }
     else {
