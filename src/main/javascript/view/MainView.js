@@ -2,7 +2,8 @@
 
 SwaggerUi.Views.MainView = Backbone.View.extend({
   apisSorter : {
-    alpha   : function(a,b){ return a.name.localeCompare(b.name); }
+    alpha   : function(a,b){ return a.name.localeCompare(b.name); },
+    tagOrder: function(a,b){ return a.tagOrder - b.tagOrder; }
   },
   operationsSorters : {
     alpha   : function(a,b){ return a.path.localeCompare(b.path); },
