@@ -82,7 +82,7 @@
 .swagger-section pre .vhdl .attribute,
 .swagger-section pre .clojure .attribute,
 .swagger-section pre .coffeescript .property {
-  color: #8888ff;
+  color: #88F;
 }
 .swagger-section pre .keyword,
 .swagger-section pre .id,
@@ -247,7 +247,6 @@
   font-family: "Anonymous Pro", "Menlo", "Bitstream Vera Sans Mono", "Courier New", monospace;
   background-color: #F1F1F1;
   /*border: 1px solid #e5e0c6;*/
-
   padding: 10px;
 }
 .swagger-section .swagger-ui-wrap pre code {
@@ -542,7 +541,6 @@
   font-family: "Anonymous Pro", "Menlo", "Bitstream Vera Sans Mono", "Courier New", monospace;
   background-color: #F1F1F1;
   /*border: 1px solid #e5e0c6;*/
-
   padding: 10px;
   margin: 0 0 10px 0;
 }
@@ -837,7 +835,6 @@
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.DELETE div.heading {
   background-color: #FFFFFF;
   /*border: 1px solid #B75555;*/
-
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.DELETE div.heading h3 span.http_method a {
   text-transform: uppercase;
@@ -854,7 +851,6 @@
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.DELETE div.content {
   background-color: #FFFFFF;
   /*border: 1px solid #B75555;*/
-
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.DELETE div.content h4 {
   color: #931F1F;
@@ -871,7 +867,6 @@
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.POST div.heading {
   background-color: #FFFFFF;
   /*border: 1px solid #34763B;*/
-
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.POST div.heading h3 span.http_method a {
   background-color: #34763B;
@@ -887,7 +882,6 @@
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.POST div.content {
   background-color: #FFFFFF;
   /*border: 1px solid #34763B;*/
-
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.POST div.content h4 {
   color: #1E5429;
@@ -929,7 +923,6 @@
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.GET div.heading {
   background-color: #FFFFFF;
   /*border: 1px solid #3EC0C4;*/
-
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.GET div.heading h3 span.http_method a {
   background-color: #0F726F;
@@ -945,7 +938,6 @@
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.GET div.content {
   background-color: #FFFFFF;
   /*border: 1px solid #c3d9ec;*/
-
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.GET div.content h4 {
   color: #0F726F;
