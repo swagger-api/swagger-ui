@@ -294,6 +294,13 @@ Handlebars.registerHelper('renderTextParam', function(param) {
     return new Handlebars.SafeString(result);
 });
 
+
+Handlebars.registerHelper('if_or', function(v1, v2, options) {
+    if (v1 || v2) {
+        return options.fn(this);
+    }
+    return options.inverse(this);
+});
 this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "  <div class=\"info_title\">"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.title : stack1), depth0))
@@ -881,32 +888,42 @@ this["Handlebars"]["templates"]["response_content_type"] = Handlebars.template({
   return buffer + "</select>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["signature"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "      <div class=\"snippet_json\">\n        <pre><code>"
-    + escapeExpression(((helper = (helper = helpers.sampleJSON || (depth0 != null ? depth0.sampleJSON : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"sampleJSON","hash":{},"data":data}) : helper)))
-    + "</code></pre>\n        ";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isParam : depth0), {"name":"if","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  return buffer + "\n      </div>\n";
-},"2":function(depth0,helpers,partials,data) {
-  return "<small class=\"notice\" data-sw-translate></small>";
-  },"4":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "    <div class=\"snippet_xml\">\n      <pre><code>"
-    + escapeExpression(((helper = (helper = helpers.sampleXML || (depth0 != null ? depth0.sampleXML : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"sampleXML","hash":{},"data":data}) : helper)))
-    + "</code></pre>\n      ";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isParam : depth0), {"name":"if","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  return buffer + "\n    </div>\n";
-},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "<div>\n<ul class=\"signature-nav\">\n  <li><a class=\"description-link\" href=\"#\" data-sw-translate>Model</a></li>\n  <li><a class=\"snippet-link\" href=\"#\" data-sw-translate>Example Value</a></li>\n</ul>\n<div>\n\n<div class=\"signature-container\">\n  <div class=\"description\">\n    ";
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "\n<div>\n<ul class=\"signature-nav\">\n  <li><a class=\"description-link\" href=\"#\" data-sw-translate>Model</a></li>\n  <li><a class=\"snippet-link\" href=\"#\" data-sw-translate>Example Value</a></li>\n</ul>\n<div>\n\n<div class=\"signature-container\">\n  <div class=\"description\">\n    ";
   stack1 = ((helper = (helper = helpers.signature || (depth0 != null ? depth0.signature : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"signature","hash":{},"data":data}) : helper));
   if (stack1 != null) { buffer += stack1; }
   buffer += "\n  </div>\n\n  <div class=\"snippet\">\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.sampleJSON : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.sampleJSON : depth0), {"name":"if","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.sampleXML : depth0), {"name":"if","hash":{},"fn":this.program(4, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.sampleXML : depth0), {"name":"if","hash":{},"fn":this.program(5, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "  </div>\n</div>\n";
-},"useData":true});
+},"2":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "      <div class=\"snippet_json\">\n        <pre><code>"
+    + escapeExpression(((helper = (helper = helpers.sampleJSON || (depth0 != null ? depth0.sampleJSON : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"sampleJSON","hash":{},"data":data}) : helper)))
+    + "</code></pre>\n        ";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isParam : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "\n      </div>\n";
+},"3":function(depth0,helpers,partials,data) {
+  return "<small class=\"notice\" data-sw-translate></small>";
+  },"5":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "    <div class=\"snippet_xml\">\n      <pre><code>"
+    + escapeExpression(((helper = (helper = helpers.sampleXML || (depth0 != null ? depth0.sampleXML : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"sampleXML","hash":{},"data":data}) : helper)))
+    + "</code></pre>\n      ";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isParam : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "\n    </div>\n";
+},"7":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "    "
+    + escapeExpression(((helper = (helper = helpers.signature || (depth0 != null ? depth0.signature : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"signature","hash":{},"data":data}) : helper)))
+    + "\n";
+},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var stack1, helperMissing=helpers.helperMissing;
+  stack1 = ((helpers.if_or || (depth0 && depth0.if_or) || helperMissing).call(depth0, (depth0 != null ? depth0.sampleJSON : depth0), (depth0 != null ? depth0.sampleXML : depth0), {"name":"if_or","hash":{},"fn":this.program(1, data),"inverse":this.program(7, data),"data":data}));
+  if (stack1 != null) { return stack1; }
+  else { return ''; }
+  },"useData":true});
 this["Handlebars"]["templates"]["status_code"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var lambda=this.lambda, escapeExpression=this.escapeExpression;
   return "      <tr>\n        <td>"
@@ -25107,7 +25124,7 @@ SwaggerUi.Views.HeaderView = Backbone.View.extend({
 
   showPetStore: function(){
     this.trigger('update-swagger-ui', {
-      url:'http://petstore.swagger.io/v2/swagger.json'
+      url:'http://localhost:3001/order2.json'
     });
   },
 
@@ -25479,6 +25496,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
             isParam: false,
             sampleXML: isXML ? SwaggerUi.partials.signature.createXMLSample(value.definition, value.models) : false,
             signature: SwaggerUi.partials.signature.getModelSignature(value.name, value.definition, value.models, value.modelPropertyMacro)
+          };
+        } else {
+          signatureModel = {
+            signature: SwaggerUi.partials.signature.getPrimitiveSignature(value)
           };
         }
       }
@@ -26163,6 +26184,7 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
     var modelDefinitions = this.model.modelSignature.definitions;
     var schema = this.model.schema || {};
     var consumes = this.model.consumes || [];
+    var sampleJSON, signatureView;
 
 
     if (typeof type === 'undefined') {
@@ -26195,20 +26217,21 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
 
     var isXML = this.contains(consumes, 'xml');
     var isJSON = isXML ? this.contains(consumes, 'json') : true;
+    sampleJSON = SwaggerUi.partials.signature.createParameterJSONSample(modelType, modelDefinitions);
 
     var template = this.template();
     $(this.el).html(template(this.model));
 
     var signatureModel = {
-      sampleJSON: isJSON ? SwaggerUi.partials.signature.createParameterJSONSample(modelType, modelDefinitions) : false,
-      sampleXML: isXML ? SwaggerUi.partials.signature.createXMLSample(schema, modelDefinitions, true) : false,
+      sampleJSON: isJSON ? sampleJSON : false,
+      sampleXML: sampleJSON && isXML ? SwaggerUi.partials.signature.createXMLSample(schema, modelDefinitions, true) : false,
       isParam: true,
       signature: SwaggerUi.partials.signature.getParameterModelSignature(modelType, modelDefinitions),
       defaultRendering: this.model.defaultRendering
     };
 
-    if (this.model.sampleJSON) {
-      var signatureView = new SwaggerUi.Views.SignatureView({model: signatureModel, tagName: 'div'});
+    if (sampleJSON) {
+      signatureView = new SwaggerUi.Views.SignatureView({model: signatureModel, tagName: 'div'});
       $('.model-signature', $(this.el)).append(signatureView.render().el);
     }
     else {
@@ -27065,6 +27088,20 @@ SwaggerUi.partials.signature = (function () {
     return value;
   };
 
+  var getPrimitiveSignature = function (schema) {
+    var type, items;
+
+    schema = schema || {};
+    items = schema.items || {};
+    type = schema.type || '';
+
+    switch (type) {
+      case 'object': return 'Object is not a primitive';
+      case 'array' : return 'Array[' + items.type + ']';
+      default: return type;
+    }
+  };
+
   var createPrimitiveXML = function (descriptor) {
     var name = descriptor.name;
     var definition = descriptor.definition;
@@ -27253,7 +27290,8 @@ SwaggerUi.partials.signature = (function () {
       getParameterModelSignature: getParameterModelSignature,
       createParameterJSONSample: createParameterJSONSample,
       createSchemaXML: createSchemaXML,
-      createXMLSample: createXMLSample
+      createXMLSample: createXMLSample,
+      getPrimitiveSignature: getPrimitiveSignature
   };
 
 })();
@@ -27429,23 +27467,26 @@ SwaggerUi.Views.StatusCodeView = Backbone.View.extend({
   },
 
   render: function(){
+    var responseModel, responseModelView;
     var value = this.router.api.models[this.model.responseModel];
     $(this.el).html(Handlebars.templates.status_code(this.model));
 
     if (this.router.api.models.hasOwnProperty(this.model.responseModel)) {
-      var responseModel = {
+      responseModel = {
         sampleJSON: JSON.stringify(SwaggerUi.partials.signature.createJSONSample(value), void 0, 2),
-        sampleXML: this.model.isXML ? SwaggerUi.partials.signature.createXMLSample(this.model.schema, value.models) : false,
+        sampleXML: this.model.isXML ? SwaggerUi.partials.signature.createXMLSample(this.model.schema, this.router.api.models) : false,
         isParam: false,
         signature: SwaggerUi.partials.signature.getModelSignature(this.model.responseModel, value, this.router.api.models),
         defaultRendering: this.model.defaultRendering
       };
-
-      var responseModelView = new SwaggerUi.Views.SignatureView({model: responseModel, tagName: 'div'});
-      $('.model-signature', this.$el).append(responseModelView.render().el);
     } else {
-      $('.model-signature', this.$el).html('');
+      responseModel = {
+        signature: SwaggerUi.partials.signature.getPrimitiveSignature(this.model.schema)
+      };
     }
+
+    responseModelView = new SwaggerUi.Views.SignatureView({model: responseModel, tagName: 'div'});
+    $('.model-signature', this.$el).append(responseModelView.render().el);
     return this;
   }
 });}).call(this);

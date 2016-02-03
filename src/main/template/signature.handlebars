@@ -1,3 +1,5 @@
+{{#if_or sampleJSON sampleXML}}
+
 <div>
 <ul class="signature-nav">
   <li><a class="description-link" href="#" data-sw-translate>Model</a></li>
@@ -25,3 +27,6 @@
   {{/if}}
   </div>
 </div>
+{{else}}
+    {{signature}}
+{{/if_or}}
