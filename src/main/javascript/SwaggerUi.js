@@ -1,4 +1,4 @@
- /*global JSONEditor*/ 
+ /*global JSONEditor*/
 'use strict';
 
 window.SwaggerUi = Backbone.Router.extend({
@@ -13,12 +13,13 @@ window.SwaggerUi = Backbone.Router.extend({
 
   // SwaggerUi accepts all the same options as SwaggerApi
   initialize: function(options) {
+    console.log('SwaggerUi::initialize');
     options = options || {};
-    
+
     if (options.defaultModelRendering !== 'model') {
       options.defaultModelRendering = 'schema';
     }
-    
+
     if (!options.highlightSizeThreshold) {
       options.highlightSizeThreshold = 100000;
     }
@@ -229,6 +230,7 @@ window.SwaggerUi = Backbone.Router.extend({
 });
 
 window.SwaggerUi.Views = {};
+window.SwaggerUi.partials = {};
 
 // don't break backward compatibility with previous versions and warn users to upgrade their code
 (function(){

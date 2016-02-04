@@ -28,6 +28,7 @@ window.SwaggerTranslator.learn({
     "Expand Operations":"Expand Operations",
     "Raw":"Raw",
     "can't parse JSON.  Raw result":"can't parse JSON.  Raw result",
+    "Example Value":"Example Value",
     "Model Schema":"Model Schema",
     "Model":"Model",
     "Click to set as parameter value":"Click to set as parameter value",

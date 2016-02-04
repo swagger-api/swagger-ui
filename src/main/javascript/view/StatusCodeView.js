@@ -7,13 +7,15 @@ SwaggerUi.Views.StatusCodeView = Backbone.View.extend({
   },
 
   render: function(){
+    var value = this.router.api.models[this.model.responseModel];
     $(this.el).html(Handlebars.templates.status_code(this.model));
 
     if (this.router.api.models.hasOwnProperty(this.model.responseModel)) {
       var responseModel = {
-        sampleJSON: JSON.stringify(this.router.api.models[this.model.responseModel].createJSONSample(), null, 2),
+        sampleJSON: JSON.stringify(SwaggerUi.partials.signature.createJSONSample(value), void 0, 2),
+        sampleXML: this.model.isXML ? SwaggerUi.partials.signature.createXMLSample(this.model.schema, value.models) : false,
         isParam: false,
-        signature: this.router.api.models[this.model.responseModel].getMockSignature(),
+        signature: SwaggerUi.partials.signature.getModelSignature(this.model.responseModel, value, this.router.api.models),
         defaultRendering: this.model.defaultRendering
       };
 
