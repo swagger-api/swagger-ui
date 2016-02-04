@@ -198,7 +198,7 @@ describe('SwaggerUi.partials.signature tests', function () {
                     }
                 };
 
-                expect(sut.createSchemaXML(name, definition, models)).to.equal('<sample:name xlmns:sample="http://swagger.io/schema/sample">string</sample:name>');
+                expect(sut.createSchemaXML(name, definition, models)).to.equal('<sample:name xmlns:sample="http://swagger.io/schema/sample">string</sample:name>');
             });
 
             it('returns tag <test:tagname >string</test:tagname> when passing type string and xml:{"namespace": "http://swagger.io/schema/sample"}', function () {
@@ -210,7 +210,7 @@ describe('SwaggerUi.partials.signature tests', function () {
                     }
                 };
 
-                expect(sut.createSchemaXML(name, definition, models)).to.equal('<name xlmns="http://swagger.io/schema/sample">string</name>');
+                expect(sut.createSchemaXML(name, definition, models)).to.equal('<name xmlns="http://swagger.io/schema/sample">string</name>');
             });
         });
 
