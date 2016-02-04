@@ -14,6 +14,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   },
 
   initialize: function(opts) {
+    console.log('OperationView::initialize');
     opts = opts || {};
     this.router = opts.router;
     this.auths = opts.auths;

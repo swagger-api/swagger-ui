@@ -2,6 +2,7 @@
 
 SwaggerUi.Views.ResourceView = Backbone.View.extend({
   initialize: function(opts) {
+    console.log('ResourceView::initialize');
     opts = opts || {};
     this.router = opts.router;
     this.auths = opts.auths;
