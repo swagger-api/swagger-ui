@@ -21,6 +21,7 @@
     "coffee-script": "~1.5.0",
     "swagger-client": "2.0.31",
     "handlebars": "~1.0.10",
-    "less": "~2.5.3"
+    "less": "~2.5.3",
+    "bootstrap": "3.3.6"
   }
 }
