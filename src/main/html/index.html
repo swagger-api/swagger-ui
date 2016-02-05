@@ -3,7 +3,9 @@
 <head>
   <title>Clover V3 API Documentation</title>
   <link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,700,700italic,300italic|Source+Code+Pro:400,700|Merriweather:400italic,700italic' rel='stylesheet' type='text/css'/>
   <link href='/api_docs/css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
+  <link href='/api_docs/css/bootstrap.css' rel='stylesheet' type='text/css'/>
   <link href='/api_docs/css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
   <link href='/api_docs/css/reset.css' media='print' rel='stylesheet' type='text/css'/>
   <link href='/api_docs/css/screen.css' media='print' rel='stylesheet' type='text/css'/>
@@ -59,20 +61,54 @@
   </script>
 </head>
 <body class="swagger-section">
-<div id='header'>
-  <div class="swagger-ui-wrap">
-    <a id="logo" href="">V3 REST API Reference</a>
-    <form id='mId_selector'>
-      <div class='input'><input placeholder="Merchant ID (mID)" id="input_mId" name="input_mId" type="text"/></div>
-    </form>
-    <form id='api_selector'>
-      <div class='input'><input placeholder="API Token" id="input_apiToken" name="apiKey" type="text"/></div>
-    </form>
+  <header role="navigation" class="section-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="app-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="swagger-ui-wrap">
+            <a id="logo" href="">V3 REST API Reference</a>
+            <form id='mId_selector'>
+              <div class="form-group input"><input placeholder="Merchant ID (mID)" id="input_mId" name="input_mId" type="text"/></div>
+            </form>
+            <form id='api_selector'>
+              <div class="form-group input"><input placeholder="API Token" id="input_apiToken" name="apiKey" type="text"/></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-<p>&nbsp;</p>
-<P id="instructions">For detailed instructions regarding the V3 API, visit the <a id="overviewLink" href="">Overview</a> page.</P>
-<p>&nbsp;</p>
-<div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <p id="instructions">For detailed instructions regarding the V3 API, visit the <a id="overviewLink" href="">Overview</a> page.</p>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-md-3">
+      </div>
+      <div class="col-xs-12 col-md-9">
+        <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+        </div>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

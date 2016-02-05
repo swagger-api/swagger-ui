@@ -1,15 +1,17 @@
+@import "src/main/less/c-typography";
+@import "src/main/less/c-colors";
+
 .swagger-section {
 
 .swagger-ui-wrap {
 
     line-height: 1;
-    font-family: "Droid Sans", sans-serif;
-    max-width: 960px;
+    font-family: @sans-serif-font;
     margin-left: auto;
     margin-right: auto;
 
     b, strong {
-        font-family: "Droid Sans", sans-serif;
+        font-family: @sans-serif-font;
         font-weight: bold;
     }
 
@@ -113,7 +115,7 @@
     }
 
     pre {
-        font-family: "Anonymous Pro", "Menlo", "Bitstream Vera Sans Mono", "Courier New", monospace;
+        font-family: @monospace-font;
         background-color: #F1F1F1;
         /*border: 1px solid #e5e0c6;*/
         padding: 10px;
@@ -210,7 +212,7 @@
     }
 
     .model-signature {
-        font-family: "Droid Sans", sans-serif;
+        font-family: @sans-serif-font;
         font-size: 1em;
         line-height: 1.5em;
         .signature-nav {
@@ -297,7 +299,7 @@
     }
 
     .markdown p code, .markdown li code {
-        font-family: "Anonymous Pro", "Menlo", "Bitstream Vera Sans Mono", "Courier New", monospace;
+        font-family: @monospace-font;
         background-color: #f0f0f0;
         color: black;
         padding: 1px 3px;
@@ -317,7 +319,7 @@
         font-size: 1.5em;
         line-height: 1.3em;
         padding: 10px 0 10px 0;
-        font-family: "Droid Sans", sans-serif;
+        font-family: @sans-serif-font;
         font-weight: bold;
     }
 
@@ -370,7 +372,7 @@
     }
 
     .code {
-        font-family: "Anonymous Pro", "Menlo", "Bitstream Vera Sans Mono", "Courier New", monospace;
+        font-family: @monospace-font;
     }
 
     form.formtastic {
@@ -378,7 +380,7 @@
             ol {
                 li.text {
                     textarea {
-                        font-family: "Droid Sans", sans-serif;
+                        font-family: @sans-serif-font;
                         height: 250px;
                         padding: 4px;
                         display: block;
@@ -455,7 +457,7 @@
             color: #666666;
         }
         pre {
-            font-family: "Anonymous Pro", "Menlo", "Bitstream Vera Sans Mono", "Courier New", monospace;
+            font-family: @monospace-font;
             background-color: #F1F1F1;
             /*border: 1px solid #e5e0c6;*/
             padding: 10px;
@@ -471,7 +473,7 @@
     }
 
     ul#resources {
-        font-family: "Droid Sans", sans-serif;
+        font-family: @sans-serif-font;
         font-size: 0.9em;
 
         li.resource {
@@ -548,7 +550,7 @@
                     display: block;
                     clear: none;
                     float: left;
-                    font-family: "Droid Sans", sans-serif;
+                    font-family: @sans-serif-font;
                     font-weight: bold;
                     a {
                         color: #999999;
@@ -706,7 +708,7 @@
                                 div.response {
                                     div.block {
                                         pre {
-                                            font-family: "Anonymous Pro", "Menlo", "Bitstream Vera Sans Mono", "Courier New", monospace;
+                                            font-family: @monospace-font;
                                             padding: 10px;
                                             font-size: 0.9em;
                                             max-height: 400px;
@@ -913,7 +915,6 @@
                         }
                         li.operation.GET {
                             div.heading {
-                                background-color: #FFFFFF;
                                 /*border: 1px solid #3EC0C4;*/
                                 h3 {
                                     span.http_method {
@@ -1025,7 +1026,7 @@
         padding: 10px 0;
         font-size: 0.8em;
         border-top: 1px solid #dddddd;
-        font-family: "Droid Sans", sans-serif;
+        font-family: @sans-serif-font;
         color: #999999;
         font-style: italic;
         a {
@@ -1041,7 +1042,7 @@
     }
 
     .markdown ol, .markdown ul {
-        font-family: "Droid Sans", sans-serif;
+        font-family: @sans-serif-font;
         margin: 5px 0 10px;
         padding: 0 0 0 18px;
         list-style-type: disc;
