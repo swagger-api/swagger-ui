@@ -95,6 +95,9 @@ task 'dist', 'Build a distribution', ->
       fs.writeFileSync("src/main/html/css/screen.css", output.css))
     less.render(fs.readFileSync("src/main/less/reset.less", 'utf8')).then((output) ->
       fs.writeFileSync("src/main/html/css/reset.css", output.css))
+    less.render(fs.readFileSync("src/main/less/bootstrap_include.less", 'utf8')).then((output) ->
+      fs.writeFileSync("src/main/html/css/bootstrap.css", output.css))
+
     pack()
 
   pack = ->
