@@ -745,8 +745,8 @@ SwaggerUi.partials.signature = (function () {
 
     switch (type) {
       case 'object': return 'Object is not a primitive';
-      case 'array' : return 'Array[' + items.type + ']';
-      default: return type;
+      case 'array' : return 'Array[' + (items.format || items.type) + ']';
+      default: return schema.format || type;
     }
   };
 
