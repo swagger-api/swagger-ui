@@ -19,7 +19,7 @@ class MainView extends Backbone.View
       resources[id] = resource
       resourceViewId = 'resource_' + resource.id
       @resourceViewIds.push(resourceViewId)
-      @addResource resource
+      @addResource(resource, resourceViewId)
     
     @addNav()
     @

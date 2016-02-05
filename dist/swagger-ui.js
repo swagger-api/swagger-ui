@@ -1816,7 +1816,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         resources[id] = resource;
         resourceViewId = 'resource_' + resource.id;
         this.resourceViewIds.push(resourceViewId);
-        this.addResource(resource);
+        this.addResource(resource, resourceViewId);
       }
       this.addNav();
       return this;
