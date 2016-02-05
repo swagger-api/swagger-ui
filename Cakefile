@@ -22,6 +22,7 @@ sourceFiles  = [
   'view/ResponseContentTypeView'
   'view/ParameterContentTypeView'
   'view/ParameterChoiceView'
+  'view/NavView'
 ]
 
 
