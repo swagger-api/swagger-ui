@@ -1,30 +1,4 @@
 /* Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org> */
-h1,
-h2,
-h3 {
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-h1 {
-  font-size: 24px;
-}
-h2 {
-  font-size: 20px;
-}
-h3 {
-  font-size: 18px;
-}
-p {
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-}
-pre,
-code,
-kbd {
-  font-family: "Source Code Pro", "Anonymous Pro", Consolas, Monaco, monospace;
-}
-a {
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
 .swagger-section pre code {
   display: block;
   padding: 0.5em;
@@ -145,6 +119,32 @@ a {
 .swagger-section pre .xml .css,
 .swagger-section pre .xml .cdata {
   opacity: 0.5;
+}
+h1,
+h2,
+h3 {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+h1 {
+  font-size: 24px;
+}
+h2 {
+  font-size: 20px;
+}
+h3 {
+  font-size: 18px;
+}
+p {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+}
+pre,
+code,
+kbd {
+  font-family: "Source Code Pro", "Anonymous Pro", Consolas, Monaco, monospace;
+}
+a {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .swagger-section .swagger-ui-wrap {
   line-height: 1;
@@ -1181,7 +1181,7 @@ a {
   height: 18px;
   vertical-align: middle;
   display: inline-block;
-  background: url(../images/explorer_icons.png) no-repeat;
+  background: url('../images/explorer_icons.png') no-repeat;
 }
 .swagger-section .ic-info {
   background-position: 0 0;
@@ -1214,14 +1214,14 @@ a {
   cursor: pointer;
 }
 .swagger-section #header {
-  background-color: #007e3b;
+  background-color: #404040;
   padding: 14px;
 }
 .swagger-section #header a#logo {
   font-size: 1.5em;
   font-weight: bold;
   text-decoration: none;
-  background: transparent url(../images/square-white-2014.png) no-repeat left center;
+  background: transparent url('../images/square-white-2014.png') no-repeat left center;
   background-size: 30px 30px;
   padding: 20px 0 20px 40px;
   color: white;

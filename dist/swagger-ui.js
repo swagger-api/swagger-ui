@@ -318,7 +318,7 @@ function program2(depth0,data) {
 function program4(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "<div class='info_contact'><a href=\"mailto:"
+  buffer += "<div class=\"info_contact\"><a href=\"mailto:"
     + escapeExpression(((stack1 = ((stack1 = depth0.info),stack1 == null || stack1 === false ? stack1 : stack1.contact)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "\">Contact the developer</a></div>";
   return buffer;
@@ -327,18 +327,18 @@ function program4(depth0,data) {
 function program6(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "<div class='info_license'><a href='"
+  buffer += "<div class=\"info_license\"><a href=\""
     + escapeExpression(((stack1 = ((stack1 = depth0.info),stack1 == null || stack1 === false ? stack1 : stack1.licenseUrl)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "'>"
+    + "\">"
     + escapeExpression(((stack1 = ((stack1 = depth0.info),stack1 == null || stack1 === false ? stack1 : stack1.license)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "</a></div>";
   return buffer;
   }
 
-  buffer += "<div class='info' id='api_info'>\n  ";
+  buffer += "<div class=\"info\" id=\"api_info\">\n  ";
   stack1 = helpers['if'].call(depth0, depth0.info, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</div>\n<div class='container' id='resources_container'>\n    <ul id='resources'>\n    </ul>\n</div>\n";
+  buffer += "\n</div>\n<div id=\"resources_container\">\n    <ul id=\"resources\">\n    </ul>\n</div>\n";
   return buffer;
   });
 })();
