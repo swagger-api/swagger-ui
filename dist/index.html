@@ -63,10 +63,6 @@
             window.SwaggerTranslator.translate();
           }
 
-          $('pre code').each(function(i, e) {
-            hljs.highlightBlock(e)
-          });
-
           addApiKeyAuthorization();
         },
         onFailure: function(data) {
