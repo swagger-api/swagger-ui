@@ -1,3 +1,3 @@
-{{#each resourceViewIds}}
-<li role="presentation"><a href="#{{this}}">{{this}}</a></li>
+{{#each resourceViewReferences}}
+<li role="presentation"><a href="#{{this.resourceViewId}}">{{this.resourceName}}</a></li>
 {{/each}}

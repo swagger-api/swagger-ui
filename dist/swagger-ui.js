@@ -352,16 +352,16 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
 function program1(depth0,data) {
   
-  var buffer = "";
+  var buffer = "", stack1;
   buffer += "\n<li role=\"presentation\"><a href=\"#"
-    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + escapeExpression(((stack1 = depth0.resourceViewId),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "\">"
-    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + escapeExpression(((stack1 = depth0.resourceName),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "</a></li>\n";
   return buffer;
   }
 
-  stack1 = helpers.each.call(depth0, depth0.resourceViewIds, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  stack1 = helpers.each.call(depth0, depth0.resourceViewReferences, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { return stack1; }
   else { return ''; }
   });
@@ -1802,7 +1802,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       var counter, id, resource, resourceViewId, resources, _i, _len, _ref;
       $(this.el).html(Handlebars.templates.main(this.model));
       resources = {};
-      this.resourceViewIds = [];
+      this.resourceViewReferences = [];
       counter = 0;
       _ref = this.model.apisArray;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -1815,7 +1815,10 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         resource.id = id;
         resources[id] = resource;
         resourceViewId = 'resource_' + resource.id;
-        this.resourceViewIds.push(resourceViewId);
+        this.resourceViewReferences.push({
+          resourceName: resource.id,
+          resourceViewId: resourceViewId
+        });
         this.addResource(resource, resourceViewId);
       }
       this.addNav();
@@ -1836,7 +1839,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     MainView.prototype.addNav = function() {
       var navData, navView;
       navData = {};
-      navData['resourceViewIds'] = this.resourceViewIds;
+      navData['resourceViewReferences'] = this.resourceViewReferences;
       navView = new NavView({
         model: navData,
         id: 'main_nav',

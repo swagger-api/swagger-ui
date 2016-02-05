@@ -8,7 +8,7 @@ class MainView extends Backbone.View
     # Render each resource
 
     resources = {}
-    @resourceViewIds = []
+    @resourceViewReferences = []
     counter = 0
     for resource in @model.apisArray
       id = resource.name
@@ -18,7 +18,7 @@ class MainView extends Backbone.View
       resource.id = id
       resources[id] = resource
       resourceViewId = 'resource_' + resource.id
-      @resourceViewIds.push(resourceViewId)
+      @resourceViewReferences.push({resourceName: resource.id, resourceViewId: resourceViewId})
       @addResource(resource, resourceViewId)
     
     @addNav()
@@ -33,7 +33,7 @@ class MainView extends Backbone.View
 
   addNav: ->
     navData = {}
-    navData['resourceViewIds'] = @resourceViewIds
+    navData['resourceViewReferences'] = @resourceViewReferences
     navView = new NavView({model: navData, id: 'main_nav', className: 'nav nav-pills nav-stacked'})
     $('#main_nav_container').append navView.render().el
 
