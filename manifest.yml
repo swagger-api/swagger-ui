@@ -1,0 +1,4 @@
+applications:
+- name: pz-swagger
+  host: pz-swagger
+  buildpack: staticfile_buildpack
