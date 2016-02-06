@@ -27,9 +27,11 @@ class ResourceView extends Backbone.View
     swaggerOperation.number = @number
     #wrap SwaggerOperation in a Backbone Model
     operation = new Operation(swaggerOperation)
+    className = operation.get("method") + ' operation'
+    id = operation.get("parentId") + "_" + operation.get("nickname")
 
     # Render an operation and add it to operations li
-    operationView = new OperationView({model: operation, tagName: 'li', className: 'endpoint'})
+    operationView = new OperationView({model: operation, tagName: 'li', className: className, id: id})
     $('.endpoints', $(@el)).append operationView.render().el
 
     @number++
