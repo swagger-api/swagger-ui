@@ -146,6 +146,15 @@ kbd {
 a {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+.swagger-section {
+  position: relative;
+}
+.swagger-section #main_nav_container li {
+  font-size: 200%;
+}
+.swagger-section #main_nav_container li.active {
+  font-size: 300%;
+}
 .swagger-section .swagger-ui-wrap {
   line-height: 1;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
