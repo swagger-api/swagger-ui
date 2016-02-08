@@ -11,6 +11,7 @@ sourceFiles  = [
   'model/Param'
   'model/Signature'
   'model/Operation'
+  'model/Resource'
   'view/HeaderView'
   'view/MainView'
   'view/ResourceView'

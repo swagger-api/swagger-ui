@@ -2,37 +2,20 @@ class ResourceView extends Backbone.View
   initialize: ->
 
   render: ->
-    $(@el).html(Handlebars.templates.resource(@model))
-
-    methods = {}
+    $(@el).html(Handlebars.templates.resource(@model.toJSON()))
 
     # Render each operation
-    for swaggerOperation in @model.operationsArray
-      counter = 0
+    for operationModel in @model.get('operationsArray')
+      @addOperation operationModel
 
-      id = swaggerOperation.nickname
-      while typeof methods[id] isnt 'undefined'
-        id = id + "_" + counter
-        counter += 1
-
-      methods[id] = swaggerOperation
-
-      swaggerOperation.nickname = id
-      swaggerOperation.parentId = @model.id
-      @addOperation swaggerOperation 
     @
 
-  addOperation: (swaggerOperation) ->
-
-    swaggerOperation.number = @number
-    #wrap SwaggerOperation in a Backbone Model
-    operation = new Operation(swaggerOperation)
-    className = operation.get("method") + ' operation'
-    id = operation.get("parentId") + "_" + operation.get("nickname")
-
-    # Render an operation and add it to operations li
-    operationView = new OperationView({model: operation, tagName: 'li', className: className, id: id})
+  addOperation: (operationModel) ->
+    operationView = new OperationView({
+      model: operationModel 
+      tagName: 'li'
+      className: operationModel.get('viewClassName')
+      id: operationModel.get('viewId')
+    })
     $('.endpoints', $(@el)).append operationView.render().el
-
-    @number++
     
