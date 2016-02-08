@@ -12,6 +12,7 @@ sourceFiles  = [
   'model/Signature'
   'model/Operation'
   'model/Resource'
+  'model/Api'
   'view/HeaderView'
   'view/MainView'
   'view/ResourceView'

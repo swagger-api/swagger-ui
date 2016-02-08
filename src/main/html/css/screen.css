@@ -149,11 +149,11 @@ a {
 .swagger-section {
   position: relative;
 }
-.swagger-section #main_nav_container li {
-  font-size: 200%;
+.swagger-section #main_nav_container li ul {
+  display: none;
 }
 .swagger-section #main_nav_container li.active {
-  font-size: 300%;
+  color: red;
 }
 .swagger-section .swagger-ui-wrap {
   line-height: 1;

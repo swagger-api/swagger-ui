@@ -10,32 +10,20 @@ class MainView extends Backbone.View
     resources = {}
     @resourceViewReferences = []
     counter = 0
-    for resource in @model.apisArray
-      id = resource.name
-      while typeof resources[id] isnt 'undefined'
-        id = id + "_" + counter
-        counter += 1
-      resource.id = id
-      resources[id] = resource
-      resourceViewId = 'resource_' + resource.id
-      @resourceViewReferences.push({resourceName: resource.id, resourceViewId: resourceViewId})
-      @addResource(resource, resourceViewId)
-    
+
+    @addResources()
     @addNav()
     @
 
 
 
-  addResource: (resourceData, resourceViewId) ->
-    # Render a resource and add it to resources li
-    resourceModel = new Resource(resourceData)
-    resourceView = new ResourceView({model: resourceModel, tagName: 'li', id: resourceViewId, className: 'resource active'})
-    $('#resources').append resourceView.render().el
+  addResources: ->
+    for resource in @model.get("resourcesArray")
+      resourceView = new ResourceView({model: resource, tagName: 'li', id: resource.get("viewId"), className: 'resource active'})
+      $('#resources').append resourceView.render().el
 
   addNav: ->
-    navData = {}
-    navData['resourceViewReferences'] = @resourceViewReferences
-    navView = new NavView({model: navData, id: 'main_nav', className: 'nav nav-pills nav-stacked'})
+    navView = new NavView({model: @model, id: 'main_nav', className: 'nav nav-pills nav-stacked'})
     $('#main_nav_container').append navView.render().el
 
   clear: ->

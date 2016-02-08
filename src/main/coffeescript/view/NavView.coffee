@@ -3,7 +3,7 @@ class NavView extends Backbone.View
 
   render: ->
     template = @template()
-    $(@el).html(template(@model))
+    $(@el).html(template(@model.toJSON()))
     @
 
   template: ->
