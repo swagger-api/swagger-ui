@@ -7,12 +7,27 @@
 #main_nav_container {
     li {
         ul {
-            display: none
+            display: none;
         }
-    }
 
-    li.active {
-        color: red
+        &.active {
+            a {
+                color: red;
+            }
+            ul {
+                display: block;
+                li {
+                    a {
+                        color: black;
+                    }
+                    &.active {
+                        a {
+                            color: blue;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
     

@@ -152,8 +152,17 @@ a {
 .swagger-section #main_nav_container li ul {
   display: none;
 }
-.swagger-section #main_nav_container li.active {
+.swagger-section #main_nav_container li.active a {
   color: red;
+}
+.swagger-section #main_nav_container li.active ul {
+  display: block;
+}
+.swagger-section #main_nav_container li.active ul li a {
+  color: black;
+}
+.swagger-section #main_nav_container li.active ul li.active a {
+  color: blue;
 }
 .swagger-section .swagger-ui-wrap {
   line-height: 1;
