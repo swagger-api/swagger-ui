@@ -13,7 +13,6 @@ window.SwaggerUi = Backbone.Router.extend({
 
   // SwaggerUi accepts all the same options as SwaggerApi
   initialize: function(options) {
-    console.log('SwaggerUi::initialize');
     options = options || {};
 
     if (options.defaultModelRendering !== 'model') {
