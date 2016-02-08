@@ -4,7 +4,7 @@ class Resource extends Backbone.Model
     methods = {}
     wrappedOperationModels = []
     for swaggerOperation in @get('operationsArray')
-      counter = 0
+      counter = 2
       nickname = swaggerOperation.nickname
       while typeof methods[nickname] isnt 'undefined'
         nickname = nickname + "_" + counter

@@ -4,7 +4,7 @@ class Api extends Backbone.Model
     resources = {}
     wrappedResourceModels = []
     for resource in @get("apisArray")
-      counter = 0
+      counter = 2
       id = resource.name
       while typeof resources[id] isnt 'undefined'
         id = id + "_" + counter

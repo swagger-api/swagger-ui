@@ -1911,7 +1911,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       _ref = this.get('operationsArray');
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         swaggerOperation = _ref[_i];
-        counter = 0;
+        counter = 2;
         nickname = swaggerOperation.nickname;
         while (typeof methods[nickname] !== 'undefined') {
           nickname = nickname + "_" + counter;
@@ -1946,7 +1946,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       _ref = this.get("apisArray");
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         resource = _ref[_i];
-        counter = 0;
+        counter = 2;
         id = resource.name;
         while (typeof resources[id] !== 'undefined') {
           id = id + "_" + counter;
