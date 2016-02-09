@@ -24706,7 +24706,6 @@ window.SwaggerUi = Backbone.Router.extend({
 
   // SwaggerUi accepts all the same options as SwaggerApi
   initialize: function(options) {
-    console.log('SwaggerUi::initialize');
     options = options || {};
 
     if (options.defaultModelRendering !== 'model') {
@@ -25312,7 +25311,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   },
 
   initialize: function(opts) {
-    console.log('OperationView::initialize');
     opts = opts || {};
     this.router = opts.router;
     this.auths = opts.auths;
@@ -26150,7 +26148,6 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
   },
 
   initialize: function(){
-    console.log('ParameterView::initialize');
     Handlebars.registerHelper('isArray', function(param, opts) {
       if (param.type.toLowerCase() === 'array' || param.allowMultiple) {
         return opts.fn(this);
@@ -27265,7 +27262,6 @@ SwaggerUi.partials.signature = (function () {
 
 SwaggerUi.Views.ResourceView = Backbone.View.extend({
   initialize: function(opts) {
-    console.log('ResourceView::initialize');
     opts = opts || {};
     this.router = opts.router;
     this.auths = opts.auths;
@@ -27358,7 +27354,6 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
   },
 
   initialize: function () {
-    console.log('SignatureView::initialize');
   },
 
   render: function(){
