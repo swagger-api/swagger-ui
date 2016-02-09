@@ -1,5 +1,5 @@
 {
-  "name": "swagger-ui",
+  "name": "@leisurelink/swagger-ui",
   "author": "Tony Tam <fehguy@gmail.com>",
   "contributors": [
     {
@@ -8,7 +8,7 @@
     }
   ],
   "description": "Swagger UI is a dependency-free collection of HTML, JavaScript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API",
-  "version": "2.1.4",
+  "version": "1.0.0+2.1.4",
   "homepage": "http://swagger.io",
   "license": "Apache-2.0",
   "main": "dist/swagger-ui.js",
@@ -23,7 +23,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/swagger-api/swagger-ui.git"
+    "url": "https://github.com/leisurelink/swagger-ui.git"
   },
   "readmeFilename": "README.md",
   "devDependencies": {
