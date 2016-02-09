@@ -18,6 +18,7 @@
     "prejshint": "gulp",
     "jshint": "jshint .",
     "pretest": "npm run jshint",
+    "preversion": "\n#############\nnpm version does not support semver build-meta, you must version manually\n#############\n",
     "test": "mocha"
   },
   "repository": {
