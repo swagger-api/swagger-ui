@@ -13,13 +13,13 @@
   <div class="snippet">
   {{#if sampleJSON}}
       <div class="snippet_json">
-        <pre><code>{{sampleJSON}}</code></pre>
+        <pre><code class="{{#ifCond sampleJSON.length ">" 5000}}nohighlight{{/ifCond}}">{{sampleJSON}}</code></pre>
         {{#if isParam}}<small class="notice" data-sw-translate></small>{{/if}}
       </div>
   {{/if}}
   {{#if sampleXML}}
     <div class="snippet_xml">
-      <pre><code>{{sampleXML}}</code></pre>
+      <pre><code class="{{#ifCond sampleXML.length ">" 5000}}nohighlight{{/ifCond}}">{{sampleXML}}</code></pre>
       {{#if isParam}}<small class="notice" data-sw-translate></small>{{/if}}
     </div>
   {{/if}}

@@ -82,7 +82,7 @@
 .swagger-section pre .vhdl .attribute,
 .swagger-section pre .clojure .attribute,
 .swagger-section pre .coffeescript .property {
-  color: #8888ff;
+  color: #88F;
 }
 .swagger-section pre .keyword,
 .swagger-section pre .id,
@@ -119,6 +119,67 @@
 .swagger-section pre .xml .css,
 .swagger-section pre .xml .cdata {
   opacity: 0.5;
+}
+.swagger-section .hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #F0F0F0;
+}
+.swagger-section .hljs,
+.swagger-section .hljs-subst {
+  color: #444;
+}
+.swagger-section .hljs-keyword,
+.swagger-section .hljs-attribute,
+.swagger-section .hljs-selector-tag,
+.swagger-section .hljs-meta-keyword,
+.swagger-section .hljs-doctag,
+.swagger-section .hljs-name {
+  font-weight: bold;
+}
+.swagger-section .hljs-built_in,
+.swagger-section .hljs-literal,
+.swagger-section .hljs-bullet,
+.swagger-section .hljs-code,
+.swagger-section .hljs-addition {
+  color: #1F811F;
+}
+.swagger-section .hljs-regexp,
+.swagger-section .hljs-symbol,
+.swagger-section .hljs-variable,
+.swagger-section .hljs-template-variable,
+.swagger-section .hljs-link,
+.swagger-section .hljs-selector-attr,
+.swagger-section .hljs-selector-pseudo {
+  color: #BC6060;
+}
+.swagger-section .hljs-type,
+.swagger-section .hljs-string,
+.swagger-section .hljs-number,
+.swagger-section .hljs-selector-id,
+.swagger-section .hljs-selector-class,
+.swagger-section .hljs-quote,
+.swagger-section .hljs-template-tag,
+.swagger-section .hljs-deletion {
+  color: #880000;
+}
+.swagger-section .hljs-title,
+.swagger-section .hljs-section {
+  color: #880000;
+  font-weight: bold;
+}
+.swagger-section .hljs-comment {
+  color: #888888;
+}
+.swagger-section .hljs-meta {
+  color: #2B6EA1;
+}
+.swagger-section .hljs-emphasis {
+  font-style: italic;
+}
+.swagger-section .hljs-strong {
+  font-weight: bold;
 }
 .swagger-section .swagger-ui-wrap {
   line-height: 1;
