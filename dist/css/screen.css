@@ -82,7 +82,7 @@
 .swagger-section pre .vhdl .attribute,
 .swagger-section pre .clojure .attribute,
 .swagger-section pre .coffeescript .property {
-  color: #8888ff;
+  color: #88F;
 }
 .swagger-section pre .keyword,
 .swagger-section pre .id,
@@ -1231,7 +1231,7 @@
   cursor: pointer;
 }
 .swagger-section #header {
-  background-color: #89bf04;
+  background-color: #0069aa;
   padding: 14px;
 }
 .swagger-section #input_baseUrl {
