@@ -14,6 +14,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
     this.router = opts.router;
 
+    document.addEventListener('click', this.onLinkClick, true);
     // Sort APIs
     if (opts.swaggerOptions.apisSorter) {
       sorterOption = opts.swaggerOptions.apisSorter;
@@ -148,5 +149,15 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
   clear: function(){
     $(this.el).html('');
+  },
+
+  onLinkClick: function (e) {
+    var el = e.target;
+    if (el.tagName === 'A') {
+      if (location.hostname !== el.hostname || location.port !== el.port) {
+        e.preventDefault();
+        window.open(el.href, '_blank');
+      }
+    }
   }
 });
