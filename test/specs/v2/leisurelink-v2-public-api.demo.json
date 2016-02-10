@@ -1,0 +1,2131 @@
+{
+  "swagger": "2.0",
+  "paths": {
+    "/hub/v2/pmcs/{pmcId}/fees": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "fees"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "fee",
+            "in": "body",
+            "name": "NameChargeUnitChargeFrequencyIsTaxableRatesAppliesToModel",
+            "schema": {
+              "$ref": "#/definitions/NameChargeUnitChargeFrequencyIsTaxableRatesAppliesToModel"
+            }
+          }
+        ],
+        "summary": "Create a new fee for a pmc",
+        "description": "\nThis endpoint is used to initiate a workflow request to create a new fee. If accepted, the response will include a Location header that can be used to poll the status of the workflow request.\n\nSee the \"Get workflow status for a newly created fee\" endpoint documentation for details on interpreting the workflow status.\n"
+      },
+      "get": {
+        "responses": {
+          "default": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FeeIdNameLinkModel"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "fees"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          }
+        ],
+        "summary": "Get all fees for a given pmc"
+      }
+    },
+    "/hub/v2/pmcs/{pmcId}/fees/workflows/{workflowId}": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/StatusMessageFeeIdUrlModel"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "fees"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "Provided in the Location header of the create fee response",
+            "type": "string",
+            "name": "workflowId",
+            "in": "path"
+          }
+        ],
+        "summary": "Get workflow status for a newly created fee",
+        "description": "\nThis endpoint is used to check the status of a recently create fee workflow request.\n\nSee the \"Create a new fee for a pmc\" endpoint documentation for details on initiating the workflow request.\n"
+      }
+    },
+    "/hub/v2/pmcs/{pmcId}/fees/{feeId}": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": "fee",
+            "schema": {
+              "$ref": "#/definitions/NameChargeUnitChargeFrequencyIsTaxableRatesAppliesToFeeIdModel"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "fees"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "The fee id referencing a specific fee",
+            "type": "string",
+            "name": "feeId",
+            "in": "path"
+          }
+        ],
+        "summary": "Get a fee by its id"
+      },
+      "delete": {
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "fees"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "The fee id referencing a specific fee",
+            "type": "string",
+            "name": "feeId",
+            "in": "path"
+          }
+        ],
+        "summary": "Delete a fee for a pmc by its fee id"
+      },
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "fees"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "The fee id referencing a specific fee",
+            "type": "string",
+            "name": "feeId",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "description": "fee",
+            "in": "body",
+            "name": "NameChargeUnitChargeFrequencyIsTaxableRatesAppliesToModel_2",
+            "schema": {
+              "$ref": "#/definitions/NameChargeUnitChargeFrequencyIsTaxableRatesAppliesToModel_2"
+            }
+          }
+        ],
+        "summary": "Update a fee by id"
+      },
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "fees"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "The fee id referencing a specific fee",
+            "type": "string",
+            "name": "feeId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "fee",
+            "in": "body",
+            "name": "NameChargeUnitChargeFrequencyIsTaxableRatesAppliesToModel",
+            "schema": {
+              "$ref": "#/definitions/NameChargeUnitChargeFrequencyIsTaxableRatesAppliesToModel"
+            }
+          }
+        ],
+        "summary": "Replace a fee by id"
+      }
+    },
+    "/hub/v2/pmcs/{pmcId}/promotions": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "promotions"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "Promotion",
+            "in": "body",
+            "name": "IsActiveConditionStayRangeSellRangeDescriptionInstructionsTermsAndConditionsBlackoutRangesStayRangePolicyBlackoutPolicyRuleAppliesToModel",
+            "schema": {
+              "$ref": "#/definitions/IsActiveConditionStayRangeSellRangeDescriptionInstructionsTermsAndConditionsBlackoutRangesStayRangePolicyBlackoutPolicyRuleAppliesToModel"
+            }
+          }
+        ],
+        "summary": "Create a new promotion for a pmc",
+        "description": "\nThis endpoint is used to initiate a workflow request to create a new promotion. If accepted, the response will include a Location header that can be used to poll the status of the workflow request.\n\nSee the \"Get workflow status for a newly created promotion\" endpoint documentation for details on interpreting the workflow status.\n"
+      }
+    },
+    "/hub/v2/pmcs/{pmcId}/promotions/workflows/{workflowId}": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/StatusMessagePromotionIdUrlModel"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "promotions"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "Provided in the Location header of the create promotion response",
+            "type": "string",
+            "name": "workflowId",
+            "in": "path"
+          }
+        ],
+        "summary": "Get workflow status for a newly created promotion",
+        "description": "\nThis endpoint is used to check the status of a recently create promotion workflow request.\n\nSee the \"Create a new promotion for a pmc\" endpoint documentation for details on initiating the workflow request.\n"
+      }
+    },
+    "/hub/v2/pmcs/{pmcId}/promotions/{promotionId}": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": "Promotion",
+            "schema": {
+              "$ref": "#/definitions/IsActiveConditionStayRangeSellRangeDescriptionInstructionsTermsAndConditionsBlackoutRangesStayRangePolicyBlackoutPolicyRuleAppliesToPromotionIdModel"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "promotions"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "The promotion id referencing a specific promotion",
+            "type": "string",
+            "name": "promotionId",
+            "in": "path"
+          }
+        ],
+        "summary": "Get a promotion by its id"
+      },
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "promotions"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "The promotion id referencing a specific promotion",
+            "type": "string",
+            "name": "promotionId",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "description": "Promotion",
+            "in": "body",
+            "name": "IsActiveConditionStayRangeSellRangeDescriptionInstructionsTermsAndConditionsBlackoutRangesStayRangePolicyBlackoutPolicyRuleAppliesToModel_2",
+            "schema": {
+              "$ref": "#/definitions/IsActiveConditionStayRangeSellRangeDescriptionInstructionsTermsAndConditionsBlackoutRangesStayRangePolicyBlackoutPolicyRuleAppliesToModel_2"
+            }
+          }
+        ],
+        "summary": "Update a promotion by id"
+      },
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "promotions"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "The promotion id referencing a specific promotion",
+            "type": "string",
+            "name": "promotionId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "Promotion",
+            "in": "body",
+            "name": "IsActiveConditionStayRangeSellRangeDescriptionInstructionsTermsAndConditionsBlackoutRangesStayRangePolicyBlackoutPolicyRuleAppliesToModel",
+            "schema": {
+              "$ref": "#/definitions/IsActiveConditionStayRangeSellRangeDescriptionInstructionsTermsAndConditionsBlackoutRangesStayRangePolicyBlackoutPolicyRuleAppliesToModel"
+            }
+          }
+        ],
+        "summary": "Replace a promotion by id"
+      }
+    },
+    "/hub/v2/pmcs/{pmcId}/taxes": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "taxes"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "in": "body",
+            "name": "TaxIdNameCalculatedSeasonsAppliesToModel",
+            "schema": {
+              "$ref": "#/definitions/TaxIdNameCalculatedSeasonsAppliesToModel"
+            }
+          }
+        ],
+        "summary": "Create a new tax for a pmc"
+      },
+      "get": {
+        "responses": {
+          "default": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TaxIdNameLinkModel"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "taxes"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          }
+        ],
+        "summary": "Get all taxes for a given pmc"
+      }
+    },
+    "/hub/v2/pmcs/{pmcId}/taxes/workflows/{workflowId}": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/StatusMessageTaxIdUrlModel"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "taxes"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "Provided in the Location header of the create tax response",
+            "type": "string",
+            "name": "workflowId",
+            "in": "path"
+          }
+        ],
+        "summary": "Gets the status for a newly created tax",
+        "description": "\n      PLACEHOLDER ROUTE:\n      Currently not implemented. Will be released at a later time.\n      "
+      }
+    },
+    "/hub/v2/pmcs/{pmcId}/taxes/{taxId}": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/TaxIdNameCalculatedSeasonsAppliesToModel"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "taxes"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "The tax id referencing a specific tax",
+            "type": "string",
+            "name": "taxId",
+            "in": "path"
+          }
+        ],
+        "summary": "Get a tax by its id"
+      },
+      "delete": {
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "taxes"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "The tax id referencing a specific tax",
+            "type": "string",
+            "name": "taxId",
+            "in": "path"
+          }
+        ],
+        "summary": "Delete a tax for a pmc by its tax id"
+      },
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "taxes"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "The tax id referencing a specific tax",
+            "type": "string",
+            "name": "taxId",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "in": "body",
+            "name": "TaxIdNameCalculatedSeasonsAppliesToModel",
+            "schema": {
+              "$ref": "#/definitions/TaxIdNameCalculatedSeasonsAppliesToModel"
+            }
+          }
+        ],
+        "summary": "Update a property on a tax given its id"
+      },
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "taxes"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "The tax id referencing a specific tax",
+            "type": "string",
+            "name": "taxId",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "in": "body",
+            "name": "TaxIdNameCalculatedSeasonsAppliesToModel",
+            "schema": {
+              "$ref": "#/definitions/TaxIdNameCalculatedSeasonsAppliesToModel"
+            }
+          }
+        ],
+        "summary": "Overwrite an existing tax"
+      }
+    },
+    "/hub/v2/pmcs/{pmcId}/taxes/{taxId}/applies-to": {
+      "delete": {
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "taxes"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "The tax id referencing a specific tax",
+            "type": "string",
+            "name": "taxId",
+            "in": "path"
+          }
+        ],
+        "summary": "Unassign all units from the given tax",
+        "description": "\n      PLACEHOLDER ROUTE:\n      Currently not implemented. Will be released at a later time.\n    "
+      },
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "taxes"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "The tax id referencing a specific tax",
+            "type": "string",
+            "name": "taxId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "in": "body",
+            "name": "Array",
+            "schema": {
+              "$ref": "#/definitions/Array"
+            }
+          }
+        ],
+        "summary": "Assign a tax to 1 or more rental units",
+        "description": "\n      PLACEHOLDER ROUTE:\n      Currently not implemented. Will be released at a later time.\n    "
+      },
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "taxes"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "The tax id referencing a specific tax",
+            "type": "string",
+            "name": "taxId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "in": "body",
+            "name": "Array",
+            "schema": {
+              "$ref": "#/definitions/Array"
+            }
+          }
+        ],
+        "summary": "Assign a tax to 1 or more rental units",
+        "description": "\n      PLACEHOLDER ROUTE:\n      Currently not implemented. Will be released at a later time.\n    "
+      }
+    },
+    "/hub/v2/pmcs/{pmcId}/units": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "units"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "Unit",
+            "in": "body",
+            "name": "NameIsAvailableForBookingGeoLocationBedroomCountFullBathroomsThreeQuarterBathroomsHalfBathroomsMaxOccupancyAddressCurrencyCodeBuildingCategoryBuildingTypeAmenitiesUnitNumberDescriptionDisclaimerTaxIdNumberPermitNumberModel",
+            "schema": {
+              "$ref": "#/definitions/NameIsAvailableForBookingGeoLocationBedroomCountFullBathroomsThreeQuarterBathroomsHalfBathroomsMaxOccupancyAddressCurrencyCodeBuildingCategoryBuildingTypeAmenitiesUnitNumberDescriptionDisclaimerTaxIdNumberPermitNumberModel"
+            }
+          }
+        ],
+        "summary": "Create a new unit for a pmc",
+        "description": "\nThis endpoint is used to initiate a workflow request to create a new unit. If accepted, the response will include a Location header that can be used to poll the status of the workflow request.\n\nSee the \"Get workflow status for a newly created unit\" endpoint documentation for details on interpreting the workflow status.\n"
+      },
+      "get": {
+        "responses": {
+          "default": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UnitIdNameLinkModel"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "units"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "type": "boolean",
+            "name": "isAvailableForBooking",
+            "in": "query"
+          }
+        ],
+        "summary": "Get a list of units by pmcId and optionally isAvailableForBooking"
+      }
+    },
+    "/hub/v2/pmcs/{pmcId}/units/workflows/{workflowId}": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/StatusMessageUnitIdUrlModel"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "units"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "Provided in the Location header of the create unit response",
+            "type": "string",
+            "name": "workflowId",
+            "in": "path"
+          }
+        ],
+        "summary": "Get workflow status for a newly created unit",
+        "description": "\nThis endpoint is used to check the status of a recently create unit workflow request.\n\nSee the \"Create a new unit for a pmc\" endpoint documentation for details on initiating the workflow request.\n"
+      }
+    },
+    "/hub/v2/pmcs/{pmcId}/units/{unitId}": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": "Unit",
+            "schema": {
+              "$ref": "#/definitions/NameIsAvailableForBookingGeoLocationBedroomCountFullBathroomsThreeQuarterBathroomsHalfBathroomsMaxOccupancyAddressCurrencyCodeBuildingCategoryBuildingTypeAmenitiesUnitNumberDescriptionDisclaimerTaxIdNumberPermitNumberUnitIdModel"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "units"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "The unit id referencing a specific unit",
+            "type": "string",
+            "name": "unitId",
+            "in": "path"
+          }
+        ],
+        "summary": "Get a unit by its id"
+      },
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "units"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "The unit id referencing a specific unit",
+            "type": "string",
+            "name": "unitId",
+            "in": "path"
+          },
+          {
+            "required": false,
+            "description": "Unit",
+            "in": "body",
+            "name": "NameIsAvailableForBookingGeoLocationBedroomCountFullBathroomsThreeQuarterBathroomsHalfBathroomsMaxOccupancyAddressCurrencyCodeBuildingCategoryBuildingTypeAmenitiesUnitNumberDescriptionDisclaimerTaxIdNumberPermitNumberModel_2",
+            "schema": {
+              "$ref": "#/definitions/NameIsAvailableForBookingGeoLocationBedroomCountFullBathroomsThreeQuarterBathroomsHalfBathroomsMaxOccupancyAddressCurrencyCodeBuildingCategoryBuildingTypeAmenitiesUnitNumberDescriptionDisclaimerTaxIdNumberPermitNumberModel_2"
+            }
+          }
+        ],
+        "summary": "Update a unit by id"
+      },
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "units"
+        ],
+        "parameters": [
+          {
+            "required": true,
+            "description": "The PMC id referencing a specific PMC",
+            "type": "string",
+            "name": "pmcId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "The unit id referencing a specific unit",
+            "type": "string",
+            "name": "unitId",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "description": "Unit",
+            "in": "body",
+            "name": "NameIsAvailableForBookingGeoLocationBedroomCountFullBathroomsThreeQuarterBathroomsHalfBathroomsMaxOccupancyAddressCurrencyCodeBuildingCategoryBuildingTypeAmenitiesUnitNumberDescriptionDisclaimerTaxIdNumberPermitNumberModel",
+            "schema": {
+              "$ref": "#/definitions/NameIsAvailableForBookingGeoLocationBedroomCountFullBathroomsThreeQuarterBathroomsHalfBathroomsMaxOccupancyAddressCurrencyCodeBuildingCategoryBuildingTypeAmenitiesUnitNumberDescriptionDisclaimerTaxIdNumberPermitNumberModel"
+            }
+          }
+        ],
+        "summary": "Replace a unit by id"
+      }
+    }
+  },
+  "definitions": {
+    "BeginEndModel": {
+      "required": [
+        "begin"
+      ],
+      "properties": {
+        "begin": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "end": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "NameCalculationAmountApplicabilityModel": {
+      "required": [
+        "calculation",
+        "amount"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "calculation": {
+          "type": "string",
+          "enum": [
+            "FLAT",
+            "PERCENTAGE_OF_BASE",
+            "PERCENTAGE_OF_SUBTOTAL"
+          ]
+        },
+        "amount": {
+          "type": "number",
+          "description": "fee amount. When calculation is PERCENTAGE_OF_BASE or PERCENTAGE_OF_SUBTOTAL, 0.12 would equal a 12% fee"
+        },
+        "applicability": {
+          "$ref": "#/definitions/BeginEndModel"
+        }
+      }
+    },
+    "UnitIdModel": {
+      "required": [
+        "unitId"
+      ],
+      "properties": {
+        "unitId": {
+          "type": "string",
+          "description": "The unit id this fee should apply to"
+        }
+      }
+    },
+    "NameChargeUnitChargeFrequencyIsTaxableRatesAppliesToModel": {
+      "required": [
+        "name",
+        "chargeUnit",
+        "chargeFrequency",
+        "isTaxable",
+        "rates"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "chargeUnit": {
+          "type": "string",
+          "enum": [
+            "PERSON",
+            "ROOM"
+          ]
+        },
+        "chargeFrequency": {
+          "type": "string",
+          "enum": [
+            "NIGHT",
+            "STAY"
+          ]
+        },
+        "isTaxable": {
+          "type": "boolean"
+        },
+        "rates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NameCalculationAmountApplicabilityModel"
+          },
+          "minimum": 1
+        },
+        "appliesTo": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UnitIdModel"
+          }
+        }
+      }
+    },
+    "FeeIdNameLinkModel": {
+      "properties": {
+        "feeId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "link": {
+          "type": "string",
+          "description": "A link to the details for the fee"
+        }
+      }
+    },
+    "StatusMessageFeeIdUrlModel": {
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "PENDING",
+            "SUCCESS",
+            "FAILED"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "description": "Informational text in relation to status"
+        },
+        "feeId": {
+          "type": "string",
+          "description": "The newly created fee id (when status is SUCCESS)"
+        },
+        "url": {
+          "type": "string",
+          "description": "The relative url for getting the newly created fee (when status is SUCCESS)"
+        }
+      }
+    },
+    "NameChargeUnitChargeFrequencyIsTaxableRatesAppliesToFeeIdModel": {
+      "required": [
+        "name",
+        "chargeUnit",
+        "chargeFrequency",
+        "isTaxable",
+        "rates"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "chargeUnit": {
+          "type": "string",
+          "enum": [
+            "PERSON",
+            "ROOM"
+          ]
+        },
+        "chargeFrequency": {
+          "type": "string",
+          "enum": [
+            "NIGHT",
+            "STAY"
+          ]
+        },
+        "isTaxable": {
+          "type": "boolean"
+        },
+        "rates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NameCalculationAmountApplicabilityModel"
+          },
+          "minimum": 1
+        },
+        "appliesTo": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UnitIdModel"
+          }
+        },
+        "feeId": {
+          "type": "string"
+        }
+      }
+    },
+    "NameChargeUnitChargeFrequencyIsTaxableRatesAppliesToModel_2": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "chargeUnit": {
+          "type": "string",
+          "enum": [
+            "PERSON",
+            "ROOM"
+          ]
+        },
+        "chargeFrequency": {
+          "type": "string",
+          "enum": [
+            "NIGHT",
+            "STAY"
+          ]
+        },
+        "isTaxable": {
+          "type": "boolean"
+        },
+        "rates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NameCalculationAmountApplicabilityModel"
+          },
+          "minimum": 1
+        },
+        "appliesTo": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UnitIdModel"
+          }
+        }
+      }
+    },
+    "MinimumStayMaximumStayModel": {
+      "required": [
+        "minimumStay",
+        "maximumStay"
+      ],
+      "properties": {
+        "minimumStay": {
+          "type": "number",
+          "minimum": 1
+        },
+        "maximumStay": {
+          "type": "number",
+          "minimum": 1
+        }
+      }
+    },
+    "BeginEndModel_2": {
+      "required": [
+        "begin"
+      ],
+      "properties": {
+        "begin": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "end": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "BeginEndModel_3": {
+      "required": [
+        "begin"
+      ],
+      "properties": {
+        "begin": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "end": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "BeginEndModel_4": {
+      "required": [
+        "begin"
+      ],
+      "properties": {
+        "begin": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "end": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "StayRangePolicyBlackoutPolicyCalculatedAmountStayNightsFreeNightsDoFreeNightsRepeatFreeNightDiscountTypeModel": {
+      "required": [
+        "stayRangePolicy",
+        "blackoutPolicy",
+        "calculated"
+      ],
+      "properties": {
+        "stayRangePolicy": {
+          "type": "string",
+          "description": "Which days of a stay can be discounted if the stay falls partially outside of stayRange\n      WHOLE_STAY - the whole stay is discounted, even if part falls outside of the stayRange\n      INCLUDED_DAYS - only days inside the stayRange are discounted\n    ",
+          "enum": [
+            "WHOLE_STAY",
+            "INCLUDED_DAYS"
+          ]
+        },
+        "blackoutPolicy": {
+          "type": "string",
+          "description": "Which days of a stay can be discounted if the stay falls partially over blackoutRanges\n      WHOLE_STAY - the whole stay is discounted, even if part falls inside a blackoutRange\n      INCLUDED_DAYS - only days outside of any blackoutRange are discounted\n    ",
+          "enum": [
+            "WHOLE_STAY",
+            "INCLUDED_DAYS"
+          ]
+        },
+        "calculated": {
+          "type": "string",
+          "description": "The type of calculation to be used on the promotion",
+          "enum": [
+            "AMOUNT",
+            "PERCENT_OF_BASE",
+            "FREE_NIGHTS"
+          ]
+        }
+      }
+    },
+    "UnitIdRatePlanIdModel": {
+      "required": [
+        "unitId"
+      ],
+      "properties": {
+        "unitId": {
+          "type": "string",
+          "description": "The unit id this promotion should apply to"
+        },
+        "ratePlanId": {
+          "type": "string",
+          "description": "if present, promotion only applies for this unit when using the specified rate plan"
+        }
+      }
+    },
+    "IsActiveConditionStayRangeSellRangeDescriptionInstructionsTermsAndConditionsBlackoutRangesStayRangePolicyBlackoutPolicyRuleAppliesToModel": {
+      "required": [
+        "isActive",
+        "stayRange",
+        "sellRange",
+        "description",
+        "instructions",
+        "termsAndConditions",
+        "stayRangePolicy",
+        "blackoutPolicy",
+        "rule"
+      ],
+      "properties": {
+        "isActive": {
+          "type": "boolean",
+          "description": "Allows setup of promotions without allowing them to be booked"
+        },
+        "condition": {
+          "$ref": "#/definitions/MinimumStayMaximumStayModel"
+        },
+        "stayRange": {
+          "$ref": "#/definitions/BeginEndModel_2"
+        },
+        "sellRange": {
+          "$ref": "#/definitions/BeginEndModel_3"
+        },
+        "description": {
+          "type": "string"
+        },
+        "instructions": {
+          "type": "string"
+        },
+        "termsAndConditions": {
+          "type": "string"
+        },
+        "blackoutRanges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BeginEndModel_4"
+          }
+        },
+        "stayRangePolicy": {
+          "type": "string",
+          "description": "Specifies how the stayRange is applied:\n    COMPLETE - entire stay must be within stayRange\n    PARTIAL - any part of the stay must be within stayRange\n    CHECK_IN - check-in date must be in stayRange\n  ",
+          "enum": [
+            "COMPLETE",
+            "PARTIAL",
+            "CHECK_IN"
+          ]
+        },
+        "blackoutPolicy": {
+          "type": "string",
+          "description": "Specifies how blackoutRanges are applied:\n    COMPLETE - entire stay must not fall in a blackoutRange\n    PARTIAL - any part of the stay must not fall in a blackoutRange\n    CHECK_IN - check-in date must not fall in a blackoutRange\n  ",
+          "enum": [
+            "COMPLETE",
+            "PARTIAL",
+            "CHECK_IN"
+          ]
+        },
+        "rule": {
+          "$ref": "#/definitions/StayRangePolicyBlackoutPolicyCalculatedAmountStayNightsFreeNightsDoFreeNightsRepeatFreeNightDiscountTypeModel"
+        },
+        "appliesTo": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UnitIdRatePlanIdModel"
+          }
+        }
+      }
+    },
+    "StatusMessagePromotionIdUrlModel": {
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "PENDING",
+            "SUCCESS",
+            "FAILED"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "description": "Informational text in relation to status"
+        },
+        "promotionId": {
+          "type": "string",
+          "description": "The newly created promotion id (when status is SUCCESS)"
+        },
+        "url": {
+          "type": "string",
+          "description": "The relative url for getting the newly created promotion (when status is SUCCESS)"
+        }
+      }
+    },
+    "IsActiveConditionStayRangeSellRangeDescriptionInstructionsTermsAndConditionsBlackoutRangesStayRangePolicyBlackoutPolicyRuleAppliesToPromotionIdModel": {
+      "required": [
+        "isActive",
+        "stayRange",
+        "sellRange",
+        "description",
+        "instructions",
+        "termsAndConditions",
+        "stayRangePolicy",
+        "blackoutPolicy",
+        "rule"
+      ],
+      "properties": {
+        "isActive": {
+          "type": "boolean",
+          "description": "Allows setup of promotions without allowing them to be booked"
+        },
+        "condition": {
+          "$ref": "#/definitions/MinimumStayMaximumStayModel"
+        },
+        "stayRange": {
+          "$ref": "#/definitions/BeginEndModel_2"
+        },
+        "sellRange": {
+          "$ref": "#/definitions/BeginEndModel_3"
+        },
+        "description": {
+          "type": "string"
+        },
+        "instructions": {
+          "type": "string"
+        },
+        "termsAndConditions": {
+          "type": "string"
+        },
+        "blackoutRanges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BeginEndModel_4"
+          }
+        },
+        "stayRangePolicy": {
+          "type": "string",
+          "description": "Specifies how the stayRange is applied:\n    COMPLETE - entire stay must be within stayRange\n    PARTIAL - any part of the stay must be within stayRange\n    CHECK_IN - check-in date must be in stayRange\n  ",
+          "enum": [
+            "COMPLETE",
+            "PARTIAL",
+            "CHECK_IN"
+          ]
+        },
+        "blackoutPolicy": {
+          "type": "string",
+          "description": "Specifies how blackoutRanges are applied:\n    COMPLETE - entire stay must not fall in a blackoutRange\n    PARTIAL - any part of the stay must not fall in a blackoutRange\n    CHECK_IN - check-in date must not fall in a blackoutRange\n  ",
+          "enum": [
+            "COMPLETE",
+            "PARTIAL",
+            "CHECK_IN"
+          ]
+        },
+        "rule": {
+          "$ref": "#/definitions/StayRangePolicyBlackoutPolicyCalculatedAmountStayNightsFreeNightsDoFreeNightsRepeatFreeNightDiscountTypeModel"
+        },
+        "appliesTo": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UnitIdRatePlanIdModel"
+          }
+        },
+        "promotionId": {
+          "type": "string"
+        }
+      }
+    },
+    "StayRangePolicyBlackoutPolicyCalculatedAmountStayNightsFreeNightsDoFreeNightsRepeatFreeNightDiscountTypeModel_2": {
+      "properties": {
+        "stayRangePolicy": {
+          "type": "string",
+          "description": "Which days of a stay can be discounted if the stay falls partially outside of stayRange\n      WHOLE_STAY - the whole stay is discounted, even if part falls outside of the stayRange\n      INCLUDED_DAYS - only days inside the stayRange are discounted\n    ",
+          "enum": [
+            "WHOLE_STAY",
+            "INCLUDED_DAYS"
+          ]
+        },
+        "blackoutPolicy": {
+          "type": "string",
+          "description": "Which days of a stay can be discounted if the stay falls partially over blackoutRanges\n      WHOLE_STAY - the whole stay is discounted, even if part falls inside a blackoutRange\n      INCLUDED_DAYS - only days outside of any blackoutRange are discounted\n    ",
+          "enum": [
+            "WHOLE_STAY",
+            "INCLUDED_DAYS"
+          ]
+        },
+        "calculated": {
+          "type": "string",
+          "description": "The type of calculation to be used on the promotion",
+          "enum": [
+            "AMOUNT",
+            "PERCENT_OF_BASE",
+            "FREE_NIGHTS"
+          ]
+        }
+      }
+    },
+    "IsActiveConditionStayRangeSellRangeDescriptionInstructionsTermsAndConditionsBlackoutRangesStayRangePolicyBlackoutPolicyRuleAppliesToModel_2": {
+      "properties": {
+        "isActive": {
+          "type": "boolean",
+          "description": "Allows setup of promotions without allowing them to be booked"
+        },
+        "condition": {
+          "$ref": "#/definitions/MinimumStayMaximumStayModel"
+        },
+        "stayRange": {
+          "$ref": "#/definitions/BeginEndModel_2"
+        },
+        "sellRange": {
+          "$ref": "#/definitions/BeginEndModel_3"
+        },
+        "description": {
+          "type": "string"
+        },
+        "instructions": {
+          "type": "string"
+        },
+        "termsAndConditions": {
+          "type": "string"
+        },
+        "blackoutRanges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BeginEndModel_4"
+          }
+        },
+        "stayRangePolicy": {
+          "type": "string",
+          "description": "Specifies how the stayRange is applied:\n    COMPLETE - entire stay must be within stayRange\n    PARTIAL - any part of the stay must be within stayRange\n    CHECK_IN - check-in date must be in stayRange\n  ",
+          "enum": [
+            "COMPLETE",
+            "PARTIAL",
+            "CHECK_IN"
+          ]
+        },
+        "blackoutPolicy": {
+          "type": "string",
+          "description": "Specifies how blackoutRanges are applied:\n    COMPLETE - entire stay must not fall in a blackoutRange\n    PARTIAL - any part of the stay must not fall in a blackoutRange\n    CHECK_IN - check-in date must not fall in a blackoutRange\n  ",
+          "enum": [
+            "COMPLETE",
+            "PARTIAL",
+            "CHECK_IN"
+          ]
+        },
+        "rule": {
+          "$ref": "#/definitions/StayRangePolicyBlackoutPolicyCalculatedAmountStayNightsFreeNightsDoFreeNightsRepeatFreeNightDiscountTypeModel_2"
+        },
+        "appliesTo": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UnitIdRatePlanIdModel"
+          }
+        }
+      }
+    },
+    "BeginEndAmountModel": {
+      "required": [
+        "begin",
+        "amount"
+      ],
+      "properties": {
+        "begin": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "end": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "amount": {
+          "type": "number",
+          "description": "When calculated = PERCENT_OF_SUBTOTAL, 0.12 would equal 12% tax"
+        }
+      }
+    },
+    "UnitIdModel_2": {
+      "required": [
+        "unitId"
+      ],
+      "properties": {
+        "unitId": {
+          "type": "string",
+          "description": "The unit id this tax should apply to"
+        }
+      }
+    },
+    "TaxIdNameCalculatedSeasonsAppliesToModel": {
+      "required": [
+        "name",
+        "calculated"
+      ],
+      "properties": {
+        "taxId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "calculated": {
+          "type": "string",
+          "enum": [
+            "AMOUNT",
+            "PERCENTAGE_OF_SUBTOTAL"
+          ]
+        },
+        "seasons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BeginEndAmountModel"
+          },
+          "minimum": 1
+        },
+        "appliesTo": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UnitIdModel_2"
+          }
+        }
+      }
+    },
+    "TaxIdNameLinkModel": {
+      "properties": {
+        "taxId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "link": {
+          "type": "string",
+          "description": "A link to the details for the tax"
+        }
+      }
+    },
+    "StatusMessageTaxIdUrlModel": {
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "PENDING",
+            "SUCCESS",
+            "FAILED"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "description": "Informational text in relation to status"
+        },
+        "taxId": {
+          "type": "string",
+          "description": "The newly created tax id (when status is SUCCESS)"
+        },
+        "url": {
+          "type": "string",
+          "description": "The relative url for getting the newly created tax (when status is SUCCESS)"
+        }
+      }
+    },
+    "Array": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/UnitIdModel_2"
+      }
+    },
+    "LatitudeLongitudeModel": {
+      "required": [
+        "latitude",
+        "longitude"
+      ],
+      "properties": {
+        "latitude": {
+          "type": "number"
+        },
+        "longitude": {
+          "type": "number"
+        }
+      }
+    },
+    "Address1Address2CityStateCodePostalCodeCountryCodeModel": {
+      "required": [
+        "address1",
+        "city",
+        "stateCode",
+        "postalCode",
+        "countryCode"
+      ],
+      "properties": {
+        "address1": {
+          "type": "string",
+          "minLength": 1
+        },
+        "address2": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stateCode": {
+          "type": "string",
+          "description": "2 character state code"
+        },
+        "postalCode": {
+          "type": "string",
+          "minLength": 1
+        },
+        "countryCode": {
+          "type": "string",
+          "description": "2 character country code"
+        }
+      }
+    },
+    "NameIsAvailableForBookingGeoLocationBedroomCountFullBathroomsThreeQuarterBathroomsHalfBathroomsMaxOccupancyAddressCurrencyCodeBuildingCategoryBuildingTypeAmenitiesUnitNumberDescriptionDisclaimerTaxIdNumberPermitNumberModel": {
+      "required": [
+        "name",
+        "bedroomCount",
+        "maxOccupancy",
+        "buildingCategory",
+        "buildingType"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "isAvailableForBooking": {
+          "type": "boolean",
+          "description": "true if unit should be available for distribution - use to add content before activating units"
+        },
+        "geoLocation": {
+          "$ref": "#/definitions/LatitudeLongitudeModel"
+        },
+        "bedroomCount": {
+          "type": "integer",
+          "description": "integer greater than 0 representing total # of bedrooms",
+          "minimum": 1
+        },
+        "fullBathrooms": {
+          "type": "integer",
+          "description": "integer representing # of full baths (contain tub, sink, & toilet)"
+        },
+        "threeQuarterBathrooms": {
+          "type": "integer",
+          "description": "integer representing # of 3/4 baths (shower, sink & toilet)"
+        },
+        "halfBathrooms": {
+          "type": "integer",
+          "description": "integer representing # of 1/2 baths (sink & toilet)"
+        },
+        "maxOccupancy": {
+          "type": "integer"
+        },
+        "address": {
+          "$ref": "#/definitions/Address1Address2CityStateCodePostalCodeCountryCodeModel"
+        },
+        "currencyCode": {
+          "type": "string",
+          "description": "unit's default unit of currency. Defaults to USD"
+        },
+        "buildingCategory": {
+          "type": "string",
+          "enum": [
+            "HOTEL",
+            "BED_AND_BREAKFAST",
+            "CONDO",
+            "APARTMENT",
+            "HOME"
+          ]
+        },
+        "buildingType": {
+          "type": "string",
+          "enum": [
+            "HOTEL",
+            "ALL_INCLUSIVE",
+            "INN",
+            "LODGE",
+            "BED_AND_BREAKFAST",
+            "COTTAGE",
+            "CONDO",
+            "TOWNHOME",
+            "APARTMENT",
+            "VACATION_HOME",
+            "CABIN_LODGE_COTTAGE",
+            "CHALET",
+            "VILLA"
+          ]
+        },
+        "amenities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "array of strings"
+        },
+        "unitNumber": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "disclaimer": {
+          "type": "string"
+        },
+        "taxIdNumber": {
+          "type": "string"
+        },
+        "permitNumber": {
+          "type": "string"
+        }
+      }
+    },
+    "UnitIdNameLinkModel": {
+      "properties": {
+        "unitId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "link": {
+          "type": "string",
+          "description": "A link to the details for the unit"
+        }
+      }
+    },
+    "StatusMessageUnitIdUrlModel": {
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "PENDING",
+            "SUCCESS",
+            "FAILED"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "description": "Informational text in relation to status"
+        },
+        "unitId": {
+          "type": "string",
+          "description": "The newly created unit id (when status is SUCCESS)"
+        },
+        "url": {
+          "type": "string",
+          "description": "The relative url for getting the newly created unit (when status is SUCCESS)"
+        }
+      }
+    },
+    "NameIsAvailableForBookingGeoLocationBedroomCountFullBathroomsThreeQuarterBathroomsHalfBathroomsMaxOccupancyAddressCurrencyCodeBuildingCategoryBuildingTypeAmenitiesUnitNumberDescriptionDisclaimerTaxIdNumberPermitNumberUnitIdModel": {
+      "required": [
+        "name",
+        "bedroomCount",
+        "maxOccupancy",
+        "buildingCategory",
+        "buildingType"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "isAvailableForBooking": {
+          "type": "boolean",
+          "description": "true if unit should be available for distribution - use to add content before activating units"
+        },
+        "geoLocation": {
+          "$ref": "#/definitions/LatitudeLongitudeModel"
+        },
+        "bedroomCount": {
+          "type": "integer",
+          "description": "integer greater than 0 representing total # of bedrooms",
+          "minimum": 1
+        },
+        "fullBathrooms": {
+          "type": "integer",
+          "description": "integer representing # of full baths (contain tub, sink, & toilet)"
+        },
+        "threeQuarterBathrooms": {
+          "type": "integer",
+          "description": "integer representing # of 3/4 baths (shower, sink & toilet)"
+        },
+        "halfBathrooms": {
+          "type": "integer",
+          "description": "integer representing # of 1/2 baths (sink & toilet)"
+        },
+        "maxOccupancy": {
+          "type": "integer"
+        },
+        "address": {
+          "$ref": "#/definitions/Address1Address2CityStateCodePostalCodeCountryCodeModel"
+        },
+        "currencyCode": {
+          "type": "string",
+          "description": "unit's default unit of currency. Defaults to USD"
+        },
+        "buildingCategory": {
+          "type": "string",
+          "enum": [
+            "HOTEL",
+            "BED_AND_BREAKFAST",
+            "CONDO",
+            "APARTMENT",
+            "HOME"
+          ]
+        },
+        "buildingType": {
+          "type": "string",
+          "enum": [
+            "HOTEL",
+            "ALL_INCLUSIVE",
+            "INN",
+            "LODGE",
+            "BED_AND_BREAKFAST",
+            "COTTAGE",
+            "CONDO",
+            "TOWNHOME",
+            "APARTMENT",
+            "VACATION_HOME",
+            "CABIN_LODGE_COTTAGE",
+            "CHALET",
+            "VILLA"
+          ]
+        },
+        "amenities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "array of strings"
+        },
+        "unitNumber": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "disclaimer": {
+          "type": "string"
+        },
+        "taxIdNumber": {
+          "type": "string"
+        },
+        "permitNumber": {
+          "type": "string"
+        },
+        "unitId": {
+          "type": "string"
+        }
+      }
+    },
+    "NameIsAvailableForBookingGeoLocationBedroomCountFullBathroomsThreeQuarterBathroomsHalfBathroomsMaxOccupancyAddressCurrencyCodeBuildingCategoryBuildingTypeAmenitiesUnitNumberDescriptionDisclaimerTaxIdNumberPermitNumberModel_2": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "isAvailableForBooking": {
+          "type": "boolean",
+          "description": "true if unit should be available for distribution - use to add content before activating units"
+        },
+        "geoLocation": {
+          "$ref": "#/definitions/LatitudeLongitudeModel"
+        },
+        "bedroomCount": {
+          "type": "integer",
+          "description": "integer greater than 0 representing total # of bedrooms",
+          "minimum": 1
+        },
+        "fullBathrooms": {
+          "type": "integer",
+          "description": "integer representing # of full baths (contain tub, sink, & toilet)"
+        },
+        "threeQuarterBathrooms": {
+          "type": "integer",
+          "description": "integer representing # of 3/4 baths (shower, sink & toilet)"
+        },
+        "halfBathrooms": {
+          "type": "integer",
+          "description": "integer representing # of 1/2 baths (sink & toilet)"
+        },
+        "maxOccupancy": {
+          "type": "integer"
+        },
+        "address": {
+          "$ref": "#/definitions/Address1Address2CityStateCodePostalCodeCountryCodeModel"
+        },
+        "currencyCode": {
+          "type": "string",
+          "description": "unit's default unit of currency. Defaults to USD"
+        },
+        "buildingCategory": {
+          "type": "string",
+          "enum": [
+            "HOTEL",
+            "BED_AND_BREAKFAST",
+            "CONDO",
+            "APARTMENT",
+            "HOME"
+          ]
+        },
+        "buildingType": {
+          "type": "string",
+          "enum": [
+            "HOTEL",
+            "ALL_INCLUSIVE",
+            "INN",
+            "LODGE",
+            "BED_AND_BREAKFAST",
+            "COTTAGE",
+            "CONDO",
+            "TOWNHOME",
+            "APARTMENT",
+            "VACATION_HOME",
+            "CABIN_LODGE_COTTAGE",
+            "CHALET",
+            "VILLA"
+          ]
+        },
+        "amenities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "array of strings"
+        },
+        "unitNumber": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "disclaimer": {
+          "type": "string"
+        },
+        "taxIdNumber": {
+          "type": "string"
+        },
+        "permitNumber": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "tags": [],
+  "info": {
+    "title": "Public API",
+    "description": "The public facing interface for LeisureLink, Inc",
+    "version": "2.4.1"
+  }
+}
