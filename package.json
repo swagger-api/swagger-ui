@@ -5,10 +5,14 @@
     {
       "name": "Mohsen Azimi",
       "email": "me@azimi.me"
+    },
+    {
+      "name": "David Jones",
+      "email": "jonesdhtx@gmail.com"
     }
   ],
   "description": "Swagger UI is a dependency-free collection of HTML, JavaScript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API",
-  "version": "1.0.1+2.1.4",
+  "version": "1.0.2+2.1.4",
   "homepage": "http://swagger.io",
   "license": "Apache-2.0",
   "main": "dist/swagger-ui.js",
