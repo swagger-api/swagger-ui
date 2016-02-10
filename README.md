@@ -1,3 +1,12 @@
+# FEC API Swagger
+
+This fork creates the interactive documentaion found at: [https://api.open.fec.gov/developers/](https://api.open.fec.gov/developers/)
+
+To use it on the FEC API project locally, clone this repo.  Then add a `node_modules` folder to the top level of the [openFEC API](https://github.com/18F/openFEC) create a symlink to this directory. 
+
+You must build all your changes before merging and deploying.
+
+
 # Swagger UI
 
 [![Build Status](https://travis-ci.org/swagger-api/swagger-ui.svg?branch=master)](https://travis-ci.org/swagger-api/swagger-ui)
