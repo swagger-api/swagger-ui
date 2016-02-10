@@ -1231,8 +1231,10 @@
   cursor: pointer;
 }
 .swagger-section #header {
-  background-color: #0069aa;
+  background-image: url(../images/bg-nav.jpg);
+  border-bottom: 1px solid #e6e7e8;
   padding: 14px;
+  display: none;
 }
 .swagger-section #input_baseUrl {
   width: 400px;
@@ -1275,12 +1277,11 @@
   background-color: #547f00;
 }
 .swagger-section #header #logo {
-  font-size: 1.5em;
-  font-weight: bold;
-  text-decoration: none;
-  background: transparent url(../images/logo_small.png) no-repeat left center;
+  background-image: url(../images/leisurelink_logo.png);
+  background-position: left center;
+  background-repeat: no-repeat;
+  background-size: contain;
   padding: 20px 0 20px 40px;
-  color: white;
 }
 .swagger-section #content_message {
   margin: 10px 15px;
