@@ -1,4 +1,14 @@
+<!--
 
+  WARNING:
+
+  LEISURELINK pulls in swagger-ui through @leisurelink/hapi-swaggered-ui which templates this file!
+
+  Any changes here are for stand-alone local development only - and will be bypassed when served through hapi-swaggered
+
+  To make changes to index - update @leisurelink/hapi-swaggered-ui/templates/index.hbs
+
+-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,6 +41,8 @@
 
   <script type="text/javascript">
     $(function () {
+      $('#header').css('display', /embed=true/.test(window.location.search) ? 'none' : 'block');
+
       var url = window.location.search.match(/url=([^&]+)/);
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
@@ -52,7 +64,7 @@
               clientId: "your-client-id",
               clientSecret: "your-client-secret-if-required",
               realm: "your-realms",
-              appName: "your-app-name", 
+              appName: "your-app-name",
               scopeSeparator: ",",
               additionalQueryStringParams: {}
             });
@@ -109,16 +121,18 @@
 <body class="swagger-section">
 <div id='header'>
   <div class="swagger-ui-wrap">
-    <a id="logo" href="http://swagger.io">swagger</a>
-    <form id='api_selector'>
-      <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
-      <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
-      <div class='input'><a id="explore" href="#" data-sw-translate>Explore</a></div>
-    </form>
+    <div id="logo"></div>
   </div>
 </div>
 
 <div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
+<div class="swagger-ui-wrap">
+  <form id='api_selector'>
+    <!-- <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div> -->
+    <div class='input'><input placeholder="Enter your apiKey here..." id="input_apiKey" name="apiKey" type="text"/></div>
+    <!-- <div class='input'><a id="explore" href="#" data-sw-translate>Explore</a></div> -->
+  </form>
+</div>
 <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
 </body>
 </html>
