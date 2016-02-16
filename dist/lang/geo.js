@@ -2,9 +2,9 @@
 
 /* jshint quotmark: double */
 window.SwaggerTranslator.learn({
-    "Warning: Deprecated":"ყურადღება: გაუქმებულია",
+    "Warning: Deprecated":"ყურადღება: აღარ გამოიყენება",
     "Implementation Notes":"იმპლემენტაციის აღწერა",
-    "Response Class":"პასუხის აღწერა",
+    "Response Class":"რესპონს კლასი",
     "Status":"სტატუსი",
     "Parameters":"პარამეტრები",
     "Parameter":"პარამეტრი",
@@ -15,7 +15,7 @@ window.SwaggerTranslator.learn({
     "Response Messages":"პასუხი",
     "HTTP Status Code":"HTTP სტატუსი",
     "Reason":"მიზეზი",
-    "Response Model":"Response Model",
+    "Response Model":"რესპონს მოდელი",
     "Request URL":"მოთხოვნის URL",
     "Response Body":"პასუხის სხეული",
     "Response Code":"პასუხის კოდი",
