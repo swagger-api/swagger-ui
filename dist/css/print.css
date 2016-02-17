@@ -82,7 +82,7 @@
 .swagger-section pre .vhdl .attribute,
 .swagger-section pre .clojure .attribute,
 .swagger-section pre .coffeescript .property {
-  color: #8888ff;
+  color: #88F;
 }
 .swagger-section pre .keyword,
 .swagger-section pre .id,
@@ -1180,6 +1180,29 @@
 }
 .swagger-section .oauth_submit {
   text-align: center;
+}
+.swagger-section .auth_container .basic_auth__title {
+  color: #547f00;
+  font-size: 1.2em;
+}
+.swagger-section .auth_container .auth__description {
+  color: #999999;
+  margin-bottom: 5px;
+}
+.swagger-section .auth_container .auth_submit__button {
+  color: #547f00;
+  border: none;
+  text-decoration: underline;
+  background: none;
+  padding-left: 0;
+  font-size: 1em;
+  cursor: pointer;
+}
+.swagger-section .auth_container .key_input_container {
+  margin-bottom: 10px;
+}
+.swagger-section .auth_container .basic_auth_container {
+  font-size: 0.9em;
 }
 .swagger-section .api-popup-dialog {
   z-index: 10000;
