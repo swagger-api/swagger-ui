@@ -8,13 +8,16 @@
 this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};
 this["Handlebars"]["templates"]["apikey_button_view"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "<!--div class='auth_button' id='apikey_button'><img class='auth_icon' alt='apply api key' src='images/apikey.jpeg'></div-->\n<div class='auth_container' id='apikey_container'>\n  <div class='key_input_container'>\n    <div class='auth_label'><label for='input_apiKey_entry'>"
+  return "<div class='auth_container'>\n  <div class='key_input_container'>\n    <div class='auth_label'><label for='input_apiKey_entry'>"
     + escapeExpression(((helper = (helper = helpers.keyName || (depth0 != null ? depth0.keyName : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"keyName","hash":{},"data":data}) : helper)))
-    + "</label></div>\n    <input placeholder='api_key' class='auth_input' id='input_apiKey_entry' name='apiKey' type='text'/>\n    <div class='auth_submit'><a class='auth_submit_button' id='apply_api_key' href='#' data-sw-translate>apply</a></div>\n  </div>\n</div>\n";
+    + "</label></div>\n    <input placeholder='api_key' class='auth_input input_apiKey_entry' name='apiKey' type='text'/>\n    <div class='auth_submit'><a class='auth_submit_button' href='#' data-sw-translate>apply</a></div>\n  </div>\n</div>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["basic_auth_button_view"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<div class='auth_button' id='basic_auth_button'><img class='auth_icon' src='images/password.jpeg'></div>\n<div class='auth_container' id='basic_auth_container'>\n  <div class='key_input_container'>\n    <div class=\"auth_label\"><label for=\"input_username\" data-sw-translate>Username</label></div>\n    <input placeholder=\"username\" class=\"auth_input\" id=\"input_username\" name=\"username\" type=\"text\"/>\n    <div class=\"auth_label\"><label for=\"password\" data-sw-translate>Password</label></div>\n    <input placeholder=\"password\" class=\"auth_input\" id=\"input_password\" name=\"password\" type=\"password\"/>\n    <div class='auth_submit'><a class='auth_submit_button' id=\"apply_basic_auth\" href=\"#\">apply</a></div>\n  </div>\n</div>\n\n";
-  },"useData":true});
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "<div class='auth_container basic_auth_container'>\n  <h3 class=\"basic_auth__title\">Basic authentication</h3>\n  <form class=\"key_input_container\">\n    <div class=\"auth__description\">"
+    + escapeExpression(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"description","hash":{},"data":data}) : helper)))
+    + "</div>\n    <div class=\"auth_label\"><label data-sw-translate>username</label></div>\n    <input required placeholder=\"username\" class=\"basic_auth__username auth_input\" name=\"username\" type=\"text\"/>\n    <div class=\"auth_label\"><label data-sw-translate>password</label></div>\n    <input required placeholder=\"password\" class=\"basic_auth__password auth_input\" name=\"password\" type=\"password\"/>\n    <div class='auth_submit'><input type=\"submit\" class=\"auth_submit__button\" value=\"apply\"></div>\n  </form>\n</div>\n\n";
+},"useData":true});
 this["Handlebars"]["templates"]["content_type"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var stack1, buffer = "";
   stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.produces : depth0), {"name":"each","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
@@ -379,7 +382,7 @@ this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(dept
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class='info' id='api_info'>\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.info : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  buffer += "</div>\n<div class='container' id='resources_container'>\n  <ul id='resources'></ul>\n\n  <div class=\"footer\">\n    <h4 style=\"color: #999\">[ <span style=\"font-variant: small-caps\">base url</span>: "
+  buffer += "</div>\n<div class='container' id='resources_container'>\n  <div class=\"auth_main_container\"></div>\n\n  <ul id='resources'></ul>\n\n  <div class=\"footer\">\n    <h4 style=\"color: #999\">[ <span style=\"font-variant: small-caps\">base url</span>: "
     + escapeExpression(((helper = (helper = helpers.basePath || (depth0 != null ? depth0.basePath : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"basePath","hash":{},"data":data}) : helper)))
     + "\n";
   stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.version : stack1), {"name":"if","hash":{},"fn":this.program(14, data),"inverse":this.noop,"data":data});
@@ -24983,52 +24986,32 @@ window.SwaggerUi.partials = {};
 SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to global SwaggerUi
 
   events:{
-    'click #apikey_button' : 'toggleApiKeyContainer',
-    'click #apply_api_key' : 'applyApiKey'
+    'click .auth_submit_button' : 'applyApiKey'
   },
 
-  initialize: function(opts){
+  template: Handlebars.templates.apikey_button_view,
+
+  initialize: function(opts) {
     this.options = opts || {};
     this.router = this.options.router;
   },
 
   render: function(){
-    var template = this.template();
-    $(this.el).html(template(this.model));
+    $(this.el).html(this.template(this.model));
 
     return this;
   },
 
 
-  applyApiKey: function(){
+  applyApiKey: function() {
     var keyAuth = new SwaggerClient.ApiKeyAuthorization(
       this.model.name,
-      $('#input_apiKey_entry').val(),
+      this.$('.input_apiKey_entry').val(),
       this.model.in
     );
     this.router.api.clientAuthorizations.add(this.model.name, keyAuth);
     this.router.load();
-    $('#apikey_container').show();
-  },
-
-  toggleApiKeyContainer: function(){
-    if ($('#apikey_container').length) {
-
-      var elem = $('#apikey_container').first();
-
-      if (elem.is(':visible')){
-        elem.hide();
-      } else {
-
-        // hide others
-        $('.auth_container').hide();
-        elem.show();
-      }
-    }
-  },
-
-  template: function(){
-    return Handlebars.templates.apikey_button_view;
+    //$('#apikey_container').show();
   }
 
 });
@@ -25042,43 +25025,25 @@ SwaggerUi.Views.BasicAuthButton = Backbone.View.extend({
     this.router = this.options.router;
   },
 
+  template: Handlebars.templates.basic_auth_button_view,
+
   render: function(){
-    var template = this.template();
-    $(this.el).html(template(this.model));
+    $(this.el).html(this.template(this.model));
 
     return this;
   },
 
   events: {
-    'click #basic_auth_button' : 'togglePasswordContainer',
-    'click #apply_basic_auth' : 'applyPassword'
+    'submit .key_input_container' : 'applyPassword'
   },
 
-  applyPassword: function(event){
+  applyPassword: function(event) {
     event.preventDefault();
-    var username = $('#input_username').val();
-    var password = $('#input_password').val();
+    var username = this.$('.basic_auth__username').val();
+    var password = this.$('.basic_auth__password').val();
     var basicAuth = new SwaggerClient.PasswordAuthorization('basic', username, password);
     this.router.api.clientAuthorizations.add(this.model.type, basicAuth);
     this.router.load();
-    $('#basic_auth_container').hide();
-  },
-
-  togglePasswordContainer: function(){
-    if ($('#basic_auth_container').length) {
-      var elem = $('#basic_auth_container').show();
-      if (elem.is(':visible')){
-        elem.slideUp();
-      } else {
-        // hide others
-        $('.auth_container').hide();
-        elem.show();
-      }
-    }
-  },
-
-  template: function(){
-    return Handlebars.templates.basic_auth_button_view;
   }
 
 });
@@ -25226,26 +25191,26 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
   },
 
-  render: function(){
-    if (this.model.securityDefinitions) {
-      for (var name in this.model.securityDefinitions) {
-        var auth = this.model.securityDefinitions[name];
-        var button;
-
-        if (auth.type === 'apiKey' && $('#apikey_button').length === 0) {
-          button = new SwaggerUi.Views.ApiKeyButton({model: auth, router:  this.router}).render().el;
-          $('.auth_main_container').append(button);
-        }
-
-        if (auth.type === 'basicAuth' && $('#basic_auth_button').length === 0) {
-          button = new SwaggerUi.Views.BasicAuthButton({model: auth, router: this.router}).render().el;
-          $('.auth_main_container').append(button);
-        }
-      }
-    }
+  render: function () {
+    var name, authEl, auth;
 
     // Render the outer container for resources
     $(this.el).html(Handlebars.templates.main(this.model));
+    this.model.securityDefinitions = this.model.securityDefinitions || {};
+
+    for (name in this.model.securityDefinitions) {
+      auth = this.model.securityDefinitions[name];
+
+      if (auth.type === 'apiKey') {
+        authEl = new SwaggerUi.Views.ApiKeyButton({model: auth, router:  this.router}).render().el;
+        $('.auth_main_container').append(authEl);
+      }
+
+      if (auth.type === 'basic' && $('.auth_main_container .basic_auth_container').length === 0) {
+        authEl = new SwaggerUi.Views.BasicAuthButton({model: auth, router: this.router}).render().el;
+        $('.auth_main_container').append(authEl);
+      }
+    }
 
     // Render each resource
 
@@ -25399,54 +25364,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       this.model.isReadOnly = true;
     }
     this.model.description = this.model.description || this.model.notes;
-    this.model.oauth = null;
-    modelAuths = this.model.authorizations || this.model.security;
-    if (modelAuths) {
-      if (Array.isArray(modelAuths)) {
-        for (l = 0, len = modelAuths.length; l < len; l++) {
-          auths = modelAuths[l];
-          for (key in auths) {
-            for (a in this.auths) {
-              auth = this.auths[a];
-              if (key === auth.name) {
-                if (auth.type === 'oauth2') {
-                  this.model.oauth = {};
-                  this.model.oauth.scopes = [];
-                  ref1 = auth.value.scopes;
-                  for (k in ref1) {
-                    v = ref1[k];
-                    scopeIndex = auths[key].indexOf(k);
-                    if (scopeIndex >= 0) {
-                      o = {
-                        scope: k,
-                        description: v
-                      };
-                      this.model.oauth.scopes.push(o);
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      } else {
-        for (k in modelAuths) {
-          v = modelAuths[k];
-          if (k === 'oauth2') {
-            if (this.model.oauth === null) {
-              this.model.oauth = {};
-            }
-            if (this.model.oauth.scopes === void 0) {
-              this.model.oauth.scopes = [];
-            }
-            for (m = 0, len1 = v.length; m < len1; m++) {
-              o = v[m];
-              this.model.oauth.scopes.push(o);
-            }
-          }
-        }
-      }
-    }
+
+    this.handleAuth();
+
     if (typeof this.model.responses !== 'undefined') {
       this.model.responseMessages = [];
       ref2 = this.model.responses;
@@ -26135,6 +26055,95 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       }
     }
     return null;
+  },
+
+  handleAuth: function () {
+    var modelAuths, auths, i, l, len, len1, ref1, scopeIndex;
+    var definitionsMap = {};
+
+    this.auths = this.auths || [];
+
+    for (l = 0, len = this.auths.length; l < len; l++) {
+      definitionsMap[this.auths[l].name] = this.auths[l].value;
+    }
+
+    this.model.oauth = null;
+
+    modelAuths = this.model.authorizations || this.model.security;
+
+    if (!modelAuths) { return null; }
+
+    if (Array.isArray(modelAuths)) {
+      modelAuths.forEach(function (security) {
+        for (i in security) {
+          security[i] = security[i] || {};
+          switch (security[i].type) {
+            case 'apiKey': break;
+            case 'basic': break;
+            default:
+                  //handle from definitions
+          }
+        }
+      });
+    }
+
+
+    if (Array.isArray(modelAuths)) {
+      for (l = 0, len = modelAuths.length; l < len; l++) {
+
+        //auths - single auth from security
+        auths = modelAuths[l];
+        for (key in auths) {
+
+          //this.auths - auth from definitions
+          for (a in this.auths) {
+            //auth - one single auth from definition
+            auth = this.auths[a];
+
+            // if security name is in definitions
+            if (key === auth.name) {
+
+              if (auth.type === 'oauth2') {
+                this.model.oauth = {};
+                this.model.oauth.scopes = [];
+                ref1 = auth.value.scopes;
+                for (k in ref1) {
+                  v = ref1[k];
+                  scopeIndex = auths[key].indexOf(k);
+                  if (scopeIndex >= 0) {
+                    o = {
+                      scope: k,
+                      description: v
+                    };
+                    this.model.oauth.scopes.push(o);
+                  }
+                }
+              }
+              //if (auth.type === 'apiKey') {
+              //  console.log('apiKey')
+              //}
+            }
+          }
+        }
+      }
+    } else {
+      for (k in modelAuths) {
+        v = modelAuths[k];
+        if (k === 'oauth2') {
+          if (this.model.oauth === null) {
+            this.model.oauth = {};
+          }
+          if (this.model.oauth.scopes === void 0) {
+            this.model.oauth.scopes = [];
+          }
+          for (m = 0, len1 = v.length; m < len1; m++) {
+            o = v[m];
+            this.model.oauth.scopes.push(o);
+          }
+        }
+      }
+    }
+
   }
 
 });
