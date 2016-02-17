@@ -91,54 +91,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       this.model.isReadOnly = true;
     }
     this.model.description = this.model.description || this.model.notes;
-    this.model.oauth = null;
-    modelAuths = this.model.authorizations || this.model.security;
-    if (modelAuths) {
-      if (Array.isArray(modelAuths)) {
-        for (l = 0, len = modelAuths.length; l < len; l++) {
-          auths = modelAuths[l];
-          for (key in auths) {
-            for (a in this.auths) {
-              auth = this.auths[a];
-              if (key === auth.name) {
-                if (auth.type === 'oauth2') {
-                  this.model.oauth = {};
-                  this.model.oauth.scopes = [];
-                  ref1 = auth.value.scopes;
-                  for (k in ref1) {
-                    v = ref1[k];
-                    scopeIndex = auths[key].indexOf(k);
-                    if (scopeIndex >= 0) {
-                      o = {
-                        scope: k,
-                        description: v
-                      };
-                      this.model.oauth.scopes.push(o);
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      } else {
-        for (k in modelAuths) {
-          v = modelAuths[k];
-          if (k === 'oauth2') {
-            if (this.model.oauth === null) {
-              this.model.oauth = {};
-            }
-            if (this.model.oauth.scopes === void 0) {
-              this.model.oauth.scopes = [];
-            }
-            for (m = 0, len1 = v.length; m < len1; m++) {
-              o = v[m];
-              this.model.oauth.scopes.push(o);
-            }
-          }
-        }
-      }
-    }
+
+    this.handleAuth();
+
     if (typeof this.model.responses !== 'undefined') {
       this.model.responseMessages = [];
       ref2 = this.model.responses;
@@ -849,6 +804,95 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       }
     }
     return null;
+  },
+
+  handleAuth: function () {
+    var modelAuths, auths, i, l, len, len1, ref1, scopeIndex;
+    var definitionsMap = {};
+
+    this.auths = this.auths || [];
+
+    for (l = 0, len = this.auths.length; l < len; l++) {
+      definitionsMap[this.auths[l].name] = this.auths[l].value;
+    }
+
+    this.model.oauth = null;
+
+    modelAuths = this.model.authorizations || this.model.security;
+
+    if (!modelAuths) { return null; }
+
+    if (Array.isArray(modelAuths)) {
+      modelAuths.forEach(function (security) {
+        for (i in security) {
+          security[i] = security[i] || {};
+          switch (security[i].type) {
+            case 'apiKey': break;
+            case 'basic': break;
+            default:
+                  //handle from definitions
+          }
+        }
+      });
+    }
+
+
+    if (Array.isArray(modelAuths)) {
+      for (l = 0, len = modelAuths.length; l < len; l++) {
+
+        //auths - single auth from security
+        auths = modelAuths[l];
+        for (key in auths) {
+
+          //this.auths - auth from definitions
+          for (a in this.auths) {
+            //auth - one single auth from definition
+            auth = this.auths[a];
+
+            // if security name is in definitions
+            if (key === auth.name) {
+
+              if (auth.type === 'oauth2') {
+                this.model.oauth = {};
+                this.model.oauth.scopes = [];
+                ref1 = auth.value.scopes;
+                for (k in ref1) {
+                  v = ref1[k];
+                  scopeIndex = auths[key].indexOf(k);
+                  if (scopeIndex >= 0) {
+                    o = {
+                      scope: k,
+                      description: v
+                    };
+                    this.model.oauth.scopes.push(o);
+                  }
+                }
+              }
+              //if (auth.type === 'apiKey') {
+              //  console.log('apiKey')
+              //}
+            }
+          }
+        }
+      }
+    } else {
+      for (k in modelAuths) {
+        v = modelAuths[k];
+        if (k === 'oauth2') {
+          if (this.model.oauth === null) {
+            this.model.oauth = {};
+          }
+          if (this.model.oauth.scopes === void 0) {
+            this.model.oauth.scopes = [];
+          }
+          for (m = 0, len1 = v.length; m < len1; m++) {
+            o = v[m];
+            this.model.oauth.scopes.push(o);
+          }
+        }
+      }
+    }
+
   }
 
 });

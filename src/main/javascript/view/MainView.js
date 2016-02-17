@@ -83,24 +83,24 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
   },
 
   render: function () {
-    // Render the outer container for resources
-    var authsModel, parsedDefinitions;
+    var name, authEl, auth;
 
+    // Render the outer container for resources
     $(this.el).html(Handlebars.templates.main(this.model));
     this.model.securityDefinitions = this.model.securityDefinitions || {};
 
-    if (!_.isEmpty(this.model.securityDefinitions)) {
-      parsedDefinitions = _.map(this.model.securityDefinitions, function (auth, name) {
-        var result = {};
-        result[name] = auth;
-        return result;
-      });
+    for (name in this.model.securityDefinitions) {
+      auth = this.model.securityDefinitions[name];
 
-      authsModel = { auths: parsedDefinitions };
+      if (auth.type === 'apiKey') {
+        authEl = new SwaggerUi.Views.ApiKeyButton({model: auth, router:  this.router}).render().el;
+        $('.auth_main_container').append(authEl);
+      }
 
-      authsModel.isLogout = !_.isEmpty(window.swaggerUi.api.clientAuthorizations.authz);
-      this.authView = new SwaggerUi.Views.AuthButtonView({model: authsModel, router: this.router});
-      this.$('.authorize-wrapper').append(this.authView.render().el);
+      if (auth.type === 'basic' && $('.auth_main_container .basic_auth_container').length === 0) {
+        authEl = new SwaggerUi.Views.BasicAuthButton({model: auth, router: this.router}).render().el;
+        $('.auth_main_container').append(authEl);
+      }
     }
 
     // Render each resource

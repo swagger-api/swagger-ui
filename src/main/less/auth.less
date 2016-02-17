@@ -19,23 +19,9 @@
 
   .oauth_submit { text-align: center; }
 
-  .authorize-wrapper {
-    margin: 15px 0 10px;
-  }
-
-  .authorize__btn {
-    &:hover {
-      text-decoration: underline;
-      cursor: pointer;
-    }
-  }
-
   .auth_container {
-    padding: 0 0 10px;
-    margin-bottom: 5px;
-    border-bottom: solid 1px #CCC;
 
-  .basic_auth__title {
+    .basic_auth__title {
       color: #547f00;
       font-size: 1.2em;
     }
@@ -45,7 +31,7 @@
       margin-bottom: 5px;
     }
 
-    .auth_submit__button, .auth_logout__button {
+    .auth_submit__button {
       color: #547f00;
       border: none;
       text-decoration: underline;
@@ -53,7 +39,10 @@
       padding-left: 0;
       font-size: 1em;
       cursor: pointer;
-      outline: none;
+    }
+
+    .key_input_container {
+      margin-bottom: 10px;
     }
 
     .basic_auth_container {
@@ -87,10 +76,6 @@
   .api-popup-dialog .error-msg {
     padding-left: 5px;
     padding-bottom: 5px;
-  }
-  .api-popup-dialog .api-popup-content {
-    max-height: 500px;
-    overflow-y: auto;
   }
 
   .api-popup-dialog .api-popup-authbtn { height: 30px; }
