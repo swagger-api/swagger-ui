@@ -2,6 +2,7 @@
 <td>
     {{#if isBody}}
         <textarea class='body-textarea' readonly='readonly' name='{{name}}' id='{{valueId}}'>{{default}}</textarea>
+        <div class="parameter-content-type" />
     {{else}}
         {{#if default}}
             {{default}}

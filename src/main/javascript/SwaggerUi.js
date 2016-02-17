@@ -1,3 +1,4 @@
+ /*global JSONEditor*/
 'use strict';
 
 window.SwaggerUi = Backbone.Router.extend({
@@ -13,7 +14,12 @@ window.SwaggerUi = Backbone.Router.extend({
   // SwaggerUi accepts all the same options as SwaggerApi
   initialize: function(options) {
     options = options || {};
-    if(!options.highlightSizeThreshold) {
+
+    if (options.defaultModelRendering !== 'model') {
+      options.defaultModelRendering = 'schema';
+    }
+
+    if (!options.highlightSizeThreshold) {
       options.highlightSizeThreshold = 100000;
     }
 
@@ -62,6 +68,16 @@ window.SwaggerUi = Backbone.Router.extend({
     this.headerView.on('update-swagger-ui', function(data) {
       return that.updateSwaggerUi(data);
     });
+
+    // JSon Editor custom theming
+     JSONEditor.defaults.iconlibs.swagger = JSONEditor.AbstractIconLib.extend({
+      mapping: {
+        collapse: 'collapse',
+        expand: 'expand'
+        },
+      icon_prefix: 'swagger-'
+      });
+
   },
 
   // Set an option after initializing
@@ -176,7 +192,7 @@ window.SwaggerUi = Backbone.Router.extend({
     var $msgbar = $('#message-bar');
     $msgbar.removeClass('message-fail');
     $msgbar.addClass('message-success');
-    $msgbar.html(data);
+    $msgbar.text(data);
     if(window.SwaggerTranslator) {
       window.SwaggerTranslator.translate($msgbar);
     }
@@ -213,6 +229,7 @@ window.SwaggerUi = Backbone.Router.extend({
 });
 
 window.SwaggerUi.Views = {};
+window.SwaggerUi.partials = {};
 
 // don't break backward compatibility with previous versions and warn users to upgrade their code
 (function(){

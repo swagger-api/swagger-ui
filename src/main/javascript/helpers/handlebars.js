@@ -8,7 +8,8 @@ Handlebars.registerHelper('sanitize', function(html) {
 
 Handlebars.registerHelper('renderTextParam', function(param) {
     var result, type = 'text', idAtt = '';
-    var isArray = param.type.toLowerCase() === 'array' || param.allowMultiple;
+    var paramType = param.type || param.schema.type || '';
+    var isArray = paramType.toLowerCase() === 'array' || param.allowMultiple;
     var defaultValue = isArray && Array.isArray(param.default) ? param.default.join('\n') : param.default;
 
     var dataVendorExtensions = Object.keys(param).filter(function(property) {
@@ -29,6 +30,10 @@ Handlebars.registerHelper('renderTextParam', function(param) {
 
     if(param.valueId) {
         idAtt = ' id=\'' + param.valueId + '\'';
+    }
+
+    if (typeof defaultValue === 'string' || defaultValue instanceof String) {
+        defaultValue = defaultValue.replace(/'/g,'&apos;');
     }
 
     if(isArray) {

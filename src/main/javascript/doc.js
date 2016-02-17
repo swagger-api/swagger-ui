@@ -108,23 +108,24 @@ window.Docs = {
         Docs.expandEndpointListForResource(fragments[0]);
         $("#"+dom_id).slideto({highlight: false});
 
-        // Expand operation
-				var li_dom_id = fragments.join('_');
-				var li_content_dom_id = li_dom_id + "_content";
+            // Expand operation
+            var li_dom_id = fragments.join('_');
+            var li_content_dom_id = li_dom_id + "_content";
 
 
-				Docs.expandOperation($('#'+li_content_dom_id));
-				$('#'+li_dom_id).slideto({highlight: false});
-				break;
+            Docs.expandOperation($('#'+li_content_dom_id));
+            $('#'+li_dom_id).slideto({highlight: false});
+            break;
 		}
-
 	},
 
 	toggleEndpointListForResource: function(resource) {
 		var elem = $('li#resource_' + Docs.escapeResourceName(resource) + ' ul.endpoints');
 		if (elem.is(':visible')) {
+			$.bbq.pushState('#/', 2);
 			Docs.collapseEndpointListForResource(resource);
 		} else {
+            $.bbq.pushState('#/' + resource, 2);
 			Docs.expandEndpointListForResource(resource);
 		}
 	},

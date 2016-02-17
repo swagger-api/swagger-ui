@@ -12,7 +12,7 @@
     "Swagger",
     "API"
   ],
-  "license": "Copyright 2015 SmartBear Software",
+  "license": "Copyright 2016 SmartBear Software",
   "homepage": "http://swagger.io",
   "private": true,
   "ignore": [

@@ -1,7 +1,7 @@
 <div>
 <ul class="signature-nav">
   <li><a class="description-link" href="#" data-sw-translate>Model</a></li>
-  <li><a class="snippet-link" href="#" data-sw-translate>Model Schema</a></li>
+  <li><a class="snippet-link" href="#" data-sw-translate>Example Value</a></li>
 </ul>
 <div>
 
@@ -11,8 +11,17 @@
   </div>
 
   <div class="snippet">
-    <pre><code>{{sampleJSON}}</code></pre>
-    <small class="notice"></small>
+  {{#if sampleJSON}}
+      <div class="snippet_json">
+        <pre><code>{{sampleJSON}}</code></pre>
+        {{#if isParam}}<small class="notice" data-sw-translate></small>{{/if}}
+      </div>
+  {{/if}}
+  {{#if sampleXML}}
+    <div class="snippet_xml">
+      <pre><code>{{sampleXML}}</code></pre>
+      {{#if isParam}}<small class="notice" data-sw-translate></small>{{/if}}
+    </div>
+  {{/if}}
   </div>
 </div>
-

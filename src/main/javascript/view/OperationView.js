@@ -10,6 +10,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     'click .toggleOperation'  : 'toggleOperationContent',
     'mouseenter .api-ic'      : 'mouseEnter',
     'dblclick .curl'          : 'selectText',
+    'change [name=responseContentType]' : 'showSnippet'
   },
 
   initialize: function(opts) {
@@ -19,6 +20,14 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     this.parentId = this.model.parentId;
     this.nickname = this.model.nickname;
     this.model.encodedParentId = encodeURIComponent(this.parentId);
+
+    if (opts.swaggerOptions) {
+      this.model.defaultRendering = opts.swaggerOptions.defaultModelRendering;
+
+      if (opts.swaggerOptions.showRequestHeaders) {
+        this.model.showRequestHeaders = true;
+      }
+    }
     return this;
   },
 
@@ -76,7 +85,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   // Note: copied from CoffeeScript compiled file
   // TODO: redactor
   render: function() {
-    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, l, len, len1, len2, len3, len4, m, modelAuths, n, o, p, param, q, ref, ref1, ref2, ref3, ref4, ref5, responseContentTypeView, responseSignatureView, schema, schemaObj, scopeIndex, signatureModel, statusCode, successResponse, type, v, value;
+    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, l, len, len1, len2, len3, len4, m, modelAuths, n, o, p, param, q, ref, ref1, ref2, ref3, ref4, ref5, responseContentTypeView, responseSignatureView, schema, schemaObj, scopeIndex, signatureModel, statusCode, successResponse, type, v, value, produces, isXML, isJSON;
     isMethodSubmissionSupported = jQuery.inArray(this.model.method, this.model.supportedSubmitMethods()) >= 0;
     if (!isMethodSubmissionSupported) {
       this.model.isReadOnly = true;
@@ -146,7 +155,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         this.model.responseMessages.push({
           code: code,
           message: value.description,
-          responseModel: schema
+          responseModel: schema,
+          headers: value.headers,
+          schema: schemaObj
         });
       }
     }
@@ -154,16 +165,23 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       this.model.responseMessages = [];
     }
     signatureModel = null;
+    produces = this.model.produces;
+    isXML = this.contains(produces, 'xml');
+    isJSON = isXML ? this.contains(produces, 'json') : true;
+
     if (this.model.successResponse) {
       successResponse = this.model.successResponse;
       for (key in successResponse) {
         value = successResponse[key];
         this.model.successCode = key;
         if (typeof value === 'object' && typeof value.createJSONSample === 'function') {
+          this.model.successDescription = value.description;
+          this.model.headers = this.parseResponseHeaders(value.headers);
           signatureModel = {
-            sampleJSON: JSON.stringify(value.createJSONSample(), void 0, 2),
+            sampleJSON: isJSON ? JSON.stringify(SwaggerUi.partials.signature.createJSONSample(value), void 0, 2) : false,
             isParam: false,
-            signature: value.getMockSignature()
+            sampleXML: isXML ? SwaggerUi.partials.signature.createXMLSample(value.definition, value.models) : false,
+            signature: SwaggerUi.partials.signature.getModelSignature(value.name, value.definition, value.models, value.modelPropertyMacro)
           };
         }
       }
@@ -174,12 +192,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         signature: this.model.responseClassSignature
       };
     }
-    var opts = this.options.swaggerOptions;
-    if (opts.showRequestHeaders) {
-      this.model.showRequestHeaders = true;
-    }
     $(this.el).html(Handlebars.templates.operation(this.model));
     if (signatureModel) {
+      signatureModel.defaultRendering = this.model.defaultRendering;
       responseSignatureView = new SwaggerUi.Views.SignatureView({
         model: signatureModel,
         router: this.router,
@@ -230,24 +245,100 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     ref5 = this.model.responseMessages;
     for (q = 0, len4 = ref5.length; q < len4; q++) {
       statusCode = ref5[q];
+      statusCode.isXML = isXML;
+      statusCode.isJSON = isJSON;
+      if (!_.isUndefined(statusCode.headers)) {
+        statusCode.headers = this.parseHeadersType(statusCode.headers);
+      }
       this.addStatusCode(statusCode);
     }
+
+    this.showSnippet();
     return this;
+  },
+
+  parseHeadersType: function (headers) {
+    var map = {
+      'string': {
+        'date-time': 'dateTime',
+        'date'     : 'date'
+      }
+    };
+
+    _.forEach(headers, function (header) {
+      var value;
+      header = header || {};
+      value = map[header.type] && map[header.type][header.format];
+      if (!_.isUndefined(value)) {
+        header.type = value;
+      }
+    });
+
+    return headers;
+  },
+
+  contains: function (produces, type) {
+    return produces.filter(function (val) {
+      if (val.indexOf(type) > -1) {
+        return true;
+      }
+    }).length;
+  },
+
+  parseResponseHeaders: function (data) {
+    var HEADERS_SEPARATOR = '; ';
+    var headers = _.clone(data);
+
+    _.forEach(headers, function (header) {
+      var other = [];
+      _.forEach(header, function (value, key) {
+        var properties = ['type', 'description'];
+        if (properties.indexOf(key.toLowerCase()) === -1) {
+          other.push(key + ': ' + value);
+        }
+      });
+
+      other.join(HEADERS_SEPARATOR);
+      header.other = other;
+    });
+
+    return headers;
   },
 
   addParameter: function(param, consumes) {
     // Render a parameter
     param.consumes = consumes;
+    param.defaultRendering = this.model.defaultRendering;
+
+    // Copy this param JSON spec so that it will be available for JsonEditor
+    if(param.schema){
+      $.extend(true, param.schema, this.model.definitions[param.type]);
+      param.schema.definitions = this.model.definitions;
+      // This is required for JsonEditor to display the root properly
+      if(!param.schema.type){
+        param.schema.type = 'object';
+      }
+      // This is the title that will be used by JsonEditor for the root
+      // Since we already display the parameter's name in the Parameter column
+      // We set this to space, we can't set it to null or space otherwise JsonEditor
+      // will replace it with the text "root" which won't look good on screen
+      if(!param.schema.title){
+        param.schema.title = ' ';
+      }
+    }
+
     var paramView = new SwaggerUi.Views.ParameterView({
       model: param,
       tagName: 'tr',
-      readOnly: this.model.isReadOnly
+      readOnly: this.model.isReadOnly,
+      swaggerOptions: this.options.swaggerOptions
     });
     $('.operation-params', $(this.el)).append(paramView.render().el);
   },
 
   addStatusCode: function(statusCode) {
     // Render status codes
+    statusCode.defaultRendering = this.model.defaultRendering;
     var statusCodeView = new SwaggerUi.Views.StatusCodeView({
       model: statusCode,
       tagName: 'tr',
@@ -279,7 +370,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         error_free = false;
       }
     });
-    form.find('textarea.required').each(function() {
+    form.find('textarea.required:visible').each(function() {
       $(this).removeClass('error');
       if (jQuery.trim($(this).val()) === '') {
         $(this).addClass('error');
@@ -318,6 +409,16 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
           opts[key] = this.options.swaggerOptions[key];
         }
       }
+
+      var pi;
+      for(pi = 0; pi < this.model.parameters.length; pi++){
+        var p = this.model.parameters[pi];
+        if( p.jsonEditor && p.jsonEditor.isEnabled()){
+          var json = p.jsonEditor.getValue();
+          map[p.name] = JSON.stringify(json);
+        }
+      }
+
       opts.responseContentType = $('div select[name=responseContentType]', $(this.el)).val();
       opts.requestContentType = $('div select[name=parameterContentType]', $(this.el)).val();
       $('.response_throbber', $(this.el)).show();
@@ -327,7 +428,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
         opts.useJQuery = true;
         map.parameterContentType = 'multipart/form-data';
-
+        this.map = map;
         return this.model.execute(map, opts, this.showCompleteStatus, this.showErrorStatus, this);
       } else {
         this.map = map;
@@ -461,7 +562,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     reg = /(>)(<)(\/*)/g;
     wsexp = /[ ]*(.*)[ ]+\n/g;
     contexp = /(<.+>)(.+\n)/g;
-    xml = xml.replace(reg, '$1\n$2$3').replace(wsexp, '$1\n').replace(contexp, '$1\n$2');
+    xml = xml.replace(/\r\n/g, '\n').replace(reg, '$1\n$2$3').replace(wsexp, '$1\n').replace(contexp, '$1\n$2');
     pad = 0;
     formatted = '';
     lines = xml.split('\n');
@@ -642,10 +743,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     $('.response_throbber', $(this.el)).hide();
 
 
-    //adds curl output
-    var curlCommand = this.model.asCurl(this.map);
+    // adds curl output
+    var curlCommand = this.model.asCurl(this.map, {responseContentType: contentType});
     curlCommand = curlCommand.replace('!', '&#33;');
-    $( '.curl', $(this.el)).html('<pre>' + curlCommand + '</pre>');
+    $( 'div.curl', $(this.el)).html('<pre>' + _.escape(curlCommand) + '</pre>');
 
     // only highlight the response if response is less than threshold, default state is highlight response
     var opts = this.options.swaggerOptions;
@@ -670,11 +771,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   toggleOperationContent: function (event) {
     var elem = $('#' + Docs.escapeResourceName(this.parentId + '_' + this.nickname + '_content'));
     if (elem.is(':visible')){
-      event.preventDefault();
       $.bbq.pushState('#/', 2);
+      event.preventDefault();
       Docs.collapseOperation(elem);
     } else {
-      event.preventDefault();
       Docs.expandOperation(elem);
     }
   },
@@ -696,6 +796,24 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       return result.length > 0 ? result : null;
     } else {
       return textArea.value;
+    }
+  },
+
+  showSnippet: function () {
+    var contentTypeEl = this.$('[name=responseContentType]');
+    var xmlSnippetEl = this.$('.operation-status .snippet_xml, .response-class .snippet_xml');
+    var jsonSnippetEl = this.$('.operation-status .snippet_json, .response-class .snippet_json');
+    var contentType;
+
+    if (!contentTypeEl.length) { return; }
+    contentType = contentTypeEl.val();
+
+    if (contentType.indexOf('xml') > -1) {
+      xmlSnippetEl.show();
+      jsonSnippetEl.hide();
+    } else {
+      jsonSnippetEl.show();
+      xmlSnippetEl.hide();
     }
   },
 

@@ -13,9 +13,10 @@ var declare = require('gulp-declare');
 var watch = require('gulp-watch');
 var connect = require('gulp-connect');
 var header = require('gulp-header');
-var pkg = require('./package.json');
 var order = require('gulp-order');
 var jshint = require('gulp-jshint');
+var pkg = require('./package.json');
+
 var banner = ['/**',
   ' * <%= pkg.name %> - <%= pkg.description %>',
   ' * @version v<%= pkg.version %>',
@@ -35,21 +36,6 @@ gulp.task('clean', function() {
 });
 
 /**
- * Processes Handlebars templates
- */
-function templates() {
-  return gulp
-    .src(['./src/main/template/**/*'])
-    .pipe(handlebars())
-    .pipe(wrap('Handlebars.template(<%= contents %>)'))
-    .pipe(declare({
-      namespace: 'Handlebars.templates',
-      noRedeclare: true, // Avoid duplicate declarations
-    }))
-    .on('error', log);
-}
-
-/**
  * JShint all *.js files
  */
 gulp.task('lint', function () {
@@ -61,19 +47,27 @@ gulp.task('lint', function () {
 /**
  * Build a distribution
  */
-gulp.task('dist', ['clean','lint'], function() {
-
+gulp.task('dist', ['clean', 'lint'], _dist);
+function _dist() {
   return es.merge(
-      gulp.src([
+    gulp.src([
         './src/main/javascript/**/*.js',
         './node_modules/swagger-client/browser/swagger-client.js'
       ]),
-      templates()
+      gulp
+        .src(['./src/main/template/**/*'])
+        .pipe(handlebars())
+        .pipe(wrap('Handlebars.template(<%= contents %>)'))
+        .pipe(declare({
+          namespace: 'Handlebars.templates',
+          noRedeclare: true, // Avoid duplicate declarations
+        }))
+        .on('error', log)
     )
     .pipe(order(['scripts.js', 'templates.js']))
     .pipe(concat('swagger-ui.js'))
     .pipe(wrap('(function(){<%= contents %>}).call(this);'))
-    .pipe(header(banner, { pkg: pkg } ))
+    .pipe(header(banner, { pkg: pkg }))
     .pipe(gulp.dest('./dist'))
     .pipe(uglify())
     .on('error', log)
@@ -81,13 +75,14 @@ gulp.task('dist', ['clean','lint'], function() {
     .on('error', log)
     .pipe(gulp.dest('./dist'))
     .pipe(connect.reload());
-});
+}
+gulp.task('dev-dist', ['lint', 'dev-copy'], _dist);
 
 /**
  * Processes less files into CSS files
  */
-gulp.task('less', ['clean'], function() {
-
+gulp.task('less', ['clean'], _less);
+function _less() {
   return gulp
     .src([
       './src/main/less/screen.less',
@@ -99,14 +94,14 @@ gulp.task('less', ['clean'], function() {
     .on('error', log)
     .pipe(gulp.dest('./src/main/html/css/'))
     .pipe(connect.reload());
-});
-
+}
+gulp.task('dev-less', _less);
 
 /**
  * Copy lib and html folders
  */
-gulp.task('copy', ['less'], function() {
-
+gulp.task('copy', ['less'], _copy);
+function _copy() {
   // copy JavaScript files inside lib folder
   gulp
     .src(['./lib/**/*.{js,map}'])
@@ -124,15 +119,29 @@ gulp.task('copy', ['less'], function() {
     .src(['./src/main/html/**/*'])
     .pipe(gulp.dest('./dist'))
     .on('error', log);
+}
+gulp.task('dev-copy', ['dev-less', 'copy-local-specs'], _copy);
+
+gulp.task('copy-local-specs', function () {
+  // copy the test specs
+  return gulp
+    .src(['./test/specs/**/*'])
+    .pipe(gulp.dest('./dist/specs'))
+    .on('error', log);
 });
 
 /**
  * Watch for changes and recompile
  */
-gulp.task('watch', function() {
-  return watch(['./src/**/*.{js,less,handlebars}'], function() {
-    gulp.start('default');
-  });
+gulp.task('watch', ['copy-local-specs'], function() {
+  return watch([
+    './src/**/*.{js,less,handlebars}',
+    './src/main/html/*.html',
+    './test/specs/**/*.{json,yaml}'
+    ],
+    function() {
+      gulp.start('dev-dist');
+    });
 });
 
 /**
@@ -149,6 +158,8 @@ function log(error) {
   console.error(error.toString && error.toString());
 }
 
-
 gulp.task('default', ['dist', 'copy']);
 gulp.task('serve', ['connect', 'watch']);
+gulp.task('dev', ['default'], function () {
+  gulp.start('serve');
+});
