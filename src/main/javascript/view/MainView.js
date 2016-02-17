@@ -89,9 +89,18 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     $(this.el).html(Handlebars.templates.main(this.model));
     this.model.securityDefinitions = this.model.securityDefinitions || {};
 
-    if (this.model.securityDefinitions) {
-      this.authView = new SwaggerUi.Views.AuthView({model: this.model.securityDefinitions});
-      this.$('.authorize-wrapper').append(this.authView.render().el);
+    for (name in this.model.securityDefinitions) {
+      auth = this.model.securityDefinitions[name];
+
+      if (auth.type === 'apiKey') {
+        authEl = new SwaggerUi.Views.ApiKeyButton({model: auth, router:  this.router}).render().el;
+        $('.auth_main_container').append(authEl);
+      }
+
+      if (auth.type === 'basic' && $('.auth_main_container .basic_auth_container').length === 0) {
+        authEl = new SwaggerUi.Views.BasicAuthButton({model: auth, router: this.router}).render().el;
+        $('.auth_main_container').append(authEl);
+      }
     }
 
     // Render each resource
