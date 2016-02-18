@@ -26307,6 +26307,7 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
   },
 
   toggleSnippet: function (type) {
+    type = type || '';
     if (type.indexOf('xml') > -1) {
       this.$('.snippet_xml').show();
       this.$('.snippet_json').hide();
