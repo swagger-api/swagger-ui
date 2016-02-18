@@ -1,10 +1,15 @@
 # FEC API Swagger
 
-This fork creates the interactive documentaion found at: [https://api.open.fec.gov/developers/](https://api.open.fec.gov/developers/)
+This fork creates the interactive documentation found at: [https://api.open.fec.gov/developers/](https://api.open.fec.gov/developers/)
 
-To use it on the FEC API project locally, clone this repo.  Then add a `node_modules` folder to the top level of the [openFEC API](https://github.com/18F/openFEC) create a symlink to this directory. 
+To use it on the FEC API project locally and be able to utilize any changes you make to this repo locally, please follow these steps:
 
-You must build all your changes before merging and deploying.
+1. Clone this repo and `cd` into its top-level directory (`swagger-ui` by default).
+2. Run `npm link` to create an npm-managed symlink on your local development machine.
+3. Now `cd` into the top-level [openFEC API](https://github.com/18F/openFEC) directory you already have cloned (if you don't have that project cloned, please follow the steps in its README before continuing here).
+4. Run `npm link swagger-ui` to locally install this fork of Swagger UI.  If you changed the name of the repo when you cloned it in step one, please use that name instead.  For example, if you cloned this repo as `fec-swagger-ui`, then you would need to run `npm link fec-swagger-ui`.
+
+Finally, you must build all of your changes before merging and deploying.
 
 
 # Swagger UI
