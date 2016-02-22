@@ -241,6 +241,7 @@ window.Docs = {
 };
 
 'use strict';
+/*jslint eqeq: true*/
 
 Handlebars.registerHelper('sanitize', function(html) {
     // Strip the script tags from the html, and return it as a Handlebars.SafeString
@@ -317,7 +318,6 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
             return options.inverse(this);
     }
 });
-
 this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "  <div class=\"info_title\">"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.title : stack1), depth0))

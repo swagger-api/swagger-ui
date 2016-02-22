@@ -1,4 +1,5 @@
 'use strict';
+/*jslint eqeq: true*/
 
 Handlebars.registerHelper('sanitize', function(html) {
     // Strip the script tags from the html, and return it as a Handlebars.SafeString
