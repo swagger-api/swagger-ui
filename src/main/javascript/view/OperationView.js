@@ -183,6 +183,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
             sampleXML: isXML ? SwaggerUi.partials.signature.createXMLSample(value.definition, value.models) : false,
             signature: SwaggerUi.partials.signature.getModelSignature(value.name, value.definition, value.models, value.modelPropertyMacro)
           };
+        } else {
+          signatureModel = {
+            signature: SwaggerUi.partials.signature.getPrimitiveSignature(value)
+          };
         }
       }
     } else if (this.model.responseClassSignature && this.model.responseClassSignature !== 'string') {
