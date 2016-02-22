@@ -82,3 +82,10 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
             return options.inverse(this);
     }
 });
+
+Handlebars.registerHelper('if_or', function(v1, v2, options) {
+    if (v1 || v2) {
+        return options.fn(this);
+    }
+    return options.inverse(this);
+});
