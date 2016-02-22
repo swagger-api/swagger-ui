@@ -82,7 +82,7 @@
 .swagger-section pre .vhdl .attribute,
 .swagger-section pre .clojure .attribute,
 .swagger-section pre .coffeescript .property {
-  color: #88F;
+  color: #8888ff;
 }
 .swagger-section pre .keyword,
 .swagger-section pre .id,
@@ -124,11 +124,11 @@
   display: block;
   overflow-x: auto;
   padding: 0.5em;
-  background: #F0F0F0;
+  background: #f0f0f0;
 }
 .swagger-section .hljs,
 .swagger-section .hljs-subst {
-  color: #444;
+  color: #444444;
 }
 .swagger-section .hljs-keyword,
 .swagger-section .hljs-attribute,
@@ -143,7 +143,7 @@
 .swagger-section .hljs-bullet,
 .swagger-section .hljs-code,
 .swagger-section .hljs-addition {
-  color: #1F811F;
+  color: #1f811f;
 }
 .swagger-section .hljs-regexp,
 .swagger-section .hljs-symbol,
@@ -152,7 +152,7 @@
 .swagger-section .hljs-link,
 .swagger-section .hljs-selector-attr,
 .swagger-section .hljs-selector-pseudo {
-  color: #BC6060;
+  color: #bc6060;
 }
 .swagger-section .hljs-type,
 .swagger-section .hljs-string,
@@ -173,7 +173,7 @@
   color: #888888;
 }
 .swagger-section .hljs-meta {
-  color: #2B6EA1;
+  color: #2b6ea1;
 }
 .swagger-section .hljs-emphasis {
   font-style: italic;
