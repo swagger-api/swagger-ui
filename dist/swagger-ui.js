@@ -294,13 +294,30 @@ Handlebars.registerHelper('renderTextParam', function(param) {
     return new Handlebars.SafeString(result);
 });
 
+Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
 
-Handlebars.registerHelper('if_or', function(v1, v2, options) {
-    if (v1 || v2) {
-        return options.fn(this);
+    switch (operator) {
+        case '==':
+            return (v1 == v2) ? options.fn(this) : options.inverse(this);
+        case '===':
+            return (v1 === v2) ? options.fn(this) : options.inverse(this);
+        case '<':
+            return (v1 < v2) ? options.fn(this) : options.inverse(this);
+        case '<=':
+            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+        case '>':
+            return (v1 > v2) ? options.fn(this) : options.inverse(this);
+        case '>=':
+            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+        case '&&':
+            return (v1 && v2) ? options.fn(this) : options.inverse(this);
+        case '||':
+            return (v1 || v2) ? options.fn(this) : options.inverse(this);
+        default:
+            return options.inverse(this);
     }
-    return options.inverse(this);
 });
+
 this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "  <div class=\"info_title\">"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.title : stack1), depth0))
@@ -920,7 +937,7 @@ this["Handlebars"]["templates"]["signature"] = Handlebars.template({"1":function
     + "\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var stack1, helperMissing=helpers.helperMissing;
-  stack1 = ((helpers.if_or || (depth0 && depth0.if_or) || helperMissing).call(depth0, (depth0 != null ? depth0.sampleJSON : depth0), (depth0 != null ? depth0.sampleXML : depth0), {"name":"if_or","hash":{},"fn":this.program(1, data),"inverse":this.program(7, data),"data":data}));
+  stack1 = ((helpers.ifCond || (depth0 && depth0.ifCond) || helperMissing).call(depth0, (depth0 != null ? depth0.sampleJSON : depth0), "||", (depth0 != null ? depth0.sampleXML : depth0), {"name":"ifCond","hash":{},"fn":this.program(1, data),"inverse":this.program(7, data),"data":data}));
   if (stack1 != null) { return stack1; }
   else { return ''; }
   },"useData":true});
@@ -25175,6 +25192,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
     this.router = opts.router;
 
+    document.addEventListener('click', this.onLinkClick, true);
     // Sort APIs
     if (opts.swaggerOptions.apisSorter) {
       sorterOption = opts.swaggerOptions.apisSorter;
@@ -25309,6 +25327,16 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
   clear: function(){
     $(this.el).html('');
+  },
+
+  onLinkClick: function (e) {
+    var el = e.target;
+    if (el.tagName === 'A') {
+      if (location.hostname !== el.hostname || location.port !== el.port) {
+        e.preventDefault();
+        window.open(el.href, '_blank');
+      }
+    }
   }
 });
 
@@ -26319,6 +26347,7 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
   },
 
   toggleSnippet: function (type) {
+    type = type || '';
     if (type.indexOf('xml') > -1) {
       this.$('.snippet_xml').show();
       this.$('.snippet_json').hide();
@@ -27046,7 +27075,7 @@ SwaggerUi.partials.signature = (function () {
 
   var getNamespace = function (xml) {
     var namespace = '';
-    var name = 'xlmns';
+    var name = 'xmlns';
 
     xml = xml || {};
 
@@ -27392,7 +27421,6 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
   },
 
   initialize: function () {
-
   },
 
   render: function(){

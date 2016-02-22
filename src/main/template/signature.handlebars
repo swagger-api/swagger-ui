@@ -1,4 +1,4 @@
-{{#if_or sampleJSON sampleXML}}
+{{#ifCond sampleJSON "||" sampleXML}}
 
 <div>
 <ul class="signature-nav">
@@ -29,4 +29,4 @@
 </div>
 {{else}}
     {{signature}}
-{{/if_or}}
+{{/ifCond}}
