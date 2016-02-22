@@ -905,27 +905,19 @@ this["Handlebars"]["templates"]["response_content_type"] = Handlebars.template({
   return buffer + "</select>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["signature"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
-  var stack1, helper, helperMissing=helpers.helperMissing, functionType="function", escapeExpression=this.escapeExpression, buffer = "      <div class=\"snippet_json\">\n        <pre><code class=\"";
-  stack1 = ((helpers.ifCond || (depth0 && depth0.ifCond) || helperMissing).call(depth0, ((stack1 = (depth0 != null ? depth0.sampleJSON : depth0)) != null ? stack1.length : stack1), ">", 5000, {"name":"ifCond","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data}));
-  if (stack1 != null) { buffer += stack1; }
-  buffer += "\">"
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "      <div class=\"snippet_json\">\n        <pre><code>"
     + escapeExpression(((helper = (helper = helpers.sampleJSON || (depth0 != null ? depth0.sampleJSON : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"sampleJSON","hash":{},"data":data}) : helper)))
     + "</code></pre>\n        ";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isParam : depth0), {"name":"if","hash":{},"fn":this.program(4, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isParam : depth0), {"name":"if","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "\n      </div>\n";
 },"2":function(depth0,helpers,partials,data) {
-  return "nohighlight";
-  },"4":function(depth0,helpers,partials,data) {
   return "<small class=\"notice\" data-sw-translate></small>";
-  },"6":function(depth0,helpers,partials,data) {
-  var stack1, helper, helperMissing=helpers.helperMissing, functionType="function", escapeExpression=this.escapeExpression, buffer = "    <div class=\"snippet_xml\">\n      <pre><code class=\"";
-  stack1 = ((helpers.ifCond || (depth0 && depth0.ifCond) || helperMissing).call(depth0, ((stack1 = (depth0 != null ? depth0.sampleXML : depth0)) != null ? stack1.length : stack1), ">", 5000, {"name":"ifCond","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data}));
-  if (stack1 != null) { buffer += stack1; }
-  buffer += "\">"
+  },"4":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "    <div class=\"snippet_xml\">\n      <pre><code>"
     + escapeExpression(((helper = (helper = helpers.sampleXML || (depth0 != null ? depth0.sampleXML : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"sampleXML","hash":{},"data":data}) : helper)))
     + "</code></pre>\n      ";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isParam : depth0), {"name":"if","hash":{},"fn":this.program(4, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isParam : depth0), {"name":"if","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "\n    </div>\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
@@ -935,7 +927,7 @@ this["Handlebars"]["templates"]["signature"] = Handlebars.template({"1":function
   buffer += "\n  </div>\n\n  <div class=\"snippet\">\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.sampleJSON : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.sampleXML : depth0), {"name":"if","hash":{},"fn":this.program(6, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.sampleXML : depth0), {"name":"if","hash":{},"fn":this.program(4, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "  </div>\n</div>\n";
 },"useData":true});

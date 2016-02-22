@@ -20,6 +20,7 @@
   <script src='lib/backbone-min.js' type='text/javascript'></script>
   <script src='swagger-ui.js' type='text/javascript'></script>
   <script src='lib/highlight.9.1.0.pack.js' type='text/javascript'></script>
+  <script src='lib/highlight.9.1.0.pack_extended.js' type='text/javascript'></script>
   <script src='lib/jsoneditor.min.js' type='text/javascript'></script>
   <script src='lib/marked.js' type='text/javascript'></script>
   <script src='lib/swagger-oauth.js' type='text/javascript'></script>
@@ -37,6 +38,10 @@
       } else {
         url = "http://petstore.swagger.io/v2/swagger.json";
       }
+
+      hljs.configure({
+        highlightSizeThreshold: 5000
+      });
 
       // Pre load translate...
       if(window.SwaggerTranslator) {
