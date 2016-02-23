@@ -83,8 +83,6 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
   },
 
   render: function () {
-    var name, authEl, auth;
-
     // Render the outer container for resources
     $(this.el).html(Handlebars.templates.main(this.model));
     this.model.securityDefinitions = this.model.securityDefinitions || {};
