@@ -1120,6 +1120,10 @@
 .swagger-section .oauth_submit {
   text-align: center;
 }
+.swagger-section .authorize__btn:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
 .swagger-section .auth_container .basic_auth__title {
   color: #547f00;
   font-size: 1.2em;
