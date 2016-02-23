@@ -12,6 +12,9 @@ this["Handlebars"]["templates"]["apikey_button_view"] = Handlebars.template({"co
     + escapeExpression(((helper = (helper = helpers.keyName || (depth0 != null ? depth0.keyName : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"keyName","hash":{},"data":data}) : helper)))
     + "</label></div>\n    <input placeholder='api_key' class='auth_input input_apiKey_entry' name='apiKey' type='text'/>\n    <div class='auth_submit'><a class='auth_submit_button' href='#' data-sw-translate>apply</a></div>\n  </div>\n</div>\n";
 },"useData":true});
+this["Handlebars"]["templates"]["auth_button"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  return "<a class='authorize__btn'>Authorize</a>\n";
+  },"useData":true});
 this["Handlebars"]["templates"]["basic_auth_button_view"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
   return "<div class='auth_container basic_auth_container'>\n  <h3 class=\"basic_auth__title\">Basic authentication</h3>\n  <form class=\"key_input_container\">\n    <div class=\"auth__description\">"
@@ -244,6 +247,7 @@ window.Docs = {
 };
 
 'use strict';
+/*jslint eqeq: true*/
 
 Handlebars.registerHelper('sanitize', function(html) {
     // Strip the script tags from the html, and return it as a Handlebars.SafeString
@@ -297,6 +301,29 @@ Handlebars.registerHelper('renderTextParam', function(param) {
     return new Handlebars.SafeString(result);
 });
 
+Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
+
+    switch (operator) {
+        case '==':
+            return (v1 == v2) ? options.fn(this) : options.inverse(this);
+        case '===':
+            return (v1 === v2) ? options.fn(this) : options.inverse(this);
+        case '<':
+            return (v1 < v2) ? options.fn(this) : options.inverse(this);
+        case '<=':
+            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+        case '>':
+            return (v1 > v2) ? options.fn(this) : options.inverse(this);
+        case '>=':
+            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+        case '&&':
+            return (v1 && v2) ? options.fn(this) : options.inverse(this);
+        case '||':
+            return (v1 || v2) ? options.fn(this) : options.inverse(this);
+        default:
+            return options.inverse(this);
+    }
+});
 this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "  <div class=\"info_title\">"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.title : stack1), depth0))
@@ -382,7 +409,7 @@ this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(dept
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class='info' id='api_info'>\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.info : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  buffer += "</div>\n<div class='container' id='resources_container'>\n  <div class=\"auth_main_container\"></div>\n\n  <ul id='resources'></ul>\n\n  <div class=\"footer\">\n    <h4 style=\"color: #999\">[ <span style=\"font-variant: small-caps\">base url</span>: "
+  buffer += "</div>\n<div class='container' id='resources_container'>\n  <div class=\"auth_main_container\"></div>\n\n  <div class='authorize-wrapper'></div>\n\n  <ul id='resources'></ul>\n\n  <div class=\"footer\">\n    <h4 style=\"color: #999\">[ <span style=\"font-variant: small-caps\">base url</span>: "
     + escapeExpression(((helper = (helper = helpers.basePath || (depth0 != null ? depth0.basePath : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"basePath","hash":{},"data":data}) : helper)))
     + "\n";
   stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.version : stack1), {"name":"if","hash":{},"fn":this.program(14, data),"inverse":this.noop,"data":data});
@@ -822,6 +849,14 @@ this["Handlebars"]["templates"]["parameter_content_type"] = Handlebars.template(
   if (stack1 != null) { buffer += stack1; }
   return buffer + "</select>\n";
 },"useData":true});
+this["Handlebars"]["templates"]["popup"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class=\"api-popup-dialog-wrapper\">\n    <div class=\"api-popup-title\">"
+    + escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"title","hash":{},"data":data}) : helper)))
+    + "</div>\n    <div class=\"api-popup-content\">\n        ";
+  stack1 = ((helper = (helper = helpers.content || (depth0 != null ? depth0.content : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"content","hash":{},"data":data}) : helper));
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "\n    </div>\n    <p class=\"error-msg\"></p>\n    <div class=\"api-popup-actions\">\n        <button class=\"api-popup-cancel api-button gray\" type=\"button\">Cancel</button>\n    </div>\n</div>";
+},"useData":true});
 this["Handlebars"]["templates"]["resource"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   return " : ";
   },"3":function(depth0,helpers,partials,data) {
@@ -884,32 +919,42 @@ this["Handlebars"]["templates"]["response_content_type"] = Handlebars.template({
   return buffer + "</select>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["signature"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "      <div class=\"snippet_json\">\n        <pre><code>"
-    + escapeExpression(((helper = (helper = helpers.sampleJSON || (depth0 != null ? depth0.sampleJSON : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"sampleJSON","hash":{},"data":data}) : helper)))
-    + "</code></pre>\n        ";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isParam : depth0), {"name":"if","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  return buffer + "\n      </div>\n";
-},"2":function(depth0,helpers,partials,data) {
-  return "<small class=\"notice\" data-sw-translate></small>";
-  },"4":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "    <div class=\"snippet_xml\">\n      <pre><code>"
-    + escapeExpression(((helper = (helper = helpers.sampleXML || (depth0 != null ? depth0.sampleXML : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"sampleXML","hash":{},"data":data}) : helper)))
-    + "</code></pre>\n      ";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isParam : depth0), {"name":"if","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  return buffer + "\n    </div>\n";
-},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "<div>\n<ul class=\"signature-nav\">\n  <li><a class=\"description-link\" href=\"#\" data-sw-translate>Model</a></li>\n  <li><a class=\"snippet-link\" href=\"#\" data-sw-translate>Example Value</a></li>\n</ul>\n<div>\n\n<div class=\"signature-container\">\n  <div class=\"description\">\n    ";
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "\n<div>\n<ul class=\"signature-nav\">\n  <li><a class=\"description-link\" href=\"#\" data-sw-translate>Model</a></li>\n  <li><a class=\"snippet-link\" href=\"#\" data-sw-translate>Example Value</a></li>\n</ul>\n<div>\n\n<div class=\"signature-container\">\n  <div class=\"description\">\n    ";
   stack1 = ((helper = (helper = helpers.signature || (depth0 != null ? depth0.signature : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"signature","hash":{},"data":data}) : helper));
   if (stack1 != null) { buffer += stack1; }
   buffer += "\n  </div>\n\n  <div class=\"snippet\">\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.sampleJSON : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.sampleJSON : depth0), {"name":"if","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.sampleXML : depth0), {"name":"if","hash":{},"fn":this.program(4, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.sampleXML : depth0), {"name":"if","hash":{},"fn":this.program(5, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "  </div>\n</div>\n";
-},"useData":true});
+},"2":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "      <div class=\"snippet_json\">\n        <pre><code>"
+    + escapeExpression(((helper = (helper = helpers.sampleJSON || (depth0 != null ? depth0.sampleJSON : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"sampleJSON","hash":{},"data":data}) : helper)))
+    + "</code></pre>\n        ";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isParam : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "\n      </div>\n";
+},"3":function(depth0,helpers,partials,data) {
+  return "<small class=\"notice\" data-sw-translate></small>";
+  },"5":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "    <div class=\"snippet_xml\">\n      <pre><code>"
+    + escapeExpression(((helper = (helper = helpers.sampleXML || (depth0 != null ? depth0.sampleXML : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"sampleXML","hash":{},"data":data}) : helper)))
+    + "</code></pre>\n      ";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isParam : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "\n    </div>\n";
+},"7":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "    "
+    + escapeExpression(((helper = (helper = helpers.signature || (depth0 != null ? depth0.signature : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"signature","hash":{},"data":data}) : helper)))
+    + "\n";
+},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var stack1, helperMissing=helpers.helperMissing;
+  stack1 = ((helpers.ifCond || (depth0 && depth0.ifCond) || helperMissing).call(depth0, (depth0 != null ? depth0.sampleJSON : depth0), "||", (depth0 != null ? depth0.sampleXML : depth0), {"name":"ifCond","hash":{},"fn":this.program(1, data),"inverse":this.program(7, data),"data":data}));
+  if (stack1 != null) { return stack1; }
+  else { return ''; }
+  },"useData":true});
 this["Handlebars"]["templates"]["status_code"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var lambda=this.lambda, escapeExpression=this.escapeExpression;
   return "      <tr>\n        <td>"
@@ -24997,7 +25042,7 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
   },
 
   render: function(){
-    $(this.el).html(this.template(this.model));
+    this.$el.html(this.template(this.model));
 
     return this;
   },
@@ -25015,6 +25060,59 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
   }
 
 });
+'use strict';
+
+SwaggerUi.Views.AuthView = Backbone.View.extend({
+    events: {
+        'click .authorize__btn': 'authorizeBtnClick'
+    },
+
+    tpls: {
+        popup: Handlebars.templates.popup,
+        authBtn: Handlebars.templates.auth_button
+    },
+
+    initialize: function(){},
+
+    render: function () {
+        this.$el.html(this.tpls.authBtn());
+
+        return this;
+    },
+
+    authorizeBtnClick: function (e) {
+        var authsModel;
+        e.preventDefault();
+
+        authsModel = {title: 'Please authorize', content: this.renderAuths()};
+
+        this.popup = new SwaggerUi.Views.PopupView({model: authsModel});
+        this.popup.render();
+    },
+
+    renderAuths: function () {
+        var name, authEl, auth;
+        var el = $('<div>');
+
+        //todo refactor, copy-pasted from MainView.js
+        for (name in this.model) {
+            auth = this.model[name];
+
+            if (auth.type === 'apiKey') {
+                authEl = new SwaggerUi.Views.ApiKeyButton({model: auth, router:  this.router}).render().el;
+                el.append(authEl);
+            }
+
+            if (auth.type === 'basic' && el.find('.basic_auth_container').length === 0) {
+                authEl = new SwaggerUi.Views.BasicAuthButton({model: auth, router: this.router}).render().el;
+                el.append(authEl);
+            }
+        }
+
+        return el.html();
+    }
+});
+
 'use strict';
 
 SwaggerUi.Views.BasicAuthButton = Backbone.View.extend({
@@ -25192,24 +25290,13 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
   },
 
   render: function () {
-    var name, authEl, auth;
-
     // Render the outer container for resources
     $(this.el).html(Handlebars.templates.main(this.model));
     this.model.securityDefinitions = this.model.securityDefinitions || {};
 
-    for (name in this.model.securityDefinitions) {
-      auth = this.model.securityDefinitions[name];
-
-      if (auth.type === 'apiKey') {
-        authEl = new SwaggerUi.Views.ApiKeyButton({model: auth, router:  this.router}).render().el;
-        $('.auth_main_container').append(authEl);
-      }
-
-      if (auth.type === 'basic' && $('.auth_main_container .basic_auth_container').length === 0) {
-        authEl = new SwaggerUi.Views.BasicAuthButton({model: auth, router: this.router}).render().el;
-        $('.auth_main_container').append(authEl);
-      }
+    if (this.model.securityDefinitions) {
+      this.authView = new SwaggerUi.Views.AuthView({model: this.model.securityDefinitions});
+      this.$('.authorize-wrapper').append(this.authView.render().el);
     }
 
     // Render each resource
@@ -25305,21 +25392,21 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   },
 
   selectText: function(event) {
-      var doc = document,
-          text = event.target.firstChild,
-          range,
-          selection;
-      if (doc.body.createTextRange) {
-          range = document.body.createTextRange();
-          range.moveToElementText(text);
-          range.select();
-      } else if (window.getSelection) {
-          selection = window.getSelection();
-          range = document.createRange();
-          range.selectNodeContents(text);
-          selection.removeAllRanges();
-          selection.addRange(range);
-      }
+    var doc = document,
+        text = event.target.firstChild,
+        range,
+        selection;
+    if (doc.body.createTextRange) {
+      range = document.body.createTextRange();
+      range.moveToElementText(text);
+      range.select();
+    } else if (window.getSelection) {
+      selection = window.getSelection();
+      range = document.createRange();
+      range.selectNodeContents(text);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
   },
 
   mouseEnter: function(e) {
@@ -25364,9 +25451,54 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       this.model.isReadOnly = true;
     }
     this.model.description = this.model.description || this.model.notes;
-
-    this.handleAuth();
-
+    this.model.oauth = null;
+    modelAuths = this.model.authorizations || this.model.security;
+    if (modelAuths) {
+      if (Array.isArray(modelAuths)) {
+        for (l = 0, len = modelAuths.length; l < len; l++) {
+          auths = modelAuths[l];
+          for (key in auths) {
+            for (a in this.auths) {
+              auth = this.auths[a];
+              if (key === auth.name) {
+                if (auth.type === 'oauth2') {
+                  this.model.oauth = {};
+                  this.model.oauth.scopes = [];
+                  ref1 = auth.value.scopes;
+                  for (k in ref1) {
+                    v = ref1[k];
+                    scopeIndex = auths[key].indexOf(k);
+                    if (scopeIndex >= 0) {
+                      o = {
+                        scope: k,
+                        description: v
+                      };
+                      this.model.oauth.scopes.push(o);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      } else {
+        for (k in modelAuths) {
+          v = modelAuths[k];
+          if (k === 'oauth2') {
+            if (this.model.oauth === null) {
+              this.model.oauth = {};
+            }
+            if (this.model.oauth.scopes === void 0) {
+              this.model.oauth.scopes = [];
+            }
+            for (m = 0, len1 = v.length; m < len1; m++) {
+              o = v[m];
+              this.model.oauth.scopes.push(o);
+            }
+          }
+        }
+      }
+    }
     if (typeof this.model.responses !== 'undefined') {
       this.model.responseMessages = [];
       ref2 = this.model.responses;
@@ -25410,6 +25542,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
             isParam: false,
             sampleXML: isXML ? SwaggerUi.partials.signature.createXMLSample(value.definition, value.models) : false,
             signature: SwaggerUi.partials.signature.getModelSignature(value.name, value.definition, value.models, value.modelPropertyMacro)
+          };
+        } else {
+          signatureModel = {
+            signature: SwaggerUi.partials.signature.getPrimitiveSignature(value)
           };
         }
       }
@@ -25716,7 +25852,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   // wraps a jquery response as a shred response
   wrap: function(data) {
-   var h, headerArray, headers, i, l, len, o;
+    var h, headerArray, headers, i, l, len, o;
     headers = {};
     headerArray = data.getAllResponseHeaders().split('\r');
     for (l = 0, len = headerArray.length; l < len; l++) {
@@ -25893,7 +26029,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       code = $('<code />').text('no content');
       pre = $('<pre class="json" />').append(code);
 
-    // JSON
+      // JSON
     } else if (contentType === 'application/json' || /\+json$/.test(contentType)) {
       var json = null;
       try {
@@ -25904,35 +26040,35 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       code = $('<code />').text(json);
       pre = $('<pre class="json" />').append(code);
 
-    // XML
+      // XML
     } else if (contentType === 'application/xml' || /\+xml$/.test(contentType)) {
       code = $('<code />').text(this.formatXml(content));
       pre = $('<pre class="xml" />').append(code);
 
-    // HTML
+      // HTML
     } else if (contentType === 'text/html') {
       code = $('<code />').html(_.escape(content));
       pre = $('<pre class="xml" />').append(code);
 
-    // Plain Text
+      // Plain Text
     } else if (/text\/plain/.test(contentType)) {
       code = $('<code />').text(content);
       pre = $('<pre class="plain" />').append(code);
 
 
-    // Image
+      // Image
     } else if (/^image\//.test(contentType)) {
       pre = $('<img>').attr('src', url);
 
-    // Audio
+      // Audio
     } else if (/^audio\//.test(contentType) && supportsAudioPlayback(contentType)) {
       pre = $('<audio controls>').append($('<source>').attr('src', url).attr('type', contentType));
 
-    // Download
+      // Download
     } else if (headers['Content-Disposition'] && (/attachment/).test(headers['Content-Disposition']) ||
-               headers['content-disposition'] && (/attachment/).test(headers['content-disposition']) ||
-               headers['Content-Description'] && (/File Transfer/).test(headers['Content-Description']) ||
-               headers['content-description'] && (/File Transfer/).test(headers['content-description'])) {
+        headers['content-disposition'] && (/attachment/).test(headers['content-disposition']) ||
+        headers['Content-Description'] && (/File Transfer/).test(headers['Content-Description']) ||
+        headers['content-description'] && (/File Transfer/).test(headers['content-description'])) {
 
       if ('Blob' in window) {
         var type = contentType || 'text/html';
@@ -25951,11 +26087,11 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         pre = $('<pre class="json" />').append('Download headers detected but your browser does not support downloading binary via XHR (Blob).');
       }
 
-    // Location header based redirect download
+      // Location header based redirect download
     } else if(headers.location || headers.Location) {
       window.location = response.url;
 
-    // Anything else (CORS)
+      // Anything else (CORS)
     } else {
       code = $('<code />').text(content);
       pre = $('<pre class="json" />').append(code);
@@ -25981,8 +26117,8 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
     if (opts.showRequestHeaders) {
       var form = $('.sandbox', $(this.el)),
-        map = this.getInputMap(form),
-        requestHeaders = this.model.getHeaderParams(map);
+          map = this.getInputMap(form),
+          requestHeaders = this.model.getHeaderParams(map);
       delete requestHeaders['Content-Type'];
       $('.request_headers', $(this.el)).html('<pre>' + _.escape(JSON.stringify(requestHeaders, null, '  ')).replace(/\n/g, '<br>') + '</pre>');
     }
@@ -26055,95 +26191,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       }
     }
     return null;
-  },
-
-  handleAuth: function () {
-    var modelAuths, auths, i, l, len, len1, ref1, scopeIndex;
-    var definitionsMap = {};
-
-    this.auths = this.auths || [];
-
-    for (l = 0, len = this.auths.length; l < len; l++) {
-      definitionsMap[this.auths[l].name] = this.auths[l].value;
-    }
-
-    this.model.oauth = null;
-
-    modelAuths = this.model.authorizations || this.model.security;
-
-    if (!modelAuths) { return null; }
-
-    if (Array.isArray(modelAuths)) {
-      modelAuths.forEach(function (security) {
-        for (i in security) {
-          security[i] = security[i] || {};
-          switch (security[i].type) {
-            case 'apiKey': break;
-            case 'basic': break;
-            default:
-                  //handle from definitions
-          }
-        }
-      });
-    }
-
-
-    if (Array.isArray(modelAuths)) {
-      for (l = 0, len = modelAuths.length; l < len; l++) {
-
-        //auths - single auth from security
-        auths = modelAuths[l];
-        for (key in auths) {
-
-          //this.auths - auth from definitions
-          for (a in this.auths) {
-            //auth - one single auth from definition
-            auth = this.auths[a];
-
-            // if security name is in definitions
-            if (key === auth.name) {
-
-              if (auth.type === 'oauth2') {
-                this.model.oauth = {};
-                this.model.oauth.scopes = [];
-                ref1 = auth.value.scopes;
-                for (k in ref1) {
-                  v = ref1[k];
-                  scopeIndex = auths[key].indexOf(k);
-                  if (scopeIndex >= 0) {
-                    o = {
-                      scope: k,
-                      description: v
-                    };
-                    this.model.oauth.scopes.push(o);
-                  }
-                }
-              }
-              //if (auth.type === 'apiKey') {
-              //  console.log('apiKey')
-              //}
-            }
-          }
-        }
-      }
-    } else {
-      for (k in modelAuths) {
-        v = modelAuths[k];
-        if (k === 'oauth2') {
-          if (this.model.oauth === null) {
-            this.model.oauth = {};
-          }
-          if (this.model.oauth.scopes === void 0) {
-            this.model.oauth.scopes = [];
-          }
-          for (m = 0, len1 = v.length; m < len1; m++) {
-            o = v[m];
-            this.model.oauth.scopes.push(o);
-          }
-        }
-      }
-    }
-
   }
 
 });
@@ -26183,6 +26230,7 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
     var modelDefinitions = this.model.modelSignature.definitions;
     var schema = this.model.schema || {};
     var consumes = this.model.consumes || [];
+    var sampleJSON, signatureView;
 
 
     if (typeof type === 'undefined') {
@@ -26215,20 +26263,21 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
 
     var isXML = this.contains(consumes, 'xml');
     var isJSON = isXML ? this.contains(consumes, 'json') : true;
+    sampleJSON = SwaggerUi.partials.signature.createParameterJSONSample(modelType, modelDefinitions);
 
     var template = this.template();
     $(this.el).html(template(this.model));
 
     var signatureModel = {
-      sampleJSON: isJSON ? SwaggerUi.partials.signature.createParameterJSONSample(modelType, modelDefinitions) : false,
-      sampleXML: isXML ? SwaggerUi.partials.signature.createXMLSample(schema, modelDefinitions, true) : false,
+      sampleJSON: isJSON ? sampleJSON : false,
+      sampleXML: sampleJSON && isXML ? SwaggerUi.partials.signature.createXMLSample(schema, modelDefinitions, true) : false,
       isParam: true,
       signature: SwaggerUi.partials.signature.getParameterModelSignature(modelType, modelDefinitions),
       defaultRendering: this.model.defaultRendering
     };
 
-    if (this.model.sampleJSON) {
-      var signatureView = new SwaggerUi.Views.SignatureView({model: signatureModel, tagName: 'div'});
+    if (sampleJSON) {
+      signatureView = new SwaggerUi.Views.SignatureView({model: signatureModel, tagName: 'div'});
       $('.model-signature', $(this.el)).append(signatureView.render().el);
     }
     else {
@@ -26316,6 +26365,7 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
   },
 
   toggleSnippet: function (type) {
+    type = type || '';
     if (type.indexOf('xml') > -1) {
       this.$('.snippet_xml').show();
       this.$('.snippet_json').hide();
@@ -27085,6 +27135,20 @@ SwaggerUi.partials.signature = (function () {
     return value;
   };
 
+  var getPrimitiveSignature = function (schema) {
+    var type, items;
+
+    schema = schema || {};
+    items = schema.items || {};
+    type = schema.type || '';
+
+    switch (type) {
+      case 'object': return 'Object is not a primitive';
+      case 'array' : return 'Array[' + (items.format || items.type) + ']';
+      default: return schema.format || type;
+    }
+  };
+
   var createPrimitiveXML = function (descriptor) {
     var name = descriptor.name;
     var definition = descriptor.definition;
@@ -27273,10 +27337,56 @@ SwaggerUi.partials.signature = (function () {
       getParameterModelSignature: getParameterModelSignature,
       createParameterJSONSample: createParameterJSONSample,
       createSchemaXML: createSchemaXML,
-      createXMLSample: createXMLSample
+      createXMLSample: createXMLSample,
+      getPrimitiveSignature: getPrimitiveSignature
   };
 
 })();
+
+'use strict';
+
+SwaggerUi.Views.PopupView = Backbone.View.extend({
+    events: {
+        'click .api-popup-cancel': 'cancelClick'
+    },
+
+    template: Handlebars.templates.popup,
+    className: 'api-popup-dialog',
+
+    initialize: function(){},
+
+    render: function () {
+        var $win, dw, dh, st, dlgWd, dlgHt, top, left;
+        $win = $(window);
+        dw = $win.width();
+        dh = $win.height();
+        st = $win.scrollTop();
+        this.$el.html(this.template(this.model));
+        $(document.body).append(this.el);
+        dlgWd = this.$el.outerWidth();
+        dlgHt = this.$el.outerHeight();
+        top = (dh -dlgHt)/2 + st;
+
+        left = (dw - dlgWd)/2;
+
+        this.$el.css({
+            top: (top < 0? 0 : top) + 'px',
+            left: (left < 0? 0 : left) + 'px'
+        });
+        this.showPopup();
+
+        return this;
+    },
+
+    showPopup: function () {
+        this.$el.show();
+    },
+
+    cancelClick: function () {
+        this.remove();
+    }
+
+});
 
 'use strict';
 
@@ -27448,23 +27558,26 @@ SwaggerUi.Views.StatusCodeView = Backbone.View.extend({
   },
 
   render: function(){
+    var responseModel, responseModelView;
     var value = this.router.api.models[this.model.responseModel];
     $(this.el).html(Handlebars.templates.status_code(this.model));
 
     if (this.router.api.models.hasOwnProperty(this.model.responseModel)) {
-      var responseModel = {
+      responseModel = {
         sampleJSON: JSON.stringify(SwaggerUi.partials.signature.createJSONSample(value), void 0, 2),
-        sampleXML: this.model.isXML ? SwaggerUi.partials.signature.createXMLSample(this.model.schema, value.models) : false,
+        sampleXML: this.model.isXML ? SwaggerUi.partials.signature.createXMLSample(this.model.schema, this.router.api.models) : false,
         isParam: false,
         signature: SwaggerUi.partials.signature.getModelSignature(this.model.responseModel, value, this.router.api.models),
         defaultRendering: this.model.defaultRendering
       };
-
-      var responseModelView = new SwaggerUi.Views.SignatureView({model: responseModel, tagName: 'div'});
-      $('.model-signature', this.$el).append(responseModelView.render().el);
     } else {
-      $('.model-signature', this.$el).html('');
+      responseModel = {
+        signature: SwaggerUi.partials.signature.getPrimitiveSignature(this.model.schema)
+      };
     }
+
+    responseModelView = new SwaggerUi.Views.SignatureView({model: responseModel, tagName: 'div'});
+    $('.model-signature', this.$el).append(responseModelView.render().el);
     return this;
   }
 });}).call(this);
