@@ -32,21 +32,21 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   },
 
   selectText: function(event) {
-      var doc = document,
-          text = event.target.firstChild,
-          range,
-          selection;
-      if (doc.body.createTextRange) {
-          range = document.body.createTextRange();
-          range.moveToElementText(text);
-          range.select();
-      } else if (window.getSelection) {
-          selection = window.getSelection();
-          range = document.createRange();
-          range.selectNodeContents(text);
-          selection.removeAllRanges();
-          selection.addRange(range);
-      }
+    var doc = document,
+        text = event.target.firstChild,
+        range,
+        selection;
+    if (doc.body.createTextRange) {
+      range = document.body.createTextRange();
+      range.moveToElementText(text);
+      range.select();
+    } else if (window.getSelection) {
+      selection = window.getSelection();
+      range = document.createRange();
+      range.selectNodeContents(text);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
   },
 
   mouseEnter: function(e) {
@@ -91,9 +91,54 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       this.model.isReadOnly = true;
     }
     this.model.description = this.model.description || this.model.notes;
-
-    this.handleAuth();
-
+    this.model.oauth = null;
+    modelAuths = this.model.authorizations || this.model.security;
+    if (modelAuths) {
+      if (Array.isArray(modelAuths)) {
+        for (l = 0, len = modelAuths.length; l < len; l++) {
+          auths = modelAuths[l];
+          for (key in auths) {
+            for (a in this.auths) {
+              auth = this.auths[a];
+              if (key === auth.name) {
+                if (auth.type === 'oauth2') {
+                  this.model.oauth = {};
+                  this.model.oauth.scopes = [];
+                  ref1 = auth.value.scopes;
+                  for (k in ref1) {
+                    v = ref1[k];
+                    scopeIndex = auths[key].indexOf(k);
+                    if (scopeIndex >= 0) {
+                      o = {
+                        scope: k,
+                        description: v
+                      };
+                      this.model.oauth.scopes.push(o);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      } else {
+        for (k in modelAuths) {
+          v = modelAuths[k];
+          if (k === 'oauth2') {
+            if (this.model.oauth === null) {
+              this.model.oauth = {};
+            }
+            if (this.model.oauth.scopes === void 0) {
+              this.model.oauth.scopes = [];
+            }
+            for (m = 0, len1 = v.length; m < len1; m++) {
+              o = v[m];
+              this.model.oauth.scopes.push(o);
+            }
+          }
+        }
+      }
+    }
     if (typeof this.model.responses !== 'undefined') {
       this.model.responseMessages = [];
       ref2 = this.model.responses;
@@ -447,7 +492,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   // wraps a jquery response as a shred response
   wrap: function(data) {
-   var h, headerArray, headers, i, l, len, o;
+    var h, headerArray, headers, i, l, len, o;
     headers = {};
     headerArray = data.getAllResponseHeaders().split('\r');
     for (l = 0, len = headerArray.length; l < len; l++) {
@@ -624,7 +669,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       code = $('<code />').text('no content');
       pre = $('<pre class="json" />').append(code);
 
-    // JSON
+      // JSON
     } else if (contentType === 'application/json' || /\+json$/.test(contentType)) {
       var json = null;
       try {
@@ -635,35 +680,35 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       code = $('<code />').text(json);
       pre = $('<pre class="json" />').append(code);
 
-    // XML
+      // XML
     } else if (contentType === 'application/xml' || /\+xml$/.test(contentType)) {
       code = $('<code />').text(this.formatXml(content));
       pre = $('<pre class="xml" />').append(code);
 
-    // HTML
+      // HTML
     } else if (contentType === 'text/html') {
       code = $('<code />').html(_.escape(content));
       pre = $('<pre class="xml" />').append(code);
 
-    // Plain Text
+      // Plain Text
     } else if (/text\/plain/.test(contentType)) {
       code = $('<code />').text(content);
       pre = $('<pre class="plain" />').append(code);
 
 
-    // Image
+      // Image
     } else if (/^image\//.test(contentType)) {
       pre = $('<img>').attr('src', url);
 
-    // Audio
+      // Audio
     } else if (/^audio\//.test(contentType) && supportsAudioPlayback(contentType)) {
       pre = $('<audio controls>').append($('<source>').attr('src', url).attr('type', contentType));
 
-    // Download
+      // Download
     } else if (headers['Content-Disposition'] && (/attachment/).test(headers['Content-Disposition']) ||
-               headers['content-disposition'] && (/attachment/).test(headers['content-disposition']) ||
-               headers['Content-Description'] && (/File Transfer/).test(headers['Content-Description']) ||
-               headers['content-description'] && (/File Transfer/).test(headers['content-description'])) {
+        headers['content-disposition'] && (/attachment/).test(headers['content-disposition']) ||
+        headers['Content-Description'] && (/File Transfer/).test(headers['Content-Description']) ||
+        headers['content-description'] && (/File Transfer/).test(headers['content-description'])) {
 
       if ('Blob' in window) {
         var type = contentType || 'text/html';
@@ -691,11 +736,11 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         pre = $('<pre class="json" />').append('Download headers detected but your browser does not support downloading binary via XHR (Blob).');
       }
 
-    // Location header based redirect download
+      // Location header based redirect download
     } else if(headers.location || headers.Location) {
       window.location = response.url;
 
-    // Anything else (CORS)
+      // Anything else (CORS)
     } else {
       code = $('<code />').text(content);
       pre = $('<pre class="json" />').append(code);
@@ -721,8 +766,8 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
     if (opts.showRequestHeaders) {
       var form = $('.sandbox', $(this.el)),
-        map = this.getInputMap(form),
-        requestHeaders = this.model.getHeaderParams(map);
+          map = this.getInputMap(form),
+          requestHeaders = this.model.getHeaderParams(map);
       delete requestHeaders['Content-Type'];
       $('.request_headers', $(this.el)).html('<pre>' + _.escape(JSON.stringify(requestHeaders, null, '  ')).replace(/\n/g, '<br>') + '</pre>');
     }
@@ -795,95 +840,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       }
     }
     return null;
-  },
-
-  handleAuth: function () {
-    var modelAuths, auths, i, l, len, len1, ref1, scopeIndex;
-    var definitionsMap = {};
-
-    this.auths = this.auths || [];
-
-    for (l = 0, len = this.auths.length; l < len; l++) {
-      definitionsMap[this.auths[l].name] = this.auths[l].value;
-    }
-
-    this.model.oauth = null;
-
-    modelAuths = this.model.authorizations || this.model.security;
-
-    if (!modelAuths) { return null; }
-
-    if (Array.isArray(modelAuths)) {
-      modelAuths.forEach(function (security) {
-        for (i in security) {
-          security[i] = security[i] || {};
-          switch (security[i].type) {
-            case 'apiKey': break;
-            case 'basic': break;
-            default:
-                  //handle from definitions
-          }
-        }
-      });
-    }
-
-
-    if (Array.isArray(modelAuths)) {
-      for (l = 0, len = modelAuths.length; l < len; l++) {
-
-        //auths - single auth from security
-        auths = modelAuths[l];
-        for (key in auths) {
-
-          //this.auths - auth from definitions
-          for (a in this.auths) {
-            //auth - one single auth from definition
-            auth = this.auths[a];
-
-            // if security name is in definitions
-            if (key === auth.name) {
-
-              if (auth.type === 'oauth2') {
-                this.model.oauth = {};
-                this.model.oauth.scopes = [];
-                ref1 = auth.value.scopes;
-                for (k in ref1) {
-                  v = ref1[k];
-                  scopeIndex = auths[key].indexOf(k);
-                  if (scopeIndex >= 0) {
-                    o = {
-                      scope: k,
-                      description: v
-                    };
-                    this.model.oauth.scopes.push(o);
-                  }
-                }
-              }
-              //if (auth.type === 'apiKey') {
-              //  console.log('apiKey')
-              //}
-            }
-          }
-        }
-      }
-    } else {
-      for (k in modelAuths) {
-        v = modelAuths[k];
-        if (k === 'oauth2') {
-          if (this.model.oauth === null) {
-            this.model.oauth = {};
-          }
-          if (this.model.oauth.scopes === void 0) {
-            this.model.oauth.scopes = [];
-          }
-          for (m = 0, len1 = v.length; m < len1; m++) {
-            o = v[m];
-            this.model.oauth.scopes.push(o);
-          }
-        }
-      }
-    }
-
   }
 
 });

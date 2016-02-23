@@ -14,7 +14,7 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
   },
 
   render: function(){
-    $(this.el).html(this.template(this.model));
+    this.$el.html(this.template(this.model));
 
     return this;
   },
