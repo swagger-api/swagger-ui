@@ -29,7 +29,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
     },
 
     renderAuths: function () {
-        var name, authEl;
+        var name, authEl, auth;
         var el = $('<div>');
 
         //todo refactor, copy-pasted from MainView.js
