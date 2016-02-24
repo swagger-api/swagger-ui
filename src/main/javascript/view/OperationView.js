@@ -722,7 +722,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         var disposition = headers['content-disposition'] || headers['Content-Disposition'];
         if(typeof disposition !== 'undefined') {
           var responseFilename = /filename=([^;]*);?/.exec(disposition);
-          if(responseFilename != null && responseFilename.length > 1) {
+          if(responseFilename !== null && responseFilename.length > 1) {
             download = responseFilename[1];
           }
         }
