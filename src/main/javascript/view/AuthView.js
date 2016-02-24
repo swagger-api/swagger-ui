@@ -2,7 +2,8 @@
 
 SwaggerUi.Views.AuthView = Backbone.View.extend({
     events: {
-        'click .authorize__btn': 'authorizeBtnClick'
+        'click .authorize__btn': 'authorizeBtnClick',
+        'click .logout__btn' : 'logoutClick'
     },
 
     tpls: {
@@ -16,7 +17,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
     },
 
     render: function () {
-        this.$el.html(this.tpls.authBtn());
+        this.$el.html(this.tpls.authBtn(this.model));
 
         return this;
     },
@@ -25,7 +26,10 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         var authsModel;
         e.preventDefault();
 
-        authsModel = {title: 'Available authorizations', content: this.renderAuths()};
+        authsModel = {
+            title: 'Available authorizations',
+            content: this.renderAuths()
+        };
 
         this.popup = new SwaggerUi.Views.PopupView({model: authsModel});
         this.popup.render();
@@ -36,20 +40,33 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         var el = $('<div>');
 
         //todo refactor, copy-pasted from MainView.js
-        for (name in this.model) {
-            auth = this.model[name];
+        for (name in this.model.auths) {
+            auth = this.model.auths[name];
 
             if (auth.type === 'apiKey') {
                 authEl = new SwaggerUi.Views.ApiKeyButton({model: auth, router:  this.router}).render().el;
                 el.append(authEl);
-            }
-
-            if (auth.type === 'basic' && el.find('.basic_auth_container').length === 0) {
+            } else if (auth.type === 'basic' && el.find('.basic_auth_container').length === 0) {
                 authEl = new SwaggerUi.Views.BasicAuthButton({model: auth, router: this.router}).render().el;
                 el.append(authEl);
             }
         }
 
         return el;
+    },
+
+    logoutClick: function (e) {
+        var authsModel;
+        e.preventDefault();
+
+        authsModel = {
+            title: 'Logout authorizations'
+        };
+
+        this.popup = new SwaggerUi.Views.PopupView({model: authsModel});
+        this.popup.render();
+
+        console.log(window.swaggerUi.api.clientAuthorizations.authz);
     }
+
 });
