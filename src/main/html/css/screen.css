@@ -1181,6 +1181,9 @@
 .swagger-section .oauth_submit {
   text-align: center;
 }
+.swagger-section .authorize-wrapper {
+  margin: 15px 0 10px;
+}
 .swagger-section .authorize__btn:hover {
   text-decoration: underline;
   cursor: pointer;
@@ -1203,7 +1206,7 @@
   cursor: pointer;
 }
 .swagger-section .auth_container .key_input_container {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 .swagger-section .auth_container .basic_auth_container {
   font-size: 0.9em;
@@ -1231,6 +1234,10 @@
 .swagger-section .api-popup-dialog .error-msg {
   padding-left: 5px;
   padding-bottom: 5px;
+}
+.swagger-section .api-popup-dialog .api-popup-content {
+  max-height: 500px;
+  overflow-y: auto;
 }
 .swagger-section .api-popup-dialog .api-popup-authbtn {
   height: 30px;

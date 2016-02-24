@@ -8,6 +8,11 @@ SwaggerUi.Views.PopupView = Backbone.View.extend({
     template: Handlebars.templates.popup,
     className: 'api-popup-dialog',
 
+    selectors: {
+        content: '.api-popup-content',
+        main   : '#swagger-ui-container'
+    },
+
     initialize: function(){},
 
     render: function () {
@@ -17,7 +22,8 @@ SwaggerUi.Views.PopupView = Backbone.View.extend({
         dh = $win.height();
         st = $win.scrollTop();
         this.$el.html(this.template(this.model));
-        $(document.body).append(this.el);
+        this.$(this.selectors.content).append(this.model.content);
+        $(this.selectors.main).first().append(this.el);
         dlgWd = this.$el.outerWidth();
         dlgHt = this.$el.outerHeight();
         top = (dh -dlgHt)/2 + st;
