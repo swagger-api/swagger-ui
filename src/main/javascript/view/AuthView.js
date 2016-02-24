@@ -10,7 +10,10 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         authBtn: Handlebars.templates.auth_button
     },
 
-    initialize: function(){},
+    initialize: function(opts) {
+        this.options = opts || {};
+        this.router = this.options.router;
+    },
 
     render: function () {
         this.$el.html(this.tpls.authBtn());
@@ -22,7 +25,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         var authsModel;
         e.preventDefault();
 
-        authsModel = {title: 'Please authorize', content: this.renderAuths()};
+        authsModel = {title: 'Available authorizations', content: this.renderAuths()};
 
         this.popup = new SwaggerUi.Views.PopupView({model: authsModel});
         this.popup.render();
@@ -47,6 +50,6 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
             }
         }
 
-        return el.html();
+        return el;
     }
 });

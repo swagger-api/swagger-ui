@@ -88,7 +88,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     this.model.securityDefinitions = this.model.securityDefinitions || {};
 
     if (this.model.securityDefinitions) {
-      this.authView = new SwaggerUi.Views.AuthView({model: this.model.securityDefinitions});
+      this.authView = new SwaggerUi.Views.AuthView({model: this.model.securityDefinitions, router: this.router});
       this.$('.authorize-wrapper').append(this.authView.render().el);
     }
 
