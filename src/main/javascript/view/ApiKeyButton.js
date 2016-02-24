@@ -28,7 +28,6 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
     );
     this.router.api.clientAuthorizations.add(this.model.name, keyAuth);
     this.router.load();
-    //$('#apikey_container').show();
   }
 
 });
