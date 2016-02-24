@@ -8,12 +8,16 @@
 this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};
 this["Handlebars"]["templates"]["apikey_button_view"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "<div class='auth_container'>\n  <div class='key_input_container'>\n    <div class='auth_label'><label for='input_apiKey_entry'>"
-    + escapeExpression(((helper = (helper = helpers.keyName || (depth0 != null ? depth0.keyName : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"keyName","hash":{},"data":data}) : helper)))
-    + "</label></div>\n    <input placeholder='api_key' class='auth_input input_apiKey_entry' name='apiKey' type='text'/>\n    <div class='auth_submit'><a class='auth_submit_button' href='#' data-sw-translate>apply</a></div>\n  </div>\n</div>\n";
+  return "<div class='auth_container'>\n    <div class='key_input_container'>\n        <div class='auth__description'>"
+    + escapeExpression(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"description","hash":{},"data":data}) : helper)))
+    + "</div>\n        <div>\n            <span class='auth_label'><label for='input_apiKey_entry'><span>Api key</span> in "
+    + escapeExpression(((helper = (helper = helpers['in'] || (depth0 != null ? depth0['in'] : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"in","hash":{},"data":data}) : helper)))
+    + "</label></span>\n            <span class='auth_in'><label for='input_apiKey_entry'>"
+    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
+    + " =</label></span>\n            <input placeholder='api_key' class='auth_input input_apiKey_entry' name='apiKey' type='text'/>\n        </div>\n        <div class='auth_submit'><a class='auth_submit_button' href='#' data-sw-translate>apply</a></div>\n    </div>\n</div>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["auth_button"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<a class='authorize__btn'>Authorize</a>\n";
+  return "<a class='authorize__btn'>Click to Authorize</a>\n";
   },"useData":true});
 this["Handlebars"]["templates"]["basic_auth_button_view"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
@@ -850,12 +854,10 @@ this["Handlebars"]["templates"]["parameter_content_type"] = Handlebars.template(
   return buffer + "</select>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["popup"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class=\"api-popup-dialog-wrapper\">\n    <div class=\"api-popup-title\">"
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "<div class=\"api-popup-dialog-wrapper\">\n    <div class=\"api-popup-title\">"
     + escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"title","hash":{},"data":data}) : helper)))
-    + "</div>\n    <div class=\"api-popup-content\">\n        ";
-  stack1 = ((helper = (helper = helpers.content || (depth0 != null ? depth0.content : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"content","hash":{},"data":data}) : helper));
-  if (stack1 != null) { buffer += stack1; }
-  return buffer + "\n    </div>\n    <p class=\"error-msg\"></p>\n    <div class=\"api-popup-actions\">\n        <button class=\"api-popup-cancel api-button gray\" type=\"button\">Cancel</button>\n    </div>\n</div>";
+    + "</div>\n    <div class=\"api-popup-content\"></div>\n    <p class=\"error-msg\"></p>\n    <div class=\"api-popup-actions\">\n        <button class=\"api-popup-cancel api-button gray\" type=\"button\">Cancel</button>\n    </div>\n</div>";
 },"useData":true});
 this["Handlebars"]["templates"]["resource"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   return " : ";
@@ -25056,7 +25058,6 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
     );
     this.router.api.clientAuthorizations.add(this.model.name, keyAuth);
     this.router.load();
-    //$('#apikey_container').show();
   }
 
 });
@@ -25072,7 +25073,10 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         authBtn: Handlebars.templates.auth_button
     },
 
-    initialize: function(){},
+    initialize: function(opts) {
+        this.options = opts || {};
+        this.router = this.options.router;
+    },
 
     render: function () {
         this.$el.html(this.tpls.authBtn());
@@ -25084,7 +25088,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         var authsModel;
         e.preventDefault();
 
-        authsModel = {title: 'Please authorize', content: this.renderAuths()};
+        authsModel = {title: 'Available authorizations', content: this.renderAuths()};
 
         this.popup = new SwaggerUi.Views.PopupView({model: authsModel});
         this.popup.render();
@@ -25109,7 +25113,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
             }
         }
 
-        return el.html();
+        return el;
     }
 });
 
@@ -25295,7 +25299,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     this.model.securityDefinitions = this.model.securityDefinitions || {};
 
     if (this.model.securityDefinitions) {
-      this.authView = new SwaggerUi.Views.AuthView({model: this.model.securityDefinitions});
+      this.authView = new SwaggerUi.Views.AuthView({model: this.model.securityDefinitions, router: this.router});
       this.$('.authorize-wrapper').append(this.authView.render().el);
     }
 
@@ -27353,6 +27357,11 @@ SwaggerUi.Views.PopupView = Backbone.View.extend({
     template: Handlebars.templates.popup,
     className: 'api-popup-dialog',
 
+    selectors: {
+        content: '.api-popup-content',
+        main   : '#swagger-ui-container'
+    },
+
     initialize: function(){},
 
     render: function () {
@@ -27362,7 +27371,8 @@ SwaggerUi.Views.PopupView = Backbone.View.extend({
         dh = $win.height();
         st = $win.scrollTop();
         this.$el.html(this.template(this.model));
-        $(document.body).append(this.el);
+        this.$(this.selectors.content).append(this.model.content);
+        $(this.selectors.main).first().append(this.el);
         dlgWd = this.$el.outerWidth();
         dlgHt = this.$el.outerHeight();
         top = (dh -dlgHt)/2 + st;
