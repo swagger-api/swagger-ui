@@ -106,6 +106,12 @@
         dom_id: "swagger-ui-container",
         supportedSubmitMethods: ['get', 'post', 'put', 'patch', 'delete'],
         authorizations: { 'api_key': apiKeyAuth, 'session_token': tokenAuth},
+        docExpansion: "none",
+        jsonEditor: false,
+        apisSorter: "alpha",
+        defaultModelRendering: 'schema',
+        showRequestHeaders: false,
+        validatorUrl: null,
         onComplete: function(swaggerApi, swaggerUi){
           if(typeof initOAuth == "function") {
             initOAuth({
@@ -132,12 +138,7 @@
         },
         onFailure: function(data) {
           log("Unable to Load SwaggerUI");
-        },
-        docExpansion: "none",
-        jsonEditor: false,
-        apisSorter: "alpha",
-        defaultModelRendering: 'schema',
-        showRequestHeaders: false
+        }
       });
 
       function addApiKeyAuthorization(){
@@ -202,7 +203,7 @@
       <div class='input2'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
       <div class='input'><input placeholder="session_token" id="input_sessionToken" name="sessionToken" type="text"/></div>
       <div class='input2'><input placeholder="username" id="input_authUsername" name="authUsername" type="text"/></div>
-      <div class='input'><input type="password" placeholder="password" id="input_authPassword" name="authPassword" type="text"/></div>
+      <div class='input'><input placeholder="password" id="input_authPassword" name="authPassword" type="password"/></div>
       <div class='input2'><a id="explore" href="#" data-sw-translate>Explore</a></div>
     </form>
   </div>
