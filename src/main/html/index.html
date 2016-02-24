@@ -68,6 +68,8 @@
           }
 
           addApiKeyAuthorization();
+
+          toTextareas('input.parameter', 'body-textarea');
         },
         onFailure: function(data) {
           log("Unable to Load SwaggerUI");
@@ -78,6 +80,30 @@
         defaultModelRendering: 'schema',
         showRequestHeaders: false
       });
+
+        function toTextareas(q, cls) {
+          $(q).keypress(function (e) {
+            if (e.which == 13) {
+              toTextarea(e.target, cls);
+              return false;
+            }
+          });
+        }
+
+        function toTextarea(el, cls) {
+          var $el = $(el);
+          var $ta = $(document.createElement('textarea'));
+          var attributes = $el.prop("attributes");
+          $.each(attributes, function() {
+            $ta.attr(this.name, this.value);
+          });
+          var v = $el.val();
+          if (v) v = v + '\n';
+          $ta.val(v);
+          $ta.addClass(cls);
+          $el.replaceWith($ta);
+          $ta.focus();
+        }
 
       function addApiKeyAuthorization(){
         var key = encodeURIComponent($('#input_apiKey')[0].value);
