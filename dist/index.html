@@ -91,6 +91,13 @@
       $('#input_apiKey').val(_apiKey);
       var token = getSessionToken();
       $('#input_sessionToken').val(token);
+
+      if(token === ''){
+        $('#header').show();
+      } else {
+        $('#header').hide();
+      }
+
       var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("X-DreamFactory-Api-Key", _apiKey, "header");
       var tokenAuth = new SwaggerClient.ApiKeyAuthorization("X-DreamFactory-Session-Token", token, "header");
 
@@ -195,7 +202,7 @@
       <div class='input2'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
       <div class='input'><input placeholder="session_token" id="input_sessionToken" name="sessionToken" type="text"/></div>
       <div class='input2'><input placeholder="username" id="input_authUsername" name="authUsername" type="text"/></div>
-      <div class='input'><input placeholder="password" id="input_authPassword" name="authPassword" type="text"/></div>
+      <div class='input'><input type="password" placeholder="password" id="input_authPassword" name="authPassword" type="text"/></div>
       <div class='input2'><a id="explore" href="#" data-sw-translate>Explore</a></div>
     </form>
   </div>
