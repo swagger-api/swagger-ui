@@ -16,9 +16,14 @@ this["Handlebars"]["templates"]["apikey_button_view"] = Handlebars.template({"co
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + " =</label></span>\n            <input placeholder='api_key' class='auth_input input_apiKey_entry' name='apiKey' type='text'/>\n        </div>\n        <div class='auth_submit'><a class='auth_submit_button' href='#' data-sw-translate>apply</a></div>\n    </div>\n</div>\n";
 },"useData":true});
-this["Handlebars"]["templates"]["auth_button"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<a class='authorize__btn'>Click to Authorize</a>\n";
-  },"useData":true});
+this["Handlebars"]["templates"]["auth_button"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
+  return "    <a class='logout__btn'>Log out</a>\n";
+  },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var stack1, buffer = "<a class='authorize__btn'>Click to Authorize</a>\n";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isLogout : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer;
+},"useData":true});
 this["Handlebars"]["templates"]["basic_auth_button_view"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
   return "<div class='auth_container basic_auth_container'>\n  <h3 class=\"basic_auth__title\">Basic authentication</h3>\n  <form class=\"key_input_container\">\n    <div class=\"auth__description\">"
@@ -25065,7 +25070,8 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
 
 SwaggerUi.Views.AuthView = Backbone.View.extend({
     events: {
-        'click .authorize__btn': 'authorizeBtnClick'
+        'click .authorize__btn': 'authorizeBtnClick',
+        'click .logout__btn' : 'logoutClick'
     },
 
     tpls: {
@@ -25079,7 +25085,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
     },
 
     render: function () {
-        this.$el.html(this.tpls.authBtn());
+        this.$el.html(this.tpls.authBtn(this.model));
 
         return this;
     },
@@ -25088,7 +25094,10 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         var authsModel;
         e.preventDefault();
 
-        authsModel = {title: 'Available authorizations', content: this.renderAuths()};
+        authsModel = {
+            title: 'Available authorizations',
+            content: this.renderAuths()
+        };
 
         this.popup = new SwaggerUi.Views.PopupView({model: authsModel});
         this.popup.render();
@@ -25099,22 +25108,35 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         var el = $('<div>');
 
         //todo refactor, copy-pasted from MainView.js
-        for (name in this.model) {
-            auth = this.model[name];
+        for (name in this.model.auths) {
+            auth = this.model.auths[name];
 
             if (auth.type === 'apiKey') {
                 authEl = new SwaggerUi.Views.ApiKeyButton({model: auth, router:  this.router}).render().el;
                 el.append(authEl);
-            }
-
-            if (auth.type === 'basic' && el.find('.basic_auth_container').length === 0) {
+            } else if (auth.type === 'basic' && el.find('.basic_auth_container').length === 0) {
                 authEl = new SwaggerUi.Views.BasicAuthButton({model: auth, router: this.router}).render().el;
                 el.append(authEl);
             }
         }
 
         return el;
+    },
+
+    logoutClick: function (e) {
+        var authsModel;
+        e.preventDefault();
+
+        authsModel = {
+            title: 'Logout authorizations'
+        };
+
+        this.popup = new SwaggerUi.Views.PopupView({model: authsModel});
+        this.popup.render();
+
+        console.log(window.swaggerUi.api.clientAuthorizations.authz);
     }
+
 });
 
 'use strict';
@@ -25295,11 +25317,16 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
   render: function () {
     // Render the outer container for resources
+    var authsModel;
+
     $(this.el).html(Handlebars.templates.main(this.model));
     this.model.securityDefinitions = this.model.securityDefinitions || {};
 
-    if (this.model.securityDefinitions) {
-      this.authView = new SwaggerUi.Views.AuthView({model: this.model.securityDefinitions, router: this.router});
+    if (!_.isEmpty(this.model.securityDefinitions)) {
+      authsModel = { auths: this.model.securityDefinitions };
+
+      authsModel.isLogout = !_.isEmpty(window.swaggerUi.api.clientAuthorizations.authz);
+      this.authView = new SwaggerUi.Views.AuthView({model: authsModel, router: this.router});
       this.$('.authorize-wrapper').append(this.authView.render().el);
     }
 
