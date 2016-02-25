@@ -286,7 +286,7 @@
   color: #aaaaaa;
 }
 .swagger-section .swagger-ui-wrap a {
-  color: #547f00;
+  color: #646b6f;
 }
 .swagger-section .swagger-ui-wrap a img {
   border: none;
@@ -580,7 +580,7 @@
   color: #666666;
 }
 .swagger-section .swagger-ui-wrap .message-success {
-  color: #89BF04;
+  color: #f7961d;
 }
 .swagger-section .swagger-ui-wrap caption,
 .swagger-section .swagger-ui-wrap th,
@@ -652,7 +652,7 @@
   font-style: italic;
 }
 .swagger-section .swagger-ui-wrap .markdown h3 {
-  color: #547f00;
+  color: #646b6f;
 }
 .swagger-section .swagger-ui-wrap .markdown h4 {
   color: #666666;
@@ -1120,7 +1120,7 @@
 }
 .swagger-section .swagger-ui-wrap p#colophon a {
   text-decoration: none;
-  color: #547f00;
+  color: #646b6f;
 }
 .swagger-section .swagger-ui-wrap h3 {
   color: black;
