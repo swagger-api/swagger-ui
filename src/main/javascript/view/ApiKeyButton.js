@@ -33,7 +33,7 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
 
   clickLogout: function () {
     window.swaggerUi.api.clientAuthorizations.remove(this.model.name);
-    this.remove();
+    this.router.load();
   }
 
 });
