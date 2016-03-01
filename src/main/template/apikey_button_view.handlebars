@@ -4,8 +4,16 @@
         <div>
             <span class='auth_label'><label for='input_apiKey_entry'><span>Api key</span> in {{in}}</label></span>
             <span class='auth_in'><label for='input_apiKey_entry'>{{name}} =</label></span>
-            <input placeholder='api_key' class='auth_input input_apiKey_entry' name='apiKey' type='text'/>
+            {{#if isLogout}}
+                <span class="auth_label">{{value}}</span>
+            {{else}}
+                <input placeholder='api_key' class='auth_input input_apiKey_entry' name='apiKey' type='text'/>
+            {{/if}}
         </div>
-        <div class='auth_submit'><a class='auth_submit_button' href='#' data-sw-translate>apply</a></div>
+        {{#if isLogout}}
+            <input type="button" class="auth_logout__button" value="logout"></div>
+        {{else}}
+            <div class='auth_submit'><a class='auth_submit_button' href='#' data-sw-translate>apply</a></div>
+        {{/if}}
     </div>
 </div>
