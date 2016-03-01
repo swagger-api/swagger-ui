@@ -25515,7 +25515,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
           signatureModel = {
             sampleJSON: isJSON ? JSON.stringify(SwaggerUi.partials.signature.createJSONSample(value), void 0, 2) : false,
             isParam: false,
-            sampleXML: isXML ? SwaggerUi.partials.signature.createXMLSample(value.definition, value.models) : false,
+            sampleXML: isXML ? SwaggerUi.partials.signature.createXMLSample(value.name, value.definition, value.models) : false,
             signature: SwaggerUi.partials.signature.getModelSignature(value.name, value.definition, value.models, value.modelPropertyMacro)
           };
         } else {
@@ -26053,6 +26053,15 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         var fileName = response.url.substr(response.url.lastIndexOf('/') + 1);
         var download = [type, fileName, href].join(':');
 
+        // Use filename from response header
+        var disposition = headers['content-disposition'] || headers['Content-Disposition'];
+        if(typeof disposition !== 'undefined') {
+          var responseFilename = /filename=([^;]*);?/.exec(disposition);
+          if(responseFilename !== null && responseFilename.length > 1) {
+            download = responseFilename[1];
+          }
+        }
+
         a.setAttribute('href', href);
         a.setAttribute('download', download);
         a.innerText = 'Download ' + fileName;
@@ -26245,7 +26254,7 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
 
     var signatureModel = {
       sampleJSON: isJSON ? sampleJSON : false,
-      sampleXML: sampleJSON && isXML ? SwaggerUi.partials.signature.createXMLSample(schema, modelDefinitions, true) : false,
+      sampleXML: sampleJSON && isXML ? SwaggerUi.partials.signature.createXMLSample('', schema, modelDefinitions, true) : false,
       isParam: true,
       signature: SwaggerUi.partials.signature.getParameterModelSignature(modelType, modelDefinitions),
       defaultRendering: this.model.defaultRendering
@@ -27300,10 +27309,10 @@ SwaggerUi.partials.signature = (function () {
     return new Descriptor(name, type, definition, models, config);
   }
 
-  function createXMLSample (definition, models, isParam) {
+  function createXMLSample (name, definition, models, isParam) {
     var prolog = '<?xml version="1.0"?>';
 
-    return formatXml(prolog + createSchemaXML('', definition, models, { isParam: isParam } ));
+    return formatXml(prolog + createSchemaXML(name, definition, models, { isParam: isParam } ));
   }
 
   return {
@@ -27495,7 +27504,7 @@ SwaggerUi.Views.StatusCodeView = Backbone.View.extend({
     if (this.router.api.models.hasOwnProperty(this.model.responseModel)) {
       responseModel = {
         sampleJSON: JSON.stringify(SwaggerUi.partials.signature.createJSONSample(value), void 0, 2),
-        sampleXML: this.model.isXML ? SwaggerUi.partials.signature.createXMLSample(this.model.schema, this.router.api.models) : false,
+        sampleXML: this.model.isXML ? SwaggerUi.partials.signature.createXMLSample('', this.model.schema, this.router.api.models) : false,
         isParam: false,
         signature: SwaggerUi.partials.signature.getModelSignature(this.model.responseModel, value, this.router.api.models),
         defaultRendering: this.model.defaultRendering

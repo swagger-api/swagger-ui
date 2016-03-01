@@ -926,10 +926,10 @@ SwaggerUi.partials.signature = (function () {
     return new Descriptor(name, type, definition, models, config);
   }
 
-  function createXMLSample (definition, models, isParam) {
+  function createXMLSample (name, definition, models, isParam) {
     var prolog = '<?xml version="1.0"?>';
 
-    return formatXml(prolog + createSchemaXML('', definition, models, { isParam: isParam } ));
+    return formatXml(prolog + createSchemaXML(name, definition, models, { isParam: isParam } ));
   }
 
   return {
