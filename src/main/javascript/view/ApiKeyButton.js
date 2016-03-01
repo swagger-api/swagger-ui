@@ -3,7 +3,8 @@
 SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to global SwaggerUi
 
   events:{
-    'click .auth_submit_button' : 'applyApiKey'
+    'click .auth_submit_button' : 'applyApiKey',
+    'click .auth_logout__button' : 'clickLogout'
   },
 
   template: Handlebars.templates.apikey_button_view,
@@ -28,6 +29,11 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
     );
     this.router.api.clientAuthorizations.add(this.model.name, keyAuth);
     this.router.load();
+  },
+
+  clickLogout: function () {
+    window.swaggerUi.api.clientAuthorizations.remove(this.model.name);
+    this.remove();
   }
 
 });
