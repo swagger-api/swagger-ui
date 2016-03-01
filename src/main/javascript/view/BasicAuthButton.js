@@ -17,7 +17,8 @@ SwaggerUi.Views.BasicAuthButton = Backbone.View.extend({
   },
 
   events: {
-    'submit .key_input_container' : 'applyPassword'
+    'submit .key_input_container' : 'applyPassword',
+    'click .auth_logout__button'  : 'clickLogout'
   },
 
   applyPassword: function(event) {
@@ -27,6 +28,11 @@ SwaggerUi.Views.BasicAuthButton = Backbone.View.extend({
     var basicAuth = new SwaggerClient.PasswordAuthorization('basic', username, password);
     this.router.api.clientAuthorizations.add(this.model.type, basicAuth);
     this.router.load();
+  },
+
+  clickLogout: function () {
+    window.swaggerUi.api.clientAuthorizations.remove(this.model.name);
+    this.remove();
   }
 
 });

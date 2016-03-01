@@ -1,5 +1,9 @@
 <div class='auth_container basic_auth_container'>
+
   <h3 class="basic_auth__title">Basic authentication</h3>
+  {{#if isLogout}}
+    <input type="button" class="auth_logout__button" value="logout"></div>
+  {{else}}
   <form class="key_input_container">
     <div class="auth__description">{{description}}</div>
     <div class="auth_label"><label data-sw-translate>username</label></div>
@@ -8,5 +12,6 @@
     <input required placeholder="password" class="basic_auth__password auth_input" name="password" type="password"/>
     <div class='auth_submit'><input type="submit" class="auth_submit__button" value="apply"></div>
   </form>
+  {{/if}}
 </div>
 

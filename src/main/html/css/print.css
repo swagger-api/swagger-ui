@@ -1203,7 +1203,8 @@
   color: #999999;
   margin-bottom: 5px;
 }
-.swagger-section .auth_container .auth_submit__button {
+.swagger-section .auth_container .auth_submit__button,
+.swagger-section .auth_container .auth_logout__button {
   color: #547f00;
   border: none;
   text-decoration: underline;
@@ -1211,6 +1212,7 @@
   padding-left: 0;
   font-size: 1em;
   cursor: pointer;
+  outline: none;
 }
 .swagger-section .auth_container .key_input_container {
   margin-bottom: 15px;
