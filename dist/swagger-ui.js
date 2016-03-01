@@ -25084,7 +25084,7 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
 
   clickLogout: function () {
     window.swaggerUi.api.clientAuthorizations.remove(this.model.name);
-    this.remove();
+    this.router.load();
   }
 
 });
@@ -25219,7 +25219,7 @@ SwaggerUi.Views.BasicAuthButton = Backbone.View.extend({
 
   clickLogout: function () {
     window.swaggerUi.api.clientAuthorizations.remove(this.model.name);
-    this.remove();
+    this.router.load();
   }
 
 });
@@ -25248,7 +25248,7 @@ SwaggerUi.Views.HeaderView = Backbone.View.extend({
 
   showPetStore: function(){
     this.trigger('update-swagger-ui', {
-      url:'http://localhost:3001/swagger.json'
+      url:'http://petstore.swagger.io/v2/swagger.json'
     });
   },
 
