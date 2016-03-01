@@ -1,54 +1,28 @@
 @import "src/main/less/c-colors";
 
-#header {
-    background-color: @clover-gray-90;
-    padding: 14px;
-    a#logo {
-        font-size: 1.5em;
-        font-weight: bold;
-        text-decoration: none;
-        background: transparent url('../images/square-white-2014.png') no-repeat left center;
-        background-size: 30px 30px;
-        padding: 20px 0 20px 40px;
-        color: white;
-    }
-    form#mId_selector {
-        display: block;
-        clear: none;
-        float: right;
-        .input {
-            display: block;
-            clear: none;
-            float: left;
-            margin: 0 10px 0 0;
-            input#input_mId {
-                width: 150px;
-            }
-            input {
-                font-size: 0.9em;
-                padding: 3px;
-                margin: 0;
-            }
-        }
-    }
-    form#api_selector {
-        display: block;
-        clear: none;
-        float: right;
-        .input {
-            display: block;
-            clear: none;
-            float: right;
-            margin: 0 10px 0 0;
-            input#input_apiKey {
-                width: 200px;
-            }
-            input {
-                font-size: 0.9em;
-                padding: 3px;
-                margin: 0;
-            }
-        }
-    }
+header.section-header {
+  height: 40px;
+  background: @clover-gray-90;
+}
 
+.app-header {
+  background-color: @clover-gray-5;
+  border-bottom: 1px solid @clover-gray-20;
+  margin-bottom: 20px;
+  margin-top: -20px;
+  padding-top: 10px;
+
+  .row {
+    margin-bottom: 0;
+  }
+
+  .btn-group { // for import/export buttons in app-header. ex: inventory
+    margin-top: 10px;
+  }
+}
+
+.app-header-icon { // used: individual app headers
+  height: 50px;
+  margin-right: 15px;
+  width: 50px;
 }

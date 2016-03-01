@@ -20,11 +20,15 @@ class MainView extends Backbone.View
   addResources: ->
     for resource in @model.get("resourcesArray")
       resourceView = new ResourceView({model: resource, tagName: 'li', id: resource.get("viewId"), className: 'resource active'})
-      $('#resources').append resourceView.render().el
+      $('#resources', $(@el)).append resourceView.render().el
 
   addNav: ->
-    navView = new NavView({model: @model, id: 'main_nav', className: 'nav nav-pills nav-stacked'})
-    $('#main_nav_container').append navView.render().el
+    navView = new NavView({model: @model, tagName: 'ul', id: 'main_nav', className: 'nav nav-pills nav-stacked'})
+    $('#main_nav_container', $(@el)).append navView.render().el
+    @setAffix()
 
   clear: ->
     $(@el).html ''
+
+  setAffix: ->
+    $("nav.rest-api-sidebar", $(@el)).affix({offset: { top: 220, bottom: 0 }})

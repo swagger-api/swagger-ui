@@ -74,12 +74,14 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="swagger-ui-wrap">
-            <a id="logo" href="">V3 REST API Reference</a>
-            <form id='mId_selector'>
-              <div class="form-group input"><input placeholder="Merchant ID (mID)" id="input_mId" name="input_mId" type="text"/></div>
-            </form>
-            <form id='api_selector'>
-              <div class="form-group input"><input placeholder="API Token" id="input_apiToken" name="apiKey" type="text"/></div>
+            <h1>REST API Reference <small>v3</small></h1>
+            <form id='mId_selector api_selector'>
+              <div class="form-group">
+                <input class="form-control" placeholder="Merchant ID (mID)" id="input_mId" name="input_mId" type="text"/>
+              </div>
+              <div class="form-group">
+                <input class="form-control" placeholder="API Token" id="input_apiToken" name="apiKey" type="text"/>
+              </div>
             </form>
           </div>
         </div>
@@ -95,11 +97,7 @@
   </div>
   <div class="container">
     <div class="row">
-      <div class="col-xs-12 col-md-3">
-      </div>
-      <div class="col-xs-12 col-md-9">
-        <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
-      </div>
+      <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
     </div>
   </div>
   <footer>

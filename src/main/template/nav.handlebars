@@ -1,10 +1,10 @@
 {{#each resourcesArray}}
 	<li>
-		<a href="#{{this.attributes.viewId}}">{{this.id}}</a>
+		<a class="nav-resource-title" href="#{{this.attributes.viewId}}">{{this.id}}</a>
 		<ul>
 		{{#each this.attributes.operationsArray}}
 			<li>
-				<a href="#{{this.attributes.viewId}}">{{this.attributes.nickname}}</a>
+				<a class="nav-operation-description" href="#{{this.attributes.viewId}}">{{this.attributes.nickname}}</a>
 			</li>
 		{{/each}}
 		</ul>

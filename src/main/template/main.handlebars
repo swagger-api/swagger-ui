@@ -7,9 +7,16 @@
     {{#if info.license}}<div class="info_license"><a href="{{info.licenseUrl}}">{{info.license}}</a></div>{{/if}}
   {{/if}}
 </div>
-<div id='main_nav_container' style="position:fixed; left:200px">
+<div class="col-xs-12 col-sm-3">
+  <nav class="rest-api-sidebar hidden-print">
+    <div>
+      <div id="main_nav_container"></div>
+    </div>
+  </nav>
 </div>
-<div id='resources_container'>
-    <ul id='resources'>
+<div class="col-xs-12 col-sm-9">
+  <div id="resources_container">
+    <ul id="resources" class="nav">
     </ul>
+  </div>
 </div>
