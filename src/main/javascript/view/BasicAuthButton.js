@@ -32,7 +32,7 @@ SwaggerUi.Views.BasicAuthButton = Backbone.View.extend({
 
   clickLogout: function () {
     window.swaggerUi.api.clientAuthorizations.remove(this.model.name);
-    this.remove();
+    this.router.load();
   }
 
 });
