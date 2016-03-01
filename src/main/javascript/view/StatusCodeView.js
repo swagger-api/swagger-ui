@@ -14,7 +14,7 @@ SwaggerUi.Views.StatusCodeView = Backbone.View.extend({
     if (this.router.api.models.hasOwnProperty(this.model.responseModel)) {
       responseModel = {
         sampleJSON: JSON.stringify(SwaggerUi.partials.signature.createJSONSample(value), void 0, 2),
-        sampleXML: this.model.isXML ? SwaggerUi.partials.signature.createXMLSample(this.model.schema, this.router.api.models) : false,
+        sampleXML: this.model.isXML ? SwaggerUi.partials.signature.createXMLSample('', this.model.schema, this.router.api.models) : false,
         isParam: false,
         signature: SwaggerUi.partials.signature.getModelSignature(this.model.responseModel, value, this.router.api.models),
         defaultRendering: this.model.defaultRendering

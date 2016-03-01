@@ -61,7 +61,7 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
 
     var signatureModel = {
       sampleJSON: isJSON ? sampleJSON : false,
-      sampleXML: sampleJSON && isXML ? SwaggerUi.partials.signature.createXMLSample(schema, modelDefinitions, true) : false,
+      sampleXML: sampleJSON && isXML ? SwaggerUi.partials.signature.createXMLSample('', schema, modelDefinitions, true) : false,
       isParam: true,
       signature: SwaggerUi.partials.signature.getParameterModelSignature(modelType, modelDefinitions),
       defaultRendering: this.model.defaultRendering
