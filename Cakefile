@@ -13,6 +13,7 @@ sourceFiles  = [
   'model/Operation'
   'model/Resource'
   'model/Api'
+  'model/Type'
   'view/HeaderView'
   'view/MainView'
   'view/ResourceView'
@@ -25,6 +26,7 @@ sourceFiles  = [
   'view/ParameterContentTypeView'
   'view/ParameterChoiceView'
   'view/NavView'
+  'view/TypeView'
 ]
 
 

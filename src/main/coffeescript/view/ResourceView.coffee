@@ -5,16 +5,16 @@ class ResourceView extends Backbone.View
     $(@el).html(Handlebars.templates.resource(@model.toJSON()))
 
     # Render each operation
-    @addOperations()
+    @addTypes()
     @
 
-  addOperations: ->
-    for operationModel in @model.get('operationsArray')
-      operationView = new OperationView({
-        model: operationModel 
+  addTypes: ->
+    for typeModel in @model.get('typeModels')
+      typeView = new TypeView({
+        model: typeModel 
         tagName: 'li'
-        className: operationModel.get('viewClassName')
-        id: operationModel.get('viewId')
+        id: typeModel.get('viewId')
       })
-      $('.endpoints', $(@el)).append operationView.render().el
+      $('.operationTypes', $(@el)).append(typeView.render().el)
+     
     
