@@ -1236,16 +1236,20 @@
 }
 .swagger-section #header {
   background-color: #7093b5;
-  padding: 14px;
-  height: 130px;
 }
 .swagger-section #input_baseUrl {
   width: 400px;
 }
 .swagger-section #api_selector {
-  display: block;
-  clear: none;
   float: right;
+}
+.swagger-section #wrapper {
+  background: #7093b5;
+  overflow: hidden;
+  transition: height 200ms;
+}
+.swagger-section #input_margin {
+  margin-top: 5px;
 }
 .swagger-section #api_selector .input {
   display: block;
@@ -1260,22 +1264,62 @@
 .swagger-section #api_selector input {
   font-size: 0.9em;
   padding: 3px;
-  margin: 0;
+  margin-top: 5px;
 }
 .swagger-section #input_apiKey {
   width: 400px;
+  border: 1px solid #fff; 
+  margin-top: 5px;
 }
 .swagger-section #input_sessionToken {
   width: 400px;
+  border: 1px solid #fff; 
+  margin-top: 5px;
 }
 .swagger-section #input_authUsername {
   width: 190px;
+  border: 1px solid #fff; 
+  margin-top: 5px;
+  float: left;
 }
 .swagger-section #input_authPassword {
   width: 190px;
+  border: 1px solid #fff; 
+}
+.swagger-section #section_username {
+  float: left; 
+  margin-top: 5px;
+}
+.swagger-section #section_password {
+  float: right; 
+  margin-top: 5px; 
+  margin-right: 4px
+}
+.swagger-section #section_credentials {
+  width: 400px; 
+  display: inline;
+  padding: 0px; 
+  margin-right: 0px
+}
+.swagger-section #section_explore {
+  margin-top: 40px; 
+  margin-bottom: 80px; 
+}
+.swagger-section #toggle_button {
+  position: absolute;
+  right: 150px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 12px;
+  margin-bottom: auto;
+  max-width: 960px;
+  background-color: #7093b5;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px;
+  padding: 0px 5px;
 }
 .swagger-section #explore {
-  display: block;
   text-decoration: none;
   font-weight: bold;
   padding: 6px 8px;
@@ -1288,6 +1332,11 @@
   -ms-border-radius: 4px;
   -khtml-border-radius: 4px;
   border-radius: 4px;
+  border: 1px solid #e3730a;
+  float: right;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  margin-right: 4px;
 }
 .swagger-section #explore:hover {
   background-color: #c16208;
