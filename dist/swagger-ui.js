@@ -19063,7 +19063,7 @@ SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to gl
 });
 'use strict';
 
-SwaggerUi.Views.AuthView = Backbone.View.extend({
+SwaggerUi.Views.AuthButtonView = Backbone.View.extend({
     events: {
         'click .authorize__btn': 'authorizeBtnClick'
     },
@@ -19319,7 +19319,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       authsModel = { auths: this.model.securityDefinitions };
 
       authsModel.isLogout = !_.isEmpty(window.swaggerUi.api.clientAuthorizations.authz);
-      this.authView = new SwaggerUi.Views.AuthView({model: authsModel, router: this.router});
+      this.authView = new SwaggerUi.Views.AuthButtonView({model: authsModel, router: this.router});
       this.$('.authorize-wrapper').append(this.authView.render().el);
     }
 
