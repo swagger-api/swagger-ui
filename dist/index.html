@@ -194,6 +194,7 @@
 
     $(function() {
       var _but = $("#toggle_button");
+      var _butImg = $("#button_image");
       var _wrap = $("#wrapper");
       var _form = $("#api_selector");
       
@@ -203,9 +204,11 @@
         if(_wrap.hasClass('open')) {
           _wrap.removeClass('open');
           _wrap.height(0);
+          _butImg.attr('src', 'images/menu_open_white.png');
         } else {
           _wrap.addClass('open');
           _wrap.height(_form.outerHeight(true));
+          _butImg.attr('src', 'images/menu_close_white.png');
         }
       });
     });
@@ -217,7 +220,7 @@
       <div>
         <div>
           <a href="http://www.dreamfactory.com"><img src="images/logo-navbar-194x42.png"></a>
-          <button id="toggle_button"><img src="images/menu_white_small.png"></button>
+          <button id="toggle_button"><img id="button_image" src="images/menu_open_white.png"></button>
         </div>
       </div>
       <div id="wrapper">
