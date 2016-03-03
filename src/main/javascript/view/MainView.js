@@ -93,7 +93,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       authsModel = { auths: this.model.securityDefinitions };
 
       authsModel.isLogout = !_.isEmpty(window.swaggerUi.api.clientAuthorizations.authz);
-      this.authView = new SwaggerUi.Views.AuthView({model: authsModel, router: this.router});
+      this.authView = new SwaggerUi.Views.AuthButtonView({model: authsModel, router: this.router});
       this.$('.authorize-wrapper').append(this.authView.render().el);
     }
 
