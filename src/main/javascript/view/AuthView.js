@@ -2,8 +2,7 @@
 
 SwaggerUi.Views.AuthView = Backbone.View.extend({
     events: {
-        'click .authorize__btn': 'authorizeBtnClick',
-        'click .logout__btn' : 'logoutClick'
+        'click .authorize__btn': 'authorizeBtnClick'
     },
 
     tpls: {
@@ -36,61 +35,30 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
     },
 
     renderAuths: function (auths) {
-        var name, authEl, auth;
+        var name, authEl, authModel;
         var el = $('<div>');
+        var authz = window.swaggerUi.api.clientAuthorizations.authz;
 
-        //todo refactor, copy-pasted from MainView.js
         for (name in auths) {
-            auth = auths[name];
+            authModel = _.extend({}, auths[name]);
 
-            if (auth.type === 'apiKey') {
-                authEl = new SwaggerUi.Views.ApiKeyButton({model: auth, router: this.router}).render().el;
+            if (authz[name]) {
+                _.extend(authModel, {
+                    isLogout: true,
+                    value: authz[name].value
+                });
+            }
+
+            if (authModel.type === 'apiKey') {
+                authEl = new SwaggerUi.Views.ApiKeyButton({model: authModel, router: this.router}).render().el;
                 el.append(authEl);
-            } else if (auth.type === 'basic' && el.find('.basic_auth_container').length === 0) {
-                authEl = new SwaggerUi.Views.BasicAuthButton({model: auth, router: this.router}).render().el;
+            } else if (authModel.type === 'basic' && el.find('.basic_auth_container').length === 0) {
+                authEl = new SwaggerUi.Views.BasicAuthButton({model: authModel, router: this.router}).render().el;
                 el.append(authEl);
             }
         }
 
         return el;
-    },
-
-    logoutClick: function (e) {
-        var authsModel;
-
-        e.preventDefault();
-
-        authsModel = {
-            title: 'Logout authorizations',
-            content: this.renderAuths(this.getAuthMap())
-        };
-
-        this.popup = new SwaggerUi.Views.PopupView({model: authsModel});
-        this.popup.render();
-    },
-
-    getAuthMap: function () {
-        var authsMap = {};
-
-        _.forEach(window.swaggerUi.api.clientAuthorizations.authz, function (value, key) {
-            if (key === 'basic') {
-                authsMap.basic = {
-                    type: key,
-                    isLogout: true,
-                    name: key
-                };
-            } else {
-                authsMap[key] = {
-                    type: 'apiKey',
-                    'in': value.type,
-                    value: value.value,
-                    isLogout: true,
-                    name: key
-                };
-            }
-        });
-
-        return authsMap;
     }
 
 });
