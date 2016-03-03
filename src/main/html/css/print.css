@@ -1188,13 +1188,6 @@
   text-decoration: underline;
   cursor: pointer;
 }
-.swagger-section .logout__btn {
-  padding-left: 15px;
-}
-.swagger-section .logout__btn:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}
 .swagger-section .auth_container .basic_auth__title {
   color: #547f00;
   font-size: 1.2em;

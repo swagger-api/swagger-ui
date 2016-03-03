@@ -25,7 +25,7 @@ SwaggerUi.Views.BasicAuthButton = Backbone.View.extend({
     event.preventDefault();
     var username = this.$('.basic_auth__username').val();
     var password = this.$('.basic_auth__password').val();
-    var basicAuth = new SwaggerClient.PasswordAuthorization('basic', username, password);
+    var basicAuth = new SwaggerClient.PasswordAuthorization(username, password);
     this.router.api.clientAuthorizations.add(this.model.type, basicAuth);
     this.router.load();
   },
