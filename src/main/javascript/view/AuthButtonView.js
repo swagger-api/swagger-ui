@@ -1,6 +1,6 @@
 'use strict';
 
-SwaggerUi.Views.AuthView = Backbone.View.extend({
+SwaggerUi.Views.AuthButtonView = Backbone.View.extend({
     events: {
         'click .authorize__btn': 'authorizeBtnClick'
     },
