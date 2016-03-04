@@ -257,6 +257,15 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       this.addStatusCode(statusCode);
     }
 
+    if (Array.isArray(this.model.security)) {
+      //Todo add parsing security from definitions
+      var authsModel = { auths: this.model.security };
+
+      authsModel.isLogout = !_.isEmpty(window.swaggerUi.api.clientAuthorizations.authz);
+      this.authView = new SwaggerUi.Views.AuthButtonView({model: authsModel, router: this.router});
+      this.$('.authorize-wrapper').append(this.authView.render().el);
+    }
+
     this.showSnippet();
     return this;
   },

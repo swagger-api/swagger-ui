@@ -23,6 +23,9 @@
         <h4><span data-sw-translate>Implementation Notes</span></h4>
         <div class="markdown">{{{description}}}</div>
         {{/if}}
+        {{#if security}}
+            <div class='authorize-wrapper'></div>
+        {{/if}}
         {{#oauth}}
         <div class="auth">
         <span class="api-ic ic-error">{{/oauth}}
