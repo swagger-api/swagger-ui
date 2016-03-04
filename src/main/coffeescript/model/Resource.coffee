@@ -1,23 +1,38 @@
 class Resource extends Backbone.Model
 
   initialize: ->
-    methods = {}
-    wrappedOperationModels = []
-    for swaggerOperation in @get('operationsArray')
-      counter = 2
-      nickname = swaggerOperation.nickname
-      while typeof methods[nickname] isnt 'undefined'
-        nickname = nickname + "_" + counter
-        counter += 1
+    operationsByType = {}
+    types = []
+    typeModels = []
 
-      methods[nickname] = swaggerOperation
-      swaggerOperation.nickname = nickname
+    for swaggerOperation in @get('operationsArray')
       swaggerOperation.parentId = @get('id')
 
-      swaggerOperation.viewClassName = swaggerOperation.method.toUpperCase() + ' operation'
-      swaggerOperation.viewId = swaggerOperation.parentId + "_" + swaggerOperation.nickname
-      #wrap swaggerOperation in a Backbone Model
-      wrappedOperationModels.push(new Operation(swaggerOperation))
+      # Use endpoint naming for type for consistancy
+      type = @getType(swaggerOperation)
+      if typeof operationsByType[type] is 'undefined'
+        operationsByType[type] = []
+        types.push type
+      operationsByType[type].push(swaggerOperation)
 
-    @set('operationsArray', wrappedOperationModels)
+    for type in types.sort()
+      typeModels.push new Type({
+        name: type
+        viewId: @get('name') + "_" + type
+        operationsArray: operationsByType[type]
+        })
+  
+    @set('typeModels', typeModels)
+
+  getType: (swaggerOperation) ->
+    # get the final object identifier from the URI
+    words = swaggerOperation.path.match(/\/((\w|\.)+)(\/{\w+}|\/|)$/)[1].split("_")
+    capitalized = []
+    for word in words
+      capitalized.push(word.charAt(0).toUpperCase() + word.slice(1))
+    return capitalized.join("")
+
+
+
+
 

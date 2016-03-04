@@ -2,9 +2,9 @@
 	<li>
 		<a class="nav-resource-title" href="#{{this.attributes.viewId}}">{{this.id}}</a>
 		<ul>
-		{{#each this.attributes.operationsArray}}
+		{{#each this.attributes.typeModels}}
 			<li>
-				<a class="nav-operation-description" href="#{{this.attributes.viewId}}">{{this.attributes.nickname}}</a>
+				<a class="nav-operation-description" href="#{{this.attributes.viewId}}">{{this.attributes.name}}</a>
 			</li>
 		{{/each}}
 		</ul>
