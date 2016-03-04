@@ -1237,11 +1237,19 @@
 .swagger-section #header {
   background-color: #7093b5;
 }
+.swagger-section #input_label {
+  color: #fff;
+  width: 125px;
+  display: inline-block;
+  margin-top: 5px;
+}
 .swagger-section #input_baseUrl {
   width: 400px;
+  border: 1px solid #fff; 
+  margin-top: 5px;
 }
 .swagger-section #api_selector {
-  float: right;
+  float: left;
 }
 .swagger-section #wrapper {
   background: #7093b5;
@@ -1286,6 +1294,14 @@
   width: 190px;
   border: 1px solid #fff; 
 }
+.swagger-section #section_label {
+  float: left; 
+  margin-top: 8px;
+  color: #fff;
+  width: 125px;
+  display: inline-block;
+  margin-right: 2px;
+}
 .swagger-section #section_username {
   float: left; 
   margin-top: 5px;
@@ -1293,7 +1309,7 @@
 .swagger-section #section_password {
   float: right; 
   margin-top: 5px; 
-  margin-right: 4px
+  margin-right: 0px
 }
 .swagger-section #section_credentials {
   width: 400px; 
@@ -1305,19 +1321,29 @@
   margin-top: 40px; 
   margin-bottom: 80px; 
 }
-.swagger-section #toggle_button {
+.swagger-section #slim_header {
+  height: 20px;
+}
+.swagger-section #chevron_expand {
   position: absolute;
-  right: 150px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 12px;
-  margin-bottom: auto;
+  margin-left: 470px;
+  margin-top: 2px;
+  margin-bottom: 0px;
   max-width: 960px;
   background-color: #7093b5;
   border: none;
-  border-radius: 5px;
-  box-shadow: 0px;
-  padding: 0px 5px;
+  height: 15px;
+  text-align: center;
+}
+.swagger-section #chevron_collapse {
+  margin-left: 470px;
+  margin-top: 0px; 
+  margin-bottom: 0px; 
+  max-width: 960px;
+  background-color: #7093b5;
+  border: none;
+  height: 15px;
+  text-align: center;
 }
 .swagger-section #explore {
   text-decoration: none;

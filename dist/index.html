@@ -193,23 +193,21 @@
     });
 
     $(function() {
-      var _but = $("#toggle_button");
-      var _butImg = $("#button_image");
+      var _butExpand = $("#chevron_expand");
+      var _butCollapse = $("#chevron_collapse");
       var _wrap = $("#wrapper");
       var _form = $("#api_selector");
       
       _wrap.height(0);
 
-      _but.click(function() {
-        if(_wrap.hasClass('open')) {
-          _wrap.removeClass('open');
-          _wrap.height(0);
-          _butImg.attr('src', 'images/menu_open_white.png');
-        } else {
-          _wrap.addClass('open');
-          _wrap.height(_form.outerHeight(true));
-          _butImg.attr('src', 'images/menu_close_white.png');
-        }
+      _butExpand.click(function() {
+        _butExpand.attr('hidden', 'hidden')
+        _wrap.height(_form.outerHeight(true));
+      });
+
+      _butCollapse.click(function() {
+        _butExpand.removeAttr('hidden');
+        _wrap.height(0);
       });
     });
   </script>
@@ -218,40 +216,50 @@
   <div id='header'>
     <div class="swagger-ui-wrap">
       <div>
-        <div>
-          <a href="http://www.dreamfactory.com"><img src="images/logo-navbar-194x42.png"></a>
-          <button id="toggle_button"><img id="button_image" src="images/menu_open_white.png" title="Click to Expand/Collapse"></button>
+        <div id="slim_header">
+          <img id="chevron_expand" src="images/menu_open_white.png" title="Click to Expand">
         </div>
       </div>
       <div id="wrapper">
         <form id='api_selector'>
-        <div>
-          <div id='input_margin'>
-            <input style="" placeholder="http://example.com/api/v2/api_docs" id="input_baseUrl" name="baseUrl" type="text"/>
-          </div>
-          <div id='input_margin'>
-            <input style="" placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/>
-          </div>
-          <div id='input_margin'>
-            <input style="" placeholder="session_token" id="input_sessionToken" name="sessionToken" type="text"/>
-          </div>
-          <div id="section_credentials">
-            <div id="section_username" ><!--style="float: left; margin-top: 5px;"-->
-              <input style="" placeholder="username" id="input_authUsername" name="authUsername" type="text"/>
+          <div>
+            <a href="http://www.dreamfactory.com"><img src="images/logo-navbar-194x42.png"></a>
+            <div> 
+            <div id='input_margin'>
+                <span id="input_label">URL</span>
+                <input style="" placeholder="http://example.com/api/v2/api_docs" id="input_baseUrl" name="baseUrl" type="text"/>
+              </div>
+              <div id='input_margin'>
+                <span id="input_label">API Key</span>
+                <input style="" placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/>
+              </div>
+              <div id='input_margin'>
+                <span id="input_label">Session Token</span>
+                <input style="" placeholder="session_token" id="input_sessionToken" name="sessionToken" type="text"/>
+              </div>
+              <div id="section_credentials">
+              <div id="section_label" >
+                <span id="input_label">Credentials</span>
+                </div>
+                <div id="section_username" >
+                  <input style="" placeholder="username" id="input_authUsername" name="authUsername" type="text"/>
+                </div>
+                <div id="section_password">
+                  <input style="" placeholder="password" id="input_authPassword" name="authPassword" type="password"/>
+                </div>
+              </div>
+              <div id='section_explore'>
+                <a id="explore" href="#" data-sw-translate>Explore</a>
+              </div>
+              <div>
+                <img id="chevron_collapse" src="images/menu_close_white.png" title="Click to Collapse">
+              </div>
             </div>
-            <div id="section_password">
-              <input style="" placeholder="password" id="input_authPassword" name="authPassword" type="password"/>
-            </div>
           </div>
-          <div id='section_explore'>
-            <a id="explore" href="#" data-sw-translate>Explore</a>
-          </div>
-        </div>
         </form>
       </div>
     </div>
   </div>
-
   <div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
   <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
 </body>
