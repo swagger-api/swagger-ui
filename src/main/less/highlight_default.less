@@ -1,137 +1,58 @@
 /* Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org> */
-// style rules for code components -
-@import "src/main/less/c-base";
+
+/* v5 test*/
 
 .swagger-section {
 
+  /* Clover - Tomorrow Night Theme */
+  /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+  /* Original theme - https://github.com/chriskempson/tomorrow-theme */
+  /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+  .tomorrow-comment, pre .comment, pre .title {
+    color: #969896;
+  }
+
+  .tomorrow-red, pre .variable, pre .attribute, pre .tag, pre .regexp, pre .ruby .constant, pre .xml .tag .title, pre .xml .pi, pre .xml .doctype, pre .html .doctype, pre .css .id, pre .css .class, pre .css .pseudo {
+    color: #cc6666;
+  }
+
+  .tomorrow-orange, pre .number, pre .preprocessor, pre .built_in, pre .literal, pre .params, pre .constant {
+    color: #de935f;
+  }
+
+  .tomorrow-yellow, pre .class, pre .ruby .class .title, pre .css .rules .attribute {
+    color: #f0c674;
+  }
+
+  .tomorrow-green, pre .string, pre .value, pre .inheritance, pre .header, pre .ruby .symbol, pre .xml .cdata {
+    color: #b5bd68;
+  }
+
+  .tomorrow-aqua, pre .css .hexcolor {
+    color: #8abeb7;
+  }
+
+  .tomorrow-blue, pre .function, pre .python .decorator, pre .python .title, pre .ruby .function .title, pre .ruby .title .keyword, pre .perl .sub, pre .javascript .title, pre .coffeescript .title {
+    color: #81a2be;
+  }
+
+  .tomorrow-purple, pre .keyword, pre .javascript .function {
+    color: #b294bb;
+  }
+  pre {
+    background: #253338;
+  }
   pre code {
-    display: block; padding: 0.5em;
-    background: @clover-gray-2;
+    display: block;
+    background: #253338;
+    color: #B1B6B8;
+    font-family: "Roboto Mono", "Source Code Pro", Menlo, Monaco, Consolas, monospace;
+    line-height: 1.5;
+    padding: 10px;
   }
-
-  pre code,
-  pre .subst,
-  pre .tag .title,
-  pre .lisp .title,
-  pre .clojure .built_in,
-  pre .nginx .title {
-    color: @clover-gray-90;
-  }
-
-  pre .string,
-  pre .title,
-  pre .constant,
-  pre .parent,
-  pre .tag .value,
-  pre .rules .value,
-  pre .rules .value .number,
-  pre .preprocessor,
-  pre .ruby .symbol,
-  pre .ruby .symbol .string,
-  pre .aggregate,
-  pre .template_tag,
-  pre .django .variable,
-  pre .smalltalk .class,
-  pre .addition,
-  pre .flow,
-  pre .stream,
-  pre .bash .variable,
-  pre .apache .tag,
-  pre .apache .cbracket,
-  pre .tex .command,
-  pre .tex .special,
-  pre .erlang_repl .function_or_atom,
-  pre .markdown .header {
-    color: @clover-red;
-  }
-
-  pre .comment,
-  pre .annotation,
-  pre .template_comment,
-  pre .diff .header,
-  pre .chunk,
-  pre .markdown .blockquote {
-    color: @clover-gray-60;
-  }
-
-  pre .number,
-  pre .date,
-  pre .regexp,
-  pre .literal,
-  pre .smalltalk .symbol,
-  pre .smalltalk .char,
-  pre .go .constant,
-  pre .change,
-  pre .markdown .bullet,
-  pre .markdown .link_url {
-    color: @clover-green;
-  }
-
-  pre .label,
-  pre .javadoc,
-  pre .ruby .string,
-  pre .decorator,
-  pre .filter .argument,
-  pre .localvars,
-  pre .array,
-  pre .attr_selector,
-  pre .important,
-  pre .pseudo,
-  pre .pi,
-  pre .doctype,
-  pre .deletion,
-  pre .envvar,
-  pre .shebang,
-  pre .apache .sqbracket,
-  pre .nginx .built_in,
-  pre .tex .formula,
-  pre .erlang_repl .reserved,
-  pre .prompt,
-  pre .markdown .link_label,
-  pre .vhdl .attribute,
-  pre .clojure .attribute,
-  pre .coffeescript .property {
-    color: @clover-teal;
-  }
-
-  pre .keyword,
-  pre .id,
-  pre .phpdoc,
-  pre .title,
-  pre .built_in,
-  pre .aggregate,
-  pre .css .tag,
-  pre .javadoctag,
-  pre .phpdoc,
-  pre .yardoctag,
-  pre .smalltalk .class,
-  pre .winutils,
-  pre .bash .variable,
-  pre .apache .tag,
-  pre .go .typename,
-  pre .tex .command,
-  pre .markdown .strong,
-  pre .request,
-  pre .status {
-    font-weight: bold;
-  }
-
-  pre .markdown .emphasis {
-    font-style: italic;
-  }
-
-  pre .nginx .built_in {
-    font-weight: normal;
-  }
-
-  pre .coffeescript .javascript,
-  pre .javascript .xml,
-  pre .tex .formula,
-  pre .xml .javascript,
-  pre .xml .vbscript,
-  pre .xml .css,
-  pre .xml .cdata {
-    opacity: 0.5;
+  /* test v6 */
+  pre code span {
+    font-family: "Roboto Mono", "Source Code Pro", Menlo, Monaco, Consolas, monospace;
   }
 
 }

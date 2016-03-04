@@ -1,0 +1,466 @@
+// SUBHEADS
+
+h1.subhead {
+  font-size: 2.429em; //34px
+  font-weight: 300;
+}
+
+h1 + h1.subhead {
+  margin-top: -15px;
+}
+
+h2.subhead {
+  font-size: 1.714em; //24px
+  font-weight: 300;
+  letter-spacing: 0;
+  line-height: 1.3em;
+}
+
+h2 + h2.subhead {
+  margin-top: -5px;
+}
+
+h2.subhead + p {
+  margin-top: 30px;
+}
+
+h3.subhead {
+  font-size: 1.143em; //16px
+  font-weight: 400;
+  letter-spacing: 0;
+  margin-bottom: 30px;
+}
+
+h3 + h3.subhead {
+  margin-top: -2px;
+}
+
+h3.thin {
+  font-weight: 400;
+}
+
+/////////////////////////////////
+// TYPOGRAPHY
+// - small p
+// - semibold font-weight
+/////////////////////////////////
+h1.green {
+  color: @clover-green;
+}
+
+h4.underline {
+  border-bottom: 1px dotted @clover-gray-50;
+  padding-bottom: 5px;
+}
+
+h5.underline {
+  border-bottom: 1px dotted @clover-gray-90;
+  padding-bottom: 5px;
+}
+
+h5.block-title { // used: order details pages
+  background-color: @clover-gray-5;
+  font-size: 90%;
+  padding: 7px 0;
+  text-align: center;
+  text-transform: uppercase;
+
+  &.tall { // used: choose > apps
+    border-top: solid 2px @clover-black;
+    padding: 15px;
+    text-align: left;
+  }
+}
+
+h1.page-title, h2.page-title, h3.page-title, h4.page-title {
+  margin-bottom: 30px;
+}
+
+.app-nav, // app level navigation. should ALWAYS be in the app-header. app-nav-side used ONLY for setupapp
+.app-nav-side {
+  .c-page-title,
+  a.c-page-title {
+    border: 1px solid @clover-gray-20;
+    color: @clover-gray-60;
+    float: left;
+    margin-bottom: -1px; // so border overlaps app-header border
+    margin-right: 5px;
+    padding: 7px 10px;
+
+    &:focus {
+      color: @clover-black;
+    }
+
+    &:hover {
+      background-color: @clover-gray-20;
+      color: @clover-black;
+      outline: 0;
+    }
+
+    &-active {
+      &:extend(.c-page-title all);
+      background-color: @clover-white;
+      border-bottom: 1px solid @clover-white;
+      color: @clover-gray-90;
+      font-weight: 700;
+
+      &:hover {
+        background-color: @clover-white;
+      }
+    }
+  }
+}
+
+section.c-box-in-app-details {
+  p {
+    margin-bottom: 3px;
+  }
+
+  .detail-info-center {
+    text-align: center;
+  }
+
+  span.detail-title {
+    color: @clover-gray-60;
+    display: inline-block;
+    font-weight: 600;
+    padding-right: 5px;
+    text-align: right;
+    vertical-align: top;
+    width: 45%;
+  }
+
+  span.detail-info,
+  div.detail-info {
+    .t__break-all;
+    display: inline-block;
+    width: 50%;
+  }
+
+  span.detail-info-offset {
+    &:extend(.detail-info);
+    margin-left: 45%;
+  }
+}
+
+section.page-nav { // page level navigation. to be used when .app-nav has a subnav. used: newinternal, appmarket, reseller dash
+  margin-bottom: 30px;
+  margin-top: -15px;
+  padding: 5px 0;
+
+  .page-nav-link {
+    border-bottom: 0;
+    color: @clover-gray;
+    display: inline-block;
+    margin-right: 25px;
+
+    &:hover,
+    &:active {
+      color: @clover-black;
+    }
+
+    &-active {
+      &:extend(.page-nav-link all);
+      border-bottom: 2px solid @clover-black;
+      color: @clover-black;
+      font-weight: 700;
+    }
+  }
+}
+
+.c-t-note {
+  color: @dark-clover-yellow;
+  margin-bottom: 0;
+}
+
+.c-t-small() { // add to other classes, not meant to be used in hbs
+  font-family: @font-family-sans-serif;
+  font-size: 0.857em; //12px
+  font-weight: 600;
+  line-height: 1.1em;
+}
+
+.c-help-text,
+.e__help-text { // need to refine
+  .c-t-small;
+  margin-top: 6px;
+}
+
+.c-input-error-text, // will replace .e__input-error-text
+.e__input-error-text {
+  .c-t-small;
+  color: @clover-red;
+  margin-top: 6px;
+}
+
+.e-input-label { // need to refine, replace input__label
+  .c-t-small;
+  margin-bottom: 1px;
+}
+
+p.small { // public-site > accessories pg
+  .c-t-small;
+}
+
+.e__xs-inline-text { // need to refine
+  &:extend(.visible-xs-inline);
+  &:extend(.t__regular);
+}
+
+.disabled-text {
+  color: @clover-gray-40;
+  font-style: italic;
+}
+
+h3.gray {
+  color: @clover-gray-60;
+}
+
+// basic typography styles
+// --------------------------------------
+.t__bold {
+  font-weight: 600;
+}
+
+.t__h3 { // using for second level links
+  font-size: 1.143em; //16px
+  font-weight: 400;
+  line-height: 140%;
+}
+
+.t__i-with-text { // used for fontawesome icons that are paired with text (specifically icon on left text on right)
+  font-size: 14px;
+  margin-bottom: 2px;
+  margin-left: 0;
+  margin-right: 4px;
+}
+
+.t__italic {
+  font-style: italic;
+}
+
+.t__regular {
+  font-weight: 600;
+}
+
+.t__pre-wrap { // app market
+  white-space: pre-wrap;
+}
+
+.t__strikethrough {
+  text-decoration: line-through;
+}
+
+.c-xs-table-header { // used: for table-header titles inline for mobile view.
+  display: none;
+}
+
+
+// overflow typography style
+// --------------------------------------
+.c-t-gradient-overflow-gray-lt { // use with gray-2 background. ex: home > more apps block
+  background: -moz-linear-gradient(left,  rgba(250, 250, 250,0) 0%, rgba(250, 250, 250,0.33) 30%, rgba(250, 250, 250,1) 91%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(250, 250, 250,0)), color-stop(30%,rgba(250, 250, 250,0.33)), color-stop(91%,rgba(250, 250, 250,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left,  rgba(250, 250, 250,0) 0%,rgba(250, 250, 250,0.33) 30%,rgba(250, 250, 250,1) 91%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left,  rgba(250, 250, 250,0) 0%,rgba(250, 250, 250,0.33) 30%,rgba(250, 250, 250,1) 91%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(left,  rgba(250, 250, 250,0) 0%,rgba(250, 250, 250,0.33) 30%,rgba(250, 250, 250,1) 91%); /* IE10+ */
+  background: linear-gradient(to right,  rgba(250, 250, 250,0) 0%,rgba(250, 250, 250,0.33) 30%,rgba(250, 250, 250,1) 91%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#fafafa',GradientType=1 ); /* IE6-9 */
+
+  position: absolute;
+  z-index: 100;
+}
+
+.t__overflow { // use with white background. ex: app market
+  background: -moz-linear-gradient(left,  rgba(255,255,255,0) 0%, rgba(255,255,255,0.33) 30%, rgba(255,255,255,1) 91%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,0)), color-stop(30%,rgba(255,255,255,0.33)), color-stop(91%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.33) 30%,rgba(255,255,255,1) 91%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.33) 30%,rgba(255,255,255,1) 91%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.33) 30%,rgba(255,255,255,1) 91%); /* IE10+ */
+  background: linear-gradient(to right,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.33) 30%,rgba(255,255,255,1) 91%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
+
+  position: absolute;
+  z-index: 100;
+}
+
+
+// alignment typography styles
+// --------------------------------------
+.t__align-center {
+  text-align: center;
+}
+
+.t__align-left {
+  text-align: left;
+}
+
+.t__align-right {
+  text-align: right;
+}
+
+
+// custom typography styles
+// --------------------------------------
+.t__allcap {
+  text-transform: uppercase;
+}
+
+.t__letter_spacing2 {
+  letter-spacing: 2px;
+}
+
+.t__break-all { // use for text that will be ok if broken at the max width of the column their in. ex: serial numbers, digits, email
+  word-break: break-all;
+}
+
+.t__break-word { // use for words (and emails when wrapped in a <span>)
+  word-wrap: break-word;
+}
+
+.c-t-ellipsis, // replace t__ellipsis
+.t__ellipsis { // doesn't work for elements with display: inline. for spans, use display: inline-block
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
+  width: 100%;
+}
+
+.t__gray {
+  color: @clover-gray-60;
+}
+
+.t__gray-20 {
+  color: @clover-gray-20;
+}
+
+.t__gray-50 {
+  color: @clover-gray-50;
+}
+
+// new grays
+
+.t__gray-light {
+  color: @clover-gray-40;
+}
+
+.t__gray-medium {
+  color: @clover-gray-60;
+}
+
+// end new grays
+
+.t__dark-teal {
+  color: @dark-clover-teal;
+}
+
+.t__dark-orange {
+  color: @dark-clover-orange;
+}
+
+.t__red {
+  color: @clover-red;
+}
+
+.t__teal {
+  color: @clover-teal;
+}
+
+.t__white {
+  color: @clover-white;
+}
+
+.t__green {
+  color: @clover-green;
+}
+
+.t__green-50 { // input-autosave, clover green at 50% opacity
+  color: rgba(0, 126, 59, 0.5) !important;
+}
+
+.t__link {
+  color: @clover-green;
+  border-bottom: 1px dotted @clover-green;
+}
+
+.c-t-pm-text-link { // adds extra space for inline text + <a>. used: table-complete.hbs
+   margin-left: 4px;
+}
+
+// bullet list style
+// --------------------------------------
+ul.bullet-list {
+  list-style: none;
+  margin-left: 22px;
+  margin-top: 4px;
+  padding-left: 0;
+}
+
+ul.bullet-list.check-list {
+  margin-left: 0;
+
+  li.bullet {
+    padding-left: 17px; // to create more space next to li.bullet.check
+  }
+}
+
+li.bullet {
+  list-style-type: none;
+  list-style-image: none;
+  margin-bottom: 5px;
+  padding-left: 1em;
+  position: relative;
+}
+
+li.bullet:before {
+  content: "\02022";
+  font-size: 13px;
+  left: 0;
+  padding-top: 1px;
+  position: absolute;
+}
+
+li.bullet.check:before {
+  color: @clover-green;
+  content: "\f00c";
+  font-family: "FontAwesome";
+  font-size: 13px;
+  left: 0;
+  padding-top: 1px;
+  position: absolute;
+}
+
+
+
+// media queries
+// --------------------------------------
+@media (max-width: @screen-xs-max) {
+  .app-nav {
+    .c-page-title,
+    a.c-page-title {
+      border-width: 1px;
+      margin-bottom: 0px;
+
+      &-active {
+        border-color: @clover-gray-20;
+        margin-bottom: 0px;
+      }
+    }
+  }
+
+  .c-xs-table-header {
+    display: inline;
+    font-weight: 600;
+  }
+
+  .xs__h3 {
+    font-size: 1.286em; //18px
+    line-height: 140%;
+    margin-bottom: 10px;
+  }
+
+  .xs__align-left {
+    text-align: left;
+  }
+}

@@ -1,0 +1,235 @@
+@clover-green: rgba(0, 126, 59, 1);
+@clover-black: rgba(0, 0, 0, 1);
+@clover-black-overlay: rgba(0, 0, 0, 0.8);
+@clover-white: rgba(255, 255, 255, 1);
+@clover-gray: rgba(119, 119, 119, 1);
+
+@clover-gray-90: rgba(64, 64, 64, 1);
+@clover-gray-80: rgba(88, 88, 88, 1);
+@clover-gray-60: rgba(119, 119, 119, 1);
+@clover-gray-50: rgba(148, 148, 148, 1);
+@clover-gray-40: rgba(167, 167, 167, 1);
+@clover-gray-20: rgba(210, 210, 210, 1);
+@clover-gray-10: rgba(219, 219, 219, 1);
+@clover-gray-5: rgba(241, 241, 241, 1);
+@clover-gray-2: rgba(250, 250, 250, 1);
+
+@transparent-clover-gray-90: rgba(64, 64, 64, 0.2);
+
+@clover-red: rgba(183, 84, 84, 1);
+@clover-orange: rgba(248, 153, 58, 1);
+@clover-yellow: rgba(241, 227, 46, 1);
+@clover-blue: rgba(53, 66, 70, 1);
+@clover-teal: rgba(62, 192, 196, 1);
+@clover-purple: rgba(103, 11, 180, 1);
+
+@light-clover-green: rgba(221, 238, 213, 1);
+@light-clover-red: rgba(251, 209, 210, 1);
+@light-clover-orange: rgba(252, 215, 182, 1);
+@light-clover-yellow: rgba(251, 244, 185, 1);
+@light-clover-blue: rgba(217, 219, 224, 1);
+@light-clover-teal: rgba(209, 237, 243, 1);
+@light-clover-purple: rgba(202, 206, 232, 1);
+
+@extra-light-clover-red: rgba(249, 225, 228, 1);
+@extra-light-clover-green: rgba(221, 238, 213, 0.4);
+
+@dark-clover-green: rgba(0, 89, 36, 1);
+@dark-clover-red: rgba(148, 32, 32, 1);
+@dark-clover-orange: rgba(200, 88, 39, 1);
+@dark-clover-yellow: rgba(197, 162, 46, 1);
+@dark-clover-blue: rgba(37, 51, 56, 1);
+@dark-clover-teal: rgba(15, 114, 111, 1);
+@dark-clover-purple: rgba(52, 67, 140, 1);
+
+@lt-cool-clover-green-shade: rgba(135, 178, 149, 1);
+@lt-cool-clover-green: rgba(163, 201, 177, 1);
+@lt-cool-clover-green-tint: rgba(205, 224, 208, 1);
+
+
+/////////////////////////////////
+// THEME MIXINS
+/////////////////////////////////
+.theme-mixin(@theme-background-color, @theme-border-color, @theme-border-style, @theme-border-width, @theme-font-color, @theme-font-weight) {
+  background-color: @theme-background-color;
+  border-color: @theme-border-color;
+  border-style: @theme-border-style;
+  border-width: @theme-border-width;
+  color: @theme-font-color;
+  font-weight: @theme-font-weight;
+}
+
+@theme-background-color: @clover-white;
+@theme-border-color: transparent;
+@theme-border-style: solid;
+@theme-border-width: 1px 1px 1px 1px;
+@theme-font-color: @clover-gray-90;
+@theme-font-weight: 400;
+
+////
+
+.box-white-lt-theme() { // white box light border
+  .theme-mixin(@theme-background-color, @theme-border-color: @clover-gray-10, @theme-border-style, @theme-border-width, @theme-font-color, @theme-font-weight);
+}
+
+.box-white-dk-theme { // white box dark border
+  .theme-mixin(@theme-background-color, @theme-border-color: @clover-gray-40, @theme-border-style, @theme-border-width, @theme-font-color, @theme-font-weight);
+}
+
+.box-gray-lt-theme {
+  .theme-mixin(@theme-background-color: @clover-gray-2, @theme-border-color: @clover-gray-20, @theme-border-style, @theme-border-width, @theme-font-color, @theme-font-weight);
+}
+
+.box-gray-md-theme {
+  .theme-mixin(@theme-background-color: @clover-gray-5, @theme-border-color: @clover-gray-40, @theme-border-style, @theme-border-width, @theme-font-color, @theme-font-weight);
+}
+
+.box-gray-dk-theme {
+  .theme-mixin(@theme-background-color: @clover-gray-80, @theme-border-color: @clover-gray-90, @theme-border-style, @theme-border-width, @theme-font-color: @clover-white, @theme-font-weight);
+}
+
+.box-green-theme {
+  .theme-mixin(@theme-background-color: @extra-light-clover-green, @theme-border-color: @clover-green, @theme-border-style, @theme-border-width, @theme-font-color, @theme-font-weight);
+}
+
+.box-red-lt-theme {
+  .theme-mixin(@theme-background-color: @extra-light-clover-red, @theme-border-color:@clover-red, @theme-border-style, @theme-border-width, @theme-font-color, @theme-font-weight);
+}
+
+.box-teal-theme {
+  .theme-mixin(@theme-background-color: @light-clover-teal, @theme-border-color: @clover-teal, @theme-border-style, @theme-border-width, @theme-font-color, @theme-font-weight);
+}
+
+.box-yellow-theme {
+  .theme-mixin(@theme-background-color: @light-clover-yellow, @theme-border-color:@clover-yellow, @theme-border-style, @theme-border-width, @theme-font-color, @theme-font-weight);
+}
+
+.box-nocolor-theme(@box-nocolor-color: @clover-gray-2, @box-nocolor-padding: 15px 15px) { // used: boxes above tables in app-specific pages. orders, reporting, etc.
+  background-color: @box-nocolor-color;
+  border: 1px solid @clover-gray-10;
+  padding: @box-nocolor-padding;
+}
+
+////
+
+.button-dropdown-filter-theme {
+  .theme-mixin(@theme-background-color: @clover-white, @theme-border-color: @clover-gray-10, @theme-border-style, @theme-border-width: 1px 1px 1px 1px, @theme-font-color: @clover-green, @theme-font-weight: 400);
+  border-radius: 5px;
+}
+
+.button-green-theme {
+  .theme-mixin(@theme-background-color: @clover-green, @theme-border-color, @theme-border-style, @theme-border-width, @theme-font-color: @clover-white, @theme-font-weight);
+}
+
+.button-green-lt-theme {
+  .theme-mixin(@theme-background-color: @light-clover-green, @theme-border-color, @theme-border-style, @theme-border-width, @theme-font-color: @clover-green, @theme-font-weight);
+  border-color: transparent !important; // forced for date picker
+}
+
+.button-gray-dk-theme {
+  .theme-mixin(@theme-background-color: @clover-gray-90, @theme-border-color, @theme-border-style, @theme-border-width, @theme-font-color: @clover-white, @theme-font-weight);
+}
+
+.button-gray-md-theme {
+  .theme-mixin(@theme-background-color: @clover-gray-60, @theme-border-color, @theme-border-style, @theme-border-width, @theme-font-color: @clover-white, @theme-font-weight);
+}
+
+.button-gray-lt-theme {
+  .theme-mixin(@theme-background-color: @clover-gray-10, @theme-border-color, @theme-border-style, @theme-border-width, @theme-font-color: @clover-gray-40, @theme-font-weight);
+}
+
+.button-gradient-theme {
+  .theme-mixin(@theme-background-color: linear-gradient(to bottom, @clover-gray-5 0%, @clover-gray-10 100%), @theme-border-color: @clover-gray-40, @theme-border-style, @theme-border-width, @theme-font-color, @theme-font-weight);
+  background-color: -moz-linear-gradient(top, @clover-gray-5 0%, @clover-gray-10 100%);
+  background-color: -webkit-gradient(left top, left bottom, color-stop(0%, @clover-gray-5), color-stop(100%, @clover-gray-10));
+  background-color: -webkit-linear-gradient(top, @clover-gray-5 0%, @clover-gray-10 100%);
+  background-color: -o-linear-gradient(top, @clover-gray-5 0%, @clover-gray-10 100%);
+  background-color: -ms-linear-gradient(top, @clover-gray-5 0%, @clover-gray-10 100%);
+}
+
+.button-gradient-selected-theme {
+  .theme-mixin(@theme-background-color: @clover-gray-20, @theme-border-color: @clover-gray-40, @theme-border-style, @theme-border-width, @theme-font-color, @theme-font-weight);
+  background: @clover-gray-20;
+}
+
+.button-icon-gray-dk-theme {
+  .theme-mixin(@theme-background-color transparent, @theme-border-color, @theme-border-style, @theme-border-width, @theme-font-color: @clover-black, @theme-font-weight);
+}
+
+.button-icon-green-theme {
+  .theme-mixin(@theme-background-color: transparent, @theme-border-color, @theme-border-style, @theme-border-width, @theme-font-color: @clover-green, @theme-font-weight);
+}
+
+.button-outline-theme {
+  .theme-mixin(@theme-background-color, @theme-border-color: @clover-gray-90, @theme-border-style, @theme-border-width: 2px, @theme-font-color, @theme-font-weight: 600);
+}
+
+.button-red-theme {
+  .theme-mixin(@theme-background-color: @clover-red, @theme-border-color, @theme-border-style, @theme-border-width, @theme-font-color: @clover-white, @theme-font-weight: 600);
+}
+
+////
+
+.input-gray-theme(@theme-border-width) {
+  .theme-mixin(@theme-background-color, @theme-border-color: @clover-gray-10, @theme-border-style, @theme-border-width, @theme-font-color, @theme-font-weight);
+}
+
+////
+
+.popup-white-theme {
+  .theme-mixin(@theme-background-color: @clover-white, @theme-border-color: @clover-gray-40, @theme-border-style, @theme-border-width: 3px, @theme-font-color, @theme-font-weight);
+}
+
+.popup-green-theme {
+  .theme-mixin(@theme-background-color: @light-clover-green, @theme-border-color: @clover-green, @theme-border-style, @theme-border-width: 3px, @theme-font-color, @theme-font-weight);
+}
+
+.popup-orange-theme {
+  .theme-mixin(@theme-background-color: @light-clover-orange, @theme-border-color: @clover-orange, @theme-border-style, @theme-border-width: 3px, @theme-font-color, @theme-font-weight);
+}
+
+.popup-red-theme {
+  .theme-mixin(@theme-background-color: @extra-light-clover-red, @theme-border-color: @clover-red, @theme-border-style, @theme-border-width: 3px, @theme-font-color, @theme-font-weight);
+}
+
+////
+
+.table-header-theme {
+  .theme-mixin(@theme-background-color: @clover-blue, @theme-border-color: @clover-gray-80, @theme-border-style, @theme-border-width: 0px 0px 0px 0px, @theme-font-color: @clover-white, @theme-font-weight: 400);
+  background: rgb(53,66,70); /* Old browsers */
+  background: -moz-linear-gradient(top,  rgba(53,66,70,1) 0%, rgba(37,51,56,1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(53,66,70,1)), color-stop(100%,rgba(37,51,56,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  rgba(53,66,70,1) 0%,rgba(37,51,56,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  rgba(53,66,70,1) 0%,rgba(37,51,56,1) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  rgba(53,66,70,1) 0%,rgba(37,51,56,1) 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  rgba(53,66,70,1) 0%,rgba(37,51,56,1) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#354246', endColorstr='#253338',GradientType=0 ); /* IE6-9 */
+}
+
+.table-row-theme {
+  .theme-mixin(@theme-background-color, @theme-border-color: @clover-gray-40, @theme-border-style, @theme-border-width: 0 1px 1px 1px, @theme-font-color, @theme-font-weight);
+}
+
+.table-cell-theme { // background-color needs to be transparent so border will render on firefox 
+  .theme-mixin(@theme-background-color: transparent, @theme-border-color: @clover-gray-40, @theme-border-style, @theme-border-width: 0 1px 1px 1px, @theme-font-color, @theme-font-weight);
+}
+
+
+/////////////////////////////////
+// SINGLE COLORS
+/////////////////////////////////
+.c-fill-lt-green { // used: app approval status
+  background-color: @light-clover-green;
+}
+
+.c-fill-lt-orange { // used: app approval status
+  background-color: @light-clover-orange;
+}
+
+.c-fill-lt-red { // used: app approval status
+  background-color: @light-clover-red;
+}
+
+.c-fill-lt-yellow { // used: app approval status
+  background-color: @light-clover-yellow;
+}

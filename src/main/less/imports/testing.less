@@ -1,0 +1,43 @@
+// testing styles
+// --------------------------------------
+div#mocha {
+  background: @light-clover-yellow;
+  border: 1px solid #ccc;
+  bottom: 0;
+  height: 90%;
+  margin: 20px !important;
+  opacity: 0.9;
+  overflow: auto;
+  position: absolute;
+  right: 0;
+  width: 640px;
+  z-index: 9999;
+
+  &.finished {
+    background: @clover-white;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+
+  & * {
+    letter-spacing: 1px;
+  }
+
+  & #mocha-report h1 {
+    margin-bottom: 7px;
+  }
+
+  & ul#mocha-stats {
+    padding-left: 5px;
+    padding-top: 5px;
+    position: relative;
+    right: 0;
+    top: 0;
+
+    & .progress {
+      height: 40px;
+    }
+  }
+}

@@ -3,7 +3,7 @@
 <head>
   <title>Clover V3 API Documentation</title>
   <link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/>
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,700,700italic,300italic|Source+Code+Pro:400,700|Merriweather:400italic,700italic' rel='stylesheet' type='text/css'/>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,700,700italic,300italic|Roboto+Mono:400,400italic,700,700italic|Merriweather:400italic,700italic' rel='stylesheet' type='text/css'/>
   <link href='/api_docs/css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
   <link href='/api_docs/css/bootstrap.css' rel='stylesheet' type='text/css'/>
   <link href='/api_docs/css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
@@ -73,17 +73,7 @@
     <div class="container">
       <div class="row">
         <div class="col-xs-12">
-          <div class="swagger-ui-wrap">
-            <h1>REST API Reference <small>v3</small></h1>
-            <form id='mId_selector api_selector'>
-              <div class="form-group">
-                <input class="form-control" placeholder="Merchant ID (mID)" id="input_mId" name="input_mId" type="text"/>
-              </div>
-              <div class="form-group">
-                <input class="form-control" placeholder="API Token" id="input_apiToken" name="apiKey" type="text"/>
-              </div>
-            </form>
-          </div>
+          <h1>REST API Reference <small>v3</small></h1>
         </div>
       </div>
     </div>
@@ -91,7 +81,29 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-12">
-        <p id="instructions">For detailed instructions regarding the V3 API, visit the <a id="overviewLink" href="">Overview</a> page.</p>
+        <div class="swagger-ui-wrap">
+          <section class="c-box-filter">
+            <form id='mId_selector api_selector'>
+              <div class="col-xs-12 col-sm-4">
+                <label class="c-input-label" for="input_mId">Merchant ID (mID)</label>
+                <div class="input-group">
+                  <input class="c-input-field" placeholder="" id="input_mId" name="input_mId" type="text"/>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-4">
+                <label class="c-input-label" for="input_apiToken">API Token</label>
+                <div class="input-group">
+                  <input class="c-input-field" placeholder="" id="input_apiToken" name="apiKey" type="text"/>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <p class="c-t-note"><i class="fa fa-exclamation-circle"></i>For detailed instructions regarding the V3 API, visit the <a id="overviewLink" href="">Overview</a> page.</p>
       </div>
     </div>
   </div>

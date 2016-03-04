@@ -1,0 +1,420 @@
+@import "../../../node_modules/bootstrap/less/bootstrap.less";
+@import "c-typography.less";
+
+// NEW MIXINS
+
+// NOTES
+// * all classes ending with () = not outputted (link: http://lesscss.org/features/#mixins-feature-not-outputting-the-mixin)
+// * can't repeat any @ variables
+
+/////////////////////////////////
+// BASICS
+/////////////////////////////////
+@basic-border-radius: 5px;
+@base-element-padding: 7px 10px 8px 10px;
+@full-width-section-bcolor: transparent;
+
+.base-element-size(@base-element-padding) {
+  height: 40px;
+  padding: @base-element-padding;
+}
+
+.c-hidden {
+  visibility: hidden;
+}
+
+.c-inline {
+  display: inline;
+}
+
+.c-inline-block { 
+  display: inline-block;
+}
+
+.disabled-state {
+  cursor: default;
+  opacity: 0.3;
+}
+
+.full-width() {
+  display: block;
+  width: 100%;
+}
+
+.full-width-section(@full-width-section-bcolor) {
+  background-color: @full-width-section-bcolor;
+  padding: 30px 0;
+  width: 100%;
+}
+
+/////////////////////////////////
+// BOXES
+/////////////////////////////////
+@base-box-padding: 15px;
+@base-box-text-align: center;
+
+.base-box(@base-box-padding, @base-box-text-align) {
+  padding: @base-box-padding;
+  text-align: @base-box-text-align;
+}
+
+.base-box-shadow() {
+  -webkit-box-shadow: 5px 5px 0px 0px rgba(0,0,0,0.2);
+  -moz-box-shadow: 5px 5px 0px 0px rgba(0,0,0,0.2);
+  box-shadow: 5px 5px 0px 0px rgba(0,0,0,0.2);
+}
+
+/////////////////////////////////
+// BUTTONS
+// - sizes (regular, small, icon)
+// - colors
+/////////////////////////////////
+.base-button {
+  border-radius: @basic-border-radius;
+  transition: background 0.5s ease-in-out;
+  -webkit-transition: background 0.5s ease-in-out;
+  -moz-transition: background 0.5s ease-in-out;
+}
+
+.base-multi-select {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAUCAYAAADlep81AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIBJREFUeNpiYBgFo2CYAUYQkZtX2ACk7Klg3sTJk/o3UGIAC5SeAMT+QGxAgVkLKHUMPISgoSQApPaT6SiQYxKpFmUUOopqjsFwEBmOoqpjsDqIBEdR3TE4HUSEo2jiGLwOwuMomjmGoIOwOIqmjiEagBwFLTxHwSgYBaQCgAADAJLIL0h7/EHDAAAAAElFTkSuQmCC);
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: 18px 10px;
+  padding-right: 30px !important;
+  text-align: left;
+  text-decoration: none;
+}
+
+.base-disabled-button(@default-button-color) { // used: removes hover effects when button is :disabled. supported IE>9.
+  &:disabled:hover {
+    background-color: @default-button-color;
+    cursor: default;
+  }
+}
+
+.base-dropdown {
+  &:extend(.base-multi-select);
+  .base-element-size(@base-element-padding);
+  .full-width;
+  background-color: @clover-gray-10;
+  box-shadow: inset 0 13px 15px @clover-gray-5;
+  transition: background 0.5s ease-in-out;
+  -webkit-transition: background 0.5s ease-in-out;
+  -moz-transition: background 0.5s ease-in-out;
+}
+
+//// button sizes
+
+@base-button-sm-padding: 1px 10px 3px 10px;
+
+.button-md {
+  &:extend(.base-button);
+  .base-element-size(@base-element-padding);
+  .full-width;
+}
+
+.button-sm(@base-button-sm-padding) {
+  &:extend(.base-button);
+  .c-t-small;
+  display: inline-block;
+  height: 28px;
+  padding: @base-button-sm-padding;
+}
+
+.button-tiny {
+  &:extend(.base-button);
+  .c-t-small;
+  display: inline-block;
+  padding: 4px 6px;
+}
+
+.button-inline {
+  &:extend(.base-button);
+  .base-element-size(9px 20px 7px 20px);
+  display: inline-block;
+}
+
+.button-icon {
+  &:extend(.base-button);
+  height: 28px;
+  padding: 2px;
+}
+
+.button-icon-md { // use with fa-md icons
+  &:extend(.base-button);
+  height: 30px;
+}
+
+.button-icon-lg { // use with fa-lg icons
+  &:extend(.base-button);
+  height: 40px;
+}
+
+/////////////////////////////////
+// TRANSITION STATES
+// - buttons
+// - dropdown
+/////////////////////////////////
+.button-hover-transition() {
+  cursor: pointer;
+  outline: 0;
+  transition: background 0.5s ease-in-out;
+  -webkit-transition: background 0.5s ease-in-out;
+  -moz-transition: background 0.5s ease-in-out;
+}
+
+.button-text-hover-transition() { // visuals: disables focus blue glow and text-underline
+  outline: 0;
+  text-decoration: none;
+}
+
+.dropdown-hover-transition() {
+  background-color: @clover-gray-20;
+  box-shadow: inset 0 13px 15px @clover-gray-20;
+  outline: 0;
+}
+
+.gradient-hover-transition() {
+  background: linear-gradient(to bottom, @clover-gray-20 0%, @clover-gray-20 100%);
+  background: -moz-linear-gradient(top, @clover-gray-20 0%, @clover-gray-20 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, @clover-gray-20), color-stop(100%, @clover-gray-10));
+  background: -webkit-linear-gradient(top, @clover-gray-20 0%, @clover-gray-20 100%);
+  background: -o-linear-gradient(top, @clover-gray-20 0%, @clover-gray-20 100%);
+  background: -ms-linear-gradient(top, @clover-gray-20 0%, @clover-gray-20 100%);
+  outline: 0;
+}
+
+.green-transition() {
+  background-color: @dark-clover-green;
+  border-color: transparent;
+  color: @clover-white;
+}
+
+.red-transition() {
+  background-color: @dark-clover-red;
+  border-color: transparent;
+  color: @clover-white;
+}
+
+.gray-transition() {
+  background-color: @clover-gray-90;
+  color: @clover-white;
+}
+
+.icon-transition() {
+  border-color: @clover-gray-40;
+}
+
+////
+
+.green-transition-states() {
+  &:disabled {
+    .disabled-state;
+  }
+  &:focus {
+    .green-transition;
+    .button-hover-transition;
+  }
+  &:active {
+    .green-transition;
+    .button-hover-transition;
+  }
+  &:hover {
+    .green-transition;
+    .button-hover-transition;
+  }
+}
+
+.red-transition-states() {
+  &:disabled {
+    .disabled-state;
+  }
+  &:focus {
+    .red-transition;
+    .button-hover-transition;
+  }
+  &:active {
+    .red-transition;
+    .button-hover-transition;
+  }
+  &:hover {
+    .red-transition;
+    .button-hover-transition;
+  }
+}
+
+.gray-transition-states() {
+  &:disabled {
+    .disabled-state;
+  }
+  &:focus {
+    .gray-transition;
+    .button-hover-transition;
+  }
+  &:active {
+    .button-hover-transition;
+  }
+  &:hover {
+    .gray-transition;
+    .button-hover-transition;
+  }
+}
+
+.icon-transition-states() {
+  &:disabled {
+    .disabled-state;
+  }
+  &:focus {
+    .icon-transition;
+    .button-hover-transition;
+  }
+  &:active {
+    .icon-transition;
+    .button-hover-transition;
+  }
+  &:hover {
+    .icon-transition;
+    .button-hover-transition;
+  }
+}
+
+.gradient-transition-states() {
+  &:disabled {
+    .disabled-state;
+  }
+  &:focus {
+    .gradient-hover-transition;
+  }
+  &:active {
+    .gradient-hover-transition;
+  }
+  &:hover {
+    .gradient-hover-transition;
+  }
+}
+
+.dropdown-transition-states() {
+  &:disabled {
+    .disabled-state;
+  }
+  &:focus {
+    .dropdown-hover-transition;
+  }
+  &:active {
+    .dropdown-hover-transition;
+  }
+  &:hover {
+    .dropdown-hover-transition;
+  }
+}
+
+.text-transition-states() { // used for: button links that look like text links
+  &:focus {
+    .button-text-hover-transition;
+    outline: 1px dotted @clover-gray-40;
+  }
+  &:active {
+    .button-text-hover-transition;
+  }
+  &:hover {
+    .button-text-hover-transition;
+  }
+}
+
+/////////////////////////////////
+// INPUT FIELD
+/////////////////////////////////
+.input-field {
+  .base-element-size(@base-element-padding);
+  .full-width;
+  box-shadow: inset 0 1px 1px @clover-gray-5;
+}
+
+////
+
+.input-hover-transition {
+  border-color: @lt-cool-clover-green;
+  outline: 0;
+}
+
+.input-transition-states() {
+  &:disabled {
+    .disabled-state;
+    border: 1px dotted @clover-gray-60;
+    font-style: italic;
+  }
+  &:focus {
+    .input-hover-transition;
+  }
+  &:active {
+    .input-hover-transition;
+  }
+  &:hover {
+    .input-hover-transition;
+  }
+}
+
+/////////////////////////////////
+// POPUPS
+/////////////////////////////////
+.base-popup {
+  border-radius: @basic-border-radius;
+  box-shadow: 0 2px 4px 1px rgba(0,0,0,0.2);
+  -webkit-box-shadow: 0 2px 4px 1px rgba(0,0,0,0.2);
+  left: 20%;
+  padding: @base-box-padding;
+  position: fixed;
+  right: 20%;
+  top: 20px;
+  z-index: 1002;
+
+  p {
+    padding-right: 20px;
+  }
+}
+
+/////////////////////////////////
+// TABLES
+/////////////////////////////////
+.base-table-row {
+  .make-row(); // call bootstrap mixin from grid.less
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 8px 0 12px 0;
+}
+
+.base-display-table-row { // used for tables with table-cell borders visible (ex: plans.hbs)
+  border-collapse: collapse;
+  display: table;
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
+}
+
+/////////////////////////////////
+// RESPONSIVE
+/////////////////////////////////
+@media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+  .base-popup {
+    left: 15%;
+    right: 15%;
+  }
+}
+
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+  .base-popup {
+    left: 15%;
+    right: 15%;
+  }
+}
+
+@media (max-width: @screen-xs-max) {
+  .base-popup {
+    left: 2%;
+    right: 2%;
+    top: 10px;
+  }
+}

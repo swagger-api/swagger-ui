@@ -1,0 +1,1140 @@
+/////////////////////////////////
+// app-card-data.hbs
+// ex: appmarket change plan
+/////////////////////////////////
+.app-card {
+  // icons are 80x80
+  border: 1px solid @clover-gray-50;
+  display: table;
+  margin-bottom: 18px;
+  width: 100%;
+
+  a {
+    color: @clover-black;
+  }
+
+  .card-img-container {
+    background: @clover-gray-5;
+    border-bottom: 0px;
+    display: table-cell;
+    height: 75px;
+    width: 75px;
+
+    img {
+      height: 55px;
+      width: 55px;
+      margin: 10px;
+    }
+  }
+
+  .card-app-info {
+    display: table-cell;
+    padding-left: 10px;
+    padding-right: 11px;
+    vertical-align: middle;
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+  .card-title {
+    height: 25px;
+    overflow: hidden;
+    width: 100%;
+    word-break: break-all;
+  }
+
+  .t__overflow {
+    height: 25px;
+    right: 20px;
+    width: 30px;
+  }
+}
+
+/////////////////////////////////
+// date-range.hbs
+// ex: reporting
+/////////////////////////////////
+section.c-box-date {
+  position: relative;
+  a:link {
+    border-bottom: 0;
+    margin-right: 10px;
+    text-decoration: underline;
+  }
+
+  hr {
+    margin: 3px 0 8px 0; // accounts for .c-dropdown-filter bottom margin of 5px
+  }
+
+  small.date-start-end { // used: applied to "start:" and "end:" inside date range
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .c-date { // used: reporting
+    float: left;
+    margin-right: 15px;
+  }
+
+  .c-date-mini:first-of-type { // used: orders
+    margin-bottom: 7px;
+  }
+
+  .c-input-group-icon { // so icon will be left aligned with input-field
+    .c-inline-block;
+
+    i.fa-calendar {
+      .gray-transition-states;
+      background-color: @clover-gray-20;
+      border: 1px solid @clover-gray-40;
+      color: @clover-black;
+      float: left;
+      height: 40px;
+      margin: 0;
+      padding: 12px;
+
+      &:hover {
+        border-color: @clover-gray-90;
+      }
+    }
+  }
+
+  .c-input-field {
+    display: inline-block;
+    width: auto;
+  }
+
+  .c-button-sm-secondary {
+    position: relative;
+    top: 28px;
+  }
+}
+
+/////////////////////////////////
+// dropdown
+/////////////////////////////////
+.c-dropdown {
+  &:extend(.base-dropdown);
+  .button-gradient-theme;
+  .dropdown-transition-states;
+  padding-left: 0;
+  padding-right: 0 !important;
+
+  div.c-dropdown-ellipsis { // used: wrapped inside drop-down.hbs around text pieces. created because firefox buttons disregarde left-right padding.
+    margin-left: 10px;
+    margin-right: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.c-dropdown.disabled {
+  border-style: dotted;
+  opacity: 0.5;
+}
+
+.c-dropdown.disabled:hover {
+  background-color: rgba(225, 225, 225, 1);
+  border-style: dotted;
+  box-shadow: inset 0 13px 15px @clover-gray-5;
+  cursor: default;
+}
+
+.dropdown-menu {
+  border-radius: 0;
+  left: auto;
+  margin-top: 0;
+  min-width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  right: 0;
+  top: auto;
+}
+
+.dropdown-highlight {
+  background-color: @light-clover-green;
+}
+
+/////////////////////////////////
+// dropdown filter
+// clear-filters.hbs
+/////////////////////////////////
+.c-dropdown-filter-wrap, // goal: keep only c-dropdown-filter-wrap
+.filter-dropdown {
+  display: inline-block;
+  margin-right: 4px;
+  min-width: 32%;
+  @media (min-width: @screen-lg-min) {
+    &.datepicker-active {
+      min-width: 65%;
+    }
+  }
+
+  @media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+    min-width: 49%;
+    margin-right: 3px;
+    &.datepicker-active {
+      min-width: 100%
+    }
+  }
+  @media (max-width: @screen-md-min) {
+    width: 100%;
+    margin-right: 0;
+  }
+  &.open {
+    .c-dropdown-filter {
+      background: @light-clover-green;
+      border-radius: 5px 5px 0 0;
+      border-color: @lt-cool-clover-green;
+    }
+  }
+  .dropdown-menu {
+    left: 0;
+    right: auto;
+    margin-top: -7px;
+    border-top: 0;
+    border-color: @lt-cool-clover-green;
+    border-radius: 0 0 5px 5px;
+  }
+}
+
+.c-dropdown-filter {
+  .button-dropdown-filter-theme;
+  color: @clover-gray-90;
+  font-size: 13px;
+  margin-bottom: 6px;
+  padding: 5px 20px 5px 12px; // 6px = <i> margin
+  position: relative;
+  text-decoration: none;
+  width: 100%;
+  text-align: left;
+
+  &:active,
+  &:focus,
+  &:hover {
+    background-color: @light-clover-green;
+    outline: 0;
+    border-color: @lt-cool-clover-green;
+  }
+
+  &.disabled {
+    background-color: @clover-gray-10;
+    color: @clover-gray;
+    font-style: italic;
+
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
+}
+
+.clear-filter {
+  margin-left: 10px;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+.c-dropdown-filter .fa-angle-down {
+  position: absolute;
+  right: 2px;
+  top: 8px;
+  color: @clover-gray-40;
+}
+
+/////////////////////////////////
+// input-with-validation.hbs + input-autosave-(all)
+/////////////////////////////////
+@input-label-height: 20px;
+
+.c-input-field {
+  &:extend(.input-field);
+  .input-gray-theme(1px 1px 1px 1px);
+  .input-transition-states;
+}
+
+.input-group { // input + dropdown
+  .c-input-field-pair {
+    &:extend(.input-field);
+    .input-gray-theme(1px 1px 1px 0px);
+    .input-transition-states;
+  }
+
+  .c-dropdown {
+    margin-left: -1px; // collapses border with input field
+    margin-top: @input-label-height + 4px;
+  }
+}
+
+.c-input-group-suffix { // used:
+  bottom: 5px;
+  color: @clover-gray;
+  position: absolute;
+  right: 10px;
+  user-select: none;
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+}
+
+.c-input-field-inline { // used: setupapp > receipts
+  .full-width;
+  .input-gray-theme(1px 1px 1px 1px);
+  .input-transition-states;
+  border-radius: @basic-border-radius;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 5px 8px;
+}
+
+.c-input-textarea {
+  &:extend(.input-field);
+  .input-gray-theme(1px 1px 1px 1px);
+  .input-transition-states;
+  height: auto !important;
+}
+
+.c-input-label {
+  .c-t-small;
+  height: @input-label-height;
+  margin-bottom: 0;
+}
+
+.edit-mode {
+  .c-input-label {
+    display: none;
+  }
+}
+
+input::-ms-clear { // remove default IE x icon
+  display: none;
+}
+
+/////////////////////////////////
+// items-per-page.hbs
+/////////////////////////////////
+.c-items-per-wrap {
+  .c-inline-block;
+  border-right: 1px solid @clover-gray-60;
+  padding-right: 12px;
+
+  .c-button-link {
+    padding-right: 2px;
+  }
+}
+
+.c-items-pagination {
+  .c-inline-block;
+  float: none !important;
+}
+
+
+/////////////////////////////////
+// item-status-flag.hbs
+/////////////////////////////////
+.base-item-status-flag() {
+  font-size: 0.714em; //10px
+  padding: 2px 5px;
+}
+
+.c-item-status-flag-new {
+  .base-item-status-flag;
+  .button-green-theme;
+}
+
+.c-item-status-flag-updated {
+  .base-item-status-flag;
+  .button-gray-md-theme;
+}
+
+.base-flag(@base-flag-bkgnd, @base-flag-color) {
+  background-color: @base-flag-bkgnd;
+  color: @base-flag-color;
+  display: inline-block;
+  font-size: 0.929em; // 13px
+  font-weight: 600;
+  padding: 2px 6px 2px 1px;
+}
+
+.c-flag-green {
+  .base-flag(@base-flag-bkgnd: @clover-green, @base-flag-color: @clover-white);
+}
+
+.c-flag-red {
+  .base-flag(@base-flag-bkgnd: @clover-red, @base-flag-color: @clover-white);
+}
+
+.c-flag-lt-gray {
+  .base-flag(@base-flag-bkgnd: @clover-gray-10, @base-flag-color: @clover-gray-90);
+}
+
+/////////////////////////////////
+// modal-dialog.hbs
+// ex: inventory
+/////////////////////////////////
+.c-box-modal-overlay {
+  background-color: rgba(0, 0, 0, 0.4);
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1001; // modal-dialog zindex=1002
+}
+
+.c-box-modal,
+.e__modal-dialog {
+  .base-box(@base-box-padding, left);
+  .box-white-lt-theme;
+  left: 50%;
+  margin-left: -150px;
+  position: fixed;
+  top: 30%;
+  width: 305px;
+  z-index: 1002; // same as modal-dialog
+}
+
+.c-box-modal-full { // used: public-site
+  .base-box(@base-box-padding, left);
+  .box-white-lt-theme;
+  height: auto;
+  left: 50%;
+  position: fixed;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%); // added for safari
+  width: 70%;
+  z-index: 1002; // same as modal-dialog
+}
+
+.c-box-modal-top { // used: log-in.hbs on application.hbs. position is absolute so log-in popup scrolls with page
+  .base-box(@base-box-padding, left);
+  .box-white-lt-theme;
+  left: 50%;
+  margin-left: -150px;
+  position: absolute;
+  top: 30px;
+  width: 300px;
+  z-index: 1002; // same as modal-dialog
+}
+
+/////////////////////////////////
+// multi-select.hbs
+// ex: inventory
+/////////////////////////////////
+.c-multi-select, // replace e__multi-select
+.e__multi-select { // dropdown with nested input field
+  &:extend(.base-multi-select);
+  &:extend(.input-field);
+  .input-gray-theme(1px 1px 1px 1px);
+  .input-transition-states;
+
+  input {
+    outline: 0;
+    width: 100%;
+  }
+}
+
+.c-multi-select-deselect { // (x)buttons that appear when you select an item from multi-select dropdown
+  &:extend(.base-button);
+  .button-gray-lt-theme;
+  .gray-transition-states;
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 6px 0;
+  padding: 4px 6px;
+  position: relative;
+  text-align: left;
+
+  .fa-times-circle {
+    margin-bottom: 2px;
+    margin-left: 0;
+  }
+}
+
+.list__section-title {
+  padding-left: 10px;
+}
+
+.button__add-new { // "add ___" left padding to line up with multi-select list
+  background-color: @clover-gray-2;
+  border-top: 1px dotted @clover-gray-50;
+  padding: 8px 20px 8px 34px;
+  z-index: 1000;
+}
+
+.button__add-new:hover {
+  background-color: @clover-gray-5;
+}
+
+.fa__multi-select { // absolute positioned relative to multi-select li
+  left: 5px;
+  padding: 1px; // need to check.. without this icon gets cut off
+  position: absolute;
+  top: 6px;
+}
+
+.multi-select-abs-wrap {
+  background-color: @clover-white;
+  border: 1px solid @clover-gray-20;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  position: absolute;
+  width: 95%;
+  z-index: 100;
+}
+
+.multi-select-menu {
+  border-radius: 0;
+  background-clip: padding-box;
+  list-style: none;
+  margin-bottom: 0;
+  max-height: 186px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-bottom: 5px;
+  padding-left: 0;
+  padding-top: 5px;
+
+  &.disabled {
+    .disabled-state;
+  }
+}
+
+.multi-select-menu > li > a {
+  clear: both;
+  display: block;
+  padding: 4px 20px 4px 34px;
+  position: relative;
+}
+
+.multi-select-menu > li > a:hover,
+.multi-select-menu > li > a:focus {
+  text-decoration: none;
+  background-color: @clover-gray-5;
+  cursor: pointer;
+}
+
+.multi-select-menu > .active > a,
+.multi-select-menu > .active > a:hover,
+.multi-select-menu > .active > a:focus {
+  text-decoration: none;
+  background-color: @light-clover-green;
+  outline: 0;
+}
+
+.multi-select-menu > .disabled > a,
+.multi-select-menu > .disabled > a:hover,
+.multi-select-menu > .disabled > a:focus {
+  color: @clover-gray-20;
+}
+
+.multi-select-menu > .disabled > a:hover,
+.multi-select-menu > .disabled > a:focus {
+  text-decoration: none;
+  cursor: not-allowed;
+  background-color: transparent;
+  background-image: none;
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+/////////////////////////////////
+// input-autosave-model.hbs
+// ex: setupapp, developers
+/////////////////////////////////
+
+// margin-left is less than .checkbox__label's b/c radio button is not absolutely positioned
+// currently NOT needed to optimize for 2 line wrapping, will need to adjust when radio labels wrap
+.radio__label {
+  margin-left: 23px;
+}
+
+p.radio__label { // used: to align a p block beneath a label next to a radio button. ex: setupapp > devices > resetdeauthprompt
+  margin-bottom: 12px;
+  margin-left: 23px;
+}
+
+.c-radio-inline-wrap {
+  display: inline-block;
+  margin-left: 12px;
+  position: relative;
+}
+
+input[type="radio"].input__radio {
+  position: absolute;
+}
+
+.checkbox__label {
+  margin-left: 23px;
+  margin-top: 3px;
+}
+
+.checkbox__label-indented {
+  margin-left: 46px;
+  margin-top: 3px;
+}
+
+p.checkbox__label { // used: to align text with checkbox+label when there is no checkbox. ex: setupapp > receipts
+  margin-bottom: 0;
+}
+
+.checkbox__save {
+  position: absolute;
+  right: -20px;
+  top: -5px;
+}
+
+input[type="checkbox"].input__autosave-checkbox {
+  margin-top: 8px;
+  position: absolute;
+}
+
+input[type="checkbox"].input__autosave-checkbox-with-input {
+  margin-top: 40%;
+}
+
+input[type="checkbox"].input__autosave-checkbox-indented {
+  margin-left: 23px;
+  margin-top: 8px;
+  position: absolute;
+}
+
+.input__autosave-save {
+  float: left; // prevents save button from messing with vertical positioning
+
+  button {
+    padding-left: 0;
+    padding-top: 2px;
+  }
+}
+
+.c-input-type-indent { // used: to align sub-options in order-title component template
+  margin-bottom: 0;
+  margin-left: 23px;
+}
+
+.c-display-table-header-lg { // titles in here should be paired with an <h3 class="thin">
+  div[class^='col-'] {
+    border-width: 1px 1px 1px 1px;
+  }
+
+  h3.thin {
+    margin-bottom: 0;
+  }
+}
+
+/////////////////////////////////
+// plan-features
+// ex: appmarket
+/////////////////////////////////
+
+.plan-features-wrapper {
+  position:relative;
+  padding: 0 0 0 350px;
+  border: none;
+  display: block;
+  .bundles {
+    display:block;
+    overflow: hidden;
+    overflow-x: auto;
+  }
+  .plan-features {
+    border: 1px solid @clover-gray-60;
+    border-left: none;
+    padding: 0 !important;
+    display: table-cell;
+    vertical-align: top;
+    min-width: 350px;
+    max-width: 350px;
+    text-align: center;
+    &.title {
+      position: absolute;
+      top: 0;
+      left: 0;
+      border: 1px solid @clover-gray-60;
+      border-right: 2px solid @clover-gray-60; 
+      width: 350px;
+      height: 100%;
+      text-align:left;
+    }
+    > div {
+      padding: 7px;
+      border-bottom: 1px solid @clover-gray-60;
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+  .gradient-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 20px;
+    background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  }
+}
+  
+.bundle-header {
+  min-height: 61px;
+  text-align: center;
+  h3 {
+    margin-bottom:0;
+  }
+}
+.bundle-item {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 41px;
+  h5 {
+    margin-bottom: 0;
+  }
+  img {
+    float: left;
+    width: 70px;
+    margin-right: 15px;
+  }
+  &.device {
+    min-height: 71px;
+  }
+  &.section {
+    background-color: @clover-gray-10;
+    font-weight: bold;
+    min-height: 35px;
+  }
+  &.three-lines {
+    min-height: 75px;
+  }
+}
+.gradient-buffer {
+  display:table-cell;
+  min-width:20px;
+  height:100%;
+}
+.features-lg-view {
+  display: inline-block;
+}
+.features-xs-view {
+  display: none;
+}
+@media screen and (max-width: 767px) {
+  .features-lg-view {
+    display: none;
+  }
+  .features-xs-view {
+    display: inline-block;
+  }
+  .plan-features-wrapper {
+    overflow-x: visible;
+    padding-left: 0;
+    .plan-features {
+      margin-bottom: 20px;
+      border: 1px solid @clover-gray-80;
+      display: block;
+      min-width: auto;
+      max-width: none;
+      text-align: left;
+    }
+  }
+  .bundle-header {
+    min-height: auto;
+    text-align: left;
+    h3.thin {
+      color: @clover-green;
+    }
+  }
+  .bundle-section, .bundle-item {
+    min-height: auto;
+  }
+}
+
+.plan-features {
+  .selected {
+    background: @lt-cool-clover-green-tint !important;
+  }
+
+  .selected-darker {
+    background: @lt-cool-clover-green-shade !important;
+  }
+}
+
+.c-display-table-header-lg { // titles in here should be paired with an <h3 class="thin">
+  div[class^='col-'] {
+    border-width: 1px 1px 1px 1px;
+  }
+
+  h3.thin {
+    margin-bottom: 0;
+  }
+}
+
+.c-display-table-row.c-plan-device-available {
+  h5 {
+    margin-bottom: 0;
+  }
+
+  img {
+    float: left;
+    margin-right: 15px;
+    width: 70px;
+  }
+}
+
+/////////////////////////////////
+// plan-details
+// ex: choose
+/////////////////////////////////
+.c-box-white-dk.merchant-plan-box {
+  padding: 0;
+}
+
+
+// TODO: remove
+.merchant-plan-box {
+  // needed for the "YOUR PLAN" banner
+  overflow: hidden;
+  position: relative;
+
+  h3 {
+    background: @clover-gray-20;
+    border-bottom: 1px solid @clover-gray-40;
+    margin: 0;
+    padding: 0.5em 0;
+    text-align: center;
+  }
+
+  h5 {
+    margin-top: 0;
+  }
+
+  .merchant-plan-apps, .merchant-plan-service {
+    padding: 10px;
+  }
+
+  .merchant-plan-apps {
+    min-height: 432px;
+  }
+
+  .merchant-plan-features {
+    min-height: 100px;
+  }
+
+  .included-app-img {
+    height: 40px;
+    margin-right: 15px;
+    width: 40px;
+  }
+
+  .service-plan-header {
+    background: @clover-gray-5;
+    padding: 10px;
+    text-align: center;
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+  &.selected {
+    background: @lt-cool-clover-green-tint;
+
+    h3 {
+      background: @lt-cool-clover-green-shade;
+    }
+
+    h5, .service-plan-header {
+      background: @lt-cool-clover-green;
+    }
+  }
+
+  .current-plan-banner {
+    // will likely need to be adjusted for different locales with current styling
+    background: @clover-yellow;
+    left: -50px;
+    padding: 0 59px;
+    position: absolute;
+    text-transform: uppercase;
+    top: 15px;
+    transform: rotate(340deg);
+  }
+}
+
+/////////////////////////////////
+// remote support
+// ex: inventory > categories
+/////////////////////////////////
+canvas.remote-screen {
+  background: @clover-black;
+  border: none;
+  outline: none;
+}
+
+.remote-screen-cover {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  position: absolute;
+}
+
+#remote-support-screenshot-button {
+  text-align: center;
+}
+
+/////////////////////////////////
+// reorder
+// ex: inventory > categories
+/////////////////////////////////
+.ui-sortable-category-preview-placeholder {
+  background: @light-clover-yellow;
+  border: 1px dashed @clover-gray;
+  float: left;
+  height: 50px;
+  margin-bottom: 14px;
+  margin-left: 1%;
+  margin-right: 1%;
+  width: 31.33%;
+}
+
+.ui-sortable-item-placeholder {
+  background: @light-clover-yellow;
+  border: 1px dashed @clover-gray;
+  float: left;
+  height: 95px;
+  margin-bottom: 14px;
+  margin-left: 1%;
+  margin-right: 1%;
+  width: 18%;
+}
+
+/////////////////////////////////
+// v3-search.hbs
+/////////////////////////////////
+.v3-search {
+  margin-bottom: 14px;
+  position: relative;
+  &:before {
+      display: block;
+      content: '\f002';
+      font-family: FontAwesome;
+      font-size: 1.33em;
+      position: absolute;
+      left: 14px;
+      top: 1px;
+      color: @clover-gray-10;
+      line-height: 40px;
+    }
+
+  .c-button-clear {
+    .button-icon-lg;
+    position: absolute;
+    right: 66px;
+    top: 0;
+
+    &:focus {
+      outline: 0;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .c-button-search {
+    .button-gray-md-theme;
+    .button-icon-lg;
+    .gray-transition-states;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 0 12px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .c-input-field {
+    border-radius: @basic-border-radius;
+    padding-left: 45px;
+    padding-right: 80px;
+
+  }
+}
+
+/////////////////////////////////
+// search-autocomplete.hbs
+/////////////////////////////////
+.c-search-autocomplete {
+  position: relative;
+  .v3-search;
+
+  .dropdown-menu {
+    display: block; // temp. solution, shouldn't need it
+    &:extend(.dropdown-menu);
+    margin-top: -2px;
+    border-top: 1px solid @clover-gray-20;
+    border-color: @lt-cool-clover-green;
+    border-radius: 0 0 5px 5px;
+
+    li {
+      border-bottom: 1px dotted @clover-gray-20;
+
+      &:last-child {
+        border-bottom: 0px;
+      }
+    }
+
+    li > a {
+      padding-bottom: 10px;
+      padding-top: 10px;
+    }
+  }
+
+  .c-search-autocomplete-input { // wraps input-field + search icon. used: cs > devices
+    .c-search-field-inline {
+      &:extend(.c-input-field);
+      .input-transition-states;
+      padding-left: 45px;
+      border-radius: @basic-border-radius;
+      &:focus {
+        border-radius: 5px 5px 0 0;
+      }
+    }
+  }
+
+  .c-search-autocomplete-no-results {
+    color: @clover-gray-40;
+    cursor: default;
+  }
+}
+
+/////////////////////////////////
+// single-item-edit.hbs
+/////////////////////////////////
+.edit-button {
+  color: @clover-green;
+  text-decoration: underline;
+}
+
+.edit-button:disabled {
+  color: @clover-gray-20;
+  text-decoration: underline;
+}
+
+.disabled-text-field {
+  color: @clover-gray-20;
+  cursor: default;
+}
+
+/////////////////////////////////
+// sortable-elements.hbs
+/////////////////////////////////
+.sortable-element { // prevent weird bug where $.sortable removes left/right margins
+  font-size: 14px;
+  margin: 3px;
+}
+
+#sortable-elements { // prevent weird bug where $.sortable removes left/right margins
+  font-size: 0;
+}
+
+
+/////////////////////////////////
+// uploadable-image.hbs
+// ex: developers
+/////////////////////////////////
+.img__upload-wrap {
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.img__screenshot-wrap { // only used in developer-app-summary.hbs
+  margin-right: 10px;
+}
+
+.img__screenshot-mini-wrap { // height + width accommodate for the 1px border on all sides
+  display: table-cell;
+  height: 82px;
+  max-width: 82px;
+  position: relative;
+  vertical-align: bottom;
+}
+
+.img__screenshot-mini {
+  border: 1px solid @clover-gray;
+}
+
+.img__logo {
+  border: 1px solid @clover-gray;
+  max-height: 300px;
+  max-width: 300px;
+}
+
+.file__upload {
+  .c-t-small;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+.img__upload-delete {
+  border: 1px solid @clover-gray;
+  display: block;
+  margin-top: -1px;
+}
+
+/////////////////////////////////
+// RESPONSIVE
+/////////////////////////////////
+@media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+  section.c-box-date {
+  }
+}
+
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+  section.c-box-date {
+  }
+
+  .merchant-plan-box {
+    .included-app-img {
+      height: 35px;
+      margin-bottom: 5px;
+      margin-right: 6px;
+      width: 35px;
+    }
+
+    .merchant-plan-features {
+      min-height: 125px;
+    }
+  }
+}
+
+@media (max-width: @screen-xs-max) {
+  section.c-box-date {
+    .c-date {
+      margin-bottom: 8px;
+      display: block;
+      width: 100%;
+    }
+    .c-button-sm-secondary {
+      margin-left: 38px;
+      top: auto;
+    }
+    small.date-start-end {
+      display: inline-block;
+      margin-bottom: 0;
+      width: 35px;
+    }
+  }
+  .ui-sortable-category-preview-placeholder {
+    width: 98%;
+    float: none;
+  }
+}

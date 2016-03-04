@@ -1,81 +1,46 @@
-@import "src/main/less/c-typography";
-@import "src/main/less/c-colors";
+/* @import "src/main/less/c-typography"; */
+/* @import "src/main/less/c-colors"; */
+
+@clover-gray-90: #404040;
+
+@get-color: #2d5c70;
+@post-color: #4b946a;
+@delete-color: #a94446;
 
 .swagger-section {
+    /*
     position: relative;
 
-.swagger-ui-wrap {
+    .swagger-ui-wrap {
 
-    line-height: 1;
-    font-family: @sans-serif-font;
-    margin-left: auto;
-    margin-right: auto;
-
-    b, strong {
-        font-family: @sans-serif-font;
-        font-weight: bold;
-    }
-
-    q, blockquote {
-        quotes: none;
-    }
-
-    p {
-        line-height: 1.4em;
-        padding: 0 0 10px;
-        color: #333333;
-    }
-
-    q:before, q:after, blockquote:before, blockquote:after {
-        content: none;
-    }
-
-    .heading_with_menu {
-        h1, h2, h3, h4, h5, h6 {
-            display: block;
-            clear: none;
-            float: left;
-            -moz-box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-            -ms-box-sizing: border-box;
-            box-sizing: border-box;
-            width: 60%;
-        }
-    }
-
-    table {
-        border-collapse: collapse;
-        border-spacing: 0;
-        thead {
-            tr {
-                th {
-                    padding: 5px;
-                    font-size: 0.9em;
-                    color: #666666;
-                    border-bottom: 1px solid #999999;
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            thead {
+                tr {
+                    th {
+                        font-size: 14px;
+                    }
+                }
+            }
+            tbody {
+                tr:last-child {
+                    td {
+                        border-bottom: none;
+                    }
+                }
+                tr.offset {
+                    background-color: #f0f0f0;
+                }
+                tr {
+                    td {
+                        border-bottom: 1px solid #cccccc;
+                        vertical-align: top;
+                        line-height: 1.3em;
+                    }
                 }
             }
         }
-        tbody {
-            tr:last-child {
-                td {
-                    border-bottom: none;
-                }
-            }
-            tr.offset {
-                background-color: #f0f0f0;
-            }
-            tr {
-                td {
-                    padding: 6px;
-                    font-size: 0.9em;
-                    border-bottom: 1px solid #cccccc;
-                    vertical-align: top;
-                    line-height: 1.3em;
-                }
-            }
-        }
-    }
 
     ol {
         margin: 0px 0 10px;
@@ -97,7 +62,6 @@
             text-decoration: none;
         }
         a:hover {
-            text-decoration: underline;
         }
         span.divider {
             color: #aaaaaa;
@@ -116,13 +80,9 @@
     }
 
     pre {
-        font-family: @monospace-font;
-        background-color: #F1F1F1;
-        /*border: 1px solid #e5e0c6;*/
         padding: 10px;
         code {
             line-height: 1.6em;
-            background: none;
         }
     }
 
@@ -138,11 +98,6 @@
                     padding: 15px 0 5px;
                 }
             }
-        }
-        pre {
-            font-size: 12px;
-            margin-top: 5px;
-            padding: 5px;
         }
     }
 
@@ -213,7 +168,6 @@
     }
 
     .model-signature {
-        font-family: @sans-serif-font;
         font-size: 1em;
         line-height: 1.5em;
         .signature-nav {
@@ -234,13 +188,10 @@
             color: #5555aa;
         }
         pre:hover {
-            background-color: #F8F8F8;
         }
         pre {
-            font-size: .85em;
-            line-height: 1.2em;
+            line-height: 1.4em;
             overflow: auto;
-            max-height: 200px;
             cursor: pointer;
         }
         ul.signature-nav {
@@ -300,7 +251,6 @@
     }
 
     .markdown p code, .markdown li code {
-        font-family: @monospace-font;
         background-color: #f0f0f0;
         color: black;
         padding: 1px 3px;
@@ -320,7 +270,6 @@
         font-size: 1.5em;
         line-height: 1.3em;
         padding: 10px 0 10px 0;
-        font-family: @sans-serif-font;
         font-weight: bold;
     }
 
@@ -373,7 +322,6 @@
     }
 
     .code {
-        font-family: @monospace-font;
     }
 
     form.formtastic {
@@ -381,7 +329,6 @@
             ol {
                 li.text {
                     textarea {
-                        font-family: @sans-serif-font;
                         height: 250px;
                         padding: 4px;
                         display: block;
@@ -458,11 +405,6 @@
             color: #666666;
         }
         pre {
-            font-family: @monospace-font;
-            background-color: #F1F1F1;
-            /*border: 1px solid #e5e0c6;*/
-            padding: 10px;
-            margin: 0 0 10px 0;
             code {
                 line-height: 1.6em;
             }
@@ -474,7 +416,6 @@
     }
 
     ul#resources {
-        font-family: @sans-serif-font;
         font-size: 0.9em;
 
         li.resource {
@@ -512,7 +453,6 @@
                         clear: none;
                         margin: 0;
                         padding: 2px 10px;
-                        border-right: 1px solid #dddddd;
                         color: #666666;
                         font-size: 0.9em;
                         a {
@@ -551,7 +491,6 @@
                     display: block;
                     clear: none;
                     float: left;
-                    font-family: @sans-serif-font;
                     font-weight: bold;
                     a {
                         color: #999999;
@@ -583,17 +522,10 @@
                             width: auto;
                             margin: 0;
                             padding: 0;
-                            line-height: 1.1em;
+                            line-height: 1.8em;
                             color: black;
                             span.path {
                                 padding-left: 10px;
-                                a {
-                                    color: black;
-                                    text-decoration: none;
-                                }
-                                a:hover {
-                                    text-decoration: underline;
-                                }
                             }
                             span.http_method {
                                 a {
@@ -602,15 +534,7 @@
                                     color: white;
                                     display: inline-block;
                                     width: 50px;
-                                    font-size: 0.7em;
-                                    text-align: center;
                                     padding: 7px 0 4px;
-                                    -moz-border-radius: 2px;
-                                    -webkit-border-radius: 2px;
-                                    -o-border-radius: 2px;
-                                    -ms-border-radius: 2px;
-                                    -khtml-border-radius: 2px;
-                                    border-radius: 2px;
                                 }
                             }
                             span {
@@ -707,11 +631,6 @@
                         div.response {
                             div.block {
                                 pre {
-                                    font-family: @monospace-font;
-                                    padding: 10px;
-                                    font-size: 0.9em;
-                                    max-height: 400px;
-                                    overflow-y: auto;
                                 }
                             }
                         }
@@ -794,12 +713,11 @@
                 li.operation.DELETE {
                     div.heading {
                         background-color: #FFFFFF;
-                        /*border: 1px solid #B75555;*/
                         h3 {
                             span.http_method {
                                 a {
                                     text-transform: uppercase;
-                                    background-color: #B75555;
+                                    color: @clover-gray-90;
 
                                 }
                             }
@@ -808,28 +726,27 @@
                             li {
                                 border-right: 1px solid #dddddd;
                                 border-right-color: #000000;
-                                color: #a41e22;
+                                color: @clover-gray-90;
                                 a {
-                                    color: #a41e22;
+                                    color: @clover-gray-90;
                                 }
                             }
                         }
                     }
                     div.content {
                         background-color: #FFFFFF;
-                        /*border: 1px solid #B75555;*/
                         h4 {
-                            color: #931F1F;
+                            color: @delete-color;
                         }
                         div.sandbox_header {
                             a {
-                                color: #931F1F;
+                                color: @delete-color;
                             }
                             input.submit {
-                                background: #B75555;
+                                background: @delete-color;
                             }
                             input.response_hider {
-                                background: #B75555;
+                                background: @delete-color;
                             }
                         }
                     }
@@ -837,11 +754,10 @@
                 li.operation.POST {
                     div.heading {
                         background-color: #FFFFFF;
-                        /*border: 1px solid #34763B;*/
                         h3 {
                             span.http_method {
                                 a {
-                                    background-color: #34763B;
+                                    color: @clover-gray-90;
                                 }
                             }
                         }
@@ -849,28 +765,27 @@
                             li {
                                 border-right: 1px solid #dddddd;
                                 border-right-color: #34763B;
-                                color: #1E5429;
+                                color: @clover-gray-90;
                                 a {
-                                    color: #34763B;
+                                    color: @clover-gray-90;
                                 }
                             }
                         }
                     }
                     div.content {
                         background-color: #FFFFFF;
-                        /*border: 1px solid #34763B;*/
                         h4 {
-                            color: #1E5429;
+                            color: @post-color;
                         }
                         div.sandbox_header {
                             a {
-                                color: #1E5429;
+                                color: @post-color;
                             }
                             input.submit {
-                                background: #34763B;
+                                background: @post-color;
                             }
                             input.response_hider {
-                                background: #34763B;
+                                background: @post-color;
                             }
                         }
                     }
@@ -914,11 +829,10 @@
                 }
                 li.operation.GET {
                     div.heading {
-                        /*border: 1px solid #3EC0C4;*/
                         h3 {
                             span.http_method {
                                 a {
-                                    background-color: #0F726F;
+                                    color: @clover-gray-90;
                                 }
                             }
                         }
@@ -926,28 +840,26 @@
                             li {
                                 border-right: 1px solid #dddddd;
                                 border-right-color: #c3d9ec;
-                                color: #0F726F;
+                                color: @clover-gray-90;
                                 a {
-                                    color: #0F726F;
+                                    color: @clover-gray-90;
                                 }
                             }
                         }
                     }
                     div.content {
-                        background-color: #FFFFFF;
-                        /*border: 1px solid #c3d9ec;*/
                         h4 {
-                            color: #0F726F;
+                            color: @get-color;
                         }
                         div.sandbox_header {
                             a {
-                                color: #0F726F;
+                                color: @get-color;
                             }
                             input.submit {
-                                background: #0F726F;
+                                background: @get-color;
                             }
                             input.response_hider {
-                                background: #0F726F;
+                                background: @get-color;
                             }
                         }
                     }
@@ -1023,7 +935,6 @@
         padding: 10px 0;
         font-size: 0.8em;
         border-top: 1px solid #dddddd;
-        font-family: @sans-serif-font;
         color: #999999;
         font-style: italic;
         a {
@@ -1039,7 +950,6 @@
     }
 
     .markdown ol, .markdown ul {
-        font-family: @sans-serif-font;
         margin: 5px 0 10px;
         padding: 0 0 0 18px;
         list-style-type: disc;
@@ -1071,6 +981,6 @@
             }
         }
     }
-}
+    }*/
 
 }

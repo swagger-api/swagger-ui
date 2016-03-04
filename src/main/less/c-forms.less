@@ -1,0 +1,53 @@
+/* @import "node_modules/bootstrap/less/forms.less";
+
+// variables
+
+@input-label-height: 20px;
+
+
+/////////////////////////////////
+// input-with-validation.hbs + input-autosave-(all)
+/////////////////////////////////
+
+.c-input-field {
+  &:extend(.input-field);
+  .input-gray-theme(1px 1px 1px 1px);
+  .input-transition-states;
+}
+
+.input-group { // input + dropdown
+  .c-input-field-pair {
+    &:extend(.input-field);
+    .input-gray-theme(1px 1px 1px 0px);
+    .input-transition-states;
+  }
+
+  .c-dropdown {
+    margin-left: -1px; // collapses border with input field
+    margin-top: @input-label-height + 4px;
+  }
+}
+.c-input-textarea {
+  &:extend(.input-field);
+  .input-gray-theme(1px 1px 1px 1px);
+  .input-transition-states;
+  height: auto !important;
+}
+
+.c-input-label {
+  .c-t-small;
+  height: @input-label-height;
+  margin-bottom: 0;
+}
+
+.edit-mode {
+  .c-input-label {
+    display: none;
+  }
+}
+
+// fixes for IE
+input::-ms-clear { // remove default IE x icon
+  display: none;
+}
+*/

@@ -1,0 +1,45 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'run', 'build' ]
+2 info using npm@3.7.3
+3 info using node@v4.2.1
+4 verbose run-script [ 'prebuild', 'build', 'postbuild' ]
+5 info lifecycle swagger-ui@2.0.21~prebuild: swagger-ui@2.0.21
+6 silly lifecycle swagger-ui@2.0.21~prebuild: no script for prebuild, continuing
+7 info lifecycle swagger-ui@2.0.21~build: swagger-ui@2.0.21
+8 verbose lifecycle swagger-ui@2.0.21~build: unsafe-perm in lifecycle true
+9 verbose lifecycle swagger-ui@2.0.21~build: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/christianbergstrom/source/swagger-ui/node_modules/.bin:/usr/local/bin:/Users/christianbergstrom/.rvm/gems/ruby-2.2.1/bin:/Users/christianbergstrom/.rvm/gems/ruby-2.2.1@global/bin:/Users/christianbergstrom/.rvm/rubies/ruby-2.2.1/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/christianbergstrom/bin:/usr/local/bin:/usr/local/mysql/bin:/Users/christianbergstrom/devtools/arcanist/bin:/Users/christianbergstrom/vv/vv:/usr/local/var/mysql:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/christianbergstrom/.rvm/bin
+10 verbose lifecycle swagger-ui@2.0.21~build: CWD: /Users/christianbergstrom/source/swagger-ui
+11 silly lifecycle swagger-ui@2.0.21~build: Args: [ '-c', 'PATH=$PATH:./node_modules/.bin cake dist' ]
+12 silly lifecycle swagger-ui@2.0.21~build: Returned: code: 1  signal: null
+13 info lifecycle swagger-ui@2.0.21~build: Failed to exec build script
+14 verbose stack Error: swagger-ui@2.0.21 build: `PATH=$PATH:./node_modules/.bin cake dist`
+14 verbose stack Exit status 1
+14 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:239:16)
+14 verbose stack     at emitTwo (events.js:87:13)
+14 verbose stack     at EventEmitter.emit (events.js:172:7)
+14 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:24:14)
+14 verbose stack     at emitTwo (events.js:87:13)
+14 verbose stack     at ChildProcess.emit (events.js:172:7)
+14 verbose stack     at maybeClose (internal/child_process.js:818:16)
+14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:211:5)
+15 verbose pkgid swagger-ui@2.0.21
+16 verbose cwd /Users/christianbergstrom/source/swagger-ui
+17 error Darwin 15.3.0
+18 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "run" "build"
+19 error node v4.2.1
+20 error npm  v3.7.3
+21 error code ELIFECYCLE
+22 error swagger-ui@2.0.21 build: `PATH=$PATH:./node_modules/.bin cake dist`
+22 error Exit status 1
+23 error Failed at the swagger-ui@2.0.21 build script 'PATH=$PATH:./node_modules/.bin cake dist'.
+23 error Make sure you have the latest version of node.js and npm installed.
+23 error If you do, this is most likely a problem with the swagger-ui package,
+23 error not with npm itself.
+23 error Tell the author that this fails on your system:
+23 error     PATH=$PATH:./node_modules/.bin cake dist
+23 error You can get information on how to open an issue for this project with:
+23 error     npm bugs swagger-ui
+23 error Or if that isn't available, you can get their info via:
+23 error     npm owner ls swagger-ui
+23 error There is likely additional logging output above.
+24 verbose exit [ 1, true ]

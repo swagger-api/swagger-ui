@@ -1,0 +1,294 @@
+// overriding bootstrap
+// --------------------------------------
+header {
+  .hidden-xs {
+    display: inline !important;
+  }
+}
+
+
+// header elements
+// --------------------------------------
+header { // BOTH dashboard + public header styles
+  #logo {
+    border: 0;
+    float: left;
+    height: 41px;
+    padding: 10px 0;
+  }
+
+  .clover-logo {
+    height: 22px;
+    margin-left: 15px;
+    margin-right: 10px;
+  }
+
+  .fa-user {
+    float: left;
+    margin-left: 0;
+    margin-right: 10px;
+    margin-top: 3px;
+  }
+
+  ul.nav li.nav-text {
+    padding: 10px 15px 0 15px;
+  }
+
+  ul.nav li.nav-text a {
+    border-bottom: none;
+    padding: 0;
+  }
+
+  ul.nav li.dropdown button.dropdown-toggle { // used: "merchant/dev name" toggle button
+    color: @clover-white;
+    height: 40px;
+    padding: 0 15px;
+
+    &:active,
+    &:focus,
+    &:hover {
+      background-color: @clover-black;
+    }
+  }
+
+  ul.nav li.nav-button a.c-button-sm-primary { // used: sm green log in button
+    margin-left: 5px;
+    padding: 4px 10px;
+  }
+
+  ul.merchant-dropdown-list {
+    max-height: 400px;
+    width: 300px;
+  }
+
+  ul.merchant-dropdown-list hr {
+    margin: 10px 0;
+  }
+
+  ul.merchant-dropdown-list #merchant-search .v3-search {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  ul.merchant-dropdown-list li.merchant-dropdown-item {
+    float: none;
+  }
+
+  ul.merchant-dropdown-list li.merchant-dropdown-item a,
+  ul.merchant-dropdown-list li.merchant-dropdown-item em {
+    clear: both;
+    display: block;
+    font-size: 13px;
+    padding: 2px 20px;
+    position: relative;
+
+    i.fa-user {
+      color: @clover-gray;
+    }
+  }
+}
+
+header.section-header { // dashboard header ONLY styles
+  background-color: @clover-gray-90;
+  margin-bottom: 20px;
+
+  ul.nav li.nav-text,
+  ul.nav li.nav-text a {
+    color: @clover-gray-20;
+  }
+
+  ul.nav li.nav-button a.c-button-sm-primary {
+    margin-top: 7px;
+  }
+}
+
+
+/////////////////////////////////
+// PUBLICHEADER styles
+/////////////////////////////////
+header.public-header {
+  background-color: @clover-gray-5;
+  height: 60px;
+  margin-bottom: 0;
+
+  #clover-logo {
+    border-bottom: none;
+    float: left;
+  }
+
+  .clover-logo-color {
+    height: 32px;
+    margin-top: 13px;
+  }
+
+  div.main-nav {
+    text-align: center;
+
+    ul.nav {
+      display: inline-block;
+      float: none;
+      margin: 0 0 0 -120px;
+      padding: 0;
+
+      li.nav-text {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 0;
+
+        a {
+          color: @clover-gray-90;
+          display: block;
+          font-weight: 600;
+          padding: 10px 15px;
+        }
+      }
+    }
+  }
+
+  ul.nav li.nav-text a:hover {
+    background-color: @clover-gray-10 !important;
+  }
+
+  ul.nav li.nav-button a.c-button-sm-primary {
+    margin-left: 10px;
+    margin-top: 17px;
+  }
+
+  .nav-text-active {
+    background-color: @clover-gray-10;
+  }
+}
+
+// media queries
+// --------------------------------------
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+  header {
+    .clover-logo {
+      height: 24px;
+    }
+  }
+
+  header.public-header {
+    .clover-logo-color {
+      height: 26px;
+      margin-top: 19px;
+    }
+
+    div.main-nav {
+      ul.nav {
+        margin: 0 0 0 -95px;
+
+        li.nav-text {
+          display: inline-block;
+          margin-top: 10px;
+          padding: 0;
+
+          a {
+            color: @clover-gray-90;
+            display: block;
+            font-weight: 600;
+            padding: 10px 10px;
+          }
+        }
+      }
+    }
+  }
+
+}
+
+@media (max-width: @screen-xs-max) {
+  header {
+    i {
+      margin-left: 0;
+    }
+
+    .hidden-xs {
+      display: none !important;
+    }
+
+    .pull-right {
+      float: none !important;
+    }
+
+    .t__align-right {
+      text-align: left;
+    }
+
+    #merchant-dropdown ul.merchant-dropdown-list {
+      background-color: @clover-gray-90;
+      margin-bottom: -6px;
+      margin-left: 0;
+      position: relative;
+
+      li {
+        padding-left: 34px;
+
+        &.dropdown-header {
+          color: @clover-white;
+        }
+
+        &.merchant-dropdown-item a {
+          color: @clover-white;
+          padding-left: 0;
+
+          &:active,
+          &:focus,
+          &:hover {
+            background-color: @clover-gray-90;
+            color: @clover-gray-20;
+          }
+        }
+      }
+    }
+
+    ul.nav li.dropdown button.dropdown-toggle { // used: "merchant/dev name" toggle button
+      text-align: left;
+      width: 100%;
+
+      &:active,
+      &:focus,
+      &:hover {
+        background-color: @clover-gray-90;
+        color: @clover-gray-20;
+      }
+    }
+  }
+
+  header.public-header {
+    height: auto;
+
+    #clover-logo {
+      margin-left: 15px;
+    }
+
+    .clover-logo-color {
+      height: 20px;
+      margin-top: 10px;
+    }
+
+    div.main-nav {
+      ul.nav {
+        display: inline;
+        margin: 0;
+
+        li.nav-text {
+          display: block;
+          margin-top: 0;
+          padding: 0;
+          text-align: left;
+
+          a {
+            color: @clover-gray-90;
+            display: block;
+            font-weight: 600;
+            padding: 10px 5px;
+          }
+        }
+      }
+
+      ul.nav li.nav-button a.c-button-sm-primary { // used: sm green log in button
+        margin-bottom: 15px;
+      }
+    }
+  }
+}

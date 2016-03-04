@@ -1,0 +1,179 @@
+// LESS documentation: http://lesscss.org/
+// Bootstrap documentation: http://getbootstrap.com/css/
+// @import "typography.less";
+@import "../../../node_modules/font-awesome/less/font-awesome.less";
+@import "imports/c-typography.less";
+@import "imports/c-footer.less";
+@import "imports/c-header.less";
+@import "imports/testing.less";
+@import "imports/c-mixins.less";
+@import "imports/c-bootstrap-overrides.less";
+@import "imports/c-public.less";
+@import "imports/c-components.less";
+@import "imports/c-colors.less";
+@import "imports/c-print.less";
+
+/* common test v3 */
+
+// variables
+// --------------------------------------
+@font-family-sans-serif: 'Open Sans', Arial, Helvetica, sans-serif;
+
+
+// base styling
+// --------------------------------------
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  >.ember-view {
+    height: 100%;  /* for sticky footer */
+    >.ember-view {
+      height: 100%; /* for sticky footer */
+    }
+    div.alert {
+      height: auto;
+    }
+  }
+}
+
+body {
+  background-color: @clover-white;
+  color: @clover-gray-90;
+  font-family: @font-family-sans-serif;
+  font-size: 14px;
+}
+
+button {
+  background: transparent;
+  border: 0;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+footer {
+  margin-top: 60px;
+  padding: 40px 0 20px 0;
+  width: 100%;
+}
+
+input {
+  border: 0;
+}
+
+label {
+  font-weight: normal;
+}
+
+
+// awesome icons
+// --------------------------------------
+i {
+  margin-left: 6px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+
+// base typography
+// --------------------------------------
+h1 {
+  font-size: 3.429em; //48px
+  font-weight: 500;
+  letter-spacing: -2px;
+  margin: 0 0 24px 0;
+}
+
+h2 {
+  font-size: 2.143em; //30px
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin: 10px 0 16px 0;
+}
+
+p + h2 { // margin top only when it follows a p
+  margin-top: 40px;
+}
+
+h3 {
+  font-size: 1.714em; //24px
+  font-weight: 600;
+  letter-spacing: -1px;
+  margin: 0 0 10px 0;
+  .app-header & {
+    line-height: 40px;
+  }
+}
+
+p + h3 { // margin top only when it follows a p
+  margin-top: 30px;
+}
+
+h4 {
+  font-family: 'Merriweather', georgia, serif;
+  font-size: 1.286em; //18px
+  font-style: italic;
+  line-height: 1.2em;
+  margin: 0 0 13px 0;
+}
+
+h4 span { // added for setupapp
+  font-family: 'Merriweather', georgia, serif;
+}
+
+
+p + h4 { // margin top only when it follows a p
+  margin-top: 25px;
+}
+
+h5 { // use case: you want to do <p><strong> content </strong></p> (this doesn't have as large of bottom margin and it reduces HTML)
+  font-size: 1em;
+  font-weight: bold;
+  line-height: 1.2em;
+  margin: 5px 0 10px 0;
+}
+
+p + h5 {
+  margin-top: 40px;
+}
+
+p {
+  font-size: 1em;
+  line-height: 1.4em;
+  margin: 0 0 13px 0;
+  padding: 0;
+}
+
+small { // typically pair ONLY with <p>
+  display: inline; // added so line-height works
+  font-size: 90%;
+  line-height: 1.2em;
+}
+
+span {
+  font-family: @font-family-sans-serif;
+}
+
+
+// misc
+// --------------------------------------
+hr {
+  border-color: @clover-gray-20;
+  border-style: dotted;
+  display: block;
+  height: 0;
+  margin: 20px 0;
+}
+
+hr.in-table { // used for dividing info inside tables, so there is decreased bottom/top margin
+  margin: 8px 0;
+}
+
+hr.solid {
+  border-color: @clover-gray-10;
+  border-style: solid;
+  border-width: 3px;
+  margin: 20px 0;
+}

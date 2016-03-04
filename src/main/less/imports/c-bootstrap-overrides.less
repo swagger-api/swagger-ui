@@ -1,0 +1,248 @@
+@import "c-components.less";
+// * * * * * * * * * * * * * * * * * * *
+
+// NOTES
+
+// all bootstrap overrides are in here
+
+// * * * * * * * * * * * * * * * * * * *
+
+
+// overriding boostrap defaults
+// --------------------------------------
+input[type="radio"], 
+input[type="checkbox"],
+label:hover {
+  cursor: pointer;
+}
+
+.alert { // used: application.hbs
+  border: 0 solid transparent;
+  margin-bottom: 0;
+  padding: 0;
+
+  h4 {
+    margin-bottom:0;
+  }
+
+  i.fa-lg.fa-times-circle { // padding added to increase touch space for smaller screens
+    padding: 5px;
+  }
+}
+
+.btn {
+  border-radius: 0;
+  padding: none;
+}
+
+.btn-default {
+  border: 0;
+  height: 45px;
+}
+
+.btn-group {
+  .c-button-sm-secondary {
+    float: left;
+
+    &:first-child {
+      border-bottom-right-radius: 0px;
+      border-top-right-radius: 0px;
+    }
+
+    &:not(:first-child):not(:last-child) { // removes border-radius from middle button
+      border-radius: 0;
+      margin-left: 1px;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: 0px;
+      border-top-left-radius: 0px;
+      margin-left: 1px; // simulating a border, but will inherit color of background buttons are on instead.
+    }
+  }
+
+  .c-dropdown-filter-wrap {
+    margin-left: 0;
+
+    .c-button-sm-secondary {
+      float: none;
+      border-bottom-left-radius: 0px;
+      border-bottom-right-radius: @basic-border-radius;
+      border-top-left-radius: 0px;
+      border-top-right-radius: @basic-border-radius;
+      margin-left: 1px; // simulating a border, but will inherit color of background buttons are on instead.
+    }
+  }
+}
+
+button.close {
+  position: absolute;
+  right: 7px;
+  z-index: 1000;
+}
+
+.close {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.container {
+  margin-bottom: 0;
+}
+
+.input-group-btn {
+  font-size: 1em;
+  vertical-align: bottom;
+}
+
+.input-group {
+  display: inherit;
+}
+
+.navbar-toggle {
+  margin-bottom: 2px;
+  margin-top: 1px;
+}
+
+ul.dropdown-menu {
+  text-align: left;
+  overflow-x: hidden; // needed for small lists
+}
+
+ul.dropdown-menu li {
+  // added to accommodate dates of the format H:MM (ie: setupapp/reporting)
+  // there's already a min-width of 100% on the ul
+  min-width: 120px;
+}
+
+.c-search-autocomplete-no-results, // added because didnt want to make this an <a>. see search-autocomplete.hbs
+ul.dropdown-menu > li > a {
+  border-bottom: 0;
+  color: @clover-black;
+  font-family: @font-family-sans-serif;
+  padding: 5px 12px;
+  text-decoration: none;
+  white-space: normal;
+  &:focus {
+    background: none;
+    outline: none;
+  }
+}
+
+ul.multi-select-menu > li > a {
+  border-bottom: 0;
+  color: @clover-black;
+  font-family: @font-family-sans-serif;
+  text-decoration: none;
+  white-space: normal;
+}
+
+.row {
+  margin: 0 0 12px 0;
+}
+
+.row-bottom-zero {
+  margin-bottom: 0;
+}
+
+.row,
+.c-table-row,
+.c-display-table-row,
+.c-display-table-row-section {
+  .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+    padding-left: 8px;
+    padding-right: 7px;
+    // -ms-word-break: normal;
+    // word-break: break-word;
+    // word-wrap: break-word;
+  }
+}
+
+.c-table-header,
+.c-sub-table-header {
+  .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+    display: table-cell;
+    height: 35px;
+    padding: 0;
+
+    &:last-child {
+      border-right: 0;
+    }
+
+    // -ms-word-break: normal;
+    // word-break: break-word;
+    // word-wrap: break-word;
+  }
+}
+
+.row-zero {
+  .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.row-center {
+  text-align: center;
+  
+  .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+    float: none;
+    margin: 0 auto;
+    text-align: center;
+  }
+}
+
+.col-center {
+  text-align: center;
+}
+
+.c-table-header .tooltip-inner { // fixes tooltip horizontal clipping within table headers
+  white-space: normal;
+}
+
+
+// media queries
+// --------------------------------------
+@media (min-width: @screen-lg-min) {
+  .visible-xs-inline {
+    display: none;
+  }
+}
+
+@media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+  .visible-xs-inline {
+    display: none;
+  }
+}
+
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+  .visible-xs-inline {
+    display: none;
+  }
+}
+
+@media (max-width: @screen-xs-max) {
+  .visible-xs-inline {
+    display: inline !important;
+  }
+  .container {
+    padding: 0 5px;
+    > .navbar-header {
+      margin-left: -10px;
+    }
+  }
+}
+// Custom auto widths if needed. These classes will remove width on columns to make them "inline"
+// --------------------------------------
+@media (max-width: @screen-xs-max) {
+  .col-xs-auto { width: auto; }
+}
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+  .col-sm-auto { width: auto; }
+}
+@media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+  .col-md-auto { width: auto; }
+}
+@media (min-width: @screen-lg-min) {
+  .col-lg-auto { width: auto; }
+}

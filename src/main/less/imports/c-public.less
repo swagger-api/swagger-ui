@@ -1,0 +1,1156 @@
+@import "c-components.less";
+
+// NEW COMPILED CLASSES
+// Use these simplified classes in handlebar files. Sections and classes are in alphabetical order.
+
+// RELATED LINKS
+// * hover: http://lesscss.org/features/#mixins-feature-selectors-in-mixins
+// * mixins: http://lesscss.org/features/#mixins-parametric-feature
+// * parent selectors: http://lesscss.org/features/#parent-selectors-feature
+// * reducing CSS: http://lesscss.org/features/#extend-feature-reducing-css-size
+// * when to use extend: http://lesscss.org/features/#extend-feature-use-cases-for-extend
+
+// NOTES
+// * DO NOT add singular classes here. Singular classes should go in mixins.less
+// * when defining a new compiled class follow this order:
+//      .c-new-class {
+//        &:extend(.class_name);
+//        .mixin(@variable);
+//        regular CSS properties (like display, position, etc);
+//      }
+// * having &:extend first allows you to override (if needed) using the definitions below it
+// * &:extend first allows you to override (if needed) using the definitions below it
+// * ALPHABETIZE within each grouping (extend, mixin, regular properties)
+
+
+/////////////////////////////////
+// <a> basics
+// NOTE: this is at the top so classes below can override without having to do !important
+/////////////////////////////////
+a:focus {
+  outline: 1px dotted @clover-black;
+}
+
+a, a:link, a:visited, {
+  border-bottom: 1px dotted @clover-green;
+  color: @clover-green;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+a:hover {
+  color: @clover-green;
+  border-bottom: 1px solid @clover-green;
+  text-decoration: none;
+}
+
+.app-info {
+  a:link, a:visited {
+    .app-title {
+      p {
+        color: @clover-black;
+        opacity: 1.0;
+      }
+    }
+
+    .app-developer {
+      p {
+        color: @clover-gray-50;
+      }
+    }
+  }
+
+  a:active, a:hover {
+    p {
+      opacity: 0.8;
+    }
+  }
+}
+
+a.no-link-style {
+  border-bottom: none;
+  color: @clover-gray-90;
+
+  &:hover {
+    color: @clover-green;
+  }
+}
+
+a.white {
+  color: @clover-white;
+  border-bottom: 1px dotted @clover-white;
+
+  &:hover {
+    color: @clover-green;
+  }
+}
+
+a.img:hover,
+img.spotlight-preview:hover { // spotlight-preview is component on public-site
+  opacity: 0.8;
+}
+
+a.link-active {
+  font-weight: bold;
+}
+
+a.black {
+  color: @clover-gray-90;
+}
+
+a.gray {
+  color: @clover-gray-60;
+}
+
+/////////////////////////////////
+// placeholder text
+/////////////////////////////////
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: @clover-gray-20;
+    font-style: italic;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color: @clover-gray-20;
+   opacity:  1;
+   font-style: italic;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color: @clover-gray-20;
+   opacity:  1;
+   font-style: italic;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color: @clover-gray-20;
+   font-style: italic;
+}
+
+
+/////////////////////////////////
+// BOXES
+// - notification
+// - highlights
+// - modal
+/////////////////////////////////
+.c-box-yellow, // replace all box-activation with box-yellow
+.e__box-activation {
+  .base-box(@base-box-padding, @base-box-text-align);
+  .box-yellow-theme;
+}
+
+.c-box-yellow-left {
+  .base-box(@base-box-padding, @base-box-text-align: left);
+  .box-yellow-theme;
+}
+
+.c-box-gray {
+  .base-box(@base-box-padding, @base-box-text-align: left);
+  .box-gray-lt-theme;
+}
+
+.c-box-gray-md {
+  .base-box(@base-box-padding, @base-box-text-align: left);
+  .box-gray-md-theme;
+}
+
+.c-box-gray-dk {
+  .base-box(@base-box-padding, @base-box-text-align: left);
+  .box-gray-dk-theme;
+}
+
+.c-box-green {
+  .base-box(@base-box-padding, @base-box-text-align: left);
+  .box-green-theme;
+}
+
+.c-box-green-center {
+  .base-box(@base-box-padding, @base-box-text-align: center);
+  .box-green-theme;
+}
+
+.c-box-teal,
+.e__box-new {
+  .base-box(@base-box-padding, @base-box-text-align);
+  .box-teal-theme;
+}
+
+.c-box-white-dk {
+  .base-box(@base-box-padding, @base-box-text-align: left);
+  .box-white-dk-theme;
+}
+
+.c-box-red {
+  .base-box(@base-box-padding, @base-box-text-align: left);
+  .box-red-lt-theme;
+}
+
+section.c-box-date {
+  .box-nocolor-theme(@box-nocolor-padding: 15px 7px);
+}
+
+section.c-box-filter {
+  .box-nocolor-theme();
+  .col-xs-12 {
+    float: none;
+    display: inline-block;
+    .input-group {
+      display: block;
+    }
+  }
+
+  hr {
+    margin: 8px 0 20px 0; // accounts for .c-dropdown-filter bottom margin of 5px
+  }
+  .filter-by {
+    display: block;
+    color: @clover-gray-40;
+    text-transform: uppercase;
+    font-size: 11px;
+    margin-bottom: 8px;
+    margin-top: 3px;
+    letter-spacing: 1px;
+  }
+}
+
+section.c-box-summary {
+  .box-nocolor-theme(@box-nocolor-color: @light-clover-green);
+
+  p {
+    margin-bottom: 2px;
+  }
+}
+
+.c-box-bottom-extra {
+  margin-bottom: 30px;
+}
+
+/////////////////////////////////
+// BUTTONS
+// - regular
+// - small
+// - icon
+/////////////////////////////////
+.c-button-primary,
+a.c-button-primary { // green button. used: "install" (app market detail), "add new -" (discounts, inventory, employees, etc)
+  &:extend(.button-md);
+  .button-green-theme;
+  .green-transition-states;
+  .base-disabled-button(@clover-green);
+  text-align: center;
+  // typical sizing in apps: col-xs-12 col-sm-4 col-md-3 col-lg-2
+}
+
+a.c-button-primary-inline { // green button. use ONLY on homepage
+  &:extend(.button-inline);
+  .button-green-theme;
+  .green-transition-states;
+}
+
+a.c-button-primary-inline {
+  .button-green-theme;
+}
+
+.c-button-secondary,
+a.c-button-secondary { // medium gray button. used: "search/find" (search/find component)
+  &:extend(.button-md);
+  .button-gray-md-theme;
+  .gray-transition-states;
+  .base-disabled-button(@clover-gray-60);
+}
+
+.c-button-tertiary,
+a.c-button-tertiary { // light gray button. used: "uninstall" (app market detail)
+  &:extend(.button-md);
+  .button-gray-lt-theme;
+  .gray-transition-states;
+  .base-disabled-button(@clover-gray-10);
+}
+
+.c-button-red,
+a.c-button-red{ // red button. used: CS/Reseller Dashboard -> Device Details -> Disassociate
+  &:extend(.button-md);
+  .button-red-theme;
+  .red-transition-states;
+  .base-disabled-button(@clover-red);
+}
+
+////
+
+.c-button-sm-primary { // green button. used: "install" (app market)
+  .button-green-theme;
+  .button-sm(@base-button-sm-padding);
+  .green-transition-states;
+  .base-disabled-button(@clover-green);
+}
+
+a.c-button-sm-primary {
+  .button-green-theme;
+  .green-transition-states !important;
+  .base-disabled-button(@clover-green);
+  padding-top: 6px;
+}
+
+.c-button-sm-secondary { // gray button. used: "import/export" (inventory), confirmation-dialog.hbs, dev app > apks
+  .button-gray-md-theme;
+  .button-sm(@base-button-sm-padding);
+  .gray-transition-states;
+  .base-disabled-button(@clover-gray-60);
+  font-weight: 400;
+  &-active {
+    background-color: @clover-black;
+  }
+}
+
+a.c-button-sm-secondary,
+div.c-button-sm-secondary {
+  .button-gray-md-theme;
+  .button-sm(@base-button-sm-padding);
+  .gray-transition-states;
+  .base-disabled-button(@clover-gray-60);
+  padding: 5px 10px;
+  font-weight: 400;
+}
+
+.c-button-sm-red,
+a.c-button-sm-red{ // gray button. used: "import/export" (inventory), confirmation-dialog.hbs, dev app > apks
+  .button-red-theme;
+  .button-sm(@base-button-sm-padding);
+  .gray-transition-states;
+  .base-disabled-button(@clover-red);
+}
+
+.c-button-tiny { // applied to <a>, used for calendar day range
+  .button-green-lt-theme;
+  .button-tiny;
+  .green-transition-states;
+  .base-disabled-button(@light-clover-green);
+}
+
+a.c-button-tiny-active {
+  .button-green-theme; // overrides normal button state
+}
+
+.c-button-tiny-outline,
+a.c-button-tiny-outline { // nested in app-actions
+  .button-outline-theme;
+  .button-tiny;
+  .gray-transition-states;
+
+  &-green {
+    &:extend(.c-button-tiny-outline all);
+    .green-transition-states;
+    border-color: @clover-green;
+    color: @clover-green;
+  }
+}
+
+.c-button-tiny-outline-selected {
+  .button-gray-dk-theme;
+  .button-tiny;
+  .gray-transition-states;
+  border-color: @clover-gray-90;
+  border-width: 2px;
+  margin-bottom: 10px;
+  font-weight: 600;
+
+  &-green {
+    &:extend(.c-button-tiny-outline-selected all);
+    .button-green-theme;
+    .green-transition-states;
+    border-color: @clover-green;
+    border-width: 2px;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+}
+
+.c-button-tiny-green { // used: newinternal merchant page
+  .button-green-theme;
+  .button-tiny;
+  .green-transition-states;
+  .base-disabled-button(@clover-green);
+}
+
+.c-button-tiny-gray { // used: newinternal merchant page
+  .button-gray-md-theme;
+  .button-tiny;
+  .gray-transition-states;
+}
+
+///
+
+.c-button-pagination,
+.c-button-pagination-disabled { // unique use. just for pagination
+  &:extend(.button-inline);
+  .text-transition-states;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-decoration: underline;
+}
+
+.c-button-pagination-disabled {
+  .disabled-state;
+
+  &:hover { // special case so disabled hover doesn't look active. redefining default state.
+    cursor: default;
+    text-decoration: underline;
+  }
+}
+
+.c-button-input-extra { // used: when button is on same line as input-field with label showing. extra padding on top aligns the two
+  margin-top: @input-label-height + 4px; // +4px accomodates line-height of t-small
+}
+
+.c-button-link { // apply to <button> to make text look like <a>. used: "results per page"
+  .text-transition-states;
+  color: @clover-green;
+  font-weight: 600;
+  padding: 0;
+  text-decoration: underline;
+
+  &.thin {
+    font-weight: 400;
+  }
+}
+
+.c-button-link-noline {
+  .text-transition-states;
+  color: @clover-green;
+  font-weight: 600;
+  text-decoration: none !important;
+}
+
+.c-button-link,
+.c-button-link-noline {
+  .fa {
+    margin-left: 0;
+    margin-right: 0;
+    padding-bottom: 2px;
+  }
+}
+
+////
+
+.c-button-icon-primary, // used: edit (in apps with edit mode), save (in apps with edit mode)
+.c-button-icon-fixed-primary { // used: CS/Reseller Dashboard -> Member List -> Edit Role. Different from c-button-icon-primary because it will not switch its style on xs
+  .button-icon;
+  .button-icon-green-theme;
+  .icon-transition-states;
+}
+
+.e__button-icon-secondary { // used: trash icon (in apps), trash icon (in setup), cancel icon (in apps), cancel icon (in setup)
+  .button-icon;
+  .button-icon-gray-dk-theme;
+  .icon-transition-states;
+}
+
+////
+
+.c-button-gradient { // used: inventory > categories
+  &:extend(.button-inline);
+  .button-gradient-theme;
+  .gradient-transition-states;
+  font-weight: 600;
+}
+
+.c-button-gradient-selected { // used: inventory > categories
+  &:extend(.button-inline);
+  .button-gradient-selected-theme;
+  .gradient-transition-states;
+  font-weight: 600;
+}
+
+/////////////////////////////////
+// POPUPS
+/////////////////////////////////
+.c-popup-white { // used: edit-model cancel confirmation popup
+  &:extend(.base-popup all);
+  .popup-white-theme;
+  left: 50% !important;
+  margin-left: -150px;
+  top: 30% !important;
+  width: 300px;
+
+  .c-button-sm-secondary {
+    .full-width;
+  }
+
+  p {
+    margin-bottom: 20px !important;
+  }
+}
+
+.c-popup-overlay { // a transparent cover so other elements cannot be clicked when the popup is visible
+  background: @transparent-clover-gray-90;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1001;
+}
+
+.c-popup-green {
+  &:extend(.base-popup all);
+  .popup-green-theme;
+  padding-right: 50px; // used: notification-container.hbs to avoid overlap with close button
+}
+
+.c-popup-orange { // ONLY use class for notification-container
+  &:extend(.base-popup all);
+  .popup-orange-theme;
+  padding-right: 50px; // used: notification-container.hbs to avoid overlap with close button
+  z-index: 1003; // specific for log-in modal (z-index 1002) + log-in error scenario
+}
+
+.c-popup-red { // used: confirmation-dialog.hbs goal is to replace this with popover
+  &:extend(.base-popup all);
+  .popup-red-theme;
+  left: 50% !important;
+  margin-left: -150px;
+  top: 30% !important;
+  width: 300px;
+  word-break: normal;
+  word-wrap: normal;
+
+  .c-button-sm-secondary {
+    .full-width;
+  }
+
+  p {
+    margin-bottom: 20px !important;
+  }
+}
+
+/////////////////////////////////
+// TABLES
+// - edit table (header, row)
+// - read table (header, row)
+/////////////////////////////////
+.c-table-empty,
+.e__reporting-noinfo { // full border, empty info table class. used: reporting "no info" tables, setupapp > devices
+  &:extend(.base-table-row);
+  .box-white-dk-theme;
+  margin-bottom: 40px; // need to re-nest reporting layout. shouldn't need this
+}
+
+.c-sub-table-header { // used: reporting > employees. used to visually group multiple columns together but not include tab in actual table header.
+  &:extend(.base-table-row);
+  border-left: 1px solid @clover-gray-40;
+  border-right: 1px solid @clover-gray-40;
+  background: @light-clover-blue;
+  display: table;
+  font-size: 13px;
+  height: 35px;
+  padding: 0;
+  table-layout: fixed;
+  white-space: nowrap;
+  width: 100%;
+
+  &:before {
+    display: none;
+  }
+
+  div.c-sub-table-header-cell {
+    background: @light-clover-blue;
+    border-bottom: 0px;
+    border-left: 0px;
+    border-right: 1px solid @clover-gray-60;
+    border-top: 0px;
+    color: @clover-gray-90;
+    height: 35px;
+    overflow: hidden;
+    padding: 8px 17px 10px 10px;
+    position: relative;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    i.fa.fa-caret-up,
+    i.fa.fa-caret-down {
+      position: absolute;
+      right: 0;
+      top: 10px;
+      z-index: 5; // needs to be higher than .c-table-header-cell:hover
+    }
+
+    &:hover {
+      background: @clover-gray-20;
+      overflow: visible;
+      position: absolute;
+      min-width: 100%;
+      z-index: 1;
+    }
+
+    &.last {
+      border-right: 0px;
+    }
+  }
+
+  .c-sub-table-header-cell-active {
+    background: @clover-gray-40 !important;
+  }
+}
+
+.c-table-header, .c-overflow-table-header { // more definitions in c-bootstrap-overrides.less
+  &:extend(.base-table-row);
+  .table-header-theme; // theme defined here too so columns that are offset have a background
+  display: table;
+  font-size: 13px;
+  height: 35px;
+  padding: 0;
+  table-layout: fixed;
+  white-space: nowrap;
+  width: 100%;
+
+  &:before {
+    display: none;
+  }
+
+  div.c-table-header-cell { // use: ONLY wrap around column title. anything nested inside will be be part of the content that gets ellipsis-ed.
+    .table-header-theme;
+    border-bottom: 0px;
+    border-left: 0px;
+    border-right: 1px solid @clover-gray-60;
+    border-top: 0px;
+    height: 35px;
+    overflow: hidden;
+    padding: 8px 17px 10px 10px;
+    position: relative;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    i.fa.fa-spinner,
+    i.fa.fa-caret-up,
+    i.fa.fa-caret-down {
+      position: absolute;
+      right: 0;
+      top: 10px;
+      z-index: 5; // needs to be higher than .c-table-header-cell:hover
+    }
+
+    &:hover {
+      background: @dark-clover-blue;
+      overflow: visible;
+      position: absolute;
+      min-width: 100%;
+      z-index: 1;
+    }
+  }
+
+  .c-table-header-cell-active {
+    background: @clover-black !important;
+  }
+}
+
+.c-table-row {
+  &:extend(.base-table-row);
+  .table-row-theme;
+  border-width: 1px 1px 1px 1px;
+
+  &:hover {
+    background-color: @clover-gray-5;
+  }
+}
+
+.c-table-row-active {
+  background-color: @clover-gray-5 !important;
+}
+
+.c-table-row ~ .c-table-row { // ~ is a sibling selector (ref: https://developer.mozilla.org/en-US/docs/Web/CSS/General_sibling_selectors)
+  &:extend(.base-table-row);
+  .table-row-theme;
+
+  &:hover {
+    background-color: @clover-gray-5;
+  }
+}
+
+.c-table-row hr {
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.c-table-row-disabled-wrap { // needs wrap so borders don't inherit the opacity defined by .disabled-state
+  &:extend(.base-table-row);
+  .table-row-theme;
+}
+
+.c-table-row-disabled { // needs to be nested inside .c-table-row-disabled-wrap
+  .disabled-state;
+}
+
+.c-table-row-borderless { // used for reporting > by items totals
+  &:extend(.base-table-row);
+  background-color: @light-clover-green;
+}
+
+.edit-mode.c-table-row {
+  padding-bottom: 20px;
+  padding-top: 20px;
+
+  &:hover {
+    background-color: transparent;
+  }
+
+  .c-dropdown {
+    margin-top: 0;
+  }
+}
+
+.row-edit {
+  margin-top: -6px;
+}
+
+.c-overflow-table-wrap {
+  overflow-x: scroll;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.c-overflow-table {
+  display: table;
+  width: min-content;
+  .c-table-row {
+    .c-overflow-table-cell {
+      padding-left: 10px;
+    }
+  }
+}
+
+.c-overflow-table-header {
+  .c-overflow-table-header-cell-wrap {
+    .c-table-header-cell {
+      &:hover {
+        overflow: hidden;
+        position: relative;
+        display: inline;
+        z-index: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+  }
+}
+
+.c-overflow-table-cell, .c-overflow-table-header-cell-wrap {
+  display: table-cell;
+  width: 103px;
+  position: relative;
+}
+
+// used: to create space between tables that are stacked on top of each other / whenever a table needs extra space at the bottom
+// in: developers -> subscriptions/metereds, cs -> merchant details
+.c-table-bottom-space {
+  margin-bottom: 20px;
+}
+
+/////////////////////////////////
+// NEW TABLES with table-cell borders visible
+// - can easily vertically align content 
+// - used: plans.hbs
+/////////////////////////////////
+.c-display-table-row,
+.c-display-table-header-lg {
+  &:extend(.base-display-table-row);
+
+  div[class^='col-'] {
+    .table-cell-theme;
+    display: table-cell;
+    float: none; // disables bootstrap .col- default
+    padding-bottom: 7px;
+    padding-top: 7px;
+  }
+}
+
+.c-display-table-row-section {
+  &:extend(.c-display-table-row);
+
+  div[class^='col-'] {
+    .table-cell-theme;
+    background-color: @clover-gray-10;
+    display: table-cell;
+    float: none; // disables bootstrap .col- default
+    padding-bottom: 7px;
+    padding-top: 7px;
+  }
+}
+
+.c-display-table-row,
+.c-display-table-header-lg,
+.c-display-table-row-section {
+  div[class^='col-'] {
+    &.middle {
+      vertical-align: middle;
+    }
+
+    &.center {
+      text-align: center;
+    }
+  }
+}
+
+/////////////////////////////////
+// DISPLAY + PADDING + MARGIN CLASSES (old but still in use)
+/////////////////////////////////
+.pm__zero {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.pm__extra5 {
+  margin-bottom: 5px;
+}
+
+.pm__extra5_top {
+  margin-top: 5px;
+}
+
+.pm__extra10 {
+  margin-bottom: 10px;
+}
+
+.pm__extra10_left {
+  margin-left: 10px;
+}
+
+.pm__extra10_top {
+  margin-top: 10px;
+}
+
+.pm__extra15 {
+  margin-bottom: 15px;
+}
+
+.pm__extra15_top {
+  margin-top: 15px;
+}
+
+.pm__extra20 {
+  margin-bottom: 20px;
+}
+
+.pm__extra20_top {
+  margin-top: 20px;
+}
+
+.pm__extra30 {
+  margin-bottom: 30px;
+}
+
+.pm__extra40 {
+  margin-bottom: 40px;
+}
+
+.pm__extra40_top {
+  margin-top: 40px;
+}
+
+.pm__extra60 {
+  margin-bottom: 60px;
+}
+
+.pm__box { // only in devapp and newinternal
+  padding: 15px;
+}
+
+
+/////////////////////////////////
+// MISC
+/////////////////////////////////
+@common-margin-bottom: 30px;
+
+div.app-actions {
+  margin-bottom: @common-margin-bottom;
+  margin-top: -20px;
+  padding-top: 20px;
+
+  .c-button-tiny-outline,
+  .c-button-tiny-outline-selected {
+    margin-right: 10px;
+  }
+}
+
+.app-actions-buttons {
+  margin-bottom: @common-margin-bottom;
+}
+
+.app-nav-logo-mini { // used: setupapp icon bc it looked bigger
+  height: 34px;
+  margin-left: 5px;
+  margin-right: 5px;
+  width: 34px;
+}
+
+.app-header {
+  background-color: @clover-gray-5;
+  border-bottom: 1px solid @clover-gray-20;
+  margin-bottom: 20px;
+  margin-top: -20px;
+  padding-top: 10px;
+
+  .row {
+    margin-bottom: 0;
+  }
+
+  .btn-group { // for import/export buttons in app-header. ex: inventory
+    margin-top: 10px;
+  }
+}
+
+.app-header-icon { // used: individual app headers
+  height: 50px;
+  margin-right: 15px;
+  width: 50px;
+}
+
+.disabled-sort {
+  .disabled-state;
+}
+
+.full-light-gray { // app headers
+  .full-width-section(@clover-gray-5);
+}
+
+hr.short {
+  border-color: @clover-gray-40;
+  border-style: solid;
+  display: block;
+  height: 0;
+  margin: 30px auto;
+  width: 150px;
+}
+
+.valign-text-with-inputlabel {
+  .base-element-size(@base-element-padding);
+  margin-top: @input-label-height;
+}
+
+section.c-box-in-app-details {
+  margin-bottom: 15px;
+}
+
+.videowrapper { // used: appmarket + developer app
+  height: 0;
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  padding-top: 25px;
+
+  iframe {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+}
+
+.apk-import-input {
+  .c-t-small;
+}
+
+.cursor-pointer { // still in a lot of places
+  cursor: pointer;
+}
+
+.button__autosave:hover { // input autosave and model
+  opacity: 0.7;
+  outline: 0;
+}
+
+.button__toggle:focus,
+.button__toggle:active,
+.button__toggle:hover {
+  background-color: @clover-gray-5;
+  outline: 0;
+}
+
+.dropdown__toggle:active, // still in dev app, newinternal
+.dropdown__toggle:hover {
+  background-color: @clover-gray-40;
+  color: @clover-white;
+
+  .t__regular {
+    color: @clover-white;
+  }
+}
+
+.c-wrap-flag { // used: appmarket + developer app
+  position: absolute;
+  z-index: 100;
+
+  a:link, a:visited, a:active, a:hover {
+    color: @clover-black;
+  }
+
+  &.left {
+    left: 0;
+  }
+
+  &.right {
+    right: 0;
+  }
+
+  .c-flag {
+    padding: 2px 5px;
+    text-align: center;
+
+    &.red {
+      background-color: @clover-red;
+      color: @clover-white;
+    }
+
+    &.yellow {
+      background-color: @clover-yellow;
+    }
+  }
+}
+
+.first { // still in use
+  margin-top: 0 !important;
+}
+
+.fa-minus-square, .fa-plus-square-o {
+  margin-bottom: 2px;
+}
+
+.section__bar-box-white { // needs to be paired with .row
+  background-color: @clover-white;
+  margin-bottom: 60px;
+  padding: 15px;
+
+  hr {
+    margin: 13px 0;
+  }
+}
+
+
+/////////////////////////////////
+// APP MARKET
+/////////////////////////////////
+.c-box-app-detail-sub,
+.e-app-detail-sub {
+  .base-box(@base-box-padding, left);
+  .base-box-shadow;
+  .box-white-dk-theme;
+  position: relative;
+}
+
+.e-app-detail-sub-selected,
+.e-app-detail-sub-current {
+  .base-box(@base-box-padding, left);
+  .base-box-shadow;
+  .box-green-theme;
+}
+
+/////////////////////////////////
+// RESPONSIVE
+/////////////////////////////////
+@media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+
+}
+
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+  .c-button-tiny {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: @screen-xs-max) {
+  .app-header {
+    .pull-right {
+      float: none !important;
+
+      .btn-group {
+        margin-bottom: 12px;
+        margin-top: 2px;
+      }
+    }
+  }
+
+  .c-button-icon-primary {
+    .base-element-size(@base-element-padding);
+    .full-width;
+    .button-green-theme;
+  }
+
+  .e__button-icon-secondary {
+    .base-element-size(@base-element-padding);
+    .full-width;
+    .button-gray-lt-theme;
+  }
+
+  .c-table-header,
+  .c-overflow-table-header,
+  .c-sub-table-header {
+    display: none;
+  }
+
+  .c-table-row {
+    .row-header {
+      font-size: 1.1em;
+      border-bottom: 1px dotted @clover-gray-10;
+      margin-bottom: 4px;
+      padding-bottom: 4px;
+    }
+  }
+
+  .c-overflow-table {
+    display: block;
+  }
+
+  .c-overflow-table-cell, .c-overflow-table-header-cell-wrap {
+    display: block;
+  }
+
+  .valign-text-with-inputlabel {
+    margin-top: 0;
+    padding-left: 0;
+  }
+
+  .row-edit {
+    margin-top: 15px;
+  }
+
+  .setup-device-nav-toggle {
+    .box-gray-lt-theme;
+    .gray-transition-states;
+    height: 40px;
+    padding-left: 10px;
+  }
+
+  .c-display-table-row,
+  .c-display-table-row-section,
+  .c-display-table-header-lg {
+    display: block;
+
+    div[class^='col-'] {
+      display: block;
+    }
+  }
+
+  .col-xs-12 {
+    margin-bottom: 15px;
+  }
+
+  .xs__extra30 {
+    margin-bottom: 30px;
+  }
+
+  .xs__pm-zero {
+    margin: 0;
+  }
+
+  .xs__block {
+    display: block !important;
+  }
+
+  .xs__left15 {
+    padding-left: 15px;
+  }
+  .currencies-between-field {
+    text-align: center;
+    margin-bottom: 12px;
+  }
+}
