@@ -23,6 +23,7 @@ SwaggerUi.Views.AuthButtonView = Backbone.View.extend({
 
     authorizeBtnClick: function (e) {
         var authsModel;
+
         e.preventDefault();
 
         authsModel = {
@@ -35,30 +36,14 @@ SwaggerUi.Views.AuthButtonView = Backbone.View.extend({
     },
 
     renderAuths: function (auths) {
-        var name, authEl, authModel;
-        var el = $('<div>');
-        var authz = window.swaggerUi.api.clientAuthorizations.authz;
+        var $el = $('<div>');
 
-        for (name in auths) {
-            authModel = _.extend({}, auths[name]);
+        auths.forEach(function (auth) {
+            var authEl = new SwaggerUi.Views.AuthView({data: auth, router: this.router}).render().el;
+            $el.append(authEl);
+        }, this);
 
-            if (authz[name]) {
-                _.extend(authModel, {
-                    isLogout: true,
-                    value: authz[name].value
-                });
-            }
-
-            if (authModel.type === 'apiKey') {
-                authEl = new SwaggerUi.Views.ApiKeyButton({model: authModel, router: this.router}).render().el;
-                el.append(authEl);
-            } else if (authModel.type === 'basic' && el.find('.basic_auth_container').length === 0) {
-                authEl = new SwaggerUi.Views.BasicAuthButton({model: authModel, router: this.router}).render().el;
-                el.append(authEl);
-            }
-        }
-
-        return el;
+        return $el;
     }
 
 });

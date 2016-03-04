@@ -84,13 +84,19 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
   render: function () {
     // Render the outer container for resources
-    var authsModel;
+    var authsModel, parsedDefinitions;
 
     $(this.el).html(Handlebars.templates.main(this.model));
     this.model.securityDefinitions = this.model.securityDefinitions || {};
 
     if (!_.isEmpty(this.model.securityDefinitions)) {
-      authsModel = { auths: this.model.securityDefinitions };
+      parsedDefinitions = _.map(this.model.securityDefinitions, function (auth, name) {
+        var result = {};
+        result[name] = auth;
+        return result;
+      });
+
+      authsModel = { auths: parsedDefinitions };
 
       authsModel.isLogout = !_.isEmpty(window.swaggerUi.api.clientAuthorizations.authz);
       this.authView = new SwaggerUi.Views.AuthButtonView({model: authsModel, router: this.router});
