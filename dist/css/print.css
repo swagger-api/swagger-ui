@@ -1188,6 +1188,11 @@
   text-decoration: underline;
   cursor: pointer;
 }
+.swagger-section .auth_container {
+  padding: 0 0 10px;
+  margin-bottom: 5px;
+  border-bottom: solid 1px #CCC;
+}
 .swagger-section .auth_container .basic_auth__title {
   color: #547f00;
   font-size: 1.2em;
@@ -1206,9 +1211,6 @@
   font-size: 1em;
   cursor: pointer;
   outline: none;
-}
-.swagger-section .auth_container .key_input_container {
-  margin-bottom: 15px;
 }
 .swagger-section .auth_container .basic_auth_container {
   font-size: 0.9em;
