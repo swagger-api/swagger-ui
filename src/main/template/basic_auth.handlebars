@@ -1,0 +1,12 @@
+<div class='basic_auth_container'>
+    <h3 class="basic_auth__title">Basic authentication{{#if isLogout}} - authorized{{/if}}</h3>
+    {{#unless isLogout}}
+        <form class="key_input_container">
+            <div class="auth__description">{{description}}</div>
+            <div class="auth_label"><label data-sw-translate>username</label></div>
+            <input required placeholder="username" class="basic_auth__username auth_input" name="username" type="text"/>
+            <div class="auth_label"><label data-sw-translate>password</label></div>
+            <input required placeholder="password" class="basic_auth__password auth_input" name="password" type="password"/>
+        </form>
+    {{/unless}}
+</div>

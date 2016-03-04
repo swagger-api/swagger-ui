@@ -6,29 +6,22 @@
  */
 (function(){this["Handlebars"] = this["Handlebars"] || {};
 this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};
-this["Handlebars"]["templates"]["apikey_button_view"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
+this["Handlebars"]["templates"]["apikey_auth"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "                <span class=\"auth_label\">"
+  return "            <span class=\"auth_label\">"
     + escapeExpression(((helper = (helper = helpers.value || (depth0 != null ? depth0.value : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"value","hash":{},"data":data}) : helper)))
     + "</span>\n";
 },"3":function(depth0,helpers,partials,data) {
-  return "                <input placeholder='api_key' class='auth_input input_apiKey_entry' name='apiKey' type='text'/>\n";
-  },"5":function(depth0,helpers,partials,data) {
-  return "            <input type=\"button\" class=\"auth_logout__button\" value=\"logout\"></div>\n";
-  },"7":function(depth0,helpers,partials,data) {
-  return "            <div class='auth_submit'><a class='auth_submit_button' href='#' data-sw-translate>apply</a></div>\n";
+  return "            <input placeholder='api_key' class='auth_input input_apiKey_entry' name='apiKey' type='text'/>\n";
   },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class='auth_container'>\n    <div class='key_input_container'>\n        <div class='auth__description'>"
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class='key_input_container'>\n    <div class='auth__description'>"
     + escapeExpression(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"description","hash":{},"data":data}) : helper)))
-    + "</div>\n        <div>\n            <span class='auth_label'><label for='input_apiKey_entry'><span>Api key</span> in "
+    + "</div>\n    <div>\n        <span class='auth_label'><label for='input_apiKey_entry'><span>Api key</span> in "
     + escapeExpression(((helper = (helper = helpers['in'] || (depth0 != null ? depth0['in'] : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"in","hash":{},"data":data}) : helper)))
-    + "</label></span>\n            <span class='auth_in'><label for='input_apiKey_entry'>"
+    + "</label></span>\n        <span class='auth_in'><label for='input_apiKey_entry'>"
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + " =</label></span>\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isLogout : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.program(3, data),"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  buffer += "        </div>\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isLogout : depth0), {"name":"if","hash":{},"fn":this.program(5, data),"inverse":this.program(7, data),"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "    </div>\n</div>\n";
 },"useData":true});
@@ -40,18 +33,31 @@ this["Handlebars"]["templates"]["auth_button"] = Handlebars.template({"1":functi
   if (stack1 != null) { buffer += stack1; }
   return buffer + "</a>\n";
 },"useData":true});
-this["Handlebars"]["templates"]["basic_auth_button_view"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
-  return "    <input type=\"button\" class=\"auth_logout__button\" value=\"logout\"></div>\n";
+this["Handlebars"]["templates"]["auth_view"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
+  return "        <input type=\"button\" class=\"auth_logout__button\" value=\"logout\">\n";
   },"3":function(depth0,helpers,partials,data) {
-  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "  <form class=\"key_input_container\">\n    <div class=\"auth__description\">"
-    + escapeExpression(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"description","hash":{},"data":data}) : helper)))
-    + "</div>\n    <div class=\"auth_label\"><label data-sw-translate>username</label></div>\n    <input required placeholder=\"username\" class=\"basic_auth__username auth_input\" name=\"username\" type=\"text\"/>\n    <div class=\"auth_label\"><label data-sw-translate>password</label></div>\n    <input required placeholder=\"password\" class=\"basic_auth__password auth_input\" name=\"password\" type=\"password\"/>\n    <div class='auth_submit'><input type=\"submit\" class=\"auth_submit__button\" value=\"apply\"></div>\n  </form>\n";
-},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, buffer = "<div class='auth_container basic_auth_container'>\n\n  <h3 class=\"basic_auth__title\">Basic authentication</h3>\n";
+  return "        <div class=\"auth_submit\"><a class=\"auth_submit_button\" href=\"#\" data-sw-translate>apply</a></div>\n";
+  },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var stack1, buffer = "<div class=\"auth_container\">\n\n    <div class=\"auth_inner\"></div>\n\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isLogout : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.program(3, data),"data":data});
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "</div>\n\n";
+  return buffer + "</div>\n";
+},"useData":true});
+this["Handlebars"]["templates"]["basic_auth"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
+  return " - authorized";
+  },"3":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "        <form class=\"key_input_container\">\n            <div class=\"auth__description\">"
+    + escapeExpression(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"description","hash":{},"data":data}) : helper)))
+    + "</div>\n            <div class=\"auth_label\"><label data-sw-translate>username</label></div>\n            <input required placeholder=\"username\" class=\"basic_auth__username auth_input\" name=\"username\" type=\"text\"/>\n            <div class=\"auth_label\"><label data-sw-translate>password</label></div>\n            <input required placeholder=\"password\" class=\"basic_auth__password auth_input\" name=\"password\" type=\"password\"/>\n        </form>\n";
+},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var stack1, buffer = "<div class='basic_auth_container'>\n    <h3 class=\"basic_auth__title\">Basic authentication";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isLogout : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  buffer += "</h3>\n";
+  stack1 = helpers.unless.call(depth0, (depth0 != null ? depth0.isLogout : depth0), {"name":"unless","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "</div>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["content_type"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var stack1, buffer = "";
@@ -461,41 +467,43 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
   if (stack1 != null) { buffer += stack1; }
   return buffer + "</div>\n";
 },"7":function(depth0,helpers,partials,data) {
-  return "        <div class=\"auth\">\n        <span class=\"api-ic ic-error\">";
+  return "            <div class='authorize-wrapper'></div>\n";
   },"9":function(depth0,helpers,partials,data) {
+  return "        <div class=\"auth\">\n        <span class=\"api-ic ic-error\">";
+  },"11":function(depth0,helpers,partials,data) {
   var stack1, buffer = "          <div class=\"api_information_panel\">\n";
-  stack1 = helpers.each.call(depth0, depth0, {"name":"each","hash":{},"fn":this.program(10, data),"inverse":this.noop,"data":data});
+  stack1 = helpers.each.call(depth0, depth0, {"name":"each","hash":{},"fn":this.program(12, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "          </div>\n";
-},"10":function(depth0,helpers,partials,data) {
+},"12":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "            <div title='";
   stack1 = lambda((depth0 != null ? depth0.description : depth0), depth0);
   if (stack1 != null) { buffer += stack1; }
   return buffer + "'>"
     + escapeExpression(lambda((depth0 != null ? depth0.scope : depth0), depth0))
     + "</div>\n";
-},"12":function(depth0,helpers,partials,data) {
+},"14":function(depth0,helpers,partials,data) {
   return "</span></div>";
-  },"14":function(depth0,helpers,partials,data) {
-  return "        <div class='access'>\n          <span class=\"api-ic ic-off\" title=\"click to authenticate\"></span>\n        </div>\n";
   },"16":function(depth0,helpers,partials,data) {
+  return "        <div class='access'>\n          <span class=\"api-ic ic-off\" title=\"click to authenticate\"></span>\n        </div>\n";
+  },"18":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "          <div class=\"response-class\">\n            <h4><span data-sw-translate>Response Class</span> (<span data-sw-translate>Status</span> "
     + escapeExpression(((helper = (helper = helpers.successCode || (depth0 != null ? depth0.successCode : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"successCode","hash":{},"data":data}) : helper)))
     + ")</h4>\n              ";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.successDescription : depth0), {"name":"if","hash":{},"fn":this.program(17, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.successDescription : depth0), {"name":"if","hash":{},"fn":this.program(19, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "\n            <p><span class=\"model-signature\" /></p>\n            <br/>\n            <div class=\"response-content-type\" />\n            </div>\n";
-},"17":function(depth0,helpers,partials,data) {
+},"19":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "<div class=\"markdown\">";
   stack1 = ((helper = (helper = helpers.successDescription || (depth0 != null ? depth0.successDescription : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"successDescription","hash":{},"data":data}) : helper));
   if (stack1 != null) { buffer += stack1; }
   return buffer + "</div>";
-},"19":function(depth0,helpers,partials,data) {
+},"21":function(depth0,helpers,partials,data) {
   var stack1, buffer = "          <h4 data-sw-translate>Headers</h4>\n          <table class=\"headers\">\n            <thead>\n              <tr>\n                <th style=\"width: 100px; max-width: 100px\" data-sw-translate>Header</th>\n                <th style=\"width: 310px; max-width: 310px\" data-sw-translate>Description</th>\n                <th style=\"width: 200px; max-width: 200px\" data-sw-translate>Type</th>\n                <th style=\"width: 320px; max-width: 320px\" data-sw-translate>Other</th>\n              </tr>\n            </thead>\n            <tbody>\n";
-  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.headers : depth0), {"name":"each","hash":{},"fn":this.program(20, data),"inverse":this.noop,"data":data});
+  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.headers : depth0), {"name":"each","hash":{},"fn":this.program(22, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "            </tbody>\n          </table>\n";
-},"20":function(depth0,helpers,partials,data) {
+},"22":function(depth0,helpers,partials,data) {
   var lambda=this.lambda, escapeExpression=this.escapeExpression;
   return "              <tr>\n                <td>"
     + escapeExpression(lambda((data && data.key), depth0))
@@ -506,15 +514,15 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
     + "</td>\n                <td>"
     + escapeExpression(lambda((depth0 != null ? depth0.other : depth0), depth0))
     + "</td>\n              </tr>\n";
-},"22":function(depth0,helpers,partials,data) {
+},"24":function(depth0,helpers,partials,data) {
   return "          <h4 data-sw-translate>Parameters</h4>\n          <table class='fullwidth'>\n          <thead>\n            <tr>\n            <th style=\"width: 100px; max-width: 100px\" data-sw-translate>Parameter</th>\n            <th style=\"width: 310px; max-width: 310px\" data-sw-translate>Value</th>\n            <th style=\"width: 200px; max-width: 200px\" data-sw-translate>Description</th>\n            <th style=\"width: 100px; max-width: 100px\" data-sw-translate>Parameter Type</th>\n            <th style=\"width: 220px; max-width: 230px\" data-sw-translate>Data Type</th>\n            </tr>\n          </thead>\n          <tbody class=\"operation-params\">\n\n          </tbody>\n          </table>\n";
-  },"24":function(depth0,helpers,partials,data) {
-  return "          <div style='margin:0;padding:0;display:inline'></div>\n          <h4 data-sw-translate>Response Messages</h4>\n          <table class='fullwidth'>\n            <thead>\n            <tr>\n              <th data-sw-translate>HTTP Status Code</th>\n              <th data-sw-translate>Reason</th>\n              <th data-sw-translate>Response Model</th>\n              <th data-sw-translate>Headers</th>\n            </tr>\n            </thead>\n            <tbody class=\"operation-status\">\n            </tbody>\n          </table>\n";
   },"26":function(depth0,helpers,partials,data) {
+  return "          <div style='margin:0;padding:0;display:inline'></div>\n          <h4 data-sw-translate>Response Messages</h4>\n          <table class='fullwidth'>\n            <thead>\n            <tr>\n              <th data-sw-translate>HTTP Status Code</th>\n              <th data-sw-translate>Reason</th>\n              <th data-sw-translate>Response Model</th>\n              <th data-sw-translate>Headers</th>\n            </tr>\n            </thead>\n            <tbody class=\"operation-status\">\n            </tbody>\n          </table>\n";
+  },"28":function(depth0,helpers,partials,data) {
   return "";
-},"28":function(depth0,helpers,partials,data) {
+},"30":function(depth0,helpers,partials,data) {
   return "          <div class='sandbox_header'>\n            <input class='submit' type='submit' value='Try it out!' data-sw-translate/>\n            <a href='#' class='response_hider' style='display:none' data-sw-translate>Hide Response</a>\n            <span class='response_throbber' style='display:none'></span>\n          </div>\n";
-  },"30":function(depth0,helpers,partials,data) {
+  },"32":function(depth0,helpers,partials,data) {
   return "          <h4 data-sw-translate>Request Headers</h4>\n          <div class='block request_headers'></div>\n";
   },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var stack1, helper, options, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, blockHelperMissing=helpers.blockHelperMissing, buffer = "  <ul class='operations' >\n    <li class='"
@@ -554,34 +562,36 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
   if (stack1 != null) { buffer += stack1; }
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.description : depth0), {"name":"if","hash":{},"fn":this.program(5, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  stack1 = ((helper = (helper = helpers.oauth || (depth0 != null ? depth0.oauth : depth0)) != null ? helper : helperMissing),(options={"name":"oauth","hash":{},"fn":this.program(7, data),"inverse":this.noop,"data":data}),(typeof helper === functionType ? helper.call(depth0, options) : helper));
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.security : depth0), {"name":"if","hash":{},"fn":this.program(7, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  stack1 = ((helper = (helper = helpers.oauth || (depth0 != null ? depth0.oauth : depth0)) != null ? helper : helperMissing),(options={"name":"oauth","hash":{},"fn":this.program(9, data),"inverse":this.noop,"data":data}),(typeof helper === functionType ? helper.call(depth0, options) : helper));
   if (!helpers.oauth) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
   if (stack1 != null) { buffer += stack1; }
   buffer += "\n";
-  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.oauth : depth0), {"name":"each","hash":{},"fn":this.program(9, data),"inverse":this.noop,"data":data});
+  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.oauth : depth0), {"name":"each","hash":{},"fn":this.program(11, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "        ";
-  stack1 = ((helper = (helper = helpers.oauth || (depth0 != null ? depth0.oauth : depth0)) != null ? helper : helperMissing),(options={"name":"oauth","hash":{},"fn":this.program(12, data),"inverse":this.noop,"data":data}),(typeof helper === functionType ? helper.call(depth0, options) : helper));
-  if (!helpers.oauth) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
-  if (stack1 != null) { buffer += stack1; }
-  buffer += "\n";
   stack1 = ((helper = (helper = helpers.oauth || (depth0 != null ? depth0.oauth : depth0)) != null ? helper : helperMissing),(options={"name":"oauth","hash":{},"fn":this.program(14, data),"inverse":this.noop,"data":data}),(typeof helper === functionType ? helper.call(depth0, options) : helper));
   if (!helpers.oauth) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
   if (stack1 != null) { buffer += stack1; }
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.type : depth0), {"name":"if","hash":{},"fn":this.program(16, data),"inverse":this.noop,"data":data});
+  buffer += "\n";
+  stack1 = ((helper = (helper = helpers.oauth || (depth0 != null ? depth0.oauth : depth0)) != null ? helper : helperMissing),(options={"name":"oauth","hash":{},"fn":this.program(16, data),"inverse":this.noop,"data":data}),(typeof helper === functionType ? helper.call(depth0, options) : helper));
+  if (!helpers.oauth) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
+  if (stack1 != null) { buffer += stack1; }
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.type : depth0), {"name":"if","hash":{},"fn":this.program(18, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.headers : depth0), {"name":"if","hash":{},"fn":this.program(19, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.headers : depth0), {"name":"if","hash":{},"fn":this.program(21, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "\n        <form accept-charset='UTF-8' class='sandbox'>\n          <div style='margin:0;padding:0;display:inline'></div>\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.parameters : depth0), {"name":"if","hash":{},"fn":this.program(22, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.parameters : depth0), {"name":"if","hash":{},"fn":this.program(24, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.responseMessages : depth0), {"name":"if","hash":{},"fn":this.program(24, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.responseMessages : depth0), {"name":"if","hash":{},"fn":this.program(26, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isReadOnly : depth0), {"name":"if","hash":{},"fn":this.program(26, data),"inverse":this.program(28, data),"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isReadOnly : depth0), {"name":"if","hash":{},"fn":this.program(28, data),"inverse":this.program(30, data),"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "        </form>\n        <div class='response' style='display:none'>\n          <h4 class='curl'>Curl</h4>\n          <div class='block curl'></div>\n          <h4 data-sw-translate>Request URL</h4>\n          <div class='block request_url'></div>\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.showRequestHeaders : depth0), {"name":"if","hash":{},"fn":this.program(30, data),"inverse":this.noop,"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.showRequestHeaders : depth0), {"name":"if","hash":{},"fn":this.program(32, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "          <h4 data-sw-translate>Response Body</h4>\n          <div class='block response_body'></div>\n          <h4 data-sw-translate>Response Code</h4>\n          <div class='block response_code'></div>\n          <h4 data-sw-translate>Response Headers</h4>\n          <div class='block response_headers'></div>\n        </div>\n      </div>\n    </li>\n  </ul>\n";
 },"useData":true});
@@ -19024,41 +19034,35 @@ window.SwaggerUi.partials = {};
 
 'use strict';
 
-SwaggerUi.Views.ApiKeyButton = Backbone.View.extend({ // TODO: append this to global SwaggerUi
+SwaggerUi.Views.ApiKeyAuthView = Backbone.View.extend({ // TODO: append this to global SwaggerUi
 
-  events:{
-    'click .auth_submit_button' : 'applyApiKey',
-    'click .auth_logout__button' : 'clickLogout'
-  },
+    events: {
+        'change .auth_input': 'apiKeyChange'
+    },
 
-  template: Handlebars.templates.apikey_button_view,
+    template: Handlebars.templates.apikey_auth,
 
-  initialize: function(opts) {
-    this.options = opts || {};
-    this.router = this.options.router;
-  },
+    initialize: function(opts) {
+        this.options = opts || {};
+        this.router = this.options.router;
+    },
 
-  render: function(){
-    this.$el.html(this.template(this.model));
+    render: function (){
+        this.$el.html(this.template(this.model.toJSON()));
 
-    return this;
-  },
+        return this;
+    },
 
+    apiKeyChange: function (e) {
+        var val = $(e.target).val();
 
-  applyApiKey: function() {
-    var keyAuth = new SwaggerClient.ApiKeyAuthorization(
-      this.model.name,
-      this.$('.input_apiKey_entry').val(),
-      this.model.in
-    );
-    this.router.api.clientAuthorizations.add(this.model.name, keyAuth);
-    this.router.load();
-  },
+        this.model.set('valid', !!val);
+        this.model.set('value', val);
+    },
 
-  clickLogout: function () {
-    window.swaggerUi.api.clientAuthorizations.remove(this.model.name);
-    this.router.load();
-  }
+    isValid: function () {
+        return this.get('valid');
+    }
 
 });
 'use strict';
@@ -19086,6 +19090,7 @@ SwaggerUi.Views.AuthButtonView = Backbone.View.extend({
 
     authorizeBtnClick: function (e) {
         var authsModel;
+
         e.preventDefault();
 
         authsModel = {
@@ -19098,70 +19103,178 @@ SwaggerUi.Views.AuthButtonView = Backbone.View.extend({
     },
 
     renderAuths: function (auths) {
-        var name, authEl, authModel;
-        var el = $('<div>');
-        var authz = window.swaggerUi.api.clientAuthorizations.authz;
+        var $el = $('<div>');
 
-        for (name in auths) {
-            authModel = _.extend({}, auths[name]);
+        auths.forEach(function (auth) {
+            var authEl = new SwaggerUi.Views.AuthView({data: auth, router: this.router}).render().el;
+            $el.append(authEl);
+        }, this);
 
-            if (authz[name]) {
-                _.extend(authModel, {
-                    isLogout: true,
-                    value: authz[name].value
-                });
-            }
-
-            if (authModel.type === 'apiKey') {
-                authEl = new SwaggerUi.Views.ApiKeyButton({model: authModel, router: this.router}).render().el;
-                el.append(authEl);
-            } else if (authModel.type === 'basic' && el.find('.basic_auth_container').length === 0) {
-                authEl = new SwaggerUi.Views.BasicAuthButton({model: authModel, router: this.router}).render().el;
-                el.append(authEl);
-            }
-        }
-
-        return el;
+        return $el;
     }
 
 });
 
 'use strict';
 
-SwaggerUi.Views.BasicAuthButton = Backbone.View.extend({
+SwaggerUi.Views.AuthView = Backbone.View.extend({
+    events: {
+        'click .auth_submit_button': 'authorizeClick',
+        'click .auth_logout__button': 'logoutClick'
+    },
 
+    tpls: {
+        main: Handlebars.templates.auth_view
+    },
 
-  initialize: function (opts) {
-    this.options = opts || {};
-    this.router = this.options.router;
-  },
+    selectors: {
+        innerEl: '.auth_inner'
+    },
 
-  template: Handlebars.templates.basic_auth_button_view,
+    initialize: function(opts) {
+        this.options = opts || {};
+        opts.data = opts.data || {};
+        this.router = this.options.router;
 
-  render: function(){
-    $(this.el).html(this.template(this.model));
+        this.collection = new Backbone.Collection();
+        this.collection.add(this.parseData(opts.data));
 
-    return this;
-  },
+        this.$el.html(this.tpls.main({isLogout: this.isAuthorizedCollection()}));
+        this.$innerEl = this.$(this.selectors.innerEl);
+    },
 
-  events: {
-    'submit .key_input_container' : 'applyPassword',
-    'click .auth_logout__button'  : 'clickLogout'
-  },
+    render: function () {
+        this.renderAuths();
 
-  applyPassword: function(event) {
-    event.preventDefault();
-    var username = this.$('.basic_auth__username').val();
-    var password = this.$('.basic_auth__password').val();
-    var basicAuth = new SwaggerClient.PasswordAuthorization(username, password);
-    this.router.api.clientAuthorizations.add(this.model.type, basicAuth);
-    this.router.load();
-  },
+        if (!this.$innerEl.html()) {
+            this.$el.html('');
+        }
 
-  clickLogout: function () {
-    window.swaggerUi.api.clientAuthorizations.remove(this.model.name);
-    this.router.load();
-  }
+        return this;
+    },
+
+    authorizeClick: function (e) {
+        e.preventDefault();
+
+        if (this.isValidCollection()) {
+            this.authorize();
+        }
+    },
+
+    parseData: function (data) {
+        var authz = window.swaggerUi.api.clientAuthorizations.authz;
+
+        return _.map(data, function (auth, name) {
+            var isBasic = authz.basic && auth.type === 'basic';
+
+            if (authz[name] || isBasic) {
+                _.extend(auth, {
+                    isLogout: true,
+                    value: isBasic ? '' : authz[name].value,
+                    valid: true
+                });
+            }
+
+            return auth;
+        });
+    },
+
+    renderAuths: function () {
+        this.collection.each(function (auth) {
+            this.renderOneAuth(auth);
+        }, this);
+    },
+
+    renderOneAuth: function (authModel) {
+        var authEl;
+        var type = authModel.get('type');
+
+        if (type === 'apiKey') {
+            authEl = new SwaggerUi.Views.ApiKeyAuthView({model: authModel, router: this.router}).render().el;
+            this.$innerEl.append(authEl);
+        } else if (type === 'basic' && this.$innerEl.find('.basic_auth_container').length === 0) {
+            authEl = new SwaggerUi.Views.BasicAuthView({model: authModel, router: this.router}).render().el;
+            this.$innerEl.append(authEl);
+        }
+
+    },
+
+    isValidCollection: function () {
+        return this.collection.length === this.collection.where({ valid: true }).length;
+    },
+
+    authorize: function () {
+        this.collection.forEach(function (auth) {
+            var keyAuth, basicAuth;
+            var type = auth.get('type');
+
+            if (type === 'apiKey') {
+                keyAuth = new SwaggerClient.ApiKeyAuthorization(
+                    auth.get('name'),
+                    auth.get('value'),
+                    auth.get('in')
+                );
+
+                this.router.api.clientAuthorizations.add(auth.get('name'), keyAuth);
+            } else if (type === 'basic') {
+                basicAuth = new SwaggerClient.PasswordAuthorization(auth.get('username'), auth.get('password'));
+                this.router.api.clientAuthorizations.add(auth.get('type'), basicAuth);
+            }
+        }, this);
+
+        this.router.load();
+    },
+
+    isAuthorizedCollection: function () {
+        return this.collection.length === this.collection.where({ isLogout: true }).length;
+    },
+
+    logoutClick: function (e) {
+        e.preventDefault();
+
+        this.collection.forEach(function (auth) {
+            var name = auth.get('name');
+
+            window.swaggerUi.api.clientAuthorizations.remove(name);
+        });
+
+        this.router.load();
+    }
+});
+
+'use strict';
+
+SwaggerUi.Views.BasicAuthView = Backbone.View.extend({
+
+    initialize: function (opts) {
+        this.options = opts || {};
+        this.router = this.options.router;
+    },
+
+    events: {
+        'change .auth_input': 'inputChange'
+    },
+
+    template: Handlebars.templates.basic_auth,
+
+    render: function(){
+        $(this.el).html(this.template(this.model.toJSON()));
+
+        return this;
+    },
+
+    inputChange: function (e) {
+        var $el = $(e.target);
+        var val = $el.val();
+        var attr = $el.prop('name');
+
+        this.model.set(attr, val);
+        this.model.set('valid', !!this.model.get('password') && !!this.model.get('username'));
+    },
+
+    isValid: function () {
+        return this.get('valid');
+    }
 
 });
 'use strict';
@@ -19189,7 +19302,7 @@ SwaggerUi.Views.HeaderView = Backbone.View.extend({
 
   showPetStore: function(){
     this.trigger('update-swagger-ui', {
-      url:'http://petstore.swagger.io/v2/swagger.json'
+      url:'http://localhost:3001/swagger.json'
     });
   },
 
@@ -19310,13 +19423,19 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
   render: function () {
     // Render the outer container for resources
-    var authsModel;
+    var authsModel, parsedDefinitions;
 
     $(this.el).html(Handlebars.templates.main(this.model));
     this.model.securityDefinitions = this.model.securityDefinitions || {};
 
     if (!_.isEmpty(this.model.securityDefinitions)) {
-      authsModel = { auths: this.model.securityDefinitions };
+      parsedDefinitions = _.map(this.model.securityDefinitions, function (auth, name) {
+        var result = {};
+        result[name] = auth;
+        return result;
+      });
+
+      authsModel = { auths: parsedDefinitions };
 
       authsModel.isLogout = !_.isEmpty(window.swaggerUi.api.clientAuthorizations.authz);
       this.authView = new SwaggerUi.Views.AuthButtonView({model: authsModel, router: this.router});
@@ -19639,6 +19758,15 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         statusCode.headers = this.parseHeadersType(statusCode.headers);
       }
       this.addStatusCode(statusCode);
+    }
+
+    if (Array.isArray(this.model.security)) {
+      //Todo add parsing security from definitions
+      var authsModel = { auths: this.model.security };
+
+      authsModel.isLogout = !_.isEmpty(window.swaggerUi.api.clientAuthorizations.authz);
+      this.authView = new SwaggerUi.Views.AuthButtonView({model: authsModel, router: this.router});
+      this.$('.authorize-wrapper').append(this.authView.render().el);
     }
 
     this.showSnippet();
