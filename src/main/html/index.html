@@ -82,6 +82,7 @@
       });
 
       function multilinable(q, cls) {
+        $('<label>Press "ctrl + enter" to make multiline</label>').insertAfter($(q));
         $(q).keypress(function (e) {
           if (e.ctrlKey && e.keyCode == 13) {
             var $el = $(e.target);
@@ -99,7 +100,6 @@
             return false;
           }
         });
-        // $(q).attr('placeholder', 'Press <ctrl + enter> to make multiline');
       }
 
       function addApiKeyAuthorization(){
