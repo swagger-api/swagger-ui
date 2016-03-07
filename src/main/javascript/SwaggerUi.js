@@ -249,6 +249,7 @@ window.SwaggerUi = Backbone.Router.extend({
 
 window.SwaggerUi.Views = {};
 window.SwaggerUi.partials = {};
+window.SwaggerUi.utils = {};
 
 // don't break backward compatibility with previous versions and warn users to upgrade their code
 (function(){

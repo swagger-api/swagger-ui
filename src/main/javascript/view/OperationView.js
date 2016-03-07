@@ -258,8 +258,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
 
     if (Array.isArray(this.model.security)) {
-      //Todo add parsing security from definitions
-      var authsModel = { auths: this.model.security };
+      var authsModel = { auths: SwaggerUi.utils.parseSecurityDefinitions(this.model.security) };
 
       authsModel.isLogout = !_.isEmpty(window.swaggerUi.api.clientAuthorizations.authz);
       this.authView = new SwaggerUi.Views.AuthButtonView({model: authsModel, router: this.router});
