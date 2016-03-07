@@ -1188,6 +1188,16 @@
   text-decoration: underline;
   cursor: pointer;
 }
+.swagger-section #auth_container {
+  color: #fff;
+  width: 190px;
+  float: left;
+  border: none;
+  padding: 5px;
+}
+.swagger-section #auth_container .authorize__btn {
+  color: #fff;
+}
 .swagger-section .auth_container {
   padding: 0 0 10px;
   margin-bottom: 5px;
