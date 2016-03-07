@@ -18996,6 +18996,7 @@ window.SwaggerUi = Backbone.Router.extend({
 
 window.SwaggerUi.Views = {};
 window.SwaggerUi.partials = {};
+window.SwaggerUi.utils = {};
 
 // don't break backward compatibility with previous versions and warn users to upgrade their code
 (function(){
@@ -19051,6 +19052,41 @@ window.SwaggerUi.partials = {};
     return SwaggerUi;
 }));
 
+'use strict';
+
+window.SwaggerUi.utils = {
+    parseSecurityDefinitions: function (security) {
+        var auths = window.swaggerUi.api.authSchemes || window.swaggerUi.api.securityDefinitions;
+        var result = [];
+
+        if (!Array.isArray(security)) { return null; }
+
+        security.forEach(function (item) {
+            var singleSecurity = {};
+
+            for (var key in item) {
+                if (Array.isArray(item[key])) {
+                    if (!auths[key]) { continue; }
+                    auths[key] = auths[key] || {};
+                    singleSecurity[key] = auths[key];
+                    if (auths[key].type === 'oauth2') {
+                        for (var i in singleSecurity[key].scopes) {
+                            if (item[key].indexOf(i) < 0) {
+                                delete singleSecurity[key].scopes[i];
+                            }
+                        }
+                    }
+                } else {
+                    singleSecurity[key] = item[key];
+                }
+            }
+
+            result.push(singleSecurity);
+        });
+
+        return result;
+    }
+};
 'use strict';
 
 SwaggerUi.Views.ApiKeyAuthView = Backbone.View.extend({ // TODO: append this to global SwaggerUi
@@ -19761,8 +19797,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
 
     if (Array.isArray(this.model.security)) {
-      //Todo add parsing security from definitions
-      var authsModel = { auths: this.model.security };
+      var authsModel = { auths: SwaggerUi.utils.parseSecurityDefinitions(this.model.security) };
 
       authsModel.isLogout = !_.isEmpty(window.swaggerUi.api.clientAuthorizations.authz);
       this.authView = new SwaggerUi.Views.AuthButtonView({model: authsModel, router: this.router});
