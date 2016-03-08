@@ -190,26 +190,77 @@
           console.log.apply(console, arguments);
         }
       }
-  });
+    });
+
+    $(function() {
+      var _butExpand = $("#chevron_expand");
+      var _butCollapse = $("#chevron_collapse");
+      var _wrap = $("#wrapper");
+      var _form = $("#api_selector");
+      
+      _wrap.height(0);
+
+      _butExpand.click(function() {
+        _butExpand.attr('hidden', 'hidden')
+        _wrap.height(_form.outerHeight(true));
+      });
+
+      _butCollapse.click(function() {
+        _butExpand.removeAttr('hidden');
+        _wrap.height(0);
+      });
+    });
   </script>
 </head>
-
 <body class="swagger-section">
-<div id='header'>
-  <div class="swagger-ui-wrap">
-    <a id="logo" href="http://www.dreamfactory.com"></a>
-    <form id='api_selector'>
-      <div class='input'><input placeholder="http://example.com/api/v2/api_docs" id="input_baseUrl" name="baseUrl" type="text"/></div>
-      <div class='input2'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
-      <div class='input'><input placeholder="session_token" id="input_sessionToken" name="sessionToken" type="text"/></div>
-      <div class='input2'><input placeholder="username" id="input_authUsername" name="authUsername" type="text"/></div>
-      <div class='input'><input placeholder="password" id="input_authPassword" name="authPassword" type="password"/></div>
-      <div class='input2'><a id="explore" href="#" data-sw-translate>Explore</a></div>
-    </form>
+  <div id='header'>
+    <div class="swagger-ui-wrap">
+      <div>
+        <div id="slim_header">
+          <img id="chevron_expand" src="images/menu_open_white.png" title="Click to Expand">
+        </div>
+      </div>
+      <div id="wrapper">
+        <form id='api_selector'>
+          <div>
+            <a href="http://www.dreamfactory.com"><img src="images/logo-navbar-194x42.png"></a>
+            <div> 
+            <div id='input_margin'>
+                <span id="input_label">URL</span>
+                <input style="" placeholder="http://example.com/api/v2/api_docs" id="input_baseUrl" name="baseUrl" type="text"/>
+              </div>
+              <div id='input_margin'>
+                <span id="input_label">API Key</span>
+                <input style="" placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/>
+              </div>
+              <div id='input_margin'>
+                <span id="input_label">Session Token</span>
+                <input style="" placeholder="session_token" id="input_sessionToken" name="sessionToken" type="text"/>
+              </div>
+              <div id="section_credentials">
+              <div id="section_label" >
+                <span id="input_label">HTTP Basic Auth</span>
+                </div>
+                <div id="section_username" >
+                  <input style="" placeholder="username" id="input_authUsername" name="authUsername" type="text"/>
+                </div>
+                <div id="section_password">
+                  <input style="" placeholder="password" id="input_authPassword" name="authPassword" type="password"/>
+                </div>
+              </div>
+              <div id='section_explore'>
+                <a id="explore" href="#" data-sw-translate>Explore</a>
+              </div>
+              <div>
+                <img id="chevron_collapse" src="images/menu_close_white.png" title="Click to Collapse">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
-</div>
-
-<div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
-<div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+  <div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
+  <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
 </body>
 </html>

@@ -1236,16 +1236,28 @@
 }
 .swagger-section #header {
   background-color: #7093b5;
-  padding: 14px;
-  height: 130px;
+}
+.swagger-section #input_label {
+  color: #fff;
+  width: 125px;
+  display: inline-block;
+  margin-top: 5px;
 }
 .swagger-section #input_baseUrl {
   width: 400px;
+  border: 1px solid #fff; 
+  margin-top: 5px;
 }
 .swagger-section #api_selector {
-  display: block;
-  clear: none;
-  float: right;
+  float: left;
+}
+.swagger-section #wrapper {
+  background: #7093b5;
+  overflow: hidden;
+  transition: height 200ms;
+}
+.swagger-section #input_margin {
+  margin-top: 5px;
 }
 .swagger-section #api_selector .input {
   display: block;
@@ -1260,22 +1272,80 @@
 .swagger-section #api_selector input {
   font-size: 0.9em;
   padding: 3px;
-  margin: 0;
+  margin-top: 5px;
 }
 .swagger-section #input_apiKey {
   width: 400px;
+  border: 1px solid #fff; 
+  margin-top: 5px;
 }
 .swagger-section #input_sessionToken {
   width: 400px;
+  border: 1px solid #fff; 
+  margin-top: 5px;
 }
 .swagger-section #input_authUsername {
   width: 190px;
+  border: 1px solid #fff; 
+  margin-top: 5px;
+  float: left;
 }
 .swagger-section #input_authPassword {
   width: 190px;
+  border: 1px solid #fff; 
+}
+.swagger-section #section_label {
+  float: left; 
+  margin-top: 8px;
+  color: #fff;
+  width: 125px;
+  display: inline-block;
+  margin-right: 2px;
+}
+.swagger-section #section_username {
+  float: left; 
+  margin-top: 5px;
+}
+.swagger-section #section_password {
+  float: right; 
+  margin-top: 5px; 
+  margin-right: 0px
+}
+.swagger-section #section_credentials {
+  width: 400px; 
+  display: inline;
+  padding: 0px; 
+  margin-right: 0px
+}
+.swagger-section #section_explore {
+  margin-top: 40px; 
+  margin-bottom: 80px; 
+}
+.swagger-section #slim_header {
+  height: 20px;
+}
+.swagger-section #chevron_expand {
+  position: absolute;
+  margin-left: 470px;
+  margin-top: 2px;
+  margin-bottom: 0px;
+  max-width: 960px;
+  background-color: #7093b5;
+  border: none;
+  height: 15px;
+  text-align: center;
+}
+.swagger-section #chevron_collapse {
+  margin-left: 470px;
+  margin-top: 0px; 
+  margin-bottom: 0px; 
+  max-width: 960px;
+  background-color: #7093b5;
+  border: none;
+  height: 15px;
+  text-align: center;
 }
 .swagger-section #explore {
-  display: block;
   text-decoration: none;
   font-weight: bold;
   padding: 6px 8px;
@@ -1288,6 +1358,11 @@
   -ms-border-radius: 4px;
   -khtml-border-radius: 4px;
   border-radius: 4px;
+  border: 1px solid #e3730a;
+  float: right;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  margin-right: 4px;
 }
 .swagger-section #explore:hover {
   background-color: #c16208;
