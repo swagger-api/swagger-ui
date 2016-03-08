@@ -72,14 +72,16 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         var authEl;
         var type = authModel.get('type');
 
+        //todo refactor move view name into var and call new with it.
         if (type === 'apiKey') {
             authEl = new SwaggerUi.Views.ApiKeyAuthView({model: authModel, router: this.router}).render().el;
-            this.$innerEl.append(authEl);
         } else if (type === 'basic' && this.$innerEl.find('.basic_auth_container').length === 0) {
             authEl = new SwaggerUi.Views.BasicAuthView({model: authModel, router: this.router}).render().el;
-            this.$innerEl.append(authEl);
+        } else if (type === 'oauth2') {
+            authEl = new SwaggerUi.Views.Oauth2View({model: authModel, router: this.router}).render().el;
         }
 
+        this.$innerEl.append(authEl);
     },
 
     isValidCollection: function () {

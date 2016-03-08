@@ -5,6 +5,7 @@ window.SwaggerUi.utils = {
         var auths = window.swaggerUi.api.authSchemes || window.swaggerUi.api.securityDefinitions;
         var oauth2Arr = [];
         var authsArr = [];
+        var utils = window.SwaggerUi.utils;
 
         if (!Array.isArray(security)) { return null; }
 
@@ -23,12 +24,14 @@ window.SwaggerUi.utils = {
                                 delete singleOauth2Security[key].scopes[i];
                             }
                         }
+                        singleOauth2Security[key].scopes = utils.parseOauth2Scopes(singleOauth2Security[key].scopes);
                     } else {
                         singleSecurity[key] = auths[key];
                     }
                 } else {
                     if (item[key].type === 'oauth2') {
                         singleOauth2Security[key] = item[key];
+                        singleOauth2Security[key].scopes = utils.parseOauth2Scopes(singleOauth2Security[key].scopes);
                     } else {
                         singleSecurity[key] = item[key];
                     }
@@ -43,5 +46,16 @@ window.SwaggerUi.utils = {
             auths : authsArr,
             oauth2: oauth2Arr
         };
+    },
+
+    parseOauth2Scopes: function (scopes) {
+        var result = [];
+        var key;
+
+        for (key in scopes) {
+            result.push({scope: key, description: scopes[key]});
+        }
+
+        return result;
     }
 };

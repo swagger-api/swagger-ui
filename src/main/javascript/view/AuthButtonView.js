@@ -14,7 +14,7 @@ SwaggerUi.Views.AuthButtonView = Backbone.View.extend({
         this.options = opts || {};
         this.options.data = this.options.data || {};
         this.router = this.options.router;
-        this.auths = this.options.data.auths;
+        this.auths = this.options.data.oauth2.concat(this.options.data.auths);
     },
 
     render: function () {
