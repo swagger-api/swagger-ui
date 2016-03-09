@@ -17,6 +17,7 @@ SwaggerUi.Models.Oauth2Model = Backbone.Model.extend({
         auth.scopes[index].checked = val;
 
         this.set(auth);
+        this.validate();
     },
 
     validate: function () {

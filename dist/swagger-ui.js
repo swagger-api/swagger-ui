@@ -25113,7 +25113,7 @@ window.SwaggerUi.utils = {};
 
 window.SwaggerUi.utils = {
     parseSecurityDefinitions: function (security) {
-        var auths = window.swaggerUi.api.authSchemes || window.swaggerUi.api.securityDefinitions;
+        var auths = Object.assign({}, window.swaggerUi.api.authSchemes || window.swaggerUi.api.securityDefinitions);
         var oauth2Arr = [];
         var authsArr = [];
         var utils = window.SwaggerUi.utils;
@@ -25129,7 +25129,7 @@ window.SwaggerUi.utils = {
                     if (!auths[key]) { continue; }
                     auths[key] = auths[key] || {};
                     if (auths[key].type === 'oauth2') {
-                        singleOauth2Security[key] = auths[key];
+                        singleOauth2Security[key] = Object.assign({}, auths[key]);
                         for (var i in singleOauth2Security[key].scopes) {
                             if (item[key].indexOf(i) < 0) {
                                 delete singleOauth2Security[key].scopes[i];
@@ -25137,11 +25137,11 @@ window.SwaggerUi.utils = {
                         }
                         singleOauth2Security[key].scopes = utils.parseOauth2Scopes(singleOauth2Security[key].scopes);
                     } else {
-                        singleSecurity[key] = auths[key];
+                        singleSecurity[key] = Object.assign({}, auths[key]);
                     }
                 } else {
                     if (item[key].type === 'oauth2') {
-                        singleOauth2Security[key] = item[key];
+                        singleOauth2Security[key] = Object.assign({}, item[key]);
                         singleOauth2Security[key].scopes = utils.parseOauth2Scopes(singleOauth2Security[key].scopes);
                     } else {
                         singleSecurity[key] = item[key];
@@ -25159,7 +25159,8 @@ window.SwaggerUi.utils = {
         };
     },
 
-    parseOauth2Scopes: function (scopes) {
+    parseOauth2Scopes: function (data) {
+        var scopes = Object.assign({}, data);
         var result = [];
         var key;
 
@@ -25298,6 +25299,17 @@ SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
 });
 'use strict';
 
+/* global OAuthSchemeKeys */
+/* global redirect_uri */
+/* global clientId */
+/* global scopeSeparator */
+/* global additionalQueryStringParams */
+/* global clientSecret */
+/* global onOAuthComplete */
+/* global OAuthSchemeKeys */
+/* global realm */
+/*jshint unused:false*/
+
 SwaggerUi.Views.AuthView = Backbone.View.extend({
     events: {
         'click .auth_submit_button': 'authorizeClick',
@@ -25336,6 +25348,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
 
     authorizeClick: function (e) {
         e.preventDefault();
+        e.stopPropagation();
 
         if (this.collection.isValid()) {
             this.authorize();
@@ -25399,7 +25412,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
                 basicAuth = new SwaggerClient.PasswordAuthorization(auth.get('username'), auth.get('password'));
                 this.router.api.clientAuthorizations.add(auth.get('type'), basicAuth);
             } else if (type === 'oauth2') {
-                //todo add handling login of oauth2
+                this.handleOauth2Login(auth);
             }
         }, this);
 
@@ -25416,7 +25429,93 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         });
 
         this.router.load();
+    },
+
+    // taken from lib/swagger-oauth.js
+    handleOauth2Login: function (auth) {
+        var host = window.location;
+        var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
+        var defaultRedirectUrl = host.protocol + '//' + host.host + pathname + '/o2c.html';
+        var redirectUrl = window.oAuthRedirectUrl || defaultRedirectUrl;
+        var url = null;
+        var scopes = _.map(auth.get('scopes'), function (scope) {
+            return scope.scope;
+        });
+        var OAuthSchemeKeys = [];
+        var state, dets, ep;
+
+        window.enabledScopes = scopes;
+        var flow = auth.get('flow');
+
+        if(auth.get('type') === 'oauth2' && flow && (flow === 'implicit' || flow === 'accessCode')) {
+            dets = auth.attributes;
+            url = dets.authorizationUrl + '?response_type=' + (flow === 'implicit' ? 'token' : 'code');
+            window.swaggerUi.tokenName = dets.tokenName || 'access_token';
+            window.swaggerUi.tokenUrl = (flow === 'accessCode' ? dets.tokenUrl : null);
+            //state = key;
+        }
+        else if(auth.get('type') === 'oauth2' && flow && (flow === 'application')) {
+            dets = auth.attributes;
+            window.swaggerUi.tokenName = dets.tokenName || 'access_token';
+            this.clientCredentialsFlow(scopes, dets.tokenUrl, '');
+            return;
+        }
+        else if(auth.get('grantTypes')) {
+            // 1.2 support
+            var o = auth.get('grantTypes');
+            for(var t in o) {
+                if(o.hasOwnProperty(t) && t === 'implicit') {
+                    dets = o[t];
+                    ep = dets.loginEndpoint.url;
+                    url = dets.loginEndpoint.url + '?response_type=token';
+                    window.swaggerUi.tokenName = dets.tokenName;
+                }
+                else if (o.hasOwnProperty(t) && t === 'accessCode') {
+                    dets = o[t];
+                    ep = dets.tokenRequestEndpoint.url;
+                    url = dets.tokenRequestEndpoint.url + '?response_type=code';
+                    window.swaggerUi.tokenName = dets.tokenName;
+                }
+            }
+        }
+
+        var redirect_uri = redirectUrl;
+
+        url += '&redirect_uri=' + encodeURIComponent(redirectUrl);
+        url += '&realm=' + encodeURIComponent(realm);
+        url += '&client_id=' + encodeURIComponent(clientId);
+        url += '&scope=' + encodeURIComponent(scopes.join(scopeSeparator));
+        url += '&state=' + encodeURIComponent(state);
+        for (var key in additionalQueryStringParams) {
+            url += '&' + key + '=' + encodeURIComponent(additionalQueryStringParams[key]);
+        }
+
+        window.open(url);
+    },
+
+    // taken from lib/swagger-oauth.js
+    clientCredentialsFlow: function (scopes, tokenUrl, OAuthSchemeKey) {
+        var params = {
+            'client_id': clientId,
+            'client_secret': clientSecret,
+            'scope': scopes.join(' '),
+            'grant_type': 'client_credentials'
+        };
+        $.ajax({
+            url : tokenUrl,
+            type: 'POST',
+            data: params,
+            success: function (data)
+            {
+                onOAuthComplete(data, OAuthSchemeKey);
+            },
+            error: function ()
+            {
+                onOAuthComplete('');
+            }
+        });
     }
+
 });
 
 'use strict';
@@ -25678,6 +25777,7 @@ SwaggerUi.Models.Oauth2Model = Backbone.Model.extend({
         auth.scopes[index].checked = val;
 
         this.set(auth);
+        this.validate();
     },
 
     validate: function () {

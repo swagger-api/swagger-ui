@@ -2,7 +2,7 @@
 
 window.SwaggerUi.utils = {
     parseSecurityDefinitions: function (security) {
-        var auths = window.swaggerUi.api.authSchemes || window.swaggerUi.api.securityDefinitions;
+        var auths = Object.assign({}, window.swaggerUi.api.authSchemes || window.swaggerUi.api.securityDefinitions);
         var oauth2Arr = [];
         var authsArr = [];
         var utils = window.SwaggerUi.utils;
@@ -18,7 +18,7 @@ window.SwaggerUi.utils = {
                     if (!auths[key]) { continue; }
                     auths[key] = auths[key] || {};
                     if (auths[key].type === 'oauth2') {
-                        singleOauth2Security[key] = auths[key];
+                        singleOauth2Security[key] = Object.assign({}, auths[key]);
                         for (var i in singleOauth2Security[key].scopes) {
                             if (item[key].indexOf(i) < 0) {
                                 delete singleOauth2Security[key].scopes[i];
@@ -26,11 +26,11 @@ window.SwaggerUi.utils = {
                         }
                         singleOauth2Security[key].scopes = utils.parseOauth2Scopes(singleOauth2Security[key].scopes);
                     } else {
-                        singleSecurity[key] = auths[key];
+                        singleSecurity[key] = Object.assign({}, auths[key]);
                     }
                 } else {
                     if (item[key].type === 'oauth2') {
-                        singleOauth2Security[key] = item[key];
+                        singleOauth2Security[key] = Object.assign({}, item[key]);
                         singleOauth2Security[key].scopes = utils.parseOauth2Scopes(singleOauth2Security[key].scopes);
                     } else {
                         singleSecurity[key] = item[key];
@@ -48,7 +48,8 @@ window.SwaggerUi.utils = {
         };
     },
 
-    parseOauth2Scopes: function (scopes) {
+    parseOauth2Scopes: function (data) {
+        var scopes = Object.assign({}, data);
         var result = [];
         var key;
 
