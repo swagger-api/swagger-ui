@@ -247,6 +247,7 @@ window.SwaggerUi = Backbone.Router.extend({
 
 window.SwaggerUi.Views = {};
 window.SwaggerUi.Models = {};
+window.SwaggerUi.Collections = {};
 window.SwaggerUi.partials = {};
 window.SwaggerUi.utils = {};
 

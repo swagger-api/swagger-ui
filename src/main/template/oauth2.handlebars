@@ -9,7 +9,7 @@
 <ul class="api-popup-scopes">
     {{#each scopes}}
         <li>
-            <input class="oauth-scope" type="checkbox" scope="{{scope}}" oauthtype="{{OAuthSchemeKey}}"/>
+            <input class="oauth-scope" type="checkbox" data-scope="{{scope}}" oauthtype="{{OAuthSchemeKey}}"/>
             <label>{{scope}}</label><br/>
             <span class="api-scope-desc">{{description}}
                 {{#if OAuthSchemeKey}}

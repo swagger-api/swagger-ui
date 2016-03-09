@@ -19,10 +19,10 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         opts.data = opts.data || {};
         this.router = this.options.router;
 
-        this.collection = new Backbone.Collection();
+        this.collection = new SwaggerUi.Collections.AuthsCollection();
         this.collection.add(this.parseData(opts.data));
 
-        this.$el.html(this.tpls.main({isLogout: this.isAuthorizedCollection()}));
+        this.$el.html(this.tpls.main({isLogout: this.collection.isAuthorized()}));
         this.$innerEl = this.$(this.selectors.innerEl);
     },
 
@@ -39,7 +39,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
     authorizeClick: function (e) {
         e.preventDefault();
 
-        if (this.isValidCollection()) {
+        if (this.collection.isValid()) {
             this.authorize();
         }
     },
@@ -84,10 +84,6 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         this.$innerEl.append(authEl);
     },
 
-    isValidCollection: function () {
-        return this.collection.length === this.collection.where({ valid: true }).length;
-    },
-
     authorize: function () {
         this.collection.forEach(function (auth) {
             var keyAuth, basicAuth;
@@ -104,14 +100,12 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
             } else if (type === 'basic') {
                 basicAuth = new SwaggerClient.PasswordAuthorization(auth.get('username'), auth.get('password'));
                 this.router.api.clientAuthorizations.add(auth.get('type'), basicAuth);
+            } else if (type === 'oauth2') {
+                //todo add handling login of oauth2
             }
         }, this);
 
         this.router.load();
-    },
-
-    isAuthorizedCollection: function () {
-        return this.collection.length === this.collection.where({ isLogout: true }).length;
     },
 
     logoutClick: function (e) {

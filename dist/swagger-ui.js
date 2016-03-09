@@ -35,11 +35,9 @@ this["Handlebars"]["templates"]["auth_button"] = Handlebars.template({"1":functi
 },"useData":true});
 this["Handlebars"]["templates"]["auth_view"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   return "        <input type=\"button\" class=\"auth_logout__button\" value=\"logout\">\n";
-  },"3":function(depth0,helpers,partials,data) {
-  return "        <div class=\"auth_submit\"><a class=\"auth_submit_button\" href=\"#\" data-sw-translate>apply</a></div>\n";
   },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, buffer = "<div class=\"auth_container\">\n\n    <div class=\"auth_inner\"></div>\n\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isLogout : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.program(3, data),"data":data});
+  var stack1, buffer = "<div class=\"auth_container\">\n\n    <div class=\"auth_inner\"></div>\n    <div class=\"auth_submit\"><a class=\"auth_submit_button\" href=\"#\" data-sw-translate>apply</a></div>\n";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isLogout : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "</div>\n";
 },"useData":true});
@@ -457,15 +455,8 @@ this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(dept
   if (stack1 != null) { buffer += stack1; }
   return buffer + "    </h4>\n    </div>\n</div>\n";
 },"useData":true});
-//'use strict';
-//
-//SwaggerUi.Models.Oauth2Model = Backbone.Model.extend({
-//    validate: function () {
-//
-//    }
-//});
 this["Handlebars"]["templates"]["oauth2"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "        <li>\n            <input class=\"oauth-scope\" type=\"checkbox\" scope=\""
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "        <li>\n            <input class=\"oauth-scope\" type=\"checkbox\" data-scope=\""
     + escapeExpression(((helper = (helper = helpers.scope || (depth0 != null ? depth0.scope : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"scope","hash":{},"data":data}) : helper)))
     + "\" oauthtype=\""
     + escapeExpression(((helper = (helper = helpers.OAuthSchemeKey || (depth0 != null ? depth0.OAuthSchemeKey : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"OAuthSchemeKey","hash":{},"data":data}) : helper)))
@@ -25060,6 +25051,7 @@ window.SwaggerUi = Backbone.Router.extend({
 
 window.SwaggerUi.Views = {};
 window.SwaggerUi.Models = {};
+window.SwaggerUi.Collections = {};
 window.SwaggerUi.partials = {};
 window.SwaggerUi.utils = {};
 
@@ -25265,6 +25257,47 @@ SwaggerUi.Views.AuthButtonView = Backbone.View.extend({
 
 'use strict';
 
+SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
+    add: function (model) {
+        var args = Array.prototype.slice.call(arguments);
+
+        if (Array.isArray(model)) {
+            args[0] = _.map(model, function(val) {
+                return this.handleOne(val);
+            }, this);
+        } else {
+            args[0] = this.handleOne(model);
+        }
+
+        Backbone.Collection.prototype.add.apply(this, args);
+    },
+
+    handleOne: function (model) {
+        var result = model;
+
+        if (! (model instanceof Backbone.Model) ) {
+            switch (model.type) {
+                case 'oauth2':
+                    result = new SwaggerUi.Models.Oauth2Model(model);
+                    break;
+                default:
+                    result = new Backbone.Model(model);
+            }
+        }
+
+        return result;
+    },
+
+    isValid: function () {
+        return this.length === this.where({ valid: true }).length;
+    },
+
+    isAuthorized: function () {
+        return this.length === this.where({ isLogout: true }).length;
+    }
+});
+'use strict';
+
 SwaggerUi.Views.AuthView = Backbone.View.extend({
     events: {
         'click .auth_submit_button': 'authorizeClick',
@@ -25284,10 +25317,10 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         opts.data = opts.data || {};
         this.router = this.options.router;
 
-        this.collection = new Backbone.Collection();
+        this.collection = new SwaggerUi.Collections.AuthsCollection();
         this.collection.add(this.parseData(opts.data));
 
-        this.$el.html(this.tpls.main({isLogout: this.isAuthorizedCollection()}));
+        this.$el.html(this.tpls.main({isLogout: this.collection.isAuthorized()}));
         this.$innerEl = this.$(this.selectors.innerEl);
     },
 
@@ -25304,7 +25337,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
     authorizeClick: function (e) {
         e.preventDefault();
 
-        if (this.isValidCollection()) {
+        if (this.collection.isValid()) {
             this.authorize();
         }
     },
@@ -25349,10 +25382,6 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         this.$innerEl.append(authEl);
     },
 
-    isValidCollection: function () {
-        return this.collection.length === this.collection.where({ valid: true }).length;
-    },
-
     authorize: function () {
         this.collection.forEach(function (auth) {
             var keyAuth, basicAuth;
@@ -25369,14 +25398,12 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
             } else if (type === 'basic') {
                 basicAuth = new SwaggerClient.PasswordAuthorization(auth.get('username'), auth.get('password'));
                 this.router.api.clientAuthorizations.add(auth.get('type'), basicAuth);
+            } else if (type === 'oauth2') {
+                //todo add handling login of oauth2
             }
         }, this);
 
         this.router.load();
-    },
-
-    isAuthorizedCollection: function () {
-        return this.collection.length === this.collection.where({ isLogout: true }).length;
     },
 
     logoutClick: function (e) {
@@ -25634,6 +25661,37 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
 'use strict';
 
+SwaggerUi.Models.Oauth2Model = Backbone.Model.extend({
+    defaults: {
+        scopes: {}
+    },
+
+    initialize: function () {
+        this.on('change', this.validate);
+    },
+
+    setScopes: function (name, val) {
+        var auth = _.extend({}, this.attributes);
+        var index = _.findIndex(auth.scopes, function(o) {
+            return o.scope === name;
+        });
+        auth.scopes[index].checked = val;
+
+        this.set(auth);
+    },
+
+    validate: function () {
+        var valid =  _.findIndex(this.get('scopes'), function (o) {
+           return o.checked === true;
+        }) > -1;
+
+        this.set('valid', valid);
+
+        return valid;
+    }
+});
+'use strict';
+
 SwaggerUi.Views.Oauth2View = Backbone.View.extend({
     events: {
         'change .oauth-scope': 'scopeChange'
@@ -25642,13 +25700,16 @@ SwaggerUi.Views.Oauth2View = Backbone.View.extend({
     template: Handlebars.templates.oauth2,
 
     render: function () {
-        $(this.el).html(this.template(this.model.toJSON()));
+        this.$el.html(this.template(this.model.toJSON()));
 
         return this;
     },
 
-    scopeChange: function () {
+    scopeChange: function (e) {
+        var val = $(e.target).prop('checked');
+        var scope = $(e.target).data('scope');
 
+        this.model.setScopes(scope, val);
     }
 });
 'use strict';

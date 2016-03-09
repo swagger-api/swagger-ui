@@ -8,12 +8,15 @@ SwaggerUi.Views.Oauth2View = Backbone.View.extend({
     template: Handlebars.templates.oauth2,
 
     render: function () {
-        $(this.el).html(this.template(this.model.toJSON()));
+        this.$el.html(this.template(this.model.toJSON()));
 
         return this;
     },
 
-    scopeChange: function () {
+    scopeChange: function (e) {
+        var val = $(e.target).prop('checked');
+        var scope = $(e.target).data('scope');
 
+        this.model.setScopes(scope, val);
     }
 });
