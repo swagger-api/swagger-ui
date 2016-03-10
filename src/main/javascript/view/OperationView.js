@@ -669,6 +669,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       code = $('<code />').text('no content');
       pre = $('<pre class="json" />').append(code);
 
+    // Image
+    } else if (/^image\//.test(contentType)) {
+      pre = $('<img>').attr('src', url);
+
     // JSON
     } else if (contentType === 'application/json' || /\+json$/.test(contentType)) {
       var json = null;
@@ -694,11 +698,6 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     } else if (/text\/plain/.test(contentType)) {
       code = $('<code />').text(content);
       pre = $('<pre class="plain" />').append(code);
-
-
-    // Image
-    } else if (/^image\//.test(contentType)) {
-      pre = $('<img>').attr('src', url);
 
     // Audio
     } else if (/^audio\//.test(contentType) && supportsAudioPlayback(contentType)) {
