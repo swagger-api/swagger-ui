@@ -68,6 +68,8 @@
           }
 
           addApiKeyAuthorization();
+
+          multilinable('input.parameter', 'body-textarea');
         },
         onFailure: function(data) {
           log("Unable to Load SwaggerUI");
@@ -78,6 +80,27 @@
         defaultModelRendering: 'schema',
         showRequestHeaders: false
       });
+
+      function multilinable(q, cls) {
+        $('<label>Press "ctrl + enter" to make multiline</label>').insertAfter($(q));
+        $(q).keypress(function (e) {
+          if (e.ctrlKey && e.keyCode == 13) {
+            var $el = $(e.target);
+            var $ta = $(document.createElement('textarea'));
+            var attributes = $el.prop("attributes");
+            $.each(attributes, function() {
+              $ta.attr(this.name, this.value);
+            });
+            var v = $el.val();
+            if (v) v = v + '\n';
+            $ta.val(v);
+            $ta.addClass(cls);
+            $el.replaceWith($ta);
+            $ta.focus();
+            return false;
+          }
+        });
+      }
 
       function addApiKeyAuthorization(){
         var key = encodeURIComponent($('#input_apiKey')[0].value);
