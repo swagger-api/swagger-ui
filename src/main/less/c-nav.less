@@ -9,19 +9,27 @@
     li {
 
       a {
+        border-bottom: none;
         color: @clover-gray-60;
         display: block;
 
         &.nav-resource-title {
-          color: @clover-purple;
+          color: @clover-gray-90;
           text-transform: capitalize;
-          padding: 4px 0px;
+          padding: 8px 0px;
+        }
+        
+      }
+      ul {
+        display: none;
+        li {
+          padding: 4px 0px 4px 20px;
         }
       }
       &:hover {
         a.nav-resource-title {
           background: none;
-          color: @clover-orange;
+          color: @clover-gray-90;
           font-weight: 700;
           text-decoration: none;
         }
@@ -29,7 +37,7 @@
       &.active {
         a.nav-resource-title {
           background: none;
-          color: @clover-teal;
+          color: @clover-gray-90;
           font-weight: 700;
           text-decoration: none;
         }

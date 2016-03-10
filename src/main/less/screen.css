@@ -16832,42 +16832,38 @@ header.section-header {
   margin-right: 15px;
   width: 50px;
 }
-#main_nav_container ul.nav-pills li a {
-  border-bottom: none;
+#main_nav_container ul#main-nav li a {
   color: #777777;
   display: block;
 }
-#main_nav_container ul.nav-pills li a.nav-resource-title {
-  color: #404040;
+#main_nav_container ul#main-nav li a.nav-resource-title {
+  color: #670bb4;
   text-transform: capitalize;
-  padding: 8px 0px;
+  padding: 4px 0px;
 }
-#main_nav_container ul.nav-pills li ul {
+#main_nav_container ul#main-nav li a ul.nav-operations-list {
   display: none;
 }
-#main_nav_container ul.nav-pills li ul li {
-  padding: 4px 0px 4px 20px;
-}
-#main_nav_container ul.nav-pills li:hover a.nav-resource-title {
+#main_nav_container ul#main-nav li:hover a.nav-resource-title {
   background: none;
-  color: #404040;
+  color: #f8993a;
   font-weight: 700;
   text-decoration: none;
 }
-#main_nav_container ul.nav-pills li.active a.nav-resource-title {
+#main_nav_container ul#main-nav li.active a.nav-resource-title {
   background: none;
-  color: #404040;
+  color: #3ec0c4;
   font-weight: 700;
   text-decoration: none;
 }
-#main_nav_container ul.nav-pills li.active ul {
+#main_nav_container ul#main-nav li.active ul {
   display: block;
 }
-#main_nav_container ul.nav-pills li.active ul li a.nav-operation-description {
+#main_nav_container ul#main-nav li.active ul li a.nav-operation-description {
   color: #777777;
 }
-#main_nav_container ul.nav-pills li.active ul li.active a.nav-operation-description,
-#main_nav_container ul.nav-pills li.active ul li:hover a.nav-operation-description {
+#main_nav_container ul#main-nav li.active ul li.active a.nav-operation-description,
+#main_nav_container ul#main-nav li.active ul li:hover a.nav-operation-description {
   color: #404040;
   font-weight: 700;
 }
