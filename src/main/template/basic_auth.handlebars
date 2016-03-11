@@ -3,10 +3,14 @@
     {{#unless isLogout}}
         <form class="key_input_container">
             <div class="auth__description">{{description}}</div>
-            <div class="auth_label"><label data-sw-translate>username</label></div>
-            <input required placeholder="username" class="basic_auth__username auth_input" name="username" type="text"/>
-            <div class="auth_label"><label data-sw-translate>password</label></div>
-            <input required placeholder="password" class="basic_auth__password auth_input" name="password" type="password"/>
+            <div class="auth_label">
+                <span class="basic_auth__label" data-sw-translate>username:</span>
+                <input required placeholder="username" class="basic_auth__username auth_input" name="username" type="text"/>
+            </div>
+            <div class="auth_label">
+                <span class="basic_auth__label" data-sw-translate>password:</span>
+                <input required placeholder="password" class="basic_auth__password auth_input" name="password" type="password"/></label>
+            </div>
         </form>
     {{/unless}}
 </div>

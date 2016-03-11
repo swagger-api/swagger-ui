@@ -184,6 +184,7 @@
 .swagger-section .swagger-ui-wrap {
   line-height: 1;
   font-family: "Droid Sans", sans-serif;
+  min-width: 760px;
   max-width: 960px;
   margin-left: auto;
   margin-right: auto;
@@ -1180,9 +1181,13 @@
 }
 .swagger-section .oauth_submit {
   text-align: center;
+  display: inline-block;
 }
 .swagger-section .authorize-wrapper {
   margin: 15px 0 10px;
+}
+.swagger-section .authorize-wrapper_operation {
+  float: right;
 }
 .swagger-section .authorize__btn:hover {
   text-decoration: underline;
@@ -1190,10 +1195,11 @@
 }
 .swagger-section #auth_container {
   color: #fff;
-  width: 190px;
-  float: left;
+  display: inline-block;
   border: none;
   padding: 5px;
+  width: 87px;
+  height: 13px;
 }
 .swagger-section #auth_container .authorize__btn {
   color: #fff;
@@ -1207,20 +1213,17 @@
   color: #547f00;
   font-size: 1.2em;
 }
+.swagger-section .auth_container .basic_auth__label {
+  display: inline-block;
+  width: 60px;
+}
 .swagger-section .auth_container .auth__description {
   color: #999999;
   margin-bottom: 5px;
 }
-.swagger-section .auth_container .auth_submit__button,
-.swagger-section .auth_container .auth_logout__button {
-  color: #547f00;
-  border: none;
-  text-decoration: underline;
-  background: none;
-  padding-left: 0;
-  font-size: 1em;
-  cursor: pointer;
-  outline: none;
+.swagger-section .auth_container .auth__button {
+  margin-top: 10px;
+  height: 30px;
 }
 .swagger-section .auth_container .basic_auth_container {
   font-size: 0.9em;
@@ -1345,7 +1348,8 @@
 }
 .swagger-section #header {
   background-color: #89bf04;
-  padding: 14px;
+  padding: 9px 14px 19px 14px;
+  height: 23px;
 }
 .swagger-section #input_baseUrl {
   width: 400px;
@@ -1356,9 +1360,8 @@
   float: right;
 }
 .swagger-section #api_selector .input {
-  display: block;
+  display: inline-block;
   clear: none;
-  float: left;
   margin: 0 10px 0 0;
 }
 .swagger-section #api_selector input {
@@ -1369,7 +1372,8 @@
 .swagger-section #input_apiKey {
   width: 200px;
 }
-.swagger-section #explore {
+.swagger-section #explore,
+.swagger-section #auth_container .authorize__btn {
   display: block;
   text-decoration: none;
   font-weight: bold;
@@ -1384,16 +1388,24 @@
   -khtml-border-radius: 4px;
   border-radius: 4px;
 }
-.swagger-section #explore:hover {
+.swagger-section #explore:hover,
+.swagger-section #auth_container .authorize__btn:hover {
   background-color: #547f00;
 }
 .swagger-section #header #logo {
   font-size: 1.5em;
   font-weight: bold;
   text-decoration: none;
-  background: transparent url(../images/logo_small.png) no-repeat left center;
-  padding: 20px 0 20px 40px;
   color: white;
+}
+.swagger-section #header #logo .logo__img {
+  display: block;
+  float: left;
+  margin-top: 2px;
+}
+.swagger-section #header #logo .logo__title {
+  display: inline-block;
+  padding: 5px 0 0 10px;
 }
 .swagger-section #content_message {
   margin: 10px 15px;

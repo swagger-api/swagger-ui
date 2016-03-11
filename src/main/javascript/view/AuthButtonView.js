@@ -7,18 +7,22 @@ SwaggerUi.Views.AuthButtonView = Backbone.View.extend({
 
     tpls: {
         popup: Handlebars.templates.popup,
-        authBtn: Handlebars.templates.auth_button
+        authBtn: Handlebars.templates.auth_button,
+        authBtnOperation: Handlebars.templates.auth_button_operation
     },
 
     initialize: function(opts) {
         this.options = opts || {};
         this.options.data = this.options.data || {};
+        this.isOperation = this.options.isOperation;
         this.router = this.options.router;
         this.auths = this.options.data.oauth2.concat(this.options.data.auths);
     },
 
     render: function () {
-        this.$el.html(this.tpls.authBtn(this.model));
+        var tplName = this.isOperation ? 'authBtnOperation' : 'authBtn';
+
+        this.$el.html(this.tpls[tplName](this.model));
 
         return this;
     },

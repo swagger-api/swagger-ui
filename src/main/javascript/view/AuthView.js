@@ -13,7 +13,7 @@
 
 SwaggerUi.Views.AuthView = Backbone.View.extend({
     events: {
-        'click .auth_submit_button': 'authorizeClick',
+        'click .auth_submit__button': 'authorizeClick',
         'click .auth_logout__button': 'logoutClick'
     },
 

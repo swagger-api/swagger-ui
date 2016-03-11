@@ -17,10 +17,17 @@
     margin-right: 100px;
   }
 
-  .oauth_submit { text-align: center; }
+  .oauth_submit {
+    text-align: center;
+    display: inline-block;
+  }
 
   .authorize-wrapper {
     margin: 15px 0 10px;
+  }
+
+  .authorize-wrapper_operation {
+    float: right;
   }
 
   .authorize__btn {
@@ -32,10 +39,12 @@
 
   #auth_container {
     color: #fff;
-    width: 190px;
-    float: left;
+    display: inline-block;
     border: none;
     padding: 5px;
+    width: 87px;
+    height: 13px;
+
     .authorize__btn {
       color: #fff;
     }
@@ -51,20 +60,19 @@
       font-size: 1.2em;
     }
 
+    .basic_auth__label {
+      display: inline-block;
+      width: 60px;
+    }
+
     .auth__description {
       color: #999999;
       margin-bottom: 5px;
     }
 
-    .auth_submit__button, .auth_logout__button {
-      color: #547f00;
-      border: none;
-      text-decoration: underline;
-      background: none;
-      padding-left: 0;
-      font-size: 1em;
-      cursor: pointer;
-      outline: none;
+    .auth__button {
+      margin-top: 10px;
+      height: 30px;
     }
 
     .basic_auth_container {

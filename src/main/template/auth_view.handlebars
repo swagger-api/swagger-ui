@@ -1,8 +1,11 @@
 <div class="auth_container">
 
     <div class="auth_inner"></div>
-    <div class="auth_submit"><a class="auth_submit_button" href="#" data-sw-translate>apply</a></div>
-    {{#if isLogout}}
-        <input type="button" class="auth_logout__button" value="logout">
-    {{/if}}
+    <div class="auth_submit">
+        <button type="button" class="auth__button auth_submit__button" data-sw-translate>Authorize</button>
+        {{#if isLogout}}
+            <button type="button" class="auth__button auth_logout__button" data-sw-translate>Logout</button>
+        {{/if}}
+    </div>
+
 </div>

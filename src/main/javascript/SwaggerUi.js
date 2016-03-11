@@ -137,7 +137,6 @@ window.SwaggerUi = Backbone.Router.extend({
   // This is bound to success handler for SwaggerApi
   //  so it gets called when SwaggerApi completes loading
   render: function(){
-    var authsModel;
     this.showMessage('Finished Loading Resource Information. Rendering Swagger UI...');
     this.mainView = new SwaggerUi.Views.MainView({
       model: this.api,
@@ -145,14 +144,9 @@ window.SwaggerUi = Backbone.Router.extend({
       swaggerOptions: this.options,
       router: this
     }).render();
-    if (!_.isEmpty(this.api.securityDefinitions)){
-      authsModel = _.map(this.api.securityDefinitions, function (auth, name) {
-          var result = {};
-          result[name] = auth;
-          return result;
-        });
+    if (!_.isEmpty(this.api.security)){
       this.authView = new SwaggerUi.Views.AuthButtonView({
-        data: SwaggerUi.utils.parseSecurityDefinitions(authsModel),
+        data: SwaggerUi.utils.parseSecurityDefinitions(this.api.security),
         router: this
       });
       $('#auth_container').append(this.authView.render().el);
