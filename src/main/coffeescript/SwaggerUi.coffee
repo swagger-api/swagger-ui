@@ -59,13 +59,10 @@ class SwaggerUi extends Backbone.Router
     apiModel  = new Api(@api)
     @mainView = new MainView({model: apiModel, el: $('#' + @dom_id)}).render()
     @showMessage()
-    switch @options.docExpansion
-      when "full" then Docs.expandOperationsForResource('')
-      when "list" then Docs.collapseOperationsForResource('')
     @options.onComplete(@api, @) if @options.onComplete
     setTimeout(
       =>
-        Docs.shebang()
+        @checkShebang()
       400
     )
 
@@ -99,5 +96,26 @@ class SwaggerUi extends Backbone.Router
     val = $('#message-bar').html data
     @options.onFailure(data) if @options.onFailure?
     val
+
+  checkShebang: ->
+    # If shebang has an operation nickname in it..
+    # e.g. /docs/#!/words/get_search
+    fragments = $.param.fragment().split('/')
+    fragments.shift() # get rid of the bang
+
+    #Expand operation
+    dom_id = 'resource_' + fragments[0]
+    $("#"+dom_id).slideto({highlight: false})
+
+    # Expand operation
+    li_dom_id = fragments.join('_')
+    li_content_dom_id = li_dom_id + "_content"
+
+    $('#'+li_content_dom_id).slideDown()
+    $('#'+li_dom_id).slideto({highlight: false})
+
+  escapeResourceName: (resource) ->
+    resource.replace(/[!"#$%&'()*+,.\/:;<=>?@\[\\\]\^`{|}~]/g, "\\$&")
+
 
 window.SwaggerUi = SwaggerUi

@@ -1,4 +1,10 @@
 class ResourceView extends Backbone.View
+
+  events: {
+    'click .expand_button' : 'expandOperations'
+    'click .collapse_button' : 'collapseOperations'
+  }
+
   initialize: ->
 
   render: ->
@@ -16,5 +22,11 @@ class ResourceView extends Backbone.View
         id: typeModel.get('viewId')
       })
       $('.operationTypes', $(@el)).append(typeView.render().el)
-     
+
+
+  expandOperations: ->
+    $('li#resource_' + swaggerUi.escapeResourceName(@model.get('id'))).find('div.content').slideDown()
+
+  collapseOperations: ->
+    $('li#resource_' + swaggerUi.escapeResourceName(@model.get('id'))).find('div.content').slideUp()
     

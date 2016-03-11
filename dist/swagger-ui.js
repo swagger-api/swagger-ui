@@ -334,194 +334,7 @@
   })
 
 }(jQuery);
-$(function() {
-
-	// Helper function for vertically aligning DOM elements
-	// http://www.seodenver.com/simple-vertical-align-plugin-for-jquery/
-	$.fn.vAlign = function() {
-		return this.each(function(i){
-		var ah = $(this).height();
-		var ph = $(this).parent().height();
-		var mh = (ph - ah) / 2;
-		$(this).css('margin-top', mh);
-		});
-	};
-
-	$.fn.stretchFormtasticInputWidthToParent = function() {
-		return this.each(function(i){
-		var p_width = $(this).closest("form").innerWidth();
-		var p_padding = parseInt($(this).closest("form").css('padding-left') ,10) + parseInt($(this).closest("form").css('padding-right'), 10);
-		var this_padding = parseInt($(this).css('padding-left'), 10) + parseInt($(this).css('padding-right'), 10);
-		$(this).css('width', p_width - p_padding - this_padding);
-		});
-	};
-
-	$('form.formtastic li.string input, form.formtastic textarea').stretchFormtasticInputWidthToParent();
-
-	// Vertically center these paragraphs
-	// Parent may need a min-height for this to work..
-	$('ul.downplayed li div.content p').vAlign();
-
-	// When a sandbox form is submitted..
-	$("form.sandbox").submit(function(){
-
-		var error_free = true;
-
-		// Cycle through the forms required inputs
- 		$(this).find("input.required").each(function() {
-
-			// Remove any existing error styles from the input
-			$(this).removeClass('error');
-
-			// Tack the error style on if the input is empty..
-			if ($(this).val() == '') {
-				$(this).addClass('error');
-				$(this).wiggle();
-				error_free = false;
-			}
-
-		});
-
-		return error_free;
-	});
-
-});
-
-function clippyCopiedCallback(a) {
-  $('#api_key_copied').fadeIn().delay(1000).fadeOut();
-
-  // var b = $("#clippy_tooltip_" + a);
-  // b.length != 0 && (b.attr("title", "copied!").trigger("tipsy.reload"), setTimeout(function() {
-  //   b.attr("title", "copy to clipboard")
-  // },
-  // 500))
-}
-
-// Logging function that accounts for browsers that don't have window.console
-log = function(){
-  log.history = log.history || [];
-  log.history.push(arguments);
-  if(this.console){
-    console.log( Array.prototype.slice.call(arguments) );
-  }
-};
-
-// Handle browsers that do console incorrectly (IE9 and below, see http://stackoverflow.com/a/5539378/7913)
-if (Function.prototype.bind && console && typeof console.log == "object") {
-    [
-      "log","info","warn","error","assert","dir","clear","profile","profileEnd"
-    ].forEach(function (method) {
-        console[method] = this.bind(console[method], console);
-    }, Function.prototype.call);
-}
-
-var Docs = {
-
-	shebang: function() {
-
-		// If shebang has an operation nickname in it..
-		// e.g. /docs/#!/words/get_search
-		var fragments = $.param.fragment().split('/');
-		fragments.shift(); // get rid of the bang
-
-		switch (fragments.length) {
-			case 1:
-				// Expand all operations for the resource and scroll to it
-				log('shebang resource:' + fragments[0]);
-				var dom_id = 'resource_' + fragments[0];
-
-				Docs.expandEndpointListForResource(fragments[0]);
-				$("#"+dom_id).slideto({highlight: false});
-				break;
-			case 2:
-				// Refer to the endpoint DOM element, e.g. #words_get_search
-				log('shebang endpoint: ' + fragments.join('_'));
-
-        // Expand Resource
-        Docs.expandEndpointListForResource(fragments[0]);
-        $("#"+dom_id).slideto({highlight: false});
-
-        // Expand operation
-				var li_dom_id = fragments.join('_');
-				var li_content_dom_id = li_dom_id + "_content";
-
-        log("li_dom_id " + li_dom_id);
-        log("li_content_dom_id " + li_content_dom_id);
-
-				Docs.expandOperation($('#'+li_content_dom_id));
-				$('#'+li_dom_id).slideto({highlight: false});
-				break;
-		}
-
-	},
-
-	toggleEndpointListForResource: function(resource) {
-		var elem = $('li#resource_' + Docs.escapeResourceName(resource) + ' ul.endpoints');
-		if (elem.is(':visible')) {
-			Docs.collapseEndpointListForResource(resource);
-		} else {
-			Docs.expandEndpointListForResource(resource);
-		}
-	},
-
-	// Expand resource
-	expandEndpointListForResource: function(resource) {
-		var resource = Docs.escapeResourceName(resource);
-		if (resource == '') {
-			$('.resource ul.endpoints').slideDown();
-			return;
-		}
-		
-		$('li#resource_' + resource).addClass('active');
-
-		var elem = $('li#resource_' + resource + ' ul.endpoints');
-		elem.slideDown();
-	},
-
-	// Collapse resource and mark as explicitly closed
-	collapseEndpointListForResource: function(resource) {
-		var resource = Docs.escapeResourceName(resource);
-		$('li#resource_' + resource).removeClass('active');
-
-		var elem = $('li#resource_' + resource + ' ul.endpoints');
-		elem.slideUp();
-	},
-
-	expandOperationsForResource: function(resource) {
-		// Make sure the resource container is open..
-		Docs.expandEndpointListForResource(resource);
-		
-		if (resource == '') {
-			$('.resource ul.endpoints li.operation div.content').slideDown();
-			return;
-		}
-
-		$('li#resource_' + Docs.escapeResourceName(resource) + ' li.operation div.content').each(function() {
-			Docs.expandOperation($(this));
-		});
-	},
-
-	collapseOperationsForResource: function(resource) {
-		// Make sure the resource container is open..
-		Docs.expandEndpointListForResource(resource);
-
-		$('li#resource_' + Docs.escapeResourceName(resource) + ' li.operation div.content').each(function() {
-			Docs.collapseOperation($(this));
-		});
-	},
-
-	escapeResourceName: function(resource) {
-		return resource.replace(/[!"#$%&'()*+,.\/:;<=>?@\[\\\]\^`{|}~]/g, "\\$&");
-	},
-
-	expandOperation: function(elem) {
-		elem.slideDown();
-	},
-
-	collapseOperation: function(elem) {
-		elem.slideUp();
-	}
-};(function() {
+(function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
 templates['content_type'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
@@ -1497,15 +1310,7 @@ function program1(depth0,data) {
   if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n  </h2>\n  <ul class='options'>\n    <li>\n      <a href='#' onclick=\"Docs.collapseOperationsForResource('";
-  if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "'); return false;\">\n        Hide Operations\n      </a>\n    </li>\n    <li>\n      <a href='#' onclick=\"Docs.expandOperationsForResource('";
-  if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "'); return false;\">\n        Show Operations\n      </a>\n    </li>\n  </ul>\n</div>\n<ul class='operationTypes' id='";
+  buffer += "\n  </h2>\n  <ul class='options'>\n    <li>\n      <a href='#' class=\"collapse_button\">\n        Hide Operations\n      </a>\n    </li>\n    <li>\n      <a href='#' class=\"expand_button\">\n        Show Operations\n      </a>\n    </li>\n  </ul>\n</div>\n<ul class='operationTypes' id='";
   if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -1702,18 +1507,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         el: $('#' + this.dom_id)
       }).render();
       this.showMessage();
-      switch (this.options.docExpansion) {
-        case "full":
-          Docs.expandOperationsForResource('');
-          break;
-        case "list":
-          Docs.collapseOperationsForResource('');
-      }
       if (this.options.onComplete) {
         this.options.onComplete(this.api, this);
       }
       return setTimeout(function() {
-        return Docs.shebang();
+        return _this.checkShebang();
       }, 400);
     };
 
@@ -1761,6 +1559,26 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         this.options.onFailure(data);
       }
       return val;
+    };
+
+    SwaggerUi.prototype.checkShebang = function() {
+      var dom_id, fragments, li_content_dom_id, li_dom_id;
+      fragments = $.param.fragment().split('/');
+      fragments.shift();
+      dom_id = 'resource_' + fragments[0];
+      $("#" + dom_id).slideto({
+        highlight: false
+      });
+      li_dom_id = fragments.join('_');
+      li_content_dom_id = li_dom_id + "_content";
+      $('#' + li_content_dom_id).slideDown();
+      return $('#' + li_dom_id).slideto({
+        highlight: false
+      });
+    };
+
+    SwaggerUi.prototype.escapeResourceName = function(resource) {
+      return resource.replace(/[!"#$%&'()*+,.\/:;<=>?@\[\\\]\^`{|}~]/g, "\\$&");
     };
 
     return SwaggerUi;
@@ -2312,6 +2130,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       ResourceView.__super__.constructor.apply(this, arguments);
     }
 
+    ResourceView.prototype.events = {
+      'click .expand_button': 'expandOperations',
+      'click .collapse_button': 'collapseOperations'
+    };
+
     ResourceView.prototype.initialize = function() {};
 
     ResourceView.prototype.render = function() {
@@ -2334,6 +2157,14 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         _results.push($('.operationTypes', $(this.el)).append(typeView.render().el));
       }
       return _results;
+    };
+
+    ResourceView.prototype.expandOperations = function() {
+      return $('li#resource_' + swaggerUi.escapeResourceName(this.model.get('id'))).find('div.content').slideDown();
+    };
+
+    ResourceView.prototype.collapseOperations = function() {
+      return $('li#resource_' + swaggerUi.escapeResourceName(this.model.get('id'))).find('div.content').slideUp();
     };
 
     return ResourceView;
@@ -2735,12 +2566,12 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     OperationView.prototype.toggleOperationContent = function() {
-      var elem;
-      elem = $('#' + Docs.escapeResourceName(this.model.get("parentId")) + "_" + this.model.get("nickname") + "_content");
-      if (elem.is(':visible')) {
-        return Docs.collapseOperation(elem);
+      var $elem;
+      $elem = $('#' + Docs.escapeResourceName(this.model.get("parentId")) + "_" + this.model.get("nickname") + "_content");
+      if ($elem.is(':visible')) {
+        return $elem.slideUp();
       } else {
-        return Docs.expandOperation(elem);
+        return $elem.slideDown();
       }
     };
 
