@@ -8,41 +8,45 @@
 this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};
 this["Handlebars"]["templates"]["apikey_auth"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "            <span class=\"auth_label\">"
+  return "                <span class=\"key_auth__value\">"
     + escapeExpression(((helper = (helper = helpers.value || (depth0 != null ? depth0.value : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"value","hash":{},"data":data}) : helper)))
     + "</span>\n";
 },"3":function(depth0,helpers,partials,data) {
-  return "            <input placeholder='api_key' class='auth_input input_apiKey_entry' name='apiKey' type='text'/>\n";
+  return "                <input placeholder=\"api_key\" class=\"auth_input input_apiKey_entry\" name=\"apiKey\" type=\"text\"/>\n";
   },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class='key_input_container'>\n    <div class='auth__description'>"
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class=\"key_input_container\">\n    <h3 class=\"auth__title\">Api key authorization</h3>\n    <div class=\"auth__description\">"
     + escapeExpression(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"description","hash":{},"data":data}) : helper)))
-    + "</div>\n    <div>\n        <span class='auth_label'><label for='input_apiKey_entry'><span>Api key</span> in "
-    + escapeExpression(((helper = (helper = helpers['in'] || (depth0 != null ? depth0['in'] : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"in","hash":{},"data":data}) : helper)))
-    + "</label></span>\n        <span class='auth_in'><label for='input_apiKey_entry'>"
+    + "</div>\n    <div>\n        <div class=\"key_auth__field\">\n            <span class=\"key_auth__label\">name:</span>\n            <span class=\"key_auth__value\">"
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
-    + " =</label></span>\n";
+    + "</span>\n        </div>\n        <div class=\"key_auth__field\">\n            <span class=\"key_auth__label\">in:</span>\n            <span class=\"key_auth__value\">"
+    + escapeExpression(((helper = (helper = helpers['in'] || (depth0 != null ? depth0['in'] : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"in","hash":{},"data":data}) : helper)))
+    + "</span>\n        </div>\n        <div class=\"key_auth__field\">\n            <span class=\"key_auth__label\">value:</span>\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isLogout : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.program(3, data),"data":data});
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "    </div>\n</div>\n";
+  return buffer + "        </div>\n    </div>\n</div>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["auth_button_operation"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
-  return "        ic-info\n";
+  return "        authorize__btn_operation_login\n";
   },"3":function(depth0,helpers,partials,data) {
-  return "        ic-error\n";
+  return "        authorize__btn_operation_logout\n";
   },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, buffer = "<div class=\"authorize__btn authorize__btn_operation\">\n    <span class=\"api-ic\n";
+  var stack1, buffer = "<div class=\"authorize__btn authorize__btn_operation\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isLogout : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.program(3, data),"data":data});
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "        \"></span>\n</div>";
+  return buffer + "\">\n</div>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["auth_button"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   return "<a class='authorize__btn' href=\"#\">Authorize</a>\n";
   },"useData":true});
 this["Handlebars"]["templates"]["auth_view"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
+  return "            <button type=\"button\" class=\"auth__button auth_submit__button\" data-sw-translate>Authorize</button>\n";
+  },"3":function(depth0,helpers,partials,data) {
   return "            <button type=\"button\" class=\"auth__button auth_logout__button\" data-sw-translate>Logout</button>\n";
   },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, buffer = "<div class=\"auth_container\">\n\n    <div class=\"auth_inner\"></div>\n    <div class=\"auth_submit\">\n        <button type=\"button\" class=\"auth__button auth_submit__button\" data-sw-translate>Authorize</button>\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isLogout : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+  var stack1, buffer = "<div class=\"auth_container\">\n\n    <div class=\"auth_inner\"></div>\n    <div class=\"auth_submit\">\n";
+  stack1 = helpers.unless.call(depth0, (depth0 != null ? depth0.isLogout : depth0), {"name":"unless","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isAuthorized : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "    </div>\n\n</div>\n";
 },"useData":true});
@@ -50,17 +54,26 @@ this["Handlebars"]["templates"]["basic_auth"] = Handlebars.template({"1":functio
   return " - authorized";
   },"3":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "        <form class=\"key_input_container\">\n            <div class=\"auth__description\">"
-    + escapeExpression(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"description","hash":{},"data":data}) : helper)))
-    + "</div>\n            <div class=\"auth_label\">\n                <span class=\"basic_auth__label\" data-sw-translate>username:</span>\n                <input required placeholder=\"username\" class=\"basic_auth__username auth_input\" name=\"username\" type=\"text\"/>\n            </div>\n            <div class=\"auth_label\">\n                <span class=\"basic_auth__label\" data-sw-translate>password:</span>\n                <input required placeholder=\"password\" class=\"basic_auth__password auth_input\" name=\"password\" type=\"password\"/></label>\n            </div>\n        </form>\n";
-},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, buffer = "<div class='basic_auth_container'>\n    <h3 class=\"basic_auth__title\">Basic authentication";
+  return "                <span class=\"basic_auth__value\">"
+    + escapeExpression(((helper = (helper = helpers.username || (depth0 != null ? depth0.username : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"username","hash":{},"data":data}) : helper)))
+    + "</span>\n";
+},"5":function(depth0,helpers,partials,data) {
+  return "                <input required placeholder=\"username\" class=\"basic_auth__username auth_input\" name=\"username\" type=\"text\"/>\n";
+  },"7":function(depth0,helpers,partials,data) {
+  return "            <div class=\"auth_label\">\n                <span class=\"basic_auth__label\" data-sw-translate>password:</span>\n                <input required placeholder=\"password\" class=\"basic_auth__password auth_input\" name=\"password\" type=\"password\"/></label>\n            </div>\n";
+  },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class='basic_auth_container'>\n    <h3 class=\"auth__title\">Basic authentication";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isLogout : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  buffer += "</h3>\n";
-  stack1 = helpers.unless.call(depth0, (depth0 != null ? depth0.isLogout : depth0), {"name":"unless","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
+  buffer += "</h3>\n    <form class=\"basic_input_container\">\n        <div class=\"auth__description\">"
+    + escapeExpression(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"description","hash":{},"data":data}) : helper)))
+    + "</div>\n        <div class=\"auth_label\">\n            <span class=\"basic_auth__label\" data-sw-translate>username:</span>\n";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isLogout : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.program(5, data),"data":data});
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "</div>\n";
+  buffer += "        </div>\n";
+  stack1 = helpers.unless.call(depth0, (depth0 != null ? depth0.isLogout : depth0), {"name":"unless","hash":{},"fn":this.program(7, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "    </form>\n</div>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["content_type"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var stack1, buffer = "";
@@ -461,36 +474,36 @@ this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(dept
   return buffer + "    </h4>\n    </div>\n</div>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["oauth2"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "        <li>\n            <input class=\"oauth-scope\" type=\"checkbox\" data-scope=\""
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "            <li>\n                <input class=\"oauth-scope\" type=\"checkbox\" data-scope=\""
     + escapeExpression(((helper = (helper = helpers.scope || (depth0 != null ? depth0.scope : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"scope","hash":{},"data":data}) : helper)))
     + "\" oauthtype=\""
     + escapeExpression(((helper = (helper = helpers.OAuthSchemeKey || (depth0 != null ? depth0.OAuthSchemeKey : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"OAuthSchemeKey","hash":{},"data":data}) : helper)))
-    + "\"/>\n            <label>"
+    + "\"/>\n                <label>"
     + escapeExpression(((helper = (helper = helpers.scope || (depth0 != null ? depth0.scope : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"scope","hash":{},"data":data}) : helper)))
-    + "</label><br/>\n            <span class=\"api-scope-desc\">"
+    + "</label><br/>\n                <span class=\"api-scope-desc\">"
     + escapeExpression(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"description","hash":{},"data":data}) : helper)))
     + "\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.OAuthSchemeKey : depth0), {"name":"if","hash":{},"fn":this.program(2, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "            </span>\n        </li>\n";
+  return buffer + "                </span>\n            </li>\n";
 },"2":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "                    ("
+  return "                        ("
     + escapeExpression(((helper = (helper = helpers.OAuthSchemeKey || (depth0 != null ? depth0.OAuthSchemeKey : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"OAuthSchemeKey","hash":{},"data":data}) : helper)))
     + ")\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<p>"
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div>\n    <h3 class=\"auth__title\">Select OAuth2.0 Scopes</h3>\n    <p>"
     + escapeExpression(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"description","hash":{},"data":data}) : helper)))
-    + "</p>\n<p>Select OAuth2.0 Scopes</p>\n<p>Scopes are used to grant an application different levels of access to data on behalf of the end user. Each API may declare one or more scopes.\n    <a href=\"#\">Learn how to use</a>\n</p>\n<p><strong> "
+    + "</p>\n    <p>Scopes are used to grant an application different levels of access to data on behalf of the end user. Each API may declare one or more scopes.\n        <a href=\"#\">Learn how to use</a>\n    </p>\n    <p><strong> "
     + escapeExpression(((helper = (helper = helpers.appName || (depth0 != null ? depth0.appName : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"appName","hash":{},"data":data}) : helper)))
-    + " </strong> API requires the following scopes. Select which ones you want to grant to Swagger UI.</p>\n<p>Authorization URL: "
+    + " </strong> API requires the following scopes. Select which ones you want to grant to Swagger UI.</p>\n    <p>Authorization URL: "
     + escapeExpression(((helper = (helper = helpers.authorizationUrl || (depth0 != null ? depth0.authorizationUrl : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"authorizationUrl","hash":{},"data":data}) : helper)))
-    + "</p>\n<p>flow: "
+    + "</p>\n    <p>flow: "
     + escapeExpression(((helper = (helper = helpers.flow || (depth0 != null ? depth0.flow : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"flow","hash":{},"data":data}) : helper)))
-    + "</p>\n<ul class=\"api-popup-scopes\">\n";
+    + "</p>\n    <ul class=\"api-popup-scopes\">\n";
   stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.scopes : depth0), {"name":"each","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "</ul>";
+  return buffer + "    </ul>\n</div>";
 },"useData":true});
 this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   return "deprecated";
@@ -19175,8 +19188,13 @@ window.SwaggerUi.utils = {
                 }
             }
 
-            authsArr.push(singleSecurity);
-            oauth2Arr.push(singleOauth2Security);
+            if (!_.isEmpty(singleSecurity)) {
+                authsArr.push(singleSecurity);
+            }
+
+            if (!_.isEmpty(singleOauth2Security)){
+                oauth2Arr.push(singleOauth2Security);
+            }
         });
 
         return {
@@ -19197,6 +19215,28 @@ window.SwaggerUi.utils = {
         return result;
     }
 };
+'use strict';
+
+SwaggerUi.Models.ApiKeyAuthModel = Backbone.Model.extend({
+    defaults: {
+        'in': '',
+        name: '',
+        title: '',
+        value: ''
+    },
+
+    initialize: function () {
+        this.on('change', this.validate);
+    },
+
+    validate: function () {
+        var valid = !!this.get('value');
+
+        this.set('valid', valid);
+
+        return valid;
+    }
+});
 'use strict';
 
 SwaggerUi.Views.ApiKeyAuthView = Backbone.View.extend({ // TODO: append this to global SwaggerUi
@@ -19221,12 +19261,11 @@ SwaggerUi.Views.ApiKeyAuthView = Backbone.View.extend({ // TODO: append this to 
     apiKeyChange: function (e) {
         var val = $(e.target).val();
 
-        this.model.set('valid', !!val);
         this.model.set('value', val);
     },
 
     isValid: function () {
-        return this.get('valid');
+        return this.model.validate();
     }
 
 });
@@ -19311,6 +19350,12 @@ SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
                 case 'oauth2':
                     result = new SwaggerUi.Models.Oauth2Model(model);
                     break;
+                case 'basic':
+                    result = new SwaggerUi.Models.BasicAuthModel(model);
+                    break;
+                case 'apiKey':
+                    result = new SwaggerUi.Models.ApiKeyAuthModel(model);
+                    break;
                 default:
                     result = new Backbone.Model(model);
             }
@@ -19325,6 +19370,10 @@ SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
 
     isAuthorized: function () {
         return this.length === this.where({ isLogout: true }).length;
+    },
+
+    isPartiallyAuthorized: function () {
+        return this.where({ isLogout: true }).length > 0;
     }
 });
 'use strict';
@@ -19362,7 +19411,10 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         this.collection = new SwaggerUi.Collections.AuthsCollection();
         this.collection.add(this.parseData(opts.data));
 
-        this.$el.html(this.tpls.main({isLogout: this.collection.isAuthorized()}));
+        this.$el.html(this.tpls.main({
+            isLogout: this.collection.isAuthorized(),
+            isAuthorized: this.collection.isPartiallyAuthorized()
+        }));
         this.$innerEl = this.$(this.selectors.innerEl);
     },
 
@@ -19386,15 +19438,21 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
     },
 
     parseData: function (data) {
-        var authz = window.swaggerUi.api.clientAuthorizations.authz;
+        var authz = Object.assign({}, window.swaggerUi.api.clientAuthorizations.authz);
 
         return _.map(data, function (auth, name) {
             var isBasic = authz.basic && auth.type === 'basic';
 
+            _.extend(auth, {
+                title: name
+            });
+
             if (authz[name] || isBasic) {
                 _.extend(auth, {
                     isLogout: true,
-                    value: isBasic ? '' : authz[name].value,
+                    value: isBasic ? undefined : authz[name].value,
+                    username: isBasic ? authz.basic.username : undefined,
+                    password: isBasic ? authz.basic.password : undefined,
                     valid: true
                 });
             }
@@ -19437,7 +19495,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
                     auth.get('in')
                 );
 
-                this.router.api.clientAuthorizations.add(auth.get('name'), keyAuth);
+                this.router.api.clientAuthorizations.add(auth.get('title'), keyAuth);
             } else if (type === 'basic') {
                 basicAuth = new SwaggerClient.PasswordAuthorization(auth.get('username'), auth.get('password'));
                 this.router.api.clientAuthorizations.add(auth.get('type'), basicAuth);
@@ -19453,7 +19511,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         e.preventDefault();
 
         this.collection.forEach(function (auth) {
-            var name = auth.get('name');
+            var name = auth.get('type') === 'basic' ? 'basic' : auth.get('title');
 
             window.swaggerUi.api.clientAuthorizations.remove(name);
         });
@@ -19550,6 +19608,27 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
 
 'use strict';
 
+SwaggerUi.Models.BasicAuthModel = Backbone.Model.extend({
+    defaults: {
+        username: '',
+        password: '',
+        title: 'basic'
+    },
+
+    initialize: function () {
+        this.on('change', this.validate);
+    },
+
+    validate: function () {
+        var valid = !!this.get('password') && !!this.get('username');
+
+        this.set('valid', valid);
+
+        return valid;
+    }
+});
+'use strict';
+
 SwaggerUi.Views.BasicAuthView = Backbone.View.extend({
 
     initialize: function (opts) {
@@ -19575,11 +19654,10 @@ SwaggerUi.Views.BasicAuthView = Backbone.View.extend({
         var attr = $el.prop('name');
 
         this.model.set(attr, val);
-        this.model.set('valid', !!this.model.get('password') && !!this.model.get('username'));
     },
 
     isValid: function () {
-        return this.get('valid');
+        return this.model.validate();
     }
 
 });
@@ -19779,7 +19857,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
   onLinkClick: function (e) {
     var el = e.target;
-    if (el.tagName === 'A') {
+    if (el.tagName === 'A' && el.href) {
       if (location.hostname !== el.hostname || location.port !== el.port) {
         e.preventDefault();
         window.open(el.href, '_blank');

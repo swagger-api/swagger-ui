@@ -22,12 +22,11 @@ SwaggerUi.Views.ApiKeyAuthView = Backbone.View.extend({ // TODO: append this to 
     apiKeyChange: function (e) {
         var val = $(e.target).val();
 
-        this.model.set('valid', !!val);
         this.model.set('value', val);
     },
 
     isValid: function () {
-        return this.get('valid');
+        return this.model.validate();
     }
 
 });

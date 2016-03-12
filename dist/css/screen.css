@@ -1193,6 +1193,24 @@
   text-decoration: underline;
   cursor: pointer;
 }
+.swagger-section .authorize__btn_operation {
+  height: 18px;
+  vertical-align: middle;
+  display: inline-block;
+  background: url(../images/explorer_icons.png) no-repeat;
+}
+.swagger-section .authorize__btn_operation_login {
+  background-position: 0 0;
+  width: 18px;
+  margin-top: -6px;
+  margin-left: 4px;
+}
+.swagger-section .authorize__btn_operation_logout {
+  background-position: -30px 0;
+  width: 18px;
+  margin-top: -6px;
+  margin-left: 4px;
+}
 .swagger-section #auth_container {
   color: #fff;
   display: inline-block;
@@ -1208,8 +1226,9 @@
   padding: 0 0 10px;
   margin-bottom: 5px;
   border-bottom: solid 1px #CCC;
+  font-size: 0.9em;
 }
-.swagger-section .auth_container .basic_auth__title {
+.swagger-section .auth_container .auth__title {
   color: #547f00;
   font-size: 1.2em;
 }
@@ -1225,8 +1244,12 @@
   margin-top: 10px;
   height: 30px;
 }
-.swagger-section .auth_container .basic_auth_container {
-  font-size: 0.9em;
+.swagger-section .auth_container .key_auth__field {
+  margin: 5px 0;
+}
+.swagger-section .auth_container .key_auth__label {
+  display: inline-block;
+  width: 60px;
 }
 .swagger-section .api-popup-dialog {
   z-index: 10000;
@@ -1350,6 +1373,7 @@
   background-color: #89bf04;
   padding: 9px 14px 19px 14px;
   height: 23px;
+  min-width: 775px;
 }
 .swagger-section #input_baseUrl {
   width: 400px;

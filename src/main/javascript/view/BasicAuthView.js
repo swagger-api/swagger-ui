@@ -25,11 +25,10 @@ SwaggerUi.Views.BasicAuthView = Backbone.View.extend({
         var attr = $el.prop('name');
 
         this.model.set(attr, val);
-        this.model.set('valid', !!this.model.get('password') && !!this.model.get('username'));
     },
 
     isValid: function () {
-        return this.get('valid');
+        return this.model.validate();
     }
 
 });

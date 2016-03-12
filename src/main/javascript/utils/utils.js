@@ -38,8 +38,13 @@ window.SwaggerUi.utils = {
                 }
             }
 
-            authsArr.push(singleSecurity);
-            oauth2Arr.push(singleOauth2Security);
+            if (!_.isEmpty(singleSecurity)) {
+                authsArr.push(singleSecurity);
+            }
+
+            if (!_.isEmpty(singleOauth2Security)){
+                oauth2Arr.push(singleOauth2Security);
+            }
         });
 
         return {

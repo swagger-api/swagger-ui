@@ -136,7 +136,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
   onLinkClick: function (e) {
     var el = e.target;
-    if (el.tagName === 'A') {
+    if (el.tagName === 'A' && el.href) {
       if (location.hostname !== el.hostname || location.port !== el.port) {
         e.preventDefault();
         window.open(el.href, '_blank');

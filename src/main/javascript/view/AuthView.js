@@ -33,7 +33,10 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         this.collection = new SwaggerUi.Collections.AuthsCollection();
         this.collection.add(this.parseData(opts.data));
 
-        this.$el.html(this.tpls.main({isLogout: this.collection.isAuthorized()}));
+        this.$el.html(this.tpls.main({
+            isLogout: this.collection.isAuthorized(),
+            isAuthorized: this.collection.isPartiallyAuthorized()
+        }));
         this.$innerEl = this.$(this.selectors.innerEl);
     },
 
@@ -57,15 +60,21 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
     },
 
     parseData: function (data) {
-        var authz = window.swaggerUi.api.clientAuthorizations.authz;
+        var authz = Object.assign({}, window.swaggerUi.api.clientAuthorizations.authz);
 
         return _.map(data, function (auth, name) {
             var isBasic = authz.basic && auth.type === 'basic';
 
+            _.extend(auth, {
+                title: name
+            });
+
             if (authz[name] || isBasic) {
                 _.extend(auth, {
                     isLogout: true,
-                    value: isBasic ? '' : authz[name].value,
+                    value: isBasic ? undefined : authz[name].value,
+                    username: isBasic ? authz.basic.username : undefined,
+                    password: isBasic ? authz.basic.password : undefined,
                     valid: true
                 });
             }
@@ -108,7 +117,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
                     auth.get('in')
                 );
 
-                this.router.api.clientAuthorizations.add(auth.get('name'), keyAuth);
+                this.router.api.clientAuthorizations.add(auth.get('title'), keyAuth);
             } else if (type === 'basic') {
                 basicAuth = new SwaggerClient.PasswordAuthorization(auth.get('username'), auth.get('password'));
                 this.router.api.clientAuthorizations.add(auth.get('type'), basicAuth);
@@ -124,7 +133,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         e.preventDefault();
 
         this.collection.forEach(function (auth) {
-            var name = auth.get('name');
+            var name = auth.get('type') === 'basic' ? 'basic' : auth.get('title');
 
             window.swaggerUi.api.clientAuthorizations.remove(name);
         });
