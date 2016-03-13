@@ -1,6 +1,14 @@
 'use strict';
 
 SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
+    constructor: function(models) {
+        var args = Array.prototype.slice.call(arguments);
+
+        args[0] = this.parse(args[0]);
+
+        Backbone.Collection.apply(this, args);
+    },
+
     add: function (model) {
         var args = Array.prototype.slice.call(arguments);
 
@@ -55,5 +63,29 @@ SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
 
     isPartiallyAuthorized: function () {
         return this.where({ isLogout: true }).length > 0;
+    },
+
+    parse: function (data) {
+        var authz = Object.assign({}, window.swaggerUi.api.clientAuthorizations.authz);
+
+        return _.map(data, function (auth, name) {
+            var isBasic = authz.basic && auth.type === 'basic';
+
+            _.extend(auth, {
+                title: name
+            });
+
+            if (authz[name] || isBasic) {
+                _.extend(auth, {
+                    isLogout: true,
+                    value: isBasic ? undefined : authz[name].value,
+                    username: isBasic ? authz.basic.username : undefined,
+                    password: isBasic ? authz.basic.password : undefined,
+                    valid: true
+                });
+            }
+
+            return auth;
+        });
     }
 });

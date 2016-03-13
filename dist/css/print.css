@@ -1252,16 +1252,32 @@
   width: 60px;
 }
 .swagger-section .api-popup-dialog {
-  z-index: 10000;
   position: absolute;
+  display: none;
+}
+.swagger-section .api-popup-dialog-wrapper {
+  z-index: 1000;
   width: 500px;
   background: #FFF;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  display: none;
   font-size: 13px;
   color: #777;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.swagger-section .api-popup-dialog-shadow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  background-color: gray;
+  z-index: 900;
 }
 .swagger-section .api-popup-dialog .api-popup-title {
   font-size: 24px;

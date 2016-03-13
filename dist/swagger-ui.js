@@ -911,7 +911,7 @@ this["Handlebars"]["templates"]["popup"] = Handlebars.template({"compiler":[6,">
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
   return "<div class=\"api-popup-dialog-wrapper\">\n    <div class=\"api-popup-title\">"
     + escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"title","hash":{},"data":data}) : helper)))
-    + "</div>\n    <div class=\"api-popup-content\"></div>\n    <p class=\"error-msg\"></p>\n    <div class=\"api-popup-actions\">\n        <button class=\"api-popup-cancel api-button gray\" type=\"button\">Cancel</button>\n    </div>\n</div>";
+    + "</div>\n    <div class=\"api-popup-content\"></div>\n    <p class=\"error-msg\"></p>\n    <div class=\"api-popup-actions\">\n        <button class=\"api-popup-cancel api-button gray\" type=\"button\">Cancel</button>\n    </div>\n</div>\n<div class=\"api-popup-dialog-shadow\"></div>";
 },"useData":true});
 this["Handlebars"]["templates"]["resource"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   return " : ";
@@ -19328,6 +19328,14 @@ SwaggerUi.Views.AuthButtonView = Backbone.View.extend({
 'use strict';
 
 SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
+    constructor: function(models) {
+        var args = Array.prototype.slice.call(arguments);
+
+        args[0] = this.parse(args[0]);
+
+        Backbone.Collection.apply(this, args);
+    },
+
     add: function (model) {
         var args = Array.prototype.slice.call(arguments);
 
@@ -19382,51 +19390,9 @@ SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
 
     isPartiallyAuthorized: function () {
         return this.where({ isLogout: true }).length > 0;
-    }
-});
-'use strict';
-
-SwaggerUi.Views.AuthsCollectionView = Backbone.View.extend({
-
-    initialize: function(opts) {
-        this.options = opts || {};
-        this.options.data = this.options.data || {};
-        this.router = this.options.router;
-
-        this.collection = new SwaggerUi.Collections.AuthsCollection();
-        this.collection.add(this.parseData(opts.data));
-
-        this.$innerEl = $('<div>');
     },
 
-    render: function () {
-        this.collection.each(function (auth) {
-            this.renderOneAuth(auth);
-        }, this);
-
-        this.$el.html(this.$innerEl.html() ? this.$innerEl : '');
-
-        return this;
-    },
-
-    renderOneAuth: function (authModel) {
-        var authEl;
-        var type = authModel.get('type');
-
-        //todo refactor move view name into var and call new with it.
-        if (type === 'apiKey') {
-            authEl = new SwaggerUi.Views.ApiKeyAuthView({model: authModel, router: this.router}).render().el;
-        } else if (type === 'basic' && this.$innerEl.find('.basic_auth_container').length === 0) {
-            authEl = new SwaggerUi.Views.BasicAuthView({model: authModel, router: this.router}).render().el;
-        } else if (type === 'oauth2') {
-            authEl = new SwaggerUi.Views.Oauth2View({model: authModel, router: this.router}).render().el;
-        }
-
-        this.$innerEl.append(authEl);
-    },
-
-    //todo move into collection
-    parseData: function (data) {
+    parse: function (data) {
         var authz = Object.assign({}, window.swaggerUi.api.clientAuthorizations.authz);
 
         return _.map(data, function (auth, name) {
@@ -19448,6 +19414,49 @@ SwaggerUi.Views.AuthsCollectionView = Backbone.View.extend({
 
             return auth;
         });
+    }
+});
+'use strict';
+
+SwaggerUi.Views.AuthsCollectionView = Backbone.View.extend({
+
+    initialize: function(opts) {
+        this.options = opts || {};
+        this.options.data = this.options.data || {};
+        this.router = this.options.router;
+
+        this.collection = new SwaggerUi.Collections.AuthsCollection(opts.data);
+
+        this.$innerEl = $('<div>');
+    },
+
+    render: function () {
+        this.collection.each(function (auth) {
+            this.renderOneAuth(auth);
+        }, this);
+
+        this.$el.html(this.$innerEl.html() ? this.$innerEl : '');
+
+        return this;
+    },
+
+    renderOneAuth: function (authModel) {
+        var authEl, authView;
+        var type = authModel.get('type');
+
+        if (type === 'apiKey') {
+            authView = 'ApiKeyAuthView';
+        } else if (type === 'basic' && this.$innerEl.find('.basic_auth_container').length === 0) {
+            authView = 'BasicAuthView';
+        } else if (type === 'oauth2') {
+            authView = 'Oauth2View';
+        }
+
+        if (authView) {
+            authEl = new SwaggerUi.Views[authView]({model: authModel, router: this.router}).render().el;
+        }
+
+        this.$innerEl.append(authEl);
     }
 
 });
@@ -21963,27 +21972,13 @@ SwaggerUi.Views.PopupView = Backbone.View.extend({
         main   : '#swagger-ui-container'
     },
 
-    initialize: function(){},
+    initialize: function(){
+        this.$el.html(this.template(this.model));
+    },
 
     render: function () {
-        var $win, dw, dh, st, dlgWd, dlgHt, top, left;
-        $win = $(window);
-        dw = $win.width();
-        dh = $win.height();
-        st = $win.scrollTop();
-        this.$el.html(this.template(this.model));
         this.$(this.selectors.content).append(this.model.content);
         $(this.selectors.main).first().append(this.el);
-        dlgWd = this.$el.outerWidth();
-        dlgHt = this.$el.outerHeight();
-        top = (dh -dlgHt)/2 + st;
-
-        left = (dw - dlgWd)/2;
-
-        this.$el.css({
-            top: (top < 0? 0 : top) + 'px',
-            left: (left < 0? 0 : left) + 'px'
-        });
         this.showPopup();
 
         return this;
