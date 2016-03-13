@@ -19286,6 +19286,7 @@ SwaggerUi.Views.AuthButtonView = Backbone.View.extend({
         this.options = opts || {};
         this.options.data = this.options.data || {};
         this.isOperation = this.options.isOperation;
+        this.model = this.model || {};
         this.router = this.options.router;
         this.auths = this.options.data.oauth2.concat(this.options.data.auths);
     },
@@ -19293,6 +19294,7 @@ SwaggerUi.Views.AuthButtonView = Backbone.View.extend({
     render: function () {
         var tplName = this.isOperation ? 'authBtnOperation' : 'authBtn';
 
+        this.$authEl = this.renderAuths(this.auths);
         this.$el.html(this.tpls[tplName](this.model));
 
         return this;
@@ -19305,7 +19307,7 @@ SwaggerUi.Views.AuthButtonView = Backbone.View.extend({
 
         authsModel = {
             title: 'Available authorizations',
-            content: this.renderAuths(this.auths)
+            content: this.$authEl
         };
 
         this.popup = new SwaggerUi.Views.PopupView({model: authsModel});
@@ -19314,11 +19316,18 @@ SwaggerUi.Views.AuthButtonView = Backbone.View.extend({
 
     renderAuths: function (auths) {
         var $el = $('<div>');
+        var isLogout = false;
 
         auths.forEach(function (auth) {
-            var authEl = new SwaggerUi.Views.AuthView({data: auth, router: this.router}).render().el;
+            var authView = new SwaggerUi.Views.AuthView({data: auth, router: this.router});
+            var authEl = authView.render().el;
             $el.append(authEl);
+            if (authView.isLogout) {
+                isLogout = true;
+            }
         }, this);
+
+        this.model.isLogout = isLogout;
 
         return $el;
     }
@@ -19328,7 +19337,7 @@ SwaggerUi.Views.AuthButtonView = Backbone.View.extend({
 'use strict';
 
 SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
-    constructor: function(models) {
+    constructor: function() {
         var args = Array.prototype.slice.call(arguments);
 
         args[0] = this.parse(args[0]);
@@ -19501,6 +19510,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
             isAuthorized: this.authsCollectionView.collection.isPartiallyAuthorized()
         }));
         this.$innerEl = this.$(this.selectors.innerEl);
+        this.isLogout = this.authsCollectionView.collection.isPartiallyAuthorized();
     },
 
     render: function () {

@@ -1,7 +1,7 @@
 'use strict';
 
 SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
-    constructor: function(models) {
+    constructor: function() {
         var args = Array.prototype.slice.call(arguments);
 
         args[0] = this.parse(args[0]);
