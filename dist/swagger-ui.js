@@ -19472,14 +19472,12 @@ SwaggerUi.Views.AuthsCollectionView = Backbone.View.extend({
 
 'use strict';
 
-/* global OAuthSchemeKeys */
 /* global redirect_uri */
 /* global clientId */
 /* global scopeSeparator */
 /* global additionalQueryStringParams */
 /* global clientSecret */
 /* global onOAuthComplete */
-/* global OAuthSchemeKeys */
 /* global realm */
 /*jshint unused:false*/
 
@@ -19574,8 +19572,8 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         var scopes = _.map(auth.get('scopes'), function (scope) {
             return scope.scope;
         });
-        var OAuthSchemeKeys = [];
         var state, dets, ep;
+        window.OAuthSchemeKey = auth.get('title');
 
         window.enabledScopes = scopes;
         var flow = auth.get('flow');
@@ -19585,12 +19583,12 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
             url = dets.authorizationUrl + '?response_type=' + (flow === 'implicit' ? 'token' : 'code');
             window.swaggerUi.tokenName = dets.tokenName || 'access_token';
             window.swaggerUi.tokenUrl = (flow === 'accessCode' ? dets.tokenUrl : null);
-            //state = key;
+            state = OAuthSchemeKey;
         }
         else if(auth.get('type') === 'oauth2' && flow && (flow === 'application')) {
             dets = auth.attributes;
             window.swaggerUi.tokenName = dets.tokenName || 'access_token';
-            this.clientCredentialsFlow(scopes, dets.tokenUrl, '');
+            this.clientCredentialsFlow(scopes, dets.tokenUrl, OAuthSchemeKey);
             return;
         }
         else if(auth.get('grantTypes')) {
