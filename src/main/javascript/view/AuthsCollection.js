@@ -38,7 +38,15 @@ SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
     },
 
     isValid: function () {
-        return this.length === this.where({ valid: true }).length;
+        var valid = true;
+
+        this.models.forEach(function(model) {
+            if (!model.validate()) {
+                valid = false;
+            }
+        });
+
+        return valid;
     },
 
     isAuthorized: function () {

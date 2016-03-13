@@ -3,7 +3,7 @@
 SwaggerUi.Views.ApiKeyAuthView = Backbone.View.extend({ // TODO: append this to global SwaggerUi
 
     events: {
-        'change .auth_input': 'apiKeyChange'
+        'change .input_apiKey_entry': 'apiKeyChange'
     },
 
     template: Handlebars.templates.apikey_auth,

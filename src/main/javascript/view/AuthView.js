@@ -22,7 +22,8 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
     },
 
     selectors: {
-        innerEl: '.auth_inner'
+        innerEl: '.auth_inner',
+        authBtn: '.auth_submit__button'
     },
 
     initialize: function(opts) {
@@ -30,22 +31,17 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         opts.data = opts.data || {};
         this.router = this.options.router;
 
-        this.collection = new SwaggerUi.Collections.AuthsCollection();
-        this.collection.add(this.parseData(opts.data));
+        this.authsCollectionView = new SwaggerUi.Views.AuthsCollectionView({data: opts.data});
 
         this.$el.html(this.tpls.main({
-            isLogout: this.collection.isAuthorized(),
-            isAuthorized: this.collection.isPartiallyAuthorized()
+            isLogout: this.authsCollectionView.collection.isAuthorized(),
+            isAuthorized: this.authsCollectionView.collection.isPartiallyAuthorized()
         }));
         this.$innerEl = this.$(this.selectors.innerEl);
     },
 
     render: function () {
-        this.renderAuths();
-
-        if (!this.$innerEl.html()) {
-            this.$el.html('');
-        }
+        this.$innerEl.html(this.authsCollectionView.render().el);
 
         return this;
     },
@@ -54,59 +50,13 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         e.preventDefault();
         e.stopPropagation();
 
-        if (this.collection.isValid()) {
+        if (this.authsCollectionView.collection.isValid()) {
             this.authorize();
         }
     },
 
-    parseData: function (data) {
-        var authz = Object.assign({}, window.swaggerUi.api.clientAuthorizations.authz);
-
-        return _.map(data, function (auth, name) {
-            var isBasic = authz.basic && auth.type === 'basic';
-
-            _.extend(auth, {
-                title: name
-            });
-
-            if (authz[name] || isBasic) {
-                _.extend(auth, {
-                    isLogout: true,
-                    value: isBasic ? undefined : authz[name].value,
-                    username: isBasic ? authz.basic.username : undefined,
-                    password: isBasic ? authz.basic.password : undefined,
-                    valid: true
-                });
-            }
-
-            return auth;
-        });
-    },
-
-    renderAuths: function () {
-        this.collection.each(function (auth) {
-            this.renderOneAuth(auth);
-        }, this);
-    },
-
-    renderOneAuth: function (authModel) {
-        var authEl;
-        var type = authModel.get('type');
-
-        //todo refactor move view name into var and call new with it.
-        if (type === 'apiKey') {
-            authEl = new SwaggerUi.Views.ApiKeyAuthView({model: authModel, router: this.router}).render().el;
-        } else if (type === 'basic' && this.$innerEl.find('.basic_auth_container').length === 0) {
-            authEl = new SwaggerUi.Views.BasicAuthView({model: authModel, router: this.router}).render().el;
-        } else if (type === 'oauth2') {
-            authEl = new SwaggerUi.Views.Oauth2View({model: authModel, router: this.router}).render().el;
-        }
-
-        this.$innerEl.append(authEl);
-    },
-
     authorize: function () {
-        this.collection.forEach(function (auth) {
+        this.authsCollectionView.collection.forEach(function (auth) {
             var keyAuth, basicAuth;
             var type = auth.get('type');
 
@@ -132,7 +82,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
     logoutClick: function (e) {
         e.preventDefault();
 
-        this.collection.forEach(function (auth) {
+        this.authsCollectionView.collection.forEach(function (auth) {
             var name = auth.get('type') === 'basic' ? 'basic' : auth.get('title');
 
             window.swaggerUi.api.clientAuthorizations.remove(name);
