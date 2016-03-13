@@ -111,12 +111,12 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
             url = dets.authorizationUrl + '?response_type=' + (flow === 'implicit' ? 'token' : 'code');
             window.swaggerUi.tokenName = dets.tokenName || 'access_token';
             window.swaggerUi.tokenUrl = (flow === 'accessCode' ? dets.tokenUrl : null);
-            state = OAuthSchemeKey;
+            state = window.OAuthSchemeKey;
         }
         else if(auth.get('type') === 'oauth2' && flow && (flow === 'application')) {
             dets = auth.attributes;
             window.swaggerUi.tokenName = dets.tokenName || 'access_token';
-            this.clientCredentialsFlow(scopes, dets.tokenUrl, OAuthSchemeKey);
+            this.clientCredentialsFlow(scopes, dets.tokenUrl, window.OAuthSchemeKey);
             return;
         }
         else if(auth.get('grantTypes')) {
