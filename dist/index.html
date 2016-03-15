@@ -64,6 +64,11 @@
     <div class="container">
       <div class="row">
         <div class="col-xs-12">
+          <div class="navbar-header">
+            <a href="//www.clover.com" id="logo">
+              <img class="clover-logo" src="/assets/images/clover-horizontal-white-2014.svg" alt="clover logo">
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -71,8 +76,12 @@
   <div class="app-header">
     <div class="container">
       <div class="row">
-        <div class="col-xs-12">
-          <h1>REST API Reference <small>v3</small></h1>
+        <div class="col-xs-1">
+          <img class="app-header-icon" src="images/api-docs-icon.png" alt="Clover API Docs"/>
+        </div>
+        <div class="col-xs-11">
+          <h1 class="app-title">REST API Reference</h1>
+          <p class="version">Version 3</p>
         </div>
       </div>
     </div>
@@ -82,6 +91,8 @@
       <div class="col-xs-12">
         <div class="swagger-ui-wrap">
           <section class="c-box-filter">
+            <p><strong>Global Parameters</strong></p>
+            <hr />
             <form id='mId_selector api_selector'>
               <div class="col-xs-12 col-sm-4">
                 <label class="c-input-label" for="input_mId">Merchant ID (mID)</label>
@@ -111,13 +122,64 @@
       <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
     </div>
   </div>
+
   <footer>
     <div class="container">
-      <div class="row">
-        <div class="col-xs-12">
-        </div>
+    <!--
+    <div class="row footer-more-info row-bottom-zero">
+      <button type="button" class="visible-xs" data-toggle="collapse" data-target=".footer-collapse">
+         <h4>{{t "general.more_info"}} <i class="footer-collapse-button fa fa-chevron-right"></i></h4>
+      </button>
+    </div>
+    -->
+    <div class="row footer-collapse">
+      <div class="col-xs-12 col-sm-4">
+        <h4>About Us</h4>
+        <ul class="footer-links">
+          <li class="footer-link"><a href="/team">Team</a></li>
+          <li class="footer-link"><a href="/jobs">Jobs</a></li>
+          <li class="footer-link"><a href="/developers">Developers</a></li>
+          <li class="footer-link"><a href="http://clover-developers.blogspot.com">Developer Blog</a></li>
+          <li class="footer-link"><a href="/press">Press</a></li>
+        </ul>
+      </div>
+      <div class="col-xs-12 col-sm-4">
+        <h4>Support</h4>
+        <ul class="footer-links">
+          <li class="footer-link"><a href="https://help.clover.com/">Clover Help</a></li>
+          <li class="footer-link"><a href="/contact">Contact Us</a></li>
+          <li class="footer-link"><a href="/setup">Device Setup</a></li>
+        </ul>
+      </div>
+      <div class="col-xs-12 col-sm-4">
+        <h4>Terms</h4>
+        <ul class="footer-links">
+          <li class="footer-link"><a href="/terms">Terms</a></li>
+          <li class="footer-link"><a href="/privacy-policy">Privacy</a></li>
+          <li class="footer-link"><a href="/app-market-terms">App Market Terms</a></li>
+          <li class="footer-link"><a href="/app-market-policies">App Market Policies</a></li>
+          <li class="footer-link"><a href="/developer-agreement">Developer Agreement</a></li>
+          <li class="footer-link"><a href="/legal-guidelines">Developer Legal Guidelines</a></li>
+        </ul>
       </div>
     </div>
+
+    <div class="row">
+      <div class="clearfix"></div>
+      <hr />
+
+      <div class="col-xs-12 col-sm-5">
+        <ul class="footer-links">
+          <li class="footer-link-inline t__white">Find us on</li>
+          <li class="footer-link-inline t__white"><a class="footer-social-link" target="_blank" href="https://www.facebook.com/CloverNetworkInc"><i class="fa fa-facebook-square"></i></a></li>
+          <li class="footer-link-inline t__white"><a class="footer-social-link" target="_blank" href="https://plus.google.com/communities/108668649306307307912"><i class="fa fa-google-plus"></i></a></li>
+          <li class="footer-link-inline t__white"><a class="footer-social-link" target="_blank" href="https://twitter.com/cloverpos"><i class="fa fa-twitter"></i></a></li>
+          <li class="footer-link-inline t__white"><a class="footer-social-link" target="_blank" href="https://github.com/clover"><i class="fa fa-github-alt"></i></a></li>
+        </ul>
+        <p>Copyright 2016 Clover Network, Inc.</p>
+      </div>
+    </div>
+  </div>
   </footer>
 </body>
 </html>

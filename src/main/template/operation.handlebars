@@ -1,23 +1,26 @@
-<div class='heading'>
-  <h4>
-    <a href='#!/{{parentId}}/{{nickname}}' class="toggleOperation">{{{summary}}}</a>
-  </h4>
-  <ul class='options'>
-    <li>
-      <span class='http_method'>
-      <a href='#!/{{parentId}}/{{nickname}}' class="toggleOperation">{{method}}</a>
-      </span>
-      <span class='path'>
-      <a href='#!/{{parentId}}/{{nickname}}' class="toggleOperation">{{path}}</a>
-      </span>
-    </li>
-  </ul>
+<div class="heading row">
+  <div class="col-sm-6">
+    <h4 class="human-readable-name">
+      <a href='#!/{{parentId}}/{{nickname}}' class="toggleOperation">{{{summary}}}</a>
+    </h4>
+  </div>
+  <div class="col-sm-6 text-right options">
+    <span class='http_method'>
+    <a href='#!/{{parentId}}/{{nickname}}' class="toggleOperation">{{method}}</a>
+    </span>
+    <span class='path'>
+    <a href='#!/{{parentId}}/{{nickname}}' class="toggleOperation">{{path}}</a>
+    </span>
+  </div>
 </div>
-<div class='content' id='{{parentId}}_{{nickname}}_content' style='display:none'>
+<div class='content row' id='{{parentId}}_{{nickname}}_content' style='display:none'>
   {{#if notes}}
-  <h4>Implementation Notes</h4>
-  <p>{{{notes}}}</p>
+    <div class="col-sm-6">
+      <p>{{{notes}}}</p>
+    </div>
   {{/if}}
+</div>
+<div class="content">
   {{#oauth}}
   <div class="auth">
   <span class="api-ic ic-error"></span>{{/oauth}}
@@ -38,6 +41,8 @@
     <div style='margin:0;padding:0;display:inline'></div>
     {{#if parameters}}
     <h4>Parameters</h4>
+    <div class="row">
+    {{!--
     <table class='fullwidth'>
     <thead>
       <tr>
@@ -47,11 +52,12 @@
       <th style="width: 100px; max-width: 100px">Parameter Type</th>
       <th style="width: 220px; max-width: 230px">Data Type</th>
       </tr>
-    </thead>
-    <tbody class="operation-params">
+    </thead>--}}
+      <div class="col-sm-6 operation-params">
 
-    </tbody>
-    </table>
+      </div>
+    </div>
+    {{!--</table>--}}
     {{/if}}
     {{#if responseMessages}}
     <div style='margin:0;padding:0;display:inline'></div>
@@ -64,9 +70,9 @@
         <th>Response Model</th>
       </tr>
       </thead>
-      <tbody class="operation-status">
+      <div class="col-sm-6 operation-status">
       
-      </tbody>
+      </div>
     </table>
     {{/if}}
     {{#if type}}

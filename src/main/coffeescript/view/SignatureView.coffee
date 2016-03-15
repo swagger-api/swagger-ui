@@ -1,7 +1,7 @@
 class SignatureView extends Backbone.View
   events: {
-  'click a.description-link'       : 'switchToDescription'
-  'click a.snippet-link'           : 'switchToSnippet'
+  # 'click a.description-link'       : 'switchToDescription'
+  # 'click a.snippet-link'           : 'switchToSnippet'
   'mousedown .snippet'          : 'snippetToTextArea'
   'click span.expandable' : 'expansionFromJSON'
   }
