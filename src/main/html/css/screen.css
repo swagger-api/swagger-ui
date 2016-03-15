@@ -184,6 +184,7 @@
 .swagger-section .swagger-ui-wrap {
   line-height: 1;
   font-family: "Droid Sans", sans-serif;
+  min-width: 760px;
   max-width: 960px;
   margin-left: auto;
   margin-right: auto;
@@ -1180,18 +1181,122 @@
 }
 .swagger-section .oauth_submit {
   text-align: center;
+  display: inline-block;
+}
+.swagger-section .authorize-wrapper {
+  margin: 15px 0 10px;
+}
+.swagger-section .authorize-wrapper_operation {
+  float: right;
+}
+.swagger-section .authorize__btn:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.swagger-section .authorize__btn_operation:hover .authorize-scopes {
+  display: block;
+}
+.swagger-section .authorize-scopes {
+  position: absolute;
+  margin-top: 20px;
+  background: #FFF;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: none;
+  font-size: 13px;
+  max-width: 300px;
+  line-height: 30px;
+  color: black;
+  padding: 5px;
+}
+.swagger-section .authorize-scopes .authorize__scope {
+  text-decoration: none;
+}
+.swagger-section .authorize__btn_operation {
+  height: 18px;
+  vertical-align: middle;
+  display: inline-block;
+  background: url(../images/explorer_icons.png) no-repeat;
+}
+.swagger-section .authorize__btn_operation_login {
+  background-position: 0 0;
+  width: 18px;
+  margin-top: -6px;
+  margin-left: 4px;
+}
+.swagger-section .authorize__btn_operation_logout {
+  background-position: -30px 0;
+  width: 18px;
+  margin-top: -6px;
+  margin-left: 4px;
+}
+.swagger-section #auth_container {
+  color: #fff;
+  display: inline-block;
+  border: none;
+  padding: 5px;
+  width: 87px;
+  height: 13px;
+}
+.swagger-section #auth_container .authorize__btn {
+  color: #fff;
+}
+.swagger-section .auth_container {
+  padding: 0 0 10px;
+  margin-bottom: 5px;
+  border-bottom: solid 1px #CCC;
+  font-size: 0.9em;
+}
+.swagger-section .auth_container .auth__title {
+  color: #547f00;
+  font-size: 1.2em;
+}
+.swagger-section .auth_container .basic_auth__label {
+  display: inline-block;
+  width: 60px;
+}
+.swagger-section .auth_container .auth__description {
+  color: #999999;
+  margin-bottom: 5px;
+}
+.swagger-section .auth_container .auth__button {
+  margin-top: 10px;
+  height: 30px;
+}
+.swagger-section .auth_container .key_auth__field {
+  margin: 5px 0;
+}
+.swagger-section .auth_container .key_auth__label {
+  display: inline-block;
+  width: 60px;
 }
 .swagger-section .api-popup-dialog {
-  z-index: 10000;
   position: absolute;
+  display: none;
+}
+.swagger-section .api-popup-dialog-wrapper {
+  z-index: 1000;
   width: 500px;
   background: #FFF;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  display: none;
   font-size: 13px;
   color: #777;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.swagger-section .api-popup-dialog-shadow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  background-color: gray;
+  z-index: 900;
 }
 .swagger-section .api-popup-dialog .api-popup-title {
   font-size: 24px;
@@ -1204,6 +1309,10 @@
 .swagger-section .api-popup-dialog .error-msg {
   padding-left: 5px;
   padding-bottom: 5px;
+}
+.swagger-section .api-popup-dialog .api-popup-content {
+  max-height: 500px;
+  overflow-y: auto;
 }
 .swagger-section .api-popup-dialog .api-popup-authbtn {
   height: 30px;
@@ -1297,7 +1406,9 @@
 }
 .swagger-section #header {
   background-color: #89bf04;
-  padding: 14px;
+  padding: 9px 14px 19px 14px;
+  height: 23px;
+  min-width: 775px;
 }
 .swagger-section #input_baseUrl {
   width: 400px;
@@ -1308,9 +1419,8 @@
   float: right;
 }
 .swagger-section #api_selector .input {
-  display: block;
+  display: inline-block;
   clear: none;
-  float: left;
   margin: 0 10px 0 0;
 }
 .swagger-section #api_selector input {
@@ -1321,7 +1431,8 @@
 .swagger-section #input_apiKey {
   width: 200px;
 }
-.swagger-section #explore {
+.swagger-section #explore,
+.swagger-section #auth_container .authorize__btn {
   display: block;
   text-decoration: none;
   font-weight: bold;
@@ -1336,16 +1447,24 @@
   -khtml-border-radius: 4px;
   border-radius: 4px;
 }
-.swagger-section #explore:hover {
+.swagger-section #explore:hover,
+.swagger-section #auth_container .authorize__btn:hover {
   background-color: #547f00;
 }
 .swagger-section #header #logo {
   font-size: 1.5em;
   font-weight: bold;
   text-decoration: none;
-  background: transparent url(../images/logo_small.png) no-repeat left center;
-  padding: 20px 0 20px 40px;
   color: white;
+}
+.swagger-section #header #logo .logo__img {
+  display: block;
+  float: left;
+  margin-top: 2px;
+}
+.swagger-section #header #logo .logo__title {
+  display: inline-block;
+  padding: 5px 0 0 10px;
 }
 .swagger-section #content_message {
   margin: 10px 15px;
@@ -1362,4 +1481,8 @@
 }
 .swagger-section .swagger-expand:before {
   content: "+";
+}
+.swagger-section .error {
+  outline-color: #cc0000;
+  background-color: #f2dede;
 }
