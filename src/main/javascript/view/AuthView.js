@@ -51,6 +51,8 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
 
         if (this.authsCollectionView.collection.isValid()) {
             this.authorize();
+        } else {
+            this.authsCollectionView.highlightInvalid();
         }
     },
 

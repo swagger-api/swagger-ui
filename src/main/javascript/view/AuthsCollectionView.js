@@ -10,6 +10,7 @@ SwaggerUi.Views.AuthsCollectionView = Backbone.View.extend({
         this.collection = new SwaggerUi.Collections.AuthsCollection(opts.data);
 
         this.$innerEl = $('<div>');
+        this.authViews = [];
     },
 
     render: function () {
@@ -23,22 +24,30 @@ SwaggerUi.Views.AuthsCollectionView = Backbone.View.extend({
     },
 
     renderOneAuth: function (authModel) {
-        var authEl, authView;
+        var authViewEl, authView, authViewName;
         var type = authModel.get('type');
 
         if (type === 'apiKey') {
-            authView = 'ApiKeyAuthView';
+            authViewName = 'ApiKeyAuthView';
         } else if (type === 'basic' && this.$innerEl.find('.basic_auth_container').length === 0) {
-            authView = 'BasicAuthView';
+            authViewName = 'BasicAuthView';
         } else if (type === 'oauth2') {
-            authView = 'Oauth2View';
+            authViewName = 'Oauth2View';
         }
 
-        if (authView) {
-            authEl = new SwaggerUi.Views[authView]({model: authModel, router: this.router}).render().el;
+        if (authViewName) {
+            authView = new SwaggerUi.Views[authViewName]({model: authModel, router: this.router});
+            authViewEl = authView.render().el;
+            this.authViews.push(authView);
         }
 
-        this.$innerEl.append(authEl);
+        this.$innerEl.append(authViewEl);
+    },
+
+    highlightInvalid: function () {
+        this.authViews.forEach(function (view) {
+            view.highlightInvalid();
+        }, this);
     }
 
 });

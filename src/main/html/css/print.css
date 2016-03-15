@@ -1193,6 +1193,25 @@
   text-decoration: underline;
   cursor: pointer;
 }
+.swagger-section .authorize__btn_operation:hover .authorize-scopes {
+  display: block;
+}
+.swagger-section .authorize-scopes {
+  position: absolute;
+  margin-top: 20px;
+  background: #FFF;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: none;
+  font-size: 13px;
+  max-width: 300px;
+  line-height: 30px;
+  color: black;
+  padding: 5px;
+}
+.swagger-section .authorize-scopes .authorize__scope {
+  text-decoration: none;
+}
 .swagger-section .authorize__btn_operation {
   height: 18px;
   vertical-align: middle;

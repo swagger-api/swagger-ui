@@ -29,11 +29,26 @@ this["Handlebars"]["templates"]["auth_button_operation"] = Handlebars.template({
   return "        authorize__btn_operation_login\n";
   },"3":function(depth0,helpers,partials,data) {
   return "        authorize__btn_operation_logout\n";
-  },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  },"5":function(depth0,helpers,partials,data) {
+  var stack1, buffer = "        <ul class=\"authorize-scopes\">\n";
+  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.scopes : depth0), {"name":"each","hash":{},"fn":this.program(6, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "        </ul>\n";
+},"6":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "                <li class=\"authorize__scope\" title=\""
+    + escapeExpression(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"description","hash":{},"data":data}) : helper)))
+    + "\">"
+    + escapeExpression(((helper = (helper = helpers.scope || (depth0 != null ? depth0.scope : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"scope","hash":{},"data":data}) : helper)))
+    + "</li>\n";
+},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var stack1, buffer = "<div class=\"authorize__btn authorize__btn_operation\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isLogout : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.program(3, data),"data":data});
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "\">\n</div>\n";
+  buffer += "\">\n";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.scopes : depth0), {"name":"if","hash":{},"fn":this.program(5, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "</div>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["auth_button"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   return "<a class='authorize__btn' href=\"#\">Authorize</a>\n";
@@ -19161,6 +19176,7 @@ window.SwaggerUi.utils = {
         var auths = Object.assign({}, window.swaggerUi.api.authSchemes || window.swaggerUi.api.securityDefinitions);
         var oauth2Arr = [];
         var authsArr = [];
+        var scopes = [];
         var utils = window.SwaggerUi.utils;
 
         if (!Array.isArray(security)) { return null; }
@@ -19181,6 +19197,7 @@ window.SwaggerUi.utils = {
                             }
                         }
                         singleOauth2Security[key].scopes = utils.parseOauth2Scopes(singleOauth2Security[key].scopes);
+                        scopes = _.merge(scopes, singleOauth2Security[key].scopes);
                     } else {
                         singleSecurity[key] = Object.assign({}, auths[key]);
                     }
@@ -19188,6 +19205,7 @@ window.SwaggerUi.utils = {
                     if (item[key].type === 'oauth2') {
                         singleOauth2Security[key] = Object.assign({}, item[key]);
                         singleOauth2Security[key].scopes = utils.parseOauth2Scopes(singleOauth2Security[key].scopes);
+                        scopes = _.merge(scopes, singleOauth2Security[key].scopes);
                     } else {
                         singleSecurity[key] = item[key];
                     }
@@ -19205,7 +19223,8 @@ window.SwaggerUi.utils = {
 
         return {
             auths : authsArr,
-            oauth2: oauth2Arr
+            oauth2: oauth2Arr,
+            scopes: scopes
         };
     },
 
@@ -19251,6 +19270,10 @@ SwaggerUi.Views.ApiKeyAuthView = Backbone.View.extend({ // TODO: append this to 
         'change .input_apiKey_entry': 'apiKeyChange'
     },
 
+    selectors: {
+        apikeyInput: '.input_apiKey_entry'
+    },
+
     template: Handlebars.templates.apikey_auth,
 
     initialize: function(opts) {
@@ -19266,12 +19289,21 @@ SwaggerUi.Views.ApiKeyAuthView = Backbone.View.extend({ // TODO: append this to 
 
     apiKeyChange: function (e) {
         var val = $(e.target).val();
+        if (val) {
+            this.$(this.selectors.apikeyInput).removeClass('error');
+        }
 
         this.model.set('value', val);
     },
 
     isValid: function () {
         return this.model.validate();
+    },
+
+    highlightInvalid: function () {
+        if (!this.isValid()) {
+            this.$(this.selectors.apikeyInput).addClass('error');
+        }
     }
 
 });
@@ -19443,6 +19475,7 @@ SwaggerUi.Views.AuthsCollectionView = Backbone.View.extend({
         this.collection = new SwaggerUi.Collections.AuthsCollection(opts.data);
 
         this.$innerEl = $('<div>');
+        this.authViews = [];
     },
 
     render: function () {
@@ -19456,22 +19489,30 @@ SwaggerUi.Views.AuthsCollectionView = Backbone.View.extend({
     },
 
     renderOneAuth: function (authModel) {
-        var authEl, authView;
+        var authViewEl, authView, authViewName;
         var type = authModel.get('type');
 
         if (type === 'apiKey') {
-            authView = 'ApiKeyAuthView';
+            authViewName = 'ApiKeyAuthView';
         } else if (type === 'basic' && this.$innerEl.find('.basic_auth_container').length === 0) {
-            authView = 'BasicAuthView';
+            authViewName = 'BasicAuthView';
         } else if (type === 'oauth2') {
-            authView = 'Oauth2View';
+            authViewName = 'Oauth2View';
         }
 
-        if (authView) {
-            authEl = new SwaggerUi.Views[authView]({model: authModel, router: this.router}).render().el;
+        if (authViewName) {
+            authView = new SwaggerUi.Views[authViewName]({model: authModel, router: this.router});
+            authViewEl = authView.render().el;
+            this.authViews.push(authView);
         }
 
-        this.$innerEl.append(authEl);
+        this.$innerEl.append(authViewEl);
+    },
+
+    highlightInvalid: function () {
+        this.authViews.forEach(function (view) {
+            view.highlightInvalid();
+        }, this);
     }
 
 });
@@ -19529,6 +19570,8 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
 
         if (this.authsCollectionView.collection.isValid()) {
             this.authorize();
+        } else {
+            this.authsCollectionView.highlightInvalid();
         }
     },
 
@@ -19689,6 +19732,15 @@ SwaggerUi.Views.BasicAuthView = Backbone.View.extend({
         'change .auth_input': 'inputChange'
     },
 
+    selectors: {
+        usernameInput: '.basic_auth__username',
+        passwordInput: '.basic_auth__password'
+    },
+
+    cls: {
+        error: 'error'
+    },
+
     template: Handlebars.templates.basic_auth,
 
     render: function(){
@@ -19702,13 +19754,26 @@ SwaggerUi.Views.BasicAuthView = Backbone.View.extend({
         var val = $el.val();
         var attr = $el.prop('name');
 
+        if (val) {
+            $el.removeClass(this.cls.error);
+        }
+
         this.model.set(attr, val);
     },
 
     isValid: function () {
         return this.model.validate();
-    }
+    },
 
+    highlightInvalid: function () {
+        if (!this.model.get('username')) {
+            this.$(this.selectors.usernameInput).addClass(this.cls.error);
+        }
+
+        if (!this.model.get('password')) {
+            this.$(this.selectors.passwordInput).addClass(this.cls.error);
+        }
+    }
 });
 'use strict';
 
@@ -20232,7 +20297,14 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       var authsModel = SwaggerUi.utils.parseSecurityDefinitions(this.model.security);
 
       authsModel.isLogout = !_.isEmpty(window.swaggerUi.api.clientAuthorizations.authz);
-      this.authView = new SwaggerUi.Views.AuthButtonView({data: authsModel, router: this.router, isOperation: true});
+      this.authView = new SwaggerUi.Views.AuthButtonView({
+        data: authsModel,
+        router: this.router,
+        isOperation: true,
+        model: {
+          scopes: authsModel.scopes
+        }
+      });
       this.$('.authorize-wrapper').append(this.authView.render().el);
     }
 
