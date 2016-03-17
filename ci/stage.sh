@@ -6,4 +6,4 @@ popd > /dev/null
 
 source $root/ci/vars.sh
 
-rm -f $root/dist
+rm -rf $root/dist
