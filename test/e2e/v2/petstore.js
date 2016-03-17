@@ -18,6 +18,7 @@ var elements = [
 ];
 
 var specPath = helpers.parseSpecFilename(__filename);
+specPath = specPath.replace(new RegExp('\\\\', 'g'), '/');
 
 describe('swagger 2.0 spec tests', function () {
   this.timeout(40 * 1000);
