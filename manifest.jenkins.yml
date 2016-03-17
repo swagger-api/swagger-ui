@@ -1,0 +1,8 @@
+applications:
+- name: pz-swagger
+  host: pz-swagger
+  buildpack: staticfile_buildpack
+  domain: stage.geointservices.io
+  memory: 512M
+  instances: 1
+  timeout: 180
