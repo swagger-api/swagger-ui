@@ -48,6 +48,9 @@ Handlebars.registerHelper('renderTextParam', function(param) {
         }
         result = '<input class=\'' + parameterClass + '\' minlength=\'' + (param.required ? 1 : 0) + '\'';
         result += ' name=\'' + param.name +'\' placeholder=\'' + (param.required ? '(required)' : '') + '\'' + idAtt + dataVendorExtensions;
+        if(param.pattern) {
+            result += ' pattern=\'' + param.pattern + '\' ';
+        }
         result += ' type=\'' + type + '\' value=\'' + defaultValue + '\'/>';
     }
     return new Handlebars.SafeString(result);
