@@ -142,7 +142,7 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
   },
 
   toggleParameterSnippet: function () {
-    var contentType = this.$('[name=parameterContentType]').val();
+    var contentType = this.$('[name=parameterContentType]').val() || '';
 
     this.toggleSnippet(contentType);
   },
