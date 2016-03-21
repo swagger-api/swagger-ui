@@ -23,6 +23,8 @@
     "font-awesome": "^4.5.0",
     "handlebars": "~1.0.10",
     "less": "~2.5.3",
+    "select2": "^4.0.2",
+    "selectize": "^0.12.1",
     "swagger-client": "2.0.31"
   }
 }

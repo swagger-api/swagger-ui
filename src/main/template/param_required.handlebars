@@ -1,5 +1,13 @@
-<td class='code required'>{{name}}</td>
-<td>
+<div class="row">
+  <div class="col-sm-3">
+    <label class="code required c-input-label" for="textInput">{{name}}</label>
+    {{#if isBody}}
+			<div class="model-signature"></div>
+		{{else}}
+			<div class="data-type"></div>
+		{{/if}}
+	</div>
+  <div class="col-sm-9">
 	{{#if isBody}}
 		{{#if isFile}}
 			<input type="file" name='{{name}}'/>
@@ -16,22 +24,18 @@
 		{{#if isFile}}
 			<input class='parameter' class='required' type='file' name='{{name}}'/>
 		{{else}}
+			<label class="c-input-label">{{{description}}}</label>
 			{{#if defaultValue}}
-				<input class='c-input-field parameter required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='{{defaultValue}}'/>
+				<input class='c-input-field parameter required' minlength='1' name='{{name}}' placeholder='{{{paramType}}}' type='text' value='{{defaultValue}}'/>
 			{{else}}
-				<input class='c-input-field parameter required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value=''/>
+				<input class='c-input-field parameter required' minlength='1' name='{{name}}' placeholder='{{{paramType}}}' type='text' value=''/>
 			{{/if}}
 		{{/if}}
 	{{/if}}
-</td>
-<td>
-	<strong>{{{description}}}</strong>
-</td>
-<td>{{{paramType}}}</td>
-<td>
-	{{#if isBody}}
-		<span class="model-signature"></span>
-	{{else}}
-		<span class="data-type"></span>
-	{{/if}}
-</td>
+	</div>
+</div>
+<div class="row">
+  <div class="col-sm-10">
+  	{{{paramType}}}
+  </div>
+</div>

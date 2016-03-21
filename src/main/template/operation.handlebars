@@ -1,16 +1,8 @@
 <div class="heading row">
-  <div class="col-sm-6">
+  <div class="col-sm-12">
     <h4 class="human-readable-name">
       <a href='#!/{{parentId}}/{{nickname}}' class="toggleOperation">{{{summary}}}</a>
     </h4>
-  </div>
-  <div class="col-sm-6 text-right options">
-    <span class='http_method'>
-    <a href='#!/{{parentId}}/{{nickname}}' class="toggleOperation">{{method}}</a>
-    </span>
-    <span class='path'>
-    <a href='#!/{{parentId}}/{{nickname}}' class="toggleOperation">{{path}}</a>
-    </span>
   </div>
 </div>
 <div class='content row' id='{{parentId}}_{{nickname}}_content' style='display:none'>
@@ -19,6 +11,16 @@
       <p>{{{notes}}}</p>
     </div>
   {{/if}}
+</div>
+<div class="row">
+  <div class="col-sm-12 options">
+    <span class='http_method'>
+    <a href='#!/{{parentId}}/{{nickname}}' class="toggleOperation">{{method}}</a>
+    </span>
+    <span class='path'>
+    <a href='#!/{{parentId}}/{{nickname}}' class="toggleOperation">{{path}}</a>
+    </span>
+  </div>
 </div>
 <div class="content">
   {{#oauth}}

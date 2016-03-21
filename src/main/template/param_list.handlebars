@@ -4,10 +4,53 @@
     <input class="c-input-field t-item-name" type="text" id="textInput" />
   </div>
 </div>
+<div class="row">
+  <div class="col-sm-10">
+    <select {{#isArray this}} multiple='multiple'{{/isArray}} class='parameter' name='{{name}}'>
+      {{#if required}}
+      {{else}}
+        {{#if defaultValue}}
+        {{else}}
+          {{#isArray this}}
+          {{else}}
+            <option selected="" value=''></option>
+          {{/isArray}}
+        {{/if}}
+      {{/if}}
+      {{#each allowableValues.descriptiveValues}}
+        {{#if isDefault}}
+          <option selected="" value='{{value}}'>{{value}} (default)</option>
+        {{else}}
+          <option value='{{value}}'>{{value}}</option>
+        {{/if}}
+      {{/each}}
+    </select>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-10">
+    <p>{{{description}}}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-10">
+    <p>{{{paramType}}}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-10">
+    {{#if isBody}}
+      <span class="model-signature"></span>
+    {{else}}
+      <span class="data-type"></span>
+    {{/if}}
+  </div>
+</div>
 
+{{!--
 <td class='code'>{{name}}</td>
 <td>
-  <input {{#isArray this}} multiple='multiple'{{/isArray}} class='parameter selectized' name='{{name}}'>
+  <select {{#isArray this}} multiple='multiple'{{/isArray}} class='parameter' name='{{name}}'>
     {{#if required}}
     {{else}}
       {{#if defaultValue}}
@@ -36,3 +79,4 @@
     <span class="data-type"></span>
   {{/if}}
 </td>
+--}}

@@ -1,26 +1,27 @@
+{{!-- Body Post Params --}}
 <div class="row">
-	<div class="col-sm-10">
-		<label class="code c-input-label" for="textInput">{{name}}</label>
-		<input class="c-input-field t-item-name" type="text" id="textInput" />
+	<div class="col-sm-3">
+		<div class="panel panel-primary">
+			<label class="code c-input-label" for="textInput">{{name}}</label>
+			<div class="parameter-content-type" />
+		</div>
 	</div>
-</div>
 {{#if isBody}}
-	<div class="row">
-		<div class="col-sm-10">
+	<div class="col-sm-9">
+		<div class="panel panel-warning">
 			{{#if isFile}}
 				<label class="code c-input-label" for="textInput">{{name}}</label>
-				<input class="c-input-field t-item-name" type="text" id="textInput" />
 			{{else}}
 				{{#if defaultValue}}
-					<textarea class='body-textarea' name='{{name}}'>{{defaultValue}}</textarea>
+					<textarea class='c-input-textarea body-textarea' name='{{name}}'>{{defaultValue}}</textarea>
 				{{else}}
-					<textarea class='body-textarea' name='{{name}}'></textarea>
-					<br />
-					<div class="parameter-content-type" />
+					<textarea class='c-input-textarea body-textarea' name='{{name}}'></textarea>
 				{{/if}}
 			{{/if}}
 		</div>
 	</div>
+</div>
+</div>
 {{else}}
 	<div class="row">
 		<div class="col-sm-6">
@@ -32,16 +33,14 @@
 		</div>
 	</div>
 {{/if}}
-<div class="row">
-	<div class="col-ms-10">
-		<p>{{{description}}}</p>
-		<p>{{{paramType}}}</p>
-		{{#if isBody}}
-			<span class='model-signature'></span>
-		{{else}}
-			<span class='data-type'></span>
-		{{/if}}
-	</div>
+<div class="panel panel-success">
+	<p>{{{description}}}</p>
+	<p>{{{paramType}}}</p>
+	{{#if isBody}}
+		<span class='model-signature'></span>
+	{{else}}
+		<span class='data-type'></span>
+	{{/if}}
 </div>
 
 {{!--

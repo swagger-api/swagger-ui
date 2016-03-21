@@ -29,7 +29,7 @@ class SignatureView extends Backbone.View
   # handler for show signature
   switchToDescription: (e) ->
     e?.preventDefault()
-    $(".snippet", $(@el)).hide()
+    $(".snippet", $(@el)).show()
     $(".description", $(@el)).show()
     $('.description-link', $(@el)).addClass('selected')
     $('.snippet-link', $(@el)).removeClass('selected')
@@ -37,7 +37,7 @@ class SignatureView extends Backbone.View
   # handler for show sample
   switchToSnippet: (e) ->
     e?.preventDefault()
-    $(".description", $(@el)).hide()
+    $(".description", $(@el)).show()
     $(".snippet", $(@el)).show()
     $('.snippet-link', $(@el)).addClass('selected')
     $('.description-link', $(@el)).removeClass('selected')

@@ -20,21 +20,11 @@
   <script src='/api_docs/lib/swagger.js' type='text/javascript'></script>
   <script src='/api_docs/swagger-ui.js' type='text/javascript'></script>
   <script src='/api_docs/lib/highlight.7.3.pack.js' type='text/javascript'></script>
-  <link rel="stylesheet" type="text/css" href="selectize.css" />
-  <script type="text/javascript" src="selectize.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.full.min.js"></script>
   <script>
-  $(function() {
-    $('select').selectize({
-      plugins: ['remove_button'],
-      delimiter: ',',
-      persist: false,
-      create: function(input) {
-        return {
-          value: input,
-          text: input
-        }
-      }
-    });
+  $(document).ready(function() {
+    $("select.param-choice").select2();
   });
   </script>
 

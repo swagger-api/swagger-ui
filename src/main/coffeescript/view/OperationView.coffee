@@ -43,7 +43,7 @@ class OperationView extends Backbone.View
 
   addParameterViews: ->
     for param in @model.get("parameterModels")
-      paramView = new ParameterView({model: param, tagName: 'tr'})
+      paramView = new ParameterView({model: param, tagName: 'div'})
       $('.operation-params', $(@el)).append paramView.render().el
 
 

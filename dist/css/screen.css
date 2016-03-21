@@ -16963,3 +16963,13 @@ header.section-header {
   font-size: 12px;
   margin-top: -20px;
 }
+.http_method a,
+.path a {
+  font-family: "Roboto Mono", "Source Code Pro", "Anonymous Pro", Consolas, Monaco, monospace;
+  font-size: 18px;
+  border-bottom: 0;
+}
+.http_method a:hover,
+.path a:hover {
+  border-bottom: 0;
+}
