@@ -57,10 +57,10 @@ class ParameterView extends Backbone.View
 
     if isParam
       parameterContentTypeView = new ParameterContentTypeView({model: contentTypeModel})
-      $('.parameter-content-type', $(@el)).append parameterContentTypeView.render().el
+      $('.parameter-content-type', $(@el)).append(parameterContentTypeView.render().el)
     else
       responseContentTypeView = new ResponseContentTypeView({model: contentTypeModel})
-      $('.response-content-type', $(@el)).append responseContentTypeView.render().el
+      $('.response-content-type', $(@el)).append(responseContentTypeView.render().el)
 
   addChoiceView: (currentValue) ->
     # Render a query choice

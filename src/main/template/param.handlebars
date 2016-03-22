@@ -1,79 +1,41 @@
 {{!-- Body Post Params --}}
 <div class="row">
-	<div class="col-sm-3">
-		<div class="panel panel-primary">
-			<label class="code c-input-label" for="textInput">{{name}}</label>
-			<div class="parameter-content-type"></div>
-		</div>
-	</div>
-{{#if isBody}}
-	<div class="col-sm-9">
-		<div class="panel panel-warning">
-			{{#if isFile}}
-				<label class="code c-input-label" for="textInput">{{name}}</label>
-			{{else}}
-				{{#if defaultValue}}
-					<textarea class='c-input-textarea body-textarea' name='{{name}}'>{{defaultValue}}</textarea>
+	<div class="col-sm-6">
+		<div class="row">
+			<div class="col-sm-3">
+					<label class="code c-input-label" for="textInput">{{name}}</label>
+			</div>
+		{{#if isBody}}
+			<div class="col-sm-9">
+				{{#if isFile}}
+					<label class="code c-input-label" for="textInput">{{name}}</label>
 				{{else}}
-					<textarea class='c-input-textarea body-textarea' name='{{name}}'></textarea>
+					{{#if defaultValue}}
+						<textarea class='c-input-textarea body-textarea' name='{{name}}'>{{defaultValue}}</textarea>
+					{{else}}
+						<textarea class='c-input-textarea body-textarea' name='{{name}}'></textarea>
+					{{/if}}
+						<div class="parameter-content-type"></div>
 				{{/if}}
-			{{/if}}
+			</div>
+		{{else}}
+			<div class="col-sm-9">
+				{{#if defaultValue}}
+					<input class="c-input-text parameter" minlength='0' name='{{name}}' placeholder='' type='text' value='{{defaultValue}}'/>
+				{{else}}
+					<input class="c-input-text parameter" minlength='0' name='{{name}}' placeholder='' type='text' value=''/>
+				{{/if}}
+			</div>
+		{{/if}}
 		</div>
 	</div>
 </div>
-</div>
-{{else}}
-	<div class="row">
-		<div class="col-sm-6">
-			{{#if defaultValue}}
-				<input class="c-input-text parameter" minlength='0' name='{{name}}' placeholder='' type='text' value='{{defaultValue}}'/>
-			{{else}}
-				<input class="c-input-text parameter" minlength='0' name='{{name}}' placeholder='' type='text' value=''/>
-			{{/if}}
-		</div>
+<div class="row">
+	<div class="col-sm-12 model">
+		{{#if isBody}}
+			<span class='model-signature'></span>
+		{{else}}
+			<span class='data-type'></span>
+		{{/if}}
 	</div>
-{{/if}}
-<div class="panel panel-success">
-	<p>{{{description}}}</p>
-	<p>{{{paramType}}}</p>
-	{{#if isBody}}
-		<span class='model-signature'></span>
-	{{else}}
-		<span class='data-type'></span>
-	{{/if}}
 </div>
-
-{{!--
-<td class='code'>{{name}}</td>
-<td>
-	{{#if isBody}}
-		{{#if isFile}}
-			<input type='file' name='{{name}}'/>
-			<div class="parameter-content-type" />
-		{{else}}
-			{{#if defaultValue}}
-				<textarea class='body-textarea' name='{{name}}'>{{defaultValue}}</textarea>
-			{{else}}
-				<textarea class='body-textarea' name='{{name}}'></textarea>
-				<br />
-				<div class="parameter-content-type" />
-			{{/if}}
-		{{/if}}
-	{{else}}
-		{{#if defaultValue}}
-			<input class="c-input-text parameter" minlength='0' name='{{name}}' placeholder='' type='text' value='{{defaultValue}}'/>
-		{{else}}
-			<input class="c-input-text parameter" minlength='0' name='{{name}}' placeholder='' type='text' value=''/>
-		{{/if}}
-	{{/if}}
-</td>
-<td>{{{description}}}</td>
-<td>{{{paramType}}}</td>
-<td>
-	{{#if isBody}}
-		<span class='model-signature'></span>
-	{{else}}
-		<span class='data-type'></span>
-	{{/if}}
-</td>
---}}

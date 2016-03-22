@@ -1,22 +1,22 @@
 {{!-- Expand Fields --}}
 <div class="row">
-  <div class="col-sm-3 param-code">
-    <label class="code required c-input-label" for="textInput">{{name}}</label>
-  </div>
-  <div class="col-sm-9">
-    <form class='query-choices'></form>
-  </div>
-</div>
-<div class="row">
-  <div class="col-sm-3 param-type">
-    {{{paramType}}}
-  </div>
-  <div class="col-sm-9">
-  {{#if isBody}}
-    <span class='model-signature'></span>
-  {{else}}
-    <span class='data-type'></span>
-  {{/if}}
+  <div class="col-sm-6">
+    <div class="row">
+      <div class="col-sm-3 param-code">
+        <label class="code required c-input-label" for="textInput">{{name}}</label>
+        <div class="data-type">
+        {{#if isBody}}
+          <span class='model-signature'></span>
+        {{else}}
+          <span class='data-type'></span>
+        {{/if}}
+        </div>
+      </div>
+      <div class="col-sm-9">
+        <label class="c-input-label">{{{paramType}}}</label>
+        <form class='query-choices'></form>
+      </div>
+    </div>
   </div>
 </div>
 {{!--
