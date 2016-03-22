@@ -4,7 +4,7 @@ path        = require 'path'
 less        = require 'less'
 
 sourceFiles  = [
-  'SwaggerUi'
+  'SwaggerUiRouter'
   'model/Choices'
   'model/Expansions'
   'model/Filters'
@@ -14,7 +14,6 @@ sourceFiles  = [
   'model/Resource'
   'model/Api'
   'model/Type'
-  'view/HeaderView'
   'view/MainView'
   'view/ResourceView'
   'view/OperationView'
@@ -27,6 +26,7 @@ sourceFiles  = [
   'view/ParameterChoiceView'
   'view/NavView'
   'view/TypeView'
+  'view/GlobalParametersView'
 ]
 
 

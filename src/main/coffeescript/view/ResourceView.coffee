@@ -25,8 +25,8 @@ class ResourceView extends Backbone.View
 
 
   expandOperations: ->
-    $('li#resource_' + swaggerUi.escapeResourceName(@model.get('id'))).find('div.content').slideDown()
+    $('li#resource_' + swaggerUiRouter.escapeResourceName(@model.get('id'))).find('div.content').slideDown()
 
   collapseOperations: ->
-    $('li#resource_' + swaggerUi.escapeResourceName(@model.get('id'))).find('div.content').slideUp()
+    $('li#resource_' + swaggerUiRouter.escapeResourceName(@model.get('id'))).find('div.content').slideUp()
     

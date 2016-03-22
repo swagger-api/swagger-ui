@@ -1,7 +1,4 @@
-class SwaggerUi extends Backbone.Router
-
-  # Defaults
-  dom_id: "swagger_ui"
+class SwaggerUiRouter extends Backbone.Router
 
   # Attributes
   options: null
@@ -11,13 +8,6 @@ class SwaggerUi extends Backbone.Router
 
   # SwaggerUi accepts all the same options as SwaggerApi
   initialize: (options={}) ->
-    # Allow dom_id to be overridden
-    if options.dom_id?
-      @dom_id = options.dom_id
-      delete options.dom_id
-
-    # Create an empty div which contains the dom_id
-    $('body').append('<div id="' + @dom_id + '"></div>') if not $('#' + @dom_id)?
 
     @options = options
 
@@ -25,17 +15,6 @@ class SwaggerUi extends Backbone.Router
     @options.success = => @render()
     @options.progress = (d) => @showMessage(d)
     @options.failure = (d) => @onLoadFailure(d)
-
-    # Create view to handle the header inputs
-    @headerView = new HeaderView({el: $('#header')})
-
-    # Event handler for when the baseUrl/apiKey is entered by user
-    @headerView.on 'update-swagger-ui', (data) => @updateSwaggerUi(data)
-
-  # Event handler for when url/key is received from user
-  updateSwaggerUi: (data) ->
-    @options.url = data.url
-    @load()
 
   # Create an api and render
   load: ->
@@ -46,18 +25,17 @@ class SwaggerUi extends Backbone.Router
       url = @buildUrl(window.location.href.toString(), url)
 
     @options.url = url
-    @headerView.update(url)
 
     @api = new SwaggerApi(@options)
     @api.build()
 
   # This is bound to success handler for SwaggerApi
-  #  so it gets called when SwaggerApi completes loading
+  # so it gets called when SwaggerApi completes loading
   render:() ->
     @showMessage('Finished Loading Resource Information. Rendering Swagger UI...')
         # wrap swaggerApi in backbone model
     apiModel  = new Api(@api)
-    @mainView = new MainView({model: apiModel, el: $('#' + @dom_id)}).render()
+    @mainView = new MainView({model: apiModel, el: $('#swagger-ui-container')}).render()
     @showMessage()
     @options.onComplete(@api, @) if @options.onComplete
     setTimeout(
@@ -118,4 +96,4 @@ class SwaggerUi extends Backbone.Router
     resource.replace(/[!"#$%&'()*+,.\/:;<=>?@\[\\\]\^`{|}~]/g, "\\$&")
 
 
-window.SwaggerUi = SwaggerUi
+window.SwaggerUiRouter = SwaggerUiRouter
