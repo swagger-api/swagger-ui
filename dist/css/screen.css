@@ -16701,6 +16701,9 @@ hr.solid {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-style: normal;
 }
+.swagger-section h4.human-readable-name a {
+  border-bottom: 0;
+}
 .swagger-section .description span {
   font-family: "Roboto Mono", "Source Code Pro", "Anonymous Pro", Consolas, Monaco, monospace;
 }
