@@ -24,7 +24,6 @@
   <script src='lib/jsoneditor.min.js' type='text/javascript'></script>
   <script src='lib/marked.js' type='text/javascript'></script>
   <script src='lib/swagger-oauth.js' type='text/javascript'></script>
-  <script src='spec.js'></script>
 
   <!-- Some basic translations -->
   <!-- <script src='lang/translator.js' type='text/javascript'></script> -->
@@ -50,7 +49,6 @@
       }
       window.swaggerUi = new SwaggerUi({
         url: url,
-        spec: spec,
         dom_id: "swagger-ui-container",
         supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
         onComplete: function(swaggerApi, swaggerUi){
@@ -74,7 +72,6 @@
         },
         docExpansion: "none",
         jsonEditor: false,
-        // apisSorter: "alpha",
         defaultModelRendering: 'schema',
         showRequestHeaders: false
       });
