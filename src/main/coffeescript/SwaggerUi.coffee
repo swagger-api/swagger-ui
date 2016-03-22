@@ -86,6 +86,8 @@ class SwaggerUi extends Backbone.Router
 
   setUiLibraries: () ->
     $("select.param-choice").select2({
+      containerCssClass: 'tpx-select2-container',
+      dropdownCssClass: 'tpx-select2-drop',
       placeholder: "Select a query param",
       })
 

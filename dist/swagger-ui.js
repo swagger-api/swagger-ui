@@ -1535,6 +1535,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
     SwaggerUi.prototype.setUiLibraries = function() {
       return $("select.param-choice").select2({
+        containerCssClass: 'tpx-select2-container',
+        dropdownCssClass: 'tpx-select2-drop',
         placeholder: "Select a query param"
       });
     };
