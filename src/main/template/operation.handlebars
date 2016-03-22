@@ -20,7 +20,7 @@
   <div class="auth">
   <span class="api-ic ic-error"></span>{{/oauth}}
   {{#each oauth}}
-    <div id="api_information_panel" style="top: 526px; left: 776px; display: none;">
+    <div id="api_information_panel">
     {{#each this}}
       <div title='{{{this.description}}}'>{{this.scope}}</div>
     {{/each}}
@@ -35,28 +35,27 @@
   <form accept-charset='UTF-8' class='sandbox'>
     <div style='margin:0;padding:0;display:inline'></div>
     {{#if parameters}}
-    <h4>Parameters</h4>
     <div class="row">
-    {{!--
-    <table class='fullwidth'>
-    <thead>
-      <tr>
-      <th style="width: 100px; max-width: 100px">Parameter</th>
-      <th style="width: 310px; max-width: 310px">Value</th>
-      <th style="width: 200px; max-width: 200px">Description</th>
-      <th style="width: 100px; max-width: 100px">Parameter Type</th>
-      <th style="width: 220px; max-width: 230px">Data Type</th>
-      </tr>
-    </thead>--}}
-      <div class="col-sm-6 operation-params">
-
+      <div class="col-sm-12">
+        <h5>Parameters</h5>
       </div>
     </div>
-    {{!--</table>--}}
+    <div class="operation-params">
+
+    </div>
     {{/if}}
+    <div class="row">
+      <div class="col-sm-6">
+        <button class='c-button-secodary submit {{method}}' name='commit' type='button submit'>Submit {{method}}</button>
+      </div>
+    </div>
     {{#if responseMessages}}
     <div style='margin:0;padding:0;display:inline'></div>
-    <h4>Response Messages</h4>
+    <div class="row">
+      <div class="col-sm-12">
+        <h5>Response Messages</h5>
+      </div>
+    </div>
     <table class='fullwidth'>
       <thead>
       <tr>
@@ -71,23 +70,31 @@
     </table>
     {{/if}}
     {{#if type}}
-    <h4>Response Class</h4>
-    <p><span class="model-signature" /></p>
-    <br/>
+    <div class="row">
+      <div class="col-sm-12">
+        <h5>Response Class</h5>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <p><span class="model-signature" /></p>
+      </div>
+    </div>
     {{/if}}
     <div class='sandbox_header'>
-      <input class='submit {{method}}' name='commit' type='button' value='Submit {{method}}'/>
       <input class='response_hider' type='button' style='display:none' value='Hide Response' href='#'/>
     </div>
   </form>
-  <div class='response' style='display:none'>
-    <h4>Request URL</h4>
-    <div class='block request_url'></div>
-    <h4>Response Body</h4>
-    <div class='block response_body'></div>
-    <h4>Response Code</h4>
-    <div class='block response_code'></div>
-    <h4>Response Headers</h4>
-    <div class='block response_headers'></div>
+  <div class="row">
+    <div class='response col-sm-12' style='display:none'>
+      <h6>Request URL</h6>
+      <div class='block request_url'></div>
+      <h6>Response Body</h6>
+      <div class='block response_body'></div>
+      <h6>Response Code</h6>
+      <div class='block response_code'></div>
+      <h6>Response Headers</h6>
+      <div class='block response_headers'></div>
+    </div>
   </div>
 </div>

@@ -38,6 +38,7 @@ class SwaggerUiRouter extends Backbone.Router
     @mainView = new MainView({model: apiModel, el: $('#swagger-ui-container')}).render()
     @showMessage()
     @options.onComplete(@api, @) if @options.onComplete
+    @setUiLibraries()
     setTimeout(
       =>
         @checkShebang()
@@ -60,6 +61,13 @@ class SwaggerUiRouter extends Backbone.Router
       if base.indexOf( "/", base.length - 1 ) isnt -1
         return base + url
       return base + "/" + url
+
+  setUiLibraries: () ->
+    $("select.param-choice").select2({
+      containerCssClass: 'tpx-select2-container',
+      dropdownCssClass: 'tpx-select2-drop',
+      placeholder: "Select a query param",
+      })
 
   # Shows message on topbar of the ui
   showMessage: (data = '') ->

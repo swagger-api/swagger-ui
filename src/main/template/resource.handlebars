@@ -1,20 +1,22 @@
-<div class='heading'>
-  <h2>
-    <a href='#!/{{id}}'>{{name}}</a> {{#description}} {{/description}}{{{description}}}
-  </h2>
-  <ul class='options'>
-    <li>
-      <a href='#' class="collapse_button">
-        Hide Operations
-      </a>
-    </li>
-    <li>
-      <a href='#' class="expand_button">
-        Show Operations
-      </a>
-    </li>
-  </ul>
+<div class='heading row'>
+  <div class="col-sm-9">
+    <h2 class="resource-title">
+      <a href='#!/{{id}}'>{{name}}</a> {{#description}} {{{description}}} {{/description}}
+    </h2>
+  </div>
+  <div class='options col-sm-3 text-right'>
+    <button class="button__toggle" href='#' class="collapse_button">
+      <i class="fa fa-minus-square-o"></i>
+      Hide Operations
+    </button>
+    <button class="button__toggle hidden" href='#' class="expand_button">
+      <i class="fa fa-plus-square-o"></i>
+      Show Operations
+    </button>
+  </div>
 </div>
-<ul class='operationTypes' id='{{id}}_endpoint_list' style='display:block'>
+<div class="row">
+  <div class='operationTypes' id='{{id}}_endpoint_list' style='display:block'>
 
-</ul>
+  </div>
+</div>

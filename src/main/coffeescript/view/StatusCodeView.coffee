@@ -12,7 +12,7 @@ class StatusCodeView extends Backbone.View
         signature: swaggerUi.api.models[@model.responseModel].getMockSignature()
 
       responseModelView = new SignatureView({model: responseModel, tagName: 'div'})
-      $('.model-signature', @$el).append responseModelView.render().el
+      $('.model-signature', @$el).append(responseModelView.render().el)
     else
       $('.data-type', @$el).html ''
     @

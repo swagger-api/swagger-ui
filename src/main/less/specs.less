@@ -1,5 +1,5 @@
-/* @import "src/main/less/c-typography"; */
-/* @import "src/main/less/c-colors"; */
+@import "c-colors";
+@import "c-typography";
 
 @clover-gray-90: #404040;
 
@@ -8,6 +8,20 @@
 @delete-color: #a94446;
 
 .swagger-section {
+  h2.resource-title {
+    a {
+      text-transform: capitalize;
+    }
+  }
+  div.options {
+  }
+  h4.human-readable-name {
+    font-family: @sans-serif-font;
+    font-style: normal;
+    a {
+      border-bottom: 0;
+    }
+  }
     /*
     position: relative;
 
@@ -219,15 +233,16 @@
         }
         .propOptKey {
             font-style: italic;
-        }
+        }*/
         .description {
+            span {
+                font-family: @monospace-font;
+            }
             .strong {
                 font-weight: bold;
-                color: #000;
-                font-size: .9em;
+                color: @clover-gray-90;
             }
             div {
-                font-size: 0.9em;
                 line-height: 1.5em;
                 margin-left: 1em;
             }
@@ -238,10 +253,19 @@
         }
         .propName {
             font-weight: bold;
+            color: @clover-gray-90;
         }
-        .signature-container {
-            clear: both;
+        .propType {
+            
         }
+        .propOpt {
+            
+        }
+        .propOptKey {
+            color: @c-mtrl-gray-50;
+            text-transform: uppercase;
+        }
+        /*
     }
 
     .body-textarea {

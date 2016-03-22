@@ -1,26 +1,27 @@
+{{!-- Expand Fields --}}
 <div class="row">
-  <div class="col-sm-10">
-    <label class="code required c-input-label" for="textInput">{{name}}</label>
-    <input class='c-input-text parameter' minlength='0' name='{{name}}' placeholder='' type='text' disabled/>
+  <div class="col-sm-6">
+    <div class="row">
+      <div class="col-sm-3 param-code">
+        <label class="code required c-input-label" for="textInput">{{name}}</label>
+        <div class="data-type">
+        {{#if isBody}}
+          <span class='model-signature'></span>
+        {{else}}
+          <span class='data-type'></span>
+        {{/if}}
+        </div>
+      </div>
+      <div class="col-sm-9">
+        <label class="c-input-label">{{{paramType}}}</label>
+        <form class='query-choices'></form>
+      </div>
+    </div>
   </div>
 </div>
-	<form class='query-choices'></form>
+{{!--
 <div class="row">
-  <div class="col-sm-10">
+  <div class="col-sm-10 description">
     {{{description}}}
   </div>
-</div>
-<div class="row">
-  <div class="col-sm-10">
-    {{{paramType}}}
-  </div>
-</div>
-<div class="row">
-  <div class="col-sm-10">
-	{{#if isBody}}
-		<span class='model-signature'></span>
-	{{else}}
-		<span class='data-type'></span>
-	{{/if}}
-  </div>
-</div>
+</div>--}}
