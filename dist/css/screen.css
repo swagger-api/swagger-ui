@@ -16694,6 +16694,12 @@ hr.solid {
     }
     }*/
 }
+.swagger-section h2.resource-title a {
+  text-transform: capitalize;
+}
+.swagger-section div.options {
+  padding: 10px 0 16px 0;
+}
 .swagger-section .description span {
   font-family: "Roboto Mono", "Source Code Pro", "Anonymous Pro", Consolas, Monaco, monospace;
 }
