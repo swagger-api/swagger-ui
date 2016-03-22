@@ -55,12 +55,13 @@
       <th style="width: 220px; max-width: 230px">Data Type</th>
       </tr>
     </thead>--}}
-      <div class="col-sm-6 operation-params">
+        <div class="col-sm-6 operation-params">
 
+        </div>
       </div>
-    </div>
     {{!--</table>--}}
-    {{/if}}
+      {{/if}}
+      <input class='submit {{method}}' name='commit' type='button' value='Submit {{method}}'/>
     {{#if responseMessages}}
     <div style='margin:0;padding:0;display:inline'></div>
     <h4>Response Messages</h4>
@@ -83,7 +84,6 @@
     <br/>
     {{/if}}
     <div class='sandbox_header'>
-      <input class='submit {{method}}' name='commit' type='button' value='Submit {{method}}'/>
       <input class='response_hider' type='button' style='display:none' value='Hide Response' href='#'/>
     </div>
   </form>

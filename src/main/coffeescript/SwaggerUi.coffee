@@ -60,6 +60,7 @@ class SwaggerUi extends Backbone.Router
     @mainView = new MainView({model: apiModel, el: $('#' + @dom_id)}).render()
     @showMessage()
     @options.onComplete(@api, @) if @options.onComplete
+    @setUiLibraries()
     setTimeout(
       =>
         @checkShebang()
@@ -82,6 +83,11 @@ class SwaggerUi extends Backbone.Router
       if base.indexOf( "/", base.length - 1 ) isnt -1
         return base + url
       return base + "/" + url
+
+  setUiLibraries: () ->
+    $("select.param-choice").select2({
+      placeholder: "Select a query param",
+      })
 
   # Shows message on topbar of the ui
   showMessage: (data = '') ->

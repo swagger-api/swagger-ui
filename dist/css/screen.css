@@ -15739,8 +15739,6 @@ hr.solid {
 .swagger-section pre code span {
   font-family: "Roboto Mono", "Source Code Pro", Menlo, Monaco, Consolas, monospace;
 }
-/* @import "src/main/less/c-typography"; */
-/* @import "src/main/less/c-colors"; */
 .swagger-section {
   /*
     position: relative;
@@ -15953,29 +15951,8 @@ hr.solid {
         }
         .propOptKey {
             font-style: italic;
-        }
-        .description {
-            .strong {
-                font-weight: bold;
-                color: #000;
-                font-size: .9em;
-            }
-            div {
-                font-size: 0.9em;
-                line-height: 1.5em;
-                margin-left: 1em;
-            }
-            .stronger {
-                font-weight: bold;
-                color: #000;
-            }
-        }
-        .propName {
-            font-weight: bold;
-        }
-        .signature-container {
-            clear: both;
-        }
+        }*/
+  /*
     }
 
     .body-textarea {
@@ -16716,6 +16693,29 @@ hr.solid {
         }
     }
     }*/
+}
+.swagger-section .description span {
+  font-family: "Roboto Mono", "Source Code Pro", "Anonymous Pro", Consolas, Monaco, monospace;
+}
+.swagger-section .description .strong {
+  font-weight: bold;
+  color: #404040;
+}
+.swagger-section .description div {
+  line-height: 1.5em;
+  margin-left: 1em;
+}
+.swagger-section .description .stronger {
+  font-weight: bold;
+  color: #000;
+}
+.swagger-section .propName {
+  font-weight: bold;
+  color: #404040;
+}
+.swagger-section .propOptKey {
+  color: #858D90;
+  text-transform: uppercase;
 }
 .swagger-section .title {
   font-style: bold;
