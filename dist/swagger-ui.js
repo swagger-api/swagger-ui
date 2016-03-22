@@ -428,6 +428,18 @@ function program5(depth0,data) {
 
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['global_parameters'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<section class=\"c-box-filter\">\n  <p><strong>Global Parameters</strong></p>\n  <hr />\n  <form id='mId_selector api_selector'>\n    <div class=\"col-xs-12 col-sm-4\">\n      <label class=\"c-input-label\" for=\"input_mId\">Merchant ID (mID)</label>\n      <div class=\"input-group\">\n        <input class=\"c-input-field\" placeholder=\"\" id=\"input_mId\" name=\"input_mId\" type=\"text\"/>\n      </div>\n    </div>\n    <div class=\"col-xs-12 col-sm-4\">\n      <label class=\"c-input-label\" for=\"input_apiToken\">API Token</label>\n      <div class=\"input-group\">\n        <input class=\"c-input-field\" placeholder=\"\" id=\"input_apiToken\" name=\"apiKey\" type=\"text\"/>\n      </div>\n    </div>\n  </form>\n</section>";
+  });
+})();
+
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
 templates['main'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
@@ -482,7 +494,7 @@ function program6(depth0,data) {
   return buffer;
   }
 
-  buffer += "<div class=\"info\" id=\"api_info\">\n  ";
+  buffer += "<div id=\"global_params_container\"></div>\n</div>\n<div class=\"info\" id=\"api_info\">\n  ";
   stack1 = helpers['if'].call(depth0, depth0.info, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</div>\n<div class=\"col-xs-12 col-sm-3\">\n  <nav class=\"rest-api-sidebar hidden-print\">\n    <div>\n      <div id=\"main_nav_container\"></div>\n    </div>\n  </nav>\n</div>\n<div class=\"col-xs-12 col-sm-9\">\n  <div id=\"resources_container\">\n    <ul id=\"resources\" class=\"nav\">\n    </ul>\n  </div>\n</div>\n";
@@ -537,31 +549,20 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
 function program1(depth0,data) {
   
-  var buffer = "", stack1;
-  buffer += "\n    <div class=\"col-sm-6\">\n      <p>";
-  if (stack1 = helpers.notes) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.notes; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</p>\n    </div>\n  ";
-  return buffer;
-  }
-
-function program3(depth0,data) {
-  
   
   return "\n  <div class=\"auth\">\n  <span class=\"api-ic ic-error\"></span>";
   }
 
-function program5(depth0,data) {
+function program3(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n    <div id=\"api_information_panel\">\n    ";
-  stack1 = helpers.each.call(depth0, depth0, {hash:{},inverse:self.noop,fn:self.program(6, program6, data),data:data});
+  stack1 = helpers.each.call(depth0, depth0, {hash:{},inverse:self.noop,fn:self.program(4, program4, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n    </div>\n  ";
   return buffer;
   }
-function program6(depth0,data) {
+function program4(depth0,data) {
   
   var buffer = "", stack1, stack2;
   buffer += "\n      <div title='";
@@ -573,31 +574,31 @@ function program6(depth0,data) {
   return buffer;
   }
 
-function program8(depth0,data) {
+function program6(depth0,data) {
   
   
   return "</div>";
   }
 
-function program10(depth0,data) {
+function program8(depth0,data) {
   
   
   return "\n  <div class='access'>\n    <span class=\"api-ic ic-off\" title=\"click to authenticate\"></span>\n  </div>\n  ";
   }
 
-function program12(depth0,data) {
+function program10(depth0,data) {
   
   
   return "\n    <div class=\"row\">\n      <div class=\"col-sm-12\">\n        <h5>Parameters</h5>\n      </div>\n    </div>\n    <div class=\"operation-params\">\n\n    </div>\n    ";
   }
 
-function program14(depth0,data) {
+function program12(depth0,data) {
   
   
   return "\n    <div style='margin:0;padding:0;display:inline'></div>\n    <div class=\"row\">\n      <div class=\"col-sm-12\">\n        <h5>Response Messages</h5>\n      </div>\n    </div>\n    <table class='fullwidth'>\n      <thead>\n      <tr>\n        <th>HTTP Status Code</th>\n        <th>Reason</th>\n        <th>Response Model</th>\n      </tr>\n      </thead>\n      <div class=\"col-sm-6 operation-status\">\n      \n      </div>\n    </table>\n    ";
   }
 
-function program16(depth0,data) {
+function program14(depth0,data) {
   
   
   return "\n    <div class=\"row\">\n      <div class=\"col-sm-12\">\n        <h5>Response Class</h5>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-sm-12\">\n        <p><span class=\"model-signature\" /></p>\n      </div>\n    </div>\n    ";
@@ -615,18 +616,7 @@ function program16(depth0,data) {
   if (stack1 = helpers.summary) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.summary; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</a>\n    </h4>\n  </div>\n</div>\n<div class='content row' id='";
-  if (stack1 = helpers.parentId) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.parentId; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "_";
-  if (stack1 = helpers.nickname) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.nickname; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "_content' style='display:none'>\n  ";
-  stack1 = helpers['if'].call(depth0, depth0.notes, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</div>\n<div class=\"row\">\n  <div class=\"col-sm-12 options\">\n    <span class='http_method'>\n    <a href='#!/";
+  buffer += "</a>\n    </h4>\n  </div>\n</div>\n<div class=\"row\">\n  <div class=\"col-sm-12 options\">\n    <span class='http_method'>\n    <a href='#!/";
   if (stack1 = helpers.parentId) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.parentId; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -650,14 +640,28 @@ function program16(depth0,data) {
   if (stack1 = helpers.path) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.path; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</a>\n    </span>\n  </div>\n</div>\n<div class=\"content\">\n  ";
-  options = {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data};
+    + "</a>\n    </span>\n  </div>\n</div>\n<div class=\"content\" id='";
+  if (stack1 = helpers.parentId) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.parentId; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "_";
+  if (stack1 = helpers.nickname) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.nickname; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "_content' style='display:none'>\n  ";
+  options = {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data};
   if (stack1 = helpers.oauth) { stack1 = stack1.call(depth0, options); }
   else { stack1 = depth0.oauth; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if (!helpers.oauth) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n  ";
-  stack1 = helpers.each.call(depth0, depth0.oauth, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+  stack1 = helpers.each.call(depth0, depth0.oauth, {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n  ";
+  options = {hash:{},inverse:self.noop,fn:self.program(6, program6, data),data:data};
+  if (stack1 = helpers.oauth) { stack1 = stack1.call(depth0, options); }
+  else { stack1 = depth0.oauth; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if (!helpers.oauth) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n  ";
   options = {hash:{},inverse:self.noop,fn:self.program(8, program8, data),data:data};
@@ -665,14 +669,8 @@ function program16(depth0,data) {
   else { stack1 = depth0.oauth; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if (!helpers.oauth) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n  ";
-  options = {hash:{},inverse:self.noop,fn:self.program(10, program10, data),data:data};
-  if (stack1 = helpers.oauth) { stack1 = stack1.call(depth0, options); }
-  else { stack1 = depth0.oauth; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  if (!helpers.oauth) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n  <form accept-charset='UTF-8' class='sandbox'>\n    <div style='margin:0;padding:0;display:inline'></div>\n    ";
-  stack1 = helpers['if'].call(depth0, depth0.parameters, {hash:{},inverse:self.noop,fn:self.program(12, program12, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.parameters, {hash:{},inverse:self.noop,fn:self.program(10, program10, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n    <div class=\"row\">\n      <div class=\"col-sm-6\">\n        <button class='c-button-secondary submit ";
   if (stack1 = helpers.method) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
@@ -683,10 +681,10 @@ function program16(depth0,data) {
   else { stack1 = depth0.method; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "</button>\n      </div>\n    </div>\n    ";
-  stack1 = helpers['if'].call(depth0, depth0.responseMessages, {hash:{},inverse:self.noop,fn:self.program(14, program14, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.responseMessages, {hash:{},inverse:self.noop,fn:self.program(12, program12, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n    ";
-  stack1 = helpers['if'].call(depth0, depth0.type, {hash:{},inverse:self.noop,fn:self.program(16, program16, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.type, {hash:{},inverse:self.noop,fn:self.program(14, program14, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n    <div class='sandbox_header'>\n      <input class='response_hider' type='button' style='display:none' value='Hide Response' href='#'/>\n    </div>\n  </form>\n  <div class=\"row\">\n    <div class='response col-sm-12' style='display:none'>\n      <h6>Request URL</h6>\n      <div class='block request_url'></div>\n      <h6>Response Body</h6>\n      <div class='block response_body'></div>\n      <h6>Response Code</h6>\n      <div class='block response_code'></div>\n      <h6>Response Headers</h6>\n      <div class='block response_headers'></div>\n    </div>\n  </div>\n</div>\n";
   return buffer;
@@ -1419,39 +1417,30 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
 // Generated by CoffeeScript 1.5.0
 (function() {
-  var Api, Choices, ContentTypeView, Expansions, Filters, HeaderView, MainView, NavView, Operation, OperationView, Param, ParameterChoiceView, ParameterContentTypeView, ParameterView, Resource, ResourceView, ResponseContentTypeView, Signature, SignatureView, StatusCodeView, SwaggerUi, Type, TypeView,
+  var Api, Choices, ContentTypeView, Expansions, Filters, GlobalParametersView, MainView, NavView, Operation, OperationView, Param, ParameterChoiceView, ParameterContentTypeView, ParameterView, Resource, ResourceView, ResponseContentTypeView, Signature, SignatureView, StatusCodeView, SwaggerUiRouter, Type, TypeView,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  SwaggerUi = (function(_super) {
+  SwaggerUiRouter = (function(_super) {
 
-    __extends(SwaggerUi, _super);
+    __extends(SwaggerUiRouter, _super);
 
-    function SwaggerUi() {
-      SwaggerUi.__super__.constructor.apply(this, arguments);
+    function SwaggerUiRouter() {
+      SwaggerUiRouter.__super__.constructor.apply(this, arguments);
     }
 
-    SwaggerUi.prototype.dom_id = "swagger_ui";
+    SwaggerUiRouter.prototype.options = null;
 
-    SwaggerUi.prototype.options = null;
+    SwaggerUiRouter.prototype.api = null;
 
-    SwaggerUi.prototype.api = null;
+    SwaggerUiRouter.prototype.headerView = null;
 
-    SwaggerUi.prototype.headerView = null;
+    SwaggerUiRouter.prototype.mainView = null;
 
-    SwaggerUi.prototype.mainView = null;
-
-    SwaggerUi.prototype.initialize = function(options) {
+    SwaggerUiRouter.prototype.initialize = function(options) {
       var _this = this;
       if (options == null) {
         options = {};
-      }
-      if (options.dom_id != null) {
-        this.dom_id = options.dom_id;
-        delete options.dom_id;
-      }
-      if ($('#' + this.dom_id) == null) {
-        $('body').append('<div id="' + this.dom_id + '"></div>');
       }
       this.options = options;
       this.options.success = function() {
@@ -1460,23 +1449,12 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       this.options.progress = function(d) {
         return _this.showMessage(d);
       };
-      this.options.failure = function(d) {
+      return this.options.failure = function(d) {
         return _this.onLoadFailure(d);
       };
-      this.headerView = new HeaderView({
-        el: $('#header')
-      });
-      return this.headerView.on('update-swagger-ui', function(data) {
-        return _this.updateSwaggerUi(data);
-      });
     };
 
-    SwaggerUi.prototype.updateSwaggerUi = function(data) {
-      this.options.url = data.url;
-      return this.load();
-    };
-
-    SwaggerUi.prototype.load = function() {
+    SwaggerUiRouter.prototype.load = function() {
       var url, _ref;
       if ((_ref = this.mainView) != null) {
         _ref.clear();
@@ -1486,19 +1464,18 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         url = this.buildUrl(window.location.href.toString(), url);
       }
       this.options.url = url;
-      this.headerView.update(url);
       this.api = new SwaggerApi(this.options);
       return this.api.build();
     };
 
-    SwaggerUi.prototype.render = function() {
+    SwaggerUiRouter.prototype.render = function() {
       var apiModel,
         _this = this;
       this.showMessage('Finished Loading Resource Information. Rendering Swagger UI...');
       apiModel = new Api(this.api);
       this.mainView = new MainView({
         model: apiModel,
-        el: $('#' + this.dom_id)
+        el: $('#swagger-ui-container')
       }).render();
       this.showMessage();
       if (this.options.onComplete) {
@@ -1510,7 +1487,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       }, 400);
     };
 
-    SwaggerUi.prototype.buildUrl = function(base, url) {
+    SwaggerUiRouter.prototype.buildUrl = function(base, url) {
       var endOfPath, parts;
       log("base is " + base);
       if (url.indexOf("/") === 0) {
@@ -1533,7 +1510,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       }
     };
 
-    SwaggerUi.prototype.setUiLibraries = function() {
+    SwaggerUiRouter.prototype.setUiLibraries = function() {
       return $("select.param-choice").select2({
         containerCssClass: 'tpx-select2-container',
         dropdownCssClass: 'tpx-select2-drop',
@@ -1541,7 +1518,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       });
     };
 
-    SwaggerUi.prototype.showMessage = function(data) {
+    SwaggerUiRouter.prototype.showMessage = function(data) {
       if (data == null) {
         data = '';
       }
@@ -1550,7 +1527,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       return $('#message-bar').html(data);
     };
 
-    SwaggerUi.prototype.onLoadFailure = function(data) {
+    SwaggerUiRouter.prototype.onLoadFailure = function(data) {
       var val;
       if (data == null) {
         data = '';
@@ -1564,7 +1541,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       return val;
     };
 
-    SwaggerUi.prototype.checkShebang = function() {
+    SwaggerUiRouter.prototype.checkShebang = function() {
       var dom_id, fragments, li_content_dom_id, li_dom_id;
       fragments = $.param.fragment().split('/');
       fragments.shift();
@@ -1580,15 +1557,15 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       });
     };
 
-    SwaggerUi.prototype.escapeResourceName = function(resource) {
+    SwaggerUiRouter.prototype.escapeResourceName = function(resource) {
       return resource.replace(/[!"#$%&'()*+,.\/:;<=>?@\[\\\]\^`{|}~]/g, "\\$&");
     };
 
-    return SwaggerUi;
+    return SwaggerUiRouter;
 
   })(Backbone.Router);
 
-  window.SwaggerUi = SwaggerUi;
+  window.SwaggerUiRouter = SwaggerUiRouter;
 
   Choices = (function(_super) {
 
@@ -1996,68 +1973,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
   })(Backbone.Model);
 
-  HeaderView = (function(_super) {
-
-    __extends(HeaderView, _super);
-
-    function HeaderView() {
-      HeaderView.__super__.constructor.apply(this, arguments);
-    }
-
-    HeaderView.prototype.events = {
-      'click #show-pet-store-icon': 'showPetStore',
-      'click #show-wordnik-dev-icon': 'showWordnikDev',
-      'click #explore': 'showCustom',
-      'keyup #input_baseUrl': 'showCustomOnKeyup',
-      'keyup #input_apiKey': 'showCustomOnKeyup'
-    };
-
-    HeaderView.prototype.initialize = function() {};
-
-    HeaderView.prototype.showPetStore = function(e) {
-      return this.trigger('update-swagger-ui', {
-        url: "http://petstore.swagger.wordnik.com/api/api-docs"
-      });
-    };
-
-    HeaderView.prototype.showWordnikDev = function(e) {
-      return this.trigger('update-swagger-ui', {
-        url: "http://api.wordnik.com/v4/resources.json"
-      });
-    };
-
-    HeaderView.prototype.showCustomOnKeyup = function(e) {
-      if (e.keyCode === 13) {
-        return this.showCustom();
-      }
-    };
-
-    HeaderView.prototype.showCustom = function(e) {
-      if (e != null) {
-        e.preventDefault();
-      }
-      return this.trigger('update-swagger-ui', {
-        url: $('#input_baseUrl').val(),
-        apiKey: $('#input_apiKey').val()
-      });
-    };
-
-    HeaderView.prototype.update = function(url, apiKey, trigger) {
-      if (trigger == null) {
-        trigger = false;
-      }
-      $('#input_baseUrl').val(url);
-      if (trigger) {
-        return this.trigger('update-swagger-ui', {
-          url: url
-        });
-      }
-    };
-
-    return HeaderView;
-
-  })(Backbone.View);
-
   MainView = (function(_super) {
 
     __extends(MainView, _super);
@@ -2074,9 +1989,16 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       resources = {};
       this.resourceViewReferences = [];
       counter = 0;
+      this.addGlobalParameters();
       this.addResources();
       this.addNav();
       return this;
+    };
+
+    MainView.prototype.addGlobalParameters = function() {
+      return $('#global_params_container', $(this.el)).append(new GlobalParametersView({
+        model: this.model
+      }).render().el);
     };
 
     MainView.prototype.addResources = function() {
@@ -2163,11 +2085,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     ResourceView.prototype.expandOperations = function() {
-      return $('li#resource_' + swaggerUi.escapeResourceName(this.model.get('id'))).find('div.content').slideDown();
+      return $('li#resource_' + swaggerUiRouter.escapeResourceName(this.model.get('id'))).find('div.content').slideDown();
     };
 
     ResourceView.prototype.collapseOperations = function() {
-      return $('li#resource_' + swaggerUi.escapeResourceName(this.model.get('id'))).find('div.content').slideUp();
+      return $('li#resource_' + swaggerUiRouter.escapeResourceName(this.model.get('id'))).find('div.content').slideUp();
     };
 
     return ResourceView;
@@ -2570,7 +2492,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
     OperationView.prototype.toggleOperationContent = function() {
       var $elem;
-      $elem = $('#' + Docs.escapeResourceName(this.model.get("parentId")) + "_" + this.model.get("nickname") + "_content");
+      $elem = $('#' + swaggerUiRouter.escapeResourceName(this.model.get("parentId")) + "_" + this.model.get("nickname") + "_content");
       if ($elem.is(':visible')) {
         return $elem.slideUp();
       } else {
@@ -3098,6 +3020,42 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     return TypeView;
+
+  })(Backbone.View);
+
+  GlobalParametersView = (function(_super) {
+
+    __extends(GlobalParametersView, _super);
+
+    function GlobalParametersView() {
+      GlobalParametersView.__super__.constructor.apply(this, arguments);
+    }
+
+    GlobalParametersView.prototype.events = {
+      'change #input_mId': 'setId',
+      'change #input_apiToken': 'setToken'
+    };
+
+    GlobalParametersView.prototype.initialize = function() {};
+
+    GlobalParametersView.prototype.render = function() {
+      $(this.el).html(Handlebars.templates.global_parameters());
+      return this;
+    };
+
+    GlobalParametersView.prototype.setId = function(ev) {
+      return $('[name="mId"]').val($(ev.currentTarget).val());
+    };
+
+    GlobalParametersView.prototype.setToken = function(ev) {
+      var key;
+      key = $(ev.currentTarget).val();
+      if (key && key.trim() !== "") {
+        return window.authorizations.add("key", new ApiKeyAuthorization("Authorization", "Bearer " + key, "header"));
+      }
+    };
+
+    return GlobalParametersView;
 
   })(Backbone.View);
 

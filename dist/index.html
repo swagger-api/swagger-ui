@@ -23,43 +23,22 @@
   <script src='/api_docs/swagger-ui.js' type='text/javascript'></script>
   <script src='/api_docs/lib/highlight.7.3.pack.js' type='text/javascript'></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.full.min.js"></script>
-
+  
   <script type="text/javascript">
     $(document).ready(function() {
       if (!window.location.origin) {
         window.location.origin = window.location.protocol+"//"+window.location.host;
       }
       var baseURL = window.location.origin;
-      $('[id="overviewLink"]').attr("href","https://docs.clover.com/build/web-apps/web-api/");
-      $('[id="logo"]').attr("href",baseURL + "/docs");
-    });
+      $('[id="logo"]').attr("href",baseURL);
 
-    $(function () {
-      window.swaggerUi = new SwaggerUi({
-      url: window.location.origin + "/v3/api/api_docs",
-      dom_id: "swagger-ui-container",
-      supportedSubmitMethods: ['get', 'post', 'put', 'delete']
-    });
-
-    $('#input_mId').change(function() {
-      var id = $('#input_mId')[0].value;
-      $('[name="mId"]').each(function() {
-        $(this).val(id);
+      window.swaggerUiRouter = new SwaggerUiRouter({
+        url: window.location.origin + "/v3/api/api_docs",
+        dom_id: "swagger-ui-container",
+        supportedSubmitMethods: ['get', 'post', 'put', 'delete']
       });
+    window.swaggerUiRouter.load();
     });
-
-    $('#input_apiToken').change(function() {
-      var key = $('#input_apiToken')[0].value;
-      log("key: " + key);
-      if(key && key.trim() != "") {
-        log("added key " + key);
-        window.authorizations.add("key", new ApiKeyAuthorization("Authorization","Bearer " + key, "header"));
-      }
-    })
-    $('#mId_selector').submit(function() {return false});
-    $('#api_selector').submit(function() {return false});
-    window.swaggerUi.load();
-  });
   </script>
 </head>
 <body class="swagger-section" data-spy="scroll" data-target="#main_nav_container">
@@ -89,34 +68,9 @@
       </div>
     </div>
   </div>
-  <div class="container">
     <div class="row">
       <div class="col-xs-12">
-        <div class="swagger-ui-wrap">
-          <section class="c-box-filter">
-            <p><strong>Global Parameters</strong></p>
-            <hr />
-            <form id='mId_selector api_selector'>
-              <div class="col-xs-12 col-sm-4">
-                <label class="c-input-label" for="input_mId">Merchant ID (mID)</label>
-                <div class="input-group">
-                  <input class="c-input-field" placeholder="" id="input_mId" name="input_mId" type="text"/>
-                </div>
-              </div>
-              <div class="col-xs-12 col-sm-4">
-                <label class="c-input-label" for="input_apiToken">API Token</label>
-                <div class="input-group">
-                  <input class="c-input-field" placeholder="" id="input_apiToken" name="apiKey" type="text"/>
-                </div>
-              </div>
-            </form>
-          </section>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <p class="c-t-note"><i class="fa fa-exclamation-circle"></i>For detailed instructions regarding the V3 API, visit the <a id="overviewLink" href="">Overview</a> page.</p>
+        <p class="c-t-note"><i class="fa fa-exclamation-circle"></i>For detailed instructions regarding the V3 API, visit the <a id="overviewLink" href="https://docs.clover.com/build/web-apps/web-api/">Overview</a> page.</p>
       </div>
     </div>
   </div>

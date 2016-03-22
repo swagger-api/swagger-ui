@@ -11,11 +11,13 @@ class MainView extends Backbone.View
     @resourceViewReferences = []
     counter = 0
 
+    @addGlobalParameters()
     @addResources()
     @addNav()
     @
 
-
+  addGlobalParameters: ->
+    $('#global_params_container', $(@el)).append new GlobalParametersView({model: @model}).render().el
 
   addResources: ->
     for resource in @model.get("resourcesArray")

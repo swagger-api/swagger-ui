@@ -5,13 +5,6 @@
     </h4>
   </div>
 </div>
-<div class='content row' id='{{parentId}}_{{nickname}}_content' style='display:none'>
-  {{#if notes}}
-    <div class="col-sm-6">
-      <p>{{{notes}}}</p>
-    </div>
-  {{/if}}
-</div>
 <div class="row">
   <div class="col-sm-12 options">
     <span class='http_method'>
@@ -22,7 +15,7 @@
     </span>
   </div>
 </div>
-<div class="content">
+<div class="content" id='{{parentId}}_{{nickname}}_content' style='display:none'>
   {{#oauth}}
   <div class="auth">
   <span class="api-ic ic-error"></span>{{/oauth}}
