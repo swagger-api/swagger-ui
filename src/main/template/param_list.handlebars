@@ -4,7 +4,7 @@
 <td class='code'>{{name}}</td>
 {{/if}}
 <td>
-  <select {{#isArray this}} multiple='multiple'{{/isArray}} class={{#if required}}'parameter required'{{else}}'parameter'{{/if}} name='{{name}}'>
+  <select aria-label="{{name}}" {{#isArray this}} multiple='multiple'{{/isArray}} class={{#if required}}'parameter required'{{else}}'parameter'{{/if}} name='{{name}}'>
     {{#if required}}
     {{else}}
       {{#if default}}
