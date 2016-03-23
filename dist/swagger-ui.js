@@ -434,7 +434,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<section class=\"c-box-filter\">\n  <p><strong>Global Parameters</strong></p>\n  <hr />\n  <form id='mId_selector api_selector'>\n    <div class=\"col-xs-12 col-sm-4\">\n      <label class=\"c-input-label\" for=\"input_mId\">Merchant ID (mID)</label>\n      <div class=\"input-group\">\n        <input class=\"c-input-field\" placeholder=\"\" id=\"input_mId\" name=\"input_mId\" type=\"text\"/>\n      </div>\n    </div>\n    <div class=\"col-xs-12 col-sm-4\">\n      <label class=\"c-input-label\" for=\"input_apiToken\">API Token</label>\n      <div class=\"input-group\">\n        <input class=\"c-input-field\" placeholder=\"\" id=\"input_apiToken\" name=\"apiKey\" type=\"text\"/>\n      </div>\n    </div>\n  </form>\n</section>";
+  return "<section class=\"c-box-filter\">\n  <p><strong>Global Parameters</strong></p>\n  <hr />\n  <form id='mId_selector api_selector'>\n    <div class=\"row\">\n      <div class=\"col-xs-12 col-sm-5\">\n        <label class=\"c-input-label\" for=\"input_mId\">Merchant ID (mID)</label>\n        <div class=\"input-group\">\n          <input class=\"c-input-field\" placeholder=\"\" id=\"input_mId\" name=\"input_mId\" type=\"text\"/>\n        </div>\n      </div>\n      <div class=\"col-xs-12 col-sm-5\">\n        <label class=\"c-input-label\" for=\"input_apiToken\">API Token</label>\n        <div class=\"input-group\">\n          <input class=\"c-input-field\" placeholder=\"\" id=\"input_apiToken\" name=\"apiKey\" type=\"text\"/>\n        </div>\n      </div>\n    </div>\n  </form>\n</section>";
   });
 })();
 
@@ -448,21 +448,21 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   var buffer = "", stack1, stack2;
-  buffer += "\n    <div class=\"info_title\">"
+  buffer += "\n      <div class=\"info_title\">"
     + escapeExpression(((stack1 = ((stack1 = depth0.info),stack1 == null || stack1 === false ? stack1 : stack1.title)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "</div>\n    <div class=\"info_description\">";
+    + "</div>\n      <div class=\"info_description\">";
   stack2 = ((stack1 = ((stack1 = depth0.info),stack1 == null || stack1 === false ? stack1 : stack1.description)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1);
   if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += "</div>\n    ";
+  buffer += "</div>\n      ";
   stack2 = helpers['if'].call(depth0, ((stack1 = depth0.info),stack1 == null || stack1 === false ? stack1 : stack1.termsOfServiceUrl), {hash:{},inverse:self.noop,fn:self.program(2, program2, data),data:data});
   if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += "\n    ";
+  buffer += "\n      ";
   stack2 = helpers['if'].call(depth0, ((stack1 = depth0.info),stack1 == null || stack1 === false ? stack1 : stack1.contact), {hash:{},inverse:self.noop,fn:self.program(4, program4, data),data:data});
   if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += "\n    ";
+  buffer += "\n      ";
   stack2 = helpers['if'].call(depth0, ((stack1 = depth0.info),stack1 == null || stack1 === false ? stack1 : stack1.license), {hash:{},inverse:self.noop,fn:self.program(6, program6, data),data:data});
   if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += "\n  ";
+  buffer += "\n    ";
   return buffer;
   }
 function program2(depth0,data) {
@@ -494,10 +494,10 @@ function program6(depth0,data) {
   return buffer;
   }
 
-  buffer += "<div id=\"global_params_container\"></div>\n</div>\n<div class=\"info\" id=\"api_info\">\n  ";
+  buffer += "<div class=\"col-xs-12 col-sm-3\">\n  <nav class=\"rest-api-sidebar hidden-print\">\n      <div id=\"main_nav_container\"></div>\n  </nav>\n</div>\n<div class=\"col-xs-12 col-sm-9\">\n  <div class=\"row\">\n    <div class=\"col-xs-12\">\n      <p class=\"c-t-note\"><i class=\"fa fa-exclamation-circle\"></i>For detailed instructions regarding the V3 API, visit the <a id=\"overviewLink\" href=\"https://docs.clover.com/build/web-apps/web-api/\">Overview</a> page.</p>\n    </div>\n  </div>\n  <div id=\"global_params_container\"></div>\n  <div class=\"info\" id=\"api_info\">\n    ";
   stack1 = helpers['if'].call(depth0, depth0.info, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</div>\n<div class=\"col-xs-12 col-sm-3\">\n  <nav class=\"rest-api-sidebar hidden-print\">\n    <div>\n      <div id=\"main_nav_container\"></div>\n    </div>\n  </nav>\n</div>\n<div class=\"col-xs-12 col-sm-9\">\n  <div id=\"resources_container\">\n    <ul id=\"resources\" class=\"nav\">\n    </ul>\n  </div>\n</div>\n";
+  buffer += "\n  </div>\n  <div id=\"resources_container\">\n    <ul id=\"resources\" class=\"nav\">\n    </ul>\n  </div>\n</div>\n";
   return buffer;
   });
 })();
@@ -680,13 +680,13 @@ function program14(depth0,data) {
   if (stack1 = helpers.method) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.method; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</button>\n      </div>\n    </div>\n    ";
+    + "</button>\n        <div class='sandbox_header'>\n          <button class='response_hider' type='button' style='display:none' href='#'>Hide Response</button>\n        </div>\n        <div class=\"row\">\n          <div class='response col-sm-12' style='display:none'>\n            <h6>Request URL</h6>\n            <div class='block request_url'></div>\n            <h6>Response Body</h6>\n            <div class='block response_body'></div>\n            <h6>Response Code</h6>\n            <div class='block response_code'></div>\n            <h6>Response Headers</h6>\n            <div class='block response_headers'></div>\n          </div>\n        </div>\n      </div>\n    </div>\n    ";
   stack1 = helpers['if'].call(depth0, depth0.responseMessages, {hash:{},inverse:self.noop,fn:self.program(12, program12, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n    ";
   stack1 = helpers['if'].call(depth0, depth0.type, {hash:{},inverse:self.noop,fn:self.program(14, program14, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n    <div class='sandbox_header'>\n      <input class='response_hider' type='button' style='display:none' value='Hide Response' href='#'/>\n    </div>\n  </form>\n  <div class=\"row\">\n    <div class='response col-sm-12' style='display:none'>\n      <h6>Request URL</h6>\n      <div class='block request_url'></div>\n      <h6>Response Body</h6>\n      <div class='block response_body'></div>\n      <h6>Response Code</h6>\n      <div class='block response_code'></div>\n      <h6>Response Headers</h6>\n      <div class='block response_headers'></div>\n    </div>\n  </div>\n</div>\n";
+  buffer += "\n  </form>\n</div>\n";
   return buffer;
   });
 })();
@@ -1062,7 +1062,7 @@ function program3(depth0,data) {
   if (stack1 = helpers.paramType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</label>\n        <form class='query-choices'></form>\n      </div>\n    </div>\n  </div>\n</div>\n";
+  buffer += "</label>\n        <form class='query-choices'></form>\n      </div>\n    </div>\n  </div>\n</div>";
   return buffer;
   });
 })();
@@ -1362,11 +1362,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, functionType="function";
 
 
-  buffer += "<div>\n  <ul class=\"signature-nav\">\n    <li><a class=\"description-link\" href=\"#\">Model</a></li>\n    <li><a class=\"snippet-link\" href=\"#\">Model Schema</a></li>\n  </ul>\n<div>\n\n<div class=\"signature-container row\">\n  <div class=\"description col-sm-6\">\n      ";
+  buffer += "<div class=\"signature-container row\">\n  <div class=\"description col-sm-6\">\n  <h6>Model</h6>\n      ";
   if (stack1 = helpers.signature) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.signature; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n  </div>\n  <div class=\"snippet col-sm-6\">\n      <pre><code></code></pre>\n      <large class=\"notice\"></large>\n  </div>\n</div>\n\n";
+  buffer += "\n  </div>\n  <div class=\"snippet col-sm-6\">\n  <h6>Model Schema</h6>\n      <pre><code></code></pre>\n      <large class=\"notice\"></large>\n  </div>\n</div>\n";
   return buffer;
   });
 })();
@@ -1995,10 +1995,23 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       return this;
     };
 
+    MainView.prototype.addNav = function() {
+      var navView;
+      navView = new NavView({
+        model: this.model,
+        tagName: 'ul',
+        id: 'main_nav',
+        className: 'nav nav-pills nav-stacked'
+      });
+      $('#main_nav_container', $(this.el)).append(navView.render().el);
+      return this.setAffix();
+    };
+
     MainView.prototype.addGlobalParameters = function() {
-      return $('#global_params_container', $(this.el)).append(new GlobalParametersView({
+      $('#global_params_container', $(this.el)).append(new GlobalParametersView({
         model: this.model
       }).render().el);
+      return this.setAffixGlobalParameters();
     };
 
     MainView.prototype.addResources = function() {
@@ -2018,18 +2031,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       return _results;
     };
 
-    MainView.prototype.addNav = function() {
-      var navView;
-      navView = new NavView({
-        model: this.model,
-        tagName: 'ul',
-        id: 'main_nav',
-        className: 'nav nav-pills nav-stacked'
-      });
-      $('#main_nav_container', $(this.el)).append(navView.render().el);
-      return this.setAffix();
-    };
-
     MainView.prototype.clear = function() {
       return $(this.el).html('');
     };
@@ -2037,7 +2038,16 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     MainView.prototype.setAffix = function() {
       return $("nav.rest-api-sidebar", $(this.el)).affix({
         offset: {
-          top: 220,
+          top: 120,
+          bottom: 0
+        }
+      });
+    };
+
+    MainView.prototype.setAffixGlobalParameters = function() {
+      return $("#global_params_container", $(this.el)).affix({
+        offset: {
+          top: 160,
           bottom: 0
         }
       });

@@ -15653,7 +15653,6 @@ hr.solid {
   margin: 20px 0;
 }
 /* Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org> */
-/* v5 test*/
 .swagger-section {
   /* Clover - Tomorrow Night Theme */
   /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
@@ -15664,7 +15663,7 @@ hr.solid {
 .swagger-section .tomorrow-comment,
 .swagger-section pre .comment,
 .swagger-section pre .title {
-  color: #969896;
+  color: #515D61;
 }
 .swagger-section .tomorrow-red,
 .swagger-section pre .variable,
@@ -15679,7 +15678,7 @@ hr.solid {
 .swagger-section pre .css .id,
 .swagger-section pre .css .class,
 .swagger-section pre .css .pseudo {
-  color: #cc6666;
+  color: #FB6264;
 }
 .swagger-section .tomorrow-orange,
 .swagger-section pre .number,
@@ -15688,13 +15687,13 @@ hr.solid {
 .swagger-section pre .literal,
 .swagger-section pre .params,
 .swagger-section pre .constant {
-  color: #de935f;
+  color: #F4A96F;
 }
 .swagger-section .tomorrow-yellow,
 .swagger-section pre .class,
 .swagger-section pre .ruby .class .title,
 .swagger-section pre .css .rules .attribute {
-  color: #f0c674;
+  color: #EEDE77;
 }
 .swagger-section .tomorrow-green,
 .swagger-section pre .string,
@@ -15703,11 +15702,11 @@ hr.solid {
 .swagger-section pre .header,
 .swagger-section pre .ruby .symbol,
 .swagger-section pre .xml .cdata {
-  color: #b5bd68;
+  color: #6ADA99;
 }
 .swagger-section .tomorrow-aqua,
 .swagger-section pre .css .hexcolor {
-  color: #8abeb7;
+  color: #3ec0c4;
 }
 .swagger-section .tomorrow-blue,
 .swagger-section pre .function,
@@ -15718,26 +15717,27 @@ hr.solid {
 .swagger-section pre .perl .sub,
 .swagger-section pre .javascript .title,
 .swagger-section pre .coffeescript .title {
-  color: #81a2be;
+  color: #56B7E2;
 }
 .swagger-section .tomorrow-purple,
 .swagger-section pre .keyword,
 .swagger-section pre .javascript .function {
-  color: #b294bb;
+  color: #A175DB;
 }
 .swagger-section pre {
-  background: #253338;
+  background: #FCFCFC;
+  color: #253338;
 }
 .swagger-section pre code {
   display: block;
-  background: #253338;
-  color: #B1B6B8;
-  font-family: "Roboto Mono", "Source Code Pro", Menlo, Monaco, Consolas, monospace;
+  background: #FCFCFC;
+  color: #253338;
+  font-family: "Roboto Mono", "Source Code Pro", "Anonymous Pro", Consolas, Monaco, monospace;
   line-height: 1.5;
   padding: 10px;
 }
 .swagger-section pre code span {
-  font-family: "Roboto Mono", "Source Code Pro", Menlo, Monaco, Consolas, monospace;
+  font-family: "Roboto Mono", "Source Code Pro", "Anonymous Pro", Consolas, Monaco, monospace;
 }
 .swagger-section {
   /*
@@ -17677,11 +17677,17 @@ header.section-header {
 }
 .http_method a,
 .path a {
+  color: #404040;
   font-family: "Roboto Mono", "Source Code Pro", "Anonymous Pro", Consolas, Monaco, monospace;
-  font-size: 18px;
+  font-size: 16px;
   border-bottom: 0;
 }
 .http_method a:hover,
 .path a:hover {
   border-bottom: 0;
+}
+#global_params_container.affix {
+  width: 66%;
+  z-index: 5;
+  top: 0;
 }

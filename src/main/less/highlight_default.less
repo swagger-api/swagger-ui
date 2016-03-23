@@ -1,6 +1,6 @@
 /* Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org> */
-
-/* v5 test*/
+@import "c-colors";
+@import "c-typography";
 
 .swagger-section {
 
@@ -9,50 +9,51 @@
   /* Original theme - https://github.com/chriskempson/tomorrow-theme */
   /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
   .tomorrow-comment, pre .comment, pre .title {
-    color: #969896;
+    color: @c-mtrl-gray-60;
   }
 
   .tomorrow-red, pre .variable, pre .attribute, pre .tag, pre .regexp, pre .ruby .constant, pre .xml .tag .title, pre .xml .pi, pre .xml .doctype, pre .html .doctype, pre .css .id, pre .css .class, pre .css .pseudo {
-    color: #cc6666;
+    color: @c-mtrl-red-button;
   }
 
   .tomorrow-orange, pre .number, pre .preprocessor, pre .built_in, pre .literal, pre .params, pre .constant {
-    color: #de935f;
+    color: @c-mtrl-orange-button;
   }
 
   .tomorrow-yellow, pre .class, pre .ruby .class .title, pre .css .rules .attribute {
-    color: #f0c674;
+    color: @c-mtrl-yellow-button;
   }
 
   .tomorrow-green, pre .string, pre .value, pre .inheritance, pre .header, pre .ruby .symbol, pre .xml .cdata {
-    color: #b5bd68;
+    color: @c-mtrl-green-button;
   }
 
   .tomorrow-aqua, pre .css .hexcolor {
-    color: #8abeb7;
+    color: @clover-teal;
   }
 
   .tomorrow-blue, pre .function, pre .python .decorator, pre .python .title, pre .ruby .function .title, pre .ruby .title .keyword, pre .perl .sub, pre .javascript .title, pre .coffeescript .title {
-    color: #81a2be;
+    color: @c-mtrl-blue-button;
   }
 
   .tomorrow-purple, pre .keyword, pre .javascript .function {
-    color: #b294bb;
+    color: @c-mtrl-purple-button;
   }
   pre {
-    background: #253338;
+    background: @c-mtrl-lightgray-bg;
+    color: @c-mtrl-dark-text;
   }
   pre code {
     display: block;
-    background: #253338;
-    color: #B1B6B8;
-    font-family: "Roboto Mono", "Source Code Pro", Menlo, Monaco, Consolas, monospace;
+    background: @c-mtrl-lightgray-bg;
+    color: @c-mtrl-dark-text;
+    font-family: @monospace-font;
     line-height: 1.5;
     padding: 10px;
   }
   /* test v6 */
   pre code span {
-    font-family: "Roboto Mono", "Source Code Pro", Menlo, Monaco, Consolas, monospace;
+    font-family: @monospace-font;
   }
 
 }
