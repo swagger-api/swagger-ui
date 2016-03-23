@@ -535,7 +535,29 @@ Handlebars.registerHelper('renderTextParam', function(param) {
     }
     return new Handlebars.SafeString(result);
 });
+Handlebars.registerHelper('debug', function(optionalValue) {
+  console.log('Current Context');
+  console.log('====================');
+  console.log(this);
+ 
+  if (optionalValue) {
+    console.log('Value');
+    console.log('====================');
+    console.log(optionalValue);
+  }
+});
 
+Handlebars.registerHelper('get_unique_id', function(){
+    return Handlebars.unique_id;
+});
+
+Handlebars.registerHelper('new_unique_id', function(){
+    if (!Handlebars.unique_id){
+        Handlebars.unique_id = 0;
+    }
+    Handlebars.unique_id++;
+    return Handlebars.unique_id;
+});
 this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var stack1, helper, lambda=this.lambda, escapeExpression=this.escapeExpression, functionType="function", helperMissing=helpers.helperMissing, buffer = "    <h1 class=\"info_title\">"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.title : stack1), depth0))
@@ -1061,7 +1083,11 @@ this["Handlebars"]["templates"]["response_content_type"] = Handlebars.template({
 },"4":function(depth0,helpers,partials,data) {
   return "  <option value=\"application/json\">application/json</option>\n";
   },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, buffer = "<label for=\"responseContentType\"></label>\n<select name=\"responseContentType\">\n";
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<label class=\"responseContentType\" for=\"responseContentType"
+    + escapeExpression(((helper = (helper = helpers.new_unique_id || (depth0 != null ? depth0.new_unique_id : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"new_unique_id","hash":{},"data":data}) : helper)))
+    + "\"></label>\n<select name=\"responseContentType\" id=\"responseContentType"
+    + escapeExpression(((helper = (helper = helpers.get_unique_id || (depth0 != null ? depth0.get_unique_id : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"get_unique_id","hash":{},"data":data}) : helper)))
+    + "\">\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.produces : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.program(4, data),"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "</select>\n";
@@ -21946,7 +21972,7 @@ SwaggerUi.Views.ResponseContentTypeView = Backbone.View.extend({
   render: function(){
     $(this.el).html(Handlebars.templates.response_content_type(this.model));
 
-    $('label[for=responseContentType]', $(this.el)).text('Response Content Type');
+    $('label.responseContentType', $(this.el)).text('Response Content Type');
 
     return this;
   }

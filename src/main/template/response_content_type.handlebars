@@ -1,5 +1,5 @@
-<label for="responseContentType"></label>
-<select name="responseContentType">
+<label class="responseContentType" for="responseContentType{{ new_unique_id  }}"></label>
+<select name="responseContentType" id="responseContentType{{get_unique_id}}">
 {{#if produces}}
   {{#each produces}}
   <option value="{{{this}}}">{{{this}}}</option>
