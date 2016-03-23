@@ -5,7 +5,17 @@ class Resource extends Backbone.Model
     types = []
     typeModels = []
 
+    nicknameCounts = {}
     for swaggerOperation in @get('operationsArray')
+      # Use count to allow proper DOM ids for dupe operation nicknames
+      nickname = swaggerOperation.nickname
+      if nicknameCounts[nickname]
+        nicknameCounts[nickname] += 1
+        nickname = nickname + "_" + nicknameCounts[nickname]
+      else
+        nicknameCounts[nickname] = 1
+      swaggerOperation.nickname = nickname
+
       swaggerOperation.parentId = @get('id')
 
       # Use endpoint naming for type for consistancy

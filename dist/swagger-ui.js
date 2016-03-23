@@ -1835,13 +1835,22 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     }
 
     Resource.prototype.initialize = function() {
-      var operationsByType, swaggerOperation, type, typeModels, types, _i, _j, _len, _len1, _ref, _ref1;
+      var nickname, nicknameCounts, operationsByType, swaggerOperation, type, typeModels, types, _i, _j, _len, _len1, _ref, _ref1;
       operationsByType = {};
       types = [];
       typeModels = [];
+      nicknameCounts = {};
       _ref = this.get('operationsArray');
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         swaggerOperation = _ref[_i];
+        nickname = swaggerOperation.nickname;
+        if (nicknameCounts[nickname]) {
+          nicknameCounts[nickname] += 1;
+          nickname = nickname + "_" + nicknameCounts[nickname];
+        } else {
+          nicknameCounts[nickname] = 1;
+        }
+        swaggerOperation.nickname = nickname;
         swaggerOperation.parentId = this.get('id');
         type = this.getType(swaggerOperation);
         if (typeof operationsByType[type] === 'undefined') {
