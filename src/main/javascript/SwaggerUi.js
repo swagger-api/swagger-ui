@@ -44,6 +44,10 @@ window.SwaggerUi = Backbone.Router.extend({
       $('body').append('<div id="' + this.dom_id + '"></div>') ;
     }
 
+    if(! $('html').attr('lang')){
+      $('html').attr('lang','en');
+    }
+
     this.options = options;
 
     // set marked options
