@@ -21,6 +21,7 @@ Handlebars.registerHelper('renderTextParam', function(param) {
 
     if(isArray) {
         result = '<textarea class=\'body-textarea' + (param.required ? ' required' : '') + '\' name=\'' + param.name + '\'';
+        result += ' aria-label=\'' + param.name + '\'';
         result += ' placeholder=\'Provide multiple values in new lines' + (param.required ? ' (at least one required).' : '.') + '\'>';
         result += defaultValue + '</textarea>';
     } else {
@@ -30,6 +31,7 @@ Handlebars.registerHelper('renderTextParam', function(param) {
         }
         result = '<input class=\'' + parameterClass + '\' minlength=\'' + (param.required ? 1 : 0) + '\'';
         result += ' name=\'' + param.name +'\' placeholder=\'' + (param.required ? '(required)' : '') + '\'';
+        result += ' aria-label=\'' + param.name + '\'';
         result += ' type=\'' + type + '\' value=\'' + defaultValue + '\'/>';
     }
     return new Handlebars.SafeString(result);

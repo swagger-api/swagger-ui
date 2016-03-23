@@ -522,6 +522,7 @@ Handlebars.registerHelper('renderTextParam', function(param) {
 
     if(isArray) {
         result = '<textarea class=\'body-textarea' + (param.required ? ' required' : '') + '\' name=\'' + param.name + '\'';
+        result += ' aria-label=\'' + param.name + '\'';
         result += ' placeholder=\'Provide multiple values in new lines' + (param.required ? ' (at least one required).' : '.') + '\'>';
         result += defaultValue + '</textarea>';
     } else {
@@ -531,6 +532,7 @@ Handlebars.registerHelper('renderTextParam', function(param) {
         }
         result = '<input class=\'' + parameterClass + '\' minlength=\'' + (param.required ? 1 : 0) + '\'';
         result += ' name=\'' + param.name +'\' placeholder=\'' + (param.required ? '(required)' : '') + '\'';
+        result += ' aria-label=\'' + param.name + '\'';
         result += ' type=\'' + type + '\' value=\'' + defaultValue + '\'/>';
     }
     return new Handlebars.SafeString(result);
@@ -773,27 +775,38 @@ this["Handlebars"]["templates"]["param"] = Handlebars.template({"1":function(dep
   return buffer;
 },"5":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "				<textarea class='body-textarea' name='"
+  return "				<textarea aria-label="
+    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
+    + " class='body-textarea' name='"
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + "'>"
     + escapeExpression(((helper = (helper = helpers['default'] || (depth0 != null ? depth0['default'] : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"default","hash":{},"data":data}) : helper)))
     + "</textarea>\n        <br />\n        <div class=\"parameter-content-type\" />\n";
 },"7":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "				<textarea class='body-textarea' name='"
+  return "				<textarea aria-label="
+    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
+    + " class='body-textarea' name='"
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + "'></textarea>\n				<br />\n				<div class=\"parameter-content-type\" />\n";
 },"9":function(depth0,helpers,partials,data) {
   var stack1, buffer = "";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isFile : depth0), {"name":"if","hash":{},"fn":this.program(2, data),"inverse":this.program(10, data),"data":data});
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isFile : depth0), {"name":"if","hash":{},"fn":this.program(10, data),"inverse":this.program(12, data),"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer;
 },"10":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "			<input aria-label="
+    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
+    + " type=\"file\" name='"
+    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
+    + "'/>\n			<div class=\"parameter-content-type\" />\n";
+},"12":function(depth0,helpers,partials,data) {
   var stack1, helperMissing=helpers.helperMissing, buffer = "";
-  stack1 = ((helpers.renderTextParam || (depth0 && depth0.renderTextParam) || helperMissing).call(depth0, depth0, {"name":"renderTextParam","hash":{},"fn":this.program(11, data),"inverse":this.noop,"data":data}));
+  stack1 = ((helpers.renderTextParam || (depth0 && depth0.renderTextParam) || helperMissing).call(depth0, depth0, {"name":"renderTextParam","hash":{},"fn":this.program(13, data),"inverse":this.noop,"data":data}));
   if (stack1 != null) { buffer += stack1; }
   return buffer;
-},"11":function(depth0,helpers,partials,data) {
+},"13":function(depth0,helpers,partials,data) {
   return "";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<td class='code'>"
@@ -863,10 +876,12 @@ this["Handlebars"]["templates"]["param_list"] = Handlebars.template({"1":functio
   },"24":function(depth0,helpers,partials,data) {
   return "</strong>";
   },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, helper, helperMissing=helpers.helperMissing, functionType="function", escapeExpression=this.escapeExpression, buffer = "";
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.required : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.program(3, data),"data":data});
   if (stack1 != null) { buffer += stack1; }
-  buffer += "<td>\n  <select ";
+  buffer += "<td>\n  <select aria-label=\""
+    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
+    + "\" ";
   stack1 = ((helpers.isArray || (depth0 && depth0.isArray) || helperMissing).call(depth0, depth0, {"name":"isArray","hash":{},"fn":this.program(5, data),"inverse":this.noop,"data":data}));
   if (stack1 != null) { buffer += stack1; }
   buffer += " class=";
@@ -893,7 +908,9 @@ this["Handlebars"]["templates"]["param_list"] = Handlebars.template({"1":functio
 },"useData":true});
 this["Handlebars"]["templates"]["param_readonly"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "        <textarea class='body-textarea' readonly='readonly' name='"
+  return "        <textarea aria-label="
+    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
+    + " class='body-textarea' readonly='readonly' name='"
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + "'>"
     + escapeExpression(((helper = (helper = helpers['default'] || (depth0 != null ? depth0['default'] : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"default","hash":{},"data":data}) : helper)))
@@ -926,7 +943,9 @@ this["Handlebars"]["templates"]["param_readonly"] = Handlebars.template({"1":fun
 },"useData":true});
 this["Handlebars"]["templates"]["param_readonly_required"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "        <textarea class='body-textarea' readonly='readonly' placeholder='(required)' name='"
+  return "        <textarea aria-label="
+    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
+    + " class='body-textarea' readonly='readonly' placeholder='(required)' name='"
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + "'>"
     + escapeExpression(((helper = (helper = helpers['default'] || (depth0 != null ? depth0['default'] : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"default","hash":{},"data":data}) : helper)))
@@ -964,7 +983,9 @@ this["Handlebars"]["templates"]["param_required"] = Handlebars.template({"1":fun
   return buffer;
 },"2":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "			<input type=\"file\" name='"
+  return "			<input aria-label="
+    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
+    + " type=\"file\" name='"
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + "'/>\n";
 },"4":function(depth0,helpers,partials,data) {
@@ -974,14 +995,18 @@ this["Handlebars"]["templates"]["param_required"] = Handlebars.template({"1":fun
   return buffer;
 },"5":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "				<textarea class='body-textarea required' placeholder='(required)' name='"
+  return "				<textarea aria-label="
+    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
+    + " class='body-textarea required' placeholder='(required)' name='"
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + "'>"
     + escapeExpression(((helper = (helper = helpers['default'] || (depth0 != null ? depth0['default'] : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"default","hash":{},"data":data}) : helper)))
     + "</textarea>\n        <br />\n        <div class=\"parameter-content-type\" />\n";
 },"7":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "				<textarea class='body-textarea required' placeholder='(required)' name='"
+  return "				<textarea aria-label="
+    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
+    + " class='body-textarea required' placeholder='(required)' name='"
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + "'></textarea>\n				<br />\n				<div class=\"parameter-content-type\" />\n";
 },"9":function(depth0,helpers,partials,data) {
@@ -991,7 +1016,9 @@ this["Handlebars"]["templates"]["param_required"] = Handlebars.template({"1":fun
   return buffer;
 },"10":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "			<input class='parameter' class='required' type='file' name='"
+  return "			<input aria-label="
+    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
+    + " class='parameter' class='required' type='file' name='"
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + "'/>\n";
 },"12":function(depth0,helpers,partials,data) {
