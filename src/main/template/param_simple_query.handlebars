@@ -1,4 +1,3 @@
-{{!-- Expand Fields --}}
 <div class="row">
   <div class="col-sm-6">
     <div class="row">
@@ -14,14 +13,14 @@
       </div>
       <div class="col-sm-9">
         <label class="c-input-label">{{{paramType}}}</label>
-        <form class='query-choices'></form>
+        <form class='query-choices'>
+          <select class="param-choice c-dropdown-filter multi" multiple="multiple">
+            {{#each choices.attributes.allChoices}}
+              <option value="{{this}}">{{this}}</option>
+            {{/each}}
+          </select>
+        </form>
       </div>
     </div>
   </div>
 </div>
-{{!--
-<div class="row">
-  <div class="col-sm-10 description">
-    {{{description}}}
-  </div>
-</div>--}}

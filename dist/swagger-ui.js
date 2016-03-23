@@ -379,55 +379,6 @@ function program4(depth0,data) {
 
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
-templates['expansion_select'] = template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
-
-function program1(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n		<option selected value=\"";
-  if (stack1 = helpers.currentValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.currentValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\">";
-  if (stack1 = helpers.currentValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.currentValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</option>\n	";
-  return buffer;
-  }
-
-function program3(depth0,data) {
-  
-  
-  return "\n		<option disabled selected> -- select an option -- </option>\n	";
-  }
-
-function program5(depth0,data) {
-  
-  var buffer = "";
-  buffer += "\n		<option value=\""
-    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "\">"
-    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "</option>\n	";
-  return buffer;
-  }
-
-  buffer += "	";
-  stack1 = helpers['if'].call(depth0, depth0.currentValue, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n	";
-  stack1 = helpers.each.call(depth0, depth0.unexpandedFields, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  return buffer;
-  });
-})();
-
-(function() {
-  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
 templates['global_parameters'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
@@ -817,56 +768,6 @@ function program16(depth0,data) {
 
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
-templates['param_choice_expansion'] = template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
-
-function program1(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n		<option selected value=\"";
-  if (stack1 = helpers.currentValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.currentValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\">";
-  if (stack1 = helpers.currentValue) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.currentValue; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</option>\n	";
-  return buffer;
-  }
-
-function program3(depth0,data) {
-  
-  
-  return "\n	";
-  }
-
-function program5(depth0,data) {
-  
-  var buffer = "";
-  buffer += "\n		<option value=\""
-    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "\">"
-    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-    + "</option>\n	";
-  return buffer;
-  }
-
-  buffer += "<select class=\"param-choice c-dropdown-filter\" multiple=\"multiple\">\n	";
-  stack1 = helpers['if'].call(depth0, depth0.currentValue, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n	";
-  stack1 = helpers.each.call(depth0, depth0.unexpandedFields, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</select>\n";
-  return buffer;
-  });
-})();
-
-(function() {
-  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
 templates['param_choice_filter'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
@@ -887,6 +788,41 @@ function program1(depth0,data) {
   stack1 = helpers.each.call(depth0, depth0.allChoices, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</select>\n<select class='filter-operator'>\n	<option value='=='>==</option>\n	<option value='!='>!=</option>\n	<option value='>'>&gt;</option>\n	<option value='<'>&lt;</option>\n	<option value='>='>&gt;=</option>\n	<option value='<='>&lt;=</option>\n</select>\n<input class='filter-argument'>\n";
+  return buffer;
+  });
+})();
+
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['param_complex_query'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  
+  return "\n          <span class='model-signature'></span>\n        ";
+  }
+
+function program3(depth0,data) {
+  
+  
+  return "\n          <span class='data-type'></span>\n        ";
+  }
+
+  buffer += "<div class=\"row\">\n  <div class=\"col-sm-6\">\n    <div class=\"row\">\n      <div class=\"col-sm-3 param-code\">\n        <label class=\"code required c-input-label\" for=\"textInput\">";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</label>\n        <div class=\"data-type\">\n        ";
+  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n        </div>\n      </div>\n      <div class=\"col-sm-9\">\n        <label class=\"c-input-label\">";
+  if (stack1 = helpers.paramType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "</label>\n        <form class='query-choices'></form>\n      </div>\n    </div>\n  </div>\n</div>";
   return buffer;
   });
 })();
@@ -1028,41 +964,6 @@ function program20(depth0,data) {
   stack2 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(20, program20, data),fn:self.program(18, program18, data),data:data});
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\n  </div>\n</div>\n\n";
-  return buffer;
-  });
-})();
-
-(function() {
-  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
-templates['param_query'] = template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
-
-function program1(depth0,data) {
-  
-  
-  return "\n          <span class='model-signature'></span>\n        ";
-  }
-
-function program3(depth0,data) {
-  
-  
-  return "\n          <span class='data-type'></span>\n        ";
-  }
-
-  buffer += "\n<div class=\"row\">\n  <div class=\"col-sm-6\">\n    <div class=\"row\">\n      <div class=\"col-sm-3 param-code\">\n        <label class=\"code required c-input-label\" for=\"textInput\">";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</label>\n        <div class=\"data-type\">\n        ";
-  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n        </div>\n      </div>\n      <div class=\"col-sm-9\">\n        <label class=\"c-input-label\">";
-  if (stack1 = helpers.paramType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</label>\n        <form class='query-choices'></form>\n      </div>\n    </div>\n  </div>\n</div>\n";
   return buffer;
   });
 })();
@@ -1223,6 +1124,55 @@ function program19(depth0,data) {
   else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n		  </div>\n		</div>\n	</div>\n</div>";
+  return buffer;
+  });
+})();
+
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['param_simple_query'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, stack2, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  
+  return "\n          <span class='model-signature'></span>\n        ";
+  }
+
+function program3(depth0,data) {
+  
+  
+  return "\n          <span class='data-type'></span>\n        ";
+  }
+
+function program5(depth0,data) {
+  
+  var buffer = "";
+  buffer += "\n              <option value=\""
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "\">"
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "</option>\n            ";
+  return buffer;
+  }
+
+  buffer += "<div class=\"row\">\n  <div class=\"col-sm-6\">\n    <div class=\"row\">\n      <div class=\"col-sm-3 param-code\">\n        <label class=\"code required c-input-label\" for=\"textInput\">";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</label>\n        <div class=\"data-type\">\n        ";
+  stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n        </div>\n      </div>\n      <div class=\"col-sm-9\">\n        <label class=\"c-input-label\">";
+  if (stack1 = helpers.paramType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "</label>\n        <form class='query-choices'>\n          <select class=\"param-choice c-dropdown-filter multi\" multiple=\"multiple\">\n            ";
+  stack2 = helpers.each.call(depth0, ((stack1 = ((stack1 = depth0.choices),stack1 == null || stack1 === false ? stack1 : stack1.attributes)),stack1 == null || stack1 === false ? stack1 : stack1.allChoices), {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+  if(stack2 || stack2 === 0) { buffer += stack2; }
+  buffer += "\n          </select>\n        </form>\n      </div>\n    </div>\n  </div>\n</div>\n";
   return buffer;
   });
 })();
@@ -1611,12 +1561,12 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
     Expansions.prototype.initialize = function() {
       this.set("isExpansions", true);
-      this.parseChoices();
+      this.setupChoices();
       this.set("queryParamString", "");
       return this.update();
     };
 
-    Expansions.prototype.parseChoices = function() {
+    Expansions.prototype.setupChoices = function() {
       var choiceArray, choicesString, currentExpansions, field, _i, _len;
       choicesString = this.get("description");
       choiceArray = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]")).split(/[\s,]+/);
@@ -1627,6 +1577,16 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       }
       this.set("currentExpansions", currentExpansions);
       return this.set("allChoices", choiceArray);
+    };
+
+    Expansions.prototype.setAllExpansions = function(expandedArray) {
+      var field, _i, _len;
+      this.setupChoices();
+      for (_i = 0, _len = expandedArray.length; _i < _len; _i++) {
+        field = expandedArray[_i];
+        this.get("currentExpansions")[field] = true;
+      }
+      return this.update();
     };
 
     Expansions.prototype.setExpansion = function(field, expanded) {
@@ -2551,10 +2511,15 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       ParameterView.__super__.constructor.apply(this, arguments);
     }
 
+    ParameterView.prototype.events = {
+      'change select.multi': 'selectedChanged'
+    };
+
     ParameterView.prototype.initialize = function() {
-      if (this.model.get("isQuery")) {
-        this.listenTo(this.model.get("choices"), "change", this.updateChoices);
-        this.listenTo(this.model.get("choices"), "expansionFromJSON", this.expansionFromJSON);
+      this.choices = this.model.get("choices");
+      this.listenTo(this.choices, "expansionFromJSON", this.expansionFromJSON);
+      if (this.model.get("isFilter")) {
+        this.listenTo(this.choices, "change", this.updateChoices);
       }
       return Handlebars.registerHelper('isArray', function(param, opts) {
         if (param.type.toLowerCase() === 'array' || param.allowMultiple) {
@@ -2571,23 +2536,27 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       $(this.el).html(template(this.model.toJSON()));
       this.addSignatureView();
       this.addPerameterContentTypeView();
-      if (this.model.get("isQuery")) {
+      if (this.model.get("isFilter")) {
         this.addChoiceView();
       }
       return this;
     };
 
     ParameterView.prototype.template = function() {
-      if (this.model.get("isList")) {
-        return Handlebars.templates.param_list;
+      if (this.model.get("isFilter")) {
+        return Handlebars.templates.param_complex_query;
       } else {
-        if (this.model.get("isQuery")) {
-          return Handlebars.templates.param_query;
+        if (this.model.get("isExpand")) {
+          return Handlebars.templates.param_simple_query;
         } else {
-          if (this.model.get("required")) {
-            return Handlebars.templates.param_required;
+          if (this.model.get("isList")) {
+            return Handlebars.templates.param_list;
           } else {
-            return Handlebars.templates.param;
+            if (this.model.get("required")) {
+              return Handlebars.templates.param_required;
+            } else {
+              return Handlebars.templates.param;
+            }
           }
         }
       }
@@ -2631,7 +2600,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     ParameterView.prototype.addChoiceView = function(currentValue) {
       var choiceView;
       choiceView = new ParameterChoiceView({
-        model: this.model.get("choices"),
+        model: this.choices,
         currentValue: currentValue
       });
       if (currentValue) {
@@ -2642,7 +2611,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     ParameterView.prototype.updateChoices = function() {
-      $('input.parameter', $(this.el)).val(this.model.get("choices").get("queryParamString"));
+      $('input.parameter', $(this.el)).val(this.choices.get("queryParamString"));
       if (!$('.close', $(this.el)).last().prop('disabled')) {
         return this.addChoiceView();
       }
@@ -2668,7 +2637,23 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     ParameterView.prototype.expansionFromJSON = function(field) {
-      return this.addChoiceView(field);
+      var $select, value;
+      $select = $('select.multi', $(this.el));
+      value = $select.val();
+      if (!value) {
+        value = [];
+      }
+      value.push(field);
+      return $('select.multi', $(this.el)).val(value).trigger("change");
+    };
+
+    ParameterView.prototype.selectedChanged = function(ev) {
+      var selected;
+      selected = $(ev.currentTarget).val();
+      if (!selected) {
+        selected = [];
+      }
+      return this.choices.setAllExpansions(selected);
     };
 
     return ParameterView;
@@ -2866,10 +2851,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
     ParameterChoiceView.prototype.initialize = function(options) {
       this.options = options || {};
-      this.currentValue = options.currentValue;
-      if (this.model.get("isExpansions")) {
-        return this.listenTo(this.model, "change", this.updateSelect);
-      }
+      return this.currentValue = options.currentValue;
     };
 
     ParameterChoiceView.prototype.render = function() {
@@ -2885,30 +2867,12 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     ParameterChoiceView.prototype.template = function() {
-      if (this.model.get("isExpansions")) {
-        return Handlebars.templates.param_choice_expansion;
-      } else {
-        return Handlebars.templates.param_choice_filter;
-      }
+      return Handlebars.templates.param_choice_filter;
     };
 
     ParameterChoiceView.prototype.choiceChanged = function() {
       this.enableCloseButton();
-      if (this.model.get("isExpansions")) {
-        return this.updateExpansion();
-      } else {
-        return this.updateFilter();
-      }
-    };
-
-    ParameterChoiceView.prototype.updateExpansion = function() {
-      var choice;
-      choice = $('.param-choice', $(this.el)).val();
-      if (this.currentValue) {
-        this.model.setExpansion(this.currentValue, false);
-      }
-      this.currentValue = choice;
-      return this.model.setExpansion(this.currentValue, true);
+      return this.updateFilter();
     };
 
     ParameterChoiceView.prototype.updateFilter = function() {
@@ -2927,24 +2891,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       }
     };
 
-    ParameterChoiceView.prototype.updateSelect = function() {
-      var $select, data;
-      $select = $('select.param-choice', $(this.el));
-      $select.empty();
-      data = {
-        currentValue: this.currentValue,
-        unexpandedFields: this.model.get("unexpandedFields")
-      };
-      return $select.html(Handlebars.templates.expansion_select(data));
-    };
-
     ParameterChoiceView.prototype.removeThisView = function() {
       if (this.currentValue) {
-        if (this.model.get("isExpansions")) {
-          this.model.setExpansion(this.currentValue, false);
-        } else {
-          this.model.removeChoiceViewFilter(this.cid);
-        }
+        this.model.removeChoiceViewFilter(this.cid);
       }
       return this.remove();
     };

@@ -3,11 +3,11 @@ class Expansions extends Choices
   initialize: ->
     #extra attributes: queryParamString, currentExpansions, allchoices, expandedFields, unexpandedFields, isExpansions
     @set("isExpansions", true)
-    @parseChoices()
+    @setupChoices()
     @set("queryParamString", "")
     @update()
 
-  parseChoices: ->
+  setupChoices: ->
     #Based on current practice of having all choices in a string representation of an array in the description
     choicesString = @get("description")
     choiceArray = choicesString.slice(choicesString.indexOf("[") + 1, choicesString.indexOf("]")).split(/[\s,]+/)
@@ -17,6 +17,12 @@ class Expansions extends Choices
 
     @set("currentExpansions", currentExpansions)
     @set("allChoices", choiceArray)
+
+  setAllExpansions: (expandedArray) ->
+    @setupChoices()
+    for field in expandedArray
+      @get("currentExpansions")[field] = true
+    @update()
 
   setExpansion: (field, expanded) ->
     @get("currentExpansions")[field] = expanded

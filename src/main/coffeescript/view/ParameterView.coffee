@@ -1,8 +1,15 @@
 class ParameterView extends Backbone.View
+
+  events: {
+    'change select.multi': 'selectedChanged'
+  }
+
   initialize: ->
-    if @model.get("isQuery")
-      @listenTo(@model.get("choices"), "change", @updateChoices);
-      @listenTo(@model.get("choices"), "expansionFromJSON", @expansionFromJSON)
+    @choices = @model.get("choices")
+    @listenTo(@choices, "expansionFromJSON", @expansionFromJSON)
+    if @model.get("isFilter")
+      @listenTo(@choices, "change", @updateChoices);
+      
 
     Handlebars.registerHelper 'isArray',
       (param, opts) ->
@@ -20,22 +27,25 @@ class ParameterView extends Backbone.View
 
     # render each choice
 
-    if @model.get("isQuery")
+    if @model.get("isFilter")
       @addChoiceView()
     @
 
   # Return an appropriate template based on if the parameter is a list, readonly, required
   template: ->
-    if @model.get("isList")
-      Handlebars.templates.param_list
+    if @model.get("isFilter")
+      Handlebars.templates.param_complex_query
     else
-      if @model.get("isQuery")
-        Handlebars.templates.param_query
+      if @model.get("isExpand")
+        Handlebars.templates.param_simple_query
       else
-        if @model.get("required")
-          Handlebars.templates.param_required
+        if @model.get("isList")
+          Handlebars.templates.param_list
         else
-          Handlebars.templates.param
+          if @model.get("required")
+            Handlebars.templates.param_required
+          else
+            Handlebars.templates.param
 
 
   addSignatureView: ->
@@ -64,14 +74,14 @@ class ParameterView extends Backbone.View
 
   addChoiceView: (currentValue) ->
     # Render a query choice
-    choiceView = new ParameterChoiceView({model: @model.get("choices"), currentValue: currentValue})
+    choiceView = new ParameterChoiceView({model: @choices, currentValue: currentValue})
     if currentValue
       $('.query-choices div:last-child', $(@el)).before(choiceView.render().el)
     else
       $('.query-choices', $(@el)).append choiceView.render().el
 
   updateChoices: ->
-    $('input.parameter', $(@el)).val(@model.get("choices").get("queryParamString"))
+    $('input.parameter', $(@el)).val(@choices.get("queryParamString"))
     unless $('.close', $(@el)).last().prop('disabled')
       @addChoiceView()
 
@@ -86,14 +96,13 @@ class ParameterView extends Backbone.View
       @choiceViews[viewId].render()
 
   expansionFromJSON: (field) ->
-    @addChoiceView(field)
+    $select = $('select.multi', $(@el))
+    value = $select.val()
+    value = [] unless value
+    value.push(field)
+    $('select.multi', $(@el)).val(value).trigger("change")
 
-
-
-
-
-
-
-
-
-
+  selectedChanged: (ev) ->
+    selected = $(ev.currentTarget).val()
+    selected = [] unless selected
+    @choices.setAllExpansions(selected)
