@@ -216,4 +216,4 @@ gulp.task('serve-debug',['connect', 'watch-debug']);
 */
 gulp.task('debug', ['dist-smaps','copy'],function(){
     gulp.start('serve-debug');
-})
+});
