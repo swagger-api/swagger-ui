@@ -6,6 +6,8 @@ class Param extends Backbone.Model
         @set("choices", new Expansions({description: @get("description")}))
       else        
         @set("choices", new Filters({description: @get("description")}))
+    else
+      @set("queryParamString", "")
 
     type = @get("type") || @get("dataType")
     @set("isFile", true) if type.toLowerCase() == 'file'
@@ -31,6 +33,20 @@ class Param extends Backbone.Model
 
       signatureModel = new Signature(signatureAttributes)
     return signatureModel
+
+  setValue: (value) ->
+    if @get("isExpand")
+      value = [] unless value
+      @get("choices").setAllExpansions(value)
+    else
+      @set("queryParamString", value)
+
+
+  getQueryParamString: ->
+    if @get("choices")
+      return @get("choices").get("queryParamString")
+    else
+      return @get("queryParamString")
 
 
 

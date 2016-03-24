@@ -1,7 +1,7 @@
 class ParameterView extends Backbone.View
 
   events: {
-    'change select.multi': 'selectedChanged'
+    'change .param-value': 'valueChanged'
   }
 
   initialize: ->
@@ -96,13 +96,13 @@ class ParameterView extends Backbone.View
       @choiceViews[viewId].render()
 
   expansionFromJSON: (field) ->
-    $select = $('select.multi', $(@el))
+    $select = $('.param-value', $(@el))
     value = $select.val()
     value = [] unless value
     value.push(field)
-    $('select.multi', $(@el)).val(value).trigger("change")
+    $('.param-value', $(@el)).val(value).trigger("change")
 
-  selectedChanged: (ev) ->
-    selected = $(ev.currentTarget).val()
-    selected = [] unless selected
-    @choices.setAllExpansions(selected)
+  valueChanged: (ev) ->
+    value = $(ev.currentTarget).val()
+    @model.setValue(value)
+    
