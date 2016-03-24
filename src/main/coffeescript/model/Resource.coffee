@@ -5,7 +5,17 @@ class Resource extends Backbone.Model
     types = []
     typeModels = []
 
+    nicknameCounts = {}
     for swaggerOperation in @get('operationsArray')
+      # Use count to allow proper DOM ids for dupe operation nicknames
+      nickname = swaggerOperation.nickname
+      if nicknameCounts[nickname]
+        nicknameCounts[nickname] += 1
+        nickname = nickname + "_" + nicknameCounts[nickname]
+      else
+        nicknameCounts[nickname] = 1
+      swaggerOperation.nickname = nickname
+
       swaggerOperation.parentId = @get('id')
 
       # Use endpoint naming for type for consistancy
@@ -26,13 +36,11 @@ class Resource extends Backbone.Model
 
   getType: (swaggerOperation) ->
     # get the final object identifier from the URI
-    words = swaggerOperation.path.match(/\/((\w|\.)+)(\/{\w+}|\/|)$/)[1].split("_")
+    words = swaggerOperation.path.match(/\/((\w|\.)+)(\/{\w+}|\/|)$/)[1].split(/_|\./)
     capitalized = []
     for word in words
-      capitalized.push(word.charAt(0).toUpperCase() + word.slice(1))
+      if word == "csv"
+        capitalized.push("CSV")
+      else
+        capitalized.push(word.charAt(0).toUpperCase() + word.slice(1))
     return capitalized.join("")
-
-
-
-
-
