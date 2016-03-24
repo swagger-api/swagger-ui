@@ -236,7 +236,30 @@
         }*/
         .description {
             span {
-                font-family: @monospace-font;
+              font-family: @monospace-font;
+              &.propName {
+                font-weight: bold;
+                color: @clover-gray-90;
+              }
+              &.propType {
+                  
+              }
+              &.propOpt {
+                  
+              }
+              &.propOptKey {
+                color: @c-mtrl-gray-50;
+                text-transform: uppercase;
+              }
+              &.propDesc {
+                color: @clover-gray-60;
+                font-family: @sans-serif-font;
+                margin-top: 0.75em;
+                &:before {
+                  content: "";
+                  display: table; 
+                }
+              }
             }
             .strong {
                 font-weight: bold;
@@ -245,25 +268,13 @@
             div {
                 line-height: 1.5em;
                 margin-left: 1em;
+                margin-top: 1em;
+                margin-bottom: 1em;
             }
             .stronger {
                 font-weight: bold;
                 color: #000;
             }
-        }
-        .propName {
-            font-weight: bold;
-            color: @clover-gray-90;
-        }
-        .propType {
-            
-        }
-        .propOpt {
-            
-        }
-        .propOptKey {
-            color: @c-mtrl-gray-50;
-            text-transform: uppercase;
         }
         /*
     }
