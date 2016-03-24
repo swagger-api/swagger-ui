@@ -963,7 +963,7 @@ function program20(depth0,data) {
   buffer += "</p>\n  </div>\n</div>\n<div class=\"row\">\n  <div class=\"col-sm-10\">\n    ";
   stack2 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(20, program20, data),fn:self.program(18, program18, data),data:data});
   if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += "\n  </div>\n</div>\n\n";
+  buffer += "\n  </div>\n</div>";
   return buffer;
   });
 })();
@@ -1463,8 +1463,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     SwaggerUiRouter.prototype.setUiLibraries = function() {
       return $("select.param-choice").select2({
         containerCssClass: 'tpx-select2-container',
-        dropdownCssClass: 'tpx-select2-drop',
-        placeholder: "Select a query param"
+        dropdownCssClass: 'tpx-select2-drop'
       });
     };
 
@@ -2689,7 +2688,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       $(this.el).html(template(this.model.toJSON()));
       this.switchToSnippet();
       if (this.model.get("isParam")) {
-        $('.notice', $(this.el)).text('<i class="fa fa-exclamation-circle"></i>&nbsp;Click above to set as body');
+        $('.notice', $(this.el)).html('<i class="fa fa-exclamation-circle"></i>&nbsp;Click above to set as body');
       }
       this.updateSignature();
       return this;
