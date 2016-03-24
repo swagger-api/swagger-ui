@@ -4,15 +4,17 @@
       <div class='heading'>
         <h3>
           <span class='http_method'>
-          <a href='#' data-href='#!/{{encodedParentId}}/{{nickname}}' class="toggleOperation">+</a>
+          <a href='#{{parentId}}_{{nickname}}' data-href='#!/{{encodedParentId}}/{{nickname}}' class="toggleOperation">+</a>
           </span>
           <span class='path'>
-          <a href='#!/{{encodedParentId}}/{{nickname}}' class="toggleOperation code {{#if deprecated}}deprecated{{/if}}">{{path}}</a>
+          <a href='#{{parentId}}_{{nickname}}' data-href='#!/{{encodedParentId}}/{{nickname}}' class="toggleOperation code {{#if deprecated}}deprecated{{/if}}">{{path}}</a>
           </span>
         </h3>
         <ul class='options'>
           <li>
-          <a href='#!/{{encodedParentId}}/{{nickname}}' class="toggleOperation">{{{summary}}}</a>
+          {{#if summary}}
+            <a href='#{{parentId}}_{{nickname}}' data-href='#!/{{encodedParentId}}/{{nickname}}' class="toggleOperation">{{{summary}}}</a>
+          {{/if}}
           </li>
         </ul>
       </div>
@@ -83,9 +85,10 @@
           </table>
           {{/if}}
           {{#if isReadOnly}}
+
           {{else}}
           <div class='sandbox_header'>
-            <input class='submit' type='button' value='Try it out!' />
+            <input class='submit' type='submit' value='Try it out!' />
             <a href='#' class='response_hider' style='display:none'>Hide Response</a>
             <span class='response_throbber' style='display:none'></span>
           </div>

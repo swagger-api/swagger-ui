@@ -52,6 +52,7 @@ window.SwaggerUi = Backbone.Router.extend({
 
     // set marked options
     marked.setOptions({gfm: true});
+    this.marked_renderer = this.setMarkedRenderer();
 
     // Set the callbacks
     var that = this;
@@ -201,9 +202,20 @@ window.SwaggerUi = Backbone.Router.extend({
 
   // Renders GFM for elements with 'markdown' class
   renderGFM: function(){
+    var marked_renderer = this.marked_renderer;
     $('.markdown').each(function(){
-      $(this).html(marked($(this).html()));
+      $(this).html(marked($(this).html(),{ renderer: marked_renderer }));
     });
+  },
+
+  // Marked's renderer creates duplicate id's on headers, this is a fix
+  setMarkedRenderer: function(){
+    var renderer = new marked.Renderer();
+
+    renderer.heading = function (text, level) {
+      return '<h' + level + '>' + text + '</h' + level + '>';
+    };
+    return renderer;
   }
 
 });
