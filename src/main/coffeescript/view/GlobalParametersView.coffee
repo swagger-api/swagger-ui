@@ -12,7 +12,7 @@ class GlobalParametersView extends Backbone.View
     @
 
   setId: (ev) ->
-    $('[name="mId"]').val($(ev.currentTarget).val())
+    $('[name="mId"]').val($(ev.currentTarget).val()).trigger("change")
 
   setToken: (ev) ->
     key = $(ev.currentTarget).val()

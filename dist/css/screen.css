@@ -17154,6 +17154,9 @@ header.section-header {
 .select2-drop-sm .select2-results {
   font-size: 11px;
 }
+.select2-container {
+  display: block;
+}
 .tpx-select2-container.select2-error .select2-choice {
   border-color: #FB6264;
   background-color: #fff;

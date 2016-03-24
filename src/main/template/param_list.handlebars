@@ -6,7 +6,7 @@
 </div>
 <div class="row">
   <div class="col-sm-10">
-    <select {{#isArray this}} multiple='multiple'{{/isArray}} class='parameter' name='{{name}}'>
+    <select {{#isArray this}} multiple='multiple'{{/isArray}} class='parameter param-value' name='{{name}}'>
       {{#if required}}
       {{else}}
         {{#if defaultValue}}
@@ -46,37 +46,3 @@
     {{/if}}
   </div>
 </div>
-
-{{!--
-<td class='code'>{{name}}</td>
-<td>
-  <select {{#isArray this}} multiple='multiple'{{/isArray}} class='parameter' name='{{name}}'>
-    {{#if required}}
-    {{else}}
-      {{#if defaultValue}}
-      {{else}}
-        {{#isArray this}}
-        {{else}}
-          <option selected="" value=''></option>
-        {{/isArray}}
-      {{/if}}
-    {{/if}}
-    {{#each allowableValues.descriptiveValues}}
-      {{#if isDefault}}
-        <option selected="" value='{{value}}'>{{value}} (default)</option>
-      {{else}}
-        <option value='{{value}}'>{{value}}</option>
-      {{/if}}
-    {{/each}}
-  </select>
-</td>
-<td>{{{description}}}</td>
-<td>{{{paramType}}}</td>
-<td>
-  {{#if isBody}}
-    <span class="model-signature"></span>
-  {{else}}
-    <span class="data-type"></span>
-  {{/if}}
-</td>
---}}

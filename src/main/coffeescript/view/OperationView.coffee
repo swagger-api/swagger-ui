@@ -52,8 +52,9 @@ class OperationView extends Backbone.View
     statusCodeView = new StatusCodeView({model: statusCode, tagName: 'tr'})
     $('.operation-status', $(@el)).append statusCodeView.render().el
   
-  submitOperation: (e) ->
-    e?.preventDefault()
+  submitOperation: (ev) ->
+    ev?.preventDefault()
+
     # Check for errors
     form = $('.sandbox', $(@el))
     error_free = true
@@ -69,23 +70,13 @@ class OperationView extends Backbone.View
     if error_free
       map = {}
       opts = {parent: @}
-
       isFileUpload = false
-
-      for o in form.find("input")
-        if(o.value? && jQuery.trim(o.value).length > 0)
-          map[o.name] = o.value
-        if o.type is "file"
+      for param in @model.get("parameterModels")
+        if param.get("isFile")
           isFileUpload = true
-
-      for o in form.find("textarea")
-        if(o.value? && jQuery.trim(o.value).length > 0)
-          map["body"] = o.value
-
-      for o in form.find("select") 
-        val = this.getSelectedValue o
-        if(val? && jQuery.trim(val).length > 0)
-          map[o.name] = val
+        value = param.getQueryParamString()
+        if value && jQuery.trim(value).length > 0
+          map[param.get("name")] = value
 
       opts.responseContentType = $("div select[name=responseContentType]", $(@el)).val()
       opts.requestContentType = $("div select[name=parameterContentType]", $(@el)).val()
@@ -183,17 +174,6 @@ class OperationView extends Backbone.View
     o.request.url = @invocationUrl
     o.status = data.status
     o
-
-  getSelectedValue: (select) ->
-    if !select.multiple 
-      select.value
-    else
-      options = []
-      options.push opt.value for opt in select.options when opt.selected
-      if options.length > 0 
-        options.join ","
-      else
-        null
 
   # handler for hide response link
   hideResponse: (e) ->

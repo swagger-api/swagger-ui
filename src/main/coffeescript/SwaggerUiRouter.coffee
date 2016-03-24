@@ -66,7 +66,6 @@ class SwaggerUiRouter extends Backbone.Router
     $("select.param-choice").select2({
       containerCssClass: 'tpx-select2-container',
       dropdownCssClass: 'tpx-select2-drop',
-      placeholder: "Select a query param",
       })
 
   # Shows message on topbar of the ui

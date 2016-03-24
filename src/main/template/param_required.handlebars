@@ -15,22 +15,22 @@
 					<input type="file" name='{{name}}'/>
 				{{else}}
 					{{#if defaultValue}}
-						<textarea class='c-input-textarea body-textarea' placeholder='(required)' name='{{name}}'>{{defaultValue}}</textarea>
+						<textarea class='c-input-textarea body-textarea param-value' placeholder='(required)' name='{{name}}'>{{defaultValue}}</textarea>
 					{{else}}
-						<textarea class='c-input-textarea body-textarea' placeholder='(required)' name='{{name}}'></textarea>
+						<textarea class='c-input-textarea body-textarea param-value' placeholder='(required)' name='{{name}}'></textarea>
 						<br />
 						<div class="parameter-content-type" />
 					{{/if}}
 				{{/if}}
 			{{else}}
 				{{#if isFile}}
-					<input class='parameter' class='required' type='file' name='{{name}}'/>
+					<input class='parameter param-value' class='required' type='file' name='{{name}}'/>
 				{{else}}
 					<label class="c-input-label">{{{description}}}</label>
 					{{#if defaultValue}}
-						<input class='c-input-field parameter required' minlength='1' name='{{name}}' placeholder='{{{paramType}}}' type='text' value='{{defaultValue}}'/>
+						<input class='c-input-field parameter required param-value' minlength='1' name='{{name}}' placeholder='{{{paramType}}}' type='text' value='{{defaultValue}}'/>
 					{{else}}
-						<input class='c-input-field parameter required' minlength='1' name='{{name}}' placeholder='{{{paramType}}}' type='text' value=''/>
+						<input class='c-input-field parameter required param-value' minlength='1' name='{{name}}' placeholder='{{{paramType}}}' type='text' value=''/>
 					{{/if}}
 				{{/if}}
 			{{/if}}
