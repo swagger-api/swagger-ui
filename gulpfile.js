@@ -16,6 +16,7 @@ var header = require('gulp-header');
 var order = require('gulp-order');
 var jshint = require('gulp-jshint');
 var pkg = require('./package.json');
+var sourcemaps = require('gulp-sourcemaps');
 
 var banner = ['/**',
   ' * <%= pkg.name %> - <%= pkg.description %>',
@@ -131,7 +132,7 @@ gulp.task('copy-local-specs', function () {
 });
 
 /**
- * Watch for changes and recompile
+ * Watch for changes and recompile 
  */
 gulp.task('watch', ['copy-local-specs'], function() {
   return watch([
@@ -143,7 +144,7 @@ gulp.task('watch', ['copy-local-specs'], function() {
       gulp.start('dev-dist');
     });
 });
-
+ 
 /**
  * Live reload web server of `dist`
  */
@@ -162,4 +163,57 @@ gulp.task('default', ['dist', 'copy']);
 gulp.task('serve', ['connect', 'watch']);
 gulp.task('dev', ['default'], function () {
   gulp.start('serve');
+});
+
+/**
+ * Build a distribution with sourcemaps for debug mode
+ */
+gulp.task('dist-smaps', function() {
+  return es.merge(
+    gulp.src([
+        './src/main/javascript/**/*.js',
+        './node_modules/swagger-client/browser/swagger-client.js'
+      ]),
+      gulp
+        .src(['./src/main/template/**/*'])
+        .pipe(handlebars())
+        .pipe(wrap('Handlebars.template(<%= contents %>)'))
+        .pipe(declare({
+          namespace: 'Handlebars.templates',
+          noRedeclare: true, // Avoid duplicate declarations
+        }))
+        .on('error', log)
+    )
+    .pipe(sourcemaps.init({loadMaps: true, debug:true}))
+    .pipe(order(['scripts.js', 'templates.js']))
+    .pipe(wrap('(function(){<%= contents %>}).call(this);'))
+    .pipe(header(banner, { pkg: pkg }))
+    .pipe(concat('swagger-ui.js'))
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('dist'))
+    .pipe(connect.reload());
+});
+
+/**
+ * Watch for changes and recompile in debug mode 
+ */
+gulp.task('watch-debug', ['copy-local-specs'], function() {
+  return watch([
+    './src/**/*.{js,less,handlebars}',
+    './src/main/html/*.html',
+    './test/specs/**/*.{json,yaml}'
+    ],
+    function() {
+      gulp.start('dist-smaps');
+    });
+});
+
+
+gulp.task('serve-debug',['connect', 'watch-debug']);
+
+/**
+* Allows start of debug mode, activating sourcemaps
+*/
+gulp.task('debug', ['dist-smaps','copy'],function(){
+    gulp.start('serve-debug');
 });
