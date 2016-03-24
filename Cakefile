@@ -114,7 +114,7 @@ task 'dist', 'Build a distribution', ->
     exec 'cp -r node_modules/selectize/dist/js/standalone/selectize.min.js dist/lib'
     exec 'cp -r node_modules/selectize/dist/css/selectize.css dist/lib'
     console.log '   : Copied selectize dependencies'
-    exec 'cp -r node_modules/select2/dist/js/select2.min.js dist/lib'
+    exec 'cp -r node_modules/select2/dist/js/select2.full.min.js dist/lib'
     exec 'cp -r node_modules/select2/dist/css/select2.min.css dist/lib'
     console.log '   : Copied select2 dependencies'
     exec 'rm -r dist/fonts/* || mkdir dist/fonts'
