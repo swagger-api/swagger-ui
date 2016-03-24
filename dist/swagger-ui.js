@@ -681,7 +681,7 @@ function program4(depth0,data) {
 function program5(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n						<textarea class='c-input-textarea body-textarea' name='";
+  buffer += "\n						<textarea class='c-input-textarea body-textarea param-value' name='";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -696,7 +696,7 @@ function program5(depth0,data) {
 function program7(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n						<textarea class='c-input-textarea body-textarea' name='";
+  buffer += "\n						<textarea class='c-input-textarea body-textarea param-value' name='";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -716,7 +716,7 @@ function program9(depth0,data) {
 function program10(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n					<input class=\"c-input-text parameter\" minlength='0' name='";
+  buffer += "\n					<input class=\"c-input-text parameter param-value\" minlength='0' name='";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -731,7 +731,7 @@ function program10(depth0,data) {
 function program12(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n					<input class=\"c-input-text parameter\" minlength='0' name='";
+  buffer += "\n					<input class=\"c-input-text parameter param-value\" minlength='0' name='";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -942,7 +942,7 @@ function program20(depth0,data) {
   options = {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data};
   stack2 = ((stack1 = helpers.isArray || depth0.isArray),stack1 ? stack1.call(depth0, depth0, options) : helperMissing.call(depth0, "isArray", depth0, options));
   if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += " class='parameter' name='";
+  buffer += " class='parameter param-value' name='";
   if (stack2 = helpers.name) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
   else { stack2 = depth0.name; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
   buffer += escapeExpression(stack2)
@@ -1019,7 +1019,7 @@ function program8(depth0,data) {
 function program9(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n						<textarea class='c-input-textarea body-textarea' placeholder='(required)' name='";
+  buffer += "\n						<textarea class='c-input-textarea body-textarea param-value' placeholder='(required)' name='";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -1034,7 +1034,7 @@ function program9(depth0,data) {
 function program11(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n						<textarea class='c-input-textarea body-textarea' placeholder='(required)' name='";
+  buffer += "\n						<textarea class='c-input-textarea body-textarea param-value' placeholder='(required)' name='";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -1054,7 +1054,7 @@ function program13(depth0,data) {
 function program14(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n					<input class='parameter' class='required' type='file' name='";
+  buffer += "\n					<input class='parameter param-value' class='required' type='file' name='";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -1078,7 +1078,7 @@ function program16(depth0,data) {
 function program17(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n						<input class='c-input-field parameter required' minlength='1' name='";
+  buffer += "\n						<input class='c-input-field parameter required param-value' minlength='1' name='";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -1097,7 +1097,7 @@ function program17(depth0,data) {
 function program19(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n						<input class='c-input-field parameter required' minlength='1' name='";
+  buffer += "\n						<input class='c-input-field parameter required param-value' minlength='1' name='";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -1169,7 +1169,7 @@ function program5(depth0,data) {
   if (stack1 = helpers.paramType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</label>\n        <form class='query-choices'>\n          <select class=\"param-choice c-dropdown-filter multi\" multiple=\"multiple\">\n            ";
+  buffer += "</label>\n        <form class='query-choices'>\n          <select class=\"param-choice c-dropdown-filter param-value\" multiple=\"multiple\">\n            ";
   stack2 = helpers.each.call(depth0, ((stack1 = ((stack1 = depth0.choices),stack1 == null || stack1 === false ? stack1 : stack1.attributes)),stack1 == null || stack1 === false ? stack1 : stack1.allChoices), {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\n          </select>\n        </form>\n      </div>\n    </div>\n  </div>\n</div>\n";
@@ -1694,6 +1694,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
             description: this.get("description")
           }));
         }
+      } else {
+        this.set("queryParamString", "");
       }
       type = this.get("type") || this.get("dataType");
       if (type.toLowerCase() === 'file') {
@@ -1730,6 +1732,25 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         signatureModel = new Signature(signatureAttributes);
       }
       return signatureModel;
+    };
+
+    Param.prototype.setValue = function(value) {
+      if (this.get("isExpand")) {
+        if (!value) {
+          value = [];
+        }
+        return this.get("choices").setAllExpansions(value);
+      } else {
+        return this.set("queryParamString", value);
+      }
+    };
+
+    Param.prototype.getQueryParamString = function() {
+      if (this.get("choices")) {
+        return this.get("choices").get("queryParamString");
+      } else {
+        return this.get("queryParamString");
+      }
     };
 
     return Param;
@@ -2161,10 +2182,10 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       return $('.operation-status', $(this.el)).append(statusCodeView.render().el);
     };
 
-    OperationView.prototype.submitOperation = function(e) {
-      var error_free, form, isFileUpload, map, o, opts, val, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
-      if (e != null) {
-        e.preventDefault();
+    OperationView.prototype.submitOperation = function(ev) {
+      var error_free, form, isFileUpload, map, opts, param, value, _i, _len, _ref;
+      if (ev != null) {
+        ev.preventDefault();
       }
       form = $('.sandbox', $(this.el));
       error_free = true;
@@ -2187,29 +2208,15 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
           parent: this
         };
         isFileUpload = false;
-        _ref = form.find("input");
+        _ref = this.model.get("parameterModels");
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          o = _ref[_i];
-          if ((o.value != null) && jQuery.trim(o.value).length > 0) {
-            map[o.name] = o.value;
-          }
-          if (o.type === "file") {
+          param = _ref[_i];
+          if (param.get("isFile")) {
             isFileUpload = true;
           }
-        }
-        _ref1 = form.find("textarea");
-        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-          o = _ref1[_j];
-          if ((o.value != null) && jQuery.trim(o.value).length > 0) {
-            map["body"] = o.value;
-          }
-        }
-        _ref2 = form.find("select");
-        for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
-          o = _ref2[_k];
-          val = this.getSelectedValue(o);
-          if ((val != null) && jQuery.trim(val).length > 0) {
-            map[o.name] = val;
+          value = param.getQueryParamString();
+          if (value && jQuery.trim(value).length > 0) {
+            map[param.get("name")] = value;
           }
         }
         opts.responseContentType = $("div select[name=responseContentType]", $(this.el)).val();
@@ -2315,27 +2322,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       o.request.url = this.invocationUrl;
       o.status = data.status;
       return o;
-    };
-
-    OperationView.prototype.getSelectedValue = function(select) {
-      var opt, options, _i, _len, _ref;
-      if (!select.multiple) {
-        return select.value;
-      } else {
-        options = [];
-        _ref = select.options;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          opt = _ref[_i];
-          if (opt.selected) {
-            options.push(opt.value);
-          }
-        }
-        if (options.length > 0) {
-          return options.join(",");
-        } else {
-          return null;
-        }
-      }
     };
 
     OperationView.prototype.hideResponse = function(e) {
@@ -2535,7 +2521,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     }
 
     ParameterView.prototype.events = {
-      'change select.multi': 'selectedChanged'
+      'change .param-value': 'valueChanged'
     };
 
     ParameterView.prototype.initialize = function() {
@@ -2661,22 +2647,19 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
     ParameterView.prototype.expansionFromJSON = function(field) {
       var $select, value;
-      $select = $('select.multi', $(this.el));
+      $select = $('.param-value', $(this.el));
       value = $select.val();
       if (!value) {
         value = [];
       }
       value.push(field);
-      return $('select.multi', $(this.el)).val(value).trigger("change");
+      return $('.param-value', $(this.el)).val(value).trigger("change");
     };
 
-    ParameterView.prototype.selectedChanged = function(ev) {
-      var selected;
-      selected = $(ev.currentTarget).val();
-      if (!selected) {
-        selected = [];
-      }
-      return this.choices.setAllExpansions(selected);
+    ParameterView.prototype.valueChanged = function(ev) {
+      var value;
+      value = $(ev.currentTarget).val();
+      return this.model.setValue(value);
     };
 
     return ParameterView;

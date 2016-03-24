@@ -6,7 +6,7 @@
 </div>
 <div class="row">
   <div class="col-sm-10">
-    <select {{#isArray this}} multiple='multiple'{{/isArray}} class='parameter' name='{{name}}'>
+    <select {{#isArray this}} multiple='multiple'{{/isArray}} class='parameter param-value' name='{{name}}'>
       {{#if required}}
       {{else}}
         {{#if defaultValue}}
