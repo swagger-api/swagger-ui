@@ -2999,7 +2999,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     GlobalParametersView.prototype.setId = function(ev) {
-      return $('[name="mId"]').val($(ev.currentTarget).val());
+      return $('[name="mId"]').val($(ev.currentTarget).val()).trigger("change");
     };
 
     GlobalParametersView.prototype.setToken = function(ev) {
