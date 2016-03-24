@@ -1366,7 +1366,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (stack1 = helpers.signature) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.signature; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n  </div>\n  <div class=\"snippet col-sm-6\">\n  <h6>Model Schema</h6>\n      <pre><code></code></pre>\n      <large class=\"notice\"></large>\n  </div>\n</div>\n";
+  buffer += "\n  </div>\n  <div class=\"snippet col-sm-6\">\n  <h6>Model Schema</h6>\n      <pre><code></code></pre>\n      <p class=\"c-t-note notice\"></p>\n  </div>\n</div>\n";
   return buffer;
   });
 })();
@@ -2708,7 +2708,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       $(this.el).html(template(this.model.toJSON()));
       this.switchToSnippet();
       if (this.model.get("isParam")) {
-        $('.notice', $(this.el)).text('Click above to set as body');
+        $('.notice', $(this.el)).text('<i class="fa fa-exclamation-circle"></i>&nbsp;Click above to set as body');
       }
       this.updateSignature();
       return this;
