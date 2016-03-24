@@ -1169,7 +1169,7 @@ function program5(depth0,data) {
   if (stack1 = helpers.paramType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</label>\n        <form class='query-choices'>\n          <select class=\"param-choice c-dropdown-filter param-value\" multiple=\"multiple\">\n            ";
+  buffer += "</label>\n        <form class='query-choices'>\n          <select class=\"param-choice c-dropdown-filter param-value\" multiple=\"multiple\" style=\"width: 100%\">\n            ";
   stack2 = helpers.each.call(depth0, ((stack1 = ((stack1 = depth0.choices),stack1 == null || stack1 === false ? stack1 : stack1.attributes)),stack1 == null || stack1 === false ? stack1 : stack1.allChoices), {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\n          </select>\n        </form>\n      </div>\n    </div>\n  </div>\n</div>\n";
@@ -1463,7 +1463,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     SwaggerUiRouter.prototype.setUiLibraries = function() {
       return $("select.param-choice").select2({
         containerCssClass: 'tpx-select2-container',
-        dropdownCssClass: 'tpx-select2-drop'
+        dropdownCssClass: 'tpx-select2-drop',
+        dropdownAutoWidth: true
       });
     };
 
