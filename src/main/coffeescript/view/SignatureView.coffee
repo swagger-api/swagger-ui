@@ -16,7 +16,7 @@ class SignatureView extends Backbone.View
     @switchToSnippet()
 
     if @model.get("isParam")
-      $('.notice', $(@el)).text('Click above to set as body')
+      $('.notice', $(@el)).text('<i class="fa fa-exclamation-circle"></i>&nbsp;Click above to set as body')
 
     @updateSignature()
     

@@ -14970,6 +14970,23 @@ hr.solid {
 .swagger-section .description span {
   font-family: "Roboto Mono", "Source Code Pro", "Anonymous Pro", Consolas, Monaco, monospace;
 }
+.swagger-section .description span.propName {
+  font-weight: bold;
+  color: #404040;
+}
+.swagger-section .description span.propOptKey {
+  color: #858d90;
+  text-transform: uppercase;
+}
+.swagger-section .description span.propDesc {
+  color: #777777;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin-top: 0.75em;
+}
+.swagger-section .description span.propDesc:before {
+  content: "";
+  display: table;
+}
 .swagger-section .description .strong {
   font-weight: bold;
   color: #404040;
@@ -14977,18 +14994,12 @@ hr.solid {
 .swagger-section .description div {
   line-height: 1.5em;
   margin-left: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
 .swagger-section .description .stronger {
   font-weight: bold;
   color: #000;
-}
-.swagger-section .propName {
-  font-weight: bold;
-  color: #404040;
-}
-.swagger-section .propOptKey {
-  color: #858d90;
-  text-transform: uppercase;
 }
 .swagger-section .title {
   font-style: bold;

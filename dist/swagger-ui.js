@@ -385,7 +385,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<section class=\"c-box-filter\">\n  <p><strong>Global Parameters</strong></p>\n  <hr />\n  <form id='mId_selector api_selector'>\n    <div class=\"row\">\n      <div class=\"col-xs-12 col-sm-5\">\n        <label class=\"c-input-label\" for=\"input_mId\">Merchant ID (mID)</label>\n        <div class=\"input-group\">\n          <input class=\"c-input-field\" placeholder=\"\" id=\"input_mId\" name=\"input_mId\" type=\"text\"/>\n        </div>\n      </div>\n      <div class=\"col-xs-12 col-sm-5\">\n        <label class=\"c-input-label\" for=\"input_apiToken\">API Token</label>\n        <div class=\"input-group\">\n          <input class=\"c-input-field\" placeholder=\"\" id=\"input_apiToken\" name=\"apiKey\" type=\"text\"/>\n        </div>\n      </div>\n    </div>\n  </form>\n</section>";
+  return "<section class=\"c-box-filter\">\n  <form id='mId_selector api_selector'>\n    <div class=\"row\">\n      <div class=\"col-xs-6 col-sm-5\">\n        <label class=\"c-input-label\" for=\"input_mId\">Global Merchant ID (mID)</label>\n        <div class=\"input-group\">\n          <input class=\"c-input-field\" placeholder=\"\" id=\"input_mId\" name=\"input_mId\" type=\"text\"/>\n        </div>\n      </div>\n      <div class=\"col-xs-6 col-sm-5\">\n        <label class=\"c-input-label\" for=\"input_apiToken\">API Token</label>\n        <div class=\"input-group\">\n          <input class=\"c-input-field\" placeholder=\"\" id=\"input_apiToken\" name=\"apiKey\" type=\"text\"/>\n        </div>\n      </div>\n      <div class=\"col-xs-12 col-sm-2\">\n        <small class=\"autofill hidden\"><i class=\"fa fa-magic\"></i>Autofill</small>\n      </div>\n    </div>\n  </form>\n</section>";
   });
 })();
 
@@ -1316,7 +1316,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (stack1 = helpers.signature) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.signature; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n  </div>\n  <div class=\"snippet col-sm-6\">\n  <h6>Model Schema</h6>\n      <pre><code></code></pre>\n      <large class=\"notice\"></large>\n  </div>\n</div>\n";
+  buffer += "\n  </div>\n  <div class=\"snippet col-sm-6\">\n  <h6>Model Schema</h6>\n      <pre><code></code></pre>\n      <p class=\"c-t-note notice\"></p>\n  </div>\n</div>\n";
   return buffer;
   });
 })();
@@ -2689,7 +2689,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       $(this.el).html(template(this.model.toJSON()));
       this.switchToSnippet();
       if (this.model.get("isParam")) {
-        $('.notice', $(this.el)).text('Click above to set as body');
+        $('.notice', $(this.el)).text('<i class="fa fa-exclamation-circle"></i>&nbsp;Click above to set as body');
       }
       this.updateSignature();
       return this;
