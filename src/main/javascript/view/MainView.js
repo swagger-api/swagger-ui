@@ -14,7 +14,6 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
     this.router = opts.router;
 
-    document.addEventListener('click', this.onLinkClick, true);
     // Sort APIs
     if (opts.swaggerOptions.apisSorter) {
       sorterOption = opts.swaggerOptions.apisSorter;
@@ -84,6 +83,12 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
   render: function () {
     $(this.el).html(Handlebars.templates.main(this.model));
+    this.info = this.$('.info')[0];
+
+    if (this.info) {
+      this.info.addEventListener('click', this.onLinkClick, true);
+    }
+
     this.model.securityDefinitions = this.model.securityDefinitions || {};
 
     // Render each resource
@@ -136,11 +141,10 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
   onLinkClick: function (e) {
     var el = e.target;
-    if (el.tagName === 'A' && el.href) {
-      if (location.hostname !== el.hostname || location.port !== el.port) {
+
+    if (el.tagName === 'A' && el.href && !el.target) {
         e.preventDefault();
         window.open(el.href, '_blank');
-      }
     }
   }
 });
