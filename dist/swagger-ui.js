@@ -1856,7 +1856,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     }
 
     Resource.prototype.initialize = function() {
-      var nickname, nicknameCounts, operationsByType, swaggerOperation, type, typeModels, types, _i, _j, _len, _len1, _ref, _ref1;
+      var nickname, nicknameCounts, operationsByType, swaggerOperation, type, typeModels, types, _i, _j, _len, _len1, _ref;
       operationsByType = {};
       types = [];
       typeModels = [];
@@ -1880,9 +1880,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
         }
         operationsByType[type].push(swaggerOperation);
       }
-      _ref1 = types.sort();
-      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-        type = _ref1[_j];
+      for (_j = 0, _len1 = types.length; _j < _len1; _j++) {
+        type = types[_j];
         typeModels.push(new Type({
           name: type,
           viewId: this.get('name') + "_" + type,
