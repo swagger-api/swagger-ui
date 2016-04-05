@@ -784,7 +784,7 @@ function program1(depth0,data) {
   return buffer;
   }
 
-  buffer += "<button disabled type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n<span>Filter:</span>\n<select class=\"param-choice\">\n	<option disabled selected> -- select an option -- </option>\n	";
+  buffer += "<button disabled type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n<span>Filter:</span>\n<select class=\"param-choice\">\n	<option value=\"\" disabled selected> Filter by... </option>\n	";
   stack1 = helpers.each.call(depth0, depth0.allChoices, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</select>\n<select class='filter-operator'>\n	<option value='=='>==</option>\n	<option value='!='>!=</option>\n	<option value='>'>&gt;</option>\n	<option value='<'>&lt;</option>\n	<option value='>='>&gt;=</option>\n	<option value='<='>&lt;=</option>\n</select>\n<input class='filter-argument'>\n";
@@ -2866,6 +2866,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       modelJSON = this.model.toJSON();
       modelJSON["currentValue"] = this.currentValue;
       $(this.el).html(template(modelJSON));
+      $('select', $(this.el)).select2();
       if (this.currentValue) {
         this.enableCloseButton();
       }
