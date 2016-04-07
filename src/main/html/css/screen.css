@@ -1451,21 +1451,6 @@
 .swagger-section #auth_container .authorize__btn:hover {
   background-color: #547f00;
 }
-.swagger-section #header #logo {
-  font-size: 1.5em;
-  font-weight: bold;
-  text-decoration: none;
-  color: white;
-}
-.swagger-section #header #logo .logo__img {
-  display: block;
-  float: left;
-  margin-top: 2px;
-}
-.swagger-section #header #logo .logo__title {
-  display: inline-block;
-  padding: 5px 0 0 10px;
-}
 .swagger-section #content_message {
   margin: 10px 15px;
   font-style: italic;
