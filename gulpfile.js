@@ -16,6 +16,8 @@ var header = require('gulp-header');
 var order = require('gulp-order');
 var jshint = require('gulp-jshint');
 var pkg = require('./package.json');
+var minimist = require('minimist');
+var exec = require('child_process').exec;
 
 var banner = ['/**',
   ' * <%= pkg.name %> - <%= pkg.description %>',
@@ -88,7 +90,8 @@ function _less() {
       './src/main/less/screen.less',
       './src/main/less/print.less',
       './src/main/less/reset.less',
-      './src/main/less/style.less'
+      './src/main/less/style.less',
+      './src/main/less/art19.less'
     ])
     .pipe(less())
     .on('error', log)
@@ -162,4 +165,17 @@ gulp.task('default', ['dist', 'copy']);
 gulp.task('serve', ['connect', 'watch']);
 gulp.task('dev', ['default'], function () {
   gulp.start('serve');
+});
+
+/**
+ * Copy dist to rails app
+ */
+gulp.task('bootstrap-rails', ['default'], function () {
+  var knownOptions = {
+    string: 'at',
+    default: { at: '~/repos/art19-rails-app' }
+  };
+  var options = minimist(process.argv.slice(2), knownOptions);
+  var path = options.at.concat('/public/api-docs');
+  exec('cp -a ./dist/. '.concat(path));
 });

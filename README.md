@@ -46,6 +46,11 @@ You can rebuild swagger-ui on your own to tweak it or just so you can say you di
 2. `npm run build`
 3. You should see the distribution under the dist folder. Open [`./dist/index.html`](./dist/index.html) to launch Swagger UI in a browser
 
+### Bootstrapping Rails
+
+`npm install -g gulp`
+`gulp bootstrap-rails --at ~/repos/art19-rails-app`
+
 ### Development
 Use `npm run serve` to make a new build, watch for changes, and serve the result at http://localhost:8080/.
 

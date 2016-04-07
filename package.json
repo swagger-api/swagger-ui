@@ -54,6 +54,7 @@
     "karma-phantomjs-launcher": "0.2.3",
     "karma-sinon-chai": "1.1.0",
     "less": "^2.4.0",
+    "minimist": "^1.2.0",
     "mocha": "^2.1.0",
     "phantomjs": "1.9.19",
     "selenium-webdriver": "^2.45.0",
