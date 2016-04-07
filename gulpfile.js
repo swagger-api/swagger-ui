@@ -90,7 +90,8 @@ function _less() {
       './src/main/less/screen.less',
       './src/main/less/print.less',
       './src/main/less/reset.less',
-      './src/main/less/style.less'
+      './src/main/less/style.less',
+      './src/main/less/art19.less'
     ])
     .pipe(less())
     .on('error', log)
