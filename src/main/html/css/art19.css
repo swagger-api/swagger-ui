@@ -1,0 +1,38 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800|Roboto:400,700,300");
+body {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42858;
+  color: #3f4c54;
+  background-color: #f7f7f7;
+}
+.top-header {
+  padding-left: 17px;
+  z-index: 900;
+  background: #1b2023;
+  color: white;
+  height: 60px;
+  top: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+}
+.top-header a {
+  color: white;
+}
+.header-brand {
+  color: white;
+  line-height: 60px;
+  font-size: 21px;
+  padding-right: 20px;
+}
+.header-brand img {
+  height: 30px;
+  margin-top: -7px;
+  vertical-align: middle;
+}
+.header-brand:focus,
+.header-brand:hover {
+  text-decoration: none;
+  outline: none;
+}
