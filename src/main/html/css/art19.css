@@ -6,6 +6,9 @@ body {
   color: #3f4c54;
   background-color: #f7f7f7;
 }
+.swagger-section {
+  padding-top: 70px;
+}
 .top-header {
   padding-left: 17px;
   z-index: 900;
