@@ -8,8 +8,29 @@ body {
   background-color: #f7f7f7;
 }
 
+::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background-color: rgba(0,0,0,0.07);
+}
+
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+}
+
 .swagger-section {
   padding-top: 70px;
+  padding-bottom: 20px;
 }
 
 .top-header {

@@ -231,9 +231,9 @@
 }
 .swagger-section .swagger-ui-wrap table thead tr th {
   padding: 5px;
-  font-size: 0.9em;
-  color: #666666;
-  border-bottom: 1px solid #999999;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+  text-transform: UPPERCASE;
+  font-weight: bold;
 }
 .swagger-section .swagger-ui-wrap table tbody tr:last-child td {
   border-bottom: none;
@@ -244,7 +244,7 @@
 .swagger-section .swagger-ui-wrap table tbody tr td {
   padding: 6px;
   font-size: 0.9em;
-  border-bottom: 1px solid #cccccc;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   vertical-align: top;
   line-height: 1.3em;
 }
@@ -802,12 +802,6 @@
   font-size: 0.7em;
   text-align: center;
   padding: 7px 0 4px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  -o-border-radius: 2px;
-  -ms-border-radius: 2px;
-  -khtml-border-radius: 2px;
-  border-radius: 2px;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.heading h3 span {
   margin: 0;
@@ -837,24 +831,12 @@
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.content {
   border-top: none;
   padding: 10px;
-  -moz-border-radius-bottomleft: 6px;
-  -webkit-border-bottom-left-radius: 6px;
-  -o-border-bottom-left-radius: 6px;
-  -ms-border-bottom-left-radius: 6px;
-  -khtml-border-bottom-left-radius: 6px;
-  border-bottom-left-radius: 6px;
-  -moz-border-radius-bottomright: 6px;
-  -webkit-border-bottom-right-radius: 6px;
-  -o-border-bottom-right-radius: 6px;
-  -ms-border-bottom-right-radius: 6px;
-  -khtml-border-bottom-right-radius: 6px;
-  border-bottom-right-radius: 6px;
   margin: 0 0 20px;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.content h4 {
   font-size: 1.1em;
   margin: 0;
-  padding: 15px 0 5px;
+  padding: 15px 0 10px;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.content div.sandbox_header {
   float: none;

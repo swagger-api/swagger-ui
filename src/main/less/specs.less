@@ -50,9 +50,9 @@
             tr {
                 th {
                     padding: 5px;
-                    font-size: 0.9em;
-                    color: #666666;
-                    border-bottom: 1px solid #999999;
+                    border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+                    text-transform: UPPERCASE;
+                    font-weight: bold;
                 }
             }
         }
@@ -69,7 +69,7 @@
                 td {
                     padding: 6px;
                     font-size: 0.9em;
-                    border-bottom: 1px solid #cccccc;
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
                     vertical-align: top;
                     line-height: 1.3em;
                 }
@@ -118,8 +118,9 @@
     pre {
         font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
         background-color: #fcf6db;
-        border: 1px solid #e5e0c6;
+        border: 1px solid rgba(255, 255, 255, 0.15);
         padding: 10px;
+        box-shadow: inset 0px 0px 10px rgba(0,0,0,0.2);
         code {
             line-height: 1.6em;
             background: none;
@@ -676,12 +677,6 @@
                                             font-size: 0.7em;
                                             text-align: center;
                                             padding: 7px 0 4px;
-                                            -moz-border-radius: 2px;
-                                            -webkit-border-radius: 2px;
-                                            -o-border-radius: 2px;
-                                            -ms-border-radius: 2px;
-                                            -khtml-border-radius: 2px;
-                                            border-radius: 2px;
                                         }
                                     }
                                     span {
@@ -716,23 +711,11 @@
                             div.content {
                                 border-top: none;
                                 padding: 10px;
-                                -moz-border-radius-bottomleft: 6px;
-                                -webkit-border-bottom-left-radius: 6px;
-                                -o-border-bottom-left-radius: 6px;
-                                -ms-border-bottom-left-radius: 6px;
-                                -khtml-border-bottom-left-radius: 6px;
-                                border-bottom-left-radius: 6px;
-                                -moz-border-radius-bottomright: 6px;
-                                -webkit-border-bottom-right-radius: 6px;
-                                -o-border-bottom-right-radius: 6px;
-                                -ms-border-bottom-right-radius: 6px;
-                                -khtml-border-bottom-right-radius: 6px;
-                                border-bottom-right-radius: 6px;
                                 margin: 0 0 20px;
                                 h4 {
                                     font-size: 1.1em;
                                     margin: 0;
-                                    padding: 15px 0 5px;
+                                    padding: 15px 0 10px;
                                 }
                                 div.sandbox_header {
                                     float: none;
