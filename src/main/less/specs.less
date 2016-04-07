@@ -645,6 +645,7 @@
                                 display: block;
                                 margin: 0;
                                 padding: 0;
+                                border: 0;
                                 h3 {
                                     display: block;
                                     clear: none;
@@ -657,7 +658,7 @@
                                     span.path {
                                         padding-left: 10px;
                                         a {
-                                            color: black;
+                                            color: white;
                                             text-decoration: none;
                                             &.toggleOperation.deprecated {
                                               text-decoration: line-through;
@@ -677,6 +678,7 @@
                                             font-size: 0.7em;
                                             text-align: center;
                                             padding: 7px 0 4px;
+                                            background-color: rgba(255, 255, 255, 0.2);
                                         }
                                     }
                                     span {
@@ -697,8 +699,11 @@
                                         margin: 0;
                                         padding: 2px 10px;
                                         font-size: 0.9em;
+                                        border-right: 1px solid white;
+                                        color: #c5862b;
                                         a {
                                             text-decoration: none;
+                                            color: white
                                         }
                                     }
                                 }
@@ -766,25 +771,8 @@
                         }
                         li.operation.put {
                             div.heading {
-                                background-color: #f9f2e9;
-                                border: 1px solid #f0e0ca;
-                                h3 {
-                                    span.http_method {
-                                        a {
-                                            background-color: #c5862b;
-                                        }
-                                    }
-                                }
-                                ul.options {
-                                    li {
-                                        border-right: 1px solid #dddddd;
-                                        border-right-color: #f0e0ca;
-                                        color: #c5862b;
-                                        a {
-                                            color: #c5862b;
-                                        }
-                                    }
-                                }
+                                background-color: #c5862b;
+                                border: 0;
                             }
                             div.content {
                                 background-color: #faf5ee;
@@ -802,27 +790,7 @@
                         }
                         li.operation.head {
                             div.heading {
-                                background-color: #fcffcd;
-                                border: 1px solid black;
-                                border-color: #ffd20f;
-                                h3 {
-                                    span.http_method {
-                                        a {
-                                            text-transform: uppercase;
-                                            background-color: #ffd20f;
-                                        }
-                                    }
-                                }
-                                ul.options {
-                                    li {
-                                        border-right: 1px solid #dddddd;
-                                        border-right-color: #ffd20f;
-                                        color: #ffd20f;
-                                        a {
-                                            color: #ffd20f;
-                                        }
-                                    }
-                                }
+                                background-color: #ffd20f;
                             }
                             div.content {
                                 background-color: #fcffcd;
@@ -840,27 +808,7 @@
                         }
                         li.operation.delete {
                             div.heading {
-                                background-color: #f5e8e8;
-                                border: 1px solid #e8c6c7;
-                                h3 {
-                                    span.http_method {
-                                        a {
-                                            text-transform: uppercase;
-                                            background-color: #a41e22;
-
-                                        }
-                                    }
-                                }
-                                ul.options {
-                                    li {
-                                        border-right: 1px solid #dddddd;
-                                        border-right-color: #e8c6c7;
-                                        color: #a41e22;
-                                        a {
-                                            color: #a41e22;
-                                        }
-                                    }
-                                }
+                                background-color: #a41e22;
                             }
                             div.content {
                                 background-color: #f7eded;
@@ -877,25 +825,7 @@
                         }
                         li.operation.post {
                             div.heading {
-                                background-color: #e7f6ec;
-                                border: 1px solid #c3e8d1;
-                                h3 {
-                                    span.http_method {
-                                        a {
-                                            background-color: #10a54a;
-                                        }
-                                    }
-                                }
-                                ul.options {
-                                    li {
-                                        border-right: 1px solid #dddddd;
-                                        border-right-color: #c3e8d1;
-                                        color: #10a54a;
-                                        a {
-                                            color: #10a54a;
-                                        }
-                                    }
-                                }
+                                background-color: #10a54a;
                             }
                             div.content {
                                 background-color: #ebf7f0;
@@ -912,26 +842,7 @@
                         }
                         li.operation.patch {
                             div.heading {
-                                background-color: #FCE9E3;
-                                border: 1px solid #F5D5C3;
-                                h3 {
-                                    span.http_method {
-                                        a {
-                                            background-color: #D38042;
-
-                                        }
-                                    }
-                                }
-                                ul.options {
-                                    li {
-                                        border-right: 1px solid #dddddd;
-                                        border-right-color: #f0cecb;
-                                        color: #D38042;
-                                        a {
-                                            color: #D38042;
-                                        }
-                                    }
-                                }
+                                background-color: #D38042;
                             }
                             div.content {
                                 background-color: #faf0ef;
@@ -950,25 +861,7 @@
                         }
                         li.operation.get {
                             div.heading {
-                                background-color: #e7f0f7;
-                                border: 1px solid #c3d9ec;
-                                h3 {
-                                    span.http_method {
-                                        a {
-                                            background-color: #0f6ab4;
-                                        }
-                                    }
-                                }
-                                ul.options {
-                                    li {
-                                        border-right: 1px solid #dddddd;
-                                        border-right-color: #c3d9ec;
-                                        color: #0f6ab4;
-                                        a {
-                                            color: #0f6ab4;
-                                        }
-                                    }
-                                }
+                                background-color: #0f6ab4;
                             }
                             div.content {
                                 background-color: #ebf3f9;
@@ -985,25 +878,7 @@
                         }
                         li.operation.options {
                             div.heading {
-                                background-color: #e7f0f7;
-                                border: 1px solid #c3d9ec;
-                                h3 {
-                                    span.http_method {
-                                        a {
-                                            background-color: #0f6ab4;
-                                        }
-                                    }
-                                }
-                                ul.options {
-                                    li {
-                                        border-right: 1px solid #dddddd;
-                                        border-right-color: #c3d9ec;
-                                        color: #0f6ab4;
-                                        a {
-                                            color: #0f6ab4;
-                                        }
-                                    }
-                                }
+                                background-color: #0f6ab4;
                             }
                             div.content {
                                 background-color: #ebf3f9;
