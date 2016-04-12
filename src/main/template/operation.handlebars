@@ -4,16 +4,16 @@
       <div class='heading'>
         <h3>
           <span class='http_method'>
-          <a href='#{{parentId}}_{{nickname}}' data-href='#!/{{encodedParentId}}/{{nickname}}' class="toggleOperation">+</a>
+          <button data-href='#!/{{encodedParentId}}/{{nickname}}' class="toggleOperation link-button">+</button>
           </span>
           <span class='path'>
-          <a href='#{{parentId}}_{{nickname}}' data-href='#!/{{encodedParentId}}/{{nickname}}' class="toggleOperation code {{#if deprecated}}deprecated{{/if}}">{{path}}</a>
+          <button data-href='#!/{{encodedParentId}}/{{nickname}}' class="toggleOperation code {{#if deprecated}}deprecated{{/if}} link-button">{{path}}</button>
           </span>
         </h3>
         <ul class='options'>
           <li>
           {{#if summary}}
-            <a href='#{{parentId}}_{{nickname}}' data-href='#!/{{encodedParentId}}/{{nickname}}' class="toggleOperation">{{{summary}}}</a>
+            <button data-href='#!/{{encodedParentId}}/{{nickname}}' class="toggleOperation link-button">{{{summary}}}</button>
           {{/if}}
           </li>
         </ul>
