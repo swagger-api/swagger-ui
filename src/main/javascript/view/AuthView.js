@@ -6,7 +6,6 @@
 /* global additionalQueryStringParams */
 /* global clientSecret */
 /* global onOAuthComplete */
-/* global realm */
 /*jshint unused:false*/
 
 SwaggerUi.Views.AuthView = Backbone.View.extend({
@@ -142,8 +141,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
 
         var redirect_uri = redirectUrl;
 
-        url += '&redirect_uri=' + encodeURIComponent(redirectUrl);
-        url += '&realm=' + encodeURIComponent(realm);
+        url += '&redirect_uri=' + encodeURIComponent(redirectUrl);        
         url += '&client_id=' + encodeURIComponent(clientId);
         url += '&scope=' + encodeURIComponent(scopes.join(scopeSeparator));
         url += '&state=' + encodeURIComponent(state);
