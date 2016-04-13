@@ -107,10 +107,16 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       this.addResource(resource, this.model.auths);
     }
 
-    $('.propWrap').hover(function onHover(){
-      $('.optionsWrapper', $(this)).show();
-    }, function offhover(){
-      $('.optionsWrapper', $(this)).hide();
+    $(".propWrap .propName").each(function eachPropName(i, item) {
+      var propName = $(item);
+      var optionsWrapper = propName.siblings('.optionsWrapper');
+      if (optionsWrapper.length > 0) {
+        propName.hover(function onHover(){
+          optionsWrapper.show();
+        }, function offhover(){
+          optionsWrapper.hide();
+        });
+      }
     });
     return this;
   },
