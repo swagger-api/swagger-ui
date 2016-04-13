@@ -8,6 +8,9 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     alpha   : function(a,b){ return a.path.localeCompare(b.path); },
     method  : function(a,b){ return a.method.localeCompare(b.method); }
   },
+  events: {
+    'click button' : 'buttonClickHandler'
+  },
   initialize: function(opts){
     var sorterOption, sorterFn, key, value;
     opts = opts || {};
@@ -137,5 +140,11 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
   clear: function(){
     $(this.el).html('');
+  },
+  buttonClickHandler: function(e){
+    var target = $(e.currentTarget);
+    if (target.attr('data-href')){
+      window.history.pushState(null,null,target.attr('data-href'));
+    }
   }
 });

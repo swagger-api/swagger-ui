@@ -82,7 +82,7 @@
 .swagger-section pre .vhdl .attribute,
 .swagger-section pre .clojure .attribute,
 .swagger-section pre .coffeescript .property {
-  color: #8888ff;
+  color: #88F;
 }
 .swagger-section pre .keyword,
 .swagger-section pre .id,
@@ -224,7 +224,7 @@
   color: #aaaaaa;
 }
 .swagger-section .swagger-ui-wrap a {
-  color: #2678BA;
+  color: #1A5686;
 }
 .swagger-section .swagger-ui-wrap a img {
   border: none;
@@ -344,7 +344,7 @@
 }
 .swagger-section .swagger-ui-wrap .model-signature .signature-nav a {
   text-decoration: none;
-  color: #AAA;
+  color: #6D6C6D;
 }
 .swagger-section .swagger-ui-wrap .model-signature .signature-nav a:hover {
   text-decoration: underline;
@@ -574,7 +574,7 @@
   font-style: italic;
 }
 .swagger-section .swagger-ui-wrap .markdown h3 {
-  color: #2678BA;
+  color: #1A5686;
 }
 .swagger-section .swagger-ui-wrap .markdown h4 {
   color: #666666;
@@ -631,7 +631,7 @@
   font-size: 0.9em;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource div.heading ul.options li a {
-  color: #2678BA;
+  color: #2373B3;
   text-decoration: none;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource div.heading ul.options li a:hover {
@@ -766,7 +766,7 @@
   font-size: 0.9em;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.content div.sandbox_header input.submit {
-  background: #2678BA;
+  background: #1A5686;
   border: none;
   color: #fff;
   cursor: pointer;
@@ -930,7 +930,7 @@
   border: 1px solid #d7d7d7;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading h3 span.http_method a {
-  background-color: #2678BA;
+  background-color: #1A5686;
   padding: 10px;
   font-size: 16px;
 }
@@ -1026,7 +1026,7 @@
 }
 .swagger-section .swagger-ui-wrap p#colophon a {
   text-decoration: none;
-  color: #2678BA;
+  color: #1A5686;
 }
 .swagger-section .swagger-ui-wrap h3 {
   color: black;
@@ -1223,6 +1223,32 @@ select[multiple] {
   background: #2F3843;
   padding: 20px 0;
   text-align: right;
+}
+button.link-button {
+  background: none;
+  border: none;
+  /*padding:0!important;*/
+  font: inherit;
+  /*border is optional*/
+  cursor: pointer;
+}
+button.link-button:hover {
+  text-decoration: underline;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.get div.heading h3 span.http_method button {
+  background-color: #2678BA;
+  padding: 10px;
+  font-size: 16px;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.heading h3 span.http_method button {
+  text-transform: uppercase;
+  text-decoration: none;
+  color: white;
+  display: inline-block;
+  width: 70px;
+  font-size: 0.7em;
+  text-align: center;
+  padding: 7px 0 4px;
 }
 .swagger-section .access {
   float: right;

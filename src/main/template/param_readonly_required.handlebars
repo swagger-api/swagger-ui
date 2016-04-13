@@ -1,7 +1,7 @@
 <td class='code required'>{{name}}</td>
 <td>
     {{#if isBody}}
-        <textarea class='body-textarea' readonly='readonly' placeholder='(required)' name='{{name}}'>{{default}}</textarea>
+        <textarea aria-label={{name}} class='body-textarea' readonly='readonly' placeholder='(required)' name='{{name}}'>{{default}}</textarea>
     {{else}}
         {{#if default}}
             {{default}}

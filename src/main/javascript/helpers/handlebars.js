@@ -21,6 +21,7 @@ Handlebars.registerHelper('renderTextParam', function(param) {
 
     if(isArray) {
         result = '<textarea class=\'body-textarea' + (param.required ? ' required' : '') + '\' name=\'' + param.name + '\'';
+        result += ' aria-label=\'' + param.name + '\'';
         result += ' placeholder=\'Provide multiple values in new lines' + (param.required ? ' (at least one required).' : '.') + '\'>';
         result += defaultValue + '</textarea>';
     } else {
@@ -30,7 +31,31 @@ Handlebars.registerHelper('renderTextParam', function(param) {
         }
         result = '<input class=\'' + parameterClass + '\' minlength=\'' + (param.required ? 1 : 0) + '\'';
         result += ' name=\'' + param.name +'\' placeholder=\'' + (param.required ? '(required)' : '') + '\'';
+        result += ' aria-label=\'' + param.name + '\'';
         result += ' type=\'' + type + '\' value=\'' + defaultValue + '\'/>';
     }
     return new Handlebars.SafeString(result);
+});
+Handlebars.registerHelper('debug', function(optionalValue) {
+  console.log('Current Context');
+  console.log('====================');
+  console.log(this);
+ 
+  if (optionalValue) {
+    console.log('Value');
+    console.log('====================');
+    console.log(optionalValue);
+  }
+});
+
+Handlebars.registerHelper('get_unique_id', function(){
+    return Handlebars.unique_id;
+});
+
+Handlebars.registerHelper('new_unique_id', function(){
+    if (!Handlebars.unique_id){
+        Handlebars.unique_id = 0;
+    }
+    Handlebars.unique_id++;
+    return Handlebars.unique_id;
 });
