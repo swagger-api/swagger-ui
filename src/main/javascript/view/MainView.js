@@ -107,7 +107,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       this.addResource(resource, this.model.auths);
     }
 
-    $(".propWrap .propName").each(function eachPropName(i, item) {
+    $('.propWrap .propName').each(function eachPropName(i, item) {
       var propName = $(item);
       var optionsWrapper = propName.siblings('.optionsWrapper');
       if (optionsWrapper.length > 0) {
