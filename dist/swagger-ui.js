@@ -22004,7 +22004,7 @@ SwaggerUi.partials.signature = (function () {
   function getDescriptorByRef($ref, name, models, config) {
     var modelType = simpleRef($ref);
     var model = models[modelType] || {};
-    var type = model.type || 'object';
+    var type = model.definition && model.definition.type ? model.definition.type : 'object';
     name = name || model.name;
 
     if (config.modelsToIgnore.indexOf($ref) > -1) {
