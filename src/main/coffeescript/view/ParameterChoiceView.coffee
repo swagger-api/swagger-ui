@@ -15,6 +15,7 @@ class ParameterChoiceView extends Backbone.View
     modelJSON = @model.toJSON()
     modelJSON["currentValue"] = @currentValue
     $(@el).html(template(modelJSON))
+    $('select', $(@el)).select2()
     if @currentValue
       @enableCloseButton()
     @

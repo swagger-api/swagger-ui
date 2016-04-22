@@ -25,7 +25,7 @@ class Resource extends Backbone.Model
         types.push type
       operationsByType[type].push(swaggerOperation)
 
-    for type in types.sort()
+    for type in types
       typeModels.push new Type({
         name: type
         viewId: @get('name') + "_" + type
