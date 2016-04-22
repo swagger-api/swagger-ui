@@ -255,6 +255,14 @@ SwaggerUi.partials.signature = (function () {
       var type = schema.type || 'object';
       var isArray = type === 'array';
 
+      if (!_.isUndefined(schema.description)) {
+        html += ': ' + '<span class="propDesc">' + schema.description + '</span>';
+      }
+
+      if (schema.enum) {
+        html += ' = <span class="propVals">[\'' + schema.enum.join('\', \'') + '\']</span>';
+      }
+
       if (isArray) {
         if (_.isPlainObject(schema.items) && !_.isUndefined(schema.items.type)) {
           type = schema.items.type;
@@ -404,15 +412,12 @@ SwaggerUi.partials.signature = (function () {
               var requiredClass = propertyIsRequired ? 'required' : '';
               var html = '<span class="propName ' + requiredClass + '">' + name + '</span> (';
               var model;
-              var propDescription;
 
               // Allow macro to set the default value
               cProperty.default = modelPropertyMacro(cProperty);
 
               // Resolve the schema (Handle nested schemas)
               cProperty = resolveSchema(cProperty);
-
-              propDescription = property.description || cProperty.description;
 
               // We need to handle property references to primitives (Issue 339)
               if (!_.isUndefined(cProperty.$ref)) {
@@ -435,14 +440,6 @@ SwaggerUi.partials.signature = (function () {
               }
 
               html += ')';
-
-              if (!_.isUndefined(propDescription)) {
-                html += ': ' + '<span class="propDesc">' + propDescription + '</span>';
-              }
-
-              if (cProperty.enum) {
-                html += ' = <span class="propVals">[\'' + cProperty.enum.join('\', \'') + '\']</span>';
-              }
 
               return '<div' + (property.readOnly ? ' class="readOnly"' : '') + '>' + primitiveToOptionsHTML(cProperty, html);
             }).join(',</div>');
