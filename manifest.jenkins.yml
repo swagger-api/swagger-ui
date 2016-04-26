@@ -3,6 +3,7 @@ applications:
   host: pz-swagger
   buildpack: staticfile_buildpack
   domain: stage.geointservices.io
-  memory: 512M
+  memory: 256M
+  disk_quota: 128M
   instances: 1
   timeout: 180
