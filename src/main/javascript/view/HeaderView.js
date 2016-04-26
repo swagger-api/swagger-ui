@@ -4,7 +4,7 @@ SwaggerUi.Views.HeaderView = Backbone.View.extend({
   events: {
     'click #show-pet-store-icon'    : 'showPetStore',
     'click #explore'                : 'showCustom',
-    'keyup #input_baseUrl'          : 'showCustomOnKeyup',
+    'keyup #input_url'              : 'showCustomOnKeyup',
     'keyup #input_apiKey'           : 'showCustomOnKeyup'
   },
 
@@ -28,7 +28,7 @@ SwaggerUi.Views.HeaderView = Backbone.View.extend({
     }
 
     this.trigger('update-swagger-ui', {
-      url: $('#input_baseUrl').val()
+      url: $('#input_url').val()
     });
   },
 
@@ -37,7 +37,7 @@ SwaggerUi.Views.HeaderView = Backbone.View.extend({
       trigger = false;
     }
 
-    $('#input_baseUrl').val(url);
+    $('#input_url').val(url);
 
     if (trigger) {
       this.trigger('update-swagger-ui', {url:url});

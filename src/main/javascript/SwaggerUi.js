@@ -64,7 +64,7 @@ window.SwaggerUi = Backbone.Router.extend({
     // Create view to handle the header inputs
     this.headerView = new SwaggerUi.Views.HeaderView({el: $('#header')});
 
-    // Event handler for when the baseUrl/apiKey is entered by user
+    // Event handler for when the url/apiKey is entered by user
     this.headerView.on('update-swagger-ui', function(data) {
       return that.updateSwaggerUi(data);
     });
