@@ -21,9 +21,7 @@ SwaggerUi.Models.Oauth2Model = Backbone.Model.extend({
     },
 
     validate: function () {
-        var valid =  _.findIndex(this.get('scopes'), function (o) {
-           return o.checked === true;
-        }) > -1;
+        var valid = true;
 
         this.set('valid', valid);
 
