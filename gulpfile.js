@@ -91,7 +91,7 @@ function _less() {
       './src/main/less/style.less'
     ])
     .pipe(less())
-    .on('error', log)
+    .on('error', function(err){ log(err); this.emit('end');})
     .pipe(gulp.dest('./src/main/html/css/'))
     .pipe(connect.reload());
 }
