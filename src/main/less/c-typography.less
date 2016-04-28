@@ -1,15 +1,20 @@
 @import "c-colors";
 
 // Typefaces
-@sans-serif-font: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+@sans-serif-font: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+@slab-serif-font: "Roboto Slab", "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 @monospace-font: "Roboto Mono", "Source Code Pro", "Anonymous Pro", Consolas, Monaco, monospace;
 
 // Headers
-h1, h2, h3 {
+h1, h2 {
   font-family: @sans-serif-font;
+}
+h3, h4 {
+  font-family: @slab-serif-font;
 }
 h1 {
   font-size: 24px;
+  letter-spacing: 0;
   .app-header & {
     font-weight: 600;
   }
@@ -19,6 +24,10 @@ h2 {
 }
 h3 {
   font-size: 18px;
+  letter-spacing: 0;
+}
+h4 {
+  margin: 0;
 }
 
 
@@ -32,5 +41,9 @@ pre, code, kbd {
 }
 a {
   color: @clover-green;
+  font-family: @sans-serif-font;
+}
+
+input, button, select, textarea {
   font-family: @sans-serif-font;
 }
