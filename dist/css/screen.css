@@ -1410,7 +1410,7 @@
   height: 23px;
   min-width: 775px;
 }
-.swagger-section #input_baseUrl {
+.swagger-section #input_url {
   width: 400px;
 }
 .swagger-section #api_selector {
