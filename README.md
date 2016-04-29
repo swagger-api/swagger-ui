@@ -55,10 +55,10 @@ To build swagger-ui using a docker container:
 
 ```
 docker build -t swagger-ui-builder .
-docker run -p 127.0.0.1:8080:8080 swagger-ui-builder
+docker run -p 80:8080 swagger-ui-builder
 ```
 
-This will start Swagger UI at `http://localhost:8080`.
+This will start Swagger UI at `http://localhost`.
 
 ### Use
 Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstore.swagger.io/v2/swagger.json) service and show its APIs.  You can enter your own server url and click explore to view the API.

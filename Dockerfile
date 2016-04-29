@@ -7,16 +7,14 @@
 #
 ###
 
-FROM    ubuntu:14.04
-MAINTAINER dnephin@gmail.com
-
-ENV     DEBIAN_FRONTEND noninteractive
-
-RUN     apt-get update && apt-get install -y git npm nodejs openjdk-7-jre
-RUN     ln -s /usr/bin/nodejs /usr/local/bin/node
+FROM vmware/node:4.2.4
 
 WORKDIR /build
-ADD     package.json    /build/package.json
-RUN     npm install
-ADD     .   /build
-CMD     ./node_modules/gulp/bin/gulp.js serve
+
+COPY . /build
+
+RUN npm install
+
+EXPOSE 8080
+
+CMD /build/node_modules/gulp/bin/gulp.js serve
