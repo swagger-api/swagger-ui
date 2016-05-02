@@ -26,7 +26,7 @@ SwaggerUi.partials.signature = (function () {
 
   // copy-pasted from swagger-js
   var getInlineModel = function(inlineStr) {
-    if(/^Inline Model \d+$/.test(inlineStr)) {
+    if(/^Inline Model \d+$/.test(inlineStr) && this.inlineModels) {
       var id = parseInt(inlineStr.substr('Inline Model'.length).trim(),10); //
       var model = this.inlineModels[id];
       return model;
