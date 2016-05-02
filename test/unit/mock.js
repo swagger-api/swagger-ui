@@ -5,7 +5,7 @@ $(function () {
   if (url && url.length > 1) {
     url = decodeURIComponent(url[1]);
   } else {
-    url = '/swagger/doc';
+    url = '/swagger.yaml';
   }
 
   // Pre load translate...
