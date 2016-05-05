@@ -1,20 +1,11 @@
-###
-# swagger-ui-builder - https://github.com/swagger-api/swagger-ui/
-# Container for building the swagger-ui static site
-#
-# Build: docker build -t swagger-ui-builder .
-# Run:   docker run -v $PWD/dist:/build/dist swagger-ui-builder
-#
-###
+FROM alpine:3.3
 
-FROM vmware/node:4.2.4
+MAINTAINER Roman Tarnavski
 
-WORKDIR /build
+RUN apk add --update nginx
 
-COPY . /build
+ADD ./dist/ /usr/share/nginx/html
 
-RUN npm install
+EXPOSE 80
 
-EXPOSE 8080
-
-CMD /build/node_modules/gulp/bin/gulp.js serve
+CMD nginx -g 'daemon off;'
