@@ -32,7 +32,7 @@ module.exports.start = function (specsLocation, done) {
       done();
     }, 2000);
     console.log('waiting for UI to load');
-  }, process.env.TRAVIS ? 30000 : 5000);
+  }, process.env.TRAVIS ? 40000 : 5000);
   console.log('waiting for server to start');
 };
 
