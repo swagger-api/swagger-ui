@@ -24,7 +24,6 @@ describe('swagger 2.0 spec tests', function () {
 
   before(function (done) {
     this.timeout(50 * 1000);
-    console.log('using spec path ' + specPath);
     servers.start(specPath, done);
   });
 
