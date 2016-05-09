@@ -667,7 +667,6 @@
 }
 .swagger-section .swagger-ui-wrap .markdown pre code {
   line-height: 1.6em;
-  overflow: auto;
 }
 .swagger-section .swagger-ui-wrap div.gist {
   margin: 20px 0 25px 0 !important;
