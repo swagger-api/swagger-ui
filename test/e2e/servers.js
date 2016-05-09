@@ -27,12 +27,12 @@ module.exports.start = function (specsLocation, done) {
   var url = 'http://localhost:' + DOCS_PORT + '/index.html?url=' + swaggerSpecLocation;
 
   setTimeout(function(){
-    driver.get(url);
+    console.log(driver.get(url));
     setTimeout(function() {
       done();
     }, 2000);
     console.log('waiting for UI to load');
-  }, process.env.TRAVIS ? 20000 : 5000);
+  }, process.env.TRAVIS ? 30000 : 5000);
   console.log('waiting for server to start');
 };
 
