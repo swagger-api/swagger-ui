@@ -82,9 +82,26 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
   },
 
-  render: function () {
+  render: function(){
+    if (this.model.securityDefinitions) {
+      for (var name in this.model.securityDefinitions) {
+        var auth = this.model.securityDefinitions[name];
+        var button;
+
+        if (auth.type === 'apiKey' && $('#apikey_button').length === 0) {
+          button = new SwaggerUi.Views.ApiKeyButton({model: auth, router:  this.router}).render().el;
+          $('.auth_main_container').append(button);
+        }
+
+        if (auth.type === 'basicAuth' && $('#basic_auth_button').length === 0) {
+          button = new SwaggerUi.Views.BasicAuthButton({model: auth, router: this.router}).render().el;
+          $('.auth_main_container').append(button);
+        }
+      }
+    }
+
+    // Render the outer container for resources
     $(this.el).html(Handlebars.templates.main(this.model));
-    this.model.securityDefinitions = this.model.securityDefinitions || {};
 
     // Render each resource
 
@@ -136,7 +153,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
   onLinkClick: function (e) {
     var el = e.target;
-    if (el.tagName === 'A' && el.href) {
+    if (el.tagName === 'A') {
       if (location.hostname !== el.hostname || location.port !== el.port) {
         e.preventDefault();
         window.open(el.href, '_blank');

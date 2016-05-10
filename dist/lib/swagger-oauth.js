@@ -331,8 +331,7 @@ window.onOAuthComplete = function onOAuthComplete(token,OAuthSchemeKey) {
             }
           }
         });
-        window.swaggerUi.api.clientAuthorizations.add(window.OAuthSchemeKey, new SwaggerClient.ApiKeyAuthorization('Authorization', 'Bearer ' + b, 'header'));
-        window.swaggerUi.load();
+        window.swaggerUi.api.clientAuthorizations.add(OAuthSchemeKey, new SwaggerClient.ApiKeyAuthorization('Authorization', 'Bearer ' + b, 'header'));
       }
     }
   }
