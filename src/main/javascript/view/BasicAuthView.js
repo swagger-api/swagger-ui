@@ -48,9 +48,5 @@ SwaggerUi.Views.BasicAuthView = Backbone.View.extend({
         if (!this.model.get('username')) {
             this.$(this.selectors.usernameInput).addClass(this.cls.error);
         }
-
-        if (!this.model.get('password')) {
-            this.$(this.selectors.passwordInput).addClass(this.cls.error);
-        }
     }
 });
