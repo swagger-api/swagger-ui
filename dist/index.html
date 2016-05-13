@@ -66,6 +66,7 @@
           });
 
           addApiKeyAuthorization();
+          window.swaggerUi.api.setHost( window.location.hostname.replace("swagger","gateway") );
         },
         onFailure: function(data) {
           log("Unable to Load SwaggerUI");
