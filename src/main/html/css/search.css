@@ -1,0 +1,37 @@
+fieldset.search {
+    background-color: #fff;
+    border: 1px solid #bebebe;
+    border-radius: 4px;
+    height: 20px;
+    margin: auto;
+    padding: 4px;
+    width: 60%;
+}
+
+fieldset.search input[type="text"] {
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    box-shadow: none !important;
+    color: #999;
+    float: left;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 85%;
+}
+
+fieldset.search button[type="submit"] {
+    background-color: transparent;
+    background-image: url("../images/search.png");
+    background-position: right top;
+    background-repeat: no-repeat;
+    border: medium none;
+    box-shadow: none;
+    color: #999;
+    float: right;
+    height: 100%;
+    margin: 0;
+    max-width: 17px;
+    padding: 0;
+    width: 10%;
+}
