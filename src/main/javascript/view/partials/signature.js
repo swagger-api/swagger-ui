@@ -870,7 +870,7 @@ SwaggerUi.partials.signature = (function () {
         output = createPrimitiveXML(descriptor);
     }
 
-    if ($ref) {
+    if ($ref && descriptor.type !== 'loop') {
       index = config.modelsToIgnore.indexOf($ref);
       if (index > -1) {
         config.modelsToIgnore.splice(index, 1);
