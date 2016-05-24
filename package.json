@@ -58,6 +58,6 @@
     "phantomjs": "1.9.19",
     "selenium-webdriver": "^2.45.0",
     "sinon-chai": "2.8.0",
-    "swagger-client": "2.1.14"
+    "swagger-client": "git://github.com/swagger-api/swagger-js.git#fe1a25742b0f8127fbf7d8ea629409ca63c5e9c2"
   }
 }
