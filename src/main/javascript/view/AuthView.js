@@ -1,6 +1,6 @@
 'use strict';
 
-/* global redirect_uri */
+/* global redirect_uri:true */
 /* global clientId */
 /* global scopeSeparator */
 /* global additionalQueryStringParams */
@@ -140,7 +140,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
             }
         }
 
-        var redirect_uri = redirectUrl;
+        redirect_uri = redirectUrl;
 
         url += '&redirect_uri=' + encodeURIComponent(redirectUrl);
         url += '&realm=' + encodeURIComponent(realm);
