@@ -31,7 +31,7 @@ SwaggerUi.Models.Oauth2Model = Backbone.Model.extend({
           valid = true;
       }
 
-      if(scp.length == 0) {
+      if(scp.length === 0) {
           valid = true;
       }
 
