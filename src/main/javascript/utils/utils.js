@@ -67,5 +67,19 @@ window.SwaggerUi.utils = {
         }
 
         return result;
+    },
+    fetchXRefIfPossible: function(swaggerObj, ref) {
+      if (_.isObject(ref) && ref.$ref) {
+        var objReference = ref.$ref;
+        if (objReference.indexOf('#/x-') === 0) {
+          return _.clone(_.get(swaggerObj, objReference.substring('#/'.length).split('/')));
+        } else {
+          //invalid reference. References that are part of the spec (i.e., not prefixed by -x)
+          //are already handled elsewhere
+          return null;
+        }
+      } else {
+        return ref;
+      }
     }
 };
