@@ -306,6 +306,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   parseResponseHeaders: function (data) {
     var HEADERS_SEPARATOR = '; ';
+    data = SwaggerUi.utils.fetchXRefIfPossible(this.model.parent.swaggerObject, data);
     var headers = _.clone(data);
 
     _.forEach(headers, function (header) {
