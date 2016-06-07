@@ -84,7 +84,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         e.preventDefault();
 
         this.authsCollectionView.collection.forEach(function (auth) {
-            var name = auth.get('type') === 'basic' ? 'basic' : auth.get('title');
+            var name = auth.get('type') === 'basic' ? auth.get('title') : auth.get('title');
 
             window.swaggerUi.api.clientAuthorizations.remove(name);
         });
