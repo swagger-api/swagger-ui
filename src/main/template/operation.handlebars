@@ -23,25 +23,22 @@
         <h4><span data-sw-translate>Implementation Notes</span></h4>
         <div class="markdown">{{{description}}}</div>
         {{/if}}
-        {{#if security}}
-            <div class='authorize-wrapper authorize-wrapper_operation'></div>
-        {{/if}}
-        {{!--{{#oauth}}--}}
-        {{!--<div class="auth">--}}
-        {{!--<span class="api-ic ic-error">{{/oauth}}--}}
-        {{!--{{#each oauth}}--}}
-          {{!--<div class="api_information_panel">--}}
-          {{!--{{#each this}}--}}
-            {{!--<div title='{{{this.description}}}'>{{this.scope}}</div>--}}
-          {{!--{{/each}}--}}
-          {{!--</div>--}}
-        {{!--{{/each}}--}}
-        {{!--{{#oauth}}</span></div>{{/oauth}}--}}
-        {{!--{{#oauth}}--}}
-        {{!--<div class='access'>--}}
-          {{!--<span class="api-ic ic-off" title="click to authenticate"></span>--}}
-        {{!--</div>--}}
-        {{!--{{/oauth}}--}}
+        {{#oauth}}
+        <div class="auth">
+        <span class="api-ic ic-error">{{/oauth}}
+        {{#each oauth}}
+          <div class="api_information_panel">
+          {{#each this}}
+            <div title='{{{this.description}}}'>{{this.scope}}</div>
+          {{/each}}
+          </div>
+        {{/each}}
+        {{#oauth}}</span></div>{{/oauth}}
+        {{#oauth}}
+        <div class='access'>
+          <span class="api-ic ic-off" title="click to authenticate"></span>
+        </div>
+        {{/oauth}}
         {{#if type}}
           <div class="response-class">
             <h4><span data-sw-translate>Response Class</span> (<span data-sw-translate>Status</span> {{successCode}})</h4>

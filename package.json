@@ -59,6 +59,5 @@
     "selenium-webdriver": "^2.45.0",
     "sinon-chai": "2.8.0",
     "swagger-client": "git://github.com/swagger-api/swagger-js.git#475c3f5c12b6d44e817ccd0093e69c7e7733f032"
-
   }
 }
