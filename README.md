@@ -1,7 +1,7 @@
 # Swagger UI
 
 [![Build Status](https://travis-ci.org/swagger-api/swagger-ui.svg?branch=master)](https://travis-ci.org/swagger-api/swagger-ui)
-[![NPM version](https://badge.fury.io/js/swagger-ui.png)](http://badge.fury.io/js/swagger-ui)
+[![NPM version](https://badge.fury.io/js/swagger-ui.svg)](http://badge.fury.io/js/swagger-ui)
 
 [![Dependency Status](https://david-dm.org/swagger-api/swagger-ui/status.svg)](https://david-dm.org/swagger-api/swagger-ui)
 [![devDependency Status](https://david-dm.org/swagger-api/swagger-ui/dev-status.svg)](https://david-dm.org/swagger-api/swagger-ui#info=devDependencies)
@@ -55,10 +55,10 @@ To build swagger-ui using a docker container:
 
 ```
 docker build -t swagger-ui-builder .
-docker run -p 127.0.0.1:8080:8080 swagger-ui-builder
+docker run -p 80:8080 swagger-ui-builder
 ```
 
-This will start Swagger UI at `http://localhost:8080`.
+This will start Swagger UI at `http://localhost`.
 
 ### Use
 Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstore.swagger.io/v2/swagger.json) service and show its APIs.  You can enter your own server url and click explore to view the API.
