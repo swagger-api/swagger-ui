@@ -19748,9 +19748,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         e.preventDefault();
 
         this.authsCollectionView.collection.forEach(function (auth) {
-            var name = auth.get('type') === 'basic' ? 'basic' : auth.get('title');
-
-            window.swaggerUi.api.clientAuthorizations.remove(name);
+            window.swaggerUi.api.clientAuthorizations.remove(auth.get('title'));
         });
 
         this.router.load();
@@ -19914,12 +19912,9 @@ SwaggerUi.Views.BasicAuthView = Backbone.View.extend({
         if (!this.model.get('username')) {
             this.$(this.selectors.usernameInput).addClass(this.cls.error);
         }
-
-        if (!this.model.get('password')) {
-            this.$(this.selectors.passwordInput).addClass(this.cls.error);
-        }
     }
 });
+
 'use strict';
 
 SwaggerUi.Views.ContentTypeView = Backbone.View.extend({
@@ -21968,15 +21963,19 @@ SwaggerUi.partials.signature = (function () {
     var value;
     var items = definition.items;
     var xml = definition.xml || {};
+    var namespace = getNamespace(xml);
+    var attributes = [];
 
     if (!items) { return getErrorMessage(); }
 
     value = createSchemaXML(name, items, models, config);
 
-    xml = xml || {};
+    if (namespace) {
+      attributes.push(namespace);
+    }
 
     if (xml.wrapped) {
-      value = wrapTag(name, value);
+      value = wrapTag(name, value, attributes);
     }
 
     return value;
