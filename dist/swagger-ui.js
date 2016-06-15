@@ -19588,7 +19588,7 @@ SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
         var authz = Object.assign({}, window.swaggerUi.api.clientAuthorizations.authz);
 
         return _.map(data, function (auth, name) {
-            var isBasic = authz.basic && auth.type === 'basic';
+            var isBasic = authz[name] && auth.type === 'basic' && authz[name].username && authz[name].password;
 
             _.extend(auth, {
                 title: name
@@ -19598,8 +19598,8 @@ SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
                 _.extend(auth, {
                     isLogout: true,
                     value: isBasic ? undefined : authz[name].value,
-                    username: isBasic ? authz.basic.username : undefined,
-                    password: isBasic ? authz.basic.password : undefined,
+                    username: isBasic ? authz[name].username : undefined,
+                    password: isBasic ? authz[name].password : undefined,
                     valid: true
                 });
             }
@@ -19748,9 +19748,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         e.preventDefault();
 
         this.authsCollectionView.collection.forEach(function (auth) {
-            var name = auth.get('type') === 'basic' ? 'basic' : auth.get('title');
-
-            window.swaggerUi.api.clientAuthorizations.remove(name);
+            window.swaggerUi.api.clientAuthorizations.remove(auth.get('title'));
         });
 
         this.router.load();
@@ -19914,12 +19912,9 @@ SwaggerUi.Views.BasicAuthView = Backbone.View.extend({
         if (!this.model.get('username')) {
             this.$(this.selectors.usernameInput).addClass(this.cls.error);
         }
-
-        if (!this.model.get('password')) {
-            this.$(this.selectors.passwordInput).addClass(this.cls.error);
-        }
     }
 });
+
 'use strict';
 
 SwaggerUi.Views.ContentTypeView = Backbone.View.extend({
@@ -20152,15 +20147,26 @@ SwaggerUi.Models.Oauth2Model = Backbone.Model.extend({
     },
 
     validate: function () {
-        var valid =  _.findIndex(this.get('scopes'), function (o) {
-           return o.checked === true;
-        }) > -1;
+      var valid = false;
+      var scp = this.get('scopes');
+      var idx =  _.findIndex(scp, function (o) {
+         return o.checked === true;
+      });
 
-        this.set('valid', valid);
+      if(scp.length > 0 && idx >= 0) {
+          valid = true;
+      }
 
-        return valid;
+      if(scp.length === 0) {
+          valid = true;
+      }
+
+      this.set('valid', valid);
+
+      return valid;
     }
 });
+
 'use strict';
 
 SwaggerUi.Views.Oauth2View = Backbone.View.extend({
