@@ -719,15 +719,19 @@ SwaggerUi.partials.signature = (function () {
     var value;
     var items = definition.items;
     var xml = definition.xml || {};
+    var namespace = getNamespace(xml);
+    var attributes = [];
 
     if (!items) { return getErrorMessage(); }
 
     value = createSchemaXML(name, items, models, config);
 
-    xml = xml || {};
+    if (namespace) {
+      attributes.push(namespace);
+    }
 
     if (xml.wrapped) {
-      value = wrapTag(name, value);
+      value = wrapTag(name, value, attributes);
     }
 
     return value;
