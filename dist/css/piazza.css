@@ -40,3 +40,7 @@
 #header {
 	display: none;
 }
+
+.swagger-section .swagger-ui-wrap a {
+	color: rgb(65,59,166);
+}
