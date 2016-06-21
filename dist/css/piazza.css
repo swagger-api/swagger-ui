@@ -1,0 +1,46 @@
+.piazza-logo {
+	height: 80px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+}
+
+.piazza-header {
+	background-color: rgb(65,59,166);
+	height: 50px;
+}
+
+.piazza-input {
+	padding: 5px; 
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-right: 10px;
+    border: solid 1px #E5E5E5; 
+    border-radius: 2px;
+    outline: 0; 
+    width: 200px; 
+    background: #FFFFFF url('bg_form.png') left top repeat-x; 
+    background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #EEEEEE), to(#FFFFFF)); 
+    background: -moz-linear-gradient(top, #FFFFFF, #EEEEEE 1px, #FFFFFF 25px); 
+    box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+    -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+    -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+    width: 150px;
+}
+
+.piazza-login {
+	float: right;
+}
+
+.piazza-button {
+	margin-right: 10px;
+}
+
+#header {
+	display: none;
+}
+
+.swagger-section .swagger-ui-wrap a {
+	color: rgb(65,59,166);
+}
