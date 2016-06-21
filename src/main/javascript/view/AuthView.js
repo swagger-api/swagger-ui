@@ -24,7 +24,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         authBtn: '.auth_submit__button'
     },
 
-    initialize: function(opts) {
+    initialize: function (opts) {
         this.options = opts || {};
         opts.data = opts.data || {};
         this.router = this.options.router;
@@ -74,6 +74,8 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
                 this.router.api.clientAuthorizations.add(auth.get('title'), basicAuth);
             } else if (type === 'oauth2') {
                 this.handleOauth2Login(auth);
+            } else if (type === 'jwt') {
+                basicAuth = this.handleJwtAuthLogin(auth);
             }
         }, this);
 
@@ -106,24 +108,24 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         window.enabledScopes = scopes;
         var flow = auth.get('flow');
 
-        if(auth.get('type') === 'oauth2' && flow && (flow === 'implicit' || flow === 'accessCode')) {
+        if (auth.get('type') === 'oauth2' && flow && (flow === 'implicit' || flow === 'accessCode')) {
             dets = auth.attributes;
             url = dets.authorizationUrl + '?response_type=' + (flow === 'implicit' ? 'token' : 'code');
             window.swaggerUi.tokenName = dets.tokenName || 'access_token';
             window.swaggerUi.tokenUrl = (flow === 'accessCode' ? dets.tokenUrl : null);
             state = window.OAuthSchemeKey;
         }
-        else if(auth.get('type') === 'oauth2' && flow && (flow === 'application')) {
+        else if (auth.get('type') === 'oauth2' && flow && (flow === 'application')) {
             dets = auth.attributes;
             window.swaggerUi.tokenName = dets.tokenName || 'access_token';
             this.clientCredentialsFlow(scopes, dets.tokenUrl, window.OAuthSchemeKey);
             return;
         }
-        else if(auth.get('grantTypes')) {
+        else if (auth.get('grantTypes')) {
             // 1.2 support
             var o = auth.get('grantTypes');
-            for(var t in o) {
-                if(o.hasOwnProperty(t) && t === 'implicit') {
+            for (var t in o) {
+                if (o.hasOwnProperty(t) && t === 'implicit') {
                     dets = o[t];
                     ep = dets.loginEndpoint.url;
                     url = dets.loginEndpoint.url + '?response_type=token';
@@ -152,6 +154,74 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         window.open(url);
     },
 
+    handleJwtAuthLogin: function (auth) {
+        var defs = auth.attributes;
+        var authUrl = defs.authorizationUrl;
+        var headerType = defs.authHeaderType || 'Bearer';
+        var tokenProperty = defs.tokenPropertyName || 'access_token';
+        var username = auth.get('username');
+        var password = auth.get('password');
+
+        var payload = {
+            username: username,
+            password: password
+        };
+
+        var JwtAuthorization = function JwtAuthorization(token, headerType, username) {
+            this.name = 'Authorization';
+            this.headerType = headerType;
+            this.token = token;
+            this.username = username || 'N/A';
+            this.password = 'nope';
+        };
+
+        JwtAuthorization.prototype.apply = function (obj) {
+            if (typeof obj.headers[this.name] === 'undefined') {
+                obj.headers[this.name] = this.headerType + ' ' + this.token;
+            }
+
+            return true;
+        };
+
+        $.ajax({
+            url: authUrl,
+            type: 'POST',
+            data: JSON.stringify(payload),
+            contentType: 'application/json',
+            success: function (response) {
+                var token;
+
+                if (response) {
+                    if (response.error) {
+                        console.error('JWT auth error:' + response.error);
+
+                        return;
+                    }
+
+                    token = response[tokenProperty];
+
+                    if (!token) {
+                        console.log('JWT auth error: Unable to find token data from the response with property name: ' +
+                            tokenProperty);
+
+                        return;
+                    }
+
+                    window.swaggerUi.api.clientAuthorizations.add(auth.get('title'),
+                        new JwtAuthorization(token, headerType, username));
+
+                    window.swaggerUi.load();
+
+                }
+
+            }.bind(this),
+            error: function (response) {
+                console.error('JWT auth error: ', response.status);
+            }
+        });
+
+    },
+
     // taken from lib/swagger-oauth.js
     clientCredentialsFlow: function (scopes, tokenUrl, OAuthSchemeKey) {
         var params = {
@@ -161,15 +231,13 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
             'grant_type': 'client_credentials'
         };
         $.ajax({
-            url : tokenUrl,
+            url: tokenUrl,
             type: 'POST',
             data: params,
-            success: function (data)
-            {
+            success: function (data) {
                 onOAuthComplete(data, OAuthSchemeKey);
             },
-            error: function ()
-            {
+            error: function () {
                 onOAuthComplete('');
             }
         });
