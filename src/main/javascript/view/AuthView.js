@@ -75,7 +75,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
             } else if (type === 'oauth2') {
                 this.handleOauth2Login(auth);
             } else if (type === 'jwt') {
-                basicAuth = this.handleJwtAuthLogin(auth);
+                this.handleJwtAuthLogin(auth);
             }
         }, this);
 
@@ -157,69 +157,33 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
     handleJwtAuthLogin: function (auth) {
         var defs = auth.attributes;
         var authUrl = defs.authorizationUrl;
-        var headerType = defs.authHeaderType || 'Bearer';
-        var tokenProperty = defs.tokenPropertyName || 'access_token';
+        var headerType = defs.authHeaderType;
+        var tokenProperty = defs.tokenPropertyName;
         var username = auth.get('username');
         var password = auth.get('password');
 
-        var payload = {
+        // Override protocol in auth url, if scheme is defined
+        if (window.swaggerUi.api.scheme) {
+            authUrl = window.swaggerUi.api.scheme + '://' + authUrl.replace(/.*?:\/\//g, '');
+        }
+
+        var jwtAuth = new SwaggerUi.JwtAuthorization({
             username: username,
-            password: password
-        };
-
-        var JwtAuthorization = function JwtAuthorization(token, headerType, username) {
-            this.name = 'Authorization';
-            this.headerType = headerType;
-            this.token = token;
-            this.username = username || 'N/A';
-            this.password = 'nope';
-        };
-
-        JwtAuthorization.prototype.apply = function (obj) {
-            if (typeof obj.headers[this.name] === 'undefined') {
-                obj.headers[this.name] = this.headerType + ' ' + this.token;
-            }
-
-            return true;
-        };
-
-        $.ajax({
-            url: authUrl,
-            type: 'POST',
-            data: JSON.stringify(payload),
-            contentType: 'application/json',
-            success: function (response) {
-                var token;
-
-                if (response) {
-                    if (response.error) {
-                        console.error('JWT auth error:' + response.error);
-
-                        return;
-                    }
-
-                    token = response[tokenProperty];
-
-                    if (!token) {
-                        console.log('JWT auth error: Unable to find token data from the response with property name: ' +
-                            tokenProperty);
-
-                        return;
-                    }
-
-                    window.swaggerUi.api.clientAuthorizations.add(auth.get('title'),
-                        new JwtAuthorization(token, headerType, username));
-
-                    window.swaggerUi.load();
-
-                }
-
-            }.bind(this),
-            error: function (response) {
-                console.error('JWT auth error: ', response.status);
-            }
+            password: password,
+            tokenPropertyName: tokenProperty,
+            headerType: headerType
         });
 
+        jwtAuth.getToken(authUrl, function (err) {
+            if (err) {
+                return;
+            }
+
+            // A valid token was successfully received and set.
+            // We can now add the authorization object and reload the UI.
+            window.swaggerUi.api.clientAuthorizations.add(auth.get('title'), jwtAuth);
+            window.swaggerUi.load();
+        });
     },
 
     // taken from lib/swagger-oauth.js
