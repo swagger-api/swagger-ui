@@ -39,6 +39,10 @@ SwaggerUi.Views.AuthButtonView = Backbone.View.extend({
             content: this.$authEl
         };
 
+        // The content of the popup is removed and all events unbound after clicking the 'Cancel' button of the popup.
+        // We'll have to re-render the contents before creating a new popup view.
+        this.render();
+
         this.popup = new SwaggerUi.Views.PopupView({model: authsModel});
         this.popup.render();
     },
