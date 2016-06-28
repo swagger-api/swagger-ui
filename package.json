@@ -60,5 +60,9 @@
     "selenium-webdriver": "^2.45.0",
     "sinon-chai": "2.8.0",
     "swagger-client": "2.1.14"
+  },
+  "dependencies": {
+    "express": "^4.12.0",
+    "express-session": "^1.13.0"
   }
 }
