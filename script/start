@@ -1,0 +1,3 @@
+#!/bin/sh
+
+env $(cat .env) NODE_ENV=development node server.js

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+env $(cat .env) NODE_PATH=./app NODE_ENV=test ./node_modules/.bin/babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/mocha

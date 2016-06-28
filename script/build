@@ -1,0 +1,3 @@
+#!/bin/sh
+
+env $(cat .env) NODE_ENV=production ./node_modules/.bin/webpack --progress -p
