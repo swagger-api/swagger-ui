@@ -51,6 +51,7 @@ gulp.task('dist', ['clean', 'lint'], _dist);
 function _dist() {
   return es.merge(
     gulp.src([
+        './node_modules/es5-shim/es5-shim.js',
         './src/main/javascript/**/*.js',
         './node_modules/swagger-client/browser/swagger-client.js'
       ]),
