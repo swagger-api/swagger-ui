@@ -104,7 +104,7 @@ gulp.task('copy', ['less'], _copy);
 function _copy() {
   // copy JavaScript files inside lib folder
   gulp
-    .src(['./lib/**/*.{js,map}'])
+    .src(['./lib/**/*.{js,map}', './node_modules/es5-shim/es5-shim.js'])
     .pipe(gulp.dest('./dist/lib'))
     .on('error', log);
 
