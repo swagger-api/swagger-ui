@@ -1,107 +1,97 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>Swagger UI</title>
-  <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
-  <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
-  <link href='css/typography.css' media='screen' rel='stylesheet' type='text/css'/>
-  <link href='css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
-  <link href='css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
-  <link href='css/reset.css' media='print' rel='stylesheet' type='text/css'/>
-  <link href='css/print.css' media='print' rel='stylesheet' type='text/css'/>
+  <head>
+    <meta charset="UTF-8">
+    <title>Swagger UI</title>
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+    <link href='css/typography.css' media='screen' rel='stylesheet' type='text/css'/>
+    <link href='css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
+    <link href='css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
+    <link href='css/reset.css' media='print' rel='stylesheet' type='text/css'/>
+    <link href='css/print.css' media='print' rel='stylesheet' type='text/css'/>
 
-  <script src='lib/object-assign-pollyfill.js' type='text/javascript'></script>
-  <script src='lib/jquery-1.8.0.min.js' type='text/javascript'></script>
-  <script src='lib/jquery.slideto.min.js' type='text/javascript'></script>
-  <script src='lib/jquery.wiggle.min.js' type='text/javascript'></script>
-  <script src='lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
-  <script src='lib/handlebars-2.0.0.js' type='text/javascript'></script>
-  <script src='lib/js-yaml.min.js' type='text/javascript'></script>
-  <script src='lib/lodash.min.js' type='text/javascript'></script>
-  <script src='lib/backbone-min.js' type='text/javascript'></script>
-  <script src='swagger-ui.js' type='text/javascript'></script>
-  <script src='lib/highlight.9.1.0.pack.js' type='text/javascript'></script>
-  <script src='lib/highlight.9.1.0.pack_extended.js' type='text/javascript'></script>
-  <script src='lib/jsoneditor.min.js' type='text/javascript'></script>
-  <script src='lib/marked.js' type='text/javascript'></script>
-  <script src='lib/swagger-oauth.js' type='text/javascript'></script>
+    <script src='lib/object-assign-pollyfill.js' type='text/javascript'></script>
+    <script src='lib/jquery-1.8.0.min.js' type='text/javascript'></script>
+    <script src='lib/jquery.slideto.min.js' type='text/javascript'></script>
+    <script src='lib/jquery.wiggle.min.js' type='text/javascript'></script>
+    <script src='lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
+    <script src='lib/handlebars-2.0.0.js' type='text/javascript'></script>
+    <script src='lib/js-yaml.min.js' type='text/javascript'></script>
+    <script src='lib/lodash.min.js' type='text/javascript'></script>
+    <script src='lib/backbone-min.js' type='text/javascript'></script>
+    <script src='swagger-ui.js' type='text/javascript'></script>
+    <script src='lib/highlight.9.1.0.pack.js' type='text/javascript'></script>
+    <script src='lib/highlight.9.1.0.pack_extended.js' type='text/javascript'></script>
+    <script src='lib/jsoneditor.min.js' type='text/javascript'></script>
+    <script src='lib/marked.js' type='text/javascript'></script>
+    <script src='lib/swagger-oauth.js' type='text/javascript'></script>
 
-  <!-- Some basic translations -->
-  <!-- <script src='lang/translator.js' type='text/javascript'></script> -->
-  <!-- <script src='lang/ru.js' type='text/javascript'></script> -->
-  <!-- <script src='lang/en.js' type='text/javascript'></script> -->
+    <!-- Some basic translations -->
+    <!-- <script src='lang/translator.js' type='text/javascript'></script> -->
+    <!-- <script src='lang/ru.js' type='text/javascript'></script> -->
+    <!-- <script src='lang/en.js' type='text/javascript'></script> -->
 
-  <script type="text/javascript">
-    $(function () {
-      var url = window.location.search.match(/url=([^&]+)/);
-      if (url && url.length > 1) {
-        url = decodeURIComponent(url[1]);
-      } else {
-        url = "http://petstore.swagger.io/v2/swagger.json";
-      }
+    <script type="text/javascript">
+     $(function () {
+       var intoxSpec = JSON.parse("{\"swagger\":\"2.0\",\"security\":[{\"basic\":[]}],\"info\":{\"title\":\"Intoxitrack API\",\"version\":\"1\",\"license\":{\"name\":\"Copyright Intoximeters 2013-2016. All rights reserved.\"},\"description\":\"\\n## Authentication\\nBasic Auth and session cookies are currently implemented for authentication.\\n\\n## Basic Concepts\\nA participant is an individual who has been enrolled on at least one program.\\nA program is defined as a set time period in which a participant must submit\\nto testing through some number of protocols due to some particular offense and\\nreason for enrollment. For each program a participant has a primary site that\\nis responsible for testing and monitoring them as well as a supervising agent\\nwho should receive updates on them.\\n\\nOne important concept to understand is that participants, programs, and\\nprotocols cannot be deleted through the API. When a participant is created\\nthey exist in any number of states based on their programs, including:\\n\\n  * active - the participant currently has an active program\\n  * uninitiated - the participant has a program that will be active in the future\\n  * inactive - the participant has no currently active program now or in the future\\n\\nPrograms can be defined to have multiple states also, including:\\n\\n  * active - the current day is within the range between the start and end date\\n    of the program and the program is not suspended or locked.\\n  * suspended - a user has momentarily paused this program due to some event.\\n  * inactive - the current day is not within the date range for a program.\\n  * locked - the program is inactive and has been set into an non-editable state.\\n\\nA program can support any number of protocols. A protocol defines the types of\\ntests a participant must submit to as well as the date ranges, frequency, and\\nother characteristics of their testing regimen. Current protocols include:\\n\\n  * PBT - daily testing during expected sessions.\\n  * Drug Test - random or set interval rine or saliva analysis testing.\\n  * Drug Patch - tracking events on a parrticipant's drug patch.\\n  * Remote Breath Test - daily testing using remote breath test devices.\\n  * Transdermal - tracking events on transdermal devices including activation,\\n    deactivation, charges, tampers, and other events.\\n\\n## Caveats\\n* This is work in progress documentation.\\n* Please report any discrepancies or incorrect documentation to support@intoxitrack.net.\\n* Do ALL testing against integration.intoxitrack.net. This Swagger\\n  definition is configured to hit this server as well.\\n* A method to express the case that either an id or nested object is required\\n  was not found in Swagger. This case will be noted in the description of the\\n  object. An example is the Participant object and the gender/gender_id fields.\\n  We recommend using the id fields in this case.\\n* There are enums provided for gender, race names, and program types.\\n  These do not indicate the ids of the objects in the database, only the\\n  name values.\\n* Available program types, judges, and supervising agents are dependent on the\\n  jurisdiction of the program and will have to be requested from the API using\\n  the appropriate operations on the organization endpoint.\\n\"},\"host\":\"integration.intoxitrack.net\",\"schemes\":[\"https\"],\"basePath\":\"/api\",\"produces\":[\"application/json\"],\"paths\":{\"/participants/{participantId}\":{\"get\":{\"summary\":\"Participant Information Object\",\"description\":\"Returns a single participant object.\\n\",\"parameters\":[{\"name\":\"participantId\",\"in\":\"path\",\"required\":true,\"type\":\"integer\",\"format\":\"int64\"}],\"tags\":[\"Participants\"],\"responses\":{\"200\":{\"description\":\"blah\",\"schema\":{\"$ref\":\"#/definitions/Participant\"}}}},\"put\":{\"summary\":\"Participant Update\",\"description\":\"Updates a single participant.\\n\",\"parameters\":[{\"name\":\"participantId\",\"in\":\"path\",\"required\":true,\"type\":\"integer\",\"format\":\"int64\"},{\"name\":\"participant\",\"in\":\"body\",\"required\":true,\"schema\":{\"$ref\":\"#/definitions/Participant\"}}],\"tags\":[\"Participants\"],\"responses\":{\"226\":{\"description\":\"Updated participant object\",\"schema\":{\"type\":\"object\",\"properties\":{\"tasks\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Task\"}},\"participant\":{\"$ref\":\"#/definitions/Participant\"}}}}}}},\"/participants\":{\"get\":{\"summary\":\"Participant Information Object\",\"description\":\"The participants endpoint is the most top level endpoint in the API. Most\\nneeded information can be retrieved via nesting in this object including\\nthe programs and protocol ranges.\\n\",\"parameters\":[{\"name\":\"properties\",\"in\":\"query\",\"description\":\"A comma separated list of properties you would like returned with the object.\",\"required\":false,\"type\":\"array\",\"items\":{\"type\":\"string\"},\"collectionFormat\":\"csv\"},{\"name\":\"first_name\",\"in\":\"query\",\"description\":\"A first name to filter the results by.\",\"required\":false,\"type\":\"string\"},{\"name\":\"last_name\",\"in\":\"query\",\"description\":\"A last name to filter the results by.\",\"required\":false,\"type\":\"string\"},{\"name\":\"name\",\"in\":\"query\",\"description\":\"A full name to filter the results by.\",\"required\":false,\"type\":\"string\"},{\"name\":\"national_identifier\",\"in\":\"query\",\"description\":\"A national identifier to filter the results by. Requires Date of Birth to be present as well.\",\"type\":\"string\"},{\"name\":\"date_of_birth\",\"in\":\"query\",\"description\":\"A date of birth to filter the results by.\",\"type\":\"string\"}],\"tags\":[\"Participants\"],\"responses\":{\"200\":{\"description\":\"An array of participants\",\"schema\":{\"type\":\"object\",\"properties\":{\"tasks\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Task\"}},\"list\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Participant\"}}}}}}},\"post\":{\"summary\":\"Participant Creation\",\"description\":\"Creates a participant. Most needed information for participant creation\\ncan be included as nested data. This includes programs.\\n\",\"parameters\":[{\"name\":\"participant\",\"in\":\"body\",\"required\":true,\"schema\":{\"$ref\":\"#/definitions/Participant\"}}],\"tags\":[\"Participants\"],\"responses\":{\"201\":{\"description\":\"Created participant object\",\"schema\":{\"type\":\"object\",\"properties\":{\"tasks\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Task\"}},\"participant\":{\"$ref\":\"#/definitions/Participant\"}}}}}}},\"/participants/check_for_existing_national_id\":{\"post\":{\"summary\":\"Check if a national id and date_of_birth pair exists already.\",\"parameters\":[{\"name\":\"payload\",\"in\":\"body\",\"required\":true,\"schema\":{\"type\":\"object\",\"properties\":{\"national_identifier\":{\"type\":\"string\"},\"date_of_birth\":{\"type\":\"string\",\"format\":\"date\"}}}}],\"tags\":[\"NationalIdentifier\"],\"responses\":{\"200\":{\"description\":\"Retrieved participants. Empty list if none.\",\"schema\":{\"type\":\"object\",\"properties\":{\"list\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"previous_program\":{\"type\":\"object\",\"properties\":{\"supervising_agent\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"phone_numbers\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}}},\"program_site_name\":{\"type\":\"string\"}}}}}}}}}}}},\"/participants/{participantId}/programs\":{\"get\":{\"summary\":\"Program List\",\"description\":\"Lists programs for a particular participant.\",\"parameters\":[{\"name\":\"participantId\",\"in\":\"path\",\"required\":true,\"type\":\"integer\",\"format\":\"int64\"}],\"tags\":[\"Programs\"],\"responses\":{\"200\":{\"description\":\"Programs list\",\"schema\":{\"type\":\"object\",\"properties\":{\"tasks\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Task\"}},\"list\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Program\"}}}}}}},\"post\":{\"summary\":\"Program Creation\",\"description\":\"Creates a program for a particular participant.\",\"parameters\":[{\"name\":\"participantId\",\"in\":\"path\",\"required\":true,\"type\":\"integer\",\"format\":\"int64\"},{\"name\":\"program\",\"in\":\"body\",\"required\":true,\"schema\":{\"$ref\":\"#/definitions/Program\"}}],\"tags\":[\"Programs\"],\"responses\":{\"201\":{\"description\":\"Created program object\",\"schema\":{\"type\":\"object\",\"properties\":{\"tasks\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Task\"}},\"program\":{\"$ref\":\"#/definitions/Program\"}}}}}}},\"/participants/{participantId}/test_results\":{\"get\":{\"summary\":\"Test Results list for a particular participant.\",\"parameters\":[{\"name\":\"participantId\",\"in\":\"path\",\"required\":true,\"type\":\"integer\",\"format\":\"int64\"}],\"tags\":[\"TestResults\"],\"responses\":{\"200\":{\"description\":\"Test result list\",\"schema\":{\"type\":\"object\",\"properties\":{\"tasks\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Task\"}},\"list\":{\"$ref\":\"#/definitions/TestResultListItem\"}}}}}},\"post\":{\"summary\":\"Create test result for a particular participant.\",\"parameters\":[{\"name\":\"participantId\",\"in\":\"path\",\"required\":true,\"type\":\"integer\",\"format\":\"int64\"},{\"name\":\"testResult\",\"in\":\"body\",\"required\":true,\"schema\":{\"$ref\":\"#/definitions/CreateTestResult\"}}],\"tags\":[\"TestResults\"],\"responses\":{\"201\":{\"description\":\"Created test result\",\"schema\":{\"type\":\"object\",\"properties\":{\"tasks\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Task\"}},\"test_result\":{\"$ref\":\"#/definitions/CreateTestResultResponse\"}}}}}}},\"/programs/{programId}\":{\"get\":{\"summary\":\"Program Show\",\"description\":\"Shows a particular program.\",\"parameters\":[{\"name\":\"programId\",\"in\":\"path\",\"required\":true,\"type\":\"integer\",\"format\":\"int64\"}],\"tags\":[\"Programs\"],\"responses\":{\"200\":{\"description\":\"Program Show\",\"schema\":{\"type\":\"object\",\"properties\":{\"tasks\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Task\"}},\"program\":{\"$ref\":\"#/definitions/Program\"}}}}}},\"put\":{\"summary\":\"Program Update\",\"description\":\"Updates a particular program\",\"parameters\":[{\"name\":\"programId\",\"in\":\"path\",\"required\":true,\"type\":\"integer\",\"format\":\"int64\"}],\"tags\":[\"Programs\"],\"responses\":{\"200\":{\"description\":\"Updated program object\",\"schema\":{\"type\":\"object\",\"properties\":{\"tasks\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Task\"}},\"program\":{\"$ref\":\"#/definitions/Program\"}}}}}}},\"/genders\":{\"get\":{\"summary\":\"Gender List\",\"description\":\"Lists all valid genders in the system.\",\"tags\":[\"Genders\"],\"responses\":{\"200\":{\"description\":\"Gender list\",\"schema\":{\"type\":\"object\",\"properties\":{\"list\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Gender\"}}}}}}}},\"/races\":{\"get\":{\"summary\":\"Races List\",\"description\":\"Lists all valid races in the system.\",\"tags\":[\"Races\"],\"responses\":{\"200\":{\"description\":\"Races list\",\"schema\":{\"type\":\"object\",\"properties\":{\"list\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Gender\"}}}}}}}},\"/organizations/{organizationId}\":{\"get\":{\"summary\":\"Organization Object\",\"parameters\":[{\"name\":\"organizationId\",\"in\":\"path\",\"type\":\"integer\",\"format\":\"int64\",\"required\":true}],\"tags\":[\"Organizations\",\"Jurisdictions\"],\"responses\":{\"200\":{\"description\":\"Organization object\",\"schema\":{\"$ref\":\"#/definitions/Organization\"}}}}},\"/organizations/{organizationId}/users\":{\"get\":{\"summary\":\"Organization Object\",\"description\":\"Use to find supervising agents.\",\"parameters\":[{\"name\":\"organizationId\",\"in\":\"path\",\"type\":\"integer\",\"format\":\"int64\",\"required\":true}],\"tags\":[\"Organizations\",\"Jurisdictions\",\"SupervisingAgents\"],\"responses\":{\"200\":{\"description\":\"User list\",\"schema\":{\"type\":\"object\",\"properties\":{\"list\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/User\"}}}}}}}},\"/organizations/{organizationId}/judges\":{\"get\":{\"summary\":\"Organization Object\",\"description\":\"Use to find judges.\",\"parameters\":[{\"name\":\"organizationId\",\"in\":\"path\",\"type\":\"integer\",\"format\":\"int64\",\"required\":true}],\"tags\":[\"Organizations\",\"Jurisdictions\",\"Judges\"],\"responses\":{\"200\":{\"description\":\"Judge list\",\"schema\":{\"type\":\"object\",\"properties\":{\"list\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/User\"}}}}}}}},\"/organizations/{organizationId}/sites\":{\"get\":{\"summary\":\"Organization Object\",\"parameters\":[{\"name\":\"organizationId\",\"in\":\"path\",\"type\":\"integer\",\"format\":\"int64\",\"required\":true}],\"tags\":[\"Organizations\",\"Jurisdictions\",\"Sites\"],\"responses\":{\"200\":{\"description\":\"Site list\",\"schema\":{\"type\":\"object\",\"properties\":{\"list\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Site\"}}}}}}}},\"/organizations/agency\":{\"get\":{\"summary\":\"Organization Object\",\"parameters\":[{\"name\":\"parent_id\",\"in\":\"query\",\"type\":\"integer\",\"format\":\"int64\",\"required\":false},{\"name\":\"properties\",\"in\":\"query\",\"description\":\"A comma separated list of properties you would like returned with the object.\",\"required\":false,\"type\":\"array\",\"items\":{\"type\":\"string\"},\"collectionFormat\":\"csv\"}],\"tags\":[\"Organizations\",\"Jurisdictions\",\"Agencies\"],\"responses\":{\"200\":{\"description\":\"Agency list\",\"schema\":{\"type\":\"object\",\"properties\":{\"list\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Organization\"}}}}}}}},\"/organizations/jurisdiction\":{\"get\":{\"summary\":\"Organization Object\",\"parameters\":[{\"name\":\"parent_id\",\"in\":\"query\",\"type\":\"integer\",\"format\":\"int64\",\"required\":false},{\"name\":\"properties\",\"in\":\"query\",\"description\":\"A comma separated list of properties you would like returned with the object.\",\"required\":false,\"type\":\"array\",\"items\":{\"type\":\"string\"},\"collectionFormat\":\"csv\"}],\"tags\":[\"Organizations\",\"Jurisdictions\"],\"responses\":{\"200\":{\"description\":\"Jurisdiction list\",\"schema\":{\"type\":\"object\",\"properties\":{\"list\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Organization\"}}}}}}}},\"/organizations/state\":{\"get\":{\"summary\":\"Organization Object\",\"parameters\":[{\"name\":\"properties\",\"in\":\"query\",\"description\":\"A comma separated list of properties you would like returned with the object.\",\"required\":false,\"type\":\"array\",\"items\":{\"type\":\"string\"},\"collectionFormat\":\"csv\"}],\"tags\":[\"Organizations\",\"Jurisdictions\",\"Agencies\"],\"responses\":{\"200\":{\"description\":\"State list\",\"schema\":{\"type\":\"object\",\"properties\":{\"list\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Organization\"}}}}}}}}},\"securityDefinitions\":{\"basic\":{\"type\":\"basic\"}},\"definitions\":{\"Participant\":{\"type\":\"object\",\"required\":[\"first_name\",\"last_name\",\"national_identifier\",\"date_of_birth\",\"programs\"],\"description\":\"gender or gender_id are required.\\nrace or race_id are required.\\n\",\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int64\"},\"first_name\":{\"type\":\"string\"},\"last_name\":{\"type\":\"string\"},\"middle_name\":{\"type\":\"string\"},\"honorific\":{\"type\":\"string\"},\"suffix\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"email\":{\"type\":\"string\",\"format\":\"email\"},\"gender_id\":{\"type\":\"integer\",\"format\":\"int64\"},\"gender\":{\"$ref\":\"#/definitions/Gender\"},\"race_id\":{\"type\":\"integer\",\"format\":\"int64\"},\"race\":{\"$ref\":\"#/definitions/Race\"},\"national_identifier\":{\"description\":\"Hashed in database.\",\"type\":\"string\"},\"date_of_birth\":{\"type\":\"string\",\"format\":\"date\"},\"pin_number\":{\"type\":\"integer\",\"format\":\"int32\"},\"programs\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Program\"}},\"addresses\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/ParticipantAddress\"}},\"phone_numbers\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/ParticipantPhone\"}},\"_itx_meta\":{\"type\":\"object\"},\"protocols\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/ProtocolRange\"}}}},\"ParticipantAddress\":{\"type\":\"object\",\"required\":[\"street\",\"city\",\"zip\",\"state_id\",\"participant_address_type_id\"],\"properties\":{\"street\":{\"type\":\"string\"},\"building_name\":{\"type\":\"string\"},\"location_in_building\":{\"type\":\"string\"},\"participant_address_type_id\":{\"type\":\"integer\",\"format\":\"int64\"},\"city\":{\"type\":\"string\"},\"zip\":{\"type\":\"string\"},\"state_id\":{\"type\":\"integer\",\"format\":\"int64\"}}},\"ParticipantPhone\":{\"type\":\"object\",\"properties\":{\"label\":{\"type\":\"string\",\"enum\":[\"Home\",\"Work\",\"Cellular\",\"Pager\"]},\"number\":{\"type\":\"string\"}}},\"Program\":{\"type\":\"object\",\"description\":\"offense or offense_id required.\\nenrollment_reason or enrollment_reason_id required.\\nsupervising_agent or supervising_agent_id required.\\nparticipant or participant_id required.\\nprimary_site or primary_site_id required.\\njurisdiction or jurisdiction_id required.\\nprogram_type or program_type_id required.\\n\",\"required\":[\"start_date\",\"end_date\"],\"properties\":{\"received_participant_agreement\":{\"type\":\"boolean\"},\"received_confidentiality_waiver\":{\"type\":\"boolean\"},\"custodial_participant\":{\"type\":\"boolean\"},\"start_date\":{\"type\":\"string\",\"format\":\"date\"},\"end_date\":{\"type\":\"string\",\"format\":\"date\"},\"protocol_ranges\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/ProtocolRange\"}},\"transdermal_protocol\":{\"$ref\":\"#/definitions/ProtocolRange\"},\"drug_patch_test_protocol\":{\"$ref\":\"#/definitions/ProtocolRange\"},\"drug_test_protocol\":{\"$ref\":\"#/definitions/ProtocolRange\"},\"pbt_test_protocol\":{\"$ref\":\"#/definitions/ProtocolRange\"},\"external_pbt_test_protocol\":{\"$ref\":\"#/definitions/ProtocolRange\"},\"random_drug_test_protocol\":{\"$ref\":\"#/definitions/ProtocolRange\"},\"external_drug_test_protocol\":{\"$ref\":\"#/definitions/ProtocolRange\"},\"remote_breath_test_protocol\":{\"$ref\":\"#/definitions/ProtocolRange\"},\"case_docket_number\":{\"type\":\"string\"},\"jurisdiction_id\":{\"type\":\"integer\",\"format\":\"int64\"},\"jurisdiction\":{\"$ref\":\"#/definitions/Organization\"},\"enrollment_reason_id\":{\"type\":\"integer\",\"format\":\"int64\"},\"enrollment_reason\":{\"$ref\":\"#/definitions/EnrollmentReason\"},\"offense_id\":{\"type\":\"integer\",\"format\":\"int64\"},\"offense\":{\"$ref\":\"#/definitions/Offense\"},\"supervising_agent_id\":{\"type\":\"integer\",\"format\":\"int64\"},\"supervising_agent\":{\"$ref\":\"#/definitions/User\"},\"judge_id\":{\"type\":\"integer\",\"format\":\"int64\"},\"judge\":{\"$ref\":\"#/definitions/User\"},\"primary_site_id\":{\"type\":\"integer\",\"format\":\"int64\"},\"primary_site\":{\"$ref\":\"#/definitions/Site\"},\"program_type_id\":{\"type\":\"integer\",\"format\":\"int64\"},\"program_type\":{\"$ref\":\"#/definitions/ProgramType\"},\"exemptions\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/ParticipantExemption\"}},\"created_at\":{\"type\":\"string\",\"format\":\"datetime\"},\"updated_at\":{\"type\":\"string\",\"format\":\"datetime\"},\"_itx_meta\":{\"type\":\"object\"}}},\"Task\":{\"type\":\"object\"},\"ParticipantExemption\":{\"type\":\"object\"},\"ProtocolRange\":{\"type\":\"object\"},\"Organization\":{\"type\":\"object\"},\"EnrollmentReason\":{\"type\":\"object\"},\"Offense\":{\"type\":\"object\"},\"User\":{\"type\":\"object\"},\"Site\":{\"type\":\"object\"},\"ProgramType\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int64\"},\"name\":{\"description\":\"Enum up to date as of 2016-06-30\",\"type\":\"string\",\"enum\":[\"24x7\",\"Other\"]}}},\"Gender\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int64\"},\"name\":{\"description\":\"Enum up to date as of 2016-06-30\",\"type\":\"string\",\"enum\":[\"unknown\",\"male\",\"female\",\"not applicable\"]}}},\"Race\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int64\"},\"name\":{\"description\":\"Enum up to date as of 2016-06-30\",\"type\":\"string\",\"enum\":[\"unknown\",\"American Indian or Alaskan Native\",\"Asian\",\"Black, not of Hispanic origin\",\"Hispanic\",\"Native Hawaiian or Other Pacific Islander\",\"White, not of Hispanic origin\"]}}},\"TestResultListItem\":{\"type\":\"object\",\"required\":[\"display_name\"],\"discriminator\":\"display_name\",\"properties\":{\"display_name\":{\"type\":\"string\"},\"session_name\":{\"type\":\"string\"},\"protocol_name\":{\"type\":\"string\"},\"site\":{\"$ref\":\"#/definitions/Site\"},\"order\":{\"type\":\"integer\",\"format\":\"int64\"},\"_itx_meta\":{\"type\":\"object\"},\"participant\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int64\"},\"name\":{\"type\":\"string\"}}}}},\"TestResult\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int64\"},\"url\":{\"type\":\"string\"},\"recorder\":{\"$ref\":\"#/definitions/User\"},\"display_name\":{\"type\":\"string\"},\"protocol_name\":{\"type\":\"string\"},\"created_at\":{\"type\":\"string\",\"format\":\"datetime\"},\"updated_at\":{\"type\":\"string\",\"format\":\"datetime\"},\"tested_at\":{\"type\":\"string\",\"format\":\"datetime\"},\"is_invalidated\":{\"type\":\"boolean\",\"description\":\"Test result has been marked as invalid.\"},\"participant\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"format\":\"int64\"},\"name\":{\"type\":\"string\"}}},\"time_zone\":{\"type\":\"string\"},\"comments\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"failed\":{\"type\":\"boolean\"},\"tester\":{\"$ref\":\"#/definitions/User\"},\"site\":{\"$ref\":\"#/definitions/Site\"},\"breath_alcohol_content\":{\"type\":\"number\"},\"is_confirmatory_test\":{\"type\":\"boolean\"},\"device_identifier\":{\"type\":\"string\"},\"action_performed\":{\"type\":\"string\"},\"tampered\":{\"type\":\"boolean\"},\"was_tampered\":{\"type\":\"boolean\"}}},\"PBT\":{\"type\":\"object\",\"allOf\":[{\"$ref\":\"#/definitions/TestResultListItem\"},{\"$ref\":\"#/definitions/TestResult\"},{\"type\":\"object\"}]},\"Drug Test\":{\"type\":\"object\",\"allOf\":[{\"$ref\":\"#/definitions/TestResultListItem\"},{\"$ref\":\"#/definitions/TestResult\"},{\"type\":\"object\",\"properties\":{\"drug_test_kit\":{\"type\":\"object\"},\"kit_identifier\":{\"type\":\"string\"},\"non_negative_substances\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}}}]},\"Drug Patch\":{\"type\":\"object\",\"allOf\":[{\"$ref\":\"#/definitions/TestResultListItem\"},{\"$ref\":\"#/definitions/TestResult\"},{\"type\":\"object\",\"properties\":{\"patch_number\":{\"type\":\"string\"},\"body_part\":{\"type\":\"object\"}}}]},\"Transdermal\":{\"type\":\"object\",\"allOf\":[{\"$ref\":\"#/definitions/TestResultListItem\"},{\"$ref\":\"#/definitions/TestResult\"},{\"type\":\"object\"}]},\"Remote Breath Test\":{\"type\":\"object\",\"allOf\":[{\"$ref\":\"#/definitions/TestResultListItem\"},{\"$ref\":\"#/definitions/TestResult\"},{\"type\":\"object\"}]},\"No Show\":{\"type\":\"object\",\"allOf\":[{\"$ref\":\"#/definitions/TestResultListItem\"},{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"display_name\":{\"type\":\"string\"},\"tested_at\":{\"type\":\"string\",\"format\":\"date\"},\"recorder\":{\"type\":\"object\"},\"excused\":{\"type\":\"boolean\"},\"acknowledgement\":{\"type\":\"boolean\"},\"pending\":{\"type\":\"boolean\"},\"comments\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"excuse_url\":{\"type\":\"string\"},\"acknowledge_url\":{\"type\":\"string\"},\"shift\":{\"type\":\"string\"}}}]},\"CreateTestResult\":{\"type\":\"object\"},\"CreateTestResultResponse\":{\"type\":\"object\"}}}");
+       hljs.configure({
+         highlightSizeThreshold: 5000
+       });
 
-      hljs.configure({
-        highlightSizeThreshold: 5000
-      });
+       // Pre load translate...
+       if(window.SwaggerTranslator) {
+         window.SwaggerTranslator.translate();
+       }
+       window.swaggerUi = new SwaggerUi({
+         url: "",
+         dom_id: "swagger-ui-container",
+         supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
+         onComplete: function(swaggerApi, swaggerUi){
+           if(typeof initOAuth == "function") {
+             initOAuth({
+               clientId: "your-client-id",
+               clientSecret: "your-client-secret-if-required",
+               realm: "your-realms",
+               appName: "your-app-name",
+               scopeSeparator: ",",
+               additionalQueryStringParams: {}
+             });
+           }
 
-      // Pre load translate...
-      if(window.SwaggerTranslator) {
-        window.SwaggerTranslator.translate();
-      }
-      window.swaggerUi = new SwaggerUi({
-        url: url,
-        dom_id: "swagger-ui-container",
-        supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
-        onComplete: function(swaggerApi, swaggerUi){
-          if(typeof initOAuth == "function") {
-            initOAuth({
-              clientId: "your-client-id",
-              clientSecret: "your-client-secret-if-required",
-              realm: "your-realms",
-              appName: "your-app-name",
-              scopeSeparator: ",",
-              additionalQueryStringParams: {}
-            });
-          }
+           if(window.SwaggerTranslator) {
+             window.SwaggerTranslator.translate();
+           }
+         },
+         onFailure: function(data) {
+           log("Unable to Load SwaggerUI");
+         },
+         spec: intoxSpec,
+         docExpansion: "none",
+         jsonEditor: false,
+         defaultModelRendering: 'schema',
+         showRequestHeaders: false
+       });
 
-          if(window.SwaggerTranslator) {
-            window.SwaggerTranslator.translate();
-          }
-        },
-        onFailure: function(data) {
-          log("Unable to Load SwaggerUI");
-        },
-        docExpansion: "none",
-        jsonEditor: false,
-        defaultModelRendering: 'schema',
-        showRequestHeaders: false
-      });
+       window.swaggerUi.load();
 
-      window.swaggerUi.load();
+       function log() {
+         if ('console' in window) {
+           console.log.apply(console, arguments);
+         }
+       }
+     });
+    </script>
+  </head>
 
-      function log() {
-        if ('console' in window) {
-          console.log.apply(console, arguments);
-        }
-      }
-  });
-  </script>
-</head>
+  <body class="swagger-section">
+    <div id='header'>
+      <div class="swagger-ui-wrap">
+        <a id="logo" href="http://swagger.io"><img class="logo__img" alt="swagger" height="30" width="30" src="images/logo_small.png" /><span class="logo__title">swagger</span></a>
+      </div>
+    </div>
 
-<body class="swagger-section">
-<div id='header'>
-  <div class="swagger-ui-wrap">
-    <a id="logo" href="http://swagger.io"><img class="logo__img" alt="swagger" height="30" width="30" src="images/logo_small.png" /><span class="logo__title">swagger</span></a>
-    <form id='api_selector'>
-      <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
-      <div id='auth_container'></div>
-      <div class='input'><a id="explore" class="header__btn" href="#" data-sw-translate>Explore</a></div>
-    </form>
-  </div>
-</div>
-
-<div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
-<div id="swagger-ui-container" class="swagger-ui-wrap"></div>
-</body>
+    <div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
+    <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+  </body>
 </html>
