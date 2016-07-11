@@ -21,12 +21,22 @@ SwaggerUi.Models.Oauth2Model = Backbone.Model.extend({
     },
 
     validate: function () {
-        var valid =  _.findIndex(this.get('scopes'), function (o) {
-           return o.checked === true;
-        }) > -1;
+      var valid = false;
+      var scp = this.get('scopes');
+      var idx =  _.findIndex(scp, function (o) {
+         return o.checked === true;
+      });
 
-        this.set('valid', valid);
+      if(scp.length > 0 && idx >= 0) {
+          valid = true;
+      }
 
-        return valid;
+      if(scp.length === 0) {
+          valid = true;
+      }
+
+      this.set('valid', valid);
+
+      return valid;
     }
 });
