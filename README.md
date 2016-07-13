@@ -124,12 +124,12 @@ Header params are supported through a pluggable mechanism in [swagger-js](https:
 $('#input_apiKey').change(function() {
   var key = $('#input_apiKey')[0].value;
   if(key && key.trim() != "") {
-    swaggerUi.api.clientAuthorizations.add("key", new SwaggerClient.ApiKeyAuthorization("api_key", key, "header"));
+    swaggerUi.api.clientAuthorizations.add("auth_name", new SwaggerClient.ApiKeyAuthorization("api_key", key, "header"));
   }
 })
 ```
 
-This will add header `api_key` with value `key` on every call to the server.  You can substitute `query` to send the values as a query param.
+This will add the header `api_key` with value `key` on calls that have the `auth_name` security scheme as part of their swaggerDefinitions.  You can substitute `query` to send the values as a query param.
 
 ### Custom Header Parameters - (For Basic auth etc)
 If you have some header parameters which you need to send with every request, use the headers as below:
