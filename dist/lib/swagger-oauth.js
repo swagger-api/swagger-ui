@@ -250,11 +250,19 @@ function clientCredentialsFlow(scopes, tokenUrl, OAuthSchemeKey) {
 
 window.processOAuthCode = function processOAuthCode(data) {
   var OAuthSchemeKey = data.state;
+
+  // redirect_uri is required in auth code flow 
+  // see https://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.1.3
+  var host = window.location;
+  var pathname = location.pathname.substring(0, location.pathname.lastIndexOf("/"));
+  var defaultRedirectUrl = host.protocol + '//' + host.host + pathname + '/o2c.html';
+  var redirectUrl = window.oAuthRedirectUrl || defaultRedirectUrl;
+
   var params = {
     'client_id': clientId,
     'code': data.code,
     'grant_type': 'authorization_code',
-    'redirect_uri': redirect_uri
+    'redirect_uri': redirectUrl
   };
 
   if (clientSecret) {

@@ -434,7 +434,7 @@ this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(dept
     + "\" data-sw-translate>Terms of service</a></div>";
 },"6":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
-  return "<div class='info_name' data-sw-translate>Created by "
+  return "<div><div class='info_name' style=\"display: inline\" data-sw-translate>Created by </div> "
     + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.name : stack1), depth0))
     + "</div>";
 },"8":function(depth0,helpers,partials,data) {
@@ -19667,6 +19667,10 @@ SwaggerUi.Views.AuthButtonView = Backbone.View.extend({
             title: 'Available authorizations',
             content: this.$authEl
         };
+
+        // The content of the popup is removed and all events unbound after clicking the 'Cancel' button of the popup.
+        // We'll have to re-render the contents before creating a new popup view.
+        this.render();
 
         this.popup = new SwaggerUi.Views.PopupView({model: authsModel});
         this.popup.render();
