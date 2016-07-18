@@ -660,7 +660,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       url = response.request.url;
     }
     var headers = response.headers;
-    content = jQuery.trim(content);
+    if (typeof content === 'string') {
+        content = jQuery.trim(content);
+    }
 
     // if server is nice, and sends content-type back, we can use it
     var contentType = null;
@@ -680,6 +682,8 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
     var pre;
     var code;
+    var blob;
+    var href;
     if (!content) {
       code = $('<code />').text('no content');
       pre = $('<pre class="json" />').append(code);
@@ -713,7 +717,31 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
       // Image
     } else if (/^image\//.test(contentType)) {
-      pre = $('<img>').attr('src', url);
+      if (response.method === 'GET') {
+        pre = $('<img>').attr('src', url);
+      } else {
+        if ('Blob' in window) {
+          blob = new Blob([content], {type: contentType});
+          href = window.URL.createObjectURL(blob);
+          pre = $('<img>').attr('src', href);
+        } else {
+          pre = $('<pre class="json" />').append('Download headers detected but your browser does not support downloading binary via XHR (Blob).');
+        }
+      }
+
+      // PDF
+    } else if (/application\/pdf/.test(contentType)) {
+      if (response.method === 'GET') {
+        pre = $('<iframe/>').attr('src', url).attr('width', '100%').attr('height', '500');
+      } else {
+        if ('Blob' in window) {
+          blob = new Blob([content], {type: contentType});
+          href = window.URL.createObjectURL(blob);
+          pre = $('<iframe/>').attr('src', href).attr('width', '100%').attr('height', '500');
+        } else {
+          pre = $('<pre class="json" />').append('Download headers detected but your browser does not support downloading binary via XHR (Blob).');
+        }
+      }
 
       // Audio
     } else if (/^audio\//.test(contentType) && supportsAudioPlayback(contentType)) {
@@ -727,9 +755,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
       if ('Blob' in window) {
         var type = contentType || 'text/html';
-        var blob = new Blob([content], {type: type});
+        blob = new Blob([content], {type: type});
         var a = document.createElement('a');
-        var href = window.URL.createObjectURL(blob);
+        href = window.URL.createObjectURL(blob);
         var fileName = response.url.substr(response.url.lastIndexOf('/') + 1);
         var download = [type, fileName, href].join(':');
 
