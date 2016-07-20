@@ -1015,22 +1015,14 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         window.swaggerUi = new SwaggerUi({
             url: url,
             dom_id: "swagger-ui-container",
-            supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
             onComplete: function(swaggerApi, swaggerUi){
-                if(typeof initOAuth == "function") {
-                    initOAuth({
-                        clientId: "your-client-id",
-                        clientSecret: "your-client-secret-if-required",
-                        realm: "your-realms",
-                        appName: "your-app-name",
-                        scopeSeparator: ",",
-                        additionalQueryStringParams: {}
-                    });
-                }
-
                 if(window.SwaggerTranslator) {
                     window.SwaggerTranslator.translate();
                 }
+
+                $('pre code').each(function(i, e) {
+                    hljs.highlightBlock(e);
+                });
             },
             onFailure: function(data) {
                 if(data === '401 : {\"message\":\"The identity is not set or unauthorized.\"} ' + url) {
@@ -1040,9 +1032,12 @@ window.SwaggerUiRouter = Backbone.Router.extend({
                 }
             },
             docExpansion: "none",
-            jsonEditor: false,
-            defaultModelRendering: 'schema',
-            showRequestHeaders: false
+            apisSorter: "alpha",
+            operationsSorter: function(a, b) {
+                return a.path === b.path ? a.method.localeCompare(b.method) : a.path.localeCompare(b.path);
+            },
+            showRequestHeaders: false,
+            validatorUrl: null
         });
     },
 
@@ -20278,11 +20273,18 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
             contenttype: 'x-www-form-urlencoded',
             data: 'grant_type=password&username=' + $('#user').val() + '&password=' + $('#pass').val() + '&tenantId=' + $('#tenant').val() + '&extend=roles',
             success: function (response) {
-                var bearerToken = 'Bearer ' + response.access_token;
+                var bearerToken = 'Bearer ' + response.access_token,
+                    apiKeyAuth = new SwaggerClient.ApiKeyAuthorization('Authorization', bearerToken, 'header');
 
+                //set supported HTTP methods
                 window.swaggerUi.options.supportedSubmitMethods = (response.roles || []).indexOf('Admin') >= 0 ? ['get', 'post', 'put', 'delete', 'patch'] : ['get'];
-                window.swaggerUi.options.authorizations = {'Authorization' : new SwaggerClient.ApiKeyAuthorization('Authorization', bearerToken, 'header')};
 
+                //set swagger client auth
+                window.swaggerUi.api ?
+                    window.swaggerUi.api.clientAuthorizations.add('Authorization', apiKeyAuth) :
+                    window.swaggerUi.options.authorizations = {'Authorization' : apiKeyAuth};
+
+                //navigate to main form
                 Backbone.history.navigate('', true);
             },
             error: function () {

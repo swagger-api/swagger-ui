@@ -26,11 +26,18 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
             contenttype: 'x-www-form-urlencoded',
             data: 'grant_type=password&username=' + $('#user').val() + '&password=' + $('#pass').val() + '&tenantId=' + $('#tenant').val() + '&extend=roles',
             success: function (response) {
-                var bearerToken = 'Bearer ' + response.access_token;
+                var bearerToken = 'Bearer ' + response.access_token,
+                    apiKeyAuth = new SwaggerClient.ApiKeyAuthorization('Authorization', bearerToken, 'header');
 
+                //set supported HTTP methods
                 window.swaggerUi.options.supportedSubmitMethods = (response.roles || []).indexOf('Admin') >= 0 ? ['get', 'post', 'put', 'delete', 'patch'] : ['get'];
-                window.swaggerUi.options.authorizations = {'Authorization' : new SwaggerClient.ApiKeyAuthorization('Authorization', bearerToken, 'header')};
 
+                //set swagger client auth
+                window.swaggerUi.api ?
+                    window.swaggerUi.api.clientAuthorizations.add('Authorization', apiKeyAuth) :
+                    window.swaggerUi.options.authorizations = {'Authorization' : apiKeyAuth};
+
+                //navigate to main form
                 Backbone.history.navigate('', true);
             },
             error: function () {

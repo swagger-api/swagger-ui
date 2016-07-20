@@ -18,22 +18,14 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         window.swaggerUi = new SwaggerUi({
             url: url,
             dom_id: "swagger-ui-container",
-            supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
             onComplete: function(swaggerApi, swaggerUi){
-                if(typeof initOAuth == "function") {
-                    initOAuth({
-                        clientId: "your-client-id",
-                        clientSecret: "your-client-secret-if-required",
-                        realm: "your-realms",
-                        appName: "your-app-name",
-                        scopeSeparator: ",",
-                        additionalQueryStringParams: {}
-                    });
-                }
-
                 if(window.SwaggerTranslator) {
                     window.SwaggerTranslator.translate();
                 }
+
+                $('pre code').each(function(i, e) {
+                    hljs.highlightBlock(e);
+                });
             },
             onFailure: function(data) {
                 if(data === '401 : {\"message\":\"The identity is not set or unauthorized.\"} ' + url) {
@@ -43,9 +35,12 @@ window.SwaggerUiRouter = Backbone.Router.extend({
                 }
             },
             docExpansion: "none",
-            jsonEditor: false,
-            defaultModelRendering: 'schema',
-            showRequestHeaders: false
+            apisSorter: "alpha",
+            operationsSorter: function(a, b) {
+                return a.path === b.path ? a.method.localeCompare(b.method) : a.path.localeCompare(b.path);
+            },
+            showRequestHeaders: false,
+            validatorUrl: null
         });
     },
 
