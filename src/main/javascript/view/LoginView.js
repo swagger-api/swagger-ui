@@ -2,6 +2,7 @@
 
 SwaggerUi.Views.LoginView = Backbone.View.extend({
     template: Handlebars.templates.login,
+    className: 'body-login-page',
 
     events: {
         'submit form': 'onFormSubmit'

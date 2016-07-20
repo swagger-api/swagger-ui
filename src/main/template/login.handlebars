@@ -1,6 +1,21 @@
-<form>
-    <div><input id="tenant" name="tenant" type="text" placeholder="tenantId" /></div>
-    <div><input id="user" name="username" type="text" placeholder="username" /></div>
-    <div><input id="pass" name="password" type="password" placeholder="password" /></div>
-    <div><button type="submit">Submit</button></div>
-</form>
+<header class="header-login-page"><div class="logo-intapp-api" title="Intapp API">Intapp API</div></header>
+<section class="content-login-page">
+    <form class="form-login-page">
+        <div class="form-control is-required is-invalid">
+            <label for="tenant">Tenant</label>
+            <input id="tenant" name="tenant" type="text" placeholder="tenantId" />
+            <p class="error-msg">Lorem ipsum dolor sit amet t</p>
+        </div>
+        <div class="form-control is-required">
+            <label for="username">Username</label>
+            <input id="user" name="username" type="text" placeholder="username" />
+            <p class="error-msg">Lorem ipsum dolor sit amet</p>
+        </div>
+        <div class="form-control is-required">
+            <label for="password">Password</label>
+            <input id="pass" name="password" type="password" placeholder="password" />
+            <p class="error-msg">Lorem ipsum dolor sit amet</p>
+        </div>
+        <button type="submit" class="button button-green" disabled="disabled"> Log in </button>
+    </form>
+</section>
