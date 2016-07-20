@@ -1,8 +1,7 @@
  /*global JSONEditor*/
 'use strict';
 
-window.SwaggerUi = Backbone.Router.extend({
-
+window.SwaggerUi = Backbone.View.extend({
   dom_id: 'swagger_ui',
 
   // Attributes
@@ -103,9 +102,6 @@ window.SwaggerUi = Backbone.Router.extend({
       this.mainView.clear();
     }
 
-    if (this.authView) {
-      this.authView.remove();
-    }
     var url = this.options.url;
     if (url && url.indexOf('http') !== 0) {
       url = this.buildUrl(window.location.href.toString(), url);
@@ -145,6 +141,7 @@ window.SwaggerUi = Backbone.Router.extend({
       swaggerOptions: this.options,
       router: this
     }).render();
+
     if (!_.isEmpty(this.api.securityDefinitions)){
       authsModel = _.map(this.api.securityDefinitions, function (auth, name) {
         var result = {};
@@ -155,8 +152,8 @@ window.SwaggerUi = Backbone.Router.extend({
         data: SwaggerUi.utils.parseSecurityDefinitions(authsModel),
         router: this
       });
-      $('#auth_container').append(this.authView.render().el);
     }
+
     this.showMessage();
     switch (this.options.docExpansion) {
       case 'full':
