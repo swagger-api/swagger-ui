@@ -1,0 +1,71 @@
+/* total reset */
+
+html { box-sizing: border-box; }
+*, *:before, *:after { box-sizing: inherit; }
+html, body { height: 100%; }
+
+h1, h2 {
+    margin: 0;
+    padding: 0;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+body { font: normal 12px/1.3 'Open Sans', Helvetica, Arial, sans-serif; }
+
+/* // ~~~~~~ styles for intapp swagger */
+
+.body-login-page {
+    background-color: #f8f8f8;
+    height: 100%;
+    text-align: center;
+}
+
+/* ~~~ header swagger */
+
+.gb-header {
+    background-color: #4e8abe;
+    color: #fff;
+    min-height: 275px;
+    padding: 30px 50px 0;
+    text-align: center;
+}
+
+.logo-intapp-api {
+    float: left;
+    background-image: url('data:image/png;base64,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') /*../images/IntappAPI_sm.png*/;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 162px;
+    height: 25px;
+    text-indent: -1000em;
+}
+
+.gb-header-nav {
+    float: right;
+}
+
+.gb-header-nav > li {
+    float: left;
+    height: 23px;
+    margin-left: 30px;
+}
+
+.gb-header-nav > li > a {
+    color: #DBE4F0/*$intappLightBlue*/;
+    font-size: 14px;
+    font-weight: 600;
+    text-underline: none;
+}
+
+.gb-header-nav > li.is-selected {
+    color: #fff/*$intappWhite*/;
+    border-bottom: 2px solid #DBE4F0/*$intappLightBlue*/;
+}
+
+.gb-header-overview { clear: both; }
+
+.gb-header-overview h1 {
+    font-size: 15px;
+    font-weight: 600;
+}
