@@ -1063,7 +1063,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
     onIndex: function() {
         console.log('render main page');
 
-        if(swaggerUi.mainView) {
+        if(window.swaggerUi.initialized) {
             swaggerUi.mainView.$el.show();
         } else {
             swaggerUi.load();
