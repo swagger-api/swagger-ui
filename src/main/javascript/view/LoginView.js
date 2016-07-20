@@ -5,12 +5,23 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
     className: 'body-login-page',
 
     events: {
-        'submit form': 'onFormSubmit'
+        'submit form': 'onFormSubmit',
+        'keyup input': 'onInputChange'
     },
 
     render: function () {
         this.$el.html(this.template());
         return this;
+    },
+
+    onInputChange: function(options) {
+
+        var $target = $(options.target),
+            $container = $target.closest('div'),
+            value = $target.val();
+
+        $container[value ? 'removeClass' : 'addClass']('is-invalid');
+        $('button').prop('disabled', !value);
     },
 
     onFormSubmit: function(e) {

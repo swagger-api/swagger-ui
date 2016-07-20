@@ -407,7 +407,7 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
     }
 });
 this["Handlebars"]["templates"]["login"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<form>\r\n    <div><input id=\"tenant\" name=\"tenant\" type=\"text\" placeholder=\"tenantId\" /></div>\r\n    <div><input id=\"user\" name=\"username\" type=\"text\" placeholder=\"username\" /></div>\r\n    <div><input id=\"pass\" name=\"password\" type=\"password\" placeholder=\"password\" /></div>\r\n    <div><button type=\"submit\">Submit</button></div>\r\n</form>";
+  return "<header class=\"header-login-page\"><div class=\"logo-intapp-api\" title=\"Intapp API\">Intapp API</div></header>\n<section class=\"content-login-page\">\n    <form class=\"form-login-page\">\n        <!--add is-invalid class to show error-->\n        <div class=\"form-control is-required\">\n            <label for=\"tenant\">Tenant</label>\n            <input id=\"tenant\" name=\"tenant\" type=\"text\" placeholder=\"tenantId\" />\n            <p class=\"error-msg\">This field is required.</p>\n        </div>\n        <div class=\"form-control is-required\">\n            <label for=\"username\">Username</label>\n            <input id=\"user\" name=\"username\" type=\"text\" placeholder=\"username\" />\n            <p class=\"error-msg\">This field is required.</p>\n        </div>\n        <div class=\"form-control is-required\">\n            <label for=\"password\">Password</label>\n            <input id=\"pass\" name=\"password\" type=\"password\" placeholder=\"password\" />\n            <p class=\"error-msg\">This field is required.</p>\n        </div>\n        <button type=\"submit\" class=\"button button-green\" disabled=\"disabled\"> Log in </button>\n    </form>\n</section>";
   },"useData":true});
 this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "  <div class=\"info_title\">"
@@ -20272,14 +20272,26 @@ SwaggerUi.Views.HeaderView = Backbone.View.extend({
 
 SwaggerUi.Views.LoginView = Backbone.View.extend({
     template: Handlebars.templates.login,
+    className: 'body-login-page',
 
     events: {
-        'submit form': 'onFormSubmit'
+        'submit form': 'onFormSubmit',
+        'keyup input': 'onInputChange'
     },
 
     render: function () {
         this.$el.html(this.template());
         return this;
+    },
+
+    onInputChange: function(options) {
+
+        var $target = $(options.target),
+            $container = $target.closest('div'),
+            value = $target.val();
+
+        $container[value ? 'removeClass' : 'addClass']('is-invalid');
+        $('button').prop('disabled', !value);
     },
 
     onFormSubmit: function(e) {

@@ -1,20 +1,21 @@
 <header class="header-login-page"><div class="logo-intapp-api" title="Intapp API">Intapp API</div></header>
 <section class="content-login-page">
     <form class="form-login-page">
-        <div class="form-control is-required is-invalid">
+        <!--add is-invalid class to show error-->
+        <div class="form-control is-required">
             <label for="tenant">Tenant</label>
             <input id="tenant" name="tenant" type="text" placeholder="tenantId" />
-            <p class="error-msg">Lorem ipsum dolor sit amet t</p>
+            <p class="error-msg">This field is required.</p>
         </div>
         <div class="form-control is-required">
             <label for="username">Username</label>
             <input id="user" name="username" type="text" placeholder="username" />
-            <p class="error-msg">Lorem ipsum dolor sit amet</p>
+            <p class="error-msg">This field is required.</p>
         </div>
         <div class="form-control is-required">
             <label for="password">Password</label>
             <input id="pass" name="password" type="password" placeholder="password" />
-            <p class="error-msg">Lorem ipsum dolor sit amet</p>
+            <p class="error-msg">This field is required.</p>
         </div>
         <button type="submit" class="button button-green" disabled="disabled"> Log in </button>
     </form>
