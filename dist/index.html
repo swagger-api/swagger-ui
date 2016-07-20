@@ -34,11 +34,7 @@
 
   <script type="text/javascript">
     $(function () {
-      hljs.configure({
-        highlightSizeThreshold: 5000
-      });
-
-      Backbone.history.start(new window.SwaggerUiRouter());
+      new SwaggerApp();
   });
   </script>
 </head>

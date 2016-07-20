@@ -52,6 +52,7 @@ function _dist() {
   return es.merge(
     gulp.src([
         './src/main/javascript/router.js',
+        './src/main/javascript/app.js',
         './src/main/javascript/**/*.js',
         './node_modules/swagger-client/browser/swagger-client.js'
       ]),

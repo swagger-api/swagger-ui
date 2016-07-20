@@ -25,6 +25,16 @@ this["Handlebars"]["templates"]["apikey_auth"] = Handlebars.template({"1":functi
   if (stack1 != null) { buffer += stack1; }
   return buffer + "        </div>\n    </div>\n</div>\n";
 },"useData":true});
+(function() {
+    window.SwaggerApp = function() {
+        hljs.configure({
+            highlightSizeThreshold: 5000
+        });
+
+        var router = new window.SwaggerUiRouter({app: this});
+        Backbone.history.start();
+    };
+})();
 this["Handlebars"]["templates"]["auth_button_operation"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   return "        authorize__btn_operation_login\n";
   },"3":function(depth0,helpers,partials,data) {
@@ -1015,7 +1025,8 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         window.swaggerUi = new SwaggerUi({
             url: url,
             dom_id: "swagger-ui-container",
-            onComplete: function(swaggerApi, swaggerUi){
+
+            onComplete: function(){
                 if(window.SwaggerTranslator) {
                     window.SwaggerTranslator.translate();
                 }
@@ -1023,14 +1034,20 @@ window.SwaggerUiRouter = Backbone.Router.extend({
                 $('pre code').each(function(i, e) {
                     hljs.highlightBlock(e);
                 });
+
+                window.swaggerUi.initialized = true;
             },
+
             onFailure: function(data) {
                 if(data === '401 : {\"message\":\"The identity is not set or unauthorized.\"} ' + url) {
                     Backbone.history.navigate('login', true);
                 } else {
                     console.log("Unable to Load SwaggerUI");
                 }
+
+                window.swaggerUi.initialized = false;
             },
+
             docExpansion: "none",
             apisSorter: "alpha",
             operationsSorter: function(a, b) {
@@ -1039,6 +1056,8 @@ window.SwaggerUiRouter = Backbone.Router.extend({
             showRequestHeaders: false,
             validatorUrl: null
         });
+
+        swaggerUi.load();
     },
 
     onIndex: function() {
@@ -1060,8 +1079,12 @@ window.SwaggerUiRouter = Backbone.Router.extend({
     },
 
     onDocumentation: function() {
-        console.log('render documentation page');
-        this.showView(new SwaggerUi.Views.DocumentationView());
+        if(window.swaggerUi.initialized) {
+            console.log('render documentation page');
+            this.showView(new SwaggerUi.Views.DocumentationView());
+        } else {
+            this.navigate('login', true);
+        }
     },
 
     showView: function(view) {
