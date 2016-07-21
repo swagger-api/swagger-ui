@@ -68,7 +68,7 @@
           });
 
           addApiKeyAuthorization();
-          window.swaggerUi.api.setHost( window.location.hostname.replace("swagger","gateway") );
+          window.swaggerUi.api.setHost( "pz-gateway.int.geointservices.io" /*window.location.hostname.replace("swagger","gateway")*/ );
           window.swaggerUi.api.clientAuthorizations.add("key", new SwaggerClient.ApiKeyAuthorization("Authorization", "Basic Y2l0ZXN0ZXI6Y2l0ZXN0ZXI=", "header"));
         },
         onFailure: function(data) {
@@ -109,11 +109,11 @@
       /* Handling Piazza user login */
       $("#login-button").click(function() {
         // Encode basic token from login information
-        var basicToken = "Basic " + btoa($("#username-input").val() + ":" + $("#password-input").val());
+        var basicToken = "Basic " + btoa($("#api-key-input").val() + ":");
         // Set Header
         window.swaggerUi.api.clientAuthorizations.add("key", new SwaggerClient.ApiKeyAuthorization("Authorization", basicToken, "header"));
         // Clear password input
-        $("#password-input, #username-input").val('');
+        $("#api-key-input").val('');
         // Tell the user
         alert("Authorization headers set for this session.");
       });
@@ -138,9 +138,8 @@
   <!-- New Piazza header, with login fields -->
   <div class="piazza-header">
     <span class="piazza-login">
-      <input id="username-input" type="text" placeholder="Username" class="piazza-input"/>
-      <input id="password-input" type="password" placeholder="Password" class="piazza-input"/>
-      <button id="login-button" class="piazza-button">Log In</button>
+      <input id="api-key-input" type="text" placeholder="API Key" class="piazza-input"/>
+      <button id="login-button" class="piazza-button">Set API Key</button>
     </span>
   </div>
 
