@@ -4,16 +4,12 @@ window.SwaggerUiRouter = Backbone.Router.extend({
     routes: {
         '': 'onIndex',
         'login': 'onLogin',
+        'logout': 'onLogout',
         'doc': 'onDocumentation'
     },
 
     initialize: function() {
-        var host = window.location;
-        var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-        var url = host.protocol + '//' + host.host + pathname.replace('swagger', 'api/swagger/docs/v1');
-
-        // REMOVE AFTER
-        url = 'http://localhost/Open.Services/api/swagger/docs/v1';
+        var url = this.getUrl();
 
         window.swaggerUi = new SwaggerUi({
             url: url,
@@ -33,7 +29,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
             },
 
             onFailure: function(data) {
-                if(data === '401 : {\"message\":\"The identity is not set or unauthorized.\"} ' + url) {
+                if(data === '401 : {\"message\":\"The identity is not set or unauthorized.\"} ' + swaggerUi.options.url) {
                     Backbone.history.navigate('login', true);
                 } else {
                     console.log("Unable to Load SwaggerUI");
@@ -72,6 +68,15 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         this.showView(new SwaggerUi.Views.LoginView());
     },
 
+    onLogout: function() {
+        console.log('process logout');
+
+        swaggerUi.api.clientAuthorizations.remove('Authorization');
+        swaggerUi.options.url = this.getUrl();
+
+        swaggerUi.load();
+    },
+
     onDocumentation: function() {
         if(window.swaggerUi.initialized) {
             console.log('render documentation page');
@@ -87,5 +92,15 @@ window.SwaggerUiRouter = Backbone.Router.extend({
 
         $('#swagger-container').hide();
         $(view.render().el).appendTo('body');
+    },
+
+    getUrl: function() {
+        var host = window.location;
+        var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
+        var url = host.protocol + '//' + host.host + pathname.replace('swagger', 'api/swagger/docs/v1') + '?_=' + Date.now();
+
+        // REMOVE AFTER
+        url = 'http://localhost/Open.Services/api/swagger/docs/v1' + '?_=' + Date.now();
+        return url;
     }
 });

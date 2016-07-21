@@ -1,4 +1,6 @@
 (function() {
+    'use strict';
+
     window.SwaggerApp = function() {
         hljs.configure({
             highlightSizeThreshold: 5000

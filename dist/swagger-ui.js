@@ -26,6 +26,8 @@ this["Handlebars"]["templates"]["apikey_auth"] = Handlebars.template({"1":functi
   return buffer + "        </div>\n    </div>\n</div>\n";
 },"useData":true});
 (function() {
+    'use strict';
+
     window.SwaggerApp = function() {
         hljs.configure({
             highlightSizeThreshold: 5000
@@ -326,7 +328,7 @@ window.Docs = {
 };
 
 this["Handlebars"]["templates"]["documentation"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<header class=\"gb-header\">\r\n    <div class=\"logo-intapp-api\">Intapp API</div>\r\n    <ul class=\"gb-header-nav\">\r\n        <li><a href=\"#\">Open API</a></li>\r\n        <li class=\"is-selected\"><a href=\"#doc\">Documents</a></li>\r\n        <li><a href=\"#login\">Log out</a></li>\r\n    </ul>\r\n    <div class=\"gb-header-overview\">\r\n        <h1>Overview</h1>\r\n    </div>\r\n</header>\r\n<div class=\"swagger-ui-wrap\">\r\n    <h2>Documentation</h2>\r\n</div>";
+  return "<header class=\"gb-header\">\r\n    <div class=\"logo-intapp-api\">Intapp API</div>\r\n    <ul class=\"gb-header-nav\">\r\n        <li><a href=\"#\">Open API</a></li>\r\n        <li class=\"is-selected\"><a href=\"#doc\">Documents</a></li>\r\n        <li><a href=\"#logout\">Log out</a></li>\r\n    </ul>\r\n    <div class=\"gb-header-overview\">\r\n        <h1>Overview</h1>\r\n    </div>\r\n</header>\r\n<div class=\"swagger-ui-wrap\">\r\n    <h2>Documentation</h2>\r\n</div>";
   },"useData":true});
 'use strict';
 /*jslint eqeq: true*/
@@ -1011,16 +1013,12 @@ window.SwaggerUiRouter = Backbone.Router.extend({
     routes: {
         '': 'onIndex',
         'login': 'onLogin',
+        'logout': 'onLogout',
         'doc': 'onDocumentation'
     },
 
     initialize: function() {
-        var host = window.location;
-        var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-        var url = host.protocol + '//' + host.host + pathname.replace('swagger', 'api/swagger/docs/v1');
-
-        // REMOVE AFTER
-        url = 'http://localhost/Open.Services/api/swagger/docs/v1';
+        var url = this.getUrl();
 
         window.swaggerUi = new SwaggerUi({
             url: url,
@@ -1040,7 +1038,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
             },
 
             onFailure: function(data) {
-                if(data === '401 : {\"message\":\"The identity is not set or unauthorized.\"} ' + url) {
+                if(data === '401 : {\"message\":\"The identity is not set or unauthorized.\"} ' + swaggerUi.options.url) {
                     Backbone.history.navigate('login', true);
                 } else {
                     console.log("Unable to Load SwaggerUI");
@@ -1079,6 +1077,15 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         this.showView(new SwaggerUi.Views.LoginView());
     },
 
+    onLogout: function() {
+        console.log('process logout');
+
+        swaggerUi.api.clientAuthorizations.remove('Authorization');
+        swaggerUi.options.url = this.getUrl();
+
+        swaggerUi.load();
+    },
+
     onDocumentation: function() {
         if(window.swaggerUi.initialized) {
             console.log('render documentation page');
@@ -1094,6 +1101,16 @@ window.SwaggerUiRouter = Backbone.Router.extend({
 
         $('#swagger-container').hide();
         $(view.render().el).appendTo('body');
+    },
+
+    getUrl: function() {
+        var host = window.location;
+        var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
+        var url = host.protocol + '//' + host.host + pathname.replace('swagger', 'api/swagger/docs/v1') + '?_=' + Date.now();
+
+        // REMOVE AFTER
+        url = 'http://localhost/Open.Services/api/swagger/docs/v1' + '?_=' + Date.now();
+        return url;
     }
 });
 this["Handlebars"]["templates"]["signature"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
