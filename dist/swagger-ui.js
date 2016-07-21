@@ -326,7 +326,7 @@ window.Docs = {
 };
 
 this["Handlebars"]["templates"]["documentation"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<div style=\"position: absolute; background-color: #00A000; left: 100px; right: 100px\">\r\n    DOCUMENTATION PAGE\r\n</div>";
+  return "<header class=\"gb-header\">\r\n    <div class=\"logo-intapp-api\">Intapp API</div>\r\n    <ul class=\"gb-header-nav\">\r\n        <li><a href=\"#\">Open API</a></li>\r\n        <li class=\"is-selected\"><a href=\"#doc\">Documents</a></li>\r\n        <li><a href=\"#login\">Log out</a></li>\r\n    </ul>\r\n    <div class=\"gb-header-overview\">\r\n        <h1>Overview</h1>\r\n    </div>\r\n</header>\r\n<div class=\"swagger-ui-wrap\">\r\n    <h2>Documentation</h2>\r\n</div>";
   },"useData":true});
 'use strict';
 /*jslint eqeq: true*/
@@ -1036,6 +1036,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
                 });
 
                 window.swaggerUi.initialized = true;
+                $('#swagger-container').show();
             },
 
             onFailure: function(data) {
@@ -1064,7 +1065,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         console.log('render main page');
 
         if(window.swaggerUi.initialized) {
-            swaggerUi.mainView.$el.show();
+            $('#swagger-container').show();
         } else {
             swaggerUi.load();
         }
@@ -1091,10 +1092,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         this.currentView && this.currentView.remove();
         this.currentView = view;
 
-        if(window.swaggerUi && swaggerUi.mainView) {
-            swaggerUi.mainView.$el.hide();
-        }
-
+        $('#swagger-container').hide();
         $(view.render().el).appendTo('body');
     }
 });

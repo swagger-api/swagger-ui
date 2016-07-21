@@ -29,6 +29,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
                 });
 
                 window.swaggerUi.initialized = true;
+                $('#swagger-container').show();
             },
 
             onFailure: function(data) {
@@ -57,7 +58,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         console.log('render main page');
 
         if(window.swaggerUi.initialized) {
-            swaggerUi.mainView.$el.show();
+            $('#swagger-container').show();
         } else {
             swaggerUi.load();
         }
@@ -84,10 +85,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         this.currentView && this.currentView.remove();
         this.currentView = view;
 
-        if(window.swaggerUi && swaggerUi.mainView) {
-            swaggerUi.mainView.$el.hide();
-        }
-
+        $('#swagger-container').hide();
         $(view.render().el).appendTo('body');
     }
 });
