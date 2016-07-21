@@ -11,17 +11,25 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
 
     render: function () {
         this.$el.html(this.template());
+
+        this.ui = {
+            $tenant: this.$el.find('#tenant'),
+            $user: this.$el.find('#user'),
+            $pass: this.$el.find('#pass'),
+
+            $submit: this.$el.find('button')
+        };
+
         return this;
     },
 
     onInputChange: function(options) {
-
         var $target = $(options.target),
             $container = $target.closest('div'),
             value = $target.val();
 
         $container[value ? 'removeClass' : 'addClass']('is-invalid');
-        $('button').prop('disabled', !value);
+        this.ui.$submit.prop('disabled', !this.isValidForm());
     },
 
     onFormSubmit: function(e) {
@@ -36,7 +44,7 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
             url: tokenUrl,
             type: 'post',
             contenttype: 'x-www-form-urlencoded',
-            data: 'grant_type=password&username=' + $('#user').val() + '&password=' + $('#pass').val() + '&tenantId=' + $('#tenant').val() + '&extend=roles',
+            data: 'grant_type=password&username=' + this.ui.$user.val() + '&password=' + this.ui.$pass.val() + '&tenantId=' + this.ui.$tenant.val() + '&extend=roles',
             success: function (response) {
                 var bearerToken = 'Bearer ' + response.access_token,
                     apiKeyAuth = new SwaggerClient.ApiKeyAuthorization('Authorization', bearerToken, 'header');
@@ -52,12 +60,16 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
                 //navigate to main form
                 Backbone.history.navigate('', true);
             },
-            error: function () {
-                window.alert('Unable to Load SwaggerUI');
+            error: function (response) {
+                window.alert(JSON.parse(response.responseText).error);
             }
         });
 
         e.preventDefault();
+    },
+
+    isValidForm: function() {
+        return !!this.ui.$tenant.val() && !!this.ui.$user.val() && !!this.ui.$pass.val();
     }
 
 });
