@@ -42,7 +42,7 @@ window.SwaggerUi = Backbone.Router.extend({
     }
 
     if (typeof options.oauth2RedirectUrl === 'string') {
-      window.oAuthRedirectUrl = options.redirectUrl;
+      window.oAuthRedirectUrl = options.oauth2RedirectUrl;
     }
 
     // Create an empty div which contains the dom_id
