@@ -80,6 +80,11 @@ function _dist() {
 }
 gulp.task('dev-dist', ['lint', 'dev-copy'], _dist);
 
+gulp.task('deploy', function(){
+    gulp.src(['./dist/**/*'])
+        .pipe(gulp.dest('../../wilco.service.web/swagger2'));
+});
+
 /**
  * Processes less files into CSS files
  */
