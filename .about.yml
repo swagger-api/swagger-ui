@@ -42,9 +42,9 @@ testable: true
 #     name: Name of the license from the Software Package Data Exchange (SPDX): https://spdx.org/licenses/
 #     url: URL for the text of the license
 licenses:
-  pz-gateway:
+  pz-swagger:
     name: Apache-2.0
-    url: https://github.com/venicegeo/pz-gateway/blob/master/LICENSE.txt
+    url: https://github.com/venicegeo/pz-swagger/blob/master/LICENSE
 
 # Who is the partner for your project? (Use the full name of the partner
 # documented here:
