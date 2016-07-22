@@ -1,0 +1,143 @@
+---
+# .about.yml project metadata
+#
+# Copy this template into your project repository's root directory as
+# .about.yml and fill in the fields as described below.
+
+# This is a short name of your project that can be used as a URL slug.
+# (required)
+name: pz-swagger
+
+# This is the display name of your project. (required)
+full_name: Piazza Swagger
+
+# What is the problem your project solves? What is the solution? Use the
+# format shown below. The #dashboard team will gladly help you put this
+# together for your project. (required)
+description: The purpose of this component is to provide full documentation of the Piazza Gateway REST endpoints, including descriptions and the expected object models for the request and response.
+
+
+# What is the measurable impact of your project? Use the format shown below.
+# The #dashboard team will gladly help you put this together for your project.
+# (required)
+impact: Piazza Swagger provides all users a detailed documentation of each Gateway REST endpoint that they can use for interacting with the Piazza system.
+
+
+# What kind of team owns the repository? (required)
+# values: guild, working-group, project
+owner_type: project
+
+# What is your project's current status? (required)
+# values: discovery, alpha, beta, live
+stage: alpha
+
+# Should this repo have automated tests? If so, set to `true`. (required)
+# values: true, false
+testable: true
+
+# What are the licenses that apply to the project and/or its components?
+# (required)
+# Items by property name pattern:
+#   .*:
+#     name: Name of the license from the Software Package Data Exchange (SPDX): https://spdx.org/licenses/
+#     url: URL for the text of the license
+licenses:
+  pz-gateway:
+    name: Apache-2.0
+    url: https://github.com/venicegeo/pz-gateway/blob/master/LICENSE.txt
+
+# Who is the partner for your project? (Use the full name of the partner
+# documented here:
+# https://github.com/18F/dashboard/blob/staging/_data/partners.yml)
+partners:
+- National Geospatial-Intelligence Agency
+
+# The main point of contact(s) and/or the issue reporting system for your
+# project, and either a `mailto:` link or URL for each contact.
+# Items:
+# - url: URL for the link
+#   text: Anchor text for the link
+contact:
+- url: mailto:mgerlek@radiantblue.com
+  text: Michael Gerlek
+- url: mailto:patrick.doody@rgi-corp.com
+  text: Patrick Doody
+
+# Who are the team members on your project? You can specify GitHub usernames,
+# email addresses, or other organizational usernames. (required)
+# Items:
+# - github: GitHub user name
+#   id: Internal team identifier/user name
+#   role: Team member's role; leads should be designated as 'lead'
+team:
+- github: go0ty
+  id: patrickdoody
+  role: lead
+- github: russellorf
+  id: russellorf
+  role: developer
+- github: mlynum
+  id: mlynum
+  role: developer
+- github: ssaniev
+  id: ssaniev
+  role: developer
+- github: svanburen
+  id: svanburen
+  role: developer
+
+
+# What kind of content is contained in the project repository?
+# values: app, docs, policy
+type: docs
+
+# What are the key milestones you've achieved recently?
+#milestones:
+
+# Name of the main project repo if this is a sub-repo; name of the grouplet
+# repo if this is a working group/guild subproject
+parent: VeniceGeo
+
+# What are the links to key artifacts associated with your project? e.g. the
+# production site, documentation.
+# Items:
+# - url: URL for the link
+#   text: Anchor text for the link
+#   category: Type of the link
+links:
+- url: http://pz-docs.stage.geointservices.io/
+  text: Piazza Documentation
+  category: process
+- url: https://pz-swagger.stage.geointservices.io/
+  text: Piazza Gateway API
+  category: api
+
+# What tags does your organization's blog associate with your project? You can
+# find a list of 18F blog tags here: https://18f.gsa.gov/tags/
+blogTag:
+- open-source
+
+# What technologies are used in this project?
+stack:
+- Javascript
+- HTML
+- Less
+- NodeJS
+- SwaggerUI
+
+# What are the services used to supply project status information?
+# Items:
+# - name: Name of the service
+#   category: Type of the service
+#   url: URL for detailed information
+#   badge: URL for the status badge
+#services:
+
+# Organizations or individuals who have adopted the project for their own use
+# Items:
+# - id: The name of the organization or individual
+#   url: A URL to the user's version of the project
+#users:
+
+# Tags that describe the project or aspects of the project
+#tags:
