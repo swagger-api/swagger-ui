@@ -33,12 +33,16 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
     },
 
     onFormSubmit: function(e) {
+        if(!this.isValidForm()) {
+            return;
+        }
+
         var host = window.location;
         var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-        var tokenUrl = host.protocol + '//' + host.host + pathname.replace('swagger', 'token');
+        var tokenUrl = host.protocol + '//' + host.host + pathname.replace('swagger2', 'token');
+        var $btn = this.ui.$submit;
 
-        //REMOVE
-        tokenUrl = 'http://localhost/Open.Services/token';
+        $btn.prop('disabled', true).text('Logging in...');
 
         $.ajax({
             url: tokenUrl,
@@ -64,6 +68,7 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
             },
             error: function (response) {
                 window.alert(JSON.parse(response.responseText).error);
+                $btn.prop('disabled', false).text('Log In');
             }
         });
 

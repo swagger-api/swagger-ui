@@ -103,10 +103,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
     getUrl: function() {
         var host = window.location;
         var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-        var url = host.protocol + '//' + host.host + pathname.replace('swagger', 'api/swagger/docs/v1') + '?_=' + Date.now();
 
-        // REMOVE AFTER
-        url = 'http://localhost/Open.Services/api/swagger/docs/v1' + '?_=' + Date.now();
-        return url;
+        return host.protocol + '//' + host.host + pathname.replace('swagger2', 'api/swagger/docs/v1') + '?_=' + Date.now();
     }
 });
