@@ -6,7 +6,6 @@
             highlightSizeThreshold: 5000
         });
 
-        var router = new window.SwaggerUiRouter({app: this});
-        Backbone.history.start();
+        Backbone.history.start(new window.SwaggerUiRouter({app: this}));
     };
 })();

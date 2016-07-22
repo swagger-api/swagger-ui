@@ -5,7 +5,8 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         '': 'onIndex',
         'login': 'onLogin',
         'logout': 'onLogout',
-        'doc': 'onDocumentation'
+        'doc': 'onDocumentation',
+        'doc/:subdoc': 'onDocumentation',
     },
 
     initialize: function() {
@@ -13,7 +14,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
 
         window.swaggerUi = new SwaggerUi({
             url: url,
-            dom_id: "swagger-ui-container",
+            dom_id: 'swagger-ui-container',
 
             onComplete: function(){
                 if(window.SwaggerTranslator) {
@@ -29,17 +30,17 @@ window.SwaggerUiRouter = Backbone.Router.extend({
             },
 
             onFailure: function(data) {
-                if(data === '401 : {\"message\":\"The identity is not set or unauthorized.\"} ' + swaggerUi.options.url) {
+                if(data === '401 : {\"message\":\"The identity is not set or unauthorized.\"} ' + window.swaggerUi.options.url) {
                     Backbone.history.navigate('login', true);
                 } else {
-                    console.log("Unable to Load SwaggerUI");
+                    console.log('Unable to Load SwaggerUI');
                 }
 
                 window.swaggerUi.initialized = false;
             },
 
-            docExpansion: "none",
-            apisSorter: "alpha",
+            docExpansion: 'none',
+            apisSorter: 'alpha',
             operationsSorter: function(a, b) {
                 return a.path === b.path ? a.method.localeCompare(b.method) : a.path.localeCompare(b.path);
             },
@@ -47,7 +48,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
             validatorUrl: null
         });
 
-        swaggerUi.load();
+        window.swaggerUi.load();
     },
 
     onIndex: function() {
@@ -56,10 +57,13 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         if(window.swaggerUi.initialized) {
             $('#swagger-container').show();
         } else {
-            swaggerUi.load();
+            window.swaggerUi.load();
         }
 
-        this.currentView && this.currentView.remove();
+        if(this.currentView) {
+            this.currentView.remove();
+        }
+
         this.currentView = undefined;
     },
 
@@ -71,23 +75,29 @@ window.SwaggerUiRouter = Backbone.Router.extend({
     onLogout: function() {
         console.log('process logout');
 
-        swaggerUi.api.clientAuthorizations.remove('Authorization');
-        swaggerUi.options.url = this.getUrl();
+        window.swaggerUi.api.clientAuthorizations.remove('Authorization');
+        window.swaggerUi.options.url = this.getUrl();
 
-        swaggerUi.load();
+        window.swaggerUi.load();
     },
 
-    onDocumentation: function() {
+    onDocumentation: function(subdoc) {
         if(window.swaggerUi.initialized) {
             console.log('render documentation page');
-            this.showView(new SwaggerUi.Views.DocumentationView());
+
+            this.showView(new SwaggerUi.Views.DocumentationView(subdoc && {
+                template: 'documentation_' + subdoc
+            }));
         } else {
             this.navigate('login', true);
         }
     },
 
     showView: function(view) {
-        this.currentView && this.currentView.remove();
+        if(this.currentView) {
+            this.currentView.remove();
+        }
+
         this.currentView = view;
 
         $('#swagger-container').hide();
@@ -97,10 +107,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
     getUrl: function() {
         var host = window.location;
         var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-        var url = host.protocol + '//' + host.host + pathname.replace('swagger', 'api/swagger/docs/v1') + '?_=' + Date.now();
 
-        // REMOVE AFTER
-        url = 'http://localhost/Open.Services/api/swagger/docs/v1' + '?_=' + Date.now();
-        return url;
+        return host.protocol + '//' + host.host + pathname.replace('swagger2', 'api/swagger/docs/v1') + '?_=' + Date.now();
     }
 });
