@@ -11,6 +11,17 @@ Swagger UI is part of the Swagger project.  The Swagger project allows you to pr
 Swagger UI is a dependency-free collection of HTML, Javascript, and CSS assets that dynamically
 generate beautiful documentation and sandbox from a Swagger-compliant API. Because Swagger UI has no dependencies, you can host it in any server environment, or on your local machine.
 
+### Open integration
+```
+mkdir %OPEN_SRC_ROOT%\Source\Wilco.SwaggerUI
+cd %OPEN_SRC_ROOT%\Source\Wilco.SwaggerUI
+
+git clone https://github.com/intappx/swagger-ui.git
+```
+
+Swagger will be accessible using 'http://localhost/Open.Services/swagger2' link after building SPA project (read below).
+
+
 ## What's Swagger?
 
 The goal of Swagger™ is to define a standard, language-agnostic interface to REST APIs which allows both humans and computers to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection. When properly defined via Swagger, a consumer can understand and interact with the remote service with a minimal amount of implementation logic. Similar to what interfaces have done for lower-level programming, Swagger removes the guesswork in calling the service.
@@ -33,16 +44,6 @@ Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes | Status
 
 ### Download
 You can use the swagger-ui code AS-IS!  No need to build or recompile--just clone this repo and use the pre-built files in the `dist` folder.  If you like swagger-ui as-is, stop here.
-
-### Open integration
-```
-mkdir %OPEN_SRC_ROOT_PATH%\Sources\Wilco.SwaggerUI
-cd %OPEN_SRC_ROOT_PATH%\Sources\Wilco.SwaggerUI
-
-git clone https://github.com/intappx/swagger-ui.git
-```
-
-Swagger will be accessible using 'http://localhost/Open.Services/swagger2' link after building SPA project (read below).
 
 ##### Browser support
 Swagger UI works in all evergreen desktop browsers (Chrome, Safari, Firefox). Internet Explorer support is version 8 (IE8) and above.
