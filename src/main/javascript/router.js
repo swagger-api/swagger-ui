@@ -5,7 +5,8 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         '': 'onIndex',
         'login': 'onLogin',
         'logout': 'onLogout',
-        'doc': 'onDocumentation'
+        'doc': 'onDocumentation',
+        'doc/:subdoc': 'onDocumentation',
     },
 
     initialize: function() {
@@ -80,10 +81,13 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         window.swaggerUi.load();
     },
 
-    onDocumentation: function() {
+    onDocumentation: function(subdoc) {
         if(window.swaggerUi.initialized) {
             console.log('render documentation page');
-            this.showView(new SwaggerUi.Views.DocumentationView());
+
+            this.showView(new SwaggerUi.Views.DocumentationView(subdoc && {
+                template: 'documentation_' + subdoc
+            }));
         } else {
             this.navigate('login', true);
         }
