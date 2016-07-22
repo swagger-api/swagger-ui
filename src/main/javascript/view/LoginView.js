@@ -23,13 +23,15 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
         return this;
     },
 
-    onInputChange: function(options) {
-        var $target = $(options.target),
+    onInputChange: function(e) {
+        var $target = $(e.target),
             $container = $target.closest('div'),
             value = $target.val();
 
-        $container[value ? 'removeClass' : 'addClass']('is-invalid');
-        this.ui.$submit.prop('disabled', !this.isValidForm());
+        if(e.which !== 13) {
+            $container[value ? 'removeClass' : 'addClass']('is-invalid');
+            this.ui.$submit.prop('disabled', !this.isValidForm());
+        }
     },
 
     onFormSubmit: function(e) {
@@ -64,7 +66,7 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
                 }
 
                 //navigate to main form
-                Backbone.history.navigate('', true);
+                window.swaggerUi.load();
             },
             error: function (response) {
                 window.alert(JSON.parse(response.responseText).error);
@@ -73,6 +75,9 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
         });
 
         e.preventDefault();
+        e.stopPropagation();
+
+        return false;
     },
 
     isValidForm: function() {
