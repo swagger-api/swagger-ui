@@ -100,7 +100,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         this.currentView = view;
 
         $('#swagger-container').hide();
-        $(view.render().el).appendTo('body');
+        view.render();
     },
 
     getUrl: function() {

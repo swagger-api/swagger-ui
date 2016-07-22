@@ -1,6 +1,7 @@
 'use strict';
 
 SwaggerUi.Views.LoginView = Backbone.View.extend({
+    el: '#main-container',
     template: Handlebars.templates.login,
     className: 'body-login-page',
 
@@ -13,7 +14,7 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
         this.$el.html(this.template());
 
         this.ui = {
-            $tenant: this.$el.find('#tenant'),
+            $tenant: this.$el.find('#tenant').focus(),
             $user: this.$el.find('#user'),
             $pass: this.$el.find('#pass'),
 
@@ -21,6 +22,11 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
         };
 
         return this;
+    },
+
+    remove: function() {
+        this.$el.empty();
+        this.undelegateEvents();
     },
 
     onInputChange: function(e) {
