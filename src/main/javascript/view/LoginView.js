@@ -53,9 +53,11 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
                 window.swaggerUi.options.supportedSubmitMethods = (response.roles || []).indexOf('Admin') >= 0 ? ['get', 'post', 'put', 'delete', 'patch'] : ['get'];
 
                 //set swagger client auth
-                window.swaggerUi.api ?
-                    window.swaggerUi.api.clientAuthorizations.add('Authorization', apiKeyAuth) :
-                    window.swaggerUi.options.authorizations = {'Authorization' : apiKeyAuth};
+                if(window.swaggerUi.api) {
+                    window.swaggerUi.api.clientAuthorizations.add('Authorization', apiKeyAuth);
+                } else {
+                    window.swaggerUi.options.authorizations = {'Authorization': apiKeyAuth};
+                }
 
                 //navigate to main form
                 Backbone.history.navigate('', true);

@@ -33,8 +33,7 @@ this["Handlebars"]["templates"]["apikey_auth"] = Handlebars.template({"1":functi
             highlightSizeThreshold: 5000
         });
 
-        var router = new window.SwaggerUiRouter({app: this});
-        Backbone.history.start();
+        Backbone.history.start(new window.SwaggerUiRouter({app: this}));
     };
 })();
 this["Handlebars"]["templates"]["auth_button_operation"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
@@ -1022,7 +1021,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
 
         window.swaggerUi = new SwaggerUi({
             url: url,
-            dom_id: "swagger-ui-container",
+            dom_id: 'swagger-ui-container',
 
             onComplete: function(){
                 if(window.SwaggerTranslator) {
@@ -1038,17 +1037,17 @@ window.SwaggerUiRouter = Backbone.Router.extend({
             },
 
             onFailure: function(data) {
-                if(data === '401 : {\"message\":\"The identity is not set or unauthorized.\"} ' + swaggerUi.options.url) {
+                if(data === '401 : {\"message\":\"The identity is not set or unauthorized.\"} ' + window.swaggerUi.options.url) {
                     Backbone.history.navigate('login', true);
                 } else {
-                    console.log("Unable to Load SwaggerUI");
+                    console.log('Unable to Load SwaggerUI');
                 }
 
                 window.swaggerUi.initialized = false;
             },
 
-            docExpansion: "none",
-            apisSorter: "alpha",
+            docExpansion: 'none',
+            apisSorter: 'alpha',
             operationsSorter: function(a, b) {
                 return a.path === b.path ? a.method.localeCompare(b.method) : a.path.localeCompare(b.path);
             },
@@ -1056,7 +1055,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
             validatorUrl: null
         });
 
-        swaggerUi.load();
+        window.swaggerUi.load();
     },
 
     onIndex: function() {
@@ -1065,10 +1064,13 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         if(window.swaggerUi.initialized) {
             $('#swagger-container').show();
         } else {
-            swaggerUi.load();
+            window.swaggerUi.load();
         }
 
-        this.currentView && this.currentView.remove();
+        if(this.currentView) {
+            this.currentView.remove();
+        }
+
         this.currentView = undefined;
     },
 
@@ -1080,10 +1082,10 @@ window.SwaggerUiRouter = Backbone.Router.extend({
     onLogout: function() {
         console.log('process logout');
 
-        swaggerUi.api.clientAuthorizations.remove('Authorization');
-        swaggerUi.options.url = this.getUrl();
+        window.swaggerUi.api.clientAuthorizations.remove('Authorization');
+        window.swaggerUi.options.url = this.getUrl();
 
-        swaggerUi.load();
+        window.swaggerUi.load();
     },
 
     onDocumentation: function() {
@@ -1096,7 +1098,10 @@ window.SwaggerUiRouter = Backbone.Router.extend({
     },
 
     showView: function(view) {
-        this.currentView && this.currentView.remove();
+        if(this.currentView) {
+            this.currentView.remove();
+        }
+
         this.currentView = view;
 
         $('#swagger-container').hide();
@@ -20338,9 +20343,11 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
                 window.swaggerUi.options.supportedSubmitMethods = (response.roles || []).indexOf('Admin') >= 0 ? ['get', 'post', 'put', 'delete', 'patch'] : ['get'];
 
                 //set swagger client auth
-                window.swaggerUi.api ?
-                    window.swaggerUi.api.clientAuthorizations.add('Authorization', apiKeyAuth) :
-                    window.swaggerUi.options.authorizations = {'Authorization' : apiKeyAuth};
+                if(window.swaggerUi.api) {
+                    window.swaggerUi.api.clientAuthorizations.add('Authorization', apiKeyAuth);
+                } else {
+                    window.swaggerUi.options.authorizations = {'Authorization': apiKeyAuth};
+                }
 
                 //navigate to main form
                 Backbone.history.navigate('', true);
