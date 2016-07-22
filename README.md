@@ -11,7 +11,7 @@ Swagger UI is part of the Swagger project.  The Swagger project allows you to pr
 Swagger UI is a dependency-free collection of HTML, Javascript, and CSS assets that dynamically
 generate beautiful documentation and sandbox from a Swagger-compliant API. Because Swagger UI has no dependencies, you can host it in any server environment, or on your local machine.
 
-### Open integration
+## Open integration
 ```
 mkdir %OPEN_SRC_ROOT%\Source\Wilco.SwaggerUI
 cd %OPEN_SRC_ROOT%\Source\Wilco.SwaggerUI
