@@ -34,6 +34,16 @@ Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes | Status
 ### Download
 You can use the swagger-ui code AS-IS!  No need to build or recompile--just clone this repo and use the pre-built files in the `dist` folder.  If you like swagger-ui as-is, stop here.
 
+### Open integration
+```
+mkdir %OPEN_SRC_ROOT_PATH%\Sources\Wilco.SwaggerUI
+cd %OPEN_SRC_ROOT_PATH%\Sources\Wilco.SwaggerUI
+
+git clone https://github.com/intappx/swagger-ui.git
+```
+
+Swagger will be accessible using 'http://localhost/Open.Services/swagger2' link after building SPA project (read below).
+
 ##### Browser support
 Swagger UI works in all evergreen desktop browsers (Chrome, Safari, Firefox). Internet Explorer support is version 8 (IE8) and above.
 
