@@ -1,6 +1,7 @@
 'use strict';
 
 SwaggerUi.Views.LoginView = Backbone.View.extend({
+    el: '#main-container',
     template: Handlebars.templates.login,
     className: 'body-login-page',
 
@@ -13,23 +14,39 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
         this.$el.html(this.template());
 
         this.ui = {
-            $tenant: this.$el.find('#tenant'),
+            $tenant: this.$el.find('#tenant').focus(),
             $user: this.$el.find('#user'),
             $pass: this.$el.find('#pass'),
 
             $submit: this.$el.find('button')
         };
 
+        //hide tenant control when OnPremise deployment
+        /*global Intapp */
+        if (typeof Intapp !== undefined && Intapp.Config.Deployment === 'OnPremise') {
+            this.ui.$tenant.hide();
+        } else {
+            this.ui.$tenant.val(location.hostname.split('.')[0].split('-')[1]);
+        }
+
+        this.ui.$submit.prop('disabled', !this.isValidForm());
         return this;
     },
 
-    onInputChange: function(options) {
-        var $target = $(options.target),
+    remove: function() {
+        this.$el.empty();
+        this.undelegateEvents();
+    },
+
+    onInputChange: function(e) {
+        var $target = $(e.target),
             $container = $target.closest('div'),
             value = $target.val();
 
-        $container[value ? 'removeClass' : 'addClass']('is-invalid');
-        this.ui.$submit.prop('disabled', !this.isValidForm());
+        if(e.which !== 13) {
+            $container[value ? 'removeClass' : 'addClass']('is-invalid');
+            this.ui.$submit.prop('disabled', !this.isValidForm());
+        }
     },
 
     onFormSubmit: function(e) {
@@ -64,7 +81,7 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
                 }
 
                 //navigate to main form
-                Backbone.history.navigate('', true);
+                window.swaggerUi.load();
             },
             error: function (response) {
                 window.alert(JSON.parse(response.responseText).error);
@@ -73,10 +90,14 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
         });
 
         e.preventDefault();
+        e.stopPropagation();
+
+        return false;
     },
 
     isValidForm: function() {
-        return !!this.ui.$tenant.val() && !!this.ui.$user.val() && !!this.ui.$pass.val();
+        var isTenantValid = Intapp.Config.Deployment === 'OnPremise' ? true : !!this.ui.$tenant.val();
+        return isTenantValid && !!this.ui.$user.val() && !!this.ui.$pass.val();
     }
 
 });

@@ -26,7 +26,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
                 });
 
                 window.swaggerUi.initialized = true;
-                $('#swagger-container').show();
+                Backbone.history.navigate('', true);
             },
 
             onFailure: function(data) {
@@ -41,9 +41,11 @@ window.SwaggerUiRouter = Backbone.Router.extend({
 
             docExpansion: 'none',
             apisSorter: 'alpha',
+
             operationsSorter: function(a, b) {
                 return a.path === b.path ? a.method.localeCompare(b.method) : a.path.localeCompare(b.path);
             },
+
             showRequestHeaders: false,
             validatorUrl: null
         });
@@ -84,10 +86,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
     onDocumentation: function(subdoc) {
         if(window.swaggerUi.initialized) {
             console.log('render documentation page');
-
-            this.showView(new SwaggerUi.Views.DocumentationView(subdoc && {
-                template: 'documentation_' + subdoc
-            }));
+            this.showView(new SwaggerUi.Views.DocumentationView(subdoc && { template: 'documentation_' + subdoc }));
         } else {
             this.navigate('login', true);
         }
@@ -101,7 +100,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         this.currentView = view;
 
         $('#swagger-container').hide();
-        $(view.render().el).appendTo('body');
+        view.render();
     },
 
     getUrl: function() {

@@ -1,6 +1,34 @@
 'use strict';
 
 SwaggerUi.Views.MainView = Backbone.View.extend({
+  events: {
+    'click .filter-button': 'onFiltering'
+  },
+
+    onFiltering: function(e) {
+        if(!this.$allOperations) { this.$allOperations = $('#resources ul.operations > li'); }
+        if(!this.$provisioningOperations) { this.$provisioningOperations = this.$allOperations.filter('[id$="_provisioning"]'); }
+        if(!this.$steadystateOperations) { this.$steadystateOperations = this.$allOperations.filter('[id$="_steadystate"]'); }
+
+        this.$allOperations.hide();
+        $('#filter-panel button').removeClass('active');
+
+        switch (e.target.id) {
+            case 'filter-button-provisioning':
+                this.$provisioningOperations.show();
+                $('#filter-button-provisioning').addClass('active');
+                break;
+            case 'filter-button-steadystate':
+                this.$steadystateOperations.show();
+                $('#filter-button-steadystate').addClass('active');
+                break;
+            default:
+                // all
+                this.$allOperations.show();
+                $('#filter-button-all').addClass('active');
+        }
+    },
+
   apisSorter : {
     alpha   : function(a,b){ return a.name.localeCompare(b.name); }
   },
@@ -8,6 +36,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     alpha   : function(a,b){ return a.path.localeCompare(b.path); },
     method  : function(a,b){ return a.method.localeCompare(b.method); }
   },
+
   initialize: function(opts){
     var sorterOption, sorterFn, key, value;
     opts = opts || {};
