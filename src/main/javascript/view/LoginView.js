@@ -29,6 +29,7 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
             this.ui.$tenant.val(location.hostname.split('.')[0].split('-')[1]);
         }
 
+        this.ui.$submit.prop('disabled', !this.isValidForm());
         return this;
     },
 
