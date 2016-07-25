@@ -22,8 +22,8 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
         };
 
         //hide tenant control when OnPremise deployment
-        /*global namespace: true */
-        if (Intapp.Config.Deployment === 'OnPremise') {
+        /*global Intapp */
+        if (typeof Intapp !== undefined && Intapp.Config.Deployment === 'OnPremise') {
             this.ui.$tenant.hide();
         } else {
             this.ui.$tenant.val(location.hostname.split('.')[0].split('-')[1]);
