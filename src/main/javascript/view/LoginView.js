@@ -21,6 +21,14 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
             $submit: this.$el.find('button')
         };
 
+        //hide tenant control when OnPremise deployment
+        /*global namespace: true */
+        if (Intapp.Config.Deployment === 'OnPremise') {
+            this.ui.$tenant.hide();
+        } else {
+            this.ui.$tenant.val(location.hostname.split('.')[0].split('-')[1]);
+        }
+
         return this;
     },
 
@@ -87,7 +95,8 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
     },
 
     isValidForm: function() {
-        return !!this.ui.$tenant.val() && !!this.ui.$user.val() && !!this.ui.$pass.val();
+        var isTenantValid = Intapp.Config.Deployment === 'OnPremise' ? true : !!this.ui.$tenant.val();
+        return isTenantValid && !!this.ui.$user.val() && !!this.ui.$pass.val();
     }
 
 });

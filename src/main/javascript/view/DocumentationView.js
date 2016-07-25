@@ -16,5 +16,5 @@ SwaggerUi.Views.DocumentationView = Backbone.View.extend({
     remove: function() {
         this.$el.empty();
         this.undelegateEvents();
-    },
+    }
 });
