@@ -5,24 +5,29 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     'click .filter-button': 'onFiltering'
   },
 
-  onFiltering: function(e) {
-    $('#resources ul.operations > li').show();
-    $('#filter-panel button').removeClass('active');
+    onFiltering: function(e) {
+        if(!this.$allOperations) { this.$allOperations = $('#resources ul.operations > li'); }
+        if(!this.$provisioningOperations) { this.$provisioningOperations = this.$allOperations.filter('[id$="_provisioning"]'); }
+        if(!this.$steadystateOperations) { this.$steadystateOperations = this.$allOperations.filter('[id$="_steadystate"]'); }
 
-    switch (e.target.id) {
-      case 'filter-button-provisioning':
-        $('#resources ul.operations > li:not([id$="_provisioning"])').hide();
-        $('#filter-button-provisioning').addClass('active');
-        break;
-      case 'filter-button-steadystate':
-        $('#resources ul.operations > li:not([id$="_steadystate"])').hide();
-        $('#filter-button-steadystate').addClass('active');
-        break;
-      default:
-        // all
-        $('#filter-button-all').addClass('active');
-    }
-  },
+        this.$allOperations.hide();
+        $('#filter-panel button').removeClass('active');
+
+        switch (e.target.id) {
+            case 'filter-button-provisioning':
+                this.$provisioningOperations.show();
+                $('#filter-button-provisioning').addClass('active');
+                break;
+            case 'filter-button-steadystate':
+                this.$steadystateOperations.show();
+                $('#filter-button-steadystate').addClass('active');
+                break;
+            default:
+                // all
+                this.$allOperations.show();
+                $('#filter-button-all').addClass('active');
+        }
+    },
 
   apisSorter : {
     alpha   : function(a,b){ return a.name.localeCompare(b.name); }
