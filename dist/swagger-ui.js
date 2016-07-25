@@ -3264,6 +3264,8 @@ function schemaToHTML(name, schema, models, modelPropertyMacro) {
 
             if(!propertyIsRequired) {
               html += ', <span class="propOptKey">optional</span>';
+            } else {
+              html += ', <span>required</span>'
             }
 
             if(property.readOnly) {
