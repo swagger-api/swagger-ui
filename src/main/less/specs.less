@@ -6,9 +6,9 @@
  */
 
 .swagger-ui-wrap {
-
     width: @content-min-width;
     margin: auto;
+    padding-top: 20px;
 
     th, b, strong, label { font-weight: 600; }
 
@@ -142,8 +142,48 @@
         }
     }
 
+    .switch-button-panel {
+        padding-bottom: 20px;
+        text-align: center;
+
+        #filter-panel {
+            display: inline-block;
+            margin: auto;
+        }
+
+        .filter-button {
+            float: left;
+            background-color: @intappBlue;
+            border-right: 1px solid @intappLightBlue;
+            color: @intappLightBlue;
+            min-width: 95px;
+            height: 25px;
+            padding: 0 15px;
+            font-size: 12px;
+            font-weight: 600;
+
+            &:last-child { border-right: none; }
+
+            &:hover {
+                background-color: @intappCG1;
+                color: @intappWhite;
+            }
+
+            &.active {
+                background-color: @intappLightBlue;
+                color: @intappBlue;
+                cursor: default;
+
+                &:hover {
+                    background-color: @intappLightBlue;
+                    color: @intappBlue;
+                }
+            }
+        }
+    }
+
     .info {
-        > * { display: none; }
+        display: none;
 
         .info_title {
             padding-bottom: 10px;
@@ -624,7 +664,9 @@
     }
 
     .footer {
-        margin-top: 20px;
+        padding: 20px 0;
+
+        > * { display: none; }
     }
 
     p.big, div.big p {
