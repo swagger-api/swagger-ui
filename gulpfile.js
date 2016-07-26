@@ -88,7 +88,8 @@ function _less() {
       './src/main/less/screen.less',
       './src/main/less/print.less',
       './src/main/less/reset.less',
-      './src/main/less/style.less'
+      './src/main/less/style.less',
+      './src/main/less/sketchfab.less'
     ])
     .pipe(less())
     .on('error', function(err){ log(err); this.emit('end');})
