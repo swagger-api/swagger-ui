@@ -111,7 +111,7 @@
         // Encode basic token from login information
         var basicToken = "Basic " + btoa($("#api-key-input").val() + ":");
         // Set Header
-        window.swaggerUi.api.clientAuthorizations.add("key", new SwaggerClient.ApiKeyAuthorization("Authorization", basicToken, "header"));
+        window.swaggerUi.api.clientAuthorizations.add("api_key", new SwaggerClient.ApiKeyAuthorization("Authorization", basicToken, "header"));
         // Clear password input
         $("#api-key-input").val('');
         // Tell the user
