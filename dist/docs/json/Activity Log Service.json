@@ -1,0 +1,443 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "0.1.0",
+        "description": "This REST API allows services to write to a users activity log, and for services and users to request those logs.",
+        "title": "PRIIP Cloud - Activity Log Service"
+    },
+    "host": "localhost:8061",
+    "basePath": "/v0.1",
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json",
+        "multipart/form-data",
+        "application/x-www-form-urlencoded"
+    ],
+    "produces": [
+        "application/json",
+        "application/zip"
+    ],
+    "paths": {
+        "/test/ping": {
+            "get": {
+                "description": "Simple PING test to check the service is responding OK.",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "required": [
+                                "message"
+                            ],
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/logs": {
+            "post": {
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ],
+                "description": "Submit a log entry. Include document files.\nThis is UPSERT endpoint. If a valid log ID field is passed in - if the log ID exists, it will be used to update an existing log entry - and return a 200 status code.\nIf the log ID doesnt exist, or is not passed in, a new log entry will be created, and a 201 status code returned.\n",
+                "consumes": [
+                    "multipart/form-data",
+                    "application/x-www-form-urlencoded"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "formData",
+                        "description": "Log ID (valid UUID v4)",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "organisation_id",
+                        "in": "formData",
+                        "description": "Organisation ID for the log entry - required only for new log entries",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "type",
+                        "in": "formData",
+                        "description": "Name of the log type to create - required only for new log entries",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "any_field_here",
+                        "in": "formData",
+                        "description": "Add as many additional form fields as you need - all go into the log entry's 'metadata' field.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "documents",
+                        "in": "formData",
+                        "description": "Upload as many documents as you need to store with the log entry",
+                        "required": false,
+                        "type": "file"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/SubmitLogResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ],
+                "description": "Search the logs by organisation, log type. Includes pagination and metadata filtering options. Additional query parameters can be used - these will be applied to the metadata document. The metadata document is a dynamic structure that is defined by the application that creates the log entry. They are generally different per log type.",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "organisation_id",
+                        "in": "query",
+                        "description": "Organisation filter. Defaults to that of the current users context. Overridable with scope.org.others role.",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "Log type filter. Required.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Starting record offset (for pagination). Defaults to zero (0).",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Maximum number of records to return (for pagination). Defaults to 1000.",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "description": "Starting date filter. Unix timestamp (seconds).",
+                        "required": false,
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "description": "Ending date filter. Unix timestamp (seconds).",
+                        "required": false,
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/SearchResultObject"
+                        }
+                    },
+                    "default": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/log/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ],
+                "description": "Retrieve a log entry - metadata only.",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Log entry ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "organisation_id",
+                        "in": "query",
+                        "description": "Organisation ID if the requested log entry is for an organisation other than that of the token bearer.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/LogEntryObject"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/log/{id}/documents": {
+            "get": {
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ],
+                "description": "Retrieve a log entry - returns a ZIP archive containing all log documents.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/zip",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Log entry ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "organisation_id",
+                        "in": "query",
+                        "description": "Organisation ID if the requested log entry is for an organisation other than that of the token bearer.",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "bearer_token": {
+            "description": "Paste your access token here - must include the prefix \"Bearer \"",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
+    "definitions": {
+        "ErrorResponse": {
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "integer"
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "SubmitLogResponse": {
+            "required": [
+                "id",
+                "message"
+            ],
+            "properties": {
+                "id": {
+                    "type": "number"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "LogEntryObject": {
+            "required": [
+                "id",
+                "organisation_id",
+                "type",
+                "metadata",
+                "document_list",
+                "created_by",
+                "created_at"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "organisation_id": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "The string name of the log type - defined by the application that created the log entry."
+                },
+                "metadata": {
+                    "type": "object",
+                    "description": "A dynamic document object, defined by the application that created the log entry."
+                },
+                "document_list": {
+                    "type": "array",
+                    "description": "A list of metadata for uploaded documents. One object per file attached to the log entry.",
+                    "items": {
+                        "$ref": "#/definitions/LogEntryDocumentListObject"
+                    }
+                },
+                "created_by": {
+                    "type": "string",
+                    "description": "The UUID of the WSD user account that created the log entry. Most often a machine account."
+                },
+                "created_at": {
+                    "type": "string",
+                    "description": "ISO format date string representing the datetime the log entry was created.",
+                    "format": "date-time"
+                }
+            }
+        },
+        "SearchResultObject": {
+            "required": [
+                "total",
+                "offset",
+                "limit",
+                "filter_total",
+                "records"
+            ],
+            "properties": {
+                "total": {
+                    "type": "integer",
+                    "description": "The total number of records that would have been returned by the base query. The base query includes the organisation_id and type filters."
+                },
+                "offset": {
+                    "type": "integer",
+                    "description": "The starting record index - as specified by the query parameter."
+                },
+                "limit": {
+                    "type": "integer",
+                    "description": "The maximum number of records to be returned - as specified by the query parameter."
+                },
+                "filter_total": {
+                    "type": "integer",
+                    "description": "The total number of records that have been returned by the overall query. The overall query includes the organisation_id and type filters, as well as any dynamic filters. This number ignores the limit and offset imposed on the query."
+                },
+                "records": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/LogEntryObject"
+                    }
+                }
+            }
+        },
+        "LogEntryDocumentListObject": {
+            "required": [
+                "size",
+                "encoding",
+                "mimetype",
+                "originalname"
+            ],
+            "properties": {
+                "size": {
+                    "type": "integer",
+                    "description": "The size in bytes of the document."
+                },
+                "encoding": {
+                    "type": "string"
+                },
+                "mimetype": {
+                    "type": "string"
+                },
+                "originalname": {
+                    "type": "string",
+                    "description": "The original filesystem name of the file when it was created."
+                }
+            }
+        }
+    }
+}

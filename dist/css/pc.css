@@ -1,0 +1,54 @@
+body {
+	font-family : HelveticaNeue-Light, "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 16px;
+	color: #161715;
+}
+h1, h2, h3, h4, h5, h6{
+	font-family : HelveticaNeue-Light, "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+}
+.swagger-section #header {
+	height           : 60px;
+	background-color : #ace0f2;
+}
+.page-wrap{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0 1em 1em 1em;
+}
+.page-wrap h1{
+	margin: 0 0 .3em 0;
+	font-size: 2.2em;
+}
+.page-wrap p{
+	margin: .6em 0 .3em 0;
+}
+ul.docs-list{
+	margin: 1em 5em;
+}
+ul.docs-list li{
+	list-style-type: square;
+	line-height: 3em;
+}
+a.doc-link{
+	font-size: 1.2em;
+	color: #259ad6;
+	text-decoration: none;
+	border-bottom: 1px dotted #259ad6;
+}
+a.doc-link:hover{
+	color: #161715;
+	border-bottom-color: #161715;
+}
+.swagger-section #explore, .swagger-section #auth_container .authorize__btn{
+	background-color: #259ad6;
+	border-color: #259ad6;
+	border-bottom: 1px solid #1d7bab;
+	color: #fff;
+	text-decoration: none;
+	padding: 8px 12px;
+}
+.swagger-section #explore, .swagger-section #auth_container .authorize__btn:hover{
+	background-color: #1d7bab;
+	border-color: #1c74a2;
+}

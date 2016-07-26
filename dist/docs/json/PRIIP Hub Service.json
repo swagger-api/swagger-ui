@@ -1,0 +1,118 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "0.1.0",
+        "description": "This public REST API allows services and users to request KID documents.",
+        "title": "PRIIP Hub - KID Retrieval Service"
+    },
+    "host": "uat.priipcloud.com",
+    "basePath": "/hub",
+    "schemes": [
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/xml"
+    ],
+    "paths": {
+        "/test/ping": {
+            "get": {
+                "description": "Simple PING test to check the service is responding OK.",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "required": [
+                                "message"
+                            ],
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/priip/document": {
+            "get": {
+                "description": "Retrieve a KID document by composite KID identifier",
+                "produces": [
+                    "application/pdf",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "documentType",
+                        "in": "query",
+                        "description": "A valid document type. Currently only \"pdf\" is suppported",
+                        "required": true,
+                        "type": "string",
+                        "enum": [
+                            "pdf"
+                        ]
+                    },
+                    {
+                        "name": "identifier",
+                        "in": "query",
+                        "description": "A valid document identifier. E.g. DE000GL46863",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "country",
+                        "in": "query",
+                        "description": "A valid 2-digit, uppercase ISO country code. E.g. GB",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "language",
+                        "in": "query",
+                        "description": "A valid 2-digit, uppercase ISO language code. E.g. DE",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success - produces a PDF binary",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "default": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "ErrorResponse": {
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

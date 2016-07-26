@@ -1,0 +1,247 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "0.1.0",
+        "description": "This REST API allows internal services and users to subscribe to PRIIP Services notifications.",
+        "title": "PRIIP Cloud - Notifications Service (Internal Interface)"
+    },
+    "host": "notifications-uat.priipcloud.com:11443",
+    "basePath": "/v0.1",
+    "schemes": [
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/test/ping": {
+            "get": {
+                "description": "Simple PING test to check the service is responding OK.",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "required": [
+                                "message"
+                            ],
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/event/subscribe": {
+            "post": {
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ],
+                "description": "Subscribe to a named event. Returns the subscription object. Requires 'subscribe' application role.",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "New subscription object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/NewSubscriptionObject"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/SubscriptionObject"
+                        }
+                    },
+                    "default": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/event/subscribe/{subscription_id}": {
+            "delete": {
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ],
+                "description": "Unsubscribe from an event by subscription ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "subscription_id",
+                        "in": "path",
+                        "description": "A valid subscription ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "required": [
+                                "unsubscribed"
+                            ],
+                            "properties": {
+                                "unsubscribed": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Subscription not found for this user",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "bearer_token": {
+            "description": "Paste your access token here - must include the prefix \"Bearer \"",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
+    "definitions": {
+        "ErrorResponse": {
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "integer"
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "NewSubscriptionObject": {
+            "required": [
+                "event_name",
+                "type"
+            ],
+            "properties": {
+                "event_name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "HTTP",
+                        "SMTP"
+                    ]
+                },
+                "url": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "email": {
+                    "type": "string",
+                    "format": "email"
+                }
+            }
+        },
+        "SubscriptionObject": {
+            "required": [
+                "id",
+                "user_id",
+                "active",
+                "registration_id",
+                "type",
+                "url",
+                "email",
+                "event",
+                "organisation_id",
+                "updated_at",
+                "created_at"
+            ],
+            "properties": {
+                "id": {
+                    "type": "number"
+                },
+                "user_id": {
+                    "type": "string"
+                },
+                "active": {
+                    "type": "boolean"
+                },
+                "registration_id": {
+                    "type": "number"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "HTTP",
+                        "SMTP"
+                    ]
+                },
+                "url": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "email": {
+                    "type": "string",
+                    "format": "email"
+                },
+                "event": {
+                    "type": "string"
+                },
+                "organisation_id": {
+                    "type": "number"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "created_at": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        }
+    }
+}

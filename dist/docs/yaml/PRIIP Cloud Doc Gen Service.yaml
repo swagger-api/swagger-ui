@@ -1,0 +1,114 @@
+swagger: "2.0"
+info:
+  version: "0.1.0"
+  description: |
+    This REST API allows services and users to interact with the PRIIP Cloud Document Generation Service.
+  title: PRIIP Cloud - Document Generation Service
+host: uat.priipcloud.com
+basePath: /priip/api
+schemes:
+  - https
+consumes:
+  - application/json
+  - application/xml
+produces:
+  - application/json
+  - application/pdf
+paths:
+  /test/ping:
+    get:
+      description: Simple PING test to check the service is responding OK.
+      responses:
+        "200":
+          description: Success
+          schema:
+            required:
+              - message
+            properties:
+              message:
+                type: string
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /document/get/{identifier}:
+    get:
+      security:
+        - bearer_token: []
+      description: Request and generate a downloadable PDF KID document.
+      produces:
+        - application/pdf
+      parameters:
+        - in: path
+          name: identifier
+          description: A valid KID identifier. E.g. DE000GL46863
+          required: true
+          type: string
+        - in: query
+          name: language
+          description: A valid 2-digit uppercase ISO language code. E.g. DE
+          required: true
+          type: string
+        - in: query
+          name: jurisdiction
+          description: A valid 2-digit uppercase ISO country code. E.g. GB
+          required: true
+          type: string
+        - in: query
+          name: channel
+          description: A valid xx
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: file
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /document/generate:
+    post:
+      security:
+        - bearer_token: []
+      description: |
+        Submit product XML and receive a KID PDF response, as part of the same request.
+      parameters:
+        - in: body
+          name: body
+          description: A full product XML string
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success. PDF Binary download response
+        "401":
+          description: Unauthenticated
+        "403":
+          description: Forbidden
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+securityDefinitions:
+  bearer_token:
+    description: Paste your access token here - must include the prefix "Bearer "
+    type: apiKey
+    name: Authorization
+    in: header          
+definitions:
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+      code:
+        type: integer
+      errors:
+        type: array
+        items:
+          type: string

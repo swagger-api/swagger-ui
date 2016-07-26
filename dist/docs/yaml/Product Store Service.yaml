@@ -1,0 +1,208 @@
+swagger: "2.0"
+info:
+  version: "0.1.0"
+  description: |
+    This REST API allows services and users to interact with the PRIIP Cloud Product Store Service.
+  title: PRIIP Cloud - Product Store Service
+host: uat.priipcloud.com
+basePath: /product-store/api
+schemes:
+  - https
+consumes:
+  - application/xml
+produces:
+  - application/json
+  - application/pdf
+paths:
+  /test/ping:
+    get:
+      description: Simple PING test to check the service is responding OK.
+      responses:
+        "200":
+          description: Success
+          schema:
+            required:
+              - message
+            properties:
+              message:
+                type: string
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /product/{identifier}:
+    post:
+      security:
+        - bearer_token: []
+      description: |
+        Add a single product to the product store, or update an existing one. 
+        Takes an XML document in a format agreed with relevant issuer.
+      consumes:
+        - application/xml
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: identifier
+          description: A valid product identifier.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: A valid XML string with a root node of "data"
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Success (No content)
+        "401":
+          description: Unauthenticated
+        "403":
+          description: Forbidden
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    get:
+      security:
+        - bearer_token: []
+      description: |
+        Get a single product from the product store.
+      produces:
+        - application/xml
+      parameters:
+        - in: path
+          name: identifier
+          description: A valid product identifier.
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success. XML Returned.
+        "401":
+          description: Unauthenticated
+        "403":
+          description: Forbidden
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    delete:
+      security:
+        - bearer_token: []
+      description: |
+        Deletes a single product from the product store.
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: identifier
+          description: A valid product identifier.
+          required: true
+          type: string
+      responses:
+        "204":
+          description: Success. (No Content)
+        "401":
+          description: Unauthenticated
+        "403":
+          description: Forbidden
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /product/batch:
+    post:
+      security:
+        - bearer_token: []
+      description: |
+        Add new products to the product store in bulk. 
+        Upload a ZIP file containing one or more XML product files.
+        The file name of each XML document corresponds to the product identifier of the 
+        relevant product and the content of the document represents the associated product data.
+      consumes:
+        - application/zip
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: A ZIP archive
+          required: true
+          schema:
+            type: string
+            format: binary
+      responses:
+        "204":
+          description: Success (No content)
+        "401":
+          description: Unauthenticated
+        "403":
+          description: Forbidden
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /products:
+    get:
+      security:
+        - bearer_token: []
+      description: |
+        List all products in the product store.
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Success. JSON list Returned.
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/ProductListResponse"
+        "401":
+          description: Unauthenticated
+        "403":
+          description: Forbidden
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+securityDefinitions:
+  bearer_token:
+    description: Paste your access token here - must include the prefix "Bearer "
+    type: apiKey
+    name: Authorization
+    in: header          
+definitions:
+  ErrorResponse:
+    required:
+      - message
+      - success
+    properties:
+      message:
+        type: string
+      code:
+        type: integer
+      success:
+        type: boolean
+      errors:
+        type: array
+        items:
+          type: string
+  ProductListResponse:
+    required:
+      - identifier
+      - orgId
+      - contentType
+      - created
+    properties:
+      identifier:
+        type: string
+      orgId:
+        type: integer
+      contentType:
+        type: string
+      created:
+        type: string
+        format: date-time

@@ -1,0 +1,188 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "0.0.1",
+        "description": "This REST API allows external services and users to subscribe to PRIIP Services notifications.",
+        "title": "PRIIP Cloud - Notifications Service (External Interface)"
+    },
+    "host": "uat.priipcloud.com",
+    "basePath": "/external-notifications/api/",
+    "schemes": [
+        "https"
+    ],
+    "consumes": [
+        "application/xml"
+    ],
+    "produces": [
+        "application/xml"
+    ],
+    "paths": {
+        "/test/ping": {
+            "get": {
+                "description": "Simple PING test to check the service is responding OK.",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "required": [
+                                "message"
+                            ],
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/subscribe": {
+            "post": {
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ],
+                "description": "Subscribe to predefined list of KID Update events. Returns a list of subscriptionResults with a subscription status. Requires 'events.subscribe' application role.",
+                "consumes": [
+                    "application/xml"
+                ],
+                "produces": [
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/kidUpdates/list": {
+            "get": {
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ],
+                "description": "Read notifications.",
+                "consumes": [
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "description": "A date in '2011-12-03T10:15:30Z' format",
+                        "required": true,
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Error message",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/newEvent": {
+            "post": {
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ],
+                "description": "Publish events",
+                "consumes": [
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Error message",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "bearer_token": {
+            "description": "Paste your access token here - must include the prefix \"Bearer \"",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
+    "definitions": {
+        "ErrorResponse": {
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "integer"
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

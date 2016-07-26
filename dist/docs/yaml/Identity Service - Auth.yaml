@@ -1,0 +1,379 @@
+swagger: "2.0"
+info:
+  version: "0.1.0"
+  description: |
+    This REST API allows services and users to interact with the WSD Identity Service.
+  title: WSD - Identity Service
+host: auth.wallstreetdocs.com:6443 # UAT
+#host: auth.wallstreetdocs.com:9443 # Staging
+#host: auth.wsd.local:8050 # Local/dev
+basePath: /
+schemes:
+  - https # Staging + UAT
+  #- http # Local
+consumes:
+  - application/json
+  - application/x-www-form-urlencoded
+produces:
+  - application/json
+paths:
+  /api/v0.1/test/ping:
+    get:
+      description: Simple PING test to check the service is responding OK.
+      responses:
+        "200":
+          description: Success
+          schema:
+            required:
+              - message
+            properties:
+              message:
+                type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /oauth/token:
+    post:
+      description: |
+        Obtain an access token for a service, using client_credntials grant type.
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: client_id
+          description: Your OAuth 2.0 client_id
+          required: true
+          type: string
+        - in: formData
+          name: client_secret
+          description: Your OAuth 2.0 client_id
+          required: true
+          type: string
+        - in: formData
+          name: grant_type
+          description: Your OAuth 2.0 grant type
+          required: true
+          type: string
+          enum: 
+            - client_credentials
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/AccessTokenObject'
+        "401":
+          description: Unauthenticated
+        "403":
+          description: Forbidden
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /oauth/tokeninfo:
+    get:
+      security:
+        - bearer_token: []
+      description: |
+        Retrieve access token information. 
+        Specify a client_id and client_secret for a resource service to obtain additional information
+        relating to roles for that service.
+      parameters:
+        - in: query
+          name: client_id
+          type: string
+          required: false
+        - in: query
+          name: client_secret
+          type: string
+          required: false
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/TokenInfoResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /oauth/userinfo:
+    get:
+      security:
+        - bearer_token: []
+      description: |
+        Retrieve information about the user bearing the access token.
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/UserInfoResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /oauth/clientinfo:
+    get:
+      security:
+        - bearer_token: []
+      description: |
+        Retrieve information about the the application issuing the access token.
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/ClientInfoResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+securityDefinitions:
+  bearer_token:
+    description: Paste your access token here - must include the prefix "Bearer "
+    type: apiKey
+    name: Authorization
+    in: header          
+definitions:
+  ErrorResponse:
+    required:
+      - message
+      - success
+    properties:
+      message:
+        type: string
+      code:
+        type: integer
+      success:
+        type: boolean
+      errors:
+        type: array
+        items:
+          type: string
+  OrganisationObject:
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+  NameObject:
+    required:
+      - family_name
+      - given_name
+    properties:
+      family_name:
+        type: string
+      given_name: 
+        type: string
+      middle_name:
+        type: string
+  RoleObject:
+    required:
+      - id
+      - name
+      - machine_name
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      machine_name:
+        type: string
+  AccessTokenObject:
+    required:
+      - access_token
+      - expires_in
+      - organisation
+      - token_type
+    properties:
+      access_token:
+        type: string
+        description: A string representing your OAuth 2 access token
+      expires_in:
+        type: integer
+        description: Seconds remaining before the access token expires
+      organisation:
+        $ref: '#/definitions/OrganisationObject'
+      token_type:
+        type: string
+        description: Always "Bearer"
+  TokenInfoResponse:
+    required:
+      - audience
+      - audience_name
+      - token_context
+      - organisation
+      - expires_at
+      - user_id
+      - scopes
+    properties:
+      audience:
+        type: string
+        description: The client ID of the OAuth application the token was issued against.
+      audience_name:
+        type: string
+      service_name:
+        type: string
+        description: The service identifier.
+      token_context:
+        type: string
+        enum:
+          - user
+          - application
+        description: The context of the access token - user or application
+      scopes:
+        type: string
+        description: Space-separated list of auth scopes the user has consented to.
+      expires_at:
+        type: string
+        format: date-time
+        description: Token expiration datetime
+      expiration_left:
+        type: integer
+        description: The number of seconds left until the token expires.
+      user_id:
+        type: string
+        format: uuid
+        description: WSD user ID
+      organisation:
+        $ref: "#/definitions/OrganisationObject"
+      presenter_roles:
+        type: array
+        items:
+          $ref: "#/definitions/RoleObject"
+      user:
+        type: object
+  ClientInfoResponse:
+    required:
+      - id
+      - client_id
+      - user_id
+      - organisation
+      - name
+      - service_name
+    properties:
+      id:
+        type: integer
+        description: The internal WSD Application ID. 
+      client_id:
+        type: string
+        description: The OAuth client identifier (client_id)
+      user_id:
+        type: string
+        format: uuid
+        description: The internal WSD user ID of the machine account associated with this application.
+      organisation:
+        $ref: "#/definitions/OrganisationObject"
+      name:
+        type: string
+        description: The plain text label for the client application 
+      service_name:
+        type: string
+        description: The service name assigned to the application to group various OAuth applications by service.
+      theme_name:
+        type: string
+        description: (For future use)
+  UserInfoResponse:
+    required:
+      - id
+      - provider
+      - emails
+      - user_type_id
+      - roles
+      - scopes
+      - organisation
+      - name
+      - username
+      - created_at
+      - updated_at
+    properties:
+      id: 
+        type: string
+        format: uuid
+        description: The internal WSD user ID.
+      provider:
+        type: string
+        description: The name of the OAuth provider (currently always "wsd")
+      emails:
+        type: array
+        items:
+          required:
+            - value
+            - type
+          properties:
+            value:
+              type: string
+              description: The email address
+            type:
+              type: string
+              description: A label for the type of email address. "default" should always be present.
+      user_type_id:
+        type: integer
+        description: Internal ID for the users type. Fixed values.
+        enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+      user_type:
+        type: string
+        description: Internal ID for the users type. Fixed values.
+        enum:
+          - WSD Admin
+          - Org Admin
+          - WSD User
+          - Org User
+          - Org Customer
+          - Machine Account
+      roles:
+        type: array
+        items:
+          required:
+            - id
+            - machine_name
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            machine_name:
+              type: string
+              description: The machine name for the role. This is namespaced and is used in applications to implement role-based permissions.
+      scopes:
+        type: string
+        description: Space-separated list of scope names the user has granted to the application that issued the access token. Currently "email" and "profile".
+      organisation:
+        $ref: '#/definitions/OrganisationObject'
+      display_name:
+        type: string
+        description: Convenience full name field, calculated from the name object.
+      name:
+        $ref: "#/definitions/NameObject"
+      photos:
+        type: array
+        description: User photos not yet supported
+        items:
+          type: string
+      username:
+        type: string
+        description: This field is a globally unique text identifier for a user. Can be used to login with in addition to the users email address.
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+              
+              
+            
+              
+              
+        
+        
+        
+        
