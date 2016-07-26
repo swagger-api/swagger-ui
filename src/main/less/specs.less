@@ -10,41 +10,71 @@
     width: @content-min-width;
     margin: auto;
 
-    b, strong { font-weight: 600; }
+    th, b, strong, label { font-weight: 600; }
 
-    p {
-        line-height: 1.4em;
-        padding: 0 0 10px;
-        color: #333333;
+    label { padding-right: 5px; }
+
+    input[type='text'],
+    input[type='password'],
+    .input-swagger {
+        border: solid @intappCG5 1px;
+        color: @intappGrey;
+        min-width: 155px;
+        height: 25px;
+        padding: 0 5px;
+        font-size: 11px;
+
+        &:focus { border-color: @intappBlue; }
+    }
+
+    select {
+        .input-swagger;
+        padding: 0 1px;
+    }
+
+    textarea {
+        .input-swagger;
+        height: 50px;
     }
 
     table {
         thead {
             tr {
                 th {
-                    padding: 5px;
-                    font-size: 0.9em;
-                    color: #666666;
-                    border-bottom: 1px solid #999999;
+                    position: relative;
+                    border-bottom: 1px solid @intappLightGrey;
+                    width: auto !important;
+                    max-width: none !important;
+                    padding: 5px 10px;
+                    white-space: nowrap;
+
+                    &:before {
+                        content: "";
+                        display: block;
+                        position: absolute;
+                        left: 0;
+                        border-left: 1px solid @intappLightGrey;
+                        height: 11px;
+                        margin-top: 3px;
+                    }
+
+                    &:first-child:before { display: none; }
                 }
             }
         }
+
         tbody {
-            tr:last-child {
-                td {
-                    border-bottom: none;
-                }
-            }
-            tr.offset {
-                background-color: #f0f0f0;
-            }
             tr {
+                &.offset { background-color: #f0f0f0; }
+
                 td {
-                    padding: 6px;
-                    font-size: 0.9em;
-                    border-bottom: 1px solid #cccccc;
+                    border-bottom: 1px solid @intappLightGrey;
+                    padding: 5px 10px;
                     vertical-align: top;
-                    line-height: 1.3em;
+                }
+
+                &:last-child {
+                    td { border-bottom: none; }
                 }
             }
         }
@@ -81,7 +111,6 @@
         }
 
         span.sub {
-            font-size: 0.7em;
             color: #999999;
             font-style: italic;
 
@@ -102,12 +131,29 @@
 
     pre {
         font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
-        background-color: #fcf6db;
-        border: 1px solid #e5e0c6;
-        padding: 10px;
+        background-color: @intappWhite;
+        border: solid @intappVeryLightGrey 1px;
+        white-space: pre;
+
         code {
-            line-height: 1.6em;
-            background: none;
+            display: block;
+            padding: 5px;
+            white-space: pre-wrap;
+        }
+    }
+
+    .info {
+        > * { display: none; }
+
+        .info_title {
+            padding-bottom: 10px;
+            font-weight: bold;
+            font-size: 25px;
+        }
+
+        .info_description {
+            padding-bottom: 10px;
+            font-size: 15px;
         }
     }
 
@@ -120,7 +166,7 @@
             padding: 20px 40px 20px 35px;
 
             &:last-child { margin-bottom: 0; }
-            &:after { .clear-all }
+            &:after { .clear-all; }
 
             div.heading {
                 overflow: hidden;
@@ -149,14 +195,12 @@
                 padding-top: 20px;
 
                 li.endpoint {
-                    padding-bottom: 10px;
-
-                    &:last-child { padding-bottom: 0; }
 
                     ul.operations {
-                        background-color: @intappLightBlue;
 
                         li.operation {
+                            background-color: @intappVeryLightBlue;
+                            margin-bottom: 10px;
 
                             div.heading {
                                 overflow: hidden;
@@ -193,55 +237,58 @@
                                 }
 
                                 ul.options {
-                                    padding-right: 10px ;
+                                    padding-right: 10px;
                                     font-size: 13px;
+                                    font-weight: 600;
 
                                     li.access { color: black; }
                                 }
                             }
 
                             div.content {
+                                border-top: solid @intappVeryLightGrey 1px;
                                 padding: 10px;
 
                                 h4 {
-                                    font-size: 1.1em;
-                                    margin: 0;
-                                    padding: 15px 0 5px;
+                                    padding-bottom: 10px;
+                                    font-size: 13px;
+                                    font-weight: 600;
                                 }
+
                                 div.sandbox_header {
-                                    float: none;
-                                    clear: both;
-                                    overflow: hidden;
-                                    display: block;
-                                    a {
-                                        padding: 4px 0 0 10px;
-                                        display: inline-block;
-                                        font-size: 0.9em;
-                                    }
+                                    padding-top: 5px;
+
+                                    a { margin-left: 10px; }
+
                                     input.submit {
-                                        display: block;
-                                        clear: none;
-                                        float: left;
-                                        padding: 6px 8px;
+                                        background-color: @intappGreen;
+                                        border: 0;
+                                        border-radius: 3px;
+                                        color: @intappWhite;
+                                        height: 25px;
+                                        padding: 0 10px;
+                                        font-size: 12px;
+                                        font-weight: 600;
+                                        cursor: pointer;
+
+                                        &:hover { background-color: @intappCG2; }
                                     }
+
                                     span.response_throbber {
+                                        float: right;
+                                        display: block;
                                         background-image: url('../images/throbber.gif');
                                         width: 128px;
                                         height: 16px;
-                                        display: block;
-                                        clear: none;
-                                        float: right;
+                                        margin-top: 5px;
                                     }
                                 }
+
                                 form {
-                                    input[type='text'].error {
-                                        outline: 2px solid black;
-                                        outline-color: #cc0000;
-                                    }
-                                    select[name='parameterContentType'] {
-                                        max-width:300px;
-                                    }
+                                    input[type='text'].error { outline: 1px solid @intappRed; }
+                                    select[name='parameterContentType'] { max-width:300px; }
                                 }
+
                                 div.response {
                                     div.block {
                                         pre {
@@ -254,41 +301,93 @@
                                     }
                                 }
                             }
-                        }
-                        li.operation.put {
-                            div.heading {
-                                background-color: #f9f2e9;
-                                border: 1px solid #f0e0ca;
-                                h3 {
+
+                            &.delete {
+                                div.heading {
                                     span.http_method {
-                                        a {
-                                            background-color: #c5862b;
+                                        a { background-color: @intappRed; }
+                                    }
+
+                                    ul.options {
+                                        li {
+                                            color: @intappRed;
+                                            a { color: inherit; }
                                         }
                                     }
                                 }
+                                div.content {
+                                    h4 { color: @intappRed; }
+                                }
+                            }
+
+                            &.patch {
+                                div.heading {
+                                    span.http_method {
+                                        a { background-color: @intappSweetOrange; }
+                                    }
+
+                                    ul.options {
+                                        li {
+                                            color: @intappSweetOrange;
+                                            a { color: inherit; }
+                                        }
+                                    }
+                                }
+                                div.content {
+                                    h4 { color: @intappSweetOrange; }
+                                }
+                            }
+
+                            &.get {
+                                div.heading {
+                                    span.http_method {
+                                        a { background-color: @intappBlue; }
+                                    }
+
+                                    ul.options {
+                                        li {
+                                            color: @intappBlue;
+                                            a { color: inherit; }
+                                        }
+                                    }
+                                }
+                                div.content {
+                                    h4 { color: @intappBlue; }
+                                }
+                            }
+
+                            &.post {
+                                div.heading {
+                                    span.http_method {
+                                        a { background-color: @intappGreen; }
+                                    }
+
+                                    ul.options {
+                                        li {
+                                            color: @intappGreen;
+                                            a { color: inherit; }
+                                        }
+                                    }
+                                }
+                                div.content {
+                                    h4 { color: @intappGreen; }
+                                }
+                            }
+                        }
+                        li.operation.put {
+                            div.heading {
+                                    span.http_method {
+                                        a { background-color: #c5862b; }
+                                    }
                                 ul.options {
                                     li {
-                                        border-right: 1px solid #dddddd;
-                                        border-right-color: #f0e0ca;
                                         color: #c5862b;
-                                        a {
-                                            color: #c5862b;
-                                        }
+                                        a { color: inherit; }
                                     }
                                 }
                             }
                             div.content {
-                                background-color: #faf5ee;
-                                border: 1px solid #f0e0ca;
-                                h4 {
-                                    color: #c5862b;
-                                }
-                                div.sandbox_header {
-                                    a {
-                                        color: #dcb67f;
-
-                                    }
-                                }
+                                h4 { color: #c5862b; }
                             }
                         }
                         li.operation.head {
@@ -329,151 +428,6 @@
                                 }
                             }
                         }
-                        li.operation.delete {
-                            div.heading {
-                                background-color: #f5e8e8;
-                                border: 1px solid #e8c6c7;
-                                h3 {
-                                    span.http_method {
-                                        a {
-                                            text-transform: uppercase;
-                                            background-color: #a41e22;
-
-                                        }
-                                    }
-                                }
-                                ul.options {
-                                    li {
-                                        border-right: 1px solid #dddddd;
-                                        border-right-color: #e8c6c7;
-                                        color: #a41e22;
-                                        a {
-                                            color: #a41e22;
-                                        }
-                                    }
-                                }
-                            }
-                            div.content {
-                                background-color: #f7eded;
-                                border: 1px solid #e8c6c7;
-                                h4 {
-                                    color: #a41e22;
-                                }
-                                div.sandbox_header {
-                                    a {
-                                        color: #c8787a;
-                                    }
-                                }
-                            }
-                        }
-                        li.operation.post {
-                            div.heading {
-                                background-color: #e7f6ec;
-                                border: 1px solid #c3e8d1;
-                                h3 {
-                                    span.http_method {
-                                        a {
-                                            background-color: #10a54a;
-                                        }
-                                    }
-                                }
-                                ul.options {
-                                    li {
-                                        border-right: 1px solid #dddddd;
-                                        border-right-color: #c3e8d1;
-                                        color: #10a54a;
-                                        a {
-                                            color: #10a54a;
-                                        }
-                                    }
-                                }
-                            }
-                            div.content {
-                                background-color: #ebf7f0;
-                                border: 1px solid #c3e8d1;
-                                h4 {
-                                    color: #10a54a;
-                                }
-                                div.sandbox_header {
-                                    a {
-                                        color: #6fc992;
-                                    }
-                                }
-                            }
-                        }
-                        li.operation.patch {
-                            div.heading {
-                                background-color: #FCE9E3;
-                                border: 1px solid #F5D5C3;
-                                h3 {
-                                    span.http_method {
-                                        a {
-                                            background-color: #D38042;
-
-                                        }
-                                    }
-                                }
-                                ul.options {
-                                    li {
-                                        border-right: 1px solid #dddddd;
-                                        border-right-color: #f0cecb;
-                                        color: #D38042;
-                                        a {
-                                            color: #D38042;
-                                        }
-                                    }
-                                }
-                            }
-                            div.content {
-                                background-color: #faf0ef;
-                                border: 1px solid #f0cecb;
-
-                                h4 {
-                                    color: #D38042;
-
-                                }
-                                div.sandbox_header {
-                                    a {
-                                        color: #dcb67f;
-                                    }
-                                }
-                            }
-                        }
-                        li.operation.get {
-                            div.heading {
-                                background-color: #e7f0f7;
-                                border: 1px solid #c3d9ec;
-                                h3 {
-                                    span.http_method {
-                                        a {
-                                            background-color: #0f6ab4;
-                                        }
-                                    }
-                                }
-                                ul.options {
-                                    li {
-                                        border-right: 1px solid #dddddd;
-                                        border-right-color: #c3d9ec;
-                                        color: #0f6ab4;
-                                        a {
-                                            color: #0f6ab4;
-                                        }
-                                    }
-                                }
-                            }
-                            div.content {
-                                background-color: #ebf3f9;
-                                border: 1px solid #c3d9ec;
-                                h4 {
-                                    color: #0f6ab4;
-                                }
-                                div.sandbox_header {
-                                    a {
-                                        color: #6fa5d2;
-                                    }
-                                }
-                            }
-                        }
                         li.operation.options {
                             div.heading {
                                 background-color: #e7f0f7;
@@ -509,19 +463,6 @@
                                 }
                             }
                         }
-                        li.operation {
-                            &.get, &.post, &.head, &.put, &.patch, &.delete {
-                                div.content {
-                                    border-top: none;
-                                }
-                                div.heading ul.options li {
-                                    &:last-child, &.last {
-                                        padding-right: 0;
-                                        border-right: none;
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -538,10 +479,6 @@
             display: block;
             clear: none;
             float: left;
-            -moz-box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-            -ms-box-sizing: border-box;
-            box-sizing: border-box;
             width: 60%;
         }
 
@@ -549,158 +486,67 @@
             display: block;
             clear: none;
             float: right;
-            -moz-box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-            -ms-box-sizing: border-box;
-            box-sizing: border-box;
             margin-top: 10px;
         }
     }
 
     .content {
+        .markdown { padding-bottom: 5px; }
+
         & > .content-type {
             & > div {
                 & > label {
                     clear: both;
                     display: block;
-                    color: #0F6AB4;
-                    font-size: 1.1em;
                     margin: 0;
                     padding: 15px 0 5px;
                 }
             }
         }
-        pre {
-            font-size: 12px;
-            margin-top: 5px;
-            padding: 5px;
-        }
-    }
-
-    .icon-btn {
-        cursor: pointer;
-    }
-
-    .info_title {
-        padding-bottom: 10px;
-        font-weight: bold;
-        font-size: 25px;
-    }
-
-    .footer {
-        margin-top: 20px;
-    }
-
-    p.big, div.big p {
-        font-size: 1em;
-        margin-bottom: 10px;
-    }
-
-    form.fullwidth ol {
-        li.string input, li.url input, li.text textarea, li.numeric input {
-            width: 500px !important;
-        }
-    }
-
-    .info_license {
-        padding-bottom: 5px;
-    }
-
-    .info_tos {
-        padding-bottom: 5px;
-    }
-
-    .message-fail {
-        color: #cc0000;
-    }
-
-    .info_url {
-        padding-bottom: 5px;
-    }
-
-    .info_email {
-        padding-bottom: 5px;
-    }
-
-    .info_name {
-        padding-bottom: 5px;
-    }
-
-    .info_description {
-        padding-bottom: 10px;
-        font-size: 15px;
-    }
-
-    .markdown ol li, .markdown ul li {
-        padding: 3px 0px;
-        line-height: 1.4em;
-        color: #333333;
-    }
-
-    form.formtastic fieldset.inputs ol {
-        li.string input, li.url input, li.numeric input {
-            display: block;
-            padding: 4px;
-            width: auto;
-            clear: both;
-        }
-        li.string input.title,
-        li.url input.title,
-        li.numeric input.title {
-            font-size: 1.3em;
-        }
-    }
-
-    table.fullwidth {
-        width: 100%;
     }
 
     .model-signature {
-        font-size: 1em;
-        line-height: 1.5em;
         .signature-nav {
-            a {
-                text-decoration: none;
-                color: #AAA;
-            }
-            a:hover {
-                text-decoration: underline;
-                color: black;
-            }
             .selected {
-                color: black;
-                text-decoration: none;
+                opacity: 0.5;
+                color: @intappDarkGrey;
+                cursor: default;
             }
         }
+
+        pre {
+            overflow: auto;
+            max-height: 200px;
+
+            &:hover { background-color: @intappCG9; }
+        }
+
+        ul.signature-nav {
+            min-width: 230px;
+            padding-bottom: 5px;
+
+            &:after { .clear-all; }
+
+            li {
+                float: left;
+                border-right: solid @intappVeryLightGrey 1px;
+                padding: 0 5px;
+                font-size: 12px;
+                font-weight: 600;
+
+                &:last-child {
+                    padding-right: 0;
+                    border-right: none;
+                }
+
+                &:first-child { padding-left: 0; }
+            }
+        }
+
         .propType {
             color: #5555aa;
         }
-        pre:hover {
-            background-color: #ffffdd;
-        }
-        pre {
-            font-size: .85em;
-            line-height: 1.2em;
-            overflow: auto;
-            max-height: 200px;
-            cursor: pointer;
-        }
-        ul.signature-nav {
-            display: block;
-            min-width: 230px;
-            margin: 0;
-            padding: 0;
-            li:last-child {
-                padding-right: 0;
-                border-right: none;
-            }
-            li {
-                float: left;
-                margin: 0 5px 5px 0;
-                padding: 2px 5px 2px 0;
-                border-right: 1px solid #ddd;
-            }
-        }
+
         .propOpt {
             color: #555;
         }
@@ -713,19 +559,11 @@
             font-style: italic;
         }
         .description {
-            .strong {
-                font-weight: bold;
-                color: #000;
-                font-size: .9em;
-            }
+            .strong, .stronger { font-weight: 600; }
             div {
                 font-size: 0.9em;
                 line-height: 1.5em;
                 margin-left: 1em;
-            }
-            .stronger {
-                font-weight: bold;
-                color: #000;
             }
             .propWrap {
                 .optionsWrapper {
@@ -769,18 +607,87 @@
                 margin-right: -3px; // otherwise there is a gap before the comma
             }
         }
-        .propName {
-            font-weight: bold;
+        .propName { font-weight: 600; }
+
+        .signature-container { clear: both; }
+    }
+
+    .parameter-content-type {
+        label {
+            display: block;
+            padding-bottom: 5px;
         }
-        .signature-container {
+    }
+
+    .icon-btn {
+        cursor: pointer;
+    }
+
+    .footer {
+        margin-top: 20px;
+    }
+
+    p.big, div.big p {
+        font-size: 1em;
+        margin-bottom: 10px;
+    }
+
+    form.fullwidth ol {
+        li.string input, li.url input, li.text textarea, li.numeric input {
+            width: 500px !important;
+        }
+    }
+
+    .info_license {
+        padding-bottom: 5px;
+    }
+
+    .info_tos {
+        padding-bottom: 5px;
+    }
+
+    .message-fail {
+        color: #cc0000;
+    }
+
+    .info_url {
+        padding-bottom: 5px;
+    }
+
+    .info_email {
+        padding-bottom: 5px;
+    }
+
+    .info_name { padding-bottom: 5px; }
+
+    .markdown ol li, .markdown ul li {
+        padding: 3px 0px;
+        line-height: 1.4em;
+        color: #333333;
+    }
+
+    form.formtastic fieldset.inputs ol {
+        li.string input, li.url input, li.numeric input {
+            display: block;
+            padding: 4px;
+            width: auto;
             clear: both;
         }
+        li.string input.title,
+        li.url input.title,
+        li.numeric input.title {
+            font-size: 1.3em;
+        }
+    }
+
+    table.fullwidth {
+        width: 100%;
+        margin-bottom: 5px;
     }
 
     .body-textarea {
         width: 300px;
         height: 100px;
-        border: 1px solid #aaa;
     }
 
     .markdown p code, .markdown li code {
@@ -788,10 +695,6 @@
         background-color: #f0f0f0;
         color: black;
         padding: 1px 3px;
-    }
-
-    .required {
-        font-weight: bold;
     }
 
     /* JSONEditor specific styling */
@@ -807,10 +710,7 @@
         font-weight:bold!important;
     }
 
-    input.parameter {
-        width: 300px;
-        border: 1px solid #aaa;
-    }
+    input.parameter { width: 300px; }
 
     span.weak {
         color: #666666;
@@ -822,13 +722,10 @@
 
     caption, th, td {
         text-align: left;
-        font-weight: normal;
         vertical-align: middle;
     }
 
-    .code {
-        font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
-    }
+    .code { font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace; }
 
     form.formtastic {
         fieldset.inputs {
@@ -973,7 +870,5 @@
         }
     }
 
-    .operation-status td.markdown > p:last-child {
-        padding-bottom: 0;
-    }
+    .operation-status td.markdown > p:last-child { padding-bottom: 0; }
 }
