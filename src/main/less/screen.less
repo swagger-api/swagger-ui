@@ -48,12 +48,8 @@ body {
             display: none;
             position: absolute;
             right: 0;
-            background-color: @intappLightBlue;
-            box-shadow: 0 0 5px rgba(0,0,0,0.15);
-            border-radius: 8px;
-            margin: 5px 0 0;
-            padding: 20px;
-            text-align: left;
+            padding-top: 5px;
+
 
             &:before {
                 content: "";
@@ -63,10 +59,18 @@ body {
                 right: 30px;
                 border: solid transparent 6px;
                 border-bottom-color: @intappLightBlue;
-                margin-top: -12px;
+                margin-top: -7px;
             }
 
-            > li + li { margin-top: 15px; }
+            > ul {
+                background-color: @intappLightBlue;
+                box-shadow: 0 0 5px rgba(0,0,0,0.15);
+                border-radius: 8px;
+                padding: 20px;
+                text-align: left;
+
+                > li + li { margin-top: 15px; }
+            }
 
             a {
                 color: @intappDarkGrey;
