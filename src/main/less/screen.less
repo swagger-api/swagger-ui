@@ -65,17 +65,27 @@ body {
             > ul {
                 background-color: @intappLightBlue;
                 box-shadow: 0 0 5px rgba(0,0,0,0.15);
-                border-radius: 8px;
-                padding: 20px;
+                border-radius: 3px;
+                padding: 10px 0;
                 text-align: left;
 
-                > li + li { margin-top: 15px; }
+                > li.is-selected {
+                    a {
+                        opacity: 0.5;
+                        background: none;
+                        cursor: default;
+                    }
+                }
             }
 
             a {
-                color: @intappDarkGrey;
+                display: block;
+                color: @intappGrey;
+                padding: 10px 20px;
                 text-decoration: none;
                 white-space: nowrap;
+
+                &:hover { background-color: @intappCG7; }
             }
         }
 
@@ -86,15 +96,6 @@ body {
             margin-left: 30px;
             padding-top: 2px;
 
-            &.is-selected {
-                color: @intappWhite;
-                border-bottom: 2px solid @intappLightBlue;
-            }
-
-            &:hover {
-                .gb-header-nav-inner { display: block; }
-            }
-
             > a {
                 color: @intappLightBlue;
                 font-size: 14px;
@@ -102,7 +103,22 @@ body {
                 text-decoration: none;
             }
 
-            > a:hover { color: @intappAlmostWhite;}
+            > a:hover { color: @intappAlmostWhite; }
+
+            &.is-selected {
+                color: @intappWhite;
+                border-bottom: 2px solid @intappWhite;
+
+                > a { color: @intappWhite; }
+            }
+
+            &.is-selected.has-drop-menu {
+                &:hover { border-bottom: none; }
+            }
+
+            &:hover {
+                .gb-header-nav-inner { display: block; }
+            }
         }
     }
 
