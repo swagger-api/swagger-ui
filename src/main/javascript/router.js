@@ -40,7 +40,10 @@ window.SwaggerUiRouter = Backbone.Router.extend({
             },
 
             docExpansion: 'none',
-            apisSorter: 'alpha',
+            apisSorter: function(a, b) {
+                //put Action group to the end of the list
+                return a.tag.replace('Action', 'ZAction') > b.tag.replace('Action', 'ZAction');
+            },
 
             operationsSorter: function(a, b) {
                 return a.path === b.path ? a.method.localeCompare(b.method) : a.path.localeCompare(b.path);

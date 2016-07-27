@@ -15,7 +15,10 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
 
         this.ui = {
             $tenant: this.$el.find('#tenant').focus(),
-            $user: this.$el.find('#user').one('change', this.onFirstUserInputChange.bind(this)), //autofill fix
+            $user: this.$el.find('#user')
+                .one('change', this.onFirstUserInputChange.bind(this))
+                .focus(this.offFirstUserInputChange.bind(this)), //autofill fix
+
             $pass: this.$el.find('#pass'), //autofill fix
 
             $submit: this.$el.find('button'),
@@ -52,7 +55,13 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
 
     onFirstUserInputChange: function(e) {
         var self = this;
-        setTimeout(function() { self.ui.$submit.prop('disabled', !self.isValidForm(true)); });
+
+        // fix for form auto-fill change event
+        setTimeout(function() { self.ui.$user.val() && self.ui.$submit.prop('disabled', !self.isValidForm(true)); });
+    },
+
+    offFirstUserInputChange: function(e) {
+        this.ui.$user.off('change');
     },
 
     onFormSubmit: function(e) {
@@ -106,7 +115,7 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
 
     isValidForm: function(checkAutoFill) {
         var isTenantValid = Intapp.Config.Deployment === 'OnPremise' ? true : !!this.ui.$tenant.val(),
-            isUserPassValid = (checkAutoFill ? this.ui.$user.is(':-webkit-autofill') : false) || (!!this.ui.$user.val() && !!this.ui.$pass.val());
+            isUserPassValid = !!this.ui.$user.val() && (checkAutoFill ? true : !!this.ui.$pass.val());
 
         return isTenantValid && isUserPassValid;
     }

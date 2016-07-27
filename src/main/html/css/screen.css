@@ -1231,17 +1231,24 @@ body {
 .swagger-section .gb-header-nav .gb-header-nav-inner > ul {
   background-color: #DBE4F0;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
-  border-radius: 8px;
-  padding: 20px;
+  border-radius: 3px;
+  padding: 10px 0;
   text-align: left;
 }
-.swagger-section .gb-header-nav .gb-header-nav-inner > ul > li + li {
-  margin-top: 15px;
+.swagger-section .gb-header-nav .gb-header-nav-inner > ul > li.is-selected a {
+  opacity: 0.5;
+  background: none;
+  cursor: default;
 }
 .swagger-section .gb-header-nav .gb-header-nav-inner a {
-  color: #3D4246;
+  display: block;
+  color: #5D6164;
+  padding: 10px 20px;
   text-decoration: none;
   white-space: nowrap;
+}
+.swagger-section .gb-header-nav .gb-header-nav-inner a:hover {
+  background-color: #A6C9E3;
 }
 .swagger-section .gb-header-nav > li {
   float: left;
@@ -1249,13 +1256,6 @@ body {
   height: 23px;
   margin-left: 30px;
   padding-top: 2px;
-}
-.swagger-section .gb-header-nav > li.is-selected {
-  color: #FFF;
-  border-bottom: 2px solid #DBE4F0;
-}
-.swagger-section .gb-header-nav > li:hover .gb-header-nav-inner {
-  display: block;
 }
 .swagger-section .gb-header-nav > li > a {
   color: #DBE4F0;
@@ -1265,6 +1265,19 @@ body {
 }
 .swagger-section .gb-header-nav > li > a:hover {
   color: #F8F8F8;
+}
+.swagger-section .gb-header-nav > li.is-selected {
+  color: #FFF;
+  border-bottom: 2px solid #FFF;
+}
+.swagger-section .gb-header-nav > li.is-selected > a {
+  color: #FFF;
+}
+.swagger-section .gb-header-nav > li.is-selected.has-drop-menu:hover {
+  border-bottom: none;
+}
+.swagger-section .gb-header-nav > li:hover .gb-header-nav-inner {
+  display: block;
 }
 .swagger-section .gb-header-overview {
   clear: both;
