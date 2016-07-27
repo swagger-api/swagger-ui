@@ -7,26 +7,33 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
     onFiltering: function(e) {
         if(!this.$allOperations) { this.$allOperations = $('#resources ul.operations > li'); }
-        if(!this.$provisioningOperations) { this.$provisioningOperations = this.$allOperations.filter('[id$="_provisioning"]'); }
-        if(!this.$steadystateOperations) { this.$steadystateOperations = this.$allOperations.filter('[id$="_steadystate"]'); }
+        if(!this.$provisioningOperations) { this.$provisioningOperations = this.$allOperations.filter('[id*="_provisioning"]'); }
+        if(!this.$steadystateOperations) { this.$steadystateOperations = this.$allOperations.filter('[id*="_steadystate"]'); }
+        if(!this.$groups) { this.$groups = $('#resources .resource'); }
 
-        this.$allOperations.hide();
+        this.$allOperations.addClass('is-hidden');
         $('#filter-panel button').removeClass('active');
 
         switch (e.target.id) {
             case 'filter-button-provisioning':
-                this.$provisioningOperations.show();
+                this.$provisioningOperations.removeClass('is-hidden');
                 $('#filter-button-provisioning').addClass('active');
                 break;
             case 'filter-button-steadystate':
-                this.$steadystateOperations.show();
+                this.$steadystateOperations.removeClass('is-hidden');
                 $('#filter-button-steadystate').addClass('active');
                 break;
             default:
                 // all
-                this.$allOperations.show();
+                this.$allOperations.removeClass('is-hidden');
                 $('#filter-button-all').addClass('active');
         }
+
+        //check group visibility
+        this.$groups.each(function(i, group) {
+            group = $(group);
+            group[group.children('ul').height() ? 'show' : 'hide']();
+        });
     },
 
   apisSorter : {

@@ -7,7 +7,10 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
 
     events: {
         'submit form': 'onFormSubmit',
-        'keyup input': 'onInputChange'
+        'keyup input': 'onInputChange',
+
+        //autofill hack to catch all browser change events
+        'change input': 'onInputChange'
     },
 
     render: function () {
