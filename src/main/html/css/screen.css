@@ -1216,12 +1216,7 @@ body {
   display: none;
   position: absolute;
   right: 0;
-  background-color: #DBE4F0;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
-  border-radius: 8px;
-  margin: 5px 0 0;
-  padding: 20px;
-  text-align: left;
+  padding-top: 5px;
 }
 .swagger-section .gb-header-nav .gb-header-nav-inner:before {
   content: "";
@@ -1231,9 +1226,16 @@ body {
   right: 30px;
   border: solid transparent 6px;
   border-bottom-color: #DBE4F0;
-  margin-top: -12px;
+  margin-top: -7px;
 }
-.swagger-section .gb-header-nav .gb-header-nav-inner > li + li {
+.swagger-section .gb-header-nav .gb-header-nav-inner > ul {
+  background-color: #DBE4F0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  padding: 20px;
+  text-align: left;
+}
+.swagger-section .gb-header-nav .gb-header-nav-inner > ul > li + li {
   margin-top: 15px;
 }
 .swagger-section .gb-header-nav .gb-header-nav-inner a {

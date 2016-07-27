@@ -7,10 +7,7 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
 
     events: {
         'submit form': 'onFormSubmit',
-        'keyup input': 'onInputChange',
-
-        //autofill hack to catch all browser change events
-        'change input': 'onInputChange'
+        'keyup input': 'onInputChange'
     },
 
     render: function () {
@@ -18,10 +15,11 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
 
         this.ui = {
             $tenant: this.$el.find('#tenant').focus(),
-            $user: this.$el.find('#user'),
-            $pass: this.$el.find('#pass'),
+            $user: this.$el.find('#user').one('change', this.onFirstUserInputChange.bind(this)), //autofill fix
+            $pass: this.$el.find('#pass'), //autofill fix
 
-            $submit: this.$el.find('button')
+            $submit: this.$el.find('button'),
+            $serverValidationError: this.$el.find('#server-validation-error')
         };
 
         //hide tenant control when OnPremise deployment
@@ -41,15 +39,20 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
     },
 
     onInputChange: function(e) {
-        var self = this,
-            $target = $(e.target),
+        var $target = $(e.target),
             $container = $target.closest('div'),
             value = $target.val();
 
         if(e.which !== 13) {
             $container[value ? 'removeClass' : 'addClass']('is-invalid');
-            setTimeout(function() { self.ui.$submit.prop('disabled', !self.isValidForm()); });
+            this.ui.$submit.prop('disabled', !this.isValidForm());
+            this.ui.$serverValidationError.removeClass('is-invalid');
         }
+    },
+
+    onFirstUserInputChange: function(e) {
+        var self = this;
+        setTimeout(function() { self.ui.$submit.prop('disabled', !self.isValidForm(true)); });
     },
 
     onFormSubmit: function(e) {
@@ -61,6 +64,7 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
         var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
         var tokenUrl = host.protocol + '//' + host.host + pathname.replace('swagger2', 'token');
         var $btn = this.ui.$submit;
+        var $serverValidationError = this.ui.$serverValidationError;
 
         $btn.prop('disabled', true).text('Logging in...');
 
@@ -87,7 +91,9 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
                 window.swaggerUi.load();
             },
             error: function (response) {
-                window.alert(JSON.parse(response.responseText).error);
+                $serverValidationError.addClass('is-invalid');
+                $serverValidationError.children('.error-msg').text(JSON.parse(response.responseText).error);
+
                 $btn.prop('disabled', false).text('Log In');
             }
         });
@@ -98,9 +104,9 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
         return false;
     },
 
-    isValidForm: function() {
+    isValidForm: function(checkAutoFill) {
         var isTenantValid = Intapp.Config.Deployment === 'OnPremise' ? true : !!this.ui.$tenant.val(),
-            isUserPassValid = this.ui.$user.is(':-webkit-autofill') || (!!this.ui.$user.val() && !!this.ui.$pass.val());
+            isUserPassValid = (checkAutoFill ? this.ui.$user.is(':-webkit-autofill') : false) || (!!this.ui.$user.val() && !!this.ui.$pass.val());
 
         return isTenantValid && isUserPassValid;
     }
