@@ -842,8 +842,8 @@ SwaggerUi.partials.signature = (function () {
     return wrapTag(name, serializedProperties, attrs);
   }
 
-  function getInfiniteLoopMessage (name) {
-    return '<!-- Infinite loop $ref:' + name + ' -->';
+  function getInfiniteLoopMessage (name, loopTo) {
+    return wrapTag(name, '<!-- Infinite loop $ref:' + loopTo + ' -->');
   }
 
   function getErrorMessage (details) {
@@ -869,12 +869,12 @@ SwaggerUi.partials.signature = (function () {
       case 'object':
         output = createObjectXML(descriptor); break;
       case 'loop':
-        output = getInfiniteLoopMessage(descriptor.name); break;
+        output = getInfiniteLoopMessage(descriptor.name, descriptor.config.loopTo); break;
       default:
         output = createPrimitiveXML(descriptor);
     }
 
-    if ($ref) {
+    if ($ref && descriptor.type !== 'loop') {
       index = config.modelsToIgnore.indexOf($ref);
       if (index > -1) {
         config.modelsToIgnore.splice(index, 1);
@@ -905,7 +905,7 @@ SwaggerUi.partials.signature = (function () {
 
     if (config.modelsToIgnore.indexOf($ref) > -1) {
       type = 'loop';
-      name = modelType;
+      config.loopTo = modelType;
     } else {
       config.modelsToIgnore.push($ref);
     }
