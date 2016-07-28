@@ -160,15 +160,77 @@ body {
             font-size: 13px;
         }
 
+        h3 {
+            color: @intappBlue;
+            padding-bottom: 15px;
+            font-size: 13px;
+            font-weight: normal;
+        }
+
         p, ul, ol { padding-bottom: 15px; }
+
+        pre {
+            margin: 5px 0 10px;
+            padding: 10px;
+            white-space: pre;
+            overflow: auto;
+        }
+
         ul, ol { padding-left: 12px; }
 
+        p.el-note { color: @intappLightGrey; }
+
+        dfn {
+            color: @intappLightGrey;
+            font-style: normal;
+
+            &.dfn-green { color: @intappGreen; }
+        }
+
+        dl {
+            display: block;
+
+            &:after { .clear-all; }
+
+            > * {
+                display: block;
+                float: left;
+                margin-bottom: 4px;
+                text-align: left;
+            }
+
+            dt {
+                clear: left;
+                border-right: 1px solid @intappVeryLightGrey;
+                width: 150px;
+            }
+
+            dd {
+                width: 250px;
+                padding-left: 50px;
+            }
+        }
+
         .list-disc {
-            > li {
+            li {
                 list-style-type: disc;
                 list-style-position: outside;
                 padding-left: 8px;
             }
+
+            ol {
+                padding: 5px 0 5px 12px;
+                > li { list-style-type: circle; }
+            }
+
+            ul {
+                .list-number;
+                padding: 5px 0 5px 12px;
+            }
+
+            p { padding: 10px 0 5px; }
+            dl { padding: 10px 0; }
+            dl + p, p + dl { padding-top: 0; }
         }
 
         .list-number {
