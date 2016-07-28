@@ -73,21 +73,14 @@ function _dist() {
     .pipe(wrap('(function(){<%= contents %>}).call(this);'))
     .pipe(header(banner, { pkg: pkg }))
     .pipe(gulp.dest(dist))
-      .pipe(gulp.dest('../../wilco.service.web/swagger2'))
       .pipe(uglify())
     .on('error', log)
     .pipe(rename({extname: '.min.js'}))
     .on('error', log)
     .pipe(gulp.dest(dist))
-      .pipe(gulp.dest('../../wilco.service.web/swagger2'))
       .pipe(connect.reload());
 }
 gulp.task('dev-dist', ['lint', 'dev-copy'], _dist);
-
-gulp.task('deploy', function(){
-    gulp.src([dist + '/**/*'])
-        .pipe(gulp.dest('../../wilco.service.web/swagger2'));
-});
 
 /**
  * Processes less files into CSS files
