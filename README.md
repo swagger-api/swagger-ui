@@ -19,7 +19,7 @@ cd %OPEN_SRC_ROOT%\Source\Wilco.SwaggerUI
 git clone https://github.com/intappx/swagger-ui.git
 ```
 
-Swagger will be accessible using 'http://localhost/Open.Services/swagger2' link after building SPA project (read below).
+Swagger will be accessible using 'http://localhost/Open.Services/swagger' link after building SPA project (read below).
 
 
 ## What's Swagger?

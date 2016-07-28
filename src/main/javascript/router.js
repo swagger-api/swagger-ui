@@ -115,6 +115,6 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         var host = window.location;
         var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
 
-        return host.protocol + '//' + host.host + pathname.replace('swagger2', 'api/swagger/docs/v1') + '?_=' + Date.now();
+        return host.protocol + '//' + host.host + pathname.replace('swagger', 'api/swagger/docs/v1') + '?_=' + Date.now();
     }
 });

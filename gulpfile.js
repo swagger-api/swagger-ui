@@ -25,7 +25,7 @@ var banner = ['/**',
   ' */',
   ''].join('\n');
 
-var dist = '../../wilco.service.web/swagger2'; //'./dist';
+var dist = '../../wilco.service.web/swagger'; //'./dist';
 
 /**
  * Clean ups ./dist folder

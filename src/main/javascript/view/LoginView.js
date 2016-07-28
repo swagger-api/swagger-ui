@@ -53,14 +53,18 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
         }
     },
 
-    onFirstUserInputChange: function(e) {
+    onFirstUserInputChange: function() {
         var self = this;
 
         // fix for form auto-fill change event
-        setTimeout(function() { self.ui.$user.val() && self.ui.$submit.prop('disabled', !self.isValidForm(true)); });
+        setTimeout(function() {
+            if(self.ui.$user.val())  {
+                self.ui.$submit.prop('disabled', !self.isValidForm(true));
+            }
+        });
     },
 
-    offFirstUserInputChange: function(e) {
+    offFirstUserInputChange: function() {
         this.ui.$user.off('change');
     },
 
@@ -71,7 +75,7 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
 
         var host = window.location;
         var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-        var tokenUrl = host.protocol + '//' + host.host + pathname.replace('swagger2', 'token');
+        var tokenUrl = host.protocol + '//' + host.host + pathname.replace('swagger', 'token');
         var $btn = this.ui.$submit;
         var $serverValidationError = this.ui.$serverValidationError;
 
