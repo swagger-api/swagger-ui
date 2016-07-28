@@ -162,10 +162,7 @@ function log(error) {
   console.error(error.toString && error.toString());
 }
 
-gulp.task('default', ['dist', 'copy'], function() {
-    gulp.start('deploy');
-});
-
+gulp.task('default', ['dist', 'copy']);
 gulp.task('serve', ['connect', 'watch']);
 gulp.task('dev', ['default'], function () {
   gulp.start('serve');
