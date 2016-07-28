@@ -15,7 +15,10 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
 
         this.ui = {
             $tenant: this.$el.find('#tenant').focus(),
-            $user: this.$el.find('#user').one('change', this.onFirstUserInputChange.bind(this)), //autofill fix
+            $user: this.$el.find('#user')
+                .one('change', this.onFirstUserInputChange.bind(this))
+                .focus(this.offFirstUserInputChange.bind(this)), //autofill fix
+
             $pass: this.$el.find('#pass'), //autofill fix
 
             $submit: this.$el.find('button'),
@@ -50,9 +53,19 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
         }
     },
 
-    onFirstUserInputChange: function(e) {
+    onFirstUserInputChange: function() {
         var self = this;
-        setTimeout(function() { self.ui.$submit.prop('disabled', !self.isValidForm(true)); });
+
+        // fix for form auto-fill change event
+        setTimeout(function() {
+            if(self.ui.$user.val())  {
+                self.ui.$submit.prop('disabled', !self.isValidForm(true));
+            }
+        });
+    },
+
+    offFirstUserInputChange: function() {
+        this.ui.$user.off('change');
     },
 
     onFormSubmit: function(e) {
@@ -62,7 +75,7 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
 
         var host = window.location;
         var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-        var tokenUrl = host.protocol + '//' + host.host + pathname.replace('swagger2', 'token');
+        var tokenUrl = host.protocol + '//' + host.host + pathname.replace('swagger', 'token');
         var $btn = this.ui.$submit;
         var $serverValidationError = this.ui.$serverValidationError;
 
@@ -106,7 +119,7 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
 
     isValidForm: function(checkAutoFill) {
         var isTenantValid = Intapp.Config.Deployment === 'OnPremise' ? true : !!this.ui.$tenant.val(),
-            isUserPassValid = (checkAutoFill ? this.ui.$user.is(':-webkit-autofill') : false) || (!!this.ui.$user.val() && !!this.ui.$pass.val());
+            isUserPassValid = !!this.ui.$user.val() && (checkAutoFill ? true : !!this.ui.$pass.val());
 
         return isTenantValid && isUserPassValid;
     }
