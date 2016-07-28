@@ -25,6 +25,11 @@ window.SwaggerUiRouter = Backbone.Router.extend({
                     hljs.highlightBlock(e);
                 });
 
+                //add separators
+                window.swaggerUi.mainView.$el.find('.resource_common_api').last().addClass('last');
+                window.swaggerUi.mainView.$el.find('.resource_intake_api').last().addClass('last');
+                window.swaggerUi.mainView.$el.find('.resource_conflicts_api').last().addClass('last');
+
                 window.swaggerUi.initialized = true;
                 Backbone.history.navigate('', true);
             },

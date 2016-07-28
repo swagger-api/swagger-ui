@@ -164,7 +164,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       router: this.router,
       tagName: 'li',
       id: 'resource_' + resource.id,
-      className: 'resource',
+      className: 'resource resource_' + resource.id.substr(0, resource.id.indexOf(':')).toLowerCase(),
       auths: auths,
       swaggerOptions: this.options.swaggerOptions
     });
