@@ -11,6 +11,16 @@
   <link href='css/reset.css' media='print' rel='stylesheet' type='text/css'/>
   <link href='css/print.css' media='print' rel='stylesheet' type='text/css'/>
 
+  <link rel='stylesheet' href='http://api.staging.remodeling.com/docs/v1/css/main.css' type='text/css'>
+  <link rel='stylesheet' href='http://api.staging.remodeling.com/docs/v1/css/scrolling-nav.css' type='text/css'>
+  <link rel='stylesheet' href='http://api.staging.remodeling.com/docs/v1/css/bootstrap.css' type='text/css'>
+  <link rel='stylesheet' href='http://api.staging.remodeling.com/docs/v1/css/bootstrap.min.css' type='text/css'>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="http://api.staging.remodeling.com/docs/v1/js/scrolling-nav.js" type='text/javascript'></script>
+  <script src="http://api.staging.remodeling.com/docs/v1/js/jquery.js" type='text/javascript'></script>
+  <script src="http://api.staging.remodeling.com/docs/v1/js/jquery.easing.min.js" type='text/javascript'></script>
+  <script src="http://api.staging.remodeling.com/docs/v1/js/bootstrap.min.js" type='text/javascript'></script>
+
   <script src='lib/object-assign-pollyfill.js' type='text/javascript'></script>
   <script src='lib/jquery-1.8.0.min.js' type='text/javascript'></script>
   <script src='lib/jquery.slideto.min.js' type='text/javascript'></script>
@@ -37,7 +47,7 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-        url = "http://docs.leadicious.dev/api/v1";
+        url = "http://api.staging.remodeling.com/docs/v1";
       }
 
       hljs.configure({
@@ -90,6 +100,48 @@
 </head>
 
 <body class="swagger-section">
+  <!-- Navigation -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header page-scroll">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand page-scroll" href="http://api.staging.remodeling.com/docs/v1#page-top">Lead API Documentation</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav">
+        <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+        <li class="hidden">
+          <a class="page-scroll" href="http://api.staging.remodeling.com/docs/v1#page-top"></a>
+        </li>
+        <li>
+          <a class="page-scroll" href="http://api.staging.remodeling.com/docs/v1#workflow">Workflow</a>
+        </li>
+        <li>
+          <a class="page-scroll" href="http://api.staging.remodeling.com/docs/v1/#authentication">Authentication</a>
+        </li>
+        <li>
+          <a class="page-scroll" href="http://api.staging.remodeling.com/docs/v1/#specs">Specs</a>
+        </li>
+        <li>
+          <a class="" href="http://api.staging.remodeling.com/swagger/v1/">Test BY Swagger UI</a>
+        </li>
+        <li>
+          <a class="page-scroll" href="http://api.staging.remodeling.com/docs/v1/#errors" target="_self">Errors</a>
+        </li>
+      </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+  </div>
+  <!-- /.container -->
+</nav>
+
 <!-- <div id='header'>
   <div class="swagger-ui-wrap">
     <a id="logo" href="http://swagger.io"><img class="logo__img" alt="swagger" height="30" width="30" src="images/logo_small.png" /><span class="logo__title">swagger</span></a>
