@@ -30,7 +30,7 @@ server '52.29.223.179', user: 'deploy', roles: %w{web}
 # For available Capistrano configuration variables see the documentation page.
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
-
+set :branch, 'master'
 
 
 # Custom SSH Options
