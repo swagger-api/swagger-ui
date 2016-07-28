@@ -1,4 +1,4 @@
-<header class="gb-header">
+<header class="gb-header-sm">
     <div class="logo-intapp-api">Intapp API</div>
     <ul class="gb-header-nav">
         <li><a href="#">Open API</a></li>
@@ -14,10 +14,58 @@
         </li>
         <li><a href="#logout">Log out</a></li>
     </ul>
-    <div class="gb-header-overview">
-        <h1>Overview</h1>
-    </div>
 </header>
 <div class="swagger-ui-wrap">
-    <h2>Documentation</h2>
+    <section class="gb-content">
+        <h1>Guide to set up Open</h1>
+
+        <h2>Phase 1: Instantiation</h2>
+
+        <p>The Intapp Developer Operations team will deploy an instance of the Open application and allocate a client specific database in the Amazon Virtual Private Cloud. They will collaborate with your solutions consultant to do the following:</p>
+
+        <ol class="list-disc">
+            <li>Configure the application modules and add-ons as purchased</li>
+            <li>Configure default conflict search settings as required</li>
+            <li>Pre-load data sets to be used in forms and workflows as required</li>
+        </ol>
+
+        <p>Once complete, your services team will receive Administrator credentials to the tenant.</p>
+
+        <h2>Phase 2: Provisioning</h2>
+
+        <p>Open can now be provisioned through the REST API’s. On completing a data mapping exercise with your solutions consultant, select the Provisioning filter to narrow the endpoints to use to load data. The API’s are grouped for clarity to ensure dependencies are met. Please use the endpoints in following order:</p>
+
+        <ul class="list-number">
+            <li>Common API: Dictionary</li>
+            <li>Common API: Entity</li>
+            <li>Common API: Sub-entity</li>
+        </ul>
+
+        <p>If the Conflicts module has been enabled, continue through step 5.</p>
+
+        <ul class="list-number list-step-4">
+            <li>Conflicts API: Dictionary</li>
+            <li>Conflicts API: Settings</li>
+        </ul>
+
+        <p>Note that the _bulk endpoints are optimized for large data loads and can rapidly process 10,000 clients, matters or parties at a time.</p>
+
+        <h2>Phase 3: Set up</h2>
+
+        <p>Once the data has been provisioned in Open, the application can be set up for use. Using the solutions design as a guide:</p>
+
+        <ul>
+            <li>Create Workflows using the Workflow Designer</li>
+            <li>Define Forms using the Form Builder</li>
+            <li>Modify or create Data Sets using the Data Set Designer</li>
+            <li>Set up interactions with 3rd party systems by defining Integrations</li>
+        </ul>
+
+        <p>Note that Integrate is recommended for Step 4 above. Open will log user defined custom events and send them through long-polling for further action in external systems. These events endpoints are defined under Common API: External Integration.</p>
+
+        <h2>Phase 4: Validation and quality assurance</h2>
+
+        <p>Once the set-up is complete, please invite your firm to validate and test the product. This may involve manual verification of workflows, penetration testing, and data verification through the data management page. Our customer success team will be available to help you every step of the way.</p>
+
+    </section>
 </div>

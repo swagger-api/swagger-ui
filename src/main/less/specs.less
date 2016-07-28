@@ -8,7 +8,7 @@
 .swagger-ui-wrap {
     width: @content-min-width;
     margin: auto;
-    padding-top: 20px;
+    padding: 20px 0 40px;
 
     th, b, strong, label { font-weight: 600; }
 
@@ -80,30 +80,17 @@
         }
     }
 
-    ol {
-        margin: 0px 0 10px;
-        padding: 0 0 0 18px;
-        list-style-type: decimal;
-        li {
-            padding: 5px 0px;
-            font-size: 0.9em;
-            color: #333333;
-        }
-    }
-
     h1 {
-        color: black;
-        font-size: 1.5em;
-        line-height: 1.3em;
-        padding: 10px 0 10px 0;
-        font-weight: bold;
+        color: @intappBlue;
+        padding-bottom: 20px;
+        font-size: 16px;
+        font-weight: 600;
     }
 
     h2 {
         color: @intappDarkGrey;
         font-size: 15px;
         font-weight: 600;
-        line-height: 20px;
 
         a {
             color: inherit;
@@ -692,7 +679,7 @@
         cursor: pointer;
     }
 
-    .footer {
+    .footer { display: none;
         padding: 20px 0;
 
         > * { display: none; }

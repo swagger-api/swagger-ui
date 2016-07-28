@@ -23,7 +23,7 @@ body {
 
     /* ~~~ header swagger */
 
-    .gb-header {
+    .gb-header, .gb-header-sm {
         background-color: @intappBlue;
         color: @intappWhite;
         min-height: 275px;
@@ -40,6 +40,8 @@ body {
             text-indent: -1000em;
         }
     }
+
+    .gb-header-sm { min-height: 85px; }
 
     .gb-header-nav {
         float: right;
@@ -59,7 +61,7 @@ body {
                 right: 30px;
                 border: solid transparent 6px;
                 border-bottom-color: @intappLightBlue;
-                margin-top: -7px;
+                margin-top: -6px;
             }
 
             > ul {
@@ -142,6 +144,56 @@ body {
             text-align: left;
 
             b { font-weight: 600; }
+        }
+    }
+
+    /* ~~~ Section Content */
+
+    .gb-content {
+        background-color: @intappWhite;
+        border: solid @intappVeryLightGrey 1px;
+        margin: auto;
+        padding: 20px;
+
+        h2 {
+            padding-bottom: 15px;
+            font-size: 13px;
+        }
+
+        p, ul, ol { padding-bottom: 15px; }
+        ul, ol { padding-left: 12px; }
+
+        .list-disc {
+            > li {
+                list-style-type: disc;
+                list-style-position: outside;
+                padding-left: 8px;
+            }
+        }
+
+        .list-number {
+            > li {
+                list-style-type: decimal;
+                list-style-position: outside;
+                padding-left: 8px;
+            }
+
+            &.list-step-4 {
+                counter-reset: list 3;
+
+                li {
+                    position: relative;
+                    list-style-type: none;
+
+                    &:before {
+                        counter-increment: list;
+                        content: counter(list) ". ";
+                        display: inline-block;
+                        position: absolute;
+                        left: -12px;
+                    }
+                }
+            }
         }
     }
 
@@ -262,7 +314,7 @@ body {
     color: #999999;
   }
 
-  #message-bar {}
+  #message-bar { display: none; }
   
   .swagger-collapse:before {
     content: "-";
