@@ -105,7 +105,10 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
             },
             error: function (response) {
                 $serverValidationError.addClass('is-invalid');
-                $serverValidationError.children('.error-msg').text(JSON.parse(response.responseText).error);
+
+                try {
+                    $serverValidationError.children('.error-msg').text(JSON.parse(response.responseText).error);
+                } catch(e) {}
 
                 $btn.prop('disabled', false).text('Log In');
             }
