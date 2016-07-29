@@ -1303,19 +1303,102 @@ body {
   padding-bottom: 15px;
   font-size: 13px;
 }
+.swagger-section .gb-content h3 {
+  color: #4D88BC;
+  padding-bottom: 15px;
+  font-size: 13px;
+  font-weight: normal;
+}
 .swagger-section .gb-content p,
 .swagger-section .gb-content ul,
 .swagger-section .gb-content ol {
   padding-bottom: 15px;
 }
+.swagger-section .gb-content pre {
+  margin: 5px 0 10px;
+  padding: 10px;
+  white-space: pre;
+  overflow: auto;
+}
 .swagger-section .gb-content ul,
 .swagger-section .gb-content ol {
   padding-left: 12px;
 }
-.swagger-section .gb-content .list-disc > li {
+.swagger-section .gb-content p.el-note {
+  color: #A8A8A8;
+}
+.swagger-section .gb-content dfn {
+  color: #A8A8A8;
+  font-style: normal;
+}
+.swagger-section .gb-content dfn.dfn-green {
+  color: #3CBA95;
+}
+.swagger-section .gb-content dl {
+  display: block;
+}
+.swagger-section .gb-content dl:after {
+  display: table;
+  content: " ";
+  clear: both;
+}
+.swagger-section .gb-content dl > * {
+  display: block;
+  float: left;
+  margin-bottom: 4px;
+  text-align: left;
+}
+.swagger-section .gb-content dl dt {
+  clear: left;
+  border-right: 1px solid #D2D2D2;
+  width: 150px;
+}
+.swagger-section .gb-content dl dd {
+  width: 250px;
+  padding-left: 50px;
+}
+.swagger-section .gb-content .list-disc li {
   list-style-type: disc;
   list-style-position: outside;
   padding-left: 8px;
+}
+.swagger-section .gb-content .list-disc ol {
+  padding: 5px 0 5px 12px;
+}
+.swagger-section .gb-content .list-disc ol > li {
+  list-style-type: circle;
+}
+.swagger-section .gb-content .list-disc ul {
+  padding: 5px 0 5px 12px;
+}
+.swagger-section .gb-content .list-disc ul > li {
+  list-style-type: decimal;
+  list-style-position: outside;
+  padding-left: 8px;
+}
+.swagger-section .gb-content .list-disc ul.list-step-4 {
+  counter-reset: list 3;
+}
+.swagger-section .gb-content .list-disc ul.list-step-4 li {
+  position: relative;
+  list-style-type: none;
+}
+.swagger-section .gb-content .list-disc ul.list-step-4 li:before {
+  counter-increment: list;
+  content: counter(list) ". ";
+  display: inline-block;
+  position: absolute;
+  left: -12px;
+}
+.swagger-section .gb-content .list-disc p {
+  padding: 10px 0 5px;
+}
+.swagger-section .gb-content .list-disc dl {
+  padding: 10px 0;
+}
+.swagger-section .gb-content .list-disc dl + p,
+.swagger-section .gb-content .list-disc p + dl {
+  padding-top: 0;
 }
 .swagger-section .gb-content .list-number > li {
   list-style-type: decimal;
@@ -1491,5 +1574,5 @@ body {
   color: #A6C9E3;
 }
 li.resource.last {
-  margin-bottom: 50px !important;
+  margin-bottom: 35px !important;
 }
