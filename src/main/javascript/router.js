@@ -83,7 +83,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
                     return weight;
                 };
 
-                return getWeight(a.tag) > getWeight(b.tag);
+                return getWeight(a.tag) > getWeight(b.tag) ? 1 : -1;
             },
 
             operationsSorter: function(a, b) {
