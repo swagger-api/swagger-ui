@@ -45,9 +45,45 @@ window.SwaggerUiRouter = Backbone.Router.extend({
             },
 
             docExpansion: 'none',
+
             apisSorter: function(a, b) {
-                //put Action group to the end of the list
-                return a.tag.replace('Action', 'ZAction') > b.tag.replace('Action', 'ZAction');
+                var getWeight = function(item) {
+                    var weight = 0;
+                    if (item.indexOf("Common") !== -1) {
+                        weight += 100;
+                    }
+                    if (item.indexOf("Intake") !== -1) {
+                        weight += 200;
+                    }
+                    if (item.indexOf("Conflicts") !== -1) {
+                        weight += 300;
+                    }
+                    if (item.indexOf("Dictionary") !== -1) {
+                        weight += 1;
+                    }
+                    if (item.indexOf("Entity") !== -1) {
+                        weight += 2;
+                    }
+                    if (item.indexOf("Sub-entity") !== -1) {
+                        weight += 3;
+                    }
+                    if (item.indexOf("Action") !== -1) {
+                        weight += 4;
+                    }
+                    if (item.indexOf("Integration") !== -1) {
+                        weight += 5;
+                    }
+                    if (item.indexOf("Settings") !== -1) {
+                        weight += 6;
+                    }
+                    if (item.indexOf("Property") !== -1) {
+                        weight += 7;
+                    }
+
+                    return weight;
+                };
+
+                return getWeight(a.tag) > getWeight(b.tag);
             },
 
             operationsSorter: function(a, b) {
