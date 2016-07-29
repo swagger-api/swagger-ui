@@ -11,28 +11,28 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
         if(!this.$steadystateOperations) { this.$steadystateOperations = this.$allOperations.filter('[id*="_steadystate"]'); }
         if(!this.$groups) { this.$groups = $('#resources .resource'); }
 
-        this.$allOperations.addClass('is-hidden');
+        this.$allOperations.hide();
         $('#filter-panel button').removeClass('active');
 
         switch (e.target.id) {
             case 'filter-button-provisioning':
-                this.$provisioningOperations.removeClass('is-hidden');
+                this.$provisioningOperations.show();
                 $('#filter-button-provisioning').addClass('active');
                 break;
             case 'filter-button-steadystate':
-                this.$steadystateOperations.removeClass('is-hidden');
+                this.$steadystateOperations.show();
                 $('#filter-button-steadystate').addClass('active');
                 break;
             default:
                 // all
-                this.$allOperations.removeClass('is-hidden');
+                this.$allOperations.show();
                 $('#filter-button-all').addClass('active');
         }
 
         //check group visibility
         this.$groups.each(function(i, group) {
             group = $(group);
-            group[group.children('ul').height() ? 'show' : 'hide']();
+            group[group.children('ul').actual('height') ? 'show' : 'hide']();
         });
     },
 
