@@ -49,34 +49,34 @@ window.SwaggerUiRouter = Backbone.Router.extend({
             apisSorter: function(a, b) {
                 var getWeight = function(item) {
                     var weight = 0;
-                    if (item.indexOf("Common") !== -1) {
+                    if (item.indexOf('Common') !== -1) {
                         weight += 100;
                     }
-                    if (item.indexOf("Intake") !== -1) {
+                    if (item.indexOf('Conflicts') !== -1) {
                         weight += 200;
                     }
-                    if (item.indexOf("Conflicts") !== -1) {
+                    if (item.indexOf('Intake') !== -1) {
                         weight += 300;
                     }
-                    if (item.indexOf("Dictionary") !== -1) {
+                    if (item.indexOf('Dictionary') !== -1) {
                         weight += 1;
                     }
-                    if (item.indexOf("Entity") !== -1) {
+                    if (item.indexOf('Entity') !== -1) {
                         weight += 2;
                     }
-                    if (item.indexOf("Sub-entity") !== -1) {
+                    if (item.indexOf('Sub-entity') !== -1) {
                         weight += 3;
                     }
-                    if (item.indexOf("Action") !== -1) {
+                    if (item.indexOf('Action') !== -1) {
                         weight += 4;
                     }
-                    if (item.indexOf("Integration") !== -1) {
+                    if (item.indexOf('Integration') !== -1) {
                         weight += 5;
                     }
-                    if (item.indexOf("Settings") !== -1) {
+                    if (item.indexOf('Settings') !== -1) {
                         weight += 6;
                     }
-                    if (item.indexOf("Property") !== -1) {
+                    if (item.indexOf('Property') !== -1) {
                         weight += 7;
                     }
 
