@@ -417,6 +417,34 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         error_free = false;
       }
     });
+    form.find("table tbody tr td span:contains('integer')").each(function() {
+        var integer_input = $(this).parents('tr').find('input');
+        var input_value = integer_input.val();
+        integer_input.removeClass('error');
+        if (input_value) {
+            if (!($.isNumeric(input_value) && Math.floor(input_value) == input_value)) {
+                integer_input.addClass('error');
+                integer_input.wiggle({
+                    callback: (function(_this) {
+                        return function() {
+                            $(_this).focus();
+                        };
+                    })(integer_input)
+                });
+                error_free = false;
+            }
+        } else if (integer_input.hasClass('required')) {
+            integer_input.addClass('error');
+            integer_input.wiggle({
+                callback: (function(_this) {
+                    return function() {
+                        $(_this).focus();
+                    };
+                })(integer_input)
+            });
+            error_free = false;
+        }
+    });
     if (error_free) {
       map = this.getInputMap(form);
       isFileUpload = this.isFileUpload(form);
