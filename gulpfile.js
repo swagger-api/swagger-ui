@@ -7,7 +7,7 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var less = require('gulp-less');
-var handlebars = require('gulp-handlebars');
+//var handlebars = require('gulp-handlebars');
 var wrap = require('gulp-wrap');
 var declare = require('gulp-declare');
 var watch = require('gulp-watch');
@@ -56,13 +56,7 @@ function _dist() {
         './node_modules/swagger-client/browser/swagger-client.js'
       ]),
       gulp
-        .src(['./src/main/template/**/*'])
-        .pipe(handlebars())
-        .pipe(wrap('Handlebars.template(<%= contents %>)'))
-        .pipe(declare({
-          namespace: 'Handlebars.templates',
-          noRedeclare: true, // Avoid duplicate declarations
-        }))
+        .src(['./src/main/template/templates.js'])
         .on('error', log)
     )
     .pipe(order(['scripts.js', 'templates.js']))
@@ -105,7 +99,10 @@ gulp.task('copy', ['less'], _copy);
 function _copy() {
   // copy JavaScript files inside lib folder
   gulp
-    .src(['./lib/**/*.{js,map}', './node_modules/es5-shim/es5-shim.js'])
+    .src(['./lib/**/*.{js,map}',
+        './node_modules/es5-shim/es5-shim.js',
+        './node_modules/handlebars/dist/handlebars.js'
+    ])
     .pipe(gulp.dest('./dist/lib'))
     .on('error', log);
 
