@@ -1,17 +1,24 @@
-<button disabled type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-<span>Filter:</span>
-<select class="param-choice">
-	<option value="" disabled selected> Filter by... </option>
-	{{#each allChoices}}
-		<option value="{{this}}">{{this}}</option>
-	{{/each}}
-</select>
-<select class='filter-operator'>
-	<option value='=='>==</option>
-	<option value='!='>!=</option>
-	<option value='>'>&gt;</option>
-	<option value='<'>&lt;</option>
-	<option value='>='>&gt;=</option>
-	<option value='<='>&lt;=</option>
-</select>
-<input class='filter-argument'>
+<!-- <button disabled type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+<div class="row param-choice-filter">
+	<div class="col-sm-5">
+		<select class="param-choice">
+			<option value="" disabled selected> Filter by... </option>
+			{{#each allChoices}}
+				<option value="{{this}}">{{this}}</option>
+			{{/each}}
+		</select>
+	</div>
+	<div class="col-sm-2">
+		<select class="filter-operator">
+			<option value="==">==</option>
+			<option value="!=">!=</option>
+			<option value=">">&gt;</option>
+			<option value="<">&lt;</option>
+			<option value=">=">&gt;=</option>
+			<option value="<=">&lt;=</option>
+		</select>
+	</div>
+	<div class="col-sm-5">
+		<input class="filter-argument c-input-field">
+	</div>
+</div>

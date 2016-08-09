@@ -1,12 +1,10 @@
 {{!-- Body Post Params --}}
-<div class="row">
+<div class="row body-post-params">
 	<div class="col-sm-6">
 		<div class="row">
-			<div class="col-sm-3">
+			<div class="col-sm-12">
 					<label class="code c-input-label" for="textInput">{{name}}</label>
-			</div>
 		{{#if isBody}}
-			<div class="col-sm-9">
 				{{#if isFile}}
 					<label class="code c-input-label" for="textInput">{{name}}</label>
 				{{else}}
@@ -17,9 +15,7 @@
 					{{/if}}
 						<div class="parameter-content-type"></div>
 				{{/if}}
-			</div>
 		{{else}}
-			<div class="col-sm-9">
 				{{#if defaultValue}}
 					<input class="c-input-text parameter param-value" minlength='0' name='{{name}}' placeholder='' type='text' value='{{defaultValue}}'/>
 				{{else}}

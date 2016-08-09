@@ -106,7 +106,7 @@
 
   font-family: @font-family-base;
   border-radius: 0;
-  padding: 5px 12px;
+  padding: 4px 8px;
 
   .select2-choice {
     height: 34px;
@@ -426,6 +426,46 @@
   display: block;
 }
 
+.select2-container--default {
+  .select2-selection--multiple {
+    border-radius: 0;
+
+    .select2-selection__rendered {
+      padding: 0;
+    }
+
+    .select2-selection__choice {
+      border-radius: 14px;
+      margin-top: 0;
+      border: 0;
+      line-height: 20px;
+      padding: 4px 14px;
+      background-color: @c-mtrl-gray-20;
+    }
+
+    .select2-selection__choice__remove {
+      margin-left: 4px;
+      margin-right: 0;
+      float: right;
+    }
+  }
+}
+
+.select2-container .select2-selection--multiple {
+  line-height: 12px;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+  border-color: @lt-cool-clover-green;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+  background-color: @lt-cool-clover-green;
+}
+
+.select2-results__option {
+  font-family: @sans-serif-font;
+}
 
 // Validation States
 .skin-variant(select2-error, @border-color: @error-color);

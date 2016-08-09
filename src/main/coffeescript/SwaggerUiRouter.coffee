@@ -63,7 +63,9 @@ class SwaggerUiRouter extends Backbone.Router
       return base + "/" + url
 
   setUiLibraries: () ->
-    $("select.param-choice").select2({
+    selectPlaceholder = $('select.param-choice').attr('placeholder');
+    $('select.param-choice').select2({
+      placeholder: selectPlaceholder,
       containerCssClass: 'tpx-select2-container',
       dropdownCssClass: 'tpx-select2-drop',
       dropdownAutoWidth : true,

@@ -1,4 +1,4 @@
-@import "c-colors";
+@import (reference) "c-colors";
 
 // Typefaces
 @sans-serif-font: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -39,11 +39,33 @@ p {
 pre, code, kbd {
   font-family: @monospace-font;
 }
-a {
-  color: @clover-green;
+a, a:link, a:visited {
+  color: @c-mtrl-green-text;
   font-family: @sans-serif-font;
 }
 
 input, button, select, textarea {
   font-family: @sans-serif-font;
+}
+
+.c-help-text {
+  font-size: 11px;
+  color: @c-mtrl-gray-50;
+  text-transform: capitalize;
+}
+
+.c-code-help {
+  font-family: @monospace-font;
+  font-size: 11px;
+  color: @c-mtrl-gray-50;
+}
+
+.model-signature, .data-type {
+  text-transform: none;
+  &:before {
+    content: '(';
+  }
+  &:after {
+    content: ')';
+  }
 }

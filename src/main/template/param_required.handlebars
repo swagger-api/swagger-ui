@@ -1,45 +1,37 @@
 <div class="row">
 	<div class="col-sm-6">
-		<div class="row">
-  		<div class="col-sm-3">
-		    <label class="code required c-input-label" for="textInput">{{name}}</label>
-		    {{#if isBody}}
-					<div class="model-signature"></div>
-				{{else}}
-					<div class="data-type"></div>
-				{{/if}}
-			</div>
-		  <div class="col-sm-9">
-			{{#if isBody}}
-				{{#if isFile}}
-					<input type="file" name='{{name}}'/>
-				{{else}}
-					{{#if defaultValue}}
-						<textarea class='c-input-textarea body-textarea param-value' placeholder='(required)' name='{{name}}'>{{defaultValue}}</textarea>
+		<div class="row param-required">
+  		<div class="col-sm-12">
+		    <label class="code required c-input-label" for="textInput">{{{description}}}</label>
+				{{#if isBody}}
+					{{#if isFile}}
+						<input type="file" name="{{name}}"/>
 					{{else}}
-						<textarea class='c-input-textarea body-textarea param-value' placeholder='(required)' name='{{name}}'></textarea>
-						<br />
-						<div class="parameter-content-type" />
+						{{#if defaultValue}}
+							<textarea class="c-input-textarea body-textarea param-value" placeholder="(required)" name="{{name}}">{{defaultValue}}</textarea>
+						{{else}}
+							<textarea class="c-input-textarea body-textarea param-value" placeholder="(required)" name="{{name}}"></textarea>
+							<br />
+							<div class="parameter-content-type" />
+						{{/if}}
+					{{/if}}
+				{{else}}
+					{{#if isFile}}
+						<input class="parameter param-value" class="required" type="file" name="{{name}}"/>
+					{{else}}
+						{{#if defaultValue}}
+							<input class="c-input-field parameter required param-value" minlength="1" name="{{name}}" placeholder="{{{name}}}" type="text" value="{{defaultValue}}"/>
+						{{else}}
+							<input class="c-input-field parameter required param-value" minlength="1" name="{{name}}" placeholder="{{{name}}}" type="text" value=""/>
+						{{/if}}
 					{{/if}}
 				{{/if}}
-			{{else}}
-				{{#if isFile}}
-					<input class='parameter param-value' class='required' type='file' name='{{name}}'/>
+				{{#if isBody}}
+					<p class="c-help-text">{{{paramType}}}&nbsp;<span class="model-signature"></span></p>
 				{{else}}
-					<label class="c-input-label">{{{description}}}</label>
-					{{#if defaultValue}}
-						<input class='c-input-field parameter required param-value' minlength='1' name='{{name}}' placeholder='{{{paramType}}}' type='text' value='{{defaultValue}}'/>
-					{{else}}
-						<input class='c-input-field parameter required param-value' minlength='1' name='{{name}}' placeholder='{{{paramType}}}' type='text' value=''/>
-					{{/if}}
+					<p class="c-help-text">{{{paramType}}}&nbsp;<span class="data-type"></span></p>
 				{{/if}}
-			{{/if}}
 			</div>
-		</div>
-		<div class="row">
-		  <div class="col-sm-10">
-		  	{{{paramType}}}
-		  </div>
 		</div>
 	</div>
 </div>

@@ -5,6 +5,7 @@ class Expansions extends Choices
     @set("isExpansions", true)
     @setupChoices()
     @set("queryParamString", "")
+    @setExpansionTitle()
     @update()
 
   setupChoices: ->
@@ -17,6 +18,10 @@ class Expansions extends Choices
 
     @set("currentExpansions", currentExpansions)
     @set("allChoices", choiceArray)
+
+  setExpansionTitle: ->
+    desc = @get('description')
+    @set('expansionTitle', desc.slice(0, desc.indexOf('[')))
 
   setAllExpansions: (expandedArray) ->
     @setupChoices()

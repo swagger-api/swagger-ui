@@ -9,7 +9,7 @@ class ParameterView extends Backbone.View
     @listenTo(@choices, "expansionFromJSON", @expansionFromJSON)
     if @model.get("isFilter")
       @listenTo(@choices, "change", @updateChoices);
-      
+
 
     Handlebars.registerHelper 'isArray',
       (param, opts) ->
@@ -17,13 +17,13 @@ class ParameterView extends Backbone.View
           opts.fn(@)
         else
           opts.inverse(@)
-          
+
   render: ->
     template = @template()
     $(@el).html(template(@model.toJSON()))
 
     @addSignatureView()
-    @addPerameterContentTypeView()
+    @addParameterContentTypeView()
 
     # render each choice
 
@@ -56,7 +56,7 @@ class ParameterView extends Backbone.View
     else
       $('.data-type', $(@el)).html(@model.get("type"))
 
-  addPerameterContentTypeView: ->
+  addParameterContentTypeView: ->
     isParam = false
 
     if @model.get("isBody")
@@ -105,4 +105,3 @@ class ParameterView extends Backbone.View
   valueChanged: (ev) ->
     value = $(ev.currentTarget).val()
     @model.setValue(value)
-    

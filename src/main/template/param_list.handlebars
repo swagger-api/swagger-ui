@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row param-list">
   <div class="col-sm-10">
     <label class="code c-input-label" for="textInput">{{name}}</label>
     <input class="c-input-field t-item-name" type="text" id="textInput" />
@@ -28,17 +28,17 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-sm-10">
+  <div class="col-sm-10 param-description">
     <p>{{{description}}}</p>
   </div>
 </div>
 <div class="row">
-  <div class="col-sm-10">
+  <div class="col-sm-10 param-type">
     <p>{{{paramType}}}</p>
   </div>
 </div>
 <div class="row">
-  <div class="col-sm-10">
+  <div class="col-sm-10 param-body">
     {{#if isBody}}
       <span class="model-signature"></span>
     {{else}}
