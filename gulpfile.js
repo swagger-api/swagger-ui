@@ -99,8 +99,7 @@ function _copy() {
   // copy JavaScript files inside lib folder
   gulp
     .src(['./lib/**/*.{js,map}',
-        './node_modules/es5-shim/es5-shim.js',
-        './node_modules/handlebars/dist/handlebars.js'
+        './node_modules/es5-shim/es5-shim.js'
     ])
     .pipe(gulp.dest('./dist/lib'))
     .on('error', log);
