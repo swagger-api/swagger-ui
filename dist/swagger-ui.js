@@ -1313,8 +1313,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
 
   buffer += "<div class=\"signature-container row\">\n  <div class=\"description col-sm-6\">\n  <h6>Model</h6>\n      ";
-  if (stack1 = helpers.signature) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.signature; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if (stack1 = helpers.cleanSignature) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.cleanSignature; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n  </div>\n  <div class=\"snippet col-sm-6\">\n  <h6>Model Schema</h6>\n      <pre><code></code></pre>\n      <p class=\"c-t-note notice\"></p>\n  </div>\n</div>\n";
   return buffer;
@@ -1764,6 +1764,14 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     function Signature() {
       Signature.__super__.constructor.apply(this, arguments);
     }
+
+    Signature.prototype.initialize = function() {
+      var cleanVersion;
+      cleanVersion = this.get('signature').replace(' {</span>', '</span>');
+      cleanVersion = cleanVersion.replace('<span class="strong">}</span>', '');
+      cleanVersion = cleanVersion.replace(/>\W+<\/d/g, '></d');
+      return this.set('cleanSignature', cleanVersion.replace(/>\W+<s/g, '/><s'));
+    };
 
     Signature.prototype.getExpandedJSON = function() {
       var JSONobject, expandedJSON, field, jsonExpansions, unexpandedFields, _i, _len;
