@@ -1,4 +1,5 @@
-(function() {
+/* jshint ignore:start */ 
+ {(function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
 templates['apikey_auth'] = template({"1":function(container,depth0,helpers,partials,data) {
     var helper;
@@ -763,4 +764,5 @@ templates['status_code'] = template({"1":function(container,depth0,helpers,parti
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.headers : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "    </tbody>\n  </table>\n</td>";
 },"useData":true});
-})();
+})();} 
+ /* jshint ignore:end */

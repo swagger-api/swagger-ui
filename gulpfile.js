@@ -8,7 +8,6 @@ var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var less = require('gulp-less');
 var wrap = require('gulp-wrap');
-var declare = require('gulp-declare');
 var watch = require('gulp-watch');
 var connect = require('gulp-connect');
 var header = require('gulp-header');
@@ -153,6 +152,14 @@ gulp.task('connect', function() {
 function log(error) {
   console.error(error.toString && error.toString());
 }
+
+gulp.task('handlebars', function () {
+    gulp
+        .src(['./src/main/template/templates.js'])
+        .pipe(wrap('/* jshint ignore:start */ \n {<%= contents %>} \n /* jshint ignore:end */'))
+        .pipe(gulp.dest('./src/main/template/'))
+        .on('error', log);
+});
 
 gulp.task('default', ['dist', 'copy']);
 gulp.task('serve', ['connect', 'watch']);
