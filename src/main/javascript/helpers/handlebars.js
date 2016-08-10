@@ -9,7 +9,7 @@ Handlebars.registerHelper('sanitize', function(html) {
 
 Handlebars.registerHelper('renderTextParam', function(param) {
     var result, type = 'text', idAtt = '';
-    var paramType = param.type ? param.type : (param.schema ? (param.schema.type ? param.schema.type : '') : '');
+    var paramType = param.type || param.schema && param.schema.type || '';
     var isArray = paramType.toLowerCase() === 'array' || param.allowMultiple;
     var defaultValue = isArray && Array.isArray(param.default) ? param.default.join('\n') : param.default;
 
