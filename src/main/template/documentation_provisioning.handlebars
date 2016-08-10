@@ -33,32 +33,32 @@
 
         <h2>Phase 2: Provisioning</h2>
 
-        <p>Open can now be provisioned through the REST API’s. On completing a data mapping exercise with your solutions consultant, select the Provisioning filter to narrow the endpoints to use to load data. The API’s are grouped for clarity to ensure dependencies are met. Please use the endpoints in following order:</p>
+        <p>Open can now be provisioned through the REST API’s. On completing a data mapping exercise with your solutions consultant, select the <i>Provisioning</i> filter to narrow the endpoints to use to load data. The API’s are grouped for clarity to ensure dependencies are met. Please use the endpoints in following order:</p>
 
         <ul class="list-number">
-            <li>Common API: Dictionary</li>
-            <li>Common API: Entity</li>
-            <li>Common API: Sub-entity</li>
+            <li><b>Common API:</b> Dictionary</li>
+            <li><b>Common API:</b> Entity</li>
+            <li><b>Common API:</b> Sub-entity</li>
         </ul>
 
         <p>If the Conflicts module has been enabled, continue through step 5.</p>
 
         <ul class="list-number list-step-4">
-            <li>Conflicts API: Dictionary</li>
-            <li>Conflicts API: Settings</li>
+            <li><b>Conflicts API:</b> Dictionary</li>
+            <li><b>Conflicts API:</b> Settings</li>
         </ul>
 
-        <p>Note that the _bulk endpoints are optimized for large data loads and can rapidly process 10,000 clients, matters or parties at a time.</p>
+        <p>Note that the <i>_bulk</i> endpoints are optimized for large data loads and can rapidly process 10,000 clients, matters or parties at a time.</p>
 
         <h2>Phase 3: Set up</h2>
 
         <p>Once the data has been provisioned in Open, the application can be set up for use. Using the solutions design as a guide:</p>
 
-        <ul>
+        <ul class="list-number">
             <li>Create Workflows using the Workflow Designer</li>
             <li>Define Forms using the Form Builder</li>
             <li>Modify or create Data Sets using the Data Set Designer</li>
-            <li>Set up interactions with 3rd party systems by defining Integrations</li>
+            <li>Set up interactions with 3<sup>rd</sup> party systems by defining Integrations</li>
         </ul>
 
         <p>Note that Integrate is recommended for Step 4 above. Open will log user defined custom events and send them through long-polling for further action in external systems. These events endpoints are defined under Common API: External Integration.</p>

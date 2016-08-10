@@ -51,6 +51,7 @@ body {
             position: absolute;
             right: 0;
             padding-top: 5px;
+            z-index: 1000;
 
 
             &:before {
@@ -141,7 +142,6 @@ body {
         > div {
             padding-bottom: 20px;
             font-size: 13px;
-            text-align: left;
 
             b { font-weight: 600; }
         }
@@ -152,22 +152,31 @@ body {
     .gb-content {
         background-color: @intappWhite;
         border: solid @intappVeryLightGrey 1px;
+        color: @intappGrey;
         margin: auto;
         padding: 20px;
 
         h2 {
-            padding-bottom: 15px;
+            color: @intappDarkGrey;
+            padding: 10px 0 20px;
             font-size: 13px;
+            text-transform: uppercase;
         }
 
         h3 {
-            color: @intappBlue;
+            color: @intappGrey;
             padding-bottom: 15px;
             font-size: 13px;
-            font-weight: normal;
+            font-weight: 600;
         }
 
-        p, ul, ol { padding-bottom: 15px; }
+        h4 {
+            padding-bottom: 10px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        p { padding-bottom: 15px; }
 
         pre {
             margin: 5px 0 10px;
@@ -176,9 +185,21 @@ body {
             overflow: auto;
         }
 
-        ul, ol { padding-left: 12px; }
+        sup {
+            display: inline-block;
+            margin-top: -2px;
+        }
 
-        p.el-note { color: @intappLightGrey; }
+        ul, ol {
+            padding-bottom: 25px;
+
+            ul, ol { padding: 6px 0 0; }
+
+            > li {
+                padding-bottom: 6px;
+                &:last-child { padding-bottom: 0; }
+            }
+        }
 
         dfn {
             color: @intappLightGrey;
@@ -189,6 +210,7 @@ body {
 
         dl {
             display: block;
+            padding-bottom: 6px;
 
             &:after { .clear-all; }
 
@@ -211,51 +233,82 @@ body {
             }
         }
 
-        .list-disc {
-            li {
-                list-style-type: disc;
+        .pre-code {
+            overflow-y: scroll;
+            background-color: @intappVeryLightBlue;
+            border: 1px solid @intappVeryLightGrey;
+            height: 150px;
+            padding: 0 10px;
+            white-space: pre-wrap;
+        }
+
+        .column-layout-x2 { /* used for columns of elements */
+            > * { width: 50%; }
+
+            > .column-item {
+                float: left;
+                padding: 0 10px 30px;
+
+                &:nth-child(odd) { clear:left; padding-right: 5px; }
+                &:nth-child(even) { padding-left: 5px; }
+            }
+
+            &:after { .clear-all; }
+        }
+
+        .list-disc,
+        .list-number,
+        .list-indent {
+            padding-left: 25px;
+
+            > li {
+                position: relative;
                 list-style-position: outside;
-                padding-left: 8px;
+
+                &:before {
+                    display: inline-block;
+                    position: absolute;
+                }
+            }
+        }
+
+        .list-number {
+            counter-reset: list 0;
+
+            > li:before {
+                counter-increment: list;
+                content: counter(list) ". ";
+                left: -19px;
             }
 
-            ol {
-                padding: 5px 0 5px 12px;
-                > li { list-style-type: circle; }
+            &.list-step-4 { counter-reset: list 3; }
+        }
+
+        .list-disc {
+
+            > li:before {
+                content: "";
+                display: block;
+                left: -17px;
+                background-color: @intappDarkGrey;
+                border: 2px solid @intappDarkGrey;
+                border-radius: 3px;
+                width: 5px;
+                height: 5px;
+                margin-top: 6px;
             }
 
-            ul {
-                .list-number;
-                padding: 5px 0 5px 12px;
-            }
+            ul { .list-number; }
+            ol { .list-disc; }
 
-            p { padding: 10px 0 5px; }
+            p { padding: 0 0 5px; }
             dl { padding: 10px 0; }
             dl + p, p + dl { padding-top: 0; }
         }
 
-        .list-number {
-            > li {
-                list-style-type: decimal;
-                list-style-position: outside;
-                padding-left: 8px;
-            }
-
-            &.list-step-4 {
-                counter-reset: list 3;
-
-                li {
-                    position: relative;
-                    list-style-type: none;
-
-                    &:before {
-                        counter-increment: list;
-                        content: counter(list) ". ";
-                        display: inline-block;
-                        position: absolute;
-                        left: -12px;
-                    }
-                }
-            }
+        .el-separation {
+            border-top: 1px solid @intappVeryLightGrey;
+            padding-bottom: 20px;
         }
     }
 
@@ -418,9 +471,7 @@ body {
     vertical-align: middle;
 }
 
-.link-light-blue { color: @intappCG1; }
-.link-light-blue:hover { color: @intappCG7; }
+.link-light-blue { color: @intappLightBlue; }
+.link-light-blue:hover { color: @intappVeryLightBlue; }
 
-li.resource.last {
-  margin-bottom: 50px !important;
-}
+li.resource.last { margin-bottom: 50px !important; }
