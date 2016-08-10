@@ -24,8 +24,8 @@ The OpenAPI Specification has undergone 4 revisions since initial creation in 20
 
 Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes | Status
 ------------------ | ------------ | -------------------------- | ----- | ------
+2.2.0              | 2016-08-10   | 1.1, 1.2, 2.0              | [tag v.2.2.0](https://github.com/swagger-api/swagger-ui/tree/v2.2.0) |
 2.1.5              | 2016-07-20   | 1.1, 1.2, 2.0              | [tag v.2.1.5](https://github.com/swagger-api/swagger-ui/tree/v2.1.5) |
-2.1.4              | 2016-01-06   | 1.1, 1.2, 2.0              | [tag v.2.1.4](https://github.com/swagger-api/swagger-ui/tree/v2.1.4) |
 2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) |
 1.0.13             | 2013-03-08   | 1.1, 1.2 | [tag v1.0.13](https://github.com/swagger-api/swagger-ui/tree/v1.0.13) |
 1.0.1              | 2011-10-11   | 1.0, 1.1 | [tag v1.0.1](https://github.com/swagger-api/swagger-ui/tree/v1.0.1)   |
@@ -81,8 +81,8 @@ To use swagger-ui you should take a look at the [source of swagger-ui html page]
 
 ```javascript
 var swaggerUi = new SwaggerUi({
-  url:"http://petstore.swagger.io/v2/swagger.json",
-  dom_id:"swagger-ui-container"
+  url: 'http://petstore.swagger.io/v2/swagger.json',
+  dom_id: 'swagger-ui-container'
 });
 
 swaggerUi.load();
