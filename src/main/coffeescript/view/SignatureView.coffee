@@ -19,7 +19,7 @@ class SignatureView extends Backbone.View
       $('.notice', $(@el)).html('<i class="fa fa-exclamation-circle"></i>&nbsp;Click above to set as body')
 
     @updateSignature()
-    
+
 
     @
 
@@ -33,7 +33,7 @@ class SignatureView extends Backbone.View
     $(".description", $(@el)).show()
     $('.description-link', $(@el)).addClass('selected')
     $('.snippet-link', $(@el)).removeClass('selected')
-    
+
   # handler for show sample
   switchToSnippet: (e) ->
     e?.preventDefault()
@@ -56,6 +56,8 @@ class SignatureView extends Backbone.View
       ()->
         if $(this).text() == '"--Expandable Field--"'
           $(this).addClass("expandable")
+        # if ($this).text() == '"--Expandable Field--"'
+          # $(this).parent.addClass("expandable-value")
     )
 
   expansionFromJSON: (e) ->

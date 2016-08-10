@@ -5,6 +5,7 @@ class Signature extends Backbone.Model
     cleanVersion = @get('signature').replace(' {</span>', '</span>')
     cleanVersion = cleanVersion.replace('<span class="strong">}</span>', '')
     # remove all of the punctuation floating between the spans
+    # divsInCleanVersion = cleanVersion.getElementsByClassName('');
     cleanVersion = cleanVersion.replace(/>\W+<\/d/g, '></d')
     @set('cleanSignature', cleanVersion.replace(/>\W+<s/g, '/><s'))
 

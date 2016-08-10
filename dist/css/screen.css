@@ -3847,6 +3847,42 @@ footer a:hover {
 a.footer-social-link:link {
   border-bottom: none;
 }
+footer.clover-footer {
+  font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: #1e2321;
+  margin-top: 0;
+}
+footer.clover-footer hr {
+  border-color: rgba(228, 228, 228, 0.1);
+  border-style: solid;
+  opacity: 0.1;
+  filter: alpha(opacity=10);
+}
+footer.clover-footer .footer-social-links {
+  text-align: right;
+}
+footer.clover-footer .footer-links li {
+  display: inline-block;
+  margin-right: 16px;
+}
+footer.clover-footer .footer-secondary-links {
+  list-style: none;
+  padding-left: 0;
+}
+footer.clover-footer .footer-secondary-links li {
+  display: inline-block;
+  margin-right: 16px;
+}
+footer.clover-footer .footer-secondary-links li a {
+  color: #aeaeae;
+}
+footer.clover-footer .footer-secondary-links li a:hover {
+  color: #ffffff;
+  border-bottom: 0;
+}
+footer.clover-footer .copyright {
+  text-align: right;
+}
 ul.footer-links {
   list-style-type: none;
   margin: 0;
@@ -16709,13 +16745,17 @@ hr.solid {
 .swagger-section .description span.propName {
   font-weight: bold;
   color: #404040;
+  display: block;
+}
+.swagger-section .description span.propType {
+  display: block;
 }
 .swagger-section .description span.propOptKey {
   color: #858D90;
   text-transform: uppercase;
 }
 .swagger-section .description span.propDesc {
-  display: inline-block;
+  display: block;
   color: #777777;
   font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   margin-top: 0.75em;
@@ -16843,6 +16883,9 @@ a:link,
 a:visited {
   color: #2FCB71;
   font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+a.c-button-sm-secondary {
+  color: #ffffff;
 }
 input,
 button,
@@ -17225,6 +17268,13 @@ header.section-header {
 }
 .select2-results__option {
   font-family: "Roboto", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.select2-container .select2-selection--single {
+  height: 40px;
+  padding: 4px 8px;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 40px;
 }
 .tpx-select2-container.select2-error .select2-choice {
   border-color: #FB6264;

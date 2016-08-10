@@ -3,15 +3,13 @@
     <div class="row">
       <div class="col-sm-12 param-code">
         <label class="code required c-input-label" for="textInput">{{name}}</label>
-        <div class="data-type">
-        {{#if isBody}}
-          <span class='model-signature'></span>
-        {{else}}
-          <span class='data-type'></span>
-        {{/if}}
         </div>
-        <label class="c-input-label">{{{paramType}}}</label>
         <form class='query-choices'></form>
+        {{#if isBody}}
+					<p class="c-help-text">{{{paramType}}}&nbsp;<span class="model-signature"></span></p>
+				{{else}}
+					<p class="c-help-text">{{{paramType}}}&nbsp;<span class="data-type"></span></p>
+				{{/if}}
       </div>
     </div>
   </div>

@@ -10,7 +10,7 @@
 footer {
   background-color: @clover-gray-90;
 
-  h4, 
+  h4,
   p {
     color: @clover-gray-40;
   }
@@ -41,6 +41,44 @@ footer {
 
 a.footer-social-link:link {
   border-bottom: none;
+}
+
+footer.clover-footer {
+  font-family: @sans-serif-font;
+  background: #1e2321;
+  margin-top: 0;
+  hr {
+    border-color: rgba(228, 228, 228, 0.1);
+    border-style: solid;
+    .opacity(@opacity: .1);
+  }
+  .footer-social-links {
+    text-align: right;
+  }
+  .footer-links {
+    li {
+        display: inline-block;
+        margin-right: 16px;
+      }
+  }
+  .footer-secondary-links {
+      list-style: none;
+      padding-left: 0;
+      li {
+        display: inline-block;
+        margin-right: 16px;
+        a {
+          color: #aeaeae;
+          &:hover {
+            color: @clover-white;
+            border-bottom: 0;
+          }
+        }
+      }
+  }
+  .copyright {
+    text-align: right;
+  }
 }
 
 

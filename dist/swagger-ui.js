@@ -445,7 +445,7 @@ function program6(depth0,data) {
   return buffer;
   }
 
-  buffer += "<div class=\"col-xs-12 col-sm-3\">\n  <nav class=\"rest-api-sidebar hidden-print\">\n      <div id=\"main_nav_container\"></div>\n  </nav>\n</div>\n<div class=\"col-xs-12 col-sm-9\">\n  <div class=\"row\">\n    <div class=\"col-xs-12\">\n      <p class=\"c-t-note\"><i class=\"fa fa-exclamation-circle\"></i>For detailed instructions regarding the V3 API, visit the <a id=\"overviewLink\" href=\"https://docs.clover.com/build/web-apps/web-api/\">Overview</a> page.</p>\n    </div>\n  </div>\n  <div id=\"global_params_container\"></div>\n  <div class=\"info\" id=\"api_info\">\n    ";
+  buffer += "<div class=\"col-xs-12 col-sm-3 rest-api-sidebar-wrapper\">\n  <nav class=\"rest-api-sidebar hidden-print\">\n      <div id=\"main_nav_container\"></div>\n  </nav>\n</div>\n<div class=\"col-xs-12 col-sm-9\">\n  <div class=\"row\">\n    <div class=\"col-xs-12\">\n      <p class=\"c-t-note\"><i class=\"fa fa-exclamation-circle\"></i>For detailed instructions regarding the V3 API, visit the <a id=\"overviewLink\" href=\"https://docs.clover.com/build/web-apps/web-api/\">Overview</a> page.</p>\n    </div>\n  </div>\n  <div id=\"global_params_container\"></div>\n  <div class=\"info\" id=\"api_info\">\n    ";
   stack1 = helpers['if'].call(depth0, depth0.info, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n  </div>\n  <div id=\"resources_container\">\n    <ul id=\"resources\" class=\"nav\">\n    </ul>\n  </div>\n</div>\n";
@@ -801,28 +801,34 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
 function program1(depth0,data) {
   
-  
-  return "\n          <span class='model-signature'></span>\n        ";
+  var buffer = "", stack1;
+  buffer += "\n					<p class=\"c-help-text\">";
+  if (stack1 = helpers.paramType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "&nbsp;<span class=\"model-signature\"></span></p>\n				";
+  return buffer;
   }
 
 function program3(depth0,data) {
   
-  
-  return "\n          <span class='data-type'></span>\n        ";
+  var buffer = "", stack1;
+  buffer += "\n					<p class=\"c-help-text\">";
+  if (stack1 = helpers.paramType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "&nbsp;<span class=\"data-type\"></span></p>\n				";
+  return buffer;
   }
 
   buffer += "<div class=\"row param-complex-query\">\n  <div class=\"col-sm-6\">\n    <div class=\"row\">\n      <div class=\"col-sm-12 param-code\">\n        <label class=\"code required c-input-label\" for=\"textInput\">";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</label>\n        <div class=\"data-type\">\n        ";
+    + "</label>\n        </div>\n        <form class='query-choices'></form>\n        ";
   stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n        </div>\n        <label class=\"c-input-label\">";
-  if (stack1 = helpers.paramType) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.paramType; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</label>\n        <form class='query-choices'></form>\n      </div>\n    </div>\n  </div>\n</div>\n";
+  buffer += "\n      </div>\n    </div>\n  </div>\n</div>\n";
   return buffer;
   });
 })();
@@ -1325,8 +1331,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
 
   buffer += "<div class=\"signature-container row\">\n  <div class=\"description col-sm-6\">\n  <h6>Model</h6>\n      ";
-  if (stack1 = helpers.signature) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.signature; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if (stack1 = helpers.cleanSignature) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.cleanSignature; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n  </div>\n  <div class=\"snippet col-sm-6\">\n  <h6>Model Schema</h6>\n      <pre><code></code></pre>\n      <p class=\"c-t-note notice\"></p>\n  </div>\n</div>\n";
   return buffer;
@@ -1786,6 +1792,14 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     function Signature() {
       Signature.__super__.constructor.apply(this, arguments);
     }
+
+    Signature.prototype.initialize = function() {
+      var cleanVersion;
+      cleanVersion = this.get('signature').replace(' {</span>', '</span>');
+      cleanVersion = cleanVersion.replace('<span class="strong">}</span>', '');
+      cleanVersion = cleanVersion.replace(/>\W+<\/d/g, '></d');
+      return this.set('cleanSignature', cleanVersion.replace(/>\W+<s/g, '/><s'));
+    };
 
     Signature.prototype.getExpandedJSON = function() {
       var JSONobject, expandedJSON, field, jsonExpansions, unexpandedFields, _i, _len;
