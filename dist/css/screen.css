@@ -17844,6 +17844,7 @@ div.operations {
 div.operations > li {
   padding: 16px 8px;
   border-bottom: 1px solid #f1f1f1;
+  background: #ffffff;
 }
 div.operations > li:first-of-type {
   border-top: 1px solid #f1f1f1;
