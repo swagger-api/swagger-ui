@@ -1701,6 +1701,6 @@ body {
 .link-light-blue:hover {
   color: #F5F7FB;
 }
-li.resource.last {
-  margin-bottom: 50px !important;
+li.separator {
+  margin-top: 35px !important;
 }
