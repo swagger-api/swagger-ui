@@ -385,7 +385,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<section class=\"c-box-filter\">\n  <p class=\"c-t-note\"><i class=\"fa fa-exclamation-circle\"></i>For detailed instructions regarding the V3 API, visit the <a id=\"overviewLink\" href=\"https://docs.clover.com/build/web-apps/web-api/\">Overview</a> page.</p>\n  <form id='mId_selector api_selector'>\n    <div class=\"row\">\n      <div class=\"col-xs-6 col-sm-5\">\n        <label class=\"c-input-label\" for=\"input_mId\">Global Merchant ID (mID)</label>\n        <div class=\"input-group\">\n          <input class=\"c-input-field\" placeholder=\"\" id=\"input_mId\" name=\"input_mId\" type=\"text\"/>\n        </div>\n      </div>\n      <div class=\"col-xs-6 col-sm-5\">\n        <label class=\"c-input-label\" for=\"input_apiToken\">API Token</label>\n        <div class=\"input-group\">\n          <input class=\"c-input-field\" placeholder=\"\" id=\"input_apiToken\" name=\"apiKey\" type=\"text\"/>\n        </div>\n      </div>\n      <div class=\"col-xs-12 col-sm-2\">\n        <small class=\"autofill\"><i class=\"fa fa-magic\"></i>Autofill</small>\n      </div>\n    </div>\n  </form>\n</section>\n";
+  return "<section class=\"c-box-filter\">\n  <p class=\"c-t-note\"><i class=\"fa fa-exclamation-circle\"></i>For detailed instructions regarding the V3 API, visit the <a id=\"overviewLink\" href=\"https://docs.clover.com/build/web-apps/web-api/\">Overview</a> page.</p>\n  <form id='mId_selector api_selector'>\n    <div class=\"row\">\n      <div class=\"col-xs-6 col-sm-5\">\n        <div class=\"input-group\">\n          <label class=\"c-input-label\" for=\"input_mId\">Global Merchant ID (mID)</label>\n          <small class=\"autofill pull-right\" id=\"autofill-display\" style=\"display: none;\"><i class=\"fa fa-magic\"></i>Autofill</small>\n          <input class=\"c-input-field\" placeholder=\"\" id=\"input_mId\" name=\"input_mId\" type=\"text\"/>\n        </div>\n      </div>\n      <div class=\"col-xs-6 col-sm-5\">\n        <div class=\"input-group\">\n          <label class=\"c-input-label\" for=\"input_apiToken\">API Token</label>\n          <input class=\"c-input-field\" placeholder=\"\" id=\"input_apiToken\" name=\"apiKey\" type=\"text\"/>\n        </div>\n      </div>\n    </div>\n  </form>\n</section>\n";
   });
 })();
 
@@ -399,7 +399,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   var buffer = "", stack1, stack2;
-  buffer += "\n      <div class=\"info_title\">"
+  buffer += "\n    <div class=\"info\" id=\"api_info\">\n      <div class=\"info_title\">"
     + escapeExpression(((stack1 = ((stack1 = depth0.info),stack1 == null || stack1 === false ? stack1 : stack1.title)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "</div>\n      <div class=\"info_description\">";
   stack2 = ((stack1 = ((stack1 = depth0.info),stack1 == null || stack1 === false ? stack1 : stack1.description)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1);
@@ -413,7 +413,7 @@ function program1(depth0,data) {
   buffer += "\n      ";
   stack2 = helpers['if'].call(depth0, ((stack1 = depth0.info),stack1 == null || stack1 === false ? stack1 : stack1.license), {hash:{},inverse:self.noop,fn:self.program(6, program6, data),data:data});
   if(stack2 || stack2 === 0) { buffer += stack2; }
-  buffer += "\n    ";
+  buffer += "\n    </div>\n  ";
   return buffer;
   }
 function program2(depth0,data) {
@@ -445,10 +445,10 @@ function program6(depth0,data) {
   return buffer;
   }
 
-  buffer += "<div class=\"rest-api-sidebar-wrapper\">\n  <nav class=\"rest-api-sidebar hidden-print\">\n      <div id=\"main_nav_container\"></div>\n  </nav>\n</div>\n<div class=\"rest-api-content-wrapper\">\n  <div id=\"global_params_container\"></div>\n  <div class=\"info\" id=\"api_info\">\n    ";
+  buffer += "<div class=\"rest-api-sidebar-wrapper\">\n  <nav class=\"rest-api-sidebar hidden-print\">\n      <div id=\"main_nav_container\"></div>\n  </nav>\n</div>\n<div class=\"rest-api-content-wrapper\">\n  <div id=\"global_params_container\"></div>\n  <div id=\"resources_container\">\n    <ul id=\"resources\" class=\"nav\">\n    </ul>\n  </div>\n  ";
   stack1 = helpers['if'].call(depth0, depth0.info, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n  </div>\n  <div id=\"resources_container\">\n    <ul id=\"resources\" class=\"nav\">\n    </ul>\n  </div>\n</div>\n";
+  buffer += "\n</div>\n";
   return buffer;
   });
 })();
@@ -2502,14 +2502,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       var $elem;
       $elem = $('#' + swaggerUiRouter.escapeResourceName(this.model.get("parentId")) + "_" + this.model.get("nickname") + "_content");
       if ($elem.is(':visible')) {
-        $elem.slideUp();
+        return $elem.slideUp();
       } else {
-        $elem.slideDown();
-      }
-      if ($elem.isnot(':visible')) {
-        return $($elem).parent.addClass('content-open');
-      } else {
-        return $($elem).parent.removeClass('content-open');
+        return $elem.slideDown();
       }
     };
 
@@ -3033,10 +3028,13 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
     GlobalParametersView.prototype.events = {
       'change #input_mId': 'setId',
+      'change #input_mId': 'autofillShow',
       'change #input_apiToken': 'setToken'
     };
 
-    GlobalParametersView.prototype.initialize = function() {};
+    GlobalParametersView.prototype.initialize = function() {
+      return $('small#autofill-display');
+    };
 
     GlobalParametersView.prototype.render = function() {
       $(this.el).html(Handlebars.templates.global_parameters());
@@ -3053,6 +3051,10 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       if (key && key.trim() !== "") {
         return window.authorizations.add("key", new ApiKeyAuthorization("Authorization", "Bearer " + key, "header"));
       }
+    };
+
+    GlobalParametersView.prototype.autofillShow = function() {
+      return $('#autofill-display').show().delay(1000).fadeOut(400);
     };
 
     return GlobalParametersView;

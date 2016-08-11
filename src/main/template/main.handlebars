@@ -5,17 +5,17 @@
 </div>
 <div class="rest-api-content-wrapper">
   <div id="global_params_container"></div>
-  <div class="info" id="api_info">
-    {{#if info}}
+  <div id="resources_container">
+    <ul id="resources" class="nav">
+    </ul>
+  </div>
+  {{#if info}}
+    <div class="info" id="api_info">
       <div class="info_title">{{info.title}}</div>
       <div class="info_description">{{{info.description}}}</div>
       {{#if info.termsOfServiceUrl}}<div class="info_tos"><a href="{{info.termsOfServiceUrl}}">Terms of service</a></div>{{/if}}
       {{#if info.contact}}<div class="info_contact"><a href="mailto:{{info.contact}}">Contact the developer</a></div>{{/if}}
       {{#if info.license}}<div class="info_license"><a href="{{info.licenseUrl}}">{{info.license}}</a></div>{{/if}}
-    {{/if}}
-  </div>
-  <div id="resources_container">
-    <ul id="resources" class="nav">
-    </ul>
-  </div>
+    </div>
+  {{/if}}
 </div>

@@ -16917,7 +16917,7 @@ textarea {
 }
 header.section-header {
   height: 40px;
-  background: #404040;
+  background: #ffffff;
 }
 .app-header {
   position: absolute;
@@ -17854,12 +17854,18 @@ div.operations > li[style~="display=block"] {
 div.operationTypes > li {
   padding-top: 20px;
   padding-bottom: 20px;
+  margin-bottom: -150px;
+}
+li.resource div.operationTypes {
+  margin-top: -150px;
+}
+#global_params_container.affix + #resources_container li.resource {
+  margin-top: 150px;
 }
 div.operationTypes > li::before {
   display: block;
   content: " ";
-  margin-top: -140px;
-  height: 140px;
+  height: 170px;
   visibility: hidden;
 }
 li.resource {
@@ -17903,6 +17909,9 @@ section.c-box-filter {
 }
 section.c-box-filter p.c-t-note {
   margin-bottom: 16px;
+}
+.autofill {
+  color: #2FCB71;
 }
 .button__toggle {
   padding: 8px 16px;

@@ -135,13 +135,21 @@ div.operations>li {
 div.operationTypes > li {
   padding-top: 20px;
   padding-bottom: 20px;
+  margin-bottom: -150px;
+}
+
+li.resource div.operationTypes {
+  margin-top: -150px;
+}
+
+#global_params_container.affix + #resources_container li.resource {
+  margin-top: 150px;
 }
 
 div.operationTypes > li::before {
   display: block;
   content: " ";
-  margin-top: -140px;
-  height: 140px;
+  height: 170px;
   visibility: hidden;
 }
 
@@ -190,6 +198,10 @@ section.c-box-filter {
   p.c-t-note {
     margin-bottom: 16px;
   }
+}
+
+.autofill {
+  color: @c-mtrl-green-text;
 }
 
 .button__toggle {

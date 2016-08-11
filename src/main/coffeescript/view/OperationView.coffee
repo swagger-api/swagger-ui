@@ -299,4 +299,4 @@ class OperationView extends Backbone.View
   toggleOperationContent: ->
     $elem = $('#' + swaggerUiRouter.escapeResourceName(@model.get("parentId")) + "_" + @model.get("nickname") + "_content")
     if $elem.is(':visible') then $elem.slideUp() else $elem.slideDown()
-    if $elem.isnot(':visible') then $($elem).parent.addClass('content-open') else $($elem).parent.removeClass('content-open')
+    # if $elem.isnot(':visible') then $($elem).parent.addClass('content-open') else $($elem).parent.removeClass('content-open')
