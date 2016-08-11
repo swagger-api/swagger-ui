@@ -86,10 +86,8 @@ body { font: normal 12px/1.3 'Open Sans', Helvetica, Arial, sans-serif; }
     position: absolute;
     opacity: 0.8;
     background-color: #fff;
-    border: solid #e4e4e4 1px;
     color: #ff3a2f;
-    margin-top: -1px;
-    padding: 5px;
+    padding: 5px 0;
     font-size: 11px;
     z-index: 100;
 }

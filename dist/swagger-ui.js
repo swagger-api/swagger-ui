@@ -33,8 +33,7 @@ this["Handlebars"]["templates"]["apikey_auth"] = Handlebars.template({"1":functi
             highlightSizeThreshold: 5000
         });
 
-        var router = new window.SwaggerUiRouter({app: this});
-        Backbone.history.start();
+        Backbone.history.start(new window.SwaggerUiRouter({app: this}));
     };
 })();
 this["Handlebars"]["templates"]["auth_button_operation"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
@@ -328,7 +327,7 @@ window.Docs = {
 };
 
 this["Handlebars"]["templates"]["documentation"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<header class=\"gb-header\">\r\n    <div class=\"logo-intapp-api\">Intapp API</div>\r\n    <ul class=\"gb-header-nav\">\r\n        <li><a href=\"#\">Open API</a></li>\r\n        <li class=\"is-selected\">\r\n            <a href=\"#doc\">Documents</a>\r\n            <ul class=\"gb-header-nav-inner\">\r\n                <li><a href=\"#doc\">OAuth2 Details</a></li>\r\n                <li><a href=\"#doc\">Provisioning Step Through</a></li>\r\n                <li><a href=\"#doc\">Steady Step Through</a></li>\r\n            </ul>\r\n        </li>\r\n        <li><a href=\"#logout\">Log out</a></li>\r\n    </ul>\r\n    <div class=\"gb-header-overview\">\r\n        <h1>Overview</h1>\r\n    </div>\r\n</header>\r\n<div class=\"swagger-ui-wrap\">\r\n    <h2>Documentation</h2>\r\n</div>";
+  return "<header class=\"gb-header\">\n    <div class=\"logo-intapp-api\">Intapp API</div>\n    <ul class=\"gb-header-nav\">\n        <li><a href=\"#\">Open API</a></li>\n        <li class=\"is-selected\">\n            <a href=\"#doc\">Documents</a>\n            <ul class=\"gb-header-nav-inner\">\n                <li><a href=\"#doc\">OAuth2 Details</a></li>\n                <li><a href=\"#doc\">Provisioning Step Through</a></li>\n                <li><a href=\"#doc\">Steady Step Through</a></li>\n            </ul>\n        </li>\n        <li><a href=\"#logout\">Log out</a></li>\n    </ul>\n    <div class=\"gb-header-overview\">\n        <h1>Overview</h1>\n    </div>\n</header>\n<div class=\"swagger-ui-wrap\">\n    <h2>Documentation</h2>\n</div>";
   },"useData":true});
 'use strict';
 /*jslint eqeq: true*/
@@ -409,7 +408,7 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
     }
 });
 this["Handlebars"]["templates"]["login"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<header class=\"header-login-page\"><div class=\"logo-intapp-api\" title=\"Intapp API\">Intapp API</div></header>\n<section class=\"content-login-page\">\n    <form class=\"form-login-page\">\n        <!--add is-invalid class to show error-->\n        <div class=\"form-control is-required\">\n            <label for=\"tenant\">Tenant</label>\n            <input id=\"tenant\" name=\"tenant\" type=\"text\" placeholder=\"tenantId\" />\n            <p class=\"error-msg\">This field is required.</p>\n        </div>\n        <!--add is-invalid class to show error-->\n        <div class=\"form-control is-required\">\n            <label for=\"username\">Username</label>\n            <input id=\"user\" name=\"username\" type=\"text\" placeholder=\"username\" />\n            <p class=\"error-msg\">This field is required.</p>\n        </div>\n        <!--add is-invalid class to show error-->\n        <div class=\"form-control is-required\">\n            <label for=\"password\">Password</label>\n            <input id=\"pass\" name=\"password\" type=\"password\" placeholder=\"password\" />\n            <p class=\"error-msg\">This field is required.</p>\n        </div>\n        <button type=\"submit\" class=\"button button-green\" disabled=\"disabled\"> Log in </button>\n    </form>\n</section>";
+  return "<header class=\"header-login-page\"><div class=\"logo-intapp-api\" title=\"Intapp API\">Intapp API</div></header>\n<section class=\"content-login-page\">\n    <form class=\"form-login-page\">\n        <!--add is-invalid class to show error-->\n        <div class=\"form-control is-required\">\n            <label for=\"tenant\">Tenant</label>\n            <input id=\"tenant\" name=\"tenant\" type=\"text\" placeholder=\"tenantId\" />\n            <p class=\"error-msg\">This field is required.</p>\n        </div>\n        <!--add is-invalid class to show error-->\n        <div class=\"form-control is-required\">\n            <label for=\"username\">Username</label>\n            <input id=\"user\" name=\"username\" type=\"text\" placeholder=\"username\" />\n            <p class=\"error-msg\">This field is required.</p>\n        </div>\n        <!--add is-invalid class to show error-->\n        <div class=\"form-control is-required\">\n            <label for=\"password\">Password</label>\n            <input id=\"pass\" name=\"password\" type=\"password\" placeholder=\"password\" />\n            <p class=\"error-msg\">This field is required.</p>\n        </div>\n        <button type=\"submit\" class=\"button button-green\" disabled=\"disabled\"> Log in </button>\n    </form>\n</section>\naaa__sa))__!!!";
   },"useData":true});
 this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "  <div class=\"info_title\">"
@@ -1022,7 +1021,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
 
         window.swaggerUi = new SwaggerUi({
             url: url,
-            dom_id: "swagger-ui-container",
+            dom_id: 'swagger-ui-container',
 
             onComplete: function(){
                 if(window.SwaggerTranslator) {
@@ -1038,17 +1037,17 @@ window.SwaggerUiRouter = Backbone.Router.extend({
             },
 
             onFailure: function(data) {
-                if(data === '401 : {\"message\":\"The identity is not set or unauthorized.\"} ' + swaggerUi.options.url) {
+                if(data === '401 : {\"message\":\"The identity is not set or unauthorized.\"} ' + window.swaggerUi.options.url) {
                     Backbone.history.navigate('login', true);
                 } else {
-                    console.log("Unable to Load SwaggerUI");
+                    console.log('Unable to Load SwaggerUI');
                 }
 
                 window.swaggerUi.initialized = false;
             },
 
-            docExpansion: "none",
-            apisSorter: "alpha",
+            docExpansion: 'none',
+            apisSorter: 'alpha',
             operationsSorter: function(a, b) {
                 return a.path === b.path ? a.method.localeCompare(b.method) : a.path.localeCompare(b.path);
             },
@@ -1056,7 +1055,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
             validatorUrl: null
         });
 
-        swaggerUi.load();
+        window.swaggerUi.load();
     },
 
     onIndex: function() {
@@ -1065,10 +1064,13 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         if(window.swaggerUi.initialized) {
             $('#swagger-container').show();
         } else {
-            swaggerUi.load();
+            window.swaggerUi.load();
         }
 
-        this.currentView && this.currentView.remove();
+        if(this.currentView) {
+            this.currentView.remove();
+        }
+
         this.currentView = undefined;
     },
 
@@ -1080,10 +1082,10 @@ window.SwaggerUiRouter = Backbone.Router.extend({
     onLogout: function() {
         console.log('process logout');
 
-        swaggerUi.api.clientAuthorizations.remove('Authorization');
-        swaggerUi.options.url = this.getUrl();
+        window.swaggerUi.api.clientAuthorizations.remove('Authorization');
+        window.swaggerUi.options.url = this.getUrl();
 
-        swaggerUi.load();
+        window.swaggerUi.load();
     },
 
     onDocumentation: function() {
@@ -1096,7 +1098,10 @@ window.SwaggerUiRouter = Backbone.Router.extend({
     },
 
     showView: function(view) {
-        this.currentView && this.currentView.remove();
+        if(this.currentView) {
+            this.currentView.remove();
+        }
+
         this.currentView = view;
 
         $('#swagger-container').hide();
@@ -20338,9 +20343,11 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
                 window.swaggerUi.options.supportedSubmitMethods = (response.roles || []).indexOf('Admin') >= 0 ? ['get', 'post', 'put', 'delete', 'patch'] : ['get'];
 
                 //set swagger client auth
-                window.swaggerUi.api ?
-                    window.swaggerUi.api.clientAuthorizations.add('Authorization', apiKeyAuth) :
-                    window.swaggerUi.options.authorizations = {'Authorization' : apiKeyAuth};
+                if(window.swaggerUi.api) {
+                    window.swaggerUi.api.clientAuthorizations.add('Authorization', apiKeyAuth);
+                } else {
+                    window.swaggerUi.options.authorizations = {'Authorization': apiKeyAuth};
+                }
 
                 //navigate to main form
                 Backbone.history.navigate('', true);

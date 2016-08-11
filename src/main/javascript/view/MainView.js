@@ -1,6 +1,40 @@
 'use strict';
 
 SwaggerUi.Views.MainView = Backbone.View.extend({
+  events: {
+    'click .filter-button': 'onFiltering'
+  },
+
+    onFiltering: function(e) {
+        if(!this.$allOperations) { this.$allOperations = $('#resources ul.operations > li'); }
+        if(!this.$notProvisioningOperations) { this.$notProvisioningOperations = this.$allOperations.not('[id*="_provisioning"]'); }
+        if(!this.$notSteadystateOperations) { this.$notSteadystateOperations = this.$allOperations.not('[id*="_steadystate"]'); }
+        if(!this.$groups) { this.$groups = $('#resources .resource'); }
+
+        this.$allOperations.show();
+        $('#filter-panel button').removeClass('active');
+
+        switch (e.target.id) {
+            case 'filter-button-provisioning':
+                this.$notProvisioningOperations.hide();
+                $('#filter-button-provisioning').addClass('active');
+                break;
+            case 'filter-button-steadystate':
+                this.$notSteadystateOperations.hide();
+                $('#filter-button-steadystate').addClass('active');
+                break;
+            default:
+                // all
+                $('#filter-button-all').addClass('active');
+        }
+
+        //check group visibility
+        this.$groups.each(function(i, group) {
+            group = $(group);
+            group[group.children('ul').actual('height') ? 'show' : 'hide']();
+        });
+    },
+
   apisSorter : {
     alpha   : function(a,b){ return a.name.localeCompare(b.name); }
   },
@@ -8,6 +42,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     alpha   : function(a,b){ return a.path.localeCompare(b.path); },
     method  : function(a,b){ return a.method.localeCompare(b.method); }
   },
+
   initialize: function(opts){
     var sorterOption, sorterFn, key, value;
     opts = opts || {};
@@ -128,7 +163,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       router: this.router,
       tagName: 'li',
       id: 'resource_' + resource.id,
-      className: 'resource',
+      className: 'resource resource_' + resource.id.substr(0, resource.id.indexOf(':')).toLowerCase(),
       auths: auths,
       swaggerOptions: this.options.swaggerOptions
     });
