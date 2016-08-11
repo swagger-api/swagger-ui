@@ -385,7 +385,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<section class=\"c-box-filter\">\n  <form id='mId_selector api_selector'>\n    <div class=\"row\">\n      <div class=\"col-xs-6 col-sm-5\">\n        <label class=\"c-input-label\" for=\"input_mId\">Global Merchant ID (mID)</label>\n        <div class=\"input-group\">\n          <input class=\"c-input-field\" placeholder=\"\" id=\"input_mId\" name=\"input_mId\" type=\"text\"/>\n        </div>\n      </div>\n      <div class=\"col-xs-6 col-sm-5\">\n        <label class=\"c-input-label\" for=\"input_apiToken\">API Token</label>\n        <div class=\"input-group\">\n          <input class=\"c-input-field\" placeholder=\"\" id=\"input_apiToken\" name=\"apiKey\" type=\"text\"/>\n        </div>\n      </div>\n      <div class=\"col-xs-12 col-sm-2\">\n        <small class=\"autofill hidden\"><i class=\"fa fa-magic\"></i>Autofill</small>\n      </div>\n    </div>\n  </form>\n</section>";
+  return "<section class=\"c-box-filter\">\n  <p class=\"c-t-note\"><i class=\"fa fa-exclamation-circle\"></i>For detailed instructions regarding the V3 API, visit the <a id=\"overviewLink\" href=\"https://docs.clover.com/build/web-apps/web-api/\">Overview</a> page.</p>\n  <form id='mId_selector api_selector'>\n    <div class=\"row\">\n      <div class=\"col-xs-6 col-sm-5\">\n        <label class=\"c-input-label\" for=\"input_mId\">Global Merchant ID (mID)</label>\n        <div class=\"input-group\">\n          <input class=\"c-input-field\" placeholder=\"\" id=\"input_mId\" name=\"input_mId\" type=\"text\"/>\n        </div>\n      </div>\n      <div class=\"col-xs-6 col-sm-5\">\n        <label class=\"c-input-label\" for=\"input_apiToken\">API Token</label>\n        <div class=\"input-group\">\n          <input class=\"c-input-field\" placeholder=\"\" id=\"input_apiToken\" name=\"apiKey\" type=\"text\"/>\n        </div>\n      </div>\n      <div class=\"col-xs-12 col-sm-2\">\n        <small class=\"autofill\"><i class=\"fa fa-magic\"></i>Autofill</small>\n      </div>\n    </div>\n  </form>\n</section>\n";
   });
 })();
 
@@ -445,7 +445,7 @@ function program6(depth0,data) {
   return buffer;
   }
 
-  buffer += "<div class=\"col-xs-12 col-sm-3 rest-api-sidebar-wrapper\">\n  <nav class=\"rest-api-sidebar hidden-print\">\n      <div id=\"main_nav_container\"></div>\n  </nav>\n</div>\n<div class=\"col-xs-12 col-sm-9\">\n  <div class=\"row\">\n    <div class=\"col-xs-12\">\n      <p class=\"c-t-note\"><i class=\"fa fa-exclamation-circle\"></i>For detailed instructions regarding the V3 API, visit the <a id=\"overviewLink\" href=\"https://docs.clover.com/build/web-apps/web-api/\">Overview</a> page.</p>\n    </div>\n  </div>\n  <div id=\"global_params_container\"></div>\n  <div class=\"info\" id=\"api_info\">\n    ";
+  buffer += "<div class=\"rest-api-sidebar-wrapper\">\n  <nav class=\"rest-api-sidebar hidden-print\">\n      <div id=\"main_nav_container\"></div>\n  </nav>\n</div>\n<div class=\"rest-api-content-wrapper\">\n  <div id=\"global_params_container\"></div>\n  <div class=\"info\" id=\"api_info\">\n    ";
   stack1 = helpers['if'].call(depth0, depth0.info, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n  </div>\n  <div id=\"resources_container\">\n    <ul id=\"resources\" class=\"nav\">\n    </ul>\n  </div>\n</div>\n";
@@ -784,10 +784,10 @@ function program1(depth0,data) {
   return buffer;
   }
 
-  buffer += "<!-- <button disabled type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button> -->\n<div class=\"row param-choice-filter\">\n	<div class=\"col-sm-5\">\n		<select class=\"param-choice\">\n			<option value=\"\" disabled selected> Filter by... </option>\n			";
+  buffer += "<!-- <button disabled type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button> -->\n<div class=\"row param-choice-filter\">\n	<div class=\"col-sm-4\">\n		<select class=\"param-choice\">\n			<option value=\"\" disabled selected> Filter by... </option>\n			";
   stack1 = helpers.each.call(depth0, depth0.allChoices, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n		</select>\n	</div>\n	<div class=\"col-sm-2\">\n		<select class=\"filter-operator\">\n			<option value=\"==\">==</option>\n			<option value=\"!=\">!=</option>\n			<option value=\">\">&gt;</option>\n			<option value=\"<\">&lt;</option>\n			<option value=\">=\">&gt;=</option>\n			<option value=\"<=\">&lt;=</option>\n		</select>\n	</div>\n	<div class=\"col-sm-5\">\n		<input class=\"filter-argument c-input-field\">\n	</div>\n</div>\n";
+  buffer += "\n		</select>\n	</div>\n	<div class=\"col-sm-4\">\n		<select class=\"filter-operator\">\n			<option value=\"==\">==</option>\n			<option value=\"!=\">!=</option>\n			<option value=\">\">&gt;</option>\n			<option value=\"<\">&lt;</option>\n			<option value=\">=\">&gt;=</option>\n			<option value=\"<=\">&lt;=</option>\n		</select>\n	</div>\n	<div class=\"col-sm-4\">\n		<input class=\"filter-argument c-input-field\">\n	</div>\n</div>\n";
   return buffer;
   });
 })();
@@ -1256,11 +1256,11 @@ function program1(depth0,data) {
   return buffer;
   }
 
-  buffer += "<div class='heading row'>\n  <div class=\"col-sm-9\">\n    <h2 class=\"resource-title\">\n      <a href='#!/";
+  buffer += "<div class=\"heading row\">\n  <div class=\"col-xs-8\">\n    <h2 class=\"resource-title\">\n      <a href=\"#!/";
   if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "'>";
+    + "\">";
   if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -1270,11 +1270,11 @@ function program1(depth0,data) {
   else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if (!helpers.description) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n    </h2>\n  </div>\n  <div class='options col-sm-3 text-right'>\n    <button class=\"button__toggle\" href='#' class=\"collapse_button\">\n      <i class=\"fa fa-minus-square-o\"></i>\n      Hide Operations\n    </button>\n    <button class=\"button__toggle hidden\" href='#' class=\"expand_button\">\n      <i class=\"fa fa-plus-square-o\"></i>\n      Show Operations\n    </button>\n  </div>\n</div>\n<div class=\"row\">\n  <div class='operationTypes' id='";
+  buffer += "\n    </h2>\n  </div>\n  <div class=\"options col-xs-4 text-right\">\n    <button class=\"button__toggle expand_button\" href=\"#\">\n      <i class=\"fa fa-plus-square-o\"></i>\n      Show Operations\n    </button>\n    <button class=\"button__toggle collapse_button\" href=\"#\" hidden=\"true\">\n      <i class=\"fa fa-minus-square-o\"></i>\n      Hide Operations\n    </button>\n  </div>\n</div>\n<div class=\"row\">\n  <div class='operationTypes' id='";
   if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "_endpoint_list' style='display:block'>\n\n  </div>\n</div>";
+    + "_endpoint_list' style='display:block'>\n\n  </div>\n</div>\n";
   return buffer;
   });
 })();
@@ -2124,10 +2124,14 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
     };
 
     ResourceView.prototype.expandOperations = function() {
+      $(this.el).find('.expand_button').attr('hidden', true);
+      $(this.el).find('.collapse_button').attr('hidden', false);
       return $('li#resource_' + swaggerUiRouter.escapeResourceName(this.model.get('id'))).find('div.content').slideDown();
     };
 
     ResourceView.prototype.collapseOperations = function() {
+      $(this.el).find('.expand_button').attr('hidden', false);
+      $(this.el).find('.collapse_button').attr('hidden', true);
       return $('li#resource_' + swaggerUiRouter.escapeResourceName(this.model.get('id'))).find('div.content').slideUp();
     };
 
@@ -2498,9 +2502,14 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       var $elem;
       $elem = $('#' + swaggerUiRouter.escapeResourceName(this.model.get("parentId")) + "_" + this.model.get("nickname") + "_content");
       if ($elem.is(':visible')) {
-        return $elem.slideUp();
+        $elem.slideUp();
       } else {
-        return $elem.slideDown();
+        $elem.slideDown();
+      }
+      if ($elem.isnot(':visible')) {
+        return $($elem).parent.addClass('content-open');
+      } else {
+        return $($elem).parent.removeClass('content-open');
       }
     };
 

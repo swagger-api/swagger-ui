@@ -1,17 +1,17 @@
-<div class='heading row'>
-  <div class="col-sm-9">
+<div class="heading row">
+  <div class="col-xs-8">
     <h2 class="resource-title">
-      <a href='#!/{{id}}'>{{name}}</a> {{#description}} {{{description}}} {{/description}}
+      <a href="#!/{{id}}">{{name}}</a> {{#description}} {{{description}}} {{/description}}
     </h2>
   </div>
-  <div class='options col-sm-3 text-right'>
-    <button class="button__toggle" href='#' class="collapse_button">
-      <i class="fa fa-minus-square-o"></i>
-      Hide Operations
-    </button>
-    <button class="button__toggle hidden" href='#' class="expand_button">
+  <div class="options col-xs-4 text-right">
+    <button class="button__toggle expand_button" href="#">
       <i class="fa fa-plus-square-o"></i>
       Show Operations
+    </button>
+    <button class="button__toggle collapse_button" href="#" hidden="true">
+      <i class="fa fa-minus-square-o"></i>
+      Hide Operations
     </button>
   </div>
 </div>

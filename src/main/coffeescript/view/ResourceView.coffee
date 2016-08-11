@@ -17,7 +17,7 @@ class ResourceView extends Backbone.View
   addTypes: ->
     for typeModel in @model.get('typeModels')
       typeView = new TypeView({
-        model: typeModel 
+        model: typeModel
         tagName: 'li'
         id: typeModel.get('viewId')
       })
@@ -25,8 +25,11 @@ class ResourceView extends Backbone.View
 
 
   expandOperations: ->
+    $(@el).find('.expand_button').attr('hidden', true)
+    $(@el).find('.collapse_button').attr('hidden', false)
     $('li#resource_' + swaggerUiRouter.escapeResourceName(@model.get('id'))).find('div.content').slideDown()
 
   collapseOperations: ->
+    $(@el).find('.expand_button').attr('hidden', false)
+    $(@el).find('.collapse_button').attr('hidden', true)
     $('li#resource_' + swaggerUiRouter.escapeResourceName(@model.get('id'))).find('div.content').slideUp()
-    

@@ -28,7 +28,7 @@ class OperationView extends Backbone.View
 
     @addSignatureView()
 
-    # Render each response code 
+    # Render each response code
     @addStatusCode statusCode for statusCode in @model.get("responseMessages")
 
     @
@@ -51,7 +51,7 @@ class OperationView extends Backbone.View
     # Render status codes
     statusCodeView = new StatusCodeView({model: statusCode, tagName: 'tr'})
     $('.operation-status', $(@el)).append statusCodeView.render().el
-  
+
   submitOperation: (ev) ->
     ev?.preventDefault()
 
@@ -121,7 +121,7 @@ class OperationView extends Backbone.View
 
     log(bodyParam)
 
-    @invocationUrl = 
+    @invocationUrl =
       if @model.supportHeaderParams()
         headerParams = @model.getHeaderParams(map)
         @model.urlify(map, false)
@@ -130,7 +130,7 @@ class OperationView extends Backbone.View
 
     $(".request_url", $(@el)).html "<pre>" + @invocationUrl + "</pre>"
 
-    obj = 
+    obj =
       type: @model.get("method")
       url: @invocationUrl
       headers: headerParams
@@ -206,7 +206,7 @@ class OperationView extends Backbone.View
     lines = xml.split('\n')
     indent = 0
     lastType = 'other'
-    # 4 types of tags - single, closing, opening, other (text, doctype, comment) - 4*4 = 16 transitions 
+    # 4 types of tags - single, closing, opening, other (text, doctype, comment) - 4*4 = 16 transitions
     transitions =
       'single->single': 0
       'single->closing': -1
@@ -250,9 +250,9 @@ class OperationView extends Backbone.View
           formatted = formatted.substr(0, formatted.length - 1) + ln + '\n'
         else
           formatted += padding + ln + '\n'
-      
+
     formatted
-    
+
 
   # puts the response data in UI
   showStatus: (response) ->
@@ -299,3 +299,4 @@ class OperationView extends Backbone.View
   toggleOperationContent: ->
     $elem = $('#' + swaggerUiRouter.escapeResourceName(@model.get("parentId")) + "_" + @model.get("nickname") + "_content")
     if $elem.is(':visible') then $elem.slideUp() else $elem.slideDown()
+    if $elem.isnot(':visible') then $($elem).parent.addClass('content-open') else $($elem).parent.removeClass('content-open')

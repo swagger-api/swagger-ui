@@ -31,7 +31,7 @@ class Resource extends Backbone.Model
         viewId: @get('name') + "_" + type
         operationsArray: operationsByType[type]
         })
-  
+
     @set('typeModels', typeModels)
 
   getType: (swaggerOperation) ->
