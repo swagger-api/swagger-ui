@@ -18002,7 +18002,7 @@ section.c-box-filter p.c-t-note {
     flex: 1 1 100%;
   }
   .flex-wrapper .rest-api-content-wrapper {
-    padding-top: 0;
+    padding-top: 24px;
     flex: 1 1 100%;
     background: #FBFBFB;
   }
