@@ -546,7 +546,7 @@ function program10(depth0,data) {
 function program12(depth0,data) {
   
   
-  return "\n    <div style='margin:0;padding:0;display:inline'></div>\n    <div class=\"row\">\n      <div class=\"col-sm-12\">\n        <h5>Response Messages</h5>\n      </div>\n    </div>\n    <table class='fullwidth'>\n      <thead>\n      <tr>\n        <th>HTTP Status Code</th>\n        <th>Reason</th>\n        <th>Response Model</th>\n      </tr>\n      </thead>\n      <div class=\"col-sm-6 operation-status\">\n      \n      </div>\n    </table>\n    ";
+  return "\n    <div style='margin:0;padding:0;display:inline'></div>\n    <div class=\"row\">\n      <div class=\"col-sm-12\">\n        <h5>Response Messages</h5>\n      </div>\n    </div>\n    <table class='fullwidth'>\n      <thead>\n      <tr>\n        <th>HTTP Status Code</th>\n        <th>Reason</th>\n        <th>Response Model</th>\n      </tr>\n      </thead>\n      <div class=\"col-sm-6 operation-status\">\n\n      </div>\n    </table>\n    ";
   }
 
 function program14(depth0,data) {
@@ -623,15 +623,7 @@ function program14(depth0,data) {
   buffer += "\n  <form accept-charset='UTF-8' class='sandbox'>\n    <div style='margin:0;padding:0;display:inline'></div>\n    ";
   stack1 = helpers['if'].call(depth0, depth0.parameters, {hash:{},inverse:self.noop,fn:self.program(10, program10, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n    <div class=\"row\">\n      <div class=\"col-sm-6\">\n        <button class='c-button-secondary submit ";
-  if (stack1 = helpers.method) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.method; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "' name='commit' type='button submit'>Submit ";
-  if (stack1 = helpers.method) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.method; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</button>\n        <div class='sandbox_header'>\n          <button class='response_hider' type='button' style='display:none' href='#'>Hide Response</button>\n        </div>\n        <div class=\"row\">\n          <div class='response col-sm-12' style='display:none'>\n            <h6>Request URL</h6>\n            <div class='block request_url'></div>\n            <h6>Response Body</h6>\n            <div class='block response_body'></div>\n            <h6>Response Code</h6>\n            <div class='block response_code'></div>\n            <h6>Response Headers</h6>\n            <div class='block response_headers'></div>\n          </div>\n        </div>\n      </div>\n    </div>\n    ";
+  buffer += "\n    ";
   stack1 = helpers['if'].call(depth0, depth0.responseMessages, {hash:{},inverse:self.noop,fn:self.program(12, program12, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n    ";
@@ -710,7 +702,7 @@ function program9(depth0,data) {
   buffer += "\n				";
   stack1 = helpers['if'].call(depth0, depth0.defaultValue, {hash:{},inverse:self.program(12, program12, data),fn:self.program(10, program10, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n			</div>\n		";
+  buffer += "\n		";
   return buffer;
   }
 function program10(depth0,data) {
@@ -758,7 +750,15 @@ function program16(depth0,data) {
     + "</label>\n		";
   stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(9, program9, data),fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n		</div>\n	</div>\n</div>\n<div class=\"row\">\n	<div class=\"col-sm-12 model\">\n		";
+  buffer += "\n			</div>\n		</div>\n	</div>\n</div>\n<div class=\"row\">\n	<div class=\"col-sm-6\">\n		<button class='c-button-secondary submit ";
+  if (stack1 = helpers.method) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.method; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "' name='commit' type='button submit'>Submit ";
+  if (stack1 = helpers.method) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.method; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</button>\n		<div class='sandbox_header'>\n			<button class='response_hider' type='button' style='display:none' href='#'>Hide Response</button>\n		</div>\n		<div class=\"row\">\n			<div class='response col-sm-12' style='display:none'>\n				<h6>Request URL</h6>\n				<div class='block request_url'></div>\n				<h6>Response Body</h6>\n				<div class='block response_body'></div>\n				<h6>Response Code</h6>\n				<div class='block response_code'></div>\n				<h6>Response Headers</h6>\n				<div class='block response_headers'></div>\n			</div>\n		</div>\n	</div>\n</div>\n<div class=\"row\">\n	<div class=\"col-sm-12 model\">\n		";
   stack1 = helpers['if'].call(depth0, depth0.isBody, {hash:{},inverse:self.program(16, program16, data),fn:self.program(14, program14, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n	</div>\n</div>\n";
@@ -1256,7 +1256,7 @@ function program1(depth0,data) {
   return buffer;
   }
 
-  buffer += "<div class=\"heading row\">\n  <div class=\"col-xs-8\">\n    <h2 class=\"resource-title\">\n      <a href=\"#!/";
+  buffer += "<div class=\"heading row\">\n  <div class=\"col-xs-6 col-sm-8\">\n    <h2 class=\"resource-title\">\n      <a href=\"#!/";
   if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -1270,7 +1270,7 @@ function program1(depth0,data) {
   else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if (!helpers.description) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n    </h2>\n  </div>\n  <div class=\"options col-xs-4 text-right\">\n    <button class=\"button__toggle expand_button\" href=\"#\">\n      <i class=\"fa fa-plus-square-o\"></i>\n      Show Operations\n    </button>\n    <button class=\"button__toggle collapse_button\" href=\"#\" hidden=\"true\">\n      <i class=\"fa fa-minus-square-o\"></i>\n      Hide Operations\n    </button>\n  </div>\n</div>\n<div class=\"row\">\n  <div class='operationTypes' id='";
+  buffer += "\n    </h2>\n  </div>\n  <div class=\"options col-xs-6 col-sm-4 text-right\">\n    <button class=\"button__toggle expand_button\" href=\"#\">\n      <i class=\"fa fa-plus-square-o\"></i>\n      Show Operations\n    </button>\n    <button class=\"button__toggle collapse_button\" href=\"#\" hidden=\"true\">\n      <i class=\"fa fa-minus-square-o\"></i>\n      Hide Operations\n    </button>\n  </div>\n</div>\n<div class=\"row\">\n  <div class='operationTypes' id='";
   if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)

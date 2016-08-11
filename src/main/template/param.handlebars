@@ -21,8 +21,28 @@
 				{{else}}
 					<input class="c-input-text parameter param-value" minlength='0' name='{{name}}' placeholder='' type='text' value=''/>
 				{{/if}}
-			</div>
 		{{/if}}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-6">
+		<button class='c-button-secondary submit {{method}}' name='commit' type='button submit'>Submit {{method}}</button>
+		<div class='sandbox_header'>
+			<button class='response_hider' type='button' style='display:none' href='#'>Hide Response</button>
+		</div>
+		<div class="row">
+			<div class='response col-sm-12' style='display:none'>
+				<h6>Request URL</h6>
+				<div class='block request_url'></div>
+				<h6>Response Body</h6>
+				<div class='block response_body'></div>
+				<h6>Response Code</h6>
+				<div class='block response_code'></div>
+				<h6>Response Headers</h6>
+				<div class='block response_headers'></div>
+			</div>
 		</div>
 	</div>
 </div>

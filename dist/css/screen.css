@@ -16906,14 +16906,12 @@ textarea {
 .model-signature,
 .data-type {
   text-transform: none;
-}
-.model-signature:before,
-.data-type:before {
-  content: '(';
-}
-.model-signature:after,
-.data-type:after {
-  content: ')';
+  /* &:before {
+    content: '(';
+  }
+  &:after {
+    content: ')';
+  } */
 }
 header.section-header {
   height: 40px;
