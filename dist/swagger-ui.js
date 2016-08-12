@@ -24541,6 +24541,7 @@ SwaggerUi.Views.ResourceView = Backbone.View.extend({
     if (this.model.description) {
       this.model.summary = this.model.description;
     }
+    this.number = 0;
   },
 
   render: function(){
@@ -24602,6 +24603,7 @@ SwaggerUi.Views.ResourceView = Backbone.View.extend({
     Docs[fnName](e.currentTarget.getAttribute('data-id'));
   }
 });
+
 'use strict';
 
 SwaggerUi.Views.ResponseContentTypeView = Backbone.View.extend({
