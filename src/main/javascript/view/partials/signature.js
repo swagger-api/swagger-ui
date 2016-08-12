@@ -11,6 +11,37 @@ SwaggerUi.partials.signature = (function () {
     return schema;
   };
 
+  //fork: we sometimes have "nullable" properties which we implement using the
+  //json schema "oneOf" operation. ie:
+  //
+  // "depotIds": {
+  //   "oneOf": [
+  //     {"type": "null"},
+  //     {
+  //       "type": "array",
+  //       "items": {
+  //         "type": "integer"
+  //       }
+  //     }
+  //   ]
+  // }
+  //
+  // this function removes the "oneOf" property and assigns the non-null definition
+  // to the object
+  var resolveOneOf = function (schema) {
+    if (schema.oneOf) {
+      var nonNull = schema.oneOf.filter(function(option) {
+        if (option.description === 'Empty string') {
+          return false;
+        }
+        return option.type !== 'null';
+      });
+      Object.assign(schema, nonNull[0]);
+      delete schema.oneOf;
+    }
+    return schema;
+  };
+
   // copy-pasted from swagger-js
   var simpleRef = function (name) {
     if (typeof name === 'undefined') {
@@ -252,6 +283,7 @@ SwaggerUi.partials.signature = (function () {
 
     function primitiveToOptionsHTML(schema, html) {
       var options = '';
+      schema = resolveOneOf(schema);
       var type = schema.type || 'object';
       var isArray = type === 'array';
 
@@ -354,6 +386,7 @@ SwaggerUi.partials.signature = (function () {
     }
 
     function processModel(schema, name) {
+      schema = resolveOneOf(schema);
       var type = schema.type || 'object';
       var isArray = schema.type === 'array';
       var html = strongOpen + name + ' ' + (isArray ? '[' : '{') + strongClose;
@@ -406,6 +439,7 @@ SwaggerUi.partials.signature = (function () {
         } else if (type === 'object') {
           if (_.isPlainObject(schema.properties)) {
             contents = _.map(schema.properties, function (property, name) {
+              property = resolveOneOf(property);
               var propertyIsRequired = (_.indexOf(schema.required, name) >= 0);
               var cProperty = _.cloneDeep(property);
 
@@ -470,6 +504,8 @@ SwaggerUi.partials.signature = (function () {
     }
 
     modelsToIgnore= modelsToIgnore || {};
+
+    schema = resolveOneOf(schema);
 
     var type = schema.type || 'object';
     var format = schema.format;
