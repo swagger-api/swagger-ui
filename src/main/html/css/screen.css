@@ -343,11 +343,11 @@
   height: 0;
 }
 .swagger-ui-wrap .swagger-scroll-top {
-  display: none;
   position: absolute;
   right: -20px;
 }
 .swagger-ui-wrap .swagger-scroll-top a {
+  display: none;
   position: fixed;
   bottom: 50px;
   background-color: #F8F8F8;
