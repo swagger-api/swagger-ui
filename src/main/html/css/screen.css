@@ -395,6 +395,9 @@
 .swagger-section .swagger-ui-wrap table.fullwidth {
   width: 100%;
 }
+.swagger-section .swagger-ui-wrap .parameter-content-type {
+  visibility: hidden;
+}
 .swagger-section .swagger-ui-wrap .model-signature {
   font-family: "Droid Sans", sans-serif;
   font-size: 1em;
@@ -422,7 +425,7 @@
   font-size: .85em;
   line-height: 1.2em;
   overflow: auto;
-  max-height: 200px;
+  max-height: 800px;
   cursor: pointer;
 }
 .swagger-section .swagger-ui-wrap .model-signature ul.signature-nav {
@@ -508,7 +511,7 @@
   clear: both;
 }
 .swagger-section .swagger-ui-wrap .body-textarea {
-  width: 300px;
+  width: 150px;
   height: 100px;
   border: 1px solid #aaa;
 }
