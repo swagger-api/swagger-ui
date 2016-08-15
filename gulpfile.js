@@ -81,7 +81,8 @@ function _less() {
       './src/main/less/screen.less',
       './src/main/less/print.less',
       './src/main/less/reset.less',
-      './src/main/less/style.less'
+      './src/main/less/style.less',
+      './node_modules/flag-icon-css/css/flag-icon.css'
     ])
     .pipe(less())
     .on('error', function(err){ log(err); this.emit('end');})
@@ -95,6 +96,7 @@ gulp.task('dev-less', _less);
  */
 gulp.task('copy', ['less'], _copy);
 function _copy() {
+
   // copy JavaScript files inside lib folder
   gulp
     .src(['./lib/**/*.{js,map}',
@@ -113,6 +115,17 @@ function _copy() {
   gulp
     .src(['./src/main/html/**/*'])
     .pipe(gulp.dest('./dist'))
+    .on('error', log);
+  var flags = './node_modules/flag-icon-css/flags/4x3/';
+  var images = ['us.svg', 'cn.svg','fr.svg','es.svg','pt.svg','ru.svg','kr.svg', 'jp.svg'];
+
+  images = images.map(function (image) {
+    return flags + image;
+  });
+  // copy flags
+  gulp
+    .src(images)
+    .pipe(gulp.dest('./dist/flags/4x3'))
     .on('error', log);
 }
 gulp.task('dev-copy', ['dev-less', 'copy-local-specs'], _copy);

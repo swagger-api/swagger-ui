@@ -1487,3 +1487,19 @@
   outline-color: #cc0000;
   background-color: #f2dede;
 }
+.mg-language-button {
+  padding: 2px;
+  margin: 0;
+  cursor: pointer;
+  border: 0 solid transparent;
+  box-shadow: none;
+  background: transparent;
+  background-size: cover;
+  background-position: center;
+}
+.mg-language {
+  display: inline-block;
+  width: 15px;
+  height: 10px;
+  border: 1px solid #eee;
+}
