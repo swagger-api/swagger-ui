@@ -75,7 +75,7 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
 
         var host = window.location;
         var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-        var tokenUrl = host.protocol + '//' + host.host + pathname.replace('swagger', 'token');
+        var tokenUrl = host.protocol + '//' + host.host.replace('api', 'auth') + pathname.replace('Services', 'AuthorizationServer').replace('swagger', 'oauth/token');
         var $btn = this.ui.$submit;
         var $serverValidationError = this.ui.$serverValidationError;
 
