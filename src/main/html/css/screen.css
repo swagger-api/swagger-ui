@@ -376,7 +376,7 @@
   font-weight: 600;
 }
 .swagger-ui-wrap .switch-button-panel .filter-button:hover {
-  background-color: #F5F7FB;
+  background-color: #DBE4F0;
 }
 .swagger-ui-wrap .switch-button-panel .filter-button.active {
   background-color: #4D88BC;
@@ -1286,8 +1286,7 @@ body {
   text-align: left;
 }
 .swagger-section .gb-header-nav .gb-header-nav-inner > ul > li.is-selected a {
-  opacity: 0.5;
-  background: none;
+  background-color: #aac4dd;
   cursor: default;
 }
 .swagger-section .gb-header-nav .gb-header-nav-inner a {
@@ -1298,7 +1297,7 @@ body {
   white-space: nowrap;
 }
 .swagger-section .gb-header-nav .gb-header-nav-inner a:hover {
-  background-color: #A6C9E3;
+  background-color: #c3d6e8;
 }
 .swagger-section .gb-header-nav > li {
   float: left;
@@ -1463,16 +1462,20 @@ body {
   content: " ";
   clear: both;
 }
+.swagger-section .gb-content .column-layout-x2:last-child > .column-item {
+  padding-bottom: 0;
+}
 .swagger-section .gb-content .list-disc,
 .swagger-section .gb-content .list-number,
 .swagger-section .gb-content .list-indent {
-  padding-left: 25px;
+  padding-left: 35px;
 }
 .swagger-section .gb-content .list-disc > li,
 .swagger-section .gb-content .list-number > li,
 .swagger-section .gb-content .list-indent > li {
   position: relative;
   list-style-position: outside;
+  line-height: 1.5;
 }
 .swagger-section .gb-content .list-disc > li:before,
 .swagger-section .gb-content .list-number > li:before,
@@ -1486,7 +1489,7 @@ body {
 .swagger-section .gb-content .list-number > li:before {
   counter-increment: list;
   content: counter(list) ". ";
-  left: -19px;
+  left: -20px;
 }
 .swagger-section .gb-content .list-number.list-step-4 {
   counter-reset: list 3;
@@ -1494,7 +1497,7 @@ body {
 .swagger-section .gb-content .list-disc > li:before {
   content: "";
   display: block;
-  left: -17px;
+  left: -15px;
   background-color: #3D4246;
   border: 2px solid #3D4246;
   border-radius: 3px;
@@ -1503,12 +1506,13 @@ body {
   margin-top: 6px;
 }
 .swagger-section .gb-content .list-disc ul {
-  padding-left: 25px;
+  padding-left: 35px;
   counter-reset: list 0;
 }
 .swagger-section .gb-content .list-disc ul > li {
   position: relative;
   list-style-position: outside;
+  line-height: 1.5;
 }
 .swagger-section .gb-content .list-disc ul > li:before {
   display: inline-block;
@@ -1517,17 +1521,18 @@ body {
 .swagger-section .gb-content .list-disc ul > li:before {
   counter-increment: list;
   content: counter(list) ". ";
-  left: -19px;
+  left: -20px;
 }
 .swagger-section .gb-content .list-disc ul.list-step-4 {
   counter-reset: list 3;
 }
 .swagger-section .gb-content .list-disc ol {
-  padding-left: 25px;
+  padding-left: 35px;
 }
 .swagger-section .gb-content .list-disc ol > li {
   position: relative;
   list-style-position: outside;
+  line-height: 1.5;
 }
 .swagger-section .gb-content .list-disc ol > li:before {
   display: inline-block;
@@ -1543,8 +1548,15 @@ body {
 .swagger-section .gb-content .list-disc p + dl {
   padding-top: 0;
 }
+.swagger-section .gb-content .list-between-indent > li {
+  padding-bottom: 20px;
+}
+.swagger-section .gb-content .list-between-indent > li:last-child {
+  padding-bottom: 0;
+}
 .swagger-section .gb-content .el-separation {
   border-top: 1px solid #D2D2D2;
+  margin: 0 -10px;
   padding-bottom: 20px;
 }
 .swagger-section .access {
@@ -1702,5 +1714,11 @@ body {
   color: #F5F7FB;
 }
 li.separator {
-  margin-top: 35px !important;
+  height: 40px;
+}
+li.separator:last-child {
+  height: 0;
+}
+.intappBlue {
+  color: #4D88BC;
 }

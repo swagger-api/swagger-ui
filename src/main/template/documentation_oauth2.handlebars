@@ -24,7 +24,7 @@
 
         <h2>Relevant links</h2>
 
-        <ol>
+        <ol class="list-between-indent">
             <li><b>Open Application:</b> https://&lt;tenant_id&gt;.open.intapp.com
             <li><b>Open REST API’s</b>
                 <ol class="list-disc">
@@ -41,24 +41,22 @@
             </li>
         </ol>
 
-        <h2>Development steps</h2>
+        <h2>OAuth2 Development steps</h2>
 
-        <h3>OAuth2</h3>
-
-        <ol>
-            <li><b>Developer Step 1:</b> Request the your IT Admin to create your user account
+        <ol class="list-between-indent">
+            <li><b class="intappBlue">Developer Step 1:</b> Request the your IT Admin to create your user account
                 <ol class="list-disc">
                     <li><dfn class="dfn-green">IT Admin Step 1:</dfn> Create a user account with relevant details under System > Users. Activate the account and convey credentials to the API user if not using Windows Login.</li>
                 </ol>
             </li>
-            <li><b>Developer Step 2:</b> Request the your IT Admin to register an application on your behalf
+            <li><b class="intappBlue">Developer Step 2:</b> Request the your IT Admin to register an application on your behalf
                 <ol class="list-disc">
                     <li><dfn class="dfn-green">IT Admin Step 2:</dfn> Create a new application under System > API. Add the newly created user under the Application Users tab and save changes. This grants the user the capability to access all endpoints.
                         <p><b>Note:</b> <dfn>API access can be made more granular under the Users profile tab that administrators control. These capabilities are detailed in the Administrator Guide.</dfn></p>
                     </li>
                 </ol>
             </li>
-            <li><b>Developer Step 3:</b> Recieve the Authorization Code
+            <li><b class="intappBlue">Developer Step 3:</b> Recieve the Authorization Code
                 <ol class="list-disc">
                     <li><dfn class="dfn-green">IT Admin Step 3:</dfn> Pick either of the following authorization paths.
                         <ul>
@@ -88,7 +86,7 @@
                     </li>
                 </ol>
             </li>
-            <li><b>Developer Step 4:</b> Send the Authorization Code to get a Refresh Token and temporary Access Token
+            <li><b class="intappBlue">Developer Step 4:</b> Send the Authorization Code to get a Refresh Token and temporary Access Token
                 <ol class="list-disc">
                     <li>
                         <p><b>POST</b> https://api-&lt;tenant_id&gt;.open.intapp.com/token</p>
@@ -104,7 +102,7 @@
                     </li>
                 </ol>
             </li>
-            <li><b>Developer Step 5:</b> Store the Refresh Token and Access Token
+            <li><b class="intappBlue">Developer Step 5:</b> Store the Refresh Token and Access Token
                 <ol class="list-disc">
                     <li>
                         <p>JSON response received</p>
@@ -121,7 +119,7 @@
                     </li>
                 </ol>
             </li>
-            <li><b>Developer Step 6:</b> Use Access Token to make API calls (examples)
+            <li><b class="intappBlue">Developer Step 6:</b> Use Access Token to make API calls (examples)
                 <ol class="list-indent">
                     <li>
                         <dl>
@@ -133,7 +131,7 @@
                     </li>
                 </ol>
             </li>
-            <li><b>Developer Step 7:</b> Use Refresh Token after Access Token expires to get a new Access Token
+            <li><b class="intappBlue">Developer Step 7:</b> Use Refresh Token after Access Token expires to get a new Access Token
                 <ol class="list-disc">
                     <li>
                         <p><b>POST</b> https://api-&lt;tenant_id&gt;.open.intapp.com/token</p>
@@ -167,8 +165,6 @@ GET https://api-&lt;tenant_id&gt;.open.intapp.com/authorize?response_type=code&c
             <div class="column-item">
                 <h4>Response</h4>
                 <div class="pre-code">
-{Response}
-
 You will be redirected (302) to:
 
 GET https://api-&lt;tenant_id&gt;.open.intapp.com :443/oauth2/callback?code=fb7cb018a05f4902b8e145c44d1b0ea3
@@ -192,8 +188,6 @@ POST https://api-&lt;tenant_id&gt;.open.intapp.com/token HTTP/1.1
             <div class="column-item">
                 <h4>Response</h4>
                 <div class="pre-code">
-{Response}
-
     {
         "access_token": "QjzOw0KJNnVbZsHssN6tz9tyku0TU8RBDUFNuUcLWHpmbGSkDBbqYAXYsIOkFZesODg9XdO5MINLU-aDFrfI3Un9CokvImQlx99YQb-j6nziKyHn_z4VF3LJWfnLhouKj41fGdjcId0Th5DOAbxLUZg0YTFXzenvf_ScQBmttdcoXIMzitOI8Yc5IOGS8HT344i6_-StpsRRX69F1l0o6HVR00MRAHeQeWZ_hH7PssehNWQZPXFdYkXpYPp4SaeXtrFMHQ",
         "token_type": "bearer",
@@ -220,8 +214,6 @@ grant_type=refresh_token&client_id=1&client_secret=x7AqlRO6CAX3yfoVblz7Bmz6PIk=&
             <div class="column-item">
                 <h4>Response</h4>
                 <div class="pre-code">
-{Response}
-
     {
         "access_token": "m8kPwyrwxFfUHdpDRKJJSJGJx29ATimHs_ue6FhAkcbl6K5wVCCu9eb8FsALAbAt8fPlBxfgrzEW8Bf1ZE6rSf_4xv73hwW5mWimcTgaEFeUNsvK0LuvK3hBoU5sHxDV_sCLNKxNn0rWTRgym6DMecFABQ-1TGzyaCiWF1_PlMHrKH-b-X_dDmevtKgIHAAZRsykJEUehyL1NZ9WCU8sHdoMGJZMVIz17yMJrRuMA18oi64sxPjK-LB0fhPgJQNLg8WWegyccJhD5rnjuuJNHFGg6n4",
         "token_type": "bearer",
@@ -248,8 +240,6 @@ Authorization: Bearer m8kPwyrwxFfUHdpDRKJJSJGJx29ATimHs_ue6FhAkcbl6K5wVCCu9eb8Fs
             <div class="column-item">
                 <h4>Response</h4>
                 <div class="pre-code">
-{Response}
-
     {
         "addresses": [],
         "aliases": [],

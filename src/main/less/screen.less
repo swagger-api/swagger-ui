@@ -74,8 +74,7 @@ body {
 
                 > li.is-selected {
                     a {
-                        opacity: 0.5;
-                        background: none;
+                        background-color: #aac4dd;
                         cursor: default;
                     }
                 }
@@ -88,7 +87,7 @@ body {
                 text-decoration: none;
                 white-space: nowrap;
 
-                &:hover { background-color: @intappCG7; }
+                &:hover { background-color:lighten(@intappCG1, 20%); }
             }
         }
 
@@ -254,16 +253,21 @@ body {
             }
 
             &:after { .clear-all; }
+
+            &:last-child {
+                > .column-item { padding-bottom: 0; }
+            }
         }
 
         .list-disc,
         .list-number,
         .list-indent {
-            padding-left: 25px;
+            padding-left: 35px;
 
             > li {
                 position: relative;
                 list-style-position: outside;
+                line-height: 1.5;
 
                 &:before {
                     display: inline-block;
@@ -278,7 +282,7 @@ body {
             > li:before {
                 counter-increment: list;
                 content: counter(list) ". ";
-                left: -19px;
+                left: -20px;
             }
 
             &.list-step-4 { counter-reset: list 3; }
@@ -289,7 +293,7 @@ body {
             > li:before {
                 content: "";
                 display: block;
-                left: -17px;
+                left: -15px;
                 background-color: @intappDarkGrey;
                 border: 2px solid @intappDarkGrey;
                 border-radius: 3px;
@@ -306,8 +310,16 @@ body {
             dl + p, p + dl { padding-top: 0; }
         }
 
+        .list-between-indent {
+            > li {
+                padding-bottom: 20px;
+                &:last-child { padding-bottom: 0; }
+            }
+        }
+
         .el-separation {
             border-top: 1px solid @intappVeryLightGrey;
+            margin: 0 -10px;
             padding-bottom: 20px;
         }
     }
@@ -474,4 +486,9 @@ body {
 .link-light-blue { color: @intappLightBlue; }
 .link-light-blue:hover { color: @intappVeryLightBlue; }
 
-li.separator { margin-top: 35px !important; }
+li.separator {
+    height: 40px;
+    &:last-child { height: 0; }
+}
+
+.intappBlue { color: @intappBlue; }
