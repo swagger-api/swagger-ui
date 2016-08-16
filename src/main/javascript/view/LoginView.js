@@ -7,7 +7,8 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
 
     events: {
         'submit form': 'onFormSubmit',
-        'keyup input': 'onInputChange'
+        'keyup input': 'onInputChange',
+        'blur input': 'onInputChange'
     },
 
     render: function () {
@@ -46,8 +47,10 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
             $container = $target.closest('div'),
             value = $target.val();
 
-        if(e.which !== 13) {
+        // Check "Enter" or "Tab" key pressed
+        if(e.which !== 13 && e.which !== 9) {
             $container[value ? 'removeClass' : 'addClass']('is-invalid');
+
             this.ui.$submit.prop('disabled', !this.isValidForm());
             this.ui.$serverValidationError.removeClass('is-invalid');
         }
