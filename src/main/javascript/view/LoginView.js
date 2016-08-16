@@ -47,6 +47,7 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
             $container = $target.closest('div'),
             value = $target.val();
 
+        // Check "Enter" or "Tab" key pressed
         if(e.which !== 13 && e.which !== 9) {
             $container[value ? 'removeClass' : 'addClass']('is-invalid');
 
