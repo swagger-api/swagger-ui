@@ -1,8 +1,8 @@
-<label data-sw-translate for="{{contentTypeId}}">Response Content Type</label>
-<select name="contentType" id="{{contentTypeId}}">
+<label data-sw-translate for="{{{escape contentTypeId}}}">Response Content Type</label>
+<select name="contentType" id="{{{escape contentTypeId}}}">
 {{#if produces}}
   {{#each produces}}
-	<option value="{{this}}">{{this}}</option>
+	<option value="{{{sanitize this}}}">{{{sanitize this}}}</option>
 	{{/each}}
 {{else}}
   <option value="application/json">application/json</option>
