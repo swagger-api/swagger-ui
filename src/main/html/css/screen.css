@@ -1361,7 +1361,7 @@ body {
 }
 .swagger-section .gb-content h3 {
   color: #5D6164;
-  padding-bottom: 15px;
+  padding-bottom: 20px;
   font-size: 13px;
   font-weight: 600;
 }
@@ -1385,7 +1385,7 @@ body {
 }
 .swagger-section .gb-content ul,
 .swagger-section .gb-content ol {
-  padding-bottom: 25px;
+  padding-bottom: 20px;
 }
 .swagger-section .gb-content ul ul,
 .swagger-section .gb-content ol ul,
@@ -1456,6 +1456,9 @@ body {
 }
 .swagger-section .gb-content .column-layout-x2 > .column-item:nth-child(even) {
   padding-left: 5px;
+}
+.swagger-section .gb-content .column-layout-x2.column-layout-half > .column-item {
+  padding: 0 0 5px;
 }
 .swagger-section .gb-content .column-layout-x2:after {
   display: table;

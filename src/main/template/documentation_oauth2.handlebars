@@ -29,8 +29,8 @@
             <li><b>Open REST API’s</b>
                 <ol class="list-disc">
                     <li><b>Base URL:</b> https://api-&lt;tenant_id&gt;.open.intapp.com</li>
-                    <li><b>Authorization URL:</b> https://api-&lt;tenant_id&gt;.open.intapp.com/authorize</li>
-                    <li><b>Token URL:</b> https://api-&lt;tenant_id&gt;.open.intapp.com/token</li>
+                    <li><b>Authorization URL:</b> https://auth-&lt;tenant_id&gt;.open.intapp.com/oauth/authorize</li>
+                    <li><b>Token URL:</b> https://auth-&lt;tenant_id&gt;.open.intapp.com/oauth/token</li>
                 </ol>
             </li>
             <li><b>Interactive API documentation and guides</b>
@@ -43,108 +43,113 @@
 
         <h2>OAuth2 Development steps</h2>
 
-        <ol class="list-between-indent">
-            <li><b class="intappBlue">Developer Step 1:</b> Request the your IT Admin to create your user account
-                <ol class="list-disc">
-                    <li><dfn class="dfn-green">IT Admin Step 1:</dfn> Create a user account with relevant details under System > Users. Activate the account and convey credentials to the API user if not using Windows Login.</li>
-                </ol>
+        <h3><b class="intappBlue">Developer Step 1:</b> Request your IT Admin to create your user account</h3>
+        <ol class="list-disc">
+            <li><dfn class="dfn-green">IT Admin Step 1:</dfn> Create a user account with relevant details under System > Users. Activate the account and convey credentials to the API user if not using Windows Login.</li>
+        </ol>
+
+        <h3><b class="intappBlue">Developer Step 2:</b> Request the your IT Admin to register an application on your behalf</h3>
+        <ol class="list-disc">
+            <li><dfn class="dfn-green">IT Admin Step 2:</dfn> Create a new application under System > API. Add the newly created user under the Application Users tab and save changes. This grants the user the capability to access all endpoints.
+                <p><b>Note:</b> <dfn>API access can be made more granular under the Users profile tab that administrators control. These capabilities are detailed in the Administrator Guide.</dfn></p>
             </li>
-            <li><b class="intappBlue">Developer Step 2:</b> Request the your IT Admin to register an application on your behalf
-                <ol class="list-disc">
-                    <li><dfn class="dfn-green">IT Admin Step 2:</dfn> Create a new application under System > API. Add the newly created user under the Application Users tab and save changes. This grants the user the capability to access all endpoints.
-                        <p><b>Note:</b> <dfn>API access can be made more granular under the Users profile tab that administrators control. These capabilities are detailed in the Administrator Guide.</dfn></p>
+        </ol>
+
+        <h3><b class="intappBlue">Developer Step 3:</b> Recieve the Authorization Code</h3>
+        <ol class="list-disc">
+            <li><dfn class="dfn-green">IT Admin Step 3:</dfn> Pick either of the following authorization paths.
+                <ul>
+                    <li><b>Admin generated authorization</b>
+                        <p>In the application tab, next to a particular Application User, click ‘generate’ to create the Authorization Code. Securely send this code to the developer and prompt them to Sign In to get the Client Id, Client Secret, and pre-set Redirect URL. This authorization code is valid for 5 minutes.</p>
                     </li>
-                </ol>
+                    <li><b>Developer requested authorization</b>
+                        <p>Inform the developer/s that the application has been provisioned and they can Sign In to retrieve requisite details.</p>
+                    </li>
+                </ul>
             </li>
-            <li><b class="intappBlue">Developer Step 3:</b> Recieve the Authorization Code
-                <ol class="list-disc">
-                    <li><dfn class="dfn-green">IT Admin Step 3:</dfn> Pick either of the following authorization paths.
-                        <ul>
-                            <li><b>Admin generated authorization</b>
-                                <p>In the application tab, next to a particular Application User, click ‘generate’ to create the Authorization Code. Securely send this code to the developer and prompt them to Sign In to get the Client Id, Client Secret, and pre-set Redirect URL. This authorization code is valid for 5 minutes.</p>
-                            </li>
-                            <li><b>Developer requested authorization</b>
-                                <p>Inform the developer/s that the application has been provisioned and they can Sign In to retrieve requisite details.</p>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><b>Developer Step 3.1:</b> Use the following endpoint to generate the Authorization Code, unless your IT Admin has informed you otherwise.
-                        <p><b>GET</b> https://api-&lt;tenant_id&gt;.open.intapp.com/authorize</p>
-                        <dl>
-                            <dt>Parameter</dt><dd>Description</dd>
-                            <dt>response_type</dt><dd>code</dd>
-                            <dt>client_id</dt><dd><i>Application Client ID</i></dd>
-                            <dt>client_secret</dt><dd><i>Application Client Secret</i></dd>
-                            <dt>user_id</dt><dd><i>User ID</i></dd>
-                            <dt>tenant_id</dt><dd><i>Tenant ID</i></dd>
-                            <dt>redirect_uri</dt><dd><i>Redirect URL</i></dd>
-                        </dl>
-                        <p>You will get redirected to <a href="https://api-tenant1.opendev.intapp.com:443/oauth2/callback?code=Authorization_Code">https://api-tenant1.opendev.intapp.com:443/oauth2/callback?code=Authorization_Code</a></p>
-                    </li>
-                    <li><b>Developer Step 3.2:</b> Authenticate to receive the Authorization Code
-                        <p>This code will be sent to either the specified or standard redirect URL. This URL can be defined under application details within Open. Note that the code will only be valid for 5 minutes after which a new code will need to be generated.</p>
-                    </li>
-                </ol>
+            <li><b>Developer Step 3.1:</b> Use the following endpoint to generate the Authorization Code, unless your IT Admin has informed you otherwise.
+                <p><b>GET</b> https://auth-&lt;tenant_id&gt;.open.intapp.com/oauth/authorize</p>
+                <dl>
+                    <dt>Parameter</dt><dd>Description</dd>
+                    <dt>response_type</dt><dd>code</dd>
+                    <dt>client_id</dt><dd><i>Application Client ID</i></dd>
+                    <dt>client_secret</dt><dd><i>Application Client Secret</i></dd>
+                    <dt>user_id</dt><dd><i>User ID</i></dd>
+                    <dt>tenant_id</dt><dd><i>Tenant ID</i></dd>
+                    <dt>redirect_uri</dt><dd><i>Redirect URL</i></dd>
+                </dl>
+                <p>You will get redirected to <a href="https://api-tenant1.opendev.intapp.com:443/oauth2/callback?code=Authorization_Code">https://api-tenant1.opendev.intapp.com:443/oauth2/callback?code=Authorization_Code</a></p>
             </li>
-            <li><b class="intappBlue">Developer Step 4:</b> Send the Authorization Code to get a Refresh Token and temporary Access Token
-                <ol class="list-disc">
-                    <li>
-                        <p><b>POST</b> https://api-&lt;tenant_id&gt;.open.intapp.com/token</p>
-                        <dl>
-                            <dt>Parameter</dt><dd>Description</dd>
-                            <dt>grant_type</dt><dd>authorization_code</dd>
-                            <dt>tenant_id</dt><dd><i>Your law firm Tenant ID</i></dd>
-                            <dt>client_id</dt><dd><i>Application Client ID</i></dd>
-                            <dt>client_secret</dt><dd><i>Application Client Secret</i></dd>
-                            <dt>code</dt><dd><i>Received Authorization Code</i></dd>
-                            <dt>redirect_uri</dt><dd><i>Received Redirect URI</i></dd>
-                        </dl>
-                    </li>
-                </ol>
+            <li><b>Developer Step 3.2:</b> Authenticate to receive the Authorization Code
+                <p>This code will be sent to either the specified or standard redirect URL. This URL can be defined under application details within Open. Note that the code will only be valid for 5 minutes after which a new code will need to be generated.</p>
             </li>
-            <li><b class="intappBlue">Developer Step 5:</b> Store the Refresh Token and Access Token
-                <ol class="list-disc">
-                    <li>
-                        <p>JSON response received</p>
-<pre>
+        </ol>
+
+        <h3><b class="intappBlue">Developer Step 4:</b> Send the Authorization Code to get a Refresh Token and temporary Access Token</h3>
+        <ol class="list-disc">
+            <li>
+                <p><b>POST</b> https://auth-&lt;tenant_id&gt;.open.intapp.com/oauth/token</p>
+                <dl>
+                    <dt>Parameter</dt><dd>Description</dd>
+                    <dt>grant_type</dt><dd>authorization_code</dd>
+                    <dt>tenant_id</dt><dd><i>Your law firm Tenant ID</i></dd>
+                    <dt>client_id</dt><dd><i>Application Client ID</i></dd>
+                    <dt>client_secret</dt><dd><i>Application Client Secret</i></dd>
+                    <dt>code</dt><dd><i>Received Authorization Code</i></dd>
+                    <dt>redirect_uri</dt><dd><i>Received Redirect URI</i></dd>
+                </dl>
+            </li>
+        </ol>
+
+        <h3><b class="intappBlue">Developer Step 5:</b> Store the Refresh Token and Access Token</h3>
+        <ol class="list-disc">
+            <li>
+
+                <div class="column-layout-x2 column-layout-half">
+
+                    <div class="column-item">
+                        <h4>JSON response received</h4>
+                        <div class="pre-code">
     {
         “access_token” : “AeRw23fsdfSDaOh212LkIN”,
         “token_type” : “bearer”,
         “expires_in” : “86399”
         “refresh_token” : “EREADsdasd3242asAEEASAJ12123”
     }
-</pre>
-                        <p>The access token is valid for 24 hours after which, it must be refreshed using the refresh token.<br>
-                            This is detailed in Step 7 below.</p>
-                    </li>
-                </ol>
+                        </div>
+                    </div>
+
+                </div>
+
+                <p>The access token is valid for 24 hours after which, it must be refreshed using the refresh token.<br>
+                    This is detailed in Step 7 below.</p>
             </li>
-            <li><b class="intappBlue">Developer Step 6:</b> Use Access Token to make API calls (examples)
-                <ol class="list-indent">
-                    <li>
-                        <dl>
-                            <dt>Header</dt><dd>Description</dd>
-                            <dt>Accept</dt><dd>application/json</dd>
-                            <dt>Authorization</dt><dd>Bearer <i>Access Token</i></dd>
-                            <dt>Content-Type</dt><dd>application/json</dd>
-                        </dl>
-                    </li>
-                </ol>
+        </ol>
+
+        <h3><b class="intappBlue">Developer Step 6:</b> Use Access Token to make API calls (examples)</h3>
+        <ol class="list-indent">
+            <li>
+                <dl>
+                    <dt>Header</dt><dd>Description</dd>
+                    <dt>Accept</dt><dd>application/json</dd>
+                    <dt>Authorization</dt><dd>Bearer <i>Access Token</i></dd>
+                    <dt>Content-Type</dt><dd>application/json</dd>
+                </dl>
             </li>
-            <li><b class="intappBlue">Developer Step 7:</b> Use Refresh Token after Access Token expires to get a new Access Token
-                <ol class="list-disc">
-                    <li>
-                        <p><b>POST</b> https://api-&lt;tenant_id&gt;.open.intapp.com/token</p>
-                        <dl>
-                            <dt>Parameter</dt><dd>Description</dd>
-                            <dt>grant_type</dt><dd>refresh_token</dd>
-                            <dt>tenant_id</dt><dd><i>Your law firm Tenant ID</i></dd>
-                            <dt>client_id</dt><dd><i>Application Client ID</i></dd>
-                            <dt>client_secret</dt><dd><i>Application Client Secret</i></dd>
-                            <dt>refresh_token</dt><dd><i>Received Refresh Token</i></dd>
-                        </dl>
-                    </li>
-                </ol>
+        </ol>
+
+        <h3><b class="intappBlue">Developer Step 7:</b> Use Refresh Token after Access Token expires to get a new Access Token</h3>
+        <ol class="list-disc">
+            <li>
+                <p><b>POST</b> https://auth-&lt;tenant_id&gt;.open.intapp.com/oauth/token</p>
+                <dl>
+                    <dt>Parameter</dt><dd>Description</dd>
+                    <dt>grant_type</dt><dd>refresh_token</dd>
+                    <dt>tenant_id</dt><dd><i>Your law firm Tenant ID</i></dd>
+                    <dt>client_id</dt><dd><i>Application Client ID</i></dd>
+                    <dt>client_secret</dt><dd><i>Application Client Secret</i></dd>
+                    <dt>refresh_token</dt><dd><i>Received Refresh Token</i></dd>
+                </dl>
             </li>
         </ol>
 
@@ -159,7 +164,7 @@
             <div class="column-item">
                 <h4>Request</h4>
                 <div class="pre-code">
-GET https://api-&lt;tenant_id&gt;.open.intapp.com/authorize?response_type=code&client_id=1&client_secret=x7AqlRO6CAX3yfoVblz7Bmz6PIk=&user_id=1&tenant_id=&lt;tenant_id&gt;&redirect_uri= https://api-tenant1.opendev.intapp.com:443/oauth2/callback HTTP/1.1
+GET https://auth-&lt;tenant_id&gt;.open.intapp.com/oauth/authorize?response_type=code&client_id=1&client_secret=x7AqlRO6CAX3yfoVblz7Bmz6PIk=&user_id=1&tenant_id=&lt;tenant_id&gt;&redirect_uri= https://api-tenant1.opendev.intapp.com:443/oauth2/callback HTTP/1.1
                 </div>
             </div>
             <div class="column-item">
@@ -178,7 +183,7 @@ GET https://api-&lt;tenant_id&gt;.open.intapp.com :443/oauth2/callback?code=fb7c
             <div class="column-item">
                 <h4>Request</h4>
                 <div class="pre-code">
-POST https://api-&lt;tenant_id&gt;.open.intapp.com/token HTTP/1.1
+POST https://auth-&lt;tenant_id&gt;.open.intapp.com/oauth/token HTTP/1.1
 
 {Body}
 
@@ -204,7 +209,7 @@ POST https://api-&lt;tenant_id&gt;.open.intapp.com/token HTTP/1.1
             <div class="column-item">
                 <h4>Request</h4>
                 <div class="pre-code">
-POST https://api-&lt;tenant_id&gt;.open.intapp.com/token HTTP/1.1
+POST https://auth-&lt;tenant_id&gt;.open.intapp.com/oauth/token HTTP/1.1
 
 {Body}
 

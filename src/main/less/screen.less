@@ -164,7 +164,7 @@ body {
 
         h3 {
             color: @intappGrey;
-            padding-bottom: 15px;
+            padding-bottom: 20px;
             font-size: 13px;
             font-weight: 600;
         }
@@ -190,7 +190,7 @@ body {
         }
 
         ul, ol {
-            padding-bottom: 25px;
+            padding-bottom: 20px;
 
             ul, ol { padding: 6px 0 0; }
 
@@ -250,6 +250,10 @@ body {
 
                 &:nth-child(odd) { clear:left; padding-right: 5px; }
                 &:nth-child(even) { padding-left: 5px; }
+            }
+
+            &.column-layout-half {
+                > .column-item { padding: 0 0 5px; }
             }
 
             &:after { .clear-all; }
