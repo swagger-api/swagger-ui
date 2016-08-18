@@ -3,19 +3,19 @@
       <div class='heading'>
         <h3>
           <span class='http_method'>
-          <a href='#!/{{{escape encodedParentId}}}/{{{escape nickname}}}' class="toggleOperation">{{{escape method}}}</a>
+          <a href='#!/{{sanitize encodedParentId}}/{{sanitize nickname}}' class="toggleOperation">{{{escape method}}}</a>
           </span>
           <span class='path'>
-          <a href='#!/{{{escape encodedParentId}}}/{{{escape nickname}}}' class="toggleOperation {{#if deprecated}}deprecated{{/if}}">{{{escape path}}}</a>
+          <a href='#!/{{sanitize encodedParentId}}/{{sanitize nickname}}' class="toggleOperation {{#if deprecated}}deprecated{{/if}}">{{{escape path}}}</a>
           </span>
         </h3>
         <ul class='options'>
           <li>
-          <a href='#!/{{{escape encodedParentId}}}/{{{escape nickname}}}' class="toggleOperation">{{{escape summary}}}</a>
+          <a href='#!/{{sanitize encodedParentId}}/{{sanitize nickname}}' class="toggleOperation">{{{escape summary}}}</a>
           </li>
         </ul>
       </div>
-      <div class='content' id='{{{escape encodedParentId}}}/{{{escape nickname}}}_content' style='display:none'>
+      <div class='content' id='{{sanitize encodedParentId}}_{{sanitize nickname}}_content' style='display:none'>
         {{#if deprecated}}
             <h4><span data-sw-translate>Warning: Deprecated</span></h4>
         {{/if}}
