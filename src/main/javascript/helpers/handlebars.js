@@ -1,12 +1,26 @@
 'use strict';
 /*jslint eqeq: true*/
 
-var sanitize = function(html) {
-    html = html || '';
-    // Strip the script tags from the html, and return it as a Handlebars.SafeString
+var _sanitize = function(html) {
+    // Strip the script tags from the html and inline evenhandlers
     html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
     html = html.replace(/(on\w+="[^"]*")*(on\w+='[^']*')*(on\w+=\w*\(\w*\))*/gi, '');
-    return new Handlebars.SafeString(html);
+
+    return html;
+};
+
+var sanitize =function (html) {
+    var _html;
+    if( _.isUndefined(html) || _.isNull(html) || _.isNumber(html))  {
+        return new Handlebars.SafeString(html);
+    }
+
+    if (_.isObject(html)){
+        _html = JSON.stringify(html);
+        return new Handlebars.SafeString(JSON.parse(_sanitize(_html)));
+    }
+
+    return new Handlebars.SafeString(_sanitize(html));
 };
 
 Handlebars.registerHelper('sanitize', sanitize);
