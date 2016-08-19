@@ -35,6 +35,7 @@
       } else {
         url = "http://petstore.swagger.io/v2/swagger.json";
       }
+      var swaggerRequestHeaders = window.location.search.match(/swaggerRequestHeaders=([^&]+)/);
 
       // Pre load translate...
       if(window.SwaggerTranslator) {
@@ -42,6 +43,7 @@
       }
       window.swaggerUi = new SwaggerUi({
         url: url,
+        swaggerRequestHeaders: swaggerRequestHeaders,
         dom_id: "swagger-ui-container",
         supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
         onComplete: function(swaggerApi, swaggerUi){
