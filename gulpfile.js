@@ -1,7 +1,6 @@
 'use strict';
 
 var gulp = require('gulp');
-var es = require('event-stream');
 var clean = require('gulp-clean');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
@@ -13,6 +12,7 @@ var connect = require('gulp-connect');
 var header = require('gulp-header');
 var order = require('gulp-order');
 var jshint = require('gulp-jshint');
+var exec = require('gulp-exec');
 var pkg = require('./package.json');
 
 var banner = ['/**',
@@ -45,18 +45,14 @@ gulp.task('lint', function () {
 /**
  * Build a distribution
  */
-gulp.task('dist', ['clean', 'lint'], _dist);
+gulp.task('dist', ['clean', 'handlebars', 'lint'], _dist);
 function _dist() {
-  return es.merge(
-    gulp.src([
+  return gulp.src([
         './node_modules/es5-shim/es5-shim.js',
         './src/main/javascript/**/*.js',
+        './src/generated/templates.js',
         './node_modules/swagger-client/browser/swagger-client.js'
-      ]),
-      gulp
-        .src(['./src/main/template/templates.js'])
-        .on('error', log)
-    )
+    ])
     .pipe(order(['scripts.js', 'templates.js']))
     .pipe(concat('swagger-ui.js'))
     .pipe(wrap('(function(){<%= contents %>}).call(this);'))
@@ -69,7 +65,7 @@ function _dist() {
     .pipe(gulp.dest('./dist'))
     .pipe(connect.reload());
 }
-gulp.task('dev-dist', ['lint', 'dev-copy'], _dist);
+gulp.task('dev-dist', ['handlebars', 'lint', 'dev-copy'], _dist);
 
 /**
  * Processes less files into CSS files
@@ -130,7 +126,7 @@ gulp.task('copy-local-specs', function () {
  */
 gulp.task('watch', ['copy-local-specs'], function() {
   return watch([
-    './src/**/*.{js,less,handlebars}',
+    './src/main/**/*.{js,less,handlebars}',
     './src/main/html/*.html',
     './test/specs/**/*.{json,yaml}'
     ],
@@ -154,11 +150,17 @@ function log(error) {
 }
 
 gulp.task('handlebars', function () {
-    gulp
-        .src(['./src/main/template/templates.js'])
-        .pipe(wrap('/* jshint ignore:start */ \n {<%= contents %>} \n /* jshint ignore:end */'))
-        .pipe(gulp.dest('./src/main/template/'))
-        .on('error', log);
+    var options = {
+      continueOnError: false, // default = false, true means don't emit error event 
+      pipeStdout: true, // default = false, true means stdout is written to file.contents
+    };
+
+    gulp.src('./src/main/template/**')
+      .pipe(exec('./node_modules/handlebars/bin/handlebars ./src/main/template', options))
+      .pipe(wrap('/* jshint ignore:start */ \n {<%= contents %>} \n /* jshint ignore:end */', {}, { parse: false }))
+      .pipe(rename('templates.js'))
+      .pipe(gulp.dest('./src/generated/'))
+      .on('error', log);
 });
 
 gulp.task('default', ['dist', 'copy']);
