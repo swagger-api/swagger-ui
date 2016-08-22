@@ -139,6 +139,12 @@ window.SwaggerUi = Backbone.Router.extend({
   render: function(){
     var authsModel;
     this.showMessage('Finished Loading Resource Information. Rendering Swagger UI...');
+    // If the basePath given in the spec needs to be overridden, we have to do it after
+    // the client object is fully initialized, which is to say here:
+    if (this.options.basePath) {
+      this.api.setBasePath(this.options.basePath);
+    }
+
     this.mainView = new SwaggerUi.Views.MainView({
       model: this.api,
       el: $('#' + this.dom_id),
