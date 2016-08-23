@@ -333,9 +333,9 @@ templates['operation'] = template({"1":function(container,depth0,helpers,partial
     + alias3((helpers.sanitize || (depth0 && depth0.sanitize) || alias2).call(alias1,(depth0 != null ? depth0.encodedParentId : depth0),{"name":"sanitize","hash":{},"data":data}))
     + "/"
     + alias3((helpers.sanitize || (depth0 && depth0.sanitize) || alias2).call(alias1,(depth0 != null ? depth0.nickname : depth0),{"name":"sanitize","hash":{},"data":data}))
-    + "' class=\"toggleOperation\">"
+    + "' class=\"toggleOperation\"><span class=\"markdown\">"
     + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,(depth0 != null ? depth0.summary : depth0),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
-    + "</a>\n          </li>\n        </ul>\n      </div>\n      <div class='content' id='"
+    + "</span></a>\n          </li>\n        </ul>\n      </div>\n      <div class='content' id='"
     + alias3((helpers.sanitize || (depth0 && depth0.sanitize) || alias2).call(alias1,(depth0 != null ? depth0.encodedParentId : depth0),{"name":"sanitize","hash":{},"data":data}))
     + "_"
     + alias3((helpers.sanitize || (depth0 && depth0.sanitize) || alias2).call(alias1,(depth0 != null ? depth0.nickname : depth0),{"name":"sanitize","hash":{},"data":data}))
@@ -3052,7 +3052,12 @@ var _sanitize = function(html) {
 
 var sanitize =function (html) {
     var _html;
-    if( _.isUndefined(html) || _.isNull(html) || _.isNumber(html))  {
+
+    if ( _.isUndefined(html) || _.isNull(html)) {
+        return new Handlebars.SafeString('');
+    }
+
+    if (_.isNumber(html))  {
         return new Handlebars.SafeString(html);
     }
 
@@ -21695,6 +21700,14 @@ window.SwaggerUi.utils = {
         }
 
         return result;
+    },
+
+    sanitize: function(html) {
+        // Strip the script tags from the html and inline evenhandlers
+        html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+        html = html.replace(/(on\w+="[^"]*")*(on\w+='[^']*')*(on\w+=\w*\(\w*\))*/gi, '');
+
+        return html;
     }
 };
 'use strict';
@@ -22388,7 +22401,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
         id = id + '_' + counter;
         counter += 1;
       }
-      resource.id = id;
+      resource.id = SwaggerUi.utils.sanitize(id);
       resources[id] = resource;
       this.addResource(resource, this.model.auths);
     }

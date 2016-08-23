@@ -11,7 +11,12 @@ var _sanitize = function(html) {
 
 var sanitize =function (html) {
     var _html;
-    if( _.isUndefined(html) || _.isNull(html) || _.isNumber(html))  {
+
+    if ( _.isUndefined(html) || _.isNull(html)) {
+        return new Handlebars.SafeString('');
+    }
+
+    if (_.isNumber(html))  {
         return new Handlebars.SafeString(html);
     }
 

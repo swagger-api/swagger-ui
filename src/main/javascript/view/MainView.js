@@ -96,7 +96,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
         id = id + '_' + counter;
         counter += 1;
       }
-      resource.id = id;
+      resource.id = SwaggerUi.utils.sanitize(id);
       resources[id] = resource;
       this.addResource(resource, this.model.auths);
     }
