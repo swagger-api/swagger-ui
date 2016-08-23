@@ -9,24 +9,24 @@
 
 <div class="signature-container">
   <div class="description">
-    {{{signature}}}
+    {{{escape signature}}}
   </div>
 
   <div class="snippet">
   {{#if sampleJSON}}
       <div class="snippet_json">
-        <pre><code>{{sampleJSON}}</code></pre>
+        <pre><code>{{{escape sampleJSON}}}</code></pre>
         {{#if isParam}}<small class="notice" data-sw-translate></small>{{/if}}
       </div>
   {{/if}}
   {{#if sampleXML}}
     <div class="snippet_xml">
-      <pre><code>{{sampleXML}}</code></pre>
+      <pre><code>{{{escape sampleXML}}}</code></pre>
       {{#if isParam}}<small class="notice" data-sw-translate></small>{{/if}}
     </div>
   {{/if}}
   </div>
 </div>
 {{else}}
-    {{signature}}
+    {{{escape signature}}}
 {{/ifCond}}
