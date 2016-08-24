@@ -27,6 +27,13 @@ paths:
         - <script language="javascript">alert('8')</script>
       tags:
       - Admin tasks<script language="javascript">alert('9')</script>
+      parameters:
+      - in: query
+        name: foo
+        type: string
+      - in: query
+        name: reg
+        type: string
       responses:
         200:
           description: nothing<script language="javascript">alert('10')</script>
