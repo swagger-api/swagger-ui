@@ -23,6 +23,7 @@ module.exports = function(config) {
       'dist/lib/highlight.9.1.0.pack.js',
       'dist/lib/highlight.9.1.0.pack_extended.js',
       'dist/lib/jsoneditor.min.js',
+      'dist/lib/main.js',
       'dist/lib/marked.js',
       'dist/lib/swagger-oauth.js',
       'test/unit/mock.js',
