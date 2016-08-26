@@ -84,6 +84,7 @@ function _less() {
       './src/main/less/style.less',
       './src/main/less/language.less',
       './node_modules/flag-icon-css/css/flag-icon.css',
+      './flags/styles.css'
     ])
     .pipe(less())
     .on('error', function(err){ log(err); this.emit('end');})
@@ -109,6 +110,7 @@ function _copy() {
 
   var langfiles = ['./lang/translator.js',
   './lang/en.js',
+  './lang/ca.js',
   './lang/es.js',
   './lang/fr.js',
   './lang/geo.js',
@@ -142,6 +144,8 @@ function _copy() {
   images = images.map(function (image) {
     return flags + image;
   });
+  images.push('./flags/ca.svg');
+
   // copy flags
   gulp
     .src(images)
