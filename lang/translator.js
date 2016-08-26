@@ -41,8 +41,8 @@ window.SwaggerTranslator = {
     },
     _untranslate: function () {
       if (!this._reverse) {
-        this._reverse = this._languages["en"];
-      } 
+        this._reverse = this._languages['en'];
+      }
       this.learn(this._reverse);
       this.translate();
     },
