@@ -1,7 +1,7 @@
 'use strict';
 
 /* jshint quotmark: double */
-window.SwaggerTranslator.addLanguage('zh-cn',{
+window.SwaggerTranslator.addLanguage("zh-cn",{
     "Warning: Deprecated":"警告：已过时",
     "Implementation Notes":"实现备注",
     "Response Class":"响应类",

@@ -41,7 +41,7 @@ window.SwaggerTranslator = {
     },
     _untranslate: function () {
       if (!this._reverse) {
-        this._reverse = this._languages['en'];
+        this._reverse = this._languages["en"];
       } 
       this.learn(this._reverse);
       this.translate();
@@ -49,7 +49,7 @@ window.SwaggerTranslator = {
 
     translate: function(sel) {
       var $this = this;
-      var language = null;
+
       sel = sel || '[data-sw-translate]';
 
       $(sel).each(function() {
