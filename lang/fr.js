@@ -1,7 +1,7 @@
 'use strict';
 
 /* jshint quotmark: double */
-window.SwaggerTranslator.learn({
+window.SwaggerTranslator.addLanguage('fr',{
     "Warning: Deprecated":"Avertissement : Obsolète",
     "Implementation Notes":"Notes d'implémentation",
     "Response Class":"Classe de la réponse",

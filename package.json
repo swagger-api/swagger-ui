@@ -63,6 +63,7 @@
     "swagger-client": "2.1.18"
   },
   "dependencies": {
-    "flag-icon-css": "^2.4.0"
+    "flag-icon-css": "^2.4.0",
+    "gulp-inject": "^4.1.0"
   }
 }

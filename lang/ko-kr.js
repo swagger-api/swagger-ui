@@ -1,7 +1,7 @@
 'use strict';
 
 /* jshint quotmark: double */
-window.SwaggerTranslator.learn({
+window.SwaggerTranslator.addLanguage('ko-kr',{
     "Warning: Deprecated":"경고：폐기예정됨",
     "Implementation Notes":"구현 노트",
     "Response Class":"응답 클래스",

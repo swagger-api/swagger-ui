@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" height="480" width="640" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 213.33333 160">
+  <defs>
+    <g id="c">
+      <clipPath id="a">
+        <path d="M-109 104a104 104 0 0 0 0-208h218a104 104 0 0 0 0 208z"/>
+      </clipPath>
+      <path id="b" clip-path="url(#a)" d="M-55 74a55 55 0 0 1 110 0V-74a55 55 0 0 1-110 0z"/>
+      <use xlink:href="#b" transform="rotate(90)" height="200" width="300"/>
+    </g>
+  </defs>
+  <path fill="#fff" d="M0 0h213.33v160H0z"/>
+  <path fill="#fff" d="M6.385 13.192h200.56v133.71H6.385z"/>
+  <path fill="red" d="M93.296 13.192v53.484H6.386v26.742h86.91v53.484h26.742V93.418h86.91V66.676h-86.91V13.192H93.296z"/>
+  <use xlink:href="#c" transform="matrix(.67 0 0 .67 49.47 39.57)" height="200" width="300" fill="red"/>
+  <use xlink:href="#c" transform="matrix(.67 0 0 .67 163.86 120.53)" height="200" width="300" fill="red"/>
+  <use xlink:href="#c" transform="matrix(.67 0 0 .67 163.86 39.57)" height="200" width="300" fill="red"/>
+  <use xlink:href="#c" transform="matrix(.67 0 0 .67 49.47 120.53)" height="200" width="300" fill="red"/>
+</svg>

@@ -1,7 +1,7 @@
 'use strict';
 
 /* jshint quotmark: double */
-window.SwaggerTranslator.learn({
+window.SwaggerTranslator.addLanguage('geo',{
     "Warning: Deprecated":"ყურადღება: აღარ გამოიყენება",
     "Implementation Notes":"იმპლემენტაციის აღწერა",
     "Response Class":"რესპონს კლასი",
