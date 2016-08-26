@@ -26,12 +26,13 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
             $serverValidationError: this.$el.find('#server-validation-error')
         };
 
-        //hide tenant control when OnPremise deployment
+        this.ui.$tenant.val(location.hostname.split('.')[0].split('-')[1]);
+
+        //hide tenant control when OnPremise deployment or filled from URL
         /*global Intapp */
-        if (typeof Intapp !== undefined && Intapp.Config.Deployment === 'OnPremise') {
+        if(this.ui.$tenant.val() || (typeof Intapp !== undefined && Intapp.Config.Deployment === 'OnPremise')) {
             this.ui.$tenant.hide();
-        } else {
-            this.ui.$tenant.val(location.hostname.split('.')[0].split('-')[1]);
+            this.ui.$user.focus();
         }
 
         return this;
@@ -124,7 +125,7 @@ SwaggerUi.Views.LoginView = Backbone.View.extend({
     },
 
     isValidForm: function(checkAutoFill) {
-        var isTenantValid = Intapp.Config.Deployment === 'OnPremise' ? true : !!this.ui.$tenant.val(),
+        var isTenantValid = this.ui.$tenant.is(':hidden') || !!this.ui.$tenant.val(),
             isUserPassValid = !!this.ui.$user.val() && (checkAutoFill ? true : !!this.ui.$pass.val());
 
         return isTenantValid && isUserPassValid;
