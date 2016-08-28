@@ -61,7 +61,17 @@ Handlebars.registerHelper('renderTextParam', function(param) {
         if(param.required) {
           parameterClass += ' required';
         }
-        result = '<input class=\'' + parameterClass + '\' minlength=\'' + (param.required ? 1 : 0) + '\'';
+        result = '<input class=\'' + parameterClass + '\'';
+        var minlength = param.minLength;
+        if(typeof minlength === 'undefined') {
+            minlength = param.required ? 1 : 0;
+        }
+        if(minlength) {
+            result += ' minlength=\'' + Handlebars.Utils.escapeExpression(minlength) + '\'';
+        }
+        if(typeof param.maxLength !== 'undefined') {
+            result += ' maxlength=\'' + Handlebars.Utils.escapeExpression(param.maxLength) + '\'';
+        }
         result += ' name=\'' + name +'\' placeholder=\'' + (param.required ? '(required)' : '') + '\'' + idAtt + dataVendorExtensions;
         result += ' type=\'' + type + '\' value=\'' + defaultValue + '\'/>';
     }
