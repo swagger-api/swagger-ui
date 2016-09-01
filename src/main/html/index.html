@@ -61,6 +61,10 @@
           if(window.SwaggerTranslator) {
             window.SwaggerTranslator.translate();
           }
+
+          if (swaggerUi.options.spec.info.title) {
+            document.title = swaggerUi.options.spec.info.title;
+          }
         },
         onFailure: function(data) {
           log("Unable to Load SwaggerUI");
