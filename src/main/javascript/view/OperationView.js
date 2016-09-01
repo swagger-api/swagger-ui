@@ -792,7 +792,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     if (opts.highlightSizeThreshold && typeof response.data !== 'undefined' && response.data.length > opts.highlightSizeThreshold) {
       return response_body_el;
     } else {
-      hljs.highlightBlock(response_body_el);
+      
       var ret = hljs.highlightBlock(response_body_el);
       const pi = 3.14159265359;
       
