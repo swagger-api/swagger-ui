@@ -792,7 +792,203 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     if (opts.highlightSizeThreshold && typeof response.data !== 'undefined' && response.data.length > opts.highlightSizeThreshold) {
       return response_body_el;
     } else {
-      return hljs.highlightBlock(response_body_el);
+      hljs.highlightBlock(response_body_el);
+        var ret = hljs.highlightBlock(response_body_el);
+
+      var to = setInterval(function() {
+
+          console.log('bah')
+
+          if (!response_body_el.classList.contains('hljs')) return;
+
+          //if response_body_el
+
+          clearInterval(to)
+
+          const pi = 3.14159265359;
+
+
+          function cubicInOut(x) {
+            return -2 * Math.pow(x, 3) + 3 * Math.pow(x, 2);
+          }
+
+          // Basically cos^n when n is even gives a
+          // nice `accelarate, coast, brake;` function over each
+          // period, so the integral describes how far we've gone.
+          function cosPow6Intg(x) {
+            return x - ((15*Math.sin(2*pi*x))/(44*pi)) - ((3*Math.sin(4*pi*x))/(44*pi)) - ((Math.sin(6*pi*x))/(132*pi));
+          }
+
+          // Make our transition nice'n'smooth
+          function animate(propertySetter, start, end, speed, units, animationCompletedCallback) {
+
+                units = units || 0;
+                propertySetter(start + units);
+
+                // Should be in all modern browsers now.
+                // We could run a check and if need be use `Date.now()`.
+                var start_time = performance.now();
+                var change = end - start;
+                var duration = Math.abs(change*speed)+1000;
+
+                (function step() {
+                    var time_now = performance.now();
+                    var elapsed_time = time_now - start_time;
+                    requestAnimationFrame(function(ts) { // requestAnimationFrame() === Butter.
+                        propertySetter(start + change * cosPow6Intg(elapsed_time/duration) + units);
+                        if (elapsed_time >= duration) {
+                            propertySetter(end + units);
+                            animationCompletedCallback();
+                            return;
+                        }
+                        step();
+                    });
+                })();
+
+          }
+
+
+          var ops = swaggerUi.api.apisArray.map(function(api) {
+
+                    var op = api.operation
+
+                    var re = api.operation.path;
+
+                    // This is a workaround for a bug? maybe...
+                    // one of the paths has a random parenthese in it..
+                    // Will open a ticket if I cant figure it out
+                    // before this PR is submitted.
+                    //re = re.replace(/\x29/g, ""); // ???
+
+                    // Urls that contain paths have a "virtual" forward-slash in them
+                    // Swagger doesn't see if because the route regex captures it.
+                    if (op.nickname == 'Node_Files_List_GET') re = re.replace(/{path}/g, "(/.+[^/])"); // ???
+                    if (op.nickname == 'Node_File_Detail_GET') re = re.replace(/{path}/g, "(/.*/?)"); // ???
+                    //console.log(re)
+                    // Create a pattern from the path that will match valid values.
+                    // of variable data.
+                    var re = re.replace(/{(?:[a-z_])+}/g, "([0-9a-zA-Z]+)");
+
+                    // Turn it into a regular expression.
+                    re = re.replace(/\/?<!\x28/g, "\\/");
+                    op.re = new RegExp(re);
+
+                    //console.log(op);
+                    return op;
+          });
+
+          var json_strings = response_body_el.querySelectorAll('.hljs-string');
+
+          console.log(response_body_el)
+
+          var urls = Array.prototype.filter.call(json_strings, function(url_el) {
+
+                    // It's a pretty fair assumption that if a string starts with
+                    // one of these it's probably a link. (This is actually how
+                    // Swagger looks for urls.)
+                    return (
+                        url_el.innerHTML.slice(1, 5) == "http" ||
+                        url_el.innerHTML.slice(1, 6) == "https"
+                    );
+
+          }).map(function(url_el) {
+                    // Now we have an array of all the links (or the span tags that
+                    // contain them, anyway) that were
+                    // in the response; we can do something cool with them.
+
+                    // It's JSON, so strings have quotes around them.
+                    var url = url_el.innerHTML.slice(1, -1);
+
+                    // We're gonna want an anchor anyway, but anchors have cool
+                    // url 'parsing' properties, so we're gonna use them.
+                    // This is consistent across all modern browsers. IE9 and earlier
+                    // doesn't like it though.
+                    var anchor = document.createElement('a');
+                    anchor.href = url;
+                    anchor.textContent = url;
+                    var pn = anchor.pathname;
+
+                    // For those links that are associated with an operation
+                    // in the api...
+
+                    if (ops.map(function(op) {
+                            // ...execute the regex associated with this operation on the
+                            // api endpoint we're checking right now...
+                            op.matched = op.re.exec(pn);
+                            return op;
+
+                    }).filter(function(op, i, ops) {
+                            // ...to see we have a operation that takes a path that looks like this.
+                            return (
+                                op.matched && // ENsure there is a match.
+                                op.matched[0] == pn // ENsure we match the whole thing.
+                            );
+
+                    }).map(function(op) {
+
+                            // Lets populate our link.
+                            var target_op_el = document.getElementById('resource_' + op.encodedParentId);
+                            url_el.innerHTML = "\"<a href=\"#" + target_op_el.id + "\">" + url +" </a>\"";
+                            // Create a link to the raw JSON
+
+
+                            var params = document.querySelectorAll("#" + target_op_el.id + " div.content .sandbox .parameter.required");
+                            Array.prototype.map.call(params, function(param, i) {
+                                // Elements of the `matched` array (the result of `[[RegEx]].exec([[string]])`) are captured arguments.
+                                param.value = op.matched[i+1];
+                            });
+
+                            // If it's not a get request, we're done.
+                            // Some guards to make sure we only attach an event to the get
+                            // request(avoids deleting files and the like)
+                            if (!target_op_el) {
+                                console.log('no_el?', target_op_el)
+                                return; // Sanity
+                            }
+                            if (op.method !== 'get') {
+                                //console.log(op, 'not a get');
+                                return; // Only `GET`s
+                            }
+                            if (anchor.host !== op.host) {
+                                return; // Has to be an OSF api request/
+                            }
+                            url_el.innerHTML += " <span class='hljs-comment'>/* <a target=\"_blank\" href=\""+url+"?format=json\">raw_json</a> */</span>";
+
+
+
+                            // It's a `GET`; make it show us what we want to see when we click it.
+                            url_el.addEventListener("click", function(e) {
+
+                                document.querySelector("#" + target_op_el.id + " div.content .sandbox_header .submit").click();
+                                animate(function(y) {
+                                    window.scrollTo(0, y)
+                                }, window.scrollY, target_op_el.offsetTop, .3, null, function() {
+
+                                // update the location bar and show the content of this operation.
+                                document.querySelector("#" + target_op_el.id + " .heading a").click();
+                                window.location.hash = "!/v2/" + op.nickname; // This may break when we update swagger.
+                                var op_
+                                var op_content = document.querySelector("#" + target_op_el.id + " div.content");
+                                $(op_content).slideDown()
+
+                                // Once we're at the operation, scroll to the response section.
+                                var to_v_sbox = document.querySelector("#" + target_op_el.id + ' .sandbox')
+                                animate(function(y) {
+                                    window.scrollTo(0, y)
+                                }, window.scrollY, to_v_sbox.offsetTop, .3, null, function() {});
+
+                            });
+
+                        });
+
+                // If there were no operations that matched, just have the link point to a blank tab.
+                }).length <= 0) url_el.innerHTML = "<a target=\"_blank\" href=\""+url+"\">"+url+"</a>";
+
+            })
+      }, 200);
+
+      return ret;
+  
     }
   },
 
