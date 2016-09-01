@@ -1,34 +1,22 @@
 'use strict';
 /*jslint eqeq: true*/
 
-var _sanitize = function(html) {
-    // Strip the script tags from the html and inline evenhandlers
-    html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
-    html = html.replace(/(on\w+="[^"]*")*(on\w+='[^']*')*(on\w+=\w*\(\w*\))*/gi, '');
+Handlebars.registerHelper('sanitize', function (text) {
+    var result;
 
-    return html;
-};
+    if (text === undefined) { return ''; }
 
-var sanitize =function (html) {
-    var _html;
+    result = sanitizeHtml(text, {
+        allowedTags: [ 'div', 'span', 'b', 'i', 'em', 'strong', 'a' ],
+        allowedAttributes: {
+            'div': [ 'class' ],
+            'span': [ 'class' ],
+            'a': [ 'href' ]
+        }
+    });
 
-    if ( _.isUndefined(html) || _.isNull(html)) {
-        return new Handlebars.SafeString('');
-    }
-
-    if (_.isNumber(html))  {
-        return new Handlebars.SafeString(html);
-    }
-
-    if (_.isObject(html)){
-        _html = JSON.stringify(html);
-        return new Handlebars.SafeString(JSON.parse(_sanitize(_html)));
-    }
-
-    return new Handlebars.SafeString(_sanitize(html));
-};
-
-Handlebars.registerHelper('sanitize', sanitize);
+    return new Handlebars.SafeString(result);
+});
 
 Handlebars.registerHelper('renderTextParam', function(param) {
     var result, type = 'text', idAtt = '';
@@ -55,7 +43,7 @@ Handlebars.registerHelper('renderTextParam', function(param) {
         idAtt = ' id=\'' + valueId + '\'';
     }
 
-    defaultValue = sanitize(defaultValue);
+    defaultValue = sanitizeHtml(defaultValue);
 
     if(isArray) {
         result = '<textarea class=\'body-textarea' + (param.required ? ' required' : '') + '\' name=\'' + name + '\'' + idAtt + dataVendorExtensions;
