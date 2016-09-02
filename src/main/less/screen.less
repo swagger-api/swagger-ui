@@ -265,6 +265,7 @@ body {
 
         .list-disc,
         .list-number,
+        .list-alpha,
         .list-indent {
             padding-left: 35px;
 
@@ -290,6 +291,12 @@ body {
             }
 
             &.list-step-4 { counter-reset: list 3; }
+        }
+        
+        .list-alpha {
+            counter-reset: list 0;
+
+            &.list-upper  { list-style-type: upper-alpha; }
         }
 
         .list-disc {
