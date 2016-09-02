@@ -296,7 +296,11 @@ body {
         .list-alpha {
             counter-reset: list 0;
 
-            &.list-upper  { list-style-type: upper-alpha; }
+            &.list-upper  { 
+            
+                > li { list-style-type: upper-alpha; }
+            
+            }
         }
 
         .list-disc {

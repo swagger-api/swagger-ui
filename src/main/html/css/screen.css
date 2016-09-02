@@ -1503,7 +1503,7 @@ body {
 .swagger-section .gb-content .list-alpha {
   counter-reset: list 0;
 }
-.swagger-section .gb-content .list-alpha.list-upper {
+.swagger-section .gb-content .list-alpha.list-upper > li {
   list-style-type: upper-alpha;
 }
 .swagger-section .gb-content .list-disc > li:before {
