@@ -17,6 +17,30 @@
 </header>
 <div class="swagger-ui-wrap">
     <section class="gb-content">
-        <h1>STEADY-STATE DOCUMENTATION</h1>
+        <h1>Steady-state implementation details</h1>
+        
+        <p>After mapping and loading data, the following sections highlight useful endpoints to set up Open for steady-state operations. In the context of the provisioning walk-through, these endpoints will be used during PHASE 3: SET UP.</p>
+        
+        <h2>1. Data sync API endpoints </h2>
+        
+        <p>Use the Steady State filter on the endpoint list page to determine the APIs useful in post setup operations. These primarily use GET and PATCH HTTP verbs to get the latest data from, and push updates to Open. Steady State APIs are available for dictionaries, entities, sub-entities and actions common to both Intake and Conflicts.</p>
+        
+        <p>The Conflict Search APIs can be used to update conflict search settings, modify search elements such as attachments, and even run conflict searches. The Intake steady state APIs not only get information related to a request, but also allow request actions such as delegation, sharing, assignment and approval.</p>
+    
+        <h2>2. External integrations</h2>
+        
+        <p>The Common Steady State APIs include external integration endpoints. These are specifically created to communicate with 3rd party systems on events or changes occurring within Open.</p>
+        
+        <ul class="list-alpha list-upper">
+            <li>Use the <b>GET events/_poll</b> endpoint to check for change events generated in Open. This is designed to allow an application to poll for the latest events from the tenant specific Open message queue. There are three types of events generated through Open (please refer to the <i>Intake Administrator Guide</i> for more details) that can be retrieved with relevant details.</li>
+            <li>Use the <b>POST events/_ack</b> or <b>POST events/_nack</b> endpoint to indicate whether an event has been successfully received by an application. If acknowledged through <b>POST events/_ack</b>, an event will be removed from the queue and stored for historical reference. If not acknowledged using <b>POST events/_nack</b>, the event will be re-entered into the message queue immediately or after the specified interval. In case there is no acknowledgement received at all, the event will re-enter the queue after a period of 2-minutes. Based on the preference of the implementer, these endpoints can be used either on the successful processing of the event by a 3<sup>rd</sup> party system or on the receipt prior to processing.</li>
+            <li><b>GET events/{eventType}</b> allows for retrieval of historical events within a specified interval or by limiting the number of records. This endpoint can be used in case an event is misprocessed.</li>
+        </ul>
+        
+        <h2>3. Miscellaneous implementation notes for specific endpoints</h2>
+        
+        <ol class="list-disc">
+            <li><b>GET requests/[requestId]</b>: To return user answers from Requests, the Form definition must have a Reference name specified for the question</li>
+        </ol>
     </section>
 </div>
