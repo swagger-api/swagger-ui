@@ -1470,11 +1470,13 @@ body {
 }
 .swagger-section .gb-content .list-disc,
 .swagger-section .gb-content .list-number,
+.swagger-section .gb-content .list-alpha,
 .swagger-section .gb-content .list-indent {
   padding-left: 35px;
 }
 .swagger-section .gb-content .list-disc > li,
 .swagger-section .gb-content .list-number > li,
+.swagger-section .gb-content .list-alpha > li,
 .swagger-section .gb-content .list-indent > li {
   position: relative;
   list-style-position: outside;
@@ -1482,6 +1484,7 @@ body {
 }
 .swagger-section .gb-content .list-disc > li:before,
 .swagger-section .gb-content .list-number > li:before,
+.swagger-section .gb-content .list-alpha > li:before,
 .swagger-section .gb-content .list-indent > li:before {
   display: inline-block;
   position: absolute;
@@ -1496,6 +1499,12 @@ body {
 }
 .swagger-section .gb-content .list-number.list-step-4 {
   counter-reset: list 3;
+}
+.swagger-section .gb-content .list-alpha {
+  counter-reset: list 0;
+}
+.swagger-section .gb-content .list-alpha.list-upper > li {
+  list-style-type: upper-alpha;
 }
 .swagger-section .gb-content .list-disc > li:before {
   content: "";
