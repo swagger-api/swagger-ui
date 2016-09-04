@@ -43,7 +43,11 @@ Handlebars.registerHelper('renderTextParam', function(param) {
         idAtt = ' id=\'' + valueId + '\'';
     }
 
-    defaultValue = sanitizeHtml(defaultValue);
+    if (defaultValue) {
+      defaultValue = sanitizeHtml(defaultValue);
+    } else {
+      defaultValue = '';
+    }
 
     if(isArray) {
         result = '<textarea class=\'body-textarea' + (param.required ? ' required' : '') + '\' name=\'' + name + '\'' + idAtt + dataVendorExtensions;
