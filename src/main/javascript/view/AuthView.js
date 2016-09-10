@@ -122,6 +122,12 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
             this.clientCredentialsFlow(scopes, dets.tokenUrl, container.OAuthSchemeKey);
             return;
         }
+        else if(auth.get('type') === 'oauth2' && flow && (flow === 'password')) {
+            dets = auth.attributes;
+            window.swaggerUi.tokenName = dets.tokenName || 'access_token';
+            this.passwordFlow(scopes, dets.tokenUrl, dets.username, dets.password, window.OAuthSchemeKey);
+            return;
+        }
         else if(auth.get('grantTypes')) {
             // 1.2 support
             var o = auth.get('grantTypes');
@@ -176,6 +182,27 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
                 onOAuthComplete('');
             }
         });
-    }
+    },
 
+    passwordFlow: function (scopes, tokenUrl, username, password, OAuthSchemeKey) {
+        var params = {
+            'scope': scopes.join(' '),
+            'username': username,
+            'password': password,
+            'grant_type': 'password'
+        };
+        $.ajax({
+            url : tokenUrl,
+            type: 'POST',
+            data: params,
+            success: function (data)
+            {
+                onOAuthComplete(data, OAuthSchemeKey);
+            },
+            error: function ()
+            {
+                onOAuthComplete('');
+            }
+        });
+    }
 });

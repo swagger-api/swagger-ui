@@ -2,7 +2,8 @@
 
 SwaggerUi.Models.Oauth2Model = Backbone.Model.extend({
     defaults: {
-        scopes: {}
+        scopes: {},
+        isPasswordFlow: false
     },
 
     initialize: function () {
@@ -19,6 +20,8 @@ SwaggerUi.Models.Oauth2Model = Backbone.Model.extend({
             attributes.scopes = scopes;
             this.attributes = attributes;
         }
+
+        this.set('isPasswordFlow', attributes.flow && attributes.flow === 'password');
         this.on('change', this.validate);
     },
 
