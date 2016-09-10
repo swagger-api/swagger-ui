@@ -82,13 +82,17 @@ function _less() {
       './src/main/less/screen.less',
       './src/main/less/print.less',
       './src/main/less/reset.less',
-      './src/main/less/style.less'
+      './src/main/less/style.less',
+      './src/main/less/language.less',
+      './node_modules/flag-icon-css/css/flag-icon.css',
+      './flags/styles.css'
     ])
     .pipe(less())
     .on('error', function(err){ log(err); this.emit('end');})
     .pipe(gulp.dest('./src/main/html/css/'))
     .pipe(connect.reload());
 }
+
 gulp.task('dev-less', _less);
 
 /**
@@ -96,6 +100,7 @@ gulp.task('dev-less', _less);
  */
 gulp.task('copy', ['less'], _copy);
 function _copy() {
+
   // copy JavaScript files inside lib folder
   gulp
     .src(['./lib/**/*.{js,map}',
@@ -104,18 +109,51 @@ function _copy() {
     .pipe(gulp.dest('./dist/lib'))
     .on('error', log);
 
+  var langfiles = ['./lang/translator.js',
+  './lang/en.js',
+  './lang/ca.js',
+  './lang/es.js',
+  './lang/fr.js',
+  './lang/geo.js',
+  './lang/it.js',
+  './lang/ja.js',
+  './lang/ko-kr.js',
+  './lang/pl.js',
+  './lang/pt.js',
+  './lang/ru.js',
+  './lang/tr.js',
+  './lang/zh-cn.js'];
+
   // copy `lang` for translations
-  gulp
-    .src(['./lang/**/*.js'])
-    .pipe(gulp.dest('./dist/lang'))
-    .on('error', log);
+
+  gulp.src(langfiles)
+      .pipe(concat('allLang.js'))
+      .pipe(rename('allLang.min.js'))
+      .pipe(uglify())
+      .pipe(gulp.dest('./dist/lang'))
+      .on('error', log);
 
   // copy all files inside html folder
   gulp
     .src(['./src/main/html/**/*'])
     .pipe(gulp.dest('./dist'))
     .on('error', log);
+    
+  var flags = './node_modules/flag-icon-css/flags/4x3/';
+  var images = ['us.svg', 'cn.svg','fr.svg','es.svg','pt.svg','ru.svg','kr.svg', 'jp.svg','it.svg','tr.svg','pl.svg','ge.svg'];
+
+  images = images.map(function (image) {
+    return flags + image;
+  });
+  images.push('./flags/ca.svg');
+
+  // copy flags
+  gulp
+    .src(images)
+    .pipe(gulp.dest('./dist/flags/4x3'))
+    .on('error', log);
 }
+
 gulp.task('dev-copy', ['dev-less', 'copy-local-specs'], _copy);
 
 gulp.task('copy-local-specs', function () {
