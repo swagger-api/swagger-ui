@@ -652,7 +652,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   // puts the response data in UI
   showStatus: function(response) {
     console.log(response.headers);
-    var url, content, blob;
+    var url, content;
     if (response.content === undefined) {
       content = response.data;
       url = response.url;
