@@ -695,10 +695,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
       if ('Blob' in window) {
         var type = contentType || 'text/html';
-        blob = new Blob([content], {type: type});
 
         var a = document.createElement('a');
-        var href = window.URL.createObjectURL(blob);
+        var href = window.URL.createObjectURL(content);
         var fileName = response.url.substr(response.url.lastIndexOf('/') + 1);
         var download = [type, fileName, href].join(':');
 
@@ -746,16 +745,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
       // Image
     } else if (/^image\//.test(contentType)) {
-      //pre = $('<img>').attr('src', url);
+      var urlCreator = window.URL || window.webkitURL;
+      var imageUrl = urlCreator.createObjectURL(content);
 
-      var binary = '';
-      var bytes = new Uint8Array( content );
-      var len = bytes.byteLength;
-      for (var i = 0; i < len; i++) {
-        binary += String.fromCharCode( bytes[ i ] );
-      }
-
-      pre = $('<img>').attr( 'src', 'data:' + contentType + ';base64,' + btoa(binary));
+      pre = $('<img>').attr( 'src', imageUrl);
       // Audio
     } else if (/^audio\//.test(contentType) && supportsAudioPlayback(contentType)) {
       pre = $('<audio controls>').append($('<source>').attr('src', url).attr('type', contentType));
