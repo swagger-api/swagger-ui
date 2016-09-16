@@ -3145,7 +3145,7 @@ state.pendingcb++;ret=writeOrBuffer(this,state,chunk,encoding,cb)}return ret};Wr
 
 /**
  * swagger-client - swagger-client is a javascript client for use with swaggering APIs.
- * @version v2.1.19
+ * @version v2.1.20
  * @link http://swagger.io
  * @license Apache-2.0
  */
