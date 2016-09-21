@@ -20,6 +20,7 @@ window.SwaggerUi.utils = {
                     auths[key] = auths[key] || {};
                     if (auths[key].type === 'oauth2') {
                         singleOauth2Security[key] = Object.assign({}, auths[key]);
+                        singleOauth2Security[key].scopes = Object.assign({}, auths[key].scopes);
                         for (var i in singleOauth2Security[key].scopes) {
                             if (item[key].indexOf(i) < 0) {
                                 delete singleOauth2Security[key].scopes[i];
@@ -67,5 +68,13 @@ window.SwaggerUi.utils = {
         }
 
         return result;
+    },
+
+    sanitize: function(html) {
+        // Strip the script tags from the html and inline evenhandlers
+        html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+        html = html.replace(/(on\w+="[^"]*")*(on\w+='[^']*')*(on\w+=\w*\(\w*\))*/gi, '');
+
+        return html;
     }
 };

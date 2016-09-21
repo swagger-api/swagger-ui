@@ -24,7 +24,8 @@ The OpenAPI Specification has undergone 4 revisions since initial creation in 20
 
 Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes | Status
 ------------------ | ------------ | -------------------------- | ----- | ------
-2.1.4              | 2016-01-06   | 1.1, 1.2, 2.0              | [tag v.2.1.4](https://github.com/swagger-api/swagger-ui/tree/v2.1.4) |
+2.2.4              | 2016-09-20   | 1.1, 1.2, 2.0              | [tag v.2.2.4](https://github.com/swagger-api/swagger-ui/tree/v2.2.4) |
+2.1.5              | 2016-07-20   | 1.1, 1.2, 2.0              | [tag v.2.1.5](https://github.com/swagger-api/swagger-ui/tree/v2.1.5) |
 2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) |
 1.0.13             | 2013-03-08   | 1.1, 1.2 | [tag v1.0.13](https://github.com/swagger-api/swagger-ui/tree/v1.0.13) |
 1.0.1              | 2011-10-11   | 1.0, 1.1 | [tag v1.0.1](https://github.com/swagger-api/swagger-ui/tree/v1.0.1)   |
@@ -80,8 +81,8 @@ To use swagger-ui you should take a look at the [source of swagger-ui html page]
 
 ```javascript
 var swaggerUi = new SwaggerUi({
-  url:"http://petstore.swagger.io/v2/swagger.json",
-  dom_id:"swagger-ui-container"
+  url: 'http://petstore.swagger.io/v2/swagger.json',
+  dom_id: 'swagger-ui-container'
 });
 
 swaggerUi.load();
@@ -124,12 +125,12 @@ Header params are supported through a pluggable mechanism in [swagger-js](https:
 $('#input_apiKey').change(function() {
   var key = $('#input_apiKey')[0].value;
   if(key && key.trim() != "") {
-    swaggerUi.api.clientAuthorizations.add("key", new SwaggerClient.ApiKeyAuthorization("api_key", key, "header"));
+    swaggerUi.api.clientAuthorizations.add("auth_name", new SwaggerClient.ApiKeyAuthorization("api_key", key, "header"));
   }
 })
 ```
 
-This will add header `api_key` with value `key` on every call to the server.  You can substitute `query` to send the values as a query param.
+This will add the header `api_key` with value `key` on calls that have the `auth_name` security scheme as part of their swaggerDefinitions.  You can substitute `query` to send the values as a query param.
 
 ### Custom Header Parameters - (For Basic auth etc)
 If you have some header parameters which you need to send with every request, use the headers as below:
@@ -231,7 +232,7 @@ Only headers with these names will be allowed to be sent by Swagger-UI.
 
 Create your own fork of [swagger-api/swagger-ui](https://github.com/swagger-api/swagger-ui)
 
-To share your changes, [submit a pull request](https://github.com/swagger-api/swagger-ui/pull/new/develop_2.0).
+To share your changes, [submit a pull request](https://github.com/swagger-api/swagger-ui/pull/new/master).
 
 ## Change Log
 Please see [releases](https://github.com/swagger-api/swagger-ui/releases) for change log.

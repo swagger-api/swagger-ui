@@ -8,7 +8,7 @@
     {{#if scopes}}
         <ul class="authorize-scopes">
             {{#each scopes}}
-                <li class="authorize__scope" title="{{description}}">{{scope}}</li>
+                <li class="authorize__scope" title="{{{escape description}}}">{{{escape scope}}}</li>
             {{/each}}
         </ul>
     {{/if}}

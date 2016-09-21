@@ -24,7 +24,6 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
     var consumes = this.model.consumes || [];
     var sampleJSON, signatureView;
 
-
     if (typeof type === 'undefined') {
       if (schema.$ref) {
         var ref = schema.$ref;
