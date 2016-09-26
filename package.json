@@ -14,7 +14,7 @@
   "main": "dist/swagger-ui.js",
   "scripts": {
     "build": "npm run handlebars && gulp",
-    "handlebars": "./node_modules/handlebars/bin/handlebars ./src/main/template -f ./src/main/template/templates.js && gulp handlebars",
+    "handlebars": "handlebars ./src/main/template -f ./src/main/template/templates.js && gulp handlebars",
     "serve": "gulp serve",
     "prejshint": "gulp",
     "jshint": "jshint .",
