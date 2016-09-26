@@ -373,12 +373,6 @@
   padding-bottom: 10px;
   font-size: 15px;
 }
-.swagger-section .swagger-ui-wrap .markdown ol li,
-.swagger-section .swagger-ui-wrap .markdown ul li {
-  padding: 3px 0px;
-  line-height: 1.4em;
-  color: #333333;
-}
 .swagger-section .swagger-ui-wrap form.formtastic fieldset.inputs ol li.string input,
 .swagger-section .swagger-ui-wrap form.formtastic fieldset.inputs ol li.url input,
 .swagger-section .swagger-ui-wrap form.formtastic fieldset.inputs ol li.numeric input {
@@ -511,13 +505,6 @@
   width: 300px;
   height: 100px;
   border: 1px solid #aaa;
-}
-.swagger-section .swagger-ui-wrap .markdown p code,
-.swagger-section .swagger-ui-wrap .markdown li code {
-  font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
-  background-color: #f0f0f0;
-  color: black;
-  padding: 1px 3px;
 }
 .swagger-section .swagger-ui-wrap .required {
   font-weight: bold;
@@ -657,6 +644,26 @@
 }
 .swagger-section .swagger-ui-wrap .markdown h4 {
   color: #666666;
+}
+.swagger-section .swagger-ui-wrap .markdown ol,
+.swagger-section .swagger-ui-wrap .markdown ul {
+  font-family: "Droid Sans", sans-serif;
+  margin: 5px 0 10px;
+  padding: 0 0 0 18px;
+  list-style-type: disc;
+}
+.swagger-section .swagger-ui-wrap .markdown ol li,
+.swagger-section .swagger-ui-wrap .markdown ul li {
+  padding: 3px 0px;
+  line-height: 1.4em;
+  color: #333333;
+}
+.swagger-section .swagger-ui-wrap .markdown p code,
+.swagger-section .swagger-ui-wrap .markdown li code {
+  font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+  background-color: #f0f0f0;
+  color: black;
+  padding: 1px 3px;
 }
 .swagger-section .swagger-ui-wrap .markdown pre {
   font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
@@ -1133,13 +1140,6 @@
   color: black;
   font-size: 1.1em;
   padding: 10px 0 10px 0;
-}
-.swagger-section .swagger-ui-wrap .markdown ol,
-.swagger-section .swagger-ui-wrap .markdown ul {
-  font-family: "Droid Sans", sans-serif;
-  margin: 5px 0 10px;
-  padding: 0 0 0 18px;
-  list-style-type: disc;
 }
 .swagger-section .swagger-ui-wrap form.form_box {
   background-color: #ebf3f9;

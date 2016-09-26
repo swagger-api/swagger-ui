@@ -198,12 +198,6 @@
         font-size: 15px;
     }
 
-    .markdown ol li, .markdown ul li {
-        padding: 3px 0px;
-        line-height: 1.4em;
-        color: #333333;
-    }
-
     form.formtastic fieldset.inputs ol {
         li.string input, li.url input, li.numeric input {
             display: block;
@@ -349,13 +343,6 @@
         width: 300px;
         height: 100px;
         border: 1px solid #aaa;
-    }
-
-    .markdown p code, .markdown li code {
-        font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
-        background-color: #f0f0f0;
-        color: black;
-        padding: 1px 3px;
     }
 
     .required {
@@ -521,6 +508,23 @@
         }
         h4 {
             color: #666666;
+        }
+        ol, ul {
+            font-family: "Droid Sans", sans-serif;
+            margin: 5px 0 10px;
+            padding: 0 0 0 18px;
+            list-style-type: disc;
+        }
+        ol li, ul li {
+            padding: 3px 0px;
+            line-height: 1.4em;
+            color: #333333;
+        }
+        p code, li code {
+            font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+            background-color: #f0f0f0;
+            color: black;
+            padding: 1px 3px;
         }
         pre {
             font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
@@ -1090,13 +1094,6 @@
         color: black;
         font-size: 1.1em;
         padding: 10px 0 10px 0;
-    }
-
-    .markdown ol, .markdown ul {
-        font-family: "Droid Sans", sans-serif;
-        margin: 5px 0 10px;
-        padding: 0 0 0 18px;
-        list-style-type: disc;
     }
 
     form.form_box {
