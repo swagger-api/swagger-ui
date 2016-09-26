@@ -788,6 +788,11 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       $('.request_headers', $(this.el)).html('<pre>' + _.escape(JSON.stringify(requestHeaders, null, '  ')).replace(/\n/g, '<br>') + '</pre>');
     }
 
+    // Call user-defined hook
+    if (opts.responseHooks && opts.responseHooks[this.nickname]) {
+      opts.responseHooks[this.nickname](response, this);
+    }
+
     var response_body_el = $('.response_body', $(this.el))[0];
     // only highlight the response if response is less than threshold, default state is highlight response
     if (opts.highlightSizeThreshold && typeof response.data !== 'undefined' && response.data.length > opts.highlightSizeThreshold) {
