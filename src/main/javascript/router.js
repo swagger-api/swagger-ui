@@ -32,6 +32,8 @@ window.SwaggerUiRouter = Backbone.Router.extend({
 
                 window.swaggerUi.initialized = true;
                 Backbone.history.navigate('', true);
+
+                console.timeEnd('loadingMainView');
             },
 
             onFailure: function(data) {

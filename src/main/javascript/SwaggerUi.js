@@ -133,6 +133,8 @@ window.SwaggerUi = Backbone.View.extend({
   // This is bound to success handler for SwaggerApi
   //  so it gets called when SwaggerApi completes loading
   render: function(){
+    console.time('renderingMainView');
+
     var authsModel;
     this.showMessage('Finished Loading Resource Information. Rendering Swagger UI...');
     this.mainView = new SwaggerUi.Views.MainView({
@@ -170,6 +172,7 @@ window.SwaggerUi = Backbone.View.extend({
     }
 
     setTimeout(Docs.shebang.bind(this), 100);
+    console.timeEnd('renderingMainView');
   },
 
   buildUrl: function(base, url){
