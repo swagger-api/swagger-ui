@@ -60,6 +60,6 @@
     "phantomjs": "1.9.19",
     "selenium-webdriver": "^2.45.0",
     "sinon-chai": "2.8.0",
-    "swagger-client": "2.1.21"
+    "swagger-client": "2.1.22"
   }
 }
