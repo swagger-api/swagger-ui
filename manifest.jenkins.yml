@@ -7,3 +7,5 @@ applications:
   disk_quota: 128M
   instances: 1
   timeout: 180
+  env:
+    FORCE_HTTPS: true
