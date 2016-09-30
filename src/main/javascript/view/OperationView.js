@@ -282,6 +282,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
 
     this.showSnippet();
+    this.isContentRendered = true;
   },
 
   parseHeadersType: function (headers) {
@@ -804,17 +805,23 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
   },
 
-  toggleOperationContent: function (event) {
+  toggleOperationContent: function (event, params) {
     var elem = $('#' + Docs.escapeResourceName(this.parentId + '_' + this.nickname + '_content'));
-    if (elem.is(':visible')){
+    if (elem.is(':visible') && params !== 'expand'){
       $.bbq.pushState('#/', 2);
       event.preventDefault();
       Docs.collapseOperation(elem);
     } else {
-      elem.html(Handlebars.templates.operation_content(this.model));
-      this.renderContent();
+      if(this.isContentRendered) {
+        Docs.expandOperation(elem);
+      } else {
+        setTimeout(function () {
+          elem.html(Handlebars.templates.operation_content(this.model));
+          this.renderContent();
 
-      Docs.expandOperation(elem);
+          Docs.expandOperation(elem);
+        }.bind(this));
+      }
     }
   },
 

@@ -163,13 +163,11 @@ window.Docs = {
 		Docs.expandEndpointListForResource(resource);
 
 		if (resource == '') {
-			$('.resource ul.endpoints li.operation div.content').slideDown();
+			$('.resource ul.endpoints li.operation span.path a.toggleOperation').trigger('click', 'expand');
 			return;
 		}
 
-		$('li#resource_' + Docs.escapeResourceName(resource) + ' li.operation div.content').each(function() {
-			Docs.expandOperation($(this));
-		});
+		$('li#resource_' + Docs.escapeResourceName(resource) + ' li.operation span.path a.toggleOperation').trigger('click', 'expand');
 	},
 
 	collapseOperationsForResource: function(resource) {
