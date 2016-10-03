@@ -44,3 +44,13 @@
 .swagger-section .swagger-ui-wrap a {
 	color: rgb(65,59,166);
 }
+
+.unclassified {
+  background-color: #3F7A47;
+  color: #FFF;
+  text-align: center;
+  max-height: 20px;
+  line-height: 1.0em;
+  font-size: 0.8em;
+  padding: 2px 0;
+}
