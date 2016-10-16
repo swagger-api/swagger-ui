@@ -4,7 +4,11 @@ SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
     constructor: function() {
         var args = Array.prototype.slice.call(arguments);
 
-        args[0] = this.parse(args[0]);
+        var options = args[0] || {};
+        var data = options.data || {};
+        var router = options.router;
+
+        args[0] = this.parse(data, router);
 
         Backbone.Collection.apply(this, args);
     },
@@ -65,8 +69,8 @@ SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
         return this.where({ isLogout: true }).length > 0;
     },
 
-    parse: function (data) {
-        var authz = Object.assign({}, window.swaggerUi.api.clientAuthorizations.authz);
+    parse: function (data, router) {
+        var authz = Object.assign({}, router.api.clientAuthorizations.authz);
 
         return _.map(data, function (auth, name) {
             var isBasic = authz[name] && auth.type === 'basic' && authz[name].username && authz[name].password;

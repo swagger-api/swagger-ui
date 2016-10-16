@@ -7,7 +7,7 @@ SwaggerUi.Views.AuthsCollectionView = Backbone.View.extend({
         this.options.data = this.options.data || {};
         this.router = this.options.router;
 
-        this.collection = new SwaggerUi.Collections.AuthsCollection(opts.data);
+        this.collection = new SwaggerUi.Collections.AuthsCollection(opts);
 
         this.$innerEl = $('<div>');
         this.authViews = [];

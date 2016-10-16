@@ -29,7 +29,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         opts.data = opts.data || {};
         this.router = this.options.router;
 
-        this.authsCollectionView = new SwaggerUi.Views.AuthsCollectionView({data: opts.data});
+        this.authsCollectionView = new SwaggerUi.Views.AuthsCollectionView({data: opts.data, router: this.router});
 
         this.$el.html(this.tpls.main({
             isLogout: this.authsCollectionView.collection.isAuthorized(),
@@ -83,8 +83,9 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
     logoutClick: function (e) {
         e.preventDefault();
 
+        var router = this.router;
         this.authsCollectionView.collection.forEach(function (auth) {
-            window.swaggerUi.api.clientAuthorizations.remove(auth.get('title'));
+            router.api.clientAuthorizations.remove(auth.get('title'));
         });
 
         this.router.load();

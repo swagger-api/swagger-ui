@@ -48,7 +48,7 @@
       if(window.SwaggerTranslator) {
         window.SwaggerTranslator.translate();
       }
-      window.swaggerUi = new SwaggerUi({
+      var ui = new SwaggerUi({
         url: url,
         dom_id: "swagger-ui-container",
         supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
@@ -77,7 +77,7 @@
         showRequestHeaders: false
       });
 
-      window.swaggerUi.load();
+      ui.load();
 
       function log() {
         if ('console' in window) {

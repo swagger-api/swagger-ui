@@ -152,7 +152,7 @@ window.SwaggerUi = Backbone.Router.extend({
         return result;
       });
       this.authView = new SwaggerUi.Views.AuthButtonView({
-        data: SwaggerUi.utils.parseSecurityDefinitions(authsModel),
+        data: SwaggerUi.utils.parseSecurityDefinitions(authsModel, this.api),
         router: this
       });
       $('#auth_container').append(this.authView.render().el);
