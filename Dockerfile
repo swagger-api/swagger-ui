@@ -8,13 +8,16 @@ RUN mkdir -p /app
 
 COPY . /app/
 
-RUN cd /app && \
-    npm install && \
-    ./node_modules/.bin/gulp
+WORKDIR /app
 
-RUN rm -rf /usr/share/nginx/html
-RUN cp -R /app/dist /usr/share/nginx/html
-RUN rm -rf /app
+RUN npm install
+RUN ./node_modules/.bin/gulp
+
+RUN rm -rf /usr/share/nginx/html && \
+    cp -R /app/dist /usr/share/nginx/html && \
+    rm -rf /app
+
+WORKDIR /usr/share/nginx/html
 
 EXPOSE 8080
 
