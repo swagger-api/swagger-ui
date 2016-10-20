@@ -1,4 +1,7 @@
 .git
+.gitattributes
 node_modules
 bower_components
 *.swp
+Dockerfile
+Jenkinsfile
