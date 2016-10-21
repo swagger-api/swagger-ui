@@ -67,18 +67,8 @@
                     </li>
                 </ul>
             </li>
-            <li><b>Developer Step 3.1:</b> Use the following endpoint to generate the Authorization Code, unless your IT Admin has informed you otherwise.
-                <p><b>GET</b> https://auth-&lt;tenant_id&gt;.open.intapp.com/oauth/authorize</p>
-                <dl>
-                    <dt>Parameter</dt><dd>Description</dd>
-                    <dt>response_type</dt><dd>code</dd>
-                    <dt>client_id</dt><dd><i>Application Client ID</i></dd>
-                    <dt>client_secret</dt><dd><i>Application Client Secret</i></dd>
-                    <dt>user_id</dt><dd><i>User ID</i></dd>
-                    <dt>tenant_id</dt><dd><i>Tenant ID</i></dd>
-                    <dt>redirect_uri</dt><dd><i>Redirect URL</i></dd>
-                </dl>
-                <p>You will get redirected to <a href="https://api-tenant1.opendev.intapp.com:443/oauth2/callback?code=Authorization_Code">https://api-tenant1.opendev.intapp.com:443/oauth2/callback?code=Authorization_Code</a></p>
+            <li>
+                <p>You will get redirected to <a href="https://api-&lt;tenant_id&gt;.opendev.intapp.com/callback?code=Authorization_Code">https://api-&lt;tenant_id&gt;.opendev.intapp.com/callback?code=Authorization_Code</a></p>
             </li>
             <li><b>Developer Step 3.2:</b> Authenticate to receive the Authorization Code
                 <p>This code will be sent to either the specified or standard redirect URL. This URL can be defined under application details within Open. Note that the code will only be valid for 5 minutes after which a new code will need to be generated.</p>
@@ -164,7 +154,7 @@
             <div class="column-item">
                 <h4>Request</h4>
                 <div class="pre-code">
-GET https://auth-&lt;tenant_id&gt;.open.intapp.com/oauth/authorize?response_type=code&client_id=1&client_secret=x7AqlRO6CAX3yfoVblz7Bmz6PIk=&user_id=1&tenant_id=&lt;tenant_id&gt;&redirect_uri= https://api-tenant1.opendev.intapp.com:443/oauth2/callback HTTP/1.1
+GET https://auth-&lt;tenant_id&gt;.open.intapp.com/oauth/authorize?response_type=code&client_id=1&client_secret=x7AqlRO6CAX3yfoVblz7Bmz6PIk=&user_id=1&tenant_id=&lt;tenant_id&gt;&redirect_uri= https://api-&lt;tenant_id&gt;.opendev.intapp.com:443/oauth2/callback HTTP/1.1
                 </div>
             </div>
             <div class="column-item">
@@ -187,7 +177,7 @@ POST https://auth-&lt;tenant_id&gt;.open.intapp.com/oauth/token HTTP/1.1
 
 {Body}
 
-    grant_type=authorization_code&client_id=1&client_secret=x7AqlRO6CAX3yfoVblz7Bmz6PIk=&code=fb7cb018a05f4902b8e145c44d1b0ea3&tenant_id=&lt;tenant_id&gt;&redirect_uri= https://api-tenant1.opendev.intapp.com:443/oauth2/callback
+    grant_type=authorization_code&client_id=1&client_secret=x7AqlRO6CAX3yfoVblz7Bmz6PIk=&code=fb7cb018a05f4902b8e145c44d1b0ea3&tenant_id=&lt;tenant_id&gt;&redirect_uri= https://api-&lt;tenant_id&gt;.opendev.intapp.com:443/oauth2/callback
                 </div>
             </div>
             <div class="column-item">
