@@ -82,10 +82,6 @@ team:
 - github: ssaniev
   id: ssaniev
   role: developer
-- github: svanburen
-  id: svanburen
-  role: developer
-
 
 # What kind of content is contained in the project repository?
 # values: app, docs, policy
@@ -105,10 +101,10 @@ parent: VeniceGeo
 #   text: Anchor text for the link
 #   category: Type of the link
 links:
-- url: http://pz-docs.stage.geointservices.io/
+- url: http://pz-docs.geointservices.io/
   text: Piazza Documentation
   category: process
-- url: https://pz-swagger.stage.geointservices.io/
+- url: https://pz-swagger.geointservices.io/
   text: Piazza Gateway API
   category: api
 
