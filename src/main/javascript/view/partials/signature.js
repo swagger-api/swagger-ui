@@ -561,7 +561,13 @@ SwaggerUi.partials.signature = (function () {
         if(key.indexOf('application/json') === 0) {
           var example = value.examples[key];
           if (_.isString(example)) {
-            example = jsyaml.safeLoad(example);
+            try {
+              example = jsyaml.safeLoad(example);
+            } catch (e) {
+              if (console) {
+                (console.error || console.log).call(console, e);
+              }
+            }
           }
           value.definition.example = example;
           return schemaToJSON(value.definition, example, modelsToIgnore, value.modelPropertyMacro);
@@ -573,7 +579,13 @@ SwaggerUi.partials.signature = (function () {
       value = _.cloneDeep(value);
       var example = value.examples;
       if (_.isString(example)) {
-        example = jsyaml.safeLoad(example);
+        try {
+          example = jsyaml.safeLoad(example);
+        } catch (e) {
+          if (console) {
+            (console.error || console.log).call(console, e);
+          }
+        }
       }
       value.definition.example = example;
       return schemaToJSON(value.definition, example, modelsToIgnore, value.modelPropertyMacro);
