@@ -20,10 +20,5 @@
             "name": "Mohsen Azimi",
             "email": "me@azimi.me"
         }
-    ],
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.x-dev"
-        }
-    }
+    ]
 }
