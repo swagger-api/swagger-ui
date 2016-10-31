@@ -1,7 +1,14 @@
 FROM node:6
 
 RUN apt-get update -y && \
-    apt-get install -y nginx
+    apt-get install -y nginx \
+    python \
+    python-dev \
+    python-pip \
+    && pip install PyYAML \
+    && pip install awscli --ignore-installed six
+
+RUN npm install -g swagger-tools
 
 COPY nginx.conf /etc/nginx/
 RUN mkdir -p /app
