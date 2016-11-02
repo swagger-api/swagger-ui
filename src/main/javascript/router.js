@@ -3,14 +3,22 @@
 window.SwaggerUiRouter = Backbone.Router.extend({
     routes: {
         '': 'onIndex',
-        'login': 'onLogin',
         'logout': 'onLogout',
         'doc': 'onDocumentation',
-        'doc/:subdoc': 'onDocumentation',
+        'doc/:subdoc': 'onDocumentation'
     },
 
     initialize: function() {
         var url = this.getUrl();
+        var token = this.getParameterByName('access_token');
+        var apiKeyAuth = null;
+        var bearerToken = null;
+        if (token !== null){
+            bearerToken = 'Bearer ' + token,
+                apiKeyAuth = new SwaggerClient.ApiKeyAuthorization('Authorization', bearerToken, 'header');
+
+            Backbone.history.navigate('', false);
+        }
 
         window.swaggerUi = new SwaggerUi({
             url: url,
@@ -38,7 +46,21 @@ window.SwaggerUiRouter = Backbone.Router.extend({
 
             onFailure: function(data) {
                 if(data === '401 : {\"message\":\"The identity is not set or unauthorized.\"} ' + window.swaggerUi.options.url) {
-                    Backbone.history.navigate('login', true);
+                    var host = window.location;
+                    var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
+                    var url = host.protocol + '//' + host.host + pathname.replace('swagger', 'login/url');
+                    $.ajax({
+                        url : url,
+                        type: 'POST',
+                        success: function (data)
+                        {
+                            window.location.href = data;
+                        },
+                        error: function ()
+                        {
+                            window.onOAuthComplete('');
+                        }
+                    });
                 } else {
                     console.log('Unable to Load SwaggerUI');
                 }
@@ -96,7 +118,43 @@ window.SwaggerUiRouter = Backbone.Router.extend({
             validatorUrl: null
         });
 
-        window.swaggerUi.load();
+        //set swagger client auth
+        if (apiKeyAuth != null) {
+            //set supported HTTP methods
+
+            if (window.swaggerUi.api) {
+                window.swaggerUi.api.clientAuthorizations.add('Authorization', apiKeyAuth);
+            } else {
+                window.swaggerUi.options.authorizations = {'Authorization': apiKeyAuth};
+            }
+
+            var host = window.location;
+            var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
+            var adminUrl = host.protocol + '//' + host.host + pathname.replace('swagger', 'login/isadmin');
+            $.ajax({
+                url : adminUrl,
+                type: 'POST',
+                beforeSend: function (request)
+                {
+                    request.setRequestHeader('Authorization', bearerToken);
+                },
+                success: function (data)
+                {
+                    if (data.toLowerCase() === 'true'){
+                        window.swaggerUi.options.supportedSubmitMethods = ['get', 'post', 'put', 'delete', 'patch'];
+                    }
+                    else{
+                        window.swaggerUi.options.supportedSubmitMethods = ['get'];
+                    }
+
+                    window.swaggerUi.load();
+                },
+                error: function ()
+                {
+                    window.onOAuthComplete('');
+                }
+            });
+        }
     },
 
     onIndex: function() {
@@ -115,11 +173,6 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         this.currentView = undefined;
     },
 
-    onLogin: function() {
-        console.log('render login page');
-        this.showView(new SwaggerUi.Views.LoginView());
-    },
-
     onLogout: function() {
         console.log('process logout');
 
@@ -134,7 +187,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
             console.log('render documentation page');
             this.showView(new SwaggerUi.Views.DocumentationView(subdoc && { template: 'documentation_' + subdoc }));
         } else {
-            this.navigate('login', true);
+            this.navigate('', true);
         }
     },
 
@@ -154,5 +207,23 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
 
         return host.protocol + '//' + host.host + pathname.replace('swagger', 'api/swagger/docs/v1') + '?_=' + Date.now();
+    },
+
+    getParameterByName: function(name, url) {
+        if (!url) {
+            url = window.location.href;
+        }
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[#?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results){
+            return null;
+        }
+
+        if (!results[2]) {
+            return '';
+        }
+
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
     }
 });
