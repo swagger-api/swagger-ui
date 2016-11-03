@@ -35,7 +35,7 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-        url = "https://raw.githubusercontent.com/venicegeo/pz-gateway/master/swagger-gateway.json";
+        url = window.location.href.replace('index.html', 'swagger-gateway.json');
       }
 
       // Pre load translate...
