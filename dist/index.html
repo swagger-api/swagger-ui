@@ -35,7 +35,11 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
+		if (window.location.href.indexOf('index.html') > 0) {
         url = window.location.href.replace('index.html', 'swagger-gateway.json');
+		} else {
+		url = window.location.href + '/swagger-gateway.json';
+		}
       }
 
       // Pre load translate...
