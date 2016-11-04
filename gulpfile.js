@@ -14,6 +14,8 @@ var header = require('gulp-header');
 var order = require('gulp-order');
 var jshint = require('gulp-jshint');
 var pkg = require('./package.json');
+var runSequence = require('run-sequence');
+var cssnano = require('gulp-cssnano');
 
 var banner = ['/**',
   ' * <%= pkg.name %> - <%= pkg.description %>',
@@ -126,6 +128,23 @@ gulp.task('copy-local-specs', function () {
     .on('error', log);
 });
 
+gulp.task('minify-css', function() {
+    /** Minify all CSS within dist folder, runs after dist process*/
+
+    return gulp.src('./dist/css/*.css')
+        .pipe(cssnano())
+        .pipe(gulp.dest('./dist/css'));
+});
+
+gulp.task('uglify-libs', function() {
+    /**
+     * Minify all JS libs within the dist folder.  A nice TODO would be to use versions from CDN
+     */
+    gulp.src('./dist/lib/*.js')
+        .pipe(uglify())
+        .pipe(gulp.dest('./dist/lib'))
+});
+
 /**
  * Watch for changes and recompile
  */
@@ -162,7 +181,11 @@ gulp.task('handlebars', function () {
         .on('error', log);
 });
 
-gulp.task('default', ['dist', 'copy']);
+gulp.task('default', function(callback) {
+    runSequence(['dist', 'copy'],
+                ['uglify-libs', 'minify-css'],
+                callback);
+});
 gulp.task('serve', ['connect', 'watch']);
 gulp.task('dev', ['default'], function () {
   gulp.start('serve');
