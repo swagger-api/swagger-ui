@@ -46,6 +46,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
 
             onFailure: function(data) {
                 if(data === '401 : {\"message\":\"The identity is not set or unauthorized.\"} ' + window.swaggerUi.options.url) {
+
                     var host = window.location;
                     var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
                     var url = host.protocol + '//' + host.host + pathname.replace('swagger', 'login/url');
@@ -54,7 +55,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
                         type: 'POST',
                         success: function (data)
                         {
-                            window.location.href = data;
+                            window.location.href = data
                         },
                         error: function ()
                         {
@@ -177,9 +178,23 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         console.log('process logout');
 
         window.swaggerUi.api.clientAuthorizations.remove('Authorization');
-        window.swaggerUi.options.url = this.getUrl();
 
-        window.swaggerUi.load();
+        var host = window.location;
+        var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
+        var url = host.protocol + '//' + host.host + pathname.replace('swagger', 'login/url');
+        $.ajax({
+            url : url,
+            type: 'POST',
+            success: function (data)
+            {
+                window.location.href = data.replace('oauth/authorize', 'account/logout');
+            },
+            error: function ()
+            {
+                window.swaggerUi.options.url = this.getUrl();
+                window.swaggerUi.load();
+            }
+        });
     },
 
     onDocumentation: function(subdoc) {
@@ -225,5 +240,5 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         }
 
         return decodeURIComponent(results[2].replace(/\+/g, ' '));
-    }
+    },
 });
