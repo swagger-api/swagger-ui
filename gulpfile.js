@@ -142,7 +142,7 @@ gulp.task('uglify-libs', function() {
      */
     gulp.src('./dist/lib/*.js')
         .pipe(uglify())
-        .pipe(gulp.dest('./dist/lib'))
+        .pipe(gulp.dest('./dist/lib'));
 });
 
 /**
