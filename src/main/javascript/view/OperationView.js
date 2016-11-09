@@ -258,9 +258,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
 
     if (Array.isArray(this.model.security)) {
-      var authsModel = SwaggerUi.utils.parseSecurityDefinitions(this.model.security);
+      var authsModel = SwaggerUi.utils.parseSecurityDefinitions(this.model.security, this.router.api);
 
-      authsModel.isLogout = !_.isEmpty(window.swaggerUi.api.clientAuthorizations.authz);
+      authsModel.isLogout = !_.isEmpty(this.router.api.clientAuthorizations.authz);
       this.authView = new SwaggerUi.Views.AuthButtonView({
         data: authsModel,
         router: this.router,

@@ -21779,7 +21779,7 @@ window.SwaggerUi = Backbone.Router.extend({
         return result;
       });
       this.authView = new SwaggerUi.Views.AuthButtonView({
-        data: SwaggerUi.utils.parseSecurityDefinitions(authsModel),
+        data: SwaggerUi.utils.parseSecurityDefinitions(authsModel, this.api),
         router: this
       });
       $('#auth_container').append(this.authView.render().el);
@@ -21935,8 +21935,8 @@ window.SwaggerUi.utils = {};
 'use strict';
 
 window.SwaggerUi.utils = {
-    parseSecurityDefinitions: function (security) {
-        var auths = Object.assign({}, window.swaggerUi.api.authSchemes || window.swaggerUi.api.securityDefinitions);
+    parseSecurityDefinitions: function (security, api) {
+        var auths = Object.assign({}, api.authSchemes || api.securityDefinitions);
         var oauth2Arr = [];
         var authsArr = [];
         var scopes = [];
@@ -22012,6 +22012,7 @@ window.SwaggerUi.utils = {
         return html;
     }
 };
+
 'use strict';
 
 SwaggerUi.Models.ApiKeyAuthModel = Backbone.Model.extend({
@@ -22154,7 +22155,11 @@ SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
     constructor: function() {
         var args = Array.prototype.slice.call(arguments);
 
-        args[0] = this.parse(args[0]);
+        var options = args[0] || {};
+        var data = options.data || {};
+        var router = options.router;
+
+        args[0] = this.parse(data, router);
 
         Backbone.Collection.apply(this, args);
     },
@@ -22215,8 +22220,8 @@ SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
         return this.where({ isLogout: true }).length > 0;
     },
 
-    parse: function (data) {
-        var authz = Object.assign({}, window.swaggerUi.api.clientAuthorizations.authz);
+    parse: function (data, router) {
+        var authz = Object.assign({}, router.api.clientAuthorizations.authz);
 
         return _.map(data, function (auth, name) {
             var isBasic = authz[name] && auth.type === 'basic' && authz[name].username && authz[name].password;
@@ -22239,6 +22244,7 @@ SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
         });
     }
 });
+
 'use strict';
 
 SwaggerUi.Views.AuthsCollectionView = Backbone.View.extend({
@@ -22248,7 +22254,7 @@ SwaggerUi.Views.AuthsCollectionView = Backbone.View.extend({
         this.options.data = this.options.data || {};
         this.router = this.options.router;
 
-        this.collection = new SwaggerUi.Collections.AuthsCollection(opts.data);
+        this.collection = new SwaggerUi.Collections.AuthsCollection(opts);
 
         this.$innerEl = $('<div>');
         this.authViews = [];
@@ -22324,7 +22330,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         opts.data = opts.data || {};
         this.router = this.options.router;
 
-        this.authsCollectionView = new SwaggerUi.Views.AuthsCollectionView({data: opts.data});
+        this.authsCollectionView = new SwaggerUi.Views.AuthsCollectionView({data: opts.data, router: this.router});
 
         this.$el.html(this.tpls.main({
             isLogout: this.authsCollectionView.collection.isAuthorized(),
@@ -22378,8 +22384,9 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
     logoutClick: function (e) {
         e.preventDefault();
 
+        var router = this.router;
         this.authsCollectionView.collection.forEach(function (auth) {
-            window.swaggerUi.api.clientAuthorizations.remove(auth.get('title'));
+            router.api.clientAuthorizations.remove(auth.get('title'));
         });
 
         this.router.load();
@@ -23075,9 +23082,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
 
     if (Array.isArray(this.model.security)) {
-      var authsModel = SwaggerUi.utils.parseSecurityDefinitions(this.model.security);
+      var authsModel = SwaggerUi.utils.parseSecurityDefinitions(this.model.security, this.router.api);
 
-      authsModel.isLogout = !_.isEmpty(window.swaggerUi.api.clientAuthorizations.authz);
+      authsModel.isLogout = !_.isEmpty(this.router.api.clientAuthorizations.authz);
       this.authView = new SwaggerUi.Views.AuthButtonView({
         data: authsModel,
         router: this.router,
