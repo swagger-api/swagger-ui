@@ -38,6 +38,11 @@ SwaggerUi.Models.Oauth2Model = Backbone.Model.extend({
 
     validate: function () {
       var valid = false;
+      if (this.get('isPasswordFlow') &&
+          (!this.get('username'))) {
+          return false;
+      }
+
       var scp = this.get('scopes');
       var idx =  _.findIndex(scp, function (o) {
          return o.checked === true;

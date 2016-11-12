@@ -9,6 +9,10 @@ SwaggerUi.Views.Oauth2View = Backbone.View.extend({
 
     template: Handlebars.templates.oauth2,
 
+    cls: {
+        error: 'error'
+    },
+
     render: function () {
         this.$el.html(this.template(this.model.toJSON()));
 
@@ -23,10 +27,20 @@ SwaggerUi.Views.Oauth2View = Backbone.View.extend({
     },
 
     setUsername: function (e) {
-        this.model.set('username', $(e.target).val());
+        var val= $(e.target).val();
+        this.model.set('username', val);
+        if (val) {
+            $(e.target).removeClass(this.cls.error);
+        }
     },
 
     setPassword: function (e) {
         this.model.set('password', $(e.target).val());
+    },
+
+    highlightInvalid: function () {
+        if (!this.model.get('username')) {
+            this.$el.find('.oauth-username').addClass(this.cls.error);
+        }
     }
 });
