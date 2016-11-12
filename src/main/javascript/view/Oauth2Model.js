@@ -3,7 +3,8 @@
 SwaggerUi.Models.Oauth2Model = Backbone.Model.extend({
     defaults: {
         scopes: {},
-        isPasswordFlow: false
+        isPasswordFlow: false,
+        clientAuthenticationType: 'none'
     },
 
     initialize: function () {
@@ -21,7 +22,12 @@ SwaggerUi.Models.Oauth2Model = Backbone.Model.extend({
             this.attributes = attributes;
         }
 
-        this.set('isPasswordFlow', attributes.flow && attributes.flow === 'password');
+        if (this.attributes && this.attributes.flow) {
+            var flow = this.attributes.flow;
+            this.set('isPasswordFlow', flow === 'password');
+            this.set('requireClientAuthentication', flow === 'application');
+            this.set('clientAuthentication', flow === 'password' || flow === 'application');
+        }
         this.on('change', this.validate);
     },
 
@@ -40,6 +46,11 @@ SwaggerUi.Models.Oauth2Model = Backbone.Model.extend({
       var valid = false;
       if (this.get('isPasswordFlow') &&
           (!this.get('username'))) {
+          return false;
+      }
+
+      if (this.get('clientAuthenticationType') in ['basic', 'request-body'] &&
+          (!this.get('clientId'))) {
           return false;
       }
 
