@@ -100,8 +100,9 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         var scopes = _.map(auth.get('scopes'), function (scope) {
             return scope.scope;
         });
+        var container = window.swaggerUiAuth || (window.swaggerUiAuth = {});
         var state, dets, ep;
-        window.OAuthSchemeKey = auth.get('title');
+        container.OAuthSchemeKey = auth.get('title');
 
         window.enabledScopes = scopes;
         var flow = auth.get('flow');
@@ -109,14 +110,14 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         if(auth.get('type') === 'oauth2' && flow && (flow === 'implicit' || flow === 'accessCode')) {
             dets = auth.attributes;
             url = dets.authorizationUrl + '?response_type=' + (flow === 'implicit' ? 'token' : 'code');
-            window.swaggerUi.tokenName = dets.tokenName || 'access_token';
-            window.swaggerUi.tokenUrl = (flow === 'accessCode' ? dets.tokenUrl : null);
-            state = window.OAuthSchemeKey;
+            container.tokenName = dets.tokenName || 'access_token';
+            container.tokenUrl = (flow === 'accessCode' ? dets.tokenUrl : null);
+            state = container.OAuthSchemeKey;
         }
         else if(auth.get('type') === 'oauth2' && flow && (flow === 'application')) {
             dets = auth.attributes;
-            window.swaggerUi.tokenName = dets.tokenName || 'access_token';
-            this.clientCredentialsFlow(scopes, dets.tokenUrl, window.OAuthSchemeKey);
+            container.tokenName = dets.tokenName || 'access_token';
+            this.clientCredentialsFlow(scopes, dets.tokenUrl, container.OAuthSchemeKey);
             return;
         }
         else if(auth.get('grantTypes')) {
@@ -127,13 +128,13 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
                     dets = o[t];
                     ep = dets.loginEndpoint.url;
                     url = dets.loginEndpoint.url + '?response_type=token';
-                    window.swaggerUi.tokenName = dets.tokenName;
+                    container.tokenName = dets.tokenName;
                 }
                 else if (o.hasOwnProperty(t) && t === 'accessCode') {
                     dets = o[t];
                     ep = dets.tokenRequestEndpoint.url;
                     url = dets.tokenRequestEndpoint.url + '?response_type=code';
-                    window.swaggerUi.tokenName = dets.tokenName;
+                    container.tokenName = dets.tokenName;
                 }
             }
         }
