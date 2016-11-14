@@ -21935,8 +21935,8 @@ window.SwaggerUi.utils = {};
 'use strict';
 
 window.SwaggerUi.utils = {
-    parseSecurityDefinitions: function (security) {
-        var auths = Object.assign({}, window.swaggerUi.api.authSchemes || window.swaggerUi.api.securityDefinitions);
+    parseSecurityDefinitions: function (security, securityDefinitions) {
+        var auths = Object.assign({}, securityDefinitions);
         var oauth2Arr = [];
         var authsArr = [];
         var scopes = [];
@@ -23075,9 +23075,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
 
     if (Array.isArray(this.model.security)) {
-      var authsModel = SwaggerUi.utils.parseSecurityDefinitions(this.model.security);
+      var authsModel = SwaggerUi.utils.parseSecurityDefinitions(this.model.security, this.model.parent.securityDefinitions);
 
-      authsModel.isLogout = !_.isEmpty(window.swaggerUi.api.clientAuthorizations.authz);
+      authsModel.isLogout = !_.isEmpty(this.model.clientAuthorizations.authz);
       this.authView = new SwaggerUi.Views.AuthButtonView({
         data: authsModel,
         router: this.router,
