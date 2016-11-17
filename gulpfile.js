@@ -13,9 +13,9 @@ var connect = require('gulp-connect');
 var header = require('gulp-header');
 var order = require('gulp-order');
 var jshint = require('gulp-jshint');
-var pkg = require('./package.json');
 var runSequence = require('run-sequence');
 var cssnano = require('gulp-cssnano');
+var pkg = require('./package.json');
 
 var banner = ['/**',
   ' * <%= pkg.name %> - <%= pkg.description %>',
