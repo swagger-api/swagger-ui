@@ -26355,8 +26355,12 @@ SwaggerUi.partials.signature = (function () {
   var getInlineModel = function(inlineStr) {
     if(/^Inline Model \d+$/.test(inlineStr)) {
       var id = parseInt(inlineStr.substr('Inline Model'.length).trim(),10); //
-      var model = this.inlineModels[id];
-      return model;
+      if(this.inlineModels){
+        var model = this.inlineModels[id];
+        return model;
+      } else {
+        return null;
+      }
     }
     // I'm returning null here, should I rather throw an error?
     return null;
