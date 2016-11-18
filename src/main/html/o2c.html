@@ -11,7 +11,7 @@ qp = qp ? JSON.parse('{"' + qp.replace(/&/g, '","').replace(/=/g,'":"') + '"}',
     return key===""?value:decodeURIComponent(value) }
   ):{}
 
-if (window.opener.swaggerUi.tokenUrl)
+if (window.opener.swaggerUiAuth.tokenUrl)
     window.opener.processOAuthCode(qp);
 else
     window.opener.onOAuthComplete(qp);

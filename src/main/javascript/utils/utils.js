@@ -1,8 +1,8 @@
 'use strict';
 
 window.SwaggerUi.utils = {
-    parseSecurityDefinitions: function (security) {
-        var auths = Object.assign({}, window.swaggerUi.api.authSchemes || window.swaggerUi.api.securityDefinitions);
+    parseSecurityDefinitions: function (security, securityDefinitions) {
+        var auths = Object.assign({}, securityDefinitions);
         var oauth2Arr = [];
         var authsArr = [];
         var scopes = [];
