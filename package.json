@@ -43,6 +43,7 @@
     "gulp-less": "^3.0.1",
     "gulp-order": "^1.1.1",
     "gulp-rename": "^1.2.0",
+    "gulp-sourcemaps": "^2.2.0",
     "gulp-uglify": "^1.1.0",
     "gulp-watch": "^4.1.1",
     "gulp-wrap": "^0.11.0",
