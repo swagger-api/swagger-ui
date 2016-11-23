@@ -6,6 +6,19 @@ SwaggerUi.Models.Oauth2Model = Backbone.Model.extend({
     },
 
     initialize: function () {
+        if(this.attributes && this.attributes.scopes) {
+            var attributes = _.cloneDeep(this.attributes);
+            var i, scopes = [];
+            for(i in attributes.scopes) {
+                var scope = attributes.scopes[i];
+                if(typeof scope.description === 'string') {
+                    scopes[scope] = attributes.scopes[i];
+                    scopes.push(attributes.scopes[i]);
+                }
+            }
+            attributes.scopes = scopes;
+            this.attributes = attributes;
+        }
         this.on('change', this.validate);
     },
 
