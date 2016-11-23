@@ -64,7 +64,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
             if (type === 'apiKey') {
                 keyAuth = new SwaggerClient.ApiKeyAuthorization(
                     auth.get('name'),
-                    'Token ' + auth.get('value'),
+                    auth.get('value'),
                     auth.get('in')
                 );
 
