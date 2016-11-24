@@ -553,14 +553,30 @@ SwaggerUi.partials.signature = (function () {
     modelsToIgnore[value.name] = value;
 
     // Response support
-    if (value.examples && _.isPlainObject(value.examples) && value.examples['application/json']) {
-      value.definition.example = value.examples['application/json'];
+    if (value.examples && _.isPlainObject(value.examples)) {
+      value = _.cloneDeep(value);
+      var keys = Object.keys(value.examples);
 
-      if (_.isString(value.definition.example)) {
-        value.definition.example = jsyaml.safeLoad(value.definition.example);
+      _.forEach(keys, function(key) {
+        if(key.indexOf('application/json') === 0) {
+          var example = value.examples[key];
+          if (_.isString(example)) {
+            example = jsyaml.safeLoad(example);
+          }
+          value.definition.example = example;
+          return schemaToJSON(value.definition, example, modelsToIgnore, value.modelPropertyMacro);
+        }
+      });
+    }
+
+    if (value.examples) {
+      value = _.cloneDeep(value);
+      var example = value.examples;
+      if (_.isString(example)) {
+        example = jsyaml.safeLoad(example);
       }
-    } else if (!value.definition.example) {
-      value.definition.example = value.examples;
+      value.definition.example = example;
+      return schemaToJSON(value.definition, example, modelsToIgnore, value.modelPropertyMacro);
     }
 
     return schemaToJSON(value.definition, value.models, modelsToIgnore, value.modelPropertyMacro);
