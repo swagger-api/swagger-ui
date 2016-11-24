@@ -98,7 +98,9 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         var redirectUrl = window.oAuthRedirectUrl || defaultRedirectUrl;
         var url = null;
         var scopes = _.map(auth.get('scopes'), function (scope) {
-            return scope.scope;
+            if(scope.checked) {
+                return scope.scope;
+            }
         });
         var container = window.swaggerUiAuth || (window.swaggerUiAuth = {});
         var state, dets, ep;
