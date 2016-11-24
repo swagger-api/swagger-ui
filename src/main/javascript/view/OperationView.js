@@ -672,17 +672,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         contentType = contentType.split(';')[0].trim();
       }
     }
-    if(contentType) {
-      if(typeof content === 'string') {
-        var arrayBuffer = new ArrayBuffer(content.length);
-        var uint8Array = new Uint8Array(arrayBuffer);
-        for (var i = 0; i < content.length; i++) {
-          uint8Array[i] = content.charCodeAt(i);
-        }
 
-        content = new Blob([uint8Array], { type: contentType });
-      }
-    }
     $('.response_body', $(this.el)).removeClass('json');
     $('.response_body', $(this.el)).removeClass('xml');
 
