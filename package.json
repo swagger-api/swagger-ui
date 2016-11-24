@@ -37,6 +37,7 @@
     "gulp-clean": "^0.3.1",
     "gulp-concat": "^2.5.2",
     "gulp-connect": "^2.2.0",
+    "gulp-cssnano": "^2.1.2",
     "gulp-declare": "^0.3.0",
     "gulp-header": "^1.2.2",
     "gulp-jshint": "^1.10.0",
@@ -59,6 +60,7 @@
     "less": "^2.4.0",
     "mocha": "^2.1.0",
     "phantomjs": "1.9.19",
+    "run-sequence": "^1.2.2",
     "selenium-webdriver": "^2.45.0",
     "sinon-chai": "2.8.0",
     "swagger-client": "2.1.25"
