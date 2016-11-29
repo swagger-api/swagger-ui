@@ -1,0 +1,149 @@
+/**
+ * Resources
+ ******************************************************************************/
+#resources {
+    border-top: 1px solid #ddd;
+    color: #555;
+}
+.resource {
+    border-bottom: 1px solid #ddd;
+    padding: 16px 0;
+
+    > .heading {
+        display: flex;
+        h2 {
+            flex: 1 1 auto;
+        }
+        .options {
+            li {
+                display: inline-block;
+                margin-left: 16px;
+            }
+
+            a {
+                font-size: 12px;
+                text-decoration: none;
+                color: #888;
+            }
+        }
+    }
+    .content {
+        margin: 12px 8px 8px 4.1em;
+        h4 {
+            margin: 1em 0;
+        }
+    }
+}
+
+/**
+ * Endpoints
+ ******************************************************************************/
+.endpoint {
+    margin: 12px 0;
+    border-radius: 3px;
+    background: #fff;
+}
+.operation {
+    padding: 8px;
+
+    > .heading {
+        h3 {
+            display: inline-block;
+        }
+        .options {
+            display: inline-block;
+            margin-left: 12px;
+            a {
+                font-size: 12px;
+                text-decoration: none;
+                color: #888;
+            }
+        }
+    }
+}
+
+.http_method a {
+    text-decoration: none;
+    text-transform: uppercase;
+    display: inline-block;
+    min-width: 4.5em;
+    text-align: center;
+    font-size: 13px;
+    border-radius: 2px;
+}
+
+.post .http_method a {
+    background: #1CAAD9;
+    color: #fff;
+}
+.get .http_method a {
+    background: #1FCC74;
+    color: #fff;
+}
+.put .http_method a {
+    background: #FF8507;
+    color: #fff;
+}
+.patch .http_method a {
+    background: #FF9E3A;
+    color: #fff;
+}
+.delete .http_method a {
+    background: #CC211F;
+    color: #fff;
+}
+.block {
+    &.curl {
+        &:extend(.terminal);
+    }
+}
+/**
+ * Signature
+ ******************************************************************************/
+.signature-nav {
+    display: flex;
+    li {
+        border: 1px solid @brand-color;
+        border-left: 0;
+        &:first-child {
+            border: 1px solid @brand-color;
+            border-top-left-radius: 2px;
+            border-bottom-left-radius: 2px;
+        }
+        &:last-child {
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+        }
+    }
+    a {
+        display: block;
+        padding: 0 6px;
+        font-size: 13px;
+        &.selected {
+            background: @brand-color;
+            color: #ffffff;
+            font-weight: bold;
+        }
+    }
+}
+.signature-container {
+    .description {
+        &:extend(.terminal);
+        > div {
+            padding-left: 2em;
+        }
+    }
+    .strong {
+        font-weight: bold;
+    }
+    .propType {
+        color: @solarized-orange;
+    }
+    .propName  {
+        color: @solarized-yellow;
+    }
+    .propOptKey {
+        font-style: italic;
+        color: @solarized-base0;
+    }
+}

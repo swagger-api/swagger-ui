@@ -1,0 +1,35 @@
+/**
+ * Header
+ ******************************************************************************/
+#header {
+    &:extend(.shadow);
+    min-height: 60px;
+    background: #fff;
+    .swagger-ui-wrap {
+        display: flex;
+        height: 60px;
+        align-items: center;
+    }
+    #logo {
+        display: inline-block;
+        width: 122px;
+        height: 26px;
+        background: url("https://d1jlf623bx36qa.cloudfront.net/img/press/logos/logo-sketchfab-grey.png") no-repeat;
+        background-size: 121px 25px;
+        > * {
+            display: none;
+        }
+    }
+    #api_selector {
+        flex: 1 1 auto;
+        text-align: right;
+
+        > div {
+            display: inline-block;
+            margin-left: 10px;
+        }
+    }
+    #input_baseUrl {
+        min-width: 30em;
+    }
+}
