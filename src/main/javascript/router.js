@@ -130,9 +130,12 @@ window.SwaggerUiRouter = Backbone.Router.extend({
     },
 
     onDocumentation: function(subdoc) {
+        /*global Intapp */
+        var deploymentType = (typeof Intapp !== undefined && Intapp.Config.Deployment === 'OnPremise') ? '_onpremise' : '_cloud';
+
         if(window.swaggerUi.initialized) {
             console.log('render documentation page');
-            this.showView(new SwaggerUi.Views.DocumentationView(subdoc && { template: 'documentation_' + subdoc }));
+            this.showView(new SwaggerUi.Views.DocumentationView(subdoc && { template: 'documentation_' + subdoc + deploymentType }));
         } else {
             this.navigate('login', true);
         }

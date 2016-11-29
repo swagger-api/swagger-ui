@@ -1,0 +1,259 @@
+<header class="gb-header-sm">
+    <div class="logo-intapp-api">Intapp API</div>
+    <ul class="gb-header-nav">
+        <li><a href="#">Open API</a></li>
+        <li class="has-drop-menu is-selected">
+            <a href="#doc/oauth2">Documents</a>
+            <div class="gb-header-nav-inner">
+                <ul>
+                    <li class="is-selected"><a href="#doc/oauth2">OAuth2 details</a></li>
+                    <li><a href="#doc/provisioning">Provisioning walk-through</a></li>
+                    <li><a href="#doc/steadystate">Steady State walk-through</a></li>
+                </ul>
+            </div>
+        </li>
+        <li><a href="#logout">Log out</a></li>
+    </ul>
+</header>
+<div class="swagger-ui-wrap">
+    <section class="gb-content">
+
+        <h1>REST API Authentication Guide</h1>
+
+        <p>Welcome to your first step in using Intapp API’s. This guide outlines the OAuth2 authentication procedure and highlights example API calls for the Open application.</p>
+
+        <h2>Relevant links</h2>
+
+        <ol class="list-between-indent">
+            <li><b>Open Application:</b> http://&lt;server&gt;/Open
+            </li><li><b>Open REST API’s</b>
+            <ol class="list-disc">
+                <li><b>Base URL:</b> http://&lt;server&gt;/Open.Services.Rest</li>
+                <li><b>Authorization URL:</b> http://&lt;server&gt;/Open.Services.Rest/authorize</li>
+                <li><b>Token URL:</b> http://&lt;server&gt;/Open.Services.Rest/token</li>
+            </ol>
+        </li>
+            <li><b>Interactive API documentation and guides</b>
+                <ol class="list-disc">
+                    <li><b>Interactive discovery interface:</b> http://&lt;server&gt;/Open.Services.Rest/swagger</li>
+                    <li><b>Swagger standard definition:</b> (GET) http://&lt;server&gt;/Open.Services.Rest/api/swagger/docs/v1</li>
+                </ol>
+            </li>
+        </ol>
+
+        <h2>OAuth2 Development steps</h2>
+
+        <h3><b class="intappBlue">Developer Step 1:</b> Request your IT Admin to create your user account</h3>
+        <ol class="list-disc">
+            <li><dfn class="dfn-green">IT Admin Step 1:</dfn> Create a user account with relevant details under System &gt; Users. Activate the account and convey credentials to the API user if not using Windows Login.</li>
+        </ol>
+
+        <h3><b class="intappBlue">Developer Step 2:</b> Request the your IT Admin to register an application on your behalf</h3>
+        <ol class="list-disc">
+            <li><dfn class="dfn-green">IT Admin Step 2:</dfn> Create a new application under System &gt; API. Add the newly created user under the Application Users tab and save changes. This grants the user the capability to access all endpoints.
+                <p><b>Note:</b> <dfn>API access can be made more granular under the Users profile tab that administrators control. These capabilities are detailed in the Administrator Guide.</dfn></p>
+            </li>
+        </ol>
+
+        <h3><b class="intappBlue">Developer Step 3:</b> Recieve the Authorization Code</h3>
+        <ol class="list-disc">
+            <li><dfn class="dfn-green">IT Admin Step 3:</dfn> Pick either of the following authorization paths.
+                <ul>
+                    <li><b>Admin generated authorization</b>
+                        <p>In the application tab, next to a particular Application User, click ‘generate’ to create the Authorization Code. Securely send this code to the developer and prompt them to Sign In to get the Client Id, Client Secret, and pre-set Redirect URL. This authorization code is valid for 5 minutes.</p>
+                    </li>
+                    <li><b>Developer requested authorization</b>
+                        <p>Inform the developer/s that the application has been provisioned and they can Sign In to retrieve requisite details.</p>
+                    </li>
+                </ul>
+            </li>
+            <li><b>Developer Step 3.1:</b> Use the following endpoint to generate the Authorization Code, unless your IT Admin has informed you otherwise.
+                <p><b>GET</b> http://&lt;server&gt;/Open.Services.Rest/authorize</p>
+                <dl>
+                    <dt>Parameter</dt><dd>Description</dd>
+                    <dt>response_type</dt><dd>code</dd>
+                    <dt>client_id</dt><dd><i>Application Client ID</i></dd>
+                    <dt>client_secret</dt><dd><i>Application Client Secret</i></dd>
+                    <dt>user_id</dt><dd><i>User ID</i></dd>
+                    <dt>tenant_id</dt><dd><i>Tenant ID</i></dd>
+                    <dt>redirect_uri</dt><dd><i>Redirect URL</i></dd>
+                </dl>
+                <p>You will get redirected to <a href="https://api-tenant1.opendev.intapp.com:443/oauth2/callback?code=Authorization_Code">https://api-tenant1.opendev.intapp.com:443/oauth2/callback?code=Authorization_Code</a></p>
+            </li>
+            <li><b>Developer Step 3.2:</b> Authenticate to receive the Authorization Code
+                <p>This code will be sent to either the specified or standard redirect URL. This URL can be defined under application details within Open. Note that the code will only be valid for 5 minutes after which a new code will need to be generated.</p>
+            </li>
+        </ol>
+
+        <h3><b class="intappBlue">Developer Step 4:</b> Send the Authorization Code to get a Refresh Token and temporary Access Token</h3>
+        <ol class="list-disc">
+            <li>
+                <p><b>POST</b> http://&lt;server&gt;/Open.Services.Rest/token</p>
+                <dl>
+                    <dt>Parameter</dt><dd>Description</dd>
+                    <dt>grant_type</dt><dd>authorization_code</dd>
+                    <dt>tenant_id</dt><dd><i>Your law firm Tenant ID</i></dd>
+                    <dt>client_id</dt><dd><i>Application Client ID</i></dd>
+                    <dt>client_secret</dt><dd><i>Application Client Secret</i></dd>
+                    <dt>code</dt><dd><i>Received Authorization Code</i></dd>
+                    <dt>redirect_uri</dt><dd><i>Received Redirect URI</i></dd>
+                </dl>
+            </li>
+        </ol>
+
+        <h3><b class="intappBlue">Developer Step 5:</b> Store the Refresh Token and Access Token</h3>
+        <ol class="list-disc">
+            <li>
+
+                <div class="column-layout-x2 column-layout-half">
+
+                    <div class="column-item">
+                        <h4>JSON response received</h4>
+                        <div class="pre-code">
+                            {
+                            “access_token” : “AeRw23fsdfSDaOh212LkIN”,
+                            “token_type” : “bearer”,
+                            “expires_in” : “86399”
+                            “refresh_token” : “EREADsdasd3242asAEEASAJ12123”
+                            }
+                        </div>
+                    </div>
+
+                </div>
+
+                <p>The access token is valid for 24 hours after which, it must be refreshed using the refresh token.<br>
+                    This is detailed in Step 7 below.</p>
+            </li>
+        </ol>
+
+        <h3><b class="intappBlue">Developer Step 6:</b> Use Access Token to make API calls (examples)</h3>
+        <ol class="list-indent">
+            <li>
+                <dl>
+                    <dt>Header</dt><dd>Description</dd>
+                    <dt>Accept</dt><dd>application/json</dd>
+                    <dt>Authorization</dt><dd>Bearer <i>Access Token</i></dd>
+                    <dt>Content-Type</dt><dd>application/json</dd>
+                </dl>
+            </li>
+        </ol>
+
+        <h3><b class="intappBlue">Developer Step 7:</b> Use Refresh Token after Access Token expires to get a new Access Token</h3>
+        <ol class="list-disc">
+            <li>
+                <p><b>POST</b> http://&lt;server&gt;/Open.Services.Rest/token</p>
+                <dl>
+                    <dt>Parameter</dt><dd>Description</dd>
+                    <dt>grant_type</dt><dd>refresh_token</dd>
+                    <dt>tenant_id</dt><dd><i>Your law firm Tenant ID</i></dd>
+                    <dt>client_id</dt><dd><i>Application Client ID</i></dd>
+                    <dt>client_secret</dt><dd><i>Application Client Secret</i></dd>
+                    <dt>refresh_token</dt><dd><i>Received Refresh Token</i></dd>
+                </dl>
+            </li>
+        </ol>
+
+        <div class="el-separation"></div>
+
+        <h2>Examples</h2>
+
+        <h3>1. Get Authorization Code</h3>
+
+        <div class="column-layout-x2">
+
+            <div class="column-item">
+                <h4>Request</h4>
+                <div class="pre-code">
+                    GET http://&lt;server&gt;/Open.Services.Rest/authorize?response_type=code&amp;client_id=1&amp;client_secret=x7AqlRO6CAX3yfoVblz7Bmz6PIk=&amp;user_id=1&amp;tenant_id=&lt;tenant_id&gt;&amp;redirect_uri= https://api-tenant1.opendev.intapp.com:443/oauth2/callback HTTP/1.1
+                </div>
+            </div>
+            <div class="column-item">
+                <h4>Response</h4>
+                <div class="pre-code">
+                    You will be redirected (302) to:
+
+                    GET http://&lt;server&gt;/Open.Services.Rest :443/oauth2/callback?code=fb7cb018a05f4902b8e145c44d1b0ea3
+                </div>
+            </div>
+        </div>
+
+        <h3>2. Get tokens by using Authorization Code</h3>
+
+        <div class="column-layout-x2">
+            <div class="column-item">
+                <h4>Request</h4>
+                <div class="pre-code">
+                    POST http://&lt;server&gt;/Open.Services.Rest/token HTTP/1.1
+
+                    {Body}
+
+                    grant_type=authorization_code&amp;client_id=1&amp;client_secret=x7AqlRO6CAX3yfoVblz7Bmz6PIk=&amp;code=fb7cb018a05f4902b8e145c44d1b0ea3&amp;tenant_id=&lt;tenant_id&gt;&amp;redirect_uri= https://api-tenant1.opendev.intapp.com:443/oauth2/callback
+                </div>
+            </div>
+            <div class="column-item">
+                <h4>Response</h4>
+                <div class="pre-code">
+                    {
+                    "access_token": "QjzOw0KJNnVbZsHssN6tz9tyku0TU8RBDUFNuUcLWHpmbGSkDBbqYAXYsIOkFZesODg9XdO5MINLU-aDFrfI3Un9CokvImQlx99YQb-j6nziKyHn_z4VF3LJWfnLhouKj41fGdjcId0Th5DOAbxLUZg0YTFXzenvf_ScQBmttdcoXIMzitOI8Yc5IOGS8HT344i6_-StpsRRX69F1l0o6HVR00MRAHeQeWZ_hH7PssehNWQZPXFdYkXpYPp4SaeXtrFMHQ",
+                    "token_type": "bearer",
+                    "expires_in": 86399,
+                    "refresh_token": "73625ef7d5534af6a20e03ea17d9d8659fe3582d82934f7ba314ed0c1f994e2d"
+                    }
+                </div>
+            </div>
+        </div>
+
+        <h3>3. Get tokens by using refresh token, when access token expired</h3>
+
+        <div class="column-layout-x2">
+            <div class="column-item">
+                <h4>Request</h4>
+                <div class="pre-code">
+                    POST http://&lt;server&gt;/Open.Services.Rest/token HTTP/1.1
+
+                    {Body}
+
+                    grant_type=refresh_token&amp;client_id=1&amp;client_secret=x7AqlRO6CAX3yfoVblz7Bmz6PIk=&amp;tenant_id=&lt;tenant_id&gt;&amp;refresh_token=73625ef7d5534af6a20e03ea17d9d8659fe3582d82934f7ba314ed0c1f994e2d
+                </div>
+            </div>
+            <div class="column-item">
+                <h4>Response</h4>
+                <div class="pre-code">
+                    {
+                    "access_token": "m8kPwyrwxFfUHdpDRKJJSJGJx29ATimHs_ue6FhAkcbl6K5wVCCu9eb8FsALAbAt8fPlBxfgrzEW8Bf1ZE6rSf_4xv73hwW5mWimcTgaEFeUNsvK0LuvK3hBoU5sHxDV_sCLNKxNn0rWTRgym6DMecFABQ-1TGzyaCiWF1_PlMHrKH-b-X_dDmevtKgIHAAZRsykJEUehyL1NZ9WCU8sHdoMGJZMVIz17yMJrRuMA18oi64sxPjK-LB0fhPgJQNLg8WWegyccJhD5rnjuuJNHFGg6n4",
+                    "token_type": "bearer",
+                    "expires_in": 86399,
+                    "refresh_token": "e1ad0a3635fa4ada9b59a22cd88b1e1c5fc22801a7f245599030a4c536b49379"
+                    }
+                </div>
+            </div>
+        </div>
+
+        <h3>4. Example to get the client with Id =“20001” using REST API</h3>
+
+        <div class="column-layout-x2">
+            <div class="column-item">
+                <h4>Request</h4>
+                <div class="pre-code">
+                    GET http://&lt;server&gt;/Open.Services.Rest/api/common/v1/clients/20001 HTTP/1.1
+
+                    {Header}
+
+                    Authorization: Bearer m8kPwyrwxFfUHdpDRKJJSJGJx29ATimHs_ue6FhAkcbl6K5wVCCu9eb8FsALAbAt8fPlBxfgrzEW8Bf1ZE6rSf_4xv73hwW5mWimcTgaEFeUNsvK0LuvK3hBoU5sHxDV_sCLNKxNn0rWTRgym6DMecFABQ-1TGzyaCiWF1_PlMHrKH-b-X_dDmevtKgIHAAZRsykJEUehyL1NZ9WCU8sHdoMGJZMVIz17yMJrRuMA18oi64sxPjK-LB0fhPgJQNLg8WWegyccJhD5rnjuuJNHFGg6n4
+                </div>
+            </div>
+            <div class="column-item">
+                <h4>Response</h4>
+                <div class="pre-code">
+                    {
+                    "addresses": [],
+                    "aliases": [],
+                    "clientId": "20001",
+                    "clientUsers": [],
+                    ... (omitted)
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
