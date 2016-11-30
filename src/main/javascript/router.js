@@ -43,12 +43,6 @@
                     Backbone.history.navigate('', true);
 
                     console.timeEnd('loadingMainView');
-
-                    //refresh server variables after authentication
-                    reloadScript('configs.js', bearerToken, function () {
-                        //set main open URL
-                        $('#main-app').attr('href', Intapp.Config.Url);
-                    });
                 },
 
                 onFailure: function(data) {
@@ -252,18 +246,4 @@
             return decodeURIComponent(results[2].replace(/\+/g, ' '));
         }
     });
-
-    function reloadScript(src, bearerToken, callback) {
-        $.ajax({
-            url: src,
-            beforeSend: function (request) {
-                request.setRequestHeader('Authorization', bearerToken);
-            }
-        }).then(function(data) {
-            var e = eval;
-            e(data);
-
-            callback();
-        });
-    }
 })();

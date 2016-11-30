@@ -6,6 +6,15 @@
             highlightSizeThreshold: 5000
         });
 
+        //set main open URL
+        /*global Intapp */
+        if((typeof Intapp !== undefined && Intapp.Config.Url)) {
+            $('#main-app').attr('href', Intapp.Config.Url);
+        } else {
+            $('#main-app').attr('href', location.href.replace('api-', '').replace('swagger', ''));
+        }
+
+        //start history
         Backbone.history.start(new window.SwaggerUiRouter({app: this}));
     };
 
