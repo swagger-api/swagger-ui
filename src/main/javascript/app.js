@@ -11,7 +11,7 @@
         if((typeof Intapp !== undefined && Intapp.Config.Url)) {
             $('#main-app').attr('href', Intapp.Config.Url);
         } else {
-            $('#main-app').attr('href', location.href.replace('api-', '').replace('swagger', ''));
+            $('#main-app').attr('href', location.href.replace('/api/swagger', ''));
         }
 
         //start history
