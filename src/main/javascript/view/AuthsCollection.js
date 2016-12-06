@@ -37,6 +37,9 @@ SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
                 case 'apiKey':
                     result = new SwaggerUi.Models.ApiKeyAuthModel(model);
                     break;
+                case 'jwt':
+                    result = new SwaggerUi.Models.JwtAuthModel(model);
+                    break;
                 default:
                     result = new Backbone.Model(model);
             }
@@ -73,7 +76,8 @@ SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
         }
 
         return _.map(data, function (auth, name) {
-            var isBasic = authz[name] && auth.type === 'basic' && authz[name].username && authz[name].password;
+            var isBasic = authz[name] && (auth.type === 'basic' || auth.type === 'jwt') &&
+                authz[name].username && authz[name].password;
 
             _.extend(auth, {
                 title: name

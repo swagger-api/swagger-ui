@@ -24,7 +24,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         authBtn: '.auth_submit__button'
     },
 
-    initialize: function(opts) {
+    initialize: function (opts) {
         this.options = opts || {};
         opts.data = opts.data || {};
         this.router = this.options.router;
@@ -74,6 +74,8 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
                 this.router.api.clientAuthorizations.add(auth.get('title'), basicAuth);
             } else if (type === 'oauth2') {
                 this.handleOauth2Login(auth);
+            } else if (type === 'jwt') {
+                this.handleJwtAuthLogin(auth);
             }
         }, this);
 
@@ -109,24 +111,24 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         window.enabledScopes = scopes;
         var flow = auth.get('flow');
 
-        if(auth.get('type') === 'oauth2' && flow && (flow === 'implicit' || flow === 'accessCode')) {
+        if (auth.get('type') === 'oauth2' && flow && (flow === 'implicit' || flow === 'accessCode')) {
             dets = auth.attributes;
             url = dets.authorizationUrl + '?response_type=' + (flow === 'implicit' ? 'token' : 'code');
             container.tokenName = dets.tokenName || 'access_token';
             container.tokenUrl = (flow === 'accessCode' ? dets.tokenUrl : null);
             state = container.OAuthSchemeKey;
         }
-        else if(auth.get('type') === 'oauth2' && flow && (flow === 'application')) {
+        else if (auth.get('type') === 'oauth2' && flow && (flow === 'application')) {
             dets = auth.attributes;
             container.tokenName = dets.tokenName || 'access_token';
             this.clientCredentialsFlow(scopes, dets.tokenUrl, container.OAuthSchemeKey);
             return;
         }
-        else if(auth.get('grantTypes')) {
+        else if (auth.get('grantTypes')) {
             // 1.2 support
             var o = auth.get('grantTypes');
-            for(var t in o) {
-                if(o.hasOwnProperty(t) && t === 'implicit') {
+            for (var t in o) {
+                if (o.hasOwnProperty(t) && t === 'implicit') {
                     dets = o[t];
                     ep = dets.loginEndpoint.url;
                     url = dets.loginEndpoint.url + '?response_type=token';
@@ -155,6 +157,38 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         window.open(url);
     },
 
+    handleJwtAuthLogin: function (auth) {
+        var defs = auth.attributes;
+        var authUrl = defs.authorizationUrl;
+        var headerType = defs.authHeaderType;
+        var tokenProperty = defs.tokenPropertyName;
+        var username = auth.get('username');
+        var password = auth.get('password');
+
+        // Override protocol in auth url, if scheme is defined
+        if (window.swaggerUi.api.scheme) {
+            authUrl = window.swaggerUi.api.scheme + '://' + authUrl.replace(/.*?:\/\//g, '');
+        }
+
+        var jwtAuth = new SwaggerUi.JwtAuthorization({
+            username: username,
+            password: password,
+            tokenPropertyName: tokenProperty,
+            headerType: headerType
+        });
+
+        jwtAuth.getToken(authUrl, function (err) {
+            if (err) {
+                return;
+            }
+
+            // A valid token was successfully received and set.
+            // We can now add the authorization object and reload the UI.
+            window.swaggerUi.api.clientAuthorizations.add(auth.get('title'), jwtAuth);
+            window.swaggerUi.load();
+        });
+    },
+
     // taken from lib/swagger-oauth.js
     clientCredentialsFlow: function (scopes, tokenUrl, OAuthSchemeKey) {
         var params = {
@@ -164,15 +198,13 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
             'grant_type': 'client_credentials'
         };
         $.ajax({
-            url : tokenUrl,
+            url: tokenUrl,
             type: 'POST',
             data: params,
-            success: function (data)
-            {
+            success: function (data) {
                 onOAuthComplete(data, OAuthSchemeKey);
             },
-            error: function ()
-            {
+            error: function () {
                 onOAuthComplete('');
             }
         });
