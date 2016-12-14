@@ -1,6 +1,6 @@
 <script>
 var qp = null;
-if(window.location.hash && window.location.hash !== "#_=_") {
+if(/code|token|error/.test(window.location.hash)) {
   qp = location.hash.substring(1);
 }
 else {
