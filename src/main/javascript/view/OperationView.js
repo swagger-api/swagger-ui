@@ -27,6 +27,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       if (opts.swaggerOptions.showRequestHeaders) {
         this.model.showRequestHeaders = true;
       }
+
+      if (opts.swaggerOptions.showOperationIds) {
+        this.model.showOperationIds = true;
+      }
     }
     return this;
   },
