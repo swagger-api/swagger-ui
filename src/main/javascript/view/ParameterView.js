@@ -40,6 +40,10 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
     this.model.isBody = this.model.paramType === 'body' || this.model.in === 'body';
     this.model.isFile = type && type.toLowerCase() === 'file';
 
+    if ( this.model.paramType == 'formData' ) {
+      this.model.paramType = 'body';
+    }
+
     // Allow for default === false
     if(typeof this.model.default === 'undefined') {
       this.model.default = this.model.defaultValue;
