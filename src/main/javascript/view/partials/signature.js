@@ -739,8 +739,14 @@ SwaggerUi.partials.signature = (function () {
     var attributes = [];
 
     if (!items) { return getErrorMessage(); }
+    
+    // To provide the name for the items from xml.name if it is provided | https://github.com/swagger-api/swagger-core/issues/2047
+    var key = name;
+    if(items.xml != null && items.xml.name != null) {
+        key = items.xml.name;
+    }
 
-    value = createSchemaXML(name, items, models, config);
+    value = createSchemaXML(key, items, models, config);
 
     if (namespace) {
       attributes.push(namespace);
@@ -841,6 +847,10 @@ SwaggerUi.partials.signature = (function () {
       }
 
       xml = prop.xml || {};
+      //  To provide the name for the object from xml.name if it is provided. If it is not, then it would be derived from the ref | https://github.com/swagger-api/swagger-core/issues/2047
+      if(xml != null && xml.name != null) {
+          key = xml.name;
+      }
       result = createSchemaXML(key, prop, models, config);
 
       if (xml.attribute) {
