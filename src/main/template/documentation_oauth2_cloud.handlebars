@@ -28,15 +28,15 @@
             <li><b>Open Application:</b> https://&lt;tenant_id&gt;.open.intapp.com
             <li><b>Open REST API’s</b>
                 <ol class="list-disc">
-                    <li><b>Base URL:</b> https://api-&lt;tenant_id&gt;.open.intapp.com</li>
-                    <li><b>Authorization URL:</b> https://auth-&lt;tenant_id&gt;.open.intapp.com/oauth/authorize</li>
-                    <li><b>Token URL:</b> https://auth-&lt;tenant_id&gt;.open.intapp.com/oauth/token</li>
+                    <li><b>Base URL:</b> https://&lt;tenant_id&gt;.open.intapp.com/api</li>
+                    <li><b>Authorization URL:</b> https://&lt;tenant_id&gt;.open.intapp.com/auth/oauth/authorize</li>
+                    <li><b>Token URL:</b> https://&lt;tenant_id&gt;.open.intapp.com/auth/oauth/token</li>
                 </ol>
             </li>
             <li><b>Interactive API documentation and guides</b>
                 <ol class="list-disc">
-                    <li><b>Interactive discovery interface:</b> https://api-&lt;tenant_id&gt;.open.intapp.com/swagger</li>
-                    <li><b>Swagger standard definition:</b> (GET) https://api-&lt;tenant_id&gt;.open.intapp.com/api/swagger/docs/v1</li>
+                    <li><b>Interactive discovery interface:</b> https://&lt;tenant_id&gt;.open.intapp.com/api/swagger</li>
+                    <li><b>Swagger standard definition:</b> (GET) https://&lt;tenant_id&gt;.open.intapp.com/api/api/swagger/docs/v1</li>
                 </ol>
             </li>
         </ol>
@@ -68,7 +68,7 @@
                 </ul>
             </li>
             <li><b>Developer Step</b> Use the following endpoint to generate the Authorization Code, unless your IT Admin has informed you otherwise.
-				<p><b>GET</b> https://auth-&lt;tenant_id&gt;.open.intapp.com/oauth/authorize</p>
+				<p><b>GET</b> https://&lt;tenant_id&gt;.open.intapp.com/auth/oauth/authorize</p>
 			    <dl>
                     <dt>Parameter</dt><dd>Description</dd>
                     <dt>response_type</dt><dd>code</dd>
@@ -80,13 +80,13 @@
 			<p>You are requited to use State parameter and check it in callback as decribed in <a href="https://tools.ietf.org/html/rfc6749#section-4.1">OAuth2.0 specification</a>
 			<p>Authenticate under active Open user to receive the Authorization Code</p>
 			<p>This code will be sent to either the specified or standard redirect URL. This URL can be defined under application details within Open. Note that the code will only be valid for 5 minutes after which a new code will need to be generated.</p>
-			<p>You will get redirected to <a href="https://RedirectURL/?code=code&state=state">&lt;Redirect URL&gt;/?code=&lt;authorization_code&gt;&state=&lt;state&gt;</a>. <br>For example, if you used default Redirect URL, you will get redirected to <a href="https://auth-&lt;tenant_id&gt;.open.intapp.com/callback?code=&lt;authorization_code&gt;&state=&lt;state&gt;">https://auth-&lt;tenant_id&gt;.open.intapp.com/callback?code=&lt;authorization_code&gt;&state=&lt;state&gt;</a></p>
+			<p>You will get redirected to <a href="https://RedirectURL/?code=code&state=state">&lt;Redirect URL&gt;/?code=&lt;authorization_code&gt;&state=&lt;state&gt;</a>. <br>For example, if you used default Redirect URL, you will get redirected to <a href="https://&lt;tenant_id&gt;.open.intapp.com/auth/callback?code=&lt;authorization_code&gt;&state=&lt;state&gt;">https://&lt;tenant_id&gt;.open.intapp.com/auth/callback?code=&lt;authorization_code&gt;&state=&lt;state&gt;</a></p>
         </ol>
 
         <h3><b class="intappBlue">Developer Step 4:</b> Send the Authorization Code to get a Refresh Token and temporary Access Token</h3>
         <ol class="list-disc">
             <li>
-                <p><b>POST</b> https://auth-&lt;tenant_id&gt;.open.intapp.com/oauth/token</p>
+                <p><b>POST</b> https://&lt;tenant_id&gt;.open.intapp.com/auth/oauth/token</p>
                 <dl>
                     <dt>Parameter</dt><dd>Description</dd>
                     <dt>grant_type</dt><dd>authorization_code</dd>
@@ -138,7 +138,7 @@
         <h3><b class="intappBlue">Developer Step 7:</b> Use Refresh Token after Access Token expires to get a new Access Token</h3>
         <ol class="list-disc">
             <li>
-                <p><b>POST</b> https://auth-&lt;tenant_id&gt;.open.intapp.com/oauth/token</p>
+                <p><b>POST</b> https://&lt;tenant_id&gt;.open.intapp.com/auth/oauth/token</p>
                 <dl>
                     <dt>Parameter</dt><dd>Description</dd>
                     <dt>grant_type</dt><dd>refresh_token</dd>
@@ -163,7 +163,7 @@
             <div class="column-item">
                 <h4>Request</h4>
                 <div class="pre-code">
-GET https://auth-&lt;tenant_id&gt;.open.intapp.com/oauth/authorize?response_type=code&client_id=1&redirect_uri=https://auth-&lt;tenant_id&gt;.open.intapp.com/callback&state=xyz; HTTP/1.1
+GET https://&lt;tenant_id&gt;.open.intapp.com/auth/oauth/authorize?response_type=code&client_id=1&redirect_uri=https://&lt;tenant_id&gt;.open.intapp.com/auth/callback&state=xyz; HTTP/1.1
                 </div>
             </div>
             <div class="column-item">
@@ -171,7 +171,7 @@ GET https://auth-&lt;tenant_id&gt;.open.intapp.com/oauth/authorize?response_type
                 <div class="pre-code">
 You will be redirected (302) to:
 
-GET https://auth-&lt;tenant_id&gt;.open.intapp.com/callback?code=fb7cb018a05f4902b8e145c44d1b0ea3&state=xyz
+GET https://&lt;tenant_id&gt;.open.intapp.com/auth/callback?code=fb7cb018a05f4902b8e145c44d1b0ea3&state=xyz
                 </div>
             </div>
         </div>
@@ -182,11 +182,11 @@ GET https://auth-&lt;tenant_id&gt;.open.intapp.com/callback?code=fb7cb018a05f490
             <div class="column-item">
                 <h4>Request</h4>
                 <div class="pre-code">
-POST https://auth-&lt;tenant_id&gt;.open.intapp.com/oauth/token HTTP/1.1
+POST https://&lt;tenant_id&gt;.open.intapp.com/auth/oauth/token HTTP/1.1
 
 {Body}
 
-    grant_type=authorization_code&client_id=1&client_secret=x7AqlRO6CAX3yfoVblz7Bmz6PIk=&code=fb7cb018a05f4902b8e145c44d1b0ea3&redirect_uri=https://auth-&lt;tenant_id&gt;.open.intapp.com/callback
+    grant_type=authorization_code&client_id=1&client_secret=x7AqlRO6CAX3yfoVblz7Bmz6PIk=&code=fb7cb018a05f4902b8e145c44d1b0ea3&redirect_uri=https://&lt;tenant_id&gt;.open.intapp.com/auth/callback
                 </div>
             </div>
             <div class="column-item">
@@ -208,7 +208,7 @@ POST https://auth-&lt;tenant_id&gt;.open.intapp.com/oauth/token HTTP/1.1
             <div class="column-item">
                 <h4>Request</h4>
                 <div class="pre-code">
-POST https://auth-&lt;tenant_id&gt;.open.intapp.com/oauth/token HTTP/1.1
+POST https://&lt;tenant_id&gt;.open.intapp.com/auth/oauth/token HTTP/1.1
 
 {Body}
 
@@ -234,7 +234,7 @@ grant_type=refresh_token&client_id=1&client_secret=x7AqlRO6CAX3yfoVblz7Bmz6PIk=&
             <div class="column-item">
                 <h4>Request</h4>
                 <div class="pre-code">
-GET https://api-&lt;tenant_id&gt;.open.intapp.com/api/common/v1/clients/20001 HTTP/1.1
+GET https://&lt;tenant_id&gt;.open.intapp.com/api/api/common/v1/clients/20001 HTTP/1.1
 
 {Header}
 
