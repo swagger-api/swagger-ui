@@ -757,7 +757,6 @@ SwaggerUi.partials.signature = (function () {
         key = items.xml.name;
     }
     value = createSchemaXML(key, items, models, config);
-
     if (namespace) {
       attributes.push(namespace);
     }
