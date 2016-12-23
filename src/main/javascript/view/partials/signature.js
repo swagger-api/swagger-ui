@@ -689,7 +689,8 @@ SwaggerUi.partials.signature = (function () {
     return str.join('');
   };
 
-  var getName = function (name, xml) {
+  // Commenting this funtion as the names are now determined beforehand and the prefix part is exposed as a separate function | https://github.com/swagger-api/swagger-ui/issues/2577
+ /** var getName = function (name, xml) {
     var result = name || '';
 
     xml = xml || {};
@@ -704,6 +705,7 @@ SwaggerUi.partials.signature = (function () {
 
     return result;
   };
+  */
   
   var getPrefix = function (name, xml) {
     var result = name || '';
