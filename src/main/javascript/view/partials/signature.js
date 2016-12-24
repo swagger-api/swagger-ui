@@ -936,7 +936,7 @@ SwaggerUi.partials.signature = (function () {
     var model = models[modelType] || {};
     var type = model.definition && model.definition.type ? model.definition.type : 'object';
     // If model definition xml name is present, then that will be preferred over model name. This is the case of preferring XmlElement name over XmlRootElement name if XmlElement name is provided | https://github.com/swagger-api/swagger-ui/issues/2577
-    if(model.definition.xml && model.definition.xml.name) {
+    if(model.definition && model.definition.xml && model.definition.xml.name) {
         name = name || model.definition.xml.name || model.name;
     }
     // else only model name will be considered for determination | https://github.com/swagger-api/swagger-ui/issues/2577
