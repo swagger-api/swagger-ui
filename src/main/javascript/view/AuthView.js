@@ -109,22 +109,33 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         window.enabledScopes = scopes;
         var flow = auth.get('flow');
 
+        /**
+         * Returns the name of the access token parameter returned by the server.
+         *
+         * @param dets
+         *     The authorisation scheme configuration.
+         * @return the name of the access token parameter
+         */
+        function getTokenName(dets) {
+            return dets.tokenName;
+        }
+
         if(auth.get('type') === 'oauth2' && flow && (flow === 'implicit' || flow === 'accessCode')) {
             dets = auth.attributes;
             url = dets.authorizationUrl + '?response_type=' + (flow === 'implicit' ? 'token' : 'code');
-            container.tokenName = dets.tokenName || 'access_token';
+            container.tokenName = getTokenName(dets) || 'access_token';
             container.tokenUrl = (flow === 'accessCode' ? dets.tokenUrl : null);
             state = container.OAuthSchemeKey;
         }
         else if(auth.get('type') === 'oauth2' && flow && (flow === 'application')) {
             dets = auth.attributes;
-            container.tokenName = dets.tokenName || 'access_token';
+            container.tokenName = getTokenName(dets) || 'access_token';
             this.clientCredentialsFlow(scopes, dets, container.OAuthSchemeKey);
             return;
         }
         else if(auth.get('type') === 'oauth2' && flow && (flow === 'password')) {
             dets = auth.attributes;
-            container.tokenName = dets.tokenName || 'access_token';
+            container.tokenName = getTokenName(dets) || 'access_token';
             this.passwordFlow(scopes, dets, container.OAuthSchemeKey);
             return;
         }
@@ -136,13 +147,13 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
                     dets = o[t];
                     ep = dets.loginEndpoint.url;
                     url = dets.loginEndpoint.url + '?response_type=token';
-                    container.tokenName = dets.tokenName;
+                    container.tokenName = getTokenName(dets);
                 }
                 else if (o.hasOwnProperty(t) && t === 'accessCode') {
                     dets = o[t];
                     ep = dets.tokenRequestEndpoint.url;
                     url = dets.tokenRequestEndpoint.url + '?response_type=code';
-                    container.tokenName = dets.tokenName;
+                    container.tokenName = getTokenName(dets);
                 }
             }
         }
