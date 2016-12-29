@@ -117,7 +117,7 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
          * @return the name of the access token parameter
          */
         function getTokenName(dets) {
-            return dets.tokenName;
+            return dets.vendorExtensions['x-tokenName'] || dets.tokenName;
         }
 
         if(auth.get('type') === 'oauth2' && flow && (flow === 'implicit' || flow === 'accessCode')) {
