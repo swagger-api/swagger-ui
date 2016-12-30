@@ -6,7 +6,7 @@
   <p>{{{sanitize externalDocs.description}}}</p>
   <a href="{{{escape externalDocs.url}}}" target="_blank">{{{escape externalDocs.url}}}</a>
   {{/if}}
-  {{#if info.termsOfServiceUrl}}<div class="info_tos"><a target="_blank" href="{{{escape info.termsOfServiceUrl}}}" data-sw-translate>Terms of service</a></div>{{/if}}
+  {{#if info.termsOfService}}<div class="info_tos"><a target="_blank" href="{{{escape info.termsOfService}}}" data-sw-translate>Terms of service</a></div>{{/if}}
   {{#if info.contact.name}}<div><div class='info_name' style="display: inline" data-sw-translate>Created by </div> {{{escape info.contact.name}}}</div>{{/if}}
   {{#if info.contact.url}}<div class='info_url' data-sw-translate>See more at <a href="{{{escape info.contact.url}}}">{{{escape info.contact.url}}}</a></div>{{/if}}
   {{#if info.contact.email}}<div class='info_email'><a target="_parent" href="mailto:{{{escape info.contact.email}}}?subject={{{escape info.title}}}" data-sw-translate>Contact the developer</a></div>{{/if}}
