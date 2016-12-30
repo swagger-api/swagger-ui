@@ -130,7 +130,7 @@ templates['main'] = template({"1":function(container,depth0,helpers,partials,dat
     + "</div>\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.externalDocs : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "  "
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.termsOfServiceUrl : stack1),{"name":"if","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.termsOfService : stack1),{"name":"if","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n  "
     + ((stack1 = helpers["if"].call(alias1,((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.name : stack1),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n  "
@@ -154,7 +154,7 @@ templates['main'] = template({"1":function(container,depth0,helpers,partials,dat
     var stack1;
 
   return "<div class=\"info_tos\"><a target=\"_blank\" href=\""
-    + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.termsOfServiceUrl : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
+    + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.termsOfService : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
     + "\" data-sw-translate>Terms of service</a></div>";
 },"6":function(container,depth0,helpers,partials,data) {
     var stack1;
@@ -6584,8 +6584,8 @@ SwaggerSpecConverter.prototype.apiInfo = function(obj, swagger) {
     if(info.title) {
       swagger.info.title = info.title;
     }
-    if(info.termsOfServiceUrl) {
-      swagger.info.termsOfService = info.termsOfServiceUrl;
+    if(info.termsOfService) {
+      swagger.info.termsOfService = info.termsOfService;
     }
     if(info.license || info.licenseUrl) {
       swagger.license = {};
