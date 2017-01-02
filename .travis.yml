@@ -14,7 +14,7 @@ env:
 after_success:
   - if [ $DOCKER_HUB_USERNAME ]; then 
       docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD;
-
+      docker build -t swaggerapi/swagger-ui .;
       if [ "$TRAVIS_TAG" == "master" ]; then
         docker tag $DOCKER_IMAGE_NAME:latest;
       else
