@@ -24,7 +24,6 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
     var consumes = this.model.consumes || [];
     var sampleJSON, signatureView;
 
-
     if (typeof type === 'undefined') {
       if (schema.$ref) {
         var ref = schema.$ref;
@@ -40,6 +39,10 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
     this.model.paramType = this.model.in || this.model.paramType;
     this.model.isBody = this.model.paramType === 'body' || this.model.in === 'body';
     this.model.isFile = type && type.toLowerCase() === 'file';
+
+    if ( this.model.paramType == 'formData' ) {
+      this.model.paramType = 'body';
+    }
 
     // Allow for default === false
     if(typeof this.model.default === 'undefined') {

@@ -2,10 +2,32 @@
 
 SwaggerUi.Models.Oauth2Model = Backbone.Model.extend({
     defaults: {
-        scopes: {}
+        scopes: {},
+        isPasswordFlow: false,
+        clientAuthenticationType: 'none'
     },
 
     initialize: function () {
+        if(this.attributes && this.attributes.scopes) {
+            var attributes = _.cloneDeep(this.attributes);
+            var i, scopes = [];
+            for(i in attributes.scopes) {
+                var scope = attributes.scopes[i];
+                if(typeof scope.description === 'string') {
+                    scopes[scope] = attributes.scopes[i];
+                    scopes.push(attributes.scopes[i]);
+                }
+            }
+            attributes.scopes = scopes;
+            this.attributes = attributes;
+        }
+
+        if (this.attributes && this.attributes.flow) {
+            var flow = this.attributes.flow;
+            this.set('isPasswordFlow', flow === 'password');
+            this.set('requireClientAuthentication', flow === 'application');
+            this.set('clientAuthentication', flow === 'password' || flow === 'application');
+        }
         this.on('change', this.validate);
     },
 
@@ -22,6 +44,16 @@ SwaggerUi.Models.Oauth2Model = Backbone.Model.extend({
 
     validate: function () {
       var valid = false;
+      if (this.get('isPasswordFlow') &&
+          (!this.get('username'))) {
+          return false;
+      }
+
+      if (this.get('clientAuthenticationType') in ['basic', 'request-body'] &&
+          (!this.get('clientId'))) {
+          return false;
+      }
+
       var scp = this.get('scopes');
       var idx =  _.findIndex(scp, function (o) {
          return o.checked === true;

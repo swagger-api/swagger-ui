@@ -1,0 +1,24 @@
+{
+    "name": "swagger-api/swagger-ui",
+    "description": "Swagger UI is a dependency-free collection of HTML, JavaScript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API",
+    "keywords": [
+        "Swagger",
+        "OpenAPI",
+        "specification",
+        "documentation",
+        "API",
+        "UI"
+    ],
+    "homepage": "http://swagger.io",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Tony Tam",
+            "email": "fehguy@gmail.com"
+        },
+        {
+            "name": "Mohsen Azimi",
+            "email": "me@azimi.me"
+        }
+    ]
+}

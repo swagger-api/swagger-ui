@@ -1,6 +1,6 @@
 <script>
 var qp = null;
-if(window.location.hash) {
+if(/code|token|error/.test(window.location.hash)) {
   qp = location.hash.substring(1);
 }
 else {
@@ -11,7 +11,7 @@ qp = qp ? JSON.parse('{"' + qp.replace(/&/g, '","').replace(/=/g,'":"') + '"}',
     return key===""?value:decodeURIComponent(value) }
   ):{}
 
-if (window.opener.swaggerUi.tokenUrl)
+if (window.opener.swaggerUiAuth.tokenUrl)
     window.opener.processOAuthCode(qp);
 else
     window.opener.onOAuthComplete(qp);

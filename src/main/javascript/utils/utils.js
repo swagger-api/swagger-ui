@@ -1,8 +1,8 @@
 'use strict';
 
 window.SwaggerUi.utils = {
-    parseSecurityDefinitions: function (security) {
-        var auths = Object.assign({}, window.swaggerUi.api.authSchemes || window.swaggerUi.api.securityDefinitions);
+    parseSecurityDefinitions: function (security, securityDefinitions) {
+        var auths = Object.assign({}, securityDefinitions);
         var oauth2Arr = [];
         var authsArr = [];
         var scopes = [];
@@ -68,5 +68,13 @@ window.SwaggerUi.utils = {
         }
 
         return result;
+    },
+
+    sanitize: function(html) {
+        // Strip the script tags from the html and inline evenhandlers
+        html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+        html = html.replace(/(on\w+="[^"]*")*(on\w+='[^']*')*(on\w+=\w*\(\w*\))*/gi, '');
+
+        return html;
     }
 };

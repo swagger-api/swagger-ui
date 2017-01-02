@@ -98,10 +98,13 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         var redirectUrl = window.oAuthRedirectUrl || defaultRedirectUrl;
         var url = null;
         var scopes = _.map(auth.get('scopes'), function (scope) {
-            return scope.scope;
+            if(scope.checked) {
+                return scope.scope;
+            }
         });
+        var container = window.swaggerUiAuth || (window.swaggerUiAuth = {});
         var state, dets, ep;
-        window.OAuthSchemeKey = auth.get('title');
+        container.OAuthSchemeKey = auth.get('title');
 
         window.enabledScopes = scopes;
         var flow = auth.get('flow');
@@ -109,14 +112,20 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
         if(auth.get('type') === 'oauth2' && flow && (flow === 'implicit' || flow === 'accessCode')) {
             dets = auth.attributes;
             url = dets.authorizationUrl + '?response_type=' + (flow === 'implicit' ? 'token' : 'code');
-            window.swaggerUi.tokenName = dets.tokenName || 'access_token';
-            window.swaggerUi.tokenUrl = (flow === 'accessCode' ? dets.tokenUrl : null);
-            state = window.OAuthSchemeKey;
+            container.tokenName = dets.tokenName || 'access_token';
+            container.tokenUrl = (flow === 'accessCode' ? dets.tokenUrl : null);
+            state = container.OAuthSchemeKey;
         }
         else if(auth.get('type') === 'oauth2' && flow && (flow === 'application')) {
             dets = auth.attributes;
-            window.swaggerUi.tokenName = dets.tokenName || 'access_token';
-            this.clientCredentialsFlow(scopes, dets.tokenUrl, window.OAuthSchemeKey);
+            container.tokenName = dets.tokenName || 'access_token';
+            this.clientCredentialsFlow(scopes, dets, container.OAuthSchemeKey);
+            return;
+        }
+        else if(auth.get('type') === 'oauth2' && flow && (flow === 'password')) {
+            dets = auth.attributes;
+            container.tokenName = dets.tokenName || 'access_token';
+            this.passwordFlow(scopes, dets, container.OAuthSchemeKey);
             return;
         }
         else if(auth.get('grantTypes')) {
@@ -127,13 +136,13 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
                     dets = o[t];
                     ep = dets.loginEndpoint.url;
                     url = dets.loginEndpoint.url + '?response_type=token';
-                    window.swaggerUi.tokenName = dets.tokenName;
+                    container.tokenName = dets.tokenName;
                 }
                 else if (o.hasOwnProperty(t) && t === 'accessCode') {
                     dets = o[t];
                     ep = dets.tokenRequestEndpoint.url;
                     url = dets.tokenRequestEndpoint.url + '?response_type=code';
-                    window.swaggerUi.tokenName = dets.tokenName;
+                    container.tokenName = dets.tokenName;
                 }
             }
         }
@@ -153,17 +162,40 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
     },
 
     // taken from lib/swagger-oauth.js
-    clientCredentialsFlow: function (scopes, tokenUrl, OAuthSchemeKey) {
-        var params = {
-            'client_id': clientId,
-            'client_secret': clientSecret,
+    clientCredentialsFlow: function (scopes, oauth, OAuthSchemeKey) {
+        this.accessTokenRequest(scopes, oauth, OAuthSchemeKey, 'client_credentials');
+    },
+
+    passwordFlow: function (scopes, oauth, OAuthSchemeKey) {
+        this.accessTokenRequest(scopes, oauth, OAuthSchemeKey, 'password', {
+            'username': oauth.username,
+            'password': oauth.password
+        });
+    },
+
+    accessTokenRequest: function (scopes, oauth, OAuthSchemeKey, grantType, params) {
+        params = $.extend({}, {
             'scope': scopes.join(' '),
-            'grant_type': 'client_credentials'
-        };
+            'grant_type': grantType
+        }, params);
+
+        var headers= {};
+
+        switch (oauth.clientAuthenticationType) {
+            case 'basic':
+                headers.Authorization = 'Basic ' + btoa(oauth.clientId + ':' + oauth.clientSecret);
+                break;
+            case 'request-body':
+                params.client_id = oauth.clientId;
+                params.client_secret = oauth.clientSecret;
+                break;
+        }
+
         $.ajax({
-            url : tokenUrl,
+            url : oauth.tokenUrl,
             type: 'POST',
             data: params,
+            headers: headers,
             success: function (data)
             {
                 onOAuthComplete(data, OAuthSchemeKey);
@@ -174,5 +206,4 @@ SwaggerUi.Views.AuthView = Backbone.View.extend({
             }
         });
     }
-
 });

@@ -83,7 +83,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   },
 
   // Note: copied from CoffeeScript compiled file
-  // TODO: redactor
+  // TODO: refactor
   render: function() {
     var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, l, len, len1, len2, len3, len4, m, modelAuths, n, o, p, param, q, ref, ref1, ref2, ref3, ref4, ref5, responseContentTypeView, responseSignatureView, schema, schemaObj, scopeIndex, signatureModel, statusCode, successResponse, type, v, value, produces, isXML, isJSON;
     isMethodSubmissionSupported = jQuery.inArray(this.model.method, this.model.supportedSubmitMethods()) >= 0;
@@ -258,9 +258,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
 
     if (Array.isArray(this.model.security)) {
-      var authsModel = SwaggerUi.utils.parseSecurityDefinitions(this.model.security);
+      var authsModel = SwaggerUi.utils.parseSecurityDefinitions(this.model.security, this.model.parent.securityDefinitions);
 
-      authsModel.isLogout = !_.isEmpty(window.swaggerUi.api.clientAuthorizations.authz);
+      authsModel.isLogout = !_.isEmpty(this.model.clientAuthorizations.authz);
       this.authView = new SwaggerUi.Views.AuthButtonView({
         data: authsModel,
         router: this.router,
@@ -660,7 +660,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       url = response.request.url;
     }
     var headers = response.headers;
-    content = jQuery.trim(content);
+    if(typeof content === 'string') {
+      content = jQuery.trim(content);
+    }
 
     // if server is nice, and sends content-type back, we can use it
     var contentType = null;
@@ -670,6 +672,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         contentType = contentType.split(';')[0].trim();
       }
     }
+
     $('.response_body', $(this.el)).removeClass('json');
     $('.response_body', $(this.el)).removeClass('xml');
 
@@ -685,6 +688,46 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       pre = $('<pre class="json" />').append(code);
 
       // JSON
+    } else if (
+        contentType === 'application/octet-stream' ||
+        headers['Content-Disposition'] && (/attachment/).test(headers['Content-Disposition']) ||
+        headers['content-disposition'] && (/attachment/).test(headers['content-disposition']) ||
+        headers['Content-Description'] && (/File Transfer/).test(headers['Content-Description']) ||
+        headers['content-description'] && (/File Transfer/).test(headers['content-description'])) {
+
+      if ('Blob' in window) {
+        var type = contentType || 'text/html';
+        var a = document.createElement('a');
+        var href;
+
+        if({}.toString.apply(content) === '[object Blob]') {
+          href = window.URL.createObjectURL(content);
+        }
+        else {
+          var binaryData = [];
+          binaryData.push(content);
+          href = window.URL.createObjectURL(new Blob(binaryData, {type: type}));
+        }
+        var fileName = response.url.substr(response.url.lastIndexOf('/') + 1);
+        var download = [type, fileName, href].join(':');
+
+        // Use filename from response header
+        var disposition = headers['content-disposition'] || headers['Content-Disposition'];
+        if(typeof disposition !== 'undefined') {
+          var responseFilename = /filename=([^;]*);?/.exec(disposition);
+          if(responseFilename !== null && responseFilename.length > 1) {
+            download = responseFilename[1];
+          }
+        }
+
+        a.setAttribute('href', href);
+        a.setAttribute('download', download);
+        a.innerText = 'Download ' + fileName;
+
+        pre = $('<div/>').append(a);
+      } else {
+        pre = $('<pre class="json" />').append('Download headers detected but your browser does not support downloading binary via XHR (Blob).');
+      }
     } else if (contentType === 'application/json' || /\+json$/.test(contentType)) {
       var json = null;
       try {
@@ -710,49 +753,17 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       code = $('<code />').text(content);
       pre = $('<pre class="plain" />').append(code);
 
-
       // Image
     } else if (/^image\//.test(contentType)) {
-      pre = $('<img>').attr('src', url);
+      var urlCreator = window.URL || window.webkitURL;
+      var imageUrl = urlCreator.createObjectURL(content);
 
+      pre = $('<img>').attr( 'src', imageUrl);
       // Audio
     } else if (/^audio\//.test(contentType) && supportsAudioPlayback(contentType)) {
       pre = $('<audio controls>').append($('<source>').attr('src', url).attr('type', contentType));
-
-      // Download
-    } else if (headers['Content-Disposition'] && (/attachment/).test(headers['Content-Disposition']) ||
-        headers['content-disposition'] && (/attachment/).test(headers['content-disposition']) ||
-        headers['Content-Description'] && (/File Transfer/).test(headers['Content-Description']) ||
-        headers['content-description'] && (/File Transfer/).test(headers['content-description'])) {
-
-      if ('Blob' in window) {
-        var type = contentType || 'text/html';
-        var blob = new Blob([content], {type: type});
-        var a = document.createElement('a');
-        var href = window.URL.createObjectURL(blob);
-        var fileName = response.url.substr(response.url.lastIndexOf('/') + 1);
-        var download = [type, fileName, href].join(':');
-
-        // Use filename from response header
-        var disposition = headers['content-disposition'] || headers['Content-Disposition'];
-        if(typeof disposition !== 'undefined') {
-          var responseFilename = /filename=([^;]*);?/.exec(disposition);
-          if(responseFilename !== null && responseFilename.length > 1) {
-            download = responseFilename[1];
-          }
-        }
-
-        a.setAttribute('href', href);
-        a.setAttribute('download', download);
-        a.innerText = 'Download ' + fileName;
-
-        pre = $('<div/>').append(a);
-      } else {
-        pre = $('<pre class="json" />').append('Download headers detected but your browser does not support downloading binary via XHR (Blob).');
-      }
-
-      // Location header based redirect download
     } else if(headers.location || headers.Location) {
+      // Location header based redirect download
       window.location = response.url;
 
       // Anything else (CORS)

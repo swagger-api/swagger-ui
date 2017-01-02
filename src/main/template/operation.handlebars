@@ -1,51 +1,35 @@
   <ul class='operations' >
-    <li class='{{method}} operation' id='{{parentId}}_{{nickname}}'>
+    <li class='{{{escape method}}} operation' id='{{{escape parentId}}}_{{{escape nickname}}}'>
       <div class='heading'>
         <h3>
           <span class='http_method'>
-          <a href='#!/{{encodedParentId}}/{{nickname}}' class="toggleOperation">{{method}}</a>
+          <a href='#!/{{sanitize encodedParentId}}/{{sanitize nickname}}' class="toggleOperation">{{{escape method}}}</a>
           </span>
           <span class='path'>
-          <a href='#!/{{encodedParentId}}/{{nickname}}' class="toggleOperation {{#if deprecated}}deprecated{{/if}}">{{path}}</a>
+          <a href='#!/{{sanitize encodedParentId}}/{{sanitize nickname}}' class="toggleOperation {{#if deprecated}}deprecated{{/if}}">{{{escape path}}}</a>
           </span>
         </h3>
         <ul class='options'>
           <li>
-          <a href='#!/{{encodedParentId}}/{{nickname}}' class="toggleOperation">{{{summary}}}</a>
+          <a href='#!/{{sanitize encodedParentId}}/{{sanitize nickname}}' class="toggleOperation"><span class="markdown">{{{escape summary}}}</span></a>
           </li>
         </ul>
       </div>
-      <div class='content' id='{{parentId}}_{{nickname}}_content' style='display:none'>
+      <div class='content' id='{{sanitize encodedParentId}}_{{sanitize nickname}}_content' style='display:none'>
         {{#if deprecated}}
             <h4><span data-sw-translate>Warning: Deprecated</span></h4>
         {{/if}}
         {{#if description}}
         <h4><span data-sw-translate>Implementation Notes</span></h4>
-        <div class="markdown">{{{description}}}</div>
+        <div class="markdown">{{{sanitize description}}}</div>
         {{/if}}
         {{#if security}}
             <div class='authorize-wrapper authorize-wrapper_operation'></div>
         {{/if}}
-        {{!--{{#oauth}}--}}
-        {{!--<div class="auth">--}}
-        {{!--<span class="api-ic ic-error">{{/oauth}}--}}
-        {{!--{{#each oauth}}--}}
-          {{!--<div class="api_information_panel">--}}
-          {{!--{{#each this}}--}}
-            {{!--<div title='{{{this.description}}}'>{{this.scope}}</div>--}}
-          {{!--{{/each}}--}}
-          {{!--</div>--}}
-        {{!--{{/each}}--}}
-        {{!--{{#oauth}}</span></div>{{/oauth}}--}}
-        {{!--{{#oauth}}--}}
-        {{!--<div class='access'>--}}
-          {{!--<span class="api-ic ic-off" title="click to authenticate"></span>--}}
-        {{!--</div>--}}
-        {{!--{{/oauth}}--}}
         {{#if type}}
           <div class="response-class">
-            <h4><span data-sw-translate>Response Class</span> (<span data-sw-translate>Status</span> {{successCode}})</h4>
-              {{#if successDescription}}<div class="markdown">{{{successDescription}}}</div>{{/if}}
+            <h4><span data-sw-translate>Response Class</span> (<span data-sw-translate>Status</span> {{{escape successCode}}})</h4>
+              {{#if successDescription}}<div class="markdown">{{{sanitize successDescription}}}</div>{{/if}}
             <p><span class="model-signature" /></p>
             <br/>
             <div class="response-content-type" />
@@ -67,9 +51,9 @@
               {{#each headers}}
               <tr>
                 <td>{{@key}}</td>
-                <td>{{this.description}}</td>
-                <td>{{this.type}}</td>
-                <td>{{this.other}}</td>
+                <td>{{{sanitize this.description}}}</td>
+                <td>{{{escape this.type}}}</td>
+                <td>{{{escape this.other}}}</td>
               </tr>
               {{/each}}
             </tbody>
@@ -87,7 +71,8 @@
             <th style="width: 310px; max-width: 310px" data-sw-translate>Value</th>
             <th style="width: 200px; max-width: 200px" data-sw-translate>Description</th>
             <th style="width: 100px; max-width: 100px" data-sw-translate>Parameter Type</th>
-            <th style="width: 220px; max-width: 230px" data-sw-translate>Data Type</th>
+            <th style="width: 120px; max-width: 130px" data-sw-translate>Data Type</th>
+            <th style="width: 100px; max-width: 100px">Max Length</th>
             </tr>
           </thead>
           <tbody class="operation-params">

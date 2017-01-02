@@ -66,7 +66,11 @@ SwaggerUi.Collections.AuthsCollection = Backbone.Collection.extend({
     },
 
     parse: function (data) {
-        var authz = Object.assign({}, window.swaggerUi.api.clientAuthorizations.authz);
+        var authz = {};
+
+        if(typeof window.swaggerUi !== 'undefined') {
+            authz = Object.assign({}, window.swaggerUi.api.clientAuthorizations.authz);
+        }
 
         return _.map(data, function (auth, name) {
             var isBasic = authz[name] && auth.type === 'basic' && authz[name].username && authz[name].password;
