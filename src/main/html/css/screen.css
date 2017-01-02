@@ -1344,6 +1344,10 @@
 .swagger-section .api-popup-actions {
   padding-top: 10px;
 }
+.swagger-section fieldset {
+  padding-bottom: 10px;
+  padding-left: 20px;
+}
 .swagger-section .access {
   float: right;
 }
