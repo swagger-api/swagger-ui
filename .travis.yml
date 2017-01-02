@@ -13,15 +13,15 @@ env:
   - DOCKER_IMAGE_NAME=swaggerapi/swagger-ui
 after_success:
   - if [ $DOCKER_HUB_USERNAME ]; then 
-      echo 'pushing to dockerhub'
-      docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
+      echo 'pushing to dockerhub';
+      docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD;
 
       if [ "$TRAVIS_TAG" == "master" ]; then
-        docker tag $DOCKER_IMAGE_NAME:latest        
+        docker tag $DOCKER_IMAGE_NAME:latest;
       else
-        docker tag $DOCKER_IMAGE_NAME:$TRAVIS_TAG
+        docker tag $DOCKER_IMAGE_NAME:$TRAVIS_TAG;
       fi
-      echo 'pushing to $DOCKER_IMAGE_NAME'
-      
+      echo 'pushing to $DOCKER_IMAGE_NAME';
+
       docker push $DOCKER_IMAGE_NAME;
     fi
