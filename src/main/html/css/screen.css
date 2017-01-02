@@ -422,7 +422,8 @@
   font-size: .85em;
   line-height: 1.2em;
   overflow: auto;
-  max-height: 200px;
+  height: 200px;
+  resize: vertical;
   cursor: pointer;
 }
 .swagger-section .swagger-ui-wrap .model-signature ul.signature-nav {
@@ -834,6 +835,11 @@
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.heading ul.options li a .markdown p {
   color: inherit;
+  padding: 0;
+  line-height: inherit;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.heading ul.options li a .nickname {
+  color: #aaaaaa;
   padding: 0;
   line-height: inherit;
 }
