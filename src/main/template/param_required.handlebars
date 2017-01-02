@@ -18,7 +18,7 @@
 		{{/if}}
 	{{else}}
 		{{#if isFile}}
-			<input class='parameter' class='required' type='file' name='{{{sanitize name}}}' id='{{{escape valueId}}}'/>
+			<input class='parameter required' type='file' name='{{{sanitize name}}}' id='{{{escape valueId}}}'/>
 		{{else}}
 			{{#renderTextParam this}}
 			{{/renderTextParam}}
