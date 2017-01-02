@@ -11,5 +11,14 @@ install:
   - npm install
 env:
   - DOCKER_IMAGE_NAME=swaggerapi/swagger-ui
-script:
-  - if [ $DOCKER_HUB_USERNAME ]; then docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD && docker build -t $DOCKER_IMAGE_NAME . && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_IMAGE_NAME:latest $DOCKER_IMAGE_NAME:$TRAVIS_TAG; docker push $DOCKER_IMAGE_NAME; fi; fi
+after_success:
+  - if [ $DOCKER_HUB_USERNAME ]; then 
+      docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
+
+      if [ "$TRAVIS_TAG" == "master" ]; then
+        docker tag $DOCKER_IMAGE_NAME:latest        
+      else
+        docker tag $DOCKER_IMAGE_NAME:$TRAVIS_TAG
+      fi
+      docker push USER/REPO;
+    fi
