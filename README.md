@@ -54,7 +54,7 @@ Use `npm run serve` to make a new build, watch for changes, and serve the result
 
 ```
 docker pull swaggerapi/swagger-ui
-docker run -p 80:8080 swagger-ui
+docker run -p 80:8080 swaggerapi/swagger-ui
 ```
 
 ### Build using Docker
