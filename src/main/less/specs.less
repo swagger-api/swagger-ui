@@ -250,7 +250,8 @@
             font-size: .85em;
             line-height: 1.2em;
             overflow: auto;
-            max-height: 200px;
+            height: 200px;
+            resize: vertical;
             cursor: pointer;
         }
         ul.signature-nav {
@@ -705,6 +706,11 @@
                                             text-decoration: none;
                                             .markdown p {
                                                 color: inherit;
+                                                padding: 0;
+                                                line-height: inherit;
+                                            }
+                                            .nickname {
+                                                color: #aaaaaa;
                                                 padding: 0;
                                                 line-height: inherit;
                                             }

@@ -10,6 +10,11 @@
           </span>
         </h3>
         <ul class='options'>
+          {{#if showOperationIds}}
+          <li>
+          <a href='#!/{{sanitize encodedParentId}}/{{sanitize nickname}}' class="toggleOperation"><span class="nickname">{{{escape nickname}}}()</span></a>
+          </li>
+          {{/if}}
           <li>
           <a href='#!/{{sanitize encodedParentId}}/{{sanitize nickname}}' class="toggleOperation"><span class="markdown">{{{escape summary}}}</span></a>
           </li>
