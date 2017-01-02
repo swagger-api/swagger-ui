@@ -50,6 +50,13 @@ You can rebuild swagger-ui on your own to tweak it or just so you can say you di
 ### Development
 Use `npm run serve` to make a new build, watch for changes, and serve the result at http://localhost:8080/.
 
+### Running with Docker
+
+```
+docker pull swaggerapi/swagger-ui
+docker run -p 80:8080 swagger-ui
+```
+
 ### Build using Docker
 
 To build swagger-ui using a docker container:
