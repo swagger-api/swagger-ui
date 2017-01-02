@@ -1,5 +1,7 @@
 sudo: false
 language: node_js
+services:
+  - docker
 node_js:
   - '4.2'
 install:
