@@ -109,6 +109,7 @@ supportedSubmitMethods | An array of of the HTTP operations that will have the '
 oauth2RedirectUrl | OAuth redirect URL
 showRequestHeaders | Whether or not to show the headers that were sent when making a request via the 'Try it out!' option. Defaults to `false`.
 jsonEditor | Enables a graphical view for editing complex bodies.  Defaults to `false`.
+disableAllOfResolving | Disables the resolving of `allOf` tags, which can be very slow. If you don't use `allOf` in your spec, this can speed up the initial loading of Swagger UI significantly while not affecting functionality.  Defaults to `false`.
 
 * All other parameters are explained in greater detail below
 
