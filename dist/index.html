@@ -37,7 +37,7 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-        url = "http://petstore.swagger.io/v2/swagger.json";
+        url = "https://api-qa.eazeup.com/api/swagger";
       }
 
       hljs.configure({
@@ -71,7 +71,7 @@
         onFailure: function(data) {
           log("Unable to Load SwaggerUI");
         },
-        docExpansion: "none",
+        docExpansion: "list",
         jsonEditor: false,
         defaultModelRendering: 'schema',
         showRequestHeaders: false
