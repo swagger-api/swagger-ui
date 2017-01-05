@@ -52,7 +52,7 @@ SwaggerUi.Views.ResourceView = Backbone.View.extend({
 
     // Render an operation and add it to operations li
     var operationView = new SwaggerUi.Views.OperationView({
-      model: $.extend(true,{},operation),
+      model: operation,
       router: this.router,
       tagName: 'li',
       className: 'endpoint',
