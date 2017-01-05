@@ -14,7 +14,7 @@ Handlebars.registerHelper('sanitize', function (text) {
             'table': [ 'class' ],
             'td': [ 'class' ],
             'th': [ 'colspan' ],
-            'a': [ 'href' ]
+            'a': [ 'href', 'target' ]
         }
     });
 
