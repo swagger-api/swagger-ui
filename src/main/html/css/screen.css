@@ -907,6 +907,14 @@
   max-height: 400px;
   overflow-y: auto;
 }
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.content div.response ul {
+  list-style: disc;
+  padding-left: 24px;
+  line-height: 1.5;
+}
+.swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation div.content div.response p.validation-error {
+  color: #800;
+}
 .swagger-section .swagger-ui-wrap ul#resources li.resource ul.endpoints li.endpoint ul.operations li.operation.put div.heading {
   background-color: #f9f2e9;
   border: 1px solid #f0e0ca;
