@@ -30,6 +30,8 @@ Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes | Status
 1.0.13             | 2013-03-08   | 1.1, 1.2 | [tag v1.0.13](https://github.com/swagger-api/swagger-ui/tree/v1.0.13) |
 1.0.1              | 2011-10-11   | 1.0, 1.1 | [tag v1.0.1](https://github.com/swagger-api/swagger-ui/tree/v1.0.1)   |
 
+**Note:** Support for versions older than 1.2 is limited and you may experience issues we cannot improve and support. We highly recommend that you upgrade your spec to the latest version.
+
 ## How to Use It
 
 ### Download
