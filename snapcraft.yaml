@@ -14,9 +14,15 @@ description: |
 grade: devel
 confinement: strict
 
+apps:
+  swagger-ui:
+    command: sh -c \"cd $SNAP/lib/node_modules/swagger-ui/dist && http-server -a localhost -p 8080\"
+    daemon: simple
+    plugs: [network, network-bind]
+
 parts:
   swagger-ui:
     source: .
     plugin: nodejs
     npm-run: [build]
-    node-packages: [handlebars]
+    node-packages: [handlebars, http-server]
