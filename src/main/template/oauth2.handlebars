@@ -34,7 +34,7 @@
     <ul class="api-popup-scopes">
         {{#each scopes}}
             <li>
-                <input class="oauth-scope" type="checkbox" data-scope="{{{escape scope}}}" oauthtype="{{{escape OAuthSchemeKey}}}"/>
+                <input class="oauth-scope" type="checkbox" {{#if checked}}checked{{/if}} data-scope="{{{escape scope}}}" oauthtype="{{{escape OAuthSchemeKey}}}"/>
                 <label>{{{escape scope}}}</label><br/>
                 <span class="api-scope-desc">{{{escape description}}}
                     {{#if OAuthSchemeKey}}
