@@ -13,8 +13,8 @@
   "license": "Apache-2.0",
   "main": "dist/swagger-ui.js",
   "scripts": {
-    "build": "npm run handlebars && gulp",
-    "handlebars": "handlebars ./src/main/template -f ./src/main/template/templates.js && gulp handlebars",
+    "build": "gulp",
+    "handlebars": "gulp handlebars",
     "serve": "gulp serve",
     "prejshint": "gulp",
     "jshint": "jshint .",
@@ -39,6 +39,7 @@
     "gulp-connect": "^2.2.0",
     "gulp-cssnano": "^2.1.2",
     "gulp-declare": "^0.3.0",
+    "gulp-handlebars": "^4.0.0",
     "gulp-header": "^1.2.2",
     "gulp-jshint": "^1.10.0",
     "gulp-less": "^3.0.1",
