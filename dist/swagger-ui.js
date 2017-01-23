@@ -3091,7 +3091,7 @@ Handlebars.registerHelper('sanitize', function (text) {
 
 Handlebars.registerHelper('renderTextParam', function(param) {
     var result, type = 'text', idAtt = '';
-    var paramType = param.type || param.schema && param.schema.type || '';
+	var paramType = (param.schema) ? param.type || param.schema.type || '' : param.type || ''; 
     var isArray = paramType.toLowerCase() === 'array' || param.allowMultiple;
     var defaultValue = isArray && Array.isArray(param.default) ? param.default.join('\n') : param.default;
     var name = Handlebars.Utils.escapeExpression(param.name);
