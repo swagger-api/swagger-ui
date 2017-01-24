@@ -1,7 +1,7 @@
 'use strict';
 
 window.SwaggerUi.utils = {
-    parseSecurityDefinitions: function (security, securityDefinitions) {
+    parseSecurityDefinitions: function (security, securityDefinitions, autocheckScopes) {
         var auths = Object.assign({}, securityDefinitions);
         var oauth2Arr = [];
         var authsArr = [];
@@ -26,7 +26,7 @@ window.SwaggerUi.utils = {
                                 delete singleOauth2Security[key].scopes[i];
                             }
                         }
-                        singleOauth2Security[key].scopes = utils.parseOauth2Scopes(singleOauth2Security[key].scopes);
+                        singleOauth2Security[key].scopes = utils.parseOauth2Scopes(singleOauth2Security[key].scopes, autocheckScopes);
                         scopes = _.merge(scopes, singleOauth2Security[key].scopes);
                     } else {
                         singleSecurity[key] = Object.assign({}, auths[key]);
@@ -34,7 +34,7 @@ window.SwaggerUi.utils = {
                 } else {
                     if (item[key].type === 'oauth2') {
                         singleOauth2Security[key] = Object.assign({}, item[key]);
-                        singleOauth2Security[key].scopes = utils.parseOauth2Scopes(singleOauth2Security[key].scopes);
+                        singleOauth2Security[key].scopes = utils.parseOauth2Scopes(singleOauth2Security[key].scopes, autocheckScopes);
                         scopes = _.merge(scopes, singleOauth2Security[key].scopes);
                     } else {
                         singleSecurity[key] = item[key];
@@ -58,13 +58,13 @@ window.SwaggerUi.utils = {
         };
     },
 
-    parseOauth2Scopes: function (data) {
+    parseOauth2Scopes: function (data, autocheckScopes) {
         var scopes = Object.assign({}, data);
         var result = [];
         var key;
 
         for (key in scopes) {
-            result.push({scope: key, description: scopes[key], checked: true});
+            result.push({scope: key, description: scopes[key], checked: autocheckScopes});
         }
 
         return result;
