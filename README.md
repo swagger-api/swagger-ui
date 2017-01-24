@@ -62,7 +62,11 @@ docker run -p 80:8080 swaggerapi/swagger-ui
 
 ### Build using Docker
 
-To build swagger-ui using a docker container:
+To build swagger-ui using a docker container.
+
+1. git clone https://github.com/swagger-api/swagger-ui.git or download (see above)
+2. cd swagger-ui
+3. build via `docker build` as follows:
 
 ```
 docker build -t swagger-ui-builder .
