@@ -1354,6 +1354,31 @@
   padding-bottom: 10px;
   padding-left: 20px;
 }
+.swagger-section .tab-container {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+.swagger-section .tab-container .label-container {
+  position: relative;
+  bottom: -1px;
+}
+.swagger-section .tab-container .label-container .label-item {
+  display: inline-block;
+  margin-right: 1px;
+  border: 1px #ccc solid;
+  background: #fff;
+  padding: 0.5em 1em;
+  cursor: pointer;
+}
+.swagger-section .tab-container .label-container .label-active {
+  color: red;
+  border-bottom-color: #fff;
+}
+.swagger-section .tab-container .page-container {
+  border: 1px #ccc solid;
+  padding: 1em;
+  background: #fff;
+}
 .swagger-section .access {
   float: right;
 }

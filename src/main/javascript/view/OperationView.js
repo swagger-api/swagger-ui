@@ -277,6 +277,15 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
 
     this.showSnippet();
+
+    this.$('.code-snippet code.hljs').each(function (i, block) {
+      hljs.highlightBlock(block);
+    });
+
+    this.$('.jquery-tab').tab({
+      titleSelector: '.tab-title'
+    });
+
     return this;
   },
 
