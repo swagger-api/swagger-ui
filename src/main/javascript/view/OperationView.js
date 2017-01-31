@@ -2,6 +2,7 @@
 
 SwaggerUi.Views.OperationView = Backbone.View.extend({
   invocationUrl: null,
+  startRequestTime: null,
 
   events: {
     'submit .sandbox'         : 'submitOperation',
@@ -445,6 +446,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       opts.responseContentType = $('div select[name=responseContentType]', $(this.el)).val();
       opts.requestContentType = $('div select[name=parameterContentType]', $(this.el)).val();
       $('.response_throbber', $(this.el)).show();
+      this.startRequestTime = new Date().getTime();
       if (isFileUpload) {
         $('.request_url', $(this.el)).html('<pre></pre>');
         $('.request_url pre', $(this.el)).text(this.invocationUrl);
@@ -655,6 +657,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
   // puts the response data in UI
   showStatus: function(response) {
+    var elapsedMilliseconds = new Date().getTime() - this.startRequestTime;
     var url, content;
     if (response.content === undefined) {
       content = response.data;
@@ -784,6 +787,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     $('.response_code', $(this.el)).html('<pre>' + response.status + '</pre>');
     $('.response_body', $(this.el)).html(response_body);
     $('.response_headers', $(this.el)).html('<pre>' + _.escape(JSON.stringify(response.headers, null, '  ')).replace(/\n/g, '<br>') + '</pre>');
+    $('.response_time', $(this.el)).html('<pre>' + elapsedMilliseconds +' ms</pre>');
     $('.response', $(this.el)).slideDown();
     $('.response_hider', $(this.el)).show();
     $('.response_throbber', $(this.el)).hide();
