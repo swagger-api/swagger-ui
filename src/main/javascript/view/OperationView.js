@@ -9,7 +9,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     'click .response_hider'   : 'hideResponse',
     'click .toggleOperation'  : 'toggleOperationContent',
     'mouseenter .api-ic'      : 'mouseEnter',
-    'dblclick .curl'          : 'selectText',
+    'dblclick .curl'          : 'selectText'
   },
 
   initialize: function(opts) {
