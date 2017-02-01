@@ -101,10 +101,10 @@ parent: VeniceGeo
 #   text: Anchor text for the link
 #   category: Type of the link
 links:
-- url: http://pz-docs.geointservices.io/
+- url: http://pz-docs.venicegeo.io/
   text: Piazza Documentation
   category: process
-- url: https://pz-swagger.geointservices.io/
+- url: https://pz-swagger.venicegeo.io/
   text: Piazza Gateway API
   category: api
 
