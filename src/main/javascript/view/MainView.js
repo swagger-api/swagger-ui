@@ -137,8 +137,13 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     var el = e.target;
 
     if (el.tagName === 'A' && el.href && !el.target) {
-        e.preventDefault();
-        window.open(el.href, '_blank');
+        if (location.hostname !== el.hostname ||
+            location.port !== el.port ||
+            location.pathname !== el.pathname) 
+        {
+            e.preventDefault();
+            window.open(el.href, '_blank');
+        }
     }
   }
 });
