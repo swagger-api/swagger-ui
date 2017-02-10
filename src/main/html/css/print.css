@@ -357,6 +357,10 @@
   font-weight: bold;
   font-size: 25px;
 }
+.swagger-section .swagger-ui-wrap .info_sub_title {
+  font-weight: bold;
+  font-size: 16px;
+}
 .swagger-section .swagger-ui-wrap .footer {
   margin-top: 20px;
 }

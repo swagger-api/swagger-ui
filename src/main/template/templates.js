@@ -121,72 +121,78 @@ templates['main'] = template({"1":function(container,depth0,helpers,partials,dat
     + ((stack1 = (helpers.sanitize || (depth0 && depth0.sanitize) || alias2).call(alias1,((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.title : stack1),{"name":"sanitize","hash":{},"data":data})) != null ? stack1 : "")
     + "</div>\n  <div class=\"info_description markdown\">"
     + ((stack1 = (helpers.sanitize || (depth0 && depth0.sanitize) || alias2).call(alias1,((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.description : stack1),{"name":"sanitize","hash":{},"data":data})) != null ? stack1 : "")
-    + "</div>\n"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.externalDocs : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "  "
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.termsOfServiceUrl : stack1),{"name":"if","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\n  "
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.name : stack1),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\n  "
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.url : stack1),{"name":"if","hash":{},"fn":container.program(8, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\n  "
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.email : stack1),{"name":"if","hash":{},"fn":container.program(10, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "\n  "
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.license : stack1),{"name":"if","hash":{},"fn":container.program(12, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "</div>\n  \n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.termsOfService : stack1),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.license : stack1),{"name":"if","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "  \n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.externalDocs : depth0),{"name":"if","hash":{},"fn":container.program(13, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\n";
 },"2":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
+    var stack1;
 
-  return "  <p>"
-    + ((stack1 = (helpers.sanitize || (depth0 && depth0.sanitize) || alias2).call(alias1,((stack1 = (depth0 != null ? depth0.externalDocs : depth0)) != null ? stack1.description : stack1),{"name":"sanitize","hash":{},"data":data})) != null ? stack1 : "")
-    + "</p>\n  <a href=\""
-    + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,((stack1 = (depth0 != null ? depth0.externalDocs : depth0)) != null ? stack1.url : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
-    + "\" target=\"_blank\">"
-    + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,((stack1 = (depth0 != null ? depth0.externalDocs : depth0)) != null ? stack1.url : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
-    + "</a>\n";
+  return "  <div class='info_sub_title'><a target=\"_blank\" href=\""
+    + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.termsOfService : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
+    + "\" data-sw-translate>Terms of Service</a></div>\n  <br/>\n";
 },"4":function(container,depth0,helpers,partials,data) {
-    var stack1;
-
-  return "<div class=\"info_tos\"><a target=\"_blank\" href=\""
-    + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.termsOfServiceUrl : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
-    + "\" data-sw-translate>Terms of service</a></div>";
-},"6":function(container,depth0,helpers,partials,data) {
-    var stack1;
-
-  return "<div><div class='info_name' style=\"display: inline\" data-sw-translate>Created by </div> "
-    + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.name : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
-    + "</div>";
-},"8":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
 
-  return "<div class='info_url' data-sw-translate>See more at <a href=\""
-    + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.url : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
-    + "\">"
-    + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.url : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
-    + "</a></div>";
-},"10":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
-
-  return "<div class='info_email'><a target=\"_parent\" href=\"mailto:"
-    + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.email : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
-    + "?subject="
-    + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.title : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
-    + "\" data-sw-translate>Contact the developer</a></div>";
-},"12":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
-
-  return "<div class='info_license'><a target=\"_blank\" href='"
+  return "  <div><span class='info_sub_title'>License:</span> <a target=\"_blank\" href='"
     + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.license : stack1)) != null ? stack1.url : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
     + "'>"
     + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.license : stack1)) != null ? stack1.name : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
-    + "</a></div>";
-},"14":function(container,depth0,helpers,partials,data) {
+    + "</a></div>\n  <br/>\n";
+},"6":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : {};
+
+  return "  <div class=\"info_sub_title\">Contact Information</div>\n  "
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.name : stack1),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n  "
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.email : stack1),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n  "
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.url : stack1),{"name":"if","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\n  <br/>\n";
+},"7":function(container,depth0,helpers,partials,data) {
+    var stack1;
+
+  return "<div><span class='info_name' style=\"display: inline\" data-sw-translate>Contact Name: </span> "
+    + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.name : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
+    + "</div>";
+},"9":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
+
+  return "<div><span class='info_email'>Email: <a target=\"_parent\" href=\"mailto:"
+    + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.email : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
+    + "?subject="
+    + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.title : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
+    + "\" data-sw-translate>"
+    + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.email : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
+    + "</a></span></div>";
+},"11":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
+
+  return "<div><span class='info_url' data-sw-translate>Website: <a href=\""
+    + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.url : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
+    + "\">"
+    + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.url : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
+    + "</a></span></div>";
+},"13":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
+
+  return "  <span class=\"info_sub_title\">External Documentation:</span> <a href=\""
+    + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,((stack1 = (depth0 != null ? depth0.externalDocs : depth0)) != null ? stack1.url : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
+    + "\" target=\"_blank\">"
+    + ((stack1 = (helpers.sanitize || (depth0 && depth0.sanitize) || alias2).call(alias1,((stack1 = (depth0 != null ? depth0.externalDocs : depth0)) != null ? stack1.description : stack1),{"name":"sanitize","hash":{},"data":data})) != null ? stack1 : "")
+    + "</a>  \n  <br/>\n";
+},"15":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "  , <span style=\"font-variant: small-caps\" data-sw-translate>api version</span>: "
     + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.version : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
     + "\n    ";
-},"16":function(container,depth0,helpers,partials,data) {
+},"17":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
 
   return "    <span style=\"float:right\"><a target=\"_blank\" href=\""
@@ -206,9 +212,9 @@ templates['main'] = template({"1":function(container,depth0,helpers,partials,dat
     + "</div>\n<div class='container' id='resources_container'>\n  <div class='authorize-wrapper'></div>\n\n  <ul id='resources'></ul>\n\n  <div class=\"footer\">\n    <h4 style=\"color: #999\">[ <span style=\"font-variant: small-caps\">base url</span>: "
     + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || helpers.helperMissing).call(alias1,(depth0 != null ? depth0.basePath : depth0),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.version : stack1),{"name":"if","hash":{},"fn":container.program(14, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.version : stack1),{"name":"if","hash":{},"fn":container.program(15, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "]\n"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.validatorUrl : depth0),{"name":"if","hash":{},"fn":container.program(16, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.validatorUrl : depth0),{"name":"if","hash":{},"fn":container.program(17, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "    </h4>\n    </div>\n</div>\n";
 },"useData":true});
 templates['oauth2'] = template({"1":function(container,depth0,helpers,partials,data) {
