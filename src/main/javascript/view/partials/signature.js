@@ -26,7 +26,7 @@ SwaggerUi.partials.signature = (function () {
 
   // copy-pasted from swagger-js
   var getInlineModel = function(inlineStr) {
-    if(/^Inline Model \d+$/.test(inlineStr)) {
+    if(/^Inline Model \d+$/.test(inlineStr) && this.inlineModels) {
       var id = parseInt(inlineStr.substr('Inline Model'.length).trim(),10); //
       var model = this.inlineModels[id];
       return model;
@@ -255,6 +255,14 @@ SwaggerUi.partials.signature = (function () {
       var type = schema.type || 'object';
       var isArray = type === 'array';
 
+      if (!_.isUndefined(schema.description)) {
+        html += ': ' + '<span class="propDesc">' + schema.description + '</span>';
+      }
+
+      if (schema.enum) {
+        html += ' = <span class="propVals">[\'' + schema.enum.join('\', \'') + '\']</span>';
+      }
+
       if (isArray) {
         if (_.isPlainObject(schema.items) && !_.isUndefined(schema.items.type)) {
           type = schema.items.type;
@@ -404,15 +412,12 @@ SwaggerUi.partials.signature = (function () {
               var requiredClass = propertyIsRequired ? 'required' : '';
               var html = '<span class="propName ' + requiredClass + '">' + name + '</span> (';
               var model;
-              var propDescription;
 
               // Allow macro to set the default value
               cProperty.default = modelPropertyMacro(cProperty);
 
               // Resolve the schema (Handle nested schemas)
               cProperty = resolveSchema(cProperty);
-
-              propDescription = property.description || cProperty.description;
 
               // We need to handle property references to primitives (Issue 339)
               if (!_.isUndefined(cProperty.$ref)) {
@@ -435,14 +440,6 @@ SwaggerUi.partials.signature = (function () {
               }
 
               html += ')';
-
-              if (!_.isUndefined(propDescription)) {
-                html += ': ' + '<span class="propDesc">' + propDescription + '</span>';
-              }
-
-              if (cProperty.enum) {
-                html += ' = <span class="propVals">[\'' + cProperty.enum.join('\', \'') + '\']</span>';
-              }
 
               return '<div' + (property.readOnly ? ' class="readOnly"' : '') + '>' + primitiveToOptionsHTML(cProperty, html);
             }).join(',</div>');
@@ -556,14 +553,30 @@ SwaggerUi.partials.signature = (function () {
     modelsToIgnore[value.name] = value;
 
     // Response support
-    if (value.examples && _.isPlainObject(value.examples) && value.examples['application/json']) {
-      value.definition.example = value.examples['application/json'];
+    if (value.examples && _.isPlainObject(value.examples)) {
+      value = _.cloneDeep(value);
+      var keys = Object.keys(value.examples);
 
-      if (_.isString(value.definition.example)) {
-        value.definition.example = jsyaml.safeLoad(value.definition.example);
+      _.forEach(keys, function(key) {
+        if(key.indexOf('application/json') === 0) {
+          var example = value.examples[key];
+          if (_.isString(example)) {
+            example = jsyaml.safeLoad(example);
+          }
+          value.definition.example = example;
+          return schemaToJSON(value.definition, example, modelsToIgnore, value.modelPropertyMacro);
+        }
+      });
+    }
+
+    if (value.examples) {
+      value = _.cloneDeep(value);
+      var example = value.examples;
+      if (_.isString(example)) {
+        example = jsyaml.safeLoad(example);
       }
-    } else if (!value.definition.example) {
-      value.definition.example = value.examples;
+      value.definition.example = example;
+      return schemaToJSON(value.definition, example, modelsToIgnore, value.modelPropertyMacro);
     }
 
     return schemaToJSON(value.definition, value.models, modelsToIgnore, value.modelPropertyMacro);
@@ -676,7 +689,8 @@ SwaggerUi.partials.signature = (function () {
     return str.join('');
   };
 
-  var getName = function (name, xml) {
+  // Commenting this funtion as the names are now determined beforehand and the prefix part is exposed as a separate function | https://github.com/swagger-api/swagger-ui/issues/2577
+ /** var getName = function (name, xml) {
     var result = name || '';
 
     xml = xml || {};
@@ -684,6 +698,19 @@ SwaggerUi.partials.signature = (function () {
     if (xml.name) {
       result = xml.name;
     }
+
+    if (xml.prefix) {
+      result = xml.prefix + ':' + result;
+    }
+
+    return result;
+  };
+  */
+  
+  var getPrefix = function (name, xml) {
+    var result = name || '';
+
+    xml = xml || {};
 
     if (xml.prefix) {
       result = xml.prefix + ':' + result;
@@ -722,18 +749,39 @@ SwaggerUi.partials.signature = (function () {
     var value;
     var items = definition.items;
     var xml = definition.xml || {};
+    var namespace = getNamespace(xml);
+    var attributes = [];
 
     if (!items) { return getErrorMessage(); }
-
-    value = createSchemaXML(name, items, models, config);
-
-    xml = xml || {};
+    var key = name;
+    // If there is a name specified for the array elements, use that for the array elements name | https://github.com/swagger-api/swagger-ui/issues/2577
+    if(items.xml && items.xml.name) {
+        key = items.xml.name;
+    }
+    value = createSchemaXML(key, items, models, config);
+    if (namespace) {
+      attributes.push(namespace);
+    }
 
     if (xml.wrapped) {
-      value = wrapTag(name, value);
+      value = wrapTag(name, value, attributes);
     }
 
     return value;
+  };
+
+  var getPrimitiveSignature = function (schema) {
+    var type, items;
+
+    schema = schema || {};
+    items = schema.items || {};
+    type = schema.type || '';
+
+    switch (type) {
+      case 'object': return 'Object is not a primitive';
+      case 'array' : return 'Array[' + (items.format || items.type) + ']';
+      default: return schema.format || type;
+    }
   };
 
   var createPrimitiveXML = function (descriptor) {
@@ -796,7 +844,7 @@ SwaggerUi.partials.signature = (function () {
 
     if (namespace) {
       attrs.push(namespace);
-    }
+    }   
 
     if (!properties && !additionalProperties) { return getErrorMessage(); }
 
@@ -827,8 +875,8 @@ SwaggerUi.partials.signature = (function () {
     return wrapTag(name, serializedProperties, attrs);
   }
 
-  function getInfiniteLoopMessage (name) {
-    return '<!-- Infinite loop $ref:' + name + ' -->';
+  function getInfiniteLoopMessage (name, loopTo) {
+    return wrapTag(name, '<!-- Infinite loop $ref:' + loopTo + ' -->');
   }
 
   function getErrorMessage (details) {
@@ -841,9 +889,10 @@ SwaggerUi.partials.signature = (function () {
     var output, index;
     config = config || {};
     config.modelsToIgnore = config.modelsToIgnore || [];
+   
     var descriptor = _.isString($ref) ? getDescriptorByRef($ref, name, models, config)
         : getDescriptor(name, definition, models, config);
-
+    
     if (!descriptor) {
       return getErrorMessage();
     }
@@ -854,12 +903,12 @@ SwaggerUi.partials.signature = (function () {
       case 'object':
         output = createObjectXML(descriptor); break;
       case 'loop':
-        output = getInfiniteLoopMessage(descriptor.name); break;
+        output = getInfiniteLoopMessage(descriptor.name, descriptor.config.loopTo); break;
       default:
         output = createPrimitiveXML(descriptor);
     }
 
-    if ($ref) {
+    if ($ref && descriptor.type !== 'loop') {
       index = config.modelsToIgnore.indexOf($ref);
       if (index > -1) {
         config.modelsToIgnore.splice(index, 1);
@@ -873,10 +922,10 @@ SwaggerUi.partials.signature = (function () {
     if (arguments.length < 4) {
       throw new Error();
     }
-
     this.config = config || {};
     this.config.modelsToIgnore = this.config.modelsToIgnore || [];
-    this.name = getName(name, definition.xml);
+    // name is already set by getDescriptorByRef or getDescriptor function depending on the type. Only prefix, if present is needed to be set here | https://github.com/swagger-api/swagger-ui/issues/2577
+    this.name = getPrefix(name, definition.xml);
     this.definition = definition;
     this.models = models;
     this.type = type;
@@ -885,12 +934,19 @@ SwaggerUi.partials.signature = (function () {
   function getDescriptorByRef($ref, name, models, config) {
     var modelType = simpleRef($ref);
     var model = models[modelType] || {};
-    var type = model.type || 'object';
-    name = name || model.name;
-
+    var type = model.definition && model.definition.type ? model.definition.type : 'object';
+    // If model definition xml name is present, then that will be preferred over model name. This is the case of preferring XmlElement name over XmlRootElement name if XmlElement name is provided | https://github.com/swagger-api/swagger-ui/issues/2577
+    if(model.definition && model.definition.xml && model.definition.xml.name) {
+        name = name || model.definition.xml.name || model.name;
+    }
+    // else only model name will be considered for determination | https://github.com/swagger-api/swagger-ui/issues/2577
+    else {
+        name = name || model.name;
+    }
+    
     if (config.modelsToIgnore.indexOf($ref) > -1) {
       type = 'loop';
-      name = modelType;
+      config.loopTo = modelType;
     } else {
       config.modelsToIgnore.push($ref);
     }
@@ -898,13 +954,15 @@ SwaggerUi.partials.signature = (function () {
     if (!model.definition) {
       return null;
     }
-
-    return new Descriptor(name, type, model.definition, models, config);
+    return new Descriptor(name, type, model.definition, models, config);    
   }
 
   function getDescriptor (name, definition, models, config){
     var type = definition.type || 'object';
-
+    // If definition xml name is present, then that will be preferred over name | https://github.com/swagger-api/swagger-ui/issues/2577
+    if(definition.xml && definition.xml.name) {
+        name = definition.xml.name || name;
+    }
     if (!definition) {
       return null;
     }
@@ -912,10 +970,10 @@ SwaggerUi.partials.signature = (function () {
     return new Descriptor(name, type, definition, models, config);
   }
 
-  function createXMLSample (definition, models, isParam) {
+  function createXMLSample (name, definition, models, isParam) {
     var prolog = '<?xml version="1.0"?>';
 
-    return formatXml(prolog + createSchemaXML('', definition, models, { isParam: isParam } ));
+    return formatXml(prolog + createSchemaXML(name, definition, models, { isParam: isParam } ));
   }
 
   return {
@@ -924,7 +982,8 @@ SwaggerUi.partials.signature = (function () {
       getParameterModelSignature: getParameterModelSignature,
       createParameterJSONSample: createParameterJSONSample,
       createSchemaXML: createSchemaXML,
-      createXMLSample: createXMLSample
+      createXMLSample: createXMLSample,
+      getPrimitiveSignature: getPrimitiveSignature
   };
 
 })();

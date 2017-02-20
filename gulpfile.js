@@ -7,15 +7,17 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var less = require('gulp-less');
-var handlebars = require('gulp-handlebars');
 var wrap = require('gulp-wrap');
-var declare = require('gulp-declare');
 var watch = require('gulp-watch');
 var connect = require('gulp-connect');
 var header = require('gulp-header');
 var order = require('gulp-order');
 var jshint = require('gulp-jshint');
+var runSequence = require('run-sequence');
+var cssnano = require('gulp-cssnano');
 var pkg = require('./package.json');
+var sourcemaps = require('gulp-sourcemaps');
+
 
 var banner = ['/**',
   ' * <%= pkg.name %> - <%= pkg.description %>',
@@ -51,23 +53,21 @@ gulp.task('dist', ['clean', 'lint'], _dist);
 function _dist() {
   return es.merge(
     gulp.src([
+        './node_modules/es5-shim/es5-shim.js',
+        './lib/sanitize-html.min.js',
         './src/main/javascript/**/*.js',
         './node_modules/swagger-client/browser/swagger-client.js'
       ]),
       gulp
-        .src(['./src/main/template/**/*'])
-        .pipe(handlebars())
-        .pipe(wrap('Handlebars.template(<%= contents %>)'))
-        .pipe(declare({
-          namespace: 'Handlebars.templates',
-          noRedeclare: true, // Avoid duplicate declarations
-        }))
+        .src(['./src/main/template/templates.js'])
         .on('error', log)
     )
+    .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(order(['scripts.js', 'templates.js']))
     .pipe(concat('swagger-ui.js'))
     .pipe(wrap('(function(){<%= contents %>}).call(this);'))
     .pipe(header(banner, { pkg: pkg }))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest('./dist'))
     .pipe(uglify())
     .on('error', log)
@@ -91,7 +91,7 @@ function _less() {
       './src/main/less/style.less'
     ])
     .pipe(less())
-    .on('error', log)
+    .on('error', function(err){ log(err); this.emit('end');})
     .pipe(gulp.dest('./src/main/html/css/'))
     .pipe(connect.reload());
 }
@@ -104,7 +104,9 @@ gulp.task('copy', ['less'], _copy);
 function _copy() {
   // copy JavaScript files inside lib folder
   gulp
-    .src(['./lib/**/*.{js,map}'])
+    .src(['./lib/**/*.{js,map}',
+        './node_modules/es5-shim/es5-shim.js'
+    ])
     .pipe(gulp.dest('./dist/lib'))
     .on('error', log);
 
@@ -128,6 +130,23 @@ gulp.task('copy-local-specs', function () {
     .src(['./test/specs/**/*'])
     .pipe(gulp.dest('./dist/specs'))
     .on('error', log);
+});
+
+gulp.task('minify-css', function() {
+    /** Minify all CSS within dist folder, runs after dist process*/
+
+    return gulp.src('./dist/css/*.css')
+        .pipe(cssnano())
+        .pipe(gulp.dest('./dist/css'));
+});
+
+gulp.task('uglify-libs', function() {
+    /**
+     * Minify all JS libs within the dist folder.  A nice TODO would be to use versions from CDN
+     */
+    gulp.src('./dist/lib/*.js')
+        .pipe(uglify())
+        .pipe(gulp.dest('./dist/lib'));
 });
 
 /**
@@ -158,7 +177,19 @@ function log(error) {
   console.error(error.toString && error.toString());
 }
 
-gulp.task('default', ['dist', 'copy']);
+gulp.task('handlebars', function () {
+    gulp
+        .src(['./src/main/template/templates.js'])
+        .pipe(wrap('/* jshint ignore:start */ \n {<%= contents %>} \n /* jshint ignore:end */'))
+        .pipe(gulp.dest('./src/main/template/'))
+        .on('error', log);
+});
+
+gulp.task('default', function(callback) {
+    runSequence(['dist', 'copy'],
+                ['uglify-libs', 'minify-css'],
+                callback);
+});
 gulp.task('serve', ['connect', 'watch']);
 gulp.task('dev', ['default'], function () {
   gulp.start('serve');

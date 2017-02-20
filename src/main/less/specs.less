@@ -4,6 +4,7 @@
 
     line-height: 1;
     font-family: "Droid Sans", sans-serif;
+    min-width: 760px;
     max-width: 960px;
     margin-left: auto;
     margin-right: auto;
@@ -249,7 +250,8 @@
             font-size: .85em;
             line-height: 1.2em;
             overflow: auto;
-            max-height: 200px;
+            height: 200px;
+            resize: vertical;
             cursor: pointer;
         }
         ul.signature-nav {
@@ -529,6 +531,7 @@
             margin: 0 0 10px 0;
             code {
                 line-height: 1.6em;
+                overflow: auto;
             }
         }
     }
@@ -701,6 +704,16 @@
                                         font-size: 0.9em;
                                         a {
                                             text-decoration: none;
+                                            .markdown p {
+                                                color: inherit;
+                                                padding: 0;
+                                                line-height: inherit;
+                                            }
+                                            .nickname {
+                                                color: #aaaaaa;
+                                                padding: 0;
+                                                line-height: inherit;
+                                            }
                                         }
                                     }
                                 }

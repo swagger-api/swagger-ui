@@ -1,16 +1,16 @@
-<td class='code required'><label for='{{valueId}}'>{{name}}</label></td>
+<td class='code required'><label for='{{{escape valueId}}}'>{{{escape name}}}</label></td>
 <td>
 	{{#if isBody}}
 		{{#if isFile}}
-			<input type="file" name='{{name}}' id='{{valueId}}'/>
+			<input type="file" name='{{{escape name}}}' id='{{{escape valueId}}}'/>
 		{{else}}
 			{{#if default}}
 				<div class="editor_holder"></div>
-				<textarea class='body-textarea required' placeholder='(required)' name='{{name}}' id="{{valueId}}">{{default}}</textarea>
+				<textarea class='body-textarea required' placeholder='(required)' name='{{{sanitize name}}}' id="{{{escape valueId}}}">{{{sanitize default}}}</textarea>
         <br />
         <div class="parameter-content-type" />
 			{{else}}
-				<textarea class='body-textarea required' placeholder='(required)' name='{{name}}' id='{{valueId}}'></textarea>
+				<textarea class='body-textarea required' placeholder='(required)' name='{{{sanitize name}}}' id='{{{escape valueId}}}'></textarea>
 				<div class="editor_holder"></div>
 				<br />
 				<div class="parameter-content-type" />
@@ -18,7 +18,7 @@
 		{{/if}}
 	{{else}}
 		{{#if isFile}}
-			<input class='parameter' class='required' type='file' name='{{name}}' id='{{valueId}}'/>
+			<input class='parameter required' type='file' name='{{{sanitize name}}}' id='{{{escape valueId}}}'/>
 		{{else}}
 			{{#renderTextParam this}}
 			{{/renderTextParam}}
@@ -26,7 +26,7 @@
 	{{/if}}
 </td>
 <td>
-	<strong><span class="markdown">{{{description}}}</span></strong>
+	<strong><span class="markdown">{{{sanitize description}}}</span></strong>
 </td>
-<td>{{{paramType}}}</td>
+<td>{{{escape paramType}}}</td>
 <td><span class="model-signature"></span></td>

@@ -13,7 +13,6 @@ window.SwaggerUi = Backbone.Router.extend({
 
   // SwaggerUi accepts all the same options as SwaggerApi
   initialize: function(options) {
-    console.log('SwaggerUi::initialize');
     options = options || {};
 
     if (options.defaultModelRendering !== 'model') {
@@ -43,7 +42,7 @@ window.SwaggerUi = Backbone.Router.extend({
     }
 
     if (typeof options.oauth2RedirectUrl === 'string') {
-      window.oAuthRedirectUrl = options.redirectUrl;
+      window.oAuthRedirectUrl = options.oauth2RedirectUrl;
     }
 
     // Create an empty div which contains the dom_id
@@ -103,6 +102,10 @@ window.SwaggerUi = Backbone.Router.extend({
     if (this.mainView) {
       this.mainView.clear();
     }
+
+    if (this.authView) {
+      this.authView.remove();
+    }
     var url = this.options.url;
     if (url && url.indexOf('http') !== 0) {
       url = this.buildUrl(window.location.href.toString(), url);
@@ -134,6 +137,7 @@ window.SwaggerUi = Backbone.Router.extend({
   // This is bound to success handler for SwaggerApi
   //  so it gets called when SwaggerApi completes loading
   render: function(){
+    var authsModel;
     this.showMessage('Finished Loading Resource Information. Rendering Swagger UI...');
     this.mainView = new SwaggerUi.Views.MainView({
       model: this.api,
@@ -141,6 +145,18 @@ window.SwaggerUi = Backbone.Router.extend({
       swaggerOptions: this.options,
       router: this
     }).render();
+    if (!_.isEmpty(this.api.securityDefinitions)){
+      authsModel = _.map(this.api.securityDefinitions, function (auth, name) {
+        var result = {};
+        result[name] = auth;
+        return result;
+      });
+      this.authView = new SwaggerUi.Views.AuthButtonView({
+        data: SwaggerUi.utils.parseSecurityDefinitions(authsModel),
+        router: this
+      });
+      $('#auth_container').append(this.authView.render().el);
+    }
     this.showMessage();
     switch (this.options.docExpansion) {
       case 'full':
@@ -230,7 +246,10 @@ window.SwaggerUi = Backbone.Router.extend({
 });
 
 window.SwaggerUi.Views = {};
+window.SwaggerUi.Models = {};
+window.SwaggerUi.Collections = {};
 window.SwaggerUi.partials = {};
+window.SwaggerUi.utils = {};
 
 // don't break backward compatibility with previous versions and warn users to upgrade their code
 (function(){

@@ -61,13 +61,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       // Localhost override
       this.model.validatorUrl = null;
     } else {
-      // Default validator
-      if(window.location.protocol === 'https:') {
-        this.model.validatorUrl = 'https://online.swagger.io/validator';
-      }
-      else {
-        this.model.validatorUrl = 'http://online.swagger.io/validator';
-      }
+      this.model.validatorUrl = '//online.swagger.io/validator';
     }
 
     // JSonEditor requires type='object' to be present on defined types, we add it if it's missing
@@ -81,26 +75,15 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
   },
 
-  render: function(){
-    if (this.model.securityDefinitions) {
-      for (var name in this.model.securityDefinitions) {
-        var auth = this.model.securityDefinitions[name];
-        var button;
+  render: function () {
+    $(this.el).html(Handlebars.templates.main(this.model));
+    this.info = this.$('.info')[0];
 
-        if (auth.type === 'apiKey' && $('#apikey_button').length === 0) {
-          button = new SwaggerUi.Views.ApiKeyButton({model: auth, router:  this.router}).render().el;
-          $('.auth_main_container').append(button);
-        }
-
-        if (auth.type === 'basicAuth' && $('#basic_auth_button').length === 0) {
-          button = new SwaggerUi.Views.BasicAuthButton({model: auth, router: this.router}).render().el;
-          $('.auth_main_container').append(button);
-        }
-      }
+    if (this.info) {
+      this.info.addEventListener('click', this.onLinkClick, true);
     }
 
-    // Render the outer container for resources
-    $(this.el).html(Handlebars.templates.main(this.model));
+    this.model.securityDefinitions = this.model.securityDefinitions || {};
 
     // Render each resource
 
@@ -113,7 +96,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
         id = id + '_' + counter;
         counter += 1;
       }
-      resource.id = id;
+      resource.id = sanitizeHtml(id);
       resources[id] = resource;
       this.addResource(resource, this.model.auths);
     }
@@ -128,7 +111,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
   addResource: function(resource, auths){
     // Render a resource and add it to resources li
-    resource.id = resource.id.replace(/\s/g, '_');
+    resource.id = resource.id.replace(/[^a-zA-Z\d]/g, function(str) { return str.charCodeAt(0); });
 
     // Make all definitions available at the root of the resource so that they can
     // be loaded by the JSonEditor
@@ -148,5 +131,14 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
   clear: function(){
     $(this.el).html('');
+  },
+
+  onLinkClick: function (e) {
+    var el = e.target;
+
+    if (el.tagName === 'A' && el.href && !el.target) {
+        e.preventDefault();
+        window.open(el.href, '_blank');
+    }
   }
 });

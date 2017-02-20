@@ -3,7 +3,7 @@
 /* jshint quotmark: double */
 window.SwaggerTranslator.learn({
     "Warning: Deprecated":"Avertissement : Obsolète",
-    "Implementation Notes":"Notes d'implementation",
+    "Implementation Notes":"Notes d'implémentation",
     "Response Class":"Classe de la réponse",
     "Status":"Statut",
     "Parameters":"Paramètres",

@@ -1,0 +1,53 @@
+swagger: '2.0'
+info:
+  version: 0.0.0
+  title: title<script language="javascript">alert('1')</script>
+  description: description with **markdown** format <script language="javascript">alert('2')</script>
+tags:
+  - name: Admin
+    description: tag with **markdown**
+  - name: Xss<script language="javascript">alert('3')</script>
+    description: tag with **markdown**<script language="javascript">alert('4')</script>
+paths:
+  /test:
+    get:
+      description: description with **markdown** format
+      summary: a summary with **markdown** format
+      responses:
+        200:
+          description: a description with **markdown** format
+          schema:
+            $ref: '#/definitions/User'
+    post:
+      description: <script language="javascript">alert('5')</script>
+      summary: <script language="javascript">alert('6')</script>
+      consumes:
+        - <script language="javascript">alert('7')</script>
+      produces:
+        - <script language="javascript">alert('8')</script>
+      tags:
+      - Admin tasks<script language="javascript">alert('9')</script>
+      parameters:
+      - in: query
+        name: foo
+        type: string
+      - in: query
+        name: reg
+        type: string
+      responses:
+        200:
+          description: nothing<script language="javascript">alert('10')</script>
+definitions:
+  User:
+    description: also with **markdown**
+    properties:
+      name:
+        description: prop with **markdown**
+        type: string
+      email:
+        $ref: '#/definitions/Email'
+  Email:
+    description: <script language="javascript">alert('11')</script>
+    type: string
+    format: email
+    example: <script language="javascript">alert('12')</script>

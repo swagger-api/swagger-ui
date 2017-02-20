@@ -650,4 +650,39 @@ describe('SwaggerUi.partials.signature tests', function () {
             });
         });
     });
+
+    describe('method getPrimitiveSignature', function () {
+        it('returns warning message when type is object', function () {
+            expect(sut.getPrimitiveSignature({type: 'object'})).to.equal('Object is not a primitive');
+        });
+
+        it('returns array with items.format when passing array', function () {
+            var schema = {
+                type: 'array',
+                items: {
+                    format: 'format',
+                    type: 'type'
+                }
+            };
+            expect(sut.getPrimitiveSignature(schema)).to.equal('Array[format]');
+        });
+
+        it('returns array with items.type when passing array without items.format', function () {
+            var schema = {
+                type: 'array',
+                items: {
+                    type: 'type'
+                }
+            };
+            expect(sut.getPrimitiveSignature(schema)).to.equal('Array[type]');
+        });
+
+        it('returns format of primitive', function () {
+            expect(sut.getPrimitiveSignature({type: 'type', format: 'format'})).to.equal('format');
+        });
+
+        it('returns type of primitive if format is not passed', function () {
+            expect(sut.getPrimitiveSignature({type: 'type'})).to.equal('type');
+        });
+    });
 });

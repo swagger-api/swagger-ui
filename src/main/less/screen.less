@@ -77,7 +77,9 @@
 
   #header {
     background-color: #89bf04;
-    padding: 14px;
+    padding: 9px 14px 19px 14px;
+    height: 23px;
+    min-width: 775px;
   }
 
   #input_baseUrl { width: 400px; }
@@ -89,9 +91,8 @@
   }
 
   #api_selector .input {
-    display: block;
+    display: inline-block;
     clear: none;
-    float: left;
     margin: 0 10px 0 0;
   }
 
@@ -103,7 +104,7 @@
 
   #input_apiKey { width: 200px; }
 
-  #explore {
+  #explore, #auth_container .authorize__btn {
     display: block;
     text-decoration: none;
     font-weight: bold;
@@ -125,9 +126,18 @@
     font-size: 1.5em;
     font-weight: bold;
     text-decoration: none;
-    background: transparent url(../images/logo_small.png) no-repeat left center;
-    padding: 20px 0 20px 40px;
     color: white;
+
+    .logo__img {
+      display: block;
+      float: left;
+      margin-top: 2px;
+    }
+
+    .logo__title {
+      display: inline-block;
+      padding: 5px 0 0 10px;
+    }
   }
 
   #content_message {
@@ -150,6 +160,10 @@
     content: "+";
   }
 
+  .error {
+    outline-color: #cc0000;
+    background-color: #f2dede;
+  }
 }
 
 

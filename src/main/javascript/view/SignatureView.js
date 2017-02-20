@@ -9,7 +9,6 @@ SwaggerUi.Views.SignatureView = Backbone.View.extend({
   },
 
   initialize: function () {
-    console.log('SignatureView::initialize');
   },
 
   render: function(){
