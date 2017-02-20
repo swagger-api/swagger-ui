@@ -670,12 +670,16 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
     // if server is nice, and sends content-type back, we can use it
     var contentType = null;
-    if (headers) {
-      contentType = headers['Content-Type'] || headers['content-type'];
-      if (contentType) {
-        contentType = contentType.split(';')[0].trim();
-      }
+    var acceptHeader = $('div select[name=responseContentType]', $(this.el)).val();
+    if (acceptHeader) {
+       contentType = acceptHeader;
     }
+    //if (headers) {
+    //  contentType = headers['Content-Type'] || headers['content-type'];
+    //  if (contentType) {
+    //    contentType = contentType.split(';')[0].trim();
+    //  }
+    //}
 
     $('.response_body', $(this.el)).removeClass('json');
     $('.response_body', $(this.el)).removeClass('xml');
@@ -792,6 +796,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     // adds curl output
     var curlCommand = this.model.asCurl(this.map, {responseContentType: contentType});
     curlCommand = curlCommand.replace('!', '&#33;');
+    if (!acceptHeader) {
+      curlCommand = curlCommand.replace(' --header \'Accept: application/json\'', '');
+    }
     $( 'div.curl', $(this.el)).html('<pre>' + _.escape(curlCommand) + '</pre>');
 
     // only highlight the response if response is less than threshold, default state is highlight response
