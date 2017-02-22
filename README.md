@@ -8,7 +8,7 @@
 
 Swagger UI is part of the Swagger project.  The Swagger project allows you to produce, visualize and consume your OWN RESTful services.  No proxy or 3rd party services required.  Do it your own way.
 
-Swagger UI is a dependency-free collection of HTML, Javascript, and CSS assets that dynamically
+Swagger UI is a dependency-free collection of HTML, JavaScript, and CSS assets that dynamically
 generate beautiful documentation and sandbox from a Swagger-compliant API. Because Swagger UI has no dependencies, you can host it in any server environment, or on your local machine.
 
 ## What's Swagger?
@@ -62,7 +62,7 @@ docker run -p 80:8080 swaggerapi/swagger-ui
 
 ### Build using Docker
 
-To build swagger-ui using a docker container:
+To build swagger-ui using a Docker container:
 
 ```
 docker build -t swagger-ui-builder .
@@ -72,7 +72,7 @@ docker run -p 80:8080 swagger-ui-builder
 This will start Swagger UI at `http://localhost`.
 
 ### Use
-Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstore.swagger.io/v2/swagger.json) service and show its APIs.  You can enter your own server url and click explore to view the API.
+Once you open the Swagger UI, it will load the [Swagger Petstore](http://petstore.swagger.io/v2/swagger.json) service and show its APIs.  You can enter your own server url and click 'Explore' to view the API.
 
 ### Customize
 You may choose to customize Swagger UI for your organization. Here is an overview of what's in its various directories:
@@ -152,9 +152,9 @@ swaggerUi.api.clientAuthorizations.add("key", new SwaggerClient.ApiKeyAuthorizat
 Note!  You can pass multiple header params on a single request, just use unique names for them (`key` is used in the above example).
 
 ### Localization and translation
-The localization files are in the [lang](/lang) directory. Note that language files and translator is not included in SwaggerUI by default. You need to add them manually.
+The localization files are in the [lang](/lang) directory. Note that language files and translator are not included in SwaggerUI by default. You need to add them manually.
 
-To enable translation you should append next two lines in your Swagger's index.html (or another entry point you use)
+To enable translation, you should append the next two lines in your Swagger's index.html (or another entry point you use)
 ```html
 <script src='lang/translator.js' type='text/javascript'></script>
 <script src='lang/en.js' type='text/javascript'></script>
@@ -179,7 +179,7 @@ At this moment only inner html, title-attribute and value-attribute are going to
 ## CORS Support
 ### OR: How to deal with "Can't read from server. It may not have the appropriate access-control-origin settings."
 
-CORS is a technique to prevent websites from doing bad things with your personal data.  Most browsers + javascript toolkits not only support CORS but enforce it, which has implications for your API server which supports Swagger.
+CORS is a technique to prevent websites from doing bad things with your personal data.  Most browsers + JavaScript toolkits not only support CORS but enforce it, which has implications for your API server which supports Swagger.
 
 You can read about CORS here: http://www.w3.org/TR/cors.
 
