@@ -193,10 +193,17 @@ window.SwaggerUi = Backbone.Router.extend({
 
       base = base.substring(0, endOfPath);
 
+	  // Does the base end with a '/'?
       if (base.indexOf('/', base.length - 1 ) !== -1){
         return base + url;
       }
 
+      // Base doesn't end with a '/', so trim to the last '/'
+      var lastSlashIndex = base.lastIndexOf('/');
+      if (lastSlashIndex !== -1){
+        return base.substring(0, lastSlashIndex + 1) + url;
+      }
+	  
       return base + '/' + url;
     }
   },
