@@ -229,6 +229,26 @@
   border-collapse: collapse;
   border-spacing: 0;
 }
+.swagger-section .swagger-ui-wrap table .param-name-col {
+  width: 100px;
+  max-width: 100px;
+}
+.swagger-section .swagger-ui-wrap table .param-value-col {
+  width: 310px;
+  max-width: 310px;
+}
+.swagger-section .swagger-ui-wrap table .param-description-col {
+  width: 200px;
+  max-width: 200px;
+}
+.swagger-section .swagger-ui-wrap table .param-type-col {
+  width: 100px;
+  max-width: 100px;
+}
+.swagger-section .swagger-ui-wrap table .param-data-type-col {
+  width: 220px;
+  max-width: 230px;
+}
 .swagger-section .swagger-ui-wrap table thead tr th {
   padding: 5px;
   font-size: 0.9em;
@@ -336,6 +356,10 @@
   padding-bottom: 10px;
   font-weight: bold;
   font-size: 25px;
+}
+.swagger-section .swagger-ui-wrap .info_sub_title {
+  font-weight: bold;
+  font-size: 16px;
 }
 .swagger-section .swagger-ui-wrap .footer {
   margin-top: 20px;
