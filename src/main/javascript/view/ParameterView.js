@@ -168,7 +168,7 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
 
   // Return an appropriate template based on if the parameter is a list, readonly, required
   template: function(){
-    if (this.model.isList) {
+    if (this.model.isList && this.model.type !== 'array') {
       return Handlebars.templates.param_list;
     } else {
       if (this.options.readOnly) {
