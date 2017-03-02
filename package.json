@@ -63,6 +63,7 @@
     "run-sequence": "^1.2.2",
     "selenium-webdriver": "^2.45.0",
     "sinon-chai": "2.8.0",
-    "swagger-client": "2.1.32"
+    "swagger-client": "2.1.32",
+    "swagger-model-validator": "^2.1.8"
   }
 }

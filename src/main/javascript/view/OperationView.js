@@ -745,6 +745,27 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
       code = $('<code />').text(json);
       pre = $('<pre class="json" />').append(code);
 
+
+      new Validator(this.model);
+      var responseSpec = this.model.successResponse[response.status];
+      if (responseSpec === undefined) {
+        pre = pre.before($('<p>Response code ' + response.status + ' is not defined in the specification.</p>'));
+      } else {
+        var modelName = responseSpec.name;
+        var validationErrors = this.model.validateModel(modelName, JSON.parse(content));
+
+        if (validationErrors.valid) {
+          pre = pre.before($('<p>Response is a valid ' + modelName +'.</p>'));
+        } else {
+          var errorList = $('<ul class="validation-errors" />');
+          var errorMessage = $('<p class="validation-error">The response does not conform to the specification for ' + modelName + ' :</p>');
+          validationErrors.errors.forEach(function (error) {
+            errorList.append($('<li />').text(error.message));
+          });
+          pre = pre.before(errorMessage, errorList);
+        }
+      }
+
       // XML
     } else if (contentType === 'application/xml' || /\+xml$/.test(contentType)) {
       code = $('<code />').text(this.formatXml(content));

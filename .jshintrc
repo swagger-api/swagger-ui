@@ -33,6 +33,7 @@
     "jsyaml": false,
     "define": false,
     "sanitizeHtml": false,
+    "Validator": false,
 
     // Global object
     // TODO: remove these
