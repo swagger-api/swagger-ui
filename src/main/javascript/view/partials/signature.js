@@ -846,6 +846,13 @@ SwaggerUi.partials.signature = (function () {
       attrs.push(namespace);
     }   
 
+    // This hack gets around the fact that Swagger UI won't allow you to
+    // provide a JSON property that is also the root XML element.
+    if (xml && xml.name === 'root') {
+      var prop = _.keys(properties)[0];
+      return createSchemaXML(prop, properties[prop], models, config);
+    }
+
     if (!properties && !additionalProperties) { return getErrorMessage(); }
 
     properties = properties || {};
