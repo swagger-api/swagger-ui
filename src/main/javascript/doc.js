@@ -86,39 +86,50 @@ window.Docs = {
 
 	shebang: function() {
 
-		// If shebang has an operation nickname in it..
-		// e.g. /docs/#!/words/get_search
-		var fragments = $.param.fragment().split('/');
-		fragments.shift(); // get rid of the bang
+	    // If shebang has an operation nickname in it..
+	    // e.g. /docs/#!/words/get_search?param1=value
+	    var tokens = $.param.fragment().split('?');
+	    var fragments = tokens[0].split('/');
+	    fragments.shift(); // get rid of the bang
 
-		switch (fragments.length) {
-			case 1:
-        if (fragments[0].length > 0) { // prevent matching "#/"
-          // Expand all operations for the resource and scroll to it
-          var dom_id = 'resource_' + fragments[0];
+	    var params = tokens.length === 2 ? tokens[1].split('&') : [];
 
-          Docs.expandEndpointListForResource(fragments[0]);
-          $("#"+dom_id).slideto({highlight: false});
-        }
-				break;
-			case 2:
-				// Refer to the endpoint DOM element, e.g. #words_get_search
+	    switch (fragments.length) {
+	      case 1:
+		if (fragments[0].length > 0) { // prevent matching "#/"
+		  // Expand all operations for the resource and scroll to it
+		  var dom_id = 'resource_' + fragments[0];
 
-        // Expand Resource
-        Docs.expandEndpointListForResource(fragments[0]);
-        $("#"+dom_id).slideto({highlight: false});
-
-            // Expand operation
-            var li_dom_id = fragments.join('_');
-            var li_content_dom_id = li_dom_id + "_content";
-
-
-            Docs.expandOperation($('#'+li_content_dom_id));
-            $('#'+li_dom_id).slideto({highlight: false});
-            break;
+		  Docs.expandEndpointListForResource(fragments[0]);
+		  $("#" + dom_id).slideto({highlight: false});
 		}
-	},
+		break;
+	      case 2:
+		// Refer to the endpoint DOM element, e.g. #words_get_search
 
+		// Expand Resource
+		Docs.expandEndpointListForResource(fragments[0]);
+		$("#" + dom_id).slideto({highlight: false});
+
+		// Expand operation
+		var li_dom_id = fragments.join('_');
+		var li_content_dom_id = li_dom_id + "_content";
+
+
+		Docs.expandOperation($('#' + li_content_dom_id));
+		$('#' + li_dom_id).slideto({highlight: false});
+
+		// Init inputs by URL parameters
+		for (var i = 0; i < params.length; i++) {
+		  var keyValue = params[i].split('='),
+		    e = $('#' + li_dom_id).find('[name=' + keyValue[0] + ']');
+		  if (e) {
+		    e.val(keyValue[1]);
+		  }
+		}
+		break;
+	    }
+	},
 	toggleEndpointListForResource: function(resource) {
 		var elem = $('li#resource_' + Docs.escapeResourceName(resource) + ' ul.endpoints');
 		if (elem.is(':visible')) {
