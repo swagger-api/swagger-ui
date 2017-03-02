@@ -40,6 +40,7 @@
       } else {
         url = "http://petstore.swagger.io/v2/swagger.json";
       }
+      var swaggerRequestHeaders = window.location.search.match(/swaggerRequestHeaders=([^&]+)/);
 
       hljs.configure({
         highlightSizeThreshold: 5000
@@ -51,6 +52,7 @@
       }
       window.swaggerUi = new SwaggerUi({
         url: url,
+        swaggerRequestHeaders: swaggerRequestHeaders,
         dom_id: "swagger-ui-container",
         supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
         onComplete: function(swaggerApi, swaggerUi){
