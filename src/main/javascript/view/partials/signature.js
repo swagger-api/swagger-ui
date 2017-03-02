@@ -263,6 +263,10 @@ SwaggerUi.partials.signature = (function () {
         html += ' = <span class="propVals">[\'' + schema.enum.join('\', \'') + '\']</span>';
       }
 
+      if (schema.items && schema.items.enum) {
+        html += ' = <span class="propVals">[\'' + schema.items.enum.join('\', \'') + '\']</span>';
+      }
+
       if (isArray) {
         if (_.isPlainObject(schema.items) && !_.isUndefined(schema.items.type)) {
           type = schema.items.type;
@@ -334,15 +338,11 @@ SwaggerUi.partials.signature = (function () {
 
       if (_.isUndefined(schema.items)) {
         if (_.isArray(schema.enum)) {
-          var enumString;
-
-          if (type === 'number' || type === 'integer') {
-            enumString = schema.enum.join(', ');
-          } else {
-            enumString = '"' + schema.enum.join('", "') + '"';
-          }
-
-          options += optionHtml('Enum', enumString);
+          options += enumToOptionsHTML(schema);
+        }
+      } else {
+        if (schema.items && _.isArray(schema.items.enum)) {
+          options += enumToOptionsHTML(schema.items);
         }
       }
 
@@ -351,6 +351,20 @@ SwaggerUi.partials.signature = (function () {
       }
 
       return html;
+    }
+
+    function enumToOptionsHTML(schema) {
+      var type = schema.type || 'object';
+
+      var enumString;
+
+      if (type === 'number' || type === 'integer') {
+        enumString = schema.enum.join(', ');
+      } else {
+        enumString = '"' + schema.enum.join('", "') + '"';
+      }
+
+      return optionHtml('Enum', enumString);
     }
 
     function processModel(schema, name) {
