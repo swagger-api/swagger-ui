@@ -97,3 +97,14 @@ Handlebars.registerHelper('escape', function (value) {
 
     return new Handlebars.SafeString(text);
 });
+
+Handlebars.registerHelper('xCodeSnippet', function () {
+  if (!this.vendorExtensions['x-code-snippets']) {
+    return '';
+  }
+  var snippets = [];
+  for(var lang in this.vendorExtensions['x-code-snippets']) {
+    snippets.push('<div class="tab-title">' + lang + '</div><pre><code class="hljs ' + Handlebars.escapeExpression(lang) + '">' + this.vendorExtensions['x-code-snippets'][lang] + '</code></pre>');
+  }
+  return new Handlebars.SafeString('<div class="jquery-tab">' + snippets.join('') + '</div>');
+});

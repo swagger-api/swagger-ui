@@ -109,6 +109,12 @@
           </div>
           {{/if}}
         </form>
+        {{#if vendorExtensions}}
+        <h4 data-sw-translate>Code Snippet</h4>
+        <div class='code-snippet'>
+          {{xCodeSnippet}}
+        </div>
+        {{/if}}
         <div class='response' style='display:none'>
           <h4 class='curl'>Curl</h4>
           <div class='block curl'></div>
