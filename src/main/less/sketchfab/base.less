@@ -1,0 +1,156 @@
+/**
+ * General
+ ******************************************************************************/
+body {
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    background: #f2f2f2;
+}
+
+/**
+ * Typography
+ ******************************************************************************/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #000;
+    font-weight: bold;
+}
+h1 {
+    font-size: 30px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+a {
+    color: @brand-color;
+    text-decoration: none;
+}
+pre {
+    font-family: monospace;
+    font-size: 13px;
+    line-height: 24px;
+}
+
+/**
+ * Table
+ ******************************************************************************/
+table {
+    margin: 1em 0;
+    thead {
+        th {
+            font-size: 12px;
+            text-transform: uppercase;
+            background: #f2f2f2;
+        }
+    }
+    tr {
+        border-bottom: 1px solid #ddd;
+    }
+    td,
+    th {
+        padding: 5px;
+        font-size: 14px;
+        vertical-align: top;
+        &.code {
+            font-family: monospace;
+        }
+        &.required {
+            font-weight: bold;
+            &:after {
+                content: "*";
+                color: #cc211f;
+            }
+        }
+    }
+    &.fullwidth {
+        width: 100%;
+    }
+}
+
+/**
+ * Buttons
+ ******************************************************************************/
+input[type="submit"] {
+    -webkit-appearance: none;
+    border: 0;
+    border-radius: 3px;
+    padding: 8px 16px;
+    font-family: inherit;
+    font-size: 16px;
+    text-transform: uppercase;
+    background: @brand-color;
+    color: #fff;
+}
+
+/**
+ * Forms
+ ******************************************************************************/
+input[type="text"],
+textarea {
+    box-sizing: border-box;
+    border: 1px solid #CCC;
+    border-radius: 3px;
+    padding: 4px;
+}
+
+/**
+ * Components
+ ******************************************************************************/
+.markdown {
+    p {
+        margin: 1em 0;
+
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+}
+.shadow {
+    box-shadow: 0 1px 5px rgba(85,85,85,.15);
+}
+.swagger-ui-wrap {
+    max-width: 88%;
+    margin: 0 auto;
+}
+.message {
+    box-sizing: border-box;
+    margin: 12px auto;
+    border-radius: 3px;
+    text-align: center;
+    line-height: 3em;
+    color: #fff;
+}
+.message-success {
+    &:extend(.message);
+    background: #1FCC74;
+}
+.message-fail {
+    &:extend(.message);
+    background: #CC211F;
+}
+
+.terminal {
+    display: block;
+    padding: 8px;
+    border-radius: 3px;
+    font-size: 13px;
+    font-family: monospace;
+    line-height: 24px;
+    background: @solarized-base03;
+    color: @solarized-base1;
+}
+.body-textarea {
+    min-height: 20em;
+    width: 100%;
+}
