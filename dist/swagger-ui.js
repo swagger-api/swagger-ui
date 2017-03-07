@@ -278,17 +278,32 @@ Handlebars.registerHelper('renderTextParam', function(param) {
         defaultValue = defaultValue.replace(/'/g,'&apos;');
     }
 
+    var placeholderText = '';
+
+    // Internet Explorer 6-11
+    var isIE = false || !!document.documentMode;
+
     if(isArray) {
+
+        if(!isIE) {
+          placeholderText = 'Provide multiple values in new lines' + (param.required ? ' (at least one required).' : '.');
+        }
+
         result = '<textarea class=\'body-textarea' + (param.required ? ' required' : '') + '\' name=\'' + param.name + '\'' + idAtt + dataVendorExtensions;
-        result += ' placeholder=\'Provide multiple values in new lines' + (param.required ? ' (at least one required).' : '.') + '\'>';
+        result += ' placeholder=\'' + placeholderText + '\'>';
         result += defaultValue + '</textarea>';
     } else {
         var parameterClass = 'parameter';
         if(param.required) {
           parameterClass += ' required';
         }
+
+        if (!isIE) {
+            placeholderText = (param.required ? '(required)' : '');
+        }
+
         result = '<input class=\'' + parameterClass + '\' minlength=\'' + (param.required ? 1 : 0) + '\'';
-        result += ' name=\'' + param.name +'\' placeholder=\'' + (param.required ? '(required)' : '') + '\'' + idAtt + dataVendorExtensions;
+        result += ' name=\'' + param.name +'\' placeholder=\'' + placeholderText + '\'' + idAtt + dataVendorExtensions;
         result += ' type=\'' + type + '\' value=\'' + defaultValue + '\'/>';
     }
     return new Handlebars.SafeString(result);
