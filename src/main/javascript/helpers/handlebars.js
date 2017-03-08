@@ -7,7 +7,7 @@ Handlebars.registerHelper('sanitize', function (text) {
     if (text === undefined) { return ''; }
 
     result = sanitizeHtml(text, {
-        allowedTags: [ 'div', 'span', 'b', 'i', 'em', 'strong', 'a', 'br', 'table', 'tbody', 'tr', 'th', 'td' ],
+        allowedTags: [ 'div', 'span', 'b', 'i', 'em', 'strong', 'a', 'br', 'table', 'tbody', 'tr', 'th', 'td', 'code', 'pre' ],
         allowedAttributes: {
             'div': [ 'class' ],
             'span': [ 'class' ],
