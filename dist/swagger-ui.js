@@ -278,17 +278,32 @@ Handlebars.registerHelper('renderTextParam', function(param) {
         defaultValue = defaultValue.replace(/'/g,'&apos;');
     }
 
+    var placeholderText = '';
+
+    // Internet Explorer 6-11
+    var isIE = false || !!document.documentMode;
+
     if(isArray) {
+
+        if(!isIE) {
+          placeholderText = 'Provide multiple values in new lines' + (param.required ? ' (at least one required).' : '.');
+        }
+
         result = '<textarea class=\'body-textarea' + (param.required ? ' required' : '') + '\' name=\'' + param.name + '\'' + idAtt + dataVendorExtensions;
-        result += ' placeholder=\'Provide multiple values in new lines' + (param.required ? ' (at least one required).' : '.') + '\'>';
+        result += ' placeholder=\'' + placeholderText + '\'>';
         result += defaultValue + '</textarea>';
     } else {
         var parameterClass = 'parameter';
         if(param.required) {
           parameterClass += ' required';
         }
+
+        if (!isIE) {
+            placeholderText = (param.required ? '(required)' : '');
+        }
+
         result = '<input class=\'' + parameterClass + '\' minlength=\'' + (param.required ? 1 : 0) + '\'';
-        result += ' name=\'' + param.name +'\' placeholder=\'' + (param.required ? '(required)' : '') + '\'' + idAtt + dataVendorExtensions;
+        result += ' name=\'' + param.name +'\' placeholder=\'' + placeholderText + '\'' + idAtt + dataVendorExtensions;
         result += ' type=\'' + type + '\' value=\'' + defaultValue + '\'/>';
     }
     return new Handlebars.SafeString(result);
@@ -26355,8 +26370,12 @@ SwaggerUi.partials.signature = (function () {
   var getInlineModel = function(inlineStr) {
     if(/^Inline Model \d+$/.test(inlineStr)) {
       var id = parseInt(inlineStr.substr('Inline Model'.length).trim(),10); //
-      var model = this.inlineModels[id];
-      return model;
+      if(this.inlineModels){
+        var model = this.inlineModels[id];
+        return model;
+      } else {
+        return null;
+      }
     }
     // I'm returning null here, should I rather throw an error?
     return null;
