@@ -5,7 +5,7 @@ branches:
   only:
   - master
   - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
-before_deploy: "npm run build"
+before_deploy: "npm run build-core"
 deploy:
   provider: npm
   email: apiteam@swagger.io
