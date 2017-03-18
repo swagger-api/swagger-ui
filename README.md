@@ -23,6 +23,16 @@ Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes | Status
 
 ### How to run
 
+##### Easy start!  Docker
+You can pull a pre-built docker image of the swagger-ui directly from Dockerhub:
+
+```
+docker pull swaggerapi/swagger-ui
+docker run -p 80:8080 swaggerapi/swagger-ui
+```
+
+Will start nginx with swagger-ui on port 80.
+
 ##### Prerequisites
 - Node 6.x
 - NPM 3.x
