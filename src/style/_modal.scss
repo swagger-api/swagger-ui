@@ -1,0 +1,102 @@
+.dialog-ux
+{
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    .backdrop-ux
+    {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        background: rgba(#000,.8);
+    }
+
+    .modal-ux
+    {
+        position: absolute;
+        z-index: 9999;
+        top: 50%;
+        left: 50%;
+
+        width: 100%;
+        min-width: 300px;
+        max-width: 650px;
+
+        transform: translate(-50%,-50%);
+
+        border: 1px solid #ebebeb;
+        border-radius: 4px;
+        background: #fff;
+        box-shadow: 0 10px 30px 0 rgba(0,0,0,.20);
+    }
+
+    .modal-ux-content
+    {
+        overflow-y: auto;
+
+        max-height: 540px;
+        padding: 20px;
+
+        p
+        {
+            font-size: 12px;
+
+            margin: 0 0 5px 0;
+
+            color: #41444e;
+
+            @include text_body();
+        }
+
+        h4
+        {
+            font-size: 18px;
+            font-weight: 600;
+
+            margin: 15px 0 0 0;
+
+            @include text_headline();
+        }
+    }
+
+    .modal-ux-header
+    {
+        display: flex;
+
+        padding: 12px 0;
+
+        border-bottom: 1px solid #ebebeb;
+
+        align-items: center;
+
+        .close-modal
+        {
+            padding: 0 10px;
+
+            border: none;
+            background: none;
+
+            appearance: none;
+        }
+
+
+        h3
+        {
+            font-size: 20px;
+            font-weight: 600;
+
+            margin: 0;
+            padding: 0 20px;
+
+            flex: 1;
+            @include text_headline();
+        }
+    }
+}
