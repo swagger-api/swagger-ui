@@ -1,4 +1,5 @@
 import YAML from "js-yaml"
+import { parseSeach } from "core/utils"
 import yamlConfig from "../../../swagger-config.yaml"
 
 const CONFIGS = [ "url", "spec", "validatorUrl", "onComplete", "onFailure", "authorizations", "docExpansion",
@@ -14,22 +15,6 @@ const parseYamlConfig = (yaml, system) => {
         }
         return {}
     }
-}
-
-const parseSeach = () => {
-    let map = {}
-    let search = window.location.search
-
-    if ( search != "" ) {
-        let params = search.substr(1).split("&");
-
-        for (let i in params) {
-            i = params[i].split("=");
-            map[decodeURIComponent(i[0])] = decodeURIComponent(i[1]);
-        }
-    }
-
-    return map;
 }
 
 

@@ -4,6 +4,7 @@ import System from "core/system"
 import ApisPreset from "core/presets/apis"
 import * as AllPlugins from "core/plugins/all"
 import { filterConfigs } from "plugins/configs"
+import { parseSeach } from "core/utils"
 
 module.exports = function SwaggerUI(opts) {
 
@@ -73,9 +74,13 @@ module.exports = function SwaggerUI(opts) {
 
     let localConfig = system.specSelectors.getLocalConfig ? system.specSelectors.getLocalConfig() : {}
     let mergedConfig = deepExtend({}, config, configs, localConfig)
+    let search = parseSeach()
+    if (search.url) {
+      mergedConfig.url = search.url
+    }
     store.setConfigs(filterConfigs(mergedConfig))
 
-    if(typeof mergedConfig.spec === "object" && Object.keys(mergedConfig.spec).length) {
+    if(!search.url && typeof mergedConfig.spec === "object" && Object.keys(mergedConfig.spec).length) {
       system.specActions.updateUrl("")
       system.specActions.updateLoadingStatus("success");
       system.specActions.updateSpec(JSON.stringify(mergedConfig.spec))
