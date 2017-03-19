@@ -9,7 +9,7 @@ COPY nginx.conf /etc/nginx/
 
 # copy swagger files to the `/js` folder
 ADD ./dist/ /usr/share/nginx/html/js
-ADD ./public/index.html /usr/share/nginx/html
+ADD ./public/* /usr/share/nginx/html
 
 # change the folder structure
 RUN sed -i 's/\.\.\/dist/js/g' /usr/share/nginx/html/index.html
