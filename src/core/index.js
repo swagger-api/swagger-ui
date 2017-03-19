@@ -66,6 +66,7 @@ module.exports = function SwaggerUI(opts) {
   store.register([config.plugins, inlinePlugin])
 
   var system = store.getSystem()
+  let queryConfig = parseSeach()
 
   const downloadSpec = (configs) => {
     if(typeof config !== "object") {
@@ -73,46 +74,31 @@ module.exports = function SwaggerUI(opts) {
     }
 
     let localConfig = system.specSelectors.getLocalConfig ? system.specSelectors.getLocalConfig() : {}
-    let mergedConfig = deepExtend({}, config, configs, localConfig)
-    let search = parseSeach()
-    if (search.url) {
-      mergedConfig.url = search.url
-    }
+    let mergedConfig = deepExtend({}, config, localConfig, configs, queryConfig)
     store.setConfigs(filterConfigs(mergedConfig))
 
-    if(!search.url && typeof mergedConfig.spec === "object" && Object.keys(mergedConfig.spec).length) {
+    if(!queryConfig.url && typeof mergedConfig.spec === "object" && Object.keys(mergedConfig.spec).length) {
       system.specActions.updateUrl("")
       system.specActions.updateLoadingStatus("success");
       system.specActions.updateSpec(JSON.stringify(mergedConfig.spec))
-    } else if(mergedConfig.url) {
+    } else if(system.specActions.download && mergedConfig.url) {
       system.specActions.updateUrl(mergedConfig.url)
       system.specActions.download(mergedConfig.url)
     }
 
-    if(mergedConfig.dom_id)
+    if(mergedConfig.dom_id) {
       system.render(mergedConfig.dom_id, "App")
+    } else {
+      console.error("Skipped rendering: no `dom_id` was specified")
+    }
 
     return system
   }
 
-  if (system.specActions.getConfigByUrl && !system.specActions.getConfigByUrl(downloadSpec)) {
+  if (!system.specActions.getConfigByUrl || system.specActions.getConfigByUrl && !system.specActions.getConfigByUrl(downloadSpec)) {
     return downloadSpec(config)
   }
 
-  if (system.specActions.download && config.url) {
-    system.specActions.download(config.url)
-  }
-
-  if(config.spec && typeof config.spec === "string")
-    system.specActions.updateSpec(config.spec)
-
-  if(config.dom_id) {
-    system.render(config.dom_id, "App")
-  } else {
-    console.error("Skipped rendering: no `dom_id` was specified")
-  }
-
-  return system
 }
 
 // Add presets
