@@ -20,21 +20,23 @@ export default class LiveResponse extends React.Component {
   }
 
   render() {
-    let { request, response, getComponent } = this.props
+    const { request, response, getComponent } = this.props
+
+    const body = response.get("text")
+    const status = response.get("status")
+    const url = response.get("url")
+    const headers = response.get("headers").toJS()
+    const notDocumented = response.get("notDocumented")
+    const isError = response.get("error")
+
+    const headersKeys = Object.keys(headers)
+    const contentType = headers["content-type"]
+
     const Curl = getComponent("curl")
-    let body = response.get("text")
-    let status = response.get("status")
-    let url = response.get("url")
-    let originalHeaders = response.get("headers")
-    let headers = originalHeaders && originalHeaders.toJS()
-    let headersKeys = Object.keys(headers)
-    let returnObject = headersKeys.map(key => {
+    const ResponseBody = getComponent("responseBody")
+    const returnObject = headersKeys.map(key => {
       return <span className="headerline" key={key}> {key}: {headers[key]} </span>
     })
-    let notDocumented = response.get("notDocumented")
-    let ResponseBody = getComponent("responseBody")
-    let contentType = headers && headers["content-type"]
-    let isError = response.get("error")
 
     return (
       <div>

@@ -194,7 +194,6 @@ export const executeRequest = (req) => ({fn, specActions, errActions}) => {
   specActions.setRequest(req.pathName, req.method, parsedRequest)
 
   return fn.execute(req)
-  .then( fn.serializeRes )
   .then( res => specActions.setResponse(req.pathName, req.method, res))
   .catch( err => specActions.setResponse(req.pathName, req.method, { error: true, err: serializeError(err) } ) )
 }
