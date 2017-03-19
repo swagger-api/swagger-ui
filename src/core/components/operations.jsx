@@ -59,12 +59,6 @@ export default class Operations extends React.Component {
                         </small>
                     }
 
-                    <button className="expand-methods" title="Expand all methods">
-                      <svg className="expand" width="20" height="20">
-                        <use xlinkHref="#expand" />
-                      </svg>
-                    </button>
-
                     <button className="expand-operation" title="Expand operation" onClick={() => layoutActions.show(isShownKey, !showTag)}>
                       <svg className="arrow" width="20" height="20">
                         <use xlinkHref={showTag ? "#large-arrow-down" : "#large-arrow"} />
