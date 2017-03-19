@@ -84,6 +84,9 @@ export default {
       result = res
     }
 
+    // Ensure headers
+    result.headers = result.headers || {}
+
     let newState = state.setIn( [ "responses", path, method ], fromJSOrdered(result) )
 
     // ImmutableJS messes up Blob. Needs to reset its value.
