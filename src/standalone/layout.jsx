@@ -67,12 +67,14 @@ export default class StandaloneLayout extends React.Component {
                 </Col>
               </Row>
               <div className="scheme-container">
-                { securityDefinitions &&
-                    <Col className="schemes wrapper" mobile={12}>
-                      { schemes && schemes.size ? <Schemes schemes={ schemes } specActions={ specActions } /> : null }
-                      <AuthorizeBtn />
-                    </Col>
-                }
+                <Col className="schemes wrapper" mobile={12}>
+                  { schemes && schemes.size ? (
+                    <Schemes schemes={ schemes } specActions={ specActions } /> 
+                  ) : null }
+                  { securityDefinitions ? (
+                    <AuthorizeBtn />
+                  ) : null }
+                </Col>
               </div>
               <Row>
                 <Col mobile={12} desktop={12} >
