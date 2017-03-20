@@ -30,7 +30,7 @@ export default function downloadUrlPlugin (toolbox) {
     },
 
     updateLoadingStatus: (status) => {
-      let enums = [null, "loading", "failed", "success"]
+      let enums = [null, "loading", "failed", "success", "failedConfig"]
       if(enums.indexOf(status) === -1) {
         console.error(`Error: ${status} is not one of ${JSON.stringify(enums)}`)
       }

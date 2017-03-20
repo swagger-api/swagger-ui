@@ -549,3 +549,19 @@ export const getSampleSchema = (schema, contentType="", config={}) => {
 
   return JSON.stringify(memoizedSampleFromSchema(schema, config), null, 2)
 }
+
+export const parseSeach = () => {
+  let map = {}
+  let search = window.location.search
+
+  if ( search != "" ) {
+    let params = search.substr(1).split("&");
+
+    for (let i in params) {
+      i = params[i].split("=");
+      map[decodeURIComponent(i[0])] = decodeURIComponent(i[1]);
+    }
+  }
+
+  return map;
+}
