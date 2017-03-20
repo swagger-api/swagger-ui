@@ -286,6 +286,21 @@ body
         @include method($_color-get);
     }
 
+    &.opblock-patch
+    {
+        @include method($_color-patch);
+    }
+
+    &.opblock-head
+    {
+        @include method($_color-head);
+    }
+
+    &.opblock-options
+    {
+        @include method($_color-options);
+    }
+
     &.opblock-deprecated
     {
         opacity: .6;
