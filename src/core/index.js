@@ -36,45 +36,45 @@ module.exports = function SwaggerUI(opts) {
     store: { },
   }
 
-  const config = deepExtend({}, defaults, opts)
+  const constructorConfig = deepExtend({}, defaults, opts)
 
-  const storeConfigs = deepExtend({}, config.store, {
+  const storeConfigs = deepExtend({}, constructorConfig.store, {
     system: {
-      configs: config.configs
+      configs: constructorConfig.configs
     },
-    plugins: config.presets,
+    plugins: constructorConfig.presets,
     state: {
       layout: {
-        layout: config.layout
+        layout: constructorConfig.layout
       },
       spec: {
         spec: "",
-        url: config.url
+        url: constructorConfig.url
       }
     }
   })
 
   let inlinePlugin = ()=> {
     return {
-      fn: config.fn,
-      components: config.components,
-      state: config.state,
+      fn: constructorConfig.fn,
+      components: constructorConfig.components,
+      state: constructorConfig.state,
     }
   }
 
   var store = new System(storeConfigs)
-  store.register([config.plugins, inlinePlugin])
+  store.register([constructorConfig.plugins, inlinePlugin])
 
   var system = store.getSystem()
   let queryConfig = parseSeach()
 
   const downloadSpec = (configs) => {
-    if(typeof config !== "object") {
+    if(typeof constructorConfig !== "object") {
       return system
     }
 
     let localConfig = system.specSelectors.getLocalConfig ? system.specSelectors.getLocalConfig() : {}
-    let mergedConfig = deepExtend({}, config, localConfig, configs, queryConfig)
+    let mergedConfig = deepExtend({}, constructorConfig, localConfig, queryConfig)
     store.setConfigs(filterConfigs(mergedConfig))
 
     if(!queryConfig.url && typeof mergedConfig.spec === "object" && Object.keys(mergedConfig.spec).length) {
@@ -96,7 +96,7 @@ module.exports = function SwaggerUI(opts) {
   }
 
   if (!system.specActions.getConfigByUrl || system.specActions.getConfigByUrl && !system.specActions.getConfigByUrl(downloadSpec)) {
-    return downloadSpec(config)
+    return downloadSpec(constructorConfig)
   }
 
 }
