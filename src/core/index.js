@@ -95,7 +95,7 @@ module.exports = function SwaggerUI(opts) {
     return system
   }
 
-  if (!system.specActions.getConfigByUrl || system.specActions.getConfigByUrl && !system.specActions.getConfigByUrl(downloadSpec)) {
+  if (!system.specActions.getConfigByUrl || (system.specActions.getConfigByUrl && !system.specActions.getConfigByUrl(downloadSpec))) {
     return downloadSpec(constructorConfig)
   }
 
