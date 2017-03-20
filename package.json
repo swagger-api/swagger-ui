@@ -14,7 +14,6 @@
   ],
   "license": "Apache-2.0",
   "scripts": {
-    "start": "http-server -i -a 0.0.0.0 -p 3001",
     "build": "npm run build-core && npm run build-bundle && npm run build-standalone",
     "build-bundle": "webpack --config webpack-dist-bundle.config.js --colors",
     "build-core": "webpack --config webpack-dist.config.js --colors",
