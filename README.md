@@ -43,6 +43,9 @@ If you just want to see your specs, open `public/index.html` in your browser dir
 
 If you'd like to make modifications to the codebase, run the dev server with: `npm run dev`.
 
+##### Browser support
+Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE11.
+
 ### Known Issues
 
 To help with the migration, here are the currently known issues with 3.X. This list will update regularly, and will not include features that were no implemented in previous versions.
@@ -52,8 +55,6 @@ To help with the migration, here are the currently known issues with 3.X. This l
 - Shebang URL support for operations is missing.
 - Support for `collectionFormat` is partial.
 
-##### Browser support
-Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE11.
 
 ## CORS Support
 
