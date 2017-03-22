@@ -48,7 +48,7 @@ Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE1
 
 ### Known Issues
 
-To help with the migration, here are the currently known issues with 3.X. This list will update regularly, and will not include features that were no implemented in previous versions.
+To help with the migration, here are the currently known issues with 3.X. This list will update regularly, and will not include features that were not implemented in previous versions.
 
 - Currently, the only configuration options available are the `url` and `spec`.
 - The JSON Form Editor is not implemented.
