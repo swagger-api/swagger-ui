@@ -6,6 +6,8 @@
 
 **This is the new version of swagger-ui, 3.x. Want to learn more? Check out our [FAQ](http://swagger.io/new-ui-faq/).**
 
+As a brand new version, written from the ground up, there are some known issues and unimplemented features. Check out the [Known Issues](#known-issues) section for more details.
+
 For the older version of swagger-ui, refer to the [*2.x branch*](https://github.com/swagger-api/swagger-ui/tree/2.x).
 
 ## Compatibility
@@ -41,6 +43,14 @@ If you just want to see your specs, open `public/index.html` in your browser dir
 
 If you'd like to make modifications to the codebase, run the dev server with: `npm run dev`.
 
+### Known Issues
+
+To help with the migration, here are the currently known issues with 3.X. This list will update regularly, and will not include features that were no implemented in previous versions.
+
+- Currently, the only configuration options available are the `url` and `spec`.
+- The JSON Form Editor is not implemented.
+- Shebang URL support for operations is missing.
+- Support for `collectionFormat` is partial.
 
 ##### Browser support
 Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE11.
