@@ -68,7 +68,7 @@ module.exports = function SwaggerUI(opts) {
   var system = store.getSystem()
   let queryConfig = parseSeach()
 
-  const downloadSpec = (configs) => {
+  const downloadSpec = () => {
     if(typeof constructorConfig !== "object") {
       return system
     }
@@ -96,7 +96,7 @@ module.exports = function SwaggerUI(opts) {
   }
 
   if (!system.specActions.getConfigByUrl || (system.specActions.getConfigByUrl && !system.specActions.getConfigByUrl(downloadSpec))) {
-    return downloadSpec(constructorConfig)
+    return downloadSpec()
   }
 
 }

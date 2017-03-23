@@ -184,7 +184,7 @@ export const logRequest = (req) => {
 
 // Actually fire the request via fn.execute
 // (For debugging) and ease of testing
-export const executeRequest = (req) => ({fn, specActions, errActions}) => {
+export const executeRequest = (req) => ({fn, specActions}) => {
   let { pathName, method } = req
   let parsedRequest = Object.assign({}, req)
   if ( pathName && method ) {

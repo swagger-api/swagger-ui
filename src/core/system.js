@@ -1,7 +1,6 @@
 import { createStore, applyMiddleware, bindActionCreators, compose } from "redux"
 import Im, { fromJS, Map } from "immutable"
 import deepExtend from "deep-extend"
-import createLogger from "redux-logger"
 import { combineReducers } from "redux-immutable"
 import assign from "object-assign"
 import serializeError from "serialize-error"

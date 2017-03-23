@@ -4,7 +4,9 @@ import React, { Component, PropTypes } from "react"
 export default class Models extends Component {
   static propTypes = {
     getComponent: PropTypes.func,
-    specSelectors: PropTypes.object
+    specSelectors: PropTypes.object,
+    layoutSelectors: PropTypes.object,
+    layoutActions: PropTypes.object
   }
 
   render(){

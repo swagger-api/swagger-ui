@@ -37,7 +37,7 @@ export default function configPlugin (toolbox) {
             function next(res) {
                 if (res instanceof Error || res.status >= 400) {
                     specActions.updateLoadingStatus("failedConfig")
-                    console.log(res.statusText + " " + configUrl)
+                    console.error(res.statusText + " " + configUrl)
                 } else {
                     callback(parseYamlConfig(res.text))
                 }

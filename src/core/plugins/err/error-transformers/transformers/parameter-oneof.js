@@ -1,6 +1,5 @@
 import get from "lodash/get"
-import last from "lodash/get"
-import { fromJS, List } from "immutable"
+import { fromJS } from "immutable"
 
 export function transform(errors, { jsSpec }) {
   // LOOK HERE THIS TRANSFORMER IS CURRENTLY DISABLED 😃

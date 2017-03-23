@@ -224,7 +224,7 @@ export const requestFor = (state, path, method) => {
   return requests(state).getIn([path, method], null)
 }
 
-export const allowTryItOutFor = (state, path, method ) => {
+export const allowTryItOutFor = () => {
   // This is just a hook for now.
   return true
 }
