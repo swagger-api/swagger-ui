@@ -54,6 +54,8 @@ To help with the migration, here are the currently known issues with 3.X. This l
 - The JSON Form Editor is not implemented.
 - Shebang URL support for operations is missing.
 - Support for `collectionFormat` is partial.
+- l10n (translations) is not implemented.
+- Relative path support for external files is not implemented.
 
 
 ## CORS Support
