@@ -22,8 +22,8 @@
   "rules": {
     "semi": [2, "never"],
     "strict": 0,
-    "quotes": 1,
-    "no-unused-vars": 1,
+    "quotes": 2,
+    "no-unused-vars": 2,
     "no-multi-spaces": 1,
     "camelcase": 1,
     "no-use-before-define": [2,"nofunc"],
