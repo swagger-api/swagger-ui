@@ -1,0 +1,36 @@
+{
+  "parser": "babel-eslint",
+
+  "env": {
+    "browser": true,
+    "node": true
+  },
+
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+
+  "plugins": [
+    "react"
+  ],
+
+  "rules": {
+    "semi": [2, "never"],
+    "strict": 0,
+    "quotes": 1,
+    "no-unused-vars": 1,
+    "no-multi-spaces": 1,
+    "camelcase": 1,
+    "no-use-before-define": [2,"nofunc"],
+    "no-underscore-dangle": 0,
+    "no-unused-expressions": 1,
+    "comma-dangle": 0,
+    "no-console": ["error", { allow: ["warn", "error"] }],
+    "react/jsx-no-bind": 1,
+    "react/display-name": 0
+  }
+}
