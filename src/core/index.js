@@ -68,7 +68,7 @@ module.exports = function SwaggerUI(opts) {
   var system = store.getSystem()
   let queryConfig = parseSeach()
 
-  const downloadSpec = (configs) => {
+  const downloadSpec = () => {
     if(typeof constructorConfig !== "object") {
       return system
     }
@@ -79,7 +79,7 @@ module.exports = function SwaggerUI(opts) {
 
     if(!queryConfig.url && typeof mergedConfig.spec === "object" && Object.keys(mergedConfig.spec).length) {
       system.specActions.updateUrl("")
-      system.specActions.updateLoadingStatus("success");
+      system.specActions.updateLoadingStatus("success")
       system.specActions.updateSpec(JSON.stringify(mergedConfig.spec))
     } else if(system.specActions.download && mergedConfig.url) {
       system.specActions.updateUrl(mergedConfig.url)
@@ -96,7 +96,7 @@ module.exports = function SwaggerUI(opts) {
   }
 
   if (!system.specActions.getConfigByUrl || (system.specActions.getConfigByUrl && !system.specActions.getConfigByUrl(downloadSpec))) {
-    return downloadSpec(constructorConfig)
+    return downloadSpec()
   }
 
 }

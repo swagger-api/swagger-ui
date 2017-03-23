@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react"
 import shallowCompare from "react-addons-shallow-compare"
-import { Set, fromJS, List } from "immutable"
+import { fromJS, List } from "immutable"
 import { getSampleSchema } from "core/utils"
 
 const NOOP = Function.prototype
@@ -50,7 +50,7 @@ export default class ParamBody extends Component {
   }
 
   updateValues = (props) => {
-    let { specSelectors, pathMethod, param, isExecute, consumesValue="", onChangeConsumes } = props
+    let { specSelectors, pathMethod, param, isExecute, consumesValue="" } = props
     let parameter = specSelectors ? specSelectors.getParameter(pathMethod, param.get("name")) : {}
     let isXml = /xml/i.test(consumesValue)
     let paramValue = isXml ? parameter.get("value_xml") : parameter.get("value")

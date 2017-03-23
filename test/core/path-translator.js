@@ -1,5 +1,5 @@
 /* eslint-env mocha */
-import expect, { createSpy } from "expect"
+import expect from "expect"
 import { transformPathToArray } from "core/path-translator"
 
 describe("validation plugin - path translator", function(){

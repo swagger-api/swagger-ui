@@ -17,8 +17,6 @@ export default class Schemes extends React.Component {
   }
 
   onChange =( e ) => {
-    let { path, method, specActions } = this.props
-
     this.setScheme( e.target.value )
   }
 

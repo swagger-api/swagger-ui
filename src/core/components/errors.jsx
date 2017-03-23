@@ -1,7 +1,6 @@
 import React, { PropTypes } from "react"
-import Im, { List } from "immutable"
+import { List } from "immutable"
 import Collapse from "react-collapse"
-import sortBy from "lodash/sortBy"
 
 export default class Errors extends React.Component {
 

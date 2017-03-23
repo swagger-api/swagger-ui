@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from "react"
 import ImPropTypes from "react-immutable-proptypes"
-import isObject from "lodash/isObject"
 import { List } from "immutable"
 const braceOpen = "{"
 const braceClose = "}"
@@ -128,7 +127,6 @@ class Primitive extends Component {
     let format = schema.get("format")
     let xml = schema.get("xml")
     let enumArray = schema.get("enum")
-    let description = schema.get("description")
     let properties = schema.filter( ( v, key) => ["enum", "type", "format", "$$ref"].indexOf(key) === -1 )
     let style = required ? { fontWeight: "bold" } : {}
     let propStyle = { color: "#999", fontStyle: "italic" }
@@ -251,9 +249,6 @@ export default class ModelComponent extends Component {
   }
 
   render(){
-    let { name, schema } = this.props
-    let title = schema.get("title") || name
-
     return <div className="model-box">
       <Model { ...this.props } depth={ 1 } expandDepth={ this.props.expandDepth || 0 }/>
     </div>

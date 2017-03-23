@@ -1,5 +1,5 @@
 /* eslint-env mocha */
-import expect, { createSpy } from "expect"
+import expect from "expect"
 import { fromJS } from "immutable"
 import { parameterValues, contentTypeValues } from "corePlugins/spec/selectors"
 
