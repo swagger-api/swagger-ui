@@ -79,7 +79,7 @@ module.exports = function SwaggerUI(opts) {
 
     if(!queryConfig.url && typeof mergedConfig.spec === "object" && Object.keys(mergedConfig.spec).length) {
       system.specActions.updateUrl("")
-      system.specActions.updateLoadingStatus("success");
+      system.specActions.updateLoadingStatus("success")
       system.specActions.updateSpec(JSON.stringify(mergedConfig.spec))
     } else if(system.specActions.download && mergedConfig.url) {
       system.specActions.updateUrl(mergedConfig.url)

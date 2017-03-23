@@ -10,7 +10,7 @@ export default class Models extends Component {
   render(){
     let { specSelectors, getComponent, layoutSelectors, layoutActions } = this.props
     let definitions = specSelectors.definitions()
-    let showModels = layoutSelectors.isShown('models', true)
+    let showModels = layoutSelectors.isShown("models", true)
 
     const Model = getComponent("model")
     const Collapse = getComponent("Collapse")
@@ -18,7 +18,7 @@ export default class Models extends Component {
     if (!definitions.size) return null
 
     return <section className={ showModels ? "models is-open" : "models"}>
-      <h4 onClick={() => layoutActions.show('models', !showModels)}>
+      <h4 onClick={() => layoutActions.show("models", !showModels)}>
         <span>Models</span>
         <svg width="20" height="20">
           <use xlinkHref="#large-arrow" />

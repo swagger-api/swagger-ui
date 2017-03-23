@@ -31,7 +31,7 @@ export default class OnlineValidatorBadge extends React.Component {
           return null
         }
 
-        return  (<span style={{ float: "right"}}>
+        return (<span style={{ float: "right"}}>
                 <a target="_blank" href={`${ this.state.validatorUrl }/debug?url=${ this.state.url }`}>
                     <img alt="Online validator badge" src={`${ this.state.validatorUrl }?url=${ this.state.url }`} />
                 </a>

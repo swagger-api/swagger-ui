@@ -539,7 +539,7 @@ export const getSampleSchema = (schema, contentType="", config={}) => {
         let match = schema.$$ref.match(/\S*\/(\S+)$/)
         schema.xml.name = match[1]
       } else if (schema.type || schema.items || schema.properties || schema.additionalProperties) {
-        return '<?xml version="1.0" encoding="UTF-8"?>\n<!-- XML example cannot be generated -->'
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!-- XML example cannot be generated -->"
       } else {
         return null
       }
@@ -555,13 +555,13 @@ export const parseSeach = () => {
   let search = window.location.search
 
   if ( search != "" ) {
-    let params = search.substr(1).split("&");
+    let params = search.substr(1).split("&")
 
     for (let i in params) {
-      i = params[i].split("=");
-      map[decodeURIComponent(i[0])] = decodeURIComponent(i[1]);
+      i = params[i].split("=")
+      map[decodeURIComponent(i[0])] = decodeURIComponent(i[1])
     }
   }
 
-  return map;
+  return map
 }

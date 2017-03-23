@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react"
-import { fromJS } from 'immutable'
+import { fromJS } from "immutable"
 import { getSampleSchema } from "core/utils"
 
 const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
