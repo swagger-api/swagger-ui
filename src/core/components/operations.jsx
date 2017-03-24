@@ -1,5 +1,4 @@
 import React, { PropTypes } from "react"
-import {presets} from "react-motion"
 
 export default class Operations extends React.Component {
 
@@ -33,7 +32,6 @@ export default class Operations extends React.Component {
 
     const Operation = getComponent("operation")
     const Collapse = getComponent("Collapse")
-    const Schemes = getComponent("schemes")
 
     let showSummary = layoutSelectors.showSummary()
 

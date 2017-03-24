@@ -240,6 +240,7 @@ describe("bound system", function(){
             statePlugins: {
               kyle: {
                 wrapActions: {
+                  // eslint-disable-next-line no-unused-vars
                   simple: (ori) => (arg) => (sys) => {
                     return { type: "called" }
                   }
@@ -256,7 +257,7 @@ describe("bound system", function(){
 
     })
 
-    
+
   })
 
   describe("selectors", function(){

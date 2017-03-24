@@ -1,20 +1,28 @@
-var win = {
-  location: {},
-  history: {},
-  open: () => {},
-  close: () => {}
-}
-
-try {
-  win = window
-  var props = ["File", "Blob", "FormData"]
-  for (var prop of props) {
-    if (prop in window) {
-      win[prop] = window[prop]
-    }
+function makeWindow() {
+  var win = {
+    location: {},
+    history: {},
+    open: () => {},
+    close: () => {}
   }
-} catch( e ) {
-  console.error(e)
+
+  if(typeof window === "undefined") {
+    return win
+  }
+
+  try {
+    win = window
+    var props = ["File", "Blob", "FormData"]
+    for (var prop of props) {
+      if (prop in window) {
+        win[prop] = window[prop]
+      }
+    }
+  } catch( e ) {
+    console.error(e)
+  }
+
+  return win
 }
 
-export default win
+module.exports = makeWindow()

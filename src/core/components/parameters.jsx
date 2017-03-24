@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react"
 import ImPropTypes from "react-immutable-proptypes"
-import Im, { fromJS } from "immutable"
+import Im from "immutable"
 
 // More readable, just iterate over maps, only
 const eachMap = (iterable, fn) => iterable.valueSeq().filter(Im.Map.isMap).map(fn)
@@ -87,7 +87,7 @@ export default class Parameters extends Component {
               </thead>
               <tbody>
                 {
-                  eachMap(parameters, (parameter, k) => (
+                  eachMap(parameters, (parameter) => (
                     <ParameterRow fn={ fn }
                       getComponent={ getComponent }
                       param={ parameter }

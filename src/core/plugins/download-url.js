@@ -4,7 +4,7 @@ import { createSelector } from "reselect"
 import { Map } from "immutable"
 
 export default function downloadUrlPlugin (toolbox) {
-  let { fn, Im } = toolbox
+  let { fn } = toolbox
 
   const actions = {
     download: (url)=> ({ errActions, specSelectors, specActions }) => {

@@ -1,5 +1,4 @@
 import React, { PropTypes } from "react"
-import { Map, fromJS } from "immutable"
 import shallowCompare from "react-addons-shallow-compare"
 import { getList } from "core/utils"
 import * as CustomPropTypes from "core/proptypes"
@@ -112,9 +111,7 @@ export default class Operation extends React.Component {
       specActions,
       specSelectors,
       authActions,
-      authSelectors,
-      layoutSelectors,
-      layoutActions,
+      authSelectors
     } = this.props
 
     let summary = operation.get("summary")

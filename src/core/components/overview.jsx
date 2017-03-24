@@ -30,7 +30,6 @@ export default class Overview extends React.Component {
           {
             taggedOps.map( (tagObj, tag) => {
               let operations = tagObj.get("operations")
-              let tagDetails = tagObj.get("tagDetails")
 
               let showTagId = ["overview-tags", tag]
               let showTag = layoutSelectors.isShown(showTagId, true)
@@ -45,7 +44,7 @@ export default class Overview extends React.Component {
                   <Collapse isOpened={showTag} animated>
                     {
                       operations.map( op => {
-                        let { path, method, operation, id } = op.toObject() // toObject is shallow
+                        let { path, method, id } = op.toObject() // toObject is shallow
                         let showOpIdPrefix = "operations"
                         let showOpId = id
                         let shown = layoutSelectors.isShown([showOpIdPrefix, showOpId])

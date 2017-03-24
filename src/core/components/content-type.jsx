@@ -1,6 +1,6 @@
 import React, { PropTypes } from "react"
 import ImPropTypes from "react-immutable-proptypes"
-import { fromJS } from 'immutable'
+import { fromJS } from "immutable"
 
 const noop = ()=>{}
 
