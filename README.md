@@ -119,6 +119,7 @@ supportedSubmitMethods | An array of of the HTTP operations that will have the '
 oauth2RedirectUrl | OAuth redirect URL
 showRequestHeaders | Whether or not to show the headers that were sent when making a request via the 'Try it out!' option. Defaults to `false`.
 jsonEditor | Enables a graphical view for editing complex bodies.  Defaults to `false`.
+jsonEditorOptions | Options for JSON Editor. Defaults: `{disable_edit_json: true, remove_empty_properties: false, disable_properties: true, iconlib: 'swagger'}`
 
 * All other parameters are explained in greater detail below
 
