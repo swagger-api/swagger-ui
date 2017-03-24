@@ -35,6 +35,7 @@
     "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test/core test/components"
   },
   "dependencies": {
+    "babel-polyfill": "^6.23.0",
     "brace": "0.7.0",
     "btoa": "^1.1.2",
     "debounce": "1.0.0",
