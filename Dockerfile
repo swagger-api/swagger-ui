@@ -8,11 +8,8 @@ RUN mkdir -p /run/nginx
 COPY nginx.conf /etc/nginx/
 
 # copy swagger files to the `/js` folder
-ADD ./dist/ /usr/share/nginx/html/js
 ADD ./public/* /usr/share/nginx/html/
-
-# change the folder structure
-RUN sed -i 's/\.\.\/dist/js/g' /usr/share/nginx/html/index.html
+ADD ./dist/* /usr/share/nginx/html/
 
 EXPOSE 8080
 
