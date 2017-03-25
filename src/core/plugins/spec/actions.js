@@ -184,9 +184,9 @@ export const logRequest = (req) => {
 
 // Actually fire the request via fn.execute
 // (For debugging) and ease of testing
-export const executeRequest = (req) => ({fn, specActions}) => {
+export const executeRequest = (req) => ({fn, specActions, specSelectors}) => {
   let { pathName, method } = req
-  let parsedRequest = Object.assign({}, req)
+  let parsedRequest = Object.assign({ contextUrl: specSelectors.url() }, req)
   if ( pathName && method ) {
     parsedRequest.operationId = method.toLowerCase() + "-" + pathName
   }
