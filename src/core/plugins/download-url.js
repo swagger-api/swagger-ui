@@ -11,7 +11,9 @@ export default function downloadUrlPlugin (toolbox) {
       let { fetch } = fn
       url = url || specSelectors.url()
       specActions.updateLoadingStatus("loading")
-      fetch(url, {
+      fetch({
+        url,
+        loadSpec: true,
         headers: {
           "Accept": "application/json"
         }
