@@ -13,7 +13,6 @@ module.exports = require('./make-webpack-config.js')({
 
   entry: {
     'swagger-ui-standalone-preset': [
-      'babel-polyfill',
       './src/standalone/index.js'
     ]
   },
