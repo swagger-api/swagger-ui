@@ -14,4 +14,4 @@ let preset = [
   }
 ]
 
-export default preset
+module.exports = preset
