@@ -79,7 +79,7 @@ export default class StandaloneLayout extends React.Component {
               </div>
             ) : null }
 
-            { !schemes && securityDefinitions ? (
+            { (!schemes || !schemes.size) && securityDefinitions ? (
               <div className="scheme-container">
                 <Col className="schemes wrapper" mobile={12}>
                   { securityDefinitions ? (
