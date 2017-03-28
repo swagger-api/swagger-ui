@@ -1,11 +1,15 @@
 language: node_js
 node_js:
 - '6.9'
+services:
+  - docker
 branches:
   only:
   - master
   - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
 before_deploy: "npm run build-core"
+env:
+  - DOCKER_IMAGE_NAME=swaggerapi/swagger-ui
 deploy:
   provider: npm
   email: apiteam@swagger.io
@@ -16,3 +20,13 @@ deploy:
     tags: true
     repo: swagger-api/swagger-ui
     node: '6.9'
+after_success:
+  - if [ $DOCKER_HUB_USERNAME ]; then 
+      docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD;
+      docker build -t $DOCKER_IMAGE_NAME .;
+      if [ "$TRAVIS_TAG" != "master" && -z "$TRAVIS_TAG"]; then
+        docker tag $DOCKER_IMAGE_NAME $DOCKER_IMAGE_NAME:$TRAVIS_TAG;
+      fi;
+
+      docker push $DOCKER_IMAGE_NAME;
+    fi;
