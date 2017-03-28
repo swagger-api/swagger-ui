@@ -8,6 +8,8 @@ branches:
   - master
   - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
 before_deploy: "npm run build-core"
+env:
+  - DOCKER_IMAGE_NAME=swaggerapi/swagger-ui
 deploy:
   provider: npm
   email: apiteam@swagger.io
