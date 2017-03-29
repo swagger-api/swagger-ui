@@ -14,8 +14,9 @@ export default function downloadUrlPlugin (toolbox) {
       fetch({
         url,
         loadSpec: true,
+        credentials: "same-origin",
         headers: {
-          "Accept": "application/json"
+          "Accept": "application/json,*/*"
         }
       }).then(next,next)
 
