@@ -14,8 +14,8 @@ module.exports = function SwaggerUI(opts) {
     spec: {},
     url: "",
     layout: "Layout",
+    validatorUrl: "https://online.swagger.io/validator",
     configs: {
-      validatorUrl: "https://online.swagger.io/validator"
     },
 
     // Initial set of plugins ( TODO rename this, or refactor - we don't need presets _and_ plugins. Its just there for performance.

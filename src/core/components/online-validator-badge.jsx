@@ -13,7 +13,7 @@ export default class OnlineValidatorBadge extends React.Component {
         let { validatorUrl } = getConfigs()
         this.state = {
             url: specSelectors.url(),
-            validatorUrl: validatorUrl || "https://online.swagger.io/validator"
+            validatorUrl: validatorUrl === undefined ? "https://online.swagger.io/validator" : null
         }
     }
 
@@ -23,7 +23,7 @@ export default class OnlineValidatorBadge extends React.Component {
 
         this.setState({
             url: specSelectors.url(),
-            validatorUrl: validatorUrl || "https://online.swagger.io/validator"
+            validatorUrl: validatorUrl === undefined ? "https://online.swagger.io/validator" : null
         })
     }
 
@@ -33,7 +33,7 @@ export default class OnlineValidatorBadge extends React.Component {
 
         if ( typeof spec === "object" && Object.keys(spec).length) return null
 
-        if (!this.state.url) {
+        if (!this.state.url || !this.state.validatorUrl) {
           return null
         }
 
