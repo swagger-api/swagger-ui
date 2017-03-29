@@ -453,13 +453,13 @@ export const propChecker = (props, nextProps, objectList=[], ignoreList=[]) => {
 }
 
 const validateNumber = ( val ) => {
-  if ( !/^\d+(.?\d+)?$/.test(val)) {
+  if ( !/^-?\d+(.?\d+)?$/.test(val)) {
     return "Value must be a number"
   }
 }
 
 const validateInteger = ( val ) => {
-  if ( !/^\d+$/.test(val)) {
+  if ( !/^-?\d+$/.test(val)) {
     return "Value must be integer"
   }
 }
