@@ -10,14 +10,13 @@ export default class Oauth2 extends React.Component {
   static propTypes = {
     name: PropTypes.string,
     authorized: PropTypes.object,
-    configs: PropTypes.object,
     getComponent: PropTypes.func.isRequired,
     schema: PropTypes.object.isRequired,
     authSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
     errSelectors: PropTypes.object.isRequired,
     errActions: PropTypes.object.isRequired,
-    getConfigs: PropTypes.function
+    getConfigs: PropTypes.any
   }
 
   constructor(props, context) {
@@ -173,7 +172,7 @@ export default class Oauth2 extends React.Component {
         }
 
         {
-          !isAuthorized && flow !== PASSWORD && scopes && scopes.size ? <div className="scopes">
+          !isAuthorized && scopes && scopes.size ? <div className="scopes">
             <h2>Scopes:</h2>
             { scopes.map((description, name) => {
               return (
