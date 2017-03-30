@@ -22,7 +22,7 @@
     "dev": "npm-run-all --parallel hot-server watch  open-localhost",
     "watch": "webpack --config webpack-watch.config.js --watch --progress",
     "open-localhost": "node -e 'require(\"open\")(\"http://localhost:3200\")'",
-    "hot-server": "webpack-dev-server --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress --content-base dist/",
+    "hot-server": "webpack-dev-server --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress --content-base dev-helpers/",
     "deps-license": "license-checker --production --csv --out $npm_package_config_deps_check_dir/licenses.csv && license-checker --development --csv --out $npm_package_config_deps_check_dir/licenses-dev.csv",
     "deps-size": "webpack -p --config webpack.check.js --json | webpack-bundle-size-analyzer >| $npm_package_config_deps_check_dir/sizes.txt",
     "deps-check": "npm run deps-license && npm run deps-size",
