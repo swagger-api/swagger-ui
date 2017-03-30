@@ -33,7 +33,8 @@ export default class OnlineValidatorBadge extends React.Component {
 
         if ( typeof spec === "object" && Object.keys(spec).length) return null
 
-        if (!this.state.url || !this.state.validatorUrl) {
+        if (!this.state.url || !this.state.validatorUrl || this.state.url.indexOf("localhost") >= 0
+                            || this.state.url.indexOf("127.0.0.1") >= 0) {
           return null
         }
 
