@@ -168,7 +168,10 @@ class ArrayModel extends Component {
     let { required, schema, depth, expandDepth } = this.props
     let items = schema.get("items")
 
-    return <span>
+    return <span className="model">
+      <span className="model-title">
+        <span className="model-title__text">{ schema.get("title") }</span>
+      </span>
       <Collapse collapsed={ depth > expandDepth } collapsedContent="[...]">
         [
           <span><Model { ...this.props } schema={ items } required={ false }/></span>
