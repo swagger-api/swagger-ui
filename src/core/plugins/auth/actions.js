@@ -8,6 +8,8 @@ export const PRE_AUTHORIZE_OAUTH2 = "pre_authorize_oauth2"
 export const AUTHORIZE_OAUTH2 = "authorize_oauth2"
 export const VALIDATE = "validate"
 
+const scopeSeparator = " "
+
 export function showDefinitions(payload) {
   return {
     type: SHOW_AUTH_POPUP,
@@ -77,7 +79,8 @@ export const authorizePassword = ( auth ) => ( { fn, authActions, errActions } )
     query: {
       grant_type: "password",
       username,
-      password
+      password,
+      scopes: encodeURIComponent(auth.scopes.join(scopeSeparator))
     }
   }
 
