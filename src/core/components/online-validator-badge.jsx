@@ -48,43 +48,48 @@ export default class OnlineValidatorBadge extends React.Component {
 
 
 class ValidatorImage extends React.Component {
+  static propTypes = {
+    src: PropTypes.string,
+    alt: PropTypes.string
+  }
+
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       loaded: false,
       error: false
-    };
+    }
   }
 
   componentDidMount() {
-    const img = new Image();
+    const img = new Image()
     img.onload = () => {
       this.setState({
         loaded: true
-      });
+      })
     }
     img.onerror = () => {
       this.setState({
         error: true
-      });
+      })
     }
-    img.src = this.props.src;
+    img.src = this.props.src
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.src !== this.props.src) {
-      const img = new Image();
+      const img = new Image()
       img.onload = () => {
         this.setState({
           loaded: true
-        });
+        })
       }
       img.onerror = () => {
         this.setState({
           error: true
-        });
+        })
       }
-      img.src = nextProps.src;
+      img.src = nextProps.src
     }
   }
 

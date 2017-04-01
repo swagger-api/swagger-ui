@@ -38,13 +38,11 @@
     "babel-polyfill": "^6.23.0",
     "brace": "0.7.0",
     "btoa": "^1.1.2",
-    "debounce": "1.0.0",
     "deep-extend": "0.4.1",
     "expect": "1.20.2",
     "getbase": "^2.8.2",
     "immutable": "^3.x.x",
     "js-yaml": "^3.5.5",
-    "jsonschema": "^1.1.0",
     "less": "2.7.1",
     "lodash": "4.17.2",
     "matcher": "^0.1.2",
@@ -74,8 +72,7 @@
     "whatwg-fetch": "0.11.1",
     "worker-loader": "^0.7.1",
     "xml": "1.0.1",
-    "yaml-js": "^0.1.3",
-    "yaml-worker": "^2.1.0"
+    "yaml-js": "^0.1.3"
   },
   "devDependencies": {
     "autoprefixer": "6.6.1",
