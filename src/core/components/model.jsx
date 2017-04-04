@@ -4,6 +4,8 @@ import { List } from "immutable"
 const braceOpen = "{"
 const braceClose = "}"
 
+const propStyle = { color: "#999", fontStyle: "italic" }
+
 const EnumModel = ({ value }) => {
   let collapsedContent = <span>Array [ { value.count() } ]</span>
   return <span className="prop-enum">
@@ -129,7 +131,6 @@ class Primitive extends Component {
     let enumArray = schema.get("enum")
     let properties = schema.filter( ( v, key) => ["enum", "type", "format", "$$ref"].indexOf(key) === -1 )
     let style = required ? { fontWeight: "bold" } : {}
-    let propStyle = { color: "#999", fontStyle: "italic" }
 
     return <span className="prop">
       <span className="prop-type" style={ style }>{ type }</span> { required && <span style={{ color: "red" }}>*</span>}
@@ -167,6 +168,7 @@ class ArrayModel extends Component {
   render(){
     let { required, schema, depth, expandDepth } = this.props
     let items = schema.get("items")
+    let properties = schema.filter( ( v, key) => ["type", "items", "$$ref"].indexOf(key) === -1 )
 
     return <span className="model">
       <span className="model-title">
@@ -176,6 +178,13 @@ class ArrayModel extends Component {
         [
           <span><Model { ...this.props } schema={ items } required={ false }/></span>
         ]
+        {
+          properties.size ? <span>
+              { properties.entrySeq().map( ( [ key, v ] ) => <span key={`${key}-${v}`} style={propStyle}>
+                <br />{ `${key}:`}{ String(v) }</span>)
+              }<br /></span>
+            : null
+        }
       </Collapse>
       { required && <span style={{ color: "red" }}>*</span>}
     </span>
