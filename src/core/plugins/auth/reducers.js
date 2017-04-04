@@ -1,5 +1,5 @@
 import { fromJS, Map } from "immutable"
-import btoa from "btoa"
+import { btoa } from "core/utils"
 
 import {
   SHOW_AUTH_POPUP,

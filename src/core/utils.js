@@ -547,3 +547,15 @@ export const parseSeach = () => {
 
   return map
 }
+
+export const btoa = (str) => {
+  let buffer
+
+  if (str instanceof Buffer) {
+    buffer = str
+  } else {
+    buffer = new Buffer(str.toString(), "utf-8")
+  }
+
+  return buffer.toString("base64")
+}

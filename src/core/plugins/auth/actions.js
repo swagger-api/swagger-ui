@@ -1,5 +1,5 @@
 import win from "core/window"
-import btoa from "btoa"
+import { btoa } from "core/utils"
 
 export const SHOW_AUTH_POPUP = "show_popup"
 export const AUTHORIZE = "authorize"
@@ -7,6 +7,8 @@ export const LOGOUT = "logout"
 export const PRE_AUTHORIZE_OAUTH2 = "pre_authorize_oauth2"
 export const AUTHORIZE_OAUTH2 = "authorize_oauth2"
 export const VALIDATE = "validate"
+
+const scopeSeparator = " "
 
 export function showDefinitions(payload) {
   return {
@@ -77,7 +79,8 @@ export const authorizePassword = ( auth ) => ( { fn, authActions, errActions } )
     query: {
       grant_type: "password",
       username,
-      password
+      password,
+      scopes: encodeURIComponent(auth.scopes.join(scopeSeparator))
     }
   }
 

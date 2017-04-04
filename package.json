@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -22,7 +22,7 @@
     "dev": "npm-run-all --parallel hot-server watch  open-localhost",
     "watch": "webpack --config webpack-watch.config.js --watch --progress",
     "open-localhost": "node -e 'require(\"open\")(\"http://localhost:3200\")'",
-    "hot-server": "webpack-dev-server --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress --content-base dist/",
+    "hot-server": "webpack-dev-server --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress --content-base dev-helpers/",
     "deps-license": "license-checker --production --csv --out $npm_package_config_deps_check_dir/licenses.csv && license-checker --development --csv --out $npm_package_config_deps_check_dir/licenses-dev.csv",
     "deps-size": "webpack -p --config webpack.check.js --json | webpack-bundle-size-analyzer >| $npm_package_config_deps_check_dir/sizes.txt",
     "deps-check": "npm run deps-license && npm run deps-size",
@@ -37,14 +37,11 @@
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     "brace": "0.7.0",
-    "btoa": "^1.1.2",
-    "debounce": "1.0.0",
     "deep-extend": "0.4.1",
     "expect": "1.20.2",
     "getbase": "^2.8.2",
     "immutable": "^3.x.x",
     "js-yaml": "^3.5.5",
-    "jsonschema": "^1.1.0",
     "less": "2.7.1",
     "lodash": "4.17.2",
     "matcher": "^0.1.2",
@@ -70,12 +67,11 @@
     "reselect": "2.5.3",
     "serialize-error": "2.0.0",
     "shallowequal": "0.2.2",
-    "swagger-client": "^3.0.3",
+    "swagger-client": "^3.0.4",
     "whatwg-fetch": "0.11.1",
     "worker-loader": "^0.7.1",
     "xml": "1.0.1",
-    "yaml-js": "^0.1.3",
-    "yaml-worker": "^2.1.0"
+    "yaml-js": "^0.1.3"
   },
   "devDependencies": {
     "autoprefixer": "6.6.1",
