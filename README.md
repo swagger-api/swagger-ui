@@ -50,7 +50,7 @@ Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE1
 
 To help with the migration, here are the currently known issues with 3.X. This list will update regularly, and will not include features that were not implemented in previous versions.
 
-- Currently, the only configuration options available are the `url` and `spec`.
+- Only part of the [parameters](#parameters) previously supported are available.
 - The JSON Form Editor is not implemented.
 - Shebang URL support for operations is missing.
 - Support for `collectionFormat` is partial.
