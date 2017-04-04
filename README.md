@@ -39,7 +39,7 @@ Will start nginx with swagger-ui on port 80.
 - Node 6.x
 - NPM 3.x
 
-If you just want to see your specs, open `public/index.html` in your browser directly from your filesystem.
+If you just want to see your specs, open `dist/index.html` in your browser directly from your filesystem.
 
 If you'd like to make modifications to the codebase, run the dev server with: `npm run dev`.
 
