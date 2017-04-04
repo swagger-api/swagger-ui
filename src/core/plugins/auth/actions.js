@@ -1,5 +1,5 @@
 import win from "core/window"
-import btoa from "btoa"
+import { btoa } from "core/utils"
 
 export const SHOW_AUTH_POPUP = "show_popup"
 export const AUTHORIZE = "authorize"
