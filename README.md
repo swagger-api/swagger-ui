@@ -50,12 +50,41 @@ Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE1
 
 To help with the migration, here are the currently known issues with 3.X. This list will update regularly, and will not include features that were not implemented in previous versions.
 
-- Currently, the only configuration options available are the `url` and `spec`.
+- Only part of the [parameters](#parameters) previously supported are available.
 - The JSON Form Editor is not implemented.
 - Shebang URL support for operations is missing.
 - Support for `collectionFormat` is partial.
 - l10n (translations) is not implemented.
 - Relative path support for external files is not implemented.
+
+### SwaggerUIBundle
+To use swagger-ui you should take a look at the [source of swagger-ui html page](https://github.com/swagger-api/swagger-ui/blob/master/dist/index.html) and customize it. This basically requires you to instantiate a SwaggerUi object and call load() on it as below:
+
+```javascript
+  const ui = SwaggerUIBundle({
+    url: "http://petstore.swagger.io/v2/swagger.json",
+    dom_id: '#swagger-ui',
+    presets: [
+      SwaggerUIBundle.presets.apis,
+      SwaggerUIStandalonePreset
+    ],
+    plugins: [
+      SwaggerUIBundle.plugins.DownloadUrl
+    ],
+    layout: "StandaloneLayout"
+  })
+```
+
+#### Parameters
+
+Parameter Name | Description
+--- | ---
+url | The url pointing to API definition (normally `swagger.json` or `swagger.yaml`).
+spec | A JSON object describing the OpenAPI Specification. When used, the `url` parameter will not be parsed. This is useful for testing manually-generated specifications without hosting them.
+validatorUrl | By default, Swagger-UI attempts to validate specs against swagger.io's online validator. You can use this parameter to set a different validator URL, for example for locally deployed validators ([Validator Badge](https://github.com/swagger-api/validator-badge)). Setting it to `null` will disable validation.
+dom_id | The id of a dom element inside which SwaggerUi will put the user interface for swagger.
+oauth2RedirectUrl | OAuth redirect URL
+
 
 
 ## CORS Support
