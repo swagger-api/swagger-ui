@@ -549,13 +549,13 @@ export const parseSeach = () => {
 }
 
 export const btoa = (str) => {
-  let buffer;
+  let buffer
 
   if (str instanceof Buffer) {
-    buffer = str;
+    buffer = str
   } else {
-    buffer = new Buffer(str.toString(), "utf-8");
+    buffer = new Buffer(str.toString(), "utf-8")
   }
 
-  return buffer.toString("base64");
+  return buffer.toString("base64")
 }
