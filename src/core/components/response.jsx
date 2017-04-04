@@ -5,9 +5,17 @@ import { getSampleSchema } from "core/utils"
 const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
   if ( examples && examples.size ) {
     return examples.entrySeq().map( ([ key, example ]) => {
+      let exampleValue
+      try {
+        exampleValue = example && example.toJS ? example.toJS() : example
+        exampleValue = JSON.stringify(exampleValue)
+      }
+      catch(e) {
+        exampleValue = String(example)
+      }
       return (<div key={ key }>
         <h5>{ key }</h5>
-        <HighlightCode className="example" value={ example } />
+        <HighlightCode className="example" value={ exampleValue } />
       </div>)
     }).toArray()
   }
