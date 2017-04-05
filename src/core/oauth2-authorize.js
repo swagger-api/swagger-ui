@@ -1,7 +1,7 @@
 import win from "core/window"
 
 export default function authorize ( auth, authActions, errActions, configs ) {
-  let { schema, scopes, name, clientId } = auth
+  let { schema, scopes, name, clientId, clientSecret } = auth
 
   let redirectUrl = configs.oauth2RedirectUrl
   let scopeSeparator = " "
@@ -34,14 +34,37 @@ export default function authorize ( auth, authActions, errActions, configs ) {
       + "&state=" + encodeURIComponent(state)
       + "&client_id=" + encodeURIComponent(clientId)
 
-  // pass action authorizeOauth2 and authentication data through window
-  // to authorize with oauth2
-  win.swaggerUIRedirectOauth2 = {
-    auth: auth,
-    state: state,
-    callback: authActions.preAuthorizeOauth2,
-    errCb: errActions.newAuthErr
-  }
+  console.log(flow);
+  if (flow === "application") {
+    fetch(schema.get("tokenUrl"), {
+      method: 'post', headers: {
+        'Accept':'application/json, text/plain, */*',
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: "grant_type=client_credentials" +
+            "&client_id=" + encodeURIComponent(clientId) +
+            "&client_secret=" + encodeURIComponent(clientSecret) +
+            "&scope=" + encodeURIComponent(scopes.join(scopeSeparator))
+    })
+    .then(function (response) {
+      response.json()
+      .then(function (json){
+        authActions.authorizeOauth2( { auth, token: json } );
+      });
+    })
+    .catch (function (error) {
+      console.log('POST Request failed', error);
+    });
+  } else {
+    // pass action authorizeOauth2 and authentication data through window
+    // to authorize with oauth2
+    win.swaggerUIRedirectOauth2 = {
+      auth: auth,
+      state: state,
+      callback: authActions.preAuthorizeOauth2,
+      errCb: errActions.newAuthErr
+    }
 
-  win.open(url)
+    win.open(url)
+  }
 }
