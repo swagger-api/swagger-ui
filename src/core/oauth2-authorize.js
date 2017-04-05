@@ -49,7 +49,7 @@ export default function authorize ( auth, authActions, errActions, configs ) {
     .then(function (response) {
       response.json()
       .then(function (json){
-        console.log(json.access_token);
+        authActions.authorizeOauth2( { auth, token: json } );
       });
     })
     .catch (function (error) {
