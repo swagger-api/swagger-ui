@@ -307,6 +307,16 @@ body
 
         @include method($_color-disabled);
     }
+
+    .opblock-schemes
+    {
+      padding: 8px 20px;
+
+      .schemes-title
+      {
+        padding: 0 10px 0 0;
+      }
+    }
 }
 
 
