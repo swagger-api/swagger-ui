@@ -202,11 +202,12 @@ export default class Operation extends React.Component {
                 pathMethod={ [path, method] }
               />
 
-              {!tryItOutEnabled || !allowTryItOut ? null : schemes && schemes.size ? <Schemes schemes={ schemes }
-                path={ path }
-                method={ method }
-                specActions={ specActions }/>
-              : null
+              {!tryItOutEnabled || !allowTryItOut ? null : schemes && schemes.size ? <div className="opblock-schemes">
+                    <Schemes schemes={ schemes }
+                             path={ path }
+                             method={ method }
+                             specActions={ specActions }/>
+                  </div> : null
               }
 
             <div className={(!tryItOutEnabled || !response || !allowTryItOut) ? "execute-wrapper" : "btn-group"}>
