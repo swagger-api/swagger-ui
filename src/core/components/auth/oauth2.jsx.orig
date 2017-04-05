@@ -145,7 +145,7 @@ export default class Oauth2 extends React.Component {
         }
 
         {
-          ( flow === APPLICATION || flow === IMPLICIT || flow === ACCESS_CODE || ( flow === PASSWORD && this.state.passwordType!== "none") ) &&
+          ( flow === IMPLICIT || flow === ACCESS_CODE || ( flow === PASSWORD && this.state.passwordType!== "none") ) &&
           ( !isAuthorized || isAuthorized && this.state.clientId) && <Row>
             <label htmlFor="client_id">client_id:</label>
             <Col tablet={10} desktop={10}>
@@ -159,7 +159,7 @@ export default class Oauth2 extends React.Component {
         }
 
         {
-          ( flow === APPLICATION || flow === ACCESS_CODE || ( flow === PASSWORD && this.state.passwordType!== "none") ) && <Row>
+          ( flow === ACCESS_CODE || ( flow === PASSWORD && this.state.passwordType!== "none") ) && <Row>
             <label htmlFor="client_secret">client_secret:</label>
             <Col tablet={10} desktop={10}>
               {
@@ -205,7 +205,7 @@ export default class Oauth2 extends React.Component {
           } )
         }
         <div className="auth-btn-wrapper">
-        { isValid &&
+        { isValid && flow !== APPLICATION &&
           ( isAuthorized ? <Button className="btn modal-btn auth authorize" onClick={ this.logout }>Logout</Button>
         : <Button className="btn modal-btn auth authorize" onClick={ this.authorize }>Authorize</Button>
           )
