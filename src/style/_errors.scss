@@ -24,6 +24,11 @@
 
             @include text_code();
         }
+
+        small
+        {
+          color: #666;
+        }
     }
 
     hgroup
