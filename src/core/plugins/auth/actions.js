@@ -119,3 +119,35 @@ export const authorizePassword = ( auth ) => ( { fn, authActions, errActions } )
     })
     .catch(err => { errActions.newAuthErr( err ) })
 }
+
+export const authorizeOauth2Application = ( auth ) => ( { authActions, errActions } ) => {
+  let { schema, scopes, name, clientId, clientSecret } = auth
+
+  fetch(schema.get("tokenUrl"), {
+    method: "post", headers: {
+      "Accept":"application/json, text/plain, */*",
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: "grant_type=client_credentials" +
+          "&client_id=" + encodeURIComponent(clientId) +
+          "&client_secret=" + encodeURIComponent(clientSecret) +
+          "&scope=" + encodeURIComponent(scopes.join(scopeSeparator))
+  })
+  .then(function (response) {
+    if ( !response.ok ) {
+      errActions.newAuthErr( {
+        authId: name,
+        level: "error",
+        source: "auth",
+        message: response.statusText
+      } )
+      return
+    } else {
+      response.json()
+      .then(function (json){
+        authActions.authorizeOauth2({ auth, token: json})
+      })
+    }
+  })
+  .catch(err => { errActions.newAuthErr( err ) })
+}
