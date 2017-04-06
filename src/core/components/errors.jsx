@@ -68,7 +68,7 @@ const ThrownErrorItem = ( { error, jumpToLine } ) => {
             { error.get("message") }
           </span>
           <div>
-            { errorLine ? <a onClick={jumpToLine.bind(null, errorLine)}>Jump to line { errorLine }</a> : null }
+            { errorLine && jumpToLine ? <a onClick={jumpToLine.bind(null, errorLine)}>Jump to line { errorLine }</a> : null }
           </div>
         </div>
       }
@@ -77,11 +77,23 @@ const ThrownErrorItem = ( { error, jumpToLine } ) => {
   }
 
 const SpecErrorItem = ( { error, jumpToLine } ) => {
+  let locationMessage = null
+
+  if(error.get("path")) {
+    if(List.isList(error.get("path"))) {
+      locationMessage = <small>at { error.get("path").join(".") }</small>
+    } else {
+      locationMessage = <small>at { error.get("path") }</small>
+    }
+  } else if(error.get("line") && !jumpToLine) {
+    locationMessage = <small>on line { error.get("line") }</small>
+  }
+
   return (
     <div className="error-wrapper">
       { !error ? null :
         <div>
-          <h4>{ toTitleCase(error.get("source")) + " " + error.get("level") }{ error.get("path") ? <small> at {List.isList(error.get("path")) ? error.get("path").join(".") : error.get("path")}</small>: null }</h4>
+          <h4>{ toTitleCase(error.get("source")) + " " + error.get("level") }&nbsp;{ locationMessage }</h4>
           <span style={{ whiteSpace: "pre-line"}}>{ error.get("message") }</span>
           <div>
             { jumpToLine ? (
@@ -104,6 +116,10 @@ function toTitleCase(str) {
 ThrownErrorItem.propTypes = {
   error: PropTypes.object.isRequired,
   jumpToLine: PropTypes.func
+}
+
+ThrownErrorItem.defaultProps = {
+  jumpToLine: null
 }
 
 SpecErrorItem.propTypes = {

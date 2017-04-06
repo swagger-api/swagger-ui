@@ -14,6 +14,11 @@ export default function authorize ( auth, authActions, errActions, configs ) {
     return
   }
 
+  if (flow === "application") {
+    authActions.authorizeOauth2Application(auth)
+    return
+  }
+
   // todo move to parser
   if ( !redirectUrl ) {
     errActions.newAuthErr( {
