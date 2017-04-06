@@ -120,10 +120,10 @@ export const authorizePassword = ( auth ) => ( { fn, authActions, errActions } )
     .catch(err => { errActions.newAuthErr( err ) })
 }
 
-export const authorizeOauth2Application = ( auth ) => ( { authActions, errActions } ) => {
+export const authorizeOauth2Application = ( auth ) => ( { fn, authActions, errActions } ) => {
   let { schema, scopes, name, clientId, clientSecret } = auth
 
-  fetch(schema.get("tokenUrl"), {
+  fn.fetch(schema.get("tokenUrl"), {
     method: "post", headers: {
       "Accept":"application/json, text/plain, */*",
       "Content-Type": "application/x-www-form-urlencoded"
