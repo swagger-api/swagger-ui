@@ -34,12 +34,11 @@ export default function authorize ( auth, authActions, errActions, configs ) {
       + "&state=" + encodeURIComponent(state)
       + "&client_id=" + encodeURIComponent(clientId)
 
-  console.log(flow);
   if (flow === "application") {
     fetch(schema.get("tokenUrl"), {
-      method: 'post', headers: {
-        'Accept':'application/json, text/plain, */*',
-        'Content-Type': 'application/x-www-form-urlencoded'
+      method: "post", headers: {
+        "Accept":"application/json, text/plain, */*",
+        "Content-Type": "application/x-www-form-urlencoded"
       },
       body: "grant_type=client_credentials" +
             "&client_id=" + encodeURIComponent(clientId) +
@@ -49,12 +48,12 @@ export default function authorize ( auth, authActions, errActions, configs ) {
     .then(function (response) {
       response.json()
       .then(function (json){
-        authActions.authorizeOauth2( { auth, token: json } );
-      });
+        authActions.authorizeOauth2({ auth, token: json })
+      })
     })
     .catch (function (error) {
-      console.log('POST Request failed', error);
-    });
+      console.log("POST Request failed", error)
+    })
   } else {
     // pass action authorizeOauth2 and authentication data through window
     // to authorize with oauth2
