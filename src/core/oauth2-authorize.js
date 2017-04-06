@@ -46,14 +46,22 @@ export default function authorize ( auth, authActions, errActions, configs ) {
             "&scope=" + encodeURIComponent(scopes.join(scopeSeparator))
     })
     .then(function (response) {
-      response.json()
-      .then(function (json){
-        authActions.authorizeOauth2({ auth, token: json })
-      })
+      if ( !response.ok ) {
+        errActions.newAuthErr( {
+          authId: name,
+          level: "error",
+          source: "auth",
+          message: response.statusText
+        } )
+        return
+      } else {
+        response.json()
+        .then(function (json){
+          authActions.authorizeOauth2({ auth, token: json})
+        })
+      }
     })
-    .catch (function (error) {
-      console.log("POST Request failed", error)
-    })
+    .catch(err => { errActions.newAuthErr( err ) })
   } else {
     // pass action authorizeOauth2 and authentication data through window
     // to authorize with oauth2
