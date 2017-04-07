@@ -77,16 +77,31 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
 
     var isParam = false;
 
-    if( this.options.swaggerOptions.jsonEditor && this.model.isBody && this.model.schema){
+    if (this.options.swaggerOptions.jsonEditor && this.model.isBody && this.model.schema){
       var $self = $(this.el);
+      if (!this.options.swaggerOptions.hasOwnProperty('jsonEditorOptions')) {
+        this.options.swaggerOptions.jsonEditorOptions = {};
+      }
+      // See https://github.com/jdorn/json-editor#options
+      var jsonEditorOptions = {
+        disable_edit_json: true,
+        remove_empty_properties: false,
+        disable_properties: true,
+        iconlib: 'swagger',
+      };
+      // Allow overriding from global options 'jsonEditorOptions' key
+      for (var k in this.options.swaggerOptions.jsonEditorOptions) {
+        if (this.options.swaggerOptions.jsonEditorOptions.hasOwnProperty(k)) {
+          jsonEditorOptions[k] = this.options.swaggerOptions.jsonEditorOptions[k];
+        }
+      }
+      // These should never be overridden
+      jsonEditorOptions.schema = this.model.schema;
+      jsonEditorOptions.startval = this.model.default;
+      jsonEditorOptions.ajax = true;
       this.model.jsonEditor =
         /* global JSONEditor */
-        new JSONEditor($('.editor_holder', $self)[0],
-                       {schema: this.model.schema, startval : this.model.default,
-                        ajax:true,
-                        disable_properties:true,
-                        disable_edit_json:true,
-                        iconlib: 'swagger' });
+        new JSONEditor($('.editor_holder', $self)[0], jsonEditorOptions);
       // This is so that the signature can send back the sample to the json editor
       // TODO: SignatureView should expose an event "onSampleClicked" instead
       signatureModel.jsonEditor = this.model.jsonEditor;
