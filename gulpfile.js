@@ -13,6 +13,8 @@ var connect = require('gulp-connect');
 var header = require('gulp-header');
 var order = require('gulp-order');
 var jshint = require('gulp-jshint');
+var handlebars = require('gulp-handlebars');
+var declare = require('gulp-declare');
 var runSequence = require('run-sequence');
 var cssnano = require('gulp-cssnano');
 var pkg = require('./package.json');
@@ -153,14 +155,18 @@ gulp.task('uglify-libs', function() {
  * Watch for changes and recompile
  */
 gulp.task('watch', ['copy-local-specs'], function() {
-  return watch([
-    './src/**/*.{js,less,handlebars}',
-    './src/main/html/*.html',
-    './test/specs/**/*.{json,yaml}'
-    ],
-    function() {
-      gulp.start('dev-dist');
-    });
+    watch('./src/main/template/*.handlebars',
+        function() {
+            gulp.start('handlebars');
+        });
+    watch([
+        './src/**/*.{js,less}',
+        './src/main/html/*.html',
+        './test/specs/**/*.{json,yaml}'
+        ],
+        function() {
+            gulp.start('dev-dist');
+        });
 });
 
 /**
@@ -178,15 +184,23 @@ function log(error) {
 }
 
 gulp.task('handlebars', function () {
-    gulp
-        .src(['./src/main/template/templates.js'])
-        .pipe(wrap('/* jshint ignore:start */ \n {<%= contents %>} \n /* jshint ignore:end */'))
+    gulp.src('./src/main/template/*.handlebars')
+        .pipe(handlebars({ handlebars: require('handlebars') }))
+        .pipe(wrap('template(<%= contents %>)'))
+        .pipe(declare({ root: 'templates' }))
+        .pipe(concat('templates.js'))
+        .pipe(wrap('/* jshint ignore:start */ \n' +
+                    ' {(function() {\n' +
+                    '  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};\n' +
+                    '<%= contents %>\n' +
+                    '})();} \n'+
+                    ' /* jshint ignore:end */'))
         .pipe(gulp.dest('./src/main/template/'))
         .on('error', log);
 });
 
 gulp.task('default', function(callback) {
-    runSequence(['dist', 'copy'],
+    runSequence(['handlebars', 'dist', 'copy'],
                 ['uglify-libs', 'minify-css'],
                 callback);
 });
