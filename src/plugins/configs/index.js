@@ -1,5 +1,4 @@
 import YAML from "js-yaml"
-import { parseSeach } from "core/utils"
 import yamlConfig from "../../../swagger-config.yaml"
 
 const CONFIGS = [ "url", "spec", "validatorUrl", "onComplete", "onFailure", "authorizations", "docExpansion",
