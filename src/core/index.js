@@ -68,22 +68,24 @@ module.exports = function SwaggerUI(opts) {
   var system = store.getSystem()
   let queryConfig = parseSeach()
 
-  const downloadSpec = () => {
+  const downloadSpec = (fetchedConfig) => {
     if(typeof constructorConfig !== "object") {
       return system
     }
 
     let localConfig = system.specSelectors.getLocalConfig ? system.specSelectors.getLocalConfig() : {}
-    let mergedConfig = deepExtend({}, constructorConfig, localConfig, queryConfig)
+    let mergedConfig = deepExtend({}, constructorConfig, localConfig, fetchedConfig || {}, queryConfig)
     store.setConfigs(filterConfigs(mergedConfig))
 
-    if(!queryConfig.url && typeof mergedConfig.spec === "object" && Object.keys(mergedConfig.spec).length) {
-      system.specActions.updateUrl("")
-      system.specActions.updateLoadingStatus("success")
-      system.specActions.updateSpec(JSON.stringify(mergedConfig.spec))
-    } else if(system.specActions.download && mergedConfig.url) {
-      system.specActions.updateUrl(mergedConfig.url)
-      system.specActions.download(mergedConfig.url)
+    if (fetchedConfig !== null) {
+      if (!queryConfig.url && typeof mergedConfig.spec === "object" && Object.keys(mergedConfig.spec).length) {
+        system.specActions.updateUrl("")
+        system.specActions.updateLoadingStatus("success")
+        system.specActions.updateSpec(JSON.stringify(mergedConfig.spec))
+      } else if (system.specActions.download && mergedConfig.url) {
+        system.specActions.updateUrl(mergedConfig.url)
+        system.specActions.download(mergedConfig.url)
+      }
     }
 
     if(mergedConfig.dom_id) {
@@ -95,7 +97,9 @@ module.exports = function SwaggerUI(opts) {
     return system
   }
 
-  if (!system.specActions.getConfigByUrl || (system.specActions.getConfigByUrl && !system.specActions.getConfigByUrl(downloadSpec))) {
+  let configUrl = queryConfig.config || constructorConfig.configUrl
+
+  if (!configUrl || !system.specActions.getConfigByUrl || system.specActions.getConfigByUrl && !system.specActions.getConfigByUrl(configUrl, downloadSpec)) {
     return downloadSpec()
   }
 
