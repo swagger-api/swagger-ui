@@ -74,7 +74,7 @@ const createClass = component => React.createClass({
 const Fallback = ({ name }) => <div style={{ // eslint-disable-line react/prop-types
     padding: "1em",
     "color": "#aaa"
-  }}>😱 <i>Could not render { name || name === "t" ? name : "this component" }, see the console.</i></div>
+  }}>😱 <i>Could not render { name === "t" ? "this component" : name }, see the console.</i></div>
 
 const wrapRender = (component) => {
   const isStateless = component => !(component.prototype && component.prototype.isReactComponent)
