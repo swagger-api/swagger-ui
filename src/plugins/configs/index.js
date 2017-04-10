@@ -1,5 +1,4 @@
 import YAML from "js-yaml"
-import { parseSeach } from "core/utils"
 import yamlConfig from "../../../swagger-config.yaml"
 
 const CONFIGS = [ "url", "spec", "validatorUrl", "onComplete", "onFailure", "authorizations", "docExpansion",
@@ -27,9 +26,7 @@ export default function configPlugin (toolbox) {
             return fetch(url)
         },
 
-        getConfigByUrl: (callback)=> ({ specActions }) => {
-            let config = parseSeach()
-            let configUrl = config.config
+        getConfigByUrl: (configUrl, cb)=> ({ specActions }) => {
             if (configUrl) {
                 return specActions.downloadConfig(configUrl).then(next, next)
             }
@@ -37,9 +34,12 @@ export default function configPlugin (toolbox) {
             function next(res) {
                 if (res instanceof Error || res.status >= 400) {
                     specActions.updateLoadingStatus("failedConfig")
+                    specActions.updateLoadingStatus("failedConfig")
+                    specActions.updateUrl("")
                     console.error(res.statusText + " " + configUrl)
+                    cb(null)
                 } else {
-                    callback(parseYamlConfig(res.text))
+                    cb(parseYamlConfig(res.text))
                 }
             }
         }
