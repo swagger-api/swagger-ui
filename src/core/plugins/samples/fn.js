@@ -47,7 +47,7 @@ export const sampleFromSchema = (schema, config={}) => {
     let obj = {}
     for (var name in props) {
       if ( !props[name].readOnly || includeReadOnly ) {
-        obj[name] = sampleFromSchema(props[name])
+        obj[name] = sampleFromSchema(props[name], { includeReadOnly: includeReadOnly })
       }
     }
 
@@ -55,7 +55,7 @@ export const sampleFromSchema = (schema, config={}) => {
       obj.additionalProp1 = {}
     } else if ( additionalProperties ) {
       let additionalProps = objectify(additionalProperties)
-      let additionalPropVal = sampleFromSchema(additionalProps)
+      let additionalPropVal = sampleFromSchema(additionalProps, { includeReadOnly: includeReadOnly })
 
       for (let i = 1; i < 4; i++) {
         obj["additionalProp" + i] = additionalPropVal
@@ -65,7 +65,7 @@ export const sampleFromSchema = (schema, config={}) => {
   }
 
   if(type === "array") {
-    return [ sampleFromSchema(items) ]
+    return [ sampleFromSchema(items, { includeReadOnly: includeReadOnly }) ]
   }
 
   if(schema["enum"]) {
