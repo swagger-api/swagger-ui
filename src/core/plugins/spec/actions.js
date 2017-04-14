@@ -189,9 +189,9 @@ export const executeRequest = (req) => ({fn, specActions, specSelectors}) => {
   let { pathName, method } = req
 
   // if url is relative, parseUrl makes it absolute by inferring from `window.location`
-  let specUrl = parseUrl(specSelectors.url())
+  req.contextUrl = parseUrl(specSelectors.url()).toString()
 
-  let parsedRequest = Object.assign({ contextUrl: specUrl.toString() }, req)
+  let parsedRequest = Object.assign({}, req)
   if ( pathName && method ) {
     parsedRequest.operationId = method.toLowerCase() + "-" + pathName
   }
