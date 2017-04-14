@@ -34,7 +34,7 @@ after_success:
         docker tag $DOCKER_IMAGE_NAME $DOCKER_IMAGE_NAME:$TRAVIS_TAG;
         docker tag $DOCKER_IMAGE_NAME $DOCKER_IMAGE_NAME:latest;
       else
-        docker tag $DOCKER_IMAGE_NAME:unstable $DOCKER_IMAGE_NAME:$unstable;
+        docker tag $DOCKER_IMAGE_NAME $DOCKER_IMAGE_NAME:unstable;
       fi;
     fi;
 
