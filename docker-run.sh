@@ -42,5 +42,4 @@ if [[ -n "$VALIDATOR_URL" ]]; then
   sed -i "s|\(url: url,.*\)|\1\n        validatorUrl: \"${VALIDATOR_URL}\",|g" $INDEX_FILE
 fi
 
-#exec http-server -p $PORT $*
 exec nginx -g 'daemon off;'
