@@ -31,10 +31,13 @@ after_success:
       fi;
       docker build -t $DOCKER_IMAGE_NAME .;
       if [ ! -z "$TRAVIS_TAG" ]; then
-        docker tag $DOCKER_IMAGE_NAME $DOCKER_IMAGE_NAME:$TRAVIS_TAG;
+        docker tag $DOCKER_IMAGE_NAME $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG;
+        docker push $DOCKER_IMAGE_NAME $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG;
         docker tag $DOCKER_IMAGE_NAME $DOCKER_IMAGE_NAME:latest;
+        docker push $DOCKER_IMAGE_NAME:latest;
       else
-        docker tag $DOCKER_IMAGE_NAME $DOCKER_IMAGE_NAME:unstable;
+        docker tag $DOCKER_IMAGE_NAME $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG;
+        docker push $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
       fi;
     fi;
 
