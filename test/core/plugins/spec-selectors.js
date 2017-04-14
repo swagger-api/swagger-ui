@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 import expect from "expect"
 import { fromJS } from "immutable"
-import { parameterValues, contentTypeValues } from "corePlugins/spec/selectors"
+import { parameterValues, contentTypeValues, operationScheme } from "corePlugins/spec/selectors"
 
 describe("spec plugin - selectors", function(){
 
@@ -89,6 +89,45 @@ describe("spec plugin - selectors", function(){
         responseContentType: undefined
       })
     })
+
+  })
+
+  describe("operationScheme", function(){
+
+    it("should return the correct scheme for a remote spec that doesn't specify a scheme", function(){
+      // Given
+      let state = fromJS({
+        url: "https://generator.swagger.io/api/swagger.json",
+        resolved: {
+          paths: {
+            "/one": {
+              get: {
+                "consumes_value": "one",
+                "produces_value": "two"
+              }
+            }
+          }
+        }
+      })
+
+      // When
+      let scheme = operationScheme(state, ["/one"], "get")
+      // Then
+      expect(scheme).toEqual("https")
+    })
+
+    // it("should be ok, if no operation found", function(){
+    //   // Given
+    //   let state = fromJS({ })
+    //
+    //   // When
+    //   let contentTypes = contentTypeValues(state, [ "/one", "get" ])
+    //   // Then
+    //   expect(contentTypes.toJS()).toEqual({
+    //     requestContentType: undefined,
+    //     responseContentType: undefined
+    //   })
+    // })
 
   })
 

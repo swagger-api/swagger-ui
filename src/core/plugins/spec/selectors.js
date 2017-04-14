@@ -291,7 +291,11 @@ export function operationConsumes(state, pathMethod) {
 }
 
 export const operationScheme = ( state, path, method ) => {
-  return state.getIn(["scheme", path, method]) || state.getIn(["scheme", "_defaultScheme"]) || "http"
+  let url = state.get("url")
+  let matchResult = url.match(/^([a-z][a-z0-9+\-.]*):/)
+  let urlScheme = Array.isArray(matchResult) ? matchResult[1] : null
+  
+  return state.getIn(["scheme", path, method]) || state.getIn(["scheme", "_defaultScheme"]) || urlScheme || "http"
 }
 
 export const canExecuteScheme = ( state, path, method ) => {
