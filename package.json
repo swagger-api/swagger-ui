@@ -112,6 +112,7 @@
     "postcss-loader": "0.7.0",
     "raw-loader": "0.5.1",
     "react-hot-loader": "^1.3.1",
+    "react-test-renderer": "^15.5.4",
     "rimraf": "^2.6.0",
     "sass-loader": "^6.0.2",
     "standard": "^8.6.0",
