@@ -13,7 +13,7 @@ module.exports = function SwaggerUI(opts) {
     dom_id: null,
     spec: {},
     url: "",
-    layout: "Layout",
+    layout: "BaseLayout",
     validatorUrl: "https://online.swagger.io/validator",
     configs: {
     },
