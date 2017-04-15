@@ -32,27 +32,15 @@ export default class BaseLayout extends React.Component {
     let Errors = getComponent("errors", true)
     const Schemes = getComponent("schemes")
 
-    const loadingStatus = specSelectors.loadingStatus()
+    const isSpecEmpty = !specSelectors.specStr()
+
+    if(isSpecEmpty) {
+      return <h4>No spec provided.</h4>
+    }
 
     return (
 
       <div className='swagger-ui'>
-        { loadingStatus === "loading" &&
-          <div className="info">
-            <h4 className="title">Loading...</h4>
-          </div>
-        }
-        { loadingStatus === "failed" &&
-          <div className="info">
-            <h4 className="title">Failed to load spec.</h4>
-          </div>
-        }
-        { loadingStatus === "failedConfig" &&
-          <div className="info" style={{ maxWidth: "880px", marginLeft: "auto", marginRight: "auto", textAlign: "center" }}>
-            <h4 className="title">Failed to load config.</h4>
-          </div>
-        }
-        { loadingStatus === "success" &&
           <div>
             <Errors/>
             <Row className="information-container">
@@ -85,8 +73,8 @@ export default class BaseLayout extends React.Component {
                 <Models/>
               </Col>
             </Row>
-          </div> }
+          </div>
         </div>
       )
-    }
   }
+}
