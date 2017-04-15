@@ -34,6 +34,7 @@ export default class StandaloneLayout extends React.Component {
     const Schemes = getComponent("schemes")
 
     const Topbar = getComponent("Topbar", true)
+    const BaseLayout = getComponent("BaseLayout", true)
     const OnlineValidatorBadge = getComponent("onlineValidatorBadge", true)
     const loadingStatus = specSelectors.loadingStatus()
 
@@ -41,61 +42,12 @@ export default class StandaloneLayout extends React.Component {
 
       <Container className='swagger-ui'>
         { Topbar ? <Topbar/> : null }
-        { loadingStatus === "loading" &&
-          <div className="info">
-            <h4 className="title">Loading...</h4>
-          </div>
-        }
-        { loadingStatus === "failed" &&
-          <div className="info">
-            <h4 className="title">Failed to load spec.</h4>
-          </div>
-        }
-        { loadingStatus === "failedConfig" &&
-          <div className="info" style={{ maxWidth: "880px", marginLeft: "auto", marginRight: "auto", textAlign: "center" }}>
-            <h4 className="title">Failed to load config.</h4>
-          </div>
-        }
-        { loadingStatus === "success" &&
-          <div>
-              <Errors/>
-              <Row className="information-container">
-                <Col mobile={12}>
-                  { info.count() ? (
-                    <Info info={ info } url={ url } host={ host } basePath={ basePath } externalDocs={externalDocs} getComponent={getComponent}/>
-                  ) : null }
-                </Col>
-              </Row>
-              { schemes && schemes.size || securityDefinitions ? (
-              <div className="scheme-container">
-                <Col className="schemes wrapper" mobile={12}>
-                  { schemes && schemes.size ? (
-                    <Schemes schemes={ schemes } specActions={ specActions } />
-                  ) : null }
-                  { securityDefinitions ? (
-                    <AuthorizeBtn />
-                  ) : null }
-                </Col>
-              </div>
-            ) : null }
-
-              <Row>
-                <Col mobile={12} desktop={12} >
-                  <Operations/>
-                </Col>
-              </Row>
-              <Row>
-                <Col mobile={12} desktop={12} >
-                  <Models/>
-                </Col>
-              </Row>
-          </div> }
-
-          <Row>
-            <Col>
-              <OnlineValidatorBadge />
-            </Col>
-          </Row>
+        <BaseLayout></BaseLayout>
+        <Row>
+          <Col>
+            <OnlineValidatorBadge />
+          </Col>
+        </Row>
       </Container>
     )
   }
