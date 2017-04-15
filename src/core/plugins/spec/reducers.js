@@ -97,10 +97,7 @@ export default {
   },
 
   [UPDATE_OPERATION_VALUE]: (state, { payload: { path, value, key } }) => {
-    if(state.get(["resolved", "paths", ...path, key])) {
-      return state.setIn(["resolved", "paths", ...path, key], fromJS(value))
-    }
-    return state
+    return state.setIn(["resolved", "paths", ...path, key], fromJS(value))
   },
 
   [CLEAR_RESPONSE]: (state, { payload: { path, method } } ) =>{
