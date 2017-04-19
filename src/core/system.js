@@ -2,7 +2,6 @@ import { createStore, applyMiddleware, bindActionCreators, compose } from "redux
 import Im, { fromJS, Map } from "immutable"
 import deepExtend from "deep-extend"
 import { combineReducers } from "redux-immutable"
-import assign from "object-assign"
 import serializeError from "serialize-error"
 import { NEW_THROWN_ERR } from "corePlugins/err/actions"
 import win from "core/window"
@@ -74,7 +73,7 @@ export default class Store {
     let dispatch = this.getStore().dispatch
     let getState = this.getStore().getState
 
-    this.boundSystem = assign({},
+    this.boundSystem = Object.assign({},
         this.getRootInjects(),
         this.getWrappedAndBoundActions(dispatch),
         this.getBoundSelectors(getState, this.getSystem),
@@ -92,7 +91,7 @@ export default class Store {
   }
 
   getRootInjects() {
-    return assign({
+    return Object.assign({
       getSystem: this.getSystem,
       getStore: this.getStore.bind(this),
       getComponents: this.getComponents.bind(this),
@@ -251,7 +250,7 @@ export default class Store {
 
   getMapStateToProps() {
     return () => {
-      let obj = assign({}, this.getSystem())
+      let obj = Object.assign({}, this.getSystem())
       return obj
     }
   }
