@@ -7,20 +7,24 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
 
     onFiltering: function(e) {
         if(!this.$allOperations) { this.$allOperations = $('#resources ul.operations > li'); }
+        if(!this.$deprecatedOperations) { this.$deprecatedOperations = $('#resources ul.operations > li.deprecated'); }
         if(!this.$notProvisioningOperations) { this.$notProvisioningOperations = this.$allOperations.not('[id*="_provisioning"]'); }
         if(!this.$notSteadystateOperations) { this.$notSteadystateOperations = this.$allOperations.not('[id*="_steadystate"]'); }
         if(!this.$groups) { this.$groups = $('#resources .resource'); }
 
         this.$allOperations.show();
+        this.$deprecatedOperations.hide();
         $('#filter-panel button').removeClass('active');
 
         switch (e.target.id) {
             case 'filter-button-provisioning':
                 this.$notProvisioningOperations.hide();
+                this.$deprecatedOperations.hide();
                 $('#filter-button-provisioning').addClass('active');
                 break;
             case 'filter-button-steadystate':
                 this.$notSteadystateOperations.hide();
+                this.$deprecatedOperations.hide();
                 $('#filter-button-steadystate').addClass('active');
                 break;
             default:

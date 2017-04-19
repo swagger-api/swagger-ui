@@ -19,6 +19,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     this.auths = opts.auths;
     this.parentId = this.model.parentId;
     this.nickname = this.model.nickname;
+    this.model.filter = this.model.operation['x-openFilter'];
     this.model.encodedParentId = encodeURIComponent(this.parentId);
 
     if (opts.swaggerOptions) {
