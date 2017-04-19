@@ -109,6 +109,7 @@ module.exports = function SwaggerUI(opts) {
     return downloadSpec()
   }
 
+  return system
 }
 
 // Add presets

@@ -137,7 +137,7 @@ module.exports = function(options) {
       extensions: ["", ".web.js", ".js", ".jsx", ".json", ".less"],
       packageAlias: 'browser',
       alias: {
-        base: "getbase/src/less/base"
+        base: "getbase/src/less/base",
       }
     },
 

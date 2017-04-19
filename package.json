@@ -35,7 +35,6 @@
     "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test/core test/components"
   },
   "dependencies": {
-    "babel-polyfill": "^6.23.0",
     "base64-js": "^1.2.0",
     "brace": "0.7.0",
     "deep-extend": "0.4.1",
@@ -82,6 +81,7 @@
     "babel-eslint": "^7.1.1",
     "babel-loader": "^6.3.2",
     "babel-plugin-module-alias": "^1.6.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-es2015-ie": "^6.6.2",
     "babel-preset-react": "^6.23.0",
