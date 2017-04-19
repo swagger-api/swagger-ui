@@ -1,4 +1,5 @@
 import { createSelector } from "reselect"
+import { sorters } from "core/utils"
 import { fromJS, Set, Map, List } from "immutable"
 
 const DEFAULT_TAG = "default"
@@ -198,13 +199,16 @@ export const operationsWithTags = createSelector(
   }
 )
 
-export const taggedOperations = createSelector(
-  state,
-  operationsWithTags,
-  (state, tagMap) => {
-    return tagMap.map((ops, tag) => Map({tagDetails: tagDetails(state, tag), operations: ops}))
-  }
-)
+export const taggedOperations = ( state ) =>( { getConfigs } ) => {
+  let { operationsSorter }= getConfigs()
+
+  return operationsWithTags(state).map((ops, tag) => {
+    let sortFn = typeof operationsSorter === "function" ? operationsSorter
+                                                        : sorters.operationsSorter[operationsSorter]
+    let operations = !sortFn ? ops : ops.sort(sortFn)
+
+    return Map({tagDetails: tagDetails(state, tag), operations: operations})})
+}
 
 export const responses = createSelector(
   state,
