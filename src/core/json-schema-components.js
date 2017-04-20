@@ -150,9 +150,9 @@ export class JsonSchema_array extends Component {
           (errors.length ? <span style={{ color: "red", fortWeight: "bold" }}>{ errors[0] }</span> : null) :
           value.map( (item,i) => {
             let schema = Object.assign({}, itemSchema)
-            let err = errors.filter((err) => err.index === i)
-            if ( err.length ) {
-              schema.errors = [ err[0].error + i ]
+            if ( errors.length ) {
+              let err = errors.filter((err) => err.index === i)
+              if (err.length) schema.errors = [ err[0].error + i ]
             }
           return (
             <div key={i} className="json-schema-form-item">
