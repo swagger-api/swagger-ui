@@ -39,7 +39,10 @@ fi
 
 if [[ -n "$VALIDATOR_URL" ]]; then
   sed -i "s|.*validatorUrl:.*$||g" $INDEX_FILE
-  sed -i "s|\(url: url,.*\)|\1\n        validatorUrl: \"${VALIDATOR_URL}\",|g" $INDEX_FILE
+  TMP_VU="$VALIDATOR_URL"
+  [[ "$VALIDATOR_URL" != "null" && "$VALIDATOR_URL" != "undefined" ]] && TMP_VU="\"${VALIDATOR_URL}\""
+  sed -i "s|\(url: .*,\)|\1\n    validatorUrl: ${TMP_VU},|g" $INDEX_FILE
+  unset TMP_VU
 fi
 
 exec nginx -g 'daemon off;'
