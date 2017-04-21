@@ -1,11 +1,12 @@
 import win from "core/window"
+import { btoa } from "core/utils"
 
 export default function authorize ( auth, authActions, errActions, configs ) {
   let { schema, scopes, name, clientId } = auth
 
   let redirectUrl = configs.oauth2RedirectUrl
   let scopeSeparator = " "
-  let state = name
+  let state = btoa(new Date())
   let flow = schema.get("flow")
   let url
 

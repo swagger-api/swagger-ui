@@ -55,9 +55,10 @@ export default class ParamBody extends Component {
     let isXml = /xml/i.test(consumesValue)
     let paramValue = isXml ? parameter.get("value_xml") : parameter.get("value")
 
-    if ( paramValue ) {
-      this.setState({ value: paramValue })
-      this.onChange(paramValue, {isXml: isXml, isEditBox: isExecute})
+    if ( paramValue !== undefined ) {
+      let val = !paramValue && !isXml ? "{}" : paramValue
+      this.setState({ value: val })
+      this.onChange(val, {isXml: isXml, isEditBox: isExecute})
     } else {
       if (isXml) {
         this.onChange(this.sample("xml"), {isXml: isXml, isEditBox: isExecute})
