@@ -148,26 +148,27 @@ export default class Oauth2 extends React.Component {
           ( flow === APPLICATION || flow === IMPLICIT || flow === ACCESS_CODE || ( flow === PASSWORD && this.state.passwordType!== "none") ) &&
           ( !isAuthorized || isAuthorized && this.state.clientId) && <Row>
             <label htmlFor="client_id">client_id:</label>
-            <Col tablet={10} desktop={10}>
-              {
-                isAuthorized ? <span>{ this.state.clientId }</span>
-              : <input id="client_id" type="text" required={ flow === PASSWORD } data-name="clientId"
+            {
+              isAuthorized ? <code> ****** </code>
+                           : <Col tablet={10} desktop={10}>
+                               <input id="client_id" type="text" required={ flow === PASSWORD } data-name="clientId"
                                       onChange={ this.onInputChange }/>
-              }
-            </Col>
+                             </Col>
+            }
           </Row>
         }
 
         {
           ( flow === APPLICATION || flow === ACCESS_CODE || ( flow === PASSWORD && this.state.passwordType!== "none") ) && <Row>
             <label htmlFor="client_secret">client_secret:</label>
-            <Col tablet={10} desktop={10}>
-              {
-                isAuthorized ? <span>{ this.state.clientSecret }</span>
-              : <input id="client_secret" type="text" data-name="clientSecret"
+            {
+              isAuthorized ? <code> ****** </code>
+                           : <Col tablet={10} desktop={10}>
+                               <input id="client_secret" type="text" data-name="clientSecret"
                                       onChange={ this.onInputChange }/>
-              }
-            </Col>
+                             </Col>
+            }
+
           </Row>
         }
 
