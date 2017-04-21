@@ -151,3 +151,36 @@ export const authorizeOauth2Application = ( auth ) => ( { fn, authActions, errAc
   })
   .catch(err => { errActions.newAuthErr( err ) })
 }
+
+export const authorizeOauth2AccessCode = ( auth, qp ) => ( { fn, authActions, errActions } ) => {
+  let { schema, name, clientId, clientSecret } = auth
+
+  fn.fetch(schema.get("tokenUrl"), {
+    method: "POST",
+    headers: {
+      "Accept":"application/json, text/plain, */*",
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: "grant_type=authorization_code" +
+    "&code=" + encodeURIComponent(qp.code) +
+    "&client_id=" + encodeURIComponent(clientId) +
+    "&client_secret=" + encodeURIComponent(clientSecret)
+  })
+    .then(function (response) {
+      if ( !response.ok ) {
+        errActions.newAuthErr( {
+          authId: name,
+          level: "error",
+          source: "auth",
+          message: response.statusText
+        } )
+        return
+      } else {
+        response.json()
+          .then(function (json){
+            authActions.authorizeOauth2({ auth, token: json})
+          })
+      }
+    })
+    .catch(err => { errActions.newAuthErr( err ) })
+}
