@@ -18,4 +18,4 @@ else
   npm pack .
 fi
 
-rm !(README.md|package.json|deploy.sh)
+find . -not -name .npmignore -not -name .npmrc -not -name deploy.sh -not -name package.json -not -name README.md -not -name *.tgz -delete 
