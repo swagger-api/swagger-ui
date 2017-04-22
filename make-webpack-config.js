@@ -2,13 +2,10 @@ var path = require('path')
 
 var webpack = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var GitRevisionPlugin = require('git-revision-webpack-plugin')
 var deepExtend = require('deep-extend')
 var autoprefixer = require('autoprefixer')
 
 var loadersByExtension = require('./build-tools/loadersByExtension')
-
-var gitRevisionPlugin = new GitRevisionPlugin()
 
 module.exports = function(options) {
 
@@ -62,8 +59,7 @@ module.exports = function(options) {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV:  specialOptions.minimize ? JSON.stringify('production') : null,
-        WEBPACK_INLINE_STYLES: !Boolean(specialOptions.separateStylesheets),
-        COMMITHASH: JSON.stringify(gitRevisionPlugin.commithash())
+        WEBPACK_INLINE_STYLES: !Boolean(specialOptions.separateStylesheets)		
       },
     }))
 

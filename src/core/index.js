@@ -6,8 +6,6 @@ import * as AllPlugins from "core/plugins/all"
 import { filterConfigs } from "plugins/configs"
 import { parseSeach } from "core/utils"
 
-console.log(`This Swagger-UI was built from ${process.env.COMMITHASH}.`)
-
 module.exports = function SwaggerUI(opts) {
 
   const defaults = {
