@@ -58,7 +58,7 @@ To help with the migration, here are the currently known issues with 3.X. This l
 - Relative path support for external files is not implemented.
 
 ### SwaggerUIBundle
-To use swagger-ui you should take a look at the [source of swagger-ui html page](https://github.com/swagger-api/swagger-ui/blob/master/dist/index.html) and customize it. This basically requires you to instantiate a SwaggerUi object and call load() on it as below:
+To use swagger-ui's bundles, you should take a look at the [source of swagger-ui html page](https://github.com/swagger-api/swagger-ui/blob/master/dist/index.html) and customize it. This basically requires you to instantiate a SwaggerUi object as below:
 
 ```javascript
   const ui = SwaggerUIBundle({
@@ -74,6 +74,8 @@ To use swagger-ui you should take a look at the [source of swagger-ui html page]
     layout: "StandaloneLayout"
   })
 ```
+
+If you'd like to use the bundle files via npm, check out the [`swagger-ui-dist` package](npmjs.com/package/swagger-ui-dist).
 
 #### Parameters
 
