@@ -22,6 +22,7 @@ deploy:
       repo: swagger-api/swagger-ui
       node: '6.9'
   - provider: script
+    skip_cleanup: true
     script: swagger-ui-dist-package/deploy.sh
     on:
       tags: true
