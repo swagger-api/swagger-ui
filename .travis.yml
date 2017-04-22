@@ -7,21 +7,28 @@ branches:
   only:
   - master
   - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
-before_deploy: "npm run build-core"
+before_deploy:
+  - npm run build
 env:
   - DOCKER_IMAGE_NAME=swaggerapi/swagger-ui
 deploy:
-  provider: npm
-  email: apiteam@swagger.io
-  skip_cleanup: true
-  api_key:
-    secure: "IJkLaACa+rfERf1O5nwlqOyuo9sbul3FBhBt4Un9P+DvEet3AoDPV9NQVLd8SkmQYKGbGQWF4BIdjrO5nqFD6Te+JTeUX5Uo/DFS/fu9qw1xv0dQpvbJFuoYnnFlbzGTEs4CFa8lbu3ZromFHQGOQxRobjsG1Kf0dWFSSzmND3g="
-  on:
-    tags: true
-    repo: swagger-api/swagger-ui
-    node: '6.9'
+  - provider: npm
+    email: apiteam@swagger.io
+    skip_cleanup: true
+    api_key:
+      secure: "IJkLaACa+rfERf1O5nwlqOyuo9sbul3FBhBt4Un9P+DvEet3AoDPV9NQVLd8SkmQYKGbGQWF4BIdjrO5nqFD6Te+JTeUX5Uo/DFS/fu9qw1xv0dQpvbJFuoYnnFlbzGTEs4CFa8lbu3ZromFHQGOQxRobjsG1Kf0dWFSSzmND3g="
+    on:
+      tags: true
+      repo: swagger-api/swagger-ui
+      node: '6.9'
+  - provider: script
+    script: swagger-ui-dist-package/deploy.sh
+    on:
+      tags: true
+      repo: swagger-api/swagger-ui
+      node: '6.9'
 after_success:
-  - if [ $DOCKER_HUB_USERNAME ]; then 
+  - if [ $DOCKER_HUB_USERNAME ]; then
       docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD;
 
       if [ ! -z "$TRAVIS_TAG" ]; then
@@ -40,4 +47,3 @@ after_success:
         docker push $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG;
       fi;
     fi;
-
