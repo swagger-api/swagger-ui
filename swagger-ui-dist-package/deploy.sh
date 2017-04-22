@@ -7,12 +7,12 @@ cd "${0%/*}"
 UI_VERSION=$(node -p "require('../package.json').version")
 
 # Replace our version placeholder with UI's version
-sed -i '' "s|\$\$VERSION|$UI_VERSION|g" package.json
+sed -i "s|\$\$VERSION|$UI_VERSION|g" package.json
 
 # Copy UI's dist files to our directory
 cp ../dist/* .
 
-if [ $PUBLISH_DIST -eq "true" ] || [ $TRAVIS -eq "true" ] ; then
+if [ "$PUBLISH_DIST" = "true" ] || [ "$TRAVIS" = "true" ] ; then
   npm publish .
 else
   npm pack .
