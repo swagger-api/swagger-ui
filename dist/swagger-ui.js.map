@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-{"version":3,"file":"swagger-ui.js","sources":["webpack:///swagger-ui.js"],"mappings":"AAAA;;;;;;AA8vCA;AA8+GA;AAwxIA;AAgzFA;AA8qCA;AAmiCA;AAoiCA;AAw5BA","sourceRoot":""}
-=======
-{"version":3,"file":"swagger-ui.js","sources":["webpack:///swagger-ui.js"],"mappings":"AAAA;AAisFA;;;;;;AAuFA;AAy4GA;AAwyIA;AAgwFA;AA0tEA;AAszCA;AAizCA","sourceRoot":""}
->>>>>>> e971995... Replace babel-polyfill with runtime transform
+{"version":3,"file":"swagger-ui.js","sources":["webpack:///swagger-ui.js"],"mappings":"AAAA;AA6oFA;;;;;;AA4FA;AAy4GA;AA0zIA;AAm5FA;AA4lEA;AAqzCA;AA+yCA","sourceRoot":""}
