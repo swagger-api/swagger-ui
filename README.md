@@ -75,7 +75,7 @@ To use swagger-ui's bundles, you should take a look at the [source of swagger-ui
   })
 ```
 
-If you'd like to use the bundle files via npm, check out the [`swagger-ui-dist` package](npmjs.com/package/swagger-ui-dist).
+If you'd like to use the bundle files via npm, check out the [`swagger-ui-dist` package](https://www.npmjs.com/package/swagger-ui-dist).
 
 #### Parameters
 
