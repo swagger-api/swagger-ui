@@ -1,4 +1,5 @@
 import { createSelector } from "reselect"
+import { sorters } from "core/utils"
 import { fromJS, Set, Map, List } from "immutable"
 
 const DEFAULT_TAG = "default"
@@ -198,13 +199,16 @@ export const operationsWithTags = createSelector(
   }
 )
 
-export const taggedOperations = createSelector(
-  state,
-  operationsWithTags,
-  (state, tagMap) => {
-    return tagMap.map((ops, tag) => Map({tagDetails: tagDetails(state, tag), operations: ops}))
-  }
-)
+export const taggedOperations = ( state ) =>( { getConfigs } ) => {
+  let { operationsSorter }= getConfigs()
+
+  return operationsWithTags(state).map((ops, tag) => {
+    let sortFn = typeof operationsSorter === "function" ? operationsSorter
+                                                        : sorters.operationsSorter[operationsSorter]
+    let operations = !sortFn ? ops : ops.sort(sortFn)
+
+    return Map({tagDetails: tagDetails(state, tag), operations: operations})})
+}
 
 export const responses = createSelector(
   state,
@@ -224,7 +228,7 @@ export const requestFor = (state, path, method) => {
   return requests(state).getIn([path, method], null)
 }
 
-export const allowTryItOutFor = (state, path, method ) => {
+export const allowTryItOutFor = () => {
   // This is just a hook for now.
   return true
 }
@@ -291,7 +295,11 @@ export function operationConsumes(state, pathMethod) {
 }
 
 export const operationScheme = ( state, path, method ) => {
-  return state.getIn(["scheme", path, method]) || state.getIn(["scheme", "_defaultScheme"]) || "http"
+  let url = state.get("url")
+  let matchResult = url.match(/^([a-z][a-z0-9+\-.]*):/)
+  let urlScheme = Array.isArray(matchResult) ? matchResult[1] : null
+
+  return state.getIn(["scheme", path, method]) || state.getIn(["scheme", "_defaultScheme"]) || urlScheme || ""
 }
 
 export const canExecuteScheme = ( state, path, method ) => {

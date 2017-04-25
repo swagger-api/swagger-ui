@@ -4,16 +4,19 @@ import { createSelector } from "reselect"
 import { Map } from "immutable"
 
 export default function downloadUrlPlugin (toolbox) {
-  let { fn, Im } = toolbox
+  let { fn } = toolbox
 
   const actions = {
     download: (url)=> ({ errActions, specSelectors, specActions }) => {
       let { fetch } = fn
       url = url || specSelectors.url()
       specActions.updateLoadingStatus("loading")
-      fetch(url, {
+      fetch({
+        url,
+        loadSpec: true,
+        credentials: "same-origin",
         headers: {
-          "Accept": "application/json"
+          "Accept": "application/json,*/*"
         }
       }).then(next,next)
 
@@ -30,7 +33,7 @@ export default function downloadUrlPlugin (toolbox) {
     },
 
     updateLoadingStatus: (status) => {
-      let enums = [null, "loading", "failed", "success"]
+      let enums = [null, "loading", "failed", "success", "failedConfig"]
       if(enums.indexOf(status) === -1) {
         console.error(`Error: ${status} is not one of ${JSON.stringify(enums)}`)
       }

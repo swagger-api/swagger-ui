@@ -1,10 +1,9 @@
 import { fromJS, Map } from "immutable"
-import btoa from "btoa"
+import { btoa } from "core/utils"
 
 import {
   SHOW_AUTH_POPUP,
   AUTHORIZE,
-  PRE_AUTHORIZE_OAUTH2,
   AUTHORIZE_OAUTH2,
   LOGOUT
 } from "./actions"
@@ -21,7 +20,6 @@ export default {
     // refactor withMutations
     securities.entrySeq().forEach( ([ key, security ]) => {
       let type = security.getIn(["schema", "type"])
-      let name = security.get("name")
 
       if ( type === "apiKey" ) {
         map = map.set(key, security)

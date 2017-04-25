@@ -1,5 +1,5 @@
 import win from "core/window"
-import btoa from "btoa"
+import { btoa } from "core/utils"
 
 export const SHOW_AUTH_POPUP = "show_popup"
 export const AUTHORIZE = "authorize"
@@ -7,6 +7,8 @@ export const LOGOUT = "logout"
 export const PRE_AUTHORIZE_OAUTH2 = "pre_authorize_oauth2"
 export const AUTHORIZE_OAUTH2 = "authorize_oauth2"
 export const VALIDATE = "validate"
+
+const scopeSeparator = " "
 
 export function showDefinitions(payload) {
   return {
@@ -77,7 +79,8 @@ export const authorizePassword = ( auth ) => ( { fn, authActions, errActions } )
     query: {
       grant_type: "password",
       username,
-      password
+      password,
+      scopes: encodeURIComponent(auth.scopes.join(scopeSeparator))
     }
   }
 
@@ -115,4 +118,36 @@ export const authorizePassword = ( auth ) => ( { fn, authActions, errActions } )
       authActions.authorizeOauth2({ auth, token })
     })
     .catch(err => { errActions.newAuthErr( err ) })
+}
+
+export const authorizeOauth2Application = ( auth ) => ( { fn, authActions, errActions } ) => {
+  let { schema, scopes, name, clientId, clientSecret } = auth
+
+  fn.fetch(schema.get("tokenUrl"), {
+    method: "post", headers: {
+      "Accept":"application/json, text/plain, */*",
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: "grant_type=client_credentials" +
+          "&client_id=" + encodeURIComponent(clientId) +
+          "&client_secret=" + encodeURIComponent(clientSecret) +
+          "&scope=" + encodeURIComponent(scopes.join(scopeSeparator))
+  })
+  .then(function (response) {
+    if ( !response.ok ) {
+      errActions.newAuthErr( {
+        authId: name,
+        level: "error",
+        source: "auth",
+        message: response.statusText
+      } )
+      return
+    } else {
+      response.json()
+      .then(function (json){
+        authActions.authorizeOauth2({ auth, token: json})
+      })
+    }
+  })
+  .catch(err => { errActions.newAuthErr( err ) })
 }

@@ -10,13 +10,13 @@ export default class Oauth2 extends React.Component {
   static propTypes = {
     name: PropTypes.string,
     authorized: PropTypes.object,
-    configs: PropTypes.object,
     getComponent: PropTypes.func.isRequired,
     schema: PropTypes.object.isRequired,
     authSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
     errSelectors: PropTypes.object.isRequired,
-    errActions: PropTypes.object.isRequired
+    errActions: PropTypes.object.isRequired,
+    getConfigs: PropTypes.any
   }
 
   constructor(props, context) {
@@ -145,34 +145,35 @@ export default class Oauth2 extends React.Component {
         }
 
         {
-          ( flow === IMPLICIT || flow === ACCESS_CODE || ( flow === PASSWORD && this.state.passwordType!== "none") ) &&
+          ( flow === APPLICATION || flow === IMPLICIT || flow === ACCESS_CODE || ( flow === PASSWORD && this.state.passwordType!== "none") ) &&
           ( !isAuthorized || isAuthorized && this.state.clientId) && <Row>
             <label htmlFor="client_id">client_id:</label>
-            <Col tablet={10} desktop={10}>
-              {
-                isAuthorized ? <span>{ this.state.clientId }</span>
-              : <input id="client_id" type="text" required={ flow === PASSWORD } data-name="clientId"
+            {
+              isAuthorized ? <code> ****** </code>
+                           : <Col tablet={10} desktop={10}>
+                               <input id="client_id" type="text" required={ flow === PASSWORD } data-name="clientId"
                                       onChange={ this.onInputChange }/>
-              }
-            </Col>
+                             </Col>
+            }
           </Row>
         }
 
         {
-          ( flow === ACCESS_CODE || ( flow === PASSWORD && this.state.passwordType!== "none") ) && <Row>
+          ( flow === APPLICATION || flow === ACCESS_CODE || ( flow === PASSWORD && this.state.passwordType!== "none") ) && <Row>
             <label htmlFor="client_secret">client_secret:</label>
-            <Col tablet={10} desktop={10}>
-              {
-                isAuthorized ? <span>{ this.state.clientSecret }</span>
-              : <input id="client_secret" type="text" data-name="clientSecret"
+            {
+              isAuthorized ? <code> ****** </code>
+                           : <Col tablet={10} desktop={10}>
+                               <input id="client_secret" type="text" data-name="clientSecret"
                                       onChange={ this.onInputChange }/>
-              }
-            </Col>
+                             </Col>
+            }
+
           </Row>
         }
 
         {
-          !isAuthorized && flow !== PASSWORD && scopes && scopes.size ? <div className="scopes">
+          !isAuthorized && scopes && scopes.size ? <div className="scopes">
             <h2>Scopes:</h2>
             { scopes.map((description, name) => {
               return (
@@ -205,7 +206,7 @@ export default class Oauth2 extends React.Component {
           } )
         }
         <div className="auth-btn-wrapper">
-        { isValid && flow !== APPLICATION &&
+        { isValid &&
           ( isAuthorized ? <Button className="btn modal-btn auth authorize" onClick={ this.logout }>Logout</Button>
         : <Button className="btn modal-btn auth authorize" onClick={ this.authorize }>Authorize</Button>
           )
