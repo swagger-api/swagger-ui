@@ -1,0 +1,17 @@
+.swagger-ui
+{
+    @import 'mixins';
+    @import 'variables';
+    @import 'colors';
+    @import 'type';
+    @import 'layout';
+    @import 'buttons';
+    @import 'form';
+    @import 'modal';
+    @import 'models';
+    @import 'table';
+    @import 'topbar';
+    @import 'information';
+    @import 'authorize';
+    @import 'errors';
+}

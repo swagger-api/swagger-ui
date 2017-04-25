@@ -1,0 +1,60 @@
+.topbar
+{
+    padding: 8px 30px;
+
+    background-color: #89bf04;
+    .topbar-wrapper
+    {
+        display: flex;
+
+        align-items: center;
+    }
+    a
+    {
+        font-size: 1.5em;
+        font-weight: bold;
+
+        display: flex;
+
+        text-decoration: none;
+
+        flex: 1;
+        align-items: center;
+        @include text_headline(#fff);
+
+        span
+        {
+            margin: 0;
+            padding: 0 10px;
+        }
+    }
+
+    .download-url-wrapper
+    {
+        display: flex;
+
+        input[type=text]
+        {
+            min-width: 350px;
+            margin: 0;
+
+            border: 2px solid #547f00;
+            border-radius: 4px 0 0 4px;
+            outline: none;
+        }
+
+        .download-url-button
+        {
+            font-size: 16px;
+            font-weight: bold;
+
+            padding: 4px 40px;
+
+            border: none;
+            border-radius: 0 4px 4px 0;
+            background: #547f00;
+
+            @include text_headline(#fff);
+        }
+    }
+}
