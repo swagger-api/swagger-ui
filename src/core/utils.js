@@ -572,7 +572,7 @@ export const buildFormData = (data) => {
 
   for (let name in data) {
     let val = data[name]
-    if (val !== undefined && val !== '') {
+    if (val !== undefined && val !== "") {
       formArr.push([name, "=", encodeURIComponent(val).replace(/%20/g,"+")].join(""))
     }
   }
