@@ -16,7 +16,7 @@ export default function authorize ( auth, authActions, errActions, configs ) {
   }
 
   if (flow === "application") {
-    authActions.authorizeOauth2Application(auth)
+    authActions.authorizeApplication(auth)
     return
   }
 

@@ -566,3 +566,15 @@ export const sorters = {
     method: (a, b) => a.get("method").localeCompare(b.get("method"))
   }
 }
+
+export const buildFormData = (data) => {
+  let formArr = []
+
+  for (let name in data) {
+    let val = data[name]
+    if (val !== undefined && val !== '') {
+      formArr.push([name, "=", encodeURIComponent(val).replace(/%20/g,"+")].join(""))
+    }
+  }
+  return formArr.join("&")
+}
