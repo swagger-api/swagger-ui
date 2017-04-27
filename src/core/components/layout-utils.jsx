@@ -16,7 +16,7 @@ export class Container extends React.Component {
     if(fullscreen)
       return <section {...rest}/>
 
-    let containerClass = "swaqgger-container" + (full ? "-full" : "")
+    let containerClass = "swagger-container" + (full ? "-full" : "")
     return (
       <section {...rest} className={xclass(rest.className, containerClass)}/>
     )
