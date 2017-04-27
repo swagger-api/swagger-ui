@@ -1,5 +1,5 @@
 import win from "core/window"
-import { btoa } from "core/utils"
+import { btoa, buildFormData } from "core/utils"
 
 export const SHOW_AUTH_POPUP = "show_popup"
 export const AUTHORIZE = "authorize"
@@ -70,25 +70,33 @@ export function authorizeOauth2(payload) {
 
 export const authorizePassword = ( auth ) => ( { fn, authActions, errActions } ) => {
   let { schema, name, username, password, passwordType, clientId, clientSecret } = auth
+  let credentials = {
+    grant_type: "password",
+    scopes: encodeURIComponent(auth.scopes.join(scopeSeparator))
+  }
+
+
   let req = {
     url: schema.get("tokenUrl"),
     method: "post",
     headers: {
-      "content-type": "application/x-www-form-urlencoded"
+      "Content-Type": "application/x-www-form-urlencoded"
     },
-    query: {
-      grant_type: "password",
-      username,
-      password,
-      scopes: encodeURIComponent(auth.scopes.join(scopeSeparator))
-    }
+    query: {}
   }
 
   if ( passwordType === "basic") {
-    req.headers.authorization = "Basic " + btoa(clientId + ":" + clientSecret)
-  } else if ( passwordType === "request") {
-    req.query = Object.assign(req.query, { client_id: clientId, client_secret: clientSecret })
+    req.headers.Authorization = "Basic " + btoa(username + ":" + password)
+  } else {
+    credentials = Object.assign({}, credentials,  {username} , {password})
+    if ( passwordType === "query") {
+      if ( clientId ) { req.query.client_id = clientId }
+      if ( clientSecret ) { req.query.client_secret = clientSecret }
+    } else {
+      credentials = Object.assign({}, credentials, {client_id: clientId}, {client_secret: clientSecret})
+    }
   }
+  req.body = buildFormData(credentials)
   return fn.fetch(req)
     .then(( response ) => {
       let token = JSON.parse(response.data)
@@ -120,20 +128,30 @@ export const authorizePassword = ( auth ) => ( { fn, authActions, errActions } )
     .catch(err => { errActions.newAuthErr( err ) })
 }
 
-export const authorizeOauth2Application = ( auth ) => ( { fn, authActions, errActions } ) => {
+export const authorizeApplication = ( auth ) => ( { fn, authActions, errActions } ) => {
   let { schema, scopes, name, clientId, clientSecret } = auth
+  let credentials = {
+    grant_type: "client_credentials",
+    client_id: clientId,
+    client_secret: clientSecret,
+    scope: scopes.join(scopeSeparator)
+  }
 
-  fn.fetch(schema.get("tokenUrl"), {
-    method: "post", headers: {
+
+  return fn.fetch({
+    url: schema.get("tokenUrl"),
+    method: "post",
+    headers: {
       "Accept":"application/json, text/plain, */*",
       "Content-Type": "application/x-www-form-urlencoded"
     },
-    body: "grant_type=client_credentials" +
-          "&client_id=" + encodeURIComponent(clientId) +
-          "&client_secret=" + encodeURIComponent(clientSecret) +
-          "&scope=" + encodeURIComponent(scopes.join(scopeSeparator))
+    body: buildFormData(credentials)
   })
   .then(function (response) {
+    let token = JSON.parse(response.data)
+    let error = token && ( token.error || "" )
+    let parseError = token && ( token.parseError || "" )
+
     if ( !response.ok ) {
       errActions.newAuthErr( {
         authId: name,
@@ -142,12 +160,19 @@ export const authorizeOauth2Application = ( auth ) => ( { fn, authActions, errAc
         message: response.statusText
       } )
       return
-    } else {
-      response.json()
-      .then(function (json){
-        authActions.authorizeOauth2({ auth, token: json})
-      })
     }
+
+    if ( error || parseError ) {
+      errActions.newAuthErr({
+        authId: name,
+        level: "error",
+        source: "auth",
+        message: JSON.stringify(token)
+      })
+      return
+    }
+
+    authActions.authorizeOauth2({ auth, token })
   })
   .catch(err => { errActions.newAuthErr( err ) })
 }
