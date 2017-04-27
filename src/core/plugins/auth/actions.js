@@ -68,7 +68,7 @@ export function authorizeOauth2(payload) {
   }
 }
 
-export const authorizePassword = ( auth ) => ( { fn, authActions, errActions } ) => {
+export const authorizePassword = ( auth ) => ( { authActions } ) => {
   let { schema, name, username, password, passwordType, clientId, clientSecret } = auth
   let form = {
     grant_type: "password",
@@ -92,7 +92,7 @@ export const authorizePassword = ( auth ) => ( { fn, authActions, errActions } )
   return authActions.authorizeRequest({ body: buildFormData(form), url: schema.get("tokenUrl"), name, headers, query, auth})
 }
 
-export const authorizeApplication = ( auth ) => ( { fn, authActions, errActions } ) => {
+export const authorizeApplication = ( auth ) => ( { authActions } ) => {
   let { schema, scopes, name, clientId, clientSecret } = auth
   let form = {
     grant_type: "client_credentials",
@@ -104,7 +104,7 @@ export const authorizeApplication = ( auth ) => ( { fn, authActions, errActions 
   return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth })
 }
 
-export const authorizeAccessCode = ( auth ) => ( { fn, authActions } ) => {
+export const authorizeAccessCode = ( auth ) => ( { authActions } ) => {
  let { schema, name, clientId, clientSecret } = auth
  let form = {
    grant_type: "authorization_code",
