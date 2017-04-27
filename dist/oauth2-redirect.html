@@ -8,11 +8,13 @@
     function run () {
         var oauth2 = window.opener.swaggerUIRedirectOauth2;
         var sentState = oauth2.state;
-        var isValid, qp;
+        var isValid, qp, arr;
 
         qp = (window.location.hash || location.search).substring(1);
 
-        qp = qp ? JSON.parse('{"' + qp.replace(/&/g, '","').replace(/=/g, '":"') + '"}',
+        arr = qp.split("&")
+        arr.forEach(function (v,i,_arr) { _arr[i] = '"' + v.replace('=', '":"') + '"';})
+        qp = qp ? JSON.parse('{' + arr.join() + '}',
                 function (key, value) {
                     return key === "" ? value : decodeURIComponent(value)
                 }
