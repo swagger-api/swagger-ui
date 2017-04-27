@@ -33,7 +33,41 @@
             if (qp.code) {
                 delete oauth2.state;
                 oauth2.auth.code = qp.code;
-                createForm(oauth2.auth, qp).submit();
+                var form = new FormData(createForm(oauth2.auth, qp));
+                var headers = new Headers();
+
+                headers.append("Access-Control-Allow-Origin", "*");
+                fetch(oauth2.auth.schema.get("tokenUrl"), {
+                  method: "POST",
+                  headers: headers,
+                  mode: "cors",
+                  body: form
+                }).then(function (res) {
+                    var status = res.status
+                    if (status >= 300 && status < 400) {
+                      window.location = res.headers && res.headers.location
+                    } else if (status >= 200 && status < 300) {
+                      oauth2.callback({auth: oauth2.auth, token: res.data, isValid: isValid});
+                      window.close();
+                    } else {
+                      oauth2.errCb({
+                        authId: oauth2.auth.name,
+                        source: "auth",
+                        level: "error",
+                        message: (new Error(e)).stack
+                      });
+                      window.close();
+                    }
+
+                }, function (e) {
+                  oauth2.errCb({
+                    authId: oauth2.auth.name,
+                    source: "auth",
+                    level: "error",
+                    message: (new Error(e)).stack
+                  });
+                  window.close();
+                })
             } else {
                 oauth2.errCb({
                     authId: oauth2.auth.name,
@@ -43,16 +77,14 @@
                 });
                 window.close();
             }
-        } else {
+          } else {
             oauth2.callback({auth: oauth2.auth, token: qp, isValid: isValid});
             window.close();
-        }
+          }
     }
 
     function createForm(auth, qp) {
         var form = document.createElement("form");
-        var schema = auth.schema;
-        var action = schema.get("tokenUrl");
         var name, input;
 
         var fields = {
@@ -61,7 +93,7 @@
             "grant_type": "authorization_code",
             "client_secret": auth.clientSecret,
             "client_id": auth.clientId
-        }
+        };
 
         for ( name in fields ) {
             input = document.createElement("input");
@@ -70,10 +102,6 @@
             input.type = "hidden";
             form.appendChild(input);
         }
-
-
-        form.method = "POST";
-        form.action = action;
 
         document.body.appendChild(form);
 
