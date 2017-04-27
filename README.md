@@ -1,3 +1,5 @@
+[![Dependencies](https://img.shields.io/gemnasium/18F/swagger-ui.svg)](https://gemnasium.com/18F/swagger-ui)
+
 # FEC API Swagger
 
 This fork creates the interactive documentation found at: [https://api.open.fec.gov/developers/](https://api.open.fec.gov/developers/)
