@@ -4,8 +4,12 @@ var webpack = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var deepExtend = require('deep-extend')
 var autoprefixer = require('autoprefixer')
+const {gitDescribeSync} = require('git-describe');
 
 var loadersByExtension = require('./build-tools/loadersByExtension')
+
+var pkg = require('./package.json')
+const gitInfo = gitDescribeSync(__dirname)
 
 module.exports = function(options) {
 
@@ -59,8 +63,14 @@ module.exports = function(options) {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV:  specialOptions.minimize ? JSON.stringify('production') : null,
-        WEBPACK_INLINE_STYLES: !Boolean(specialOptions.separateStylesheets)		
+        WEBPACK_INLINE_STYLES: !Boolean(specialOptions.separateStylesheets)
+
       },
+      'buildInfo': JSON.stringify({
+        PACKAGE_VERSION: (pkg.version),
+        GIT_COMMIT: gitInfo.hash,
+        GIT_DIRTY: gitInfo.dirty
+      })
     }))
 
   var cssLoader = 'css-loader!postcss-loader'
