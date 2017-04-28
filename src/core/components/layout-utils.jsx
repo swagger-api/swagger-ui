@@ -2,8 +2,6 @@ import React, { PropTypes } from "react"
 import OriCollapse from "react-collapse"
 import _Markdown from "react-remarkable"
 
-const noop = () => {}
-
 function xclass(...args) {
   return args.filter(a => !!a).join(" ").trim()
 }
@@ -18,7 +16,7 @@ export class Container extends React.Component {
     if(fullscreen)
       return <section {...rest}/>
 
-    let containerClass = "container" + (full ? "-full" : "")
+    let containerClass = "swagger-container" + (full ? "-full" : "")
     return (
       <section {...rest} className={xclass(rest.className, containerClass)}/>
     )
@@ -44,12 +42,14 @@ export class Col extends React.Component {
     const {
       hide,
       keepContents,
-
-      mobile, /* we don't want these in the final component, since React now complains. So we extract them */
+      /* we don't want these in the `rest` object that passes to the final component,
+         since React now complains. So we extract them */
+      /* eslint-disable no-unused-vars */
+      mobile,
       tablet,
       desktop,
       large,
-
+      /* eslint-enable no-unused-vars */
       ...rest
     } = this.props
 

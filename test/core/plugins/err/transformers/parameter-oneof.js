@@ -1,5 +1,5 @@
-import expect, { createSpy } from "expect"
-import { Map, List, fromJS } from "immutable"
+import expect from "expect"
+import { fromJS } from "immutable"
 import { transform } from "corePlugins/err/error-transformers/transformers/parameter-oneof"
 
 describe.skip("err plugin - tranformers - parameter oneof", () => {

@@ -20,14 +20,14 @@ export function newThrownErrBatch(errors) {
   }
 }
 
-export function newSpecErr(err, action) {
+export function newSpecErr(err) {
   return {
       type: NEW_SPEC_ERR,
       payload: err
   }
 }
 
-export function newAuthErr(err, action) {
+export function newAuthErr(err) {
   return {
     type: NEW_AUTH_ERR,
     payload: err

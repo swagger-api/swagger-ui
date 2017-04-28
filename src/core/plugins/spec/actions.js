@@ -1,4 +1,5 @@
 import YAML from "js-yaml"
+import parseUrl from "url-parse"
 import serializeError from "serialize-error"
 
 // Actions conform to FSA (flux-standard-actions)
@@ -184,8 +185,12 @@ export const logRequest = (req) => {
 
 // Actually fire the request via fn.execute
 // (For debugging) and ease of testing
-export const executeRequest = (req) => ({fn, specActions, errActions}) => {
+export const executeRequest = (req) => ({fn, specActions, specSelectors}) => {
   let { pathName, method } = req
+
+  // if url is relative, parseUrl makes it absolute by inferring from `window.location`
+  req.contextUrl = parseUrl(specSelectors.url()).toString()
+
   let parsedRequest = Object.assign({}, req)
   if ( pathName && method ) {
     parsedRequest.operationId = method.toLowerCase() + "-" + pathName

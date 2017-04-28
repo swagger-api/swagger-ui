@@ -1,8 +1,6 @@
 import React, { PropTypes, Component } from "react"
-import { arrayify } from "core/utils"
 import shallowCompare from "react-addons-shallow-compare"
 import { List, fromJS } from "immutable"
-import assign from "object-assign"
 //import "less/json-schema-form"
 
 const noop = ()=> {}
@@ -53,7 +51,7 @@ export class JsonSchema_string extends Component {
   }
   onEnumChange = (val) => this.props.onChange(val)
   render() {
-    let { getComponent, value, schema, fn, required, description } = this.props
+    let { getComponent, value, schema, required, description } = this.props
     let enumValue = schema["enum"]
     let errors = schema.errors || []
 
@@ -119,13 +117,13 @@ export class JsonSchema_array extends Component {
   }
 
   onEnumChange = (value) => {
-    this.setState(state => ({
+    this.setState(() => ({
       value: value
     }), this.onChange)
   }
 
   render() {
-    let { getComponent, onChange, required, schema, fn } = this.props
+    let { getComponent, required, schema, fn } = this.props
 
     let itemSchema = fn.inferSchema(schema.items)
 
@@ -152,9 +150,9 @@ export class JsonSchema_array extends Component {
           (errors.length ? <span style={{ color: "red", fortWeight: "bold" }}>{ errors[0] }</span> : null) :
           value.map( (item,i) => {
             let schema = Object.assign({}, itemSchema)
-            let err = errors.filter((err) => err.index === i)
-            if ( err.length ) {
-              schema.errors = [ err[0].error + i ]
+            if ( errors.length ) {
+              let err = errors.filter((err) => err.index === i)
+              if (err.length) schema.errors = [ err[0].error + i ]
             }
           return (
             <div key={i} className="json-schema-form-item">
