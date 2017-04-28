@@ -43,10 +43,10 @@ export default class Topbar extends React.Component {
                 <img height="30" width="30" src={ Logo } alt="Swagger UX"/>
                 <span>swagger</span>
               </Link>
-              <div className="download-url-wrapper">
+              <form className="download-url-wrapper" onSubmit={this.downloadUrl}>
                 <input className="download-url-input" type="text" onChange={ this.onUrlChange } value={this.state.url} disabled={isLoading} style={inputStyle} />
                 <Button className="download-url-button" onClick={ this.downloadUrl }>Explore</Button>
-              </div>
+              </form>
             </div>
           </div>
         </div>
