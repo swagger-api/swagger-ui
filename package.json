@@ -95,6 +95,7 @@
     "eslint-plugin-react": "^6.10.3",
     "extract-text-webpack-plugin": "0.8.2",
     "file-loader": "0.8.4",
+    "git-describe": "^4.0.1",
     "html-webpack-plugin": "^2.28.0",
     "imports-loader": "0.6.5",
     "json-loader": "0.5.3",

@@ -6,6 +6,10 @@ import * as AllPlugins from "core/plugins/all"
 import { filterConfigs } from "plugins/configs"
 import { parseSeach } from "core/utils"
 
+const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION } = buildInfo
+
+window.swaggerUiVersion = `${PACKAGE_VERSION}/${GIT_COMMIT || 'unknown'}${GIT_DIRTY ? '-dirty' : ''}`
+
 module.exports = function SwaggerUI(opts) {
 
   const defaults = {
