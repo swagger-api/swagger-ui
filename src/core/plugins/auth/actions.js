@@ -122,6 +122,7 @@ export const authorizeRequest = ( data ) => ( { fn, authActions, errActions } ) 
 
   let _headers = Object.assign({
     "Accept":"application/json, text/plain, */*",
+    "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/x-www-form-urlencoded"
   }, headers)
 
@@ -159,5 +160,12 @@ export const authorizeRequest = ( data ) => ( { fn, authActions, errActions } ) 
 
       authActions.authorizeOauth2({ auth, token})
     })
-    .catch(err => { errActions.newAuthErr( err ) })
+    .catch(e => {
+      let err = new Error(e)
+      errActions.newAuthErr( {
+        authId: name,
+        level: "error",
+        source: "auth",
+        message: err.message
+      } ) })
 }
