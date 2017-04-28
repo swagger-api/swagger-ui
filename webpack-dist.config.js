@@ -26,7 +26,6 @@ module.exports = require('./make-webpack-config.js')({
     // these libs need to be pulled in to keep that working.
     var exceptionsForWebpack = ["ieee754", "base64-js"]
     if(node_modules.indexOf(request) !== -1 || exceptionsForWebpack.indexOf(request) !== -1) {
-      console.log(request)
       cb(null, 'commonjs ' + request)
       return;
     }
