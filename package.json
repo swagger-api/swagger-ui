@@ -36,10 +36,12 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
+    "base64-js": "^1.2.0",
     "brace": "0.7.0",
     "deep-extend": "0.4.1",
     "expect": "1.20.2",
     "getbase": "^2.8.2",
+    "ieee754": "^1.1.8",
     "immutable": "^3.x.x",
     "js-yaml": "^3.5.5",
     "less": "2.7.1",

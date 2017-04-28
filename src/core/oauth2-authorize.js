@@ -16,7 +16,7 @@ export default function authorize ( auth, authActions, errActions, configs ) {
   }
 
   if (flow === "application") {
-    authActions.authorizeOauth2Application(auth)
+    authActions.authorizeApplication(auth)
     return
   }
 
@@ -45,7 +45,7 @@ export default function authorize ( auth, authActions, errActions, configs ) {
   win.swaggerUIRedirectOauth2 = {
     auth: auth,
     state: state,
-    callback: authActions.preAuthorizeOauth2,
+    callback: flow === "implicit" ? authActions.preAuthorizeImplicit : authActions.authorizeAccessCode,
     errCb: errActions.newAuthErr
   }
 

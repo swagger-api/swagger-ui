@@ -22,7 +22,11 @@ module.exports = require('./make-webpack-config.js')({
   },
 
   externals: function(context, request, cb) {
-    if(node_modules.indexOf(request) !== -1) {
+    // webpack injects some stuff into the resulting file,
+    // these libs need to be pulled in to keep that working.
+    var exceptionsForWebpack = ["ieee754", "base64-js"]
+    if(node_modules.indexOf(request) !== -1 || exceptionsForWebpack.indexOf(request) !== -1) {
+      console.log(request)
       cb(null, 'commonjs ' + request)
       return;
     }
