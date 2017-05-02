@@ -1,6 +1,7 @@
 import deepExtend from "deep-extend"
 
 import System from "core/system"
+import win from "core/window"
 import ApisPreset from "core/presets/apis"
 import * as AllPlugins from "core/plugins/all"
 import { filterConfigs } from "plugins/configs"
@@ -9,10 +10,10 @@ import { parseSeach } from "core/utils"
 // eslint-disable-next-line no-undef
 const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION } = buildInfo
 
-window.versions = window.versions || {}
-window.versions.swaggerUi = `${PACKAGE_VERSION}/${GIT_COMMIT || "unknown"}${GIT_DIRTY ? "-dirty" : ""}`
-
 module.exports = function SwaggerUI(opts) {
+
+  win.versions = win.versions || {}
+  win.versions.swaggerUi = `${PACKAGE_VERSION}/${GIT_COMMIT || "unknown"}${GIT_DIRTY ? "-dirty" : ""}`
 
   const defaults = {
     // Some general settings, that we floated to the top
