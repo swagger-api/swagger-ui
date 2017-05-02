@@ -16,22 +16,6 @@ const parseYamlConfig = (yaml, system) => {
     }
 }
 
-const parseSeach = () => {
-    let map = {}
-    let search = window.location.search
-
-    if ( search != "" ) {
-        let params = search.substr(1).split("&");
-
-        for (let i in params) {
-            i = params[i].split("=");
-            map[decodeURIComponent(i[0])] = decodeURIComponent(i[1]);
-        }
-    }
-
-    return map;
-}
-
 
 export default function configPlugin (toolbox) {
     let { fn } = toolbox
@@ -42,9 +26,7 @@ export default function configPlugin (toolbox) {
             return fetch(url)
         },
 
-        getConfigByUrl: (callback)=> ({ specActions }) => {
-            let config = parseSeach()
-            let configUrl = config.config
+        getConfigByUrl: (configUrl, cb)=> ({ specActions }) => {
             if (configUrl) {
                 return specActions.downloadConfig(configUrl).then(next, next)
             }
@@ -52,9 +34,12 @@ export default function configPlugin (toolbox) {
             function next(res) {
                 if (res instanceof Error || res.status >= 400) {
                     specActions.updateLoadingStatus("failedConfig")
-                    console.log(res.statusText + " " + configUrl)
+                    specActions.updateLoadingStatus("failedConfig")
+                    specActions.updateUrl("")
+                    console.error(res.statusText + " " + configUrl)
+                    cb(null)
                 } else {
-                    callback(parseYamlConfig(res.text))
+                    cb(parseYamlConfig(res.text))
                 }
             }
         }

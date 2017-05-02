@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from "react"
 import ImPropTypes from "react-immutable-proptypes"
-import isObject from "lodash/isObject"
 import { List } from "immutable"
 const braceOpen = "{"
 const braceClose = "}"
+
+const propStyle = { color: "#999", fontStyle: "italic" }
 
 const EnumModel = ({ value }) => {
   let collapsedContent = <span>Array [ { value.count() } ]</span>
@@ -128,10 +129,8 @@ class Primitive extends Component {
     let format = schema.get("format")
     let xml = schema.get("xml")
     let enumArray = schema.get("enum")
-    let description = schema.get("description")
     let properties = schema.filter( ( v, key) => ["enum", "type", "format", "$$ref"].indexOf(key) === -1 )
     let style = required ? { fontWeight: "bold" } : {}
-    let propStyle = { color: "#999", fontStyle: "italic" }
 
     return <span className="prop">
       <span className="prop-type" style={ style }>{ type }</span> { required && <span style={{ color: "red" }}>*</span>}
@@ -169,12 +168,23 @@ class ArrayModel extends Component {
   render(){
     let { required, schema, depth, expandDepth } = this.props
     let items = schema.get("items")
+    let properties = schema.filter( ( v, key) => ["type", "items", "$$ref"].indexOf(key) === -1 )
 
-    return <span>
+    return <span className="model">
+      <span className="model-title">
+        <span className="model-title__text">{ schema.get("title") }</span>
+      </span>
       <Collapse collapsed={ depth > expandDepth } collapsedContent="[...]">
         [
           <span><Model { ...this.props } schema={ items } required={ false }/></span>
         ]
+        {
+          properties.size ? <span>
+              { properties.entrySeq().map( ( [ key, v ] ) => <span key={`${key}-${v}`} style={propStyle}>
+                <br />{ `${key}:`}{ String(v) }</span>)
+              }<br /></span>
+            : null
+        }
       </Collapse>
       { required && <span style={{ color: "red" }}>*</span>}
     </span>
@@ -251,9 +261,6 @@ export default class ModelComponent extends Component {
   }
 
   render(){
-    let { name, schema } = this.props
-    let title = schema.get("title") || name
-
     return <div className="model-box">
       <Model { ...this.props } depth={ 1 } expandDepth={ this.props.expandDepth || 0 }/>
     </div>

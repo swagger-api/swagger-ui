@@ -51,7 +51,6 @@ export default {
 
   [VALIDATE_PARAMS]: ( state, { payload:  { pathMethod } } ) => {
     let operation = state.getIn( [ "resolved", "paths", ...pathMethod ] )
-    let parameters = operation.get("parameters")
     let isXml = /xml/i.test(operation.get("consumes_value"))
 
     return state.updateIn( [ "resolved", "paths", ...pathMethod, "parameters" ], fromJS([]), parameters => {
@@ -64,9 +63,6 @@ export default {
     })
   },
   [ClEAR_VALIDATE_PARAMS]: ( state, { payload:  { pathMethod } } ) => {
-    let operation = state.getIn( [ "resolved", "paths", ...pathMethod ] )
-    let parameters = operation.get("parameters")
-
     return state.updateIn( [ "resolved", "paths", ...pathMethod, "parameters" ], fromJS([]), parameters => {
       return parameters.withMutations( parameters => {
         for ( let i = 0, len = parameters.count(); i < len; i++ ) {
@@ -101,7 +97,11 @@ export default {
   },
 
   [UPDATE_OPERATION_VALUE]: (state, { payload: { path, value, key } }) => {
-    return state.setIn(["resolved", "paths", ...path, key], fromJS(value))
+    let operationPath = ["resolved", "paths", ...path]
+    if(!state.getIn(operationPath)) {
+      return state
+    }
+    return state.setIn([...operationPath, key], fromJS(value))
   },
 
   [CLEAR_RESPONSE]: (state, { payload: { path, method } } ) =>{

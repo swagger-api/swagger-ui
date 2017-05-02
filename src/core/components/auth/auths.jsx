@@ -42,14 +42,12 @@ export default class Auths extends React.Component {
   }
 
   render() {
-    let { definitions, getComponent, authSelectors, errSelectors, specSelectors } = this.props
+    let { definitions, getComponent, authSelectors, errSelectors } = this.props
     const ApiKeyAuth = getComponent("apiKeyAuth")
     const BasicAuth = getComponent("basicAuth")
     const Oauth2 = getComponent("oauth2", true)
     const Button = getComponent("Button")
-    const JumpToPath = getComponent("JumpToPath", true)
 
-    let specStr = specSelectors.specStr()
     let authorized = authSelectors.authorized()
 
     let authorizedAuth = definitions.filter( (definition, key) => {

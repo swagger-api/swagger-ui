@@ -1,5 +1,4 @@
 import React, { PropTypes } from "react"
-import {presets} from "react-motion"
 
 export default class Operations extends React.Component {
 
@@ -33,7 +32,6 @@ export default class Operations extends React.Component {
 
     const Operation = getComponent("operation")
     const Collapse = getComponent("Collapse")
-    const Schemes = getComponent("schemes")
 
     let showSummary = layoutSelectors.showSummary()
 
@@ -58,12 +56,6 @@ export default class Operations extends React.Component {
                           { tagDescription }
                         </small>
                     }
-
-                    <button className="expand-methods" title="Expand all methods">
-                      <svg className="expand" width="20" height="20">
-                        <use xlinkHref="#expand" />
-                      </svg>
-                    </button>
 
                     <button className="expand-operation" title="Expand operation" onClick={() => layoutActions.show(isShownKey, !showTag)}>
                       <svg className="arrow" width="20" height="20">

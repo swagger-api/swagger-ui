@@ -1,4 +1,4 @@
-import expect, { createSpy } from "expect"
+import expect from "expect"
 import { Map, List } from "immutable"
 import { transform } from "corePlugins/err/error-transformers/transformers/not-of-type"
 

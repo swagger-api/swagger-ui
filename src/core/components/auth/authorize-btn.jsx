@@ -6,7 +6,7 @@ export default class AuthorizeBtn extends React.Component {
   }
 
   onClick =() => {
-    let { authActions, authSelectors, errActions} = this.props
+    let { authActions, authSelectors } = this.props
     let definitions = authSelectors.definitionsToAuthorize()
 
     authActions.showDefinitions(definitions)
