@@ -277,8 +277,6 @@ export let getLineNumberForPathAsync = promisifySyncFn(getLineNumberForPath)
 
 function promisifySyncFn(fn) {
   return function(...args) {
-    return new Promise(function(resolve, reject) {
-      resolve(fn(...args))
-    })
+    return new Promise((resolve) => resolve(fn(...args)))
   }
 }

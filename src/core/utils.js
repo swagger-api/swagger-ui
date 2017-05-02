@@ -1,5 +1,4 @@
 import Im from "immutable"
-import assign from "object-assign"
 import shallowEqual from "shallowequal"
 
 import camelCase from "lodash/camelCase"
@@ -85,7 +84,7 @@ export function objReduce(obj, fn) {
   return Object.keys(obj).reduce((newObj, key) => {
     let res = fn(obj[key], key)
     if(res && typeof res === "object")
-      assign(newObj, res)
+      Object.assign(newObj, res)
     return newObj
   }, {})
 }
@@ -135,12 +134,11 @@ export function getList(iterable, keys) {
 // Adapted from http://stackoverflow.com/a/2893259/454004
 // Note: directly ported from CoffeeScript
 export function formatXml (xml) {
-  var contexp, fn, formatted, indent, l, lastType, len, lines, ln, pad, reg, transitions, wsexp
+  var contexp, fn, formatted, indent, l, lastType, len, lines, ln, reg, transitions, wsexp
   reg = /(>)(<)(\/*)/g
   wsexp = /[ ]*(.*)[ ]+\n/g
   contexp = /(<.+>)(.+\n)/g
   xml = xml.replace(/\r\n/g, "\n").replace(reg, "$1\n$2$3").replace(wsexp, "$1\n").replace(contexp, "$1\n$2")
-  pad = 0
   formatted = ""
   lines = xml.split("\n")
   indent = 0
@@ -164,7 +162,7 @@ export function formatXml (xml) {
     "other->other": 0
   }
   fn = function(ln) {
-    var fromTo, j, key, padding, type, types, value
+    var fromTo, key, padding, type, types, value
     types = {
       single: Boolean(ln.match(/<.+\/>/)),
       closing: Boolean(ln.match(/<\/.+>/)),
@@ -187,11 +185,13 @@ export function formatXml (xml) {
     padding = ""
     indent += transitions[fromTo]
     padding = ((function() {
-      var m, ref1, results
+      /* eslint-disable no-unused-vars */
+      var m, ref1, results, j
       results = []
       for (j = m = 0, ref1 = indent; 0 <= ref1 ? m < ref1 : m > ref1; j = 0 <= ref1 ? ++m : --m) {
         results.push("  ")
       }
+      /* eslint-enable no-unused-vars */
       return results
     })()).join("")
     if (fromTo === "opening->closing") {
@@ -215,19 +215,9 @@ export function formatXml (xml) {
 export function highlight (el) {
   const MAX_LENGTH = 5000
   var
-    _window = window,
     _document = document,
     appendChild = "appendChild",
-    test = "test",
-  // style and color templates
-    textShadow = ";text-shadow:",
-    opacity = "opacity:.",
-    _0px_0px = " 0px 0px ",
-    _3px_0px_5 = "3px 0px 5",
-    brace = ")",
-
-    i,
-    microlighted
+    test = "test"
 
   if (!el) return ""
   if (el.textContent.length > MAX_LENGTH) { return el.textContent }
@@ -260,14 +250,7 @@ export function highlight (el) {
       lastTokenType,
     // flag determining if token is multi-character
       multichar,
-      node,
-
-    // calculating the colors for the style templates
-      colorArr = /(\d*\, \d*\, \d*)(, ([.\d]*))?/g.exec(
-        _window.getComputedStyle(el).color
-      ),
-      pxColor = "px rgba("+colorArr[1]+",",
-      alpha = colorArr[3]||1
+      node
 
     // running through characters and highlighting
     while (prev2 = prev1,
@@ -468,6 +451,17 @@ export const propChecker = (props, nextProps, objectList=[], ignoreList=[]) => {
     || objectList.some( objectPropName => !eq(props[objectPropName], nextProps[objectPropName])))
 }
 
+const validateNumber = ( val ) => {
+  if ( !/^-?\d+(.?\d+)?$/.test(val)) {
+    return "Value must be a number"
+  }
+}
+
+const validateInteger = ( val ) => {
+  if ( !/^-?\d+$/.test(val)) {
+    return "Value must be integer"
+  }
+}
 
 // validation of parameters before execute
 export const validateParam = (param, isXml) => {
@@ -517,29 +511,16 @@ export const validateParam = (param, isXml) => {
   return errors
 }
 
-const validateNumber = ( val ) => {
-  if ( !/^\d+(.?\d+)?$/.test(val)) {
-    return "Value must be a number"
-  }
-}
-
-const validateInteger = ( val ) => {
-  if ( !/^\d+$/.test(val)) {
-    return "Value must be integer"
-  }
-}
-
 export const getSampleSchema = (schema, contentType="", config={}) => {
   if (/xml/.test(contentType)) {
     if (!schema.xml || !schema.xml.name) {
-      let name
       schema.xml = schema.xml || {}
 
       if (schema.$$ref) {
         let match = schema.$$ref.match(/\S*\/(\S+)$/)
         schema.xml.name = match[1]
       } else if (schema.type || schema.items || schema.properties || schema.additionalProperties) {
-        return '<?xml version="1.0" encoding="UTF-8"?>\n<!-- XML example cannot be generated -->'
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!-- XML example cannot be generated -->"
       } else {
         return null
       }
@@ -548,4 +529,51 @@ export const getSampleSchema = (schema, contentType="", config={}) => {
   }
 
   return JSON.stringify(memoizedSampleFromSchema(schema, config), null, 2)
+}
+
+export const parseSeach = () => {
+  let map = {}
+  let search = window.location.search
+
+  if ( search != "" ) {
+    let params = search.substr(1).split("&")
+
+    for (let i in params) {
+      i = params[i].split("=")
+      map[decodeURIComponent(i[0])] = decodeURIComponent(i[1])
+    }
+  }
+
+  return map
+}
+
+export const btoa = (str) => {
+  let buffer
+
+  if (str instanceof Buffer) {
+    buffer = str
+  } else {
+    buffer = new Buffer(str.toString(), "utf-8")
+  }
+
+  return buffer.toString("base64")
+}
+
+export const sorters = {
+  operationsSorter: {
+    alpha: (a, b) => a.get("path").localeCompare(b.get("path")),
+    method: (a, b) => a.get("method").localeCompare(b.get("method"))
+  }
+}
+
+export const buildFormData = (data) => {
+  let formArr = []
+
+  for (let name in data) {
+    let val = data[name]
+    if (val !== undefined && val !== "") {
+      formArr.push([name, "=", encodeURIComponent(val).replace(/%20/g,"+")].join(""))
+    }
+  }
+  return formArr.join("&")
 }

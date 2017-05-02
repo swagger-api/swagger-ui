@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from "react"
-import { fromJS } from "immutable"
 
 export default class Execute extends Component {
 
@@ -29,9 +28,6 @@ export default class Execute extends Component {
   onChangeProducesWrapper = ( val ) => this.props.specActions.changeProducesValue([this.props.path, this.props.method], val)
 
   render(){
-    let { getComponent, operation, specActions, path, method } = this.props
-    const ContentType = getComponent( "contentType" )
-
     return (
         <button className="btn execute opblock-control__btn" onClick={ this.onClick }>
           Execute

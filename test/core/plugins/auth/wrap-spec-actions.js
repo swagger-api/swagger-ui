@@ -1,6 +1,5 @@
 /* eslint-env mocha */
 import expect, { createSpy } from "expect"
-import { fromJS } from "immutable"
 import { execute } from "corePlugins/auth/spec-wrap-actions"
 
 describe("spec plugin - actions", function(){
@@ -18,7 +17,7 @@ describe("spec plugin - actions", function(){
 
       // When
       let executeFn = execute(oriExecute, system)
-      let executePromise = executeFn({})
+      executeFn({})
 
       // Then
       expect(oriExecute.calls.length).toEqual(1)

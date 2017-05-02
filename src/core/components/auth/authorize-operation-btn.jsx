@@ -16,6 +16,10 @@ export default class AuthorizeOperationBtn extends React.Component {
 
     let isAuthorized = authSelectors.isAuthorized(security)
 
+    if(isAuthorized === null) {
+      return null
+    }
+
     return (
       <button className={isAuthorized ? "authorization__btn locked" : "authorization__btn unlocked"} onClick={ this.onClick }>
         <svg width="20" height="20">

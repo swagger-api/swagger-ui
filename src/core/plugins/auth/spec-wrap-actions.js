@@ -1,5 +1,3 @@
-import { Map } from "immutable"
-
 // Add security to the final `execute` call ( via `extras` )
 export const execute = ( oriAction, { authSelectors, specSelectors }) => ({ path, method, operation, extras }) => {
   let securities = {
@@ -10,4 +8,3 @@ export const execute = ( oriAction, { authSelectors, specSelectors }) => ({ path
 
   return oriAction({ path, method, operation, securities, ...extras })
 }
-

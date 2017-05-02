@@ -25,7 +25,7 @@ describe("spec plugin - actions", function(){
 
       // When
       let executeFn = execute({ path: "/one", method: "get"})
-      let executePromise = executeFn(system)
+      executeFn(system)
 
       // Then
       expect(system.specActions.executeRequest.calls[0].arguments[0]).toEqual({
@@ -60,7 +60,7 @@ describe("spec plugin - actions", function(){
 
       // When
       let executeFn = execute({ hi: "hello" })
-      let executePromise = executeFn(system)
+      executeFn(system)
 
       // Then
       expect(system.specActions.executeRequest.calls[0].arguments[0]).toInclude({hi: "hello"})
@@ -72,7 +72,6 @@ describe("spec plugin - actions", function(){
 
     xit("should call fn.execute with arg ", function(){
 
-      const response = {}
       const system = {
         fn: {
           execute: createSpy().andReturn(Promise.resolve())
