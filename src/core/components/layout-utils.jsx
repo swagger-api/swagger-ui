@@ -127,7 +127,7 @@ export const Input = (props) => <input {...props} />
 
 export class Select extends React.Component {
   static propTypes = {
-    allowedValues: PropTypes.object,
+    allowedValues: PropTypes.array,
     value: PropTypes.any,
     onChange: PropTypes.func,
     multiple: PropTypes.bool,
