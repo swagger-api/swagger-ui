@@ -87,8 +87,34 @@ validatorUrl | By default, Swagger-UI attempts to validate specs against swagger
 dom_id | The id of a dom element inside which SwaggerUi will put the user interface for swagger.
 oauth2RedirectUrl | OAuth redirect URL
 operationsSorter | Apply a sort to the operation list of each API. It can be 'alpha' (sort by paths alphanumerically), 'method' (sort by HTTP method) or a function (see Array.prototype.sort() to know how sort function works). Default is the order returned by the server unchanged.
+configUrl | Configs URL
 
+### Plugins
 
+#### Topbar plugin
+Topbar plugin enables top bar with input for spec path and explore button. By default the plugin is enabled, and to disable it you need to remove Topbar plugin from presets in `src/standalone/index.js`:
+
+```
+let preset = [
+  // TopbarPlugin,
+  ConfigsPlugin,
+  () => {
+    return {
+      components: { StandaloneLayout }
+    }
+  }
+]
+```
+
+#### Configs plugin
+Configs plugin allows to fetch external configs instead of passing them to `SwaggerUIBundle`. Fetched configs support two formats: JSON or yaml. The plugin is enabled by default. 
+There are three options of passing config:
+- add a query parameter `config` with URL to a server where the configs are hosted. For ex. http://petstore.swagger.io/?configs=http://localhost:3001/config.yaml
+- add a config `configUrl` with URL to SwaggerUIBundle
+- change default configs in `swagger-config.yaml` *Note: after changing, the project must be re-built*
+
+These options can be used altogether, the order of inheritance is following (from the lowest priority to the highest):
+`swagger-config.yaml` -> config passed to `SwaggerUIBundle` -> config fetched from `configUrl` passed to `SwaggerUIBundle` -> config fetched from URL passed as a query parameter `config`
 
 ## CORS Support
 
