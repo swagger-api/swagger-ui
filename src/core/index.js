@@ -81,7 +81,7 @@ module.exports = function SwaggerUI(opts) {
     }
 
     let localConfig = system.specSelectors.getLocalConfig ? system.specSelectors.getLocalConfig() : {}
-    let mergedConfig = deepExtend({}, constructorConfig, localConfig, fetchedConfig || {}, queryConfig)
+    let mergedConfig = deepExtend({}, localConfig, constructorConfig, fetchedConfig || {}, queryConfig)
     store.setConfigs(filterConfigs(mergedConfig))
 
     if (fetchedConfig !== null) {
