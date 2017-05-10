@@ -42,9 +42,7 @@ export default {
     let { path, paramName, value, isXml } = payload
     return state.updateIn( [ "resolved", "paths", ...path, "parameters" ], fromJS([]), parameters => {
       let index = parameters.findIndex( p => p.get( "name" ) === paramName )
-      if (!(value instanceof win.File)) {
-        value = fromJSOrdered( value )
-      }
+      value = value instanceof win.File ? value.name : value
       return parameters.setIn( [ index, isXml ? "value_xml" : "value" ], value)
     })
   },
