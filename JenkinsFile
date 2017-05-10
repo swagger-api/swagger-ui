@@ -1,0 +1,63 @@
+@Library('pipelib@master') _
+
+node {
+// ('sl61')
+  def nodejs = tool 'NodeJS_6'
+  def root = pwd()
+
+  stage('Setup') {
+    git([
+      url: "https://github.com/venicegeo/pz-swagger",
+      branch: "master"
+    ])
+  }
+
+  stage('Archive') {
+    sh './ci/archive.sh'
+    sh """
+      tar -czf pz-swagger.tar.gz dist
+    """
+    mavenPush()
+  }
+
+  stage('Initial Scans') {
+    //dependencyCheck()
+    sonar()
+  }
+
+  stage ('CI Deploy') {
+    cfPush()
+    //zap()
+    cfBgDeploy()
+  }
+
+  stage ('Integration Testing') {
+    postman()
+  }
+
+  stage('Reset') {
+    git([
+      url: "https://github.com/venicegeo/pz-swagger",
+      branch: "master"
+    ])
+  }
+
+  stage('Staging Deploy') {
+    cfPush {
+      cfDomain  = 'stage.geointservices.io'
+      cfSpace   = 'stage'
+    }
+    cfBgDeploy {
+      cfDomain  = 'stage.geointservices.io'
+      cfSpace   = 'stage'
+    }
+  }
+
+  stage('Final Scans') {
+    fortify()
+  }
+
+  stage ('Cleanup') {
+    deleteDir()
+  }
+}

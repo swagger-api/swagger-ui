@@ -1,0 +1,17 @@
+ci/
+lang/
+lib/
+script/
+src/
+test/
+JenkinsFile
+jenkins.properties
+manifest.*.yml
+CONTRIBUTING.md
+Dockerfile
+packer.json
+bower.json
+index.js
+gulpfile.js
+.*
+*.properties
