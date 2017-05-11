@@ -4,8 +4,11 @@ import System from "core/system"
 import win from "core/window"
 import ApisPreset from "core/presets/apis"
 import * as AllPlugins from "core/plugins/all"
-import { filterConfigs } from "plugins/configs"
-import { parseSeach } from "core/utils"
+import { parseSeach, filterConfigs } from "core/utils"
+
+const CONFIGS = [ "url", "spec", "validatorUrl", "onComplete", "onFailure", "authorizations", "docExpansion",
+    "apisSorter", "operationsSorter", "supportedSubmitMethods", "highlightSizeThreshold", "dom_id",
+    "defaultModelRendering", "oauth2RedirectUrl", "showRequestHeaders" ]
 
 // eslint-disable-next-line no-undef
 const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION } = buildInfo
@@ -81,8 +84,8 @@ module.exports = function SwaggerUI(opts) {
     }
 
     let localConfig = system.specSelectors.getLocalConfig ? system.specSelectors.getLocalConfig() : {}
-    let mergedConfig = deepExtend({}, constructorConfig, localConfig, fetchedConfig || {}, queryConfig)
-    store.setConfigs(filterConfigs(mergedConfig))
+    let mergedConfig = deepExtend({}, localConfig, constructorConfig, fetchedConfig || {}, queryConfig)
+    store.setConfigs(filterConfigs(mergedConfig, CONFIGS))
 
     if (fetchedConfig !== null) {
       if (!queryConfig.url && typeof mergedConfig.spec === "object" && Object.keys(mergedConfig.spec).length) {
