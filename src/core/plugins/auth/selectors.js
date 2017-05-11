@@ -79,3 +79,8 @@ export const isAuthorized = ( state, securities ) =>( { authSelectors } ) => {
       }).indexOf(false) === -1
     }).length
 }
+
+export const getConfigs = createSelector(
+    state,
+    auth => auth.get( "configs" )
+)

@@ -21,14 +21,16 @@ export default class Oauth2 extends React.Component {
 
   constructor(props, context) {
     super(props, context)
-    let { name, schema, authorized } = this.props
+    let { name, schema, authorized, authSelectors } = this.props
     let auth = authorized && authorized.get(name)
+    let authConfigs = authSelectors.getConfigs() || {}
     let username = auth && auth.get("username") || ""
-    let clientId = auth && auth.get("clientId") || ""
-    let clientSecret = auth && auth.get("clientSecret") || ""
+    let clientId = auth && auth.get("clientId") || authConfigs.clientId || ""
+    let clientSecret = auth && auth.get("clientSecret") || authConfigs.clientSecret || ""
     let passwordType = auth && auth.get("passwordType") || "basic"
 
     this.state = {
+      appName: authConfigs.appName,
       name: name,
       schema: schema,
       scopes: [],
@@ -41,11 +43,12 @@ export default class Oauth2 extends React.Component {
   }
 
   authorize =() => {
-    let { authActions, errActions, getConfigs } = this.props
+    let { authActions, errActions, getConfigs, authSelectors } = this.props
     let configs = getConfigs()
+    let authConfigs = authSelectors.getConfigs()
 
     errActions.clear({authId: name,type: "auth", source: "auth"})
-    oauth2Authorize(this.state, authActions, errActions, configs)
+    oauth2Authorize({auth: this.state, authActions, errActions, configs, authConfigs })
   }
 
   onScopeChange =(e) => {
@@ -98,6 +101,7 @@ export default class Oauth2 extends React.Component {
     return (
       <div>
         <h4>OAuth2.0 <JumpToPath path={[ "securityDefinitions", name ]} /></h4>
+        { !this.state.appName ? null : <h5>Application: { this.state.appName } </h5> }
         <Markdown options={{html: true, typographer: true, linkify: true, linkTarget: "_blank"}}
                   source={ schema.get("description") } />
 
@@ -153,7 +157,11 @@ export default class Oauth2 extends React.Component {
             {
               isAuthorized ? <code> ****** </code>
                            : <Col tablet={10} desktop={10}>
-                               <input id="client_id" type="text" required={ flow === PASSWORD } data-name="clientId"
+                               <input id="client_id"
+                                      type="text"
+                                      required={ flow === PASSWORD }
+                                      value={ this.state.clientId }
+                                      data-name="clientId"
                                       onChange={ this.onInputChange }/>
                              </Col>
             }
@@ -166,7 +174,10 @@ export default class Oauth2 extends React.Component {
             {
               isAuthorized ? <code> ****** </code>
                            : <Col tablet={10} desktop={10}>
-                               <input id="client_secret" type="text" data-name="clientSecret"
+                               <input id="client_secret"
+                                      value={ this.state.clientSecret }
+                                      type="text"
+                                      data-name="clientSecret"
                                       onChange={ this.onInputChange }/>
                              </Col>
             }

@@ -1,11 +1,12 @@
 import win from "core/window"
 import { btoa } from "core/utils"
 
-export default function authorize ( auth, authActions, errActions, configs ) {
+export default function authorize ( { auth, authActions, errActions, configs, authConfigs={} } ) {
   let { schema, scopes, name, clientId } = auth
 
+  let { additionalQueryStringParams } = authConfigs
   let redirectUrl = configs.oauth2RedirectUrl
-  let scopeSeparator = " "
+  let scopeSeparator = authConfigs.scopeSeparator || " "
   let state = btoa(new Date())
   let flow = schema.get("flow")
   let url
@@ -36,9 +37,14 @@ export default function authorize ( auth, authActions, errActions, configs ) {
   }
 
   url += "&redirect_uri=" + encodeURIComponent(redirectUrl)
+      + "&realm=" + encodeURIComponent(authConfigs.realm);
       + "&scope=" + encodeURIComponent(scopes.join(scopeSeparator))
       + "&state=" + encodeURIComponent(state)
       + "&client_id=" + encodeURIComponent(clientId)
+
+  for (let key in additionalQueryStringParams) {
+    url += "&" + key + "=" + encodeURIComponent(additionalQueryStringParams[key])
+  }
 
   // pass action authorizeOauth2 and authentication data through window
   // to authorize with oauth2
