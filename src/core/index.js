@@ -78,6 +78,8 @@ module.exports = function SwaggerUI(opts) {
   var system = store.getSystem()
   let queryConfig = parseSeach()
 
+  system.initOAuth = system.authActions.configureAuth
+
   const downloadSpec = (fetchedConfig) => {
     if(typeof constructorConfig !== "object") {
       return system

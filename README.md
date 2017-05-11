@@ -75,6 +75,33 @@ To use swagger-ui's bundles, you should take a look at the [source of swagger-ui
   })
 ```
 
+#### OAuth2 configuration
+You can configure OAuth2 authorization by calling `initOAuth` method with passed configs under the instance of `SwaggerUIBundle`
+default `client_id` and `client_secret`, `realm`, an application name `appName`, `scopeSeparator`, `additionalQueryStringParams`.
+
+Config Name | Description
+--- | ---
+client_id | Default clientId. MUST be a string 
+client_secret | Default clientSecret. MUST be a string 
+realm | realm query parameter (for oauth1) added to `authorizationUrl` and `tokenUrl` . MUST be a string
+appName | application name, displayed in authorization popup. MUST be a string
+scopeSeparator | scope separator for passing scopes, encoded before calling, default value is a space (encoded value `%20`). MUST be a string 
+additionalQueryStringParams | Additional query parameters added to `authorizationUrl` and `tokenUrl`. MUST be an object
+
+```
+const ui = SwaggerUIBundle({...})
+
+// Method can be called in any place after calling constructor SwaggerUIBundle
+ui.initOAuth({
+    clientId: "your-client-id",
+    clientSecret: "your-client-secret-if-required",
+    realm: "your-realms",
+    appName: "your-app-name",
+    scopeSeparator: " ",
+    additionalQueryStringParams: {test: "hello"}
+  })
+```
+
 If you'd like to use the bundle files via npm, check out the [`swagger-ui-dist` package](https://www.npmjs.com/package/swagger-ui-dist).
 
 #### Parameters
