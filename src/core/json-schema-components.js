@@ -69,7 +69,7 @@ export class JsonSchema_string extends Component {
       return <Input type="file" className={ errors.length ? "invalid" : ""} onChange={ this.onChange } disabled={isDisabled}/>
     }
     else {
-      return <Input type="text" className={ errors.length ? "invalid" : ""} value={value} placeholder={description} onChange={ this.onChange } disabled={isDisabled}/>
+      return <Input type={ schema.format === "password" ? "password" : "text" } className={ errors.length ? "invalid" : ""} value={value} placeholder={description} onChange={ this.onChange } disabled={isDisabled}/>
     }
   }
 }

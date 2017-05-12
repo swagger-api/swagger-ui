@@ -88,6 +88,15 @@ window.onload = function() {
   })
 
   window.ui = ui
+
+  ui.initOAuth({
+    clientId: "your-client-id",
+    clientSecret: "your-client-secret-if-required",
+    realm: "your-realms",
+    appName: "your-app-name",
+    scopeSeparator: "-",
+    additionalQueryStringParams: {test: "hello"}
+  })
 }
 </script>
 </body>

@@ -1,10 +1,6 @@
 import YAML from "js-yaml"
 import yamlConfig from "../../../swagger-config.yaml"
 
-const CONFIGS = [ "url", "spec", "validatorUrl", "onComplete", "onFailure", "authorizations", "docExpansion",
-    "apisSorter", "operationsSorter", "supportedSubmitMethods", "highlightSizeThreshold", "dom_id",
-    "defaultModelRendering", "oauth2RedirectUrl", "showRequestHeaders" ]
-
 const parseYamlConfig = (yaml, system) => {
     try {
         return YAML.safeLoad(yaml)
@@ -57,17 +53,4 @@ export default function configPlugin (toolbox) {
             spec: { actions, selectors }
         }
     }
-}
-
-
-export function filterConfigs (configs) {
-    let i, filteredConfigs = {}
-
-    for (i in configs) {
-        if (CONFIGS.indexOf(i) !== -1) {
-            filteredConfigs[i] = configs[i]
-        }
-    }
-
-    return filteredConfigs
 }

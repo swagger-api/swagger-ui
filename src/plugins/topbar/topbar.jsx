@@ -19,9 +19,10 @@ export default class Topbar extends React.Component {
     this.setState({url: value})
   }
 
-  downloadUrl = () => {
+  downloadUrl = (e) => {
     this.props.specActions.updateUrl(this.state.url)
     this.props.specActions.download(this.state.url)
+    e.preventDefault()
   }
 
   render() {

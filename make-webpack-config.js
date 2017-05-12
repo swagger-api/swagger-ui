@@ -9,7 +9,17 @@ const {gitDescribeSync} = require('git-describe');
 var loadersByExtension = require('./build-tools/loadersByExtension')
 
 var pkg = require('./package.json')
-const gitInfo = gitDescribeSync(__dirname)
+
+let gitInfo
+
+try {
+  gitInfo = gitDescribeSync(__dirname)
+} catch(e) {
+  gitInfo = {
+    hash: 'noGit',
+    dirty: false
+  }
+}
 
 module.exports = function(options) {
 

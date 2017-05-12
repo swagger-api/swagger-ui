@@ -7,6 +7,7 @@ export const LOGOUT = "logout"
 export const PRE_AUTHORIZE_OAUTH2 = "pre_authorize_oauth2"
 export const AUTHORIZE_OAUTH2 = "authorize_oauth2"
 export const VALIDATE = "validate"
+export const CONFIGURE_AUTH = "configure_auth"
 
 const scopeSeparator = " "
 
@@ -117,8 +118,14 @@ export const authorizeAccessCode = ( auth ) => ( { authActions } ) => {
 
 }
 
-export const authorizeRequest = ( data ) => ( { fn, authActions, errActions } ) => {
+export const authorizeRequest = ( data ) => ( { fn, authActions, errActions, authSelectors } ) => {
   let { body, query={}, headers={}, name, url, auth } = data
+  let { additionalQueryStringParams } = authSelectors.getConfigs() || {}
+  let fetchUrl = url
+
+  for (let key in additionalQueryStringParams) {
+    url += "&" + key + "=" + encodeURIComponent(additionalQueryStringParams[key])
+  }
 
   let _headers = Object.assign({
     "Accept":"application/json, text/plain, */*",
@@ -127,7 +134,7 @@ export const authorizeRequest = ( data ) => ( { fn, authActions, errActions } ) 
   }, headers)
 
   fn.fetch({
-    url: url,
+    url: fetchUrl,
     method: "post",
     headers: _headers,
     query: query,
@@ -168,4 +175,11 @@ export const authorizeRequest = ( data ) => ( { fn, authActions, errActions } ) 
         source: "auth",
         message: err.message
       } ) })
+}
+
+export function configureAuth(payload) {
+  return {
+    type: CONFIGURE_AUTH,
+    payload: payload
+  }
 }

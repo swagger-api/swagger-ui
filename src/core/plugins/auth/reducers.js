@@ -5,7 +5,8 @@ import {
   SHOW_AUTH_POPUP,
   AUTHORIZE,
   AUTHORIZE_OAUTH2,
-  LOGOUT
+  LOGOUT,
+  CONFIGURE_AUTH
 } from "./actions"
 
 export default {
@@ -57,5 +58,9 @@ export default {
       })
 
     return state.set("authorized", result)
+  },
+
+  [CONFIGURE_AUTH]: (state, { payload } ) =>{
+    return state.set("configs", payload)
   }
 }
