@@ -1,5 +1,7 @@
 @Library('pipelib@master') _
 
+def THREADFIX_ID = env.THREADFIX_ID ? env.THREADFIX_ID : '115'
+
 node {
 // ('sl61')
   def nodejs = tool 'NodeJS_6'
@@ -7,7 +9,7 @@ node {
 
   stage('Setup') {
     git([
-      url: "https://github.com/venicegeo/pz-swagger",
+      url: env.GIT_URL ? env.GIT_URL : 'https://github.com/venicegeo/pz-swagger',
       branch: "master"
     ])
   }
@@ -21,13 +23,17 @@ node {
   }
 
   stage('Initial Scans') {
-    //dependencyCheck()
+    dependencyCheck {
+      threadfixId = THREADFIX_ID
+    }
     sonar()
   }
 
   stage ('CI Deploy') {
     cfPush()
-    //zap()
+    zap {
+      threadfixId = THREADFIX_ID
+    }
     cfBgDeploy()
   }
 
@@ -37,7 +43,7 @@ node {
 
   stage('Reset') {
     git([
-      url: "https://github.com/venicegeo/pz-swagger",
+      url: env.GIT_URL ? env.GIT_URL : 'https://github.com/venicegeo/pz-swagger',
       branch: "master"
     ])
   }
@@ -54,7 +60,9 @@ node {
   }
 
   stage('Final Scans') {
-    fortify()
+    fortify {
+      threadfixId = THREADFIX_ID
+    }
   }
 
   stage ('Cleanup') {
