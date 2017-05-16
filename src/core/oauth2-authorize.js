@@ -60,11 +60,11 @@ export default function authorize ( { auth, authActions, errActions, configs, au
 
   for (let key in additionalQueryStringParams) {
     if (typeof additionalQueryStringParams[key] !== "undefined") {
-      query.push([key, additionalQueryStringParams[key]].map(encodeURIComponent).join('='))
+      query.push([key, additionalQueryStringParams[key]].map(encodeURIComponent).join("="))
     }
   }
 
-  let url = [schema.get("authorizationUrl"), query.join('&')].join('?')
+  let url = [schema.get("authorizationUrl"), query.join("&")].join("?")
 
   // pass action authorizeOauth2 and authentication data through window
   // to authorize with oauth2
