@@ -1,11 +1,10 @@
 import BasePreset from "./base"
 
-import allowTryItOutIfHost from "core/plugins/allow-try-it-out-if-host"
+// Just the base, for now.
 
 export default function PresetApis() {
 
   return [
     BasePreset,
-    allowTryItOutIfHost,
   ]
 }

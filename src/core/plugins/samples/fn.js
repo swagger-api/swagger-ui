@@ -47,7 +47,7 @@ export const sampleFromSchema = (schema, config={}) => {
     let obj = {}
     for (var name in props) {
       if ( !props[name].readOnly || includeReadOnly ) {
-        obj[name] = sampleFromSchema(props[name])
+        obj[name] = sampleFromSchema(props[name], { includeReadOnly: includeReadOnly })
       }
     }
 
@@ -55,7 +55,7 @@ export const sampleFromSchema = (schema, config={}) => {
       obj.additionalProp1 = {}
     } else if ( additionalProperties ) {
       let additionalProps = objectify(additionalProperties)
-      let additionalPropVal = sampleFromSchema(additionalProps)
+      let additionalPropVal = sampleFromSchema(additionalProps, { includeReadOnly: includeReadOnly })
 
       for (let i = 1; i < 4; i++) {
         obj["additionalProp" + i] = additionalPropVal
@@ -65,7 +65,7 @@ export const sampleFromSchema = (schema, config={}) => {
   }
 
   if(type === "array") {
-    return [ sampleFromSchema(items) ]
+    return [ sampleFromSchema(items, { includeReadOnly: includeReadOnly }) ]
   }
 
   if(schema["enum"]) {
@@ -127,8 +127,12 @@ export const sampleXmlFromSchema = (schema, config={}) => {
 
       if (xml.wrapped) {
         res[displayName] = []
-        if (Array.isArray(defaultValue)) {
-
+        if (Array.isArray(example)) {
+          example.forEach((v)=>{
+            items.example = v
+            res[displayName].push(sampleXmlFromSchema(items, config))
+          })
+        } else if (Array.isArray(defaultValue)) {
           defaultValue.forEach((v)=>{
             items.default = v
             res[displayName].push(sampleXmlFromSchema(items, config))
@@ -145,14 +149,20 @@ export const sampleXmlFromSchema = (schema, config={}) => {
 
       let _res = []
 
-      if (Array.isArray(defaultValue)) {
+      if (Array.isArray(example)) {
+        example.forEach((v)=>{
+          items.example = v
+          _res.push(sampleXmlFromSchema(items, config))
+        })
+        return _res
+      } else if (Array.isArray(defaultValue)) {
         defaultValue.forEach((v)=>{
           items.default = v
           _res.push(sampleXmlFromSchema(items, config))
         })
         return _res
-
       }
+
       return sampleXmlFromSchema(items, config)
     }
   }
@@ -176,7 +186,13 @@ export const sampleXmlFromSchema = (schema, config={}) => {
         } else {
           props[propName].xml.name = props[propName].xml.name || propName
           props[propName].example = props[propName].example !== undefined ? props[propName].example : example[propName]
-          res[displayName].push(sampleXmlFromSchema(props[propName]))
+          let t = sampleXmlFromSchema(props[propName])
+          if (Array.isArray(t)) {
+            res[displayName] = res[displayName].concat(t)
+          } else {
+            res[displayName].push(t)
+          }
+
         }
       }
     }

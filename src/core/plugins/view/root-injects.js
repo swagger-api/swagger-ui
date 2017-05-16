@@ -3,10 +3,6 @@ import ReactDOM from "react-dom"
 import { connect, Provider } from "react-redux"
 import omit from "lodash/omit"
 
-
-const NotFoundComponent = name => ()=> <span style={{color: "red"}}> "{name}" component not found </span>
-
-
 const SystemWrapper = (getSystem, ComponentToWrap ) => class extends Component {
   render() {
     return <ComponentToWrap {...getSystem() } {...this.props} {...this.context} />
@@ -75,10 +71,10 @@ const createClass = component => React.createClass({
   }
 })
 
-const Fallback = ({ error, name }) => <div style={{ // eslint-disable-line react/prop-types
+const Fallback = ({ name }) => <div style={{ // eslint-disable-line react/prop-types
     padding: "1em",
     "color": "#aaa"
-  }}>😱 <i>Could not render { name ? name : "this component" }, see console.</i></div>
+  }}>😱 <i>Could not render { name === "t" ? "this component" : name }, see the console.</i></div>
 
 const wrapRender = (component) => {
   const isStateless = component => !(component.prototype && component.prototype.isReactComponent)

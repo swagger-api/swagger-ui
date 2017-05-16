@@ -1,20 +1,31 @@
 import deepExtend from "deep-extend"
 
 import System from "core/system"
+import win from "core/window"
 import ApisPreset from "core/presets/apis"
 import * as AllPlugins from "core/plugins/all"
-import { filterConfigs } from "plugins/configs"
+import { parseSeach, filterConfigs } from "core/utils"
+
+const CONFIGS = [ "url", "spec", "validatorUrl", "onComplete", "onFailure", "authorizations", "docExpansion",
+    "apisSorter", "operationsSorter", "supportedSubmitMethods", "highlightSizeThreshold", "dom_id",
+    "defaultModelRendering", "oauth2RedirectUrl", "showRequestHeaders" ]
+
+// eslint-disable-next-line no-undef
+const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION } = buildInfo
 
 module.exports = function SwaggerUI(opts) {
+
+  win.versions = win.versions || {}
+  win.versions.swaggerUi = `${PACKAGE_VERSION}/${GIT_COMMIT || "unknown"}${GIT_DIRTY ? "-dirty" : ""}`
 
   const defaults = {
     // Some general settings, that we floated to the top
     dom_id: null,
     spec: {},
     url: "",
-    layout: "Layout",
+    layout: "BaseLayout",
+    validatorUrl: "https://online.swagger.io/validator",
     configs: {
-      validatorUrl: "https://online.swagger.io/validator"
     },
 
     // Initial set of plugins ( TODO rename this, or refactor - we don't need presets _and_ plugins. Its just there for performance.
@@ -35,79 +46,75 @@ module.exports = function SwaggerUI(opts) {
     store: { },
   }
 
-  const config = deepExtend({}, defaults, opts)
+  const constructorConfig = deepExtend({}, defaults, opts)
 
-  const storeConfigs = deepExtend({}, config.store, {
+  const storeConfigs = deepExtend({}, constructorConfig.store, {
     system: {
-      configs: config.configs
+      configs: constructorConfig.configs
     },
-    plugins: config.presets,
+    plugins: constructorConfig.presets,
     state: {
       layout: {
-        layout: config.layout
+        layout: constructorConfig.layout
       },
       spec: {
         spec: "",
-        url: config.url
+        url: constructorConfig.url
       }
     }
   })
 
   let inlinePlugin = ()=> {
     return {
-      fn: config.fn,
-      components: config.components,
-      state: config.state,
+      fn: constructorConfig.fn,
+      components: constructorConfig.components,
+      state: constructorConfig.state,
     }
   }
 
   var store = new System(storeConfigs)
-  store.register([config.plugins, inlinePlugin])
+  store.register([constructorConfig.plugins, inlinePlugin])
 
   var system = store.getSystem()
+  let queryConfig = parseSeach()
 
-  const downloadSpec = (configs) => {
-    if(typeof config !== "object") {
+  system.initOAuth = system.authActions.configureAuth
+
+  const downloadSpec = (fetchedConfig) => {
+    if(typeof constructorConfig !== "object") {
       return system
     }
 
     let localConfig = system.specSelectors.getLocalConfig ? system.specSelectors.getLocalConfig() : {}
-    let mergedConfig = deepExtend({}, config, configs, localConfig)
-    store.setConfigs(filterConfigs(mergedConfig))
+    let mergedConfig = deepExtend({}, localConfig, constructorConfig, fetchedConfig || {}, queryConfig)
+    store.setConfigs(filterConfigs(mergedConfig, CONFIGS))
 
-    if(typeof mergedConfig.spec === "object" && Object.keys(mergedConfig.spec).length) {
-      system.specActions.updateUrl("")
-      system.specActions.updateLoadingStatus("success");
-      system.specActions.updateSpec(JSON.stringify(mergedConfig.spec))
-    } else if(mergedConfig.url) {
-      system.specActions.updateUrl(mergedConfig.url)
-      system.specActions.download(mergedConfig.url)
+    if (fetchedConfig !== null) {
+      if (!queryConfig.url && typeof mergedConfig.spec === "object" && Object.keys(mergedConfig.spec).length) {
+        system.specActions.updateUrl("")
+        system.specActions.updateLoadingStatus("success")
+        system.specActions.updateSpec(JSON.stringify(mergedConfig.spec))
+      } else if (system.specActions.download && mergedConfig.url) {
+        system.specActions.updateUrl(mergedConfig.url)
+        system.specActions.download(mergedConfig.url)
+      }
     }
 
-    if(mergedConfig.dom_id)
+    if(mergedConfig.dom_id) {
       system.render(mergedConfig.dom_id, "App")
+    } else {
+      console.error("Skipped rendering: no `dom_id` was specified")
+    }
 
     return system
   }
 
-  if (system.specActions.getConfigByUrl && !system.specActions.getConfigByUrl(downloadSpec)) {
-    return downloadSpec(config)
+  let configUrl = queryConfig.config || constructorConfig.configUrl
+
+  if (!configUrl || !system.specActions.getConfigByUrl || system.specActions.getConfigByUrl && !system.specActions.getConfigByUrl(configUrl, downloadSpec)) {
+    return downloadSpec()
   }
 
-  if (system.specActions.download && config.url) {
-    system.specActions.download(config.url)
-  }
-
-  if(config.spec && typeof config.spec === "string")
-    system.specActions.updateSpec(config.spec)
-
-  if(config.dom_id) {
-    system.render(config.dom_id, "App")
-  } else {
-    console.error("Skipped rendering: no `dom_id` was specified")
-  }
-
-  return system
 }
 
 // Add presets

@@ -26,7 +26,7 @@ export function transformPathToArray(property, jsSpec) {
       return a.concat(b)
     }, [])
     .concat([""]) // add an empty item into the array, so we don't get stuck with something in our buffer below
-    .reduce((buffer, curr, i, arr) => {
+    .reduce((buffer, curr) => {
       let obj = pathArr.length ? get(jsSpec, pathArr) : jsSpec
 
       if(get(obj, makeAccessArray(buffer, curr))) {

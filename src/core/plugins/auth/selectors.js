@@ -10,7 +10,7 @@ export const shownDefinitions = createSelector(
 
 export const definitionsToAuthorize = createSelector(
     state,
-    auth =>( { specSelectors } ) => {
+    () =>( { specSelectors } ) => {
       let definitions = specSelectors.securityDefinitions()
       let list = List()
 
@@ -66,7 +66,10 @@ export const authorized = createSelector(
 
 export const isAuthorized = ( state, securities ) =>( { authSelectors } ) => {
   let authorized = authSelectors.authorized()
-  let isAuth = false
+
+  if(!List.isList(securities)) {
+    return null
+  }
 
   return !!securities.toJS().filter( ( security ) => {
       let isAuthorized = true
@@ -76,3 +79,8 @@ export const isAuthorized = ( state, securities ) =>( { authSelectors } ) => {
       }).indexOf(false) === -1
     }).length
 }
+
+export const getConfigs = createSelector(
+    state,
+    auth => auth.get( "configs" )
+)

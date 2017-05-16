@@ -58,7 +58,7 @@ class License extends React.Component {
     return (
       <div>
         {
-          url ? <a href={ url }>{ name }</a>
+          url ? <a target="_blank" href={ url }>{ name }</a>
         : <span>{ name }</span>
         }
       </div>
@@ -95,7 +95,7 @@ export default class Info extends React.Component {
             { version && <small><pre className="version"> { version } </pre></small> }
           </h2>
           { host || basePath ? <Path host={ host } basePath={ basePath } /> : null }
-          { url && <a href={ url }><span className="url"> { url } </span></a> }
+          { url && <a target="_blank" href={ url }><span className="url"> { url } </span></a> }
         </hgroup>
 
         <div className="description">
@@ -104,7 +104,7 @@ export default class Info extends React.Component {
 
         {
           termsOfService && <div>
-            <a href={ termsOfService }>Terms of service</a>
+            <a target="_blank" href={ termsOfService }>Terms of service</a>
           </div>
         }
 

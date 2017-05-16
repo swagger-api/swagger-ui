@@ -286,11 +286,36 @@ body
         @include method($_color-get);
     }
 
+    &.opblock-patch
+    {
+        @include method($_color-patch);
+    }
+
+    &.opblock-head
+    {
+        @include method($_color-head);
+    }
+
+    &.opblock-options
+    {
+        @include method($_color-options);
+    }
+
     &.opblock-deprecated
     {
         opacity: .6;
 
         @include method($_color-disabled);
+    }
+
+    .opblock-schemes
+    {
+      padding: 8px 20px;
+
+      .schemes-title
+      {
+        padding: 0 10px 0 0;
+      }
     }
 }
 
@@ -467,10 +492,13 @@ body
     margin: 0;
     padding: 10px;
 
+
     word-wrap: break-word;
     word-break: break-all;
     word-break: break-word;
     hyphens: auto;
+    white-space: pre-wrap;
+
 
     border-radius: 4px;
     background: #41444e;
@@ -480,6 +508,11 @@ body
     span
     {
         color: #fff !important;
+    }
+
+    .headerline
+    {
+        display: block;
     }
 }
 
