@@ -37,10 +37,11 @@ export default class Errors extends React.Component {
         <Collapse isOpened={ isVisible } animated >
           <div className="errors">
             { sortedJSErrors.map((err, i) => {
-              if(err.get("type") === "thrown") {
+              let type = err.get("type")
+              if(type === "thrown" || type === "auth") {
                 return <ThrownErrorItem key={ i } error={ err.get("error") || err } jumpToLine={jumpToLine} />
               }
-              if(err.get("type") === "spec") {
+              if(type === "spec") {
                 return <SpecErrorItem key={ i } error={ err } jumpToLine={jumpToLine} />
               }
             }) }
