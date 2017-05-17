@@ -169,16 +169,23 @@ export const logRequest = (req) => {
 // Actually fire the request via fn.execute
 // (For debugging) and ease of testing
 export const executeRequest = (req) => ({fn, specActions, specSelectors}) => {
-  let { pathName, method } = req
+  let { pathName, method, operation } = req
+
+  let op = operation.toJS()
 
   // if url is relative, parseUrl makes it absolute by inferring from `window.location`
   req.contextUrl = parseUrl(specSelectors.url()).toString()
 
-  let parsedRequest = Object.assign({}, req)
-  if ( pathName && method ) {
-    parsedRequest.operationId = method.toLowerCase() + "-" + pathName
+
+  if(op && op.operationId) {
+    req.operationId = op.operationId
+  } else if(op && pathName && method) {
+    req.operationId = fn.opId(op, pathName, method)
   }
+
+  let parsedRequest = Object.assign({}, req)
   parsedRequest = fn.buildRequest(parsedRequest)
+
   specActions.setRequest(req.pathName, req.method, parsedRequest)
 
   return fn.execute(req)
