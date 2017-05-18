@@ -76,7 +76,7 @@ export default class Store {
     this.boundSystem = Object.assign({},
         this.getRootInjects(),
         this.getWrappedAndBoundActions(dispatch),
-        this.getBoundSelectors(getState, this.getSystem),
+        this.getWrappedAndBoundSelectors(getState, this.getSystem),
         this.getStateThunks(getState),
         this.getFn(),
         this.getConfigs()
@@ -173,6 +173,36 @@ export default class Store {
             })
           }
         return actions
+      })
+  }
+
+  getWrappedAndBoundSelectors(getState, getSystem) {
+    let selectorGroups = this.getBoundSelectors(getState, getSystem)
+      return objMap(selectorGroups, (selectors, selectorGroupName) => {
+        let stateName = [selectorGroupName.slice(0, -9)] // selectors = 9 chars
+        let wrappers = this.system.statePlugins[stateName].wrapSelectors
+          if(wrappers) {
+            return objMap(selectors, (selector, selectorName) => {
+              let wrap = wrappers[selectorName]
+              if(!wrap) {
+                return selector
+              }
+
+              if(!Array.isArray(wrap)) {
+                wrap = [wrap]
+              }
+              return wrap.reduce((acc, fn) => {
+                let wrappedSelector = (...args) => {
+                  return fn(acc, this.getSystem())(getState().getIn(stateName), ...args)
+                }
+                if(!isFn(wrappedSelector)) {
+                  throw new TypeError("wrapSelector needs to return a function that returns a new function (ie the wrapped action)")
+                }
+                return wrappedSelector
+              }, selector || Function.prototype)
+            })
+          }
+        return selectors
       })
   }
 
