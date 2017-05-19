@@ -77,6 +77,12 @@ window.onload = function() {
   const ui = SwaggerUIBundle({
     url: "http://petstore.swagger.io/v2/swagger.json",
     dom_id: '#swagger-ui',
+    modelPropertyMacro: function (model) {
+      return model
+    },
+    parameterMacro: function (operation, parameter) {
+      return parameter
+    },
     presets: [
       SwaggerUIBundle.presets.apis,
       SwaggerUIStandalonePreset
@@ -94,8 +100,8 @@ window.onload = function() {
     clientSecret: "your-client-secret-if-required",
     realm: "your-realms",
     appName: "your-app-name",
-    scopeSeparator: "-",
-    additionalQueryStringParams: {test: "hello"}
+    scopeSeparator: " ",
+    additionalQueryStringParams: {}
   })
 }
 </script>
