@@ -1,12 +1,9 @@
 import React, { PropTypes } from "react"
 import OriCollapse from "react-collapse"
-import _Markdown from "react-remarkable"
 
 function xclass(...args) {
   return args.filter(a => !!a).join(" ").trim()
 }
-
-export const Markdown = _Markdown
 
 export class Container extends React.Component {
   render() {
