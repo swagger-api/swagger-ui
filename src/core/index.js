@@ -8,7 +8,7 @@ import { parseSeach, filterConfigs } from "core/utils"
 
 const CONFIGS = [ "url", "spec", "validatorUrl", "onComplete", "onFailure", "authorizations", "docExpansion",
     "apisSorter", "operationsSorter", "supportedSubmitMethods", "highlightSizeThreshold", "dom_id",
-    "defaultModelRendering", "oauth2RedirectUrl", "showRequestHeaders" ]
+    "defaultModelRendering", "oauth2RedirectUrl", "showRequestHeaders", "custom" ]
 
 // eslint-disable-next-line no-undef
 const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION } = buildInfo
