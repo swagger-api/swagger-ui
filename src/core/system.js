@@ -321,6 +321,25 @@ function systemExtend(dest={}, src={}) {
     return dest
   }
 
+  // Wrap components
+  // Parses existing components in the system, injects new wrappers into the dest,
+  // and removes wrapComponents from the src so it doesn't make it into the final system
+  if(src.wrapComponents) {
+    objMap(src.wrapComponents, (wrapper, key) => {
+      if(src.components && src.components[key]) {
+        // eslint-disable-next-line no-console
+        console.warn("Warning: providing and wrapping the same component simultaneously is not supported.")
+      }
+
+      if(dest.components[key]) {
+        dest.components[key] = wrapper(dest.components[key])
+      }
+    })
+
+    delete src.wrapComponents
+  }
+
+
   // Account for wrapActions, make it an array and append to it
   // Modifies `src`
   // 80% of this code is just safe traversal. We need to address that ( ie: use a lib )
