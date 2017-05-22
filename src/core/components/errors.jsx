@@ -1,19 +1,22 @@
 import React, { PropTypes } from "react"
-import Im, { List } from "immutable"
+import { List } from "immutable"
 import Collapse from "react-collapse"
-import sortBy from "lodash/sortBy"
 
 export default class Errors extends React.Component {
 
   static propTypes = {
-    jumpToLine: PropTypes.func,
+    editorActions: PropTypes.object,
     errSelectors: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired
   }
 
   render() {
-    let { jumpToLine, errSelectors, layoutSelectors, layoutActions } = this.props
+    let { editorActions, errSelectors, layoutSelectors, layoutActions } = this.props
+
+    if(editorActions && editorActions.jumpToLine) {
+      var jumpToLine = editorActions.jumpToLine
+    }
 
     let errors = errSelectors.allErrors()
 
@@ -38,10 +41,11 @@ export default class Errors extends React.Component {
         <Collapse isOpened={ isVisible } animated >
           <div className="errors">
             { sortedJSErrors.map((err, i) => {
-              if(err.get("type") === "thrown") {
+              let type = err.get("type")
+              if(type === "thrown" || type === "auth") {
                 return <ThrownErrorItem key={ i } error={ err.get("error") || err } jumpToLine={jumpToLine} />
               }
-              if(err.get("type") === "spec") {
+              if(type === "spec") {
                 return <SpecErrorItem key={ i } error={ err } jumpToLine={jumpToLine} />
               }
             }) }
@@ -69,7 +73,7 @@ const ThrownErrorItem = ( { error, jumpToLine } ) => {
             { error.get("message") }
           </span>
           <div>
-            { errorLine ? <a onClick={jumpToLine.bind(null, errorLine)}>Jump to line { errorLine }</a> : null }
+            { errorLine && jumpToLine ? <a onClick={jumpToLine.bind(null, errorLine)}>Jump to line { errorLine }</a> : null }
           </div>
         </div>
       }
@@ -78,13 +82,25 @@ const ThrownErrorItem = ( { error, jumpToLine } ) => {
   }
 
 const SpecErrorItem = ( { error, jumpToLine } ) => {
+  let locationMessage = null
+
+  if(error.get("path")) {
+    if(List.isList(error.get("path"))) {
+      locationMessage = <small>at { error.get("path").join(".") }</small>
+    } else {
+      locationMessage = <small>at { error.get("path") }</small>
+    }
+  } else if(error.get("line") && !jumpToLine) {
+    locationMessage = <small>on line { error.get("line") }</small>
+  }
+
   return (
     <div className="error-wrapper">
       { !error ? null :
         <div>
-          <h4>{ toTitleCase(error.get("source")) + " " + error.get("level") }{ error.get("path") ? <small> at {List.isList(error.get("path")) ? error.get("path").join(".") : error.get("path")}</small>: null }</h4>
+          <h4>{ toTitleCase(error.get("source")) + " " + error.get("level") }&nbsp;{ locationMessage }</h4>
           <span style={{ whiteSpace: "pre-line"}}>{ error.get("message") }</span>
-          <div>
+          <div style={{ "text-decoration": "underline", "cursor": "pointer" }}>
             { jumpToLine ? (
               <a onClick={jumpToLine.bind(null, error.get("line"))}>Jump to line { error.get("line") }</a>
             ) : null }
@@ -105,6 +121,10 @@ function toTitleCase(str) {
 ThrownErrorItem.propTypes = {
   error: PropTypes.object.isRequired,
   jumpToLine: PropTypes.func
+}
+
+ThrownErrorItem.defaultProps = {
+  jumpToLine: null
 }
 
 SpecErrorItem.propTypes = {

@@ -10,25 +10,27 @@ export default class Oauth2 extends React.Component {
   static propTypes = {
     name: PropTypes.string,
     authorized: PropTypes.object,
-    configs: PropTypes.object,
     getComponent: PropTypes.func.isRequired,
     schema: PropTypes.object.isRequired,
     authSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
     errSelectors: PropTypes.object.isRequired,
-    errActions: PropTypes.object.isRequired
+    errActions: PropTypes.object.isRequired,
+    getConfigs: PropTypes.any
   }
 
   constructor(props, context) {
     super(props, context)
-    let { name, schema, authorized } = this.props
+    let { name, schema, authorized, authSelectors } = this.props
     let auth = authorized && authorized.get(name)
+    let authConfigs = authSelectors.getConfigs() || {}
     let username = auth && auth.get("username") || ""
-    let clientId = auth && auth.get("clientId") || ""
-    let clientSecret = auth && auth.get("clientSecret") || ""
-    let passwordType = auth && auth.get("passwordType") || "none"
+    let clientId = auth && auth.get("clientId") || authConfigs.clientId || ""
+    let clientSecret = auth && auth.get("clientSecret") || authConfigs.clientSecret || ""
+    let passwordType = auth && auth.get("passwordType") || "basic"
 
     this.state = {
+      appName: authConfigs.appName,
       name: name,
       schema: schema,
       scopes: [],
@@ -41,11 +43,12 @@ export default class Oauth2 extends React.Component {
   }
 
   authorize =() => {
-    let { authActions, errActions, getConfigs } = this.props
+    let { authActions, errActions, getConfigs, authSelectors } = this.props
     let configs = getConfigs()
+    let authConfigs = authSelectors.getConfigs()
 
     errActions.clear({authId: name,type: "auth", source: "auth"})
-    oauth2Authorize(this.state, authActions, errActions, configs)
+    oauth2Authorize({auth: this.state, authActions, errActions, configs, authConfigs })
   }
 
   onScopeChange =(e) => {
@@ -98,6 +101,7 @@ export default class Oauth2 extends React.Component {
     return (
       <div>
         <h4>OAuth2.0 <JumpToPath path={[ "securityDefinitions", name ]} /></h4>
+        { !this.state.appName ? null : <h5>Application: { this.state.appName } </h5> }
         <Markdown options={{html: true, typographer: true, linkify: true, linkTarget: "_blank"}}
                   source={ schema.get("description") } />
 
@@ -108,82 +112,92 @@ export default class Oauth2 extends React.Component {
         <p className="flow">Flow: <code>{ schema.get("flow") }</code></p>
 
         {
-          flow === PASSWORD && ( !isAuthorized || isAuthorized && this.state.username) && <Row>
-            <Col tablet={2} desktop={2}>username:</Col>
-            <Col tablet={10} desktop={10}>
+          flow !== PASSWORD ? null
+            : <Row>
+              <Row>
+                <label htmlFor="oauth_username">username:</label>
+                {
+                  isAuthorized ? <code> { this.state.username } </code>
+                    : <Col tablet={10} desktop={10}>
+                      <input id="oauth_username" type="text" data-name="username" onChange={ this.onInputChange }/>
+                    </Col>
+                }
+              </Row>
               {
-                isAuthorized ? <span>{ this.state.username }</span>
-              : <input type="text" data-name="username" onChange={ this.onInputChange }/>
+
               }
-            </Col>
-          </Row>
+              <Row>
+                <label htmlFor="oauth_password">password:</label>
+                {
+                  isAuthorized ? <code> ****** </code>
+                    : <Col tablet={10} desktop={10}>
+                      <input id="oauth_password" type="password" data-name="password" onChange={ this.onInputChange }/>
+                    </Col>
+                }
+              </Row>
+              <Row>
+                <label htmlFor="password_type">type:</label>
+                {
+                  isAuthorized ? <code> { this.state.passwordType } </code>
+                    : <Col tablet={10} desktop={10}>
+                      <select id="password_type" data-name="passwordType" onChange={ this.onInputChange }>
+                        <option value="basic">Basic auth</option>
+                        <option value="request-body">Request body</option>
+                        <option value="query">Query parameters</option>
+                      </select>
+                    </Col>
+                }
+              </Row>
+            </Row>
         }
-
         {
-          flow === PASSWORD && !isAuthorized && <Row>
-            <Col tablet={2} desktop={2}>password:</Col>
-            <Col tablet={10} desktop={10}>
-              <input type="password" data-name="password" onChange={ this.onInputChange }/>
-            </Col>
-          </Row>
-        }
-
-        {
-          flow === PASSWORD && <Row>
-            <Col tablet={2} desktop={2}>type:</Col>
-            <Col tablet={10} desktop={10}>
-              {
-                isAuthorized ? <span>{ this.state.passwordType }</span>
-                             : <select data-name="passwordType" onChange={ this.onInputChange }>
-                                 <option value="none">None or other</option>
-                                 <option value="basic">Basic auth</option>
-                                 <option value="request">Request body</option>
-                               </select>
-              }
-            </Col>
-          </Row>
-        }
-
-        {
-          ( flow === IMPLICIT || flow === ACCESS_CODE || ( flow === PASSWORD && this.state.passwordType!== "none") ) &&
+          ( flow === APPLICATION || flow === IMPLICIT || flow === ACCESS_CODE || ( flow === PASSWORD && this.state.passwordType!== "basic") ) &&
           ( !isAuthorized || isAuthorized && this.state.clientId) && <Row>
             <label htmlFor="client_id">client_id:</label>
-            <Col tablet={10} desktop={10}>
-              {
-                isAuthorized ? <span>{ this.state.clientId }</span>
-              : <input id="client_id" type="text" required={ flow === PASSWORD } data-name="clientId"
+            {
+              isAuthorized ? <code> ****** </code>
+                           : <Col tablet={10} desktop={10}>
+                               <input id="client_id"
+                                      type="text"
+                                      required={ flow === PASSWORD }
+                                      value={ this.state.clientId }
+                                      data-name="clientId"
                                       onChange={ this.onInputChange }/>
-              }
-            </Col>
+                             </Col>
+            }
           </Row>
         }
 
         {
-          ( flow === ACCESS_CODE || ( flow === PASSWORD && this.state.passwordType!== "none") ) && <Row>
+          ( flow === APPLICATION || flow === ACCESS_CODE || ( flow === PASSWORD && this.state.passwordType!== "basic") ) && <Row>
             <label htmlFor="client_secret">client_secret:</label>
-            <Col tablet={10} desktop={10}>
-              {
-                isAuthorized ? <span>{ this.state.clientSecret }</span>
-              : <input id="client_secret" type="text" data-name="clientSecret"
+            {
+              isAuthorized ? <code> ****** </code>
+                           : <Col tablet={10} desktop={10}>
+                               <input id="client_secret"
+                                      value={ this.state.clientSecret }
+                                      type="text"
+                                      data-name="clientSecret"
                                       onChange={ this.onInputChange }/>
-              }
-            </Col>
+                             </Col>
+            }
+
           </Row>
         }
 
         {
-          !isAuthorized && flow !== PASSWORD && scopes && scopes.size ? <div className="scopes">
+          !isAuthorized && scopes && scopes.size ? <div className="scopes">
             <h2>Scopes:</h2>
             { scopes.map((description, name) => {
               return (
                 <Row key={ name }>
                   <div className="checkbox">
                     <Input data-value={ name }
-                          id={`${name}-checkbox`}
+                          id={`${name}-checkbox-${this.state.name}`}
                            disabled={ isAuthorized }
                            type="checkbox"
                            onChange={ this.onScopeChange }/>
-                         <label htmlFor={`${name}-checkbox`}>
+                         <label htmlFor={`${name}-checkbox-${this.state.name}`}>
                            <span className="item"></span>
                            <div className="text">
                              <p className="name">{name}</p>
@@ -205,7 +219,7 @@ export default class Oauth2 extends React.Component {
           } )
         }
         <div className="auth-btn-wrapper">
-        { isValid && flow !== APPLICATION &&
+        { isValid &&
           ( isAuthorized ? <Button className="btn modal-btn auth authorize" onClick={ this.logout }>Logout</Button>
         : <Button className="btn modal-btn auth authorize" onClick={ this.authorize }>Authorize</Button>
           )

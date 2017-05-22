@@ -4,8 +4,22 @@ var webpack = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var deepExtend = require('deep-extend')
 var autoprefixer = require('autoprefixer')
+const {gitDescribeSync} = require('git-describe');
 
 var loadersByExtension = require('./build-tools/loadersByExtension')
+
+var pkg = require('./package.json')
+
+let gitInfo
+
+try {
+  gitInfo = gitDescribeSync(__dirname)
+} catch(e) {
+  gitInfo = {
+    hash: 'noGit',
+    dirty: false
+  }
+}
 
 module.exports = function(options) {
 
@@ -60,7 +74,13 @@ module.exports = function(options) {
       'process.env': {
         NODE_ENV:  specialOptions.minimize ? JSON.stringify('production') : null,
         WEBPACK_INLINE_STYLES: !Boolean(specialOptions.separateStylesheets)
+
       },
+      'buildInfo': JSON.stringify({
+        PACKAGE_VERSION: (pkg.version),
+        GIT_COMMIT: gitInfo.hash,
+        GIT_DIRTY: gitInfo.dirty
+      })
     }))
 
   var cssLoader = 'css-loader!postcss-loader'

@@ -57,14 +57,14 @@ export default class SplitPaneMode extends React.Component {
     const mode = layoutSelectors.whatMode(MODE_KEY)
     const left = mode === MODE_RIGHT ? <noscript/> : children[0]
     const right = mode === MODE_LEFT ? <noscript/> : children[1]
-    const size = this.sizeFromMode(mode, '50%')
+    const size = this.sizeFromMode(mode, "50%")
 
     return (
       <SplitPane
-        disabledClass={''}
-        ref={'splitPane'}
+        disabledClass={""}
+        ref={"splitPane"}
         split='vertical'
-        defaultSize={'50%'}
+        defaultSize={"50%"}
         primary="second"
         minSize={0}
         size={size}

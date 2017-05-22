@@ -1,4 +1,3 @@
-import concat from "lodash/concat"
 import reduce from "lodash/reduce"
 let request = require.context("./transformers/", true, /\.js$/)
 let errorTransformers = []

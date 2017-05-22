@@ -9,10 +9,11 @@ module.exports = require("./make-webpack-config")({
   },
 	devtool: "eval",
   entry: {
-    'SwaggerUIBundle': [
+    'swagger-ui-bundle': [
+      'babel-polyfill',
       './src/core/index.js'
     ],
-    'SwaggerUIStandalonePreset': [
+    'swagger-ui-standalone-preset': [
       './src/standalone/index.js'
     ]
   },
@@ -26,8 +27,8 @@ module.exports = require("./make-webpack-config")({
   },
   devServer: {
     port: 3200,
-    path: path.join(__dirname, 'dist'),
-    publicPath: "/dist",
+    path: path.join(__dirname, 'dev-helpers'),
+    publicPath: "/",
     noInfo: true,
     colors: true,
     hot: true,

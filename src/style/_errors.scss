@@ -9,15 +9,25 @@
     border-radius: 4px;
     background: rgba($_color-delete, .1);
 
+    .error-wrapper
+    {
+        margin: 0 0 10px 0;
+    }
+
     .errors
     {
         h4
         {
             font-size: 14px;
 
-            margin: 0 0 10px 0;
+            margin: 0;
 
             @include text_code();
+        }
+
+        small
+        {
+          color: #666;
         }
     }
 

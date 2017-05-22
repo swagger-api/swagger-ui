@@ -63,19 +63,23 @@ export default class BasicAuth extends React.Component {
                     source={ schema.get("description") } />
         </Row>
         <Row>
-          <Col tablet={2} desktop={2}>username:</Col>
-          <Col tablet={10} desktop={10}>
-            {
-              username || <Input type="text" required="required" name="username" onChange={ this.onChange }/>
-            }
-          </Col>
+          <label>Username:</label>
+          {
+            username ? <code> { username } </code>
+                     : <Col><Input type="text" required="required" name="username" onChange={ this.onChange }/></Col>
+          }
         </Row>
-        {
-          !username && <Row>
-            <Col tablet={2} desktop={2}>password:</Col>
-            <Col tablet={10} desktop={10}><Input required="required" autoComplete="new-password" name="password" type="password" onChange={ this.onChange }/></Col>
-          </Row>
-        }
+        <Row>
+          <label>Password:</label>
+            {
+              username ? <code> ****** </code>
+                       : <Col><Input required="required"
+                                     autoComplete="new-password"
+                                     name="password"
+                                     type="password"
+                                     onChange={ this.onChange }/></Col>
+            }
+        </Row>
         {
           errors.valueSeq().map( (error, key) => {
             return <AuthError error={ error }

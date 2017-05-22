@@ -4,7 +4,7 @@ export default function curl( request ){
   let headers = request.get("headers")
   curlified.push( "curl" )
   curlified.push( "-X", request.get("method") )
-  curlified.push( request.get("url") )
+  curlified.push( `"${request.get("url")}"`)
 
   if ( headers && headers.size ) {
     for( let p of request.get("headers").entries() ){

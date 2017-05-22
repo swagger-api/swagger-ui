@@ -4,7 +4,9 @@
 
 ## New!
 
-This is the new version of swagger-ui, 3.x.
+**This is the new version of swagger-ui, 3.x. Want to learn more? Check out our [FAQ](http://swagger.io/new-ui-faq/).**
+
+As a brand new version, written from the ground up, there are some known issues and unimplemented features. Check out the [Known Issues](#known-issues) section for more details.
 
 For the older version of swagger-ui, refer to the [*2.x branch*](https://github.com/swagger-api/swagger-ui/tree/2.x).
 
@@ -13,7 +15,7 @@ The OpenAPI Specification has undergone 4 revisions since initial creation in 20
 
 Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes | Status
 ------------------ | ------------ | -------------------------- | ----- | ------
-3.0.1              | 2017-03-18   | 2.0                        | [tag v3.0.1](https://github.com/swagger-api/swagger-ui/tree/v3.0.1) |
+3.0.11              | 2017-03-19   | 2.0                        | [tag v3.0.11](https://github.com/swagger-api/swagger-ui/tree/v3.0.11) |
 2.2.10             | 2017-01-04   | 1.1, 1.2, 2.0              | [tag v2.2.10](https://github.com/swagger-api/swagger-ui/tree/v2.2.10) |
 2.1.5              | 2016-07-20   | 1.1, 1.2, 2.0              | [tag v2.1.5](https://github.com/swagger-api/swagger-ui/tree/v2.1.5) |
 2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) |
@@ -37,13 +39,109 @@ Will start nginx with swagger-ui on port 80.
 - Node 6.x
 - NPM 3.x
 
-If you just want to see your specs, open `public/index.html` in your browser directly from your filesystem.
+If you just want to see your specs, open `dist/index.html` in your browser directly from your filesystem.
 
 If you'd like to make modifications to the codebase, run the dev server with: `npm run dev`.
 
-
 ##### Browser support
 Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE11.
+
+### Known Issues
+
+To help with the migration, here are the currently known issues with 3.X. This list will update regularly, and will not include features that were not implemented in previous versions.
+
+- Only part of the [parameters](#parameters) previously supported are available.
+- The JSON Form Editor is not implemented.
+- Shebang URL support for operations is missing.
+- Support for `collectionFormat` is partial.
+- l10n (translations) is not implemented.
+- Relative path support for external files is not implemented.
+
+### SwaggerUIBundle
+To use swagger-ui's bundles, you should take a look at the [source of swagger-ui html page](https://github.com/swagger-api/swagger-ui/blob/master/dist/index.html) and customize it. This basically requires you to instantiate a SwaggerUi object as below:
+
+```javascript
+  const ui = SwaggerUIBundle({
+    url: "http://petstore.swagger.io/v2/swagger.json",
+    dom_id: '#swagger-ui',
+    presets: [
+      SwaggerUIBundle.presets.apis,
+      SwaggerUIStandalonePreset
+    ],
+    plugins: [
+      SwaggerUIBundle.plugins.DownloadUrl
+    ],
+    layout: "StandaloneLayout"
+  })
+```
+
+#### OAuth2 configuration
+You can configure OAuth2 authorization by calling `initOAuth` method with passed configs under the instance of `SwaggerUIBundle`
+default `client_id` and `client_secret`, `realm`, an application name `appName`, `scopeSeparator`, `additionalQueryStringParams`.
+
+Config Name | Description
+--- | ---
+client_id | Default clientId. MUST be a string 
+client_secret | Default clientSecret. MUST be a string 
+realm | realm query parameter (for oauth1) added to `authorizationUrl` and `tokenUrl` . MUST be a string
+appName | application name, displayed in authorization popup. MUST be a string
+scopeSeparator | scope separator for passing scopes, encoded before calling, default value is a space (encoded value `%20`). MUST be a string 
+additionalQueryStringParams | Additional query parameters added to `authorizationUrl` and `tokenUrl`. MUST be an object
+
+```
+const ui = SwaggerUIBundle({...})
+
+// Method can be called in any place after calling constructor SwaggerUIBundle
+ui.initOAuth({
+    clientId: "your-client-id",
+    clientSecret: "your-client-secret-if-required",
+    realm: "your-realms",
+    appName: "your-app-name",
+    scopeSeparator: " ",
+    additionalQueryStringParams: {test: "hello"}
+  })
+```
+
+If you'd like to use the bundle files via npm, check out the [`swagger-ui-dist` package](https://www.npmjs.com/package/swagger-ui-dist).
+
+#### Parameters
+
+Parameter Name | Description
+--- | ---
+url | The url pointing to API definition (normally `swagger.json` or `swagger.yaml`).
+spec | A JSON object describing the OpenAPI Specification. When used, the `url` parameter will not be parsed. This is useful for testing manually-generated specifications without hosting them.
+validatorUrl | By default, Swagger-UI attempts to validate specs against swagger.io's online validator. You can use this parameter to set a different validator URL, for example for locally deployed validators ([Validator Badge](https://github.com/swagger-api/validator-badge)). Setting it to `null` will disable validation.
+dom_id | The id of a dom element inside which SwaggerUi will put the user interface for swagger.
+oauth2RedirectUrl | OAuth redirect URL
+operationsSorter | Apply a sort to the operation list of each API. It can be 'alpha' (sort by paths alphanumerically), 'method' (sort by HTTP method) or a function (see Array.prototype.sort() to know how sort function works). Default is the order returned by the server unchanged.
+configUrl | Configs URL
+
+### Plugins
+
+#### Topbar plugin
+Topbar plugin enables top bar with input for spec path and explore button. By default the plugin is enabled, and to disable it you need to remove Topbar plugin from presets in `src/standalone/index.js`:
+
+```
+let preset = [
+  // TopbarPlugin,
+  ConfigsPlugin,
+  () => {
+    return {
+      components: { StandaloneLayout }
+    }
+  }
+]
+```
+
+#### Configs plugin
+Configs plugin allows to fetch external configs instead of passing them to `SwaggerUIBundle`. Fetched configs support two formats: JSON or yaml. The plugin is enabled by default. 
+There are three options of passing config:
+- add a query parameter `config` with URL to a server where the configs are hosted. For ex. http://petstore.swagger.io/?configs=http://localhost:3001/config.yaml
+- add a config `configUrl` with URL to SwaggerUIBundle
+- change default configs in `swagger-config.yaml` *Note: after changing, the project must be re-built*
+
+These options can be used altogether, the order of inheritance is following (from the lowest priority to the highest):
+`swagger-config.yaml` -> config passed to `SwaggerUIBundle` -> config fetched from `configUrl` passed to `SwaggerUIBundle` -> config fetched from URL passed as a query parameter `config`
 
 ## CORS Support
 
