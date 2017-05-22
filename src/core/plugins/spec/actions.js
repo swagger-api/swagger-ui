@@ -80,7 +80,6 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
 export const resolveSpec = (json, url) => ({specActions, specSelectors, errActions, fn: { fetch, resolve, AST }, getConfigs}) => {
   const { modelPropertyMacro, parameterMacro } = getConfigs()
 
-  debugger
   if(typeof(json) === "undefined") {
     json = specSelectors.specJson()
   }
