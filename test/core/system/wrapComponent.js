@@ -86,7 +86,7 @@ describe("wrapComponents", () => {
     })
   })
 
-  it.skip("should provide a reference to the system to the wrapper", function(done){
+  it("should provide a reference to the system to the wrapper", function(){
 
     // Given
 
@@ -116,7 +116,7 @@ describe("wrapComponents", () => {
             wow: (OriginalComponent, system) => (props) => {
               return <container>
                 <OriginalComponent {...props}></OriginalComponent>
-                <OriginalComponent name="Wrapped"></OriginalComponent>
+                <div>{system.dogeSelectors.wow()}</div>
               </container>
             }
           }
@@ -125,7 +125,7 @@ describe("wrapComponents", () => {
     })
 
     // Then
-    var Component = system.getSystem().getComponents("wow")
+    var Component = mySystem.getSystem().getComponents("wow")
     const wrapper = render(<Component name="Normal" />)
 
     const container = wrapper.children().first()
@@ -134,6 +134,6 @@ describe("wrapComponents", () => {
     const children = container.children()
     expect(children.length).toEqual(2)
     expect(children.eq(0).text()).toEqual("Original component")
-    expect(children.eq(1).text()).toEqual("Wrapped component")
+    expect(children.eq(1).text()).toEqual("WOW much data")
   })
 })

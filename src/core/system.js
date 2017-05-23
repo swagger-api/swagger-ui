@@ -227,8 +227,17 @@ export default class Store {
   }
 
   getComponents(component) {
-    if(typeof component !== "undefined")
+    const res = this.system.components[component]
+
+    if(Array.isArray(res)) {
+      return res.reduce((ori, wrapper) => {
+        return wrapper(ori, this.getSystem())
+      })
+    }
+    if(typeof component !== "undefined") {
       return this.system.components[component]
+    }
+
     return this.system.components
   }
 
@@ -322,17 +331,16 @@ function systemExtend(dest={}, src={}) {
   }
 
   // Wrap components
-  // Parses existing components in the system, injects new wrappers into the dest,
-  // and removes wrapComponents from the src so it doesn't make it into the final system
+  // Parses existing components in the system, and prepares them for wrapping via getComponents
   if(src.wrapComponents) {
-    objMap(src.wrapComponents, (wrapper, key) => {
-      if(src.components && src.components[key]) {
-        // eslint-disable-next-line no-console
-        console.warn("Warning: providing and wrapping the same component simultaneously is not supported.")
-      }
-
-      if(dest.components[key]) {
-        dest.components[key] = wrapper(dest.components[key])
+    objMap(src.wrapComponents, (wrapperFn, key) => {
+      const ori = dest.components[key]
+      if(ori && Array.isArray(ori)) {
+        dest.components[key] = ori.concat([wrapperFn])
+      } else if(ori) {
+        dest.components[key] = [ori, wrapperFn]
+      } else {
+        dest.components[key] = null
       }
     })
 
