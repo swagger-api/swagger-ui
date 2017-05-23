@@ -102,8 +102,7 @@ export default class Oauth2 extends React.Component {
       <div>
         <h4>OAuth2.0 <JumpToPath path={[ "securityDefinitions", name ]} /></h4>
         { !this.state.appName ? null : <h5>Application: { this.state.appName } </h5> }
-        <Markdown options={{typographer: true, linkify: true, linkTarget: "_blank"}}
-                  source={ schema.get("description") } />
+        <Markdown source={ schema.get("description") } />
 
         { isAuthorized && <h6>Authorized</h6> }
 
