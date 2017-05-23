@@ -45,7 +45,7 @@ export const sampleFromSchema = (schema, config={}) => {
   if(type === "object") {
     let props = objectify(properties)
     let obj = {},
-     	isArrayPropertyType = false
+    isArrayPropertyType = false
 
     if (props.length) {
         isArrayPropertyType = true
