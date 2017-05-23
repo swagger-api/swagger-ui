@@ -44,11 +44,32 @@ export const sampleFromSchema = (schema, config={}) => {
 
   if(type === "object") {
     let props = objectify(properties)
-    let obj = {}
+    let obj = {},
+     	isArrayPropertyType = false
+
+    if (props.length) {
+        isArrayPropertyType = true
+        obj = []
+    }
+
     for (var name in props) {
-      if ( !props[name].readOnly || includeReadOnly ) {
-        obj[name] = sampleFromSchema(props[name], { includeReadOnly: includeReadOnly })
-      }
+       if (isArrayPropertyType) {
+            let innerObj = {}
+            for (let innerName in props[name]) {
+                if (!props[name][innerName].readOnly || includeReadOnly) {
+                    innerObj[innerName] = sampleFromSchema(props[name][innerName], {
+                        includeReadOnly: includeReadOnly
+                    })
+                }
+            }
+            obj.push(innerObj)
+        } else {
+            if (!props[name].readOnly || includeReadOnly) {
+                obj[name] = sampleFromSchema(props[name], {
+                    includeReadOnly: includeReadOnly
+                })
+            }
+        }
     }
 
     if ( additionalProperties === true ) {
