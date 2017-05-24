@@ -14,7 +14,7 @@ export default class ModelExample extends React.Component {
     super(props, context)
 
     this.state = {
-      activeTab: "example"
+      activeTab: "model"
     }
   }
 

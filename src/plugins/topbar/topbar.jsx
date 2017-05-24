@@ -37,22 +37,35 @@ export default class Topbar extends React.Component {
     if(isFailed) inputStyle.color = "red"
     if(isLoading) inputStyle.color = "#aaa"
     return (
-        <div className="topbar">
-          <div className="wrapper">
-            <div className="topbar-wrapper">
-              <Link href="#" title="Swagger UX">
-                <img height="30" width="30" src={ Logo } alt="Swagger UX"/>
-                <span>swagger</span>
-              </Link>
-              <form className="download-url-wrapper" onSubmit={this.downloadUrl}>
-                <input className="download-url-input" type="text" onChange={ this.onUrlChange } value={this.state.url} disabled={isLoading} style={inputStyle} />
-                <Button className="download-url-button" onClick={ this.downloadUrl }>Explore</Button>
-              </form>
-            </div>
+      <div className="topbar">
+        <div className="wrapper">
+          <div className="topbar-wrapper">
+            <Link href="#" title="Swagger UX">
+              <img height="40" width="30" src={ Logo } alt="Swagger UX"/>
+              <span></span>
+            </Link>
           </div>
         </div>
+      </div>
 
     )
+    // return (
+    //   <div className="topbar">
+    //     <div className="wrapper">
+    //       <div className="topbar-wrapper">
+    //         <Link href="#" title="Swagger UX">
+    //           <img height="30" width="30" src={ Logo } alt="Swagger UX"/>
+    //           <span>swagger</span>
+    //         </Link>
+    //         <form className="download-url-wrapper" onSubmit={this.downloadUrl}>
+    //           <input className="download-url-input" type="text" onChange={ this.onUrlChange } value={this.state.url} disabled={isLoading} style={inputStyle} />
+    //           <Button className="download-url-button" onClick={ this.downloadUrl }>Explore</Button>
+    //         </form>
+    //       </div>
+    //     </div>
+    //   </div>
+    //
+    // )
   }
 }
 

@@ -30,10 +30,10 @@ if [ "$OAUTH_ADDITIONAL_PARAMS" != "**None**" ]; then
 fi
 
 if [[ -f $SWAGGER_JSON ]]; then
-  sed -i "s|http://petstore.swagger.io/v2/swagger.json|swagger.json|g" $INDEX_FILE
+  sed -i "s|http://35.162.215.56/api/v2/lease/swagger.json?group=Acima%20Credit|g" $INDEX_FILE
   sed -i "s|http://example.com/api|swagger.json|g" $INDEX_FILE
 else
-  sed -i "s|http://petstore.swagger.io/v2/swagger.json|$API_URL|g" $INDEX_FILE
+  sed -i "s|http://35.162.215.56/api/v2/lease/swagger.json?group=Acima%20Credit|$API_URL|g" $INDEX_FILE
   sed -i "s|http://example.com/api|$API_URL|g" $INDEX_FILE
 fi
 

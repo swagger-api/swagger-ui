@@ -62,7 +62,7 @@ To use swagger-ui's bundles, you should take a look at the [source of swagger-ui
 
 ```javascript
   const ui = SwaggerUIBundle({
-    url: "http://petstore.swagger.io/v2/swagger.json",
+    url: "http://35.162.215.56/api/v2/lease/swagger.json?group=Acima%20Credit",
     dom_id: '#swagger-ui',
     presets: [
       SwaggerUIBundle.presets.apis,
@@ -136,7 +136,7 @@ let preset = [
 #### Configs plugin
 Configs plugin allows to fetch external configs instead of passing them to `SwaggerUIBundle`. Fetched configs support two formats: JSON or yaml. The plugin is enabled by default. 
 There are three options of passing config:
-- add a query parameter `config` with URL to a server where the configs are hosted. For ex. http://petstore.swagger.io/?configs=http://localhost:3001/config.yaml
+- add a query parameter `config` with URL to a server where the configs are hosted. For ex. http://35.162.215.56/api/v2/lease/swagger.json?group=Acima%20Credit
 - add a config `configUrl` with URL to SwaggerUIBundle
 - change default configs in `swagger-config.yaml` *Note: after changing, the project must be re-built*
 
@@ -166,7 +166,7 @@ You can verify CORS support with one of three techniques:
 - Curl your API and inspect the headers.  For instance:
 
 ```bash
-$ curl -I "http://petstore.swagger.io/v2/swagger.json"
+$ curl -I "http://35.162.215.56/api/v2/lease/swagger.json?group=Acima%20Credit"
 HTTP/1.1 200 OK
 Date: Sat, 31 Jan 2015 23:05:44 GMT
 Access-Control-Allow-Origin: *

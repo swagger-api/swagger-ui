@@ -14,9 +14,14 @@ class Path extends React.Component {
 
     return (
       <pre className="base-url">
-        [ Base url: {host}{basePath}]
+
       </pre>
     )
+    // return (
+    //   <pre className="base-url">
+    //     [ Base url: {host}{basePath}]
+    //   </pre>
+    // )
   }
 }
 
@@ -95,27 +100,54 @@ export default class Info extends React.Component {
             { version && <small><pre className="version"> { version } </pre></small> }
           </h2>
           { host || basePath ? <Path host={ host } basePath={ basePath } /> : null }
-          { url && <a target="_blank" href={ url }><span className="url"> { url } </span></a> }
         </hgroup>
 
         <div className="description">
           <Markdown options={{html: true, typographer: true, linkify: true, linkTarget: "_blank"}} source={ description } />
         </div>
 
-        {
-          termsOfService && <div>
-            <a target="_blank" href={ termsOfService }>Terms of service</a>
-          </div>
-        }
+        {/*{
+         termsOfService && <div>
+         <a target="_blank" href={ termsOfService }>Terms of service</a>
+         </div>
+         }*/}
 
         { contact && contact.size ? <Contact data={ contact } /> : null }
-        { license && license.size ? <License license={ license } /> : null }
+        {/*{ license && license.size ? <License license={ license } /> : null }*/}
         { externalDocsUrl ?
-            <a target="_blank" href={externalDocsUrl}>{externalDocsDescription || externalDocsUrl}</a>
-        : null }
+          <a target="_blank" href={externalDocsUrl}>{externalDocsDescription || externalDocsUrl}</a>
+          : null }
 
       </div>
     )
+    // return (
+    //   <div className="info">
+    //     <hgroup className="main">
+    //       <h2 className="title" >{ title }
+    //         { version && <small><pre className="version"> { version } </pre></small> }
+    //       </h2>
+    //       { host || basePath ? <Path host={ host } basePath={ basePath } /> : null }
+    //       { url && <a target="_blank" href={ url }><span className="url"> { url } </span></a> }
+    //     </hgroup>
+    //
+    //     <div className="description">
+    //       <Markdown options={{html: true, typographer: true, linkify: true, linkTarget: "_blank"}} source={ description } />
+    //     </div>
+    //
+    //     {/*{
+    //      termsOfService && <div>
+    //      <a target="_blank" href={ termsOfService }>Terms of service</a>
+    //      </div>
+    //      }*/}
+    //
+    //     { contact && contact.size ? <Contact data={ contact } /> : null }
+    //     {/*{ license && license.size ? <License license={ license } /> : null }*/}
+    //     { externalDocsUrl ?
+    //       <a target="_blank" href={externalDocsUrl}>{externalDocsDescription || externalDocsUrl}</a>
+    //       : null }
+    //
+    //   </div>
+    // )
   }
 
 }
