@@ -10,7 +10,6 @@
   <link href='css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
   <link href='css/reset.css' media='print' rel='stylesheet' type='text/css'/>
   <link href='css/print.css' media='print' rel='stylesheet' type='text/css'/>
-  <link href='css/piazza.css' rel='stylesheet' type='text/css'/>
   <script src='lib/jquery-1.8.0.min.js' type='text/javascript'></script>
   <script src='lib/jquery.slideto.min.js' type='text/javascript'></script>
   <script src='lib/jquery.wiggle.min.js' type='text/javascript'></script>
@@ -35,11 +34,7 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-		if (window.location.href.indexOf('index.html') > 0) {
-        url = window.location.href.replace('index.html', 'swagger-gateway.json');
-		} else {
-		url = window.location.href + '/swagger-gateway.json';
-		}
+        url = "https://raw.githubusercontent.com/venicegeo/pz-gateway/master/swagger-gateway.yaml";
       }
 
       // Pre load translate...
@@ -47,7 +42,6 @@
         window.SwaggerTranslator.translate();
       }
       window.swaggerUi = new SwaggerUi({
-        validatorUrl: null,
         url: url,
         dom_id: "swagger-ui-container",
         supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
@@ -72,8 +66,6 @@
           });
 
           addApiKeyAuthorization();
-          window.swaggerUi.api.setHost( window.location.hostname.replace("swagger","gateway") );
-          window.swaggerUi.api.clientAuthorizations.add("api_key", new SwaggerClient.ApiKeyAuthorization("Authorization", "Basic MTMzOTU5OTQtMzg1OC00MzE1LThiYzEtMjkyN2RmZTRkNDgzOnRlc3Q0bGlmZQ==", "header"));
         },
         onFailure: function(data) {
           log("Unable to Load SwaggerUI");
@@ -109,49 +101,23 @@
           console.log.apply(console, arguments);
         }
       }
-
-      /* Handling Piazza user login */
-      $("#login-button").click(function() {
-        // Encode basic token from login information
-        var basicToken = "Basic " + btoa($("#api-key-input").val() + ":");
-        // Set Header
-        window.swaggerUi.api.clientAuthorizations.add("api_key", new SwaggerClient.ApiKeyAuthorization("Authorization", basicToken, "header"));
-        // Clear password input
-        $("#api-key-input").val('');
-        // Tell the user
-        alert("Authorization headers set for this session.");
-      });
   });
   </script>
 </head>
 
 <body class="swagger-section">
-
-  <!-- Old Swagger Header. No longer shown -->
-  <div id='header'>
-    <div class="swagger-ui-wrap">
-      <a id="logo" href="http://swagger.io">swagger</a>
-      <form id='api_selector'>
-        <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
-        <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
-        <div class='input'><a id="explore" href="#" data-sw-translate>Explore</a></div>
-      </form>
-    </div>
+<div id='header'>
+  <div class="swagger-ui-wrap">
+    <a id="logo" href="http://swagger.io">swagger</a>
+    <form id='api_selector'>
+      <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
+      <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
+      <div class='input'><a id="explore" href="#" data-sw-translate>Explore</a></div>
+    </form>
   </div>
+</div>
 
-  <!-- Class Banner -->
-  <div class="unclassified">UNCLASSIFIED</div>
-
-  <!-- New Piazza header, with login fields -->
-  <div class="piazza-header">
-    <span class="piazza-login">
-      <input id="api-key-input" type="text" placeholder="API Key" class="piazza-input"/>
-      <button id="login-button" class="piazza-button">Set API Key</button>
-    </span>
-  </div>
-
-  <img src="images/piazza.png" class="piazza-logo"/>
-  <div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
-  <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+<div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
+<div id="swagger-ui-container" class="swagger-ui-wrap"></div>
 </body>
 </html>
