@@ -115,7 +115,8 @@ dom_id | The id of a dom element inside which SwaggerUi will put the user interf
 oauth2RedirectUrl | OAuth redirect URL
 operationsSorter | Apply a sort to the operation list of each API. It can be 'alpha' (sort by paths alphanumerically), 'method' (sort by HTTP method) or a function (see Array.prototype.sort() to know how sort function works). Default is the order returned by the server unchanged.
 configUrl | Configs URL
-parameterMacro | MUST be a function. Function to modify parameters. Accepts two arguments parameterMacro(operation, parameter). Operation is an object passed for context, remains immutable, parameter can be changed directly
+parameterMacro | MUST be a function. Function to set default value to parameters. Accepts two arguments parameterMacro(operation, parameter). Operation and parameter are objects passed for context, both remain immutable
+modelPropertyMacro | MUST be a function. Function to set default values to each property in model. Accepts one argument modelPropertyMacro(property), property is immutable
 
 ### Plugins
 

@@ -77,9 +77,6 @@ window.onload = function() {
   const ui = SwaggerUIBundle({
     url: "http://petstore.swagger.io/v2/swagger.json",
     dom_id: '#swagger-ui',
-    parameterMacro: function (operation, parameter) {
-      return parameter
-    },
     presets: [
       SwaggerUIBundle.presets.apis,
       SwaggerUIStandalonePreset
