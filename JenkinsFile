@@ -59,6 +59,19 @@ node {
     }
   }
 
+  stage ('Stage: Integration Testing') {
+    postman {
+      cfSpace = 'stage'
+    }
+  }
+
+  stage('Reset') {
+    git([
+      url: env.GIT_URL ? env.GIT_URL : 'https://github.com/venicegeo/pz-swagger',
+      branch: "master"
+    ])
+  }
+
   stage('Final Scans') {
     fortify {
       threadfixId = THREADFIX_ID
