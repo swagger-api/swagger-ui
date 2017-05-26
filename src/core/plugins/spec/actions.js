@@ -176,12 +176,7 @@ export const executeRequest = (req) => ({fn, specActions, specSelectors}) => {
   // if url is relative, parseUrl makes it absolute by inferring from `window.location`
   req.contextUrl = parseUrl(specSelectors.url()).toString()
 
-
-  if(op && op.operationId) {
-    req.operationId = op.operationId
-  } else if(op && pathName && method) {
-    req.operationId = fn.opId(op, pathName, method)
-  }
+  req.operationId = fn.opId(op, pathName, method)
 
   let parsedRequest = Object.assign({}, req)
   parsedRequest = fn.buildRequest(parsedRequest)
