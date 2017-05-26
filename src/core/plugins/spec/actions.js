@@ -77,7 +77,9 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
   return specActions.updateJsonSpec(json)
 }
 
-export const resolveSpec = (json, url) => ({specActions, specSelectors, errActions, fn: { fetch, resolve, AST }}) => {
+export const resolveSpec = (json, url) => ({specActions, specSelectors, errActions, fn: { fetch, resolve, AST }, getConfigs}) => {
+  const { modelPropertyMacro, parameterMacro } = getConfigs()
+
   if(typeof(json) === "undefined") {
     json = specSelectors.specJson()
   }
@@ -89,7 +91,7 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
 
   let specStr = specSelectors.specStr()
 
-  return resolve({fetch, spec: json, baseDoc: url})
+  return resolve({fetch, spec: json, baseDoc: url, modelPropertyMacro, parameterMacro })
   .then( ({spec, errors}) => {
     errActions.clear({
       type: "thrown"
