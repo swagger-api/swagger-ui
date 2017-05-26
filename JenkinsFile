@@ -59,6 +59,12 @@ node {
     }
   }
 
+  stage ('Stage: Integration Testing') {
+    postman {
+      cfSpace = 'stage'
+    }
+  }
+
   stage('Final Scans') {
     fortify {
       threadfixId = THREADFIX_ID
