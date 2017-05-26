@@ -189,6 +189,7 @@ export default class Operation extends React.Component {
               }
               <Parameters
                 parameters={parameters}
+                operation={operation}
                 onChangeKey={onChangeKey}
                 onTryoutClick = { this.onTryoutClick }
                 onCancelClick = { this.onCancelClick }

@@ -217,7 +217,7 @@ class Model extends Component {
   }
 
   render () {
-    let { schema, required, name, isRef } = this.props
+    let { schema, required, name, isRef, getComponent } = this.props
     let $$ref = schema && schema.get("$$ref")
     let modelName = $$ref && this.getModelName( $$ref )
     let modelSchema, type
