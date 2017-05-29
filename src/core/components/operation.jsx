@@ -123,6 +123,7 @@ export default class Operation extends React.Component {
     let produces = operation.get("produces")
     let schemes = operation.get("schemes")
     let parameters = getList(operation, ["parameters"])
+    let operationId = operation.get("operationId")
 
     const Responses = getComponent("responses")
     const Parameters = getComponent( "parameters" )
@@ -148,6 +149,7 @@ export default class Operation extends React.Component {
         <div className={deprecated ? "opblock opblock-deprecated" : shown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={isShownKey} >
           <div className={`opblock-summary opblock-summary-${method}`} onClick={this.toggleShown} >
             <span className="opblock-summary-method">{method.toUpperCase()}</span>
+            
             <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } >
               <span>{path}</span>
               <JumpToPath path={jumpToKey} />
@@ -158,7 +160,7 @@ export default class Operation extends React.Component {
                   { summary }
                 </div>
             }
-
+            <span className="opblock-summary-path">{operationId}</span>
             {
               (!security || !security.count()) ? null :
                 <AuthorizeOperationBtn authActions={ authActions }
