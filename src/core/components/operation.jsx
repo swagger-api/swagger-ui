@@ -160,7 +160,7 @@ export default class Operation extends React.Component {
                   { summary }
                 </div>
             }
-            <span className="opblock-summary-path">{operationId}</span>
+            <span className="opblock-summary-operation-id">{operationId}</span>
             {
               (!security || !security.count()) ? null :
                 <AuthorizeOperationBtn authActions={ authActions }
