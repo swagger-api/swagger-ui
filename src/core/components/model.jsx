@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from "react"
 import ImPropTypes from "react-immutable-proptypes"
 import { List } from "immutable"
-const braceOpen = "{"
-const braceClose = "}"
 
 const propStyle = { color: "#999", fontStyle: "italic" }
 
@@ -40,6 +38,15 @@ class ObjectModel extends Component {
     let additionalProperties = schema.get("additionalProperties")
     let title = schema.get("title") || name
     let required = schema.get("required")
+    let isArrayModel = false
+    let braceOpen = "{"
+    let braceClose = "}"
+    if (properties._tail){  
+      isArrayModel = true
+      braceOpen = "["
+      braceClose = "]"
+    }
+
     const JumpToPathSection = ({ name }) => <span className="model-jump-to-path"><JumpToPath path={`definitions.${name}`} /></span>
   let collapsedContent = (<span>
       <span>{ braceOpen }</span>...<span>{ braceClose }</span>
@@ -77,18 +84,48 @@ class ObjectModel extends Component {
                       if ( isRequired ) {
                         propertyStyle.fontWeight = "bold"
                       }
-
-                      return (<tr key={key}>
-                        <td style={ propertyStyle }>{ key }:</td>
-                        <td style={{ verticalAlign: "top" }}>
-                          <Model key={ `object-${name}-${key}_${value}` } { ...props }
-                                 required={ isRequired }
-                                 getComponent={ getComponent }
-                                 schema={ value }
-                                 depth={ depth + 1 } />
-                        </td>
-                      </tr>)
-                    }).toArray()
+                      if(isArrayModel){
+                        let modelDefinitions =  value._list._tail.array
+                        let modelContent = []
+                        propertyStyle.paddingLeft = "2em"
+                        for(let defnObjKey in modelDefinitions) {
+                          let innerKey, innerValue
+                          innerKey = modelDefinitions[defnObjKey][0]
+                          innerValue = modelDefinitions[defnObjKey][1]
+                          modelContent.push(
+                            <tr key={innerKey}>
+                            <td style={ propertyStyle }>{ innerKey }:</td>
+                              <td style={{ verticalAlign: "top" }}>
+                                <Model key={ `object-${name}-${innerKey}_${innerValue}` } { ...props }
+                                required={ isRequired }
+                                getComponent={ getComponent }
+                                schema={ innerValue }
+                                depth={ depth + 1 } />
+                              </td>
+                            </tr>
+                          ) 
+                        }
+                        return (<tr key={key}>
+                                  <span className="brace-open object">{ "{" }</span>
+                                  {modelContent}
+                                  <span className="brace-close">{ "}" }</span>
+                                </tr>) 
+                      }
+                      else{
+                        propertyStyle = { verticalAlign: "top", paddingRight: "0.2em"}
+                        return (<tr key={key}>
+                                  <td style={ propertyStyle }>{ key }:</td>
+                                  <td style={{ verticalAlign: "top" }}>
+                                    <Model key={ `object-${name}-${key}_${value}` } { ...props }
+                                    required={ isRequired }
+                                    getComponent={ getComponent }
+                                    schema={ value }
+                                    depth={ depth + 1 } />
+                                  </td>
+                              </tr>)
+                      }
+                    }
+                ).toArray()
               }
               {
                 !additionalProperties || !additionalProperties.size ? null
