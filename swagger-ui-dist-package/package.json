@@ -1,7 +1,7 @@
 {
   "name": "swagger-ui-dist",
   "version": "$$VERSION",
-  "main": "dist/swagger-ui.js",
+  "main": "index.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
     "(in alphabetical order)",
