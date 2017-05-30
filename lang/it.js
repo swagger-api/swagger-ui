@@ -48,5 +48,6 @@ window.SwaggerTranslator.learn({
     "Finished Loading Resource Information. Rendering Swagger UI":"Lettura informazioni risorse termianta. Swagger UI viene mostrata",
     "Unable to read api":"Impossibile leggere la api",
     "from path":"da cartella",
-    "server returned":"il server ha restituito"
+    "server returned":"il server ha restituito",
+    "Authorize":"Autorizzare"
 });

@@ -4,7 +4,7 @@
  * @link http://swagger.io
  * @license Apache-2.0
  */
-(function(){/* jshint ignore:start */ 
+(function(){/* jshint ignore:start */
  {(function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
 templates['apikey_auth'] = template({"1":function(container,depth0,helpers,partials,data) {
@@ -29,7 +29,7 @@ templates['apikey_auth'] = template({"1":function(container,depth0,helpers,parti
     + "        </div>\n    </div>\n</div>\n";
 },"useData":true});
 templates['auth_button'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<a class='authorize__btn' href=\"#\">Authorize</a>\n";
+    return "<a class='authorize__btn' href=\"#\" data-sw-translate>Authorize</a>\n";
 },"useData":true});
 templates['auth_button_operation'] = template({"1":function(container,depth0,helpers,partials,data) {
     return "        authorize__btn_operation_login\n";
@@ -685,7 +685,7 @@ templates['resource'] = template({"1":function(container,depth0,helpers,partials
     + ((stack1 = (helpers.sanitize || (depth0 && depth0.sanitize) || helpers.helperMissing).call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.url : depth0),{"name":"sanitize","hash":{},"data":data})) != null ? stack1 : "")
     + "' data-sw-translate>Raw</a>\n    </li>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, options, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, buffer = 
+    var stack1, helper, options, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, buffer =
   "<div class='heading'>\n  <h2>\n    <a href='#!/"
     + ((stack1 = (helpers.sanitize || (depth0 && depth0.sanitize) || alias2).call(alias1,(depth0 != null ? depth0.id : depth0),{"name":"sanitize","hash":{},"data":data})) != null ? stack1 : "")
     + "' class=\"toggleEndpointList\" data-id=\""
@@ -797,7 +797,7 @@ templates['status_code'] = template({"1":function(container,depth0,helpers,parti
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.headers : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "    </tbody>\n  </table>\n</td>";
 },"useData":true});
-})();} 
+})();}
  /* jshint ignore:end */
 'use strict';
 
@@ -3091,7 +3091,7 @@ Handlebars.registerHelper('sanitize', function (text) {
 
 Handlebars.registerHelper('renderTextParam', function(param) {
     var result, type = 'text', idAtt = '';
-	var paramType = (param.schema) ? param.type || param.schema.type || '' : param.type || ''; 
+	var paramType = (param.schema) ? param.type || param.schema.type || '' : param.type || '';
     var isArray = paramType.toLowerCase() === 'array' || param.allowMultiple;
     var defaultValue = isArray && Array.isArray(param.default) ? param.default.join('\n') : param.default;
     var name = Handlebars.Utils.escapeExpression(param.name);
@@ -24861,7 +24861,7 @@ SwaggerUi.partials.signature = (function () {
     return result;
   };
   */
-  
+
   var getPrefix = function (name, xml) {
     var result = name || '';
 
@@ -24999,7 +24999,7 @@ SwaggerUi.partials.signature = (function () {
 
     if (namespace) {
       attrs.push(namespace);
-    }   
+    }
 
     if (!properties && !additionalProperties) { return getErrorMessage(); }
 
@@ -25044,10 +25044,10 @@ SwaggerUi.partials.signature = (function () {
     var output, index;
     config = config || {};
     config.modelsToIgnore = config.modelsToIgnore || [];
-   
+
     var descriptor = _.isString($ref) ? getDescriptorByRef($ref, name, models, config)
         : getDescriptor(name, definition, models, config);
-    
+
     if (!descriptor) {
       return getErrorMessage();
     }
@@ -25098,7 +25098,7 @@ SwaggerUi.partials.signature = (function () {
     else {
         name = name || model.name;
     }
-    
+
     if (config.modelsToIgnore.indexOf($ref) > -1) {
       type = 'loop';
       config.loopTo = modelType;
@@ -25109,7 +25109,7 @@ SwaggerUi.partials.signature = (function () {
     if (!model.definition) {
       return null;
     }
-    return new Descriptor(name, type, model.definition, models, config);    
+    return new Descriptor(name, type, model.definition, models, config);
   }
 
   function getDescriptor (name, definition, models, config){
