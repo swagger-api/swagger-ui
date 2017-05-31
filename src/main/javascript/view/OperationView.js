@@ -23,13 +23,14 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
 
     if (opts.swaggerOptions) {
       this.model.defaultRendering = opts.swaggerOptions.defaultModelRendering;
+      this.model.autocheckScopes = opts.swaggerOptions.autocheckScopes;
 
       if (opts.swaggerOptions.showRequestHeaders) {
-        this.model.showRequestHeaders = true;
+          this.model.showRequestHeaders = true;
       }
 
-      if (opts.swaggerOptions.showOperationIds) {
-        this.model.showOperationIds = true;
+        if (opts.swaggerOptions.showOperationIds) {
+          this.model.showOperationIds = true;
       }
     }
     return this;
@@ -262,7 +263,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
 
     if (Array.isArray(this.model.security)) {
-      var authsModel = SwaggerUi.utils.parseSecurityDefinitions(this.model.security, this.model.parent.securityDefinitions);
+      var authsModel = SwaggerUi.utils.parseSecurityDefinitions(this.model.security, this.model.parent.securityDefinitions, this.model.autocheckScopes);
 
       authsModel.isLogout = !_.isEmpty(this.model.clientAuthorizations.authz);
       this.authView = new SwaggerUi.Views.AuthButtonView({
