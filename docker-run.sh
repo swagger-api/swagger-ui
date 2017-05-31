@@ -13,7 +13,7 @@ replace_in_index () {
 }
 
 replace_or_delete_in_index () {
-  if [ -z "$2" ]; then
+  if [ -z "$2" ] || [ "$2" = "**None**" ]; then
     sed -i "/$1/d" $INDEX_FILE
   else
     replace_in_index $1 $2
