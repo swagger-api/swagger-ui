@@ -138,7 +138,7 @@ let preset = [
 #### Configs plugin
 Configs plugin allows to fetch external configs instead of passing them to `SwaggerUIBundle`. Fetched configs support two formats: JSON or yaml. The plugin is enabled by default. 
 There are three options of passing config:
-- add a query parameter `config` with URL to a server where the configs are hosted. For ex. http://petstore.swagger.io/?configs=http://localhost:3001/config.yaml
+- add a query parameter `config` with URL to a server where the configs are hosted. For ex. http://petstore.swagger.io/?config=http://localhost:3001/config.yaml
 - add a config `configUrl` with URL to SwaggerUIBundle
 - change default configs in `swagger-config.yaml` *Note: after changing, the project must be re-built*
 
