@@ -94,22 +94,20 @@ class Parameters extends Component {
 
     const ParameterRow = getComponent("parameterRow")
     const TryItOutButton = getComponent("TryItOutButton")
-    const Model = getComponent("model")
+    const Callbacks = getComponent("Callbacks", true)
+    const RequestBody = getComponent("RequestBody", true)
 
     const isExecute = tryItOutEnabled && allowTryItOut
 
     const requestBody = operation.get("requestBody")
-    const requestBodyDescription = (requestBody && requestBody.get("description")) || null
-    const requestBodyContent = (requestBody && requestBody.get("content")) || new OrderedMap()
-
     return (
       <div className="opblock-section">
         <div className="opblock-section-header">
           <div className="tab-header">
-            <div onClick={() => this.toggleTab("parameters")} className={this.state.parametersVisible ? "tab-item active" : "tab-item"}>
+            <div onClick={() => this.toggleTab("parameters")} className={`tab-item ${this.state.parametersVisible && "active"}`}>
               <h4 className="opblock-title"><span>Parameters</span></h4>
             </div>
-            <div onClick={() => this.toggleTab("callbacks")} className="tab-item">
+            <div onClick={() => this.toggleTab("callbacks")} className={`tab-item ${this.state.callbackVisible && "active"}`}>
               <h4 className="opblock-title"><span>Callbacks</span></h4>
             </div>
           </div>
@@ -147,31 +145,17 @@ class Parameters extends Component {
           }
         </div> : "" }
 
-        {this.state.callbackVisible ? <div className="callbacks-container">
-          covfefe
+        {this.state.callbackVisible ? <div className="callbacks-container opblock-description-wrapper">
+          <Callbacks callbacks={operation.get("callbacks")} />
         </div> : "" }
         {
-          requestBody &&
+          requestBody && this.state.parametersVisible &&
           <div className="opblock-section">
             <div className="opblock-section-header">
               <h4 className="opblock-title">Request body</h4>
             </div>
             <div className="opblock-description-wrapper">
-              { requestBodyDescription &&
-                <p>{requestBodyDescription}</p>
-              }
-              { !requestBodyContent.count() ? <p>No content</p> :
-                requestBodyContent.map((mediaTypeValue, key) => (
-                  <div>
-                    <h4>{key}</h4>
-                    <Model
-                      getComponent={ getComponent }
-                      specSelectors={ specSelectors }
-                      expandDepth={1}
-                      schema={mediaTypeValue.get("schema")} />
-                  </div>
-                )).toArray()
-              }
+              <RequestBody requestBody={requestBody} />
             </div>
           </div>
         }
