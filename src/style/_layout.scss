@@ -75,6 +75,11 @@ body
     {
         border-color: $color;
     }
+
+    .tab-header .tab-item.active h4 span:after
+    {
+        background: $color;
+    }
 }
 
 
@@ -142,6 +147,51 @@ body
     border-radius: 4px;
     box-shadow: 0 0 3px rgba(#000,.19);
 
+    .tab-header
+    {
+        display: flex;
+
+        flex: 1;
+
+        .tab-item
+        {
+            padding: 0 40px;
+
+            cursor: pointer;
+
+            &:first-of-type
+            {
+                padding: 0 40px 0 0;
+            }
+            &.active
+            {
+                h4
+                {
+                    span
+                    {
+                        position: relative;
+
+
+                        &:after
+                        {
+                            position: absolute;
+                            bottom: -15px;
+                            left: 50%;
+
+                            width: 120%;
+                            height: 4px;
+
+                            content: '';
+                            transform: translateX(-50%);
+
+                            background: #888;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     &.is-open
     {
@@ -186,7 +236,6 @@ body
 
             margin: 0;
 
-            flex: 1;
             @include text_headline();
         }
     }
@@ -310,12 +359,12 @@ body
 
     .opblock-schemes
     {
-      padding: 8px 20px;
+        padding: 8px 20px;
 
-      .schemes-title
-      {
-        padding: 0 10px 0 0;
-      }
+        .schemes-title
+        {
+            padding: 0 10px 0 0;
+        }
     }
 }
 
