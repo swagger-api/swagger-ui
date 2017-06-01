@@ -80,6 +80,7 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
 
   if ( passwordType === "basic") {
     headers.Authorization = "Basic " + btoa(username + ":" + password)
+    Object.assign(form, {client_id: clientId, client_secret: clientSecret})
   } else {
     Object.assign(form, {username}, {password})
 
