@@ -19,7 +19,7 @@
     "build-core": "webpack --config webpack-dist.config.js --colors",
     "build-standalone": "webpack --config webpack-dist-standalone.config.js --colors",
     "predev": "npm install",
-    "dev": "npm-run-all --parallel hot-server watch  open-localhost",
+    "dev": "npm-run-all --parallel hot-server open-localhost",
     "watch": "webpack --config webpack-watch.config.js --watch --progress",
     "open-localhost": "node -e 'require(\"open\")(\"http://localhost:3200\")'",
     "hot-server": "webpack-dev-server --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress --content-base dev-helpers/",
