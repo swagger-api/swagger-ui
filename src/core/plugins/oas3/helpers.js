@@ -12,7 +12,7 @@ export function OAS3ComponentWrapFactory(Component) {
       const spec = system.specSelectors.specJson().toJS()
 
       if(isOAS3(spec)) {
-        return <Component {...props} Ori={Ori}></Component>
+        return <Component {...props} {...system} Ori={Ori}></Component>
       } else {
         return <Ori {...props}></Ori>
       }
