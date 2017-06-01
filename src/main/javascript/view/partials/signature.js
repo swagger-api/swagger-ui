@@ -547,19 +547,21 @@ SwaggerUi.partials.signature = (function () {
   };
 
   // copy-pasted from swagger-js
-  var createJSONSample = function (value, modelsToIgnore) {
+  var createJSONSample = function (value, modelsToIgnore, ignoreReadOnly) {
     modelsToIgnore = modelsToIgnore || {};
 
     modelsToIgnore[value.name] = value;
 
+    var keys, example;
+
     // Response support
     if (value.examples && _.isPlainObject(value.examples)) {
       value = _.cloneDeep(value);
-      var keys = Object.keys(value.examples);
+      keys = Object.keys(value.examples);
 
       _.forEach(keys, function(key) {
         if(key.indexOf('application/json') === 0) {
-          var example = value.examples[key];
+          example = value.examples[key];
           if (_.isString(example)) {
             example = jsyaml.safeLoad(example);
           }
@@ -571,12 +573,25 @@ SwaggerUi.partials.signature = (function () {
 
     if (value.examples) {
       value = _.cloneDeep(value);
-      var example = value.examples;
+      example = value.examples;
       if (_.isString(example)) {
         example = jsyaml.safeLoad(example);
       }
       value.definition.example = example;
       return schemaToJSON(value.definition, example, modelsToIgnore, value.modelPropertyMacro);
+    }
+
+    if(ignoreReadOnly) {
+      //remove readonly properties from example
+      value = _.cloneDeep(value);
+      example = schemaToJSON(value.definition, value.models, modelsToIgnore, value.modelPropertyMacro);
+      keys = [];
+      _.each(value.definition.properties, function(prop, name) {
+        if(prop.readOnly==='true' || prop.readOnly===true) {
+          keys.push(name);
+        }
+      });
+      return _.omit(example, keys);
     }
 
     return schemaToJSON(value.definition, value.models, modelsToIgnore, value.modelPropertyMacro);
@@ -634,9 +649,9 @@ SwaggerUi.partials.signature = (function () {
     innerType = listType ? type[0] : type;
 
     if(models[innerType]) {
-      sampleJson = createJSONSample(models[innerType]);
+      sampleJson = createJSONSample(models[innerType], null, true);
     } else if (getInlineModel(innerType)){
-      sampleJson = createJSONSample(getInlineModel(innerType)); // may return null, if type isn't correct
+      sampleJson = createJSONSample(getInlineModel(innerType), null, true); // may return null, if type isn't correct
     }
 
 
@@ -706,7 +721,7 @@ SwaggerUi.partials.signature = (function () {
     return result;
   };
   */
-  
+
   var getPrefix = function (name, xml) {
     var result = name || '';
 
@@ -844,7 +859,7 @@ SwaggerUi.partials.signature = (function () {
 
     if (namespace) {
       attrs.push(namespace);
-    }   
+    }
 
     if (!properties && !additionalProperties) { return getErrorMessage(); }
 
@@ -889,10 +904,10 @@ SwaggerUi.partials.signature = (function () {
     var output, index;
     config = config || {};
     config.modelsToIgnore = config.modelsToIgnore || [];
-   
+
     var descriptor = _.isString($ref) ? getDescriptorByRef($ref, name, models, config)
         : getDescriptor(name, definition, models, config);
-    
+
     if (!descriptor) {
       return getErrorMessage();
     }
@@ -943,7 +958,7 @@ SwaggerUi.partials.signature = (function () {
     else {
         name = name || model.name;
     }
-    
+
     if (config.modelsToIgnore.indexOf($ref) > -1) {
       type = 'loop';
       config.loopTo = modelType;
@@ -954,7 +969,7 @@ SwaggerUi.partials.signature = (function () {
     if (!model.definition) {
       return null;
     }
-    return new Descriptor(name, type, model.definition, models, config);    
+    return new Descriptor(name, type, model.definition, models, config);
   }
 
   function getDescriptor (name, definition, models, config){
