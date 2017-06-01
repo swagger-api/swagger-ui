@@ -53,7 +53,7 @@ export default class ApiKeyAuth extends React.Component {
         <h4>Api key authorization<JumpToPath path={[ "securityDefinitions", name ]} /></h4>
         { value && <h6>Authorized</h6>}
         <Row>
-          <Markdown options={{html: true, typographer: true, linkify: true, linkTarget: "_blank"}}
+          <Markdown options={{typographer: true, linkify: true, linkTarget: "_blank"}}
                     source={ schema.get("description") } />
         </Row>
         <Row>
