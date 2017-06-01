@@ -1,6 +1,6 @@
 import React from "react"
 
-const SUPPORTED_OPENAPI_VERSIONS = ["3.0.0-rc0", "3.0.0-RC1"]
+export const SUPPORTED_OPENAPI_VERSIONS = ["3.0.0-rc0", "3.0.0-RC1"]
 
 export function isOAS3(jsSpec) {
   return !!jsSpec.openapi && SUPPORTED_OPENAPI_VERSIONS.indexOf(jsSpec.openapi) > -1

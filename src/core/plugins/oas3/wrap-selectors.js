@@ -1,5 +1,6 @@
 import { createSelector } from "reselect"
 import { Map } from "immutable"
+import { SUPPORTED_OPENAPI_VERSIONS } from "./helpers"
 
 // Helpers
 
@@ -7,7 +8,7 @@ function onlyOAS3(selector) {
   return (ori, system) => (...args) => {
     const spec = system.getSystem().specSelectors.specJson()
     const version = spec.get("openapi")
-    if(typeof version === "string" && version.startsWith("3.0.0")) {
+    if(typeof version === "string" && SUPPORTED_OPENAPI_VERSIONS.indexOf(version) > -1) {
       return selector(...args)
     } else {
       return ori(...args)
