@@ -41,13 +41,9 @@ export default class Topbar extends React.Component {
           <div className="wrapper">
             <div className="topbar-wrapper">
               <Link href="#" title="Swagger UX">
-                <img height="30" width="30" src={ Logo } alt="Swagger UX"/>
-                <span>swagger</span>
+                <img height="30" width="110" src={ Logo } alt="eBaoCloud"/>
+                <span>eBaoCloud API</span>
               </Link>
-              <form className="download-url-wrapper" onSubmit={this.downloadUrl}>
-                <input className="download-url-input" type="text" onChange={ this.onUrlChange } value={this.state.url} disabled={isLoading} style={inputStyle} />
-                <Button className="download-url-button" onClick={ this.downloadUrl }>Explore</Button>
-              </form>
             </div>
           </div>
         </div>

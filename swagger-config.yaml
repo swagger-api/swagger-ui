@@ -1,5 +1,5 @@
 ---
-url: "http://ualapi.ebaocloud.life/api/swagger.json"
+url: "http://ualapi.ebaocloud.life/api/sswagger.json"
 dom_id: "#swagger-ui"
 validatorUrl: "https://online.swagger.io/validator"
 oauth2RedirectUrl: "http://localhost:3200/oauth2-redirect.html"
