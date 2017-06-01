@@ -13,7 +13,6 @@ export default class Parameters extends Component {
      callbackVisible: false,
      parametersVisible: true
    }
-   //this.toggleTab = this.toggleTab.bind(this)
  }
 
   static propTypes = {
@@ -57,13 +56,20 @@ export default class Parameters extends Component {
     changeConsumesValue(onChangeKey, val)
   }
 
-  // toggleTab = (tab) => {
-  //   if(tab === "parameters"){
-  //     this.setState({parametersVisible: true})
-  //   }else if(tab === "callbacks"){
-  //     this.setState({callbackVisible: true})
-  //   }
-  // }
+  toggleTab = (tab) => {
+    console.log("togggling to tab", tab)
+    if(tab === "parameters"){
+      return this.setState({
+        parametersVisible: true,
+        callbackVisible: false
+      })
+    }else if(tab === "callbacks"){
+      return this.setState({
+        callbackVisible: true,
+        parametersVisible: false
+      })
+    }
+  }
 
   render(){
 
@@ -89,10 +95,10 @@ export default class Parameters extends Component {
       <div className="opblock-section">
         <div className="opblock-section-header">
           <div className="tab-header">
-            <div onClick={this.toggleTab("parameters")} className={this.state.parametersVisible ? "tab-item active" : "tab-item"}>
+            <div onClick={() => this.toggleTab("parameters")} className={this.state.parametersVisible ? "tab-item active" : "tab-item"}>
               <h4 className="opblock-title"><span>Parameters</span></h4>
             </div>
-            <div onClick={this.toggleTab("callbacks")} className="tab-item">
+            <div onClick={() => this.toggleTab("callbacks")} className="tab-item">
               <h4 className="opblock-title"><span>Callbacks</span></h4>
             </div>
           </div>
@@ -130,7 +136,9 @@ export default class Parameters extends Component {
           }
         </div> : "" }
 
-        {this.state.callbackVisible ? <div className="callbacks-container"></div> : "" }
+        {this.state.callbackVisible ? <div className="callbacks-container">
+          covfefe
+        </div> : "" }
       </div>
     )
   }
