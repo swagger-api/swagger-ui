@@ -81,11 +81,11 @@ default `client_id` and `client_secret`, `realm`, an application name `appName`,
 
 Config Name | Description
 --- | ---
-client_id | Default clientId. MUST be a string 
-client_secret | Default clientSecret. MUST be a string 
+client_id | Default clientId. MUST be a string
+client_secret | Default clientSecret. MUST be a string
 realm | realm query parameter (for oauth1) added to `authorizationUrl` and `tokenUrl` . MUST be a string
 appName | application name, displayed in authorization popup. MUST be a string
-scopeSeparator | scope separator for passing scopes, encoded before calling, default value is a space (encoded value `%20`). MUST be a string 
+scopeSeparator | scope separator for passing scopes, encoded before calling, default value is a space (encoded value `%20`). MUST be a string
 additionalQueryStringParams | Additional query parameters added to `authorizationUrl` and `tokenUrl`. MUST be an object
 
 ```
@@ -117,6 +117,7 @@ operationsSorter | Apply a sort to the operation list of each API. It can be 'al
 configUrl | Configs URL
 parameterMacro | MUST be a function. Function to set default value to parameters. Accepts two arguments parameterMacro(operation, parameter). Operation and parameter are objects passed for context, both remain immutable
 modelPropertyMacro | MUST be a function. Function to set default values to each property in model. Accepts one argument modelPropertyMacro(property), property is immutable
+docExpansion | Controls the default expansion setting for the operations and tags. It can be 'list' (expands only the tags), 'full' (expands the tags and operations) or 'none' (expands nothing). The default is 'list'.
 
 ### Plugins
 
@@ -136,7 +137,7 @@ let preset = [
 ```
 
 #### Configs plugin
-Configs plugin allows to fetch external configs instead of passing them to `SwaggerUIBundle`. Fetched configs support two formats: JSON or yaml. The plugin is enabled by default. 
+Configs plugin allows to fetch external configs instead of passing them to `SwaggerUIBundle`. Fetched configs support two formats: JSON or yaml. The plugin is enabled by default.
 There are three options of passing config:
 - add a query parameter `config` with URL to a server where the configs are hosted. For ex. http://petstore.swagger.io/?config=http://localhost:3001/config.yaml
 - add a config `configUrl` with URL to SwaggerUIBundle
