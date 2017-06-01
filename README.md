@@ -41,7 +41,9 @@ Will start nginx with swagger-ui on port 80.
 
 If you just want to see your specs, open `dist/index.html` in your browser directly from your filesystem.
 
-If you'd like to make modifications to the codebase, run the dev server with: `npm run dev`.
+If you'd like to make modifications to the codebase, run the dev server with: `npm run dev`. A development server will open on `3200`.
+
+If you'd like to rebuild the `/dist` folder with your codebase changes, run `npm run build`.
 
 ##### Browser support
 Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE11.
