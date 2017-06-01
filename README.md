@@ -15,7 +15,7 @@ The OpenAPI Specification has undergone 4 revisions since initial creation in 20
 
 Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes | Status
 ------------------ | ------------ | -------------------------- | ----- | ------
-3.0.10              | 2017-03-19   | 2.0                        | [tag v3.0.10](https://github.com/swagger-api/swagger-ui/tree/v3.0.10) |
+3.0.12              | 2017-03-19   | 2.0                        | [tag v3.0.12](https://github.com/swagger-api/swagger-ui/tree/v3.0.12) |
 2.2.10             | 2017-01-04   | 1.1, 1.2, 2.0              | [tag v2.2.10](https://github.com/swagger-api/swagger-ui/tree/v2.2.10) |
 2.1.5              | 2016-07-20   | 1.1, 1.2, 2.0              | [tag v2.1.5](https://github.com/swagger-api/swagger-ui/tree/v2.1.5) |
 2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) |
@@ -115,6 +115,8 @@ dom_id | The id of a dom element inside which SwaggerUi will put the user interf
 oauth2RedirectUrl | OAuth redirect URL
 operationsSorter | Apply a sort to the operation list of each API. It can be 'alpha' (sort by paths alphanumerically), 'method' (sort by HTTP method) or a function (see Array.prototype.sort() to know how sort function works). Default is the order returned by the server unchanged.
 configUrl | Configs URL
+parameterMacro | MUST be a function. Function to set default value to parameters. Accepts two arguments parameterMacro(operation, parameter). Operation and parameter are objects passed for context, both remain immutable
+modelPropertyMacro | MUST be a function. Function to set default values to each property in model. Accepts one argument modelPropertyMacro(property), property is immutable
 
 ### Plugins
 
@@ -136,7 +138,7 @@ let preset = [
 #### Configs plugin
 Configs plugin allows to fetch external configs instead of passing them to `SwaggerUIBundle`. Fetched configs support two formats: JSON or yaml. The plugin is enabled by default. 
 There are three options of passing config:
-- add a query parameter `config` with URL to a server where the configs are hosted. For ex. http://petstore.swagger.io/?configs=http://localhost:3001/config.yaml
+- add a query parameter `config` with URL to a server where the configs are hosted. For ex. http://petstore.swagger.io/?config=http://localhost:3001/config.yaml
 - add a config `configUrl` with URL to SwaggerUIBundle
 - change default configs in `swagger-config.yaml` *Note: after changing, the project must be re-built*
 
