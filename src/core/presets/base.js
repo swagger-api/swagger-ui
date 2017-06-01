@@ -45,6 +45,7 @@ import ModelExample from "core/components/model-example"
 import Model from "core/components/model"
 import Models from "core/components/models"
 import TryItOutButton from "core/components/try-it-out-button"
+import VersionStamp from "core/components/version-stamp"
 
 import Markdown from "core/components/providers/markdown"
 
@@ -92,7 +93,8 @@ export default function() {
       models: Models,
       TryItOutButton,
       Markdown,
-      BaseLayout
+      BaseLayout,
+      VersionStamp
     }
   }
 
