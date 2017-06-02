@@ -173,7 +173,7 @@ export default class Operation extends React.Component {
               { description &&
                 <div className="opblock-description-wrapper">
                   <div className="opblock-description">
-                    <Markdown options={{html: true, typographer: true, linkify: true, linkTarget: "_blank"}} source={ description } />
+                    <Markdown source={ description } />
                   </div>
                 </div>
               }
