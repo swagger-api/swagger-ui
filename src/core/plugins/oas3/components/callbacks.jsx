@@ -1,7 +1,9 @@
 import React from "react"
 
-export default ({ callbacks, getComponent }) => {
+export default (props) => {
+  let { callbacks, getComponent } = props
   const Markdown = getComponent("Markdown")
+  const Operation = getComponent("operation", true)
 
   if(!callbacks) {
     return <span>No callbacks</span>
@@ -12,9 +14,14 @@ export default ({ callbacks, getComponent }) => {
       <h2>{callbackName}</h2>
       { callback.map((pathItem, pathItemName) => {
         return <div>
-          <h4>{pathItemName}</h4>
           { pathItem.map((operation, method) => {
-            return <pre>{JSON.stringify(operation)}</pre>
+            return <Operation
+              operation={operation}
+              key={method}
+              method={method}
+              path={pathItemName}
+              {...props}></Operation>
+            // return <pre>{JSON.stringify(operation)}</pre>
           }) }
         </div>
       }) }

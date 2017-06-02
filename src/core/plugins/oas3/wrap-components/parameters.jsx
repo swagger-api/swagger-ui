@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react"
-import Im, { OrderedMap } from "immutable"
+import Im, { Map } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 import { OAS3ComponentWrapFactory } from "../helpers"
 
@@ -146,7 +146,7 @@ class Parameters extends Component {
         </div> : "" }
 
         {this.state.callbackVisible ? <div className="callbacks-container opblock-description-wrapper">
-          <Callbacks callbacks={operation.get("callbacks")} />
+          <Callbacks callbacks={Map(operation.get("callbacks"))} />
         </div> : "" }
         {
           requestBody && this.state.parametersVisible &&
