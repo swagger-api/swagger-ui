@@ -67,6 +67,7 @@
     "redux-immutable": "3.0.8",
     "redux-logger": "*",
     "reselect": "2.5.3",
+    "sanitize-html": "^1.14.1",
     "serialize-error": "2.0.0",
     "shallowequal": "0.2.2",
     "swagger-client": "~3.0.12",
