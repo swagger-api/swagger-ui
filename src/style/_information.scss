@@ -13,10 +13,15 @@
             font-size: 12px;
         }
     }
-    p
+    p, li, table
     {
         font-size: 14px;
 
+        @include text_body();
+    }
+
+    h1, h2, h3, h4, h5
+    {
         @include text_body();
     }
 

@@ -41,7 +41,9 @@ Will start nginx with swagger-ui on port 80.
 
 If you just want to see your specs, open `dist/index.html` in your browser directly from your filesystem.
 
-If you'd like to make modifications to the codebase, run the dev server with: `npm run dev`.
+If you'd like to make modifications to the codebase, run the dev server with: `npm run dev`. A development server will open on `3200`.
+
+If you'd like to rebuild the `/dist` folder with your codebase changes, run `npm run build`.
 
 ##### Browser support
 Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE11.
@@ -138,7 +140,7 @@ let preset = [
 #### Configs plugin
 Configs plugin allows to fetch external configs instead of passing them to `SwaggerUIBundle`. Fetched configs support two formats: JSON or yaml. The plugin is enabled by default. 
 There are three options of passing config:
-- add a query parameter `config` with URL to a server where the configs are hosted. For ex. http://petstore.swagger.io/?configs=http://localhost:3001/config.yaml
+- add a query parameter `config` with URL to a server where the configs are hosted. For ex. http://petstore.swagger.io/?config=http://localhost:3001/config.yaml
 - add a config `configUrl` with URL to SwaggerUIBundle
 - change default configs in `swagger-config.yaml` *Note: after changing, the project must be re-built*
 
