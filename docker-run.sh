@@ -2,7 +2,8 @@
 
 set -e
 
-INDEX_FILE=/usr/share/nginx/html/index.html
+NGINX_ROOT=/usr/share/nginx/html
+INDEX_FILE=$NGINX_ROOT/index.html
 
 replace_in_index () {
   if [ "$1" != "**None**" ]; then
@@ -30,6 +31,7 @@ if [ "$OAUTH_ADDITIONAL_PARAMS" != "**None**" ]; then
 fi
 
 if [[ -f $SWAGGER_JSON ]]; then
+  cp $SWAGGER_JSON $NGINX_ROOT
   sed -i "s|http://petstore.swagger.io/v2/swagger.json|swagger.json|g" $INDEX_FILE
   sed -i "s|http://example.com/api|swagger.json|g" $INDEX_FILE
 else
