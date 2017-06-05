@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.0.12",
+  "version": "3.0.13",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -19,7 +19,7 @@
     "build-core": "webpack --config webpack-dist.config.js --colors",
     "build-standalone": "webpack --config webpack-dist-standalone.config.js --colors",
     "predev": "npm install",
-    "dev": "npm-run-all --parallel hot-server watch  open-localhost",
+    "dev": "npm-run-all --parallel hot-server open-localhost",
     "watch": "webpack --config webpack-watch.config.js --watch --progress",
     "open-localhost": "node -e 'require(\"open\")(\"http://localhost:3200\")'",
     "hot-server": "webpack-dev-server --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress --content-base dev-helpers/",
@@ -67,9 +67,10 @@
     "redux-immutable": "3.0.8",
     "redux-logger": "*",
     "reselect": "2.5.3",
+    "sanitize-html": "^1.14.1",
     "serialize-error": "2.0.0",
     "shallowequal": "0.2.2",
-    "swagger-client": "~3.0.12",
+    "swagger-client": "~3.0.13",
     "url-parse": "^1.1.8",
     "whatwg-fetch": "0.11.1",
     "worker-loader": "^0.7.1",

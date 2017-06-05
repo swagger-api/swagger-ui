@@ -15,7 +15,8 @@ The OpenAPI Specification has undergone 4 revisions since initial creation in 20
 
 Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes | Status
 ------------------ | ------------ | -------------------------- | ----- | ------
-3.0.12              | 2017-03-19   | 2.0                        | [tag v3.0.12](https://github.com/swagger-api/swagger-ui/tree/v3.0.12) |
+3.0.13              | 2017-06-02   | 2.0                        | [tag 
+v3.0.13](https://github.com/swagger-api/swagger-ui/tree/v3.0.13) |
 2.2.10             | 2017-01-04   | 1.1, 1.2, 2.0              | [tag v2.2.10](https://github.com/swagger-api/swagger-ui/tree/v2.2.10) |
 2.1.5              | 2016-07-20   | 1.1, 1.2, 2.0              | [tag v2.1.5](https://github.com/swagger-api/swagger-ui/tree/v2.1.5) |
 2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) |
@@ -41,7 +42,9 @@ Will start nginx with swagger-ui on port 80.
 
 If you just want to see your specs, open `dist/index.html` in your browser directly from your filesystem.
 
-If you'd like to make modifications to the codebase, run the dev server with: `npm run dev`.
+If you'd like to make modifications to the codebase, run the dev server with: `npm run dev`. A development server will open on `3200`.
+
+If you'd like to rebuild the `/dist` folder with your codebase changes, run `npm run build`.
 
 ##### Browser support
 Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE11.
