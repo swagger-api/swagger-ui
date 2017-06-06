@@ -38,8 +38,7 @@ export default class Operations extends React.Component {
     const Collapse = getComponent("Collapse")
 
     let showSummary = layoutSelectors.showSummary()
-    let { docExpansion } = getConfigs()
-    displayOperationId = getConfigs().displayOperationId
+    let { docExpansion, displayOperationId } = getConfigs()
 
     return (
         <div>
