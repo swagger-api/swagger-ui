@@ -70,7 +70,7 @@ export class Col extends React.Component {
       }
     }
 
-    let classes = xclass(rest.className, "clear", ...classesAr)
+    let classes = xclass(rest.className, ...classesAr)
 
     return (
       <section {...rest} style={{display: hide ? "none": null}} className={classes}/>
