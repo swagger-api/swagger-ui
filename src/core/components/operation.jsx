@@ -167,7 +167,7 @@ export default class Operation extends React.Component {
                 </div>
             }
 
-            { displayOperationId && operationId ? <span className="opblock-summary-path">{operationId}</span> : null }
+            { displayOperationId && operationId ? <span className="opblock-summary-operation-id">{operationId}</span> : null }
 
             {
               (!security || !security.count()) ? null :
