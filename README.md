@@ -1,5 +1,7 @@
 # Swagger UI
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/swagger-api/swagger-ui.svg)](https://greenkeeper.io/)
+
 [![NPM version](https://badge.fury.io/js/swagger-ui.svg)](http://badge.fury.io/js/swagger-ui)
 
 ## New!
