@@ -10,11 +10,12 @@ export default class Operations extends React.Component {
     layoutActions: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
     authSelectors: PropTypes.object.isRequired,
+    displayOperationId: PropTypes.bool,
     getConfigs: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-
+    displayOperationId: false
   };
 
   render() {
@@ -26,6 +27,7 @@ export default class Operations extends React.Component {
       layoutActions,
       authActions,
       authSelectors,
+      displayOperationId,
       getConfigs,
       fn
     } = this.props
@@ -37,6 +39,7 @@ export default class Operations extends React.Component {
 
     let showSummary = layoutSelectors.showSummary()
     let { docExpansion } = getConfigs()
+    displayOperationId = getConfigs().displayOperationId
 
     return (
         <div>
@@ -89,6 +92,8 @@ export default class Operations extends React.Component {
                           response={ response }
                           request={ request }
                           allowTryItOut={allowTryItOut}
+
+                          displayOperationId={displayOperationId}
 
                           specActions={ specActions }
                           specSelectors={ specSelectors }
