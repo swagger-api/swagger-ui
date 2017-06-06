@@ -24,6 +24,7 @@ module.exports = function SwaggerUI(opts) {
     spec: {},
     url: "",
     layout: "BaseLayout",
+    docExpansion: "list",
     validatorUrl: "https://online.swagger.io/validator",
     configs: {},
     custom: {},

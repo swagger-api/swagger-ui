@@ -27,7 +27,8 @@ export default class Operation extends React.Component {
     specSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
-    fn: PropTypes.object.isRequired
+    fn: PropTypes.object.isRequired,
+    getConfigs: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -76,8 +77,10 @@ export default class Operation extends React.Component {
   }
 
   isShown =() => {
-    let { layoutSelectors, isShownKey } = this.props
-    return layoutSelectors.isShown(isShownKey, false ) // Here is where we set the default
+    let { layoutSelectors, isShownKey, getConfigs } = this.props
+    let { docExpansion } = getConfigs()
+
+    return layoutSelectors.isShown(isShownKey, docExpansion === "full" ) // Here is where we set the default
   }
 
   onTryoutClick =() => {
