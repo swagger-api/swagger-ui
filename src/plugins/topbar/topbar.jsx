@@ -2,6 +2,7 @@ import React, { PropTypes } from "react"
 
 //import "./topbar.less"
 import Logo from "./logo_small.png"
+import LogoUAL from "./logo_ual.png"
 
 export default class Topbar extends React.Component {
 
@@ -40,10 +41,11 @@ export default class Topbar extends React.Component {
         <div className="topbar">
           <div className="wrapper">
             <div className="topbar-wrapper">
-              <Link href="#" title="Swagger UX">
+              <Link href="#" title="eBaoCloud">
                 <img height="30" width="110" src={ Logo } alt="eBaoCloud"/>
                 <span>eBaoCloud API</span>
               </Link>
+              <img height="60" width="160" src={ LogoUAL } alt="UAL"/>
             </div>
           </div>
         </div>
