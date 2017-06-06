@@ -10,10 +10,12 @@ export default class Operations extends React.Component {
     layoutActions: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
     authSelectors: PropTypes.object.isRequired,
+    displayOperationId: PropTypes.bool,
+    getConfigs: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-
+    displayOperationId: false
   };
 
   render() {
@@ -25,6 +27,8 @@ export default class Operations extends React.Component {
       layoutActions,
       authActions,
       authSelectors,
+      displayOperationId,
+      getConfigs,
       fn
     } = this.props
 
@@ -34,6 +38,8 @@ export default class Operations extends React.Component {
     const Collapse = getComponent("Collapse")
 
     let showSummary = layoutSelectors.showSummary()
+    let { docExpansion } = getConfigs()
+    displayOperationId = getConfigs().displayOperationId
 
     return (
         <div>
@@ -43,7 +49,7 @@ export default class Operations extends React.Component {
               let tagDescription = tagObj.getIn(["tagDetails", "description"], null)
 
               let isShownKey = ["operations-tag", tag]
-              let showTag = layoutSelectors.isShown(isShownKey, true)
+              let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
 
               return (
                 <div className={showTag ? "opblock-tag-section is-open" : "opblock-tag-section"} key={"operation-" + tag}>
@@ -87,6 +93,8 @@ export default class Operations extends React.Component {
                           request={ request }
                           allowTryItOut={allowTryItOut}
 
+                          displayOperationId={displayOperationId}
+
                           specActions={ specActions }
                           specSelectors={ specSelectors }
 
@@ -98,6 +106,7 @@ export default class Operations extends React.Component {
 
                           getComponent={ getComponent }
                           fn={fn}
+                          getConfigs={ getConfigs }
                         />
                       }).toArray()
                     }

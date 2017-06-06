@@ -17,6 +17,8 @@ export default class Operation extends React.Component {
 
     allowTryItOut: PropTypes.bool,
 
+    displayOperationId: PropTypes.bool,
+
     response: PropTypes.object,
     request: PropTypes.object,
 
@@ -27,13 +29,15 @@ export default class Operation extends React.Component {
     specSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
-    fn: PropTypes.object.isRequired
+    fn: PropTypes.object.isRequired,
+    getConfigs: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     showSummary: true,
     response: null,
     allowTryItOut: true,
+    displayOperationId: false,
   }
 
   constructor(props, context) {
@@ -76,8 +80,10 @@ export default class Operation extends React.Component {
   }
 
   isShown =() => {
-    let { layoutSelectors, isShownKey } = this.props
-    return layoutSelectors.isShown(isShownKey, false ) // Here is where we set the default
+    let { layoutSelectors, isShownKey, getConfigs } = this.props
+    let { docExpansion } = getConfigs()
+
+    return layoutSelectors.isShown(isShownKey, docExpansion === "full" ) // Here is where we set the default
   }
 
   onTryoutClick =() => {
@@ -105,6 +111,7 @@ export default class Operation extends React.Component {
       response,
       request,
       allowTryItOut,
+      displayOperationId,
 
       fn,
       getComponent,
@@ -123,7 +130,7 @@ export default class Operation extends React.Component {
     let produces = operation.get("produces")
     let schemes = operation.get("schemes")
     let parameters = getList(operation, ["parameters"])
-    let operationId = operation.get("operationId")
+    let operationId = operation.get("__originalOperationId")
 
     const Responses = getComponent("responses")
     const Parameters = getComponent( "parameters" )
@@ -149,7 +156,6 @@ export default class Operation extends React.Component {
         <div className={deprecated ? "opblock opblock-deprecated" : shown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={isShownKey} >
           <div className={`opblock-summary opblock-summary-${method}`} onClick={this.toggleShown} >
             <span className="opblock-summary-method">{method.toUpperCase()}</span>
-            
             <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } >
               <span>{path}</span>
               <JumpToPath path={jumpToKey} />
@@ -160,7 +166,9 @@ export default class Operation extends React.Component {
                   { summary }
                 </div>
             }
-            { operationId ? <span className="opblock-summary-operation-id">{operationId}</span> : null }
+
+            { displayOperationId && operationId ? <span className="opblock-summary-path">{operationId}</span> : null }
+
             {
               (!security || !security.count()) ? null :
                 <AuthorizeOperationBtn authActions={ authActions }
@@ -175,7 +183,7 @@ export default class Operation extends React.Component {
               { description &&
                 <div className="opblock-description-wrapper">
                   <div className="opblock-description">
-                    <Markdown options={{html: true, typographer: true, linkify: true, linkTarget: "_blank"}} source={ description } />
+                    <Markdown source={ description } />
                   </div>
                 </div>
               }
