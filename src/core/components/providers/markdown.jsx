@@ -1,10 +1,17 @@
+import React, { PropTypes } from "react"
 import Remarkable from "react-remarkable"
-import React from "react"
+import sanitize from "sanitize-html"
 
-
-export default function Markdown({ source }) {
+function Markdown({ source }) {
+  const sanitized = sanitize(source)
   return <Remarkable
     options={{html: true, typographer: true, linkify: true, linkTarget: "_blank"}}
-    source={source}
+    source={sanitized}
     ></Remarkable>
 }
+
+Markdown.propTypes = {
+  source: PropTypes.string.isRequired
+}
+
+export default Markdown

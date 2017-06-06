@@ -10,10 +10,7 @@ export default class Operations extends React.Component {
     layoutActions: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
     authSelectors: PropTypes.object.isRequired,
-  };
-
-  static defaultProps = {
-
+    getConfigs: PropTypes.func.isRequired
   };
 
   render() {
@@ -25,6 +22,7 @@ export default class Operations extends React.Component {
       layoutActions,
       authActions,
       authSelectors,
+      getConfigs,
       fn
     } = this.props
 
@@ -34,6 +32,7 @@ export default class Operations extends React.Component {
     const Collapse = getComponent("Collapse")
 
     let showSummary = layoutSelectors.showSummary()
+    let { docExpansion, displayOperationId } = getConfigs()
 
     return (
         <div>
@@ -43,7 +42,7 @@ export default class Operations extends React.Component {
               let tagDescription = tagObj.getIn(["tagDetails", "description"], null)
 
               let isShownKey = ["operations-tag", tag]
-              let showTag = layoutSelectors.isShown(isShownKey, true)
+              let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
 
               return (
                 <div className={showTag ? "opblock-tag-section is-open" : "opblock-tag-section"} key={"operation-" + tag}>
@@ -87,6 +86,8 @@ export default class Operations extends React.Component {
                           request={ request }
                           allowTryItOut={allowTryItOut}
 
+                          displayOperationId={displayOperationId}
+
                           specActions={ specActions }
                           specSelectors={ specSelectors }
 
@@ -98,6 +99,7 @@ export default class Operations extends React.Component {
 
                           getComponent={ getComponent }
                           fn={fn}
+                          getConfigs={ getConfigs }
                         />
                       }).toArray()
                     }

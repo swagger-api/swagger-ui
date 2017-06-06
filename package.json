@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.0.12",
+  "version": "3.0.13",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -68,9 +68,10 @@
     "redux-immutable": "3.0.8",
     "redux-logger": "*",
     "reselect": "2.5.3",
+    "sanitize-html": "^1.14.1",
     "serialize-error": "2.0.0",
     "shallowequal": "0.2.2",
-    "swagger-client": "~3.0.12",
+    "swagger-client": "~3.0.13",
     "url-parse": "^1.1.8",
     "whatwg-fetch": "0.11.1",
     "worker-loader": "^0.7.1",
