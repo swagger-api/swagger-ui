@@ -102,8 +102,7 @@ export default class Oauth2 extends React.Component {
       <div>
         <h4>OAuth2.0 <JumpToPath path={[ "securityDefinitions", name ]} /></h4>
         { !this.state.appName ? null : <h5>Application: { this.state.appName } </h5> }
-        <Markdown options={{html: true, typographer: true, linkify: true, linkTarget: "_blank"}}
-                  source={ schema.get("description") } />
+        <Markdown source={ schema.get("description") } />
 
         { isAuthorized && <h6>Authorized</h6> }
 
@@ -141,8 +140,8 @@ export default class Oauth2 extends React.Component {
                   isAuthorized ? <code> { this.state.passwordType } </code>
                     : <Col tablet={10} desktop={10}>
                       <select id="password_type" data-name="passwordType" onChange={ this.onInputChange }>
-                        <option value="basic">Basic auth</option>
                         <option value="request-body">Request body</option>
+                        <option value="basic">Basic auth</option>
                         <option value="query">Query parameters</option>
                       </select>
                     </Col>

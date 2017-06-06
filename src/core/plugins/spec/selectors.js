@@ -43,8 +43,6 @@ export const specResolved = createSelector(
 // Default Spec ( as an object )
 export const spec = state => {
   let res = specResolved(state)
-  if(res.count() < 1)
-    res = specJson(state)
   return res
 }
 
