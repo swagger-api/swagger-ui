@@ -209,9 +209,10 @@ body
     }
 
     .opblock-summary-path,
+    .opblock-summary-operation-id,
     .opblock-summary-path__deprecated
     {
-        font-size: 16px;
+        font-size: 13px;
 
         display: flex;
 
@@ -245,6 +246,16 @@ body
     .opblock-summary-path__deprecated
     {
         text-decoration: line-through;
+    }
+
+    .opblock-summary-path
+    {
+        font-size: 13px;
+    }
+
+    .opblock-summary-operation-id
+    {
+        font-size: 16px;
     }
 
     .opblock-summary-description

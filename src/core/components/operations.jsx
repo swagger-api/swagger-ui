@@ -13,10 +13,6 @@ export default class Operations extends React.Component {
     getConfigs: PropTypes.func.isRequired
   };
 
-  static defaultProps = {
-
-  };
-
   render() {
     let {
       specSelectors,
@@ -36,7 +32,7 @@ export default class Operations extends React.Component {
     const Collapse = getComponent("Collapse")
 
     let showSummary = layoutSelectors.showSummary()
-    let { docExpansion } = getConfigs()
+    let { docExpansion, displayOperationId } = getConfigs()
 
     return (
         <div>
@@ -89,6 +85,8 @@ export default class Operations extends React.Component {
                           response={ response }
                           request={ request }
                           allowTryItOut={allowTryItOut}
+
+                          displayOperationId={displayOperationId}
 
                           specActions={ specActions }
                           specSelectors={ specSelectors }
