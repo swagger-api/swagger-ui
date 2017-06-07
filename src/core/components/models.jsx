@@ -6,7 +6,8 @@ export default class Models extends Component {
     getComponent: PropTypes.func,
     specSelectors: PropTypes.object,
     layoutSelectors: PropTypes.object,
-    layoutActions: PropTypes.object
+    layoutActions: PropTypes.object,
+    getConfigs: PropTypes.func.isRequired
   }
 
   render(){
