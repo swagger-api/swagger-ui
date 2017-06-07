@@ -10,7 +10,23 @@ export default class StandaloneLayout extends React.Component {
     specSelectors: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
-    getComponent: PropTypes.func.isRequired
+    getComponent: PropTypes.func.isRequired,
+    getConfigs: PropTypes.func.isRequired
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.handleFilterChange = this.handleFilterChange.bind(this)
+
+    let { getConfigs } = this.props
+    let { filter } = getConfigs()
+
+    this.state = { filter: filter }
+  }
+
+  handleFilterChange(filter) {
+    this.setState({ filter: filter })
   }
 
   render() {
@@ -24,12 +40,14 @@ export default class StandaloneLayout extends React.Component {
     const BaseLayout = getComponent("BaseLayout", true)
     const OnlineValidatorBadge = getComponent("onlineValidatorBadge", true)
 
+    const filter = this.state.filter
+
     const loadingStatus = specSelectors.loadingStatus()
 
     return (
 
       <Container className='swagger-ui'>
-        { Topbar ? <Topbar/> : null }
+        { Topbar ? <Topbar onFilterChange={this.handleFilterChange} filter={ filter } /> : null }
         { loadingStatus === "loading" &&
           <div className="info">
             <h4 className="title">Loading...</h4>
@@ -45,7 +63,7 @@ export default class StandaloneLayout extends React.Component {
             <h4 className="title">Failed to load config.</h4>
           </div>
         }
-        { !loadingStatus || loadingStatus === "success" && <BaseLayout/> }
+        { !loadingStatus || loadingStatus === "success" && <BaseLayout filter={filter} /> }
         <Row>
           <Col>
             <OnlineValidatorBadge />

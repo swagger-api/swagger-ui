@@ -11,7 +11,8 @@ export default class Operations extends React.Component {
     layoutActions: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
     authSelectors: PropTypes.object.isRequired,
-    getConfigs: PropTypes.func.isRequired
+    getConfigs: PropTypes.func.isRequired,
+    filter: PropTypes.string.isRequired
   };
 
   render() {
@@ -24,6 +25,7 @@ export default class Operations extends React.Component {
       authActions,
       authSelectors,
       getConfigs,
+      filter,
       fn
     } = this.props
 
@@ -33,7 +35,19 @@ export default class Operations extends React.Component {
     const Collapse = getComponent("Collapse")
 
     let showSummary = layoutSelectors.showSummary()
-    let { docExpansion, displayOperationId, displayRequestDuration } = getConfigs()
+    let { docExpansion, displayOperationId, displayRequestDuration, maxDisplayedTags } = getConfigs()
+
+    if (filter) {
+      if (filter !== true) {
+        taggedOps = taggedOps.filter((tagObj, tag) => {
+          return tag.indexOf(filter) !== -1
+        })
+      }
+    }
+
+    if (maxDisplayedTags && !isNaN(maxDisplayedTags) && maxDisplayedTags >= 0) {
+      taggedOps = taggedOps.slice(0, maxDisplayedTags)
+    }
 
     return (
         <div>

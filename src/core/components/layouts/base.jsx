@@ -10,11 +10,12 @@ export default class BaseLayout extends React.Component {
     specSelectors: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
-    getComponent: PropTypes.func.isRequired
+    getComponent: PropTypes.func.isRequired,
+    filter: PropTypes.string.isRequired
   }
 
   render() {
-    let { specSelectors, specActions, getComponent } = this.props
+    let { specSelectors, specActions, getComponent, filter } = this.props
 
     let info = specSelectors.info()
     let url = specSelectors.url()
@@ -66,7 +67,7 @@ export default class BaseLayout extends React.Component {
 
             <Row>
               <Col mobile={12} desktop={12} >
-                <Operations/>
+                <Operations filter={ filter }/>
               </Col>
             </Row>
             <Row>

@@ -6,7 +6,7 @@ import ApisPreset from "core/presets/apis"
 import * as AllPlugins from "core/plugins/all"
 import { parseSeach, filterConfigs } from "core/utils"
 
-const CONFIGS = [ "url", "urls", "urls.primaryName", "spec", "validatorUrl", "onComplete", "onFailure", "authorizations", "docExpansion",
+const CONFIGS = [ "url", "urls", "urls.primaryName", "spec", "validatorUrl", "onComplete", "onFailure", "authorizations", "docExpansion", "maxDisplayedTags", "filter",
     "apisSorter", "operationsSorter", "supportedSubmitMethods", "dom_id", "defaultModelRendering", "oauth2RedirectUrl",
     "showRequestHeaders", "custom", "modelPropertyMacro", "parameterMacro", "displayOperationId" , "displayRequestDuration"]
 
@@ -26,6 +26,8 @@ module.exports = function SwaggerUI(opts) {
     urls: null,
     layout: "BaseLayout",
     docExpansion: "list",
+    maxDisplayedTags: null,
+    filter: null,
     validatorUrl: "https://online.swagger.io/validator",
     configs: {},
     custom: {},
