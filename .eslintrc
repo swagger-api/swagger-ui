@@ -22,7 +22,7 @@
   "rules": {
     "semi": [2, "never"],
     "strict": 0,
-    "quotes": 2,
+    "quotes": [2, "double", { "allowTemplateLiterals": true }],
     "no-unused-vars": 2,
     "no-multi-spaces": 1,
     "camelcase": 1,
