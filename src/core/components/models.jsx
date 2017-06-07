@@ -10,9 +10,10 @@ export default class Models extends Component {
   }
 
   render(){
-    let { specSelectors, getComponent, layoutSelectors, layoutActions } = this.props
+    let { specSelectors, getComponent, layoutSelectors, layoutActions, getConfigs } = this.props
     let definitions = specSelectors.definitions()
-    let showModels = layoutSelectors.isShown("models", true)
+    let { docExpansion } = getConfigs()
+    let showModels = layoutSelectors.isShown("models", docExpansion === "full" || docExpansion === "list" )
 
     const Model = getComponent("model")
     const Collapse = getComponent("Collapse")
