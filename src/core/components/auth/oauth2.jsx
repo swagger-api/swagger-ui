@@ -97,12 +97,13 @@ export default class Oauth2 extends React.Component {
     let isAuthorized = !!authorizedAuth
     let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
     let isValid = !errors.filter( err => err.get("source") === "validation").size
+    let description = schema.get("description")
 
     return (
       <div>
         <h4>OAuth2.0 <JumpToPath path={[ "securityDefinitions", name ]} /></h4>
         { !this.state.appName ? null : <h5>Application: { this.state.appName } </h5> }
-        <Markdown source={ schema.get("description") } />
+        { description && <Markdown source={ schema.get("description") } /> }
 
         { isAuthorized && <h6>Authorized</h6> }
 
