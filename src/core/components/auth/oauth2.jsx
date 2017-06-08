@@ -27,7 +27,7 @@ export default class Oauth2 extends React.Component {
     let username = auth && auth.get("username") || ""
     let clientId = auth && auth.get("clientId") || authConfigs.clientId || ""
     let clientSecret = auth && auth.get("clientSecret") || authConfigs.clientSecret || ""
-    let passwordType = auth && auth.get("passwordType") || "basic"
+    let passwordType = auth && auth.get("passwordType") || "request-body"
 
     this.state = {
       appName: authConfigs.appName,
