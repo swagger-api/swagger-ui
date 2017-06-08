@@ -2,7 +2,7 @@
 
 set -e
 
-INDEX_FILE=/usr/share/nginx/html/index.html
+INDEX_FILE=/usr/share/nginx/html/${BASE_PATH}index.html
 
 replace_in_index () {
   if [ "$1" != "**None**" ]; then
