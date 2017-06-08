@@ -27,7 +27,7 @@ export default class Oauth2 extends React.Component {
     let username = auth && auth.get("username") || ""
     let clientId = auth && auth.get("clientId") || authConfigs.clientId || ""
     let clientSecret = auth && auth.get("clientSecret") || authConfigs.clientSecret || ""
-    let passwordType = auth && auth.get("passwordType") || "basic"
+    let passwordType = auth && auth.get("passwordType") || "request-body"
 
     this.state = {
       appName: authConfigs.appName,
@@ -97,13 +97,13 @@ export default class Oauth2 extends React.Component {
     let isAuthorized = !!authorizedAuth
     let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
     let isValid = !errors.filter( err => err.get("source") === "validation").size
+    let description = schema.get("description")
 
     return (
       <div>
         <h4>OAuth2.0 <JumpToPath path={[ "securityDefinitions", name ]} /></h4>
         { !this.state.appName ? null : <h5>Application: { this.state.appName } </h5> }
-        <Markdown options={{html: true, typographer: true, linkify: true, linkTarget: "_blank"}}
-                  source={ schema.get("description") } />
+        { description && <Markdown source={ schema.get("description") } /> }
 
         { isAuthorized && <h6>Authorized</h6> }
 
@@ -141,8 +141,8 @@ export default class Oauth2 extends React.Component {
                   isAuthorized ? <code> { this.state.passwordType } </code>
                     : <Col tablet={10} desktop={10}>
                       <select id="password_type" data-name="passwordType" onChange={ this.onInputChange }>
-                        <option value="basic">Basic auth</option>
                         <option value="request-body">Request body</option>
+                        <option value="basic">Basic auth</option>
                         <option value="query">Query parameters</option>
                       </select>
                     </Col>
