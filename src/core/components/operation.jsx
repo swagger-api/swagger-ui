@@ -130,7 +130,7 @@ export default class Operation extends React.Component {
     let produces = operation.get("produces")
     let schemes = operation.get("schemes")
     let parameters = getList(operation, ["parameters"])
-    let operationId = operation.get("__originalOperationId")
+    let operationId = operation.get("operationId")
 
     const Responses = getComponent("responses")
     const Parameters = getComponent( "parameters" )
