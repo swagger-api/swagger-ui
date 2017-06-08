@@ -76,7 +76,7 @@ export default class Response extends React.Component {
         <td className="col response-col_description">
 
           <div className="response-col_description__inner">
-            <Markdown options={{html: true, typographer: true, linkify: true, linkTarget: "_blank"}} source={ response.get( "description" ) } />
+            <Markdown source={ response.get( "description" ) } />
           </div>
 
           { example ? (

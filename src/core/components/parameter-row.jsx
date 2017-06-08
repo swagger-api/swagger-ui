@@ -99,8 +99,7 @@ export default class ParameterRow extends Component {
         </td>
 
         <td className="col parameters-col_description">
-          <Markdown options={{html: true, typographer: true, linkify: true, linkTarget: "_blank"}}
-                    source={ param.get("description") }/>
+          <Markdown source={ param.get("description") }/>
           {(isFormData && !isFormDataSupported) && <div>Error: your browser does not support FormData</div>}
 
           { bodyParam || !isExecute ? null

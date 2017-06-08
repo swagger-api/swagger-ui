@@ -209,6 +209,7 @@ body
     }
 
     .opblock-summary-path,
+    .opblock-summary-operation-id,
     .opblock-summary-path__deprecated
     {
         font-size: 16px;
@@ -245,6 +246,11 @@ body
     .opblock-summary-path__deprecated
     {
         text-decoration: line-through;
+    }
+
+    .opblock-summary-operation-id
+    {
+        font-size: 14px;
     }
 
     .opblock-summary-description
@@ -492,11 +498,18 @@ body
     margin: 0;
     padding: 10px;
 
+
+    word-wrap: break-word;
+    word-break: break-all;
+    word-break: break-word;
+    hyphens: auto;
     white-space: pre-wrap;
+
 
     border-radius: 4px;
     background: #41444e;
 
+    overflow-wrap: break-word;
     @include text_code(#fff);
     span
     {

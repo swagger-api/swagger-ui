@@ -7,6 +7,7 @@ export const LOGOUT = "logout"
 export const PRE_AUTHORIZE_OAUTH2 = "pre_authorize_oauth2"
 export const AUTHORIZE_OAUTH2 = "authorize_oauth2"
 export const VALIDATE = "validate"
+export const CONFIGURE_AUTH = "configure_auth"
 
 const scopeSeparator = " "
 
@@ -80,12 +81,17 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
   if ( passwordType === "basic") {
     headers.Authorization = "Basic " + btoa(username + ":" + password)
   } else {
-    Object.assign(form,  {username}, {password})
+    Object.assign(form, {username}, {password})
+
     if ( passwordType === "query") {
-      if ( clientId ) { query.client_id = clientId }
-      if ( clientSecret ) { query.client_secret = clientSecret }
+      if ( clientId ) {
+        query.client_id = clientId
+      }
+      if ( clientSecret ) {
+        query.client_secret = clientSecret
+      }
     } else {
-      Object.assign(form, {client_id: clientId}, {client_secret: clientSecret})
+      headers.Authorization = "Basic " + btoa(clientId + ":" + clientSecret)
     }
   }
 
@@ -94,31 +100,38 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
 
 export const authorizeApplication = ( auth ) => ( { authActions } ) => {
   let { schema, scopes, name, clientId, clientSecret } = auth
+  let headers = {
+    Authorization: "Basic " + btoa(clientId + ":" + clientSecret)
+  }
   let form = {
     grant_type: "client_credentials",
-    client_id: clientId,
-    client_secret: clientSecret,
     scope: scopes.join(scopeSeparator)
   }
 
-  return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth })
+  return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth, headers })
 }
 
-export const authorizeAccessCode = ( auth ) => ( { authActions } ) => {
- let { schema, name, clientId, clientSecret } = auth
- let form = {
-   grant_type: "authorization_code",
-   code: auth.code,
-   client_id: clientId,
-   client_secret: clientSecret
- }
+export const authorizeAccessCode = ( { auth, redirectUrl } ) => ( { authActions } ) => {
+  let { schema, name, clientId, clientSecret } = auth
+  let form = {
+    grant_type: "authorization_code",
+    code: auth.code,
+    client_id: clientId,
+    client_secret: clientSecret,
+    redirect_uri: redirectUrl
+  }
 
- return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth})
-
+  return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth})
 }
 
-export const authorizeRequest = ( data ) => ( { fn, authActions, errActions } ) => {
+export const authorizeRequest = ( data ) => ( { fn, authActions, errActions, authSelectors } ) => {
   let { body, query={}, headers={}, name, url, auth } = data
+  let { additionalQueryStringParams } = authSelectors.getConfigs() || {}
+  let fetchUrl = url
+
+  for (let key in additionalQueryStringParams) {
+    url += "&" + key + "=" + encodeURIComponent(additionalQueryStringParams[key])
+  }
 
   let _headers = Object.assign({
     "Accept":"application/json, text/plain, */*",
@@ -127,45 +140,53 @@ export const authorizeRequest = ( data ) => ( { fn, authActions, errActions } ) 
   }, headers)
 
   fn.fetch({
-    url: url,
+    url: fetchUrl,
     method: "post",
     headers: _headers,
     query: query,
     body: body
   })
-    .then(function (response) {
-      let token = JSON.parse(response.data)
-      let error = token && ( token.error || "" )
-      let parseError = token && ( token.parseError || "" )
+  .then(function (response) {
+    let token = JSON.parse(response.data)
+    let error = token && ( token.error || "" )
+    let parseError = token && ( token.parseError || "" )
 
-      if ( !response.ok ) {
-        errActions.newAuthErr( {
-          authId: name,
-          level: "error",
-          source: "auth",
-          message: response.statusText
-        } )
-        return
-      }
-
-      if ( error || parseError ) {
-        errActions.newAuthErr({
-          authId: name,
-          level: "error",
-          source: "auth",
-          message: JSON.stringify(token)
-        })
-        return
-      }
-
-      authActions.authorizeOauth2({ auth, token})
-    })
-    .catch(e => {
-      let err = new Error(e)
+    if ( !response.ok ) {
       errActions.newAuthErr( {
         authId: name,
         level: "error",
         source: "auth",
-        message: err.message
-      } ) })
+        message: response.statusText
+      } )
+      return
+    }
+
+    if ( error || parseError ) {
+      errActions.newAuthErr({
+        authId: name,
+        level: "error",
+        source: "auth",
+        message: JSON.stringify(token)
+      })
+      return
+    }
+
+    authActions.authorizeOauth2({ auth, token})
+  })
+  .catch(e => {
+    let err = new Error(e)
+    errActions.newAuthErr( {
+      authId: name,
+      level: "error",
+      source: "auth",
+      message: err.message
+    } )
+  })
+}
+
+export function configureAuth(payload) {
+  return {
+    type: CONFIGURE_AUTH,
+    payload: payload
+  }
 }

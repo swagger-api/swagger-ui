@@ -77,7 +77,9 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
   return specActions.updateJsonSpec(json)
 }
 
-export const resolveSpec = (json, url) => ({specActions, specSelectors, errActions, fn: { fetch, resolve, AST }}) => {
+export const resolveSpec = (json, url) => ({specActions, specSelectors, errActions, fn: { fetch, resolve, AST }, getConfigs}) => {
+  const { modelPropertyMacro, parameterMacro } = getConfigs()
+
   if(typeof(json) === "undefined") {
     json = specSelectors.specJson()
   }
@@ -89,7 +91,7 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
 
   let specStr = specSelectors.specStr()
 
-  return resolve({fetch, spec: json, baseDoc: url})
+  return resolve({fetch, spec: json, baseDoc: url, modelPropertyMacro, parameterMacro })
   .then( ({spec, errors}) => {
     errActions.clear({
       type: "thrown"
@@ -186,16 +188,23 @@ export const logRequest = (req) => {
 // Actually fire the request via fn.execute
 // (For debugging) and ease of testing
 export const executeRequest = (req) => ({fn, specActions, specSelectors}) => {
-  let { pathName, method } = req
+  let { pathName, method, operation } = req
+
+  let op = operation.toJS()
 
   // if url is relative, parseUrl makes it absolute by inferring from `window.location`
   req.contextUrl = parseUrl(specSelectors.url()).toString()
 
-  let parsedRequest = Object.assign({}, req)
-  if ( pathName && method ) {
-    parsedRequest.operationId = method.toLowerCase() + "-" + pathName
+
+  if(op && op.operationId) {
+    req.operationId = op.operationId
+  } else if(op && pathName && method) {
+    req.operationId = fn.opId(op, pathName, method)
   }
+
+  let parsedRequest = Object.assign({}, req)
   parsedRequest = fn.buildRequest(parsedRequest)
+
   specActions.setRequest(req.pathName, req.method, parsedRequest)
 
   return fn.execute(req)
