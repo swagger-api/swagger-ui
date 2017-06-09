@@ -8,6 +8,11 @@
 
 As a brand new version, written from the ground up, there are some known issues and unimplemented features. Check out the [Known Issues](#known-issues) section for more details.
 
+This repo publishes to two different NPM packages:
+
+* [swagger-ui](https://www.npmjs.com/package/swagger-ui) is intended for use as a node module.
+* [swagger-ui-dist](https://www.npmjs.com/package/swagger-ui-dist) comes pre-bundled with all dependencies and can be incorporated directly in a webapp.
+
 For the older version of swagger-ui, refer to the [*2.x branch*](https://github.com/swagger-api/swagger-ui/tree/2.x).
 
 ## Compatibility
@@ -15,8 +20,7 @@ The OpenAPI Specification has undergone 4 revisions since initial creation in 20
 
 Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes | Status
 ------------------ | ------------ | -------------------------- | ----- | ------
-3.0.13              | 2017-06-02   | 2.0                        | [tag 
-v3.0.13](https://github.com/swagger-api/swagger-ui/tree/v3.0.13) |
+3.0.13              | 2017-06-02   | 2.0                        | [tag v3.0.13](https://github.com/swagger-api/swagger-ui/tree/v3.0.13) |
 2.2.10             | 2017-01-04   | 1.1, 1.2, 2.0              | [tag v2.2.10](https://github.com/swagger-api/swagger-ui/tree/v2.2.10) |
 2.1.5              | 2016-07-20   | 1.1, 1.2, 2.0              | [tag v2.1.5](https://github.com/swagger-api/swagger-ui/tree/v2.1.5) |
 2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) |
@@ -65,6 +69,11 @@ To help with the migration, here are the currently known issues with 3.X. This l
 - Support for `collectionFormat` is partial.
 - l10n (translations) is not implemented.
 - Relative path support for external files is not implemented.
+
+### Direct use of JS and CSS assets
+To include the JS, CSS and image assets directly into a webpage, use the [swagger-ui-dist](https://www.npmjs.com/package/swagger-ui-dist) package.
+The root directory of this package contains the contents of the _dist/_ directory of this repo.
+As a node module, `swagger-ui-dist` also exports the `swagger-ui-bundle` and `swagger-ui-standalone-preset` objects.
 
 ### SwaggerUIBundle
 To use swagger-ui's bundles, you should take a look at the [source of swagger-ui html page](https://github.com/swagger-api/swagger-ui/blob/master/dist/index.html) and customize it. This basically requires you to instantiate a SwaggerUi object as below:
@@ -127,6 +136,7 @@ configUrl | Configs URL
 parameterMacro | MUST be a function. Function to set default value to parameters. Accepts two arguments parameterMacro(operation, parameter). Operation and parameter are objects passed for context, both remain immutable
 modelPropertyMacro | MUST be a function. Function to set default values to each property in model. Accepts one argument modelPropertyMacro(property), property is immutable
 docExpansion | Controls the default expansion setting for the operations and tags. It can be 'list' (expands only the tags), 'full' (expands the tags and operations) or 'none' (expands nothing). The default is 'list'.
+displayOperationId | Controls the display of operationId in operations list. The default is `false`.
 
 ### Plugins
 

@@ -17,6 +17,8 @@ export default class Operation extends React.Component {
 
     allowTryItOut: PropTypes.bool,
 
+    displayOperationId: PropTypes.bool,
+
     response: PropTypes.object,
     request: PropTypes.object,
 
@@ -35,6 +37,7 @@ export default class Operation extends React.Component {
     showSummary: true,
     response: null,
     allowTryItOut: true,
+    displayOperationId: false,
   }
 
   constructor(props, context) {
@@ -108,6 +111,7 @@ export default class Operation extends React.Component {
       response,
       request,
       allowTryItOut,
+      displayOperationId,
 
       fn,
       getComponent,
@@ -126,6 +130,7 @@ export default class Operation extends React.Component {
     let produces = operation.get("produces")
     let schemes = operation.get("schemes")
     let parameters = getList(operation, ["parameters"])
+    let operationId = operation.get("__originalOperationId")
 
     const Responses = getComponent("responses")
     const Parameters = getComponent( "parameters" )
@@ -161,6 +166,8 @@ export default class Operation extends React.Component {
                   { summary }
                 </div>
             }
+
+            { displayOperationId && operationId ? <span className="opblock-summary-operation-id">{operationId}</span> : null }
 
             {
               (!security || !security.count()) ? null :
