@@ -40,6 +40,12 @@ docker run -p 80:8080 swaggerapi/swagger-ui
 
 Will start nginx with swagger-ui on port 80.
 
+Or you can provide your own swagger.json on your host
+
+```
+docker run -p 80:8080 -e "SWAGGER_JSON=/foo/swagger.json" -v /bar:/foo swaggerapi/swagger-ui
+```
+
 ##### Prerequisites
 - Node 6.x
 - NPM 3.x
