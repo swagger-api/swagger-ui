@@ -6,6 +6,8 @@
 
 **This is the new version of swagger-ui, 3.x. Want to learn more? Check out our [FAQ](http://swagger.io/new-ui-faq/).**
 
+**👉🏼 Want to score an easy open-source contribution?** Check out our [Good first contribution](https://github.com/swagger-api/swagger-ui/issues?q=is%3Aissue+is%3Aopen+label%3A%22Good+first+contribution%22) label.
+
 As a brand new version, written from the ground up, there are some known issues and unimplemented features. Check out the [Known Issues](#known-issues) section for more details.
 
 This repo publishes to two different NPM packages:
