@@ -32,7 +32,7 @@
     "test": "npm run lint-errors && npm run just-test-in-node",
     "test-in-node": "npm run lint-errors && npm run just-test-in-node",
     "just-test": "karma start --config karma.conf.js",
-    "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test/core test/components"
+    "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test/core test/components test/bugs"
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",

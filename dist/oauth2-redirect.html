@@ -8,6 +8,7 @@
     function run () {
         var oauth2 = window.opener.swaggerUIRedirectOauth2;
         var sentState = oauth2.state;
+        var redirectUrl = oauth2.redirectUrl;
         var isValid, qp, arr;
 
         qp = (window.location.hash || location.search).substring(1);
@@ -35,7 +36,7 @@
             if (qp.code) {
                 delete oauth2.state;
                 oauth2.auth.code = qp.code;
-                oauth2.callback(oauth2.auth);
+                oauth2.callback({auth: oauth2.auth, redirectUrl: redirectUrl});
             } else {
                 oauth2.errCb({
                     authId: oauth2.auth.name,
@@ -45,9 +46,8 @@
                 });
             }
         } else {
-            oauth2.callback({auth: oauth2.auth, token: qp, isValid: isValid});
+            oauth2.callback({auth: oauth2.auth, token: qp, isValid: isValid, redirectUrl: redirectUrl});
         }
         window.close();
     }
-
 </script>
