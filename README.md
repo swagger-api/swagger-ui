@@ -209,6 +209,23 @@ Access-Control-Allow-Headers: Content-Type, api_key, Authorization
 
 Only headers with these names will be allowed to be sent by Swagger-UI.
 
+## AWS deployment
+* bucket name: relocation-swagger-ui
+* use cfn-sphere to create the bucket:
+
+```
+cf sync cfn/cfn-config.yml --confirm
+```
+
+* use aws cli to copy ```dist/```folder to the s3 bucket (make sure to switch to the correct account first using ```afp```)
+
+```
+aws s3 sync dist/ s3://relocation-swagger-ui/ --delete
+```
+
+Teamcity: [relocation/swagger-ui](https://teamcity.rz.is/admin/editProject.html?projectId=RelocationRewriteUmzug_SwaggerUi)
+Deployed here: [swagger ui](http://relocation-swagger-ui.s3-website-eu-west-1.amazonaws.com/)
+
 ## License
 
 Copyright 2017 SmartBear Software
