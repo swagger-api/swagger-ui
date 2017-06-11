@@ -1,0 +1,4 @@
+region: eu-west-1
+stacks:
+  relocation-swagger-ui:
+    template-url: templates/cfn-template.yml
