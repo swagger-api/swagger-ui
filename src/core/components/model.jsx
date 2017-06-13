@@ -40,6 +40,7 @@ class ObjectModel extends Component {
     let additionalProperties = schema.get("additionalProperties")
     let title = schema.get("title") || name
     let required = schema.get("required")
+    const Markdown = getComponent("Markdown")
     const JumpToPathSection = ({ name }) => <span className="model-jump-to-path"><JumpToPath path={`definitions.${name}`} /></span>
   let collapsedContent = (<span>
       <span>{ braceOpen }</span>...<span>{ braceClose }</span>
@@ -66,7 +67,9 @@ class ObjectModel extends Component {
               {
                 !description ? null : <tr style={{ color: "#999", fontStyle: "italic" }}>
                     <td>description:</td>
-                    <td>{ description }</td>
+                    <td>
+                      <Markdown source={ description } />
+                    </td>
                   </tr>
               }
               {
