@@ -8,7 +8,7 @@ const getAbsoluteFSPath = () => {
   if (typeof module !== "undefined" && module.exports) {
     return require("path").resolve(__dirname)
   }
-  return "Error! absolutePath only available when running in NodeJS"
+  throw new Error('getAbsoluteFSPath can only be called within a Nodejs environment');
 }
 
-module.exports = getAbsoluteFSPath()
+module.exports = getAbsoluteFSPath
