@@ -14,7 +14,7 @@ Use `swagger-ui` instead, if you'd like to have npm install dependencies for you
 To get an absolute path to this directory for static file serving, use the exported `getAbsoluteFSPath` method:
 
 ```javascript
-const swaggerUiAssetPath = require("swagger-ui-dist").getAbsoluteFSPath
+const swaggerUiAssetPath = require("swagger-ui-dist").getAbsoluteFSPath()
 
 // then instantiate server that serves files from the swaggerUiAssetPath
 ```
