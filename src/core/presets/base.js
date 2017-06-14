@@ -10,6 +10,7 @@ import auth from "core/plugins/auth"
 import util from "core/plugins/util"
 import SplitPaneModePlugin from "core/plugins/split-pane-mode"
 import downloadUrlPlugin from "core/plugins/download-url"
+import configsPlugin from "plugins/configs"
 
 import App from "core/components/app"
 import AuthorizationPopup from "core/components/auth/authorization-popup"
@@ -102,6 +103,7 @@ export default function() {
   }
 
   return [
+    configsPlugin,
     util,
     logs,
     view,
