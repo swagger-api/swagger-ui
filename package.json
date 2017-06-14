@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.0.13",
+  "version": "3.0.14",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -32,7 +32,7 @@
     "test": "npm run lint-errors && npm run just-test-in-node",
     "test-in-node": "npm run lint-errors && npm run just-test-in-node",
     "just-test": "karma start --config karma.conf.js",
-    "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test/core test/components test/bugs"
+    "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test/core test/components test/bugs test/swagger-ui-dist-package"
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
@@ -71,7 +71,7 @@
     "sanitize-html": "^1.14.1",
     "serialize-error": "2.0.0",
     "shallowequal": "0.2.2",
-    "swagger-client": "~3.0.13",
+    "swagger-client": "~3.0.14",
     "url-parse": "^1.1.8",
     "whatwg-fetch": "0.11.1",
     "worker-loader": "^0.7.1",
