@@ -1,7 +1,29 @@
 /* eslint-env mocha */
 import expect from "expect"
 import System from "core/system"
-import { fromJS } from "immutable"
+import { fromJS, Map } from "immutable"
+
+describe("state", function(){
+  it("should add state from the constructor", function() {
+    const system = new System({
+      state: {
+        josh: {
+          one: true
+        }
+      }
+    })
+
+    const state = system.getSystem().getState()
+
+    expect(Map.isMap(state)).toBe(true)
+    expect(state.toJS()).toEqual({
+      josh: {
+        one: true
+      }
+    })
+
+  })
+})
 
 describe("bound system", function(){
 

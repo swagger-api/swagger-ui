@@ -37,23 +37,22 @@ module.exports = function SwaggerUI(opts) {
     plugins: [
     ],
 
+    // Initial state
+    initialState: { },
+
     // Inline Plugin
     fn: { },
     components: { },
-    state: { },
-
-    // Override some core configs... at your own risk
-    store: { },
   }
 
   const constructorConfig = deepExtend({}, defaults, opts)
 
-  const storeConfigs = deepExtend({}, constructorConfig.store, {
+  const storeConfigs = {
     system: {
       configs: constructorConfig.configs
     },
     plugins: constructorConfig.presets,
-    state: {
+    state: deepExtend({
       layout: {
         layout: constructorConfig.layout
       },
@@ -61,8 +60,8 @@ module.exports = function SwaggerUI(opts) {
         spec: "",
         url: constructorConfig.url
       }
-    }
-  })
+    }, constructorConfig.initialState)
+  }
 
   let inlinePlugin = ()=> {
     return {
