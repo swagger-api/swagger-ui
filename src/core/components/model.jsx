@@ -192,7 +192,7 @@ class ArrayModel extends Component {
 }
 
 
-class Model extends Component {
+export class Model extends Component {
   static propTypes = {
     schema: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
