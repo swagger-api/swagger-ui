@@ -224,6 +224,7 @@ class Model extends Component {
 
     if ( schema && (schema.get("type") || schema.get("properties")) ) {
       modelSchema = schema
+      modelName = name
     } else if ( $$ref ) {
       modelSchema = this.getRefSchema( modelName )
     }
