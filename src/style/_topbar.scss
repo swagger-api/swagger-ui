@@ -34,8 +34,8 @@
     .download-url-wrapper
     {
         display: flex;
-
         flex: 3;
+        justify-content: flex-end;
 
         input[type=text]
         {
@@ -46,6 +46,15 @@
             border: 2px solid #547f00;
             border-radius: 4px 0 0 4px;
             outline: none;
+        }
+
+        select
+        {
+            min-width: 200px;
+
+            border: 2px solid #547f00;
+            outline: none;
+            box-shadow: none;
         }
 
         .download-url-button

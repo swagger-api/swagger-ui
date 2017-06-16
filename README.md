@@ -129,6 +129,7 @@ If you'd like to use the bundle files via npm, check out the [`swagger-ui-dist` 
 Parameter Name | Description
 --- | ---
 url | The url pointing to API definition (normally `swagger.json` or `swagger.yaml`).
+urls | An array of API definition objects (`{url: "<url>", name: "<name>"}`) used by Topbar plugin. When used and Topbar plugin is enabled, the `url` parameter will not be parsed.
 spec | A JSON object describing the OpenAPI Specification. When used, the `url` parameter will not be parsed. This is useful for testing manually-generated specifications without hosting them.
 validatorUrl | By default, Swagger-UI attempts to validate specs against swagger.io's online validator. You can use this parameter to set a different validator URL, for example for locally deployed validators ([Validator Badge](https://github.com/swagger-api/validator-badge)). Setting it to `null` will disable validation.
 dom_id | The id of a dom element inside which SwaggerUi will put the user interface for swagger.
@@ -143,7 +144,7 @@ displayOperationId | Controls the display of operationId in operations list. The
 ### Plugins
 
 #### Topbar plugin
-Topbar plugin enables top bar with input for spec path and explore button. By default the plugin is enabled, and to disable it you need to remove Topbar plugin from presets in `src/standalone/index.js`:
+Topbar plugin enables top bar with input for spec path and explore button or a dropdown if `urls` is used. When using the dropdown, a query parameter `name` can be passed to select that API. By default the plugin is enabled, and to disable it you need to remove Topbar plugin from presets in `src/standalone/index.js`:
 
 ```
 let preset = [

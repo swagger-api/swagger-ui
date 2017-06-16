@@ -2,12 +2,13 @@ import React, { PropTypes } from "react"
 
 //import "./topbar.less"
 import Logo from "./logo_small.png"
+import { parseSeach } from "core/utils"
 
 export default class Topbar extends React.Component {
 
   constructor(props, context) {
     super(props, context)
-    this.state = { url: props.specSelectors.url() }
+    this.state = { url: props.specSelectors.url(), selectedIndex: 0 }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -19,14 +20,49 @@ export default class Topbar extends React.Component {
     this.setState({url: value})
   }
 
-  downloadUrl = (e) => {
-    this.props.specActions.updateUrl(this.state.url)
-    this.props.specActions.download(this.state.url)
+  loadSpec = (url) => {
+    this.props.specActions.updateUrl(url)
+    this.props.specActions.download(url)
+  }
+
+  onUrlSelect =(e)=> {
+    let url = e.target.value || e.target.href
+    this.loadSpec(url)
     e.preventDefault()
   }
 
+  downloadUrl = (e) => {
+    this.loadSpec(this.state.url)
+    e.preventDefault()
+  }
+
+  componentWillMount() {
+    const urls = this.props.getConfigs().urls || []
+
+    if(urls && urls.length) {
+      let selectedName = parseSeach().name
+      if(selectedName)
+      {
+        urls.forEach((spec, i) => {
+          if(spec.name === selectedName)
+            {
+              this.setState({selectedIndex: i})
+            }
+        })
+      }
+    }
+  }
+
+  componentDidMount() {
+    const urls = this.props.getConfigs().urls || []
+
+    if(urls && urls.length) {
+      this.loadSpec(urls[this.state.selectedIndex].url)
+    }
+  }
+
   render() {
-    let { getComponent, specSelectors } = this.props
+    let { getComponent, specSelectors, getConfigs } = this.props
     const Button = getComponent("Button")
     const Link = getComponent("Link")
 
@@ -36,22 +72,39 @@ export default class Topbar extends React.Component {
     let inputStyle = {}
     if(isFailed) inputStyle.color = "red"
     if(isLoading) inputStyle.color = "#aaa"
+
+    const { urls } = getConfigs()
+    let control = []
+    let formOnSubmit = null
+
+    if(urls) {
+      let rows = []
+      urls.forEach((link, i) => {
+        rows.push(<option key={i} value={link.url} selected={i===this.state.selectedIndex}>{link.name}</option>)
+      })
+
+      control.push(<select disabled={isLoading} onChange={ this.onUrlSelect }>{rows}</select>)
+    }
+    else {
+      formOnSubmit = this.downloadUrl
+      control.push(<input className="download-url-input" type="text" onChange={ this.onUrlChange } value={this.state.url} disabled={isLoading} style={inputStyle} />)
+      control.push(<Button className="download-url-button" onClick={ this.downloadUrl }>Explore</Button>)
+    }
+
     return (
-        <div className="topbar">
-          <div className="wrapper">
-            <div className="topbar-wrapper">
-              <Link href="#" title="Swagger UX">
-                <img height="30" width="30" src={ Logo } alt="Swagger UX"/>
-                <span>swagger</span>
-              </Link>
-              <form className="download-url-wrapper" onSubmit={this.downloadUrl}>
-                <input className="download-url-input" type="text" onChange={ this.onUrlChange } value={this.state.url} disabled={isLoading} style={inputStyle} />
-                <Button className="download-url-button" onClick={ this.downloadUrl }>Explore</Button>
-              </form>
-            </div>
+      <div className="topbar">
+        <div className="wrapper">
+          <div className="topbar-wrapper">
+            <Link href="#" title="Swagger UX">
+              <img height="30" width="30" src={ Logo } alt="Swagger UX"/>
+              <span>swagger</span>
+            </Link>
+            <form className="download-url-wrapper" onSubmit={formOnSubmit}>
+              {control}
+            </form>
           </div>
         </div>
-
+      </div>
     )
   }
 }
@@ -59,5 +112,6 @@ export default class Topbar extends React.Component {
 Topbar.propTypes = {
   specSelectors: PropTypes.object.isRequired,
   specActions: PropTypes.object.isRequired,
-  getComponent: PropTypes.func.isRequired
+  getComponent: PropTypes.func.isRequired,
+  getConfigs: PropTypes.func.isRequired
 }
