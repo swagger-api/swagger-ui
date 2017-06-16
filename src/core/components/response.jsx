@@ -67,7 +67,14 @@ export default class Response extends React.Component {
     const Markdown = getComponent( "Markdown" )
     const OperationLink = getComponent("operationLink")
 
-    let sampleResponse = schema ? getSampleSchema(schema, contentType, { includeReadOnly: true }) : null
+    var sampleResponse
+
+    if(specSelectors.isOAS3()) {
+      let oas3SchemaForContentType = response.getIn(["content", contentType, "schema"])
+      sampleResponse = oas3SchemaForContentType ? getSampleSchema(oas3SchemaForContentType, contentType, { includeReadOnly: true }) : null
+    } else {
+      sampleResponse = schema ? getSampleSchema(schema, contentType, { includeReadOnly: true }) : null
+    }
     let example = getExampleComponent( sampleResponse, examples, HighlightCode )
 
     return (

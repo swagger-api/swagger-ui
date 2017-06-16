@@ -34,9 +34,10 @@ class ObjectModel extends Component {
 
   render(){
     let { schema, name, isRef, getComponent, depth, deprecated, ...props } = this.props
-    let { expandDepth } = this.props
+    let { expandDepth, specSelectors } = this.props
     const JumpToPath = getComponent("JumpToPath", true)
     let description = schema.get("description")
+    let nullable = schema.get("nullable")
     let properties = schema.get("properties")
     let additionalProperties = schema.get("additionalProperties")
     let title = schema.get("title") || name
@@ -68,6 +69,12 @@ class ObjectModel extends Component {
                 !description ? null : <tr style={{ color: "#999", fontStyle: "italic" }}>
                     <td>description:</td>
                     <td>{ description }</td>
+                  </tr>
+              }
+              {
+                (!specSelectors.isOAS3() || !nullable) ? null : <tr style={{ color: "#999", fontStyle: "italic" }}>
+                    <td>nullable</td>
+                    <td>{ nullable }</td>
                   </tr>
               }
               {
