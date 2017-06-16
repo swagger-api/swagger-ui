@@ -10,9 +10,6 @@ export default function() {
     wrapComponents,
     statePlugins: {
       spec: {
-        // wrapActions,
-        // reducers,
-        // actions,
         wrapSelectors
       }
     }

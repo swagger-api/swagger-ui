@@ -60,10 +60,12 @@ export default class Response extends React.Component {
     let schema = inferSchema(response.toJS())
     let headers = response.get("headers")
     let examples = response.get("examples")
+    let links = response.get("links")
     const Headers = getComponent("headers")
     const HighlightCode = getComponent("highlightCode")
     const ModelExample = getComponent("modelExample")
     const Markdown = getComponent( "Markdown" )
+    const OperationLink = getComponent("operationLink")
 
     let sampleResponse = schema ? getSampleSchema(schema, contentType, { includeReadOnly: true }) : null
     let example = getExampleComponent( sampleResponse, examples, HighlightCode )
@@ -91,8 +93,15 @@ export default class Response extends React.Component {
             <Headers headers={ headers }/>
           ) : null}
 
-        </td>
 
+        </td>
+        {specSelectors.isOAS3() ? <td>
+          { links ?
+            links.toSeq().map((link, key) => {
+              return <OperationLink key={key} name={key} link={ link }/>
+            })
+          : <i>No links</i>}
+        </td> : null}
       </tr>
     )
   }

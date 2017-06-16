@@ -46,6 +46,13 @@ export const spec = state => {
   return res
 }
 
+export const isOAS3 = createSelector(
+  // isOAS3 is stubbed out here to work around an issue with injecting more selectors
+  // in the OAS3 plugin, and to ensure that the function is always available.
+  spec,
+	spec => false
+)
+
 export const info = createSelector(
   spec,
 	spec => returnSelfOrNewMap(spec && spec.get("info"))
