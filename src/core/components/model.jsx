@@ -28,11 +28,12 @@ class ObjectModel extends Component {
     name: PropTypes.string,
     isRef: PropTypes.bool,
     expandDepth: PropTypes.number,
-    depth: PropTypes.number
+    depth: PropTypes.number,
+    deprecated: PropTypes.boolean
   }
 
   render(){
-    let { schema, name, isRef, getComponent, depth, ...props } = this.props
+    let { schema, name, isRef, getComponent, depth, deprecated, ...props } = this.props
     let { expandDepth } = this.props
     const JumpToPath = getComponent("JumpToPath", true)
     let description = schema.get("description")
@@ -48,7 +49,7 @@ class ObjectModel extends Component {
       }
     </span>)
 
-    return <span className="model">
+    return <span className={`model ${deprecated ? "deprecated" : ""}`}>
       {
         title && <span className="model-title">
           { isRef && schema.get("$$ref") && <span className="model-hint">{ schema.get("$$ref") }</span> }
@@ -78,7 +79,7 @@ class ObjectModel extends Component {
                         propertyStyle.fontWeight = "bold"
                       }
 
-                      return (<tr key={key}>
+                      return (<tr key={key} className={`${value.get("deprecated") ? "deprecated" : ""}`}>
                         <td style={ propertyStyle }>{ key }:</td>
                         <td style={{ verticalAlign: "top" }}>
                           <Model key={ `object-${name}-${key}_${value}` } { ...props }
@@ -114,11 +115,12 @@ class ObjectModel extends Component {
 class Primitive extends Component {
   static propTypes = {
     schema: PropTypes.object.isRequired,
-    required: PropTypes.bool
+    required: PropTypes.bool,
+    deprecated: PropTypes.bool
   }
 
   render(){
-    let { schema, required } = this.props
+    let { schema, required, deprecated } = this.props
 
     if(!schema || !schema.get) {
       // don't render if schema isn't correctly formed
@@ -132,7 +134,7 @@ class Primitive extends Component {
     let properties = schema.filter( ( v, key) => ["enum", "type", "format", "$$ref"].indexOf(key) === -1 )
     let style = required ? { fontWeight: "bold" } : {}
 
-    return <span className="prop">
+    return <span className={`prop ${deprecated ? "deprecated" : ""}`}>
       <span className="prop-type" style={ style }>{ type }</span> { required && <span style={{ color: "red" }}>*</span>}
       { format && <span className="prop-format">(${format})</span>}
       {
@@ -217,10 +219,12 @@ export class Model extends Component {
   }
 
   render () {
-    let { schema, required, name, isRef, getComponent } = this.props
+    let { schema, required, name, isRef, specSelectors } = this.props
     let $$ref = schema && schema.get("$$ref")
     let modelName = $$ref && this.getModelName( $$ref )
     let modelSchema, type
+
+    const deprecated = specSelectors.isOAS3() && schema.get("deprecated")
 
     if ( schema && (schema.get("type") || schema.get("properties")) ) {
       modelSchema = schema
@@ -235,17 +239,30 @@ export class Model extends Component {
 
     switch(type) {
       case "object":
-        return <ObjectModel className="object" { ...this.props } schema={ modelSchema }
-                                              name={ modelName || name }
-                                              isRef={ isRef!== undefined ? isRef : !!$$ref }/>
+        return <ObjectModel
+          className="object" { ...this.props }
+          schema={ modelSchema }
+          name={ modelName || name }
+          isRef={ isRef!== undefined ? isRef : !!$$ref }
+          deprecated={deprecated}
+        />
       case "array":
-        return <ArrayModel className="array" { ...this.props } schema={ modelSchema } required={ required } />
+        return <ArrayModel
+          className="array" { ...this.props }
+          schema={ modelSchema }
+          required={ required }
+          deprecated={deprecated}
+          />
       case "string":
       case "number":
       case "integer":
       case "boolean":
       default:
-        return <Primitive schema={ modelSchema } required={ required }/>
+        return <Primitive
+          schema={ modelSchema }
+          required={ required }
+          deprecated={deprecated}
+        />
     }
   }
 }

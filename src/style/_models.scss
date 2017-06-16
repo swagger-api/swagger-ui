@@ -3,6 +3,13 @@
     font-size: 12px;
     font-weight: 300;
 
+    .deprecated
+    {
+      span, td {
+        color: #aaa !important;
+      }
+    }
+
     @include text_code();
     &-toggle
     {
