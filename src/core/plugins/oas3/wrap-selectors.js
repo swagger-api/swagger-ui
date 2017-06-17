@@ -20,6 +20,10 @@ const state = state => {
   return state || Map()
 }
 
+const nullSelector =  createSelector(() => null)
+
+const OAS3NullSelector = onlyOAS3(nullSelector)
+
 const specJson = createSelector(
   state,
   spec => spec.get("json", Map())
@@ -43,6 +47,11 @@ export const definitions = onlyOAS3(createSelector(
   spec,
   spec => spec.getIn(["components", "schemas"]) || Map()
 ))
+
+export const host = OAS3NullSelector
+export const basePath = OAS3NullSelector
+export const consumes = OAS3NullSelector
+export const produces = OAS3NullSelector
 
 // New selectors
 
