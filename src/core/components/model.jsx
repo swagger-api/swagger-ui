@@ -40,6 +40,7 @@ class ObjectModel extends Component {
     let additionalProperties = schema.get("additionalProperties")
     let title = schema.get("title") || name
     let required = schema.get("required")
+    const Markdown = getComponent("Markdown")
     const JumpToPathSection = ({ name }) => <span className="model-jump-to-path"><JumpToPath path={`definitions.${name}`} /></span>
   let collapsedContent = (<span>
       <span>{ braceOpen }</span>...<span>{ braceClose }</span>
@@ -66,7 +67,9 @@ class ObjectModel extends Component {
               {
                 !description ? null : <tr style={{ color: "#999", fontStyle: "italic" }}>
                     <td>description:</td>
-                    <td>{ description }</td>
+                    <td>
+                      <Markdown source={ description } />
+                    </td>
                   </tr>
               }
               {
@@ -114,11 +117,12 @@ class ObjectModel extends Component {
 class Primitive extends Component {
   static propTypes = {
     schema: PropTypes.object.isRequired,
+    getComponent: PropTypes.func.isRequired,
     required: PropTypes.bool
   }
 
   render(){
-    let { schema, required } = this.props
+    let { schema, getComponent, required } = this.props
 
     if(!schema || !schema.get) {
       // don't render if schema isn't correctly formed
@@ -129,16 +133,22 @@ class Primitive extends Component {
     let format = schema.get("format")
     let xml = schema.get("xml")
     let enumArray = schema.get("enum")
-    let properties = schema.filter( ( v, key) => ["enum", "type", "format", "$$ref"].indexOf(key) === -1 )
+    let description = schema.get("description")
+    let properties = schema.filter( ( v, key) => ["enum", "type", "format", "description", "$$ref"].indexOf(key) === -1 )
     let style = required ? { fontWeight: "bold" } : {}
+    const Markdown = getComponent("Markdown")
 
     return <span className="prop">
       <span className="prop-type" style={ style }>{ type }</span> { required && <span style={{ color: "red" }}>*</span>}
       { format && <span className="prop-format">(${format})</span>}
       {
         properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <span key={`${key}-${v}`} style={ propStyle }>
-          <br />{ key !== "description" && key + ": " }{ String(v) }</span>)
+          <br />{ key }: { String(v) }</span>)
           : null
+      }
+      {
+        !description ? null :
+          <Markdown source={ description } />
       }
       {
         xml && xml.size ? (<span><br /><span style={ propStyle }>xml:</span>
@@ -217,7 +227,7 @@ class Model extends Component {
   }
 
   render () {
-    let { schema, required, name, isRef } = this.props
+    let { schema, getComponent, required, name, isRef } = this.props
     let $$ref = schema && schema.get("$$ref")
     let modelName = $$ref && this.getModelName( $$ref )
     let modelSchema, type
@@ -245,7 +255,7 @@ class Model extends Component {
       case "integer":
       case "boolean":
       default:
-        return <Primitive schema={ modelSchema } required={ required }/>
+        return <Primitive getComponent={ getComponent } schema={ modelSchema } required={ required }/>
     }
   }
 }
