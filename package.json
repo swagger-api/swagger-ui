@@ -32,7 +32,8 @@
     "test": "npm run lint-errors && npm run just-test-in-node",
     "test-in-node": "npm run lint-errors && npm run just-test-in-node",
     "just-test": "karma start --config karma.conf.js",
-    "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test/core test/components test/bugs test/swagger-ui-dist-package"
+    "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test/core test/components test/bugs test/swagger-ui-dist-package",
+    "e2e": "nightwatch test/e2e/scenarios --config test/e2e/nightwatch.json --verbose"
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
@@ -109,6 +110,7 @@
     "less-loader": "2.2.1",
     "license-checker": "^8.0.4",
     "mocha": "^2.5.3",
+    "nightwatch": "^0.9.16",
     "node-sass": "^4.5.0",
     "npm-run-all": "3.1.1",
     "null-loader": "0.1.1",
