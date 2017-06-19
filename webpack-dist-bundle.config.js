@@ -13,6 +13,7 @@ module.exports = require('./make-webpack-config.js')({
 
   entry: {
     'swagger-ui-bundle': [
+      './src/polyfills',
       './src/core/index.js'
     ]
   },
