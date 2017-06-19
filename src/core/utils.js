@@ -1,5 +1,4 @@
 import Im from "immutable"
-import shallowEqual from "shallowequal"
 
 import camelCase from "lodash/camelCase"
 import upperFirst from "lodash/upperFirst"
