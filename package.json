@@ -132,7 +132,7 @@
   "browserslist": [
     "> 1%",
     "last 2 versions",
-    "IE 10"
+    "IE 11"
   ],
   "optionalDependencies": {
     "webpack-dev-server": "1.14.0"

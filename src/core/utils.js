@@ -418,11 +418,6 @@ export function pascalCaseFilename(filename) {
   return pascalCase(filename.replace(/\.[^./]*$/, ""))
 }
 
-// Only compare a set of props
-export function shallowEqualKeys(a,b, keys) {
-  return !!keys.find(key => !shallowEqual(a[key], b[key]))
-}
-
 // Check if ...
 // - new props
 // - If immutable, use .is()
