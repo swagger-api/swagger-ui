@@ -2,10 +2,7 @@ import React, { PropTypes } from "react"
 import shallowCompare from "react-addons-shallow-compare"
 import { getList } from "core/utils"
 import * as CustomPropTypes from "core/proptypes"
-import {
-  OrderedMap,
-  Map
-} from 'immutable'
+import { OrderedMap } from "immutable"
 
 //import "less/opblock"
 
