@@ -2,6 +2,7 @@ import React, { PropTypes } from "react"
 import shallowCompare from "react-addons-shallow-compare"
 import { getList } from "core/utils"
 import * as CustomPropTypes from "core/proptypes"
+import { OrderedMap } from "immutable"
 
 //import "less/opblock"
 
@@ -143,8 +144,11 @@ export default class Operation extends React.Component {
     const Schemes = getComponent( "schemes" )
 
     // Merge in Live Response
+    if((responses === undefined)) responses = new OrderedMap //empty cap
+
     if(response && response.size > 0) {
-      let notDocumented = !responses.get(String(response.get("status")))
+      //let notDocumented = !responses.get(String(response.get("status")))
+      let notDocumented = (responses !== undefined)? !responses.get(String(response.get("status"))) : true //true if responses is empty
       response = response.set("notDocumented", notDocumented)
     }
 
