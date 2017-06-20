@@ -16,7 +16,7 @@ export const SET_REQUEST = "spec_set_request"
 export const LOG_REQUEST = "spec_log_request"
 export const CLEAR_RESPONSE = "spec_clear_response"
 export const CLEAR_REQUEST = "spec_clear_request"
-export const ClEAR_VALIDATE_PARAMS = "spec_clear_validate_param"
+export const CLEAR_VALIDATE_PARAMS = "spec_clear_validate_param"
 export const UPDATE_OPERATION_VALUE = "spec_update_operation_value"
 export const UPDATE_RESOLVED = "spec_update_resolved"
 export const SET_SCHEME = "set_scheme"
@@ -125,7 +125,7 @@ export function validateParams( payload ){
 
 export function clearValidateParams( payload ){
   return {
-    type: ClEAR_VALIDATE_PARAMS,
+    type: CLEAR_VALIDATE_PARAMS,
     payload:{ pathMethod: payload }
   }
 }
