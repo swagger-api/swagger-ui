@@ -1,5 +1,4 @@
 import Im from "immutable"
-import shallowEqual from "shallowequal"
 
 import camelCase from "lodash/camelCase"
 import upperFirst from "lodash/upperFirst"
@@ -416,11 +415,6 @@ export function pascalCase(str) {
 // Remove the ext of a filename, and pascalCase it
 export function pascalCaseFilename(filename) {
   return pascalCase(filename.replace(/\.[^./]*$/, ""))
-}
-
-// Only compare a set of props
-export function shallowEqualKeys(a,b, keys) {
-  return !!keys.find(key => !shallowEqual(a[key], b[key]))
 }
 
 // Check if ...
