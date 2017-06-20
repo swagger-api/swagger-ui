@@ -5,6 +5,7 @@
     "stage-0"
   ],
   "plugins": [
+    "transform-runtime",
     [
       "module-alias",
       [
