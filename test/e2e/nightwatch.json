@@ -4,7 +4,7 @@
   "live_output": true,
   "custom_commands_path" : "",
   "custom_assertions_path" : "",
-  "page_objects_path" : "",
+  "page_objects_path" : "test/e2e/pages",
   "globals_path" : "",
   "test_workers" : {
     "enabled" : true,

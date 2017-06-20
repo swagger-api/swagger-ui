@@ -33,7 +33,8 @@
     "test-in-node": "npm run lint-errors && npm run just-test-in-node",
     "just-test": "karma start --config karma.conf.js",
     "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test/core test/components test/bugs test/swagger-ui-dist-package",
-    "e2e": "nightwatch test/e2e/scenarios --config test/e2e/nightwatch.json --verbose"
+    "e2e": "nightwatch test/e2e/scenarios --config test/e2e/nightwatch.json --verbose",
+    "e2e-initial-render": "nightwatch test/e2e/scenarios --config test/e2e/nightwatch.json --group initial-render"
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
