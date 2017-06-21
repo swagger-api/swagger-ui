@@ -73,7 +73,7 @@
 window.onload = function() {
   // Build a system
   const ui = SwaggerUIBundle({
-    url: "http://petstore.swagger.io/v2/swagger.json",
+    url: "https://lapp.ap.ngrok.io/doc/swagger/",
     dom_id: '#swagger-ui',
     presets: [
       SwaggerUIBundle.presets.apis,
@@ -82,13 +82,16 @@ window.onload = function() {
     plugins: [
       SwaggerUIBundle.plugins.DownloadUrl
     ],
-    layout: "StandaloneLayout"
+    layout: "StandaloneLayout",
+    operationsSorter: "alpha",
+    docExpansion: "none"
   })
 
   window.ui = ui
 }
 </script>
 <link rel="stylesheet" type="text/css" href="./theme-feeling-blue.css">
+<link rel="stylesheet" type="text/css" href="./l-style.css">
 </body>
 
 </html>
