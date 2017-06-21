@@ -10,10 +10,9 @@ const sanitizeOptions = {
 }
 
 function Markdown({ source }) {
-  const sanitized = sanitize(source, sanitizeOptions)
   return <Remarkable
     options={{html: true, typographer: true, linkify: true, linkTarget: "_blank"}}
-    source={sanitized}
+    source={source}
     ></Remarkable>
 }
 
