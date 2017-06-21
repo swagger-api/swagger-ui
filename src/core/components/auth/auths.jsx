@@ -45,6 +45,7 @@ export default class Auths extends React.Component {
     let { definitions, getComponent, authSelectors, errSelectors } = this.props
     const ApiKeyAuth = getComponent("apiKeyAuth")
     const BasicAuth = getComponent("basicAuth")
+    const BasicJwtAuth = getComponent("basicJwtAuth")
     const Oauth2 = getComponent("oauth2", true)
     const Button = getComponent("Button")
 
@@ -82,6 +83,14 @@ export default class Auths extends React.Component {
                                                   authorized={ authorized }
                                                   getComponent={ getComponent }
                                                   onChange={ this.onAuthChange } />
+                    break
+                  case "basicJwt": authEl = <BasicJwtAuth key={ name }
+                                                        schema={ schema }
+                                                        name={ name }
+                                                        errSelectors={ errSelectors }
+                                                        authorized={ authorized }
+                                                        getComponent={ getComponent }
+                                                        onChange={ this.onAuthChange } />
                     break
                   default: authEl = <div key={ name }>Unknown security definition type { type }</div>
                 }
