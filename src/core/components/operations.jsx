@@ -30,6 +30,7 @@ export default class Operations extends React.Component {
 
     const Operation = getComponent("operation")
     const Collapse = getComponent("Collapse")
+    const Markdown = getComponent("Markdown")
 
     let showSummary = layoutSelectors.showSummary()
     let { docExpansion, displayOperationId } = getConfigs()
@@ -40,6 +41,7 @@ export default class Operations extends React.Component {
             taggedOps.map( (tagObj, tag) => {
               let operations = tagObj.get("operations")
               let tagDescription = tagObj.getIn(["tagDetails", "description"], null)
+              let tagNotes= tagObj.getIn(["tagDetails", "notes"], null)
 
               let isShownKey = ["operations-tag", tag]
               let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
@@ -63,6 +65,7 @@ export default class Operations extends React.Component {
                   </h4>
 
                   <Collapse isOpened={showTag}>
+                    { !tagNotes ? null : <div><Markdown source={ tagNotes } /></div> }
                     {
                       operations.map( op => {
 
