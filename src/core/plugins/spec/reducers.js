@@ -1,7 +1,6 @@
 import { fromJS } from "immutable"
 import { fromJSOrdered, validateParam } from "core/utils"
 import win from "../../window"
-import findIndex from "lodash/findIndex"
 
 import {
 	UPDATE_SPEC,
@@ -42,7 +41,7 @@ export default {
   [UPDATE_PARAM]: ( state, {payload} ) => {
     let { path, paramName, value, isXml } = payload
     return state.updateIn( [ "resolved", "paths", ...path, "parameters" ], fromJS([]), parameters => {
-      const index = findIndex(parameters, p => p.get( "name" ) === paramName )
+			let index = parameters.findIndex( p => p.get( "name" ) === paramName )
       if (!(value instanceof win.File)) {
         value = fromJSOrdered( value )
       }
