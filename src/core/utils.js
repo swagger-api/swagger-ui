@@ -1,5 +1,4 @@
 import Im from "immutable"
-import shallowEqual from "shallowequal"
 
 import camelCase from "lodash/camelCase"
 import upperFirst from "lodash/upperFirst"
@@ -7,6 +6,7 @@ import _memoize from "lodash/memoize"
 import some from "lodash/some"
 import eq from "lodash/eq"
 import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins/samples/fn"
+import win from "./window"
 
 const DEFAULT_REPONSE_KEY = "default"
 
@@ -33,6 +33,9 @@ export function arrayify (thing) {
 export function fromJSOrdered (js) {
   if(isImmutable(js))
     return js // Can't do much here
+
+  if (js instanceof win.File)
+    return js
 
   return !isObject(js) ? js :
     Array.isArray(js) ?
@@ -412,11 +415,6 @@ export function pascalCase(str) {
 // Remove the ext of a filename, and pascalCase it
 export function pascalCaseFilename(filename) {
   return pascalCase(filename.replace(/\.[^./]*$/, ""))
-}
-
-// Only compare a set of props
-export function shallowEqualKeys(a,b, keys) {
-  return !!keys.find(key => !shallowEqual(a[key], b[key]))
 }
 
 // Check if ...

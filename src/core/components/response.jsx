@@ -8,7 +8,7 @@ const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
       let exampleValue
       try {
         exampleValue = example && example.toJS ? example.toJS() : example
-        exampleValue = JSON.stringify(exampleValue)
+        exampleValue = JSON.stringify(exampleValue, null, 2)
       }
       catch(e) {
         exampleValue = String(example)
@@ -76,7 +76,7 @@ export default class Response extends React.Component {
         <td className="col response-col_description">
 
           <div className="response-col_description__inner">
-            <Markdown options={{html: true, typographer: true, linkify: true, linkTarget: "_blank"}} source={ response.get( "description" ) } />
+            <Markdown source={ response.get( "description" ) } />
           </div>
 
           { example ? (
