@@ -75,6 +75,7 @@ window.onload = function() {
   const ui = SwaggerUIBundle({
     url: "http://petstore.swagger.io/v2/swagger.json",
     dom_id: '#swagger-ui',
+    oauth2RedirectUrl: 'http://localhost:3200/oauth2-redirect.html',
     presets: [
       SwaggerUIBundle.presets.apis,
       SwaggerUIStandalonePreset

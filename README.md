@@ -35,6 +35,23 @@ docker run -p 80:8080 swaggerapi/swagger-ui
 
 Will start nginx with swagger-ui on port 80.
 
+When starting, the Docker container runs `docker-run.sh`, which gives you the ability to swap out variables set in the constructor of `SwaggerUIBundle` `index.html` with environment variables. Available variables are:
+
+`API_KEY`
+`OAUTH_CLIENT_ID`
+`OAUTH_CLIENT_SECRET`
+`OAUTH_REALM`
+`OAUTH_APP_NAME`
+`OAUTH2_REDIRECT_URL`
+`OAUTH_ADDITIONAL_PARAMS`
+`SWAGGER_JSON`
+`API_URL`
+
+You can set these `docker run` or `docker-compose`, like:
+
+`docker run -p 80:8080 -e API_URL=http://petstore.swagger.io/v2/swagger.json swaggerapi/swagger-ui`
+
+
 ##### Prerequisites
 - Node 6.x
 - NPM 3.x
@@ -64,6 +81,7 @@ To use swagger-ui's bundles, you should take a look at the [source of swagger-ui
   const ui = SwaggerUIBundle({
     url: "http://petstore.swagger.io/v2/swagger.json",
     dom_id: '#swagger-ui',
+    oauth2RedirectUrl: 'http://localhost:3200/oauth2-redirect.html',
     presets: [
       SwaggerUIBundle.presets.apis,
       SwaggerUIStandalonePreset

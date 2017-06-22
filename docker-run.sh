@@ -25,6 +25,8 @@ replace_or_delete_in_index your-client-id $OAUTH_CLIENT_ID
 replace_or_delete_in_index your-client-secret-if-required $OAUTH_CLIENT_SECRET
 replace_or_delete_in_index your-realms $OAUTH_REALM
 replace_or_delete_in_index your-app-name $OAUTH_APP_NAME
+replace_in_index 'http://localhost:3200/oauth2-redirect.html' $OAUTH2_REDIRECT_URL
+
 if [ "$OAUTH_ADDITIONAL_PARAMS" != "**None**" ]; then
     replace_in_index "additionalQueryStringParams: {}" "additionalQueryStringParams: {$OAUTH_ADDITIONAL_PARAMS}"
 fi
