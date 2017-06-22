@@ -81,7 +81,7 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
   if ( passwordType === "basic") {
     headers.Authorization = "Basic " + btoa(username + ":" + password)
   } else {
-    Object.assign(form,  {username}, {password})
+    Object.assign(form, {username}, {password})
 
     if ( passwordType === "query") {
       if ( clientId ) {
@@ -91,7 +91,7 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
         query.client_secret = clientSecret
       }
     } else {
-      Object.assign(form, {client_id: clientId}, {client_secret: clientSecret})
+      headers.Authorization = "Basic " + btoa(clientId + ":" + clientSecret)
     }
   }
 
@@ -100,14 +100,15 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
 
 export const authorizeApplication = ( auth ) => ( { authActions } ) => {
   let { schema, scopes, name, clientId, clientSecret } = auth
+  let headers = {
+    Authorization: "Basic " + btoa(clientId + ":" + clientSecret)
+  }
   let form = {
     grant_type: "client_credentials",
-    client_id: clientId,
-    client_secret: clientSecret,
     scope: scopes.join(scopeSeparator)
   }
 
-  return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth })
+  return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth, headers })
 }
 
 export const authorizeAccessCode = ( { auth, redirectUrl } ) => ( { authActions } ) => {
