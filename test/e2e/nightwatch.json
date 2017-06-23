@@ -21,12 +21,12 @@
 
   "selenium" : {
     "start_process" : true,
-    "server_path" : "test/e2e/bin/selenium-server-standalone-3.4.0.jar",
+    "server_path" : "node_modules/selenium-server-standalone-jar/jar/selenium-server-standalone-3.4.0.jar",
     "log_path" : "",
     "host" : "127.0.0.1",
     "port" : 4444,
     "cli_args" : {
-      "webdriver.chrome.driver" : "test/e2e/bin/chromedriver",
+      "webdriver.chrome.driver" : "node_modules/chromedriver/bin/chromedriver",
       "webdriver.firefox.profile" : "",
       "webdriver.ie.driver" : ""
     }
