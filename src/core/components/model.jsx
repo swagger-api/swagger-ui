@@ -47,7 +47,7 @@ class ObjectModel extends Component {
 
     const jumpToPathSection = (
       <span className="model-jump-to-path">
-        <JumpToPath specPath={specPath} path={["definitions", name]} />
+        <JumpToPath specPath={specPath}/>
       </span>
     )
 
@@ -60,7 +60,6 @@ class ObjectModel extends Component {
       </span>
     )
 
-    console.log('ObjectModel specPath', specPath)
     return (
       <span className="model">
         {
