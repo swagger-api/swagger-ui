@@ -58,7 +58,8 @@ export default class Response extends React.Component {
 
     let { inferSchema } = fn
 
-    let schema = inferSchema(response.toJS())
+    let schema = inferSchema(response.toJS()) // TODO: don't convert back and forth. Lets just stick with immutable for inferSchema
+    const specPathWithPossibleSchema = response.has("schema") ? [...specPath, "schema"] : specPath
     let headers = response.get("headers")
     let examples = response.get("examples")
     const Headers = getComponent("headers")
@@ -82,7 +83,7 @@ export default class Response extends React.Component {
 
           { example ? (
             <ModelExample
-              specPath={specPath}
+              specPath={specPathWithPossibleSchema}
               getComponent={ getComponent }
               specSelectors={ specSelectors }
               schema={ fromJS(schema) }
