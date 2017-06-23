@@ -11,7 +11,8 @@ export default class ParameterRow extends Component {
     isExecute: PropTypes.bool,
     onChangeConsumes: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
-    pathMethod: PropTypes.array.isRequired
+    pathMethod: PropTypes.array.isRequired,
+    specPath: PropTypes.array.isRequired,
   }
 
   constructor(props, context) {
@@ -56,24 +57,27 @@ export default class ParameterRow extends Component {
   }
 
   render() {
-    let {param, onChange, getComponent, isExecute, fn, onChangeConsumes, specSelectors, pathMethod} = this.props
+    let {param, onChange, getComponent, isExecute, fn, onChangeConsumes, specSelectors, pathMethod, specPath} = this.props
+    console.log('param: specPath', specPath)
 
     // const onChangeWrapper = (value) => onChange(param, value)
     const JsonSchemaForm = getComponent("JsonSchemaForm")
     const ParamBody = getComponent("ParamBody")
     let inType = param.get("in")
-    let bodyParam = inType !== "body" ? null
-      : <ParamBody getComponent={getComponent}
-                   fn={fn}
-                   param={param}
-                   consumes={ specSelectors.operationConsumes(pathMethod) }
-                   consumesValue={ specSelectors.contentTypeValues(pathMethod).get("requestContentType") }
-                   onChange={onChange}
-                   onChangeConsumes={onChangeConsumes}
-                   isExecute={ isExecute }
-                   specSelectors={ specSelectors }
-                   pathMethod={ pathMethod }
-      />
+    const bodyParam = inType !== "body" ? null : (
+      <ParamBody
+        getComponent={getComponent}
+        fn={fn}
+        param={param}
+        consumes={ specSelectors.operationConsumes(pathMethod) }
+        consumesValue={ specSelectors.contentTypeValues(pathMethod).get("requestContentType") }
+        onChange={onChange}
+        onChangeConsumes={onChangeConsumes}
+        isExecute={ isExecute }
+        specSelectors={ specSelectors }
+        pathMethod={ pathMethod }
+        />
+    )
 
     const ModelExample = getComponent("modelExample")
     const Markdown = getComponent("Markdown")
@@ -99,27 +103,38 @@ export default class ParameterRow extends Component {
         </td>
 
         <td className="col parameters-col_description">
+
           <Markdown source={ param.get("description") }/>
-          {(isFormData && !isFormDataSupported) && <div>Error: your browser does not support FormData</div>}
-
-          { bodyParam || !isExecute ? null
-            : <JsonSchemaForm fn={fn}
-                              getComponent={getComponent}
-                              value={ value }
-                              required={ required }
-                              description={param.get("description") ? `${param.get("name")} - ${param.get("description")}` : `${param.get("name")}`}
-                              onChange={ this.onChangeWrapper }
-                              schema={ param }/>
-          }
-
 
           {
-            bodyParam && schema ? <ModelExample getComponent={ getComponent }
-                                                isExecute={ isExecute }
-                                                specSelectors={ specSelectors }
-                                                schema={ schema }
-                                                example={ bodyParam }/>
-              : null
+            (isFormData && !isFormDataSupported) ? (
+              <div>Error: your browser does not support FormData</div>
+            ) : null
+          }
+
+          {
+            bodyParam || !isExecute ? null : (
+              <JsonSchemaForm
+                fn={fn}
+                getComponent={getComponent}
+                value={ value }
+                required={ required }
+                description={param.get("description") ? `${param.get("name")} - ${param.get("description")}` : `${param.get("name")}`}
+                onChange={ this.onChangeWrapper }
+                schema={ param }/>
+            )
+          }
+
+          {
+            bodyParam && schema ? (
+              <ModelExample
+                specPath={[...specPath, "schema"]}
+                getComponent={ getComponent }
+                isExecute={ isExecute }
+                specSelectors={ specSelectors }
+                schema={ schema }
+                example={ bodyParam }/>
+            ) : null
           }
 
         </td>

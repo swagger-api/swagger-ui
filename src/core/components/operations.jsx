@@ -69,17 +69,17 @@ export default class Operations extends React.Component {
                         const isShownKey = ["operations", op.get("id"), tag]
                         const path = op.get("path", "")
                         const method = op.get("method", "")
-                        const jumpToKey = `paths.${path}.${method}`
+                        const specPath = ["paths", path, method]
 
-                        const allowTryItOut = specSelectors.allowTryItOutFor(op.get("path"), op.get("method"))
-                        const response = specSelectors.responseFor(op.get("path"), op.get("method"))
-                        const request = specSelectors.requestFor(op.get("path"), op.get("method"))
+                        const allowTryItOut = specSelectors.allowTryItOutFor(path, method)
+                        const response = specSelectors.responseFor(path, method)
+                        const request = specSelectors.requestFor(path, method)
 
                         return <Operation
                           {...op.toObject()}
 
                           isShownKey={isShownKey}
-                          jumpToKey={jumpToKey}
+                          specPath={specPath}
                           showSummary={showSummary}
                           key={isShownKey}
                           response={ response }

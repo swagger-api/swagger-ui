@@ -31,13 +31,17 @@ export default class Models extends Component {
       <Collapse isOpened={showModels} animated>
         {
           definitions.entrySeq().map( ( [ name, model ])=>{
-            return <div className="model-container" key={ `models-section-${name}` }>
-              <Model name={ name }
-                     schema={ model }
-                     isRef={ true }
-                     getComponent={ getComponent }
-                     specSelectors={ specSelectors }/>
+            return (
+              <div className="model-container" key={ `models-section-${name}` }>
+                <Model
+                  name={ name }
+                  specPath={["definitions", name]}
+                  schema={ model }
+                  isRef={ true }
+                  getComponent={ getComponent }
+                  specSelectors={ specSelectors }/>
               </div>
+            )
           }).toArray()
         }
       </Collapse>

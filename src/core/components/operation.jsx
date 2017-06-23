@@ -13,7 +13,7 @@ export default class Operation extends React.Component {
     showSummary: PropTypes.bool,
 
     isShownKey: CustomPropTypes.arrayOrString.isRequired,
-    jumpToKey: CustomPropTypes.arrayOrString.isRequired,
+    specPath: PropTypes.array.isRequired,
 
     allowTryItOut: PropTypes.bool,
 
@@ -103,7 +103,7 @@ export default class Operation extends React.Component {
   render() {
     let {
       isShownKey,
-      jumpToKey,
+      specPath,
       path,
       method,
       operation,
@@ -154,11 +154,11 @@ export default class Operation extends React.Component {
 
     return (
         <div className={deprecated ? "opblock opblock-deprecated" : shown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={isShownKey} >
-          <div className={`opblock-summary opblock-summary-${method}`} onClick={this.toggleShown} >
+          <div className={`opblock-summary opblock-summary-${method}`} onClick={this.toggleShown} > {/*TODO: convert this into a component, that can be wrapped and pulled in with getComponent */}
             <span className="opblock-summary-method">{method.toUpperCase()}</span>
             <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } >
               <span>{path}</span>
-              <JumpToPath path={jumpToKey} />
+              <JumpToPath path={specPath} /> {/*TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
             </span>
 
             { !showSummary ? null :
@@ -199,6 +199,7 @@ export default class Operation extends React.Component {
               }
               <Parameters
                 parameters={parameters}
+                specPath={[...specPath, "parameters"]}
                 onChangeKey={onChangeKey}
                 onTryoutClick = { this.onTryoutClick }
                 onCancelClick = { this.onCancelClick }
@@ -244,19 +245,20 @@ export default class Operation extends React.Component {
 
             {this.state.executeInProgress ? <div className="loading-container"><div className="loading"></div></div> : null}
 
-              { !responses ? null :
-                  <Responses
-                    responses={ responses }
-                    request={ request }
-                    tryItOutResponse={ response }
-                    getComponent={ getComponent }
-                    specSelectors={ specSelectors }
-                    specActions={ specActions }
-                    produces={ produces }
-                    producesValue={ operation.get("produces_value") }
-                    pathMethod={ [path, method] }
-                    fn={fn} />
-              }
+            { !responses ? null : (
+              <Responses
+                responses={ responses }
+                specPath={[...specPath, "responses"]}
+                request={ request }
+                tryItOutResponse={ response }
+                getComponent={ getComponent }
+                specSelectors={ specSelectors }
+                specActions={ specActions }
+                produces={ produces }
+                producesValue={ operation.get("produces_value") }
+                pathMethod={ [path, method] }
+                fn={fn} />
+            )}
             </div>
           </Collapse>
         </div>

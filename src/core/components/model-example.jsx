@@ -7,7 +7,8 @@ export default class ModelExample extends React.Component {
     specSelectors: PropTypes.object.isRequired,
     schema: PropTypes.object.isRequired,
     example: PropTypes.any.isRequired,
-    isExecute: PropTypes.bool
+    isExecute: PropTypes.bool,
+    specPath: PropTypes.array.isRequired,
   }
 
   constructor(props, context) {
@@ -27,7 +28,7 @@ export default class ModelExample extends React.Component {
   }
 
   render() {
-    let { getComponent, specSelectors, schema, example, isExecute } = this.props
+    let { getComponent, specSelectors, schema, example, isExecute, specPath } = this.props
     const Model = getComponent("model")
 
     return <div>
@@ -44,12 +45,14 @@ export default class ModelExample extends React.Component {
           (isExecute || this.state.activeTab === "example") && example
         }
         {
-          !isExecute && this.state.activeTab === "model" && <Model schema={ schema }
-                                                     getComponent={ getComponent }
-                                                     specSelectors={ specSelectors }
-                                                     expandDepth={ 1 } />
-
-
+          !isExecute && this.state.activeTab === "model" && (
+            <Model
+              schema={ schema }
+              specPath={specPath}
+              getComponent={ getComponent }
+              specSelectors={ specSelectors }
+              expandDepth={ 1 } />
+          )
         }
       </div>
     </div>

@@ -14,6 +14,7 @@ export default class Responses extends React.Component {
     specSelectors: PropTypes.object.isRequired,
     specActions: PropTypes.object.isRequired,
     pathMethod: PropTypes.array.isRequired,
+    specPath: PropTypes.array.isRequired,
     fn: PropTypes.object.isRequired
   }
 
@@ -26,7 +27,7 @@ export default class Responses extends React.Component {
   onChangeProducesWrapper = ( val ) => this.props.specActions.changeProducesValue(this.props.pathMethod, val)
 
   render() {
-    let { responses, request, tryItOutResponse, getComponent, specSelectors, fn, producesValue } = this.props
+    let { responses, request, tryItOutResponse, getComponent, specSelectors, fn, producesValue, specPath } = this.props
     let defaultCode = defaultStatusCode( responses )
 
     const ContentType = getComponent( "contentType" )
@@ -72,16 +73,18 @@ export default class Responses extends React.Component {
 
                   let className = tryItOutResponse && tryItOutResponse.get("status") == code ? "response_current" : ""
                   return (
-                    <Response key={ code }
-                              isDefault={defaultCode === code}
-                              fn={fn}
-                              className={ className }
-                              code={ code }
-                              response={ response }
-                              specSelectors={ specSelectors }
-                              contentType={ producesValue }
-                              getComponent={ getComponent }/>
-                    )
+                    <Response
+                      key={ code }
+                      specPath={[...specPath, code]}
+                      isDefault={defaultCode === code}
+                      fn={fn}
+                      className={ className }
+                      code={ code }
+                      response={ response }
+                      specSelectors={ specSelectors }
+                      contentType={ producesValue }
+                      getComponent={ getComponent }/>
+                  )
                 }).toArray()
               }
             </tbody>

@@ -28,89 +28,112 @@ class ObjectModel extends Component {
     name: PropTypes.string,
     isRef: PropTypes.bool,
     expandDepth: PropTypes.number,
-    depth: PropTypes.number
+    depth: PropTypes.number,
+    specPath: PropTypes.array.isRequired,
   }
 
   render(){
-    let { schema, name, isRef, getComponent, depth, ...props } = this.props
-    let { expandDepth } = this.props
-    const JumpToPath = getComponent("JumpToPath", true)
-    let description = schema.get("description")
-    let properties = schema.get("properties")
-    let additionalProperties = schema.get("additionalProperties")
-    let title = schema.get("title") || name
-    let required = schema.get("required")
-    const Markdown = getComponent("Markdown")
-    const JumpToPathSection = ({ name }) => <span className="model-jump-to-path"><JumpToPath path={`definitions.${name}`} /></span>
-  let collapsedContent = (<span>
-      <span>{ braceOpen }</span>...<span>{ braceClose }</span>
-      {
-        isRef ? <JumpToPathSection name={ name }/> : ""
-      }
-    </span>)
+    const { specPath, schema, name, isRef, getComponent, depth, ...props } = this.props
+    const { expandDepth } = this.props
 
-    return <span className="model">
-      {
-        title && <span className="model-title">
-          { isRef && schema.get("$$ref") && <span className="model-hint">{ schema.get("$$ref") }</span> }
-          <span className="model-title__text">{ title }</span>
-        </span>
-      }
-      <Collapse collapsed={ depth > expandDepth } collapsedContent={ collapsedContent }>
-         <span className="brace-open object">{ braceOpen }</span>
+    const properties = schema.get("properties")
+    const title = schema.get("title") || name
+    const required = schema.get("required")
+    const additionalProperties = schema.get("additionalProperties")
+
+    const JumpToPath = getComponent("JumpToPath", true)
+    const description = schema.get("description")
+    const Markdown = getComponent("Markdown")
+
+    const jumpToPathSection = (
+      <span className="model-jump-to-path">
+        <JumpToPath specPath={specPath} path={["definitions", name]} />
+      </span>
+    )
+
+    const collapsedContent = (
+      <span>
+        <span>{ braceOpen }</span>...<span>{ braceClose }</span>
+        {
+          isRef ? jumpToPathSection : null
+        }
+      </span>
+    )
+
+    console.log('ObjectModel specPath', specPath)
+    return (
+      <span className="model">
+        {
+          title && <span className="model-title">
+            { isRef && schema.get("$$ref") && <span className="model-hint">{ schema.get("$$ref") }</span> }
+              <span className="model-title__text">{ title }</span>
+            </span>
+        }
+        <Collapse collapsed={ depth > expandDepth } collapsedContent={ collapsedContent }>
+          <span className="brace-open object">{ braceOpen }</span>
           {
-            !isRef ? null : <JumpToPathSection name={ name }/>
+            isRef ? jumpToPathSection : null
           }
           <span className="inner-object">
             {
-              <table className="model" style={{ marginLeft: "2em" }}><tbody>
-              {
-                !description ? null : <tr style={{ color: "#999", fontStyle: "italic" }}>
-                    <td>description:</td>
-                    <td>
-                      <Markdown source={ description } />
-                    </td>
-                  </tr>
-              }
-              {
-                !(properties && properties.size) ? null : properties.entrySeq().map(
-                    ([key, value]) => {
-                      let isRequired = List.isList(required) && required.contains(key)
-                      let propertyStyle = { verticalAlign: "top", paddingRight: "0.2em" }
-                      if ( isRequired ) {
-                        propertyStyle.fontWeight = "bold"
-                      }
+                <table className="model" style={{ marginLeft: "2em" }}><tbody>
+                      {
+                        !description ? null : <tr style={{ color: "#999", fontStyle: "italic" }}>
+                          <td>description:</td>
+                            <td>
+                                <Markdown source={ description } />
+                              </td>
+                          </tr>
+                        }
+                        {
+                          !(properties && properties.size) ? null : properties.entrySeq().map(
+                            ([key, value]) => {
+                              let isRequired = List.isList(required) && required.contains(key)
+                              let propertyStyle = { verticalAlign: "top", paddingRight: "0.2em" }
+                              if ( isRequired ) {
+                                propertyStyle.fontWeight = "bold"
+                              }
 
-                      return (<tr key={key}>
-                        <td style={ propertyStyle }>{ key }:</td>
-                        <td style={{ verticalAlign: "top" }}>
-                          <Model key={ `object-${name}-${key}_${value}` } { ...props }
-                                 required={ isRequired }
-                                 getComponent={ getComponent }
-                                 schema={ value }
-                                 depth={ depth + 1 } />
-                        </td>
-                      </tr>)
-                    }).toArray()
-              }
+                              return (
+                                <tr key={key}>
+                                  <td style={ propertyStyle }>{ key }:</td>
+                                  <td style={{ verticalAlign: "top" }}>
+                                    <Model
+                                      key={ `object-${name}-${key}_${value}` }
+                                      { ...props }
+                                      required={ isRequired }
+                                      specPath={[...specPath, "properties", key]}
+                                      getComponent={ getComponent }
+                                      schema={ value }
+                                      depth={ depth + 1 } />
+                                  </td>
+                                </tr>
+                              )
+                            }).toArray()
+                        }
               {
-                !additionalProperties || !additionalProperties.size ? null
-                  : <tr>
+                !additionalProperties || !additionalProperties.size ? null : (
+                  <tr>
                     <td>{ "< * >:" }</td>
                     <td>
-                      <Model { ...props } required={ false }
-                             getComponent={ getComponent }
-                             schema={ additionalProperties }
-                             depth={ depth + 1 } />
+                      <Model
+                        { ...props }
+                        required={ false }
+                        getComponent={ getComponent }
+                        specPath={[...specPath, "additionalProperties"]}
+                        schema={ additionalProperties }
+                        depth={ depth + 1 } />
                     </td>
                   </tr>
+                )
               }
               </tbody></table>
-          }
-        </span>
+            }
+      </span>
         <span className="brace-close">{ braceClose }</span>
-      </Collapse>
-    </span>
+        </Collapse>
+        </span>
+    )
   }
 }
 
@@ -211,7 +234,8 @@ class Model extends Component {
     isRef: PropTypes.bool,
     required: PropTypes.bool,
     expandDepth: PropTypes.number,
-    depth: PropTypes.number
+    depth: PropTypes.number,
+    specPath: PropTypes.array.isRequired,
   }
 
   getModelName =( ref )=> {
@@ -227,8 +251,11 @@ class Model extends Component {
   }
 
   render () {
-    let { schema, getComponent, required, name, isRef } = this.props
+    let { schema, getComponent, required, name, specPath } = this.props
     let $$ref = schema && schema.get("$$ref")
+
+    const isRef = typeof this.props.isRef !== "undefined" ? this.props.isRef : !!$$ref
+
     let modelName = $$ref && this.getModelName( $$ref )
     let modelSchema, type
 
@@ -244,22 +271,42 @@ class Model extends Component {
     }
 
     switch(type) {
-      case "object":
-        return <ObjectModel className="object" { ...this.props } schema={ modelSchema }
-                                              name={ name || modelName }
-                                              isRef={ isRef!== undefined ? isRef : !!$$ref }/>
-      case "array":
-        return <ArrayModel className="array" { ...this.props } schema={ modelSchema } required={ required } />
-      case "string":
-      case "number":
-      case "integer":
-      case "boolean":
-      default:
-        return <Primitive getComponent={ getComponent } schema={ modelSchema } required={ required }/>
+    case "object":
+      return (
+        <ObjectModel
+          className="object"
+          { ...this.props }
+          specPath={specPath}
+          schema={ modelSchema }
+          name={ name || modelName }
+          isRef={isRef}
+          />
+      )
+    case "array":
+      return (
+        <ArrayModel
+          className="array"
+          { ...this.props }
+          specPath={[...specPath, "items"]}
+          schema={ modelSchema }
+          required={ required }
+          />
+      )
+    case "string":
+    case "number":
+    case "integer":
+    case "boolean":
+    default:
+      return (
+        <Primitive
+          getComponent={ getComponent }
+          schema={ modelSchema }
+          required={ required }
+          />
+      )
     }
   }
 }
-
 
 export default class ModelComponent extends Component {
   static propTypes = {
@@ -267,7 +314,8 @@ export default class ModelComponent extends Component {
     name: PropTypes.string,
     getComponent: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
-    expandDepth: PropTypes.number
+    expandDepth: PropTypes.number,
+    specPath: PropTypes.array.isRequired,
   }
 
   render(){
