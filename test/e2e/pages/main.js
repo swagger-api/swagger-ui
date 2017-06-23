@@ -51,6 +51,41 @@ module.exports = {
           selector: ".info > a"
         }
       }
+    },
+    schemeContainer: {
+      selector: ".scheme-container",
+      elements: {
+        schemeTitle: {
+          selector: ".schemes-title"
+        },
+        httpOption: {
+          selector: "select option"
+        },
+        btnAuthorize: {
+          selector: "button"
+        },
+        authorizationModal: {
+          selector: ".dialog-ux"
+        },
+        appName: {
+          selector: ".auth-container h5"
+        },
+        authorizationUrl: {
+          selector: ".auth-container code"
+        },
+        flow: {
+          selector: ".flow code"
+        },
+        inputClientID: {
+          selector: "#client_id"
+        },
+        checkWritePetStoreAuth: {
+          selector: "#write:pets-checkbox-petstore_auth"
+        },
+        checkReadPetStoreAuth: {
+          selector: "#read:pets-checkbox-petstore_auth"
+        }
+      }
     }
   }
 }

@@ -125,4 +125,47 @@ describe("initial render", function () {
       client.end()
     })
   })
+
+  describe("for scheme", function () {
+    let schemeContainer
+    beforeEach(function (client, done) {
+
+      mainPage = client
+        .url("localhost:3200")
+        .page.main()
+      schemeContainer = mainPage.section.schemeContainer
+      done()
+    })
+
+    it("render section", function (client) {
+      mainPage.expect.section("@schemeContainer").to.be.visible.before(5000)
+
+      client.end()
+    })
+    it("render scheme option", function (client) {
+      schemeContainer.waitForElementVisible("@schemeTitle", 5000)
+        .assert.containsText("@schemeTitle", "Schemes")
+        .expect.element("@httpOption").to.be.selected
+
+      client.end()
+    })
+
+    it("render authorized button", function (client) {
+      schemeContainer.waitForElementVisible("@btnAuthorize", 5000)
+        .expect.element("@btnAuthorize").to.be.visible
+
+      client.end()
+    })
+    it("render click event", function(client) {
+      schemeContainer.waitForElementVisible("@btnAuthorize", 5000)
+        .click("@btnAuthorize")
+        .assert.visible("@authorizationModal")
+        .assert.containsText("@appName", "Application: your-app-name")
+        .assert.containsText("@authorizationUrl", "http://petstore.swagger.io/oauth/dialog")
+        .assert.containsText("@flow", "implicit")
+        .assert.value("@inputClientID", "your-client-id")
+
+      client.end()
+    })
+  })
 })
