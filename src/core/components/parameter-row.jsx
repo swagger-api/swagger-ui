@@ -58,7 +58,6 @@ export default class ParameterRow extends Component {
 
   render() {
     let {param, onChange, getComponent, isExecute, fn, onChangeConsumes, specSelectors, pathMethod, specPath} = this.props
-    console.log('param: specPath', specPath)
 
     // const onChangeWrapper = (value) => onChange(param, value)
     const JsonSchemaForm = getComponent("JsonSchemaForm")
