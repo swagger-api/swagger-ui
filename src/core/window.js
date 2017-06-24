@@ -3,7 +3,8 @@ function makeWindow() {
     location: {},
     history: {},
     open: () => {},
-    close: () => {}
+    close: () => {},
+    File: function() {}
   }
 
   if(typeof window === "undefined") {

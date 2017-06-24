@@ -1,6 +1,7 @@
 import expect from "expect"
 import Im from "immutable"
 import curl from "core/curlify"
+import win from "core/window"
 
 describe("curlify", function() {
 
@@ -131,12 +132,35 @@ describe("curlify", function() {
             url: "http://example.com",
             method: "POST",
             headers: { "content-type": "multipart/form-data" },
-            body: "id=123&name=Sahar"
+            body: [
+              ["id", "123"],
+              ["name", "Sahar"]
+            ]
         }
 
         let curlified = curl(Im.fromJS(req))
 
-        expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"content-type: multipart/form-data\" -F id=123 -F name=Sahar")
+        expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"content-type: multipart/form-data\" -F \"id=123\" -F \"name=Sahar\"")
+    })
+
+    it("should print a curl with formData and file", function() {
+        var file = new win.File()
+        file.name = "file.txt"
+        file.type = "text/plain"
+
+        var req = {
+            url: "http://example.com",
+            method: "POST",
+            headers: { "content-type": "multipart/form-data" },
+            body: [
+              ["id", "123"],
+              ["file", file]
+            ]
+        }
+
+        let curlified = curl(Im.fromJS(req))
+
+        expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"content-type: multipart/form-data\" -F \"id=123\" -F \"file=@file.txt;type=text/plain\"")
     })
 
     it("prints a curl post statement from an object", function() {

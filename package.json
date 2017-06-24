@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.0.14",
+  "version": "3.0.17",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -32,10 +32,9 @@
     "test": "npm run lint-errors && npm run just-test-in-node",
     "test-in-node": "npm run lint-errors && npm run just-test-in-node",
     "just-test": "karma start --config karma.conf.js",
-    "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test/core test/components test/bugs"
+    "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test/core test/components test/bugs test/swagger-ui-dist-package"
   },
   "dependencies": {
-    "babel-polyfill": "^6.23.0",
     "base64-js": "^1.2.0",
     "brace": "0.7.0",
     "deep-extend": "0.4.1",
@@ -70,12 +69,12 @@
     "sanitize-html": "^1.14.1",
     "serialize-error": "2.0.0",
     "shallowequal": "0.2.2",
-    "swagger-client": "~3.0.14",
+    "swagger-client": "3.0.16",
     "url-parse": "^1.1.8",
     "whatwg-fetch": "0.11.1",
     "worker-loader": "^0.7.1",
     "xml": "1.0.1",
-    "yaml-js": "^0.1.3"
+    "yaml-js": "0.2.0"
   },
   "devDependencies": {
     "autoprefixer": "6.6.1",
@@ -83,6 +82,7 @@
     "babel-eslint": "^7.1.1",
     "babel-loader": "^6.3.2",
     "babel-plugin-module-alias": "^1.6.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-es2015-ie": "^6.6.2",
     "babel-preset-react": "^6.23.0",
@@ -132,7 +132,7 @@
   "browserslist": [
     "> 1%",
     "last 2 versions",
-    "IE 10"
+    "IE 11"
   ],
   "optionalDependencies": {
     "webpack-dev-server": "1.14.0"

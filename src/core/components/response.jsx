@@ -8,7 +8,7 @@ const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
       let exampleValue
       try {
         exampleValue = example && example.toJS ? example.toJS() : example
-        exampleValue = JSON.stringify(exampleValue)
+        exampleValue = JSON.stringify(exampleValue, null, 2)
       }
       catch(e) {
         exampleValue = String(example)
