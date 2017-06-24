@@ -11,6 +11,12 @@ const sanitizeOptions = {
 
 function Markdown({ source }) {
   const sanitized = sanitize(source, sanitizeOptions)
+
+  // sometimes the sanitizer returns "undefined" as a string
+  if(!source || !sanitized || sanitized === "undefined") {
+    return null
+  }
+
   return <Remarkable
     options={{html: true, typographer: true, linkify: true, linkTarget: "_blank"}}
     source={sanitized}
