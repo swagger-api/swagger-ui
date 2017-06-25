@@ -22,12 +22,13 @@ export default class LiveResponse extends React.Component {
   render() {
     const { request, response, getComponent } = this.props
 
-    const body = response.get("text")
     const status = response.get("status")
     const url = response.get("url")
     const headers = response.get("headers").toJS()
     const notDocumented = response.get("notDocumented")
     const isError = response.get("error")
+
+    const body = isError ? response.get("response").get("text") : response.get("text")
 
     const headersKeys = Object.keys(headers)
     const contentType = headers["content-type"]
@@ -37,6 +38,7 @@ export default class LiveResponse extends React.Component {
     const returnObject = headersKeys.map(key => {
       return <span className="headerline" key={key}> {key}: {headers[key]} </span>
     })
+    const hasHeaders = returnObject.length !== 0
 
     return (
       <div>
@@ -54,28 +56,29 @@ export default class LiveResponse extends React.Component {
               <td className="col response-col_status">
                 { status }
                 {
-                  !notDocumented ? null :
-                  <div className="response-undocumented">
-                    <i> Undocumented </i>
-                  </div>
+                  notDocumented ? <div className="response-undocumented">
+                                    <i> Undocumented </i>
+                                  </div>
+                                : null
                 }
               </td>
               <td className="col response-col_description">
                 {
-                  !isError ? null : <span>
-                    {`${response.get("name")}: ${response.get("message")}`}
-                  </span>
+                  isError ? <span>
+                              {`${response.get("name")}: ${response.get("message")}`}
+                            </span>
+                          : null
                 }
                 {
-                  !body || isError ? null
-                        : <ResponseBody content={ body }
-                                        contentType={ contentType }
-                                        url={ url }
-                                        headers={ headers }
-                                        getComponent={ getComponent }/>
+                  body ? <ResponseBody content={ body }
+                                       contentType={ contentType }
+                                       url={ url }
+                                       headers={ headers }
+                                       getComponent={ getComponent }/>
+                       : null
                 }
                 {
-                  !headers ? null : <Headers headers={ returnObject }/>
+                  hasHeaders ? <Headers headers={ returnObject }/> : null
                 }
               </td>
             </tr>

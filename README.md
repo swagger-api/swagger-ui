@@ -6,7 +6,14 @@
 
 **This is the new version of swagger-ui, 3.x. Want to learn more? Check out our [FAQ](http://swagger.io/new-ui-faq/).**
 
+**👉🏼 Want to score an easy open-source contribution?** Check out our [Good first contribution](https://github.com/swagger-api/swagger-ui/issues?q=is%3Aissue+is%3Aopen+label%3A%22Good+first+contribution%22) label.
+
 As a brand new version, written from the ground up, there are some known issues and unimplemented features. Check out the [Known Issues](#known-issues) section for more details.
+
+This repo publishes to two different NPM packages:
+
+* [swagger-ui](https://www.npmjs.com/package/swagger-ui) is intended for use as a node module.
+* [swagger-ui-dist](https://www.npmjs.com/package/swagger-ui-dist) comes pre-bundled with all dependencies and can be incorporated directly in a webapp.
 
 For the older version of swagger-ui, refer to the [*2.x branch*](https://github.com/swagger-api/swagger-ui/tree/2.x).
 
@@ -15,8 +22,7 @@ The OpenAPI Specification has undergone 4 revisions since initial creation in 20
 
 Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes | Status
 ------------------ | ------------ | -------------------------- | ----- | ------
-3.0.13              | 2017-06-02   | 2.0                        | [tag 
-v3.0.13](https://github.com/swagger-api/swagger-ui/tree/v3.0.13) |
+3.0.17              | 2017-06-23   | 2.0                        | [tag v3.0.17](https://github.com/swagger-api/swagger-ui/tree/v3.0.17) |
 2.2.10             | 2017-01-04   | 1.1, 1.2, 2.0              | [tag v2.2.10](https://github.com/swagger-api/swagger-ui/tree/v2.2.10) |
 2.1.5              | 2016-07-20   | 1.1, 1.2, 2.0              | [tag v2.1.5](https://github.com/swagger-api/swagger-ui/tree/v2.1.5) |
 2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) |
@@ -35,6 +41,12 @@ docker run -p 80:8080 swaggerapi/swagger-ui
 ```
 
 Will start nginx with swagger-ui on port 80.
+
+Or you can provide your own swagger.json on your host
+
+```
+docker run -p 80:8080 -e "SWAGGER_JSON=/foo/swagger.json" -v /bar:/foo swaggerapi/swagger-ui
+```
 
 ##### Prerequisites
 - Node 6.x
@@ -60,6 +72,11 @@ To help with the migration, here are the currently known issues with 3.X. This l
 - l10n (translations) is not implemented.
 - Relative path support for external files is not implemented.
 
+### Direct use of JS and CSS assets
+To include the JS, CSS and image assets directly into a webpage, use the [swagger-ui-dist](https://www.npmjs.com/package/swagger-ui-dist) package.
+The root directory of this package contains the contents of the _dist/_ directory of this repo.
+As a node module, `swagger-ui-dist` also exports the `swagger-ui-bundle` and `swagger-ui-standalone-preset` objects.
+
 ### SwaggerUIBundle
 To use swagger-ui's bundles, you should take a look at the [source of swagger-ui html page](https://github.com/swagger-api/swagger-ui/blob/master/dist/index.html) and customize it. This basically requires you to instantiate a SwaggerUi object as below:
 
@@ -84,11 +101,11 @@ default `client_id` and `client_secret`, `realm`, an application name `appName`,
 
 Config Name | Description
 --- | ---
-client_id | Default clientId. MUST be a string 
-client_secret | Default clientSecret. MUST be a string 
+client_id | Default clientId. MUST be a string
+client_secret | Default clientSecret. MUST be a string
 realm | realm query parameter (for oauth1) added to `authorizationUrl` and `tokenUrl` . MUST be a string
 appName | application name, displayed in authorization popup. MUST be a string
-scopeSeparator | scope separator for passing scopes, encoded before calling, default value is a space (encoded value `%20`). MUST be a string 
+scopeSeparator | scope separator for passing scopes, encoded before calling, default value is a space (encoded value `%20`). MUST be a string
 additionalQueryStringParams | Additional query parameters added to `authorizationUrl` and `tokenUrl`. MUST be an object
 
 ```
@@ -120,6 +137,8 @@ operationsSorter | Apply a sort to the operation list of each API. It can be 'al
 configUrl | Configs URL
 parameterMacro | MUST be a function. Function to set default value to parameters. Accepts two arguments parameterMacro(operation, parameter). Operation and parameter are objects passed for context, both remain immutable
 modelPropertyMacro | MUST be a function. Function to set default values to each property in model. Accepts one argument modelPropertyMacro(property), property is immutable
+docExpansion | Controls the default expansion setting for the operations and tags. It can be 'list' (expands only the tags), 'full' (expands the tags and operations) or 'none' (expands nothing). The default is 'list'.
+displayOperationId | Controls the display of operationId in operations list. The default is `false`.
 
 ### Plugins
 
@@ -139,7 +158,7 @@ let preset = [
 ```
 
 #### Configs plugin
-Configs plugin allows to fetch external configs instead of passing them to `SwaggerUIBundle`. Fetched configs support two formats: JSON or yaml. The plugin is enabled by default. 
+Configs plugin allows to fetch external configs instead of passing them to `SwaggerUIBundle`. Fetched configs support two formats: JSON or yaml. The plugin is enabled by default.
 There are three options of passing config:
 - add a query parameter `config` with URL to a server where the configs are hosted. For ex. http://petstore.swagger.io/?config=http://localhost:3001/config.yaml
 - add a config `configUrl` with URL to SwaggerUIBundle
