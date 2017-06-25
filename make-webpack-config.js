@@ -155,7 +155,7 @@ module.exports = function(options) {
       return [autoprefixer]
     },
 
-    devtool: specialOptions.sourcemaps ? 'cheap-module-source-map' : null,
+    devtool: specialOptions.sourcemaps ? 'source-map' : null,
 
     plugins,
 
