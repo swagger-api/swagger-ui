@@ -92,28 +92,28 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
   let specStr = specSelectors.specStr()
 
   return resolve({fetch, spec: json, baseDoc: url, modelPropertyMacro, parameterMacro })
-  .then( ({spec, errors}) => {
-    errActions.clear({
-      type: "thrown"
-     })
+    .then( ({spec, errors}) => {
+      errActions.clear({
+        type: "thrown"
+      })
 
-    if(errors.length > 0) {
-      let preparedErrors = errors
-        .map(err => {
-          console.error(err)
-          err.line = err.fullPath ? getLineNumberForPath(specStr, err.fullPath) : null
-          err.path = err.fullPath ? err.fullPath.join(".") : null
-          err.level = "error"
-          err.type = "thrown"
-          err.source = "resolver"
-          Object.defineProperty(err, "message", { enumerable: true, value: err.message })
-          return err
-        })
-      errActions.newThrownErrBatch(preparedErrors)
-    }
+      if(errors.length > 0) {
+        let preparedErrors = errors
+          .map(err => {
+            console.error(err)
+            err.line = err.fullPath ? getLineNumberForPath(specStr, err.fullPath) : null
+            err.path = err.fullPath ? err.fullPath.join(".") : null
+            err.level = "error"
+            err.type = "thrown"
+            err.source = "resolver"
+            Object.defineProperty(err, "message", { enumerable: true, value: err.message })
+            return err
+          })
+        errActions.newThrownErrBatch(preparedErrors)
+      }
 
-    return specActions.updateResolved(spec)
-  })
+      return specActions.updateResolved(spec)
+    })
 }
 
 export const formatIntoYaml = () => ({specActions, specSelectors}) => {

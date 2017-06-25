@@ -27,9 +27,7 @@ export default class LiveResponse extends React.Component {
     const headers = response.get("headers").toJS()
     const notDocumented = response.get("notDocumented")
     const isError = response.get("error")
-
-    const body = isError ? response.get("response").get("text") : response.get("text")
-
+    const body = response.get("text")
     const headersKeys = Object.keys(headers)
     const contentType = headers["content-type"]
 
