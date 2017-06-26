@@ -74,6 +74,10 @@ export const sampleFromSchema = (schema, config={}) => {
     return normalizeArray(schema["enum"])[0]
   }
 
+  if (type === "file") {
+    return
+  }
+
   return primitive(schema)
 }
 
