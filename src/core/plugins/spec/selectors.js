@@ -198,20 +198,20 @@ export const operationsWithTags = createSelector(
 )
 
 export const taggedOperations = (state) => ({ getConfigs }) => {
-  let { apisSorter, operationsSorter } = getConfigs();
+  let { apisSorter, operationsSorter } = getConfigs()
 
   return operationsWithTags(state)
     .sort((operationA, operationB) => {
-      let sortFn = (typeof apisSorter === "function" ? apisSorter : sorters.apisSorter[ apisSorter ]);
-      return (!sortFn ? null : sortFn(operationA, operationB));
+      let sortFn = (typeof apisSorter === "function" ? apisSorter : sorters.apisSorter[ apisSorter ])
+      return (!sortFn ? null : sortFn(operationA, operationB))
     })
     .map((ops, tag) => {
-      let sortFn = (typeof operationsSorter === "function" ? operationsSorter : sorters.operationsSorter[ operationsSorter ]);
-      let operations = (!sortFn ? ops : ops.sort(sortFn));
+      let sortFn = (typeof operationsSorter === "function" ? operationsSorter : sorters.operationsSorter[ operationsSorter ])
+      let operations = (!sortFn ? ops : ops.sort(sortFn))
 
-      return Map({ tagDetails: tagDetails(state, tag), operations: operations });
-    });
-};
+      return Map({ tagDetails: tagDetails(state, tag), operations: operations })
+    })
+}
 
 export const responses = createSelector(
   state,

@@ -566,7 +566,7 @@ export const sorters = {
   apisSorter: {
     alpha: (a, b) => a.getIn([0, "operation", "tags", 0]).localeCompare(b.getIn([0, "operation", "tags", 0]))
   }
-};
+}
 
 export const buildFormData = (data) => {
   let formArr = []
