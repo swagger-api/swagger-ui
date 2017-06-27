@@ -8,7 +8,7 @@ import { parseSeach, filterConfigs } from "core/utils"
 
 const CONFIGS = [ "url", "spec", "validatorUrl", "onComplete", "onFailure", "authorizations", "docExpansion",
     "apisSorter", "operationsSorter", "supportedSubmitMethods", "dom_id", "defaultModelRendering", "oauth2RedirectUrl",
-    "showRequestHeaders", "custom", "modelPropertyMacro", "parameterMacro", "displayOperationId" ]
+    "showRequestHeaders", "custom", "modelPropertyMacro", "parameterMacro", "displayOperationId" , "displayRequestDuration"]
 
 // eslint-disable-next-line no-undef
 const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION } = buildInfo
@@ -29,6 +29,7 @@ module.exports = function SwaggerUI(opts) {
     configs: {},
     custom: {},
     displayOperationId: false,
+    displayRequestDuration: false,
 
     // Initial set of plugins ( TODO rename this, or refactor - we don't need presets _and_ plugins. Its just there for performance.
     // Instead, we can compile the first plugin ( it can be a collection of plugins ), then batch the rest.

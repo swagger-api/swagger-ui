@@ -17,6 +17,7 @@ export default class Operation extends PureComponent {
     allowTryItOut: PropTypes.bool,
 
     displayOperationId: PropTypes.bool,
+    displayRequestDuration: PropTypes.bool,
 
     response: PropTypes.object,
     request: PropTypes.object,
@@ -37,6 +38,7 @@ export default class Operation extends PureComponent {
     response: null,
     allowTryItOut: true,
     displayOperationId: false,
+    displayRequestDuration: false
   }
 
   constructor(props, context) {
@@ -107,7 +109,7 @@ export default class Operation extends PureComponent {
       request,
       allowTryItOut,
       displayOperationId,
-
+      displayRequestDuration,
       fn,
       getComponent,
       specActions,
@@ -250,6 +252,7 @@ export default class Operation extends PureComponent {
                     produces={ produces }
                     producesValue={ operation.get("produces_value") }
                     pathMethod={ [path, method] }
+                    displayRequestDuration={ displayRequestDuration }
                     fn={fn} />
               }
             </div>

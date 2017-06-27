@@ -28,11 +28,12 @@ Duration.propTypes = {
 export default class LiveResponse extends React.Component {
   static propTypes = {
     response: PropTypes.object.isRequired,
-    getComponent: PropTypes.func.isRequired
+    getComponent: PropTypes.func.isRequired,
+    displayRequestDuration: PropTypes.bool.isRequired
   }
 
   render() {
-    const { request, response, getComponent } = this.props
+    const { request, response, getComponent, displayRequestDuration } = this.props
 
     const status = response.get("status")
     const url = response.get("url")
@@ -94,7 +95,7 @@ export default class LiveResponse extends React.Component {
                   hasHeaders ? <Headers headers={ returnObject }/> : null
                 }
                 {
-                  duration ? <Duration duration={ duration } /> : null
+                  displayRequestDuration && duration ? <Duration duration={ duration } /> : null
                 }
               </td>
             </tr>
