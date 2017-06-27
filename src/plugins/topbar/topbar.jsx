@@ -2,7 +2,6 @@ import React, { PropTypes } from "react"
 
 //import "./topbar.less"
 import Logo from "./logo_small.png"
-import { parseSeach } from "core/utils"
 
 export default class Topbar extends React.Component {
 
@@ -37,10 +36,11 @@ export default class Topbar extends React.Component {
   }
 
   componentWillMount() {
-    const urls = this.props.getConfigs().urls || []
+    const configs = this.props.getConfigs()
+    const urls = configs.urls || []
 
     if(urls && urls.length) {
-      let selectedName = parseSeach().name
+      let selectedName = configs.name
       if(selectedName)
       {
         urls.forEach((spec, i) => {
