@@ -80,12 +80,12 @@ export default class Topbar extends React.Component {
     if(urls) {
       let rows = []
       urls.forEach((link, i) => {
-        rows.push(<option key={i} value={link.url} selected={i===this.state.selectedIndex}>{link.name}</option>)
+        rows.push(<option key={i} value={link.url}>{link.name}</option>)
       })
 
       control.push(
         <label className="select-label" htmlFor="select"><span>Select a spec</span>
-          <select id="select" disabled={isLoading} onChange={ this.onUrlSelect }>
+          <select id="select" disabled={isLoading} onChange={ this.onUrlSelect } value={urls[this.state.selectedIndex].url}>
             {rows}
           </select>
         </label>
