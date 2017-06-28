@@ -21,9 +21,25 @@ export default {
     // refactor withMutations
     securities.entrySeq().forEach( ([ key, security ]) => {
       let type = security.getIn(["schema", "type"])
+      let tokenUrl = security.getIn(["schema", "tokenUrl"])
 
-      if ( type === "apiKey" ) {
-        map = map.set(key, security)
+      if ( type === "apiKey") {
+        if(!tokenUrl) {
+          map = map.set(key, security)
+        } else {
+          let name = security.get("name")
+          map = map.setIn([name, "name"], name)
+
+          let apiSchema = {
+            'type' : 'apiKey',
+            'in' : 'header',
+            'name' : 'authorization'
+          }
+          map = map.setIn([name, "schema"], fromJS(apiSchema))
+
+          let value = 'Bearer ' + security.get("token")
+          map = map.setIn([name, "value"], value)
+        }
       } else if ( type === "basic" ) {
         let username = security.getIn(["value", "username"])
         let password = security.getIn(["value", "password"])

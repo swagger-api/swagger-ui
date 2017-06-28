@@ -190,3 +190,63 @@ export function configureAuth(payload) {
     payload: payload
   }
 }
+
+export const authorizeToken = ( auth ) => ( { fn, authActions, errActions } ) => {
+  let { schema, name, username, password } = auth
+  let query = {}
+  let body = {}
+  let headers = {
+    "Accept":"application/json, text/plain, */*",
+    "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/json"
+  }
+
+  headers.authorization = "Basic " + btoa(username + ":" + password)
+  query.service = schema.get("service")
+  query.scope = schema.get("scope")
+
+  fn.fetch({
+    url: schema.get("tokenUrl"),
+    method: "get",
+    headers: headers,
+    query: query,
+    body: body
+  })
+  .then(function (response) {
+    let response_data = JSON.parse(response.data)
+    let error = response_data && ( response_data.error || "" )
+    let parseError = response_data && ( response_data.parseError || "" )
+
+    if ( !response.ok ) {
+      errActions.newAuthErr( {
+        authId: name,
+        level: "error",
+        source: "auth",
+        message: response.statusText
+      } )
+      return
+    }
+
+    if ( error || parseError ) {
+      errActions.newAuthErr({
+        authId: name,
+        level: "error",
+        source: "auth",
+        message: JSON.stringify(response_data)
+      })
+      return
+    }
+
+    auth.token = response_data.token
+    authActions.authorize({ auth })
+  })
+  .catch(e => {
+    let err = new Error(e)
+    errActions.newAuthErr( {
+      authId: name,
+      level: "error",
+      source: "auth",
+      message: err.message
+    } )
+  })
+}

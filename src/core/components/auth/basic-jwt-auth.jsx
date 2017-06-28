@@ -2,99 +2,120 @@ import React, { PropTypes } from "react"
 
 export default class BasicJwtAuth extends React.Component {
   static propTypes = {
+    name: PropTypes.string,
     authorized: PropTypes.object,
     getComponent: PropTypes.func.isRequired,
-    errSelectors: PropTypes.object.isRequired,
     schema: PropTypes.object.isRequired,
-    name: PropTypes.string.isRequired,
-    onChange: PropTypes.func
+    authSelectors: PropTypes.object.isRequired,
+    authActions: PropTypes.object.isRequired,
+    errSelectors: PropTypes.object.isRequired,
+    errActions: PropTypes.object.isRequired,
   }
 
   constructor(props, context) {
     super(props, context)
-    let { name, schema } = this.props
-    let value = this.getValue()
-    let username = value.username
+    let { name, schema, authorized } = this.props
+    let auth = authorized && authorized.get(name)
+    let username = auth && auth.get("username") || ""
 
     this.state = {
       name: name,
       schema: schema,
-      value: !username ? {} : {
-        username: username
-      }
+      username: username,
+      password: ""
     }
   }
 
-  getValue () {
-    let { name, authorized } = this.props
+  authorize =() => {
+    let { authActions, errActions, name } = this.props
 
-    return authorized && authorized.getIn([name, "value"]) || {}
+    errActions.clear({ authId: name,type: "auth", source: "auth" })
+    authActions.authorizeToken(this.state)
   }
 
   onChange =(e) => {
-    let { onChange } = this.props
-    let value = e.target.value
-    let newState = Object.assign({}, this.state, { value: value })
+    let { target : { dataset : { name }, value } } = e
+    let state = {
+      [name]: value
+    }
 
-    this.setState(newState)
-    onChange(newState)
+    this.setState(state)
+  }
+
+  logout =(e) => {
+    e.preventDefault()
+    let { authActions, errActions, name } = this.props
+
+    errActions.clear({ authId: name, type: "auth", source: "auth" })
+    authActions.logout([ name ])
   }
 
   render() {
-    let { schema, getComponent, errSelectors, name } = this.props
+    let { schema, getComponent, authSelectors, errSelectors, name } = this.props
     const Input = getComponent("Input")
     const Row = getComponent("Row")
     const Col = getComponent("Col")
+    const Button = getComponent("Button")
     const AuthError = getComponent("authError")
-    const Markdown = getComponent( "Markdown" )
     const JumpToPath = getComponent("JumpToPath", true)
-    let value = this.getValue()
-    let username = this.getValue().username
-    let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
+    const Markdown = getComponent( "Markdown" )
 
-    let authorizationUrl = schema.get("authorizationUrl")
+    let authorizedAuth = authSelectors.authorized().get(name)
+    let isAuthorized = !!authorizedAuth
+    let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
+    let isValid = !errors.filter( err => err.get("source") === "validation").size
+
+    let description = schema.get("description")
+    let tokenUrl = schema.get("tokenUrl")
     let service = schema.get("service")
     let scope = schema.get("scope")
 
     return (
       <div>
         <h4>Basic Authentication with JWT Authorization<JumpToPath path={[ "securityDefinitions", name ]} /></h4>
-        { username && <h6>Authorized</h6>}
+        { description && <Markdown source={ description } /> }
+        { isAuthorized && <h6>Authorized</h6> }
         <Row>
-          <Markdown source={ schema.get("description") } />
-          <table>
-            <tr>
-              <td>Authorization URL</td>
-              <td>: <code>{ authorizationUrl }</code></td>
-            </tr>
-            <tr>
-              <td>Service</td>
-              <td>: <code>{ service }</code></td>
-            </tr>
-            <tr>
-              <td>Scope</td>
-              <td>: <code>{ scope }</code></td>
-            </tr>
-          </table>
+          <p>
+            <table>
+              <tr>
+                <td>Token URL</td>
+                <td>: <code>{ tokenUrl }</code></td>
+              </tr>
+              <tr>
+                <td>Service</td>
+                <td>: <code>{ service }</code></td>
+              </tr>
+              <tr>
+                <td>Scope</td>
+                <td>: <code>{ scope }</code></td>
+              </tr>
+            </table>
+          </p>
           <h4></h4>
         </Row>
         <Row>
-          <label>Username:</label>
+          <label htmlFor="jwt_username">Username:</label>
           {
-            username ? <code> { username } </code>
-                     : <Col><Input type="text" required="required" name="username" onChange={ this.onChange }/></Col>
+            isAuthorized ? <code> { this.state.username } </code>
+                         : <Col><Input id="jwt_username"
+                                       type="text"
+                                       required="required"
+                                       data-name="username"
+                                       onChange={ this.onChange }/></Col>
           }
         </Row>
         <Row>
-          <label>Password:</label>
-            {
-              username ? <code> ****** </code>
-                       : <Col><Input required="required"
-                                     autoComplete="new-password"
-                                     name="password"
-                                     type="password"
-                                     onChange={ this.onChange }/></Col>
-            }
+          <label htmlFor="jwt_password">Password:</label>
+          {
+            isAuthorized ? <code> ****** </code>
+                         : <Col><Input id="jwt_password"
+                                       type="password"
+                                       required="required"
+                                       autoComplete="new-password"
+                                       data-name="password"
+                                       onChange={ this.onChange }/></Col>
+          }
         </Row>
         {
           errors.valueSeq().map( (error, key) => {
@@ -102,6 +123,14 @@ export default class BasicJwtAuth extends React.Component {
                               key={ key }/>
           } )
         }
+        <div className="auth-btn-wrapper">
+        { isValid &&
+          ( isAuthorized ? <Button className="btn modal-btn auth authorize" onClick={ this.logout }>Logout</Button>
+        : <Button className="btn modal-btn auth authorize" onClick={ this.authorize }>Authorize</Button>
+          )
+        }
+        </div>
+
       </div>
     )
   }

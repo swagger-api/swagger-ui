@@ -45,7 +45,7 @@ export default class Auths extends React.Component {
     let { definitions, getComponent, authSelectors, errSelectors } = this.props
     const ApiKeyAuth = getComponent("apiKeyAuth")
     const BasicAuth = getComponent("basicAuth")
-    const BasicJwtAuth = getComponent("basicJwtAuth")
+    const BasicJwtAuth = getComponent("basicJwtAuth", true)
     const Oauth2 = getComponent("oauth2", true)
     const Button = getComponent("Button")
 
@@ -55,8 +55,9 @@ export default class Auths extends React.Component {
       return !!authorized.get(key)
     })
 
-    let nonOauthDefinitions = definitions.filter( schema => schema.get("type") !== "oauth2")
+    let nonOauthDefinitions = definitions.filter( schema => schema.get("type") !== "oauth2" && !(schema.get("type") === "apiKey" && schema.get("tokenUrl")))
     let oauthDefinitions = definitions.filter( schema => schema.get("type") === "oauth2")
+    let basicJwtDefinitions = definitions.filter( schema => schema.get("type") === "apiKey" && schema.get("tokenUrl"))
 
     return (
       <div className="auth-container">
@@ -83,14 +84,6 @@ export default class Auths extends React.Component {
                                                   authorized={ authorized }
                                                   getComponent={ getComponent }
                                                   onChange={ this.onAuthChange } />
-                    break
-                  case "basicJwt": authEl = <BasicJwtAuth key={ name }
-                                                        schema={ schema }
-                                                        name={ name }
-                                                        errSelectors={ errSelectors }
-                                                        authorized={ authorized }
-                                                        getComponent={ getComponent }
-                                                        onChange={ this.onAuthChange } />
                     break
                   default: authEl = <div key={ name }>Unknown security definition type { type }</div>
                 }
@@ -123,6 +116,22 @@ export default class Auths extends React.Component {
                     <Oauth2 authorized={ authorized }
                             schema={ schema }
                             name={ name } />
+                  </div>)
+                }
+                ).toArray()
+            }
+          </div> : null
+        }
+
+        {
+          basicJwtDefinitions && basicJwtDefinitions.size ? <div>
+            {
+              definitions.filter( schema => schema.get("type") === "apiKey" && schema.get("tokenUrl"))
+                .map( (schema, name) =>{
+                  return (<div key={ name }>
+                    <BasicJwtAuth authorized={ authorized }
+                                  schema={ schema }
+                                  name={ name } />
                   </div>)
                 }
                 ).toArray()
