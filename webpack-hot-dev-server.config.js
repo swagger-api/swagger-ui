@@ -57,6 +57,7 @@ var rules = [
 module.exports = require("./make-webpack-config")(rules, {
   _special: {
     separateStylesheets: false,
+    testSpecName: process.env['TEST_SPEC_NAME']
   },
 	devtool: "eval",
   entry: {

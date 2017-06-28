@@ -2,8 +2,9 @@ var path = require('path')
 
 var webpack = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var HtmlWebpackPlugin = require('html-webpack-plugin')
 var deepExtend = require('deep-extend')
-const {gitDescribeSync} = require('git-describe');
+const {gitDescribeSync} = require('git-describe')
 
 var pkg = require('./package.json')
 
@@ -59,7 +60,7 @@ module.exports = function(rules, options) {
     }))
   }
 
-  if( specialOptions.minimize ) {
+  if( specialOptions.minimize ) {   // production mode
 
     plugins.push(
       new webpack.optimize.UglifyJsPlugin({
@@ -74,6 +75,18 @@ module.exports = function(rules, options) {
 
     plugins.push( new webpack.NoErrorsPlugin())
 
+  } else {    // development mode
+    var spec
+    if (specialOptions.testSpecName) {
+      spec = require('./test/e2e/specs/' + specialOptions.testSpecName)
+    }
+
+    plugins.push(
+      new HtmlWebpackPlugin({
+        template: 'dev-helpers/template.ejs',
+        spec: spec && encodeURI(JSON.stringify(spec))   // using given test spec definition
+      })
+    )
   }
 
   plugins.push(
