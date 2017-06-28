@@ -1,9 +1,9 @@
 import Im from "immutable"
-import shallowEqual from "shallowequal"
 
 import camelCase from "lodash/camelCase"
 import upperFirst from "lodash/upperFirst"
 import _memoize from "lodash/memoize"
+import find from "lodash/find"
 import some from "lodash/some"
 import eq from "lodash/eq"
 import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins/samples/fn"
@@ -418,11 +418,6 @@ export function pascalCaseFilename(filename) {
   return pascalCase(filename.replace(/\.[^./]*$/, ""))
 }
 
-// Only compare a set of props
-export function shallowEqualKeys(a,b, keys) {
-  return !!keys.find(key => !shallowEqual(a[key], b[key]))
-}
-
 // Check if ...
 // - new props
 // - If immutable, use .is()
@@ -592,4 +587,11 @@ export const filterConfigs = (configs, allowed) => {
     }
 
     return filteredConfigs
+}
+
+// Is this really required as a helper? Perhaps. TODO: expose the system of presets.apis in docs, so we know what is supported
+export const shallowEqualKeys = (a,b, keys) => {
+  return !!find(keys, (key) => {
+    return eq(a[key], b[key])
+  })
 }

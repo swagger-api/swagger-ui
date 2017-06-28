@@ -128,7 +128,7 @@ module.exports = function(rules, options) {
       ],
       extensions: [".web.js", ".js", ".jsx", ".json", ".less"],
       alias: {
-        base: "getbase/src/less/base"
+        base: "getbase/src/less/base",
       }
     },
 

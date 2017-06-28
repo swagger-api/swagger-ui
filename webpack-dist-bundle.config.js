@@ -57,7 +57,7 @@ module.exports = require('./make-webpack-config.js')(rules, {
 
   entry: {
     'swagger-ui-bundle': [
-      'babel-polyfill',
+      './src/polyfills',
       './src/core/index.js'
     ]
   },

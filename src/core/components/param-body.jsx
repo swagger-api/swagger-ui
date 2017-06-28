@@ -1,11 +1,10 @@
-import React, { Component, PropTypes } from "react"
-import shallowCompare from "react-addons-shallow-compare"
+import React, { PureComponent, PropTypes } from "react"
 import { fromJS, List } from "immutable"
 import { getSampleSchema } from "core/utils"
 
 const NOOP = Function.prototype
 
-export default class ParamBody extends Component {
+export default class ParamBody extends PureComponent {
 
   static propTypes = {
     param: PropTypes.object,
@@ -39,10 +38,6 @@ export default class ParamBody extends Component {
 
   componentDidMount() {
     this.updateValues.call(this, this.props)
-  }
-
-  shouldComponentUpdate(props, state) {
-    return shallowCompare(this, props, state)
   }
 
   componentWillReceiveProps(nextProps) {

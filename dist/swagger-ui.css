@@ -1169,10 +1169,10 @@
   font-size: 1.5em;
   font-weight: bold;
   display: flex;
+  align-items: center;
+  flex: 1;
   max-width: 300px;
   text-decoration: none;
-  flex: 1;
-  align-items: center;
   font-family: 'Titillium Web', sans-serif;
   color: #fff;
 }
@@ -1185,6 +1185,7 @@
 .swagger-ui .topbar .download-url-wrapper {
   display: flex;
   flex: 3;
+  justify-content: flex-end;
 }
 
 .swagger-ui .topbar .download-url-wrapper input[type=text] {
@@ -1194,6 +1195,29 @@
   border: 2px solid #547f00;
   border-radius: 4px 0 0 4px;
   outline: none;
+}
+
+.swagger-ui .topbar .download-url-wrapper .select-label {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0;
+}
+
+.swagger-ui .topbar .download-url-wrapper .select-label span {
+  font-size: 16px;
+  flex: 1;
+  padding: 0 10px 0 0;
+  text-align: right;
+}
+
+.swagger-ui .topbar .download-url-wrapper .select-label select {
+  flex: 2;
+  width: 100%;
+  border: 2px solid #547f00;
+  outline: none;
+  box-shadow: none;
 }
 
 .swagger-ui .topbar .download-url-wrapper .download-url-button {
