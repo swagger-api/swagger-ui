@@ -107,9 +107,13 @@ class Parameters extends Component {
             <div onClick={() => this.toggleTab("parameters")} className={`tab-item ${this.state.parametersVisible && "active"}`}>
               <h4 className="opblock-title"><span>Parameters</span></h4>
             </div>
-            <div onClick={() => this.toggleTab("callbacks")} className={`tab-item ${this.state.callbackVisible && "active"}`}>
-              <h4 className="opblock-title"><span>Callbacks</span></h4>
-            </div>
+            { operation.get("callbacks") ?
+              (
+                <div onClick={() => this.toggleTab("callbacks")} className={`tab-item ${this.state.callbackVisible && "active"}`}>
+                  <h4 className="opblock-title"><span>Callbacks</span></h4>
+                </div>
+              ) : null
+            }
           </div>
             { allowTryItOut ? (
               <TryItOutButton enabled={ tryItOutEnabled } onCancelClick={ onCancelClick } onTryoutClick={ onTryoutClick } />
