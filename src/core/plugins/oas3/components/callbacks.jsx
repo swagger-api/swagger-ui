@@ -20,6 +20,7 @@ export default (props) => {
               key={method}
               method={method}
               path={pathItemName}
+              allowTryItOut={false}
               {...props}></Operation>
             // return <pre>{JSON.stringify(operation)}</pre>
           }) }
