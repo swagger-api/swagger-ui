@@ -27,12 +27,30 @@ export default class Topbar extends React.Component {
   onUrlSelect =(e)=> {
     let url = e.target.value || e.target.href
     this.loadSpec(url)
+    this.setSelectedUrl(url)
     e.preventDefault()
   }
 
   downloadUrl = (e) => {
     this.loadSpec(this.state.url)
     e.preventDefault()
+  }
+
+  setSelectedUrl = (selectedUrl) => {
+    const configs = this.props.getConfigs()
+    const urls = configs.urls || []
+
+    if(urls && urls.length) {
+      if(selectedUrl)
+      {
+        urls.forEach((spec, i) => {
+          if(spec.url === selectedUrl)
+            {
+              this.setState({selectedIndex: i})
+            }
+        })
+      }
+    }
   }
 
   componentWillMount() {
