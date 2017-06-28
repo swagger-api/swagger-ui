@@ -6,15 +6,13 @@ export default class OperationLink extends Component {
 
     let targetOp = link.get("operationId") || link.get("operationRef")
     let parameters = link.get("parameters") && link.get("parameters").toJS()
-    let headers = link.get("headers") && link.get("headers").toJS()
     let description = link.get("description")
 
     return <span>
       <div style={{ padding: "5px 2px" }}>{name}{description ? `: ${description}` : ""}</div>
       <pre>
         Operation `{targetOp}`<br /><br />
-        Parameters {padString(0, JSON.stringify(parameters, null, 2)) || "{}"}<br /><br />
-        Headers {padString(0, JSON.stringify(headers, null, 2)) || "{}"}<br />
+        Parameters {padString(0, JSON.stringify(parameters, null, 2)) || "{}"}<br />
       </pre>
     </span>
   }
