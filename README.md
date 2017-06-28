@@ -126,11 +126,13 @@ If you'd like to use the bundle files via npm, check out the [`swagger-ui-dist` 
 
 #### Parameters
 
+Parameters with dots in their names are single strings used to organize subordinate parameters, and are not indicative of a nested structure.
+
 Parameter Name | Description
 --- | ---
-url | The url pointing to API definition (normally `swagger.json` or `swagger.yaml`). Will be ignored if `urls` or `spec` is used. 
+url | The url pointing to API definition (normally `swagger.json` or `swagger.yaml`). Will be ignored if `urls` or `spec` is used.
 urls | An array of API definition objects (`{url: "<url>", name: "<name>"}`) used by Topbar plugin. When used and Topbar plugin is enabled, the `url` parameter will not be parsed.
-name | When using `urls`, you can use this parameter select an initial spec instead of defaulting to the first one. Useful as a query parameter to link to a specific spec. 
+urls.primaryName | When using `urls`, you can use this subparameter select an initial spec instead of defaulting to the first one. Useful as a query parameter to link to a specific spec.
 spec | A JSON object describing the OpenAPI Specification. When used, the `url` parameter will not be parsed. This is useful for testing manually-generated specifications without hosting them.
 validatorUrl | By default, Swagger-UI attempts to validate specs against swagger.io's online validator. You can use this parameter to set a different validator URL, for example for locally deployed validators ([Validator Badge](https://github.com/swagger-api/validator-badge)). Setting it to `null` will disable validation.
 dom_id | The id of a dom element inside which SwaggerUi will put the user interface for swagger.

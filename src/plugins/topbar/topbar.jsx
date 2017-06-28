@@ -58,7 +58,7 @@ export default class Topbar extends React.Component {
     const urls = configs.urls || []
 
     if(urls && urls.length) {
-      let selectedName = configs.name
+      let selectedName = configs["urls.primaryName"]
       if(selectedName)
       {
         urls.forEach((spec, i) => {
