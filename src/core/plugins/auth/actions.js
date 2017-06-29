@@ -195,11 +195,7 @@ export const authorizeToken = ( auth ) => ( { fn, authActions, errActions } ) =>
   let { schema, name, username, password } = auth
   let query = {}
   let body = {}
-  let headers = {
-    "Accept":"application/json, text/plain, */*",
-    "Access-Control-Allow-Origin": "*",
-    "Content-Type": "application/json"
-  }
+  let headers = {}
 
   headers.Authorization = "Basic " + btoa(username + ":" + password)
   query.service = schema.get("service")
