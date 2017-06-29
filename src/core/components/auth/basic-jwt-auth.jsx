@@ -69,6 +69,7 @@ export default class BasicJwtAuth extends React.Component {
     let tokenUrl = schema.get("tokenUrl")
     let service = schema.get("service")
     let scope = schema.get("scope")
+    let offlineToken = schema.get("offlineToken")
 
     return (
       <div>
@@ -89,6 +90,10 @@ export default class BasicJwtAuth extends React.Component {
               <tr>
                 <td>Scope</td>
                 <td>: <code>{ scope }</code></td>
+              </tr>
+              <tr>
+                <td>Offline Token</td>
+                <td>: <code>{ offlineToken }</code></td>
               </tr>
             </table>
           </p>

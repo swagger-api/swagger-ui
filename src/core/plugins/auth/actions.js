@@ -201,9 +201,10 @@ export const authorizeToken = ( auth ) => ( { fn, authActions, errActions } ) =>
     "Content-Type": "application/json"
   }
 
-  headers.authorization = "Basic " + btoa(username + ":" + password)
+  headers.Authorization = "Basic " + btoa(username + ":" + password)
   query.service = schema.get("service")
   query.scope = schema.get("scope")
+  query.offline_token = schema.get("offlineToken")
 
   fn.fetch({
     url: schema.get("tokenUrl"),
