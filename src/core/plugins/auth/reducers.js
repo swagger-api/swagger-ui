@@ -33,7 +33,7 @@ export default {
           let apiSchema = {
             'type' : 'apiKey',
             'in' : 'header',
-            'name' : 'authorization'
+            'name' : 'Authorization'
           }
           map = map.setIn([name, "schema"], fromJS(apiSchema))
 
