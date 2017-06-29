@@ -1,4 +1,5 @@
-import React, { PropTypes } from "react"
+import React from "react"
+import PropTypes from "prop-types"
 import { formatXml } from "core/utils"
 import lowerCase from "lodash/lowerCase"
 

@@ -48,6 +48,7 @@
     "matcher": "^0.1.2",
     "memoizee": "0.4.1",
     "promise-worker": "^1.1.1",
+    "prop-types": "^15.5.10",
     "react": "^15.4.0",
     "react-addons-perf": "0.14.8",
     "react-addons-shallow-compare": "0.14.8",

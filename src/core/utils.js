@@ -343,7 +343,7 @@ export function highlight (el) {
         while (![
           1,                   //  0: whitespace
                                //  1: operator or braces
-          /[\/{}[(\-+*=<>:;|\\.,?!&@~]/[test](chr),
+          /[\/{}[(\-+*=<>:;|\\.,?!&@~]/[test](chr),   // eslint-disable-line no-useless-escape
           /[\])]/[test](chr),  //  2: closing brace
           /[$\w]/[test](chr),  //  3: (key)word
           chr == "/" &&        //  4: regex
