@@ -1,11 +1,10 @@
-import React, { PropTypes } from "react"
-import shallowCompare from "react-addons-shallow-compare"
+import React, { PureComponent, PropTypes } from "react"
 import { getList } from "core/utils"
 import * as CustomPropTypes from "core/proptypes"
 
 //import "less/opblock"
 
-export default class Operation extends React.Component {
+export default class Operation extends PureComponent {
   static propTypes = {
     path: PropTypes.string.isRequired,
     method: PropTypes.string.isRequired,
@@ -68,10 +67,6 @@ export default class Operation extends React.Component {
       consumesValue = consumes && consumes.size ? consumes.first() : defaultContentType
       specActions.changeConsumesValue([path, method], consumesValue)
     }
-  }
-
-  shouldComponentUpdate(props, state) {
-    return shallowCompare(this, props, state)
   }
 
   toggleShown =() => {
