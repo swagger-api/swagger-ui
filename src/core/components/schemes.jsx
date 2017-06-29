@@ -20,6 +20,12 @@ export default class Schemes extends React.Component {
     this.setScheme( e.target.value )
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.schemes !== this.props.schemes) {
+      this.setScheme(nextProps.schemes.first())
+    }
+  }
+
   setScheme =( value ) => {
     let { path, method, specActions } = this.props
 
