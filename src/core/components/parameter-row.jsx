@@ -1,6 +1,6 @@
-import React, { Component, PropTypes } from "react"
+import React, { Component } from "react"
+import PropTypes from "prop-types"
 import win from "core/window"
-
 
 export default class ParameterRow extends Component {
   static propTypes = {
