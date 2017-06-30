@@ -8,19 +8,32 @@ const Headers = ( { headers } )=>{
       <pre>{headers}</pre>
     </div>)
 }
-
 Headers.propTypes = {
   headers: PropTypes.array.isRequired
 }
 
+const Duration = ( { duration } ) => {
+  return (
+    <div>
+      <h5>Request duration</h5>
+      <pre>{duration} ms</pre>
+    </div>
+  )
+}
+Duration.propTypes = {
+  duration: PropTypes.number.isRequired
+}
+
+
 export default class LiveResponse extends React.Component {
   static propTypes = {
     response: PropTypes.object.isRequired,
-    getComponent: PropTypes.func.isRequired
+    getComponent: PropTypes.func.isRequired,
+    displayRequestDuration: PropTypes.bool.isRequired
   }
 
   render() {
-    const { request, response, getComponent } = this.props
+    const { request, response, getComponent, displayRequestDuration } = this.props
 
     const status = response.get("status")
     const url = response.get("url")
@@ -28,6 +41,7 @@ export default class LiveResponse extends React.Component {
     const notDocumented = response.get("notDocumented")
     const isError = response.get("error")
     const body = response.get("text")
+    const duration = response.get("duration")
     const headersKeys = Object.keys(headers)
     const contentType = headers["content-type"]
 
@@ -77,6 +91,9 @@ export default class LiveResponse extends React.Component {
                 }
                 {
                   hasHeaders ? <Headers headers={ returnObject }/> : null
+                }
+                {
+                  displayRequestDuration && duration ? <Duration duration={ duration } /> : null
                 }
               </td>
             </tr>

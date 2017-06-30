@@ -9,7 +9,7 @@ const primitives = {
   "number": () => 0,
   "number_float": () => 0.0,
   "integer": () => 0,
-  "boolean": () => true
+  "boolean": (schema) => typeof schema.default === "boolean" ? schema.default : true 
 }
 
 const primitive = (schema) => {

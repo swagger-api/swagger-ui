@@ -126,9 +126,13 @@ If you'd like to use the bundle files via npm, check out the [`swagger-ui-dist` 
 
 #### Parameters
 
+Parameters with dots in their names are single strings used to organize subordinate parameters, and are not indicative of a nested structure.
+
 Parameter Name | Description
 --- | ---
-url | The url pointing to API definition (normally `swagger.json` or `swagger.yaml`).
+url | The url pointing to API definition (normally `swagger.json` or `swagger.yaml`). Will be ignored if `urls` or `spec` is used.
+urls | An array of API definition objects (`{url: "<url>", name: "<name>"}`) used by Topbar plugin. When used and Topbar plugin is enabled, the `url` parameter will not be parsed. Names and URLs must be unique among all items in this array, since they're used as identifiers.
+urls.primaryName | When using `urls`, you can use this subparameter. If the value matches the name of a spec provided in `urls`, that spec will be displayed when Swagger-UI loads, instead of defaulting to the first spec in `urls`.
 spec | A JSON object describing the OpenAPI Specification. When used, the `url` parameter will not be parsed. This is useful for testing manually-generated specifications without hosting them.
 validatorUrl | By default, Swagger-UI attempts to validate specs against swagger.io's online validator. You can use this parameter to set a different validator URL, for example for locally deployed validators ([Validator Badge](https://github.com/swagger-api/validator-badge)). Setting it to `null` will disable validation.
 dom_id | The id of a dom element inside which SwaggerUi will put the user interface for swagger.
@@ -139,11 +143,12 @@ parameterMacro | MUST be a function. Function to set default value to parameters
 modelPropertyMacro | MUST be a function. Function to set default values to each property in model. Accepts one argument modelPropertyMacro(property), property is immutable
 docExpansion | Controls the default expansion setting for the operations and tags. It can be 'list' (expands only the tags), 'full' (expands the tags and operations) or 'none' (expands nothing). The default is 'list'.
 displayOperationId | Controls the display of operationId in operations list. The default is `false`.
+displayRequestDuration | Controls the display of the request duration (in milliseconds) for `Try it out` requests. The default is `false`. 
 
 ### Plugins
 
 #### Topbar plugin
-Topbar plugin enables top bar with input for spec path and explore button. By default the plugin is enabled, and to disable it you need to remove Topbar plugin from presets in `src/standalone/index.js`:
+Topbar plugin enables top bar with input for spec path and explore button or a dropdown if `urls` is used. By default the plugin is enabled, and to disable it you need to remove Topbar plugin from presets in `src/standalone/index.js`:
 
 ```
 let preset = [
