@@ -1,4 +1,5 @@
-import React, { PureComponent, PropTypes } from "react"
+import React, { PureComponent } from "react"
+import PropTypes from "prop-types"
 import { getList } from "core/utils"
 import * as CustomPropTypes from "core/proptypes"
 
@@ -17,6 +18,7 @@ export default class Operation extends PureComponent {
     allowTryItOut: PropTypes.bool,
 
     displayOperationId: PropTypes.bool,
+    displayRequestDuration: PropTypes.bool,
 
     response: PropTypes.object,
     request: PropTypes.object,
@@ -37,6 +39,7 @@ export default class Operation extends PureComponent {
     response: null,
     allowTryItOut: true,
     displayOperationId: false,
+    displayRequestDuration: false
   }
 
   constructor(props, context) {
@@ -107,7 +110,7 @@ export default class Operation extends PureComponent {
       request,
       allowTryItOut,
       displayOperationId,
-
+      displayRequestDuration,
       fn,
       getComponent,
       specActions,
@@ -126,6 +129,7 @@ export default class Operation extends PureComponent {
     let schemes = operation.get("schemes")
     let parameters = getList(operation, ["parameters"])
     let operationId = operation.get("__originalOperationId")
+    let operationScheme = specSelectors.operationScheme(path, method)
 
     const Responses = getComponent("responses")
     const Parameters = getComponent( "parameters" )
@@ -211,7 +215,8 @@ export default class Operation extends PureComponent {
                     <Schemes schemes={ schemes }
                              path={ path }
                              method={ method }
-                             specActions={ specActions }/>
+                             specActions={ specActions }
+                             operationScheme={ operationScheme } />
                   </div> : null
               }
 
@@ -250,6 +255,7 @@ export default class Operation extends PureComponent {
                     produces={ produces }
                     producesValue={ operation.get("produces_value") }
                     pathMethod={ [path, method] }
+                    displayRequestDuration={ displayRequestDuration }
                     fn={fn} />
               }
             </div>

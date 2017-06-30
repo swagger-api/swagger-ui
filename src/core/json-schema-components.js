@@ -1,4 +1,5 @@
-import React, { PropTypes, PureComponent, Component } from "react"
+import React, { PureComponent, Component } from "react"
+import PropTypes from "prop-types"
 import { List, fromJS } from "immutable"
 //import "less/json-schema-form"
 
