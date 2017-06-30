@@ -208,6 +208,18 @@ body
         @include text_headline(#fff);
     }
 
+    .opblock-summary-version
+    {
+        color: white;
+        margin: 0 0 0 10px;
+        padding: 2px 4px;
+        font-size: 12px;
+        background: #3b4151;
+        font-family: 'Source Code Pro', monospace;
+        font-weight: 600;
+        border-radius: .25rem;
+    }
+
     .opblock-summary-path,
     .opblock-summary-operation-id,
     .opblock-summary-path__deprecated

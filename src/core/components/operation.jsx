@@ -119,6 +119,7 @@ export default class Operation extends PureComponent {
       authSelectors
     } = this.props
 
+    let version = operation.get("version")
     let summary = operation.get("summary")
     let description = operation.get("description")
     let deprecated = operation.get("deprecated")
@@ -164,6 +165,12 @@ export default class Operation extends PureComponent {
                 <div className="opblock-summary-description">
                   { summary }
                 </div>
+            }
+
+            { !version ? null :
+              <span className="opblock-summary-version">
+                <span>{version}</span>
+              </span>
             }
 
             { displayOperationId && operationId ? <span className="opblock-summary-operation-id">{operationId}</span> : null }
