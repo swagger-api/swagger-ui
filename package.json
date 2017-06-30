@@ -70,7 +70,7 @@
     "sanitize-html": "^1.14.1",
     "serialize-error": "2.0.0",
     "shallowequal": "0.2.2",
-    "swagger-client": "~3.0.15",
+    "swagger-client": "3.0.16",
     "url-parse": "^1.1.8",
     "whatwg-fetch": "0.11.1",
     "worker-loader": "^0.7.1",
