@@ -72,7 +72,7 @@ module.exports = function(rules, options) {
       })
     )
 
-    plugins.push( new webpack.NoErrorsPlugin())
+    plugins.push( new webpack.NoEmitOnErrorsPlugin())
 
   }
 
