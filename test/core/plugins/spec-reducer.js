@@ -69,4 +69,56 @@ describe("spec plugin - reducer", function(){
       expect(result.toJS()).toEqual(state.toJS())
     })
   })
+
+  describe("set response value", function() {
+    it("should combine the response and error objects", () => {
+      const setResponse = reducer["spec_set_response"]
+
+      const path = "/pet/post"
+      const method = "POST"
+
+      const state = fromJS({})
+      const result = setResponse(state, {
+        payload: {
+          path: path,
+          method: method,
+          res: {
+            error: true,
+            err: {
+              message: "Not Found",
+              name: "Error",
+              response: {
+                data: "response data",
+                headers: {
+                  key: "value"
+                },
+                ok: false,
+                status: 404,
+                statusText: "Not Found"
+              },
+              status: 404,
+              statusCode: 404
+            }
+          }
+        }
+      })
+
+      let expectedResult = {
+        error: true,
+        message: "Not Found",
+        name: "Error",
+        data: "response data",
+        headers: {
+          key: "value"
+        },
+        ok: false,
+        status: 404,
+        statusCode: 404,
+        statusText: "Not Found"
+      }
+
+      const response = result.getIn(["responses", path, method]).toJS()
+      expect(response).toEqual(expectedResult)
+    })
+  })
 })

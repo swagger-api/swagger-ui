@@ -1,4 +1,5 @@
-import React, { PropTypes } from "react"
+import React from "react"
+import PropTypes from "prop-types"
 import SplitPane from "react-split-pane"
 import "./split-pane-mode.less"
 
@@ -23,9 +24,13 @@ export default class SplitPaneMode extends React.Component {
     children: [],
   };
 
+  initializeComponent = (c) => {
+    this.splitPane = c
+  }
+
   onDragFinished = () => {
     let { threshold, layoutActions } = this.props
-    let { position, draggedSize } = this.refs.splitPane.state
+    let { position, draggedSize } = this.splitPane.state
     this.draggedSize = draggedSize
 
     let nearLeftEdge = position <= threshold
@@ -62,7 +67,7 @@ export default class SplitPaneMode extends React.Component {
     return (
       <SplitPane
         disabledClass={""}
-        ref={"splitPane"}
+        ref={this.initializeComponent}
         split='vertical'
         defaultSize={"50%"}
         primary="second"

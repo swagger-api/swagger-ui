@@ -41,7 +41,7 @@ export default {
   [UPDATE_PARAM]: ( state, {payload} ) => {
     let { path, paramName, value, isXml } = payload
     return state.updateIn( [ "resolved", "paths", ...path, "parameters" ], fromJS([]), parameters => {
-      let index = parameters.findIndex( p => p.get( "name" ) === paramName )
+      const index = parameters.findIndex(p => p.get( "name" ) === paramName )
       if (!(value instanceof win.File)) {
         value = fromJSOrdered( value )
       }
@@ -75,7 +75,12 @@ export default {
   [SET_RESPONSE]: (state, { payload: { res, path, method } } ) =>{
     let result
     if ( res.error ) {
-      result = Object.assign({error: true}, res.err)
+      result = Object.assign({
+        error: true,
+        name: res.err.name,
+        message: res.err.message,
+        statusCode: res.err.statusCode
+      }, res.err.response)
     } else {
       result = res
     }
@@ -86,7 +91,7 @@ export default {
     let newState = state.setIn( [ "responses", path, method ], fromJSOrdered(result) )
 
     // ImmutableJS messes up Blob. Needs to reset its value.
-    if (res.data instanceof win.Blob) {
+    if (win.Blob && res.data instanceof win.Blob) {
       newState = newState.setIn( [ "responses", path, method, "text" ], res.data)
     }
     return newState
