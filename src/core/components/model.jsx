@@ -118,12 +118,13 @@ class ObjectModel extends Component {
 class Primitive extends Component {
   static propTypes = {
     schema: PropTypes.object.isRequired,
+    name: PropTypes.string,
     getComponent: PropTypes.func.isRequired,
     required: PropTypes.bool
   }
 
   render(){
-    let { schema, getComponent, required } = this.props
+    let { schema, getComponent, name, required } = this.props
 
     if(!schema || !schema.get) {
       // don't render if schema isn't correctly formed
@@ -134,12 +135,18 @@ class Primitive extends Component {
     let format = schema.get("format")
     let xml = schema.get("xml")
     let enumArray = schema.get("enum")
+    let title = schema.get("title") || name
     let description = schema.get("description")
     let properties = schema.filter( ( v, key) => ["enum", "type", "format", "description", "$$ref"].indexOf(key) === -1 )
     let style = required ? { fontWeight: "bold" } : {}
     const Markdown = getComponent("Markdown")
 
-    return <span className="prop">
+    return <span className="model">
+      {
+        title && <span className="model-title" style={{ marginRight: "2em" }}>
+          <span className="model-title__text">{ title }</span>
+        </span>
+      }
       <span className="prop-type" style={ style }>{ type }</span> { required && <span style={{ color: "red" }}>*</span>}
       { format && <span className="prop-format">(${format})</span>}
       {
@@ -177,17 +184,20 @@ class ArrayModel extends Component {
   }
 
   render(){
-    let { required, schema, depth, expandDepth } = this.props
+    let { required, schema, depth, name, expandDepth } = this.props
     let items = schema.get("items")
+    let title = schema.get("title") || name
     let properties = schema.filter( ( v, key) => ["type", "items", "$$ref"].indexOf(key) === -1 )
-
+  
     return <span className="model">
-      <span className="model-title">
-        <span className="model-title__text">{ schema.get("title") }</span>
-      </span>
+      {
+        title && <span className="model-title">
+          <span className="model-title__text">{ title }</span>
+        </span>
+      }
       <Collapse collapsed={ depth > expandDepth } collapsedContent="[...]">
         [
-          <span><Model { ...this.props } schema={ items } required={ false }/></span>
+          <span><Model { ...this.props } name="" schema={ items } required={ false }/></span>
         ]
         {
           properties.size ? <span>
@@ -250,13 +260,13 @@ class Model extends Component {
                                               name={ name || modelName }
                                               isRef={ isRef!== undefined ? isRef : !!$$ref }/>
       case "array":
-        return <ArrayModel className="array" { ...this.props } schema={ modelSchema } required={ required } />
+        return <ArrayModel className="array" { ...this.props } schema={ modelSchema } name={ name || modelName } required={ required } />
       case "string":
       case "number":
       case "integer":
       case "boolean":
       default:
-        return <Primitive getComponent={ getComponent } schema={ modelSchema } required={ required }/>
+        return <Primitive { ...this.props } getComponent={ getComponent } schema={ modelSchema } name={ name || modelName } required={ required }/>
     }
   }
 }

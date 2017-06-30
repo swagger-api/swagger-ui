@@ -15,19 +15,21 @@ export default class Responses extends React.Component {
     specSelectors: PropTypes.object.isRequired,
     specActions: PropTypes.object.isRequired,
     pathMethod: PropTypes.array.isRequired,
+    displayRequestDuration: PropTypes.bool.isRequired,
     fn: PropTypes.object.isRequired
   }
 
   static defaultProps = {
     request: null,
     tryItOutResponse: null,
-    produces: fromJS(["application/json"])
+    produces: fromJS(["application/json"]),
+    displayRequestDuration: false
   }
 
   onChangeProducesWrapper = ( val ) => this.props.specActions.changeProducesValue(this.props.pathMethod, val)
 
   render() {
-    let { responses, request, tryItOutResponse, getComponent, specSelectors, fn, producesValue } = this.props
+    let { responses, request, tryItOutResponse, getComponent, specSelectors, fn, producesValue, displayRequestDuration } = this.props
     let defaultCode = defaultStatusCode( responses )
 
     const ContentType = getComponent( "contentType" )
@@ -54,7 +56,8 @@ export default class Responses extends React.Component {
                               : <div>
                                   <LiveResponse request={ request }
                                                 response={ tryItOutResponse }
-                                                getComponent={ getComponent } />
+                                                getComponent={ getComponent }
+                                                displayRequestDuration={ displayRequestDuration } />
                                   <h4>Responses</h4>
                                 </div>
 

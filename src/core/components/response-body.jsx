@@ -7,7 +7,7 @@ export default class ResponseBody extends React.Component {
 
   static propTypes = {
     content: PropTypes.any.isRequired,
-    contentType: PropTypes.string.isRequired,
+    contentType: PropTypes.string,
     getComponent: PropTypes.func.isRequired,
     headers: PropTypes.object,
     url: PropTypes.string
