@@ -160,11 +160,13 @@ class Parameters extends Component {
           <div className="opblock-section">
             <div className="opblock-section-header">
               <h4 className="opblock-title">Request body</h4>
-              <ContentType
-                value={this.state.requestBodyContentType}
-                contentTypes={ requestBody.get("content").keySeq() }
-                onChange={(val) => this.setState({ requestBodyContentType: val })}
-                className="body-param-content-type" />
+              <label>
+                <ContentType
+                  value={this.state.requestBodyContentType}
+                  contentTypes={ requestBody.get("content").keySeq() }
+                  onChange={(val) => this.setState({ requestBodyContentType: val })}
+                  className="body-param-content-type" />
+              </label>
             </div>
             <div className="opblock-description-wrapper">
               <RequestBody

@@ -220,6 +220,7 @@ body
             display: flex;
 
             margin: 0;
+            margin-left: auto;
 
             align-items: center;
             @include text_headline();
