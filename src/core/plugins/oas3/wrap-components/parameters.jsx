@@ -16,7 +16,8 @@ class Parameters extends Component {
    super(props)
    this.state = {
      callbackVisible: false,
-     parametersVisible: true
+     parametersVisible: true,
+     requestBodyContentType: ""
    }
  }
 
@@ -94,10 +95,12 @@ class Parameters extends Component {
 
     const ParameterRow = getComponent("parameterRow")
     const TryItOutButton = getComponent("TryItOutButton")
+    const ContentType = getComponent("contentType")
     const Callbacks = getComponent("Callbacks", true)
     const RequestBody = getComponent("RequestBody", true)
 
     const isExecute = tryItOutEnabled && allowTryItOut
+    const { isOAS3 } = specSelectors
 
     const requestBody = operation.get("requestBody")
     return (
@@ -153,13 +156,20 @@ class Parameters extends Component {
           <Callbacks callbacks={Map(operation.get("callbacks"))} />
         </div> : "" }
         {
-          requestBody && this.state.parametersVisible &&
+          isOAS3() && requestBody && this.state.parametersVisible &&
           <div className="opblock-section">
             <div className="opblock-section-header">
               <h4 className="opblock-title">Request body</h4>
+              <ContentType
+                value={this.state.requestBodyContentType}
+                contentTypes={ requestBody.get("content").keySeq() }
+                onChange={(val) => this.setState({ requestBodyContentType: val })}
+                className="body-param-content-type" />
             </div>
             <div className="opblock-description-wrapper">
-              <RequestBody requestBody={requestBody} />
+              <RequestBody
+                requestBody={requestBody}
+                contentType={this.state.requestBodyContentType}/>
             </div>
           </div>
         }
