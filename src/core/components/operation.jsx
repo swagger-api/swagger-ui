@@ -128,6 +128,7 @@ export default class Operation extends PureComponent {
     let schemes = operation.get("schemes")
     let parameters = getList(operation, ["parameters"])
     let operationId = operation.get("__originalOperationId")
+    let operationScheme = specSelectors.operationScheme(path, method)
 
     const Responses = getComponent("responses")
     const Parameters = getComponent( "parameters" )
@@ -213,7 +214,8 @@ export default class Operation extends PureComponent {
                     <Schemes schemes={ schemes }
                              path={ path }
                              method={ method }
-                             specActions={ specActions }/>
+                             specActions={ specActions }
+                             operationScheme={ operationScheme } />
                   </div> : null
               }
 
