@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from "react"
+import React, { Component } from "react"
+import PropTypes from "prop-types"
 
 export default class Models extends Component {
   static propTypes = {
@@ -30,7 +31,6 @@ export default class Models extends Component {
       <Collapse isOpened={showModels} animated>
         {
           definitions.entrySeq().map( ( [ name, model ])=>{
-            console.log("model", name, model)
             return <div className="model-container" key={ `models-section-${name}` }>
               <ModelWrapper name={ name }
                      schema={ model }
