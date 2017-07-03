@@ -7,7 +7,7 @@ const noop = ()=>{}
 export default class ContentType extends React.Component {
 
   static propTypes = {
-    contentTypes: PropTypes.oneOfType([ImPropTypes.list, ImPropTypes.set]),
+    contentTypes: PropTypes.oneOfType([ImPropTypes.list, ImPropTypes.set, ImPropTypes.seq]),
     value: PropTypes.string,
     onChange: PropTypes.func,
     className: PropTypes.string
@@ -21,7 +21,9 @@ export default class ContentType extends React.Component {
 
   componentDidMount() {
     // Needed to populate the form, initially
-    this.props.onChange(this.props.contentTypes.first())
+    if(this.props.contentTypes) {
+      this.props.onChange(this.props.contentTypes.first())
+    }
   }
 
   onChangeWrapper = e => this.props.onChange(e.target.value)

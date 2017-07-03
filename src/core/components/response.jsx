@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react"
-import { fromJS } from "immutable"
+import { fromJS, Seq } from "immutable"
 import { getSampleSchema } from "core/utils"
 
 const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
@@ -28,6 +28,13 @@ const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
 }
 
 export default class Response extends React.Component {
+  constructor(props, context) {
+    super(props, context)
+
+    this.state = {
+      responseContentType: ""
+    }
+  }
 
   static propTypes = {
     code: PropTypes.string.isRequired,
@@ -56,8 +63,8 @@ export default class Response extends React.Component {
     } = this.props
 
     let { inferSchema } = fn
+    let { isOAS3 } = specSelectors
 
-    let schema = inferSchema(response.toJS())
     let headers = response.get("headers")
     let examples = response.get("examples")
     let links = response.get("links")
@@ -66,14 +73,17 @@ export default class Response extends React.Component {
     const ModelExample = getComponent("modelExample")
     const Markdown = getComponent( "Markdown" )
     const OperationLink = getComponent("operationLink")
+    const ContentType = getComponent("contentType")
 
     var sampleResponse
 
-    if(specSelectors.isOAS3()) {
-      let oas3SchemaForContentType = response.getIn(["content", contentType, "schema"])
-      sampleResponse = oas3SchemaForContentType ? getSampleSchema(oas3SchemaForContentType, contentType, { includeReadOnly: true }) : null
+    if(isOAS3()) {
+      let oas3SchemaForContentType = response.getIn(["content", this.state.responseContentType, "schema"])
+      sampleResponse = oas3SchemaForContentType ? getSampleSchema(oas3SchemaForContentType.toJS(), this.state.responseContentType, { includeReadOnly: true }) : null
+      var schema = oas3SchemaForContentType ? inferSchema(oas3SchemaForContentType.toJS()) : null
     } else {
       sampleResponse = schema ? getSampleSchema(schema, contentType, { includeReadOnly: true }) : null
+      var schema = inferSchema(response.toJS())
     }
     let example = getExampleComponent( sampleResponse, examples, HighlightCode )
 
@@ -87,6 +97,12 @@ export default class Response extends React.Component {
           <div className="response-col_description__inner">
             <Markdown source={ response.get( "description" ) } />
           </div>
+
+          { isOAS3 ? <ContentType
+              value={this.state.responseContentType}
+              contentTypes={ response.get("content") ? response.get("content").keySeq() : Seq() }
+              onChange={(val) => this.setState({ responseContentType: val })}
+              className="response-content-type" /> : null }
 
           { example ? (
             <ModelExample
