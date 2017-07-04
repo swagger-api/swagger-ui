@@ -11,8 +11,6 @@ const sanitizeOptions = {
 }
 
 function Markdown({ source }) {
-<<<<<<< HEAD
-=======
   const sanitized = sanitize(source, sanitizeOptions)
 
   // sometimes the sanitizer returns "undefined" as a string
@@ -20,7 +18,6 @@ function Markdown({ source }) {
     return null
   }
 
->>>>>>> swagger-api/master
   return <Remarkable
     options={{html: true, typographer: true, linkify: true, linkTarget: "_blank"}}
     source={source}
