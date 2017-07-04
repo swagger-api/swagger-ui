@@ -65,11 +65,11 @@ export const render = (getSystem, getStore, getComponent, getComponents, dom) =>
 }
 
 // Render try/catch wrapper
-const createClass = component => React.createClass({
+const createClass = component => class extends Component {
   render() {
     return component(this.props)
   }
-})
+}
 
 const Fallback = ({ name }) => <div style={{ // eslint-disable-line react/prop-types
     padding: "1em",

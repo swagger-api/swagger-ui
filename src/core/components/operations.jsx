@@ -1,4 +1,5 @@
-import React, { PropTypes } from "react"
+import React from "react"
+import PropTypes from "prop-types"
 
 export default class Operations extends React.Component {
 
@@ -33,7 +34,7 @@ export default class Operations extends React.Component {
     const Markdown = getComponent("Markdown")
 
     let showSummary = layoutSelectors.showSummary()
-    let { docExpansion, displayOperationId } = getConfigs()
+    let { docExpansion, displayOperationId, displayRequestDuration } = getConfigs()
 
     return (
         <div>
@@ -90,6 +91,7 @@ export default class Operations extends React.Component {
                           allowTryItOut={allowTryItOut}
 
                           displayOperationId={displayOperationId}
+                          displayRequestDuration={displayRequestDuration}
 
                           specActions={ specActions }
                           specSelectors={ specSelectors }
