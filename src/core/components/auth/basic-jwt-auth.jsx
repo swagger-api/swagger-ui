@@ -63,7 +63,6 @@ export default class BasicJwtAuth extends React.Component {
     let authorizedAuth = authSelectors.authorized().get(name)
     let isAuthorized = !!authorizedAuth
     let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
-    let isValid = !errors.filter( err => err.get("source") === "validation").size
 
     let description = schema.get("description")
     let tokenUrl = schema.get("tokenUrl")
@@ -124,10 +123,8 @@ export default class BasicJwtAuth extends React.Component {
           } )
         }
         <div className="auth-btn-wrapper">
-        { isValid &&
-          ( isAuthorized ? <Button className="btn modal-btn auth authorize" onClick={ this.logout }>Logout</Button>
-        : <Button className="btn modal-btn auth authorize" onClick={ this.authorize }>Authorize</Button>
-          )
+        { isAuthorized ? <Button className="btn modal-btn auth authorize" onClick={ this.logout }>Logout</Button>
+                       : <Button className="btn modal-btn auth authorize" onClick={ this.authorize }>Authorize</Button>
         }
         </div>
 
