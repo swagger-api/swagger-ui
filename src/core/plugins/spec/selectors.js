@@ -1,6 +1,6 @@
 import { createSelector } from "reselect"
 import { sorters } from "core/utils"
-import { fromJS, Set, Map, List } from "immutable"
+import { fromJS, Set, Map, OrderedMap, List } from "immutable"
 
 const DEFAULT_TAG = "default"
 
@@ -187,13 +187,16 @@ export const tagDetails = (state, tag) => {
 
 export const operationsWithTags = createSelector(
   operationsWithRootInherited,
-  operations => {
+  tags,
+  (operations, tags) => {
     return operations.reduce( (taggedMap, op) => {
       let tags = Set(op.getIn(["operation","tags"]))
       if(tags.count() < 1)
         return taggedMap.update(DEFAULT_TAG, List(), ar => ar.push(op))
       return tags.reduce( (res, tag) => res.update(tag, List(), (ar) => ar.push(op)), taggedMap )
-    }, Map())
+    }, tags.reduce( (taggedMap, tag) => {
+      return taggedMap.set(tag.get("name"), List())
+    } , OrderedMap()))
   }
 )
 
