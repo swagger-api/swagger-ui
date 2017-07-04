@@ -462,6 +462,12 @@ export const validateInteger = ( val ) => {
   }
 }
 
+export const validateFile = ( val ) => {
+  if ( !(val instanceof win.File) ) {
+    return "Value must be a file"
+  }
+}
+
 // validation of parameters before execute
 export const validateParam = (param, isXml) => {
   let errors = []
@@ -472,7 +478,9 @@ export const validateParam = (param, isXml) => {
   let stringCheck = type === "string" && !value
   let arrayCheck = type === "array" && Array.isArray(value) && !value.length
   let listCheck = type === "array" && Im.List.isList(value) && !value.count()
-  if ( required && (stringCheck || arrayCheck || listCheck) ) {
+  let fileCheck = type === "file" && !(value instanceof win.File)
+
+  if ( required && (stringCheck || arrayCheck || listCheck || fileCheck) ) {
     errors.push("Required field is not provided")
     return errors
   }
@@ -505,7 +513,10 @@ export const validateParam = (param, isXml) => {
         errors.push({ index: index, error: err})
       }
     })
-
+  } else if ( type === "file" ) {
+    let err = validateFile(value)
+    if (!err) return errors
+    errors.push(err)
   }
 
   return errors
