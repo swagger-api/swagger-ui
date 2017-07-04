@@ -463,7 +463,7 @@ export const validateInteger = ( val ) => {
 }
 
 export const validateFile = ( val ) => {
-  if ( !(val instanceof win.File) ) {
+  if ( val && !(val instanceof win.File) ) {
     return "Value must be a file"
   }
 }
