@@ -164,8 +164,8 @@ describe("utils", function(){
     it("validates against objects which are instances of 'File'", function() {
       let fileObj = new win.File([], "Test File")
       expect(validateFile(fileObj)).toBeFalsy()
-      expect(validateFile(null)).toEqual(errorMessage)
-      expect(validateFile(undefined)).toEqual(errorMessage)
+      expect(validateFile(null)).toBeFalsy()
+      expect(validateFile(undefined)).toBeFalsy()
       expect(validateFile(1)).toEqual(errorMessage)
       expect(validateFile("string")).toEqual(errorMessage)
     })
