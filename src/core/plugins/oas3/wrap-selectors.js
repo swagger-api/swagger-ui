@@ -52,6 +52,7 @@ export const host = OAS3NullSelector
 export const basePath = OAS3NullSelector
 export const consumes = OAS3NullSelector
 export const produces = OAS3NullSelector
+export const schemes = OAS3NullSelector
 
 // New selectors
 
