@@ -1,9 +1,9 @@
 import Im from "immutable"
-import shallowEqual from "shallowequal"
 
 import camelCase from "lodash/camelCase"
 import upperFirst from "lodash/upperFirst"
 import _memoize from "lodash/memoize"
+import find from "lodash/find"
 import some from "lodash/some"
 import eq from "lodash/eq"
 import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins/samples/fn"
@@ -343,7 +343,7 @@ export function highlight (el) {
         while (![
           1,                   //  0: whitespace
                                //  1: operator or braces
-          /[\/{}[(\-+*=<>:;|\\.,?!&@~]/[test](chr),
+          /[\/{}[(\-+*=<>:;|\\.,?!&@~]/[test](chr),   // eslint-disable-line no-useless-escape
           /[\])]/[test](chr),  //  2: closing brace
           /[$\w]/[test](chr),  //  3: (key)word
           chr == "/" &&        //  4: regex
@@ -418,11 +418,6 @@ export function pascalCaseFilename(filename) {
   return pascalCase(filename.replace(/\.[^./]*$/, ""))
 }
 
-// Only compare a set of props
-export function shallowEqualKeys(a,b, keys) {
-  return !!keys.find(key => !shallowEqual(a[key], b[key]))
-}
-
 // Check if ...
 // - new props
 // - If immutable, use .is()
@@ -455,15 +450,15 @@ export const propChecker = (props, nextProps, objectList=[], ignoreList=[]) => {
     || objectList.some( objectPropName => !eq(props[objectPropName], nextProps[objectPropName])))
 }
 
-const validateNumber = ( val ) => {
-  if ( !/^-?\d+(.?\d+)?$/.test(val)) {
+export const validateNumber = ( val ) => {
+  if ( !/^-?\d+(\.?\d+)?$/.test(val)) {
     return "Value must be a number"
   }
 }
 
-const validateInteger = ( val ) => {
+export const validateInteger = ( val ) => {
   if ( !/^-?\d+$/.test(val)) {
-    return "Value must be integer"
+    return "Value must be an integer"
   }
 }
 
@@ -474,12 +469,13 @@ export const validateParam = (param, isXml) => {
   let required = param.get("required")
   let type = param.get("type")
 
-  if ( required && (!value || (type==="array" && Array.isArray(value) && !value.length ))) {
+  let stringCheck = type === "string" && !value
+  let arrayCheck = type === "array" && Array.isArray(value) && !value.length
+  let listCheck = type === "array" && Im.List.isList(value) && !value.count()
+  if ( required && (stringCheck || arrayCheck || listCheck) ) {
     errors.push("Required field is not provided")
     return errors
   }
-
-  if ( !value ) return errors
 
   if ( type === "number" ) {
     let err = validateNumber(value)
@@ -592,4 +588,11 @@ export const filterConfigs = (configs, allowed) => {
     }
 
     return filteredConfigs
+}
+
+// Is this really required as a helper? Perhaps. TODO: expose the system of presets.apis in docs, so we know what is supported
+export const shallowEqualKeys = (a,b, keys) => {
+  return !!find(keys, (key) => {
+    return eq(a[key], b[key])
+  })
 }

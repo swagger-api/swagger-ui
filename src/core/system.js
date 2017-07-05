@@ -279,7 +279,7 @@ export default class Store {
           action = {type: NEW_THROWN_ERR, error: true, payload: serializeError(e) }
         }
         finally{
-          return action
+          return action // eslint-disable-line no-unsafe-finally
         }
       }
 

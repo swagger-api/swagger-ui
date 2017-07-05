@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from "react"
+import React, { Component } from "react"
+import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { List } from "immutable"
 const braceOpen = "{"
@@ -42,6 +43,7 @@ class ObjectModel extends Component {
     let additionalProperties = schema.get("additionalProperties")
     let title = schema.get("title") || name
     let required = schema.get("required")
+    const Markdown = getComponent("Markdown")
     const JumpToPathSection = ({ name }) => <span className="model-jump-to-path"><JumpToPath path={`definitions.${name}`} /></span>
   let collapsedContent = (<span>
       <span>{ braceOpen }</span>...<span>{ braceClose }</span>
@@ -68,7 +70,9 @@ class ObjectModel extends Component {
               {
                 !description ? null : <tr style={{ color: "#999", fontStyle: "italic" }}>
                     <td>description:</td>
-                    <td>{ description }</td>
+                    <td>
+                      <Markdown source={ description } />
+                    </td>
                   </tr>
               }
               {
@@ -122,12 +126,14 @@ class ObjectModel extends Component {
 class Primitive extends Component {
   static propTypes = {
     schema: PropTypes.object.isRequired,
+    name: PropTypes.string,
+    getComponent: PropTypes.func.isRequired,
     required: PropTypes.bool,
     deprecated: PropTypes.bool
   }
 
   render(){
-    let { schema, required, deprecated } = this.props
+    let { schema, getComponent, name, required, deprecated } = this.props
 
     if(!schema || !schema.get) {
       // don't render if schema isn't correctly formed
@@ -138,16 +144,28 @@ class Primitive extends Component {
     let format = schema.get("format")
     let xml = schema.get("xml")
     let enumArray = schema.get("enum")
-    let properties = schema.filter( ( v, key) => ["enum", "type", "format", "$$ref"].indexOf(key) === -1 )
+    let title = schema.get("title") || name
+    let description = schema.get("description")
+    let properties = schema.filter( ( v, key) => ["enum", "type", "format", "description", "$$ref"].indexOf(key) === -1 )
     let style = required ? { fontWeight: "bold" } : {}
+    const Markdown = getComponent("Markdown")
 
-    return <span className={`prop ${deprecated ? "deprecated" : ""}`}>
+    return <span className={`model ${deprecated ? "deprecated" : ""}`}>
+      {
+        title && <span className="model-title" style={{ marginRight: "2em" }}>
+          <span className="model-title__text">{ title }</span>
+        </span>
+      }
       <span className="prop-type" style={ style }>{ type }</span> { required && <span style={{ color: "red" }}>*</span>}
       { format && <span className="prop-format">(${format})</span>}
       {
         properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <span key={`${key}-${v}`} style={ propStyle }>
-          <br />{ key !== "description" && key + ": " }{ String(v) }</span>)
+          <br />{ key }: { String(v) }</span>)
           : null
+      }
+      {
+        !description ? null :
+          <Markdown source={ description } />
       }
       {
         xml && xml.size ? (<span><br /><span style={ propStyle }>xml:</span>
@@ -175,17 +193,20 @@ class ArrayModel extends Component {
   }
 
   render(){
-    let { required, schema, depth, expandDepth } = this.props
+    let { required, schema, depth, name, expandDepth } = this.props
     let items = schema.get("items")
+    let title = schema.get("title") || name
     let properties = schema.filter( ( v, key) => ["type", "items", "$$ref"].indexOf(key) === -1 )
 
     return <span className="model">
-      <span className="model-title">
-        <span className="model-title__text">{ schema.get("title") }</span>
-      </span>
+      {
+        title && <span className="model-title">
+          <span className="model-title__text">{ title }</span>
+        </span>
+      }
       <Collapse collapsed={ depth > expandDepth } collapsedContent="[...]">
         [
-          <span><Model { ...this.props } schema={ items } required={ false }/></span>
+          <span><Model { ...this.props } name="" schema={ items } required={ false }/></span>
         ]
         {
           properties.size ? <span>
@@ -226,7 +247,7 @@ export class Model extends Component {
   }
 
   render () {
-    let { schema, required, name, isRef, specSelectors } = this.props
+    let { getComponent, specSelectors, schema, required, name, isRef } = this.props
     let $$ref = schema && schema.get("$$ref")
     let modelName = $$ref && this.getModelName( $$ref )
     let modelSchema, type
@@ -249,27 +270,28 @@ export class Model extends Component {
         return <ObjectModel
           className="object" { ...this.props }
           schema={ modelSchema }
-          name={ modelName || name }
-          isRef={ isRef!== undefined ? isRef : !!$$ref }
+          name={ name || modelName }
           deprecated={deprecated}
-        />
+          isRef={ isRef!== undefined ? isRef : !!$$ref } />
       case "array":
         return <ArrayModel
           className="array" { ...this.props }
           schema={ modelSchema }
-          required={ required }
+          name={ name || modelName }
           deprecated={deprecated}
-          />
+          required={ required } />
       case "string":
       case "number":
       case "integer":
       case "boolean":
       default:
         return <Primitive
+          { ...this.props }
+          getComponent={ getComponent }
           schema={ modelSchema }
-          required={ required }
+          name={ name || modelName }
           deprecated={deprecated}
-        />
+          required={ required }/>
     }
   }
 }

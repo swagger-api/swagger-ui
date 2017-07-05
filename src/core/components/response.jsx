@@ -1,18 +1,21 @@
-import React, { PropTypes } from "react"
+import React from "react"
+import PropTypes from "prop-types"
 import { fromJS, Seq } from "immutable"
 import { getSampleSchema } from "core/utils"
 
 const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
   if ( examples && examples.size ) {
     return examples.entrySeq().map( ([ key, example ]) => {
-      let exampleValue
-      try {
-        exampleValue = example && example.toJS ? example.toJS() : example
-        exampleValue = JSON.stringify(exampleValue, null, 2)
+      let exampleValue = example
+      if ( example.toJS ) {
+        try {
+          exampleValue = JSON.stringify(example.toJS(), null, 2)
+        }
+        catch(e) {
+          exampleValue = String(example)
+        }
       }
-      catch(e) {
-        exampleValue = String(example)
-      }
+
       return (<div key={ key }>
         <h5>{ key }</h5>
         <HighlightCode className="example" value={ exampleValue } />

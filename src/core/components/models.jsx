@@ -1,5 +1,5 @@
-import React, { Component, PropTypes } from "react"
-
+import React, { Component } from "react"
+import PropTypes from "prop-types"
 
 export default class Models extends Component {
   static propTypes = {
@@ -24,8 +24,8 @@ export default class Models extends Component {
     return <section className={ showModels ? "models is-open" : "models"}>
       <h4 onClick={() => layoutActions.show("models", !showModels)}>
         <span>Models</span>
-        <svg width="20" height="20">
-          <use xlinkHref="#large-arrow" />
+        <svg className="arrow" width="20" height="20">
+          <use xlinkHref={showModels ? "#large-arrow-down" : "#large-arrow"} />
         </svg>
       </h4>
       <Collapse isOpened={showModels} animated>
