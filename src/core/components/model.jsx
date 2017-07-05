@@ -43,6 +43,11 @@ class ObjectModel extends Component {
     let additionalProperties = schema.get("additionalProperties")
     let title = schema.get("title") || name
     let required = schema.get("required")
+
+    let anyOf = specSelectors.isOAS3() ? schema.get("anyOf") : null
+    let oneOf = specSelectors.isOAS3() ? schema.get("oneOf") : null
+    let not = specSelectors.isOAS3() ? schema.get("not") : null
+
     const Markdown = getComponent("Markdown")
     const JumpToPathSection = ({ name }) => <span className="model-jump-to-path"><JumpToPath path={`definitions.${name}`} /></span>
   let collapsedContent = (<span>
@@ -111,6 +116,48 @@ class ObjectModel extends Component {
                              getComponent={ getComponent }
                              schema={ additionalProperties }
                              depth={ depth + 1 } />
+                    </td>
+                  </tr>
+              }
+              {
+                !anyOf ? null
+                  : <tr>
+                    <td>{ "anyOf ->" }</td>
+                    <td>
+                      {anyOf.map(schema => {
+                        return <div><Model { ...props } required={ false }
+                                 getComponent={ getComponent }
+                                 schema={ schema }
+                                 depth={ depth + 1 } /></div>
+                      })}
+                    </td>
+                  </tr>
+              }
+              {
+                !oneOf ? null
+                  : <tr>
+                    <td>{ "oneOf ->" }</td>
+                    <td>
+                      {oneOf.map(schema => {
+                        return <div><Model { ...props } required={ false }
+                                 getComponent={ getComponent }
+                                 schema={ schema }
+                                 depth={ depth + 1 } /></div>
+                      })}
+                    </td>
+                  </tr>
+              }
+              {
+                !not ? null
+                  : <tr>
+                    <td>{ "not ->" }</td>
+                    <td>
+                      {not.map(schema => {
+                        return <div><Model { ...props } required={ false }
+                                 getComponent={ getComponent }
+                                 schema={ schema }
+                                 depth={ depth + 1 } /></div>
+                      })}
                     </td>
                   </tr>
               }
