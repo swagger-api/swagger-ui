@@ -29,18 +29,19 @@ class ObjectModel extends Component {
     name: PropTypes.string,
     isRef: PropTypes.bool,
     expandDepth: PropTypes.number,
-    depth: PropTypes.number
+    depth: PropTypes.number,
+    required: PropTypes.bool
   }
 
   render(){
-    let { schema, name, isRef, getComponent, depth, ...props } = this.props
+    let { schema, name, isRef, getComponent, depth, required, ...props } = this.props
     let { expandDepth } = this.props
     const JumpToPath = getComponent("JumpToPath", true)
     let description = schema.get("description")
     let properties = schema.get("properties")
     let additionalProperties = schema.get("additionalProperties")
     let title = schema.get("title") || name
-    let required = schema.get("required")
+    let requiredProperties = schema.get("required")
     const Markdown = getComponent("Markdown")
     const JumpToPathSection = ({ name }) => <span className="model-jump-to-path"><JumpToPath path={`definitions.${name}`} /></span>
   let collapsedContent = (<span>
@@ -76,17 +77,18 @@ class ObjectModel extends Component {
               {
                 !(properties && properties.size) ? null : properties.entrySeq().map(
                     ([key, value]) => {
-                      let isRequired = List.isList(required) && required.contains(key)
+                      let isRequired = List.isList(requiredProperties) && requiredProperties.contains(key)
                       let propertyStyle = { verticalAlign: "top", paddingRight: "0.2em" }
                       if ( isRequired ) {
                         propertyStyle.fontWeight = "bold"
                       }
 
                       return (<tr key={key}>
-                        <td style={ propertyStyle }>{ key }:</td>
+                        <td style={ propertyStyle }>
+                          { key }{ isRequired && <span style={{ color: "red" }}>*</span> }
+                        </td>
                         <td style={{ verticalAlign: "top" }}>
                           <Model key={ `object-${name}-${key}_${value}` } { ...props }
-                                 required={ isRequired }
                                  getComponent={ getComponent }
                                  schema={ value }
                                  depth={ depth + 1 } />
@@ -257,7 +259,7 @@ class Model extends Component {
     switch(type) {
       case "object":
         return <ObjectModel className="object" { ...this.props } schema={ modelSchema }
-                                              name={ name || modelName }
+                                              name={ name || modelName } required={ required }
                                               isRef={ isRef!== undefined ? isRef : !!$$ref }/>
       case "array":
         return <ArrayModel className="array" { ...this.props } schema={ modelSchema } name={ name || modelName } required={ required } />
