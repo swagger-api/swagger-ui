@@ -51,7 +51,7 @@ export default class ParamBody extends Component {
 
   updateValues = (props) => {
     let { specSelectors, pathMethod, param, isExecute, consumesValue="" } = props
-    let parameter = specSelectors ? specSelectors.getParameter(pathMethod, param.get("name")) : {}
+    let parameter = specSelectors ? specSelectors.getParameter(pathMethod, param.get("name")) : fromJS({})
     let isXml = /xml/i.test(consumesValue)
     let paramValue = isXml ? parameter.get("value_xml") : parameter.get("value")
 
