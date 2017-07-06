@@ -9,6 +9,15 @@ export function isOAS3(jsSpec) {
   return oasVersion.startsWith("3.0.0")
 }
 
+export function isSwagger2(jsSpec) {
+  const swaggerVersion = jsSpec.get("swagger")
+  if(!swaggerVersion) {
+    return false
+  }
+
+  return swaggerVersion.startsWith("2")
+}
+
 export function OAS3ComponentWrapFactory(Component) {
   return (Ori, system) => (props) => {
     if(system && system.specSelectors && system.specSelectors.specJson) {
