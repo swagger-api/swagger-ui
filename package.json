@@ -34,8 +34,7 @@
     "just-test": "karma start --config karma.conf.js",
     "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test/core test/components test/bugs test/swagger-ui-dist-package",
     "e2e": "nightwatch test/e2e/scenarios --config test/e2e/nightwatch.json --verbose",
-    "e2e-initial-render": "nightwatch test/e2e/scenarios --config test/e2e/nightwatch.json --group initial-render",
-    "dev:e2e": "TEST_SPEC_NAME=1.json webpack-dev-server --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress --content-base dev-helpers/"
+    "e2e-initial-render": "nightwatch test/e2e/scenarios --config test/e2e/nightwatch.json --group initial-render"
   },
   "dependencies": {
     "base64-js": "^1.2.0",
