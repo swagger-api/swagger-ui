@@ -1,16 +1,20 @@
 import React from "react"
 import { OrderedMap } from "immutable"
+import { getSampleSchema } from "core/utils"
 
 
 export default ({ requestBody, getComponent, specSelectors, contentType }) => {
   const Markdown = getComponent("Markdown")
   const ModelExample = getComponent("modelExample")
+  const HighlightCode = getComponent("highlightCode")
 
   const requestBodyDescription = (requestBody && requestBody.get("description")) || null
   const requestBodyContent = (requestBody && requestBody.get("content")) || new OrderedMap()
   contentType = contentType || requestBodyContent.keySeq().first()
 
   const mediaTypeValue = requestBodyContent.get(contentType)
+
+  const sampleSchema = getSampleSchema(mediaTypeValue.get("schema"))
 
   return <div>
     { requestBodyDescription &&
@@ -21,6 +25,7 @@ export default ({ requestBody, getComponent, specSelectors, contentType }) => {
       specSelectors={ specSelectors }
       expandDepth={1}
       schema={mediaTypeValue.get("schema")}
-      example={<i>Not yet implemented</i>}/>
+      example={<HighlightCode value={sampleSchema} />}
+      />
   </div>
 }
