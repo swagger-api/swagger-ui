@@ -29,12 +29,11 @@ class ObjectModel extends Component {
     name: PropTypes.string,
     isRef: PropTypes.bool,
     expandDepth: PropTypes.number,
-    depth: PropTypes.number,
-    required: PropTypes.bool
+    depth: PropTypes.number
   }
 
   render(){
-    let { schema, name, isRef, getComponent, depth, required, ...props } = this.props
+    let { schema, name, isRef, getComponent, depth, ...props } = this.props
     let { expandDepth } = this.props
     const JumpToPath = getComponent("JumpToPath", true)
     let description = schema.get("description")
