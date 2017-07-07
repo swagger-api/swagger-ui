@@ -97,6 +97,7 @@ export default class Store {
       getComponents: this.getComponents.bind(this),
       getState: this.getStore().getState,
       getConfigs: this._getConfigs.bind(this),
+      triggerOnComplete: this.triggerOnComplete.bind(this),
       Im
     }, this.system.rootInjects || {})
   }
@@ -259,6 +260,13 @@ export default class Store {
     return (dispatch) => {
       return deepExtend({}, this.getWrappedAndBoundActions(dispatch), this.getFn(), extras)
     }
+  }
+
+  triggerOnComplete() {
+    const fn = this.getConfigs().configs.onComplete
+    if ( isFunc(fn) ) {
+      fn( this )
+    } 
   }
 
 }
