@@ -1,7 +1,8 @@
 /* eslint-env mocha */
 import expect from "expect"
 import { fromJS } from "immutable"
-import { mapToList, validateNumber, validateInteger, validateParam } from "core/utils"
+import { mapToList, validateNumber, validateInteger, validateParam, validateFile } from "core/utils"
+import win from "core/window"
 
 describe("utils", function(){
 
@@ -157,6 +158,19 @@ describe("utils", function(){
     })
   })
 
+   describe("validateFile", function() {
+    let errorMessage = "Value must be a file"
+
+    it("validates against objects which are instances of 'File'", function() {
+      let fileObj = new win.File([], "Test File")
+      expect(validateFile(fileObj)).toBeFalsy()
+      expect(validateFile(null)).toBeFalsy()
+      expect(validateFile(undefined)).toBeFalsy()
+      expect(validateFile(1)).toEqual(errorMessage)
+      expect(validateFile("string")).toEqual(errorMessage)
+    })
+   })
+
   describe("validateParam", function() {
     let param = null
     let result = null
@@ -166,6 +180,16 @@ describe("utils", function(){
         required: true,
         type: "string",
         value: ""
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( ["Required field is not provided"] )
+    })
+
+    it("validates required files", function() {
+      param = fromJS({
+        required: true,
+        type: "file",
+        value: undefined
       })
       result = validateParam( param, false )
       expect( result ).toEqual( ["Required field is not provided"] )
