@@ -1,65 +1,33 @@
-var path = require('path')
+const path = require("path")
+const styleRules = require("./webpack.dist-style.config.js")
 
-var rules = [
+let rules = [
   { test: /\.(worker\.js)(\?.*)?$/,
     use: [
       {
-        loader: 'worker-loader',
+        loader: "worker-loader",
         options: {
           inline: true,
-          name: '[name].js'
+          name: "[name].js"
         }
       },
-      { loader: 'babel-loader' }
-    ]
-  },
-  { test: /\.(css)(\?.*)?$/,
-    use: [
-      'style-loader',
-      'css-loader',
-      'postcss-loader'
-    ]
-  },
-  { test: /\.(scss)(\?.*)?$/,
-    use: [
-      'style-loader',
-      'css-loader',
-      {
-        loader: 'postcss-loader',
-        options: { sourceMap: true }
-      },
-      { loader: 'sass-loader',
-        options: {
-          outputStyle: 'expanded',
-          sourceMap: true,
-          sourceMapContents: 'true'
-        }
-      }
-    ]
-  },
-  { test: /\.(less)(\?.*)?$/,
-    use: [
-      'style-loader',
-      'css-loader',
-      {
-        loader: 'postcss-loader',
-      },
-      'less-loader'
+      { loader: "babel-loader" }
     ]
   }
 ]
+rules = rules.concat(styleRules)
 
-module.exports = require('./make-webpack-config.js')(rules, {
+module.exports = require("./make-webpack-config.js")(rules, {
   _special: {
-    separateStylesheets: false,
+    separateStylesheets: true,
     minimize: true,
     sourcemaps: true,
   },
 
   entry: {
-    'swagger-ui-standalone-preset': [
-      './src/polyfills',
-      './src/standalone/index.js'
+    "swagger-ui-standalone-preset": [
+      "./src/polyfills",
+      "./src/standalone/index.js"
     ]
   },
 
