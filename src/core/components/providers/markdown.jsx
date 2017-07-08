@@ -19,7 +19,7 @@ function Markdown({ source }) {
   }
 
   return <Remarkable
-    options={{html: true, typographer: true, linkify: true, linkTarget: "_blank"}}
+    options={{html: true, typographer: true, linkify: true, breaks: true, linkTarget: "_blank"}}
     source={sanitized}
     ></Remarkable>
 }
