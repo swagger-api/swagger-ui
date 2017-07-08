@@ -1,0 +1,18 @@
+html
+{
+    box-sizing: border-box;
+    overflow: -moz-scrollbars-vertical;
+    overflow-y: scroll;
+}
+*,
+*:before,
+*:after
+{
+    box-sizing: inherit;
+}
+
+body {
+    background: #fafafa;
+    margin:0;
+    @include text_body()
+}
