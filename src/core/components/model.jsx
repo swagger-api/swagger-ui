@@ -50,14 +50,13 @@ class ObjectModel extends Component {
       }
     </span>)
 
+    const titleEl = title && <span className="model-title">
+      { isRef && schema.get("$$ref") && <span className="model-hint">{ schema.get("$$ref") }</span> }
+      <span className="model-title__text">{ title }</span>
+    </span>
+
     return <span className="model">
-      {
-        title && <span className="model-title">
-          { isRef && schema.get("$$ref") && <span className="model-hint">{ schema.get("$$ref") }</span> }
-          <span className="model-title__text">{ title }</span>
-        </span>
-      }
-      <Collapse collapsed={ depth > expandDepth } collapsedContent={ collapsedContent }>
+      <Collapse title={titleEl} collapsed={ depth > expandDepth } collapsedContent={ collapsedContent }>
          <span className="brace-open object">{ braceOpen }</span>
           {
             !isRef ? null : <JumpToPathSection name={ name }/>
@@ -188,14 +187,14 @@ class ArrayModel extends Component {
     let items = schema.get("items")
     let title = schema.get("title") || name
     let properties = schema.filter( ( v, key) => ["type", "items", "$$ref"].indexOf(key) === -1 )
-  
+    const titleEl = title && 
+      <span className="model-title">
+        <span className="model-title__text">{ title }</span>
+      </span>
+    
+
     return <span className="model">
-      {
-        title && <span className="model-title">
-          <span className="model-title__text">{ title }</span>
-        </span>
-      }
-      <Collapse collapsed={ depth > expandDepth } collapsedContent="[...]">
+      <Collapse title={titleEl} collapsed={ depth > expandDepth } collapsedContent="[...]">
         [
           <span><Model { ...this.props } name="" schema={ items } required={ false }/></span>
         ]
@@ -292,12 +291,14 @@ class Collapse extends Component {
   static propTypes = {
     collapsedContent: PropTypes.any,
     collapsed: PropTypes.bool,
-    children: PropTypes.any
+    children: PropTypes.any,
+    title: PropTypes.element
   }
 
   static defaultProps = {
     collapsedContent: "{...}",
     collapsed: true,
+    title: null
   }
 
   constructor(props, context) {
@@ -318,11 +319,15 @@ class Collapse extends Component {
   }
 
   render () {
-    return (<span>
-      <span onClick={ this.toggleCollapsed } style={{ "cursor": "pointer" }}>
-        <span className={ "model-toggle" + ( this.state.collapsed ? " collapsed" : "" ) }></span>
+    const {title} = this.props
+    return (
+      <span>
+        { title && <span onClick={this.toggleCollapsed} style={{ "cursor": "pointer" }}>{title}</span> }
+        <span onClick={ this.toggleCollapsed } style={{ "cursor": "pointer" }}>
+          <span className={ "model-toggle" + ( this.state.collapsed ? " collapsed" : "" ) }></span>
+        </span>
+        { this.state.collapsed ? this.state.collapsedContent : this.props.children }
       </span>
-      { this.state.collapsed ? this.state.collapsedContent : this.props.children }
-    </span>)
+    )
   }
 }
