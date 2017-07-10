@@ -18,7 +18,6 @@
     "build-bundle": "webpack --config webpack-dist-bundle.config.js --colors",
     "build-core": "webpack --config webpack-dist.config.js --colors",
     "build-standalone": "webpack --config webpack-dist-standalone.config.js --colors",
-    "predev": "npm install",
     "dev": "npm-run-all --parallel hot-server open-localhost",
     "watch": "webpack --config webpack-watch.config.js --watch --progress",
     "open-localhost": "node -e 'require(\"open\")(\"http://localhost:3200\")'",
@@ -33,9 +32,10 @@
     "test-in-node": "npm run lint-errors && npm run just-test-in-node",
     "just-test": "karma start --config karma.conf.js",
     "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test/core test/components test/bugs test/swagger-ui-dist-package",
-    "e2e": "nightwatch test/e2e/scenarios --config test/e2e/nightwatch.json --verbose",
+    "e2e": "sleep 3 && nightwatch test/e2e/scenarios --config test/e2e/nightwatch.json",
     "e2e-initial-render": "nightwatch test/e2e/scenarios --config test/e2e/nightwatch.json --group initial-render",
-    "mock:api": "json-server --watch test/e2e/db.json --port 3204"
+    "mock:api": "json-server --watch test/e2e/db.json --port 3204",
+    "e2e-flow": "npm-run-all --parallel -r hot-server mock:api e2e"
   },
   "dependencies": {
     "base64-js": "^1.2.0",
