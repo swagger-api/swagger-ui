@@ -49,10 +49,11 @@ export default class ParamBody extends PureComponent {
     let { specSelectors, pathMethod, param, isExecute, consumesValue="" } = props
     let parameter = specSelectors ? specSelectors.getParameter(pathMethod, param.get("name")) : {}
     let isXml = /xml/i.test(consumesValue)
+    let isJson = /json/i.test(consumesValue)
     let paramValue = isXml ? parameter.get("value_xml") : parameter.get("value")
 
     if ( paramValue !== undefined ) {
-      let val = !paramValue && !isXml ? "{}" : paramValue
+      let val = !paramValue && isJson ? "{}" : paramValue
       this.setState({ value: val })
       this.onChange(val, {isXml: isXml, isEditBox: isExecute})
     } else {
@@ -79,8 +80,11 @@ export default class ParamBody extends PureComponent {
   _onChange = (val, isXml) => { (this.props.onChange || NOOP)(this.props.param, val, isXml) }
 
   handleOnChange = e => {
-    let {consumesValue} = this.props
-    this.onChange(e.target.value.trim(), {isXml: /xml/i.test(consumesValue)})
+    const {consumesValue} = this.props
+    const isJson = /json/i.test(consumesValue)
+    const isXml = /xml/i.test(consumesValue)
+    const inputValue = isJson ? e.target.value.trim() : e.target.value
+    this.onChange(inputValue, {isXml})
   }
 
   toggleIsEditBox = () => this.setState( state => ({isEditBox: !state.isEditBox}))
