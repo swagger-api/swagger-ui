@@ -228,13 +228,13 @@ export function highlight (el) {
 
   var reset = function(el) {
     var text = el.textContent,
-      pos = 0,       // current position
+      pos = 0, // current position
       next1 = text[0], // next character
-      chr = 1,       // current character
-      prev1,           // previous character
-      prev2,           // the one before the previous
-      token =          // current token content
-        el.innerHTML = "",  // (and cleaning the node)
+      chr = 1, // current character
+      prev1, // previous character
+      prev2, // the one before the previous
+      token = // current token content
+        el.innerHTML = "", // (and cleaning the node)
 
     // current token type:
     //  0: anything else (whitespaces / newlines)
@@ -274,11 +274,11 @@ export function highlight (el) {
         (tokenType > 8 && chr == "\n") ||
         [ // finalize conditions for other token types
           // 0: whitespaces
-          /\S/[test](chr),  // merged together
+          /\S/[test](chr), // merged together
           // 1: operators
-          1,                // consist of a single character
+          1, // consist of a single character
           // 2: braces
-          1,                // consist of a single character
+          1, // consist of a single character
           // 3: (key)word
           !/[$\w]/[test](chr),
           // 4: regex
@@ -341,12 +341,12 @@ export function highlight (el) {
         // condition)
         tokenType = 11
         while (![
-          1,                   //  0: whitespace
+          1, //  0: whitespace
                                //  1: operator or braces
-          /[\/{}[(\-+*=<>:;|\\.,?!&@~]/[test](chr),   // eslint-disable-line no-useless-escape
-          /[\])]/[test](chr),  //  2: closing brace
-          /[$\w]/[test](chr),  //  3: (key)word
-          chr == "/" &&        //  4: regex
+          /[\/{}[(\-+*=<>:;|\\.,?!&@~]/[test](chr), // eslint-disable-line no-useless-escape
+          /[\])]/[test](chr), //  2: closing brace
+          /[$\w]/[test](chr), //  3: (key)word
+          chr == "/" && //  4: regex
             // previous token was an
             // opening brace or an
             // operator (otherwise
@@ -355,13 +355,13 @@ export function highlight (el) {
             // workaround for xml
             // closing tags
           prev1 != "<",
-          chr == "\"",          //  5: string with "
-          chr == "'",          //  6: string with '
+          chr == "\"", //  5: string with "
+          chr == "'", //  6: string with '
                                //  7: xml comment
           chr+next1+text[pos+1]+text[pos+2] == "<!--",
-          chr+next1 == "/*",   //  8: multiline comment
-          chr+next1 == "//",   //  9: single-line comment
-          chr == "#"           // 10: hash-style comment
+          chr+next1 == "/*", //  8: multiline comment
+          chr+next1 == "//", //  9: single-line comment
+          chr == "#" // 10: hash-style comment
         ][--tokenType]);
       }
 
@@ -451,13 +451,13 @@ export const propChecker = (props, nextProps, objectList=[], ignoreList=[]) => {
 }
 
 export const validateNumber = ( val ) => {
-  if ( !/^-?\d+(\.?\d+)?$/.test(val)) {
+  if (!/^-?\d+(\.?\d+)?$/.test(val)) {
     return "Value must be a number"
   }
 }
 
 export const validateInteger = ( val ) => {
-  if ( !/^-?\d+$/.test(val)) {
+  if (!/^-?\d+$/.test(val)) {
     return "Value must be an integer"
   }
 }
@@ -482,6 +482,10 @@ export const validateParam = (param, isXml) => {
 
   if ( required && (stringCheck || arrayCheck || listCheck || fileCheck) ) {
     errors.push("Required field is not provided")
+    return errors
+  }
+
+  if ( value === null || value === undefined ) {
     return errors
   }
 
