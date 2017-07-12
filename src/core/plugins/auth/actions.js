@@ -236,6 +236,7 @@ export const authorizeToken = ( auth ) => ( { fn, authActions, errActions } ) =>
     }
 
     auth.token = response_data.token
+    auth.username = username
     authActions.authorize({ auth })
   })
   .catch(e => {
