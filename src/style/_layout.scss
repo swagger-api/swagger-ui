@@ -511,10 +511,6 @@ body
 
     overflow-wrap: break-word;
     @include text_code(#fff);
-    span
-    {
-        color: #fff !important;
-    }
 
     .headerline
     {

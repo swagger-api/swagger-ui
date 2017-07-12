@@ -301,13 +301,13 @@ export function highlight (el) {
             node = _document.createElement("span")
           ).setAttribute("style", [
             // 0: not formatted
-            "color: #555; font-weight: bold;",
+            "color: #fff; font-weight: bold;",
             // 1: keywords
             "",
             // 2: punctuation
             "",
             // 3: strings and regexps
-            "color: #555;",
+            "color: #fff;",
             // 4: comments
             ""
           ][
