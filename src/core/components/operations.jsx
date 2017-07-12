@@ -11,8 +11,7 @@ export default class Operations extends React.Component {
     layoutActions: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
     authSelectors: PropTypes.object.isRequired,
-    getConfigs: PropTypes.func.isRequired,
-    filter: PropTypes.string.isRequired
+    getConfigs: PropTypes.func.isRequired
   };
 
   render() {
