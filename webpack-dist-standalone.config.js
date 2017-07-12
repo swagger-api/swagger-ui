@@ -15,7 +15,6 @@ let rules = [
     ]
   }
 ]
-rules = rules.concat(styleRules)
 
 module.exports = require("./make-webpack-config.js")(rules, {
   _special: {

@@ -41,16 +41,6 @@ const rules = [
         }
       }
     ]
-  },
-  { test: /\.(less)(\?.*)?$/,
-    use: [
-      "style-loader",
-      "css-loader",
-      {
-        loader: "postcss-loader",
-      },
-      "less-loader"
-    ]
   }
 ]
 

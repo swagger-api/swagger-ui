@@ -31,15 +31,4 @@ module.exports = [{
       }
     ]
   })
-},
-{ test: /\.(less)(\?.*)?$/,
-  use: ExtractTextPlugin.extract({
-    fallback: "style-loader",
-    use: ["css-loader",
-      {
-        loader: "postcss-loader",
-      },
-      "less-loader"
-    ]
-  })
 }]
