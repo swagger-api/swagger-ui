@@ -1,6 +1,7 @@
 import { normalizeArray } from "core/utils"
 
 export const UPDATE_LAYOUT = "layout_update_layout"
+export const UPDATE_FILTER = "layout_update_filter"
 export const UPDATE_MODE = "layout_update_mode"
 export const SHOW = "layout_show"
 
@@ -10,6 +11,13 @@ export function updateLayout(layout) {
   return {
     type: UPDATE_LAYOUT,
     payload: layout
+  }
+}
+
+export function updateFilter(filter) {
+  return {
+    type: UPDATE_FILTER,
+    payload: filter
   }
 }
 
