@@ -39,6 +39,9 @@ export default {
 
           let value = 'Bearer ' + security.get("token")
           map = map.setIn([name, "value"], value)
+
+          let username = security.get("username")
+          map = map.setIn([name, "username"], username)
         }
       } else if ( type === "basic" ) {
         let username = security.getIn(["value", "username"])
