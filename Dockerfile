@@ -15,13 +15,18 @@ ENV SWAGGER_JSON "/app/swagger.json"
 ENV PORT 80
 
 RUN apk add --update nginx
-RUN mkdir -p /run/nginx
+RUN mkdir -p /run/nginx /usr/share/nginx/html/latest /usr/share/nginx/html/legacy /usr/share/nginx/html/dev
 
 COPY nginx.conf /etc/nginx/
 
-# copy swagger files to the `/js` folder
-ADD ./dist/* /usr/share/nginx/html/
-ADD ./docker-run.sh /usr/share/nginx/
+COPY dist/ /usr/share/nginx/html/ui/
+
+COPY latest/ /usr/share/nginx/html/latest/
+COPY legacy/ /usr/share/nginx/html/legacy/
+COPY dev/ /usr/share/nginx/html/dev/
+
+ADD redirect.html /usr/share/nginx/html/index.html
+ADD docker-run.sh /usr/share/nginx/
 
 EXPOSE 8080
 

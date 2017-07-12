@@ -5,3 +5,5 @@ node_modules
 npm-debug.log*
 .eslintcache
 package-lock.json
+client_id
+swagger.json

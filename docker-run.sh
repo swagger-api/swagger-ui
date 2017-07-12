@@ -2,7 +2,7 @@
 
 set -e
 
-NGINX_ROOT=/usr/share/nginx/html
+NGINX_ROOT=/usr/share/nginx/html/ui
 INDEX_FILE=$NGINX_ROOT/index.html
 
 replace_in_index () {
@@ -46,6 +46,10 @@ if [[ -n "$VALIDATOR_URL" ]]; then
   [[ "$VALIDATOR_URL" != "null" && "$VALIDATOR_URL" != "undefined" ]] && TMP_VU="\"${VALIDATOR_URL}\""
   sed -i "s|\(url: .*,\)|\1\n    validatorUrl: ${TMP_VU},|g" $INDEX_FILE
   unset TMP_VU
+fi
+
+if [[ "x$OAUTH_REDIRECT_URL" != "x" ]]; then
+  sed -i "s|http://localhost:3200/oauth2-redirect.html|$OAUTH_REDIRECT_URL|g" $NGINX_ROOT/swagger-ui-standalone-preset.js
 fi
 
 exec nginx -g 'daemon off;'
