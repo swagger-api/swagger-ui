@@ -52,7 +52,9 @@ module.exports = function SwaggerUI(opts) {
     store: { },
   }
 
-  const constructorConfig = deepExtend({}, defaults, opts)
+  let queryConfig = parseSeach()
+
+  const constructorConfig = deepExtend({}, defaults, opts, queryConfig)
 
   const storeConfigs = deepExtend({}, constructorConfig.store, {
     system: {
@@ -83,7 +85,6 @@ module.exports = function SwaggerUI(opts) {
   store.register([constructorConfig.plugins, inlinePlugin])
 
   var system = store.getSystem()
-  let queryConfig = parseSeach()
 
   system.initOAuth = system.authActions.configureAuth
 

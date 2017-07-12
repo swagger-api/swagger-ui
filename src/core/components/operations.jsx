@@ -25,7 +25,6 @@ export default class Operations extends React.Component {
       authActions,
       authSelectors,
       getConfigs,
-      filter,
       fn
     } = this.props
 
@@ -36,6 +35,8 @@ export default class Operations extends React.Component {
 
     let showSummary = layoutSelectors.showSummary()
     let { docExpansion, displayOperationId, displayRequestDuration, maxDisplayedTags } = getConfigs()
+
+    let filter = layoutSelectors.currentFilter()
 
     if (filter) {
       if (filter !== true) {

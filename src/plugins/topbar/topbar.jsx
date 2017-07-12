@@ -7,8 +7,8 @@ import Logo from "./logo_small.png"
 export default class Topbar extends React.Component {
 
   static propTypes = {
-    onFilterChange: PropTypes.func.isRequired,
-    filter: PropTypes.string.isRequired
+    layoutSelectors: PropTypes.object.isRequired,
+    layoutActions: PropTypes.object.isRequired
   }
 
   constructor(props, context) {
@@ -87,17 +87,17 @@ export default class Topbar extends React.Component {
 
   onFilterChange =(e) => {
     let {target: {value}} = e
-    this.props.onFilterChange(value)
+    this.props.layoutActions.updateFilter(value)
   }
 
   render() {
-    let { getComponent, specSelectors, getConfigs } = this.props
+    let { getComponent, specSelectors, getConfigs, layoutSelectors } = this.props
     const Button = getComponent("Button")
     const Link = getComponent("Link")
 
     let isLoading = specSelectors.loadingStatus() === "loading"
     let isFailed = specSelectors.loadingStatus() === "failed"
-    let filter = this.props.filter
+    let filter = layoutSelectors.currentFilter()
 
     let inputStyle = {}
     if(isFailed) inputStyle.color = "red"
