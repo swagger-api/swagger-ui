@@ -194,7 +194,6 @@ export function configureAuth(payload) {
 export const authorizeToken = ( auth ) => ( { fn, authActions, errActions } ) => {
   let { schema, name, username, password } = auth
   let query = {}
-  let body = {}
   let headers = {
     "Accept":"application/json, text/plain, */*",
     "Content-Type": "application/json"
@@ -209,8 +208,7 @@ export const authorizeToken = ( auth ) => ( { fn, authActions, errActions } ) =>
     url: schema.get("tokenUrl"),
     method: "get",
     headers: headers,
-    query: query,
-    body: body
+    query: query
   })
   .then(function (response) {
     let response_data = JSON.parse(response.data)
