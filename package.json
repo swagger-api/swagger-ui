@@ -32,14 +32,13 @@
     "test-in-node": "npm run lint-errors && npm run just-test-in-node",
     "just-test": "karma start --config karma.conf.js",
     "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test/core test/components test/bugs test/swagger-ui-dist-package",
-    "e2e": "sleep 3 && nightwatch test/e2e/scenarios --config test/e2e/nightwatch.json",
-    "e2e-initial-render": "nightwatch test/e2e/scenarios --config test/e2e/nightwatch.json --group initial-render",
-    "mock:api": "json-server --watch test/e2e/db.json --port 3204",
-    "e2e-flow": "npm-run-all --parallel -r hot-server mock:api e2e"
+    "test-e2e": "sleep 3 && nightwatch test/e2e/scenarios --config test/e2e/nightwatch.json",
+    "test-e2e-initial-render": "nightwatch test/e2e/scenarios --config test/e2e/nightwatch.json --group initial-render",
+    "mock-api": "json-server --watch test/e2e/db.json --port 3204",
+    "e2e-flow": "npm-run-all --parallel -r hot-server mock-api test-e2e"
   },
   "dependencies": {
     "base64-js": "^1.2.0",
-    "brace": "0.10.0",
     "deep-extend": "0.4.1",
     "expect": "1.20.2",
     "getbase": "^3.4.2",

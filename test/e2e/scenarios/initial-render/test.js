@@ -1,6 +1,7 @@
 describe("initial render", function () {
   let mainPage
 
+
   describe("for topbar", function () {
     let topbar
     before(function (client, done) {
@@ -21,19 +22,25 @@ describe("initial render", function () {
       mainPage = client
         .url("localhost:3200")
         .page.main()
+
       topbar = mainPage.section.topbar
+
+      client.waitForElementVisible('.download-url-input', 5000)
+        .pause(1000)
+        .clearValue('.download-url-input')
+        .setValue('.download-url-input', 'http://localhost:3200/test-specs/1.json')
+        .click('button.download-url-button')
+
       done()
     })
 
     it("renders section", function (client) {
       mainPage.expect.section("@topbar").to.be.visible
-
       client.end()
     })
 
     it("renders input box", function (client) {
       topbar.expect.element("@inputBox").to.be.visible
-
       client.end()
     })
 
@@ -45,13 +52,20 @@ describe("initial render", function () {
   })
 
   describe("for information", function () {
-    let informationContainer
+    let informationContainer, topbar
     beforeEach(function (client, done) {
       
       mainPage = client
         .url("localhost:3200")
         .page.main()
+      client.waitForElementVisible('.download-url-input', 5000)
+        .pause(1000)
+        .clearValue('.download-url-input')
+        .setValue('.download-url-input', 'http://localhost:3200/test-specs/1.json')
+        .click('button.download-url-button')
+
       informationContainer = mainPage.section.informationContainer
+        
       done()
     })
 
@@ -71,15 +85,15 @@ describe("initial render", function () {
 
     it("renders base url", function (client) {
       informationContainer.waitForElementVisible("@baseUrl", 5000)
-        .assert.containsText("@baseUrl", "[ Base url: petstore.swagger.io/v2]")
+        .assert.containsText("@baseUrl", "[ Base url: localhost:3204/]")
 
       client.end()
     })
     
     it("render main url", function (client) {
       informationContainer.waitForElementVisible("@mainUrl", 5000)
-        .assert.attributeEquals("@mainUrl", "href", "http://petstore.swagger.io/v2/swagger.json")
-        .assert.containsText("@mainUrlContent", "http://petstore.swagger.io/v2/swagger.json")
+        .assert.attributeEquals("@mainUrl", "href", "http://localhost:3200/test-specs/1.json")
+        .assert.containsText("@mainUrlContent", "http://localhost:3200/test-specs/1.json")
 
       client.end()
     })
@@ -125,7 +139,6 @@ describe("initial render", function () {
       client.end()
     })
   })
-
   describe("for scheme", function () {
     let schemeContainer
     beforeEach(function (client, done) {
