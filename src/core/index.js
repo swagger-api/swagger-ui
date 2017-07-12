@@ -61,7 +61,8 @@ module.exports = function SwaggerUI(opts) {
     plugins: constructorConfig.presets,
     state: {
       layout: {
-        layout: constructorConfig.layout
+        layout: constructorConfig.layout,
+        filter: constructorConfig.filter
       },
       spec: {
         spec: "",
