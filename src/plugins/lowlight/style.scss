@@ -1,10 +1,8 @@
 .swagger-ui .opblock-body pre {
-    .span {
-        color: unset;
-        font-size: 14px;
-    }
-
-    .code {
-        font-size: 14px;
+    font-size: 14px;
+    code {
+        /* @include text_code(); */
+        font-family: 'Source Code Pro', monospace;
+        font-weight: 600;
     }
 }
