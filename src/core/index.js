@@ -3,6 +3,7 @@ import deepExtend from "deep-extend"
 import System from "core/system"
 import win from "core/window"
 import ApisPreset from "core/presets/apis"
+import LowlightPreset from "core/presets/lowlight"
 import * as AllPlugins from "core/plugins/all"
 import { parseSeach, filterConfigs } from "core/utils"
 
@@ -123,6 +124,7 @@ module.exports = function SwaggerUI(opts) {
 // Add presets
 module.exports.presets = {
   apis: ApisPreset,
+  lowlight: LowlightPreset,
 }
 
 // All Plugins
