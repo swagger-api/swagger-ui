@@ -241,9 +241,15 @@ export const authorizeToken = ( auth ) => ( { fn, authActions, errActions } ) =>
   })
   .catch(e => {
     let err = new Error(e)
+
+    // workaround for actual error response, e.g. failed authentication, masked
+    // by general failed to fetch error due to missing CORS header from rowdy
+    // for error responses
+    err.message = 'Unauthorized. Please check your username and password.'
+
     errActions.newAuthErr( {
       authId: name,
-      level: "error",
+      level: "error:",
       source: "auth",
       message: err.message
     } )
