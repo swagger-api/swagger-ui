@@ -11,12 +11,18 @@ const CONFIGS = [ "url", "urls", "urls.primaryName", "spec", "validatorUrl", "on
     "showRequestHeaders", "custom", "modelPropertyMacro", "parameterMacro", "displayOperationId" , "displayRequestDuration"]
 
 // eslint-disable-next-line no-undef
-const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION } = buildInfo
+const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION, HOSTNAME, BUILD_TIME } = buildInfo
 
 module.exports = function SwaggerUI(opts) {
 
   win.versions = win.versions || {}
-  win.versions.swaggerUi = `${PACKAGE_VERSION}/${GIT_COMMIT || "unknown"}${GIT_DIRTY ? "-dirty" : ""}`
+  win.versions.swaggerUi = {
+    version: PACKAGE_VERSION,
+    gitRevision: GIT_COMMIT,
+    gitDirty: GIT_DIRTY,
+    buildTimestamp: BUILD_TIME,
+    machine: HOSTNAME
+  }
 
   const defaults = {
     // Some general settings, that we floated to the top
