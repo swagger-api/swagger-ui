@@ -343,7 +343,7 @@ export function highlight (el) {
         while (![
           1,                   //  0: whitespace
                                //  1: operator or braces
-          /[\/{}[(\-+*=<>:;|\\.,?!&@~]/[test](chr),
+          /[\/{}[(\-+*=<>:;|\\.,?!&@~]/[test](chr),   // eslint-disable-line no-useless-escape
           /[\])]/[test](chr),  //  2: closing brace
           /[$\w]/[test](chr),  //  3: (key)word
           chr == "/" &&        //  4: regex
@@ -450,15 +450,21 @@ export const propChecker = (props, nextProps, objectList=[], ignoreList=[]) => {
     || objectList.some( objectPropName => !eq(props[objectPropName], nextProps[objectPropName])))
 }
 
-const validateNumber = ( val ) => {
-  if ( !/^-?\d+(.?\d+)?$/.test(val)) {
+export const validateNumber = ( val ) => {
+  if ( !/^-?\d+(\.?\d+)?$/.test(val)) {
     return "Value must be a number"
   }
 }
 
-const validateInteger = ( val ) => {
+export const validateInteger = ( val ) => {
   if ( !/^-?\d+$/.test(val)) {
-    return "Value must be integer"
+    return "Value must be an integer"
+  }
+}
+
+export const validateFile = ( val ) => {
+  if ( val && !(val instanceof win.File) ) {
+    return "Value must be a file"
   }
 }
 
@@ -469,12 +475,15 @@ export const validateParam = (param, isXml) => {
   let required = param.get("required")
   let type = param.get("type")
 
-  if ( required && (!value || (type==="array" && Array.isArray(value) && !value.length ))) {
+  let stringCheck = type === "string" && !value
+  let arrayCheck = type === "array" && Array.isArray(value) && !value.length
+  let listCheck = type === "array" && Im.List.isList(value) && !value.count()
+  let fileCheck = type === "file" && !(value instanceof win.File)
+
+  if ( required && (stringCheck || arrayCheck || listCheck || fileCheck) ) {
     errors.push("Required field is not provided")
     return errors
   }
-
-  if ( !value ) return errors
 
   if ( type === "number" ) {
     let err = validateNumber(value)
@@ -504,7 +513,10 @@ export const validateParam = (param, isXml) => {
         errors.push({ index: index, error: err})
       }
     })
-
+  } else if ( type === "file" ) {
+    let err = validateFile(value)
+    if (!err) return errors
+    errors.push(err)
   }
 
   return errors

@@ -1,4 +1,5 @@
-import React, { PropTypes } from "react"
+import React from "react"
+import PropTypes from "prop-types"
 
 export default class Operations extends React.Component {
 
@@ -32,7 +33,21 @@ export default class Operations extends React.Component {
     const Collapse = getComponent("Collapse")
 
     let showSummary = layoutSelectors.showSummary()
-    let { docExpansion, displayOperationId } = getConfigs()
+    let { docExpansion, displayOperationId, displayRequestDuration, maxDisplayedTags } = getConfigs()
+
+    let filter = layoutSelectors.currentFilter()
+
+    if (filter) {
+      if (filter !== true) {
+        taggedOps = taggedOps.filter((tagObj, tag) => {
+          return tag.indexOf(filter) !== -1
+        })
+      }
+    }
+
+    if (maxDisplayedTags && !isNaN(maxDisplayedTags) && maxDisplayedTags >= 0) {
+      taggedOps = taggedOps.slice(0, maxDisplayedTags)
+    }
 
     return (
         <div>
@@ -87,6 +102,7 @@ export default class Operations extends React.Component {
                           allowTryItOut={allowTryItOut}
 
                           displayOperationId={displayOperationId}
+                          displayRequestDuration={displayRequestDuration}
 
                           specActions={ specActions }
                           specSelectors={ specSelectors }

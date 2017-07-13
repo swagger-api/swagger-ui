@@ -1,5 +1,5 @@
-import React, { Component, PropTypes } from "react"
-
+import React, { Component } from "react"
+import PropTypes from "prop-types"
 
 export default class Models extends Component {
   static propTypes = {
@@ -16,7 +16,7 @@ export default class Models extends Component {
     let { docExpansion } = getConfigs()
     let showModels = layoutSelectors.isShown("models", docExpansion === "full" || docExpansion === "list" )
 
-    const Model = getComponent("model")
+    const ModelWrapper = getComponent("ModelWrapper")
     const Collapse = getComponent("Collapse")
 
     if (!definitions.size) return null
@@ -32,7 +32,7 @@ export default class Models extends Component {
         {
           definitions.entrySeq().map( ( [ name, model ])=>{
             return <div className="model-container" key={ `models-section-${name}` }>
-              <Model name={ name }
+              <ModelWrapper name={ name }
                      schema={ model }
                      isRef={ true }
                      getComponent={ getComponent }

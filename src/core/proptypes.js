@@ -1,4 +1,4 @@
-import { PropTypes } from "react"
+import PropTypes from "prop-types"
 
 // Takes a list and proptype, and returns a PropType.shape({ [item]: propType })
 const mapListToPropTypeShape = (list, propType) => PropTypes.shape(

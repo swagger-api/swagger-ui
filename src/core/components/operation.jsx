@@ -1,11 +1,11 @@
-import React, { PropTypes } from "react"
-import shallowCompare from "react-addons-shallow-compare"
+import React, { PureComponent } from "react"
+import PropTypes from "prop-types"
 import { getList } from "core/utils"
 import * as CustomPropTypes from "core/proptypes"
 
 //import "less/opblock"
 
-export default class Operation extends React.Component {
+export default class Operation extends PureComponent {
   static propTypes = {
     path: PropTypes.string.isRequired,
     method: PropTypes.string.isRequired,
@@ -18,6 +18,7 @@ export default class Operation extends React.Component {
     allowTryItOut: PropTypes.bool,
 
     displayOperationId: PropTypes.bool,
+    displayRequestDuration: PropTypes.bool,
 
     response: PropTypes.object,
     request: PropTypes.object,
@@ -38,6 +39,7 @@ export default class Operation extends React.Component {
     response: null,
     allowTryItOut: true,
     displayOperationId: false,
+    displayRequestDuration: false
   }
 
   constructor(props, context) {
@@ -68,10 +70,6 @@ export default class Operation extends React.Component {
       consumesValue = consumes && consumes.size ? consumes.first() : defaultContentType
       specActions.changeConsumesValue([path, method], consumesValue)
     }
-  }
-
-  shouldComponentUpdate(props, state) {
-    return shallowCompare(this, props, state)
   }
 
   toggleShown =() => {
@@ -112,7 +110,7 @@ export default class Operation extends React.Component {
       request,
       allowTryItOut,
       displayOperationId,
-
+      displayRequestDuration,
       fn,
       getComponent,
       specActions,
@@ -131,6 +129,7 @@ export default class Operation extends React.Component {
     let schemes = operation.get("schemes")
     let parameters = getList(operation, ["parameters"])
     let operationId = operation.get("__originalOperationId")
+    let operationScheme = specSelectors.operationScheme(path, method)
 
     const Responses = getComponent("responses")
     const Parameters = getComponent( "parameters" )
@@ -216,7 +215,8 @@ export default class Operation extends React.Component {
                     <Schemes schemes={ schemes }
                              path={ path }
                              method={ method }
-                             specActions={ specActions }/>
+                             specActions={ specActions }
+                             operationScheme={ operationScheme } />
                   </div> : null
               }
 
@@ -255,6 +255,7 @@ export default class Operation extends React.Component {
                     produces={ produces }
                     producesValue={ operation.get("produces_value") }
                     pathMethod={ [path, method] }
+                    displayRequestDuration={ displayRequestDuration }
                     fn={fn} />
               }
             </div>

@@ -1,4 +1,5 @@
-import React, { PropTypes } from "react"
+import React from "react"
+import PropTypes from "prop-types"
 
 export default class BaseLayout extends React.Component {
 
@@ -25,7 +26,7 @@ export default class BaseLayout extends React.Component {
 
     let Info = getComponent("info")
     let Operations = getComponent("operations", true)
-    let Models = getComponent("models", true)
+    let Models = getComponent("Models", true)
     let AuthorizeBtn = getComponent("authorizeBtn", true)
     let Row = getComponent("Row")
     let Col = getComponent("Col")
