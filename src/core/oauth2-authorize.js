@@ -75,7 +75,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   } else if (authConfigs.useBasicAuthenticationWithAccessCodeGrant) {
     callback = authActions.authorizeAccessCodeWithBasicAuthentication
   } else {
-    callback = authActions.authorizeAccessCodeWithQueryParams
+    callback = authActions.authorizeAccessCodeWithFormParams
   }
 
   win.swaggerUIRedirectOauth2 = {

@@ -111,7 +111,7 @@ export const authorizeApplication = ( auth ) => ( { authActions } ) => {
   return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth, headers })
 }
 
-export const authorizeAccessCodeWithQueryParams = ( { auth, redirectUrl } ) => ( { authActions } ) => {
+export const authorizeAccessCodeWithFormParams = ( { auth, redirectUrl } ) => ( { authActions } ) => {
   let { schema, name, clientId, clientSecret } = auth
   let form = {
     grant_type: "authorization_code",
