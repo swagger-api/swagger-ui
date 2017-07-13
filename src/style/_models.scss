@@ -87,7 +87,7 @@ section.models
     margin: 30px 0;
 
     border: 1px solid rgba(#3b4151, .3);
-    border-radius: 4px;
+    border-radius: 2px;
 
     &.is-open
     {
@@ -116,6 +116,7 @@ section.models
         svg
         {
             transition: all .4s;
+            height: 12px;
         }
 
         span
@@ -150,12 +151,12 @@ section.models
 
         transition: all .5s;
 
-        border-radius: 4px;
-        background: rgba(#000,.05);
+        border-radius: 2px;
+        background: rgba(#000,.02);
 
         &:hover
         {
-            background: rgba(#000,.07);
+            background: rgba(#000,.04);
         }
 
         &:first-of-type
@@ -214,7 +215,7 @@ span
 
 .prop-type
 {
-    color: #55a;
+    color: #31b4b5;
 }
 
 .prop-enum

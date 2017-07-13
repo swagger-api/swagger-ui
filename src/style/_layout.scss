@@ -21,7 +21,7 @@ body
     width: 100%;
     max-width: 1460px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 120px;
 }
 
 .opblock-tag-section
@@ -51,8 +51,6 @@ body
     cursor: pointer;
     transition: all .2s;
 
-    border-bottom: 1px solid rgba(#3b4151, .3);
-
     align-items: center;
 
     &:hover
@@ -68,7 +66,8 @@ body
 
     .opblock-summary-method
     {
-        background: $color;
+        color: $color;
+        background: none;
     }
 
     .opblock-summary
@@ -82,7 +81,7 @@ body
 
 .opblock-tag
 {
-    font-size: 24px;
+    font-size: 20px;
 
     margin: 0 0 5px 0;
 
@@ -136,12 +135,8 @@ body
 
 .opblock
 {
-    margin: 0 0 15px 0;
-
-    border: 1px solid #000;
-    border-radius: 4px;
-    box-shadow: 0 0 3px rgba(#000,.19);
-
+    margin: 5px 0;
+    padding: 2px 0;
 
     &.is-open
     {
@@ -199,11 +194,10 @@ body
         min-width: 80px;
         padding: 6px 15px;
 
-        text-align: center;
+        text-align: left;
 
         border-radius: 3px;
         background: #000;
-        text-shadow: 0 1px 0 rgba(#000,.1);
 
         @include text_headline(#fff);
     }
@@ -212,13 +206,13 @@ body
     .opblock-summary-operation-id,
     .opblock-summary-path__deprecated
     {
-        font-size: 16px;
+        font-size: 15px;
 
         display: flex;
 
         padding: 0 10px;
 
-        @include text_code();
+        @include text_code(#414141);
         align-items: center;
 
         .view-line-link
@@ -258,7 +252,7 @@ body
         font-size: 13px;
 
         flex: 1;
-        @include text_body();
+        @include text_body(#bdbdbd);
     }
 
     .opblock-summary
@@ -525,7 +519,7 @@ body
 .scheme-container
 {
     margin: 0 0 20px 0;
-    padding: 30px 0;
+    padding: 30px 0px;
 
     background: #fff;
     box-shadow: 0 1px 2px 0 rgba(0,0,0,.15);
@@ -553,6 +547,7 @@ body
                 min-width: 130px;
 
                 text-transform: uppercase;
+                border: none;
             }
         }
     }

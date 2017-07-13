@@ -1,21 +1,25 @@
-@mixin text_body($color: #3b4151)
+@mixin text_body($color: #000)
 {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    line-height: 30px;
 
     color: $color;
 }
 
-@mixin text_code($color: #3b4151)
+@mixin text_code($color: #bdbdbd)
 {
-    font-family: 'Source Code Pro', monospace;
-    font-weight: 600;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
 
     color: $color;
 }
 
-@mixin text_headline($color: #3b4151)
+@mixin text_headline($color: #000)
 {
-    font-family: 'Titillium Web', sans-serif;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    line-height: 20px;
 
     color: $color;
 }

@@ -7,9 +7,9 @@
 
     transition: all .3s;
 
-    border: 2px solid #888;
+    border: none;
     border-radius: 4px;
-    background: transparent;
+    background: solid;
     box-shadow: 0 1px 2px rgba(#000,.1);
 
     @include text_headline();
@@ -28,9 +28,9 @@
 
     &.cancel
     {
-        border-color: #ff6060;
+        border-color: #ec707f;
 
-        @include text_headline(#ff6060);
+        @include text_headline(#ec707f);
     }
 
     &.authorize
@@ -39,8 +39,8 @@
 
         display: inline;
 
-        color: $_color-post;
-        border-color: $_color-post;
+        color: #fff;
+        background-color: $_color-post;
 
 
         span
@@ -52,7 +52,7 @@
 
         svg
         {
-            fill: $_color-post;
+            fill: #fff;
         }
     }
 
@@ -61,7 +61,7 @@
         animation: swagger-ui-pulse 2s infinite;
 
         color: #fff;
-        border-color: #4990e2;
+        border-color: #31b4b5;
     }
 }
 
@@ -136,8 +136,8 @@
 
     svg
     {
-        width: 20px;
-        height: 20px;
+        width: 12px;
+        height: 12px;
     }
 }
 

@@ -1,8 +1,8 @@
 .topbar
 {
-    padding: 8px 30px;
+    padding: 15px 0;
 
-    background-color: #89bf04;
+    background-color: #31b4b5;
     .topbar-wrapper
     {
         display: flex;
@@ -38,13 +38,16 @@
 
         input[type=text]
         {
-            width: 100%;
-            min-width: 350px;
+            width: 25%;
+            min-width: 30px;
             margin: 0;
+            color:#fff;
 
-            border: 2px solid #547f00;
-            border-radius: 4px 0 0 4px;
+            border: none;
+            border-bottom: 1px solid #fff;
+            border-radius: 0;
             outline: none;
+            background-color: transparent;
         }
 
         .select-label
@@ -72,7 +75,7 @@
 
                 width: 100%;
 
-                border: 2px solid #547f00;
+                border: none;
                 outline: none;
                 box-shadow: none;
             }
@@ -84,11 +87,10 @@
             font-size: 16px;
             font-weight: bold;
 
-            padding: 4px 40px;
+            padding: 0px 5px;
 
             border: none;
-            border-radius: 0 4px 4px 0;
-            background: #547f00;
+            background: #31b4b5;
 
             @include text_headline(#fff);
         }

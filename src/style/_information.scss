@@ -41,11 +41,12 @@
 
         transition: all .4s;
 
-        @include text_body(#4990e2);
+        @include text_body(#31b4b5);
+        text-decoration: none;
 
         &:hover
         {
-            color: darken(#4990e2, 15%);
+            text-decoration: underline;
         }
     }
     > div
@@ -68,8 +69,9 @@
         font-size: 36px;
 
         margin: 0;
+        padding: 30px 0;
 
-        @include text_body();
+        @include text_headline();
 
         small
         {
@@ -86,13 +88,12 @@
             vertical-align: super;
 
             border-radius: 57px;
-            background: #7d8492;
 
             pre
             {
                 margin: 0;
 
-                @include text_headline(#fff);
+                @include text_headline(#414141);
             }
         }
     }
