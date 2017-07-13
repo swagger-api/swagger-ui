@@ -68,11 +68,21 @@ export default function authorize ( { auth, authActions, errActions, configs, au
 
   // pass action authorizeOauth2 and authentication data through window
   // to authorize with oauth2
+
+  let callback;
+  if (flow === "implicit") {
+    callback = authActions.preAuthorizeImplicit
+  } else if (authConfigs.useBasicAuthenticationWithAccessCodeGrant) {
+    callback = authActions.authorizeAccessCodeWithBasicAuthentication
+  } else {
+    callback = authActions.authorizeAccessCodeWithQueryParams
+  }
+
   win.swaggerUIRedirectOauth2 = {
     auth: auth,
     state: state,
     redirectUrl: redirectUrl,
-    callback: flow === "implicit" ? authActions.preAuthorizeImplicit : authActions.authorizeAccessCode,
+    callback: callback,
     errCb: errActions.newAuthErr
   }
 
