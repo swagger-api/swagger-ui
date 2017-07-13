@@ -18,12 +18,9 @@ module.exports = require("./make-webpack-config.js")({
       "./src/polyfills",
       "./src/core/index.js"
     ],
-    "swagger-ui-with-lowlight": [
-      "./src/style/main.scss",
+    "swagger-ui-lowlight": [
       "./src/plugins/lowlight/style.scss",
-      "./node_modules/highlight.js/styles/atom-one-dark.css",
-      "./src/polyfills",
-      "./src/core/index.js"
+      "./node_modules/highlight.js/styles/atom-one-dark.css"
     ]
   },
 

@@ -1,10 +1,6 @@
 import React, { Component, PropTypes } from "react"
 import Lowlight from 'react-lowlight'
 
-// styles
-import "highlight.js/styles/atom-one-dark.css"
-import "./style.scss"
-
 import json from "highlight.js/lib/languages/javascript"
 import xml from "highlight.js/lib/languages/xml"
 

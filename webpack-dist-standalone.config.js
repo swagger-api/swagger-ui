@@ -15,10 +15,6 @@ module.exports = require('./make-webpack-config.js')({
     'swagger-ui-standalone-preset': [
       './src/polyfills',
       './src/standalone/index.js'
-    ],
-    'swagger-ui-standalone-preset-with-lowlight': [
-      './src/polyfills',
-      './src/standalone/index-with-lowlight.js'
     ]
   },
 
