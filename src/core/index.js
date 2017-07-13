@@ -6,7 +6,7 @@ import ApisPreset from "core/presets/apis"
 import * as AllPlugins from "core/plugins/all"
 import { parseSeach, filterConfigs } from "core/utils"
 
-const CONFIGS = [ "url", "urls", "urls.primaryName", "spec", "validatorUrl", "onComplete", "onFailure", "authorizations", "docExpansion",
+const CONFIGS = [ "url", "urls", "urls.primaryName", "spec", "validatorUrl", "onComplete", "onFailure", "authorizations", "docExpansion", "maxDisplayedTags", "filter",
     "apisSorter", "operationsSorter", "supportedSubmitMethods", "dom_id", "defaultModelRendering", "oauth2RedirectUrl",
     "showRequestHeaders", "custom", "modelPropertyMacro", "parameterMacro", "displayOperationId" , "displayRequestDuration"]
 
@@ -32,6 +32,8 @@ module.exports = function SwaggerUI(opts) {
     urls: null,
     layout: "BaseLayout",
     docExpansion: "list",
+    maxDisplayedTags: null,
+    filter: null,
     validatorUrl: "https://online.swagger.io/validator",
     configs: {},
     custom: {},
@@ -56,7 +58,9 @@ module.exports = function SwaggerUI(opts) {
     store: { },
   }
 
-  const constructorConfig = deepExtend({}, defaults, opts)
+  let queryConfig = parseSeach()
+
+  const constructorConfig = deepExtend({}, defaults, opts, queryConfig)
 
   const storeConfigs = deepExtend({}, constructorConfig.store, {
     system: {
@@ -65,7 +69,8 @@ module.exports = function SwaggerUI(opts) {
     plugins: constructorConfig.presets,
     state: {
       layout: {
-        layout: constructorConfig.layout
+        layout: constructorConfig.layout,
+        filter: constructorConfig.filter
       },
       spec: {
         spec: "",
@@ -86,7 +91,6 @@ module.exports = function SwaggerUI(opts) {
   store.register([constructorConfig.plugins, inlinePlugin])
 
   var system = store.getSystem()
-  let queryConfig = parseSeach()
 
   system.initOAuth = system.authActions.configureAuth
 

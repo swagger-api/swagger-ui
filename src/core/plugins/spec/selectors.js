@@ -277,12 +277,13 @@ export function parametersIncludeType(parameters, typeValue="") {
 export function contentTypeValues(state, pathMethod) {
   let op = spec(state).getIn(["paths", ...pathMethod], fromJS({}))
   const parameters = op.get("parameters") || new List()
-  const requestContentType = (
-      parametersIncludeType(parameters, "file") ? "multipart/form-data"
-    : parametersIncludeIn(parameters, "formData") ? "application/x-www-form-urlencoded"
-    : op.get("consumes_value")
-  )
 
+  const requestContentType = (
+    op.get("consumes_value") ? op.get("consumes_value")
+      : parametersIncludeType(parameters, "file") ? "multipart/form-data"
+      : parametersIncludeType(parameters, "formData") ? "application/x-www-form-urlencoded"
+      : undefined
+  )
 
   return fromJS({
     requestContentType,

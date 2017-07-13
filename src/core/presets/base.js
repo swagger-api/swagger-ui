@@ -41,9 +41,15 @@ import Footer from "core/components/footer"
 import ParamBody from "core/components/param-body"
 import Curl from "core/components/curl"
 import Schemes from "core/components/schemes"
+import ModelCollapse from "core/components/model-collapse"
 import ModelExample from "core/components/model-example"
+import ModelWrapper from "core/components/model-wrapper"
 import Model from "core/components/model"
 import Models from "core/components/models"
+import EnumModel from "core/components/enum-model"
+import ObjectModel from "core/components/object-model"
+import ArrayModel from "core/components/array-model"
+import PrimitiveModel from "core/components/primitive-model"
 import TryItOutButton from "core/components/try-it-out-button"
 
 import Markdown from "core/components/providers/markdown"
@@ -88,8 +94,14 @@ export default function() {
       curl: Curl,
       schemes: Schemes,
       modelExample: ModelExample,
-      model: Model,
-      models: Models,
+      ModelWrapper,
+      ModelCollapse,
+      Model,
+      Models,
+      EnumModel,
+      ObjectModel,
+      ArrayModel,
+      PrimitiveModel,
       TryItOutButton,
       Markdown,
       BaseLayout
