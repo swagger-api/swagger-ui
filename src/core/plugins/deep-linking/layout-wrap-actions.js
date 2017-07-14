@@ -1,7 +1,13 @@
 import { setHash } from "./helpers"
 
-export const show = (ori, system) => (...args) => {
+export const show = (ori, { getConfigs }) => (...args) => {
   ori(...args)
+
+  const isDeepLinkingEnabled = getConfigs().deepLinking
+  if(!isDeepLinkingEnabled || isDeepLinkingEnabled === "false") {
+    return
+  }
+
   try {
     let [thing, shown] = args
     let [type] = thing
