@@ -145,6 +145,8 @@ modelPropertyMacro | MUST be a function. Function to set default values to each 
 docExpansion | Controls the default expansion setting for the operations and tags. It can be 'list' (expands only the tags), 'full' (expands the tags and operations) or 'none' (expands nothing). The default is 'list'.
 displayOperationId | Controls the display of operationId in operations list. The default is `false`.
 displayRequestDuration | Controls the display of the request duration (in milliseconds) for `Try it out` requests. The default is `false`.
+maxDisplayedTags | If set, limits the number of tagged operations displayed to at most this many. The default is to show all operations.
+filter | If set, enables filtering. The top bar will show an edit box that you can use to filter the tagged operations that are shown. Can be true/false to enable or disable, or an explicit filter string in which case filtering will be enabled using that string as the filter expression. Filtering is case sensitive matching the filter expression anywhere inside the tag.
 
 ### Plugins
 

@@ -33,7 +33,21 @@ export default class Operations extends React.Component {
     const Collapse = getComponent("Collapse")
 
     let showSummary = layoutSelectors.showSummary()
-    let { docExpansion, displayOperationId, displayRequestDuration } = getConfigs()
+    let { docExpansion, displayOperationId, displayRequestDuration, maxDisplayedTags } = getConfigs()
+
+    let filter = layoutSelectors.currentFilter()
+
+    if (filter) {
+      if (filter !== true) {
+        taggedOps = taggedOps.filter((tagObj, tag) => {
+          return tag.indexOf(filter) !== -1
+        })
+      }
+    }
+
+    if (maxDisplayedTags && !isNaN(maxDisplayedTags) && maxDisplayedTags >= 0) {
+      taggedOps = taggedOps.slice(0, maxDisplayedTags)
+    }
 
     return (
         <div>
