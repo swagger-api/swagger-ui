@@ -135,10 +135,6 @@ export default class Topbar extends React.Component {
               <img height="30" width="30" src={ Logo } alt="Swagger UX"/>
               <span>swagger</span>
             </Link>
-            {
-              filter === null || filter === false ? null :
-                <input className="operation-filter-input" placeholder="filter..." type="text" onChange={this.onFilterChange} value={filter === true ? "" : filter} disabled={isLoading} style={inputStyle} />
-            }
             <form className="download-url-wrapper" onSubmit={formOnSubmit}>
               {control}
             </form>

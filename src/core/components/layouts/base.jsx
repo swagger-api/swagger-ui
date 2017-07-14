@@ -13,8 +13,13 @@ export default class BaseLayout extends React.Component {
     getComponent: PropTypes.func.isRequired
   }
 
+  onFilterChange =(e) => {
+    let {target: {value}} = e
+    this.props.layoutActions.updateFilter(value)
+  }
+
   render() {
-    let { specSelectors, specActions, getComponent } = this.props
+    let { specSelectors, specActions, getComponent, layoutSelectors } = this.props
 
     let info = specSelectors.info()
     let url = specSelectors.url()
@@ -31,6 +36,15 @@ export default class BaseLayout extends React.Component {
     let Row = getComponent("Row")
     let Col = getComponent("Col")
     let Errors = getComponent("errors", true)
+
+    let isLoading = specSelectors.loadingStatus() === "loading"
+    let isFailed = specSelectors.loadingStatus() === "failed"
+    let filter = layoutSelectors.currentFilter()
+
+    let inputStyle = {}
+    if(isFailed) inputStyle.color = "red"
+    if(isLoading) inputStyle.color = "#aaa"
+
     const Schemes = getComponent("schemes")
 
     const isSpecEmpty = !specSelectors.specStr()
@@ -57,12 +71,22 @@ export default class BaseLayout extends React.Component {
                   { schemes && schemes.size ? (
                     <Schemes schemes={ schemes } specActions={ specActions } />
                   ) : null }
+
                   { securityDefinitions ? (
                     <AuthorizeBtn />
                   ) : null }
                 </Col>
               </div>
             ) : null }
+
+            {
+              filter === null || filter === false ? null :
+                <div className="filter-container">
+                  <Col className="filter wrapper" mobile={12}>
+                    <input className="operation-filter-input" placeholder="Filter Operations" type="text" onChange={this.onFilterChange} value={filter === true ? "" : filter} disabled={isLoading} style={inputStyle} />
+                  </Col>
+                </div>
+            }
 
             <Row>
               <Col mobile={12} desktop={12} >
