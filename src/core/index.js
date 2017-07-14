@@ -6,9 +6,31 @@ import ApisPreset from "core/presets/apis"
 import * as AllPlugins from "core/plugins/all"
 import { parseSeach, filterConfigs } from "core/utils"
 
-const CONFIGS = [ "url", "urls", "urls.primaryName", "spec", "validatorUrl", "onComplete", "onFailure", "authorizations", "docExpansion", "maxDisplayedTags", "filter",
-    "apisSorter", "operationsSorter", "supportedSubmitMethods", "dom_id", "defaultModelRendering", "oauth2RedirectUrl",
-    "showRequestHeaders", "custom", "modelPropertyMacro", "parameterMacro", "displayOperationId" , "displayRequestDuration"]
+const CONFIGS = [
+  "url",
+  "urls",
+  "urls.primaryName",
+  "spec",
+  "validatorUrl",
+  "onComplete",
+  "onFailure",
+  "authorizations",
+  "docExpansion",
+  "tagsSorter",
+  "maxDisplayedTags",
+  "filter",
+  "operationsSorter",
+  "supportedSubmitMethods",
+  "dom_id",
+  "defaultModelRendering",
+  "oauth2RedirectUrl",
+  "showRequestHeaders",
+  "custom",
+  "modelPropertyMacro",
+  "parameterMacro",
+  "displayOperationId",
+  "displayRequestDuration",
+ ]
 
 // eslint-disable-next-line no-undef
 const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION, HOSTNAME, BUILD_TIME } = buildInfo
