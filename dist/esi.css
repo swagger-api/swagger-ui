@@ -469,16 +469,16 @@ div#api_info {
 }
 
 tr.response>td.response-col_description>span {
-    font-size: 12px;
-    font-style: italic;
-    display: block;
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 4px;
-    background: #41444e;
-    font-family: Source Code Pro,monospace;
-    font-weight: 600;
-    color: #fff;
+  font-size: 12px;
+  font-style: italic;
+  display: block;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 0 !important;
+  background: #41444e;
+  font-family: "Roboto Mono", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace !important;
+  font-weight: 600;
+  color: #fff;
 }
 
 td.col.response-col_status {
@@ -565,6 +565,7 @@ svg.arrow, button.unlocked>svg, button.locked>svg, section.models>h4>svg {
 
 textarea.curl {
   min-height: 0 !important;
+  border-radius: 0 !important;
 }
 
 tr.response pre.microlight {
@@ -576,9 +577,11 @@ td.col.response-col_description>div>h5 {
   display: block !important;
 }
 
+select, input,
 .swagger-ui .dialog-ux .modal-ux,
 .swagger-ui .btn,
-.swagger-ui .checkbox input[type=checkbox]+label>.item {
+.swagger-ui .checkbox input[type=checkbox]+label>.item,
+.swagger-ui .response-col_description__inner span {
  border-radius: 0 !important;
 }
 
