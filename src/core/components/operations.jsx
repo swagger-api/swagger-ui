@@ -1,5 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { helpers } from "swagger-client"
+
+const { opId } = helpers
 
 export default class Operations extends React.Component {
 
@@ -96,12 +99,14 @@ export default class Operations extends React.Component {
                   <Collapse isOpened={showTag}>
                     {
                       operations.map( op => {
-                        const operationId =
-                        op.getIn(["operation", "__originalOperationId"]) || op.getIn(["operation", "operationId"]) || op.get("id")
-                        const isShownKey = ["operations", tag, operationId]
+
                         const path = op.get("path", "")
                         const method = op.get("method", "")
                         const jumpToKey = `paths.${path}.${method}`
+
+                        const operationId =
+                        op.getIn(["operation", "operationId"]) || op.getIn(["operation", "__originalOperationId"]) || opId(op.get("operation"), path, method) || op.get("id")
+                        const isShownKey = ["operations", tag, operationId]
 
                         const allowTryItOut = specSelectors.allowTryItOutFor(op.get("path"), op.get("method"))
                         const response = specSelectors.responseFor(op.get("path"), op.get("method"))
