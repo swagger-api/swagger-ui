@@ -202,12 +202,14 @@ export const operationsWithTags = createSelector(
 
 export const taggedOperations = (state) => ({ getConfigs }) => {
   let { tagsSorter, operationsSorter } = getConfigs()
-
   return operationsWithTags(state)
-    .sort((operationA, operationB) => {
-      let sortFn = (typeof tagsSorter === "function" ? tagsSorter : sorters.tagsSorter[ tagsSorter ])
-      return (!sortFn ? null : sortFn(operationA, operationB))
-    })
+    .sortBy(
+      (val, key) => key, // get the name of the tag to be passed to the sorter
+      (tagA, tagB) => {
+        let sortFn = (typeof tagsSorter === "function" ? tagsSorter : sorters.tagsSorter[ tagsSorter ])
+        return (!sortFn ? null : sortFn(tagA, tagB))
+      }
+    )
     .map((ops, tag) => {
       let sortFn = (typeof operationsSorter === "function" ? operationsSorter : sorters.operationsSorter[ operationsSorter ])
       let operations = (!sortFn ? ops : ops.sort(sortFn))
