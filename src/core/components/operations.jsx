@@ -80,8 +80,9 @@ export default class Operations extends React.Component {
                   <Collapse isOpened={showTag}>
                     {
                       operations.map( op => {
-
-                        const isShownKey = ["operations", op.get("id"), tag]
+                        const operationId =
+                        op.getIn(["operation", "__originalOperationId"]) || op.getIn(["operation", "operationId"]) || op.get("id")
+                        const isShownKey = ["operations", operationId, tag]
                         const path = op.get("path", "")
                         const method = op.get("method", "")
                         const jumpToKey = `paths.${path}.${method}`
