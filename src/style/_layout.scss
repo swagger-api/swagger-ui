@@ -632,3 +632,16 @@ section
         @include text_headline();
     }
 }
+
+a.nostyle {
+  text-decoration: inherit;
+  color: inherit;
+  cursor: auto;
+  display: inline;
+
+  &:visited {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+  }
+}
