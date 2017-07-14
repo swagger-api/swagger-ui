@@ -33,7 +33,15 @@ export default class Operations extends React.Component {
     const Collapse = getComponent("Collapse")
 
     let showSummary = layoutSelectors.showSummary()
-    let { docExpansion, displayOperationId, displayRequestDuration, maxDisplayedTags } = getConfigs()
+    let {
+      docExpansion,
+      displayOperationId,
+      displayRequestDuration,
+      maxDisplayedTags,
+      deepLinking
+    } = getConfigs()
+
+    const isDeepLinkingEnabled = deepLinking && deepLinking !== "false"
 
     let filter = layoutSelectors.currentFilter()
 
@@ -69,7 +77,7 @@ export default class Operations extends React.Component {
                     <a
                       className="nostyle"
                       onClick={(e) => e.preventDefault()}
-                      href={`#/${tag}`}>
+                      href={ isDeepLinkingEnabled ? `#/${tag}` : ""}>
                       <span>{tag}</span>
                     </a>
                     { !tagDescription ? null :

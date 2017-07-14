@@ -116,7 +116,8 @@ export default class Operation extends PureComponent {
       specActions,
       specSelectors,
       authActions,
-      authSelectors
+      authSelectors,
+      getConfigs
     } = this.props
 
     let summary = operation.get("summary")
@@ -141,6 +142,10 @@ export default class Operation extends PureComponent {
     const Markdown = getComponent( "Markdown" )
     const Schemes = getComponent( "schemes" )
 
+    const { deepLinking } = getConfigs()
+
+    const isDeepLinkingEnabled = deepLinking && deepLinking !== "false"
+
     // Merge in Live Response
     if(response && response.size > 0) {
       let notDocumented = !responses.get(String(response.get("status")))
@@ -159,7 +164,7 @@ export default class Operation extends PureComponent {
                 <a
                   className="nostyle"
                   onClick={(e) => e.preventDefault()}
-                  href={`#/${isShownKey[1]}/${isShownKey[2]}`} >
+                  href={ isDeepLinkingEnabled ? `#/${isShownKey[1]}/${isShownKey[2]}` : ""} >
                   <span>{path}</span>
                 </a>
                 <JumpToPath path={jumpToKey} />
