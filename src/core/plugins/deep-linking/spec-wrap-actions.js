@@ -31,16 +31,19 @@ export const updateResolved = (ori, { layoutActions, getConfigs }) => (...args) 
 
     if(tag && operationId) {
       // Pre-expand and scroll to the operation
+      layoutActions.show(["operations-tag", tag], true)
+      layoutActions.show(["operations", tag, operationId], true)
+
       scrollTo(`#operations-${tag}-${operationId}`, {
         offset: SCROLL_OFFSET
       })
-      layoutActions.show(["operations", tag, operationId], true)
     } else if(tag) {
       // Pre-expand and scroll to the tag
+      layoutActions.show(["operations-tag", tag], true)
+
       scrollTo(`#operations-tag-${tag}`, {
         offset: SCROLL_OFFSET
       })
-      layoutActions.show(["operations-tag", tag], true)
     }
   }
 
