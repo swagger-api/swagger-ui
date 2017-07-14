@@ -7,7 +7,6 @@ import Logo from "./logo_small.png"
 export default class Topbar extends React.Component {
 
   static propTypes = {
-    layoutSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired
   }
 
@@ -91,13 +90,12 @@ export default class Topbar extends React.Component {
   }
 
   render() {
-    let { getComponent, specSelectors, getConfigs, layoutSelectors } = this.props
+    let { getComponent, specSelectors, getConfigs } = this.props
     const Button = getComponent("Button")
     const Link = getComponent("Link")
 
     let isLoading = specSelectors.loadingStatus() === "loading"
     let isFailed = specSelectors.loadingStatus() === "failed"
-    let filter = layoutSelectors.currentFilter()
 
     let inputStyle = {}
     if(isFailed) inputStyle.color = "red"
