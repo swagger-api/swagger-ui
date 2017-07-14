@@ -17,7 +17,6 @@ const CONFIGS = [
   "authorizations",
   "docExpansion",
   "tagsSorter",
-  "apisSorter",
   "maxDisplayedTags",
   "filter",
   "operationsSorter",
