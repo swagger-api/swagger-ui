@@ -331,6 +331,7 @@ section.models h4 span {
   margin: 0 0 10px !important;
   background-color: #404040 !important;
   border: 0px !important;
+  border-radius: 0 !important;
 }
 
 .swagger-ui section.models {
