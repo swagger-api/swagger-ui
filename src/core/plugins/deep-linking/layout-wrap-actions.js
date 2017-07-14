@@ -1,3 +1,5 @@
+import { setHash } from "./helpers"
+
 export const show = (ori, system) => (...args) => {
   ori(...args)
   try {
@@ -6,17 +8,17 @@ export const show = (ori, system) => (...args) => {
 
     if(type === "operations-tag" || type === "operations") {
       if(!shown) {
-        return window.location.hash = ""
+        return setHash("/")
       }
 
       if(type === "operations") {
         let [, operationId, tag] = thing
-        window.location.hash = `/${tag}/${operationId}`
+        setHash(`/${tag}/${operationId}`)
       }
 
       if(type === "operations-tag") {
         let [, tag] = thing
-        window.location.hash = `/${tag}`
+        setHash(`/${tag}`)
       }
     }
 
