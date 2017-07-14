@@ -201,11 +201,11 @@ export const operationsWithTags = createSelector(
 )
 
 export const taggedOperations = (state) => ({ getConfigs }) => {
-  let { apisSorter, operationsSorter } = getConfigs()
+  let { tagsSorter, operationsSorter } = getConfigs()
 
   return operationsWithTags(state)
     .sort((operationA, operationB) => {
-      let sortFn = (typeof apisSorter === "function" ? apisSorter : sorters.apisSorter[ apisSorter ])
+      let sortFn = (typeof tagsSorter === "function" ? tagsSorter : sorters.tagsSorter[ tagsSorter ])
       return (!sortFn ? null : sortFn(operationA, operationB))
     })
     .map((ops, tag) => {

@@ -575,7 +575,7 @@ export const sorters = {
     alpha: (a, b) => a.get("path").localeCompare(b.get("path")),
     method: (a, b) => a.get("method").localeCompare(b.get("method"))
   },
-  apisSorter: {
+  tagsSorter: {
     alpha: (a, b) => a.getIn([0, "operation", "tags", 0]).localeCompare(b.getIn([0, "operation", "tags", 0]))
   }
 }

@@ -137,7 +137,7 @@ spec | A JSON object describing the OpenAPI Specification. When used, the `url` 
 validatorUrl | By default, Swagger-UI attempts to validate specs against swagger.io's online validator. You can use this parameter to set a different validator URL, for example for locally deployed validators ([Validator Badge](https://github.com/swagger-api/validator-badge)). Setting it to `null` will disable validation.
 dom_id | The id of a dom element inside which SwaggerUi will put the user interface for swagger.
 oauth2RedirectUrl | OAuth redirect URL
-apisSorter | Apply a sort to the tag list of each API. It can be 'alpha' (sort by paths alphanumerically) or a function (see Array.prototype.sort() to know how sort function works). Default is the order determined by Swagger-UI.
+tagsSorter | Apply a sort to the tag list of each API. It can be 'alpha' (sort by paths alphanumerically) or a function (see Array.prototype.sort() to know how sort function works). Default is the order determined by Swagger-UI.
 operationsSorter | Apply a sort to the operation list of each API. It can be 'alpha' (sort by paths alphanumerically), 'method' (sort by HTTP method) or a function (see Array.prototype.sort() to know how sort function works). Default is the order returned by the server unchanged.
 configUrl | Configs URL
 parameterMacro | MUST be a function. Function to set default value to parameters. Accepts two arguments parameterMacro(operation, parameter). Operation and parameter are objects passed for context, both remain immutable
