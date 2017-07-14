@@ -82,7 +82,7 @@ export default class Operations extends React.Component {
                       operations.map( op => {
                         const operationId =
                         op.getIn(["operation", "__originalOperationId"]) || op.getIn(["operation", "operationId"]) || op.get("id")
-                        const isShownKey = ["operations", operationId, tag]
+                        const isShownKey = ["operations", tag, operationId]
                         const path = op.get("path", "")
                         const method = op.get("method", "")
                         const jumpToKey = `paths.${path}.${method}`

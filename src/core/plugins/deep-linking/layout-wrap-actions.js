@@ -12,7 +12,7 @@ export const show = (ori, system) => (...args) => {
       }
 
       if(type === "operations") {
-        let [, operationId, tag] = thing
+        let [, tag, operationId] = thing
         setHash(`/${tag}/${operationId}`)
       }
 
