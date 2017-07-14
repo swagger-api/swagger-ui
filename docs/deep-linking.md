@@ -4,6 +4,8 @@ Swagger-UI allows you to deeply link into tags and operations within a spec. Whe
 
 ## Usage
 
+👉🏼 Add `deepLinking: true` to your Swagger-UI configuration to enable this functionality.
+
 When you expand a tag or operation, Swagger-UI will automatically update its URL fragment with a deep link to the item.
 Conversely, when you collapse a tag or operation, Swagger-UI will clear the URL fragment.
 
@@ -23,7 +25,7 @@ Otherwise, Swagger-UI generates an implicit operationId by combining the operati
 
 > I'm using Swagger-UI in an application that needs control of the URL fragment. How do I disable deep-linking?
 
-Pass `deepLinking: false` into Swagger-UI as a configuration item.
+This functionality is disabled by default, but you can pass `deepLinking: false` into Swagger-UI as a configuration item to be sure.
 
 > Can I link to multiple tags or operations?
 
