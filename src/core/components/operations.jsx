@@ -62,7 +62,10 @@ export default class Operations extends React.Component {
               return (
                 <div className={showTag ? "opblock-tag-section is-open" : "opblock-tag-section"} key={"operation-" + tag}>
 
-                  <h4 onClick={() => layoutActions.show(isShownKey, !showTag)} className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag" }>
+                  <h4
+                    onClick={() => layoutActions.show(isShownKey, !showTag)}
+                    className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag" }
+                    id={isShownKey.join("-")}>
                     <span>{tag}</span>
                     { !tagDescription ? null :
                         <small>
