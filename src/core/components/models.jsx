@@ -28,7 +28,7 @@ export default class Models extends Component {
           <use xlinkHref="#large-arrow" />
         </svg>
       </h4>
-      <Collapse isOpened={showModels} animated>
+      <Collapse isOpened={showModels}>
         {
           definitions.entrySeq().map( ( [ name, model ])=>{
             return <div className="model-container" key={ `models-section-${name}` }>
