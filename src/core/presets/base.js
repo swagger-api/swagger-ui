@@ -10,6 +10,7 @@ import auth from "core/plugins/auth"
 import util from "core/plugins/util"
 import SplitPaneModePlugin from "core/plugins/split-pane-mode"
 import downloadUrlPlugin from "core/plugins/download-url"
+import deepLinkingPlugin from "core/plugins/deep-linking"
 
 import App from "core/components/app"
 import AuthorizationPopup from "core/components/auth/authorization-popup"
@@ -131,6 +132,7 @@ export default function() {
     auth,
     ast,
     SplitPaneModePlugin,
-    downloadUrlPlugin
+    downloadUrlPlugin,
+    deepLinkingPlugin
   ]
 }

@@ -38,15 +38,13 @@ export default class ObjectModel extends Component {
         }
     </span>)
     
+    const titleEl = title && <span className="model-title">
+      { isRef && schema.get("$$ref") && <span className="model-hint">{ schema.get("$$ref") }</span> }
+      <span className="model-title__text">{ title }</span>
+    </span>
 
     return <span className="model">
-      {
-        title && <span className="model-title">
-          { isRef && schema.get("$$ref") && <span className="model-hint">{ schema.get("$$ref") }</span> }
-          <span className="model-title__text">{ title }</span>
-        </span>
-      }
-      <ModelCollapse collapsed={ depth > expandDepth } collapsedContent={ collapsedContent }>
+      <ModelCollapse title={titleEl} collapsed={ depth > expandDepth } collapsedContent={ collapsedContent }>
          <span className="brace-open object">{ braceOpen }</span>
           {
             !isRef ? null : <JumpToPathSection name={ name }/>

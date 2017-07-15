@@ -390,6 +390,7 @@ body
 }
 
 .opblock-description-wrapper,
+.opblock-external-docs-wrapper,
 .opblock-title_normal
 {
     font-size: 12px;
@@ -416,6 +417,12 @@ body
 
         @include text_body();
     }
+}
+
+.opblock-external-docs-wrapper {
+  h4 {
+    padding-left: 0px;
+  }
 }
 
 .execute-wrapper
@@ -643,4 +650,17 @@ section
     {
         @include text_headline();
     }
+}
+
+a.nostyle {
+  text-decoration: inherit;
+  color: inherit;
+  cursor: auto;
+  display: inline;
+
+  &:visited {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+  }
 }
