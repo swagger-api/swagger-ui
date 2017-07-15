@@ -201,7 +201,9 @@ export default class Operation extends PureComponent {
                 <div className="opblock-external-docs-wrapper">
                   <h4 className="opblock-title_normal">Find more details</h4>
                   <div className="opblock-external-docs">
-                    <span className="opblock-external-docs__description">{ externalDocs.get("description") }</span>
+                    <span className="opblock-external-docs__description">
+                      <Markdown source={ externalDocs.get("description") } />
+                    </span>
                     <a className="opblock-external-docs__link" href={ externalDocs.get("url") }>{ externalDocs.get("url") }</a>
                   </div>
                 </div> : null
