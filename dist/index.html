@@ -30,7 +30,40 @@
 </head>
 
 <body>
+<script>
+  var orgFetch;
+  window.setExtraHeader = function(bearerCode) {
+    var system = window.ui.getSystem();
+    if(!system) return;
+    if(!orgFetch) {
+      console.log('Getting original fetch function')
+      orgFetch = system.fn.fetch;
+    }
 
+    system.fn.fetch = function(obj) {
+      if(!obj) return;
+      if(!obj.headers) {
+        obj.headers = {};
+      }
+      obj.headers['Authorization'] = "Bearer " + bearerCode
+      console.log('Fetch Object:', obj);
+      return orgFetch(obj)
+        .then(function(fetchRes) {
+          if(fetchRes && fetchRes.ok) {
+            setTimeout(function() {
+              document.getElementById('bearer-code-input').remove();
+              system.fn.fetch = orgFetch;
+            }, 100)
+          }
+          return fetchRes;
+        })
+    }
+    system.specActions.download()
+  }
+</script>
+<div>
+  <input id="bearer-code-input" type="text" placeholder="Paste your token here!" onchange="window.setExtraHeader(this.value)" style="height: 2em;width: 100%;font-size: 1em;"/>
+</div>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="position:absolute;width:0;height:0">
   <defs>
     <symbol viewBox="0 0 20 20" id="unlocked">
