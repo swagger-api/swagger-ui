@@ -214,6 +214,7 @@ describe("utils", function(){
     })
 
     it("validates numbers", function() {
+      // string instead of a number
       param = fromJS({
         required: false,
         type: "number",
@@ -221,9 +222,28 @@ describe("utils", function(){
       })
       result = validateParam( param, false )
       expect( result ).toEqual( ["Value must be a number"] )
+
+      // undefined value
+      param = fromJS({
+        required: false,
+        type: "number",
+        value: undefined
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( [] )
+
+      // null value
+      param = fromJS({
+        required: false,
+        type: "number",
+        value: null
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( [] )
     })
 
     it("validates integers", function() {
+      // string instead of integer
       param = fromJS({
         required: false,
         type: "integer",
@@ -231,6 +251,24 @@ describe("utils", function(){
       })
       result = validateParam( param, false )
       expect( result ).toEqual( ["Value must be an integer"] )
+
+      // undefined value
+      param = fromJS({
+        required: false,
+        type: "integer",
+        value: undefined
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( [] )
+
+      // null value
+      param = fromJS({
+        required: false,
+        type: "integer",
+        value: null
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( [] )
     })
 
     it("validates arrays", function() {

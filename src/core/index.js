@@ -6,17 +6,46 @@ import ApisPreset from "core/presets/apis"
 import * as AllPlugins from "core/plugins/all"
 import { parseSeach, filterConfigs } from "core/utils"
 
-const CONFIGS = [ "url", "urls", "urls.primaryName", "spec", "validatorUrl", "onComplete", "onFailure", "authorizations", "docExpansion",
-    "apisSorter", "operationsSorter", "supportedSubmitMethods", "dom_id", "defaultModelRendering", "oauth2RedirectUrl",
-    "showRequestHeaders", "custom", "modelPropertyMacro", "parameterMacro", "displayOperationId" , "displayRequestDuration"]
+const CONFIGS = [
+  "url",
+  "urls",
+  "urls.primaryName",
+  "spec",
+  "validatorUrl",
+  "onComplete",
+  "onFailure",
+  "authorizations",
+  "docExpansion",
+  "tagsSorter",
+  "maxDisplayedTags",
+  "filter",
+  "operationsSorter",
+  "supportedSubmitMethods",
+  "dom_id",
+  "defaultModelRendering",
+  "oauth2RedirectUrl",
+  "showRequestHeaders",
+  "custom",
+  "modelPropertyMacro",
+  "parameterMacro",
+  "displayOperationId",
+  "displayRequestDuration",
+  "deepLinking",
+ ]
 
 // eslint-disable-next-line no-undef
-const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION } = buildInfo
+const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION, HOSTNAME, BUILD_TIME } = buildInfo
 
 module.exports = function SwaggerUI(opts) {
 
   win.versions = win.versions || {}
-  win.versions.swaggerUi = `${PACKAGE_VERSION}/${GIT_COMMIT || "unknown"}${GIT_DIRTY ? "-dirty" : ""}`
+  win.versions.swaggerUi = {
+    version: PACKAGE_VERSION,
+    gitRevision: GIT_COMMIT,
+    gitDirty: GIT_DIRTY,
+    buildTimestamp: BUILD_TIME,
+    machine: HOSTNAME
+  }
 
   const defaults = {
     // Some general settings, that we floated to the top
@@ -26,15 +55,19 @@ module.exports = function SwaggerUI(opts) {
     urls: null,
     layout: "BaseLayout",
     docExpansion: "list",
+    maxDisplayedTags: null,
+    filter: null,
     validatorUrl: "https://online.swagger.io/validator",
     configs: {},
     custom: {},
     displayOperationId: false,
     displayRequestDuration: false,
+    deepLinking: false,
 
     // Initial set of plugins ( TODO rename this, or refactor - we don't need presets _and_ plugins. Its just there for performance.
     // Instead, we can compile the first plugin ( it can be a collection of plugins ), then batch the rest.
     presets: [
+      ApisPreset
     ],
 
     // Plugins; ( loaded after presets )
@@ -50,7 +83,9 @@ module.exports = function SwaggerUI(opts) {
     store: { },
   }
 
-  const constructorConfig = deepExtend({}, defaults, opts)
+  let queryConfig = parseSeach()
+
+  const constructorConfig = deepExtend({}, defaults, opts, queryConfig)
 
   const storeConfigs = deepExtend({}, constructorConfig.store, {
     system: {
@@ -59,7 +94,8 @@ module.exports = function SwaggerUI(opts) {
     plugins: constructorConfig.presets,
     state: {
       layout: {
-        layout: constructorConfig.layout
+        layout: constructorConfig.layout,
+        filter: constructorConfig.filter
       },
       spec: {
         spec: "",
@@ -80,7 +116,6 @@ module.exports = function SwaggerUI(opts) {
   store.register([constructorConfig.plugins, inlinePlugin])
 
   var system = store.getSystem()
-  let queryConfig = parseSeach()
 
   system.initOAuth = system.authActions.configureAuth
 
