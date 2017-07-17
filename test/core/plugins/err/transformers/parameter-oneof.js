@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import expect from "expect"
 import { fromJS } from "immutable"
 import { transform } from "corePlugins/err/error-transformers/transformers/parameter-oneof"

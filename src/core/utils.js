@@ -228,13 +228,13 @@ export function highlight (el) {
 
   var reset = function(el) {
     var text = el.textContent,
-      pos = 0,       // current position
+      pos = 0, // current position
       next1 = text[0], // next character
-      chr = 1,       // current character
-      prev1,           // previous character
-      prev2,           // the one before the previous
-      token =          // current token content
-        el.innerHTML = "",  // (and cleaning the node)
+      chr = 1, // current character
+      prev1, // previous character
+      prev2, // the one before the previous
+      token = // current token content
+        el.innerHTML = "", // (and cleaning the node)
 
     // current token type:
     //  0: anything else (whitespaces / newlines)
@@ -274,11 +274,11 @@ export function highlight (el) {
         (tokenType > 8 && chr == "\n") ||
         [ // finalize conditions for other token types
           // 0: whitespaces
-          /\S/[test](chr),  // merged together
+          /\S/[test](chr), // merged together
           // 1: operators
-          1,                // consist of a single character
+          1, // consist of a single character
           // 2: braces
-          1,                // consist of a single character
+          1, // consist of a single character
           // 3: (key)word
           !/[$\w]/[test](chr),
           // 4: regex
@@ -341,12 +341,12 @@ export function highlight (el) {
         // condition)
         tokenType = 11
         while (![
-          1,                   //  0: whitespace
+          1, //  0: whitespace
                                //  1: operator or braces
-          /[\/{}[(\-+*=<>:;|\\.,?!&@~]/[test](chr),
-          /[\])]/[test](chr),  //  2: closing brace
-          /[$\w]/[test](chr),  //  3: (key)word
-          chr == "/" &&        //  4: regex
+          /[\/{}[(\-+*=<>:;|\\.,?!&@~]/[test](chr), // eslint-disable-line no-useless-escape
+          /[\])]/[test](chr), //  2: closing brace
+          /[$\w]/[test](chr), //  3: (key)word
+          chr == "/" && //  4: regex
             // previous token was an
             // opening brace or an
             // operator (otherwise
@@ -355,13 +355,13 @@ export function highlight (el) {
             // workaround for xml
             // closing tags
           prev1 != "<",
-          chr == "\"",          //  5: string with "
-          chr == "'",          //  6: string with '
+          chr == "\"", //  5: string with "
+          chr == "'", //  6: string with '
                                //  7: xml comment
           chr+next1+text[pos+1]+text[pos+2] == "<!--",
-          chr+next1 == "/*",   //  8: multiline comment
-          chr+next1 == "//",   //  9: single-line comment
-          chr == "#"           // 10: hash-style comment
+          chr+next1 == "/*", //  8: multiline comment
+          chr+next1 == "//", //  9: single-line comment
+          chr == "#" // 10: hash-style comment
         ][--tokenType]);
       }
 
@@ -450,15 +450,21 @@ export const propChecker = (props, nextProps, objectList=[], ignoreList=[]) => {
     || objectList.some( objectPropName => !eq(props[objectPropName], nextProps[objectPropName])))
 }
 
-const validateNumber = ( val ) => {
-  if ( !/^-?\d+(.?\d+)?$/.test(val)) {
+export const validateNumber = ( val ) => {
+  if (!/^-?\d+(\.?\d+)?$/.test(val)) {
     return "Value must be a number"
   }
 }
 
-const validateInteger = ( val ) => {
-  if ( !/^-?\d+$/.test(val)) {
-    return "Value must be integer"
+export const validateInteger = ( val ) => {
+  if (!/^-?\d+$/.test(val)) {
+    return "Value must be an integer"
+  }
+}
+
+export const validateFile = ( val ) => {
+  if ( val && !(val instanceof win.File) ) {
+    return "Value must be a file"
   }
 }
 
@@ -469,12 +475,19 @@ export const validateParam = (param, isXml) => {
   let required = param.get("required")
   let type = param.get("type")
 
-  if ( required && (!value || (type==="array" && Array.isArray(value) && !value.length ))) {
+  let stringCheck = type === "string" && !value
+  let arrayCheck = type === "array" && Array.isArray(value) && !value.length
+  let listCheck = type === "array" && Im.List.isList(value) && !value.count()
+  let fileCheck = type === "file" && !(value instanceof win.File)
+
+  if ( required && (stringCheck || arrayCheck || listCheck || fileCheck) ) {
     errors.push("Required field is not provided")
     return errors
   }
 
-  if ( !value ) return errors
+  if ( value === null || value === undefined ) {
+    return errors
+  }
 
   if ( type === "number" ) {
     let err = validateNumber(value)
@@ -504,7 +517,10 @@ export const validateParam = (param, isXml) => {
         errors.push({ index: index, error: err})
       }
     })
-
+  } else if ( type === "file" ) {
+    let err = validateFile(value)
+    if (!err) return errors
+    errors.push(err)
   }
 
   return errors
@@ -562,6 +578,9 @@ export const sorters = {
   operationsSorter: {
     alpha: (a, b) => a.get("path").localeCompare(b.get("path")),
     method: (a, b) => a.get("method").localeCompare(b.get("method"))
+  },
+  tagsSorter: {
+    alpha: (a, b) => a.localeCompare(b)
   }
 }
 

@@ -1,5 +1,5 @@
-import React, { PropTypes, Component } from "react"
-import shallowCompare from "react-addons-shallow-compare"
+import React, { PureComponent, Component } from "react"
+import PropTypes from "prop-types"
 import { List, fromJS } from "immutable"
 //import "less/json-schema-form"
 
@@ -74,7 +74,7 @@ export class JsonSchema_string extends Component {
   }
 }
 
-export class JsonSchema_array extends Component {
+export class JsonSchema_array extends PureComponent {
 
   static propTypes = JsonSchemaPropShape
   static defaultProps = JsonSchemaDefaultProps
@@ -87,10 +87,6 @@ export class JsonSchema_array extends Component {
   componentWillReceiveProps(props) {
     if(props.value !== this.state.value)
       this.setState({value: props.value})
-  }
-
-  shouldComponentUpdate(props, state) {
-    return shallowCompare(this, props, state)
   }
 
   onChange = () => this.props.onChange(this.state.value)
