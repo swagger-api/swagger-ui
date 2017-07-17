@@ -9,7 +9,7 @@ const primitives = {
   "number": () => 0,
   "number_float": () => 0.0,
   "integer": () => 0,
-  "boolean": () => true
+  "boolean": (schema) => typeof schema.default === "boolean" ? schema.default : true 
 }
 
 const primitive = (schema) => {
@@ -72,6 +72,10 @@ export const sampleFromSchema = (schema, config={}) => {
     if(schema["default"])
       return schema["default"]
     return normalizeArray(schema["enum"])[0]
+  }
+
+  if (type === "file") {
+    return
   }
 
   return primitive(schema)

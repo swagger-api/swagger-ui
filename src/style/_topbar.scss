@@ -6,7 +6,6 @@
     .topbar-wrapper
     {
         display: flex;
-
         align-items: center;
     }
     a
@@ -15,13 +14,13 @@
         font-weight: bold;
 
         display: flex;
+        align-items: center;
+        flex: 1;
 
         max-width: 300px;
 
         text-decoration: none;
 
-        flex: 1;
-        align-items: center;
         @include text_headline(#fff);
 
         span
@@ -34,8 +33,8 @@
     .download-url-wrapper
     {
         display: flex;
-
         flex: 3;
+        justify-content: flex-end;
 
         input[type=text]
         {
@@ -44,9 +43,40 @@
             margin: 0;
 
             border: 2px solid #547f00;
-            border-radius: 4px 0 0 4px;
             outline: none;
         }
+
+        .select-label
+        {
+            display: flex;
+            align-items: center;
+
+            width: 100%;
+            max-width: 600px;
+            margin: 0;
+            span
+            {
+                font-size: 16px;
+
+                flex: 1;
+
+                padding: 0 10px 0 0;
+
+                text-align: right;
+            }
+
+            select
+            {
+                flex: 2;
+
+                width: 100%;
+
+                border: 2px solid #547f00;
+                outline: none;
+                box-shadow: none;
+            }
+        }
+
 
         .download-url-button
         {
