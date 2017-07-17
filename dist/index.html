@@ -136,11 +136,13 @@
    });
    window.ui = esi
    var datasources = document.querySelector("select#datasource");
-   for (i = 0; i < datasources.children.length; i++) {
-    if (datasources.children[i].value == selectedDatasource) {
-     datasources.children[i].selected = true;
-    } else {
-     datasources.children[i].selected = false;
+   if (selectedDatasource) {
+    for (i = 0; i < datasources.children.length; i++) {
+     if (datasources.children[i].value == selectedDatasource) {
+      datasources.children[i].selected = true;
+     } else {
+      datasources.children[i].selected = false;
+     }
     }
    }
    datasources.addEventListener("change", function () {
