@@ -39,15 +39,9 @@
    <div id="header_wrap">
     <a id="logo" href="/"><img alt="CCP Games" height="50" width="75" src="/ui/ccp.png" /><span class="title">ESI</span></a>
     <div id="versions">
-     <div class="version">
-      <span class="available">legacy</span>
-     </div>
-     <div class="version">
-      <span class="selected">latest</span>
-     </div>
-     <div class="version">
-      <span class="available">dev</span>
-     </div>
+     <div class="version"><span class="available">legacy</span></div>
+     <div class="version"><span class="available">latest</span></div>
+     <div class="version"><span class="available">dev</span></div>
     </div>
     <div id="datasources" style="visibility:hidden">
      <select id="datasource">
@@ -64,7 +58,7 @@
     <div class="wrapper">
      <section class="block col-12 block-desktop col-12-desktop">
       <section class="api_info">
-       <div id="api_info">
+       <div id="api_info" style="display:none">
         <div id="base_url">base url: <span id="base_url">/latest</span></div>
         <div id="api_version">api version: <span id="api_version">localdev</span></div>
        </div>
@@ -110,7 +104,9 @@
    var searchParams = new URLSearchParams(url.search);
    var selectedDatasource = searchParams.get("datasource");
    var selectedVersion = searchParams.get("version") || "latest";
-   document.querySelector("span#base_url").innerHTML = "/" + selectedVersion;
+   var baseUrl = document.querySelector("span#base_url")
+   baseUrl.innerHTML = "/" + selectedVersion;
+   baseUrl.parentElement.parentElement.removeAttribute("style");
    var swaggerUrl = "/" + selectedVersion + "/swagger.json";
    if (selectedDatasource) {
     swaggerUrl += "?datasource=" + selectedDatasource;
@@ -153,6 +149,10 @@
    datasources.parentElement.removeAttribute("style");
    var versions = document.querySelectorAll("div.version span")
    for (i = 0; i < versions.length; i++) {
+    if (versions[i].innerHTML == selectedVersion) {
+     versions[i].classList.add("selected");
+     versions[i].classList.remove("available");
+    }
     versions[i].addEventListener("click", function (event) {
      for (k = 0; k < event.currentTarget.classList.length; k++) {
       if (event.currentTarget.classList[k] === "selected") {
@@ -177,7 +177,7 @@
      window.ui.specActions.download();
      history.pushState(history.state, document.title, UpdateQueryString("version", newVersion));
      // TODO: make invisible, need onComplete hook though
-     document.querySelector("span#base_url").innerHTML = "/" + newVersion;
+     baseUrl.innerHTML = "/" + newVersion;
     });
    }
   }
