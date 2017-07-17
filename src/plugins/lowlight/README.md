@@ -35,7 +35,7 @@ window.onload = function() {
     presets: [
       SwaggerUIBundle.presets.apis,
       SwaggerUIStandalonePreset,
-	  SwaggerUIBundle.presets.lowlight
+      SwaggerUIBundle.presets.lowlight
     ],
     plugins: [
       SwaggerUIBundle.plugins.DownloadUrl

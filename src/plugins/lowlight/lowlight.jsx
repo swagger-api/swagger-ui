@@ -1,11 +1,12 @@
-import React, { Component, PropTypes } from "react"
-import Lowlight from 'react-lowlight'
+import React, { Component } from "react"
+import PropTypes from "prop-types"
+import Lowlight from "react-lowlight"
 
 import json from "highlight.js/lib/languages/javascript"
 import xml from "highlight.js/lib/languages/xml"
 
-Lowlight.registerLanguage('json', json)
-Lowlight.registerLanguage('xml', xml)
+Lowlight.registerLanguage("json", json)
+Lowlight.registerLanguage("xml", xml)
 
 export default class LowlightCode extends Component {
   static propTypes = {
@@ -23,6 +24,6 @@ export default class LowlightCode extends Component {
     let { value, className } = this.props
     className = className || ""
     
-    return (<Lowlight value={value} className={className} subset={['json', 'xml']} />)
+    return (<Lowlight value={value} className={className} subset={["json", "xml"]} />)
   }
 }
