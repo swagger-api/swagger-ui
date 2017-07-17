@@ -546,7 +546,7 @@ export const getSampleSchema = (schema, contentType="", config={}) => {
   return JSON.stringify(memoizedSampleFromSchema(schema, config), null, 2)
 }
 
-export const parseSeach = () => {
+export const parseSearch = () => {
   let map = {}
   let search = window.location.search
 
