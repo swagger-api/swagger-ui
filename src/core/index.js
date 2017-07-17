@@ -4,7 +4,7 @@ import System from "core/system"
 import win from "core/window"
 import ApisPreset from "core/presets/apis"
 import * as AllPlugins from "core/plugins/all"
-import { parseSeach, filterConfigs } from "core/utils"
+import { parseSearch, filterConfigs } from "core/utils"
 
 const CONFIGS = [
   "url",
@@ -83,7 +83,7 @@ module.exports = function SwaggerUI(opts) {
     store: { },
   }
 
-  let queryConfig = parseSeach()
+  let queryConfig = parseSearch()
 
   const constructorConfig = deepExtend({}, defaults, opts, queryConfig)
 
