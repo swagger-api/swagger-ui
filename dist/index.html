@@ -49,7 +49,7 @@
       <span class="available">dev</span>
      </div>
     </div>
-    <div id="datasources">
+    <div id="datasources" style="visibility:hidden">
      <select id="datasource">
       <option value="tranquility" selected>tranquility</option>
       <option value="singularity">singularity</option>
@@ -58,12 +58,65 @@
    </div>
   </div>
   <div id="swagger-ui"></div>
+  <!-- these 5 (five) extra containers make me sad. -->
+  <div class="swagger-ui">
+   <div>
+    <div class="wrapper">
+     <section class="block col-12 block-desktop col-12-desktop">
+      <section class="api_info">
+       <div id="api_info">
+        <div id="base_url">base url: <span id="base_url">/latest</span></div>
+        <div id="api_version">api version: <span id="api_version">localdev</span></div>
+       </div>
+      </section>
+     </section>
+    </div>
+   </div>
+  </div>
   <script src="/ui/swagger-ui-bundle.js" type="text/javascript"></script>
   <script src="/ui/swagger-ui-standalone-preset.js" type="text/javascript"></script>
   <script type="text/javascript">
+  function UpdateQueryString(key, value) {
+   var url = window.location.href;
+   var re = new RegExp("([?&])" + key + "=.*?(&|#|$)(.*)", "gi"),
+       hash;
+   if (re.test(url)) {
+    if (typeof value !== 'undefined' && value !== null) {
+     return url.replace(re, '$1' + key + "=" + value + '$2$3');
+    } else {
+     hash = url.split('#');
+     url = hash[0].replace(re, '$1$3').replace(/(&|\?)$/, '');
+     if (typeof hash[1] !== 'undefined' && hash[1] !== null) {
+      url += '#' + hash[1];
+     }
+     return url;
+    }
+   } else {
+    if (typeof value !== 'undefined' && value !== null) {
+     var separator = url.indexOf('?') !== -1 ? '&' : '?';
+     hash = url.split('#');
+     url = hash[0] + separator + key + '=' + value;
+     if (typeof hash[1] !== 'undefined' && hash[1] !== null) {
+      url += '#' + hash[1];
+     }
+     return url;
+    } else {
+     return url;
+    }
+   }
+  }
   window.onload = function() {
+   var url = new URL(window.location.href);
+   var searchParams = new URLSearchParams(url.search);
+   var selectedDatasource = searchParams.get("datasource");
+   var selectedVersion = searchParams.get("version") || "latest";
+   document.querySelector("span#base_url").innerHTML = "/" + selectedVersion;
+   var swaggerUrl = "/" + selectedVersion + "/swagger.json";
+   if (selectedDatasource) {
+    swaggerUrl += "?datasource=" + selectedDatasource;
+   }
    const esi = SwaggerUIBundle({
-    url: "/latest/swagger.json",
+    url: swaggerUrl,
     dom_id: '#swagger-ui',
     presets: [
      SwaggerUIBundle.presets.apis,
@@ -76,6 +129,7 @@
     docExpansion: "none",
     apisSorter: "alpha",
     operationsSorter: "alpha",
+    deepLinking: true,
    })
    esi.initOAuth({
     clientId: "your-client-id",
@@ -85,6 +139,18 @@
     additionalQueryStringParams: {},
    });
    window.ui = esi
+   var datasources = document.querySelector("select#datasource");
+   for (i = 0; i < datasources.children.length; i++) {
+    if (datasources.children[i].value == selectedDatasource) {
+     datasources.children[i].selected = true;
+    } else {
+     datasources.children[i].selected = false;
+    }
+   }
+   datasources.addEventListener("change", function () {
+     window.location.href = UpdateQueryString("datasource", this.value);
+   });
+   datasources.parentElement.removeAttribute("style");
    var versions = document.querySelectorAll("div.version span")
    for (i = 0; i < versions.length; i++) {
     versions[i].addEventListener("click", function (event) {
@@ -102,28 +168,19 @@
        versions[j].classList.add("available");
       }
      }
-     window.ui.specActions.updateUrl("/" + event.currentTarget.innerText.toLowerCase() + "/swagger.json");
+     var newVersion = event.currentTarget.innerText.toLowerCase();
+     var newUrl = "/" + newVersion + "/swagger.json"
+     if (selectedDatasource) {
+      newUrl += "?datasource=" + selectedDatasource;
+     }
+     window.ui.specActions.updateUrl(newUrl);
      window.ui.specActions.download();
+     history.pushState(history.state, document.title, UpdateQueryString("version", newVersion));
      // TODO: make invisible, need onComplete hook though
-     document.querySelector("span#base_url").innerHTML = "/" + event.currentTarget.innerText.toLowerCase();
+     document.querySelector("span#base_url").innerHTML = "/" + newVersion;
     });
    }
   }
   </script>
-  <!-- these 5 (five) extra containers make me sad. -->
-  <div class="swagger-ui">
-   <div>
-    <div class="wrapper">
-     <section class="block col-12 block-desktop col-12-desktop">
-      <section class="api_info">
-       <div id="api_info">
-        <div id="base_url">base url: <span id="base_url">/latest</span></div>
-        <div id="api_version">api version: <span id="api_version">localdev</span></div>
-       </div>
-      </section>
-     </section>
-    </div>
-   </div>
-  </div>
  </body>
 </html>

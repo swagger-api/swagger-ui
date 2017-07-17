@@ -351,6 +351,7 @@ section.models h4 span {
 .swagger-ui .opblock .opblock-summary {
   padding: 0px !important;
   border: 0px !important;
+  line-height: 20px;
 }
 
 .swagger-ui .opblock .opblock-summary-method {
@@ -359,6 +360,9 @@ section.models h4 span {
   min-width: 50px !important;
   padding: 4px 0 !important;
   margin: 0 !important;
+  font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
 }
 
 .swagger-ui .opblock-description-wrapper p {
@@ -598,8 +602,9 @@ select, input,
   border-top-color: #fff !important;
 }
 
-div.swagger-ui a:hover {
-  border-bottom: 1px #fff dashed;
+button.expand-operation {
+  flex: 1 0;
+  text-align: right;
 }
 
 a, a:visited {
