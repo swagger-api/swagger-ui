@@ -68,7 +68,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
 }
 
 function processUrl(url, authConfigs, query=[]) {
-  let result = url
+  let result = url || ""
   if (authConfigs) {
     if (authConfigs.realm) {
       const placeholder = ":realm"
@@ -86,7 +86,7 @@ function processUrl(url, authConfigs, query=[]) {
       }
     }
     if (query.length) {
-      result += "?" + query.join("&")
+      result += (result.indexOf("?") === -1 ? "?" : "&") + query.join("&")
     }
   }
   return result
