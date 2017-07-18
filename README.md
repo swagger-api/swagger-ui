@@ -235,6 +235,10 @@ Access-Control-Allow-Headers: Content-Type, api_key, Authorization
 
 Only headers with these names will be allowed to be sent by Swagger-UI.
 
+## Security contact
+
+Please disclose any security-related issues or vulnerabilities by emailing [security@swagger.io](mailto:security@swagger.io), instead of using the public issue tracker.
+
 ## License
 
 Copyright 2017 SmartBear Software
