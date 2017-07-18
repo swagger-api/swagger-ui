@@ -1,11 +1,10 @@
-@import 'mixins';
-@import 'variables';
-@import 'colors';
-@import 'type';
-@import 'reset';
 
 .swagger-ui
 {
+    @import 'mixins';
+    @import 'variables';
+    @import 'colors';
+    @import 'type';
     @import 'layout';
     @import 'buttons';
     @import 'form';
@@ -16,4 +15,6 @@
     @import 'information';
     @import 'authorize';
     @import 'errors';
+
+    @include text_body();
 }
