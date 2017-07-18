@@ -18,10 +18,12 @@ function Markdown({ source }) {
     return null
   }
 
-  return <Remarkable
-    options={{html: true, typographer: true, linkify: true, linkTarget: "_blank"}}
-    source={sanitized}
-    ></Remarkable>
+  return <div className="markdown">
+    <Remarkable
+      options={{html: true, typographer: true, breaks: true, linkify: true, linkTarget: "_blank"}}
+      source={sanitized}
+      ></Remarkable>
+  </div>
 }
 
 Markdown.propTypes = {
