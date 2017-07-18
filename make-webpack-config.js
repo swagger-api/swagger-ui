@@ -61,7 +61,6 @@ module.exports = function(rules, options) {
   }
 
   if( specialOptions.minimize ) {
-
     plugins.push(
       new webpack.optimize.UglifyJsPlugin({
         sourceMap: true,
