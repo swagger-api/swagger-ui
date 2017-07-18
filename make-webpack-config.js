@@ -1,11 +1,12 @@
-var path = require('path')
+var path = require("path")
 
-var webpack = require('webpack')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var deepExtend = require('deep-extend')
-const {gitDescribeSync} = require('git-describe');
+var webpack = require("webpack")
+var ExtractTextPlugin = require("extract-text-webpack-plugin")
+var deepExtend = require("deep-extend")
+const {gitDescribeSync} = require("git-describe")
+const os = require("os")
 
-var pkg = require('./package.json')
+var pkg = require("./package.json")
 
 let gitInfo
 
@@ -13,7 +14,7 @@ try {
   gitInfo = gitDescribeSync(__dirname)
 } catch(e) {
   gitInfo = {
-    hash: 'noGit',
+    hash: "noGit",
     dirty: false
   }
 }
@@ -21,21 +22,21 @@ try {
 var commonRules = [
   { test: /\.(js(x)?)(\?.*)?$/,
     use: [{
-      loader: 'babel-loader',
+      loader: "babel-loader",
       options: {
         retainLines: true
       }
     }],
-    include: [ path.join(__dirname, 'src') ]
+    include: [ path.join(__dirname, "src") ]
   },
   { test: /\.(txt|yaml)(\?.*)?$/,
-    loader: 'raw-loader' },
+    loader: "raw-loader" },
   { test: /\.(png|jpg|jpeg|gif|svg)(\?.*)?$/,
-    loader: 'url-loader?limit=10000' },
+    loader: "url-loader?limit=10000" },
   { test: /\.(woff|woff2)(\?.*)?$/,
-    loader: 'url-loader?limit=100000' },
+    loader: "url-loader?limit=100000" },
   { test: /\.(ttf|eot)(\?.*)?$/,
-    loader: 'file-loader' }
+    loader: "file-loader" }
 ]
 
 module.exports = function(rules, options) {
@@ -54,7 +55,7 @@ module.exports = function(rules, options) {
 
   if( specialOptions.separateStylesheets ) {
     plugins.push(new ExtractTextPlugin({
-      filename: '[name].css' + (specialOptions.longTermCaching ? '?[contenthash]' : ''),
+      filename: "[name].css" + (specialOptions.longTermCaching ? "?[contenthash]" : ""),
       allChunks: true
     }))
   }
@@ -78,35 +79,36 @@ module.exports = function(rules, options) {
 
   plugins.push(
     new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV:  specialOptions.minimize ? JSON.stringify('production') : null,
-        WEBPACK_INLINE_STYLES: !Boolean(specialOptions.separateStylesheets)
-
+      "process.env": {
+        NODE_ENV:  specialOptions.minimize ? JSON.stringify("production") : null,
+        WEBPACK_INLINE_STYLES: !specialOptions.separateStylesheets
       },
-      'buildInfo': JSON.stringify({
+      "buildInfo": JSON.stringify({
         PACKAGE_VERSION: (pkg.version),
         GIT_COMMIT: gitInfo.hash,
-        GIT_DIRTY: gitInfo.dirty
+        GIT_DIRTY: gitInfo.dirty,
+        HOSTNAME: os.hostname(),
+        BUILD_TIME: new Date().toUTCString()
       })
     }))
 
   delete options._special
 
-  var completeConfig =  deepExtend({
+  var completeConfig = deepExtend({
     entry: {},
 
     output:  {
-      path: path.join(__dirname, 'dist'),
-      publicPath: '/',
-      filename: '[name].js',
-      chunkFilename: '[name].js'
+      path: path.join(__dirname, "dist"),
+      publicPath: "/",
+      filename: "[name].js",
+      chunkFilename: "[name].js"
     },
 
-    target: 'web',
+    target: "web",
 
     // yaml-js has a reference to `fs`, this is a workaround
     node: {
-      fs: 'empty'
+      fs: "empty"
     },
 
     module: {
@@ -114,17 +116,17 @@ module.exports = function(rules, options) {
     },
 
     resolveLoader: {
-      modules: [path.join(__dirname, 'node_modules')],
+      modules: [path.join(__dirname, "node_modules")],
     },
 
     externals: {
-      'buffertools': true // json-react-schema/deeper depends on buffertools, which fails.
+      "buffertools": true // json-react-schema/deeper depends on buffertools, which fails.
     },
 
     resolve: {
       modules: [
-        path.join(__dirname, './src'),
-        'node_modules'
+        path.join(__dirname, "./src"),
+        "node_modules"
       ],
       extensions: [".web.js", ".js", ".jsx", ".json", ".less"],
       alias: {
@@ -132,7 +134,7 @@ module.exports = function(rules, options) {
       }
     },
 
-    devtool: specialOptions.sourcemaps ? 'cheap-module-source-map' : null,
+    devtool: specialOptions.sourcemaps ? "cheap-module-source-map" : null,
 
     plugins,
 
