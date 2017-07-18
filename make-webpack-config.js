@@ -4,6 +4,7 @@ var webpack = require("webpack")
 var ExtractTextPlugin = require("extract-text-webpack-plugin")
 var deepExtend = require("deep-extend")
 const {gitDescribeSync} = require("git-describe")
+const os = require("os")
 
 var pkg = require("./package.json")
 
@@ -84,7 +85,9 @@ module.exports = function(rules, options) {
       "buildInfo": JSON.stringify({
         PACKAGE_VERSION: (pkg.version),
         GIT_COMMIT: gitInfo.hash,
-        GIT_DIRTY: gitInfo.dirty
+        GIT_DIRTY: gitInfo.dirty,
+        HOSTNAME: os.hostname(),
+        BUILD_TIME: new Date().toUTCString()
       })
     }))
 

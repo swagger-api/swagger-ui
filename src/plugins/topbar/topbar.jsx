@@ -6,6 +6,10 @@ import Logo from "./logo_small.png"
 
 export default class Topbar extends React.Component {
 
+  static propTypes = {
+    layoutActions: PropTypes.object.isRequired
+  }
+
   constructor(props, context) {
     super(props, context)
     this.state = { url: props.specSelectors.url(), selectedIndex: 0 }
@@ -78,6 +82,11 @@ export default class Topbar extends React.Component {
     if(urls && urls.length) {
       this.loadSpec(urls[this.state.selectedIndex].url)
     }
+  }
+
+  onFilterChange =(e) => {
+    let {target: {value}} = e
+    this.props.layoutActions.updateFilter(value)
   }
 
   render() {

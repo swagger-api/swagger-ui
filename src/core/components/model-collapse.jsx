@@ -5,12 +5,14 @@ export default class ModelCollapse extends Component {
   static propTypes = {
     collapsedContent: PropTypes.any,
     collapsed: PropTypes.bool,
-    children: PropTypes.any
+    children: PropTypes.any,
+    title: PropTypes.element
   }
 
   static defaultProps = {
     collapsedContent: "{...}",
     collapsed: true,
+    title: null
   }
 
   constructor(props, context) {
@@ -31,11 +33,15 @@ export default class ModelCollapse extends Component {
   }
 
   render () {
-    return (<span>
-      <span onClick={ this.toggleCollapsed } style={{ "cursor": "pointer" }}>
-        <span className={ "model-toggle" + ( this.state.collapsed ? " collapsed" : "" ) }></span>
+    const {title} = this.props
+    return (
+      <span>
+        { title && <span onClick={this.toggleCollapsed} style={{ "cursor": "pointer" }}>{title}</span> }
+        <span onClick={ this.toggleCollapsed } style={{ "cursor": "pointer" }}>
+          <span className={ "model-toggle" + ( this.state.collapsed ? " collapsed" : "" ) }></span>
+        </span>
+        { this.state.collapsed ? this.state.collapsedContent : this.props.children }
       </span>
-      { this.state.collapsed ? this.state.collapsedContent : this.props.children }
-    </span>)
+    )
   }
 }
