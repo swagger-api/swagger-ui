@@ -109,15 +109,14 @@ export default class Auths extends React.Component {
             <p>API requires the following scopes. Select which ones you want to grant to Swagger UI.</p>
           </div>
             {
-              definitions.filter( schema => schema.get("type") === "oauth2")
-                .map( (schema, name) =>{
+              oauthDefinitions.map( (schema, name) =>{
                   return (<div key={ name }>
                     <Oauth2 authorized={ authorized }
                             schema={ schema }
                             name={ name } />
                   </div>)
                 }
-                ).toArray()
+              ).toArray()
             }
           </div> : null
         }

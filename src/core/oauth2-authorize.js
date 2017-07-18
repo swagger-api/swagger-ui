@@ -52,19 +52,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
 
   query.push("state=" + encodeURIComponent(state))
 
-  if (typeof authConfigs.realm !== "undefined") {
-    query.push("realm=" + encodeURIComponent(authConfigs.realm))
-  }
-
-  let { additionalQueryStringParams } = authConfigs
-
-  for (let key in additionalQueryStringParams) {
-    if (typeof additionalQueryStringParams[key] !== "undefined") {
-      query.push([key, additionalQueryStringParams[key]].map(encodeURIComponent).join("="))
-    }
-  }
-
-  let url = [schema.get("authorizationUrl"), query.join("&")].join("?")
+  const url = processUrl(schema.get("authorizationUrl"), authConfigs, query)
 
   // pass action authorizeOauth2 and authentication data through window
   // to authorize with oauth2
@@ -78,3 +66,30 @@ export default function authorize ( { auth, authActions, errActions, configs, au
 
   win.open(url)
 }
+
+function processUrl(url, authConfigs, query=[]) {
+  let result = url
+  if (authConfigs) {
+    if (authConfigs.realm) {
+      const placeholder = ":realm"
+      const idx = url ? url.indexOf(placeholder) : -1
+      if (idx !== -1) {
+        result = url.substring(0, idx) + encodeURIComponent(authConfigs.realm) + url.substring(idx + placeholder.length)
+      } else {
+        query.push("realm=" + encodeURIComponent(authConfigs.realm))
+      }
+    }
+    const params = authConfigs.additionalQueryStringParams || {}
+    for (let key in params) {
+      if (params[key] !== undefined) {
+        query.push([key, params[key]].map(encodeURIComponent).join("="))
+      }
+    }
+    if (query.length) {
+      result += "?" + query.join("&")
+    }
+  }
+  return result
+}
+
+export { processUrl }

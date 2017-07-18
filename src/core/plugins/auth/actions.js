@@ -1,5 +1,6 @@
 import win from "core/window"
 import { btoa, buildFormData } from "core/utils"
+import { processUrl } from "core/oauth2-authorize"
 
 export const SHOW_AUTH_POPUP = "show_popup"
 export const AUTHORIZE = "authorize"
@@ -126,12 +127,8 @@ export const authorizeAccessCode = ( { auth, redirectUrl } ) => ( { authActions 
 
 export const authorizeRequest = ( data ) => ( { fn, authActions, errActions, authSelectors } ) => {
   let { body, query={}, headers={}, name, url, auth } = data
-  let { additionalQueryStringParams } = authSelectors.getConfigs() || {}
-  let fetchUrl = url
-
-  for (let key in additionalQueryStringParams) {
-    url += "&" + key + "=" + encodeURIComponent(additionalQueryStringParams[key])
-  }
+  let authConfigs = authSelectors.getConfigs() || {}
+  let fetchUrl = processUrl(url, authConfigs)
 
   let _headers = Object.assign({
     "Accept":"application/json, text/plain, */*",
