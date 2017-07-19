@@ -1,7 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
 import SplitPane from "react-split-pane"
-import "./split-pane-mode.less"
 
 const MODE_KEY = ["split-pane-mode"]
 const MODE_LEFT = "left"
