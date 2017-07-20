@@ -279,16 +279,28 @@ function combinePlugins(plugins, toolbox) {
   return {}
 }
 
+function downCaseThePropsOf(obj) {
+  return Object.keys(obj).reduce((acc, key) => {
+    acc[key.toLowerCase()] = obj[key]
+    return acc
+  }, {})
+}
+
 // Wraps deepExtend, to account for certain fields, being wrappers.
 // Ie: we need to convert some fields into arrays, and append to them.
 // Rather than overwrite
 function systemExtend(dest={}, src={}) {
-
   if(!isObject(dest)) {
     return {}
   }
+
   if(!isObject(src)) {
     return dest
+  } else {
+    if (isObject(src.components)) {
+      dest.components = {...dest.components, ...downCaseThePropsOf(src.components)}
+      delete src.components
+    }
   }
 
   // Account for wrapActions, make it an array and append to it

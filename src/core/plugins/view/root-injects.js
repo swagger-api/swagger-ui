@@ -101,6 +101,7 @@ export const getComponent = (getSystem, getStore, getComponents, componentName, 
   if(typeof componentName !== "string")
     throw new TypeError("Need a string, to fetch a component. Was given a " + typeof componentName)
 
+  componentName = componentName.toLowerCase()
   let component = getComponents(componentName)
 
   if(!component) {
