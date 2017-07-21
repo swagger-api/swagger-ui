@@ -102,7 +102,7 @@ Config Name | Description
 --- | ---
 client_id | Default clientId. MUST be a string
 client_secret | Default clientSecret. MUST be a string
-realm | The OAuth realm parameter for `authorizationUrl` and `tokenUrl`. Optional. If specified it MUST be a string. If a `:realm` placeholder is present in the URL path, it will be replaced with this value. If no such placeholder is present, the value will be added as the value for querystring parameter 'realm'.
+realm | The OAuth realm parameter for `authorizationUrl` and `tokenUrl`. Optional. If specified it MUST be a string. If a `{realm}` placeholder is present in the URL path, it will be replaced with this value. If no such placeholder is present, the value will be added as the value for querystring parameter 'realm'.
 appName | application name, displayed in authorization popup. MUST be a string
 scopeSeparator | scope separator for passing scopes, encoded before calling, default value is a space (encoded value `%20`). MUST be a string
 additionalQueryStringParams | Additional query parameters added to `authorizationUrl` and `tokenUrl`. MUST be an object
@@ -114,7 +114,7 @@ const ui = SwaggerUIBundle({...})
 ui.initOAuth({
     clientId: "your-client-id",
     clientSecret: "your-client-secret-if-required",
-    realm: "your-realms",
+    realm: "your-realm",
     appName: "your-app-name",
     scopeSeparator: " ",
     additionalQueryStringParams: {test: "hello"}

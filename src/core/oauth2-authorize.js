@@ -71,7 +71,7 @@ function processUrl(url, authConfigs, query=[]) {
   let result = url || ""
   if (authConfigs) {
     if (authConfigs.realm) {
-      const placeholder = ":realm"
+      const placeholder = "{realm}"
       const idx = url ? url.indexOf(placeholder) : -1
       if (idx !== -1) {
         result = url.substring(0, idx) + encodeURIComponent(authConfigs.realm) + url.substring(idx + placeholder.length)
