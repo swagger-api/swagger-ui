@@ -19,8 +19,9 @@ export default class Schemes extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if ( this.props.operationScheme && !nextProps.schemes.has(this.props.operationScheme) ) {
-      //fire 'change' event if our selected scheme is no longer an option
+    if ( !this.props.operationScheme || !nextProps.schemes.has(this.props.operationScheme) ) {
+      // if we don't have a selected operationScheme or if our selected scheme is no longer an option,
+      // then fire 'change' event and select the first scheme in the list of options
       this.setScheme(nextProps.schemes.first())
     }
   }

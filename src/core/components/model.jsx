@@ -48,7 +48,7 @@ export default class Model extends Component {
     switch(type) {
       case "object":
         return <ObjectModel className="object" { ...this.props } schema={ modelSchema }
-                                              name={ name || modelName }
+                                              name={ name || modelName } required={ required }
                                               isRef={ isRef!== undefined ? isRef : !!$$ref }/>
       case "array":
         return <ArrayModel className="array" { ...this.props } schema={ modelSchema } required={ required } />
