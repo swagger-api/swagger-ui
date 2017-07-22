@@ -23,7 +23,7 @@ export default class ObjectModel extends Component {
     let properties = schema.get("properties")
     let additionalProperties = schema.get("additionalProperties")
     let title = schema.get("title") || name
-    let required = schema.get("required")
+    let requiredProperties = schema.get("required")
 
     const JumpToPath = getComponent("JumpToPath", true)
     const Markdown = getComponent("Markdown")
@@ -63,14 +63,16 @@ export default class ObjectModel extends Component {
               {
                 !(properties && properties.size) ? null : properties.entrySeq().map(
                     ([key, value]) => {
-                      let isRequired = List.isList(required) && required.contains(key)
+                      let isRequired = List.isList(requiredProperties) && requiredProperties.contains(key)
                       let propertyStyle = { verticalAlign: "top", paddingRight: "0.2em" }
                       if ( isRequired ) {
                         propertyStyle.fontWeight = "bold"
                       }
 
                       return (<tr key={key}>
-                        <td style={ propertyStyle }>{ key }:</td>
+                        <td style={ propertyStyle }>
+                          { key }{ isRequired && <span style={{ color: "red" }}>*</span> }
+                        </td>
                         <td style={{ verticalAlign: "top" }}>
                           <Model key={ `object-${name}-${key}_${value}` } { ...props }
                                  required={ isRequired }
