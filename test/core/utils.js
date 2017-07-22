@@ -1,10 +1,10 @@
 /* eslint-env mocha */
 import expect from "expect"
 import { fromJS } from "immutable"
-import { mapToList, validateNumber, validateInteger, validateParam, validateFile } from "core/utils"
+import { mapToList, validateNumber, validateInteger, validateParam, validateFile, fromJSOrdered } from "core/utils"
 import win from "core/window"
 
-describe("utils", function(){
+describe("utils", function() {
 
   describe("mapToList", function(){
 
@@ -544,4 +544,31 @@ describe("utils", function(){
       expect( result ).toEqual( [] )
     })
   })
+
+  describe("fromJSOrdered", () => {
+    it("should create an OrderedMap from an object", () => {
+      const param = {
+        value: "test"
+      }
+
+      const result = fromJSOrdered(param).toJS()
+      expect( result ).toEqual( { value: "test" } )
+    })
+
+    it("should not use an object's length property for Map size", () => {
+      const param = {
+        length: 5
+      }
+
+      const result = fromJSOrdered(param).toJS()
+      expect( result ).toEqual( { length: 5 } )
+    })
+
+    it("should create an OrderedMap from an array", () => {
+      const param = [1, 1, 2, 3, 5, 8]
+
+      const result = fromJSOrdered(param).toJS()
+      expect( result ).toEqual( [1, 1, 2, 3, 5, 8] )
+    })
+    })
 })
