@@ -15,9 +15,9 @@ export default class ArrayModel extends Component {
   }
 
   render(){
-    let { getComponent, required, schema, depth, expandDepth } = this.props
+    let { getComponent, required, schema, depth, expandDepth, name } = this.props
     let items = schema.get("items")
-    let title = schema.get("title")
+    let title = schema.get("title") || name
     let properties = schema.filter( ( v, key) => ["type", "items", "$$ref"].indexOf(key) === -1 )
 
     const ModelCollapse = getComponent("ModelCollapse")
