@@ -21,6 +21,10 @@ select
 
         background: #f7f7f7;
     }
+
+    &.invalid {
+        @include invalidFormElement();
+    }
 }
 
 .opblock-body select
@@ -53,12 +57,8 @@ input[type=file]
     border-radius: 4px;
     background: #fff;
 
-    &.invalid
-    {
-        animation: shake .4s 1;
-
-        border-color: $_color-delete;
-        background: lighten($_color-delete, 35%);
+    &.invalid {
+        @include invalidFormElement();
     }
 }
 
