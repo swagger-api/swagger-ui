@@ -41,7 +41,7 @@ export function fromJSOrdered (js) {
   return !isObject(js) ? js :
     Array.isArray(js) ?
       Im.Seq(js).map(fromJSOrdered).toList() :
-      Im.Seq(js).map(fromJSOrdered).toOrderedMap()
+      Im.OrderedMap(js).map(fromJSOrdered)
 }
 
 export function bindToState(obj, state) {
