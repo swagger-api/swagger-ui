@@ -1,3 +1,3 @@
-var config = require("./webpack-dist.config.js")
+const config = require("./webpack-dist.config.js")
 
 module.exports = config

@@ -490,6 +490,15 @@
         {
             margin: 0;
         }
+
+        a
+        {
+            @include text_code(#89bf04);
+            text-decoration: underline;
+            &:hover {
+                color: #81b10c;
+            }
+        }
     }
 }
 
