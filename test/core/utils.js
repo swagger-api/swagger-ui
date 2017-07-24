@@ -176,7 +176,6 @@ describe("utils", function() {
     let result = null
 
     it("validates required strings", function() {
-      // invalid string
       param = fromJS({
         required: true,
         type: "string",
@@ -184,39 +183,9 @@ describe("utils", function() {
       })
       result = validateParam( param, false )
       expect( result ).toEqual( ["Required field is not provided"] )
-
-      // valid string
-      param = fromJS({
-        required: true,
-        type: "string",
-        value: "test string"
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
-    })
-
-    it("validates optional strings", function() {
-      // valid (empty) string
-      param = fromJS({
-        required: false,
-        type: "string",
-        value: ""
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
-
-      // valid string
-      param = fromJS({
-        required: false,
-        type: "string",
-        value: "test"
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
     })
 
     it("validates required files", function() {
-      // invalid file
       param = fromJS({
         required: true,
         type: "file",
@@ -224,48 +193,9 @@ describe("utils", function() {
       })
       result = validateParam( param, false )
       expect( result ).toEqual( ["Required field is not provided"] )
-
-      // valid file
-      param = fromJS({
-        required: true,
-        type: "file",
-        value: new win.File()
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
-    })
-
-    it("validates optional files", function() {
-      // invalid file
-      param = fromJS({
-        required: false,
-        type: "file",
-        value: "not a file"
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Value must be a file"] )
-
-      // valid (empty) file
-      param = fromJS({
-        required: false,
-        type: "file",
-        value: undefined
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
-
-      // valid file
-      param = fromJS({
-        required: false,
-        type: "file",
-        value: new win.File()
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
     })
 
     it("validates required arrays", function() {
-      // invalid (empty) array
       param = fromJS({
         required: true,
         type: "array",
@@ -274,51 +204,75 @@ describe("utils", function() {
       result = validateParam( param, false )
       expect( result ).toEqual( ["Required field is not provided"] )
 
-      // invalid (not an array)
       param = fromJS({
         required: true,
         type: "array",
-        value: undefined
+        value: []
       })
       result = validateParam( param, false )
       expect( result ).toEqual( ["Required field is not provided"] )
+    })
 
-      // invalid array, items do not match correct type
+    it("validates numbers", function() {
+      // string instead of a number
       param = fromJS({
-        required: true,
-        type: "array",
-        value: [1],
-        items: {
-          type: "string"
-        }
+        required: false,
+        type: "number",
+        value: "test"
       })
       result = validateParam( param, false )
-      expect( result ).toEqual( [{index: 0, error: "Value must be a string"}] )
+      expect( result ).toEqual( ["Value must be a number"] )
 
-      // valid array, with no 'type' for items
+      // undefined value
       param = fromJS({
-        required: true,
-        type: "array",
-        value: ["1"]
+        required: false,
+        type: "number",
+        value: undefined
       })
       result = validateParam( param, false )
       expect( result ).toEqual( [] )
 
-      // valid array, items match type
+      // null value
       param = fromJS({
-        required: true,
-        type: "array",
-        value: ["1"],
-        items: {
-          type: "string"
-        }
+        required: false,
+        type: "number",
+        value: null
       })
       result = validateParam( param, false )
       expect( result ).toEqual( [] )
     })
 
-    it("validates optional arrays", function() {
-      // valid, empty array
+    it("validates integers", function() {
+      // string instead of integer
+      param = fromJS({
+        required: false,
+        type: "integer",
+        value: "test"
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( ["Value must be an integer"] )
+
+      // undefined value
+      param = fromJS({
+        required: false,
+        type: "integer",
+        value: undefined
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( [] )
+
+      // null value
+      param = fromJS({
+        required: false,
+        type: "integer",
+        value: null
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( [] )
+    })
+
+    it("validates arrays", function() {
+      // empty array
       param = fromJS({
         required: false,
         type: "array",
@@ -327,7 +281,7 @@ describe("utils", function() {
       result = validateParam( param, false )
       expect( result ).toEqual( [] )
 
-      // invalid, items do not match correct type
+      // numbers
       param = fromJS({
         required: false,
         type: "array",
@@ -339,209 +293,17 @@ describe("utils", function() {
       result = validateParam( param, false )
       expect( result ).toEqual( [{index: 0, error: "Value must be a number"}] )
 
-      // valid
+      // integers
       param = fromJS({
         required: false,
         type: "array",
-        value: ["test"],
+        value: ["not", "numbers"],
         items: {
-          type: "string"
+          type: "integer"
         }
       })
       result = validateParam( param, false )
-      expect( result ).toEqual( [] )
-    })
-
-    it("validates required booleans", function() {
-      // invalid boolean value
-      param = fromJS({
-        required: true,
-        type: "boolean",
-        value: undefined
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Required field is not provided"] )
-
-      // invalid boolean value (not a boolean)
-      param = fromJS({
-        required: true,
-        type: "boolean",
-        value: "test string"
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Required field is not provided"] )
-
-      // valid boolean value
-      param = fromJS({
-        required: true,
-        type: "boolean",
-        value: "true"
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
-
-      // valid boolean value
-      param = fromJS({
-        required: true,
-        type: "boolean",
-        value: false
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
-    })
-
-    it("validates optional booleans", function() {
-      // valid (empty) boolean value
-      param = fromJS({
-        required: false,
-        type: "boolean",
-        value: undefined
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
-
-      // invalid boolean value (not a boolean)
-      param = fromJS({
-        required: false,
-        type: "boolean",
-        value: "test string"
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Value must be a boolean"] )
-
-      // valid boolean value
-      param = fromJS({
-        required: false,
-        type: "boolean",
-        value: "true"
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
-
-      // valid boolean value
-      param = fromJS({
-        required: false,
-        type: "boolean",
-        value: false
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
-    })
-
-    it("validates required numbers", function() {
-      // invalid number, string instead of a number
-      param = fromJS({
-        required: true,
-        type: "number",
-        value: "test"
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Required field is not provided"] )
-
-      // invalid number, undefined value
-      param = fromJS({
-        required: true,
-        type: "number",
-        value: undefined
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Required field is not provided"] )
-
-      // valid number
-      param = fromJS({
-        required: true,
-        type: "number",
-        value: 10
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
-    })
-
-    it("validates optional numbers", function() {
-      // invalid number, string instead of a number
-      param = fromJS({
-        required: false,
-        type: "number",
-        value: "test"
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Value must be a number"] )
-
-      // valid (empty) number
-      param = fromJS({
-        required: false,
-        type: "number",
-        value: undefined
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
-
-      // valid number
-      param = fromJS({
-        required: false,
-        type: "number",
-        value: 10
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
-    })
-
-    it("validates required integers", function() {
-      // invalid integer, string instead of an integer
-      param = fromJS({
-        required: true,
-        type: "integer",
-        value: "test"
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Required field is not provided"] )
-
-      // invalid integer, undefined value
-      param = fromJS({
-        required: true,
-        type: "integer",
-        value: undefined
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Required field is not provided"] )
-
-      // valid integer
-      param = fromJS({
-        required: true,
-        type: "integer",
-        value: 10
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
-    })
-
-    it("validates optional integers", function() {
-      // invalid integer, string instead of an integer
-      param = fromJS({
-        required: false,
-        type: "integer",
-        value: "test"
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Value must be an integer"] )
-
-      // valid (empty) integer
-      param = fromJS({
-        required: false,
-        type: "integer",
-        value: undefined
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
-
-      // valid number
-      param = fromJS({
-        required: false,
-        type: "integer",
-        value: 10
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      expect( result ).toEqual( [{index: 0, error: "Value must be an integer"}, {index: 1, error: "Value must be an integer"}] )
     })
   })
 
