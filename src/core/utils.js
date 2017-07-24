@@ -479,8 +479,9 @@ export const validateParam = (param, isXml) => {
   let arrayCheck = type === "array" && Array.isArray(value) && !value.length
   let listCheck = type === "array" && Im.List.isList(value) && !value.count()
   let fileCheck = type === "file" && !(value instanceof win.File)
+  let nullUndefinedCheck = value === null || value === undefined
 
-  if ( required && (stringCheck || arrayCheck || listCheck || fileCheck) ) {
+  if ( required && (stringCheck || arrayCheck || listCheck || fileCheck || nullUndefinedCheck) ) {
     errors.push("Required field is not provided")
     return errors
   }
