@@ -129,8 +129,7 @@ export class Select extends React.Component {
     value: PropTypes.any,
     onChange: PropTypes.func,
     multiple: PropTypes.bool,
-    allowEmptyValue: PropTypes.bool,
-    className: PropTypes.string
+    allowEmptyValue: PropTypes.bool
   }
 
   static defaultProps = {
@@ -143,7 +142,7 @@ export class Select extends React.Component {
 
     let value
 
-    if (props.value) {
+    if (props.value !== undefined) {
       value = props.value
     } else {
       value = props.multiple ? [""] : ""
@@ -179,7 +178,7 @@ export class Select extends React.Component {
     let value = this.state.value.toJS ? this.state.value.toJS() : this.state.value
 
     return (
-      <select className={this.props.className} multiple={ multiple } value={ value } onChange={ this.onChange } >
+      <select multiple={ multiple } value={ value } onChange={ this.onChange } >
         { allowEmptyValue ? <option value="">--</option> : null }
         {
           allowedValues.map(function (item, key) {

@@ -14,11 +14,6 @@
 
     @include text_headline();
 
-    &.btn-sm {
-        font-size: 12px;
-        padding: 4px 23px;
-    }
-
     &[disabled]
     {
         cursor: not-allowed;
@@ -170,9 +165,6 @@
 button
 {
     cursor: pointer;
-    outline: none;
 
-    &.invalid {
-        @include invalidFormElement();
-    }
+    outline: none;
 }
