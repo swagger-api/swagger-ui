@@ -14,7 +14,9 @@ Feature branches should be prefixed with `ft/`.
 
 Bugfix branches should be prefixed with `bug/`.
 
-After the forward slash, include a short description of what you're fixing. For example: `bug/fix-everything-that-was-broken`.
+Version branches should be prefixed with `v/`.
+
+After the forward slash, include a short description of what you're fixing. For example: `bug/fix-everything-that-was-broken`. For versions, add the version that will be released via the branch, for example: `v/1.2.3`.
 
 If there's an issue filed that you're addressing in your branch, include the issue number directly after the forward slash. For example: `bug/1234-fix-all-the-other-things`.
 
