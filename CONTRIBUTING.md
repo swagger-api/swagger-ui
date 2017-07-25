@@ -1,5 +1,7 @@
 ## Contributing to Swagger-UI
 
+We love contributions from our community of users! This document explains our guidelines and workflows. Please take care to follow them, as it helps us keep things moving smoothly.
+
 #### Environment setup
 
 0. Install Node.js (4 or newer) and npm (3 or newer).
