@@ -1,68 +1,17 @@
-describe("initial render", function () {
-  let mainPage
-
-
-  describe("for topbar", function () {
-    let topbar
-    before(function (client, done) {
-      done()
-    })
-
-    after(function (client, done) {
-      client.end(function () {
-        done()
-      })
-    })
-
-    afterEach(function (client, done) {
-      done()
-    })
-
-    beforeEach(function (client, done) {
-      mainPage = client
-        .url("localhost:3200")
-        .page.main()
-
-      topbar = mainPage.section.topbar
-
-      client.waitForElementVisible('.download-url-input', 5000)
-        .pause(1000)
-        .clearValue('.download-url-input')
-        .setValue('.download-url-input', 'http://localhost:3200/test-specs/1.json')
-        .click('button.download-url-button')
-
-      done()
-    })
-
-    it("renders section", function (client) {
-      mainPage.expect.section("@topbar").to.be.visible
-      client.end()
-    })
-
-    it("renders input box", function (client) {
-      topbar.expect.element("@inputBox").to.be.visible
-      client.end()
-    })
-
-    it("renders explore button", function (client) {
-      topbar.expect.element("@btnExplore").to.be.visible
-
-      client.end()
-    })
-  })
-
-  describe("for information", function () {
-    let informationContainer, topbar
+describe("render informationContainer", function () {
+    let mainPage
+    let informationContainer
     beforeEach(function (client, done) {
       
       mainPage = client
         .url("localhost:3200")
         .page.main()
-      client.waitForElementVisible('.download-url-input', 5000)
+      client.waitForElementVisible(".download-url-input", 5000)
+        .pause(2000)
+        .clearValue(".download-url-input")
+        .setValue(".download-url-input", "http://localhost:3200/test-specs/1.json")
+        .click("button.download-url-button")
         .pause(1000)
-        .clearValue('.download-url-input')
-        .setValue('.download-url-input', 'http://localhost:3200/test-specs/1.json')
-        .click('button.download-url-button')
 
       informationContainer = mainPage.section.informationContainer
         
@@ -70,7 +19,7 @@ describe("initial render", function () {
     })
 
     it("renders section", function (client) {
-      mainPage.expect.section("@informationContainer").to.be.visible.before(5000)
+      mainPage.expect.section("@informationContainer").to.be.visible.before(8000)
 
       client.end()
     })
@@ -139,46 +88,3 @@ describe("initial render", function () {
       client.end()
     })
   })
-  describe("for scheme", function () {
-    let schemeContainer
-    beforeEach(function (client, done) {
-
-      mainPage = client
-        .url("localhost:3200")
-        .page.main()
-      schemeContainer = mainPage.section.schemeContainer
-      done()
-    })
-
-    it("render section", function (client) {
-      mainPage.expect.section("@schemeContainer").to.be.visible.before(5000)
-
-      client.end()
-    })
-    it("render scheme option", function (client) {
-      schemeContainer.waitForElementVisible("@schemeTitle", 5000)
-        .assert.containsText("@schemeTitle", "Schemes")
-        .expect.element("@httpOption").to.be.selected
-
-      client.end()
-    })
-
-    it("render authorized button", function (client) {
-      schemeContainer.waitForElementVisible("@btnAuthorize", 5000)
-        .expect.element("@btnAuthorize").to.be.visible
-
-      client.end()
-    })
-    it("render click event", function(client) {
-      schemeContainer.waitForElementVisible("@btnAuthorize", 5000)
-        .click("@btnAuthorize")
-        .assert.visible("@authorizationModal")
-        .assert.containsText("@appName", "Application: your-app-name")
-        .assert.containsText("@authorizationUrl", "http://petstore.swagger.io/oauth/dialog")
-        .assert.containsText("@flow", "implicit")
-        .assert.value("@inputClientID", "your-client-id")
-
-      client.end()
-    })
-  })
-})
