@@ -38,14 +38,14 @@ If there's an issue filed that you're addressing in your branch, include the iss
 - Use the imperative mood in your subject lines, as if you were giving the code an order in your subject line.
   - This mimics what Git does for you automatically: "Merge develop", "Revert f570ffc", etc
   - Simple trick... your subject line should complete this sentence: `If applied, this commit will [your subject line].`
-- Don't use [magic GitHub words]() in your commits to close issues - do that in the pull request for your code instead.
+- Don't use [magic GitHub words](https://help.github.com/articles/closing-issues-using-keywords/) in your commits to close issues - do that in the pull request for your code instead.
 
 _Adapted from [How to Write a Git Commit Message](https://chris.beams.io/posts/git-commit/#seven-rules)._
 
 #### Making pull requests
 
 - **Do** summarize your changes in the PR body. If in doubt, write a bullet-point list titled `This PR does the following:`.
-- **Do** include references to issues that your PR solves, and use [magic GitHub words]() to close those issues automatically when your PR is merged.
+- **Do** include references to issues that your PR solves, and use [magic GitHub words](https://help.github.com/articles/closing-issues-using-keywords/) to close those issues automatically when your PR is merged.
 - **Do** include tests that cover new or changed functionality.
 - **Do** be careful to follow our ESLint style rules. We recommend installing an ESLint plugin if you use a graphical code editor.
 - **Do** make sure that tests and the linter are passing by running `npm test` locally, otherwise we can't merge your pull request.
