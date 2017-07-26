@@ -19,6 +19,7 @@ export default (props) => {
               operation={operation}
               key={method}
               method={method}
+              isShownKey={"callbacks", operation.get("id"), callbackName}
               path={pathItemName}
               allowTryItOut={false}
               {...props}></Operation>
