@@ -4,11 +4,7 @@ import System from "core/system"
 import win from "core/window"
 import ApisPreset from "core/presets/apis"
 import * as AllPlugins from "core/plugins/all"
-import { parseSeach, filterConfigs } from "core/utils"
-
-const CONFIGS = [ "url", "urls", "urls.primaryName", "spec", "validatorUrl", "onComplete", "onFailure", "authorizations", "docExpansion",
-    "apisSorter", "operationsSorter", "supportedSubmitMethods", "dom_id", "defaultModelRendering", "oauth2RedirectUrl",
-    "showRequestHeaders", "custom", "modelPropertyMacro", "parameterMacro", "displayOperationId" , "displayRequestDuration"]
+import { parseSearch } from "core/utils"
 
 // eslint-disable-next-line no-undef
 const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION } = buildInfo
@@ -80,7 +76,7 @@ module.exports = function SwaggerUI(opts) {
   store.register([constructorConfig.plugins, inlinePlugin])
 
   var system = store.getSystem()
-  let queryConfig = parseSeach()
+  let queryConfig = parseSearch()
 
   system.initOAuth = system.authActions.configureAuth
 
@@ -91,7 +87,7 @@ module.exports = function SwaggerUI(opts) {
 
     let localConfig = system.specSelectors.getLocalConfig ? system.specSelectors.getLocalConfig() : {}
     let mergedConfig = deepExtend({}, localConfig, constructorConfig, fetchedConfig || {}, queryConfig)
-    store.setConfigs(filterConfigs(mergedConfig, CONFIGS))
+    store.setConfigs(mergedConfig)
 
     if (fetchedConfig !== null) {
       if (!queryConfig.url && typeof mergedConfig.spec === "object" && Object.keys(mergedConfig.spec).length) {
