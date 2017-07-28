@@ -597,18 +597,6 @@ export const buildFormData = (data) => {
   return formArr.join("&")
 }
 
-export const filterConfigs = (configs, allowed) => {
-    let i, filteredConfigs = {}
-
-    for (i in configs) {
-        if (allowed.indexOf(i) !== -1) {
-            filteredConfigs[i] = configs[i]
-        }
-    }
-
-    return filteredConfigs
-}
-
 // Is this really required as a helper? Perhaps. TODO: expose the system of presets.apis in docs, so we know what is supported
 export const shallowEqualKeys = (a,b, keys) => {
   return !!find(keys, (key) => {
