@@ -159,7 +159,7 @@ class Parameters extends Component {
           isOAS3() && requestBody && this.state.parametersVisible &&
           <div className="opblock-section">
             <div className="opblock-section-header">
-              <h4 className="opblock-title">Request body</h4>
+              <h4 className={`opblock-title parameter__name ${requestBody.get("required") && "required"}`}>Request body</h4>
               <label>
                 <ContentType
                   value={this.state.requestBodyContentType}
