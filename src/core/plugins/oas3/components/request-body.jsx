@@ -14,7 +14,7 @@ export default ({ requestBody, getComponent, specSelectors, contentType }) => {
 
   const mediaTypeValue = requestBodyContent.get(contentType)
 
-  const sampleSchema = getSampleSchema(mediaTypeValue.get("schema"))
+  const sampleSchema = getSampleSchema(mediaTypeValue.get("schema").toJS(), contentType)
 
   return <div>
     { requestBodyDescription &&
