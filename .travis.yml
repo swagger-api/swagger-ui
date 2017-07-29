@@ -16,7 +16,7 @@ deploy:
     email: apiteam@swagger.io
     skip_cleanup: true
     api_key:
-      secure: "IJkLaACa+rfERf1O5nwlqOyuo9sbul3FBhBt4Un9P+DvEet3AoDPV9NQVLd8SkmQYKGbGQWF4BIdjrO5nqFD6Te+JTeUX5Uo/DFS/fu9qw1xv0dQpvbJFuoYnnFlbzGTEs4CFa8lbu3ZromFHQGOQxRobjsG1Kf0dWFSSzmND3g="
+      secure: "YKk5L1BL4oAixvLjWp+i85fNFXK85HKOlUt6QypkZkt23My5aywuYsv5VCLjjOtuWc72zbmOzP82DTBsuRswCRViXWCiNYhl42QTdvadHu0uIlM/FL6aNlvPpzXIws4bMvz1aYOTzFTnSnNuvCTzF1daW0+2ClOo3r0nLEdDfFg="
     on:
       tags: true
       repo: swagger-api/swagger-ui
