@@ -88,12 +88,13 @@ export default class Info extends React.Component {
     const { url:externalDocsUrl, description:externalDocsDescription } = (externalDocs || fromJS({})).toJS()
 
     const Markdown = getComponent("Markdown")
+    const VersionStamp = getComponent("VersionStamp")
 
     return (
       <div className="info">
         <hgroup className="main">
           <h2 className="title" >{ title }
-            { version && <small><pre className="version"> { version } </pre></small> }
+            { version && <VersionStamp version={version}></VersionStamp> }
           </h2>
           { host || basePath ? <Path host={ host } basePath={ basePath } /> : null }
           { url && <a target="_blank" href={ url }><span className="url"> { url } </span></a> }
