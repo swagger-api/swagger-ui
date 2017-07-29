@@ -41,7 +41,7 @@ const Callbacks = (props) => {
 }
 
 Callbacks.propTypes = {
-  getComponent: PropTypes.function.isRequired,
+  getComponent: PropTypes.func.isRequired,
   callbacks: PropTypes.array.isRequired
 
 }

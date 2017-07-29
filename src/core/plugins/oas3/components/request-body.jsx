@@ -34,7 +34,7 @@ const RequestBody = ({ requestBody, getComponent, specSelectors, contentType }) 
 
 RequestBody.propTypes = {
   requestBody: ImPropTypes.orderedMap.isRequired,
-  getComponent: PropTypes.function.isRequired,
+  getComponent: PropTypes.func.isRequired,
   specSelectors: PropTypes.object.isRequired,
   contentType: PropTypes.string.isRequired
 }
