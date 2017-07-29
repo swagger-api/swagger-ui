@@ -468,6 +468,18 @@ export const validateFile = ( val ) => {
   }
 }
 
+export const validateBoolean = ( val ) => {
+  if ( !(val === "true" || val === "false" || val === true || val === false) ) {
+    return "Value must be a boolean"
+  }
+}
+
+export const validateString = ( val ) => {
+  if ( val && typeof val !== "string" ) {
+    return "Value must be a string"
+  }
+}
+
 // validation of parameters before execute
 export const validateParam = (param, isXml) => {
   let errors = []
@@ -475,53 +487,69 @@ export const validateParam = (param, isXml) => {
   let required = param.get("required")
   let type = param.get("type")
 
-  let stringCheck = type === "string" && !value
-  let arrayCheck = type === "array" && Array.isArray(value) && !value.length
-  let listCheck = type === "array" && Im.List.isList(value) && !value.count()
-  let fileCheck = type === "file" && !(value instanceof win.File)
-  let nullUndefinedCheck = value === null || value === undefined
+  /*
+    If the parameter is required OR the parameter has a value (meaning optional, but filled in)
+    then we should do our validation routine.
+    Only bother validating the parameter if the type was specified.
+  */
+  if ( type && (required || value) ) {
+    // These checks should evaluate to true if the parameter's value is valid
+    let stringCheck = type === "string" && value && !validateString(value)
+    let arrayCheck = type === "array" && Array.isArray(value) && value.length
+    let listCheck = type === "array" && Im.List.isList(value) && value.count()
+    let fileCheck = type === "file" && value instanceof win.File
+    let booleanCheck = type === "boolean" && !validateBoolean(value)
+    let numberCheck = type === "number" && !validateNumber(value) // validateNumber returns undefined if the value is a number
+    let integerCheck = type === "integer" && !validateInteger(value) // validateInteger returns undefined if the value is an integer
 
-  if ( required && (stringCheck || arrayCheck || listCheck || fileCheck || nullUndefinedCheck) ) {
-    errors.push("Required field is not provided")
-    return errors
-  }
+    if ( required && !(stringCheck || arrayCheck || listCheck || fileCheck || booleanCheck || numberCheck || integerCheck) ) {
+      errors.push("Required field is not provided")
+      return errors
+    }
 
-  if ( value === null || value === undefined ) {
-    return errors
-  }
+    if ( type === "string" ) {
+      let err = validateString(value)
+      if (!err) return errors
+      errors.push(err)
+    } else if ( type === "boolean" ) {
+      let err = validateBoolean(value)
+      if (!err) return errors
+      errors.push(err)
+    } else if ( type === "number" ) {
+      let err = validateNumber(value)
+      if (!err) return errors
+      errors.push(err)
+    } else if ( type === "integer" ) {
+      let err = validateInteger(value)
+      if (!err) return errors
+      errors.push(err)
+    } else if ( type === "array" ) {
+      let itemType
 
-  if ( type === "number" ) {
-    let err = validateNumber(value)
-    if (!err) return errors
-    errors.push(err)
-  } else if ( type === "integer" ) {
-    let err = validateInteger(value)
-    if (!err) return errors
-    errors.push(err)
-  } else if ( type === "array" ) {
-    let itemType
+      if ( !value.count() ) { return errors }
 
-    if ( !value.count() ) { return errors }
+      itemType = param.getIn(["items", "type"])
 
-    itemType = param.getIn(["items", "type"])
+      value.forEach((item, index) => {
+        let err
 
-    value.forEach((item, index) => {
-      let err
+        if (itemType === "number") {
+          err = validateNumber(item)
+        } else if (itemType === "integer") {
+          err = validateInteger(item)
+        } else if (itemType === "string") {
+          err = validateString(item)
+        }
 
-      if (itemType === "number") {
-        err = validateNumber(item)
-      } else if (itemType === "integer") {
-        err = validateInteger(item)
-      }
-
-      if ( err ) {
-        errors.push({ index: index, error: err})
-      }
-    })
-  } else if ( type === "file" ) {
-    let err = validateFile(value)
-    if (!err) return errors
-    errors.push(err)
+        if ( err ) {
+          errors.push({ index: index, error: err})
+        }
+      })
+    } else if ( type === "file" ) {
+      let err = validateFile(value)
+      if (!err) return errors
+      errors.push(err)
+    }
   }
 
   return errors
