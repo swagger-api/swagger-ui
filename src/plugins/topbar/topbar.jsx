@@ -6,6 +6,10 @@ import Logo from "./logo_small.png"
 
 export default class Topbar extends React.Component {
 
+  static propTypes = {
+    layoutActions: PropTypes.object.isRequired
+  }
+
   constructor(props, context) {
     super(props, context)
     this.state = { url: props.specSelectors.url(), selectedIndex: 0 }
@@ -80,6 +84,11 @@ export default class Topbar extends React.Component {
     }
   }
 
+  onFilterChange =(e) => {
+    let {target: {value}} = e
+    this.props.layoutActions.updateFilter(value)
+  }
+
   render() {
     let { getComponent, specSelectors, getConfigs } = this.props
     const Button = getComponent("Button")
@@ -121,7 +130,7 @@ export default class Topbar extends React.Component {
         <div className="wrapper">
           <div className="topbar-wrapper">
             <Link href="#" title="Swagger UX">
-              <img height="30" width="30" src={ Logo } alt="Swagger UX"/>
+              <img height="30" width="30" src={ Logo } alt="Swagger UI"/>
               <span>swagger</span>
             </Link>
             <form className="download-url-wrapper" onSubmit={formOnSubmit}>

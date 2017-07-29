@@ -22,7 +22,7 @@ The OpenAPI Specification has undergone 4 revisions since initial creation in 20
 
 Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes | Status
 ------------------ | ------------ | -------------------------- | ----- | ------
-3.0.17              | 2017-06-23   | 2.0                        | [tag v3.0.17](https://github.com/swagger-api/swagger-ui/tree/v3.0.17) |
+3.0.21              | 2017-07-24   | 2.0                        | [tag v3.0.21](https://github.com/swagger-api/swagger-ui/tree/v3.0.21) |
 2.2.10             | 2017-01-04   | 1.1, 1.2, 2.0              | [tag v2.2.10](https://github.com/swagger-api/swagger-ui/tree/v2.2.10) |
 2.1.5              | 2016-07-20   | 1.1, 1.2, 2.0              | [tag v2.1.5](https://github.com/swagger-api/swagger-ui/tree/v2.1.5) |
 2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) |
@@ -67,7 +67,6 @@ To help with the migration, here are the currently known issues with 3.X. This l
 
 - Only part of the [parameters](#parameters) previously supported are available.
 - The JSON Form Editor is not implemented.
-- Shebang URL support for operations is missing.
 - Support for `collectionFormat` is partial.
 - l10n (translations) is not implemented.
 - Relative path support for external files is not implemented.
@@ -82,17 +81,17 @@ To use swagger-ui's bundles, you should take a look at the [source of swagger-ui
 
 ```javascript
   const ui = SwaggerUIBundle({
-    url: "http://petstore.swagger.io/v2/swagger.json",
-    dom_id: '#swagger-ui',
-    presets: [
-      SwaggerUIBundle.presets.apis,
-      SwaggerUIStandalonePreset
-    ],
-    plugins: [
-      SwaggerUIBundle.plugins.DownloadUrl
-    ],
-    layout: "StandaloneLayout"
-  })
+      url: "http://petstore.swagger.io/v2/swagger.json",
+      dom_id: '#swagger-ui',
+      presets: [
+        SwaggerUIBundle.presets.apis,
+        SwaggerUIStandalonePreset
+      ],
+      plugins: [
+        SwaggerUIBundle.plugins.DownloadUrl
+      ],
+      layout: "StandaloneLayout"
+    })
 ```
 
 #### OAuth2 configuration
@@ -137,13 +136,17 @@ spec | A JSON object describing the OpenAPI Specification. When used, the `url` 
 validatorUrl | By default, Swagger-UI attempts to validate specs against swagger.io's online validator. You can use this parameter to set a different validator URL, for example for locally deployed validators ([Validator Badge](https://github.com/swagger-api/validator-badge)). Setting it to `null` will disable validation.
 dom_id | The id of a dom element inside which SwaggerUi will put the user interface for swagger.
 oauth2RedirectUrl | OAuth redirect URL
+tagsSorter | Apply a sort to the tag list of each API. It can be 'alpha' (sort by paths alphanumerically) or a function (see [Array.prototype.sort()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) to learn how to write a sort function). Two tag name strings are passed to the sorter for each pass. Default is the order determined by Swagger-UI.
 operationsSorter | Apply a sort to the operation list of each API. It can be 'alpha' (sort by paths alphanumerically), 'method' (sort by HTTP method) or a function (see Array.prototype.sort() to know how sort function works). Default is the order returned by the server unchanged.
 configUrl | Configs URL
 parameterMacro | MUST be a function. Function to set default value to parameters. Accepts two arguments parameterMacro(operation, parameter). Operation and parameter are objects passed for context, both remain immutable
 modelPropertyMacro | MUST be a function. Function to set default values to each property in model. Accepts one argument modelPropertyMacro(property), property is immutable
 docExpansion | Controls the default expansion setting for the operations and tags. It can be 'list' (expands only the tags), 'full' (expands the tags and operations) or 'none' (expands nothing). The default is 'list'.
 displayOperationId | Controls the display of operationId in operations list. The default is `false`.
-displayRequestDuration | Controls the display of the request duration (in milliseconds) for `Try it out` requests. The default is `false`. 
+displayRequestDuration | Controls the display of the request duration (in milliseconds) for `Try it out` requests. The default is `false`.
+maxDisplayedTags | If set, limits the number of tagged operations displayed to at most this many. The default is to show all operations.
+filter | If set, enables filtering. The top bar will show an edit box that you can use to filter the tagged operations that are shown. Can be true/false to enable or disable, or an explicit filter string in which case filtering will be enabled using that string as the filter expression. Filtering is case sensitive matching the filter expression anywhere inside the tag.
+deepLinking | If set to `true`, enables dynamic deep linking for tags and operations. [Docs](https://github.com/swagger-api/swagger-ui/blob/master/docs/deep-linking.md)
 
 ### Plugins
 
@@ -232,6 +235,10 @@ Access-Control-Allow-Headers: Content-Type, api_key, Authorization
 ```
 
 Only headers with these names will be allowed to be sent by Swagger-UI.
+
+## Security contact
+
+Please disclose any security-related issues or vulnerabilities by emailing [security@swagger.io](mailto:security@swagger.io), instead of using the public issue tracker.
 
 ## License
 

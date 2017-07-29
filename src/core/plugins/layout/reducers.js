@@ -1,5 +1,6 @@
 import {
   UPDATE_LAYOUT,
+  UPDATE_FILTER,
   UPDATE_MODE,
   SHOW
 } from "./actions"
@@ -7,6 +8,8 @@ import {
 export default {
 
   [UPDATE_LAYOUT]: (state, action) => state.set("layout", action.payload),
+
+  [UPDATE_FILTER]: (state, action) => state.set("filter", action.payload),
 
   [SHOW]: (state, action) => {
     let thing = action.payload.thing

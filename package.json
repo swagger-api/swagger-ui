@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.0.17",
+  "version": "3.0.21",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -69,9 +69,10 @@
     "redux-logger": "*",
     "reselect": "2.5.3",
     "sanitize-html": "^1.14.1",
+    "scroll-to-element": "^2.0.0",
     "serialize-error": "2.0.0",
     "shallowequal": "0.2.2",
-    "swagger-client": "3.0.16",
+    "swagger-client": "3.0.19",
     "url-parse": "^1.1.8",
     "whatwg-fetch": "0.11.1",
     "worker-loader": "^0.7.1",
@@ -109,7 +110,6 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "2.0.3",
     "less": "2.7.2",
-    "less-loader": "4.0.4",
     "license-checker": "^11.0.0",
     "mocha": "^3.4.2",
     "node-sass": "^4.5.0",

@@ -28,7 +28,7 @@ export default class ModelExample extends React.Component {
 
   render() {
     let { getComponent, specSelectors, schema, example, isExecute } = this.props
-    const Model = getComponent("model")
+    const ModelWrapper = getComponent("ModelWrapper")
 
     return <div>
       <ul className="tab">
@@ -44,7 +44,7 @@ export default class ModelExample extends React.Component {
           (isExecute || this.state.activeTab === "example") && example
         }
         {
-          !isExecute && this.state.activeTab === "model" && <Model schema={ schema }
+          !isExecute && this.state.activeTab === "model" && <ModelWrapper schema={ schema }
                                                      getComponent={ getComponent }
                                                      specSelectors={ specSelectors }
                                                      expandDepth={ 1 } />
