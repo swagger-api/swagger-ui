@@ -282,7 +282,6 @@ export class Model extends Component {
   }
 
   getModelName =( ref )=> {
-    console.log({ref})
     if ( ref.indexOf("#/definitions/") !== -1 ) {
       return ref.replace(/^.*#\/definitions\//, "")
     }
