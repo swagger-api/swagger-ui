@@ -1,6 +1,8 @@
 import React, { Component } from "react"
+import PropTypes from "prop-types"
+import ImPropTypes from "react-immutable-proptypes"
 
-export default class OperationLink extends Component {
+class OperationLink extends Component {
   render() {
     const { link, name } = this.props
 
@@ -26,3 +28,10 @@ function padString(n, string) {
     .map((line, i) => i > 0 ? Array(n + 1).join(" ") + line : line)
     .join("\n")
 }
+
+OperationLink.propTypes = {
+  link: ImPropTypes.orderedMap.isRequired,
+  name: PropTypes.String
+}
+
+export default OperationLink

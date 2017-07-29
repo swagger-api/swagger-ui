@@ -49,8 +49,10 @@ export const spec = state => {
 export const isOAS3 = createSelector(
   // isOAS3 is stubbed out here to work around an issue with injecting more selectors
   // in the OAS3 plugin, and to ensure that the function is always available.
+  // It's not perfect, but our hybrid (core+plugin code) implementation for OAS3
+  // needs this. //KS
   spec,
-	spec => false
+	() => false
 )
 
 export const info = createSelector(

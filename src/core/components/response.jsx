@@ -79,14 +79,15 @@ export default class Response extends React.Component {
     const ContentType = getComponent("contentType")
 
     var sampleResponse
+    var schema
 
     if(isOAS3()) {
       let oas3SchemaForContentType = response.getIn(["content", this.state.responseContentType, "schema"])
       sampleResponse = oas3SchemaForContentType ? getSampleSchema(oas3SchemaForContentType.toJS(), this.state.responseContentType, { includeReadOnly: true }) : null
-      var schema = oas3SchemaForContentType ? inferSchema(oas3SchemaForContentType.toJS()) : null
+      schema = oas3SchemaForContentType ? inferSchema(oas3SchemaForContentType.toJS()) : null
     } else {
       sampleResponse = schema ? getSampleSchema(schema, contentType, { includeReadOnly: true }) : null
-      var schema = inferSchema(response.toJS())
+      schema = inferSchema(response.toJS())
     }
     let example = getExampleComponent( sampleResponse, examples, HighlightCode )
 

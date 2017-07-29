@@ -326,7 +326,7 @@ describe("bound system", function(){
 
     })
 
-    describe('wrapSelectors', () => {
+    describe("wrapSelectors", () => {
       it("should wrap a selector and provide a reference to the original", function(){
 
         // Given
@@ -427,7 +427,7 @@ describe("bound system", function(){
                   wrapSelectors: {
                     wow: (ori, system) => (dogeState) => {
                       // Then
-                      expect(dogeState.toJS().abc).toEqual('123')
+                      expect(dogeState.toJS().abc).toEqual("123")
                       done()
                       return ori() + " wrapper"
                     }
