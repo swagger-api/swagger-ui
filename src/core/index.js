@@ -5,34 +5,7 @@ import win from "core/window"
 import ApisPreset from "core/presets/apis"
 import LowlightPreset from "core/presets/lowlight"
 import * as AllPlugins from "core/plugins/all"
-import { parseSearch, filterConfigs } from "core/utils"
-
-const CONFIGS = [
-  "url",
-  "urls",
-  "urls.primaryName",
-  "spec",
-  "validatorUrl",
-  "onComplete",
-  "onFailure",
-  "authorizations",
-  "docExpansion",
-  "tagsSorter",
-  "maxDisplayedTags",
-  "filter",
-  "operationsSorter",
-  "supportedSubmitMethods",
-  "dom_id",
-  "defaultModelRendering",
-  "oauth2RedirectUrl",
-  "showRequestHeaders",
-  "custom",
-  "modelPropertyMacro",
-  "parameterMacro",
-  "displayOperationId",
-  "displayRequestDuration",
-  "deepLinking",
- ]
+import { parseSearch } from "core/utils"
 
 // eslint-disable-next-line no-undef
 const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION, HOSTNAME, BUILD_TIME } = buildInfo
@@ -127,7 +100,7 @@ module.exports = function SwaggerUI(opts) {
 
     let localConfig = system.specSelectors.getLocalConfig ? system.specSelectors.getLocalConfig() : {}
     let mergedConfig = deepExtend({}, localConfig, constructorConfig, fetchedConfig || {}, queryConfig)
-    store.setConfigs(filterConfigs(mergedConfig, CONFIGS))
+    store.setConfigs(mergedConfig)
 
     if (fetchedConfig !== null) {
       if (!queryConfig.url && typeof mergedConfig.spec === "object" && Object.keys(mergedConfig.spec).length) {

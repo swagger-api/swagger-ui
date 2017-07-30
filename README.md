@@ -22,7 +22,7 @@ The OpenAPI Specification has undergone 4 revisions since initial creation in 20
 
 Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes | Status
 ------------------ | ------------ | -------------------------- | ----- | ------
-3.0.19              | 2017-07-14   | 2.0                        | [tag v3.0.19](https://github.com/swagger-api/swagger-ui/tree/v3.0.19) |
+3.1.1              | 2017-07-29   | 2.0                        | [tag v3.1.1](https://github.com/swagger-api/swagger-ui/tree/v3.1.1) |
 2.2.10             | 2017-01-04   | 1.1, 1.2, 2.0              | [tag v2.2.10](https://github.com/swagger-api/swagger-ui/tree/v2.2.10) |
 2.1.5              | 2016-07-20   | 1.1, 1.2, 2.0              | [tag v2.1.5](https://github.com/swagger-api/swagger-ui/tree/v2.1.5) |
 2.0.24             | 2014-09-12   | 1.1, 1.2 | [tag v2.0.24](https://github.com/swagger-api/swagger-ui/tree/v2.0.24) |
@@ -146,6 +146,7 @@ displayOperationId | Controls the display of operationId in operations list. The
 displayRequestDuration | Controls the display of the request duration (in milliseconds) for `Try it out` requests. The default is `false`.
 maxDisplayedTags | If set, limits the number of tagged operations displayed to at most this many. The default is to show all operations.
 filter | If set, enables filtering. The top bar will show an edit box that you can use to filter the tagged operations that are shown. Can be true/false to enable or disable, or an explicit filter string in which case filtering will be enabled using that string as the filter expression. Filtering is case sensitive matching the filter expression anywhere inside the tag.
+deepLinking | If set to `true`, enables dynamic deep linking for tags and operations. [Docs](https://github.com/swagger-api/swagger-ui/blob/master/docs/deep-linking.md)
 
 ### Plugins
 
@@ -234,6 +235,10 @@ Access-Control-Allow-Headers: Content-Type, api_key, Authorization
 ```
 
 Only headers with these names will be allowed to be sent by Swagger-UI.
+
+## Security contact
+
+Please disclose any security-related issues or vulnerabilities by emailing [security@swagger.io](mailto:security@swagger.io), instead of using the public issue tracker.
 
 ## License
 
