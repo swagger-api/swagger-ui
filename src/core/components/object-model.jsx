@@ -51,7 +51,7 @@ export default class ObjectModel extends Component {
           }
           <span className="inner-object">
             {
-              <table className="model" style={{ marginLeft: "2em" }}><tbody>
+              <table className="model"><tbody>
               {
                 !description ? null : <tr style={{ color: "#999", fontStyle: "italic" }}>
                     <td>description:</td>
