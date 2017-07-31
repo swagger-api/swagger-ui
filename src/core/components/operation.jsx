@@ -210,6 +210,7 @@ export default class Operation extends PureComponent {
               }
               <Parameters
                 parameters={parameters}
+                operation={operation}
                 onChangeKey={onChangeKey}
                 onTryoutClick = { this.onTryoutClick }
                 onCancelClick = { this.onCancelClick }
