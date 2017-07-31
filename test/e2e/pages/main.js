@@ -117,6 +117,30 @@ module.exports = {
         petOperationPostExecuteBtn: {
           selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) button.execute"
         },
+        petOperationPostTryTextArea: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) textarea"
+        },
+        petOperationPostResultsBox: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) pre.microlight"
+        },
+        petOperationPostMockCategoryID: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) pre.microlight span:nth-child(17)"
+        },
+        petOperationPostMockCategoryName: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) pre.microlight span:nth-child(23)"
+        },
+        petOperationPostMockName: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) pre.microlight span:nth-child(31)"
+        },
+        petOperationPostTagID: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) pre.microlight span:nth-child(54)"
+        },
+        petOperationPostTagName: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) pre.microlight span:nth-child(60)"
+        },
+        petOperationPostStatus: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) pre.microlight span:nth-child(70)"
+        },
         /**
          * Put pet/ api
          */
@@ -140,6 +164,30 @@ module.exports = {
         },
         petOperationPutExecuteBtn: {
           selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put button.execute"
+        },
+        petOperationPutTryTextArea: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put textarea"
+        },
+        petOperationPutResultsBox: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put pre.microlight"
+        },
+        petOperationPutMockCategoryID: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put pre.microlight span:nth-child(17)"
+        },
+        petOperationPutMockCategoryName: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put pre.microlight span:nth-child(23)"
+        },
+        petOperationPutMockName: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put pre.microlight span:nth-child(31)"
+        },
+        petOperationPutTagID: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put pre.microlight span:nth-child(54)"
+        },
+        petOperationPutTagName: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put pre.microlight span:nth-child(60)"
+        },
+        petOperationPutStatus: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put pre.microlight span:nth-child(70)"
         },
         /**
          * Get pet/
@@ -165,6 +213,31 @@ module.exports = {
         petOperationGetByTagExecuteBtn: {
           selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated button.execute"
         },
+        petOperationGetByTagTryTextArea: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated textarea"
+        },
+        petOperationGetByTagResultsBox: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated pre.microlight"
+        },
+        petOperationGetByTagMockCategoryID: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated pre.microlight span:nth-child(17)"
+        },
+        petOperationGetByTagMockCategoryName: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated pre.microlight span:nth-child(23)"
+        },
+        petOperationGetByTagMockName: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated pre.microlight span:nth-child(31)"
+        },
+        petOperationGetByTagTagID: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated pre.microlight span:nth-child(54)"
+        },
+        petOperationGetByTagTagName: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated pre.microlight span:nth-child(60)"
+        },
+        petOperationGetByTagStatus: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated pre.microlight span:nth-child(70)"
+        },
+        
         /**
          * Delete pet/
          */
@@ -186,6 +259,30 @@ module.exports = {
         petOperationDeleteExecuteBtn: {
           selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete button.execute"
         },
+        petOperationDeleteTryTextArea: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete textarea"
+        },
+        petOperationDeleteResultsBox: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete pre.microlight"
+        },
+        petOperationDeleteMockCategoryID: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete pre.microlight span:nth-child(17)"
+        },
+        petOperationDeleteMockCategoryName: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete pre.microlight span:nth-child(23)"
+        },
+        petOperationDeleteMockName: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete pre.microlight span:nth-child(31)"
+        },
+        petOperationDeleteTagID: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete pre.microlight span:nth-child(54)"
+        },
+        petOperationDeleteTagName: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete pre.microlight span:nth-child(60)"
+        },
+        petOperationDeleteStatus: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete pre.microlight span:nth-child(70)"
+        },
 
         /**
          * ***********Store************
@@ -200,22 +297,22 @@ module.exports = {
          * Get /store/inventory
          */
         storeOperationGetContainer: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-of-type(1)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-child(1)"
         },
         storeOperationGetTitle: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-of-type(1) .opblock-summary-get span.opblock-summary-path span"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-child(1) .opblock-summary-get span.opblock-summary-path span"
         },
         storeOperationGetCollpase: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-of-type(1) .opblock-summary-get"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-child(1) .opblock-summary-get"
         },
         storeOperationGetCollapseContainer: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-of-type(1) .ReactCollapse--collapse"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-child(1) .ReactCollapse--collapse"
         },
         storeOperationGetTryBtn: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-of-type(1) button.try-out__btn"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-child(1) button.try-out__btn"
         },
         storeOperationGetExecuteBtn: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-of-type(1) button.execute"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-child(1) button.execute"
         },
         /**
          * Post /store/order

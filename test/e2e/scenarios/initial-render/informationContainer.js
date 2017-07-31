@@ -19,7 +19,7 @@ describe("render informationContainer", function () {
     })
 
     it("renders section", function (client) {
-      mainPage.expect.section("@informationContainer").to.be.visible.before(8000)
+      mainPage.expect.section("@informationContainer").to.be.visible.before(5000)
 
       client.end()
     })
