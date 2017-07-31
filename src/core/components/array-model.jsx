@@ -15,18 +15,21 @@ export default class ArrayModel extends Component {
   }
 
   render(){
-    let { getComponent, required, schema, depth, expandDepth } = this.props
+    let { getComponent, required, schema, depth, expandDepth, name } = this.props
     let items = schema.get("items")
+    let title = schema.get("title") || name
     let properties = schema.filter( ( v, key) => ["type", "items", "$$ref"].indexOf(key) === -1 )
 
     const ModelCollapse = getComponent("ModelCollapse")
     const Model = getComponent("Model")
 
-    return <span className="model">
+    const titleEl = title &&
       <span className="model-title">
-        <span className="model-title__text">{ schema.get("title") }</span>
+        <span className="model-title__text">{ title }</span>
       </span>
-      <ModelCollapse collapsed={ depth > expandDepth } collapsedContent="[...]">
+
+    return <span className="model">
+      <ModelCollapse title={titleEl} collapsed={ depth > expandDepth } collapsedContent="[...]">
         [
           <span><Model { ...this.props } schema={ items } required={ false }/></span>
         ]

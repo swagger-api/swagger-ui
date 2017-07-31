@@ -4,19 +4,21 @@ import System from "core/system"
 import win from "core/window"
 import ApisPreset from "core/presets/apis"
 import * as AllPlugins from "core/plugins/all"
-import { parseSeach, filterConfigs } from "core/utils"
-
-const CONFIGS = [ "url", "urls", "urls.primaryName", "spec", "validatorUrl", "onComplete", "onFailure", "authorizations", "docExpansion", "maxDisplayedTags", "filter",
-    "apisSorter", "operationsSorter", "supportedSubmitMethods", "dom_id", "defaultModelRendering", "oauth2RedirectUrl",
-    "showRequestHeaders", "custom", "modelPropertyMacro", "parameterMacro", "displayOperationId" , "displayRequestDuration"]
+import { parseSearch } from "core/utils"
 
 // eslint-disable-next-line no-undef
-const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION } = buildInfo
+const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION, HOSTNAME, BUILD_TIME } = buildInfo
 
 module.exports = function SwaggerUI(opts) {
 
   win.versions = win.versions || {}
-  win.versions.swaggerUi = `${PACKAGE_VERSION}/${GIT_COMMIT || "unknown"}${GIT_DIRTY ? "-dirty" : ""}`
+  win.versions.swaggerUi = {
+    version: PACKAGE_VERSION,
+    gitRevision: GIT_COMMIT,
+    gitDirty: GIT_DIRTY,
+    buildTimestamp: BUILD_TIME,
+    machine: HOSTNAME
+  }
 
   const defaults = {
     // Some general settings, that we floated to the top
@@ -33,10 +35,12 @@ module.exports = function SwaggerUI(opts) {
     custom: {},
     displayOperationId: false,
     displayRequestDuration: false,
+    deepLinking: false,
 
     // Initial set of plugins ( TODO rename this, or refactor - we don't need presets _and_ plugins. Its just there for performance.
     // Instead, we can compile the first plugin ( it can be a collection of plugins ), then batch the rest.
     presets: [
+      ApisPreset
     ],
 
     // Plugins; ( loaded after presets )
@@ -52,7 +56,7 @@ module.exports = function SwaggerUI(opts) {
     store: { },
   }
 
-  let queryConfig = parseSeach()
+  let queryConfig = parseSearch()
 
   const constructorConfig = deepExtend({}, defaults, opts, queryConfig)
 
@@ -95,7 +99,7 @@ module.exports = function SwaggerUI(opts) {
 
     let localConfig = system.specSelectors.getLocalConfig ? system.specSelectors.getLocalConfig() : {}
     let mergedConfig = deepExtend({}, localConfig, constructorConfig, fetchedConfig || {}, queryConfig)
-    store.setConfigs(filterConfigs(mergedConfig, CONFIGS))
+    store.setConfigs(mergedConfig)
 
     if (fetchedConfig !== null) {
       if (!queryConfig.url && typeof mergedConfig.spec === "object" && Object.keys(mergedConfig.spec).length) {
