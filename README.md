@@ -18,7 +18,7 @@ This repo publishes to two different NPM packages:
 For the older version of swagger-ui, refer to the [*2.x branch*](https://github.com/swagger-api/swagger-ui/tree/2.x).
 
 ## Compatibility
-The OpenAPI Specification has undergone 4 revisions since initial creation in 2010.  Compatibility between swagger-ui and the OpenAPI Specification is as follows:
+The OpenAPI Specification has undergone 5 revisions since initial creation in 2010.  Compatibility between swagger-ui and the OpenAPI Specification is as follows:
 
 Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes
 ------------------ | ------------ | -------------------------- | -----
