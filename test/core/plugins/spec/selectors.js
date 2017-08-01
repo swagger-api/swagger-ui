@@ -52,7 +52,6 @@ describe("spec plugin - selectors", function(){
   })
 
   describe("contentTypeValues", function(){
-
     it("should return { requestContentType, responseContentType } from an operation", function(){
       // Given
       let state = fromJS({
@@ -75,6 +74,73 @@ describe("spec plugin - selectors", function(){
         requestContentType: "one",
         responseContentType: "two"
       })
+    })
+
+    it("should prioritize consumes value first from an operation", function(){
+      // Given
+      let state = fromJS({
+        resolved: {
+          paths: {
+            "/one": {
+              get: {
+                "consumes_value": "one",
+                "parameters": [{  
+                  "type": "file"
+                }],
+              }
+            }
+          }
+        }
+      })
+
+      // When
+      let contentTypes = contentTypeValues(state, [ "/one", "get" ])
+      // Then
+      expect(contentTypes.toJS().requestContentType).toEqual("one")
+    })
+
+    it("should fallback to multipart/form-data if there is no consumes value but there is a file parameter", function(){
+      // Given
+      let state = fromJS({
+        resolved: {
+          paths: {
+            "/one": {
+              get: {
+                "parameters": [{  
+                  "type": "file"
+                }],
+              }
+            }
+          }
+        }
+      })
+
+      // When
+      let contentTypes = contentTypeValues(state, [ "/one", "get" ])
+      // Then
+      expect(contentTypes.toJS().requestContentType).toEqual("multipart/form-data")
+    })
+
+    it("should fallback to application/x-www-form-urlencoded if there is no consumes value, no file parameter, but there is a formData parameter", function(){
+      // Given
+      let state = fromJS({
+        resolved: {
+          paths: {
+            "/one": {
+              get: {
+                "parameters": [{  
+                  "type": "formData"
+                }],
+              }
+            }
+          }
+        }
+      })
+
+      // When
+      let contentTypes = contentTypeValues(state, [ "/one", "get" ])
+      // Then
+      expect(contentTypes.toJS().requestContentType).toEqual("application/x-www-form-urlencoded")
     })
 
     it("should be ok, if no operation found", function(){

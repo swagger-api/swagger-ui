@@ -7,7 +7,6 @@ import Logo from "./logo_small.png"
 export default class Topbar extends React.Component {
 
   static propTypes = {
-    layoutSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired
   }
 
@@ -91,13 +90,12 @@ export default class Topbar extends React.Component {
   }
 
   render() {
-    let { getComponent, specSelectors, getConfigs, layoutSelectors } = this.props
+    let { getComponent, specSelectors, getConfigs } = this.props
     const Button = getComponent("Button")
     const Link = getComponent("Link")
 
     let isLoading = specSelectors.loadingStatus() === "loading"
     let isFailed = specSelectors.loadingStatus() === "failed"
-    let filter = layoutSelectors.currentFilter()
 
     let inputStyle = {}
     if(isFailed) inputStyle.color = "red"
@@ -132,13 +130,9 @@ export default class Topbar extends React.Component {
         <div className="wrapper">
           <div className="topbar-wrapper">
             <Link href="#" title="Swagger UX">
-              <img height="30" width="30" src={ Logo } alt="Swagger UX"/>
+              <img height="30" width="30" src={ Logo } alt="Swagger UI"/>
               <span>swagger</span>
             </Link>
-            {
-              filter === null || filter === false ? null :
-                <input className="operation-filter-input" placeholder="filter..." type="text" onChange={this.onFilterChange} value={filter === true ? "" : filter} disabled={isLoading} style={inputStyle} />
-            }
             <form className="download-url-wrapper" onSubmit={formOnSubmit}>
               {control}
             </form>

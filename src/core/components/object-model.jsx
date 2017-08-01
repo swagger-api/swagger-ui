@@ -23,7 +23,7 @@ export default class ObjectModel extends Component {
     let properties = schema.get("properties")
     let additionalProperties = schema.get("additionalProperties")
     let title = schema.get("title") || name
-    let required = schema.get("required")
+    let requiredProperties = schema.get("required")
 
     const JumpToPath = getComponent("JumpToPath", true)
     const Markdown = getComponent("Markdown")
@@ -38,15 +38,13 @@ export default class ObjectModel extends Component {
         }
     </span>)
     
+    const titleEl = title && <span className="model-title">
+      { isRef && schema.get("$$ref") && <span className="model-hint">{ schema.get("$$ref") }</span> }
+      <span className="model-title__text">{ title }</span>
+    </span>
 
     return <span className="model">
-      {
-        title && <span className="model-title">
-          { isRef && schema.get("$$ref") && <span className="model-hint">{ schema.get("$$ref") }</span> }
-          <span className="model-title__text">{ title }</span>
-        </span>
-      }
-      <ModelCollapse collapsed={ depth > expandDepth } collapsedContent={ collapsedContent }>
+      <ModelCollapse title={titleEl} collapsed={ depth > expandDepth } collapsedContent={ collapsedContent }>
          <span className="brace-open object">{ braceOpen }</span>
           {
             !isRef ? null : <JumpToPathSection name={ name }/>
@@ -65,14 +63,16 @@ export default class ObjectModel extends Component {
               {
                 !(properties && properties.size) ? null : properties.entrySeq().map(
                     ([key, value]) => {
-                      let isRequired = List.isList(required) && required.contains(key)
+                      let isRequired = List.isList(requiredProperties) && requiredProperties.contains(key)
                       let propertyStyle = { verticalAlign: "top", paddingRight: "0.2em" }
                       if ( isRequired ) {
                         propertyStyle.fontWeight = "bold"
                       }
 
                       return (<tr key={key}>
-                        <td style={ propertyStyle }>{ key }:</td>
+                        <td style={ propertyStyle }>
+                          { key }{ isRequired && <span style={{ color: "red" }}>*</span> }
+                        </td>
                         <td style={{ verticalAlign: "top" }}>
                           <Model key={ `object-${name}-${key}_${value}` } { ...props }
                                  required={ isRequired }

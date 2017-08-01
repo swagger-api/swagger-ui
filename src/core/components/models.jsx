@@ -24,11 +24,11 @@ export default class Models extends Component {
     return <section className={ showModels ? "models is-open" : "models"}>
       <h4 onClick={() => layoutActions.show("models", !showModels)}>
         <span>Models</span>
-        <svg width="20" height="20">
-          <use xlinkHref="#large-arrow" />
+        <svg className="arrow" width="20" height="20">
+          <use xlinkHref={showModels ? "#large-arrow-down" : "#large-arrow"} />
         </svg>
       </h4>
-      <Collapse isOpened={showModels} animated>
+      <Collapse isOpened={showModels}>
         {
           definitions.entrySeq().map( ( [ name, model ])=>{
             return <div className="model-container" key={ `models-section-${name}` }>
