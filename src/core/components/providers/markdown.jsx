@@ -13,7 +13,7 @@ function Markdown({ source }) {
 
   return <div className="markdown">
     <Remarkable
-      options={{html: true, typographer: true, breaks: true, linkify: true, linkTarget: "_blank"}}
+      options={{html: true, typographer: true, breaks: true, linkify: true}}
       source={sanitized}
       ></Remarkable>
   </div>
