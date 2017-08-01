@@ -120,8 +120,7 @@ ui.initOAuth({
     realm: "your-realms",
     appName: "your-app-name",
     scopeSeparator: " ",
-    additionalQueryStringParams: {test: "hello"},
-    useBasicAuthenticationWithAccessCodeGrant: true
+    additionalQueryStringParams: {test: "hello"}
   })
 ```
 
