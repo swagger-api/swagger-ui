@@ -26,9 +26,9 @@ describe("Render Model Wrapper", function () {
         client.end()
     })
 
-    it("Testing model callapse", function(client){
-        modelWrapper.waitForElementVisible("@modelContainer")
-            .click("@modelContainer")
+    it("Render model wrapper collapse", function(client){
+        modelWrapper.waitForElementVisible("@modelContainer", 5000)
+            .click("@modelCollapse")
             .assert.cssClassNotPresent("@modelContainer", "is-open")
 
         client.end()

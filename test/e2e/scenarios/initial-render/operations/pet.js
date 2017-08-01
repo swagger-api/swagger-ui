@@ -130,7 +130,7 @@ describe("render pet api container", function () {
             .assert.containsText("@petOperationGetByTagMockCategoryID", "0")
             .assert.containsText("@petOperationGetByTagMockCategoryName", "\"string\"")
             .assert.containsText("@petOperationGetByTagMockName", "\"doggie\"")
-            .assert.containsText("@petOpesrationGetByTagTagID", "0")
+            .assert.containsText("@petOperationGetByTagTagID", "0")
             .assert.containsText("@petOperationGetByTagTagName", "\"string\"")
             .assert.containsText("@petOperationGetByTagStatus", "\"available\"")
             .click("@petOperationGetByTagTryBtn")
@@ -140,7 +140,7 @@ describe("render pet api container", function () {
     })
 
     it("render delete /pet api container", function (client) {
-        apiWrapper.waitForElementVisible("@petOperationDeleteContainer", 5000)
+        apiWrapper.waitForElementVisible("@petOperationDeleteContainer")
             .assert.containsText("@petOperationDeleteTitle", "/pet/{petId}")
             .click("@petOperationDeleteCollpase")
             .waitForElementVisible("@petOperationDeleteCollapseContainer", 3000)
@@ -152,7 +152,7 @@ describe("render pet api container", function () {
         client.end()
     })
     it("Testing delete /pet api Mock data", function (client) {
-        apiWrapper.waitForElementVisible("@petOperationDeleteContainer", 5000)
+        apiWrapper.waitForElementVisible("@petOperationDeleteContainer", 3000)
             .click("@petOperationDeleteCollpase")
             .waitForElementVisible("@petOperationDeleteCollapseContainer", 3000)
             .click("@petOperationDeleteTryBtn")
@@ -162,7 +162,7 @@ describe("render pet api container", function () {
             .assert.containsText("@petOperationDeleteMockCategoryID", "0")
             .assert.containsText("@petOperationDeleteMockCategoryName", "\"string\"")
             .assert.containsText("@petOperationDeleteMockName", "\"doggie\"")
-            .assert.containsText("@petOpesrationDeleteTagID", "0")
+            .assert.containsText("@petOperationDeleteTagID", "0")
             .assert.containsText("@petOperationDeleteTagName", "\"string\"")
             .assert.containsText("@petOperationDeleteStatus", "\"available\"")
             .click("@petOperationDeleteTryBtn")

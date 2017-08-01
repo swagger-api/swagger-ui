@@ -314,6 +314,15 @@ module.exports = {
         storeOperationGetExecuteBtn: {
           selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-child(1) button.execute"
         },
+        storeOperationResponseProps1: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-child(1) pre.example.microlight span:nth-child(6)"
+        },
+        storeOperationResponseProps2: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-child(1) pre.example.microlight span:nth-child(12)"
+        },
+        storeOperationResponseProps3: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-child(1) pre.example.microlight span:nth-child(18)"
+        },
         /**
          * Post /store/order
          */
@@ -335,6 +344,21 @@ module.exports = {
         storeOperationPostExecuteBtn: {
           selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-post button.execute"
         },
+        storeOperationPostResponseId: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-post pre.example.microlight span:nth-child(22)"
+        },
+        storeOperationPostResponsePetId: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-post pre.example.microlight span:nth-child(31)"
+        },
+        storeOperationPostResponseQuantity: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-post pre.example.microlight span:nth-child(40)"
+        },
+        storeOperationPostResponseStatus: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-post pre.example.microlight span:nth-child(66)"
+        },
+        storeOperationPostResponseComplete: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-post pre.example.microlight span:nth-child(75)"
+        },
         /**
          * Delete /store/order/{orderId}
          */
@@ -355,6 +379,9 @@ module.exports = {
         },
         storeOperationDeleteExecuteBtn: {
           selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-delete button.execute"
+        },
+        storeOperationGetResponseHeaders: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-delete pre span"
         },
         /**
          * *********User**************
@@ -386,6 +413,12 @@ module.exports = {
         userOperationPutExecuteBtn: {
           selector: ".swagger-ui .opblock-tag-section:nth-child(3) .opblock-put button.execute"
         },
+        userOperationPutParameter: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(3) .opblock-put div.parameters-col_description input"
+        },
+        userOperationPutResponseHeader: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(3) .opblock-put div.parameters-col_description input"
+        },
         /**
          * Delete /user
          */
@@ -407,6 +440,12 @@ module.exports = {
         userOperationDeleteExecuteBtn: {
           selector: ".swagger-ui .opblock-tag-section:nth-child(3) .opblock-delete button.execute"
         },
+        userOperationDeleteParameter: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(3) .opblock-delete div.parameters-col_description input"
+        },
+        userOperationDeleteResponseHeader: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(3) .opblock-delete div.parameters-col_description input"
+        },
 
       }
     },
@@ -416,6 +455,9 @@ module.exports = {
       elements: {
         modelContainer: {
           selector: ".swagger-ui .models"
+        },
+        modelCollapse: {
+          selector: ".swagger-ui .models h4"
         },
         orderModel: {
           selector: "section.models div.model-container:nth-child(1)"
