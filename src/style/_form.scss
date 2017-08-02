@@ -21,6 +21,10 @@ select
 
         background: #f7f7f7;
     }
+
+    &.invalid {
+        @include invalidFormElement();
+    }
 }
 
 .opblock-body select
@@ -42,7 +46,8 @@ label
 input[type=text],
 input[type=password],
 input[type=search],
-input[type=email]
+input[type=email],
+input[type=file]
 {
     min-width: 100px;
     margin: 5px 0;
@@ -54,10 +59,7 @@ input[type=email]
 
     &.invalid
     {
-        animation: shake .4s 1;
-
-        border-color: $_color-delete;
-        background: lighten($_color-delete, 35%);
+        @include invalidFormElement();
     }
 }
 

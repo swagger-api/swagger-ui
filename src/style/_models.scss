@@ -3,6 +3,13 @@
     font-size: 12px;
     font-weight: 300;
 
+    .deprecated
+    {
+      span, td {
+        color: #aaa !important;
+      }
+    }
+
     @include text_code();
     &-toggle
     {
@@ -78,6 +85,10 @@
         color: #ebebeb;
         border-radius: 4px;
         background: rgba(#000,.7);
+    }
+
+    p {
+        margin: 0 0 1em 0;
     }
 }
 
@@ -188,6 +199,11 @@ section.models
         position: relative;
         top: 4px;
     }
+
+    &.deprecated
+    {
+      opacity: .5;
+    }
 }
 
 
@@ -196,6 +212,14 @@ section.models
     font-size: 16px;
 
     @include text_headline(#555);
+}
+
+.model-deprecated-warning
+{
+    font-size: 16px;
+    font-weight: 600;
+    margin-right: 1em;
+    @include text_headline($_color-delete);
 }
 
 

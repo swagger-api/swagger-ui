@@ -41,7 +41,7 @@ export function fromJSOrdered (js) {
   return !isObject(js) ? js :
     Array.isArray(js) ?
       Im.Seq(js).map(fromJSOrdered).toList() :
-      Im.Seq(js).map(fromJSOrdered).toOrderedMap()
+      Im.OrderedMap(js).map(fromJSOrdered)
 }
 
 export function bindToState(obj, state) {
@@ -228,13 +228,13 @@ export function highlight (el) {
 
   var reset = function(el) {
     var text = el.textContent,
-      pos = 0,       // current position
+      pos = 0, // current position
       next1 = text[0], // next character
-      chr = 1,       // current character
-      prev1,           // previous character
-      prev2,           // the one before the previous
-      token =          // current token content
-        el.innerHTML = "",  // (and cleaning the node)
+      chr = 1, // current character
+      prev1, // previous character
+      prev2, // the one before the previous
+      token = // current token content
+        el.innerHTML = "", // (and cleaning the node)
 
     // current token type:
     //  0: anything else (whitespaces / newlines)
@@ -274,11 +274,11 @@ export function highlight (el) {
         (tokenType > 8 && chr == "\n") ||
         [ // finalize conditions for other token types
           // 0: whitespaces
-          /\S/[test](chr),  // merged together
+          /\S/[test](chr), // merged together
           // 1: operators
-          1,                // consist of a single character
+          1, // consist of a single character
           // 2: braces
-          1,                // consist of a single character
+          1, // consist of a single character
           // 3: (key)word
           !/[$\w]/[test](chr),
           // 4: regex
@@ -341,12 +341,12 @@ export function highlight (el) {
         // condition)
         tokenType = 11
         while (![
-          1,                   //  0: whitespace
+          1, //  0: whitespace
                                //  1: operator or braces
-          /[\/{}[(\-+*=<>:;|\\.,?!&@~]/[test](chr),   // eslint-disable-line no-useless-escape
-          /[\])]/[test](chr),  //  2: closing brace
-          /[$\w]/[test](chr),  //  3: (key)word
-          chr == "/" &&        //  4: regex
+          /[\/{}[(\-+*=<>:;|\\.,?!&@~]/[test](chr), // eslint-disable-line no-useless-escape
+          /[\])]/[test](chr), //  2: closing brace
+          /[$\w]/[test](chr), //  3: (key)word
+          chr == "/" && //  4: regex
             // previous token was an
             // opening brace or an
             // operator (otherwise
@@ -355,13 +355,13 @@ export function highlight (el) {
             // workaround for xml
             // closing tags
           prev1 != "<",
-          chr == "\"",          //  5: string with "
-          chr == "'",          //  6: string with '
+          chr == "\"", //  5: string with "
+          chr == "'", //  6: string with '
                                //  7: xml comment
           chr+next1+text[pos+1]+text[pos+2] == "<!--",
-          chr+next1 == "/*",   //  8: multiline comment
-          chr+next1 == "//",   //  9: single-line comment
-          chr == "#"           // 10: hash-style comment
+          chr+next1 == "/*", //  8: multiline comment
+          chr+next1 == "//", //  9: single-line comment
+          chr == "#" // 10: hash-style comment
         ][--tokenType]);
       }
 
@@ -451,14 +451,32 @@ export const propChecker = (props, nextProps, objectList=[], ignoreList=[]) => {
 }
 
 export const validateNumber = ( val ) => {
-  if ( !/^-?\d+(\.?\d+)?$/.test(val)) {
+  if (!/^-?\d+(\.?\d+)?$/.test(val)) {
     return "Value must be a number"
   }
 }
 
 export const validateInteger = ( val ) => {
-  if ( !/^-?\d+$/.test(val)) {
+  if (!/^-?\d+$/.test(val)) {
     return "Value must be an integer"
+  }
+}
+
+export const validateFile = ( val ) => {
+  if ( val && !(val instanceof win.File) ) {
+    return "Value must be a file"
+  }
+}
+
+export const validateBoolean = ( val ) => {
+  if ( !(val === "true" || val === "false" || val === true || val === false) ) {
+    return "Value must be a boolean"
+  }
+}
+
+export const validateString = ( val ) => {
+  if ( val && typeof val !== "string" ) {
+    return "Value must be a string"
   }
 }
 
@@ -469,43 +487,69 @@ export const validateParam = (param, isXml) => {
   let required = param.get("required")
   let type = param.get("type")
 
-  let stringCheck = type === "string" && !value
-  let arrayCheck = type === "array" && Array.isArray(value) && !value.length
-  let listCheck = type === "array" && Im.List.isList(value) && !value.count()
-  if ( required && (stringCheck || arrayCheck || listCheck) ) {
-    errors.push("Required field is not provided")
-    return errors
-  }
+  /*
+    If the parameter is required OR the parameter has a value (meaning optional, but filled in)
+    then we should do our validation routine.
+    Only bother validating the parameter if the type was specified.
+  */
+  if ( type && (required || value) ) {
+    // These checks should evaluate to true if the parameter's value is valid
+    let stringCheck = type === "string" && value && !validateString(value)
+    let arrayCheck = type === "array" && Array.isArray(value) && value.length
+    let listCheck = type === "array" && Im.List.isList(value) && value.count()
+    let fileCheck = type === "file" && value instanceof win.File
+    let booleanCheck = type === "boolean" && !validateBoolean(value)
+    let numberCheck = type === "number" && !validateNumber(value) // validateNumber returns undefined if the value is a number
+    let integerCheck = type === "integer" && !validateInteger(value) // validateInteger returns undefined if the value is an integer
 
-  if ( type === "number" ) {
-    let err = validateNumber(value)
-    if (!err) return errors
-    errors.push(err)
-  } else if ( type === "integer" ) {
-    let err = validateInteger(value)
-    if (!err) return errors
-    errors.push(err)
-  } else if ( type === "array" ) {
-    let itemType
+    if ( required && !(stringCheck || arrayCheck || listCheck || fileCheck || booleanCheck || numberCheck || integerCheck) ) {
+      errors.push("Required field is not provided")
+      return errors
+    }
 
-    if ( !value.count() ) { return errors }
+    if ( type === "string" ) {
+      let err = validateString(value)
+      if (!err) return errors
+      errors.push(err)
+    } else if ( type === "boolean" ) {
+      let err = validateBoolean(value)
+      if (!err) return errors
+      errors.push(err)
+    } else if ( type === "number" ) {
+      let err = validateNumber(value)
+      if (!err) return errors
+      errors.push(err)
+    } else if ( type === "integer" ) {
+      let err = validateInteger(value)
+      if (!err) return errors
+      errors.push(err)
+    } else if ( type === "array" ) {
+      let itemType
 
-    itemType = param.getIn(["items", "type"])
+      if ( !value.count() ) { return errors }
 
-    value.forEach((item, index) => {
-      let err
+      itemType = param.getIn(["items", "type"])
 
-      if (itemType === "number") {
-        err = validateNumber(item)
-      } else if (itemType === "integer") {
-        err = validateInteger(item)
-      }
+      value.forEach((item, index) => {
+        let err
 
-      if ( err ) {
-        errors.push({ index: index, error: err})
-      }
-    })
+        if (itemType === "number") {
+          err = validateNumber(item)
+        } else if (itemType === "integer") {
+          err = validateInteger(item)
+        } else if (itemType === "string") {
+          err = validateString(item)
+        }
 
+        if ( err ) {
+          errors.push({ index: index, error: err})
+        }
+      })
+    } else if ( type === "file" ) {
+      let err = validateFile(value)
+      if (!err) return errors
+      errors.push(err)
+    }
   }
 
   return errors
@@ -531,7 +575,7 @@ export const getSampleSchema = (schema, contentType="", config={}) => {
   return JSON.stringify(memoizedSampleFromSchema(schema, config), null, 2)
 }
 
-export const parseSeach = () => {
+export const parseSearch = () => {
   let map = {}
   let search = window.location.search
 
@@ -563,6 +607,9 @@ export const sorters = {
   operationsSorter: {
     alpha: (a, b) => a.get("path").localeCompare(b.get("path")),
     method: (a, b) => a.get("method").localeCompare(b.get("method"))
+  },
+  tagsSorter: {
+    alpha: (a, b) => a.localeCompare(b)
   }
 }
 
@@ -576,18 +623,6 @@ export const buildFormData = (data) => {
     }
   }
   return formArr.join("&")
-}
-
-export const filterConfigs = (configs, allowed) => {
-    let i, filteredConfigs = {}
-
-    for (i in configs) {
-        if (allowed.indexOf(i) !== -1) {
-            filteredConfigs[i] = configs[i]
-        }
-    }
-
-    return filteredConfigs
 }
 
 // Is this really required as a helper? Perhaps. TODO: expose the system of presets.apis in docs, so we know what is supported

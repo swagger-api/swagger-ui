@@ -5,4 +5,4 @@ node_modules
 npm-debug.log*
 .eslintcache
 package-lock.json
-selenium-debug.log
+*.iml
