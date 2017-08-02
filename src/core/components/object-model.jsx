@@ -17,8 +17,7 @@ export default class ObjectModel extends Component {
   }
 
   render(){
-    let { schema, name, isRef, getComponent, depth, ...props } = this.props
-    let { expandDepth } = this.props
+    let { schema, name, isRef, getComponent, depth, expandDepth, ...props } = this.props
     let description = schema.get("description")
     let properties = schema.get("properties")
     let additionalProperties = schema.get("additionalProperties")
