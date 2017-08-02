@@ -1,11 +1,11 @@
-import React, { PropTypes } from "react"
-import shallowCompare from "react-addons-shallow-compare"
+import React, { PureComponent } from "react"
+import PropTypes from "prop-types"
 import { getList } from "core/utils"
 import * as CustomPropTypes from "core/proptypes"
 
 //import "less/opblock"
 
-export default class Operation extends React.Component {
+export default class Operation extends PureComponent {
   static propTypes = {
     path: PropTypes.string.isRequired,
     method: PropTypes.string.isRequired,
@@ -18,6 +18,7 @@ export default class Operation extends React.Component {
     allowTryItOut: PropTypes.bool,
 
     displayOperationId: PropTypes.bool,
+    displayRequestDuration: PropTypes.bool,
 
     response: PropTypes.object,
     request: PropTypes.object,
@@ -38,6 +39,7 @@ export default class Operation extends React.Component {
     response: null,
     allowTryItOut: true,
     displayOperationId: false,
+    displayRequestDuration: false
   }
 
   constructor(props, context) {
@@ -68,10 +70,6 @@ export default class Operation extends React.Component {
       consumesValue = consumes && consumes.size ? consumes.first() : defaultContentType
       specActions.changeConsumesValue([path, method], consumesValue)
     }
-  }
-
-  shouldComponentUpdate(props, state) {
-    return shallowCompare(this, props, state)
   }
 
   toggleShown =() => {
@@ -112,13 +110,14 @@ export default class Operation extends React.Component {
       request,
       allowTryItOut,
       displayOperationId,
-
+      displayRequestDuration,
       fn,
       getComponent,
       specActions,
       specSelectors,
       authActions,
-      authSelectors
+      authSelectors,
+      getConfigs
     } = this.props
 
     let summary = operation.get("summary")
@@ -131,6 +130,7 @@ export default class Operation extends React.Component {
     let schemes = operation.get("schemes")
     let parameters = getList(operation, ["parameters"])
     let operationId = operation.get("__originalOperationId")
+    let operationScheme = specSelectors.operationScheme(path, method)
 
     const Responses = getComponent("responses")
     const Parameters = getComponent( "parameters" )
@@ -141,6 +141,10 @@ export default class Operation extends React.Component {
     const Collapse = getComponent( "Collapse" )
     const Markdown = getComponent( "Markdown" )
     const Schemes = getComponent( "schemes" )
+
+    const { deepLinking } = getConfigs()
+
+    const isDeepLinkingEnabled = deepLinking && deepLinking !== "false"
 
     // Merge in Live Response
     if(response && response.size > 0) {
@@ -153,13 +157,18 @@ export default class Operation extends React.Component {
     let onChangeKey = [ path, method ] // Used to add values to _this_ operation ( indexed by path and method )
 
     return (
-        <div className={deprecated ? "opblock opblock-deprecated" : shown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={isShownKey} >
+        <div className={deprecated ? "opblock opblock-deprecated" : shown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={isShownKey.join("-")} >
           <div className={`opblock-summary opblock-summary-${method}`} onClick={this.toggleShown} > {/*TODO: convert this into a component, that can be wrapped and pulled in with getComponent */}
-            <span className="opblock-summary-method">{method.toUpperCase()}</span>
-            <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } >
-              <span>{path}</span>
-              <JumpToPath path={specPath} /> {/*TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
-            </span>
+              <span className="opblock-summary-method">{method.toUpperCase()}</span>
+              <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } >
+                <a
+                  className="nostyle"
+                  onClick={(e) => e.preventDefault()}
+                  href={ isDeepLinkingEnabled ? `#/${isShownKey[1]}/${isShownKey[2]}` : ""} >
+                  <span>{path}</span>
+                </a>
+                <JumpToPath path={specPath} /> {/*TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
+              </span>
 
             { !showSummary ? null :
                 <div className="opblock-summary-description">
@@ -192,7 +201,9 @@ export default class Operation extends React.Component {
                 <div className="opblock-external-docs-wrapper">
                   <h4 className="opblock-title_normal">Find more details</h4>
                   <div className="opblock-external-docs">
-                    <span className="opblock-external-docs__description">{ externalDocs.get("description") }</span>
+                    <span className="opblock-external-docs__description">
+                      <Markdown source={ externalDocs.get("description") } />
+                    </span>
                     <a className="opblock-external-docs__link" href={ externalDocs.get("url") }>{ externalDocs.get("url") }</a>
                   </div>
                 </div> : null
@@ -217,7 +228,8 @@ export default class Operation extends React.Component {
                     <Schemes schemes={ schemes }
                              path={ path }
                              method={ method }
-                             specActions={ specActions }/>
+                             specActions={ specActions }
+                             operationScheme={ operationScheme } />
                   </div> : null
               }
 
@@ -245,20 +257,21 @@ export default class Operation extends React.Component {
 
             {this.state.executeInProgress ? <div className="loading-container"><div className="loading"></div></div> : null}
 
-            { !responses ? null : (
-              <Responses
-                responses={ responses }
-                specPath={[...specPath, "responses"]}
-                request={ request }
-                tryItOutResponse={ response }
-                getComponent={ getComponent }
-                specSelectors={ specSelectors }
-                specActions={ specActions }
-                produces={ produces }
-                producesValue={ operation.get("produces_value") }
-                pathMethod={ [path, method] }
-                fn={fn} />
-            )}
+              { !responses ? null :
+                  <Responses
+                    responses={ responses }
+                    request={ request }
+                    tryItOutResponse={ response }
+                    getComponent={ getComponent }
+                    specSelectors={ specSelectors }
+                    specActions={ specActions }
+                    produces={ produces }
+                    producesValue={ operation.get("produces_value") }
+                    pathMethod={ [path, method] }
+                    specPath={[...specPath, "responses"]}
+                    displayRequestDuration={ displayRequestDuration }
+                    fn={fn} />
+              }
             </div>
           </Collapse>
         </div>

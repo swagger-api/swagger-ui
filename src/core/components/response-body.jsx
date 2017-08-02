@@ -1,4 +1,5 @@
-import React, { PropTypes } from "react"
+import React from "react"
+import PropTypes from "prop-types"
 import { formatXml } from "core/utils"
 import lowerCase from "lodash/lowerCase"
 
@@ -6,7 +7,7 @@ export default class ResponseBody extends React.Component {
 
   static propTypes = {
     content: PropTypes.any.isRequired,
-    contentType: PropTypes.string.isRequired,
+    contentType: PropTypes.string,
     getComponent: PropTypes.func.isRequired,
     headers: PropTypes.object,
     url: PropTypes.string
@@ -39,7 +40,7 @@ export default class ResponseBody extends React.Component {
 
       // Image
     } else if (/^image\//i.test(contentType)) {
-      bodyEl = <img src={ url } />
+      bodyEl = <img style={{ maxWidth: "100%" }} src={ window.URL.createObjectURL(content) } />
 
       // Audio
     } else if (/^audio\//i.test(contentType)) {

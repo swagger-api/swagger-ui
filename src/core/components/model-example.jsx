@@ -1,5 +1,5 @@
-import React, { PropTypes } from "react"
-
+import React from "react"
+import PropTypes from "prop-types"
 
 export default class ModelExample extends React.Component {
   static propTypes = {
@@ -29,7 +29,7 @@ export default class ModelExample extends React.Component {
 
   render() {
     let { getComponent, specSelectors, schema, example, isExecute, specPath } = this.props
-    const Model = getComponent("model")
+    const ModelWrapper = getComponent("ModelWrapper")
 
     return <div>
       <ul className="tab">
@@ -46,7 +46,7 @@ export default class ModelExample extends React.Component {
         }
         {
           !isExecute && this.state.activeTab === "model" && (
-            <Model
+            <ModelWrapper
               schema={ schema }
               specPath={specPath}
               getComponent={ getComponent }

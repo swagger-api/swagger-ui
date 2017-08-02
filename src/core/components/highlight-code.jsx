@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from "react"
+import React, { Component } from "react"
+import PropTypes from "prop-types"
 import { highlight } from "core/utils"
 
 export default class HighlightCode extends Component {
@@ -8,17 +9,21 @@ export default class HighlightCode extends Component {
   }
 
   componentDidMount() {
-    highlight(this.refs.el)
+    highlight(this.el)
   }
 
   componentDidUpdate() {
-    highlight(this.refs.el)
+    highlight(this.el)
+  }
+
+  initializeComponent = (c) => {
+    this.el = c
   }
 
   render () {
     let { value, className } = this.props
     className = className || ""
 
-    return <pre ref="el" className={className + " microlight"}>{ value }</pre>
+    return <pre ref={this.initializeComponent} className={className + " microlight"}>{ value }</pre>
   }
 }

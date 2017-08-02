@@ -1,4 +1,5 @@
-import React, { PropTypes } from "react"
+import React from "react"
+import PropTypes from "prop-types"
 import { fromJS } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 
@@ -14,7 +15,7 @@ class Path extends React.Component {
 
     return (
       <pre className="base-url">
-        [ Base url: {host}{basePath}]
+        [ Base URL: {host}{basePath} ]
       </pre>
     )
   }

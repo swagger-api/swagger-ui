@@ -1,4 +1,5 @@
-import React, { PropTypes } from "react"
+import React from "react"
+import PropTypes from "prop-types"
 
 export default class Schemes extends React.Component {
 
@@ -6,7 +7,8 @@ export default class Schemes extends React.Component {
     specActions: PropTypes.object.isRequired,
     schemes: PropTypes.object.isRequired,
     path: PropTypes.string,
-    method: PropTypes.string
+    method: PropTypes.string,
+    operationScheme: PropTypes.string
   }
 
   componentWillMount() {
@@ -16,11 +18,19 @@ export default class Schemes extends React.Component {
     this.setScheme(schemes.first())
   }
 
+  componentWillReceiveProps(nextProps) {
+    if ( !this.props.operationScheme || !nextProps.schemes.has(this.props.operationScheme) ) {
+      // if we don't have a selected operationScheme or if our selected scheme is no longer an option,
+      // then fire 'change' event and select the first scheme in the list of options
+      this.setScheme(nextProps.schemes.first())
+    }
+  }
+
   onChange =( e ) => {
     this.setScheme( e.target.value )
   }
 
-  setScheme =( value ) => {
+  setScheme = ( value ) => {
     let { path, method, specActions } = this.props
 
     specActions.setScheme( value, path, method )

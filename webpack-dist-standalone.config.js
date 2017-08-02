@@ -1,20 +1,32 @@
-var path = require('path')
+const path = require("path")
+const styleRules = require("./webpack.dist-style.config.js")
 
+let rules = [
+  { test: /\.(worker\.js)(\?.*)?$/,
+    use: [
+      {
+        loader: "worker-loader",
+        options: {
+          inline: true,
+          name: "[name].js"
+        }
+      },
+      { loader: "babel-loader" }
+    ]
+  }
+]
 
-module.exports = require('./make-webpack-config.js')({
+module.exports = require("./make-webpack-config.js")(rules, {
   _special: {
-    separateStylesheets: false,
+    separateStylesheets: true,
     minimize: true,
     sourcemaps: true,
-    loaders: {
-      "worker.js": ["worker-loader?inline=true&name=[name].js", "babel"]
-    }
   },
 
   entry: {
-    'swagger-ui-standalone-preset': [
-      './src/polyfills',
-      './src/standalone/index.js'
+    "swagger-ui-standalone-preset": [
+      "./src/polyfills",
+      "./src/standalone/index.js"
     ]
   },
 
