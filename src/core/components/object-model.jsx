@@ -13,11 +13,12 @@ export default class ObjectModel extends Component {
     name: PropTypes.string,
     isRef: PropTypes.bool,
     expandDepth: PropTypes.number,
-    depth: PropTypes.number
+    depth: PropTypes.number,
+    specPath: PropTypes.object.isRequired
   }
 
   render(){
-    let { schema, name, isRef, getComponent, depth, ...props } = this.props
+    let { schema, name, isRef, getComponent, depth, specPath, ...props } = this.props
     let { expandDepth } = this.props
     let description = schema.get("description")
     let properties = schema.get("properties")
@@ -30,14 +31,16 @@ export default class ObjectModel extends Component {
     const Model = getComponent("Model")
     const ModelCollapse = getComponent("ModelCollapse")
 
-    const JumpToPathSection = ({ name }) => <span className="model-jump-to-path"><JumpToPath path={`definitions.${name}`} /></span>
-    const collapsedContent = (<span>
+    const JumpToPathSection = () => ( <span className="model-jump-to-path"><JumpToPath path={specPath} /></span> )
+    const collapsedContent = (
+      <span>
         <span>{ braceOpen }</span>...<span>{ braceClose }</span>
         {
-        isRef ? <JumpToPathSection name={ name }/> : ""
+          isRef ? <JumpToPathSection /> : ""
         }
-    </span>)
-    
+      </span>
+    )
+
     const titleEl = title && <span className="model-title">
       { isRef && schema.get("$$ref") && <span className="model-hint">{ schema.get("$$ref") }</span> }
       <span className="model-title__text">{ title }</span>
@@ -47,7 +50,7 @@ export default class ObjectModel extends Component {
       <ModelCollapse title={titleEl} collapsed={ depth > expandDepth } collapsedContent={ collapsedContent }>
          <span className="brace-open object">{ braceOpen }</span>
           {
-            !isRef ? null : <JumpToPathSection name={ name }/>
+            !isRef ? null : <JumpToPathSection />
           }
           <span className="inner-object">
             {
