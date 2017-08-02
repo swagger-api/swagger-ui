@@ -2,7 +2,6 @@ var path = require('path')
 
 var webpack = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 var deepExtend = require('deep-extend')
 const {gitDescribeSync} = require('git-describe')
@@ -77,11 +76,6 @@ module.exports = function(rules, options) {
     plugins.push( new webpack.NoEmitOnErrorsPlugin())
 
   } else {    // development mode
-    plugins.push(
-      new HtmlWebpackPlugin({
-        template: 'dev-helpers/template.ejs',
-      })
-    )
     plugins.push(new CopyWebpackPlugin([ { from: 'test/e2e/specs', to: 'test-specs' } ]))
   }
 
