@@ -34,7 +34,7 @@ describe("render informationContainer", function () {
 
     it("renders base url", function (client) {
       informationContainer.waitForElementVisible("@baseUrl", 5000)
-        .assert.containsText("@baseUrl", "[ Base url: localhost:3204/]")
+        .assert.containsText("@baseUrl", "[ Base URL: localhost:3204/]")
 
       client.end()
     })
