@@ -43,7 +43,6 @@
     "ieee754": "^1.1.8",
     "immutable": "^3.x.x",
     "js-yaml": "^3.5.5",
-    "less": "2.7.1",
     "lodash": "4.17.2",
     "matcher": "^0.1.2",
     "memoizee": "0.4.1",
