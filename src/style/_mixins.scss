@@ -166,3 +166,9 @@ $browser-context: 16;
         @warn 'Breakpoint mixin supports: tablet, mobile, desktop';
     }
 }
+
+@mixin invalidFormElement() {
+    animation: shake .4s 1;
+    border-color: $_color-delete;
+    background: lighten($_color-delete, 35%);
+}
