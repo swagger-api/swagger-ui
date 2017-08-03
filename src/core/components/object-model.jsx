@@ -31,9 +31,10 @@ export default class ObjectModel extends Component {
     const Model = getComponent("Model")
     const ModelCollapse = getComponent("ModelCollapse")
 
-    const path = isOAS3 && isOAS3() ? `components.schemas.${name}` : `definitions.${name}`
-
-    const JumpToPathSection = ({ name }) => <span className="model-jump-to-path"><JumpToPath path={path} /></span>
+    const JumpToPathSection = ({ name }) => {
+      const path = isOAS3 && isOAS3() ? `components.schemas.${name}` : `definitions.${name}`
+      return <span className="model-jump-to-path"><JumpToPath path={path} /></span>
+    }
     const collapsedContent = (<span>
         <span>{ braceOpen }</span>...<span>{ braceClose }</span>
         {
