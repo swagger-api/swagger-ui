@@ -41,6 +41,10 @@ export default class ObjectModel extends Component {
         }
     </span>)
 
+    const anyOf = specSelectors.isOAS3() ? schema.get("anyOf") : null
+    const oneOf = specSelectors.isOAS3() ? schema.get("oneOf") : null
+    const not = specSelectors.isOAS3() ? schema.get("not") : null
+
     const titleEl = title && <span className="model-title">
       { isRef && schema.get("$$ref") && <span className="model-hint">{ schema.get("$$ref") }</span> }
       <span className="model-title__text">{ title }</span>
@@ -95,6 +99,48 @@ export default class ObjectModel extends Component {
                              getComponent={ getComponent }
                              schema={ additionalProperties }
                              depth={ depth + 1 } />
+                    </td>
+                  </tr>
+              }
+              {
+                !anyOf ? null
+                  : <tr>
+                    <td>{ "anyOf ->" }</td>
+                    <td>
+                      {anyOf.map((schema, k) => {
+                        return <div key={k}><Model { ...props } required={ false }
+                                 getComponent={ getComponent }
+                                 schema={ schema }
+                                 depth={ depth + 1 } /></div>
+                      })}
+                    </td>
+                  </tr>
+              }
+              {
+                !oneOf ? null
+                  : <tr>
+                    <td>{ "oneOf ->" }</td>
+                    <td>
+                      {oneOf.map((schema, k) => {
+                        return <div key={k}><Model { ...props } required={ false }
+                                 getComponent={ getComponent }
+                                 schema={ schema }
+                                 depth={ depth + 1 } /></div>
+                      })}
+                    </td>
+                  </tr>
+              }
+              {
+                !not ? null
+                  : <tr>
+                    <td>{ "not ->" }</td>
+                    <td>
+                      {not.map((schema, k) => {
+                        return <div key={k}><Model { ...props } required={ false }
+                                 getComponent={ getComponent }
+                                 schema={ schema }
+                                 depth={ depth + 1 } /></div>
+                      })}
                     </td>
                   </tr>
               }
