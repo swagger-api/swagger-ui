@@ -23,6 +23,7 @@ module.exports = function SwaggerUI(opts) {
   const defaults = {
     // Some general settings, that we floated to the top
     dom_id: null,
+    domNode: null,
     spec: {},
     url: "",
     urls: null,
@@ -99,6 +100,12 @@ module.exports = function SwaggerUI(opts) {
 
     let localConfig = system.specSelectors.getLocalConfig ? system.specSelectors.getLocalConfig() : {}
     let mergedConfig = deepExtend({}, localConfig, constructorConfig, fetchedConfig || {}, queryConfig)
+
+    // deep extend mangles domNode, we need to set it manually
+    if(opts.domNode) {
+      mergedConfig.domNode = opts.domNode
+    }
+
     store.setConfigs(mergedConfig)
 
     if (fetchedConfig !== null) {
@@ -112,10 +119,13 @@ module.exports = function SwaggerUI(opts) {
       }
     }
 
-    if(mergedConfig.dom_id) {
-      system.render(mergedConfig.dom_id, "App")
+    if(mergedConfig.domNode) {
+      system.render(mergedConfig.domNode, "App")
+    } else if(mergedConfig.dom_id) {
+      let domNode = document.querySelector(mergedConfig.dom_id)
+      system.render(domNode, "App")
     } else {
-      console.error("Skipped rendering: no `dom_id` was specified")
+      console.error("Skipped rendering: no `dom_id` or `domNode` was specified")
     }
 
     return system
