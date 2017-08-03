@@ -19,6 +19,7 @@ export default class ObjectModel extends Component {
   render(){
     let { schema, name, isRef, getComponent, depth, ...props } = this.props
     let { expandDepth, specSelectors } = this.props
+    let { isOAS3 } = specSelectors
     let description = schema.get("description")
     let properties = schema.get("properties")
     let additionalProperties = schema.get("additionalProperties")
@@ -30,7 +31,10 @@ export default class ObjectModel extends Component {
     const Model = getComponent("Model")
     const ModelCollapse = getComponent("ModelCollapse")
 
-    const JumpToPathSection = ({ name }) => <span className="model-jump-to-path"><JumpToPath path={`definitions.${name}`} /></span>
+    const JumpToPathSection = ({ name }) => {
+      const path = isOAS3 && isOAS3() ? `components.schemas.${name}` : `definitions.${name}`
+      return <span className="model-jump-to-path"><JumpToPath path={path} /></span>
+    }
     const collapsedContent = (<span>
         <span>{ braceOpen }</span>...<span>{ braceClose }</span>
         {
