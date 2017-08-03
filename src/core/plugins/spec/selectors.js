@@ -271,7 +271,7 @@ export function parameterValues(state, pathMethod, isXml) {
   let params = spec(state).getIn(["paths", ...pathMethod, "parameters"], fromJS([]))
   return params.reduce( (hash, p) => {
     let value = isXml && p.get("in") === "body" ? p.get("value_xml") : p.get("value")
-    return hash.set(p.get("name"), value)
+    return hash.set(`${p.get("name")}-${p.get("in")}`, value)
   }, fromJS({}))
 }
 
