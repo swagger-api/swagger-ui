@@ -6,3 +6,4 @@ npm-debug.log*
 .eslintcache
 package-lock.json
 *.iml
+selenium-debug.log

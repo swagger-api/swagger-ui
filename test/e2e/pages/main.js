@@ -59,7 +59,7 @@ module.exports = {
           selector: "select option"
         },
         btnAuthorize: {
-          selector: "button"
+          selector: "button.authorize"
         },
         authorizationModal: {
           selector: ".dialog-ux"
@@ -97,191 +97,191 @@ module.exports = {
          * Post pet/ api
          */
         petOperationPostContainer: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-addPet"
         },
         petOperationPostTitle: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) .opblock-summary-post span.opblock-summary-path span"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-addPet .opblock-summary-post span.opblock-summary-path span"
         },
         petOperationPostCollpase: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) .opblock-summary-post"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-addPet .opblock-summary-post"
         },
         petOperationPostCollapseContainer: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) .ReactCollapse--collapse"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-addPet>div:nth-child(2)"
         },
         petOperationPostTryBtn: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) button.try-out__btn"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-addPet button.try-out__btn"
         },
         petOperationPostTryText: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) textarea.body-param__text"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-addPet textarea.body-param__text"
         },
         petOperationPostExecuteBtn: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) button.execute"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-addPet button.execute"
         },
         petOperationPostTryTextArea: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) textarea"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-addPet textarea"
         },
         petOperationPostResultsBox: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) pre.microlight"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-addPet pre.microlight"
         },
         petOperationPostMockCategoryID: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) pre.microlight span:nth-child(17)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-addPet pre.microlight span:nth-child(17)"
         },
         petOperationPostMockCategoryName: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) pre.microlight span:nth-child(23)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-addPet pre.microlight span:nth-child(23)"
         },
         petOperationPostMockName: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) pre.microlight span:nth-child(31)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-addPet pre.microlight span:nth-child(31)"
         },
         petOperationPostTagID: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) pre.microlight span:nth-child(54)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-addPet pre.microlight span:nth-child(54)"
         },
         petOperationPostTagName: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) pre.microlight span:nth-child(60)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-addPet pre.microlight span:nth-child(60)"
         },
         petOperationPostStatus: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-post:nth-of-type(1) pre.microlight span:nth-child(70)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-addPet pre.microlight span:nth-child(70)"
         },
         /**
          * Put pet/ api
          */
         petOperationPutContainer: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-updatePet"
         },
         petOperationPutTitle: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put .opblock-summary-put span.opblock-summary-path span"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-updatePet .opblock-summary-put span.opblock-summary-path span"
         },
         petOperationPutCollpase: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put .opblock-summary-put"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-updatePet .opblock-summary-put"
         },
         petOperationPutCollapseContainer: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put .ReactCollapse--collapse"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-updatePet>div:nth-child(2)"
         },
         petOperationPutTryBtn: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put button.try-out__btn"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-updatePet button.try-out__btn"
         },
         petOperationPutTryText: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put textarea.body-param__text"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-updatePet textarea.body-param__text"
         },
         petOperationPutExecuteBtn: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put button.execute"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-updatePet button.execute"
         },
         petOperationPutTryTextArea: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put textarea"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-updatePet textarea"
         },
         petOperationPutResultsBox: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put pre.microlight"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-updatePet pre.microlight"
         },
         petOperationPutMockCategoryID: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put pre.microlight span:nth-child(17)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-updatePet pre.microlight span:nth-child(17)"
         },
         petOperationPutMockCategoryName: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put pre.microlight span:nth-child(23)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-updatePet pre.microlight span:nth-child(23)"
         },
         petOperationPutMockName: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put pre.microlight span:nth-child(31)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-updatePet pre.microlight span:nth-child(31)"
         },
         petOperationPutTagID: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put pre.microlight span:nth-child(54)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-updatePet pre.microlight span:nth-child(54)"
         },
         petOperationPutTagName: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put pre.microlight span:nth-child(60)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-updatePet pre.microlight span:nth-child(60)"
         },
         petOperationPutStatus: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-put pre.microlight span:nth-child(70)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-updatePet pre.microlight span:nth-child(70)"
         },
         /**
          * Get pet/
          */
         petOperationGetByTagContainer: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-findPetsByTags"
         },
         petOperationGetByTagTitle: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated .opblock-summary-get span.opblock-summary-path__deprecated span"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-findPetsByTags .opblock-summary-get span.opblock-summary-path__deprecated span"
         },
         petOperationGetByTagCollpase: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated .opblock-summary-get"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-findPetsByTags .opblock-summary-get"
         },
         petOperationGetByTagCollapseContainer: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated .ReactCollapse--collapse"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-findPetsByTags .ReactCollapse--collapse"
         },
         petOperationGetByTagTryBtn: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated button.try-out__btn"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-findPetsByTags button.try-out__btn"
         },
         petOperationGetByTagTryAdded: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated button.json-schema-form-item-add"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-findPetsByTags button.json-schema-form-item-add"
         },
         petOperationGetByTagExecuteBtn: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated button.execute"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-findPetsByTags button.execute"
         },
         petOperationGetByTagTryTextArea: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated textarea"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-findPetsByTags textarea"
         },
         petOperationGetByTagResultsBox: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated pre.microlight"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-findPetsByTags pre.microlight"
         },
         petOperationGetByTagMockCategoryID: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated pre.microlight span:nth-child(17)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-findPetsByTags pre.microlight span:nth-child(17)"
         },
         petOperationGetByTagMockCategoryName: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated pre.microlight span:nth-child(23)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-findPetsByTags pre.microlight span:nth-child(23)"
         },
         petOperationGetByTagMockName: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated pre.microlight span:nth-child(31)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-findPetsByTags pre.microlight span:nth-child(31)"
         },
         petOperationGetByTagTagID: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated pre.microlight span:nth-child(54)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-findPetsByTags pre.microlight span:nth-child(54)"
         },
         petOperationGetByTagTagName: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated pre.microlight span:nth-child(60)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-findPetsByTags pre.microlight span:nth-child(60)"
         },
         petOperationGetByTagStatus: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-deprecated pre.microlight span:nth-child(70)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-findPetsByTags pre.microlight span:nth-child(70)"
         },
         
         /**
          * Delete pet/
          */
         petOperationDeleteContainer: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-deletePet"
         },
         petOperationDeleteTitle: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete .opblock-summary-delete span.opblock-summary-path span"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-deletePet .opblock-summary-delete span.opblock-summary-path span"
         },
         petOperationDeleteCollpase: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete .opblock-summary-delete"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-deletePet .opblock-summary-delete"
         },
         petOperationDeleteCollapseContainer: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete .ReactCollapse--collapse"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-deletePet>div:nth-child(2)"
         },
         petOperationDeleteTryBtn: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete button.try-out__btn"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-deletePet button.try-out__btn"
         },
         petOperationDeleteExecuteBtn: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete button.execute"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-deletePet button.execute"
         },
         petOperationDeleteTryTextArea: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete textarea"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-deletePet textarea"
         },
         petOperationDeleteResultsBox: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete pre.microlight"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-deletePet pre.microlight"
         },
         petOperationDeleteMockCategoryID: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete pre.microlight span:nth-child(17)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-deletePet pre.microlight span:nth-child(17)"
         },
         petOperationDeleteMockCategoryName: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete pre.microlight span:nth-child(23)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-deletePet pre.microlight span:nth-child(23)"
         },
         petOperationDeleteMockName: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete pre.microlight span:nth-child(31)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-deletePet pre.microlight span:nth-child(31)"
         },
         petOperationDeleteTagID: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete pre.microlight span:nth-child(54)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-deletePet pre.microlight span:nth-child(54)"
         },
         petOperationDeleteTagName: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete pre.microlight span:nth-child(60)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-deletePet pre.microlight span:nth-child(60)"
         },
         petOperationDeleteStatus: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-delete pre.microlight span:nth-child(70)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-deletePet pre.microlight span:nth-child(70)"
         },
 
         /**
@@ -297,91 +297,91 @@ module.exports = {
          * Get /store/inventory
          */
         storeOperationGetContainer: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-child(1)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-getInventory"
         },
         storeOperationGetTitle: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-child(1) .opblock-summary-get span.opblock-summary-path span"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-getInventory .opblock-summary-get span.opblock-summary-path span"
         },
         storeOperationGetCollpase: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-child(1) .opblock-summary-get"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-getInventory .opblock-summary-get"
         },
         storeOperationGetCollapseContainer: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-child(1) .ReactCollapse--collapse"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-getInventory>div:nth-child(2)"
         },
         storeOperationGetTryBtn: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-child(1) button.try-out__btn"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-getInventory button.try-out__btn"
         },
         storeOperationGetExecuteBtn: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-child(1) button.execute"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-getInventory button.execute"
         },
         storeOperationResponseProps1: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-child(1) pre.example.microlight span:nth-child(6)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-getInventory pre.example.microlight span:nth-child(6)"
         },
         storeOperationResponseProps2: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-child(1) pre.example.microlight span:nth-child(12)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-getInventory pre.example.microlight span:nth-child(12)"
         },
         storeOperationResponseProps3: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-get:nth-child(1) pre.example.microlight span:nth-child(18)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-getInventory pre.example.microlight span:nth-child(18)"
         },
         /**
          * Post /store/order
          */
         storeOperationPostContainer: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-post"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-placeOrder"
         },
         storeOperationPostTitle: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-post .opblock-summary-post span.opblock-summary-path span"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-placeOrder .opblock-summary-post span.opblock-summary-path span"
         },
         storeOperationPostCollpase: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-post .opblock-summary-post"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-placeOrder .opblock-summary-post"
         },
         storeOperationPostCollapseContainer: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-post .ReactCollapse--collapse"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-placeOrder>div:nth-child(2)"
         },
         storeOperationPostTryBtn: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-post button.try-out__btn"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-placeOrder button.try-out__btn"
         },
         storeOperationPostExecuteBtn: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-post button.execute"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-placeOrder button.execute"
         },
         storeOperationPostResponseId: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-post pre.example.microlight span:nth-child(22)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-placeOrder pre.example.microlight span:nth-child(22)"
         },
         storeOperationPostResponsePetId: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-post pre.example.microlight span:nth-child(31)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-placeOrder pre.example.microlight span:nth-child(31)"
         },
         storeOperationPostResponseQuantity: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-post pre.example.microlight span:nth-child(40)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-placeOrder pre.example.microlight span:nth-child(40)"
         },
         storeOperationPostResponseStatus: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-post pre.example.microlight span:nth-child(66)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-placeOrder pre.example.microlight span:nth-child(66)"
         },
         storeOperationPostResponseComplete: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-post pre.example.microlight span:nth-child(75)"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-placeOrder pre.example.microlight span:nth-child(75)"
         },
         /**
          * Delete /store/order/{orderId}
          */
         storeOperationDeleteContainer: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-delete"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-deleteOrder"
         },
         storeOperationDeleteTitle: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-delete .opblock-summary-delete span.opblock-summary-path span"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-deleteOrder .opblock-summary-delete span.opblock-summary-path span"
         },
         storeOperationDeleteCollpase: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-delete .opblock-summary-delete"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-deleteOrder .opblock-summary-delete"
         },
         storeOperationDeleteCollapseContainer: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-delete .ReactCollapse--collapse"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-deleteOrder>div:nth-child(2)"
         },
         storeOperationDeleteTryBtn: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-delete button.try-out__btn"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-deleteOrder button.try-out__btn"
         },
         storeOperationDeleteExecuteBtn: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-delete button.execute"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-deleteOrder button.execute"
         },
         storeOperationGetResponseHeaders: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(2) .opblock-delete pre span"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(2) div#operations-store-deleteOrder pre span"
         },
         /**
          * *********User**************
@@ -396,52 +396,52 @@ module.exports = {
          * Put /user/login
          */
         userOperationPutContainer: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(3) .opblock-put"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(3) div#operations-user-updateUser"
         },
         userOperationPutTitle: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(3) .opblock-put .opblock-summary-put span.opblock-summary-path span"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(3) div#operations-user-updateUser .opblock-summary-put span.opblock-summary-path span"
         },
         userOperationPutCollpase: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(3) .opblock-put .opblock-summary-put"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(3) div#operations-user-updateUser .opblock-summary-put"
         },
         userOperationPutCollapseContainer: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(3) .opblock-put .ReactCollapse--collapse"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(3) div#operations-user-updateUser>div:nth-child(2)"
         },
         userOperationPutTryBtn: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(3) .opblock-put button.try-out__btn"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(3) div#operations-user-updateUser button.try-out__btn"
         },
         userOperationPutExecuteBtn: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(3) .opblock-put button.execute"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(3) div#operations-user-updateUser button.execute"
         },
         userOperationPutParameter: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(3) .opblock-put div.parameters-col_description input"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(3) div#operations-user-updateUser div.parameters-col_description input"
         },
         userOperationPutResponseHeader: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(3) .opblock-put div.parameters-col_description input"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(3) div#operations-user-updateUser div.parameters-col_description input"
         },
         /**
          * Delete /user
          */
         userOperationDeleteContainer: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(3) .opblock-delete"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(3) div#operations-user-deleteUser"
         },
         userOperationDeleteTitle: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(3) .opblock-delete .opblock-summary-delete span.opblock-summary-path span"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(3) div#operations-user-deleteUser .opblock-summary-delete span.opblock-summary-path span"
         },
         userOperationDeleteCollpase: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(3) .opblock-delete .opblock-summary-delete"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(3) div#operations-user-deleteUser .opblock-summary-delete"
         },
         userOperationDeleteCollapseContainer: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(3) .opblock-delete .ReactCollapse--collapse"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(3) div#operations-user-deleteUser>div:nth-child(2)"
         },
         userOperationDeleteTryBtn: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(3) .opblock-delete button.try-out__btn"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(3) div#operations-user-deleteUser button.try-out__btn"
         },
         userOperationDeleteExecuteBtn: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(3) .opblock-delete button.execute"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(3) div#operations-user-deleteUser button.execute"
         },
         userOperationDeleteParameter: {
-          selector: ".swagger-ui .opblock-tag-section:nth-child(3) .opblock-delete div.parameters-col_description input"
+          selector: ".swagger-ui .opblock-tag-section:nth-child(3) div#operations-user-deleteUser div.parameters-col_description input"
         },
         userOperationDeleteResponseHeader: {
           selector: ".swagger-ui .opblock-tag-section:nth-child(3) .opblock-delete div.parameters-col_description input"
