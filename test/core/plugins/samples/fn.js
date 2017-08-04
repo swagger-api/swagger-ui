@@ -554,6 +554,69 @@ describe("createXMLExample", function () {
       expect(sut(definition, { includeReadOnly: false })).toEqual(expected)
     })
 
+    it("returns object with readonly fields for parameter, with includeReadOnly", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<id>0</id>\n\t<dog>string</dog>\n</animals>"
+      var definition = {
+        type: "object",
+        properties: {
+          id: {
+            type: "integer"
+          },
+          dog: {
+            readOnly: true,
+            type: "string"
+          }
+        },
+        xml: {
+          name: "animals"
+        }
+      }
+
+      expect(sut(definition, { includeReadOnly: true })).toEqual(expected)
+    })
+
+    it("returns object without writeonly fields for parameter", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<id>0</id>\n</animals>"
+      var definition = {
+        type: "object",
+        properties: {
+          id: {
+            type: "integer"
+          },
+          dog: {
+            writeOnly: true,
+            type: "string"
+          }
+        },
+        xml: {
+          name: "animals"
+        }
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
+    it("returns object with writeonly fields for parameter, with includeWriteOnly", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<id>0</id>\n\t<dog>string</dog>\n</animals>"
+      var definition = {
+        type: "object",
+        properties: {
+          id: {
+            type: "integer"
+          },
+          dog: {
+            writeOnly: true,
+            type: "string"
+          }
+        },
+        xml: {
+          name: "animals"
+        }
+      }
+
+      expect(sut(definition, { includeWriteOnly: true })).toEqual(expected)
+    })
+
     it("returns object with passed property as attribute", function () {
       var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals id=\"0\">\n\t<dog>string</dog>\n</animals>"
       var definition = {
