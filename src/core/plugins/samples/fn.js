@@ -27,7 +27,7 @@ const primitive = (schema) => {
 
 export const sampleFromSchema = (schema, config={}) => {
   let { type, example, properties, additionalProperties, items } = objectify(schema)
-  let { includeReadOnly } = config
+  let { includeReadOnly, includeWriteOnly } = config
 
   if(example !== undefined)
     return example
@@ -46,9 +46,13 @@ export const sampleFromSchema = (schema, config={}) => {
     let props = objectify(properties)
     let obj = {}
     for (var name in props) {
-      if ( !props[name].readOnly || includeReadOnly ) {
-        obj[name] = sampleFromSchema(props[name], { includeReadOnly: includeReadOnly })
+      if ( props[name].readOnly && !includeReadOnly ) {
+        continue
       }
+      if ( props[name].writeOnly && !includeWriteOnly ) {
+        continue
+      }
+      obj[name] = sampleFromSchema(props[name], { includeReadOnly: includeReadOnly })
     }
 
     if ( additionalProperties === true ) {
