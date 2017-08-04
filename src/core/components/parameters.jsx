@@ -94,7 +94,7 @@ export default class Parameters extends Component {
                     <ParameterRow fn={ fn }
                       getComponent={ getComponent }
                       param={ parameter }
-                      key={ `${parameter.get( "name" )}-${parameter.get("in")}` }
+                      key={ `${parameter.get( "in" )}.${parameter.get("name")}` }
                       onChange={ this.onChange }
                       onChangeConsumes={this.onChangeConsumesWrapper}
                       specSelectors={ specSelectors }

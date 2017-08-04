@@ -43,8 +43,8 @@ describe("spec plugin - selectors", function(){
 
       // Then
       expect(paramValues.toJS()).toEqual({
-        "one-query": 1,
-        "two-query": "duos"
+        "query.one": 1,
+        "query.two": "duos"
       })
 
     })
