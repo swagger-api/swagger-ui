@@ -138,6 +138,14 @@ table
     @include text_code(#888);
 }
 
+.parameter__deprecated
+{
+    font-size: 12px;
+    font-style: italic;
+
+    @include text_code(#f00);
+}
+
 
 .table-container
 {
