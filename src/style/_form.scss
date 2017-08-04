@@ -57,7 +57,8 @@ input[type=file]
     border-radius: 4px;
     background: #fff;
 
-    &.invalid {
+    &.invalid
+    {
         @include invalidFormElement();
     }
 }

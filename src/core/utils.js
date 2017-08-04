@@ -487,9 +487,12 @@ export const validateParam = (param, isXml) => {
   let required = param.get("required")
   let type = param.get("type")
 
-  // If the parameter is required OR the parameter has a value (meaning optional, but filled in)
-  // then we should do our validation routine
-  if ( required || value ) {
+  /*
+    If the parameter is required OR the parameter has a value (meaning optional, but filled in)
+    then we should do our validation routine.
+    Only bother validating the parameter if the type was specified.
+  */
+  if ( type && (required || value) ) {
     // These checks should evaluate to true if the parameter's value is valid
     let stringCheck = type === "string" && value && !validateString(value)
     let arrayCheck = type === "array" && Array.isArray(value) && value.length
@@ -620,18 +623,6 @@ export const buildFormData = (data) => {
     }
   }
   return formArr.join("&")
-}
-
-export const filterConfigs = (configs, allowed) => {
-    let i, filteredConfigs = {}
-
-    for (i in configs) {
-        if (allowed.indexOf(i) !== -1) {
-            filteredConfigs[i] = configs[i]
-        }
-    }
-
-    return filteredConfigs
 }
 
 // Is this really required as a helper? Perhaps. TODO: expose the system of presets.apis in docs, so we know what is supported

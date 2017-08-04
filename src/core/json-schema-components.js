@@ -143,7 +143,7 @@ export class JsonSchema_array extends PureComponent {
 
     return (
       <div>
-        { !value || value.count() < 1 ? null : 
+        { !value || value.count() < 1 ? null :
           value.map( (item,i) => {
             let schema = Object.assign({}, itemSchema)
             if ( errors.length ) {
@@ -177,7 +177,7 @@ export class JsonSchema_boolean extends Component {
     return (<Select className={ errors.length ? "invalid" : ""}
                     value={ String(value) }
                     allowedValues={ fromJS(["true", "false"]) }
-                    allowEmptyValue={true}
+                    allowEmptyValue={ true }
                     onChange={ this.onEnumChange }/>)
   }
 }

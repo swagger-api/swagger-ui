@@ -14,7 +14,8 @@
 
     @include text_headline();
 
-    &.btn-sm {
+    &.btn-sm
+    {
         font-size: 12px;
         padding: 4px 23px;
     }
@@ -172,7 +173,8 @@ button
     cursor: pointer;
     outline: none;
 
-    &.invalid {
+    &.invalid
+    {
         @include invalidFormElement();
     }
 }

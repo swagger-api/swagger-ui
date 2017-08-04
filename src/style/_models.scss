@@ -3,6 +3,13 @@
     font-size: 12px;
     font-weight: 300;
 
+    .deprecated
+    {
+      span, td {
+        color: #aaa !important;
+      }
+    }
+
     @include text_code();
     &-toggle
     {
@@ -192,6 +199,11 @@ section.models
         position: relative;
         top: 4px;
     }
+
+    &.deprecated
+    {
+      opacity: .5;
+    }
 }
 
 
@@ -202,18 +214,30 @@ section.models
     @include text_headline(#555);
 }
 
+.model-deprecated-warning
+{
+    font-size: 16px;
+    font-weight: 600;
+    margin-right: 1em;
+    @include text_headline($_color-delete);
+}
+
 
 span
 {
     > span.model
     {
-        padding: 0 0 0 10px;
-
         .brace-close
         {
             padding: 0 0 0 10px;
         }
     }
+}
+
+.prop-name
+{
+    display: inline-block;
+    width: 100px;
 }
 
 .prop-type

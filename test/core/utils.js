@@ -175,6 +175,17 @@ describe("utils", function() {
     let param = null
     let result = null
 
+    it("skips validation when `type` is not specified", function() {
+      // invalid type
+      param = fromJS({
+        required: false,
+        type: undefined,
+        value: ""
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( [] )
+    })
+
     it("validates required strings", function() {
       // invalid string
       param = fromJS({
@@ -185,7 +196,7 @@ describe("utils", function() {
       result = validateParam( param, false )
       expect( result ).toEqual( ["Required field is not provided"] )
 
-      // valid string
+            // valid string
       param = fromJS({
         required: true,
         type: "string",
@@ -534,7 +545,7 @@ describe("utils", function() {
       result = validateParam( param, false )
       expect( result ).toEqual( [] )
 
-      // valid number
+      // integers
       param = fromJS({
         required: false,
         type: "integer",
