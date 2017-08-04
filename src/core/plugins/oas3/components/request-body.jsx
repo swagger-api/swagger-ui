@@ -1,9 +1,11 @@
 import React from "react"
+import PropTypes from "prop-types"
+import ImPropTypes from "react-immutable-proptypes"
 import { OrderedMap } from "immutable"
 import { getSampleSchema } from "core/utils"
 
 
-export default ({ requestBody, getComponent, specSelectors, contentType }) => {
+const RequestBody = ({ requestBody, getComponent, specSelectors, contentType }) => {
   const Markdown = getComponent("Markdown")
   const ModelExample = getComponent("modelExample")
   const HighlightCode = getComponent("highlightCode")
@@ -14,7 +16,7 @@ export default ({ requestBody, getComponent, specSelectors, contentType }) => {
 
   const mediaTypeValue = requestBodyContent.get(contentType)
 
-  const sampleSchema = getSampleSchema(mediaTypeValue.get("schema"))
+  const sampleSchema = getSampleSchema(mediaTypeValue.get("schema").toJS(), contentType)
 
   return <div>
     { requestBodyDescription &&
@@ -29,3 +31,12 @@ export default ({ requestBody, getComponent, specSelectors, contentType }) => {
       />
   </div>
 }
+
+RequestBody.propTypes = {
+  requestBody: ImPropTypes.orderedMap.isRequired,
+  getComponent: PropTypes.func.isRequired,
+  specSelectors: PropTypes.object.isRequired,
+  contentType: PropTypes.string.isRequired
+}
+
+export default RequestBody

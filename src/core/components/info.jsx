@@ -15,7 +15,7 @@ class Path extends React.Component {
 
     return (
       <pre className="base-url">
-        [ Base url: {host}{basePath}]
+        [ Base URL: {host}{basePath} ]
       </pre>
     )
   }

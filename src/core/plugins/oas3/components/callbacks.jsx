@@ -1,8 +1,9 @@
 import React from "react"
+import PropTypes from "prop-types"
 
-export default (props) => {
+const Callbacks = (props) => {
   let { callbacks, getComponent } = props
-  const Markdown = getComponent("Markdown")
+  // const Markdown = getComponent("Markdown")
   const Operation = getComponent("operation", true)
 
   if(!callbacks) {
@@ -10,15 +11,16 @@ export default (props) => {
   }
 
   let callbackElements = callbacks.map((callback, callbackName) => {
-    return <div>
+    return <div key={callbackName}>
       <h2>{callbackName}</h2>
       { callback.map((pathItem, pathItemName) => {
-        return <div>
+        return <div key={pathItemName}>
           { pathItem.map((operation, method) => {
             return <Operation
               operation={operation}
               key={method}
               method={method}
+              isShownKey={["callbacks", operation.get("id"), callbackName]}
               path={pathItemName}
               allowTryItOut={false}
               {...props}></Operation>
@@ -37,3 +39,11 @@ export default (props) => {
     {callbackElements}
   </div>
 }
+
+Callbacks.propTypes = {
+  getComponent: PropTypes.func.isRequired,
+  callbacks: PropTypes.array.isRequired
+
+}
+
+export default Callbacks

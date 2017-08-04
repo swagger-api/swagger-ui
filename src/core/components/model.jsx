@@ -1,275 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import ImPropTypes from "react-immutable-proptypes"
-import { List } from "immutable"
-const braceOpen = "{"
-const braceClose = "}"
 
-const propStyle = { color: "#999", fontStyle: "italic" }
-
-const EnumModel = ({ value }) => {
-  let collapsedContent = <span>Array [ { value.count() } ]</span>
-  return <span className="prop-enum">
-    Enum:<br />
-    <Collapse collapsedContent={ collapsedContent }>
-      [ { value.join(", ") } ]
-    </Collapse>
-  </span>
-}
-
-EnumModel.propTypes = {
-  value: ImPropTypes.iterable
-}
-
-class ObjectModel extends Component {
-  static propTypes = {
-    schema: PropTypes.object.isRequired,
-    getComponent: PropTypes.func.isRequired,
-    specSelectors: PropTypes.object.isRequired,
-    name: PropTypes.string,
-    isRef: PropTypes.bool,
-    expandDepth: PropTypes.number,
-    depth: PropTypes.number,
-    deprecated: PropTypes.boolean
-  }
-
-  render(){
-    let { schema, name, isRef, getComponent, depth, deprecated, ...props } = this.props
-    let { expandDepth, specSelectors } = this.props
-    const JumpToPath = getComponent("JumpToPath", true)
-    let description = schema.get("description")
-    let nullable = schema.get("nullable")
-    let properties = schema.get("properties")
-    let additionalProperties = schema.get("additionalProperties")
-    let title = schema.get("title") || name
-    let required = schema.get("required")
-
-    let anyOf = specSelectors.isOAS3() ? schema.get("anyOf") : null
-    let oneOf = specSelectors.isOAS3() ? schema.get("oneOf") : null
-    let not = specSelectors.isOAS3() ? schema.get("not") : null
-
-    const Markdown = getComponent("Markdown")
-    const JumpToPathSection = ({ name }) => <span className="model-jump-to-path"><JumpToPath path={`definitions.${name}`} /></span>
-  let collapsedContent = (<span>
-      <span>{ braceOpen }</span>...<span>{ braceClose }</span>
-      {
-        isRef ? <JumpToPathSection name={ name }/> : ""
-      }
-    </span>)
-
-    return <span className={`model ${deprecated ? "deprecated" : ""}`}>
-      {
-        title && <span className="model-title">
-          { isRef && schema.get("$$ref") && <span className="model-hint">{ schema.get("$$ref") }</span> }
-          <span className="model-title__text">{ title }</span>
-        </span>
-      }
-      <Collapse collapsed={ depth > expandDepth } collapsedContent={ collapsedContent }>
-         <span className="brace-open object">{ braceOpen }</span>
-          {
-            !isRef ? null : <JumpToPathSection name={ name }/>
-          }
-          <span className="inner-object">
-            {
-              <table className="model" style={{ marginLeft: "2em" }}><tbody>
-              {
-                !description ? null : <tr style={{ color: "#999", fontStyle: "italic" }}>
-                    <td>description:</td>
-                    <td>
-                      <Markdown source={ description } />
-                    </td>
-                  </tr>
-              }
-              {
-                (!specSelectors.isOAS3() || !nullable) ? null : <tr style={{ color: "#999", fontStyle: "italic" }}>
-                    <td>nullable</td>
-                    <td>{ nullable }</td>
-                  </tr>
-              }
-              {
-                !(properties && properties.size) ? null : properties.entrySeq().map(
-                    ([key, value]) => {
-                      let isRequired = List.isList(required) && required.contains(key)
-                      let propertyStyle = { verticalAlign: "top", paddingRight: "0.2em" }
-                      if ( isRequired ) {
-                        propertyStyle.fontWeight = "bold"
-                      }
-
-                      return (<tr key={key} className={`${value.get("deprecated") ? "deprecated" : ""}`}>
-                        <td style={ propertyStyle }>{ key }:</td>
-                        <td style={{ verticalAlign: "top" }}>
-                          <Model key={ `object-${name}-${key}_${value}` } { ...props }
-                                 required={ isRequired }
-                                 getComponent={ getComponent }
-                                 schema={ value }
-                                 depth={ depth + 1 } />
-                        </td>
-                      </tr>)
-                    }).toArray()
-              }
-              {
-                !additionalProperties || !additionalProperties.size ? null
-                  : <tr>
-                    <td>{ "< * >:" }</td>
-                    <td>
-                      <Model { ...props } required={ false }
-                             getComponent={ getComponent }
-                             schema={ additionalProperties }
-                             depth={ depth + 1 } />
-                    </td>
-                  </tr>
-              }
-              {
-                !anyOf ? null
-                  : <tr>
-                    <td>{ "anyOf ->" }</td>
-                    <td>
-                      {anyOf.map(schema => {
-                        return <div><Model { ...props } required={ false }
-                                 getComponent={ getComponent }
-                                 schema={ schema }
-                                 depth={ depth + 1 } /></div>
-                      })}
-                    </td>
-                  </tr>
-              }
-              {
-                !oneOf ? null
-                  : <tr>
-                    <td>{ "oneOf ->" }</td>
-                    <td>
-                      {oneOf.map(schema => {
-                        return <div><Model { ...props } required={ false }
-                                 getComponent={ getComponent }
-                                 schema={ schema }
-                                 depth={ depth + 1 } /></div>
-                      })}
-                    </td>
-                  </tr>
-              }
-              {
-                !not ? null
-                  : <tr>
-                    <td>{ "not ->" }</td>
-                    <td>
-                      {not.map(schema => {
-                        return <div><Model { ...props } required={ false }
-                                 getComponent={ getComponent }
-                                 schema={ schema }
-                                 depth={ depth + 1 } /></div>
-                      })}
-                    </td>
-                  </tr>
-              }
-              </tbody></table>
-          }
-        </span>
-        <span className="brace-close">{ braceClose }</span>
-      </Collapse>
-    </span>
-  }
-}
-
-class Primitive extends Component {
-  static propTypes = {
-    schema: PropTypes.object.isRequired,
-    name: PropTypes.string,
-    getComponent: PropTypes.func.isRequired,
-    required: PropTypes.bool,
-    deprecated: PropTypes.bool
-  }
-
-  render(){
-    let { schema, getComponent, name, required, deprecated } = this.props
-
-    if(!schema || !schema.get) {
-      // don't render if schema isn't correctly formed
-      return <div></div>
-    }
-
-    let type = schema.get("type")
-    let format = schema.get("format")
-    let xml = schema.get("xml")
-    let enumArray = schema.get("enum")
-    let title = schema.get("title") || name
-    let description = schema.get("description")
-    let properties = schema.filter( ( v, key) => ["enum", "type", "format", "description", "$$ref"].indexOf(key) === -1 )
-    let style = required ? { fontWeight: "bold" } : {}
-    const Markdown = getComponent("Markdown")
-
-    return <span className={`model ${deprecated ? "deprecated" : ""}`}>
-      {
-        title && <span className="model-title" style={{ marginRight: "2em" }}>
-          <span className="model-title__text">{ title }</span>
-        </span>
-      }
-      <span className="prop-type" style={ style }>{ type }</span> { required && <span style={{ color: "red" }}>*</span>}
-      { format && <span className="prop-format">(${format})</span>}
-      {
-        properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <span key={`${key}-${v}`} style={ propStyle }>
-          <br />{ key }: { String(v) }</span>)
-          : null
-      }
-      {
-        !description ? null :
-          <Markdown source={ description } />
-      }
-      {
-        xml && xml.size ? (<span><br /><span style={ propStyle }>xml:</span>
-          {
-            xml.entrySeq().map( ( [ key, v ] ) => <span key={`${key}-${v}`} style={ propStyle }><br/>&nbsp;&nbsp;&nbsp;{key}: { String(v) }</span>).toArray()
-          }
-        </span>): null
-      }
-      {
-        enumArray && <EnumModel value={ enumArray } />
-      }
-    </span>
-  }
-}
-
-class ArrayModel extends Component {
-  static propTypes = {
-    schema: PropTypes.object.isRequired,
-    getComponent: PropTypes.func.isRequired,
-    specSelectors: PropTypes.object.isRequired,
-    name: PropTypes.string,
-    required: PropTypes.bool,
-    expandDepth: PropTypes.number,
-    depth: PropTypes.number
-  }
-
-  render(){
-    let { required, schema, depth, name, expandDepth } = this.props
-    let items = schema.get("items")
-    let title = schema.get("title") || name
-    let properties = schema.filter( ( v, key) => ["type", "items", "$$ref"].indexOf(key) === -1 )
-
-    return <span className="model">
-      {
-        title && <span className="model-title">
-          <span className="model-title__text">{ title }</span>
-        </span>
-      }
-      <Collapse collapsed={ depth > expandDepth } collapsedContent="[...]">
-        [
-          <span><Model { ...this.props } name="" schema={ items } required={ false }/></span>
-        ]
-        {
-          properties.size ? <span>
-              { properties.entrySeq().map( ( [ key, v ] ) => <span key={`${key}-${v}`} style={propStyle}>
-                <br />{ `${key}:`}{ String(v) }</span>)
-              }<br /></span>
-            : null
-        }
-      </Collapse>
-      { required && <span style={{ color: "red" }}>*</span>}
-    </span>
-  }
-}
-
-
-export class Model extends Component {
+export default class Model extends Component {
   static propTypes = {
     schema: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
@@ -285,6 +17,9 @@ export class Model extends Component {
     if ( ref.indexOf("#/definitions/") !== -1 ) {
       return ref.replace(/^.*#\/definitions\//, "")
     }
+    if ( ref.indexOf("#/components/schemas/") !== -1 ) {
+      return ref.replace("#/components/schemas/", "")
+    }
   }
 
   getRefSchema =( model )=> {
@@ -295,6 +30,9 @@ export class Model extends Component {
 
   render () {
     let { getComponent, specSelectors, schema, required, name, isRef } = this.props
+    let ObjectModel = getComponent("ObjectModel")
+    let ArrayModel = getComponent("ArrayModel")
+    let PrimitiveModel = getComponent("PrimitiveModel")
     let $$ref = schema && schema.get("$$ref")
     let modelName = $$ref && this.getModelName( $$ref )
     let modelSchema, type
@@ -332,69 +70,12 @@ export class Model extends Component {
       case "integer":
       case "boolean":
       default:
-        return <Primitive
+        return <PrimitiveModel
           { ...this.props }
           getComponent={ getComponent }
           schema={ modelSchema }
           name={ name || modelName }
           deprecated={deprecated}
-          required={ required }/>
-    }
-  }
-}
-
-
-export default class ModelComponent extends Component {
-  static propTypes = {
-    schema: PropTypes.object.isRequired,
-    name: PropTypes.string,
-    getComponent: PropTypes.func.isRequired,
-    specSelectors: PropTypes.object.isRequired,
-    expandDepth: PropTypes.number
-  }
-
-  render(){
-    return <div className="model-box">
-      <Model { ...this.props } depth={ 1 } expandDepth={ this.props.expandDepth || 0 }/>
-    </div>
-  }
-}
-
-class Collapse extends Component {
-  static propTypes = {
-    collapsedContent: PropTypes.any,
-    collapsed: PropTypes.bool,
-    children: PropTypes.any
-  }
-
-  static defaultProps = {
-    collapsedContent: "{...}",
-    collapsed: true,
-  }
-
-  constructor(props, context) {
-    super(props, context)
-
-    let { collapsed, collapsedContent } = this.props
-
-    this.state = {
-      collapsed: collapsed !== undefined ? collapsed : Collapse.defaultProps.collapsed,
-      collapsedContent: collapsedContent || Collapse.defaultProps.collapsedContent
-    }
-  }
-
-  toggleCollapsed=()=>{
-    this.setState({
-      collapsed: !this.state.collapsed
-    })
-  }
-
-  render () {
-    return (<span>
-      <span onClick={ this.toggleCollapsed } style={{ "cursor": "pointer" }}>
-        <span className={ "model-toggle" + ( this.state.collapsed ? " collapsed" : "" ) }></span>
-      </span>
-      { this.state.collapsed ? this.state.collapsedContent : this.props.children }
-    </span>)
+          required={ required }/>    }
   }
 }

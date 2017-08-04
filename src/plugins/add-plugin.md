@@ -20,7 +20,7 @@ SwaggerUI({
 })
 ```
 
-Or if you're updating the core plugins.. you'll add it to [src/js/bootstrap-plugin](https://github.com/SmartBear/swagger-ux/blob/master/src/js/bootstrap-plugin.js)
+Or if you're updating the core plugins.. you'll add it to the base preset: [src/core/presets/base.js](https://github.com/swagger-api/swagger-ui/blob/master/src/core/presets/base.js)
 
 Each Plugin is a function that returns an object. That object will get merged with the `system` and later bound to the state.
 Here is an example of each `type`

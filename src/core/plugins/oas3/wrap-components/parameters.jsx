@@ -1,11 +1,8 @@
-import React, { Component, PropTypes } from "react"
+import React, { Component } from "react"
+import PropTypes from "prop-types"
 import Im, { Map } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 import { OAS3ComponentWrapFactory } from "../helpers"
-
-const mapRequestBody = (iterable, fn) => iterable.entries().filter(Im.Map.isMap).map((val) => {
-  return fn(val.get(0), val.get(1))
-})
 
 // More readable, just iterate over maps, only
 const eachMap = (iterable, fn) => iterable.valueSeq().filter(Im.Map.isMap).map(fn)
@@ -159,7 +156,7 @@ class Parameters extends Component {
           isOAS3() && requestBody && this.state.parametersVisible &&
           <div className="opblock-section">
             <div className="opblock-section-header">
-              <h4 className="opblock-title">Request body</h4>
+              <h4 className={`opblock-title parameter__name ${requestBody.get("required") && "required"}`}>Request body</h4>
               <label>
                 <ContentType
                   value={this.state.requestBodyContentType}
