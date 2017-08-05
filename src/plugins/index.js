@@ -1,4 +1,4 @@
-import { pascalCaseFilename } from "js/utils"
+import { pascalCaseFilename } from "core/utils"
 
 const request = require.context(".", true, /\.jsx?$/)
 
