@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 
 //import "./topbar.less"
-import Logo from "./logo_small.png"
+import Logo from "./b24logo.png"
 
 export default class Topbar extends React.Component {
 
@@ -129,13 +129,48 @@ export default class Topbar extends React.Component {
       <div className="topbar">
         <div className="wrapper">
           <div className="topbar-wrapper">
-            <Link href="#" title="Swagger UX">
-              <img height="30" width="30" src={ Logo } alt="Swagger UI"/>
-              <span>swagger</span>
+            <Link className="link-logo" href="https://binary24.com/#/home" title="BINARY 24">
+              <img height="39" width="127" src={ Logo } alt="BINARY 24"/>
             </Link>
-            <form className="download-url-wrapper" onSubmit={formOnSubmit}>
-              {control}
-            </form>
+
+            <ol>
+              <li><a href="https://binary24.com/#/home">Home</a></li>
+              <li className="list-down"><a>Trading</a><div className="active-bar"></div>
+                <ul>
+                  <li><a href="https://binary24.com/#/trading-conditions">Trading conditions</a></li>
+                  <li><a href="https://binary24.com/#/deposits">Deposits</a></li>
+                  <li><a href="https://binary24.com/#/trading-assets">Assets</a></li>
+                  <li><a href="https://binary24.com/#/api-trading">Api Trading</a></li>
+                </ul>
+              </li>
+              <li className="list-down"><a>Education</a>
+                <ul>
+                  <li><a href="https://binary24.com/#/quick-start">Quick start</a></li>
+                  <li><a href="https://binary24.com/#/faq">FAQ</a></li>
+                  <li><a href="https://binary24.com/#/live-support">Live Support</a></li>
+                </ul>
+              </li>
+              <li><a href="https://binary24.com/#/affiliates">Affiliates</a></li>
+              <li className="list-down"><a>Policies</a>
+                <ul>
+                  <li><a href="https://binary24.com/#/aml-policy">AML Policies</a></li>
+                  <li><a href="https://binary24.com/#/privacy-policy">Privacy Policy</a></li>
+                  <li><a href="https://binary24.com/#/risk-notice">Risk Notice</a></li>
+                  <li><a href="https://binary24.com/#/terms-and-conditions">Terms and Conditions</a></li>
+                </ul>
+              </li>
+              <li className="list-down"><a>About us</a>
+                <ul>
+                  <li><a href="https://binary24.com/#/about">Who we are</a></li>
+                  <li><a href="https://binary24.com/#/awards">Awards and recognitions</a></li>
+                  <li><a href="https://binary24.com/#/contact">Contact us</a></li>
+                </ul>
+              </li>
+            </ol>
+            <div className="right-buttons">
+              <a href="https://app.binary24.com/" target="_blank"><div className="green-btn">VIEW DEMO</div></a>
+              <a href="https://app.binary24.com/login" target="_blank"><div className="blue-btn">SIGN UP/LOG IN</div></a>
+            </div>
           </div>
         </div>
       </div>

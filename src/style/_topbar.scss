@@ -1,95 +1,142 @@
-.topbar
-{
-    padding: 8px 30px;
+.topbar {
+  padding: 20px 0 20px 30px;
+  color: white;
+  background: linear-gradient(-40deg,#080823,#080823 30%,#080823 50%,#080823 70%,#18255e);
 
-    background-color: #89bf04;
-    .topbar-wrapper
-    {
-        display: flex;
-        align-items: center;
+  .wrapper {
+    padding-right: 0;
+    margin: 0;
+  }
+  .topbar-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .link-logo {
+      height: 40px;
     }
-    a
-    {
-        font-size: 1.5em;
-        font-weight: bold;
+  }
+}
 
-        display: flex;
-        align-items: center;
-        flex: 1;
+ol {
+  position: absolute;
+  right: 350px;
+  top: 9px;
+  margin: 0;
+  list-style-type: none;
+  font-family: Rubik, sans-serif;
+      font-style: normal;
+      font-weight: 300;
+  color: #eee;
+}
+ol a {
+  display:block;
+  font-family: Rubik, sans-serif;
+      font-style: normal;
+      font-weight: 300;
+  color: #eee;
+  text-decoration:none;
+}
+ol > li {
+  position: relative;
+  display: inline-block;
+  padding: 5px 20px;
+}
+ol > li:hover > a {
+  color: #f1af11;
+}
+ol > li > ul {
+  background-color: #080823;
+  width: 300px;
+  display: none;
+  position: absolute;
+  top: 25px;
+  left: 0;
+  list-style-type:none;
+  padding:0 20px;
+  margin: 0;
+  padding-top: 30px;
+  z-index: 100;
+}
+ol > li > ul > li {
+  padding: 15px 0;
+}
+ol > li > ul > li:hover a {
+  color: #f1af11;
+}
+ol > li:hover > ul {
+  display: block;
+}
 
-        max-width: 300px;
+.list-down {
+  position: relative;
+  padding-right: 36px;
+}
+.list-down::after {
+  content: "";
+  position: absolute;
+  right: 18px;
+  top: 7px;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid #eee;
+  border-bottom: 2px solid #eee;
+  border-left: 2px solid transparent;
+  border-top: 2px solid transparent;
+  transform: rotate(45deg);
+}
+.list-down:hover::after {
+    border-right: 2px solid #f1af11;
+    border-bottom: 2px solid #f1af11;
+}
+.active-bar {
+  position: absolute;
+  bottom: -23px;
+  left: 0;
+  width: 110px;
+  height: 4px;
+  background: #f1af11;
+}
 
-        text-decoration: none;
+.right-buttons {
+  position: absolute;
+  right: 0;
+  margin: 0;
+  list-style-type: none;
+  font-family: Rubik, sans-serif;
+      font-weight: 500;
+  z-index:101;
+}
+.green-btn {
+  color: #eee;
+  font-size: 17px;
+  border-radius: 20px;
+  background-color: #009b6b;
+  padding: 9px 24px;
+  display: inline-block;
+  margin: 0 10px;
+}
+.blue-btn {
+  color: #eee;
+  font-size: 17px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  background-color: #366adc;
+  padding: 9px 24px;
+  display: inline-block;
+  margin: 0;
+}
+.blue-btn:hover {
+  background-color: rgb(28, 167, 237);
+}
+.green-btn:hover {
+  background-color: rgb(8, 197, 110);
+}
 
-        @include text_headline(#fff);
-
-        span
-        {
-            margin: 0;
-            padding: 0 10px;
-        }
+@media screen and (max-width: 1200px) {
+  .topbar {
+    ol {
+      display: none;
     }
-
-    .download-url-wrapper
-    {
-        display: flex;
-        flex: 3;
-        justify-content: flex-end;
-
-        input[type=text]
-        {
-            width: 100%;
-            min-width: 350px;
-            margin: 0;
-
-            border: 2px solid #547f00;
-            outline: none;
-        }
-
-        .select-label
-        {
-            display: flex;
-            align-items: center;
-
-            width: 100%;
-            max-width: 600px;
-            margin: 0;
-            span
-            {
-                font-size: 16px;
-
-                flex: 1;
-
-                padding: 0 10px 0 0;
-
-                text-align: right;
-            }
-
-            select
-            {
-                flex: 2;
-
-                width: 100%;
-
-                border: 2px solid #547f00;
-                outline: none;
-                box-shadow: none;
-            }
-        }
-
-
-        .download-url-button
-        {
-            font-size: 16px;
-            font-weight: bold;
-
-            padding: 4px 40px;
-
-            border: none;
-            border-radius: 0 4px 4px 0;
-            background: #547f00;
-
-            @include text_headline(#fff);
-        }
-    }
+  }
 }
