@@ -1,0 +1,12 @@
+service: relocation-swagger-ui
+usecase: Relocation
+segment: ScoutMedia
+vertical: is24
+owner: UmzugProdukt@immobilienscout24.de
+team: relocation
+criticality: bronze
+confidentiality: company-internal
+integrity: uncritical
+availability: uncritical
+data_protection_relevant: no
+repository_url: https://github.com/AutoScout24/is24-relocation-swagger-ui
