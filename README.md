@@ -65,6 +65,8 @@ If you'd like to rebuild the `/dist` folder with your codebase changes, run `npm
 You will need JDK of version 7 or higher as instructed here
 http://nightwatchjs.org/gettingstarted#selenium-server-setup
 
+Integration tests can be run locally with `npm run e2e` - be sure you aren't running a dev server when testing!
+
 
 ##### Browser support
 Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE11.
