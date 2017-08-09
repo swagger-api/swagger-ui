@@ -1,10 +1,10 @@
 {
-  "name": "swagger-ui",
+  "name": "df-swagger-ui",
   "main": "dist/index.html",
   "authors": [
     "Mohsen Azimi <me@azimi.me>"
   ],
-  "description": "Swagger UI",
+  "description": "Swagger UI for DreamFactory",
   "moduleType": [
     "globals"
   ],
