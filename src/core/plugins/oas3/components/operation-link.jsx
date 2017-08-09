@@ -4,7 +4,9 @@ import ImPropTypes from "react-immutable-proptypes"
 
 class OperationLink extends Component {
   render() {
-    const { link, name } = this.props
+    const { link, name, getComponent } = this.props
+
+    const Markdown = getComponent("Markdown")
 
     let targetOp = link.get("operationId") || link.get("operationRef")
     let parameters = link.get("parameters") && link.get("parameters").toJS()
@@ -33,6 +35,7 @@ function padString(n, string) {
 }
 
 OperationLink.propTypes = {
+  getComponent: PropTypes.func.isRequired,
   link: ImPropTypes.orderedMap.isRequired,
   name: PropTypes.String
 }

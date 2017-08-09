@@ -522,6 +522,22 @@
     }
 }
 
+.response-col_links
+{
+    padding-left: 2em;
+    max-width: 40em;
+    font-size: 14px;
+
+    @include text_body();
+
+    .response-undocumented
+    {
+        font-size: 11px;
+
+        @include text_code(#999);
+    }
+}
+
 .response-col_description__inner
 {
     span
