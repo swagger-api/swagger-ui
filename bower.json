@@ -14,7 +14,7 @@
   ],
   "license": "Copyright 2016 SmartBear Software",
   "homepage": "http://swagger.io",
-  "private": true,
+  "private": false,
   "ignore": [
     "**/.*",
     "node_modules",
