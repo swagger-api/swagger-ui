@@ -4,7 +4,7 @@ Thanks for filing an issue 😄 ! Before you submit, please read the following:
 Search open/closed issues before submitting since someone might have asked the same thing before!
 
 Issues on GitHub are only related to problems of Swagger-UI itself. We'll try to offer support
-here for you use case, but we can't offer help with projects that use Swagger-UI indirectly,
+here for your use case, but we can't offer help with projects that use Swagger-UI indirectly,
 like Springfox or swagger-node.
 
 Likewise, we can't accept features or bugs in the Swagger/OpenAPI specifications themselves,
