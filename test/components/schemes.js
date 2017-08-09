@@ -28,12 +28,9 @@ describe("<Schemes/>", function(){
 
     // Then operationScheme should default to first scheme in options list
     expect(props.specActions.setScheme).toHaveBeenCalledWith("http", "/test" , "get")
-
-    // When the operationScheme is no longer in the list of options
-    props.schemes = fromJS([
-      "https"
-    ])
-    wrapper.setProps(props)
+    
+    // Call onChange, mimic selecting from dropdown
+    wrapper.props().children[1].props.onChange({target: {value: "https"}})
 
     // Then operationScheme should default to first scheme in options list
     expect(props.specActions.setScheme).toHaveBeenCalledWith("https", "/test", "get")
