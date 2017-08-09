@@ -5,3 +5,23 @@ droid-sans-v6-latin-regular.svg
 # README file URL of swagger-ui project
 # https://github.com/wordnik/swagger-ui/blob/f2e63c65a759421aad590b7275371cd0c06c74ea/src/main/html/index.html
 f2e63c65a759421aad590b7275371cd0c06c74ea
+
+# Static file asset
+swagger-ui.min.js
+swagger-ui-bundle.js
+swagger-ui.js
+es5-shim.js
+swagger-ui.js
+node_modules/handlebars/node_modules/uglify-js/tmp/app.js
+node_modules/request/tests/ssl/ca/ca.key
+node_modules/request/tests/ssl/ca/server.key
+node_modules/request/tests/ssl/test.key
+
+# False positive strings
+00000000000000000000
+7945b966bd6fbe8cba173aa4062049bc3bb57af4
+ef0fc16276847b22e43a1dc488e246faf20e6e8b
+b0856d3e4ac5112127bed7093127ebb92290e6e2
+91ab7da9e0172879a999239bc658e858998d69b4
+475c3f5c12b6d44e817ccd0093e69c7e7733f032
+993c0e585bfd704caa8484ee8423bd7b155d83fa
