@@ -25,12 +25,12 @@ or anything that violates the specifications.
 | Which operating system?         | 
 
 
-### Demonstration spec
-<!--- If you're describing a bug, please provide a spec that reproduces your problem -->
+### Demonstration API definition
+<!--- If you're describing a bug, please provide an API definition that reproduces your problem -->
 <!--- If you have link to a demo repo please link that! -->
 
 ```yaml
-your: "spec goes here"
+your: "API definition goes here"
 ```
 
 ### Configuration (browser query string, constructor, config.yaml)
