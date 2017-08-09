@@ -10,13 +10,16 @@ class OperationLink extends Component {
     let parameters = link.get("parameters") && link.get("parameters").toJS()
     let description = link.get("description")
 
-    return <span>
-      <div style={{ padding: "5px 2px" }}>{name}{description ? `: ${description}` : ""}</div>
+    return <div style={{ marginBottom: "1.5em" }}>
+      <div style={{ marginBottom: ".5em" }}>
+        <b><code>{name}</code></b>
+        { description ? <Markdown source={description}></Markdown> : null }
+      </div>
       <pre>
         Operation `{targetOp}`<br /><br />
         Parameters {padString(0, JSON.stringify(parameters, null, 2)) || "{}"}<br />
       </pre>
-    </span>
+    </div>
   }
 
 }
