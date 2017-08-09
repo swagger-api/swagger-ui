@@ -29,6 +29,8 @@ or anything that violates the specifications.
 <!--- If you're describing a bug, please provide an API definition that reproduces your problem -->
 <!--- If you have link to a demo repo please link that! -->
 
+<!--- If your spec is large, please put it into a Gist (https://gist.github.com) instead of pasting it. -->
+
 ```yaml
 your: "API definition goes here"
 ```
