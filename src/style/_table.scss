@@ -52,7 +52,8 @@ table
 
                 &:first-of-type
                 {
-                    width: 20%;
+                    max-width: 20%;
+                    min-width: 6em;
                     padding: 10px 0;
                 }
             }
