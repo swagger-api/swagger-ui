@@ -70,7 +70,7 @@ export default class BaseLayout extends React.Component {
                 <Col className="schemes wrapper" mobile={12}>
                   { schemes && schemes.size ? (
                     <Schemes
-                      operationScheme={specSelectors.operationScheme()}
+                      currentScheme={specSelectors.operationScheme()}
                       schemes={ schemes }
                       specActions={ specActions } />
                   ) : null }

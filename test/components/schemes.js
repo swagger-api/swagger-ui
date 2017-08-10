@@ -7,7 +7,7 @@ import { fromJS } from "immutable"
 import Schemes from "components/schemes"
 
 describe("<Schemes/>", function(){
-  it("calls props.specActions.setScheme() when no operationScheme is selected", function(){
+  it("calls props.specActions.setScheme() when no currentScheme is selected", function(){
 
     let setSchemeSpy = createSpy()
 
@@ -20,7 +20,7 @@ describe("<Schemes/>", function(){
         "http",
         "https"
       ]),
-      operationScheme: undefined,
+      currentScheme: undefined,
       path: "/test",
       method: "get"
     }
@@ -28,16 +28,16 @@ describe("<Schemes/>", function(){
     // When
     let wrapper = shallow(<Schemes {...props}/>)
 
-    // Then operationScheme should default to first scheme in options list
+    // Then currentScheme should default to first scheme in options list
     expect(props.specActions.setScheme).toHaveBeenCalledWith("http", "/test" , "get")
 
-    // When the operationScheme is no longer in the list of options
+    // When the currentScheme is no longer in the list of options
     props.schemes = fromJS([
       "https"
     ])
     wrapper.setProps(props)
 
-    // Then operationScheme should default to first scheme in options list
+    // Then currentScheme should default to first scheme in options list
     expect(props.specActions.setScheme).toHaveBeenCalledWith("https", "/test", "get")
   })
 
@@ -54,7 +54,7 @@ describe("<Schemes/>", function(){
         "http",
         "https"
       ]),
-      operationScheme: "https"
+      currentScheme: "https"
     }
 
     // When
@@ -66,7 +66,7 @@ describe("<Schemes/>", function(){
     // After an update
     wrapper.instance().componentWillReceiveProps(props)
 
-    // Should not be called again, since `operationScheme` is in schemes
+    // Should not be called again, since `currentScheme` is in schemes
     expect(setSchemeSpy.calls.length).toEqual(1)
   })
 })
