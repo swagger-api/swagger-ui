@@ -6,9 +6,9 @@ export default class Schemes extends React.Component {
   static propTypes = {
     specActions: PropTypes.object.isRequired,
     schemes: PropTypes.object.isRequired,
+    operationScheme: PropTypes.string.isRequired,
     path: PropTypes.string,
     method: PropTypes.string,
-    operationScheme: PropTypes.string
   }
 
   componentWillMount() {
