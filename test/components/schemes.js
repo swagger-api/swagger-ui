@@ -37,7 +37,7 @@ describe("<Schemes/>", function(){
     ])
     wrapper.setProps(props)
 
-    // Then currentScheme should default to first scheme in options list
+    // Then currentScheme should default to first scheme in options list, again
     expect(props.specActions.setScheme).toHaveBeenCalledWith("https", "/test", "get")
   })
 
