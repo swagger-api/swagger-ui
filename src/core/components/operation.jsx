@@ -229,7 +229,7 @@ export default class Operation extends PureComponent {
                              path={ path }
                              method={ method }
                              specActions={ specActions }
-                             operationScheme={ operationScheme } />
+                             currentScheme={ operationScheme } />
                   </div> : null
               }
 
