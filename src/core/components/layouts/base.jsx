@@ -69,7 +69,10 @@ export default class BaseLayout extends React.Component {
               <div className="scheme-container">
                 <Col className="schemes wrapper" mobile={12}>
                   { schemes && schemes.size ? (
-                    <Schemes schemes={ schemes } specActions={ specActions } />
+                    <Schemes
+                      operationScheme={specSelectors.operationScheme()}
+                      schemes={ schemes }
+                      specActions={ specActions } />
                   ) : null }
 
                   { securityDefinitions ? (
