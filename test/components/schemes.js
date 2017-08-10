@@ -41,7 +41,7 @@ describe("<Schemes/>", function(){
     expect(props.specActions.setScheme).toHaveBeenCalledWith("https", "/test", "get")
   })
 
-  it.only("doesn't call props.specActions.setScheme() when schemes hasn't changed", function(){
+  it("doesn't call props.specActions.setScheme() when schemes hasn't changed", function(){
 
     let setSchemeSpy = createSpy()
 
