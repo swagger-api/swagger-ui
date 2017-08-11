@@ -25,7 +25,7 @@ export default class Models extends Component {
       <h4 onClick={() => layoutActions.show("models", !showModels)}>
         <span>Models</span>
         <svg width="20" height="20">
-          <use href="#large-arrow" xlinkHref="#large-arrow" />
+          <use xlinkHref={showModels ? "#large-arrow-down" : "#large-arrow"} />
         </svg>
       </h4>
       <Collapse isOpened={showModels}>

@@ -4,34 +4,7 @@ import System from "core/system"
 import win from "core/window"
 import ApisPreset from "core/presets/apis"
 import * as AllPlugins from "core/plugins/all"
-import { parseSearch, filterConfigs } from "core/utils"
-
-const CONFIGS = [
-  "url",
-  "urls",
-  "urls.primaryName",
-  "spec",
-  "validatorUrl",
-  "onComplete",
-  "onFailure",
-  "authorizations",
-  "docExpansion",
-  "tagsSorter",
-  "maxDisplayedTags",
-  "filter",
-  "operationsSorter",
-  "supportedSubmitMethods",
-  "dom_id",
-  "defaultModelRendering",
-  "oauth2RedirectUrl",
-  "showRequestHeaders",
-  "custom",
-  "modelPropertyMacro",
-  "parameterMacro",
-  "displayOperationId",
-  "displayRequestDuration",
-  "deepLinking",
- ]
+import { parseSearch } from "core/utils"
 
 // eslint-disable-next-line no-undef
 const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION, HOSTNAME, BUILD_TIME } = buildInfo
@@ -50,6 +23,7 @@ module.exports = function SwaggerUI(opts) {
   const defaults = {
     // Some general settings, that we floated to the top
     dom_id: null,
+    domNode: null,
     spec: {},
     url: "",
     urls: null,
@@ -126,7 +100,13 @@ module.exports = function SwaggerUI(opts) {
 
     let localConfig = system.specSelectors.getLocalConfig ? system.specSelectors.getLocalConfig() : {}
     let mergedConfig = deepExtend({}, localConfig, constructorConfig, fetchedConfig || {}, queryConfig)
-    store.setConfigs(filterConfigs(mergedConfig, CONFIGS))
+
+    // deep extend mangles domNode, we need to set it manually
+    if(opts.domNode) {
+      mergedConfig.domNode = opts.domNode
+    }
+
+    store.setConfigs(mergedConfig)
 
     if (fetchedConfig !== null) {
       if (!queryConfig.url && typeof mergedConfig.spec === "object" && Object.keys(mergedConfig.spec).length) {
@@ -139,10 +119,13 @@ module.exports = function SwaggerUI(opts) {
       }
     }
 
-    if(mergedConfig.dom_id) {
-      system.render(mergedConfig.dom_id, "App")
+    if(mergedConfig.domNode) {
+      system.render(mergedConfig.domNode, "App")
+    } else if(mergedConfig.dom_id) {
+      let domNode = document.querySelector(mergedConfig.dom_id)
+      system.render(domNode, "App")
     } else {
-      console.error("Skipped rendering: no `dom_id` was specified")
+      console.error("Skipped rendering: no `dom_id` or `domNode` was specified")
     }
 
     return system
