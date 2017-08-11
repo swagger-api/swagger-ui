@@ -58,6 +58,8 @@ export default class ParameterRow extends Component {
   render() {
     let {param, onChange, getComponent, isExecute, fn, onChangeConsumes, specSelectors, pathMethod} = this.props
 
+    let { isOAS3 } = specSelectors
+
     // const onChangeWrapper = (value) => onChange(param, value)
     const JsonSchemaForm = getComponent("JsonSchemaForm")
     const ParamBody = getComponent("ParamBody")
@@ -95,6 +97,9 @@ export default class ParameterRow extends Component {
             { !required ? null : <span style={{color: "red"}}>&nbsp;*</span> }
           </div>
           <div className="parameter__type">{ param.get("type") } { itemType && `[${itemType}]` }</div>
+          <div className="parameter__deprecated">
+            { isOAS3 && isOAS3() && param.get("deprecated") ? "deprecated": null }
+          </div>
           <div className="parameter__in">({ param.get("in") })</div>
         </td>
 

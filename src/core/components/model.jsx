@@ -55,14 +55,14 @@ export default class Model extends Component {
         return <ObjectModel
           className="object" { ...this.props }
           schema={ modelSchema }
-          name={ name || modelName }
+          name={ modelName || name }
           deprecated={deprecated}
           isRef={ isRef!== undefined ? isRef : !!$$ref } />
       case "array":
         return <ArrayModel
           className="array" { ...this.props }
           schema={ modelSchema }
-          name={ name || modelName }
+          name={ modelName || name }
           deprecated={deprecated}
           required={ required } />
       case "string":
@@ -74,8 +74,8 @@ export default class Model extends Component {
           { ...this.props }
           getComponent={ getComponent }
           schema={ modelSchema }
-          name={ name || modelName }
+          name={ modelName || name }
           deprecated={deprecated}
-          required={ required }/>    }
+          required={ required }/> }
   }
 }

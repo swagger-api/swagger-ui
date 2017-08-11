@@ -19,8 +19,8 @@ table
 
                     &:first-of-type
                     {
-                        width: 100px;
-                        padding: 0;
+                        width: 124px;
+                        padding: 0 0 0 2em;
                     }
                 }
             }
@@ -52,7 +52,8 @@ table
 
                 &:first-of-type
                 {
-                    width: 20%;
+                    max-width: 20%;
+                    min-width: 6em;
                     padding: 10px 0;
                 }
             }
@@ -136,6 +137,14 @@ table
     font-style: italic;
 
     @include text_code(#888);
+}
+
+.parameter__deprecated
+{
+    font-size: 12px;
+    font-style: italic;
+
+    @include text_code(#f00);
 }
 
 
