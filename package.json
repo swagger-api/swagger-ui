@@ -49,7 +49,7 @@
     "promise-worker": "^1.1.1",
     "prop-types": "^15.5.10",
     "react": "^15.4.0",
-    "react-addons-perf": "15.4.2",
+    "react-addons-perf": "^15.4.0",
     "react-addons-shallow-compare": "0.14.8",
     "react-addons-test-utils": "^15.4.0",
     "react-collapse": "2.3.1",
