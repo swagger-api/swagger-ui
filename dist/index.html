@@ -74,9 +74,47 @@ window.onload = function() {
   
   // Build a system
   const ui = SwaggerUIBundle({
-    url: "http://petstore.swagger.io/v2/swagger.json",
+    /*
+    The following is a list of services that are available for reference via the nav bar. URLs
+    need only be reachable and not on the same host. The JSON or YAML files must match the
+    swagger spec.
+
+    I'd suggest front-loading all services here and then adding valid URLs later once
+    their documentation is ready.
+    */
+    urls: [
+      {
+        url: "http://swag.reblanco.crunchydev.com/ent.json",
+        name: "Entitlements"
+      },
+      {
+        url: "http://swag.reblanco.crunchydev.com/ent2.json",
+        name: "Subscriptions"
+      },
+      {
+        url: "",
+        name: "Core"
+      },
+      {
+        url: "",
+        name: "ESS"
+      },
+      {
+        url: "",
+        name: "Payments"
+      },
+      {
+        url: "",
+        name: "Discovery"
+      },
+      {
+        url: "",
+        name: "CMS"
+      }
+    ],
     dom_id: '#swagger-ui',
     deepLinking: true,
+    validatorUrl: null,
     presets: [
       SwaggerUIBundle.presets.apis,
       SwaggerUIStandalonePreset
@@ -91,5 +129,4 @@ window.onload = function() {
 }
 </script>
 </body>
-
 </html>

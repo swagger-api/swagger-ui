@@ -1,0 +1,379 @@
+{
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "This API is totally just a copy of the Grant API documentation for demo purposes.",
+    "title": "Subscriptions API",
+    "version": "0.0.0"
+  },
+  "paths": {
+    "/benefits": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http"
+        ],
+        "operationId": "getBenefits",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "AccountID",
+            "description": "User's account ID",
+            "name": "account_id",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "benefit",
+            "schema": {
+              "$ref": "#/definitions/benefit"
+            }
+          },
+          "400": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
+          "500": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      }
+    },
+    "/entitlements": {
+      "get": {
+        "description": "This returns a collection of entitlement resources that belongs to an account",
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http"
+        ],
+        "operationId": "getEntitlements",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "AccountID",
+            "description": "User's account ID",
+            "name": "account_id",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "entitlement",
+            "schema": {
+              "$ref": "#/definitions/entitlement"
+            }
+          },
+          "400": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
+          "500": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      },
+      "post": {
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http"
+        ],
+        "operationId": "postEntitlement",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "AccountID",
+            "description": "User's account ID",
+            "name": "account_id",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "string",
+            "x-go-name": "Benefit",
+            "description": "The benefit to be granted/revoked",
+            "name": "benefit",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "string",
+            "x-go-name": "Source",
+            "description": "The source of this grant/revocation",
+            "name": "source",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "boolean",
+            "x-go-name": "HasAccess",
+            "description": "True if granting access, otherwise false",
+            "name": "has_access",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "entitlement",
+            "schema": {
+              "$ref": "#/definitions/entitlement"
+            }
+          },
+          "400": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
+          "500": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      }
+    },
+    "/index": {
+      "get": {
+        "description": "This returns links and actions to other endpoints",
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http"
+        ],
+        "operationId": "getIndex",
+        "responses": {
+          "200": {
+            "description": "index",
+            "schema": {
+              "$ref": "#/definitions/index"
+            }
+          },
+          "500": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Link": {
+      "description": "Link is a hypermedia control that provides an address to some related\nresource.",
+      "type": "object",
+      "properties": {
+        "href": {
+          "type": "string",
+          "x-go-name": "Href"
+        }
+      },
+      "x-go-package": "github.com/crunchyroll/entitlements/app/publisher/resources"
+    },
+    "Links": {
+      "description": "Links represents a hypermedia link map, where the map key is the link name\nand the value is the URL of the link.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/Link"
+      },
+      "x-go-package": "github.com/crunchyroll/entitlements/app/publisher/resources"
+    },
+    "benefit": {
+      "type": "object",
+      "title": "Benefit is a resource that associates a source with a benefit.",
+      "properties": {
+        "__actions__": {
+          "$ref": "#/definitions/Links"
+        },
+        "__class__": {
+          "type": "string",
+          "x-go-name": "Class"
+        },
+        "__href__": {
+          "type": "string",
+          "x-go-name": "SelfLink"
+        },
+        "__links__": {
+          "$ref": "#/definitions/Links"
+        },
+        "benefit": {
+          "description": "The benefit that has been granted.",
+          "type": "string",
+          "x-go-name": "Benefit"
+        },
+        "source": {
+          "description": "The source where the benefit originates from.",
+          "type": "string",
+          "x-go-name": "Source"
+        }
+      },
+      "x-go-name": "Benefit",
+      "x-go-package": "github.com/crunchyroll/entitlements/app/publisher/resources"
+    },
+    "collection": {
+      "description": "Collection is a resource representing a collection of resources",
+      "type": "object",
+      "properties": {
+        "__actions__": {
+          "$ref": "#/definitions/Links"
+        },
+        "__class__": {
+          "type": "string",
+          "x-go-name": "Class"
+        },
+        "__href__": {
+          "type": "string",
+          "x-go-name": "SelfLink"
+        },
+        "__links__": {
+          "$ref": "#/definitions/Links"
+        },
+        "items": {
+          "description": "The items in this collection",
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "x-go-name": "Items"
+        },
+        "total": {
+          "description": "The number of items in this collection",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Total"
+        }
+      },
+      "x-go-name": "Collection",
+      "x-go-package": "github.com/crunchyroll/entitlements/app/publisher/resources"
+    },
+    "entitlement": {
+      "description": "Entitlement is a resource representing an entitlement",
+      "type": "object",
+      "properties": {
+        "__actions__": {
+          "$ref": "#/definitions/Links"
+        },
+        "__class__": {
+          "type": "string",
+          "x-go-name": "Class"
+        },
+        "__href__": {
+          "type": "string",
+          "x-go-name": "SelfLink"
+        },
+        "__links__": {
+          "$ref": "#/definitions/Links"
+        },
+        "account_id": {
+          "description": "The account this entitlement is for",
+          "type": "string",
+          "x-go-name": "AccountID"
+        },
+        "benefit": {
+          "description": "What benefit this entitlement is for",
+          "type": "string",
+          "x-go-name": "Benefit"
+        },
+        "has_access": {
+          "description": "True if this entitlement provides access to the benefit",
+          "type": "boolean",
+          "x-go-name": "HasAccess"
+        },
+        "post_date": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "PostDate"
+        },
+        "source": {
+          "description": "The source of this entitlement",
+          "type": "string",
+          "x-go-name": "Source"
+        }
+      },
+      "x-go-name": "Entitlement",
+      "x-go-package": "github.com/crunchyroll/entitlements/app/publisher/resources"
+    },
+    "error": {
+      "description": "Error represents an API error",
+      "type": "object",
+      "properties": {
+        "__actions__": {
+          "$ref": "#/definitions/Links"
+        },
+        "__class__": {
+          "type": "string",
+          "x-go-name": "Class"
+        },
+        "__href__": {
+          "type": "string",
+          "x-go-name": "SelfLink"
+        },
+        "__links__": {
+          "$ref": "#/definitions/Links"
+        },
+        "code": {
+          "type": "string",
+          "x-go-name": "Code"
+        },
+        "message": {
+          "type": "string",
+          "x-go-name": "Message"
+        }
+      },
+      "x-go-name": "Error",
+      "x-go-package": "github.com/crunchyroll/entitlements/app/publisher/resources"
+    },
+    "index": {
+      "description": "Index represents the jumping off point for the API",
+      "type": "object",
+      "properties": {
+        "__actions__": {
+          "$ref": "#/definitions/Links"
+        },
+        "__class__": {
+          "type": "string",
+          "x-go-name": "Class"
+        },
+        "__href__": {
+          "type": "string",
+          "x-go-name": "SelfLink"
+        },
+        "__links__": {
+          "$ref": "#/definitions/Links"
+        }
+      },
+      "x-go-name": "Index",
+      "x-go-package": "github.com/crunchyroll/entitlements/app/publisher/resources"
+    }
+  }
+}
