@@ -36,12 +36,8 @@ If there's an issue filed that you're addressing in your branch, include the iss
 - Break your commits into logical atomic units. Well-segmented commits make it _much_ easier for others to step through your changes.
 - Limit your subject (first) line to 50 characters (GitHub truncates more than 70).
 - Provide a body if you'd like to explain your commit in detail.
-- Separate the subject from the body with a blank line, for readability.
-- Capitalize the beginning of your subject line.
-- Do not end the subject line with a period.
-- Use the imperative mood in your subject lines, as if you were giving the code an order in your subject line.
-  - This mimics what Git does for you automatically: "Merge develop", "Revert f570ffc", etc
-  - Simple trick... your subject line should complete this sentence: `If applied, this commit will [your subject line].`
+- Capitalize the beginning of your subject line, and do not end the subject line with a period.
+- Your subject line should complete this sentence: `If applied, this commit will [your subject line].`
 - Don't use [magic GitHub words](https://help.github.com/articles/closing-issues-using-keywords/) in your commits to close issues - do that in the pull request for your code instead.
 
 _Adapted from [How to Write a Git Commit Message](https://chris.beams.io/posts/git-commit/#seven-rules)._
