@@ -3,15 +3,8 @@ import PropTypes from "prop-types"
 import Remarkable from "react-remarkable"
 import sanitize from "sanitize-html"
 
-const sanitizeOptions = {
-  textFilter: function(text) {
-    return text
-      .replace(/&quot;/g, "\"")
-  }
-}
-
 function Markdown({ source }) {
-  const sanitized = sanitize(source, sanitizeOptions)
+  const sanitized = sanitizer(source)
 
   // sometimes the sanitizer returns "undefined" as a string
   if(!source || !sanitized || sanitized === "undefined") {
@@ -31,3 +24,14 @@ Markdown.propTypes = {
 }
 
 export default Markdown
+
+const sanitizeOptions = {
+  textFilter: function(text) {
+    return text
+      .replace(/&quot;/g, "\"")
+  }
+}
+
+export function sanitizer(str) {
+  return sanitize(str, sanitizeOptions)
+}

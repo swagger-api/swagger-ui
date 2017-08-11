@@ -132,10 +132,10 @@ describe("curlify", function() {
             url: "http://example.com",
             method: "POST",
             headers: { "content-type": "multipart/form-data" },
-            body: [
-              ["id", "123"],
-              ["name", "Sahar"]
-            ]
+            body: {
+              id: "123",
+              name: "Sahar"
+            }
         }
 
         let curlified = curl(Im.fromJS(req))
@@ -152,10 +152,10 @@ describe("curlify", function() {
             url: "http://example.com",
             method: "POST",
             headers: { "content-type": "multipart/form-data" },
-            body: [
-              ["id", "123"],
-              ["file", file]
-            ]
+            body: {
+              id: "123",
+              file
+            }
         }
 
         let curlified = curl(Im.fromJS(req))
