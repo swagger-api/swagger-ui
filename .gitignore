@@ -6,5 +6,7 @@ npm-debug.log*
 .eslintcache
 package-lock.json
 *.iml
+selenium-debug.log
+test/e2e/db.json
 client_id
 swagger.json

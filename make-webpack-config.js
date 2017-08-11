@@ -1,9 +1,10 @@
 var path = require("path")
 
-var webpack = require("webpack")
-var ExtractTextPlugin = require("extract-text-webpack-plugin")
-var deepExtend = require("deep-extend")
-const {gitDescribeSync} = require("git-describe")
+var webpack = require('webpack')
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+var deepExtend = require('deep-extend')
+const {gitDescribeSync} = require('git-describe')
 const os = require("os")
 
 var pkg = require("./package.json")
@@ -60,7 +61,7 @@ module.exports = function(rules, options) {
     }))
   }
 
-  if( specialOptions.minimize ) {
+  if( specialOptions.minimize ) {   // production mode
 
     plugins.push(
       new webpack.optimize.UglifyJsPlugin({
@@ -75,6 +76,8 @@ module.exports = function(rules, options) {
 
     plugins.push( new webpack.NoEmitOnErrorsPlugin())
 
+  } else {    // development mode
+    plugins.push(new CopyWebpackPlugin([ { from: 'test/e2e/specs', to: 'test-specs' } ]))
   }
 
   plugins.push(
