@@ -676,3 +676,11 @@ div#swagger-ui>section.swagger-ui>div.wrapper>section>span>a>img {
 div.parameter__type {
   color: #fff !important;
 }
+
+.swagger-ui .opblock-title_normal {
+  color: #fff !important;
+}
+
+.swagger-ui .opblock.opblock-deprecated .opblock-summary-method {
+  background: #858585 !important;
+}
