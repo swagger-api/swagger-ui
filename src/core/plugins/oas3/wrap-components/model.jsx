@@ -3,7 +3,6 @@ import PropTypes from "prop-types"
 import { OAS3ComponentWrapFactory } from "../helpers"
 import { Model } from "core/components/model"
 
-
 class ModelComponent extends Component {
   static propTypes = {
     schema: PropTypes.object.isRequired,

@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.1.2",
+  "version": "3.1.4",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -32,7 +32,11 @@
     "test": "npm run lint-errors && npm run just-test-in-node",
     "test-in-node": "npm run lint-errors && npm run just-test-in-node",
     "just-test": "karma start --config karma.conf.js",
-    "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test/core test/components test/bugs test/swagger-ui-dist-package"
+    "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test/core test/components test/bugs test/swagger-ui-dist-package",
+    "test-e2e": "sleep 3 && nightwatch test/e2e/scenarios/ --config test/e2e/nightwatch.json",
+    "e2e-initial-render": "nightwatch test/e2e/scenarios/ --config test/e2e/nightwatch.json --group initial-render",
+    "mock-api": "json-server --watch test/e2e/db.json --port 3204",
+    "e2e": "npm-run-all --parallel -r hot-server mock-api test-e2e"
   },
   "dependencies": {
     "base64-js": "^1.2.0",
@@ -90,6 +94,8 @@
     "babel-preset-react": "^6.23.0",
     "babel-preset-stage-0": "^6.22.0",
     "babel-runtime": "^6.23.0",
+    "chromedriver": "^2.30.1",
+    "copy-webpack-plugin": "^4.0.1",
     "css-loader": "0.28.4",
     "deep-extend": "^0.5.0",
     "deepmerge": "^1.3.2",
@@ -100,9 +106,9 @@
     "extract-text-webpack-plugin": "^2.1.2",
     "file-loader": "0.11.2",
     "git-describe": "^4.0.1",
-    "html-webpack-plugin": "^2.28.0",
     "imports-loader": "0.7.1",
     "json-loader": "0.5.4",
+    "json-server": "^0.11.0",
     "karma": "^1.7.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-mocha": "^1.3.0",
@@ -111,6 +117,7 @@
     "less": "2.7.2",
     "license-checker": "^11.0.0",
     "mocha": "^3.4.2",
+    "nightwatch": "^0.9.16",
     "node-sass": "^4.5.0",
     "npm-run-all": "4.0.2",
     "null-loader": "0.1.1",
@@ -121,6 +128,7 @@
     "react-test-renderer": "^15.5.4",
     "rimraf": "^2.6.0",
     "sass-loader": "^6.0.2",
+    "selenium-server-standalone-jar": "3.4.0",
     "standard": "^10.0.2",
     "standard-loader": "^6.0.1",
     "style-loader": "0.18.2",
