@@ -44,6 +44,7 @@ export default class Response extends React.Component {
     response: PropTypes.object,
     className: PropTypes.string,
     getComponent: PropTypes.func.isRequired,
+    getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     fn: PropTypes.object.isRequired,
     contentType: PropTypes.string
@@ -61,6 +62,7 @@ export default class Response extends React.Component {
 
       fn,
       getComponent,
+      getConfigs,
       specSelectors,
       contentType
     } = this.props
@@ -116,6 +118,7 @@ export default class Response extends React.Component {
           { example ? (
             <ModelExample
               getComponent={ getComponent }
+              getConfigs={ getConfigs }
               specSelectors={ specSelectors }
               schema={ fromJS(schema) }
               example={ example }/>
