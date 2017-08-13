@@ -160,6 +160,9 @@ displayRequestDuration | Controls the display of the request duration (in millis
 maxDisplayedTags | If set, limits the number of tagged operations displayed to at most this many. The default is to show all operations.
 filter | If set, enables filtering. The top bar will show an edit box that you can use to filter the tagged operations that are shown. Can be true/false to enable or disable, or an explicit filter string in which case filtering will be enabled using that string as the filter expression. Filtering is case sensitive matching the filter expression anywhere inside the tag.
 deepLinking | If set to `true`, enables dynamic deep linking for tags and operations. [Docs](https://github.com/swagger-api/swagger-ui/blob/master/docs/deep-linking.md)
+requestInterceptor | MUST be a function.  Function to intercept try-it-out requests.  Accepts one argument requestInterceptor(request) and must return the potentially modified request.
+responseInterceptor | MUST be a function.  Function to intercept try-it-out responses.  Accepts one argument responseInterceptor(response) and must return the potentially modified response.
+showMutatedRequest | If set to `true` (the default), uses the mutated request returned from a rquestInterceptor to produce the curl command in the UI, otherwise the request before the requestInterceptor was applied is used.
 
 ### Plugins
 
