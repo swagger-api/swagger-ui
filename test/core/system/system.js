@@ -1,7 +1,11 @@
 /* eslint-env mocha */
+import React, { PureComponent } from "react"
 import expect from "expect"
 import System from "core/system"
 import { fromJS } from "immutable"
+import { render } from "enzyme"
+import ViewPlugin from "core/plugins/view/index.js"
+import { connect, Provider } from "react-redux"
 
 describe("bound system", function(){
 
@@ -442,6 +446,68 @@ describe("bound system", function(){
       })
     })
 
+  })
+
+  describe("getComponent", function() {
+    it("returns a component from the system", function() {
+      const system = new System({
+        plugins: [
+          ViewPlugin,
+          {
+            components: {
+              test: ({ name }) => <div>{name} component</div>
+            }
+          }
+        ]
+      })
+
+      // When
+      var Component = system.getSystem().getComponent("test")
+      const renderedComponent = render(<Component name="Test" />)
+      expect(renderedComponent.text()).toEqual("Test component")
+    })
+
+    it("allows container components to provide their own `mapStateToProps` function", function() {
+      // Given
+      class ContainerComponent extends PureComponent {
+        static mapStateToProps(nextState, props) {
+          return {
+            "abc": "This came from mapStateToProps"
+          }
+        }
+
+        static defaultProps = {
+          "abc" : ""
+        }
+
+        render() {
+          return (
+            <div>{ this.props.abc }</div>
+          )
+        }
+      }
+      const system = new System({
+        plugins: [
+          ViewPlugin,
+          {
+            components: {
+              ContainerComponent
+            }
+          }
+        ]
+      })
+
+      // When
+      var Component = system.getSystem().getComponent("ContainerComponent", true)
+      const renderedComponent = render(
+        <Provider store={system.getStore()}>
+          <Component />
+        </Provider>
+      )
+
+      // Then
+      expect(renderedComponent.text()).toEqual("This came from mapStateToProps")
+    })
   })
 
 })
