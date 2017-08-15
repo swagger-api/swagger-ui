@@ -31,11 +31,6 @@
     var _apiKey = getQueryParameter('api_key');
     var _url = getQueryParameter('url');
 
-    /**
-     * Simplified access to the Query string on the current page's URL
-     * @param key
-     * @returns {Boolean}
-     */
     function getQueryParameter(key) {
       key = key.replace(/[*+?^$.\[\]{}()|\\\/]/g, "\\$&");
       var match = window.location.search.match(new RegExp("[?&]" + key + "=([^&]+)(&|$)"));
@@ -48,48 +43,55 @@
 
     $(function () {
 
-      var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("X-DreamFactory-Api-Key", _apiKey, "header");
-      var tokenAuth = new SwaggerClient.ApiKeyAuthorization("X-DreamFactory-Session-Token", _sessionToken, "header");
-
-      window.swaggerUi = new SwaggerUi({
-        url: _url,
-        dom_id: "swagger-ui-container",
-        supportedSubmitMethods: ['get', 'post', 'put', 'patch', 'delete'],
-        authorizations: { 'api_key': apiKeyAuth, 'session_token': tokenAuth},
-        docExpansion: "list",
-        jsonEditor: false,
-        apisSorter: "alpha",
-        defaultModelRendering: 'schema',
-        showRequestHeaders: false,
-        validatorUrl: null,
-        onComplete: function(swaggerApi, swaggerUi){
-          if(typeof initOAuth == "function") {
-            initOAuth({
-              clientId: "your-client-id",
-              clientSecret: "your-client-secret-if-required",
-              realm: "your-realms",
-              appName: "your-app-name",
-              scopeSeparator: ",",
-              additionalQueryStringParams: {}
-            });
-          }
-
-          $('pre code').each(function(i, e) {
-            hljs.highlightBlock(e)
-          });
-        },
-        onFailure: function(data) {
-          log("Unable to Load SwaggerUI");
+        authorizations = {};
+        if (_apiKey) {
+            var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("X-DreamFactory-Api-Key", _apiKey, "header");
+            authorizations.api_key = apiKeyAuth;
         }
-      });
-
-      window.swaggerUi.load();
-
-      function log() {
-        if ('console' in window) {
-          console.log.apply(console, arguments);
+        if (_sessionToken) {
+            var tokenAuth = new SwaggerClient.ApiKeyAuthorization("X-DreamFactory-Session-Token", _sessionToken, "header");
+            authorizations.session_token = tokenAuth;
         }
-      }
+
+        window.swaggerUi = new SwaggerUi({
+            url: _url,
+            dom_id: "swagger-ui-container",
+            supportedSubmitMethods: ['get', 'post', 'put', 'patch', 'delete'],
+            authorizations: authorizations,
+            docExpansion: "list",
+            jsonEditor: false,
+            apisSorter: "alpha",
+            defaultModelRendering: 'schema',
+            showRequestHeaders: false,
+            validatorUrl: null,
+            onComplete: function (swaggerApi, swaggerUi) {
+                if (typeof initOAuth == "function") {
+                    initOAuth({
+                        clientId: "your-client-id",
+                        clientSecret: "your-client-secret-if-required",
+                        realm: "your-realms",
+                        appName: "your-app-name",
+                        scopeSeparator: ",",
+                        additionalQueryStringParams: {}
+                    });
+                }
+
+                $('pre code').each(function (i, e) {
+                    hljs.highlightBlock(e)
+                });
+            },
+            onFailure: function (data) {
+                log("Unable to Load SwaggerUI");
+            }
+        });
+
+        window.swaggerUi.load();
+
+        function log() {
+            if ('console' in window) {
+                console.log.apply(console, arguments);
+            }
+        }
     });
 
   </script>
