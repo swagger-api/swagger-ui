@@ -16,7 +16,9 @@ const RequestBody = ({ requestBody, getComponent, specSelectors, contentType }) 
 
   const mediaTypeValue = requestBodyContent.get(contentType)
 
-  const sampleSchema = getSampleSchema(mediaTypeValue.get("schema").toJS(), contentType)
+  const sampleSchema = getSampleSchema(mediaTypeValue.get("schema").toJS(), contentType, {
+    includeWriteOnly: true
+  })
 
   return <div>
     { requestBodyDescription &&

@@ -1,21 +1,3 @@
-html
-{
-    box-sizing: border-box;
-}
-*,
-*:before,
-*:after
-{
-    box-sizing: inherit;
-}
-
-body
-{
-    margin: 0;
-
-    background: #fafafa;
-}
-
 .wrapper
 {
     width: 100%;
@@ -540,6 +522,22 @@ body
     }
 }
 
+.response-col_links
+{
+    padding-left: 2em;
+    max-width: 40em;
+    font-size: 14px;
+
+    @include text_body();
+
+    .response-undocumented
+    {
+        font-size: 11px;
+
+        @include text_code(#999);
+    }
+}
+
 .response-col_description__inner
 {
     span
@@ -699,7 +697,6 @@ body
 .renderedMarkdown {
   p {
     @include text_body();
-    font-size: 14px;
     margin-top: 0px;
     margin-bottom: 0px;
   }
