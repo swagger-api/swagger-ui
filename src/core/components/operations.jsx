@@ -66,6 +66,8 @@ export default class Operations extends React.Component {
             taggedOps.map( (tagObj, tag) => {
               let operations = tagObj.get("operations")
               let tagDescription = tagObj.getIn(["tagDetails", "description"], null)
+              let tagExternalDocsDescription = tagObj.getIn(["tagDetails", "externalDocs", "description"])
+              let tagExternalDocsUrl = tagObj.getIn(["tagDetails", "externalDocs", "url"])
 
               let isShownKey = ["operations-tag", tag]
               let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
@@ -89,9 +91,25 @@ export default class Operations extends React.Component {
                         </small>
                     }
 
+                    <div>
+                    { !tagExternalDocsDescription ? null :
+                        <small>
+                          { tagExternalDocsDescription }
+                          { tagExternalDocsUrl ? ": " : null }
+                          { tagExternalDocsUrl ?
+                            <a
+                              href={tagExternalDocsUrl}
+                              onClick={(e) => e.stopPropagation()}
+                              target={"_blank"}
+                            >{tagExternalDocsUrl}</a> : null
+                          }
+                        </small>
+                    }
+                    </div>
+
                     <button className="expand-operation" title="Expand operation" onClick={() => layoutActions.show(isShownKey, !showTag)}>
                       <svg className="arrow" width="20" height="20">
-                        <use xlinkHref={showTag ? "#large-arrow-down" : "#large-arrow"} />
+                        <use href={showTag ? "#large-arrow-down" : "#large-arrow"} xlinkHref={showTag ? "#large-arrow-down" : "#large-arrow"} />
                       </svg>
                     </button>
                   </h4>
