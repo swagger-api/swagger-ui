@@ -42,6 +42,9 @@ module.exports = function SwaggerUI(opts) {
     displayOperationId: false,
     displayRequestDuration: false,
     deepLinking: false,
+    requestInterceptor: (a => a),
+    responseInterceptor: (a => a),
+    showMutatedRequest: true,
 
     // Initial set of plugins ( TODO rename this, or refactor - we don't need presets _and_ plugins. Its just there for performance.
     // Instead, we can compile the first plugin ( it can be a collection of plugins ), then batch the rest.
