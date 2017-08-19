@@ -1,16 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-let Perf = null
-let ReactPerfTool = null
-if (process.env.NODE_ENV !== "production") {
-  Perf = require("react-addons-perf")
-  window.Perf = Perf
-
-  ReactPerfTool = require("react-perf-tool")
-  require("react-perf-tool/lib/styles.css")
-}
-
 export default class App extends React.Component {
 
   getLayout() {
@@ -26,7 +16,6 @@ export default class App extends React.Component {
     return (
       <div>
         <Layout/>
-        <ReactPerfTool perf={Perf} />
       </div>
     )
   }
