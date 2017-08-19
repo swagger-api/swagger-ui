@@ -83,11 +83,16 @@ export default class Response extends React.Component {
 
     if(isOAS3()) {
       let oas3SchemaForContentType = response.getIn(["content", this.state.responseContentType, "schema"])
-      sampleResponse = oas3SchemaForContentType ? getSampleSchema(oas3SchemaForContentType.toJS(), this.state.responseContentType, { includeReadOnly: true }) : null
+      sampleResponse = oas3SchemaForContentType ? getSampleSchema(oas3SchemaForContentType.toJS(), this.state.responseContentType, {
+        includeReadOnly: true
+      }) : null
       schema = oas3SchemaForContentType ? inferSchema(oas3SchemaForContentType.toJS()) : null
     } else {
       schema = inferSchema(response.toJS())
-      sampleResponse = schema ? getSampleSchema(schema, contentType, { includeReadOnly: true }) : null
+      sampleResponse = schema ? getSampleSchema(schema, contentType, {
+        includeReadOnly: true,
+        includeWriteOnly: true // writeOnly has no filtering effect in swagger 2.0
+       }) : null
     }
     let example = getExampleComponent( sampleResponse, examples, HighlightCode )
 
@@ -122,10 +127,10 @@ export default class Response extends React.Component {
 
 
         </td>
-        {specSelectors.isOAS3() ? <td>
+        {specSelectors.isOAS3() ? <td className="col response-col_links">
           { links ?
             links.toSeq().map((link, key) => {
-              return <OperationLink key={key} name={key} link={ link }/>
+              return <OperationLink key={key} name={key} link={ link } getComponent={getComponent}/>
             })
           : <i>No links</i>}
         </td> : null}
