@@ -1,27 +1,16 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { getList } from "core/utils"
-import * as CustomPropTypes from "core/proptypes"
-
-//import "less/opblock"
+import { Iterable } from "immutable"
 
 export default class Operation extends PureComponent {
   static propTypes = {
-    path: PropTypes.string.isRequired,
-    method: PropTypes.string.isRequired,
-    operation: PropTypes.object.isRequired,
-    showSummary: PropTypes.bool,
+    operation: PropTypes.instanceOf(Iterable).isRequired,
 
-    isShownKey: CustomPropTypes.arrayOrString.isRequired,
-    jumpToKey: CustomPropTypes.arrayOrString.isRequired,
-
-    allowTryItOut: PropTypes.bool,
-
-    displayOperationId: PropTypes.bool,
-    displayRequestDuration: PropTypes.bool,
-
-    response: PropTypes.object,
-    request: PropTypes.object,
+    toggleShown: PropTypes.func.isRequired,
+    onTryoutClick: PropTypes.func.isRequired,
+    onCancelClick: PropTypes.func.isRequired,
+    onExecute: PropTypes.func.isRequired,
 
     getComponent: PropTypes.func.isRequired,
     authActions: PropTypes.object,
@@ -30,8 +19,7 @@ export default class Operation extends PureComponent {
     specSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
-    fn: PropTypes.object.isRequired,
-    getConfigs: PropTypes.func.isRequired
+    fn: PropTypes.object.isRequired
   }
 
   static defaultProps = {
@@ -42,94 +30,57 @@ export default class Operation extends PureComponent {
     displayRequestDuration: false
   }
 
-  constructor(props, context) {
-    super(props, context)
-    this.state = {
-      tryItOutEnabled: false
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const defaultContentType = "application/json"
-    let { specActions, path, method, operation } = nextProps
-    let producesValue = operation.get("produces_value")
-    let produces = operation.get("produces")
-    let consumes = operation.get("consumes")
-    let consumesValue = operation.get("consumes_value")
-
-    if(nextProps.response !== this.props.response) {
-      this.setState({ executeInProgress: false })
-    }
-
-    if (producesValue === undefined) {
-      producesValue = produces && produces.size ? produces.first() : defaultContentType
-      specActions.changeProducesValue([path, method], producesValue)
-    }
-
-    if (consumesValue === undefined) {
-      consumesValue = consumes && consumes.size ? consumes.first() : defaultContentType
-      specActions.changeConsumesValue([path, method], consumesValue)
-    }
-  }
-
-  toggleShown =() => {
-    let { layoutActions, isShownKey } = this.props
-    layoutActions.show(isShownKey, !this.isShown())
-  }
-
-  isShown =() => {
-    let { layoutSelectors, isShownKey, getConfigs } = this.props
-    let { docExpansion } = getConfigs()
-
-    return layoutSelectors.isShown(isShownKey, docExpansion === "full" ) // Here is where we set the default
-  }
-
-  onTryoutClick =() => {
-    this.setState({tryItOutEnabled: !this.state.tryItOutEnabled})
-  }
-
-  onCancelClick =() => {
-    let { specActions, path, method } = this.props
-    this.setState({tryItOutEnabled: !this.state.tryItOutEnabled})
-    specActions.clearValidateParams([path, method])
-  }
-
-  onExecute = () => {
-    this.setState({ executeInProgress: true })
+  shouldComponentUpdate(nextProps) {
+    return this.props.operation !== nextProps.operation
   }
 
   render() {
     let {
-      isShownKey,
-      jumpToKey,
-      path,
-      method,
-      operation,
-      showSummary,
-      response,
-      request,
-      allowTryItOut,
-      displayOperationId,
-      displayRequestDuration,
+      toggleShown,
+      onTryoutClick,
+      onCancelClick,
+      onExecute,
       fn,
       getComponent,
       specActions,
       specSelectors,
       authActions,
-      authSelectors,
-      getConfigs
+      authSelectors
     } = this.props
+    let operationProps = this.props.operation
 
-    let summary = operation.get("summary")
-    let description = operation.get("description")
-    let deprecated = operation.get("deprecated")
-    let externalDocs = operation.get("externalDocs")
+    let {
+      isShown,
+      isShownKey,
+      jumpToKey,
+      path,
+      method,
+      op,
+      showSummary,
+      operationId,
+      allowTryItOut,
+      displayOperationId,
+      displayRequestDuration,
+      isDeepLinkingEnabled,
+      tryItOutEnabled,
+      executeInProgress
+    } = operationProps.toJS()
+    let response = operationProps.get("response")
+    let request = operationProps.get("request")
+
+    let {
+      summary,
+      description,
+      deprecated,
+      externalDocs,
+      schemes
+    } = op.operation
+
+    let operation = operationProps.getIn(["op", "operation"])
     let responses = operation.get("responses")
-    let security = operation.get("security") || specSelectors.security()
     let produces = operation.get("produces")
-    let schemes = operation.get("schemes")
+    let security = operation.get("security") || specSelectors.security()
     let parameters = getList(operation, ["parameters"])
-    let operationId = operation.get("__originalOperationId")
     let operationScheme = specSelectors.operationScheme(path, method)
 
     const Responses = getComponent("responses")
@@ -142,23 +93,17 @@ export default class Operation extends PureComponent {
     const Markdown = getComponent( "Markdown" )
     const Schemes = getComponent( "schemes" )
 
-    const { deepLinking } = getConfigs()
-
-    const isDeepLinkingEnabled = deepLinking && deepLinking !== "false"
-
     // Merge in Live Response
-    if(response && response.size > 0) {
+    if(responses && response && response.size > 0) {
       let notDocumented = !responses.get(String(response.get("status")))
       response = response.set("notDocumented", notDocumented)
     }
 
-    let { tryItOutEnabled } = this.state
-    let shown = this.isShown()
     let onChangeKey = [ path, method ] // Used to add values to _this_ operation ( indexed by path and method )
 
     return (
-        <div className={deprecated ? "opblock opblock-deprecated" : shown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={isShownKey.join("-")} >
-          <div className={`opblock-summary opblock-summary-${method}`} onClick={this.toggleShown} >
+        <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={isShownKey.join("-")} >
+          <div className={`opblock-summary opblock-summary-${method}`} onClick={toggleShown} >
               <span className="opblock-summary-method">{method.toUpperCase()}</span>
               <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } >
                 <a
@@ -186,7 +131,7 @@ export default class Operation extends PureComponent {
             }
           </div>
 
-          <Collapse isOpened={shown}>
+          <Collapse isOpened={isShown}>
             <div className="opblock-body">
               { deprecated && <h4 className="opblock-title_normal"> Warning: Deprecated</h4>}
               { description &&
@@ -212,8 +157,8 @@ export default class Operation extends PureComponent {
                 parameters={parameters}
                 operation={operation}
                 onChangeKey={onChangeKey}
-                onTryoutClick = { this.onTryoutClick }
-                onCancelClick = { this.onCancelClick }
+                onTryoutClick = { onTryoutClick }
+                onCancelClick = { onCancelClick }
                 tryItOutEnabled = { tryItOutEnabled }
                 allowTryItOut={allowTryItOut}
 
@@ -237,25 +182,23 @@ export default class Operation extends PureComponent {
               { !tryItOutEnabled || !allowTryItOut ? null :
 
                   <Execute
-                    getComponent={getComponent}
                     operation={ operation }
                     specActions={ specActions }
                     specSelectors={ specSelectors }
                     path={ path }
                     method={ method }
-                    onExecute={ this.onExecute } />
+                    onExecute={ onExecute } />
               }
 
               { (!tryItOutEnabled || !response || !allowTryItOut) ? null :
                   <Clear
-                    onClick={ this.onClearClick }
                     specActions={ specActions }
                     path={ path }
                     method={ method }/>
               }
             </div>
 
-            {this.state.executeInProgress ? <div className="loading-container"><div className="loading"></div></div> : null}
+            {executeInProgress ? <div className="loading-container"><div className="loading"></div></div> : null}
 
               { !responses ? null :
                   <Responses

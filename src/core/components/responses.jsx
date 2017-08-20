@@ -1,15 +1,15 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { fromJS } from "immutable"
+import { fromJS, Iterable } from "immutable"
 import { defaultStatusCode } from "core/utils"
 
 export default class Responses extends React.Component {
 
   static propTypes = {
-    request: PropTypes.object,
-    tryItOutResponse: PropTypes.object,
-    responses: PropTypes.object.isRequired,
-    produces: PropTypes.object,
+    request: PropTypes.instanceOf(Iterable),
+    tryItOutResponse: PropTypes.instanceOf(Iterable),
+    responses: PropTypes.instanceOf(Iterable).isRequired,
+    produces: PropTypes.instanceOf(Iterable),
     producesValue: PropTypes.any,
     getComponent: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
