@@ -13,6 +13,7 @@ export default class Operation extends PureComponent {
     onExecute: PropTypes.func.isRequired,
 
     getComponent: PropTypes.func.isRequired,
+    getConfigs: PropTypes.func.isRequired,
     authActions: PropTypes.object,
     authSelectors: PropTypes.object,
     specActions: PropTypes.object.isRequired,
@@ -42,6 +43,7 @@ export default class Operation extends PureComponent {
       onExecute,
       fn,
       getComponent,
+      getConfigs,
       specActions,
       specSelectors,
       authActions,

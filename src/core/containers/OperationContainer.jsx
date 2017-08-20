@@ -157,6 +157,7 @@ export default class Operation extends PureComponent {
       specSelectors,
       specActions,
       getComponent,
+      getConfigs,
       layoutSelectors,
       layoutActions,
       authActions,
@@ -202,6 +203,7 @@ export default class Operation extends PureComponent {
         authActions={ authActions }
         authSelectors={ authSelectors }
         getComponent={ getComponent }
+        getConfigs={ getConfigs }
         fn={fn}
       />
     )
