@@ -29,14 +29,11 @@ export default class Operations extends React.Component {
 
     let taggedOps = specSelectors.taggedOperations()
 
-    const Operation = getComponent("OperationContainer", true)
+    const OperationContainer = getComponent("OperationContainer", true)
     const Collapse = getComponent("Collapse")
 
-    let showSummary = layoutSelectors.showSummary()
     let {
       docExpansion,
-      displayOperationId,
-      displayRequestDuration,
       maxDisplayedTags,
       deepLinking
     } = getConfigs()
@@ -114,13 +111,15 @@ export default class Operations extends React.Component {
                   <Collapse isOpened={showTag}>
                     {
                       operations.map( op => {
-                        return <Operation
-                          key={`${op.get("path")}-${op.get("method")}`}
+                        const path = op.get("path")
+                        const method = op.get("method")
+
+                        return <OperationContainer
+                          key={`${path}-${method}`}
                           op={op}
+                          path={path}
+                          method={method}
                           tag={tag}
-                          showSummary={showSummary}
-                          displayOperationId={displayOperationId}
-                          displayRequestDuration={displayRequestDuration}
 
                           specActions={ specActions }
                           specSelectors={ specSelectors }
