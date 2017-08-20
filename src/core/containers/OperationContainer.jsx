@@ -5,7 +5,7 @@ import { Iterable, fromJS } from "immutable"
 
 const { opId } = helpers
 
-export default class Operation extends PureComponent {
+export default class OperationContainer extends PureComponent {
   constructor(props, context) {
     super(props, context)
     this.state = {
@@ -50,27 +50,26 @@ export default class Operation extends PureComponent {
     displayRequestDuration: false
   }
 
-  static mapStateToProps(nextState, props) {
-    const { layoutSelectors, getConfigs } = props
-    const { docExpansion, deepLinking } = getConfigs()
-    const op = props.op
-    const path = op.get("path", "")
-    const method = op.get("method", "")
-    const operationId = op.getIn(["operation", "operationId"]) || op.getIn(["operation", "__originalOperationId"]) || opId(op.get("operation"), path, method) || op.get("id")
+  mapStateToProps(nextState, props) {
+    const { op, layoutSelectors, getConfigs } = props
+    const { docExpansion, deepLinking, displayOperationId, displayRequestDuration } = getConfigs()
+    const showSummary = layoutSelectors.showSummary()
+    const operationId = op.getIn(["operation", "operationId"]) || op.getIn(["operation", "__originalOperationId"]) || opId(op.get("operation"), props.path, props.method) || op.get("id")
     const isShownKey = fromJS(["operations", props.tag, operationId])
     const isDeepLinkingEnabled = deepLinking && deepLinking !== "false"
 
     return {
-      path,
-      method,
       operationId,
       isDeepLinkingEnabled,
+      isShownKey,
+      showSummary,
+      displayOperationId,
+      displayRequestDuration,
       isShown: layoutSelectors.isShown(isShownKey, docExpansion === "full" ),
-      jumpToKey: `paths.${path}.${method}`,
-      isShownKey: isShownKey,
-      allowTryItOut: props.specSelectors.allowTryItOutFor(op.get("path"), op.get("method")),
-      response: props.specSelectors.responseFor(op.get("path"), op.get("method")),
-      request: props.specSelectors.requestFor(op.get("path"), op.get("method"))
+      jumpToKey: `paths.${props.path}.${props.method}`,
+      allowTryItOut: props.specSelectors.allowTryItOutFor(props.path, props.method),
+      response: props.specSelectors.responseFor(props.path, props.method),
+      request: props.specSelectors.requestFor(props.path, props.method)
     }
   }
 
