@@ -213,7 +213,8 @@ export default class Operation extends PureComponent {
                     specActions={ specActions }
                     produces={ produces }
                     producesValue={ operation.get("produces_value") }
-                    pathMethod={ [path, method] }
+                    path={ path }
+                    method={ method }
                     displayRequestDuration={ displayRequestDuration }
                     fn={fn} />
               }

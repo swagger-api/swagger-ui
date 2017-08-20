@@ -4,18 +4,18 @@ import { fromJS, Iterable } from "immutable"
 import { defaultStatusCode } from "core/utils"
 
 export default class Responses extends React.Component {
-
   static propTypes = {
     request: PropTypes.instanceOf(Iterable),
     tryItOutResponse: PropTypes.instanceOf(Iterable),
     responses: PropTypes.instanceOf(Iterable).isRequired,
     produces: PropTypes.instanceOf(Iterable),
     producesValue: PropTypes.any,
+    displayRequestDuration: PropTypes.bool.isRequired,
+    path: PropTypes.string.isRequired,
+    method: PropTypes.string.isRequired,
     getComponent: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     specActions: PropTypes.object.isRequired,
-    pathMethod: PropTypes.array.isRequired,
-    displayRequestDuration: PropTypes.bool.isRequired,
     fn: PropTypes.object.isRequired,
     getConfigs: PropTypes.func.isRequired
   }
@@ -27,9 +27,26 @@ export default class Responses extends React.Component {
     displayRequestDuration: false
   }
 
-  onChangeProducesWrapper = ( val ) => this.props.specActions.changeProducesValue(this.props.pathMethod, val)
+  shouldComponentUpdate(nextProps) {
+    console.log("Responses SCU", this.props.tryItOutResponse.toJS(), nextProps.tryItOutResponse.toJS())
+    let render = this.props.request !== nextProps.request
+    || this.props.tryItOutResponse !== nextProps.tryItOutResponse
+    || this.props.responses !== nextProps.responses
+    || this.props.produces !== nextProps.produces
+    || this.props.producesValue !== nextProps.producesValue
+    || this.props.displayRequestDuration !== nextProps.displayRequestDuration
+    || this.props.path !== nextProps.path
+    || this.props.method !== nextProps.method
+
+    console.log("render", render)
+
+    return render
+  }
+
+  onChangeProducesWrapper = ( val ) => this.props.specActions.changeProducesValue([this.props.path, this.props.method], val)
 
   render() {
+    console.log("Responses render")
     let { responses, request, tryItOutResponse, getComponent, getConfigs, specSelectors, fn, producesValue, displayRequestDuration } = this.props
     let defaultCode = defaultStatusCode( responses )
 
@@ -60,7 +77,8 @@ export default class Responses extends React.Component {
                                                 getComponent={ getComponent }
                                                 getConfigs={ getConfigs }
                                                 specSelectors={ specSelectors }
-                                                pathMethod={ this.props.pathMethod }
+                                                path={ this.props.path }
+                                                method={ this.props.method }
                                                 displayRequestDuration={ displayRequestDuration } />
                                   <h4>Responses</h4>
                                 </div>
