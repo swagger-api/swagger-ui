@@ -14,9 +14,7 @@ export default class App extends React.Component {
     const Layout = this.getLayout()
 
     return (
-      <div>
-        <Layout/>
-      </div>
+      <Layout/>
     )
   }
 }
