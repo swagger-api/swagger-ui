@@ -40,3 +40,15 @@ Some distinct identifiers to Swagger-UI 3.X:
 - There's no models section after the operations.
 
 If you've determined this is the version you have, to find the exact version:
+- Navigate to the sources of the UI. Either on your disk or via the view page source functionality in your browser.
+- Find an open the `swagger-ui.js`
+- At the top of the page, there would be a comment containing the exact version of swagger-ui. This example shows version `2.2.9`:
+
+```
+/**
+ * swagger-ui - Swagger UI is a dependency-free collection of HTML, JavaScript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API
+ * @version v2.2.9
+ * @link http://swagger.io
+ * @license Apache-2.0
+ */
+ ```
