@@ -5,7 +5,6 @@ import { defaultStatusCode } from "core/utils"
 
 export default class Responses extends React.Component {
   static propTypes = {
-    request: PropTypes.instanceOf(Iterable),
     tryItOutResponse: PropTypes.instanceOf(Iterable),
     responses: PropTypes.instanceOf(Iterable).isRequired,
     produces: PropTypes.instanceOf(Iterable),
@@ -21,33 +20,27 @@ export default class Responses extends React.Component {
   }
 
   static defaultProps = {
-    request: null,
     tryItOutResponse: null,
     produces: fromJS(["application/json"]),
     displayRequestDuration: false
   }
 
   shouldComponentUpdate(nextProps) {
-    console.log("Responses SCU", this.props.tryItOutResponse.toJS(), nextProps.tryItOutResponse.toJS())
-    let render = this.props.request !== nextProps.request
-    || this.props.tryItOutResponse !== nextProps.tryItOutResponse
+    // BUG: props.tryItOutResponse is always coming back as a new Immutable instance
+    let render = this.props.tryItOutResponse !== nextProps.tryItOutResponse 
     || this.props.responses !== nextProps.responses
     || this.props.produces !== nextProps.produces
     || this.props.producesValue !== nextProps.producesValue
     || this.props.displayRequestDuration !== nextProps.displayRequestDuration
     || this.props.path !== nextProps.path
     || this.props.method !== nextProps.method
-
-    console.log("render", render)
-
     return render
   }
 
   onChangeProducesWrapper = ( val ) => this.props.specActions.changeProducesValue([this.props.path, this.props.method], val)
 
   render() {
-    console.log("Responses render")
-    let { responses, request, tryItOutResponse, getComponent, getConfigs, specSelectors, fn, producesValue, displayRequestDuration } = this.props
+    let { responses, tryItOutResponse, getComponent, getConfigs, specSelectors, fn, producesValue, displayRequestDuration } = this.props
     let defaultCode = defaultStatusCode( responses )
 
     const ContentType = getComponent( "contentType" )
@@ -72,8 +65,7 @@ export default class Responses extends React.Component {
           {
             !tryItOutResponse ? null
                               : <div>
-                                  <LiveResponse request={ request }
-                                                response={ tryItOutResponse }
+                                  <LiveResponse response={ tryItOutResponse }
                                                 getComponent={ getComponent }
                                                 getConfigs={ getConfigs }
                                                 specSelectors={ specSelectors }

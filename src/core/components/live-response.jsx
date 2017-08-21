@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
+import { Iterable } from "immutable"
 
 const Headers = ( { headers } )=>{
   return (
@@ -28,13 +29,22 @@ Duration.propTypes = {
 
 export default class LiveResponse extends React.Component {
   static propTypes = {
-    response: PropTypes.object.isRequired,
-    specSelectors: PropTypes.object.isRequired,
+    response: PropTypes.instanceOf(Iterable).isRequired,
     path: PropTypes.string.isRequired,
     method: PropTypes.string.isRequired,
-    getComponent: PropTypes.func.isRequired,
     displayRequestDuration: PropTypes.bool.isRequired,
+    specSelectors: PropTypes.object.isRequired,
+    getComponent: PropTypes.func.isRequired,
     getConfigs: PropTypes.func.isRequired
+  }
+
+  shouldComponentUpdate(nextProps) {
+    // BUG: props.response is always coming back as a new Immutable instance
+    // same issue as responses.jsx (tryItOutResponse)
+    return this.props.response !== nextProps.response
+      || this.props.path !== nextProps.path
+      || this.props.method !== nextProps.method
+      || this.props.displayRequestDuration !== nextProps.displayRequestDuration
   }
 
   render() {
@@ -112,7 +122,6 @@ export default class LiveResponse extends React.Component {
 
   static propTypes = {
     getComponent: PropTypes.func.isRequired,
-    request: ImPropTypes.map,
     response: ImPropTypes.map
   }
 }
