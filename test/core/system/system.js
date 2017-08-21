@@ -470,7 +470,7 @@ describe("bound system", function(){
     it("allows container components to provide their own `mapStateToProps` function", function() {
       // Given
       class ContainerComponent extends PureComponent {
-        static mapStateToProps(nextState, props) {
+        mapStateToProps(nextState, props) {
           return {
             "abc": "This came from mapStateToProps"
           }
