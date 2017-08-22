@@ -117,7 +117,9 @@ export default class Operation extends PureComponent {
       specSelectors,
       authActions,
       authSelectors,
-      getConfigs
+      getConfigs,
+      layoutActions,
+      layoutSelectors
     } = this.props
 
     let summary = operation.get("summary")
@@ -155,6 +157,7 @@ export default class Operation extends PureComponent {
     let { tryItOutEnabled } = this.state
     let shown = this.isShown()
     let onChangeKey = [ path, method ] // Used to add values to _this_ operation ( indexed by path and method )
+    let isResponsesShownKey = ["responses-tag", operationId]
 
     return (
         <div className={deprecated ? "opblock opblock-deprecated" : shown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={isShownKey.join("-")} >
@@ -270,6 +273,10 @@ export default class Operation extends PureComponent {
                     producesValue={ operation.get("produces_value") }
                     pathMethod={ [path, method] }
                     displayRequestDuration={ displayRequestDuration }
+                    getConfigs={ getConfigs }
+                    isShownKey={ isResponsesShownKey }
+                    layoutActions = {layoutActions}
+                    layoutSelectors = {layoutSelectors}
                     fn={fn} />
               }
             </div>
