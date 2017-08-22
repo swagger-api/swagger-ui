@@ -52,7 +52,6 @@ export default class LiveResponse extends React.Component {
     const contentType = headers["content-type"]
 
     const Curl = getComponent("curl")
-    const RequestUrl = getComponent("requestUrl")
     const ResponseBody = getComponent("responseBody")
     const returnObject = headersKeys.map(key => {
       return <span className="headerline" key={key}> {key}: {headers[key]} </span>
