@@ -13,6 +13,14 @@ replace_in_index () {
   fi
 }
 
+replace_in_index_not_none () {
+  if [ "$2" != "**None**" ]; then
+    sed -i "s|/\*||g" $INDEX_FILE
+    sed -i "s|\*/||g" $INDEX_FILE
+    sed -i "s|$1|$2|g" $INDEX_FILE
+  fi
+}
+
 replace_or_delete_in_index () {
   if [ -z "$2" ]; then
     sed -i "/$1/d" $INDEX_FILE
@@ -22,6 +30,7 @@ replace_or_delete_in_index () {
 }
 
 replace_in_index myApiKeyXXXX123456789 $API_KEY
+replace_in_index_not_none "https://\" + window.location.hostname + \"/api_docs" $API_URL
 replace_or_delete_in_index your-client-id $OAUTH_CLIENT_ID
 replace_or_delete_in_index your-client-secret-if-required $OAUTH_CLIENT_SECRET
 replace_or_delete_in_index your-realms $OAUTH_REALM

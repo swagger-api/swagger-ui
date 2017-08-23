@@ -104,16 +104,10 @@
 <script src="./swagger-ui-standalone-preset.js"> </script>
 <script>
 window.onload = function() {
-
-  var url = window.location.search.match(/url=([^&]+)/);
-  if (url && url.length > 1) {
-    url = decodeURIComponent(url[1]);
-  } else {
-    url = "https://" + window.location.hostname + "/api_docs";
   }
   // Build a system
   const ui = SwaggerUIBundle({
-    url: url,
+    url: "https://" + window.location.hostname + "/api_docs",
     dom_id: '#swagger-ui',
     presets: [
       SwaggerUIBundle.presets.apis,
