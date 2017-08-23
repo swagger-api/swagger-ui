@@ -273,7 +273,6 @@ export default class Operation extends PureComponent {
                     producesValue={ operation.get("produces_value") }
                     pathMethod={ [path, method] }
                     displayRequestDuration={ displayRequestDuration }
-                    getConfigs={ getConfigs }
                     isShownKey={ isResponsesShownKey }
                     layoutActions = {layoutActions}
                     layoutSelectors = {layoutSelectors}

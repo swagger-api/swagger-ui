@@ -18,7 +18,7 @@ export default class Responses extends React.Component {
     pathMethod: PropTypes.array.isRequired,
     displayRequestDuration: PropTypes.bool.isRequired,
     fn: PropTypes.object.isRequired,
-    getConfigs: PropTypes.func.isRequired
+    getConfigs: PropTypes.func.isRequired,
     isShownKey: CustomPropTypes.arrayOrString.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
@@ -44,12 +44,10 @@ export default class Responses extends React.Component {
     const Response = getComponent( "response" )
     const Collapse = getComponent( "Collapse" )
 
-    const { deepLinking } = getConfigs()
-
     let produces = this.props.produces && this.props.produces.size ? this.props.produces : Responses.defaultProps.produces
 
     return (
-      <div className={ shown ? `responses-wrapper is-open` : `opblock responses-wrapper`} id={isShownKey.join("-")} >
+      <div className={ shown ? `responses-wrapper is-open` : `responses-wrapper`} id={isShownKey.join("-")} >
         <div className="opblock-section-header" onClick={this.toggleShown} >
           <h4>Responses</h4>
             { specSelectors.isOAS3() ? null : <label onClick={this.stopPropigation} >
@@ -112,10 +110,10 @@ export default class Responses extends React.Component {
   }
 
   stopPropigation =(e) => {
-    e.stopPropagation();
+    e.stopPropagation()
   }
 
-  toggleShown =(e) => {
+  toggleShown =() => {
     let { layoutActions, isShownKey } = this.props
     layoutActions.show(isShownKey, !this.isShown())
   }
