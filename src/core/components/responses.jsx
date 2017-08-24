@@ -38,6 +38,7 @@ export default class Responses extends React.Component {
     let defaultCode = defaultStatusCode( responses )
 
     let shown = this.isShown()
+    let { responseExpansion } = getConfigs()
 
     const ContentType = getComponent( "contentType" )
     const LiveResponse = getComponent( "liveResponse" )
@@ -48,7 +49,7 @@ export default class Responses extends React.Component {
 
     return (
       <div className={ shown ? `responses-wrapper is-open` : `responses-wrapper`} id={isShownKey.join("-")} >
-        <div className="opblock-section-header" onClick={this.toggleShown} >
+        <div { ... responseExpansion != null ? {onClick:this.toggleShown, className:"opblock-section-header opblock-section-header-clickable"} : {className:"opblock-section-header"}} >
           <h4>Responses</h4>
             { specSelectors.isOAS3() ? null : <label onClick={this.stopPropigation} >
               <span>Response content type</span>
@@ -122,7 +123,7 @@ export default class Responses extends React.Component {
     let { layoutSelectors, isShownKey, getConfigs } = this.props
     let { responseExpansion } = getConfigs()
 
-    return layoutSelectors.isShown(isShownKey, responseExpansion === "full" ) // Here is where we set the default
+    return layoutSelectors.isShown(isShownKey, responseExpansion === "full" || responseExpansion === null ) // Here is where we set the default
   }
 
 }

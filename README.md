@@ -155,6 +155,7 @@ configUrl | Configs URL
 parameterMacro | MUST be a function. Function to set default value to parameters. Accepts two arguments parameterMacro(operation, parameter). Operation and parameter are objects passed for context, both remain immutable
 modelPropertyMacro | MUST be a function. Function to set default values to each property in model. Accepts one argument modelPropertyMacro(property), property is immutable
 docExpansion | Controls the default expansion setting for the operations and tags. It can be 'list' (expands only the tags), 'full' (expands the tags and operations) or 'none' (expands nothing). The default is 'list'.
+responseExpansion | Controls the default expansion setting for responses.  It can be 'null' (no expansion), 'full' (expands the responses) or 'none' (expands nothing initially). 'full' and 'none' will both result in a clickable header.
 displayOperationId | Controls the display of operationId in operations list. The default is `false`.
 displayRequestDuration | Controls the display of the request duration (in milliseconds) for `Try it out` requests. The default is `false`.
 maxDisplayedTags | If set, limits the number of tagged operations displayed to at most this many. The default is to show all operations.
