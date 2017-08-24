@@ -43,13 +43,13 @@ export default class Responses extends React.Component {
       <div className="responses-wrapper">
         <div className="opblock-section-header">
           <h4>Responses</h4>
-            <label>
+            { specSelectors.isOAS3() ? null : <label>
               <span>Response content type</span>
               <ContentType value={producesValue}
                          onChange={this.onChangeProducesWrapper}
                          contentTypes={produces}
                          className="execute-content-type"/>
-                     </label>
+                     </label> }
         </div>
         <div className="responses-inner">
           {
@@ -69,6 +69,7 @@ export default class Responses extends React.Component {
               <tr className="responses-header">
                 <td className="col col_header response-col_status">Code</td>
                 <td className="col col_header response-col_description">Description</td>
+                { specSelectors.isOAS3() ? <td className="col col_header response-col_links">Links</td> : null }
               </tr>
             </thead>
             <tbody>

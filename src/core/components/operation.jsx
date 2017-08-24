@@ -186,7 +186,7 @@ export default class Operation extends PureComponent {
             }
           </div>
 
-          <Collapse isOpened={shown} animated>
+          <Collapse isOpened={shown}>
             <div className="opblock-body">
               { deprecated && <h4 className="opblock-title_normal"> Warning: Deprecated</h4>}
               { description &&
@@ -211,6 +211,7 @@ export default class Operation extends PureComponent {
               <Parameters
                 parameters={parameters}
                 specPath={[...specPath, "parameters"]}
+                operation={operation}
                 onChangeKey={onChangeKey}
                 onTryoutClick = { this.onTryoutClick }
                 onCancelClick = { this.onCancelClick }
@@ -229,7 +230,7 @@ export default class Operation extends PureComponent {
                              path={ path }
                              method={ method }
                              specActions={ specActions }
-                             operationScheme={ operationScheme } />
+                             currentScheme={ operationScheme } />
                   </div> : null
               }
 

@@ -69,7 +69,9 @@ export default class ParamBody extends PureComponent {
     let { param, fn:{inferSchema} } = this.props
     let schema = inferSchema(param.toJS())
 
-    return getSampleSchema(schema, xml)
+    return getSampleSchema(schema, xml, {
+      includeWriteOnly: true
+    })
   }
 
   onChange = (value, { isEditBox, isXml }) => {

@@ -59,6 +59,8 @@ export default class ParameterRow extends Component {
   render() {
     let {param, onChange, getComponent, isExecute, fn, onChangeConsumes, specSelectors, pathMethod, specPath} = this.props
 
+    let { isOAS3 } = specSelectors
+
     // const onChangeWrapper = (value) => onChange(param, value)
     const JsonSchemaForm = getComponent("JsonSchemaForm")
     const ParamBody = getComponent("ParamBody")
@@ -83,10 +85,11 @@ export default class ParameterRow extends Component {
 
     let schema = param.get("schema")
 
+    let type = isOAS3 && isOAS3() ? param.getIn(["schema", "type"]) : param.get("type")
     let isFormData = inType === "formData"
     let isFormDataSupported = "FormData" in win
     let required = param.get("required")
-    let itemType = param.getIn(["items", "type"])
+    let itemType =  param.getIn(isOAS3 && isOAS3() ? ["schema", "items", "type"] : ["items", "type"])
     let parameter = specSelectors.getParameter(pathMethod, param.get("name"))
     let value = parameter ? parameter.get("value") : ""
 
@@ -97,7 +100,10 @@ export default class ParameterRow extends Component {
             { param.get("name") }
             { !required ? null : <span style={{color: "red"}}>&nbsp;*</span> }
           </div>
-          <div className="parameter__type">{ param.get("type") } { itemType && `[${itemType}]` }</div>
+          <div className="parameter__type">{ type } { itemType && `[${itemType}]` }</div>
+          <div className="parameter__deprecated">
+            { isOAS3 && isOAS3() && param.get("deprecated") ? "deprecated": null }
+          </div>
           <div className="parameter__in">({ param.get("in") })</div>
         </td>
 

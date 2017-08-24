@@ -75,7 +75,9 @@ export default class Parameters extends Component {
     return (
       <div className="opblock-section">
         <div className="opblock-section-header">
-          <h4 className="opblock-title">Parameters</h4>
+          <div className="tab-header">
+            <h4 className="opblock-title">Parameters</h4>
+          </div>
             { allowTryItOut ? (
               <TryItOutButton enabled={ tryItOutEnabled } onCancelClick={ onCancelClick } onTryoutClick={ onTryoutClick } />
             ) : null }

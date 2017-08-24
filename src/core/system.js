@@ -76,7 +76,7 @@ export default class Store {
     this.boundSystem = Object.assign({},
         this.getRootInjects(),
         this.getWrappedAndBoundActions(dispatch),
-        this.getBoundSelectors(getState, this.getSystem),
+        this.getWrappedAndBoundSelectors(getState, this.getSystem),
         this.getStateThunks(getState),
         this.getFn(),
         this.getConfigs()
@@ -176,6 +176,36 @@ export default class Store {
       })
   }
 
+  getWrappedAndBoundSelectors(getState, getSystem) {
+    let selectorGroups = this.getBoundSelectors(getState, getSystem)
+      return objMap(selectorGroups, (selectors, selectorGroupName) => {
+        let stateName = [selectorGroupName.slice(0, -9)] // selectors = 9 chars
+        let wrappers = this.system.statePlugins[stateName].wrapSelectors
+          if(wrappers) {
+            return objMap(selectors, (selector, selectorName) => {
+              let wrap = wrappers[selectorName]
+              if(!wrap) {
+                return selector
+              }
+
+              if(!Array.isArray(wrap)) {
+                wrap = [wrap]
+              }
+              return wrap.reduce((acc, fn) => {
+                let wrappedSelector = (...args) => {
+                  return fn(acc, this.getSystem())(getState().getIn(stateName), ...args)
+                }
+                if(!isFn(wrappedSelector)) {
+                  throw new TypeError("wrapSelector needs to return a function that returns a new function (ie the wrapped action)")
+                }
+                return wrappedSelector
+              }, selector || Function.prototype)
+            })
+          }
+        return selectors
+      })
+  }
+
   getStates(state) {
     return Object.keys(this.system.statePlugins).reduce((obj, key) => {
       obj[key] = state.get(key)
@@ -197,8 +227,17 @@ export default class Store {
   }
 
   getComponents(component) {
-    if(typeof component !== "undefined")
+    const res = this.system.components[component]
+
+    if(Array.isArray(res)) {
+      return res.reduce((ori, wrapper) => {
+        return wrapper(ori, this.getSystem())
+      })
+    }
+    if(typeof component !== "undefined") {
       return this.system.components[component]
+    }
+
     return this.system.components
   }
 
@@ -290,6 +329,24 @@ function systemExtend(dest={}, src={}) {
   if(!isObject(src)) {
     return dest
   }
+
+  // Wrap components
+  // Parses existing components in the system, and prepares them for wrapping via getComponents
+  if(src.wrapComponents) {
+    objMap(src.wrapComponents, (wrapperFn, key) => {
+      const ori = dest.components[key]
+      if(ori && Array.isArray(ori)) {
+        dest.components[key] = ori.concat([wrapperFn])
+      } else if(ori) {
+        dest.components[key] = [ori, wrapperFn]
+      } else {
+        dest.components[key] = null
+      }
+    })
+
+    delete src.wrapComponents
+  }
+
 
   // Account for wrapActions, make it an array and append to it
   // Modifies `src`

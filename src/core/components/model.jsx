@@ -18,6 +18,9 @@ export default class Model extends Component {
     if ( ref.indexOf("#/definitions/") !== -1 ) {
       return ref.replace(/^.*#\/definitions\//, "")
     }
+    if ( ref.indexOf("#/components/schemas/") !== -1 ) {
+      return ref.replace("#/components/schemas/", "")
+    }
   }
 
   getRefSchema =( model )=> {
@@ -27,7 +30,7 @@ export default class Model extends Component {
   }
 
   render () {
-    let { schema, getComponent, required, name, specPath } = this.props
+    let { getComponent, specSelectors, schema, required, name, isRef, specPath } = this.props
     let ObjectModel = getComponent("ObjectModel")
     let ArrayModel = getComponent("ArrayModel")
     let PrimitiveModel = getComponent("PrimitiveModel")
@@ -37,6 +40,8 @@ export default class Model extends Component {
 
     let modelName = $$ref && this.getModelName( $$ref )
     let modelSchema, type
+
+    const deprecated = specSelectors.isOAS3() && schema.get("deprecated")
 
     if ( schema && (schema.get("type") || schema.get("properties")) ) {
       modelSchema = schema
@@ -57,7 +62,8 @@ export default class Model extends Component {
             { ...this.props }
             schema={ modelSchema }
             specPath={specPath}
-            name={ name || modelName }
+            name={ modelName || name }
+            deprecated={deprecated}
             required={ required }
             isRef={ isRef!== undefined ? isRef : !!$$ref }
             />
@@ -68,6 +74,8 @@ export default class Model extends Component {
             className="array"
             { ...this.props }
             schema={ modelSchema }
+            name={ modelName || name }
+            deprecated={deprecated}
             required={ required }
             />
         )
@@ -76,13 +84,12 @@ export default class Model extends Component {
       case "integer":
       case "boolean":
       default:
-        return (
-          <PrimitiveModel
-            getComponent={ getComponent }
-            schema={ modelSchema }
-            required={ required }
-            />
-        )
-    }
+        return <PrimitiveModel
+          { ...this.props }
+          getComponent={ getComponent }
+          schema={ modelSchema }
+          name={ modelName || name }
+          deprecated={deprecated}
+          required={ required }/> }
   }
 }
