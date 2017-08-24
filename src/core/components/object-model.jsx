@@ -34,7 +34,6 @@ export default class ObjectModel extends Component {
     const ModelCollapse = getComponent("ModelCollapse")
 
     const JumpToPathSection = () => {
-      // const path = isOAS3 && isOAS3() ? `components.schemas.${name}` : `definitions.${name}`
       return <span className="model-jump-to-path"><JumpToPath specPath={specPath} /></span>
     }
     const collapsedContent = (<span>
@@ -44,9 +43,9 @@ export default class ObjectModel extends Component {
         }
     </span>)
 
-    const anyOf = specSelectors.isOAS3() ? schema.get("anyOf") : null
-    const oneOf = specSelectors.isOAS3() ? schema.get("oneOf") : null
-    const not = specSelectors.isOAS3() ? schema.get("not") : null
+    const anyOf = isOAS3() ? schema.get("anyOf") : null
+    const oneOf = isOAS3() ? schema.get("oneOf") : null
+    const not = isOAS3() ? schema.get("not") : null
 
     const titleEl = title && <span className="model-title">
       { isRef && schema.get("$$ref") && <span className="model-hint">{ schema.get("$$ref") }</span> }
@@ -87,6 +86,7 @@ export default class ObjectModel extends Component {
                           <Model key={ `object-${name}-${key}_${value}` } { ...otherProps }
                                  required={ isRequired }
                                  getComponent={ getComponent }
+                                 specPath={[...specPath, "properties", key]}
                                  schema={ value }
                                  depth={ depth + 1 } />
                         </td>
@@ -100,6 +100,7 @@ export default class ObjectModel extends Component {
                     <td>
                       <Model { ...otherProps } required={ false }
                              getComponent={ getComponent }
+                             specPath={[...specPath, "additionalProperties"]}
                              schema={ additionalProperties }
                              depth={ depth + 1 } />
                     </td>
@@ -113,6 +114,7 @@ export default class ObjectModel extends Component {
                       {anyOf.map((schema, k) => {
                         return <div key={k}><Model { ...otherProps } required={ false }
                                  getComponent={ getComponent }
+                                 specPath={[...specPath, "anyOf", k]}
                                  schema={ schema }
                                  depth={ depth + 1 } /></div>
                       })}
@@ -127,6 +129,7 @@ export default class ObjectModel extends Component {
                       {oneOf.map((schema, k) => {
                         return <div key={k}><Model { ...otherProps } required={ false }
                                  getComponent={ getComponent }
+                                 specPath={[...specPath, "oneOf", k]}
                                  schema={ schema }
                                  depth={ depth + 1 } /></div>
                       })}
@@ -141,6 +144,7 @@ export default class ObjectModel extends Component {
                       {not.map((schema, k) => {
                         return <div key={k}><Model { ...otherProps } required={ false }
                                  getComponent={ getComponent }
+                                 specPath={[...specPath, "not", k]}
                                  schema={ schema }
                                  depth={ depth + 1 } /></div>
                       })}
