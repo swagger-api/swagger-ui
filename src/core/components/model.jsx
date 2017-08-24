@@ -30,7 +30,7 @@ export default class Model extends Component {
   }
 
   render () {
-    let { getComponent, specSelectors, schema, required, name, isRef, specPath } = this.props
+    let { getComponent, specSelectors, schema, required, name, specPath } = this.props
     let ObjectModel = getComponent("ObjectModel")
     let ArrayModel = getComponent("ArrayModel")
     let PrimitiveModel = getComponent("PrimitiveModel")
