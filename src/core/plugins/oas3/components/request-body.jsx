@@ -5,7 +5,6 @@ import { OrderedMap } from "immutable"
 import { getSampleSchema } from "core/utils"
 import { memoizedGetExamples } from "core/plugins/oas3/utils"
 
-
 const RequestBody = ({ requestBody, getComponent, specSelectors, contentType }) => {
   const Markdown = getComponent("Markdown")
   const ModelExample = getComponent("modelExample")
@@ -21,7 +20,7 @@ const RequestBody = ({ requestBody, getComponent, specSelectors, contentType }) 
     includeWriteOnly: true
   })
 
-  const examples = memoizedGetExamples(mediaTypeValue.get("examples"));
+  const examples = memoizedGetExamples(mediaTypeValue.get("examples"))
 
   return <div>
     { requestBodyDescription &&

@@ -32,6 +32,7 @@ export default class ModelExample extends React.Component {
     const ModelWrapper = getComponent("ModelWrapper")
     const HighlightCode = getComponent("highlightCode")
     const Markdown = getComponent("Markdown")
+    const ExternalValue = getComponent("ExternalValue")
 
     // TODO fetch externalValue and display it on demand
     return <div>
@@ -64,7 +65,7 @@ export default class ModelExample extends React.Component {
                 </div>
                 }
                 {item.value && <HighlightCode value={item.value} />}
-                {item.externalValue && <HighlightCode value={item.externalValue} />}
+                {item.externalValue && <ExternalValue location={item.externalValue} />}
               </div>
             ));
           } )
