@@ -263,6 +263,7 @@ export default class Operation extends PureComponent {
                     request={ request }
                     tryItOutResponse={ response }
                     getComponent={ getComponent }
+                    getConfigs={ getConfigs }
                     specSelectors={ specSelectors }
                     specActions={ specActions }
                     produces={ produces }

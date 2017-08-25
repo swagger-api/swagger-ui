@@ -16,7 +16,8 @@ export default class Responses extends React.Component {
     specActions: PropTypes.object.isRequired,
     pathMethod: PropTypes.array.isRequired,
     displayRequestDuration: PropTypes.bool.isRequired,
-    fn: PropTypes.object.isRequired
+    fn: PropTypes.object.isRequired,
+    getConfigs: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -29,7 +30,7 @@ export default class Responses extends React.Component {
   onChangeProducesWrapper = ( val ) => this.props.specActions.changeProducesValue(this.props.pathMethod, val)
 
   render() {
-    let { responses, request, tryItOutResponse, getComponent, specSelectors, fn, producesValue, displayRequestDuration } = this.props
+    let { responses, request, tryItOutResponse, getComponent, getConfigs, specSelectors, fn, producesValue, displayRequestDuration } = this.props
     let defaultCode = defaultStatusCode( responses )
 
     const ContentType = getComponent( "contentType" )
@@ -57,6 +58,9 @@ export default class Responses extends React.Component {
                                   <LiveResponse request={ request }
                                                 response={ tryItOutResponse }
                                                 getComponent={ getComponent }
+                                                getConfigs={ getConfigs }
+                                                specSelectors={ specSelectors }
+                                                pathMethod={ this.props.pathMethod }
                                                 displayRequestDuration={ displayRequestDuration } />
                                   <h4>Responses</h4>
                                 </div>
