@@ -79,12 +79,18 @@ export default class Operations extends React.Component {
                     onClick={() => layoutActions.show(isShownKey, !showTag)}
                     className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag" }
                     id={isShownKey.join("-")}>
-                    <a
-                      className="nostyle"
-                      onClick={(e) => e.preventDefault()}
-                      href={ isDeepLinkingEnabled ? `#/${tag}` : ""}>
-                      <span>{tag}</span>
-                    </a>
+                    { 
+                      isDeepLinkingEnabled ? 
+                        <a
+                          className="nostyle"
+                          onClick={(e) => e.preventDefault()}
+                          href= {`#/${tag}`}>
+                          <span>{tag}</span>
+                        </a>:
+                        <a className="nostyle">
+                          <span>{tag}</span>
+                        </a>
+                    }
                     { !tagDescription ? null :
                         <small>
                           { tagDescription }
