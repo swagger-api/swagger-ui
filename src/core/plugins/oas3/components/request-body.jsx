@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { OrderedMap } from "immutable"
 import { getSampleSchema } from "core/utils"
+import { memoizedGetExamples } from "core/plugins/oas3/utils"
 
 
 const RequestBody = ({ requestBody, getComponent, specSelectors, contentType }) => {
@@ -20,6 +21,8 @@ const RequestBody = ({ requestBody, getComponent, specSelectors, contentType }) 
     includeWriteOnly: true
   })
 
+  const examples = memoizedGetExamples(mediaTypeValue.get("examples"));
+
   return <div>
     { requestBodyDescription &&
       <Markdown source={requestBodyDescription} />
@@ -30,6 +33,7 @@ const RequestBody = ({ requestBody, getComponent, specSelectors, contentType }) 
       expandDepth={1}
       schema={mediaTypeValue.get("schema")}
       example={<HighlightCode value={sampleSchema} />}
+      examples={examples}
       />
   </div>
 }

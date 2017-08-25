@@ -7,6 +7,7 @@ export default class ModelExample extends React.Component {
     specSelectors: PropTypes.object.isRequired,
     schema: PropTypes.object.isRequired,
     example: PropTypes.any.isRequired,
+    examples: PropTypes.array,
     isExecute: PropTypes.bool
   }
 
@@ -27,14 +28,24 @@ export default class ModelExample extends React.Component {
   }
 
   render() {
-    let { getComponent, specSelectors, schema, example, isExecute } = this.props
+    let { getComponent, specSelectors, schema, example, isExecute, examples } = this.props
     const ModelWrapper = getComponent("ModelWrapper")
+    const HighlightCode = getComponent("highlightCode")
+    const Markdown = getComponent("Markdown")
 
+    // TODO fetch externalValue and display it on demand
     return <div>
       <ul className="tab">
         <li className={ "tabitem" + ( isExecute || this.state.activeTab === "example" ? " active" : "") }>
           <a className="tablinks" data-name="example" onClick={ this.activeTab }>Example Value</a>
         </li>
+
+        {examples && examples.map( (item, key) => {
+          return <li key={"examples_key_" + key} className={"tabitem" + ( isExecute || this.state.activeTab === "example_" + item.name ? " active" : "") }>
+            <a className="tablinks" data-name={"example_" + item.name} onClick={ this.activeTab }>Example: {item.name}</a>
+          </li>
+        } )}
+
         { schema ? <li className={ "tabitem" + ( !isExecute && this.state.activeTab === "model" ? " active" : "") }>
           <a className={ "tablinks" + ( isExecute ? " inactive" : "" )} data-name="model" onClick={ this.activeTab }>Model</a>
         </li> : null }
@@ -44,12 +55,25 @@ export default class ModelExample extends React.Component {
           (isExecute || this.state.activeTab === "example") && example
         }
         {
+          examples && examples.map( (item) => {
+            return ((isExecute || this.state.activeTab === "example_" + item.name) && (
+              <div key={"example_div_key_" + item.name} className="example-wrapper">
+                <h4 className="example-summary">{item.summary}</h4>
+                {item.description && <div className="example-description">
+                  <Markdown source={item.description} />
+                </div>
+                }
+                {item.value && <HighlightCode value={item.value} />}
+                {item.externalValue && <HighlightCode value={item.externalValue} />}
+              </div>
+            ));
+          } )
+        }
+        {
           !isExecute && this.state.activeTab === "model" && <ModelWrapper schema={ schema }
-                                                     getComponent={ getComponent }
-                                                     specSelectors={ specSelectors }
-                                                     expandDepth={ 1 } />
-
-
+                                                                          getComponent={ getComponent }
+                                                                          specSelectors={ specSelectors }
+                                                                          expandDepth={ 1 } />
         }
       </div>
     </div>

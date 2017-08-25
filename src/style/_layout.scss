@@ -389,37 +389,35 @@
         font-size: 12px;
 
         min-width: 100px;
-        min-width: 90px;
+        min-width: 120px;
         padding: 0;
 
         cursor: pointer;
 
         @include text_headline();
 
-        &:first-of-type
-        {
-            position: relative;
+        position: relative;
 
-            padding-left: 0;
-
-            &:after
-            {
-                position: absolute;
-                top: 0;
-                right: 6px;
-
-                width: 1px;
-                height: 100%;
-
-                content: '';
-
-                background: rgba(#000,.2);
-            }
-        }
+        padding-left: 0;
+    
 
         &.active
         {
             font-weight: bold;
+        }
+
+        &:nth-last-child(n+2):after
+        {
+            position: absolute;
+            top: 0;
+            right: 6px;
+
+            width: 1px;
+            height: 100%;
+
+            content: '';
+
+            background: rgba(#000,.2);
         }
     }
 }
@@ -735,3 +733,12 @@ a.nostyle {
     cursor: auto;
   }
 }
+
+/* OAS3 responseBody examples start */
+.example-description
+{
+    margin: 0 0 5px 0;
+    padding: 5px 0;
+}
+
+/* OAS3 responseBody examples end */
