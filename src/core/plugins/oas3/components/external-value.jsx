@@ -18,12 +18,12 @@ export default class ExternalValue extends React.Component {
   render() {
     const Markdown = getComponent("Markdown")
 
-    let source = location;
-
     // TODO
 
     return (
-      <Markdown source={source}/>
+      <div>
+        <a href={location} target="_blank" title={location} >Open ExternalValue</a>
+      </div>
     )
   }
 }
