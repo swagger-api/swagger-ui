@@ -10,9 +10,9 @@ html {
 
 body {
   margin:0;
-  background: #fafafa;
+  background: #111;
   font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-  background-image: url("https://www.ccpgames.com/4iarfuccmw16/4DBaVPB1W80YeME0Qeo6AO/12cc19f09848bd29c11e1e2ef505f879/products_header_1920x1080.jpg");
+  background-image: url("background.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
