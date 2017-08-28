@@ -388,8 +388,6 @@
     {
         font-size: 12px;
 
-        min-width: 100px;
-        min-width: 120px;
         padding: 0;
 
         cursor: pointer;
@@ -399,18 +397,14 @@
         position: relative;
 
         padding-left: 0;
-    
-
-        &.active
-        {
-            font-weight: bold;
-        }
+        padding-right: 5px;
+        margin-right: 5px;
 
         &:nth-last-child(n+2):after
         {
             position: absolute;
             top: 0;
-            right: 6px;
+            right: 0;
 
             width: 1px;
             height: 100%;
@@ -418,6 +412,11 @@
             content: '';
 
             background: rgba(#000,.2);
+        }
+
+        &.active
+        {
+            font-weight: bold;
         }
     }
 }

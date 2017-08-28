@@ -65,7 +65,7 @@ export default class ModelExample extends React.Component {
                 </div>
                 }
                 {item.value && <HighlightCode value={item.value} />}
-                {item.externalValue && <ExternalValue location={item.externalValue} />}
+                {item.externalValue && <ExternalValue location={item.externalValue} getComponent={ getComponent } />}
               </div>
             ));
           } )
