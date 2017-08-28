@@ -1,6 +1,5 @@
 import React from "react"
 import PropTypes from "prop-types"
-import {isObject} from "../utils"
 
 export default class ModelExample extends React.Component {
   static propTypes = {
@@ -76,7 +75,7 @@ export default class ModelExample extends React.Component {
                 {item.value && <HighlightCode value={ this.formatValue(item.value) } />}
                 {item.externalValue && <ExternalValue location={item.externalValue} getComponent={ getComponent } />}
               </div>
-            ));
+            ))
           } )
         }
         {

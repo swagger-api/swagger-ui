@@ -16,7 +16,7 @@ export default class ExternalValue extends React.Component {
   }
 
   render() {
-    let { getComponent, location } = this.props
+    let { location } = this.props
     // const Markdown = getComponent("Markdown")
 
     // TODO should externalValue be fetched and displayed inline?
