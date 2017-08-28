@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import {isObject} from "../utils"
 
 export default class ModelExample extends React.Component {
   static propTypes = {
@@ -25,6 +26,14 @@ export default class ModelExample extends React.Component {
     this.setState({
       activeTab: name
     })
+  }
+
+  formatValue = (value) => {
+    if(typeof(value) === "string") {
+      return value
+    } else {
+      return JSON.stringify(value, null, 2)
+    }
   }
 
   render() {
@@ -64,7 +73,7 @@ export default class ModelExample extends React.Component {
                   <Markdown source={item.description} />
                 </div>
                 }
-                {item.value && <HighlightCode value={item.value} />}
+                {item.value && <HighlightCode value={ this.formatValue(item.value) } />}
                 {item.externalValue && <ExternalValue location={item.externalValue} getComponent={ getComponent } />}
               </div>
             ));
