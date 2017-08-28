@@ -723,13 +723,13 @@ section
 a.nostyle {
   text-decoration: inherit;
   color: inherit;
-  cursor: auto;
+  cursor: pointer;
   display: inline;
 
   &:visited {
     text-decoration: inherit;
     color: inherit;
-    cursor: auto;
+    cursor: pointer;
   }
 }
 
