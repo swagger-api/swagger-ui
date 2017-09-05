@@ -1,6 +1,7 @@
 import YAML from "js-yaml"
 import parseUrl from "url-parse"
 import serializeError from "serialize-error"
+import { isJSONObject } from "core/utils"
 
 // Actions conform to FSA (flux-standard-actions)
 // {type: string,payload: Any|Error, meta: obj, error: bool}
@@ -216,8 +217,14 @@ export const executeRequest = (req) =>
       // OAS3 request feature support
       req.server = oas3Selectors.selectedServer()
       req.serverVariables = oas3Selectors.serverVariables(req.server).toJS()
-      req.requestBody = oas3Selectors.requestBodyValue(pathName, method)
       req.requestContentType = oas3Selectors.requestContentType(pathName, method)
+      const requestBody = oas3Selectors.requestBodyValue(pathName, method)
+
+      if(isJSONObject(requestBody)) {
+        req.requestBody = JSON.parse(requestBody)
+      } else {
+        req.requestBody = requestBody
+      }
     }
 
     let parsedRequest = Object.assign({}, req)
