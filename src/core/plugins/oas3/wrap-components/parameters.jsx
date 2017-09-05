@@ -13,8 +13,7 @@ class Parameters extends Component {
    super(props)
    this.state = {
      callbackVisible: false,
-     parametersVisible: true,
-     requestBodyContentType: ""
+     parametersVisible: true
    }
  }
 
@@ -86,6 +85,8 @@ class Parameters extends Component {
       fn,
       getComponent,
       specSelectors,
+      oas3Actions,
+      oas3Selectors,
       pathMethod,
       operation
     } = this.props
@@ -159,16 +160,22 @@ class Parameters extends Component {
               <h4 className={`opblock-title parameter__name ${requestBody.get("required") && "required"}`}>Request body</h4>
               <label>
                 <ContentType
-                  value={this.state.requestBodyContentType}
+                  value={oas3Selectors.requestContentType(...pathMethod)}
                   contentTypes={ requestBody.get("content").keySeq() }
-                  onChange={(val) => this.setState({ requestBodyContentType: val })}
+                  onChange={(value) => {
+                    oas3Actions.setRequestContentType({ value, pathMethod })
+                  }}
                   className="body-param-content-type" />
               </label>
             </div>
             <div className="opblock-description-wrapper">
               <RequestBody
                 requestBody={requestBody}
-                contentType={this.state.requestBodyContentType}/>
+                isExecute={isExecute}
+                onChange={(value) => {
+                  oas3Actions.setRequestBodyValue({ value, pathMethod })
+                }}
+                contentType={oas3Selectors.requestContentType(...pathMethod)}/>
             </div>
           </div>
         }

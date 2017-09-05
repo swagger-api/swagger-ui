@@ -5,20 +5,23 @@ import { OrderedMap } from "immutable"
 import { getSampleSchema } from "core/utils"
 
 
-const RequestBody = ({ requestBody, getComponent, specSelectors, contentType }) => {
+const RequestBody = ({
+  requestBody,
+  getComponent,
+  specSelectors,
+  contentType,
+  isExecute,
+  onChange
+}) => {
   const Markdown = getComponent("Markdown")
   const ModelExample = getComponent("modelExample")
-  const HighlightCode = getComponent("highlightCode")
+  const RequestBodyEditor = getComponent("RequestBodyEditor")
 
   const requestBodyDescription = (requestBody && requestBody.get("description")) || null
   const requestBodyContent = (requestBody && requestBody.get("content")) || new OrderedMap()
   contentType = contentType || requestBodyContent.keySeq().first()
 
   const mediaTypeValue = requestBodyContent.get(contentType)
-
-  const sampleSchema = getSampleSchema(mediaTypeValue.get("schema").toJS(), contentType, {
-    includeWriteOnly: true
-  })
 
   return <div>
     { requestBodyDescription &&
@@ -28,8 +31,16 @@ const RequestBody = ({ requestBody, getComponent, specSelectors, contentType }) 
       getComponent={ getComponent }
       specSelectors={ specSelectors }
       expandDepth={1}
+      isExecute={isExecute}
       schema={mediaTypeValue.get("schema")}
-      example={<HighlightCode value={sampleSchema} />}
+      example={<RequestBodyEditor
+        requestBody={requestBody}
+        onChange={onChange}
+        mediaType={contentType}
+        getComponent={getComponent}
+        isExecute={isExecute}
+        specSelectors={specSelectors}
+        />}
       />
   </div>
 }
