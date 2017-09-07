@@ -3,13 +3,14 @@ import { fromJSOrdered, validateParam } from "core/utils"
 import win from "../../window"
 
 import {
-	UPDATE_SPEC,
+  UPDATE_SPEC,
   UPDATE_URL,
   UPDATE_JSON,
   UPDATE_PARAM,
   VALIDATE_PARAMS,
   SET_RESPONSE,
   SET_REQUEST,
+  SET_MUTATED_REQUEST,
   UPDATE_RESOLVED,
   UPDATE_OPERATION_VALUE,
   CLEAR_RESPONSE,
@@ -99,6 +100,10 @@ export default {
 
   [SET_REQUEST]: (state, { payload: { req, path, method } } ) =>{
     return state.setIn( [ "requests", path, method ], fromJSOrdered(req))
+  },
+
+  [SET_MUTATED_REQUEST]: (state, { payload: { req, path, method } } ) =>{
+    return state.setIn( [ "mutatedRequests", path, method ], fromJSOrdered(req))
   },
 
   [UPDATE_OPERATION_VALUE]: (state, { payload: { path, value, key } }) => {

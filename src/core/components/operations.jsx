@@ -81,8 +81,8 @@ export default class Operations extends React.Component {
                     id={isShownKey.join("-")}>
                     <a
                       className="nostyle"
-                      onClick={(e) => e.preventDefault()}
-                      href={ isDeepLinkingEnabled ? `#/${tag}` : ""}>
+                      onClick={isDeepLinkingEnabled ? (e) => e.preventDefault() : null}
+                      href= {isDeepLinkingEnabled ? `#/${tag}` : null}>
                       <span>{tag}</span>
                     </a>
                     { !tagDescription ? null :
