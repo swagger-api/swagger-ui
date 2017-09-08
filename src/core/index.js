@@ -67,6 +67,9 @@ module.exports = function SwaggerUI(opts) {
 
   let queryConfig = parseSearch()
 
+  const domNode = opts.domNode
+  delete opts.domNode
+
   const constructorConfig = deepExtend({}, defaults, opts, queryConfig)
 
   const storeConfigs = deepExtend({}, constructorConfig.store, {
@@ -110,8 +113,8 @@ module.exports = function SwaggerUI(opts) {
     let mergedConfig = deepExtend({}, localConfig, constructorConfig, fetchedConfig || {}, queryConfig)
 
     // deep extend mangles domNode, we need to set it manually
-    if(opts.domNode) {
-      mergedConfig.domNode = opts.domNode
+    if(domNode) {
+      mergedConfig.domNode = domNode
     }
 
     store.setConfigs(mergedConfig)

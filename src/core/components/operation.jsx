@@ -161,12 +161,12 @@ export default class Operation extends PureComponent {
           <div className={`opblock-summary opblock-summary-${method}`} onClick={this.toggleShown} >
               <span className="opblock-summary-method">{method.toUpperCase()}</span>
               <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } >
-                <a
-                  className="nostyle"
-                  onClick={(e) => e.preventDefault()}
-                  href={ isDeepLinkingEnabled ? `#/${isShownKey[1]}/${isShownKey[2]}` : ""} >
-                  <span>{path}</span>
-                </a>
+              <a
+                className="nostyle"
+                onClick={isDeepLinkingEnabled ? (e) => e.preventDefault() : null}
+                href={isDeepLinkingEnabled ? `#/${isShownKey[1]}/${isShownKey[2]}` : null}>
+                <span>{path}</span>
+              </a>
                 <JumpToPath path={jumpToKey} />
               </span>
 
