@@ -251,8 +251,10 @@
     {
         font-size: 16px;
 
-        display: flex;
+        flex: 0 3 auto;
         align-items: center;
+
+        word-break: break-word;
 
         padding: 0 10px;
 
