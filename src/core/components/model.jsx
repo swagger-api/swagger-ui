@@ -74,7 +74,7 @@ export default class Model extends Component {
           { ...this.props }
           getComponent={ getComponent }
           schema={ modelSchema }
-          name={ modelName || name }
+          name={ modelName }
           deprecated={deprecated}
           required={ required }/> }
   }
