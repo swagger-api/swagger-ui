@@ -2,8 +2,6 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { OrderedMap } from "immutable"
-import { getSampleSchema } from "core/utils"
-
 
 const RequestBody = ({
   requestBody,
@@ -49,7 +47,9 @@ RequestBody.propTypes = {
   requestBody: ImPropTypes.orderedMap.isRequired,
   getComponent: PropTypes.func.isRequired,
   specSelectors: PropTypes.object.isRequired,
-  contentType: PropTypes.string.isRequired
+  contentType: PropTypes.string.isRequired,
+  isExecute: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired
 }
 
 export default RequestBody

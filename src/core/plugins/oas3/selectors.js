@@ -1,4 +1,3 @@
-import { createSelector } from "reselect"
 import { OrderedMap } from "immutable"
 import { isOAS3 as isOAS3Helper } from "./helpers"
 

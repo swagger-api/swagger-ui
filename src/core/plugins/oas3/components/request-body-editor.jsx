@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
-import { fromJS, List } from "immutable"
+import { fromJS } from "immutable"
 import { getSampleSchema } from "core/utils"
 
 const NOOP = Function.prototype

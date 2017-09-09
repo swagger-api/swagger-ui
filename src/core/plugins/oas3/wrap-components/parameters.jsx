@@ -23,6 +23,8 @@ class Parameters extends Component {
     operation: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
+    oas3Actions: PropTypes.object.isRequired,
+    oas3Selectors: PropTypes.object.isRequired,
     fn: PropTypes.object.isRequired,
     tryItOutEnabled: PropTypes.bool,
     allowTryItOut: PropTypes.bool,
