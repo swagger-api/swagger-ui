@@ -1,6 +1,6 @@
 import { createSelector } from "reselect"
 import { Map } from "immutable"
-import { isOAS3 as isOAS3Helper, isSwagger2 as isSwagger2Helper } from "./helpers"
+import { isOAS3 as isOAS3Helper, isSwagger2 as isSwagger2Helper } from "../helpers"
 
 
 // Helpers
@@ -55,6 +55,11 @@ export const produces = OAS3NullSelector
 export const schemes = OAS3NullSelector
 
 // New selectors
+
+export const servers = onlyOAS3(createSelector(
+  spec,
+  spec => spec.getIn(["servers"]) || Map()
+))
 
 export const isOAS3 = (ori, system) => () => {
   const spec = system.getSystem().specSelectors.specJson()
