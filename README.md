@@ -33,20 +33,28 @@ Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes
 
 ### How to run
 
-##### Easy start!  Docker
+##### Docker usage
 You can pull a pre-built docker image of the swagger-ui directly from Dockerhub:
 
 ```
 docker pull swaggerapi/swagger-ui
-docker run -p 80:8080 swaggerapi/swagger-ui
+docker run -p 1337:8080 swaggerapi/swagger-ui
 ```
 
-Will start nginx with swagger-ui on port 80.
+This will start nginx with swagger-ui on port 1337.
 
-Or you can provide your own swagger.json on your host
+###### Volumes
+When using Docker volumes, your able to sync your Swagger specification with the Docker container:
 
 ```
-docker run -p 80:8080 -e "SWAGGER_JSON=/foo/swagger.json" -v /bar:/foo swaggerapi/swagger-ui
+docker run -p 1337:8080 -e "SWAGGER_JSON=swagger.json" -v /MyProject/spec/:/usr/share/nginx/html/spec/ swaggerapi/swagger-ui
+```
+
+###### Custom specification file
+If you want to start the Docker container with a custom file, without syncing via a volume. You can specify the `SWAGGER_JSON` variable:
+
+```
+docker run -p 1337:8080 -e "SWAGGER_JSON=/spec/swagger.json" -v /MyProject/spec/:/spec/ swaggerapi/swagger-ui
 ```
 
 ##### Prerequisites
