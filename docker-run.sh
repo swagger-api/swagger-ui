@@ -3,6 +3,7 @@
 set -e
 
 NGINX_ROOT=/usr/share/nginx/html
+SPEC_DIR=$NGINX_ROOT/spec
 INDEX_FILE=$NGINX_ROOT/index.html
 
 replace_in_index () {
@@ -21,7 +22,6 @@ replace_or_delete_in_index () {
   fi
 }
 
-replace_in_index myApiKeyXXXX123456789 $API_KEY
 replace_or_delete_in_index your-client-id $OAUTH_CLIENT_ID
 replace_or_delete_in_index your-client-secret-if-required $OAUTH_CLIENT_SECRET
 replace_or_delete_in_index your-realms $OAUTH_REALM
@@ -30,14 +30,9 @@ if [ "$OAUTH_ADDITIONAL_PARAMS" != "**None**" ]; then
     replace_in_index "additionalQueryStringParams: {}" "additionalQueryStringParams: {$OAUTH_ADDITIONAL_PARAMS}"
 fi
 
-if [[ -f $SWAGGER_JSON ]]; then
-  cp $SWAGGER_JSON $NGINX_ROOT
-  REL_PATH="/$(basename $SWAGGER_JSON)"
-  sed -i "s|http://petstore.swagger.io/v2/swagger.json|$REL_PATH|g" $INDEX_FILE
-  sed -i "s|http://example.com/api|$REL_PATH|g" $INDEX_FILE
-else
-  sed -i "s|http://petstore.swagger.io/v2/swagger.json|$API_URL|g" $INDEX_FILE
-  sed -i "s|http://example.com/api|$API_URL|g" $INDEX_FILE
+if [[ -f "$SPEC_DIR/$SWAGGER_JSON" ]]; then
+  REL_PATH="$(basename $SWAGGER_JSON)"
+  sed -i "s|http://petstore.swagger.io/v2/swagger.json|/spec/$REL_PATH|g" $INDEX_FILE
 fi
 
 if [[ -n "$VALIDATOR_URL" ]]; then
