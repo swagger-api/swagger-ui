@@ -30,6 +30,16 @@ if [ "$OAUTH_ADDITIONAL_PARAMS" != "**None**" ]; then
     replace_in_index "additionalQueryStringParams: {}" "additionalQueryStringParams: {$OAUTH_ADDITIONAL_PARAMS}"
 fi
 
+# When using Docker volumes, the file should be in the spec directory.
+if [[ -f "$SPEC_DIR/$SWAGGER_JSON" ]]; then
+  REL_PATH="$(basename $SWAGGER_JSON)"
+  sed -i "s|http://petstore.swagger.io/v2/swagger.json|/spec/$REL_PATH|g" $INDEX_FILE
+elif [[ -f $SWAGGER_JSON ]]; then
+  cp $SWAGGER_JSON $NGINX_ROOT
+  REL_PATH="/$(basename $SWAGGER_JSON)"
+  sed -i "s|http://petstore.swagger.io/v2/swagger.json|$REL_PATH|g" $INDEX_FILE
+fi
+
 if [[ -f "$SPEC_DIR/$SWAGGER_JSON" ]]; then
   REL_PATH="$(basename $SWAGGER_JSON)"
   sed -i "s|http://petstore.swagger.io/v2/swagger.json|/spec/$REL_PATH|g" $INDEX_FILE
