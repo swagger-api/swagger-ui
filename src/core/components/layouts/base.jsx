@@ -8,6 +8,8 @@ export default class BaseLayout extends React.Component {
     errActions: PropTypes.object.isRequired,
     specActions: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
+    oas3Selectors: PropTypes.object.isRequired,
+    oas3Actions: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired
@@ -19,7 +21,14 @@ export default class BaseLayout extends React.Component {
   }
 
   render() {
-    let { specSelectors, specActions, getComponent, layoutSelectors } = this.props
+    let {
+      specSelectors,
+      specActions,
+      getComponent,
+      layoutSelectors,
+      oas3Selectors,
+      oas3Actions
+    } = this.props
 
     let info = specSelectors.info()
     let url = specSelectors.url()
@@ -28,6 +37,7 @@ export default class BaseLayout extends React.Component {
     let securityDefinitions = specSelectors.securityDefinitions()
     let externalDocs = specSelectors.externalDocs()
     let schemes = specSelectors.schemes()
+    let servers = specSelectors.servers()
 
     let Info = getComponent("info")
     let Operations = getComponent("operations", true)
@@ -35,6 +45,7 @@ export default class BaseLayout extends React.Component {
     let AuthorizeBtn = getComponent("authorizeBtn", true)
     let Row = getComponent("Row")
     let Col = getComponent("Col")
+    let Servers = getComponent("Servers")
     let Errors = getComponent("errors", true)
 
     let isLoading = specSelectors.loadingStatus() === "loading"
@@ -81,6 +92,22 @@ export default class BaseLayout extends React.Component {
                 </Col>
               </div>
             ) : null }
+
+            { servers && servers.size ? (
+              <div className="server-container">
+                <Col className="servers wrapper" mobile={12}>
+                  <Servers
+                    servers={servers}
+                    currentServer={oas3Selectors.selectedServer()}
+                    setSelectedServer={oas3Actions.setSelectedServer}
+                    setServerVariableValue={oas3Actions.setServerVariableValue}
+                    getServerVariable={oas3Selectors.serverVariableValue}
+                    getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
+                    />
+                </Col>
+              </div>
+
+            ) : null}
 
             {
               filter === null || filter === false ? null :
