@@ -1,10 +1,13 @@
 {
-  "name": "swagger-ui",
+  "name": "swagger_ui",
   "version": "3.1.7",
   "main": "dist/swagger-ui.js",
-  "repository": "git@github.com:swagger-api/swagger-ui.git",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/swagger-api/swagger-ui.git"
+  },
   "contributors": [
-    "(in alphabetical order)",
+    " (in alphabetical order)",
     "Anna Bodnia <anna.bodnia@gmail.com>",
     "Buu Nguyen <buunguyen@gmail.com>",
     "Josh Ponelat <jponelat@gmail.com>",
@@ -12,7 +15,7 @@
     "Robert Barnwell <robert@robertismy.name>",
     "Sahar Jafari <shr.jafari@gmail.com>"
   ],
-  "license": "Apache-2.0",
+  "license": "OSL-3.0",
   "scripts": {
     "build": "npm run build-core && npm run build-bundle && npm run build-standalone",
     "build-bundle": "webpack --config webpack-dist-bundle.config.js --colors",
@@ -52,7 +55,7 @@
     "memoizee": "0.4.1",
     "promise-worker": "^1.1.1",
     "prop-types": "^15.5.10",
-    "react": "^15.4.0",
+    "react": "^15.6.1",
     "react-addons-perf": "^15.4.0",
     "react-addons-shallow-compare": "0.14.8",
     "react-addons-test-utils": "^15.4.0",
@@ -77,6 +80,7 @@
     "shallowequal": "0.2.2",
     "swagger-client": "3.0.20",
     "url-parse": "^1.1.8",
+    "webpack-dev-server": "2.5.0",
     "whatwg-fetch": "0.11.1",
     "worker-loader": "^0.7.1",
     "xml": "1.0.1",
@@ -146,5 +150,21 @@
   ],
   "optionalDependencies": {
     "webpack-dev-server": "2.5.0"
-  }
+  },
+  "description": "[![NPM version](https://badge.fury.io/js/swagger-ui.svg)](http://badge.fury.io/js/swagger-ui)",
+  "bugs": {
+    "url": "https://github.com/swagger-api/swagger-ui/issues"
+  },
+  "homepage": "https://github.com/swagger-api/swagger-ui#readme",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "keywords": [
+    "swagger",
+    "documentaion",
+    "sr",
+    "documentation"
+  ],
+  "author": "Deepak Sharma"
 }
