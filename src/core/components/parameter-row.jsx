@@ -81,12 +81,11 @@ export default class ParameterRow extends Component {
     const Markdown = getComponent("Markdown")
 
     let schema = param.get("schema")
-
     let type = isOAS3 && isOAS3() ? param.getIn(["schema", "type"]) : param.get("type")
     let isFormData = inType === "formData"
     let isFormDataSupported = "FormData" in win
     let required = param.get("required")
-    let itemType =  param.getIn(isOAS3 && isOAS3() ? ["schema", "items", "type"] : ["items", "type"])
+    let itemType = param.getIn(isOAS3 && isOAS3() ? ["schema", "items", "type"] : ["items", "type"])
     let parameter = specSelectors.getParameter(pathMethod, param.get("name"))
     let value = parameter ? parameter.get("value") : ""
 

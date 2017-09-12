@@ -117,7 +117,7 @@ export default class Response extends React.Component {
             <ModelExample
               getComponent={ getComponent }
               specSelectors={ specSelectors }
-              schema={ fromJS(schema) }
+              schema={ fromJS(schema, (key, value) => value.toOrderedMap() ) }
               example={ example }/>
           ) : null}
 
