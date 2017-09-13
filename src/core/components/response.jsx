@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { fromJS, Seq } from "immutable"
-import { getSampleSchema } from "core/utils"
+import { getSampleSchema, fromJSOrdered } from "core/utils"
 
 const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
   if ( examples && examples.size ) {
@@ -58,7 +58,6 @@ export default class Response extends React.Component {
       code,
       response,
       className,
-
       fn,
       getComponent,
       specSelectors,
@@ -117,7 +116,7 @@ export default class Response extends React.Component {
             <ModelExample
               getComponent={ getComponent }
               specSelectors={ specSelectors }
-              schema={ fromJS(schema) }
+              schema={ fromJSOrdered(schema) }
               example={ example }/>
           ) : null}
 
