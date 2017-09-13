@@ -650,3 +650,5 @@ export const shallowEqualKeys = (a,b, keys) => {
     return eq(a[key], b[key])
   })
 }
+
+export const replaceSpacesWithUnderscores = (str) => str.replace(/\s/, "_")

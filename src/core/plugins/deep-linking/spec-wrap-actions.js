@@ -1,4 +1,5 @@
 import scrollTo from "scroll-to-element"
+import { replaceSpacesWithUnderscores } from "core/utils"
 
 const SCROLL_OFFSET = -5
 let hasHashBeenParsed = false
@@ -27,7 +28,7 @@ export const updateResolved = (ori, { layoutActions, getConfigs }) => (...args) 
       hash = hash.slice(1)
     }
 
-    let [tag, operationId] = hash.split("/")
+    let [tag, operationId] = hash.split("/").map(v => replaceSpacesWithUnderscores(v))
 
     if(tag && operationId) {
       // Pre-expand and scroll to the operation
