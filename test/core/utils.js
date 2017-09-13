@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 import expect from "expect"
-import { fromJS } from "immutable"
-import { mapToList, validateNumber, validateInteger, validateParam, validateFile, fromJSOrdered } from "core/utils"
+import { fromJS, OrderedMap } from "immutable"
+import { mapToList, validateNumber, validateInteger, validateParam, validateFile, fromJSOrdered, getAcceptControllingResponse } from "core/utils"
 import win from "core/window"
 
 describe("utils", function() {
@@ -581,5 +581,102 @@ describe("utils", function() {
       const result = fromJSOrdered(param).toJS()
       expect( result ).toEqual( [1, 1, 2, 3, 5, 8] )
     })
+  })
+
+  describe.only("getAcceptControllingResponse", () => {
+    it("should return the first 2xx response with a media type", () => {
+      const responses = fromJSOrdered({
+        "200": {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object"
+              }
+            }
+          }
+        },
+        "201": {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object"
+              }
+            }
+          }
+        }
+      })
+
+      expect(getAcceptControllingResponse(responses)).toEqual(responses.get("200"))
     })
+    it("should skip 2xx responses without defined media types", () => {
+      const responses = fromJSOrdered({
+        "200": {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object"
+              }
+            }
+          }
+        },
+        "201": {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object"
+              }
+            }
+          }
+        }
+      })
+
+      expect(getAcceptControllingResponse(responses)).toEqual(responses.get("201"))
+    })
+    it("should default to the `default` response if it has defined media types", () => {
+      const responses = fromJSOrdered({
+        "200": {
+          description: "quite empty"
+        },
+        "201": {
+          description: "quite empty"
+        },
+        default: {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object"
+              }
+            }
+          }
+        }
+      })
+
+      expect(getAcceptControllingResponse(responses)).toEqual(responses.get("default"))
+    })
+    it("should return null if there are no suitable controlling responses", () => {
+      const responses = fromJSOrdered({
+        "200": {
+          description: "quite empty"
+        },
+        "201": {
+          description: "quite empty"
+        },
+        "default": {
+          description: "also empty.."
+        }
+      })
+
+      expect(getAcceptControllingResponse(responses)).toBe(null)
+    })
+    it("should return null if an empty OrderedMap is passed", () => {
+      const responses = fromJSOrdered()
+
+      expect(getAcceptControllingResponse(responses)).toBe(null)
+    })
+    it("should return null if anything except an OrderedMap is passed", () => {
+      const responses = {}
+
+      expect(getAcceptControllingResponse(responses)).toBe(null)
+    })
+  })
 })

@@ -775,6 +775,17 @@
 
 .response-content-type {
   padding-top: 1em;
+
+  &.controls-accept-header {
+    select {
+      border-color: green;
+    }
+
+    small {
+      color: green;
+      font-size: .7em;
+    }
+  }
 }
 
 @keyframes blinker

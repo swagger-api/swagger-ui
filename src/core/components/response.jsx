@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import cx from "classnames"
 import { fromJS, Seq } from "immutable"
 import { getSampleSchema, fromJSOrdered } from "core/utils"
 
@@ -46,7 +47,8 @@ export default class Response extends React.Component {
     getComponent: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     fn: PropTypes.object.isRequired,
-    contentType: PropTypes.string
+    contentType: PropTypes.string,
+    controlsAcceptHeader: PropTypes.bool
   }
 
   static defaultProps = {
@@ -61,7 +63,8 @@ export default class Response extends React.Component {
       fn,
       getComponent,
       specSelectors,
-      contentType
+      contentType,
+      controlsAcceptHeader
     } = this.props
 
     let { inferSchema } = fn
@@ -106,11 +109,18 @@ export default class Response extends React.Component {
             <Markdown source={ response.get( "description" ) } />
           </div>
 
-          { isOAS3 ? <ContentType
-              value={this.state.responseContentType}
-              contentTypes={ response.get("content") ? response.get("content").keySeq() : Seq() }
-              onChange={(val) => this.setState({ responseContentType: val })}
-              className="response-content-type" /> : null }
+          { isOAS3 ?
+            <div className={cx("response-content-type", {
+              "controls-accept-header": controlsAcceptHeader
+            })}>
+              <ContentType
+                  value={this.state.responseContentType}
+                  contentTypes={ response.get("content") ? response.get("content").keySeq() : Seq() }
+                  onChange={(val) => this.setState({ responseContentType: val })}
+                  />
+                { controlsAcceptHeader ? <small>Controls <code>Accept</code> header.</small> : null }
+            </div>
+             : null }
 
           { example ? (
             <ModelExample

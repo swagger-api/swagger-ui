@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { fromJS } from "immutable"
-import { defaultStatusCode } from "core/utils"
+import { defaultStatusCode, getAcceptControllingResponse } from "core/utils"
 
 export default class Responses extends React.Component {
 
@@ -30,7 +30,17 @@ export default class Responses extends React.Component {
   onChangeProducesWrapper = ( val ) => this.props.specActions.changeProducesValue(this.props.pathMethod, val)
 
   render() {
-    let { responses, request, tryItOutResponse, getComponent, getConfigs, specSelectors, fn, producesValue, displayRequestDuration } = this.props
+    let {
+      responses,
+      request,
+      tryItOutResponse,
+      getComponent,
+      getConfigs,
+      specSelectors,
+      fn,
+      producesValue,
+      displayRequestDuration
+    } = this.props
     let defaultCode = defaultStatusCode( responses )
 
     const ContentType = getComponent( "contentType" )
@@ -38,6 +48,11 @@ export default class Responses extends React.Component {
     const Response = getComponent( "response" )
 
     let produces = this.props.produces && this.props.produces.size ? this.props.produces : Responses.defaultProps.produces
+
+    const isSpecOAS3 = specSelectors.isOAS3()
+
+    const acceptControllingResponse = isSpecOAS3 ?
+      getAcceptControllingResponse(responses) : null
 
     return (
       <div className="responses-wrapper">
@@ -88,6 +103,7 @@ export default class Responses extends React.Component {
                               code={ code }
                               response={ response }
                               specSelectors={ specSelectors }
+                              controlsAcceptHeader={response === acceptControllingResponse}
                               contentType={ producesValue }
                               getComponent={ getComponent }/>
                     )
