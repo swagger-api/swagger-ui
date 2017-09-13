@@ -29,6 +29,16 @@ export default class Responses extends React.Component {
 
   onChangeProducesWrapper = ( val ) => this.props.specActions.changeProducesValue(this.props.pathMethod, val)
 
+  onResponseContentTypeChange = ({ controlsAcceptHeader, value }) => {
+    const { oas3Actions, pathMethod } = this.props
+    if(controlsAcceptHeader) {
+      oas3Actions.setResponseContentType({
+        value,
+        pathMethod
+      })
+    }
+  }
+
   render() {
     let {
       responses,
@@ -93,7 +103,6 @@ export default class Responses extends React.Component {
             <tbody>
               {
                 responses.entrySeq().map( ([code, response]) => {
-
                   let className = tryItOutResponse && tryItOutResponse.get("status") == code ? "response_current" : ""
                   return (
                     <Response key={ code }
@@ -104,6 +113,7 @@ export default class Responses extends React.Component {
                               response={ response }
                               specSelectors={ specSelectors }
                               controlsAcceptHeader={response === acceptControllingResponse}
+                              onContentTypeChange={this.onResponseContentTypeChange}
                               contentType={ producesValue }
                               getComponent={ getComponent }/>
                     )

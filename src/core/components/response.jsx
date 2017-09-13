@@ -48,12 +48,23 @@ export default class Response extends React.Component {
     specSelectors: PropTypes.object.isRequired,
     fn: PropTypes.object.isRequired,
     contentType: PropTypes.string,
-    controlsAcceptHeader: PropTypes.bool
+    controlsAcceptHeader: PropTypes.bool,
+    onContentTypeChange: PropTypes.func
   }
 
   static defaultProps = {
     response: fromJS({}),
+    onContentTypeChange: () => {}
   };
+
+  _onContentTypeChange = (value) => {
+    const { onContentTypeChange, controlsAcceptHeader } = this.props
+    this.setState({ responseContentType: value })
+    onContentTypeChange({
+      value: value,
+      controlsAcceptHeader
+    })
+  }
 
   render() {
     let {
@@ -116,7 +127,7 @@ export default class Response extends React.Component {
               <ContentType
                   value={this.state.responseContentType}
                   contentTypes={ response.get("content") ? response.get("content").keySeq() : Seq() }
-                  onChange={(val) => this.setState({ responseContentType: val })}
+                  onChange={this._onContentTypeChange}
                   />
                 { controlsAcceptHeader ? <small>Controls <code>Accept</code> header.</small> : null }
             </div>
