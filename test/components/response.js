@@ -46,7 +46,7 @@ describe("<Response />", function() {
         code: "200"
     }
 
-    it.only("renders the model-example schema properties in order", function() {
+    it("renders the model-example schema properties in order", function() {
         const wrapper = shallow(<Response {...props}/>)
         const renderedModelExample = wrapper.find(ModelExample)
         expect(renderedModelExample.length).toEqual(1)
