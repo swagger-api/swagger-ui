@@ -34,7 +34,6 @@ export default class Models extends Component {
             return <div className="model-container" key={ `models-section-${name}` }>
               <ModelWrapper name={ name }
                      schema={ model }
-                     isRef={ true }
                      specPath={["definitions", name]}
                      getComponent={ getComponent }
                      specSelectors={ specSelectors }/>

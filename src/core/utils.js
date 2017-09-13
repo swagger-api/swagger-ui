@@ -13,6 +13,25 @@ const DEFAULT_REPONSE_KEY = "default"
 
 export const isImmutable = (maybe) => Im.Iterable.isIterable(maybe)
 
+export function isJSONObject (str) {
+  try {
+    var o = JSON.parse(str)
+
+    // Handle non-exception-throwing cases:
+    // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
+    // but... JSON.parse(null) returns null, and typeof null === "object",
+    // so we must check for that, too. Thankfully, null is falsey, so this suffices:
+    if (o && typeof o === "object") {
+      return o
+    }
+  }
+  catch (e) {
+    // do nothing
+  }
+
+  return false
+}
+
 export function objectify (thing) {
   if(!isObject(thing))
     return {}
