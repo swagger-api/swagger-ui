@@ -2,7 +2,7 @@
 import expect from "expect"
 import { fromJS, OrderedMap } from "immutable"
 import { mapToList, validateNumber, validateInteger, validateParam, validateFile, fromJSOrdered, getAcceptControllingResponse, createDeepLinkPath, escapeDeepLinkPath } from "core/utils"
-
+import win from "core/window"
 
 describe("utils", function() {
 
