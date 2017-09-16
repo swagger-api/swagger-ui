@@ -15,7 +15,7 @@ export default class Responses extends React.Component {
     getComponent: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     specActions: PropTypes.object.isRequired,
-	oas3Actions: PropTypes.object.isRequired,
+    oas3Actions: PropTypes.object.isRequired,
     fn: PropTypes.object.isRequired,
     getConfigs: PropTypes.func.isRequired
   }
@@ -38,14 +38,15 @@ export default class Responses extends React.Component {
     return render
   }
 
-	onChangeProducesWrapper = ( val ) => this.props.specActions.changeProducesValue(this.props.pathMethod, val)
+	onChangeProducesWrapper = ( val ) => this.props.specActions.changeProducesValue(this.props.path, this.props.method, val)
 
   onResponseContentTypeChange = ({ controlsAcceptHeader, value }) => {
-    const { oas3Actions, pathMethod } = this.props
+    const { oas3Actions, path, method } = this.props
     if(controlsAcceptHeader) {
       oas3Actions.setResponseContentType({
         value,
-        pathMethod
+        path,
+        method
       })
     }
   }
@@ -53,7 +54,6 @@ export default class Responses extends React.Component {
   render() {
     let {
       responses,
-      request,
       tryItOutResponse,
       getComponent,
       getConfigs,

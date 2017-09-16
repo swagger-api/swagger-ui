@@ -18,8 +18,7 @@ export default {
     let [path, method] = pathMethod
     return state.setIn( [ "requestData", path, method, "requestContentType" ], value)
   },
-  [UPDATE_RESPONSE_CONTENT_TYPE]: (state, { payload: { value, pathMethod } } ) =>{
-    let [path, method] = pathMethod
+  [UPDATE_RESPONSE_CONTENT_TYPE]: (state, { payload: { value, path, method } } ) =>{
     return state.setIn( [ "requestData", path, method, "responseContentType" ], value)
   },
   [UPDATE_SERVER_VARIABLE_VALUE]: (state, { payload: { server, key, val } } ) =>{
