@@ -28,6 +28,7 @@ export default class Operation extends PureComponent {
     authSelectors: PropTypes.object,
     specActions: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
+    oas3Actions: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     fn: PropTypes.object.isRequired,
@@ -117,7 +118,8 @@ export default class Operation extends PureComponent {
       specSelectors,
       authActions,
       authSelectors,
-      getConfigs
+      getConfigs,
+      oas3Actions
     } = this.props
 
     let summary = operation.get("summary")
@@ -265,6 +267,7 @@ export default class Operation extends PureComponent {
                     getComponent={ getComponent }
                     getConfigs={ getConfigs }
                     specSelectors={ specSelectors }
+                    oas3Actions={oas3Actions}
                     specActions={ specActions }
                     produces={ produces }
                     producesValue={ operation.get("produces_value") }

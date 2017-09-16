@@ -30,6 +30,11 @@ export const requestContentType = onlyOAS3((state, path, method) => {
   }
 )
 
+export const responseContentType = onlyOAS3((state, path, method) => {
+    return state.getIn(["requestData", path, method, "responseContentType"]) || null
+  }
+)
+
 export const serverVariableValue = onlyOAS3((state, server, key) => {
     return state.getIn(["serverVariableValues", server, key]) || null
   }

@@ -41,6 +41,7 @@
   "dependencies": {
     "base64-js": "^1.2.0",
     "brace": "0.7.0",
+    "classnames": "^2.2.5",
     "css.escape": "1.5.1",
     "deep-extend": "0.4.1",
     "expect": "1.20.2",
