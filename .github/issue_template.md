@@ -25,7 +25,7 @@ or anything that violates the specifications.
 | Which Swagger/OpenAPI version?  |
 | Which Swagger-UI version?       |
 | How did you install Swagger-UI? | 
-| Which broswer & version?        |
+| Which browser & version?        |
 | Which operating system?         | 
 
 
