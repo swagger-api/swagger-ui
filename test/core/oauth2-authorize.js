@@ -4,7 +4,7 @@ import { fromJS } from "immutable"
 import win from "core/window"
 import oauth2Authorize from "core/oauth2-authorize"
 
-describe("OAuth2", function () {
+describe("oauth2", function () {
 
   let mockSchema = {
     flow: "accessCode",
@@ -21,14 +21,14 @@ describe("OAuth2", function () {
 
   describe("authorize redirect", function () {
 
-    it("should build redirectUrl", function() {
+    it("should build authorize url", function() {
       win.open = createSpy()
       oauth2Authorize(authConfig)
       expect(win.open.calls.length).toEqual(1)
       expect(win.open.calls[0].arguments[0]).toMatch("https://testAuthorizationUrl?response_type=code&redirect_uri=&state=")
     })
 
-    it("should build correct redirectUrl from authorizeUrl with query parameters", function() {
+    it("should append query paramters to authorizeUrl with query parameters", function() {
       win.open = createSpy()
       mockSchema.authorizationUrl = "https://testAuthorizationUrl?param=1"
       oauth2Authorize(authConfig)
