@@ -218,6 +218,7 @@ export const executeRequest = (req) =>
       req.server = oas3Selectors.selectedServer()
       req.serverVariables = oas3Selectors.serverVariables(req.server).toJS()
       req.requestContentType = oas3Selectors.requestContentType(pathName, method)
+      req.responseContentType = oas3Selectors.responseContentType(pathName, method) || "*/*"
       const requestBody = oas3Selectors.requestBodyValue(pathName, method)
 
       if(isJSONObject(requestBody)) {

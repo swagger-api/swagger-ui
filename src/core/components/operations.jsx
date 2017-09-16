@@ -9,6 +9,7 @@ export default class Operations extends React.Component {
   static propTypes = {
     specSelectors: PropTypes.object.isRequired,
     specActions: PropTypes.object.isRequired,
+    oas3Actions: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
@@ -21,6 +22,7 @@ export default class Operations extends React.Component {
     let {
       specSelectors,
       specActions,
+      oas3Actions,
       getComponent,
       layoutSelectors,
       layoutActions,
@@ -146,6 +148,8 @@ export default class Operations extends React.Component {
 
                           specActions={ specActions }
                           specSelectors={ specSelectors }
+
+                          oas3Actions={oas3Actions}
 
                           layoutActions={ layoutActions }
                           layoutSelectors={ layoutSelectors }
