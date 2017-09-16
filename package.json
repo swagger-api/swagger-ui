@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.1.6",
+  "version": "3.2.0",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -41,6 +41,8 @@
   "dependencies": {
     "base64-js": "^1.2.0",
     "brace": "0.7.0",
+    "classnames": "^2.2.5",
+    "css.escape": "1.5.1",
     "deep-extend": "0.4.1",
     "expect": "1.20.2",
     "getbase": "^2.8.2",
@@ -75,7 +77,7 @@
     "scroll-to-element": "^2.0.0",
     "serialize-error": "2.0.0",
     "shallowequal": "0.2.2",
-    "swagger-client": "3.0.20",
+    "swagger-client": "3.1.0",
     "url-parse": "^1.1.8",
     "whatwg-fetch": "0.11.1",
     "worker-loader": "^0.7.1",

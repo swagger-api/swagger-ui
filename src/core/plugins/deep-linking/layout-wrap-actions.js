@@ -1,4 +1,5 @@
 import { setHash } from "./helpers"
+import { createDeepLinkPath } from "core/utils"
 
 export const show = (ori, { getConfigs }) => (...args) => {
   ori(...args)
@@ -19,12 +20,12 @@ export const show = (ori, { getConfigs }) => (...args) => {
 
       if(type === "operations") {
         let [, tag, operationId] = thing
-        setHash(`/${tag}/${operationId}`)
+        setHash(`/${createDeepLinkPath(tag)}/${createDeepLinkPath(operationId)}`)
       }
 
       if(type === "operations-tag") {
         let [, tag] = thing
-        setHash(`/${tag}`)
+        setHash(`/${createDeepLinkPath(tag)}`)
       }
     }
 
