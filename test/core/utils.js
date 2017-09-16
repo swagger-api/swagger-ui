@@ -1,8 +1,8 @@
 /* eslint-env mocha */
 import expect from "expect"
 import { fromJS, OrderedMap } from "immutable"
-import { mapToList, validateNumber, validateInteger, validateParam, validateFile, fromJSOrdered, getAcceptControllingResponse } from "core/utils"
-import win from "core/window"
+import { mapToList, validateNumber, validateInteger, validateParam, validateFile, fromJSOrdered, getAcceptControllingResponse, createDeepLinkPath, escapeDeepLinkPath } from "core/utils"
+
 
 describe("utils", function() {
 
@@ -677,6 +677,56 @@ describe("utils", function() {
       const responses = {}
 
       expect(getAcceptControllingResponse(responses)).toBe(null)
+    })
+  })
+
+  describe("createDeepLinkPath", function() {
+    it("creates a deep link path replacing spaces with underscores", function() {
+      const result = createDeepLinkPath("tag id with spaces")
+      expect(result).toEqual("tag_id_with_spaces")
+    })
+
+    it("trims input when creating a deep link path", function() {
+      let result = createDeepLinkPath("  spaces before and after    ")
+      expect(result).toEqual("spaces_before_and_after")
+
+      result = createDeepLinkPath("  ")
+      expect(result).toEqual("")
+    })
+
+    it("creates a deep link path with special characters", function() {
+      const result = createDeepLinkPath("!@#$%^&*(){}[]")
+      expect(result).toEqual("!@#$%^&*(){}[]")
+    })
+
+    it("returns an empty string for invalid input", function() {
+      expect( createDeepLinkPath(null) ).toEqual("")
+      expect( createDeepLinkPath(undefined) ).toEqual("")
+      expect( createDeepLinkPath(1) ).toEqual("")
+      expect( createDeepLinkPath([]) ).toEqual("")
+      expect( createDeepLinkPath({}) ).toEqual("")
+    })
+  })
+
+  describe("escapeDeepLinkPath", function() {
+    it("creates and escapes a deep link path", function() {
+      const result = escapeDeepLinkPath("tag id with spaces?")
+      expect(result).toEqual("tag_id_with_spaces\\?")
+    })
+
+    it("escapes a deep link path that starts with a number", function() {
+      const result = escapeDeepLinkPath("123")
+      expect(result).toEqual("\\31 23")
+    })
+
+    it("escapes a deep link path with a class selector", function() {
+      const result = escapeDeepLinkPath("hello.world")
+      expect(result).toEqual("hello\\.world")
+    })
+
+    it("escapes a deep link path with an id selector", function() {
+      const result = escapeDeepLinkPath("hello#world")
+      expect(result).toEqual("hello\\#world")
     })
   })
 })
