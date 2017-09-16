@@ -20,8 +20,11 @@ const RootWrapper = (reduxStore, ComponentToWrap) => class extends Component {
 }
 
 const makeContainer = (getSystem, component, reduxStore) => {
+  const mapStateToProps = component.prototype.constructor.mapStateToProps || function(state) {
+    return {state}
+  }
   let wrappedWithSystem = SystemWrapper(getSystem, component, reduxStore)
-  let connected = connect(state => ({state}))(wrappedWithSystem)
+  let connected = connect( mapStateToProps )(wrappedWithSystem)
   if(reduxStore)
     return RootWrapper(reduxStore, connected)
   return connected
