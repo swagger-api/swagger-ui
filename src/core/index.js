@@ -34,6 +34,7 @@ module.exports = function SwaggerUI(opts) {
     urls: null,
     layout: "BaseLayout",
     docExpansion: "list",
+    responseExpansion: null,
     maxDisplayedTags: null,
     filter: null,
     validatorUrl: "https://online.swagger.io/validator",
