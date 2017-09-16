@@ -8,6 +8,7 @@ import some from "lodash/some"
 import eq from "lodash/eq"
 import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins/samples/fn"
 import win from "./window"
+import cssEscape from "css.escape"
 
 const DEFAULT_REPONSE_KEY = "default"
 
@@ -673,3 +674,6 @@ export function getAcceptControllingResponse(responses) {
 
   return suitable2xxResponse || suitableDefaultResponse
 }
+
+export const createDeepLinkPath = (str) => str ? str.replace(/\s/g, "_") : ""
+export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str) )

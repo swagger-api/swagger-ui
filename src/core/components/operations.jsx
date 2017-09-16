@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { helpers } from "swagger-client"
-
+import { createDeepLinkPath } from "core/utils"
 const { opId } = helpers
 
 export default class Operations extends React.Component {
@@ -71,7 +71,7 @@ export default class Operations extends React.Component {
               let tagExternalDocsDescription = tagObj.getIn(["tagDetails", "externalDocs", "description"])
               let tagExternalDocsUrl = tagObj.getIn(["tagDetails", "externalDocs", "url"])
 
-              let isShownKey = ["operations-tag", tag]
+              let isShownKey = ["operations-tag", createDeepLinkPath(tag)]
               let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
 
               return (
@@ -126,7 +126,7 @@ export default class Operations extends React.Component {
 
                         const operationId =
                         op.getIn(["operation", "operationId"]) || op.getIn(["operation", "__originalOperationId"]) || opId(op.get("operation"), path, method) || op.get("id")
-                        const isShownKey = ["operations", tag, operationId]
+                        const isShownKey = ["operations", createDeepLinkPath(tag), createDeepLinkPath(operationId)]
 
                         const allowTryItOut = specSelectors.allowTryItOutFor(op.get("path"), op.get("method"))
                         const response = specSelectors.responseFor(op.get("path"), op.get("method"))
