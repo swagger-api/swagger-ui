@@ -652,5 +652,5 @@ export const shallowEqualKeys = (a,b, keys) => {
   })
 }
 
-export const createDeepLinkPath = (str) => str ? str.replace(/\s/g, "_") : ""
+export const createDeepLinkPath = (str) => typeof str == "string" || str instanceof String ? str.trim().replace(/\s/g, "_") : ""
 export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str) )
