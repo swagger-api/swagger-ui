@@ -583,7 +583,7 @@ describe("utils", function() {
     })
   })
 
-  describe.only("getAcceptControllingResponse", () => {
+  describe("getAcceptControllingResponse", () => {
     it("should return the first 2xx response with a media type", () => {
       const responses = fromJSOrdered({
         "200": {
