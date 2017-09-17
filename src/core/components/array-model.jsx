@@ -41,7 +41,7 @@ export default class ArrayModel extends Component {
         {
           properties.size ? <span>
               { properties.entrySeq().map( ( [ key, v ] ) => <span key={`${key}-${v}`} style={propStyle}>
-                <br />{ `${key}:`}{ String(v) }</span>)
+                <br />{ key }: { String(v) }</span>)
               }<br /></span>
             : null
         }
