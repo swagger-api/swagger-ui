@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { helpers } from "swagger-client"
-
+import { createDeepLinkPath } from "core/utils"
 const { opId } = helpers
 
 export default class Operations extends React.Component {
@@ -9,6 +9,7 @@ export default class Operations extends React.Component {
   static propTypes = {
     specSelectors: PropTypes.object.isRequired,
     specActions: PropTypes.object.isRequired,
+    oas3Actions: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
@@ -21,6 +22,7 @@ export default class Operations extends React.Component {
     let {
       specSelectors,
       specActions,
+      oas3Actions,
       getComponent,
       layoutSelectors,
       layoutActions,
@@ -69,7 +71,7 @@ export default class Operations extends React.Component {
               let tagExternalDocsDescription = tagObj.getIn(["tagDetails", "externalDocs", "description"])
               let tagExternalDocsUrl = tagObj.getIn(["tagDetails", "externalDocs", "url"])
 
-              let isShownKey = ["operations-tag", tag]
+              let isShownKey = ["operations-tag", createDeepLinkPath(tag)]
               let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
 
               return (
@@ -124,7 +126,7 @@ export default class Operations extends React.Component {
 
                         const operationId =
                         op.getIn(["operation", "operationId"]) || op.getIn(["operation", "__originalOperationId"]) || opId(op.get("operation"), path, method) || op.get("id")
-                        const isShownKey = ["operations", tag, operationId]
+                        const isShownKey = ["operations", createDeepLinkPath(tag), createDeepLinkPath(operationId)]
 
                         const allowTryItOut = specSelectors.allowTryItOutFor(op.get("path"), op.get("method"))
                         const response = specSelectors.responseFor(op.get("path"), op.get("method"))
@@ -146,6 +148,8 @@ export default class Operations extends React.Component {
 
                           specActions={ specActions }
                           specSelectors={ specSelectors }
+
+                          oas3Actions={oas3Actions}
 
                           layoutActions={ layoutActions }
                           layoutSelectors={ layoutSelectors }

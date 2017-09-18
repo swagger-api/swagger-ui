@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 import expect from "expect"
-import { fromJS } from "immutable"
-import { mapToList, validateNumber, validateInteger, validateParam, validateFile, fromJSOrdered } from "core/utils"
+import { fromJS, OrderedMap } from "immutable"
+import { mapToList, validateNumber, validateInteger, validateParam, validateFile, fromJSOrdered, getAcceptControllingResponse, createDeepLinkPath, escapeDeepLinkPath } from "core/utils"
 import win from "core/window"
 
 describe("utils", function() {
@@ -581,5 +581,152 @@ describe("utils", function() {
       const result = fromJSOrdered(param).toJS()
       expect( result ).toEqual( [1, 1, 2, 3, 5, 8] )
     })
+  })
+
+  describe.only("getAcceptControllingResponse", () => {
+    it("should return the first 2xx response with a media type", () => {
+      const responses = fromJSOrdered({
+        "200": {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object"
+              }
+            }
+          }
+        },
+        "201": {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object"
+              }
+            }
+          }
+        }
+      })
+
+      expect(getAcceptControllingResponse(responses)).toEqual(responses.get("200"))
     })
+    it("should skip 2xx responses without defined media types", () => {
+      const responses = fromJSOrdered({
+        "200": {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object"
+              }
+            }
+          }
+        },
+        "201": {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object"
+              }
+            }
+          }
+        }
+      })
+
+      expect(getAcceptControllingResponse(responses)).toEqual(responses.get("201"))
+    })
+    it("should default to the `default` response if it has defined media types", () => {
+      const responses = fromJSOrdered({
+        "200": {
+          description: "quite empty"
+        },
+        "201": {
+          description: "quite empty"
+        },
+        default: {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object"
+              }
+            }
+          }
+        }
+      })
+
+      expect(getAcceptControllingResponse(responses)).toEqual(responses.get("default"))
+    })
+    it("should return null if there are no suitable controlling responses", () => {
+      const responses = fromJSOrdered({
+        "200": {
+          description: "quite empty"
+        },
+        "201": {
+          description: "quite empty"
+        },
+        "default": {
+          description: "also empty.."
+        }
+      })
+
+      expect(getAcceptControllingResponse(responses)).toBe(null)
+    })
+    it("should return null if an empty OrderedMap is passed", () => {
+      const responses = fromJSOrdered()
+
+      expect(getAcceptControllingResponse(responses)).toBe(null)
+    })
+    it("should return null if anything except an OrderedMap is passed", () => {
+      const responses = {}
+
+      expect(getAcceptControllingResponse(responses)).toBe(null)
+    })
+  })
+
+  describe("createDeepLinkPath", function() {
+    it("creates a deep link path replacing spaces with underscores", function() {
+      const result = createDeepLinkPath("tag id with spaces")
+      expect(result).toEqual("tag_id_with_spaces")
+    })
+
+    it("trims input when creating a deep link path", function() {
+      let result = createDeepLinkPath("  spaces before and after    ")
+      expect(result).toEqual("spaces_before_and_after")
+
+      result = createDeepLinkPath("  ")
+      expect(result).toEqual("")
+    })
+
+    it("creates a deep link path with special characters", function() {
+      const result = createDeepLinkPath("!@#$%^&*(){}[]")
+      expect(result).toEqual("!@#$%^&*(){}[]")
+    })
+
+    it("returns an empty string for invalid input", function() {
+      expect( createDeepLinkPath(null) ).toEqual("")
+      expect( createDeepLinkPath(undefined) ).toEqual("")
+      expect( createDeepLinkPath(1) ).toEqual("")
+      expect( createDeepLinkPath([]) ).toEqual("")
+      expect( createDeepLinkPath({}) ).toEqual("")
+    })
+  })
+
+  describe("escapeDeepLinkPath", function() {
+    it("creates and escapes a deep link path", function() {
+      const result = escapeDeepLinkPath("tag id with spaces?")
+      expect(result).toEqual("tag_id_with_spaces\\?")
+    })
+
+    it("escapes a deep link path that starts with a number", function() {
+      const result = escapeDeepLinkPath("123")
+      expect(result).toEqual("\\31 23")
+    })
+
+    it("escapes a deep link path with a class selector", function() {
+      const result = escapeDeepLinkPath("hello.world")
+      expect(result).toEqual("hello\\.world")
+    })
+
+    it("escapes a deep link path with an id selector", function() {
+      const result = escapeDeepLinkPath("hello#world")
+      expect(result).toEqual("hello\\#world")
+    })
+  })
 })

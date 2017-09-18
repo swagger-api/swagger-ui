@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { fromJS } from "immutable"
-import { defaultStatusCode } from "core/utils"
+import { defaultStatusCode, getAcceptControllingResponse } from "core/utils"
 
 export default class Responses extends React.Component {
 
@@ -14,6 +14,7 @@ export default class Responses extends React.Component {
     getComponent: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     specActions: PropTypes.object.isRequired,
+    oas3Actions: PropTypes.object.isRequired,
     pathMethod: PropTypes.array.isRequired,
     displayRequestDuration: PropTypes.bool.isRequired,
     fn: PropTypes.object.isRequired,
@@ -29,8 +30,28 @@ export default class Responses extends React.Component {
 
   onChangeProducesWrapper = ( val ) => this.props.specActions.changeProducesValue(this.props.pathMethod, val)
 
+  onResponseContentTypeChange = ({ controlsAcceptHeader, value }) => {
+    const { oas3Actions, pathMethod } = this.props
+    if(controlsAcceptHeader) {
+      oas3Actions.setResponseContentType({
+        value,
+        pathMethod
+      })
+    }
+  }
+
   render() {
-    let { responses, request, tryItOutResponse, getComponent, getConfigs, specSelectors, fn, producesValue, displayRequestDuration } = this.props
+    let {
+      responses,
+      request,
+      tryItOutResponse,
+      getComponent,
+      getConfigs,
+      specSelectors,
+      fn,
+      producesValue,
+      displayRequestDuration
+    } = this.props
     let defaultCode = defaultStatusCode( responses )
 
     const ContentType = getComponent( "contentType" )
@@ -38,6 +59,11 @@ export default class Responses extends React.Component {
     const Response = getComponent( "response" )
 
     let produces = this.props.produces && this.props.produces.size ? this.props.produces : Responses.defaultProps.produces
+
+    const isSpecOAS3 = specSelectors.isOAS3()
+
+    const acceptControllingResponse = isSpecOAS3 ?
+      getAcceptControllingResponse(responses) : null
 
     return (
       <div className="responses-wrapper">
@@ -78,7 +104,6 @@ export default class Responses extends React.Component {
             <tbody>
               {
                 responses.entrySeq().map( ([code, response]) => {
-
                   let className = tryItOutResponse && tryItOutResponse.get("status") == code ? "response_current" : ""
                   return (
                     <Response key={ code }
@@ -88,6 +113,8 @@ export default class Responses extends React.Component {
                               code={ code }
                               response={ response }
                               specSelectors={ specSelectors }
+                              controlsAcceptHeader={response === acceptControllingResponse}
+                              onContentTypeChange={this.onResponseContentTypeChange}
                               contentType={ producesValue }
                               getComponent={ getComponent }/>
                     )
