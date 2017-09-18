@@ -33,8 +33,32 @@ this["Handlebars"]["templates"]["apikey_auth"] = Handlebars.template({"1":functi
             highlightSizeThreshold: 5000
         });
 
+        //set main open URL
+        /*global Intapp */
+        if((typeof window.Intapp !== 'undefined' && window.Intapp.Config.Url)) {
+            $('#main-app').attr('href', Intapp.Config.Url);
+        } else {
+            $('#main-app').attr('href', location.href.replace('/api/swagger', ''));
+        }
+
+        //start history
         Backbone.history.start(new window.SwaggerUiRouter({app: this}));
     };
+
+    //Check to see if the window is top if not then display button
+    $(window).scroll(function(){
+        if ($(this).scrollTop() > 100) {
+            $('.scrollToTop').fadeIn();
+        } else {
+            $('.scrollToTop').fadeOut();
+        }
+    });
+
+    //Click event to scroll to top
+    $('.scrollToTop').click(function(){
+        $('html, body').animate({scrollTop : 0},800);
+        return false;
+    });
 })();
 this["Handlebars"]["templates"]["auth_button_operation"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   return "        authorize__btn_operation_login\n";
@@ -290,13 +314,11 @@ window.Docs = {
 		Docs.expandEndpointListForResource(resource);
 
 		if (resource == '') {
-			$('.resource ul.endpoints li.operation div.content').slideDown();
+			$('.resource ul.endpoints li.operation span.path a.toggleOperation').trigger('click', 'expand');
 			return;
 		}
 
-		$('li#resource_' + Docs.escapeResourceName(resource) + ' li.operation div.content').each(function() {
-			Docs.expandOperation($(this));
-		});
+		$('li#resource_' + Docs.escapeResourceName(resource) + ' li.operation span.path a.toggleOperation').trigger('click', 'expand');
 	},
 
 	collapseOperationsForResource: function(resource) {
@@ -326,8 +348,26 @@ window.Docs = {
 	}
 };
 
+this["Handlebars"]["templates"]["documentation_oauth2_cloud"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  return "<header class=\"gb-header-sm\">\n    <div class=\"logo-intapp-api\">Intapp API</div>\n    <ul class=\"gb-header-nav\">\n        <li><a href=\"#\">Platform API</a></li>\n        <li class=\"has-drop-menu is-selected\">\n            <a href=\"#doc/oauth2\">Documents</a>\n            <div class=\"gb-header-nav-inner\">\n                <ul>\n                    <li class=\"is-selected\"><a href=\"#doc/oauth2\">OAuth2 details</a></li>\n                    <li><a href=\"#doc/provisioning\">Provisioning walk-through</a></li>\n                    <li><a href=\"#doc/steadystate\">Steady State walk-through</a></li>\n                </ul>\n            </div>\n        </li>\n        <li><a href=\"#logout\">Log out</a></li>\n    </ul>\n</header>\n<div class=\"swagger-ui-wrap\">\n    <section class=\"gb-content\">\n\n        <h1>REST API Authentication Guide</h1>\n\n        <p>Welcome to your first step in using Intapp API’s. This guide outlines the OAuth2 authentication procedure and highlights example API calls for the Open application.</p>\n\n        <h2>Relevant links</h2>\n\n        <ol class=\"list-between-indent\">\n            <li><b>Open Application:</b> https://&lt;tenant_id&gt;.open.intapp.com\n            <li><b>Open REST API’s</b>\n                <ol class=\"list-disc\">\n                    <li><b>Base URL:</b> https://&lt;tenant_id&gt;.open.intapp.com/api</li>\n                    <li><b>Authorization URL:</b> https://&lt;tenant_id&gt;.open.intapp.com/auth/oauth/authorize</li>\n                    <li><b>Token URL:</b> https://&lt;tenant_id&gt;.open.intapp.com/auth/oauth/token</li>\n                </ol>\n            </li>\n            <li><b>Interactive API documentation and guides</b>\n                <ol class=\"list-disc\">\n                    <li><b>Interactive discovery interface:</b> https://&lt;tenant_id&gt;.open.intapp.com/api/swagger</li>\n                    <li><b>Swagger standard definition:</b> (GET) https://&lt;tenant_id&gt;.open.intapp.com/api/api/swagger/docs/v1</li>\n                </ol>\n            </li>\n        </ol>\n\n        <h2>OAuth2 Development steps</h2>\n\n        <h3><b class=\"intappBlue\">Developer Step 1:</b> Request your IT Admin to create your user account</h3>\n        <ol class=\"list-disc\">\n            <li><dfn class=\"dfn-green\">IT Admin Step 1:</dfn> Create a user account with relevant details under System > Users. Activate the account and convey credentials to the API user if not using Windows Login.</li>\n        </ol>\n\n        <h3><b class=\"intappBlue\">Developer Step 2:</b> Request the your IT Admin to register an application on your behalf</h3>\n        <ol class=\"list-disc\">\n            <li><dfn class=\"dfn-green\">IT Admin Step 2:</dfn> Create a new application under System > API. Add the newly created user under the Application Users tab and save changes. This grants the user the capability to access all endpoints.\n                <p><b>Note:</b> <dfn>API access can be made more granular under the Users profile tab that administrators control. These capabilities are detailed in the Administrator Guide.</dfn></p>\n            </li>\n        </ol>\n\n        <h3><b class=\"intappBlue\">Developer Step 3:</b> Recieve the Authorization Code</h3>\n        <ol class=\"list-disc\">\n            <li><dfn class=\"dfn-green\">IT Admin Step 3:</dfn> Pick either of the following authorization paths.\n                <ul>\n                    <li><b>Admin generated authorization</b>\n                        <p>In the application tab, next to a particular Application User, click ‘generate’ to create the Authorization Code. Securely send this code to the developer and prompt them to Sign In to get the Client Id, Client Secret, and pre-set Redirect URL. This authorization code is valid for 5 minutes.</p>\n                    </li>\n                    <li><b>Developer requested authorization</b>\n                        <p>Inform the developer/s that the application has been provisioned and they can Sign In to retrieve requisite details.</p>\n                    </li>\n                </ul>\n            </li>\n            <li><b>Developer Step</b> Use the following endpoint to generate the Authorization Code, unless your IT Admin has informed you otherwise.\n				<p><b>GET</b> https://&lt;tenant_id&gt;.open.intapp.com/auth/oauth/authorize</p>\n			    <dl>\n                    <dt>Parameter</dt><dd>Description</dd>\n                    <dt>response_type</dt><dd>code</dd>\n                    <dt>client_id</dt><dd><i>Application Client ID</i></dd>\n                    <dt>redirect_uri</dt><dd><i>Redirect URL</i></dd>\n					<dt>state</dt><dd><i>Opaque value used by the client to maintain state</i></dd>\n                </dl>\n            </li>\n			<p>You are requited to use State parameter and check it in callback as decribed in <a href=\"https://tools.ietf.org/html/rfc6749#section-4.1\">OAuth2.0 specification</a>\n			<p>Authenticate under active Open user to receive the Authorization Code</p>\n			<p>This code will be sent to either the specified or standard redirect URL. This URL can be defined under application details within Open. Note that the code will only be valid for 5 minutes after which a new code will need to be generated.</p>\n			<p>You will get redirected to <a href=\"https://RedirectURL/?code=code&state=state\">&lt;Redirect URL&gt;/?code=&lt;authorization_code&gt;&state=&lt;state&gt;</a>. <br>For example, if you used default Redirect URL, you will get redirected to <a href=\"https://&lt;tenant_id&gt;.open.intapp.com/auth/callback?code=&lt;authorization_code&gt;&state=&lt;state&gt;\">https://&lt;tenant_id&gt;.open.intapp.com/auth/callback?code=&lt;authorization_code&gt;&state=&lt;state&gt;</a></p>\n        </ol>\n\n        <h3><b class=\"intappBlue\">Developer Step 4:</b> Send the Authorization Code to get a Refresh Token and temporary Access Token</h3>\n        <ol class=\"list-disc\">\n            <li>\n                <p><b>POST</b> https://&lt;tenant_id&gt;.open.intapp.com/auth/oauth/token</p>\n                <dl>\n                    <dt>Parameter</dt><dd>Description</dd>\n                    <dt>grant_type</dt><dd>authorization_code</dd>\n                    <dt>client_id</dt><dd><i>Application Client ID</i></dd>\n                    <dt>client_secret</dt><dd><i>Application Client Secret</i></dd>\n                    <dt>code</dt><dd><i>Received Authorization Code</i></dd>\n                    <dt>redirect_uri</dt><dd><i>Received Redirect URI</i></dd>\n                </dl>\n            </li>\n        </ol>\n\n        <h3><b class=\"intappBlue\">Developer Step 5:</b> Store the Refresh Token and Access Token</h3>\n        <ol class=\"list-disc\">\n            <li>\n\n                <div class=\"column-layout-x2 column-layout-half\">\n\n                    <div class=\"column-item\">\n                        <h4>JSON response received</h4>\n                        <div class=\"pre-code\">\n    {\n        “access_token” : “AeRw23fsdfSDaOh212LkIN”,\n        “token_type” : “bearer”,\n        “expires_in” : “86399”\n        “refresh_token” : “EREADsdasd3242asAEEASAJ12123”\n    }\n                        </div>\n                    </div>\n\n                </div>\n\n                <p>The access token is valid for 24 hours after which, it must be refreshed using the refresh token.<br>\n                    This is detailed in Step 7 below.</p>\n            </li>\n        </ol>\n\n        <h3><b class=\"intappBlue\">Developer Step 6:</b> Use Access Token to make API calls (examples)</h3>\n        <ol class=\"list-indent\">\n            <li>\n                <dl>\n                    <dt>Header</dt><dd>Description</dd>\n                    <dt>Accept</dt><dd>application/json</dd>\n                    <dt>Authorization</dt><dd>Bearer <i>Access Token</i></dd>\n                    <dt>Content-Type</dt><dd>application/json</dd>\n                </dl>\n            </li>\n        </ol>\n\n        <h3><b class=\"intappBlue\">Developer Step 7:</b> Use Refresh Token after Access Token expires to get a new Access Token</h3>\n        <ol class=\"list-disc\">\n            <li>\n                <p><b>POST</b> https://&lt;tenant_id&gt;.open.intapp.com/auth/oauth/token</p>\n                <dl>\n                    <dt>Parameter</dt><dd>Description</dd>\n                    <dt>grant_type</dt><dd>refresh_token</dd>\n                    <dt>tenant_id</dt><dd><i>Your law firm Tenant ID</i></dd>\n                    <dt>client_id</dt><dd><i>Application Client ID</i></dd>\n                    <dt>client_secret</dt><dd><i>Application Client Secret</i></dd>\n                    <dt>refresh_token</dt><dd><i>Received Refresh Token</i></dd>\n                </dl>\n				<p>You will get both new access and refresh tokens</p>\n				<p>The refresh token is valid for 180 days</p>\n            </li>\n        </ol>\n\n        <div class=\"el-separation\"></div>\n\n        <h2>Examples</h2>\n\n        <h3>1. Get Authorization Code</h3>\n\n        <div class=\"column-layout-x2\">\n\n            <div class=\"column-item\">\n                <h4>Request</h4>\n                <div class=\"pre-code\">\nGET https://&lt;tenant_id&gt;.open.intapp.com/auth/oauth/authorize?response_type=code&client_id=1&redirect_uri=https://&lt;tenant_id&gt;.open.intapp.com/auth/callback&state=xyz; HTTP/1.1\n                </div>\n            </div>\n            <div class=\"column-item\">\n                <h4>Response</h4>\n                <div class=\"pre-code\">\nYou will be redirected (302) to:\n\nGET https://&lt;tenant_id&gt;.open.intapp.com/auth/callback?code=fb7cb018a05f4902b8e145c44d1b0ea3&state=xyz\n                </div>\n            </div>\n        </div>\n\n        <h3>2. Get tokens by using Authorization Code</h3>\n\n        <div class=\"column-layout-x2\">\n            <div class=\"column-item\">\n                <h4>Request</h4>\n                <div class=\"pre-code\">\nPOST https://&lt;tenant_id&gt;.open.intapp.com/auth/oauth/token HTTP/1.1\n\n{Body}\n\n    grant_type=authorization_code&client_id=1&client_secret=x7AqlRO6CAX3yfoVblz7Bmz6PIk=&code=fb7cb018a05f4902b8e145c44d1b0ea3&redirect_uri=https://&lt;tenant_id&gt;.open.intapp.com/auth/callback\n                </div>\n            </div>\n            <div class=\"column-item\">\n                <h4>Response</h4>\n                <div class=\"pre-code\">\n    {\n        \"access_token\": \"QjzOw0KJNnVbZsHssN6tz9tyku0TU8RBDUFNuUcLWHpmbGSkDBbqYAXYsIOkFZesODg9XdO5MINLU-aDFrfI3Un9CokvImQlx99YQb-j6nziKyHn_z4VF3LJWfnLhouKj41fGdjcId0Th5DOAbxLUZg0YTFXzenvf_ScQBmttdcoXIMzitOI8Yc5IOGS8HT344i6_-StpsRRX69F1l0o6HVR00MRAHeQeWZ_hH7PssehNWQZPXFdYkXpYPp4SaeXtrFMHQ\",\n        \"token_type\": \"bearer\",\n        \"expires_in\": 86399,\n        \"refresh_token\": \"73625ef7d5534af6a20e03ea17d9d8659fe3582d82934f7ba314ed0c1f994e2d\"\n    }\n                </div>\n            </div>\n        </div>\n\n        <h3>3. Get tokens by using refresh token, when access token expired</h3>\n\n        <div class=\"column-layout-x2\">\n            <div class=\"column-item\">\n                <h4>Request</h4>\n                <div class=\"pre-code\">\nPOST https://&lt;tenant_id&gt;.open.intapp.com/auth/oauth/token HTTP/1.1\n\n{Body}\n\ngrant_type=refresh_token&client_id=1&client_secret=x7AqlRO6CAX3yfoVblz7Bmz6PIk=&tenant_id=&lt;tenant_id&gt;&refresh_token=73625ef7d5534af6a20e03ea17d9d8659fe3582d82934f7ba314ed0c1f994e2d\n                </div>\n            </div>\n            <div class=\"column-item\">\n                <h4>Response</h4>\n                <div class=\"pre-code\">\n    {\n        \"access_token\": \"m8kPwyrwxFfUHdpDRKJJSJGJx29ATimHs_ue6FhAkcbl6K5wVCCu9eb8FsALAbAt8fPlBxfgrzEW8Bf1ZE6rSf_4xv73hwW5mWimcTgaEFeUNsvK0LuvK3hBoU5sHxDV_sCLNKxNn0rWTRgym6DMecFABQ-1TGzyaCiWF1_PlMHrKH-b-X_dDmevtKgIHAAZRsykJEUehyL1NZ9WCU8sHdoMGJZMVIz17yMJrRuMA18oi64sxPjK-LB0fhPgJQNLg8WWegyccJhD5rnjuuJNHFGg6n4\",\n        \"token_type\": \"bearer\",\n        \"expires_in\": 86399,\n        \"refresh_token\": \"e1ad0a3635fa4ada9b59a22cd88b1e1c5fc22801a7f245599030a4c536b49379\"\n    }\n                </div>\n            </div>\n        </div>\n\n        <h3>4. Example to get the client with Id =“20001” using REST API</h3>\n\n        <div class=\"column-layout-x2\">\n            <div class=\"column-item\">\n                <h4>Request</h4>\n                <div class=\"pre-code\">\nGET https://&lt;tenant_id&gt;.open.intapp.com/api/api/common/v1/clients/20001 HTTP/1.1\n\n{Header}\n\nAuthorization: Bearer m8kPwyrwxFfUHdpDRKJJSJGJx29ATimHs_ue6FhAkcbl6K5wVCCu9eb8FsALAbAt8fPlBxfgrzEW8Bf1ZE6rSf_4xv73hwW5mWimcTgaEFeUNsvK0LuvK3hBoU5sHxDV_sCLNKxNn0rWTRgym6DMecFABQ-1TGzyaCiWF1_PlMHrKH-b-X_dDmevtKgIHAAZRsykJEUehyL1NZ9WCU8sHdoMGJZMVIz17yMJrRuMA18oi64sxPjK-LB0fhPgJQNLg8WWegyccJhD5rnjuuJNHFGg6n4\n                </div>\n            </div>\n            <div class=\"column-item\">\n                <h4>Response</h4>\n                <div class=\"pre-code\">\n    {\n        \"addresses\": [],\n        \"aliases\": [],\n        \"clientId\": \"20001\",\n        \"clientUsers\": [],\n        ... (omitted)\n    }\n                </div>\n            </div>\n        </div>\n    </section>\n</div>";
+  },"useData":true});
+this["Handlebars"]["templates"]["documentation_oauth2_onpremise"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  return "<header class=\"gb-header-sm\">\n    <div class=\"logo-intapp-api\">Intapp API</div>\n    <ul class=\"gb-header-nav\">\n        <li><a href=\"#\">Platform API</a></li>\n        <li class=\"has-drop-menu is-selected\">\n            <a href=\"#doc/oauth2\">Documents</a>\n            <div class=\"gb-header-nav-inner\">\n                <ul>\n                    <li class=\"is-selected\"><a href=\"#doc/oauth2\">OAuth2 details</a></li>\n                    <li><a href=\"#doc/provisioning\">Provisioning walk-through</a></li>\n                    <li><a href=\"#doc/steadystate\">Steady State walk-through</a></li>\n                </ul>\n            </div>\n        </li>\n        <li><a href=\"#logout\">Log out</a></li>\n    </ul>\n</header>\n<div class=\"swagger-ui-wrap\">\n    <section class=\"gb-content\">\n\n        <h1>REST API Authentication Guide</h1>\n\n        <p>Welcome to your first step in using Intapp API’s. This guide outlines the OAuth2 authentication procedure and highlights example API calls for the Open application.</p>\n\n        <h2>Relevant links</h2>\n\n        <ol class=\"list-between-indent\">\n            <li><b>Open Application:</b> http://&lt;server&gt;/Open\n            </li><li><b>Open REST API’s</b>\n            <ol class=\"list-disc\">\n                <li><b>Base URL:</b> http://&lt;server&gt;/Open.Services.Rest</li>\n                <li><b>Authorization URL:</b> http://&lt;server&gt;/Open.Services.Rest/authorize</li>\n                <li><b>Token URL:</b> http://&lt;server&gt;/Open.Services.Rest/token</li>\n            </ol>\n        </li>\n            <li><b>Interactive API documentation and guides</b>\n                <ol class=\"list-disc\">\n                    <li><b>Interactive discovery interface:</b> http://&lt;server&gt;/Open.Services.Rest/swagger</li>\n                    <li><b>Swagger standard definition:</b> (GET) http://&lt;server&gt;/Open.Services.Rest/api/swagger/docs/v1</li>\n                </ol>\n            </li>\n        </ol>\n\n        <h2>OAuth2 Development steps</h2>\n\n        <h3><b class=\"intappBlue\">Developer Step 1:</b> Request your IT Admin to create your user account</h3>\n        <ol class=\"list-disc\">\n            <li><dfn class=\"dfn-green\">IT Admin Step 1:</dfn> Create a user account with relevant details under System &gt; Users. Activate the account and convey credentials to the API user if not using Windows Login.</li>\n        </ol>\n\n        <h3><b class=\"intappBlue\">Developer Step 2:</b> Request the your IT Admin to register an application on your behalf</h3>\n        <ol class=\"list-disc\">\n            <li><dfn class=\"dfn-green\">IT Admin Step 2:</dfn> Create a new application under System &gt; API. Add the newly created user under the Application Users tab and save changes. This grants the user the capability to access all endpoints.\n                <p><b>Note:</b> <dfn>API access can be made more granular under the Users profile tab that administrators control. These capabilities are detailed in the Administrator Guide.</dfn></p>\n            </li>\n        </ol>\n\n        <h3><b class=\"intappBlue\">Developer Step 3:</b> Recieve the Authorization Code</h3>\n        <ol class=\"list-disc\">\n            <li><dfn class=\"dfn-green\">IT Admin Step 3:</dfn> Pick either of the following authorization paths.\n                <ul>\n                    <li><b>Admin generated authorization</b>\n                        <p>In the application tab, next to a particular Application User, click ‘generate’ to create the Authorization Code. Securely send this code to the developer and prompt them to Sign In to get the Client Id, Client Secret, and pre-set Redirect URL. This authorization code is valid for 5 minutes.</p>\n                    </li>\n                    <li><b>Developer requested authorization</b>\n                        <p>Inform the developer/s that the application has been provisioned and they can Sign In to retrieve requisite details.</p>\n                    </li>\n                </ul>\n            </li>\n            <li><b>Developer Step 3.1:</b> Use the following endpoint to generate the Authorization Code, unless your IT Admin has informed you otherwise.\n                <p><b>GET</b> http://&lt;server&gt;/Open.Services.Rest/authorize</p>\n                <dl>\n                    <dt>Parameter</dt><dd>Description</dd>\n                    <dt>response_type</dt><dd>code</dd>\n                    <dt>client_id</dt><dd><i>Application Client ID</i></dd>\n                    <dt>client_secret</dt><dd><i>Application Client Secret</i></dd>\n                    <dt>user_id</dt><dd><i>User ID</i></dd>\n                    <dt>tenant_id</dt><dd><i>Tenant ID</i></dd>\n                    <dt>redirect_uri</dt><dd><i>Redirect URL</i></dd>\n                </dl>\n                <p>You will get redirected to <a href=\"https://api-tenant1.opendev.intapp.com:443/oauth2/callback?code=Authorization_Code\">https://api-tenant1.opendev.intapp.com:443/oauth2/callback?code=Authorization_Code</a></p>\n            </li>\n            <li><b>Developer Step 3.2:</b> Authenticate to receive the Authorization Code\n                <p>This code will be sent to either the specified or standard redirect URL. This URL can be defined under application details within Open. Note that the code will only be valid for 5 minutes after which a new code will need to be generated.</p>\n            </li>\n        </ol>\n\n        <h3><b class=\"intappBlue\">Developer Step 4:</b> Send the Authorization Code to get a Refresh Token and temporary Access Token</h3>\n        <ol class=\"list-disc\">\n            <li>\n                <p><b>POST</b> http://&lt;server&gt;/Open.Services.Rest/token</p>\n                <dl>\n                    <dt>Parameter</dt><dd>Description</dd>\n                    <dt>grant_type</dt><dd>authorization_code</dd>\n                    <dt>tenant_id</dt><dd><i>Your law firm Tenant ID</i></dd>\n                    <dt>client_id</dt><dd><i>Application Client ID</i></dd>\n                    <dt>client_secret</dt><dd><i>Application Client Secret</i></dd>\n                    <dt>code</dt><dd><i>Received Authorization Code</i></dd>\n                    <dt>redirect_uri</dt><dd><i>Received Redirect URI</i></dd>\n                </dl>\n            </li>\n        </ol>\n\n        <h3><b class=\"intappBlue\">Developer Step 5:</b> Store the Refresh Token and Access Token</h3>\n        <ol class=\"list-disc\">\n            <li>\n\n                <div class=\"column-layout-x2 column-layout-half\">\n\n                    <div class=\"column-item\">\n                        <h4>JSON response received</h4>\n                        <div class=\"pre-code\">\n                            {\n                            “access_token” : “AeRw23fsdfSDaOh212LkIN”,\n                            “token_type” : “bearer”,\n                            “expires_in” : “86399”\n                            “refresh_token” : “EREADsdasd3242asAEEASAJ12123”\n                            }\n                        </div>\n                    </div>\n\n                </div>\n\n                <p>The access token is valid for 24 hours after which, it must be refreshed using the refresh token.<br>\n                    This is detailed in Step 7 below.</p>\n            </li>\n        </ol>\n\n        <h3><b class=\"intappBlue\">Developer Step 6:</b> Use Access Token to make API calls (examples)</h3>\n        <ol class=\"list-indent\">\n            <li>\n                <dl>\n                    <dt>Header</dt><dd>Description</dd>\n                    <dt>Accept</dt><dd>application/json</dd>\n                    <dt>Authorization</dt><dd>Bearer <i>Access Token</i></dd>\n                    <dt>Content-Type</dt><dd>application/json</dd>\n                </dl>\n            </li>\n        </ol>\n\n        <h3><b class=\"intappBlue\">Developer Step 7:</b> Use Refresh Token after Access Token expires to get a new Access Token</h3>\n        <ol class=\"list-disc\">\n            <li>\n                <p><b>POST</b> http://&lt;server&gt;/Open.Services.Rest/token</p>\n                <dl>\n                    <dt>Parameter</dt><dd>Description</dd>\n                    <dt>grant_type</dt><dd>refresh_token</dd>\n                    <dt>tenant_id</dt><dd><i>Your law firm Tenant ID</i></dd>\n                    <dt>client_id</dt><dd><i>Application Client ID</i></dd>\n                    <dt>client_secret</dt><dd><i>Application Client Secret</i></dd>\n                    <dt>refresh_token</dt><dd><i>Received Refresh Token</i></dd>\n                </dl>\n            </li>\n        </ol>\n\n        <div class=\"el-separation\"></div>\n\n        <h2>Examples</h2>\n\n        <h3>1. Get Authorization Code</h3>\n\n        <div class=\"column-layout-x2\">\n\n            <div class=\"column-item\">\n                <h4>Request</h4>\n                <div class=\"pre-code\">\n                    GET http://&lt;server&gt;/Open.Services.Rest/authorize?response_type=code&amp;client_id=1&amp;client_secret=x7AqlRO6CAX3yfoVblz7Bmz6PIk=&amp;user_id=1&amp;tenant_id=&lt;tenant_id&gt;&amp;redirect_uri= https://api-tenant1.opendev.intapp.com:443/oauth2/callback HTTP/1.1\n                </div>\n            </div>\n            <div class=\"column-item\">\n                <h4>Response</h4>\n                <div class=\"pre-code\">\n                    You will be redirected (302) to:\n\n                    GET http://&lt;server&gt;/Open.Services.Rest :443/oauth2/callback?code=fb7cb018a05f4902b8e145c44d1b0ea3\n                </div>\n            </div>\n        </div>\n\n        <h3>2. Get tokens by using Authorization Code</h3>\n\n        <div class=\"column-layout-x2\">\n            <div class=\"column-item\">\n                <h4>Request</h4>\n                <div class=\"pre-code\">\n                    POST http://&lt;server&gt;/Open.Services.Rest/token HTTP/1.1\n\n                    {Body}\n\n                    grant_type=authorization_code&amp;client_id=1&amp;client_secret=x7AqlRO6CAX3yfoVblz7Bmz6PIk=&amp;code=fb7cb018a05f4902b8e145c44d1b0ea3&amp;tenant_id=&lt;tenant_id&gt;&amp;redirect_uri= https://api-tenant1.opendev.intapp.com:443/oauth2/callback\n                </div>\n            </div>\n            <div class=\"column-item\">\n                <h4>Response</h4>\n                <div class=\"pre-code\">\n                    {\n                    \"access_token\": \"QjzOw0KJNnVbZsHssN6tz9tyku0TU8RBDUFNuUcLWHpmbGSkDBbqYAXYsIOkFZesODg9XdO5MINLU-aDFrfI3Un9CokvImQlx99YQb-j6nziKyHn_z4VF3LJWfnLhouKj41fGdjcId0Th5DOAbxLUZg0YTFXzenvf_ScQBmttdcoXIMzitOI8Yc5IOGS8HT344i6_-StpsRRX69F1l0o6HVR00MRAHeQeWZ_hH7PssehNWQZPXFdYkXpYPp4SaeXtrFMHQ\",\n                    \"token_type\": \"bearer\",\n                    \"expires_in\": 86399,\n                    \"refresh_token\": \"73625ef7d5534af6a20e03ea17d9d8659fe3582d82934f7ba314ed0c1f994e2d\"\n                    }\n                </div>\n            </div>\n        </div>\n\n        <h3>3. Get tokens by using refresh token, when access token expired</h3>\n\n        <div class=\"column-layout-x2\">\n            <div class=\"column-item\">\n                <h4>Request</h4>\n                <div class=\"pre-code\">\n                    POST http://&lt;server&gt;/Open.Services.Rest/token HTTP/1.1\n\n                    {Body}\n\n                    grant_type=refresh_token&amp;client_id=1&amp;client_secret=x7AqlRO6CAX3yfoVblz7Bmz6PIk=&amp;tenant_id=&lt;tenant_id&gt;&amp;refresh_token=73625ef7d5534af6a20e03ea17d9d8659fe3582d82934f7ba314ed0c1f994e2d\n                </div>\n            </div>\n            <div class=\"column-item\">\n                <h4>Response</h4>\n                <div class=\"pre-code\">\n                    {\n                    \"access_token\": \"m8kPwyrwxFfUHdpDRKJJSJGJx29ATimHs_ue6FhAkcbl6K5wVCCu9eb8FsALAbAt8fPlBxfgrzEW8Bf1ZE6rSf_4xv73hwW5mWimcTgaEFeUNsvK0LuvK3hBoU5sHxDV_sCLNKxNn0rWTRgym6DMecFABQ-1TGzyaCiWF1_PlMHrKH-b-X_dDmevtKgIHAAZRsykJEUehyL1NZ9WCU8sHdoMGJZMVIz17yMJrRuMA18oi64sxPjK-LB0fhPgJQNLg8WWegyccJhD5rnjuuJNHFGg6n4\",\n                    \"token_type\": \"bearer\",\n                    \"expires_in\": 86399,\n                    \"refresh_token\": \"e1ad0a3635fa4ada9b59a22cd88b1e1c5fc22801a7f245599030a4c536b49379\"\n                    }\n                </div>\n            </div>\n        </div>\n\n        <h3>4. Example to get the client with Id =“20001” using REST API</h3>\n\n        <div class=\"column-layout-x2\">\n            <div class=\"column-item\">\n                <h4>Request</h4>\n                <div class=\"pre-code\">\n                    GET http://&lt;server&gt;/Open.Services.Rest/api/common/v1/clients/20001 HTTP/1.1\n\n                    {Header}\n\n                    Authorization: Bearer m8kPwyrwxFfUHdpDRKJJSJGJx29ATimHs_ue6FhAkcbl6K5wVCCu9eb8FsALAbAt8fPlBxfgrzEW8Bf1ZE6rSf_4xv73hwW5mWimcTgaEFeUNsvK0LuvK3hBoU5sHxDV_sCLNKxNn0rWTRgym6DMecFABQ-1TGzyaCiWF1_PlMHrKH-b-X_dDmevtKgIHAAZRsykJEUehyL1NZ9WCU8sHdoMGJZMVIz17yMJrRuMA18oi64sxPjK-LB0fhPgJQNLg8WWegyccJhD5rnjuuJNHFGg6n4\n                </div>\n            </div>\n            <div class=\"column-item\">\n                <h4>Response</h4>\n                <div class=\"pre-code\">\n                    {\n                    \"addresses\": [],\n                    \"aliases\": [],\n                    \"clientId\": \"20001\",\n                    \"clientUsers\": [],\n                    ... (omitted)\n                    }\n                </div>\n            </div>\n        </div>\n    </section>\n</div>";
+  },"useData":true});
+this["Handlebars"]["templates"]["documentation_provisioning_cloud"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  return "<header class=\"gb-header-sm\">\n    <div class=\"logo-intapp-api\">Intapp API</div>\n    <ul class=\"gb-header-nav\">\n        <li><a href=\"#\">Platform API</a></li>\n        <li class=\"has-drop-menu is-selected\">\n            <a href=\"#doc/oauth2\">Documents</a>\n            <div class=\"gb-header-nav-inner\">\n                <ul>\n                    <li><a href=\"#doc/oauth2\">OAuth2 details</a></li>\n                    <li class=\"is-selected\"><a href=\"#doc/provisioning\">Provisioning walk-through</a></li>\n                    <li><a href=\"#doc/steadystate\">Steady State walk-through</a></li>\n                </ul>\n            </div>\n        </li>\n        <li><a href=\"#logout\">Log out</a></li>\n    </ul>\n</header>\n<div class=\"swagger-ui-wrap\">\n    <section class=\"gb-content\">\n        <h1>Guide to set up Open</h1>\n\n        <h2>Phase 1: Instantiation</h2>\n\n        <p>The Intapp Developer Operations team will deploy an instance of the Open application and allocate a client specific database in the Amazon Virtual Private Cloud. They will collaborate with your solutions consultant to do the following:</p>\n\n        <ol class=\"list-disc\">\n            <li>Configure the application modules and add-ons as purchased</li>\n            <li>Configure default conflict search settings as required</li>\n            <li>Pre-load data sets to be used in forms and workflows as required</li>\n        </ol>\n\n        <p>Once complete, your services team will receive Administrator credentials to the tenant.</p>\n\n        <h2>Phase 2: Provisioning</h2>\n\n        <p>Open can now be provisioned through the REST API’s. On completing a data mapping exercise with your solutions consultant, select the <i>Provisioning</i> filter to narrow the endpoints to use to load data. The API’s are grouped for clarity to ensure dependencies are met. Please use the endpoints in following order:</p>\n\n        <ul class=\"list-number\">\n            <li><b>Common API:</b> Dictionary</li>\n            <li><b>Common API:</b> Entity</li>\n            <li><b>Common API:</b> Sub-entity</li>\n        </ul>\n\n        <p>If the Conflicts module has been enabled, continue through step 5.</p>\n\n        <ul class=\"list-number list-step-4\">\n            <li><b>Conflicts API:</b> Dictionary</li>\n            <li><b>Conflicts API:</b> Settings</li>\n        </ul>\n\n        <p>Note that the <i>_bulk</i> endpoints are optimized for large data loads and can rapidly process 10,000 clients, matters or parties at a time.</p>\n\n        <h2>Phase 3: Set up</h2>\n\n        <p>Once the data has been provisioned in Open, the application can be set up for use. Using the solutions design as a guide:</p>\n\n        <ul class=\"list-number\">\n            <li>Create Workflows using the Workflow Designer</li>\n            <li>Define Forms using the Form Builder</li>\n            <li>Modify or create Data Sets using the Data Set Designer</li>\n            <li>Set up interactions with 3<sup>rd</sup> party systems by defining Integrations</li>\n        </ul>\n\n        <p>Note that Integrate is recommended for Step 4 above. Open will log user defined custom events and send them through long-polling for further action in external systems. These events endpoints are defined under Common API: External Integration.</p>\n\n        <h2>Phase 4: Validation and quality assurance</h2>\n\n        <p>Once the set-up is complete, please invite your firm to validate and test the product. This may involve manual verification of workflows, penetration testing, and data verification through the data management page. Our customer success team will be available to help you every step of the way.</p>\n\n    </section>\n</div>";
+  },"useData":true});
+this["Handlebars"]["templates"]["documentation_provisioning_onpremise"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  return "<header class=\"gb-header-sm\">\n    <div class=\"logo-intapp-api\">Intapp API</div>\n    <ul class=\"gb-header-nav\">\n        <li><a href=\"#\">Platform API</a></li>\n        <li class=\"has-drop-menu is-selected\">\n            <a href=\"#doc/oauth2\">Documents</a>\n            <div class=\"gb-header-nav-inner\">\n                <ul>\n                    <li><a href=\"#doc/oauth2\">OAuth2 details</a></li>\n                    <li class=\"is-selected\"><a href=\"#doc/provisioning\">Provisioning walk-through</a></li>\n                    <li><a href=\"#doc/steadystate\">Steady State walk-through</a></li>\n                </ul>\n            </div>\n        </li>\n        <li><a href=\"#logout\">Log out</a></li>\n    </ul>\n</header>\n<div class=\"swagger-ui-wrap\">\n    <section class=\"gb-content\">\n        <h1>Guide to set up Open (ON PREMISE)</h1>\n\n        <h2>Phase 1: Instantiation</h2>\n\n        <p>The Intapp Developer Operations team will deploy an instance of the Open application and allocate a client specific database in the Amazon Virtual Private Cloud. They will collaborate with your solutions consultant to do the following:</p>\n\n        <ol class=\"list-disc\">\n            <li>Configure the application modules and add-ons as purchased</li>\n            <li>Configure default conflict search settings as required</li>\n            <li>Pre-load data sets to be used in forms and workflows as required</li>\n        </ol>\n\n        <p>Once complete, your services team will receive Administrator credentials to the tenant.</p>\n\n        <h2>Phase 2: Provisioning</h2>\n\n        <p>Open can now be provisioned through the REST API’s. On completing a data mapping exercise with your solutions consultant, select the <i>Provisioning</i> filter to narrow the endpoints to use to load data. The API’s are grouped for clarity to ensure dependencies are met. Please use the endpoints in following order:</p>\n\n        <ul class=\"list-number\">\n            <li><b>Common API:</b> Dictionary</li>\n            <li><b>Common API:</b> Entity</li>\n            <li><b>Common API:</b> Sub-entity</li>\n        </ul>\n\n        <p>If the Conflicts module has been enabled, continue through step 5.</p>\n\n        <ul class=\"list-number list-step-4\">\n            <li><b>Conflicts API:</b> Dictionary</li>\n            <li><b>Conflicts API:</b> Settings</li>\n        </ul>\n\n        <p>Note that the <i>_bulk</i> endpoints are optimized for large data loads and can rapidly process 10,000 clients, matters or parties at a time.</p>\n\n        <h2>Phase 3: Set up</h2>\n\n        <p>Once the data has been provisioned in Open, the application can be set up for use. Using the solutions design as a guide:</p>\n\n        <ul class=\"list-number\">\n            <li>Create Workflows using the Workflow Designer</li>\n            <li>Define Forms using the Form Builder</li>\n            <li>Modify or create Data Sets using the Data Set Designer</li>\n            <li>Set up interactions with 3<sup>rd</sup> party systems by defining Integrations</li>\n        </ul>\n\n        <p>Note that Integrate is recommended for Step 4 above. Open will log user defined custom events and send them through long-polling for further action in external systems. These events endpoints are defined under Common API: External Integration.</p>\n\n        <h2>Phase 4: Validation and quality assurance</h2>\n\n        <p>Once the set-up is complete, please invite your firm to validate and test the product. This may involve manual verification of workflows, penetration testing, and data verification through the data management page. Our customer success team will be available to help you every step of the way.</p>\n\n    </section>\n</div>";
+  },"useData":true});
+this["Handlebars"]["templates"]["documentation_steadystate_cloud"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  return "<header class=\"gb-header-sm\">\n    <div class=\"logo-intapp-api\">Intapp API</div>\n    <ul class=\"gb-header-nav\">\n        <li><a href=\"#\">Platform API</a></li>\n        <li class=\"has-drop-menu is-selected\">\n            <a href=\"#doc/oauth2\">Documents</a>\n            <div class=\"gb-header-nav-inner\">\n                <ul>\n                    <li><a href=\"#doc/oauth2\">OAuth2 details</a></li>\n                    <li><a href=\"#doc/provisioning\">Provisioning walk-through</a></li>\n                    <li class=\"is-selected\"><a href=\"#doc/steadystate\">Steady State walk-through</a></li>\n                </ul>\n            </div>\n        </li>\n        <li><a href=\"#logout\">Log out</a></li>\n    </ul>\n</header>\n<div class=\"swagger-ui-wrap\">\n    <section class=\"gb-content\">\n        <h1>Steady-state implementation details</h1>\n        \n        <p>After mapping and loading data, the following sections highlight useful endpoints to set up Open for steady-state operations. In the context of the provisioning walk-through, these endpoints will be used during PHASE 3: SET UP.</p>\n        \n        <h2>1. Data sync API endpoints </h2>\n        \n        <p>Use the Steady State filter on the endpoint list page to determine the APIs useful in post setup operations. These primarily use GET and PATCH HTTP verbs to get the latest data from, and push updates to Open. Steady State APIs are available for dictionaries, entities, sub-entities and actions common to both Intake and Conflicts.</p>\n        \n        <p>The Conflict Search APIs can be used to update conflict search settings, modify search elements such as attachments, and even run conflict searches. The Intake steady state APIs not only get information related to a request, but also allow request actions such as delegation, sharing, assignment and approval.</p>\n    \n        <h2>2. External integrations</h2>\n        \n        <p>The Common Steady State APIs include external integration endpoints. These are specifically created to communicate with 3<sup>rd</sup> party systems on events or changes occurring within Open.</p>\n        \n        <ul class=\"list-alpha list-upper\">\n            <li>Use the <b>GET events/_poll</b> endpoint to check for change events generated in Open. This is designed to allow an application to poll for the latest events from the tenant specific Open message queue. There are three types of events generated through Open (please refer to the <i>Intake Administrator Guide</i> for more details) that can be retrieved with relevant details.</li>\n            <li>Use the <b>POST events/_ack</b> or <b>POST events/_nack</b> endpoint to indicate whether an event has been successfully received by an application. If acknowledged through <b>POST events/_ack</b>, an event will be removed from the queue and stored for historical reference. If not acknowledged using <b>POST events/_nack</b>, the event will be re-entered into the message queue immediately or after the specified interval. In case there is no acknowledgement received at all, the event will re-enter the queue after a period of 2-minutes. Based on the preference of the implementer, these endpoints can be used either on the successful processing of the event by a 3<sup>rd</sup> party system or on the receipt prior to processing.</li>\n            <li><b>GET events/{eventType}</b> allows for retrieval of historical events within a specified interval or by limiting the number of records. This endpoint can be used in case an event is misprocessed.</li>\n        </ul>\n        \n        <h2>3. Miscellaneous implementation notes for specific endpoints</h2>\n        \n        <ol class=\"list-disc\">\n            <li><b>GET requests/[requestId]</b>: To return user answers from Requests, the Form definition must have a Reference name specified for the question</li>\n        </ol>\n    </section>\n</div>";
+  },"useData":true});
+this["Handlebars"]["templates"]["documentation_steadystate_onpremise"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  return "<header class=\"gb-header-sm\">\n    <div class=\"logo-intapp-api\">Intapp API</div>\n    <ul class=\"gb-header-nav\">\n        <li><a href=\"#\">Platform API</a></li>\n        <li class=\"has-drop-menu is-selected\">\n            <a href=\"#doc/oauth2\">Documents</a>\n            <div class=\"gb-header-nav-inner\">\n                <ul>\n                    <li><a href=\"#doc/oauth2\">OAuth2 details</a></li>\n                    <li><a href=\"#doc/provisioning\">Provisioning walk-through</a></li>\n                    <li class=\"is-selected\"><a href=\"#doc/steadystate\">Steady State walk-through</a></li>\n                </ul>\n            </div>\n        </li>\n        <li><a href=\"#logout\">Log out</a></li>\n    </ul>\n</header>\n<div class=\"swagger-ui-wrap\">\n    <section class=\"gb-content\">\n        <h1>Steady-state implementation details (ON PREMISE)</h1>\n        \n        <p>After mapping and loading data, the following sections highlight useful endpoints to set up Open for steady-state operations. In the context of the provisioning walk-through, these endpoints will be used during PHASE 3: SET UP.</p>\n        \n        <h2>1. Data sync API endpoints </h2>\n        \n        <p>Use the Steady State filter on the endpoint list page to determine the APIs useful in post setup operations. These primarily use GET and PATCH HTTP verbs to get the latest data from, and push updates to Open. Steady State APIs are available for dictionaries, entities, sub-entities and actions common to both Intake and Conflicts.</p>\n        \n        <p>The Conflict Search APIs can be used to update conflict search settings, modify search elements such as attachments, and even run conflict searches. The Intake steady state APIs not only get information related to a request, but also allow request actions such as delegation, sharing, assignment and approval.</p>\n    \n        <h2>2. External integrations</h2>\n        \n        <p>The Common Steady State APIs include external integration endpoints. These are specifically created to communicate with 3<sup>rd</sup> party systems on events or changes occurring within Open.</p>\n        \n        <ul class=\"list-alpha list-upper\">\n            <li>Use the <b>GET events/_poll</b> endpoint to check for change events generated in Open. This is designed to allow an application to poll for the latest events from the tenant specific Open message queue. There are three types of events generated through Open (please refer to the <i>Intake Administrator Guide</i> for more details) that can be retrieved with relevant details.</li>\n            <li>Use the <b>POST events/_ack</b> or <b>POST events/_nack</b> endpoint to indicate whether an event has been successfully received by an application. If acknowledged through <b>POST events/_ack</b>, an event will be removed from the queue and stored for historical reference. If not acknowledged using <b>POST events/_nack</b>, the event will be re-entered into the message queue immediately or after the specified interval. In case there is no acknowledgement received at all, the event will re-enter the queue after a period of 2-minutes. Based on the preference of the implementer, these endpoints can be used either on the successful processing of the event by a 3<sup>rd</sup> party system or on the receipt prior to processing.</li>\n            <li><b>GET events/{eventType}</b> allows for retrieval of historical events within a specified interval or by limiting the number of records. This endpoint can be used in case an event is misprocessed.</li>\n        </ul>\n        \n        <h2>3. Miscellaneous implementation notes for specific endpoints</h2>\n        \n        <ol class=\"list-disc\">\n            <li><b>GET requests/[requestId]</b>: To return user answers from Requests, the Form definition must have a Reference name specified for the question</li>\n        </ol>\n    </section>\n</div>";
+  },"useData":true});
 this["Handlebars"]["templates"]["documentation"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<header class=\"gb-header\">\n    <div class=\"logo-intapp-api\">Intapp API</div>\n    <ul class=\"gb-header-nav\">\n        <li><a href=\"#\">Open API</a></li>\n        <li class=\"is-selected\">\n            <a href=\"#doc\">Documents</a>\n            <ul class=\"gb-header-nav-inner\">\n                <li><a href=\"#doc\">OAuth2 Details</a></li>\n                <li><a href=\"#doc\">Provisioning Step Through</a></li>\n                <li><a href=\"#doc\">Steady Step Through</a></li>\n            </ul>\n        </li>\n        <li><a href=\"#logout\">Log out</a></li>\n    </ul>\n    <div class=\"gb-header-overview\">\n        <h1>Overview</h1>\n    </div>\n</header>\n<div class=\"swagger-ui-wrap\">\n    <h2>Documentation</h2>\n</div>";
+  return "<header class=\"gb-header-sm\">\n    <div class=\"logo-intapp-api\">Intapp API</div>\n    <ul class=\"gb-header-nav\">\n        <li><a href=\"#\">Platform API</a></li>\n        <li class=\"has-drop-menu is-selected\">\n            <a href=\"#doc/oauth2\">Documents</a>\n            <div class=\"gb-header-nav-inner\">\n                <ul>\n                    <li><a href=\"#doc/oauth2\">OAuth2 details</a></li>\n                    <li><a href=\"#doc/provisioning\">Provisioning walk-through</a></li>\n                    <li><a href=\"#doc/steadystate\">Steady State walk-through</a></li>\n                </ul>\n            </div>\n        </li>\n        <li><a href=\"#logout\">Log out</a></li>\n    </ul>\n</header>\n<div class=\"swagger-ui-wrap\">\n    <section class=\"gb-content\">\n        <h1>Guide to set up Open</h1>\n\n        <h2>Phase 1: Instantiation</h2>\n\n        <p>The Intapp Developer Operations team will deploy an instance of the Open application and allocate a client specific database in the Amazon Virtual Private Cloud. They will collaborate with your solutions consultant to do the following:</p>\n\n        <ol class=\"list-disc\">\n            <li>Configure the application modules and add-ons as purchased</li>\n            <li>Configure default conflict search settings as required</li>\n            <li>Pre-load data sets to be used in forms and workflows as required</li>\n        </ol>\n\n        <p>Once complete, your services team will receive Administrator credentials to the tenant.</p>\n\n        <h2>Phase 2: Provisioning</h2>\n\n        <p>Open can now be provisioned through the REST API’s. On completing a data mapping exercise with your solutions consultant, select the Provisioning filter to narrow the endpoints to use to load data. The API’s are grouped for clarity to ensure dependencies are met. Please use the endpoints in following order:</p>\n\n        <ul class=\"list-number\">\n            <li>Common API: Dictionary</li>\n            <li>Common API: Entity</li>\n            <li>Common API: Sub-entity</li>\n        </ul>\n\n        <p>If the Conflicts module has been enabled, continue through step 5.</p>\n\n        <ul class=\"list-number list-step-4\">\n            <li>Conflicts API: Dictionary</li>\n            <li>Conflicts API: Settings</li>\n        </ul>\n\n        <p>Note that the _bulk endpoints are optimized for large data loads and can rapidly process 10,000 clients, matters or parties at a time.</p>\n\n        <h2>Phase 3: Set up</h2>\n\n        <p>Once the data has been provisioned in Open, the application can be set up for use. Using the solutions design as a guide:</p>\n\n        <ul>\n            <li>Create Workflows using the Workflow Designer</li>\n            <li>Define Forms using the Form Builder</li>\n            <li>Modify or create Data Sets using the Data Set Designer</li>\n            <li>Set up interactions with 3rd party systems by defining Integrations</li>\n        </ul>\n\n        <p>Note that Integrate is recommended for Step 4 above. Open will log user defined custom events and send them through long-polling for further action in external systems. These events endpoints are defined under Common API: External Integration.</p>\n\n        <h2>Phase 4: Validation and quality assurance</h2>\n\n        <p>Once the set-up is complete, please invite your firm to validate and test the product. This may involve manual verification of workflows, penetration testing, and data verification through the data management page. Our customer success team will be available to help you every step of the way.</p>\n\n    </section>\n</div>";
   },"useData":true});
 'use strict';
 /*jslint eqeq: true*/
@@ -407,9 +447,6 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
             return options.inverse(this);
     }
 });
-this["Handlebars"]["templates"]["login"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<header class=\"header-login-page\"><div class=\"logo-intapp-api\" title=\"Intapp API\">Intapp API</div></header>\n<section class=\"content-login-page\">\n    <form class=\"form-login-page\">\n        <!--add is-invalid class to show error-->\n        <div class=\"form-control is-required\">\n            <label for=\"tenant\">Tenant</label>\n            <input id=\"tenant\" name=\"tenant\" type=\"text\" placeholder=\"tenantId\" />\n            <p class=\"error-msg\">This field is required.</p>\n        </div>\n        <!--add is-invalid class to show error-->\n        <div class=\"form-control is-required\">\n            <label for=\"username\">Username</label>\n            <input id=\"user\" name=\"username\" type=\"text\" placeholder=\"username\" />\n            <p class=\"error-msg\">This field is required.</p>\n        </div>\n        <!--add is-invalid class to show error-->\n        <div class=\"form-control is-required\">\n            <label for=\"password\">Password</label>\n            <input id=\"pass\" name=\"password\" type=\"password\" placeholder=\"password\" />\n            <p class=\"error-msg\">This field is required.</p>\n        </div>\n        <button type=\"submit\" class=\"button button-green\" disabled=\"disabled\"> Log in </button>\n    </form>\n</section>\naaa__sa))__!!!";
-  },"useData":true});
 this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "  <div class=\"info_title\">"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.title : stack1), depth0))
@@ -492,7 +529,7 @@ this["Handlebars"]["templates"]["main"] = Handlebars.template({"1":function(dept
     + escapeExpression(((helper = (helper = helpers.url || (depth0 != null ? depth0.url : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"url","hash":{},"data":data}) : helper)))
     + "\"></a>\n    </span>\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class='info' id='api_info'>\n";
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class=\"swagger-scroll-top\"><a href=\"#\" class=\"scrollToTop\"></a></div>\n<div class=\"switch-button-panel\">\n    <div id=\"filter-panel\">\n        <button id=\"filter-button-all\" class=\"filter-button active\">All</button>\n        <button id=\"filter-button-provisioning\" class=\"filter-button\">Provisioning</button>\n        <button id=\"filter-button-steadystate\" class=\"filter-button\">Steady State</button>\n    </div>\n</div>\n<div class='info' id='api_info'>\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.info : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   buffer += "</div>\n<div class='container' id='resources_container'>\n  <div class='authorize-wrapper'></div>\n\n  <ul id='resources'></ul>\n\n  <div class=\"footer\">\n    <h4 style=\"color: #999\">[ <span style=\"font-variant: small-caps\">base url</span>: "
@@ -537,37 +574,35 @@ this["Handlebars"]["templates"]["oauth2"] = Handlebars.template({"1":function(de
   if (stack1 != null) { buffer += stack1; }
   return buffer + "    </ul>\n</div>";
 },"useData":true});
-this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
-  return "deprecated";
+this["Handlebars"]["templates"]["operation_content"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
+  return "    <h4><span data-sw-translate>Warning: Deprecated</span></h4>\n";
   },"3":function(depth0,helpers,partials,data) {
-  return "            <h4><span data-sw-translate>Warning: Deprecated</span></h4>\n";
-  },"5":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "        <h4><span data-sw-translate>Implementation Notes</span></h4>\n        <div class=\"markdown\">";
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "    <h4><span data-sw-translate>Implementation Notes</span></h4>\n    <div class=\"markdown\">";
   stack1 = ((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"description","hash":{},"data":data}) : helper));
   if (stack1 != null) { buffer += stack1; }
   return buffer + "</div>\n";
-},"7":function(depth0,helpers,partials,data) {
-  return "            <div class='authorize-wrapper authorize-wrapper_operation'></div>\n";
-  },"9":function(depth0,helpers,partials,data) {
-  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "          <div class=\"response-class\">\n            <h4><span data-sw-translate>Response Class</span> (<span data-sw-translate>Status</span> "
+},"5":function(depth0,helpers,partials,data) {
+  return "    <div class='authorize-wrapper authorize-wrapper_operation'></div>\n";
+  },"7":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "    <div class=\"response-class\">\n        <h4><span data-sw-translate>Response Class</span> (<span data-sw-translate>Status</span> "
     + escapeExpression(((helper = (helper = helpers.successCode || (depth0 != null ? depth0.successCode : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"successCode","hash":{},"data":data}) : helper)))
-    + ")</h4>\n              ";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.successDescription : depth0), {"name":"if","hash":{},"fn":this.program(10, data),"inverse":this.noop,"data":data});
+    + ")</h4>\n        ";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.successDescription : depth0), {"name":"if","hash":{},"fn":this.program(8, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "\n            <p><span class=\"model-signature\" /></p>\n            <br/>\n            <div class=\"response-content-type\" />\n            </div>\n";
-},"10":function(depth0,helpers,partials,data) {
+  return buffer + "\n        <p><span class=\"model-signature\" /></p>\n        <br/>\n        <div class=\"response-content-type\" />\n    </div>\n";
+},"8":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "<div class=\"markdown\">";
   stack1 = ((helper = (helper = helpers.successDescription || (depth0 != null ? depth0.successDescription : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"successDescription","hash":{},"data":data}) : helper));
   if (stack1 != null) { buffer += stack1; }
   return buffer + "</div>";
-},"12":function(depth0,helpers,partials,data) {
-  var stack1, buffer = "          <h4 data-sw-translate>Headers</h4>\n          <table class=\"headers\">\n            <thead>\n              <tr>\n                <th style=\"width: 100px; max-width: 100px\" data-sw-translate>Header</th>\n                <th style=\"width: 310px; max-width: 310px\" data-sw-translate>Description</th>\n                <th style=\"width: 200px; max-width: 200px\" data-sw-translate>Type</th>\n                <th style=\"width: 320px; max-width: 320px\" data-sw-translate>Other</th>\n              </tr>\n            </thead>\n            <tbody>\n";
-  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.headers : depth0), {"name":"each","hash":{},"fn":this.program(13, data),"inverse":this.noop,"data":data});
+},"10":function(depth0,helpers,partials,data) {
+  var stack1, buffer = "    <h4 data-sw-translate>Headers</h4>\n    <table class=\"headers\">\n        <thead>\n        <tr>\n            <th style=\"width: 100px; max-width: 100px\" data-sw-translate>Header</th>\n            <th style=\"width: 310px; max-width: 310px\" data-sw-translate>Description</th>\n            <th style=\"width: 200px; max-width: 200px\" data-sw-translate>Type</th>\n            <th style=\"width: 320px; max-width: 320px\" data-sw-translate>Other</th>\n        </tr>\n        </thead>\n        <tbody>\n";
+  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.headers : depth0), {"name":"each","hash":{},"fn":this.program(11, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "            </tbody>\n          </table>\n";
-},"13":function(depth0,helpers,partials,data) {
+  return buffer + "        </tbody>\n    </table>\n";
+},"11":function(depth0,helpers,partials,data) {
   var lambda=this.lambda, escapeExpression=this.escapeExpression;
-  return "              <tr>\n                <td>"
+  return "            <tr>\n                <td>"
     + escapeExpression(lambda((data && data.key), depth0))
     + "</td>\n                <td>"
     + escapeExpression(lambda((depth0 != null ? depth0.description : depth0), depth0))
@@ -575,24 +610,56 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
     + escapeExpression(lambda((depth0 != null ? depth0.type : depth0), depth0))
     + "</td>\n                <td>"
     + escapeExpression(lambda((depth0 != null ? depth0.other : depth0), depth0))
-    + "</td>\n              </tr>\n";
-},"15":function(depth0,helpers,partials,data) {
-  return "          <h4 data-sw-translate>Parameters</h4>\n          <table class='fullwidth parameters'>\n          <thead>\n            <tr>\n            <th style=\"width: 100px; max-width: 100px\" data-sw-translate>Parameter</th>\n            <th style=\"width: 310px; max-width: 310px\" data-sw-translate>Value</th>\n            <th style=\"width: 200px; max-width: 200px\" data-sw-translate>Description</th>\n            <th style=\"width: 100px; max-width: 100px\" data-sw-translate>Parameter Type</th>\n            <th style=\"width: 220px; max-width: 230px\" data-sw-translate>Data Type</th>\n            </tr>\n          </thead>\n          <tbody class=\"operation-params\">\n\n          </tbody>\n          </table>\n";
+    + "</td>\n            </tr>\n";
+},"13":function(depth0,helpers,partials,data) {
+  return "        <h4 data-sw-translate>Parameters</h4>\n        <table class='fullwidth parameters'>\n            <thead>\n            <tr>\n                <th style=\"width: 100px; max-width: 100px\" data-sw-translate>Parameter</th>\n                <th style=\"width: 310px; max-width: 310px\" data-sw-translate>Value</th>\n                <th style=\"width: 200px; max-width: 200px\" data-sw-translate>Description</th>\n                <th style=\"width: 100px; max-width: 100px\" data-sw-translate>Parameter Type</th>\n                <th style=\"width: 220px; max-width: 230px\" data-sw-translate>Data Type</th>\n            </tr>\n            </thead>\n            <tbody class=\"operation-params\">\n\n            </tbody>\n        </table>\n";
+  },"15":function(depth0,helpers,partials,data) {
+  return "        <div style='margin:0;padding:0;display:inline'></div>\n        <h4 data-sw-translate>Response Messages</h4>\n        <table class='fullwidth response-messages'>\n            <thead>\n            <tr>\n                <th data-sw-translate>HTTP Status Code</th>\n                <th data-sw-translate>Reason</th>\n                <th data-sw-translate>Response Model</th>\n                <th data-sw-translate>Headers</th>\n            </tr>\n            </thead>\n            <tbody class=\"operation-status\">\n            </tbody>\n        </table>\n";
   },"17":function(depth0,helpers,partials,data) {
-  return "          <div style='margin:0;padding:0;display:inline'></div>\n          <h4 data-sw-translate>Response Messages</h4>\n          <table class='fullwidth response-messages'>\n            <thead>\n            <tr>\n              <th data-sw-translate>HTTP Status Code</th>\n              <th data-sw-translate>Reason</th>\n              <th data-sw-translate>Response Model</th>\n              <th data-sw-translate>Headers</th>\n            </tr>\n            </thead>\n            <tbody class=\"operation-status\">\n            </tbody>\n          </table>\n";
-  },"19":function(depth0,helpers,partials,data) {
   return "";
-},"21":function(depth0,helpers,partials,data) {
-  return "          <div class='sandbox_header'>\n            <input class='submit' type='submit' value='Try it out!' data-sw-translate/>\n            <a href='#' class='response_hider' style='display:none' data-sw-translate>Hide Response</a>\n            <span class='response_throbber' style='display:none'></span>\n          </div>\n";
-  },"23":function(depth0,helpers,partials,data) {
-  return "          <h4 data-sw-translate>Request Headers</h4>\n          <div class='block request_headers'></div>\n";
+},"19":function(depth0,helpers,partials,data) {
+  return "        <div class='sandbox_header'>\n            <input class='submit' type='submit' value='Try it out!' data-sw-translate/>\n            <a href='#' class='response_hider' style='display:none' data-sw-translate>Hide Response</a>\n            <span class='response_throbber' style='display:none'></span>\n        </div>\n";
+  },"21":function(depth0,helpers,partials,data) {
+  return "        <h4 data-sw-translate>Request Headers</h4>\n        <div class='block request_headers'></div>\n";
+  },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var stack1, buffer = "";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.deprecated : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.description : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.security : depth0), {"name":"if","hash":{},"fn":this.program(5, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.type : depth0), {"name":"if","hash":{},"fn":this.program(7, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  buffer += "\n";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.headers : depth0), {"name":"if","hash":{},"fn":this.program(10, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  buffer += "\n<form accept-charset='UTF-8' class='sandbox'>\n    <div style='margin:0;padding:0;display:inline'></div>\n";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.parameters : depth0), {"name":"if","hash":{},"fn":this.program(13, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.responseMessages : depth0), {"name":"if","hash":{},"fn":this.program(15, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isReadOnly : depth0), {"name":"if","hash":{},"fn":this.program(17, data),"inverse":this.program(19, data),"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  buffer += "</form>\n<div class='response' style='display:none'>\n    <h4 class='curl'>Curl</h4>\n    <div class='block curl'></div>\n    <h4 data-sw-translate>Request URL</h4>\n    <div class='block request_url'></div>\n";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.showRequestHeaders : depth0), {"name":"if","hash":{},"fn":this.program(21, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "    <h4 data-sw-translate>Response Body</h4>\n    <div class='block response_body'></div>\n    <h4 data-sw-translate>Response Code</h4>\n    <div class='block response_code'></div>\n    <h4 data-sw-translate>Response Headers</h4>\n    <div class='block response_headers'></div>\n</div>\n";
+},"useData":true});
+this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
+  return "deprecated";
   },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "  <ul class='operations' >\n    <li class='"
     + escapeExpression(((helper = (helper = helpers.method || (depth0 != null ? depth0.method : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"method","hash":{},"data":data}) : helper)))
-    + " operation' id='"
+    + " operation ";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.deprecated : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  buffer += "' id='"
     + escapeExpression(((helper = (helper = helpers.parentId || (depth0 != null ? depth0.parentId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"parentId","hash":{},"data":data}) : helper)))
     + "_"
     + escapeExpression(((helper = (helper = helpers.nickname || (depth0 != null ? depth0.nickname : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"nickname","hash":{},"data":data}) : helper)))
+    + "_"
+    + escapeExpression(((helper = (helper = helpers.filter || (depth0 != null ? depth0.filter : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"filter","hash":{},"data":data}) : helper)))
     + "'>\n      <div class='heading'>\n        <h3>\n          <span class='http_method'>\n          <a href='#!/"
     + escapeExpression(((helper = (helper = helpers.encodedParentId || (depth0 != null ? depth0.encodedParentId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"encodedParentId","hash":{},"data":data}) : helper)))
     + "/"
@@ -615,33 +682,11 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
     + "' class=\"toggleOperation\">";
   stack1 = ((helper = (helper = helpers.summary || (depth0 != null ? depth0.summary : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"summary","hash":{},"data":data}) : helper));
   if (stack1 != null) { buffer += stack1; }
-  buffer += "</a>\n          </li>\n        </ul>\n      </div>\n      <div class='content' id='"
+  return buffer + "</a>\n          </li>\n        </ul>\n      </div>\n      <div class='content' id='"
     + escapeExpression(((helper = (helper = helpers.parentId || (depth0 != null ? depth0.parentId : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"parentId","hash":{},"data":data}) : helper)))
     + "_"
     + escapeExpression(((helper = (helper = helpers.nickname || (depth0 != null ? depth0.nickname : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"nickname","hash":{},"data":data}) : helper)))
-    + "_content' style='display:none'>\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.deprecated : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.description : depth0), {"name":"if","hash":{},"fn":this.program(5, data),"inverse":this.noop,"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.security : depth0), {"name":"if","hash":{},"fn":this.program(7, data),"inverse":this.noop,"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.type : depth0), {"name":"if","hash":{},"fn":this.program(9, data),"inverse":this.noop,"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  buffer += "\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.headers : depth0), {"name":"if","hash":{},"fn":this.program(12, data),"inverse":this.noop,"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  buffer += "\n        <form accept-charset='UTF-8' class='sandbox'>\n          <div style='margin:0;padding:0;display:inline'></div>\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.parameters : depth0), {"name":"if","hash":{},"fn":this.program(15, data),"inverse":this.noop,"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.responseMessages : depth0), {"name":"if","hash":{},"fn":this.program(17, data),"inverse":this.noop,"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isReadOnly : depth0), {"name":"if","hash":{},"fn":this.program(19, data),"inverse":this.program(21, data),"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  buffer += "        </form>\n        <div class='response' style='display:none'>\n          <h4 class='curl'>Curl</h4>\n          <div class='block curl'></div>\n          <h4 data-sw-translate>Request URL</h4>\n          <div class='block request_url'></div>\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.showRequestHeaders : depth0), {"name":"if","hash":{},"fn":this.program(23, data),"inverse":this.noop,"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  return buffer + "          <h4 data-sw-translate>Response Body</h4>\n          <div class='block response_body'></div>\n          <h4 data-sw-translate>Response Code</h4>\n          <div class='block response_code'></div>\n          <h4 data-sw-translate>Response Headers</h4>\n          <div class='block response_headers'></div>\n        </div>\n      </div>\n    </li>\n  </ul>\n";
+    + "_content' style='display:none'>\n          Loading...\n      </div>\n    </li>\n  </ul>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["param_list"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   return " required";
@@ -1011,13 +1056,22 @@ this["Handlebars"]["templates"]["response_content_type"] = Handlebars.template({
 window.SwaggerUiRouter = Backbone.Router.extend({
     routes: {
         '': 'onIndex',
-        'login': 'onLogin',
         'logout': 'onLogout',
-        'doc': 'onDocumentation'
+        'doc': 'onDocumentation',
+        'doc/:subdoc': 'onDocumentation'
     },
 
     initialize: function() {
         var url = this.getUrl();
+        var token = this.getParameterByName('access_token');
+        var apiKeyAuth = null;
+        var bearerToken = null;
+        if (token !== null){
+            bearerToken = 'Bearer ' + token;
+            apiKeyAuth = new SwaggerClient.ApiKeyAuthorization('Authorization', bearerToken, 'header');
+
+            Backbone.history.navigate('', false);
+        }
 
         window.swaggerUi = new SwaggerUi({
             url: url,
@@ -1032,13 +1086,35 @@ window.SwaggerUiRouter = Backbone.Router.extend({
                     hljs.highlightBlock(e);
                 });
 
+                //add separators
+                window.swaggerUi.mainView.$el.find('.resource_common_api').last().after('<li class="separator"></li>');
+                window.swaggerUi.mainView.$el.find('.resource_intake_api').last().after('<li class="separator"></li>');
+                window.swaggerUi.mainView.$el.find('.resource_conflicts_api').last().after('<li class="separator"></li>');
+
                 window.swaggerUi.initialized = true;
-                $('#swagger-container').show();
+                Backbone.history.navigate('', true);
+
+                console.timeEnd('loadingMainView');
             },
 
             onFailure: function(data) {
                 if(data === '401 : {\"message\":\"The identity is not set or unauthorized.\"} ' + window.swaggerUi.options.url) {
-                    Backbone.history.navigate('login', true);
+
+                    var host = window.location;
+                    var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
+                    var url = host.protocol + '//' + host.host + pathname.replace('swagger', 'login/url');
+                    $.ajax({
+                        url : url,
+                        type: 'POST',
+                        success: function (data)
+                        {
+                            window.location.href = data;
+                        },
+                        error: function ()
+                        {
+                            window.onOAuthComplete('');
+                        }
+                    });
                 } else {
                     console.log('Unable to Load SwaggerUI');
                 }
@@ -1047,15 +1123,92 @@ window.SwaggerUiRouter = Backbone.Router.extend({
             },
 
             docExpansion: 'none',
-            apisSorter: 'alpha',
+
+            apisSorter: function(a, b) {
+                var getWeight = function(item) {
+                    var weight = 0;
+                    if (item.indexOf('Common') !== -1) {
+                        weight += 100;
+                    }
+                    if (item.indexOf('Conflicts') !== -1) {
+                        weight += 200;
+                    }
+                    if (item.indexOf('Intake') !== -1) {
+                        weight += 300;
+                    }
+                    if (item.indexOf('Dictionary') !== -1) {
+                        weight += 1;
+                    }
+                    if (item.indexOf('Entity') !== -1) {
+                        weight += 2;
+                    }
+                    if (item.indexOf('Sub-entity') !== -1) {
+                        weight += 3;
+                    }
+                    if (item.indexOf('Action') !== -1) {
+                        weight += 4;
+                    }
+                    if (item.indexOf('Integration') !== -1) {
+                        weight += 5;
+                    }
+                    if (item.indexOf('Settings') !== -1) {
+                        weight += 6;
+                    }
+                    if (item.indexOf('Property') !== -1) {
+                        weight += 7;
+                    }
+
+                    return weight;
+                };
+
+                return getWeight(a.tag) > getWeight(b.tag) ? 1 : -1;
+            },
+
             operationsSorter: function(a, b) {
                 return a.path === b.path ? a.method.localeCompare(b.method) : a.path.localeCompare(b.path);
             },
+
             showRequestHeaders: false,
             validatorUrl: null
         });
 
-        window.swaggerUi.load();
+        //set swagger client auth
+        if (apiKeyAuth !== null) {
+            //set supported HTTP methods
+
+            if (window.swaggerUi.api) {
+                window.swaggerUi.api.clientAuthorizations.add('Authorization', apiKeyAuth);
+            } else {
+                window.swaggerUi.options.authorizations = {'Authorization': apiKeyAuth};
+            }
+
+            var host = window.location;
+            var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
+            var adminUrl = host.protocol + '//' + host.host + pathname.replace('swagger', 'login/isadmin');
+            $.ajax({
+                url : adminUrl,
+                type: 'POST',
+                beforeSend: function (request)
+                {
+                    request.setRequestHeader('Authorization', bearerToken);
+                },
+                success: function (data)
+                {
+                    if (data.toLowerCase() === 'true'){
+                        window.swaggerUi.options.supportedSubmitMethods = ['get', 'post', 'put', 'delete', 'patch'];
+                    }
+                    else{
+                        window.swaggerUi.options.supportedSubmitMethods = ['get'];
+                    }
+
+                    window.swaggerUi.load();
+                },
+                error: function ()
+                {
+                    window.onOAuthComplete('');
+                }
+            });
+        }
     },
 
     onIndex: function() {
@@ -1074,26 +1227,38 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         this.currentView = undefined;
     },
 
-    onLogin: function() {
-        console.log('render login page');
-        this.showView(new SwaggerUi.Views.LoginView());
-    },
-
     onLogout: function() {
         console.log('process logout');
 
         window.swaggerUi.api.clientAuthorizations.remove('Authorization');
-        window.swaggerUi.options.url = this.getUrl();
 
-        window.swaggerUi.load();
+        var host = window.location;
+        var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
+        var url = host.protocol + '//' + host.host + pathname.replace('swagger', 'login/url');
+        $.ajax({
+            url : url,
+            type: 'POST',
+            success: function (data)
+            {
+                window.location.href = data.replace('oauth/authorize', 'account/logout');
+            },
+            error: function ()
+            {
+                window.swaggerUi.options.url = this.getUrl();
+                window.swaggerUi.load();
+            }
+        });
     },
 
-    onDocumentation: function() {
+    onDocumentation: function(subdoc) {
+        /*global Intapp */
+        var deploymentType = (typeof window.Intapp !== 'undefined' && Intapp.Config.Deployment === 'OnPremise') ? '_onpremise' : '_cloud';
+
         if(window.swaggerUi.initialized) {
             console.log('render documentation page');
-            this.showView(new SwaggerUi.Views.DocumentationView());
+            this.showView(new SwaggerUi.Views.DocumentationView(subdoc && { template: 'documentation_' + subdoc + deploymentType }));
         } else {
-            this.navigate('login', true);
+            this.navigate('', true);
         }
     },
 
@@ -1105,19 +1270,36 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         this.currentView = view;
 
         $('#swagger-container').hide();
-        $(view.render().el).appendTo('body');
+        view.render();
     },
 
     getUrl: function() {
-        var host = window.location;
-        var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-        var url = host.protocol + '//' + host.host + pathname.replace('swagger', 'api/swagger/docs/v1') + '?_=' + Date.now();
+        // var host = window.location;
+        // var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
+        //
+        // return host.protocol + '//' + host.host + pathname.replace('swagger', 'api/swagger/docs/v1') + '?_=' + Date.now();
+        return 'proxy/tms.platform.intapp.com/v2/api-docs';
+    },
 
-        // REMOVE AFTER
-        url = 'http://localhost/Open.Services/api/swagger/docs/v1' + '?_=' + Date.now();
-        return url;
+    getParameterByName: function(name, url) {
+        if (!url) {
+            url = window.location.href;
+        }
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[#?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results){
+            return null;
+        }
+
+        if (!results[2]) {
+            return '';
+        }
+
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
     }
 });
+
 this["Handlebars"]["templates"]["signature"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "\n<div>\n<ul class=\"signature-nav\">\n  <li><a class=\"description-link\" href=\"#\" data-sw-translate>Model</a></li>\n  <li><a class=\"snippet-link\" href=\"#\" data-sw-translate>Example Value</a></li>\n</ul>\n<div>\n\n<div class=\"signature-container\">\n  <div class=\"description\">\n    ";
   stack1 = ((helper = (helper = helpers.signature || (depth0 != null ? depth0.signature : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"signature","hash":{},"data":data}) : helper));
@@ -19445,6 +19627,8 @@ window.SwaggerUi = Backbone.View.extend({
   // This is bound to success handler for SwaggerApi
   //  so it gets called when SwaggerApi completes loading
   render: function(){
+    console.time('renderingMainView');
+
     var authsModel;
     this.showMessage('Finished Loading Resource Information. Rendering Swagger UI...');
     this.mainView = new SwaggerUi.Views.MainView({
@@ -19482,6 +19666,7 @@ window.SwaggerUi = Backbone.View.extend({
     }
 
     setTimeout(Docs.shebang.bind(this), 100);
+    console.timeEnd('renderingMainView');
   },
 
   buildUrl: function(base, url){
@@ -20234,11 +20419,21 @@ SwaggerUi.Views.ContentTypeView = Backbone.View.extend({
 'use strict';
 
 SwaggerUi.Views.DocumentationView = Backbone.View.extend({
+    el: '#main-container',
     template: Handlebars.templates.documentation,
 
+    initialize: function(options) {
+        this.options = options;
+    },
+
     render: function () {
-        this.$el.html(this.template());
+        this.$el.html(this.options.template ? Handlebars.templates[this.options.template]() : this.template());
         return this;
+    },
+
+    remove: function() {
+        this.$el.empty();
+        this.undelegateEvents();
     }
 });
 'use strict';
@@ -20290,84 +20485,45 @@ SwaggerUi.Views.HeaderView = Backbone.View.extend({
 
 'use strict';
 
-SwaggerUi.Views.LoginView = Backbone.View.extend({
-    template: Handlebars.templates.login,
-    className: 'body-login-page',
-
-    events: {
-        'submit form': 'onFormSubmit',
-        'keyup input': 'onInputChange'
-    },
-
-    render: function () {
-        this.$el.html(this.template());
-
-        this.ui = {
-            $tenant: this.$el.find('#tenant'),
-            $user: this.$el.find('#user'),
-            $pass: this.$el.find('#pass'),
-
-            $submit: this.$el.find('button')
-        };
-
-        return this;
-    },
-
-    onInputChange: function(options) {
-        var $target = $(options.target),
-            $container = $target.closest('div'),
-            value = $target.val();
-
-        $container[value ? 'removeClass' : 'addClass']('is-invalid');
-        this.ui.$submit.prop('disabled', !this.isValidForm());
-    },
-
-    onFormSubmit: function(e) {
-        var host = window.location;
-        var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-        var tokenUrl = host.protocol + '//' + host.host + pathname.replace('swagger', 'token');
-
-        //REMOVE
-        tokenUrl = 'http://localhost/Open.Services/token';
-
-        $.ajax({
-            url: tokenUrl,
-            type: 'post',
-            contenttype: 'x-www-form-urlencoded',
-            data: 'grant_type=password&username=' + this.ui.$user.val() + '&password=' + this.ui.$pass.val() + '&tenantId=' + this.ui.$tenant.val() + '&extend=roles',
-            success: function (response) {
-                var bearerToken = 'Bearer ' + response.access_token,
-                    apiKeyAuth = new SwaggerClient.ApiKeyAuthorization('Authorization', bearerToken, 'header');
-
-                //set supported HTTP methods
-                window.swaggerUi.options.supportedSubmitMethods = (response.roles || []).indexOf('Admin') >= 0 ? ['get', 'post', 'put', 'delete', 'patch'] : ['get'];
-
-                //set swagger client auth
-                if(window.swaggerUi.api) {
-                    window.swaggerUi.api.clientAuthorizations.add('Authorization', apiKeyAuth);
-                } else {
-                    window.swaggerUi.options.authorizations = {'Authorization': apiKeyAuth};
-                }
-
-                //navigate to main form
-                Backbone.history.navigate('', true);
-            },
-            error: function (response) {
-                window.alert(JSON.parse(response.responseText).error);
-            }
-        });
-
-        e.preventDefault();
-    },
-
-    isValidForm: function() {
-        return !!this.ui.$tenant.val() && !!this.ui.$user.val() && !!this.ui.$pass.val();
-    }
-
-});
-'use strict';
-
 SwaggerUi.Views.MainView = Backbone.View.extend({
+  events: {
+    'click .filter-button': 'onFiltering'
+  },
+
+    onFiltering: function(e) {
+        if(!this.$allOperations) { this.$allOperations = $('#resources ul.operations > li'); }
+        if(!this.$deprecatedOperations) { this.$deprecatedOperations = $('#resources ul.operations > li.deprecated'); }
+        if(!this.$notProvisioningOperations) { this.$notProvisioningOperations = this.$allOperations.not('[id*="_provisioning"]'); }
+        if(!this.$notSteadystateOperations) { this.$notSteadystateOperations = this.$allOperations.not('[id*="_steadystate"]'); }
+        if(!this.$groups) { this.$groups = $('#resources .resource'); }
+
+        this.$allOperations.show();
+        this.$deprecatedOperations.hide();
+        $('#filter-panel button').removeClass('active');
+
+        switch (e.target.id) {
+            case 'filter-button-provisioning':
+                this.$notProvisioningOperations.hide();
+                this.$deprecatedOperations.hide();
+                $('#filter-button-provisioning').addClass('active');
+                break;
+            case 'filter-button-steadystate':
+                this.$notSteadystateOperations.hide();
+                this.$deprecatedOperations.hide();
+                $('#filter-button-steadystate').addClass('active');
+                break;
+            default:
+                // all
+                $('#filter-button-all').addClass('active');
+        }
+
+        //check group visibility
+        this.$groups.each(function(i, group) {
+            group = $(group);
+            group[group.children('ul').actual('height') ? 'show' : 'hide']();
+        });
+    },
+
   apisSorter : {
     alpha   : function(a,b){ return a.name.localeCompare(b.name); }
   },
@@ -20375,6 +20531,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
     alpha   : function(a,b){ return a.path.localeCompare(b.path); },
     method  : function(a,b){ return a.method.localeCompare(b.method); }
   },
+
   initialize: function(opts){
     var sorterOption, sorterFn, key, value;
     opts = opts || {};
@@ -20495,7 +20652,7 @@ SwaggerUi.Views.MainView = Backbone.View.extend({
       router: this.router,
       tagName: 'li',
       id: 'resource_' + resource.id,
-      className: 'resource',
+      className: 'resource resource_' + resource.id.substr(0, resource.id.indexOf(':')).toLowerCase(),
       auths: auths,
       swaggerOptions: this.options.swaggerOptions
     });
@@ -20602,6 +20759,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     this.auths = opts.auths;
     this.parentId = this.model.parentId;
     this.nickname = this.model.nickname;
+    this.model.filter = this.model.operation['x-openFilter'];
     this.model.encodedParentId = encodeURIComponent(this.parentId);
 
     if (opts.swaggerOptions) {
@@ -20668,7 +20826,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
   // Note: copied from CoffeeScript compiled file
   // TODO: redactor
   render: function() {
-    var a, auth, auths, code, contentTypeModel, isMethodSubmissionSupported, k, key, l, len, len1, len2, len3, len4, m, modelAuths, n, o, p, param, q, ref, ref1, ref2, ref3, ref4, ref5, responseContentTypeView, responseSignatureView, schema, schemaObj, scopeIndex, signatureModel, statusCode, successResponse, type, v, value, produces, isXML, isJSON;
+    var a, auth, auths, code, isMethodSubmissionSupported, o, k, key, l, len, len1, m, modelAuths, ref1, ref2, schema, schemaObj, scopeIndex, v, value;
     isMethodSubmissionSupported = jQuery.inArray(this.model.method, this.model.supportedSubmitMethods()) >= 0;
     if (!isMethodSubmissionSupported) {
       this.model.isReadOnly = true;
@@ -20747,7 +20905,16 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     if (typeof this.model.responseMessages === 'undefined') {
       this.model.responseMessages = [];
     }
+
+    $(this.el).html(Handlebars.templates.operation(this.model));
+    return this;
+  },
+
+  renderContent: function() {
+    var successResponse, key, value, produces, contentTypeModel, len2, len3, len4, n, p, param, q, ref, ref3, ref4, ref5, responseContentTypeView, responseSignatureView, schema, signatureModel, statusCode, type, isXML, isJSON;
+
     signatureModel = null;
+
     produces = this.model.produces;
     isXML = this.contains(produces, 'xml');
     isJSON = isXML ? this.contains(produces, 'json') : true;
@@ -20779,7 +20946,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         signature: this.model.responseClassSignature
       };
     }
-    $(this.el).html(Handlebars.templates.operation(this.model));
+
     if (signatureModel) {
       signatureModel.defaultRendering = this.model.defaultRendering;
       responseSignatureView = new SwaggerUi.Views.SignatureView({
@@ -20856,7 +21023,7 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
 
     this.showSnippet();
-    return this;
+    this.isContentRendered = true;
   },
 
   parseHeadersType: function (headers) {
@@ -20958,9 +21125,9 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
     form = $('.sandbox', $(this.el));
     error_free = true;
-    form.find('input.required').each(function() {
+    form.find(':input.required').each(function() {
       $(this).removeClass('error');
-      if (jQuery.trim($(this).val()) === '') {
+      if (jQuery.trim($(this).val()) === '' || $(this).val() === $(this).attr('placeholder')) {
         $(this).addClass('error');
         $(this).wiggle({
           callback: (function(_this) {
@@ -21379,14 +21546,23 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
     }
   },
 
-  toggleOperationContent: function (event) {
+  toggleOperationContent: function (event, params) {
     var elem = $('#' + Docs.escapeResourceName(this.parentId + '_' + this.nickname + '_content'));
-    if (elem.is(':visible')){
+    if (elem.is(':visible') && params !== 'expand'){
       $.bbq.pushState('#/', 2);
       event.preventDefault();
       Docs.collapseOperation(elem);
     } else {
-      Docs.expandOperation(elem);
+      if(this.isContentRendered) {
+        Docs.expandOperation(elem);
+      } else {
+        setTimeout(function () {
+          elem.html(Handlebars.templates.operation_content(this.model));
+          this.renderContent();
+
+          Docs.expandOperation(elem);
+        }.bind(this));
+      }
     }
   },
 

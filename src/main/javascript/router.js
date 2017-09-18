@@ -199,7 +199,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
 
     onDocumentation: function(subdoc) {
         /*global Intapp */
-        var deploymentType = (typeof Intapp !== undefined && Intapp.Config.Deployment === 'OnPremise') ? '_onpremise' : '_cloud';
+        var deploymentType = (typeof window.Intapp !== 'undefined' && Intapp.Config.Deployment === 'OnPremise') ? '_onpremise' : '_cloud';
 
         if(window.swaggerUi.initialized) {
             console.log('render documentation page');
@@ -221,10 +221,11 @@ window.SwaggerUiRouter = Backbone.Router.extend({
     },
 
     getUrl: function() {
-        var host = window.location;
-        var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-
-        return host.protocol + '//' + host.host + pathname.replace('swagger', 'api/swagger/docs/v1') + '?_=' + Date.now();
+        // var host = window.location;
+        // var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
+        //
+        // return host.protocol + '//' + host.host + pathname.replace('swagger', 'api/swagger/docs/v1') + '?_=' + Date.now();
+        return 'proxy/tms.platform.intapp.com/v2/api-docs';
     },
 
     getParameterByName: function(name, url) {

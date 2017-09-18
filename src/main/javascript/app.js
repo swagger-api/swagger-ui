@@ -8,7 +8,7 @@
 
         //set main open URL
         /*global Intapp */
-        if((typeof Intapp !== undefined && Intapp.Config.Url)) {
+        if((typeof window.Intapp !== 'undefined' && window.Intapp.Config.Url)) {
             $('#main-app').attr('href', Intapp.Config.Url);
         } else {
             $('#main-app').attr('href', location.href.replace('/api/swagger', ''));

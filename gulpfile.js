@@ -16,6 +16,7 @@ var header = require('gulp-header');
 var order = require('gulp-order');
 var jshint = require('gulp-jshint');
 var pkg = require('./package.json');
+var Proxy = require('gulp-connect-proxy');
 
 var banner = ['/**',
   ' * <%= pkg.name %> - <%= pkg.description %>',
@@ -25,7 +26,7 @@ var banner = ['/**',
   ' */',
   ''].join('\n');
 
-var dist = '../../wilco.service.web/swagger'; //'./dist';
+var dist = './dist';
 
 /**
  * Clean ups ./dist folder
@@ -154,7 +155,13 @@ gulp.task('watch', ['copy-local-specs'], function() {
 gulp.task('connect', function() {
   connect.server({
     root: 'dist',
-    livereload: true
+    livereload: true,
+
+      middleware: function (connect, opt) {
+          opt.route = '/proxy';
+          var proxy = new Proxy(opt);
+          return [proxy];
+      }
   });
 });
 
