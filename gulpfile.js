@@ -155,6 +155,7 @@ gulp.task('watch', ['copy-local-specs'], function() {
 gulp.task('connect', function() {
   connect.server({
     root: 'dist',
+    port: 4200,
     livereload: true,
 
       middleware: function (connect, opt) {

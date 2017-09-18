@@ -1056,6 +1056,7 @@ this["Handlebars"]["templates"]["response_content_type"] = Handlebars.template({
 window.SwaggerUiRouter = Backbone.Router.extend({
     routes: {
         '': 'onIndex',
+        'state=:state': 'onIndex',
         'logout': 'onLogout',
         'doc': 'onDocumentation',
         'doc/:subdoc': 'onDocumentation'
@@ -1228,26 +1229,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
     },
 
     onLogout: function() {
-        console.log('process logout');
-
-        window.swaggerUi.api.clientAuthorizations.remove('Authorization');
-
-        var host = window.location;
-        var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-        var url = host.protocol + '//' + host.host + pathname.replace('swagger', 'login/url');
-        $.ajax({
-            url : url,
-            type: 'POST',
-            success: function (data)
-            {
-                window.location.href = data.replace('oauth/authorize', 'account/logout');
-            },
-            error: function ()
-            {
-                window.swaggerUi.options.url = this.getUrl();
-                window.swaggerUi.load();
-            }
-        });
+        window.KC.logout({redirectUri: location.href.replace('#logout', '')});
     },
 
     onDocumentation: function(subdoc) {
