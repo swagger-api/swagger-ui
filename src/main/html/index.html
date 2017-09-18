@@ -68,24 +68,14 @@
             </div>
         </header>
         <div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
-        <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+        <div id="swagger-ui-container" class="swagger-ui-wrap">
+            <h2 style="text-align: center">Loading API definitions configuration...</h2>
+        </div>
     </div>
 
     <script type="text/javascript">
-        var keycloak = window.KC = Keycloak({
-            url: 'https://idm.platformdev.intapp.com/auth',
-            realm: 'df4ceb3ae',
-            clientId: 'ADMIN-UI'
-        });
-
-        keycloak.init({ onLoad: 'login-required' }).success(function(authenticated) {
-            if(authenticated) {
-                new SwaggerApp();
-            } else {
-                alert('not authenticated');
-            }
-        }).error(function() {
-            alert('failed to initialize');
+        $(function() {
+            new SwaggerApp();
         });
     </script>
 </body>
