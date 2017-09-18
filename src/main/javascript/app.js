@@ -11,15 +11,10 @@
 
         //get tenant configuration
         $.get(_tmsUrl + '/alias/' + getTenantFromUrl()).then(function(configuration) {
-            var keycloak = window.KC = Keycloak({ url: configuration.auth_url, realm: configuration.name, clientId: 'ADMIN-UI' });
+            var keycloak = window.KC = new window.Keycloak({ url: configuration.auth_url, realm: configuration.name, clientId: _keycloakClientIdDefault });
 
             keycloak.init({ onLoad: 'login-required' }).success(function(authenticated) {
-                if(authenticated) {
-                    //start history
-                    Backbone.history.start(new window.SwaggerUiRouter({app: this}));
-                } else {
-                    alert('not authenticated');
-                }
+                authenticated && Backbone.history.start(new window.SwaggerUiRouter({app: this}));
             });
         });
     };
