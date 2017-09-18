@@ -237,12 +237,21 @@ export const requests = createSelector(
     state => state.get( "requests", Map() )
 )
 
+export const mutatedRequests = createSelector(
+    state,
+    state => state.get( "mutatedRequests", Map() )
+)
+
 export const responseFor = (state, path, method) => {
   return responses(state).getIn([path, method], null)
 }
 
 export const requestFor = (state, path, method) => {
   return requests(state).getIn([path, method], null)
+}
+
+export const mutatedRequestFor = (state, path, method) => {
+  return mutatedRequests(state).getIn([path, method], null)
 }
 
 export const allowTryItOutFor = () => {

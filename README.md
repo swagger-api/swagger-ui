@@ -10,10 +10,10 @@
 
 As a brand new version, written from the ground up, there are some known issues and unimplemented features. Check out the [Known Issues](#known-issues) section for more details.
 
-This repo publishes to two different NPM packages:
+This repository publishes to two different NPM modules:
 
-* [swagger-ui](https://www.npmjs.com/package/swagger-ui) is intended for use as a node module.
-* [swagger-ui-dist](https://www.npmjs.com/package/swagger-ui-dist) comes pre-bundled with all dependencies and can be incorporated directly in a webapp.
+* [swagger-ui](https://www.npmjs.com/package/swagger-ui) is a traditional npm module intended for use in JavaScript web application projects that are capable of resolving dependencies (via Webpack, Browserify, etc).
+* [swagger-ui-dist](https://www.npmjs.com/package/swagger-ui-dist) is a dependency-free module that includes everything you need to serve Swagger-UI in a server-side project, or a web project that can't resolve npm module dependencies.
 
 For the older version of swagger-ui, refer to the [*2.x branch*](https://github.com/swagger-api/swagger-ui/tree/2.x).
 
@@ -22,7 +22,7 @@ The OpenAPI Specification has undergone 5 revisions since initial creation in 20
 
 Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes
 ------------------ | ------------ | -------------------------- | -----
-3.1.2 | 2017-07-31 | 2.0, 3.0 | [tag v3.1.2](https://github.com/swagger-api/swagger-ui/tree/v3.1.2)
+3.2.1 | 2017-09-15 | 2.0, 3.0 | [tag v3.2.1](https://github.com/swagger-api/swagger-ui/tree/v3.2.1)
 3.0.21 | 2017-07-26 | 2.0 | [tag v3.0.21](https://github.com/swagger-api/swagger-ui/tree/v3.0.21)
 2.2.10 | 2017-01-04 | 1.1, 1.2, 2.0 | [tag v2.2.10](https://github.com/swagger-api/swagger-ui/tree/v2.2.10)
 2.1.5 | 2016-07-20 | 1.1, 1.2, 2.0 | [tag v2.1.5](https://github.com/swagger-api/swagger-ui/tree/v2.1.5)
@@ -46,7 +46,7 @@ Will start nginx with swagger-ui on port 80.
 Or you can provide your own swagger.json on your host
 
 ```
-docker run -p 80:8080 -e "SWAGGER_JSON=/foo/swagger.json" -v /bar:/foo swaggerapi/swagger-ui
+docker run -p 80:8080 -e SWAGGER_JSON=/foo/swagger.json -v /bar:/foo swaggerapi/swagger-ui
 ```
 
 ##### Prerequisites
@@ -58,6 +58,15 @@ If you just want to see your specs, open `dist/index.html` in your browser direc
 If you'd like to make modifications to the codebase, run the dev server with: `npm run dev`. A development server will open on `3200`.
 
 If you'd like to rebuild the `/dist` folder with your codebase changes, run `npm run build`.
+
+
+##### Integration Tests
+
+You will need JDK of version 7 or higher as instructed here
+http://nightwatchjs.org/gettingstarted#selenium-server-setup
+
+Integration tests can be run locally with `npm run e2e` - be sure you aren't running a dev server when testing!
+
 
 ##### Browser support
 Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE11.
@@ -97,7 +106,7 @@ To use swagger-ui's bundles, you should take a look at the [source of swagger-ui
 
 #### OAuth2 configuration
 You can configure OAuth2 authorization by calling `initOAuth` method with passed configs under the instance of `SwaggerUIBundle`
-default `client_id` and `client_secret`, `realm`, an application name `appName`, `scopeSeparator`, `additionalQueryStringParams`, 
+default `client_id` and `client_secret`, `realm`, an application name `appName`, `scopeSeparator`, `additionalQueryStringParams`,
 `useBasicAuthenticationWithAccessCodeGrant`.
 
 Config Name | Description
@@ -108,7 +117,7 @@ realm | realm query parameter (for oauth1) added to `authorizationUrl` and `toke
 appName | application name, displayed in authorization popup. MUST be a string
 scopeSeparator | scope separator for passing scopes, encoded before calling, default value is a space (encoded value `%20`). MUST be a string
 additionalQueryStringParams | Additional query parameters added to `authorizationUrl` and `tokenUrl`. MUST be an object
-useBasicAuthenticationWithAccessCodeGrant | Only activated for the `accessCode` flow.  During the `authorization_code` request to the `tokenUrl`, pass the [Client Password](https://tools.ietf.org/html/rfc6749#section-2.3.1) using the HTTP Basic Authentication scheme (`Authorization` header with `Basic base64encoded[client_id:client_secret]`).  The default is `false` 
+useBasicAuthenticationWithAccessCodeGrant | Only activated for the `accessCode` flow.  During the `authorization_code` request to the `tokenUrl`, pass the [Client Password](https://tools.ietf.org/html/rfc6749#section-2.3.1) using the HTTP Basic Authentication scheme (`Authorization` header with `Basic base64encoded[client_id:client_secret]`).  The default is `false`
 
 ```
 const ui = SwaggerUIBundle({...})
@@ -151,6 +160,9 @@ displayRequestDuration | Controls the display of the request duration (in millis
 maxDisplayedTags | If set, limits the number of tagged operations displayed to at most this many. The default is to show all operations.
 filter | If set, enables filtering. The top bar will show an edit box that you can use to filter the tagged operations that are shown. Can be true/false to enable or disable, or an explicit filter string in which case filtering will be enabled using that string as the filter expression. Filtering is case sensitive matching the filter expression anywhere inside the tag.
 deepLinking | If set to `true`, enables dynamic deep linking for tags and operations. [Docs](https://github.com/swagger-api/swagger-ui/blob/master/docs/deep-linking.md)
+requestInterceptor | MUST be a function.  Function to intercept try-it-out requests.  Accepts one argument requestInterceptor(request) and must return the potentially modified request.
+responseInterceptor | MUST be a function.  Function to intercept try-it-out responses.  Accepts one argument responseInterceptor(response) and must return the potentially modified response.
+showMutatedRequest | If set to `true` (the default), uses the mutated request returned from a rquestInterceptor to produce the curl command in the UI, otherwise the request before the requestInterceptor was applied is used.
 
 ### Plugins
 
