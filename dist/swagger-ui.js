@@ -40,9 +40,9 @@ this["Handlebars"]["templates"]["apikey_auth"] = Handlebars.template({"1":functi
         } else {
             $('#main-app').attr('href', location.href.replace('/api/swagger', ''));
         }
-
         //start history
-        Backbone.history.start(new window.SwaggerUiRouter({app: this}));
+        Backbone.history.start(new window.SwaggerUiRouter({app: this, configs: window.SWAGGER_URLS}));
+
     };
 
     //Check to see if the window is top if not then display button
@@ -1060,10 +1060,111 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         'doc': 'onDocumentation',
         'doc/:subdoc': 'onDocumentation'
     },
+    configs: {},
+    suffix: 'Swagger',
 
-    initialize: function() {
-        var url = this.getUrl();
+    initialize: function(options) {
+        this.configs = options.configs;
+        for(var i = 0; i < this.configs.length; i++){
+            var url = this.configs[i].url;
+            var key = this.configs[i].key;
+            this.getSwagger(url, key);
+        }
+
+    },
+
+    onIndex: function(options) {
+        console.log('render main page');
+        for(var i = 0; i < this.configs.length; i++) {
+            var key = this.configs[i].key;
+            var namespace = key + this.suffix;
+            if (window[namespace].initialized) {
+                $('#swagger-container-' + key).hide();
+            } else {
+                window[namespace].load();
+            }
+
+            if (this.currentView) {
+                this.currentView.remove();
+            }
+
+            this.currentView = undefined;
+        }
+    },
+
+    onLogout: function() {
+        console.log('process logout');
+
+        window.swaggerUi.api.clientAuthorizations.remove('Authorization');
+
+        var host = window.location;
+        var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
+        var url = host.protocol + '//' + host.host + pathname.replace('swagger', 'login/url');
+        $.ajax({
+            url : url,
+            type: 'POST',
+            success: function (data)
+            {
+                window.location.href = data.replace('oauth/authorize', 'account/logout');
+            },
+            error: function ()
+            {
+                window.swaggerUi.options.url = this.getUrl();
+                window.swaggerUi.load();
+            }
+        });
+    },
+
+    onDocumentation: function(subdoc) {
+        /*global Intapp */
+        var deploymentType = (typeof window.Intapp !== 'undefined' && Intapp.Config.Deployment === 'OnPremise') ? '_onpremise' : '_cloud';
+
+        if(window.swaggerUi.initialized) {
+            console.log('render documentation page');
+            this.showView(new SwaggerUi.Views.DocumentationView(subdoc && { template: 'documentation_' + subdoc + deploymentType }));
+        } else {
+            this.navigate('', true);
+        }
+    },
+
+    showView: function(view) {
+        if(this.currentView) {
+            this.currentView.remove();
+        }
+
+
+
+        this.currentView = view;
+
+        $('#swagger-container-tms').hide();
+        $('#swagger-container-clients').hide();
+        $('#swagger-container-refdata').hide();
+        view.render();
+    },
+
+    getParameterByName: function(name, url) {
+        if (!url) {
+            url = window.location.href;
+        }
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[#?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results){
+            return null;
+        }
+
+        if (!results[2]) {
+            return '';
+        }
+
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    },
+
+    getSwagger: function(url, key) {
+        // var url = this.getUrl();
         var token = this.getParameterByName('access_token');
+        var domId = 'swagger-ui-container-' + key;
+        var namespace = key + this.suffix;
         var apiKeyAuth = null;
         var bearerToken = null;
         if (token !== null){
@@ -1072,10 +1173,9 @@ window.SwaggerUiRouter = Backbone.Router.extend({
 
             Backbone.history.navigate('', false);
         }
-
-        window.swaggerUi = new SwaggerUi({
+        window[namespace] = new SwaggerUi({
             url: url,
-            dom_id: 'swagger-ui-container',
+            dom_id: domId,
 
             onComplete: function(){
                 if(window.SwaggerTranslator) {
@@ -1087,18 +1187,20 @@ window.SwaggerUiRouter = Backbone.Router.extend({
                 });
 
                 //add separators
-                window.swaggerUi.mainView.$el.find('.resource_common_api').last().after('<li class="separator"></li>');
-                window.swaggerUi.mainView.$el.find('.resource_intake_api').last().after('<li class="separator"></li>');
-                window.swaggerUi.mainView.$el.find('.resource_conflicts_api').last().after('<li class="separator"></li>');
+                 window[namespace].mainView.$el.find('.resource_common_api').last().after('<li class="separator"></li>');
+                 window[namespace].mainView.$el.find('.resource_intake_api').last().after('<li class="separator"></li>');
+                 window[namespace].mainView.$el.find('.resource_conflicts_api').last().after('<li class="separator"></li>');
 
-                window.swaggerUi.initialized = true;
+                 window[namespace].initialized = true;
                 Backbone.history.navigate('', true);
 
                 console.timeEnd('loadingMainView');
+                $('.switch-button-panel').not(':first').remove();
+
             },
 
             onFailure: function(data) {
-                if(data === '401 : {\"message\":\"The identity is not set or unauthorized.\"} ' + window.swaggerUi.options.url) {
+                if(data === '401 : {\"message\":\"The identity is not set or unauthorized.\"} ' +  window[namespace].options.url) {
 
                     var host = window.location;
                     var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
@@ -1119,7 +1221,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
                     console.log('Unable to Load SwaggerUI');
                 }
 
-                window.swaggerUi.initialized = false;
+                 window[namespace].initialized = false;
             },
 
             docExpansion: 'none',
@@ -1176,10 +1278,10 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         if (apiKeyAuth !== null) {
             //set supported HTTP methods
 
-            if (window.swaggerUi.api) {
-                window.swaggerUi.api.clientAuthorizations.add('Authorization', apiKeyAuth);
+            if ( window[namespace].api) {
+                 window[namespace].api.clientAuthorizations.add('Authorization', apiKeyAuth);
             } else {
-                window.swaggerUi.options.authorizations = {'Authorization': apiKeyAuth};
+                 window[namespace].options.authorizations = {'Authorization': apiKeyAuth};
             }
 
             var host = window.location;
@@ -1195,13 +1297,13 @@ window.SwaggerUiRouter = Backbone.Router.extend({
                 success: function (data)
                 {
                     if (data.toLowerCase() === 'true'){
-                        window.swaggerUi.options.supportedSubmitMethods = ['get', 'post', 'put', 'delete', 'patch'];
+                         window[namespace].options.supportedSubmitMethods = ['get', 'post', 'put', 'delete', 'patch'];
                     }
                     else{
-                        window.swaggerUi.options.supportedSubmitMethods = ['get'];
+                         window[namespace].options.supportedSubmitMethods = ['get'];
                     }
 
-                    window.swaggerUi.load();
+                     window[namespace].load();
                 },
                 error: function ()
                 {
@@ -1209,94 +1311,6 @@ window.SwaggerUiRouter = Backbone.Router.extend({
                 }
             });
         }
-    },
-
-    onIndex: function() {
-        console.log('render main page');
-
-        if(window.swaggerUi.initialized) {
-            $('#swagger-container').show();
-        } else {
-            window.swaggerUi.load();
-        }
-
-        if(this.currentView) {
-            this.currentView.remove();
-        }
-
-        this.currentView = undefined;
-    },
-
-    onLogout: function() {
-        console.log('process logout');
-
-        window.swaggerUi.api.clientAuthorizations.remove('Authorization');
-
-        var host = window.location;
-        var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-        var url = host.protocol + '//' + host.host + pathname.replace('swagger', 'login/url');
-        $.ajax({
-            url : url,
-            type: 'POST',
-            success: function (data)
-            {
-                window.location.href = data.replace('oauth/authorize', 'account/logout');
-            },
-            error: function ()
-            {
-                window.swaggerUi.options.url = this.getUrl();
-                window.swaggerUi.load();
-            }
-        });
-    },
-
-    onDocumentation: function(subdoc) {
-        /*global Intapp */
-        var deploymentType = (typeof window.Intapp !== 'undefined' && Intapp.Config.Deployment === 'OnPremise') ? '_onpremise' : '_cloud';
-
-        if(window.swaggerUi.initialized) {
-            console.log('render documentation page');
-            this.showView(new SwaggerUi.Views.DocumentationView(subdoc && { template: 'documentation_' + subdoc + deploymentType }));
-        } else {
-            this.navigate('', true);
-        }
-    },
-
-    showView: function(view) {
-        if(this.currentView) {
-            this.currentView.remove();
-        }
-
-        this.currentView = view;
-
-        $('#swagger-container').hide();
-        view.render();
-    },
-
-    getUrl: function() {
-        // var host = window.location;
-        // var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-        //
-        // return host.protocol + '//' + host.host + pathname.replace('swagger', 'api/swagger/docs/v1') + '?_=' + Date.now();
-        return 'proxy/tms.platform.intapp.com/v2/api-docs';
-    },
-
-    getParameterByName: function(name, url) {
-        if (!url) {
-            url = window.location.href;
-        }
-        name = name.replace(/[\[\]]/g, '\\$&');
-        var regex = new RegExp('[#?&]' + name + '(=([^&#]*)|&|#|$)'),
-            results = regex.exec(url);
-        if (!results){
-            return null;
-        }
-
-        if (!results[2]) {
-            return '';
-        }
-
-        return decodeURIComponent(results[2].replace(/\+/g, ' '));
     }
 });
 

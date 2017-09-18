@@ -13,9 +13,9 @@
         } else {
             $('#main-app').attr('href', location.href.replace('/api/swagger', ''));
         }
-
         //start history
-        Backbone.history.start(new window.SwaggerUiRouter({app: this}));
+        Backbone.history.start(new window.SwaggerUiRouter({app: this, configs: window.SWAGGER_URLS}));
+
     };
 
     //Check to see if the window is top if not then display button
