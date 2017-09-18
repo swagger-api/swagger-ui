@@ -11,7 +11,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
 
     initialize: function() {
         var url = this.getUrl();
-        var token = this.getParameterByName('access_token');
+        var token = window.KC.token;
         var apiKeyAuth = null;
         var bearerToken = null;
         if (token !== null){
@@ -45,29 +45,14 @@ window.SwaggerUiRouter = Backbone.Router.extend({
                 console.timeEnd('loadingMainView');
             },
 
-            onFailure: function(data) {
-                if(data === '401 : {\"message\":\"The identity is not set or unauthorized.\"} ' + window.swaggerUi.options.url) {
-
-                    var host = window.location;
-                    var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-                    var url = host.protocol + '//' + host.host + pathname.replace('swagger', 'login/url');
-                    $.ajax({
-                        url : url,
-                        type: 'POST',
-                        success: function (data)
-                        {
-                            window.location.href = data;
-                        },
-                        error: function ()
-                        {
-                            window.onOAuthComplete('');
-                        }
-                    });
-                } else {
-                    console.log('Unable to Load SwaggerUI');
-                }
-
+            onFailure: function() {
+                console.log('Unable to Load SwaggerUI');
                 window.swaggerUi.initialized = false;
+            },
+
+            responseInterceptor: function() {
+                this.obj.schemes = ['https'];
+                return this;
             },
 
             docExpansion: 'none',
@@ -119,44 +104,6 @@ window.SwaggerUiRouter = Backbone.Router.extend({
             showRequestHeaders: false,
             validatorUrl: null
         });
-
-        //set swagger client auth
-        if (apiKeyAuth !== null) {
-            //set supported HTTP methods
-
-            if (window.swaggerUi.api) {
-                window.swaggerUi.api.clientAuthorizations.add('Authorization', apiKeyAuth);
-            } else {
-                window.swaggerUi.options.authorizations = {'Authorization': apiKeyAuth};
-            }
-
-            var host = window.location;
-            var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-            var adminUrl = host.protocol + '//' + host.host + pathname.replace('swagger', 'login/isadmin');
-            $.ajax({
-                url : adminUrl,
-                type: 'POST',
-                beforeSend: function (request)
-                {
-                    request.setRequestHeader('Authorization', bearerToken);
-                },
-                success: function (data)
-                {
-                    if (data.toLowerCase() === 'true'){
-                        window.swaggerUi.options.supportedSubmitMethods = ['get', 'post', 'put', 'delete', 'patch'];
-                    }
-                    else{
-                        window.swaggerUi.options.supportedSubmitMethods = ['get'];
-                    }
-
-                    window.swaggerUi.load();
-                },
-                error: function ()
-                {
-                    window.onOAuthComplete('');
-                }
-            });
-        }
     },
 
     onIndex: function() {
