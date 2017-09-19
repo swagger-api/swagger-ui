@@ -44,14 +44,14 @@
             <ul class="gb-header-nav">
                 <li class="is-selected"><a href="#">Platform API</a></li>
                 <li class="has-drop-menu">
-                    <a href="#">Documents</a>
-                    <!--<div class="gb-header-nav-inner">-->
-                        <!--<ul>-->
-                            <!--<li><a href="#doc/oauth2">OAuth2 details</a></li>-->
+                    <a href="#doc/oauth2">Documents</a>
+                    <div class="gb-header-nav-inner">
+                        <ul>
+                            <li><a href="#doc/oauth2">OAuth2 details</a></li>
                             <!--<li><a href="#doc/provisioning">Provisioning walk-through</a></li>-->
                             <!--<li><a href="#doc/steadystate">Steady State details</a></li>-->
-                        <!--</ul>-->
-                    <!--</div>-->
+                        </ul>
+                    </div>
                 </li>
                 <li><a href="#logout">Log out</a></li>
             </ul>
@@ -68,6 +68,7 @@
             </div>
         </header>
         <div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
+        <div id="swagger-ui-container"></div>
     </div>
 
     <script type="text/javascript">
@@ -80,7 +81,7 @@
             ];
 
             configs.forEach(function(elem, i) {
-                $('body').append(
+                $('#swagger-ui-container').append(
                     '<div id="swagger-ui-container-' + elem.key +'" class="swagger-ui-wrap">' +
                         (i === 0 ? '<h2>Loading API definitions...</h2>' : '') +
                     '</div>');

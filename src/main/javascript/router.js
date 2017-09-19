@@ -22,11 +22,14 @@ window.SwaggerUiRouter = Backbone.Router.extend({
 
     onIndex: function() {
         console.log('render main page');
+
+        $('#swagger-container').show();
         for(var i = 0; i < this.configs.length; i++) {
             var key = this.configs[i].key;
             var namespace = key + this.suffix;
+
             if (window[namespace].initialized) {
-                $('#swagger-container-' + key).hide();
+                $('#swagger-ui-container-' + key).show();
             } else {
                 window[namespace].load();
             }
@@ -47,26 +50,18 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         /*global Intapp */
         var deploymentType = (typeof window.Intapp !== 'undefined' && Intapp.Config.Deployment === 'OnPremise') ? '_onpremise' : '_cloud';
 
-        if(window.swaggerUi.initialized) {
-            console.log('render documentation page');
-            this.showView(new SwaggerUi.Views.DocumentationView(subdoc && { template: 'documentation_' + subdoc + deploymentType }));
-        } else {
-            this.navigate('', true);
-        }
+        console.log('render documentation page');
+        this.showView(new SwaggerUi.Views.DocumentationView(subdoc && { template: 'documentation_' + subdoc + deploymentType }));
+
+        $('#swagger-container').hide();
     },
 
     showView: function(view) {
         if (this.currentView) {
             this.currentView.remove();
         }
+
         this.currentView = view;
-        var swaggerContainerDivId = '#swagger-container-';
-        if (this.configs) {
-            for (var i = 0; i < this.configs.length; i++) {
-                var key = this.configs[i].key;
-                $(swaggerContainerDivId + key).hide();
-            }
-        }
         view.render();
     },
 
