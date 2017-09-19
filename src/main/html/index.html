@@ -75,7 +75,18 @@
 
     <script type="text/javascript">
         $(function() {
-            new SwaggerApp();
+            var configs = window.SWAGGER_URLS =  [
+                { url: 'tms/v2/api-docs',name: 'Tenant Management System', key: 'tms'},
+                { url: 'admin/clients/v2/api-docs',name: 'Clients', key: 'clients'},
+                { url: 'admin/refdata/v2/api-docs',name: 'Reference Data', key: 'refdata'},
+                { url: 'admin/matters/v2/api-docs',name: 'Matters', key: 'matters'}
+            ];
+
+            configs.forEach(function(elem) {
+                $('body').append('<div id="swagger-ui-container-' + elem.key +'" class="swagger-ui-wrap"></div>');
+            });
+
+            var app = new SwaggerApp();
         });
     </script>
 </body>

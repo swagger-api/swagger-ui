@@ -3,15 +3,95 @@
 window.SwaggerUiRouter = Backbone.Router.extend({
     routes: {
         '': 'onIndex',
-        'state=:state': 'onIndex',
         'logout': 'onLogout',
         'doc': 'onDocumentation',
         'doc/:subdoc': 'onDocumentation'
     },
+    configs: null,
+    suffix: 'Swagger',
 
-    initialize: function() {
-        var url = this.getUrl();
+    initialize: function(options) {
+        this.configs = options.configs;
+        for(var i = 0; i < this.configs.length; i++){
+            var url = this.configs[i].url;
+            var key = this.configs[i].key;
+            this.getSwagger(url, key);
+        }
+    },
+
+    onIndex: function() {
+        console.log('render main page');
+        for(var i = 0; i < this.configs.length; i++) {
+            var key = this.configs[i].key;
+            var namespace = key + this.suffix;
+            if (window[namespace].initialized) {
+                $('#swagger-container-' + key).hide();
+            } else {
+                window[namespace].load();
+            }
+
+            if (this.currentView) {
+                this.currentView.remove();
+            }
+
+            this.currentView = undefined;
+        }
+    },
+
+    onLogout: function() {
+        window.KC.logout({redirectUri: location.href.replace('#logout', '')});
+    },
+
+    onDocumentation: function(subdoc) {
+        /*global Intapp */
+        var deploymentType = (typeof window.Intapp !== 'undefined' && Intapp.Config.Deployment === 'OnPremise') ? '_onpremise' : '_cloud';
+
+        if(window.swaggerUi.initialized) {
+            console.log('render documentation page');
+            this.showView(new SwaggerUi.Views.DocumentationView(subdoc && { template: 'documentation_' + subdoc + deploymentType }));
+        } else {
+            this.navigate('', true);
+        }
+    },
+
+    showView: function(view) {
+        if (this.currentView) {
+            this.currentView.remove();
+        }
+        this.currentView = view;
+        var swaggerContainerDivId = '#swagger-container-';
+        if (this.configs) {
+            for (var i = 0; i < this.configs.length; i++) {
+                var key = this.configs[i].key;
+                $(swaggerContainerDivId + key).hide();
+            }
+        }
+        view.render();
+    },
+
+    getParameterByName: function(name, url) {
+        if (!url) {
+            url = window.location.href;
+        }
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[#?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results){
+            return null;
+        }
+
+        if (!results[2]) {
+            return '';
+        }
+
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    },
+
+    getSwagger: function(url, key) {
+        // var url = this.getUrl();
         var token = window.KC.token;
+        var domId = 'swagger-ui-container-' + key;
+        var namespace = key + this.suffix;
         var apiKeyAuth = null;
         var bearerToken = null;
         if (token !== null){
@@ -20,10 +100,9 @@ window.SwaggerUiRouter = Backbone.Router.extend({
 
             Backbone.history.navigate('', false);
         }
-
-        window.swaggerUi = new SwaggerUi({
+        window[namespace] = new SwaggerUi({
             url: url,
-            dom_id: 'swagger-ui-container',
+            dom_id: domId,
 
             onComplete: function(){
                 if(window.SwaggerTranslator) {
@@ -35,19 +114,21 @@ window.SwaggerUiRouter = Backbone.Router.extend({
                 });
 
                 //add separators
-                window.swaggerUi.mainView.$el.find('.resource_common_api').last().after('<li class="separator"></li>');
-                window.swaggerUi.mainView.$el.find('.resource_intake_api').last().after('<li class="separator"></li>');
-                window.swaggerUi.mainView.$el.find('.resource_conflicts_api').last().after('<li class="separator"></li>');
+                window[namespace].mainView.$el.find('.resource_common_api').last().after('<li class="separator"></li>');
+                window[namespace].mainView.$el.find('.resource_intake_api').last().after('<li class="separator"></li>');
+                window[namespace].mainView.$el.find('.resource_conflicts_api').last().after('<li class="separator"></li>');
 
-                window.swaggerUi.initialized = true;
+                window[namespace].initialized = true;
                 Backbone.history.navigate('', true);
 
                 console.timeEnd('loadingMainView');
+                $('.switch-button-panel').not(':first').remove();
+
             },
 
-            onFailure: function() {
+            onFailure: function(data) {
                 console.log('Unable to Load SwaggerUI');
-                window.swaggerUi.initialized = false;
+                window[namespace].initialized = false;
             },
 
             responseInterceptor: function() {
@@ -104,70 +185,43 @@ window.SwaggerUiRouter = Backbone.Router.extend({
             showRequestHeaders: false,
             validatorUrl: null
         });
-    },
 
-    onIndex: function() {
-        console.log('render main page');
+        //set swagger client auth
+        if (apiKeyAuth !== null) {
+            //set supported HTTP methods
 
-        if(window.swaggerUi.initialized) {
-            $('#swagger-container').show();
-        } else {
-            window.swaggerUi.load();
+            if ( window[namespace].api) {
+                window[namespace].api.clientAuthorizations.add('Authorization', apiKeyAuth);
+            } else {
+                window[namespace].options.authorizations = {'Authorization': apiKeyAuth};
+            }
+
+            var host = window.location;
+            var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
+            var adminUrl = host.protocol + '//' + host.host + pathname.replace('swagger', 'login/isadmin');
+            $.ajax({
+                url : adminUrl,
+                type: 'POST',
+                beforeSend: function (request)
+                {
+                    request.setRequestHeader('Authorization', bearerToken);
+                },
+                success: function (data)
+                {
+                    if (data.toLowerCase() === 'true'){
+                        window[namespace].options.supportedSubmitMethods = ['get', 'post', 'put', 'delete', 'patch'];
+                    }
+                    else{
+                        window[namespace].options.supportedSubmitMethods = ['get'];
+                    }
+
+                    window[namespace].load();
+                },
+                error: function ()
+                {
+                    window.onOAuthComplete('');
+                }
+            });
         }
-
-        if(this.currentView) {
-            this.currentView.remove();
-        }
-
-        this.currentView = undefined;
-    },
-
-    onLogout: function() {
-        window.KC.logout({redirectUri: location.href.replace('#logout', '')});
-    },
-
-    onDocumentation: function(subdoc) {
-        /*global Intapp */
-        var deploymentType = (typeof window.Intapp !== 'undefined' && Intapp.Config.Deployment === 'OnPremise') ? '_onpremise' : '_cloud';
-
-        if(window.swaggerUi.initialized) {
-            console.log('render documentation page');
-            this.showView(new SwaggerUi.Views.DocumentationView(subdoc && { template: 'documentation_' + subdoc + deploymentType }));
-        } else {
-            this.navigate('', true);
-        }
-    },
-
-    showView: function(view) {
-        if(this.currentView) {
-            this.currentView.remove();
-        }
-
-        this.currentView = view;
-
-        $('#swagger-container').hide();
-        view.render();
-    },
-
-    getUrl: function() {
-        return 'tms/v2/api-docs';
-    },
-
-    getParameterByName: function(name, url) {
-        if (!url) {
-            url = window.location.href;
-        }
-        name = name.replace(/[\[\]]/g, '\\$&');
-        var regex = new RegExp('[#?&]' + name + '(=([^&#]*)|&|#|$)'),
-            results = regex.exec(url);
-        if (!results){
-            return null;
-        }
-
-        if (!results[2]) {
-            return '';
-        }
-
-        return decodeURIComponent(results[2].replace(/\+/g, ' '));
     }
 });

@@ -15,7 +15,7 @@
 
             keycloak.init({ onLoad: 'login-required' }).success(function(authenticated) {
                 if(authenticated) {
-                    Backbone.history.start(new window.SwaggerUiRouter({app: this}));
+                    Backbone.history.start(new window.SwaggerUiRouter({app: this, configs: window.SWAGGER_URLS}));
                 }
             });
         });
