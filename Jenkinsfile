@@ -19,10 +19,16 @@ pipeline {
   stages {
     stage("Prepare Environment") {
       steps {
-        sh "printenv"
-        sh "echo ${env.GIT_BRANCH}"
-        sh "sudo rm -rf node_modules"
-        sh "npm install > $buildLog 2>&1"
+        script {
+            try {
+                sh "printenv"
+                sh "echo ${env.GIT_BRANCH}"
+                sh "sudo rm -rf node_modules"
+                sh "npm install > $buildLog 2>&1"
+            } finnaly {
+                archiveArtifacts "$buildLog"
+            }
+        }
       }
     }
 
