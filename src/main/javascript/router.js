@@ -7,7 +7,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         'doc': 'onDocumentation',
         'doc/:subdoc': 'onDocumentation'
     },
-    configs: {},
+    configs: null,
     suffix: 'Swagger',
 
     initialize: function(options) {
@@ -17,10 +17,9 @@ window.SwaggerUiRouter = Backbone.Router.extend({
             var key = this.configs[i].key;
             this.getSwagger(url, key);
         }
-
     },
 
-    onIndex: function(options) {
+    onIndex: function() {
         console.log('render main page');
         for(var i = 0; i < this.configs.length; i++) {
             var key = this.configs[i].key;
@@ -75,17 +74,17 @@ window.SwaggerUiRouter = Backbone.Router.extend({
     },
 
     showView: function(view) {
-        if(this.currentView) {
+        if (this.currentView) {
             this.currentView.remove();
         }
-
-
-
         this.currentView = view;
-
-        $('#swagger-container-tms').hide();
-        $('#swagger-container-clients').hide();
-        $('#swagger-container-refdata').hide();
+        var swaggerContainerDivId = '#swagger-container-';
+        if (this.configs) {
+            for (var i = 0; i < this.configs.length; i++) {
+                var key = this.configs[i].key;
+                $(swaggerContainerDivId + key).hide();
+            }
+        }
         view.render();
     },
 
