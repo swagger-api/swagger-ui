@@ -12,6 +12,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
 
     initialize: function(options) {
         this.configs = options.configs;
+
         for(var i = 0; i < this.configs.length; i++){
             var url = this.configs[i].url;
             var key = this.configs[i].key;
@@ -39,26 +40,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
     },
 
     onLogout: function() {
-        console.log('process logout');
-
-        window.swaggerUi.api.clientAuthorizations.remove('Authorization');
-
-        var host = window.location;
-        var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-        var url = host.protocol + '//' + host.host + pathname.replace('swagger', 'login/url');
-        $.ajax({
-            url : url,
-            type: 'POST',
-            success: function (data)
-            {
-                window.location.href = data.replace('oauth/authorize', 'account/logout');
-            },
-            error: function ()
-            {
-                window.swaggerUi.options.url = this.getUrl();
-                window.swaggerUi.load();
-            }
-        });
+        window.KC.logout({redirectUri: location.href.replace('#logout', '')});
     },
 
     onDocumentation: function(subdoc) {
@@ -108,17 +90,19 @@ window.SwaggerUiRouter = Backbone.Router.extend({
 
     getSwagger: function(url, key) {
         // var url = this.getUrl();
-        var token = this.getParameterByName('access_token');
+        var token = window.KC.token;
         var domId = 'swagger-ui-container-' + key;
         var namespace = key + this.suffix;
         var apiKeyAuth = null;
         var bearerToken = null;
+
         if (token !== null){
             bearerToken = 'Bearer ' + token;
             apiKeyAuth = new SwaggerClient.ApiKeyAuthorization('Authorization', bearerToken, 'header');
 
             Backbone.history.navigate('', false);
         }
+
         window[namespace] = new SwaggerUi({
             url: url,
             dom_id: domId,
@@ -133,11 +117,11 @@ window.SwaggerUiRouter = Backbone.Router.extend({
                 });
 
                 //add separators
-                 window[namespace].mainView.$el.find('.resource_common_api').last().after('<li class="separator"></li>');
-                 window[namespace].mainView.$el.find('.resource_intake_api').last().after('<li class="separator"></li>');
-                 window[namespace].mainView.$el.find('.resource_conflicts_api').last().after('<li class="separator"></li>');
+                window[namespace].mainView.$el.find('.resource_common_api').last().after('<li class="separator"></li>');
+                window[namespace].mainView.$el.find('.resource_intake_api').last().after('<li class="separator"></li>');
+                window[namespace].mainView.$el.find('.resource_conflicts_api').last().after('<li class="separator"></li>');
 
-                 window[namespace].initialized = true;
+                window[namespace].initialized = true;
                 Backbone.history.navigate('', true);
 
                 console.timeEnd('loadingMainView');
@@ -145,29 +129,14 @@ window.SwaggerUiRouter = Backbone.Router.extend({
 
             },
 
-            onFailure: function(data) {
-                if(data === '401 : {\"message\":\"The identity is not set or unauthorized.\"} ' +  window[namespace].options.url) {
+            onFailure: function() {
+                console.log('Unable to Load SwaggerUI');
+                window[namespace].initialized = false;
+            },
 
-                    var host = window.location;
-                    var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-                    var url = host.protocol + '//' + host.host + pathname.replace('swagger', 'login/url');
-                    $.ajax({
-                        url : url,
-                        type: 'POST',
-                        success: function (data)
-                        {
-                            window.location.href = data;
-                        },
-                        error: function ()
-                        {
-                            window.onOAuthComplete('');
-                        }
-                    });
-                } else {
-                    console.log('Unable to Load SwaggerUI');
-                }
-
-                 window[namespace].initialized = false;
+            responseInterceptor: function() {
+                this.obj.schemes = ['https'];
+                return this;
             },
 
             docExpansion: 'none',
@@ -225,37 +194,10 @@ window.SwaggerUiRouter = Backbone.Router.extend({
             //set supported HTTP methods
 
             if ( window[namespace].api) {
-                 window[namespace].api.clientAuthorizations.add('Authorization', apiKeyAuth);
+                window[namespace].api.clientAuthorizations.add('Authorization', apiKeyAuth);
             } else {
-                 window[namespace].options.authorizations = {'Authorization': apiKeyAuth};
+                window[namespace].options.authorizations = {'Authorization': apiKeyAuth};
             }
-
-            var host = window.location;
-            var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-            var adminUrl = host.protocol + '//' + host.host + pathname.replace('swagger', 'login/isadmin');
-            $.ajax({
-                url : adminUrl,
-                type: 'POST',
-                beforeSend: function (request)
-                {
-                    request.setRequestHeader('Authorization', bearerToken);
-                },
-                success: function (data)
-                {
-                    if (data.toLowerCase() === 'true'){
-                         window[namespace].options.supportedSubmitMethods = ['get', 'post', 'put', 'delete', 'patch'];
-                    }
-                    else{
-                         window[namespace].options.supportedSubmitMethods = ['get'];
-                    }
-
-                     window[namespace].load();
-                },
-                error: function ()
-                {
-                    window.onOAuthComplete('');
-                }
-            });
         }
     }
 });

@@ -27,34 +27,13 @@
     <script src='lib/jsoneditor.min.js' type='text/javascript'></script>
     <script src='lib/marked.js' type='text/javascript'></script>
     <script src='lib/swagger-oauth.js' type='text/javascript'></script>
-
+    <script src='lib/keycloak.js' type='text/javascript'></script>
     <!--<script src='configs.js' type='text/javascript'></script>-->
 
     <!-- Some basic translations -->
     <!-- <script src='lang/translator.js' type='text/javascript'></script> -->
     <!-- <script src='lang/ru.js' type='text/javascript'></script> -->
     <!-- <script src='lang/en.js' type='text/javascript'></script> -->
-
-    <script type="text/javascript">
-
-        $(function () {
-            window.SWAGGER_URLS =  [
-                { url: 'proxy/tms.platform.intapp.com/v2/api-docs',name: 'Tenant Management System', key: 'tms'},
-                { url: 'proxy/intapp.platformdev.intapp.com/admin/clients/v2/api-docs',name: 'Clients', key: 'clients'},
-                { url: 'proxy/intapp.platformdev.intapp.com/admin/refdata/v2/api-docs',name: 'Reference Data', key: 'refdata'},
-                { url: 'proxy/intapp.platformdev.intapp.com/admin/matters/v2/api-docs',name: 'Matters', key: 'matters'}
-            ];
-            function appenndSwaggerContainers() {
-                var config = window.SWAGGER_URLS;
-                config.forEach(function(elem) {
-                    $('body').append('<div id="swagger-ui-container-' + elem.key +'" class="swagger-ui-wrap"></div>');
-                });
-
-            }
-            appenndSwaggerContainers();
-            var app = new SwaggerApp();
-        });
-    </script>
 </head>
 
 <body class="swagger-section">
@@ -84,13 +63,31 @@
                 <p>
                     <a href="mailto:it_support@intapp.com" class="link link-light-blue">Contact Support</a>
                     <span class="link-separate"></span>
-                    <a id="main-app" class="link link-light-blue">Open Application</a>
+                    <a href="#" id="main-app" class="link link-light-blue">Open Application</a>
                 </p>
             </div>
         </header>
         <div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
-        <!--<div id="swagger-ui-container" class="swagger-ui-wrap"></div>-->
-        <!--<div id="swagger-ui-container1" class="swagger-ui-wrap"></div>-->
     </div>
+
+    <script type="text/javascript">
+        $(function() {
+            var configs = window.SWAGGER_URLS =  [
+                { url: 'tms/v2/api-docs', name: 'Tenant Management System', key: 'tms'},
+                { url: 'admin/clients/v2/api-docs', name: 'Clients', key: 'clients'},
+                { url: 'admin/refdata/v2/api-docs', name: 'Reference Data', key: 'refdata'},
+                { url: 'admin/matters/v2/api-docs', name: 'Matters', key: 'matters'}
+            ];
+
+            configs.forEach(function(elem, i) {
+                $('body').append(
+                    '<div id="swagger-ui-container-' + elem.key +'" class="swagger-ui-wrap">' +
+                        (i === 0 ? '<h2>Loading API definitions...</h2>' : '') +
+                    '</div>');
+            });
+
+            var app = new SwaggerApp();
+        });
+    </script>
 </body>
 </html>
