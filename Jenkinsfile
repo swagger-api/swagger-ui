@@ -14,12 +14,6 @@ pipeline {
       defaultValue: false,
       description: 'Is production deployment?'
     )
-
-    booleanParam(
-      name: 'RUN_UI_TESTS',
-      defaultValue: true,
-      description: 'Run UI tests as part of pipeline?'
-    )
   }
 
   stages {
