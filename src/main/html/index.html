@@ -68,22 +68,22 @@
             </div>
         </header>
         <div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
-        <div id="swagger-ui-container" class="swagger-ui-wrap">
-            <h2 style="text-align: center">Loading API definitions configuration...</h2>
-        </div>
     </div>
 
     <script type="text/javascript">
         $(function() {
             var configs = window.SWAGGER_URLS =  [
-                { url: 'tms/v2/api-docs',name: 'Tenant Management System', key: 'tms'},
-                { url: 'admin/clients/v2/api-docs',name: 'Clients', key: 'clients'},
-                { url: 'admin/refdata/v2/api-docs',name: 'Reference Data', key: 'refdata'},
-                { url: 'admin/matters/v2/api-docs',name: 'Matters', key: 'matters'}
+                { url: 'tms/v2/api-docs', name: 'Tenant Management System', key: 'tms'},
+                { url: 'admin/clients/v2/api-docs', name: 'Clients', key: 'clients'},
+                { url: 'admin/refdata/v2/api-docs', name: 'Reference Data', key: 'refdata'},
+                { url: 'admin/matters/v2/api-docs', name: 'Matters', key: 'matters'}
             ];
 
-            configs.forEach(function(elem) {
-                $('body').append('<div id="swagger-ui-container-' + elem.key +'" class="swagger-ui-wrap"></div>');
+            configs.forEach(function(elem, i) {
+                $('body').append(
+                    '<div id="swagger-ui-container-' + elem.key +'" class="swagger-ui-wrap">' +
+                        (i === 0 ? '<h2>Loading API definitions...</h2>' : '') +
+                    '</div>');
             });
 
             var app = new SwaggerApp();

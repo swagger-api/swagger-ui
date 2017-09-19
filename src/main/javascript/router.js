@@ -12,6 +12,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
 
     initialize: function(options) {
         this.configs = options.configs;
+
         for(var i = 0; i < this.configs.length; i++){
             var url = this.configs[i].url;
             var key = this.configs[i].key;
@@ -94,12 +95,14 @@ window.SwaggerUiRouter = Backbone.Router.extend({
         var namespace = key + this.suffix;
         var apiKeyAuth = null;
         var bearerToken = null;
+
         if (token !== null){
             bearerToken = 'Bearer ' + token;
             apiKeyAuth = new SwaggerClient.ApiKeyAuthorization('Authorization', bearerToken, 'header');
 
             Backbone.history.navigate('', false);
         }
+
         window[namespace] = new SwaggerUi({
             url: url,
             dom_id: domId,
@@ -126,7 +129,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
 
             },
 
-            onFailure: function(data) {
+            onFailure: function() {
                 console.log('Unable to Load SwaggerUI');
                 window[namespace].initialized = false;
             },
@@ -195,33 +198,6 @@ window.SwaggerUiRouter = Backbone.Router.extend({
             } else {
                 window[namespace].options.authorizations = {'Authorization': apiKeyAuth};
             }
-
-            var host = window.location;
-            var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-            var adminUrl = host.protocol + '//' + host.host + pathname.replace('swagger', 'login/isadmin');
-            $.ajax({
-                url : adminUrl,
-                type: 'POST',
-                beforeSend: function (request)
-                {
-                    request.setRequestHeader('Authorization', bearerToken);
-                },
-                success: function (data)
-                {
-                    if (data.toLowerCase() === 'true'){
-                        window[namespace].options.supportedSubmitMethods = ['get', 'post', 'put', 'delete', 'patch'];
-                    }
-                    else{
-                        window[namespace].options.supportedSubmitMethods = ['get'];
-                    }
-
-                    window[namespace].load();
-                },
-                error: function ()
-                {
-                    window.onOAuthComplete('');
-                }
-            });
         }
     }
 });

@@ -162,7 +162,7 @@ gulp.task('connect', function() {
       middleware: function (connect, opt) {
         return [
             new Proxy(extend({}, {route: '/tms', context: 'tms.platformdev.intapp.com/tms'}, opt)),
-            new Proxy(extend({}, {route: '/tms', context: 'tms.platformdev.intapp.com/tms'}, opt))
+            new Proxy(extend({}, {route: '/admin', context: 'intapp.platformdev.intapp.com/admin'}, opt))
         ];
       }
   });
