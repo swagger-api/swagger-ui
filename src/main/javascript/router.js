@@ -130,7 +130,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
             },
 
             responseInterceptor: function() {
-                this.obj && (this.obj.schemes = ['https']);
+                if(this.obj) { this.obj.schemes = ['https']; }
                 return this;
             },
 
