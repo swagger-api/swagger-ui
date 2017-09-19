@@ -10,10 +10,10 @@
 
 As a brand new version, written from the ground up, there are some known issues and unimplemented features. Check out the [Known Issues](#known-issues) section for more details.
 
-This repo publishes to two different NPM packages:
+This repository publishes to two different NPM modules:
 
-* [swagger-ui](https://www.npmjs.com/package/swagger-ui) is intended for use as a node module.
-* [swagger-ui-dist](https://www.npmjs.com/package/swagger-ui-dist) comes pre-bundled with all dependencies and can be incorporated directly in a webapp.
+* [swagger-ui](https://www.npmjs.com/package/swagger-ui) is a traditional npm module intended for use in JavaScript web application projects that are capable of resolving dependencies (via Webpack, Browserify, etc).
+* [swagger-ui-dist](https://www.npmjs.com/package/swagger-ui-dist) is a dependency-free module that includes everything you need to serve Swagger-UI in a server-side project, or a web project that can't resolve npm module dependencies.
 
 For the older version of swagger-ui, refer to the [*2.x branch*](https://github.com/swagger-api/swagger-ui/tree/2.x).
 
@@ -22,7 +22,7 @@ The OpenAPI Specification has undergone 5 revisions since initial creation in 20
 
 Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes
 ------------------ | ------------ | -------------------------- | -----
-3.1.7 | 2017-08-25 | 2.0, 3.0 | [tag v3.1.7](https://github.com/swagger-api/swagger-ui/tree/v3.1.7)
+3.2.1 | 2017-09-15 | 2.0, 3.0 | [tag v3.2.1](https://github.com/swagger-api/swagger-ui/tree/v3.2.1)
 3.0.21 | 2017-07-26 | 2.0 | [tag v3.0.21](https://github.com/swagger-api/swagger-ui/tree/v3.0.21)
 2.2.10 | 2017-01-04 | 1.1, 1.2, 2.0 | [tag v2.2.10](https://github.com/swagger-api/swagger-ui/tree/v2.2.10)
 2.1.5 | 2016-07-20 | 1.1, 1.2, 2.0 | [tag v2.1.5](https://github.com/swagger-api/swagger-ui/tree/v2.1.5)
@@ -46,7 +46,7 @@ Will start nginx with swagger-ui on port 80.
 Or you can provide your own swagger.json on your host
 
 ```
-docker run -p 80:8080 -e "SWAGGER_JSON=/foo/swagger.json" -v /bar:/foo swaggerapi/swagger-ui
+docker run -p 80:8080 -e SWAGGER_JSON=/foo/swagger.json -v /bar:/foo swaggerapi/swagger-ui
 ```
 
 ##### Prerequisites

@@ -1,7 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
+import cx from "classnames"
 import { fromJS, Seq } from "immutable"
-import { getSampleSchema } from "core/utils"
+import { getSampleSchema, fromJSOrdered } from "core/utils"
 
 const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
   if ( examples && examples.size ) {
@@ -46,23 +47,35 @@ export default class Response extends React.Component {
     getComponent: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     fn: PropTypes.object.isRequired,
-    contentType: PropTypes.string
+    contentType: PropTypes.string,
+    controlsAcceptHeader: PropTypes.bool,
+    onContentTypeChange: PropTypes.func
   }
 
   static defaultProps = {
     response: fromJS({}),
+    onContentTypeChange: () => {}
   };
+
+  _onContentTypeChange = (value) => {
+    const { onContentTypeChange, controlsAcceptHeader } = this.props
+    this.setState({ responseContentType: value })
+    onContentTypeChange({
+      value: value,
+      controlsAcceptHeader
+    })
+  }
 
   render() {
     let {
       code,
       response,
       className,
-
       fn,
       getComponent,
       specSelectors,
-      contentType
+      contentType,
+      controlsAcceptHeader
     } = this.props
 
     let { inferSchema } = fn
@@ -107,17 +120,24 @@ export default class Response extends React.Component {
             <Markdown source={ response.get( "description" ) } />
           </div>
 
-          { isOAS3 ? <ContentType
-              value={this.state.responseContentType}
-              contentTypes={ response.get("content") ? response.get("content").keySeq() : Seq() }
-              onChange={(val) => this.setState({ responseContentType: val })}
-              className="response-content-type" /> : null }
+          { isOAS3 ?
+            <div className={cx("response-content-type", {
+              "controls-accept-header": controlsAcceptHeader
+            })}>
+              <ContentType
+                  value={this.state.responseContentType}
+                  contentTypes={ response.get("content") ? response.get("content").keySeq() : Seq() }
+                  onChange={this._onContentTypeChange}
+                  />
+                { controlsAcceptHeader ? <small>Controls <code>Accept</code> header.</small> : null }
+            </div>
+             : null }
 
           { example ? (
             <ModelExample
               getComponent={ getComponent }
               specSelectors={ specSelectors }
-              schema={ fromJS(schema) }
+              schema={ fromJSOrdered(schema) }
               example={ example }/>
           ) : null}
 
