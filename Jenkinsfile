@@ -25,6 +25,7 @@ pipeline {
                 sh "echo ${env.GIT_BRANCH}"
                 sh "sudo rm -rf node_modules"
                 sh "npm install > $buildLog 2>&1"
+                sh "npm install platform-ui-deploy > $buildLog 2>&1"
             } finally {
                 archiveArtifacts "$buildLog"
             }

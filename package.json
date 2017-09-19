@@ -56,7 +56,6 @@
     "less": "^2.4.0",
     "mocha": "^2.1.0",
     "phantomjs": "1.9.19",
-    "platform-ui-deploy": "git+https://527bb142c3e327b62366b51ea50cfc36a0be0855:x-oauth-basic@github.com/intappx/platform-ui-deploy.git",
     "selenium-webdriver": "^2.45.0",
     "sinon-chai": "2.8.0",
     "swagger-client": "2.1.15"
