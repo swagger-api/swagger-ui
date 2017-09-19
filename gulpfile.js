@@ -16,7 +16,8 @@ var header = require('gulp-header');
 var order = require('gulp-order');
 var jshint = require('gulp-jshint');
 var pkg = require('./package.json');
-var Proxy = require('gulp-connect-proxy');
+var Proxy = require('gulp-api-proxy');
+var extend = require('extend');
 
 var banner = ['/**',
   ' * <%= pkg.name %> - <%= pkg.description %>',
@@ -159,9 +160,10 @@ gulp.task('connect', function() {
     livereload: true,
 
       middleware: function (connect, opt) {
-          opt.route = '/proxy';
-          var proxy = new Proxy(opt);
-          return [proxy];
+        return [
+            new Proxy(extend({}, {route: '/tms', context: 'tms.platformdev.intapp.com/tms'}, opt)),
+            new Proxy(extend({}, {route: '/tms', context: 'tms.platformdev.intapp.com/tms'}, opt))
+        ];
       }
   });
 });

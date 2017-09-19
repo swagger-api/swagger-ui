@@ -2,7 +2,7 @@
     'use strict';
 
     //IDM default configuration
-    var _tmsUrl = 'proxy/tms.platformdev.intapp.com/tms/idd/v1/platform';
+    var _tmsUrl = '/tms/idd/v1/platform';
     var _keycloakTenantIdDefault = 'intapp';
     var _keycloakClientIdDefault = 'ADMIN-UI';
 

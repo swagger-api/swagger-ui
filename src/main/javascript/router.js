@@ -150,11 +150,7 @@ window.SwaggerUiRouter = Backbone.Router.extend({
     },
 
     getUrl: function() {
-        // var host = window.location;
-        // var pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-        //
-        // return host.protocol + '//' + host.host + pathname.replace('swagger', 'api/swagger/docs/v1') + '?_=' + Date.now();
-        return 'proxy/tms.platform.intapp.com/v2/api-docs';
+        return 'tms/v2/api-docs';
     },
 
     getParameterByName: function(name, url) {
