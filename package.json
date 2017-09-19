@@ -1,14 +1,8 @@
 {
   "name": "swagger-ui",
-  "author": "Tony Tam <fehguy@gmail.com>",
-  "contributors": [
-    {
-      "name": "Mohsen Azimi",
-      "email": "me@azimi.me"
-    }
-  ],
+  "author": "Vadim Barylo <vadimb@intapp.net>",
   "description": "Swagger UI is a dependency-free collection of HTML, JavaScript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API",
-  "version": "2.1.4",
+  "version": "1.0.4",
   "homepage": "http://swagger.io",
   "license": "Apache-2.0",
   "main": "dist/swagger-ui.js",
@@ -18,7 +12,10 @@
     "prejshint": "gulp",
     "jshint": "jshint .",
     "pretest": "npm run jshint",
-    "test": "mocha"
+    "test": "mocha",
+
+    "deploy:artifactory": "cross-var sh ./node_modules/platform-ui-deploy/artifactory/deploy.sh",
+    "deploy:artifactory:versioned": "cross-var sh ./node_modules/platform-ui-deploy/artifactory/deploy.sh --versioned"
   },
   "repository": {
     "type": "git",
@@ -28,6 +25,7 @@
   "devDependencies": {
     "chai": "^2.1.0",
     "cors": "^2.5.3",
+    "cross-var": "^1.0.3",
     "docco": "^0.7.0",
     "event-stream": "^3.2.2",
     "express": "^4.12.0",
@@ -58,6 +56,7 @@
     "less": "^2.4.0",
     "mocha": "^2.1.0",
     "phantomjs": "1.9.19",
+    "platform-ui-deploy": "git+https://527bb142c3e327b62366b51ea50cfc36a0be0855:x-oauth-basic@github.com/intappx/platform-ui-deploy.git",
     "selenium-webdriver": "^2.45.0",
     "sinon-chai": "2.8.0",
     "swagger-client": "2.1.15"
