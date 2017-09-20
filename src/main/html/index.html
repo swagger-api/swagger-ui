@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <base href="/swagger/">
+    <base href="/swagger">
 
     <title>Platform Swagger UI</title>
     <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon">
@@ -65,7 +65,7 @@
                 <p>
                     <a href="mailto:it_support@intapp.com" class="link link-light-blue">Contact Support</a>
                     <span class="link-separate"></span>
-                    <a href="#" id="main-app" class="link link-light-blue">Open Application</a>
+                    <a href="../admin" id="main-app" class="link link-light-blue">Open Application</a>
                 </p>
             </div>
         </header>
@@ -76,10 +76,10 @@
     <script type="text/javascript">
         $(function() {
             var configs = window.SWAGGER_URLS =  [
-                { url: 'tms/v2/api-docs', name: 'Tenant Management System', key: 'tms'},
-                { url: 'admin/clients/v2/api-docs', name: 'Clients', key: 'clients'},
-                { url: 'admin/refdata/v2/api-docs', name: 'Reference Data', key: 'refdata'},
-                { url: 'admin/matters/v2/api-docs', name: 'Matters', key: 'matters'}
+                { url: '../admin/tms/v2/api-docs', name: 'Tenant Management System', key: 'tms'},
+                { url: '../admin/clients/v2/api-docs', name: 'Clients', key: 'clients'},
+                { url: '../admin/refdata/v2/api-docs', name: 'Reference Data', key: 'refdata'},
+                { url: '../admin/matters/v2/api-docs', name: 'Matters', key: 'matters'}
             ];
 
             configs.forEach(function(elem, i) {
