@@ -10,10 +10,10 @@
 
 As a brand new version, written from the ground up, there are some known issues and unimplemented features. Check out the [Known Issues](#known-issues) section for more details.
 
-This repo publishes to two different NPM packages:
+This repository publishes to two different NPM modules:
 
-* [swagger-ui](https://www.npmjs.com/package/swagger-ui) is intended for use as a node module.
-* [swagger-ui-dist](https://www.npmjs.com/package/swagger-ui-dist) comes pre-bundled with all dependencies and can be incorporated directly in a webapp.
+* [swagger-ui](https://www.npmjs.com/package/swagger-ui) is a traditional npm module intended for use in JavaScript web application projects that are capable of resolving dependencies (via Webpack, Browserify, etc).
+* [swagger-ui-dist](https://www.npmjs.com/package/swagger-ui-dist) is a dependency-free module that includes everything you need to serve Swagger-UI in a server-side project, or a web project that can't resolve npm module dependencies.
 
 For the older version of swagger-ui, refer to the [*2.x branch*](https://github.com/swagger-api/swagger-ui/tree/2.x).
 
