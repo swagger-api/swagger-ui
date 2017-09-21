@@ -107,6 +107,14 @@ export default class Response extends React.Component {
         includeWriteOnly: true // writeOnly has no filtering effect in swagger 2.0
        }) : null
     }
+
+    if(examples) {
+      examples = examples.map(example => {
+        // Remove unwanted properties from examples
+        return example.set("$$ref", undefined)
+      })
+    }
+
     let example = getExampleComponent( sampleResponse, examples, HighlightCode )
 
     return (
