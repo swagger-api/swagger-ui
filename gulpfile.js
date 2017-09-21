@@ -161,8 +161,9 @@ gulp.task('connect', function() {
 
       middleware: function (connect, opt) {
         return [
-            new Proxy(extend({}, {route: '/tms', context: 'tms.platformdev.intapp.com/tms'}, opt)),
-            new Proxy(extend({}, {route: '/admin', context: 'intapp.platformdev.intapp.com/admin'}, opt))
+            new Proxy(extend({}, {route: '/tms', context: 'https://tms.platformdev.intapp.com/tms'}, opt)),
+            new Proxy(extend({}, {route: '/admin', context: 'https://intapp.platformdev.intapp.com/admin'}, opt)),
+            new Proxy(extend({}, {route: '/swagger', context: 'http://localhost:4200'}, opt))
         ];
       }
   });
