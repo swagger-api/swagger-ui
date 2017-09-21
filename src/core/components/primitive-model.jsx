@@ -23,6 +23,7 @@ export default class Primitive extends Component {
     let format = schema.get("format")
     let xml = schema.get("xml")
     let enumArray = schema.get("enum")
+    let title = schema.get("title") || name
     let description = schema.get("description")
     let properties = schema.filter( ( v, key) => ["enum", "type", "format", "description", "$$ref"].indexOf(key) === -1 )
     const Markdown = getComponent("Markdown")
@@ -30,7 +31,7 @@ export default class Primitive extends Component {
 
     return <span className="model">
       <span className="prop">
-        { name && <span className={`${depth === 1 && "model-title"} prop-name`}>{ name }</span> }
+        { name && <span className={`${depth === 1 && "model-title"} prop-name`}>{ title }</span> }
         <span className="prop-type">{ type }</span>
         { format && <span className="prop-format">(${format})</span>}
         {
