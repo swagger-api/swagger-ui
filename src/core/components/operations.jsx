@@ -36,6 +36,7 @@ export default class Operations extends React.Component {
 
     const Operation = getComponent("operation")
     const Collapse = getComponent("Collapse")
+    const Markdown = getComponent("Markdown")
 
     let showSummary = layoutSelectors.showSummary()
     let {
@@ -89,7 +90,7 @@ export default class Operations extends React.Component {
                     </a>
                     { !tagDescription ? null :
                         <small>
-                          { tagDescription }
+                          <Markdown source={tagDescription} />
                         </small>
                     }
 
