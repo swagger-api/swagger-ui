@@ -501,13 +501,13 @@ export const validateString = ( val ) => {
 }
 
 export const validateDateTime = (val) => {
-    if (val && typeof val !== "string") {
+    if (!isNaN(Date.parse(val))) {
         return "Value must be a DateTime"
     }
 }
 
 export const validateGuid = (val) => {
-    if (val && typeof val !== "string") {
+    if (!/^[{(]?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}[)}]?$/.test(val)) {
         return "Value must be a Guid"
     }
 }
