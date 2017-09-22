@@ -501,7 +501,7 @@ export const validateString = ( val ) => {
 }
 
 export const validateDateTime = (val) => {
-    if (!isNaN(Date.parse(val))) {
+    if (isNaN(Date.parse(val))) {
         return "Value must be a DateTime"
     }
 }
