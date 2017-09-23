@@ -130,10 +130,10 @@ export const formatIntoYaml = () => ({specActions, specSelectors}) => {
   }
 }
 
-export function changeParam( path, paramName, value, isXml ){
+export function changeParam( path, paramName, paramIn, value, isXml ){
   return {
     type: UPDATE_PARAM,
-    payload:{ path, value, paramName, isXml }
+    payload:{ path, value, paramName, paramIn, isXml }
   }
 }
 
@@ -205,7 +205,6 @@ export const executeRequest = (req) =>
 
     // if url is relative, parseUrl makes it absolute by inferring from `window.location`
     req.contextUrl = parseUrl(specSelectors.url()).toString()
-
 
     if(op && op.operationId) {
       req.operationId = op.operationId

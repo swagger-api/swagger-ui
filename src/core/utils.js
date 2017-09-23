@@ -500,12 +500,25 @@ export const validateString = ( val ) => {
   }
 }
 
+export const validateDateTime = (val) => {
+    if (isNaN(Date.parse(val))) {
+        return "Value must be a DateTime"
+    }
+}
+
+export const validateGuid = (val) => {
+    if (!/^[{(]?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}[)}]?$/.test(val)) {
+        return "Value must be a Guid"
+    }
+}
+
 // validation of parameters before execute
 export const validateParam = (param, isXml) => {
   let errors = []
   let value = isXml && param.get("in") === "body" ? param.get("value_xml") : param.get("value")
   let required = param.get("required")
   let type = param.get("type")
+  let format = param.get("format")
 
   /*
     If the parameter is required OR the parameter has a value (meaning optional, but filled in)
@@ -528,7 +541,14 @@ export const validateParam = (param, isXml) => {
     }
 
     if ( type === "string" ) {
-      let err = validateString(value)
+      let err
+      if (format === "date-time") {
+          err = validateDateTime(value)
+      } else if (format === "uuid") {
+          err = validateGuid(value)
+      } else {
+          err = validateString(value)
+      }
       if (!err) return errors
       errors.push(err)
     } else if ( type === "boolean" ) {

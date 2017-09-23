@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 import expect from "expect"
 import { fromJS, OrderedMap } from "immutable"
-import { mapToList, validateNumber, validateInteger, validateParam, validateFile, fromJSOrdered, getAcceptControllingResponse, createDeepLinkPath, escapeDeepLinkPath } from "core/utils"
+import { mapToList, validateDateTime, validateGuid, validateNumber, validateInteger, validateParam, validateFile, fromJSOrdered, getAcceptControllingResponse, createDeepLinkPath, escapeDeepLinkPath } from "core/utils"
 import win from "core/window"
 
 describe("utils", function() {
@@ -158,7 +158,7 @@ describe("utils", function() {
     })
   })
 
-   describe("validateFile", function() {
+  describe("validateFile", function() {
     let errorMessage = "Value must be a file"
 
     it("validates against objects which are instances of 'File'", function() {
@@ -168,6 +168,33 @@ describe("utils", function() {
       expect(validateFile(undefined)).toBeFalsy()
       expect(validateFile(1)).toEqual(errorMessage)
       expect(validateFile("string")).toEqual(errorMessage)
+    })
+   })
+
+   describe("validateDateTime", function() {
+    let errorMessage = "Value must be a DateTime"
+
+    it("doesn't return for valid dates", function() {
+      expect(validateDateTime("Mon, 25 Dec 1995 13:30:00 +0430")).toBeFalsy()
+    })
+
+    it("returns a message for invalid input'", function() {
+      expect(validateDateTime(null)).toEqual(errorMessage)
+      expect(validateDateTime("string")).toEqual(errorMessage)
+    })
+   })
+
+  describe("validateGuid", function() {
+    let errorMessage = "Value must be a Guid"
+
+    it("doesn't return for valid guid", function() {
+      expect(validateGuid("8ce4811e-cec5-4a29-891a-15d1917153c1")).toBeFalsy()
+      expect(validateGuid("{8ce4811e-cec5-4a29-891a-15d1917153c1}")).toBeFalsy()
+    })
+
+    it("returns a message for invalid input'", function() {
+      expect(validateGuid(1)).toEqual(errorMessage)
+      expect(validateGuid("string")).toEqual(errorMessage)
     })
    })
 
