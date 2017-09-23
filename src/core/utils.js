@@ -512,6 +512,18 @@ export const validateGuid = (val) => {
     }
 }
 
+export const validateMaxLength = (val, max) => {
+  if (val.length > max) {
+      return "Value must be less than MaxLength"
+  }
+}
+
+export const validateMinLength = (val, min) => {
+  if (val.length < min) {
+      return "Value must be greater than MinLength"
+  }
+}
+
 // validation of parameters before execute
 export const validateParam = (param, isXml) => {
   let errors = []
@@ -519,6 +531,8 @@ export const validateParam = (param, isXml) => {
   let required = param.get("required")
   let type = param.get("type")
   let format = param.get("format")
+  let maxLength = param.get("maxLength")
+  let minLength = param.get("minLength")
 
   /*
     If the parameter is required OR the parameter has a value (meaning optional, but filled in)
@@ -534,6 +548,16 @@ export const validateParam = (param, isXml) => {
     let booleanCheck = type === "boolean" && !validateBoolean(value)
     let numberCheck = type === "number" && !validateNumber(value) // validateNumber returns undefined if the value is a number
     let integerCheck = type === "integer" && !validateInteger(value) // validateInteger returns undefined if the value is an integer
+
+    if (maxLength) {
+      let err = validateMaxLength(value, maxLength)
+      if (err) errors.push(err)
+    }
+
+    if (minLength) {
+      let err = validateMinLength(value, minLength)
+      if (err) errors.push(err)
+    }
 
     if ( required && !(stringCheck || arrayCheck || listCheck || fileCheck || booleanCheck || numberCheck || integerCheck) ) {
       errors.push("Required field is not provided")
