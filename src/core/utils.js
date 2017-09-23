@@ -548,7 +548,7 @@ export const validateParam = (param, isXml) => {
           err = validateGuid(value)
       } else {
           err = validateString(value)
-      }      
+      }
       if (!err) return errors
       errors.push(err)
     } else if ( type === "boolean" ) {
