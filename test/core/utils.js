@@ -175,13 +175,12 @@ describe("utils", function() {
     let errorMessage = "Value must be a DateTime"
 
     it("doesn't return for valid dates", function() {
-      expect(validateFile(fileObj)).toBeFalsy()
-      expect(validateFile(null)).toBeFalsy()
+      expect(validateDateTime("Mon, 25 Dec 1995 13:30:00 +0430")).toBeFalsy()
     })
 
     it("returns a message for invalid input'", function() {
-      expect(validateFile(1)).toEqual(errorMessage)
-      expect(validateFile("string")).toEqual(errorMessage)
+      expect(validateDateTime(null)).toEqual(errorMessage)
+      expect(validateDateTime("string")).toEqual(errorMessage)
     })
    })
 
