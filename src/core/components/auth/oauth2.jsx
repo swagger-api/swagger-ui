@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import oauth2Authorize from "core/oauth2-authorize"
+import oauth2Authorize, { processUrl } from "core/oauth2-authorize"
 
 const IMPLICIT = "implicit"
 const ACCESS_CODE = "accessCode"
@@ -27,6 +27,7 @@ export default class Oauth2 extends React.Component {
     let authConfigs = authSelectors.getConfigs() || {}
     let username = auth && auth.get("username") || ""
     let clientId = auth && auth.get("clientId") || authConfigs.clientId || ""
+    let realm = auth && auth.get("realm") || authConfigs.realm || ""
     let clientSecret = auth && auth.get("clientSecret") || authConfigs.clientSecret || ""
     let passwordType = auth && auth.get("passwordType") || "request-body"
 
@@ -39,7 +40,8 @@ export default class Oauth2 extends React.Component {
       clientSecret: clientSecret,
       username: username,
       password: "",
-      passwordType: passwordType
+      passwordType: passwordType,
+      realm: realm
     }
   }
 
@@ -108,8 +110,8 @@ export default class Oauth2 extends React.Component {
 
         { isAuthorized && <h6>Authorized</h6> }
 
-        { ( flow === IMPLICIT || flow === ACCESS_CODE ) && <p>Authorization URL: <code>{ schema.get("authorizationUrl") }</code></p> }
-        { ( flow === PASSWORD || flow === ACCESS_CODE || flow === APPLICATION ) && <p>Token URL:<code> { schema.get("tokenUrl") }</code></p> }
+        { ( flow === IMPLICIT || flow === ACCESS_CODE ) && <p>Authorization URL: <code>{ processUrl(schema.get("authorizationUrl"), this.state) }</code></p> }
+        { ( flow === PASSWORD || flow === ACCESS_CODE || flow === APPLICATION ) && <p>Token URL:<code> { processUrl(schema.get("tokenUrl"), this.state) }</code></p> }
         <p className="flow">Flow: <code>{ schema.get("flow") }</code></p>
 
         {
