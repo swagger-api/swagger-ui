@@ -29,8 +29,8 @@ describe("spec plugin - selectors", function(){
             "/one": {
               get: {
                 parameters: [
-                  { name: "one", in: "query", value: 1},
-                  { name: "two", in: "query", value: "duos"}
+                  { name: "one", value: 1},
+                  { name: "two", value: "duos"}
                 ]
               }
             }
@@ -43,8 +43,8 @@ describe("spec plugin - selectors", function(){
 
       // Then
       expect(paramValues.toJS()).toEqual({
-        "query.one": 1,
-        "query.two": "duos"
+        one: 1,
+        two: "duos"
       })
 
     })
