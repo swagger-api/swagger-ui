@@ -19,11 +19,15 @@ export default class ParameterRow extends Component {
 
     let { specSelectors, pathMethod, param } = props
     let defaultValue = param.get("default")
-    let parameter = specSelectors.getParameter(pathMethod, param.get("name"))
+    let parameter = specSelectors.getParameter(pathMethod, param.get("name"), param.get("in"))
     let value = parameter ? parameter.get("value") : ""
     if ( defaultValue !== undefined && value === undefined ) {
       this.onChangeWrapper(defaultValue)
     }
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return nextProps.param !== this.props.param
   }
 
   componentWillReceiveProps(props) {
@@ -86,7 +90,7 @@ export default class ParameterRow extends Component {
     let isFormDataSupported = "FormData" in win
     let required = param.get("required")
     let itemType = param.getIn(isOAS3 && isOAS3() ? ["schema", "items", "type"] : ["items", "type"])
-    let parameter = specSelectors.getParameter(pathMethod, param.get("name"))
+    let parameter = specSelectors.getParameter(pathMethod, param.get("name"), param.get("in"))
     let value = parameter ? parameter.get("value") : ""
 
     return (
