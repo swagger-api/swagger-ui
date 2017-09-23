@@ -26,10 +26,6 @@ export default class ParameterRow extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps) {
-    return nextProps.param !== this.props.param
-  }
-
   componentWillReceiveProps(props) {
     let { specSelectors, pathMethod, param } = props
     let example = param.get("example")
