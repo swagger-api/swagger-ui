@@ -2,6 +2,7 @@
 import expect from "expect"
 import { fromJS, OrderedMap } from "immutable"
 import { mapToList, validateDateTime, validateGuid, validateNumber, validateInteger, validateParam, validateFile, fromJSOrdered, getAcceptControllingResponse, createDeepLinkPath, escapeDeepLinkPath } from "core/utils"
+import { validateMaximum, validateMinimum } from "core/utils"
 import win from "core/window"
 
 describe("utils", function() {
@@ -70,6 +71,34 @@ describe("utils", function() {
       expect(aList.toJS()).toEqual([])
     })
 
+  })
+
+  describe("validateMaximum", function() {
+    let errorMessage = "Value must be less than Maximum"
+
+    it("doesn't return for valid input", function() {
+      expect(validateMaximum(9, 10)).toBeFalsy()
+      expect(validateMaximum(19, 20)).toBeFalsy()
+    })
+
+    it("returns a message for invalid input", function() {
+      expect(validateMaximum(10, 9)).toEqual(errorMessage)
+      expect(validateMaximum(20, 19)).toEqual(errorMessage)
+    })
+  })
+  
+  describe("validateMinimum", function() {
+    let errorMessage = "Value must be greater than Minimum"
+
+    it("doesn't return for valid input", function() {
+      expect(validateMinimum(2, 1)).toBeFalsy()
+      expect(validateMinimum(20, 10)).toBeFalsy()
+    })
+
+    it("returns a message for invalid input", function() {
+      expect(validateMinimum(1, 2)).toEqual(errorMessage)
+      expect(validateMinimum(10, 20)).toEqual(errorMessage)
+    })
   })
 
   describe("validateNumber", function() {
@@ -485,11 +514,13 @@ describe("utils", function() {
       result = validateParam( param, false )
       expect( result ).toEqual( ["Required field is not provided"] )
 
-      // valid number
+      // valid number with min and max
       param = fromJS({
         required: true,
         type: "number",
-        value: 10
+        value: 10, 
+        minimum: 5,
+        maximum: 99
       })
       result = validateParam( param, false )
       expect( result ).toEqual( [] )
