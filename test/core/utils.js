@@ -524,6 +524,17 @@ describe("utils", function() {
       })
       result = validateParam( param, false )
       expect( result ).toEqual( [] )
+
+      // valid negative number with min and max
+      param = fromJS({
+        required: true,
+        type: "number",
+        value: -10, 
+        minimum: -50,
+        maximum: -5
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( [] )
     })
 
     it("validates optional numbers", function() {
