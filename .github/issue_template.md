@@ -14,6 +14,10 @@ or anything that violates the specifications.
 
 <!--- Provide a general summary of the issue in the title above -->
 
+<!--- 
+  If you aren't sure what Swagger-UI version, see this guide: https://github.com/swagger-api/swagger-ui/blob/master/docs/version-detection.md
+--->
+
 
 | Q                               | A
 | ------------------------------- | -------
@@ -21,7 +25,7 @@ or anything that violates the specifications.
 | Which Swagger/OpenAPI version?  |
 | Which Swagger-UI version?       |
 | How did you install Swagger-UI? | 
-| Which broswer & version?        |
+| Which browser & version?        |
 | Which operating system?         | 
 
 
