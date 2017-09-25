@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:400,300,500,700,900,100" rel="stylesheet"/>
   <link rel="stylesheet" type="text/css" href="/ui/swagger-ui.css"/>
   <link rel="stylesheet" type="text/css" href="/ui/esi.css"/>
+  <link rel="icon" href="data:;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAADO0lEQVRo3u2YS2hTURCGP6s2IAaTaEsFu/CBbnShLhQfK18VtAWpqAjqwhfFZ8S6ENzUZ6kLkfikokIRWlCkKujSV5qaNqUqthhsdCM+kgaNYlrKuPCkXq5N7g1NSKT3h4HDnTnD/Cczc+YELFiwYMGChRGCcUAt8BEQ4ANwDCj8H4K3Ac9U4Hq5BxTkO4G9SYJPyMZcBWb25CqGqc85AYeB3pUrAmM061XqJJ1AJ1APfFa6LmB+Cj9vNOtSYDswE/gKNAGPs0liNNAwRF73AouVzUJgIEn+x1WwAKuBH0PYnMsmgUMpivMTMF7ZbQf6dPqfQKXSTwa+p/C1NVsEggYdZovGdjpwFPAA1cAUje6wgR9vtgiIgdSY9HPVwE84W12o18Dmq2Y9CpgLrAVm6+w+peEno7ic4tT6gKnKbg7wUqf3AdOUfp7BL3A8WwQmpaiDg8qmBPiSxCYETFB2p5PYBDTNICuYqFpdSOXqY5UmCdQZnG61xnYz0KJSM6hI2XM9C3kNCDTn+yiRtyjQpdB7IAI8Aco1ds8M/DzRdKkdahTpM9GizUi/GlUOqKnhHxRlsIjPZSjoZNKQbhvtT6ONLkh8X7J0iTz3tUgw1CP+joAAsqqsTHxtfgmGesTX5hdAak6ekNfdXfK6u0v8HQHZsm2rGRJr9AQiBhv2m7zIziT2eF+0yrUb18XhcMiOXTsFkMDLTjnv8YjD4ZDdVVUCSO3ZOml+cF8A8Vy6KK+63pghUK8fp50m7gnt2BFQMlQr/pOTRUWcun2HaDTK1ctXALDb7TQ1NhKNRrl04cLgpkKbDYDi4mLi8biZunXpizhosOGtyWGuO7EIh8Osq6zE6XJywO0GIBaLsWHTRpwuJ4ePHPn7eCgt5anXi81m4+C+/WYIdOs/uDM0TpcA3wBZtmL5YL63trcJIOUVFeIPtEsw1CPPW32DNXCrsTGdIo4DM/TtP9mDJgIsSvNBszJBIgvyC1ivOXR3ogYG1PV/Uz0pHZon5Re1YU+KS68QqFJ9+hEwSz1eZmboohTgnYrvvfoWA8am48RvcDoP832UiBroI/lO4O4w9dZfiyP+z10LFixYsGAhL/Ebsj4IyMdDZDUAAAAASUVORK5CYII=">
  </head>
  <body>
   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="position:absolute;width:0;height:0">
@@ -100,6 +101,40 @@
    }
   }
   window.onload = function() {
+   function esiStatus() {
+    var sheet = document.getElementById("esi-status");
+    if (sheet != undefined && ! document.hasFocus()) {
+     return
+    }
+    if (sheet == undefined) {
+     var sheet = document.createElement("style");
+     sheet.id = "esi-status";
+     document.body.appendChild(sheet);
+    }
+    var url = new URL(window.location.href);
+    var search = new URLSearchParams(url.search);
+    var ver = search.get("version") || "latest";
+    if (["latest", "dev", "legacy"].indexOf(ver) < 0) {
+     ver = "latest";
+    }
+    fetch("https://esi.tech.ccp.is/status.json?version=" + ver).then((resp) => {
+     resp.json().then((data) => {
+      var statusCSS = "div.opblock div.opblock-summary::after { width: 16px; height: 16px; border-radius: 8px; background: gray; content: ''; margin: 0 7px 0 2px; }";
+      var byStatus = {"green": [], "yellow": [], "red": []};
+      for (i = 0; i < data.length; i++) {
+       for (t = 0; t < data[i]["tags"].length; t++) {
+        byStatus[data[i]["status"]].push("div[id='operations-" + data[i]["tags"][t] + "-" + data[i]["method"] + data[i]["route"].replace(/\{|\}/g, "").replace(/\//g, "_").replace(/_$/, "") + "'] div.opblock-summary::after");
+       }
+      }
+      if (byStatus["green"].length > 0) { statusCSS += "\n" + byStatus["green"].join(", ") + "{ background: green; }"; }
+      if (byStatus["yellow"].length > 0) { statusCSS += "\n" + byStatus["yellow"].join(", ") + "{ background: yellow; }"; }
+      if (byStatus["red"].length > 0) { statusCSS += "\n" + byStatus["red"].join(", ") + "{ background: red; }"; }
+      sheet.innerText = statusCSS;
+     });
+    });
+   }
+   esiStatus();
+   window.setInterval(esiStatus, 60000);
    var url = new URL(window.location.href);
    var searchParams = new URLSearchParams(url.search);
    var selectedDatasource = searchParams.get("datasource");
@@ -181,6 +216,7 @@
      history.pushState(history.state, document.title, UpdateQueryString("version", newVersion));
      // TODO: make invisible, need onComplete hook though
      baseUrl.innerHTML = "/" + newVersion;
+     esiStatus();
     });
    }
   }
