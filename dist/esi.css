@@ -255,7 +255,7 @@ span.url {
   }
 }
 
-@media screen and (min-width: 821px) and (max-width: 950px) {
+@media screen and (min-width: 866px) and (max-width: 950px) {
   div.auth-wrapper {
     top: 80px;
     left: 92px;
@@ -266,15 +266,32 @@ span.url {
   }
 }
 
-@media screen and (max-width: 820px) {
+@media screen and (min-width: 351px) and (max-width: 865px) {
   div.auth-wrapper {
-    top: 80px;
+    top: 86px;
     left: 250px;
   }
-
   span.url {
-    top: 86px;
+    top: 92px;
     left: -37px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  div.info hgroup.main h2.title,
+  div.info div.description div span p {
+    top: 30vmin;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  div.auth-wrapper {
+    top: 77px;
+    left: 130px;
+  }
+  span.url {
+    top: 65px;
+    left: 10px;
   }
 }
 
