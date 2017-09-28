@@ -8,10 +8,30 @@ import some from "lodash/some"
 import eq from "lodash/eq"
 import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins/samples/fn"
 import win from "./window"
+import cssEscape from "css.escape"
 
 const DEFAULT_REPONSE_KEY = "default"
 
 export const isImmutable = (maybe) => Im.Iterable.isIterable(maybe)
+
+export function isJSONObject (str) {
+  try {
+    var o = JSON.parse(str)
+
+    // Handle non-exception-throwing cases:
+    // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
+    // but... JSON.parse(null) returns null, and typeof null === "object",
+    // so we must check for that, too. Thankfully, null is falsey, so this suffices:
+    if (o && typeof o === "object") {
+      return o
+    }
+  }
+  catch (e) {
+    // do nothing
+  }
+
+  return false
+}
 
 export function objectify (thing) {
   if(!isObject(thing))
@@ -480,12 +500,25 @@ export const validateString = ( val ) => {
   }
 }
 
+export const validateDateTime = (val) => {
+    if (isNaN(Date.parse(val))) {
+        return "Value must be a DateTime"
+    }
+}
+
+export const validateGuid = (val) => {
+    if (!/^[{(]?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}[)}]?$/.test(val)) {
+        return "Value must be a Guid"
+    }
+}
+
 // validation of parameters before execute
 export const validateParam = (param, isXml) => {
   let errors = []
   let value = isXml && param.get("in") === "body" ? param.get("value_xml") : param.get("value")
   let required = param.get("required")
   let type = param.get("type")
+  let format = param.get("format")
 
   /*
     If the parameter is required OR the parameter has a value (meaning optional, but filled in)
@@ -508,7 +541,14 @@ export const validateParam = (param, isXml) => {
     }
 
     if ( type === "string" ) {
-      let err = validateString(value)
+      let err
+      if (format === "date-time") {
+          err = validateDateTime(value)
+      } else if (format === "uuid") {
+          err = validateGuid(value)
+      } else {
+          err = validateString(value)
+      }
       if (!err) return errors
       errors.push(err)
     } else if ( type === "boolean" ) {
@@ -631,3 +671,29 @@ export const shallowEqualKeys = (a,b, keys) => {
     return eq(a[key], b[key])
   })
 }
+
+export function getAcceptControllingResponse(responses) {
+  if(!Im.OrderedMap.isOrderedMap(responses)) {
+    // wrong type!
+    return null
+  }
+
+  if(!responses.size) {
+    // responses is empty
+    return null
+  }
+
+  const suitable2xxResponse = responses.find((res, k) => {
+    return k.startsWith("2") && Object.keys(res.get("content") || {}).length > 0
+  })
+
+  // try to find a suitable `default` responses
+  const defaultResponse = responses.get("default") || Im.OrderedMap()
+  const defaultResponseMediaTypes = (defaultResponse.get("content") || Im.OrderedMap()).keySeq().toJS()
+  const suitableDefaultResponse = defaultResponseMediaTypes.length ? defaultResponse : null
+
+  return suitable2xxResponse || suitableDefaultResponse
+}
+
+export const createDeepLinkPath = (str) => typeof str == "string" || str instanceof String ? str.trim().replace(/\s/g, "_") : ""
+export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str) )
