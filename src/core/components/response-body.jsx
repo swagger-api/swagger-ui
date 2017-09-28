@@ -49,10 +49,10 @@ export default class ResponseBody extends React.Component {
       // Download
     } else if (
       /^application\/octet-stream/i.test(contentType) ||
-      headers["Content-Disposition"] && (/attachment/i).test(headers["Content-Disposition"]) ||
-      headers["content-disposition"] && (/attachment/i).test(headers["content-disposition"]) ||
-      headers["Content-Description"] && (/File Transfer/i).test(headers["Content-Description"]) ||
-      headers["content-description"] && (/File Transfer/i).test(headers["content-description"])) {
+      (headers["Content-Disposition"] && (/attachment/i).test(headers["Content-Disposition"])) ||
+      (headers["content-disposition"] && (/attachment/i).test(headers["content-disposition"])) ||
+      (headers["Content-Description"] && (/File Transfer/i).test(headers["Content-Description"])) ||
+      (headers["content-description"] && (/File Transfer/i).test(headers["content-description"]))) {
 
       let contentLength = headers["content-length"] || headers["Content-Length"]
       if ( !(+contentLength) ) return null
