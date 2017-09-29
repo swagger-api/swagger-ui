@@ -549,7 +549,7 @@ export const validateParam = (param, isXml) => {
     let numberCheck = type === "number" && !validateNumber(value) // validateNumber returns undefined if the value is a number
     let integerCheck = type === "integer" && !validateInteger(value) // validateInteger returns undefined if the value is an integer
 
-    if (maxLength) {
+    if (maxLength || maxLength === 0) {
       let err = validateMaxLength(value, maxLength)
       if (err) errors.push(err)
     }

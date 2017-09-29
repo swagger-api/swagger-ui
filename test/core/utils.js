@@ -207,6 +207,7 @@ describe("utils", function() {
     })
 
     it("returns a message for invalid input'", function() {
+      expect(validateMaxLength("abc", 0)).toEqual(errorMessage)
       expect(validateMaxLength("abc", 1)).toEqual(errorMessage)
       expect(validateMaxLength("abc", 2)).toEqual(errorMessage)
     })
@@ -272,7 +273,7 @@ describe("utils", function() {
       expect( result ).toEqual( [] )
     })
     
-    it("validates required strings with min and max length", function() {      
+    it("validates required strings with min and max length", function() {
       // invalid string with max length
       param = fromJS({
         required: true,
@@ -282,6 +283,17 @@ describe("utils", function() {
       })
       result = validateParam( param, false )
       expect( result ).toEqual( ["Value must be less than MaxLength"] )
+
+      // invalid string with max length 0
+      param = fromJS({
+        required: true,
+        type: "string",
+        value: "test string",
+        maxLength: 0
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( ["Value must be less than MaxLength"] )
+
 
       // invalid string with min length
       param = fromJS({
