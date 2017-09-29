@@ -49,7 +49,7 @@ class Parameters extends Component {
       onChangeKey,
     } = this.props
 
-    changeParam( onChangeKey, param.get("name"), value, isXml)
+    changeParam( onChangeKey, param.get("name"), param.get("in"), value, isXml)
   }
 
   onChangeConsumesWrapper = ( val ) => {

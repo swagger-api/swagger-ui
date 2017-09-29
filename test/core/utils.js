@@ -1,7 +1,23 @@
 /* eslint-env mocha */
 import expect from "expect"
 import { fromJS, OrderedMap } from "immutable"
-import { mapToList, validateNumber, validateInteger, validateParam, validateFile, fromJSOrdered, getAcceptControllingResponse, createDeepLinkPath, escapeDeepLinkPath } from "core/utils"
+import {
+  mapToList,
+  validateMinLength,
+  validateMaxLength,
+  validateDateTime,
+  validateGuid,
+  validateNumber,
+  validateInteger,
+  validateParam,
+  validateFile,
+  validateMaximum,
+  validateMinimum,
+  fromJSOrdered,
+  getAcceptControllingResponse,
+  createDeepLinkPath,
+  escapeDeepLinkPath
+} from "core/utils"
 import win from "core/window"
 
 describe("utils", function() {
@@ -70,6 +86,36 @@ describe("utils", function() {
       expect(aList.toJS()).toEqual([])
     })
 
+  })
+
+  describe("validateMaximum", function() {
+    let errorMessage = "Value must be less than Maximum"
+
+    it("doesn't return for valid input", function() {
+      expect(validateMaximum(9, 10)).toBeFalsy()
+      expect(validateMaximum(19, 20)).toBeFalsy()
+    })
+
+    it("returns a message for invalid input", function() {
+      expect(validateMaximum(1, 0)).toEqual(errorMessage)
+      expect(validateMaximum(10, 9)).toEqual(errorMessage)
+      expect(validateMaximum(20, 19)).toEqual(errorMessage)
+    })
+  })
+
+  describe("validateMinimum", function() {
+    let errorMessage = "Value must be greater than Minimum"
+
+    it("doesn't return for valid input", function() {
+      expect(validateMinimum(2, 1)).toBeFalsy()
+      expect(validateMinimum(20, 10)).toBeFalsy()
+    })
+
+    it("returns a message for invalid input", function() {
+      expect(validateMinimum(-1, 0)).toEqual(errorMessage)
+      expect(validateMinimum(1, 2)).toEqual(errorMessage)
+      expect(validateMinimum(10, 20)).toEqual(errorMessage)
+    })
   })
 
   describe("validateNumber", function() {
@@ -158,7 +204,7 @@ describe("utils", function() {
     })
   })
 
-   describe("validateFile", function() {
+  describe("validateFile", function() {
     let errorMessage = "Value must be a file"
 
     it("validates against objects which are instances of 'File'", function() {
@@ -168,6 +214,62 @@ describe("utils", function() {
       expect(validateFile(undefined)).toBeFalsy()
       expect(validateFile(1)).toEqual(errorMessage)
       expect(validateFile("string")).toEqual(errorMessage)
+    })
+   })
+
+   describe("validateDateTime", function() {
+    let errorMessage = "Value must be a DateTime"
+
+    it("doesn't return for valid dates", function() {
+      expect(validateDateTime("Mon, 25 Dec 1995 13:30:00 +0430")).toBeFalsy()
+    })
+
+    it("returns a message for invalid input'", function() {
+      expect(validateDateTime(null)).toEqual(errorMessage)
+      expect(validateDateTime("string")).toEqual(errorMessage)
+    })
+   })
+
+  describe("validateGuid", function() {
+    let errorMessage = "Value must be a Guid"
+
+    it("doesn't return for valid guid", function() {
+      expect(validateGuid("8ce4811e-cec5-4a29-891a-15d1917153c1")).toBeFalsy()
+      expect(validateGuid("{8ce4811e-cec5-4a29-891a-15d1917153c1}")).toBeFalsy()
+    })
+
+    it("returns a message for invalid input'", function() {
+      expect(validateGuid(1)).toEqual(errorMessage)
+      expect(validateGuid("string")).toEqual(errorMessage)
+    })
+   })
+
+   describe("validateMaxLength", function() {
+    let errorMessage = "Value must be less than MaxLength"
+
+    it("doesn't return for valid guid", function() {
+      expect(validateMaxLength("a", 1)).toBeFalsy()
+      expect(validateMaxLength("abc", 5)).toBeFalsy()
+    })
+
+    it("returns a message for invalid input'", function() {
+      expect(validateMaxLength("abc", 0)).toEqual(errorMessage)
+      expect(validateMaxLength("abc", 1)).toEqual(errorMessage)
+      expect(validateMaxLength("abc", 2)).toEqual(errorMessage)
+    })
+   })
+
+   describe("validateMinLength", function() {
+    let errorMessage = "Value must be greater than MinLength"
+
+    it("doesn't return for valid guid", function() {
+      expect(validateMinLength("a", 1)).toBeFalsy()
+      expect(validateMinLength("abc", 2)).toBeFalsy()
+    })
+
+    it("returns a message for invalid input'", function() {
+      expect(validateMinLength("abc", 5)).toEqual(errorMessage)
+      expect(validateMinLength("abc", 8)).toEqual(errorMessage)
     })
    })
 
@@ -196,7 +298,7 @@ describe("utils", function() {
       result = validateParam( param, false )
       expect( result ).toEqual( ["Required field is not provided"] )
 
-            // valid string
+      // valid string
       param = fromJS({
         required: true,
         type: "string",
@@ -204,6 +306,50 @@ describe("utils", function() {
       })
       result = validateParam( param, false )
       expect( result ).toEqual( [] )
+
+      // valid string with min and max length
+      param = fromJS({
+        required: true,
+        type: "string",
+        value: "test string",
+        maxLength: 50,
+        minLength: 1
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( [] )
+    })
+
+    it("validates required strings with min and max length", function() {
+      // invalid string with max length
+      param = fromJS({
+        required: true,
+        type: "string",
+        value: "test string",
+        maxLength: 5
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( ["Value must be less than MaxLength"] )
+
+      // invalid string with max length 0
+      param = fromJS({
+        required: true,
+        type: "string",
+        value: "test string",
+        maxLength: 0
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( ["Value must be less than MaxLength"] )
+
+
+      // invalid string with min length
+      param = fromJS({
+        required: true,
+        type: "string",
+        value: "test string",
+        minLength: 50
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( ["Value must be greater than MinLength"] )
     })
 
     it("validates optional strings", function() {
@@ -458,14 +604,47 @@ describe("utils", function() {
       result = validateParam( param, false )
       expect( result ).toEqual( ["Required field is not provided"] )
 
-      // valid number
+      // valid number with min and max
       param = fromJS({
         required: true,
         type: "number",
-        value: 10
+        value: 10,
+        minimum: 5,
+        maximum: 99
       })
       result = validateParam( param, false )
       expect( result ).toEqual( [] )
+
+      // valid negative number with min and max
+      param = fromJS({
+        required: true,
+        type: "number",
+        value: -10,
+        minimum: -50,
+        maximum: -5
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( [] )
+
+      // invalid number with maximum:0
+      param = fromJS({
+        required: true,
+        type: "number",
+        value: 1,
+        maximum: 0
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( ["Value must be less than Maximum"] )
+
+      // invalid number with minimum:0
+      param = fromJS({
+        required: true,
+        type: "number",
+        value: -10,
+        minimum: 0
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( ["Value must be greater than Minimum"] )
     })
 
     it("validates optional numbers", function() {
