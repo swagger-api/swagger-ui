@@ -470,6 +470,18 @@ export const propChecker = (props, nextProps, objectList=[], ignoreList=[]) => {
     || objectList.some( objectPropName => !eq(props[objectPropName], nextProps[objectPropName])))
 }
 
+export const validateMaximum = ( val, max ) => {
+  if (val > max) {
+    return "Value must be less than Maximum"
+  }
+}
+
+export const validateMinimum = ( val, min ) => {
+  if (val < min) {
+    return "Value must be greater than Minimum"
+  }
+}
+
 export const validateNumber = ( val ) => {
   if (!/^-?\d+(\.?\d+)?$/.test(val)) {
     return "Value must be a number"
@@ -529,6 +541,8 @@ export const validateParam = (param, isXml) => {
   let errors = []
   let value = isXml && param.get("in") === "body" ? param.get("value_xml") : param.get("value")
   let required = param.get("required")
+  let maximum = param.get("maximum")
+  let minimum = param.get("minimum")
   let type = param.get("type")
   let format = param.get("format")
   let maxLength = param.get("maxLength")
@@ -562,6 +576,16 @@ export const validateParam = (param, isXml) => {
     if ( required && !(stringCheck || arrayCheck || listCheck || fileCheck || booleanCheck || numberCheck || integerCheck) ) {
       errors.push("Required field is not provided")
       return errors
+    }
+
+    if (maximum || maximum === 0) {
+      let err = validateMaximum(value, maximum)
+      if (err) errors.push(err)
+    }
+
+    if (minimum || minimum === 0) {
+      let err = validateMinimum(value, minimum)
+      if (err) errors.push(err)
     }
 
     if ( type === "string" ) {
