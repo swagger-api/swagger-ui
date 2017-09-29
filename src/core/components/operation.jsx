@@ -6,6 +6,8 @@ import { Iterable } from "immutable"
 export default class Operation extends PureComponent {
   static propTypes = {
     operation: PropTypes.instanceOf(Iterable).isRequired,
+    response: PropTypes.instanceOf(Iterable),
+    request: PropTypes.instanceOf(Iterable),
 
     toggleShown: PropTypes.func.isRequired,
     onTryoutClick: PropTypes.func.isRequired,
@@ -25,19 +27,21 @@ export default class Operation extends PureComponent {
   }
 
   static defaultProps = {
-    showSummary: true,
+    operation: null,
     response: null,
-    allowTryItOut: true,
-    displayOperationId: false,
-    displayRequestDuration: false
+    request: null
   }
 
   shouldComponentUpdate(nextProps) {
     return this.props.operation !== nextProps.operation
+      || this.props.response !== nextProps.response
+      || this.props.request !== nextProps.request
   }
 
   render() {
     let {
+      response,
+      request,
       toggleShown,
       onTryoutClick,
       onCancelClick,
@@ -69,8 +73,6 @@ export default class Operation extends PureComponent {
       tryItOutEnabled,
       executeInProgress
     } = operationProps.toJS()
-    let response = operationProps.get("response")
-    let request = operationProps.get("request")
 
     let {
       summary,
@@ -216,7 +218,8 @@ export default class Operation extends PureComponent {
                     specActions={ specActions }
                     produces={ produces }
                     producesValue={ operation.get("produces_value") }
-                    pathMethod={ [path, method] }
+                    path={ path }
+                    method={ method }
                     displayRequestDuration={ displayRequestDuration }
                     fn={fn} />
               }

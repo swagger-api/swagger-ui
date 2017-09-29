@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import cx from "classnames"
-import { fromJS, Seq } from "immutable"
+import { fromJS, Seq, Iterable } from "immutable"
 import { getSampleSchema, fromJSOrdered } from "core/utils"
 
 const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
@@ -42,7 +42,7 @@ export default class Response extends React.Component {
 
   static propTypes = {
     code: PropTypes.string.isRequired,
-    response: PropTypes.object,
+    response: PropTypes.instanceOf(Iterable),
     className: PropTypes.string,
     getComponent: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
@@ -56,6 +56,12 @@ export default class Response extends React.Component {
     response: fromJS({}),
     onContentTypeChange: () => {}
   };
+
+  shouldComponentUpdate(nextProps) {
+    return this.props.code !== nextProps.code
+      || this.props.response !== nextProps.response
+      || this.props.className !== nextProps.className
+  }
 
   _onContentTypeChange = (value) => {
     const { onContentTypeChange, controlsAcceptHeader } = this.props
