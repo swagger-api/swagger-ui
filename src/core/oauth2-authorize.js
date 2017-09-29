@@ -64,7 +64,8 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     }
   }
 
-  let url = [schema.get("authorizationUrl"), query.join("&")].join("?")
+  let authorizationUrl = schema.get("authorizationUrl")
+  let url = [authorizationUrl, query.join("&")].join(authorizationUrl.indexOf("?") === -1 ? "?" : "&")
 
   // pass action authorizeOauth2 and authentication data through window
   // to authorize with oauth2

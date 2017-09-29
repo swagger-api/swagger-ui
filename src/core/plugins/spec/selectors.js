@@ -237,6 +237,11 @@ export const requests = createSelector(
     state => state.get( "requests", Map() )
 )
 
+export const mutatedRequests = createSelector(
+    state,
+    state => state.get( "mutatedRequests", Map() )
+)
+
 export const responseFor = (state, path, method) => {
   return responses(state).getIn([path, method], null)
 }
@@ -245,16 +250,20 @@ export const requestFor = (state, path, method) => {
   return requests(state).getIn([path, method], null)
 }
 
+export const mutatedRequestFor = (state, path, method) => {
+  return mutatedRequests(state).getIn([path, method], null)
+}
+
 export const allowTryItOutFor = () => {
   // This is just a hook for now.
   return true
 }
 
 // Get the parameter value by parameter name
-export function getParameter(state, pathMethod, name) {
+export function getParameter(state, pathMethod, name, inType) {
   let params = spec(state).getIn(["paths", ...pathMethod, "parameters"], fromJS([]))
   return params.filter( (p) => {
-    return Map.isMap(p) && p.get("name") === name
+    return Map.isMap(p) && p.get("name") === name && p.get("in") === inType
   }).first()
 }
 
@@ -271,7 +280,7 @@ export function parameterValues(state, pathMethod, isXml) {
   let params = spec(state).getIn(["paths", ...pathMethod, "parameters"], fromJS([]))
   return params.reduce( (hash, p) => {
     let value = isXml && p.get("in") === "body" ? p.get("value_xml") : p.get("value")
-    return hash.set(p.get("name"), value)
+    return hash.set(`${p.get("in")}.${p.get("name")}`, value)
   }, fromJS({}))
 }
 

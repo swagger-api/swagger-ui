@@ -42,6 +42,11 @@ module.exports = function SwaggerUI(opts) {
     displayOperationId: false,
     displayRequestDuration: false,
     deepLinking: false,
+    requestInterceptor: (a => a),
+    responseInterceptor: (a => a),
+    showMutatedRequest: true,
+    defaultModelRendering: "example",
+    defaultModelExpandDepth: 1,
 
     // Initial set of plugins ( TODO rename this, or refactor - we don't need presets _and_ plugins. Its just there for performance.
     // Instead, we can compile the first plugin ( it can be a collection of plugins ), then batch the rest.
@@ -63,6 +68,9 @@ module.exports = function SwaggerUI(opts) {
   }
 
   let queryConfig = parseSearch()
+
+  const domNode = opts.domNode
+  delete opts.domNode
 
   const constructorConfig = deepExtend({}, defaults, opts, queryConfig)
 
@@ -107,8 +115,8 @@ module.exports = function SwaggerUI(opts) {
     let mergedConfig = deepExtend({}, localConfig, constructorConfig, fetchedConfig || {}, queryConfig)
 
     // deep extend mangles domNode, we need to set it manually
-    if(opts.domNode) {
-      mergedConfig.domNode = opts.domNode
+    if(domNode) {
+      mergedConfig.domNode = domNode
     }
 
     store.setConfigs(mergedConfig)
