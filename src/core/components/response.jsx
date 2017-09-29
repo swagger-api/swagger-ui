@@ -111,7 +111,7 @@ export default class Response extends React.Component {
     if(examples) {
       examples = examples.map(example => {
         // Remove unwanted properties from examples
-        return example.set("$$ref", undefined)
+        return example.set ? example.set("$$ref", undefined) : example
       })
     }
 
