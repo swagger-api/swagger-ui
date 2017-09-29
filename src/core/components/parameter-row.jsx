@@ -30,7 +30,7 @@ export default class ParameterRow extends Component {
     let { specSelectors, pathMethod, param } = props
     let example = param.get("example")
     let defaultValue = param.get("default")
-    let parameter = specSelectors.getParameter(pathMethod, param.get("name"))
+    let parameter = specSelectors.getParameter(pathMethod, param.get("name"), param.get("in"))
     let paramValue = parameter ? parameter.get("value") : undefined
     let enumValue = parameter ? parameter.get("enum") : undefined
     let value
