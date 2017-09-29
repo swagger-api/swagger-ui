@@ -113,7 +113,8 @@ describe("spec plugin - actions", function(){
           spec: () => fromJS({}),
           parameterValues: () => fromJS({}),
           contentTypeValues: () => fromJS({}),
-          url: () => fromJS({})
+          url: () => fromJS({}),
+          isOAS3: () => false
         },
         getConfigs: () => configs
       }

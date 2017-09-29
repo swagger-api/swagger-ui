@@ -35,7 +35,6 @@ export default class Models extends Component {
               <ModelWrapper name={ name }
                      expandDepth={ defaultModelExpandDepth }
                      schema={ model }
-                     isRef={ true }
                      getComponent={ getComponent }
                      specSelectors={ specSelectors }/>
               </div>

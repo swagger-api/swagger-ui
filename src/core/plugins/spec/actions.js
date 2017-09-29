@@ -1,6 +1,7 @@
 import YAML from "js-yaml"
 import parseUrl from "url-parse"
 import serializeError from "serialize-error"
+import { isJSONObject } from "core/utils"
 
 // Actions conform to FSA (flux-standard-actions)
 // {type: string,payload: Any|Error, meta: obj, error: bool}
@@ -129,10 +130,10 @@ export const formatIntoYaml = () => ({specActions, specSelectors}) => {
   }
 }
 
-export function changeParam( path, paramName, value, isXml ){
+export function changeParam( path, paramName, paramIn, value, isXml ){
   return {
     type: UPDATE_PARAM,
-    payload:{ path, value, paramName, isXml }
+    payload:{ path, value, paramName, paramIn, isXml }
   }
 }
 
@@ -195,47 +196,66 @@ export const logRequest = (req) => {
 
 // Actually fire the request via fn.execute
 // (For debugging) and ease of testing
-export const executeRequest = (req) => ({fn, specActions, specSelectors, getConfigs}) => {
-  let { pathName, method, operation } = req
-  let { requestInterceptor, responseInterceptor } = getConfigs()
+export const executeRequest = (req) =>
+  ({fn, specActions, specSelectors, getConfigs, oas3Selectors}) => {
+    let { pathName, method, operation } = req
+    let { requestInterceptor, responseInterceptor } = getConfigs()
 
-  let op = operation.toJS()
+    let op = operation.toJS()
 
-  // if url is relative, parseUrl makes it absolute by inferring from `window.location`
-  req.contextUrl = parseUrl(specSelectors.url()).toString()
+    // if url is relative, parseUrl makes it absolute by inferring from `window.location`
+    req.contextUrl = parseUrl(specSelectors.url()).toString()
 
+    if(op && op.operationId) {
+      req.operationId = op.operationId
+    } else if(op && pathName && method) {
+      req.operationId = fn.opId(op, pathName, method)
+    }
 
-  if(op && op.operationId) {
-    req.operationId = op.operationId
-  } else if(op && pathName && method) {
-    req.operationId = fn.opId(op, pathName, method)
+    if(specSelectors.isOAS3()) {
+      // OAS3 request feature support
+      req.server = oas3Selectors.selectedServer()
+      req.serverVariables = oas3Selectors.serverVariables(req.server).toJS()
+      req.requestContentType = oas3Selectors.requestContentType(pathName, method)
+      req.responseContentType = oas3Selectors.responseContentType(pathName, method) || "*/*"
+      const requestBody = oas3Selectors.requestBodyValue(pathName, method)
+
+      if(isJSONObject(requestBody)) {
+        req.requestBody = JSON.parse(requestBody)
+      } else {
+        req.requestBody = requestBody
+      }
+    }
+
+    let parsedRequest = Object.assign({}, req)
+    parsedRequest = fn.buildRequest(parsedRequest)
+
+    specActions.setRequest(req.pathName, req.method, parsedRequest)
+
+    let requestInterceptorWrapper = function(r) {
+      let mutatedRequest = requestInterceptor.apply(this, [r])
+      let parsedMutatedRequest = Object.assign({}, mutatedRequest)
+      specActions.setMutatedRequest(req.pathName, req.method, parsedMutatedRequest)
+      return mutatedRequest
+    }
+
+    req.requestInterceptor = requestInterceptorWrapper
+    req.responseInterceptor = responseInterceptor
+
+    // track duration of request
+    const startTime = Date.now()
+
+    return fn.execute(req)
+    .then( res => {
+      res.duration = Date.now() - startTime
+      specActions.setResponse(req.pathName, req.method, res)
+    } )
+    .catch(
+      err => specActions.setResponse(req.pathName, req.method, {
+        error: true, err: serializeError(err)
+      })
+    )
   }
-
-  let parsedRequest = Object.assign({}, req)
-  parsedRequest = fn.buildRequest(parsedRequest)
-
-  specActions.setRequest(req.pathName, req.method, parsedRequest)
-
-  let requestInterceptorWrapper = function(r) {
-    let mutatedRequest = requestInterceptor.apply(this, [r])
-    let parsedMutatedRequest = Object.assign({}, mutatedRequest)
-    specActions.setMutatedRequest(req.pathName, req.method, parsedMutatedRequest)
-    return mutatedRequest
-  }
-
-  req.requestInterceptor = requestInterceptorWrapper
-  req.responseInterceptor = responseInterceptor
-
-  // track duration of request
-  const startTime = Date.now()
-
-  return fn.execute(req)
-  .then( res => {
-    res.duration = Date.now() - startTime
-    specActions.setResponse(req.pathName, req.method, res)
-  } )
-  .catch( err => specActions.setResponse(req.pathName, req.method, { error: true, err: serializeError(err) } ) )
-}
 
 
 // I'm using extras as a way to inject properties into the final, `execute` method - It's not great. Anyone have a better idea? @ponelat

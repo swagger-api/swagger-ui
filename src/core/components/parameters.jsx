@@ -38,7 +38,7 @@ export default class Parameters extends Component {
       onChangeKey,
     } = this.props
 
-    changeParam( onChangeKey, param.get("name"), value, isXml)
+    changeParam( onChangeKey, param.get("name"), param.get("in"), value, isXml)
   }
 
   onChangeConsumesWrapper = ( val ) => {
@@ -97,7 +97,7 @@ export default class Parameters extends Component {
                       getComponent={ getComponent }
                       getConfigs={ getConfigs }
                       param={ parameter }
-                      key={ parameter.get( "name" ) }
+                      key={ `${parameter.get( "in" )}.${parameter.get("name")}` }
                       onChange={ this.onChange }
                       onChangeConsumes={this.onChangeConsumesWrapper}
                       specSelectors={ specSelectors }

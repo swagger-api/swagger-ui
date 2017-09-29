@@ -1,4 +1,5 @@
 import scrollTo from "scroll-to-element"
+import { escapeDeepLinkPath } from "core/utils"
 
 const SCROLL_OFFSET = -5
 let hasHashBeenParsed = false
@@ -34,14 +35,14 @@ export const updateResolved = (ori, { layoutActions, getConfigs }) => (...args) 
       layoutActions.show(["operations-tag", tag], true)
       layoutActions.show(["operations", tag, operationId], true)
 
-      scrollTo(`#operations-${tag}-${operationId}`, {
+      scrollTo(`#operations-${escapeDeepLinkPath(tag)}-${escapeDeepLinkPath(operationId)}`, {
         offset: SCROLL_OFFSET
       })
     } else if(tag) {
       // Pre-expand and scroll to the tag
       layoutActions.show(["operations-tag", tag], true)
 
-      scrollTo(`#operations-tag-${tag}`, {
+      scrollTo(`#operations-tag-${escapeDeepLinkPath(tag)}`, {
         offset: SCROLL_OFFSET
       })
     }
