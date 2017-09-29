@@ -19,7 +19,8 @@ export default class Parameters extends Component {
     onTryoutClick: PropTypes.func,
     onCancelClick: PropTypes.func,
     onChangeKey: PropTypes.array,
-    pathMethod: PropTypes.array.isRequired
+    pathMethod: PropTypes.array.isRequired,
+    getConfigs: PropTypes.func.isRequired
   }
 
 
@@ -60,6 +61,7 @@ export default class Parameters extends Component {
 
       fn,
       getComponent,
+      getConfigs,
       specSelectors,
       pathMethod
     } = this.props
@@ -93,6 +95,7 @@ export default class Parameters extends Component {
                   eachMap(parameters, (parameter) => (
                     <ParameterRow fn={ fn }
                       getComponent={ getComponent }
+                      getConfigs={ getConfigs }
                       param={ parameter }
                       key={ `${parameter.get( "in" )}.${parameter.get("name")}` }
                       onChange={ this.onChange }

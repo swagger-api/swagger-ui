@@ -224,6 +224,7 @@ export default class Operation extends PureComponent {
                 specActions={ specActions }
                 specSelectors={ specSelectors }
                 pathMethod={ [path, method] }
+                getConfigs={ getConfigs }
               />
 
               {!tryItOutEnabled || !allowTryItOut ? null : schemes && schemes.size ? <div className="opblock-schemes">
