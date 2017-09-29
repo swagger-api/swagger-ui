@@ -1,8 +1,23 @@
 /* eslint-env mocha */
 import expect from "expect"
 import { fromJS, OrderedMap } from "immutable"
-import { mapToList, validateDateTime, validateGuid, validateNumber, validateInteger, validateParam, validateFile, fromJSOrdered, getAcceptControllingResponse, createDeepLinkPath, escapeDeepLinkPath } from "core/utils"
-import { validateMaximum, validateMinimum } from "core/utils"
+import { 
+  mapToList,
+  validateMinLength,
+  validateMaxLength,
+  validateDateTime,
+  validateGuid,
+  validateNumber,
+  validateInteger,
+  validateParam,
+  validateFile,
+  validateMaximum, 
+  validateMinimum,
+  fromJSOrdered,
+  getAcceptControllingResponse,
+  createDeepLinkPath,
+  escapeDeepLinkPath
+} from "core/utils"
 import win from "core/window"
 
 describe("utils", function() {
@@ -227,6 +242,35 @@ describe("utils", function() {
     })
    })
 
+   describe("validateMaxLength", function() {
+    let errorMessage = "Value must be less than MaxLength"
+
+    it("doesn't return for valid guid", function() {
+      expect(validateMaxLength("a", 1)).toBeFalsy()
+      expect(validateMaxLength("abc", 5)).toBeFalsy()
+    })
+
+    it("returns a message for invalid input'", function() {
+      expect(validateMaxLength("abc", 0)).toEqual(errorMessage)
+      expect(validateMaxLength("abc", 1)).toEqual(errorMessage)
+      expect(validateMaxLength("abc", 2)).toEqual(errorMessage)
+    })
+   })
+
+   describe("validateMinLength", function() {
+    let errorMessage = "Value must be greater than MinLength"
+
+    it("doesn't return for valid guid", function() {
+      expect(validateMinLength("a", 1)).toBeFalsy()
+      expect(validateMinLength("abc", 2)).toBeFalsy()
+    })
+
+    it("returns a message for invalid input'", function() {
+      expect(validateMinLength("abc", 5)).toEqual(errorMessage)
+      expect(validateMinLength("abc", 8)).toEqual(errorMessage)
+    })
+   })
+
   describe("validateParam", function() {
     let param = null
     let result = null
@@ -252,7 +296,7 @@ describe("utils", function() {
       result = validateParam( param, false )
       expect( result ).toEqual( ["Required field is not provided"] )
 
-            // valid string
+      // valid string
       param = fromJS({
         required: true,
         type: "string",
@@ -260,6 +304,50 @@ describe("utils", function() {
       })
       result = validateParam( param, false )
       expect( result ).toEqual( [] )
+
+      // valid string with min and max length
+      param = fromJS({
+        required: true,
+        type: "string",
+        value: "test string",
+        maxLength: 50,
+        minLength: 1
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( [] )
+    })
+    
+    it("validates required strings with min and max length", function() {
+      // invalid string with max length
+      param = fromJS({
+        required: true,
+        type: "string",
+        value: "test string",
+        maxLength: 5
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( ["Value must be less than MaxLength"] )
+
+      // invalid string with max length 0
+      param = fromJS({
+        required: true,
+        type: "string",
+        value: "test string",
+        maxLength: 0
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( ["Value must be less than MaxLength"] )
+
+
+      // invalid string with min length
+      param = fromJS({
+        required: true,
+        type: "string",
+        value: "test string",
+        minLength: 50
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( ["Value must be greater than MinLength"] )
     })
 
     it("validates optional strings", function() {
