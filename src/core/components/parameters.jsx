@@ -19,7 +19,8 @@ export default class Parameters extends Component {
     onTryoutClick: PropTypes.func,
     onCancelClick: PropTypes.func,
     onChangeKey: PropTypes.array,
-    pathMethod: PropTypes.array.isRequired
+    pathMethod: PropTypes.array.isRequired,
+    getConfigs: PropTypes.func.isRequired
   }
 
 
@@ -37,7 +38,7 @@ export default class Parameters extends Component {
       onChangeKey,
     } = this.props
 
-    changeParam( onChangeKey, param.get("name"), value, isXml)
+    changeParam( onChangeKey, param.get("name"), param.get("in"), value, isXml)
   }
 
   onChangeConsumesWrapper = ( val ) => {
@@ -60,6 +61,7 @@ export default class Parameters extends Component {
 
       fn,
       getComponent,
+      getConfigs,
       specSelectors,
       pathMethod
     } = this.props
@@ -93,8 +95,9 @@ export default class Parameters extends Component {
                   eachMap(parameters, (parameter) => (
                     <ParameterRow fn={ fn }
                       getComponent={ getComponent }
+                      getConfigs={ getConfigs }
                       param={ parameter }
-                      key={ parameter.get( "name" ) }
+                      key={ `${parameter.get( "in" )}.${parameter.get("name")}` }
                       onChange={ this.onChange }
                       onChangeConsumes={this.onChangeConsumesWrapper}
                       specSelectors={ specSelectors }

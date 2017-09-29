@@ -130,10 +130,10 @@ export const formatIntoYaml = () => ({specActions, specSelectors}) => {
   }
 }
 
-export function changeParam( path, paramName, value, isXml ){
+export function changeParam( path, paramName, paramIn, value, isXml ){
   return {
     type: UPDATE_PARAM,
-    payload:{ path, value, paramName, isXml }
+    payload:{ path, value, paramName, paramIn, isXml }
   }
 }
 
@@ -206,7 +206,6 @@ export const executeRequest = (req) =>
     // if url is relative, parseUrl makes it absolute by inferring from `window.location`
     req.contextUrl = parseUrl(specSelectors.url()).toString()
 
-
     if(op && op.operationId) {
       req.operationId = op.operationId
     } else if(op && pathName && method) {
@@ -218,6 +217,7 @@ export const executeRequest = (req) =>
       req.server = oas3Selectors.selectedServer()
       req.serverVariables = oas3Selectors.serverVariables(req.server).toJS()
       req.requestContentType = oas3Selectors.requestContentType(pathName, method)
+      req.responseContentType = oas3Selectors.responseContentType(pathName, method) || "*/*"
       const requestBody = oas3Selectors.requestBodyValue(pathName, method)
 
       if(isJSONObject(requestBody)) {

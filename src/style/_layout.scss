@@ -252,7 +252,10 @@
         font-size: 16px;
 
         display: flex;
+        flex: 0 3 auto;
         align-items: center;
+
+        word-break: break-all;
 
         padding: 0 10px;
 
@@ -775,6 +778,17 @@
 
 .response-content-type {
   padding-top: 1em;
+
+  &.controls-accept-header {
+    select {
+      border-color: green;
+    }
+
+    small {
+      color: green;
+      font-size: .7em;
+    }
+  }
 }
 
 @keyframes blinker
