@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 import expect from "expect"
 import { fromJS, OrderedMap } from "immutable"
-import { 
+import {
   mapToList,
   validateMinLength,
   validateMaxLength,
@@ -11,7 +11,7 @@ import {
   validateInteger,
   validateParam,
   validateFile,
-  validateMaximum, 
+  validateMaximum,
   validateMinimum,
   fromJSOrdered,
   getAcceptControllingResponse,
@@ -97,11 +97,12 @@ describe("utils", function() {
     })
 
     it("returns a message for invalid input", function() {
+      expect(validateMaximum(1, 0)).toEqual(errorMessage)
       expect(validateMaximum(10, 9)).toEqual(errorMessage)
       expect(validateMaximum(20, 19)).toEqual(errorMessage)
     })
   })
-  
+
   describe("validateMinimum", function() {
     let errorMessage = "Value must be greater than Minimum"
 
@@ -111,6 +112,7 @@ describe("utils", function() {
     })
 
     it("returns a message for invalid input", function() {
+      expect(validateMinimum(-1, 0)).toEqual(errorMessage)
       expect(validateMinimum(1, 2)).toEqual(errorMessage)
       expect(validateMinimum(10, 20)).toEqual(errorMessage)
     })
@@ -316,7 +318,7 @@ describe("utils", function() {
       result = validateParam( param, false )
       expect( result ).toEqual( [] )
     })
-    
+
     it("validates required strings with min and max length", function() {
       // invalid string with max length
       param = fromJS({
@@ -606,7 +608,7 @@ describe("utils", function() {
       param = fromJS({
         required: true,
         type: "number",
-        value: 10, 
+        value: 10,
         minimum: 5,
         maximum: 99
       })
@@ -617,12 +619,32 @@ describe("utils", function() {
       param = fromJS({
         required: true,
         type: "number",
-        value: -10, 
+        value: -10,
         minimum: -50,
         maximum: -5
       })
       result = validateParam( param, false )
       expect( result ).toEqual( [] )
+
+      // invalid number with maximum:0
+      param = fromJS({
+        required: true,
+        type: "number",
+        value: 1,
+        maximum: 0
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( ["Value must be less than Maximum"] )
+
+      // invalid number with minimum:0
+      param = fromJS({
+        required: true,
+        type: "number",
+        value: -10,
+        minimum: 0
+      })
+      result = validateParam( param, false )
+      expect( result ).toEqual( ["Value must be greater than Minimum"] )
     })
 
     it("validates optional numbers", function() {

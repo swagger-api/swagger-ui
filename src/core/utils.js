@@ -577,13 +577,13 @@ export const validateParam = (param, isXml) => {
       errors.push("Required field is not provided")
       return errors
     }
-    
-    if (maximum) {
+
+    if (maximum || maximum === 0) {
       let err = validateMaximum(value, maximum)
       if (err) errors.push(err)
     }
 
-    if (minimum) {
+    if (minimum || minimum === 0) {
       let err = validateMinimum(value, minimum)
       if (err) errors.push(err)
     }
