@@ -1,24 +1,46 @@
 import React from "react"
 import PropTypes from "prop-types"
 import cx from "classnames"
-import { fromJS, Seq } from "immutable"
+import { fromJS, Seq, Map } from "immutable"
 import { getSampleSchema, fromJSOrdered } from "core/utils"
 
-const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
+const getExampleComponent = ( sampleResponse, examples, HighlightCode, isOAS3, Markdown ) => {
   if ( examples && examples.size ) {
     return examples.entrySeq().map( ([ key, example ]) => {
       let exampleValue = example
-      if ( example.toJS ) {
-        try {
-          exampleValue = JSON.stringify(example.toJS(), null, 2)
+      let exampleSummary = null
+      let exampleDescription = null
+
+      if(isOAS3) {
+        exampleSummary = example.get("summary")
+        exampleDescription = example.get("description")
+        exampleValue = example.get("value")
+        if (exampleValue && exampleValue.toJS){
+          try {
+            exampleValue = JSON.stringify(exampleValue.toJS(), null, 2)
+          }
+          catch (e) {
+            exampleValue = String(exampleValue.value)
+          }
         }
-        catch(e) {
-          exampleValue = String(example)
+
+      } else {
+
+        if (example.toJS) {
+          try {
+            exampleValue = JSON.stringify(example.toJS(), null, 2)
+          }
+          catch (e) {
+            exampleValue = String(example)
+          }
         }
       }
 
       return (<div key={ key }>
-        <h5>{ key }</h5>
+        <h5>{ key } {exampleSummary && <span> : {exampleSummary}</span>}</h5>
+        { exampleDescription && <div className="response-col_description__inner">
+          <Markdown source={ exampleDescription } />
+        </div>}
         <HighlightCode className="example" value={ exampleValue } />
       </div>)
     }).toArray()
@@ -100,6 +122,16 @@ export default class Response extends React.Component {
         includeReadOnly: true
       }) : null
       schema = oas3SchemaForContentType ? inferSchema(oas3SchemaForContentType.toJS()) : null
+      examples = response.getIn(["content", this.state.responseContentType, "examples"])
+
+      if(!examples) {
+        // The example object is mutually exclusive of the examples object. Prefer `examples` here.
+        let example = response.getIn(["content", this.state.responseContentType, "example"])
+
+        if(example) {
+          examples = Map({"Example": example});
+        }
+      }
     } else {
       schema = inferSchema(response.toJS())
       sampleResponse = schema ? getSampleSchema(schema, contentType, {
@@ -115,7 +147,7 @@ export default class Response extends React.Component {
       })
     }
 
-    let example = getExampleComponent( sampleResponse, examples, HighlightCode )
+    let example = getExampleComponent( sampleResponse, examples, HighlightCode, isOAS3(), Markdown )
 
     return (
       <tr className={ "response " + ( className || "") }>
