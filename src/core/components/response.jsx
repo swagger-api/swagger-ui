@@ -131,7 +131,7 @@ export default class Response extends React.Component {
         let example = response.getIn(["content", this.state.responseContentType, "example"])
 
         if(example) {
-          examples = Map({"Example": example});
+          examples = Map({"Example": example})
         }
       }
     } else {
