@@ -45,6 +45,7 @@ export default class Response extends React.Component {
     response: PropTypes.object,
     className: PropTypes.string,
     getComponent: PropTypes.func.isRequired,
+    getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     fn: PropTypes.object.isRequired,
     contentType: PropTypes.string,
@@ -73,6 +74,7 @@ export default class Response extends React.Component {
       className,
       fn,
       getComponent,
+      getConfigs,
       specSelectors,
       contentType,
       controlsAcceptHeader
@@ -111,7 +113,7 @@ export default class Response extends React.Component {
     if(examples) {
       examples = examples.map(example => {
         // Remove unwanted properties from examples
-        return example.set("$$ref", undefined)
+        return example.set ? example.set("$$ref", undefined) : example
       })
     }
 
@@ -144,6 +146,7 @@ export default class Response extends React.Component {
           { example ? (
             <ModelExample
               getComponent={ getComponent }
+              getConfigs={ getConfigs }
               specSelectors={ specSelectors }
               schema={ fromJSOrdered(schema) }
               example={ example }/>
