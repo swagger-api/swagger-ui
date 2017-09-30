@@ -1,6 +1,5 @@
 import { createSelector } from "reselect"
-import { Map } from "immutable"
-import { isOAS3 as isOAS3Helper, isSwagger2 as isSwagger2Helper } from "../helpers"
+import { isOAS3 as isOAS3Helper } from "../helpers"
 
 
 // Helpers
@@ -14,10 +13,6 @@ function onlyOAS3(selector) {
       return ori(...args)
     }
   }
-}
-
-const state = state => {
-  return state || Map()
 }
 
 const nullSelector =  createSelector(() => null)
