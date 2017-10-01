@@ -12,6 +12,12 @@ describe.only("Markdown Script Sanitization", function() {
       const el = render(<Markdown source={str} />)
       expect(el.html()).toEqual(`<div class="markdown"><p>script </p>\n</div>`)
     })
+
+    it("sanitizes <img> elements", function() {
+      const str = `<img src=x onerror="alert('img-in-description')">`
+      const el = render(<Markdown source={str} />)
+      expect(el.html()).toEqual(`<div class="markdown"><p><img src="x"></p>\n</div>`)
+    })
   })
 
   describe("OAS 3", function() {
@@ -19,6 +25,12 @@ describe.only("Markdown Script Sanitization", function() {
       const str = `script <script>alert(1)</script>`
       const el = render(<OAS3Markdown source={str} />)
       expect(el.html()).toEqual(`<div class="renderedMarkdown"><div><p>script </p></div></div>`)
+    })
+
+    it("sanitizes <img> elements", function() {
+      const str = `<img src=x onerror="alert('img-in-description')">`
+      const el = render(<OAS3Markdown source={str} />)
+      expect(el.html()).toEqual(`<div class="renderedMarkdown"><div><img src="x"></div></div>`)
     })
   })
 })
