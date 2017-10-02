@@ -1,4 +1,5 @@
 import { createSelector } from "reselect"
+import { List } from "immutable"
 import { isOAS3 as isOAS3Helper } from "../helpers"
 
 
@@ -23,6 +24,6 @@ const OAS3NullSelector = onlyOAS3(nullSelector)
 export const shownDefinitions = OAS3NullSelector
 export const definitionsToAuthorize = OAS3NullSelector
 export const getDefinitionsByNames = OAS3NullSelector
-export const authorized = OAS3NullSelector
+export const authorized = onlyOAS3(() => List())
 export const isAuthorized = OAS3NullSelector
 export const getConfigs = OAS3NullSelector
