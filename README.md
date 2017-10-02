@@ -119,7 +119,7 @@ scopeSeparator | scope separator for passing scopes, encoded before calling, def
 additionalQueryStringParams | Additional query parameters added to `authorizationUrl` and `tokenUrl`. MUST be an object
 useBasicAuthenticationWithAccessCodeGrant | Only activated for the `accessCode` flow.  During the `authorization_code` request to the `tokenUrl`, pass the [Client Password](https://tools.ietf.org/html/rfc6749#section-2.3.1) using the HTTP Basic Authentication scheme (`Authorization` header with `Basic base64encoded[client_id:client_secret]`).  The default is `false`
 
-```
+```javascript
 const ui = SwaggerUIBundle({...})
 
 // Method can be called in any place after calling constructor SwaggerUIBundle
@@ -171,7 +171,7 @@ showMutatedRequest | If set to `true` (the default), uses the mutated request re
 #### Topbar plugin
 Topbar plugin enables top bar with input for spec path and explore button or a dropdown if `urls` is used. By default the plugin is enabled, and to disable it you need to remove Topbar plugin from presets in `src/standalone/index.js`:
 
-```
+```javascript
 let preset = [
   // TopbarPlugin,
   ConfigsPlugin,
