@@ -5,7 +5,15 @@ import { OrderedMap } from "immutable"
 import { getSampleSchema } from "core/utils"
 import { memoizedGetExamples } from "core/plugins/oas3/utils"
 
-const RequestBody = ({ requestBody, getComponent, specSelectors, contentType }) => {
+const RequestBody = ({
+  requestBody,
+  getComponent,
+  getConfigs,
+  specSelectors,
+  contentType,
+  isExecute,
+  onChange
+}) => {
   const Markdown = getComponent("Markdown")
   const ModelExample = getComponent("modelExample")
   const HighlightCode = getComponent("highlightCode")
@@ -28,6 +36,7 @@ const RequestBody = ({ requestBody, getComponent, specSelectors, contentType }) 
     }
     <ModelExample
       getComponent={ getComponent }
+      getConfigs={ getConfigs }
       specSelectors={ specSelectors }
       expandDepth={1}
       schema={mediaTypeValue.get("schema")}
@@ -40,6 +49,7 @@ const RequestBody = ({ requestBody, getComponent, specSelectors, contentType }) 
 RequestBody.propTypes = {
   requestBody: ImPropTypes.orderedMap.isRequired,
   getComponent: PropTypes.func.isRequired,
+  getConfigs: PropTypes.func.isRequired,
   specSelectors: PropTypes.object.isRequired,
   contentType: PropTypes.string.isRequired
 }
