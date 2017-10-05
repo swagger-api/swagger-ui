@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Creating a Custom Layout · Swagger-UI</title>
+        <title>Creating a custom layout · Swagger-UI</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -192,7 +192,7 @@
                 <a href="custom-layout.html">
             
                     
-                    Creating a Custom Layout
+                    Creating a custom layout
             
                 </a>
             
@@ -289,7 +289,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Creating a Custom Layout</a>
+        <a href=".." >Creating a custom layout</a>
     </h1>
 </div>
 
@@ -304,7 +304,89 @@
     
                                 <section class="normal markdown-section">
                                 
-                                
+                                <h1 id="creating-a-custom-layout">Creating a custom layout</h1>
+<p><strong>Layouts</strong> are a special type of component that Swagger-UI uses as the root component for the entire application. You can define custom layouts in order to have high-level control over what ends up on the page.</p>
+<p>By default, Swagger-UI uses <code>BaseLayout</code>, which is built into the application. You can specify a different layout to be used by passing the layout&apos;s name as the <code>layout</code> parameter to Swagger-UI. Be sure to provide your custom layout as a component to Swagger-UI.</p>
+<p><br></p>
+<p>For example, if you wanted to create a custom layout that only displayed operations, you could define an <code>OperationsLayout</code>:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;react&quot;</span>
+
+<span class="hljs-comment">// Create the layout component</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OperationsLayout</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  render() {
+    <span class="hljs-keyword">const</span> {
+      getComponent
+    } = <span class="hljs-keyword">this</span>.props
+
+    <span class="hljs-keyword">const</span> Operations = getComponent(<span class="hljs-string">&quot;Operations&quot;</span>, <span class="hljs-literal">true</span>)
+
+    <span class="hljs-keyword">return</span> {
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Operations</span> /&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    }
+  }
+}
+
+// Create the plugin that provides our layout component
+const OperationsLayoutPlugin = function() {
+  return {
+    components: {
+      OperationsLayout: OperationsLayout
+    }
+  }
+}
+
+// Provide the plugin to Swagger-UI, and select OperationsLayout
+// as the layout for Swagger-UI
+SwaggerUI({
+  url: &quot;http://petstore.swagger.io/v2/swagger.json&quot;,
+  plugins: [ OperationsLayoutPlugin ],
+  layout: &quot;OperationsLayout&quot;
+})
+</span></code></pre>
+<h3 id="augmenting-the-default-layout">Augmenting the default layout</h3>
+<p>If you&apos;d like to build around the <code>BaseLayout</code> instead of replacing it, you can pull the <code>BaseLayout</code> into your custom layout and use it:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;react&quot;</span>
+
+<span class="hljs-comment">// Create the layout component</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AugmentingLayout</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  render() {
+    <span class="hljs-keyword">const</span> {
+      getComponent
+    } = <span class="hljs-keyword">this</span>.props
+
+    <span class="hljs-keyword">const</span> BaseLayout = getComponent(<span class="hljs-string">&quot;BaseLayout&quot;</span>, <span class="hljs-literal">true</span>)
+
+    <span class="hljs-keyword">return</span> {
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;myCustomHeader&quot;</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>I have a custom header above Swagger-UI!<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">BaseLayout</span> /&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    }
+  }
+}
+
+// Create the plugin that provides our layout component
+const AugmentingLayoutPlugin = function() {
+  return {
+    components: {
+      AugmentingLayout: AugmentingLayout
+    }
+  }
+}
+
+// Provide the plugin to Swagger-UI, and select AugmentingLayout
+// as the layout for Swagger-UI
+SwaggerUI({
+  url: &quot;http://petstore.swagger.io/v2/swagger.json&quot;,
+  plugins: [ AugmentingLayoutPlugin ],
+  layout: &quot;AugmentingLayout&quot;
+})
+</span></code></pre>
+
                                 
                                 </section>
                             
@@ -347,7 +429,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Creating a Custom Layout","level":"3.2","depth":1,"next":{"title":"Plugin API","level":"3.3","depth":1,"path":"customization/plugin-api.md","ref":"customization/plugin-api.md","articles":[]},"previous":{"title":"Overview","level":"3.1","depth":1,"path":"customization/overview.md","ref":"customization/overview.md","articles":[]},"dir":"neutral"},"config":{"plugins":["livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Swagger-UI","gitbook":"*"},"file":{"path":"customization/custom-layout.md","mtime":"2017-10-05T23:29:46.881Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-06T04:20:18.617Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Creating a custom layout","level":"3.2","depth":1,"next":{"title":"Plugin API","level":"3.3","depth":1,"path":"customization/plugin-api.md","ref":"customization/plugin-api.md","articles":[]},"previous":{"title":"Overview","level":"3.1","depth":1,"path":"customization/overview.md","ref":"customization/overview.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Swagger-UI","gitbook":"*"},"file":{"path":"customization/custom-layout.md","mtime":"2017-10-06T21:59:49.674Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-06T04:20:18.617Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

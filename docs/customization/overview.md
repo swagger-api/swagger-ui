@@ -6,10 +6,14 @@ Swagger-UI leans heavily on concepts and patterns found in React and Redux.
 
 If you aren't already familiar, here's some suggested reading:
 
-- [React: Quick Start](https://reactjs.org/docs/hello-world.html)
-- [Redux README](http://redux.js.org/)
+- [React: Quick Start (reactjs.org)](https://reactjs.org/docs/hello-world.html)
+- [Redux README (redux.js.org)](http://redux.js.org/)
 
 In the following documentation, we won't take the time to define the fundamentals covered in the resources above.
+
+> **Note**: Some of the examples in this section contain JSX, which is a syntax extension to JavaScript that is useful for writing React components.
+>
+> If you don't want to set up a build pipeline capable of translating JSX to JavaScript, take a look at [React without JSX (reactjs.org)](https://reactjs.org/docs/react-without-jsx.html).
 
 ### The System
 
@@ -51,3 +55,17 @@ SwaggerUI({
   ]
 })
 ```
+
+### getComponent
+
+`getComponent` is a helper function injected into every container component, which is used to get references to components provided by the plugin system.
+
+All components should be loaded through `getComponent`, since it allows other plugins to modify the component. It is preferred over a conventional `import` statement.
+
+Container components in Swagger-UI can be loaded by passing `true` as the second argument to `getComponent`, like so:
+
+```
+getComponent("ContainerComponentName", true)
+```
+
+This will map the current system as props to the component.

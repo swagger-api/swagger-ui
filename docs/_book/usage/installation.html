@@ -192,7 +192,7 @@
                 <a href="../customization/custom-layout.html">
             
                     
-                    Creating a Custom Layout
+                    Creating a custom layout
             
                 </a>
             
@@ -330,9 +330,18 @@ app.use(express.static(pathToSwaggerUi))
 app.listen(<span class="hljs-number">3000</span>)
 </code></pre>
 <h3 id="docker-hub">Docker Hub</h3>
-<h3 id="packagist">Packagist</h3>
-<h3 id="unpkg">unpkg</h3>
-<h1 id="integration">Integration</h1>
+<p>You can pull a pre-built docker image of the swagger-ui directly from Dockerhub:</p>
+<pre><code>docker pull swaggerapi/swagger-ui
+docker run -p 80:8080 swaggerapi/swagger-ui
+</code></pre><p>Will start nginx with swagger-ui on port 80.</p>
+<p>Or you can provide your own swagger.json on your host</p>
+<pre><code>docker run -p 80:8080 -e SWAGGER_JSON=/foo/swagger.json -v /bar:/foo swaggerapi/swagger-ui
+</code></pre><h3 id="unpkg">unpkg</h3>
+<p>You can embed Swagger-UI&apos;s code directly in your HTML by using unkpg&apos;s interface:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;//unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js&quot;</span>&gt;</span><span class="handlebars"><span class="xml">
+<span class="hljs-comment">&lt;!-- `SwaggerUIBundle` is now available on the page --&gt;</span>
+</span></span></code></pre>
+<p>See <a href="https://unpkg.com/" target="_blank">unpkg&apos;s main page</a> for more information on how to use unpkg.</p>
 
                                 
                                 </section>
@@ -376,7 +385,7 @@ app.listen(<span class="hljs-number">3000</span>)
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Installation","level":"2.1","depth":1,"next":{"title":"Configuration","level":"2.2","depth":1,"path":"usage/configuration.md","ref":"usage/configuration.md","articles":[{"title":"deepLinking","level":"2.2.1","depth":2,"path":"usage/deep-linking.md","ref":"usage/deep-linking.md","articles":[]}]},"previous":{"title":"Intro","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Swagger-UI","gitbook":"*"},"file":{"path":"usage/installation.md","mtime":"2017-10-05T23:29:46.882Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-06T04:20:18.617Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Installation","level":"2.1","depth":1,"next":{"title":"Configuration","level":"2.2","depth":1,"path":"usage/configuration.md","ref":"usage/configuration.md","articles":[{"title":"deepLinking","level":"2.2.1","depth":2,"path":"usage/deep-linking.md","ref":"usage/deep-linking.md","articles":[]}]},"previous":{"title":"Intro","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Swagger-UI","gitbook":"*"},"file":{"path":"usage/installation.md","mtime":"2017-10-06T23:34:59.762Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-06T04:20:18.617Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -8,7 +8,7 @@
 
 ### Customization
 - [Overview](customization/overview.md)
-- [Creating a Custom Layout](customization/custom-layout.md)
+- [Creating a custom layout](customization/custom-layout.md)
 - [Plugin API](customization/plugin-api.md)
 
 ### Development

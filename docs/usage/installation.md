@@ -39,8 +39,28 @@ app.listen(3000)
 
 ### Docker Hub
 
-### Packagist
+You can pull a pre-built docker image of the swagger-ui directly from Dockerhub:
+
+```
+docker pull swaggerapi/swagger-ui
+docker run -p 80:8080 swaggerapi/swagger-ui
+```
+
+Will start nginx with swagger-ui on port 80.
+
+Or you can provide your own swagger.json on your host
+
+```
+docker run -p 80:8080 -e SWAGGER_JSON=/foo/swagger.json -v /bar:/foo swaggerapi/swagger-ui
+```
 
 ### unpkg
 
-# Integration
+You can embed Swagger-UI's code directly in your HTML by using unkpg's interface:
+
+```html
+<script src="//unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js">
+<!-- `SwaggerUIBundle` is now available on the page -->
+```
+
+See [unpkg's main page](https://unpkg.com/) for more information on how to use unpkg.

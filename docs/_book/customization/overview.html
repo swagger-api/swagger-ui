@@ -192,7 +192,7 @@
                 <a href="custom-layout.html">
             
                     
-                    Creating a Custom Layout
+                    Creating a custom layout
             
                 </a>
             
@@ -309,10 +309,14 @@
 <p>Swagger-UI leans heavily on concepts and patterns found in React and Redux.</p>
 <p>If you aren&apos;t already familiar, here&apos;s some suggested reading:</p>
 <ul>
-<li><a href="https://reactjs.org/docs/hello-world.html" target="_blank">React: Quick Start</a></li>
-<li><a href="http://redux.js.org/" target="_blank">Redux README</a></li>
+<li><a href="https://reactjs.org/docs/hello-world.html" target="_blank">React: Quick Start (reactjs.org)</a></li>
+<li><a href="http://redux.js.org/" target="_blank">Redux README (redux.js.org)</a></li>
 </ul>
 <p>In the following documentation, we won&apos;t take the time to define the fundamentals covered in the resources above.</p>
+<blockquote>
+<p><strong>Note</strong>: Some of the examples in this section contain JSX, which is a syntax extension to JavaScript that is useful for writing React components.</p>
+<p>If you don&apos;t want to set up a build pipeline capable of translating JSX to JavaScript, take a look at <a href="https://reactjs.org/docs/react-without-jsx.html" target="_blank">React without JSX (reactjs.org)</a>.</p>
+</blockquote>
 <h3 id="the-system">The System</h3>
 <p>The <em>system</em> is the heart of the Swagger-UI application. At runtime, it&apos;s a JavaScript object that holds many things:</p>
 <ul>
@@ -345,6 +349,12 @@
   ]
 })
 </code></pre>
+<h3 id="getcomponent">getComponent</h3>
+<p><code>getComponent</code> is a helper function injected into every container component, which is used to get references to components provided by the plugin system.</p>
+<p>All components should be loaded through <code>getComponent</code>, since it allows other plugins to modify the component. It is preferred over a conventional <code>import</code> statement.</p>
+<p>Container components in Swagger-UI can be loaded by passing <code>true</code> as the second argument to <code>getComponent</code>, like so:</p>
+<pre><code>getComponent(&quot;ContainerComponentName&quot;, true)
+</code></pre><p>This will map the current system as props to the component.</p>
 
                                 
                                 </section>
@@ -377,7 +387,7 @@
                 </a>
                 
                 
-                <a href="custom-layout.html" class="navigation navigation-next " aria-label="Next page: Creating a Custom Layout">
+                <a href="custom-layout.html" class="navigation navigation-next " aria-label="Next page: Creating a custom layout">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -388,7 +398,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Overview","level":"3.1","depth":1,"next":{"title":"Creating a Custom Layout","level":"3.2","depth":1,"path":"customization/custom-layout.md","ref":"customization/custom-layout.md","articles":[]},"previous":{"title":"Version detection","level":"2.3","depth":1,"path":"usage/version-detection.md","ref":"usage/version-detection.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Swagger-UI","gitbook":"*"},"file":{"path":"customization/overview.md","mtime":"2017-10-06T07:15:00.038Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-06T04:20:18.617Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Overview","level":"3.1","depth":1,"next":{"title":"Creating a custom layout","level":"3.2","depth":1,"path":"customization/custom-layout.md","ref":"customization/custom-layout.md","articles":[]},"previous":{"title":"Version detection","level":"2.3","depth":1,"path":"usage/version-detection.md","ref":"usage/version-detection.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Swagger-UI","gitbook":"*"},"file":{"path":"customization/overview.md","mtime":"2017-10-06T22:21:23.876Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-06T04:20:18.617Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
