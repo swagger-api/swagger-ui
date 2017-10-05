@@ -1,0 +1,418 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>deepLinking · Swagger-UI</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="version-detection.html" />
+    
+    
+    <link rel="prev" href="configuration.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Intro
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Usage</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="installation.html">
+            
+                <a href="installation.html">
+            
+                    
+                    Installation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="configuration.html">
+            
+                <a href="configuration.html">
+            
+                    
+                    Configuration
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="2.2.1" data-path="deep-linking.html">
+            
+                <a href="deep-linking.html">
+            
+                    
+                    deepLinking
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="version-detection.html">
+            
+                <a href="version-detection.html">
+            
+                    
+                    Version detection
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Customization</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../customization/plugin-api.html">
+            
+                <a href="../customization/plugin-api.html">
+            
+                    
+                    Plugin API
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../customization/building-a-plugin.html">
+            
+                <a href="../customization/building-a-plugin.html">
+            
+                    
+                    Building an Example Plugin
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="../customization/custom-layout.html">
+            
+                <a href="../customization/custom-layout.html">
+            
+                    
+                    Creating a Custom Layout
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Development</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../development/architecture.md">
+            
+                <span>
+            
+                    
+                    Architecture overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../development/setting-up.md">
+            
+                <span>
+            
+                    
+                    Setting up a dev environment
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="../development/test-suite.md">
+            
+                <span>
+            
+                    
+                    Test suite
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >deepLinking</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="deeplinking-parameter"><code>deepLinking</code> parameter</h1>
+<p>Swagger-UI allows you to deeply link into tags and operations within a spec. When Swagger-UI is provided a URL fragment at runtime, it will automatically expand and scroll to a specified tag or operation.</p>
+<h2 id="usage">Usage</h2>
+<p>&#x1F449;&#x1F3FC; Add <code>deepLinking: true</code> to your Swagger-UI configuration to enable this functionality.</p>
+<p>When you expand a tag or operation, Swagger-UI will automatically update its URL fragment with a deep link to the item.
+Conversely, when you collapse a tag or operation, Swagger-UI will clear the URL fragment.</p>
+<p>You can also right-click a tag name or operation path in order to copy a link to that tag or operation.</p>
+<h4 id="fragment-format">Fragment format</h4>
+<p>The fragment is formatted in one of two ways:</p>
+<ul>
+<li><code>#/{tagName}</code>, to trigger the focus of a specific tag</li>
+<li><code>#/{tagName}/{operationId}</code>, to trigger the focus of a specific operation within a tag</li>
+</ul>
+<p><code>operationId</code> is the explicit operationId provided in the spec, if one exists.
+Otherwise, Swagger-UI generates an implicit operationId by combining the operation&apos;s path and method, and escaping non-alphanumeric characters.</p>
+<h2 id="faq">FAQ</h2>
+<blockquote>
+<p>I&apos;m using Swagger-UI in an application that needs control of the URL fragment. How do I disable deep-linking?</p>
+</blockquote>
+<p>This functionality is disabled by default, but you can pass <code>deepLinking: false</code> into Swagger-UI as a configuration item to be sure.</p>
+<blockquote>
+<p>Can I link to multiple tags or operations?</p>
+</blockquote>
+<p>No, this is not supported.</p>
+<blockquote>
+<p>Can I collapse everything except the operation or tag I&apos;m linking to?</p>
+</blockquote>
+<p>Sure - use <code>docExpansion: none</code> to collapse all tags and operations. Your deep link will take precedence over the setting, so only the tag or operation you&apos;ve specified will be expanded.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="configuration.html" class="navigation navigation-prev " aria-label="Previous page: Configuration">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="version-detection.html" class="navigation navigation-next " aria-label="Next page: Version detection">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"deepLinking","level":"2.2.1","depth":2,"next":{"title":"Version detection","level":"2.3","depth":1,"path":"usage/version-detection.md","ref":"usage/version-detection.md","articles":[]},"previous":{"title":"Configuration","level":"2.2","depth":1,"path":"usage/configuration.md","ref":"usage/configuration.md","articles":[{"title":"deepLinking","level":"2.2.1","depth":2,"path":"usage/deep-linking.md","ref":"usage/deep-linking.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Swagger-UI","gitbook":"*"},"file":{"path":"usage/deep-linking.md","mtime":"2017-10-04T02:49:05.275Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-04T01:43:58.838Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
