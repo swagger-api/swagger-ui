@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="building-a-plugin.html" />
+    <link rel="next" href="../development/architecture.md" />
     
     
-    <link rel="prev" href="../usage/version-detection.html" />
+    <link rel="prev" href="custom-layout.html" />
     
 
     </head>
@@ -174,12 +174,12 @@
         
         
     
-        <li class="chapter active" data-level="3.1" data-path="plugin-api.html">
+        <li class="chapter " data-level="3.1" data-path="overview.html">
             
-                <a href="plugin-api.html">
+                <a href="overview.html">
             
                     
-                    Plugin API
+                    Overview
             
                 </a>
             
@@ -187,25 +187,25 @@
             
         </li>
     
-        <li class="chapter " data-level="3.2" data-path="building-a-plugin.html">
-            
-                <a href="building-a-plugin.html">
-            
-                    
-                    Building an Example Plugin
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="3.3" data-path="custom-layout.html">
+        <li class="chapter " data-level="3.2" data-path="custom-layout.html">
             
                 <a href="custom-layout.html">
             
                     
                     Creating a Custom Layout
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.3" data-path="plugin-api.html">
+            
+                <a href="plugin-api.html">
+            
+                    
+                    Plugin API
             
                 </a>
             
@@ -304,13 +304,13 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="plugin-api">Plugin API</h1>
-<p>A plugin is an object that contains functions and components capable of modifying and augmenting Swagger-UI&apos;s functionality.</p>
+                                <h1 id="plugins">Plugins</h1>
+<p>A plugin is a function that returns an object - more specifically, the object may contain functions and components that augment and modify Swagger-UI&apos;s functionality.</p>
 <h3 id="format">Format</h3>
-<p>A plugin may contain any or all of these keys:</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> MyPlugin = {
+<p>A plugin return value may contain any of these keys, where <code>myStateKey</code> is a name for a piece of state:</p>
+<pre><code class="lang-javascript">{
   statePlugins: {
-    anyStateKey: {
+    myStateKey: {
       actions,
       reducers,
       selectors,
@@ -318,22 +318,59 @@
       wrapSelectors
     }
   },
-  components: {
-
-  },
-  wrapComponents: {
-
+  components: {},
+  wrapComponents: {},
+  fn: {}
+}
+</code></pre>
+<h3 id="inputs">Inputs</h3>
+<p>Let&apos;s assume we have a plugin, <code>NormalPlugin</code>, that exposes a <code>doStuff</code> action under the <code>normal</code> state namespace.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> ExtendingPlugin = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">system</span>) </span>{
+  <span class="hljs-keyword">return</span> {
+    statePlugins: {
+      extending: {
+        actions: {
+          doExtendedThings: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">...args</span>) </span>{
+            <span class="hljs-comment">// you can do other things in here if you want</span>
+            <span class="hljs-keyword">return</span> system.normalActions.doStuff(...args)
+          }
+        }
+      }
+    }
   }
 }
 </code></pre>
+<p>As you can see, each plugin is passed a reference to the <code>system</code> being built up. As long as <code>NormalPlugin</code> is compiled before <code>ExtendingPlugin</code>, this will work without any issues.</p>
+<p>There is no dependency management built into the plugin system, so if you create a plugin that relies on another, it is your responsibility to make sure that the dependent plugin is loaded <em>after</em> the plugin being depended on.</p>
 <h3 id="interfaces">Interfaces</h3>
 <h5 id="actions">Actions</h5>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> MyActionPlugin = () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    statePlugins: {
+      example: {
+        actions: {
+          updateFavoriteColor: (str) =&gt; {
+            <span class="hljs-keyword">return</span> {
+              type: <span class="hljs-string">&quot;EXAMPLE_SET_FAV_COLOR&quot;</span>,
+              payload: str
+            }
+          }
+        }
+      }
+    }
+  }
+}
+</code></pre>
+<p>The Action interface enables the creation of new Redux action creators within a piece of state in the Swagger-UI system.</p>
+<p>This action creator function will be bound to the <code>example</code> reducer dispatcher and exposed to container components as <code>exampleActions.updateFavoriteColor</code>.</p>
+<p>For more information about the concept of actions in Redux, see the <a href="http://redux.js.org/docs/basics/Actions.html" target="_blank">Redux Actions documentation</a>.</p>
 <h5 id="reducers">Reducers</h5>
 <h5 id="selectors">Selectors</h5>
 <h5 id="components">Components</h5>
 <h5 id="wrap-actions">Wrap-Actions</h5>
 <h5 id="wrap-selectors">Wrap-Selectors</h5>
 <h5 id="wrap-components">Wrap-Components</h5>
+<h5 id="fn">fn</h5>
 
                                 
                                 </section>
@@ -361,12 +398,12 @@
 
             
                 
-                <a href="../usage/version-detection.html" class="navigation navigation-prev " aria-label="Previous page: Version detection">
+                <a href="custom-layout.html" class="navigation navigation-prev " aria-label="Previous page: Creating a Custom Layout">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="building-a-plugin.html" class="navigation navigation-next " aria-label="Next page: Building an Example Plugin">
+                <a href="../development/architecture.md" class="navigation navigation-next " aria-label="Next page: Architecture overview">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -377,7 +414,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Plugin API","level":"3.1","depth":1,"next":{"title":"Building an Example Plugin","level":"3.2","depth":1,"path":"customization/building-a-plugin.md","ref":"customization/building-a-plugin.md","articles":[]},"previous":{"title":"Version detection","level":"2.3","depth":1,"path":"usage/version-detection.md","ref":"usage/version-detection.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Swagger-UI","gitbook":"*"},"file":{"path":"customization/plugin-api.md","mtime":"2017-10-04T02:39:02.825Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-04T01:43:58.838Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Plugin API","level":"3.3","depth":1,"next":{"title":"Architecture overview","level":"4.1","depth":1,"path":"development/architecture.md","ref":"development/architecture.md","articles":[]},"previous":{"title":"Creating a Custom Layout","level":"3.2","depth":1,"path":"customization/custom-layout.md","ref":"customization/custom-layout.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Swagger-UI","gitbook":"*"},"file":{"path":"customization/plugin-api.md","mtime":"2017-10-06T07:38:26.729Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-06T04:20:18.617Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

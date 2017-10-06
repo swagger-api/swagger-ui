@@ -7,9 +7,9 @@
 - [Version detection](usage/version-detection.md)
 
 ### Customization
-- [Plugin API](customization/plugin-api.md)
-- [Building an Example Plugin](customization/building-a-plugin.md)
+- [Overview](customization/overview.md)
 - [Creating a Custom Layout](customization/custom-layout.md)
+- [Plugin API](customization/plugin-api.md)
 
 ### Development
 - [Architecture overview](development/architecture.md)

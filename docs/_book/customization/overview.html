@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Building an Example Plugin · Swagger-UI</title>
+        <title>Overview · Swagger-UI</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -60,7 +60,7 @@
     <link rel="next" href="custom-layout.html" />
     
     
-    <link rel="prev" href="plugin-api.html" />
+    <link rel="prev" href="../usage/version-detection.html" />
     
 
     </head>
@@ -174,12 +174,12 @@
         
         
     
-        <li class="chapter " data-level="3.1" data-path="plugin-api.html">
+        <li class="chapter active" data-level="3.1" data-path="overview.html">
             
-                <a href="plugin-api.html">
+                <a href="overview.html">
             
                     
-                    Plugin API
+                    Overview
             
                 </a>
             
@@ -187,25 +187,25 @@
             
         </li>
     
-        <li class="chapter active" data-level="3.2" data-path="building-a-plugin.html">
-            
-                <a href="building-a-plugin.html">
-            
-                    
-                    Building an Example Plugin
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="3.3" data-path="custom-layout.html">
+        <li class="chapter " data-level="3.2" data-path="custom-layout.html">
             
                 <a href="custom-layout.html">
             
                     
                     Creating a Custom Layout
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="plugin-api.html">
+            
+                <a href="plugin-api.html">
+            
+                    
+                    Plugin API
             
                 </a>
             
@@ -289,7 +289,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Building an Example Plugin</a>
+        <a href=".." >Overview</a>
     </h1>
 </div>
 
@@ -304,7 +304,48 @@
     
                                 <section class="normal markdown-section">
                                 
-                                
+                                <h1 id="plugin-system-overview">Plugin system overview</h1>
+<h3 id="prior-art">Prior art</h3>
+<p>Swagger-UI leans heavily on concepts and patterns found in React and Redux.</p>
+<p>If you aren&apos;t already familiar, here&apos;s some suggested reading:</p>
+<ul>
+<li><a href="https://reactjs.org/docs/hello-world.html" target="_blank">React: Quick Start</a></li>
+<li><a href="http://redux.js.org/" target="_blank">Redux README</a></li>
+</ul>
+<p>In the following documentation, we won&apos;t take the time to define the fundamentals covered in the resources above.</p>
+<h3 id="the-system">The System</h3>
+<p>The <em>system</em> is the heart of the Swagger-UI application. At runtime, it&apos;s a JavaScript object that holds many things:</p>
+<ul>
+<li>React components</li>
+<li>Bound Redux actions and reducers</li>
+<li>Bound Reselect state selectors</li>
+<li>System-wide collection of available components</li>
+<li>Built-in helpers like <code>getComponent</code>, <code>makeMappedContainer</code>, and <code>getStore</code></li>
+<li>User-defined helper functions</li>
+</ul>
+<p>The system is built up when Swagger-UI is called by iterating through (&quot;compiling&quot;) each plugin that Swagger-UI has been given, through the <code>presets</code> and <code>plugins</code> configuration options.</p>
+<h3 id="presets">Presets</h3>
+<p>Presets are arrays of plugins, which are provided to Swagger-UI through the <code>presets</code> configuration option. All plugins within presets are compiled before any plugins provided via the <code>plugins</code> configuration option. Consider the following example:</p>
+<pre><code class="lang-javascript">SwaggerUI({
+  presets: [
+    [FirstPlugin, SecondPlugin],
+    [ThirdPlugin, FourthPlugin]
+  ],
+  plugins: [
+    FifthPlugin,
+    SixthPlugin
+  ]
+})
+</code></pre>
+<p>By default, Swagger-UI includes the internal <code>ApisPreset</code>, which contains a set of plugins that provide baseline functionality for Swagger-UI. If you specify your own <code>presets</code> option, you need to add the ApisPreset manually, like so:</p>
+<pre><code class="lang-javascript">SwaggerUI({
+  presets: [
+    SwaggerUI.presets.apis,
+    MyAmazingCustomPreset
+  ]
+})
+</code></pre>
+
                                 
                                 </section>
                             
@@ -331,7 +372,7 @@
 
             
                 
-                <a href="plugin-api.html" class="navigation navigation-prev " aria-label="Previous page: Plugin API">
+                <a href="../usage/version-detection.html" class="navigation navigation-prev " aria-label="Previous page: Version detection">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
@@ -347,7 +388,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Building an Example Plugin","level":"3.2","depth":1,"next":{"title":"Creating a Custom Layout","level":"3.3","depth":1,"path":"customization/custom-layout.md","ref":"customization/custom-layout.md","articles":[]},"previous":{"title":"Plugin API","level":"3.1","depth":1,"path":"customization/plugin-api.md","ref":"customization/plugin-api.md","articles":[]},"dir":"neutral"},"config":{"plugins":["livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Swagger-UI","gitbook":"*"},"file":{"path":"customization/building-a-plugin.md","mtime":"2017-10-04T02:17:32.392Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-04T01:43:58.838Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Overview","level":"3.1","depth":1,"next":{"title":"Creating a Custom Layout","level":"3.2","depth":1,"path":"customization/custom-layout.md","ref":"customization/custom-layout.md","articles":[]},"previous":{"title":"Version detection","level":"2.3","depth":1,"path":"usage/version-detection.md","ref":"usage/version-detection.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Swagger-UI","gitbook":"*"},"file":{"path":"customization/overview.md","mtime":"2017-10-06T07:15:00.038Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-06T04:20:18.617Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
