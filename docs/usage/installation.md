@@ -35,8 +35,6 @@ app.use(express.static(pathToSwaggerUi))
 app.listen(3000)
 ```
 
-
-
 ### Docker Hub
 
 You can pull a pre-built docker image of the swagger-ui directly from Dockerhub:

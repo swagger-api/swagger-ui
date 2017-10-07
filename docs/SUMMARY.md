@@ -12,6 +12,4 @@
 - [Plugin API](customization/plugin-api.md)
 
 ### Development
-- [Architecture overview](development/architecture.md)
 - [Setting up a dev environment](development/setting-up.md)
-- [Test suite](development/test-suite.md)
