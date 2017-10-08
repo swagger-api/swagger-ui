@@ -6,6 +6,7 @@ import { OrderedMap } from "immutable"
 const RequestBody = ({
   requestBody,
   getComponent,
+  getConfigs,
   specSelectors,
   contentType,
   isExecute,
@@ -27,6 +28,7 @@ const RequestBody = ({
     }
     <ModelExample
       getComponent={ getComponent }
+      getConfigs={ getConfigs }
       specSelectors={ specSelectors }
       expandDepth={1}
       isExecute={isExecute}
@@ -46,6 +48,7 @@ const RequestBody = ({
 RequestBody.propTypes = {
   requestBody: ImPropTypes.orderedMap.isRequired,
   getComponent: PropTypes.func.isRequired,
+  getConfigs: PropTypes.func.isRequired,
   specSelectors: PropTypes.object.isRequired,
   contentType: PropTypes.string.isRequired,
   isExecute: PropTypes.bool.isRequired,
