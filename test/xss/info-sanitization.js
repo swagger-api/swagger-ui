@@ -6,7 +6,7 @@ import { fromJS } from "immutable"
 import Info from "components/info"
 import Markdown from "components/providers/markdown"
 
-describe.only("<Info/> Sanitization", function(){
+describe("<Info/> Sanitization", function(){
 	const dummyComponent = () => null
 	const components = {
 		Markdown

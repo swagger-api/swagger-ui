@@ -5,7 +5,7 @@ import { render } from "enzyme"
 import Markdown from "components/providers/markdown"
 import { Markdown as OAS3Markdown } from "corePlugins/oas3/wrap-components/markdown.js"
 
-describe.only("Markdown Script Sanitization", function() {
+describe("Markdown Script Sanitization", function() {
   describe("Swagger 2.0", function() {
     it("sanitizes <script> elements", function() {
       const str = `script <script>alert(1)</script>`
