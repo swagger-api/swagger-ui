@@ -1,10 +1,11 @@
 import React from "react"
+import PropTypes from "prop-types"
 import ReactMarkdown from "react-markdown"
 import { Parser, HtmlRenderer } from "commonmark"
 import { OAS3ComponentWrapFactory } from "../helpers"
 import { sanitizer } from "core/components/providers/markdown"
 
-export default OAS3ComponentWrapFactory(({ source }) => { 
+export const Markdown = ({ source }) => { 
   if ( source ) {
     const parser = new Parser()
     const writer = new HtmlRenderer()
@@ -23,4 +24,9 @@ export default OAS3ComponentWrapFactory(({ source }) => {
     )
   }
   return null
-})
+}
+Markdown.propTypes = {
+  source: PropTypes.string
+}
+
+export default OAS3ComponentWrapFactory(Markdown)
