@@ -541,12 +541,14 @@ export const validateParam = (param, isXml) => {
   let errors = []
   let value = isXml && param.get("in") === "body" ? param.get("value_xml") : param.get("value")
   let required = param.get("required")
-  let maximum = param.get("maximum")
-  let minimum = param.get("minimum")
-  let type = param.get("type")
-  let format = param.get("format")
-  let maxLength = param.get("maxLength")
-  let minLength = param.get("minLength")
+
+  let paramDetails = param.get("schema") || param
+  let maximum = paramDetails.get("maximum")
+  let minimum = paramDetails.get("minimum")
+  let type = paramDetails.get("type")
+  let format = paramDetails.get("format")
+  let maxLength = paramDetails.get("maxLength")
+  let minLength = paramDetails.get("minLength")
 
   /*
     If the parameter is required OR the parameter has a value (meaning optional, but filled in)
