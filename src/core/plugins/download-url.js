@@ -7,13 +7,16 @@ export default function downloadUrlPlugin (toolbox) {
   let { fn } = toolbox
 
   const actions = {
-    download: (url)=> ({ errActions, specSelectors, specActions }) => {
+    download: (url)=> ({ errActions, specSelectors, specActions, getConfigs }) => {
       let { fetch } = fn
+      const config = getConfigs()
       url = url || specSelectors.url()
       specActions.updateLoadingStatus("loading")
       fetch({
         url,
         loadSpec: true,
+        requestInterceptor: config.requestInterceptor || (a => a),
+        responseInterceptor: config.responseInterceptor || (a => a),
         credentials: "same-origin",
         headers: {
           "Accept": "application/json,*/*"
