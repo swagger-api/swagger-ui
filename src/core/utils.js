@@ -537,12 +537,12 @@ export const validateMinLength = (val, min) => {
 }
 
 // validation of parameters before execute
-export const validateParam = (param, isXml) => {
+export const validateParam = (param, isXml, isOAS3 = false) => {
   let errors = []
   let value = isXml && param.get("in") === "body" ? param.get("value_xml") : param.get("value")
   let required = param.get("required")
 
-  let paramDetails = param.get("schema") || param
+  let paramDetails = isOAS3 ? param.get("schema") : param
   let maximum = paramDetails.get("maximum")
   let minimum = paramDetails.get("minimum")
   let type = paramDetails.get("type")
@@ -618,7 +618,7 @@ export const validateParam = (param, isXml) => {
 
       if ( !value.count() ) { return errors }
 
-      itemType = param.getIn(["items", "type"])
+      itemType = paramDetails.getIn(["items", "type"])
 
       value.forEach((item, index) => {
         let err
