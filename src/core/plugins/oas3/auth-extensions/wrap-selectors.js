@@ -20,7 +20,7 @@ const nullSelector =  createSelector(() => null)
 
 const OAS3NullSelector = onlyOAS3(nullSelector)
 
-// Hasta la vista, authentication!
+// Hasta la vista, authorization!
 export const shownDefinitions = OAS3NullSelector
 export const definitionsToAuthorize = OAS3NullSelector
 export const getDefinitionsByNames = OAS3NullSelector
