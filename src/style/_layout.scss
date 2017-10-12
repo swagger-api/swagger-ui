@@ -543,14 +543,14 @@
 
 .response-col_description__inner
 {
-    span
+    div.markdown, div.renderedMarkdown
     {
         font-size: 12px;
         font-style: italic;
 
         display: block;
 
-        margin: 10px 0;
+        margin: 0;
         padding: 10px;
 
         border-radius: 4px;
