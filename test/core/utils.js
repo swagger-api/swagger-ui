@@ -277,461 +277,438 @@ describe("utils", function() {
     let param = null
     let result = null
 
-    it("skips validation when `type` is not specified", function() {
-      // invalid type
+    const assertValidateParam = (param, expectedError) => {
+      // Swagger 2.0 version
+      result = validateParam( fromJS(param), false )
+      expect( result ).toEqual( expectedError )
+
+      // OAS3 version, using `schema` sub-object
+      let oas3Param = {
+        value: param.value,
+        required: param.required,
+        schema: {
+          ...param,
+          value: undefined,
+          required: undefined
+        }
+      }
+      result = validateParam( fromJS(oas3Param), false, true )
+      expect( result ).toEqual( expectedError )
+    }
+
+    it("should check the isOAS3 flag when validating parameters", function() {
+      // This should "skip" validation because there is no `schema.type` property
+      // and we are telling `validateParam` this is an OAS3 spec
       param = fromJS({
-        required: false,
-        type: undefined,
-        value: ""
+        value: "",
+        required: true,
+        schema: {
+          notTheTypeProperty: "string"
+        }
       })
-      result = validateParam( param, false )
+      result = validateParam( param, false, true )
       expect( result ).toEqual( [] )
     })
 
     it("validates required strings", function() {
       // invalid string
-      param = fromJS({
+      param = {
         required: true,
         type: "string",
         value: ""
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Required field is not provided"] )
+      }
+      assertValidateParam(param, ["Required field is not provided"])
 
       // valid string
-      param = fromJS({
+      param = {
         required: true,
         type: "string",
         value: "test string"
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
 
       // valid string with min and max length
-      param = fromJS({
+      param = {
         required: true,
         type: "string",
         value: "test string",
         maxLength: 50,
         minLength: 1
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
     })
 
     it("validates required strings with min and max length", function() {
       // invalid string with max length
-      param = fromJS({
+      param = {
         required: true,
         type: "string",
         value: "test string",
         maxLength: 5
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Value must be less than MaxLength"] )
+      }
+      assertValidateParam(param, ["Value must be less than MaxLength"])
 
       // invalid string with max length 0
-      param = fromJS({
+      param = {
         required: true,
         type: "string",
         value: "test string",
         maxLength: 0
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Value must be less than MaxLength"] )
-
+      }
+      assertValidateParam(param, ["Value must be less than MaxLength"])
 
       // invalid string with min length
-      param = fromJS({
+      param = {
         required: true,
         type: "string",
         value: "test string",
         minLength: 50
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Value must be greater than MinLength"] )
+      }
+      assertValidateParam(param, ["Value must be greater than MinLength"])
     })
 
     it("validates optional strings", function() {
       // valid (empty) string
-      param = fromJS({
+      param = {
         required: false,
         type: "string",
         value: ""
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
 
       // valid string
-      param = fromJS({
+      param = {
         required: false,
         type: "string",
         value: "test"
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
     })
 
     it("validates required files", function() {
       // invalid file
-      param = fromJS({
+      param = {
         required: true,
         type: "file",
         value: undefined
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Required field is not provided"] )
+      }
+      assertValidateParam(param, ["Required field is not provided"])
 
       // valid file
-      param = fromJS({
+      param = {
         required: true,
         type: "file",
         value: new win.File()
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
     })
 
     it("validates optional files", function() {
       // invalid file
-      param = fromJS({
+      param = {
         required: false,
         type: "file",
         value: "not a file"
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Value must be a file"] )
+      }
+      assertValidateParam(param, ["Value must be a file"])
 
       // valid (empty) file
-      param = fromJS({
+      param = {
         required: false,
         type: "file",
         value: undefined
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
 
       // valid file
-      param = fromJS({
+      param = {
         required: false,
         type: "file",
         value: new win.File()
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
     })
 
     it("validates required arrays", function() {
       // invalid (empty) array
-      param = fromJS({
+      param = {
         required: true,
         type: "array",
         value: []
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Required field is not provided"] )
+      }
+      assertValidateParam(param, ["Required field is not provided"])
 
       // invalid (not an array)
-      param = fromJS({
+      param = {
         required: true,
         type: "array",
         value: undefined
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Required field is not provided"] )
+      }
+      assertValidateParam(param, ["Required field is not provided"])
 
       // invalid array, items do not match correct type
-      param = fromJS({
+      param = {
         required: true,
         type: "array",
         value: [1],
         items: {
           type: "string"
         }
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [{index: 0, error: "Value must be a string"}] )
+      }
+      assertValidateParam(param, [{index: 0, error: "Value must be a string"}])
 
       // valid array, with no 'type' for items
-      param = fromJS({
+      param = {
         required: true,
         type: "array",
         value: ["1"]
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
 
       // valid array, items match type
-      param = fromJS({
+      param = {
         required: true,
         type: "array",
         value: ["1"],
         items: {
           type: "string"
         }
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
     })
 
     it("validates optional arrays", function() {
       // valid, empty array
-      param = fromJS({
+      param = {
         required: false,
         type: "array",
         value: []
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
 
       // invalid, items do not match correct type
-      param = fromJS({
+      param = {
         required: false,
         type: "array",
         value: ["number"],
         items: {
           type: "number"
         }
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [{index: 0, error: "Value must be a number"}] )
+      }
+      assertValidateParam(param, [{index: 0, error: "Value must be a number"}])
 
       // valid
-      param = fromJS({
+      param = {
         required: false,
         type: "array",
         value: ["test"],
         items: {
           type: "string"
         }
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
     })
 
     it("validates required booleans", function() {
       // invalid boolean value
-      param = fromJS({
+      param = {
         required: true,
         type: "boolean",
         value: undefined
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Required field is not provided"] )
+      }
+      assertValidateParam(param, ["Required field is not provided"])
 
       // invalid boolean value (not a boolean)
-      param = fromJS({
+      param = {
         required: true,
         type: "boolean",
         value: "test string"
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Required field is not provided"] )
+      }
+      assertValidateParam(param, ["Required field is not provided"])
 
       // valid boolean value
-      param = fromJS({
+      param = {
         required: true,
         type: "boolean",
         value: "true"
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
 
       // valid boolean value
-      param = fromJS({
+      param = {
         required: true,
         type: "boolean",
         value: false
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
     })
 
     it("validates optional booleans", function() {
       // valid (empty) boolean value
-      param = fromJS({
+      param = {
         required: false,
         type: "boolean",
         value: undefined
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
 
       // invalid boolean value (not a boolean)
-      param = fromJS({
+      param = {
         required: false,
         type: "boolean",
         value: "test string"
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Value must be a boolean"] )
+      }
+      assertValidateParam(param, ["Value must be a boolean"])
 
       // valid boolean value
-      param = fromJS({
+      param = {
         required: false,
         type: "boolean",
         value: "true"
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
 
       // valid boolean value
-      param = fromJS({
+      param = {
         required: false,
         type: "boolean",
         value: false
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
     })
 
     it("validates required numbers", function() {
       // invalid number, string instead of a number
-      param = fromJS({
+      param = {
         required: true,
         type: "number",
         value: "test"
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Required field is not provided"] )
+      }
+      assertValidateParam(param, ["Required field is not provided"])
 
       // invalid number, undefined value
-      param = fromJS({
+      param = {
         required: true,
         type: "number",
         value: undefined
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Required field is not provided"] )
+      }
+      assertValidateParam(param, ["Required field is not provided"])
 
       // valid number with min and max
-      param = fromJS({
+      param = {
         required: true,
         type: "number",
         value: 10,
         minimum: 5,
         maximum: 99
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
 
       // valid negative number with min and max
-      param = fromJS({
+      param = {
         required: true,
         type: "number",
         value: -10,
         minimum: -50,
         maximum: -5
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
 
       // invalid number with maximum:0
-      param = fromJS({
+      param = {
         required: true,
         type: "number",
         value: 1,
         maximum: 0
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Value must be less than Maximum"] )
+      }
+      assertValidateParam(param, ["Value must be less than Maximum"])
 
       // invalid number with minimum:0
-      param = fromJS({
+      param = {
         required: true,
         type: "number",
         value: -10,
         minimum: 0
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Value must be greater than Minimum"] )
+      }
+      assertValidateParam(param, ["Value must be greater than Minimum"])
     })
 
     it("validates optional numbers", function() {
       // invalid number, string instead of a number
-      param = fromJS({
+      param = {
         required: false,
         type: "number",
         value: "test"
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Value must be a number"] )
+      }
+      assertValidateParam(param, ["Value must be a number"])
 
       // valid (empty) number
-      param = fromJS({
+      param = {
         required: false,
         type: "number",
         value: undefined
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
 
       // valid number
-      param = fromJS({
+      param = {
         required: false,
         type: "number",
         value: 10
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
     })
 
     it("validates required integers", function() {
       // invalid integer, string instead of an integer
-      param = fromJS({
+      param = {
         required: true,
         type: "integer",
         value: "test"
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Required field is not provided"] )
+      }
+      assertValidateParam(param, ["Required field is not provided"])
 
       // invalid integer, undefined value
-      param = fromJS({
+      param = {
         required: true,
         type: "integer",
         value: undefined
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Required field is not provided"] )
+      }
+      assertValidateParam(param, ["Required field is not provided"])
 
       // valid integer
-      param = fromJS({
+      param = {
         required: true,
         type: "integer",
         value: 10
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
     })
 
     it("validates optional integers", function() {
       // invalid integer, string instead of an integer
-      param = fromJS({
+      param = {
         required: false,
         type: "integer",
         value: "test"
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( ["Value must be an integer"] )
+      }
+      assertValidateParam(param, ["Value must be an integer"])
 
       // valid (empty) integer
-      param = fromJS({
+      param = {
         required: false,
         type: "integer",
         value: undefined
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
 
       // integers
-      param = fromJS({
+      param = {
         required: false,
         type: "integer",
         value: 10
-      })
-      result = validateParam( param, false )
-      expect( result ).toEqual( [] )
+      }
+      assertValidateParam(param, [])
     })
   })
 
