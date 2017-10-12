@@ -6,7 +6,7 @@ import { isOAS3 as isOAS3Helper } from "../helpers"
 // Helpers
 
 function onlyOAS3(selector) {
-  return (ori, system) => (...args) => {
+  return (ori, system) => (state, ...args) => {
     const spec = system.getSystem().specSelectors.specJson()
     if(isOAS3Helper(spec)) {
       return selector(...args)
