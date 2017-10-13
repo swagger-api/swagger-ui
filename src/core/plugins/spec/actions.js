@@ -137,10 +137,13 @@ export function changeParam( path, paramName, paramIn, value, isXml ){
   }
 }
 
-export function validateParams( payload ){
+export const validateParams = ( payload, isOAS3 ) =>{
   return {
     type: VALIDATE_PARAMS,
-    payload:{ pathMethod: payload }
+    payload:{ 
+      pathMethod: payload,
+      isOAS3
+    }
   }
 }
 
