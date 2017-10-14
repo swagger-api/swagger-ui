@@ -107,7 +107,7 @@ export default class Oauth2 extends React.Component {
 
     return (
       <div>
-        <h4>OAuth2.0 <JumpToPath path={[ "securityDefinitions", name ]} /></h4>
+        <h4>{name} (OAuth2, { schema.get("flow") }) <JumpToPath path={[ "securityDefinitions", name ]} /></h4>
         { !this.state.appName ? null : <h5>Application: { this.state.appName } </h5> }
         { description && <Markdown source={ schema.get("description") } /> }
 
