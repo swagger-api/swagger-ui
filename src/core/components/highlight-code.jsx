@@ -29,16 +29,16 @@ export default class HighlightCode extends Component {
     className = className || ""
 
     try {
-      JSON.parse(value);
+      JSON.parse(value)
       return <div>
         {Theme}
-        <JS ref={this.initializeComponent} className={className + ' microlight'}>{value}</JS>
+        <JS ref={this.initializeComponent} className={className + " microlight"}>{value}</JS>
       </div>
 
     } catch (e) {
       return <div>
         {Theme}
-        <XML ref={this.initializeComponent} className={className + ' microlight'}>{value}</XML>
+        <XML ref={this.initializeComponent} className={className + " microlight"}>{value}</XML>
       </div>
     }
   }
