@@ -86,7 +86,9 @@
     "worker-loader": "^0.7.1",
     "xml": "1.0.1",
     "xml-but-prettier": "^1.0.1",
-    "yaml-js": "0.2.0"
+    "yaml-js": "0.2.0",
+    "zenscroll": "4.0.0"
+
   },
   "devDependencies": {
     "autoprefixer": "7.1.1",
