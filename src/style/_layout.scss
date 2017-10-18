@@ -580,7 +580,7 @@
     font-size: 12px;
 
     margin: 0;
-    padding: 10px;
+    padding: 0;
 
     white-space: pre-wrap;
     word-wrap: break-word;
@@ -593,11 +593,6 @@
 
     overflow-wrap: break-word;
     @include text_code(#fff);
-    span
-    {
-        color: #fff !important;
-    }
-
     .headerline
     {
         display: block;
@@ -773,6 +768,7 @@
     @include text_body();
     margin-top: 0px;
     margin-bottom: 0px;
+    color: #fff;
   }
 }
 
@@ -819,4 +815,9 @@ a.nostyle {
     color: inherit;
     cursor: pointer;
   }
+}
+
+.hljs {
+  background-color: #41444e;
+  padding: 5px !important;
 }
