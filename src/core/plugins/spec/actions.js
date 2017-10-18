@@ -161,7 +161,7 @@ export const validateParams = ( payload, isOAS3 ) =>{
 
 export function clearValidateParams( payload ){
   return {
-    type: ClEAR_VALIDATE_PARAMS,
+    type: CLEAR_VALIDATE_PARAMS,
     payload:{ pathMethod: payload }
   }
 }
