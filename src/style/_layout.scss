@@ -768,14 +768,6 @@
     }
 }
 
-.renderedMarkdown {
-  p {
-    @include text_body();
-    margin-top: 0px;
-    margin-bottom: 0px;
-  }
-}
-
 .response-content-type {
   padding-top: 1em;
 
