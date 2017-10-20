@@ -115,7 +115,7 @@ export default class ParameterRow extends Component {
                               required={ required }
                               description={param.get("description") ? `${param.get("name")} - ${param.get("description")}` : `${param.get("name")}`}
                               onChange={ this.onChangeWrapper }
-                              schema={ param }/>
+                              schema={ isOAS3 && isOAS3() ? param.get("schema") : param }/>
           }
 
 
