@@ -6,7 +6,7 @@ import { isOAS3 as isOAS3Helper } from "../helpers"
 // Helpers
 
 function onlyOAS3(selector) {
-  return (ori, system) => (...args) => {
+  return (ori, system) => (state, ...args) => {
     const spec = system.getSystem().specSelectors.specJson()
     if(isOAS3Helper(spec)) {
       return selector(...args)
@@ -20,7 +20,7 @@ const nullSelector =  createSelector(() => null)
 
 const OAS3NullSelector = onlyOAS3(nullSelector)
 
-// Hasta la vista, authentication!
+// Hasta la vista, authorization!
 export const shownDefinitions = OAS3NullSelector
 export const definitionsToAuthorize = OAS3NullSelector
 export const getDefinitionsByNames = OAS3NullSelector
