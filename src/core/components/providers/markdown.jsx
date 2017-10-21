@@ -29,7 +29,11 @@ Markdown.propTypes = {
 export default Markdown
 
 const sanitizeOptions = {
-    allowedTags: sanitize.defaults.allowedTags.concat([ "img" ]),
+    allowedTags: sanitize.defaults.allowedTags.concat([ "h1", "h2", "img" ]),
+    allowedAttributes: {
+        ...sanitize.defaults.allowedAttributes,
+        "img": sanitize.defaults.allowedAttributes.img.concat(["title"])
+    },
     textFilter: function(text) {
         return text.replace(/&quot;/g, "\"")
     }

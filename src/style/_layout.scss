@@ -250,6 +250,10 @@
     .opblock-summary-path__deprecated
     {
         font-size: 16px;
+        @media (max-width: 768px) {
+          font-size: 12px;
+        }
+
 
         display: flex;
         flex: 0 3 auto;
@@ -543,14 +547,14 @@
 
 .response-col_description__inner
 {
-    span
+    div.markdown, div.renderedMarkdown
     {
         font-size: 12px;
         font-style: italic;
 
         display: block;
 
-        margin: 10px 0;
+        margin: 0;
         padding: 10px;
 
         border-radius: 4px;
@@ -766,14 +770,6 @@
             }
         }
     }
-}
-
-.renderedMarkdown {
-  p {
-    @include text_body();
-    margin-top: 0px;
-    margin-bottom: 0px;
-  }
 }
 
 .response-content-type {
