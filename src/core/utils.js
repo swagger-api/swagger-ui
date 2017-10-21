@@ -537,7 +537,7 @@ export const validateMinLength = (val, min) => {
 }
 
 export const validatePattern = (val, rxPattern) => {
-  var patt = new RegExp(rxPattern);
+  var patt = new RegExp(rxPattern)
   if (!patt.test(val)) {
       return "Value must follow pattern " + rxPattern
   }
