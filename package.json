@@ -105,6 +105,7 @@
     "enzyme": "^2.7.1",
     "eslint": "^4.1.1",
     "eslint-plugin-import": "^2.6.0",
+    "eslint-plugin-mocha": "^4.11.0",
     "eslint-plugin-react": "^7.1.0",
     "extract-text-webpack-plugin": "^2.1.2",
     "file-loader": "0.11.2",
