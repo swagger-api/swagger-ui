@@ -5,7 +5,7 @@ import {
   definitionsToAuthorize
 } from "corePlugins/oas3/auth-extensions/wrap-selectors"
 
-describe.only("oas3 plugin - auth extensions - wrapSelectors", function(){
+describe("oas3 plugin - auth extensions - wrapSelectors", function(){
 
   describe("execute", function(){
 
