@@ -4,7 +4,10 @@ import ImPropTypes from "react-immutable-proptypes"
 
 export default class Auths extends React.Component {
   static propTypes = {
-
+    schema: ImPropTypes.orderedMap.isRequired,
+    name: PropTypes.string.isRequired,
+    onAuthChange: PropTypes.func.isRequired,
+    authorized: ImPropTypes.orderedMap.isRequired
   }
 
   render() {
