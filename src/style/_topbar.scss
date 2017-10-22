@@ -1,6 +1,6 @@
 .topbar
 {
-    padding: 8px 30px;
+    padding: 8px 0;
 
     background-color: #89bf04;
     .topbar-wrapper
@@ -39,7 +39,6 @@
         input[type=text]
         {
             width: 100%;
-            min-width: 350px;
             margin: 0;
 
             border: 2px solid #547f00;
@@ -84,7 +83,7 @@
             font-size: 16px;
             font-weight: bold;
 
-            padding: 4px 40px;
+            padding: 4px 30px;
 
             border: none;
             border-radius: 0 4px 4px 0;

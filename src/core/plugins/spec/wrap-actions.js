@@ -13,3 +13,7 @@ export const executeRequest = (ori, { specActions }) => (req) => {
   specActions.logRequest(req)
   return ori(req)
 }
+
+export const validateParams = (ori, { specSelectors }) => (req) => {
+  return ori(req, specSelectors.isOAS3())
+}

@@ -40,9 +40,10 @@ export default {
   },
 
   [UPDATE_PARAM]: ( state, {payload} ) => {
-    let { path, paramName, value, isXml } = payload
+    let { path, paramName, paramIn, value, isXml } = payload
+
     return state.updateIn( [ "resolved", "paths", ...path, "parameters" ], fromJS([]), parameters => {
-      const index = parameters.findIndex(p => p.get( "name" ) === paramName )
+      const index = parameters.findIndex(p => p.get( "name" ) === paramName && p.get("in") === paramIn )
       if (!(value instanceof win.File)) {
         value = fromJSOrdered( value )
       }
@@ -50,14 +51,14 @@ export default {
     })
   },
 
-  [VALIDATE_PARAMS]: ( state, { payload:  { pathMethod } } ) => {
+  [VALIDATE_PARAMS]: ( state, { payload: { pathMethod, isOAS3 } } ) => {
     let operation = state.getIn( [ "resolved", "paths", ...pathMethod ] )
     let isXml = /xml/i.test(operation.get("consumes_value"))
 
     return state.updateIn( [ "resolved", "paths", ...pathMethod, "parameters" ], fromJS([]), parameters => {
       return parameters.withMutations( parameters => {
         for ( let i = 0, len = parameters.count(); i < len; i++ ) {
-          let errors = validateParam(parameters.get(i), isXml)
+          let errors = validateParam(parameters.get(i), isXml, isOAS3)
           parameters.setIn([i, "errors"], fromJS(errors))
         }
       })
