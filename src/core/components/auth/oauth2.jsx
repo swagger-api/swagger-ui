@@ -2,11 +2,6 @@ import React from "react"
 import PropTypes from "prop-types"
 import oauth2Authorize from "core/oauth2-authorize"
 
-const IMPLICIT = "implicit"
-const ACCESS_CODE = "accessCode"
-const PASSWORD = "password"
-const APPLICATION = "application"
-
 export default class Oauth2 extends React.Component {
   static propTypes = {
     name: PropTypes.string,
@@ -16,6 +11,7 @@ export default class Oauth2 extends React.Component {
     authSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
     errSelectors: PropTypes.object.isRequired,
+    specSelectors: PropTypes.object.isRequired,
     errActions: PropTypes.object.isRequired,
     getConfigs: PropTypes.any
   }
@@ -83,7 +79,9 @@ export default class Oauth2 extends React.Component {
   }
 
   render() {
-    let { schema, getComponent, authSelectors, errSelectors, name } = this.props
+    let {
+      schema, getComponent, authSelectors, errSelectors, name, specSelectors
+    } = this.props
     const Input = getComponent("Input")
     const Row = getComponent("Row")
     const Col = getComponent("Col")
@@ -91,6 +89,14 @@ export default class Oauth2 extends React.Component {
     const AuthError = getComponent("authError")
     const JumpToPath = getComponent("JumpToPath", true)
     const Markdown = getComponent( "Markdown" )
+
+    const { isOAS3 } = specSelectors
+
+    // Auth type consts
+    const IMPLICIT = "implicit"
+    const PASSWORD = "password"
+    const ACCESS_CODE = isOAS3() ? "authorizationCode" : "accessCode"
+    const APPLICATION = isOAS3() ? "clientCredentials" : "application"
 
     let flow = schema.get("flow")
     let scopes = schema.get("allowedScopes") || schema.get("scopes")
@@ -102,7 +108,7 @@ export default class Oauth2 extends React.Component {
 
     return (
       <div>
-        <h4>OAuth2.0 <JumpToPath path={[ "securityDefinitions", name ]} /></h4>
+        <h4>{name} (OAuth2, { schema.get("flow") }) <JumpToPath path={[ "securityDefinitions", name ]} /></h4>
         { !this.state.appName ? null : <h5>Application: { this.state.appName } </h5> }
         { description && <Markdown source={ schema.get("description") } /> }
 

@@ -149,7 +149,7 @@ export default class Operation extends PureComponent {
     const isDeepLinkingEnabled = deepLinking && deepLinking !== "false"
 
     // Merge in Live Response
-    if(response && response.size > 0) {
+    if(responses && response && response.size > 0) {
       let notDocumented = !responses.get(String(response.get("status")))
       response = response.set("notDocumented", notDocumented)
     }
@@ -224,6 +224,7 @@ export default class Operation extends PureComponent {
                 specActions={ specActions }
                 specSelectors={ specSelectors }
                 pathMethod={ [path, method] }
+                getConfigs={ getConfigs }
               />
 
               {!tryItOutEnabled || !allowTryItOut ? null : schemes && schemes.size ? <div className="opblock-schemes">

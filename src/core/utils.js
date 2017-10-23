@@ -470,6 +470,18 @@ export const propChecker = (props, nextProps, objectList=[], ignoreList=[]) => {
     || objectList.some( objectPropName => !eq(props[objectPropName], nextProps[objectPropName])))
 }
 
+export const validateMaximum = ( val, max ) => {
+  if (val > max) {
+    return "Value must be less than Maximum"
+  }
+}
+
+export const validateMinimum = ( val, min ) => {
+  if (val < min) {
+    return "Value must be greater than Minimum"
+  }
+}
+
 export const validateNumber = ( val ) => {
   if (!/^-?\d+(\.?\d+)?$/.test(val)) {
     return "Value must be a number"
@@ -512,13 +524,31 @@ export const validateGuid = (val) => {
     }
 }
 
+export const validateMaxLength = (val, max) => {
+  if (val.length > max) {
+      return "Value must be less than MaxLength"
+  }
+}
+
+export const validateMinLength = (val, min) => {
+  if (val.length < min) {
+      return "Value must be greater than MinLength"
+  }
+}
+
 // validation of parameters before execute
-export const validateParam = (param, isXml) => {
+export const validateParam = (param, isXml, isOAS3 = false) => {
   let errors = []
   let value = isXml && param.get("in") === "body" ? param.get("value_xml") : param.get("value")
   let required = param.get("required")
-  let type = param.get("type")
-  let format = param.get("format")
+
+  let paramDetails = isOAS3 ? param.get("schema") : param
+  let maximum = paramDetails.get("maximum")
+  let minimum = paramDetails.get("minimum")
+  let type = paramDetails.get("type")
+  let format = paramDetails.get("format")
+  let maxLength = paramDetails.get("maxLength")
+  let minLength = paramDetails.get("minLength")
 
   /*
     If the parameter is required OR the parameter has a value (meaning optional, but filled in)
@@ -535,9 +565,29 @@ export const validateParam = (param, isXml) => {
     let numberCheck = type === "number" && !validateNumber(value) // validateNumber returns undefined if the value is a number
     let integerCheck = type === "integer" && !validateInteger(value) // validateInteger returns undefined if the value is an integer
 
+    if (maxLength || maxLength === 0) {
+      let err = validateMaxLength(value, maxLength)
+      if (err) errors.push(err)
+    }
+
+    if (minLength) {
+      let err = validateMinLength(value, minLength)
+      if (err) errors.push(err)
+    }
+
     if ( required && !(stringCheck || arrayCheck || listCheck || fileCheck || booleanCheck || numberCheck || integerCheck) ) {
       errors.push("Required field is not provided")
       return errors
+    }
+
+    if (maximum || maximum === 0) {
+      let err = validateMaximum(value, maximum)
+      if (err) errors.push(err)
+    }
+
+    if (minimum || minimum === 0) {
+      let err = validateMinimum(value, minimum)
+      if (err) errors.push(err)
     }
 
     if ( type === "string" ) {
@@ -568,7 +618,7 @@ export const validateParam = (param, isXml) => {
 
       if ( !value.count() ) { return errors }
 
-      itemType = param.getIn(["items", "type"])
+      itemType = paramDetails.getIn(["items", "type"])
 
       value.forEach((item, index) => {
         let err

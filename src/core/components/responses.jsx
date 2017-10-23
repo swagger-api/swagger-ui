@@ -12,13 +12,13 @@ export default class Responses extends React.Component {
     produces: PropTypes.object,
     producesValue: PropTypes.any,
     getComponent: PropTypes.func.isRequired,
+    getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     specActions: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
     pathMethod: PropTypes.array.isRequired,
     displayRequestDuration: PropTypes.bool.isRequired,
-    fn: PropTypes.object.isRequired,
-    getConfigs: PropTypes.func.isRequired
+    fn: PropTypes.object.isRequired
   }
 
   static defaultProps = {
@@ -116,6 +116,7 @@ export default class Responses extends React.Component {
                               controlsAcceptHeader={response === acceptControllingResponse}
                               onContentTypeChange={this.onResponseContentTypeChange}
                               contentType={ producesValue }
+                              getConfigs={ getConfigs }
                               getComponent={ getComponent }/>
                     )
                 }).toArray()

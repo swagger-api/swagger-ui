@@ -11,7 +11,8 @@ export default class ParameterRow extends Component {
     isExecute: PropTypes.bool,
     onChangeConsumes: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
-    pathMethod: PropTypes.array.isRequired
+    pathMethod: PropTypes.array.isRequired,
+    getConfigs: PropTypes.func.isRequired
   }
 
   constructor(props, context) {
@@ -30,7 +31,7 @@ export default class ParameterRow extends Component {
     let { specSelectors, pathMethod, param } = props
     let example = param.get("example")
     let defaultValue = param.get("default")
-    let parameter = specSelectors.getParameter(pathMethod, param.get("name"))
+    let parameter = specSelectors.getParameter(pathMethod, param.get("name"), param.get("in"))
     let paramValue = parameter ? parameter.get("value") : undefined
     let enumValue = parameter ? parameter.get("enum") : undefined
     let value
@@ -56,7 +57,7 @@ export default class ParameterRow extends Component {
   }
 
   render() {
-    let {param, onChange, getComponent, isExecute, fn, onChangeConsumes, specSelectors, pathMethod} = this.props
+    let {param, onChange, getComponent, getConfigs, isExecute, fn, onChangeConsumes, specSelectors, pathMethod} = this.props
 
     let { isOAS3 } = specSelectors
 
@@ -114,12 +115,13 @@ export default class ParameterRow extends Component {
                               required={ required }
                               description={param.get("description") ? `${param.get("name")} - ${param.get("description")}` : `${param.get("name")}`}
                               onChange={ this.onChangeWrapper }
-                              schema={ param }/>
+                              schema={ isOAS3 && isOAS3() ? param.get("schema") : param }/>
           }
 
 
           {
             bodyParam && schema ? <ModelExample getComponent={ getComponent }
+                                                getConfigs={ getConfigs }
                                                 isExecute={ isExecute }
                                                 specSelectors={ specSelectors }
                                                 schema={ schema }
