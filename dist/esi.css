@@ -158,7 +158,7 @@ div.info hgroup.main h2.title {
   font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
-div.info div.description div span p {
+div.info div.description div p {
   font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   font-size: 40px;
   font-weight: 200;
@@ -190,90 +190,41 @@ div.auth-wrapper {
   display: none;
 }
 
-pre.base-url {
+pre.base-url, span.url {
   display: none;
 }
 
-span.url:after {
-  content: "swagger.json";
-  visibility: visible;
-  text-transform: uppercase;
-  border-top: 1px #000 solid;
-  padding-top: 4px;
-  transition-duration: .25s;
-  transition-timing-function: ease-in;
-}
-
-span.url:hover {
-  border-top-color: #6e6e6e;
-  transition-duration: .25s;
-  transition-timing-function: ease-in;
-}
-
-span.url {
-  transition-duration: .25s;
-  transition-timing-function: ease-in;
-  visibility: hidden;
-  position: fixed;
-  right: 30%;
-  z-index: 9001;
-  color: #fff;
-  font-size: 16px;
-  font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-}
-
-@media screen and (min-width: 1501px) {
+@media screen and (min-width: 1776px) {
   div.auth-wrapper {
-    top: 32px;
-    right: 20%;
-  }
-  span.url {
-    top: 38px;
+    top: 34px;
     right: 32%;
   }
 }
 
-@media screen and (min-width: 1301px) and (max-width: 1500px) {
+@media screen and (min-width: 1535px) and (max-width: 1775px) {
   div.auth-wrapper {
-    top: 32px;
-    right: 15%;
-  }
-  span.url {
-    top: 38px;
+    top: 34px;
     right: 29%;
   }
 }
 
-@media screen and (min-width: 951px) and (max-width: 1300px) {
+@media screen and (min-width: 1190px) and (max-width: 1534px) {
   div.auth-wrapper {
-    top: 32px;
-    right: 7%;
-  }
-  span.url {
-    top: 38px;
+    top: 34px;
     right: 23%;
   }
 }
 
-@media screen and (min-width: 866px) and (max-width: 950px) {
+@media screen and (min-width: 930px) and (max-width: 1189px) {
   div.auth-wrapper {
-    top: 80px;
-    left: 92px;
-  }
-  span.url {
-    top: 38px;
+    top: 34px;
     right: 14%;
   }
 }
 
-@media screen and (min-width: 351px) and (max-width: 865px) {
+@media screen and (min-width: 351px) and (max-width: 929px) {
   div.auth-wrapper {
     top: 86px;
-    left: 250px;
-  }
-  span.url {
-    top: 92px;
-    left: -37px;
   }
 }
 
@@ -286,10 +237,6 @@ span.url {
 
 @media screen and (max-width: 350px) {
   div.auth-wrapper {
-    top: 77px;
-    left: 130px;
-  }
-  span.url {
     top: 65px;
     left: 10px;
   }
@@ -332,6 +279,7 @@ section.models h4 span {
   color: #fff !important;
   font-family: "Roboto Mono", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace !important;
   font-weight: 500 !important;
+  font-size: inherit;
 }
 
 .swagger-ui .opblock .opblock-summary-description {
@@ -350,9 +298,14 @@ section.models h4 span {
   border-radius: 0 !important;
 }
 
+.swagger-ui .wrapper {
+  margin: 30px auto;
+}
+
 .swagger-ui section.models {
   border: 0px !important;
   padding: 0 !important;
+  margin: 0 !important;
 }
 
 .swagger-ui section.models.is-open h4 {
@@ -605,6 +558,9 @@ select, input,
  border-radius: 0 !important;
 }
 
+div.parameter__type,
+.swagger-ui .btn.btn-sm,
+.swagger-ui .opblock-title_normal,
 .swagger-ui .loading-container .loading:after {
   color: #fff !important;
 }
@@ -689,14 +645,10 @@ div#swagger-ui>section.swagger-ui>div.wrapper>section>span>a>img {
   vertical-align: middle;
 }
 
-div.parameter__type {
-  color: #fff !important;
-}
-
-.swagger-ui .opblock-title_normal {
-  color: #fff !important;
-}
-
 .swagger-ui .opblock.opblock-deprecated .opblock-summary-method {
   background: #858585 !important;
+}
+
+div.auth-container h5 {
+  color: #000;
 }

@@ -43,6 +43,7 @@
      <div class="version"><span class="available">legacy</span></div>
      <div class="version"><span class="available">latest</span></div>
      <div class="version"><span class="available">dev</span></div>
+     <div class="version"><span class="available">meta</span></div>
     </div>
     <div id="datasources" style="visibility:hidden">
      <select id="datasource">
@@ -60,8 +61,10 @@
      <section class="block col-12 block-desktop col-12-desktop">
       <section class="api_info">
        <div id="api_info" style="display:none">
-        <div id="base_url">base url: <span id="base_url">/latest</span></div>
-        <div id="api_version">api version: <span id="api_version">localdev</span></div>
+        <a id="spec_link" href="/latest/swagger.json" title="ESI latest spec">
+         <div id="base_url">base url: <span id="base_url">/latest</span></div>
+         <div id="api_version">api version: <span id="api_version">localdev</span></div>
+        </a>
        </div>
       </section>
      </section>
@@ -114,7 +117,7 @@
     var url = new URL(window.location.href);
     var search = new URLSearchParams(url.search);
     var ver = search.get("version") || "latest";
-    if (["latest", "dev", "legacy"].indexOf(ver) < 0) {
+    if (["latest", "dev", "legacy", "meta"].indexOf(ver) < 0) {
      ver = "latest";
     }
     fetch("https://esi.tech.ccp.is/status.json?version=" + ver).then((resp) => {
@@ -123,7 +126,7 @@
       var byStatus = {"green": [], "yellow": [], "red": []};
       for (i = 0; i < data.length; i++) {
        for (t = 0; t < data[i]["tags"].length; t++) {
-        byStatus[data[i]["status"]].push("div[id='operations-" + data[i]["tags"][t].replace(/\ /g, "_") + "-" + data[i]["method"] + data[i]["route"].replace(/\{|\}/g, "").replace(/\//g, "_").replace(/_$/, "") + "'] div.opblock-summary::after");
+        byStatus[data[i]["status"]].push("div[id='operations-" + data[i]["tags"][t].replace(/\ /g, "_") + "-" + data[i]["method"] + data[i]["route"].replace(/\{|\}/g, "").replace(/\//g, "_").replace(/_$/, "").split(".")[0] + "'] div.opblock-summary::after");
        }
       }
       if (byStatus["green"].length > 0) { statusCSS += "\n" + byStatus["green"].join(", ") + "{ background: green; }"; }
@@ -139,17 +142,24 @@
    var searchParams = new URLSearchParams(url.search);
    var selectedDatasource = searchParams.get("datasource");
    var selectedVersion = searchParams.get("version") || "latest";
-   var baseUrl = document.querySelector("span#base_url")
-   baseUrl.innerHTML = "/" + selectedVersion;
-   baseUrl.parentElement.parentElement.removeAttribute("style");
-   var swaggerUrl = "/" + selectedVersion + "/swagger.json";
+   var baseUrl = document.querySelector("span#base_url");
+   var specLink = document.querySelector("a#spec_link");
+   if (selectedVersion == "meta") {
+    var swaggerUrl = "/swagger.json";
+    baseUrl.innerHTML = "/";
+   } else {
+    baseUrl.innerHTML = "/" + selectedVersion;
+    var swaggerUrl = "/" + selectedVersion + "/swagger.json";
+   }
    if (selectedDatasource) {
     swaggerUrl += "?datasource=" + selectedDatasource;
    }
+   specLink.href = swaggerUrl;
+   specLink.title = "ESI " + selectedVersion + " spec";
+   specLink.parentElement.removeAttribute("style");
    const esi = SwaggerUIBundle({
-    url: swaggerUrl,
+    url: url.origin + swaggerUrl,
     dom_id: '#swagger-ui',
-    deepLinking: true,
     presets: [
      SwaggerUIBundle.presets.apis,
      SwaggerUIStandalonePreset
@@ -207,15 +217,21 @@
       }
      }
      var newVersion = event.currentTarget.innerText.toLowerCase();
-     var newUrl = "/" + newVersion + "/swagger.json"
+     if (newVersion == "meta") {
+      var newUrl = "/swagger.json";
+      baseUrl.innerHTML = "/";
+     } else {
+      var newUrl = "/" + newVersion + "/swagger.json";
+      baseUrl.innerHTML = "/" + newVersion;
+     }
      if (selectedDatasource) {
       newUrl += "?datasource=" + selectedDatasource;
      }
-     window.ui.specActions.updateUrl(newUrl);
+     specLink.href = newUrl;
+     specLink.title = "ESI " + newVersion + " spec";
+     window.ui.specActions.updateUrl(url.origin + newUrl);
      window.ui.specActions.download();
      history.pushState(history.state, document.title, UpdateQueryString("version", newVersion));
-     // TODO: make invisible, need onComplete hook though
-     baseUrl.innerHTML = "/" + newVersion;
      esiStatus();
     });
    }
