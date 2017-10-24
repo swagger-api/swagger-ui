@@ -36,14 +36,14 @@ export const updateResolved = (ori, { layoutActions, getConfigs }) => (...args) 
       layoutActions.show(["operations-tag", tag], true)
       layoutActions.show(["operations", tag, operationId], true)
 
-      let target = document.getElementById(`#operations-${escapeDeepLinkPath(tag)}-${escapeDeepLinkPath(operationId)}`, {
+      let target = document.getElementById(`operations-${escapeDeepLinkPath(tag)}-${escapeDeepLinkPath(operationId)}`)
       myScroller.to(target)
 
     } else if(tag) {
       // Pre-expand and scroll to the tag
       layoutActions.show(["operations-tag", tag], true)
 
-      let target = document.getElementById(`#operations-tag-${escapeDeepLinkPath(tag)}`, {
+      let target = document.getElementById(`operations-tag-${escapeDeepLinkPath(tag)}`)
       myScroller.to(target)
     }
   }
