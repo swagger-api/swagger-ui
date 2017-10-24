@@ -123,7 +123,7 @@ export default class Operations extends React.Component {
 
                         const path = op.get("path", "")
                         const method = op.get("method", "")
-                        const jumpToKey = `paths.${path}.${method}`
+                        const specPath = ["paths", path, method]
 
                         const operationId =
                         op.getIn(["operation", "operationId"]) || op.getIn(["operation", "__originalOperationId"]) || opId(op.get("operation"), path, method) || op.get("id")
@@ -137,7 +137,7 @@ export default class Operations extends React.Component {
                           {...op.toObject()}
 
                           isShownKey={isShownKey}
-                          jumpToKey={jumpToKey}
+                          specPath={specPath}
                           showSummary={showSummary}
                           key={isShownKey}
                           response={ response }

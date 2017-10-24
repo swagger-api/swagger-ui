@@ -17,6 +17,7 @@ export default class Responses extends React.Component {
     specActions: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
     pathMethod: PropTypes.array.isRequired,
+    specPath: PropTypes.array.isRequired,
     displayRequestDuration: PropTypes.bool.isRequired,
     fn: PropTypes.object.isRequired
   }
@@ -50,7 +51,8 @@ export default class Responses extends React.Component {
       specSelectors,
       fn,
       producesValue,
-      displayRequestDuration
+      displayRequestDuration,
+      specPath,
     } = this.props
     let defaultCode = defaultStatusCode( responses )
 
@@ -104,9 +106,11 @@ export default class Responses extends React.Component {
             <tbody>
               {
                 responses.entrySeq().map( ([code, response]) => {
+
                   let className = tryItOutResponse && tryItOutResponse.get("status") == code ? "response_current" : ""
                   return (
                     <Response key={ code }
+                              specPath={[...specPath, code]}
                               isDefault={defaultCode === code}
                               fn={fn}
                               className={ className }

@@ -13,7 +13,8 @@ export default class ParameterRow extends Component {
     onChangeConsumes: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     pathMethod: PropTypes.array.isRequired,
-    getConfigs: PropTypes.func.isRequired
+    getConfigs: PropTypes.func.isRequired,
+    specPath: PropTypes.array.isRequired,
   }
 
   constructor(props, context) {
@@ -68,7 +69,7 @@ export default class ParameterRow extends Component {
   }
 
   render() {
-    let {param, onChange, getComponent, getConfigs, isExecute, fn, onChangeConsumes, specSelectors, pathMethod} = this.props
+    let {param, onChange, getComponent, getConfigs, isExecute, fn, onChangeConsumes, specSelectors, pathMethod, specPath} = this.props
 
     let { isOAS3 } = specSelectors
 
