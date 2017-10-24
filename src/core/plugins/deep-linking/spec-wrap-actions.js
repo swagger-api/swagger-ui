@@ -1,8 +1,7 @@
-import scrollTo from "scroll-to-element"
+import zenscroll from "zenscroll"
 import { escapeDeepLinkPath } from "core/utils"
 
-const SCROLL_OFFSET = -5
-let hasHashBeenParsed = false
+let hasHashBeenParsed = false //TODO this forces code to only run once which may prevent scrolling if page not refreshed
 
 
 export const updateResolved = (ori, { layoutActions, getConfigs }) => (...args) => {
@@ -12,7 +11,6 @@ export const updateResolved = (ori, { layoutActions, getConfigs }) => (...args) 
   if(!isDeepLinkingEnabled || isDeepLinkingEnabled === "false") {
     return
   }
-
   if(window.location.hash && !hasHashBeenParsed ) {
     let hash = window.location.hash.slice(1) // # is first character
 
@@ -30,21 +28,23 @@ export const updateResolved = (ori, { layoutActions, getConfigs }) => (...args) 
 
     let [tag, operationId] = hash.split("/")
 
+    let swaggerUI = document.querySelector(".swagger-ui")
+    let myScroller = zenscroll.createScroller(swaggerUI)
+
     if(tag && operationId) {
       // Pre-expand and scroll to the operation
       layoutActions.show(["operations-tag", tag], true)
       layoutActions.show(["operations", tag, operationId], true)
 
-      scrollTo(`#operations-${escapeDeepLinkPath(tag)}-${escapeDeepLinkPath(operationId)}`, {
-        offset: SCROLL_OFFSET
-      })
+      let target = document.getElementById(`#operations-${escapeDeepLinkPath(tag)}-${escapeDeepLinkPath(operationId)}`, {
+      myScroller.to(target)
+
     } else if(tag) {
       // Pre-expand and scroll to the tag
       layoutActions.show(["operations-tag", tag], true)
 
-      scrollTo(`#operations-tag-${escapeDeepLinkPath(tag)}`, {
-        offset: SCROLL_OFFSET
-      })
+      let target = document.getElementById(`#operations-tag-${escapeDeepLinkPath(tag)}`, {
+      myScroller.to(target)
     }
   }
 
