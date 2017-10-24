@@ -261,10 +261,11 @@ export const allowTryItOutFor = () => {
 
 // Get the parameter value by parameter name
 export function getParameter(state, pathMethod, name, inType) {
+  pathMethod = pathMethod || []
   let params = spec(state).getIn(["paths", ...pathMethod, "parameters"], fromJS([]))
-  return params.filter( (p) => {
+  return params.find( (p) => {
     return Map.isMap(p) && p.get("name") === name && p.get("in") === inType
-  }).first()
+  }) || Map() // Always return a map
 }
 
 export const hasHost = createSelector(
