@@ -17,7 +17,7 @@ export default class ObjectModel extends Component {
     isRef: PropTypes.bool,
     expandDepth: PropTypes.number,
     depth: PropTypes.number,
-    specPath: PropTypes.object.isRequired
+    specPath: PropTypes.object.isRequired,
   }
 
   render(){
