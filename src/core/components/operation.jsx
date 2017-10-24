@@ -9,6 +9,7 @@ export default class Operation extends PureComponent {
     operation: PropTypes.instanceOf(Iterable).isRequired,
     response: PropTypes.instanceOf(Iterable),
     request: PropTypes.instanceOf(Iterable),
+    specPath: PropTypes.array.isRequired,
 
     toggleShown: PropTypes.func.isRequired,
     onTryoutClick: PropTypes.func.isRequired,
@@ -35,6 +36,7 @@ export default class Operation extends PureComponent {
 
   render() {
     let {
+      specPath,
       response,
       request,
       toggleShown,
@@ -119,7 +121,7 @@ export default class Operation extends PureComponent {
                 href={isDeepLinkingEnabled ? `#/${isShownKey.join("/")}` : null}>
                 <span>{path}</span>
               </a>
-                <JumpToPath path={jumpToKey} />
+                <JumpToPath path={specPath} /> {/*TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
               </span>
 
             { !showSummary ? null :
@@ -167,6 +169,7 @@ export default class Operation extends PureComponent {
 
               <Parameters
                 parameters={parameters}
+                specPath={[...specPath, "parameters"]}
                 operation={operation}
                 onChangeKey={onChangeKey}
                 onTryoutClick = { onTryoutClick }
@@ -227,6 +230,7 @@ export default class Operation extends PureComponent {
                     producesValue={ operation.get("produces_value") }
                     path={ path }
                     method={ method }
+                    specPath={[...specPath, "responses"]}
                     displayRequestDuration={ displayRequestDuration }
                     fn={fn} />
               }
