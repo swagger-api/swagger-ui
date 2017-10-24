@@ -13,13 +13,13 @@ export default class ObjectModel extends Component {
     name: PropTypes.string,
     isRef: PropTypes.bool,
     expandDepth: PropTypes.number,
-    depth: PropTypes.number
+    depth: PropTypes.number,
+    specPath: PropTypes.object.isRequired
   }
 
   render(){
-    let { schema, name, isRef, getComponent, depth, expandDepth, ...otherProps } = this.props
+    let { schema, name, isRef, getComponent, depth, specPath, expandDepth, ...otherProps } = this.props
     let { specSelectors } = otherProps
-    let { isOAS3 } = specSelectors
 
     let description = schema.get("description")
     let properties = schema.get("properties")
@@ -32,14 +32,13 @@ export default class ObjectModel extends Component {
     const Model = getComponent("Model")
     const ModelCollapse = getComponent("ModelCollapse")
 
-    const JumpToPathSection = ({ name }) => {
-      const path = isOAS3 && isOAS3() ? `components.schemas.${name}` : `definitions.${name}`
-      return <span className="model-jump-to-path"><JumpToPath path={path} /></span>
+    const JumpToPathSection = () => {
+      return <span className="model-jump-to-path"><JumpToPath specPath={specPath} /></span>
     }
     const collapsedContent = (<span>
         <span>{ braceOpen }</span>...<span>{ braceClose }</span>
         {
-        isRef ? <JumpToPathSection name={ name }/> : ""
+          isRef ? <JumpToPathSection /> : ""
         }
     </span>)
 
@@ -56,7 +55,7 @@ export default class ObjectModel extends Component {
       <ModelCollapse title={titleEl} collapsed={ depth > expandDepth } collapsedContent={ collapsedContent }>
          <span className="brace-open object">{ braceOpen }</span>
           {
-            !isRef ? null : <JumpToPathSection name={ name }/>
+            !isRef ? null : <JumpToPathSection />
           }
           <span className="inner-object">
             {
@@ -86,6 +85,7 @@ export default class ObjectModel extends Component {
                           <Model key={ `object-${name}-${key}_${value}` } { ...otherProps }
                                  required={ isRequired }
                                  getComponent={ getComponent }
+                                 specPath={[...specPath, "properties", key]}
                                  schema={ value }
                                  depth={ depth + 1 } />
                         </td>
@@ -99,6 +99,7 @@ export default class ObjectModel extends Component {
                     <td>
                       <Model { ...otherProps } required={ false }
                              getComponent={ getComponent }
+                             specPath={[...specPath, "additionalProperties"]}
                              schema={ additionalProperties }
                              depth={ depth + 1 } />
                     </td>
@@ -112,6 +113,7 @@ export default class ObjectModel extends Component {
                       {anyOf.map((schema, k) => {
                         return <div key={k}><Model { ...otherProps } required={ false }
                                  getComponent={ getComponent }
+                                 specPath={[...specPath, "anyOf", k]}
                                  schema={ schema }
                                  depth={ depth + 1 } /></div>
                       })}
@@ -126,6 +128,7 @@ export default class ObjectModel extends Component {
                       {oneOf.map((schema, k) => {
                         return <div key={k}><Model { ...otherProps } required={ false }
                                  getComponent={ getComponent }
+                                 specPath={[...specPath, "oneOf", k]}
                                  schema={ schema }
                                  depth={ depth + 1 } /></div>
                       })}
@@ -140,6 +143,7 @@ export default class ObjectModel extends Component {
                       {not.map((schema, k) => {
                         return <div key={k}><Model { ...otherProps } required={ false }
                                  getComponent={ getComponent }
+                                 specPath={[...specPath, "not", k]}
                                  schema={ schema }
                                  depth={ depth + 1 } /></div>
                       })}

@@ -20,7 +20,8 @@ export default class Parameters extends Component {
     onCancelClick: PropTypes.func,
     onChangeKey: PropTypes.array,
     pathMethod: PropTypes.array.isRequired,
-    getConfigs: PropTypes.func.isRequired
+    getConfigs: PropTypes.func.isRequired,
+    specPath: PropTypes.array.isRequired,
   }
 
 
@@ -30,6 +31,7 @@ export default class Parameters extends Component {
     tryItOutEnabled: false,
     allowTryItOut: true,
     onChangeKey: [],
+    specPath: [],
   }
 
   onChange = ( param, value, isXml ) => {
@@ -58,6 +60,7 @@ export default class Parameters extends Component {
       parameters,
       allowTryItOut,
       tryItOutEnabled,
+      specPath,
 
       fn,
       getComponent,
@@ -92,8 +95,10 @@ export default class Parameters extends Component {
               </thead>
               <tbody>
                 {
-                  eachMap(parameters, (parameter) => (
-                    <ParameterRow fn={ fn }
+                  eachMap(parameters, (parameter, i) => (
+                    <ParameterRow
+                      fn={ fn }
+                      specPath={[...specPath, i]}
                       getComponent={ getComponent }
                       getConfigs={ getConfigs }
                       param={ parameter }
