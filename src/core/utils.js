@@ -568,6 +568,7 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
     // These checks should evaluate to true if the parameter's value is valid
     let stringCheck = type === "string" && value && !validateString(value)
     let arrayCheck = type === "array" && Array.isArray(value) && value.length
+    let objectCheck = type === "object" && value.length
     let listCheck = type === "array" && Im.List.isList(value) && value.count()
     let fileCheck = type === "file" && value instanceof win.File
     let booleanCheck = type === "boolean" && !validateBoolean(value)
@@ -589,7 +590,7 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
       if (err) errors.push(err)
     }
 
-    if ( required && !(stringCheck || arrayCheck || listCheck || fileCheck || booleanCheck || numberCheck || integerCheck) ) {
+    if ( required && !(stringCheck || objectCheck || arrayCheck || listCheck || fileCheck || booleanCheck || numberCheck || integerCheck) ) {
       errors.push("Required field is not provided")
       return errors
     }
