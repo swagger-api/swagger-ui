@@ -32,7 +32,7 @@ export default class Model extends PureComponent {
   }
 
   render () {
-    let { getComponent, getConfigs, specSelectors, schema, required, name, isRef, specPath } = this.props
+    let { getComponent, getConfigs ,specSelectors, schema, required, name, isRef, specPath } = this.props
     const ObjectModel = getComponent("ObjectModel")
     const ArrayModel = getComponent("ArrayModel")
     const PrimitiveModel = getComponent("PrimitiveModel")

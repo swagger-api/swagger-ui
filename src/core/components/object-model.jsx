@@ -17,13 +17,12 @@ export default class ObjectModel extends Component {
     isRef: PropTypes.bool,
     expandDepth: PropTypes.number,
     depth: PropTypes.number,
-    specPath: PropTypes.object.isRequired,
+    specPath: PropTypes.object.isRequired
   }
 
   render(){
-
     let { schema, name, isRef, getComponent, getConfigs, depth, specPath, onToggle, expanded, ...otherProps } = this.props
-    let { specSelectors,expandDepth } = otherProps
+    let { specSelectors, expandDepth } = otherProps
 
     if(!schema) {
       return null
