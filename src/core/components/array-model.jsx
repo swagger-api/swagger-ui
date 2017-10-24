@@ -11,11 +11,12 @@ export default class ArrayModel extends Component {
     name: PropTypes.string,
     required: PropTypes.bool,
     expandDepth: PropTypes.number,
+    specPath: PropTypes.array.isRequired,
     depth: PropTypes.number
   }
 
   render(){
-    let { getComponent, schema, depth, expandDepth, name } = this.props
+    let { getComponent, schema, depth, expandDepth, name, specPath } = this.props
     let description = schema.get("description")
     let items = schema.get("items")
     let title = schema.get("title") || name
@@ -46,7 +47,7 @@ export default class ArrayModel extends Component {
             !description ? null :
               <Markdown source={ description } />
           }
-          <span><Model { ...this.props } name={null} schema={ items } required={ false } depth={ depth + 1 } /></span>
+          <span><Model { ...this.props } specPath={[...specPath, "items"]} name={null} schema={ items } required={ false } depth={ depth + 1 } /></span>
         ]
       </ModelCollapse>
     </span>
