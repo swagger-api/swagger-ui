@@ -6,12 +6,11 @@ let hasHashBeenParsed = false //TODO this forces code to only run once which may
 
 export const updateResolved = (ori, { layoutActions, getConfigs }) => (...args) => {
   ori(...args)
-
   const isDeepLinkingEnabled = getConfigs().deepLinking
   if(!isDeepLinkingEnabled || isDeepLinkingEnabled === "false") {
     return
   }
-  if(window.location.hash && !hasHashBeenParsed ) {
+  if(window.location.hash ) {
     let hash = window.location.hash.slice(1) // # is first character
 
     if(hash[0] === "!") {
