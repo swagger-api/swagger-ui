@@ -1,9 +1,8 @@
-*.sublime-*
-example.html
-*.tgz
-.classpath
-.project
-.npmignore
-dist/sample.html
-dist/spec.js
-node_modules
+*
+*/
+!README.md
+!package.json
+!dist/swagger-ui.js
+!dist/swagger-ui.js.map
+!dist/swagger-ui.css
+!dist/swagger-ui.css.map

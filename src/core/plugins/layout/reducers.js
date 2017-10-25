@@ -1,0 +1,27 @@
+import {
+  UPDATE_LAYOUT,
+  UPDATE_FILTER,
+  UPDATE_MODE,
+  SHOW
+} from "./actions"
+
+export default {
+
+  [UPDATE_LAYOUT]: (state, action) => state.set("layout", action.payload),
+
+  [UPDATE_FILTER]: (state, action) => state.set("filter", action.payload),
+
+  [SHOW]: (state, action) => {
+    let thing = action.payload.thing
+    let shown = action.payload.shown
+    return state.setIn(["shown"].concat(thing), shown)
+  },
+
+  [UPDATE_MODE]: (state, action) => {
+    let thing = action.payload.thing
+    let mode = action.payload.mode
+    return state.setIn(["modes"].concat(thing), (mode || "") + "")
+  }
+
+}
+

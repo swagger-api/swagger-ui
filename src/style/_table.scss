@@ -1,0 +1,154 @@
+table
+{
+    width: 100%;
+    padding: 0 10px;
+
+    border-collapse: collapse;
+
+    &.model
+    {
+        tbody
+        {
+            tr
+            {
+                td
+                {
+                    padding: 0;
+
+                    vertical-align: top;
+
+                    &:first-of-type
+                    {
+                        width: 124px;
+                        padding: 0 0 0 2em;
+                    }
+                }
+            }
+        }
+    }
+
+    &.headers
+    {
+        td
+        {
+            font-size: 12px;
+            font-weight: 300;
+
+            vertical-align: middle;
+
+            @include text_code();
+        }
+    }
+
+    tbody
+    {
+        tr
+        {
+            td
+            {
+                padding: 10px 0 0 0;
+
+                vertical-align: top;
+
+                &:first-of-type
+                {
+                    max-width: 20%;
+                    min-width: 6em;
+                    padding: 10px 0;
+                }
+            }
+        }
+    }
+
+    thead
+    {
+        tr
+        {
+            th,
+            td
+            {
+                font-size: 12px;
+                font-weight: bold;
+
+                padding: 12px 0;
+
+                text-align: left;
+
+                border-bottom: 1px solid rgba(#3b4151, .2);
+
+                @include text_body();
+            }
+        }
+    }
+}
+
+.parameters-col_description
+{
+    p
+    {
+        font-size: 14px;
+
+        margin: 0;
+
+        @include text_body();
+    }
+
+    input[type=text]
+    {
+        width: 100%;
+        max-width: 340px;
+    }
+
+    select {
+        border-width: 1px;
+    }
+}
+
+.parameter__name
+{
+    font-size: 16px;
+    font-weight: normal;
+
+    @include text_headline();
+
+    &.required
+    {
+        font-weight: bold;
+
+        &:after
+        {
+            font-size: 10px;
+
+            position: relative;
+            top: -6px;
+
+            padding: 5px;
+
+            content: 'required';
+
+            color: rgba(#f00, .6);
+        }
+    }
+}
+
+.parameter__in
+{
+    font-size: 12px;
+    font-style: italic;
+
+    @include text_code(#888);
+}
+
+.parameter__deprecated
+{
+    font-size: 12px;
+    font-style: italic;
+
+    @include text_code(#f00);
+}
+
+
+.table-container
+{
+    padding: 20px;
+}
