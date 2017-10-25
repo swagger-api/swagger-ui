@@ -1,1 +1,0 @@
-test/e2e/**/*.js --recursive --timeout 5000

@@ -1,9 +1,50 @@
-sudo: false
 language: node_js
 node_js:
-  - '4.2'
-install:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - npm i -g jshint
-  - npm install
+- '6.9'
+services:
+  - docker
+branches:
+  only:
+  - master
+  - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
+before_deploy:
+  - npm run build
+env:
+  - DOCKER_IMAGE_NAME=swaggerapi/swagger-ui
+deploy:
+  - provider: npm
+    email: apiteam@swagger.io
+    skip_cleanup: true
+    api_key:
+      secure: "YKk5L1BL4oAixvLjWp+i85fNFXK85HKOlUt6QypkZkt23My5aywuYsv5VCLjjOtuWc72zbmOzP82DTBsuRswCRViXWCiNYhl42QTdvadHu0uIlM/FL6aNlvPpzXIws4bMvz1aYOTzFTnSnNuvCTzF1daW0+2ClOo3r0nLEdDfFg="
+    on:
+      tags: true
+      repo: swagger-api/swagger-ui
+      node: '6.9'
+  - provider: script
+    skip_cleanup: true
+    script: swagger-ui-dist-package/deploy.sh
+    on:
+      tags: true
+      repo: swagger-api/swagger-ui
+      node: '6.9'
+after_success:
+  - if [ $DOCKER_HUB_USERNAME ]; then
+      docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD;
+
+      if [ ! -z "$TRAVIS_TAG" ]; then
+        DOCKER_IMAGE_TAG=$TRAVIS_TAG;
+      else
+        DOCKER_IMAGE_TAG=unstable;
+      fi;
+      docker build -t $DOCKER_IMAGE_NAME .;
+      if [ ! -z "$TRAVIS_TAG" ]; then
+        docker tag $DOCKER_IMAGE_NAME $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG;
+        docker push $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG;
+        docker tag $DOCKER_IMAGE_NAME $DOCKER_IMAGE_NAME:latest;
+        docker push $DOCKER_IMAGE_NAME:latest;
+      else
+        docker tag $DOCKER_IMAGE_NAME $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG;
+        docker push $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG;
+      fi;
+    fi;
