@@ -1,0 +1,180 @@
+.btn
+{
+    font-size: 14px;
+    font-weight: bold;
+
+    padding: 5px 23px;
+
+    transition: all .3s;
+
+    border: 2px solid #888;
+    border-radius: 4px;
+    background: transparent;
+    box-shadow: 0 1px 2px rgba(#000,.1);
+
+    @include text_headline();
+
+    &.btn-sm
+    {
+        font-size: 12px;
+        padding: 4px 23px;
+    }
+
+    &[disabled]
+    {
+        cursor: not-allowed;
+
+        opacity: .3;
+    }
+
+    &:hover
+    {
+        box-shadow: 0 0 5px rgba(#000,.3);
+    }
+
+    &.cancel
+    {
+        border-color: #ff6060;
+
+        @include text_headline(#ff6060);
+    }
+
+    &.authorize
+    {
+        line-height: 1;
+
+        display: inline;
+
+        color: $_color-post;
+        border-color: $_color-post;
+
+
+        span
+        {
+            float: left;
+
+            padding: 4px 20px 0 0;
+        }
+
+        svg
+        {
+            fill: $_color-post;
+        }
+    }
+
+    &.execute
+    {
+        animation: swagger-ui-pulse 2s infinite;
+
+        color: #fff;
+        border-color: #4990e2;
+    }
+}
+
+
+@keyframes swagger-ui-pulse
+{
+    0%
+    {
+        color: #fff;
+        background: #4990e2;
+        box-shadow: 0 0 0 0 rgba(#4990e2, .8);
+    }
+    70%
+    {
+        //color: #4990e2;
+        //background: transparent;
+        box-shadow: 0 0 0 5px rgba(#4990e2, 0);
+    }
+    100%
+    {
+        color: #fff;
+        background: #4990e2;
+        box-shadow: 0 0 0 0 rgba(#4990e2, 0);
+    }
+}
+
+.btn-group
+{
+    display: flex;
+
+    padding: 30px;
+
+    .btn
+    {
+        flex: 1;
+
+        &:first-child
+        {
+            border-radius: 4px 0 0 4px;
+        }
+
+        &:last-child
+        {
+            border-radius: 0 4px 4px 0;
+        }
+    }
+}
+
+.authorization__btn
+{
+    padding: 0 10px;
+
+    border: none;
+    background: none;
+
+    &.locked
+    {
+        opacity: 1;
+    }
+
+    &.unlocked
+    {
+        opacity: .4;
+    }
+}
+
+.expand-methods,
+.expand-operation
+{
+    border: none;
+    background: none;
+
+    svg
+    {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.expand-methods
+{
+    padding: 0 10px;
+
+    &:hover
+    {
+        svg
+        {
+            fill: #444;
+        }
+    }
+
+    svg
+    {
+        transition: all .3s;
+
+        fill: #777;
+    }
+}
+
+
+button
+{
+    cursor: pointer;
+    outline: none;
+
+    &.invalid
+    {
+        @include invalidFormElement();
+    }
+}
