@@ -133,6 +133,7 @@ export default class ParameterRow extends Component {
 
           {
             bodyParam && schema ? <ModelExample getComponent={ getComponent }
+                                                specPath={[...specPath, "schema"]}
                                                 getConfigs={ getConfigs }
                                                 isExecute={ isExecute }
                                                 specSelectors={ specSelectors }
