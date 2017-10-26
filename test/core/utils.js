@@ -310,6 +310,24 @@ describe("utils", function() {
       expect( result ).toEqual( [] )
     })
 
+    it("validates required objects", function() {
+      // invalid object
+      param = {
+        required: true,
+        type: "object",
+        value: ""
+      }
+      assertValidateParam(param, ["Required field is not provided"])
+
+      // valid object
+      param = {
+        required: true,
+        type: "object",
+        value: "test"
+      }
+      assertValidateParam(param, [])
+    })
+
     it("validates required strings", function() {
       // invalid string
       param = {
