@@ -17,17 +17,24 @@ export default class ModelWrapper extends Component {
   }
 
   onToggle = (name,isShown) => {
+    // If this prop is present, we'll have deepLinking for it
+    if(this.props.layoutActions) {
       this.props.layoutActions.show(["models", name],isShown)
+    }
   }
 
   render(){
     let { getComponent } = this.props
     const Model = getComponent("Model")
-    const expanded = this.props.layoutSelectors.isShown(["models",this.props.name])
+
+    let expanded
+    if(this.props.layoutSelectors) {
+      // If this is prop is present, we'll have deepLinking for it
+      expanded = this.props.layoutSelectors.isShown(["models",this.props.name])
+    }
+
     return <div className="model-box">
-      <Model { ...this.props } expanded={expanded} depth={ 1 } onToggle={ this.onToggle} expandDepth={ this.props.expandDepth || 0 }/>
+      <Model { ...this.props } expanded={expanded} depth={ 1 } onToggle={ this.onToggle } expandDepth={ this.props.expandDepth || 0 }/>
     </div>
   }
 }
-
-
