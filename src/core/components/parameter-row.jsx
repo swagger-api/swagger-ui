@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import { Map } from "immutable"
 import PropTypes from "prop-types"
 import win from "core/window"
 
@@ -29,11 +30,23 @@ export default class ParameterRow extends Component {
 
   componentWillReceiveProps(props) {
     let { specSelectors, pathMethod, param } = props
+    let { isOAS3 } = specSelectors
+
     let example = param.get("example")
     let defaultValue = param.get("default")
     let parameter = specSelectors.getParameter(pathMethod, param.get("name"), param.get("in"))
-    let paramValue = parameter ? parameter.get("value") : undefined
-    let enumValue = parameter ? parameter.get("enum") : undefined
+    let paramValue
+    let enumValue
+
+    if(isOAS3()) {
+      let schema = param.get("schema") || Map()
+      paramValue = schema.get("value")
+      enumValue = schema.get("enum")
+    } else {
+      paramValue = parameter ? parameter.get("value") : undefined
+      enumValue = parameter ? parameter.get("enum") : undefined
+    }
+
     let value
 
     if ( paramValue !== undefined ) {
