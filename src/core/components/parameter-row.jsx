@@ -35,17 +35,15 @@ export default class ParameterRow extends Component {
     let example = param.get("example")
     let defaultValue = param.get("default")
     let parameter = specSelectors.getParameter(pathMethod, param.get("name"), param.get("in"))
-    let paramValue
     let enumValue
 
     if(isOAS3()) {
       let schema = param.get("schema") || Map()
-      paramValue = schema.get("value")
       enumValue = schema.get("enum")
     } else {
-      paramValue = parameter ? parameter.get("value") : undefined
       enumValue = parameter ? parameter.get("enum") : undefined
     }
+    let paramValue = parameter ? parameter.get("value") : undefined
 
     let value
 
