@@ -76,56 +76,9 @@ export default class BaseLayout extends React.Component {
                 ) : null }
               </Col>
             </Row>
-            { schemes && schemes.size || securityDefinitions ? (
-              <div className="scheme-container">
-                <Col className="schemes wrapper" mobile={12}>
-                  { schemes && schemes.size ? (
-                    <Schemes
-                      currentScheme={specSelectors.operationScheme()}
-                      schemes={ schemes }
-                      specActions={ specActions } />
-                  ) : null }
-
-                  { securityDefinitions ? (
-                    <AuthorizeBtn />
-                  ) : null }
-                </Col>
-              </div>
-            ) : null }
-
-            { servers && servers.size ? (
-              <div className="server-container">
-                <Col className="servers wrapper" mobile={12}>
-                  <Servers
-                    servers={servers}
-                    currentServer={oas3Selectors.selectedServer()}
-                    setSelectedServer={oas3Actions.setSelectedServer}
-                    setServerVariableValue={oas3Actions.setServerVariableValue}
-                    getServerVariable={oas3Selectors.serverVariableValue}
-                    getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
-                    />
-                </Col>
-              </div>
-
-            ) : null}
-
-            {
-              filter === null || filter === false ? null :
-                <div className="filter-container">
-                  <Col className="filter wrapper" mobile={12}>
-                    <input className="operation-filter-input" placeholder="Filter by tag" type="text" onChange={this.onFilterChange} value={filter === true || filter === "true" ? "" : filter} disabled={isLoading} style={inputStyle} />
-                  </Col>
-                </div>
-            }
-
             <Row>
               <Col mobile={12} desktop={12} >
                 <Operations/>
-              </Col>
-            </Row>
-            <Row>
-              <Col mobile={12} desktop={12} >
-                <Models/>
               </Col>
             </Row>
           </div>
