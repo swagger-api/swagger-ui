@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.3.1",
+  "version": "3.4.1",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -32,7 +32,7 @@
     "test": "npm run lint-errors && npm run just-test-in-node",
     "test-in-node": "npm run lint-errors && npm run just-test-in-node",
     "just-test": "karma start --config karma.conf.js",
-    "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test/core test/components test/bugs test/swagger-ui-dist-package",
+    "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test/core test/components test/bugs test/swagger-ui-dist-package test/xss",
     "test-e2e": "sleep 3 && nightwatch test/e2e/scenarios/ --config test/e2e/nightwatch.json",
     "e2e-initial-render": "nightwatch test/e2e/scenarios/ --config test/e2e/nightwatch.json --group initial-render",
     "mock-api": "json-server --watch test/e2e/db.json --port 3204",
@@ -78,7 +78,7 @@
     "scroll-to-element": "^2.0.0",
     "serialize-error": "2.0.0",
     "shallowequal": "0.2.2",
-    "swagger-client": "^3.2.0",
+    "swagger-client": "^3.3.1",
     "url-parse": "^1.1.8",
     "whatwg-fetch": "0.11.1",
     "worker-loader": "^0.7.1",
@@ -105,6 +105,7 @@
     "enzyme": "^2.7.1",
     "eslint": "^4.1.1",
     "eslint-plugin-import": "^2.6.0",
+    "eslint-plugin-mocha": "^4.11.0",
     "eslint-plugin-react": "^7.1.0",
     "extract-text-webpack-plugin": "^2.1.2",
     "file-loader": "0.11.2",
