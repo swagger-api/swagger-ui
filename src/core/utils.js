@@ -723,6 +723,10 @@ export const shallowEqualKeys = (a,b, keys) => {
 }
 
 export function sanitizeUrl(url) {
+  if(typeof url !== "string" || url === "") {
+    return ""
+  }
+
   return braintreeSanitizeUrl(url)
 }
 

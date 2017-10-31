@@ -912,5 +912,17 @@ sbG8iKTs8L3NjcmlwdD4=`)
 
       expect(res).toEqual("https://swagger.io/")
     })
+
+    it("should gracefully handle empty strings", function() {
+      expect(sanitizeUrl("")).toEqual("")
+    })
+
+    it("should gracefully handle non-string values", function() {
+      expect(sanitizeUrl(123)).toEqual("")
+      expect(sanitizeUrl(null)).toEqual("")
+      expect(sanitizeUrl(undefined)).toEqual("")
+      expect(sanitizeUrl([])).toEqual("")
+      expect(sanitizeUrl({})).toEqual("")
+    })
   })
 })
