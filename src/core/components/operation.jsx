@@ -2,6 +2,7 @@ import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { getList } from "core/utils"
 import * as CustomPropTypes from "core/proptypes"
+import { sanitizeUrl } from "core/utils"
 
 //import "less/opblock"
 
@@ -206,7 +207,7 @@ export default class Operation extends PureComponent {
                     <span className="opblock-external-docs__description">
                       <Markdown source={ externalDocs.get("description") } />
                     </span>
-                    <a className="opblock-external-docs__link" href={ externalDocs.get("url") }>{ externalDocs.get("url") }</a>
+                    <a className="opblock-external-docs__link" href={ sanitizeUrl(externalDocs.get("url")) }>{ externalDocs.get("url") }</a>
                   </div>
                 </div> : null
               }
