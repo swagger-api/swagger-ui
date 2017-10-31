@@ -29,13 +29,18 @@ Duration.propTypes = {
 export default class LiveResponse extends React.Component {
   static propTypes = {
     response: PropTypes.object.isRequired,
+    specSelectors: PropTypes.object.isRequired,
+    pathMethod: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
-    displayRequestDuration: PropTypes.bool.isRequired
+    displayRequestDuration: PropTypes.bool.isRequired,
+    getConfigs: PropTypes.func.isRequired
   }
 
   render() {
-    const { request, response, getComponent, displayRequestDuration } = this.props
+    const { response, getComponent, getConfigs, displayRequestDuration, specSelectors, pathMethod } = this.props
+    const { showMutatedRequest } = getConfigs()
 
+    const curlRequest = showMutatedRequest ? specSelectors.mutatedRequestFor(pathMethod[0], pathMethod[1]) : specSelectors.requestFor(pathMethod[0], pathMethod[1])
     const status = response.get("status")
     const url = response.get("url")
     const headers = response.get("headers").toJS()
@@ -55,7 +60,14 @@ export default class LiveResponse extends React.Component {
 
     return (
       <div>
-        { request && <Curl request={ request }/> }
+        { curlRequest && <Curl request={ curlRequest }/> }
+        { url && <div>
+            <h4>Request URL</h4>
+            <div className="request-url">
+              <pre>{url}</pre>
+            </div>
+          </div>
+        }
         <h4>Server response</h4>
         <table className="responses-table">
           <thead>

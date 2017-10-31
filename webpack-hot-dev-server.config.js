@@ -9,13 +9,7 @@ const rules = [
           inline: true
         }
       },
-      { loader: "babel-loader" }
-    ]
-  },
-  { test: /\.(jsx)(\?.*)?$/,
-    use: [
-      { loader: "react-hot-loader" }, 
-      { loader: "babel-loader" }
+      { loader: "babel-loader?retainLines=true" }
     ]
   },
   { test: /\.(css)(\?.*)?$/,
@@ -48,7 +42,7 @@ module.exports = require("./make-webpack-config")(rules, {
   _special: {
     separateStylesheets: false,
   },
-	devtool: "eval",
+	devtool: "eval-source-map",
   entry: {
     "swagger-ui-bundle": [
       "./src/polyfills",

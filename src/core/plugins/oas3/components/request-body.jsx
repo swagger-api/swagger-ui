@@ -2,13 +2,19 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { OrderedMap } from "immutable"
-import { getSampleSchema } from "core/utils"
 
-
-const RequestBody = ({ requestBody, getComponent, specSelectors, contentType }) => {
+const RequestBody = ({
+  requestBody,
+  getComponent,
+  getConfigs,
+  specSelectors,
+  contentType,
+  isExecute,
+  onChange
+}) => {
   const Markdown = getComponent("Markdown")
   const ModelExample = getComponent("modelExample")
-  const HighlightCode = getComponent("highlightCode")
+  const RequestBodyEditor = getComponent("RequestBodyEditor")
 
   const requestBodyDescription = (requestBody && requestBody.get("description")) || null
   const requestBodyContent = (requestBody && requestBody.get("content")) || new OrderedMap()
@@ -16,18 +22,25 @@ const RequestBody = ({ requestBody, getComponent, specSelectors, contentType }) 
 
   const mediaTypeValue = requestBodyContent.get(contentType)
 
-  const sampleSchema = getSampleSchema(mediaTypeValue.get("schema").toJS(), contentType)
-
   return <div>
     { requestBodyDescription &&
       <Markdown source={requestBodyDescription} />
     }
     <ModelExample
       getComponent={ getComponent }
+      getConfigs={ getConfigs }
       specSelectors={ specSelectors }
       expandDepth={1}
+      isExecute={isExecute}
       schema={mediaTypeValue.get("schema")}
-      example={<HighlightCode value={sampleSchema} />}
+      example={<RequestBodyEditor
+        requestBody={requestBody}
+        onChange={onChange}
+        mediaType={contentType}
+        getComponent={getComponent}
+        isExecute={isExecute}
+        specSelectors={specSelectors}
+        />}
       />
   </div>
 }
@@ -35,8 +48,11 @@ const RequestBody = ({ requestBody, getComponent, specSelectors, contentType }) 
 RequestBody.propTypes = {
   requestBody: ImPropTypes.orderedMap.isRequired,
   getComponent: PropTypes.func.isRequired,
+  getConfigs: PropTypes.func.isRequired,
   specSelectors: PropTypes.object.isRequired,
-  contentType: PropTypes.string.isRequired
+  contentType: PropTypes.string.isRequired,
+  isExecute: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired
 }
 
 export default RequestBody

@@ -28,6 +28,7 @@ export default class Operation extends PureComponent {
     authSelectors: PropTypes.object,
     specActions: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
+    oas3Actions: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     fn: PropTypes.object.isRequired,
@@ -117,7 +118,8 @@ export default class Operation extends PureComponent {
       specSelectors,
       authActions,
       authSelectors,
-      getConfigs
+      getConfigs,
+      oas3Actions
     } = this.props
 
     let summary = operation.get("summary")
@@ -147,7 +149,7 @@ export default class Operation extends PureComponent {
     const isDeepLinkingEnabled = deepLinking && deepLinking !== "false"
 
     // Merge in Live Response
-    if(response && response.size > 0) {
+    if(responses && response && response.size > 0) {
       let notDocumented = !responses.get(String(response.get("status")))
       response = response.set("notDocumented", notDocumented)
     }
@@ -161,12 +163,12 @@ export default class Operation extends PureComponent {
           <div className={`opblock-summary opblock-summary-${method}`} onClick={this.toggleShown} >
               <span className="opblock-summary-method">{method.toUpperCase()}</span>
               <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } >
-                <a
-                  className="nostyle"
-                  onClick={(e) => e.preventDefault()}
-                  href={ isDeepLinkingEnabled ? `#/${isShownKey[1]}/${isShownKey[2]}` : ""} >
-                  <span>{path}</span>
-                </a>
+              <a
+                className="nostyle"
+                onClick={isDeepLinkingEnabled ? (e) => e.preventDefault() : null}
+                href={isDeepLinkingEnabled ? `#/${isShownKey[1]}/${isShownKey[2]}` : null}>
+                <span>{path}</span>
+              </a>
                 <JumpToPath path={jumpToKey} />
               </span>
 
@@ -222,6 +224,7 @@ export default class Operation extends PureComponent {
                 specActions={ specActions }
                 specSelectors={ specSelectors }
                 pathMethod={ [path, method] }
+                getConfigs={ getConfigs }
               />
 
               {!tryItOutEnabled || !allowTryItOut ? null : schemes && schemes.size ? <div className="opblock-schemes">
@@ -263,7 +266,9 @@ export default class Operation extends PureComponent {
                     request={ request }
                     tryItOutResponse={ response }
                     getComponent={ getComponent }
+                    getConfigs={ getConfigs }
                     specSelectors={ specSelectors }
+                    oas3Actions={oas3Actions}
                     specActions={ specActions }
                     produces={ produces }
                     producesValue={ operation.get("produces_value") }

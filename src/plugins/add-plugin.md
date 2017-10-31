@@ -1,6 +1,6 @@
 # Add a plugin
 
-### Swagger-UX relies on plugins for all the good stuff.
+### Swagger-UI relies on plugins for all the good stuff.
 
 Plugins allow you to add
 - `statePlugins`
