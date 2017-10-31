@@ -887,7 +887,7 @@ describe("utils", function() {
     })
   })
 
-  describe.only("sanitizeUrl", function() {
+  describe("sanitizeUrl", function() {
     it("should sanitize a `javascript:` url", function() {
       const res = sanitizeUrl("javascript:alert('bam!')")
 
