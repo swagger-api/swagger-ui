@@ -16,7 +16,8 @@ import {
   fromJSOrdered,
   getAcceptControllingResponse,
   createDeepLinkPath,
-  escapeDeepLinkPath
+  escapeDeepLinkPath,
+  sanitizeUrl
 } from "core/utils"
 import win from "core/window"
 
@@ -883,6 +884,33 @@ describe("utils", function() {
     it("escapes a deep link path with an id selector", function() {
       const result = escapeDeepLinkPath("hello#world")
       expect(result).toEqual("hello\\#world")
+    })
+  })
+
+  describe("sanitizeUrl", function() {
+    it("should sanitize a `javascript:` url", function() {
+      const res = sanitizeUrl("javascript:alert('bam!')")
+
+      expect(res).toEqual("about:blank")
+    })
+
+    it("should sanitize a `data:` url", function() {
+      const res = sanitizeUrl(`data:text/html;base64,PHNjcmlwdD5hbGVydCgiSGV
+sbG8iKTs8L3NjcmlwdD4=`)
+
+      expect(res).toEqual("about:blank")
+    })
+
+    it("should not modify a `http:` url", function() {
+      const res = sanitizeUrl(`http://swagger.io/`)
+
+      expect(res).toEqual("http://swagger.io/")
+    })
+
+    it("should not modify a `https:` url", function() {
+      const res = sanitizeUrl(`https://swagger.io/`)
+
+      expect(res).toEqual("https://swagger.io/")
     })
   })
 })
