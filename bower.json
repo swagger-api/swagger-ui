@@ -1,0 +1,12 @@
+{
+  "name": "df-swagger-ui",
+  "version": "0.4.2",
+  "license": "Apache-2.0",
+  "main": [
+    "./dist/swagger-ui-bundle.js",
+    "./dist/swagger-ui-standalone-preset.js"
+  ],
+  "ignore": [],
+  "dependencies": {
+  }
+}
