@@ -43,7 +43,7 @@ export default class ModelExample extends React.Component {
   }
 
   render() {
-    let { getComponent, specSelectors, schema, example, examples, isExecute } = this.props
+    let { getComponent, specSelectors, schema, examples, isExecute } = this.props
     const ModelWrapper = getComponent("ModelWrapper")
     const HighlightCode = getComponent("highlightCode")
     const Markdown = getComponent("Markdown")

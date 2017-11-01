@@ -107,7 +107,8 @@ export default class ParameterRow extends Component {
       // So "example" are handled only when "examples" is not present.
       let example = param.get("example")
       if(example){
-        examples = Map({'': example})
+        // TODO give the default example a better name other than ""
+        examples = Map({"": example})
       }
     }
 

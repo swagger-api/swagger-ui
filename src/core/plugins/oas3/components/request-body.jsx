@@ -16,17 +16,13 @@ const RequestBody = ({
 }) => {
   const Markdown = getComponent("Markdown")
   const ModelExample = getComponent("modelExample")
-  const HighlightCode = getComponent("highlightCode")
+  const RequestBodyEditor = getComponent("RequestBodyEditor")
 
   const requestBodyDescription = (requestBody && requestBody.get("description")) || null
   const requestBodyContent = (requestBody && requestBody.get("content")) || new OrderedMap()
   contentType = contentType || requestBodyContent.keySeq().first()
 
   const mediaTypeValue = requestBodyContent.get(contentType)
-
-  const sampleSchema = getSampleSchema(mediaTypeValue.get("schema").toJS(), contentType, {
-    includeWriteOnly: true
-  })
 
   const examples = memoizedGetExamples(mediaTypeValue.get("examples"))
 
@@ -39,10 +35,18 @@ const RequestBody = ({
       getConfigs={ getConfigs }
       specSelectors={ specSelectors }
       expandDepth={1}
+      isExecute={isExecute}
       schema={mediaTypeValue.get("schema")}
-      example={<HighlightCode value={sampleSchema} />}
+      example={<RequestBodyEditor
+        requestBody={requestBody}
+        onChange={onChange}
+        mediaType={contentType}
+        getComponent={getComponent}
+        isExecute={isExecute}
+        specSelectors={specSelectors}
+      />}
       examples={examples}
-      />
+    />
   </div>
 }
 
@@ -51,7 +55,9 @@ RequestBody.propTypes = {
   getComponent: PropTypes.func.isRequired,
   getConfigs: PropTypes.func.isRequired,
   specSelectors: PropTypes.object.isRequired,
-  contentType: PropTypes.string.isRequired
+  contentType: PropTypes.string.isRequired,
+  isExecute: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired
 }
 
 export default RequestBody
