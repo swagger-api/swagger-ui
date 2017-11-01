@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.3.1",
+  "version": "3.4.2",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -39,6 +39,7 @@
     "e2e": "npm-run-all --parallel -r hot-server mock-api test-e2e"
   },
   "dependencies": {
+    "@braintree/sanitize-url": "^2.0.2",
     "base64-js": "^1.2.0",
     "brace": "0.7.0",
     "classnames": "^2.2.5",
@@ -78,7 +79,7 @@
     "scroll-to-element": "^2.0.0",
     "serialize-error": "2.0.0",
     "shallowequal": "0.2.2",
-    "swagger-client": "^3.2.0",
+    "swagger-client": "^3.3.1",
     "url-parse": "^1.1.8",
     "whatwg-fetch": "0.11.1",
     "worker-loader": "^0.7.1",
@@ -105,6 +106,7 @@
     "enzyme": "^2.7.1",
     "eslint": "^4.1.1",
     "eslint-plugin-import": "^2.6.0",
+    "eslint-plugin-mocha": "^4.11.0",
     "eslint-plugin-react": "^7.1.0",
     "extract-text-webpack-plugin": "^2.1.2",
     "file-loader": "0.11.2",

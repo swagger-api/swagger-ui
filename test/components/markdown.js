@@ -24,6 +24,12 @@ describe("Markdown component", function() {
             const el = render(<Markdown source={str} />)
             expect(el.html()).toEqual(`<div class="markdown"><h1>h1</h1>\n<h2>h2</h2>\n<h3>h3</h3>\n<h4>h4</h4>\n<h5>h5</h5>\n<h6>h6</h6>\n</div>`)
         })
+
+        it("allows links", function() {
+            const str = `[Link](https://example.com/)`
+            const el = render(<Markdown source={str} />)
+            expect(el.html()).toEqual(`<div class="markdown"><p><a href="https://example.com/" target="_blank">Link</a></p>\n</div>`)
+        })
     })
 
     describe("OAS 3", function() {

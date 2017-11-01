@@ -80,7 +80,12 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
 }
 
 export const resolveSpec = (json, url) => ({specActions, specSelectors, errActions, fn: { fetch, resolve, AST }, getConfigs}) => {
-  const { modelPropertyMacro, parameterMacro } = getConfigs()
+  const {
+    modelPropertyMacro,
+    parameterMacro,
+    requestInterceptor,
+    responseInterceptor
+  } = getConfigs()
 
   if(typeof(json) === "undefined") {
     json = specSelectors.specJson()
@@ -93,8 +98,15 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
 
   let specStr = specSelectors.specStr()
 
-  return resolve({fetch, spec: json, baseDoc: url, modelPropertyMacro, parameterMacro })
-    .then( ({spec, errors}) => {
+  return resolve({
+    fetch,
+    spec: json,
+    baseDoc: url,
+    modelPropertyMacro,
+    parameterMacro,
+    requestInterceptor,
+    responseInterceptor
+  }).then( ({spec, errors}) => {
       errActions.clear({
         type: "thrown"
       })
@@ -137,10 +149,13 @@ export function changeParam( path, paramName, paramIn, value, isXml ){
   }
 }
 
-export function validateParams( payload ){
+export const validateParams = ( payload, isOAS3 ) =>{
   return {
     type: VALIDATE_PARAMS,
-    payload:{ pathMethod: payload }
+    payload:{
+      pathMethod: payload,
+      isOAS3
+    }
   }
 }
 

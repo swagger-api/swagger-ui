@@ -1,6 +1,9 @@
 <!---
 Thanks for filing an issue 😄 ! Before you submit, please read the following:
 
+If you're here to report a security issue, please STOP writing an issue and contact us 
+at security@swagger.io instead!
+
 Search open/closed issues before submitting since someone might have asked the same thing before!
 
 Issues on GitHub are only related to problems of Swagger-UI itself. We'll try to offer support

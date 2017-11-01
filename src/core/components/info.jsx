@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { fromJS } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
+import { sanitizeUrl } from "core/utils"
 
 
 class Path extends React.Component {
@@ -35,9 +36,9 @@ class Contact extends React.Component {
 
     return (
       <div>
-        { url && <div><a href={ url } target="_blank">{ name } - Website</a></div> }
+        { url && <div><a href={ sanitizeUrl(url) } target="_blank">{ name } - Website</a></div> }
         { email &&
-          <a href={`mailto:${email}`}>
+          <a href={sanitizeUrl(`mailto:${email}`)}>
             { url ? `Send email to ${name}` : `Contact ${name}`}
           </a>
         }
@@ -59,7 +60,7 @@ class License extends React.Component {
     return (
       <div>
         {
-          url ? <a target="_blank" href={ url }>{ name }</a>
+          url ? <a target="_blank" href={ sanitizeUrl(url) }>{ name }</a>
         : <span>{ name }</span>
         }
       </div>
@@ -97,7 +98,7 @@ export default class Info extends React.Component {
             { version && <VersionStamp version={version}></VersionStamp> }
           </h2>
           { host || basePath ? <Path host={ host } basePath={ basePath } /> : null }
-          { url && <a target="_blank" href={ url }><span className="url"> { url } </span></a> }
+          { url && <a target="_blank" href={ sanitizeUrl(url) }><span className="url"> { url } </span></a> }
         </hgroup>
 
         <div className="description">
@@ -106,14 +107,14 @@ export default class Info extends React.Component {
 
         {
           termsOfService && <div>
-            <a target="_blank" href={ termsOfService }>Terms of service</a>
+            <a target="_blank" href={ sanitizeUrl(termsOfService) }>Terms of service</a>
           </div>
         }
 
         { contact && contact.size ? <Contact data={ contact } /> : null }
         { license && license.size ? <License license={ license } /> : null }
         { externalDocsUrl ?
-            <a target="_blank" href={externalDocsUrl}>{externalDocsDescription || externalDocsUrl}</a>
+            <a target="_blank" href={sanitizeUrl(externalDocsUrl)}>{externalDocsDescription || externalDocsUrl}</a>
         : null }
 
       </div>
