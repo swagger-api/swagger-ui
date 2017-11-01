@@ -33,14 +33,11 @@ The system is built up when Swagger-UI is called by iterating through ("compilin
 Presets are arrays of plugins, which are provided to Swagger-UI through the `presets` configuration option. All plugins within presets are compiled before any plugins provided via the `plugins` configuration option. Consider the following example:
 
 ```javascript
+const MyPreset = [FirstPlugin, SecondPlugin, ThirdPlugin]
+
 SwaggerUI({
   presets: [
-    [FirstPlugin, SecondPlugin],
-    [ThirdPlugin, FourthPlugin]
-  ],
-  plugins: [
-    FifthPlugin,
-    SixthPlugin
+    MyPreset
   ]
 })
 ```
@@ -55,6 +52,8 @@ SwaggerUI({
   ]
 })
 ```
+
+The need to provide the `apis` preset when adding other presets is an artifact of Swagger-UI's original design, and will likely be removed in the next major version.
 
 ### getComponent
 

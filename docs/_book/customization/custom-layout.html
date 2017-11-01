@@ -1,0 +1,446 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Creating a custom layout · Swagger-UI</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="plugin-api.html" />
+    
+    
+    <link rel="prev" href="overview.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Intro
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Usage</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../usage/installation.html">
+            
+                <a href="../usage/installation.html">
+            
+                    
+                    Installation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../usage/configuration.html">
+            
+                <a href="../usage/configuration.html">
+            
+                    
+                    Configuration
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.2.1" data-path="../usage/deep-linking.html">
+            
+                <a href="../usage/deep-linking.html">
+            
+                    
+                    deepLinking
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../usage/version-detection.html">
+            
+                <a href="../usage/version-detection.html">
+            
+                    
+                    Version detection
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Customization</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="overview.html">
+            
+                <a href="overview.html">
+            
+                    
+                    Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.2" data-path="custom-layout.html">
+            
+                <a href="custom-layout.html">
+            
+                    
+                    Creating a custom layout
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="plugin-api.html">
+            
+                <a href="plugin-api.html">
+            
+                    
+                    Plugin API
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Development</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../development/setting-up.html">
+            
+                <a href="../development/setting-up.html">
+            
+                    
+                    Setting up a dev environment
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Creating a custom layout</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="creating-a-custom-layout">Creating a custom layout</h1>
+<p><strong>Layouts</strong> are a special type of component that Swagger-UI uses as the root component for the entire application. You can define custom layouts in order to have high-level control over what ends up on the page.</p>
+<p>By default, Swagger-UI uses <code>BaseLayout</code>, which is built into the application. You can specify a different layout to be used by passing the layout&apos;s name as the <code>layout</code> parameter to Swagger-UI. Be sure to provide your custom layout as a component to Swagger-UI.</p>
+<p><br></p>
+<p>For example, if you wanted to create a custom layout that only displayed operations, you could define an <code>OperationsLayout</code>:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;react&quot;</span>
+
+<span class="hljs-comment">// Create the layout component</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OperationsLayout</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  render() {
+    <span class="hljs-keyword">const</span> {
+      getComponent
+    } = <span class="hljs-keyword">this</span>.props
+
+    <span class="hljs-keyword">const</span> Operations = getComponent(<span class="hljs-string">&quot;Operations&quot;</span>, <span class="hljs-literal">true</span>)
+
+    <span class="hljs-keyword">return</span> {
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Operations</span> /&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    }
+  }
+}
+
+// Create the plugin that provides our layout component
+const OperationsLayoutPlugin = function() {
+  return {
+    components: {
+      OperationsLayout: OperationsLayout
+    }
+  }
+}
+
+// Provide the plugin to Swagger-UI, and select OperationsLayout
+// as the layout for Swagger-UI
+SwaggerUI({
+  url: &quot;http://petstore.swagger.io/v2/swagger.json&quot;,
+  plugins: [ OperationsLayoutPlugin ],
+  layout: &quot;OperationsLayout&quot;
+})
+</span></code></pre>
+<h3 id="augmenting-the-default-layout">Augmenting the default layout</h3>
+<p>If you&apos;d like to build around the <code>BaseLayout</code> instead of replacing it, you can pull the <code>BaseLayout</code> into your custom layout and use it:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;react&quot;</span>
+
+<span class="hljs-comment">// Create the layout component</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AugmentingLayout</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  render() {
+    <span class="hljs-keyword">const</span> {
+      getComponent
+    } = <span class="hljs-keyword">this</span>.props
+
+    <span class="hljs-keyword">const</span> BaseLayout = getComponent(<span class="hljs-string">&quot;BaseLayout&quot;</span>, <span class="hljs-literal">true</span>)
+
+    <span class="hljs-keyword">return</span> {
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;myCustomHeader&quot;</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>I have a custom header above Swagger-UI!<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">BaseLayout</span> /&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    }
+  }
+}
+
+// Create the plugin that provides our layout component
+const AugmentingLayoutPlugin = function() {
+  return {
+    components: {
+      AugmentingLayout: AugmentingLayout
+    }
+  }
+}
+
+// Provide the plugin to Swagger-UI, and select AugmentingLayout
+// as the layout for Swagger-UI
+SwaggerUI({
+  url: &quot;http://petstore.swagger.io/v2/swagger.json&quot;,
+  plugins: [ AugmentingLayoutPlugin ],
+  layout: &quot;AugmentingLayout&quot;
+})
+</span></code></pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="overview.html" class="navigation navigation-prev " aria-label="Previous page: Overview">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="plugin-api.html" class="navigation navigation-next " aria-label="Next page: Plugin API">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Creating a custom layout","level":"3.2","depth":1,"next":{"title":"Plugin API","level":"3.3","depth":1,"path":"customization/plugin-api.md","ref":"customization/plugin-api.md","articles":[]},"previous":{"title":"Overview","level":"3.1","depth":1,"path":"customization/overview.md","ref":"customization/overview.md","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Swagger-UI","gitbook":"*"},"file":{"path":"customization/custom-layout.md","mtime":"2017-11-01T00:00:09.663Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-11-01T03:42:59.286Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

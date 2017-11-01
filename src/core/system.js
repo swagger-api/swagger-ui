@@ -264,7 +264,12 @@ export default class Store {
 
     dispatch = dispatch || this.getStore().dispatch
 
+    const actions = this.getActions()
+
+    console.log("wrapping actions!", actions)
+
     const process = creator =>{
+      console.log("processing", creator)
 
       if( typeof( creator ) !== "function" ) {
         return objMap(creator, prop => process(prop))
@@ -284,7 +289,7 @@ export default class Store {
       }
 
     }
-    return objMap(this.getActions(), actionCreator => bindActionCreators( process( actionCreator ), dispatch ) )
+    return objMap(actions, actionCreator => bindActionCreators( process( actionCreator ), dispatch ) )
   }
 
   getMapStateToProps() {

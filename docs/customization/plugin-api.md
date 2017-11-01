@@ -23,7 +23,7 @@ A plugin return value may contain any of these keys, where `myStateKey` is a nam
 }
 ```
 
-### Inputs
+### System is provided to plugins
 
 Let's assume we have a plugin, `NormalPlugin`, that exposes a `doStuff` action under the `normal` state namespace.
 
@@ -58,7 +58,7 @@ const MyActionPlugin = () => {
     statePlugins: {
       example: {
         actions: {
-          updateFavoriteColor: (obj) => {
+          updateFavoriteColor: (str) => {
             return {
               type: "EXAMPLE_SET_FAV_COLOR",
               payload: str
@@ -73,10 +73,7 @@ const MyActionPlugin = () => {
 
 ```js
 // elsewhere
-exampleActions.updateFavoriteColor({
-  name: "blue",
-  hex: "#0000ff"
-})
+exampleActions.updateFavoriteColor("blue")
 ```
 
 The Action interface enables the creation of new Redux action creators within a piece of state in the Swagger-UI system.
@@ -89,7 +86,7 @@ For more information about the concept of actions in Redux, see the [Redux Actio
 
 Reducers take a state (which is an Immutable map) and an action, and return a new state.
 
-Reducers must be provided to the system under the name of the action type that they handle, in this case, `MYPLUGIN_UPDATE_SOMETHING`.
+Reducers must be provided to the system under the name of the action type that they handle, in this case, `EXAMPLE_SET_FAV_COLOR`.
 
 ```js
 const MyReducerPlugin = function(system) {
@@ -98,8 +95,8 @@ const MyReducerPlugin = function(system) {
       example: {
         reducers: {
           "EXAMPLE_SET_FAV_COLOR": (state, action) => {
-            //
-            return state.set("favColor", fromJS(action.payload))
+            // `system.Im` is the Immutable.js library
+            return state.set("favColor", system.Im.fromJS(action.payload))
             // we're updating the Immutable state object...
             // we need to convert vanilla objects into an immutable type (fromJS)
             // See immutable docs about how to modify the state
@@ -115,25 +112,48 @@ const MyReducerPlugin = function(system) {
 
 ##### Selectors
 
-Selectors take any number of functions as arguments, and passes all results to the last function.
+Selectors reach into
 
 They're an easy way to keep logic for getting data out of state in one place, and is preferred over passing state data directly into components.
 
-See [Reselect: `createSelector`](https://github.com/reactjs/reselect#createselectorinputselectors--inputselectors-resultfunc) for more information.
+
 ```js
 const MySelectorPlugin = function(system) {
   return {
     statePlugins: {
-      myPlugin: {
+      example: {
         selectors: {
-          something: createSelector(
-            state => state.get("something") // return the whatever "something" points to
-          )
+          myFavoriteColor: (state) => state.get("favColor")
         }
       }
     }
   }
 }
+```
+
+You can also use the Reselect library to memoize your selectors, which is recommended for any selectors that will see heavy use:
+
+```js
+import { createSelector } from "reselect"
+
+const MySelectorPlugin = function(system) {
+  return {
+    statePlugins: {
+      example: {
+        selectors: {
+          // this selector will be memoized after it is run once for a
+          // value of `state`
+          myFavoriteColor: createSelector((state) => state.get("favColor"))
+        }
+      }
+    }
+  }
+}
+```
+
+Once a selector has been defined, you can use it:
+```js
+exampleSelectors.myFavoriteColor() // gets `favColor` in state for you
 ```
 
 ##### Components
