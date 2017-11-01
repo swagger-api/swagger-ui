@@ -1,7 +1,8 @@
 import React, { Component } from "react"
-import { Map } from "immutable"
+import { OrderedMap, Map } from "immutable"
 import PropTypes from "prop-types"
 import win from "core/window"
+import HighlightCode from "./highlight-code"
 
 export default class ParameterRow extends Component {
   static propTypes = {
@@ -33,6 +34,7 @@ export default class ParameterRow extends Component {
     let { isOAS3 } = specSelectors
 
     let example = param.get("example")
+    let examples = param.get("examples")
     let defaultValue = param.get("default")
     let parameter = specSelectors.getParameter(pathMethod, param.get("name"), param.get("in"))
     let enumValue
@@ -51,6 +53,8 @@ export default class ParameterRow extends Component {
       value = paramValue
     } else if ( example !== undefined ) {
       value = example
+    } else if ( examples !== undefined && examples.size > 0 ) {
+      value = examples.first()
     } else if ( defaultValue !== undefined) {
       value = defaultValue
     } else if ( param.get("required") && enumValue && enumValue.size ) {
@@ -65,6 +69,14 @@ export default class ParameterRow extends Component {
   onChangeWrapper = (value) => {
     let { onChange, param } = this.props
     return onChange(param, value)
+  }
+
+  formatValue = (value) => {
+    if(typeof(value) === "string") {
+      return value
+    } else {
+      return JSON.stringify(value, null, 2)
+    }
   }
 
   render() {
@@ -101,14 +113,17 @@ export default class ParameterRow extends Component {
     let parameter = specSelectors.getParameter(pathMethod, param.get("name"), param.get("in"))
     let value = parameter ? parameter.get("value") : ""
     let examples = isOAS3 && isOAS3() && param.get("examples")
+    let example
 
     if(isOAS3 && isOAS3() && !examples){
       // in OAS3, "example" and "examples" are mutually exclusive.
       // So "example" are handled only when "examples" is not present.
-      let example = param.get("example")
-      if(example){
-        // TODO give the default example a better name other than ""
-        examples = Map({"": example})
+      example = param.get("example")
+
+      if(example) {
+        example = <HighlightCode value={ this.formatValue(example) }/>
+      } else {
+        example = <HighlightCode value={ this.formatValue(value) }/>
       }
     }
 
@@ -152,17 +167,23 @@ export default class ParameterRow extends Component {
                                                 isExecute={ isExecute }
                                                 specSelectors={ specSelectors }
                                                 schema={ schema }
-                                                example={ bodyParam }/>
+                                                example={ bodyParam }
+                                                examples={ examples }/>
               : null
           }
 
-          {examples && <ModelExample
+          {/* for non-body params with example(s) */}
+          {
+            (!bodyParam && examples) && <ModelExample
             getComponent={ getComponent }
+            example={ example }
             examples={ examples }
             getConfigs={ getConfigs }
             isExecute={ isExecute }
             specSelectors={ specSelectors }
-            schema={ schema } />}
+            schema={ schema } />
+          }
+
 
         </td>
 

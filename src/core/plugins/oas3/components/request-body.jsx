@@ -2,7 +2,6 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { OrderedMap } from "immutable"
-import { getSampleSchema } from "core/utils"
 import { memoizedGetExamples } from "core/plugins/oas3/utils"
 
 const RequestBody = ({
