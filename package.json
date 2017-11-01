@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.4.1",
+  "version": "3.4.2",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -39,6 +39,7 @@
     "e2e": "npm-run-all --parallel -r hot-server mock-api test-e2e"
   },
   "dependencies": {
+    "@braintree/sanitize-url": "^2.0.2",
     "base64-js": "^1.2.0",
     "brace": "0.7.0",
     "classnames": "^2.2.5",
