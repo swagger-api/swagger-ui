@@ -815,10 +815,15 @@ a.nostyle {
 }
 
 /* OAS3 responseBody examples start */
-.example-description
-{
-    margin: 0 0 5px 0;
-    padding: 5px 0;
+.example-description {
+  margin: 0 0 5px 0;
+  padding: 5px 0;
 }
 
+/* .example-summary is the summary line of parameter examples */
+.example-summary {
+  margin: 0;
+  /* use the same font as .opblock-summary-description */
+  @include text_body();
+}
 /* OAS3 responseBody examples end */

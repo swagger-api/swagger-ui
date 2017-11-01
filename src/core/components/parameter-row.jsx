@@ -100,6 +100,21 @@ export default class ParameterRow extends Component {
     let itemType = param.getIn(isOAS3 && isOAS3() ? ["schema", "items", "type"] : ["items", "type"])
     let parameter = specSelectors.getParameter(pathMethod, param.get("name"), param.get("in"))
     let value = parameter ? parameter.get("value") : ""
+    let examples = isOAS3 && isOAS3() && param.get("examples")
+
+    if(isOAS3 && isOAS3() && !examples){
+      // in OAS3, "example" and "examples" are mutually exclusive.
+      // So "example" are handled only when "examples" is not present.
+      let example = param.get("example")
+      if(example){
+        examples = Map({'': example})
+      }
+    }
+
+    // convert examples to plain JS objects
+    if(examples){
+      examples = examples.map(item => item.toObject())
+    }
 
     return (
       <tr>
@@ -139,6 +154,14 @@ export default class ParameterRow extends Component {
                                                 example={ bodyParam }/>
               : null
           }
+
+          {examples && <ModelExample
+            getComponent={ getComponent }
+            examples={ examples }
+            getConfigs={ getConfigs }
+            isExecute={ isExecute }
+            specSelectors={ specSelectors }
+            schema={ schema } />}
 
         </td>
 
