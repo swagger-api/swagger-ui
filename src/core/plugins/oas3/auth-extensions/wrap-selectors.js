@@ -20,10 +20,10 @@ function onlyOAS3(selector) {
 
 export const definitionsToAuthorize = onlyOAS3(createSelector(
     state,
-    ({ specSelectors }) => {
+    ({specSelectors}) => specSelectors.securityDefinitions(),
+    (system, definitions) => {
       // Coerce our OpenAPI 3.0 definitions into monoflow definitions
       // that look like Swagger2 definitions.
-      let definitions = specSelectors.securityDefinitions()
       let list = List()
 
       definitions.entrySeq().forEach( ([ defName, definition ]) => {

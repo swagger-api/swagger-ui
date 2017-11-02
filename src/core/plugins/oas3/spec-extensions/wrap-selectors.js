@@ -50,7 +50,7 @@ export const definitions = onlyOAS3(createSelector(
 
 export const securityDefinitions = onlyOAS3(createSelector(
   spec,
-  spec => spec.getIn(["components", "securitySchemes"]) || Map()
+  spec => spec.getIn(["components", "securitySchemes"]) || null
 ))
 
 export const host = OAS3NullSelector
