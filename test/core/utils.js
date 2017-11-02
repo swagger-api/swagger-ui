@@ -17,6 +17,7 @@ import {
   getAcceptControllingResponse,
   createDeepLinkPath,
   escapeDeepLinkPath,
+  formatXml,
   sanitizeUrl
 } from "core/utils"
 import win from "core/window"
@@ -887,6 +888,16 @@ describe("utils", function() {
     })
   })
 
+  describe("formatXml", function() {
+    it("simple xml formatting", function() {
+      const startTime = Date.now()
+      const result = formatXml("<xml><name>john doe</name></xml>")
+      let duration = Date.now() - startTime
+      expect(result).toEqual("<xml>\n  <name>john doe</name>\n</xml>\n") 
+      expect(duration).toBeLessThan(5)
+    })    
+  })
+
   describe("sanitizeUrl", function() {
     it("should sanitize a `javascript:` url", function() {
       const res = sanitizeUrl("javascript:alert('bam!')")
@@ -925,4 +936,5 @@ sbG8iKTs8L3NjcmlwdD4=`)
       expect(sanitizeUrl({})).toEqual("")
     })
   })
+
 })
