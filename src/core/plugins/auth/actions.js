@@ -73,7 +73,7 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
   let { schema, name, username, password, passwordType, clientId, clientSecret } = auth
   let form = {
     grant_type: "password",
-    scopes: encodeURIComponent(auth.scopes.join(scopeSeparator))
+    scope: encodeURIComponent(auth.scopes.join(scopeSeparator))
   }
   let query = {}
   let headers = {}
@@ -111,7 +111,7 @@ export const authorizeApplication = ( auth ) => ( { authActions } ) => {
   return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth, headers })
 }
 
-export const authorizeAccessCode = ( { auth, redirectUrl } ) => ( { authActions } ) => {
+export const authorizeAccessCodeWithFormParams = ( { auth, redirectUrl } ) => ( { authActions } ) => {
   let { schema, name, clientId, clientSecret } = auth
   let form = {
     grant_type: "authorization_code",
@@ -122,6 +122,21 @@ export const authorizeAccessCode = ( { auth, redirectUrl } ) => ( { authActions 
   }
 
   return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth})
+}
+
+export const authorizeAccessCodeWithBasicAuthentication = ( { auth, redirectUrl } ) => ( { authActions } ) => {
+  let { schema, name, clientId, clientSecret } = auth
+  let headers = {
+    Authorization: "Basic " + btoa(clientId + ":" + clientSecret)
+  }
+  let form = {
+    grant_type: "authorization_code",
+    code: auth.code,
+    client_id: clientId,
+    redirect_uri: redirectUrl
+  }
+
+  return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth, headers})
 }
 
 export const authorizeRequest = ( data ) => ( { fn, authActions, errActions, authSelectors } ) => {
@@ -135,7 +150,6 @@ export const authorizeRequest = ( data ) => ( { fn, authActions, errActions, aut
 
   let _headers = Object.assign({
     "Accept":"application/json, text/plain, */*",
-    "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/x-www-form-urlencoded"
   }, headers)
 

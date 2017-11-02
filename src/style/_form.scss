@@ -21,11 +21,19 @@ select
 
         background: #f7f7f7;
     }
+
+    &.invalid {
+        @include invalidFormElement();
+    }
 }
 
 .opblock-body select
 {
     min-width: 230px;
+    @media (max-width: 768px)
+    {
+        min-width: 180px;
+    }
 }
 
 label
@@ -52,13 +60,14 @@ input[type=file]
     border: 1px solid #d9d9d9;
     border-radius: 4px;
     background: #fff;
+    @media (max-width: 768px) {
+      max-width: 175px;
+    }
+
 
     &.invalid
     {
-        animation: shake .4s 1;
-
-        border-color: $_color-delete;
-        background: lighten($_color-delete, 35%);
+        @include invalidFormElement();
     }
 }
 

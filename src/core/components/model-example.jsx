@@ -7,14 +7,19 @@ export default class ModelExample extends React.Component {
     specSelectors: PropTypes.object.isRequired,
     schema: PropTypes.object.isRequired,
     example: PropTypes.any.isRequired,
-    isExecute: PropTypes.bool
+    isExecute: PropTypes.bool,
+    getConfigs: PropTypes.func.isRequired
   }
 
   constructor(props, context) {
     super(props, context)
-
+    let { getConfigs } = this.props
+    let { defaultModelRendering } = getConfigs()
+    if (defaultModelRendering !== "example" && defaultModelRendering !== "model") {
+      defaultModelRendering = "example"
+    }
     this.state = {
-      activeTab: "example"
+      activeTab: defaultModelRendering
     }
   }
 
@@ -27,7 +32,8 @@ export default class ModelExample extends React.Component {
   }
 
   render() {
-    let { getComponent, specSelectors, schema, example, isExecute } = this.props
+    let { getComponent, specSelectors, schema, example, isExecute, getConfigs } = this.props
+    let { defaultModelExpandDepth } = getConfigs()
     const ModelWrapper = getComponent("ModelWrapper")
 
     return <div>
@@ -35,9 +41,9 @@ export default class ModelExample extends React.Component {
         <li className={ "tabitem" + ( isExecute || this.state.activeTab === "example" ? " active" : "") }>
           <a className="tablinks" data-name="example" onClick={ this.activeTab }>Example Value</a>
         </li>
-        <li className={ "tabitem" + ( !isExecute && this.state.activeTab === "model" ? " active" : "") }>
+        { schema ? <li className={ "tabitem" + ( !isExecute && this.state.activeTab === "model" ? " active" : "") }>
           <a className={ "tablinks" + ( isExecute ? " inactive" : "" )} data-name="model" onClick={ this.activeTab }>Model</a>
-        </li>
+        </li> : null }
       </ul>
       <div>
         {
@@ -47,7 +53,7 @@ export default class ModelExample extends React.Component {
           !isExecute && this.state.activeTab === "model" && <ModelWrapper schema={ schema }
                                                      getComponent={ getComponent }
                                                      specSelectors={ specSelectors }
-                                                     expandDepth={ 1 } />
+                                                     expandDepth={ defaultModelExpandDepth } />
 
 
         }

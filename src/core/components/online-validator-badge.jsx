@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { sanitizeUrl } from "core/utils"
 
 export default class OnlineValidatorBadge extends React.Component {
     static propTypes = {
@@ -32,6 +33,8 @@ export default class OnlineValidatorBadge extends React.Component {
         let { getConfigs } = this.props
         let { spec } = getConfigs()
 
+        let sanitizedValidatorUrl = sanitizeUrl(this.state.validatorUrl)
+
         if ( typeof spec === "object" && Object.keys(spec).length) return null
 
         if (!this.state.url || !this.state.validatorUrl || this.state.url.indexOf("localhost") >= 0
@@ -40,8 +43,8 @@ export default class OnlineValidatorBadge extends React.Component {
         }
 
         return (<span style={{ float: "right"}}>
-                <a target="_blank" href={`${ this.state.validatorUrl }/debug?url=${ this.state.url }`}>
-                    <ValidatorImage src={`${ this.state.validatorUrl }?url=${ this.state.url }`} alt="Online validator badge"/>
+                <a target="_blank" href={`${ sanitizedValidatorUrl }/debug?url=${ this.state.url }`}>
+                    <ValidatorImage src={`${ sanitizedValidatorUrl }?url=${ this.state.url }`} alt="Online validator badge"/>
                 </a>
             </span>)
     }

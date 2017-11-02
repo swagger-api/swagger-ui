@@ -58,8 +58,7 @@ export const makeMappedContainer = (getSystem, getStore, memGetComponent, getCom
 
 }
 
-export const render = (getSystem, getStore, getComponent, getComponents, dom) => {
-  let domNode = document.querySelector(dom)
+export const render = (getSystem, getStore, getComponent, getComponents, domNode) => {
   let App = (getComponent(getSystem, getStore, getComponents, "App", "root"))
   ReactDOM.render(( <App/> ), domNode)
 }

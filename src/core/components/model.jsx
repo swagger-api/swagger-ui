@@ -17,6 +17,9 @@ export default class Model extends Component {
     if ( ref.indexOf("#/definitions/") !== -1 ) {
       return ref.replace(/^.*#\/definitions\//, "")
     }
+    if ( ref.indexOf("#/components/schemas/") !== -1 ) {
+      return ref.replace("#/components/schemas/", "")
+    }
   }
 
   getRefSchema =( model )=> {
@@ -26,38 +29,53 @@ export default class Model extends Component {
   }
 
   render () {
-    let { schema, getComponent, required, name, isRef } = this.props
-    let ObjectModel = getComponent("ObjectModel")
-    let ArrayModel = getComponent("ArrayModel")
-    let PrimitiveModel = getComponent("PrimitiveModel")
+    let { getComponent, specSelectors, schema, required, name, isRef } = this.props
+    const ObjectModel = getComponent("ObjectModel")
+    const ArrayModel = getComponent("ArrayModel")
+    const PrimitiveModel = getComponent("PrimitiveModel")
+    let type = "object"
     let $$ref = schema && schema.get("$$ref")
-    let modelName = $$ref && this.getModelName( $$ref )
-    let modelSchema, type
-
-    if ( schema && (schema.get("type") || schema.get("properties")) ) {
-      modelSchema = schema
-    } else if ( $$ref ) {
-      modelSchema = this.getRefSchema( modelName )
+    
+    // If we weren't passed a `name` but have a ref, grab the name from the ref
+    if ( !name && $$ref ) {
+      name = this.getModelName( $$ref )
     }
-
-    type = modelSchema && modelSchema.get("type")
-    if ( !type && modelSchema && modelSchema.get("properties") ) {
-      type = "object"
+    // If we weren't passed a `schema` but have a ref, grab the schema from the ref
+    if ( !schema && $$ref ) {
+      schema = this.getRefSchema( name )
     }
-
+    
+    const deprecated = specSelectors.isOAS3() && schema.get("deprecated")
+    isRef = isRef !== undefined ? isRef : !!$$ref
+    type = schema && schema.get("type") || type
+    
     switch(type) {
       case "object":
-        return <ObjectModel className="object" { ...this.props } schema={ modelSchema }
-                                              name={ name || modelName }
-                                              isRef={ isRef!== undefined ? isRef : !!$$ref }/>
+        return <ObjectModel
+          className="object" { ...this.props }
+          schema={ schema }
+          name={ name }
+          deprecated={deprecated}
+          isRef={ isRef } />
       case "array":
-        return <ArrayModel className="array" { ...this.props } schema={ modelSchema } required={ required } />
+        return <ArrayModel
+          className="array" { ...this.props }
+          schema={ schema }
+          name={ name }
+          deprecated={deprecated}
+          required={ required } />
       case "string":
       case "number":
       case "integer":
       case "boolean":
       default:
-        return <PrimitiveModel getComponent={ getComponent } schema={ modelSchema } required={ required }/>
+        return <PrimitiveModel
+          { ...this.props }
+          getComponent={ getComponent }
+          schema={ schema }
+          name={ name }
+          deprecated={deprecated}
+          required={ required }/>
     }
   }
 }

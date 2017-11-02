@@ -17,6 +17,7 @@ import AuthorizationPopup from "core/components/auth/authorization-popup"
 import AuthorizeBtn from "core/components/auth/authorize-btn"
 import AuthorizeOperationBtn from "core/components/auth/authorize-operation-btn"
 import Auths from "core/components/auth/auths"
+import AuthItem from "core/components/auth/auth-item"
 import AuthError from "core/components/auth/error"
 import ApiKeyAuth from "core/components/auth/api-key-auth"
 import BasicAuth from "core/components/auth/basic-auth"
@@ -52,6 +53,7 @@ import ObjectModel from "core/components/object-model"
 import ArrayModel from "core/components/array-model"
 import PrimitiveModel from "core/components/primitive-model"
 import TryItOutButton from "core/components/try-it-out-button"
+import VersionStamp from "core/components/version-stamp"
 
 import Markdown from "core/components/providers/markdown"
 
@@ -69,6 +71,7 @@ export default function() {
       authorizeBtn: AuthorizeBtn,
       authorizeOperationBtn: AuthorizeOperationBtn,
       auths: Auths,
+      AuthItem: AuthItem,
       authError: AuthError,
       oauth2: Oauth2,
       apiKeyAuth: ApiKeyAuth,
@@ -105,7 +108,8 @@ export default function() {
       PrimitiveModel,
       TryItOutButton,
       Markdown,
-      BaseLayout
+      BaseLayout,
+      VersionStamp
     }
   }
 

@@ -40,7 +40,7 @@ export default class ResponseBody extends React.Component {
 
       // Image
     } else if (/^image\//i.test(contentType)) {
-      bodyEl = <img src={ url } />
+      bodyEl = <img style={{ maxWidth: "100%" }} src={ window.URL.createObjectURL(content) } />
 
       // Audio
     } else if (/^audio\//i.test(contentType)) {
@@ -49,10 +49,10 @@ export default class ResponseBody extends React.Component {
       // Download
     } else if (
       /^application\/octet-stream/i.test(contentType) ||
-      headers["Content-Disposition"] && (/attachment/i).test(headers["Content-Disposition"]) ||
-      headers["content-disposition"] && (/attachment/i).test(headers["content-disposition"]) ||
-      headers["Content-Description"] && (/File Transfer/i).test(headers["Content-Description"]) ||
-      headers["content-description"] && (/File Transfer/i).test(headers["content-description"])) {
+      (headers["Content-Disposition"] && (/attachment/i).test(headers["Content-Disposition"])) ||
+      (headers["content-disposition"] && (/attachment/i).test(headers["content-disposition"])) ||
+      (headers["Content-Description"] && (/File Transfer/i).test(headers["Content-Description"])) ||
+      (headers["content-description"] && (/File Transfer/i).test(headers["content-description"]))) {
 
       let contentLength = headers["content-length"] || headers["Content-Length"]
       if ( !(+contentLength) ) return null
@@ -83,8 +83,12 @@ export default class ResponseBody extends React.Component {
       // Anything else (CORS)
     } else if (typeof content === "string") {
       bodyEl = <HighlightCode value={ content } />
-    } else {
+    } else if ( content.size > 0 ) {
+      // We don't know the contentType, but there was some content returned
       bodyEl = <div>Unknown response type</div>
+    } else {
+      // We don't know the contentType and there was no content returned
+      bodyEl = null
     }
 
     return ( !bodyEl ? null : <div>
