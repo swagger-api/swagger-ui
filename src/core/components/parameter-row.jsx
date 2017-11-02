@@ -1,8 +1,9 @@
 import React, { Component } from "react"
-import { OrderedMap, Map } from "immutable"
+import { OrderedMap, Map, fromJS } from "immutable"
 import PropTypes from "prop-types"
 import win from "core/window"
 import HighlightCode from "./highlight-code"
+import { formatParamValue } from "core/plugins/oas3/utils"
 
 export default class ParameterRow extends Component {
   static propTypes = {
@@ -49,16 +50,22 @@ export default class ParameterRow extends Component {
 
     let value
 
+    console.log('example = ', example, ', examples = ', examples)
+
     if ( paramValue !== undefined ) {
       value = paramValue
+    } else if ( defaultValue !== undefined) {
+      value = defaultValue
     } else if ( example !== undefined ) {
       value = example
     } else if ( examples !== undefined && examples.size > 0 ) {
-      value = examples.first()
-    } else if ( defaultValue !== undefined) {
-      value = defaultValue
+      value = examples.first().value
     } else if ( param.get("required") && enumValue && enumValue.size ) {
       value = enumValue.first()
+    } else if ( example !== undefined ) {
+      value = example.toObject()
+    } else if ( examples !== undefined && examples.size > 0 ) {
+      value = examples.first().value
     }
 
     if ( value !== undefined ) {
@@ -69,14 +76,6 @@ export default class ParameterRow extends Component {
   onChangeWrapper = (value) => {
     let { onChange, param } = this.props
     return onChange(param, value)
-  }
-
-  formatValue = (value) => {
-    if(typeof(value) === "string") {
-      return value
-    } else {
-      return JSON.stringify(value, null, 2)
-    }
   }
 
   render() {
@@ -121,9 +120,9 @@ export default class ParameterRow extends Component {
       example = param.get("example")
 
       if(example) {
-        example = <HighlightCode value={ this.formatValue(example) }/>
+        example = <HighlightCode value={ formatParamValue(example, parameter) }/>
       } else {
-        example = <HighlightCode value={ this.formatValue(value) }/>
+        example = <HighlightCode value={ formatParamValue(value, parameter) }/>
       }
     }
 
@@ -153,7 +152,7 @@ export default class ParameterRow extends Component {
           { bodyParam || !isExecute ? null
             : <JsonSchemaForm fn={fn}
                               getComponent={getComponent}
-                              value={ value }
+                              value={ formatParamValue(value, parameter) }
                               required={ required }
                               description={param.get("description") ? `${param.get("name")} - ${param.get("description")}` : `${param.get("name")}`}
                               onChange={ this.onChangeWrapper }
