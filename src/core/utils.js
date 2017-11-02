@@ -188,11 +188,11 @@ export function formatXml (xml) {
   fn = function(ln) {
     var fromTo, padding, type
     
-    if (Boolean(ln.match(/<.+\/>/))) {
+    if (ln.match(/<.+\/>/)) {
       type = "single"
-    } else if (Boolean(ln.match(/<\/.+>/))) {
+    } else if (ln.match(/<\/.+>/)) {
       type = "closing"
-    } else if (Boolean(ln.match(/<[^!?].*>/))) {
+    } else if (ln.match(/<[^!?].*>/)) {
       type = "opening"
     } else {
       type = "other"
