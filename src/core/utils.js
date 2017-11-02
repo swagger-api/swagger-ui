@@ -186,24 +186,17 @@ export function formatXml (xml) {
     "other->other": 0
   }
   fn = function(ln) {
-    var fromTo, key, padding, type, types, value
-    types = {
-      single: Boolean(ln.match(/<.+\/>/)),
-      closing: Boolean(ln.match(/<\/.+>/)),
-      opening: Boolean(ln.match(/<[^!?].*>/))
-    }
-    type = ((function() {
-      var results
-      results = []
-      for (key in types) {
-        value = types[key]
-        if (value) {
-          results.push(key)
-        }
-      }
-      return results
-    })())[0]
-    type = type === void 0 ? "other" : type
+    var fromTo, padding, type
+    
+    if (Boolean(ln.match(/<.+\/>/))) {
+      type = "single"
+    } else if (Boolean(ln.match(/<\/.+>/))) {
+      type = "closing"
+    } else if (Boolean(ln.match(/<[^!?].*>/))) {
+      type = "opening"
+    } else {
+      type = "other"
+    }    
     fromTo = lastType + "->" + type
     lastType = type
     padding = ""

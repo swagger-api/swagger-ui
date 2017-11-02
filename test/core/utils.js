@@ -16,7 +16,8 @@ import {
   fromJSOrdered,
   getAcceptControllingResponse,
   createDeepLinkPath,
-  escapeDeepLinkPath
+  escapeDeepLinkPath,
+  formatXml
 } from "core/utils"
 import win from "core/window"
 
@@ -885,4 +886,15 @@ describe("utils", function() {
       expect(result).toEqual("hello\\#world")
     })
   })
+
+  describe("formatXml", function() {
+    it("simple xml formatting", function() {
+      const startTime = Date.now()
+      const result = formatXml("<xml><name>john doe</name></xml>")
+      let duration = Date.now() - startTime
+      expect(result).toEqual("<xml>\n  <name>john doe</name>\n</xml>\n") 
+      expect(duration).toBeLessThan(5)
+    })    
+  })
+
 })
