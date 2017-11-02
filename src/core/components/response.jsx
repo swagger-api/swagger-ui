@@ -1,55 +1,33 @@
 import React from "react"
 import PropTypes from "prop-types"
 import cx from "classnames"
-import { fromJS, Seq, Map } from "immutable"
-import { getSampleSchema, fromJSOrdered } from "core/utils"
+import { fromJS, OrderedMap, Seq } from "immutable"
+import { fromJSOrdered, getSampleSchema } from "core/utils"
 
-const getExampleComponent = ( sampleResponse, examples, HighlightCode, isOAS3, Markdown ) => {
-  if ( examples && examples.size ) {
-    return examples.entrySeq().map( ([ key, example ]) => {
-      let exampleValue = example
-      let exampleSummary = null
-      let exampleDescription = null
-
-      if(isOAS3) {
-        exampleSummary = example.get("summary")
-        exampleDescription = example.get("description")
-        exampleValue = example.get("value")
-        if (exampleValue && exampleValue.toJS){
-          try {
-            exampleValue = JSON.stringify(exampleValue.toJS(), null, 2)
-          }
-          catch (e) {
-            exampleValue = String(exampleValue.value)
-          }
-        }
-
-      } else {
-
-        if (example.toJS) {
-          try {
-            exampleValue = JSON.stringify(example.toJS(), null, 2)
-          }
-          catch (e) {
-            exampleValue = String(example)
-          }
-        }
-      }
-
-      return (<div key={ key }>
-        <h5>{ key } {exampleSummary && <span> : {exampleSummary}</span>}</h5>
-        { exampleDescription && <div className="response-col_description__inner">
-          <Markdown source={ exampleDescription } />
-        </div>}
-        <HighlightCode className="example" value={ exampleValue } />
-      </div>)
-    }).toArray()
-  }
-
+const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
   if ( sampleResponse ) { return <div>
       <HighlightCode className="example" value={ sampleResponse } />
     </div>
   }
+  if ( examples && examples.size ) {
+    let [key, example] = examples.entrySeq().first()
+
+    let exampleValue = example
+    if (example.toJS) {
+      try {
+        exampleValue = JSON.stringify(example.toJS(), null, 2)
+      }
+      catch (e) {
+        exampleValue = String(example)
+      }
+    }
+
+    return (<div key={key}>
+      <h5>{key}</h5>
+      <HighlightCode className="example" value={exampleValue}/>
+    </div>)
+  }
+
   return null
 }
 
@@ -131,7 +109,7 @@ export default class Response extends React.Component {
         let example = response.getIn(["content", this.state.responseContentType, "example"])
 
         if(example) {
-          examples = Map({"Example": example})
+          examples = OrderedMap({"Example": example})
         }
       }
     } else {
@@ -149,7 +127,7 @@ export default class Response extends React.Component {
       })
     }
 
-    let example = getExampleComponent( sampleResponse, examples, HighlightCode, isOAS3(), Markdown )
+    let example = getExampleComponent( sampleResponse, examples, HighlightCode )
 
     return (
       <tr className={ "response " + ( className || "") }>
@@ -181,7 +159,9 @@ export default class Response extends React.Component {
               getConfigs={ getConfigs }
               specSelectors={ specSelectors }
               schema={ fromJSOrdered(schema) }
-              example={ example }/>
+              example={ example }
+              examples={ examples }
+            />
           ) : null}
 
           { headers ? (

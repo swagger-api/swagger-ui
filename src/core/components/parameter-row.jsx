@@ -50,8 +50,6 @@ export default class ParameterRow extends Component {
 
     let value
 
-    console.log('example = ', example, ', examples = ', examples)
-
     if ( paramValue !== undefined ) {
       value = paramValue
     } else if ( defaultValue !== undefined) {
@@ -124,11 +122,6 @@ export default class ParameterRow extends Component {
       } else {
         example = <HighlightCode value={ formatParamValue(value, parameter) }/>
       }
-    }
-
-    // convert examples to plain JS objects
-    if(examples){
-      examples = examples.map(item => item.toObject())
     }
 
     return (

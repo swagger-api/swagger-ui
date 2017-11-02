@@ -76,13 +76,14 @@ export default class ModelExample extends React.Component {
           examples && examples.map( (item, key) => {
             return ((!isExecute && this.state.activeTab === "example_" + key) && (
               <div key={"example_div_key_" + key} className="example-wrapper">
-                {item.summary && <h6 className="example-summary">{ item.summary }</h6>}
-                {item.description && <div className="example-description">
-                  <Markdown source={item.description} />
-                </div>
+                { item.has("summary") && <h6 className="example-summary">{ item.get("summary") }</h6> }
+                {
+                  item.has("description") && <div className="example-description">
+                    <Markdown source={ item.get("description") } />
+                  </div>
                 }
-                {item.value && <HighlightCode value={ this.formatValue(item.value) } />}
-                {item.externalValue && <ExternalValue location={item.externalValue} getComponent={ getComponent } />}
+                { item.has("value") && <HighlightCode value={ this.formatValue(item.get("value")) } /> }
+                { item.has("externalValue") && <ExternalValue location={ item.get("externalValue") } getComponent={ getComponent } /> }
               </div>
             ))
           } ).toArray()

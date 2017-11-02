@@ -7,19 +7,7 @@ import { Map, OrderedMap, fromJS } from "immutable"
  * @returns {Map} Map {name: {summary, description, value, externalValue}}
  */
 export const getExamples = (examplesInSpec) => {
-  let result = null
-  if (examplesInSpec !== undefined) {
-    examplesInSpec = examplesInSpec.toJS()
-  } else {
-    return result
-  }
-
-  result = new OrderedMap()
-  for (let exampleName in examplesInSpec) {
-    result = result.set(exampleName, examplesInSpec[exampleName])
-  }
-
-  return result
+  return fromJS(examplesInSpec)
 }
 
 export const memoizedGetExamples = memoizee(getExamples)
