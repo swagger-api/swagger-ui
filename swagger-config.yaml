@@ -1,5 +1,14 @@
 ---
-url: "https://api.relocation.immobilienscout24.de/relocationrequest/swagger.json"
+#url: "https://api.relocation.immobilienscout24.de/relocationrequest/swagger.json"
+urls:
+  - url: https://api.relocation.immobilienscout24.de/relocationrequest/swagger.json
+    name: Relocation Request API
+  - url: https://api.relocation.immobilienscout24.de/relocationrequest/myscout/swagger.json
+    name: MyRelocation API
+  - url: https://api.relocation.immobilienscout24.de/relocationpartner/swagger.json
+    name: Relocation Partner API
+  - url: https://api.relocation.immobilienscout24.de/relocationcosts/swagger.json
+    name: Relocation Costs API
 dom_id: "#swagger-ui"
 validatorUrl: "https://online.swagger.io/validator"
 oauth2RedirectUrl: "http://localhost:3200/oauth2-redirect.html"
