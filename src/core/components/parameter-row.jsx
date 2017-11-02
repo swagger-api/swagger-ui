@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { OrderedMap, Map, fromJS } from "immutable"
+import { Map } from "immutable"
 import PropTypes from "prop-types"
 import win from "core/window"
 import HighlightCode from "./highlight-code"

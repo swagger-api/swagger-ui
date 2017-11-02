@@ -1,5 +1,5 @@
 import memoizee from "memoizee"
-import { Map, OrderedMap, fromJS } from "immutable"
+import { fromJS } from "immutable"
 
 /**
  * Convert OAS3 "Examples" (in requestBody) section and convert to Map
@@ -15,7 +15,7 @@ export const memoizedGetExamples = memoizee(getExamples)
 /**
  * Convert 'value' to serialized format, so can be handled correctly in <input>
  * @param value value
- * @param parameter {} parameter in spec
+ * @param parameter {OrderedMap} parameter in spec
  */
 export const formatParamValue = (value, parameter) => {
   if (typeof ( value ) === "string") {
