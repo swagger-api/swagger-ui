@@ -48,6 +48,10 @@ export const definitions = onlyOAS3(createSelector(
   spec => spec.getIn(["components", "schemas"]) || Map()
 ))
 
+export const hasHost = onlyOAS3((state) => {
+  return spec(state).hasIn(["servers", 0])
+})
+
 export const securityDefinitions = onlyOAS3(createSelector(
   spec,
   spec => spec.getIn(["components", "securitySchemes"]) || null

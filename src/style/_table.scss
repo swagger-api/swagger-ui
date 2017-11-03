@@ -74,7 +74,7 @@ table
 
                 text-align: left;
 
-                border-bottom: 1px solid rgba(#3b4151, .2);
+                border-bottom: 1px solid rgba($table-thead-td-border-bottom-color, .2);
 
                 @include text_body();
             }
@@ -126,7 +126,7 @@ table
 
             content: 'required';
 
-            color: rgba(#f00, .6);
+            color: rgba($table-parameter-name-required-font-color, .6);
         }
     }
 }
@@ -136,7 +136,7 @@ table
     font-size: 12px;
     font-style: italic;
 
-    @include text_code(#888);
+    @include text_code($table-parameter-in-font-color);
 }
 
 .parameter__deprecated
@@ -144,7 +144,7 @@ table
     font-size: 12px;
     font-style: italic;
 
-    @include text_code(#f00);
+    @include text_code($table-parameter-deprecated-font-color);
 }
 
 
