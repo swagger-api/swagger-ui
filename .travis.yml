@@ -10,7 +10,7 @@ branches:
   only:
   - master
   - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
-before_script: "npm update"
+install: "npm i && npm update"
 before_deploy:
   - npm run build
 env:
