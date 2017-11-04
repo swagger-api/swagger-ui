@@ -284,9 +284,16 @@ describe("utils", function() {
       expect(validatePattern("blue", rxPattern)).toBeFalsy()
     })
 
-    it("returns a message for invalid pattern'", function() {
+    it("returns a message for invalid pattern", function() {
       expect(validatePattern("pink", rxPattern)).toEqual(errorMessage)
       expect(validatePattern("123", rxPattern)).toEqual(errorMessage)
+    })
+
+    it("fails gracefully when an invalid regex value is passed", function() {
+      expect(() => validatePattern("aValue", "---")).toNotThrow()
+      expect(() => validatePattern("aValue", 1234)).toNotThrow()
+      expect(() => validatePattern("aValue", null)).toNotThrow()
+      expect(() => validatePattern("aValue", [])).toNotThrow()
     })
   })
 
