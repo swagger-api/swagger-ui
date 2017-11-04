@@ -488,14 +488,19 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
     Only bother validating the parameter if the type was specified.
   */
   if ( type && (required || value) ) {
-    // These checks should evaluate to true if the parameter's value is valid
-    let stringCheck = type === "string" && value && !validateString(value)
+    // These checks should evaluate to true if there is a parameter
+    let stringCheck = type === "string" && value
     let arrayCheck = type === "array" && Array.isArray(value) && value.length
     let listCheck = type === "array" && Im.List.isList(value) && value.count()
     let fileCheck = type === "file" && value instanceof win.File
-    let booleanCheck = type === "boolean" && !validateBoolean(value)
-    let numberCheck = type === "number" && !validateNumber(value) // validateNumber returns undefined if the value is a number
-    let integerCheck = type === "integer" && !validateInteger(value) // validateInteger returns undefined if the value is an integer
+    let booleanCheck = type === "boolean" && (value || value === false)
+    let numberCheck = type === "number" && value
+    let integerCheck = type === "integer" && value
+
+    if ( required && !(stringCheck || arrayCheck || listCheck || fileCheck || booleanCheck || numberCheck || integerCheck) ) {
+      errors.push("Required field is not provided")
+      return errors
+    }
 
     if (pattern) {
       let err = validatePattern(value, pattern)
@@ -510,11 +515,6 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
     if (minLength) {
       let err = validateMinLength(value, minLength)
       if (err) errors.push(err)
-    }
-
-    if ( required && !(stringCheck || arrayCheck || listCheck || fileCheck || booleanCheck || numberCheck || integerCheck) ) {
-      errors.push("Required field is not provided")
-      return errors
     }
 
     if (maximum || maximum === 0) {

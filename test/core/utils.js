@@ -548,7 +548,7 @@ describe("utils", function() {
         type: "boolean",
         value: "test string"
       }
-      assertValidateParam(param, ["Required field is not provided"])
+      assertValidateParam(param, ["Value must be a boolean"])
 
       // valid boolean value
       param = {
@@ -608,7 +608,7 @@ describe("utils", function() {
         type: "number",
         value: "test"
       }
-      assertValidateParam(param, ["Required field is not provided"])
+      assertValidateParam(param, ["Value must be a number"])
 
       // invalid number, undefined value
       param = {
@@ -690,7 +690,7 @@ describe("utils", function() {
         type: "integer",
         value: "test"
       }
-      assertValidateParam(param, ["Required field is not provided"])
+      assertValidateParam(param, ["Value must be an integer"])
 
       // invalid integer, undefined value
       param = {
