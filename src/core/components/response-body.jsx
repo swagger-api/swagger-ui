@@ -32,7 +32,8 @@ export default class ResponseBody extends React.Component {
       // XML
     } else if (/xml/i.test(contentType)) {
       body = formatXml(content, {
-        textNodesOnSameLine: true
+        textNodesOnSameLine: true,
+        indentor: "  "
       })
       bodyEl = <HighlightCode value={ body } />
 
