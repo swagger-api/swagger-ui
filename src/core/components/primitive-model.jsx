@@ -28,6 +28,7 @@ export default class Primitive extends Component {
     let properties = schema.filter( ( v, key) => ["enum", "type", "format", "description", "$$ref"].indexOf(key) === -1 )
     const Markdown = getComponent("Markdown")
     const EnumModel = getComponent("EnumModel")
+    const Property = getComponent("Property")
 
     return <span className="model">
       <span className="prop">
@@ -35,9 +36,7 @@ export default class Primitive extends Component {
         <span className="prop-type">{ type }</span>
         { format && <span className="prop-format">(${format})</span>}
         {
-          properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <span key={`${key}-${v}`} style={ propStyle }>
-            <br />{ key }: { String(v) }</span>)
-            : null
+          properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propVal={ v } propStyle={ propStyle } />) : null
         }
         {
           !description ? null :

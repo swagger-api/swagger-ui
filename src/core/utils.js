@@ -155,83 +155,6 @@ export function getList(iterable, keys) {
   return Im.List.isList(val) ? val : Im.List()
 }
 
-// Adapted from http://stackoverflow.com/a/2893259/454004
-// Note: directly ported from CoffeeScript
-export function formatXml (xml) {
-  var contexp, fn, formatted, indent, l, lastType, len, lines, ln, reg, transitions, wsexp
-  reg = /(>)(<)(\/*)/g
-  wsexp = /[ ]*(.*)[ ]+\n/g
-  contexp = /(<.+>)(.+\n)/g
-  xml = xml.replace(/\r\n/g, "\n").replace(reg, "$1\n$2$3").replace(wsexp, "$1\n").replace(contexp, "$1\n$2")
-  formatted = ""
-  lines = xml.split("\n")
-  indent = 0
-  lastType = "other"
-  transitions = {
-    "single->single": 0,
-    "single->closing": -1,
-    "single->opening": 0,
-    "single->other": 0,
-    "closing->single": 0,
-    "closing->closing": -1,
-    "closing->opening": 0,
-    "closing->other": 0,
-    "opening->single": 1,
-    "opening->closing": 0,
-    "opening->opening": 1,
-    "opening->other": 1,
-    "other->single": 0,
-    "other->closing": -1,
-    "other->opening": 0,
-    "other->other": 0
-  }
-  fn = function(ln) {
-    var fromTo, key, padding, type, types, value
-    types = {
-      single: Boolean(ln.match(/<.+\/>/)),
-      closing: Boolean(ln.match(/<\/.+>/)),
-      opening: Boolean(ln.match(/<[^!?].*>/))
-    }
-    type = ((function() {
-      var results
-      results = []
-      for (key in types) {
-        value = types[key]
-        if (value) {
-          results.push(key)
-        }
-      }
-      return results
-    })())[0]
-    type = type === void 0 ? "other" : type
-    fromTo = lastType + "->" + type
-    lastType = type
-    padding = ""
-    indent += transitions[fromTo]
-    padding = ((function() {
-      /* eslint-disable no-unused-vars */
-      var m, ref1, results, j
-      results = []
-      for (j = m = 0, ref1 = indent; 0 <= ref1 ? m < ref1 : m > ref1; j = 0 <= ref1 ? ++m : --m) {
-        results.push("  ")
-      }
-      /* eslint-enable no-unused-vars */
-      return results
-    })()).join("")
-    if (fromTo === "opening->closing") {
-      formatted = formatted.substr(0, formatted.length - 1) + ln + "\n"
-    } else {
-      formatted += padding + ln + "\n"
-    }
-  }
-  for (l = 0, len = lines.length; l < len; l++) {
-    ln = lines[l]
-    fn(ln)
-  }
-  return formatted
-}
-
-
 /**
  * Adapted from http://github.com/asvd/microlight
  * @copyright 2016 asvd <heliosframework@gmail.com>
@@ -536,6 +459,13 @@ export const validateMinLength = (val, min) => {
   }
 }
 
+export const validatePattern = (val, rxPattern) => {
+  var patt = new RegExp(rxPattern)
+  if (!patt.test(val)) {
+      return "Value must follow pattern " + rxPattern
+  }
+}
+
 // validation of parameters before execute
 export const validateParam = (param, isXml, isOAS3 = false) => {
   let errors = []
@@ -549,6 +479,8 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
   let format = paramDetails.get("format")
   let maxLength = paramDetails.get("maxLength")
   let minLength = paramDetails.get("minLength")
+  let pattern = paramDetails.get("pattern")
+  
 
   /*
     If the parameter is required OR the parameter has a value (meaning optional, but filled in)
@@ -570,6 +502,11 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
       return errors
     }
 
+    if (pattern) {
+      let err = validatePattern(value, pattern)
+      if (err) errors.push(err)
+    }
+    
     if (maxLength || maxLength === 0) {
       let err = validateMaxLength(value, maxLength)
       if (err) errors.push(err)
