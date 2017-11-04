@@ -459,6 +459,13 @@ export const validateMinLength = (val, min) => {
   }
 }
 
+export const validatePattern = (val, rxPattern) => {
+  var patt = new RegExp(rxPattern)
+  if (!patt.test(val)) {
+      return "Value must follow pattern " + rxPattern
+  }
+}
+
 // validation of parameters before execute
 export const validateParam = (param, isXml, isOAS3 = false) => {
   let errors = []
@@ -472,6 +479,8 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
   let format = paramDetails.get("format")
   let maxLength = paramDetails.get("maxLength")
   let minLength = paramDetails.get("minLength")
+  let pattern = paramDetails.get("pattern")
+  
 
   /*
     If the parameter is required OR the parameter has a value (meaning optional, but filled in)
@@ -488,6 +497,11 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
     let numberCheck = type === "number" && !validateNumber(value) // validateNumber returns undefined if the value is a number
     let integerCheck = type === "integer" && !validateInteger(value) // validateInteger returns undefined if the value is an integer
 
+    if (pattern) {
+      let err = validatePattern(value, pattern)
+      if (err) errors.push(err)
+    }
+    
     if (maxLength || maxLength === 0) {
       let err = validateMaxLength(value, maxLength)
       if (err) errors.push(err)
