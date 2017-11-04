@@ -20,8 +20,8 @@ Some distinct identifiers to Swagger-UI 3.X:
 
 If you've determined this is the version you have, to find the exact version:
 - Open your browser's web console (changes between browsers)
-- Type `versions` in the console and execute the call.
-- You might need to expand the result, until you get a string similar to `swaggerUi : Object { version: "3.1.6", gitRevision: "g786cd47", gitDirty: true, … }`.
+- Type `JSON.stringify(versions)` in the console and execute the call.
+- The result should look similar to `swaggerUi : Object { version: "3.1.6", gitRevision: "g786cd47", gitDirty: true, … }`.
 - The version taken from that example would be `3.1.6`.
 
 Note: This functionality was added in 3.0.8. If you're unable to execute it, you're likely to use an older version, and in that case the first step would be to upgrade.
