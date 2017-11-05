@@ -30,9 +30,9 @@
         padding: 3px 5px;
 
         border-radius: 4px;
-        background: rgba(#000,.05);
+        background: rgba($info-code-background-color,.05);
 
-        @include text_code(#9012fe);
+        @include text_code($info-code-font-color);
     }
 
     a
@@ -41,11 +41,11 @@
 
         transition: all .4s;
 
-        @include text_body(#4990e2);
+        @include text_body($info-link-font-color);
 
         &:hover
         {
-            color: darken(#4990e2, 15%);
+            color: darken($info-link-font-color-hover, 15%);
         }
     }
     > div
@@ -86,13 +86,13 @@
             vertical-align: super;
 
             border-radius: 57px;
-            background: #7d8492;
+            background: $info-title-small-background-color;
 
             pre
             {
                 margin: 0;
 
-                @include text_headline(#fff);
+                @include text_headline($info-title-small-pre-font-color);
             }
         }
     }
