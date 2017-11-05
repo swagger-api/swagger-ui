@@ -3,6 +3,7 @@ import expect from "expect"
 import { fromJS, OrderedMap } from "immutable"
 import {
   mapToList,
+  validatePattern,
   validateMinLength,
   validateMaxLength,
   validateDateTime,
@@ -216,9 +217,9 @@ describe("utils", function() {
       expect(validateFile(1)).toEqual(errorMessage)
       expect(validateFile("string")).toEqual(errorMessage)
     })
-   })
+  })
 
-   describe("validateDateTime", function() {
+  describe("validateDateTime", function() {
     let errorMessage = "Value must be a DateTime"
 
     it("doesn't return for valid dates", function() {
@@ -229,7 +230,7 @@ describe("utils", function() {
       expect(validateDateTime(null)).toEqual(errorMessage)
       expect(validateDateTime("string")).toEqual(errorMessage)
     })
-   })
+  })
 
   describe("validateGuid", function() {
     let errorMessage = "Value must be a Guid"
@@ -243,9 +244,9 @@ describe("utils", function() {
       expect(validateGuid(1)).toEqual(errorMessage)
       expect(validateGuid("string")).toEqual(errorMessage)
     })
-   })
+  })
 
-   describe("validateMaxLength", function() {
+  describe("validateMaxLength", function() {
     let errorMessage = "Value must be less than MaxLength"
 
     it("doesn't return for valid guid", function() {
@@ -258,9 +259,9 @@ describe("utils", function() {
       expect(validateMaxLength("abc", 1)).toEqual(errorMessage)
       expect(validateMaxLength("abc", 2)).toEqual(errorMessage)
     })
-   })
+  })
 
-   describe("validateMinLength", function() {
+  describe("validateMinLength", function() {
     let errorMessage = "Value must be greater than MinLength"
 
     it("doesn't return for valid guid", function() {
@@ -272,7 +273,29 @@ describe("utils", function() {
       expect(validateMinLength("abc", 5)).toEqual(errorMessage)
       expect(validateMinLength("abc", 8)).toEqual(errorMessage)
     })
-   })
+  })
+
+  describe("validatePattern", function() {
+    let rxPattern = "^(red|blue)"
+    let errorMessage = "Value must follow pattern " + rxPattern
+
+    it("doesn't return for a match", function() {
+      expect(validatePattern("red", rxPattern)).toBeFalsy()
+      expect(validatePattern("blue", rxPattern)).toBeFalsy()
+    })
+
+    it("returns a message for invalid pattern", function() {
+      expect(validatePattern("pink", rxPattern)).toEqual(errorMessage)
+      expect(validatePattern("123", rxPattern)).toEqual(errorMessage)
+    })
+
+    it("fails gracefully when an invalid regex value is passed", function() {
+      expect(() => validatePattern("aValue", "---")).toNotThrow()
+      expect(() => validatePattern("aValue", 1234)).toNotThrow()
+      expect(() => validatePattern("aValue", null)).toNotThrow()
+      expect(() => validatePattern("aValue", [])).toNotThrow()
+    })
+  })
 
   describe("validateParam", function() {
     let param = null
@@ -525,7 +548,7 @@ describe("utils", function() {
         type: "boolean",
         value: "test string"
       }
-      assertValidateParam(param, ["Required field is not provided"])
+      assertValidateParam(param, ["Value must be a boolean"])
 
       // valid boolean value
       param = {
@@ -585,7 +608,7 @@ describe("utils", function() {
         type: "number",
         value: "test"
       }
-      assertValidateParam(param, ["Required field is not provided"])
+      assertValidateParam(param, ["Value must be a number"])
 
       // invalid number, undefined value
       param = {
@@ -667,7 +690,7 @@ describe("utils", function() {
         type: "integer",
         value: "test"
       }
-      assertValidateParam(param, ["Required field is not provided"])
+      assertValidateParam(param, ["Value must be an integer"])
 
       // invalid integer, undefined value
       param = {
@@ -912,5 +935,18 @@ sbG8iKTs8L3NjcmlwdD4=`)
 
       expect(res).toEqual("https://swagger.io/")
     })
+
+    it("should gracefully handle empty strings", function() {
+      expect(sanitizeUrl("")).toEqual("")
+    })
+
+    it("should gracefully handle non-string values", function() {
+      expect(sanitizeUrl(123)).toEqual("")
+      expect(sanitizeUrl(null)).toEqual("")
+      expect(sanitizeUrl(undefined)).toEqual("")
+      expect(sanitizeUrl([])).toEqual("")
+      expect(sanitizeUrl({})).toEqual("")
+    })
   })
+
 })
