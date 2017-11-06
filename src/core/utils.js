@@ -678,3 +678,5 @@ export function getAcceptControllingResponse(responses) {
 
 export const createDeepLinkPath = (str) => typeof str == "string" || str instanceof String ? str.trim().replace(/\s/g, "_") : ""
 export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str) )
+
+export const getExtensions = (defObj) => defObj.filter((v, k) => /^x-/.test(k))
