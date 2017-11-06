@@ -2,7 +2,7 @@ import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { getList } from "core/utils"
 import * as CustomPropTypes from "core/proptypes"
-import { sanitizeUrl } from "core/utils"
+import { getExtensions, sanitizeUrl } from "core/utils"
 
 //import "less/opblock"
 
@@ -126,6 +126,7 @@ export default class Operation extends PureComponent {
     let summary = operation.get("summary")
     let description = operation.get("description")
     let deprecated = operation.get("deprecated")
+    let extensions = getExtensions(operation)
     let externalDocs = operation.get("externalDocs")
     let responses = operation.get("responses")
     let security = operation.get("security") || specSelectors.security()
@@ -144,6 +145,7 @@ export default class Operation extends PureComponent {
     const Collapse = getComponent( "Collapse" )
     const Markdown = getComponent( "Markdown" )
     const Schemes = getComponent( "schemes" )
+    const OperationExt = getComponent( "OperationExt" )
 
     const { deepLinking } = getConfigs()
 
@@ -211,6 +213,7 @@ export default class Operation extends PureComponent {
                   </div>
                 </div> : null
               }
+
               <Parameters
                 parameters={parameters}
                 operation={operation}
@@ -276,6 +279,10 @@ export default class Operation extends PureComponent {
                     pathMethod={ [path, method] }
                     displayRequestDuration={ displayRequestDuration }
                     fn={fn} />
+              }
+
+              { !extensions.size ? null :
+                <OperationExt extensions={ extensions } getComponent={ getComponent } />
               }
             </div>
           </Collapse>
