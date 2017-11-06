@@ -33,6 +33,7 @@
     "test-in-node": "npm run lint-errors && npm run just-test-in-node",
     "just-test": "karma start --config karma.conf.js",
     "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test/core test/components test/bugs test/swagger-ui-dist-package test/xss",
+    "just-check-coverage": "nyc npm run just-test-in-node",
     "test-e2e": "sleep 3 && nightwatch test/e2e/scenarios/ --config test/e2e/nightwatch.json",
     "e2e-initial-render": "nightwatch test/e2e/scenarios/ --config test/e2e/nightwatch.json --group initial-render",
     "mock-api": "json-server --watch test/e2e/db.json --port 3204",
@@ -152,5 +153,9 @@
   ],
   "optionalDependencies": {
     "webpack-dev-server": "2.5.0"
+  },
+  "nyc": {
+    "all": true,
+    "include": ["**/src/core/plugins/**.js"]
   }
 }
