@@ -56,14 +56,8 @@ describe("<ObjectModel />", function() {
         const wrapper = shallow(<ObjectModel {...props}/>)
         const renderedModel = wrapper.find(Model)
         expect(renderedModel.length).toEqual(3)
-
-        // Assert the schema's properties have maintained their order
-        //const modelExampleSchemaProperties = renderedModel.props().schema.toJS().properties
-        console.log(renderedModel.get(0).props);
-
         expect(renderedModel.get(0).props.schema.get("name")).toEqual("c")
         expect(renderedModel.get(1).props.schema.get("name")).toEqual("b")
         expect(renderedModel.get(2).props.schema.get("name")).toEqual("a")
-        //expect( Object.keySeq(modelExampleSchemaProperties) ).toEqual(["c", "b", "a"])
     })
 })
