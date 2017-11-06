@@ -65,6 +65,7 @@
     &.execute
     {
         animation: swagger-ui-pulse 2s infinite;
+        will-change: transform;
         background-color: $btn-execute-background-color;
         color: $btn-execute-font-color;
         border-color: $btn-execute-border-color;
