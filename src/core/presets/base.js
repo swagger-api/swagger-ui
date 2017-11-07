@@ -55,6 +55,7 @@ import ArrayModel from "core/components/array-model"
 import PrimitiveModel from "core/components/primitive-model"
 import TryItOutButton from "core/components/try-it-out-button"
 import VersionStamp from "core/components/version-stamp"
+import RequestUrl from "core/components/request-url"
 
 import Markdown from "core/components/providers/markdown"
 
@@ -110,7 +111,8 @@ export default function() {
       TryItOutButton,
       Markdown,
       BaseLayout,
-      VersionStamp
+      VersionStamp,
+      RequestUrl
     }
   }
 
