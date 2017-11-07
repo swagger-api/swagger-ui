@@ -58,6 +58,13 @@ export const getDefinitionsByNames = ( state, securities ) => ( { specSelectors 
   return result
 }
 
+export const definitionsForRequirements = (state, securities) => ({ authSelectors }) => {
+  const allDefinitions = authSelectors.definitionsToAuthorize()
+  return allDefinitions.filter((def, name) => {
+    return securities.has(name)
+  })
+}
+
 export const authorized = createSelector(
     state,
     auth => auth.get("authorized") || Map()
