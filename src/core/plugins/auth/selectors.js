@@ -58,10 +58,10 @@ export const getDefinitionsByNames = ( state, securities ) => ( { specSelectors 
   return result
 }
 
-export const definitionsForRequirements = (state, securities) => ({ authSelectors }) => {
-  const allDefinitions = authSelectors.definitionsToAuthorize()
-  return allDefinitions.filter((def, name) => {
-    return securities.has(name)
+export const definitionsForRequirements = (state, securities = List()) => ({ authSelectors }) => {
+  const allDefinitions = authSelectors.definitionsToAuthorize() || List()
+  return allDefinitions.filter((def) => {
+    return securities.some(sec => sec.get(def.keySeq().first()))
   })
 }
 
