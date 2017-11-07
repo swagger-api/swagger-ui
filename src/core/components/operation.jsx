@@ -1,5 +1,4 @@
 import React, { PureComponent } from "react"
-import { List } from "immutable"
 import PropTypes from "prop-types"
 import { getList } from "core/utils"
 import * as CustomPropTypes from "core/proptypes"
