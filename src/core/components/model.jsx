@@ -10,7 +10,8 @@ export default class Model extends Component {
     isRef: PropTypes.bool,
     required: PropTypes.bool,
     expandDepth: PropTypes.number,
-    depth: PropTypes.number
+    depth: PropTypes.number,
+    specPath: PropTypes.array.isRequired,
   }
 
   getModelName =( ref )=> {
@@ -29,13 +30,13 @@ export default class Model extends Component {
   }
 
   render () {
-    let { getComponent, specSelectors, schema, required, name, isRef } = this.props
+    let { getComponent, specSelectors, schema, required, name, isRef, specPath } = this.props
     const ObjectModel = getComponent("ObjectModel")
     const ArrayModel = getComponent("ArrayModel")
     const PrimitiveModel = getComponent("PrimitiveModel")
     let type = "object"
     let $$ref = schema && schema.get("$$ref")
-    
+
     // If we weren't passed a `name` but have a ref, grab the name from the ref
     if ( !name && $$ref ) {
       name = this.getModelName( $$ref )
@@ -44,15 +45,16 @@ export default class Model extends Component {
     if ( !schema && $$ref ) {
       schema = this.getRefSchema( name )
     }
-    
+
     const deprecated = specSelectors.isOAS3() && schema.get("deprecated")
     isRef = isRef !== undefined ? isRef : !!$$ref
     type = schema && schema.get("type") || type
-    
+
     switch(type) {
       case "object":
         return <ObjectModel
           className="object" { ...this.props }
+          specPath={specPath}
           schema={ schema }
           name={ name }
           deprecated={deprecated}

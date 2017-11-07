@@ -14,7 +14,7 @@ export default class Operation extends PureComponent {
     showSummary: PropTypes.bool,
 
     isShownKey: CustomPropTypes.arrayOrString.isRequired,
-    jumpToKey: CustomPropTypes.arrayOrString.isRequired,
+    specPath: PropTypes.array.isRequired,
 
     allowTryItOut: PropTypes.bool,
 
@@ -103,7 +103,7 @@ export default class Operation extends PureComponent {
   render() {
     let {
       isShownKey,
-      jumpToKey,
+      specPath,
       path,
       method,
       operation,
@@ -161,7 +161,7 @@ export default class Operation extends PureComponent {
 
     return (
         <div className={deprecated ? "opblock opblock-deprecated" : shown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={isShownKey.join("-")} >
-          <div className={`opblock-summary opblock-summary-${method}`} onClick={this.toggleShown} >
+          <div className={`opblock-summary opblock-summary-${method}`} onClick={this.toggleShown} > {/*TODO: convert this into a component, that can be wrapped and pulled in with getComponent */}
               <span className="opblock-summary-method">{method.toUpperCase()}</span>
               <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } >
               <a
@@ -170,7 +170,7 @@ export default class Operation extends PureComponent {
                 href={isDeepLinkingEnabled ? `#/${isShownKey[1]}/${isShownKey[2]}` : null}>
                 <span>{path}</span>
               </a>
-                <JumpToPath path={jumpToKey} />
+                <JumpToPath path={specPath} /> {/*TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
               </span>
 
             { !showSummary ? null :
@@ -213,6 +213,7 @@ export default class Operation extends PureComponent {
               }
               <Parameters
                 parameters={parameters}
+                specPath={[...specPath, "parameters"]}
                 operation={operation}
                 onChangeKey={onChangeKey}
                 onTryoutClick = { this.onTryoutClick }
@@ -274,6 +275,7 @@ export default class Operation extends PureComponent {
                     produces={ produces }
                     producesValue={ operation.get("produces_value") }
                     pathMethod={ [path, method] }
+                    specPath={[...specPath, "responses"]}
                     displayRequestDuration={ displayRequestDuration }
                     fn={fn} />
               }

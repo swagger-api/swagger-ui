@@ -15,6 +15,7 @@ export default class Models extends Component {
     let definitions = specSelectors.definitions()
     let { docExpansion, defaultModelExpandDepth } = getConfigs()
     let showModels = layoutSelectors.isShown("models", docExpansion === "full" || docExpansion === "list" )
+    const specPathBase = specSelectors.isOAS3() ? ["components", "schemas"] : ["definitions"]
 
     const ModelWrapper = getComponent("ModelWrapper")
     const Collapse = getComponent("Collapse")
@@ -31,12 +32,17 @@ export default class Models extends Component {
       <Collapse isOpened={showModels}>
         {
           definitions.entrySeq().map( ( [ name, model ])=>{
-            return <div className="model-container" key={ `models-section-${name}` }>
+
+            return <div id={ `model-${name}` } className="model-container" key={ `models-section-${name}` }>
               <ModelWrapper name={ name }
                      expandDepth={ defaultModelExpandDepth }
                      schema={ model }
+                     specPath={[...specPathBase, name]}
                      getComponent={ getComponent }
-                     specSelectors={ specSelectors }/>
+                     specSelectors={ specSelectors }
+                     getConfigs = {getConfigs}
+                     layoutSelectors = {layoutSelectors}
+                     layoutActions = {layoutActions}/>
               </div>
           }).toArray()
         }
