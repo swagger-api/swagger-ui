@@ -3,7 +3,7 @@ import expect from "expect"
 import { fromJS } from "immutable"
 import { definitionsToAuthorize, definitionsForRequirements } from "corePlugins/auth/selectors"
 
-describe.only("auth plugin - selectors", () => {
+describe("auth plugin - selectors", () => {
   describe("definitionsToAuthorize", () => {
     it("should return securityDefinitions as a List", () => {
       const securityDefinitions = {
