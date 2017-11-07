@@ -11,7 +11,7 @@ export const shownDefinitions = createSelector(
 export const definitionsToAuthorize = createSelector(
     state,
     () => ( { specSelectors } ) => {
-      let definitions = specSelectors.securityDefinitions()
+      let definitions = specSelectors.securityDefinitions() || Map({})
       let list = List()
 
       //todo refactor
