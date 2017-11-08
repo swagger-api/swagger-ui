@@ -53,6 +53,7 @@ export default class LiveResponse extends React.Component {
 
     const Curl = getComponent("curl")
     const ResponseBody = getComponent("responseBody")
+    const RequestUrl = getComponent("RequestUrl")
     const returnObject = headersKeys.map(key => {
       return <span className="headerline" key={key}> {key}: {headers[key]} </span>
     })
@@ -61,12 +62,8 @@ export default class LiveResponse extends React.Component {
     return (
       <div>
         { curlRequest && <Curl request={ curlRequest }/> }
-        { url && <div>
-            <h4>Request URL</h4>
-            <div className="request-url">
-              <pre>{url}</pre>
-            </div>
-          </div>
+        { url &&
+            <RequestUrl url={url}/>
         }
         <h4>Server response</h4>
         <table className="responses-table">
