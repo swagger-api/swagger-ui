@@ -183,9 +183,13 @@ export default class Operation extends PureComponent {
 
             {
               (!security || !security.count()) ? null :
-                <AuthorizeOperationBtn authActions={ authActions }
-                  security={ security }
-                  authSelectors={ authSelectors }/>
+                <AuthorizeOperationBtn
+                  isAuthorized={ authSelectors.isAuthorized(security) }
+                  onClick={() => {
+                    const applicableDefinitions = authSelectors.definitionsForRequirements(security)
+                    authActions.showDefinitions(applicableDefinitions)
+                  }}
+                />
             }
           </div>
 

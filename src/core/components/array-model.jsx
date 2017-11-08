@@ -25,6 +25,7 @@ export default class ArrayModel extends Component {
     const Markdown = getComponent("Markdown")
     const ModelCollapse = getComponent("ModelCollapse")
     const Model = getComponent("Model")
+    const Property = getComponent("Property")
 
     const titleEl = title &&
       <span className="model-title">
@@ -40,9 +41,7 @@ export default class ArrayModel extends Component {
       <ModelCollapse title={titleEl} expanded={ depth <= expandDepth } collapsedContent="[...]">
         [
           {
-            properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <span key={`${key}-${v}`} style={ propStyle }>
-              <br />{ key }: { String(v) }</span>)
-              : null
+            properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propVal={ v } propStyle={ propStyle } />) : null
           }
           {
             !description ? null :

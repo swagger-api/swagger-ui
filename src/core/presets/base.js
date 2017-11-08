@@ -53,6 +53,7 @@ import EnumModel from "core/components/enum-model"
 import ObjectModel from "core/components/object-model"
 import ArrayModel from "core/components/array-model"
 import PrimitiveModel from "core/components/primitive-model"
+import Property from "core/components/property"
 import TryItOutButton from "core/components/try-it-out-button"
 import VersionStamp from "core/components/version-stamp"
 import RequestUrl from "core/components/request-url"
@@ -108,6 +109,7 @@ export default function() {
       ObjectModel,
       ArrayModel,
       PrimitiveModel,
+      Property,
       TryItOutButton,
       Markdown,
       BaseLayout,
