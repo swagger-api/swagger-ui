@@ -73,10 +73,8 @@ export default class LiveResponse extends React.Component {
     return (
       <div>
         { curlRequest && <Curl request={ curlRequest }/> }
-        { url && <div>
-            <h4>Request URL</h4>
+        { url &&
             <RequestUrl url={url}/>
-          </div>
         }
         <h4>Server response</h4>
         <table className="responses-table">
