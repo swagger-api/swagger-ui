@@ -85,15 +85,10 @@
     "whatwg-fetch": "0.11.1",
     "worker-loader": "^0.7.1",
     "xml": "1.0.1",
-<<<<<<< HEAD
-    "yaml-js": "0.2.0",
-    "zenscroll": "4.0.0"
-=======
     "xml-but-prettier": "^1.0.1",
     "yaml-js": "0.2.0",
     "zenscroll": "4.0.0"
 
->>>>>>> oss/feature/merged
   },
   "devDependencies": {
     "autoprefixer": "7.1.1",
