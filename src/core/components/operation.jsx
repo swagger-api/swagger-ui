@@ -147,7 +147,7 @@ export default class Operation extends PureComponent {
     const Schemes = getComponent( "schemes" )
     const OperationExt = getComponent( "OperationExt" )
 
-    const { deepLinking } = getConfigs()
+    const { deepLinking, showExtensions } = getConfigs()
 
     const isDeepLinkingEnabled = deepLinking && deepLinking !== "false"
 
@@ -285,7 +285,7 @@ export default class Operation extends PureComponent {
                     fn={fn} />
               }
 
-              { !extensions.size ? null :
+              { !showExtensions || !extensions.size ? null :
                 <OperationExt extensions={ extensions } getComponent={ getComponent } />
               }
             </div>

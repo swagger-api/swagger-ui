@@ -73,6 +73,8 @@ export default class ParameterRow extends Component {
 
     let { isOAS3 } = specSelectors
 
+    const { showExtensions } = getConfigs()
+
     // const onChangeWrapper = (value) => onChange(param, value)
     const JsonSchemaForm = getComponent("JsonSchemaForm")
     const ParamBody = getComponent("ParamBody")
@@ -116,7 +118,7 @@ export default class ParameterRow extends Component {
             { isOAS3 && isOAS3() && param.get("deprecated") ? "deprecated": null }
           </div>
           <div className="parameter__in">({ param.get("in") })</div>
-          { !extensions.size ? null : extensions.map((v, key) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} /> )}
+          { !showExtensions || !extensions.size ? null : extensions.map((v, key) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} /> )}
         </td>
 
         <td className="col parameters-col_description">
