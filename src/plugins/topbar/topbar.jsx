@@ -1,4 +1,4 @@
-import React from "react"
+import React, { cloneElement } from "react"
 import PropTypes from "prop-types"
 
 //import "./topbar.less"
@@ -112,7 +112,7 @@ export default class Topbar extends React.Component {
       })
 
       control.push(
-        <label key={1} className="select-label" htmlFor="select"><span>Select a spec</span>
+        <label className="select-label" htmlFor="select"><span>Select a spec</span>
           <select id="select" disabled={isLoading} onChange={ this.onUrlSelect } value={urls[this.state.selectedIndex].url}>
             {rows}
           </select>
@@ -121,8 +121,8 @@ export default class Topbar extends React.Component {
     }
     else {
       formOnSubmit = this.downloadUrl
-      control.push(<input key={1} className="download-url-input" type="text" onChange={ this.onUrlChange } value={this.state.url} disabled={isLoading} style={inputStyle} />)
-      control.push(<Button key={2} className="download-url-button" onClick={ this.downloadUrl }>Explore</Button>)
+      control.push(<input className="download-url-input" type="text" onChange={ this.onUrlChange } value={this.state.url} disabled={isLoading} style={inputStyle} />)
+      control.push(<Button className="download-url-button" onClick={ this.downloadUrl }>Explore</Button>)
     }
 
     return (
@@ -134,7 +134,7 @@ export default class Topbar extends React.Component {
               <span>swagger</span>
             </Link>
             <form className="download-url-wrapper" onSubmit={formOnSubmit}>
-              {control}
+              {control.map((el, i) => cloneElement(el, { key: i }))}
             </form>
           </div>
         </div>
