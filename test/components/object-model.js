@@ -46,7 +46,7 @@ describe("<ObjectModel />", function() {
       },
       className: "for-test"
     }
-    it("renders a callapsible header", function(){
+    it("renders a collapsible header", function(){
       const wrapper = shallow(<ObjectModel {...props}/>)
       const renderedModelCollapse = wrapper.find(ModelCollapse)
       expect(renderedModelCollapse.length).toEqual(1)
