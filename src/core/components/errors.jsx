@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { List } from "immutable"
-import Collapse from "react-collapse"
+import { Collapse } from "react-collapse"
 
 export default class Errors extends React.Component {
 
