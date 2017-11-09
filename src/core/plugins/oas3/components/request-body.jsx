@@ -50,7 +50,7 @@ RequestBody.propTypes = {
   getComponent: PropTypes.func.isRequired,
   getConfigs: PropTypes.func.isRequired,
   specSelectors: PropTypes.object.isRequired,
-  contentType: PropTypes.string.isRequired,
+  contentType: PropTypes.string,
   isExecute: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired
 }
