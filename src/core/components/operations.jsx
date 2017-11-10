@@ -1,4 +1,5 @@
 import React from "react"
+import { List } from "immutable"
 import PropTypes from "prop-types"
 import { helpers } from "swagger-client"
 import { createDeepLinkPath, sanitizeUrl } from "core/utils"
@@ -127,7 +128,8 @@ export default class Operations extends React.Component {
 
                         const operationId =
                         op.getIn(["operation", "operationId"]) || op.getIn(["operation", "__originalOperationId"]) || opId(op.get("operation"), path, method) || op.get("id")
-                        const isShownKey = ["operations", createDeepLinkPath(tag), createDeepLinkPath(operationId)]
+                        const tagKey = createDeepLinkPath(tag)
+                        const operationKey = createDeepLinkPath(operationId)
 
                         const allowTryItOut = specSelectors.allowTryItOutFor(op.get("path"), op.get("method"))
                         const response = specSelectors.responseFor(op.get("path"), op.get("method"))
@@ -135,11 +137,12 @@ export default class Operations extends React.Component {
 
                         return <Operation
                           {...op.toObject()}
-
-                          isShownKey={isShownKey}
+                          tagKey={tagKey}
+                          operationKey={operationKey}
+                          isShown={layoutSelectors.isShown(["operations", tagKey, operationKey])}
                           jumpToKey={jumpToKey}
                           showSummary={showSummary}
-                          key={isShownKey}
+                          key={tagKey + operationKey}
                           response={ response }
                           request={ request }
                           allowTryItOut={allowTryItOut}
