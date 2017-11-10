@@ -1,5 +1,4 @@
 import React from "react"
-import { List } from "immutable"
 import PropTypes from "prop-types"
 import { helpers } from "swagger-client"
 import { createDeepLinkPath, sanitizeUrl } from "core/utils"
