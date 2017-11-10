@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import OriCollapse from "react-collapse"
+import { Collapse as OriCollapse } from "react-collapse"
 
 function xclass(...args) {
   return args.filter(a => !!a).join(" ").trim()
