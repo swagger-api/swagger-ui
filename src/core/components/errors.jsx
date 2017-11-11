@@ -113,7 +113,7 @@ const SpecErrorItem = ( { error, jumpToLine } ) => {
   }
 
 function toTitleCase(str) {
-  return str
+  return (str || "")
     .split(" ")
     .map(substr => substr[0].toUpperCase() + substr.slice(1))
     .join(" ")
