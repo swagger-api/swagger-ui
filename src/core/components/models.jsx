@@ -14,7 +14,7 @@ export default class Models extends Component {
     let { specSelectors, getComponent, layoutSelectors, layoutActions, getConfigs } = this.props
     let definitions = specSelectors.definitions()
     let { docExpansion, defaultModelExpandDepth } = getConfigs()
-    let showModels = layoutSelectors.isShown("models", docExpansion === "full" || docExpansion === "list" )
+    let showModels = layoutSelectors.isShown("models", defaultModelExpandDepth > -1 && docExpansion !== "none")
 
     const ModelWrapper = getComponent("ModelWrapper")
     const Collapse = getComponent("Collapse")
