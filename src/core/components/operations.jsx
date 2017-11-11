@@ -138,7 +138,7 @@ export default class Operations extends React.Component {
                           {...op.toObject()}
                           tagKey={tagKey}
                           operationKey={operationKey}
-                          isShown={layoutSelectors.isShown(["operations", tagKey, operationKey])}
+                          isShown={layoutSelectors.isShown(["operations", tagKey, operationKey], docExpansion === "full")}
                           jumpToKey={jumpToKey}
                           showSummary={showSummary}
                           key={tagKey + operationKey}
