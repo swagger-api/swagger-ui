@@ -109,9 +109,6 @@ export default class HttpAuth extends React.Component {
               <Markdown source={ schema.get("description") } />
             </Row>
             <Row>
-              <p>In: <code>{ schema.get("in") }</code></p>
-            </Row>
-            <Row>
               <label>Value:</label>
               {
                 value ? <code> ****** </code>

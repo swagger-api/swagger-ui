@@ -2,6 +2,7 @@ import {
   NEW_THROWN_ERR,
   NEW_THROWN_ERR_BATCH,
   NEW_SPEC_ERR,
+  NEW_SPEC_ERR_BATCH,
   NEW_AUTH_ERR,
   CLEAR
 } from "./actions"
@@ -43,6 +44,15 @@ export default function(system) {
       return state
         .update("errors", errors => (errors || List()).push( fromJS(error)).sortBy(err => err.get("line")) )
         .update("errors", errors => transformErrors(errors, system.getSystem()))
+    },
+
+    [NEW_SPEC_ERR_BATCH]: (state, { payload }) => {
+      payload = payload.map(err => {
+        return fromJS(Object.assign(DEFAULT_ERROR_STRUCTURE, err, { type: "spec" }))
+      })
+      return state
+      .update("errors", errors => (errors || List()).concat( fromJS( payload )) )
+      .update("errors", errors => transformErrors(errors, system.getSystem()))
     },
 
     [NEW_AUTH_ERR]: (state, { payload }) => {
