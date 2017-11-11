@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { OrderedMap } from "immutable"
+import { memoizedGetExamples } from "core/plugins/oas3/utils"
 
 const RequestBody = ({
   requestBody,
@@ -22,6 +23,8 @@ const RequestBody = ({
 
   const mediaTypeValue = requestBodyContent.get(contentType)
 
+  const examples = memoizedGetExamples(mediaTypeValue.get("examples"))
+
   return <div>
     { requestBodyDescription &&
       <Markdown source={requestBodyDescription} />
@@ -40,8 +43,9 @@ const RequestBody = ({
         getComponent={getComponent}
         isExecute={isExecute}
         specSelectors={specSelectors}
-        />}
-      />
+      />}
+      examples={examples}
+    />
   </div>
 }
 

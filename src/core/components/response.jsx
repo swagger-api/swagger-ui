@@ -1,33 +1,33 @@
 import React from "react"
 import PropTypes from "prop-types"
 import cx from "classnames"
-import { fromJS, Seq } from "immutable"
-import { getSampleSchema, fromJSOrdered } from "core/utils"
+import { fromJS, OrderedMap, Seq } from "immutable"
+import { fromJSOrdered, getSampleSchema } from "core/utils"
 
 const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
-  if ( examples && examples.size ) {
-    return examples.entrySeq().map( ([ key, example ]) => {
-      let exampleValue = example
-      if ( example.toJS ) {
-        try {
-          exampleValue = JSON.stringify(example.toJS(), null, 2)
-        }
-        catch(e) {
-          exampleValue = String(example)
-        }
-      }
-
-      return (<div key={ key }>
-        <h5>{ key }</h5>
-        <HighlightCode className="example" value={ exampleValue } />
-      </div>)
-    }).toArray()
-  }
-
   if ( sampleResponse ) { return <div>
       <HighlightCode className="example" value={ sampleResponse } />
     </div>
   }
+  if ( examples && examples.size ) {
+    let [key, example] = examples.entrySeq().first()
+
+    let exampleValue = example
+    if (example.toJS) {
+      try {
+        exampleValue = JSON.stringify(example.toJS(), null, 2)
+      }
+      catch (e) {
+        exampleValue = String(example)
+      }
+    }
+
+    return (<div key={key}>
+      <h5>{key}</h5>
+      <HighlightCode className="example" value={exampleValue}/>
+    </div>)
+  }
+
   return null
 }
 
@@ -102,6 +102,16 @@ export default class Response extends React.Component {
         includeReadOnly: true
       }) : null
       schema = oas3SchemaForContentType ? inferSchema(oas3SchemaForContentType.toJS()) : null
+      examples = response.getIn(["content", this.state.responseContentType, "examples"])
+
+      if(!examples) {
+        // The example object is mutually exclusive of the examples object. Prefer `examples` here.
+        let example = response.getIn(["content", this.state.responseContentType, "example"])
+
+        if(example) {
+          examples = OrderedMap({"Example": example})
+        }
+      }
     } else {
       schema = inferSchema(response.toJS())
       sampleResponse = schema ? getSampleSchema(schema, contentType, {
@@ -149,7 +159,9 @@ export default class Response extends React.Component {
               getConfigs={ getConfigs }
               specSelectors={ specSelectors }
               schema={ fromJSOrdered(schema) }
-              example={ example }/>
+              example={ example }
+              examples={ examples }
+            />
           ) : null}
 
           { headers ? (
