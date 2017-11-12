@@ -10,6 +10,7 @@ import auth from "core/plugins/auth"
 import util from "core/plugins/util"
 import SplitPaneModePlugin from "core/plugins/split-pane-mode"
 import downloadUrlPlugin from "core/plugins/download-url"
+import configsPlugin from "plugins/configs"
 import deepLinkingPlugin from "core/plugins/deep-linking"
 
 import App from "core/components/app"
@@ -17,6 +18,7 @@ import AuthorizationPopup from "core/components/auth/authorization-popup"
 import AuthorizeBtn from "core/components/auth/authorize-btn"
 import AuthorizeOperationBtn from "core/components/auth/authorize-operation-btn"
 import Auths from "core/components/auth/auths"
+import AuthItem from "core/components/auth/auth-item"
 import AuthError from "core/components/auth/error"
 import ApiKeyAuth from "core/components/auth/api-key-auth"
 import BasicAuth from "core/components/auth/basic-auth"
@@ -51,6 +53,7 @@ import EnumModel from "core/components/enum-model"
 import ObjectModel from "core/components/object-model"
 import ArrayModel from "core/components/array-model"
 import PrimitiveModel from "core/components/primitive-model"
+import Property from "core/components/property"
 import TryItOutButton from "core/components/try-it-out-button"
 import VersionStamp from "core/components/version-stamp"
 
@@ -70,6 +73,7 @@ export default function() {
       authorizeBtn: AuthorizeBtn,
       authorizeOperationBtn: AuthorizeOperationBtn,
       auths: Auths,
+      AuthItem: AuthItem,
       authError: AuthError,
       oauth2: Oauth2,
       apiKeyAuth: ApiKeyAuth,
@@ -104,6 +108,7 @@ export default function() {
       ObjectModel,
       ArrayModel,
       PrimitiveModel,
+      Property,
       TryItOutButton,
       Markdown,
       BaseLayout,
@@ -120,6 +125,7 @@ export default function() {
   }
 
   return [
+    configsPlugin,
     util,
     logs,
     view,

@@ -24,24 +24,23 @@ export default class ArrayModel extends Component {
     const Markdown = getComponent("Markdown")
     const ModelCollapse = getComponent("ModelCollapse")
     const Model = getComponent("Model")
+    const Property = getComponent("Property")
 
     const titleEl = title &&
       <span className="model-title">
         <span className="model-title__text">{ title }</span>
       </span>
 
-    /* 
+    /*
     Note: we set `name={null}` in <Model> below because we don't want
     the name of the current Model passed (and displayed) as the name of the array element Model
-    */ 
+    */
 
     return <span className="model">
       <ModelCollapse title={titleEl} collapsed={ depth > expandDepth } collapsedContent="[...]">
         [
           {
-            properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <span key={`${key}-${v}`} style={ propStyle }>
-              <br />{ key }: { String(v) }</span>)
-              : null
+            properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propVal={ v } propStyle={ propStyle } />) : null
           }
           {
             !description ? null :

@@ -1,7 +1,7 @@
-import React, { Component } from "react"
+import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 
-export default class Model extends Component {
+export default class Model extends PureComponent {
   static propTypes = {
     schema: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
@@ -35,7 +35,7 @@ export default class Model extends Component {
     const PrimitiveModel = getComponent("PrimitiveModel")
     let type = "object"
     let $$ref = schema && schema.get("$$ref")
-    
+
     // If we weren't passed a `name` but have a ref, grab the name from the ref
     if ( !name && $$ref ) {
       name = this.getModelName( $$ref )
@@ -44,11 +44,11 @@ export default class Model extends Component {
     if ( !schema && $$ref ) {
       schema = this.getRefSchema( name )
     }
-    
+
     const deprecated = specSelectors.isOAS3() && schema.get("deprecated")
     isRef = isRef !== undefined ? isRef : !!$$ref
     type = schema && schema.get("type") || type
-    
+
     switch(type) {
       case "object":
         return <ObjectModel

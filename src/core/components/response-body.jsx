@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { formatXml } from "core/utils"
+import formatXml from "xml-but-prettier"
 import lowerCase from "lodash/lowerCase"
 
 export default class ResponseBody extends React.Component {
@@ -31,7 +31,10 @@ export default class ResponseBody extends React.Component {
 
       // XML
     } else if (/xml/i.test(contentType)) {
-      body = formatXml(content)
+      body = formatXml(content, {
+        textNodesOnSameLine: true,
+        indentor: "  "
+      })
       bodyEl = <HighlightCode value={ body } />
 
       // HTML or Plain Text

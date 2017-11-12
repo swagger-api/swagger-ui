@@ -137,7 +137,7 @@ module.exports = function(rules, options) {
       }
     },
 
-    devtool: specialOptions.sourcemaps ? "cheap-module-source-map" : null,
+  devtool: specialOptions.sourcemaps ? "nosource-source-map" : null,
 
     plugins,
 

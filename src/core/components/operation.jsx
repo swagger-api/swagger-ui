@@ -2,6 +2,7 @@ import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { getList } from "core/utils"
 import * as CustomPropTypes from "core/proptypes"
+import { sanitizeUrl } from "core/utils"
 
 //import "less/opblock"
 
@@ -11,8 +12,10 @@ export default class Operation extends PureComponent {
     method: PropTypes.string.isRequired,
     operation: PropTypes.object.isRequired,
     showSummary: PropTypes.bool,
+    isShown: PropTypes.bool.isRequired,
 
-    isShownKey: CustomPropTypes.arrayOrString.isRequired,
+    tagKey: PropTypes.string,
+    operationKey: PropTypes.string,
     jumpToKey: CustomPropTypes.arrayOrString.isRequired,
 
     allowTryItOut: PropTypes.bool,
@@ -51,38 +54,16 @@ export default class Operation extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const defaultContentType = "application/json"
-    let { specActions, path, method, operation } = nextProps
-    let producesValue = operation.get("produces_value")
-    let produces = operation.get("produces")
-    let consumes = operation.get("consumes")
-    let consumesValue = operation.get("consumes_value")
-
     if(nextProps.response !== this.props.response) {
       this.setState({ executeInProgress: false })
-    }
-
-    if (producesValue === undefined) {
-      producesValue = produces && produces.size ? produces.first() : defaultContentType
-      specActions.changeProducesValue([path, method], producesValue)
-    }
-
-    if (consumesValue === undefined) {
-      consumesValue = consumes && consumes.size ? consumes.first() : defaultContentType
-      specActions.changeConsumesValue([path, method], consumesValue)
     }
   }
 
   toggleShown =() => {
-    let { layoutActions, isShownKey } = this.props
-    layoutActions.show(isShownKey, !this.isShown())
-  }
+    let { layoutActions, tagKey, operationKey, isShown } = this.props
+    const isShownKey = ["operations", tagKey, operationKey]
 
-  isShown =() => {
-    let { layoutSelectors, isShownKey, getConfigs } = this.props
-    let { docExpansion } = getConfigs()
-
-    return layoutSelectors.isShown(isShownKey, docExpansion === "full" ) // Here is where we set the default
+    layoutActions.show(isShownKey, !isShown)
   }
 
   onTryoutClick =() => {
@@ -101,7 +82,9 @@ export default class Operation extends PureComponent {
 
   render() {
     let {
-      isShownKey,
+      operationKey,
+      tagKey,
+      isShown,
       jumpToKey,
       path,
       method,
@@ -155,18 +138,17 @@ export default class Operation extends PureComponent {
     }
 
     let { tryItOutEnabled } = this.state
-    let shown = this.isShown()
     let onChangeKey = [ path, method ] // Used to add values to _this_ operation ( indexed by path and method )
 
     return (
-        <div className={deprecated ? "opblock opblock-deprecated" : shown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={isShownKey.join("-")} >
+        <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={`operations-${tagKey}-${operationKey}`} >
           <div className={`opblock-summary opblock-summary-${method}`} onClick={this.toggleShown} >
               <span className="opblock-summary-method">{method.toUpperCase()}</span>
               <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } >
               <a
                 className="nostyle"
                 onClick={isDeepLinkingEnabled ? (e) => e.preventDefault() : null}
-                href={isDeepLinkingEnabled ? `#/${isShownKey[1]}/${isShownKey[2]}` : null}>
+                href={isDeepLinkingEnabled ? `#/${tagKey}/${operationKey}` : null}>
                 <span>{path}</span>
               </a>
                 <JumpToPath path={jumpToKey} />
@@ -182,13 +164,17 @@ export default class Operation extends PureComponent {
 
             {
               (!security || !security.count()) ? null :
-                <AuthorizeOperationBtn authActions={ authActions }
-                  security={ security }
-                  authSelectors={ authSelectors }/>
+                <AuthorizeOperationBtn
+                  isAuthorized={ authSelectors.isAuthorized(security) }
+                  onClick={() => {
+                    const applicableDefinitions = authSelectors.definitionsForRequirements(security)
+                    authActions.showDefinitions(applicableDefinitions)
+                  }}
+                />
             }
           </div>
 
-          <Collapse isOpened={shown}>
+          <Collapse isOpened={isShown}>
             <div className="opblock-body">
               { deprecated && <h4 className="opblock-title_normal"> Warning: Deprecated</h4>}
               { description &&
@@ -206,7 +192,7 @@ export default class Operation extends PureComponent {
                     <span className="opblock-external-docs__description">
                       <Markdown source={ externalDocs.get("description") } />
                     </span>
-                    <a className="opblock-external-docs__link" href={ externalDocs.get("url") }>{ externalDocs.get("url") }</a>
+                    <a className="opblock-external-docs__link" href={ sanitizeUrl(externalDocs.get("url")) }>{ externalDocs.get("url") }</a>
                   </div>
                 </div> : null
               }

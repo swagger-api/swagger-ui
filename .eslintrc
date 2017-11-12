@@ -16,7 +16,8 @@
   "extends": ["eslint:recommended", "plugin:react/recommended"],
 
   "plugins": [
-    "react"
+    "react",
+    "mocha"
   ],
 
   "rules": {
@@ -32,6 +33,7 @@
     "comma-dangle": 0,
     "no-console": ["error", { allow: ["warn", "error"] }],
     "react/jsx-no-bind": 1,
-    "react/display-name": 0
+    "react/display-name": 0,
+    "mocha/no-exclusive-tests": "error"
   }
 }
