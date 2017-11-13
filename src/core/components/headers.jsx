@@ -2,20 +2,24 @@ import React from "react"
 import PropTypes from "prop-types"
 import Im from "immutable"
 
+const propStyle = { color: "#999", fontStyle: "italic" }
+
 export default class Headers extends React.Component {
 
   static propTypes = {
-    headers: PropTypes.object.isRequired
+    headers: PropTypes.object.isRequired,
+    getComponent: PropTypes.func.isRequired
   };
 
   render() {
 
-    let { headers } = this.props
+    let { headers, getComponent } = this.props
+    const Property = getComponent("Property")
 
     if ( !headers || !headers.size )
       return null
 
-    return (
+      return (
       <div className="headers-wrapper">
         <h4 className="headers__title">Headers:</h4>
         <table className="headers">
@@ -35,7 +39,7 @@ export default class Headers extends React.Component {
               return (<tr key={ key }>
                 <td className="header-col">{ key }</td>
                 <td className="header-col">{ header.get( "description" ) }</td>
-                <td className="header-col">{ header.get( "type" ) }</td>
+                <td className="header-col">{ header.get( "schema" ).get( "type" ) } { header.get( "schema" ).get( "example" ) ? <Property propKey={ "Example" } propVal={ header.get( "schema" ).get( "example" ) } propStyle={ propStyle } /> : null }</td>
               </tr>)
             }).toArray()
           }
