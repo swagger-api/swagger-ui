@@ -84,6 +84,7 @@ describe("render pet api container", function () {
             
         client.end()
     })
+    
     it("Testing put /pet api Mock data", function (client) {
         apiWrapper.waitForElementVisible("@petOperationPutContainer", 5000)
             .click("@petOperationPutCollpase")
@@ -137,6 +138,38 @@ describe("render pet api container", function () {
 
         client.end()
     })
+    
+    it("render get by ID /pet/{petId} api container", function (client) {
+        apiWrapper.waitForElementVisible("@petOperationGetByIdContainer", 5000)
+            .assert.containsText("@petOperationGetByIdTitle", "/pet/{petId}")
+            .click("@petOperationGetByIdCollpase")
+            .waitForElementVisible("@petOperationGetByIdCollapseContainer", 3000)
+            .click("@petOperationGetByIdTryBtn")
+            .waitForElementVisible("@petOperationGetByTagExecuteBtn", 1000)
+            .click("@petOperationGetByTagTryBtn")
+            .assert.cssClassNotPresent("@petOperationGetByTagTryBtn", "cancel")
+            
+        client.end()
+    })
+
+    it("render get by ID /pet/{petId} api Mock data", function (client) {
+        apiWrapper.waitForElementVisible("@petOperationGetByIdContainer", 5000)
+            .assert.containsText("@petOperationGetByIdTitle", "/pet/{petId}")
+            .click("@petOperationGetByIdCollpase")
+            .waitForElementVisible("@petOperationGetByIdCollapseContainer", 3000)
+            .click("@petOperationGetByIdTryBtn")
+            .waitForElementVisible("@petOperationGetByTagExecuteBtn", 1000)
+            .setValue("@petOperationGetByIdParameter", "abc")
+            .click("@petOperationGetByIdExecuteBtn")
+            .waitForElementVisible("@petOperationGetByIdResultsBox")
+            .assert.containsText("@petOperationGetByIdParameter", "abc")
+            .assert.cssClassPresent("@petOperationGetByIdParameter", "invalid")
+            .assert.attributeEquals("@petOperationGetByIdParameter", "title", "Value must be an integer")
+            .click("@petOperationGetByTagTryBtn")
+            .assert.cssClassNotPresent("@petOperationGetByTagTryBtn", "cancel")
+            
+        client.end()
+    })
 
     it("render delete /pet api container", function (client) {
         apiWrapper.waitForElementVisible("@petOperationDeleteContainer")
@@ -150,6 +183,7 @@ describe("render pet api container", function () {
             
         client.end()
     })
+    
     it("Testing delete /pet api Mock data", function (client) {
         apiWrapper.waitForElementVisible("@petOperationDeleteContainer", 3000)
             .click("@petOperationDeleteCollpase")

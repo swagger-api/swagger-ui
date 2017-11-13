@@ -58,6 +58,7 @@ export class JsonSchema_string extends Component {
     if ( enumValue ) {
       const Select = getComponent("Select")
       return (<Select className={ errors.length ? "invalid" : ""}
+                      title={ errors.length ? errors  : ""}
                       allowedValues={ enumValue }
                       value={ value }
                       allowEmptyValue={ !required }
@@ -67,10 +68,20 @@ export class JsonSchema_string extends Component {
     const isDisabled = schema["in"] === "formData" && !("FormData" in window)
     const Input = getComponent("Input")
     if (schema["type"] === "file") {
-      return <Input type="file" className={ errors.length ? "invalid" : ""} onChange={ this.onChange } disabled={isDisabled}/>
+      return (<Input type="file" 
+                     className={ errors.length ? "invalid" : ""} 
+                     title={ errors.length ? errors  : ""}
+                     onChange={ this.onChange } 
+                     disabled={isDisabled}/>)
     }
     else {
-      return <Input type={ schema.format === "password" ? "password" : "text" } className={ errors.length ? "invalid" : ""} value={value} placeholder={description} onChange={ this.onChange } disabled={isDisabled}/>
+      return (<Input type={ schema.format === "password" ? "password" : "text" } 
+                     className={ errors.length ? "invalid" : ""} 
+                     title={ errors.length ? errors  : ""}
+                     value={value} 
+                     placeholder={description} 
+                     onChange={ this.onChange } 
+                     disabled={isDisabled}/>)
     }
   }
 }
@@ -134,11 +145,12 @@ export class JsonSchema_array extends PureComponent {
     if ( enumValue ) {
       const Select = getComponent("Select")
       return (<Select className={ errors.length ? "invalid" : ""}
-                     multiple={ true }
-                     value={ value }
-                     allowedValues={ enumValue }
-                     allowEmptyValue={ !required }
-                     onChange={ this.onEnumChange }/>)
+                      title={ errors.length ? errors  : ""}
+                      multiple={ true }
+                      value={ value }
+                      allowedValues={ enumValue }
+                      allowEmptyValue={ !required }
+                      onChange={ this.onEnumChange }/>)
     }
 
     return (
@@ -175,6 +187,7 @@ export class JsonSchema_boolean extends Component {
     const Select = getComponent("Select")
 
     return (<Select className={ errors.length ? "invalid" : ""}
+                    title={ errors.length ? errors  : ""}
                     value={ String(value) }
                     allowedValues={ fromJS(["true", "false"]) }
                     allowEmptyValue={ true }

@@ -494,8 +494,8 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
     let listCheck = type === "array" && Im.List.isList(value) && value.count()
     let fileCheck = type === "file" && value instanceof win.File
     let booleanCheck = type === "boolean" && (value || value === false)
-    let numberCheck = type === "number" && value
-    let integerCheck = type === "integer" && value
+    let numberCheck = type === "number" && (value || value === 0)
+    let integerCheck = type === "integer" && (value || value === 0)
 
     if ( required && !(stringCheck || arrayCheck || listCheck || fileCheck || booleanCheck || numberCheck || integerCheck) ) {
       errors.push("Required field is not provided")

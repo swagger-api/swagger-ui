@@ -700,6 +700,14 @@ describe("utils", function() {
       }
       assertValidateParam(param, ["Required field is not provided"])
 
+      // valid integer, but 0 is falsy in JS
+      param = {
+        required: true,
+        type: "integer",
+        value: 0
+      }
+      assertValidateParam(param, [])
+
       // valid integer
       param = {
         required: true,
