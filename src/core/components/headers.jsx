@@ -36,10 +36,13 @@ export default class Headers extends React.Component {
               if(!Im.Map.isMap(header)) {
                 return null
               }
+              const type = header.getIn(["schema", "type"])
+              const schemaExample = header.getIn(["schema", "example"])
+
               return (<tr key={ key }>
                 <td className="header-col">{ key }</td>
                 <td className="header-col">{ header.get( "description" ) }</td>
-                <td className="header-col">{ header.get( "schema" ).get( "type" ) } { header.get( "schema" ).get( "example" ) ? <Property propKey={ "Example" } propVal={ header.get( "schema" ).get( "example" ) } propStyle={ propStyle } /> : null }</td>
+                <td className="header-col">{ type } { schemaExample ? <Property propKey={ "Example" } propVal={ schemaExample } propStyle={ propStyle } /> : null }</td>
               </tr>)
             }).toArray()
           }
