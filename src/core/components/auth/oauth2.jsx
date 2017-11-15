@@ -150,7 +150,6 @@ export default class Oauth2 extends React.Component {
                       <select id="password_type" data-name="passwordType" onChange={ this.onInputChange }>
                         <option value="request-body">Request body</option>
                         <option value="basic">Basic auth</option>
-                        <option value="query">Query parameters</option>
                       </select>
                     </Col>
                 }
@@ -158,7 +157,7 @@ export default class Oauth2 extends React.Component {
             </Row>
         }
         {
-          ( flow === APPLICATION || flow === IMPLICIT || flow === ACCESS_CODE || ( flow === PASSWORD && this.state.passwordType!== "basic") ) &&
+          ( flow === APPLICATION || flow === IMPLICIT || flow === ACCESS_CODE || flow === PASSWORD ) &&
           ( !isAuthorized || isAuthorized && this.state.clientId) && <Row>
             <label htmlFor="client_id">client_id:</label>
             {
@@ -176,7 +175,7 @@ export default class Oauth2 extends React.Component {
         }
 
         {
-          ( flow === APPLICATION || flow === ACCESS_CODE || ( flow === PASSWORD && this.state.passwordType!== "basic") ) && <Row>
+          ( flow === APPLICATION || flow === ACCESS_CODE || flow === PASSWORD ) && <Row>
             <label htmlFor="client_secret">client_secret:</label>
             {
               isAuthorized ? <code> ****** </code>
