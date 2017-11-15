@@ -73,25 +73,21 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
   let { schema, name, username, password, passwordType, clientId, clientSecret } = auth
   let form = {
     grant_type: "password",
-    scope: auth.scopes.join(scopeSeparator)
+    scope: auth.scopes.join(scopeSeparator),
+    username,
+    password
   }
   let query = {}
   let headers = {}
 
   if ( passwordType === "basic") {
-    headers.Authorization = "Basic " + btoa(username + ":" + password)
+    headers.Authorization = "Basic " + btoa(clientId + ":" + clientSecret)
   } else {
-    Object.assign(form, {username}, {password})
-
-    if ( passwordType === "query") {
-      if ( clientId ) {
-        query.client_id = clientId
-      }
-      if ( clientSecret ) {
-        query.client_secret = clientSecret
-      }
-    } else {
-      headers.Authorization = "Basic " + btoa(clientId + ":" + clientSecret)
+    if ( clientId ) {
+      Object.assign(form, {"client_id": clientId})
+    }
+    if ( clientSecret ) {
+      Object.assign(form, {"client_secret": clientSecret})
     }
   }
 
