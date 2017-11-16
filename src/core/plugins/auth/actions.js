@@ -141,7 +141,7 @@ export const authorizeAccessCodeWithBasicAuthentication = ( { auth, redirectUrl 
 
 export const authorizeRequest = ( data ) => ( { fn, authActions, errActions, authSelectors } ) => {
   let { body, query={}, headers={}, name, url, auth } = data
-  let { additionalQueryStringParams } = authSelectors.getConfigs() || {}
+  let { additionalQueryStringParams, additionalHeaders } = authSelectors.getConfigs() || {}
   let fetchUrl = url
 
   for (let key in additionalQueryStringParams) {
@@ -151,7 +151,7 @@ export const authorizeRequest = ( data ) => ( { fn, authActions, errActions, aut
   let _headers = Object.assign({
     "Accept":"application/json, text/plain, */*",
     "Content-Type": "application/x-www-form-urlencoded"
-  }, headers)
+  }, additionalHeaders, headers)
 
   fn.fetch({
     url: fetchUrl,
