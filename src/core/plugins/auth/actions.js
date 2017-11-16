@@ -1,5 +1,6 @@
 import win from "core/window"
 import { btoa, buildFormData } from "core/utils"
+import qs from "querystring"
 
 export const SHOW_AUTH_POPUP = "show_popup"
 export const AUTHORIZE = "authorize"
@@ -155,13 +156,16 @@ export const authorizeRequest = ( data ) => ( { fn, authActions, errActions, aut
 
   fn.fetch({
     url: fetchUrl,
+    loadSpec: true, // Required for now, to get the response as a string, not a blob.
     method: "post",
     headers: _headers,
     query: query,
     body: body
-  })
-  .then(function (response) {
-    let token = JSON.parse(response.data)
+  }).then(response => {
+    const contentType = response.headers["content-type"]
+    let token = /application\/x-www-form-urlencoded/.test(contentType)
+        ? qs.parse(response.data)
+        : JSON.parse(response.data)
     let error = token && ( token.error || "" )
     let parseError = token && ( token.parseError || "" )
 
