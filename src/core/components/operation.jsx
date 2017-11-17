@@ -54,11 +54,11 @@ export default class Operation extends PureComponent {
 
     let {
       isShown,
-      isShownKey,
       jumpToKey,
       path,
       method,
       op,
+      tag,
       showSummary,
       operationId,
       allowTryItOut,
@@ -83,6 +83,7 @@ export default class Operation extends PureComponent {
     let security = operation.get("security") || specSelectors.security()
     let parameters = getList(operation, ["parameters"])
     let operationScheme = specSelectors.operationScheme(path, method)
+    let isShownKey = ["operations", tag, operationId]
 
     const Responses = getComponent("responses")
     const Parameters = getComponent( "parameters" )
@@ -110,7 +111,7 @@ export default class Operation extends PureComponent {
               <a
                 className="nostyle"
                 onClick={isDeepLinkingEnabled ? (e) => e.preventDefault() : null}
-                href={isDeepLinkingEnabled ? `#/${tagKey}/${operationKey}` : null}>
+                href={isDeepLinkingEnabled ? `#/${isShownKey.join("/")}` : null}>
                 <span>{path}</span>
               </a>
                 <JumpToPath path={jumpToKey} />

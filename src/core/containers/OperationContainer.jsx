@@ -22,7 +22,6 @@ export default class OperationContainer extends PureComponent {
     operationId: PropTypes.string.isRequired,
     showSummary: PropTypes.bool.isRequired,
     isShown: PropTypes.bool.isRequired,
-    isShownKey: PropTypes.instanceOf(Iterable).isRequired,
     jumpToKey: PropTypes.string.isRequired,
     allowTryItOut: PropTypes.bool,
     displayOperationId: PropTypes.bool,
@@ -55,13 +54,12 @@ export default class OperationContainer extends PureComponent {
     const { docExpansion, deepLinking, displayOperationId, displayRequestDuration } = getConfigs()
     const showSummary = layoutSelectors.showSummary()
     const operationId = op.getIn(["operation", "operationId"]) || op.getIn(["operation", "__originalOperationId"]) || opId(op.get("operation"), props.path, props.method) || op.get("id")
-    const isShownKey = fromJS(["operations", props.tag, operationId])
+    const isShownKey = ["operations", props.tag, operationId]
     const isDeepLinkingEnabled = deepLinking && deepLinking !== "false"
 
     return {
       operationId,
       isDeepLinkingEnabled,
-      isShownKey,
       showSummary,
       displayOperationId,
       displayRequestDuration,
@@ -125,7 +123,6 @@ export default class OperationContainer extends PureComponent {
       operationId,
       showSummary,
       isShown,
-      isShownKey,
       jumpToKey,
       allowTryItOut,
       response,
@@ -155,7 +152,6 @@ export default class OperationContainer extends PureComponent {
       operationId,
       showSummary,
       isShown,
-      isShownKey,
       jumpToKey,
       allowTryItOut,
       request,
@@ -171,6 +167,7 @@ export default class OperationContainer extends PureComponent {
         operation={operationProps}
         response={response}
         request={request}
+        isShown={isShown}
 
         toggleShown={this.toggleShown}
         onTryoutClick={this.onTryoutClick}
