@@ -71,7 +71,7 @@
     "react-motion": "^0.5.2",
     "react-object-inspector": "0.2.1",
     "react-redux": "^4.x.x",
-    "react-split-pane": "0.1.57",
+    "react-split-pane": "0.1.70",
     "redux": "^3.x.x",
     "redux-immutable": "3.0.8",
     "redux-logger": "*",
