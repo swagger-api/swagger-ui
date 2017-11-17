@@ -58,12 +58,6 @@ export default class Response extends React.Component {
     onContentTypeChange: () => {}
   };
 
-  shouldComponentUpdate(nextProps) {
-    return this.props.code !== nextProps.code
-      || this.props.response !== nextProps.response
-      || this.props.className !== nextProps.className
-  }
-
   _onContentTypeChange = (value) => {
     const { onContentTypeChange, controlsAcceptHeader } = this.props
     this.setState({ responseContentType: value })

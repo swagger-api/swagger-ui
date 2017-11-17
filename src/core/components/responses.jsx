@@ -28,7 +28,7 @@ export default class Responses extends React.Component {
 
   shouldComponentUpdate(nextProps) {
     // BUG: props.tryItOutResponse is always coming back as a new Immutable instance
-    let render = this.props.tryItOutResponse !== nextProps.tryItOutResponse 
+    let render = this.props.tryItOutResponse !== nextProps.tryItOutResponse
     || this.props.responses !== nextProps.responses
     || this.props.produces !== nextProps.produces
     || this.props.producesValue !== nextProps.producesValue
@@ -38,7 +38,7 @@ export default class Responses extends React.Component {
     return render
   }
 
-	onChangeProducesWrapper = ( val ) => this.props.specActions.changeProducesValue(this.props.path, this.props.method, val)
+	onChangeProducesWrapper = ( val ) => this.props.specActions.changeProducesValue([this.props.path, this.props.method], val)
 
   onResponseContentTypeChange = ({ controlsAcceptHeader, value }) => {
     const { oas3Actions, path, method } = this.props
