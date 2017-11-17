@@ -126,17 +126,6 @@ export default class Operations extends React.Component {
                           path={path}
                           method={method}
                           tag={tag}
-
-                          specActions={ specActions }
-                          specSelectors={ specSelectors }
-                          oas3Actions={oas3Actions}
-                          layoutActions={ layoutActions }
-                          layoutSelectors={ layoutSelectors }
-                          authActions={ authActions }
-                          authSelectors={ authSelectors }
-                          getComponent={ getComponent }
-                          fn={fn}
-                          getConfigs={ getConfigs }
                         />
                       }).toArray()
                     }

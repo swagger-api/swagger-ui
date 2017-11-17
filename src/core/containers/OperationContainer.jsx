@@ -96,7 +96,7 @@ export default class OperationContainer extends PureComponent {
       specActions.changeConsumesValue([path, method], consumesValue)
     }
   }
-  
+
   shouldComponentUpdate(nextProps, nextState) {
     const render = this.state.tryItOutEnabled !== nextState.tryItOutEnabled
       || this.state.executeInProgress !== nextState.executeInProgress
@@ -161,7 +161,8 @@ export default class OperationContainer extends PureComponent {
       layoutActions,
       authActions,
       authSelectors,
-      fn 
+      oas3Actions,
+      fn
     } = this.props
 
     const Operation = getComponent( "operation" )
@@ -198,6 +199,7 @@ export default class OperationContainer extends PureComponent {
 
         specActions={ specActions }
         specSelectors={ specSelectors }
+        oas3Actions={oas3Actions}
         layoutActions={ layoutActions }
         layoutSelectors={ layoutSelectors }
         authActions={ authActions }
