@@ -95,8 +95,6 @@ class Parameters extends Component {
       operation
     } = this.props
 
-    console.log('rendering Parameters')
-
     const ParameterRow = getComponent("parameterRow")
     const TryItOutButton = getComponent("TryItOutButton")
     const ContentType = getComponent("contentType")

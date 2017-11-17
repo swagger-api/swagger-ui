@@ -1,8 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { helpers } from "swagger-client"
 import { createDeepLinkPath, sanitizeUrl } from "core/utils"
-const { opId } = helpers
 
 export default class Operations extends React.Component {
 
@@ -21,15 +19,10 @@ export default class Operations extends React.Component {
   render() {
     let {
       specSelectors,
-      specActions,
-      oas3Actions,
       getComponent,
       layoutSelectors,
       layoutActions,
-      authActions,
-      authSelectors,
-      getConfigs,
-      fn
+      getConfigs
     } = this.props
 
     let taggedOps = specSelectors.taggedOperations()
