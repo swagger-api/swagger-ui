@@ -22,7 +22,7 @@ const RootWrapper = (reduxStore, ComponentToWrap) => class extends Component {
 const makeContainer = (getSystem, component, reduxStore) => {
   const mapStateToProps = function(state, ownProps) {
     const propsForContainerComponent = Object.assign({}, ownProps, getSystem())
-    const ori = component.prototype.mapStateToProps || (state => state.toJS())
+    const ori = component.prototype.mapStateToProps || (state => { return {state} })
     return ori(state, propsForContainerComponent)
   }
 
