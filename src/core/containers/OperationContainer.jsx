@@ -32,6 +32,7 @@ export default class OperationContainer extends PureComponent {
 
     getComponent: PropTypes.func.isRequired,
     authActions: PropTypes.object,
+    oas3Actions: PropTypes.object,
     authSelectors: PropTypes.object,
     specActions: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
@@ -96,8 +97,8 @@ export default class OperationContainer extends PureComponent {
   }
 
   toggleShown =() => {
-    let { layoutActions, isShownKey, isShown } = this.props
-    layoutActions.show(isShownKey, !isShown)
+    let { layoutActions, tag, operationId, isShown } = this.props
+    layoutActions.show(["operations", tag, operationId], !isShown)
   }
 
   onTryoutClick =() => {
