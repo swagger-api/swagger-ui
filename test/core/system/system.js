@@ -472,17 +472,18 @@ describe("bound system", function(){
       class ContainerComponent extends PureComponent {
         mapStateToProps(nextState, props) {
           return {
-            "abc": "This came from mapStateToProps"
+            "fromMapState": "This came from mapStateToProps"
           }
         }
 
         static defaultProps = {
-          "abc" : ""
+          "fromMapState" : ""
         }
 
         render() {
+          const { exampleSelectors, fromMapState, fromOwnProps } = this.props
           return (
-            <div>{ this.props.abc }</div>
+            <div>{ fromMapState } {exampleSelectors.foo()} {fromOwnProps}</div>
           )
         }
       }
@@ -493,6 +494,15 @@ describe("bound system", function(){
             components: {
               ContainerComponent
             }
+          },
+          {
+            statePlugins: {
+              example: {
+                selectors: {
+                  foo() { return "and this came from the system" }
+                }
+              }
+            }
           }
         ]
       })
@@ -501,12 +511,12 @@ describe("bound system", function(){
       var Component = system.getSystem().getComponent("ContainerComponent", true)
       const renderedComponent = render(
         <Provider store={system.getStore()}>
-          <Component />
+          <Component fromOwnProps="and this came from my own props" />
         </Provider>
       )
 
       // Then
-      expect(renderedComponent.text()).toEqual("This came from mapStateToProps")
+      expect(renderedComponent.text()).toEqual("This came from mapStateToProps and this came from the system and this came from my own props")
     })
   })
 
