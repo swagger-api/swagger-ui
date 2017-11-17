@@ -71,45 +71,40 @@
 <script src="./swagger-ui-standalone-preset.js"> </script>
 <script>
 window.onload = function() {
-  
+
+  // Set environment and docs url prefix
+  var pattern = new RegExp("cx-[a-z0-9]+");
+  var res = pattern.exec(window.location.hostname);
+  var env = res && res.length == 1 ? res[0] : "cx-staging";
+  var docsUrl = "https://s3-us-west-2.amazonaws.com/ellation-" + env + "-static/docs/";
+
   // Build a system
   const ui = SwaggerUIBundle({
-    /*
-    The following is a list of services that are available for reference via the nav bar. URLs
-    need only be reachable and not on the same host. The JSON or YAML files must match the
-    swagger spec.
-
-    I'd suggest front-loading all services here and then adding valid URLs later once
-    their documentation is ready.
-    */
+    
     urls: [
       {
-        url: "http://swag.reblanco.crunchydev.com/ent.json",
+        url: docsUrl + "ent.json",
         name: "Entitlements"
       },
       {
-        url: "http://swag.reblanco.crunchydev.com/subs.json",
+        url: docsUrl + "subs.json",
         name: "Subscriptions"
       },
       {
-        url: "",
+        url: docsUrl + "core.json",
         name: "Core"
       },
       {
-        url: "",
+        url: docsUrl + "ess.json",
         name: "ESS"
       },
       {
-        url: "",
-        name: "Payments"
-      },
-      {
-        url: "",
+        url: docsUrl + "data-contentdiscovery.json",
         name: "Discovery"
       },
       {
-        url: "",
-        name: "CMS"
+        url: docsUrl + "cms-api.json",
+        name: "CMS API"
       }
     ],
     dom_id: '#swagger-ui',
