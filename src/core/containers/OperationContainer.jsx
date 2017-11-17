@@ -97,26 +97,6 @@ export default class OperationContainer extends PureComponent {
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    const render = this.state.tryItOutEnabled !== nextState.tryItOutEnabled
-      || this.state.executeInProgress !== nextState.executeInProgress
-      || this.props.op !== nextProps.op
-      || this.props.tag !== nextProps.tag
-      || this.props.path !== nextProps.path
-      || this.props.method !== nextProps.method
-      || this.props.operationId !== nextProps.operationId
-      || this.props.showSummary !== nextProps.showSummary
-      || this.props.isShown !== nextProps.isShown
-      || this.props.jumpToKey !== nextProps.jumpToKey
-      || this.props.allowTryItOut !== nextProps.allowTryItOut
-      || this.props.displayOperationId !== nextProps.displayOperationId
-      || this.props.displayRequestDuration !== nextProps.displayRequestDuration
-      || this.props.response !== nextProps.response
-      || this.props.request !== nextProps.request
-      || this.props.isDeepLinkingEnabled !== nextProps.isDeepLinkingEnabled
-      return render
-  }
-
   toggleShown =() => {
     let { layoutActions, isShownKey, isShown } = this.props
     layoutActions.show(isShownKey, !isShown)
