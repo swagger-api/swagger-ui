@@ -57,6 +57,8 @@ export default class OperationContainer extends PureComponent {
     const operationId = op.getIn(["operation", "operationId"]) || op.getIn(["operation", "__originalOperationId"]) || opId(op.get("operation"), props.path, props.method) || op.get("id")
     const isShownKey = ["operations", props.tag, operationId]
     const isDeepLinkingEnabled = deepLinking && deepLinking !== "false"
+    const allowTryItOut = typeof props.allowTryItOut === "undefined" ?
+      props.specSelectors.allowTryItOutFor(props.path, props.method) : props.allowTryItOut
 
     return {
       operationId,
@@ -64,9 +66,9 @@ export default class OperationContainer extends PureComponent {
       showSummary,
       displayOperationId,
       displayRequestDuration,
+      allowTryItOut,
       isShown: layoutSelectors.isShown(isShownKey, docExpansion === "full" ),
       jumpToKey: `paths.${props.path}.${props.method}`,
-      allowTryItOut: props.specSelectors.allowTryItOutFor(props.path, props.method),
       response: props.specSelectors.responseFor(props.path, props.method),
       request: props.specSelectors.requestFor(props.path, props.method)
     }
