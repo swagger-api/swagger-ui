@@ -22,6 +22,10 @@ const RequestBody = ({
 
   const mediaTypeValue = requestBodyContent.get(contentType)
 
+  if(!mediaTypeValue) {
+    return null
+  }
+
   return <div>
     { requestBodyDescription &&
       <Markdown source={requestBodyDescription} />
