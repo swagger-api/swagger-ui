@@ -4,7 +4,7 @@ import ImPropTypes from "react-immutable-proptypes"
 import { fromJS } from "immutable"
 
 const Callbacks = (props) => {
-  let { callbacks, getComponent, layoutSelectors } = props
+  let { callbacks, getComponent } = props
   // const Markdown = getComponent("Markdown")
   const OperationContainer = getComponent("OperationContainer", true)
 
