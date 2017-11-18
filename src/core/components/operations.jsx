@@ -1,8 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { helpers } from "swagger-client"
 import { createDeepLinkPath, sanitizeUrl } from "core/utils"
-const { opId } = helpers
 
 export default class Operations extends React.Component {
 
@@ -21,28 +19,20 @@ export default class Operations extends React.Component {
   render() {
     let {
       specSelectors,
-      specActions,
-      oas3Actions,
       getComponent,
       layoutSelectors,
       layoutActions,
-      authActions,
-      authSelectors,
-      getConfigs,
-      fn
+      getConfigs
     } = this.props
 
     let taggedOps = specSelectors.taggedOperations()
 
-    const Operation = getComponent("operation")
+    const OperationContainer = getComponent("OperationContainer", true)
     const Collapse = getComponent("Collapse")
     const Markdown = getComponent("Markdown")
 
-    let showSummary = layoutSelectors.showSummary()
     let {
       docExpansion,
-      displayOperationId,
-      displayRequestDuration,
       maxDisplayedTags,
       deepLinking
     } = getConfigs()
@@ -120,49 +110,15 @@ export default class Operations extends React.Component {
                   <Collapse isOpened={showTag}>
                     {
                       operations.map( op => {
+                        const path = op.get("path")
+                        const method = op.get("method")
 
-                        const path = op.get("path", "")
-                        const method = op.get("method", "")
-                        const jumpToKey = `paths.${path}.${method}`
-
-                        const operationId =
-                        op.getIn(["operation", "operationId"]) || op.getIn(["operation", "__originalOperationId"]) || opId(op.get("operation"), path, method) || op.get("id")
-                        const tagKey = createDeepLinkPath(tag)
-                        const operationKey = createDeepLinkPath(operationId)
-
-                        const allowTryItOut = specSelectors.allowTryItOutFor(op.get("path"), op.get("method"))
-                        const response = specSelectors.responseFor(op.get("path"), op.get("method"))
-                        const request = specSelectors.requestFor(op.get("path"), op.get("method"))
-
-                        return <Operation
-                          {...op.toObject()}
-                          tagKey={tagKey}
-                          operationKey={operationKey}
-                          isShown={layoutSelectors.isShown(["operations", tagKey, operationKey], docExpansion === "full")}
-                          jumpToKey={jumpToKey}
-                          showSummary={showSummary}
-                          key={tagKey + operationKey}
-                          response={ response }
-                          request={ request }
-                          allowTryItOut={allowTryItOut}
-
-                          displayOperationId={displayOperationId}
-                          displayRequestDuration={displayRequestDuration}
-
-                          specActions={ specActions }
-                          specSelectors={ specSelectors }
-
-                          oas3Actions={oas3Actions}
-
-                          layoutActions={ layoutActions }
-                          layoutSelectors={ layoutSelectors }
-
-                          authActions={ authActions }
-                          authSelectors={ authSelectors }
-
-                          getComponent={ getComponent }
-                          fn={fn}
-                          getConfigs={ getConfigs }
+                        return <OperationContainer
+                          key={`${path}-${method}`}
+                          op={op}
+                          path={path}
+                          method={method}
+                          tag={tag}
                         />
                       }).toArray()
                     }

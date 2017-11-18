@@ -289,8 +289,7 @@ export default class Store {
 
   getMapStateToProps() {
     return () => {
-      let obj = Object.assign({}, this.getSystem())
-      return obj
+      return Object.assign({}, this.getSystem())
     }
   }
 

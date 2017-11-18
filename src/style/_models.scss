@@ -12,6 +12,10 @@
         {
             color: $model-deprecated-font-color !important;
         }
+
+        > td:first-of-type {
+            text-decoration: line-through;
+        }
     }
     &-toggle
     {
