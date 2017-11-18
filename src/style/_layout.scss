@@ -565,6 +565,7 @@
         p
         {
             margin: 0;
+            @include text_code($response-col-description-inner-markdown-font-color);
         }
 
         a
