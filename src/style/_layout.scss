@@ -575,6 +575,12 @@
                 color: $response-col-description-inner-markdown-link-font-color-hover;
             }
         }
+
+        th
+        {
+            @include text_code($response-col-description-inner-markdown-font-color);
+            border-bottom: 1px solid $response-col-description-inner-markdown-font-color;
+        }
     }
 }
 
