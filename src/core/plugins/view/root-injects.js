@@ -120,5 +120,5 @@ export const getComponent = (getSystem, getStore, getComponents, componentName, 
     return makeContainer(getSystem, component, getStore())
 
   // container == truthy
-  return makeContainer(getSystem, component)
+  return makeContainer(getSystem, wrapRender(component))
 }

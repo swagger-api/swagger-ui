@@ -48,6 +48,13 @@ export default class RequestBodyEditor extends PureComponent {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if(this.props.requestBody !== prevProps.requestBody) {
+      // force recalc of value if the request body definition has changed
+      this.setValueToSample(this.props.mediaType)
+    }
+  }
+
   setValueToSample = (explicitMediaType) => {
     this.onChange(this.sample(explicitMediaType))
   }

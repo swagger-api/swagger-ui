@@ -571,6 +571,116 @@ describe("bound system", function(){
       // Then
       expect(renderedComponent.text()).toEqual("This came from mapStateToProps and this came from the system and this came from my own props")
     })
+
+    it("should catch errors thrown inside of React Component Class render methods", function() {
+      // Given
+      // eslint-disable-next-line react/require-render-return
+      class BrokenComponent extends React.Component {
+        render() {
+          throw new Error("This component is broken")
+        }
+      }
+      const system = new System({
+        plugins: [
+          ViewPlugin,
+          {
+            components: {
+              BrokenComponent
+            }
+          }
+        ]
+      })
+
+      // When
+      var Component = system.getSystem().getComponent("BrokenComponent")
+      const renderedComponent = render(<Component />)
+
+      // Then
+      expect(renderedComponent.text()).toEqual("😱 Could not render BrokenComponent, see the console.")
+    })
+
+    it("should catch errors thrown inside of pure component render methods", function() {
+      // Given
+      // eslint-disable-next-line react/require-render-return
+      class BrokenComponent extends PureComponent {
+        render() {
+          throw new Error("This component is broken")
+        }
+      }
+
+      const system = new System({
+        plugins: [
+          ViewPlugin,
+          {
+            components: {
+              BrokenComponent
+            }
+          }
+        ]
+      })
+
+      // When
+      var Component = system.getSystem().getComponent("BrokenComponent")
+      const renderedComponent = render(<Component />)
+
+      // Then
+      expect(renderedComponent.text()).toEqual("😱 Could not render BrokenComponent, see the console.")
+    })
+
+    it("should catch errors thrown inside of stateless component functions", function() {
+      // Given
+      // eslint-disable-next-line react/require-render-return
+      let BrokenComponent = function BrokenComponent() { throw new Error("This component is broken") }
+      const system = new System({
+        plugins: [
+          ViewPlugin,
+          {
+            components: {
+              BrokenComponent
+            }
+          }
+        ]
+      })
+
+      // When
+      var Component = system.getSystem().getComponent("BrokenComponent")
+      const renderedComponent = render(<Component />)
+
+      // Then
+      expect(renderedComponent.text().startsWith("😱 Could not render")).toEqual(true)
+    })
+
+    it("should catch errors thrown inside of container components", function() {
+      // Given
+      // eslint-disable-next-line react/require-render-return
+      class BrokenComponent extends React.Component {
+        render() {
+          throw new Error("This component is broken")
+        }
+      }
+
+      const system = new System({
+        plugins: [
+          ViewPlugin,
+          {
+            components: {
+              BrokenComponent
+            }
+          }
+        ]
+      })
+
+      // When
+      var Component = system.getSystem().getComponent("BrokenComponent", true)
+      const renderedComponent = render(
+        <Provider store={system.getStore()}>
+          <Component />
+        </Provider>
+      )
+
+      // Then
+      expect(renderedComponent.text()).toEqual("😱 Could not render BrokenComponent, see the console.")
+    })
   })
 
 })
