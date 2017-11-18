@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import ImPropTypes from "react-immutable-proptypes"
 import { fromJS } from "immutable"
 
 const Callbacks = (props) => {
@@ -24,6 +25,7 @@ const Callbacks = (props) => {
               {...props}
               op={op}
               key={method}
+              tag={""}
               method={method}
               path={pathItemName}
               allowTryItOut={false}
@@ -40,7 +42,7 @@ const Callbacks = (props) => {
 
 Callbacks.propTypes = {
   getComponent: PropTypes.func.isRequired,
-  callbacks: PropTypes.array.isRequired
+  callbacks: ImPropTypes.iterable.isRequired
 
 }
 
