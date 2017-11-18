@@ -54,6 +54,7 @@ export default class Operation extends PureComponent {
 
     let {
       isShown,
+      isAuthorized,
       jumpToKey,
       path,
       method,
@@ -78,9 +79,9 @@ export default class Operation extends PureComponent {
     } = op.operation
 
     let operation = operationProps.getIn(["op", "operation"])
+    let security = operationProps.get("security")
     let responses = operation.get("responses")
     let produces = operation.get("produces")
-    let security = operation.get("security") || specSelectors.security()
     let parameters = getList(operation, ["parameters"])
     let operationScheme = specSelectors.operationScheme(path, method)
     let isShownKey = ["operations", tag, operationId]
@@ -128,7 +129,7 @@ export default class Operation extends PureComponent {
             {
               (!security || !security.count()) ? null :
                 <AuthorizeOperationBtn
-                  isAuthorized={ authSelectors.isAuthorized(security) }
+                  isAuthorized={ isAuthorized }
                   onClick={() => {
                     const applicableDefinitions = authSelectors.definitionsForRequirements(security)
                     authActions.showDefinitions(applicableDefinitions)

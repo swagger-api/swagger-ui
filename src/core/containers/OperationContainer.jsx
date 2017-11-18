@@ -25,9 +25,11 @@ export default class OperationContainer extends PureComponent {
     jumpToKey: PropTypes.string.isRequired,
     allowTryItOut: PropTypes.bool,
     displayOperationId: PropTypes.bool,
+    isAuthorized: PropTypes.bool,
     displayRequestDuration: PropTypes.bool,
     response: PropTypes.instanceOf(Iterable),
     request: PropTypes.instanceOf(Iterable),
+    security: PropTypes.instanceOf(Iterable),
     isDeepLinkingEnabled: PropTypes.bool.isRequired,
 
     getComponent: PropTypes.func.isRequired,
@@ -59,6 +61,7 @@ export default class OperationContainer extends PureComponent {
     const isDeepLinkingEnabled = deepLinking && deepLinking !== "false"
     const allowTryItOut = typeof props.allowTryItOut === "undefined" ?
       props.specSelectors.allowTryItOutFor(props.path, props.method) : props.allowTryItOut
+    const security = op.getIn(["operation", "security"]) || props.specSelectors.security()
 
     return {
       operationId,
@@ -67,6 +70,8 @@ export default class OperationContainer extends PureComponent {
       displayOperationId,
       displayRequestDuration,
       allowTryItOut,
+      security,
+      isAuthorized: props.authSelectors.isAuthorized(security),
       isShown: layoutSelectors.isShown(isShownKey, docExpansion === "full" ),
       jumpToKey: `paths.${props.path}.${props.method}`,
       response: props.specSelectors.responseFor(props.path, props.method),
@@ -123,6 +128,8 @@ export default class OperationContainer extends PureComponent {
       tag,
       path,
       method,
+      security,
+      isAuthorized,
       operationId,
       showSummary,
       isShown,
@@ -152,6 +159,8 @@ export default class OperationContainer extends PureComponent {
       tag,
       path,
       method,
+      security,
+      isAuthorized,
       operationId,
       showSummary,
       isShown,
