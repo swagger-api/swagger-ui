@@ -73,7 +73,7 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
   let { schema, name, username, password, passwordType, clientId, clientSecret } = auth
   let form = {
     grant_type: "password",
-    scope: encodeURIComponent(auth.scopes.join(scopeSeparator))
+    scope: auth.scopes.join(scopeSeparator)
   }
   let query = {}
   let headers = {}
