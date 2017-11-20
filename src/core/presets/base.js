@@ -13,6 +13,8 @@ import downloadUrlPlugin from "core/plugins/download-url"
 import configsPlugin from "plugins/configs"
 import deepLinkingPlugin from "core/plugins/deep-linking"
 
+import OperationContainer from "core/containers/OperationContainer"
+
 import App from "core/components/app"
 import AuthorizationPopup from "core/components/auth/authorization-popup"
 import AuthorizeBtn from "core/components/auth/authorize-btn"
@@ -118,7 +120,8 @@ export default function() {
       VersionStamp,
       OperationExt,
       OperationExtRow,
-      ParameterExt
+      ParameterExt,
+      OperationContainer
     }
   }
 
