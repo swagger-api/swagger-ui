@@ -40,7 +40,9 @@ gulp.task('clean', function() {
 function templates() {
   return gulp
     .src(['./src/main/template/**/*'])
-    .pipe(handlebars())
+    .pipe(handlebars({
+      handlebars: require('handlebars')
+    }))
     .pipe(wrap('Handlebars.template(<%= contents %>)'))
     .pipe(declare({
       namespace: 'Handlebars.templates',

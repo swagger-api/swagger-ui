@@ -36,7 +36,7 @@
     "gulp-concat": "^2.5.2",
     "gulp-connect": "^2.2.0",
     "gulp-declare": "^0.3.0",
-    "gulp-handlebars": "^3.0.1",
+    "gulp-handlebars": "^4.0.0",
     "gulp-header": "^1.2.2",
     "gulp-jshint": "^1.10.0",
     "gulp-less": "^3.0.1",
@@ -45,11 +45,13 @@
     "gulp-uglify": "^1.1.0",
     "gulp-watch": "^4.1.1",
     "gulp-wrap": "^0.11.0",
+    "handlebars": "^4.0.11",
     "http-server": "git+https://github.com/nodeapps/http-server.git",
     "jshint-stylish": "^1.0.1",
     "less": "^2.4.0",
     "mocha": "^2.1.0",
     "selenium-webdriver": "^2.45.0",
-    "swagger-client": "2.1.6-M2"
-  }
+    "swagger-client": "2.1.32"
+  },
+  "dependencies": {}
 }
