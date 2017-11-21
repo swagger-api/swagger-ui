@@ -149,14 +149,14 @@ export default class Operation extends PureComponent {
                 </div>
               }
               {
-                externalDocs && externalDocs.get("url") ?
+                externalDocs && externalDocs.url ?
                 <div className="opblock-external-docs-wrapper">
                   <h4 className="opblock-title_normal">Find more details</h4>
                   <div className="opblock-external-docs">
                     <span className="opblock-external-docs__description">
-                      <Markdown source={ externalDocs.get("description") } />
+                      <Markdown source={ externalDocs.description } />
                     </span>
-                    <a className="opblock-external-docs__link" href={ sanitizeUrl(externalDocs.get("url")) }>{ externalDocs.get("url") }</a>
+                    <a className="opblock-external-docs__link" href={ sanitizeUrl(externalDocs.url) }>{ externalDocs.url }</a>
                   </div>
                 </div> : null
               }
