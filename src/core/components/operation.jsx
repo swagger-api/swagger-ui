@@ -156,7 +156,7 @@ export default class Operation extends PureComponent {
                     <span className="opblock-external-docs__description">
                       <Markdown source={ externalDocs.description } />
                     </span>
-                    <a className="opblock-external-docs__link" href={ sanitizeUrl(externalDocs.url) }>{ externalDocs.url }</a>
+                    <a target="_blank" className="opblock-external-docs__link" href={ sanitizeUrl(externalDocs.url) }>{ externalDocs.url }</a>
                   </div>
                 </div> : null
               }
