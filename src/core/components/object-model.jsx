@@ -142,12 +142,13 @@ export default class ObjectModel extends Component {
                   : <tr>
                     <td>{ "not ->" }</td>
                     <td>
-                      {not.map((schema, k) => {
-                        return <div key={k}><Model { ...otherProps } required={ false }
-                                 getComponent={ getComponent }
-                                 schema={ schema }
-                                 depth={ depth + 1 } /></div>
-                      })}
+                      <div>
+                        <Model { ...otherProps }
+                               required={ false }
+                               getComponent={ getComponent }
+                               schema={ not }
+                               depth={ depth + 1 } />
+                        </div>
                     </td>
                   </tr>
               }
