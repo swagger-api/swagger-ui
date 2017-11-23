@@ -30,7 +30,9 @@ export default class Primitive extends Component {
     let title = schema.get("title") || name
     let description = schema.get("description")
     let extensions = getExtensions(schema)
-    let properties = schema.filter( ( v, key) => ["enum", "type", "format", "description", "$$ref"].indexOf(key) === -1 ).filterNot( (v, key) => extensions.has(key) )
+    let properties = schema
+      .filter( ( v, key) => ["enum", "type", "format", "description", "$$ref"].indexOf(key) === -1 )
+      .filterNot( (v, key) => extensions.has(key) )
     const Markdown = getComponent("Markdown")
     const EnumModel = getComponent("EnumModel")
     const Property = getComponent("Property")
