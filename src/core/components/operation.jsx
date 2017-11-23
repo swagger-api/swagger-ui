@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { getList } from "core/utils"
-import { sanitizeUrl } from "core/utils"
+import { getExtensions, sanitizeUrl } from "core/utils"
 import { Iterable } from "immutable"
 
 export default class Operation extends PureComponent {
@@ -85,6 +85,7 @@ export default class Operation extends PureComponent {
     let parameters = getList(operation, ["parameters"])
     let operationScheme = specSelectors.operationScheme(path, method)
     let isShownKey = ["operations", tag, operationId]
+    let extensions = getExtensions(operation)
 
     const Responses = getComponent("responses")
     const Parameters = getComponent( "parameters" )
@@ -95,6 +96,9 @@ export default class Operation extends PureComponent {
     const Collapse = getComponent( "Collapse" )
     const Markdown = getComponent( "Markdown" )
     const Schemes = getComponent( "schemes" )
+    const OperationExt = getComponent( "OperationExt" )
+
+    const { showExtensions } = getConfigs()
 
     // Merge in Live Response
     if(responses && response && response.size > 0) {
@@ -160,6 +164,7 @@ export default class Operation extends PureComponent {
                   </div>
                 </div> : null
               }
+
               <Parameters
                 parameters={parameters}
                 operation={operation}
@@ -224,6 +229,10 @@ export default class Operation extends PureComponent {
                     method={ method }
                     displayRequestDuration={ displayRequestDuration }
                     fn={fn} />
+              }
+
+              { !showExtensions || !extensions.size ? null :
+                <OperationExt extensions={ extensions } getComponent={ getComponent } />
               }
             </div>
           </Collapse>

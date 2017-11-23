@@ -6,6 +6,7 @@ export default class Model extends PureComponent {
   static propTypes = {
     schema: ImPropTypes.orderedMap.isRequired,
     getComponent: PropTypes.func.isRequired,
+    getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     name: PropTypes.string,
     isRef: PropTypes.bool,
@@ -30,7 +31,7 @@ export default class Model extends PureComponent {
   }
 
   render () {
-    let { getComponent, specSelectors, schema, required, name, isRef } = this.props
+    let { getComponent, getConfigs, specSelectors, schema, required, name, isRef } = this.props
     const ObjectModel = getComponent("ObjectModel")
     const ArrayModel = getComponent("ArrayModel")
     const PrimitiveModel = getComponent("PrimitiveModel")
@@ -54,6 +55,7 @@ export default class Model extends PureComponent {
       case "object":
         return <ObjectModel
           className="object" { ...this.props }
+          getConfigs={ getConfigs }
           schema={ schema }
           name={ name }
           deprecated={deprecated}
@@ -61,6 +63,7 @@ export default class Model extends PureComponent {
       case "array":
         return <ArrayModel
           className="array" { ...this.props }
+          getConfigs={ getConfigs }
           schema={ schema }
           name={ name }
           deprecated={deprecated}
@@ -73,6 +76,7 @@ export default class Model extends PureComponent {
         return <PrimitiveModel
           { ...this.props }
           getComponent={ getComponent }
+          getConfigs={ getConfigs }
           schema={ schema }
           name={ name }
           deprecated={deprecated}

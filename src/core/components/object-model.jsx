@@ -9,6 +9,7 @@ export default class ObjectModel extends Component {
   static propTypes = {
     schema: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
+    getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     name: PropTypes.string,
     isRef: PropTypes.bool,
@@ -17,7 +18,7 @@ export default class ObjectModel extends Component {
   }
 
   render(){
-    let { schema, name, isRef, getComponent, depth, expandDepth, ...otherProps } = this.props
+    let { schema, name, isRef, getComponent, getConfigs, depth, expandDepth, ...otherProps } = this.props
     let { specSelectors } = otherProps
     let { isOAS3 } = specSelectors
 
@@ -91,6 +92,7 @@ export default class ObjectModel extends Component {
                           <Model key={ `object-${name}-${key}_${value}` } { ...otherProps }
                                  required={ isRequired }
                                  getComponent={ getComponent }
+                                 getConfigs={ getConfigs }
                                  schema={ value }
                                  depth={ depth + 1 } />
                         </td>
@@ -104,6 +106,7 @@ export default class ObjectModel extends Component {
                     <td>
                       <Model { ...otherProps } required={ false }
                              getComponent={ getComponent }
+                             getConfigs={ getConfigs }
                              schema={ additionalProperties }
                              depth={ depth + 1 } />
                     </td>
@@ -117,6 +120,7 @@ export default class ObjectModel extends Component {
                       {anyOf.map((schema, k) => {
                         return <div key={k}><Model { ...otherProps } required={ false }
                                  getComponent={ getComponent }
+                                 getConfigs={ getConfigs }
                                  schema={ schema }
                                  depth={ depth + 1 } /></div>
                       })}
@@ -131,6 +135,7 @@ export default class ObjectModel extends Component {
                       {oneOf.map((schema, k) => {
                         return <div key={k}><Model { ...otherProps } required={ false }
                                  getComponent={ getComponent }
+                                 getConfigs={ getConfigs }
                                  schema={ schema }
                                  depth={ depth + 1 } /></div>
                       })}
@@ -146,9 +151,10 @@ export default class ObjectModel extends Component {
                         <Model { ...otherProps }
                                required={ false }
                                getComponent={ getComponent }
+                               getConfigs={ getConfigs }
                                schema={ not }
                                depth={ depth + 1 } />
-                        </div>
+                      </div>
                     </td>
                   </tr>
               }

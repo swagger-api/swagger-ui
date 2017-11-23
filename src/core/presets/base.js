@@ -30,11 +30,14 @@ import LiveResponse from "core/components/live-response"
 import OnlineValidatorBadge from "core/components/online-validator-badge"
 import Operations from "core/components/operations"
 import Operation from "core/components/operation"
+import OperationExt from "core/components/operation-extensions"
+import OperationExtRow from "core/components/operation-extension-row"
 import HighlightCode from "core/components/highlight-code"
 import Responses from "core/components/responses"
 import Response from "core/components/response"
 import ResponseBody from "core/components/response-body"
 import Parameters from "core/components/parameters"
+import ParameterExt from "core/components/parameter-extension"
 import ParameterRow from "core/components/parameter-row"
 import Execute from "core/components/execute"
 import Headers from "core/components/headers"
@@ -115,6 +118,9 @@ export default function() {
       Markdown,
       BaseLayout,
       VersionStamp,
+      OperationExt,
+      OperationExtRow,
+      ParameterExt,
       OperationContainer
     }
   }
