@@ -9,6 +9,8 @@ urls:
     name: Relocation Partner API
   - url: https://api.relocation.immobilienscout24.de/relocationcosts/swagger.json
     name: Relocation Costs API
+  - url: https://api.relocation.immobilienscout24.de/authentication/swagger.json
+    name: Relocation Authentication API
 dom_id: "#swagger-ui"
 validatorUrl: "https://online.swagger.io/validator"
 oauth2RedirectUrl: "http://localhost:3200/oauth2-redirect.html"
