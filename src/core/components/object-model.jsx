@@ -26,6 +26,8 @@ export default class ObjectModel extends Component {
       return null
     }
 
+    const { showExtensions } = getConfigs()
+
     let description = schema.get("description")
     let properties = schema.get("properties")
     let additionalProperties = schema.get("additionalProperties")
@@ -95,6 +97,30 @@ export default class ObjectModel extends Component {
                                  getConfigs={ getConfigs }
                                  schema={ value }
                                  depth={ depth + 1 } />
+                        </td>
+                      </tr>)
+                    }).toArray()
+              }
+              {
+                // empty row befor extensions...
+                !showExtensions ? null : <tr>&nbsp;</tr>
+              }
+              {
+                !showExtensions ? null :
+                  schema.entrySeq().map(
+                    ([key, value]) => {
+                      if(key.slice(0,2) !== "x-") {
+                        return
+                      }
+
+                      const normalizedValue = !value ? null : value.toJS ? value.toJS() : value
+
+                      return (<tr key={key} style={{ color: "#777" }}>
+                        <td>
+                          { key }
+                        </td>
+                        <td style={{ verticalAlign: "top" }}>
+                          { JSON.stringify(normalizedValue) }
                         </td>
                       </tr>)
                     }).toArray()
