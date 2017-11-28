@@ -76,7 +76,7 @@ window.onload = function() {
   var pattern = new RegExp("cx-[a-z0-9]+");
   var res = pattern.exec(window.location.hostname);
   var env = res && res.length == 1 ? res[0] : "cx-staging";
-  var docsUrl = "https://s3-us-west-2.amazonaws.com/ellation-" + env + "-static/docs/";
+  var docsUrl = "http://static." + env + ".com/docs/";
 
   // Build a system
   const ui = SwaggerUIBundle({
