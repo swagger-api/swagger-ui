@@ -49,6 +49,14 @@ Or you can provide your own swagger.json on your host
 docker run -p 80:8080 -e SWAGGER_JSON=/foo/swagger.json -v /bar:/foo swaggerapi/swagger-ui
 ```
 
+The base URL of the web application can be changed by specifying the `BASE_URL` environment variable:
+
+```
+docker run -p 80:8080 -e BASE_URL=/swagger -e SWAGGER_JSON=/foo/swagger.json -v /bar:/foo swaggerapi/swagger-ui
+```
+
+This will serve Swagger UI at `/swagger` instead of `/`.
+
 ##### Prerequisites
 - Node 6.x
 - NPM 3.x
