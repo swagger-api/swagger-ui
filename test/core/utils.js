@@ -321,14 +321,11 @@ describe("utils", function() {
     }
 
     it("should check the isOAS3 flag when validating parameters", function() {
-      // This should "skip" validation because there is no `schema.type` property
+      // This should "skip" validation because there is no `schema` property
       // and we are telling `validateParam` this is an OAS3 spec
       param = fromJS({
         value: "",
-        required: true,
-        schema: {
-          notTheTypeProperty: "string"
-        }
+        required: true
       })
       result = validateParam( param, false, true )
       expect( result ).toEqual( [] )
