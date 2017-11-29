@@ -85,7 +85,7 @@ export default class ObjectModel extends Component {
               {
                 !(properties && properties.size) ? null : properties.entrySeq().map(
                     ([key, value]) => {
-                      let isDeprecated = isOAS3() && value.get("deprecated")
+                      let isDeprecated = specSelectors.isOAS3() && value.get("deprecated")
                       let isRequired = List.isList(requiredProperties) && requiredProperties.contains(key)
                       let propertyStyle = { verticalAlign: "top", paddingRight: "0.2em" }
                       if ( isRequired ) {
