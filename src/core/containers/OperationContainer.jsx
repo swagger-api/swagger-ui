@@ -196,6 +196,7 @@ export default class OperationContainer extends PureComponent {
         getComponent={ getComponent }
         getConfigs={ getConfigs }
         fn={fn}
+        specPath={["paths", this.props.path, this.props.method]}
       />
     )
   }
