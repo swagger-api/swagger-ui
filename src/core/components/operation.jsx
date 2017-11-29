@@ -57,7 +57,6 @@ export default class Operation extends PureComponent {
     let {
       isShown,
       isAuthorized,
-      jumpToKey,
       path,
       method,
       op,
