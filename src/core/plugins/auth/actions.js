@@ -159,7 +159,8 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
     headers: _headers,
     query: query,
     body: body,
-    requestInterceptor: getConfigs().requestInterceptor
+    requestInterceptor: getConfigs().requestInterceptor,
+    responseInterceptor: getConfigs().responseInterceptor
   })
   .then(function (response) {
     let token = JSON.parse(response.data)
