@@ -123,6 +123,19 @@ export default class ParameterRow extends Component {
 
         <td className="col parameters-col_description">
           <Markdown source={ param.get("description") }/>
+
+          { bodyParam || !isExecute && (
+              param &&
+              param.get("items") &&
+              param.get("items").get("enum") &&
+              param.get("items").get("enum").size > 0) ? 
+            <Markdown source={
+                "Available values : " + param.get("items").get("enum").map(function(item) {
+                    return item
+                  }).toArray()}/> 
+            : null
+          }
+
           {(isFormData && !isFormDataSupported) && <div>Error: your browser does not support FormData</div>}
 
           { bodyParam || !isExecute ? null
