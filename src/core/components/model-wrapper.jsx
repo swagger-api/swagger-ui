@@ -10,6 +10,7 @@ export default class ModelWrapper extends Component {
     schema: PropTypes.object.isRequired,
     name: PropTypes.string,
     getComponent: PropTypes.func.isRequired,
+    getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     expandDepth: PropTypes.number,
     layoutActions: PropTypes.object,
@@ -24,7 +25,7 @@ export default class ModelWrapper extends Component {
   }
 
   render(){
-    let { getComponent } = this.props
+    let { getComponent, getConfigs } = this.props
     const Model = getComponent("Model")
 
     let expanded
@@ -34,7 +35,7 @@ export default class ModelWrapper extends Component {
     }
 
     return <div className="model-box">
-      <Model { ...this.props } expanded={expanded} depth={ 1 } onToggle={ this.onToggle } expandDepth={ this.props.expandDepth || 0 }/>
+      <Model { ...this.props } getConfigs={ getConfigs } expanded={expanded} depth={ 1 } onToggle={ this.onToggle } expandDepth={ this.props.expandDepth || 0 }/>
     </div>
   }
 }

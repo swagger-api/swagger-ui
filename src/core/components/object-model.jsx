@@ -9,6 +9,7 @@ export default class ObjectModel extends Component {
   static propTypes = {
     schema: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
+    getConfigs: PropTypes.func.isRequired,
     expanded: PropTypes.bool,
     onToggle: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
@@ -20,9 +21,14 @@ export default class ObjectModel extends Component {
   }
 
   render(){
+    let { schema, name, isRef, getComponent, getConfigs, depth, specPath, onToggle, expanded, ...otherProps } = this.props
+    let { specSelectors, expandDepth } = otherProps
 
-    let { schema, name, isRef, getComponent, depth, specPath, onToggle, expanded, ...otherProps } = this.props
-    let { specSelectors,expandDepth } = otherProps
+    if(!schema) {
+      return null
+    }
+
+    const { showExtensions } = getConfigs()
 
     let description = schema.get("description")
     let properties = schema.get("properties")
@@ -79,13 +85,14 @@ export default class ObjectModel extends Component {
               {
                 !(properties && properties.size) ? null : properties.entrySeq().map(
                     ([key, value]) => {
+                      let isDeprecated = specSelectors.isOAS3() && value.get("deprecated")
                       let isRequired = List.isList(requiredProperties) && requiredProperties.contains(key)
                       let propertyStyle = { verticalAlign: "top", paddingRight: "0.2em" }
                       if ( isRequired ) {
                         propertyStyle.fontWeight = "bold"
                       }
 
-                      return (<tr key={key}>
+                      return (<tr key={key} className={isDeprecated && "deprecated"}>
                         <td style={ propertyStyle }>
                           { key }{ isRequired && <span style={{ color: "red" }}>*</span> }
                         </td>
@@ -93,9 +100,34 @@ export default class ObjectModel extends Component {
                           <Model key={ `object-${name}-${key}_${value}` } { ...otherProps }
                                  required={ isRequired }
                                  getComponent={ getComponent }
+                                 getConfigs={ getConfigs }
                                  specPath={[...specPath, "properties", key]}
                                  schema={ value }
                                  depth={ depth + 1 } />
+                        </td>
+                      </tr>)
+                    }).toArray()
+              }
+              {
+                // empty row befor extensions...
+                !showExtensions ? null : <tr>&nbsp;</tr>
+              }
+              {
+                !showExtensions ? null :
+                  schema.entrySeq().map(
+                    ([key, value]) => {
+                      if(key.slice(0,2) !== "x-") {
+                        return
+                      }
+
+                      const normalizedValue = !value ? null : value.toJS ? value.toJS() : value
+
+                      return (<tr key={key} style={{ color: "#777" }}>
+                        <td>
+                          { key }
+                        </td>
+                        <td style={{ verticalAlign: "top" }}>
+                          { JSON.stringify(normalizedValue) }
                         </td>
                       </tr>)
                     }).toArray()
@@ -107,6 +139,7 @@ export default class ObjectModel extends Component {
                     <td>
                       <Model { ...otherProps } required={ false }
                              getComponent={ getComponent }
+                             getConfigs={ getConfigs }
                              specPath={[...specPath, "additionalProperties"]}
                              schema={ additionalProperties }
                              depth={ depth + 1 } />
@@ -121,6 +154,7 @@ export default class ObjectModel extends Component {
                       {anyOf.map((schema, k) => {
                         return <div key={k}><Model { ...otherProps } required={ false }
                                  getComponent={ getComponent }
+                                 getConfigs={ getConfigs }
                                  specPath={[...specPath, "anyOf", k]}
                                  schema={ schema }
                                  depth={ depth + 1 } /></div>
@@ -136,6 +170,7 @@ export default class ObjectModel extends Component {
                       {oneOf.map((schema, k) => {
                         return <div key={k}><Model { ...otherProps } required={ false }
                                  getComponent={ getComponent }
+                                 getConfigs={ getConfigs }
                                  specPath={[...specPath, "oneOf", k]}
                                  schema={ schema }
                                  depth={ depth + 1 } /></div>
@@ -148,13 +183,15 @@ export default class ObjectModel extends Component {
                   : <tr>
                     <td>{ "not ->" }</td>
                     <td>
-                      {not.map((schema, k) => {
-                        return <div key={k}><Model { ...otherProps } required={ false }
-                                 getComponent={ getComponent }
-                                 specPath={[...specPath, "not", k]}
-                                 schema={ schema }
-                                 depth={ depth + 1 } /></div>
-                      })}
+                      <div>
+                        <Model { ...otherProps }
+                               required={ false }
+                               getComponent={ getComponent }
+                               getConfigs={ getConfigs }
+                               specPath={[...specPath, "not"]}
+                               schema={ not }
+                               depth={ depth + 1 } />
+                      </div>
                     </td>
                   </tr>
               }

@@ -22,7 +22,7 @@ The OpenAPI Specification has undergone 5 revisions since initial creation in 20
 
 Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes
 ------------------ | ------------ | -------------------------- | -----
-3.4.3 | 2017-11-03 | 2.0, 3.0 | [tag v3.4.3](https://github.com/swagger-api/swagger-ui/tree/v3.4.3)
+3.5.0 | 2017-11-23 | 2.0, 3.0 | [tag v3.5.0](https://github.com/swagger-api/swagger-ui/tree/v3.5.0)
 3.0.21 | 2017-07-26 | 2.0 | [tag v3.0.21](https://github.com/swagger-api/swagger-ui/tree/v3.0.21)
 2.2.10 | 2017-01-04 | 1.1, 1.2, 2.0 | [tag v2.2.10](https://github.com/swagger-api/swagger-ui/tree/v2.2.10)
 2.1.5 | 2016-07-20 | 1.1, 1.2, 2.0 | [tag v2.1.5](https://github.com/swagger-api/swagger-ui/tree/v2.1.5)
@@ -165,6 +165,7 @@ deepLinking | If set to `true`, enables dynamic deep linking for tags and operat
 requestInterceptor | MUST be a function.  Function to intercept try-it-out requests.  Accepts one argument requestInterceptor(request) and must return the potentially modified request.
 responseInterceptor | MUST be a function.  Function to intercept try-it-out responses.  Accepts one argument responseInterceptor(response) and must return the potentially modified response.
 showMutatedRequest | If set to `true` (the default), uses the mutated request returned from a rquestInterceptor to produce the curl command in the UI, otherwise the request before the requestInterceptor was applied is used.
+showExtensions | Controls the display of vendor extension (`x-`) fields and values for Operations, Parameters, and Schema. The default is `false`.
 
 ### Plugins
 

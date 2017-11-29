@@ -1,30 +1,23 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { getList } from "core/utils"
-import * as CustomPropTypes from "core/proptypes"
-import { sanitizeUrl } from "core/utils"
-
-//import "less/opblock"
+import { getExtensions, sanitizeUrl } from "core/utils"
+import { Iterable } from "immutable"
 
 export default class Operation extends PureComponent {
   static propTypes = {
-    path: PropTypes.string.isRequired,
-    method: PropTypes.string.isRequired,
-    operation: PropTypes.object.isRequired,
-    showSummary: PropTypes.bool,
-
-    isShownKey: CustomPropTypes.arrayOrString.isRequired,
+    operation: PropTypes.instanceOf(Iterable).isRequired,
+    response: PropTypes.instanceOf(Iterable),
+    request: PropTypes.instanceOf(Iterable),
     specPath: PropTypes.array.isRequired,
 
-    allowTryItOut: PropTypes.bool,
-
-    displayOperationId: PropTypes.bool,
-    displayRequestDuration: PropTypes.bool,
-
-    response: PropTypes.object,
-    request: PropTypes.object,
+    toggleShown: PropTypes.func.isRequired,
+    onTryoutClick: PropTypes.func.isRequired,
+    onCancelClick: PropTypes.func.isRequired,
+    onExecute: PropTypes.func.isRequired,
 
     getComponent: PropTypes.func.isRequired,
+    getConfigs: PropTypes.func.isRequired,
     authActions: PropTypes.object,
     authSelectors: PropTypes.object,
     specActions: PropTypes.object.isRequired,
@@ -32,108 +25,68 @@ export default class Operation extends PureComponent {
     oas3Actions: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
-    fn: PropTypes.object.isRequired,
-    getConfigs: PropTypes.func.isRequired
+    fn: PropTypes.object.isRequired
   }
 
   static defaultProps = {
-    showSummary: true,
+    operation: null,
     response: null,
-    allowTryItOut: true,
-    displayOperationId: false,
-    displayRequestDuration: false
-  }
-
-  constructor(props, context) {
-    super(props, context)
-    this.state = {
-      tryItOutEnabled: false
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const defaultContentType = "application/json"
-    let { specActions, path, method, operation } = nextProps
-    let producesValue = operation.get("produces_value")
-    let produces = operation.get("produces")
-    let consumes = operation.get("consumes")
-    let consumesValue = operation.get("consumes_value")
-
-    if(nextProps.response !== this.props.response) {
-      this.setState({ executeInProgress: false })
-    }
-
-    if (producesValue === undefined) {
-      producesValue = produces && produces.size ? produces.first() : defaultContentType
-      specActions.changeProducesValue([path, method], producesValue)
-    }
-
-    if (consumesValue === undefined) {
-      consumesValue = consumes && consumes.size ? consumes.first() : defaultContentType
-      specActions.changeConsumesValue([path, method], consumesValue)
-    }
-  }
-
-  toggleShown =() => {
-    let { layoutActions, isShownKey } = this.props
-    layoutActions.show(isShownKey, !this.isShown())
-  }
-
-  isShown =() => {
-    let { layoutSelectors, isShownKey, getConfigs } = this.props
-    let { docExpansion } = getConfigs()
-
-    return layoutSelectors.isShown(isShownKey, docExpansion === "full" ) // Here is where we set the default
-  }
-
-  onTryoutClick =() => {
-    this.setState({tryItOutEnabled: !this.state.tryItOutEnabled})
-  }
-
-  onCancelClick =() => {
-    let { specActions, path, method } = this.props
-    this.setState({tryItOutEnabled: !this.state.tryItOutEnabled})
-    specActions.clearValidateParams([path, method])
-  }
-
-  onExecute = () => {
-    this.setState({ executeInProgress: true })
+    request: null
   }
 
   render() {
     let {
-      isShownKey,
       specPath,
-      path,
-      method,
-      operation,
-      showSummary,
       response,
       request,
-      allowTryItOut,
-      displayOperationId,
-      displayRequestDuration,
+      toggleShown,
+      onTryoutClick,
+      onCancelClick,
+      onExecute,
       fn,
       getComponent,
+      getConfigs,
       specActions,
       specSelectors,
       authActions,
       authSelectors,
-      getConfigs,
       oas3Actions
     } = this.props
+    let operationProps = this.props.operation
 
-    let summary = operation.get("summary")
-    let description = operation.get("description")
-    let deprecated = operation.get("deprecated")
-    let externalDocs = operation.get("externalDocs")
+    let {
+      isShown,
+      isAuthorized,
+      path,
+      method,
+      op,
+      tag,
+      showSummary,
+      operationId,
+      allowTryItOut,
+      displayOperationId,
+      displayRequestDuration,
+      isDeepLinkingEnabled,
+      tryItOutEnabled,
+      executeInProgress
+    } = operationProps.toJS()
+
+    let {
+      summary,
+      description,
+      deprecated,
+      externalDocs,
+      schemes
+    } = op.operation
+
+    let operation = operationProps.getIn(["op", "operation"])
+    let security = operationProps.get("security")
     let responses = operation.get("responses")
-    let security = operation.get("security") || specSelectors.security()
     let produces = operation.get("produces")
-    let schemes = operation.get("schemes")
     let parameters = getList(operation, ["parameters"])
-    let operationId = operation.get("__originalOperationId")
     let operationScheme = specSelectors.operationScheme(path, method)
+    let isShownKey = ["operations", tag, operationId]
+    let extensions = getExtensions(operation)
 
     const Responses = getComponent("responses")
     const Parameters = getComponent( "parameters" )
@@ -144,10 +97,9 @@ export default class Operation extends PureComponent {
     const Collapse = getComponent( "Collapse" )
     const Markdown = getComponent( "Markdown" )
     const Schemes = getComponent( "schemes" )
+    const OperationExt = getComponent( "OperationExt" )
 
-    const { deepLinking } = getConfigs()
-
-    const isDeepLinkingEnabled = deepLinking && deepLinking !== "false"
+    const { showExtensions } = getConfigs()
 
     // Merge in Live Response
     if(responses && response && response.size > 0) {
@@ -155,19 +107,17 @@ export default class Operation extends PureComponent {
       response = response.set("notDocumented", notDocumented)
     }
 
-    let { tryItOutEnabled } = this.state
-    let shown = this.isShown()
     let onChangeKey = [ path, method ] // Used to add values to _this_ operation ( indexed by path and method )
 
     return (
-        <div className={deprecated ? "opblock opblock-deprecated" : shown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={isShownKey.join("-")} >
-          <div className={`opblock-summary opblock-summary-${method}`} onClick={this.toggleShown} > {/*TODO: convert this into a component, that can be wrapped and pulled in with getComponent */}
+        <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={isShownKey.join("-")} >
+          <div className={`opblock-summary opblock-summary-${method}`} onClick={toggleShown} > {/*TODO: convert this into a component, that can be wrapped and pulled in with getComponent */}
               <span className="opblock-summary-method">{method.toUpperCase()}</span>
               <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } >
               <a
                 className="nostyle"
                 onClick={isDeepLinkingEnabled ? (e) => e.preventDefault() : null}
-                href={isDeepLinkingEnabled ? `#/${isShownKey[1]}/${isShownKey[2]}` : null}>
+                href={isDeepLinkingEnabled ? `#/${isShownKey.join("/")}` : null}>
                 <span>{path}</span>
               </a>
                 <JumpToPath path={specPath} /> {/*TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
@@ -184,7 +134,7 @@ export default class Operation extends PureComponent {
             {
               (!security || !security.count()) ? null :
                 <AuthorizeOperationBtn
-                  isAuthorized={ authSelectors.isAuthorized(security) }
+                  isAuthorized={ isAuthorized }
                   onClick={() => {
                     const applicableDefinitions = authSelectors.definitionsForRequirements(security)
                     authActions.showDefinitions(applicableDefinitions)
@@ -193,7 +143,7 @@ export default class Operation extends PureComponent {
             }
           </div>
 
-          <Collapse isOpened={shown}>
+          <Collapse isOpened={isShown}>
             <div className="opblock-body">
               { deprecated && <h4 className="opblock-title_normal"> Warning: Deprecated</h4>}
               { description &&
@@ -204,24 +154,25 @@ export default class Operation extends PureComponent {
                 </div>
               }
               {
-                externalDocs && externalDocs.get("url") ?
+                externalDocs && externalDocs.url ?
                 <div className="opblock-external-docs-wrapper">
                   <h4 className="opblock-title_normal">Find more details</h4>
                   <div className="opblock-external-docs">
                     <span className="opblock-external-docs__description">
-                      <Markdown source={ externalDocs.get("description") } />
+                      <Markdown source={ externalDocs.description } />
                     </span>
-                    <a className="opblock-external-docs__link" href={ sanitizeUrl(externalDocs.get("url")) }>{ externalDocs.get("url") }</a>
+                    <a target="_blank" className="opblock-external-docs__link" href={ sanitizeUrl(externalDocs.url) }>{ externalDocs.url }</a>
                   </div>
                 </div> : null
               }
+
               <Parameters
                 parameters={parameters}
                 specPath={[...specPath, "parameters"]}
                 operation={operation}
                 onChangeKey={onChangeKey}
-                onTryoutClick = { this.onTryoutClick }
-                onCancelClick = { this.onCancelClick }
+                onTryoutClick = { onTryoutClick }
+                onCancelClick = { onCancelClick }
                 tryItOutEnabled = { tryItOutEnabled }
                 allowTryItOut={allowTryItOut}
 
@@ -246,25 +197,23 @@ export default class Operation extends PureComponent {
               { !tryItOutEnabled || !allowTryItOut ? null :
 
                   <Execute
-                    getComponent={getComponent}
                     operation={ operation }
                     specActions={ specActions }
                     specSelectors={ specSelectors }
                     path={ path }
                     method={ method }
-                    onExecute={ this.onExecute } />
+                    onExecute={ onExecute } />
               }
 
               { (!tryItOutEnabled || !response || !allowTryItOut) ? null :
                   <Clear
-                    onClick={ this.onClearClick }
                     specActions={ specActions }
                     path={ path }
                     method={ method }/>
               }
             </div>
 
-            {this.state.executeInProgress ? <div className="loading-container"><div className="loading"></div></div> : null}
+            {executeInProgress ? <div className="loading-container"><div className="loading"></div></div> : null}
 
               { !responses ? null :
                   <Responses
@@ -278,10 +227,15 @@ export default class Operation extends PureComponent {
                     specActions={ specActions }
                     produces={ produces }
                     producesValue={ operation.get("produces_value") }
-                    pathMethod={ [path, method] }
+                    path={ path }
+                    method={ method }
                     specPath={[...specPath, "responses"]}
                     displayRequestDuration={ displayRequestDuration }
                     fn={fn} />
+              }
+
+              { !showExtensions || !extensions.size ? null :
+                <OperationExt extensions={ extensions } getComponent={ getComponent } />
               }
             </div>
           </Collapse>

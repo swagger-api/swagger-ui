@@ -8,12 +8,13 @@ class ModelComponent extends Component {
     schema: PropTypes.object.isRequired,
     name: PropTypes.string,
     getComponent: PropTypes.func.isRequired,
+    getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     expandDepth: PropTypes.number
   }
 
   render(){
-    let { schema } = this.props
+    let { getConfigs, schema } = this.props
     let classes = ["model-box"]
     let isDeprecated = schema.get("deprecated") === true
     let message = null
@@ -26,6 +27,7 @@ class ModelComponent extends Component {
     return <div className={classes.join(" ")}>
       {message}
       <Model { ...this.props }
+        getConfigs={ getConfigs }
         depth={ 1 }
         expandDepth={ this.props.expandDepth || 0 }
         />

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { cloneElement } from "react"
 import PropTypes from "prop-types"
 
 //import "./topbar.less"
@@ -134,7 +134,7 @@ export default class Topbar extends React.Component {
               <span>swagger</span>
             </Link>
             <form className="download-url-wrapper" onSubmit={formOnSubmit}>
-              {control}
+              {control.map((el, i) => cloneElement(el, { key: i }))}
             </form>
           </div>
         </div>

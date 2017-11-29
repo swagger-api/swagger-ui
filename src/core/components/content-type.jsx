@@ -27,6 +27,16 @@ export default class ContentType extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(!nextProps.contentTypes || !nextProps.contentTypes.size) {
+      return
+    }
+
+    if(!nextProps.contentTypes.includes(nextProps.value)) {
+      nextProps.onChange(nextProps.contentTypes.first())
+    }
+  }
+
   onChangeWrapper = e => this.props.onChange(e.target.value)
 
   render() {
@@ -37,7 +47,7 @@ export default class ContentType extends React.Component {
 
     return (
       <div className={ "content-type-wrapper " + ( className || "" ) }>
-        <select className="content-type" value={value} onChange={this.onChangeWrapper} >
+        <select className="content-type" value={value || ""} onChange={this.onChangeWrapper} >
           { contentTypes.map( (val) => {
             return <option key={ val } value={ val }>{ val }</option>
           }).toArray()}

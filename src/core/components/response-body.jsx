@@ -57,9 +57,6 @@ export default class ResponseBody extends React.Component {
       (headers["Content-Description"] && (/File Transfer/i).test(headers["Content-Description"])) ||
       (headers["content-description"] && (/File Transfer/i).test(headers["content-description"]))) {
 
-      let contentLength = headers["content-length"] || headers["Content-Length"]
-      if ( !(+contentLength) ) return null
-
       const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
       if (!isSafari && "Blob" in window) {
