@@ -7,8 +7,7 @@ import * as AllPlugins from "core/plugins/all"
 import { parseSearch } from "core/utils"
 
 if (process.env.NODE_ENV !== "production") {
-  const Perf = require("react-addons-perf")
-  window.Perf = Perf
+  window.Perf = require("react-addons-perf")
 }
 
 // eslint-disable-next-line no-undef
@@ -47,6 +46,7 @@ module.exports = function SwaggerUI(opts) {
     showMutatedRequest: true,
     defaultModelRendering: "example",
     defaultModelExpandDepth: 1,
+    showExtensions: false,
 
     // Initial set of plugins ( TODO rename this, or refactor - we don't need presets _and_ plugins. Its just there for performance.
     // Instead, we can compile the first plugin ( it can be a collection of plugins ), then batch the rest.

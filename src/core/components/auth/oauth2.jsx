@@ -200,11 +200,11 @@ export default class Oauth2 extends React.Component {
                 <Row key={ name }>
                   <div className="checkbox">
                     <Input data-value={ name }
-                          id={`${name}-checkbox-${this.state.name}`}
+                          id={`${name}-${flow}-checkbox-${this.state.name}`}
                            disabled={ isAuthorized }
                            type="checkbox"
                            onChange={ this.onScopeChange }/>
-                         <label htmlFor={`${name}-checkbox-${this.state.name}`}>
+                         <label htmlFor={`${name}-${flow}-checkbox-${this.state.name}`}>
                            <span className="item"></span>
                            <div className="text">
                              <p className="name">{name}</p>

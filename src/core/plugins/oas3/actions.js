@@ -28,10 +28,10 @@ export function setRequestContentType ({ value, pathMethod }) {
   }
 }
 
-export function setResponseContentType ({ value, pathMethod }) {
+export function setResponseContentType ({ value, path, method }) {
   return {
     type: UPDATE_RESPONSE_CONTENT_TYPE,
-    payload: { value, pathMethod }
+    payload: { value, path, method }
   }
 }
 

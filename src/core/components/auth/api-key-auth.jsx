@@ -61,6 +61,9 @@ export default class ApiKeyAuth extends React.Component {
           <Markdown source={ schema.get("description") } />
         </Row>
         <Row>
+          <p>Name: <code>{ schema.get("name") }</code></p>
+        </Row>
+        <Row>
           <p>In: <code>{ schema.get("in") }</code></p>
         </Row>
         <Row>

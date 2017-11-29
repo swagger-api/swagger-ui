@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { Map } from "immutable"
 import PropTypes from "prop-types"
 import win from "core/window"
+import { getExtensions } from "core/utils"
 
 export default class ParameterRow extends Component {
   static propTypes = {
@@ -72,6 +73,8 @@ export default class ParameterRow extends Component {
 
     let { isOAS3 } = specSelectors
 
+    const { showExtensions } = getConfigs()
+
     // const onChangeWrapper = (value) => onChange(param, value)
     const JsonSchemaForm = getComponent("JsonSchemaForm")
     const ParamBody = getComponent("ParamBody")
@@ -91,6 +94,7 @@ export default class ParameterRow extends Component {
 
     const ModelExample = getComponent("modelExample")
     const Markdown = getComponent("Markdown")
+    const ParameterExt = getComponent("ParameterExt")
 
     let schema = param.get("schema")
     let type = isOAS3 && isOAS3() ? param.getIn(["schema", "type"]) : param.get("type")
@@ -100,6 +104,7 @@ export default class ParameterRow extends Component {
     let itemType = param.getIn(isOAS3 && isOAS3() ? ["schema", "items", "type"] : ["items", "type"])
     let parameter = specSelectors.getParameter(pathMethod, param.get("name"), param.get("in"))
     let value = parameter ? parameter.get("value") : ""
+    let extensions = getExtensions(param)
 
     return (
       <tr>
@@ -113,6 +118,7 @@ export default class ParameterRow extends Component {
             { isOAS3 && isOAS3() && param.get("deprecated") ? "deprecated": null }
           </div>
           <div className="parameter__in">({ param.get("in") })</div>
+          { !showExtensions || !extensions.size ? null : extensions.map((v, key) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} /> )}
         </td>
 
         <td className="col parameters-col_description">
