@@ -15,7 +15,7 @@ import {
   setServerVariableValue,
 } from "corePlugins/oas3/actions"
 
-describe.only("OAS3 plugin - state", function() {
+describe("OAS3 plugin - state", function() {
   describe("action + reducer + selector integration", function() {
     describe("selectedServer", function() {
       it("should set and get a global selectedServer", function() {
