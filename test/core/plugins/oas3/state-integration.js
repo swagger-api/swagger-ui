@@ -15,9 +15,9 @@ import {
   setServerVariableValue,
 } from "corePlugins/oas3/actions"
 
-describe("OAS3 plugin - state", function() {
+describe.only("OAS3 plugin - state", function() {
   describe("action + reducer + selector integration", function() {
-    describe.only("selectedServer", function() {
+    describe("selectedServer", function() {
       it("should set and get a global selectedServer", function() {
         const state = new OrderedMap()
         const system = {
@@ -241,7 +241,7 @@ describe("OAS3 plugin - state", function() {
         })
 
         expect(globalRes.toJS()).toEqual({
-          foo: "bar"
+          foo: "123"
         })
       })
     })
