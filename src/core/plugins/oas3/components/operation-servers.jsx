@@ -4,13 +4,40 @@ import ImPropTypes from "react-immutable-proptypes"
 
 export default class OperationServers extends React.PureComponent {
   static propTypes = {
+    // for self
     operationServers: ImPropTypes.list,
     pathServers: ImPropTypes.list,
+
+    // for Servers
+    currentServer: PropTypes.string.isRequired,
+    setSelectedServer: PropTypes.func.isRequired,
+    setServerVariableValue: PropTypes.func.isRequired,
+    getServerVariable: PropTypes.func.isRequired,
+    getEffectiveServerValue: PropTypes.func.isRequired,
+
+    // utils
     getComponent: PropTypes.func.isRequired
   }
 
   render() {
-    const { getComponent, pathServers, operationServers } = this.props
+    const {
+      // for self
+      operationServers,
+      pathServers,
+
+      // for Servers
+      currentServer,
+      setSelectedServer,
+      setServerVariableValue,
+      getServerVariable,
+      getEffectiveServerValue,
+
+      // util
+      getComponent
+    } = this.props
+
+    const serverPassthroughProps = { currentServer, setSelectedServer, setServerVariableValue, getServerVariable, getEffectiveServerValue }
+
     const Servers = getComponent("Servers")
 
     const serversToDisplay = operationServers || pathServers
@@ -25,6 +52,7 @@ export default class OperationServers extends React.PureComponent {
       <div className="opblock-description-wrapper">
         <h4>These {displaying}-level options override the global server options.</h4>
         <Servers
+          {...serverPassthroughProps}
           servers={serversToDisplay}
           />
       </div>
