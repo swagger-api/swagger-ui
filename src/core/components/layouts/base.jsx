@@ -95,6 +95,7 @@ export default class BaseLayout extends React.Component {
 
             { servers && servers.size ? (
               <div className="server-container">
+                <span className="servers-title">Server</span>
                 <Col className="servers wrapper" mobile={12}>
                   <Servers
                     servers={servers}

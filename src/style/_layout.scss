@@ -671,14 +671,16 @@
       }
     }
 
+    .servers-title {
+      margin: 20px;
+      line-height: 2em;
+      font-weight: bold;
+    }
+
     .servers
     {
         display: flex;
         align-items: center;
-
-        .servers-title {
-          margin-right: 1em;
-        }
 
          > label
         {
