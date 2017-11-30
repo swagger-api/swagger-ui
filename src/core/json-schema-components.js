@@ -189,8 +189,8 @@ export class JsonSchema_boolean extends Component {
     return (<Select className={ errors.length ? "invalid" : ""}
                     title={ errors.length ? errors  : ""}
                     value={ String(value) }
-                    allowedValues={ fromJS(["true", "false"]) }
-                    allowEmptyValue={ true }
+                    allowedValues={ fromJS(schema.enum || ["true", "false"]) }
+                    allowEmptyValue={ !this.props.required }
                     onChange={ this.onEnumChange }/>)
   }
 }

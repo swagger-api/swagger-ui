@@ -85,7 +85,7 @@ describe("<JsonSchemaForm/>", function(){
       expect(wrapper.find("select option").eq(1).text()).toEqual("true")
       expect(wrapper.find("select option").eq(2).text()).toEqual("false")
     })
-    
+
     it("should render the correct options for a required enum boolean parameter", function(){
 
       let props = {
@@ -105,7 +105,7 @@ describe("<JsonSchemaForm/>", function(){
 
       expect(wrapper.find("select").length).toEqual(1)
       expect(wrapper.find("select option").length).toEqual(1)
-      expect(wrapper.find("select option").eq(1).text()).toEqual("true")
+      expect(wrapper.find("select option").first().text()).toEqual("true")
     })
   })
 })
