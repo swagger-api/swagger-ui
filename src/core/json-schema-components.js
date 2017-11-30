@@ -36,7 +36,7 @@ export class JsonSchemaForm extends Component {
 
     let { type, format="" } = schema
 
-    let Comp = format ? getComponent(`JsonSchema_${type}_${format}`) : getComponent(`JsonSchema_${type}`) || getComponent("JsonSchema_string")
+    let Comp = (format ? getComponent(`JsonSchema_${type}_${format}`) : getComponent(`JsonSchema_${type}`)) || getComponent("JsonSchema_string")
     return <Comp { ...this.props } fn={fn} getComponent={getComponent} value={value} onChange={onChange} schema={schema}/>
   }
 
