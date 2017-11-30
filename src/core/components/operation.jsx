@@ -166,12 +166,6 @@ export default class Operation extends PureComponent {
                 </div> : null
               }
 
-              { !tryItOutEnabled ? null :
-                <OperationServers
-                  operationServers={operation.get("servers")}
-                />
-              }
-
               <Parameters
                 parameters={parameters}
                 operation={operation}
@@ -188,6 +182,14 @@ export default class Operation extends PureComponent {
                 pathMethod={ [path, method] }
                 getConfigs={ getConfigs }
               />
+
+              { !tryItOutEnabled ? null :
+                <OperationServers
+                  getComponent={getComponent}
+                  operationServers={operation.get("servers")}
+                  pathServers={specSelectors.paths().getIn([path, "servers"])}
+                />
+              }
 
               {!tryItOutEnabled || !allowTryItOut ? null : schemes && schemes.size ? <div className="opblock-schemes">
                     <Schemes schemes={ schemes }
