@@ -19,11 +19,11 @@ export default class OperationServers extends React.PureComponent {
     return <div className="opblock-section">
       <div className="opblock-section-header">
         <div className="tab-header">
-          <h4 className="opblock-title">Servers ({displaying})</h4>
+          <h4 className="opblock-title">Servers</h4>
         </div>
       </div>
       <div className="opblock-description-wrapper">
-        <h4>These options override the global server settings.</h4>
+        <h4>These {displaying}-level options override the global server options.</h4>
         <Servers
           servers={serversToDisplay}
           />
