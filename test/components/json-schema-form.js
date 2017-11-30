@@ -1,18 +1,17 @@
 /* eslint-env mocha */
 import React from "react"
 import expect, { createSpy } from "expect"
-import { Select } from "components/layout-utils"
+import { Select, Input } from "components/layout-utils"
 import { render } from "enzyme"
 import * as JsonSchemaComponents from "core/json-schema-components"
 import { JsonSchemaForm } from "core/json-schema-components"
 
-const components = {...JsonSchemaComponents, Select}
+const components = {...JsonSchemaComponents, Select, Input}
 
 const getComponentStub = (name) => {
-  return components[name] || (() => {
-    console.error(`Couldn't find "${name}"`)
-    return null
-  })
+  if(components[name]) return components[name]
+
+  return null
 }
 
 describe("<JsonSchemaForm/>", function(){
@@ -106,6 +105,50 @@ describe("<JsonSchemaForm/>", function(){
       expect(wrapper.find("select").length).toEqual(1)
       expect(wrapper.find("select option").length).toEqual(1)
       expect(wrapper.find("select option").first().text()).toEqual("true")
+    })
+  })
+  describe("unknown types", function() {
+    it("should render unknown types as strings", function(){
+
+      let props = {
+        getComponent: getComponentStub,
+        value: "yo",
+        onChange: () => {},
+        keyName: "",
+        fn: {},
+        schema: {
+          type: "NotARealType"
+        }
+      }
+
+
+      let wrapper = render(<JsonSchemaForm {...props}/>)
+
+      expect(wrapper.find("input").length).toEqual(1)
+      // expect(wrapper.find("select input").length).toEqual(1)
+      // expect(wrapper.find("select option").first().text()).toEqual("true")
+    })
+
+    it("should render unknown types as strings when a format is passed", function(){
+
+      let props = {
+        getComponent: getComponentStub,
+        value: "yo",
+        onChange: () => {},
+        keyName: "",
+        fn: {},
+        schema: {
+          type: "NotARealType",
+          format: "NotARealFormat"
+        }
+      }
+
+
+      let wrapper = render(<JsonSchemaForm {...props}/>)
+
+      expect(wrapper.find("input").length).toEqual(1)
+      // expect(wrapper.find("select input").length).toEqual(1)
+      // expect(wrapper.find("select option").first().text()).toEqual("true")
     })
   })
 })
