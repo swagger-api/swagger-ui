@@ -41,6 +41,13 @@ export default class Auths extends React.Component {
     authActions.logout(auths)
   }
 
+  close =(e) => {
+    e.preventDefault()
+    let { authActions } = this.props
+
+    authActions.showDefinitions(false)
+  }
+
   render() {
     let { definitions, getComponent, authSelectors, errSelectors } = this.props
     const AuthItem = getComponent("AuthItem")
@@ -74,6 +81,7 @@ export default class Auths extends React.Component {
               }).toArray()
             }
             <div className="auth-btn-wrapper">
+              <Button className="btn modal-btn auth btn-done" onClick={ this.close }>Done</Button>
               {
                 nonOauthDefinitions.size === authorizedAuth.size ? <Button className="btn modal-btn auth" onClick={ this.logoutClick }>Logout</Button>
               : <Button type="submit" className="btn modal-btn auth authorize">Authorize</Button>
