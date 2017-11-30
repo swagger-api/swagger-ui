@@ -95,7 +95,6 @@ export default class Servers extends React.Component {
     return (
       <div>
         <label htmlFor="servers">
-          <span className="servers-title">Servers</span>
           <select onChange={ this.onServerChange }>
             { servers.valueSeq().map(
               ( server ) =>
