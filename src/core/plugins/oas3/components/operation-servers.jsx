@@ -5,18 +5,53 @@ import ImPropTypes from "react-immutable-proptypes"
 export default class OperationServers extends React.PureComponent {
   static propTypes = {
     // for self
+    path: PropTypes.string.isRequired,
+    method: PropTypes.string.isRequired,
     operationServers: ImPropTypes.list,
     pathServers: ImPropTypes.list,
-
-    // for Servers
-    currentServer: PropTypes.string.isRequired,
     setSelectedServer: PropTypes.func.isRequired,
     setServerVariableValue: PropTypes.func.isRequired,
+    getSelectedServer: PropTypes.func.isRequired,
     getServerVariable: PropTypes.func.isRequired,
     getEffectiveServerValue: PropTypes.func.isRequired,
 
     // utils
     getComponent: PropTypes.func.isRequired
+  }
+
+  setSelectedServer = (server) => {
+    const { path, method } = this.props
+    return this.props.setSelectedServer(server, `${path}:${method}`)
+  }
+
+  setServerVariableValue = (obj) => {
+    const { path, method } = this.props
+    return this.props.setServerVariableValue({
+      ...obj,
+      namespace: `${path}:${method}`
+    })
+  }
+
+  getSelectedServer = () => {
+    const { path, method } = this.props
+    debugger
+    return this.props.getSelectedServer(`${path}:${method}`)
+  }
+
+  getServerVariable = (obj) => {
+    const { path, method } = this.props
+    return this.props.getServerVariable({
+      ...obj,
+      namespace: `${path}:${method}`
+    })
+  }
+
+  getEffectiveServerValue = (obj) => {
+    const { path, method } = this.props
+    return this.props.getEffectiveServerValue({
+      ...obj,
+      namespace: `${path}:${method}`
+    })
   }
 
   render() {
@@ -25,18 +60,9 @@ export default class OperationServers extends React.PureComponent {
       operationServers,
       pathServers,
 
-      // for Servers
-      currentServer,
-      setSelectedServer,
-      setServerVariableValue,
-      getServerVariable,
-      getEffectiveServerValue,
-
       // util
       getComponent
     } = this.props
-
-    const serverPassthroughProps = { currentServer, setSelectedServer, setServerVariableValue, getServerVariable, getEffectiveServerValue }
 
     const Servers = getComponent("Servers")
 
@@ -52,8 +78,12 @@ export default class OperationServers extends React.PureComponent {
       <div className="opblock-description-wrapper">
         <h4>These {displaying}-level options override the global server options.</h4>
         <Servers
-          {...serverPassthroughProps}
           servers={serversToDisplay}
+          currentServer={this.getSelectedServer()}
+          setSelectedServer={this.setSelectedServer}
+          setServerVariableValue={this.setServerVariableValue}
+          getServerVariable={this.getServerVariable}
+          getEffectiveServerValue={this.getEffectiveServerValue}
           />
       </div>
     </div>
