@@ -35,6 +35,7 @@ export default class OperationContainer extends PureComponent {
     getComponent: PropTypes.func.isRequired,
     authActions: PropTypes.object,
     oas3Actions: PropTypes.object,
+    oas3Selectors: PropTypes.object,
     authSelectors: PropTypes.object,
     specActions: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
@@ -149,6 +150,7 @@ export default class OperationContainer extends PureComponent {
       authActions,
       authSelectors,
       oas3Actions,
+      oas3Selectors,
       fn
     } = this.props
 
@@ -189,6 +191,7 @@ export default class OperationContainer extends PureComponent {
         specActions={ specActions }
         specSelectors={ specSelectors }
         oas3Actions={oas3Actions}
+        oas3Selectors={oas3Selectors}
         layoutActions={ layoutActions }
         layoutSelectors={ layoutSelectors }
         authActions={ authActions }

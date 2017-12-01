@@ -22,6 +22,7 @@ export default class Operation extends PureComponent {
     specActions: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
+    oas3Selectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     fn: PropTypes.object.isRequired
@@ -48,7 +49,8 @@ export default class Operation extends PureComponent {
       specSelectors,
       authActions,
       authSelectors,
-      oas3Actions
+      oas3Actions,
+      oas3Selectors
     } = this.props
     let operationProps = this.props.operation
 
@@ -186,8 +188,15 @@ export default class Operation extends PureComponent {
               { !tryItOutEnabled ? null :
                 <OperationServers
                   getComponent={getComponent}
+                  path={path}
+                  method={method}
                   operationServers={operation.get("servers")}
                   pathServers={specSelectors.paths().getIn([path, "servers"])}
+                  getSelectedServer={oas3Selectors.selectedServer}
+                  setSelectedServer={oas3Actions.setSelectedServer}
+                  setServerVariableValue={oas3Actions.setServerVariableValue}
+                  getServerVariable={oas3Selectors.serverVariableValue}
+                  getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
                 />
               }
 
