@@ -69,6 +69,10 @@ export default class OperationServers extends React.Component {
       getComponent
     } = this.props
 
+    if(!operationServers && !pathServers) {
+      return null
+    }
+
     const Servers = getComponent("Servers")
 
     const serversToDisplay = operationServers || pathServers
