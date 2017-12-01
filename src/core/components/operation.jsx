@@ -100,6 +100,7 @@ export default class Operation extends PureComponent {
     const Schemes = getComponent( "schemes" )
     const OperationServers = getComponent( "OperationServers" )
     const OperationExt = getComponent( "OperationExt" )
+    const DeepLinkingLink = getComponent( "DeepLinkingLink" )
 
     const { showExtensions } = getConfigs()
 
@@ -116,12 +117,10 @@ export default class Operation extends PureComponent {
           <div className={`opblock-summary opblock-summary-${method}`} onClick={toggleShown} >
               <span className="opblock-summary-method">{method.toUpperCase()}</span>
               <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } >
-              <a
-                className="nostyle"
-                onClick={isDeepLinkingEnabled ? (e) => e.preventDefault() : null}
-                href={isDeepLinkingEnabled ? `#/${isShownKey.join("/")}` : null}>
-                <span>{path}</span>
-              </a>
+              <DeepLinkingLink
+                  isDeepLinkingEnabled={isDeepLinkingEnabled}
+                  path={isShownKey.join("/")}
+                  text={path} />
                 <JumpToPath path={jumpToKey} />
               </span>
 
