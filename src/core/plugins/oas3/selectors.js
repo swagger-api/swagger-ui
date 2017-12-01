@@ -15,8 +15,9 @@ function onlyOAS3(selector) {
   }
 }
 
-export const selectedServer = onlyOAS3(state => {
-    return state.getIn(["selectedServer"]) || ""
+export const selectedServer = onlyOAS3((state, namespace) => {
+    const path = namespace ? [namespace, "selectedServer"] : ["selectedServer"]
+    return state.getIn(path) || ""
   }
 )
 
@@ -35,19 +36,68 @@ export const responseContentType = onlyOAS3((state, path, method) => {
   }
 )
 
-export const serverVariableValue = onlyOAS3((state, server, key) => {
-    return state.getIn(["serverVariableValues", server, key]) || null
+export const serverVariableValue = onlyOAS3((state, locationData, key) => {
+    let path
+
+    // locationData may take one of two forms, for backwards compatibility
+    // Object: ({server, namespace?}) or String:(server)
+    if(typeof locationData !== "string") {
+      const { server, namespace } = locationData
+      if(namespace) {
+        path = [namespace, "serverVariableValues", server, key]
+      } else {
+        path = ["serverVariableValues", server, key]
+      }
+    } else {
+      const server = locationData
+      path = ["serverVariableValues", server, key]
+    }
+
+    return state.getIn(path) || null
   }
 )
 
-export const serverVariables = onlyOAS3((state, server) => {
-    return state.getIn(["serverVariableValues", server]) || OrderedMap()
+export const serverVariables = onlyOAS3((state, locationData) => {
+    let path
+
+    // locationData may take one of two forms, for backwards compatibility
+    // Object: ({server, namespace?}) or String:(server)
+    if(typeof locationData !== "string") {
+      const { server, namespace } = locationData
+      if(namespace) {
+        path = [namespace, "serverVariableValues", server]
+      } else {
+        path = ["serverVariableValues", server]
+      }
+    } else {
+      const server = locationData
+      path = ["serverVariableValues", server]
+    }
+
+    return state.getIn(path) || OrderedMap()
   }
 )
 
-export const serverEffectiveValue = onlyOAS3((state, server) => {
-    let varValues = state.getIn(["serverVariableValues", server]) || OrderedMap()
-    let str = server
+export const serverEffectiveValue = onlyOAS3((state, locationData) => {
+    var varValues, serverValue
+
+    // locationData may take one of two forms, for backwards compatibility
+    // Object: ({server, namespace?}) or String:(server)
+    if(typeof locationData !== "string") {
+      const { server, namespace } = locationData
+      serverValue = server
+      if(namespace) {
+        varValues = state.getIn([namespace, "serverVariableValues", serverValue])
+      } else {
+        varValues = state.getIn(["serverVariableValues", serverValue])
+      }
+    } else {
+      serverValue = locationData
+      varValues = state.getIn(["serverVariableValues", serverValue])
+    }
+
+    varValues = varValues || OrderedMap()
+    let str = serverValue
 
     varValues.map((val, key) => {
       str = str.replace(new RegExp(`{${key}}`, "g"), val)

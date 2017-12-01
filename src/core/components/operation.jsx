@@ -22,6 +22,7 @@ export default class Operation extends PureComponent {
     specActions: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
+    oas3Selectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     fn: PropTypes.object.isRequired
@@ -48,7 +49,8 @@ export default class Operation extends PureComponent {
       specSelectors,
       authActions,
       authSelectors,
-      oas3Actions
+      oas3Actions,
+      oas3Selectors
     } = this.props
     let operationProps = this.props.operation
 
@@ -96,6 +98,7 @@ export default class Operation extends PureComponent {
     const Collapse = getComponent( "Collapse" )
     const Markdown = getComponent( "Markdown" )
     const Schemes = getComponent( "schemes" )
+    const OperationServers = getComponent( "OperationServers" )
     const OperationExt = getComponent( "OperationExt" )
 
     const { showExtensions } = getConfigs()
@@ -181,6 +184,21 @@ export default class Operation extends PureComponent {
                 pathMethod={ [path, method] }
                 getConfigs={ getConfigs }
               />
+
+              { !tryItOutEnabled ? null :
+                <OperationServers
+                  getComponent={getComponent}
+                  path={path}
+                  method={method}
+                  operationServers={operation.get("servers")}
+                  pathServers={specSelectors.paths().getIn([path, "servers"])}
+                  getSelectedServer={oas3Selectors.selectedServer}
+                  setSelectedServer={oas3Actions.setSelectedServer}
+                  setServerVariableValue={oas3Actions.setServerVariableValue}
+                  getServerVariable={oas3Selectors.serverVariableValue}
+                  getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
+                />
+              }
 
               {!tryItOutEnabled || !allowTryItOut ? null : schemes && schemes.size ? <div className="opblock-schemes">
                     <Schemes schemes={ schemes }
