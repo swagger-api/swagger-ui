@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 
-export default class OperationServers extends React.PureComponent {
+export default class OperationServers extends React.Component {
   static propTypes = {
     // for self
     path: PropTypes.string.isRequired,
@@ -21,11 +21,17 @@ export default class OperationServers extends React.PureComponent {
 
   setSelectedServer = (server) => {
     const { path, method } = this.props
+    // FIXME: we should be keeping up with this in props/state upstream of us
+    // instead of cheating™ with `forceUpdate`
+    this.forceUpdate()
     return this.props.setSelectedServer(server, `${path}:${method}`)
   }
 
   setServerVariableValue = (obj) => {
     const { path, method } = this.props
+    // FIXME: we should be keeping up with this in props/state upstream of us
+    // instead of cheating™ with `forceUpdate`
+    this.forceUpdate()
     return this.props.setServerVariableValue({
       ...obj,
       namespace: `${path}:${method}`
@@ -34,22 +40,21 @@ export default class OperationServers extends React.PureComponent {
 
   getSelectedServer = () => {
     const { path, method } = this.props
-    debugger
     return this.props.getSelectedServer(`${path}:${method}`)
   }
 
-  getServerVariable = (obj) => {
+  getServerVariable = (server, key) => {
     const { path, method } = this.props
     return this.props.getServerVariable({
-      ...obj,
-      namespace: `${path}:${method}`
-    })
+      namespace: `${path}:${method}`,
+      server
+    }, key)
   }
 
-  getEffectiveServerValue = (obj) => {
+  getEffectiveServerValue = (server) => {
     const { path, method } = this.props
     return this.props.getEffectiveServerValue({
-      ...obj,
+      server,
       namespace: `${path}:${method}`
     })
   }

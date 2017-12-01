@@ -18,7 +18,6 @@ export default class Servers extends React.Component {
     let { servers } = this.props
 
     //fire 'change' event to set default 'value' of select
-    debugger
     this.setServer(servers.first().get("url"))
   }
 
