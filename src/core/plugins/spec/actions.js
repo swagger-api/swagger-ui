@@ -232,13 +232,13 @@ export const executeRequest = (req) =>
 
       req.server = oas3Selectors.selectedServer(namespace) || oas3Selectors.selectedServer()
 
-      const operationVariables = oas3Selectors.serverVariables({
+      const namespaceVariables = oas3Selectors.serverVariables({
         server: req.server,
         namespace
-      })
-      const globalVariables = oas3Selectors.serverVariables({ server: req.server })
-      
-      req.serverVariables = operationVariables.size ? operationVariables : globalVariables
+      }).toJS()
+      const globalVariables = oas3Selectors.serverVariables({ server: req.server }).toJS()
+
+      req.serverVariables = Object.keys(namespaceVariables).length ? namespaceVariables : globalVariables
 
       req.requestContentType = oas3Selectors.requestContentType(pathName, method)
       req.responseContentType = oas3Selectors.responseContentType(pathName, method) || "*/*"
