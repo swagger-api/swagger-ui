@@ -76,34 +76,34 @@ window.onload = function() {
   var pattern = new RegExp("cx-[a-z0-9]+");
   var res = pattern.exec(window.location.hostname);
   var env = res && res.length == 1 ? res[0] : "cx-staging";
-  var docsUrl = "http://static." + env + ".com/docs/";
+  var docsUrl = "http://static." + env + ".com/docs/swagger";
 
   // Build a system
   const ui = SwaggerUIBundle({
     
     urls: [
       {
-        url: docsUrl + "ent.json",
+        url: docsUrl + "ent/ent.json",
         name: "Entitlements"
       },
       {
-        url: docsUrl + "subs.json",
+        url: docsUrl + "subs/subs.json",
         name: "Subscriptions"
       },
       {
-        url: docsUrl + "core.json",
+        url: docsUrl + "core/core.json",
         name: "Core"
       },
       {
-        url: docsUrl + "ess.json",
+        url: docsUrl + "ess/ess.json",
         name: "ESS"
       },
       {
-        url: docsUrl + "data-contentdiscovery.json",
+        url: docsUrl + "data-contentdiscovery/data-contentdiscovery.json",
         name: "Discovery"
       },
       {
-        url: docsUrl + "cms-api.json",
+        url: docsUrl + "cms-api/cms-api.json",
         name: "CMS API"
       }
     ],
