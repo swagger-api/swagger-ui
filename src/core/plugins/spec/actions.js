@@ -228,9 +228,18 @@ export const executeRequest = (req) =>
     }
 
     if(specSelectors.isOAS3()) {
-      // OAS3 request feature support
-      req.server = oas3Selectors.selectedServer()
-      req.serverVariables = oas3Selectors.serverVariables(req.server).toJS()
+      const namespace = `${pathName}:${method}`
+
+      req.server = oas3Selectors.selectedServer(namespace) || oas3Selectors.selectedServer()
+
+      const operationVariables = oas3Selectors.serverVariables({
+        server: req.server,
+        namespace
+      })
+      const globalVariables = oas3Selectors.serverVariables({ server: req.server })
+      
+      req.serverVariables = operationVariables.size ? operationVariables : globalVariables
+
       req.requestContentType = oas3Selectors.requestContentType(pathName, method)
       req.responseContentType = oas3Selectors.responseContentType(pathName, method) || "*/*"
       const requestBody = oas3Selectors.requestBodyValue(pathName, method)
