@@ -93,7 +93,7 @@ export default class Servers extends React.Component {
     let shouldShowVariableUI = currentServerVariableDefs.size !== 0
 
     return (
-      <div>
+      <div className="servers">
         <label htmlFor="servers">
           <select onChange={ this.onServerChange }>
             { servers.valueSeq().map(
