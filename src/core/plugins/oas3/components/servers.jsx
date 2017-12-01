@@ -15,7 +15,11 @@ export default class Servers extends React.Component {
   }
 
   componentDidMount() {
-    let { servers } = this.props
+    let { servers, currentServer } = this.props
+
+    if(currentServer) {
+      return
+    }
 
     //fire 'change' event to set default 'value' of select
     this.setServer(servers.first().get("url"))
