@@ -95,8 +95,8 @@ export default class BaseLayout extends React.Component {
 
             { servers && servers.size ? (
               <div className="global-server-container">
-                <span className="servers-title">Server</span>
                 <Col className="servers wrapper" mobile={12}>
+                  <span className="servers-title">Server</span>
                   <Servers
                     servers={servers}
                     currentServer={oas3Selectors.selectedServer()}
