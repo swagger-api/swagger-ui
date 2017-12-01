@@ -183,7 +183,7 @@ export class Select extends React.Component {
         { allowEmptyValue ? <option value="">--</option> : null }
         {
           allowedValues.map(function (item, key) {
-            return <option key={ key } value={ String(item) }>{ item }</option>
+            return <option key={ key } value={ String(item) }>{ String(item) }</option>
           })
         }
       </select>
