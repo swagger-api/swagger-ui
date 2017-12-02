@@ -7,8 +7,9 @@ import {
 } from "./actions"
 
 export default {
-  [UPDATE_SELECTED_SERVER]: (state, { payload: selectedServerUrl } ) =>{
-    return state.setIn( [ "selectedServer" ], selectedServerUrl)
+  [UPDATE_SELECTED_SERVER]: (state, { payload: { selectedServerUrl, namespace } } ) =>{
+    const path = namespace ? [ namespace, "selectedServer"] : [ "selectedServer"]
+    return state.setIn( path, selectedServerUrl)
   },
   [UPDATE_REQUEST_BODY_VALUE]: (state, { payload: { value, pathMethod } } ) =>{
     let [path, method] = pathMethod
@@ -21,7 +22,8 @@ export default {
   [UPDATE_RESPONSE_CONTENT_TYPE]: (state, { payload: { value, path, method } } ) =>{
     return state.setIn( [ "requestData", path, method, "responseContentType" ], value)
   },
-  [UPDATE_SERVER_VARIABLE_VALUE]: (state, { payload: { server, key, val } } ) =>{
-    return state.setIn( [ "serverVariableValues", server, key ], val)
+  [UPDATE_SERVER_VARIABLE_VALUE]: (state, { payload: { server, namespace, key, val } } ) =>{
+    const path = namespace ? [ namespace, "serverVariableValues", server, key ] : [ "serverVariableValues", server, key ]
+    return state.setIn(path, val)
   },
 }
