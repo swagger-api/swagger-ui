@@ -75,6 +75,7 @@ export default class Operations extends React.Component {
                     id={isShownKey.join("-")}>
                     <DeepLinkingLink
                         isDeepLinkingEnabled={isDeepLinkingEnabled}
+                        isShown={showTag}
                         path={tag}
                         text={tag} />
                     { !tagDescription ? null :

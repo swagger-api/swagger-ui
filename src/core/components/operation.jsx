@@ -119,7 +119,8 @@ export default class Operation extends PureComponent {
               <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } >
               <DeepLinkingLink
                   isDeepLinkingEnabled={isDeepLinkingEnabled}
-                  path={isShownKey.join("/")}
+                  isShown={isShown}
+                  path={`${isShownKey.join("/")}`}
                   text={path} />
                 <JumpToPath path={jumpToKey} />
               </span>

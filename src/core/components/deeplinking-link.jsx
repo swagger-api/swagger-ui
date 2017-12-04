@@ -11,7 +11,8 @@ export const DeepLinkingLink = ({ isDeepLinkingEnabled, path, text }) => {
     )
 }
 DeepLinkingLink.propTypes = {
-  isDeepLinkingEnabled: PropTypes.boolean,
+  isDeepLinkingEnabled: PropTypes.bool,
+  isShown: PropTypes.bool,
   path: PropTypes.string,
   text: PropTypes.string
 }
