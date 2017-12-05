@@ -14,7 +14,7 @@ additionalQueryStringParams | Additional query parameters added to `authorizatio
 useBasicAuthenticationWithAccessCodeGrant | Only activated for the `accessCode` flow.  During the `authorization_code` request to the `tokenUrl`, pass the [Client Password](https://tools.ietf.org/html/rfc6749#section-2.3.1) using the HTTP Basic Authentication scheme (`Authorization` header with `Basic base64encoded[client_id:client_secret]`).  The default is `false`
 
 ```javascript
-const ui = SwaggerUIBundle({...})
+const ui = SwaggerUI({...})
 
 // Method can be called in any place after calling constructor SwaggerUIBundle
 ui.initOAuth({
