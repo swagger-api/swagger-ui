@@ -30,6 +30,24 @@ Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes
 1.0.13 | 2013-03-08 | 1.1, 1.2 | [tag v1.0.13](https://github.com/swagger-api/swagger-ui/tree/v1.0.13)
 1.0.1 | 2011-10-11 | 1.0, 1.1 | [tag v1.0.1](https://github.com/swagger-api/swagger-ui/tree/v1.0.1)
 
+## Documentation
+
+#### Usage
+- [Installation](docs/usage/installation.md)
+- [Configuration](docs/usage/configuration.md)
+- [CORS](docs/usage/cors.md)
+- [OAuth2](docs/usage/oauth2.md)
+- [Deep Linking](docs/usage/deep-linking.md)
+- [Limitations](docs/usage/limitations.md)
+- [Version detection](docs/usage/version-detection.md)
+
+#### Customization
+- [Overview](docs/customization/overview.md)
+- [Plugin API](docs/customization/plugin-api.md)
+- [Custom layout](docs/customization/custom-layout.md)
+
+#### Development
+- [Setting up](docs/development/setting-up.md)
 
 ### How to run
 
