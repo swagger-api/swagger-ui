@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { formatXml } from "core/utils"
+import formatXml from "xml-but-prettier"
 import lowerCase from "lodash/lowerCase"
 
 export default class ResponseBody extends React.Component {
@@ -31,7 +31,10 @@ export default class ResponseBody extends React.Component {
 
       // XML
     } else if (/xml/i.test(contentType)) {
-      body = formatXml(content)
+      body = formatXml(content, {
+        textNodesOnSameLine: true,
+        indentor: "  "
+      })
       bodyEl = <HighlightCode value={ body } />
 
       // HTML or Plain Text
@@ -53,9 +56,6 @@ export default class ResponseBody extends React.Component {
       (headers["content-disposition"] && (/attachment/i).test(headers["content-disposition"])) ||
       (headers["Content-Description"] && (/File Transfer/i).test(headers["Content-Description"])) ||
       (headers["content-description"] && (/File Transfer/i).test(headers["content-description"]))) {
-
-      let contentLength = headers["content-length"] || headers["Content-Length"]
-      if ( !(+contentLength) ) return null
 
       const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
@@ -83,8 +83,12 @@ export default class ResponseBody extends React.Component {
       // Anything else (CORS)
     } else if (typeof content === "string") {
       bodyEl = <HighlightCode value={ content } />
-    } else {
+    } else if ( content.size > 0 ) {
+      // We don't know the contentType, but there was some content returned
       bodyEl = <div>Unknown response type</div>
+    } else {
+      // We don't know the contentType and there was no content returned
+      bodyEl = null
     }
 
     return ( !bodyEl ? null : <div>

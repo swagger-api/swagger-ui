@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import Collapse from "react-collapse"
+import { Collapse } from "react-collapse"
 import { presets } from "react-motion"
 import ObjectInspector from "react-object-inspector"
 import Perf from "react-addons-perf"

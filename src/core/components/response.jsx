@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import cx from "classnames"
-import { fromJS, Seq } from "immutable"
+import { fromJS, Seq, Iterable } from "immutable"
 import { getSampleSchema, fromJSOrdered } from "core/utils"
 
 const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
@@ -42,7 +42,7 @@ export default class Response extends React.Component {
 
   static propTypes = {
     code: PropTypes.string.isRequired,
-    response: PropTypes.object,
+    response: PropTypes.instanceOf(Iterable),
     className: PropTypes.string,
     getComponent: PropTypes.func.isRequired,
     getConfigs: PropTypes.func.isRequired,
@@ -153,7 +153,10 @@ export default class Response extends React.Component {
           ) : null}
 
           { headers ? (
-            <Headers headers={ headers }/>
+            <Headers
+              headers={ headers }
+              getComponent={ getComponent }
+            />
           ) : null}
 
 

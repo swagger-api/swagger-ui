@@ -1,7 +1,11 @@
 /* eslint-env mocha */
+import React, { PureComponent } from "react"
 import expect from "expect"
 import System from "core/system"
 import { fromJS } from "immutable"
+import { render } from "enzyme"
+import ViewPlugin from "core/plugins/view/index.js"
+import { connect, Provider } from "react-redux"
 
 describe("bound system", function(){
 
@@ -442,6 +446,241 @@ describe("bound system", function(){
       })
     })
 
+  })
+
+  describe("getComponent", function() {
+    it("returns a component from the system", function() {
+      const system = new System({
+        plugins: [
+          ViewPlugin,
+          {
+            components: {
+              test: ({ name }) => <div>{name} component</div>
+            }
+          }
+        ]
+      })
+
+      // When
+      var Component = system.getSystem().getComponent("test")
+      const renderedComponent = render(<Component name="Test" />)
+      expect(renderedComponent.text()).toEqual("Test component")
+    })
+
+    it("allows container components to provide their own `mapStateToProps` function", function() {
+      // Given
+      class ContainerComponent extends PureComponent {
+        mapStateToProps(nextState, props) {
+          return {
+            "fromMapState": "This came from mapStateToProps"
+          }
+        }
+
+        static defaultProps = {
+          "fromMapState" : ""
+        }
+
+        render() {
+          const { exampleSelectors, fromMapState, fromOwnProps } = this.props
+          return (
+            <div>{ fromMapState } {exampleSelectors.foo()} {fromOwnProps}</div>
+          )
+        }
+      }
+      const system = new System({
+        plugins: [
+          ViewPlugin,
+          {
+            components: {
+              ContainerComponent
+            }
+          },
+          {
+            statePlugins: {
+              example: {
+                selectors: {
+                  foo() { return "and this came from the system" }
+                }
+              }
+            }
+          }
+        ]
+      })
+
+      // When
+      var Component = system.getSystem().getComponent("ContainerComponent", true)
+      const renderedComponent = render(
+        <Provider store={system.getStore()}>
+          <Component fromOwnProps="and this came from my own props" />
+        </Provider>
+      )
+
+      // Then
+      expect(renderedComponent.text()).toEqual("This came from mapStateToProps and this came from the system and this came from my own props")
+    })
+
+    it("gives the system and own props as props to a container's `mapStateToProps` function", function() {
+      // Given
+      class ContainerComponent extends PureComponent {
+        mapStateToProps(nextState, props) {
+          const { exampleSelectors, fromMapState, fromOwnProps } = props
+          return {
+            "fromMapState": `This came from mapStateToProps ${exampleSelectors.foo()} ${fromOwnProps}`
+          }
+        }
+
+        static defaultProps = {
+          "fromMapState" : ""
+        }
+
+        render() {
+          const { fromMapState } = this.props
+          return (
+            <div>{ fromMapState }</div>
+          )
+        }
+      }
+      const system = new System({
+        plugins: [
+          ViewPlugin,
+          {
+            components: {
+              ContainerComponent
+            }
+          },
+          {
+            statePlugins: {
+              example: {
+                selectors: {
+                  foo() { return "and this came from the system" }
+                }
+              }
+            }
+          }
+        ]
+      })
+
+      // When
+      var Component = system.getSystem().getComponent("ContainerComponent", true)
+      const renderedComponent = render(
+        <Provider store={system.getStore()}>
+          <Component fromOwnProps="and this came from my own props" />
+        </Provider>
+      )
+
+      // Then
+      expect(renderedComponent.text()).toEqual("This came from mapStateToProps and this came from the system and this came from my own props")
+    })
+
+    it("should catch errors thrown inside of React Component Class render methods", function() {
+      // Given
+      // eslint-disable-next-line react/require-render-return
+      class BrokenComponent extends React.Component {
+        render() {
+          throw new Error("This component is broken")
+        }
+      }
+      const system = new System({
+        plugins: [
+          ViewPlugin,
+          {
+            components: {
+              BrokenComponent
+            }
+          }
+        ]
+      })
+
+      // When
+      var Component = system.getSystem().getComponent("BrokenComponent")
+      const renderedComponent = render(<Component />)
+
+      // Then
+      expect(renderedComponent.text()).toEqual("😱 Could not render BrokenComponent, see the console.")
+    })
+
+    it("should catch errors thrown inside of pure component render methods", function() {
+      // Given
+      // eslint-disable-next-line react/require-render-return
+      class BrokenComponent extends PureComponent {
+        render() {
+          throw new Error("This component is broken")
+        }
+      }
+
+      const system = new System({
+        plugins: [
+          ViewPlugin,
+          {
+            components: {
+              BrokenComponent
+            }
+          }
+        ]
+      })
+
+      // When
+      var Component = system.getSystem().getComponent("BrokenComponent")
+      const renderedComponent = render(<Component />)
+
+      // Then
+      expect(renderedComponent.text()).toEqual("😱 Could not render BrokenComponent, see the console.")
+    })
+
+    it("should catch errors thrown inside of stateless component functions", function() {
+      // Given
+      // eslint-disable-next-line react/require-render-return
+      let BrokenComponent = function BrokenComponent() { throw new Error("This component is broken") }
+      const system = new System({
+        plugins: [
+          ViewPlugin,
+          {
+            components: {
+              BrokenComponent
+            }
+          }
+        ]
+      })
+
+      // When
+      var Component = system.getSystem().getComponent("BrokenComponent")
+      const renderedComponent = render(<Component />)
+
+      // Then
+      expect(renderedComponent.text().startsWith("😱 Could not render")).toEqual(true)
+    })
+
+    it("should catch errors thrown inside of container components", function() {
+      // Given
+      // eslint-disable-next-line react/require-render-return
+      class BrokenComponent extends React.Component {
+        render() {
+          throw new Error("This component is broken")
+        }
+      }
+
+      const system = new System({
+        plugins: [
+          ViewPlugin,
+          {
+            components: {
+              BrokenComponent
+            }
+          }
+        ]
+      })
+
+      // When
+      var Component = system.getSystem().getComponent("BrokenComponent", true)
+      const renderedComponent = render(
+        <Provider store={system.getStore()}>
+          <Component />
+        </Provider>
+      )
+
+      // Then
+      expect(renderedComponent.text()).toEqual("😱 Could not render BrokenComponent, see the console.")
+    })
   })
 
 })

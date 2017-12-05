@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { List } from "immutable"
-import Collapse from "react-collapse"
+import { Collapse } from "react-collapse"
 
 export default class Errors extends React.Component {
 
@@ -113,7 +113,7 @@ const SpecErrorItem = ( { error, jumpToLine } ) => {
   }
 
 function toTitleCase(str) {
-  return str
+  return (str || "")
     .split(" ")
     .map(substr => substr[0].toUpperCase() + substr.slice(1))
     .join(" ")

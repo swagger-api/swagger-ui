@@ -22,6 +22,16 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     case "implicit":
       query.push("response_type=token")
       break
+
+    case "clientCredentials":
+      // OAS3
+      authActions.authorizeApplication(auth)
+      return
+
+    case "authorizationCode":
+      // OAS3
+      query.push("response_type=code")
+      break
   }
 
   if (typeof clientId === "string") {

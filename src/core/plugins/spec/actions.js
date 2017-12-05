@@ -80,7 +80,12 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
 }
 
 export const resolveSpec = (json, url) => ({specActions, specSelectors, errActions, fn: { fetch, resolve, AST }, getConfigs}) => {
-  const { modelPropertyMacro, parameterMacro } = getConfigs()
+  const {
+    modelPropertyMacro,
+    parameterMacro,
+    requestInterceptor,
+    responseInterceptor
+  } = getConfigs()
 
   if(typeof(json) === "undefined") {
     json = specSelectors.specJson()
@@ -93,8 +98,15 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
 
   let specStr = specSelectors.specStr()
 
-  return resolve({fetch, spec: json, baseDoc: url, modelPropertyMacro, parameterMacro })
-    .then( ({spec, errors}) => {
+  return resolve({
+    fetch,
+    spec: json,
+    baseDoc: url,
+    modelPropertyMacro,
+    parameterMacro,
+    requestInterceptor,
+    responseInterceptor
+  }).then( ({spec, errors}) => {
       errActions.clear({
         type: "thrown"
       })
@@ -137,10 +149,13 @@ export function changeParam( path, paramName, paramIn, value, isXml ){
   }
 }
 
-export function validateParams( payload ){
+export const validateParams = ( payload, isOAS3 ) =>{
   return {
     type: VALIDATE_PARAMS,
-    payload:{ pathMethod: payload }
+    payload:{
+      pathMethod: payload,
+      isOAS3
+    }
   }
 }
 
@@ -213,9 +228,18 @@ export const executeRequest = (req) =>
     }
 
     if(specSelectors.isOAS3()) {
-      // OAS3 request feature support
-      req.server = oas3Selectors.selectedServer()
-      req.serverVariables = oas3Selectors.serverVariables(req.server).toJS()
+      const namespace = `${pathName}:${method}`
+
+      req.server = oas3Selectors.selectedServer(namespace) || oas3Selectors.selectedServer()
+
+      const namespaceVariables = oas3Selectors.serverVariables({
+        server: req.server,
+        namespace
+      }).toJS()
+      const globalVariables = oas3Selectors.serverVariables({ server: req.server }).toJS()
+
+      req.serverVariables = Object.keys(namespaceVariables).length ? namespaceVariables : globalVariables
+
       req.requestContentType = oas3Selectors.requestContentType(pathName, method)
       req.responseContentType = oas3Selectors.responseContentType(pathName, method) || "*/*"
       const requestBody = oas3Selectors.requestBodyValue(pathName, method)

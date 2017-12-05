@@ -1,8 +1,8 @@
 .topbar
 {
-    padding: 8px 30px;
+    padding: 8px 0;
 
-    background-color: #89bf04;
+    background-color: $topbar-background-color;
     .topbar-wrapper
     {
         display: flex;
@@ -21,7 +21,7 @@
 
         text-decoration: none;
 
-        @include text_headline(#fff);
+        @include text_headline($topbar-link-font-color);
 
         span
         {
@@ -39,10 +39,9 @@
         input[type=text]
         {
             width: 100%;
-            min-width: 350px;
             margin: 0;
 
-            border: 2px solid #547f00;
+            border: 2px solid $topbar-download-url-wrapper-element-border-color;
             border-radius: 4px 0 0 4px;
             outline: none;
         }
@@ -72,7 +71,7 @@
 
                 width: 100%;
 
-                border: 2px solid #547f00;
+                border: 2px solid $topbar-download-url-wrapper-element-border-color;
                 outline: none;
                 box-shadow: none;
             }
@@ -84,13 +83,13 @@
             font-size: 16px;
             font-weight: bold;
 
-            padding: 4px 40px;
+            padding: 4px 30px;
 
             border: none;
             border-radius: 0 4px 4px 0;
-            background: #547f00;
+            background: $topbar-download-url-button-background-color;
 
-            @include text_headline(#fff);
+            @include text_headline($topbar-download-url-button-font-color);
         }
     }
 }

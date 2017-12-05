@@ -20,8 +20,14 @@ const RootWrapper = (reduxStore, ComponentToWrap) => class extends Component {
 }
 
 const makeContainer = (getSystem, component, reduxStore) => {
+  const mapStateToProps = function(state, ownProps) {
+    const propsForContainerComponent = Object.assign({}, ownProps, getSystem())
+    const ori = component.prototype.mapStateToProps || (state => { return {state} })
+    return ori(state, propsForContainerComponent)
+  }
+
   let wrappedWithSystem = SystemWrapper(getSystem, component, reduxStore)
-  let connected = connect(state => ({state}))(wrappedWithSystem)
+  let connected = connect( mapStateToProps )(wrappedWithSystem)
   if(reduxStore)
     return RootWrapper(reduxStore, connected)
   return connected
@@ -114,5 +120,5 @@ export const getComponent = (getSystem, getStore, getComponents, componentName, 
     return makeContainer(getSystem, component, getStore())
 
   // container == truthy
-  return makeContainer(getSystem, component)
+  return makeContainer(getSystem, wrapRender(component))
 }
