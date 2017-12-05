@@ -35,4 +35,4 @@ Forbidden headers include:
 The biggest impact of this is that OpenAPI 3.0 Cookie parameters cannot be
 controlled when running Swagger-UI in a browser.
 
-_For more context, see [#3956](https://github.com/swagger-api/swagger-ui/issues/3956).
+For more context, see [#3956](https://github.com/swagger-api/swagger-ui/issues/3956).
