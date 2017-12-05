@@ -24,7 +24,7 @@ export default class ParameterRow extends Component {
     let defaultValue = param.get("default")
     let parameter = specSelectors.getParameter(pathMethod, param.get("name"), param.get("in"))
     let value = parameter ? parameter.get("value") : ""
-    if ( defaultValue !== undefined && value === undefined ) {
+    if (defaultValue !== undefined && value === undefined) {
       this.onChangeWrapper(defaultValue)
     }
   }
@@ -38,7 +38,7 @@ export default class ParameterRow extends Component {
     let parameter = specSelectors.getParameter(pathMethod, param.get("name"), param.get("in"))
     let enumValue
 
-    if(isOAS3()) {
+    if (isOAS3()) {
       let schema = param.get("schema") || Map()
       enumValue = schema.get("enum")
     } else {
@@ -48,17 +48,17 @@ export default class ParameterRow extends Component {
 
     let value
 
-    if ( paramValue !== undefined ) {
+    if (paramValue !== undefined) {
       value = paramValue
-    } else if ( example !== undefined ) {
+    } else if (example !== undefined) {
       value = example
-    } else if ( defaultValue !== undefined) {
+    } else if (defaultValue !== undefined) {
       value = defaultValue
-    } else if ( param.get("required") && enumValue && enumValue.size ) {
+    } else if (param.get("required") && enumValue && enumValue.size) {
       value = enumValue.first()
     }
 
-    if ( value !== undefined ) {
+    if (value !== undefined) {
       this.onChangeWrapper(value)
     }
   }
@@ -69,7 +69,7 @@ export default class ParameterRow extends Component {
   }
 
   render() {
-    let {param, onChange, getComponent, getConfigs, isExecute, fn, onChangeConsumes, specSelectors, pathMethod} = this.props
+    let { param, onChange, getComponent, getConfigs, isExecute, fn, onChangeConsumes, specSelectors, pathMethod } = this.props
 
     let { isOAS3 } = specSelectors
 
@@ -81,15 +81,15 @@ export default class ParameterRow extends Component {
     let inType = param.get("in")
     let bodyParam = inType !== "body" ? null
       : <ParamBody getComponent={getComponent}
-                   fn={fn}
-                   param={param}
-                   consumes={ specSelectors.operationConsumes(pathMethod) }
-                   consumesValue={ specSelectors.contentTypeValues(pathMethod).get("requestContentType") }
-                   onChange={onChange}
-                   onChangeConsumes={onChangeConsumes}
-                   isExecute={ isExecute }
-                   specSelectors={ specSelectors }
-                   pathMethod={ pathMethod }
+        fn={fn}
+        param={param}
+        consumes={specSelectors.operationConsumes(pathMethod)}
+        consumesValue={specSelectors.contentTypeValues(pathMethod).get("requestContentType")}
+        onChange={onChange}
+        onChangeConsumes={onChangeConsumes}
+        isExecute={isExecute}
+        specSelectors={specSelectors}
+        pathMethod={pathMethod}
       />
 
     const ModelExample = getComponent("modelExample")
@@ -107,42 +107,43 @@ export default class ParameterRow extends Component {
     let extensions = getExtensions(param)
 
     return (
+
       <tr>
         <td className="col parameters-col_name">
           <div className={required ? "parameter__name required" : "parameter__name"}>
-            { param.get("name") }
-            { !required ? null : <span style={{color: "red"}}>&nbsp;*</span> }
+            {param.get("name")}
+            {!required ? null : <span style={{ color: "red" }}>&nbsp;*</span>}
           </div>
-          <div className="parameter__type">{ type } { itemType && `[${itemType}]` }</div>
+          <div className="parameter__type">{type} {itemType && `[${itemType}]`}</div>
           <div className="parameter__deprecated">
-            { isOAS3 && isOAS3() && param.get("deprecated") ? "deprecated": null }
+            {isOAS3 && isOAS3() && param.get("deprecated") ? "deprecated" : null}
           </div>
-          <div className="parameter__in">({ param.get("in") })</div>
-          { !showExtensions || !extensions.size ? null : extensions.map((v, key) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} /> )}
+          <div className="parameter__in">({param.get("in")})</div>
+          {!showExtensions || !extensions.size ? null : extensions.map((v, key) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} />)}
         </td>
 
         <td className="col parameters-col_description">
-          <Markdown source={ param.get("description") }/>
+          <Markdown source={param.get("description")} />
           {(isFormData && !isFormDataSupported) && <div>Error: your browser does not support FormData</div>}
 
-          { bodyParam || !isExecute ? null
+          {bodyParam || !isExecute ? null
             : <JsonSchemaForm fn={fn}
-                              getComponent={getComponent}
-                              value={ value }
-                              required={ required }
-                              description={param.get("description") ? `${param.get("name")} - ${param.get("description")}` : `${param.get("name")}`}
-                              onChange={ this.onChangeWrapper }
-                              schema={ isOAS3 && isOAS3() ? param.get("schema") : param }/>
+              getComponent={getComponent}
+              value={value}
+              required={required}
+              description={param.get("description") ? `${param.get("name")} - ${param.get("description")}` : `${param.get("name")}`}
+              onChange={this.onChangeWrapper}
+              schema={isOAS3 && isOAS3() ? param.get("schema") : param} />
           }
 
 
           {
-            bodyParam && schema ? <ModelExample getComponent={ getComponent }
-                                                getConfigs={ getConfigs }
-                                                isExecute={ isExecute }
-                                                specSelectors={ specSelectors }
-                                                schema={ schema }
-                                                example={ bodyParam }/>
+            bodyParam && schema ? <ModelExample getComponent={getComponent}
+              getConfigs={getConfigs}
+              isExecute={isExecute}
+              specSelectors={specSelectors}
+              schema={schema}
+              example={bodyParam} />
               : null
           }
 

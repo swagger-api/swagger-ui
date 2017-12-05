@@ -15,8 +15,8 @@ export default class BaseLayout extends React.Component {
     getComponent: PropTypes.func.isRequired
   }
 
-  onFilterChange =(e) => {
-    let {target: {value}} = e
+  onFilterChange = (e) => {
+    let { target: { value } } = e
     this.props.layoutActions.updateFilter(value)
   }
 
@@ -53,84 +53,84 @@ export default class BaseLayout extends React.Component {
     let filter = layoutSelectors.currentFilter()
 
     let inputStyle = {}
-    if(isFailed) inputStyle.color = "red"
-    if(isLoading) inputStyle.color = "#aaa"
+    if (isFailed) inputStyle.color = "red"
+    if (isLoading) inputStyle.color = "#aaa"
 
     const Schemes = getComponent("schemes")
 
     const isSpecEmpty = !specSelectors.specStr()
 
-    if(isSpecEmpty) {
+    if (isSpecEmpty) {
       return <h4>No spec provided.</h4>
     }
 
     return (
 
       <div className='swagger-ui'>
-          <div>
-            <Errors/>
-            <Row className="information-container">
-              <Col mobile={12}>
-                { info.count() ? (
-                  <Info info={ info } url={ url } host={ host } basePath={ basePath } externalDocs={externalDocs} getComponent={getComponent}/>
-                ) : null }
-              </Col>
-            </Row>
-            { schemes && schemes.size || securityDefinitions ? (
-              <div className="scheme-container">
-                <Col className="schemes wrapper" mobile={12}>
-                  { schemes && schemes.size ? (
-                    <Schemes
-                      currentScheme={specSelectors.operationScheme()}
-                      schemes={ schemes }
-                      specActions={ specActions } />
-                  ) : null }
+        <div>
+          <Errors />
+          <Row className="information-container col-50">
+            <Col mobile={12}>
+              {info.count() ? (
+                <Info info={info} url={url} host={host} basePath={basePath} externalDocs={externalDocs} getComponent={getComponent} />
+              ) : null}
+            </Col>
+          </Row>
+          {schemes && schemes.size || securityDefinitions ? (
+            <div className="scheme-container">
+              <Col className="schemes" mobile={12}>
+                {schemes && schemes.size ? (
+                  <Schemes
+                    currentScheme={specSelectors.operationScheme()}
+                    schemes={schemes}
+                    specActions={specActions} />
+                ) : null}
 
-                  { securityDefinitions ? (
-                    <AuthorizeBtn />
-                  ) : null }
+                {securityDefinitions ? (
+                  <AuthorizeBtn />
+                ) : null}
+              </Col>
+            </div>
+          ) : null}
+
+          {servers && servers.size ? (
+            <div className="global-server-container">
+              <Col className="servers wrapper" mobile={12}>
+                <span className="servers-title">Server</span>
+                <Servers
+                  servers={servers}
+                  currentServer={oas3Selectors.selectedServer()}
+                  setSelectedServer={oas3Actions.setSelectedServer}
+                  setServerVariableValue={oas3Actions.setServerVariableValue}
+                  getServerVariable={oas3Selectors.serverVariableValue}
+                  getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
+                />
+              </Col>
+            </div>
+
+          ) : null}
+
+          {
+            filter === null || filter === false ? null :
+              <div className="filter-container">
+                <Col className="filter wrapper" mobile={12}>
+                  <input className="operation-filter-input" placeholder="Filter by tag" type="text" onChange={this.onFilterChange} value={filter === true || filter === "true" ? "" : filter} disabled={isLoading} style={inputStyle} />
                 </Col>
               </div>
-            ) : null }
+          }
 
-            { servers && servers.size ? (
-              <div className="global-server-container">
-                <Col className="servers wrapper" mobile={12}>
-                  <span className="servers-title">Server</span>
-                  <Servers
-                    servers={servers}
-                    currentServer={oas3Selectors.selectedServer()}
-                    setSelectedServer={oas3Actions.setSelectedServer}
-                    setServerVariableValue={oas3Actions.setServerVariableValue}
-                    getServerVariable={oas3Selectors.serverVariableValue}
-                    getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
-                    />
-                </Col>
-              </div>
-
-            ) : null}
-
-            {
-              filter === null || filter === false ? null :
-                <div className="filter-container">
-                  <Col className="filter wrapper" mobile={12}>
-                    <input className="operation-filter-input" placeholder="Filter by tag" type="text" onChange={this.onFilterChange} value={filter === true || filter === "true" ? "" : filter} disabled={isLoading} style={inputStyle} />
-                  </Col>
-                </div>
-            }
-
-            <Row>
-              <Col mobile={12} desktop={12} >
-                <Operations/>
-              </Col>
-            </Row>
-            <Row>
-              <Col mobile={12} desktop={12} >
-                <Models/>
-              </Col>
-            </Row>
-          </div>
+          <Row>
+            <Col mobile={12} desktop={12} >
+              <Operations />
+            </Col>
+          </Row>
+          <Row>
+            <Col mobile={12} desktop={12} >
+              <Models />
+            </Col>
+          </Row>
         </div>
-      )
+      </div>
+    )
   }
 }

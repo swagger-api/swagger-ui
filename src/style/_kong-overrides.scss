@@ -1,0 +1,67 @@
+// Right Panel
+.side-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100vh;
+  background: #2d3134;
+  z-index: -1;
+}
+
+.flex-wrapper {
+  display: flex;
+}
+
+// Default column class
+.col-50 {
+  width: 50%;
+  padding: 0 1rem !important;
+}
+
+.swagger-ui .wrapper {
+  max-width: 100%;
+  padding: 0;
+}
+
+//Set swagger top info to 50% width 
+.swagger-ui .information-container,
+.swagger-ui .scheme-container {
+  width: 50%;
+  margin: 0;
+  background: none;
+}
+
+// Remove backgrounds from operations
+// .swagger-ui .opblock {
+//   background: none;
+//   border: none;
+//   box-shadow: none;
+//   // Remove bottom border from operation
+//   .opblock-summary {
+//     border-bottom: none !important;
+//   }
+// }
+
+// Set column wrapper to flex
+.parameters,
+.example-wrapper {
+  display: flex;
+  .parameters-col_name,
+  .parameters-col_description {
+    width: 50%;
+    max-width: 50%;
+    min-width: auto;
+    padding: 20px !important;
+  }
+}
+
+// Float try button
+.try-out {
+  text-align: right;
+  margin-right: 1rem;
+  .btn {
+    border-color: #fff;
+    color: #fff;
+  }
+}

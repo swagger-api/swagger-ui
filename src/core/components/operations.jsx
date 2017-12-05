@@ -54,42 +54,38 @@ export default class Operations extends React.Component {
     }
 
     return (
-        <div>
-          {
-            taggedOps.map( (tagObj, tag) => {
-              let operations = tagObj.get("operations")
-              let tagDescription = tagObj.getIn(["tagDetails", "description"], null)
-              let tagExternalDocsDescription = tagObj.getIn(["tagDetails", "externalDocs", "description"])
-              let tagExternalDocsUrl = tagObj.getIn(["tagDetails", "externalDocs", "url"])
+      <div>
+        {
+          taggedOps.map((tagObj, tag) => {
+            let operations = tagObj.get("operations")
+            let tagDescription = tagObj.getIn(["tagDetails", "description"], null)
+            let tagExternalDocsDescription = tagObj.getIn(["tagDetails", "externalDocs", "description"])
+            let tagExternalDocsUrl = tagObj.getIn(["tagDetails", "externalDocs", "url"])
 
-              let isShownKey = ["operations-tag", createDeepLinkPath(tag)]
-              let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
+            let isShownKey = ["operations-tag", createDeepLinkPath(tag)]
+            let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
 
-              return (
-                <div className={showTag ? "opblock-tag-section is-open" : "opblock-tag-section"} key={"operation-" + tag}>
-
-                  <h4
+            return (
+              // <div className={showTag ? "opblock-tag-section is-open" : "opblock-tag-section"} key={"operation-" + tag}>
+              <div className="opblock-tag-section is-open" key={"operation-" + tag}>
+                <div className="col-50">
+                  <h2
                     onClick={() => layoutActions.show(isShownKey, !showTag)}
-                    className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag" }
+                    className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag"}
                     id={isShownKey.join("-")}>
                     <a
                       className="nostyle"
                       onClick={isDeepLinkingEnabled ? (e) => e.preventDefault() : null}
-                      href= {isDeepLinkingEnabled ? `#/${tag}` : null}>
+                      href={isDeepLinkingEnabled ? `#/${tag}` : null}>
                       <span>{tag}</span>
                     </a>
-                    { !tagDescription ? null :
-                        <small>
-                          <Markdown source={tagDescription} />
-                        </small>
-                    }
 
                     <div>
-                    { !tagExternalDocsDescription ? null :
+                      {!tagExternalDocsDescription ? null :
                         <small>
-                          { tagExternalDocsDescription }
-                          { tagExternalDocsUrl ? ": " : null }
-                          { tagExternalDocsUrl ?
+                          {tagExternalDocsDescription}
+                          {tagExternalDocsUrl ? ": " : null}
+                          {tagExternalDocsUrl ?
                             <a
                               href={sanitizeUrl(tagExternalDocsUrl)}
                               onClick={(e) => e.stopPropagation()}
@@ -97,39 +93,40 @@ export default class Operations extends React.Component {
                             >{tagExternalDocsUrl}</a> : null
                           }
                         </small>
-                    }
+                      }
                     </div>
+                  </h2>
 
-                    <button className="expand-operation" title="Expand operation" onClick={() => layoutActions.show(isShownKey, !showTag)}>
-                      <svg className="arrow" width="20" height="20">
-                        <use href={showTag ? "#large-arrow-down" : "#large-arrow"} xlinkHref={showTag ? "#large-arrow-down" : "#large-arrow"} />
-                      </svg>
-                    </button>
-                  </h4>
-
-                  <Collapse isOpened={showTag}>
-                    {
-                      operations.map( op => {
-                        const path = op.get("path")
-                        const method = op.get("method")
-
-                        return <OperationContainer
-                          key={`${path}-${method}`}
-                          op={op}
-                          path={path}
-                          method={method}
-                          tag={tag}
-                        />
-                      }).toArray()
-                    }
-                  </Collapse>
+                  {!tagDescription ? null :
+                    <div className="col-50">
+                      <p>
+                        <Markdown source={tagDescription} />
+                      </p>
+                    </div>
+                  }
                 </div>
-                )
-            }).toArray()
-          }
 
-          { taggedOps.size < 1 ? <h3> No operations defined in spec! </h3> : null }
-        </div>
+                {
+                  operations.map(op => {
+                    const path = op.get("path")
+                    const method = op.get("method")
+
+                    return <OperationContainer
+                      key={`${path}-${method}`}
+                      op={op}
+                      path={path}
+                      method={method}
+                      tag={tag}
+                    />
+                  }).toArray()
+                }
+              </div>
+            )
+          }).toArray()
+        }
+
+        {taggedOps.size < 1 ? <h3> No operations defined in spec! </h3> : null}
+      </div>
     )
   }
 
