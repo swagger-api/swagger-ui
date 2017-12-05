@@ -70,7 +70,7 @@ http://nightwatchjs.org/gettingstarted#selenium-server-setup
 Integration tests can be run locally with `npm run e2e` - be sure you aren't running a dev server when testing!
 
 
-##### Browser support
+### Browser support
 Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE11.
 
 ### Known Issues
@@ -82,59 +82,6 @@ To help with the migration, here are the currently known issues with 3.X. This l
 - Support for `collectionFormat` is partial.
 - l10n (translations) is not implemented.
 - Relative path support for external files is not implemented.
-
-### Direct use of JS and CSS assets
-To include the JS, CSS and image assets directly into a webpage, use the [swagger-ui-dist](https://www.npmjs.com/package/swagger-ui-dist) package.
-The root directory of this package contains the contents of the _dist/_ directory of this repo.
-As a node module, `swagger-ui-dist` also exports the `swagger-ui-bundle` and `swagger-ui-standalone-preset` objects.
-
-### SwaggerUIBundle
-To use swagger-ui's bundles, you should take a look at the [source of swagger-ui html page](https://github.com/swagger-api/swagger-ui/blob/master/dist/index.html) and customize it. This basically requires you to instantiate a SwaggerUi object as below:
-
-```javascript
-  const ui = SwaggerUIBundle({
-      url: "http://petstore.swagger.io/v2/swagger.json",
-      dom_id: '#swagger-ui',
-      presets: [
-        SwaggerUIBundle.presets.apis,
-        SwaggerUIStandalonePreset
-      ],
-      plugins: [
-        SwaggerUIBundle.plugins.DownloadUrl
-      ],
-      layout: "StandaloneLayout"
-    })
-```
-
-If you'd like to use the bundle files via npm, check out the [`swagger-ui-dist` package](https://www.npmjs.com/package/swagger-ui-dist).
-
-### Plugins
-
-#### Topbar plugin
-Topbar plugin enables top bar with input for spec path and explore button or a dropdown if `urls` is used. By default the plugin is enabled, and to disable it you need to remove Topbar plugin from presets in `src/standalone/index.js`:
-
-```javascript
-let preset = [
-  // TopbarPlugin,
-  ConfigsPlugin,
-  () => {
-    return {
-      components: { StandaloneLayout }
-    }
-  }
-]
-```
-
-#### Configs plugin
-Configs plugin allows to fetch external configs instead of passing them to `SwaggerUIBundle`. Fetched configs support two formats: JSON or yaml. The plugin is enabled by default.
-There are three options of passing config:
-- add a query parameter `config` with URL to a server where the configs are hosted. For ex. http://petstore.swagger.io/?config=http://localhost:3001/config.yaml
-- add a config `configUrl` with URL to SwaggerUIBundle
-- change default configs in `swagger-config.yaml` *Note: after changing, the project must be re-built*
-
-These options can be used altogether, the order of inheritance is following (from the lowest priority to the highest):
-`swagger-config.yaml` -> config passed to `SwaggerUIBundle` -> config fetched from `configUrl` passed to `SwaggerUIBundle` -> config fetched from URL passed as a query parameter `config`
-
 
 ## Security contact
 

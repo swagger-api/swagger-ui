@@ -1,5 +1,18 @@
 # Configuration
 
+#### How to configure
+
+Swagger-UI accepts parameters in four ways.
+
+From lowest to highest priority:
+- `swagger-config.yaml` baked into project root directory
+- configuration object passed as an argument to Swagger-UI (`SwaggerUI({ ... })`)
+- configuration items fetched from a specified `configUrl`
+- configuration items passed as key/value pairs in the URL query string
+
+
+#### Parameters
+
 Parameters with dots in their names are single strings used to organize subordinate parameters, and are not indicative of a nested structure.
 
 Parameter Name | Description
