@@ -48,7 +48,7 @@ Parameter Name | Description
 Parameter Name | Description
 --- | ---
 deepLinking | `Boolean=false`. If set to `true`, enables dynamic deep linking for tags and operations. [Docs](https://github.com/swagger-api/swagger-ui/blob/master/docs/deep-linking.md)
-filter | `Boolean=false || String`. If set, enables filtering. The top bar will show an edit box that you can use to filter the tagged operations that are shown. Can be Boolean to enable or disable, or a string, in which case filtering will be enabled using that string as the filter expression. Filtering is case sensitive matching the filter expression anywhere inside the tag.
+filter | `Boolean=false OR String`. If set, enables filtering. The top bar will show an edit box that you can use to filter the tagged operations that are shown. Can be Boolean to enable or disable, or a string, in which case filtering will be enabled using that string as the filter expression. Filtering is case sensitive matching the filter expression anywhere inside the tag.
 maxDisplayedTags | `Number`. If set, limits the number of tagged operations displayed to at most this many. The default is to show all operations.
 operationsSorter | `Function=(a => a)`. Apply a sort to the operation list of each API. It can be 'alpha' (sort by paths alphanumerically), 'method' (sort by HTTP method) or a function (see Array.prototype.sort() to know how sort function works). Default is the order returned by the server unchanged.
 showExtensions | `Boolean=false`. Controls the display of vendor extension (`x-`) fields and values for Operations, Parameters, and Schema.
