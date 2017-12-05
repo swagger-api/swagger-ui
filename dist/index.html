@@ -76,35 +76,59 @@ window.onload = function() {
   var pattern = new RegExp("cx-[a-z0-9]+");
   var res = pattern.exec(window.location.hostname);
   var env = res && res.length == 1 ? res[0] : "cx-staging";
-  var docsUrl = "http://static." + env + ".com/docs/swagger";
+  var docsUrl = "http://static." + env + ".com/docs/swagger/";
 
   // Build a system
   const ui = SwaggerUIBundle({
-    
+
     urls: [
       {
-        url: docsUrl + "ent/ent.json",
-        name: "Entitlements"
+        name: "Auth",
+        url: docsUrl + "auth/api.yaml"
       },
       {
-        url: docsUrl + "subs/subs.json",
-        name: "Subscriptions"
+        name: "CMS API",
+        url: docsUrl + "cms-api/cms-api.json"
       },
       {
-        url: docsUrl + "core/core.json",
-        name: "Core"
+        name: "Core",
+        url: docsUrl + "core/core.json"
       },
       {
-        url: docsUrl + "ess/ess.json",
-        name: "ESS"
+        name: "Discovery",
+        url: docsUrl + "data-contentdiscovery/data-contentdiscovery.json"
       },
       {
-        url: docsUrl + "data-contentdiscovery/data-contentdiscovery.json",
-        name: "Discovery"
+        name: "ENS V1",
+        url: docsUrl + "ens/apiV1.yaml"
       },
       {
-        url: docsUrl + "cms-api/cms-api.json",
-        name: "CMS API"
+        name: "ENS V2",
+        url: docsUrl + "ens/apiV2.yaml"
+      },
+      {
+        name: "Entitlements",
+        url: docsUrl + "ent/ent.json"
+      },
+      {
+        name: "ESS",
+        url: docsUrl + "ess/ess.json"
+      },
+      {
+        name: "Playheads",
+        url: docsUrl + "playheads/api.yaml"
+      },
+      {
+        name: "Subscriptions",
+        url: docsUrl + "subs/subs.json"
+      },
+      {
+        name: "Watchhistory",
+        url: docsUrl + "watchhistory/api.yaml"
+      },
+      {
+        name: "Watchlist",
+        url: docsUrl + "watchlist/api.yaml"
       }
     ],
     dom_id: '#swagger-ui',
