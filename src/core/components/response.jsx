@@ -153,7 +153,10 @@ export default class Response extends React.Component {
           ) : null}
 
           { headers ? (
-            <Headers headers={ headers }/>
+            <Headers
+              headers={ headers }
+              getComponent={ getComponent }
+            />
           ) : null}
 
 

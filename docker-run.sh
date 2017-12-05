@@ -21,6 +21,16 @@ replace_or_delete_in_index () {
   fi
 }
 
+if [ "${BASE_URL}" ]; then
+  NGINX_WITH_BASE_URL="${NGINX_ROOT}${BASE_URL}"
+
+  mkdir -p ${NGINX_WITH_BASE_URL}
+  mv ${NGINX_ROOT}/*.* ${NGINX_WITH_BASE_URL}/
+
+  INDEX_FILE=$NGINX_WITH_BASE_URL/index.html
+  NGINX_ROOT=$NGINX_WITH_BASE_URL
+fi
+
 replace_in_index myApiKeyXXXX123456789 $API_KEY
 replace_or_delete_in_index your-client-id $OAUTH_CLIENT_ID
 replace_or_delete_in_index your-client-secret-if-required $OAUTH_CLIENT_SECRET

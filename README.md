@@ -22,7 +22,7 @@ The OpenAPI Specification has undergone 5 revisions since initial creation in 20
 
 Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes
 ------------------ | ------------ | -------------------------- | -----
-3.5.0 | 2017-11-23 | 2.0, 3.0 | [tag v3.5.0](https://github.com/swagger-api/swagger-ui/tree/v3.5.0)
+3.6.0 | 2017-12-01 | 2.0, 3.0 | [tag v3.5=6.0](https://github.com/swagger-api/swagger-ui/tree/v3.6.0)
 3.0.21 | 2017-07-26 | 2.0 | [tag v3.0.21](https://github.com/swagger-api/swagger-ui/tree/v3.0.21)
 2.2.10 | 2017-01-04 | 1.1, 1.2, 2.0 | [tag v2.2.10](https://github.com/swagger-api/swagger-ui/tree/v2.2.10)
 2.1.5 | 2016-07-20 | 1.1, 1.2, 2.0 | [tag v2.1.5](https://github.com/swagger-api/swagger-ui/tree/v2.1.5)
@@ -48,6 +48,14 @@ Or you can provide your own swagger.json on your host
 ```
 docker run -p 80:8080 -e SWAGGER_JSON=/foo/swagger.json -v /bar:/foo swaggerapi/swagger-ui
 ```
+
+The base URL of the web application can be changed by specifying the `BASE_URL` environment variable:
+
+```
+docker run -p 80:8080 -e BASE_URL=/swagger -e SWAGGER_JSON=/foo/swagger.json -v /bar:/foo swaggerapi/swagger-ui
+```
+
+This will serve Swagger UI at `/swagger` instead of `/`.
 
 ##### Prerequisites
 - Node 6.x
