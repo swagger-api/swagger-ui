@@ -203,6 +203,7 @@ export const authorizeToken = ( auth ) => ( { fn, authActions, errActions } ) =>
   query.service = schema.get("service")
   query.scope = schema.get("scope")
   query.offline_token = "true"
+  query.expiry = schema.get("tokenExpiry")
 
   fn.fetch({
     url: schema.get("tokenUrl"),
