@@ -38,7 +38,7 @@ app.use(express.static(pathToSwaggerUi))
 app.listen(3000)
 ```
 
-The bundle also exports `SwaggerUIBundle` and `SwaggerUIStandalonePreset`, so
+The module also exports `SwaggerUIBundle` and `SwaggerUIStandalonePreset`, so
 if you're in a JavaScript project that can't handle a tranditional npm module,
 you could do something like this:
 
@@ -55,6 +55,8 @@ const ui = SwaggerUIBundle({
     layout: "StandaloneLayout"
   })
 ```
+
+`SwaggerUIBundle` is equivalent to `SwaggerUI`.
 
 ### Docker Hub
 
