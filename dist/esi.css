@@ -107,7 +107,7 @@ div#datasources {
   padding-top: 40px;
 }
 
-div#datasources::before {
+div#datasources:before {
   content: "datasource:";
   color: #FFF;
 }
@@ -632,11 +632,11 @@ div#base_url {
   float: left;
 }
 
-div#base_url::before {
+div#base_url:before, a#diff_link:before {
   content: "[ ";
 }
 
-div#base_url::after {
+div#base_url:after {
   content: ",";
 }
 
@@ -650,12 +650,17 @@ div#api_version {
   padding-left: 5px;
 }
 
-div#api_version::after {
+div#api_version:after, a#diff_link:after {
   content: " ]";
 }
 
 div#api_version span {
   font-variant: initial;
+}
+
+a#diff_link {
+  float: right;
+  padding-right: 0.5em;
 }
 
 div#swagger-ui>section.swagger-ui>div.wrapper>section>span>a {
