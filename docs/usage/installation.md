@@ -22,6 +22,9 @@ SwaggerUI({
 
 In contrast, **`swagger-ui-dist`** is meant for server-side projects that need assets to serve to clients. The module, when imported, includes an `absolutePath` helper function that returns the absolute filesystem path to where the `swagger-ui-dist` module is installed.
 
+_Note: we suggest using `swagger-ui` when your tooling makes it possible, as `swagger-ui-dist`
+will result in more code going across the wire._
+
 The module's contents mirrors the `dist` folder you see in the Git repository. The most useful file is `swagger-ui-bundle.js`, which is a build of Swagger-UI that includes all the code it needs to run in one file. The folder also has an `index.html` asset, to make it easy to serve Swagger-UI like so:
 
 ```javascript
@@ -33,6 +36,24 @@ const app = express()
 app.use(express.static(pathToSwaggerUi))
 
 app.listen(3000)
+```
+
+The bundle also exports `SwaggerUIBundle` and `SwaggerUIStandalonePreset`, so
+if you're in a JavaScript project that can't handle a tranditional npm module,
+you could do something like this:
+
+```js
+var SwaggerUIBundle = require('swagger-ui-dist').SwaggerUIBundle
+
+const ui = SwaggerUIBundle({
+    url: "http://petstore.swagger.io/v2/swagger.json",
+    dom_id: '#swagger-ui',
+    presets: [
+      SwaggerUIBundle.presets.apis,
+      SwaggerUIBundle.SwaggerUIStandalonePreset
+    ]
+    layout: "StandaloneLayout"
+  })
 ```
 
 ### Docker Hub
