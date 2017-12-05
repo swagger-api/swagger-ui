@@ -29,6 +29,15 @@ url | The url pointing to API definition (normally `swagger.json` or `swagger.ya
 urls | An array of API definition objects (`{url: "<url>", name: "<name>"}`) used by Topbar plugin. When used and Topbar plugin is enabled, the `url` parameter will not be parsed. Names and URLs must be unique among all items in this array, since they're used as identifiers.
 urls.primaryName | When using `urls`, you can use this subparameter. If the value matches the name of a spec provided in `urls`, that spec will be displayed when Swagger-UI loads, instead of defaulting to the first spec in `urls`.
 
+##### Plugin system
+
+Read more about the plugin system in the [Customization documentation](/docs/customization/overview.md).
+
+Parameter Name | Description
+--- | ---
+`layout` | String. Default: `BaseLayout`. The name of a component available via the plugin system to use as the top-level layout for Swagger-UI
+`plugins` | Array. Default: `[]`. An array of plugin functions to use in Swagger-UI.
+`presets` | Array. Default: `[ApisPreset]`. An array of presets to use in Swagger-UI. Usually, you'll want to include `ApisPreset` if you use this option.
 
 ##### Display
 
