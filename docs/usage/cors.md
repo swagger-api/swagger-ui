@@ -1,4 +1,4 @@
-## CORS Support
+# CORS
 
 CORS is a technique to prevent websites from doing bad things with your personal data.  Most browsers + JavaScript toolkits not only support CORS but enforce it, which has implications for your API server which supports Swagger.
 
