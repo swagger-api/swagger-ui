@@ -58,16 +58,16 @@ tagsSorter | `Function=(a => a)`. Apply a sort to the tag list of each API. It c
 
 Parameter Name | Description
 --- | ---
-docExpansion | `String=["full", "list", "none"]`. Controls the default expansion setting for the operations and tags. It can be 'list' (expands only the tags), 'full' (expands the tags and operations) or 'none' (expands nothing). The default is 'list'.
+docExpansion | `String=["list"*, "full", "none"]`. Controls the default expansion setting for the operations and tags. It can be 'list' (expands only the tags), 'full' (expands the tags and operations) or 'none' (expands nothing).
 displayOperationId | `Boolean=false`. Controls the display of operationId in operations list. The default is `false`.
-displayRequestDuration | `Boolean=false`. Controls the display of the request duration (in milliseconds) for `Try it out` requests.
+displayRequestDuration | `Boolean=false`. Controls the display of the request duration (in milliseconds) for Try-It-Out requests.
 defaultModelExpandDepth | `Number=1`. The default expansion depth for models.
 defaultModelRendering | `String=["example"*, "model"]`. Controls how models are shown when the API is first rendered. (The user can always switch the rendering for a given model by clicking the 'Model' and 'Example Value' links.)
 oauth2RedirectUrl | `String`. OAuth redirect URL.
 requestInterceptor | `Function=(a => a)`. MUST be a function.  Function to intercept remote definition, Try-It-Out, and OAuth2 requests.  Accepts one argument requestInterceptor(request) and must return the potentially modified request.
 responseInterceptor |`Function=(a => a)`. MUST be a function.  Function to intercept remote definition, Try-It-Out, and OAuth2 responses.  Accepts one argument responseInterceptor(response) and must return the potentially modified response.
 showMutatedRequest | `Boolean=true`. If set to `true`, uses the mutated request returned from a requestInterceptor to produce the curl command in the UI, otherwise the request before the requestInterceptor was applied is used.
-validatorUrl | `String="https://online.swagger.io/validator"`. By default, Swagger-UI attempts to validate specs against swagger.io's online validator. You can use this parameter to set a different validator URL, for example for locally deployed validators ([Validator Badge](https://github.com/swagger-api/validator-badge)). Setting it to `null` will disable validation.
+validatorUrl | `String="https://online.swagger.io/validator" OR null`. By default, Swagger-UI attempts to validate specs against swagger.io's online validator. You can use this parameter to set a different validator URL, for example for locally deployed validators ([Validator Badge](https://github.com/swagger-api/validator-badge)). Setting it to `null` will disable validation.
 
 ##### Macros
 
