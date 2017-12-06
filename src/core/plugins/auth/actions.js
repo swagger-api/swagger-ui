@@ -135,7 +135,7 @@ export const authorizeAccessCodeWithBasicAuthentication = ( { auth, redirectUrl 
   return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth, headers})
 }
 
-export const authorizeRequest = ( data ) => ( { fn, authActions, errActions, authSelectors } ) => {
+export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, errActions, authSelectors } ) => {
   let { body, query={}, headers={}, name, url, auth } = data
   let { additionalQueryStringParams } = authSelectors.getConfigs() || {}
   let fetchUrl = url
@@ -154,7 +154,9 @@ export const authorizeRequest = ( data ) => ( { fn, authActions, errActions, aut
     method: "post",
     headers: _headers,
     query: query,
-    body: body
+    body: body,
+    requestInterceptor: getConfigs().requestInterceptor,
+    responseInterceptor: getConfigs().responseInterceptor
   })
   .then(function (response) {
     let token = JSON.parse(response.data)

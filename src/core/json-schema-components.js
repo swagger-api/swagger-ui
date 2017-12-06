@@ -36,7 +36,7 @@ export class JsonSchemaForm extends Component {
 
     let { type, format="" } = schema
 
-    let Comp = getComponent(`JsonSchema_${type}_${format}`) || getComponent(`JsonSchema_${type}`) || getComponent("JsonSchema_string")
+    let Comp = (format ? getComponent(`JsonSchema_${type}_${format}`) : getComponent(`JsonSchema_${type}`)) || getComponent("JsonSchema_string")
     return <Comp { ...this.props } fn={fn} getComponent={getComponent} value={value} onChange={onChange} schema={schema}/>
   }
 
@@ -68,19 +68,19 @@ export class JsonSchema_string extends Component {
     const isDisabled = schema["in"] === "formData" && !("FormData" in window)
     const Input = getComponent("Input")
     if (schema["type"] === "file") {
-      return (<Input type="file" 
-                     className={ errors.length ? "invalid" : ""} 
+      return (<Input type="file"
+                     className={ errors.length ? "invalid" : ""}
                      title={ errors.length ? errors  : ""}
-                     onChange={ this.onChange } 
+                     onChange={ this.onChange }
                      disabled={isDisabled}/>)
     }
     else {
-      return (<Input type={ schema.format === "password" ? "password" : "text" } 
-                     className={ errors.length ? "invalid" : ""} 
+      return (<Input type={ schema.format === "password" ? "password" : "text" }
+                     className={ errors.length ? "invalid" : ""}
                      title={ errors.length ? errors  : ""}
-                     value={value} 
-                     placeholder={description} 
-                     onChange={ this.onChange } 
+                     value={value}
+                     placeholder={description}
+                     onChange={ this.onChange }
                      disabled={isDisabled}/>)
     }
   }
@@ -189,8 +189,8 @@ export class JsonSchema_boolean extends Component {
     return (<Select className={ errors.length ? "invalid" : ""}
                     title={ errors.length ? errors  : ""}
                     value={ String(value) }
-                    allowedValues={ fromJS(["true", "false"]) }
-                    allowEmptyValue={ true }
+                    allowedValues={ fromJS(schema.enum || ["true", "false"]) }
+                    allowEmptyValue={ !this.props.required }
                     onChange={ this.onEnumChange }/>)
   }
 }
