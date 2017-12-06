@@ -1,3 +1,4 @@
+import React from "react"
 import { createStore, applyMiddleware, bindActionCreators, compose } from "redux"
 import Im, { fromJS, Map } from "immutable"
 import deepExtend from "deep-extend"
@@ -97,7 +98,8 @@ export default class Store {
       getComponents: this.getComponents.bind(this),
       getState: this.getStore().getState,
       getConfigs: this._getConfigs.bind(this),
-      Im
+      Im,
+      React
     }, this.system.rootInjects || {})
   }
 
@@ -266,11 +268,7 @@ export default class Store {
 
     const actions = this.getActions()
 
-    console.log("wrapping actions!", actions)
-
     const process = creator =>{
-      console.log("processing", creator)
-
       if( typeof( creator ) !== "function" ) {
         return objMap(creator, prop => process(prop))
       }
