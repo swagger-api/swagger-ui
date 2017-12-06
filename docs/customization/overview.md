@@ -64,7 +64,7 @@ All components should be loaded through `getComponent`, since it allows other pl
 
 Container components in Swagger-UI can be loaded by passing `true` as the second argument to `getComponent`, like so:
 
-```
+```javascript
 getComponent("ContainerComponentName", true)
 ```
 

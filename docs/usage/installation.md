@@ -1,7 +1,5 @@
 # Installation
 
-Swagger-UI is available
-
 ## Distribution channels
 
 ### NPM Registry

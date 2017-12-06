@@ -73,7 +73,7 @@ const MyActionPlugin = () => {
 
 Once an action has been defined, you can use it anywhere that you can get a system reference:
 
-```js
+```javascript
 // elsewhere
 system.exampleActions.updateFavoriteColor("blue")
 ```
@@ -90,7 +90,7 @@ Reducers take a state (which is an [Immutable.js map](https://facebook.github.io
 
 Reducers must be provided to the system under the name of the action type that they handle, in this case, `EXAMPLE_SET_FAV_COLOR`.
 
-```js
+```javascript
 const MyReducerPlugin = function(system) {
   return {
     statePlugins: {
@@ -115,7 +115,7 @@ Selectors reach into
 They're an easy way to keep logic for getting data out of state in one place, and is preferred over passing state data directly into components.
 
 
-```js
+```javascript
 const MySelectorPlugin = function(system) {
   return {
     statePlugins: {
@@ -131,7 +131,7 @@ const MySelectorPlugin = function(system) {
 
 You can also use the Reselect library to memoize your selectors, which is recommended for any selectors that will see heavy use, since Reselect automatically memoizes selector calls for you:
 
-```js
+```javascript
 import { createSelector } from "reselect"
 
 const MySelectorPlugin = function(system) {
@@ -150,7 +150,7 @@ const MySelectorPlugin = function(system) {
 ```
 
 Once a selector has been defined, you can use it anywhere that you can get a system reference:
-```js
+```javascript
 system.exampleSelectors.myFavoriteColor() // gets `favColor` in state for you
 ```
 
@@ -160,7 +160,7 @@ You can provide a map of components to be integrated into the system.
 
 Be mindful of the key names for the components you provide, as you'll need to use those names to refer to the components elsewhere.
 
-```js
+```javascript
 class HelloWorldClass extends React.Component {
   render() {
     return <h1>Hello World!</h1>
@@ -178,7 +178,7 @@ const MyComponentPlugin = function(system) {
 }
 ```
 
-```js
+```javascript
 // elsewhere
 const HelloWorldStateless = system.getComponent("HelloWorldStateless")
 const HelloWorldClass = system.getComponent("HelloWorldClass")
@@ -186,7 +186,7 @@ const HelloWorldClass = system.getComponent("HelloWorldClass")
 
 You can also "cancel out" any components that you don't want by creating a stateless component that always returns `null`:
 
-```js
+```javascript
 const NeverShowInfoPlugin = function(system) {
   return {
     components: {
@@ -206,7 +206,7 @@ A Wrap Action's first argument is `oriAction`, which is the action being wrapped
 
 This mechanism is useful for conditionally overriding built-in behaviors, or listening to actions.
 
-```js
+```javascript
 // FYI: in an actual Swagger-UI, `updateSpec` is already defined in the core code
 // it's just here for clarity on what's behind the scenes
 const MySpecPlugin = function(system) {
@@ -252,7 +252,7 @@ They are function factories with the signature `(oriSelector, system) => (state,
 
 This interface is useful for controlling what data flows into components. We use this in the core code to disable selectors based on the API definition's version.
 
-```js
+```javascript
 import { createSelector } from 'reselect'
 
 // FYI: in an actual Swagger-UI, the `url` spec selector is already defined
@@ -295,7 +295,24 @@ Wrap Components allow you to override a component registered within the system.
 
 Wrap Components are function factories with the signature `(OriginalComponent, system) => props => ReactElement`.
 
-```js
+```javascript
+const MyWrapBuiltinComponentPlugin = function(system) {
+  return {
+    wrapComponents: {
+      info: (Original, system) => (props) => {
+        return <div>
+          <h3>Hello world! I am above the Info component.</h3>
+          <Original {...props} />
+        </div>
+      }
+    }
+  }
+}
+```
+
+```javascript
+// Overriding a component from a plugin
+
 const MyNumberDisplayPlugin = function(system) {
   return {
     components: {
@@ -325,7 +342,7 @@ const MyWrapComponentPlugin = function(system) {
 
 The fn interface allows you to add helper functions to the system for use elsewhere.
 
-```js
+```javascript
 import leftPad from "left-pad"
 
 const MyFnPlugin = function(system) {
