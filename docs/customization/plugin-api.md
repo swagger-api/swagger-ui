@@ -110,9 +110,9 @@ const MyReducerPlugin = function(system) {
 
 ##### Selectors
 
-Selectors reach into
+Selectors reach into their namespace's state to retrieve or derive data from the state.
 
-They're an easy way to keep logic for getting data out of state in one place, and is preferred over passing state data directly into components.
+They're an easy way to keep logic in one place, and is preferred over passing state data directly into components.
 
 
 ```javascript
