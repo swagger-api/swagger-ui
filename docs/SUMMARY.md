@@ -14,3 +14,4 @@
 
 #### Development
 - [Setting up](docs/development/setting-up.md)
+- [Scripts](docs/development/scripts.md)
