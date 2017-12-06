@@ -336,17 +336,22 @@ function systemExtend(dest={}, src={}) {
   // Parses existing components in the system, and prepares them for wrapping via getComponents
   if(src.wrapComponents) {
     objMap(src.wrapComponents, (wrapperFn, key) => {
-      const ori = dest.components[key]
+      const ori = dest.components && dest.components[key]
       if(ori && Array.isArray(ori)) {
         dest.components[key] = ori.concat([wrapperFn])
+        delete src.wrapComponents[key]
       } else if(ori) {
         dest.components[key] = [ori, wrapperFn]
-      } else {
-        dest.components[key] = null
+        delete src.wrapComponents[key]
       }
     })
 
-    delete src.wrapComponents
+    if(!Object.keys(src.wrapComponents).length) {
+      // only delete wrapComponents if we've matched all of our wrappers to components
+      // this handles cases where the component to wrap may be out of our scope,
+      // but a higher recursive `combinePlugins` call will be able to handle it.
+      delete src.wrapComponents
+    }
   }
 
 
