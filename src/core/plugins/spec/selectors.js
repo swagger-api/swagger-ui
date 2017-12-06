@@ -4,8 +4,6 @@ import { fromJS, Set, Map, OrderedMap, List } from "immutable"
 
 const DEFAULT_TAG = "default"
 
-const OPERATION_METHODS = ["get", "put", "post", "delete", "options", "head", "patch"]
-
 const state = state => {
   return state || Map()
 }
@@ -97,9 +95,6 @@ export const operations = createSelector(
         return {}
       }
       path.forEach((operation, method) => {
-        if(OPERATION_METHODS.indexOf(method) === -1) {
-          return
-        }
         list = list.push(fromJS({
           path: pathName,
           method,

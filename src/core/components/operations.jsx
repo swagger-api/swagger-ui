@@ -2,6 +2,13 @@ import React from "react"
 import PropTypes from "prop-types"
 import { createDeepLinkPath, sanitizeUrl } from "core/utils"
 
+const SWAGGER2_OPERATION_METHODS = [
+  "get", "put", "post", "delete", "options", "head", "patch"
+]
+
+const OAS3_OPERATION_METHODS = SWAGGER2_OPERATION_METHODS.concat(["trace"])
+
+
 export default class Operations extends React.Component {
 
   static propTypes = {
@@ -112,6 +119,13 @@ export default class Operations extends React.Component {
                       operations.map( op => {
                         const path = op.get("path")
                         const method = op.get("method")
+
+                        const validMethods = specSelectors.isOAS3() ?
+                          OAS3_OPERATION_METHODS : SWAGGER2_OPERATION_METHODS
+
+                        if(validMethods.indexOf(method) === -1) {
+                          return null
+                        }
 
                         return <OperationContainer
                           key={`${path}-${method}`}
