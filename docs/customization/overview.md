@@ -13,7 +13,7 @@ In the following documentation, we won't take the time to define the fundamental
 
 > **Note**: Some of the examples in this section contain JSX, which is a syntax extension to JavaScript that is useful for writing React components.
 >
-> If you don't want to set up a build pipeline capable of translating JSX to JavaScript, take a look at [React without JSX (reactjs.org)](https://reactjs.org/docs/react-without-jsx.html).
+> If you don't want to set up a build pipeline capable of translating JSX to JavaScript, take a look at [React without JSX (reactjs.org)](https://reactjs.org/docs/react-without-jsx.html). You can use our `system.React` reference to leverage React without needing to pull a copy into your project.
 
 ### The System
 
@@ -24,6 +24,7 @@ The _system_ is the heart of the Swagger-UI application. At runtime, it's a Java
 - Bound Reselect state selectors
 - System-wide collection of available components
 - Built-in helpers like `getComponent`, `makeMappedContainer`, and `getStore`
+- References to the React and Immutable.js libraries (`system.React`, `system.Im`)
 - User-defined helper functions
 
 The system is built up when Swagger-UI is called by iterating through ("compiling") each plugin that Swagger-UI has been given, through the `presets` and `plugins` configuration options.

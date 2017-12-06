@@ -71,20 +71,22 @@ const MyActionPlugin = () => {
 }
 ```
 
+Once an action has been defined, you can use it anywhere that you can get a system reference:
+
 ```js
 // elsewhere
-exampleActions.updateFavoriteColor("blue")
+system.exampleActions.updateFavoriteColor("blue")
 ```
 
 The Action interface enables the creation of new Redux action creators within a piece of state in the Swagger-UI system.
 
-This action creator function will be bound to the `example` reducer dispatcher and exposed to container components as `exampleActions.updateFavoriteColor`.
+This action creator function will be exposed to container components as `exampleActions.updateFavoriteColor`. When this action creator is called, the return value (which should be a [Flux Standard Action](https://github.com/acdlite/flux-standard-action)) will be passed to the `example` reducer, which we'll define in the next section.
 
 For more information about the concept of actions in Redux, see the [Redux Actions documentation](http://redux.js.org/docs/basics/Actions.html).
 
 ##### Reducers
 
-Reducers take a state (which is an Immutable map) and an action, and return a new state.
+Reducers take a state (which is an [Immutable.js map](https://facebook.github.io/immutable-js/docs/#/Map)) and an action, and return a new state.
 
 Reducers must be provided to the system under the name of the action type that they handle, in this case, `EXAMPLE_SET_FAV_COLOR`.
 
@@ -95,13 +97,9 @@ const MyReducerPlugin = function(system) {
       example: {
         reducers: {
           "EXAMPLE_SET_FAV_COLOR": (state, action) => {
-            // `system.Im` is the Immutable.js library
-            return state.set("favColor", system.Im.fromJS(action.payload))
-            // we're updating the Immutable state object...
-            // we need to convert vanilla objects into an immutable type (fromJS)
-            // See immutable docs about how to modify the state
-            // PS: you're only working with the state under the namespace, in this case "example".
+            // you're only working with the state under the namespace, in this case "example".
             // So you can do what you want, without worrying about /other/ namespaces
+            return state.set("favColor", action.payload)
           }
         }
       }
@@ -131,7 +129,7 @@ const MySelectorPlugin = function(system) {
 }
 ```
 
-You can also use the Reselect library to memoize your selectors, which is recommended for any selectors that will see heavy use:
+You can also use the Reselect library to memoize your selectors, which is recommended for any selectors that will see heavy use, since Reselect automatically memoizes selector calls for you:
 
 ```js
 import { createSelector } from "reselect"
@@ -151,9 +149,9 @@ const MySelectorPlugin = function(system) {
 }
 ```
 
-Once a selector has been defined, you can use it:
+Once a selector has been defined, you can use it anywhere that you can get a system reference:
 ```js
-exampleSelectors.myFavoriteColor() // gets `favColor` in state for you
+system.exampleSelectors.myFavoriteColor() // gets `favColor` in state for you
 ```
 
 ##### Components
@@ -163,11 +161,18 @@ You can provide a map of components to be integrated into the system.
 Be mindful of the key names for the components you provide, as you'll need to use those names to refer to the components elsewhere.
 
 ```js
+class HelloWorldClass extends React.Component {
+  render() {
+    return <h1>Hello World!</h1>
+  }
+}
+
 const MyComponentPlugin = function(system) {
   return {
     components: {
-      // components can just be functions
-      HelloWorld: () => <h1>Hello World!</h1>
+      HelloWorldClass: HelloWorldClass
+      // components can just be functions, these are called "stateless components"
+      HelloWorldStateless: () => <h1>Hello World!</h1>,
     }
   }
 }
@@ -175,18 +180,35 @@ const MyComponentPlugin = function(system) {
 
 ```js
 // elsewhere
-const HelloWorld = getComponent("HelloWorld")
+const HelloWorldStateless = system.getComponent("HelloWorldStateless")
+const HelloWorldClass = system.getComponent("HelloWorldClass")
+```
+
+You can also "cancel out" any components that you don't want by creating a stateless component that always returns `null`:
+
+```js
+const NeverShowInfoPlugin = function(system) {
+  return {
+    components: {
+      info: () => null
+    }
+  }
+}
 ```
 
 ##### Wrap-Actions
 
 Wrap Actions allow you to override the behavior of an action in the system.
 
-This interface is very useful for building custom behavior on top of builtin actions.
+They are function factories with the signature `(oriAction, system) => (...args) => result`.
 
 A Wrap Action's first argument is `oriAction`, which is the action being wrapped. It is your responsibility to call the `oriAction` - if you don't, the original action will not fire!
 
+This mechanism is useful for conditionally overriding built-in behaviors, or listening to actions.
+
 ```js
+// FYI: in an actual Swagger-UI, `updateSpec` is already defined in the core code
+// it's just here for clarity on what's behind the scenes
 const MySpecPlugin = function(system) {
   return {
     statePlugins: {
@@ -210,9 +232,10 @@ const MyWrapActionPlugin = function(system) {
     statePlugins: {
       spec: {
         wrapActions: {
-          updateSpec: function(oriAction, str) {
-            doSomethingWithSpecValue(str)
-            return oriAction(str) // don't forget!
+          updateSpec: (oriAction, system) => (str) => {
+            // here, you can hand the value to some function that exists outside of Swagger-UI
+            console.log("Here is my API definition", str)
+            return oriAction(str) // don't forget! otherwise, Swagger-UI won't update
           }
         }
       }
@@ -225,20 +248,22 @@ const MyWrapActionPlugin = function(system) {
 
 Wrap Selectors allow you to override the behavior of a selector in the system.
 
-They are function factories with the signature `(oriSelector, system) => (...args) => result`.
+They are function factories with the signature `(oriSelector, system) => (state, ...args) => result`.
 
 This interface is useful for controlling what data flows into components. We use this in the core code to disable selectors based on the API definition's version.
 
 ```js
 import { createSelector } from 'reselect'
 
+// FYI: in an actual Swagger-UI, the `url` spec selector is already defined
+// it's just here for clarity on what's behind the scenes
 const MySpecPlugin = function(system) {
   return {
     statePlugins: {
       spec: {
         selectors: {
-          someData: createSelector(
-            state => state.get("something")
+          url: createSelector(
+            state => state.get("url")
           )
         }
       }
@@ -251,10 +276,11 @@ const MyWrapSelectorsPlugin = function(system) {
     statePlugins: {
       spec: {
         wrapSelectors: {
-          someData: (oriSelector, system) => (...args) => {
-            // you can do other things here...
+          url: (oriSelector, system) => (state, ...args) => {
+            console.log('someone asked for the spec url!!! it is', state.get('url'))
+            // you can return other values here...
             // but let's just enable the default behavior
-            return oriSelector(...args)
+            return oriSelector(state, ...args)
           }
         }
       }
