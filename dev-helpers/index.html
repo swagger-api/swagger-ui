@@ -70,16 +70,6 @@
 <script src="./swagger-ui-bundle.js"> </script>
 <script src="./swagger-ui-standalone-preset.js"> </script>
 <script>
-
-  const MyComponentPlugin = function(system) {
-    return {
-      components: {
-        // components can just be functions
-        // HelloWorld: () => "Hello World"
-      }
-    }
-  }
-
   window.onload = function() {
     window["SwaggerUIBundle"] = window["swagger-ui-bundle"]
     window["SwaggerUIStandalonePreset"] = window["swagger-ui-standalone-preset"]
@@ -92,8 +82,7 @@
         SwaggerUIStandalonePreset
       ],
       plugins: [
-        SwaggerUIBundle.plugins.DownloadUrl,
-        MyComponentPlugin
+        SwaggerUIBundle.plugins.DownloadUrl
       ],
       layout: "StandaloneLayout"
     })

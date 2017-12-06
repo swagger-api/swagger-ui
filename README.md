@@ -48,19 +48,7 @@ Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes
 
 #### Development
 - [Setting up](docs/development/setting-up.md)
-
-### How to run
-
-##### Prerequisites
-- Node 6.x
-- NPM 3.x
-
-If you just want to see your specs, open `dist/index.html` in your browser directly from your filesystem.
-
-If you'd like to make modifications to the codebase, run the dev server with: `npm run dev`. A development server will open on `3200`.
-
-If you'd like to rebuild the `/dist` folder with your codebase changes, run `npm run build`.
-
+- [Scripts](docs/development/scripts.md)
 
 ##### Integration Tests
 
@@ -69,7 +57,6 @@ http://nightwatchjs.org/gettingstarted#selenium-server-setup
 
 Integration tests can be run locally with `npm run e2e` - be sure you aren't running a dev server when testing!
 
-
 ### Browser support
 Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE11.
 
@@ -77,7 +64,7 @@ Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE1
 
 To help with the migration, here are the currently known issues with 3.X. This list will update regularly, and will not include features that were not implemented in previous versions.
 
-- Only part of the [parameters](#parameters) previously supported are available.
+- Only part of the parameters previously supported are available.
 - The JSON Form Editor is not implemented.
 - Support for `collectionFormat` is partial.
 - l10n (translations) is not implemented.
