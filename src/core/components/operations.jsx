@@ -120,6 +120,11 @@ export default class Operations extends React.Component {
                         const path = op.get("path")
                         const method = op.get("method")
 
+                        // FIXME: (someday) this logic should probably be in a selector,
+                        // but doing so would require further opening up
+                        // selectors to the plugin system, to allow for dynamic
+                        // overriding of low-level selectors that other selectors
+                        // rely on. --KS, 12/17
                         const validMethods = specSelectors.isOAS3() ?
                           OAS3_OPERATION_METHODS : SWAGGER2_OPERATION_METHODS
 
