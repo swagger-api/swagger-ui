@@ -17,7 +17,7 @@ export const SET_MUTATED_REQUEST = "spec_set_mutated_request"
 export const LOG_REQUEST = "spec_log_request"
 export const CLEAR_RESPONSE = "spec_clear_response"
 export const CLEAR_REQUEST = "spec_clear_request"
-export const ClEAR_VALIDATE_PARAMS = "spec_clear_validate_param"
+export const CLEAR_VALIDATE_PARAMS = "spec_clear_validate_param"
 export const UPDATE_OPERATION_VALUE = "spec_update_operation_value"
 export const UPDATE_RESOLVED = "spec_update_resolved"
 export const SET_SCHEME = "set_scheme"
@@ -161,7 +161,7 @@ export const validateParams = ( payload, isOAS3 ) =>{
 
 export function clearValidateParams( payload ){
   return {
-    type: ClEAR_VALIDATE_PARAMS,
+    type: CLEAR_VALIDATE_PARAMS,
     payload:{ pathMethod: payload }
   }
 }
@@ -228,9 +228,18 @@ export const executeRequest = (req) =>
     }
 
     if(specSelectors.isOAS3()) {
-      // OAS3 request feature support
-      req.server = oas3Selectors.selectedServer()
-      req.serverVariables = oas3Selectors.serverVariables(req.server).toJS()
+      const namespace = `${pathName}:${method}`
+
+      req.server = oas3Selectors.selectedServer(namespace) || oas3Selectors.selectedServer()
+
+      const namespaceVariables = oas3Selectors.serverVariables({
+        server: req.server,
+        namespace
+      }).toJS()
+      const globalVariables = oas3Selectors.serverVariables({ server: req.server }).toJS()
+
+      req.serverVariables = Object.keys(namespaceVariables).length ? namespaceVariables : globalVariables
+
       req.requestContentType = oas3Selectors.requestContentType(pathName, method)
       req.responseContentType = oas3Selectors.responseContentType(pathName, method) || "*/*"
       const requestBody = oas3Selectors.requestBodyValue(pathName, method)

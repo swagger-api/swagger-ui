@@ -36,6 +36,7 @@ export default class Models extends Component {
                      expandDepth={ defaultModelExpandDepth }
                      schema={ model }
                      getComponent={ getComponent }
+                     getConfigs={ getConfigs }
                      specSelectors={ specSelectors }/>
               </div>
           }).toArray()

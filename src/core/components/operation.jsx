@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { getList } from "core/utils"
-import { sanitizeUrl } from "core/utils"
+import { getExtensions, sanitizeUrl } from "core/utils"
 import { Iterable } from "immutable"
 
 export default class Operation extends PureComponent {
@@ -22,6 +22,7 @@ export default class Operation extends PureComponent {
     specActions: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
+    oas3Selectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     fn: PropTypes.object.isRequired
@@ -48,7 +49,8 @@ export default class Operation extends PureComponent {
       specSelectors,
       authActions,
       authSelectors,
-      oas3Actions
+      oas3Actions,
+      oas3Selectors
     } = this.props
     let operationProps = this.props.operation
 
@@ -85,6 +87,7 @@ export default class Operation extends PureComponent {
     let parameters = getList(operation, ["parameters"])
     let operationScheme = specSelectors.operationScheme(path, method)
     let isShownKey = ["operations", tag, operationId]
+    let extensions = getExtensions(operation)
 
     const Responses = getComponent("responses")
     const Parameters = getComponent( "parameters" )
@@ -95,6 +98,10 @@ export default class Operation extends PureComponent {
     const Collapse = getComponent( "Collapse" )
     const Markdown = getComponent( "Markdown" )
     const Schemes = getComponent( "schemes" )
+    const OperationServers = getComponent( "OperationServers" )
+    const OperationExt = getComponent( "OperationExt" )
+
+    const { showExtensions } = getConfigs()
 
     // Merge in Live Response
     if(responses && response && response.size > 0) {
@@ -149,17 +156,18 @@ export default class Operation extends PureComponent {
                 </div>
               }
               {
-                externalDocs && externalDocs.get("url") ?
+                externalDocs && externalDocs.url ?
                 <div className="opblock-external-docs-wrapper">
                   <h4 className="opblock-title_normal">Find more details</h4>
                   <div className="opblock-external-docs">
                     <span className="opblock-external-docs__description">
-                      <Markdown source={ externalDocs.get("description") } />
+                      <Markdown source={ externalDocs.description } />
                     </span>
-                    <a className="opblock-external-docs__link" href={ sanitizeUrl(externalDocs.get("url")) }>{ externalDocs.get("url") }</a>
+                    <a target="_blank" className="opblock-external-docs__link" href={ sanitizeUrl(externalDocs.url) }>{ externalDocs.url }</a>
                   </div>
                 </div> : null
               }
+
               <Parameters
                 parameters={parameters}
                 operation={operation}
@@ -176,6 +184,21 @@ export default class Operation extends PureComponent {
                 pathMethod={ [path, method] }
                 getConfigs={ getConfigs }
               />
+
+              { !tryItOutEnabled ? null :
+                <OperationServers
+                  getComponent={getComponent}
+                  path={path}
+                  method={method}
+                  operationServers={operation.get("servers")}
+                  pathServers={specSelectors.paths().getIn([path, "servers"])}
+                  getSelectedServer={oas3Selectors.selectedServer}
+                  setSelectedServer={oas3Actions.setSelectedServer}
+                  setServerVariableValue={oas3Actions.setServerVariableValue}
+                  getServerVariable={oas3Selectors.serverVariableValue}
+                  getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
+                />
+              }
 
               {!tryItOutEnabled || !allowTryItOut ? null : schemes && schemes.size ? <div className="opblock-schemes">
                     <Schemes schemes={ schemes }
@@ -224,6 +247,10 @@ export default class Operation extends PureComponent {
                     method={ method }
                     displayRequestDuration={ displayRequestDuration }
                     fn={fn} />
+              }
+
+              { !showExtensions || !extensions.size ? null :
+                <OperationExt extensions={ extensions } getComponent={ getComponent } />
               }
             </div>
           </Collapse>

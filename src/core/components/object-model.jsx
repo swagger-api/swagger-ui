@@ -9,6 +9,7 @@ export default class ObjectModel extends Component {
   static propTypes = {
     schema: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
+    getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     name: PropTypes.string,
     isRef: PropTypes.bool,
@@ -17,13 +18,15 @@ export default class ObjectModel extends Component {
   }
 
   render(){
-    let { schema, name, isRef, getComponent, depth, expandDepth, ...otherProps } = this.props
+    let { schema, name, isRef, getComponent, getConfigs, depth, expandDepth, ...otherProps } = this.props
     let { specSelectors } = otherProps
     let { isOAS3 } = specSelectors
 
     if(!schema) {
       return null
     }
+
+    const { showExtensions } = getConfigs()
 
     let description = schema.get("description")
     let properties = schema.get("properties")
@@ -91,8 +94,33 @@ export default class ObjectModel extends Component {
                           <Model key={ `object-${name}-${key}_${value}` } { ...otherProps }
                                  required={ isRequired }
                                  getComponent={ getComponent }
+                                 getConfigs={ getConfigs }
                                  schema={ value }
                                  depth={ depth + 1 } />
+                        </td>
+                      </tr>)
+                    }).toArray()
+              }
+              {
+                // empty row befor extensions...
+                !showExtensions ? null : <tr>&nbsp;</tr>
+              }
+              {
+                !showExtensions ? null :
+                  schema.entrySeq().map(
+                    ([key, value]) => {
+                      if(key.slice(0,2) !== "x-") {
+                        return
+                      }
+
+                      const normalizedValue = !value ? null : value.toJS ? value.toJS() : value
+
+                      return (<tr key={key} style={{ color: "#777" }}>
+                        <td>
+                          { key }
+                        </td>
+                        <td style={{ verticalAlign: "top" }}>
+                          { JSON.stringify(normalizedValue) }
                         </td>
                       </tr>)
                     }).toArray()
@@ -104,6 +132,7 @@ export default class ObjectModel extends Component {
                     <td>
                       <Model { ...otherProps } required={ false }
                              getComponent={ getComponent }
+                             getConfigs={ getConfigs }
                              schema={ additionalProperties }
                              depth={ depth + 1 } />
                     </td>
@@ -117,6 +146,7 @@ export default class ObjectModel extends Component {
                       {anyOf.map((schema, k) => {
                         return <div key={k}><Model { ...otherProps } required={ false }
                                  getComponent={ getComponent }
+                                 getConfigs={ getConfigs }
                                  schema={ schema }
                                  depth={ depth + 1 } /></div>
                       })}
@@ -131,6 +161,7 @@ export default class ObjectModel extends Component {
                       {oneOf.map((schema, k) => {
                         return <div key={k}><Model { ...otherProps } required={ false }
                                  getComponent={ getComponent }
+                                 getConfigs={ getConfigs }
                                  schema={ schema }
                                  depth={ depth + 1 } /></div>
                       })}
@@ -142,12 +173,14 @@ export default class ObjectModel extends Component {
                   : <tr>
                     <td>{ "not ->" }</td>
                     <td>
-                      {not.map((schema, k) => {
-                        return <div key={k}><Model { ...otherProps } required={ false }
-                                 getComponent={ getComponent }
-                                 schema={ schema }
-                                 depth={ depth + 1 } /></div>
-                      })}
+                      <div>
+                        <Model { ...otherProps }
+                               required={ false }
+                               getComponent={ getComponent }
+                               getConfigs={ getConfigs }
+                               schema={ not }
+                               depth={ depth + 1 } />
+                      </div>
                     </td>
                   </tr>
               }

@@ -473,6 +473,9 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
   let required = param.get("required")
 
   let paramDetails = isOAS3 ? param.get("schema") : param
+
+  if(!paramDetails) return errors
+
   let maximum = paramDetails.get("maximum")
   let minimum = paramDetails.get("minimum")
   let type = paramDetails.get("type")
@@ -480,7 +483,7 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
   let maxLength = paramDetails.get("maxLength")
   let minLength = paramDetails.get("minLength")
   let pattern = paramDetails.get("pattern")
-  
+
 
   /*
     If the parameter is required OR the parameter has a value (meaning optional, but filled in)
@@ -506,7 +509,7 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
       let err = validatePattern(value, pattern)
       if (err) errors.push(err)
     }
-    
+
     if (maxLength || maxLength === 0) {
       let err = validateMaxLength(value, maxLength)
       if (err) errors.push(err)
@@ -604,7 +607,10 @@ export const getSampleSchema = (schema, contentType="", config={}) => {
 
 export const parseSearch = () => {
   let map = {}
-  let search = window.location.search
+  let search = win.location.search
+
+  if(!search)
+    return {}
 
   if ( search != "" ) {
     let params = search.substr(1).split("&")
@@ -692,3 +698,5 @@ export function getAcceptControllingResponse(responses) {
 
 export const createDeepLinkPath = (str) => typeof str == "string" || str instanceof String ? str.trim().replace(/\s/g, "_") : ""
 export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str) )
+
+export const getExtensions = (defObj) => defObj.filter((v, k) => /^x-/.test(k))
