@@ -459,6 +459,13 @@ export const validateMinLength = (val, min) => {
   }
 }
 
+export const validatePattern = (val, rxPattern) => {
+  var patt = new RegExp(rxPattern)
+  if (!patt.test(val)) {
+      return "Value must follow pattern " + rxPattern
+  }
+}
+
 // validation of parameters before execute
 export const validateParam = (param, isXml, isOAS3 = false) => {
   let errors = []
@@ -466,12 +473,17 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
   let required = param.get("required")
 
   let paramDetails = isOAS3 ? param.get("schema") : param
+
+  if(!paramDetails) return errors
+
   let maximum = paramDetails.get("maximum")
   let minimum = paramDetails.get("minimum")
   let type = paramDetails.get("type")
   let format = paramDetails.get("format")
   let maxLength = paramDetails.get("maxLength")
   let minLength = paramDetails.get("minLength")
+  let pattern = paramDetails.get("pattern")
+
 
   /*
     If the parameter is required OR the parameter has a value (meaning optional, but filled in)
@@ -479,14 +491,24 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
     Only bother validating the parameter if the type was specified.
   */
   if ( type && (required || value) ) {
-    // These checks should evaluate to true if the parameter's value is valid
-    let stringCheck = type === "string" && value && !validateString(value)
+    // These checks should evaluate to true if there is a parameter
+    let stringCheck = type === "string" && value
     let arrayCheck = type === "array" && Array.isArray(value) && value.length
     let listCheck = type === "array" && Im.List.isList(value) && value.count()
     let fileCheck = type === "file" && value instanceof win.File
-    let booleanCheck = type === "boolean" && !validateBoolean(value)
-    let numberCheck = type === "number" && !validateNumber(value) // validateNumber returns undefined if the value is a number
-    let integerCheck = type === "integer" && !validateInteger(value) // validateInteger returns undefined if the value is an integer
+    let booleanCheck = type === "boolean" && (value || value === false)
+    let numberCheck = type === "number" && (value || value === 0)
+    let integerCheck = type === "integer" && (value || value === 0)
+
+    if ( required && !(stringCheck || arrayCheck || listCheck || fileCheck || booleanCheck || numberCheck || integerCheck) ) {
+      errors.push("Required field is not provided")
+      return errors
+    }
+
+    if (pattern) {
+      let err = validatePattern(value, pattern)
+      if (err) errors.push(err)
+    }
 
     if (maxLength || maxLength === 0) {
       let err = validateMaxLength(value, maxLength)
@@ -496,11 +518,6 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
     if (minLength) {
       let err = validateMinLength(value, minLength)
       if (err) errors.push(err)
-    }
-
-    if ( required && !(stringCheck || arrayCheck || listCheck || fileCheck || booleanCheck || numberCheck || integerCheck) ) {
-      errors.push("Required field is not provided")
-      return errors
     }
 
     if (maximum || maximum === 0) {
@@ -590,7 +607,10 @@ export const getSampleSchema = (schema, contentType="", config={}) => {
 
 export const parseSearch = () => {
   let map = {}
-  let search = window.location.search
+  let search = win.location.search
+
+  if(!search)
+    return {}
 
   if ( search != "" ) {
     let params = search.substr(1).split("&")
@@ -678,3 +698,5 @@ export function getAcceptControllingResponse(responses) {
 
 export const createDeepLinkPath = (str) => typeof str == "string" || str instanceof String ? str.trim().replace(/\s/g, "_") : ""
 export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str) )
+
+export const getExtensions = (defObj) => defObj.filter((v, k) => /^x-/.test(k))

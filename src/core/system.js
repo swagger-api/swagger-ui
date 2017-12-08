@@ -1,3 +1,4 @@
+import React from "react"
 import { createStore, applyMiddleware, bindActionCreators, compose } from "redux"
 import Im, { fromJS, Map } from "immutable"
 import deepExtend from "deep-extend"
@@ -97,7 +98,8 @@ export default class Store {
       getComponents: this.getComponents.bind(this),
       getState: this.getStore().getState,
       getConfigs: this._getConfigs.bind(this),
-      Im
+      Im,
+      React
     }, this.system.rootInjects || {})
   }
 
@@ -264,8 +266,9 @@ export default class Store {
 
     dispatch = dispatch || this.getStore().dispatch
 
-    const process = creator =>{
+    const actions = this.getActions()
 
+    const process = creator =>{
       if( typeof( creator ) !== "function" ) {
         return objMap(creator, prop => process(prop))
       }
@@ -284,13 +287,12 @@ export default class Store {
       }
 
     }
-    return objMap(this.getActions(), actionCreator => bindActionCreators( process( actionCreator ), dispatch ) )
+    return objMap(actions, actionCreator => bindActionCreators( process( actionCreator ), dispatch ) )
   }
 
   getMapStateToProps() {
     return () => {
-      let obj = Object.assign({}, this.getSystem())
-      return obj
+      return Object.assign({}, this.getSystem())
     }
   }
 
@@ -334,17 +336,22 @@ function systemExtend(dest={}, src={}) {
   // Parses existing components in the system, and prepares them for wrapping via getComponents
   if(src.wrapComponents) {
     objMap(src.wrapComponents, (wrapperFn, key) => {
-      const ori = dest.components[key]
+      const ori = dest.components && dest.components[key]
       if(ori && Array.isArray(ori)) {
         dest.components[key] = ori.concat([wrapperFn])
+        delete src.wrapComponents[key]
       } else if(ori) {
         dest.components[key] = [ori, wrapperFn]
-      } else {
-        dest.components[key] = null
+        delete src.wrapComponents[key]
       }
     })
 
-    delete src.wrapComponents
+    if(!Object.keys(src.wrapComponents).length) {
+      // only delete wrapComponents if we've matched all of our wrappers to components
+      // this handles cases where the component to wrap may be out of our scope,
+      // but a higher recursive `combinePlugins` call will be able to handle it.
+      delete src.wrapComponents
+    }
   }
 
 

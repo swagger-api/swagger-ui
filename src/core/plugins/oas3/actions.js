@@ -7,10 +7,10 @@ export const UPDATE_REQUEST_CONTENT_TYPE = "oas3_set_request_content_type"
 export const UPDATE_RESPONSE_CONTENT_TYPE = "oas3_set_response_content_type"
 export const UPDATE_SERVER_VARIABLE_VALUE = "oas3_set_server_variable_value"
 
-export function setSelectedServer (selectedServerUrl) {
+export function setSelectedServer (selectedServerUrl, namespace) {
   return {
     type: UPDATE_SELECTED_SERVER,
-    payload: selectedServerUrl
+    payload: {selectedServerUrl, namespace}
   }
 }
 
@@ -28,16 +28,16 @@ export function setRequestContentType ({ value, pathMethod }) {
   }
 }
 
-export function setResponseContentType ({ value, pathMethod }) {
+export function setResponseContentType ({ value, path, method }) {
   return {
     type: UPDATE_RESPONSE_CONTENT_TYPE,
-    payload: { value, pathMethod }
+    payload: { value, path, method }
   }
 }
 
-export function setServerVariableValue ({ server, key, val }) {
+export function setServerVariableValue ({ server, namespace, key, val }) {
   return {
     type: UPDATE_SERVER_VARIABLE_VALUE,
-    payload: { server, key, val }
+    payload: { server, namespace, key, val }
   }
 }

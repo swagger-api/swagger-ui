@@ -7,6 +7,7 @@ export default class ArrayModel extends Component {
   static propTypes = {
     schema: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
+    getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     name: PropTypes.string,
     required: PropTypes.bool,
@@ -16,7 +17,7 @@ export default class ArrayModel extends Component {
   }
 
   render(){
-    let { getComponent, schema, depth, expandDepth, name, specPath } = this.props
+    let { getComponent, getConfigs, schema, depth, expandDepth, name, specPath } = this.props
     let description = schema.get("description")
     let items = schema.get("items")
     let title = schema.get("title") || name
@@ -47,7 +48,7 @@ export default class ArrayModel extends Component {
             !description ? null :
               <Markdown source={ description } />
           }
-          <span><Model { ...this.props } specPath={[...specPath, "items"]} name={null} schema={ items } required={ false } depth={ depth + 1 } /></span>
+          <span><Model { ...this.props } getConfigs={ getConfigs } specPath={[...specPath, "items"]} name={null} schema={ items } required={ false } depth={ depth + 1 } /></span>
         ]
       </ModelCollapse>
     </span>

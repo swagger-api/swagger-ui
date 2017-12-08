@@ -38,6 +38,7 @@ export default class Models extends Component {
                      schema={ model }
                      specPath={[...specPathBase, name]}
                      getComponent={ getComponent }
+                     getConfigs={ getConfigs }
                      specSelectors={ specSelectors }/>
               </div>
           }).toArray()

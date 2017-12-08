@@ -32,7 +32,8 @@ export default class ResponseBody extends React.Component {
       // XML
     } else if (/xml/i.test(contentType)) {
       body = formatXml(content, {
-        textNodesOnSameLine: true
+        textNodesOnSameLine: true,
+        indentor: "  "
       })
       bodyEl = <HighlightCode value={ body } />
 
@@ -55,9 +56,6 @@ export default class ResponseBody extends React.Component {
       (headers["content-disposition"] && (/attachment/i).test(headers["content-disposition"])) ||
       (headers["Content-Description"] && (/File Transfer/i).test(headers["Content-Description"])) ||
       (headers["content-description"] && (/File Transfer/i).test(headers["content-description"]))) {
-
-      let contentLength = headers["content-length"] || headers["Content-Length"]
-      if ( !(+contentLength) ) return null
 
       const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
