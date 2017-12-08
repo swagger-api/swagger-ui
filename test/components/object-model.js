@@ -25,6 +25,7 @@ describe("<ObjectModel />", function() {
         }
       },
       isRef : false,
+      specPath: [],
       schema: Immutable.fromJS(
         {
           "properties": {
