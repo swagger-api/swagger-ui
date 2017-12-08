@@ -54,7 +54,7 @@ export default class Operations extends React.Component {
     }
 
     return (
-      <div>
+      <div className>
         {
           taggedOps.map((tagObj, tag) => {
             let operations = tagObj.get("operations")
@@ -68,7 +68,7 @@ export default class Operations extends React.Component {
             return (
               // <div className={showTag ? "opblock-tag-section is-open" : "opblock-tag-section"} key={"operation-" + tag}>
               <div className="opblock-tag-section is-open" key={"operation-" + tag}>
-                <div className="col-50">
+                <div>
                   <h2
                     onClick={() => layoutActions.show(isShownKey, !showTag)}
                     className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag"}
