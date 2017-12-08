@@ -3,11 +3,13 @@ import React from "react"
 import expect, { createSpy } from "expect"
 import { render } from "enzyme"
 import { fromJS } from "immutable"
+import DeepLinkingLink from "components/deeplinking-link"
 import Operations from "components/operations"
 import {Collapse} from "components/layout-utils"
 
 const components = {
   Collapse,
+  DeepLinkingLink,
   OperationContainer: ({ path, method }) => <span className="mocked-op" id={`${path}-${method}`} />
 }
 
