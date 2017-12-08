@@ -12,7 +12,8 @@ export default class Model extends PureComponent {
     isRef: PropTypes.bool,
     required: PropTypes.bool,
     expandDepth: PropTypes.number,
-    depth: PropTypes.number
+    depth: PropTypes.number,
+    specPath: PropTypes.array.isRequired,
   }
 
   getModelName =( ref )=> {
@@ -31,7 +32,7 @@ export default class Model extends PureComponent {
   }
 
   render () {
-    let { getComponent, getConfigs, specSelectors, schema, required, name, isRef } = this.props
+    let { getComponent, getConfigs, specSelectors, schema, required, name, isRef, specPath } = this.props
     const ObjectModel = getComponent("ObjectModel")
     const ArrayModel = getComponent("ArrayModel")
     const PrimitiveModel = getComponent("PrimitiveModel")
@@ -55,6 +56,7 @@ export default class Model extends PureComponent {
       case "object":
         return <ObjectModel
           className="object" { ...this.props }
+          specPath={specPath}
           getConfigs={ getConfigs }
           schema={ schema }
           name={ name }

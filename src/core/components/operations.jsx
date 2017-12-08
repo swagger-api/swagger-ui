@@ -119,6 +119,8 @@ export default class Operations extends React.Component {
                       operations.map( op => {
                         const path = op.get("path")
                         const method = op.get("method")
+                        const specPath = ["paths", path, method]
+
 
                         // FIXME: (someday) this logic should probably be in a selector,
                         // but doing so would require further opening up
@@ -134,6 +136,7 @@ export default class Operations extends React.Component {
 
                         return <OperationContainer
                           key={`${path}-${method}`}
+                          specPath={specPath}
                           op={op}
                           path={path}
                           method={method}
