@@ -65,11 +65,12 @@ import VersionStamp from "core/components/version-stamp"
 import Markdown from "core/components/providers/markdown"
 
 import BaseLayout from "core/components/layouts/base"
+import KongLayout from "core/components/layouts/kong"
 
 import * as LayoutUtils from "core/components/layout-utils"
 import * as JsonSchemaComponents from "core/json-schema-components"
 
-export default function() {
+export default function () {
 
   let coreComponents = {
     components: {
@@ -117,6 +118,7 @@ export default function() {
       TryItOutButton,
       Markdown,
       BaseLayout,
+      KongLayout,
       VersionStamp,
       OperationExt,
       OperationExtRow,

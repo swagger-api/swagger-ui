@@ -20,7 +20,7 @@ export default class StandaloneLayout extends React.Component {
     let Row = getComponent("Row")
     let Col = getComponent("Col")
 
-    const BaseLayout = getComponent("BaseLayout", true)
+    const KongLayout = getComponent("KongLayout", true)
     const OnlineValidatorBadge = getComponent("onlineValidatorBadge", true)
 
     const loadingStatus = specSelectors.loadingStatus()
@@ -28,7 +28,6 @@ export default class StandaloneLayout extends React.Component {
     return (
 
       <Container className='swagger-ui'>
-        <div className="side-panel"></div>
         {loadingStatus === "loading" &&
           <div className="info">
             <h4 className="title">Loading...</h4>
@@ -44,7 +43,7 @@ export default class StandaloneLayout extends React.Component {
             <h4 className="title">Failed to load config.</h4>
           </div>
         }
-        {!loadingStatus || loadingStatus === "success" && <BaseLayout />}
+        {!loadingStatus || loadingStatus === "success" && <KongLayout />}
         <Row>
           <Col>
             <OnlineValidatorBadge />

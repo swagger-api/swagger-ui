@@ -1,67 +1,342 @@
+/*  Colors
+========================================================================== */
+$darkGry: #666666;
+$lightGry: #F5F5F5;
+
+$methodBlue: #1E90B3;
+$methodGreen: #6ABD59;
+$methodPurple: #9B6F8A;
+$methodRed: #E37879;
+
+/*  Kong Styles
+========================================================================== */
 // Right Panel
 .side-panel {
   position: fixed;
   top: 0;
   right: 0;
-  width: 50%;
+  width: 45%;
   height: 100vh;
-  background: #2d3134;
+  background: $darkGry;
   z-index: -1;
 }
 
-.flex-wrapper {
+.wrapper {
   display: flex;
+  max-width: 100%;
+  &.no-gutter {
+    .col {
+      padding: 0;
+    }
+  }
 }
 
 // Default column class
-.col-50 {
-  width: 50%;
-  padding: 0 1rem !important;
-}
-
-.swagger-ui .wrapper {
-  max-width: 100%;
-  padding: 0;
-}
-
-//Set swagger top info to 50% width 
-.swagger-ui .information-container,
-.swagger-ui .scheme-container {
-  width: 50%;
-  margin: 0;
-  background: none;
-}
-
-// Remove backgrounds from operations
-// .swagger-ui .opblock {
-//   background: none;
-//   border: none;
-//   box-shadow: none;
-//   // Remove bottom border from operation
-//   .opblock-summary {
-//     border-bottom: none !important;
-//   }
-// }
-
-// Set column wrapper to flex
-.parameters,
-.example-wrapper {
-  display: flex;
-  .parameters-col_name,
-  .parameters-col_description {
-    width: 50%;
-    max-width: 50%;
-    min-width: auto;
-    padding: 20px !important;
+.col {
+  padding: 0 2rem;
+  width: 55%;
+  &:last-child {
+    width: 45%;
   }
 }
 
-// Float try button
-.try-out {
+.text-right {
   text-align: right;
-  margin-right: 1rem;
-  .btn {
-    border-color: #fff;
-    color: #fff;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/*  Swagger Overrides
+========================================================================== */
+// Defaults
+h1 {}
+h2 {}
+h3 {}
+h4 {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.btn {
+  color: rgba(0,0,0,.70);
+  font-size: 15px;
+  font-weight: 400;
+  border-radius: 4px !important;
+  border: 1px solid #D9D9D9; 
+  box-shadow: none;
+  &.try-out__btn {
+    width: 117px;
+    padding: 8px 0;
   }
 }
+
+select {
+  min-width: 190px;
+  margin-bottom: 1rem;
+  font-weight: 400;
+  border: 1px solid #E6E6E6;
+  border-radius: 3px;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.code-block {
+  min-height: 115px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  border-radius: 3px;
+  resize: none;
+  background: rgba(0,0,0,.1);
+  span {
+    color: #fff !important;
+  font-weight: 500 !important;
+  }
+}
+
+// Response loader
+.loading-container .loading {
+  &:before {
+    border-color: rgba(0,0,0,.5);
+    border-top-color: rgba(255,255,255,.5); 
+  }
+  &:after {
+    color: #fff;
+    font-weight: 400;
+  }
+}
+
+.info {
+  margin: 3rem 0;
+}
+
+.scheme-container {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  margin: 0;
+  padding: 0 2rem;
+  background: #EBF7FF;
+  p {
+    color: #0F6099;
+    font-weight: 400;
+    font-size: 15px;
+  }
+  .auth-wrapper {
+    flex: 0;
+    margin-left: 1rem;
+    button {
+      padding: 8px 1rem;
+      color: #1270B3;
+      border-color: #7CC9FF;
+      font-size: 15px;
+      span {padding: 0;}
+      svg {display: none;}
+    }
+  }
+}
+
+.example p {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(0,0,0,.45);
+  margin-bottom: 1rem;
+}
+
+// Operation Container
+.operations-container {
+  .opblock-details {
+    margin-bottom: 24px;
+    .opblock-tag {
+      margin: 0;
+      padding: 0;
+      color: rgba(0,0,0,.70);
+      font-size: 2rem;
+      font-weight: 400;
+    }
+    .opblock-ex-description {
+      margin-bottom: 2rem;
+      font-size: 15px;
+      color: rgba(0,0,0,.45);
+    }
+  }
+  .opblock {
+    margin-bottom: 80px;
+    // Method Summary
+    .opblock-summary-description {
+      display: flex;
+      margin-bottom: 24px;
+      font-size: 20px;
+      font-weight: 500;
+      button {
+        margin-left: auto;
+      }
+    }
+    // Method bar
+    .opblock-summary {
+      height: 36px;
+      margin-bottom: 2rem;
+      border: 0 !important;
+      background: $lightGry;   
+      &-method {
+        height: 100%;
+        line-height: 1.5rem;
+        border-radius: 3px 0 0 3px;
+        text-shadow: none;
+        font-family: "Roboto Mono", monospace;
+      }
+      &-path {
+        padding: 0 12px;
+        font-size: 14px;
+        color: rgba(0,0,0,.70);
+        font-family: "Roboto Mono", monospace;
+      }
+      &-post .opblock-summary-method {
+        background: $methodBlue;
+      }
+      &-put .opblock-summary-method {
+        background: $methodPurple;
+      }
+      &-get .opblock-summary-method {
+        background: $methodGreen;
+      }
+      &-delete .opblock-summary-method {
+        background: $methodRed;
+      }
+      .authorization__btn.unlocked {
+        margin-left: auto;
+      }
+    }
+    //Method Parameter Header
+    .opblock-section-header {
+      margin-bottom: 1rem;
+      padding: 0 0 1rem 0;
+      border-bottom: 2px solid rgba(0,0,0,.10);
+    }
+
+    // Right Column
+    .responses-wrapper {
+      color: #fff;
+      font-weight: 400;
+      margin-bottom: 80px;
+      h4, p, span, select {
+        color: #fff;
+        font-weight: 400;
+      }
+      .opblock-section-header {
+        padding: 0;
+        border-color: rgba(255,255,255,.1);
+      } 
+    }
+    .responses-inner {
+      padding: 0;
+      .response-item {
+        margin-bottom: 1rem;
+        border-bottom: 1px solid rgba(255,255,255,.1);
+      }
+      .response-content-type {
+        padding: 0;
+      }
+    }
+    .response-code {
+      display: flex;
+      align-items: center;
+      height: 35px;
+      padding: 1rem;
+      border-radius: 3px;
+      background: rgba(0, 0, 0, 0.1);
+    }
+    .example p {
+      color: rgba(255,255,255,.55)1
+    }
+  }
+}
+
+// Parameter Table
+.parameters {
+  .parameter__name.required {
+    font-weight: 500;
+    &:after {
+      display: block;
+      content: "Required";
+      padding: 10px 0;
+      font-size: 13px;
+      font-weight: 400;
+      color: #D90000;
+    }
+  }
+
+  .parameter__in,
+  .parameter__extension {
+    color: rgba(0,0,0,0.45);
+    font-weight: 400;
+  }
+
+  .parameters-col_description {
+    min-width: 60%;
+    p {
+      margin-bottom: 12px;
+      font-size: 15px;
+      color: rgba(0,0,0,.70);
+    }
+  }
+
+  .body-param {
+    background: $lightGry;
+    border: 1px solid #E6E6E6;
+    border-radius: 3px;
+    margin-bottom: 25px;
+    overflow: auto;
+    .param-content-type {
+      display: flex;
+      align-items: center;
+      padding: .5rem .5rem .5rem 1rem;
+      font-size: 13px;
+      font-weight: 500;
+      border-bottom: 1px solid #E6E6E6;
+    }
+    .content-type-wrapper {
+      margin-left: auto;
+      select {
+        margin-bottom: 0; 
+      }
+    }
+    .body-param__example {
+      margin-top: 1rem; 
+      font-size: 14px;
+      background: $lightGry;
+      span {
+        color: rgba(0,0,0,.70) !important;
+      }
+    }
+    .body-param__text {
+      font-size: 14px;
+      background: #fff;
+      resize: none;
+    }
+  }
+  
+}
+
+// Exectute buttons
+.col.execute-wrapper {
+  display: flex;
+  width: 60%;
+  margin-left: auto;
+  .btn {
+    width: 125px;
+    padding: 8px 0;
+    &:first-child {
+      margin-right: auto;
+    }
+  }
+}
+
