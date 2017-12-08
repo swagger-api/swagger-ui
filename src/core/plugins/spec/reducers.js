@@ -15,7 +15,7 @@ import {
   UPDATE_OPERATION_VALUE,
   CLEAR_RESPONSE,
   CLEAR_REQUEST,
-  ClEAR_VALIDATE_PARAMS,
+  CLEAR_VALIDATE_PARAMS,
   SET_SCHEME
 } from "./actions"
 
@@ -64,7 +64,7 @@ export default {
       })
     })
   },
-  [ClEAR_VALIDATE_PARAMS]: ( state, { payload:  { pathMethod } } ) => {
+  [CLEAR_VALIDATE_PARAMS]: ( state, { payload:  { pathMethod } } ) => {
     return state.updateIn( [ "resolved", "paths", ...pathMethod, "parameters" ], fromJS([]), parameters => {
       return parameters.withMutations( parameters => {
         for ( let i = 0, len = parameters.count(); i < len; i++ ) {
