@@ -47,6 +47,7 @@ module.exports = function SwaggerUI(opts) {
     showMutatedRequest: true,
     defaultModelRendering: "example",
     defaultModelExpandDepth: 1,
+    defaultModelsExpandDepth: 1,
     showExtensions: false,
 
     // Initial set of plugins ( TODO rename this, or refactor - we don't need presets _and_ plugins. Its just there for performance.
