@@ -32,7 +32,8 @@ export default class Operation extends PureComponent {
   static defaultProps = {
     operation: null,
     response: null,
-    request: null
+    request: null,
+    specPath: []
   }
 
   render() {
@@ -113,10 +114,10 @@ export default class Operation extends PureComponent {
     let onChangeKey = [ path, method ] // Used to add values to _this_ operation ( indexed by path and method )
 
     return (
-      <div className={`opblock-summary opblock-summary-${method}`} onClick={toggleShown} >
-        {/*TODO: convert this into a component, that can be wrapped
-          and pulled in with getComponent */}
         <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={isShownKey.join("-")} >
+          <div className={`opblock-summary opblock-summary-${method}`} onClick={toggleShown} >
+            {/*TODO: convert this into a component, that can be wrapped
+              and pulled in with getComponent */}
               <span className="opblock-summary-method">{method.toUpperCase()}</span>
               <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } >
               <a
