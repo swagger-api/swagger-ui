@@ -1,9 +1,6 @@
 *
 */
 !README.md
-!package.json
-!dist/swagger-ui.js
 !dist/swagger-ui.js.map
-!dist/swagger-ui.css
 !dist/swagger-ui.css.map
 !dist/oauth2-redirect.html
