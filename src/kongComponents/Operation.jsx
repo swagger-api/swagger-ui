@@ -133,6 +133,7 @@ export default class Operation extends PureComponent {
                 />
             }
           </div>
+
           <div className={`opblock-summary opblock-summary-${method}`} >
             <span className="opblock-summary-method">{method.toUpperCase()}</span>
             <span className={deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path"} >
@@ -238,6 +239,8 @@ export default class Operation extends PureComponent {
 
         <div className="col end">
 
+          {executeInProgress ? <div className="loading-container"><div className="loading"></div></div> : null}
+
           {!responses ? null :
             <Responses
               responses={responses}
@@ -255,14 +258,13 @@ export default class Operation extends PureComponent {
               displayRequestDuration={displayRequestDuration}
               fn={fn} />
           }
-
-          {executeInProgress ? <div className="loading-container"><div className="loading"></div></div> : null}
         </div>
 
         {!showExtensions || !extensions.size ? null :
           <OperationExt extensions={extensions} getComponent={getComponent} />
         }
       </div>
+
     )
   }
 

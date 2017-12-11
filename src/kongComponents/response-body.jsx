@@ -92,7 +92,7 @@ export default class ResponseBody extends React.Component {
     }
 
     return (!bodyEl ? null : <div>
-      <h4>Response body</h4>
+      <p className="white45"><small>Response body</small></p>
       <div className="code-block">
         {bodyEl}
       </div>

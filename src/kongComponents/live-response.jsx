@@ -9,7 +9,7 @@ import ResponseBody from "./response-body"
 const Headers = ({ headers }) => {
   return (
     <div className="headers">
-      <h4>Response headers</h4>
+      <p className="white45"><small>Response headers</small></p>
       <div className="response-code">
         <pre>{headers}</pre>
       </div>
@@ -73,18 +73,20 @@ export default class LiveResponse extends React.Component {
     const hasHeaders = returnObject.length !== 0
 
     return (
-      <div>
-        <h4>Request</h4>
+      <div className="response-container">
+        <div className="opblock-section-header">
+          <h4>Request</h4>
+        </div>
         {curlRequest && <Curl request={curlRequest} />}
         {url && <div>
-          <p><small>Request URL</small></p>
+          <p className="white45"><small>Request URL</small></p>
           <div className="request-url response-code">
             <pre>{url}</pre>
           </div>
         </div>
         }
 
-        <h4>Server response</h4>
+        <h4>Server Response</h4>
         <div className="response">
           <div className="response-item response-code">
             {status}
