@@ -31,6 +31,7 @@ export default class OperationContainer extends PureComponent {
     request: PropTypes.instanceOf(Iterable),
     security: PropTypes.instanceOf(Iterable),
     isDeepLinkingEnabled: PropTypes.bool.isRequired,
+    specPath: PropTypes.array.isRequired,
 
     getComponent: PropTypes.func.isRequired,
     authActions: PropTypes.object,
@@ -141,6 +142,7 @@ export default class OperationContainer extends PureComponent {
       displayOperationId,
       displayRequestDuration,
       isDeepLinkingEnabled,
+      specPath,
       specSelectors,
       specActions,
       getComponent,
@@ -187,6 +189,7 @@ export default class OperationContainer extends PureComponent {
         onTryoutClick={this.onTryoutClick}
         onCancelClick={this.onCancelClick}
         onExecute={this.onExecute}
+        specPath={specPath}
 
         specActions={ specActions }
         specSelectors={ specSelectors }
