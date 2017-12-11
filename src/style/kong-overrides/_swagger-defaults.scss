@@ -1,0 +1,117 @@
+/*  Swagger Overrides
+========================================================================== */
+// Defaults
+h1 {}
+h2 {}
+h3 {}
+h4 {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.btn {
+  color: rgba(0,0,0,.70);
+  font-size: 15px;
+  font-weight: 400;
+  border-radius: 4px !important;
+  border: 1px solid $borderLight; 
+  box-shadow: none;
+  &.try-out__btn {
+    width: 117px;
+    padding: 8px 0;
+  }
+}
+
+select {
+  min-width: 190px;
+  margin-bottom: 1rem;
+  font-weight: 400;
+  border: 1px solid $borderLight;
+  border-radius: 3px;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.code-block {
+  min-height: 115px;
+  margin: 0;
+  padding: 1rem;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  border-radius: 3px;
+  resize: none;
+  overflow: auto;
+  background: rgba(0,0,0,.1);
+  span {
+    color: #fff !important;
+    font-weight: 500 !important;
+  }
+}
+
+// Response loader
+.loading-container .loading {
+  &:before {
+    border-color: rgba(0,0,0,.5);
+    border-top-color: $borderLight; 
+  }
+  &:after {
+    color: #fff;
+    font-weight: 400;
+  }
+}
+
+.validator-badge {
+  padding: 1rem;
+}
+
+.info {
+  margin: 3rem 0;
+}
+
+.scheme-container {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  margin: 0;
+  padding: 0 2rem;
+  background: #EBF7FF;
+  p {
+    color: #0F6099;
+    font-weight: 400;
+    font-size: 15px;
+  }
+  .auth-wrapper {
+    flex: 0;
+    margin-left: 1rem;
+    button.authorize {
+      padding: 8px 1rem;
+      color: #1270B3;
+      border-color: #7CC9FF;
+      font-size: 15px;
+      span {padding: 0;}
+      svg {display: none;}
+    }
+  }
+}
+
+.example p {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(0,0,0,.45);
+  margin-bottom: 1rem;
+}
+
+// Exectute buttons
+.col.execute-wrapper {
+  display: flex;
+  width: 60%;
+  margin-left: auto;
+  .btn {
+    width: 125px;
+    padding: 8px 0;
+    &:first-child {
+      margin-right: auto;
+    }
+  }
+}

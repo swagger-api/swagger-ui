@@ -1,0 +1,43 @@
+/*  Kong Styles
+========================================================================== */
+// Right Panel
+.side-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 45%;
+  height: 100vh;
+  background: $darkGry;
+  z-index: -1;
+}
+
+.wrapper {
+  display: flex;
+  max-width: 100%;
+  &.no-gutter {
+    .col {
+      padding: 0;
+    }
+  }
+}
+
+// Default column class
+.col {
+  padding: 0 2rem;
+  width: 55%;
+  &:last-child {
+    width: 45%;
+  }
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}

@@ -1,6 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
 
+// import OnlineValidatorBadge from "../kongComponents/online-validator-badge"
+
 export default class StandaloneLayout extends React.Component {
 
   static propTypes = {
@@ -21,7 +23,7 @@ export default class StandaloneLayout extends React.Component {
     let Col = getComponent("Col")
 
     const KongLayout = getComponent("KongLayout", true)
-    const OnlineValidatorBadge = getComponent("onlineValidatorBadge", true)
+    const OnlineValidatorBadge = getComponent("KongValidator", true)
 
     const loadingStatus = specSelectors.loadingStatus()
 
@@ -29,7 +31,7 @@ export default class StandaloneLayout extends React.Component {
 
       <Container className='swagger-ui'>
         {loadingStatus === "loading" &&
-          <div className="info">
+          <div className="info text-center">
             <h4 className="title">Loading...</h4>
           </div>
         }
@@ -44,11 +46,9 @@ export default class StandaloneLayout extends React.Component {
           </div>
         }
         {!loadingStatus || loadingStatus === "success" && <KongLayout />}
-        <Row>
-          <Col>
-            <OnlineValidatorBadge />
-          </Col>
-        </Row>
+        <div className="validator-badge">
+          <OnlineValidatorBadge />
+        </div>
       </Container>
     )
   }

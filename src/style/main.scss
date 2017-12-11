@@ -18,5 +18,5 @@
     @include text_body();
     @import 'split-pane-mode';
 
-    @import 'kong-overrides';
+    @import 'kong-overrides/kong-overrides';
 }
