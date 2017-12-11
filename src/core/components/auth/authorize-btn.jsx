@@ -6,7 +6,7 @@ export default class AuthorizeBtn extends React.Component {
     className: PropTypes.string
   }
 
-  onClick =() => {
+  onClick = () => {
     let { authActions, authSelectors } = this.props
     let definitions = authSelectors.definitionsToAuthorize()
 
@@ -22,13 +22,13 @@ export default class AuthorizeBtn extends React.Component {
 
     return (
       <div className="auth-wrapper">
-        <button className={isAuthorized ? "btn authorize locked" : "btn authorize unlocked"} onClick={ this.onClick }>
-          <span>Authorize</span>
+        <button className={isAuthorized ? "btn authorize locked" : "btn authorize unlocked"} onClick={this.onClick}>
+          <span>Authorization</span>
           <svg width="20" height="20">
-            <use href={ isAuthorized ? "#locked" : "#unlocked" } xlinkHref={ isAuthorized ? "#locked" : "#unlocked" } />
+            <use href={isAuthorized ? "#locked" : "#unlocked"} xlinkHref={isAuthorized ? "#locked" : "#unlocked"} />
           </svg>
         </button>
-      { showPopup && <AuthorizationPopup /> }
+        {showPopup && <AuthorizationPopup />}
       </div>
     )
   }

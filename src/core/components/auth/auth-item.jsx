@@ -26,28 +26,28 @@ export default class Auths extends React.Component {
 
     const type = schema.get("type")
 
-    switch(type) {
-      case "apiKey": authEl = <ApiKeyAuth key={ name }
-                                        schema={ schema }
-                                        name={ name }
-                                        errSelectors={ errSelectors }
-                                        authorized={ authorized }
-                                        getComponent={ getComponent }
-                                        onChange={ onAuthChange } />
+    switch (type) {
+      case "apiKey": authEl = <ApiKeyAuth key={name}
+        schema={schema}
+        name={name}
+        errSelectors={errSelectors}
+        authorized={authorized}
+        getComponent={getComponent}
+        onChange={onAuthChange} />
         break
-      case "basic": authEl = <BasicAuth key={ name }
-                                      schema={ schema }
-                                      name={ name }
-                                      errSelectors={ errSelectors }
-                                      authorized={ authorized }
-                                      getComponent={ getComponent }
-                                      onChange={ onAuthChange } />
+      case "basic": authEl = <BasicAuth key={name}
+        schema={schema}
+        name={name}
+        errSelectors={errSelectors}
+        authorized={authorized}
+        getComponent={getComponent}
+        onChange={onAuthChange} />
         break
-      default: authEl = <div key={ name }>Unknown security definition type { type }</div>
+      default: authEl = <div key={name}>Unknown security definition type {type}</div>
     }
 
     return (<div key={`${name}-jump`}>
-      { authEl }
+      {authEl}
     </div>)
   }
 
