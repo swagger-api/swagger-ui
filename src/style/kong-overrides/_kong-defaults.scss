@@ -41,3 +41,18 @@
 .text-center {
   text-align: center;
 }
+
+@media only screen and (max-width: 800px) {
+  .side-panel {display: none;}
+  .wrapper {
+    flex-direction: column;
+  }
+  .col,
+  .col:last-child {
+    width: 100%;
+    padding: 1rem;
+  }
+  .col.end {
+    background: $darkGry;
+  }
+}

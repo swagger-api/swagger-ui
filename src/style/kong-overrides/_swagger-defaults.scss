@@ -114,4 +114,16 @@ select {
       margin-right: auto;
     }
   }
+
+  @media only screen and (max-width: 800px) {
+    width: 100%;
+    margin: 0 auto;
+    .btn {
+      width: 50%;
+      &:first-child {
+        margin-right: 2rem;
+      }
+    }
+  }
+
 }

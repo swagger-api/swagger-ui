@@ -17,6 +17,11 @@
   }
   .opblock {
     margin-bottom: 80px;
+
+    @media only screen and (max-width: 800px) {
+      margin-bottom: 40px;
+    }
+
     // Method Summary
     .opblock-summary-description {
       display: flex;
@@ -142,6 +147,11 @@
       color: #fff;
       font-weight: 400;
       margin-bottom: 80px;
+
+      @media only screen and (max-width: 800px) {
+        margin-bottom: 40px;
+      }
+
       h4, p, span, select {
         color: #fff;
         font-weight: 400;
