@@ -101,7 +101,7 @@ export default class Operation extends PureComponent {
     const Schemes = getComponent( "schemes" )
     const OperationServers = getComponent( "OperationServers" )
     const OperationExt = getComponent( "OperationExt" )
-    const DeepLinkingLink = getComponent( "DeepLinkingLink" )
+    const DeepLink = getComponent( "DeepLink" )
 
     const { showExtensions } = getConfigs()
 
@@ -120,8 +120,8 @@ export default class Operation extends PureComponent {
         <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={isShownKey.join("-")} >
               <span className="opblock-summary-method">{method.toUpperCase()}</span>
               <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } >
-              <DeepLinkingLink
-                  isDeepLinkingEnabled={isDeepLinkingEnabled}
+              <DeepLink
+                  enabled={isDeepLinkingEnabled}
                   isShown={isShown}
                   path={`${isShownKey.join("/")}`}
                   text={path} />

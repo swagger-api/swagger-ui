@@ -61,7 +61,7 @@ import PrimitiveModel from "core/components/primitive-model"
 import Property from "core/components/property"
 import TryItOutButton from "core/components/try-it-out-button"
 import VersionStamp from "core/components/version-stamp"
-import DeepLinkingLink from "core/components/deeplinking-link"
+import DeepLink from "core/components/deep-link"
 
 import Markdown from "core/components/providers/markdown"
 
@@ -123,7 +123,7 @@ export default function() {
       OperationExtRow,
       ParameterExt,
       OperationContainer,
-      DeepLinkingLink
+      DeepLink
     }
   }
 
