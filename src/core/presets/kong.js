@@ -6,6 +6,7 @@ import KongParameterRow from "../../kongComponents/Parameter-row"
 import KongModelExample from "../../kongComponents/model-example"
 import KongParamBody from "../../kongComponents/param-body"
 import KongContentType from "../../kongComponents/content-type"
+import KongValidator from "../../kongComponents/online-validator-badge"
 
 export default function () {
 
@@ -19,6 +20,7 @@ export default function () {
       KongModelExample,
       KongParamBody,
       KongContentType,
+      KongValidator,
     }
   }
 
