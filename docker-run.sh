@@ -41,7 +41,7 @@ if [ "$OAUTH_ADDITIONAL_PARAMS" != "**None**" ]; then
 fi
 
 if [[ -f $SWAGGER_JSON ]]; then
-  cp $SWAGGER_JSON $NGINX_ROOT
+  cp -s $SWAGGER_JSON $NGINX_ROOT
   REL_PATH="./$(basename $SWAGGER_JSON)"
   sed -i "s|http://petstore.swagger.io/v2/swagger.json|$REL_PATH|g" $INDEX_FILE
   sed -i "s|http://example.com/api|$REL_PATH|g" $INDEX_FILE
