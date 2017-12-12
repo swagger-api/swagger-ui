@@ -10,6 +10,8 @@ export default class ObjectModel extends Component {
     schema: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
     getConfigs: PropTypes.func.isRequired,
+    expanded: PropTypes.bool,
+    onToggle: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     name: PropTypes.string,
     isRef: PropTypes.bool,
@@ -19,9 +21,8 @@ export default class ObjectModel extends Component {
   }
 
   render(){
-    let { schema, name, isRef, getComponent, getConfigs, depth, specPath, expandDepth, ...otherProps } = this.props
-    let { specSelectors } = otherProps
-
+    let { schema, name, isRef, getComponent, getConfigs, depth, onToggle, expanded, specPath, ...otherProps } = this.props
+    let { specSelectors,expandDepth } = otherProps
     const { isOAS3 } = specSelectors
 
     if(!schema) {
@@ -61,7 +62,13 @@ export default class ObjectModel extends Component {
     </span>
 
     return <span className="model">
-      <ModelCollapse title={titleEl} collapsed={ depth > expandDepth } collapsedContent={ collapsedContent }>
+      <ModelCollapse
+        modelName={name}
+        title={titleEl}
+        onToggle = {onToggle}
+        expanded={ expanded ? true : depth <= expandDepth }
+        collapsedContent={ collapsedContent }>
+
          <span className="brace-open object">{ braceOpen }</span>
           {
             !isRef ? null : <JumpToPathSection />
