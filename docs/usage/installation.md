@@ -49,7 +49,7 @@ const ui = SwaggerUIBundle({
     presets: [
       SwaggerUIBundle.presets.apis,
       SwaggerUIBundle.SwaggerUIStandalonePreset
-    ]
+    ],
     layout: "StandaloneLayout"
   })
 ```
@@ -86,7 +86,7 @@ This will serve Swagger UI at `/swagger` instead of `/`.
 You can embed Swagger-UI's code directly in your HTML by using unkpg's interface:
 
 ```html
-<script src="//unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js">
+<script src="//unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
 <!-- `SwaggerUIBundle` is now available on the page -->
 ```
 
