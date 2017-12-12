@@ -6,7 +6,7 @@ export function isOAS3(jsSpec) {
     return false
   }
 
-  return oasVersion.startsWith("3.0.0")
+  return oasVersion.startsWith("3")
 }
 
 export function isSwagger2(jsSpec) {

@@ -37,17 +37,3 @@ export function changeMode(thing, mode="") {
     payload: {thing, mode}
   }
 }
-
-
-// export function onlyShow(thing, shown=true) {
-//   thing = normalizeArray(thing)
-//   if(thing.length < 2)
-//     throw new Error("layoutActions.onlyShow only works, when `thing` is an array with length > 1")
-//   return {
-//     type: ONLY_SHOW,
-//     payload: {thing, shown}
-//   }
-// }
-
-
-

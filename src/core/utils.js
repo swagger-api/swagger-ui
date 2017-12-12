@@ -607,7 +607,10 @@ export const getSampleSchema = (schema, contentType="", config={}) => {
 
 export const parseSearch = () => {
   let map = {}
-  let search = window.location.search
+  let search = win.location.search
+
+  if(!search)
+    return {}
 
   if ( search != "" ) {
     let params = search.substr(1).split("&")
