@@ -4,31 +4,47 @@ import PropTypes from "prop-types"
 export default class ModelCollapse extends Component {
   static propTypes = {
     collapsedContent: PropTypes.any,
-    collapsed: PropTypes.bool,
+    expanded: PropTypes.bool,
     children: PropTypes.any,
-    title: PropTypes.element
+    title: PropTypes.element,
+    modelName: PropTypes.string,
+    onToggle: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     collapsedContent: "{...}",
-    collapsed: true,
+    expanded: false,
     title: null
   }
 
   constructor(props, context) {
     super(props, context)
 
-    let { collapsed, collapsedContent } = this.props
+    let { expanded, collapsedContent } = this.props
 
     this.state = {
-      collapsed: collapsed !== undefined ? collapsed : ModelCollapse.defaultProps.collapsed,
+      expanded : expanded,
       collapsedContent: collapsedContent || ModelCollapse.defaultProps.collapsedContent
     }
   }
 
+  componentWillReceiveProps(nextProps){
+
+    if(this.props.expanded!= nextProps.expanded){
+        this.setState({expanded: nextProps.expanded})
+    }
+
+  }
+
   toggleCollapsed=()=>{
+
+
+    if(this.props.onToggle){
+      this.props.onToggle(this.props.modelName,!this.state.expanded)
+    }
+
     this.setState({
-      collapsed: !this.state.collapsed
+      expanded: !this.state.expanded
     })
   }
 
@@ -38,9 +54,9 @@ export default class ModelCollapse extends Component {
       <span>
         { title && <span onClick={this.toggleCollapsed} style={{ "cursor": "pointer" }}>{title}</span> }
         <span onClick={ this.toggleCollapsed } style={{ "cursor": "pointer" }}>
-          <span className={ "model-toggle" + ( this.state.collapsed ? " collapsed" : "" ) }></span>
+          <span className={ "model-toggle" + ( this.state.expanded ? "" : " collapsed" ) }></span>
         </span>
-        { this.state.collapsed ? this.state.collapsedContent : this.props.children }
+        { this.state.expanded ? this.props.children :this.state.collapsedContent }
       </span>
     )
   }
