@@ -18,6 +18,7 @@ describe("<Models/>", function(){
         return components[c]
     },
     specSelectors: {
+      isOAS3: () => false,
       definitions: function() {
         return fromJS({
           def1: {},
