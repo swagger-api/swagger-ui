@@ -293,7 +293,7 @@ const MyWrapSelectorsPlugin = function(system) {
 
 Wrap Components allow you to override a component registered within the system.
 
-Wrap Components are function factories with the signature `(OriginalComponent, system) => props => ReactElement`.
+Wrap Components are function factories with the signature `(OriginalComponent, system) => props => ReactElement`. If you'd prefer to provide a React component class, `(OriginalComponent, system) => ReactClass` works as well.
 
 ```javascript
 const MyWrapBuiltinComponentPlugin = function(system) {
@@ -310,9 +310,12 @@ const MyWrapBuiltinComponentPlugin = function(system) {
 }
 ```
 
-```javascript
-// Overriding a component from a plugin
+Here's another example that includes a code sample of a component that will be wrapped:
 
+```javascript
+/////  Overriding a component from a plugin
+
+// Here's our normal, unmodified component.
 const MyNumberDisplayPlugin = function(system) {
   return {
     components: {
@@ -321,6 +324,7 @@ const MyNumberDisplayPlugin = function(system) {
   }
 }
 
+// Here's a component wrapper defined as a function.
 const MyWrapComponentPlugin = function(system) {
   return {
     wrapComponents: {
@@ -328,6 +332,7 @@ const MyWrapComponentPlugin = function(system) {
         if(props.number > 10) {
           return <div>
             <h3>Warning! Big number ahead.</h3>
+            <OriginalComponent {...props} />
           </div>
         } else {
           return <Original {...props} />
@@ -336,7 +341,29 @@ const MyWrapComponentPlugin = function(system) {
     }
   }
 }
+
+// Alternatively, here's the same component wrapper defined as a class.
+const MyWrapComponentPlugin = function(system) {
+  return {
+    wrapComponents: {
+      NumberDisplay: (Original, system) => class WrappedNumberDisplay extends React.component {
+        render() {
+          if(props.number > 10) {
+            return <div>
+              <h3>Warning! Big number ahead.</h3>
+              <OriginalComponent {...props} />
+            </div>
+          } else {
+            return <Original {...props} />
+          }
+        }
+      }
+    }
+  }
+}
 ```
+
+
 
 ##### fn
 
