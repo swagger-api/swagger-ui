@@ -62,7 +62,7 @@ export default class BaseLayout extends React.Component {
 
     if(isSpecEmpty) {
       if(isLoading) {
-        return <h4>Loading...</h4>
+        return <div class="loading-container"><div class="loading"></div></div>
       } else {
         return <h4>No spec provided.</h4>
       }
