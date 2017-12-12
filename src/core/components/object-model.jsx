@@ -21,7 +21,7 @@ export default class ObjectModel extends Component {
   }
 
   render(){
-    let { schema, name, isRef, getComponent, getConfigs, depth, onToggle, expanded, specPath ...otherProps } = this.props
+    let { schema, name, isRef, getComponent, getConfigs, depth, onToggle, expanded, specPath, ...otherProps } = this.props
     let { specSelectors,expandDepth } = otherProps
     const { isOAS3 } = specSelectors
 
