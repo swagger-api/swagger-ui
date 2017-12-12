@@ -47,7 +47,7 @@ Parameter Name | Description
 
 Parameter Name | Description
 --- | ---
-`deepLinking` | `Boolean=false`. If set to `true`, enables deep linking for tags and operations. See the [Deep Linking documentation](https://github.com/swagger-api/swagger-ui/blob/master/docs/deep-linking.md) for more information.
+`deepLinking` | `Boolean=false`. If set to `true`, enables deep linking for tags and operations. See the [Deep Linking documentation](/docs/usage/deep-linking.md) for more information.
 `displayOperationId` | `Boolean=false`. Controls the display of operationId in operations list. The default is `false`.
 `defaultModelExpandDepth` | `Number=1`. The default expansion depth for models.
 `defaultModelRendering` | `String=["example"*, "model"]`. Controls how models are shown when the API is first rendered. (The user can always switch the rendering for a given model by clicking the 'Model' and 'Example Value' links.)
