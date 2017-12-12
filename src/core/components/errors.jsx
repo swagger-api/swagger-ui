@@ -73,7 +73,7 @@ const ThrownErrorItem = ( { error, jumpToLine } ) => {
           <span style={{ whiteSpace: "pre-line", "maxWidth": "100%" }}>
             { error.get("message") }
           </span>
-          <div>
+          <div style={{ "text-decoration": "underline", "cursor": "pointer" }}>
             { errorLine && jumpToLine ? <a onClick={jumpToLine.bind(null, errorLine)}>Jump to line { errorLine }</a> : null }
           </div>
         </div>
