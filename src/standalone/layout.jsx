@@ -42,13 +42,13 @@ export default class StandaloneLayout extends React.Component {
         { loadingStatus === "failed" &&
           <div className="info">
             <div className="loading-container">
-              <h4 className="title">Failed to load spec.</h4>
+              <h4 className="title">Failed to load API definition.</h4>
             </div>
           </div>
         }
         { loadingStatus === "failedConfig" &&
           <div className="info" style={{ maxWidth: "880px", marginLeft: "auto", marginRight: "auto", textAlign: "center" }}>
-            <h4 className="title">Failed to load config.</h4>
+            <h4 className="title">Failed to load remote configuration.</h4>
           </div>
         }
         { !loadingStatus || loadingStatus === "success" && <BaseLayout /> }
