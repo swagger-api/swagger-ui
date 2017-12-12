@@ -1,3 +1,5 @@
+
+
 import React from "react"
 import PropTypes from "prop-types"
 
@@ -32,12 +34,16 @@ export default class StandaloneLayout extends React.Component {
         { Topbar ? <Topbar /> : null }
         { loadingStatus === "loading" &&
           <div className="info">
-            <h4 className="title">Loading...</h4>
+            <div className="loading-container">
+              <div className="loading"></div>
+            </div>
           </div>
         }
         { loadingStatus === "failed" &&
           <div className="info">
-            <h4 className="title">Failed to load spec.</h4>
+            <div className="loading-container">
+              <h4 className="title">Failed to load spec.</h4>
+            </div>
           </div>
         }
         { loadingStatus === "failedConfig" &&

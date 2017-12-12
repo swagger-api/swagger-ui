@@ -653,6 +653,10 @@
 .loading-container
 {
     padding: 40px 0 60px;
+    min-height: 1px;
+    display: flex;
+    justify-content: center;
+
     .loading
     {
         position: relative;
