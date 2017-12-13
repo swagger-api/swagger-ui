@@ -1,12 +1,16 @@
 /*  Kong Styles
 ========================================================================== */
+.swagger-ui {
+  position: relative;
+}
+
 // Right Panel
 .side-panel {
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   width: 45%;
-  height: 100vh;
+  height: calc(100% + 66px);
   background: $darkGry;
   z-index: -1;
 }
@@ -42,7 +46,7 @@
   text-align: center;
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1000px) {
   .side-panel {display: none;}
   .wrapper {
     flex-direction: column;
