@@ -61,7 +61,18 @@ export default class BaseLayout extends React.Component {
     const isSpecEmpty = !specSelectors.specStr()
 
     if(isSpecEmpty) {
-      return <h4>No spec provided.</h4>
+      let loadingMessage
+      if(isLoading) {
+        loadingMessage = <div className="loading"></div>
+      } else {
+        loadingMessage = <h4>No API definition provided.</h4>
+      }
+
+      return <div className="swagger-ui">
+        <div className="loading-container">
+          {loadingMessage}
+        </div>
+      </div>
     }
 
     return (
