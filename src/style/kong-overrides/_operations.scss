@@ -41,6 +41,7 @@
       &-method {
         height: 100%;
         line-height: 1.5rem;
+        font-weight: 400;
         border-radius: 3px 0 0 3px;
         text-shadow: none;
         font-family: "Roboto Mono", monospace;
@@ -142,12 +143,15 @@
       }
     }
 
+    &.opblock-deprecated {
+      button {cursor: none;}
+    }
+
     // Right Column
     .responses-wrapper {
       color: #fff;
       font-weight: 400;
       margin-bottom: 80px;
-
       @media only screen and (max-width: 800px) {
         margin-bottom: 40px;
       }

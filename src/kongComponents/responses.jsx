@@ -93,7 +93,7 @@ export default class Responses extends React.Component {
             </div>
 
         }
-        <div className="opblock-section-header">
+        <div className="opblock-section-header light">
           <h4>Responses</h4>
           {specSelectors.isOAS3() ? null :
             <ContentType value={producesValue}
