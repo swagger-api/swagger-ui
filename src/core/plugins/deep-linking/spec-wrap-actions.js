@@ -1,17 +1,15 @@
 import zenscroll from "zenscroll"
 import { escapeDeepLinkPath } from "core/utils"
 
-let hasHashBeenParsed = false //TODO this forces code to only run once which may prevent scrolling if page not refreshed
-
 
 export const updateResolved = (ori, { layoutActions, getConfigs }) => (...args) => {
   ori(...args)
-
   const isDeepLinkingEnabled = getConfigs().deepLinking
   if(!isDeepLinkingEnabled || isDeepLinkingEnabled === "false") {
     return
   }
-  if(window.location.hash && !hasHashBeenParsed ) {
+
+  if(window.location.hash ) {
     let hash = window.location.hash.slice(1) // # is first character
 
     if(hash[0] === "!") {
@@ -37,6 +35,7 @@ export const updateResolved = (ori, { layoutActions, getConfigs }) => (...args) 
       layoutActions.show(["operations", tag, operationId], true)
 
       let target = document.getElementById(`operations-${escapeDeepLinkPath(tag)}-${escapeDeepLinkPath(operationId)}`)
+      //let target = document.getElementById(`operations-${tag}-${operationId}`)
       myScroller.to(target)
 
     } else if(tag) {
@@ -44,6 +43,9 @@ export const updateResolved = (ori, { layoutActions, getConfigs }) => (...args) 
       layoutActions.show(["operations-tag", tag], true)
 
       let target = document.getElementById(`operations-tag-${escapeDeepLinkPath(tag)}`)
+
+      //let target = document.getElementById(`operations-tag-${tag}`)
+
       myScroller.to(target)
     }
   }

@@ -1,9 +1,10 @@
 import { setHash } from "./helpers"
 import { createDeepLinkPath } from "core/utils"
+import { Map } from "immutable"
 
-export const show = (ori, { getConfigs }) => (...args) => {
+
+export const show = (ori, { getConfigs,editorActions,specSelectors }) => (...args) => {
   ori(...args)
-
   const isDeepLinkingEnabled = getConfigs().deepLinking
   if(!isDeepLinkingEnabled || isDeepLinkingEnabled === "false") {
     return
@@ -20,7 +21,15 @@ export const show = (ori, { getConfigs }) => (...args) => {
 
       if(type === "operations") {
         let [, tag, operationId] = thing
+
         setHash(`/${createDeepLinkPath(tag)}/${createDeepLinkPath(operationId)}`)
+        //setHash(`/${tag}/${operationId}`)
+
+        const pathOp = specSelectors.operations().find(a => a.getIn(["operation", "operationId"]) === operationId, Map()).get("path")
+
+        const line = specSelectors.getSpecLineFromPath(["paths", pathOp ])
+        editorActions.jumpToLine(line)
+
       }
 
       if(type === "operations-tag") {

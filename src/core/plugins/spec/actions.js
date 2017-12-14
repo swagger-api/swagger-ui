@@ -3,6 +3,7 @@ import parseUrl from "url-parse"
 import serializeError from "serialize-error"
 import isString from "lodash/isString"
 import { isJSONObject } from "core/utils"
+import { Map } from "immutable"
 
 // Actions conform to FSA (flux-standard-actions)
 // {type: string,payload: Any|Error, meta: obj, error: bool}
@@ -33,6 +34,14 @@ export function updateSpec(spec) {
       payload: cleanSpec
     }
   }
+}
+
+
+export const jump = (operationId) => ({editorActions, specSelectors}) => {
+  const pathOp = specSelectors.operations().find(a => a.getIn(["operation", "operationId"]) === operationId, Map()).get("path")
+  const line = specSelectors.getSpecLineFromPath(["paths", pathOp ])
+  editorActions.jumpToLine(line)
+
 }
 
 export function updateResolved(spec) {
