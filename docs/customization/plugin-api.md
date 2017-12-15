@@ -19,7 +19,8 @@ A plugin return value may contain any of these keys, where `myStateKey` is a nam
   },
   components: {},
   wrapComponents: {},
-  fn: {}
+  afterLoad: (system) => {}
+  fn: {},
 }
 ```
 
@@ -363,7 +364,35 @@ const MyWrapComponentPlugin = function(system) {
 }
 ```
 
+##### `afterLoad`
 
+The `afterLoad` plugin method allows you to get a reference to the system after your plugin has been registered with the system.
+
+This interface is used in the core code to attach methods that are driven by bound selectors or actions directly to the system.
+
+```javascript
+const MyMethodProvidingPlugin = function() {
+  return {
+    afterLoad(system) {
+      // at this point in time, your actions have been bound into the system
+      // so you can do things with them
+      system.myMethod = system.exampleActions.updateFavoriteColor
+    },
+    statePlugins: {
+      example: {
+        actions: {
+          updateFavoriteColor: (str) => {
+            return {
+              type: "EXAMPLE_SET_FAV_COLOR",
+              payload: str
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
 
 ##### fn
 

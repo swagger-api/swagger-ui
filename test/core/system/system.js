@@ -683,4 +683,31 @@ describe("bound system", function(){
     })
   })
 
+  describe("afterLoad", function() {
+    it("should call an plugin's `afterLoad` method after the plugin is loaded", function() {
+      // Given
+      const system = new System({
+        plugins: [
+          {
+            afterLoad(system) {
+              system.wow = system.dogeSelectors.wow
+            },
+            statePlugins: {
+              doge: {
+                selectors: {
+                  wow: () => (system) => {
+                    return "so selective"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      })
+
+      // When
+      var res = system.getSystem().wow()
+      expect(res).toEqual("so selective")
+    })
+  })
 })
