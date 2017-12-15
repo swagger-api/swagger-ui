@@ -66,10 +66,14 @@ export default class ResponseBody extends React.Component {
         let fileName = url.substr(url.lastIndexOf("/") + 1)
         let download = [type, fileName, href].join(":")
 
-        // Use filename from response header
+        // Use filename from response header, 
+        // First check if filename is quoted (e.g. contains space), if no, fallback to not quoted check
         let disposition = headers["content-disposition"] || headers["Content-Disposition"]
         if (typeof disposition !== "undefined") {
-          let responseFilename = /filename=([^;]*);?/i.exec(disposition)
+          let responseFilename = /filename=\\"([^;]*);?\\"/i.exec(disposition)
+          if (responseFilename === null) {
+            responseFilename = /filename=([^;]*);?/i.exec(disposition)
+          }
           if (responseFilename !== null && responseFilename.length > 1) {
             download = responseFilename[1]
           }
