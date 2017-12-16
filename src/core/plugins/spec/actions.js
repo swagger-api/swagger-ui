@@ -1,6 +1,7 @@
 import YAML from "js-yaml"
 import parseUrl from "url-parse"
 import serializeError from "serialize-error"
+import isString from "lodash/isString"
 import { isJSONObject } from "core/utils"
 
 // Actions conform to FSA (flux-standard-actions)
@@ -22,21 +23,15 @@ export const UPDATE_OPERATION_VALUE = "spec_update_operation_value"
 export const UPDATE_RESOLVED = "spec_update_resolved"
 export const SET_SCHEME = "set_scheme"
 
-export function updateSpec(spec) {
-  if(spec instanceof Error) {
-    return {type: UPDATE_SPEC, error: true, payload: spec}
-  }
+const toStr = (str) => isString(str) ? str : ""
 
+export function updateSpec(spec) {
+  const cleanSpec = (toStr(spec)).replace(/\t/g, "  ")
   if(typeof spec === "string") {
     return {
       type: UPDATE_SPEC,
-      payload: spec.replace(/\t/g, "  ") || ""
+      payload: cleanSpec
     }
-  }
-
-  return {
-    type: UPDATE_SPEC,
-    payload: ""
   }
 }
 
@@ -52,9 +47,6 @@ export function updateUrl(url) {
 }
 
 export function updateJsonSpec(json) {
-  if(!json || typeof json !== "object") {
-    throw new Error("updateJson must only accept a simple JSON object")
-  }
   return {type: UPDATE_JSON, payload: json}
 }
 
@@ -76,7 +68,10 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
       line: e.mark && e.mark.line ? e.mark.line + 1 : undefined
     })
   }
-  return specActions.updateJsonSpec(json)
+  if(json) {
+    return specActions.updateJsonSpec(json)
+  }
+  return {}
 }
 
 export const resolveSpec = (json, url) => ({specActions, specSelectors, errActions, fn: { fetch, resolve, AST }, getConfigs}) => {
@@ -128,18 +123,6 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
 
       return specActions.updateResolved(spec)
     })
-}
-
-export const formatIntoYaml = () => ({specActions, specSelectors}) => {
-  let { specStr } = specSelectors
-  let { updateSpec } = specActions
-
-  try {
-    let yaml = YAML.safeDump(YAML.safeLoad(specStr()), {indent: 2})
-    updateSpec(yaml)
-  } catch(e) {
-    updateSpec(e)
-  }
 }
 
 export function changeParam( path, paramName, paramIn, value, isXml ){

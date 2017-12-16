@@ -37,6 +37,7 @@ export default class Operations extends React.Component {
     const OperationContainer = getComponent("OperationContainer", true)
     const Collapse = getComponent("Collapse")
     const Markdown = getComponent("Markdown")
+    const DeepLink = getComponent("DeepLink")
 
     let {
       docExpansion,
@@ -79,12 +80,11 @@ export default class Operations extends React.Component {
                     onClick={() => layoutActions.show(isShownKey, !showTag)}
                     className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag" }
                     id={isShownKey.join("-")}>
-                    <a
-                      className="nostyle"
-                      onClick={isDeepLinkingEnabled ? (e) => e.preventDefault() : null}
-                      href= {isDeepLinkingEnabled ? `#/${tag}` : null}>
-                      <span>{tag}</span>
-                    </a>
+                    <DeepLink
+                        enabled={isDeepLinkingEnabled}
+                        isShown={showTag}
+                        path={tag}
+                        text={tag} />
                     { !tagDescription ? null :
                         <small>
                           <Markdown source={tagDescription} />
