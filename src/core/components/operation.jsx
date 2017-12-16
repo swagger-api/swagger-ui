@@ -108,7 +108,7 @@ export default class Operation extends PureComponent {
 
     // Merge in Live Response
     if(responses && response && response.size > 0) {
-      let notDocumented = !responses.get(String(response.get("status")))
+      let notDocumented = !responses.get(String(response.get("status"))) && !responses.get("default")
       response = response.set("notDocumented", notDocumented)
     }
 
