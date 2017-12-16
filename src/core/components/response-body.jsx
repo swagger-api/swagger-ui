@@ -43,7 +43,11 @@ export default class ResponseBody extends React.Component {
 
       // Image
     } else if (/^image\//i.test(contentType)) {
-      bodyEl = <img style={{ maxWidth: "100%" }} src={ window.URL.createObjectURL(content) } />
+      if(contentType.includes("svg")) {
+        bodyEl = <div> { content } </div>
+      } else {
+        bodyEl = <img style={{ maxWidth: "100%" }} src={ window.URL.createObjectURL(content) } />
+      }
 
       // Audio
     } else if (/^audio\//i.test(contentType)) {
