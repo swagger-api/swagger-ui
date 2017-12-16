@@ -14,6 +14,9 @@ describe("<PrimitiveModel/>", function() {
         }
         const props = {
             getComponent: c => components[c],
+            getConfigs: () => ({
+                showExtensions: false
+            }),
             name: "Name from props",
             depth: 1,
             schema: fromJS({

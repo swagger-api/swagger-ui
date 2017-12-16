@@ -4,7 +4,7 @@ We love contributions from our community of users! This document explains our gu
 
 #### Environment setup
 
-0. Install Node.js (4 or newer) and npm (3 or newer).
+0. Install Node.js (6 or newer) and npm (3 or newer).
 1. Make a fork of Swagger-UI on GitHub, then clone your fork to your machine.
 2. Run `npm install` in your Swagger-UI directory.
 3. Run `npm run dev`. `localhost:3200` should open automatically.

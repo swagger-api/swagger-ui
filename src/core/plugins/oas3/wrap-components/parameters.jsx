@@ -22,12 +22,14 @@ class Parameters extends Component {
     specActions: PropTypes.object.isRequired,
     operation: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
+    getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
     oas3Selectors: PropTypes.object.isRequired,
     fn: PropTypes.object.isRequired,
     tryItOutEnabled: PropTypes.bool,
     allowTryItOut: PropTypes.bool,
+    specPath: PropTypes.array.isRequired,
     onTryoutClick: PropTypes.func,
     onCancelClick: PropTypes.func,
     onChangeKey: PropTypes.array,
@@ -86,10 +88,12 @@ class Parameters extends Component {
 
       fn,
       getComponent,
+      getConfigs,
       specSelectors,
       oas3Actions,
       oas3Selectors,
       pathMethod,
+      specPath,
       operation
     } = this.props
 
@@ -103,6 +107,8 @@ class Parameters extends Component {
     const { isOAS3 } = specSelectors
 
     const requestBody = operation.get("requestBody")
+    const requestBodySpecPath = [...specPath.slice(0, -1), "requestBody"] // remove the "parameters" part
+
     return (
       <div className="opblock-section">
         <div className="opblock-section-header">
@@ -134,9 +140,11 @@ class Parameters extends Component {
                 </thead>
                 <tbody>
                   {
-                    eachMap(parameters, (parameter) => (
+                    eachMap(parameters, (parameter, i) => (
                       <ParameterRow fn={ fn }
                         getComponent={ getComponent }
+                        specPath={[...specPath, i]}
+                        getConfigs={ getConfigs }
                         param={ parameter }
                         key={ parameter.get( "name" ) }
                         onChange={ this.onChange }
@@ -172,6 +180,7 @@ class Parameters extends Component {
             </div>
             <div className="opblock-description-wrapper">
               <RequestBody
+                specPath={requestBodySpecPath}
                 requestBody={requestBody}
                 isExecute={isExecute}
                 onChange={(value) => {

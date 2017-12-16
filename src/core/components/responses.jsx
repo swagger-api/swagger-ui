@@ -1,41 +1,53 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { fromJS } from "immutable"
+import { fromJS, Iterable } from "immutable"
 import { defaultStatusCode, getAcceptControllingResponse } from "core/utils"
 
 export default class Responses extends React.Component {
-
   static propTypes = {
-    request: PropTypes.object,
-    tryItOutResponse: PropTypes.object,
-    responses: PropTypes.object.isRequired,
-    produces: PropTypes.object,
+    tryItOutResponse: PropTypes.instanceOf(Iterable),
+    responses: PropTypes.instanceOf(Iterable).isRequired,
+    produces: PropTypes.instanceOf(Iterable),
     producesValue: PropTypes.any,
+    displayRequestDuration: PropTypes.bool.isRequired,
+    path: PropTypes.string.isRequired,
+    method: PropTypes.string.isRequired,
     getComponent: PropTypes.func.isRequired,
     getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     specActions: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
-    pathMethod: PropTypes.array.isRequired,
-    displayRequestDuration: PropTypes.bool.isRequired,
+    specPath: PropTypes.array.isRequired,
     fn: PropTypes.object.isRequired
   }
 
   static defaultProps = {
-    request: null,
     tryItOutResponse: null,
     produces: fromJS(["application/json"]),
     displayRequestDuration: false
   }
 
-  onChangeProducesWrapper = ( val ) => this.props.specActions.changeProducesValue(this.props.pathMethod, val)
+  shouldComponentUpdate(nextProps) {
+    // BUG: props.tryItOutResponse is always coming back as a new Immutable instance
+    let render = this.props.tryItOutResponse !== nextProps.tryItOutResponse
+    || this.props.responses !== nextProps.responses
+    || this.props.produces !== nextProps.produces
+    || this.props.producesValue !== nextProps.producesValue
+    || this.props.displayRequestDuration !== nextProps.displayRequestDuration
+    || this.props.path !== nextProps.path
+    || this.props.method !== nextProps.method
+    return render
+  }
+
+	onChangeProducesWrapper = ( val ) => this.props.specActions.changeProducesValue([this.props.path, this.props.method], val)
 
   onResponseContentTypeChange = ({ controlsAcceptHeader, value }) => {
-    const { oas3Actions, pathMethod } = this.props
+    const { oas3Actions, path, method } = this.props
     if(controlsAcceptHeader) {
       oas3Actions.setResponseContentType({
         value,
-        pathMethod
+        path,
+        method
       })
     }
   }
@@ -43,14 +55,14 @@ export default class Responses extends React.Component {
   render() {
     let {
       responses,
-      request,
       tryItOutResponse,
       getComponent,
       getConfigs,
       specSelectors,
       fn,
       producesValue,
-      displayRequestDuration
+      displayRequestDuration,
+      specPath,
     } = this.props
     let defaultCode = defaultStatusCode( responses )
 
@@ -81,12 +93,12 @@ export default class Responses extends React.Component {
           {
             !tryItOutResponse ? null
                               : <div>
-                                  <LiveResponse request={ request }
-                                                response={ tryItOutResponse }
+                                  <LiveResponse response={ tryItOutResponse }
                                                 getComponent={ getComponent }
                                                 getConfigs={ getConfigs }
                                                 specSelectors={ specSelectors }
-                                                pathMethod={ this.props.pathMethod }
+                                                path={ this.props.path }
+                                                method={ this.props.method }
                                                 displayRequestDuration={ displayRequestDuration } />
                                   <h4>Responses</h4>
                                 </div>
@@ -104,9 +116,11 @@ export default class Responses extends React.Component {
             <tbody>
               {
                 responses.entrySeq().map( ([code, response]) => {
+
                   let className = tryItOutResponse && tryItOutResponse.get("status") == code ? "response_current" : ""
                   return (
                     <Response key={ code }
+                              specPath={[...specPath, code]}
                               isDefault={defaultCode === code}
                               fn={fn}
                               className={ className }

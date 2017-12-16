@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import OriCollapse from "react-collapse"
+import { Collapse as OriCollapse } from "react-collapse"
 
 function xclass(...args) {
   return args.filter(a => !!a).join(" ").trim()
@@ -183,7 +183,7 @@ export class Select extends React.Component {
         { allowEmptyValue ? <option value="">--</option> : null }
         {
           allowedValues.map(function (item, key) {
-            return <option key={ key } value={ String(item) }>{ item }</option>
+            return <option key={ key } value={ String(item) }>{ String(item) }</option>
           })
         }
       </select>

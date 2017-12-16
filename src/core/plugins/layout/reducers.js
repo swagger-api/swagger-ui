@@ -1,3 +1,4 @@
+import { fromJS } from "immutable"
 import {
   UPDATE_LAYOUT,
   UPDATE_FILTER,
@@ -12,9 +13,14 @@ export default {
   [UPDATE_FILTER]: (state, action) => state.set("filter", action.payload),
 
   [SHOW]: (state, action) => {
-    let thing = action.payload.thing
-    let shown = action.payload.shown
-    return state.setIn(["shown"].concat(thing), shown)
+    const isShown = action.payload.shown
+    // This is one way to serialize an array, another (preferred) is to convert to json-pointer
+    // TODO: use json-pointer serilization instead of fromJS(...), for performance
+    const thingToShow = fromJS(action.payload.thing)
+    // This is a map of paths to bools
+    // eg: [one, two] => true
+    // eg: [one] => false
+    return state.update("shown", fromJS({}), a => a.set(thingToShow, isShown))
   },
 
   [UPDATE_MODE]: (state, action) => {
@@ -24,4 +30,3 @@ export default {
   }
 
 }
-

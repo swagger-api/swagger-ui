@@ -3,12 +3,12 @@ import deepExtend from "deep-extend"
 import System from "core/system"
 import win from "core/window"
 import ApisPreset from "core/presets/apis"
+
 import * as AllPlugins from "core/plugins/all"
 import { parseSearch } from "core/utils"
 
-if (process.env.NODE_ENV !== "production") {
-  const Perf = require("react-addons-perf")
-  window.Perf = Perf
+if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
+  win.Perf = require("react-addons-perf")
 }
 
 // eslint-disable-next-line no-undef
@@ -47,6 +47,7 @@ module.exports = function SwaggerUI(opts) {
     showMutatedRequest: true,
     defaultModelRendering: "example",
     defaultModelExpandDepth: 1,
+    showExtensions: false,
 
     // Initial set of plugins ( TODO rename this, or refactor - we don't need presets _and_ plugins. Its just there for performance.
     // Instead, we can compile the first plugin ( it can be a collection of plugins ), then batch the rest.
@@ -58,13 +59,12 @@ module.exports = function SwaggerUI(opts) {
     plugins: [
     ],
 
+    // Initial state
+    initialState: { },
+
     // Inline Plugin
     fn: { },
     components: { },
-    state: { },
-
-    // Override some core configs... at your own risk
-    store: { },
   }
 
   let queryConfig = parseSearch()
@@ -74,12 +74,12 @@ module.exports = function SwaggerUI(opts) {
 
   const constructorConfig = deepExtend({}, defaults, opts, queryConfig)
 
-  const storeConfigs = deepExtend({}, constructorConfig.store, {
+  const storeConfigs = {
     system: {
       configs: constructorConfig.configs
     },
     plugins: constructorConfig.presets,
-    state: {
+    state: deepExtend({
       layout: {
         layout: constructorConfig.layout,
         filter: constructorConfig.filter
@@ -88,8 +88,8 @@ module.exports = function SwaggerUI(opts) {
         spec: "",
         url: constructorConfig.url
       }
-    }
-  })
+    }, constructorConfig.initialState)
+  }
 
   let inlinePlugin = ()=> {
     return {

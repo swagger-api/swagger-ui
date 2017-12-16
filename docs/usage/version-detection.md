@@ -1,6 +1,6 @@
 # Detecting your Swagger-UI version
 
-At times, you're going to need to know which version of Swagger-UI you use. 
+At times, you're going to need to know which version of Swagger-UI you use.
 
 The first step would be to detect which major version you currently use, as the method of detecting the version has changed. If your Swagger-UI has been heavily modified and you cannot detect from the look and feel which major version you use, you'd have to try both methods to get the exact version.
 
@@ -9,7 +9,7 @@ To help you visually detect which version you're using, we've included supportin
 
 # Swagger-UI 3.X
 
-![Swagger-UI 3](images/swagger-ui3.png)
+![Swagger-UI 3](/docs/images/swagger-ui3.png)
 
 Some distinct identifiers to Swagger-UI 3.X:
 - The API version appears as a badge next to its title.
@@ -20,8 +20,8 @@ Some distinct identifiers to Swagger-UI 3.X:
 
 If you've determined this is the version you have, to find the exact version:
 - Open your browser's web console (changes between browsers)
-- Type `versions` in the console and execute the call.
-- You might need to expand the result, until you get a string similar to `swaggerUi : Object { version: "3.1.6", gitRevision: "g786cd47", gitDirty: true, … }`.
+- Type `JSON.stringify(versions)` in the console and execute the call.
+- The result should look similar to `swaggerUi : Object { version: "3.1.6", gitRevision: "g786cd47", gitDirty: true, … }`.
 - The version taken from that example would be `3.1.6`.
 
 Note: This functionality was added in 3.0.8. If you're unable to execute it, you're likely to use an older version, and in that case the first step would be to upgrade.
@@ -29,7 +29,7 @@ Note: This functionality was added in 3.0.8. If you're unable to execute it, you
 
 # Swagger-UI 2.X and under
 
-![Swagger-UI 2](images/swagger-ui2.png)
+![Swagger-UI 2](/docs/images/swagger-ui2.png)
 
 Some distinct identifiers to Swagger-UI 3.X:
 - The API version appears at the bottom of the page.

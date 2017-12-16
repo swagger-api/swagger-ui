@@ -1,4 +1,4 @@
-# Deep linking
+# `deepLinking` parameter
 
 Swagger-UI allows you to deeply link into tags and operations within a spec. When Swagger-UI is provided a URL fragment at runtime, it will automatically expand and scroll to a specified tag or operation.
 

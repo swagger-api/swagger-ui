@@ -8,7 +8,8 @@ export default class ModelExample extends React.Component {
     schema: PropTypes.object.isRequired,
     example: PropTypes.any.isRequired,
     isExecute: PropTypes.bool,
-    getConfigs: PropTypes.func.isRequired
+    getConfigs: PropTypes.func.isRequired,
+    specPath: PropTypes.array.isRequired,
   }
 
   constructor(props, context) {
@@ -32,7 +33,7 @@ export default class ModelExample extends React.Component {
   }
 
   render() {
-    let { getComponent, specSelectors, schema, example, isExecute, getConfigs } = this.props
+    let { getComponent, specSelectors, schema, example, isExecute, getConfigs, specPath } = this.props
     let { defaultModelExpandDepth } = getConfigs()
     const ModelWrapper = getComponent("ModelWrapper")
 
@@ -52,8 +53,10 @@ export default class ModelExample extends React.Component {
         {
           !isExecute && this.state.activeTab === "model" && <ModelWrapper schema={ schema }
                                                      getComponent={ getComponent }
+                                                     getConfigs={ getConfigs }
                                                      specSelectors={ specSelectors }
-                                                     expandDepth={ defaultModelExpandDepth } />
+                                                     expandDepth={ defaultModelExpandDepth }
+                                                     specPath={specPath} />
 
 
         }

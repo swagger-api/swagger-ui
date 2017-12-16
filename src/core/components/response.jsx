@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import cx from "classnames"
-import { fromJS, Seq } from "immutable"
+import { fromJS, Seq, Iterable } from "immutable"
 import { getSampleSchema, fromJSOrdered } from "core/utils"
 
 const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
@@ -42,11 +42,12 @@ export default class Response extends React.Component {
 
   static propTypes = {
     code: PropTypes.string.isRequired,
-    response: PropTypes.object,
+    response: PropTypes.instanceOf(Iterable),
     className: PropTypes.string,
     getComponent: PropTypes.func.isRequired,
     getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
+    specPath: PropTypes.array.isRequired,
     fn: PropTypes.object.isRequired,
     contentType: PropTypes.string,
     controlsAcceptHeader: PropTypes.bool,
@@ -72,6 +73,7 @@ export default class Response extends React.Component {
       code,
       response,
       className,
+      specPath,
       fn,
       getComponent,
       getConfigs,
@@ -94,16 +96,19 @@ export default class Response extends React.Component {
     const ContentType = getComponent("contentType")
 
     var sampleResponse
-    var schema
+    var schema, specPathWithPossibleSchema
 
     if(isOAS3()) {
-      let oas3SchemaForContentType = response.getIn(["content", this.state.responseContentType, "schema"])
+      const schemaPath = ["content", this.state.responseContentType, "schema"]
+      const oas3SchemaForContentType = response.getIn(schemaPath)
       sampleResponse = oas3SchemaForContentType ? getSampleSchema(oas3SchemaForContentType.toJS(), this.state.responseContentType, {
         includeReadOnly: true
       }) : null
       schema = oas3SchemaForContentType ? inferSchema(oas3SchemaForContentType.toJS()) : null
+      specPathWithPossibleSchema = oas3SchemaForContentType ? schemaPath : specPath
     } else {
-      schema = inferSchema(response.toJS())
+      schema = inferSchema(response.toJS()) // TODO: don't convert back and forth. Lets just stick with immutable for inferSchema
+      specPathWithPossibleSchema = response.has("schema") ? [...specPath, "schema"] : specPath
       sampleResponse = schema ? getSampleSchema(schema, contentType, {
         includeReadOnly: true,
         includeWriteOnly: true // writeOnly has no filtering effect in swagger 2.0
@@ -145,6 +150,7 @@ export default class Response extends React.Component {
 
           { example ? (
             <ModelExample
+              specPath={specPathWithPossibleSchema}
               getComponent={ getComponent }
               getConfigs={ getConfigs }
               specSelectors={ specSelectors }
@@ -153,7 +159,10 @@ export default class Response extends React.Component {
           ) : null}
 
           { headers ? (
-            <Headers headers={ headers }/>
+            <Headers
+              headers={ headers }
+              getComponent={ getComponent }
+            />
           ) : null}
 
 

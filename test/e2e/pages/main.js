@@ -93,6 +93,7 @@ module.exports = {
         petAPIWrapperBar: {
           selector: ".swagger-ui .opblock-tag-section:nth-child(1) .opblock-tag"
         },
+        
         /**
          * Post pet/ api
          */
@@ -141,6 +142,7 @@ module.exports = {
         petOperationPostStatus: {
           selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-addPet pre.microlight span:nth-child(70)"
         },
+        
         /**
          * Put pet/ api
          */
@@ -189,8 +191,9 @@ module.exports = {
         petOperationPutStatus: {
           selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-updatePet pre.microlight span:nth-child(70)"
         },
+        
         /**
-         * Get pet/
+         * Get /pet/findByTags
          */
         petOperationGetByTagContainer: {
           selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-findPetsByTags"
@@ -237,6 +240,34 @@ module.exports = {
         petOperationGetByTagStatus: {
           selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-findPetsByTags pre.microlight span:nth-child(70)"
         },
+
+        /**
+         * Get /pet/{petId}
+         */
+        petOperationGetByIdContainer: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-getPetById"
+        },
+        petOperationGetByIdTitle: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-getPetById .opblock-summary-get span.opblock-summary-path span"
+        },
+        petOperationGetByIdCollpase: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-getPetById .opblock-summary-get"
+        },
+        petOperationGetByIdCollapseContainer: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-getPetById .ReactCollapse--collapse"
+        },
+        petOperationGetByIdTryBtn: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-getPetById button.try-out__btn"
+        },
+        petOperationGetByIdExecuteBtn: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-getPetById button.execute"
+        },
+        petOperationGetByIdParameter: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(3) div#operations-pet-getPetById div.parameters-col_description input"
+        },       
+        petOperationGetByIdResultsBox: {
+          selector: ".swagger-ui .opblock-tag-section:nth-child(1) div#operations-pet-getPetById pre.microlight"
+        },        
         
         /**
          * Delete pet/
@@ -497,9 +528,5 @@ module.exports = {
         },
       }
     }
-
-
-
-
   }
 }

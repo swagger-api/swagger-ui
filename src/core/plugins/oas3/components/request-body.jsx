@@ -10,6 +10,7 @@ const RequestBody = ({
   specSelectors,
   contentType,
   isExecute,
+  specPath,
   onChange
 }) => {
   const Markdown = getComponent("Markdown")
@@ -22,6 +23,10 @@ const RequestBody = ({
 
   const mediaTypeValue = requestBodyContent.get(contentType)
 
+  if(!mediaTypeValue) {
+    return null
+  }
+
   return <div>
     { requestBodyDescription &&
       <Markdown source={requestBodyDescription} />
@@ -33,6 +38,7 @@ const RequestBody = ({
       expandDepth={1}
       isExecute={isExecute}
       schema={mediaTypeValue.get("schema")}
+      specPath={[...specPath, "content", contentType]}
       example={<RequestBodyEditor
         requestBody={requestBody}
         onChange={onChange}
@@ -50,9 +56,10 @@ RequestBody.propTypes = {
   getComponent: PropTypes.func.isRequired,
   getConfigs: PropTypes.func.isRequired,
   specSelectors: PropTypes.object.isRequired,
-  contentType: PropTypes.string.isRequired,
+  contentType: PropTypes.string,
   isExecute: PropTypes.bool.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  specPath: PropTypes.array.isRequired
 }
 
 export default RequestBody

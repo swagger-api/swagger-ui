@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { List } from "immutable"
-import Collapse from "react-collapse"
+import { Collapse } from "react-collapse"
 
 export default class Errors extends React.Component {
 
@@ -73,7 +73,7 @@ const ThrownErrorItem = ( { error, jumpToLine } ) => {
           <span style={{ whiteSpace: "pre-line", "maxWidth": "100%" }}>
             { error.get("message") }
           </span>
-          <div>
+          <div style={{ "text-decoration": "underline", "cursor": "pointer" }}>
             { errorLine && jumpToLine ? <a onClick={jumpToLine.bind(null, errorLine)}>Jump to line { errorLine }</a> : null }
           </div>
         </div>
@@ -113,7 +113,7 @@ const SpecErrorItem = ( { error, jumpToLine } ) => {
   }
 
 function toTitleCase(str) {
-  return str
+  return (str || "")
     .split(" ")
     .map(substr => substr[0].toUpperCase() + substr.slice(1))
     .join(" ")
