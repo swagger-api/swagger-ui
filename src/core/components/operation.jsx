@@ -102,12 +102,13 @@ export default class Operation extends PureComponent {
     const Schemes = getComponent( "schemes" )
     const OperationServers = getComponent( "OperationServers" )
     const OperationExt = getComponent( "OperationExt" )
+    const DeepLink = getComponent( "DeepLink" )
 
     const { showExtensions } = getConfigs()
 
     // Merge in Live Response
     if(responses && response && response.size > 0) {
-      let notDocumented = !responses.get(String(response.get("status")))
+      let notDocumented = !responses.get(String(response.get("status"))) && !responses.get("default")
       response = response.set("notDocumented", notDocumented)
     }
 
@@ -120,12 +121,11 @@ export default class Operation extends PureComponent {
               and pulled in with getComponent */}
               <span className="opblock-summary-method">{method.toUpperCase()}</span>
               <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } >
-              <a
-                className="nostyle"
-                onClick={isDeepLinkingEnabled ? (e) => e.preventDefault() : null}
-                href={isDeepLinkingEnabled ? `#/${isShownKey.join("/")}` : null}>
-                <span>{path}</span>
-              </a>
+              <DeepLink
+                  enabled={isDeepLinkingEnabled}
+                  isShown={isShown}
+                  path={`${isShownKey.join("/")}`}
+                  text={path} />
                 <JumpToPath path={specPath} /> {/*TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
               </span>
 
