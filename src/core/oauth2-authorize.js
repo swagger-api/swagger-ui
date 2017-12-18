@@ -46,7 +46,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
       authId: name,
       source: "validation",
       level: "error",
-      message: "oauth2RedirectUri configuration is not passed. Oauth2 authorization cannot be performed."
+      message: "oauth2RedirectUrl configuration is not passed. Oauth2 authorization cannot be performed."
     })
     return
   }

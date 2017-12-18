@@ -2,6 +2,13 @@ import React from "react"
 import PropTypes from "prop-types"
 import { createDeepLinkPath, sanitizeUrl } from "core/utils"
 
+const SWAGGER2_OPERATION_METHODS = [
+  "get", "put", "post", "delete", "options", "head", "patch"
+]
+
+const OAS3_OPERATION_METHODS = SWAGGER2_OPERATION_METHODS.concat(["trace"])
+
+
 export default class Operations extends React.Component {
 
   static propTypes = {
@@ -30,6 +37,7 @@ export default class Operations extends React.Component {
     const OperationContainer = getComponent("OperationContainer", true)
     const Collapse = getComponent("Collapse")
     const Markdown = getComponent("Markdown")
+    const DeepLink = getComponent("DeepLink")
 
     let {
       docExpansion,
@@ -72,12 +80,11 @@ export default class Operations extends React.Component {
                     onClick={() => layoutActions.show(isShownKey, !showTag)}
                     className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag" }
                     id={isShownKey.join("-")}>
-                    <a
-                      className="nostyle"
-                      onClick={isDeepLinkingEnabled ? (e) => e.preventDefault() : null}
-                      href= {isDeepLinkingEnabled ? `#/${tag}` : null}>
-                      <span>{tag}</span>
-                    </a>
+                    <DeepLink
+                        enabled={isDeepLinkingEnabled}
+                        isShown={showTag}
+                        path={tag}
+                        text={tag} />
                     { !tagDescription ? null :
                         <small>
                           <Markdown source={tagDescription} />
@@ -112,9 +119,24 @@ export default class Operations extends React.Component {
                       operations.map( op => {
                         const path = op.get("path")
                         const method = op.get("method")
+                        const specPath = ["paths", path, method]
+
+
+                        // FIXME: (someday) this logic should probably be in a selector,
+                        // but doing so would require further opening up
+                        // selectors to the plugin system, to allow for dynamic
+                        // overriding of low-level selectors that other selectors
+                        // rely on. --KS, 12/17
+                        const validMethods = specSelectors.isOAS3() ?
+                          OAS3_OPERATION_METHODS : SWAGGER2_OPERATION_METHODS
+
+                        if(validMethods.indexOf(method) === -1) {
+                          return null
+                        }
 
                         return <OperationContainer
                           key={`${path}-${method}`}
+                          specPath={specPath}
                           op={op}
                           path={path}
                           method={method}

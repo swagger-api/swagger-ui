@@ -18,6 +18,7 @@ describe("<Models/>", function(){
         return components[c]
     },
     specSelectors: {
+      isOAS3: () => false,
       definitions: function() {
         return fromJS({
           def1: {},
@@ -31,18 +32,18 @@ describe("<Models/>", function(){
     layoutActions: {},
     getConfigs: () => ({
       docExpansion: "list",
-      defaultModelExpandDepth: 0
+      defaultModelsExpandDepth: 0
     })
   }
 
 
-  it("passes defaultModelExpandDepth to ModelWrapper", function(){
+  it("passes defaultModelsExpandDepth to ModelWrapper", function(){
     // When
     let wrapper = shallow(<Models {...props}/>)
 
     // Then should render tabs
     expect(wrapper.find("ModelCollapse").length).toEqual(1)
-    expect(wrapper.find("ModelComponent").length).toBeGreaterThan(0)
+    expect(wrapper.find("ModelWrapper").length).toBeGreaterThan(0)
     wrapper.find("ModelComponent").forEach((modelWrapper) => {
       expect(modelWrapper.props().expandDepth).toBe(0)
     })

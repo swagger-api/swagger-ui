@@ -4,8 +4,6 @@ import { fromJS, Set, Map, OrderedMap, List } from "immutable"
 
 const DEFAULT_TAG = "default"
 
-const OPERATION_METHODS = ["get", "put", "post", "delete", "options", "head", "patch"]
-
 const state = state => {
   return state || Map()
 }
@@ -97,9 +95,6 @@ export const operations = createSelector(
         return {}
       }
       path.forEach((operation, method) => {
-        if(OPERATION_METHODS.indexOf(method) === -1) {
-          return
-        }
         list = list.push(fromJS({
           path: pathName,
           method,
@@ -261,10 +256,11 @@ export const allowTryItOutFor = () => {
 
 // Get the parameter value by parameter name
 export function getParameter(state, pathMethod, name, inType) {
+  pathMethod = pathMethod || []
   let params = spec(state).getIn(["paths", ...pathMethod, "parameters"], fromJS([]))
-  return params.filter( (p) => {
+  return params.find( (p) => {
     return Map.isMap(p) && p.get("name") === name && p.get("in") === inType
-  }).first()
+  }) || Map() // Always return a map
 }
 
 export const hasHost = createSelector(
@@ -277,6 +273,7 @@ export const hasHost = createSelector(
 
 // Get the parameter values, that the user filled out
 export function parameterValues(state, pathMethod, isXml) {
+  pathMethod = pathMethod || []
   let params = spec(state).getIn(["paths", ...pathMethod, "parameters"], fromJS([]))
   return params.reduce( (hash, p) => {
     let value = isXml && p.get("in") === "body" ? p.get("value_xml") : p.get("value")
@@ -300,6 +297,7 @@ export function parametersIncludeType(parameters, typeValue="") {
 
 // Get the consumes/produces value that the user selected
 export function contentTypeValues(state, pathMethod) {
+  pathMethod = pathMethod || []
   let op = spec(state).getIn(["paths", ...pathMethod], fromJS({}))
   const parameters = op.get("parameters") || new List()
 
@@ -318,6 +316,7 @@ export function contentTypeValues(state, pathMethod) {
 
 // Get the consumes/produces by path
 export function operationConsumes(state, pathMethod) {
+  pathMethod = pathMethod || []
   return spec(state).getIn(["paths", ...pathMethod, "consumes"], fromJS({}))
 }
 
@@ -334,6 +333,7 @@ export const canExecuteScheme = ( state, path, method ) => {
 }
 
 export const validateBeforeExecute = ( state, pathMethod ) => {
+  pathMethod = pathMethod || []
   let params = spec(state).getIn(["paths", ...pathMethod, "parameters"], fromJS([]))
   let isValid = true
 

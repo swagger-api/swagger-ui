@@ -6,6 +6,7 @@ import { Iterable } from "immutable"
 
 export default class Operation extends PureComponent {
   static propTypes = {
+    specPath: PropTypes.array.isRequired,
     operation: PropTypes.instanceOf(Iterable).isRequired,
     response: PropTypes.instanceOf(Iterable),
     request: PropTypes.instanceOf(Iterable),
@@ -31,11 +32,13 @@ export default class Operation extends PureComponent {
   static defaultProps = {
     operation: null,
     response: null,
-    request: null
+    request: null,
+    specPath: []
   }
 
   render() {
     let {
+      specPath,
       response,
       request,
       toggleShown,
@@ -57,7 +60,6 @@ export default class Operation extends PureComponent {
     let {
       isShown,
       isAuthorized,
-      jumpToKey,
       path,
       method,
       op,
@@ -100,12 +102,13 @@ export default class Operation extends PureComponent {
     const Schemes = getComponent( "schemes" )
     const OperationServers = getComponent( "OperationServers" )
     const OperationExt = getComponent( "OperationExt" )
+    const DeepLink = getComponent( "DeepLink" )
 
     const { showExtensions } = getConfigs()
 
     // Merge in Live Response
     if(responses && response && response.size > 0) {
-      let notDocumented = !responses.get(String(response.get("status")))
+      let notDocumented = !responses.get(String(response.get("status"))) && !responses.get("default")
       response = response.set("notDocumented", notDocumented)
     }
 
@@ -114,15 +117,16 @@ export default class Operation extends PureComponent {
     return (
         <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={isShownKey.join("-")} >
           <div className={`opblock-summary opblock-summary-${method}`} onClick={toggleShown} >
+            {/*TODO: convert this into a component, that can be wrapped
+              and pulled in with getComponent */}
               <span className="opblock-summary-method">{method.toUpperCase()}</span>
               <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } >
-              <a
-                className="nostyle"
-                onClick={isDeepLinkingEnabled ? (e) => e.preventDefault() : null}
-                href={isDeepLinkingEnabled ? `#/${isShownKey.join("/")}` : null}>
-                <span>{path}</span>
-              </a>
-                <JumpToPath path={jumpToKey} />
+              <DeepLink
+                  enabled={isDeepLinkingEnabled}
+                  isShown={isShown}
+                  path={`${isShownKey.join("/")}`}
+                  text={path} />
+                <JumpToPath path={specPath} /> {/*TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
               </span>
 
             { !showSummary ? null :
@@ -170,6 +174,7 @@ export default class Operation extends PureComponent {
 
               <Parameters
                 parameters={parameters}
+                specPath={[...specPath, "parameters"]}
                 operation={operation}
                 onChangeKey={onChangeKey}
                 onTryoutClick = { onTryoutClick }
@@ -243,6 +248,7 @@ export default class Operation extends PureComponent {
                     specActions={ specActions }
                     produces={ produces }
                     producesValue={ operation.get("produces_value") }
+                    specPath={[...specPath, "responses"]}
                     path={ path }
                     method={ method }
                     displayRequestDuration={ displayRequestDuration }
