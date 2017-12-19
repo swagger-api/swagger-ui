@@ -65,19 +65,20 @@ export default class KongLayout extends React.Component {
     return (
 
       <div className='swagger-ui'>
-        {schemes && schemes.size || securityDefinitions ? (
-          <div className="scheme-container">
-            <p>Introduce your credentials to Test Endpoints</p>
-            {securityDefinitions ? (
-              <AuthorizeBtn />
-            ) : null}
-          </div>
-        ) : null}
         <div className="side-panel"></div>
         <div className="wrapper">
           <div className="col">
             <Errors />
             <div className="information-container">
+
+              {schemes && schemes.size || securityDefinitions ? (
+                <div>
+                  {securityDefinitions ? (
+                    <AuthorizeBtn />
+                  ) : null}
+                </div>
+              ) : null}
+
               {info.count() ? (
                 <Info info={info} url={url} host={host} basePath={basePath} externalDocs={externalDocs} getComponent={getComponent} />
               ) : null}

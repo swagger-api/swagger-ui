@@ -1,9 +1,6 @@
 /*  Swagger Overrides
 ========================================================================== */
 // Defaults
-h1 {}
-h2 {}
-h3 {}
 h4 {
   font-weight: 500;
   font-size: 1rem;
@@ -69,32 +66,23 @@ select {
   padding: 1rem;
 }
 
-.info {
-  margin: 3rem 0;
+.information-container {
+  margin: 2rem 0 3rem;
 }
 
-.scheme-container {
-  display: flex;
-  align-items: center;
-  height: 60px;
-  margin: 0;
-  padding: 0 2rem;
-  background: #EBF7FF;
-  p {
-    color: #0F6099;
-    font-weight: 400;
+.auth-wrapper {
+  button.authorize {
+    padding: 8px 1rem;
+    color: #494949;
+    border-color: #C5C5C5;
     font-size: 15px;
-  }
-  .auth-wrapper {
-    flex: 0;
-    margin-left: 1rem;
-    button.authorize {
-      padding: 8px 1rem;
-      color: #1270B3;
-      border-color: #7CC9FF;
-      font-size: 15px;
-      span {padding: 0;}
-      svg {display: none;}
+    background-color: #F7F7F7;
+    span {
+      float: right;
+      padding: 4px 0 0 14px;
+    }
+    svg {
+      fill: #C5C5C5;
     }
   }
 }
