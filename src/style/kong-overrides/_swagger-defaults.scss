@@ -71,6 +71,7 @@ select {
 }
 
 .auth-wrapper {
+  justify-content: flex-start;
   button.authorize {
     padding: 8px 1rem;
     color: #494949;
