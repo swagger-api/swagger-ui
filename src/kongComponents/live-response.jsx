@@ -10,8 +10,8 @@ const Headers = ({ headers }) => {
   return (
     <div className="headers">
       <p className="white45"><small>Response headers</small></p>
-      <div className="response-code">
-        <pre>{headers}</pre>
+      <div className="code-block">
+        <code>{headers}</code>
       </div>
     </div>)
 }
@@ -99,12 +99,12 @@ export default class LiveResponse extends React.Component {
           </div>
 
           <div className="response-item">
-            {
+            {/* {
               isError ? <span>
                 {`${response.get("name")}: ${response.get("message")}`}
               </span>
                 : null
-            }
+            } */}
             {
               body ? <ResponseBody content={body}
                 contentType={contentType}
