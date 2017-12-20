@@ -32,12 +32,12 @@ describe("<Models/>", function(){
     layoutActions: {},
     getConfigs: () => ({
       docExpansion: "list",
-      defaultModelExpandDepth: 0
+      defaultModelsExpandDepth: 0
     })
   }
 
 
-  it("passes defaultModelExpandDepth to ModelWrapper", function(){
+  it("passes defaultModelsExpandDepth to ModelWrapper", function(){
     // When
     let wrapper = shallow(<Models {...props}/>)
 
