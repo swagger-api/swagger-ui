@@ -132,6 +132,9 @@ module.exports = function SwaggerUI(opts) {
     } else if(mergedConfig.dom_id) {
       let domNode = document.querySelector(mergedConfig.dom_id)
       system.render(domNode, "App")
+    } else if(mergedConfig.dom_id === null || mergedConfig.domNode === null) {
+      // do nothing
+      // this is useful for testing that does not need to do any rendering
     } else {
       console.error("Skipped rendering: no `dom_id` or `domNode` was specified")
     }
