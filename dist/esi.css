@@ -137,7 +137,7 @@ input#client_id {
 }
 
 div.scheme-container {
-  visibility: hidden;
+  display: none;
 }
 
 div.info {
@@ -147,7 +147,7 @@ div.info {
 div.info hgroup.main h2.title {
   color: #fff;
   text-align: center;
-  top: 20vmin;
+  top: 17vmin;
   max-width: 960px;
   min-width: 760px;
   width: 100%;
@@ -165,7 +165,7 @@ div.info div.description div p {
   text-align: center;
   color: #fff;
   padding-top: 1.8em;
-  top: 20vmin;
+  top: 17vmin;
   max-width: 960px;
   min-width: 760px;
   width: 100%;
@@ -225,13 +225,6 @@ pre.base-url, span.url {
 @media screen and (min-width: 351px) and (max-width: 929px) {
   div.auth-wrapper {
     top: 86px;
-  }
-}
-
-@media screen and (max-width: 500px) {
-  div.info hgroup.main h2.title,
-  div.info div.description div span p {
-    top: 30vmin;
   }
 }
 
