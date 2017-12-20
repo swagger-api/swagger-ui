@@ -127,7 +127,7 @@
       var byStatus = {"green": [], "yellow": [], "red": []};
       for (i = 0; i < data.length; i++) {
        for (t = 0; t < data[i]["tags"].length; t++) {
-        byStatus[data[i]["status"]].push("div[id='operations-" + data[i]["tags"][t].replace(/\ /g, "_") + "-" + data[i]["method"] + data[i]["route"].replace(/\{|\}/g, "").replace(/\//g, "_").replace(/_$/, "").split(".")[0] + "'] div.opblock-summary::after");
+        byStatus[data[i]["status"]].push("div[id='operations-" + data[i]["tags"][t] + "-" + data[i]["method"] + data[i]["route"].replace(/\{|\}/g, "").replace(/\//g, "_").replace(/_$/, "").split(".")[0] + "'] div.opblock-summary::after");
        }
       }
       if (byStatus["green"].length > 0) { statusCSS += "\n" + byStatus["green"].join(", ") + "{ background: green; }"; }
