@@ -58,4 +58,8 @@ if [[ -n "$VALIDATOR_URL" ]]; then
   unset TMP_VU
 fi
 
+if [[ -n "$API_URLS" ]]; then
+    sed -i "s|url: .*,|urls: $API_URLS,|g" $INDEX_FILE
+fi
+
 exec nginx -g 'daemon off;'
