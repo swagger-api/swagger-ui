@@ -311,6 +311,14 @@ section.models h4 span {
   height: 100%;
 }
 
+.swagger-ui .execute-wrapper {
+  padding: 0;
+}
+
+.swagger-ui .wrapper {
+  margin-bottom: 30px;
+}
+
 .swagger-ui .opblock {
   margin: 0 0 10px !important;
   background-color: #404040 !important;
