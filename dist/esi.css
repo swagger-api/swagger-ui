@@ -136,8 +136,14 @@ input#client_id {
   display: none;
 }
 
-div.scheme-container {
-  display: none;
+section.schemes.wrapper.block.col-12 {
+  margin: 0;
+}
+
+.swagger-ui .scheme-container {
+  visibility: hidden;
+  padding: 0;
+  margin: 0;
 }
 
 div.info {
@@ -310,10 +316,6 @@ section.models h4 span {
   background-color: #404040 !important;
   border: 0px !important;
   border-radius: 0 !important;
-}
-
-.swagger-ui .wrapper {
-  margin: 30px auto;
 }
 
 .swagger-ui section.models {
