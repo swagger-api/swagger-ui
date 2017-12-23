@@ -81,6 +81,10 @@ module.exports = function SwaggerUI(opts) {
     },
     plugins: constructorConfig.presets,
     state: deepExtend({
+      layout: {
+        layout: constructorConfig.layout,
+        filter: constructorConfig.filter
+      },
       spec: {
         spec: "",
         url: constructorConfig.url
