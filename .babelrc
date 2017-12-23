@@ -22,6 +22,10 @@
           "src": "src/core"
         },
         {
+          "expose": "plugins",
+          "src": "src/plugins"
+        },
+        {
           "expose": "img",
           "src": "src/img"
         },
