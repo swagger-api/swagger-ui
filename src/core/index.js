@@ -92,6 +92,20 @@ module.exports = function SwaggerUI(opts) {
     }, constructorConfig.initialState)
   }
 
+  if(constructorConfig.initialState) {
+    // if the user sets a key as `undefined`, that signals to us that we
+    // should delete the key entirely.
+    // known usage: Swagger-Editor validate plugin tests
+    for (var key in constructorConfig.initialState) {
+      if(
+        constructorConfig.initialState.hasOwnProperty(key)
+        && constructorConfig.initialState[key] === undefined
+      ) {
+        delete storeConfigs.state[key]
+      }
+    }
+  }
+
   let inlinePlugin = ()=> {
     return {
       fn: constructorConfig.fn,
