@@ -68,7 +68,7 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
       line: e.mark && e.mark.line ? e.mark.line + 1 : undefined
     })
   }
-  if(json) {
+  if(json && typeof json === "object") {
     return specActions.updateJsonSpec(json)
   }
   return {}
