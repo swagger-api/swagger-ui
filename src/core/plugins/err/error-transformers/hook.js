@@ -34,10 +34,3 @@ export default function transformErrors (errors, system) {
     })
 
 }
-
-function toTitleCase(str) {
-  return str
-    .split("-")
-    .map(substr => substr[0].toUpperCase() + substr.slice(1))
-    .join("")
-}
