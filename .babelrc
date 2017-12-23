@@ -10,6 +10,10 @@
       "module-alias",
       [
         {
+          "expose": "root",
+          "src": "."
+        },
+        {
           "expose": "components",
           "src": "src/core/components"
         },

@@ -105,8 +105,7 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
       errActions.clear({
         type: "thrown"
       })
-
-      if(errors.length > 0) {
+      if(Array.isArray(errors) && errors.length > 0) {
         let preparedErrors = errors
           .map(err => {
             console.error(err)
