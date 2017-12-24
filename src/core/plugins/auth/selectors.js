@@ -82,7 +82,7 @@ export const isAuthorized = ( state, securities ) => ( { authSelectors } ) => {
   return !!securities.toJS().filter( ( security ) => {
       let isAuthorized = true
 
-      return Object.keys(security).map((key) => {
+      return Object.keys(security || {}).map((key) => {
         return !isAuthorized || !!authorized.get(key)
       }).indexOf(false) === -1
     }).length
