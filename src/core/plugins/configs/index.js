@@ -1,5 +1,5 @@
 import YAML from "js-yaml"
-import yamlConfig from "../../../swagger-config.yaml"
+import yamlConfig from "root/swagger-config.yaml"
 import * as actions from "./actions"
 import * as selectors from "./selectors"
 import reducers from "./reducers"

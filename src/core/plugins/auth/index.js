@@ -5,6 +5,9 @@ import * as specWrapActionReplacements from "./spec-wrap-actions"
 
 export default function() {
   return {
+    afterLoad(system) {
+      system.initOAuth = system.authActions.configureAuth
+    },
     statePlugins: {
       auth: {
         reducers,

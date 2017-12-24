@@ -1,5 +1,4 @@
-import * as components from "./components"
-
+import SplitPaneMode from "./components/split-pane-mode"
 export default function SplitPaneModePlugin() {
   return {
     // statePlugins: {
@@ -9,6 +8,8 @@ export default function SplitPaneModePlugin() {
     //   }
     // },
 
-    components,
+    components: {
+      SplitPaneMode
+    }
   }
 }

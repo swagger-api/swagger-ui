@@ -68,6 +68,14 @@ export default class Store {
     if(rebuild) {
       this.buildSystem()
     }
+    
+    if(Array.isArray(plugins)) {
+      plugins.forEach(plugin => {
+        if(plugin.afterLoad) {
+          plugin.afterLoad(this.getSystem())
+        }
+      })
+    }
   }
 
   buildSystem(buildReducer=true) {
