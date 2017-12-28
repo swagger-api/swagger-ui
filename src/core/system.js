@@ -68,13 +68,11 @@ export default class Store {
     if(rebuild) {
       this.buildSystem()
     }
-    
-    if(Array.isArray(plugins)) {
-      plugins.forEach(plugin => {
-        if(plugin.afterLoad) {
-          plugin.afterLoad(this.getSystem())
-        }
-      })
+
+    const needAnotherRebuild = callAfterLoad.call(this.system, plugins, this.getSystem())
+
+    if(needAnotherRebuild) {
+      this.buildSystem()
     }
   }
 
@@ -326,6 +324,25 @@ function combinePlugins(plugins, toolbox) {
   }
 
   return {}
+}
+
+function callAfterLoad(plugins, system, { hasLoaded } = {}) {
+  let calledSomething = hasLoaded
+  if(isObject(plugins) && !isArray(plugins)) {
+    if(typeof plugins.afterLoad === "function") {
+      calledSomething = true
+      plugins.afterLoad.call(this, system)
+    }
+  }
+
+  if(isFunc(plugins))
+    return callAfterLoad.call(this, plugins(system), system, { hasLoaded: calledSomething })
+
+  if(isArray(plugins)) {
+    return plugins.map(plugin => callAfterLoad.call(this, plugin, system, { hasLoaded: calledSomething }))
+  }
+
+  return calledSomething
 }
 
 // Wraps deepExtend, to account for certain fields, being wrappers.
