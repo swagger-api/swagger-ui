@@ -19,7 +19,7 @@ A plugin return value may contain any of these keys, where `myStateKey` is a nam
   },
   components: {},
   wrapComponents: {},
-  afterLoad: (system) => {}
+  afterLoad: (system) => {},
   fn: {},
 }
 ```
@@ -366,9 +366,11 @@ const MyWrapComponentPlugin = function(system) {
 
 ##### `afterLoad`
 
-The `afterLoad` plugin method allows you to get a reference to the system after your plugin has been registered with the system.
+The `afterLoad` plugin method allows you to get a reference to the system after your plugin has been registered.
 
-This interface is used in the core code to attach methods that are driven by bound selectors or actions directly to the system.
+This interface is used in the core code to attach methods that are driven by bound selectors or actions directly to the plugin context.
+
+The plugin context, which is bound to `this`, is undocumented, but below is an example of how to attach a bound action as a top-level method:
 
 ```javascript
 const MyMethodProvidingPlugin = function() {
@@ -376,7 +378,8 @@ const MyMethodProvidingPlugin = function() {
     afterLoad(system) {
       // at this point in time, your actions have been bound into the system
       // so you can do things with them
-      system.myMethod = system.exampleActions.updateFavoriteColor
+      this.rootInjects = this.rootInjects || {}
+      this.rootInjects.myMethod = system.exampleActions.updateFavoriteColor
     },
     statePlugins: {
       example: {
