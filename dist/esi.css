@@ -312,7 +312,7 @@ section.models h4 span {
 }
 
 .swagger-ui .execute-wrapper {
-  padding: 0;
+  padding: 0 0 2em 0;
 }
 
 .swagger-ui .wrapper {
