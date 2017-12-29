@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import Im from "immutable"
 import PropTypes from "prop-types"
 
 export default class Models extends Component {
@@ -20,7 +21,7 @@ export default class Models extends Component {
     const specPathBase = specSelectors.isOAS3() ? ["components", "schemas"] : ["definitions"]
 
     const ModelWrapper = getComponent("ModelWrapper")
-    const Collapse = getComponent("Collapse")    
+    const Collapse = getComponent("Collapse")
 
     return <section className={ showModels ? "models is-open" : "models"}>
       <h4 onClick={() => layoutActions.show("models", !showModels)}>
@@ -37,7 +38,7 @@ export default class Models extends Component {
               <ModelWrapper name={ name }
                      expandDepth={ defaultModelsExpandDepth }
                      schema={ model }
-                     specPath={[...specPathBase, name]}
+                     specPath={Im.List([...specPathBase, name])}
                      getComponent={ getComponent }
                      specSelectors={ specSelectors }
                      getConfigs = {getConfigs}
