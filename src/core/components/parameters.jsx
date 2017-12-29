@@ -21,7 +21,7 @@ export default class Parameters extends Component {
     onChangeKey: PropTypes.array,
     pathMethod: PropTypes.array.isRequired,
     getConfigs: PropTypes.func.isRequired,
-    specPath: PropTypes.array.isRequired,
+    specPath: ImPropTypes.list.isRequired,
   }
 
 
@@ -98,7 +98,7 @@ export default class Parameters extends Component {
                   eachMap(parameters, (parameter, i) => (
                     <ParameterRow
                       fn={ fn }
-                      specPath={[...specPath, i]}
+                      specPath={specPath.push(i.toString())}
                       getComponent={ getComponent }
                       getConfigs={ getConfigs }
                       param={ parameter }

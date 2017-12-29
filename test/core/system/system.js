@@ -683,4 +683,114 @@ describe("bound system", function(){
     })
   })
 
+  describe("afterLoad", function() {
+    it("should call a plugin's `afterLoad` method after the plugin is loaded", function() {
+      // Given
+      const system = new System({
+        plugins: [
+          {
+            afterLoad(system) {
+              this.rootInjects.wow = system.dogeSelectors.wow
+            },
+            statePlugins: {
+              doge: {
+                selectors: {
+                  wow: () => (system) => {
+                    return "so selective"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      })
+
+      // When
+      var res = system.getSystem().wow()
+      expect(res).toEqual("so selective")
+    })
+    it("should call a preset plugin's `afterLoad` method after the plugin is loaded", function() {
+      // Given
+      const MyPlugin = {
+        afterLoad(system) {
+          this.rootInjects.wow = system.dogeSelectors.wow
+        },
+        statePlugins: {
+          doge: {
+            selectors: {
+              wow: () => (system) => {
+                return "so selective"
+              }
+            }
+          }
+        }
+      }
+
+      const system = new System({
+        plugins: [
+          [MyPlugin]
+        ]
+      })
+
+      // When
+      var res = system.getSystem().wow()
+      expect(res).toEqual("so selective")
+    })
+    it("should call a function preset plugin's `afterLoad` method after the plugin is loaded", function() {
+      // Given
+      const MyPlugin = {
+        afterLoad(system) {
+          this.rootInjects.wow = system.dogeSelectors.wow
+        },
+        statePlugins: {
+          doge: {
+            selectors: {
+              wow: () => (system) => {
+                return "so selective"
+              }
+            }
+          }
+        }
+      }
+
+      const system = new System({
+        plugins: [
+          () => {
+            return [MyPlugin]
+          }
+        ]
+      })
+
+      // When
+      var res = system.getSystem().wow()
+      expect(res).toEqual("so selective")
+    })
+    it("should call a registered plugin's `afterLoad` method after the plugin is loaded", function() {
+      // Given
+      const MyPlugin = {
+        afterLoad(system) {
+          this.rootInjects.wow = system.dogeSelectors.wow
+        },
+        statePlugins: {
+          doge: {
+            selectors: {
+              wow: () => (system) => {
+                return "so selective"
+              }
+            }
+          }
+        }
+      }
+
+      const system = new System({
+        plugins: []
+      })
+
+      system.register([MyPlugin])
+
+      // When
+      var res = system.getSystem().wow()
+      expect(res).toEqual("so selective")
+    })
+  })
 })
