@@ -143,9 +143,9 @@ export default class Response extends React.Component {
               "controls-accept-header": controlsAcceptHeader
             })}>
               <ContentType
-                  value={this.state.responseContentType}
                   contentTypes={ response.get("content") ? response.get("content").keySeq() : Seq() }
                   onChange={this._onContentTypeChange}
+                  value={this.state.responseContentType}
                   />
                 { controlsAcceptHeader ? <small>Controls <code>Accept</code> header.</small> : null }
             </div>
@@ -153,18 +153,18 @@ export default class Response extends React.Component {
 
           { example ? (
             <ModelExample
-              specPath={specPathWithPossibleSchema}
+              example={ example }
               getComponent={ getComponent }
               getConfigs={ getConfigs }
-              specSelectors={ specSelectors }
               schema={ fromJSOrdered(schema) }
-              example={ example }/>
+              specPath={specPathWithPossibleSchema}
+              specSelectors={ specSelectors }/>
           ) : null}
 
           { headers ? (
             <Headers
-              headers={ headers }
               getComponent={ getComponent }
+              headers={ headers }
             />
           ) : null}
 
@@ -172,7 +172,7 @@ export default class Response extends React.Component {
         {specSelectors.isOAS3() ? <td className="col response-col_links">
           { links ?
             links.toSeq().map((link, key) => {
-              return <OperationLink key={key} name={key} link={ link } getComponent={getComponent}/>
+              return <OperationLink key={key} getComponent={getComponent} link={ link } name={key}/>
             })
           : <i>No links</i>}
         </td> : null}

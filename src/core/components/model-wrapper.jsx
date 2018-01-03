@@ -34,7 +34,7 @@ export default class ModelWrapper extends Component {
     }
 
     return <div className="model-box">
-      <Model { ...this.props } getConfigs={ getConfigs } expanded={expanded} depth={ 1 } onToggle={ this.onToggle } expandDepth={ this.props.expandDepth || 0 }/>
+      <Model { ...this.props } depth={ 1 } expandDepth={ this.props.expandDepth || 0 } expanded={expanded} getConfigs={ getConfigs } onToggle={ this.onToggle }/>
     </div>
   }
 }

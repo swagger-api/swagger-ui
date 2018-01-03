@@ -96,17 +96,17 @@ export default class Parameters extends Component {
                 {
                   eachMap(parameters, (parameter, i) => (
                     <ParameterRow
+                      key={ `${parameter.get( "in" )}.${parameter.get("name")}` }
                       fn={ fn }
-                      specPath={specPath.push(i.toString())}
                       getComponent={ getComponent }
                       getConfigs={ getConfigs }
-                      param={ parameter }
-                      key={ `${parameter.get( "in" )}.${parameter.get("name")}` }
+                      isExecute={ isExecute }
                       onChange={ this.onChange }
                       onChangeConsumes={this.onChangeConsumesWrapper}
-                      specSelectors={ specSelectors }
+                      param={ parameter }
                       pathMethod={ pathMethod }
-                      isExecute={ isExecute }/>
+                      specPath={specPath.push(i.toString())}
+                      specSelectors={ specSelectors }/>
                   )).toArray()
                 }
               </tbody>

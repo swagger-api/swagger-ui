@@ -59,20 +59,20 @@ export default class Model extends ImmutablePureComponent {
       case "object":
         return <ObjectModel
           className="object" { ...this.props }
-          specPath={specPath}
-          getConfigs={ getConfigs }
-          schema={ schema }
-          name={ name }
           deprecated={deprecated}
-          isRef={ isRef } />
+          getConfigs={ getConfigs }
+          isRef={ isRef }
+          name={ name }
+          schema={ schema }
+          specPath={specPath} />
       case "array":
         return <ArrayModel
           className="array" { ...this.props }
-          getConfigs={ getConfigs }
-          schema={ schema }
-          name={ name }
           deprecated={deprecated}
-          required={ required } />
+          getConfigs={ getConfigs }
+          name={ name }
+          required={ required }
+          schema={ schema } />
       case "string":
       case "number":
       case "integer":
@@ -80,12 +80,12 @@ export default class Model extends ImmutablePureComponent {
       default:
         return <PrimitiveModel
           { ...this.props }
+          deprecated={deprecated}
           getComponent={ getComponent }
           getConfigs={ getConfigs }
-          schema={ schema }
           name={ name }
-          deprecated={deprecated}
-          required={ required }/>
+          required={ required }
+          schema={ schema }/>
     }
   }
 }

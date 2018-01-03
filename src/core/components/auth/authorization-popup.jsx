@@ -21,8 +21,8 @@ export default class AuthorizationPopup extends React.Component {
             <div className="modal-ux-inner">
               <div className="modal-ux-header">
                 <h3>Available authorizations</h3>
-                <button type="button" className="close-modal" onClick={ this.close }>
-                  <svg width="20" height="20">
+                <button className="close-modal" onClick={ this.close } type="button">
+                  <svg height="20" width="20">
                     <use href="#close" xlinkHref="#close" />
                   </svg>
                 </button>
@@ -33,11 +33,11 @@ export default class AuthorizationPopup extends React.Component {
                   definitions.valueSeq().map(( definition, key ) => {
                     return <Auths key={ key }
                                   AST={AST}
-                                  definitions={ definition }
-                                  getComponent={ getComponent }
-                                  errSelectors={ errSelectors }
-                                  authSelectors={ authSelectors }
                                   authActions={ authActions }
+                                  authSelectors={ authSelectors }
+                                  definitions={ definition }
+                                  errSelectors={ errSelectors }
+                                  getComponent={ getComponent }
                                   specSelectors={ specSelectors }/>
                   })
                 }

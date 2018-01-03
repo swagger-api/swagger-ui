@@ -71,12 +71,12 @@ export default class Auths extends React.Component {
               nonOauthDefinitions.map( (schema, name) => {
                 return <AuthItem
                   key={name}
-                  schema={schema}
-                  name={name}
-                  getComponent={getComponent}
-                  onAuthChange={this.onAuthChange}
                   authorized={authorized}
                   errSelectors={errSelectors}
+                  getComponent={getComponent}
+                  name={name}
+                  onAuthChange={this.onAuthChange}
+                  schema={schema}
                   />
               }).toArray()
             }
@@ -84,7 +84,7 @@ export default class Auths extends React.Component {
               <Button className="btn modal-btn auth btn-done" onClick={ this.close }>Done</Button>
               {
                 nonOauthDefinitions.size === authorizedAuth.size ? <Button className="btn modal-btn auth" onClick={ this.logoutClick }>Logout</Button>
-              : <Button type="submit" className="btn modal-btn auth authorize">Authorize</Button>
+              : <Button className="btn modal-btn auth authorize" type="submit">Authorize</Button>
               }
             </div>
           </form>
@@ -101,8 +101,8 @@ export default class Auths extends React.Component {
                 .map( (schema, name) =>{
                   return (<div key={ name }>
                     <Oauth2 authorized={ authorized }
-                            schema={ schema }
-                            name={ name } />
+                            name={ name }
+                            schema={ schema } />
                   </div>)
                 }
                 ).toArray()

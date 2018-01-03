@@ -27,9 +27,9 @@ class ModelComponent extends Component {
     return <div className={classes.join(" ")}>
       {message}
       <Model { ...this.props }
-        getConfigs={ getConfigs }
         depth={ 1 }
         expandDepth={ this.props.expandDepth || 0 }
+        getConfigs={ getConfigs }
         />
     </div>
   }

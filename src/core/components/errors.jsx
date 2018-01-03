@@ -39,7 +39,7 @@ export default class Errors extends React.Component {
           <h4 className="errors__title">Errors</h4>
           <button className="btn errors__clear-btn" onClick={ toggleVisibility }>{ isVisible ? "Hide" : "Show" }</button>
         </hgroup>
-        <Collapse isOpened={ isVisible } animated >
+        <Collapse animated isOpened={ isVisible } >
           <div className="errors">
             { sortedJSErrors.map((err, i) => {
               let type = err.get("type")

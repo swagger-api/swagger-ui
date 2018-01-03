@@ -76,7 +76,7 @@ export class Col extends React.Component {
     let classes = xclass(rest.className, ...classesAr)
 
     return (
-      <section {...rest} style={{display: hide ? "none": null}} className={classes}/>
+      <section {...rest} className={classes} style={{display: hide ? "none": null}}/>
     )
   }
 
@@ -179,7 +179,7 @@ export class Select extends React.Component {
     let value = this.state.value.toJS ? this.state.value.toJS() : this.state.value
 
     return (
-      <select className={this.props.className} multiple={ multiple } value={ value } onChange={ this.onChange } >
+      <select className={this.props.className} multiple={ multiple } onChange={ this.onChange } value={ value } >
         { allowEmptyValue ? <option value="">--</option> : null }
         {
           allowedValues.map(function (item, key) {

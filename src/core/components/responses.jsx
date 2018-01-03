@@ -86,23 +86,23 @@ export default class Responses extends React.Component {
           <h4>Responses</h4>
             { specSelectors.isOAS3() ? null : <label>
               <span>Response content type</span>
-              <ContentType value={producesValue}
-                         onChange={this.onChangeProducesWrapper}
+              <ContentType className="execute-content-type"
                          contentTypes={produces}
-                         className="execute-content-type"/>
+                         onChange={this.onChangeProducesWrapper}
+                         value={producesValue}/>
                      </label> }
         </div>
         <div className="responses-inner">
           {
             !tryItOutResponse ? null
                               : <div>
-                                  <LiveResponse response={ tryItOutResponse }
+                                  <LiveResponse displayRequestDuration={ displayRequestDuration }
                                                 getComponent={ getComponent }
                                                 getConfigs={ getConfigs }
-                                                specSelectors={ specSelectors }
-                                                path={ this.props.path }
                                                 method={ this.props.method }
-                                                displayRequestDuration={ displayRequestDuration } />
+                                                path={ this.props.path }
+                                                response={ tryItOutResponse }
+                                                specSelectors={ specSelectors } />
                                   <h4>Responses</h4>
                                 </div>
 
@@ -124,18 +124,18 @@ export default class Responses extends React.Component {
 
                   return (
                     <Response key={ code }
-                              specPath={specPath.push(code)}
-                              isDefault={defaultCode === code}
-                              fn={fn}
                               className={ className }
                               code={ code }
-                              response={ response }
-                              specSelectors={ specSelectors }
-                              controlsAcceptHeader={response === acceptControllingResponse}
-                              onContentTypeChange={this.onResponseContentTypeChange}
                               contentType={ producesValue }
+                              controlsAcceptHeader={response === acceptControllingResponse}
+                              fn={fn}
+                              getComponent={ getComponent }
                               getConfigs={ getConfigs }
-                              getComponent={ getComponent }/>
+                              isDefault={defaultCode === code}
+                              onContentTypeChange={this.onResponseContentTypeChange}
+                              response={ response }
+                              specPath={specPath.push(code)}
+                              specSelectors={ specSelectors }/>
                     )
                 }).toArray()
               }

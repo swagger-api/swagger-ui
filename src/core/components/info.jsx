@@ -58,7 +58,7 @@ class License extends React.Component {
     return (
       <div>
         {
-          url ? <a target="_blank" href={ sanitizeUrl(url) }>{ name }</a>
+          url ? <a href={ sanitizeUrl(url) } target="_blank">{ name }</a>
         : <span>{ name }</span>
         }
       </div>
@@ -95,8 +95,8 @@ export default class Info extends React.Component {
           <h2 className="title" >{ title }
             { version && <VersionStamp version={version}></VersionStamp> }
           </h2>
-          { host || basePath ? <Path host={ host } basePath={ basePath } /> : null }
-          { url && <a target="_blank" href={ sanitizeUrl(url) }><span className="url"> { url } </span></a> }
+          { host || basePath ? <Path basePath={ basePath } host={ host } /> : null }
+          { url && <a href={ sanitizeUrl(url) } target="_blank"><span className="url"> { url } </span></a> }
         </hgroup>
 
         <div className="description">
@@ -105,14 +105,14 @@ export default class Info extends React.Component {
 
         {
           termsOfService && <div>
-            <a target="_blank" href={ sanitizeUrl(termsOfService) }>Terms of service</a>
+            <a href={ sanitizeUrl(termsOfService) } target="_blank">Terms of service</a>
           </div>
         }
 
         { contact && contact.size ? <Contact data={ contact } /> : null }
         { license && license.size ? <License license={ license } /> : null }
         { externalDocsUrl ?
-            <a target="_blank" href={sanitizeUrl(externalDocsUrl)}>{externalDocsDescription || externalDocsUrl}</a>
+            <a href={sanitizeUrl(externalDocsUrl)} target="_blank">{externalDocsDescription || externalDocsUrl}</a>
         : null }
 
       </div>

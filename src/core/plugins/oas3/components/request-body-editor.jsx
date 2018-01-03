@@ -99,7 +99,7 @@ export default class RequestBodyEditor extends PureComponent {
       <div className="body-param">
         {
           isEditBox && isExecute
-            ? <TextArea className={"body-param__text"} value={value} onChange={ this.handleOnChange }/>
+            ? <TextArea className={"body-param__text"} onChange={ this.handleOnChange } value={value}/>
             : (value && <HighlightCode className="body-param__example"
                                value={ value }/>)
         }

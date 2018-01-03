@@ -70,13 +70,13 @@ export default class ApiKeyAuth extends React.Component {
           <label>Value:</label>
           {
             value ? <code> ****** </code>
-                  : <Col><Input type="text" onChange={ this.onChange }/></Col>
+                  : <Col><Input onChange={ this.onChange } type="text"/></Col>
           }
         </Row>
         {
           errors.valueSeq().map( (error, key) => {
-            return <AuthError error={ error }
-                              key={ key }/>
+            return <AuthError key={ key }
+                              error={ error }/>
           } )
         }
       </div>

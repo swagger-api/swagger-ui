@@ -180,28 +180,28 @@ export default class OperationContainer extends PureComponent {
 
     return (
       <Operation
-        operation={operationProps}
-        response={response}
-        request={request}
-        isShown={isShown}
-
-        toggleShown={this.toggleShown}
-        onTryoutClick={this.onTryoutClick}
-        onCancelClick={this.onCancelClick}
-        onExecute={this.onExecute}
-        specPath={specPath}
-
-        specActions={ specActions }
-        specSelectors={ specSelectors }
-        oas3Actions={oas3Actions}
-        oas3Selectors={oas3Selectors}
-        layoutActions={ layoutActions }
-        layoutSelectors={ layoutSelectors }
         authActions={ authActions }
         authSelectors={ authSelectors }
-        getComponent={ getComponent }
-        getConfigs={ getConfigs }
         fn={fn}
+        getComponent={ getComponent }
+
+        getConfigs={ getConfigs }
+        isShown={isShown}
+        layoutActions={ layoutActions }
+        layoutSelectors={ layoutSelectors }
+        oas3Actions={oas3Actions}
+
+        oas3Selectors={oas3Selectors}
+        onCancelClick={this.onCancelClick}
+        onExecute={this.onExecute}
+        onTryoutClick={this.onTryoutClick}
+        operation={operationProps}
+        request={request}
+        response={response}
+        specActions={ specActions }
+        specPath={specPath}
+        specSelectors={ specSelectors }
+        toggleShown={this.toggleShown}
       />
     )
   }

@@ -104,8 +104,8 @@ export default class Servers extends React.Component {
             { servers.valueSeq().map(
               ( server ) =>
               <option
-                value={ server.get("url") }
-                key={ server.get("url") }>
+                key={ server.get("url") }
+                value={ server.get("url") }>
                 { server.get("url") }
               </option>
             ).toArray()}
@@ -132,18 +132,18 @@ export default class Servers extends React.Component {
                           <select data-variable={name} onChange={this.onServerVariableValueChange}>
                             {val.get("enum").map(enumValue => {
                               return <option
-                                selected={enumValue === getServerVariable(currentServer, name)}
                                 key={enumValue}
+                                selected={enumValue === getServerVariable(currentServer, name)}
                                 value={enumValue}>
                                 {enumValue}
                               </option>
                             })}
                           </select> :
                           <input
+                            data-variable={name}
+                            onChange={this.onServerVariableValueChange}
                             type={"text"}
                             value={getServerVariable(currentServer, name) || ""}
-                            onChange={this.onServerVariableValueChange}
-                            data-variable={name}
                             ></input>
                         }
                       </td>

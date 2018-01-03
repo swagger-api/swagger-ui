@@ -84,7 +84,7 @@ export default class BaseLayout extends React.Component {
             <Row className="information-container">
               <Col mobile={12}>
                 { info.count() ? (
-                  <Info info={ info } url={ url } host={ host } basePath={ basePath } externalDocs={externalDocs} getComponent={getComponent}/>
+                  <Info basePath={ basePath } externalDocs={externalDocs} getComponent={getComponent} host={ host } info={ info } url={ url }/>
                 ) : null }
               </Col>
             </Row>
@@ -110,12 +110,12 @@ export default class BaseLayout extends React.Component {
                 <Col className="servers wrapper" mobile={12}>
                   <span className="servers-title">Server</span>
                   <Servers
-                    servers={servers}
                     currentServer={oas3Selectors.selectedServer()}
+                    getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
+                    getServerVariable={oas3Selectors.serverVariableValue}
+                    servers={servers}
                     setSelectedServer={oas3Actions.setSelectedServer}
                     setServerVariableValue={oas3Actions.setServerVariableValue}
-                    getServerVariable={oas3Selectors.serverVariableValue}
-                    getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
                     />
                 </Col>
               </div>
@@ -126,18 +126,18 @@ export default class BaseLayout extends React.Component {
               filter === null || filter === false ? null :
                 <div className="filter-container">
                   <Col className="filter wrapper" mobile={12}>
-                    <input className="operation-filter-input" placeholder="Filter by tag" type="text" onChange={this.onFilterChange} value={filter === true || filter === "true" ? "" : filter} disabled={isLoading} style={inputStyle} />
+                    <input className="operation-filter-input" disabled={isLoading} onChange={this.onFilterChange} placeholder="Filter by tag" style={inputStyle} type="text" value={filter === true || filter === "true" ? "" : filter} />
                   </Col>
                 </div>
             }
 
             <Row>
-              <Col mobile={12} desktop={12} >
+              <Col desktop={12} mobile={12} >
                 <Operations/>
               </Col>
             </Row>
             <Row>
-              <Col mobile={12} desktop={12} >
+              <Col desktop={12} mobile={12} >
                 <Models/>
               </Col>
             </Row>

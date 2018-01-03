@@ -39,9 +39,9 @@ export default class Overview extends React.Component {
               return (
                 <div key={"overview-"+tag}>
 
-                  <h4 onClick={toggleShow} className="link overview-tag"> {showTag ? "-" : "+"}{tag}</h4>
+                  <h4 className="link overview-tag" onClick={toggleShow}> {showTag ? "-" : "+"}{tag}</h4>
 
-                  <Collapse isOpened={showTag} animated>
+                  <Collapse animated isOpened={showTag}>
                     {
                       operations.map( op => {
                         let { path, method, id } = op.toObject() // toObject is shallow
@@ -50,14 +50,15 @@ export default class Overview extends React.Component {
                         let shown = layoutSelectors.isShown([showOpIdPrefix, showOpId])
 
                         return <OperationLink key={id}
-                                              path={path}
-                                              method={method}
+                                              href={`#operation-${showOpId}`}
                                               id={path + "-" + method}
-                                              shown={shown}
+                                              method={method}
+                                              onClick={layoutActions.show}
+                                              path={path}
                                               showOpId={showOpId}
                                               showOpIdPrefix={showOpIdPrefix}
-                                              href={`#operation-${showOpId}`}
-                                              onClick={layoutActions.show} />
+                                              shown={shown}
+                                              />
                       }).toArray()
                     }
                   </Collapse>
@@ -97,7 +98,7 @@ export class OperationLink extends React.Component {
     let { id, method, shown, href } = this.props
 
     return (
-      <Link href={ href } style={{fontWeight: shown ? "bold" : "normal"}} onClick={this.onClick} className="block opblock-link">
+      <Link className="block opblock-link" href={ href } onClick={this.onClick} style={{fontWeight: shown ? "bold" : "normal"}}>
         <div>
           <small className={`bold-label-${method}`}>{method.toUpperCase()}</small>
           <span className="bold-label" >{id}</span>

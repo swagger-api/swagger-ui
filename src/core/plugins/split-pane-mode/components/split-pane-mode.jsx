@@ -68,16 +68,16 @@ export default class SplitPaneMode extends React.Component {
 
     return (
       <SplitPane
-        disabledClass={""}
         ref={this.initializeComponent}
-        split='vertical'
-        defaultSize={"50%"}
-        primary="second"
-        minSize={0}
-        size={size}
-        onDragFinished={this.onDragFinished}
         allowResize={mode !== MODE_LEFT && mode !== MODE_RIGHT }
+        defaultSize={"50%"}
+        disabledClass={""}
+        minSize={0}
+        onDragFinished={this.onDragFinished}
+        primary="second"
         resizerStyle={{"flex": "0 0 auto", "position": "relative"}}
+        size={size}
+        split='vertical'
       >
         { left }
         { right }

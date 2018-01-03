@@ -168,50 +168,50 @@ export default class Operation extends PureComponent {
                     <span className="opblock-external-docs__description">
                       <Markdown source={ externalDocs.description } />
                     </span>
-                    <a target="_blank" className="opblock-external-docs__link" href={ sanitizeUrl(externalDocs.url) }>{ externalDocs.url }</a>
+                    <a className="opblock-external-docs__link" href={ sanitizeUrl(externalDocs.url) } target="_blank">{ externalDocs.url }</a>
                   </div>
                 </div> : null
               }
 
               <Parameters
-                parameters={parameters}
-                specPath={specPath.push("parameters")}
-                operation={operation}
-                onChangeKey={onChangeKey}
-                onTryoutClick = { onTryoutClick }
-                onCancelClick = { onCancelClick }
-                tryItOutEnabled = { tryItOutEnabled }
                 allowTryItOut={allowTryItOut}
-
                 fn={fn}
                 getComponent={ getComponent }
-                specActions={ specActions }
-                specSelectors={ specSelectors }
-                pathMethod={ [path, method] }
                 getConfigs={ getConfigs }
+                onCancelClick = { onCancelClick }
+                onChangeKey={onChangeKey}
+                onTryoutClick = { onTryoutClick }
+                operation={operation}
+
+                parameters={parameters}
+                pathMethod={ [path, method] }
+                specActions={ specActions }
+                specPath={specPath.push("parameters")}
+                specSelectors={ specSelectors }
+                tryItOutEnabled = { tryItOutEnabled }
               />
 
               { !tryItOutEnabled ? null :
                 <OperationServers
                   getComponent={getComponent}
-                  path={path}
+                  getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
+                  getSelectedServer={oas3Selectors.selectedServer}
+                  getServerVariable={oas3Selectors.serverVariableValue}
                   method={method}
                   operationServers={operation.get("servers")}
+                  path={path}
                   pathServers={specSelectors.paths().getIn([path, "servers"])}
-                  getSelectedServer={oas3Selectors.selectedServer}
                   setSelectedServer={oas3Actions.setSelectedServer}
                   setServerVariableValue={oas3Actions.setServerVariableValue}
-                  getServerVariable={oas3Selectors.serverVariableValue}
-                  getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
                 />
               }
 
               {!tryItOutEnabled || !allowTryItOut ? null : schemes && schemes.size ? <div className="opblock-schemes">
-                    <Schemes schemes={ schemes }
-                             path={ path }
+                    <Schemes currentScheme={ operationScheme }
                              method={ method }
-                             specActions={ specActions }
-                             currentScheme={ operationScheme } />
+                             path={ path }
+                             schemes={ schemes }
+                             specActions={ specActions } />
                   </div> : null
               }
 
@@ -219,19 +219,19 @@ export default class Operation extends PureComponent {
               { !tryItOutEnabled || !allowTryItOut ? null :
 
                   <Execute
-                    operation={ operation }
-                    specActions={ specActions }
-                    specSelectors={ specSelectors }
-                    path={ path }
                     method={ method }
-                    onExecute={ onExecute } />
+                    onExecute={ onExecute }
+                    operation={ operation }
+                    path={ path }
+                    specActions={ specActions }
+                    specSelectors={ specSelectors } />
               }
 
               { (!tryItOutEnabled || !response || !allowTryItOut) ? null :
                   <Clear
-                    specActions={ specActions }
+                    method={ method }
                     path={ path }
-                    method={ method }/>
+                    specActions={ specActions }/>
               }
             </div>
 
@@ -239,21 +239,21 @@ export default class Operation extends PureComponent {
 
               { !responses ? null :
                   <Responses
-                    responses={ responses }
-                    request={ request }
-                    tryItOutResponse={ response }
+                    displayRequestDuration={ displayRequestDuration }
+                    fn={fn}
                     getComponent={ getComponent }
                     getConfigs={ getConfigs }
-                    specSelectors={ specSelectors }
+                    method={ method }
                     oas3Actions={oas3Actions}
-                    specActions={ specActions }
+                    path={ path }
                     produces={ produces }
                     producesValue={ operation.get("produces_value") }
+                    request={ request }
+                    responses={ responses }
+                    specActions={ specActions }
                     specPath={specPath.push("responses")}
-                    path={ path }
-                    method={ method }
-                    displayRequestDuration={ displayRequestDuration }
-                    fn={fn} />
+                    specSelectors={ specSelectors }
+                    tryItOutResponse={ response } />
               }
 
               { !showExtensions || !extensions.size ? null :

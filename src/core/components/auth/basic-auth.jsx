@@ -66,24 +66,24 @@ export default class BasicAuth extends React.Component {
           <label>Username:</label>
           {
             username ? <code> { username } </code>
-                     : <Col><Input type="text" required="required" name="username" onChange={ this.onChange }/></Col>
+                     : <Col><Input name="username" onChange={ this.onChange } required="required" type="text"/></Col>
           }
         </Row>
         <Row>
           <label>Password:</label>
             {
               username ? <code> ****** </code>
-                       : <Col><Input required="required"
-                                     autoComplete="new-password"
+                       : <Col><Input autoComplete="new-password"
                                      name="password"
-                                     type="password"
-                                     onChange={ this.onChange }/></Col>
+                                     onChange={ this.onChange }
+                                     required="required"
+                                     type="password"/></Col>
             }
         </Row>
         {
           errors.valueSeq().map( (error, key) => {
-            return <AuthError error={ error }
-                              key={ key }/>
+            return <AuthError key={ key }
+                              error={ error }/>
           } )
         }
       </div>

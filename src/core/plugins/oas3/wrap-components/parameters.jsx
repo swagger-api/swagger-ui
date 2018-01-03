@@ -112,12 +112,12 @@ class Parameters extends Component {
       <div className="opblock-section">
         <div className="opblock-section-header">
           <div className="tab-header">
-            <div onClick={() => this.toggleTab("parameters")} className={`tab-item ${this.state.parametersVisible && "active"}`}>
+            <div className={`tab-item ${this.state.parametersVisible && "active"}`} onClick={() => this.toggleTab("parameters")}>
               <h4 className="opblock-title"><span>Parameters</span></h4>
             </div>
             { operation.get("callbacks") ?
               (
-                <div onClick={() => this.toggleTab("callbacks")} className={`tab-item ${this.state.callbackVisible && "active"}`}>
+                <div className={`tab-item ${this.state.callbackVisible && "active"}`} onClick={() => this.toggleTab("callbacks")}>
                   <h4 className="opblock-title"><span>Callbacks</span></h4>
                 </div>
               ) : null
@@ -140,17 +140,17 @@ class Parameters extends Component {
                 <tbody>
                   {
                     eachMap(parameters, (parameter, i) => (
-                      <ParameterRow fn={ fn }
+                      <ParameterRow key={ parameter.get( "name" ) }
+                        fn={ fn }
                         getComponent={ getComponent }
-                        specPath={specPath.push(i)}
                         getConfigs={ getConfigs }
-                        param={ parameter }
-                        key={ parameter.get( "name" ) }
+                        isExecute={ isExecute }
                         onChange={ this.onChange }
                         onChangeConsumes={this.onChangeConsumesWrapper}
-                        specSelectors={ specSelectors }
+                        param={ parameter }
                         pathMethod={ pathMethod }
-                        isExecute={ isExecute }/>
+                        specPath={specPath.push(i)}
+                        specSelectors={ specSelectors }/>
                     )).toArray()
                   }
                 </tbody>
@@ -169,23 +169,23 @@ class Parameters extends Component {
               <h4 className={`opblock-title parameter__name ${requestBody.get("required") && "required"}`}>Request body</h4>
               <label>
                 <ContentType
-                  value={oas3Selectors.requestContentType(...pathMethod)}
+                  className="body-param-content-type"
                   contentTypes={ requestBody.get("content").keySeq() }
                   onChange={(value) => {
                     oas3Actions.setRequestContentType({ value, pathMethod })
                   }}
-                  className="body-param-content-type" />
+                  value={oas3Selectors.requestContentType(...pathMethod)} />
               </label>
             </div>
             <div className="opblock-description-wrapper">
               <RequestBody
-                specPath={requestBodySpecPath}
-                requestBody={requestBody}
+                contentType={oas3Selectors.requestContentType(...pathMethod)}
                 isExecute={isExecute}
                 onChange={(value) => {
                   oas3Actions.setRequestBodyValue({ value, pathMethod })
                 }}
-                contentType={oas3Selectors.requestContentType(...pathMethod)}/>
+                requestBody={requestBody}
+                specPath={requestBodySpecPath}/>
             </div>
           </div>
         }

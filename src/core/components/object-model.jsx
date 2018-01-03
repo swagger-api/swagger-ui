@@ -65,11 +65,11 @@ export default class ObjectModel extends Component {
 
     return <span className="model">
       <ModelCollapse
-        modelName={name}
-        title={titleEl}
-        onToggle = {onToggle}
+        collapsedContent={ collapsedContent }
         expanded={ expanded ? true : depth <= expandDepth }
-        collapsedContent={ collapsedContent }>
+        modelName={name}
+        onToggle = {onToggle}
+        title={titleEl}>
 
          <span className="brace-open object">{ braceOpen }</span>
           {
@@ -103,12 +103,12 @@ export default class ObjectModel extends Component {
                         </td>
                         <td style={{ verticalAlign: "top" }}>
                           <Model key={ `object-${name}-${key}_${value}` } { ...otherProps }
-                                 required={ isRequired }
+                                 depth={ depth + 1 }
                                  getComponent={ getComponent }
-                                 specPath={specPath.push("properties", key)}
                                  getConfigs={ getConfigs }
+                                 required={ isRequired }
                                  schema={ value }
-                                 depth={ depth + 1 } />
+                                 specPath={specPath.push("properties", key)} />
                         </td>
                       </tr>)
                     }).toArray()
@@ -142,12 +142,12 @@ export default class ObjectModel extends Component {
                   : <tr>
                     <td>{ "< * >:" }</td>
                     <td>
-                      <Model { ...otherProps } required={ false }
+                      <Model { ...otherProps } depth={ depth + 1 }
                              getComponent={ getComponent }
-                             specPath={specPath.push("additionalProperties")}
                              getConfigs={ getConfigs }
+                             required={ false }
                              schema={ additionalProperties }
-                             depth={ depth + 1 } />
+                             specPath={specPath.push("additionalProperties")} />
                     </td>
                   </tr>
               }
@@ -157,12 +157,12 @@ export default class ObjectModel extends Component {
                     <td>{ "anyOf ->" }</td>
                     <td>
                       {anyOf.map((schema, k) => {
-                        return <div key={k}><Model { ...otherProps } required={ false }
+                        return <div key={k}><Model { ...otherProps } depth={ depth + 1 }
                                  getComponent={ getComponent }
-                                 specPath={specPath.push("anyOf", k)}
                                  getConfigs={ getConfigs }
+                                 required={ false }
                                  schema={ schema }
-                                 depth={ depth + 1 } /></div>
+                                 specPath={specPath.push("anyOf", k)} /></div>
                       })}
                     </td>
                   </tr>
@@ -173,12 +173,12 @@ export default class ObjectModel extends Component {
                     <td>{ "oneOf ->" }</td>
                     <td>
                       {oneOf.map((schema, k) => {
-                        return <div key={k}><Model { ...otherProps } required={ false }
+                        return <div key={k}><Model { ...otherProps } depth={ depth + 1 }
                                  getComponent={ getComponent }
-                                 specPath={specPath.push("oneOf", k)}
                                  getConfigs={ getConfigs }
+                                 required={ false }
                                  schema={ schema }
-                                 depth={ depth + 1 } /></div>
+                                 specPath={specPath.push("oneOf", k)} /></div>
                       })}
                     </td>
                   </tr>
@@ -190,12 +190,12 @@ export default class ObjectModel extends Component {
                     <td>
                       <div>
                         <Model { ...otherProps }
-                               required={ false }
+                               depth={ depth + 1 }
                                getComponent={ getComponent }
-                               specPath={specPath.push("not")}
                                getConfigs={ getConfigs }
+                               required={ false }
                                schema={ not }
-                               depth={ depth + 1 } />
+                               specPath={specPath.push("not")} />
                       </div>
                     </td>
                   </tr>

@@ -74,12 +74,12 @@ export default class Operations extends React.Component {
               let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
 
               return (
-                <div className={showTag ? "opblock-tag-section is-open" : "opblock-tag-section"} key={"operation-" + tag}>
+                <div key={"operation-" + tag} className={showTag ? "opblock-tag-section is-open" : "opblock-tag-section"}>
 
                   <h4
-                    onClick={() => layoutActions.show(isShownKey, !showTag)}
                     className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag" }
-                    id={isShownKey.join("-")}>
+                    id={isShownKey.join("-")}
+                    onClick={() => layoutActions.show(isShownKey, !showTag)}>
                     <DeepLink
                         enabled={isDeepLinkingEnabled}
                         isShown={showTag}
@@ -107,8 +107,8 @@ export default class Operations extends React.Component {
                     }
                     </div>
 
-                    <button className="expand-operation" title="Expand operation" onClick={() => layoutActions.show(isShownKey, !showTag)}>
-                      <svg className="arrow" width="20" height="20">
+                    <button className="expand-operation" onClick={() => layoutActions.show(isShownKey, !showTag)} title="Expand operation">
+                      <svg className="arrow" height="20" width="20">
                         <use href={showTag ? "#large-arrow-down" : "#large-arrow"} xlinkHref={showTag ? "#large-arrow-down" : "#large-arrow"} />
                       </svg>
                     </button>
@@ -135,10 +135,10 @@ export default class Operations extends React.Component {
 
                         return <OperationContainer
                           key={`${path}-${method}`}
-                          specPath={specPath}
+                          method={method}
                           op={op}
                           path={path}
-                          method={method}
+                          specPath={specPath}
                           tag={tag}
                         />
                       }).toArray()

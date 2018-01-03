@@ -43,8 +43,8 @@ export default class OnlineValidatorBadge extends React.Component {
         }
 
         return (<span style={{ float: "right"}}>
-                <a target="_blank" href={`${ sanitizedValidatorUrl }/debug?url=${ this.state.url }`}>
-                    <ValidatorImage src={`${ sanitizedValidatorUrl }?url=${ this.state.url }`} alt="Online validator badge"/>
+                <a href={`${ sanitizedValidatorUrl }/debug?url=${ this.state.url }`} target="_blank">
+                    <ValidatorImage alt="Online validator badge" src={`${ sanitizedValidatorUrl }?url=${ this.state.url }`}/>
                 </a>
             </span>)
     }
@@ -109,6 +109,6 @@ class ValidatorImage extends React.Component {
       return <img alt= {"Loading..."} />
     }
 
-    return <img src={this.props.src} alt={this.props.alt} />
+    return <img alt={this.props.alt} src={this.props.src} />
   }
 }

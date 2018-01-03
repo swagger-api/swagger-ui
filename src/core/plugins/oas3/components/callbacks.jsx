@@ -24,12 +24,12 @@ const Callbacks = (props) => {
 
             return <OperationContainer
               {...props}
-              op={op}
               key={method}
-              tag={""}
-              method={method}
-              path={pathItemName}
               allowTryItOut={false}
+              method={method}
+              op={op}
+              path={pathItemName}
+              tag={""}
               />
           }) }
         </div>

@@ -18,8 +18,8 @@ export const Markdown = ({ source }) => {
 
     return (
       <ReactMarkdown
-        source={sanitized}
         className={"renderedMarkdown"}
+        source={sanitized}
       />
     )
   }

@@ -125,8 +125,8 @@ export default class Oauth2 extends React.Component {
                 <label htmlFor="oauth_username">username:</label>
                 {
                   isAuthorized ? <code> { this.state.username } </code>
-                    : <Col tablet={10} desktop={10}>
-                      <input id="oauth_username" type="text" data-name="username" onChange={ this.onInputChange }/>
+                    : <Col desktop={10} tablet={10}>
+                      <input data-name="username" id="oauth_username" onChange={ this.onInputChange } type="text"/>
                     </Col>
                 }
               </Row>
@@ -137,8 +137,8 @@ export default class Oauth2 extends React.Component {
                 <label htmlFor="oauth_password">password:</label>
                 {
                   isAuthorized ? <code> ****** </code>
-                    : <Col tablet={10} desktop={10}>
-                      <input id="oauth_password" type="password" data-name="password" onChange={ this.onInputChange }/>
+                    : <Col desktop={10} tablet={10}>
+                      <input data-name="password" id="oauth_password" onChange={ this.onInputChange } type="password"/>
                     </Col>
                 }
               </Row>
@@ -146,8 +146,8 @@ export default class Oauth2 extends React.Component {
                 <label htmlFor="password_type">type:</label>
                 {
                   isAuthorized ? <code> { this.state.passwordType } </code>
-                    : <Col tablet={10} desktop={10}>
-                      <select id="password_type" data-name="passwordType" onChange={ this.onInputChange }>
+                    : <Col desktop={10} tablet={10}>
+                      <select data-name="passwordType" id="password_type" onChange={ this.onInputChange }>
                         <option value="request-body">Request body</option>
                         <option value="basic">Basic auth</option>
                         <option value="query">Query parameters</option>
@@ -163,13 +163,13 @@ export default class Oauth2 extends React.Component {
             <label htmlFor="client_id">client_id:</label>
             {
               isAuthorized ? <code> ****** </code>
-                           : <Col tablet={10} desktop={10}>
-                               <input id="client_id"
-                                      type="text"
+                           : <Col desktop={10} tablet={10}>
+                               <input data-name="clientId"
+                                      id="client_id"
+                                      onChange={ this.onInputChange }
                                       required={ flow === PASSWORD }
-                                      value={ this.state.clientId }
-                                      data-name="clientId"
-                                      onChange={ this.onInputChange }/>
+                                      type="text"
+                                      value={ this.state.clientId }/>
                              </Col>
             }
           </Row>
@@ -180,12 +180,12 @@ export default class Oauth2 extends React.Component {
             <label htmlFor="client_secret">client_secret:</label>
             {
               isAuthorized ? <code> ****** </code>
-                           : <Col tablet={10} desktop={10}>
-                               <input id="client_secret"
-                                      value={ this.state.clientSecret }
+                           : <Col desktop={10} tablet={10}>
+                               <input data-name="clientSecret"
+                                      id="client_secret"
+                                      onChange={ this.onInputChange }
                                       type="text"
-                                      data-name="clientSecret"
-                                      onChange={ this.onInputChange }/>
+                                      value={ this.state.clientSecret }/>
                              </Col>
             }
 
@@ -200,10 +200,10 @@ export default class Oauth2 extends React.Component {
                 <Row key={ name }>
                   <div className="checkbox">
                     <Input data-value={ name }
-                          id={`${name}-${flow}-checkbox-${this.state.name}`}
-                           disabled={ isAuthorized }
-                           type="checkbox"
-                           onChange={ this.onScopeChange }/>
+                          disabled={ isAuthorized }
+                           id={`${name}-${flow}-checkbox-${this.state.name}`}
+                           onChange={ this.onScopeChange }
+                           type="checkbox"/>
                          <label htmlFor={`${name}-${flow}-checkbox-${this.state.name}`}>
                            <span className="item"></span>
                            <div className="text">
@@ -221,8 +221,8 @@ export default class Oauth2 extends React.Component {
 
         {
           errors.valueSeq().map( (error, key) => {
-            return <AuthError error={ error }
-                              key={ key }/>
+            return <AuthError key={ key }
+                              error={ error }/>
           } )
         }
         <div className="auth-btn-wrapper">

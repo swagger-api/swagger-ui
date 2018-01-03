@@ -85,16 +85,16 @@ export default class ParameterRow extends Component {
     const ParamBody = getComponent("ParamBody")
     let inType = param.get("in")
     let bodyParam = inType !== "body" ? null
-      : <ParamBody getComponent={getComponent}
-                   fn={fn}
-                   param={param}
-                   consumes={ specSelectors.operationConsumes(pathMethod) }
+      : <ParamBody consumes={ specSelectors.operationConsumes(pathMethod) }
                    consumesValue={ specSelectors.contentTypeValues(pathMethod).get("requestContentType") }
+                   fn={fn}
+                   getComponent={getComponent}
+                   isExecute={ isExecute }
                    onChange={onChange}
                    onChangeConsumes={onChangeConsumes}
-                   isExecute={ isExecute }
-                   specSelectors={ specSelectors }
+                   param={param}
                    pathMethod={ pathMethod }
+                   specSelectors={ specSelectors }
       />
 
     const ModelExample = getComponent("modelExample")
@@ -131,23 +131,23 @@ export default class ParameterRow extends Component {
           {(isFormData && !isFormDataSupported) && <div>Error: your browser does not support FormData</div>}
 
           { bodyParam || !isExecute ? null
-            : <JsonSchemaForm fn={fn}
+            : <JsonSchemaForm description={param.get("description") ? `${param.get("name")} - ${param.get("description")}` : `${param.get("name")}`}
+                              fn={fn}
                               getComponent={getComponent}
-                              value={ value }
-                              required={ required }
-                              description={param.get("description") ? `${param.get("name")} - ${param.get("description")}` : `${param.get("name")}`}
                               onChange={ this.onChangeWrapper }
-                              schema={ isOAS3 && isOAS3() ? param.get("schema") : param }/>
+                              required={ required }
+                              schema={ isOAS3 && isOAS3() ? param.get("schema") : param }
+                              value={ value }/>
           }
 
           {
-            bodyParam && schema ? <ModelExample getComponent={ getComponent }
-                                                specPath={specPath.push("schema")}
+            bodyParam && schema ? <ModelExample example={ bodyParam }
+                                                getComponent={ getComponent }
                                                 getConfigs={ getConfigs }
                                                 isExecute={ isExecute }
-                                                specSelectors={ specSelectors }
                                                 schema={ schema }
-                                                example={ bodyParam }/>
+                                                specPath={specPath.push("schema")}
+                                                specSelectors={ specSelectors }/>
               : null
           }
 

@@ -94,12 +94,12 @@ export default class OperationServers extends React.Component {
           These {displaying}-level options override the global server options.
         </h4>
         <Servers
-          servers={serversToDisplay}
           currentServer={this.getSelectedServer()}
+          getEffectiveServerValue={this.getEffectiveServerValue}
+          getServerVariable={this.getServerVariable}
+          servers={serversToDisplay}
           setSelectedServer={this.setSelectedServer}
           setServerVariableValue={this.setServerVariableValue}
-          getServerVariable={this.getServerVariable}
-          getEffectiveServerValue={this.getEffectiveServerValue}
           />
       </div>
     </div>

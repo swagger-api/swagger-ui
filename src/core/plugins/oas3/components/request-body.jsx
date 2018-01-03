@@ -32,21 +32,21 @@ const RequestBody = ({
       <Markdown source={requestBodyDescription} />
     }
     <ModelExample
+      example={<RequestBodyEditor
+        getComponent={getComponent}
+        isExecute={isExecute}
+        mediaType={contentType}
+        onChange={onChange}
+        requestBody={requestBody}
+        specSelectors={specSelectors}
+        />}
+      expandDepth={1}
       getComponent={ getComponent }
       getConfigs={ getConfigs }
-      specSelectors={ specSelectors }
-      expandDepth={1}
       isExecute={isExecute}
       schema={mediaTypeValue.get("schema")}
       specPath={specPath.push("content", contentType)}
-      example={<RequestBodyEditor
-        requestBody={requestBody}
-        onChange={onChange}
-        mediaType={contentType}
-        getComponent={getComponent}
-        isExecute={isExecute}
-        specSelectors={specSelectors}
-        />}
+      specSelectors={ specSelectors }
       />
   </div>
 }

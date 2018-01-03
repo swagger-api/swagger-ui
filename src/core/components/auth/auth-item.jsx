@@ -28,20 +28,20 @@ export default class Auths extends React.Component {
 
     switch(type) {
       case "apiKey": authEl = <ApiKeyAuth key={ name }
-                                        schema={ schema }
-                                        name={ name }
-                                        errSelectors={ errSelectors }
                                         authorized={ authorized }
+                                        errSelectors={ errSelectors }
                                         getComponent={ getComponent }
-                                        onChange={ onAuthChange } />
+                                        name={ name }
+                                        onChange={ onAuthChange }
+                                        schema={ schema } />
         break
       case "basic": authEl = <BasicAuth key={ name }
-                                      schema={ schema }
-                                      name={ name }
-                                      errSelectors={ errSelectors }
                                       authorized={ authorized }
+                                      errSelectors={ errSelectors }
                                       getComponent={ getComponent }
-                                      onChange={ onAuthChange } />
+                                      name={ name }
+                                      onChange={ onAuthChange }
+                                      schema={ schema } />
         break
       default: authEl = <div key={ name }>Unknown security definition type { type }</div>
     }

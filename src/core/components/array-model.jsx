@@ -40,10 +40,10 @@ export default class ArrayModel extends Component {
     */
 
     return <span className="model">
-      <ModelCollapse title={titleEl} expanded={ depth <= expandDepth } collapsedContent="[...]">
+      <ModelCollapse collapsedContent="[...]" expanded={ depth <= expandDepth } title={titleEl}>
         [
           {
-            properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propVal={ v } propStyle={ propStyle } />) : null
+            properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propStyle={ propStyle } propVal={ v } />) : null
           }
           {
             !description ? null :
@@ -52,12 +52,12 @@ export default class ArrayModel extends Component {
           <span>
             <Model
               { ...this.props }
-              getConfigs={ getConfigs }
-              specPath={specPath.push("items")}
-              name={null}
-              schema={ items }
-              required={ false }
               depth={ depth + 1 }
+              getConfigs={ getConfigs }
+              name={null}
+              required={ false }
+              schema={ items }
+              specPath={specPath.push("items")}
             />
           </span>
         ]

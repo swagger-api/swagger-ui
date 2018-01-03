@@ -29,10 +29,10 @@ export default class XPane extends React.Component {
         <Header/>
 
         {
-          info && info.size ? <Info version={info.get("version")}
-                                    description={info.get("description")}
+          info && info.size ? <Info description={info.get("description")}
                                     title={info.get("title")}
-                                    url={url}/>
+                                    url={url}
+                                    version={info.get("version")}/>
                             : null
         }
         <Button onClick={showEditorAction}>{showEditor ? "Hide" : "Show"} Editor</Button>
@@ -44,7 +44,7 @@ export default class XPane extends React.Component {
             <Overview/>
           </Col>
 
-          <Col hide={!showEditor} keepContents={true} desktop={5} >
+          <Col desktop={5} hide={!showEditor} keepContents={true} >
             <Editor/>
           </Col>
 

@@ -37,7 +37,7 @@ export default class Debug extends React.Component {
 
         <Collapse isOpened={this.state.jsonDumpOpen} springConfig={presets.noWobble}>
 
-           <ObjectInspector data={getState().toJS() || {}} name="state" initialExpandedPaths={["state"]}/>
+           <ObjectInspector data={getState().toJS() || {}} initialExpandedPaths={["state"]} name="state"/>
 
         </Collapse>
 

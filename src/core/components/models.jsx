@@ -26,7 +26,7 @@ export default class Models extends Component {
     return <section className={ showModels ? "models is-open" : "models"}>
       <h4 onClick={() => layoutActions.show("models", !showModels)}>
         <span>Models</span>
-        <svg width="20" height="20">
+        <svg height="20" width="20">
           <use xlinkHref={showModels ? "#large-arrow-down" : "#large-arrow"} />
         </svg>
       </h4>
@@ -34,16 +34,16 @@ export default class Models extends Component {
         {
           definitions.entrySeq().map( ( [ name, model ])=>{
 
-            return <div id={ `model-${name}` } className="model-container" key={ `models-section-${name}` }>
-              <ModelWrapper name={ name }
-                     expandDepth={ defaultModelsExpandDepth }
+            return <div key={ `models-section-${name}` } className="model-container" id={ `model-${name}` }>
+              <ModelWrapper expandDepth={ defaultModelsExpandDepth }
+                     getComponent={ getComponent }
+                     getConfigs = {getConfigs}
+                     layoutActions = {layoutActions}
+                     layoutSelectors = {layoutSelectors}
+                     name={ name }
                      schema={ model }
                      specPath={Im.List([...specPathBase, name])}
-                     getComponent={ getComponent }
-                     specSelectors={ specSelectors }
-                     getConfigs = {getConfigs}
-                     layoutSelectors = {layoutSelectors}
-                     layoutActions = {layoutActions}/>
+                     specSelectors={ specSelectors }/>
               </div>
           }).toArray()
         }
