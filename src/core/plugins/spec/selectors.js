@@ -135,7 +135,6 @@ export const securityDefinitions = createSelector(
     spec => spec.get("securityDefinitions")
 )
 
-
 export const findDefinition = ( state, name ) => {
   return specResolved(state).getIn(["definitions", name], null)
 }

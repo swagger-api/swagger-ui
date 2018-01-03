@@ -24,7 +24,6 @@ export default class Parameters extends Component {
     specPath: ImPropTypes.list.isRequired,
   }
 
-
   static defaultProps = {
     onTryoutClick: Function.prototype,
     onCancelClick: Function.prototype,

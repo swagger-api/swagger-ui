@@ -50,7 +50,6 @@ export default class OnlineValidatorBadge extends React.Component {
     }
 }
 
-
 class ValidatorImage extends React.Component {
   static propTypes = {
     src: PropTypes.string,

@@ -70,4 +70,3 @@ XPane.propTypes = {
   layoutActions: PropTypes.object.isRequired
 }
 
-

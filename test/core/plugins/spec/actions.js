@@ -135,7 +135,6 @@ describe("spec plugin - actions", function(){
       expect(system.specActions.setMutatedRequest.calls.length).toEqual(0)
       expect(system.specActions.setRequest.calls.length).toEqual(1)
 
-
       let wrappedRequestInterceptor = system.fn.execute.calls[0].arguments[0].requestInterceptor
       wrappedRequestInterceptor(system.fn.execute.calls[0].arguments[0])
       expect(configs.requestInterceptor.calls.length).toEqual(1)

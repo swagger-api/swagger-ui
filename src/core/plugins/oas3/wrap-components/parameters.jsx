@@ -36,7 +36,6 @@ class Parameters extends Component {
     pathMethod: PropTypes.array.isRequired
   }
 
-
   static defaultProps = {
     onTryoutClick: Function.prototype,
     onCancelClick: Function.prototype,
@@ -194,6 +193,5 @@ class Parameters extends Component {
     )
   }
 }
-
 
 export default OAS3ComponentWrapFactory(Parameters)

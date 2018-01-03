@@ -4,7 +4,6 @@ import { fromJS } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 import { sanitizeUrl } from "core/utils"
 
-
 class Path extends React.Component {
   static propTypes = {
     host: PropTypes.string,
@@ -21,7 +20,6 @@ class Path extends React.Component {
     )
   }
 }
-
 
 class Contact extends React.Component {
   static propTypes = {

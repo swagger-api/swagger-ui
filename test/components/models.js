@@ -36,7 +36,6 @@ describe("<Models/>", function(){
     })
   }
 
-
   it("passes defaultModelsExpandDepth to ModelWrapper", function(){
     // When
     let wrapper = shallow(<Models {...props}/>)

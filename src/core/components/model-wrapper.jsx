@@ -2,9 +2,7 @@ import React, { Component, } from "react"
 import PropTypes from "prop-types"
 //import layoutActions from "actions/layout"
 
-
 export default class ModelWrapper extends Component {
-
 
   static propTypes = {
     schema: PropTypes.object.isRequired,

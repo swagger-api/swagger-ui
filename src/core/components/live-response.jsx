@@ -26,7 +26,6 @@ Duration.propTypes = {
   duration: PropTypes.number.isRequired
 }
 
-
 export default class LiveResponse extends React.Component {
   static propTypes = {
     response: PropTypes.instanceOf(Iterable).isRequired,

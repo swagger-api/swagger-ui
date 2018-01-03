@@ -140,7 +140,6 @@ export function defaultStatusCode ( responses ) {
   return codes.contains(DEFAULT_REPONSE_KEY) ? DEFAULT_REPONSE_KEY : codes.filter( key => (key+"")[0] === "2").sort().first()
 }
 
-
 /**
  * Returns an Immutable List, safely
  * @param {Immutable.Iterable} iterable the iterable to get the key from
@@ -483,7 +482,6 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
   let maxLength = paramDetails.get("maxLength")
   let minLength = paramDetails.get("minLength")
   let pattern = paramDetails.get("pattern")
-
 
   /*
     If the parameter is required OR the parameter has a value (meaning optional, but filled in)

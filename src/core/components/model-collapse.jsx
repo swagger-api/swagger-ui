@@ -38,7 +38,6 @@ export default class ModelCollapse extends Component {
 
   toggleCollapsed=()=>{
 
-
     if(this.props.onToggle){
       this.props.onToggle(this.props.modelName,!this.state.expanded)
     }

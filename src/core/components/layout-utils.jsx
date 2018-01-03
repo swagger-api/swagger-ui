@@ -118,7 +118,6 @@ export class Button extends React.Component {
 
 }
 
-
 export const TextArea = (props) => <textarea {...props} />
 
 export const Input = (props) => <input {...props} />
@@ -156,7 +155,6 @@ export class Select extends React.Component {
     let { onChange, multiple } = this.props
     let options = [].slice.call(e.target.options)
     let value
-
 
     if (multiple) {
       value = options.filter(function (option) {

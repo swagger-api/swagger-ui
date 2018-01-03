@@ -34,7 +34,6 @@ describe("<ModelExample/>", function(){
     { defaultModelRendering: "model", isExecute: false }
   ]
 
-
   it("renders model and example tabs", function(){
     // When
     let wrapper = shallow(<ModelExample {...props}/>)

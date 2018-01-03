@@ -27,6 +27,7 @@
     "no-unused-vars": 2,
     "no-multi-spaces": 1,
     "camelcase": 1,
+    "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 1, "maxBOF": 0 }],
     "no-use-before-define": [2,"nofunc"],
     "no-underscore-dangle": 0,
     "no-unused-expressions": 1,

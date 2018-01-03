@@ -166,7 +166,6 @@ export default class Response extends React.Component {
             />
           ) : null}
 
-
         </td>
         {specSelectors.isOAS3() ? <td className="col response-col_links">
           { links ?

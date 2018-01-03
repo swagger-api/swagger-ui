@@ -16,7 +16,6 @@ describe("Render scheme", function () {
         .click("button.download-url-button")
         .pause(1000)
 
-
         done()
     })
 

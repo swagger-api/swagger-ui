@@ -9,7 +9,6 @@ const SWAGGER2_OPERATION_METHODS = [
 
 const OAS3_OPERATION_METHODS = SWAGGER2_OPERATION_METHODS.concat(["trace"])
 
-
 export default class Operations extends React.Component {
 
   static propTypes = {
@@ -121,7 +120,6 @@ export default class Operations extends React.Component {
                         const path = op.get("path")
                         const method = op.get("method")
                         const specPath = Im.List(["paths", path, method])
-
 
                         // FIXME: (someday) this logic should probably be in a selector,
                         // but doing so would require further opening up

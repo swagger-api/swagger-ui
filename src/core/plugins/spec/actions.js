@@ -263,7 +263,6 @@ export const executeRequest = (req) =>
     )
   }
 
-
 // I'm using extras as a way to inject properties into the final, `execute` method - It's not great. Anyone have a better idea? @ponelat
 export const execute = ( { path, method, ...extras }={} ) => (system) => {
   let { fn:{fetch}, specSelectors, specActions } = system

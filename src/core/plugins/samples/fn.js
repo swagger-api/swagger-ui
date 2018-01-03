@@ -24,7 +24,6 @@ const primitive = (schema) => {
   return "Unknown Type: " + schema.type
 }
 
-
 export const sampleFromSchema = (schema, config={}) => {
   let { type, example, properties, additionalProperties, items } = objectify(schema)
   let { includeReadOnly, includeWriteOnly } = config
@@ -95,7 +94,6 @@ export const inferSchema = (thing) => {
 
   return thing // Hopefully this will have something schema like in it... `type` for example
 }
-
 
 export const sampleXmlFromSchema = (schema, config={}) => {
   let objectifySchema = objectify(schema)

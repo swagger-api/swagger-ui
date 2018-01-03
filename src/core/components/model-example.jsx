@@ -59,7 +59,6 @@ export default class ModelExample extends React.Component {
                                                      expandDepth={ defaultModelExpandDepth }
                                                      specPath={specPath} />
 
-
         }
       </div>
     </div>

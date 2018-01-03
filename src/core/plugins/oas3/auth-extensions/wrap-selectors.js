@@ -2,7 +2,6 @@ import { createSelector } from "reselect"
 import { List, Map, fromJS } from "immutable"
 import { isOAS3 as isOAS3Helper } from "../helpers"
 
-
 // Helpers
 
 const state = state => state

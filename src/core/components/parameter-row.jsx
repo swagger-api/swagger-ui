@@ -137,7 +137,6 @@ export default class ParameterRow extends Component {
                               schema={ isOAS3 && isOAS3() ? param.get("schema") : param }/>
           }
 
-
           {
             bodyParam && schema ? <ModelExample getComponent={ getComponent }
                                                 specPath={specPath.push("schema")}

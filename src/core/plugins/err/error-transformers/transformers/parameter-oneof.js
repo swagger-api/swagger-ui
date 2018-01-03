@@ -7,7 +7,6 @@ export function transform(errors, { jsSpec }) {
   /* eslint-disable no-unreachable */
   return errors
 
-
   // JSONSchema gives us very little to go on
   let searchStr = "is not exactly one from <#/definitions/parameter>,<#/definitions/jsonReference>"
   return errors

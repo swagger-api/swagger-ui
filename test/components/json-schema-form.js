@@ -121,7 +121,6 @@ describe("<JsonSchemaForm/>", function(){
         }
       }
 
-
       let wrapper = render(<JsonSchemaForm {...props}/>)
 
       expect(wrapper.find("input").length).toEqual(1)
@@ -142,7 +141,6 @@ describe("<JsonSchemaForm/>", function(){
           format: "NotARealFormat"
         }
       }
-
 
       let wrapper = render(<JsonSchemaForm {...props}/>)
 

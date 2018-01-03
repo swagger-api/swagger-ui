@@ -3,7 +3,6 @@ import { escapeDeepLinkPath } from "core/utils"
 
 let hasHashBeenParsed = false //TODO this forces code to only run once which may prevent scrolling if page not refreshed
 
-
 export const updateResolved = (ori, { layoutActions, getConfigs }) => (...args) => {
   ori(...args)
 
@@ -46,7 +45,6 @@ export const updateResolved = (ori, { layoutActions, getConfigs }) => (...args) 
 
       target = document.getElementById(`operations-tag-${escapeDeepLinkPath(tag)}`)
     }
-
 
     if(target) {
       myScroller.to(target)

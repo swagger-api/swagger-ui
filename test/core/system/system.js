@@ -261,7 +261,6 @@ describe("bound system", function(){
 
     })
 
-
   })
 
   describe("selectors", function(){
@@ -705,7 +704,6 @@ describe("bound system", function(){
       const system = new System({
         plugins: []
       })
-
 
       // When
       expect(function() {

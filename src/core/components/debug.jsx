@@ -39,7 +39,6 @@ export default class Debug extends React.Component {
 
         </Collapse>
 
-
       </div>
     )
   }

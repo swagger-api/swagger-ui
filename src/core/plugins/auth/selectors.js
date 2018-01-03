@@ -26,7 +26,6 @@ export const definitionsToAuthorize = createSelector(
     }
 )
 
-
 export const getDefinitionsByNames = ( state, securities ) => ( { specSelectors } ) => {
   console.warn("WARNING: getDefinitionsByNames is deprecated and will be removed in the next major version.")
   let securityDefinitions = specSelectors.securityDefinitions()
@@ -70,7 +69,6 @@ export const authorized = createSelector(
     state,
     auth => auth.get("authorized") || Map()
 )
-
 
 export const isAuthorized = ( state, securities ) => ( { authSelectors } ) => {
   let authorized = authSelectors.authorized()

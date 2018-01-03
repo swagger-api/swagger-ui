@@ -15,7 +15,6 @@ const parseYamlConfig = (yaml, system) => {
   }
 }
 
-
 const specActions = {
   downloadConfig: (url) => ({fn}) => {
     let {fetch} = fn
@@ -46,7 +45,6 @@ const specSelectors = {
     return parseYamlConfig(yamlConfig)
   }
 }
-
 
 export default function configsPlugin() {
 

@@ -33,7 +33,6 @@ export default class AuthorizeBtn extends React.Component {
     )
   }
 
-
   static propTypes = {
     getComponent: PropTypes.func.isRequired,
     authSelectors: PropTypes.object.isRequired,

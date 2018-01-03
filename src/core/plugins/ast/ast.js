@@ -195,7 +195,6 @@ export function pathForPosition(yaml, position) {
     return null
   }
 
-
   var path = []
 
   return find(ast)
@@ -287,7 +286,6 @@ export function pathForPosition(yaml, position) {
 }
 
 // utility fns
-
 
 export let pathForPositionAsync = promisifySyncFn(pathForPosition)
 export let positionRangeForPathAsync = promisifySyncFn(positionRangeForPath)
