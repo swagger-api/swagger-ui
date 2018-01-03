@@ -42,6 +42,7 @@
     "comma-dangle": 0,
     "no-console": ["error", { "allow": ["warn", "error"] }],
     "react/jsx-no-bind": 1,
+    "react/no-danger": 2,
     "react/display-name": 0,
     "mocha/no-exclusive-tests": "error"
   }

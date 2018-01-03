@@ -18,6 +18,8 @@ function Markdown({ source }) {
     }
 
     return (
+        // this is safe because of the sanitizer!
+        // eslint-disable-next-line react/no-danger
         <div className="markdown" dangerouslySetInnerHTML={{ __html: sanitized }}></div>
     )
 }
