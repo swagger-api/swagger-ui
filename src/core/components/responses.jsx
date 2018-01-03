@@ -84,27 +84,27 @@ export default class Responses extends React.Component {
       <div className="responses-wrapper">
         <div className="opblock-section-header">
           <h4>Responses</h4>
-            { specSelectors.isOAS3() ? null : <label>
-              <span>Response content type</span>
-              <ContentType className="execute-content-type"
-                         contentTypes={produces}
-                         onChange={this.onChangeProducesWrapper}
-                         value={producesValue}/>
-                     </label> }
+          { specSelectors.isOAS3() ? null : <label>
+            <span>Response content type</span>
+            <ContentType className="execute-content-type"
+              contentTypes={produces}
+              onChange={this.onChangeProducesWrapper}
+              value={producesValue}/>
+          </label> }
         </div>
         <div className="responses-inner">
           {
             !tryItOutResponse ? null
                               : <div>
-                                  <LiveResponse displayRequestDuration={ displayRequestDuration }
-                                                getComponent={ getComponent }
-                                                getConfigs={ getConfigs }
-                                                method={ this.props.method }
-                                                path={ this.props.path }
-                                                response={ tryItOutResponse }
-                                                specSelectors={ specSelectors } />
-                                  <h4>Responses</h4>
-                                </div>
+                                <LiveResponse displayRequestDuration={ displayRequestDuration }
+                                  getComponent={ getComponent }
+                                  getConfigs={ getConfigs }
+                                  method={ this.props.method }
+                                  path={ this.props.path }
+                                  response={ tryItOutResponse }
+                                  specSelectors={ specSelectors } />
+                                <h4>Responses</h4>
+                              </div>
 
           }
 
@@ -124,18 +124,18 @@ export default class Responses extends React.Component {
 
                   return (
                     <Response key={ code }
-                              className={ className }
-                              code={ code }
-                              contentType={ producesValue }
-                              controlsAcceptHeader={response === acceptControllingResponse}
-                              fn={fn}
-                              getComponent={ getComponent }
-                              getConfigs={ getConfigs }
-                              isDefault={defaultCode === code}
-                              onContentTypeChange={this.onResponseContentTypeChange}
-                              response={ response }
-                              specPath={specPath.push(code)}
-                              specSelectors={ specSelectors }/>
+                      className={ className }
+                      code={ code }
+                      contentType={ producesValue }
+                      controlsAcceptHeader={response === acceptControllingResponse}
+                      fn={fn}
+                      getComponent={ getComponent }
+                      getConfigs={ getConfigs }
+                      isDefault={defaultCode === code}
+                      onContentTypeChange={this.onResponseContentTypeChange}
+                      response={ response }
+                      specPath={specPath.push(code)}
+                      specSelectors={ specSelectors }/>
                     )
                 }).toArray()
               }

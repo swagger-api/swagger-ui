@@ -112,7 +112,7 @@ export default class Info extends React.Component {
         { contact && contact.size ? <Contact data={ contact } /> : null }
         { license && license.size ? <License license={ license } /> : null }
         { externalDocsUrl ?
-            <a href={sanitizeUrl(externalDocsUrl)} target="_blank">{externalDocsDescription || externalDocsUrl}</a>
+          <a href={sanitizeUrl(externalDocsUrl)} target="_blank">{externalDocsDescription || externalDocsUrl}</a>
         : null }
 
       </div>

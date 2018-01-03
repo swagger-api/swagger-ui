@@ -86,15 +86,15 @@ export default class ParameterRow extends Component {
     let inType = param.get("in")
     let bodyParam = inType !== "body" ? null
       : <ParamBody consumes={ specSelectors.operationConsumes(pathMethod) }
-                   consumesValue={ specSelectors.contentTypeValues(pathMethod).get("requestContentType") }
-                   fn={fn}
-                   getComponent={getComponent}
-                   isExecute={ isExecute }
-                   onChange={onChange}
-                   onChangeConsumes={onChangeConsumes}
-                   param={param}
-                   pathMethod={ pathMethod }
-                   specSelectors={ specSelectors }
+        consumesValue={ specSelectors.contentTypeValues(pathMethod).get("requestContentType") }
+        fn={fn}
+        getComponent={getComponent}
+        isExecute={ isExecute }
+        onChange={onChange}
+        onChangeConsumes={onChangeConsumes}
+        param={param}
+        pathMethod={ pathMethod }
+        specSelectors={ specSelectors }
       />
 
     const ModelExample = getComponent("modelExample")
@@ -132,22 +132,22 @@ export default class ParameterRow extends Component {
 
           { bodyParam || !isExecute ? null
             : <JsonSchemaForm description={param.get("description") ? `${param.get("name")} - ${param.get("description")}` : `${param.get("name")}`}
-                              fn={fn}
-                              getComponent={getComponent}
-                              onChange={ this.onChangeWrapper }
-                              required={ required }
-                              schema={ isOAS3 && isOAS3() ? param.get("schema") : param }
-                              value={ value }/>
+              fn={fn}
+              getComponent={getComponent}
+              onChange={ this.onChangeWrapper }
+              required={ required }
+              schema={ isOAS3 && isOAS3() ? param.get("schema") : param }
+              value={ value }/>
           }
 
           {
             bodyParam && schema ? <ModelExample example={ bodyParam }
-                                                getComponent={ getComponent }
-                                                getConfigs={ getConfigs }
-                                                isExecute={ isExecute }
-                                                schema={ schema }
-                                                specPath={specPath.push("schema")}
-                                                specSelectors={ specSelectors }/>
+              getComponent={ getComponent }
+              getConfigs={ getConfigs }
+              isExecute={ isExecute }
+              schema={ schema }
+              specPath={specPath.push("schema")}
+              specSelectors={ specSelectors }/>
               : null
           }
 

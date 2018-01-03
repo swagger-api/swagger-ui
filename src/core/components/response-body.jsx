@@ -98,9 +98,9 @@ export default class ResponseBody extends React.Component {
     }
 
     return ( !bodyEl ? null : <div>
-        <h5>Response body</h5>
-        { bodyEl }
-      </div>
+      <h5>Response body</h5>
+      { bodyEl }
+    </div>
     )
   }
 }

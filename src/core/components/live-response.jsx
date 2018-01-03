@@ -74,19 +74,19 @@ export default class LiveResponse extends React.Component {
       <div>
         { curlRequest && <Curl request={ curlRequest }/> }
         { url && <div>
-            <h4>Request URL</h4>
-            <div className="request-url">
-              <pre>{url}</pre>
-            </div>
+          <h4>Request URL</h4>
+          <div className="request-url">
+            <pre>{url}</pre>
+          </div>
           </div>
         }
         <h4>Server response</h4>
         <table className="responses-table">
           <thead>
-          <tr className="responses-header">
-            <td className="col col_header response-col_status">Code</td>
-            <td className="col col_header response-col_description">Details</td>
-          </tr>
+            <tr className="responses-header">
+              <td className="col col_header response-col_status">Code</td>
+              <td className="col col_header response-col_description">Details</td>
+            </tr>
           </thead>
           <tbody>
             <tr className="response">
@@ -94,24 +94,24 @@ export default class LiveResponse extends React.Component {
                 { status }
                 {
                   notDocumented ? <div className="response-undocumented">
-                                    <i> Undocumented </i>
-                                  </div>
+                    <i> Undocumented </i>
+                  </div>
                                 : null
                 }
               </td>
               <td className="col response-col_description">
                 {
                   isError ? <span>
-                              {`${response.get("name")}: ${response.get("message")}`}
-                            </span>
+                    {`${response.get("name")}: ${response.get("message")}`}
+                  </span>
                           : null
                 }
                 {
                   body ? <ResponseBody content={ body }
-                                       contentType={ contentType }
-                                       getComponent={ getComponent }
-                                       headers={ headers }
-                                       url={ url }/>
+                    contentType={ contentType }
+                    getComponent={ getComponent }
+                    headers={ headers }
+                    url={ url }/>
                        : null
                 }
                 {

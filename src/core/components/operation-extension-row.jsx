@@ -5,8 +5,8 @@ export const OperationExtRow = ({ xKey, xVal }) => {
   const xNormalizedValue = !xVal ? null : xVal.toJS ? xVal.toJS() : xVal
 
     return (<tr>
-        <td>{ xKey }</td>
-        <td>{ JSON.stringify(xNormalizedValue) }</td>
+      <td>{ xKey }</td>
+      <td>{ JSON.stringify(xNormalizedValue) }</td>
     </tr>)
 }
 

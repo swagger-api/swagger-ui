@@ -48,8 +48,8 @@ export default class ObjectModel extends Component {
     }
 
     const collapsedContent = (<span>
-        <span>{ braceOpen }</span>...<span>{ braceClose }</span>
-        {
+      <span>{ braceOpen }</span>...<span>{ braceClose }</span>
+      {
           isRef ? <JumpToPathSection /> : ""
         }
     </span>)
@@ -71,20 +71,20 @@ export default class ObjectModel extends Component {
         onToggle = {onToggle}
         title={titleEl}>
 
-         <span className="brace-open object">{ braceOpen }</span>
-          {
+        <span className="brace-open object">{ braceOpen }</span>
+        {
             !isRef ? null : <JumpToPathSection />
           }
-          <span className="inner-object">
-            {
-              <table className="model"><tbody>
+        <span className="inner-object">
+          {
+            <table className="model"><tbody>
               {
                 !description ? null : <tr style={{ color: "#999", fontStyle: "italic" }}>
-                    <td>description:</td>
-                    <td>
-                      <Markdown source={ description } />
-                    </td>
-                  </tr>
+                  <td>description:</td>
+                  <td>
+                    <Markdown source={ description } />
+                  </td>
+                </tr>
               }
               {
                 !(properties && properties.size) ? null : properties.entrySeq().map(
@@ -103,12 +103,12 @@ export default class ObjectModel extends Component {
                         </td>
                         <td style={{ verticalAlign: "top" }}>
                           <Model key={ `object-${name}-${key}_${value}` } { ...otherProps }
-                                 depth={ depth + 1 }
-                                 getComponent={ getComponent }
-                                 getConfigs={ getConfigs }
-                                 required={ isRequired }
-                                 schema={ value }
-                                 specPath={specPath.push("properties", key)} />
+                            depth={ depth + 1 }
+                            getComponent={ getComponent }
+                            getConfigs={ getConfigs }
+                            required={ isRequired }
+                            schema={ value }
+                            specPath={specPath.push("properties", key)} />
                         </td>
                       </tr>)
                     }).toArray()
@@ -143,11 +143,11 @@ export default class ObjectModel extends Component {
                     <td>{ "< * >:" }</td>
                     <td>
                       <Model { ...otherProps } depth={ depth + 1 }
-                             getComponent={ getComponent }
-                             getConfigs={ getConfigs }
-                             required={ false }
-                             schema={ additionalProperties }
-                             specPath={specPath.push("additionalProperties")} />
+                        getComponent={ getComponent }
+                        getConfigs={ getConfigs }
+                        required={ false }
+                        schema={ additionalProperties }
+                        specPath={specPath.push("additionalProperties")} />
                     </td>
                   </tr>
               }
@@ -158,11 +158,11 @@ export default class ObjectModel extends Component {
                     <td>
                       {anyOf.map((schema, k) => {
                         return <div key={k}><Model { ...otherProps } depth={ depth + 1 }
-                                 getComponent={ getComponent }
-                                 getConfigs={ getConfigs }
-                                 required={ false }
-                                 schema={ schema }
-                                 specPath={specPath.push("anyOf", k)} /></div>
+                          getComponent={ getComponent }
+                          getConfigs={ getConfigs }
+                          required={ false }
+                          schema={ schema }
+                          specPath={specPath.push("anyOf", k)} /></div>
                       })}
                     </td>
                   </tr>
@@ -174,11 +174,11 @@ export default class ObjectModel extends Component {
                     <td>
                       {oneOf.map((schema, k) => {
                         return <div key={k}><Model { ...otherProps } depth={ depth + 1 }
-                                 getComponent={ getComponent }
-                                 getConfigs={ getConfigs }
-                                 required={ false }
-                                 schema={ schema }
-                                 specPath={specPath.push("oneOf", k)} /></div>
+                          getComponent={ getComponent }
+                          getConfigs={ getConfigs }
+                          required={ false }
+                          schema={ schema }
+                          specPath={specPath.push("oneOf", k)} /></div>
                       })}
                     </td>
                   </tr>
@@ -190,17 +190,17 @@ export default class ObjectModel extends Component {
                     <td>
                       <div>
                         <Model { ...otherProps }
-                               depth={ depth + 1 }
-                               getComponent={ getComponent }
-                               getConfigs={ getConfigs }
-                               required={ false }
-                               schema={ not }
-                               specPath={specPath.push("not")} />
+                          depth={ depth + 1 }
+                          getComponent={ getComponent }
+                          getConfigs={ getConfigs }
+                          required={ false }
+                          schema={ not }
+                          specPath={specPath.push("not")} />
                       </div>
                     </td>
                   </tr>
               }
-              </tbody></table>
+            </tbody></table>
           }
         </span>
         <span className="brace-close">{ braceClose }</span>

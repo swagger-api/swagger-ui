@@ -116,152 +116,152 @@ export default class Operation extends PureComponent {
     let onChangeKey = [ path, method ] // Used to add values to _this_ operation ( indexed by path and method )
 
     return (
-        <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={isShownKey.join("-")} >
-          <div className={`opblock-summary opblock-summary-${method}`} onClick={toggleShown} >
-            {/*TODO: convert this into a component, that can be wrapped
+      <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={isShownKey.join("-")} >
+        <div className={`opblock-summary opblock-summary-${method}`} onClick={toggleShown} >
+          {/*TODO: convert this into a component, that can be wrapped
               and pulled in with getComponent */}
-              <span className="opblock-summary-method">{method.toUpperCase()}</span>
-              <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } >
-              <DeepLink
-                  enabled={isDeepLinkingEnabled}
-                  isShown={isShown}
-                  path={`${isShownKey.join("/")}`}
-                  text={path} />
-                <JumpToPath path={specPath} /> {/*TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
-              </span>
+          <span className="opblock-summary-method">{method.toUpperCase()}</span>
+          <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } >
+            <DeepLink
+              enabled={isDeepLinkingEnabled}
+              isShown={isShown}
+              path={`${isShownKey.join("/")}`}
+              text={path} />
+            <JumpToPath path={specPath} /> {/*TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
+          </span>
 
-            { !showSummary ? null :
-                <div className="opblock-summary-description">
-                  { summary }
-                </div>
+          { !showSummary ? null :
+          <div className="opblock-summary-description">
+            { summary }
+          </div>
             }
 
-            { displayOperationId && operationId ? <span className="opblock-summary-operation-id">{operationId}</span> : null }
+          { displayOperationId && operationId ? <span className="opblock-summary-operation-id">{operationId}</span> : null }
 
-            {
+          {
               (!security || !security.count()) ? null :
-                <AuthorizeOperationBtn
-                  isAuthorized={ isAuthorized }
-                  onClick={() => {
+              <AuthorizeOperationBtn
+                isAuthorized={ isAuthorized }
+                onClick={() => {
                     const applicableDefinitions = authSelectors.definitionsForRequirements(security)
                     authActions.showDefinitions(applicableDefinitions)
                   }}
                 />
             }
-          </div>
+        </div>
 
-          <Collapse isOpened={isShown}>
-            <div className="opblock-body">
-              { deprecated && <h4 className="opblock-title_normal"> Warning: Deprecated</h4>}
-              { description &&
-                <div className="opblock-description-wrapper">
-                  <div className="opblock-description">
-                    <Markdown source={ description } />
-                  </div>
-                </div>
+        <Collapse isOpened={isShown}>
+          <div className="opblock-body">
+            { deprecated && <h4 className="opblock-title_normal"> Warning: Deprecated</h4>}
+            { description &&
+            <div className="opblock-description-wrapper">
+              <div className="opblock-description">
+                <Markdown source={ description } />
+              </div>
+            </div>
               }
-              {
+            {
                 externalDocs && externalDocs.url ?
-                <div className="opblock-external-docs-wrapper">
-                  <h4 className="opblock-title_normal">Find more details</h4>
-                  <div className="opblock-external-docs">
-                    <span className="opblock-external-docs__description">
-                      <Markdown source={ externalDocs.description } />
-                    </span>
-                    <a className="opblock-external-docs__link" href={ sanitizeUrl(externalDocs.url) } target="_blank">{ externalDocs.url }</a>
-                  </div>
-                </div> : null
+                  <div className="opblock-external-docs-wrapper">
+                    <h4 className="opblock-title_normal">Find more details</h4>
+                    <div className="opblock-external-docs">
+                      <span className="opblock-external-docs__description">
+                        <Markdown source={ externalDocs.description } />
+                      </span>
+                      <a className="opblock-external-docs__link" href={ sanitizeUrl(externalDocs.url) } target="_blank">{ externalDocs.url }</a>
+                    </div>
+                  </div> : null
               }
 
-              <Parameters
-                allowTryItOut={allowTryItOut}
-                fn={fn}
-                getComponent={ getComponent }
-                getConfigs={ getConfigs }
-                onCancelClick = { onCancelClick }
-                onChangeKey={onChangeKey}
-                onTryoutClick = { onTryoutClick }
-                operation={operation}
+            <Parameters
+              allowTryItOut={allowTryItOut}
+              fn={fn}
+              getComponent={ getComponent }
+              getConfigs={ getConfigs }
+              onCancelClick = { onCancelClick }
+              onChangeKey={onChangeKey}
+              onTryoutClick = { onTryoutClick }
+              operation={operation}
 
-                parameters={parameters}
-                pathMethod={ [path, method] }
-                specActions={ specActions }
-                specPath={specPath.push("parameters")}
-                specSelectors={ specSelectors }
-                tryItOutEnabled = { tryItOutEnabled }
+              parameters={parameters}
+              pathMethod={ [path, method] }
+              specActions={ specActions }
+              specPath={specPath.push("parameters")}
+              specSelectors={ specSelectors }
+              tryItOutEnabled = { tryItOutEnabled }
               />
 
-              { !tryItOutEnabled ? null :
-                <OperationServers
-                  getComponent={getComponent}
-                  getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
-                  getSelectedServer={oas3Selectors.selectedServer}
-                  getServerVariable={oas3Selectors.serverVariableValue}
-                  method={method}
-                  operationServers={operation.get("servers")}
-                  path={path}
-                  pathServers={specSelectors.paths().getIn([path, "servers"])}
-                  setSelectedServer={oas3Actions.setSelectedServer}
-                  setServerVariableValue={oas3Actions.setServerVariableValue}
+            { !tryItOutEnabled ? null :
+            <OperationServers
+              getComponent={getComponent}
+              getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
+              getSelectedServer={oas3Selectors.selectedServer}
+              getServerVariable={oas3Selectors.serverVariableValue}
+              method={method}
+              operationServers={operation.get("servers")}
+              path={path}
+              pathServers={specSelectors.paths().getIn([path, "servers"])}
+              setSelectedServer={oas3Actions.setSelectedServer}
+              setServerVariableValue={oas3Actions.setServerVariableValue}
                 />
               }
 
-              {!tryItOutEnabled || !allowTryItOut ? null : schemes && schemes.size ? <div className="opblock-schemes">
-                    <Schemes currentScheme={ operationScheme }
-                             method={ method }
-                             path={ path }
-                             schemes={ schemes }
-                             specActions={ specActions } />
-                  </div> : null
+            {!tryItOutEnabled || !allowTryItOut ? null : schemes && schemes.size ? <div className="opblock-schemes">
+              <Schemes currentScheme={ operationScheme }
+                method={ method }
+                path={ path }
+                schemes={ schemes }
+                specActions={ specActions } />
+            </div> : null
               }
 
             <div className={(!tryItOutEnabled || !response || !allowTryItOut) ? "execute-wrapper" : "btn-group"}>
               { !tryItOutEnabled || !allowTryItOut ? null :
 
-                  <Execute
-                    method={ method }
-                    onExecute={ onExecute }
-                    operation={ operation }
-                    path={ path }
-                    specActions={ specActions }
-                    specSelectors={ specSelectors } />
+              <Execute
+                method={ method }
+                onExecute={ onExecute }
+                operation={ operation }
+                path={ path }
+                specActions={ specActions }
+                specSelectors={ specSelectors } />
               }
 
               { (!tryItOutEnabled || !response || !allowTryItOut) ? null :
-                  <Clear
-                    method={ method }
-                    path={ path }
-                    specActions={ specActions }/>
+              <Clear
+                method={ method }
+                path={ path }
+                specActions={ specActions }/>
               }
             </div>
 
             {executeInProgress ? <div className="loading-container"><div className="loading"></div></div> : null}
 
-              { !responses ? null :
-                  <Responses
-                    displayRequestDuration={ displayRequestDuration }
-                    fn={fn}
-                    getComponent={ getComponent }
-                    getConfigs={ getConfigs }
-                    method={ method }
-                    oas3Actions={oas3Actions}
-                    path={ path }
-                    produces={ produces }
-                    producesValue={ operation.get("produces_value") }
-                    request={ request }
-                    responses={ responses }
-                    specActions={ specActions }
-                    specPath={specPath.push("responses")}
-                    specSelectors={ specSelectors }
-                    tryItOutResponse={ response } />
+            { !responses ? null :
+            <Responses
+              displayRequestDuration={ displayRequestDuration }
+              fn={fn}
+              getComponent={ getComponent }
+              getConfigs={ getConfigs }
+              method={ method }
+              oas3Actions={oas3Actions}
+              path={ path }
+              produces={ produces }
+              producesValue={ operation.get("produces_value") }
+              request={ request }
+              responses={ responses }
+              specActions={ specActions }
+              specPath={specPath.push("responses")}
+              specSelectors={ specSelectors }
+              tryItOutResponse={ response } />
               }
 
-              { !showExtensions || !extensions.size ? null :
-                <OperationExt extensions={ extensions } getComponent={ getComponent } />
+            { !showExtensions || !extensions.size ? null :
+            <OperationExt extensions={ extensions } getComponent={ getComponent } />
               }
-            </div>
-          </Collapse>
-        </div>
+          </div>
+        </Collapse>
+      </div>
     )
   }
 

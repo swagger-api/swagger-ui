@@ -11,12 +11,12 @@ export default OAS3ComponentWrapFactory(({ Ori, ...props }) => {
 
   if(type === "http") {
     return <HttpAuth key={ name }
-              authorized={ authorized }
-              errSelectors={ errSelectors }
-              getComponent={ getComponent }
-              name={ name }
-              onChange={ onAuthChange }
-              schema={ schema }/>
+      authorized={ authorized }
+      errSelectors={ errSelectors }
+      getComponent={ getComponent }
+      name={ name }
+      onChange={ onAuthChange }
+      schema={ schema }/>
   } else {
     return <Ori {...props} />
   }

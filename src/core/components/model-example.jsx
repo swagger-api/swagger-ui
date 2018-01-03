@@ -55,11 +55,11 @@ export default class ModelExample extends React.Component {
         }
         {
           !isExecute && this.state.activeTab === "model" && <ModelWrapper expandDepth={ defaultModelExpandDepth }
-                                                     getComponent={ getComponent }
-                                                     getConfigs={ getConfigs }
-                                                     schema={ schema }
-                                                     specPath={specPath}
-                                                     specSelectors={ specSelectors } />
+            getComponent={ getComponent }
+            getConfigs={ getConfigs }
+            schema={ schema }
+            specPath={specPath}
+            specSelectors={ specSelectors } />
 
         }
       </div>

@@ -27,8 +27,8 @@ const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
   }
 
   if ( sampleResponse ) { return <div>
-      <HighlightCode className="example" value={ sampleResponse } />
-    </div>
+    <HighlightCode className="example" value={ sampleResponse } />
+  </div>
   }
 
   return null
@@ -143,11 +143,11 @@ export default class Response extends React.Component {
               "controls-accept-header": controlsAcceptHeader
             })}>
               <ContentType
-                  contentTypes={ response.get("content") ? response.get("content").keySeq() : Seq() }
-                  onChange={this._onContentTypeChange}
-                  value={this.state.responseContentType}
+                contentTypes={ response.get("content") ? response.get("content").keySeq() : Seq() }
+                onChange={this._onContentTypeChange}
+                value={this.state.responseContentType}
                   />
-                { controlsAcceptHeader ? <small>Controls <code>Accept</code> header.</small> : null }
+              { controlsAcceptHeader ? <small>Controls <code>Accept</code> header.</small> : null }
             </div>
              : null }
 

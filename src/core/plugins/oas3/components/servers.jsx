@@ -103,11 +103,11 @@ export default class Servers extends React.Component {
           <select onChange={ this.onServerChange }>
             { servers.valueSeq().map(
               ( server ) =>
-              <option
-                key={ server.get("url") }
-                value={ server.get("url") }>
-                { server.get("url") }
-              </option>
+                <option
+                  key={ server.get("url") }
+                  value={ server.get("url") }>
+                  { server.get("url") }
+                </option>
             ).toArray()}
           </select>
         </label>

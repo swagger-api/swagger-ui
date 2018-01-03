@@ -65,8 +65,8 @@ export default class HttpAuth extends React.Component {
         <h4>
           <code>{ name || schema.get("name") }</code>&nbsp;
             (http, Basic)
-            <JumpToPath path={[ "securityDefinitions", name ]} />
-          </h4>
+          <JumpToPath path={[ "securityDefinitions", name ]} />
+        </h4>
         { username && <h6>Authorized</h6> }
         <Row>
           <Markdown source={ schema.get("description") } />
@@ -80,19 +80,19 @@ export default class HttpAuth extends React.Component {
         </Row>
         <Row>
           <label>Password:</label>
-            {
+          {
               username ? <code> ****** </code>
                        : <Col><Input autoComplete="new-password"
-                                     name="password"
-                                     onChange={ this.onChange }
-                                     required="required"
-                                     type="password"/></Col>
+                         name="password"
+                         onChange={ this.onChange }
+                         required="required"
+                         type="password"/></Col>
             }
         </Row>
         {
           errors.valueSeq().map( (error, key) => {
             return <AuthError key={ key }
-                              error={ error }/>
+              error={ error }/>
           } )
         }
       </div>
@@ -104,26 +104,26 @@ export default class HttpAuth extends React.Component {
           <h4>
             <code>{ name || schema.get("name") }</code>&nbsp;
               (http, Bearer)
-              <JumpToPath path={[ "securityDefinitions", name ]} />
-            </h4>
-            { value && <h6>Authorized</h6>}
-            <Row>
-              <Markdown source={ schema.get("description") } />
-            </Row>
-            <Row>
-              <label>Value:</label>
-              {
+            <JumpToPath path={[ "securityDefinitions", name ]} />
+          </h4>
+          { value && <h6>Authorized</h6>}
+          <Row>
+            <Markdown source={ schema.get("description") } />
+          </Row>
+          <Row>
+            <label>Value:</label>
+            {
                 value ? <code> ****** </code>
               : <Col><Input onChange={ this.onChange } type="text"/></Col>
           }
-        </Row>
-        {
+          </Row>
+          {
           errors.valueSeq().map( (error, key) => {
             return <AuthError key={ key }
               error={ error }/>
           } )
         }
-      </div>
+        </div>
     )
     }
 

@@ -42,24 +42,24 @@ export default class ArrayModel extends Component {
     return <span className="model">
       <ModelCollapse collapsedContent="[...]" expanded={ depth <= expandDepth } title={titleEl}>
         [
-          {
+        {
             properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propStyle={ propStyle } propVal={ v } />) : null
           }
-          {
+        {
             !description ? null :
-              <Markdown source={ description } />
+            <Markdown source={ description } />
           }
-          <span>
-            <Model
-              { ...this.props }
-              depth={ depth + 1 }
-              getConfigs={ getConfigs }
-              name={null}
-              required={ false }
-              schema={ items }
-              specPath={specPath.push("items")}
+        <span>
+          <Model
+            { ...this.props }
+            depth={ depth + 1 }
+            getConfigs={ getConfigs }
+            name={null}
+            required={ false }
+            schema={ items }
+            specPath={specPath.push("items")}
             />
-          </span>
+        </span>
         ]
       </ModelCollapse>
     </span>

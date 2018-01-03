@@ -20,18 +20,18 @@ export default class Headers extends React.Component {
       return null
 
       return (
-      <div className="headers-wrapper">
-        <h4 className="headers__title">Headers:</h4>
-        <table className="headers">
-          <thead>
-            <tr className="header-row">
-              <th className="header-col">Name</th>
-              <th className="header-col">Description</th>
-              <th className="header-col">Type</th>
-            </tr>
-          </thead>
-          <tbody>
-          {
+        <div className="headers-wrapper">
+          <h4 className="headers__title">Headers:</h4>
+          <table className="headers">
+            <thead>
+              <tr className="header-row">
+                <th className="header-col">Name</th>
+                <th className="header-col">Description</th>
+                <th className="header-col">Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
             headers.entrySeq().map( ([ key, header ]) => {
               if(!Im.Map.isMap(header)) {
                 return null
@@ -47,9 +47,9 @@ export default class Headers extends React.Component {
               </tr>)
             }).toArray()
           }
-          </tbody>
-        </table>
-      </div>
+            </tbody>
+          </table>
+        </div>
     )
   }
 }

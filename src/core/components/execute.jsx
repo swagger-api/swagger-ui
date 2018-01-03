@@ -30,9 +30,9 @@ export default class Execute extends Component {
 
   render(){
     return (
-        <button className="btn execute opblock-control__btn" onClick={ this.onClick }>
+      <button className="btn execute opblock-control__btn" onClick={ this.onClick }>
           Execute
-        </button>
+      </button>
     )
   }
 }

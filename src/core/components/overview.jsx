@@ -25,10 +25,10 @@ export default class Overview extends React.Component {
     const Collapse = getComponent("Collapse")
 
     return (
-        <div>
-          <h4 className="overview-title">Overview</h4>
+      <div>
+        <h4 className="overview-title">Overview</h4>
 
-          {
+        {
             taggedOps.map( (tagObj, tag) => {
               let operations = tagObj.get("operations")
 
@@ -50,14 +50,14 @@ export default class Overview extends React.Component {
                         let shown = layoutSelectors.isShown([showOpIdPrefix, showOpId])
 
                         return <OperationLink key={id}
-                                              href={`#operation-${showOpId}`}
-                                              id={path + "-" + method}
-                                              method={method}
-                                              onClick={layoutActions.show}
-                                              path={path}
-                                              showOpId={showOpId}
-                                              showOpIdPrefix={showOpIdPrefix}
-                                              shown={shown}
+                          href={`#operation-${showOpId}`}
+                          id={path + "-" + method}
+                          method={method}
+                          onClick={layoutActions.show}
+                          path={path}
+                          showOpId={showOpId}
+                          showOpIdPrefix={showOpIdPrefix}
+                          shown={shown}
                                               />
                       }).toArray()
                     }
@@ -68,8 +68,8 @@ export default class Overview extends React.Component {
             }).toArray()
           }
 
-          { taggedOps.size < 1 && <h3> No operations defined in spec! </h3> }
-        </div>
+        { taggedOps.size < 1 && <h3> No operations defined in spec! </h3> }
+      </div>
     )
   }
 

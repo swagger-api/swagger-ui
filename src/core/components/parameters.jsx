@@ -79,21 +79,21 @@ export default class Parameters extends Component {
           <div className="tab-header">
             <h4 className="opblock-title">Parameters</h4>
           </div>
-            { allowTryItOut ? (
-              <TryItOutButton enabled={ tryItOutEnabled } onCancelClick={ onCancelClick } onTryoutClick={ onTryoutClick } />
+          { allowTryItOut ? (
+            <TryItOutButton enabled={ tryItOutEnabled } onCancelClick={ onCancelClick } onTryoutClick={ onTryoutClick } />
             ) : null }
         </div>
         { !parameters.count() ? <div className="opblock-description-wrapper"><p>No parameters</p></div> :
-          <div className="table-container">
-            <table className="parameters">
-              <thead>
-                <tr>
-                  <th className="col col_header parameters-col_name">Name</th>
-                  <th className="col col_header parameters-col_description">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                {
+        <div className="table-container">
+          <table className="parameters">
+            <thead>
+              <tr>
+                <th className="col col_header parameters-col_name">Name</th>
+                <th className="col col_header parameters-col_description">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
                   eachMap(parameters, (parameter, i) => (
                     <ParameterRow
                       key={ `${parameter.get( "in" )}.${parameter.get("name")}` }
@@ -109,9 +109,9 @@ export default class Parameters extends Component {
                       specSelectors={ specSelectors }/>
                   )).toArray()
                 }
-              </tbody>
-            </table>
-          </div>
+            </tbody>
+          </table>
+        </div>
         }
       </div>
     )

@@ -76,7 +76,7 @@ export default class ApiKeyAuth extends React.Component {
         {
           errors.valueSeq().map( (error, key) => {
             return <AuthError key={ key }
-                              error={ error }/>
+              error={ error }/>
           } )
         }
       </div>

@@ -28,7 +28,7 @@ export default class AuthorizeBtn extends React.Component {
             <use href={ isAuthorized ? "#locked" : "#unlocked" } xlinkHref={ isAuthorized ? "#locked" : "#unlocked" } />
           </svg>
         </button>
-      { showPopup && <AuthorizationPopup /> }
+        { showPopup && <AuthorizationPopup /> }
       </div>
     )
   }

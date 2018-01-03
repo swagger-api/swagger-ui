@@ -79,70 +79,70 @@ export default class BaseLayout extends React.Component {
     return (
 
       <div className='swagger-ui'>
-          <div>
-            <Errors/>
-            <Row className="information-container">
-              <Col mobile={12}>
-                { info.count() ? (
-                  <Info basePath={ basePath } externalDocs={externalDocs} getComponent={getComponent} host={ host } info={ info } url={ url }/>
+        <div>
+          <Errors/>
+          <Row className="information-container">
+            <Col mobile={12}>
+              { info.count() ? (
+                <Info basePath={ basePath } externalDocs={externalDocs} getComponent={getComponent} host={ host } info={ info } url={ url }/>
                 ) : null }
-              </Col>
-            </Row>
-            { schemes && schemes.size || securityDefinitions ? (
-              <div className="scheme-container">
-                <Col className="schemes wrapper" mobile={12}>
-                  { schemes && schemes.size ? (
-                    <Schemes
-                      currentScheme={specSelectors.operationScheme()}
-                      schemes={ schemes }
-                      specActions={ specActions } />
+            </Col>
+          </Row>
+          { schemes && schemes.size || securityDefinitions ? (
+            <div className="scheme-container">
+              <Col className="schemes wrapper" mobile={12}>
+                { schemes && schemes.size ? (
+                  <Schemes
+                    currentScheme={specSelectors.operationScheme()}
+                    schemes={ schemes }
+                    specActions={ specActions } />
                   ) : null }
 
-                  { securityDefinitions ? (
-                    <AuthorizeBtn />
+                { securityDefinitions ? (
+                  <AuthorizeBtn />
                   ) : null }
-                </Col>
-              </div>
+              </Col>
+            </div>
             ) : null }
 
-            { servers && servers.size ? (
-              <div className="global-server-container">
-                <Col className="servers wrapper" mobile={12}>
-                  <span className="servers-title">Server</span>
-                  <Servers
-                    currentServer={oas3Selectors.selectedServer()}
-                    getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
-                    getServerVariable={oas3Selectors.serverVariableValue}
-                    servers={servers}
-                    setSelectedServer={oas3Actions.setSelectedServer}
-                    setServerVariableValue={oas3Actions.setServerVariableValue}
+          { servers && servers.size ? (
+            <div className="global-server-container">
+              <Col className="servers wrapper" mobile={12}>
+                <span className="servers-title">Server</span>
+                <Servers
+                  currentServer={oas3Selectors.selectedServer()}
+                  getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
+                  getServerVariable={oas3Selectors.serverVariableValue}
+                  servers={servers}
+                  setSelectedServer={oas3Actions.setSelectedServer}
+                  setServerVariableValue={oas3Actions.setServerVariableValue}
                     />
-                </Col>
-              </div>
+              </Col>
+            </div>
 
             ) : null}
 
-            {
+          {
               filter === null || filter === false ? null :
-                <div className="filter-container">
-                  <Col className="filter wrapper" mobile={12}>
-                    <input className="operation-filter-input" disabled={isLoading} onChange={this.onFilterChange} placeholder="Filter by tag" style={inputStyle} type="text" value={filter === true || filter === "true" ? "" : filter} />
-                  </Col>
-                </div>
+              <div className="filter-container">
+                <Col className="filter wrapper" mobile={12}>
+                  <input className="operation-filter-input" disabled={isLoading} onChange={this.onFilterChange} placeholder="Filter by tag" style={inputStyle} type="text" value={filter === true || filter === "true" ? "" : filter} />
+                </Col>
+              </div>
             }
 
-            <Row>
-              <Col desktop={12} mobile={12} >
-                <Operations/>
-              </Col>
-            </Row>
-            <Row>
-              <Col desktop={12} mobile={12} >
-                <Models/>
-              </Col>
-            </Row>
-          </div>
+          <Row>
+            <Col desktop={12} mobile={12} >
+              <Operations/>
+            </Col>
+          </Row>
+          <Row>
+            <Col desktop={12} mobile={12} >
+              <Models/>
+            </Col>
+          </Row>
         </div>
+      </div>
       )
   }
 }

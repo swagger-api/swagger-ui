@@ -62,8 +62,8 @@ export default class Operations extends React.Component {
     }
 
     return (
-        <div>
-          {
+      <div>
+        {
             taggedOps.map( (tagObj, tag) => {
               let operations = tagObj.get("operations")
               let tagDescription = tagObj.getIn(["tagDetails", "description"], null)
@@ -81,29 +81,29 @@ export default class Operations extends React.Component {
                     id={isShownKey.join("-")}
                     onClick={() => layoutActions.show(isShownKey, !showTag)}>
                     <DeepLink
-                        enabled={isDeepLinkingEnabled}
-                        isShown={showTag}
-                        path={tag}
-                        text={tag} />
+                      enabled={isDeepLinkingEnabled}
+                      isShown={showTag}
+                      path={tag}
+                      text={tag} />
                     { !tagDescription ? null :
-                        <small>
-                          <Markdown source={tagDescription} />
-                        </small>
+                    <small>
+                      <Markdown source={tagDescription} />
+                    </small>
                     }
 
                     <div>
-                    { !tagExternalDocsDescription ? null :
-                        <small>
-                          { tagExternalDocsDescription }
-                          { tagExternalDocsUrl ? ": " : null }
-                          { tagExternalDocsUrl ?
-                            <a
-                              href={sanitizeUrl(tagExternalDocsUrl)}
-                              onClick={(e) => e.stopPropagation()}
-                              target={"_blank"}
+                      { !tagExternalDocsDescription ? null :
+                      <small>
+                        { tagExternalDocsDescription }
+                        { tagExternalDocsUrl ? ": " : null }
+                        { tagExternalDocsUrl ?
+                          <a
+                            href={sanitizeUrl(tagExternalDocsUrl)}
+                            onClick={(e) => e.stopPropagation()}
+                            target={"_blank"}
                             >{tagExternalDocsUrl}</a> : null
                           }
-                        </small>
+                      </small>
                     }
                     </div>
 
@@ -149,8 +149,8 @@ export default class Operations extends React.Component {
             }).toArray()
           }
 
-          { taggedOps.size < 1 ? <h3> No operations defined in spec! </h3> : null }
-        </div>
+        { taggedOps.size < 1 ? <h3> No operations defined in spec! </h3> : null }
+      </div>
     )
   }
 

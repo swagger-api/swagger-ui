@@ -30,9 +30,9 @@ export default class XPane extends React.Component {
 
         {
           info && info.size ? <Info description={info.get("description")}
-                                    title={info.get("title")}
-                                    url={url}
-                                    version={info.get("version")}/>
+            title={info.get("title")}
+            url={url}
+            version={info.get("version")}/>
                             : null
         }
         <Button onClick={showEditorAction}>{showEditor ? "Hide" : "Show"} Editor</Button>

@@ -36,15 +36,15 @@ export default class Models extends Component {
 
             return <div key={ `models-section-${name}` } className="model-container" id={ `model-${name}` }>
               <ModelWrapper expandDepth={ defaultModelsExpandDepth }
-                     getComponent={ getComponent }
-                     getConfigs = {getConfigs}
-                     layoutActions = {layoutActions}
-                     layoutSelectors = {layoutSelectors}
-                     name={ name }
-                     schema={ model }
-                     specPath={Im.List([...specPathBase, name])}
-                     specSelectors={ specSelectors }/>
-              </div>
+                getComponent={ getComponent }
+                getConfigs = {getConfigs}
+                layoutActions = {layoutActions}
+                layoutSelectors = {layoutSelectors}
+                name={ name }
+                schema={ model }
+                specPath={Im.List([...specPathBase, name])}
+                specSelectors={ specSelectors }/>
+            </div>
           }).toArray()
         }
       </Collapse>
