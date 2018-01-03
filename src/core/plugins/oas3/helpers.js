@@ -2,6 +2,7 @@ import React from "react"
 
 export function isOAS3(jsSpec) {
   const oasVersion = jsSpec.get("openapi")
+
   if(!oasVersion) {
     return false
   }
@@ -11,6 +12,7 @@ export function isOAS3(jsSpec) {
 
 export function isSwagger2(jsSpec) {
   const swaggerVersion = jsSpec.get("swagger")
+
   if(!swaggerVersion) {
     return false
   }
@@ -30,6 +32,7 @@ export function OAS3ComponentWrapFactory(Component) {
       }
     } else {
       console.warn("OAS3 wrapper: couldn't get spec")
+
       return null
     }
   }

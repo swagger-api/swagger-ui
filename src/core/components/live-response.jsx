@@ -10,6 +10,7 @@ const Headers = ( { headers } )=>{
       <pre>{headers}</pre>
     </div>)
 }
+
 Headers.propTypes = {
   headers: PropTypes.array.isRequired
 }
@@ -22,6 +23,7 @@ const Duration = ( { duration } ) => {
     </div>
   )
 }
+
 Duration.propTypes = {
   duration: PropTypes.number.isRequired
 }

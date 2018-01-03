@@ -26,8 +26,10 @@ export default function downloadUrlPlugin (toolbox) {
       function next(res) {
         if(res instanceof Error || res.status >= 400) {
           specActions.updateLoadingStatus("failed")
+
           return errActions.newThrownErr( new Error(res.statusText + " " + url) )
         }
+
         specActions.updateLoadingStatus("success")
         specActions.updateSpec(res.text)
         specActions.updateUrl(url)
@@ -37,6 +39,7 @@ export default function downloadUrlPlugin (toolbox) {
 
     updateLoadingStatus: (status) => {
       let enums = [null, "loading", "failed", "success", "failedConfig"]
+
       if(enums.indexOf(status) === -1) {
         console.error(`Error: ${status} is not one of ${JSON.stringify(enums)}`)
       }

@@ -17,6 +17,7 @@ export default {
     // This is one way to serialize an array, another (preferred) is to convert to json-pointer
     // TODO: use json-pointer serilization instead of fromJS(...), for performance
     const thingToShow = fromJS(action.payload.thing)
+
     // This is a map of paths to bools
     // eg: [one, two] => true
     // eg: [one] => false
@@ -26,6 +27,7 @@ export default {
   [UPDATE_MODE]: (state, action) => {
     let thing = action.payload.thing
     let mode = action.payload.mode
+
     return state.setIn(["modes"].concat(thing), (mode || "") + "")
   }
 

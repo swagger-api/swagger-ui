@@ -36,6 +36,7 @@ export default class Headers extends React.Component {
               if(!Im.Map.isMap(header)) {
                 return null
               }
+
               const type = header.getIn(["schema"]) ? header.getIn(["schema", "type"]) : header.getIn(["type"])
               const schemaExample = header.getIn(["schema", "example"])
 

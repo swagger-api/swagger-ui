@@ -2,11 +2,17 @@ import win from "core/window"
 import { btoa, buildFormData } from "core/utils"
 
 export const SHOW_AUTH_POPUP = "show_popup"
+
 export const AUTHORIZE = "authorize"
+
 export const LOGOUT = "logout"
+
 export const PRE_AUTHORIZE_OAUTH2 = "pre_authorize_oauth2"
+
 export const AUTHORIZE_OAUTH2 = "authorize_oauth2"
+
 export const VALIDATE = "validate"
+
 export const CONFIGURE_AUTH = "configure_auth"
 
 const scopeSeparator = " "
@@ -56,6 +62,7 @@ export const preAuthorizeImplicit = (payload) => ( { authActions, errActions } )
       level: "error",
       message: JSON.stringify(token)
     })
+
     return
   }
 
@@ -87,6 +94,7 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
       if ( clientId ) {
         query.client_id = clientId
       }
+
       if ( clientSecret ) {
         query.client_secret = clientSecret
       }
@@ -174,6 +182,7 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
         source: "auth",
         message: response.statusText
       } )
+
       return
     }
 
@@ -184,6 +193,7 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
         source: "auth",
         message: JSON.stringify(token)
       })
+
       return
     }
 

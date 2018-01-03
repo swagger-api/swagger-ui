@@ -46,11 +46,14 @@ export default class SplitPaneMode extends React.Component {
   sizeFromMode = (mode, defaultSize) => {
     if(mode === MODE_LEFT) {
       this.draggedSize = null
+
       return "0px"
     } else if (mode === MODE_RIGHT) {
       this.draggedSize = null
+
       return "100%"
     }
+
     // mode === "both"
     return this.draggedSize || defaultSize
   }

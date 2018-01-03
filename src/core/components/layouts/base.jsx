@@ -62,6 +62,7 @@ export default class BaseLayout extends React.Component {
 
     if(isSpecEmpty) {
       let loadingMessage
+
       if(isLoading) {
         loadingMessage = <div className="loading"></div>
       } else {

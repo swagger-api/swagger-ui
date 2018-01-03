@@ -1,4 +1,5 @@
 export const UPDATE_CONFIGS = "configs_update"
+
 export const TOGGLE_CONFIGS = "configs_toggle"
 
 // Update the configs, with a merge ( not deep )

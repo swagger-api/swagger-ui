@@ -44,9 +44,11 @@ export default {
 
     return state.updateIn( [ "resolved", "paths", ...path, "parameters" ], fromJS([]), parameters => {
       const index = parameters.findIndex(p => p.get( "name" ) === paramName && p.get("in") === paramIn )
+
       if (!(value instanceof win.File)) {
         value = fromJSOrdered( value )
       }
+
       return parameters.setIn( [ index, isXml ? "value_xml" : "value" ], value)
     })
   },
@@ -76,6 +78,7 @@ export default {
 
   [SET_RESPONSE]: (state, { payload: { res, path, method } } ) =>{
     let result
+
     if ( res.error ) {
       result = Object.assign({
         error: true,
@@ -96,6 +99,7 @@ export default {
     if (win.Blob && res.data instanceof win.Blob) {
       newState = newState.setIn( [ "responses", path, method, "text" ], res.data)
     }
+
     return newState
   },
 
@@ -109,9 +113,11 @@ export default {
 
   [UPDATE_OPERATION_VALUE]: (state, { payload: { path, value, key } }) => {
     let operationPath = ["resolved", "paths", ...path]
+
     if(!state.getIn(operationPath)) {
       return state
     }
+
     return state.setIn([...operationPath, key], fromJS(value))
   },
 

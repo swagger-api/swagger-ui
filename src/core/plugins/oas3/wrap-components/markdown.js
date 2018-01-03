@@ -23,8 +23,10 @@ export const Markdown = ({ source }) => {
       />
     )
   }
+
   return null
 }
+
 Markdown.propTypes = {
   source: PropTypes.string
 }

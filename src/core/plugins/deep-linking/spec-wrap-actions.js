@@ -7,9 +7,11 @@ export const updateResolved = (ori, { layoutActions, getConfigs }) => (...args) 
   ori(...args)
 
   const isDeepLinkingEnabled = getConfigs().deepLinking
+
   if(!isDeepLinkingEnabled || isDeepLinkingEnabled === "false") {
     return
   }
+
   if(window.location.hash && !hasHashBeenParsed ) {
     let hash = window.location.hash.slice(1) // # is first character
 

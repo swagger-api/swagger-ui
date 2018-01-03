@@ -24,6 +24,7 @@ export default class OperationServers extends React.Component {
     // FIXME: we should be keeping up with this in props/state upstream of us
     // instead of cheating™ with `forceUpdate`
     this.forceUpdate()
+
     return this.props.setSelectedServer(server, `${path}:${method}`)
   }
 
@@ -32,6 +33,7 @@ export default class OperationServers extends React.Component {
     // FIXME: we should be keeping up with this in props/state upstream of us
     // instead of cheating™ with `forceUpdate`
     this.forceUpdate()
+
     return this.props.setServerVariableValue({
       ...obj,
       namespace: `${path}:${method}`
@@ -40,11 +42,13 @@ export default class OperationServers extends React.Component {
 
   getSelectedServer = () => {
     const { path, method } = this.props
+
     return this.props.getSelectedServer(`${path}:${method}`)
   }
 
   getServerVariable = (server, key) => {
     const { path, method } = this.props
+
     return this.props.getServerVariable({
       namespace: `${path}:${method}`,
       server
@@ -53,6 +57,7 @@ export default class OperationServers extends React.Component {
 
   getEffectiveServerValue = (server) => {
     const { path, method } = this.props
+
     return this.props.getEffectiveServerValue({
       server,
       namespace: `${path}:${method}`

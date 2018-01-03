@@ -9,6 +9,7 @@ const state = state => state
 function onlyOAS3(selector) {
   return (ori, system) => (state, ...args) => {
     const spec = system.getSystem().specSelectors.specJson()
+
     if(isOAS3Helper(spec)) {
       return selector(system, ...args)
     } else {
@@ -47,6 +48,7 @@ export const definitionsToAuthorize = onlyOAS3(createSelector(
             }))
           })
         }
+
         if(type === "http" || type === "apiKey") {
           list = list.push(new Map({
             [defName]: definition

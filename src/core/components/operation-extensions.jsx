@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 
 export const OperationExt = ({ extensions, getComponent }) => {
     let OperationExtRow = getComponent("OperationExtRow")
+
     return (
       <div className="opblock-section">
         <div className="opblock-section-header">
@@ -27,6 +28,7 @@ export const OperationExt = ({ extensions, getComponent }) => {
       </div>
     )
 }
+
 OperationExt.propTypes = {
   extensions: PropTypes.object.isRequired,
   getComponent: PropTypes.func.isRequired

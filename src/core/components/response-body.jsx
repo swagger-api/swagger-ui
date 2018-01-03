@@ -72,8 +72,10 @@ export default class ResponseBody extends React.Component {
 
         // Use filename from response header
         let disposition = headers["content-disposition"] || headers["Content-Disposition"]
+
         if (typeof disposition !== "undefined") {
           let responseFilename = /filename=([^;]*);?/i.exec(disposition)
+
           if (responseFilename !== null && responseFilename.length > 1) {
             download = responseFilename[1]
           }

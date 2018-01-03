@@ -46,6 +46,7 @@ export default class ObjectModel extends Component {
     const JumpToPathSection = () => {
       return <span className="model-jump-to-path"><JumpToPath specPath={specPath} /></span>
     }
+
     const collapsedContent = (<span>
         <span>{ braceOpen }</span>...<span>{ braceClose }</span>
         {
@@ -91,6 +92,7 @@ export default class ObjectModel extends Component {
                       let isDeprecated = isOAS3() && value.get("deprecated")
                       let isRequired = List.isList(requiredProperties) && requiredProperties.contains(key)
                       let propertyStyle = { verticalAlign: "top", paddingRight: "0.2em" }
+
                       if ( isRequired ) {
                         propertyStyle.fontWeight = "bold"
                       }

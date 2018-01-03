@@ -14,6 +14,7 @@ export function getLineNumberForPath(yaml, path) {
   if (typeof yaml !== "string") {
     throw new TypeError("yaml should be a string")
   }
+
   if (!isArray(path)) {
     throw new TypeError("path should be an array of strings")
   }
@@ -33,6 +34,7 @@ export function getLineNumberForPath(yaml, path) {
       // return the last start_mark as a best-effort
       if(last && last.start_mark)
         return last.start_mark.line
+
       return 0
     }
 
@@ -49,11 +51,13 @@ export function getLineNumberForPath(yaml, path) {
         if (key.value === path[0].replace(/\[.*/, "")) {
           // access the array at the index in the path (example: grab the 2 in "tags[2]")
           var index = parseInt(path[0].match(/\[(.*)\]/)[1])
+
           if(value.value.length === 1 && index !== 0 && !!index) {
             var nextVal = lodashFind(value.value[0], { value: index.toString() })
           } else { // eslint-disable-next-line no-redeclare
             var nextVal = value.value[index]
           }
+
           return find(nextVal, path.slice(1), value.value)
         }
       }
@@ -91,6 +95,7 @@ export function positionRangeForPath(yaml, path) {
   if (typeof yaml !== "string") {
     throw new TypeError("yaml should be a string")
   }
+
   if (!isArray(path)) {
     throw new TypeError("path should be an array of strings")
   }
@@ -116,6 +121,7 @@ export function positionRangeForPath(yaml, path) {
 
         if (key.value === path[0]) {
           path.shift()
+
           return find(value, key)
         }
       }
@@ -126,6 +132,7 @@ export function positionRangeForPath(yaml, path) {
 
       if (item && item.tag) {
         path.shift()
+
         return find(item, astKeyValue)
       }
     }
@@ -181,6 +188,7 @@ export function pathForPosition(yaml, position) {
   if (typeof yaml !== "string") {
     throw new TypeError("yaml should be a string")
   }
+
   if (typeof position !== "object" || typeof position.line !== "number" ||
   typeof position.column !== "number") {
     throw new TypeError("position should be an object with line and column" +
@@ -192,6 +200,7 @@ export function pathForPosition(yaml, position) {
   } catch (e) {
     console.error("Error composing AST", e)
     console.error(`Problem area:\n`, yaml.split("\n").slice(position.line - 5, position.line + 5).join("\n"))
+
     return null
   }
 
@@ -233,6 +242,7 @@ export function pathForPosition(yaml, position) {
           return path
         } else if (isInRange(value)) {
           path.push(key.value)
+
           return find(value)
         }
       }
@@ -244,6 +254,7 @@ export function pathForPosition(yaml, position) {
 
         if (isInRange(item)) {
           path.push(i.toString())
+
           return find(item)
         }
       }
@@ -288,7 +299,9 @@ export function pathForPosition(yaml, position) {
 // utility fns
 
 export let pathForPositionAsync = promisifySyncFn(pathForPosition)
+
 export let positionRangeForPathAsync = promisifySyncFn(positionRangeForPath)
+
 export let getLineNumberForPathAsync = promisifySyncFn(getLineNumberForPath)
 
 function promisifySyncFn(fn) {

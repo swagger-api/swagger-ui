@@ -65,6 +65,7 @@ export default class Store {
   register(plugins, rebuild=true) {
     var pluginSystem = combinePlugins(plugins, this.getSystem())
     systemExtend(this.system, pluginSystem)
+
     if(rebuild) {
       this.buildSystem()
     }
@@ -133,6 +134,7 @@ export default class Store {
    */
   getType(name) {
     let upName = name[0].toUpperCase() + name.slice(1)
+
     return objReduce(this.system.statePlugins, (val, namespace) => {
         let thing = val[name]
         if(thing)
@@ -157,11 +159,14 @@ export default class Store {
 
   getWrappedAndBoundActions(dispatch) {
     let actionGroups = this.getBoundActions(dispatch)
+
       return objMap(actionGroups, (actions, actionGroupName) => {
         let wrappers = this.system.statePlugins[actionGroupName.slice(0,-7)].wrapActions
+
           if(wrappers) {
             return objMap(actions, (action, actionName) => {
               let wrap = wrappers[actionName]
+
               if(!wrap) {
                 return action
               }
@@ -169,29 +174,36 @@ export default class Store {
               if(!Array.isArray(wrap)) {
                 wrap = [wrap]
               }
+
               return wrap.reduce((acc, fn) => {
                 let newAction = (...args) => {
                   return fn(acc, this.getSystem())(...args)
                 }
+
                 if(!isFn(newAction)) {
                   throw new TypeError("wrapActions needs to return a function that returns a new function (ie the wrapped action)")
                 }
+
                 return wrapWithTryCatch(newAction)
               }, action || Function.prototype)
             })
           }
+
         return actions
       })
   }
 
   getWrappedAndBoundSelectors(getState, getSystem) {
     let selectorGroups = this.getBoundSelectors(getState, getSystem)
+
       return objMap(selectorGroups, (selectors, selectorGroupName) => {
         let stateName = [selectorGroupName.slice(0, -9)] // selectors = 9 chars
         let wrappers = this.system.statePlugins[stateName].wrapSelectors
+
           if(wrappers) {
             return objMap(selectors, (selector, selectorName) => {
               let wrap = wrappers[selectorName]
+
               if(!wrap) {
                 return selector
               }
@@ -199,17 +211,21 @@ export default class Store {
               if(!Array.isArray(wrap)) {
                 wrap = [wrap]
               }
+
               return wrap.reduce((acc, fn) => {
                 let wrappedSelector = (...args) => {
                   return fn(acc, this.getSystem())(getState().getIn(stateName), ...args)
                 }
+
                 if(!isFn(wrappedSelector)) {
                   throw new TypeError("wrapSelector needs to return a function that returns a new function (ie the wrapped action)")
                 }
+
                 return wrappedSelector
               }, selector || Function.prototype)
             })
           }
+
         return selectors
       })
   }
@@ -217,6 +233,7 @@ export default class Store {
   getStates(state) {
     return Object.keys(this.system.statePlugins).reduce((obj, key) => {
       obj[key] = state.get(key)
+
       return obj
     }, {})
   }
@@ -224,6 +241,7 @@ export default class Store {
   getStateThunks(getState) {
     return Object.keys(this.system.statePlugins).reduce((obj, key) => {
         obj[key] = ()=> getState().get(key)
+
     return obj
   }, {})
   }
@@ -242,6 +260,7 @@ export default class Store {
         return wrapper(ori, this.getSystem())
       })
     }
+
     if(typeof component !== "undefined") {
       return this.system.components[component]
     }
@@ -281,6 +300,7 @@ export default class Store {
 
       return ( ...args )=>{
         var action = null
+
         try{
           action = creator( ...args )
         }
@@ -293,6 +313,7 @@ export default class Store {
       }
 
     }
+
     return objMap(actions, actionCreator => bindActionCreators( process( actionCreator ), dispatch ) )
   }
 
@@ -328,6 +349,7 @@ function combinePlugins(plugins, toolbox) {
 
 function callAfterLoad(plugins, system, { hasLoaded } = {}) {
   let calledSomething = hasLoaded
+
   if(isObject(plugins) && !isArray(plugins)) {
     if(typeof plugins.afterLoad === "function") {
       calledSomething = true
@@ -353,6 +375,7 @@ function systemExtend(dest={}, src={}) {
   if(!isObject(dest)) {
     return {}
   }
+
   if(!isObject(src)) {
     return dest
   }
@@ -362,6 +385,7 @@ function systemExtend(dest={}, src={}) {
   if(src.wrapComponents) {
     objMap(src.wrapComponents, (wrapperFn, key) => {
       const ori = dest.components && dest.components[key]
+
       if(ori && Array.isArray(ori)) {
         dest.components[key] = ori.concat([wrapperFn])
         delete src.wrapComponents[key]
@@ -383,13 +407,17 @@ function systemExtend(dest={}, src={}) {
   // Modifies `src`
   // 80% of this code is just safe traversal. We need to address that ( ie: use a lib )
   const { statePlugins } = dest
+
   if(isObject(statePlugins)) {
     for(let namespace in statePlugins) {
       const namespaceObj = statePlugins[namespace]
+
       if(!isObject(namespaceObj) || !isObject(namespaceObj.wrapActions)) {
         continue
       }
+
       const { wrapActions } = namespaceObj
+
       for(let actionName in wrapActions) {
         let action = wrapActions[actionName]
 
@@ -414,12 +442,14 @@ function buildReducer(states) {
   let reducerObj = objMap(states, (val) => {
     return val.reducers
   })
+
   return allReducers(reducerObj)
 }
 
 function allReducers(reducerSystem) {
   let reducers = Object.keys(reducerSystem).reduce((obj, key) => {
     obj[key] = makeReducer(reducerSystem[key])
+
     return obj
   },{})
 
@@ -436,12 +466,15 @@ function makeReducer(reducerObj) {
       return state
 
     let redFn = (reducerObj[action.type])
+
     if(redFn) {
       const res = wrapWithTryCatch(redFn)(state, action)
+
       // If the try/catch wrapper kicks in, we'll get null back...
       // in that case, we want to avoid making any changes to state
       return res === null ? state : res
     }
+
     return state
   }
 }
@@ -460,6 +493,7 @@ function wrapWithTryCatch(fn, {
       if(logErrors) {
         console.error(e)
       }
+
       return null
     }
   }

@@ -6,6 +6,7 @@ import { isOAS3 as isOAS3Helper } from "./helpers"
 function onlyOAS3(selector) {
   return (...args) => (system) => {
     const spec = system.getSystem().specSelectors.specJson()
+
     if(isOAS3Helper(spec)) {
       return selector(...args)
     } else {
@@ -16,6 +17,7 @@ function onlyOAS3(selector) {
 
 export const selectedServer = onlyOAS3((state, namespace) => {
     const path = namespace ? [namespace, "selectedServer"] : ["selectedServer"]
+
     return state.getIn(path) || ""
   }
 )
@@ -42,6 +44,7 @@ export const serverVariableValue = onlyOAS3((state, locationData, key) => {
     // Object: ({server, namespace?}) or String:(server)
     if(typeof locationData !== "string") {
       const { server, namespace } = locationData
+
       if(namespace) {
         path = [namespace, "serverVariableValues", server, key]
       } else {
@@ -63,6 +66,7 @@ export const serverVariables = onlyOAS3((state, locationData) => {
     // Object: ({server, namespace?}) or String:(server)
     if(typeof locationData !== "string") {
       const { server, namespace } = locationData
+
       if(namespace) {
         path = [namespace, "serverVariableValues", server]
       } else {
@@ -85,6 +89,7 @@ export const serverEffectiveValue = onlyOAS3((state, locationData) => {
     if(typeof locationData !== "string") {
       const { server, namespace } = locationData
       serverValue = server
+
       if(namespace) {
         varValues = state.getIn([namespace, "serverVariableValues", serverValue])
       } else {

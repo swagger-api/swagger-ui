@@ -12,10 +12,12 @@ export default class Debug extends React.Component {
     this.state = {
       jsonDumpOpen: false
     }
+
     this.toggleJsonDump = (e) => {
       e.preventDefault()
       this.setState({jsonDumpOpen: !this.state.jsonDumpOpen})
     }
+
     window.Perf = Perf
   }
 

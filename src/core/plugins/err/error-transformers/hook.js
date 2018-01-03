@@ -17,9 +17,11 @@ export default function transformErrors (errors, system) {
   let transformedErrors = reduce(errorTransformers, (result, transformer) => {
     try {
       let newlyTransformedErrors = transformer.transform(result, inputs)
+
       return newlyTransformedErrors.filter(err => !!err) // filter removed errors
     } catch(e) {
       console.error("Transformer error:", e)
+
       return result
     }
   }, errors)
@@ -30,6 +32,7 @@ export default function transformErrors (errors, system) {
       if(!err.get("line") && err.get("path")) {
         // TODO: re-resolve line number if we've transformed it away
       }
+
       return err
     })
 

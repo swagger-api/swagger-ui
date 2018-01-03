@@ -41,6 +41,7 @@ export default class Servers extends React.Component {
 
       currentServerVariableDefs.map((val, key) => {
         let currentValue = getServerVariable(nextProps.currentServer, key)
+
         // only set the default value if the user hasn't set one yet
         if(!currentValue) {
           setServerVariableValue({

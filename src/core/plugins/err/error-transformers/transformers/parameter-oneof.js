@@ -9,10 +9,12 @@ export function transform(errors, { jsSpec }) {
 
   // JSONSchema gives us very little to go on
   let searchStr = "is not exactly one from <#/definitions/parameter>,<#/definitions/jsonReference>"
+
   return errors
     .map(err => {
       let message = err.get("message")
       let isParameterOneOfError = message.indexOf(searchStr) > -1
+
       if(isParameterOneOfError) {
         // try to find what's wrong
         return createTailoredParameterError(err, jsSpec)

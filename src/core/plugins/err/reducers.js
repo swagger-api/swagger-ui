@@ -24,6 +24,7 @@ export default function(system) {
   return {
     [NEW_THROWN_ERR]: (state, { payload }) => {
       let error = Object.assign(DEFAULT_ERROR_STRUCTURE, payload, {type: "thrown"})
+
       return state
         .update("errors", errors => (errors || List()).push( fromJS( error )) )
         .update("errors", errors => transformErrors(errors, system.getSystem()))
@@ -33,6 +34,7 @@ export default function(system) {
       payload = payload.map(err => {
         return fromJS(Object.assign(DEFAULT_ERROR_STRUCTURE, err, { type: "thrown" }))
       })
+
       return state
         .update("errors", errors => (errors || List()).concat( fromJS( payload )) )
         .update("errors", errors => transformErrors(errors, system.getSystem()))
@@ -41,6 +43,7 @@ export default function(system) {
     [NEW_SPEC_ERR]: (state, { payload }) => {
       let error = fromJS(payload)
       error = error.set("type", "spec")
+
       return state
         .update("errors", errors => (errors || List()).push( fromJS(error)).sortBy(err => err.get("line")) )
         .update("errors", errors => transformErrors(errors, system.getSystem()))
@@ -50,6 +53,7 @@ export default function(system) {
       payload = payload.map(err => {
         return fromJS(Object.assign(DEFAULT_ERROR_STRUCTURE, err, { type: "spec" }))
       })
+
       return state
       .update("errors", errors => (errors || List()).concat( fromJS( payload )) )
       .update("errors", errors => transformErrors(errors, system.getSystem()))
@@ -59,6 +63,7 @@ export default function(system) {
       let error = fromJS(Object.assign({}, payload))
 
       error = error.set("type", "auth")
+
       return state
         .update("errors", errors => (errors || List()).push( fromJS(error)) )
         .update("errors", errors => transformErrors(errors, system.getSystem()))
@@ -68,8 +73,10 @@ export default function(system) {
       if(!payload) {
         return
       }
+
       // TODO: Rework, to use immutable only, no need for lodash
       let newErrors = Im.fromJS(reject((state.get("errors") || List()).toJS(), payload))
+
       return state.merge({
         errors: newErrors
       })

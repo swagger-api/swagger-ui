@@ -49,6 +49,7 @@ export default class ModelCollapse extends Component {
 
   render () {
     const {title} = this.props
+
     return (
       <span>
         { title && <span onClick={this.toggleCollapsed} style={{ "cursor": "pointer" }}>{title}</span> }

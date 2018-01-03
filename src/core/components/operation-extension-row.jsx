@@ -9,6 +9,7 @@ export const OperationExtRow = ({ xKey, xVal }) => {
         <td>{ JSON.stringify(xNormalizedValue) }</td>
     </tr>)
 }
+
 OperationExtRow.propTypes = {
   xKey: PropTypes.string,
   xVal: PropTypes.any

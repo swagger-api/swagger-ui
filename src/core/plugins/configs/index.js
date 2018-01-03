@@ -11,6 +11,7 @@ const parseYamlConfig = (yaml, system) => {
     if (system) {
       system.errActions.newThrownErr( new Error(e) )
     }
+
     return {}
   }
 }
@@ -18,6 +19,7 @@ const parseYamlConfig = (yaml, system) => {
 const specActions = {
   downloadConfig: (url) => ({fn}) => {
     let {fetch} = fn
+
     return fetch(url)
   },
 

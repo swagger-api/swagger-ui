@@ -17,9 +17,11 @@ export default class ModelExample extends React.Component {
     super(props, context)
     let { getConfigs } = this.props
     let { defaultModelRendering } = getConfigs()
+
     if (defaultModelRendering !== "example" && defaultModelRendering !== "model") {
       defaultModelRendering = "example"
     }
+
     this.state = {
       activeTab: defaultModelRendering
     }

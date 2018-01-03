@@ -34,6 +34,7 @@ export default class HttpAuth extends React.Component {
     let { value, name } = e.target
 
     let newValue = this.state.value || {}
+
     if(name) {
       newValue[name] = value
     } else {
@@ -59,6 +60,7 @@ export default class HttpAuth extends React.Component {
 
     if(scheme === "basic") {
       let username = value ? value.get("username") : null
+
       return <div>
         <h4>
           <code>{ name || schema.get("name") }</code>&nbsp;
@@ -124,6 +126,7 @@ export default class HttpAuth extends React.Component {
       </div>
     )
     }
+
   return <div>
     <em><b>{name}</b> HTTP authentication: unsupported or missing scheme</em>
   </div>

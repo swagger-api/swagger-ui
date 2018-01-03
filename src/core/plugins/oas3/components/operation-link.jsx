@@ -28,6 +28,7 @@ class OperationLink extends Component {
 
 function padString(n, string) {
   if(typeof string !== "string") { return "" }
+
   return string
     .split("\n")
     .map((line, i) => i > 0 ? Array(n + 1).join(" ") + line : line)

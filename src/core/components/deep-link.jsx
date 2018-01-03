@@ -10,6 +10,7 @@ export const DeepLink = ({ enabled, path, text }) => {
         </a>
     )
 }
+
 DeepLink.propTypes = {
   enabled: PropTypes.bool,
   isShown: PropTypes.bool,

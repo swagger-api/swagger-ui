@@ -48,6 +48,7 @@ export default class Overview extends React.Component {
                         let showOpIdPrefix = "operations"
                         let showOpId = id
                         let shown = layoutSelectors.isShown([showOpIdPrefix, showOpId])
+
                         return <OperationLink key={id}
                                               path={path}
                                               method={method}

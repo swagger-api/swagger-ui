@@ -21,6 +21,7 @@ const Callbacks = (props) => {
             let op = fromJS({
               operation
             })
+
             return <OperationContainer
               {...props}
               op={op}
@@ -35,6 +36,7 @@ const Callbacks = (props) => {
       }) }
     </div>
   })
+
   return <div>
     {callbackElements}
   </div>

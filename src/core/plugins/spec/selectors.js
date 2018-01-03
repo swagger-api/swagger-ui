@@ -45,6 +45,7 @@ export const specResolved = createSelector(
 // Default Spec ( as an object )
 export const spec = state => {
   let res = specResolved(state)
+
   return res
 }
 
@@ -98,10 +99,12 @@ export const operations = createSelector(
       if(!path || !path.forEach) {
         return {}
       }
+
       path.forEach((operation, method) => {
         if(OPERATION_METHODS.indexOf(method) < 0) {
           return
         }
+
         list = list.push(fromJS({
           path: pathName,
           method,
@@ -167,13 +170,16 @@ export const operationsWithRootInherited = createSelector(
     return operations.map( ops => ops.update("operation", op => {
       if(op) {
         if(!Map.isMap(op)) { return }
+
         return op.withMutations( op => {
           if ( !op.get("consumes") ) {
             op.update("consumes", a => Set(a).merge(consumes))
           }
+
           if ( !op.get("produces") ) {
             op.update("produces", a => Set(a).merge(produces))
           }
+
           return op
         })
       } else {
@@ -192,6 +198,7 @@ export const tags = createSelector(
 
 export const tagDetails = (state, tag) => {
   let currentTags = tags(state) || List()
+
   return currentTags.filter(Map.isMap).find(t => t.get("name") === tag, Map())
 }
 
@@ -203,6 +210,7 @@ export const operationsWithTags = createSelector(
       let tags = Set(op.getIn(["operation","tags"]))
       if(tags.count() < 1)
         return taggedMap.update(DEFAULT_TAG, List(), ar => ar.push(op))
+
       return tags.reduce( (res, tag) => res.update(tag, List(), (ar) => ar.push(op)), taggedMap )
     }, tags.reduce( (taggedMap, tag) => {
       return taggedMap.set(tag.get("name"), List())
@@ -212,11 +220,13 @@ export const operationsWithTags = createSelector(
 
 export const taggedOperations = (state) => ({ getConfigs }) => {
   let { tagsSorter, operationsSorter } = getConfigs()
+
   return operationsWithTags(state)
     .sortBy(
       (val, key) => key, // get the name of the tag to be passed to the sorter
       (tagA, tagB) => {
         let sortFn = (typeof tagsSorter === "function" ? tagsSorter : sorters.tagsSorter[ tagsSorter ])
+
         return (!sortFn ? null : sortFn(tagA, tagB))
       }
     )
@@ -264,6 +274,7 @@ export const allowTryItOutFor = () => {
 export function getParameter(state, pathMethod, name, inType) {
   pathMethod = pathMethod || []
   let params = spec(state).getIn(["paths", ...pathMethod, "parameters"], fromJS([]))
+
   return params.find( (p) => {
     return Map.isMap(p) && p.get("name") === name && p.get("in") === inType
   }) || Map() // Always return a map
@@ -273,6 +284,7 @@ export const hasHost = createSelector(
   spec,
   spec => {
     const host = spec.get("host")
+
     return typeof host === "string" && host.length > 0 && host[0] !== "/"
   }
 )
@@ -281,8 +293,10 @@ export const hasHost = createSelector(
 export function parameterValues(state, pathMethod, isXml) {
   pathMethod = pathMethod || []
   let params = spec(state).getIn(["paths", ...pathMethod, "parameters"], fromJS([]))
+
   return params.reduce( (hash, p) => {
     let value = isXml && p.get("in") === "body" ? p.get("value_xml") : p.get("value")
+
     return hash.set(`${p.get("in")}.${p.get("name")}`, value)
   }, fromJS({}))
 }
@@ -323,6 +337,7 @@ export function contentTypeValues(state, pathMethod) {
 // Get the consumes/produces by path
 export function operationConsumes(state, pathMethod) {
   pathMethod = pathMethod || []
+
   return spec(state).getIn(["paths", ...pathMethod, "consumes"], fromJS({}))
 }
 
@@ -345,6 +360,7 @@ export const validateBeforeExecute = ( state, pathMethod ) => {
 
   params.forEach( (p) => {
     let errors = p.get("errors")
+
     if ( errors && errors.count() ) {
       isValid = false
     }

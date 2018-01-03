@@ -37,6 +37,7 @@ export class JsonSchemaForm extends Component {
     let { type, format="" } = schema
 
     let Comp = (format ? getComponent(`JsonSchema_${type}_${format}`) : getComponent(`JsonSchema_${type}`)) || getComponent("JsonSchema_string")
+
     return <Comp { ...this.props } fn={fn} getComponent={getComponent} value={value} onChange={onChange} schema={schema}/>
   }
 
@@ -57,6 +58,7 @@ export class JsonSchema_string extends Component {
 
     if ( enumValue ) {
       const Select = getComponent("Select")
+
       return (<Select className={ errors.length ? "invalid" : ""}
                       title={ errors.length ? errors  : ""}
                       allowedValues={ enumValue }
@@ -67,6 +69,7 @@ export class JsonSchema_string extends Component {
 
     const isDisabled = schema["in"] === "formData" && !("FormData" in window)
     const Input = getComponent("Input")
+
     if (schema["type"] === "file") {
       return (<Input type="file"
                      className={ errors.length ? "invalid" : ""}
@@ -75,6 +78,7 @@ export class JsonSchema_string extends Component {
                      disabled={isDisabled}/>)
     }
     else {
+
       return (<Input type={ schema.format === "password" ? "password" : "text" }
                      className={ errors.length ? "invalid" : ""}
                      title={ errors.length ? errors  : ""}
@@ -118,6 +122,7 @@ export class JsonSchema_array extends PureComponent {
   addItem = () => {
     this.setState(state => {
       state.value = state.value || List()
+
       return {
         value: state.value.push("")
       }
@@ -144,6 +149,7 @@ export class JsonSchema_array extends PureComponent {
 
     if ( enumValue ) {
       const Select = getComponent("Select")
+
       return (<Select className={ errors.length ? "invalid" : ""}
                       title={ errors.length ? errors  : ""}
                       multiple={ true }
@@ -158,10 +164,12 @@ export class JsonSchema_array extends PureComponent {
         { !value || value.count() < 1 ? null :
           value.map( (item,i) => {
             let schema = Object.assign({}, itemSchema)
+
             if ( errors.length ) {
               let err = errors.filter((err) => err.index === i)
               if (err.length) schema.errors = [ err[0].error + i ]
             }
+
           return (
             <div key={i} className="json-schema-form-item">
               <JsonSchemaForm fn={fn} getComponent={getComponent} value={item} onChange={(val) => this.onItemChange(val, i)} schema={schema} />

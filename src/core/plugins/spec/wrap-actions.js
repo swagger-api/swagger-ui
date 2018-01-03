@@ -11,6 +11,7 @@ export const updateJsonSpec = (ori, {specActions}) => (...args) => {
 // Log the request ( just for debugging, shouldn't affect prod )
 export const executeRequest = (ori, { specActions }) => (req) => {
   specActions.logRequest(req)
+
   return ori(req)
 }
 

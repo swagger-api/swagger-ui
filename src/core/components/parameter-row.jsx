@@ -26,6 +26,7 @@ export default class ParameterRow extends Component {
     let defaultValue = param.get("default")
     let parameter = specSelectors.getParameter(pathMethod, param.get("name"), param.get("in"))
     let value = parameter ? parameter.get("value") : ""
+
     if ( defaultValue !== undefined && value === undefined ) {
       this.onChangeWrapper(defaultValue)
     }
@@ -46,6 +47,7 @@ export default class ParameterRow extends Component {
     } else {
       enumValue = parameter ? parameter.get("enum") : undefined
     }
+
     let paramValue = parameter ? parameter.get("value") : undefined
 
     let value
@@ -67,6 +69,7 @@ export default class ParameterRow extends Component {
 
   onChangeWrapper = (value) => {
     let { onChange, param } = this.props
+
     return onChange(param, value)
   }
 

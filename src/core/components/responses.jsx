@@ -37,6 +37,7 @@ export default class Responses extends React.Component {
     || this.props.displayRequestDuration !== nextProps.displayRequestDuration
     || this.props.path !== nextProps.path
     || this.props.method !== nextProps.method
+
     return render
   }
 
@@ -44,6 +45,7 @@ export default class Responses extends React.Component {
 
   onResponseContentTypeChange = ({ controlsAcceptHeader, value }) => {
     const { oas3Actions, path, method } = this.props
+
     if(controlsAcceptHeader) {
       oas3Actions.setResponseContentType({
         value,
@@ -119,6 +121,7 @@ export default class Responses extends React.Component {
                 responses.entrySeq().map( ([code, response]) => {
 
                   let className = tryItOutResponse && tryItOutResponse.get("status") == code ? "response_current" : ""
+
                   return (
                     <Response key={ code }
                               specPath={specPath.push(code)}

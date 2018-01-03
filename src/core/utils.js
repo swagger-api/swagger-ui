@@ -38,6 +38,7 @@ export function objectify (thing) {
     return {}
   if(isImmutable(thing))
     return thing.toObject()
+
   return thing
 }
 
@@ -69,12 +70,14 @@ export function bindToState(obj, state) {
 	Object.keys(obj)
   .filter(key => typeof obj[key] === "function")
   .forEach(key => newObj[key] = obj[key].bind(null, state))
+
 	return newObj
 }
 
 export function normalizeArray(arr) {
   if(Array.isArray(arr))
     return arr
+
   return [arr]
 }
 
@@ -100,6 +103,7 @@ export const memoize = _memoize
 export function objMap(obj, fn) {
   return Object.keys(obj).reduce((newObj, key) => {
     newObj[key] = fn(obj[key], key)
+
     return newObj
   }, {})
 }
@@ -109,6 +113,7 @@ export function objReduce(obj, fn) {
     let res = fn(obj[key], key)
     if(res && typeof res === "object")
       Object.assign(newObj, res)
+
     return newObj
   }, {})
 }
@@ -137,6 +142,7 @@ export const errorLog = getSystem => () => next => action => {
 
 export function defaultStatusCode ( responses ) {
   let codes = responses.keySeq()
+
   return codes.contains(DEFAULT_REPONSE_KEY) ? DEFAULT_REPONSE_KEY : codes.filter( key => (key+"")[0] === "2").sort().first()
 }
 
@@ -150,7 +156,9 @@ export function getList(iterable, keys) {
   if(!Im.Iterable.isIterable(iterable)) {
     return Im.List()
   }
+
   let val = iterable.getIn(Array.isArray(keys) ? keys : [keys])
+
   return Im.List.isList(val) ? val : Im.List()
 }
 
@@ -337,9 +345,11 @@ export function mapToList(map, keyNames="key", collectedKeys=Im.Map()) {
   // I need to avoid `flatMap` from merging in the Maps, as well as the lists
   let list = Im.List()
   let keyName = keyNames[0]
+
   for(let entry of map.entries()) {
     let [key, val] = entry
     let nextList = mapToList(val, keyNames.slice(1), collectedKeys.set(keyName, key))
+
     if(Im.List.isList(nextList)) {
       list = list.concat(nextList)
     } else {
@@ -376,6 +386,7 @@ export const propChecker = (props, nextProps, objectList=[], ignoreList=[]) => {
       if(ignoreList.includes(name)) {
         return false
       }
+
       let b = nextProps[name]
 
       if(Im.Iterable.isIterable(a)) {
@@ -460,6 +471,7 @@ export const validateMinLength = (val, min) => {
 
 export const validatePattern = (val, rxPattern) => {
   var patt = new RegExp(rxPattern)
+
   if (!patt.test(val)) {
       return "Value must follow pattern " + rxPattern
   }
@@ -500,6 +512,7 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
 
     if ( required && !(stringCheck || arrayCheck || listCheck || fileCheck || booleanCheck || numberCheck || integerCheck) ) {
       errors.push("Required field is not provided")
+
       return errors
     }
 
@@ -530,6 +543,7 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
 
     if ( type === "string" ) {
       let err
+
       if (format === "date-time") {
           err = validateDateTime(value)
       } else if (format === "uuid") {
@@ -537,6 +551,7 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
       } else {
           err = validateString(value)
       }
+
       if (!err) return errors
       errors.push(err)
     } else if ( type === "boolean" ) {
@@ -597,6 +612,7 @@ export const getSampleSchema = (schema, contentType="", config={}) => {
         return null
       }
     }
+
     return memoizedCreateXMLExample(schema, config)
   }
 
@@ -649,10 +665,12 @@ export const buildFormData = (data) => {
 
   for (let name in data) {
     let val = data[name]
+
     if (val !== undefined && val !== "") {
       formArr.push([name, "=", encodeURIComponent(val).replace(/%20/g,"+")].join(""))
     }
   }
+
   return formArr.join("&")
 }
 
@@ -695,6 +713,7 @@ export function getAcceptControllingResponse(responses) {
 }
 
 export const createDeepLinkPath = (str) => typeof str == "string" || str instanceof String ? str.trim().replace(/\s/g, "_") : ""
+
 export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str) )
 
 export const getExtensions = (defObj) => defObj.filter((v, k) => /^x-/.test(k))

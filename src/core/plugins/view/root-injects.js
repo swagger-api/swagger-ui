@@ -23,6 +23,7 @@ const makeContainer = (getSystem, component, reduxStore) => {
   const mapStateToProps = function(state, ownProps) {
     const propsForContainerComponent = Object.assign({}, ownProps, getSystem())
     const ori = component.prototype.mapStateToProps || (state => { return {state} })
+
     return ori(state, propsForContainerComponent)
   }
 
@@ -30,6 +31,7 @@ const makeContainer = (getSystem, component, reduxStore) => {
   let connected = connect( mapStateToProps )(wrappedWithSystem)
   if(reduxStore)
     return RootWrapper(reduxStore, connected)
+
   return connected
 }
 
@@ -57,6 +59,7 @@ export const makeMappedContainer = (getSystem, getStore, memGetComponent, getCom
     render() {
       let cleanProps = omit(this.props, mapping ? Object.keys(mapping) : [])
       let Comp = memGetComponent(componentName, "root")
+
       return <Comp {...cleanProps}/>
     }
 
@@ -93,6 +96,7 @@ const wrapRender = (component) => {
       return ori.apply(this, args)
     } catch (error) {
       console.error(error) // eslint-disable-line no-console
+
       return <Fallback error={error} name={target.name} />
     }
   }
@@ -109,6 +113,7 @@ export const getComponent = (getSystem, getStore, getComponents, componentName, 
 
   if(!component) {
     getSystem().log.warn("Could not find component", componentName)
+
     return null
   }
 

@@ -9,10 +9,12 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   switch (flow) {
     case "password":
       authActions.authorizePassword(auth)
+
       return
 
     case "application":
       authActions.authorizeApplication(auth)
+
       return
 
     case "accessCode":
@@ -26,6 +28,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     case "clientCredentials":
       // OAS3
       authActions.authorizeApplication(auth)
+
       return
 
     case "authorizationCode":
@@ -48,8 +51,10 @@ export default function authorize ( { auth, authActions, errActions, configs, au
       level: "error",
       message: "oauth2RedirectUrl configuration is not passed. Oauth2 authorization cannot be performed."
     })
+
     return
   }
+
   query.push("redirect_uri=" + encodeURIComponent(redirectUrl))
 
   if (Array.isArray(scopes) && 0 < scopes.length) {
@@ -81,6 +86,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   // to authorize with oauth2
 
   let callback
+
   if (flow === "implicit") {
     callback = authActions.preAuthorizeImplicit
   } else if (authConfigs.useBasicAuthenticationWithAccessCodeGrant) {

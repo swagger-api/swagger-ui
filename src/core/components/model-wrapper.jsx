@@ -27,6 +27,7 @@ export default class ModelWrapper extends Component {
     const Model = getComponent("Model")
 
     let expanded
+
     if(this.props.layoutSelectors) {
       // If this is prop is present, we'll have deepLinking for it
       expanded = this.props.layoutSelectors.isShown(["models",this.props.name])

@@ -5,8 +5,10 @@ export function transform(errors) {
     .map(err => {
       let seekStr = "is not of a type(s)"
       let i = err.get("message").indexOf(seekStr)
+
       if(i > -1) {
         let types = err.get("message").slice(i + seekStr.length).split(",")
+
         return err.set("message", err.get("message").slice(0, i) + makeNewMessage(types))
       } else {
         return err

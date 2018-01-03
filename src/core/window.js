@@ -14,6 +14,7 @@ function makeWindow() {
   try {
     win = window
     var props = ["File", "Blob", "FormData"]
+
     for (var prop of props) {
       if (prop in window) {
         win[prop] = window[prop]

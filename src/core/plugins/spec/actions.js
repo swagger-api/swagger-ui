@@ -8,25 +8,40 @@ import { isJSONObject } from "core/utils"
 // {type: string,payload: Any|Error, meta: obj, error: bool}
 
 export const UPDATE_SPEC = "spec_update_spec"
+
 export const UPDATE_URL = "spec_update_url"
+
 export const UPDATE_JSON = "spec_update_json"
+
 export const UPDATE_PARAM = "spec_update_param"
+
 export const VALIDATE_PARAMS = "spec_validate_param"
+
 export const SET_RESPONSE = "spec_set_response"
+
 export const SET_REQUEST = "spec_set_request"
+
 export const SET_MUTATED_REQUEST = "spec_set_mutated_request"
+
 export const LOG_REQUEST = "spec_log_request"
+
 export const CLEAR_RESPONSE = "spec_clear_response"
+
 export const CLEAR_REQUEST = "spec_clear_request"
+
 export const CLEAR_VALIDATE_PARAMS = "spec_clear_validate_param"
+
 export const UPDATE_OPERATION_VALUE = "spec_update_operation_value"
+
 export const UPDATE_RESOLVED = "spec_update_resolved"
+
 export const SET_SCHEME = "set_scheme"
 
 const toStr = (str) => isString(str) ? str : ""
 
 export function updateSpec(spec) {
   const cleanSpec = (toStr(spec)).replace(/\t/g, "  ")
+
   if(typeof spec === "string") {
     return {
       type: UPDATE_SPEC,
@@ -54,6 +69,7 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
   let { specStr } = specSelectors
 
   let json = null
+
   try {
     str = str || specStr()
     errActions.clear({ source: "parser" })
@@ -61,6 +77,7 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
   } catch(e) {
     // TODO: push error to state
     console.error(e)
+
     return errActions.newSpecErr({
       source: "parser",
       level: "error",
@@ -68,9 +85,11 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
       line: e.mark && e.mark.line ? e.mark.line + 1 : undefined
     })
   }
+
   if(json && typeof json === "object") {
     return specActions.updateJsonSpec(json)
   }
+
   return {}
 }
 
@@ -85,6 +104,7 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
   if(typeof(json) === "undefined") {
     json = specSelectors.specJson()
   }
+
   if(typeof(url) === "undefined") {
     url = specSelectors.url()
   }
@@ -105,6 +125,7 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
       errActions.clear({
         type: "thrown"
       })
+
       if(Array.isArray(errors) && errors.length > 0) {
         let preparedErrors = errors
           .map(err => {
@@ -115,6 +136,7 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
             err.type = "thrown"
             err.source = "resolver"
             Object.defineProperty(err, "message", { enumerable: true, value: err.message })
+
             return err
           })
         errActions.newThrownErrBatch(preparedErrors)
@@ -242,6 +264,7 @@ export const executeRequest = (req) =>
       let mutatedRequest = requestInterceptor.apply(this, [r])
       let parsedMutatedRequest = Object.assign({}, mutatedRequest)
       specActions.setMutatedRequest(req.pathName, req.method, parsedMutatedRequest)
+
       return mutatedRequest
     }
 

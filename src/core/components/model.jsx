@@ -21,6 +21,7 @@ export default class Model extends ImmutablePureComponent {
     if ( ref.indexOf("#/definitions/") !== -1 ) {
       return ref.replace(/^.*#\/definitions\//, "")
     }
+
     if ( ref.indexOf("#/components/schemas/") !== -1 ) {
       return ref.replace("#/components/schemas/", "")
     }
@@ -44,6 +45,7 @@ export default class Model extends ImmutablePureComponent {
     if ( !name && $$ref ) {
       name = this.getModelName( $$ref )
     }
+
     // If we weren't passed a `schema` but have a ref, grab the schema from the ref
     if ( !schema && $$ref ) {
       schema = this.getRefSchema( name )

@@ -14,6 +14,7 @@ export default {
   [TOGGLE_CONFIGS]: (state, action) => {
     const configName = action.payload
     const oriVal = state.get(configName)
+
     return state.set(configName, !oriVal)
   },
 

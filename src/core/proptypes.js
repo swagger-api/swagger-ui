@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 const mapListToPropTypeShape = (list, propType) => PropTypes.shape(
   list.reduce((shape, propName) => {
     shape[propName] = propType
+
     return shape
 }, {}))
 

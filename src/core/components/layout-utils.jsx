@@ -15,6 +15,7 @@ export class Container extends React.Component {
       return <section {...rest}/>
 
     let containerClass = "swagger-container" + (full ? "-full" : "")
+
     return (
       <section {...rest} className={xclass(rest.className, containerClass)}/>
     )
@@ -58,6 +59,7 @@ export class Col extends React.Component {
 
     for (let device in DEVICES) {
       let deviceClass = DEVICES[device]
+
       if(device in this.props) {
         let val = this.props[device]
 
@@ -223,6 +225,7 @@ export class Collapse extends React.Component {
   renderNotAnimated() {
     if(!this.props.isOpened)
       return <noscript/>
+
     return (
       <NoMargin>
         {this.props.children}
@@ -237,6 +240,7 @@ export class Collapse extends React.Component {
       return this.renderNotAnimated()
 
     children = isOpened ? children : null
+
     return (
       <OriCollapse isOpened={isOpened}>
         <NoMargin>

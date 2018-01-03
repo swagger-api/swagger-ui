@@ -31,8 +31,16 @@
     "no-use-before-define": [2,"nofunc"],
     "no-underscore-dangle": 0,
     "no-unused-expressions": 1,
+    "padding-line-between-statements": [
+        "error",
+        { "blankLine": "always", "prev": "*", "next": "return" },
+        { "blankLine": "always", "prev": "*", "next": "class" },
+        { "blankLine": "always", "prev": "*", "next": "export" },
+        { "blankLine": "always", "prev": "multiline-block-like", "next": "*" },
+        { "blankLine": "always", "prev": "*", "next": "multiline-block-like" },
+    ],
     "comma-dangle": 0,
-    "no-console": ["error", { allow: ["warn", "error"] }],
+    "no-console": ["error", { "allow": ["warn", "error"] }],
     "react/jsx-no-bind": 1,
     "react/display-name": 0,
     "mocha/no-exclusive-tests": "error"

@@ -7,6 +7,7 @@ export const Property = ({ propKey, propVal, propStyle }) => {
           <br />{ propKey }: { String(propVal) }</span>
     )
 }
+
 Property.propTypes = {
   propKey: PropTypes.string,
   propVal: PropTypes.any,

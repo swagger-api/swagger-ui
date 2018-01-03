@@ -5,6 +5,7 @@ export const show = (ori, { getConfigs }) => (...args) => {
   ori(...args)
 
   const isDeepLinkingEnabled = getConfigs().deepLinking
+
   if(!isDeepLinkingEnabled || isDeepLinkingEnabled === "false") {
     return
   }

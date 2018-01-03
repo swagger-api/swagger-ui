@@ -66,32 +66,38 @@ class ValidatorImage extends React.Component {
 
   componentDidMount() {
     const img = new Image()
+
     img.onload = () => {
       this.setState({
         loaded: true
       })
     }
+
     img.onerror = () => {
       this.setState({
         error: true
       })
     }
+
     img.src = this.props.src
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.src !== this.props.src) {
       const img = new Image()
+
       img.onload = () => {
         this.setState({
           loaded: true
         })
       }
+
       img.onerror = () => {
         this.setState({
           error: true
         })
       }
+
       img.src = nextProps.src
     }
   }
@@ -102,6 +108,7 @@ class ValidatorImage extends React.Component {
     } else if (!this.state.loaded) {
       return <img alt= {"Loading..."} />
     }
+
     return <img src={this.props.src} alt={this.props.alt} />
   }
 }

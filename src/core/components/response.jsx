@@ -9,6 +9,7 @@ const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
   if ( examples && examples.size ) {
     return examples.entrySeq().map( ([ key, example ]) => {
       let exampleValue = example
+
       if ( example.toJS ) {
         try {
           exampleValue = JSON.stringify(example.toJS(), null, 2)
@@ -29,6 +30,7 @@ const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
       <HighlightCode className="example" value={ sampleResponse } />
     </div>
   }
+
   return null
 }
 

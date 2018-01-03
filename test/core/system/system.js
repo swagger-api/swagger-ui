@@ -154,6 +154,7 @@ describe("bound system", function(){
                   simple: (ori) => () => {
                     const obj = ori()
                     obj.type += "-two"
+
                     return obj
                   }
                 }
@@ -167,6 +168,7 @@ describe("bound system", function(){
                   simple: (ori) => () => {
                     const obj = ori()
                     obj.type += "-three"
+
                     return obj
                   }
                 }
@@ -312,6 +314,7 @@ describe("bound system", function(){
                   advanced: () => (mySystem) => {
                     // Then
                     expect(mySystem).toEqual(system.getSystem())
+
                     return "hi"
                   }
                 }
@@ -391,6 +394,7 @@ describe("bound system", function(){
                       // Then
                       expect(mySystem.getSystem()).toEqual(system.getSystem())
                       done()
+
                       return ori() + " wrapper"
                     }
                   }
@@ -432,6 +436,7 @@ describe("bound system", function(){
                       // Then
                       expect(dogeState.toJS().abc).toEqual("123")
                       done()
+
                       return ori() + " wrapper"
                     }
                   }
@@ -481,6 +486,7 @@ describe("bound system", function(){
 
         render() {
           const { exampleSelectors, fromMapState, fromOwnProps } = this.props
+
           return (
             <div>{ fromMapState } {exampleSelectors.foo()} {fromOwnProps}</div>
           )
@@ -523,6 +529,7 @@ describe("bound system", function(){
       class ContainerComponent extends PureComponent {
         mapStateToProps(nextState, props) {
           const { exampleSelectors, fromMapState, fromOwnProps } = props
+
           return {
             "fromMapState": `This came from mapStateToProps ${exampleSelectors.foo()} ${fromOwnProps}`
           }
@@ -534,6 +541,7 @@ describe("bound system", function(){
 
         render() {
           const { fromMapState } = this.props
+
           return (
             <div>{ fromMapState }</div>
           )
