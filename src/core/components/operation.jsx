@@ -2,11 +2,12 @@ import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { getList } from "core/utils"
 import { getExtensions, sanitizeUrl } from "core/utils"
-import { Iterable } from "immutable"
+import { Iterable, List } from "immutable"
+import ImPropTypes from "react-immutable-proptypes"
 
 export default class Operation extends PureComponent {
   static propTypes = {
-    specPath: PropTypes.array.isRequired,
+    specPath: ImPropTypes.list.isRequired,
     operation: PropTypes.instanceOf(Iterable).isRequired,
     response: PropTypes.instanceOf(Iterable),
     request: PropTypes.instanceOf(Iterable),
@@ -33,7 +34,7 @@ export default class Operation extends PureComponent {
     operation: null,
     response: null,
     request: null,
-    specPath: []
+    specPath: List()
   }
 
   render() {
@@ -174,7 +175,7 @@ export default class Operation extends PureComponent {
 
               <Parameters
                 parameters={parameters}
-                specPath={[...specPath, "parameters"]}
+                specPath={specPath.push("parameters")}
                 operation={operation}
                 onChangeKey={onChangeKey}
                 onTryoutClick = { onTryoutClick }
@@ -248,7 +249,7 @@ export default class Operation extends PureComponent {
                     specActions={ specActions }
                     produces={ produces }
                     producesValue={ operation.get("produces_value") }
-                    specPath={[...specPath, "responses"]}
+                    specPath={specPath.push("responses")}
                     path={ path }
                     method={ method }
                     displayRequestDuration={ displayRequestDuration }
