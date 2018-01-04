@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
+import ImPropTypes from "react-immutable-proptypes"
 import { helpers } from "swagger-client"
 import { Iterable, fromJS } from "immutable"
 
@@ -31,8 +32,7 @@ export default class OperationContainer extends PureComponent {
     request: PropTypes.instanceOf(Iterable),
     security: PropTypes.instanceOf(Iterable),
     isDeepLinkingEnabled: PropTypes.bool.isRequired,
-    specPath: PropTypes.array.isRequired,
-
+    specPath: ImPropTypes.list.isRequired,
     getComponent: PropTypes.func.isRequired,
     authActions: PropTypes.object,
     oas3Actions: PropTypes.object,

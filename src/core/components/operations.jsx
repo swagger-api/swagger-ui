@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import Im from "immutable"
 import { createDeepLinkPath, sanitizeUrl } from "core/utils"
 
 const SWAGGER2_OPERATION_METHODS = [
@@ -119,7 +120,7 @@ export default class Operations extends React.Component {
                       operations.map( op => {
                         const path = op.get("path")
                         const method = op.get("method")
-                        const specPath = ["paths", path, method]
+                        const specPath = Im.List(["paths", path, method])
 
 
                         // FIXME: (someday) this logic should probably be in a selector,

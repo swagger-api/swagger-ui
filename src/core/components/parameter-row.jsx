@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { Map } from "immutable"
 import PropTypes from "prop-types"
+import ImPropTypes from "react-immutable-proptypes"
 import win from "core/window"
 import { getExtensions } from "core/utils"
 
@@ -15,7 +16,7 @@ export default class ParameterRow extends Component {
     specSelectors: PropTypes.object.isRequired,
     pathMethod: PropTypes.array.isRequired,
     getConfigs: PropTypes.func.isRequired,
-    specPath: PropTypes.array.isRequired,
+    specPath: ImPropTypes.list.isRequired
   }
 
   constructor(props, context) {
@@ -139,7 +140,7 @@ export default class ParameterRow extends Component {
 
           {
             bodyParam && schema ? <ModelExample getComponent={ getComponent }
-                                                specPath={[...specPath, "schema"]}
+                                                specPath={specPath.push("schema")}
                                                 getConfigs={ getConfigs }
                                                 isExecute={ isExecute }
                                                 specSelectors={ specSelectors }

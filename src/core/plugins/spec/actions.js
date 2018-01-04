@@ -68,7 +68,7 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
       line: e.mark && e.mark.line ? e.mark.line + 1 : undefined
     })
   }
-  if(json) {
+  if(json && typeof json === "object") {
     return specActions.updateJsonSpec(json)
   }
   return {}
@@ -105,8 +105,7 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
       errActions.clear({
         type: "thrown"
       })
-
-      if(errors.length > 0) {
+      if(Array.isArray(errors) && errors.length > 0) {
         let preparedErrors = errors
           .map(err => {
             console.error(err)
