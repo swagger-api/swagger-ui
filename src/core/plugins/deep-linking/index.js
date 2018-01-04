@@ -8,11 +8,11 @@ export default function() {
   return {
     statePlugins: {
       spec: {
-        wrapActions: specWrapActions
+        wrapActions: specWrapActions,
       },
       layout: {
-        wrapActions: layoutWrapActions
-      }
-    }
+        wrapActions: layoutWrapActions,
+      },
+    },
   }
 }

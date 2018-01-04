@@ -45,7 +45,7 @@ export default class Parameters extends Component {
   onChangeConsumesWrapper = ( val ) => {
     let {
       specActions: { changeConsumesValue },
-      onChangeKey
+      onChangeKey,
     } = this.props
 
     changeConsumesValue(onChangeKey, val)
@@ -65,7 +65,7 @@ export default class Parameters extends Component {
       getComponent,
       getConfigs,
       specSelectors,
-      pathMethod
+      pathMethod,
     } = this.props
 
     const ParameterRow = getComponent("parameterRow")

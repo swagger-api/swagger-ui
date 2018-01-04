@@ -8,13 +8,13 @@ export default class ModelCollapse extends Component {
     children: PropTypes.any,
     title: PropTypes.element,
     modelName: PropTypes.string,
-    onToggle: PropTypes.func.isRequired
+    onToggle: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     collapsedContent: "{...}",
     expanded: false,
-    title: null
+    title: null,
   }
 
   constructor(props, context) {
@@ -24,7 +24,7 @@ export default class ModelCollapse extends Component {
 
     this.state = {
       expanded : expanded,
-      collapsedContent: collapsedContent || ModelCollapse.defaultProps.collapsedContent
+      collapsedContent: collapsedContent || ModelCollapse.defaultProps.collapsedContent,
     }
   }
 
@@ -43,7 +43,7 @@ export default class ModelCollapse extends Component {
     }
 
     this.setState({
-      expanded: !this.state.expanded
+      expanded: !this.state.expanded,
     })
   }
 

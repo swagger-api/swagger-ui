@@ -13,5 +13,5 @@ export default {
   Servers,
   RequestBodyEditor,
   OperationServers,
-  operationLink: OperationLink
+  operationLink: OperationLink,
 }

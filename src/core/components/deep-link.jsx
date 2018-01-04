@@ -15,7 +15,7 @@ DeepLink.propTypes = {
   enabled: PropTypes.bool,
   isShown: PropTypes.bool,
   path: PropTypes.string,
-  text: PropTypes.string
+  text: PropTypes.string,
 }
 
 export default DeepLink

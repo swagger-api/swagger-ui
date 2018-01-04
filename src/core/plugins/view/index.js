@@ -14,6 +14,6 @@ export default function({getComponents, getStore, getSystem}) {
       getComponent: memGetComponent,
       makeMappedContainer: memMakeMappedContainer,
       render: render.bind(null, getSystem, getStore, getComponent, getComponents),
-    }
+    },
   }
 }

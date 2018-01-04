@@ -13,11 +13,11 @@ export default function() {
       auth: {
         reducers,
         actions,
-        selectors
+        selectors,
       },
       spec: {
-        wrapActions: specWrapActionReplacements
-      }
-    }
+        wrapActions: specWrapActionReplacements,
+      },
+    },
   }
 }

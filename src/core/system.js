@@ -19,13 +19,13 @@ function createStoreWithMiddleware(rootReducer, initialState, getSystem) {
     //   stateTransformer: state => state && state.toJS()
     // } ),
     // errorLog(getSystem), Need to properly handle errors that occur during a render. Ie: let them be...
-    systemThunkMiddleware( getSystem )
+    systemThunkMiddleware( getSystem ),
   ]
 
   const composeEnhancers = win.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
   return createStore(rootReducer, initialState, composeEnhancers(
-    applyMiddleware( ...middlwares )
+    applyMiddleware( ...middlwares ),
   ))
 }
 
@@ -40,10 +40,10 @@ export default class Store {
         fn: {},
         components: {},
         rootInjects: {},
-        statePlugins: {}
+        statePlugins: {},
       },
       boundSystem: {},
-      toolbox: {}
+      toolbox: {},
     }, opts)
 
     this.getSystem = this._getSystem.bind(this)
@@ -87,7 +87,7 @@ export default class Store {
       this.getWrappedAndBoundSelectors(getState, this.getSystem),
       this.getStateThunks(getState),
       this.getFn(),
-      this.getConfigs()
+      this.getConfigs(),
     )
 
     if(buildReducer)
@@ -106,7 +106,7 @@ export default class Store {
       getState: this.getStore().getState,
       getConfigs: this._getConfigs.bind(this),
       Im,
-      React
+      React,
     }, this.system.rootInjects || {})
   }
 
@@ -116,7 +116,7 @@ export default class Store {
 
   getConfigs() {
     return {
-      configs: this.system.configs
+      configs: this.system.configs,
     }
   }
 
@@ -248,7 +248,7 @@ export default class Store {
 
   getFn() {
     return {
-      fn: this.system.fn
+      fn: this.system.fn,
     }
   }
 
@@ -480,7 +480,7 @@ function makeReducer(reducerObj) {
 }
 
 function wrapWithTryCatch(fn, {
-  logErrors = true
+  logErrors = true,
 } = {}) {
   if(typeof fn !== "function") {
     return fn

@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 export default class AuthorizeOperationBtn extends React.Component {
     static propTypes = {
       isAuthorized: PropTypes.bool.isRequired,
-      onClick: PropTypes.func
+      onClick: PropTypes.func,
     }
 
   onClick =(e) => {

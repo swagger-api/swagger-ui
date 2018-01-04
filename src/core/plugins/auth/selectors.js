@@ -5,7 +5,7 @@ const state = state => state
 
 export const shownDefinitions = createSelector(
   state,
-  auth => auth.get( "showDefinitions" )
+  auth => auth.get( "showDefinitions" ),
 )
 
 export const definitionsToAuthorize = createSelector(
@@ -23,7 +23,7 @@ export const definitionsToAuthorize = createSelector(
     })
 
     return list
-  }
+  },
 )
 
 export const getDefinitionsByNames = ( state, securities ) => ( { specSelectors } ) => {
@@ -68,7 +68,7 @@ export const definitionsForRequirements = (state, securities = List()) => ({ aut
 
 export const authorized = createSelector(
   state,
-  auth => auth.get("authorized") || Map()
+  auth => auth.get("authorized") || Map(),
 )
 
 export const isAuthorized = ( state, securities ) => ( { authSelectors } ) => {
@@ -89,5 +89,5 @@ export const isAuthorized = ( state, securities ) => ( { authSelectors } ) => {
 
 export const getConfigs = createSelector(
   state,
-  auth => auth.get( "configs" )
+  auth => auth.get( "configs" ),
 )

@@ -1,4 +1,4 @@
-import React, { Component, } from "react"
+import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
@@ -18,7 +18,7 @@ export default class ObjectModel extends Component {
     isRef: PropTypes.bool,
     expandDepth: PropTypes.number,
     depth: PropTypes.number,
-    specPath: ImPropTypes.list.isRequired
+    specPath: ImPropTypes.list.isRequired,
   }
 
   render(){

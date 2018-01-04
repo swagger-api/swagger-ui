@@ -23,7 +23,7 @@ export default class ModelExample extends React.Component {
     }
 
     this.state = {
-      activeTab: defaultModelRendering
+      activeTab: defaultModelRendering,
     }
   }
 
@@ -31,7 +31,7 @@ export default class ModelExample extends React.Component {
     let { target : { dataset : { name } } } = e
 
     this.setState({
-      activeTab: name
+      activeTab: name,
     })
   }
 

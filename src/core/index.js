@@ -22,7 +22,7 @@ module.exports = function SwaggerUI(opts) {
     gitRevision: GIT_COMMIT,
     gitDirty: GIT_DIRTY,
     buildTimestamp: BUILD_TIME,
-    machine: HOSTNAME
+    machine: HOSTNAME,
   }
 
   const defaults = {
@@ -53,7 +53,7 @@ module.exports = function SwaggerUI(opts) {
     // Initial set of plugins ( TODO rename this, or refactor - we don't need presets _and_ plugins. Its just there for performance.
     // Instead, we can compile the first plugin ( it can be a collection of plugins ), then batch the rest.
     presets: [
-      ApisPreset
+      ApisPreset,
     ],
 
     // Plugins; ( loaded after presets )
@@ -77,19 +77,19 @@ module.exports = function SwaggerUI(opts) {
 
   const storeConfigs = {
     system: {
-      configs: constructorConfig.configs
+      configs: constructorConfig.configs,
     },
     plugins: constructorConfig.presets,
     state: deepExtend({
       layout: {
         layout: constructorConfig.layout,
-        filter: constructorConfig.filter
+        filter: constructorConfig.filter,
       },
       spec: {
         spec: "",
-        url: constructorConfig.url
-      }
-    }, constructorConfig.initialState)
+        url: constructorConfig.url,
+      },
+    }, constructorConfig.initialState),
   }
 
   if(constructorConfig.initialState) {

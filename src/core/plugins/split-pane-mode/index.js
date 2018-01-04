@@ -10,7 +10,7 @@ export default function SplitPaneModePlugin() {
     // },
 
     components: {
-      SplitPaneMode
-    }
+      SplitPaneMode,
+    },
   }
 }

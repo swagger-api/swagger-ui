@@ -11,7 +11,7 @@ export default class ContentType extends React.Component {
     contentTypes: PropTypes.oneOfType([ImPropTypes.list, ImPropTypes.set, ImPropTypes.seq]),
     value: PropTypes.string,
     onChange: PropTypes.func,
-    className: PropTypes.string
+    className: PropTypes.string,
   }
 
   static defaultProps = {

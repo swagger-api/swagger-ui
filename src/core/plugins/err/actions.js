@@ -15,35 +15,35 @@ export const CLEAR = "err_clear"
 export function newThrownErr(err, action) {
   return {
     type: NEW_THROWN_ERR,
-    payload: { action, error: serializeError(err) }
+    payload: { action, error: serializeError(err) },
   }
 }
 
 export function newThrownErrBatch(errors) {
   return {
     type: NEW_THROWN_ERR_BATCH,
-    payload: errors
+    payload: errors,
   }
 }
 
 export function newSpecErr(err) {
   return {
     type: NEW_SPEC_ERR,
-    payload: err
+    payload: err,
   }
 }
 
 export function newSpecErrBatch(errArray) {
   return {
     type: NEW_SPEC_ERR_BATCH,
-    payload: errArray
+    payload: errArray,
   }
 }
 
 export function newAuthErr(err) {
   return {
     type: NEW_AUTH_ERR,
-    payload: err
+    payload: err,
   }
 }
 
@@ -51,6 +51,6 @@ export function clear(filter = {}) {
   // filter looks like: {type: 'spec'}, {source: 'parser'}
   return {
     type: CLEAR,
-    payload: filter
+    payload: filter,
   }
 }

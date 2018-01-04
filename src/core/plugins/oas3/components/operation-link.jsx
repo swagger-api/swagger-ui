@@ -38,7 +38,7 @@ function padString(n, string) {
 OperationLink.propTypes = {
   getComponent: PropTypes.func.isRequired,
   link: ImPropTypes.orderedMap.isRequired,
-  name: PropTypes.String
+  name: PropTypes.String,
 }
 
 export default OperationLink

@@ -10,8 +10,8 @@ export default function() {
         wrapActions,
         reducers,
         actions,
-        selectors
-      }
-    }
+        selectors,
+      },
+    },
   }
 }

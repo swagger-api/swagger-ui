@@ -9,9 +9,9 @@ let preset = [
   ConfigsPlugin,
   () => {
     return {
-      components: { StandaloneLayout }
+      components: { StandaloneLayout },
     }
-  }
+  },
 ]
 
 module.exports = preset

@@ -13,7 +13,7 @@ export default class Oauth2 extends React.Component {
     errSelectors: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
     errActions: PropTypes.object.isRequired,
-    getConfigs: PropTypes.any
+    getConfigs: PropTypes.any,
   }
 
   constructor(props, context) {
@@ -35,7 +35,7 @@ export default class Oauth2 extends React.Component {
       clientSecret: clientSecret,
       username: username,
       password: "",
-      passwordType: passwordType
+      passwordType: passwordType,
     }
   }
 
@@ -64,7 +64,7 @@ export default class Oauth2 extends React.Component {
   onInputChange =(e) => {
     let { target : { dataset : { name }, value } } = e
     let state = {
-      [name]: value
+      [name]: value,
     }
 
     this.setState(state)
@@ -80,7 +80,7 @@ export default class Oauth2 extends React.Component {
 
   render() {
     let {
-      schema, getComponent, authSelectors, errSelectors, name, specSelectors
+      schema, getComponent, authSelectors, errSelectors, name, specSelectors,
     } = this.props
     const Input = getComponent("Input")
     const Row = getComponent("Row")

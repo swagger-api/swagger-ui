@@ -15,7 +15,7 @@ const EnumModel = ({ value, getComponent }) => {
 
 EnumModel.propTypes = {
   value: ImPropTypes.iterable,
-  getComponent: ImPropTypes.func
+  getComponent: ImPropTypes.func,
 }
 
 export default EnumModel

@@ -8,8 +8,8 @@ export default function(system) {
       err: {
         reducers: makeReducers(system),
         actions,
-        selectors
-      }
-    }
+        selectors,
+      },
+    },
   }
 }

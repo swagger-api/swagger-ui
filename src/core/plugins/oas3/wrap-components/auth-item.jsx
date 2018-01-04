@@ -3,7 +3,7 @@ import { OAS3ComponentWrapFactory } from "../helpers"
 
 export default OAS3ComponentWrapFactory(({ Ori, ...props }) => {
   const {
-    schema, getComponent, errSelectors, authorized, onAuthChange, name
+    schema, getComponent, errSelectors, authorized, onAuthChange, name,
   } = props
 
   const HttpAuth = getComponent("HttpAuth")

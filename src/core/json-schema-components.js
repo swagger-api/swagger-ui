@@ -12,7 +12,7 @@ const JsonSchemaPropShape = {
   fn: PropTypes.object.isRequired,
   schema: PropTypes.object,
   required: PropTypes.bool,
-  description: PropTypes.any
+  description: PropTypes.any,
 }
 
 const JsonSchemaDefaultProps = {
@@ -20,7 +20,7 @@ const JsonSchemaDefaultProps = {
   onChange: noop,
   schema: {},
   keyName: "",
-  required: false
+  required: false,
 }
 
 export class JsonSchemaForm extends Component {
@@ -114,13 +114,13 @@ export class JsonSchema_array extends PureComponent {
 
   onItemChange = (itemVal, i) => {
     this.setState(state => ({
-      value: state.value.set(i, itemVal)
+      value: state.value.set(i, itemVal),
     }), this.onChange)
   }
 
   removeItem = (i) => {
     this.setState(state => ({
-      value: state.value.remove(i)
+      value: state.value.remove(i),
     }), this.onChange)
   }
 
@@ -129,14 +129,14 @@ export class JsonSchema_array extends PureComponent {
       state.value = state.value || List()
 
       return {
-        value: state.value.push("")
+        value: state.value.push(""),
       }
     }, this.onChange)
   }
 
   onEnumChange = (value) => {
     this.setState(() => ({
-      value: value
+      value: value,
     }), this.onChange)
   }
 

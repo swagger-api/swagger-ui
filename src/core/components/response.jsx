@@ -41,7 +41,7 @@ export default class Response extends React.Component {
     super(props, context)
 
     this.state = {
-      responseContentType: ""
+      responseContentType: "",
     }
   }
 
@@ -56,12 +56,12 @@ export default class Response extends React.Component {
     fn: PropTypes.object.isRequired,
     contentType: PropTypes.string,
     controlsAcceptHeader: PropTypes.bool,
-    onContentTypeChange: PropTypes.func
+    onContentTypeChange: PropTypes.func,
   }
 
   static defaultProps = {
     response: fromJS({}),
-    onContentTypeChange: () => {}
+    onContentTypeChange: () => {},
   };
 
   _onContentTypeChange = (value) => {
@@ -69,7 +69,7 @@ export default class Response extends React.Component {
     this.setState({ responseContentType: value })
     onContentTypeChange({
       value: value,
-      controlsAcceptHeader
+      controlsAcceptHeader,
     })
   }
 
@@ -84,7 +84,7 @@ export default class Response extends React.Component {
       getConfigs,
       specSelectors,
       contentType,
-      controlsAcceptHeader
+      controlsAcceptHeader,
     } = this.props
 
     let { inferSchema } = fn
@@ -107,7 +107,7 @@ export default class Response extends React.Component {
       const schemaPath = List(["content", this.state.responseContentType, "schema"])
       const oas3SchemaForContentType = response.getIn(schemaPath)
       sampleResponse = oas3SchemaForContentType ? getSampleSchema(oas3SchemaForContentType.toJS(), this.state.responseContentType, {
-        includeReadOnly: true
+        includeReadOnly: true,
       }) : null
       schema = oas3SchemaForContentType ? inferSchema(oas3SchemaForContentType.toJS()) : null
       specPathWithPossibleSchema = oas3SchemaForContentType ? schemaPath : specPath
@@ -116,7 +116,7 @@ export default class Response extends React.Component {
       specPathWithPossibleSchema = response.has("schema") ? specPath.push("schema") : specPath
       sampleResponse = schema ? getSampleSchema(schema, contentType, {
         includeReadOnly: true,
-        includeWriteOnly: true // writeOnly has no filtering effect in swagger 2.0
+        includeWriteOnly: true, // writeOnly has no filtering effect in swagger 2.0
       }) : null
     }
 
@@ -142,7 +142,7 @@ export default class Response extends React.Component {
 
           { isOAS3 ?
             <div className={cx("response-content-type", {
-              "controls-accept-header": controlsAcceptHeader
+              "controls-accept-header": controlsAcceptHeader,
             })}>
               <ContentType
                 contentTypes={ response.get("content") ? response.get("content").keySeq() : Seq() }

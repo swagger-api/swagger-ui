@@ -28,7 +28,7 @@ export const Markdown = ({ source }) => {
 }
 
 Markdown.propTypes = {
-  source: PropTypes.string
+  source: PropTypes.string,
 }
 
 export default OAS3ComponentWrapFactory(Markdown)

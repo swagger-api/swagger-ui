@@ -11,7 +11,7 @@ export default class Servers extends React.Component {
     setSelectedServer: PropTypes.func.isRequired,
     setServerVariableValue: PropTypes.func.isRequired,
     getServerVariable: PropTypes.func.isRequired,
-    getEffectiveServerValue: PropTypes.func.isRequired
+    getEffectiveServerValue: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
@@ -29,7 +29,7 @@ export default class Servers extends React.Component {
     let {
       servers,
       setServerVariableValue,
-      getServerVariable
+      getServerVariable,
     } = this.props
 
     if(this.props.currentServer !== nextProps.currentServer) {
@@ -47,7 +47,7 @@ export default class Servers extends React.Component {
           setServerVariableValue({
             server: nextProps.currentServer,
             key,
-            val: val.get("default") || ""
+            val: val.get("default") || "",
           })
         }
       })
@@ -63,7 +63,7 @@ export default class Servers extends React.Component {
   onServerVariableValueChange = ( e ) => {
     let {
       setServerVariableValue,
-      currentServer
+      currentServer,
     } = this.props
 
     let variableName = e.target.getAttribute("data-variable")
@@ -73,7 +73,7 @@ export default class Servers extends React.Component {
       setServerVariableValue({
         server: currentServer,
         key: variableName,
-        val: newVariableValue
+        val: newVariableValue,
       })
     }
   }
@@ -88,7 +88,7 @@ export default class Servers extends React.Component {
     let { servers,
       currentServer,
       getServerVariable,
-      getEffectiveServerValue
+      getEffectiveServerValue,
     } = this.props
 
     let currentServerDefinition = servers.find(v => v.get("url") === currentServer) || OrderedMap()
@@ -107,7 +107,7 @@ export default class Servers extends React.Component {
                   key={ server.get("url") }
                   value={ server.get("url") }>
                   { server.get("url") }
-                </option>
+                </option>,
             ).toArray()}
           </select>
         </label>

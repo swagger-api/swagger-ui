@@ -33,7 +33,7 @@ export const OperationExt = ({ extensions, getComponent }) => {
 
 OperationExt.propTypes = {
   extensions: PropTypes.object.isRequired,
-  getComponent: PropTypes.func.isRequired
+  getComponent: PropTypes.func.isRequired,
 }
 
 export default OperationExt

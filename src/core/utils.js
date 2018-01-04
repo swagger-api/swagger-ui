@@ -240,7 +240,7 @@ export function highlight (el) {
           // 7: xml comment
           text[pos-4]+prev2+prev1 == "-->",
           // 8: multiline comment
-          prev2+prev1 == "*/"
+          prev2+prev1 == "*/",
         ][tokenType]
       ) {
         // appending the token to the result
@@ -248,7 +248,7 @@ export function highlight (el) {
           // remapping token type into style
           // (some types are highlighted similarly)
           el[appendChild](
-            node = _document.createElement("span")
+            node = _document.createElement("span"),
           ).setAttribute("style", [
             // 0: not formatted
             "color: #555; font-weight: bold;",
@@ -259,7 +259,7 @@ export function highlight (el) {
             // 3: strings and regexps
             "color: #555;",
             // 4: comments
-            ""
+            "",
           ][
             // not formatted
             !tokenType ? 0 :
@@ -311,7 +311,7 @@ export function highlight (el) {
           chr+next1+text[pos+1]+text[pos+2] == "<!--",
           chr+next1 == "/*", //  8: multiline comment
           chr+next1 == "//", //  9: single-line comment
-          chr == "#" // 10: hash-style comment
+          chr == "#", // 10: hash-style comment
         ][--tokenType]);
       }
 
@@ -653,11 +653,11 @@ export const btoa = (str) => {
 export const sorters = {
   operationsSorter: {
     alpha: (a, b) => a.get("path").localeCompare(b.get("path")),
-    method: (a, b) => a.get("method").localeCompare(b.get("method"))
+    method: (a, b) => a.get("method").localeCompare(b.get("method")),
   },
   tagsSorter: {
-    alpha: (a, b) => a.localeCompare(b)
-  }
+    alpha: (a, b) => a.localeCompare(b),
+  },
 }
 
 export const buildFormData = (data) => {

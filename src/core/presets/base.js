@@ -123,16 +123,16 @@ export default function() {
       OperationExtRow,
       ParameterExt,
       OperationContainer,
-      DeepLink
-    }
+      DeepLink,
+    },
   }
 
   let formComponents = {
-    components: LayoutUtils
+    components: LayoutUtils,
   }
 
   let jsonSchemaComponents = {
-    components: JsonSchemaComponents
+    components: JsonSchemaComponents,
   }
 
   return [
@@ -152,6 +152,6 @@ export default function() {
     ast,
     SplitPaneModePlugin,
     downloadUrlPlugin,
-    deepLinkingPlugin
+    deepLinkingPlugin,
   ]
 }

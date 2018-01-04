@@ -10,7 +10,7 @@ export default class ResponseBody extends React.Component {
     contentType: PropTypes.string,
     getComponent: PropTypes.func.isRequired,
     headers: PropTypes.object,
-    url: PropTypes.string
+    url: PropTypes.string,
   }
 
   render() {
@@ -33,7 +33,7 @@ export default class ResponseBody extends React.Component {
     } else if (/xml/i.test(contentType)) {
       body = formatXml(content, {
         textNodesOnSameLine: true,
-        indentor: "  "
+        indentor: "  ",
       })
       bodyEl = <HighlightCode value={ body } />
 

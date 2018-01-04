@@ -16,7 +16,7 @@ import {
   CLEAR_RESPONSE,
   CLEAR_REQUEST,
   CLEAR_VALIDATE_PARAMS,
-  SET_SCHEME
+  SET_SCHEME,
 } from "./actions"
 
 export default {
@@ -84,7 +84,7 @@ export default {
         error: true,
         name: res.err.name,
         message: res.err.message,
-        statusCode: res.err.statusCode
+        statusCode: res.err.statusCode,
       }, res.err.response)
     } else {
       result = res
@@ -138,6 +138,6 @@ export default {
       return state.setIn( [ "scheme", "_defaultScheme" ], scheme)
     }
 
-  }
+  },
 
 }

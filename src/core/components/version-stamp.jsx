@@ -6,7 +6,7 @@ const VersionStamp = ({ version }) => {
 }
 
 VersionStamp.propTypes = {
-  version: PropTypes.string.isRequired
+  version: PropTypes.string.isRequired,
 }
 
 export default VersionStamp

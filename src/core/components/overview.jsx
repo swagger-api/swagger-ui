@@ -81,7 +81,7 @@ Overview.propTypes = {
   layoutSelectors: PropTypes.object.isRequired,
   specSelectors: PropTypes.object.isRequired,
   layoutActions: PropTypes.object.isRequired,
-  getComponent: PropTypes.func.isRequired
+  getComponent: PropTypes.func.isRequired,
 }
 
 export class OperationLink extends React.Component {
@@ -121,5 +121,5 @@ OperationLink.propTypes = {
   method: PropTypes.string.isRequired,
   shown: PropTypes.bool.isRequired,
   showOpId: PropTypes.string.isRequired,
-  showOpIdPrefix: PropTypes.string.isRequired
+  showOpIdPrefix: PropTypes.string.isRequired,
 }

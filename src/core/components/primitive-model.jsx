@@ -10,7 +10,7 @@ export default class Primitive extends Component {
     getComponent: PropTypes.func.isRequired,
     getConfigs: PropTypes.func.isRequired,
     name: PropTypes.string,
-    depth: PropTypes.number
+    depth: PropTypes.number,
   }
 
   render(){

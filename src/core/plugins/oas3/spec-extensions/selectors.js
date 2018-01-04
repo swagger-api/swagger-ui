@@ -22,12 +22,12 @@ const state = state => {
 
 const specJson = createSelector(
   state,
-  spec => spec.get("json", Map())
+  spec => spec.get("json", Map()),
 )
 
 const specResolved = createSelector(
   state,
-  spec => spec.get("resolved", Map())
+  spec => spec.get("resolved", Map()),
 )
 
 const spec = state => {
@@ -42,7 +42,7 @@ const spec = state => {
 
 export const servers = onlyOAS3(createSelector(
   spec,
-  spec => spec.getIn(["servers"]) || Map()
+  spec => spec.getIn(["servers"]) || Map(),
 ))
 
 export const isSwagger2 = (ori, system) => () => {

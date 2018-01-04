@@ -69,6 +69,6 @@ XPane.propTypes = {
   specSelectors: PropTypes.object.isRequired,
   specActions: PropTypes.object.isRequired,
   layoutSelectors: PropTypes.object.isRequired,
-  layoutActions: PropTypes.object.isRequired
+  layoutActions: PropTypes.object.isRequired,
 }
 

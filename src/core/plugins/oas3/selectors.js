@@ -19,22 +19,22 @@ export const selectedServer = onlyOAS3((state, namespace) => {
   const path = namespace ? [namespace, "selectedServer"] : ["selectedServer"]
 
   return state.getIn(path) || ""
-}
+},
 )
 
 export const requestBodyValue = onlyOAS3((state, path, method) => {
   return state.getIn(["requestData", path, method, "bodyValue"]) || null
-}
+},
 )
 
 export const requestContentType = onlyOAS3((state, path, method) => {
   return state.getIn(["requestData", path, method, "requestContentType"]) || null
-}
+},
 )
 
 export const responseContentType = onlyOAS3((state, path, method) => {
   return state.getIn(["requestData", path, method, "responseContentType"]) || null
-}
+},
 )
 
 export const serverVariableValue = onlyOAS3((state, locationData, key) => {
@@ -56,7 +56,7 @@ export const serverVariableValue = onlyOAS3((state, locationData, key) => {
   }
 
   return state.getIn(path) || null
-}
+},
 )
 
 export const serverVariables = onlyOAS3((state, locationData) => {
@@ -78,7 +78,7 @@ export const serverVariables = onlyOAS3((state, locationData) => {
   }
 
   return state.getIn(path) || OrderedMap()
-}
+},
 )
 
 export const serverEffectiveValue = onlyOAS3((state, locationData) => {
@@ -108,5 +108,5 @@ export const serverEffectiveValue = onlyOAS3((state, locationData) => {
   })
 
   return str
-}
+},
 )

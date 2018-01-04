@@ -26,12 +26,12 @@ const OAS3NullSelector = onlyOAS3(nullSelector)
 
 const specJson = createSelector(
   state,
-  spec => spec.get("json", Map())
+  spec => spec.get("json", Map()),
 )
 
 const specResolved = createSelector(
   state,
-  spec => spec.get("resolved", Map())
+  spec => spec.get("resolved", Map()),
 )
 
 const spec = state => {
@@ -46,7 +46,7 @@ const spec = state => {
 
 export const definitions = onlyOAS3(createSelector(
   spec,
-  spec => spec.getIn(["components", "schemas"]) || Map()
+  spec => spec.getIn(["components", "schemas"]) || Map(),
 ))
 
 export const hasHost = onlyOAS3((state) => {
@@ -55,7 +55,7 @@ export const hasHost = onlyOAS3((state) => {
 
 export const securityDefinitions = onlyOAS3(createSelector(
   spec,
-  spec => spec.getIn(["components", "securitySchemes"]) || null
+  spec => spec.getIn(["components", "securitySchemes"]) || null,
 ))
 
 export const host = OAS3NullSelector
@@ -72,7 +72,7 @@ export const schemes = OAS3NullSelector
 
 export const servers = onlyOAS3(createSelector(
   spec,
-  spec => spec.getIn(["servers"]) || Map()
+  spec => spec.getIn(["servers"]) || Map(),
 ))
 
 export const isOAS3 = (ori, system) => () => {

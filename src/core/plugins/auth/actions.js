@@ -20,21 +20,21 @@ const scopeSeparator = " "
 export function showDefinitions(payload) {
   return {
     type: SHOW_AUTH_POPUP,
-    payload: payload
+    payload: payload,
   }
 }
 
 export function authorize(payload) {
   return {
     type: AUTHORIZE,
-    payload: payload
+    payload: payload,
   }
 }
 
 export function logout(payload) {
   return {
     type: LOGOUT,
-    payload: payload
+    payload: payload,
   }
 }
 
@@ -51,7 +51,7 @@ export const preAuthorizeImplicit = (payload) => ( { authActions, errActions } )
       authId: name,
       source: "auth",
       level: "warning",
-      message: "Authorization may be unsafe, passed state was changed in server Passed state wasn't returned from auth server"
+      message: "Authorization may be unsafe, passed state was changed in server Passed state wasn't returned from auth server",
     })
   }
 
@@ -60,7 +60,7 @@ export const preAuthorizeImplicit = (payload) => ( { authActions, errActions } )
       authId: name,
       source: "auth",
       level: "error",
-      message: JSON.stringify(token)
+      message: JSON.stringify(token),
     })
 
     return
@@ -72,7 +72,7 @@ export const preAuthorizeImplicit = (payload) => ( { authActions, errActions } )
 export function authorizeOauth2(payload) {
   return {
     type: AUTHORIZE_OAUTH2,
-    payload: payload
+    payload: payload,
   }
 }
 
@@ -80,7 +80,7 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
   let { schema, name, username, password, passwordType, clientId, clientSecret } = auth
   let form = {
     grant_type: "password",
-    scope: auth.scopes.join(scopeSeparator)
+    scope: auth.scopes.join(scopeSeparator),
   }
   let query = {}
   let headers = {}
@@ -109,11 +109,11 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
 export const authorizeApplication = ( auth ) => ( { authActions } ) => {
   let { schema, scopes, name, clientId, clientSecret } = auth
   let headers = {
-    Authorization: "Basic " + btoa(clientId + ":" + clientSecret)
+    Authorization: "Basic " + btoa(clientId + ":" + clientSecret),
   }
   let form = {
     grant_type: "client_credentials",
-    scope: scopes.join(scopeSeparator)
+    scope: scopes.join(scopeSeparator),
   }
 
   return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth, headers })
@@ -126,7 +126,7 @@ export const authorizeAccessCodeWithFormParams = ( { auth, redirectUrl } ) => ( 
     code: auth.code,
     client_id: clientId,
     client_secret: clientSecret,
-    redirect_uri: redirectUrl
+    redirect_uri: redirectUrl,
   }
 
   return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth})
@@ -135,13 +135,13 @@ export const authorizeAccessCodeWithFormParams = ( { auth, redirectUrl } ) => ( 
 export const authorizeAccessCodeWithBasicAuthentication = ( { auth, redirectUrl } ) => ( { authActions } ) => {
   let { schema, name, clientId, clientSecret } = auth
   let headers = {
-    Authorization: "Basic " + btoa(clientId + ":" + clientSecret)
+    Authorization: "Basic " + btoa(clientId + ":" + clientSecret),
   }
   let form = {
     grant_type: "authorization_code",
     code: auth.code,
     client_id: clientId,
-    redirect_uri: redirectUrl
+    redirect_uri: redirectUrl,
   }
 
   return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth, headers})
@@ -158,7 +158,7 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
 
   let _headers = Object.assign({
     "Accept":"application/json, text/plain, */*",
-    "Content-Type": "application/x-www-form-urlencoded"
+    "Content-Type": "application/x-www-form-urlencoded",
   }, headers)
 
   fn.fetch({
@@ -168,7 +168,7 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
     query: query,
     body: body,
     requestInterceptor: getConfigs().requestInterceptor,
-    responseInterceptor: getConfigs().responseInterceptor
+    responseInterceptor: getConfigs().responseInterceptor,
   })
     .then(function (response) {
       let token = JSON.parse(response.data)
@@ -180,7 +180,7 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
           authId: name,
           level: "error",
           source: "auth",
-          message: response.statusText
+          message: response.statusText,
         } )
 
         return
@@ -191,7 +191,7 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
           authId: name,
           level: "error",
           source: "auth",
-          message: JSON.stringify(token)
+          message: JSON.stringify(token),
         })
 
         return
@@ -205,7 +205,7 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
         authId: name,
         level: "error",
         source: "auth",
-        message: err.message
+        message: err.message,
       } )
     })
 }
@@ -213,6 +213,6 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
 export function configureAuth(payload) {
   return {
     type: CONFIGURE_AUTH,
-    payload: payload
+    payload: payload,
   }
 }

@@ -8,7 +8,7 @@ export default class HttpAuth extends React.Component {
     errSelectors: PropTypes.object.isRequired,
     schema: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
   }
 
   constructor(props, context) {
@@ -19,7 +19,7 @@ export default class HttpAuth extends React.Component {
     this.state = {
       name: name,
       schema: schema,
-      value: value
+      value: value,
     }
   }
 

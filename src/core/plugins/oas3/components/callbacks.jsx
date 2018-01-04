@@ -19,7 +19,7 @@ const Callbacks = (props) => {
         return <div key={pathItemName}>
           { pathItem.map((operation, method) => {
             let op = fromJS({
-              operation
+              operation,
             })
 
             return <OperationContainer
@@ -44,7 +44,7 @@ const Callbacks = (props) => {
 
 Callbacks.propTypes = {
   getComponent: PropTypes.func.isRequired,
-  callbacks: ImPropTypes.iterable.isRequired
+  callbacks: ImPropTypes.iterable.isRequired,
 
 }
 

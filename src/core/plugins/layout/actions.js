@@ -13,14 +13,14 @@ export const SHOW = "layout_show"
 export function updateLayout(layout) {
   return {
     type: UPDATE_LAYOUT,
-    payload: layout
+    payload: layout,
   }
 }
 
 export function updateFilter(filter) {
   return {
     type: UPDATE_FILTER,
-    payload: filter
+    payload: filter,
   }
 }
 
@@ -29,7 +29,7 @@ export function show(thing, shown=true) {
 
   return {
     type: SHOW,
-    payload: {thing, shown}
+    payload: {thing, shown},
   }
 }
 
@@ -39,6 +39,6 @@ export function changeMode(thing, mode="") {
 
   return {
     type: UPDATE_MODE,
-    payload: {thing, mode}
+    payload: {thing, mode},
   }
 }

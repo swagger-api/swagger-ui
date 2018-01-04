@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 
 export default class AuthorizeBtn extends React.Component {
   static propTypes = {
-    className: PropTypes.string
+    className: PropTypes.string,
   }
 
   onClick =() => {

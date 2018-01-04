@@ -9,7 +9,7 @@ export default class Errors extends React.Component {
     editorActions: PropTypes.object,
     errSelectors: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
-    layoutActions: PropTypes.object.isRequired
+    layoutActions: PropTypes.object.isRequired,
   }
 
   render() {
@@ -130,14 +130,14 @@ function toTitleCase(str) {
 
 ThrownErrorItem.propTypes = {
   error: PropTypes.object.isRequired,
-  jumpToLine: PropTypes.func
+  jumpToLine: PropTypes.func,
 }
 
 ThrownErrorItem.defaultProps = {
-  jumpToLine: null
+  jumpToLine: null,
 }
 
 SpecErrorItem.propTypes = {
   error: PropTypes.object.isRequired,
-  jumpToLine: PropTypes.func
+  jumpToLine: PropTypes.func,
 }

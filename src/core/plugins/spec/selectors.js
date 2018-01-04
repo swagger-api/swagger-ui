@@ -5,7 +5,7 @@ import { fromJS, Set, Map, OrderedMap, List } from "immutable"
 const DEFAULT_TAG = "default"
 
 const OPERATION_METHODS = [
-  "get", "put", "post", "delete", "options", "head", "patch", "trace"
+  "get", "put", "post", "delete", "options", "head", "patch", "trace",
 ]
 
 const state = state => {
@@ -14,32 +14,32 @@ const state = state => {
 
 export const lastError = createSelector(
   state,
-  spec => spec.get("lastError")
+  spec => spec.get("lastError"),
 )
 
 export const url = createSelector(
   state,
-  spec => spec.get("url")
+  spec => spec.get("url"),
 )
 
 export const specStr = createSelector(
   state,
-  spec => spec.get("spec") || ""
+  spec => spec.get("spec") || "",
 )
 
 export const specSource = createSelector(
   state,
-  spec => spec.get("specSource") || "not-editor"
+  spec => spec.get("specSource") || "not-editor",
 )
 
 export const specJson = createSelector(
   state,
-  spec => spec.get("json", Map())
+  spec => spec.get("json", Map()),
 )
 
 export const specResolved = createSelector(
   state,
-  spec => spec.get("resolved", Map())
+  spec => spec.get("resolved", Map()),
 )
 
 // Default Spec ( as an object )
@@ -55,32 +55,32 @@ export const isOAS3 = createSelector(
   // It's not perfect, but our hybrid (core+plugin code) implementation for OAS3
   // needs this. //KS
   spec,
-  () => false
+  () => false,
 )
 
 export const info = createSelector(
   spec,
-  spec => returnSelfOrNewMap(spec && spec.get("info"))
+  spec => returnSelfOrNewMap(spec && spec.get("info")),
 )
 
 export const externalDocs = createSelector(
   spec,
-  spec => returnSelfOrNewMap(spec && spec.get("externalDocs"))
+  spec => returnSelfOrNewMap(spec && spec.get("externalDocs")),
 )
 
 export const version = createSelector(
   info,
-  info => info && info.get("version")
+  info => info && info.get("version"),
 )
 
 export const semver = createSelector(
   version,
-  version => /v?([0-9]*)\.([0-9]*)\.([0-9]*)/i.exec(version).slice(1)
+  version => /v?([0-9]*)\.([0-9]*)\.([0-9]*)/i.exec(version).slice(1),
 )
 
 export const paths = createSelector(
   spec,
-  spec => spec.get("paths")
+  spec => spec.get("paths"),
 )
 
 export const operations = createSelector(
@@ -109,33 +109,33 @@ export const operations = createSelector(
           path: pathName,
           method,
           operation,
-          id: `${method}-${pathName}`
+          id: `${method}-${pathName}`,
         }))
       })
     })
 
     return list
-  }
+  },
 )
 
 export const consumes = createSelector(
   spec,
-  spec => Set(spec.get("consumes"))
+  spec => Set(spec.get("consumes")),
 )
 
 export const produces = createSelector(
   spec,
-  spec => Set(spec.get("produces"))
+  spec => Set(spec.get("produces")),
 )
 
 export const security = createSelector(
   spec,
-  spec => spec.get("security", List())
+  spec => spec.get("security", List()),
 )
 
 export const securityDefinitions = createSelector(
   spec,
-  spec => spec.get("securityDefinitions")
+  spec => spec.get("securityDefinitions"),
 )
 
 export const findDefinition = ( state, name ) => {
@@ -144,22 +144,22 @@ export const findDefinition = ( state, name ) => {
 
 export const definitions = createSelector(
   spec,
-  spec => spec.get("definitions") || Map()
+  spec => spec.get("definitions") || Map(),
 )
 
 export const basePath = createSelector(
   spec,
-  spec => spec.get("basePath")
+  spec => spec.get("basePath"),
 )
 
 export const host = createSelector(
   spec,
-  spec => spec.get("host")
+  spec => spec.get("host"),
 )
 
 export const schemes = createSelector(
   spec,
-  spec => spec.get("schemes", Map())
+  spec => spec.get("schemes", Map()),
 )
 
 export const operationsWithRootInherited = createSelector(
@@ -188,12 +188,12 @@ export const operationsWithRootInherited = createSelector(
       }
 
     }))
-  }
+  },
 )
 
 export const tags = createSelector(
   spec,
-  json => json.get("tags", List())
+  json => json.get("tags", List()),
 )
 
 export const tagDetails = (state, tag) => {
@@ -215,7 +215,7 @@ export const operationsWithTags = createSelector(
     }, tags.reduce( (taggedMap, tag) => {
       return taggedMap.set(tag.get("name"), List())
     } , OrderedMap()))
-  }
+  },
 )
 
 export const taggedOperations = (state) => ({ getConfigs }) => {
@@ -228,7 +228,7 @@ export const taggedOperations = (state) => ({ getConfigs }) => {
         let sortFn = (typeof tagsSorter === "function" ? tagsSorter : sorters.tagsSorter[ tagsSorter ])
 
         return (!sortFn ? null : sortFn(tagA, tagB))
-      }
+      },
     )
     .map((ops, tag) => {
       let sortFn = (typeof operationsSorter === "function" ? operationsSorter : sorters.operationsSorter[ operationsSorter ])
@@ -240,17 +240,17 @@ export const taggedOperations = (state) => ({ getConfigs }) => {
 
 export const responses = createSelector(
   state,
-  state => state.get( "responses", Map() )
+  state => state.get( "responses", Map() ),
 )
 
 export const requests = createSelector(
   state,
-  state => state.get( "requests", Map() )
+  state => state.get( "requests", Map() ),
 )
 
 export const mutatedRequests = createSelector(
   state,
-  state => state.get( "mutatedRequests", Map() )
+  state => state.get( "mutatedRequests", Map() ),
 )
 
 export const responseFor = (state, path, method) => {
@@ -286,7 +286,7 @@ export const hasHost = createSelector(
     const host = spec.get("host")
 
     return typeof host === "string" && host.length > 0 && host[0] !== "/"
-  }
+  },
 )
 
 // Get the parameter values, that the user filled out
@@ -330,7 +330,7 @@ export function contentTypeValues(state, pathMethod) {
 
   return fromJS({
     requestContentType,
-    responseContentType: op.get("produces_value")
+    responseContentType: op.get("produces_value"),
   })
 }
 

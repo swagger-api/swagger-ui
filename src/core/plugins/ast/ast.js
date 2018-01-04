@@ -102,7 +102,7 @@ export function positionRangeForPath(yaml, path) {
 
   var invalidRange = {
     start: {line: -1, column: -1},
-    end: {line: -1, column: -1}
+    end: {line: -1, column: -1},
   }
   var i = 0
 
@@ -152,7 +152,7 @@ export function positionRangeForPath(yaml, path) {
         line: astValue.end_mark.line,
         column: astValue.end_mark.column,
         pointer: astValue.end_mark.pointer,
-      }
+      },
     }
 
     if(astKeyValue) {

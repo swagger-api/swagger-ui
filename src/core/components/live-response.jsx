@@ -12,7 +12,7 @@ const Headers = ( { headers } )=>{
 }
 
 Headers.propTypes = {
-  headers: PropTypes.array.isRequired
+  headers: PropTypes.array.isRequired,
 }
 
 const Duration = ( { duration } ) => {
@@ -25,7 +25,7 @@ const Duration = ( { duration } ) => {
 }
 
 Duration.propTypes = {
-  duration: PropTypes.number.isRequired
+  duration: PropTypes.number.isRequired,
 }
 
 export default class LiveResponse extends React.Component {
@@ -36,7 +36,7 @@ export default class LiveResponse extends React.Component {
     displayRequestDuration: PropTypes.bool.isRequired,
     specSelectors: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
-    getConfigs: PropTypes.func.isRequired
+    getConfigs: PropTypes.func.isRequired,
   }
 
   shouldComponentUpdate(nextProps) {
@@ -131,6 +131,6 @@ export default class LiveResponse extends React.Component {
 
   static propTypes = {
     getComponent: PropTypes.func.isRequired,
-    response: ImPropTypes.map
+    response: ImPropTypes.map,
   }
 }

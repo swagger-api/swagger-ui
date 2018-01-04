@@ -7,7 +7,7 @@ export default class BasicAuth extends React.Component {
     authorized: PropTypes.object,
     getComponent: PropTypes.func.isRequired,
     schema: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
   }
 
   constructor(props, context) {
@@ -21,8 +21,8 @@ export default class BasicAuth extends React.Component {
       name: name,
       schema: schema,
       value: !username ? {} : {
-        username: username
-      }
+        username: username,
+      },
     }
   }
 
@@ -99,6 +99,6 @@ export default class BasicAuth extends React.Component {
     getComponent: PropTypes.func.isRequired,
     onChange: PropTypes.func,
     schema: ImPropTypes.map,
-    authorized: ImPropTypes.map
+    authorized: ImPropTypes.map,
   }
 }

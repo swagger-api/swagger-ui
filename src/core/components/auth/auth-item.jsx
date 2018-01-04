@@ -7,7 +7,7 @@ export default class Auths extends React.Component {
     schema: ImPropTypes.orderedMap.isRequired,
     name: PropTypes.string.isRequired,
     onAuthChange: PropTypes.func.isRequired,
-    authorized: ImPropTypes.orderedMap.isRequired
+    authorized: ImPropTypes.orderedMap.isRequired,
   }
 
   render() {
@@ -17,7 +17,7 @@ export default class Auths extends React.Component {
       getComponent,
       onAuthChange,
       authorized,
-      errSelectors
+      errSelectors,
     } = this.props
     const ApiKeyAuth = getComponent("apiKeyAuth")
     const BasicAuth = getComponent("basicAuth")
@@ -57,6 +57,6 @@ export default class Auths extends React.Component {
     authSelectors: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
-    definitions: ImPropTypes.iterable.isRequired
+    definitions: ImPropTypes.iterable.isRequired,
   }
 }

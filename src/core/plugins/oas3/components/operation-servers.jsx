@@ -16,7 +16,7 @@ export default class OperationServers extends React.Component {
     getEffectiveServerValue: PropTypes.func.isRequired,
 
     // utils
-    getComponent: PropTypes.func.isRequired
+    getComponent: PropTypes.func.isRequired,
   }
 
   setSelectedServer = (server) => {
@@ -36,7 +36,7 @@ export default class OperationServers extends React.Component {
 
     return this.props.setServerVariableValue({
       ...obj,
-      namespace: `${path}:${method}`
+      namespace: `${path}:${method}`,
     })
   }
 
@@ -51,7 +51,7 @@ export default class OperationServers extends React.Component {
 
     return this.props.getServerVariable({
       namespace: `${path}:${method}`,
-      server
+      server,
     }, key)
   }
 
@@ -60,7 +60,7 @@ export default class OperationServers extends React.Component {
 
     return this.props.getEffectiveServerValue({
       server,
-      namespace: `${path}:${method}`
+      namespace: `${path}:${method}`,
     })
   }
 
@@ -71,7 +71,7 @@ export default class OperationServers extends React.Component {
       pathServers,
 
       // util
-      getComponent
+      getComponent,
     } = this.props
 
     if(!operationServers && !pathServers) {

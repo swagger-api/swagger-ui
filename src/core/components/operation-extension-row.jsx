@@ -12,7 +12,7 @@ export const OperationExtRow = ({ xKey, xVal }) => {
 
 OperationExtRow.propTypes = {
   xKey: PropTypes.string,
-  xVal: PropTypes.any
+  xVal: PropTypes.any,
 }
 
 export default OperationExtRow

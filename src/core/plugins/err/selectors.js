@@ -5,11 +5,11 @@ const state = state => state
 
 export const allErrors = createSelector(
   state,
-  err => err.get("errors", List())
+  err => err.get("errors", List()),
 )
 
 export const lastError = createSelector(
   allErrors,
-  all => all.last()
+  all => all.last(),
 )
 

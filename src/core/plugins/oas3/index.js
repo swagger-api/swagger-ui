@@ -16,16 +16,16 @@ export default function() {
     statePlugins: {
       spec: {
         wrapSelectors: specWrapSelectors,
-        selectors: specSelectors
+        selectors: specSelectors,
       },
       auth: {
-        wrapSelectors: authWrapSelectors
+        wrapSelectors: authWrapSelectors,
       },
       oas3: {
         actions: oas3Actions,
         reducers: oas3Reducers,
         selectors: oas3Selectors,
-      }
-    }
+      },
+    },
   }
 }

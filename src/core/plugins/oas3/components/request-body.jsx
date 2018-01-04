@@ -11,7 +11,7 @@ const RequestBody = ({
   contentType,
   isExecute,
   specPath,
-  onChange
+  onChange,
 }) => {
   const Markdown = getComponent("Markdown")
   const ModelExample = getComponent("modelExample")
@@ -59,7 +59,7 @@ RequestBody.propTypes = {
   contentType: PropTypes.string,
   isExecute: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
-  specPath: PropTypes.array.isRequired
+  specPath: PropTypes.array.isRequired,
 }
 
 export default RequestBody

@@ -3,7 +3,7 @@ import {
   UPDATE_LAYOUT,
   UPDATE_FILTER,
   UPDATE_MODE,
-  SHOW
+  SHOW,
 } from "./actions"
 
 export default {
@@ -29,6 +29,6 @@ export default {
     let mode = action.payload.mode
 
     return state.setIn(["modes"].concat(thing), (mode || "") + "")
-  }
+  },
 
 }

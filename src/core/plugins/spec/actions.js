@@ -45,7 +45,7 @@ export function updateSpec(spec) {
   if(typeof spec === "string") {
     return {
       type: UPDATE_SPEC,
-      payload: cleanSpec
+      payload: cleanSpec,
     }
   }
 }
@@ -53,7 +53,7 @@ export function updateSpec(spec) {
 export function updateResolved(spec) {
   return {
     type: UPDATE_RESOLVED,
-    payload: spec
+    payload: spec,
   }
 }
 
@@ -82,7 +82,7 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
       source: "parser",
       level: "error",
       message: e.reason,
-      line: e.mark && e.mark.line ? e.mark.line + 1 : undefined
+      line: e.mark && e.mark.line ? e.mark.line + 1 : undefined,
     })
   }
 
@@ -98,7 +98,7 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
     modelPropertyMacro,
     parameterMacro,
     requestInterceptor,
-    responseInterceptor
+    responseInterceptor,
   } = getConfigs()
 
   if(typeof(json) === "undefined") {
@@ -120,10 +120,10 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
     modelPropertyMacro,
     parameterMacro,
     requestInterceptor,
-    responseInterceptor
+    responseInterceptor,
   }).then( ({spec, errors}) => {
     errActions.clear({
-      type: "thrown"
+      type: "thrown",
     })
 
     if(Array.isArray(errors) && errors.length > 0) {
@@ -149,7 +149,7 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
 export function changeParam( path, paramName, paramIn, value, isXml ){
   return {
     type: UPDATE_PARAM,
-    payload:{ path, value, paramName, paramIn, isXml }
+    payload:{ path, value, paramName, paramIn, isXml },
   }
 }
 
@@ -158,50 +158,50 @@ export const validateParams = ( payload, isOAS3 ) =>{
     type: VALIDATE_PARAMS,
     payload:{
       pathMethod: payload,
-      isOAS3
-    }
+      isOAS3,
+    },
   }
 }
 
 export function clearValidateParams( payload ){
   return {
     type: CLEAR_VALIDATE_PARAMS,
-    payload:{ pathMethod: payload }
+    payload:{ pathMethod: payload },
   }
 }
 
 export function changeConsumesValue(path, value) {
   return {
     type: UPDATE_OPERATION_VALUE,
-    payload:{ path, value, key: "consumes_value" }
+    payload:{ path, value, key: "consumes_value" },
   }
 }
 
 export function changeProducesValue(path, value) {
   return {
     type: UPDATE_OPERATION_VALUE,
-    payload:{ path, value, key: "produces_value" }
+    payload:{ path, value, key: "produces_value" },
   }
 }
 
 export const setResponse = ( path, method, res ) => {
   return {
     payload: { path, method, res },
-    type: SET_RESPONSE
+    type: SET_RESPONSE,
   }
 }
 
 export const setRequest = ( path, method, req ) => {
   return {
     payload: { path, method, req },
-    type: SET_REQUEST
+    type: SET_REQUEST,
   }
 }
 
 export const setMutatedRequest = ( path, method, req ) => {
   return {
     payload: { path, method, req },
-    type: SET_MUTATED_REQUEST
+    type: SET_MUTATED_REQUEST,
   }
 }
 
@@ -209,7 +209,7 @@ export const setMutatedRequest = ( path, method, req ) => {
 export const logRequest = (req) => {
   return {
     payload: req,
-    type: LOG_REQUEST
+    type: LOG_REQUEST,
   }
 }
 
@@ -238,7 +238,7 @@ export const executeRequest = (req) =>
 
       const namespaceVariables = oas3Selectors.serverVariables({
         server: req.server,
-        namespace
+        namespace,
       }).toJS()
       const globalVariables = oas3Selectors.serverVariables({ server: req.server }).toJS()
 
@@ -281,8 +281,8 @@ export const executeRequest = (req) =>
       } )
       .catch(
         err => specActions.setResponse(req.pathName, req.method, {
-          error: true, err: serializeError(err)
-        })
+          error: true, err: serializeError(err),
+        }),
       )
   }
 
@@ -301,20 +301,20 @@ export const execute = ( { path, method, ...extras }={} ) => (system) => {
 export function clearResponse (path, method) {
   return {
     type: CLEAR_RESPONSE,
-    payload:{ path, method }
+    payload:{ path, method },
   }
 }
 
 export function clearRequest (path, method) {
   return {
     type: CLEAR_REQUEST,
-    payload:{ path, method }
+    payload:{ path, method },
   }
 }
 
 export function setScheme (scheme, path, method) {
   return {
     type: SET_SCHEME,
-    payload: { scheme, path, method }
+    payload: { scheme, path, method },
   }
 }

@@ -17,7 +17,7 @@ export default class ParamBody extends PureComponent {
     getComponent: PropTypes.func.isRequired,
     isExecute: PropTypes.bool,
     specSelectors: PropTypes.object.isRequired,
-    pathMethod: PropTypes.array.isRequired
+    pathMethod: PropTypes.array.isRequired,
   };
 
   static defaultProp = {
@@ -32,7 +32,7 @@ export default class ParamBody extends PureComponent {
 
     this.state = {
       isEditBox: false,
-      value: ""
+      value: "",
     }
 
   }
@@ -70,7 +70,7 @@ export default class ParamBody extends PureComponent {
     let schema = inferSchema(param.toJS())
 
     return getSampleSchema(schema, xml, {
-      includeWriteOnly: true
+      includeWriteOnly: true,
     })
   }
 

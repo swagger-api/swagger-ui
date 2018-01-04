@@ -13,7 +13,7 @@ class Parameters extends Component {
     super(props)
     this.state = {
       callbackVisible: false,
-      parametersVisible: true
+      parametersVisible: true,
     }
   }
 
@@ -33,7 +33,7 @@ class Parameters extends Component {
     onTryoutClick: PropTypes.func,
     onCancelClick: PropTypes.func,
     onChangeKey: PropTypes.array,
-    pathMethod: PropTypes.array.isRequired
+    pathMethod: PropTypes.array.isRequired,
   }
 
   static defaultProps = {
@@ -56,7 +56,7 @@ class Parameters extends Component {
   onChangeConsumesWrapper = ( val ) => {
     let {
       specActions: { changeConsumesValue },
-      onChangeKey
+      onChangeKey,
     } = this.props
 
     changeConsumesValue(onChangeKey, val)
@@ -66,12 +66,12 @@ class Parameters extends Component {
     if(tab === "parameters"){
       return this.setState({
         parametersVisible: true,
-        callbackVisible: false
+        callbackVisible: false,
       })
     }else if(tab === "callbacks"){
       return this.setState({
         callbackVisible: true,
-        parametersVisible: false
+        parametersVisible: false,
       })
     }
   }
@@ -93,7 +93,7 @@ class Parameters extends Component {
       oas3Selectors,
       pathMethod,
       specPath,
-      operation
+      operation,
     } = this.props
 
     const ParameterRow = getComponent("parameterRow")

@@ -11,7 +11,7 @@ export const Property = ({ propKey, propVal, propStyle }) => {
 Property.propTypes = {
   propKey: PropTypes.string,
   propVal: PropTypes.any,
-  propStyle: PropTypes.object
+  propStyle: PropTypes.object,
 }
 
 export default Property

@@ -6,7 +6,7 @@ import {
   AUTHORIZE,
   AUTHORIZE_OAUTH2,
   LOGOUT,
-  CONFIGURE_AUTH
+  CONFIGURE_AUTH,
 } from "./actions"
 
 export default {
@@ -30,7 +30,7 @@ export default {
 
         map = map.setIn([key, "value"], {
           username: username,
-          header: "Basic " + btoa(username + ":" + password)
+          header: "Basic " + btoa(username + ":" + password),
         })
 
         map = map.setIn([key, "schema"], security.get("schema"))
@@ -62,5 +62,5 @@ export default {
 
   [CONFIGURE_AUTH]: (state, { payload } ) =>{
     return state.set("configs", payload)
-  }
+  },
 }

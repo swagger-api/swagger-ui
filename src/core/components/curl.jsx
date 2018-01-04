@@ -4,7 +4,7 @@ import curlify from "core/curlify"
 
 export default class Curl extends React.Component {
   static propTypes = {
-    request: PropTypes.object.isRequired
+    request: PropTypes.object.isRequired,
   }
 
   handleFocus(e) {

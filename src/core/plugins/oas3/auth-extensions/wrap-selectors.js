@@ -36,7 +36,7 @@ export const definitionsToAuthorize = onlyOAS3(createSelector(
             authorizationUrl: flowVal.get("authorizationUrl"),
             tokenUrl: flowVal.get("tokenUrl"),
             scopes: flowVal.get("scopes"),
-            type: definition.get("type")
+            type: definition.get("type"),
           })
 
           list = list.push(new Map({
@@ -44,18 +44,18 @@ export const definitionsToAuthorize = onlyOAS3(createSelector(
               // filter out unset values, sometimes `authorizationUrl`
               // and `tokenUrl` come out as `undefined` in the data
               return v !== undefined
-            })
+            }),
           }))
         })
       }
 
       if(type === "http" || type === "apiKey") {
         list = list.push(new Map({
-          [defName]: definition
+          [defName]: definition,
         }))
       }
     })
 
     return list
-  }
+  },
 ))

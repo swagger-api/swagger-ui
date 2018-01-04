@@ -19,8 +19,8 @@ export default function downloadUrlPlugin (toolbox) {
         responseInterceptor: config.responseInterceptor || (a => a),
         credentials: "same-origin",
         headers: {
-          "Accept": "application/json,*/*"
-        }
+          "Accept": "application/json,*/*",
+        },
       }).then(next,next)
 
       function next(res) {
@@ -46,9 +46,9 @@ export default function downloadUrlPlugin (toolbox) {
 
       return {
         type: "spec_update_loading_status",
-        payload: status
+        payload: status,
       }
-    }
+    },
   }
 
   let reducers = {
@@ -56,7 +56,7 @@ export default function downloadUrlPlugin (toolbox) {
       return (typeof action.payload === "string")
         ? state.set("loadingStatus", action.payload)
         : state
-    }
+    },
   }
 
   let selectors = {
@@ -64,13 +64,13 @@ export default function downloadUrlPlugin (toolbox) {
       state => {
         return state || Map()
       },
-      spec => spec.get("loadingStatus") || null
-    )
+      spec => spec.get("loadingStatus") || null,
+    ),
   }
 
   return {
     statePlugins: {
-      spec: { actions, reducers, selectors }
-    }
+      spec: { actions, reducers, selectors },
+    },
   }
 }

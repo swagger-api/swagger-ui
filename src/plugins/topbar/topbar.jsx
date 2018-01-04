@@ -7,7 +7,7 @@ import Logo from "./logo_small.png"
 export default class Topbar extends React.Component {
 
   static propTypes = {
-    layoutActions: PropTypes.object.isRequired
+    layoutActions: PropTypes.object.isRequired,
   }
 
   constructor(props, context) {
@@ -122,7 +122,7 @@ export default class Topbar extends React.Component {
             value={urls[this.state.selectedIndex].url}>
             {rows}
           </select>
-        </label>
+        </label>,
       )
     }
     else {
@@ -163,5 +163,5 @@ Topbar.propTypes = {
   specSelectors: PropTypes.object.isRequired,
   specActions: PropTypes.object.isRequired,
   getComponent: PropTypes.func.isRequired,
-  getConfigs: PropTypes.func.isRequired
+  getConfigs: PropTypes.func.isRequired,
 }

@@ -8,7 +8,7 @@ export default class Auths extends React.Component {
     getComponent: PropTypes.func.isRequired,
     authSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
-    specSelectors: PropTypes.object.isRequired
+    specSelectors: PropTypes.object.isRequired,
   }
 
   constructor(props, context) {
@@ -107,7 +107,7 @@ export default class Auths extends React.Component {
                       name={ name }
                       schema={ schema } />
                   </div>)
-                }
+                },
                 ).toArray()
             }
           </div> : null
@@ -123,6 +123,6 @@ export default class Auths extends React.Component {
     authSelectors: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
-    definitions: ImPropTypes.iterable.isRequired
+    definitions: ImPropTypes.iterable.isRequired,
   }
 }

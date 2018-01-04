@@ -7,7 +7,7 @@ import { sanitizeUrl } from "core/utils"
 class Path extends React.Component {
   static propTypes = {
     host: PropTypes.string,
-    basePath: PropTypes.string
+    basePath: PropTypes.string,
   }
 
   render() {
@@ -23,7 +23,7 @@ class Path extends React.Component {
 
 class Contact extends React.Component {
   static propTypes = {
-    data: PropTypes.object
+    data: PropTypes.object,
   }
 
   render(){
@@ -48,7 +48,7 @@ class Contact extends React.Component {
 
 class License extends React.Component {
   static propTypes = {
-    license: PropTypes.object
+    license: PropTypes.object,
   }
 
   render(){
@@ -131,5 +131,5 @@ Info.propTypes = {
   title: PropTypes.any,
   description: PropTypes.any,
   version: PropTypes.any,
-  url: PropTypes.string
+  url: PropTypes.string,
 }

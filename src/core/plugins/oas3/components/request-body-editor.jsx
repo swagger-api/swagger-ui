@@ -27,7 +27,7 @@ export default class RequestBodyEditor extends PureComponent {
 
     this.state = {
       isEditBox: false,
-      value: ""
+      value: "",
     }
   }
 
@@ -64,7 +64,7 @@ export default class RequestBodyEditor extends PureComponent {
     let schema = requestBody.getIn(["content", explicitMediaType || mediaType, "schema"]).toJS()
 
     return getSampleSchema(schema, explicitMediaType || mediaType, {
-      includeWriteOnly: true
+      includeWriteOnly: true,
     })
   }
 

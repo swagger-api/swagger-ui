@@ -5,7 +5,7 @@ export default function ({configs}) {
     "info": 1,
     "log": 2,
     "warn": 3,
-    "error": 4
+    "error": 4,
   }
 
   const getLevel = (level) => levels[level] || -1

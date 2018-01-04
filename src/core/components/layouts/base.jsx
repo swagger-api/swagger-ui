@@ -12,7 +12,7 @@ export default class BaseLayout extends React.Component {
     oas3Actions: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
-    getComponent: PropTypes.func.isRequired
+    getComponent: PropTypes.func.isRequired,
   }
 
   onFilterChange =(e) => {
@@ -27,7 +27,7 @@ export default class BaseLayout extends React.Component {
       getComponent,
       layoutSelectors,
       oas3Selectors,
-      oas3Actions
+      oas3Actions,
     } = this.props
 
     let info = specSelectors.info()

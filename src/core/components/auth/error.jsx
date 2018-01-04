@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 export default class AuthError extends React.Component {
 
   static propTypes = {
-    error: PropTypes.object.isRequired
+    error: PropTypes.object.isRequired,
   }
 
   render() {

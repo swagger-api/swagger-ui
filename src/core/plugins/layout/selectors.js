@@ -22,5 +22,5 @@ export const whatMode = (state, thing, def="") => {
 
 export const showSummary = createSelector(
   state,
-  state => !isShown(state, "editor")
+  state => !isShown(state, "editor"),
 )

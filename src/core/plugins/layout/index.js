@@ -8,8 +8,8 @@ export default function() {
       layout: {
         reducers,
         actions,
-        selectors
-      }
-    }
+        selectors,
+      },
+    },
   }
 }

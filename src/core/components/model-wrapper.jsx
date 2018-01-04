@@ -1,4 +1,4 @@
-import React, { Component, } from "react"
+import React, { Component } from "react"
 import PropTypes from "prop-types"
 //import layoutActions from "actions/layout"
 
@@ -12,7 +12,7 @@ export default class ModelWrapper extends Component {
     specSelectors: PropTypes.object.isRequired,
     expandDepth: PropTypes.number,
     layoutActions: PropTypes.object,
-    layoutSelectors: PropTypes.object.isRequired
+    layoutSelectors: PropTypes.object.isRequired,
   }
 
   onToggle = (name,isShown) => {

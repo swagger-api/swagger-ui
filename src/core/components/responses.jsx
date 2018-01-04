@@ -19,13 +19,13 @@ export default class Responses extends React.Component {
     specActions: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
     specPath: ImPropTypes.list.isRequired,
-    fn: PropTypes.object.isRequired
+    fn: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
     tryItOutResponse: null,
     produces: fromJS(["application/json"]),
-    displayRequestDuration: false
+    displayRequestDuration: false,
   }
 
   shouldComponentUpdate(nextProps) {
@@ -50,7 +50,7 @@ export default class Responses extends React.Component {
       oas3Actions.setResponseContentType({
         value,
         path,
-        method
+        method,
       })
     }
   }

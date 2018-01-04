@@ -45,7 +45,7 @@ export default class Schemes extends React.Component {
         <select onChange={ this.onChange }>
           { schemes.valueSeq().map(
             ( scheme ) => <option key={ scheme }
-              value={ scheme }>{ scheme }</option>
+              value={ scheme }>{ scheme }</option>,
           ).toArray()}
         </select>
       </label>

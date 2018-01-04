@@ -10,7 +10,7 @@ export default class Debug extends React.Component {
   constructor() {
     super()
     this.state = {
-      jsonDumpOpen: false
+      jsonDumpOpen: false,
     }
 
     this.toggleJsonDump = (e) => {
@@ -51,6 +51,6 @@ export default class Debug extends React.Component {
 }
 
 Debug.propTypes = {
-  getState: PropTypes.func.isRequired
+  getState: PropTypes.func.isRequired,
 }
 

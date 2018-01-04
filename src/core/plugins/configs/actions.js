@@ -7,7 +7,7 @@ export function update(configName, configValue) {
   return {
     type: UPDATE_CONFIGS,
     payload: {
-      [configName]: configValue
+      [configName]: configValue,
     },
   }
 }

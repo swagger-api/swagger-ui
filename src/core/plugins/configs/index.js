@@ -39,13 +39,13 @@ const specActions = {
         cb(parseYamlConfig(res.text))
       }
     }
-  }
+  },
 }
 
 const specSelectors = {
   getLocalConfig: () => {
     return parseYamlConfig(yamlConfig)
-  }
+  },
 }
 
 export default function configsPlugin() {
@@ -60,7 +60,7 @@ export default function configsPlugin() {
         reducers,
         actions,
         selectors,
-      }
-    }
+      },
+    },
   }
 }

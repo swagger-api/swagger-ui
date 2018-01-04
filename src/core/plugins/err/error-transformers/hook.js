@@ -6,12 +6,12 @@ import * as StripInstance from "./transformers/strip-instance"
 const errorTransformers = [
   NotOfType,
   ParameterOneOf,
-  StripInstance
+  StripInstance,
 ]
 
 export default function transformErrors (errors, system) {
   let inputs = {
-    jsSpec: system.specSelectors.specJson().toJS()
+    jsSpec: system.specSelectors.specJson().toJS(),
   }
 
   let transformedErrors = reduce(errorTransformers, (result, transformer) => {

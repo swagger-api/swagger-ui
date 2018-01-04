@@ -7,7 +7,7 @@ export const ParameterExt = ({ xKey, xVal }) => {
 
 ParameterExt.propTypes = {
   xKey: PropTypes.string,
-  xVal: PropTypes.any
+  xVal: PropTypes.any,
 }
 
 export default ParameterExt

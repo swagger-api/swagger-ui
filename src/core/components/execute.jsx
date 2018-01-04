@@ -9,7 +9,7 @@ export default class Execute extends Component {
     operation: PropTypes.object.isRequired,
     path: PropTypes.string.isRequired,
     method: PropTypes.string.isRequired,
-    onExecute: PropTypes.func
+    onExecute: PropTypes.func,
   }
 
   onClick=()=>{

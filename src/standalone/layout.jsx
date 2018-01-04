@@ -10,7 +10,7 @@ export default class StandaloneLayout extends React.Component {
     specSelectors: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
-    getComponent: PropTypes.func.isRequired
+    getComponent: PropTypes.func.isRequired,
   }
 
   render() {

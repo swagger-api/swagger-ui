@@ -49,7 +49,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
       authId: name,
       source: "validation",
       level: "error",
-      message: "oauth2RedirectUrl configuration is not passed. Oauth2 authorization cannot be performed."
+      message: "oauth2RedirectUrl configuration is not passed. Oauth2 authorization cannot be performed.",
     })
 
     return
@@ -100,7 +100,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     state: state,
     redirectUrl: redirectUrl,
     callback: callback,
-    errCb: errActions.newAuthErr
+    errCb: errActions.newAuthErr,
   }
 
   win.open(url)

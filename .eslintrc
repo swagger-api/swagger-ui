@@ -23,6 +23,15 @@
   "rules": {
     "semi": [2, "never"],
     "strict": 0,
+    "comma-dangle": [2,
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "always-multiline"
+      }
+    ],
     "indent": [2, 2],
     "quotes": [2, "double", { "allowTemplateLiterals": true }],
     "no-unused-vars": 2,
@@ -40,7 +49,6 @@
         { "blankLine": "always", "prev": "multiline-block-like", "next": "*" },
         { "blankLine": "always", "prev": "*", "next": "multiline-block-like" },
     ],
-    "comma-dangle": 0,
     "no-console": ["error", { "allow": ["warn", "error"] }],
     "react/jsx-no-bind": 1,
     "react/jsx-indent-props": [2, 2],

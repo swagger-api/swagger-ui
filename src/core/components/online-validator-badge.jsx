@@ -6,7 +6,7 @@ export default class OnlineValidatorBadge extends React.Component {
     static propTypes = {
       getComponent: PropTypes.func.isRequired,
       getConfigs: PropTypes.func.isRequired,
-      specSelectors: PropTypes.object.isRequired
+      specSelectors: PropTypes.object.isRequired,
     }
 
     constructor(props, context) {
@@ -15,7 +15,7 @@ export default class OnlineValidatorBadge extends React.Component {
       let { validatorUrl } = getConfigs()
       this.state = {
         url: specSelectors.url(),
-        validatorUrl: validatorUrl === undefined ? "https://online.swagger.io/validator" : validatorUrl
+        validatorUrl: validatorUrl === undefined ? "https://online.swagger.io/validator" : validatorUrl,
       }
     }
 
@@ -25,7 +25,7 @@ export default class OnlineValidatorBadge extends React.Component {
 
       this.setState({
         url: specSelectors.url(),
-        validatorUrl: validatorUrl === undefined ? "https://online.swagger.io/validator" : validatorUrl
+        validatorUrl: validatorUrl === undefined ? "https://online.swagger.io/validator" : validatorUrl,
       })
     }
 
@@ -55,14 +55,14 @@ export default class OnlineValidatorBadge extends React.Component {
 class ValidatorImage extends React.Component {
   static propTypes = {
     src: PropTypes.string,
-    alt: PropTypes.string
+    alt: PropTypes.string,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       loaded: false,
-      error: false
+      error: false,
     }
   }
 
@@ -71,13 +71,13 @@ class ValidatorImage extends React.Component {
 
     img.onload = () => {
       this.setState({
-        loaded: true
+        loaded: true,
       })
     }
 
     img.onerror = () => {
       this.setState({
-        error: true
+        error: true,
       })
     }
 
@@ -90,13 +90,13 @@ class ValidatorImage extends React.Component {
 
       img.onload = () => {
         this.setState({
-          loaded: true
+          loaded: true,
         })
       }
 
       img.onerror = () => {
         this.setState({
-          error: true
+          error: true,
         })
       }
 

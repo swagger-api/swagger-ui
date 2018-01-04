@@ -8,7 +8,7 @@ export default class Models extends Component {
     specSelectors: PropTypes.object,
     layoutSelectors: PropTypes.object,
     layoutActions: PropTypes.object,
-    getConfigs: PropTypes.func.isRequired
+    getConfigs: PropTypes.func.isRequired,
   }
 
   render(){

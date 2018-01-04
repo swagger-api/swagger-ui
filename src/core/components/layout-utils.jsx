@@ -26,14 +26,14 @@ export class Container extends React.Component {
 Container.propTypes = {
   fullscreen: PropTypes.bool,
   full: PropTypes.bool,
-  className: PropTypes.string
+  className: PropTypes.string,
 }
 
 const DEVICES = {
   "mobile": "",
   "tablet": "-tablet",
   "desktop": "-desktop",
-  "large": "-hd"
+  "large": "-hd",
 }
 
 export class Col extends React.Component {
@@ -92,7 +92,7 @@ Col.propTypes = {
   tablet: PropTypes.number,
   desktop: PropTypes.number,
   large: PropTypes.number,
-  className: PropTypes.string
+  className: PropTypes.string,
 }
 
 export class Row extends React.Component {
@@ -105,17 +105,17 @@ export class Row extends React.Component {
 }
 
 Row.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 }
 
 export class Button extends React.Component {
 
   static propTypes = {
-    className: PropTypes.string
+    className: PropTypes.string,
   }
 
   static defaultProps = {
-    className: ""
+    className: "",
   }
 
   render() {
@@ -136,12 +136,12 @@ export class Select extends React.Component {
     onChange: PropTypes.func,
     multiple: PropTypes.bool,
     allowEmptyValue: PropTypes.bool,
-    className: PropTypes.string
+    className: PropTypes.string,
   }
 
   static defaultProps = {
     multiple: false,
-    allowEmptyValue: true
+    allowEmptyValue: true,
   }
 
   constructor(props, context) {
@@ -210,13 +210,13 @@ export class Link extends React.Component {
 }
 
 Link.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 }
 
 const NoMargin = ({children}) => <div style={{height: "auto", border: "none", margin: 0, padding: 0}}> {children} </div>
 
 NoMargin.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
 export class Collapse extends React.Component {
@@ -224,12 +224,12 @@ export class Collapse extends React.Component {
   static propTypes = {
     isOpened: PropTypes.bool,
     children: PropTypes.node.isRequired,
-    animated: PropTypes.bool
+    animated: PropTypes.bool,
   }
 
   static defaultProps = {
     isOpened: false,
-    animated: false
+    animated: false,
   }
 
   renderNotAnimated() {

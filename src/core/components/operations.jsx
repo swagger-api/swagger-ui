@@ -4,7 +4,7 @@ import Im from "immutable"
 import { createDeepLinkPath, sanitizeUrl } from "core/utils"
 
 const SWAGGER2_OPERATION_METHODS = [
-  "get", "put", "post", "delete", "options", "head", "patch"
+  "get", "put", "post", "delete", "options", "head", "patch",
 ]
 
 const OAS3_OPERATION_METHODS = SWAGGER2_OPERATION_METHODS.concat(["trace"])
@@ -20,7 +20,7 @@ export default class Operations extends React.Component {
     layoutActions: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
     authSelectors: PropTypes.object.isRequired,
-    getConfigs: PropTypes.func.isRequired
+    getConfigs: PropTypes.func.isRequired,
   };
 
   render() {
@@ -29,7 +29,7 @@ export default class Operations extends React.Component {
       getComponent,
       layoutSelectors,
       layoutActions,
-      getConfigs
+      getConfigs,
     } = this.props
 
     let taggedOps = specSelectors.taggedOperations()
@@ -42,7 +42,7 @@ export default class Operations extends React.Component {
     let {
       docExpansion,
       maxDisplayedTags,
-      deepLinking
+      deepLinking,
     } = getConfigs()
 
     const isDeepLinkingEnabled = deepLinking && deepLinking !== "false"
@@ -168,5 +168,5 @@ Operations.propTypes = {
   specActions: PropTypes.object.isRequired,
   layoutSelectors: PropTypes.object.isRequired,
   getComponent: PropTypes.func.isRequired,
-  fn: PropTypes.object.isRequired
+  fn: PropTypes.object.isRequired,
 }

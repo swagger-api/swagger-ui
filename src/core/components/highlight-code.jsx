@@ -5,7 +5,7 @@ import { highlight } from "core/utils"
 export default class HighlightCode extends Component {
   static propTypes = {
     value: PropTypes.string.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
   }
 
   componentDidMount() {

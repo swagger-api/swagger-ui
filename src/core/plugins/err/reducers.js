@@ -4,7 +4,7 @@ import {
   NEW_SPEC_ERR,
   NEW_SPEC_ERR_BATCH,
   NEW_AUTH_ERR,
-  CLEAR
+  CLEAR,
 } from "./actions"
 
 import reject from "lodash/reject"
@@ -17,7 +17,7 @@ let DEFAULT_ERROR_STRUCTURE = {
   // defaults
   line: 0,
   level: "error",
-  message: "Unknown error"
+  message: "Unknown error",
 }
 
 export default function(system) {
@@ -78,8 +78,8 @@ export default function(system) {
       let newErrors = Im.fromJS(reject((state.get("errors") || List()).toJS(), payload))
 
       return state.merge({
-        errors: newErrors
+        errors: newErrors,
       })
-    }
+    },
   }
 }

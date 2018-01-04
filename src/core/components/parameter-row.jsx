@@ -16,7 +16,7 @@ export default class ParameterRow extends Component {
     specSelectors: PropTypes.object.isRequired,
     pathMethod: PropTypes.array.isRequired,
     getConfigs: PropTypes.func.isRequired,
-    specPath: ImPropTypes.list.isRequired
+    specPath: ImPropTypes.list.isRequired,
   }
 
   constructor(props, context) {

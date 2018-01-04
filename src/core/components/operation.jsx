@@ -27,14 +27,14 @@ export default class Operation extends PureComponent {
     oas3Selectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
-    fn: PropTypes.object.isRequired
+    fn: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
     operation: null,
     response: null,
     request: null,
-    specPath: List()
+    specPath: List(),
   }
 
   render() {
@@ -54,7 +54,7 @@ export default class Operation extends PureComponent {
       authActions,
       authSelectors,
       oas3Actions,
-      oas3Selectors
+      oas3Selectors,
     } = this.props
     let operationProps = this.props.operation
 
@@ -72,7 +72,7 @@ export default class Operation extends PureComponent {
       displayRequestDuration,
       isDeepLinkingEnabled,
       tryItOutEnabled,
-      executeInProgress
+      executeInProgress,
     } = operationProps.toJS()
 
     let {
@@ -80,7 +80,7 @@ export default class Operation extends PureComponent {
       description,
       deprecated,
       externalDocs,
-      schemes
+      schemes,
     } = op.operation
 
     let operation = operationProps.getIn(["op", "operation"])

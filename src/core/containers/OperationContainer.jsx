@@ -11,7 +11,7 @@ export default class OperationContainer extends PureComponent {
     super(props, context)
     this.state = {
       tryItOutEnabled: false,
-      executeInProgress: false
+      executeInProgress: false,
     }
   }
 
@@ -43,7 +43,7 @@ export default class OperationContainer extends PureComponent {
     layoutActions: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     fn: PropTypes.object.isRequired,
-    getConfigs: PropTypes.func.isRequired
+    getConfigs: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -51,7 +51,7 @@ export default class OperationContainer extends PureComponent {
     response: null,
     allowTryItOut: true,
     displayOperationId: false,
-    displayRequestDuration: false
+    displayRequestDuration: false,
   }
 
   mapStateToProps(nextState, props) {
@@ -77,7 +77,7 @@ export default class OperationContainer extends PureComponent {
       isShown: layoutSelectors.isShown(isShownKey, docExpansion === "full" ),
       jumpToKey: `paths.${props.path}.${props.method}`,
       response: props.specSelectors.responseFor(props.path, props.method),
-      request: props.specSelectors.requestFor(props.path, props.method)
+      request: props.specSelectors.requestFor(props.path, props.method),
     }
   }
 
@@ -153,7 +153,7 @@ export default class OperationContainer extends PureComponent {
       authSelectors,
       oas3Actions,
       oas3Selectors,
-      fn
+      fn,
     } = this.props
 
     const Operation = getComponent( "operation" )
@@ -175,7 +175,7 @@ export default class OperationContainer extends PureComponent {
       displayRequestDuration,
       isDeepLinkingEnabled,
       executeInProgress: this.state.executeInProgress,
-      tryItOutEnabled: this.state.tryItOutEnabled
+      tryItOutEnabled: this.state.tryItOutEnabled,
     })
 
     return (
