@@ -70,7 +70,8 @@ export default class ApiKeyAuth extends React.Component {
           <label>Value:</label>
           {
             value ? <code> ****** </code>
-                  : <Col><Input onChange={ this.onChange } type="text"/></Col>
+                  : <Col><Input onChange={ this.onChange }
+                    type="text"/></Col>
           }
         </Row>
         {

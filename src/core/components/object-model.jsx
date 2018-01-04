@@ -97,12 +97,14 @@ export default class ObjectModel extends Component {
                         propertyStyle.fontWeight = "bold"
                       }
 
-                      return (<tr key={key} className={isDeprecated && "deprecated"}>
+                      return (<tr key={key}
+                        className={isDeprecated && "deprecated"}>
                         <td style={ propertyStyle }>
                           { key }{ isRequired && <span style={{ color: "red" }}>*</span> }
                         </td>
                         <td style={{ verticalAlign: "top" }}>
-                          <Model key={ `object-${name}-${key}_${value}` } { ...otherProps }
+                          <Model key={ `object-${name}-${key}_${value}` }
+                            { ...otherProps }
                             depth={ depth + 1 }
                             getComponent={ getComponent }
                             getConfigs={ getConfigs }
@@ -127,7 +129,8 @@ export default class ObjectModel extends Component {
 
                       const normalizedValue = !value ? null : value.toJS ? value.toJS() : value
 
-                      return (<tr key={key} style={{ color: "#777" }}>
+                      return (<tr key={key}
+                        style={{ color: "#777" }}>
                         <td>
                           { key }
                         </td>
@@ -142,7 +145,8 @@ export default class ObjectModel extends Component {
                   : <tr>
                     <td>{ "< * >:" }</td>
                     <td>
-                      <Model { ...otherProps } depth={ depth + 1 }
+                      <Model { ...otherProps }
+                        depth={ depth + 1 }
                         getComponent={ getComponent }
                         getConfigs={ getConfigs }
                         required={ false }
@@ -157,7 +161,8 @@ export default class ObjectModel extends Component {
                     <td>{ "anyOf ->" }</td>
                     <td>
                       {anyOf.map((schema, k) => {
-                        return <div key={k}><Model { ...otherProps } depth={ depth + 1 }
+                        return <div key={k}><Model { ...otherProps }
+                          depth={ depth + 1 }
                           getComponent={ getComponent }
                           getConfigs={ getConfigs }
                           required={ false }
@@ -173,7 +178,8 @@ export default class ObjectModel extends Component {
                     <td>{ "oneOf ->" }</td>
                     <td>
                       {oneOf.map((schema, k) => {
-                        return <div key={k}><Model { ...otherProps } depth={ depth + 1 }
+                        return <div key={k}><Model { ...otherProps }
+                          depth={ depth + 1 }
                           getComponent={ getComponent }
                           getConfigs={ getConfigs }
                           required={ false }

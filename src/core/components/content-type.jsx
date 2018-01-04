@@ -47,9 +47,12 @@ export default class ContentType extends React.Component {
 
     return (
       <div className={ "content-type-wrapper " + ( className || "" ) }>
-        <select className="content-type" onChange={this.onChangeWrapper} value={value || ""} >
+        <select className="content-type"
+          onChange={this.onChangeWrapper}
+          value={value || ""} >
           { contentTypes.map( (val) => {
-            return <option key={ val } value={ val }>{ val }</option>
+            return <option key={ val }
+              value={ val }>{ val }</option>
           }).toArray()}
         </select>
       </div>

@@ -75,7 +75,10 @@ export default class HttpAuth extends React.Component {
           <label>Username:</label>
           {
             username ? <code> { username } </code>
-                     : <Col><Input name="username" onChange={ this.onChange } required="required" type="text"/></Col>
+                     : <Col><Input name="username"
+                       onChange={ this.onChange }
+                       required="required"
+                       type="text"/></Col>
           }
         </Row>
         <Row>
@@ -114,7 +117,8 @@ export default class HttpAuth extends React.Component {
             <label>Value:</label>
             {
                 value ? <code> ****** </code>
-              : <Col><Input onChange={ this.onChange } type="text"/></Col>
+              : <Col><Input onChange={ this.onChange }
+                type="text"/></Col>
           }
           </Row>
           {

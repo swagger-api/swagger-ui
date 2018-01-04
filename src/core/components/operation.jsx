@@ -116,8 +116,10 @@ export default class Operation extends PureComponent {
     let onChangeKey = [ path, method ] // Used to add values to _this_ operation ( indexed by path and method )
 
     return (
-      <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={isShownKey.join("-")} >
-        <div className={`opblock-summary opblock-summary-${method}`} onClick={toggleShown} >
+      <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`}
+        id={isShownKey.join("-")} >
+        <div className={`opblock-summary opblock-summary-${method}`}
+          onClick={toggleShown} >
           {/*TODO: convert this into a component, that can be wrapped
               and pulled in with getComponent */}
           <span className="opblock-summary-method">{method.toUpperCase()}</span>
@@ -168,7 +170,9 @@ export default class Operation extends PureComponent {
                       <span className="opblock-external-docs__description">
                         <Markdown source={ externalDocs.description } />
                       </span>
-                      <a className="opblock-external-docs__link" href={ sanitizeUrl(externalDocs.url) } target="_blank">{ externalDocs.url }</a>
+                      <a className="opblock-external-docs__link"
+                        href={ sanitizeUrl(externalDocs.url) }
+                        target="_blank">{ externalDocs.url }</a>
                     </div>
                   </div> : null
               }
@@ -257,7 +261,8 @@ export default class Operation extends PureComponent {
               }
 
             { !showExtensions || !extensions.size ? null :
-            <OperationExt extensions={ extensions } getComponent={ getComponent } />
+            <OperationExt extensions={ extensions }
+              getComponent={ getComponent } />
               }
           </div>
         </Collapse>

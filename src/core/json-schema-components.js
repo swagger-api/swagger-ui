@@ -38,7 +38,12 @@ export class JsonSchemaForm extends Component {
 
     let Comp = (format ? getComponent(`JsonSchema_${type}_${format}`) : getComponent(`JsonSchema_${type}`)) || getComponent("JsonSchema_string")
 
-    return <Comp { ...this.props } fn={fn} getComponent={getComponent} onChange={onChange} schema={schema} value={value}/>
+    return <Comp { ...this.props }
+      fn={fn}
+      getComponent={getComponent}
+      onChange={onChange}
+      schema={schema}
+      value={value}/>
   }
 
 }
@@ -171,14 +176,21 @@ export class JsonSchema_array extends PureComponent {
             }
 
           return (
-            <div key={i} className="json-schema-form-item">
-              <JsonSchemaForm fn={fn} getComponent={getComponent} onChange={(val) => this.onItemChange(val, i)} schema={schema} value={item} />
-              <Button className="btn btn-sm json-schema-form-item-remove" onClick={()=> this.removeItem(i)} > - </Button>
+            <div key={i}
+              className="json-schema-form-item">
+              <JsonSchemaForm fn={fn}
+                getComponent={getComponent}
+                onChange={(val) => this.onItemChange(val, i)}
+                schema={schema}
+                value={item} />
+              <Button className="btn btn-sm json-schema-form-item-remove"
+                onClick={()=> this.removeItem(i)} > - </Button>
             </div>
             )
           }).toArray()
         }
-        <Button className={`btn btn-sm json-schema-form-item-add ${errors.length ? "invalid" : null}`} onClick={this.addItem}> Add item </Button>
+        <Button className={`btn btn-sm json-schema-form-item-add ${errors.length ? "invalid" : null}`}
+          onClick={this.addItem}> Add item </Button>
       </div>
     )
   }

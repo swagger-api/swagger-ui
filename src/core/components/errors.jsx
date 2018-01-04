@@ -37,19 +37,25 @@ export default class Errors extends React.Component {
       <pre className="errors-wrapper">
         <hgroup className="error">
           <h4 className="errors__title">Errors</h4>
-          <button className="btn errors__clear-btn" onClick={ toggleVisibility }>{ isVisible ? "Hide" : "Show" }</button>
+          <button className="btn errors__clear-btn"
+            onClick={ toggleVisibility }>{ isVisible ? "Hide" : "Show" }</button>
         </hgroup>
-        <Collapse animated isOpened={ isVisible } >
+        <Collapse animated
+          isOpened={ isVisible } >
           <div className="errors">
             { sortedJSErrors.map((err, i) => {
               let type = err.get("type")
 
               if(type === "thrown" || type === "auth") {
-                return <ThrownErrorItem key={ i } error={ err.get("error") || err } jumpToLine={jumpToLine} />
+                return <ThrownErrorItem key={ i }
+                  error={ err.get("error") || err }
+                  jumpToLine={jumpToLine} />
               }
 
               if(type === "spec") {
-                return <SpecErrorItem key={ i } error={ err } jumpToLine={jumpToLine} />
+                return <SpecErrorItem key={ i }
+                  error={ err }
+                  jumpToLine={jumpToLine} />
               }
             }) }
           </div>

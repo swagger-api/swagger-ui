@@ -39,9 +39,11 @@ export default class Overview extends React.Component {
               return (
                 <div key={"overview-"+tag}>
 
-                  <h4 className="link overview-tag" onClick={toggleShow}> {showTag ? "-" : "+"}{tag}</h4>
+                  <h4 className="link overview-tag"
+                    onClick={toggleShow}> {showTag ? "-" : "+"}{tag}</h4>
 
-                  <Collapse animated isOpened={showTag}>
+                  <Collapse animated
+                    isOpened={showTag}>
                     {
                       operations.map( op => {
                         let { path, method, id } = op.toObject() // toObject is shallow
@@ -98,7 +100,10 @@ export class OperationLink extends React.Component {
     let { id, method, shown, href } = this.props
 
     return (
-      <Link className="block opblock-link" href={ href } onClick={this.onClick} style={{fontWeight: shown ? "bold" : "normal"}}>
+      <Link className="block opblock-link"
+        href={ href }
+        onClick={this.onClick}
+        style={{fontWeight: shown ? "bold" : "normal"}}>
         <div>
           <small className={`bold-label-${method}`}>{method.toUpperCase()}</small>
           <span className="bold-label" >{id}</span>

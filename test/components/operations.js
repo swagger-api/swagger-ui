@@ -10,7 +10,8 @@ import {Collapse} from "components/layout-utils"
 const components = {
   Collapse,
   DeepLink,
-  OperationContainer: ({ path, method }) => <span className="mocked-op" id={`${path}-${method}`} />
+  OperationContainer: ({ path, method }) => <span className="mocked-op"
+    id={`${path}-${method}`} />
 }
 
 describe("<Operations/>", function(){

@@ -43,10 +43,16 @@ export default class Primitive extends Component {
         <span className="prop-type">{ type }</span>
         { format && <span className="prop-format">(${format})</span>}
         {
-          properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propStyle={ propStyle } propVal={ v } />) : null
+          properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`}
+            propKey={ key }
+            propStyle={ propStyle }
+            propVal={ v } />) : null
         }
         {
-          showExtensions && extensions.size ? extensions.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propStyle={ propStyle } propVal={ v } />) : null
+          showExtensions && extensions.size ? extensions.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`}
+            propKey={ key }
+            propStyle={ propStyle }
+            propVal={ v } />) : null
         }
         {
           !description ? null :
@@ -55,12 +61,14 @@ export default class Primitive extends Component {
         {
           xml && xml.size ? (<span><br /><span style={ propStyle }>xml:</span>
             {
-              xml.entrySeq().map( ( [ key, v ] ) => <span key={`${key}-${v}`} style={ propStyle }><br/>&nbsp;&nbsp;&nbsp;{key}: { String(v) }</span>).toArray()
+              xml.entrySeq().map( ( [ key, v ] ) => <span key={`${key}-${v}`}
+                style={ propStyle }><br/>&nbsp;&nbsp;&nbsp;{key}: { String(v) }</span>).toArray()
             }
           </span>): null
         }
         {
-          enumArray && <EnumModel getComponent={ getComponent } value={ enumArray } />
+          enumArray && <EnumModel getComponent={ getComponent }
+            value={ enumArray } />
         }
       </span>
     </span>

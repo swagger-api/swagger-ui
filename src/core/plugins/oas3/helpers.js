@@ -26,7 +26,9 @@ export function OAS3ComponentWrapFactory(Component) {
       const spec = system.specSelectors.specJson()
 
       if(isOAS3(spec)) {
-        return <Component {...props} {...system} Ori={Ori}></Component>
+        return <Component {...props}
+          {...system}
+          Ori={Ori}></Component>
       } else {
         return <Ori {...props}></Ori>
       }

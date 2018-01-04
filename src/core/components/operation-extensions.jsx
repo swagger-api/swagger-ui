@@ -20,7 +20,9 @@ export const OperationExt = ({ extensions, getComponent }) => {
             </thead>
             <tbody>
               {
-                    extensions.entrySeq().map(([k, v]) => <OperationExtRow key={`${k}-${v}`} xKey={k} xVal={v} />)
+                    extensions.entrySeq().map(([k, v]) => <OperationExtRow key={`${k}-${v}`}
+                      xKey={k}
+                      xVal={v} />)
                 }
             </tbody>
           </table>

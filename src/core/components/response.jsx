@@ -21,13 +21,15 @@ const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
 
       return (<div key={ key }>
         <h5>{ key }</h5>
-        <HighlightCode className="example" value={ exampleValue } />
+        <HighlightCode className="example"
+          value={ exampleValue } />
       </div>)
     }).toArray()
   }
 
   if ( sampleResponse ) { return <div>
-    <HighlightCode className="example" value={ sampleResponse } />
+    <HighlightCode className="example"
+      value={ sampleResponse } />
   </div>
   }
 
@@ -172,7 +174,10 @@ export default class Response extends React.Component {
         {specSelectors.isOAS3() ? <td className="col response-col_links">
           { links ?
             links.toSeq().map((link, key) => {
-              return <OperationLink key={key} getComponent={getComponent} link={ link } name={key}/>
+              return <OperationLink key={key}
+                getComponent={getComponent}
+                link={ link }
+                name={key}/>
             })
           : <i>No links</i>}
         </td> : null}

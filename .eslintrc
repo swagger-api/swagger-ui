@@ -44,6 +44,9 @@
     "react/jsx-no-bind": 1,
     "react/jsx-indent": [2, 2],
     "react/jsx-indent-props": [2, 2],
+    "react/jsx-max-props-per-line": [2,
+      { "maximum": 1, "when": "always" }
+    ],
     "react/jsx-sort-props": [2,
       { "reservedFirst": true }
     ],

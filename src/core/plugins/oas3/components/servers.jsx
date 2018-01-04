@@ -129,7 +129,8 @@ export default class Servers extends React.Component {
                       <td>{name}</td>
                       <td>
                         { val.get("enum") ?
-                          <select data-variable={name} onChange={this.onServerVariableValueChange}>
+                          <select data-variable={name}
+                            onChange={this.onServerVariableValueChange}>
                             {val.get("enum").map(enumValue => {
                               return <option
                                 key={enumValue}

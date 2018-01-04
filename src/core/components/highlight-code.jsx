@@ -24,6 +24,7 @@ export default class HighlightCode extends Component {
     let { value, className } = this.props
     className = className || ""
 
-    return <pre ref={this.initializeComponent} className={className + " microlight"}>{ value }</pre>
+    return <pre ref={this.initializeComponent}
+      className={className + " microlight"}>{ value }</pre>
   }
 }

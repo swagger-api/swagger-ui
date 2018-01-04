@@ -44,7 +44,9 @@ export default class XPane extends React.Component {
             <Overview/>
           </Col>
 
-          <Col desktop={5} hide={!showEditor} keepContents={true} >
+          <Col desktop={5}
+            hide={!showEditor}
+            keepContents={true} >
             <Editor/>
           </Col>
 

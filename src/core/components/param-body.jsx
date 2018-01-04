@@ -118,7 +118,9 @@ export default class ParamBody extends PureComponent {
       <div className="body-param">
         {
           isEditBox && isExecute
-            ? <TextArea className={ "body-param__text" + ( errors.count() ? " invalid" : "")} onChange={ this.handleOnChange } value={value}/>
+            ? <TextArea className={ "body-param__text" + ( errors.count() ? " invalid" : "")}
+              onChange={ this.handleOnChange }
+              value={value}/>
             : (value && <HighlightCode className="body-param__example"
               value={ value }/>)
         }
@@ -133,7 +135,10 @@ export default class ParamBody extends PureComponent {
           }
           <label htmlFor="">
             <span>Parameter content type</span>
-            <ContentType className="body-param-content-type" contentTypes={ consumes } onChange={onChangeConsumes} value={ consumesValue } />
+            <ContentType className="body-param-content-type"
+              contentTypes={ consumes }
+              onChange={onChangeConsumes}
+              value={ consumesValue } />
           </label>
         </div>
 

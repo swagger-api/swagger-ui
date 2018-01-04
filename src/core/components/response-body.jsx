@@ -46,12 +46,14 @@ export default class ResponseBody extends React.Component {
       if(contentType.includes("svg")) {
         bodyEl = <div> { content } </div>
       } else {
-        bodyEl = <img src={ window.URL.createObjectURL(content) } style={{ maxWidth: "100%" }} />
+        bodyEl = <img src={ window.URL.createObjectURL(content) }
+          style={{ maxWidth: "100%" }} />
       }
 
       // Audio
     } else if (/^audio\//i.test(contentType)) {
-      bodyEl = <pre><audio controls><source src={ url } type={ contentType } /></audio></pre>
+      bodyEl = <pre><audio controls><source src={ url }
+        type={ contentType } /></audio></pre>
 
       // Download
     } else if (
@@ -81,7 +83,8 @@ export default class ResponseBody extends React.Component {
           }
         }
 
-        bodyEl = <div><a download={ download } href={ href }>{ "Download file" }</a></div>
+        bodyEl = <div><a download={ download }
+          href={ href }>{ "Download file" }</a></div>
       } else {
         bodyEl = <pre>Download headers detected but your browser does not support downloading binary via XHR (Blob).</pre>
       }

@@ -58,7 +58,8 @@ export default class Model extends ImmutablePureComponent {
     switch(type) {
       case "object":
         return <ObjectModel
-          className="object" { ...this.props }
+          className="object"
+          { ...this.props }
           deprecated={deprecated}
           getConfigs={ getConfigs }
           isRef={ isRef }
@@ -67,7 +68,8 @@ export default class Model extends ImmutablePureComponent {
           specPath={specPath} />
       case "array":
         return <ArrayModel
-          className="array" { ...this.props }
+          className="array"
+          { ...this.props }
           deprecated={deprecated}
           getConfigs={ getConfigs }
           name={ name }

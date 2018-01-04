@@ -74,7 +74,8 @@ export default class Operations extends React.Component {
               let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
 
               return (
-                <div key={"operation-" + tag} className={showTag ? "opblock-tag-section is-open" : "opblock-tag-section"}>
+                <div key={"operation-" + tag}
+                  className={showTag ? "opblock-tag-section is-open" : "opblock-tag-section"}>
 
                   <h4
                     className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag" }
@@ -107,9 +108,14 @@ export default class Operations extends React.Component {
                     }
                     </div>
 
-                    <button className="expand-operation" onClick={() => layoutActions.show(isShownKey, !showTag)} title="Expand operation">
-                      <svg className="arrow" height="20" width="20">
-                        <use href={showTag ? "#large-arrow-down" : "#large-arrow"} xlinkHref={showTag ? "#large-arrow-down" : "#large-arrow"} />
+                    <button className="expand-operation"
+                      onClick={() => layoutActions.show(isShownKey, !showTag)}
+                      title="Expand operation">
+                      <svg className="arrow"
+                        height="20"
+                        width="20">
+                        <use href={showTag ? "#large-arrow-down" : "#large-arrow"}
+                          xlinkHref={showTag ? "#large-arrow-down" : "#large-arrow"} />
                       </svg>
                     </button>
                   </h4>

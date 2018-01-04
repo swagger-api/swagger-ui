@@ -21,9 +21,13 @@ export default class AuthorizationPopup extends React.Component {
             <div className="modal-ux-inner">
               <div className="modal-ux-header">
                 <h3>Available authorizations</h3>
-                <button className="close-modal" onClick={ this.close } type="button">
-                  <svg height="20" width="20">
-                    <use href="#close" xlinkHref="#close" />
+                <button className="close-modal"
+                  onClick={ this.close }
+                  type="button">
+                  <svg height="20"
+                    width="20">
+                    <use href="#close"
+                      xlinkHref="#close" />
                   </svg>
                 </button>
               </div>

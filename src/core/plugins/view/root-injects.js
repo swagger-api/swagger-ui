@@ -5,7 +5,9 @@ import omit from "lodash/omit"
 
 const SystemWrapper = (getSystem, ComponentToWrap ) => class extends Component {
   render() {
-    return <ComponentToWrap {...getSystem() } {...this.props} {...this.context} />
+    return <ComponentToWrap {...getSystem() }
+      {...this.props}
+      {...this.context} />
   }
 }
 
@@ -13,7 +15,8 @@ const RootWrapper = (reduxStore, ComponentToWrap) => class extends Component {
   render() {
     return (
       <Provider store={reduxStore}>
-        <ComponentToWrap {...this.props} {...this.context} />
+        <ComponentToWrap {...this.props}
+          {...this.context} />
       </Provider>
     )
   }
@@ -97,7 +100,8 @@ const wrapRender = (component) => {
     } catch (error) {
       console.error(error) // eslint-disable-line no-console
 
-      return <Fallback error={error} name={target.name} />
+      return <Fallback error={error}
+        name={target.name} />
     }
   }
 

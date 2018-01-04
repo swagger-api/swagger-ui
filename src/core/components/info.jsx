@@ -34,7 +34,8 @@ class Contact extends React.Component {
 
     return (
       <div>
-        { url && <div><a href={ sanitizeUrl(url) } target="_blank">{ name } - Website</a></div> }
+        { url && <div><a href={ sanitizeUrl(url) }
+          target="_blank">{ name } - Website</a></div> }
         { email &&
           <a href={sanitizeUrl(`mailto:${email}`)}>
             { url ? `Send email to ${name}` : `Contact ${name}`}
@@ -58,7 +59,8 @@ class License extends React.Component {
     return (
       <div>
         {
-          url ? <a href={ sanitizeUrl(url) } target="_blank">{ name }</a>
+          url ? <a href={ sanitizeUrl(url) }
+            target="_blank">{ name }</a>
         : <span>{ name }</span>
         }
       </div>
@@ -95,8 +97,10 @@ export default class Info extends React.Component {
           <h2 className="title" >{ title }
             { version && <VersionStamp version={version}></VersionStamp> }
           </h2>
-          { host || basePath ? <Path basePath={ basePath } host={ host } /> : null }
-          { url && <a href={ sanitizeUrl(url) } target="_blank"><span className="url"> { url } </span></a> }
+          { host || basePath ? <Path basePath={ basePath }
+            host={ host } /> : null }
+          { url && <a href={ sanitizeUrl(url) }
+            target="_blank"><span className="url"> { url } </span></a> }
         </hgroup>
 
         <div className="description">
@@ -105,14 +109,16 @@ export default class Info extends React.Component {
 
         {
           termsOfService && <div>
-            <a href={ sanitizeUrl(termsOfService) } target="_blank">Terms of service</a>
+            <a href={ sanitizeUrl(termsOfService) }
+              target="_blank">Terms of service</a>
           </div>
         }
 
         { contact && contact.size ? <Contact data={ contact } /> : null }
         { license && license.size ? <License license={ license } /> : null }
         { externalDocsUrl ?
-          <a href={sanitizeUrl(externalDocsUrl)} target="_blank">{externalDocsDescription || externalDocsUrl}</a>
+          <a href={sanitizeUrl(externalDocsUrl)}
+            target="_blank">{externalDocsDescription || externalDocsUrl}</a>
         : null }
 
       </div>

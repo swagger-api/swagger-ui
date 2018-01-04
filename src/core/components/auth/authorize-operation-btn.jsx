@@ -20,9 +20,12 @@ export default class AuthorizeOperationBtn extends React.Component {
     let { isAuthorized } = this.props
 
     return (
-      <button className={isAuthorized ? "authorization__btn locked" : "authorization__btn unlocked"} onClick={ this.onClick }>
-        <svg height="20" width="20">
-          <use href={ isAuthorized ? "#locked" : "#unlocked" } xlinkHref={ isAuthorized ? "#locked" : "#unlocked" } />
+      <button className={isAuthorized ? "authorization__btn locked" : "authorization__btn unlocked"}
+        onClick={ this.onClick }>
+        <svg height="20"
+          width="20">
+          <use href={ isAuthorized ? "#locked" : "#unlocked" }
+            xlinkHref={ isAuthorized ? "#locked" : "#unlocked" } />
         </svg>
       </button>
 

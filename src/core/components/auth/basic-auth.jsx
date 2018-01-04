@@ -66,7 +66,10 @@ export default class BasicAuth extends React.Component {
           <label>Username:</label>
           {
             username ? <code> { username } </code>
-                     : <Col><Input name="username" onChange={ this.onChange } required="required" type="text"/></Col>
+                     : <Col><Input name="username"
+                       onChange={ this.onChange }
+                       required="required"
+                       type="text"/></Col>
           }
         </Row>
         <Row>

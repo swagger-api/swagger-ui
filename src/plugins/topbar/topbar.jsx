@@ -109,12 +109,17 @@ export default class Topbar extends React.Component {
     if(urls) {
       let rows = []
       urls.forEach((link, i) => {
-        rows.push(<option key={i} value={link.url}>{link.name}</option>)
+        rows.push(<option key={i}
+          value={link.url}>{link.name}</option>)
       })
 
       control.push(
-        <label className="select-label" htmlFor="select"><span>Select a spec</span>
-          <select disabled={isLoading} id="select" onChange={ this.onUrlSelect } value={urls[this.state.selectedIndex].url}>
+        <label className="select-label"
+          htmlFor="select"><span>Select a spec</span>
+          <select disabled={isLoading}
+            id="select"
+            onChange={ this.onUrlSelect }
+            value={urls[this.state.selectedIndex].url}>
             {rows}
           </select>
         </label>
@@ -122,8 +127,14 @@ export default class Topbar extends React.Component {
     }
     else {
       formOnSubmit = this.downloadUrl
-      control.push(<input className="download-url-input" disabled={isLoading} onChange={ this.onUrlChange } style={inputStyle} type="text" value={this.state.url} />)
-      control.push(<Button className="download-url-button" onClick={ this.downloadUrl }>Explore</Button>)
+      control.push(<input className="download-url-input"
+        disabled={isLoading}
+        onChange={ this.onUrlChange }
+        style={inputStyle}
+        type="text"
+        value={this.state.url} />)
+      control.push(<Button className="download-url-button"
+        onClick={ this.downloadUrl }>Explore</Button>)
     }
 
     return (
@@ -131,10 +142,14 @@ export default class Topbar extends React.Component {
         <div className="wrapper">
           <div className="topbar-wrapper">
             <Link href="#">
-              <img alt="Swagger UI" height="30" src={ Logo } width="30"/>
+              <img alt="Swagger UI"
+                height="30"
+                src={ Logo }
+                width="30"/>
               <span>swagger</span>
             </Link>
-            <form className="download-url-wrapper" onSubmit={formOnSubmit}>
+            <form className="download-url-wrapper"
+              onSubmit={formOnSubmit}>
               {control.map((el, i) => cloneElement(el, { key: i }))}
             </form>
           </div>

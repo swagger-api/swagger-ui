@@ -22,10 +22,13 @@ export default class AuthorizeBtn extends React.Component {
 
     return (
       <div className="auth-wrapper">
-        <button className={isAuthorized ? "btn authorize locked" : "btn authorize unlocked"} onClick={ this.onClick }>
+        <button className={isAuthorized ? "btn authorize locked" : "btn authorize unlocked"}
+          onClick={ this.onClick }>
           <span>Authorize</span>
-          <svg height="20" width="20">
-            <use href={ isAuthorized ? "#locked" : "#unlocked" } xlinkHref={ isAuthorized ? "#locked" : "#unlocked" } />
+          <svg height="20"
+            width="20">
+            <use href={ isAuthorized ? "#locked" : "#unlocked" }
+              xlinkHref={ isAuthorized ? "#locked" : "#unlocked" } />
           </svg>
         </button>
         { showPopup && <AuthorizationPopup /> }

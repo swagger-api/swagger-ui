@@ -84,13 +84,19 @@ export default class BaseLayout extends React.Component {
           <Row className="information-container">
             <Col mobile={12}>
               { info.count() ? (
-                <Info basePath={ basePath } externalDocs={externalDocs} getComponent={getComponent} host={ host } info={ info } url={ url }/>
+                <Info basePath={ basePath }
+                  externalDocs={externalDocs}
+                  getComponent={getComponent}
+                  host={ host }
+                  info={ info }
+                  url={ url }/>
                 ) : null }
             </Col>
           </Row>
           { schemes && schemes.size || securityDefinitions ? (
             <div className="scheme-container">
-              <Col className="schemes wrapper" mobile={12}>
+              <Col className="schemes wrapper"
+                mobile={12}>
                 { schemes && schemes.size ? (
                   <Schemes
                     currentScheme={specSelectors.operationScheme()}
@@ -107,7 +113,8 @@ export default class BaseLayout extends React.Component {
 
           { servers && servers.size ? (
             <div className="global-server-container">
-              <Col className="servers wrapper" mobile={12}>
+              <Col className="servers wrapper"
+                mobile={12}>
                 <span className="servers-title">Server</span>
                 <Servers
                   currentServer={oas3Selectors.selectedServer()}
@@ -125,19 +132,28 @@ export default class BaseLayout extends React.Component {
           {
               filter === null || filter === false ? null :
               <div className="filter-container">
-                <Col className="filter wrapper" mobile={12}>
-                  <input className="operation-filter-input" disabled={isLoading} onChange={this.onFilterChange} placeholder="Filter by tag" style={inputStyle} type="text" value={filter === true || filter === "true" ? "" : filter} />
+                <Col className="filter wrapper"
+                  mobile={12}>
+                  <input className="operation-filter-input"
+                    disabled={isLoading}
+                    onChange={this.onFilterChange}
+                    placeholder="Filter by tag"
+                    style={inputStyle}
+                    type="text"
+                    value={filter === true || filter === "true" ? "" : filter} />
                 </Col>
               </div>
             }
 
           <Row>
-            <Col desktop={12} mobile={12} >
+            <Col desktop={12}
+              mobile={12} >
               <Operations/>
             </Col>
           </Row>
           <Row>
-            <Col desktop={12} mobile={12} >
+            <Col desktop={12}
+              mobile={12} >
               <Models/>
             </Col>
           </Row>

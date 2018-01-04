@@ -45,7 +45,8 @@ export default class StandaloneLayout extends React.Component {
           </div>
         }
         { loadingStatus === "failedConfig" &&
-          <div className="info" style={{ maxWidth: "880px", marginLeft: "auto", marginRight: "auto", textAlign: "center" }}>
+          <div className="info"
+            style={{ maxWidth: "880px", marginLeft: "auto", marginRight: "auto", textAlign: "center" }}>
             <h4 className="title">Failed to load remote configuration.</h4>
           </div>
         }

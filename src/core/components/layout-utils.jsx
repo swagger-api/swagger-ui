@@ -17,7 +17,8 @@ export class Container extends React.Component {
     let containerClass = "swagger-container" + (full ? "-full" : "")
 
     return (
-      <section {...rest} className={xclass(rest.className, containerClass)}/>
+      <section {...rest}
+        className={xclass(rest.className, containerClass)}/>
     )
   }
 }
@@ -76,7 +77,9 @@ export class Col extends React.Component {
     let classes = xclass(rest.className, ...classesAr)
 
     return (
-      <section {...rest} className={classes} style={{display: hide ? "none": null}}/>
+      <section {...rest}
+        className={classes}
+        style={{display: hide ? "none": null}}/>
     )
   }
 
@@ -95,7 +98,8 @@ Col.propTypes = {
 export class Row extends React.Component {
 
   render() {
-    return <div {...this.props} className={xclass(this.props.className, "wrapper")} />
+    return <div {...this.props}
+      className={xclass(this.props.className, "wrapper")} />
   }
 
 }
@@ -115,7 +119,8 @@ export class Button extends React.Component {
   }
 
   render() {
-    return <button {...this.props} className={xclass(this.props.className, "button")} />
+    return <button {...this.props}
+      className={xclass(this.props.className, "button")} />
   }
 
 }
@@ -179,11 +184,15 @@ export class Select extends React.Component {
     let value = this.state.value.toJS ? this.state.value.toJS() : this.state.value
 
     return (
-      <select className={this.props.className} multiple={ multiple } onChange={ this.onChange } value={ value } >
+      <select className={this.props.className}
+        multiple={ multiple }
+        onChange={ this.onChange }
+        value={ value } >
         { allowEmptyValue ? <option value="">--</option> : null }
         {
           allowedValues.map(function (item, key) {
-            return <option key={ key } value={ String(item) }>{ String(item) }</option>
+            return <option key={ key }
+              value={ String(item) }>{ String(item) }</option>
           })
         }
       </select>
@@ -194,7 +203,8 @@ export class Select extends React.Component {
 export class Link extends React.Component {
 
   render() {
-    return <a {...this.props} className={xclass(this.props.className, "link")}/>
+    return <a {...this.props}
+      className={xclass(this.props.className, "link")}/>
   }
 
 }

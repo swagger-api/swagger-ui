@@ -43,7 +43,9 @@ export default class Headers extends React.Component {
               return (<tr key={ key }>
                 <td className="header-col">{ key }</td>
                 <td className="header-col">{ header.get( "description" ) }</td>
-                <td className="header-col">{ type } { schemaExample ? <Property propKey={ "Example" } propStyle={ propStyle } propVal={ schemaExample } /> : null }</td>
+                <td className="header-col">{ type } { schemaExample ? <Property propKey={ "Example" }
+                  propStyle={ propStyle }
+                  propVal={ schemaExample } /> : null }</td>
               </tr>)
             }).toArray()
           }

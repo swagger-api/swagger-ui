@@ -26,7 +26,8 @@ export default class Models extends Component {
     return <section className={ showModels ? "models is-open" : "models"}>
       <h4 onClick={() => layoutActions.show("models", !showModels)}>
         <span>Models</span>
-        <svg height="20" width="20">
+        <svg height="20"
+          width="20">
           <use xlinkHref={showModels ? "#large-arrow-down" : "#large-arrow"} />
         </svg>
       </h4>
@@ -34,7 +35,9 @@ export default class Models extends Component {
         {
           definitions.entrySeq().map( ( [ name, model ])=>{
 
-            return <div key={ `models-section-${name}` } className="model-container" id={ `model-${name}` }>
+            return <div key={ `models-section-${name}` }
+              className="model-container"
+              id={ `model-${name}` }>
               <ModelWrapper expandDepth={ defaultModelsExpandDepth }
                 getComponent={ getComponent }
                 getConfigs = {getConfigs}
