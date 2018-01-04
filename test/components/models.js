@@ -15,7 +15,7 @@ describe("<Models/>", function(){
   }
   let props = {
     getComponent: (c) => {
-        return components[c]
+      return components[c]
     },
     specSelectors: {
       isOAS3: () => false,

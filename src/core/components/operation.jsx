@@ -133,23 +133,23 @@ export default class Operation extends PureComponent {
           </span>
 
           { !showSummary ? null :
-          <div className="opblock-summary-description">
-            { summary }
-          </div>
-            }
+            <div className="opblock-summary-description">
+              { summary }
+            </div>
+          }
 
           { displayOperationId && operationId ? <span className="opblock-summary-operation-id">{operationId}</span> : null }
 
           {
-              (!security || !security.count()) ? null :
+            (!security || !security.count()) ? null :
               <AuthorizeOperationBtn
                 isAuthorized={ isAuthorized }
                 onClick={() => {
-                    const applicableDefinitions = authSelectors.definitionsForRequirements(security)
-                    authActions.showDefinitions(applicableDefinitions)
-                  }}
-                />
-            }
+                  const applicableDefinitions = authSelectors.definitionsForRequirements(security)
+                  authActions.showDefinitions(applicableDefinitions)
+                }}
+              />
+          }
         </div>
 
         <Collapse isOpened={isShown}>
@@ -161,21 +161,21 @@ export default class Operation extends PureComponent {
                 <Markdown source={ description } />
               </div>
             </div>
-              }
+            }
             {
-                externalDocs && externalDocs.url ?
-                  <div className="opblock-external-docs-wrapper">
-                    <h4 className="opblock-title_normal">Find more details</h4>
-                    <div className="opblock-external-docs">
-                      <span className="opblock-external-docs__description">
-                        <Markdown source={ externalDocs.description } />
-                      </span>
-                      <a className="opblock-external-docs__link"
-                        href={ sanitizeUrl(externalDocs.url) }
-                        target="_blank">{ externalDocs.url }</a>
-                    </div>
-                  </div> : null
-              }
+              externalDocs && externalDocs.url ?
+                <div className="opblock-external-docs-wrapper">
+                  <h4 className="opblock-title_normal">Find more details</h4>
+                  <div className="opblock-external-docs">
+                    <span className="opblock-external-docs__description">
+                      <Markdown source={ externalDocs.description } />
+                    </span>
+                    <a className="opblock-external-docs__link"
+                      href={ sanitizeUrl(externalDocs.url) }
+                      target="_blank">{ externalDocs.url }</a>
+                  </div>
+                </div> : null
+            }
 
             <Parameters
               allowTryItOut={allowTryItOut}
@@ -193,22 +193,22 @@ export default class Operation extends PureComponent {
               specPath={specPath.push("parameters")}
               specSelectors={ specSelectors }
               tryItOutEnabled = { tryItOutEnabled }
-              />
+            />
 
             { !tryItOutEnabled ? null :
-            <OperationServers
-              getComponent={getComponent}
-              getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
-              getSelectedServer={oas3Selectors.selectedServer}
-              getServerVariable={oas3Selectors.serverVariableValue}
-              method={method}
-              operationServers={operation.get("servers")}
-              path={path}
-              pathServers={specSelectors.paths().getIn([path, "servers"])}
-              setSelectedServer={oas3Actions.setSelectedServer}
-              setServerVariableValue={oas3Actions.setServerVariableValue}
-                />
-              }
+              <OperationServers
+                getComponent={getComponent}
+                getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
+                getSelectedServer={oas3Selectors.selectedServer}
+                getServerVariable={oas3Selectors.serverVariableValue}
+                method={method}
+                operationServers={operation.get("servers")}
+                path={path}
+                pathServers={specSelectors.paths().getIn([path, "servers"])}
+                setSelectedServer={oas3Actions.setSelectedServer}
+                setServerVariableValue={oas3Actions.setServerVariableValue}
+              />
+            }
 
             {!tryItOutEnabled || !allowTryItOut ? null : schemes && schemes.size ? <div className="opblock-schemes">
               <Schemes currentScheme={ operationScheme }
@@ -217,53 +217,53 @@ export default class Operation extends PureComponent {
                 schemes={ schemes }
                 specActions={ specActions } />
             </div> : null
-              }
+            }
 
             <div className={(!tryItOutEnabled || !response || !allowTryItOut) ? "execute-wrapper" : "btn-group"}>
               { !tryItOutEnabled || !allowTryItOut ? null :
 
-              <Execute
-                method={ method }
-                onExecute={ onExecute }
-                operation={ operation }
-                path={ path }
-                specActions={ specActions }
-                specSelectors={ specSelectors } />
+                <Execute
+                  method={ method }
+                  onExecute={ onExecute }
+                  operation={ operation }
+                  path={ path }
+                  specActions={ specActions }
+                  specSelectors={ specSelectors } />
               }
 
               { (!tryItOutEnabled || !response || !allowTryItOut) ? null :
-              <Clear
-                method={ method }
-                path={ path }
-                specActions={ specActions }/>
+                <Clear
+                  method={ method }
+                  path={ path }
+                  specActions={ specActions }/>
               }
             </div>
 
             {executeInProgress ? <div className="loading-container"><div className="loading"></div></div> : null}
 
             { !responses ? null :
-            <Responses
-              displayRequestDuration={ displayRequestDuration }
-              fn={fn}
-              getComponent={ getComponent }
-              getConfigs={ getConfigs }
-              method={ method }
-              oas3Actions={oas3Actions}
-              path={ path }
-              produces={ produces }
-              producesValue={ operation.get("produces_value") }
-              request={ request }
-              responses={ responses }
-              specActions={ specActions }
-              specPath={specPath.push("responses")}
-              specSelectors={ specSelectors }
-              tryItOutResponse={ response } />
-              }
+              <Responses
+                displayRequestDuration={ displayRequestDuration }
+                fn={fn}
+                getComponent={ getComponent }
+                getConfigs={ getConfigs }
+                method={ method }
+                oas3Actions={oas3Actions}
+                path={ path }
+                produces={ produces }
+                producesValue={ operation.get("produces_value") }
+                request={ request }
+                responses={ responses }
+                specActions={ specActions }
+                specPath={specPath.push("responses")}
+                specSelectors={ specSelectors }
+                tryItOutResponse={ response } />
+            }
 
             { !showExtensions || !extensions.size ? null :
-            <OperationExt extensions={ extensions }
-              getComponent={ getComponent } />
-              }
+              <OperationExt extensions={ extensions }
+                getComponent={ getComponent } />
+            }
           </div>
         </Collapse>
       </div>

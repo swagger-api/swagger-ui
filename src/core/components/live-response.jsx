@@ -79,7 +79,7 @@ export default class LiveResponse extends React.Component {
           <div className="request-url">
             <pre>{url}</pre>
           </div>
-          </div>
+        </div>
         }
         <h4>Server response</h4>
         <table className="responses-table">
@@ -97,7 +97,7 @@ export default class LiveResponse extends React.Component {
                   notDocumented ? <div className="response-undocumented">
                     <i> Undocumented </i>
                   </div>
-                                : null
+                    : null
                 }
               </td>
               <td className="col response-col_description">
@@ -105,7 +105,7 @@ export default class LiveResponse extends React.Component {
                   isError ? <span>
                     {`${response.get("name")}: ${response.get("message")}`}
                   </span>
-                          : null
+                    : null
                 }
                 {
                   body ? <ResponseBody content={ body }
@@ -113,7 +113,7 @@ export default class LiveResponse extends React.Component {
                     getComponent={ getComponent }
                     headers={ headers }
                     url={ url }/>
-                       : null
+                    : null
                 }
                 {
                   hasHeaders ? <Headers headers={ returnObject }/> : null

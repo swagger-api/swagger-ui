@@ -39,7 +39,7 @@ const RequestBody = ({
         onChange={onChange}
         requestBody={requestBody}
         specSelectors={specSelectors}
-        />}
+      />}
       expandDepth={1}
       getComponent={ getComponent }
       getConfigs={ getConfigs }
@@ -47,7 +47,7 @@ const RequestBody = ({
       schema={mediaTypeValue.get("schema")}
       specPath={specPath.push("content", contentType)}
       specSelectors={ specSelectors }
-      />
+    />
   </div>
 }
 

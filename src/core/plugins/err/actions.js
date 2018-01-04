@@ -14,29 +14,29 @@ export const CLEAR = "err_clear"
 
 export function newThrownErr(err, action) {
   return {
-      type: NEW_THROWN_ERR,
-      payload: { action, error: serializeError(err) }
+    type: NEW_THROWN_ERR,
+    payload: { action, error: serializeError(err) }
   }
 }
 
 export function newThrownErrBatch(errors) {
   return {
-      type: NEW_THROWN_ERR_BATCH,
-      payload: errors
+    type: NEW_THROWN_ERR_BATCH,
+    payload: errors
   }
 }
 
 export function newSpecErr(err) {
   return {
-      type: NEW_SPEC_ERR,
-      payload: err
+    type: NEW_SPEC_ERR,
+    payload: err
   }
 }
 
 export function newSpecErrBatch(errArray) {
   return {
-      type: NEW_SPEC_ERR_BATCH,
-      payload: errArray
+    type: NEW_SPEC_ERR_BATCH,
+    payload: errArray
   }
 }
 

@@ -170,44 +170,44 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
     requestInterceptor: getConfigs().requestInterceptor,
     responseInterceptor: getConfigs().responseInterceptor
   })
-  .then(function (response) {
-    let token = JSON.parse(response.data)
-    let error = token && ( token.error || "" )
-    let parseError = token && ( token.parseError || "" )
+    .then(function (response) {
+      let token = JSON.parse(response.data)
+      let error = token && ( token.error || "" )
+      let parseError = token && ( token.parseError || "" )
 
-    if ( !response.ok ) {
+      if ( !response.ok ) {
+        errActions.newAuthErr( {
+          authId: name,
+          level: "error",
+          source: "auth",
+          message: response.statusText
+        } )
+
+        return
+      }
+
+      if ( error || parseError ) {
+        errActions.newAuthErr({
+          authId: name,
+          level: "error",
+          source: "auth",
+          message: JSON.stringify(token)
+        })
+
+        return
+      }
+
+      authActions.authorizeOauth2({ auth, token})
+    })
+    .catch(e => {
+      let err = new Error(e)
       errActions.newAuthErr( {
         authId: name,
         level: "error",
         source: "auth",
-        message: response.statusText
+        message: err.message
       } )
-
-      return
-    }
-
-    if ( error || parseError ) {
-      errActions.newAuthErr({
-        authId: name,
-        level: "error",
-        source: "auth",
-        message: JSON.stringify(token)
-      })
-
-      return
-    }
-
-    authActions.authorizeOauth2({ auth, token})
-  })
-  .catch(e => {
-    let err = new Error(e)
-    errActions.newAuthErr( {
-      authId: name,
-      level: "error",
-      source: "auth",
-      message: err.message
-    } )
-  })
+    })
 }
 
 export function configureAuth(payload) {

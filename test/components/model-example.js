@@ -12,7 +12,7 @@ describe("<ModelExample/>", function(){
   }
   let props = {
     getComponent: (c) => {
-        return components[c]
+      return components[c]
     },
     specSelectors: {},
     schema: {},
@@ -99,17 +99,17 @@ describe("<ModelExample/>", function(){
   })
 
   it("passes defaultModelExpandDepth to ModelComponent", function(){
-      // When
-      let expandDepth = 0
-      props.isExecute = false
-      props.getConfigs = () => ({
-        defaultModelRendering: "model",
-        defaultModelExpandDepth: expandDepth
-      })
-      let wrapper = shallow(<ModelExample {...props}/>)
+    // When
+    let expandDepth = 0
+    props.isExecute = false
+    props.getConfigs = () => ({
+      defaultModelRendering: "model",
+      defaultModelExpandDepth: expandDepth
+    })
+    let wrapper = shallow(<ModelExample {...props}/>)
 
-      // Then
-      expect(wrapper.find("div > div").find(ModelComponent).props().expandDepth).toBe(expandDepth)
+    // Then
+    expect(wrapper.find("div > div").find(ModelComponent).props().expandDepth).toBe(expandDepth)
   })
 
 })

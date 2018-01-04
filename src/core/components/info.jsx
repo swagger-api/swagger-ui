@@ -61,7 +61,7 @@ class License extends React.Component {
         {
           url ? <a href={ sanitizeUrl(url) }
             target="_blank">{ name }</a>
-        : <span>{ name }</span>
+            : <span>{ name }</span>
         }
       </div>
     )
@@ -119,7 +119,7 @@ export default class Info extends React.Component {
         { externalDocsUrl ?
           <a href={sanitizeUrl(externalDocsUrl)}
             target="_blank">{externalDocsDescription || externalDocsUrl}</a>
-        : null }
+          : null }
 
       </div>
     )

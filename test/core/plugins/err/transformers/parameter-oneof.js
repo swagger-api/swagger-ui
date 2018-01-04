@@ -125,7 +125,7 @@ describe.skip("err plugin - tranformers - parameter oneof", () => {
           source: "schema",
           type: "spec"
         }
-    ])
+      ])
     })
   })
 

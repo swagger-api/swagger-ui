@@ -6,7 +6,7 @@ const mapListToPropTypeShape = (list, propType) => PropTypes.shape(
     shape[propName] = propType
 
     return shape
-}, {}))
+  }, {}))
 
 export const arrayOrString = PropTypes.oneOfType([
   PropTypes.arrayOf(PropTypes.string),

@@ -50,8 +50,8 @@ export default class ObjectModel extends Component {
     const collapsedContent = (<span>
       <span>{ braceOpen }</span>...<span>{ braceClose }</span>
       {
-          isRef ? <JumpToPathSection /> : ""
-        }
+        isRef ? <JumpToPathSection /> : ""
+      }
     </span>)
 
     const anyOf = specSelectors.isOAS3() ? schema.get("anyOf") : null
@@ -73,8 +73,8 @@ export default class ObjectModel extends Component {
 
         <span className="brace-open object">{ braceOpen }</span>
         {
-            !isRef ? null : <JumpToPathSection />
-          }
+          !isRef ? null : <JumpToPathSection />
+        }
         <span className="inner-object">
           {
             <table className="model"><tbody>
@@ -88,32 +88,32 @@ export default class ObjectModel extends Component {
               }
               {
                 !(properties && properties.size) ? null : properties.entrySeq().map(
-                    ([key, value]) => {
-                      let isDeprecated = isOAS3() && value.get("deprecated")
-                      let isRequired = List.isList(requiredProperties) && requiredProperties.contains(key)
-                      let propertyStyle = { verticalAlign: "top", paddingRight: "0.2em" }
+                  ([key, value]) => {
+                    let isDeprecated = isOAS3() && value.get("deprecated")
+                    let isRequired = List.isList(requiredProperties) && requiredProperties.contains(key)
+                    let propertyStyle = { verticalAlign: "top", paddingRight: "0.2em" }
 
-                      if ( isRequired ) {
-                        propertyStyle.fontWeight = "bold"
-                      }
+                    if ( isRequired ) {
+                      propertyStyle.fontWeight = "bold"
+                    }
 
-                      return (<tr key={key}
-                        className={isDeprecated && "deprecated"}>
-                        <td style={ propertyStyle }>
-                          { key }{ isRequired && <span style={{ color: "red" }}>*</span> }
-                        </td>
-                        <td style={{ verticalAlign: "top" }}>
-                          <Model key={ `object-${name}-${key}_${value}` }
-                            { ...otherProps }
-                            depth={ depth + 1 }
-                            getComponent={ getComponent }
-                            getConfigs={ getConfigs }
-                            required={ isRequired }
-                            schema={ value }
-                            specPath={specPath.push("properties", key)} />
-                        </td>
-                      </tr>)
-                    }).toArray()
+                    return (<tr key={key}
+                      className={isDeprecated && "deprecated"}>
+                      <td style={ propertyStyle }>
+                        { key }{ isRequired && <span style={{ color: "red" }}>*</span> }
+                      </td>
+                      <td style={{ verticalAlign: "top" }}>
+                        <Model key={ `object-${name}-${key}_${value}` }
+                          { ...otherProps }
+                          depth={ depth + 1 }
+                          getComponent={ getComponent }
+                          getConfigs={ getConfigs }
+                          required={ isRequired }
+                          schema={ value }
+                          specPath={specPath.push("properties", key)} />
+                      </td>
+                    </tr>)
+                  }).toArray()
               }
               {
                 // empty row befor extensions...

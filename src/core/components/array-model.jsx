@@ -45,15 +45,15 @@ export default class ArrayModel extends Component {
         title={titleEl}>
         [
         {
-            properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`}
-              propKey={ key }
-              propStyle={ propStyle }
-              propVal={ v } />) : null
-          }
+          properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`}
+            propKey={ key }
+            propStyle={ propStyle }
+            propVal={ v } />) : null
+        }
         {
-            !description ? null :
+          !description ? null :
             <Markdown source={ description } />
-          }
+        }
         <span>
           <Model
             { ...this.props }
@@ -63,7 +63,7 @@ export default class ArrayModel extends Component {
             required={ false }
             schema={ items }
             specPath={specPath.push("items")}
-            />
+          />
         </span>
         ]
       </ModelCollapse>

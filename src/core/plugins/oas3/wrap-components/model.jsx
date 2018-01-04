@@ -30,7 +30,7 @@ class ModelComponent extends Component {
         depth={ 1 }
         expandDepth={ this.props.expandDepth || 0 }
         getConfigs={ getConfigs }
-        />
+      />
     </div>
   }
 }

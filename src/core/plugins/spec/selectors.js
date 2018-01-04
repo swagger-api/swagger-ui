@@ -55,32 +55,32 @@ export const isOAS3 = createSelector(
   // It's not perfect, but our hybrid (core+plugin code) implementation for OAS3
   // needs this. //KS
   spec,
-	() => false
+  () => false
 )
 
 export const info = createSelector(
   spec,
-	spec => returnSelfOrNewMap(spec && spec.get("info"))
+  spec => returnSelfOrNewMap(spec && spec.get("info"))
 )
 
 export const externalDocs = createSelector(
   spec,
-	spec => returnSelfOrNewMap(spec && spec.get("externalDocs"))
+  spec => returnSelfOrNewMap(spec && spec.get("externalDocs"))
 )
 
 export const version = createSelector(
-	info,
-	info => info && info.get("version")
+  info,
+  info => info && info.get("version")
 )
 
 export const semver = createSelector(
-	version,
-	version => /v?([0-9]*)\.([0-9]*)\.([0-9]*)/i.exec(version).slice(1)
+  version,
+  version => /v?([0-9]*)\.([0-9]*)\.([0-9]*)/i.exec(version).slice(1)
 )
 
 export const paths = createSelector(
-	spec,
-	spec => spec.get("paths")
+  spec,
+  spec => spec.get("paths")
 )
 
 export const operations = createSelector(
@@ -129,13 +129,13 @@ export const produces = createSelector(
 )
 
 export const security = createSelector(
-    spec,
-    spec => spec.get("security", List())
+  spec,
+  spec => spec.get("security", List())
 )
 
 export const securityDefinitions = createSelector(
-    spec,
-    spec => spec.get("securityDefinitions")
+  spec,
+  spec => spec.get("securityDefinitions")
 )
 
 export const findDefinition = ( state, name ) => {
@@ -148,18 +148,18 @@ export const definitions = createSelector(
 )
 
 export const basePath = createSelector(
-    spec,
-    spec => spec.get("basePath")
+  spec,
+  spec => spec.get("basePath")
 )
 
 export const host = createSelector(
-    spec,
-    spec => spec.get("host")
+  spec,
+  spec => spec.get("host")
 )
 
 export const schemes = createSelector(
-    spec,
-    spec => spec.get("schemes", Map())
+  spec,
+  spec => spec.get("schemes", Map())
 )
 
 export const operationsWithRootInherited = createSelector(
@@ -244,13 +244,13 @@ export const responses = createSelector(
 )
 
 export const requests = createSelector(
-    state,
-    state => state.get( "requests", Map() )
+  state,
+  state => state.get( "requests", Map() )
 )
 
 export const mutatedRequests = createSelector(
-    state,
-    state => state.get( "mutatedRequests", Map() )
+  state,
+  state => state.get( "mutatedRequests", Map() )
 )
 
 export const responseFor = (state, path, method) => {
@@ -324,8 +324,8 @@ export function contentTypeValues(state, pathMethod) {
   const requestContentType = (
     op.get("consumes_value") ? op.get("consumes_value")
       : parametersIncludeType(parameters, "file") ? "multipart/form-data"
-      : parametersIncludeType(parameters, "formData") ? "application/x-www-form-urlencoded"
-      : undefined
+        : parametersIncludeType(parameters, "formData") ? "application/x-www-form-urlencoded"
+          : undefined
   )
 
   return fromJS({

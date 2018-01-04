@@ -13,7 +13,7 @@ export const Markdown = ({ source }) => {
     const sanitized = sanitizer(html)
 
     if ( !source || !html || !sanitized ) {
-        return null
+      return null
     }
 
     return (

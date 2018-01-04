@@ -75,22 +75,22 @@ export default class HttpAuth extends React.Component {
           <label>Username:</label>
           {
             username ? <code> { username } </code>
-                     : <Col><Input name="username"
-                       onChange={ this.onChange }
-                       required="required"
-                       type="text"/></Col>
+              : <Col><Input name="username"
+                onChange={ this.onChange }
+                required="required"
+                type="text"/></Col>
           }
         </Row>
         <Row>
           <label>Password:</label>
           {
-              username ? <code> ****** </code>
-                       : <Col><Input autoComplete="new-password"
-                         name="password"
-                         onChange={ this.onChange }
-                         required="required"
-                         type="password"/></Col>
-            }
+            username ? <code> ****** </code>
+              : <Col><Input autoComplete="new-password"
+                name="password"
+                onChange={ this.onChange }
+                required="required"
+                type="password"/></Col>
+          }
         </Row>
         {
           errors.valueSeq().map( (error, key) => {
@@ -116,23 +116,23 @@ export default class HttpAuth extends React.Component {
           <Row>
             <label>Value:</label>
             {
-                value ? <code> ****** </code>
-              : <Col><Input onChange={ this.onChange }
-                type="text"/></Col>
-          }
+              value ? <code> ****** </code>
+                : <Col><Input onChange={ this.onChange }
+                  type="text"/></Col>
+            }
           </Row>
           {
-          errors.valueSeq().map( (error, key) => {
-            return <AuthError key={ key }
-              error={ error }/>
-          } )
-        }
+            errors.valueSeq().map( (error, key) => {
+              return <AuthError key={ key }
+                error={ error }/>
+            } )
+          }
         </div>
-    )
+      )
     }
 
-  return <div>
-    <em><b>{name}</b> HTTP authentication: unsupported or missing scheme</em>
-  </div>
+    return <div>
+      <em><b>{name}</b> HTTP authentication: unsupported or missing scheme</em>
+    </div>
   }
 }

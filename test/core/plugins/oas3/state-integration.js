@@ -246,55 +246,55 @@ describe("OAS3 plugin - state", function() {
       })
     })
     describe("serverEffectiveValue", function() {
-        it("should set variable values and compute a URL for a namespaced server", function() {
-          const state = fromJS({
-            serverVariableValues: {
-              "google.com/{foo}": {
-                foo: "123"
-              }
+      it("should set variable values and compute a URL for a namespaced server", function() {
+        const state = fromJS({
+          serverVariableValues: {
+            "google.com/{foo}": {
+              foo: "123"
             }
-          })
+          }
+        })
 
-          const system = {
-            // needed to handle `onlyOAS3` wrapper
-            getSystem() {
-              return {
-                specSelectors: {
-                  specJson: () => {
-                    return fromJS({ openapi: "3.0.0" })
-                  }
+        const system = {
+          // needed to handle `onlyOAS3` wrapper
+          getSystem() {
+            return {
+              specSelectors: {
+                specJson: () => {
+                  return fromJS({ openapi: "3.0.0" })
                 }
               }
             }
           }
+        }
 
-          // Create the action
-          const action = setServerVariableValue({
-            namespace: "myOperation",
-            server: "google.com/{foo}",
-            key: "foo",
-            val: "bar"
-          })
-
-          // Collect the new state
-          const newState = reducers["oas3_set_server_variable_value"](state, action)
-
-          // Get the value with the selector
-          const res = serverEffectiveValue(newState, {
-            namespace: "myOperation",
-            server: "google.com/{foo}"
-          })(system)
-
-          // Get the global value, to cross-check
-          const globalRes = serverEffectiveValue(newState, {
-            server: "google.com/{foo}"
-          })(system)
-
-          expect(res).toEqual("google.com/bar")
-
-          expect(globalRes).toEqual("google.com/123")
+        // Create the action
+        const action = setServerVariableValue({
+          namespace: "myOperation",
+          server: "google.com/{foo}",
+          key: "foo",
+          val: "bar"
         })
+
+        // Collect the new state
+        const newState = reducers["oas3_set_server_variable_value"](state, action)
+
+        // Get the value with the selector
+        const res = serverEffectiveValue(newState, {
+          namespace: "myOperation",
+          server: "google.com/{foo}"
+        })(system)
+
+        // Get the global value, to cross-check
+        const globalRes = serverEffectiveValue(newState, {
+          server: "google.com/{foo}"
+        })(system)
+
+        expect(res).toEqual("google.com/bar")
+
+        expect(globalRes).toEqual("google.com/123")
       })
+    })
 
   })
   describe("selectors", function() {

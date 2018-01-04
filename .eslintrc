@@ -23,6 +23,7 @@
   "rules": {
     "semi": [2, "never"],
     "strict": 0,
+    "indent": [2, 2],
     "quotes": [2, "double", { "allowTemplateLiterals": true }],
     "no-unused-vars": 2,
     "no-multi-spaces": 1,
@@ -42,7 +43,6 @@
     "comma-dangle": 0,
     "no-console": ["error", { "allow": ["warn", "error"] }],
     "react/jsx-no-bind": 1,
-    "react/jsx-indent": [2, 2],
     "react/jsx-indent-props": [2, 2],
     "react/jsx-max-props-per-line": [2,
       { "maximum": 1, "when": "always" }

@@ -1,8 +1,8 @@
 import { fromJS } from "immutable"
 
 import {
-	UPDATE_CONFIGS,
-	TOGGLE_CONFIGS,
+  UPDATE_CONFIGS,
+  TOGGLE_CONFIGS,
 } from "./actions"
 
 export default {

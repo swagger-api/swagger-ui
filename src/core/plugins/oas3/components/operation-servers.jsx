@@ -100,7 +100,7 @@ export default class OperationServers extends React.Component {
           servers={serversToDisplay}
           setSelectedServer={this.setSelectedServer}
           setServerVariableValue={this.setServerVariableValue}
-          />
+        />
       </div>
     </div>
   }

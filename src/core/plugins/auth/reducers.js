@@ -52,10 +52,10 @@ export default {
 
   [LOGOUT]: (state, { payload } ) =>{
     let result = state.get("authorized").withMutations((authorized) => {
-        payload.forEach((auth) => {
-          authorized.delete(auth)
-        })
+      payload.forEach((auth) => {
+        authorized.delete(auth)
       })
+    })
 
     return state.set("authorized", result)
   },

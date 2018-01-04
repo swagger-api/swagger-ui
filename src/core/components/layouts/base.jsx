@@ -90,7 +90,7 @@ export default class BaseLayout extends React.Component {
                   host={ host }
                   info={ info }
                   url={ url }/>
-                ) : null }
+              ) : null }
             </Col>
           </Row>
           { schemes && schemes.size || securityDefinitions ? (
@@ -102,14 +102,14 @@ export default class BaseLayout extends React.Component {
                     currentScheme={specSelectors.operationScheme()}
                     schemes={ schemes }
                     specActions={ specActions } />
-                  ) : null }
+                ) : null }
 
                 { securityDefinitions ? (
                   <AuthorizeBtn />
-                  ) : null }
+                ) : null }
               </Col>
             </div>
-            ) : null }
+          ) : null }
 
           { servers && servers.size ? (
             <div className="global-server-container">
@@ -123,14 +123,14 @@ export default class BaseLayout extends React.Component {
                   servers={servers}
                   setSelectedServer={oas3Actions.setSelectedServer}
                   setServerVariableValue={oas3Actions.setServerVariableValue}
-                    />
+                />
               </Col>
             </div>
 
-            ) : null}
+          ) : null}
 
           {
-              filter === null || filter === false ? null :
+            filter === null || filter === false ? null :
               <div className="filter-container">
                 <Col className="filter wrapper"
                   mobile={12}>
@@ -143,7 +143,7 @@ export default class BaseLayout extends React.Component {
                     value={filter === true || filter === "true" ? "" : filter} />
                 </Col>
               </div>
-            }
+          }
 
           <Row>
             <Col desktop={12}
@@ -159,6 +159,6 @@ export default class BaseLayout extends React.Component {
           </Row>
         </div>
       </div>
-      )
+    )
   }
 }

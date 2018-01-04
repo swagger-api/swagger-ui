@@ -175,17 +175,17 @@ export class JsonSchema_array extends PureComponent {
               if (err.length) schema.errors = [ err[0].error + i ]
             }
 
-          return (
-            <div key={i}
-              className="json-schema-form-item">
-              <JsonSchemaForm fn={fn}
-                getComponent={getComponent}
-                onChange={(val) => this.onItemChange(val, i)}
-                schema={schema}
-                value={item} />
-              <Button className="btn btn-sm json-schema-form-item-remove"
-                onClick={()=> this.removeItem(i)} > - </Button>
-            </div>
+            return (
+              <div key={i}
+                className="json-schema-form-item">
+                <JsonSchemaForm fn={fn}
+                  getComponent={getComponent}
+                  onChange={(val) => this.onItemChange(val, i)}
+                  schema={schema}
+                  value={item} />
+                <Button className="btn btn-sm json-schema-form-item-remove"
+                  onClick={()=> this.removeItem(i)} > - </Button>
+              </div>
             )
           }).toArray()
         }

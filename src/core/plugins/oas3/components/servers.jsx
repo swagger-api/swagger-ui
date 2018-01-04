@@ -145,7 +145,7 @@ export default class Servers extends React.Component {
                             onChange={this.onServerVariableValueChange}
                             type={"text"}
                             value={getServerVariable(currentServer, name) || ""}
-                            ></input>
+                          ></input>
                         }
                       </td>
                     </tr>

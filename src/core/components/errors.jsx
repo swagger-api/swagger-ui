@@ -61,8 +61,8 @@ export default class Errors extends React.Component {
           </div>
         </Collapse>
       </pre>
-      )
-    }
+    )
+  }
 }
 
 const ThrownErrorItem = ( { error, jumpToLine } ) => {
@@ -75,21 +75,21 @@ const ThrownErrorItem = ( { error, jumpToLine } ) => {
   return (
     <div className="error-wrapper">
       { !error ? null :
-      <div>
-        <h4>{ (error.get("source") && error.get("level")) ?
+        <div>
+          <h4>{ (error.get("source") && error.get("level")) ?
             toTitleCase(error.get("source")) + " " + error.get("level") : "" }
           { error.get("path") ? <small> at {error.get("path")}</small>: null }</h4>
-        <span style={{ whiteSpace: "pre-line", "maxWidth": "100%" }}>
-          { error.get("message") }
-        </span>
-        <div style={{ "text-decoration": "underline", "cursor": "pointer" }}>
-          { errorLine && jumpToLine ? <a onClick={jumpToLine.bind(null, errorLine)}>Jump to line { errorLine }</a> : null }
+          <span style={{ whiteSpace: "pre-line", "maxWidth": "100%" }}>
+            { error.get("message") }
+          </span>
+          <div style={{ "text-decoration": "underline", "cursor": "pointer" }}>
+            { errorLine && jumpToLine ? <a onClick={jumpToLine.bind(null, errorLine)}>Jump to line { errorLine }</a> : null }
+          </div>
         </div>
-      </div>
       }
     </div>
-    )
-  }
+  )
+}
 
 const SpecErrorItem = ( { error, jumpToLine } ) => {
   let locationMessage = null
@@ -107,19 +107,19 @@ const SpecErrorItem = ( { error, jumpToLine } ) => {
   return (
     <div className="error-wrapper">
       { !error ? null :
-      <div>
-        <h4>{ toTitleCase(error.get("source")) + " " + error.get("level") }&nbsp;{ locationMessage }</h4>
-        <span style={{ whiteSpace: "pre-line"}}>{ error.get("message") }</span>
-        <div style={{ "text-decoration": "underline", "cursor": "pointer" }}>
-          { jumpToLine ? (
-            <a onClick={jumpToLine.bind(null, error.get("line"))}>Jump to line { error.get("line") }</a>
+        <div>
+          <h4>{ toTitleCase(error.get("source")) + " " + error.get("level") }&nbsp;{ locationMessage }</h4>
+          <span style={{ whiteSpace: "pre-line"}}>{ error.get("message") }</span>
+          <div style={{ "text-decoration": "underline", "cursor": "pointer" }}>
+            { jumpToLine ? (
+              <a onClick={jumpToLine.bind(null, error.get("line"))}>Jump to line { error.get("line") }</a>
             ) : null }
+          </div>
         </div>
-      </div>
       }
     </div>
-    )
-  }
+  )
+}
 
 function toTitleCase(str) {
   return (str || "")

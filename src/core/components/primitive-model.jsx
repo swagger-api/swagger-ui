@@ -56,7 +56,7 @@ export default class Primitive extends Component {
         }
         {
           !description ? null :
-          <Markdown source={ description } />
+            <Markdown source={ description } />
         }
         {
           xml && xml.size ? (<span><br /><span style={ propStyle }>xml:</span>

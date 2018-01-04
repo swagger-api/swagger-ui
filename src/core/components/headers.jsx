@@ -19,39 +19,39 @@ export default class Headers extends React.Component {
     if ( !headers || !headers.size )
       return null
 
-      return (
-        <div className="headers-wrapper">
-          <h4 className="headers__title">Headers:</h4>
-          <table className="headers">
-            <thead>
-              <tr className="header-row">
-                <th className="header-col">Name</th>
-                <th className="header-col">Description</th>
-                <th className="header-col">Type</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-            headers.entrySeq().map( ([ key, header ]) => {
-              if(!Im.Map.isMap(header)) {
-                return null
-              }
+    return (
+      <div className="headers-wrapper">
+        <h4 className="headers__title">Headers:</h4>
+        <table className="headers">
+          <thead>
+            <tr className="header-row">
+              <th className="header-col">Name</th>
+              <th className="header-col">Description</th>
+              <th className="header-col">Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              headers.entrySeq().map( ([ key, header ]) => {
+                if(!Im.Map.isMap(header)) {
+                  return null
+                }
 
-              const type = header.getIn(["schema"]) ? header.getIn(["schema", "type"]) : header.getIn(["type"])
-              const schemaExample = header.getIn(["schema", "example"])
+                const type = header.getIn(["schema"]) ? header.getIn(["schema", "type"]) : header.getIn(["type"])
+                const schemaExample = header.getIn(["schema", "example"])
 
-              return (<tr key={ key }>
-                <td className="header-col">{ key }</td>
-                <td className="header-col">{ header.get( "description" ) }</td>
-                <td className="header-col">{ type } { schemaExample ? <Property propKey={ "Example" }
-                  propStyle={ propStyle }
-                  propVal={ schemaExample } /> : null }</td>
-              </tr>)
-            }).toArray()
-          }
-            </tbody>
-          </table>
-        </div>
+                return (<tr key={ key }>
+                  <td className="header-col">{ key }</td>
+                  <td className="header-col">{ header.get( "description" ) }</td>
+                  <td className="header-col">{ type } { schemaExample ? <Property propKey={ "Example" }
+                    propStyle={ propStyle }
+                    propVal={ schemaExample } /> : null }</td>
+                </tr>)
+              }).toArray()
+            }
+          </tbody>
+        </table>
+      </div>
     )
   }
 }

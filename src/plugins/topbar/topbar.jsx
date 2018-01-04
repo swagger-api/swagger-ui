@@ -50,9 +50,9 @@ export default class Topbar extends React.Component {
       {
         urls.forEach((spec, i) => {
           if(spec.url === selectedUrl)
-            {
-              this.setState({selectedIndex: i})
-            }
+          {
+            this.setState({selectedIndex: i})
+          }
         })
       }
     }
@@ -69,9 +69,9 @@ export default class Topbar extends React.Component {
       {
         urls.forEach((spec, i) => {
           if(spec.name === primaryName)
-            {
-              this.setState({selectedIndex: i})
-            }
+          {
+            this.setState({selectedIndex: i})
+          }
         })
       }
     }

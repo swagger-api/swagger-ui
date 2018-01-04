@@ -7,34 +7,34 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   let query = []
 
   switch (flow) {
-    case "password":
-      authActions.authorizePassword(auth)
+  case "password":
+    authActions.authorizePassword(auth)
 
-      return
+    return
 
-    case "application":
-      authActions.authorizeApplication(auth)
+  case "application":
+    authActions.authorizeApplication(auth)
 
-      return
+    return
 
-    case "accessCode":
-      query.push("response_type=code")
-      break
+  case "accessCode":
+    query.push("response_type=code")
+    break
 
-    case "implicit":
-      query.push("response_type=token")
-      break
+  case "implicit":
+    query.push("response_type=token")
+    break
 
-    case "clientCredentials":
-      // OAS3
-      authActions.authorizeApplication(auth)
+  case "clientCredentials":
+    // OAS3
+    authActions.authorizeApplication(auth)
 
-      return
+    return
 
-    case "authorizationCode":
-      // OAS3
-      query.push("response_type=code")
-      break
+  case "authorizationCode":
+    // OAS3
+    query.push("response_type=code")
+    break
   }
 
   if (typeof clientId === "string") {

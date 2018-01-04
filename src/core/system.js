@@ -82,13 +82,13 @@ export default class Store {
     let getState = this.getStore().getState
 
     this.boundSystem = Object.assign({},
-        this.getRootInjects(),
-        this.getWrappedAndBoundActions(dispatch),
-        this.getWrappedAndBoundSelectors(getState, this.getSystem),
-        this.getStateThunks(getState),
-        this.getFn(),
-        this.getConfigs()
-     )
+      this.getRootInjects(),
+      this.getWrappedAndBoundActions(dispatch),
+      this.getWrappedAndBoundSelectors(getState, this.getSystem),
+      this.getStateThunks(getState),
+      this.getFn(),
+      this.getConfigs()
+    )
 
     if(buildReducer)
       this.rebuildReducer()
@@ -136,10 +136,10 @@ export default class Store {
     let upName = name[0].toUpperCase() + name.slice(1)
 
     return objReduce(this.system.statePlugins, (val, namespace) => {
-        let thing = val[name]
-        if(thing)
+      let thing = val[name]
+      if(thing)
         return {[namespace+upName]:  thing}
-      })
+    })
   }
 
   getSelectors() {
@@ -160,74 +160,74 @@ export default class Store {
   getWrappedAndBoundActions(dispatch) {
     let actionGroups = this.getBoundActions(dispatch)
 
-      return objMap(actionGroups, (actions, actionGroupName) => {
-        let wrappers = this.system.statePlugins[actionGroupName.slice(0,-7)].wrapActions
+    return objMap(actionGroups, (actions, actionGroupName) => {
+      let wrappers = this.system.statePlugins[actionGroupName.slice(0,-7)].wrapActions
 
-          if(wrappers) {
-            return objMap(actions, (action, actionName) => {
-              let wrap = wrappers[actionName]
+      if(wrappers) {
+        return objMap(actions, (action, actionName) => {
+          let wrap = wrappers[actionName]
 
-              if(!wrap) {
-                return action
-              }
-
-              if(!Array.isArray(wrap)) {
-                wrap = [wrap]
-              }
-
-              return wrap.reduce((acc, fn) => {
-                let newAction = (...args) => {
-                  return fn(acc, this.getSystem())(...args)
-                }
-
-                if(!isFn(newAction)) {
-                  throw new TypeError("wrapActions needs to return a function that returns a new function (ie the wrapped action)")
-                }
-
-                return wrapWithTryCatch(newAction)
-              }, action || Function.prototype)
-            })
+          if(!wrap) {
+            return action
           }
 
-        return actions
-      })
+          if(!Array.isArray(wrap)) {
+            wrap = [wrap]
+          }
+
+          return wrap.reduce((acc, fn) => {
+            let newAction = (...args) => {
+              return fn(acc, this.getSystem())(...args)
+            }
+
+            if(!isFn(newAction)) {
+              throw new TypeError("wrapActions needs to return a function that returns a new function (ie the wrapped action)")
+            }
+
+            return wrapWithTryCatch(newAction)
+          }, action || Function.prototype)
+        })
+      }
+
+      return actions
+    })
   }
 
   getWrappedAndBoundSelectors(getState, getSystem) {
     let selectorGroups = this.getBoundSelectors(getState, getSystem)
 
-      return objMap(selectorGroups, (selectors, selectorGroupName) => {
-        let stateName = [selectorGroupName.slice(0, -9)] // selectors = 9 chars
-        let wrappers = this.system.statePlugins[stateName].wrapSelectors
+    return objMap(selectorGroups, (selectors, selectorGroupName) => {
+      let stateName = [selectorGroupName.slice(0, -9)] // selectors = 9 chars
+      let wrappers = this.system.statePlugins[stateName].wrapSelectors
 
-          if(wrappers) {
-            return objMap(selectors, (selector, selectorName) => {
-              let wrap = wrappers[selectorName]
+      if(wrappers) {
+        return objMap(selectors, (selector, selectorName) => {
+          let wrap = wrappers[selectorName]
 
-              if(!wrap) {
-                return selector
-              }
-
-              if(!Array.isArray(wrap)) {
-                wrap = [wrap]
-              }
-
-              return wrap.reduce((acc, fn) => {
-                let wrappedSelector = (...args) => {
-                  return fn(acc, this.getSystem())(getState().getIn(stateName), ...args)
-                }
-
-                if(!isFn(wrappedSelector)) {
-                  throw new TypeError("wrapSelector needs to return a function that returns a new function (ie the wrapped action)")
-                }
-
-                return wrappedSelector
-              }, selector || Function.prototype)
-            })
+          if(!wrap) {
+            return selector
           }
 
-        return selectors
-      })
+          if(!Array.isArray(wrap)) {
+            wrap = [wrap]
+          }
+
+          return wrap.reduce((acc, fn) => {
+            let wrappedSelector = (...args) => {
+              return fn(acc, this.getSystem())(getState().getIn(stateName), ...args)
+            }
+
+            if(!isFn(wrappedSelector)) {
+              throw new TypeError("wrapSelector needs to return a function that returns a new function (ie the wrapped action)")
+            }
+
+            return wrappedSelector
+          }, selector || Function.prototype)
+        })
+      }
+
+      return selectors
+    })
   }
 
   getStates(state) {
@@ -240,10 +240,10 @@ export default class Store {
 
   getStateThunks(getState) {
     return Object.keys(this.system.statePlugins).reduce((obj, key) => {
-        obj[key] = ()=> getState().get(key)
+      obj[key] = ()=> getState().get(key)
 
-    return obj
-  }, {})
+      return obj
+    }, {})
   }
 
   getFn() {
@@ -340,8 +340,8 @@ function combinePlugins(plugins, toolbox) {
 
   if(isArray(plugins)) {
     return plugins
-    .map(plugin => combinePlugins(plugin, toolbox))
-    .reduce(systemExtend, {})
+      .map(plugin => combinePlugins(plugin, toolbox))
+      .reduce(systemExtend, {})
   }
 
   return {}

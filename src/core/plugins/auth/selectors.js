@@ -4,26 +4,26 @@ import { List, Map } from "immutable"
 const state = state => state
 
 export const shownDefinitions = createSelector(
-    state,
-    auth => auth.get( "showDefinitions" )
+  state,
+  auth => auth.get( "showDefinitions" )
 )
 
 export const definitionsToAuthorize = createSelector(
-    state,
-    () => ( { specSelectors } ) => {
-      let definitions = specSelectors.securityDefinitions() || Map({})
-      let list = List()
+  state,
+  () => ( { specSelectors } ) => {
+    let definitions = specSelectors.securityDefinitions() || Map({})
+    let list = List()
 
-      //todo refactor
-      definitions.entrySeq().forEach( ([ key, val ]) => {
-        let map = Map()
+    //todo refactor
+    definitions.entrySeq().forEach( ([ key, val ]) => {
+      let map = Map()
 
-        map = map.set(key, val)
-        list = list.push(map)
-      })
+      map = map.set(key, val)
+      list = list.push(map)
+    })
 
-      return list
-    }
+    return list
+  }
 )
 
 export const getDefinitionsByNames = ( state, securities ) => ( { specSelectors } ) => {
@@ -67,8 +67,8 @@ export const definitionsForRequirements = (state, securities = List()) => ({ aut
 }
 
 export const authorized = createSelector(
-    state,
-    auth => auth.get("authorized") || Map()
+  state,
+  auth => auth.get("authorized") || Map()
 )
 
 export const isAuthorized = ( state, securities ) => ( { authSelectors } ) => {
@@ -79,15 +79,15 @@ export const isAuthorized = ( state, securities ) => ( { authSelectors } ) => {
   }
 
   return !!securities.toJS().filter( ( security ) => {
-      let isAuthorized = true
+    let isAuthorized = true
 
-      return Object.keys(security).map((key) => {
-        return !isAuthorized || !!authorized.get(key)
-      }).indexOf(false) === -1
-    }).length
+    return Object.keys(security).map((key) => {
+      return !isAuthorized || !!authorized.get(key)
+    }).indexOf(false) === -1
+  }).length
 }
 
 export const getConfigs = createSelector(
-    state,
-    auth => auth.get( "configs" )
+  state,
+  auth => auth.get( "configs" )
 )

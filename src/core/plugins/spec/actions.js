@@ -122,28 +122,28 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
     requestInterceptor,
     responseInterceptor
   }).then( ({spec, errors}) => {
-      errActions.clear({
-        type: "thrown"
-      })
-
-      if(Array.isArray(errors) && errors.length > 0) {
-        let preparedErrors = errors
-          .map(err => {
-            console.error(err)
-            err.line = err.fullPath ? getLineNumberForPath(specStr, err.fullPath) : null
-            err.path = err.fullPath ? err.fullPath.join(".") : null
-            err.level = "error"
-            err.type = "thrown"
-            err.source = "resolver"
-            Object.defineProperty(err, "message", { enumerable: true, value: err.message })
-
-            return err
-          })
-        errActions.newThrownErrBatch(preparedErrors)
-      }
-
-      return specActions.updateResolved(spec)
+    errActions.clear({
+      type: "thrown"
     })
+
+    if(Array.isArray(errors) && errors.length > 0) {
+      let preparedErrors = errors
+        .map(err => {
+          console.error(err)
+          err.line = err.fullPath ? getLineNumberForPath(specStr, err.fullPath) : null
+          err.path = err.fullPath ? err.fullPath.join(".") : null
+          err.level = "error"
+          err.type = "thrown"
+          err.source = "resolver"
+          Object.defineProperty(err, "message", { enumerable: true, value: err.message })
+
+          return err
+        })
+      errActions.newThrownErrBatch(preparedErrors)
+    }
+
+    return specActions.updateResolved(spec)
+  })
 }
 
 export function changeParam( path, paramName, paramIn, value, isXml ){
@@ -275,15 +275,15 @@ export const executeRequest = (req) =>
     const startTime = Date.now()
 
     return fn.execute(req)
-    .then( res => {
-      res.duration = Date.now() - startTime
-      specActions.setResponse(req.pathName, req.method, res)
-    } )
-    .catch(
-      err => specActions.setResponse(req.pathName, req.method, {
-        error: true, err: serializeError(err)
-      })
-    )
+      .then( res => {
+        res.duration = Date.now() - startTime
+        specActions.setResponse(req.pathName, req.method, res)
+      } )
+      .catch(
+        err => specActions.setResponse(req.pathName, req.method, {
+          error: true, err: serializeError(err)
+        })
+      )
   }
 
 // I'm using extras as a way to inject properties into the final, `execute` method - It's not great. Anyone have a better idea? @ponelat

@@ -174,15 +174,15 @@ export default class Oauth2 extends React.Component {
             <label htmlFor="client_id">client_id:</label>
             {
               isAuthorized ? <code> ****** </code>
-                           : <Col desktop={10}
-                             tablet={10}>
-                             <input data-name="clientId"
-                               id="client_id"
-                               onChange={ this.onInputChange }
-                               required={ flow === PASSWORD }
-                               type="text"
-                               value={ this.state.clientId }/>
-                           </Col>
+                : <Col desktop={10}
+                  tablet={10}>
+                  <input data-name="clientId"
+                    id="client_id"
+                    onChange={ this.onInputChange }
+                    required={ flow === PASSWORD }
+                    type="text"
+                    value={ this.state.clientId }/>
+                </Col>
             }
           </Row>
         }
@@ -192,14 +192,14 @@ export default class Oauth2 extends React.Component {
             <label htmlFor="client_secret">client_secret:</label>
             {
               isAuthorized ? <code> ****** </code>
-                           : <Col desktop={10}
-                             tablet={10}>
-                             <input data-name="clientSecret"
-                               id="client_secret"
-                               onChange={ this.onInputChange }
-                               type="text"
-                               value={ this.state.clientSecret }/>
-                           </Col>
+                : <Col desktop={10}
+                  tablet={10}>
+                  <input data-name="clientSecret"
+                    id="client_secret"
+                    onChange={ this.onInputChange }
+                    type="text"
+                    value={ this.state.clientSecret }/>
+                </Col>
             }
 
           </Row>
@@ -227,7 +227,7 @@ export default class Oauth2 extends React.Component {
                   </div>
                 </Row>
               )
-              }).toArray()
+            }).toArray()
             }
           </div> : null
         }
@@ -242,10 +242,10 @@ export default class Oauth2 extends React.Component {
           { isValid &&
           ( isAuthorized ? <Button className="btn modal-btn auth authorize"
             onClick={ this.logout }>Logout</Button>
-        : <Button className="btn modal-btn auth authorize"
-          onClick={ this.authorize }>Authorize</Button>
+            : <Button className="btn modal-btn auth authorize"
+              onClick={ this.authorize }>Authorize</Button>
           )
-        }
+          }
         </div>
 
       </div>

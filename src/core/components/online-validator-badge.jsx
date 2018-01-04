@@ -10,45 +10,45 @@ export default class OnlineValidatorBadge extends React.Component {
     }
 
     constructor(props, context) {
-        super(props, context)
-        let { specSelectors, getConfigs } = props
-        let { validatorUrl } = getConfigs()
-        this.state = {
-            url: specSelectors.url(),
-            validatorUrl: validatorUrl === undefined ? "https://online.swagger.io/validator" : validatorUrl
-        }
+      super(props, context)
+      let { specSelectors, getConfigs } = props
+      let { validatorUrl } = getConfigs()
+      this.state = {
+        url: specSelectors.url(),
+        validatorUrl: validatorUrl === undefined ? "https://online.swagger.io/validator" : validatorUrl
+      }
     }
 
     componentWillReceiveProps(nextProps) {
-        let { specSelectors, getConfigs } = nextProps
-        let { validatorUrl } = getConfigs()
+      let { specSelectors, getConfigs } = nextProps
+      let { validatorUrl } = getConfigs()
 
-        this.setState({
-            url: specSelectors.url(),
-            validatorUrl: validatorUrl === undefined ? "https://online.swagger.io/validator" : validatorUrl
-        })
+      this.setState({
+        url: specSelectors.url(),
+        validatorUrl: validatorUrl === undefined ? "https://online.swagger.io/validator" : validatorUrl
+      })
     }
 
     render() {
-        let { getConfigs } = this.props
-        let { spec } = getConfigs()
+      let { getConfigs } = this.props
+      let { spec } = getConfigs()
 
-        let sanitizedValidatorUrl = sanitizeUrl(this.state.validatorUrl)
+      let sanitizedValidatorUrl = sanitizeUrl(this.state.validatorUrl)
 
-        if ( typeof spec === "object" && Object.keys(spec).length) return null
+      if ( typeof spec === "object" && Object.keys(spec).length) return null
 
-        if (!this.state.url || !this.state.validatorUrl || this.state.url.indexOf("localhost") >= 0
+      if (!this.state.url || !this.state.validatorUrl || this.state.url.indexOf("localhost") >= 0
                             || this.state.url.indexOf("127.0.0.1") >= 0) {
-          return null
-        }
+        return null
+      }
 
-        return (<span style={{ float: "right"}}>
-          <a href={`${ sanitizedValidatorUrl }/debug?url=${ this.state.url }`}
-            target="_blank">
-            <ValidatorImage alt="Online validator badge"
-              src={`${ sanitizedValidatorUrl }?url=${ this.state.url }`}/>
-          </a>
-        </span>)
+      return (<span style={{ float: "right"}}>
+        <a href={`${ sanitizedValidatorUrl }/debug?url=${ this.state.url }`}
+          target="_blank">
+          <ValidatorImage alt="Online validator badge"
+            src={`${ sanitizedValidatorUrl }?url=${ this.state.url }`}/>
+        </a>
+      </span>)
     }
 }
 

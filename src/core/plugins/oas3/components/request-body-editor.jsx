@@ -108,11 +108,11 @@ export default class RequestBodyEditor extends PureComponent {
         <div className="body-param-options">
           {
             !isExecute ? null
-                       : <div className="body-param-edit">
-                         <Button className={isEditBox ? "btn cancel body-param__example-edit" : "btn edit body-param__example-edit"}
-                           onClick={this.toggleIsEditBox}>{ isEditBox ? "Cancel" : "Edit"}
-                         </Button>
-                       </div>
+              : <div className="body-param-edit">
+                <Button className={isEditBox ? "btn cancel body-param__example-edit" : "btn edit body-param__example-edit"}
+                  onClick={this.toggleIsEditBox}>{ isEditBox ? "Cancel" : "Edit"}
+                </Button>
+              </div>
           }
         </div>
 

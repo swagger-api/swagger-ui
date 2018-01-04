@@ -38,8 +38,8 @@ export default class SplitPaneMode extends React.Component {
     layoutActions
       .changeMode(MODE_KEY, (
         nearLeftEdge
-        ? MODE_RIGHT : nearRightEdge
-        ? MODE_LEFT : MODE_BOTH
+          ? MODE_RIGHT : nearRightEdge
+            ? MODE_LEFT : MODE_BOTH
       ))
   }
 

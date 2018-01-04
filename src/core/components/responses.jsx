@@ -95,16 +95,16 @@ export default class Responses extends React.Component {
         <div className="responses-inner">
           {
             !tryItOutResponse ? null
-                              : <div>
-                                <LiveResponse displayRequestDuration={ displayRequestDuration }
-                                  getComponent={ getComponent }
-                                  getConfigs={ getConfigs }
-                                  method={ this.props.method }
-                                  path={ this.props.path }
-                                  response={ tryItOutResponse }
-                                  specSelectors={ specSelectors } />
-                                <h4>Responses</h4>
-                              </div>
+              : <div>
+                <LiveResponse displayRequestDuration={ displayRequestDuration }
+                  getComponent={ getComponent }
+                  getConfigs={ getConfigs }
+                  method={ this.props.method }
+                  path={ this.props.path }
+                  response={ tryItOutResponse }
+                  specSelectors={ specSelectors } />
+                <h4>Responses</h4>
+              </div>
 
           }
 
@@ -136,7 +136,7 @@ export default class Responses extends React.Component {
                       response={ response }
                       specPath={specPath.push(code)}
                       specSelectors={ specSelectors }/>
-                    )
+                  )
                 }).toArray()
               }
             </tbody>

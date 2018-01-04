@@ -83,9 +83,9 @@ const createClass = component => class extends Component {
 }
 
 const Fallback = ({ name }) => <div style={{ // eslint-disable-line react/prop-types
-    padding: "1em",
-    "color": "#aaa"
-  }}>😱 <i>Could not render { name === "t" ? "this component" : name }, see the console.</i></div>
+  padding: "1em",
+  "color": "#aaa"
+}}>😱 <i>Could not render { name === "t" ? "this component" : name }, see the console.</i></div>
 
 const wrapRender = (component) => {
   const isStateless = component => !(component.prototype && component.prototype.isReactComponent)

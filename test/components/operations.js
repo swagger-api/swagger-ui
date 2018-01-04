@@ -31,23 +31,23 @@ describe("<Operations/>", function(){
         isOAS3() { return false },
         taggedOperations() {
           return fromJS({
-          "default": {
-            "operations": [
-              {
-                "path": "/pets/{id}",
-                "method": "get"
-              },
-              {
-                "path": "/pets/{id}",
-                "method": "trace"
-              },
-              {
-                "path": "/pets/{id}",
-                "method": "foo"
-              },
-            ]
-          }
-        })
+            "default": {
+              "operations": [
+                {
+                  "path": "/pets/{id}",
+                  "method": "get"
+                },
+                {
+                  "path": "/pets/{id}",
+                  "method": "trace"
+                },
+                {
+                  "path": "/pets/{id}",
+                  "method": "foo"
+                },
+              ]
+            }
+          })
         },
       },
       layoutSelectors: {
@@ -85,23 +85,23 @@ describe("<Operations/>", function(){
         isOAS3() { return true },
         taggedOperations() {
           return fromJS({
-          "default": {
-            "operations": [
-              {
-                "path": "/pets/{id}",
-                "method": "get"
-              },
-              {
-                "path": "/pets/{id}",
-                "method": "trace"
-              },
-              {
-                "path": "/pets/{id}",
-                "method": "foo"
-              },
-            ]
-          }
-        })
+            "default": {
+              "operations": [
+                {
+                  "path": "/pets/{id}",
+                  "method": "get"
+                },
+                {
+                  "path": "/pets/{id}",
+                  "method": "trace"
+                },
+                {
+                  "path": "/pets/{id}",
+                  "method": "foo"
+                },
+              ]
+            }
+          })
         },
       },
       layoutSelectors: {

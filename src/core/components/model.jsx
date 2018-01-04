@@ -56,38 +56,38 @@ export default class Model extends ImmutablePureComponent {
     type = schema && schema.get("type") || type
 
     switch(type) {
-      case "object":
-        return <ObjectModel
-          className="object"
-          { ...this.props }
-          deprecated={deprecated}
-          getConfigs={ getConfigs }
-          isRef={ isRef }
-          name={ name }
-          schema={ schema }
-          specPath={specPath} />
-      case "array":
-        return <ArrayModel
-          className="array"
-          { ...this.props }
-          deprecated={deprecated}
-          getConfigs={ getConfigs }
-          name={ name }
-          required={ required }
-          schema={ schema } />
-      case "string":
-      case "number":
-      case "integer":
-      case "boolean":
-      default:
-        return <PrimitiveModel
-          { ...this.props }
-          deprecated={deprecated}
-          getComponent={ getComponent }
-          getConfigs={ getConfigs }
-          name={ name }
-          required={ required }
-          schema={ schema }/>
+    case "object":
+      return <ObjectModel
+        className="object"
+        { ...this.props }
+        deprecated={deprecated}
+        getConfigs={ getConfigs }
+        isRef={ isRef }
+        name={ name }
+        schema={ schema }
+        specPath={specPath} />
+    case "array":
+      return <ArrayModel
+        className="array"
+        { ...this.props }
+        deprecated={deprecated}
+        getConfigs={ getConfigs }
+        name={ name }
+        required={ required }
+        schema={ schema } />
+    case "string":
+    case "number":
+    case "integer":
+    case "boolean":
+    default:
+      return <PrimitiveModel
+        { ...this.props }
+        deprecated={deprecated}
+        getComponent={ getComponent }
+        getConfigs={ getConfigs }
+        name={ name }
+        required={ required }
+        schema={ schema }/>
     }
   }
 }

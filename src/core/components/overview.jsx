@@ -29,46 +29,46 @@ export default class Overview extends React.Component {
         <h4 className="overview-title">Overview</h4>
 
         {
-            taggedOps.map( (tagObj, tag) => {
-              let operations = tagObj.get("operations")
+          taggedOps.map( (tagObj, tag) => {
+            let operations = tagObj.get("operations")
 
-              let showTagId = ["overview-tags", tag]
-              let showTag = layoutSelectors.isShown(showTagId, true)
-              let toggleShow = ()=> layoutActions.show(showTagId, !showTag)
+            let showTagId = ["overview-tags", tag]
+            let showTag = layoutSelectors.isShown(showTagId, true)
+            let toggleShow = ()=> layoutActions.show(showTagId, !showTag)
 
-              return (
-                <div key={"overview-"+tag}>
+            return (
+              <div key={"overview-"+tag}>
 
-                  <h4 className="link overview-tag"
-                    onClick={toggleShow}> {showTag ? "-" : "+"}{tag}</h4>
+                <h4 className="link overview-tag"
+                  onClick={toggleShow}> {showTag ? "-" : "+"}{tag}</h4>
 
-                  <Collapse animated
-                    isOpened={showTag}>
-                    {
-                      operations.map( op => {
-                        let { path, method, id } = op.toObject() // toObject is shallow
-                        let showOpIdPrefix = "operations"
-                        let showOpId = id
-                        let shown = layoutSelectors.isShown([showOpIdPrefix, showOpId])
+                <Collapse animated
+                  isOpened={showTag}>
+                  {
+                    operations.map( op => {
+                      let { path, method, id } = op.toObject() // toObject is shallow
+                      let showOpIdPrefix = "operations"
+                      let showOpId = id
+                      let shown = layoutSelectors.isShown([showOpIdPrefix, showOpId])
 
-                        return <OperationLink key={id}
-                          href={`#operation-${showOpId}`}
-                          id={path + "-" + method}
-                          method={method}
-                          onClick={layoutActions.show}
-                          path={path}
-                          showOpId={showOpId}
-                          showOpIdPrefix={showOpIdPrefix}
-                          shown={shown}
-                                              />
-                      }).toArray()
-                    }
-                  </Collapse>
+                      return <OperationLink key={id}
+                        href={`#operation-${showOpId}`}
+                        id={path + "-" + method}
+                        method={method}
+                        onClick={layoutActions.show}
+                        path={path}
+                        showOpId={showOpId}
+                        showOpIdPrefix={showOpIdPrefix}
+                        shown={shown}
+                      />
+                    }).toArray()
+                  }
+                </Collapse>
 
-                </div>
-                )
-            }).toArray()
-          }
+              </div>
+            )
+          }).toArray()
+        }
 
         { taggedOps.size < 1 && <h3> No operations defined in spec! </h3> }
       </div>

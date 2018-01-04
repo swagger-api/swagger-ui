@@ -117,7 +117,7 @@ export default class Response extends React.Component {
       sampleResponse = schema ? getSampleSchema(schema, contentType, {
         includeReadOnly: true,
         includeWriteOnly: true // writeOnly has no filtering effect in swagger 2.0
-       }) : null
+      }) : null
     }
 
     if(examples) {
@@ -148,10 +148,10 @@ export default class Response extends React.Component {
                 contentTypes={ response.get("content") ? response.get("content").keySeq() : Seq() }
                 onChange={this._onContentTypeChange}
                 value={this.state.responseContentType}
-                  />
+              />
               { controlsAcceptHeader ? <small>Controls <code>Accept</code> header.</small> : null }
             </div>
-             : null }
+            : null }
 
           { example ? (
             <ModelExample
@@ -179,7 +179,7 @@ export default class Response extends React.Component {
                 link={ link }
                 name={key}/>
             })
-          : <i>No links</i>}
+            : <i>No links</i>}
         </td> : null}
       </tr>
     )

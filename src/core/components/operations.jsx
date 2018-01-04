@@ -64,36 +64,36 @@ export default class Operations extends React.Component {
     return (
       <div>
         {
-            taggedOps.map( (tagObj, tag) => {
-              let operations = tagObj.get("operations")
-              let tagDescription = tagObj.getIn(["tagDetails", "description"], null)
-              let tagExternalDocsDescription = tagObj.getIn(["tagDetails", "externalDocs", "description"])
-              let tagExternalDocsUrl = tagObj.getIn(["tagDetails", "externalDocs", "url"])
+          taggedOps.map( (tagObj, tag) => {
+            let operations = tagObj.get("operations")
+            let tagDescription = tagObj.getIn(["tagDetails", "description"], null)
+            let tagExternalDocsDescription = tagObj.getIn(["tagDetails", "externalDocs", "description"])
+            let tagExternalDocsUrl = tagObj.getIn(["tagDetails", "externalDocs", "url"])
 
-              let isShownKey = ["operations-tag", createDeepLinkPath(tag)]
-              let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
+            let isShownKey = ["operations-tag", createDeepLinkPath(tag)]
+            let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
 
-              return (
-                <div key={"operation-" + tag}
-                  className={showTag ? "opblock-tag-section is-open" : "opblock-tag-section"}>
+            return (
+              <div key={"operation-" + tag}
+                className={showTag ? "opblock-tag-section is-open" : "opblock-tag-section"}>
 
-                  <h4
-                    className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag" }
-                    id={isShownKey.join("-")}
-                    onClick={() => layoutActions.show(isShownKey, !showTag)}>
-                    <DeepLink
-                      enabled={isDeepLinkingEnabled}
-                      isShown={showTag}
-                      path={tag}
-                      text={tag} />
-                    { !tagDescription ? null :
+                <h4
+                  className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag" }
+                  id={isShownKey.join("-")}
+                  onClick={() => layoutActions.show(isShownKey, !showTag)}>
+                  <DeepLink
+                    enabled={isDeepLinkingEnabled}
+                    isShown={showTag}
+                    path={tag}
+                    text={tag} />
+                  { !tagDescription ? null :
                     <small>
                       <Markdown source={tagDescription} />
                     </small>
-                    }
+                  }
 
-                    <div>
-                      { !tagExternalDocsDescription ? null :
+                  <div>
+                    { !tagExternalDocsDescription ? null :
                       <small>
                         { tagExternalDocsDescription }
                         { tagExternalDocsUrl ? ": " : null }
@@ -102,58 +102,58 @@ export default class Operations extends React.Component {
                             href={sanitizeUrl(tagExternalDocsUrl)}
                             onClick={(e) => e.stopPropagation()}
                             target={"_blank"}
-                            >{tagExternalDocsUrl}</a> : null
-                          }
+                          >{tagExternalDocsUrl}</a> : null
+                        }
                       </small>
                     }
-                    </div>
+                  </div>
 
-                    <button className="expand-operation"
-                      onClick={() => layoutActions.show(isShownKey, !showTag)}
-                      title="Expand operation">
-                      <svg className="arrow"
-                        height="20"
-                        width="20">
-                        <use href={showTag ? "#large-arrow-down" : "#large-arrow"}
-                          xlinkHref={showTag ? "#large-arrow-down" : "#large-arrow"} />
-                      </svg>
-                    </button>
-                  </h4>
+                  <button className="expand-operation"
+                    onClick={() => layoutActions.show(isShownKey, !showTag)}
+                    title="Expand operation">
+                    <svg className="arrow"
+                      height="20"
+                      width="20">
+                      <use href={showTag ? "#large-arrow-down" : "#large-arrow"}
+                        xlinkHref={showTag ? "#large-arrow-down" : "#large-arrow"} />
+                    </svg>
+                  </button>
+                </h4>
 
-                  <Collapse isOpened={showTag}>
-                    {
-                      operations.map( op => {
-                        const path = op.get("path")
-                        const method = op.get("method")
-                        const specPath = Im.List(["paths", path, method])
+                <Collapse isOpened={showTag}>
+                  {
+                    operations.map( op => {
+                      const path = op.get("path")
+                      const method = op.get("method")
+                      const specPath = Im.List(["paths", path, method])
 
-                        // FIXME: (someday) this logic should probably be in a selector,
-                        // but doing so would require further opening up
-                        // selectors to the plugin system, to allow for dynamic
-                        // overriding of low-level selectors that other selectors
-                        // rely on. --KS, 12/17
-                        const validMethods = specSelectors.isOAS3() ?
-                          OAS3_OPERATION_METHODS : SWAGGER2_OPERATION_METHODS
+                      // FIXME: (someday) this logic should probably be in a selector,
+                      // but doing so would require further opening up
+                      // selectors to the plugin system, to allow for dynamic
+                      // overriding of low-level selectors that other selectors
+                      // rely on. --KS, 12/17
+                      const validMethods = specSelectors.isOAS3() ?
+                        OAS3_OPERATION_METHODS : SWAGGER2_OPERATION_METHODS
 
-                        if(validMethods.indexOf(method) === -1) {
-                          return null
-                        }
+                      if(validMethods.indexOf(method) === -1) {
+                        return null
+                      }
 
-                        return <OperationContainer
-                          key={`${path}-${method}`}
-                          method={method}
-                          op={op}
-                          path={path}
-                          specPath={specPath}
-                          tag={tag}
-                        />
-                      }).toArray()
-                    }
-                  </Collapse>
-                </div>
-                )
-            }).toArray()
-          }
+                      return <OperationContainer
+                        key={`${path}-${method}`}
+                        method={method}
+                        op={op}
+                        path={path}
+                        specPath={specPath}
+                        tag={tag}
+                      />
+                    }).toArray()
+                  }
+                </Collapse>
+              </div>
+            )
+          }).toArray()
+        }
 
         { taggedOps.size < 1 ? <h3> No operations defined in spec! </h3> : null }
       </div>

@@ -55,8 +55,8 @@ export default function(system) {
       })
 
       return state
-      .update("errors", errors => (errors || List()).concat( fromJS( payload )) )
-      .update("errors", errors => transformErrors(errors, system.getSystem()))
+        .update("errors", errors => (errors || List()).concat( fromJS( payload )) )
+        .update("errors", errors => transformErrors(errors, system.getSystem()))
     },
 
     [NEW_AUTH_ERR]: (state, { payload }) => {

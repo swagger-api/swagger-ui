@@ -165,8 +165,8 @@ export class Select extends React.Component {
 
     if (multiple) {
       value = options.filter(function (option) {
-          return option.selected
-        })
+        return option.selected
+      })
         .map(function (option){
           return option.value
         })
