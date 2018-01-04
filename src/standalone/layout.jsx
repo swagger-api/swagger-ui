@@ -27,7 +27,8 @@ export default class StandaloneLayout extends React.Component {
     const OnlineValidatorBadge = getComponent("onlineValidatorBadge", true)
 
     const loadingStatus = specSelectors.loadingStatus()
-    const lastErrMsg = errSelectors.lastError().get("message") || ""
+    const lastErr = errSelectors.lastError()
+    const lastErrMsg = lastErr ? lastErr.get("message") : ""
 
     return (
 
