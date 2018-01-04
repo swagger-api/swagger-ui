@@ -138,7 +138,7 @@ export const securityDefinitions = createSelector(
   spec => spec.get("securityDefinitions"),
 )
 
-export const findDefinition = ( state, name ) => {
+export const findDefinition = (state, name) => {
   return specResolved(state).getIn(["definitions", name], null)
 }
 
@@ -167,16 +167,16 @@ export const operationsWithRootInherited = createSelector(
   consumes,
   produces,
   (operations, consumes, produces) => {
-    return operations.map( ops => ops.update("operation", op => {
+    return operations.map(ops => ops.update("operation", op => {
       if(op) {
         if(!Map.isMap(op)) { return }
 
-        return op.withMutations( op => {
-          if ( !op.get("consumes") ) {
+        return op.withMutations(op => {
+          if (!op.get("consumes")) {
             op.update("consumes", a => Set(a).merge(consumes))
           }
 
-          if ( !op.get("produces") ) {
+          if (!op.get("produces")) {
             op.update("produces", a => Set(a).merge(produces))
           }
 
@@ -206,13 +206,13 @@ export const operationsWithTags = createSelector(
   operationsWithRootInherited,
   tags,
   (operations, tags) => {
-    return operations.reduce( (taggedMap, op) => {
+    return operations.reduce((taggedMap, op) => {
       let tags = Set(op.getIn(["operation","tags"]))
       if(tags.count() < 1)
         return taggedMap.update(DEFAULT_TAG, List(), ar => ar.push(op))
 
-      return tags.reduce( (res, tag) => res.update(tag, List(), (ar) => ar.push(op)), taggedMap )
-    }, tags.reduce( (taggedMap, tag) => {
+      return tags.reduce((res, tag) => res.update(tag, List(), (ar) => ar.push(op)), taggedMap)
+    }, tags.reduce((taggedMap, tag) => {
       return taggedMap.set(tag.get("name"), List())
     } , OrderedMap()))
   },
@@ -240,17 +240,17 @@ export const taggedOperations = (state) => ({ getConfigs }) => {
 
 export const responses = createSelector(
   state,
-  state => state.get( "responses", Map() ),
+  state => state.get("responses", Map()),
 )
 
 export const requests = createSelector(
   state,
-  state => state.get( "requests", Map() ),
+  state => state.get("requests", Map()),
 )
 
 export const mutatedRequests = createSelector(
   state,
-  state => state.get( "mutatedRequests", Map() ),
+  state => state.get("mutatedRequests", Map()),
 )
 
 export const responseFor = (state, path, method) => {
@@ -275,7 +275,7 @@ export function getParameter(state, pathMethod, name, inType) {
   pathMethod = pathMethod || []
   let params = spec(state).getIn(["paths", ...pathMethod, "parameters"], fromJS([]))
 
-  return params.find( (p) => {
+  return params.find((p) => {
     return Map.isMap(p) && p.get("name") === name && p.get("in") === inType
   }) || Map() // Always return a map
 }
@@ -294,7 +294,7 @@ export function parameterValues(state, pathMethod, isXml) {
   pathMethod = pathMethod || []
   let params = spec(state).getIn(["paths", ...pathMethod, "parameters"], fromJS([]))
 
-  return params.reduce( (hash, p) => {
+  return params.reduce((hash, p) => {
     let value = isXml && p.get("in") === "body" ? p.get("value_xml") : p.get("value")
 
     return hash.set(`${p.get("in")}.${p.get("name")}`, value)
@@ -304,14 +304,14 @@ export function parameterValues(state, pathMethod, isXml) {
 // True if any parameter includes `in: ?`
 export function parametersIncludeIn(parameters, inValue="") {
   if(List.isList(parameters)) {
-    return parameters.some( p => Map.isMap(p) && p.get("in") === inValue )
+    return parameters.some(p => Map.isMap(p) && p.get("in") === inValue)
   }
 }
 
 // True if any parameter includes `type: ?`
 export function parametersIncludeType(parameters, typeValue="") {
   if(List.isList(parameters)) {
-    return parameters.some( p => Map.isMap(p) && p.get("type") === typeValue )
+    return parameters.some(p => Map.isMap(p) && p.get("type") === typeValue)
   }
 }
 
@@ -341,7 +341,7 @@ export function operationConsumes(state, pathMethod) {
   return spec(state).getIn(["paths", ...pathMethod, "consumes"], fromJS({}))
 }
 
-export const operationScheme = ( state, path, method ) => {
+export const operationScheme = (state, path, method) => {
   let url = state.get("url")
   let matchResult = url.match(/^([a-z][a-z0-9+\-.]*):/)
   let urlScheme = Array.isArray(matchResult) ? matchResult[1] : null
@@ -349,19 +349,19 @@ export const operationScheme = ( state, path, method ) => {
   return state.getIn(["scheme", path, method]) || state.getIn(["scheme", "_defaultScheme"]) || urlScheme || ""
 }
 
-export const canExecuteScheme = ( state, path, method ) => {
+export const canExecuteScheme = (state, path, method) => {
   return ["http", "https"].indexOf(operationScheme(state, path, method)) > -1
 }
 
-export const validateBeforeExecute = ( state, pathMethod ) => {
+export const validateBeforeExecute = (state, pathMethod) => {
   pathMethod = pathMethod || []
   let params = spec(state).getIn(["paths", ...pathMethod, "parameters"], fromJS([]))
   let isValid = true
 
-  params.forEach( (p) => {
+  params.forEach((p) => {
     let errors = p.get("errors")
 
-    if ( errors && errors.count() ) {
+    if (errors && errors.count()) {
       isValid = false
     }
   })

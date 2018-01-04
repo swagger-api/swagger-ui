@@ -46,20 +46,20 @@ export const sampleFromSchema = (schema, config={}) => {
     let obj = {}
 
     for (var name in props) {
-      if ( props[name].readOnly && !includeReadOnly ) {
+      if (props[name].readOnly && !includeReadOnly) {
         continue
       }
 
-      if ( props[name].writeOnly && !includeWriteOnly ) {
+      if (props[name].writeOnly && !includeWriteOnly) {
         continue
       }
 
       obj[name] = sampleFromSchema(props[name], config)
     }
 
-    if ( additionalProperties === true ) {
+    if (additionalProperties === true) {
       obj.additionalProp1 = {}
-    } else if ( additionalProperties ) {
+    } else if (additionalProperties) {
       let additionalProps = objectify(additionalProperties)
       let additionalPropVal = sampleFromSchema(additionalProps, config)
 
@@ -126,9 +126,9 @@ export const sampleXmlFromSchema = (schema, config={}) => {
   // add prefix to name if exists
   displayName = (prefix ? prefix + ":" : "") + name
 
-  if ( namespace ) {
+  if (namespace) {
     //add prefix to namespace if exists
-    let namespacePrefix = prefix ? ( "xmlns:" + prefix ) : "xmlns"
+    let namespacePrefix = prefix ? ("xmlns:" + prefix) : "xmlns"
     _attr[namespacePrefix] = namespace
   }
 
@@ -189,11 +189,11 @@ export const sampleXmlFromSchema = (schema, config={}) => {
     example = example || {}
 
     for (let propName in props) {
-      if ( props[propName].readOnly && !includeReadOnly ) {
+      if (props[propName].readOnly && !includeReadOnly) {
         continue
       }
 
-      if ( props[propName].writeOnly && !includeWriteOnly ) {
+      if (props[propName].writeOnly && !includeWriteOnly) {
         continue
       }
 

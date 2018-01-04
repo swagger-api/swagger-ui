@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { Iterable } from "immutable"
 
-const Headers = ( { headers } )=>{
+const Headers = ({ headers })=>{
   return (
     <div>
       <h5>Response headers</h5>
@@ -15,7 +15,7 @@ Headers.propTypes = {
   headers: PropTypes.array.isRequired,
 }
 
-const Duration = ( { duration } ) => {
+const Duration = ({ duration }) => {
   return (
     <div>
       <h5>Request duration</h5>

@@ -35,7 +35,7 @@ export default class OnlineValidatorBadge extends React.Component {
 
       let sanitizedValidatorUrl = sanitizeUrl(this.state.validatorUrl)
 
-      if ( typeof spec === "object" && Object.keys(spec).length) return null
+      if (typeof spec === "object" && Object.keys(spec).length) return null
 
       if (!this.state.url || !this.state.validatorUrl || this.state.url.indexOf("localhost") >= 0
                             || this.state.url.indexOf("127.0.0.1") >= 0) {

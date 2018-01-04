@@ -65,7 +65,7 @@ export default class Errors extends React.Component {
   }
 }
 
-const ThrownErrorItem = ( { error, jumpToLine } ) => {
+const ThrownErrorItem = ({ error, jumpToLine }) => {
   if(!error) {
     return null
   }
@@ -91,7 +91,7 @@ const ThrownErrorItem = ( { error, jumpToLine } ) => {
   )
 }
 
-const SpecErrorItem = ( { error, jumpToLine } ) => {
+const SpecErrorItem = ({ error, jumpToLine }) => {
   let locationMessage = null
 
   if(error.get("path")) {

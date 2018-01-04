@@ -33,16 +33,16 @@ export default class Parameters extends Component {
     specPath: [],
   }
 
-  onChange = ( param, value, isXml ) => {
+  onChange = (param, value, isXml) => {
     let {
       specActions: { changeParam },
       onChangeKey,
     } = this.props
 
-    changeParam( onChangeKey, param.get("name"), param.get("in"), value, isXml)
+    changeParam(onChangeKey, param.get("name"), param.get("in"), value, isXml)
   }
 
-  onChangeConsumesWrapper = ( val ) => {
+  onChangeConsumesWrapper = (val) => {
     let {
       specActions: { changeConsumesValue },
       onChangeKey,
@@ -98,7 +98,7 @@ export default class Parameters extends Component {
                 {
                   eachMap(parameters, (parameter, i) => (
                     <ParameterRow
-                      key={ `${parameter.get( "in" )}.${parameter.get("name")}` }
+                      key={ `${parameter.get("in")}.${parameter.get("name")}` }
                       fn={ fn }
                       getComponent={ getComponent }
                       getConfigs={ getConfigs }

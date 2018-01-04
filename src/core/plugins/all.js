@@ -2,8 +2,8 @@ import { pascalCaseFilename } from "core/utils"
 
 const request = require.context(".", true, /\.jsx?$/)
 
-request.keys().forEach( function( key ){
-  if( key === "./index.js" ) {
+request.keys().forEach(function(key){
+  if(key === "./index.js") {
     return
   }
 

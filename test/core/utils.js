@@ -303,8 +303,8 @@ describe("utils", function() {
 
     const assertValidateParam = (param, expectedError) => {
       // Swagger 2.0 version
-      result = validateParam( fromJS(param), false )
-      expect( result ).toEqual( expectedError )
+      result = validateParam(fromJS(param), false)
+      expect(result).toEqual(expectedError)
 
       // OAS3 version, using `schema` sub-object
       let oas3Param = {
@@ -316,8 +316,8 @@ describe("utils", function() {
           required: undefined
         }
       }
-      result = validateParam( fromJS(oas3Param), false, true )
-      expect( result ).toEqual( expectedError )
+      result = validateParam(fromJS(oas3Param), false, true)
+      expect(result).toEqual(expectedError)
     }
 
     it("should check the isOAS3 flag when validating parameters", function() {
@@ -327,8 +327,8 @@ describe("utils", function() {
         value: "",
         required: true
       })
-      result = validateParam( param, false, true )
-      expect( result ).toEqual( [] )
+      result = validateParam(param, false, true)
+      expect(result).toEqual([])
     })
 
     it("validates required strings", function() {
@@ -748,7 +748,7 @@ describe("utils", function() {
       }
 
       const result = fromJSOrdered(param).toJS()
-      expect( result ).toEqual( { value: "test" } )
+      expect(result).toEqual({ value: "test" })
     })
 
     it("should not use an object's length property for Map size", () => {
@@ -757,14 +757,14 @@ describe("utils", function() {
       }
 
       const result = fromJSOrdered(param).toJS()
-      expect( result ).toEqual( { length: 5 } )
+      expect(result).toEqual({ length: 5 })
     })
 
     it("should create an OrderedMap from an array", () => {
       const param = [1, 1, 2, 3, 5, 8]
 
       const result = fromJSOrdered(param).toJS()
-      expect( result ).toEqual( [1, 1, 2, 3, 5, 8] )
+      expect(result).toEqual([1, 1, 2, 3, 5, 8])
     })
   })
 
@@ -885,11 +885,11 @@ describe("utils", function() {
     })
 
     it("returns an empty string for invalid input", function() {
-      expect( createDeepLinkPath(null) ).toEqual("")
-      expect( createDeepLinkPath(undefined) ).toEqual("")
-      expect( createDeepLinkPath(1) ).toEqual("")
-      expect( createDeepLinkPath([]) ).toEqual("")
-      expect( createDeepLinkPath({}) ).toEqual("")
+      expect(createDeepLinkPath(null)).toEqual("")
+      expect(createDeepLinkPath(undefined)).toEqual("")
+      expect(createDeepLinkPath(1)).toEqual("")
+      expect(createDeepLinkPath([])).toEqual("")
+      expect(createDeepLinkPath({})).toEqual("")
     })
   })
 

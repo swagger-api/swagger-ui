@@ -44,10 +44,10 @@ export default class ApiKeyAuth extends React.Component {
     const Row = getComponent("Row")
     const Col = getComponent("Col")
     const AuthError = getComponent("authError")
-    const Markdown = getComponent( "Markdown" )
+    const Markdown = getComponent("Markdown")
     const JumpToPath = getComponent("JumpToPath", true)
     let value = this.getValue()
-    let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
+    let errors = errSelectors.allErrors().filter(err => err.get("authId") === name)
 
     return (
       <div>
@@ -75,10 +75,10 @@ export default class ApiKeyAuth extends React.Component {
           }
         </Row>
         {
-          errors.valueSeq().map( (error, key) => {
+          errors.valueSeq().map((error, key) => {
             return <AuthError key={ key }
               error={ error }/>
-          } )
+          })
         }
       </div>
     )

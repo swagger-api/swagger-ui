@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 import { connect, Provider } from "react-redux"
 import omit from "lodash/omit"
 
-const SystemWrapper = (getSystem, ComponentToWrap ) => class extends Component {
+const SystemWrapper = (getSystem, ComponentToWrap) => class extends Component {
   render() {
     return <ComponentToWrap {...getSystem() }
       {...this.props}
@@ -31,7 +31,7 @@ const makeContainer = (getSystem, component, reduxStore) => {
   }
 
   let wrappedWithSystem = SystemWrapper(getSystem, component, reduxStore)
-  let connected = connect( mapStateToProps )(wrappedWithSystem)
+  let connected = connect(mapStateToProps)(wrappedWithSystem)
   if(reduxStore)
     return RootWrapper(reduxStore, connected)
 
@@ -72,7 +72,7 @@ export const makeMappedContainer = (getSystem, getStore, memGetComponent, getCom
 
 export const render = (getSystem, getStore, getComponent, getComponents, domNode) => {
   let App = (getComponent(getSystem, getStore, getComponents, "App", "root"))
-  ReactDOM.render(( <App/> ), domNode)
+  ReactDOM.render((<App/>), domNode)
 }
 
 // Render try/catch wrapper

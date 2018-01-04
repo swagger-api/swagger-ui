@@ -34,7 +34,7 @@ export default class AuthorizationPopup extends React.Component {
               <div className="modal-ux-content">
 
                 {
-                  definitions.valueSeq().map(( definition, key ) => {
+                  definitions.valueSeq().map((definition, key) => {
                     return <Auths key={ key }
                       AST={AST}
                       authActions={ authActions }

@@ -74,7 +74,7 @@ export default class OperationContainer extends PureComponent {
       allowTryItOut,
       security,
       isAuthorized: props.authSelectors.isAuthorized(security),
-      isShown: layoutSelectors.isShown(isShownKey, docExpansion === "full" ),
+      isShown: layoutSelectors.isShown(isShownKey, docExpansion === "full"),
       jumpToKey: `paths.${props.path}.${props.method}`,
       response: props.specSelectors.responseFor(props.path, props.method),
       request: props.specSelectors.requestFor(props.path, props.method),
@@ -156,7 +156,7 @@ export default class OperationContainer extends PureComponent {
       fn,
     } = this.props
 
-    const Operation = getComponent( "operation" )
+    const Operation = getComponent("operation")
 
     const operationProps = fromJS({
       op,

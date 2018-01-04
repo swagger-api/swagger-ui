@@ -20,7 +20,7 @@ function makeWindow() {
         win[prop] = window[prop]
       }
     }
-  } catch( e ) {
+  } catch(e) {
     console.error(e)
   }
 

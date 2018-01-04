@@ -64,7 +64,7 @@ export default class Operations extends React.Component {
     return (
       <div>
         {
-          taggedOps.map( (tagObj, tag) => {
+          taggedOps.map((tagObj, tag) => {
             let operations = tagObj.get("operations")
             let tagDescription = tagObj.getIn(["tagDetails", "description"], null)
             let tagExternalDocsDescription = tagObj.getIn(["tagDetails", "externalDocs", "description"])
@@ -122,7 +122,7 @@ export default class Operations extends React.Component {
 
                 <Collapse isOpened={showTag}>
                   {
-                    operations.map( op => {
+                    operations.map(op => {
                       const path = op.get("path")
                       const method = op.get("method")
                       const specPath = Im.List(["paths", path, method])

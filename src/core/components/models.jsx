@@ -33,7 +33,7 @@ export default class Models extends Component {
       </h4>
       <Collapse isOpened={showModels}>
         {
-          definitions.entrySeq().map( ( [ name, model ])=>{
+          definitions.entrySeq().map(([ name, model ])=>{
 
             return <div key={ `models-section-${name}` }
               className="model-container"

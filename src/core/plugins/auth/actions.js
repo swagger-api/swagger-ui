@@ -38,7 +38,7 @@ export function logout(payload) {
   }
 }
 
-export const preAuthorizeImplicit = (payload) => ( { authActions, errActions } ) => {
+export const preAuthorizeImplicit = (payload) => ({ authActions, errActions }) => {
   let { auth , token, isValid } = payload
   let { schema, name } = auth
   let flow = schema.get("flow")
@@ -46,8 +46,8 @@ export const preAuthorizeImplicit = (payload) => ( { authActions, errActions } )
   // remove oauth2 property from window after redirect from authentication
   delete win.swaggerUIRedirectOauth2
 
-  if ( flow !== "accessCode" && !isValid ) {
-    errActions.newAuthErr( {
+  if (flow !== "accessCode" && !isValid) {
+    errActions.newAuthErr({
       authId: name,
       source: "auth",
       level: "warning",
@@ -55,7 +55,7 @@ export const preAuthorizeImplicit = (payload) => ( { authActions, errActions } )
     })
   }
 
-  if ( token.error ) {
+  if (token.error) {
     errActions.newAuthErr({
       authId: name,
       source: "auth",
@@ -76,7 +76,7 @@ export function authorizeOauth2(payload) {
   }
 }
 
-export const authorizePassword = ( auth ) => ( { authActions } ) => {
+export const authorizePassword = (auth) => ({ authActions }) => {
   let { schema, name, username, password, passwordType, clientId, clientSecret } = auth
   let form = {
     grant_type: "password",
@@ -85,17 +85,17 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
   let query = {}
   let headers = {}
 
-  if ( passwordType === "basic") {
+  if (passwordType === "basic") {
     headers.Authorization = "Basic " + btoa(username + ":" + password)
   } else {
     Object.assign(form, {username}, {password})
 
-    if ( passwordType === "query") {
-      if ( clientId ) {
+    if (passwordType === "query") {
+      if (clientId) {
         query.client_id = clientId
       }
 
-      if ( clientSecret ) {
+      if (clientSecret) {
         query.client_secret = clientSecret
       }
     } else {
@@ -106,7 +106,7 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
   return authActions.authorizeRequest({ body: buildFormData(form), url: schema.get("tokenUrl"), name, headers, query, auth})
 }
 
-export const authorizeApplication = ( auth ) => ( { authActions } ) => {
+export const authorizeApplication = (auth) => ({ authActions }) => {
   let { schema, scopes, name, clientId, clientSecret } = auth
   let headers = {
     Authorization: "Basic " + btoa(clientId + ":" + clientSecret),
@@ -119,7 +119,7 @@ export const authorizeApplication = ( auth ) => ( { authActions } ) => {
   return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth, headers })
 }
 
-export const authorizeAccessCodeWithFormParams = ( { auth, redirectUrl } ) => ( { authActions } ) => {
+export const authorizeAccessCodeWithFormParams = ({ auth, redirectUrl }) => ({ authActions }) => {
   let { schema, name, clientId, clientSecret } = auth
   let form = {
     grant_type: "authorization_code",
@@ -132,7 +132,7 @@ export const authorizeAccessCodeWithFormParams = ( { auth, redirectUrl } ) => ( 
   return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth})
 }
 
-export const authorizeAccessCodeWithBasicAuthentication = ( { auth, redirectUrl } ) => ( { authActions } ) => {
+export const authorizeAccessCodeWithBasicAuthentication = ({ auth, redirectUrl }) => ({ authActions }) => {
   let { schema, name, clientId, clientSecret } = auth
   let headers = {
     Authorization: "Basic " + btoa(clientId + ":" + clientSecret),
@@ -147,7 +147,7 @@ export const authorizeAccessCodeWithBasicAuthentication = ( { auth, redirectUrl 
   return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth, headers})
 }
 
-export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, errActions, authSelectors } ) => {
+export const authorizeRequest = (data) => ({ fn, getConfigs, authActions, errActions, authSelectors }) => {
   let { body, query={}, headers={}, name, url, auth } = data
   let { additionalQueryStringParams } = authSelectors.getConfigs() || {}
   let fetchUrl = url
@@ -172,21 +172,21 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
   })
     .then(function (response) {
       let token = JSON.parse(response.data)
-      let error = token && ( token.error || "" )
-      let parseError = token && ( token.parseError || "" )
+      let error = token && (token.error || "")
+      let parseError = token && (token.parseError || "")
 
-      if ( !response.ok ) {
-        errActions.newAuthErr( {
+      if (!response.ok) {
+        errActions.newAuthErr({
           authId: name,
           level: "error",
           source: "auth",
           message: response.statusText,
-        } )
+        })
 
         return
       }
 
-      if ( error || parseError ) {
+      if (error || parseError) {
         errActions.newAuthErr({
           authId: name,
           level: "error",
@@ -201,12 +201,12 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
     })
     .catch(e => {
       let err = new Error(e)
-      errActions.newAuthErr( {
+      errActions.newAuthErr({
         authId: name,
         level: "error",
         source: "auth",
         message: err.message,
-      } )
+      })
     })
 }
 

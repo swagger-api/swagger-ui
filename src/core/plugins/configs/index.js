@@ -9,7 +9,7 @@ const parseYamlConfig = (yaml, system) => {
     return YAML.safeLoad(yaml)
   } catch(e) {
     if (system) {
-      system.errActions.newThrownErr( new Error(e) )
+      system.errActions.newThrownErr(new Error(e))
     }
 
     return {}

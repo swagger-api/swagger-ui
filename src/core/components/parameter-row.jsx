@@ -27,7 +27,7 @@ export default class ParameterRow extends Component {
     let parameter = specSelectors.getParameter(pathMethod, param.get("name"), param.get("in"))
     let value = parameter ? parameter.get("value") : ""
 
-    if ( defaultValue !== undefined && value === undefined ) {
+    if (defaultValue !== undefined && value === undefined) {
       this.onChangeWrapper(defaultValue)
     }
   }
@@ -52,17 +52,17 @@ export default class ParameterRow extends Component {
 
     let value
 
-    if ( paramValue !== undefined ) {
+    if (paramValue !== undefined) {
       value = paramValue
-    } else if ( example !== undefined ) {
+    } else if (example !== undefined) {
       value = example
-    } else if ( defaultValue !== undefined) {
+    } else if (defaultValue !== undefined) {
       value = defaultValue
-    } else if ( param.get("required") && enumValue && enumValue.size ) {
+    } else if (param.get("required") && enumValue && enumValue.size) {
       value = enumValue.first()
     }
 
-    if ( value !== undefined ) {
+    if (value !== undefined) {
       this.onChangeWrapper(value)
     }
   }
@@ -125,7 +125,7 @@ export default class ParameterRow extends Component {
           <div className="parameter__in">({ param.get("in") })</div>
           { !showExtensions || !extensions.size ? null : extensions.map((v, key) => <ParameterExt key={`${key}-${v}`}
             xKey={key}
-            xVal={v} /> )}
+            xVal={v} />)}
         </td>
 
         <td className="col parameters-col_description">

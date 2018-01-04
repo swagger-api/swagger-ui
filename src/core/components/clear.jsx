@@ -5,8 +5,8 @@ export default class Clear extends Component {
 
   onClick =() => {
     let { specActions, path, method } = this.props
-    specActions.clearResponse( path, method )
-    specActions.clearRequest( path, method )
+    specActions.clearResponse(path, method)
+    specActions.clearRequest(path, method)
   }
 
   render(){

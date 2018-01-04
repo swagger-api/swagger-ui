@@ -34,7 +34,7 @@ export default class Auths extends React.Component {
     e.preventDefault()
 
     let { authActions, definitions } = this.props
-    let auths = definitions.map( (val, key) => {
+    let auths = definitions.map((val, key) => {
       return key
     }).toArray()
 
@@ -56,19 +56,19 @@ export default class Auths extends React.Component {
 
     let authorized = authSelectors.authorized()
 
-    let authorizedAuth = definitions.filter( (definition, key) => {
+    let authorizedAuth = definitions.filter((definition, key) => {
       return !!authorized.get(key)
     })
 
-    let nonOauthDefinitions = definitions.filter( schema => schema.get("type") !== "oauth2")
-    let oauthDefinitions = definitions.filter( schema => schema.get("type") === "oauth2")
+    let nonOauthDefinitions = definitions.filter(schema => schema.get("type") !== "oauth2")
+    let oauthDefinitions = definitions.filter(schema => schema.get("type") === "oauth2")
 
     return (
       <div className="auth-container">
         {
           !!nonOauthDefinitions.size && <form onSubmit={ this.submitAuth }>
             {
-              nonOauthDefinitions.map( (schema, name) => {
+              nonOauthDefinitions.map((schema, name) => {
                 return <AuthItem
                   key={name}
                   authorized={authorized}
@@ -100,8 +100,8 @@ export default class Auths extends React.Component {
               <p>API requires the following scopes. Select which ones you want to grant to Swagger UI.</p>
             </div>
             {
-              definitions.filter( schema => schema.get("type") === "oauth2")
-                .map( (schema, name) =>{
+              definitions.filter(schema => schema.get("type") === "oauth2")
+                .map((schema, name) =>{
                   return (<div key={ name }>
                     <Oauth2 authorized={ authorized }
                       name={ name }

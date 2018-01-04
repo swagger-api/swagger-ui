@@ -26,7 +26,7 @@ export default function(system) {
       let error = Object.assign(DEFAULT_ERROR_STRUCTURE, payload, {type: "thrown"})
 
       return state
-        .update("errors", errors => (errors || List()).push( fromJS( error )) )
+        .update("errors", errors => (errors || List()).push(fromJS(error)))
         .update("errors", errors => transformErrors(errors, system.getSystem()))
     },
 
@@ -36,7 +36,7 @@ export default function(system) {
       })
 
       return state
-        .update("errors", errors => (errors || List()).concat( fromJS( payload )) )
+        .update("errors", errors => (errors || List()).concat(fromJS(payload)))
         .update("errors", errors => transformErrors(errors, system.getSystem()))
     },
 
@@ -45,7 +45,7 @@ export default function(system) {
       error = error.set("type", "spec")
 
       return state
-        .update("errors", errors => (errors || List()).push( fromJS(error)).sortBy(err => err.get("line")) )
+        .update("errors", errors => (errors || List()).push(fromJS(error)).sortBy(err => err.get("line")))
         .update("errors", errors => transformErrors(errors, system.getSystem()))
     },
 
@@ -55,7 +55,7 @@ export default function(system) {
       })
 
       return state
-        .update("errors", errors => (errors || List()).concat( fromJS( payload )) )
+        .update("errors", errors => (errors || List()).concat(fromJS(payload)))
         .update("errors", errors => transformErrors(errors, system.getSystem()))
     },
 
@@ -65,7 +65,7 @@ export default function(system) {
       error = error.set("type", "auth")
 
       return state
-        .update("errors", errors => (errors || List()).push( fromJS(error)) )
+        .update("errors", errors => (errors || List()).push(fromJS(error)))
         .update("errors", errors => transformErrors(errors, system.getSystem()))
     },
 

@@ -54,13 +54,13 @@ export default class Servers extends React.Component {
     }
   }
 
-  onServerChange =( e ) => {
-    this.setServer( e.target.value )
+  onServerChange =(e) => {
+    this.setServer(e.target.value)
 
     // set default variable values
   }
 
-  onServerVariableValueChange = ( e ) => {
+  onServerVariableValueChange = (e) => {
     let {
       setServerVariableValue,
       currentServer,
@@ -78,7 +78,7 @@ export default class Servers extends React.Component {
     }
   }
 
-  setServer = ( value ) => {
+  setServer = (value) => {
     let { setSelectedServer } = this.props
 
     setSelectedServer(value)
@@ -102,7 +102,7 @@ export default class Servers extends React.Component {
         <label htmlFor="servers">
           <select onChange={ this.onServerChange }>
             { servers.valueSeq().map(
-              ( server ) =>
+              (server) =>
                 <option
                   key={ server.get("url") }
                   value={ server.get("url") }>

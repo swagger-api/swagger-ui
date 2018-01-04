@@ -29,7 +29,7 @@ export default class Overview extends React.Component {
         <h4 className="overview-title">Overview</h4>
 
         {
-          taggedOps.map( (tagObj, tag) => {
+          taggedOps.map((tagObj, tag) => {
             let operations = tagObj.get("operations")
 
             let showTagId = ["overview-tags", tag]
@@ -45,7 +45,7 @@ export default class Overview extends React.Component {
                 <Collapse animated
                   isOpened={showTag}>
                   {
-                    operations.map( op => {
+                    operations.map(op => {
                       let { path, method, id } = op.toObject() // toObject is shallow
                       let showOpIdPrefix = "operations"
                       let showOpId = id

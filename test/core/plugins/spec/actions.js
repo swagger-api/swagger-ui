@@ -166,7 +166,7 @@ describe("spec plugin - actions", function(){
     let executePromise = executeFn(system)
 
     // Then
-    return executePromise.then( () => {
+    return executePromise.then(() => {
       expect(system.specActions.setResponse.calls.length).toEqual(1)
       expect(system.specActions.setResponse.calls[0].arguments).toEqual([
         "/one",

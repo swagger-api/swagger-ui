@@ -1,7 +1,7 @@
 describe("render user api container", function(){
   let mainPage
   let apiWrapper
-  beforeEach( function(client, done){
+  beforeEach(function(client, done){
     mainPage = client
       .url("localhost:3200")
       .page.main()

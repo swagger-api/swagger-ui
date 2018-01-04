@@ -19,21 +19,21 @@ export default class Schemes extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if ( !this.props.currentScheme || !nextProps.schemes.includes(this.props.currentScheme) ) {
+    if (!this.props.currentScheme || !nextProps.schemes.includes(this.props.currentScheme)) {
       // if we don't have a selected currentScheme or if our selected scheme is no longer an option,
       // then fire 'change' event and select the first scheme in the list of options
       this.setScheme(nextProps.schemes.first())
     }
   }
 
-  onChange =( e ) => {
-    this.setScheme( e.target.value )
+  onChange =(e) => {
+    this.setScheme(e.target.value)
   }
 
-  setScheme = ( value ) => {
+  setScheme = (value) => {
     let { path, method, specActions } = this.props
 
-    specActions.setScheme( value, path, method )
+    specActions.setScheme(value, path, method)
   }
 
   render() {
@@ -44,7 +44,7 @@ export default class Schemes extends React.Component {
         <span className="schemes-title">Schemes</span>
         <select onChange={ this.onChange }>
           { schemes.valueSeq().map(
-            ( scheme ) => <option key={ scheme }
+            (scheme) => <option key={ scheme }
               value={ scheme }>{ scheme }</option>,
           ).toArray()}
         </select>

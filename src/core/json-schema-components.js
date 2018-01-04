@@ -61,7 +61,7 @@ export class JsonSchema_string extends Component {
     let enumValue = schema["enum"]
     let errors = schema.errors || []
 
-    if ( enumValue ) {
+    if (enumValue) {
       const Select = getComponent("Select")
 
       return (<Select allowEmptyValue={ !required }
@@ -152,7 +152,7 @@ export class JsonSchema_array extends PureComponent {
     let enumValue = itemSchema["enum"]
     let value = this.state.value
 
-    if ( enumValue ) {
+    if (enumValue) {
       const Select = getComponent("Select")
 
       return (<Select allowEmptyValue={ !required }
@@ -167,10 +167,10 @@ export class JsonSchema_array extends PureComponent {
     return (
       <div>
         { !value || value.count() < 1 ? null :
-          value.map( (item,i) => {
+          value.map((item,i) => {
             let schema = Object.assign({}, itemSchema)
 
-            if ( errors.length ) {
+            if (errors.length) {
               let err = errors.filter((err) => err.index === i)
               if (err.length) schema.errors = [ err[0].error + i ]
             }

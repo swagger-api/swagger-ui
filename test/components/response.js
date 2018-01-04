@@ -53,6 +53,6 @@ describe("<Response />", function() {
 
     // Assert the schema's properties have maintained their order
     const modelExampleSchemaProperties = renderedModelExample.props().schema.toJS().properties
-    expect( Object.keys(modelExampleSchemaProperties) ).toEqual(["c", "b", "a"])
+    expect(Object.keys(modelExampleSchemaProperties)).toEqual(["c", "b", "a"])
   })
 })

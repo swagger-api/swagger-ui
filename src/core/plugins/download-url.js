@@ -27,7 +27,7 @@ export default function downloadUrlPlugin (toolbox) {
         if(res instanceof Error || res.status >= 400) {
           specActions.updateLoadingStatus("failed")
 
-          return errActions.newThrownErr( new Error(res.statusText + " " + url) )
+          return errActions.newThrownErr(new Error(res.statusText + " " + url))
         }
 
         specActions.updateLoadingStatus("success")

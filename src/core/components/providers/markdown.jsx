@@ -13,7 +13,7 @@ function Markdown({ source }) {
   }).render(source)
   const sanitized = sanitizer(html)
 
-  if ( !source || !html || !sanitized ) {
+  if (!source || !html || !sanitized) {
     return null
   }
 

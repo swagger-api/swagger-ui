@@ -39,47 +39,47 @@ export default {
     return state.setIn(["resolved"], fromJSOrdered(action.payload))
   },
 
-  [UPDATE_PARAM]: ( state, {payload} ) => {
+  [UPDATE_PARAM]: (state, {payload}) => {
     let { path, paramName, paramIn, value, isXml } = payload
 
-    return state.updateIn( [ "resolved", "paths", ...path, "parameters" ], fromJS([]), parameters => {
-      const index = parameters.findIndex(p => p.get( "name" ) === paramName && p.get("in") === paramIn )
+    return state.updateIn([ "resolved", "paths", ...path, "parameters" ], fromJS([]), parameters => {
+      const index = parameters.findIndex(p => p.get("name") === paramName && p.get("in") === paramIn)
 
       if (!(value instanceof win.File)) {
-        value = fromJSOrdered( value )
+        value = fromJSOrdered(value)
       }
 
-      return parameters.setIn( [ index, isXml ? "value_xml" : "value" ], value)
+      return parameters.setIn([ index, isXml ? "value_xml" : "value" ], value)
     })
   },
 
-  [VALIDATE_PARAMS]: ( state, { payload: { pathMethod, isOAS3 } } ) => {
-    let operation = state.getIn( [ "resolved", "paths", ...pathMethod ] )
+  [VALIDATE_PARAMS]: (state, { payload: { pathMethod, isOAS3 } }) => {
+    let operation = state.getIn([ "resolved", "paths", ...pathMethod ])
     let isXml = /xml/i.test(operation.get("consumes_value"))
 
-    return state.updateIn( [ "resolved", "paths", ...pathMethod, "parameters" ], fromJS([]), parameters => {
-      return parameters.withMutations( parameters => {
-        for ( let i = 0, len = parameters.count(); i < len; i++ ) {
+    return state.updateIn([ "resolved", "paths", ...pathMethod, "parameters" ], fromJS([]), parameters => {
+      return parameters.withMutations(parameters => {
+        for (let i = 0, len = parameters.count(); i < len; i++) {
           let errors = validateParam(parameters.get(i), isXml, isOAS3)
           parameters.setIn([i, "errors"], fromJS(errors))
         }
       })
     })
   },
-  [CLEAR_VALIDATE_PARAMS]: ( state, { payload:  { pathMethod } } ) => {
-    return state.updateIn( [ "resolved", "paths", ...pathMethod, "parameters" ], fromJS([]), parameters => {
-      return parameters.withMutations( parameters => {
-        for ( let i = 0, len = parameters.count(); i < len; i++ ) {
+  [CLEAR_VALIDATE_PARAMS]: (state, { payload:  { pathMethod } }) => {
+    return state.updateIn([ "resolved", "paths", ...pathMethod, "parameters" ], fromJS([]), parameters => {
+      return parameters.withMutations(parameters => {
+        for (let i = 0, len = parameters.count(); i < len; i++) {
           parameters.setIn([i, "errors"], fromJS({}))
         }
       })
     })
   },
 
-  [SET_RESPONSE]: (state, { payload: { res, path, method } } ) =>{
+  [SET_RESPONSE]: (state, { payload: { res, path, method } }) =>{
     let result
 
-    if ( res.error ) {
+    if (res.error) {
       result = Object.assign({
         error: true,
         name: res.err.name,
@@ -93,22 +93,22 @@ export default {
     // Ensure headers
     result.headers = result.headers || {}
 
-    let newState = state.setIn( [ "responses", path, method ], fromJSOrdered(result) )
+    let newState = state.setIn([ "responses", path, method ], fromJSOrdered(result))
 
     // ImmutableJS messes up Blob. Needs to reset its value.
     if (win.Blob && res.data instanceof win.Blob) {
-      newState = newState.setIn( [ "responses", path, method, "text" ], res.data)
+      newState = newState.setIn([ "responses", path, method, "text" ], res.data)
     }
 
     return newState
   },
 
-  [SET_REQUEST]: (state, { payload: { req, path, method } } ) =>{
-    return state.setIn( [ "requests", path, method ], fromJSOrdered(req))
+  [SET_REQUEST]: (state, { payload: { req, path, method } }) =>{
+    return state.setIn([ "requests", path, method ], fromJSOrdered(req))
   },
 
-  [SET_MUTATED_REQUEST]: (state, { payload: { req, path, method } } ) =>{
-    return state.setIn( [ "mutatedRequests", path, method ], fromJSOrdered(req))
+  [SET_MUTATED_REQUEST]: (state, { payload: { req, path, method } }) =>{
+    return state.setIn([ "mutatedRequests", path, method ], fromJSOrdered(req))
   },
 
   [UPDATE_OPERATION_VALUE]: (state, { payload: { path, value, key } }) => {
@@ -121,21 +121,21 @@ export default {
     return state.setIn([...operationPath, key], fromJS(value))
   },
 
-  [CLEAR_RESPONSE]: (state, { payload: { path, method } } ) =>{
-    return state.deleteIn( [ "responses", path, method ])
+  [CLEAR_RESPONSE]: (state, { payload: { path, method } }) =>{
+    return state.deleteIn([ "responses", path, method ])
   },
 
-  [CLEAR_REQUEST]: (state, { payload: { path, method } } ) =>{
-    return state.deleteIn( [ "requests", path, method ])
+  [CLEAR_REQUEST]: (state, { payload: { path, method } }) =>{
+    return state.deleteIn([ "requests", path, method ])
   },
 
-  [SET_SCHEME]: (state, { payload: { scheme, path, method } } ) =>{
-    if ( path && method ) {
-      return state.setIn( [ "scheme", path, method ], scheme)
+  [SET_SCHEME]: (state, { payload: { scheme, path, method } }) =>{
+    if (path && method) {
+      return state.setIn([ "scheme", path, method ], scheme)
     }
 
     if (!path && !method) {
-      return state.setIn( [ "scheme", "_defaultScheme" ], scheme)
+      return state.setIn([ "scheme", "_defaultScheme" ], scheme)
     }
 
   },

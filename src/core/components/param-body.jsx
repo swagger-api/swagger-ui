@@ -52,7 +52,7 @@ export default class ParamBody extends PureComponent {
     let isJson = /json/i.test(consumesValue)
     let paramValue = isXml ? parameter.get("value_xml") : parameter.get("value")
 
-    if ( paramValue !== undefined ) {
+    if (paramValue !== undefined) {
       let val = !paramValue && isJson ? "{}" : paramValue
       this.setState({ value: val })
       this.onChange(val, {isXml: isXml, isEditBox: isExecute})
@@ -89,7 +89,7 @@ export default class ParamBody extends PureComponent {
     this.onChange(inputValue, {isXml})
   }
 
-  toggleIsEditBox = () => this.setState( state => ({isEditBox: !state.isEditBox}))
+  toggleIsEditBox = () => this.setState(state => ({isEditBox: !state.isEditBox}))
 
   render() {
     let {
@@ -118,7 +118,7 @@ export default class ParamBody extends PureComponent {
       <div className="body-param">
         {
           isEditBox && isExecute
-            ? <TextArea className={ "body-param__text" + ( errors.count() ? " invalid" : "")}
+            ? <TextArea className={ "body-param__text" + (errors.count() ? " invalid" : "")}
               onChange={ this.handleOnChange }
               value={value}/>
             : (value && <HighlightCode className="body-param__example"

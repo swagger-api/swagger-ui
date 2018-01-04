@@ -133,17 +133,17 @@ export function systemThunkMiddleware(getSystem) {
 
 export const errorLog = getSystem => () => next => action => {
   try{
-    next( action )
+    next(action)
   }
-  catch( e ) {
-    getSystem().errActions.newThrownErr( e, action )
+  catch(e) {
+    getSystem().errActions.newThrownErr(e, action)
   }
 }
 
-export function defaultStatusCode ( responses ) {
+export function defaultStatusCode (responses) {
   let codes = responses.keySeq()
 
-  return codes.contains(DEFAULT_REPONSE_KEY) ? DEFAULT_REPONSE_KEY : codes.filter( key => (key+"")[0] === "2").sort().first()
+  return codes.contains(DEFAULT_REPONSE_KEY) ? DEFAULT_REPONSE_KEY : codes.filter(key => (key+"")[0] === "2").sort().first()
 }
 
 /**
@@ -400,47 +400,47 @@ export const propChecker = (props, nextProps, objectList=[], ignoreList=[]) => {
 
       return a !== b
     })
-    || objectList.some( objectPropName => !eq(props[objectPropName], nextProps[objectPropName])))
+    || objectList.some(objectPropName => !eq(props[objectPropName], nextProps[objectPropName])))
 }
 
-export const validateMaximum = ( val, max ) => {
+export const validateMaximum = (val, max) => {
   if (val > max) {
     return "Value must be less than Maximum"
   }
 }
 
-export const validateMinimum = ( val, min ) => {
+export const validateMinimum = (val, min) => {
   if (val < min) {
     return "Value must be greater than Minimum"
   }
 }
 
-export const validateNumber = ( val ) => {
+export const validateNumber = (val) => {
   if (!/^-?\d+(\.?\d+)?$/.test(val)) {
     return "Value must be a number"
   }
 }
 
-export const validateInteger = ( val ) => {
+export const validateInteger = (val) => {
   if (!/^-?\d+$/.test(val)) {
     return "Value must be an integer"
   }
 }
 
-export const validateFile = ( val ) => {
-  if ( val && !(val instanceof win.File) ) {
+export const validateFile = (val) => {
+  if (val && !(val instanceof win.File)) {
     return "Value must be a file"
   }
 }
 
-export const validateBoolean = ( val ) => {
-  if ( !(val === "true" || val === "false" || val === true || val === false) ) {
+export const validateBoolean = (val) => {
+  if (!(val === "true" || val === "false" || val === true || val === false)) {
     return "Value must be a boolean"
   }
 }
 
-export const validateString = ( val ) => {
-  if ( val && typeof val !== "string" ) {
+export const validateString = (val) => {
+  if (val && typeof val !== "string") {
     return "Value must be a string"
   }
 }
@@ -500,7 +500,7 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
     then we should do our validation routine.
     Only bother validating the parameter if the type was specified.
   */
-  if ( type && (required || value) ) {
+  if (type && (required || value)) {
     // These checks should evaluate to true if there is a parameter
     let stringCheck = type === "string" && value
     let arrayCheck = type === "array" && Array.isArray(value) && value.length
@@ -510,7 +510,7 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
     let numberCheck = type === "number" && (value || value === 0)
     let integerCheck = type === "integer" && (value || value === 0)
 
-    if ( required && !(stringCheck || arrayCheck || listCheck || fileCheck || booleanCheck || numberCheck || integerCheck) ) {
+    if (required && !(stringCheck || arrayCheck || listCheck || fileCheck || booleanCheck || numberCheck || integerCheck)) {
       errors.push("Required field is not provided")
 
       return errors
@@ -541,7 +541,7 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
       if (err) errors.push(err)
     }
 
-    if ( type === "string" ) {
+    if (type === "string") {
       let err
 
       if (format === "date-time") {
@@ -554,22 +554,22 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
 
       if (!err) return errors
       errors.push(err)
-    } else if ( type === "boolean" ) {
+    } else if (type === "boolean") {
       let err = validateBoolean(value)
       if (!err) return errors
       errors.push(err)
-    } else if ( type === "number" ) {
+    } else if (type === "number") {
       let err = validateNumber(value)
       if (!err) return errors
       errors.push(err)
-    } else if ( type === "integer" ) {
+    } else if (type === "integer") {
       let err = validateInteger(value)
       if (!err) return errors
       errors.push(err)
-    } else if ( type === "array" ) {
+    } else if (type === "array") {
       let itemType
 
-      if ( !value.count() ) { return errors }
+      if (!value.count()) { return errors }
 
       itemType = paramDetails.getIn(["items", "type"])
 
@@ -584,11 +584,11 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
           err = validateString(item)
         }
 
-        if ( err ) {
+        if (err) {
           errors.push({ index: index, error: err})
         }
       })
-    } else if ( type === "file" ) {
+    } else if (type === "file") {
       let err = validateFile(value)
       if (!err) return errors
       errors.push(err)
@@ -626,7 +626,7 @@ export const parseSearch = () => {
   if(!search)
     return {}
 
-  if ( search != "" ) {
+  if (search != "") {
     let params = search.substr(1).split("&")
 
     for (let i in params) {
@@ -714,6 +714,6 @@ export function getAcceptControllingResponse(responses) {
 
 export const createDeepLinkPath = (str) => typeof str == "string" || str instanceof String ? str.trim().replace(/\s/g, "_") : ""
 
-export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str) )
+export const escapeDeepLinkPath = (str) => cssEscape(createDeepLinkPath(str))
 
 export const getExtensions = (defObj) => defObj.filter((v, k) => /^x-/.test(k))

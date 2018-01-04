@@ -26,7 +26,7 @@ export const definitionsToAuthorize = onlyOAS3(createSelector(
     // that look like Swagger2 definitions.
     let list = List()
 
-    definitions.entrySeq().forEach( ([ defName, definition ]) => {
+    definitions.entrySeq().forEach(([ defName, definition ]) => {
       const type = definition.get("type")
 
       if(type === "oauth2") {

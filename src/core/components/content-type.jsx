@@ -42,15 +42,15 @@ export default class ContentType extends React.Component {
   render() {
     let { contentTypes, className, value } = this.props
 
-    if ( !contentTypes || !contentTypes.size )
+    if (!contentTypes || !contentTypes.size)
       return null
 
     return (
-      <div className={ "content-type-wrapper " + ( className || "" ) }>
+      <div className={ "content-type-wrapper " + (className || "") }>
         <select className="content-type"
           onChange={this.onChangeWrapper}
           value={value || ""} >
-          { contentTypes.map( (val) => {
+          { contentTypes.map((val) => {
             return <option key={ val }
               value={ val }>{ val }</option>
           }).toArray()}

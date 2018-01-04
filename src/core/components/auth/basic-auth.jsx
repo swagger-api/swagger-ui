@@ -51,9 +51,9 @@ export default class BasicAuth extends React.Component {
     const Col = getComponent("Col")
     const AuthError = getComponent("authError")
     const JumpToPath = getComponent("JumpToPath", true)
-    const Markdown = getComponent( "Markdown" )
+    const Markdown = getComponent("Markdown")
     let username = this.getValue().username
-    let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
+    let errors = errSelectors.allErrors().filter(err => err.get("authId") === name)
 
     return (
       <div>
@@ -84,10 +84,10 @@ export default class BasicAuth extends React.Component {
           }
         </Row>
         {
-          errors.valueSeq().map( (error, key) => {
+          errors.valueSeq().map((error, key) => {
             return <AuthError key={ key }
               error={ error }/>
-          } )
+          })
         }
       </div>
     )

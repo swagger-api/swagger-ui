@@ -32,7 +32,7 @@ describe("<PrimitiveModel/>", function() {
       expect(modelTitleEl.length).toEqual(1)
 
       // Then
-      expect( modelTitleEl.text() ).toEqual( "Custom model title" )
+      expect(modelTitleEl.text()).toEqual("Custom model title")
     })
 
     it("falls back to the passed-in `name` prop for the title", function() {
@@ -45,8 +45,8 @@ describe("<PrimitiveModel/>", function() {
       expect(modelTitleEl.length).toEqual(1)
 
       // Then
-      expect( modelTitleEl.text() ).toEqual( "Name from props" )
+      expect(modelTitleEl.text()).toEqual("Name from props")
     })
 
   })
-} )
+})

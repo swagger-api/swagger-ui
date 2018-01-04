@@ -19,13 +19,13 @@ function createStoreWithMiddleware(rootReducer, initialState, getSystem) {
     //   stateTransformer: state => state && state.toJS()
     // } ),
     // errorLog(getSystem), Need to properly handle errors that occur during a render. Ie: let them be...
-    systemThunkMiddleware( getSystem ),
+    systemThunkMiddleware(getSystem),
   ]
 
   const composeEnhancers = win.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
   return createStore(rootReducer, initialState, composeEnhancers(
-    applyMiddleware( ...middlwares ),
+    applyMiddleware(...middlwares),
   ))
 }
 
@@ -49,7 +49,7 @@ export default class Store {
     this.getSystem = this._getSystem.bind(this)
 
     // Bare system (nothing in it, besides the state)
-    this.store = configureStore(idFn, fromJS(this.state), this.getSystem )
+    this.store = configureStore(idFn, fromJS(this.state), this.getSystem)
 
     // will be the system + Im, we can add more tools when we need to
     this.buildSystem(false)
@@ -294,17 +294,17 @@ export default class Store {
     const actions = this.getActions()
 
     const process = creator =>{
-      if( typeof( creator ) !== "function" ) {
+      if(typeof(creator) !== "function") {
         return objMap(creator, prop => process(prop))
       }
 
-      return ( ...args )=>{
+      return (...args)=>{
         var action = null
 
         try{
-          action = creator( ...args )
+          action = creator(...args)
         }
-        catch( e ){
+        catch(e){
           action = {type: NEW_THROWN_ERR, error: true, payload: serializeError(e) }
         }
         finally{
@@ -314,7 +314,7 @@ export default class Store {
 
     }
 
-    return objMap(actions, actionCreator => bindActionCreators( process( actionCreator ), dispatch ) )
+    return objMap(actions, actionCreator => bindActionCreators(process(actionCreator), dispatch))
   }
 
   getMapStateToProps() {

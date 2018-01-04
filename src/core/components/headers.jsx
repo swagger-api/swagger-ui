@@ -16,7 +16,7 @@ export default class Headers extends React.Component {
     let { headers, getComponent } = this.props
     const Property = getComponent("Property")
 
-    if ( !headers || !headers.size )
+    if (!headers || !headers.size)
       return null
 
     return (
@@ -32,7 +32,7 @@ export default class Headers extends React.Component {
           </thead>
           <tbody>
             {
-              headers.entrySeq().map( ([ key, header ]) => {
+              headers.entrySeq().map(([ key, header ]) => {
                 if(!Im.Map.isMap(header)) {
                   return null
                 }
@@ -42,7 +42,7 @@ export default class Headers extends React.Component {
 
                 return (<tr key={ key }>
                   <td className="header-col">{ key }</td>
-                  <td className="header-col">{ header.get( "description" ) }</td>
+                  <td className="header-col">{ header.get("description") }</td>
                   <td className="header-col">{ type } { schemaExample ? <Property propKey={ "Example" }
                     propStyle={ propStyle }
                     propVal={ schemaExample } /> : null }</td>

@@ -22,7 +22,7 @@ export default class ArrayModel extends Component {
     let description = schema.get("description")
     let items = schema.get("items")
     let title = schema.get("title") || name
-    let properties = schema.filter( ( v, key) => ["type", "items", "description", "$$ref"].indexOf(key) === -1 )
+    let properties = schema.filter((v, key) => ["type", "items", "description", "$$ref"].indexOf(key) === -1)
 
     const Markdown = getComponent("Markdown")
     const ModelCollapse = getComponent("ModelCollapse")
@@ -45,7 +45,7 @@ export default class ArrayModel extends Component {
         title={titleEl}>
         [
         {
-          properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`}
+          properties.size ? properties.entrySeq().map(([ key, v ]) => <Property key={`${key}-${v}`}
             propKey={ key }
             propStyle={ propStyle }
             propVal={ v } />) : null

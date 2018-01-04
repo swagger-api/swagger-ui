@@ -121,7 +121,7 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
     parameterMacro,
     requestInterceptor,
     responseInterceptor,
-  }).then( ({spec, errors}) => {
+  }).then(({spec, errors}) => {
     errActions.clear({
       type: "thrown",
     })
@@ -146,14 +146,14 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
   })
 }
 
-export function changeParam( path, paramName, paramIn, value, isXml ){
+export function changeParam(path, paramName, paramIn, value, isXml){
   return {
     type: UPDATE_PARAM,
     payload:{ path, value, paramName, paramIn, isXml },
   }
 }
 
-export const validateParams = ( payload, isOAS3 ) =>{
+export const validateParams = (payload, isOAS3) =>{
   return {
     type: VALIDATE_PARAMS,
     payload:{
@@ -163,7 +163,7 @@ export const validateParams = ( payload, isOAS3 ) =>{
   }
 }
 
-export function clearValidateParams( payload ){
+export function clearValidateParams(payload){
   return {
     type: CLEAR_VALIDATE_PARAMS,
     payload:{ pathMethod: payload },
@@ -184,21 +184,21 @@ export function changeProducesValue(path, value) {
   }
 }
 
-export const setResponse = ( path, method, res ) => {
+export const setResponse = (path, method, res) => {
   return {
     payload: { path, method, res },
     type: SET_RESPONSE,
   }
 }
 
-export const setRequest = ( path, method, req ) => {
+export const setRequest = (path, method, req) => {
   return {
     payload: { path, method, req },
     type: SET_REQUEST,
   }
 }
 
-export const setMutatedRequest = ( path, method, req ) => {
+export const setMutatedRequest = (path, method, req) => {
   return {
     payload: { path, method, req },
     type: SET_MUTATED_REQUEST,
@@ -275,10 +275,10 @@ export const executeRequest = (req) =>
     const startTime = Date.now()
 
     return fn.execute(req)
-      .then( res => {
+      .then(res => {
         res.duration = Date.now() - startTime
         specActions.setResponse(req.pathName, req.method, res)
-      } )
+      })
       .catch(
         err => specActions.setResponse(req.pathName, req.method, {
           error: true, err: serializeError(err),
@@ -287,7 +287,7 @@ export const executeRequest = (req) =>
   }
 
 // I'm using extras as a way to inject properties into the final, `execute` method - It's not great. Anyone have a better idea? @ponelat
-export const execute = ( { path, method, ...extras }={} ) => (system) => {
+export const execute = ({ path, method, ...extras }={}) => (system) => {
   let { fn:{fetch}, specSelectors, specActions } = system
   let spec = specSelectors.spec().toJS()
   let scheme = specSelectors.operationScheme(path, method)

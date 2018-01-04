@@ -51,12 +51,12 @@ export default class HttpAuth extends React.Component {
     const Row = getComponent("Row")
     const Col = getComponent("Col")
     const AuthError = getComponent("authError")
-    const Markdown = getComponent( "Markdown" )
+    const Markdown = getComponent("Markdown")
     const JumpToPath = getComponent("JumpToPath", true)
 
     const scheme = schema.get("scheme")
     let value = this.getValue()
-    let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
+    let errors = errSelectors.allErrors().filter(err => err.get("authId") === name)
 
     if(scheme === "basic") {
       let username = value ? value.get("username") : null
@@ -93,10 +93,10 @@ export default class HttpAuth extends React.Component {
           }
         </Row>
         {
-          errors.valueSeq().map( (error, key) => {
+          errors.valueSeq().map((error, key) => {
             return <AuthError key={ key }
               error={ error }/>
-          } )
+          })
         }
       </div>
     }
@@ -122,10 +122,10 @@ export default class HttpAuth extends React.Component {
             }
           </Row>
           {
-            errors.valueSeq().map( (error, key) => {
+            errors.valueSeq().map((error, key) => {
               return <AuthError key={ key }
                 error={ error }/>
-            } )
+            })
           }
         </div>
       )

@@ -5,12 +5,12 @@ import cx from "classnames"
 import { fromJS, Seq, Iterable, List } from "immutable"
 import { getSampleSchema, fromJSOrdered } from "core/utils"
 
-const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
-  if ( examples && examples.size ) {
-    return examples.entrySeq().map( ([ key, example ]) => {
+const getExampleComponent = (sampleResponse, examples, HighlightCode) => {
+  if (examples && examples.size) {
+    return examples.entrySeq().map(([ key, example ]) => {
       let exampleValue = example
 
-      if ( example.toJS ) {
+      if (example.toJS) {
         try {
           exampleValue = JSON.stringify(example.toJS(), null, 2)
         }
@@ -27,7 +27,7 @@ const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
     }).toArray()
   }
 
-  if ( sampleResponse ) { return <div>
+  if (sampleResponse) { return <div>
     <HighlightCode className="example"
       value={ sampleResponse } />
   </div>
@@ -96,7 +96,7 @@ export default class Response extends React.Component {
     const Headers = getComponent("headers")
     const HighlightCode = getComponent("highlightCode")
     const ModelExample = getComponent("modelExample")
-    const Markdown = getComponent( "Markdown" )
+    const Markdown = getComponent("Markdown")
     const OperationLink = getComponent("operationLink")
     const ContentType = getComponent("contentType")
 
@@ -127,17 +127,17 @@ export default class Response extends React.Component {
       })
     }
 
-    let example = getExampleComponent( sampleResponse, examples, HighlightCode )
+    let example = getExampleComponent(sampleResponse, examples, HighlightCode)
 
     return (
-      <tr className={ "response " + ( className || "") }>
+      <tr className={ "response " + (className || "") }>
         <td className="col response-col_status">
           { code }
         </td>
         <td className="col response-col_description">
 
           <div className="response-col_description__inner">
-            <Markdown source={ response.get( "description" ) } />
+            <Markdown source={ response.get("description") } />
           </div>
 
           { isOAS3 ?

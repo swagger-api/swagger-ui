@@ -31,8 +31,8 @@ export default class Primitive extends Component {
     let description = schema.get("description")
     let extensions = getExtensions(schema)
     let properties = schema
-      .filter( ( v, key) => ["enum", "type", "format", "description", "$$ref"].indexOf(key) === -1 )
-      .filterNot( (v, key) => extensions.has(key) )
+      .filter((v, key) => ["enum", "type", "format", "description", "$$ref"].indexOf(key) === -1)
+      .filterNot((v, key) => extensions.has(key))
     const Markdown = getComponent("Markdown")
     const EnumModel = getComponent("EnumModel")
     const Property = getComponent("Property")
@@ -43,13 +43,13 @@ export default class Primitive extends Component {
         <span className="prop-type">{ type }</span>
         { format && <span className="prop-format">(${format})</span>}
         {
-          properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`}
+          properties.size ? properties.entrySeq().map(([ key, v ]) => <Property key={`${key}-${v}`}
             propKey={ key }
             propStyle={ propStyle }
             propVal={ v } />) : null
         }
         {
-          showExtensions && extensions.size ? extensions.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`}
+          showExtensions && extensions.size ? extensions.entrySeq().map(([ key, v ]) => <Property key={`${key}-${v}`}
             propKey={ key }
             propStyle={ propStyle }
             propVal={ v } />) : null
@@ -61,7 +61,7 @@ export default class Primitive extends Component {
         {
           xml && xml.size ? (<span><br /><span style={ propStyle }>xml:</span>
             {
-              xml.entrySeq().map( ( [ key, v ] ) => <span key={`${key}-${v}`}
+              xml.entrySeq().map(([ key, v ]) => <span key={`${key}-${v}`}
                 style={ propStyle }><br/>&nbsp;&nbsp;&nbsp;{key}: { String(v) }</span>).toArray()
             }
           </span>): null

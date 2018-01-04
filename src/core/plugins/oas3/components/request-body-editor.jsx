@@ -81,7 +81,7 @@ export default class RequestBodyEditor extends PureComponent {
     this.onChange(inputValue)
   }
 
-  toggleIsEditBox = () => this.setState( state => ({isEditBox: !state.isEditBox}))
+  toggleIsEditBox = () => this.setState(state => ({isEditBox: !state.isEditBox}))
 
   render() {
     let {

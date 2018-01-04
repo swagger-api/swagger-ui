@@ -27,7 +27,7 @@ export default class ModelExample extends React.Component {
     }
   }
 
-  activeTab =( e ) => {
+  activeTab =(e) => {
     let { target : { dataset : { name } } } = e
 
     this.setState({
@@ -42,13 +42,13 @@ export default class ModelExample extends React.Component {
 
     return <div>
       <ul className="tab">
-        <li className={ "tabitem" + ( isExecute || this.state.activeTab === "example" ? " active" : "") }>
+        <li className={ "tabitem" + (isExecute || this.state.activeTab === "example" ? " active" : "") }>
           <a className="tablinks"
             data-name="example"
             onClick={ this.activeTab }>Example Value</a>
         </li>
-        { schema ? <li className={ "tabitem" + ( !isExecute && this.state.activeTab === "model" ? " active" : "") }>
-          <a className={ "tablinks" + ( isExecute ? " inactive" : "" )}
+        { schema ? <li className={ "tabitem" + (!isExecute && this.state.activeTab === "model" ? " active" : "") }>
+          <a className={ "tablinks" + (isExecute ? " inactive" : "")}
             data-name="model"
             onClick={ this.activeTab }>Model</a>
         </li> : null }

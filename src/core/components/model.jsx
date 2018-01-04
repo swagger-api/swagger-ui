@@ -17,17 +17,17 @@ export default class Model extends ImmutablePureComponent {
     specPath: ImPropTypes.list.isRequired,
   }
 
-  getModelName =( ref )=> {
-    if ( ref.indexOf("#/definitions/") !== -1 ) {
+  getModelName =(ref)=> {
+    if (ref.indexOf("#/definitions/") !== -1) {
       return ref.replace(/^.*#\/definitions\//, "")
     }
 
-    if ( ref.indexOf("#/components/schemas/") !== -1 ) {
+    if (ref.indexOf("#/components/schemas/") !== -1) {
       return ref.replace("#/components/schemas/", "")
     }
   }
 
-  getRefSchema =( model )=> {
+  getRefSchema =(model)=> {
     let { specSelectors } = this.props
 
     return specSelectors.findDefinition(model)
@@ -42,13 +42,13 @@ export default class Model extends ImmutablePureComponent {
     let $$ref = schema && schema.get("$$ref")
 
     // If we weren't passed a `name` but have a ref, grab the name from the ref
-    if ( !name && $$ref ) {
-      name = this.getModelName( $$ref )
+    if (!name && $$ref) {
+      name = this.getModelName($$ref)
     }
 
     // If we weren't passed a `schema` but have a ref, grab the schema from the ref
-    if ( !schema && $$ref ) {
-      schema = this.getRefSchema( name )
+    if (!schema && $$ref) {
+      schema = this.getRefSchema(name)
     }
 
     const deprecated = specSelectors.isOAS3() && schema.get("deprecated")

@@ -1,7 +1,7 @@
 import win from "core/window"
 import { btoa } from "core/utils"
 
-export default function authorize ( { auth, authActions, errActions, configs, authConfigs={} } ) {
+export default function authorize ({ auth, authActions, errActions, configs, authConfigs={} }) {
   let { schema, scopes, name, clientId } = auth
   let flow = schema.get("flow")
   let query = []
@@ -45,7 +45,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
 
   // todo move to parser
   if (typeof redirectUrl === "undefined") {
-    errActions.newAuthErr( {
+    errActions.newAuthErr({
       authId: name,
       source: "validation",
       level: "error",

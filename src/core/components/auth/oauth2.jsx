@@ -53,10 +53,10 @@ export default class Oauth2 extends React.Component {
     let { checked } = target
     let scope = target.dataset.value
 
-    if ( checked && this.state.scopes.indexOf(scope) === -1 ) {
+    if (checked && this.state.scopes.indexOf(scope) === -1) {
       let newScopes = this.state.scopes.concat([scope])
       this.setState({ scopes: newScopes })
-    } else if ( !checked && this.state.scopes.indexOf(scope) > -1) {
+    } else if (!checked && this.state.scopes.indexOf(scope) > -1) {
       this.setState({ scopes: this.state.scopes.filter((val) => val !== scope) })
     }
   }
@@ -88,7 +88,7 @@ export default class Oauth2 extends React.Component {
     const Button = getComponent("Button")
     const AuthError = getComponent("authError")
     const JumpToPath = getComponent("JumpToPath", true)
-    const Markdown = getComponent( "Markdown" )
+    const Markdown = getComponent("Markdown")
 
     const { isOAS3 } = specSelectors
 
@@ -102,8 +102,8 @@ export default class Oauth2 extends React.Component {
     let scopes = schema.get("allowedScopes") || schema.get("scopes")
     let authorizedAuth = authSelectors.authorized().get(name)
     let isAuthorized = !!authorizedAuth
-    let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
-    let isValid = !errors.filter( err => err.get("source") === "validation").size
+    let errors = errSelectors.allErrors().filter(err => err.get("authId") === name)
+    let isValid = !errors.filter(err => err.get("source") === "validation").size
     let description = schema.get("description")
 
     return (
@@ -114,8 +114,8 @@ export default class Oauth2 extends React.Component {
 
         { isAuthorized && <h6>Authorized</h6> }
 
-        { ( flow === IMPLICIT || flow === ACCESS_CODE ) && <p>Authorization URL: <code>{ schema.get("authorizationUrl") }</code></p> }
-        { ( flow === PASSWORD || flow === ACCESS_CODE || flow === APPLICATION ) && <p>Token URL:<code> { schema.get("tokenUrl") }</code></p> }
+        { (flow === IMPLICIT || flow === ACCESS_CODE) && <p>Authorization URL: <code>{ schema.get("authorizationUrl") }</code></p> }
+        { (flow === PASSWORD || flow === ACCESS_CODE || flow === APPLICATION) && <p>Token URL:<code> { schema.get("tokenUrl") }</code></p> }
         <p className="flow">Flow: <code>{ schema.get("flow") }</code></p>
 
         {
@@ -169,8 +169,8 @@ export default class Oauth2 extends React.Component {
             </Row>
         }
         {
-          ( flow === APPLICATION || flow === IMPLICIT || flow === ACCESS_CODE || ( flow === PASSWORD && this.state.passwordType!== "basic") ) &&
-          ( !isAuthorized || isAuthorized && this.state.clientId) && <Row>
+          (flow === APPLICATION || flow === IMPLICIT || flow === ACCESS_CODE || (flow === PASSWORD && this.state.passwordType!== "basic")) &&
+          (!isAuthorized || isAuthorized && this.state.clientId) && <Row>
             <label htmlFor="client_id">client_id:</label>
             {
               isAuthorized ? <code> ****** </code>
@@ -188,7 +188,7 @@ export default class Oauth2 extends React.Component {
         }
 
         {
-          ( flow === APPLICATION || flow === ACCESS_CODE || ( flow === PASSWORD && this.state.passwordType!== "basic") ) && <Row>
+          (flow === APPLICATION || flow === ACCESS_CODE || (flow === PASSWORD && this.state.passwordType!== "basic")) && <Row>
             <label htmlFor="client_secret">client_secret:</label>
             {
               isAuthorized ? <code> ****** </code>
@@ -233,14 +233,14 @@ export default class Oauth2 extends React.Component {
         }
 
         {
-          errors.valueSeq().map( (error, key) => {
+          errors.valueSeq().map((error, key) => {
             return <AuthError key={ key }
               error={ error }/>
-          } )
+          })
         }
         <div className="auth-btn-wrapper">
           { isValid &&
-          ( isAuthorized ? <Button className="btn modal-btn auth authorize"
+          (isAuthorized ? <Button className="btn modal-btn auth authorize"
             onClick={ this.logout }>Logout</Button>
             : <Button className="btn modal-btn auth authorize"
               onClick={ this.authorize }>Authorize</Button>

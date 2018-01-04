@@ -41,7 +41,7 @@ export default class Responses extends React.Component {
     return render
   }
 
-	onChangeProducesWrapper = ( val ) => this.props.specActions.changeProducesValue([this.props.path, this.props.method], val)
+	onChangeProducesWrapper = (val) => this.props.specActions.changeProducesValue([this.props.path, this.props.method], val)
 
   onResponseContentTypeChange = ({ controlsAcceptHeader, value }) => {
     const { oas3Actions, path, method } = this.props
@@ -67,11 +67,11 @@ export default class Responses extends React.Component {
       displayRequestDuration,
       specPath,
     } = this.props
-    let defaultCode = defaultStatusCode( responses )
+    let defaultCode = defaultStatusCode(responses)
 
-    const ContentType = getComponent( "contentType" )
-    const LiveResponse = getComponent( "liveResponse" )
-    const Response = getComponent( "response" )
+    const ContentType = getComponent("contentType")
+    const LiveResponse = getComponent("liveResponse")
+    const Response = getComponent("response")
 
     let produces = this.props.produces && this.props.produces.size ? this.props.produces : Responses.defaultProps.produces
 
@@ -118,7 +118,7 @@ export default class Responses extends React.Component {
             </thead>
             <tbody>
               {
-                responses.entrySeq().map( ([code, response]) => {
+                responses.entrySeq().map(([code, response]) => {
 
                   let className = tryItOutResponse && tryItOutResponse.get("status") == code ? "response_current" : ""
 
