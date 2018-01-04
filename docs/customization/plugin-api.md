@@ -19,7 +19,9 @@ A plugin return value may contain any of these keys, where `myStateKey` is a nam
   },
   components: {},
   wrapComponents: {},
-  fn: {}
+  rootInjects: {},
+  afterLoad: (system) => {},
+  fn: {},
 }
 ```
 
@@ -363,7 +365,55 @@ const MyWrapComponentPlugin = function(system) {
 }
 ```
 
+##### `rootInjects`
 
+The `rootInjects` interface allows you to inject values at the top level of the system.
+
+This interface takes an object, which will be merged in with the top-level system object at runtime.
+
+```js
+const MyRootInjectsPlugin = function(system) {
+  return {
+    rootInjects: {
+      myConstant: 123,
+      myMethod: (...params) => console.log(...params)
+    }
+  }
+}
+```
+
+##### `afterLoad`
+
+The `afterLoad` plugin method allows you to get a reference to the system after your plugin has been registered.
+
+This interface is used in the core code to attach methods that are driven by bound selectors or actions. You can also use it to execute logic that requires your plugin to already be ready, for example fetching initial data from a remote endpoint and passing it to an action your plugin creates.
+
+The plugin context, which is bound to `this`, is undocumented, but below is an example of how to attach a bound action as a top-level method:
+
+```javascript
+const MyMethodProvidingPlugin = function() {
+  return {
+    afterLoad(system) {
+      // at this point in time, your actions have been bound into the system
+      // so you can do things with them
+      this.rootInjects = this.rootInjects || {}
+      this.rootInjects.myMethod = system.exampleActions.updateFavoriteColor
+    },
+    statePlugins: {
+      example: {
+        actions: {
+          updateFavoriteColor: (str) => {
+            return {
+              type: "EXAMPLE_SET_FAV_COLOR",
+              payload: str
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
 
 ##### fn
 

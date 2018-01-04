@@ -1,6 +1,7 @@
 import React, { Component, } from "react"
 import PropTypes from "prop-types"
 import { List } from "immutable"
+import ImPropTypes from "react-immutable-proptypes"
 
 const braceOpen = "{"
 const braceClose = "}"
@@ -17,7 +18,7 @@ export default class ObjectModel extends Component {
     isRef: PropTypes.bool,
     expandDepth: PropTypes.number,
     depth: PropTypes.number,
-    specPath: PropTypes.object.isRequired
+    specPath: ImPropTypes.list.isRequired
   }
 
   render(){
@@ -102,7 +103,7 @@ export default class ObjectModel extends Component {
                           <Model key={ `object-${name}-${key}_${value}` } { ...otherProps }
                                  required={ isRequired }
                                  getComponent={ getComponent }
-                                 specPath={[...specPath, "properties", key]}
+                                 specPath={specPath.push("properties", key)}
                                  getConfigs={ getConfigs }
                                  schema={ value }
                                  depth={ depth + 1 } />
@@ -141,7 +142,7 @@ export default class ObjectModel extends Component {
                     <td>
                       <Model { ...otherProps } required={ false }
                              getComponent={ getComponent }
-                             specPath={[...specPath, "additionalProperties"]}
+                             specPath={specPath.push("additionalProperties")}
                              getConfigs={ getConfigs }
                              schema={ additionalProperties }
                              depth={ depth + 1 } />
@@ -156,7 +157,7 @@ export default class ObjectModel extends Component {
                       {anyOf.map((schema, k) => {
                         return <div key={k}><Model { ...otherProps } required={ false }
                                  getComponent={ getComponent }
-                                 specPath={[...specPath, "anyOf", k]}
+                                 specPath={specPath.push("anyOf", k)}
                                  getConfigs={ getConfigs }
                                  schema={ schema }
                                  depth={ depth + 1 } /></div>
@@ -172,7 +173,7 @@ export default class ObjectModel extends Component {
                       {oneOf.map((schema, k) => {
                         return <div key={k}><Model { ...otherProps } required={ false }
                                  getComponent={ getComponent }
-                                 specPath={[...specPath, "oneOf", k]}
+                                 specPath={specPath.push("oneOf", k)}
                                  getConfigs={ getConfigs }
                                  schema={ schema }
                                  depth={ depth + 1 } /></div>
@@ -189,7 +190,7 @@ export default class ObjectModel extends Component {
                         <Model { ...otherProps }
                                required={ false }
                                getComponent={ getComponent }
-                               specPath={[...specPath, "not"]}
+                               specPath={specPath.push("not")}
                                getConfigs={ getConfigs }
                                schema={ not }
                                depth={ depth + 1 } />

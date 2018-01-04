@@ -1,7 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
+import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
-import { fromJS, Seq, Iterable } from "immutable"
+import { fromJS, Seq, Iterable, List } from "immutable"
 import { getSampleSchema, fromJSOrdered } from "core/utils"
 
 const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
@@ -47,7 +48,7 @@ export default class Response extends React.Component {
     getComponent: PropTypes.func.isRequired,
     getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
-    specPath: PropTypes.array.isRequired,
+    specPath: ImPropTypes.list.isRequired,
     fn: PropTypes.object.isRequired,
     contentType: PropTypes.string,
     controlsAcceptHeader: PropTypes.bool,
@@ -99,7 +100,7 @@ export default class Response extends React.Component {
     var schema, specPathWithPossibleSchema
 
     if(isOAS3()) {
-      const schemaPath = ["content", this.state.responseContentType, "schema"]
+      const schemaPath = List(["content", this.state.responseContentType, "schema"])
       const oas3SchemaForContentType = response.getIn(schemaPath)
       sampleResponse = oas3SchemaForContentType ? getSampleSchema(oas3SchemaForContentType.toJS(), this.state.responseContentType, {
         includeReadOnly: true
@@ -108,7 +109,7 @@ export default class Response extends React.Component {
       specPathWithPossibleSchema = oas3SchemaForContentType ? schemaPath : specPath
     } else {
       schema = inferSchema(response.toJS()) // TODO: don't convert back and forth. Lets just stick with immutable for inferSchema
-      specPathWithPossibleSchema = response.has("schema") ? [...specPath, "schema"] : specPath
+      specPathWithPossibleSchema = response.has("schema") ? specPath.push("schema") : specPath
       sampleResponse = schema ? getSampleSchema(schema, contentType, {
         includeReadOnly: true,
         includeWriteOnly: true // writeOnly has no filtering effect in swagger 2.0
