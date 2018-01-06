@@ -1,6 +1,6 @@
 import StandaloneLayout from "./layout"
 import TopbarPlugin from "plugins/topbar"
-import ConfigsPlugin from "plugins/configs"
+import ConfigsPlugin from "corePlugins/configs"
 
 // the Standalone preset
 

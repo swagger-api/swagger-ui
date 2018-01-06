@@ -2,6 +2,7 @@
 
 set -e
 
+BASE_URL=${BASE_URL:-/}
 NGINX_ROOT=/usr/share/nginx/html
 INDEX_FILE=$NGINX_ROOT/index.html
 
@@ -22,13 +23,7 @@ replace_or_delete_in_index () {
 }
 
 if [ "${BASE_URL}" ]; then
-  NGINX_WITH_BASE_URL="${NGINX_ROOT}${BASE_URL}"
-
-  mkdir -p ${NGINX_WITH_BASE_URL}
-  mv ${NGINX_ROOT}/*.* ${NGINX_WITH_BASE_URL}/
-
-  INDEX_FILE=$NGINX_WITH_BASE_URL/index.html
-  NGINX_ROOT=$NGINX_WITH_BASE_URL
+  sed -i "s|location .* {|location $BASE_URL {|g" /etc/nginx/nginx.conf
 fi
 
 replace_in_index myApiKeyXXXX123456789 $API_KEY

@@ -67,6 +67,7 @@ module.exports = require("./make-webpack-config")(rules, {
     publicPath: "/",
     noInfo: true,
     hot: true,
+    disableHostCheck: true, // for development within VMs
     stats: {
       colors: true
     },

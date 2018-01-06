@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import ImPropTypes from "react-immutable-proptypes"
 
 export default class ModelExample extends React.Component {
   static propTypes = {
@@ -9,7 +10,7 @@ export default class ModelExample extends React.Component {
     example: PropTypes.any.isRequired,
     isExecute: PropTypes.bool,
     getConfigs: PropTypes.func.isRequired,
-    specPath: PropTypes.array.isRequired,
+    specPath: ImPropTypes.list.isRequired,
   }
 
   constructor(props, context) {

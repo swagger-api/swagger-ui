@@ -126,15 +126,6 @@ export function systemThunkMiddleware(getSystem) {
   }
 }
 
-export const errorLog = getSystem => () => next => action => {
-  try{
-    next( action )
-  }
-  catch( e ) {
-    getSystem().errActions.newThrownErr( e, action )
-  }
-}
-
 export function defaultStatusCode ( responses ) {
   let codes = responses.keySeq()
   return codes.contains(DEFAULT_REPONSE_KEY) ? DEFAULT_REPONSE_KEY : codes.filter( key => (key+"")[0] === "2").sort().first()
@@ -616,6 +607,9 @@ export const parseSearch = () => {
     let params = search.substr(1).split("&")
 
     for (let i in params) {
+      if (!params.hasOwnProperty(i)) {
+        continue
+      }
       i = params[i].split("=")
       map[decodeURIComponent(i[0])] = decodeURIComponent(i[1])
     }
