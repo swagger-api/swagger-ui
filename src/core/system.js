@@ -18,7 +18,6 @@ function createStoreWithMiddleware(rootReducer, initialState, getSystem) {
     // createLogger( {
     //   stateTransformer: state => state && state.toJS()
     // } ),
-    // errorLog(getSystem), Need to properly handle errors that occur during a render. Ie: let them be...
     systemThunkMiddleware( getSystem )
   ]
 
