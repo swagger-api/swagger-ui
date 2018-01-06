@@ -52,3 +52,7 @@ _Adapted from [How to Write a Git Commit Message](https://chris.beams.io/posts/g
 - **Don't** include any changes to files in the `dist/` directory - we update those files only during releases.
 - **Don't** mention maintainers in your original PR body - we probably would've seen it anyway, so it just increases the noise in our inboxes. Do feel free to ping maintainers if a week has passed and you've heard nothing from us.
 - **Don't** open PRs for custom functionality that only serves a small subset of our users - custom functionality should be implemented outside of our codebase, via a plugin.
+
+#### Merging pull requests
+- **Do** use GitHub's `Squash and merge` strategy.
+- **Do** follow the [Conventional Commits](https://conventionalcommits.org) standard format for your squash commit.
