@@ -10,7 +10,7 @@ import auth from "core/plugins/auth"
 import util from "core/plugins/util"
 import SplitPaneModePlugin from "core/plugins/split-pane-mode"
 import downloadUrlPlugin from "core/plugins/download-url"
-import configsPlugin from "plugins/configs"
+import configsPlugin from "core/plugins/configs"
 import deepLinkingPlugin from "core/plugins/deep-linking"
 
 import OperationContainer from "core/containers/OperationContainer"
@@ -61,6 +61,7 @@ import PrimitiveModel from "core/components/primitive-model"
 import Property from "core/components/property"
 import TryItOutButton from "core/components/try-it-out-button"
 import VersionStamp from "core/components/version-stamp"
+import DeepLink from "core/components/deep-link"
 
 import Markdown from "core/components/providers/markdown"
 
@@ -121,7 +122,8 @@ export default function() {
       OperationExt,
       OperationExtRow,
       ParameterExt,
-      OperationContainer
+      OperationContainer,
+      DeepLink
     }
   }
 

@@ -29,7 +29,7 @@ class Parameters extends Component {
     fn: PropTypes.object.isRequired,
     tryItOutEnabled: PropTypes.bool,
     allowTryItOut: PropTypes.bool,
-    specPath: PropTypes.array.isRequired,
+    specPath: ImPropTypes.list.isRequired,
     onTryoutClick: PropTypes.func,
     onCancelClick: PropTypes.func,
     onChangeKey: PropTypes.array,
@@ -107,7 +107,7 @@ class Parameters extends Component {
     const { isOAS3 } = specSelectors
 
     const requestBody = operation.get("requestBody")
-    const requestBodySpecPath = [...specPath.slice(0, -1), "requestBody"] // remove the "parameters" part
+    const requestBodySpecPath = specPath.slice(0, -1).push("requestBody") // remove the "parameters" part
 
     return (
       <div className="opblock-section">
@@ -143,7 +143,7 @@ class Parameters extends Component {
                     eachMap(parameters, (parameter, i) => (
                       <ParameterRow fn={ fn }
                         getComponent={ getComponent }
-                        specPath={[...specPath, i]}
+                        specPath={specPath.push(i)}
                         getConfigs={ getConfigs }
                         param={ parameter }
                         key={ parameter.get( "name" ) }

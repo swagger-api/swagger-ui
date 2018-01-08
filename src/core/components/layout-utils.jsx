@@ -57,6 +57,9 @@ export class Col extends React.Component {
     let classesAr = []
 
     for (let device in DEVICES) {
+      if (!DEVICES.hasOwnProperty(device)) {
+        continue
+      }
       let deviceClass = DEVICES[device]
       if(device in this.props) {
         let val = this.props[device]
