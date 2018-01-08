@@ -37,7 +37,7 @@ var commonRules = [
   { test: /\.(woff|woff2)(\?.*)?$/,
     loader: "url-loader?limit=100000" },
   { test: /\.(ttf|eot)(\?.*)?$/,
-    loader: "file-loader" }
+    loader: "file-loader" },
 ]
 
 module.exports = function(rules, options) {

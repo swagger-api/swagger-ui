@@ -36,7 +36,15 @@ export default {
   },
 
   [UPDATE_RESOLVED]: (state, action) => {
-    return state.setIn(["resolved"], fromJSOrdered(action.payload))
+    /* develblock:start */
+    require("root/src/perf").start("UPDATE_RESOLVED")
+    /* develblock:end */
+    const resolved = fromJSOrdered(action.payload)
+
+    /* develblock:start */
+    require("root/src/perf").stop("UPDATE_RESOLVED")
+    /* develblock:end */
+    return state.setIn(["resolved"], resolved)
   },
 
   [UPDATE_PARAM]: ( state, {payload} ) => {
