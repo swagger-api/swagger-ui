@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import formatXml from "xml-but-prettier"
 import lowerCase from "lodash/lowerCase"
+import { extractFileNameFromContentDispositionHeader } from "core/utils"
 
 export default class ResponseBody extends React.Component {
 
@@ -70,12 +71,9 @@ export default class ResponseBody extends React.Component {
         // First check if filename is quoted (e.g. contains space), if no, fallback to not quoted check
         let disposition = headers["content-disposition"] || headers["Content-Disposition"]
         if (typeof disposition !== "undefined") {
-          let responseFilename = /filename=\\"([^;]*);?\\"/i.exec(disposition)
-          if (responseFilename === null) {
-            responseFilename = /filename=([^;]*);?/i.exec(disposition)
-          }
-          if (responseFilename !== null && responseFilename.length > 1) {
-            download = responseFilename[1]
+          let responseFilename = extractFileNameFromContentDispositionHeader(disposition)
+          if (responseFilename !== null) {
+            download = responseFilename
           }
         }
 

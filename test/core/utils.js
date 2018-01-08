@@ -18,7 +18,8 @@ import {
   getAcceptControllingResponse,
   createDeepLinkPath,
   escapeDeepLinkPath,
-  sanitizeUrl
+  sanitizeUrl,
+  extractFileNameFromContentDispositionHeader
 } from "core/utils"
 import win from "core/window"
 
@@ -88,6 +89,26 @@ describe("utils", function() {
       expect(aList.toJS()).toEqual([])
     })
 
+  })
+
+  describe("extractFileNameFromContentDispositionHeader", function(){
+    it("should extract quoted filename", function(){
+      let cdHeader = "attachment; filename=\\\"file name.jpg\\\""
+      let expectedResult = "file name.jpg"
+      expect(extractFileNameFromContentDispositionHeader(cdHeader)).toEqual(expectedResult)
+    })
+
+    it("should extract filename", function(){
+      let cdHeader = "attachment; filename=filename.jpg"
+      let expectedResult = "filename.jpg"
+      expect(extractFileNameFromContentDispositionHeader(cdHeader)).toEqual(expectedResult)
+    })
+
+    it("should not extract filename and return null", function(){
+      let cdHeader = "attachment; no file name provided"
+      let expectedResult = null
+      expect(extractFileNameFromContentDispositionHeader(cdHeader)).toEqual(expectedResult)
+    })
   })
 
   describe("validateMaximum", function() {
