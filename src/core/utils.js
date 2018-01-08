@@ -343,7 +343,7 @@ export function mapToList(map, keyNames="key", collectedKeys=Im.Map()) {
 }
 
 export function extractFileNameFromContentDispositionHeader(value){
-  let responseFilename = /filename=\\"([^;]*);?\\"/i.exec(value)
+  let responseFilename = /filename="([^;]*);?"/i.exec(value)
   if (responseFilename === null) {
     responseFilename = /filename=([^;]*);?/i.exec(value)
   }

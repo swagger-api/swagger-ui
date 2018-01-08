@@ -93,7 +93,7 @@ describe("utils", function() {
 
   describe("extractFileNameFromContentDispositionHeader", function(){
     it("should extract quoted filename", function(){
-      let cdHeader = "attachment; filename=\\\"file name.jpg\\\""
+      let cdHeader = "attachment; filename=\"file name.jpg\""
       let expectedResult = "file name.jpg"
       expect(extractFileNameFromContentDispositionHeader(cdHeader)).toEqual(expectedResult)
     })
