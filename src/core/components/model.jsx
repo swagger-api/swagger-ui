@@ -1,8 +1,9 @@
-import React, { PureComponent } from "react"
+import React from "react"
+import ImmutablePureComponent from "react-immutable-pure-component"
 import ImPropTypes from "react-immutable-proptypes"
 import PropTypes from "prop-types"
 
-export default class Model extends PureComponent {
+export default class Model extends ImmutablePureComponent {
   static propTypes = {
     schema: ImPropTypes.orderedMap.isRequired,
     getComponent: PropTypes.func.isRequired,
@@ -13,7 +14,7 @@ export default class Model extends PureComponent {
     required: PropTypes.bool,
     expandDepth: PropTypes.number,
     depth: PropTypes.number,
-    specPath: PropTypes.array.isRequired,
+    specPath: ImPropTypes.list.isRequired,
   }
 
   getModelName =( ref )=> {

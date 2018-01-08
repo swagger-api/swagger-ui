@@ -7,10 +7,10 @@ export const NEW_SPEC_ERR_BATCH = "err_new_spec_err_batch"
 export const NEW_AUTH_ERR = "err_new_auth_err"
 export const CLEAR = "err_clear"
 
-export function newThrownErr(err, action) {
+export function newThrownErr(err) {
   return {
       type: NEW_THROWN_ERR,
-      payload: { action, error: serializeError(err) }
+      payload: serializeError(err)
   }
 }
 

@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
+import ImPropTypes from "react-immutable-proptypes"
 
 const propStyle = { color: "#999", fontStyle: "italic" }
 
@@ -12,7 +13,7 @@ export default class ArrayModel extends Component {
     name: PropTypes.string,
     required: PropTypes.bool,
     expandDepth: PropTypes.number,
-    specPath: PropTypes.array.isRequired,
+    specPath: ImPropTypes.list.isRequired,
     depth: PropTypes.number
   }
 
@@ -48,7 +49,17 @@ export default class ArrayModel extends Component {
             !description ? null :
               <Markdown source={ description } />
           }
-          <span><Model { ...this.props } getConfigs={ getConfigs } specPath={[...specPath, "items"]} name={null} schema={ items } required={ false } depth={ depth + 1 } /></span>
+          <span>
+            <Model
+              { ...this.props }
+              getConfigs={ getConfigs }
+              specPath={specPath.push("items")}
+              name={null}
+              schema={ items }
+              required={ false }
+              depth={ depth + 1 }
+            />
+          </span>
         ]
       </ModelCollapse>
     </span>

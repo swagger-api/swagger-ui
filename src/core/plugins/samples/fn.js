@@ -181,6 +181,9 @@ export const sampleXmlFromSchema = (schema, config={}) => {
     example = example || {}
 
     for (let propName in props) {
+      if (!props.hasOwnProperty(propName)) {
+        continue
+      }
       if ( props[propName].readOnly && !includeReadOnly ) {
         continue
       }
