@@ -1,4 +1,6 @@
+/* eslint-disable no-console */
 var cbt = require("cbt_tunnels")
+
 
 module.exports = {
   baseUrl: "http://local:3200",
