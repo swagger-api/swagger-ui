@@ -154,12 +154,6 @@ export default class ParameterRow extends Component {
         if (paramExample === undefined) {
           paramExample = param.get("x-example")
         }
-
-        if(paramExample) {
-          paramExample = <HighlightCode value={ formatParamValue(paramExample, parameter) }/>
-        } else {
-          paramExample = <HighlightCode value={ formatParamValue(value, parameter) }/>
-        }
       }
     }
 

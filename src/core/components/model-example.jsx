@@ -17,10 +17,13 @@ export default class ModelExample extends React.Component {
   constructor(props, context) {
     super(props, context)
 
-    let { getConfigs } = this.props
+    let { getConfigs, examples } = this.props
     let { defaultModelRendering } = getConfigs()
     if (defaultModelRendering !== "example" && defaultModelRendering !== "model") {
       defaultModelRendering = "example"
+    }
+    if (defaultModelRendering === "example" && examples) {
+      defaultModelRendering = `example_${ examples.keySeq().first() }`
     }
     this.state = {
       activeTab: defaultModelRendering
@@ -54,9 +57,11 @@ export default class ModelExample extends React.Component {
     // TODO fetch externalValue and display it on demand
     return <div>
       <ul className="tab">
-        <li className={ "tabitem" + ( isExecute || this.state.activeTab === "example" ? " active" : "") }>
-          <a className="tablinks" data-name="example" onClick={ this.activeTab }>Example Value</a>
-        </li>
+        { !examples && example &&
+          <li className={"tabitem" + (isExecute || this.state.activeTab === "example" ? " active" : "")}>
+            <a className="tablinks" data-name="example" onClick={this.activeTab}>Example Value</a>
+          </li>
+        }
 
         { examples && examples.map( (item, key) => {
           return ( !isExecute && <li key={"examples_key_" + key} className={"tabitem" + ( isExecute || this.state.activeTab === "example_" + key ? " active" : "") }>
