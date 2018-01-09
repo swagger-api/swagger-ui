@@ -31,7 +31,7 @@
     "test": "npm run lint:errors && npm run test:nodejs",
     "test:ci": "npm-run-all lint:errors test:nodejs test:ci:e2e",
     "test:browser": "karma start --config karma.conf.js",
-    "test:ci:e2e": "if [[ $ENABLE_CI_E2E == true ]]; then npm-run-all --parallel -r hot-server test:e2e:mock-api test:e2e:all:cbt; else exit 0; fi",
+    "test:ci:e2e": "if [ \"$ENABLE_CI_E2E\" = \"true\" ]; then npm-run-all --parallel -r hot-server test:e2e:mock-api test:e2e:all:cbt; else exit 0; fi",
     "test:coverage": "nyc npm run test:nodejs",
     "test:e2e": "npm-run-all --parallel -r hot-server test:e2e:mock-api test:e2e:all",
     "test:e2e:all": "sleep 3 && nightwatch test/e2e/scenarios/ --config test/e2e/nightwatch.json",
