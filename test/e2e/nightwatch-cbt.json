@@ -1,11 +1,10 @@
 {
   "src_folders" : ["test/e2e/scenarios"],
   "output_folder" : "reports",
-  "live_output": true,
   "custom_commands_path" : "",
   "custom_assertions_path" : "",
   "page_objects_path" : "test/e2e/pages",
-  "globals_path" : "",
+  "globals_path" : "test/e2e/cbt-globals.js",
   "test_workers" : {
     "enabled" : true,
     "workers" : "auto"
@@ -20,14 +19,13 @@
   },
 
   "selenium" : {
-    "start_process" : true,
-    "server_path" : "node_modules/selenium-server-standalone-jar/jar/selenium-server-standalone-3.4.0.jar",
+    "start_process" : false,
+    "server_path" : "",
     "log_path" : "",
     "host" : "127.0.0.1",
     "port" : 4444,
     "cli_args" : {
-      "webdriver.chrome.driver" : "node_modules/chromedriver/bin/chromedriver",
-      "webdriver.firefox.profile" : "",
+      "webdriver.chrome.driver" : "",
       "webdriver.ie.driver" : ""
     }
   },
@@ -35,28 +33,22 @@
   "test_settings" : {
     "default" : {
       "launch_url" : "http://localhost",
-      "selenium_port"  : 4444,
-      "selenium_host"  : "localhost",
+      "selenium_port"  : 80,
+      "selenium_host"  : "hub.crossbrowsertesting.com",
       "silent": true,
       "screenshots" : {
         "enabled" : false,
         "path" : ""
       },
+      "username": "${CBT_USERNAME}",
+      "access_key": "${CBT_AUTHKEY}",
       "desiredCapabilities": {
+        "acceptSslCerts": "1",
         "browserName": "chrome",
-        "marionette": true
-      }
-    },
-
-    "chrome" : {
-      "desiredCapabilities": {
-        "browserName": "chrome"
-      }
-    },
-
-    "edge" : {
-      "desiredCapabilities": {
-        "browserName": "MicrosoftEdge"
+        "javascriptEnabled": "1",
+        "name": "NightwatchJSExample",
+        "record_network" : "true",
+        "record_video" : "true"
       }
     }
   }
