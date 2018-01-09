@@ -20,7 +20,7 @@ module.exports = {
         version: {
           selector: ".version"
         },
-        baseUrl: {
+        baseAppUrl: {
           selector: ".base-url"
         },
         mainUrl: {

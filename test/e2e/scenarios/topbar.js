@@ -18,7 +18,7 @@ describe("initial render", function () {
 
         beforeEach(function (client, done) {
         mainPage = client
-            .url(client.globals.baseUrl)
+            .url(client.globals.baseAppUrl)
             .page.main()
 
         topbar = mainPage.section.topbar
@@ -26,7 +26,7 @@ describe("initial render", function () {
         client.waitForElementVisible(".download-url-input", 10000)
             .pause(5000)
             .clearValue(".download-url-input")
-            .setValue(".download-url-input", client.globals.baseUrl + "/test-specs/petstore.json")
+            .setValue(".download-url-input", client.globals.specPath)
             .click("button.download-url-button")
             .pause(1000)
 
