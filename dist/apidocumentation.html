@@ -1,9 +1,8 @@
-<!-- HTML for dev server -->
+<!-- HTML for static distribution bundle build -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Swagger UI</title>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro:300,600|Titillium+Web:400,600,700" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="./swagger-ui.css" >
@@ -22,6 +21,7 @@
     {
       box-sizing: inherit;
     }
+
     body {
       margin:0;
       background: #fafafa;
@@ -34,7 +34,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="position:absolute;width:0;height:0">
   <defs>
     <symbol viewBox="0 0 20 20" id="unlocked">
-      <path d="M15.8 8H14V5.6C14 2.703 12.665 1 10 1 7.334 1 6 2.703 6 5.6V6h2v-.801C8 3.754 8.797 3 10 3c1.203 0 2 .754 2 2.199V8H4c-.553 0-1 .646-1 1.199V17c0 .549.428 1.139.951 1.307l1.197.387C5.672 18.861 6.55 19 7.1 19h5.8c.549 0 1.428-.139 1.951-.307l1.196-.387c.524-.167.953-.757.953-1.306V9.199C17 8.646 16.352 8 15.8 8z"></path>
+          <path d="M15.8 8H14V5.6C14 2.703 12.665 1 10 1 7.334 1 6 2.703 6 5.6V6h2v-.801C8 3.754 8.797 3 10 3c1.203 0 2 .754 2 2.199V8H4c-.553 0-1 .646-1 1.199V17c0 .549.428 1.139.951 1.307l1.197.387C5.672 18.861 6.55 19 7.1 19h5.8c.549 0 1.428-.139 1.951-.307l1.196-.387c.524-.167.953-.757.953-1.306V9.199C17 8.646 16.352 8 15.8 8z"></path>
     </symbol>
 
     <symbol viewBox="0 0 20 20" id="locked">
@@ -71,31 +71,10 @@
 <script src="./swagger-ui-standalone-preset.js"> </script>
 <script>
 window.onload = function() {
-  window["SwaggerUIBundle"] = window["swagger-ui-bundle"]
-  window["SwaggerUIStandalonePreset"] = window["swagger-ui-standalone-preset"]
+
   // Build a system
   const ui = SwaggerUIBundle({
     urls: [
-      {
-        url: "https://api.relocation.immobilienscout24.de/relocationrequest/swagger.json",
-        name: "Relocation Request API"
-      },
-      {
-        url: "https://api.relocation.immobilienscout24.de/relocationrequest/myrelocation/swagger.json",
-        name: "MyRelocation API"
-      },
-      {
-        url: "https://api.relocation.immobilienscout24.de/relocationpartner/swagger.json",
-        name: "Relocation Partner API"
-      },
-      {
-        url: "https://api.relocation.immobilienscout24.de/relocationcosts/swagger.json",
-        name: "Relocation Costs API"
-      },
-      {
-        url: "https://api.relocation.immobilienscout24.de/authentication/swagger.json",
-        name: "Relocation Authentication API"
-      },
       {
         url: "https://api.relocation.immobilienscout24.de/relocationrequest/swagger.json?type=private",
         name: "Private Relocation Request API"
@@ -106,6 +85,7 @@ window.onload = function() {
       }
     ],
     dom_id: '#swagger-ui',
+    deepLinking: true,
     presets: [
       SwaggerUIBundle.presets.apis,
       SwaggerUIStandalonePreset
@@ -114,19 +94,10 @@ window.onload = function() {
       SwaggerUIBundle.plugins.DownloadUrl
     ],
     layout: "StandaloneLayout"
-  })
+  });
 
-    window.ui = ui
-
-    ui.initOAuth({
-      clientId: "your-client-id",
-      clientSecret: "your-client-secret-if-required",
-      realm: "your-realms",
-      appName: "your-app-name",
-      scopeSeparator: " ",
-      additionalQueryStringParams: {}
-    })
-  }
+  window.ui = ui
+}
 </script>
 </body>
 

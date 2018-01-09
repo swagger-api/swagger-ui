@@ -267,13 +267,17 @@ cf sync cfn/cfn-config.yml --confirm
 ```
 
 * use aws cli to copy ```dist/```folder to the s3 bucket (make sure to switch to the correct account first using ```afp```)
+* following script is for two buckets: *relocation-swagger-ui* and *relocation-partner-swagger-ui*
 
 ```
 aws s3 sync dist/ s3://relocation-swagger-ui/ --delete
+aws s3 sync dist/ s3://relocation-partner-swagger-ui/ --delete
 ```
 
 Teamcity: [relocation/swagger-ui](https://teamcity.rz.is/admin/editProject.html?projectId=RelocationRewriteUmzug_SwaggerUi)
-Deployed here: [swagger ui](http://relocation-swagger-ui.s3-website-eu-west-1.amazonaws.com/)
+Deployed here:
+ * [swagger ui](http://relocation-swagger-ui.s3-website-eu-west-1.amazonaws.com/)
+ * [partner swagger ui](http://relocation-partner-swagger-ui.s3-website-eu-west-1.amazonaws.com/)
 
 ## License
 

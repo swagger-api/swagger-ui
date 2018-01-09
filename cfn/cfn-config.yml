@@ -1,4 +1,13 @@
 region: eu-west-1
 stacks:
   relocation-swagger-ui:
-    template-url: templates/cfn-template.yml
+    template-url: templates/aws-s3-template.yml
+    parameters:
+      bucketName: relocation-swagger-ui
+      bucketIndexDocument: index.html
+  relocation-partner-swagger-ui:
+    template-url: templates/aws-s3-template.yml
+    parameters:
+      bucketName: relocation-partner-swagger-ui
+      bucketIndexDocument: apidocumentation.html
+      

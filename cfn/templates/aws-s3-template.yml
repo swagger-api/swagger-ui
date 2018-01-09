@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: bucket for is24-relocation-swagger-ui
+
+Parameters:
+  bucketName:
+    Description: name of the bucket
+    Type: String
+  bucketIndexDocument:
+    Description: includes the swagger-ui web application
+    Type: String
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName:
+        Ref: bucketName
+      WebsiteConfiguration:
+        IndexDocument:
+          Ref: bucketIndexDocument
+
+  S3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket:
+        Ref: S3Bucket
+      PolicyDocument:
+        Statement:
+          - Sid: PublicReadGetObject
+            Effect: Allow
+            Principal: "*"
+            Action:
+            - s3:GetObject
+            Resource: 
+              Fn::Sub: 'arn:aws:s3:::${bucketName}/*'
+
+Outputs:
+  bucketUrl:
+    Description: url to the swagger-ui web application
+    Value:
+      Fn::GetAtt: [ S3Bucket, WebsiteURL]
