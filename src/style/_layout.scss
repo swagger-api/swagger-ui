@@ -396,33 +396,29 @@
     {
         font-size: 12px;
 
-        min-width: 100px;
-        min-width: 90px;
         padding: 0;
 
         cursor: pointer;
 
         @include text_headline();
 
-        &:first-of-type
+        position: relative;
+
+        padding-left: 0;
+        padding-right: 5px;
+        margin-right: 5px;
+
+        &:nth-last-child(n+2):after
         {
-            position: relative;
+            position: absolute;
+            top: 0;
+            right: 0;
 
-            padding-left: 0;
+            width: 1px;
+            height: 100%;
 
-            &:after
-            {
-                position: absolute;
-                top: 0;
-                right: 6px;
-
-                width: 1px;
-                height: 100%;
-
-                content: '';
-
-                background: rgba($tab-list-item-first-background-color,.2);
-            }
+            content: '';
+            background: rgba($tab-list-item-first-background-color,.2);
         }
 
         &.active
@@ -796,3 +792,17 @@ a.nostyle {
     cursor: pointer;
   }
 }
+
+/* OAS3 responseBody examples start */
+.example-description {
+  margin: 0 0 5px 0;
+  padding: 5px 0;
+}
+
+/* .example-summary is the summary line of parameter examples */
+.example-summary {
+  margin: 0;
+  /* use the same font as .opblock-summary-description */
+  @include text_body();
+}
+/* OAS3 responseBody examples end */

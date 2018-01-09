@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
-import { fromJS, Seq, Iterable, List } from "immutable"
+import { fromJS, OrderedMap, Seq, Iterable, List } from "immutable"
 import { getSampleSchema, fromJSOrdered } from "core/utils"
 
 const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
@@ -106,6 +106,17 @@ export default class Response extends React.Component {
         includeReadOnly: true
       }) : null
       schema = oas3SchemaForContentType ? inferSchema(oas3SchemaForContentType.toJS()) : null
+      examples = response.getIn(["content", this.state.responseContentType, "examples"])
+
+      if(!examples) {
+        // The example object is mutually exclusive of the examples object. Prefer `examples` here.
+        let example = response.getIn(["content", this.state.responseContentType, "example"])
+
+        if(example) {
+          examples = OrderedMap({"Example": example})
+        }
+      }
+
       specPathWithPossibleSchema = oas3SchemaForContentType ? schemaPath : specPath
     } else {
       schema = inferSchema(response.toJS()) // TODO: don't convert back and forth. Lets just stick with immutable for inferSchema
@@ -156,7 +167,9 @@ export default class Response extends React.Component {
               getConfigs={ getConfigs }
               specSelectors={ specSelectors }
               schema={ fromJSOrdered(schema) }
-              example={ example }/>
+              example={ example }
+              examples={ examples }
+            />
           ) : null}
 
           { headers ? (
