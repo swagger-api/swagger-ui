@@ -11,7 +11,7 @@ module.exports = {
   specPath: "https://rawgit.com/swagger-api/swagger-ui/master/test/e2e/specs/petstore.json",
   visibleTimeout: 10000,
 
-  beforeEach: function(done) {
+  before: function(done) {
     console.log("Starting up tunnel")
     cbt.start({
       username: process.env.CBT_USERNAME || "",
@@ -24,7 +24,7 @@ module.exports = {
       }
     })
   },
-  afterEach: function(done) {
+  after: function(done) {
     console.log("Closing Down Tunnel")
     cbt.stop()
     done()
