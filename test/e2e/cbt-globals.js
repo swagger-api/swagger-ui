@@ -4,7 +4,11 @@ var cbt = require("cbt_tunnels")
 
 module.exports = {
   baseAppUrl: "http://swagger-ui-ci-asset-deployment-test.surge.sh",
-  specPath: "http://local:3204/petstore.json",
+
+  // use rawgit.com to get test/e2e/specs/petstore.json from master
+  // not a great solution, but CBT's proxy is too slow to fetch
+  // the data directly.
+  specPath: "https://rawgit.com/swagger-api/swagger-ui/master/test/e2e/specs/petstore.json",
   visibleTimeout: 10000,
 
   beforeEach: function(done) {
