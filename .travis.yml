@@ -15,6 +15,7 @@ before_deploy:
   - npm run build
 env:
   - DOCKER_IMAGE_NAME=swaggerapi/swagger-ui
+script: npm run test:ci
 deploy:
   - provider: npm
     email: apiteam@swagger.io
