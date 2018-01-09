@@ -6,8 +6,8 @@ describe("render informationContainer", function () {
         mainPage = client
         .url(client.globals.baseAppUrl)
         .page.main()
-        client.waitForElementVisible(".download-url-input", 5000)
-        .pause(5000)
+        client.waitForElementVisible(".download-url-input", client.globals.visibleTimeout || 5000)
+        .pause(client.globals.visibleTimeout || 5000)
         .clearValue(".download-url-input")
         .setValue(".download-url-input", client.globals.specPath)
         .click("button.download-url-button")
@@ -19,13 +19,13 @@ describe("render informationContainer", function () {
     })
 
     it("renders section", function (client) {
-        mainPage.expect.section("@informationContainer").to.be.visible.before(5000)
+        mainPage.expect.section("@informationContainer").to.be.visible.before(client.globals.visibleTimeout || 5000)
 
         client.end()
     })
 
     it("renders content", function (client) {
-        informationContainer.waitForElementVisible("@title", 5000)
+        informationContainer.waitForElementVisible("@title", client.globals.visibleTimeout || 5000)
             .assert.containsText("@title", "Swagger Petstore")
             .assert.containsText("@version", "1.0.0")
             .assert.containsText("@baseAppUrl", "[ Base URL: localhost:3204/ ]")

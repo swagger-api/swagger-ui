@@ -5,8 +5,8 @@ describe("Render Model Wrapper", function () {
         mainPage = client
             .url(client.globals.baseAppUrl)
             .page.main()
-        client.waitForElementVisible(".download-url-input", 5000)
-            .pause(5000)
+        client.waitForElementVisible(".download-url-input", client.globals.visibleTimeout || 5000)
+            .pause(client.globals.visibleTimeout || 5000)
             .clearValue(".download-url-input")
             .setValue(".download-url-input", client.globals.specPath)
             .click("button.download-url-button")
@@ -20,13 +20,13 @@ describe("Render Model Wrapper", function () {
         done()
     })
     it("Render model wrapper", function(client){
-        mainPage.expect.section("@modelWrapper").to.be.visible.before(5000)
+        mainPage.expect.section("@modelWrapper").to.be.visible.before(client.globals.visibleTimeout || 5000)
 
         client.end()
     })
 
     it("Render model wrapper collapse", function(client){
-        modelWrapper.waitForElementVisible("@modelContainer", 5000)
+        modelWrapper.waitForElementVisible("@modelContainer", client.globals.visibleTimeout || 5000)
             .click("@modelCollapse")
             .assert.cssClassNotPresent("@modelContainer", "is-open")
 

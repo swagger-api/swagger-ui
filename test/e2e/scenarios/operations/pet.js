@@ -6,8 +6,8 @@ describe("render pet api container", function () {
             .url(client.globals.baseAppUrl)
             .page.main()
 
-        client.waitForElementVisible(".download-url-input", 5000)
-            .pause(5000)
+        client.waitForElementVisible(".download-url-input", client.globals.visibleTimeout || 5000)
+            .pause(client.globals.visibleTimeout || 5000)
             .clearValue(".download-url-input")
             .setValue(".download-url-input", client.globals.specPath)
             .click("button.download-url-button")
@@ -25,13 +25,13 @@ describe("render pet api container", function () {
         client.end()
     })
     it("test rendered pet container", function (client) {
-        apiWrapper.waitForElementVisible("@petAPIWrapper", 5000)
+        apiWrapper.waitForElementVisible("@petAPIWrapper", client.globals.visibleTimeout || 5000)
             .expect.element("@petAPIWrapper").to.be.visible
 
         client.end()
     })
     it("collapse pet wrapper", function (client) {
-        apiWrapper.waitForElementVisible("@petAPIWrapper", 5000)
+        apiWrapper.waitForElementVisible("@petAPIWrapper", client.globals.visibleTimeout || 5000)
             .click("@petAPIWrapperBar")
             .assert.cssClassNotPresent("@petAPIWrapper", "is-open")
 
@@ -41,7 +41,7 @@ describe("render pet api container", function () {
         apiWrapper.waitForElementVisible("@petOperationPostContainer", 10000)
             .assert.containsText("@petOperationPostTitle", "/pet")
             .click("@petOperationPostCollpase")
-            .waitForElementVisible("@petOperationPostCollapseContainer", 5000)
+            .waitForElementVisible("@petOperationPostCollapseContainer", client.globals.visibleTimeout || 5000)
             .click("@petOperationPostTryBtn")
             .waitForElementVisible("@petOperationPostTryText", 1000)
             .waitForElementVisible("@petOperationPostExecuteBtn", 1000)
@@ -52,9 +52,9 @@ describe("render pet api container", function () {
     })
 
     it("Testing post /pet api Mock data", function (client) {
-        apiWrapper.waitForElementVisible("@petOperationPostContainer", 5000)
+        apiWrapper.waitForElementVisible("@petOperationPostContainer", client.globals.visibleTimeout || 5000)
             .click("@petOperationPostCollpase")
-            .waitForElementVisible("@petOperationPostCollapseContainer", 5000)
+            .waitForElementVisible("@petOperationPostCollapseContainer", client.globals.visibleTimeout || 5000)
             .click("@petOperationPostTryBtn")
             .waitForElementVisible("@petOperationPostExecuteBtn", 1000)
             .click("@petOperationPostExecuteBtn")
@@ -72,7 +72,7 @@ describe("render pet api container", function () {
     })
 
     it("render put /pet api container", function (client) {
-        apiWrapper.waitForElementVisible("@petOperationPutContainer", 5000)
+        apiWrapper.waitForElementVisible("@petOperationPutContainer", client.globals.visibleTimeout || 5000)
             .assert.containsText("@petOperationPutTitle", "/pet")
             .click("@petOperationPutCollpase")
             .waitForElementVisible("@petOperationPutCollapseContainer", 3000)
@@ -86,7 +86,7 @@ describe("render pet api container", function () {
     })
     
     it("Testing put /pet api Mock data", function (client) {
-        apiWrapper.waitForElementVisible("@petOperationPutContainer", 5000)
+        apiWrapper.waitForElementVisible("@petOperationPutContainer", client.globals.visibleTimeout || 5000)
             .click("@petOperationPutCollpase")
             .waitForElementVisible("@petOperationPutCollapseContainer", 3000)
             .click("@petOperationPutTryBtn")
@@ -106,7 +106,7 @@ describe("render pet api container", function () {
     })
 
     it("render get by tag /pet api container", function (client) {
-        apiWrapper.waitForElementVisible("@petOperationGetByTagContainer", 5000)
+        apiWrapper.waitForElementVisible("@petOperationGetByTagContainer", client.globals.visibleTimeout || 5000)
             .assert.containsText("@petOperationGetByTagTitle", "/pet/findByTags")
             .click("@petOperationGetByTagCollpase")
             .waitForElementVisible("@petOperationGetByTagCollapseContainer", 3000)
@@ -120,7 +120,7 @@ describe("render pet api container", function () {
     })
 
     it("Testing get by tag /pet api Mock data", function (client) {
-        apiWrapper.waitForElementVisible("@petOperationGetByTagContainer", 5000)
+        apiWrapper.waitForElementVisible("@petOperationGetByTagContainer", client.globals.visibleTimeout || 5000)
             .click("@petOperationGetByTagCollpase")
             .waitForElementVisible("@petOperationGetByTagCollapseContainer", 3000)
             .click("@petOperationGetByTagTryBtn")
@@ -140,7 +140,7 @@ describe("render pet api container", function () {
     })
     
     it("render get by ID /pet/{petId} api container", function (client) {
-        apiWrapper.waitForElementVisible("@petOperationGetByIdContainer", 5000)
+        apiWrapper.waitForElementVisible("@petOperationGetByIdContainer", client.globals.visibleTimeout || 5000)
             .assert.containsText("@petOperationGetByIdTitle", "/pet/{petId}")
             .click("@petOperationGetByIdCollpase")
             .waitForElementVisible("@petOperationGetByIdCollapseContainer", 3000)
@@ -153,7 +153,7 @@ describe("render pet api container", function () {
     })
 
     it("render get by ID /pet/{petId} api Mock data", function (client) {
-        apiWrapper.waitForElementVisible("@petOperationGetByIdContainer", 5000)
+        apiWrapper.waitForElementVisible("@petOperationGetByIdContainer", client.globals.visibleTimeout || 5000)
             .assert.containsText("@petOperationGetByIdTitle", "/pet/{petId}")
             .click("@petOperationGetByIdCollpase")
             .waitForElementVisible("@petOperationGetByIdCollapseContainer", 3000)

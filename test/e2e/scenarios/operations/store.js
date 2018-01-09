@@ -6,7 +6,7 @@ describe("render store api container", function(){
             .url(client.globals.baseAppUrl)
             .page.main()
 
-        client.waitForElementVisible(".download-url-input", 5000)
+        client.waitForElementVisible(".download-url-input", client.globals.visibleTimeout || 5000)
             .pause(3000)
             .clearValue(".download-url-input")
             .setValue(".download-url-input", client.globals.specPath)
@@ -21,23 +21,23 @@ describe("render store api container", function(){
         done()
     })
     it("test rendered store container", function(client){
-        apiWrapper.waitForElementVisible("@storeAPIWrapper", 5000)
+        apiWrapper.waitForElementVisible("@storeAPIWrapper", client.globals.visibleTimeout || 5000)
             .expect.element("@storeAPIWrapper").to.be.visible
 
     client.end()
     })
     it("callapse store wrapper", function(client){
-        apiWrapper.waitForElementVisible("@storeAPIWrapper", 5000)
+        apiWrapper.waitForElementVisible("@storeAPIWrapper", client.globals.visibleTimeout || 5000)
             .click("@storeAPIWrapperBar")
             .assert.cssClassNotPresent("@storeAPIWrapper", "is-open")
 
         client.end()
     })
     it("render get /store/inventory api container", function (client) {
-        apiWrapper.waitForElementVisible("@storeOperationGetContainer", 5000)
+        apiWrapper.waitForElementVisible("@storeOperationGetContainer", client.globals.visibleTimeout || 5000)
             .assert.containsText("@storeOperationGetTitle", "/store/inventory")
             .click("@storeOperationGetCollpase")
-            .waitForElementVisible("@storeOperationGetCollapseContainer", 5000)
+            .waitForElementVisible("@storeOperationGetCollapseContainer", client.globals.visibleTimeout || 5000)
             .click("@storeOperationGetTryBtn")
             .waitForElementVisible("@storeOperationGetExecuteBtn", 1000)
             .click("@storeOperationGetTryBtn")
@@ -47,7 +47,7 @@ describe("render store api container", function(){
     })
 
     it("Testing get /store/inventory api Mock data ", function (client) {
-        apiWrapper.waitForElementVisible("@storeOperationGetContainer", 5000)
+        apiWrapper.waitForElementVisible("@storeOperationGetContainer", client.globals.visibleTimeout || 5000)
             .assert.containsText("@storeOperationGetTitle", "/store/inventory")
             .click("@storeOperationGetCollpase")
             .waitForElementVisible("@storeOperationGetCollapseContainer", 3000)

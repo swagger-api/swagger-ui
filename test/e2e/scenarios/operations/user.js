@@ -6,8 +6,8 @@ describe("render user api container", function(){
             .url(client.globals.baseAppUrl)
             .page.main()
 
-        client.waitForElementVisible(".download-url-input", 5000)
-            .pause(5000)
+        client.waitForElementVisible(".download-url-input", client.globals.visibleTimeout || 5000)
+            .pause(client.globals.visibleTimeout || 5000)
             .clearValue(".download-url-input")
             .setValue(".download-url-input", client.globals.specPath)
             .click("button.download-url-button")
@@ -21,20 +21,20 @@ describe("render user api container", function(){
         done()
     })
     it("test rendered user container", function(client){
-        apiWrapper.waitForElementVisible("@userAPIWrapper", 5000)
+        apiWrapper.waitForElementVisible("@userAPIWrapper", client.globals.visibleTimeout || 5000)
             .expect.element("@userAPIWrapper").to.be.visible
 
     client.end()
     })
     it("callapse user wrapper", function(client){
-        apiWrapper.waitForElementVisible("@userAPIWrapper", 5000)
+        apiWrapper.waitForElementVisible("@userAPIWrapper", client.globals.visibleTimeout || 5000)
             .click("@userAPIWrapperBar")
             .assert.cssClassNotPresent("@userAPIWrapper", "is-open")
 
         client.end()
     })
     it("render put /user/{username} api container", function (client) {
-        apiWrapper.waitForElementVisible("@userOperationPutContainer", 5000)
+        apiWrapper.waitForElementVisible("@userOperationPutContainer", client.globals.visibleTimeout || 5000)
             .assert.containsText("@userOperationPutTitle", "/user/{username}")
             .click("@userOperationPutCollpase")
             .waitForElementVisible("@userOperationPutCollapseContainer", 3000)
@@ -46,7 +46,7 @@ describe("render user api container", function(){
         client.end()
     })
     it("Test put /user/{username} api Mock data", function (client) {
-        apiWrapper.waitForElementVisible("@userOperationPutContainer", 5000)
+        apiWrapper.waitForElementVisible("@userOperationPutContainer", client.globals.visibleTimeout || 5000)
             .assert.containsText("@userOperationPutTitle", "/user/{username}")
             .click("@userOperationPutCollpase")
             .waitForElementVisible("@userOperationPutCollapseContainer", 3000)
@@ -63,7 +63,7 @@ describe("render user api container", function(){
         client.end()
     })
     it("render delete /user/{username} api container", function (client) {
-        apiWrapper.waitForElementVisible("@userOperationDeleteContainer", 5000)
+        apiWrapper.waitForElementVisible("@userOperationDeleteContainer", client.globals.visibleTimeout || 5000)
             .assert.containsText("@userOperationDeleteTitle", "/user/{username}")
             .click("@userOperationDeleteCollpase")
             .waitForElementVisible("@userOperationDeleteCollapseContainer", 3000)
@@ -75,7 +75,7 @@ describe("render user api container", function(){
         client.end()
     })
     it("Test delete /user/{username} api Mock data", function (client) {
-        apiWrapper.waitForElementVisible("@userOperationDeleteContainer", 5000)
+        apiWrapper.waitForElementVisible("@userOperationDeleteContainer", client.globals.visibleTimeout || 5000)
             .assert.containsText("@userOperationDeleteTitle", "/user/{username}")
             .click("@userOperationDeleteCollpase")
             .waitForElementVisible("@userOperationDeleteCollapseContainer", 3000)

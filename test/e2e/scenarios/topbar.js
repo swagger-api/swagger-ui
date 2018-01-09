@@ -24,7 +24,7 @@ describe("initial render", function () {
         topbar = mainPage.section.topbar
 
         client.waitForElementVisible(".download-url-input", 10000)
-            .pause(5000)
+            .pause(client.globals.visibleTimeout || 5000)
             .clearValue(".download-url-input")
             .setValue(".download-url-input", client.globals.specPath)
             .click("button.download-url-button")

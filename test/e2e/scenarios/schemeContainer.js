@@ -9,8 +9,8 @@ describe("Render scheme", function () {
 
         schemeContainer = mainPage.section.schemeContainer
 
-        client.waitForElementVisible(".download-url-input", 5000)
-        .pause(5000)
+        client.waitForElementVisible(".download-url-input", client.globals.visibleTimeout || 5000)
+        .pause(client.globals.visibleTimeout || 5000)
         .clearValue(".download-url-input")
         .setValue(".download-url-input", client.globals.specPath)
         .click("button.download-url-button")
@@ -21,25 +21,25 @@ describe("Render scheme", function () {
     })
 
     it("render section", function (client) {
-        mainPage.expect.section("@schemeContainer").to.be.visible.before(5000)
+        mainPage.expect.section("@schemeContainer").to.be.visible.before(client.globals.visibleTimeout || 5000)
 
         client.end()
     })
     it("render scheme option", function (client) {
-        schemeContainer.waitForElementVisible("@httpOption", 5000)
+        schemeContainer.waitForElementVisible("@httpOption", client.globals.visibleTimeout || 5000)
         .expect.element("@httpOption").to.be.selected
 
         client.end()
     })
 
     it("render authorized button", function (client) {
-        schemeContainer.waitForElementVisible("@btnAuthorize", 5000)
+        schemeContainer.waitForElementVisible("@btnAuthorize", client.globals.visibleTimeout || 5000)
         .expect.element("@btnAuthorize").to.be.visible
 
         client.end()
     })
     it("render click event", function(client) {
-        schemeContainer.waitForElementVisible("@btnAuthorize", 5000)
+        schemeContainer.waitForElementVisible("@btnAuthorize", client.globals.visibleTimeout || 5000)
         .click("@btnAuthorize")
         .assert.visible("@authorizationModal")
         .assert.containsText("@appName", "Application: your-app-name")
