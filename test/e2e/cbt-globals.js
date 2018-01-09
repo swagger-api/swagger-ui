@@ -3,7 +3,7 @@ var cbt = require("cbt_tunnels")
 module.exports = {
   baseUrl: "http://local:3200",
 
-  before: function(done) {
+  beforeEach: function(done) {
     console.log("Starting up tunnel")
     cbt.start({
       username: process.env.CBT_USERNAME || "",
@@ -16,7 +16,7 @@ module.exports = {
       }
     })
   },
-  after: function(done) {
+  afterEach: function(done) {
     console.log("Closing Down Tunnel")
     cbt.stop()
     done()
