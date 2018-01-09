@@ -53,4 +53,7 @@ if [[ -n "$VALIDATOR_URL" ]]; then
   unset TMP_VU
 fi
 
+# replace the PORT that nginx listens on if supplied
+if [[ -n "${PORT}" ]]; then sed -i "s|8080|${PORT}|g" /etc/nginx/nginx.conf; fi
+
 exec nginx -g 'daemon off;'
