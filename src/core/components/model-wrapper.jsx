@@ -15,7 +15,7 @@ export default class ModelWrapper extends Component {
     specSelectors: PropTypes.object.isRequired,
     expandDepth: PropTypes.number,
     layoutActions: PropTypes.object,
-    layoutSelectors: PropTypes.object.isRequired
+    layoutSelectors: PropTypes.object
   }
 
   onToggle = (name,isShown) => {

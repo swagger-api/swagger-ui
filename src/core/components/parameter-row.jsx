@@ -198,7 +198,7 @@ export default class ParameterRow extends Component {
           { bodyParam || !isExecute ? null
             : <JsonSchemaForm fn={fn}
                               getComponent={getComponent}
-                              value={ formatParamValue(value, parameter) }
+                              value={ formatParamValue(value) }
                               required={ required }
                               description={param.get("description") ? `${param.get("name")} - ${param.get("description")}` : `${param.get("name")}`}
                               onChange={ this.onChangeWrapper }
