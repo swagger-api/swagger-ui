@@ -3,7 +3,7 @@ var cbt = require("cbt_tunnels")
 
 
 module.exports = {
-  baseUrl: "http://local:3200",
+  baseUrl: "http://swagger-ui-ci-asset-deployment-test.surge.sh",
 
   beforeEach: function(done) {
     console.log("Starting up tunnel")
