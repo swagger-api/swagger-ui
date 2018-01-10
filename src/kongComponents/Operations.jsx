@@ -79,9 +79,7 @@ export default class Operations extends React.Component {
                   </h2>
 
                   {!tagDescription ? null :
-                    <p className="opblock-description">
-                      <Markdown source={tagDescription} />
-                    </p>
+                    <Markdown source={tagDescription} />
                   }
 
                   {!tagExternalDocsDescription ? null :
