@@ -88,6 +88,10 @@ select {
   }
 }
 
+.swagger-ui .info p, .swagger-ui .info li, .swagger-ui .info table {
+  line-height: 1.4;
+}
+
 .example p {
   font-size: 13px;
   font-weight: 500;
