@@ -18,7 +18,7 @@ or anything that violates the specifications.
 <!--- Provide a general summary of the issue in the title above -->
 
 <!--- 
-  If you aren't sure what Swagger-UI version, see this guide: https://github.com/swagger-api/swagger-ui/blob/master/docs/version-detection.md
+  If you aren't sure what Swagger-UI version, see this guide: https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/version-detection.md
 --->
 
 
