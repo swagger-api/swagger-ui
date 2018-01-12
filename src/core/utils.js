@@ -342,6 +342,17 @@ export function mapToList(map, keyNames="key", collectedKeys=Im.Map()) {
   return list
 }
 
+export function extractFileNameFromContentDispositionHeader(value){
+  let responseFilename = /filename="([^;]*);?"/i.exec(value)
+  if (responseFilename === null) {
+    responseFilename = /filename=([^;]*);?/i.exec(value)
+  }
+  if (responseFilename !== null && responseFilename.length > 1) {
+    return responseFilename[1]
+  }
+  return null  
+}
+
 // PascalCase, aka UpperCamelCase
 export function pascalCase(str) {
   return upperFirst(camelCase(str))
@@ -433,6 +444,7 @@ export const validateDateTime = (val) => {
 }
 
 export const validateGuid = (val) => {
+    val = val.toString().toLowerCase()
     if (!/^[{(]?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}[)}]?$/.test(val)) {
         return "Value must be a Guid"
     }
