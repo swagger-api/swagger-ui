@@ -342,6 +342,17 @@ export function mapToList(map, keyNames="key", collectedKeys=Im.Map()) {
   return list
 }
 
+export function extractFileNameFromContentDispositionHeader(value){
+  let responseFilename = /filename="([^;]*);?"/i.exec(value)
+  if (responseFilename === null) {
+    responseFilename = /filename=([^;]*);?/i.exec(value)
+  }
+  if (responseFilename !== null && responseFilename.length > 1) {
+    return responseFilename[1]
+  }
+  return null  
+}
+
 // PascalCase, aka UpperCamelCase
 export function pascalCase(str) {
   return upperFirst(camelCase(str))
