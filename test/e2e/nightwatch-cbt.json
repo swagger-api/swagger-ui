@@ -43,7 +43,6 @@
         "acceptSslCerts": "1",
         "browserName": "chrome",
         "javascriptEnabled": "1",
-        "name": "NightwatchJSExample",
         "record_network" : "true",
         "record_video" : "true"
       }
