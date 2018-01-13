@@ -36,7 +36,7 @@ if [ "$OAUTH_ADDITIONAL_PARAMS" != "**None**" ]; then
 fi
 
 if [[ -f $SWAGGER_JSON ]]; then
-  cp $SWAGGER_JSON $NGINX_ROOT
+  cp -s $SWAGGER_JSON $NGINX_ROOT
   REL_PATH="./$(basename $SWAGGER_JSON)"
   sed -i "s|http://petstore.swagger.io/v2/swagger.json|$REL_PATH|g" $INDEX_FILE
   sed -i "s|http://example.com/api|$REL_PATH|g" $INDEX_FILE
@@ -52,5 +52,8 @@ if [[ -n "$VALIDATOR_URL" ]]; then
   sed -i "s|\(url: .*,\)|\1\n    validatorUrl: ${TMP_VU},|g" $INDEX_FILE
   unset TMP_VU
 fi
+
+# replace the PORT that nginx listens on if supplied
+if [[ -n "${PORT}" ]]; then sed -i "s|8080|${PORT}|g" /etc/nginx/nginx.conf; fi
 
 exec nginx -g 'daemon off;'

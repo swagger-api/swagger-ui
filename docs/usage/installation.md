@@ -37,7 +37,7 @@ app.listen(3000)
 ```
 
 The module also exports `SwaggerUIBundle` and `SwaggerUIStandalonePreset`, so
-if you're in a JavaScript project that can't handle a tranditional npm module,
+if you're in a JavaScript project that can't handle a traditional npm module,
 you could do something like this:
 
 ```js
