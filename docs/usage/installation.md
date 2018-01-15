@@ -27,7 +27,7 @@ The module's contents mirrors the `dist` folder you see in the Git repository. T
 
 ```javascript
 const express = require('express')
-const pathToSwaggerUi = require('swagger-ui').absolutePath()
+const pathToSwaggerUi = require('swagger-ui-dist').absolutePath()
 
 const app = express()
 
