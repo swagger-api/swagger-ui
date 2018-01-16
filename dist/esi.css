@@ -688,3 +688,8 @@ div#swagger-ui>section.swagger-ui>div.wrapper>section>span>a>img {
 div.auth-container h5 {
   color: #000;
 }
+
+div.table-container {
+  color: #fff;
+  font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}

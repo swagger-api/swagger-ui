@@ -171,8 +171,14 @@
     layout: "StandaloneLayout",
     docExpansion: "none",
     apisSorter: "alpha",
+    tagsSorter: "alpha",
     operationsSorter: "alpha",
     deepLinking: true,
+    showExtensions: true,
+    displayRequestDuration: true,
+    defaultModelRendering: "model",
+    defaultModelExpandDepth: 999,
+    parameterMacro: function(o, p) { },
    })
    esi.authActions.configureAuth({
     clientId: "your-client-id",
