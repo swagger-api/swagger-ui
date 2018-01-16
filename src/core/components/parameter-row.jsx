@@ -108,6 +108,34 @@ export default class ParameterRow extends Component {
     let value = parameter ? parameter.get("value") : ""
     let extensions = getExtensions(param)
 
+
+    let paramItems // undefined
+    let paramItemsEnum // undefined
+    let isDisplayParamItemsEnum = false
+    if ( param !== undefined ) {
+      paramItems = param.get("items")
+    }
+    if ( paramItems !== undefined ) {
+      paramItemsEnum = param.get("items").get("enum")
+    }
+    if ( paramItemsEnum !== undefined ) {
+      if (paramItemsEnum.size > 0) {
+        isDisplayParamItemsEnum = true
+      }
+    }
+
+    // Default and Example Value for readonly doc
+    let paramDefaultValue // undefined
+    let paramExample // undefined
+    if ( param !== undefined ) {
+      paramDefaultValue = param.get("default")
+      paramExample = param.get("example")
+    }
+
+    if (isDisplayParamItemsEnum) { // if we have an array, default value is in "items"
+      paramDefaultValue = paramItems.get("default")
+    }
+
     return (
       <tr>
         <td className="col parameters-col_name">
@@ -125,6 +153,25 @@ export default class ParameterRow extends Component {
 
         <td className="col parameters-col_description">
           <Markdown source={ param.get("description") }/>
+
+          { (bodyParam || !isExecute) && isDisplayParamItemsEnum ?
+            <Markdown source={
+                "<i>Available values</i> : " + paramItemsEnum.map(function(item) {
+                    return item
+                  }).toArray()}/> 
+            : null
+          }
+
+          { (bodyParam || !isExecute) && paramDefaultValue !== undefined ?
+            <Markdown source={"<i>Default value</i> : " + paramDefaultValue}/>
+            : null
+          }
+
+          { (bodyParam || !isExecute) && paramExample !== undefined ?
+            <Markdown source={"<i>Example</i> : " + paramExample}/>
+            : null
+          }
+
           {(isFormData && !isFormDataSupported) && <div>Error: your browser does not support FormData</div>}
 
           { bodyParam || !isExecute ? null

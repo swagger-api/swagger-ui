@@ -1,6 +1,8 @@
-.git
-.github
-src
-build-tools
-dev-helpers
-client_id
+/.git
+/.github
+/dev-helpers
+/docs
+/src
+/swagger-ui-dist-package
+/test
+/client_id
