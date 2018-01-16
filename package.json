@@ -13,6 +13,10 @@
     "Sahar Jafari <shr.jafari@gmail.com>"
   ],
   "license": "Apache-2.0",
+  "engines": {
+    "node": "9.4.0",
+    "npm": "5.6.0"
+  },
   "scripts": {
     "build": "npm run build-core && npm run build-bundle && npm run build-standalone",
     "build-bundle": "webpack --config webpack-dist-bundle.config.js --colors",
