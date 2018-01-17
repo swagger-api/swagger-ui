@@ -77,18 +77,18 @@ export default class Example extends React.Component {
 
         let sampleResponse
         if (anyOf) {
-            sampleResponse = _schema ? getSampleSchema(_schema, _contentType, sampleSchemaOptions) : null
-            sampleResponse = sampleResponse ? "anyOf ->\n" + sampleResponse : null
+            sampleResponse = _schema ?  
+            "anyOf ->\n" + getSampleSchema(_schema, _contentType, sampleSchemaOptions) : null
         }
         else if (oneOf) {
-            sampleResponse = _schema ? getSampleSchema(_schema, _contentType, sampleSchemaOptions) : null
-            sampleResponse = sampleResponse ? "oneOf ->\n" + sampleResponse : null
+            sampleResponse = _schema ? 
+            "oneOf ->\n" + getSampleSchema(_schema, _contentType, sampleSchemaOptions) : null
         }
         else {
             sampleResponse = _schema ? getSampleSchema(_schema, _contentType, sampleSchemaOptions) : null            
         }
-        let example = getExampleComponent(sampleResponse, examples, HighlightCode)
-        return example
+        
+        return getExampleComponent(sampleResponse, examples, HighlightCode)
     }
 
 }
