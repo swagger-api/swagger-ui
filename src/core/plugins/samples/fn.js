@@ -69,6 +69,14 @@ export const sampleFromSchema = (schema, config={}) => {
   }
 
   if(type === "array") {
+    if(schema.items.anyOf){
+      return schema.items.anyOf.map(i =>
+        sampleFromSchema(i, config))
+    }
+    if(schema.items.oneOf){
+      return schema.items.oneOf.map(i =>
+        sampleFromSchema(i, config))
+    }
     return [ sampleFromSchema(items, config) ]
   }
 

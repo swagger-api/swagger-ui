@@ -3,34 +3,6 @@ import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
 import { fromJS, Seq, Iterable, List } from "immutable"
-import { getSampleSchema, fromJSOrdered } from "core/utils"
-
-const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
-  if ( examples && examples.size ) {
-    return examples.entrySeq().map( ([ key, example ]) => {
-      let exampleValue = example
-      if ( example.toJS ) {
-        try {
-          exampleValue = JSON.stringify(example.toJS(), null, 2)
-        }
-        catch(e) {
-          exampleValue = String(example)
-        }
-      }
-
-      return (<div key={ key }>
-        <h5>{ key }</h5>
-        <HighlightCode className="example" value={ exampleValue } />
-      </div>)
-    }).toArray()
-  }
-
-  if ( sampleResponse ) { return <div>
-      <HighlightCode className="example" value={ sampleResponse } />
-    </div>
-  }
-  return null
-}
 
 export default class Response extends React.Component {
   constructor(props, context) {
@@ -90,30 +62,21 @@ export default class Response extends React.Component {
     let examples = response.get("examples")
     let links = response.get("links")
     const Headers = getComponent("headers")
-    const HighlightCode = getComponent("highlightCode")
     const ModelExample = getComponent("modelExample")
     const Markdown = getComponent( "Markdown" )
     const OperationLink = getComponent("operationLink")
     const ContentType = getComponent("contentType")
 
-    var sampleResponse
-    var schema, specPathWithPossibleSchema
+    var schema, specPathWithPossibleSchema, oas3SchemaForContentType
 
     if(isOAS3()) {
       const schemaPath = List(["content", this.state.responseContentType, "schema"])
-      const oas3SchemaForContentType = response.getIn(schemaPath)
-      sampleResponse = oas3SchemaForContentType ? getSampleSchema(oas3SchemaForContentType.toJS(), this.state.responseContentType, {
-        includeReadOnly: true
-      }) : null
+      oas3SchemaForContentType = response.getIn(schemaPath)
       schema = oas3SchemaForContentType ? inferSchema(oas3SchemaForContentType.toJS()) : null
       specPathWithPossibleSchema = oas3SchemaForContentType ? schemaPath : specPath
     } else {
       schema = inferSchema(response.toJS()) // TODO: don't convert back and forth. Lets just stick with immutable for inferSchema
       specPathWithPossibleSchema = response.has("schema") ? specPath.push("schema") : specPath
-      sampleResponse = schema ? getSampleSchema(schema, contentType, {
-        includeReadOnly: true,
-        includeWriteOnly: true // writeOnly has no filtering effect in swagger 2.0
-       }) : null
     }
 
     if(examples) {
@@ -122,8 +85,6 @@ export default class Response extends React.Component {
         return example.set ? example.set("$$ref", undefined) : example
       })
     }
-
-    let example = getExampleComponent( sampleResponse, examples, HighlightCode )
 
     return (
       <tr className={ "response " + ( className || "") }>
@@ -149,14 +110,17 @@ export default class Response extends React.Component {
             </div>
              : null }
 
-          { example ? (
+          { schema ? (
             <ModelExample
               specPath={specPathWithPossibleSchema}
               getComponent={ getComponent }
               getConfigs={ getConfigs }
               specSelectors={ specSelectors }
-              schema={ fromJSOrdered(schema) }
-              example={ example }/>
+              schema={ schema }
+              examples={ examples }
+              contentType={ contentType }
+              oas3SchemaForContentType={ oas3SchemaForContentType }
+              responseContentType={ this.state.responseContentType }/>
           ) : null}
 
           { headers ? (

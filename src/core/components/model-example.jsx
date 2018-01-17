@@ -1,16 +1,20 @@
 import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
+import { fromJSOrdered } from "core/utils"
 
 export default class ModelExample extends React.Component {
   static propTypes = {
     getComponent: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     schema: PropTypes.object.isRequired,
-    example: PropTypes.any.isRequired,
     isExecute: PropTypes.bool,
     getConfigs: PropTypes.func.isRequired,
     specPath: ImPropTypes.list.isRequired,
+    examples: PropTypes.any,
+    contentType: PropTypes.string,
+    oas3SchemaForContentType: PropTypes.any,
+    responseContentType: PropTypes.string,
   }
 
   constructor(props, context) {
@@ -34,9 +38,22 @@ export default class ModelExample extends React.Component {
   }
 
   render() {
-    let { getComponent, specSelectors, schema, example, isExecute, getConfigs, specPath } = this.props
+    let { 
+      getComponent, 
+      specSelectors, 
+      schema, 
+      isExecute, 
+      getConfigs, 
+      specPath, 
+      examples, 
+      contentType, 
+      oas3SchemaForContentType, 
+      responseContentType 
+    } = this.props
+    
     let { defaultModelExpandDepth } = getConfigs()
     const ModelWrapper = getComponent("ModelWrapper")
+    const Example = getComponent("Example")
 
     return <div>
       <ul className="tab">
@@ -49,10 +66,17 @@ export default class ModelExample extends React.Component {
       </ul>
       <div>
         {
-          (isExecute || this.state.activeTab === "example") && example
+          (isExecute || this.state.activeTab === "example") && <Example
+                                                    getComponent={ getComponent }
+                                                    specSelectors={ specSelectors }
+                                                    schema={ schema }
+                                                    examples={ examples }
+                                                    contentType={ contentType }
+                                                    oas3SchemaForContentType={ oas3SchemaForContentType }
+                                                    responseContentType={ responseContentType }/>
         }
         {
-          !isExecute && this.state.activeTab === "model" && <ModelWrapper schema={ schema }
+          !isExecute && this.state.activeTab === "model" && <ModelWrapper schema={ fromJSOrdered(schema) }
                                                      getComponent={ getComponent }
                                                      getConfigs={ getConfigs }
                                                      specSelectors={ specSelectors }
