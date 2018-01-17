@@ -18,7 +18,8 @@ import {
   getAcceptControllingResponse,
   createDeepLinkPath,
   escapeDeepLinkPath,
-  sanitizeUrl
+  sanitizeUrl,
+  extractFileNameFromContentDispositionHeader
 } from "core/utils"
 import win from "core/window"
 
@@ -88,6 +89,26 @@ describe("utils", function() {
       expect(aList.toJS()).toEqual([])
     })
 
+  })
+
+  describe("extractFileNameFromContentDispositionHeader", function(){
+    it("should extract quoted filename", function(){
+      let cdHeader = "attachment; filename=\"file name.jpg\""
+      let expectedResult = "file name.jpg"
+      expect(extractFileNameFromContentDispositionHeader(cdHeader)).toEqual(expectedResult)
+    })
+
+    it("should extract filename", function(){
+      let cdHeader = "attachment; filename=filename.jpg"
+      let expectedResult = "filename.jpg"
+      expect(extractFileNameFromContentDispositionHeader(cdHeader)).toEqual(expectedResult)
+    })
+
+    it("should not extract filename and return null", function(){
+      let cdHeader = "attachment; no file name provided"
+      let expectedResult = null
+      expect(extractFileNameFromContentDispositionHeader(cdHeader)).toEqual(expectedResult)
+    })
   })
 
   describe("validateMaximum", function() {
@@ -238,6 +259,7 @@ describe("utils", function() {
     it("doesn't return for valid guid", function() {
       expect(validateGuid("8ce4811e-cec5-4a29-891a-15d1917153c1")).toBeFalsy()
       expect(validateGuid("{8ce4811e-cec5-4a29-891a-15d1917153c1}")).toBeFalsy()
+      expect(validateGuid("8CE4811E-CEC5-4A29-891A-15D1917153C1")).toBeFalsy()
     })
 
     it("returns a message for invalid input'", function() {
