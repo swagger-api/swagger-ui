@@ -68,9 +68,9 @@ export const sampleFromSchema = (schema, config={}) => {
     return obj
   }
 
-  if(type === "array") {    
+  if(type === "array") {  
     if(items.example !== undefined) {
-      if(Array.isArray(items.example)){
+      if(Array.isArray(items.example)) {
         return items.example
       }
       else {
