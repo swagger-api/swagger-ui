@@ -86,7 +86,7 @@ export default class Operations extends React.Component {
                         isShown={showTag}
                         path={tag}
                         text={tag} />
-                    { !tagDescription ? null :
+                    { !tagDescription ? <small></small> :
                         <small>
                           <Markdown source={tagDescription} />
                         </small>
