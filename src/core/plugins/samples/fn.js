@@ -26,11 +26,19 @@ const primitive = (schema) => {
 
 
 export const sampleFromSchema = (schema, config={}) => {
-  let { type, example, properties, additionalProperties, items } = objectify(schema)
+  let { type, example, properties, additionalProperties, items, anyOf, oneOf } = objectify(schema)
   let { includeReadOnly, includeWriteOnly } = config
 
   if(example !== undefined)
     return example
+    
+  if(anyOf) {
+    return anyOf.map(obj => sampleFromSchema(obj, config))
+  }
+
+  if(oneOf) {
+    return oneOf.map(obj => sampleFromSchema(obj, config))
+  }
 
   if(!type) {
     if(properties) {
@@ -69,15 +77,7 @@ export const sampleFromSchema = (schema, config={}) => {
   }
 
   if(type === "array") {
-    if(schema.items.anyOf){
-      return schema.items.anyOf.map(i =>
-        sampleFromSchema(i, config))
-    }
-    if(schema.items.oneOf){
-      return schema.items.oneOf.map(i =>
-        sampleFromSchema(i, config))
-    }
-    return [ sampleFromSchema(items, config) ]
+    return sampleFromSchema(items, config)
   }
 
   if(schema["enum"]) {

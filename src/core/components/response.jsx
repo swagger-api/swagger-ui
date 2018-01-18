@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
 import { fromJS, Seq, Iterable, List } from "immutable"
+import { fromJSOrdered } from "core/utils"
 
 export default class Response extends React.Component {
   constructor(props, context) {
@@ -116,7 +117,7 @@ export default class Response extends React.Component {
               getComponent={ getComponent }
               getConfigs={ getConfigs }
               specSelectors={ specSelectors }
-              schema={ schema }
+              schema={ fromJSOrdered(schema) } 
               examples={ examples }
               contentType={ contentType }
               oas3SchemaForContentType={ oas3SchemaForContentType }

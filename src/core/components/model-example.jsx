@@ -1,7 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
-import { fromJSOrdered } from "core/utils"
 
 export default class ModelExample extends React.Component {
   static propTypes = {
@@ -76,7 +75,7 @@ export default class ModelExample extends React.Component {
                                                     responseContentType={ responseContentType }/>
         }
         {
-          !isExecute && this.state.activeTab === "model" && <ModelWrapper schema={ fromJSOrdered(schema) }
+          !isExecute && this.state.activeTab === "model" && <ModelWrapper schema={ schema }
                                                      getComponent={ getComponent }
                                                      getConfigs={ getConfigs }
                                                      specSelectors={ specSelectors }

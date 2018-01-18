@@ -3,24 +3,6 @@ import PropTypes from "prop-types"
 import { getSampleSchema } from "core/utils"
 
 const getExampleComponent = (sampleResponse, examples, HighlightCode) => {
-    if (examples && examples.size) {
-        return examples.entrySeq().map(([key, example]) => {
-            let exampleValue = example
-            if (example.toJS) {
-                try {
-                    exampleValue = JSON.stringify(example.toJS(), null, 2)
-                }
-                catch (e) {
-                    exampleValue = String(example)
-                }
-            }
-
-            return (<div key={key}>
-                <h5>{key}</h5>
-                <HighlightCode className="example" value={exampleValue} />
-            </div>)
-        }).toArray()
-    }
 
     if (sampleResponse) {
         return <div>
@@ -54,6 +36,26 @@ export default class Example extends React.Component {
 
         let { isOAS3 } = specSelectors
         const HighlightCode = getComponent("highlightCode")
+        schema = schema.toJS()
+        
+    if (examples && examples.size) {
+        return examples.entrySeq().map(([key, example]) => {
+            let exampleValue = example
+            if (example.toJS) {
+                try {
+                    exampleValue = JSON.stringify(example.toJS(), null, 2)
+                }
+                catch (e) {
+                    exampleValue = String(example)
+                }
+            }
+
+            return (<div key={key}>
+                <h5>{key}</h5>
+                <HighlightCode className="example" value={exampleValue} />
+            </div>)
+        }).toArray()
+    }
 
         var _schema, _contentType, sampleSchemaOptions
         if (isOAS3()) {
