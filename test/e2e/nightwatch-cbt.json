@@ -44,7 +44,8 @@
         "browserName": "chrome",
         "javascriptEnabled": "1",
         "record_network" : "true",
-        "record_video" : "true"
+        "record_video" : "true",
+        "max_duration": 1200
       }
     }
   }
