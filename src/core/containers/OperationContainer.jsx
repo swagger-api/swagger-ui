@@ -82,26 +82,8 @@ export default class OperationContainer extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const defaultContentType = "application/json"
-    let { specActions, path, method, op } = nextProps
-    let operation = op.get("operation")
-    let producesValue = operation.get("produces_value")
-    let produces = operation.get("produces")
-    let consumes = operation.get("consumes")
-    let consumesValue = operation.get("consumes_value")
-
     if(nextProps.response !== this.props.response) {
       this.setState({ executeInProgress: false })
-    }
-
-    if (producesValue === undefined) {
-      producesValue = produces && produces.size ? produces.first() : defaultContentType
-      specActions.changeProducesValue([path, method], producesValue)
-    }
-
-    if (consumesValue === undefined) {
-      consumesValue = consumes && consumes.size ? consumes.first() : defaultContentType
-      specActions.changeConsumesValue([path, method], consumesValue)
     }
   }
 

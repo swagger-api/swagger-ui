@@ -5,9 +5,9 @@ import reducer from "corePlugins/spec/reducers"
 
 describe("spec plugin - reducer", function(){
 
-  describe("update operation value", function() {
-    it("should update the operation at the specified key", () => {
-      const updateOperationValue = reducer["spec_update_operation_value"]
+  describe("update operation meta value", function() {
+    it("should update the operation metadata at the specified key", () => {
+      const updateOperationValue = reducer["spec_update_operation_meta_value"]
 
       const state = fromJS({
         resolved: {
@@ -34,7 +34,15 @@ describe("spec plugin - reducer", function(){
           "paths": {
             "/pet": {
               "post": {
-                "description": "my operation",
+                "description": "my operation"
+              }
+            }
+          }
+        },
+        meta: {
+          paths: {
+            "/pet": {
+              post: {
                 "consumes_value": "application/json"
               }
             }
@@ -46,7 +54,7 @@ describe("spec plugin - reducer", function(){
     })
 
     it("shouldn't throw an error if we try to update the consumes_value of a null operation", () => {
-      const updateOperationValue = reducer["spec_update_operation_value"]
+      const updateOperationValue = reducer["spec_update_operation_meta_value"]
 
       const state = fromJS({
         resolved: {
