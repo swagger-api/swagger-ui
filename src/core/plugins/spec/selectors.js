@@ -307,6 +307,7 @@ export function contentTypeValues(state, pathMethod) {
   pathMethod = pathMethod || []
   let op = spec(state).getIn(["paths", ...pathMethod], fromJS({}))
   let meta = state.getIn(["meta", "paths", ...pathMethod], fromJS({}))
+  let producesValue = currentProducesFor(state, pathMethod)
 
   const parameters = op.get("parameters") || new List()
 
@@ -319,7 +320,7 @@ export function contentTypeValues(state, pathMethod) {
 
   return fromJS({
     requestContentType,
-    responseContentType: meta.get("produces_value")
+    responseContentType: producesValue
   })
 }
 
@@ -332,7 +333,19 @@ export function operationConsumes(state, pathMethod) {
 // Get the currently selected produces value for an operation
 export function currentProducesFor(state, pathMethod) {
   pathMethod = pathMethod || []
-  return state.getIn(["meta", "paths", ...pathMethod, "produces_value"], "")
+
+  const operation = spec(state).getIn(["paths", ...pathMethod], null)
+
+  if(operation === null) {
+    // return nothing if the operation does not exist
+    return
+  }
+
+  const currentProducesValue = state.getIn(["meta", "paths", ...pathMethod, "produces_value"], null)
+  const firstProducesArrayItem = operation.getIn(["produces", 0], null)
+
+  return currentProducesValue || firstProducesArrayItem || "application/json"
+
 }
 
 export const operationScheme = ( state, path, method ) => {
