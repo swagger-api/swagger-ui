@@ -306,7 +306,8 @@ export function parametersIncludeType(parameters, typeValue="") {
 export function contentTypeValues(state, pathMethod) {
   pathMethod = pathMethod || []
   let op = spec(state).getIn(["paths", ...pathMethod], fromJS({}))
-  let meta = spec(state).getIn(["paths", ...pathMethod], fromJS({}))
+  let meta = state.getIn(["meta", "paths", ...pathMethod], fromJS({}))
+
   const parameters = op.get("parameters") || new List()
 
   const requestContentType = (
@@ -326,6 +327,12 @@ export function contentTypeValues(state, pathMethod) {
 export function operationConsumes(state, pathMethod) {
   pathMethod = pathMethod || []
   return spec(state).getIn(["paths", ...pathMethod, "consumes"], fromJS({}))
+}
+
+// Get the currently selected produces value for an operation
+export function currentProducesFor(state, pathMethod) {
+  pathMethod = pathMethod || []
+  return state.getIn(["meta", "paths", ...pathMethod, "produces_value"], "")
 }
 
 export const operationScheme = ( state, path, method ) => {
