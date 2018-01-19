@@ -19,7 +19,7 @@ export const LOG_REQUEST = "spec_log_request"
 export const CLEAR_RESPONSE = "spec_clear_response"
 export const CLEAR_REQUEST = "spec_clear_request"
 export const CLEAR_VALIDATE_PARAMS = "spec_clear_validate_param"
-export const UPDATE_OPERATION_META_VALUE = "spec_UPDATE_OPERATION_META_VALUE"
+export const UPDATE_OPERATION_META_VALUE = "spec_update_operation_meta_value"
 export const UPDATE_RESOLVED = "spec_update_resolved"
 export const SET_SCHEME = "set_scheme"
 

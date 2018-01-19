@@ -7,7 +7,7 @@ describe("spec plugin - reducer", function(){
 
   describe("update operation meta value", function() {
     it("should update the operation metadata at the specified key", () => {
-      const updateOperationValue = reducer["spec_UPDATE_OPERATION_META_VALUE"]
+      const updateOperationValue = reducer["spec_update_operation_meta_value"]
 
       const state = fromJS({
         resolved: {
@@ -54,7 +54,7 @@ describe("spec plugin - reducer", function(){
     })
 
     it("shouldn't throw an error if we try to update the consumes_value of a null operation", () => {
-      const updateOperationValue = reducer["spec_UPDATE_OPERATION_META_VALUE"]
+      const updateOperationValue = reducer["spec_update_operation_meta_value"]
 
       const state = fromJS({
         resolved: {
