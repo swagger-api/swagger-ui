@@ -52,8 +52,8 @@ export default {
   },
 
   [VALIDATE_PARAMS]: ( state, { payload: { pathMethod, isOAS3 } } ) => {
-    let operation = state.getIn( [ "resolved", "paths", ...pathMethod ] )
-    let isXml = /xml/i.test(operation.get("consumes_value"))
+    let meta = state.getIn( [ "meta", "paths", ...pathMethod ] )
+    let isXml = /xml/i.test(meta.get("consumes_value"))
 
     return state.updateIn( [ "resolved", "paths", ...pathMethod, "parameters" ], fromJS([]), parameters => {
       return parameters.withMutations( parameters => {
