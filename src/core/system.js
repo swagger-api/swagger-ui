@@ -18,7 +18,6 @@ function createStoreWithMiddleware(rootReducer, initialState, getSystem) {
     // createLogger( {
     //   stateTransformer: state => state && state.toJS()
     // } ),
-    // errorLog(getSystem), Need to properly handle errors that occur during a render. Ie: let them be...
     systemThunkMiddleware( getSystem )
   ]
 
@@ -66,6 +65,12 @@ export default class Store {
     var pluginSystem = combinePlugins(plugins, this.getSystem())
     systemExtend(this.system, pluginSystem)
     if(rebuild) {
+      this.buildSystem()
+    }
+
+    const needAnotherRebuild = callAfterLoad.call(this.system, plugins, this.getSystem())
+
+    if(needAnotherRebuild) {
       this.buildSystem()
     }
   }
@@ -170,7 +175,7 @@ export default class Store {
                 if(!isFn(newAction)) {
                   throw new TypeError("wrapActions needs to return a function that returns a new function (ie the wrapped action)")
                 }
-                return newAction
+                return wrapWithTryCatch(newAction)
               }, action || Function.prototype)
             })
           }
@@ -250,11 +255,11 @@ export default class Store {
 
       return objMap(obj, (fn) => {
         return (...args) => {
-          let res = fn.apply(null, [getNestedState(), ...args])
+          let res = wrapWithTryCatch(fn).apply(null, [getNestedState(), ...args])
 
           //  If a selector returns a function, give it the system - for advanced usage
           if(typeof(res) === "function")
-            res = res(getSystem())
+            res = wrapWithTryCatch(res)(getSystem())
 
           return res
         }
@@ -318,6 +323,25 @@ function combinePlugins(plugins, toolbox) {
   }
 
   return {}
+}
+
+function callAfterLoad(plugins, system, { hasLoaded } = {}) {
+  let calledSomething = hasLoaded
+  if(isObject(plugins) && !isArray(plugins)) {
+    if(typeof plugins.afterLoad === "function") {
+      calledSomething = true
+      wrapWithTryCatch(plugins.afterLoad).call(this, system)
+    }
+  }
+
+  if(isFunc(plugins))
+    return callAfterLoad.call(this, plugins(system), system, { hasLoaded: calledSomething })
+
+  if(isArray(plugins)) {
+    return plugins.map(plugin => callAfterLoad.call(this, plugin, system, { hasLoaded: calledSomething }))
+  }
+
+  return calledSomething
 }
 
 // Wraps deepExtend, to account for certain fields, being wrappers.
@@ -411,11 +435,33 @@ function makeReducer(reducerObj) {
     if(!reducerObj)
       return state
 
-    let redFn = reducerObj[action.type]
+    let redFn = (reducerObj[action.type])
     if(redFn) {
-      return redFn(state, action)
+      const res = wrapWithTryCatch(redFn)(state, action)
+      // If the try/catch wrapper kicks in, we'll get null back...
+      // in that case, we want to avoid making any changes to state
+      return res === null ? state : res
     }
     return state
+  }
+}
+
+function wrapWithTryCatch(fn, {
+  logErrors = true
+} = {}) {
+  if(typeof fn !== "function") {
+    return fn
+  }
+
+  return function(...args) {
+    try {
+      return fn.call(this, ...args)
+    } catch(e) {
+      if(logErrors) {
+        console.error(e)
+      }
+      return null
+    }
   }
 }
 

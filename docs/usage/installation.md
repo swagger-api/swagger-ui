@@ -27,7 +27,7 @@ The module's contents mirrors the `dist` folder you see in the Git repository. T
 
 ```javascript
 const express = require('express')
-const pathToSwaggerUi = require('swagger-ui').absolutePath()
+const pathToSwaggerUi = require('swagger-ui-dist').absolutePath()
 
 const app = express()
 
@@ -37,7 +37,7 @@ app.listen(3000)
 ```
 
 The module also exports `SwaggerUIBundle` and `SwaggerUIStandalonePreset`, so
-if you're in a JavaScript project that can't handle a tranditional npm module,
+if you're in a JavaScript project that can't handle a traditional npm module,
 you could do something like this:
 
 ```js
