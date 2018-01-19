@@ -5,8 +5,8 @@ import reducer from "corePlugins/spec/reducers"
 
 describe("spec plugin - reducer", function(){
 
-  describe("update operation value", function() {
-    it("should update the operation at the specified key", () => {
+  describe("update operation meta value", function() {
+    it("should update the operation metadata at the specified key", () => {
       const updateOperationValue = reducer["spec_UPDATE_OPERATION_META_VALUE"]
 
       const state = fromJS({
@@ -34,7 +34,15 @@ describe("spec plugin - reducer", function(){
           "paths": {
             "/pet": {
               "post": {
-                "description": "my operation",
+                "description": "my operation"
+              }
+            }
+          }
+        },
+        meta: {
+          paths: {
+            "/pet": {
+              post: {
                 "consumes_value": "application/json"
               }
             }

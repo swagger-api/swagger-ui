@@ -58,6 +58,13 @@ describe("spec plugin - selectors", function(){
         resolved: {
           paths: {
             "/one": {
+              get: {}
+            }
+          }
+        },
+        meta: {
+          paths: {
+            "/one": {
               get: {
                 "consumes_value": "one",
                 "produces_value": "two"
@@ -83,10 +90,18 @@ describe("spec plugin - selectors", function(){
           paths: {
             "/one": {
               get: {
-                "consumes_value": "one",
-                "parameters": [{  
+                "parameters": [{
                   "type": "file"
                 }],
+              }
+            }
+          }
+        },
+        meta: {
+          paths: {
+            "/one": {
+              get: {
+                "consumes_value": "one",
               }
             }
           }
@@ -106,7 +121,7 @@ describe("spec plugin - selectors", function(){
           paths: {
             "/one": {
               get: {
-                "parameters": [{  
+                "parameters": [{
                   "type": "file"
                 }],
               }
@@ -128,7 +143,7 @@ describe("spec plugin - selectors", function(){
           paths: {
             "/one": {
               get: {
-                "parameters": [{  
+                "parameters": [{
                   "type": "formData"
                 }],
               }

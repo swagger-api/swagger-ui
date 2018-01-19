@@ -108,9 +108,16 @@ export default {
   },
 
   [UPDATE_OPERATION_META_VALUE]: (state, { payload: { path, value, key } }) => {
-    let operationPath = ["meta", "paths", ...path]
+    // path is a pathMethod tuple... can't change the name now.
+    let operationPath = ["resolved", "paths", ...path]
+    let metaPath = ["meta", "paths", ...path]
 
-    return state.setIn([...operationPath, key], fromJS(value))
+    if(!state.getIn(operationPath)) {
+      // do nothing if the operation does not exist
+      return state
+    }
+
+    return state.setIn([...metaPath, key], fromJS(value))
   },
 
   [CLEAR_RESPONSE]: (state, { payload: { path, method } } ) =>{
