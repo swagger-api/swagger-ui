@@ -12,7 +12,7 @@ import {
   SET_REQUEST,
   SET_MUTATED_REQUEST,
   UPDATE_RESOLVED,
-  UPDATE_OPERATION_VALUE,
+  UPDATE_OPERATION_META_VALUE,
   CLEAR_RESPONSE,
   CLEAR_REQUEST,
   CLEAR_VALIDATE_PARAMS,
@@ -107,11 +107,9 @@ export default {
     return state.setIn( [ "mutatedRequests", path, method ], fromJSOrdered(req))
   },
 
-  [UPDATE_OPERATION_VALUE]: (state, { payload: { path, value, key } }) => {
-    let operationPath = ["resolved", "paths", ...path]
-    if(!state.getIn(operationPath)) {
-      return state
-    }
+  [UPDATE_OPERATION_META_VALUE]: (state, { payload: { path, value, key } }) => {
+    let operationPath = ["meta", "paths", ...path]
+
     return state.setIn([...operationPath, key], fromJS(value))
   },
 
