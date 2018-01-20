@@ -44,7 +44,7 @@ export default {
     let { auth, token } = payload
     let parsedAuth
 
-    auth.token = token
+    auth.token = Object.assign({}, token)
     parsedAuth = fromJS(auth)
 
     return state.setIn( [ "authorized", parsedAuth.get("name") ], parsedAuth )
