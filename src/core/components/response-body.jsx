@@ -20,8 +20,41 @@ export default class ResponseBody extends React.Component {
     let body, bodyEl
     url = url || ""
 
-    // JSON
-    if (/json/i.test(contentType)) {
+    if (
+      /^application\/octet-stream/i.test(contentType) ||
+      (headers["Content-Disposition"] && (/attachment/i).test(headers["Content-Disposition"])) ||
+      (headers["content-disposition"] && (/attachment/i).test(headers["content-disposition"])) ||
+      (headers["Content-Description"] && (/File Transfer/i).test(headers["Content-Description"])) ||
+      (headers["content-description"] && (/File Transfer/i).test(headers["content-description"]))) {
+      // Download
+
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+
+      if (!isSafari && "Blob" in window) {
+        let type = contentType || "text/html"
+        let blob = (content instanceof Blob) ? content : new Blob([content], {type: type})
+        let href = window.URL.createObjectURL(blob)
+        let fileName = url.substr(url.lastIndexOf("/") + 1)
+        let download = [type, fileName, href].join(":")
+
+        // Use filename from response header,
+        // First check if filename is quoted (e.g. contains space), if no, fallback to not quoted check
+        let disposition = headers["content-disposition"] || headers["Content-Disposition"]
+        if (typeof disposition !== "undefined") {
+          let responseFilename = extractFileNameFromContentDispositionHeader(disposition)
+          if (responseFilename !== null) {
+            download = responseFilename
+          }
+        }
+
+        bodyEl = <div><a href={ href } download={ download }>{ "Download file" }</a></div>
+      } else {
+        bodyEl = <pre>Download headers detected but your browser does not support downloading binary via XHR (Blob).</pre>
+      }
+
+      // Anything else (CORS)
+    } else if (/json/i.test(contentType)) {
+      // JSON
       try {
         body = JSON.stringify(JSON.parse(content), null, "  ")
       } catch (error) {
@@ -53,40 +86,6 @@ export default class ResponseBody extends React.Component {
       // Audio
     } else if (/^audio\//i.test(contentType)) {
       bodyEl = <pre><audio controls><source src={ url } type={ contentType } /></audio></pre>
-
-      // Download
-    } else if (
-      /^application\/octet-stream/i.test(contentType) ||
-      (headers["Content-Disposition"] && (/attachment/i).test(headers["Content-Disposition"])) ||
-      (headers["content-disposition"] && (/attachment/i).test(headers["content-disposition"])) ||
-      (headers["Content-Description"] && (/File Transfer/i).test(headers["Content-Description"])) ||
-      (headers["content-description"] && (/File Transfer/i).test(headers["content-description"]))) {
-
-      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-
-      if (!isSafari && "Blob" in window) {
-        let type = contentType || "text/html"
-        let blob = (content instanceof Blob) ? content : new Blob([content], {type: type})
-        let href = window.URL.createObjectURL(blob)
-        let fileName = url.substr(url.lastIndexOf("/") + 1)
-        let download = [type, fileName, href].join(":")
-
-        // Use filename from response header, 
-        // First check if filename is quoted (e.g. contains space), if no, fallback to not quoted check
-        let disposition = headers["content-disposition"] || headers["Content-Disposition"]
-        if (typeof disposition !== "undefined") {
-          let responseFilename = extractFileNameFromContentDispositionHeader(disposition)
-          if (responseFilename !== null) {
-            download = responseFilename
-          }
-        }
-
-        bodyEl = <div><a href={ href } download={ download }>{ "Download file" }</a></div>
-      } else {
-        bodyEl = <pre>Download headers detected but your browser does not support downloading binary via XHR (Blob).</pre>
-      }
-
-      // Anything else (CORS)
     } else if (typeof content === "string") {
       bodyEl = <HighlightCode value={ content } />
     } else if ( content.size > 0 ) {
