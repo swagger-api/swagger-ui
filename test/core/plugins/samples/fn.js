@@ -114,13 +114,13 @@ describe("sampleFromSchema", function() {
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
     
-    it("returns array of examples for array that has example property", function() {
+    it("returns array of examples for array that has example", function() {
       var definition = {
         type: "array",
         items: {
-          type: "string",
-          example: "dog"
-        }
+          type: "string"
+        },
+        example: "dog"
       }
   
       var expected = [ "dog" ]
@@ -128,21 +128,39 @@ describe("sampleFromSchema", function() {
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
-    it("returns array of examples for array that has example array", function() {
+    it("returns array of examples for array that has examples", function() {
       var definition = {
         type: "array",
         items: {
-          type: "string",
-          example: [ "dog", "cat" ]
-        }
+          type: "string",          
+        },
+        example: [ "dog", "cat" ]
       }
   
       var expected = [ "dog", "cat" ]
   
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
+    
+    it("returns array of samples for oneOf type", function() {
+      var definition = {
+        type: "array",
+        items: {
+          type: "string",
+          oneOf: [
+            {
+              type: "integer"
+            }
+          ]
+        }
+      }
+  
+      var expected = [ 0 ]
+  
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
 
-    it("returns array of samples for oneOf types for array that has oneOf property", function() {
+    it("returns array of samples for oneOf types", function() {
       var definition = {
         type: "array",
         items: {
@@ -163,12 +181,35 @@ describe("sampleFromSchema", function() {
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
-    it("returns array of samples for oneOf types for array that has oneOf property", function() {
+    it("returns array of samples for oneOf examples", function() {
       var definition = {
         type: "array",
         items: {
           type: "string",
           oneOf: [
+            {
+              type: "string",
+              example: "dog"
+            },
+            {
+              type: "integer",
+              example: 1
+            }
+          ]
+        }
+      }
+  
+      var expected = [ "dog", 1 ]
+  
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+    
+    it("returns array of samples for anyOf type", function() {
+      var definition = {
+        type: "array",
+        items: {
+          type: "string",
+          anyOf: [
             {
               type: "integer"
             }
@@ -181,7 +222,7 @@ describe("sampleFromSchema", function() {
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
-    it("returns array of samples for anyOf types for array that has anyOf property", function() {
+    it("returns array of samples for anyOf types", function() {
       var definition = {
         type: "array",
         items: {
@@ -202,20 +243,25 @@ describe("sampleFromSchema", function() {
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
-    it("returns array of samples for anyOf types for array that has anyOf property", function() {
+    it("returns array of samples for anyOf examples", function() {
       var definition = {
         type: "array",
         items: {
           type: "string",
           anyOf: [
             {
-              type: "integer"
+              type: "string",
+              example: "dog"
+            },
+            {
+              type: "integer",
+              example: 1
             }
           ]
         }
       }
   
-      var expected = [ 0 ]
+      var expected = [ "dog", 1 ]
   
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
