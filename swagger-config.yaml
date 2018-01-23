@@ -1,0 +1,5 @@
+---
+url: "http://petstore.swagger.io/v2/swagger.json"
+dom_id: "#swagger-ui"
+validatorUrl: "https://online.swagger.io/validator"
+oauth2RedirectUrl: "http://localhost:3200/oauth2-redirect.html"

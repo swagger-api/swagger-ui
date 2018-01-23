@@ -1,0 +1,99 @@
+
+
+
+.info
+{
+    margin: 50px 0;
+
+    hgroup.main
+    {
+        margin: 0 0 20px 0;
+        a
+        {
+            font-size: 12px;
+        }
+    }
+    p, li, table
+    {
+        font-size: 14px;
+
+        @include text_body();
+    }
+
+    h1, h2, h3, h4, h5
+    {
+        @include text_body();
+    }
+
+    code
+    {
+        padding: 3px 5px;
+
+        border-radius: 4px;
+        background: rgba($info-code-background-color,.05);
+
+        @include text_code($info-code-font-color);
+    }
+
+    a
+    {
+        font-size: 14px;
+
+        transition: all .4s;
+
+        @include text_body($info-link-font-color);
+
+        &:hover
+        {
+            color: darken($info-link-font-color-hover, 15%);
+        }
+    }
+    > div
+    {
+        margin: 0 0 5px 0;
+    }
+
+    .base-url
+    {
+        font-size: 12px;
+        font-weight: 300 !important;
+
+        margin: 0;
+
+        @include text_code();
+    }
+
+    .title
+    {
+        font-size: 36px;
+
+        margin: 0;
+
+        @include text_body();
+
+        small
+        {
+            font-size: 10px;
+
+            position: relative;
+            top: -5px;
+
+            display: inline-block;
+
+            margin: 0 0 0 5px;
+            padding: 2px 4px;
+
+            vertical-align: super;
+
+            border-radius: 57px;
+            background: $info-title-small-background-color;
+
+            pre
+            {
+                margin: 0;
+
+                @include text_headline($info-title-small-pre-font-color);
+            }
+        }
+    }
+}
