@@ -9824,6 +9824,22 @@
                             v = h.expandDepth,
                             g = m.isOAS3;
                         if (!t) return null;
+
+                        var resolveOneOf = function (schema) {
+                          if (schema.oneOf) {
+                            var nonNull = schema.oneOf.filter(function(option) {
+                              if (option.description === 'Empty string') {
+                                return false;
+                              }
+                              return option.type !== 'null';
+                            });
+                            Object.assign(schema, nonNull[0]);
+                            delete schema.oneOf;
+                          }
+                          return schema;
+                        };
+
+                        console.log(resolveOneOf(t));
                         var y = u(),
                             _ = y.showExtensions,
                             b = t.get("description"),
@@ -9844,7 +9860,7 @@
                             },
                             k = x.default.createElement("span", null, x.default.createElement("span", null, "{"), "...", x.default.createElement("span", null, "}"), r ? x.default.createElement(T, null) : ""),
                             M = m.isOAS3() ? t.get("anyOf") : null,
-                            q = m.isOAS3() ? t.get("oneOf") : null,
+                            q = resolveOneOf(t).oneOf,
                             I = m.isOAS3() ? t.get("not") : null,
                             N = C && x.default.createElement("span", {
                                 className: "model-title"
