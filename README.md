@@ -1,3 +1,10 @@
+# Fork of Swagger UI
+
+Check out the live docs, hosted on [this project's github pages](https://jonahss.github.io/swagger-ui/).
+
+To publish a new version of these docs, push the `dist` subtree to the gh-pages branch:
+`git subtree push --prefix dist origin gh-pages` 
+
 # Swagger UI
 
 [![NPM version](https://badge.fury.io/js/swagger-ui.svg)](http://badge.fury.io/js/swagger-ui)
