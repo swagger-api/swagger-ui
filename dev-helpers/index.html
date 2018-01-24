@@ -75,8 +75,9 @@
     window["SwaggerUIStandalonePreset"] = window["swagger-ui-standalone-preset"]
     // Build a system
     const ui = SwaggerUIBundle({
-      url: "http://petstore.swagger.io/v2/swagger.json",
+      url: "swagger.json",
       dom_id: '#swagger-ui',
+      deepLinking: true,
       presets: [
         SwaggerUIBundle.presets.apis,
         SwaggerUIStandalonePreset
