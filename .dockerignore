@@ -1,0 +1,7 @@
+/.git
+/.github
+/dev-helpers
+/docs
+/src
+/swagger-ui-dist-package
+/test

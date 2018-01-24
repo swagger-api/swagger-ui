@@ -12,7 +12,7 @@ export default class ObjectModel extends Component {
     getComponent: PropTypes.func.isRequired,
     getConfigs: PropTypes.func.isRequired,
     expanded: PropTypes.bool,
-    onToggle: PropTypes.func.isRequired,
+    onToggle: PropTypes.func,
     specSelectors: PropTypes.object.isRequired,
     name: PropTypes.string,
     isRef: PropTypes.bool,
