@@ -334,7 +334,7 @@ const MyWrapComponentPlugin = function(system) {
         if(props.number > 10) {
           return <div>
             <h3>Warning! Big number ahead.</h3>
-            <OriginalComponent {...props} />
+            <Original {...props} />
           </div>
         } else {
           return <Original {...props} />
@@ -353,7 +353,7 @@ const MyWrapComponentPlugin = function(system) {
           if(props.number > 10) {
             return <div>
               <h3>Warning! Big number ahead.</h3>
-              <OriginalComponent {...props} />
+              <Original {...props} />
             </div>
           } else {
             return <Original {...props} />
