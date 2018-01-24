@@ -72,12 +72,12 @@ module.exports = function SwaggerUI(opts) {
   delete opts.domNode
 
   const constructorConfig = deepExtend({}, defaults, opts, queryConfig)
-
   const storeConfigs = {
     system: {
       configs: constructorConfig.configs
     },
     plugins: constructorConfig.presets,
+    explorer: constructorConfig.explorer,
     state: deepExtend({
       layout: {
         layout: constructorConfig.layout,

@@ -35,6 +35,7 @@ select {
 
 .code-block {
   min-height: 115px;
+  max-width: 45vw;
   margin: 0;
   padding: 1rem;
   font-size: 14px;
@@ -63,6 +64,7 @@ select {
 }
 
 .validator-badge {
+  display: none;
   padding: 1rem;
 }
 
