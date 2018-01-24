@@ -248,7 +248,7 @@ export default class Operation extends PureComponent {
                     oas3Actions={oas3Actions}
                     specActions={ specActions }
                     produces={ produces }
-                    producesValue={ operation.get("produces_value") }
+                    producesValue={ specSelectors.currentProducesFor([path, method]) }
                     specPath={specPath.push("responses")}
                     path={ path }
                     method={ method }
