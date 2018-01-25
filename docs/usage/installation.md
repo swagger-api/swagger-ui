@@ -83,7 +83,7 @@ This will serve Swagger UI at `/swagger` instead of `/`.
 
 ### unpkg
 
-You can embed Swagger-UI's code directly in your HTML by using unkpg's interface:
+You can embed Swagger-UI's code directly in your HTML by using unpkg's interface:
 
 ```html
 <script src="//unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
