@@ -158,7 +158,7 @@ export default class ParameterRow extends Component {
             <Markdown source={
                 "<i>Available values</i>: " + paramItemsEnum.map(function(item) {
                     return item
-                  }).toArray().join(", ")}/> 
+                  }).toArray().join(", ")}/>
             : null
           }
 
@@ -181,6 +181,7 @@ export default class ParameterRow extends Component {
                               required={ required }
                               description={param.get("description") ? `${param.get("name")} - ${param.get("description")}` : `${param.get("name")}`}
                               onChange={ this.onChangeWrapper }
+                              errors={ param.get("errors") }
                               schema={ isOAS3 && isOAS3() ? param.get("schema") : param }/>
           }
 
