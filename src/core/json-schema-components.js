@@ -40,7 +40,7 @@ export class JsonSchemaForm extends Component {
     let { type, format="" } = schema
 
     let Comp = (format ? getComponent(`JsonSchema_${type}_${format}`) : getComponent(`JsonSchema_${type}`)) || getComponent("JsonSchema_string")
-    return <Comp { ...this.props } errors={errors.toJS()} fn={fn} getComponent={getComponent} value={value} onChange={onChange} schema={schema}/>
+    return <Comp { ...this.props } errors={errors} fn={fn} getComponent={getComponent} value={value} onChange={onChange} schema={schema}/>
   }
 
 }
@@ -57,7 +57,7 @@ export class JsonSchema_string extends Component {
     let { getComponent, value, schema, errors, required, description } = this.props
     let enumValue = schema["enum"]
 
-    errors = errors || []
+    errors = errors.toJS ? errors.toJS() : []
 
     if ( enumValue ) {
       const Select = getComponent("Select")
@@ -137,7 +137,7 @@ export class JsonSchema_array extends PureComponent {
   render() {
     let { getComponent, required, schema, errors, fn } = this.props
 
-    errors = errors || []
+    errors = errors.toJS ? errors.toJS() : []
 
     let itemSchema = fn.inferSchema(schema.items)
 
@@ -188,7 +188,8 @@ export class JsonSchema_boolean extends Component {
   onEnumChange = (val) => this.props.onChange(val)
   render() {
     let { getComponent, value, errors, schema } = this.props
-    errors = errors || []
+    errors = errors.toJS ? errors.toJS() : []
+
     const Select = getComponent("Select")
 
     return (<Select className={ errors.length ? "invalid" : ""}
