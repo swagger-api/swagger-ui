@@ -1,6 +1,7 @@
 import React, { PureComponent, Component } from "react"
 import PropTypes from "prop-types"
 import { List, fromJS } from "immutable"
+import ImPropTypes from "react-immutable-proptypes"
 //import "less/json-schema-form"
 
 const noop = ()=> {}
@@ -11,7 +12,7 @@ const JsonSchemaPropShape = {
   keyName: PropTypes.any,
   fn: PropTypes.object.isRequired,
   schema: PropTypes.object,
-  errors: PropTypes.array,
+  errors: ImPropTypes.list,
   required: PropTypes.bool,
   description: PropTypes.any
 }
@@ -22,7 +23,7 @@ const JsonSchemaDefaultProps = {
   schema: {},
   keyName: "",
   required: false,
-  errors: []
+  errors: List()
 }
 
 export class JsonSchemaForm extends Component {
@@ -39,7 +40,7 @@ export class JsonSchemaForm extends Component {
     let { type, format="" } = schema
 
     let Comp = (format ? getComponent(`JsonSchema_${type}_${format}`) : getComponent(`JsonSchema_${type}`)) || getComponent("JsonSchema_string")
-    return <Comp { ...this.props } errors={errors} fn={fn} getComponent={getComponent} value={value} onChange={onChange} schema={schema}/>
+    return <Comp { ...this.props } errors={errors.toJS()} fn={fn} getComponent={getComponent} value={value} onChange={onChange} schema={schema}/>
   }
 
 }

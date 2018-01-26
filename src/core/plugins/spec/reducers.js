@@ -68,7 +68,7 @@ export default {
     return state.updateIn( [ "resolved", "paths", ...pathMethod, "parameters" ], fromJS([]), parameters => {
       return parameters.withMutations( parameters => {
         for ( let i = 0, len = parameters.count(); i < len; i++ ) {
-          parameters.setIn([i, "errors"], fromJS({}))
+          parameters.setIn([i, "errors"], fromJS([]))
         }
       })
     })
