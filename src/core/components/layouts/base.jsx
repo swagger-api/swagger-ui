@@ -125,7 +125,7 @@ export default class BaseLayout extends React.Component {
               filter === null || filter === false ? null :
                 <div className="filter-container">
                   <Col className="filter wrapper" mobile={12}>
-                    <input className="operation-filter-input" placeholder="Filter by tag" type="text" onChange={this.onFilterChange} value={filter === true || filter === "true" ? "" : filter} disabled={isLoading} style={inputStyle} />
+                    <input className="operation-filter-input" placeholder="Filter by tags (separated by comma)" type="text" onChange={this.onFilterChange} value={filter === true || filter === "true" ? "" : filter} disabled={isLoading} style={inputStyle} />
                   </Col>
                 </div>
             }
