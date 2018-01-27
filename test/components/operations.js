@@ -2,7 +2,7 @@
 import React from "react"
 import expect, { createSpy } from "expect"
 import { render } from "enzyme"
-import { fromJS, OrderedMap, Map, List } from "immutable"
+import { fromJS, Map } from "immutable"
 import DeepLink from "components/deep-link"
 import Operations from "components/operations"
 import {Collapse} from "components/layout-utils"
