@@ -153,7 +153,7 @@ describe("<Operations/>", function(){
     const originalFilter = "pe, sto"
     const res = Operations.buildFilter(taggedOps, originalFilter)
     expect(res).toBeA(Array)
-    expect(res).toEqual(["pe, sto"])
+    expect(res).toEqual([originalFilter])
   })
 
   it("should return a filter array for tag names without commas", function(){

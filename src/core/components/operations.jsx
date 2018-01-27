@@ -27,10 +27,10 @@ export default class Operations extends React.Component {
   static buildFilter(target, filter) {
     const found = target.findKey((val, key) => key.indexOf(",") !== -1)
     if (found) {
-      return [filter || []]
+      return [filter]
     }
 
-    return filter ? filter.split(/\s*,\s*/) : []
+    return filter.split(/\s*,\s*/)
   }
 
   static applyFilter(target, input) {
