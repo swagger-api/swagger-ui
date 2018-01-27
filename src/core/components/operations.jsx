@@ -24,11 +24,20 @@ export default class Operations extends React.Component {
     getConfigs: PropTypes.func.isRequired
   };
 
-  static applyFilter(target, filter) {
-    const filters = filter ? filter.split(/\s*,\s*/) : []
+  static buildFilter(target, filter) {
+    const found = target.findKey((val, key) => key.includes(","))
+    if (found) {
+      return [filter || []]
+    }
+
+    return filter ? filter.split(/\s*,\s*/) : []
+  }
+
+  static applyFilter(target, input) {
+    const filter = Operations.buildFilter(target, input)
 
     return target.filter((val, key) => {
-      return filters.find((text) => key.includes(text.trim()))
+      return filter.find((text) => key.includes(text.trim()))
     })
   }
 

@@ -138,4 +138,30 @@ describe("<Operations/>", function(){
 
     expect(filtered.size).toEqual(2)
   })
+
+  it("should filter taggedOps by tag names with commas", function(){
+    const taggedOps = Map([["this,is,my,tag"], ["is"], ["my"]])
+
+    const filtered = Operations.applyFilter(taggedOps, "this,is,my")
+
+    expect(filtered.size).toEqual(1)
+  })
+
+  it("should build a single filter when there is a tag name that contains comma", function(){
+    const taggedOps = Map([["this,is,my,tag"], ["pet"], ["store"], ["user"]])
+
+    const originalFilter = "pe, sto"
+    const res = Operations.buildFilter(taggedOps, originalFilter)
+    expect(res).toBeA(Array)
+    expect(res).toEqual(["pe, sto"])
+  })
+
+  it("should return a filter array for tag names without commas", function(){
+    const taggedOps = Map([["pet"], ["store"], ["user"]])
+
+    const originalFilter = "pe, sto"
+    const res = Operations.buildFilter(taggedOps, originalFilter)
+    expect(res).toBeA(Array)
+    expect(res).toEqual(["pe", "sto"])
+  })
 })
