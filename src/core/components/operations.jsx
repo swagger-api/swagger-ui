@@ -25,7 +25,7 @@ export default class Operations extends React.Component {
   };
 
   static buildFilter(target, filter) {
-    const found = target.findKey((val, key) => key.includes(","))
+    const found = target.findKey((val, key) => key.indexOf(",") !== -1)
     if (found) {
       return [filter || []]
     }
@@ -37,7 +37,7 @@ export default class Operations extends React.Component {
     const filter = Operations.buildFilter(target, input)
 
     return target.filter((val, key) => {
-      return filter.find((text) => key.includes(text.trim()))
+      return filter.find((text) => key.indexOf(text.trim()) !== -1)
     })
   }
 
