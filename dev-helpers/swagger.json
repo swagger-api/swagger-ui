@@ -1,7 +1,7 @@
 {
    "swagger":"2.0",
    "info":{
-      "description":'<div class="deeplink" data-fragment="#/store"> store </div>',
+     "description":'<a name="deeplink" href="#/store"> store </a>',
       "version":"1.0.0",
       "title":"Swagger Petstore",
       "termsOfService":"http://swagger.io/terms/",
@@ -47,7 +47,7 @@
                "pet"
             ],
             "summary":"Add a new pet to the store",
-            "description":'<div class="deeplink" data-fragment="#/user/createUser"> createUser </div>',
+            "description":'<a name="deeplink" href="#/user/createUser"> createUser </a>',
             "operationId":"addPet",
             "consumes":[
                "application/json",
