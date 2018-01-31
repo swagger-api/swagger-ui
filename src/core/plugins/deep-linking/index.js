@@ -3,7 +3,7 @@
 // import * as selectors from "./selectors"
 import * as specWrapActions from "./spec-wrap-actions"
 import * as layoutWrapActions from "./layout-wrap-actions"
-import {makeDeeplinkClickEvent} from "./helpers"
+import {helpers} from "./helpers"
 
 export default function() {
   return {
@@ -15,6 +15,6 @@ export default function() {
         wrapActions: layoutWrapActions
       }
     },
-    fn: makeDeeplinkClickEvent
+    fn: helpers.makeDeeplinkClickEvent
   }
 }
