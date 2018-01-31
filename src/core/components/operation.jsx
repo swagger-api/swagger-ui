@@ -3,6 +3,9 @@ import PropTypes from "prop-types"
 import { getList } from "core/utils"
 import * as CustomPropTypes from "core/proptypes"
 import { sanitizeUrl } from "core/utils"
+//import {deeplinkPlugin} from "../plugins/deep-linking/index.js"
+//const makeDeeplinkClickEvent = deeplinkPlugin().fn
+
 
 //import "less/opblock"
 

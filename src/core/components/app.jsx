@@ -1,5 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
+//import deeplinkPlugin from "../plugins/deep-linking/index.js"
+//const makeDeeplinkClickEvent = deeplinkPlugin().fn
 
 export default class App extends React.Component {
 
@@ -19,7 +21,6 @@ export default class App extends React.Component {
 
   render() {
     const Layout = this.getLayout()
-
     return (
       <Layout/>
     )
