@@ -64,7 +64,7 @@ export default class KongLayout extends React.Component {
 
     return (
 
-      <div className="swagger-ui">
+      <div>
         <div className="side-panel"></div>
         <div className="wrapper">
           <div className="col">
