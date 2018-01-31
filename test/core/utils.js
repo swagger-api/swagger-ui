@@ -3,6 +3,8 @@ import expect from "expect"
 import { fromJS, OrderedMap } from "immutable"
 import {
   mapToList,
+  parseSearch,
+  serializeSearch,
   validatePattern,
   validateMinLength,
   validateMaxLength,
@@ -934,6 +936,48 @@ describe("utils", function() {
     it("escapes a deep link path with an id selector", function() {
       const result = escapeDeepLinkPath("hello#world")
       expect(result).toEqual("hello\\#world")
+    })
+  })
+
+  describe("parse and serialize search", function() {
+    afterEach(function() {
+      win.location.search = ""
+    })
+
+    describe("parsing", function() {
+      it("works with empty search", function() {
+        win.location.search = ""
+        expect(parseSearch()).toEqual({})
+      })
+
+      it("works with only one key", function() {
+        win.location.search = "?foo"
+        expect(parseSearch()).toEqual({foo: ""})
+      })
+
+      it("works with keys and values", function() {
+        win.location.search = "?foo=fooval&bar&baz=bazval"
+        expect(parseSearch()).toEqual({foo: "fooval", bar: "", baz: "bazval"})
+      })
+
+      it("decode url encoded components", function() {
+        win.location.search = "?foo=foo%20bar"
+        expect(parseSearch()).toEqual({foo: "foo bar"})
+      })
+    })
+
+    describe("serializing", function() {
+      it("works with empty map", function() {
+        expect(serializeSearch({})).toEqual("")
+      })
+
+      it("works with multiple keys with and without values", function() {
+        expect(serializeSearch({foo: "", bar: "barval"})).toEqual("foo=&bar=barval")
+      })
+
+      it("encode url components", function() {
+        expect(serializeSearch({foo: "foo bar"})).toEqual("foo=foo%20bar")
+      })
     })
   })
 
