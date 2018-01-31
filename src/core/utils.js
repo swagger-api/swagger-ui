@@ -630,6 +630,12 @@ export const parseSearch = () => {
   return map
 }
 
+export const serializeSearch = (searchMap) => {
+  return Object.keys(searchMap).map(k => {
+    return encodeURIComponent(k) + "=" + encodeURIComponent(searchMap[k])
+  }).join('&');
+}
+
 export const btoa = (str) => {
   let buffer
 
