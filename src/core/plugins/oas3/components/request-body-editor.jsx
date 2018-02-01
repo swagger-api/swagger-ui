@@ -60,7 +60,7 @@ export default class RequestBodyEditor extends PureComponent {
     this.onChange(this.sample(explicitMediaType))
   }
 
-  resetValueToSample = (explicitMediaType) = {
+  resetValueToSample = (explicitMediaType) => {
     this.setState({ userDidModify: false })
     this.setValueToSample(explicitMediaType)
   }
@@ -84,7 +84,7 @@ export default class RequestBodyEditor extends PureComponent {
     const isJson = /json/i.test(mediaType)
     const inputValue = isJson ? e.target.value.trim() : e.target.value
 
-    this.setState({ userDidModify: true });
+    this.setState({ userDidModify: true })
     this.onChange(inputValue)
   }
 
@@ -121,7 +121,7 @@ export default class RequestBodyEditor extends PureComponent {
 
             }
             { userDidModify &&
-              <Button className="btn" onClick={() => { this.resetValueToSample(mediaType); }}>Reset</Button>
+              <Button className="btn" onClick={() => { this.resetValueToSample(mediaType) }}>Reset</Button>
             }
           </div>
         </div>
