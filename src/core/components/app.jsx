@@ -11,6 +11,13 @@ export default class App extends React.Component {
     return Component ? Component : ()=> <h1> No layout defined for &quot;{layoutName}&quot; </h1>
   }
 
+  componentDidMount() {
+    document.body.addEventListener("deeplink", function(event) {
+      const fragment = event.target.getAttribute("href")
+      console.log(fragment)
+    })
+  }
+
   render() {
     const Layout = this.getLayout()
 
