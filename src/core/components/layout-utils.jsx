@@ -187,14 +187,14 @@ export class Select extends React.Component {
         {
           allowedValues.map(function (item, key) {
             switch(item) {
-              case 'true':
-                value = 1;
-                break;
-              case 'false':
-                value = 0;
-                break;
+              case "true":
+                value = 1
+                break
+              case "false":
+                value = 0
+                break
               default:
-                value = String(item);
+                value = String(item)
               }
             return <option key={ key } value={ value }>{ String(item) }</option>
           })
