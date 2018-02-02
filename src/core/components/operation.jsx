@@ -4,6 +4,7 @@ import { getList } from "core/utils"
 import { getExtensions, sanitizeUrl } from "core/utils"
 import { Iterable, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
+import { makeDeeplinks } from "../plugins/deep-linking/helpers.js"
 
 
 export default class Operation extends PureComponent {
@@ -95,6 +96,7 @@ export default class Operation extends PureComponent {
     let operationScheme = specSelectors.operationScheme(path, method)
     let isShownKey = ["operations", tag, operationId]
     let extensions = getExtensions(operation)
+    let opRootNode = document.getElementById(isShownKey.join("-"))
 
     const Responses = getComponent("responses")
     const Parameters = getComponent( "parameters" )
@@ -155,6 +157,8 @@ export default class Operation extends PureComponent {
           </div>
 
           <Collapse isOpened={isShown}>
+            { !isShown ? null : makeDeeplinks(opRootNode) }
+
             <div className="opblock-body">
               { (operation && operation.size) || operation === null ? null :
                 <img height={"32px"} width={"32px"} src={require("core/../img/rolling-load.svg")} className="opblock-loading-animation" />
@@ -273,5 +277,4 @@ export default class Operation extends PureComponent {
         </div>
     )
   }
-
 }

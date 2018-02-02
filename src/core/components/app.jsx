@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { makeDeeplinks } from "../plugins/deep-linking/helpers.js"
 
 export default class App extends React.Component {
 
