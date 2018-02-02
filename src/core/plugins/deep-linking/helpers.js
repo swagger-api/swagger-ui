@@ -6,9 +6,15 @@ const setHash = (value) => {
   }
 }
 
-const makeDeeplinkClickEvent = () => {
-  const createEvent = function() {
-    var deeplinks = document.querySelectorAll("[name=deeplink]")
+const makeDeeplinks = (rootNode) => {
+  /**
+      Given an element instance, some of its descendant anchor elements
+      are converted into deeplinks. Atleast in the context of implemenation,
+      a deeplink is any anchor element that dispatches a deeplink click event
+      when it is clicked.
+  **/
+  const callback = function() {
+    const deeplinks = rootNode.querySelectorAll("[name=deeplink]")
     if (deeplinks.length === 0) return
     deeplinks.forEach((link) => {
         link.addEventListener("click", function() {
@@ -17,9 +23,9 @@ const makeDeeplinkClickEvent = () => {
         })
     })
   }
-  setTimeout(createEvent, 2000)
+  //Wait for the tree to be full created before making deeplinks
+  setTimeout(callback, 2000)
 }
 
 
-
-export {setHash, makeDeeplinkClickEvent}
+export { setHash, makeDeeplinks }
