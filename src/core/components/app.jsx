@@ -13,7 +13,8 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    document.body.addEventListener("deeplink", function(event) {
+    makeDeeplinks(document.body)
+    document.body.addEventListener("deeplinkClick", function(event) {
       const fragment = event.target.getAttribute("href")
       console.log(fragment)
     })
