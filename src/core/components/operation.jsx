@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import { getList } from "core/utils"
 import * as CustomPropTypes from "core/proptypes"
 import { sanitizeUrl } from "core/utils"
+import { makeDeeplinks } from "../plugins/deep-linking/helpers.js"
 
 
 
@@ -75,6 +76,12 @@ export default class Operation extends PureComponent {
       specActions.changeConsumesValue([path, method], consumesValue)
     }
   }
+
+  componentDidMount() {
+    const { isShownKey } = this.props
+    const root = document.getElementById(isShownKey.join("-"))
+    this.setState({opRootNode: root})
+}
 
   toggleShown =() => {
     let { layoutActions, isShownKey } = this.props
@@ -196,6 +203,8 @@ export default class Operation extends PureComponent {
           </div>
 
           <Collapse isOpened={shown}>
+            { !shown ? null : makeDeeplinks(this.state.opRootNode) }
+
             <div className="opblock-body">
               { deprecated && <h4 className="opblock-title_normal"> Warning: Deprecated</h4>}
               { description &&
