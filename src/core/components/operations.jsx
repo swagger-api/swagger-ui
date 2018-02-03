@@ -24,6 +24,24 @@ export default class Operations extends React.Component {
     getConfigs: PropTypes.func.isRequired
   };
 
+  static buildFilter(target, filter) {
+    const found = target.findKey((val, key) => key.indexOf(",") !== -1)
+    if (found) {
+      return [filter]
+    }
+
+    return filter.split(/\s*,\s*/)
+  }
+
+  static applyFilter(target, input) {
+    const filter = Operations.buildFilter(target, input)
+
+    return target.filter((val, key) => {
+      return filter.find((text) => key.indexOf(text.trim()) !== -1)
+    })
+  }
+
+
   render() {
     let {
       specSelectors,
@@ -52,9 +70,7 @@ export default class Operations extends React.Component {
 
     if (filter) {
       if (filter !== true) {
-        taggedOps = taggedOps.filter((tagObj, tag) => {
-          return tag.indexOf(filter) !== -1
-        })
+        taggedOps = Operations.applyFilter(taggedOps, filter)
       }
     }
 
