@@ -110,17 +110,23 @@ export default class ParameterRow extends Component {
 
 
     let paramItems // undefined
-    let paramItemsEnum // undefined
-    let isDisplayParamItemsEnum = false
+    let paramEnum // undefined
+    let isDisplayParamEnum = false
+
     if ( param !== undefined ) {
       paramItems = param.get("items")
     }
-    if ( paramItems !== undefined ) {
-      paramItemsEnum = param.get("items").get("enum")
+
+    if (paramItems !== undefined) {
+      paramEnum = paramItems.get("enum")
+      paramDefaultValue = paramItems.get("default")
+    } else {
+      paramEnum = param.get("enum")
     }
-    if ( paramItemsEnum !== undefined ) {
-      if (paramItemsEnum.size > 0) {
-        isDisplayParamItemsEnum = true
+
+    if ( paramEnum !== undefined ) {
+      if (paramEnum.size > 0) {
+        isDisplayParamEnum = true
       }
     }
 
@@ -130,10 +136,9 @@ export default class ParameterRow extends Component {
     if ( param !== undefined ) {
       paramDefaultValue = param.get("default")
       paramExample = param.get("example")
-    }
-
-    if (isDisplayParamItemsEnum) { // if we have an array, default value is in "items"
-      paramDefaultValue = paramItems.get("default")
+      if (paramExample == undefined) {
+        paramExample = param.get("x-example")
+      }
     }
 
     return (
@@ -154,9 +159,9 @@ export default class ParameterRow extends Component {
         <td className="col parameters-col_description">
           <Markdown source={ param.get("description") }/>
 
-          { (bodyParam || !isExecute) && isDisplayParamItemsEnum ?
+          { (bodyParam || !isExecute) && isDisplayParamEnum ?
             <Markdown source={
-                "<i>Available values</i>: " + paramItemsEnum.map(function(item) {
+                "<i>Available values</i>: " + paramEnum.map(function(item) {
                     return item
                   }).toArray().join(", ")}/>
             : null
