@@ -86,7 +86,7 @@ export default class Operations extends React.Component {
                         isShown={showTag}
                         path={tag}
                         text={tag} />
-                    { !tagDescription ? null :
+                    { !tagDescription ? <small></small> :
                         <small>
                           <Markdown source={tagDescription} />
                         </small>
@@ -108,7 +108,7 @@ export default class Operations extends React.Component {
                     }
                     </div>
 
-                    <button className="expand-operation" title="Expand operation" onClick={() => layoutActions.show(isShownKey, !showTag)}>
+                    <button className="expand-operation" title={showTag ? "Collapse operation": "Expand operation"} onClick={() => layoutActions.show(isShownKey, !showTag)}>
                       <svg className="arrow" width="20" height="20">
                         <use href={showTag ? "#large-arrow-down" : "#large-arrow"} xlinkHref={showTag ? "#large-arrow-down" : "#large-arrow"} />
                       </svg>

@@ -12,7 +12,7 @@ import {
   SET_REQUEST,
   SET_MUTATED_REQUEST,
   UPDATE_RESOLVED,
-  UPDATE_OPERATION_VALUE,
+  UPDATE_OPERATION_META_VALUE,
   CLEAR_RESPONSE,
   CLEAR_REQUEST,
   CLEAR_VALIDATE_PARAMS,
@@ -52,8 +52,8 @@ export default {
   },
 
   [VALIDATE_PARAMS]: ( state, { payload: { pathMethod, isOAS3 } } ) => {
-    let operation = state.getIn( [ "resolved", "paths", ...pathMethod ] )
-    let isXml = /xml/i.test(operation.get("consumes_value"))
+    let meta = state.getIn( [ "meta", "paths", ...pathMethod ], fromJS({}) )
+    let isXml = /xml/i.test(meta.get("consumes_value"))
 
     return state.updateIn( [ "resolved", "paths", ...pathMethod, "parameters" ], fromJS([]), parameters => {
       return parameters.withMutations( parameters => {
@@ -68,7 +68,7 @@ export default {
     return state.updateIn( [ "resolved", "paths", ...pathMethod, "parameters" ], fromJS([]), parameters => {
       return parameters.withMutations( parameters => {
         for ( let i = 0, len = parameters.count(); i < len; i++ ) {
-          parameters.setIn([i, "errors"], fromJS({}))
+          parameters.setIn([i, "errors"], fromJS([]))
         }
       })
     })
@@ -107,12 +107,17 @@ export default {
     return state.setIn( [ "mutatedRequests", path, method ], fromJSOrdered(req))
   },
 
-  [UPDATE_OPERATION_VALUE]: (state, { payload: { path, value, key } }) => {
+  [UPDATE_OPERATION_META_VALUE]: (state, { payload: { path, value, key } }) => {
+    // path is a pathMethod tuple... can't change the name now.
     let operationPath = ["resolved", "paths", ...path]
+    let metaPath = ["meta", "paths", ...path]
+
     if(!state.getIn(operationPath)) {
+      // do nothing if the operation does not exist
       return state
     }
-    return state.setIn([...operationPath, key], fromJS(value))
+
+    return state.setIn([...metaPath, key], fromJS(value))
   },
 
   [CLEAR_RESPONSE]: (state, { payload: { path, method } } ) =>{

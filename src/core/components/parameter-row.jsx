@@ -156,19 +156,19 @@ export default class ParameterRow extends Component {
 
           { (bodyParam || !isExecute) && isDisplayParamItemsEnum ?
             <Markdown source={
-                "<i>Available values</i> : " + paramItemsEnum.map(function(item) {
+                "<i>Available values</i>: " + paramItemsEnum.map(function(item) {
                     return item
-                  }).toArray()}/> 
+                  }).toArray().join(", ")}/>
             : null
           }
 
           { (bodyParam || !isExecute) && paramDefaultValue !== undefined ?
-            <Markdown source={"<i>Default value</i> : " + paramDefaultValue}/>
+            <Markdown source={"<i>Default value</i>: " + paramDefaultValue}/>
             : null
           }
 
           { (bodyParam || !isExecute) && paramExample !== undefined ?
-            <Markdown source={"<i>Example</i> : " + paramExample}/>
+            <Markdown source={"<i>Example</i>: " + paramExample}/>
             : null
           }
 
@@ -181,6 +181,7 @@ export default class ParameterRow extends Component {
                               required={ required }
                               description={param.get("description") ? `${param.get("name")} - ${param.get("description")}` : `${param.get("name")}`}
                               onChange={ this.onChangeWrapper }
+                              errors={ param.get("errors") }
                               schema={ isOAS3 && isOAS3() ? param.get("schema") : param }/>
           }
 
