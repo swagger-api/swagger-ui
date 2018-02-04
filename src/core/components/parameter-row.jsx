@@ -111,6 +111,8 @@ export default class ParameterRow extends Component {
 
     let paramItems // undefined
     let paramEnum // undefined
+    let paramDefaultValue // undefined
+    let paramExample // undefined
     let isDisplayParamEnum = false
 
     if ( param !== undefined ) {
@@ -131,8 +133,6 @@ export default class ParameterRow extends Component {
     }
 
     // Default and Example Value for readonly doc
-    let paramDefaultValue // undefined
-    let paramExample // undefined
     if ( param !== undefined ) {
       paramDefaultValue = param.get("default")
       paramExample = param.get("example")
