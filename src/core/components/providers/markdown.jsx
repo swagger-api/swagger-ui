@@ -33,8 +33,8 @@ const sanitizeOptions = {
     allowedAttributes: {
         ...sanitize.defaults.allowedAttributes,
         "img": sanitize.defaults.allowedAttributes.img.concat(["title"]),
-        'td': [ 'colspan' ],
-        '*': [ 'class' ]
+        "td": [ "colspan" ],
+        "*": [ "class" ]
     },
     textFilter: function(text) {
         return text.replace(/&quot;/g, "\"")
