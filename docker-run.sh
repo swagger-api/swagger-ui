@@ -58,7 +58,14 @@ if [[ "x$OAUTH_REDIRECT_URL" != "x" ]]; then
   sed -i "s|http://localhost:3200/oauth2-redirect.html|$OAUTH_REDIRECT_URL|g" $NGINX_ROOT/swagger-ui-standalone-preset.js
 fi
 
-# replace the PORT that nginx listens on if supplied
-if [[ -n "${PORT}" ]]; then sed -i "s|8080|${PORT}|g" /etc/nginx/nginx.conf; fi
+# replace `url` with `urls` option if API_URLS is set
+if [[ -n "$API_URLS" ]]; then
+    sed -i "s|url: .*,|urls: $API_URLS,|g" $INDEX_FILE
+fi
+
+# replace the PORT that nginx listens on if PORT is supplied
+if [[ -n "${PORT}" ]]; then 
+    sed -i "s|8080|${PORT}|g" /etc/nginx/nginx.conf
+fi
 
 exec nginx -g 'daemon off;'

@@ -4,12 +4,12 @@ A plugin is a function that returns an object - more specifically, the object ma
 
 ### Format
 
-A plugin return value may contain any of these keys, where `myStateKey` is a name for a piece of state:
+A plugin return value may contain any of these keys, where `stateKey` is a name for a piece of state:
 
 ```javascript
 {
   statePlugins: {
-    myStateKey: {
+    [stateKey]: {
       actions,
       reducers,
       selectors,
@@ -334,7 +334,7 @@ const MyWrapComponentPlugin = function(system) {
         if(props.number > 10) {
           return <div>
             <h3>Warning! Big number ahead.</h3>
-            <OriginalComponent {...props} />
+            <Original {...props} />
           </div>
         } else {
           return <Original {...props} />
@@ -353,7 +353,7 @@ const MyWrapComponentPlugin = function(system) {
           if(props.number > 10) {
             return <div>
               <h3>Warning! Big number ahead.</h3>
-              <OriginalComponent {...props} />
+              <Original {...props} />
             </div>
           } else {
             return <Original {...props} />
