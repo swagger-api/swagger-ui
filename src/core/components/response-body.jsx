@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import formatXml from "xml-but-prettier"
-import lowerCase from "lodash/lowerCase"
+import toLower from "lodash/toLower"
 import { extractFileNameFromContentDispositionHeader } from "core/utils"
 
 export default class ResponseBody extends React.Component {
@@ -72,7 +72,7 @@ export default class ResponseBody extends React.Component {
       bodyEl = <HighlightCode value={ body } />
 
       // HTML or Plain Text
-    } else if (lowerCase(contentType) === "text/html" || /text\/plain/.test(contentType)) {
+    } else if (toLower(contentType) === "text/html" || /text\/plain/.test(contentType)) {
       bodyEl = <HighlightCode value={ content } />
 
       // Image
