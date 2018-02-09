@@ -1,6 +1,7 @@
 import YAML from "js-yaml"
 import parseUrl from "url-parse"
 import serializeError from "serialize-error"
+import { Map } from "immutable"
 import isString from "lodash/isString"
 import { isJSONObject } from "core/utils"
 
@@ -21,6 +22,7 @@ export const CLEAR_REQUEST = "spec_clear_request"
 export const CLEAR_VALIDATE_PARAMS = "spec_clear_validate_param"
 export const UPDATE_OPERATION_META_VALUE = "spec_update_operation_meta_value"
 export const UPDATE_RESOLVED = "spec_update_resolved"
+export const UPDATE_RESOLVED_SUBTREE = "spec_update_resolved_subtree"
 export const SET_SCHEME = "set_scheme"
 
 const toStr = (str) => isString(str) ? str : ""
@@ -74,7 +76,14 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
   return {}
 }
 
+let hasWarnedAboutResolveSpecDeprecation = false
+
 export const resolveSpec = (json, url) => ({specActions, specSelectors, errActions, fn: { fetch, resolve, AST }, getConfigs}) => {
+  if(!hasWarnedAboutResolveSpecDeprecation) {
+    console.warn(`specActions.resolveSpec is deprecated since v3.10.0 and will be removed in v4.0.0; use resolveIn instead!`)
+    hasWarnedAboutResolveSpecDeprecation = true
+  }
+
   const {
     modelPropertyMacro,
     parameterMacro,
@@ -124,10 +133,70 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
     })
 }
 
+export const requestResolvedSubtree = path => system => {
+  const {
+    errActions,
+    fn: {
+      resolveSubtree,
+      AST: { getLineNumberForPath }
+    },
+    specSelectors,
+    specActions,
+  } = system
+
+  const specStr = specSelectors.specStr()
+
+  if(!resolveSubtree) {
+    console.error("Error: Swagger-Client did not provide a `resolveSubtree` method, doing nothing.")
+    return
+  }
+
+  return resolveSubtree(specSelectors.specJson().toJS(), path)
+    .then(({ spec, errors }) => {
+      errActions.clear({
+        type: "thrown"
+      })
+      if(Array.isArray(errors) && errors.length > 0) {
+        let preparedErrors = errors
+          .map(err => {
+            console.error(err)
+            err.line = err.fullPath ? getLineNumberForPath(specStr, err.fullPath) : null
+            err.path = err.fullPath ? err.fullPath.join(".") : null
+            err.level = "error"
+            err.type = "thrown"
+            err.source = "resolver"
+            Object.defineProperty(err, "message", { enumerable: true, value: err.message })
+            return err
+          })
+        errActions.newThrownErrBatch(preparedErrors)
+      }
+
+      return specActions.updateResolvedSubtree(path, spec)
+    })
+    .catch(e => console.error(e))
+}
+
 export function changeParam( path, paramName, paramIn, value, isXml ){
   return {
     type: UPDATE_PARAM,
     payload:{ path, value, paramName, paramIn, isXml }
+  }
+}
+
+export const updateResolvedSubtree = (path, value) => {
+  return {
+    type: UPDATE_RESOLVED_SUBTREE,
+    payload: { path, value }
+  }
+}
+
+export const invalidateResolvedSubtreeCache = () => {
+  return {
+    type: UPDATE_RESOLVED_SUBTREE,
+    payload: {
+      path: [],
+      value: Map()
+    }
   }
 }
 

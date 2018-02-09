@@ -42,6 +42,10 @@ export const specResolved = createSelector(
   spec => spec.get("resolved", Map())
 )
 
+export const specResolvedSubtree = (state, path) => {
+  return state.getIn(["resolvedSubtrees", ...path], undefined)
+}
+
 // Default Spec ( as an object )
 export const spec = state => {
   let res = specResolved(state)

@@ -12,6 +12,7 @@ import {
   SET_REQUEST,
   SET_MUTATED_REQUEST,
   UPDATE_RESOLVED,
+  UPDATE_RESOLVED_SUBTREE,
   UPDATE_OPERATION_META_VALUE,
   CLEAR_RESPONSE,
   CLEAR_REQUEST,
@@ -37,6 +38,11 @@ export default {
 
   [UPDATE_RESOLVED]: (state, action) => {
     return state.setIn(["resolved"], fromJSOrdered(action.payload))
+  },
+
+  [UPDATE_RESOLVED_SUBTREE]: (state, action) => {
+    const { value, path } = action.payload
+    return state.setIn(["resolvedSubtrees", ...path], fromJSOrdered(value))
   },
 
   [UPDATE_PARAM]: ( state, {payload} ) => {
