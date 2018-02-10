@@ -48,7 +48,7 @@ export const specResolvedSubtree = (state, path) => {
 
 // Default Spec ( as an object )
 export const spec = state => {
-  let res = specResolved(state)
+  let res = specJson(state)
   return res
 }
 
