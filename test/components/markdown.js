@@ -7,6 +7,18 @@ import { Markdown as OAS3Markdown } from "corePlugins/oas3/wrap-components/markd
 
 describe("Markdown component", function() {
     describe("Swagger 2.0", function() {
+        it("allows span elements with class attrib", function() {
+            const str = `<span class="method">ONE</span>`
+            const el = render(<Markdown source={str} />)
+            expect(el.html()).toEqual(`<div class="markdown"><p><span class="method">ONE</span></p>\n</div>`)
+        })
+
+        it("allows td elements with colspan attrib", function() {
+            const str = `<table><tr><td>ABC</td></tr></table>`
+            const el = render(<Markdown source={str} />)
+            expect(el.html()).toEqual(`<div class="markdown"><table><tr><td>ABC</td></tr></table></div>`)
+        })
+
         it("allows image elements", function() {
             const str = `![Image alt text](http://image.source "Image title")`
             const el = render(<Markdown source={str} />)
