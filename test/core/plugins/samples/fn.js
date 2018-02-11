@@ -1,6 +1,105 @@
-import { createXMLExample } from "corePlugins/samples/fn"
+import { createXMLExample, sampleFromSchema } from "corePlugins/samples/fn"
 import expect from "expect"
 
+describe("sampleFromSchema", function() {
+  it("returns object with no readonly fields for parameter", function () {
+    var definition = {
+      type: "object",
+      properties: {
+        id: {
+          type: "integer"
+        },
+        readOnlyDog: {
+          readOnly: true,
+          type: "string"
+        }
+      },
+      xml: {
+        name: "animals"
+      }
+    }
+
+    var expected = {
+      id: 0
+    }
+
+    expect(sampleFromSchema(definition, { includeReadOnly: false })).toEqual(expected)
+  })
+
+  it("returns object with readonly fields for parameter, with includeReadOnly", function () {
+    var definition = {
+      type: "object",
+      properties: {
+        id: {
+          type: "integer"
+        },
+        readOnlyDog: {
+          readOnly: true,
+          type: "string"
+        }
+      },
+      xml: {
+        name: "animals"
+      }
+    }
+
+    var expected = {
+      id: 0,
+      readOnlyDog: "string"
+    }
+
+    expect(sampleFromSchema(definition, { includeReadOnly: true })).toEqual(expected)
+  })
+
+  it("returns object without writeonly fields for parameter", function () {
+    var definition = {
+      type: "object",
+      properties: {
+        id: {
+          type: "integer"
+        },
+        writeOnlyDog: {
+          writeOnly: true,
+          type: "string"
+        }
+      },
+      xml: {
+        name: "animals"
+      }
+    }
+
+    var expected = {
+      id: 0
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("returns object with writeonly fields for parameter, with includeWriteOnly", function () {
+    var definition = {
+      type: "object",
+      properties: {
+        id: {
+          type: "integer"
+        },
+        writeOnlyDog: {
+          writeOnly: true,
+          type: "string"
+        }
+      },
+      xml: {
+        name: "animals"
+      }
+    }
+
+    var expected = {
+      id: 0,
+      writeOnlyDog: "string"
+    }
+
+    expect(sampleFromSchema(definition, { includeWriteOnly: true })).toEqual(expected)
+  })
+})
 
 describe("createXMLExample", function () {
   var sut = createXMLExample
@@ -552,6 +651,69 @@ describe("createXMLExample", function () {
       }
 
       expect(sut(definition, { includeReadOnly: false })).toEqual(expected)
+    })
+
+    it("returns object with readonly fields for parameter, with includeReadOnly", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<id>0</id>\n\t<dog>string</dog>\n</animals>"
+      var definition = {
+        type: "object",
+        properties: {
+          id: {
+            type: "integer"
+          },
+          dog: {
+            readOnly: true,
+            type: "string"
+          }
+        },
+        xml: {
+          name: "animals"
+        }
+      }
+
+      expect(sut(definition, { includeReadOnly: true })).toEqual(expected)
+    })
+
+    it("returns object without writeonly fields for parameter", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<id>0</id>\n</animals>"
+      var definition = {
+        type: "object",
+        properties: {
+          id: {
+            type: "integer"
+          },
+          dog: {
+            writeOnly: true,
+            type: "string"
+          }
+        },
+        xml: {
+          name: "animals"
+        }
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
+    it("returns object with writeonly fields for parameter, with includeWriteOnly", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<id>0</id>\n\t<dog>string</dog>\n</animals>"
+      var definition = {
+        type: "object",
+        properties: {
+          id: {
+            type: "integer"
+          },
+          dog: {
+            writeOnly: true,
+            type: "string"
+          }
+        },
+        xml: {
+          name: "animals"
+        }
+      }
+
+      expect(sut(definition, { includeWriteOnly: true })).toEqual(expected)
     })
 
     it("returns object with passed property as attribute", function () {

@@ -8,7 +8,7 @@ const noop = ()=>{}
 export default class ContentType extends React.Component {
 
   static propTypes = {
-    contentTypes: PropTypes.oneOfType([ImPropTypes.list, ImPropTypes.set]),
+    contentTypes: PropTypes.oneOfType([ImPropTypes.list, ImPropTypes.set, ImPropTypes.seq]),
     value: PropTypes.string,
     onChange: PropTypes.func,
     className: PropTypes.string
@@ -22,7 +22,19 @@ export default class ContentType extends React.Component {
 
   componentDidMount() {
     // Needed to populate the form, initially
-    this.props.onChange(this.props.contentTypes.first())
+    if(this.props.contentTypes) {
+      this.props.onChange(this.props.contentTypes.first())
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(!nextProps.contentTypes || !nextProps.contentTypes.size) {
+      return
+    }
+
+    if(!nextProps.contentTypes.includes(nextProps.value)) {
+      nextProps.onChange(nextProps.contentTypes.first())
+    }
   }
 
   onChangeWrapper = e => this.props.onChange(e.target.value)
@@ -35,7 +47,7 @@ export default class ContentType extends React.Component {
 
     return (
       <div className={ "content-type-wrapper " + ( className || "" ) }>
-        <select className="content-type" value={value} onChange={this.onChangeWrapper} >
+        <select className="content-type" value={value || ""} onChange={this.onChangeWrapper} >
           { contentTypes.map( (val) => {
             return <option key={ val } value={ val }>{ val }</option>
           }).toArray()}

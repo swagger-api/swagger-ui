@@ -5,6 +5,10 @@
     padding: 10px 0;
 
     justify-content: center;
+
+    .btn-done {
+      margin-right: 1em;
+    }
 }
 
 .auth-wrapper
@@ -25,7 +29,7 @@
     margin: 0 0 10px 0;
     padding: 10px 20px;
 
-    border-bottom: 1px solid #ebebeb;
+    border-bottom: 1px solid $auth-container-border-color;
 
     &:last-of-type
     {

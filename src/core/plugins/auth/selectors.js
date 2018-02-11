@@ -10,8 +10,8 @@ export const shownDefinitions = createSelector(
 
 export const definitionsToAuthorize = createSelector(
     state,
-    () =>( { specSelectors } ) => {
-      let definitions = specSelectors.securityDefinitions()
+    () => ( { specSelectors } ) => {
+      let definitions = specSelectors.securityDefinitions() || Map({})
       let list = List()
 
       //todo refactor
@@ -27,7 +27,8 @@ export const definitionsToAuthorize = createSelector(
 )
 
 
-export const getDefinitionsByNames = ( state, securities ) =>( { specSelectors } ) => {
+export const getDefinitionsByNames = ( state, securities ) => ( { specSelectors } ) => {
+  console.warn("WARNING: getDefinitionsByNames is deprecated and will be removed in the next major version.")
   let securityDefinitions = specSelectors.securityDefinitions()
   let result = List()
 
@@ -58,13 +59,20 @@ export const getDefinitionsByNames = ( state, securities ) =>( { specSelectors }
   return result
 }
 
+export const definitionsForRequirements = (state, securities = List()) => ({ authSelectors }) => {
+  const allDefinitions = authSelectors.definitionsToAuthorize() || List()
+  return allDefinitions.filter((def) => {
+    return securities.some(sec => sec.get(def.keySeq().first()))
+  })
+}
+
 export const authorized = createSelector(
     state,
     auth => auth.get("authorized") || Map()
 )
 
 
-export const isAuthorized = ( state, securities ) =>( { authSelectors } ) => {
+export const isAuthorized = ( state, securities ) => ( { authSelectors } ) => {
   let authorized = authSelectors.authorized()
 
   if(!List.isList(securities)) {

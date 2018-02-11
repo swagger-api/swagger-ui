@@ -7,13 +7,16 @@ export default function downloadUrlPlugin (toolbox) {
   let { fn } = toolbox
 
   const actions = {
-    download: (url)=> ({ errActions, specSelectors, specActions }) => {
+    download: (url)=> ({ errActions, specSelectors, specActions, getConfigs }) => {
       let { fetch } = fn
+      const config = getConfigs()
       url = url || specSelectors.url()
       specActions.updateLoadingStatus("loading")
       fetch({
         url,
         loadSpec: true,
+        requestInterceptor: config.requestInterceptor || (a => a),
+        responseInterceptor: config.responseInterceptor || (a => a),
         credentials: "same-origin",
         headers: {
           "Accept": "application/json,*/*"
@@ -23,7 +26,7 @@ export default function downloadUrlPlugin (toolbox) {
       function next(res) {
         if(res instanceof Error || res.status >= 400) {
           specActions.updateLoadingStatus("failed")
-          return errActions.newThrownErr( new Error(res.statusText + " " + url) )
+          return errActions.newThrownErr( new Error((res.message || res.statusText) + " " + url) )
         }
         specActions.updateLoadingStatus("success")
         specActions.updateSpec(res.text)

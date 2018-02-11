@@ -3,18 +3,19 @@ import { fromJSOrdered, validateParam } from "core/utils"
 import win from "../../window"
 
 import {
-	UPDATE_SPEC,
+  UPDATE_SPEC,
   UPDATE_URL,
   UPDATE_JSON,
   UPDATE_PARAM,
   VALIDATE_PARAMS,
   SET_RESPONSE,
   SET_REQUEST,
+  SET_MUTATED_REQUEST,
   UPDATE_RESOLVED,
-  UPDATE_OPERATION_VALUE,
+  UPDATE_OPERATION_META_VALUE,
   CLEAR_RESPONSE,
   CLEAR_REQUEST,
-  ClEAR_VALIDATE_PARAMS,
+  CLEAR_VALIDATE_PARAMS,
   SET_SCHEME
 } from "./actions"
 
@@ -39,9 +40,10 @@ export default {
   },
 
   [UPDATE_PARAM]: ( state, {payload} ) => {
-    let { path, paramName, value, isXml } = payload
+    let { path, paramName, paramIn, value, isXml } = payload
+
     return state.updateIn( [ "resolved", "paths", ...path, "parameters" ], fromJS([]), parameters => {
-      const index = parameters.findIndex(p => p.get( "name" ) === paramName )
+      const index = parameters.findIndex(p => p.get( "name" ) === paramName && p.get("in") === paramIn )
       if (!(value instanceof win.File)) {
         value = fromJSOrdered( value )
       }
@@ -49,24 +51,24 @@ export default {
     })
   },
 
-  [VALIDATE_PARAMS]: ( state, { payload:  { pathMethod } } ) => {
-    let operation = state.getIn( [ "resolved", "paths", ...pathMethod ] )
-    let isXml = /xml/i.test(operation.get("consumes_value"))
+  [VALIDATE_PARAMS]: ( state, { payload: { pathMethod, isOAS3 } } ) => {
+    let meta = state.getIn( [ "meta", "paths", ...pathMethod ], fromJS({}) )
+    let isXml = /xml/i.test(meta.get("consumes_value"))
 
     return state.updateIn( [ "resolved", "paths", ...pathMethod, "parameters" ], fromJS([]), parameters => {
       return parameters.withMutations( parameters => {
         for ( let i = 0, len = parameters.count(); i < len; i++ ) {
-          let errors = validateParam(parameters.get(i), isXml)
+          let errors = validateParam(parameters.get(i), isXml, isOAS3)
           parameters.setIn([i, "errors"], fromJS(errors))
         }
       })
     })
   },
-  [ClEAR_VALIDATE_PARAMS]: ( state, { payload:  { pathMethod } } ) => {
+  [CLEAR_VALIDATE_PARAMS]: ( state, { payload:  { pathMethod } } ) => {
     return state.updateIn( [ "resolved", "paths", ...pathMethod, "parameters" ], fromJS([]), parameters => {
       return parameters.withMutations( parameters => {
         for ( let i = 0, len = parameters.count(); i < len; i++ ) {
-          parameters.setIn([i, "errors"], fromJS({}))
+          parameters.setIn([i, "errors"], fromJS([]))
         }
       })
     })
@@ -101,12 +103,21 @@ export default {
     return state.setIn( [ "requests", path, method ], fromJSOrdered(req))
   },
 
-  [UPDATE_OPERATION_VALUE]: (state, { payload: { path, value, key } }) => {
+  [SET_MUTATED_REQUEST]: (state, { payload: { req, path, method } } ) =>{
+    return state.setIn( [ "mutatedRequests", path, method ], fromJSOrdered(req))
+  },
+
+  [UPDATE_OPERATION_META_VALUE]: (state, { payload: { path, value, key } }) => {
+    // path is a pathMethod tuple... can't change the name now.
     let operationPath = ["resolved", "paths", ...path]
+    let metaPath = ["meta", "paths", ...path]
+
     if(!state.getIn(operationPath)) {
+      // do nothing if the operation does not exist
       return state
     }
-    return state.setIn([...operationPath, key], fromJS(value))
+
+    return state.setIn([...metaPath, key], fromJS(value))
   },
 
   [CLEAR_RESPONSE]: (state, { payload: { path, method } } ) =>{

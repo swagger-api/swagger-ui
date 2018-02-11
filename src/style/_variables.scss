@@ -1,0 +1,218 @@
+
+$gray-base: #000 !default;
+$white: #fff !default;
+$gray-50: #ebebeb !default;
+$gray-100: #d8dde7 !default;
+$gray-200: lighten($gray-base, 62.75%) !default; // #aaa
+$gray-300: lighten($gray-base, 56.5%) !default; // #999
+$gray-400: lighten($gray-base, 50%) !default; // #888
+$gray-500: lighten($gray-base, 43.75%) !default; // #777
+$gray-600: lighten($gray-base, 37.5%) !default; // #666
+$gray-650: lighten($gray-base, 33.3%) !default; // ##555555
+$gray-700: lighten($gray-base, 31.25%) !default; // #555
+$gray-800: lighten($gray-base, 25%) !default; // #444
+$gray-900: lighten($gray-base, 18.75%) !default; // #333
+
+$gray-custom-1: #41444e !default;
+$gray-custom-2: #3b4151 !default;
+
+$color-primary: #89bf04 !default;
+$color-secondary: #9012fe !default;
+$color-info: #4990e2 !default;
+$color-warning: #ff6060 !default;
+$color-danger: #f00 !default;
+
+$_color-post: #49cc90 !default;
+$_color-get: #61affe !default;
+$_color-put: #fca130 !default;
+$_color-delete: #f93e3e !default;
+$_color-head: #9012fe !default;
+$_color-patch: #50e3c2 !default;
+$_color-disabled: #ebebeb !default;
+$_color-options: #0d5aa7 !default;
+
+$color-green: #008000 !default;
+
+$color-primary-hover: #81b10c !default;
+
+// Authorize
+
+$auth-container-border-color: $gray-50 !default;
+
+// Buttons
+
+$btn-background-color: transparent !default;
+$btn-border-color: $gray-400 !default;
+$btn-font-color: inherit !default;
+$btn-box-shadow-color: $gray-base !default;
+
+$btn-authorize-background-color: transparent !default;
+$btn-authorize-border-color: $_color-post !default;
+$btn-authorize-font-color: $_color-post !default;
+$btn-authorize-svg-fill-color: $_color-post !default;
+
+$btn-cancel-background-color: transparent !default;
+$btn-cancel-border-color: $color-warning !default;
+$btn-cancel-font-color: $color-warning !default;
+
+$btn-execute-background-color: transparent !default;
+$btn-execute-border-color: $color-info !default;
+$btn-execute-font-color: $white !default;
+$btn-execute-background-color-alt: $color-info !default;
+
+$expand-methods-svg-fill-color: $gray-500 !default;
+$expand-methods-svg-fill-color-hover: $gray-800 !default;
+
+// Errors
+
+$errors-wrapper-background-color: $_color-delete !default;
+$errors-wrapper-border-color: $_color-delete !default;
+
+$errors-wrapper-errors-small-font-color: $gray-600 !default;
+
+// Form
+
+$form-select-background-color: #f7f7f7 !default;
+$form-select-border-color: $gray-custom-1 !default;
+$form-select-box-shadow-color: $gray-base !default;
+
+$form-input-border-color: #d9d9d9 !default;
+$form-input-background-color: $white !default;
+
+$form-textarea-background-color: $white !default;
+$form-textarea-focus-border-color: $_color-get !default;
+
+$form-textarea-curl-background-color: $gray-custom-1 !default;
+$form-textarea-curl-font-color: $white !default;
+
+$form-checkbox-label-font-color: $gray-900 !default;
+$form-checkbox-background-color: #e8e8e8 !default;
+$form-checkbox-box-shadow-color: #e8e8e8 !default;
+
+// Information
+
+$info-code-background-color: $gray-base !default;
+$info-code-font-color: $_color-head !default;
+
+$info-link-font-color: $color-info !default;
+$info-link-font-color-hover: $info-link-font-color !default;
+
+$info-title-small-background-color: #7d8492 !default;
+
+$info-title-small-pre-font-color: $white !default;
+
+// Layout
+
+$opblock-border-color: $gray-base !default;
+$opblock-box-shadow-color: $gray-base !default;
+
+$opblock-tag-border-bottom-color: $gray-custom-2 !default;
+$opblock-tag-background-color-hover: $gray-base !default;
+
+$opblock-tab-header-tab-item-active-h4-span-after-background-color: $gray-400 !default;
+
+$opblock-isopen-summary-border-bottom-color: $gray-base !default;
+
+$opblock-isopen-section-header-background-color: $white !default;
+$opblock-isopen-section-header-box-shadow-color: $gray-base !default;
+
+$opblock-summary-method-background-color: $gray-base !default;
+$opblock-summary-method-font-color: $white !default;
+$opblock-summary-method-text-shadow-color: $gray-base !default;
+
+$operational-filter-input-border-color: #d8dde7 !default;
+
+$tab-list-item-first-background-color: $gray-base !default;
+
+$response-col-status-undocumented-font-color: $gray-300 !default;
+
+$response-col-links-font-color: $gray-300 !default;
+
+$response-col-description-inner-markdown-font-color: $white !default;
+$response-col-description-inner-markdown-background-color: $gray-custom-1 !default;
+
+$response-col-description-inner-markdown-link-font-color: $color-primary !default;
+$response-col-description-inner-markdown-link-font-color-hover: $color-primary-hover !default;
+
+$opblock-body-background-color: $gray-custom-1 !default;
+$opblock-body-font-color: $white !default;
+
+$scheme-container-background-color: $white !default;
+$scheme-container-box-shadow-color: $gray-base !default;
+
+$server-container-background-color: $white !default;
+$server-container-box-shadow-color: $gray-base !default;
+
+$server-container-computed-url-code-font-color: $gray-400 !default;
+
+$loading-container-before-border-color: $gray-650 !default;
+$loading-container-before-border-top-color: $gray-base !default;
+
+$response-content-type-controls-accept-header-select-border-color: $color-green !default;
+$response-content-type-controls-accept-header-small-font-color: $color-green !default;
+
+// Modal
+
+$dialog-ux-backdrop-background-color: $gray-base !default;
+
+
+$dialog-ux-modal-background-color: $white !default;
+$dialog-ux-modal-border-color: $gray-50 !default;
+$dialog-ux-modal-box-shadow-color: $gray-base !default;
+
+$dialog-ux-modal-content-font-color: $gray-custom-1 !default;
+
+$dialog-ux-modal-header-border-bottom-color: $gray-50 !default;
+
+// Models
+
+$model-deprecated-font-color: $gray-200 !default;
+
+$model-hint-font-color: $gray-50 !default;
+$model-hint-background-color: $gray-base !default;
+
+$section-models-border-color: $gray-custom-2 !default;
+
+$section-models-isopen-h4-border-bottom-color: $section-models-border-color !default;
+
+$section-models-h4-font-color: $gray-600 !default;
+$section-models-h4-background-color-hover: $gray-base !default;
+
+$section-models-h5-font-color: $gray-500 !default;
+
+$section-models-model-container-background-color: $gray-base !default;
+
+$section-models-model-box-background-color: $gray-base !default;
+
+$section-models-model-title-font-color: $gray-700 !default;
+
+$prop-type-font-color: #55a !default;
+
+$prop-format-font-color: $gray-600 !default;
+
+// Tables
+
+$table-thead-td-border-bottom-color: $gray-custom-2 !default;
+
+$table-parameter-name-required-font-color: $color-danger !default;
+
+$table-parameter-in-font-color: $gray-400 !default;
+
+$table-parameter-deprecated-font-color: $color-danger !default;
+
+// Topbar
+
+$topbar-background-color: $color-primary !default;
+
+$topbar-link-font-color: $white !default;
+
+$topbar-download-url-wrapper-element-border-color: #547f00 !default;
+
+$topbar-download-url-button-background-color: #547f00 !default;
+$topbar-download-url-button-font-color: $white !default;
+
+// Type
+
+$text-body-default-font-color: $gray-custom-2 !default;
+$text-code-default-font-color: $gray-custom-2 !default;
+$text-headline-default-font-color: $gray-custom-2 !default;

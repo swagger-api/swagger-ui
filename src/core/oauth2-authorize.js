@@ -22,6 +22,16 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     case "implicit":
       query.push("response_type=token")
       break
+
+    case "clientCredentials":
+      // OAS3
+      authActions.authorizeApplication(auth)
+      return
+
+    case "authorizationCode":
+      // OAS3
+      query.push("response_type=code")
+      break
   }
 
   if (typeof clientId === "string") {
@@ -36,7 +46,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
       authId: name,
       source: "validation",
       level: "error",
-      message: "oauth2RedirectUri configuration is not passed. Oauth2 authorization cannot be performed."
+      message: "oauth2RedirectUrl configuration is not passed. Oauth2 authorization cannot be performed."
     })
     return
   }
@@ -64,15 +74,26 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     }
   }
 
-  let url = [schema.get("authorizationUrl"), query.join("&")].join("?")
+  let authorizationUrl = schema.get("authorizationUrl")
+  let url = [authorizationUrl, query.join("&")].join(authorizationUrl.indexOf("?") === -1 ? "?" : "&")
 
   // pass action authorizeOauth2 and authentication data through window
   // to authorize with oauth2
+
+  let callback
+  if (flow === "implicit") {
+    callback = authActions.preAuthorizeImplicit
+  } else if (authConfigs.useBasicAuthenticationWithAccessCodeGrant) {
+    callback = authActions.authorizeAccessCodeWithBasicAuthentication
+  } else {
+    callback = authActions.authorizeAccessCodeWithFormParams
+  }
+
   win.swaggerUIRedirectOauth2 = {
     auth: auth,
     state: state,
     redirectUrl: redirectUrl,
-    callback: flow === "implicit" ? authActions.preAuthorizeImplicit : authActions.authorizeAccessCode,
+    callback: callback,
     errCb: errActions.newAuthErr
   }
 

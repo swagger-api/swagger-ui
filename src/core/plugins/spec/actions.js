@@ -1,6 +1,8 @@
 import YAML from "js-yaml"
 import parseUrl from "url-parse"
 import serializeError from "serialize-error"
+import isString from "lodash/isString"
+import { isJSONObject } from "core/utils"
 
 // Actions conform to FSA (flux-standard-actions)
 // {type: string,payload: Any|Error, meta: obj, error: bool}
@@ -12,29 +14,24 @@ export const UPDATE_PARAM = "spec_update_param"
 export const VALIDATE_PARAMS = "spec_validate_param"
 export const SET_RESPONSE = "spec_set_response"
 export const SET_REQUEST = "spec_set_request"
+export const SET_MUTATED_REQUEST = "spec_set_mutated_request"
 export const LOG_REQUEST = "spec_log_request"
 export const CLEAR_RESPONSE = "spec_clear_response"
 export const CLEAR_REQUEST = "spec_clear_request"
-export const ClEAR_VALIDATE_PARAMS = "spec_clear_validate_param"
-export const UPDATE_OPERATION_VALUE = "spec_update_operation_value"
+export const CLEAR_VALIDATE_PARAMS = "spec_clear_validate_param"
+export const UPDATE_OPERATION_META_VALUE = "spec_update_operation_meta_value"
 export const UPDATE_RESOLVED = "spec_update_resolved"
 export const SET_SCHEME = "set_scheme"
 
-export function updateSpec(spec) {
-  if(spec instanceof Error) {
-    return {type: UPDATE_SPEC, error: true, payload: spec}
-  }
+const toStr = (str) => isString(str) ? str : ""
 
+export function updateSpec(spec) {
+  const cleanSpec = (toStr(spec)).replace(/\t/g, "  ")
   if(typeof spec === "string") {
     return {
       type: UPDATE_SPEC,
-      payload: spec.replace(/\t/g, "  ") || ""
+      payload: cleanSpec
     }
-  }
-
-  return {
-    type: UPDATE_SPEC,
-    payload: ""
   }
 }
 
@@ -50,9 +47,6 @@ export function updateUrl(url) {
 }
 
 export function updateJsonSpec(json) {
-  if(!json || typeof json !== "object") {
-    throw new Error("updateJson must only accept a simple JSON object")
-  }
   return {type: UPDATE_JSON, payload: json}
 }
 
@@ -74,11 +68,19 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
       line: e.mark && e.mark.line ? e.mark.line + 1 : undefined
     })
   }
-  return specActions.updateJsonSpec(json)
+  if(json && typeof json === "object") {
+    return specActions.updateJsonSpec(json)
+  }
+  return {}
 }
 
 export const resolveSpec = (json, url) => ({specActions, specSelectors, errActions, fn: { fetch, resolve, AST }, getConfigs}) => {
-  const { modelPropertyMacro, parameterMacro } = getConfigs()
+  const {
+    modelPropertyMacro,
+    parameterMacro,
+    requestInterceptor,
+    responseInterceptor
+  } = getConfigs()
 
   if(typeof(json) === "undefined") {
     json = specSelectors.specJson()
@@ -91,13 +93,19 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
 
   let specStr = specSelectors.specStr()
 
-  return resolve({fetch, spec: json, baseDoc: url, modelPropertyMacro, parameterMacro })
-    .then( ({spec, errors}) => {
+  return resolve({
+    fetch,
+    spec: json,
+    baseDoc: url,
+    modelPropertyMacro,
+    parameterMacro,
+    requestInterceptor,
+    responseInterceptor
+  }).then( ({spec, errors}) => {
       errActions.clear({
         type: "thrown"
       })
-
-      if(errors.length > 0) {
+      if(Array.isArray(errors) && errors.length > 0) {
         let preparedErrors = errors
           .map(err => {
             console.error(err)
@@ -116,49 +124,40 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
     })
 }
 
-export const formatIntoYaml = () => ({specActions, specSelectors}) => {
-  let { specStr } = specSelectors
-  let { updateSpec } = specActions
-
-  try {
-    let yaml = YAML.safeDump(YAML.safeLoad(specStr()), {indent: 2})
-    updateSpec(yaml)
-  } catch(e) {
-    updateSpec(e)
-  }
-}
-
-export function changeParam( path, paramName, value, isXml ){
+export function changeParam( path, paramName, paramIn, value, isXml ){
   return {
     type: UPDATE_PARAM,
-    payload:{ path, value, paramName, isXml }
+    payload:{ path, value, paramName, paramIn, isXml }
   }
 }
 
-export function validateParams( payload ){
+export const validateParams = ( payload, isOAS3 ) =>{
   return {
     type: VALIDATE_PARAMS,
-    payload:{ pathMethod: payload }
+    payload:{
+      pathMethod: payload,
+      isOAS3
+    }
   }
 }
 
 export function clearValidateParams( payload ){
   return {
-    type: ClEAR_VALIDATE_PARAMS,
+    type: CLEAR_VALIDATE_PARAMS,
     payload:{ pathMethod: payload }
   }
 }
 
 export function changeConsumesValue(path, value) {
   return {
-    type: UPDATE_OPERATION_VALUE,
+    type: UPDATE_OPERATION_META_VALUE,
     payload:{ path, value, key: "consumes_value" }
   }
 }
 
 export function changeProducesValue(path, value) {
   return {
-    type: UPDATE_OPERATION_VALUE,
+    type: UPDATE_OPERATION_META_VALUE,
     payload:{ path, value, key: "produces_value" }
   }
 }
@@ -177,6 +176,13 @@ export const setRequest = ( path, method, req ) => {
   }
 }
 
+export const setMutatedRequest = ( path, method, req ) => {
+  return {
+    payload: { path, method, req },
+    type: SET_MUTATED_REQUEST
+  }
+}
+
 // This is for debugging, remove this comment if you depend on this action
 export const logRequest = (req) => {
   return {
@@ -187,36 +193,75 @@ export const logRequest = (req) => {
 
 // Actually fire the request via fn.execute
 // (For debugging) and ease of testing
-export const executeRequest = (req) => ({fn, specActions, specSelectors}) => {
-  let { pathName, method, operation } = req
+export const executeRequest = (req) =>
+  ({fn, specActions, specSelectors, getConfigs, oas3Selectors}) => {
+    let { pathName, method, operation } = req
+    let { requestInterceptor, responseInterceptor } = getConfigs()
 
-  let op = operation.toJS()
+    let op = operation.toJS()
 
-  // if url is relative, parseUrl makes it absolute by inferring from `window.location`
-  req.contextUrl = parseUrl(specSelectors.url()).toString()
+    // if url is relative, parseUrl makes it absolute by inferring from `window.location`
+    req.contextUrl = parseUrl(specSelectors.url()).toString()
 
+    if(op && op.operationId) {
+      req.operationId = op.operationId
+    } else if(op && pathName && method) {
+      req.operationId = fn.opId(op, pathName, method)
+    }
 
-  if(op && op.operationId) {
-    req.operationId = op.operationId
-  } else if(op && pathName && method) {
-    req.operationId = fn.opId(op, pathName, method)
+    if(specSelectors.isOAS3()) {
+      const namespace = `${pathName}:${method}`
+
+      req.server = oas3Selectors.selectedServer(namespace) || oas3Selectors.selectedServer()
+
+      const namespaceVariables = oas3Selectors.serverVariables({
+        server: req.server,
+        namespace
+      }).toJS()
+      const globalVariables = oas3Selectors.serverVariables({ server: req.server }).toJS()
+
+      req.serverVariables = Object.keys(namespaceVariables).length ? namespaceVariables : globalVariables
+
+      req.requestContentType = oas3Selectors.requestContentType(pathName, method)
+      req.responseContentType = oas3Selectors.responseContentType(pathName, method) || "*/*"
+      const requestBody = oas3Selectors.requestBodyValue(pathName, method)
+
+      if(isJSONObject(requestBody)) {
+        req.requestBody = JSON.parse(requestBody)
+      } else {
+        req.requestBody = requestBody
+      }
+    }
+
+    let parsedRequest = Object.assign({}, req)
+    parsedRequest = fn.buildRequest(parsedRequest)
+
+    specActions.setRequest(req.pathName, req.method, parsedRequest)
+
+    let requestInterceptorWrapper = function(r) {
+      let mutatedRequest = requestInterceptor.apply(this, [r])
+      let parsedMutatedRequest = Object.assign({}, mutatedRequest)
+      specActions.setMutatedRequest(req.pathName, req.method, parsedMutatedRequest)
+      return mutatedRequest
+    }
+
+    req.requestInterceptor = requestInterceptorWrapper
+    req.responseInterceptor = responseInterceptor
+
+    // track duration of request
+    const startTime = Date.now()
+
+    return fn.execute(req)
+    .then( res => {
+      res.duration = Date.now() - startTime
+      specActions.setResponse(req.pathName, req.method, res)
+    } )
+    .catch(
+      err => specActions.setResponse(req.pathName, req.method, {
+        error: true, err: serializeError(err)
+      })
+    )
   }
-
-  let parsedRequest = Object.assign({}, req)
-  parsedRequest = fn.buildRequest(parsedRequest)
-
-  specActions.setRequest(req.pathName, req.method, parsedRequest)
-
-  // track duration of request
-  const startTime = Date.now()
-
-  return fn.execute(req)
-  .then( res => {
-    res.duration = Date.now() - startTime
-    specActions.setResponse(req.pathName, req.method, res)
-  } )
-  .catch( err => specActions.setResponse(req.pathName, req.method, { error: true, err: serializeError(err) } ) )
-}
 
 
 // I'm using extras as a way to inject properties into the final, `execute` method - It's not great. Anyone have a better idea? @ponelat

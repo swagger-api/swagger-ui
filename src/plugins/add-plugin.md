@@ -1,12 +1,12 @@
 # Add a plugin
 
-### Swagger-UX relies on plugins for all the good stuff.
+### Swagger-UI relies on plugins for all the good stuff.
 
 Plugins allow you to add
 - `statePlugins`
   - `selectors` - query the state
   - `reducers` - modify the state
-  - `actions` - fire and forget, that will eventually be handled by a reducer. You *can* rely on the result of async actions. But in general its not reccomended
+  - `actions` - fire and forget, that will eventually be handled by a reducer. You *can* rely on the result of async actions. But in general its not recommended
   - `wrapActions` - replace an action with a wrapped action (useful for hooking into existing `actions`)
 - `components` - React components
 - `fn` - commons functions
@@ -20,7 +20,7 @@ SwaggerUI({
 })
 ```
 
-Or if you're updating the core plugins.. you'll add it to [src/js/bootstrap-plugin](https://github.com/SmartBear/swagger-ux/blob/master/src/js/bootstrap-plugin.js)
+Or if you're updating the core plugins.. you'll add it to the base preset: [src/core/presets/base.js](https://github.com/swagger-api/swagger-ui/blob/master/src/core/presets/base.js)
 
 Each Plugin is a function that returns an object. That object will get merged with the `system` and later bound to the state.
 Here is an example of each `type`

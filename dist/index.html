@@ -11,15 +11,15 @@
   <style>
     html
     {
-        box-sizing: border-box;
-        overflow: -moz-scrollbars-vertical;
-        overflow-y: scroll;
+      box-sizing: border-box;
+      overflow: -moz-scrollbars-vertical;
+      overflow-y: scroll;
     }
     *,
     *:before,
     *:after
     {
-        box-sizing: inherit;
+      box-sizing: inherit;
     }
 
     body {
@@ -109,6 +109,7 @@ window.onload = function() {
   const ui = SwaggerUIBundle({
     url: "https://" + window.location.hostname + "/api_docs",
     dom_id: '#swagger-ui',
+    deepLinking: true,
     presets: [
       SwaggerUIBundle.presets.apis,
       SwaggerUIStandalonePreset

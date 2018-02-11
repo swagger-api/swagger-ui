@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import Im from "immutable"
 import PropTypes from "prop-types"
 
 export default class Models extends Component {
@@ -13,30 +14,36 @@ export default class Models extends Component {
   render(){
     let { specSelectors, getComponent, layoutSelectors, layoutActions, getConfigs } = this.props
     let definitions = specSelectors.definitions()
-    let { docExpansion } = getConfigs()
-    let showModels = layoutSelectors.isShown("models", docExpansion === "full" || docExpansion === "list" )
+    let { docExpansion, defaultModelsExpandDepth } = getConfigs()
+    if (!definitions.size || defaultModelsExpandDepth < 0) return null
+
+    let showModels = layoutSelectors.isShown("models", defaultModelsExpandDepth > 0 && docExpansion !== "none")
+    const specPathBase = specSelectors.isOAS3() ? ["components", "schemas"] : ["definitions"]
 
     const ModelWrapper = getComponent("ModelWrapper")
     const Collapse = getComponent("Collapse")
-
-    if (!definitions.size) return null
 
     return <section className={ showModels ? "models is-open" : "models"}>
       <h4 onClick={() => layoutActions.show("models", !showModels)}>
         <span>Models</span>
         <svg width="20" height="20">
-          <use xlinkHref="#large-arrow" />
+          <use xlinkHref={showModels ? "#large-arrow-down" : "#large-arrow"} />
         </svg>
       </h4>
-      <Collapse isOpened={showModels} animated>
+      <Collapse isOpened={showModels}>
         {
           definitions.entrySeq().map( ( [ name, model ])=>{
-            return <div className="model-container" key={ `models-section-${name}` }>
+
+            return <div id={ `model-${name}` } className="model-container" key={ `models-section-${name}` }>
               <ModelWrapper name={ name }
+                     expandDepth={ defaultModelsExpandDepth }
                      schema={ model }
-                     isRef={ true }
+                     specPath={Im.List([...specPathBase, name])}
                      getComponent={ getComponent }
-                     specSelectors={ specSelectors }/>
+                     specSelectors={ specSelectors }
+                     getConfigs = {getConfigs}
+                     layoutSelectors = {layoutSelectors}
+                     layoutActions = {layoutActions}/>
               </div>
           }).toArray()
         }

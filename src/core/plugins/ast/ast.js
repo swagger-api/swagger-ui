@@ -103,30 +103,30 @@ export function positionRangeForPath(yaml, path) {
 
   let ast = cachedCompose(yaml)
 
-  // simply walks the tree using current path recursively to the point that
+  // simply walks the tree using astValue path recursively to the point that
   // path is empty.
   return find(ast)
 
-  function find(current) {
-    if (current.tag === MAP_TAG) {
-      for (i = 0; i < current.value.length; i++) {
-        var pair = current.value[i]
+  function find(astValue, astKeyValue) {
+    if (astValue.tag === MAP_TAG) {
+      for (i = 0; i < astValue.value.length; i++) {
+        var pair = astValue.value[i]
         var key = pair[0]
         var value = pair[1]
 
         if (key.value === path[0]) {
           path.shift()
-          return find(value)
+          return find(value, key)
         }
       }
     }
 
-    if (current.tag === SEQ_TAG) {
-      var item = current.value[path[0]]
+    if (astValue.tag === SEQ_TAG) {
+      var item = astValue.value[path[0]]
 
       if (item && item.tag) {
         path.shift()
-        return find(item)
+        return find(item, astKeyValue)
       }
     }
 
@@ -135,17 +135,35 @@ export function positionRangeForPath(yaml, path) {
       return invalidRange
     }
 
-    return {
-      /* jshint camelcase: false */
+    const range = {
       start: {
-        line: current.start_mark.line,
-        column: current.start_mark.column
+        line: astValue.start_mark.line,
+        column: astValue.start_mark.column,
+        pointer: astValue.start_mark.pointer,
       },
       end: {
-        line: current.end_mark.line,
-        column: current.end_mark.column
+        line: astValue.end_mark.line,
+        column: astValue.end_mark.column,
+        pointer: astValue.end_mark.pointer,
       }
     }
+
+    if(astKeyValue) {
+      // eslint-disable-next-line camelcase
+      range.key_start = {
+        line: astKeyValue.start_mark.line,
+        column: astKeyValue.start_mark.column,
+        pointer: astKeyValue.start_mark.pointer,
+      }
+      // eslint-disable-next-line camelcase
+      range.key_end = {
+        line: astKeyValue.end_mark.line,
+        column: astKeyValue.end_mark.column,
+        pointer: astKeyValue.end_mark.pointer,
+      }
+    }
+
+    return range
   }
 }
 

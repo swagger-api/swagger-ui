@@ -1,11 +1,21 @@
 import React from "react"
 import PropTypes from "prop-types"
+import Im from "immutable"
+import { createDeepLinkPath, sanitizeUrl } from "core/utils"
+
+const SWAGGER2_OPERATION_METHODS = [
+  "get", "put", "post", "delete", "options", "head", "patch"
+]
+
+const OAS3_OPERATION_METHODS = SWAGGER2_OPERATION_METHODS.concat(["trace"])
+
 
 export default class Operations extends React.Component {
 
   static propTypes = {
     specSelectors: PropTypes.object.isRequired,
     specActions: PropTypes.object.isRequired,
+    oas3Actions: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
@@ -17,23 +27,26 @@ export default class Operations extends React.Component {
   render() {
     let {
       specSelectors,
-      specActions,
       getComponent,
       layoutSelectors,
       layoutActions,
-      authActions,
-      authSelectors,
-      getConfigs,
-      fn
+      getConfigs
     } = this.props
 
     let taggedOps = specSelectors.taggedOperations()
 
-    const Operation = getComponent("operation")
+    const OperationContainer = getComponent("OperationContainer", true)
     const Collapse = getComponent("Collapse")
+    const Markdown = getComponent("Markdown")
+    const DeepLink = getComponent("DeepLink")
 
-    let showSummary = layoutSelectors.showSummary()
-    let { docExpansion, displayOperationId, displayRequestDuration, maxDisplayedTags } = getConfigs()
+    let {
+      docExpansion,
+      maxDisplayedTags,
+      deepLinking
+    } = getConfigs()
+
+    const isDeepLinkingEnabled = deepLinking && deepLinking !== "false"
 
     let filter = layoutSelectors.currentFilter()
 
@@ -55,24 +68,49 @@ export default class Operations extends React.Component {
             taggedOps.map( (tagObj, tag) => {
               let operations = tagObj.get("operations")
               let tagDescription = tagObj.getIn(["tagDetails", "description"], null)
+              let tagExternalDocsDescription = tagObj.getIn(["tagDetails", "externalDocs", "description"])
+              let tagExternalDocsUrl = tagObj.getIn(["tagDetails", "externalDocs", "url"])
 
-              let isShownKey = ["operations-tag", tag]
+              let isShownKey = ["operations-tag", createDeepLinkPath(tag)]
               let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
 
               return (
                 <div className={showTag ? "opblock-tag-section is-open" : "opblock-tag-section"} key={"operation-" + tag}>
 
-                  <h4 onClick={() => layoutActions.show(isShownKey, !showTag)} className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag" }>
-                    <span>{tag}</span>
-                    { !tagDescription ? null :
+                  <h4
+                    onClick={() => layoutActions.show(isShownKey, !showTag)}
+                    className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag" }
+                    id={isShownKey.join("-")}>
+                    <DeepLink
+                        enabled={isDeepLinkingEnabled}
+                        isShown={showTag}
+                        path={tag}
+                        text={tag} />
+                    { !tagDescription ? <small></small> :
                         <small>
-                          { tagDescription }
+                          <Markdown source={tagDescription} />
                         </small>
                     }
 
-                    <button className="expand-operation" title="Expand operation" onClick={() => layoutActions.show(isShownKey, !showTag)}>
+                    <div>
+                    { !tagExternalDocsDescription ? null :
+                        <small>
+                          { tagExternalDocsDescription }
+                          { tagExternalDocsUrl ? ": " : null }
+                          { tagExternalDocsUrl ?
+                            <a
+                              href={sanitizeUrl(tagExternalDocsUrl)}
+                              onClick={(e) => e.stopPropagation()}
+                              target={"_blank"}
+                            >{tagExternalDocsUrl}</a> : null
+                          }
+                        </small>
+                    }
+                    </div>
+
+                    <button className="expand-operation" title={showTag ? "Collapse operation": "Expand operation"} onClick={() => layoutActions.show(isShownKey, !showTag)}>
                       <svg className="arrow" width="20" height="20">
-                        <use xlinkHref={showTag ? "#large-arrow-down" : "#large-arrow"} />
+                        <use href={showTag ? "#large-arrow-down" : "#large-arrow"} xlinkHref={showTag ? "#large-arrow-down" : "#large-arrow"} />
                       </svg>
                     </button>
                   </h4>
@@ -80,42 +118,30 @@ export default class Operations extends React.Component {
                   <Collapse isOpened={showTag}>
                     {
                       operations.map( op => {
+                        const path = op.get("path")
+                        const method = op.get("method")
+                        const specPath = Im.List(["paths", path, method])
 
-                        const isShownKey = ["operations", op.get("id"), tag]
-                        const path = op.get("path", "")
-                        const method = op.get("method", "")
-                        const jumpToKey = `paths.${path}.${method}`
 
-                        const allowTryItOut = specSelectors.allowTryItOutFor(op.get("path"), op.get("method"))
-                        const response = specSelectors.responseFor(op.get("path"), op.get("method"))
-                        const request = specSelectors.requestFor(op.get("path"), op.get("method"))
+                        // FIXME: (someday) this logic should probably be in a selector,
+                        // but doing so would require further opening up
+                        // selectors to the plugin system, to allow for dynamic
+                        // overriding of low-level selectors that other selectors
+                        // rely on. --KS, 12/17
+                        const validMethods = specSelectors.isOAS3() ?
+                          OAS3_OPERATION_METHODS : SWAGGER2_OPERATION_METHODS
 
-                        return <Operation
-                          {...op.toObject()}
+                        if(validMethods.indexOf(method) === -1) {
+                          return null
+                        }
 
-                          isShownKey={isShownKey}
-                          jumpToKey={jumpToKey}
-                          showSummary={showSummary}
-                          key={isShownKey}
-                          response={ response }
-                          request={ request }
-                          allowTryItOut={allowTryItOut}
-
-                          displayOperationId={displayOperationId}
-                          displayRequestDuration={displayRequestDuration}
-
-                          specActions={ specActions }
-                          specSelectors={ specSelectors }
-
-                          layoutActions={ layoutActions }
-                          layoutSelectors={ layoutSelectors }
-
-                          authActions={ authActions }
-                          authSelectors={ authSelectors }
-
-                          getComponent={ getComponent }
-                          fn={fn}
-                          getConfigs={ getConfigs }
+                        return <OperationContainer
+                          key={`${path}-${method}`}
+                          specPath={specPath}
+                          op={op}
+                          path={path}
+                          method={method}
+                          tag={tag}
                         />
                       }).toArray()
                     }
