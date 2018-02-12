@@ -76,10 +76,11 @@ export default class Operation extends PureComponent {
   }
 
   componentDidMount() {
+    //Prepare to make deeplinks in the operation component by getting its root element
     const { isShownKey } = this.props
     const root = document.getElementById(isShownKey.join("-"))
     this.setState({opRootNode: root})
-}
+  }
 
   toggleShown =() => {
     let { layoutActions, isShownKey } = this.props
