@@ -45,7 +45,7 @@ export default class StandaloneLayout extends React.Component {
           <div className="info">
             <div className="loading-container">
               <h4 className="title">Oops, we need you to login first.</h4>
-              <p>Head over here to login: <a href="{hostname}">{hostname}</a></p>
+              <p>Head over here to login: <a href={hostname}>{hostname}</a></p>
             </div>
           </div>
         }
