@@ -81,9 +81,9 @@ export default class Operation extends PureComponent {
       deprecated,
       externalDocs,
       schemes
-    } = op.operation
+    } = op
 
-    let operation = operationProps.getIn(["op", "operation"])
+    let operation = operationProps.getIn(["op"])
     let security = operationProps.get("security")
     let responses = operation.get("responses")
     let produces = operation.get("produces")

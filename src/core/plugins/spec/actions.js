@@ -84,6 +84,8 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
     hasWarnedAboutResolveSpecDeprecation = true
   }
 
+  return
+
   const {
     modelPropertyMacro,
     parameterMacro,
@@ -148,6 +150,13 @@ export const requestResolvedSubtree = path => system => {
 
   if(!resolveSubtree) {
     console.error("Error: Swagger-Client did not provide a `resolveSubtree` method, doing nothing.")
+    return
+  }
+
+  const currentValue = specSelectors.specResolvedSubtree(path)
+
+  if(currentValue) {
+    console.log(`DEV DEBUG: subtree already exists; not resolving again`)
     return
   }
 

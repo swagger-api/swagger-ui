@@ -2,7 +2,7 @@ import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { helpers } from "swagger-client"
-import { Iterable, fromJS } from "immutable"
+import { Iterable, fromJS, Map } from "immutable"
 
 const { opId } = helpers
 
@@ -88,7 +88,11 @@ export default class OperationContainer extends PureComponent {
   }
 
   toggleShown =() => {
-    let { layoutActions, tag, operationId, isShown } = this.props
+    let { layoutActions, specActions, tag, operationId, path, method, isShown } = this.props
+    if(!isShown) {
+      // transitioning from collapsed to expanded
+      specActions.requestResolvedSubtree(["paths", path, method])
+    }
     layoutActions.show(["operations", tag, operationId], !isShown)
   }
 
@@ -108,7 +112,6 @@ export default class OperationContainer extends PureComponent {
 
   render() {
     let {
-      op,
       tag,
       path,
       method,
@@ -141,7 +144,7 @@ export default class OperationContainer extends PureComponent {
     const Operation = getComponent( "operation" )
 
     const operationProps = fromJS({
-      op,
+      op: specSelectors.specResolvedSubtree(["paths", path, method]) || Map(),
       tag,
       path,
       method,
