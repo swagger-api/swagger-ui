@@ -29,7 +29,7 @@ export default class StandaloneLayout extends React.Component {
     const loadingStatus = specSelectors.loadingStatus()
     const lastErr = errSelectors.lastError()
     const lastErrMsg = lastErr ? lastErr.get("message") : ""
-
+    const hostname = "https://" + window.location.hostname
     return (
 
       <Container className='swagger-ui'>
@@ -44,9 +44,9 @@ export default class StandaloneLayout extends React.Component {
         { loadingStatus === "failed" &&
           <div className="info">
             <div className="loading-container">
-              <h4 className="title">Failed to load API definition.</h4>
-              <p>{lastErrMsg}</p>
-            </div>            
+              <h4 className="title">Oops, we need you to login first.</h4>
+              <p>Head over here to login: <a href="{hostname}">{hostname}</a></p>
+            </div>
           </div>
         }
         { loadingStatus === "failedConfig" &&
