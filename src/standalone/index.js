@@ -5,7 +5,8 @@ import ConfigsPlugin from "corePlugins/configs"
 // the Standalone preset
 
 let preset = [
-  TopbarPlugin,
+  //Remove topbar from view
+  //TopbarPlugin,
   ConfigsPlugin,
   () => {
     return {
