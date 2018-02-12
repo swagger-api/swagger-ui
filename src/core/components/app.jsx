@@ -1,6 +1,9 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { makeDeeplinks } from "../plugins/deep-linking/helpers.js"
+import focus from "../plugins/deep-linking/focus.js"
+
+
 
 export default class App extends React.Component {
 
@@ -12,10 +15,11 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    document.body.addEventListener("deeplink", function(event) {
-      const fragment = event.target.getAttribute("href")
-      console.log(fragment)
-    })
+    makeDeeplinks(document.body)
+    //Focus on a deeplink's target whenever a deeplink is clicked
+    document.body.addEventListener("deeplinkClick", function() {
+      focus(this.props.layoutActions, this.props.getConfigs)
+    }.bind(this))
   }
 
   render() {
