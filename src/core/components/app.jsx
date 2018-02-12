@@ -34,6 +34,8 @@ export default class App extends React.Component {
 App.propTypes = {
   getComponent: PropTypes.func.isRequired,
   layoutSelectors: PropTypes.object.isRequired,
+  layoutActions: PropTypes.object.isRequired,
+  getConfigs: PropTypes.func.isRequired
 }
 
 App.defaultProps = {
