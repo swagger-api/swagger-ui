@@ -30,9 +30,11 @@ replace_or_delete_in_index () {
   fi
 }
 
-if [ "${BASE_URL}" ]; then
-  sed -i "s|location .* {|location $BASE_URL {|g" /etc/nginx/nginx.conf
-fi
+# This seems to execute if BASE_URL = "", which is annoying
+# It also breaks our setup /pnr
+#if [ "${BASE_URL}" ]; then
+#  sed -i "s|location .* {|location $BASE_URL {|g" /etc/nginx/nginx.conf
+#fi
 
 replace_in_index myApiKeyXXXX123456789 $API_KEY
 replace_in_index_not_none "https://\" + window.location.hostname + \"/api_docs" $API_URL
