@@ -36,7 +36,7 @@ export default class Models extends Component {
 
             return <div id={ `model-${name}` } className="model-container" key={ `models-section-${name}` }>
               <ModelWrapper name={ name }
-                     expandDepth={ defaultModelsExpandDepth }
+                     expandDepth={ defaultModelsExpandDepth - 1 }
                      schema={ model }
                      specPath={Im.List([...specPathBase, name])}
                      getComponent={ getComponent }
