@@ -1,4 +1,4 @@
-export const setHash = (value) => {
+const setHash = (value) => {
   if(value) {
     return history.pushState(null, null, `#${value}`)
   } else {
@@ -33,7 +33,7 @@ const makeDeeplinks = (rootNode) => {
     })
   }
   //Wait for the tree to be full created before making deeplinks
-  setTimeout(callback, 2000)
+  setTimeout(callback, 1000)
 }
 
 
