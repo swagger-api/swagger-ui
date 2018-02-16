@@ -22,13 +22,16 @@ export default class Models extends Component {
   }
 
   handleToggle = (name, isExpanded) => {
+    const { layoutActions } = this.props
     console.log(`handleToggle`, name, isExpanded)
+    layoutActions.show(["models", name], isExpanded)
     if(isExpanded) {
       this.props.specActions.requestResolvedSubtree([...this.getSchemaBasePath(), name])
     }
   }
 
   render(){
+    console.log(`rendering Models`)
     let { specSelectors, getComponent, layoutSelectors, layoutActions, getConfigs } = this.props
     let definitions = specSelectors.definitions()
     let { docExpansion, defaultModelsExpandDepth } = getConfigs()
@@ -52,9 +55,17 @@ export default class Models extends Component {
         {
           definitions.entrySeq().map( ( [ name ])=>{
 
+            const schema = specSelectors.specResolvedSubtree([...specPathBase, name])
+
+            if(layoutSelectors.isShown(["models", name], false) && schema === undefined) {
+              // Firing an action in a container render is not great,
+              // but it works for now.
+              this.props.specActions.requestResolvedSubtree([...this.getSchemaBasePath(), name])
+            }
+
             const content = <ModelWrapper name={ name }
               expandDepth={ defaultModelsExpandDepth }
-              schema={ specSelectors.specResolvedSubtree([...specPathBase, name]) }
+              schema={ schema }
               specPath={Im.List([...specPathBase, name])}
               getComponent={ getComponent }
               specSelectors={ specSelectors }

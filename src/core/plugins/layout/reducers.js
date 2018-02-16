@@ -13,6 +13,7 @@ export default {
   [UPDATE_FILTER]: (state, action) => state.set("filter", action.payload),
 
   [SHOW]: (state, action) => {
+    console.log(`i said hey what's up hello`)
     const isShown = action.payload.shown
     // This is one way to serialize an array, another (preferred) is to convert to json-pointer
     // TODO: use json-pointer serilization instead of fromJS(...), for performance

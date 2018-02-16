@@ -4,7 +4,8 @@ import {
   NEW_SPEC_ERR,
   NEW_SPEC_ERR_BATCH,
   NEW_AUTH_ERR,
-  CLEAR
+  CLEAR,
+  CLEAR_BY,
 } from "./actions"
 
 import reject from "lodash/reject"
@@ -69,7 +70,31 @@ export default function(system) {
         return
       }
       // TODO: Rework, to use immutable only, no need for lodash
-      let newErrors = Im.fromJS(reject((state.get("errors") || List()).toJS(), payload))
+      // let newErrors = Im.fromJS(reject((state.get("errors") || List()).toJS(), payload))
+      let newErrors = state.get("errors")
+        .filter(err => {
+          return err.keySeq().every(k => {
+            const errValue = err.get(k)
+            const filterValue = payload[k]
+
+            if(!filterValue) return true
+
+            return errValue !== filterValue
+          })
+        })
+      return state.merge({
+        errors: newErrors
+      })
+    },
+
+    [CLEAR_BY]: (state, { payload }) => {
+      if(!payload || typeof payload !== "function") {
+        return
+      }
+      let newErrors = state.get("errors")
+        .filter(err => {
+          return payload(err)
+        })
       return state.merge({
         errors: newErrors
       })

@@ -43,16 +43,12 @@ export default class ModelCollapse extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-
-    if(this.props.expanded!= nextProps.expanded){
+    if(this.props.expanded !== nextProps.expanded){
         this.setState({expanded: nextProps.expanded})
     }
-
   }
 
   toggleCollapsed=()=>{
-
-
     if(this.props.onToggle){
       this.props.onToggle(this.props.modelName,!this.state.expanded)
     }
@@ -65,11 +61,14 @@ export default class ModelCollapse extends Component {
   render () {
     const { title, classes } = this.props
 
-    if(this.state.expanded && this.props.hideSelfOnExpand) {
-      return <span className={classes || ""}>
-        {this.props.children}
-      </span>
+    if(this.state.expanded ) {
+      if(this.props.hideSelfOnExpand) {
+        return <span className={classes || ""}>
+          {this.props.children}
+        </span>
+      }
     }
+
     return (
       <span className={classes || ""}>
         { title && <span onClick={this.toggleCollapsed} style={{ "cursor": "pointer" }}>{title}</span> }
