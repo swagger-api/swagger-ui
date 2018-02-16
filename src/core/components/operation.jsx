@@ -9,6 +9,7 @@ export default class Operation extends PureComponent {
   static propTypes = {
     specPath: ImPropTypes.list.isRequired,
     operation: PropTypes.instanceOf(Iterable).isRequired,
+    summary: PropTypes.string,
     response: PropTypes.instanceOf(Iterable),
     request: PropTypes.instanceOf(Iterable),
 
@@ -34,7 +35,8 @@ export default class Operation extends PureComponent {
     operation: null,
     response: null,
     request: null,
-    specPath: List()
+    specPath: List(),
+    summary: ""
   }
 
   render() {
@@ -59,6 +61,7 @@ export default class Operation extends PureComponent {
     let operationProps = this.props.operation
 
     let {
+      summary,
       isShown,
       isAuthorized,
       path,
@@ -76,7 +79,7 @@ export default class Operation extends PureComponent {
     } = operationProps.toJS()
 
     let {
-      summary,
+      summary: resolvedSummary,
       description,
       deprecated,
       externalDocs,
@@ -132,7 +135,7 @@ export default class Operation extends PureComponent {
 
             { !showSummary ? null :
                 <div className="opblock-summary-description">
-                  { summary }
+                  { resolvedSummary || summary }
                 </div>
             }
 

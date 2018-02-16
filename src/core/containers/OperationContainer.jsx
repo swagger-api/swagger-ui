@@ -112,6 +112,7 @@ export default class OperationContainer extends PureComponent {
 
   render() {
     let {
+      op: unresolvedOp,
       tag,
       path,
       method,
@@ -155,6 +156,7 @@ export default class OperationContainer extends PureComponent {
       op: resolvedSubtree || Map(),
       tag,
       path,
+      summary: unresolvedOp.getIn(["operation", "summary"]) || "",
       method,
       security,
       isAuthorized,
