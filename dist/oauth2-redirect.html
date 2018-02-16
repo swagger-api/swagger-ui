@@ -45,11 +45,18 @@
                 oauth2.auth.code = qp.code;
                 oauth2.callback({auth: oauth2.auth, redirectUrl: redirectUrl});
             } else {
+                let oauthErrorMsg
+                if (qp.error) {
+                    oauthErrorMsg = "["+qp.error+"]: " +
+                        (qp.error_description ? qp.error_description+ ". " : "no accessCode received from the server. ") +
+                        (qp.error_uri ? "More info: "+qp.error_uri : "");
+                }
+
                 oauth2.errCb({
                     authId: oauth2.auth.name,
                     source: "auth",
                     level: "error",
-                    message: "Authorization failed: no accessCode received from the server"
+                    message: oauthErrorMsg || "[Authorization failed]: no accessCode received from the server"
                 });
             }
         } else {
