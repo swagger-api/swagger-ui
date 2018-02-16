@@ -24,7 +24,8 @@ describe("<Models/>", function(){
           def1: {},
           def2: {}
         })
-      }
+      },
+      specResolvedSubtree: () => {}
     },
     layoutSelectors: {
       isShown: createSpy()
