@@ -311,6 +311,8 @@ export const executeRequest = (req) =>
       }
     }
 
+    console.log(req)
+
     let parsedRequest = Object.assign({}, req)
     parsedRequest = fn.buildRequest(parsedRequest)
 
@@ -329,6 +331,7 @@ export const executeRequest = (req) =>
     // track duration of request
     const startTime = Date.now()
 
+
     return fn.execute(req)
     .then( res => {
       res.duration = Date.now() - startTime
@@ -344,14 +347,24 @@ export const executeRequest = (req) =>
 
 // I'm using extras as a way to inject properties into the final, `execute` method - It's not great. Anyone have a better idea? @ponelat
 export const execute = ( { path, method, ...extras }={} ) => (system) => {
+  debugger
   let { fn:{fetch}, specSelectors, specActions } = system
-  let spec = specSelectors.spec().toJS()
+  let spec = specSelectors.specJsonWithResolvedSubtrees().toJS()
   let scheme = specSelectors.operationScheme(path, method)
   let { requestContentType, responseContentType } = specSelectors.contentTypeValues([path, method]).toJS()
   let isXml = /xml/i.test(requestContentType)
   let parameters = specSelectors.parameterValues([path, method], isXml).toJS()
 
-  return specActions.executeRequest({fetch, spec, pathName: path, method, parameters, requestContentType, scheme, responseContentType, ...extras })
+  return specActions.executeRequest({
+    ...extras,
+    fetch,
+    spec,
+    pathName: path,
+    method, parameters,
+    requestContentType,
+    scheme,
+    responseContentType
+  })
 }
 
 export function clearResponse (path, method) {

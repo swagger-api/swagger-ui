@@ -66,8 +66,8 @@ export default function(system) {
     },
 
     [CLEAR]: (state, { payload }) => {
-      if(!payload) {
-        return
+      if(!payload || !state.get("errors")) {
+        return state
       }
       // TODO: Rework, to use immutable only, no need for lodash
       // let newErrors = Im.fromJS(reject((state.get("errors") || List()).toJS(), payload))
@@ -89,7 +89,7 @@ export default function(system) {
 
     [CLEAR_BY]: (state, { payload }) => {
       if(!payload || typeof payload !== "function") {
-        return
+        return state
       }
       let newErrors = state.get("errors")
         .filter(err => {

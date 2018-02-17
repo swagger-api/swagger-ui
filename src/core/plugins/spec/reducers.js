@@ -50,7 +50,7 @@ export default {
   [UPDATE_PARAM]: ( state, {payload} ) => {
     let { path, paramName, paramIn, value, isXml } = payload
 
-    return state.updateIn( [ "resolved", "paths", ...path, "parameters" ], fromJS([]), parameters => {
+    return state.updateIn( [ "parameterValues", ...path, "parameters" ], fromJS([]), parameters => {
       const index = parameters.findIndex(p => p.get( "name" ) === paramName && p.get("in") === paramIn )
       if (!(value instanceof win.File)) {
         value = fromJSOrdered( value )
@@ -63,7 +63,7 @@ export default {
     let meta = state.getIn( [ "meta", "paths", ...pathMethod ], fromJS({}) )
     let isXml = /xml/i.test(meta.get("consumes_value"))
 
-    return state.updateIn( [ "resolved", "paths", ...pathMethod, "parameters" ], fromJS([]), parameters => {
+    return state.updateIn( [ "parameterValues", ...pathMethod, "parameters" ], fromJS([]), parameters => {
       return parameters.withMutations( parameters => {
         for ( let i = 0, len = parameters.count(); i < len; i++ ) {
           let errors = validateParam(parameters.get(i), isXml, isOAS3)
@@ -73,7 +73,7 @@ export default {
     })
   },
   [CLEAR_VALIDATE_PARAMS]: ( state, { payload:  { pathMethod } } ) => {
-    return state.updateIn( [ "resolved", "paths", ...pathMethod, "parameters" ], fromJS([]), parameters => {
+    return state.updateIn( [ "parameterValues", ...pathMethod, "parameters" ], fromJS([]), parameters => {
       return parameters.withMutations( parameters => {
         for ( let i = 0, len = parameters.count(); i < len; i++ ) {
           parameters.setIn([i, "errors"], fromJS([]))
@@ -117,7 +117,7 @@ export default {
 
   [UPDATE_OPERATION_META_VALUE]: (state, { payload: { path, value, key } }) => {
     // path is a pathMethod tuple... can't change the name now.
-    let operationPath = ["resolved", "paths", ...path]
+    let operationPath = ["json", "paths", ...path]
     let metaPath = ["meta", "paths", ...path]
 
     if(!state.getIn(operationPath)) {

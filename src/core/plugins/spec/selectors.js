@@ -46,6 +46,11 @@ export const specResolvedSubtree = (state, path) => {
   return state.getIn(["resolvedSubtrees", ...path], undefined)
 }
 
+export const specJsonWithResolvedSubtrees = createSelector(
+  state,
+  spec => Map().merge(spec.get("json"), spec.get("resolvedSubtrees"))
+)
+
 // Default Spec ( as an object )
 export const spec = state => {
   let res = specJson(state)
@@ -141,7 +146,10 @@ export const securityDefinitions = createSelector(
 
 
 export const findDefinition = ( state, name ) => {
-  return specResolved(state).getIn(["definitions", name], null)
+  // TODO: migrate
+  const resolvedRes = state.getIn(["resolvedSubtrees", "definitions", name], null)
+  const unresolvedRes = state.getIn(["json", "definitions", name], null)
+  return resolvedRes || unresolvedRes || null
 }
 
 export const definitions = createSelector(
@@ -267,8 +275,9 @@ export const allowTryItOutFor = () => {
 
 // Get the parameter value by parameter name
 export function getParameter(state, pathMethod, name, inType) {
+  // TODO: migrate
   pathMethod = pathMethod || []
-  let params = spec(state).getIn(["paths", ...pathMethod, "parameters"], fromJS([]))
+  let params = specJsonWithResolvedSubtrees(state).getIn(["paths", ...pathMethod, "parameters"], fromJS([]))
   return params.find( (p) => {
     return Map.isMap(p) && p.get("name") === name && p.get("in") === inType
   }) || Map() // Always return a map
@@ -284,8 +293,9 @@ export const hasHost = createSelector(
 
 // Get the parameter values, that the user filled out
 export function parameterValues(state, pathMethod, isXml) {
+  // TODO: migrate
   pathMethod = pathMethod || []
-  let params = spec(state).getIn(["paths", ...pathMethod, "parameters"], fromJS([]))
+  let params = specJsonWithResolvedSubtrees(state).getIn(["paths", ...pathMethod, "parameters"], fromJS([]))
   return params.reduce( (hash, p) => {
     let value = isXml && p.get("in") === "body" ? p.get("value_xml") : p.get("value")
     return hash.set(`${p.get("in")}.${p.get("name")}`, value)
