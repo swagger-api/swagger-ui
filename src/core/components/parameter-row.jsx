@@ -106,7 +106,7 @@ export default class ParameterRow extends Component {
     let itemType = param.getIn(isOAS3 && isOAS3() ? ["schema", "items", "type"] : ["items", "type"])
     let parameter = specSelectors.getParameter(pathMethod, param.get("name"), param.get("in"))
     let value = parameter ? parameter.get("value") : ""
-    let extensions = getExtensions(param)
+    let extensions = getExtensions(param, true)
 
 
     let paramItems // undefined
