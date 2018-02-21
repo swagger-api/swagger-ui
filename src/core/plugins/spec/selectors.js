@@ -273,11 +273,41 @@ export const allowTryItOutFor = () => {
   return true
 }
 
+export const operationWithMeta = (state, path, method) => {
+  const op = specJsonWithResolvedSubtrees(state).getIn(["paths", path, method], Map())
+  const meta = state.getIn(["meta", "paths", path, method], Map())
+
+  const mergedParams = op.get("parameters", List()).map((param) => {
+    return Map().merge(
+      param,
+      meta.getIn(["parameters", `${param.get("name")}.${param.get("in")}`])
+    )
+  })
+
+  return Map()
+    .merge(op, meta)
+    .set("parameters", mergedParams)
+}
+
+export const parameterWithMeta = (state, pathMethod, paramName, paramIn) => {
+  const opParams = specJsonWithResolvedSubtrees(state).getIn(["paths", ...pathMethod, "parameters"], Map())
+  const metaParams = state.getIn(["meta", "paths", ...pathMethod, "parameters"], Map())
+
+  const mergedParams = opParams.map((param) => {
+    return Map().merge(
+      param,
+      metaParams.get(`${param.get("name")}.${param.get("in")}`)
+    )
+  })
+
+  return mergedParams.find(param => param.get("in") === paramIn && param.get("name") === paramName, Map())
+}
+
 // Get the parameter value by parameter name
 export function getParameter(state, pathMethod, name, inType) {
   // TODO: migrate
   pathMethod = pathMethod || []
-  let params = specJsonWithResolvedSubtrees(state).getIn(["paths", ...pathMethod, "parameters"], fromJS([]))
+  let params = state.getIn(["meta", "paths", ...pathMethod, "parameters"], fromJS([]))
   return params.find( (p) => {
     return Map.isMap(p) && p.get("name") === name && p.get("in") === inType
   }) || Map() // Always return a map
@@ -293,10 +323,11 @@ export const hasHost = createSelector(
 
 // Get the parameter values, that the user filled out
 export function parameterValues(state, pathMethod, isXml) {
-  // TODO: migrate
   pathMethod = pathMethod || []
-  let params = specJsonWithResolvedSubtrees(state).getIn(["paths", ...pathMethod, "parameters"], fromJS([]))
-  return params.reduce( (hash, p) => {
+  // let paramValues = state.getIn(["meta", "paths", ...pathMethod, "parameters"], fromJS([]))
+  let paramValues = operationWithMeta(state, ...pathMethod).get("parameters", List())
+  console.log("paramValues", paramValues.toJS())
+  return paramValues.reduce( (hash, p) => {
     let value = isXml && p.get("in") === "body" ? p.get("value_xml") : p.get("value")
     return hash.set(`${p.get("in")}.${p.get("name")}`, value)
   }, fromJS({}))
@@ -319,7 +350,7 @@ export function parametersIncludeType(parameters, typeValue="") {
 // Get the consumes/produces value that the user selected
 export function contentTypeValues(state, pathMethod) {
   pathMethod = pathMethod || []
-  let op = spec(state).getIn(["paths", ...pathMethod], fromJS({}))
+  let op = specJsonWithResolvedSubtrees(state).getIn(["paths", ...pathMethod], fromJS({}))
   let meta = state.getIn(["meta", "paths", ...pathMethod], fromJS({}))
   let producesValue = currentProducesFor(state, pathMethod)
 
@@ -341,14 +372,14 @@ export function contentTypeValues(state, pathMethod) {
 // Get the consumes/produces by path
 export function operationConsumes(state, pathMethod) {
   pathMethod = pathMethod || []
-  return spec(state).getIn(["paths", ...pathMethod, "consumes"], fromJS({}))
+  return state.getIn(["meta", ...pathMethod, "consumes"], fromJS({}))
 }
 
 // Get the currently selected produces value for an operation
 export function currentProducesFor(state, pathMethod) {
   pathMethod = pathMethod || []
 
-  const operation = spec(state).getIn(["paths", ...pathMethod], null)
+  const operation = specJsonWithResolvedSubtrees(state).getIn(["meta", "paths", ...pathMethod], null)
 
   if(operation === null) {
     // return nothing if the operation does not exist
@@ -376,10 +407,12 @@ export const canExecuteScheme = ( state, path, method ) => {
 
 export const validateBeforeExecute = ( state, pathMethod ) => {
   pathMethod = pathMethod || []
-  let params = spec(state).getIn(["paths", ...pathMethod, "parameters"], fromJS([]))
+  let paramValues = state.getIn(["meta", "paths", ...pathMethod, "parameters"], fromJS([]))
   let isValid = true
 
-  params.forEach( (p) => {
+  debugger
+
+  paramValues.forEach( (p) => {
     let errors = p.get("errors")
     if ( errors && errors.count() ) {
       isValid = false
