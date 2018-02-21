@@ -61,15 +61,6 @@ export default {
       ["meta", "paths", ...pathMethod, "parameters", `${paramName}.${paramIn}`, valueKey],
       value
     )
-
-    // TODO: delete
-    // return state.updateIn( [ "meta", "paths", ...pathMethod, "parameters" ], fromJS([]), parameters => {
-    //   const index = parameters.findIndex(p => p.get( "name" ) === paramName && p.get("in") === paramIn )
-    //   if (!(value instanceof win.File)) {
-    //     value = fromJSOrdered( value )
-    //   }
-    //   return parameters.setIn( [ index, isXml ? "value_xml" : "value" ], value)
-    // })
   },
 
   [VALIDATE_PARAMS]: ( state, { payload: { pathMethod, isOAS3 } } ) => {
@@ -86,16 +77,6 @@ export default {
         return res.setIn([`${param.get("name")}.${param.get("in")}`, "errors"], fromJS(errors))
       }, paramMeta)
     })
-
-    // return state.updateIn( [ "meta", "paths", ...pathMethod, "parameters" ], fromJS([]), parameters => {
-    //   return parameters.withMutations( parameters => {
-    //     for ( let i = 0, len = parameters.count(); i < len; i++ ) {
-    //       console.log("validateParams", parameters.get(i).toJS(), isXml, isOAS3)
-    //       let errors = validateParam(parameters.get(i), isXml, isOAS3)
-    //       parameters.setIn([i, "errors"], fromJS(errors))
-    //     }
-    //   })
-    // })
   },
   [CLEAR_VALIDATE_PARAMS]: ( state, { payload:  { pathMethod } } ) => {
     return state.updateIn( [ "meta", "paths", ...pathMethod, "parameters" ], fromJS([]), parameters => {
