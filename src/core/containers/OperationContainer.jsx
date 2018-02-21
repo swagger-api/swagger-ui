@@ -82,8 +82,15 @@ export default class OperationContainer extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.response !== this.props.response) {
+    const { path, method, specActions, specSelectors, response, isShown } = nextProps
+    const resolvedSubtree = specSelectors.specResolvedSubtree(["paths", path, method])
+
+    if(response !== this.props.response) {
       this.setState({ executeInProgress: false })
+    }
+
+    if(isShown && resolvedSubtree === undefined) {
+      specActions.requestResolvedSubtree(["paths", path, method])
     }
   }
 
@@ -147,10 +154,6 @@ export default class OperationContainer extends PureComponent {
     const resolvedSubtree = specSelectors.specResolvedSubtree(["paths", path, method]) || Map()
 
     console.log(`OperationContainer for ${path} ${method}`, isShown, resolvedSubtree && resolvedSubtree.toJS ? resolvedSubtree.toJS() : resolvedSubtree)
-
-    if(isShown && resolvedSubtree === undefined) {
-      specActions.requestResolvedSubtree(["paths", path, method])
-    }
 
     const operationProps = fromJS({
       op: resolvedSubtree || Map(),
