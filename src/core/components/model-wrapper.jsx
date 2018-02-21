@@ -25,7 +25,6 @@ export default class ModelWrapper extends Component {
   }
 
   render(){
-    console.log(`rendering ModelWrapper`)
     let { getComponent, getConfigs } = this.props
     const Model = getComponent("Model")
 

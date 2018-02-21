@@ -326,7 +326,6 @@ export function parameterValues(state, pathMethod, isXml) {
   pathMethod = pathMethod || []
   // let paramValues = state.getIn(["meta", "paths", ...pathMethod, "parameters"], fromJS([]))
   let paramValues = operationWithMeta(state, ...pathMethod).get("parameters", List())
-  console.log("paramValues", paramValues.toJS())
   return paramValues.reduce( (hash, p) => {
     let value = isXml && p.get("in") === "body" ? p.get("value_xml") : p.get("value")
     return hash.set(`${p.get("in")}.${p.get("name")}`, value)
@@ -409,8 +408,6 @@ export const validateBeforeExecute = ( state, pathMethod ) => {
   pathMethod = pathMethod || []
   let paramValues = state.getIn(["meta", "paths", ...pathMethod, "parameters"], fromJS([]))
   let isValid = true
-
-  debugger
 
   paramValues.forEach( (p) => {
     let errors = p.get("errors")

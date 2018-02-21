@@ -84,8 +84,6 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
     hasWarnedAboutResolveSpecDeprecation = true
   }
 
-  return
-
   const {
     modelPropertyMacro,
     parameterMacro,
@@ -156,7 +154,6 @@ export const requestResolvedSubtree = path => system => {
   const currentValue = specSelectors.specResolvedSubtree(path)
 
   if(currentValue) {
-    console.log(`DEV DEBUG: subtree already exists; not resolving again`)
     return
   }
 
@@ -311,8 +308,6 @@ export const executeRequest = (req) =>
       }
     }
 
-    console.log(req)
-
     let parsedRequest = Object.assign({}, req)
     parsedRequest = fn.buildRequest(parsedRequest)
 
@@ -347,7 +342,6 @@ export const executeRequest = (req) =>
 
 // I'm using extras as a way to inject properties into the final, `execute` method - It's not great. Anyone have a better idea? @ponelat
 export const execute = ( { path, method, ...extras }={} ) => (system) => {
-  debugger
   let { fn:{fetch}, specSelectors, specActions } = system
   let spec = specSelectors.specJsonWithResolvedSubtrees().toJS()
   let scheme = specSelectors.operationScheme(path, method)

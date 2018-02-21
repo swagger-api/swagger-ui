@@ -23,7 +23,6 @@ export default class Models extends Component {
 
   handleToggle = (name, isExpanded) => {
     const { layoutActions } = this.props
-    console.log(`handleToggle`, name, isExpanded)
     layoutActions.show(["models", name], isExpanded)
     if(isExpanded) {
       this.props.specActions.requestResolvedSubtree([...this.getSchemaBasePath(), name])
@@ -31,7 +30,6 @@ export default class Models extends Component {
   }
 
   render(){
-    console.log(`rendering Models`)
     let { specSelectors, getComponent, layoutSelectors, layoutActions, getConfigs } = this.props
     let definitions = specSelectors.definitions()
     let { docExpansion, defaultModelsExpandDepth } = getConfigs()

@@ -153,8 +153,6 @@ export default class OperationContainer extends PureComponent {
 
     const resolvedSubtree = specSelectors.specResolvedSubtree(["paths", path, method]) || Map()
 
-    console.log(`OperationContainer for ${path} ${method}`, isShown, resolvedSubtree && resolvedSubtree.toJS ? resolvedSubtree.toJS() : resolvedSubtree)
-
     const operationProps = fromJS({
       op: resolvedSubtree || Map(),
       tag,

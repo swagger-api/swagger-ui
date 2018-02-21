@@ -48,7 +48,6 @@ export default {
 
   [UPDATE_RESOLVED_SUBTREE]: (state, action) => {
     const { value, path } = action.payload
-    console.log(`updating resolved subtree:`, path, value.toJS ? value.toJS() : value)
     return state.setIn(["resolvedSubtrees", ...path], fromJSOrdered(value))
   },
 
@@ -68,8 +67,6 @@ export default {
     let isXml = /xml/i.test(meta.get("consumes_value"))
 
     const op = operationWithMeta(state, ...pathMethod)
-
-    debugger
 
     return state.updateIn(["meta", "paths", ...pathMethod, "parameters"], fromJS({}), paramMeta => {
       return op.get("parameters", List()).reduce((res, param) => {
