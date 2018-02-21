@@ -144,7 +144,7 @@ export default class OperationContainer extends PureComponent {
 
     const Operation = getComponent( "operation" )
 
-    const resolvedSubtree = specSelectors.specResolvedSubtree(["paths", path, method])
+    const resolvedSubtree = specSelectors.specResolvedSubtree(["paths", path, method]) || Map()
 
     console.log(`OperationContainer for ${path} ${method}`, isShown, resolvedSubtree && resolvedSubtree.toJS ? resolvedSubtree.toJS() : resolvedSubtree)
 
@@ -157,6 +157,7 @@ export default class OperationContainer extends PureComponent {
       tag,
       path,
       summary: unresolvedOp.getIn(["operation", "summary"]) || "",
+      deprecated: resolvedSubtree.get("deprecated") || unresolvedOp.getIn(["operation", "deprecated"]) || false,
       method,
       security,
       isAuthorized,

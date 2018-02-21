@@ -62,6 +62,7 @@ export default class Operation extends PureComponent {
 
     let {
       summary,
+      deprecated,
       isShown,
       isAuthorized,
       path,
@@ -81,7 +82,6 @@ export default class Operation extends PureComponent {
     let {
       summary: resolvedSummary,
       description,
-      deprecated,
       externalDocs,
       schemes
     } = op
