@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 import expect from "expect"
-import { fromJS, OrderedMap } from "immutable"
+import { Map, fromJS, OrderedMap } from "immutable"
 import {
   mapToList,
   validatePattern,
@@ -18,6 +18,8 @@ import {
   getAcceptControllingResponse,
   createDeepLinkPath,
   escapeDeepLinkPath,
+  getExtensions,
+  getCommonExtensions,
   sanitizeUrl,
   extractFileNameFromContentDispositionHeader
 } from "core/utils"
@@ -934,6 +936,24 @@ describe("utils", function() {
     it("escapes a deep link path with an id selector", function() {
       const result = escapeDeepLinkPath("hello#world")
       expect(result).toEqual("hello\\#world")
+    })
+  })
+
+  describe("getExtensions", function() {
+    const objTest = Map([[ "x-test", "a"], ["format", "b"]])
+    it("does not error on empty array", function() {
+      const result1 = getExtensions([])
+      expect(result1).toEqual([])
+      const result2 = getCommonExtensions([])
+      expect(result2).toEqual([])
+    })
+    it("gets only the x- keys", function() {
+      const result = getExtensions(objTest)
+      expect(result).toEqual(Map([[ "x-test", "a"]]))
+    })
+    it("gets the common keys", function() {
+      const result = getCommonExtensions(objTest, true)
+      expect(result).toEqual(Map([[ "format", "b"]]))
     })
   })
 

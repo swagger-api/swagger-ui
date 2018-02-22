@@ -3,7 +3,7 @@ import { Map } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import win from "core/window"
-import { getExtensions } from "core/utils"
+import { getExtensions, getCommonExtensions } from "core/utils"
 
 export default class ParameterRow extends Component {
   static propTypes = {
@@ -75,7 +75,7 @@ export default class ParameterRow extends Component {
 
     let { isOAS3 } = specSelectors
 
-    const { showExtensions } = getConfigs()
+    const { showExtensions, showCommonExtensions } = getConfigs()
 
     // const onChangeWrapper = (value) => onChange(param, value)
     const JsonSchemaForm = getComponent("JsonSchemaForm")
@@ -105,8 +105,9 @@ export default class ParameterRow extends Component {
     let required = param.get("required")
     let itemType = param.getIn(isOAS3 && isOAS3() ? ["schema", "items", "type"] : ["items", "type"])
     let parameter = specSelectors.getParameter(pathMethod, param.get("name"), param.get("in"))
-    let value = parameter ? parameter.get("value") : ""
-    let extensions = getExtensions(param, true)
+    let value = parameter ? parameter.get("value") : ""    
+    let commonExt = showCommonExtensions ? getCommonExtensions(param) : null
+    let extensions = showExtensions ? getExtensions(param) : null
 
 
     let paramItems // undefined
@@ -148,6 +149,7 @@ export default class ParameterRow extends Component {
             { isOAS3 && isOAS3() && param.get("deprecated") ? "deprecated": null }
           </div>
           <div className="parameter__in">({ param.get("in") })</div>
+          { !showCommonExtensions || !commonExt.size ? null : commonExt.map((v, key) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} /> )}
           { !showExtensions || !extensions.size ? null : extensions.map((v, key) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} /> )}
         </td>
 

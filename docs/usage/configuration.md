@@ -58,6 +58,7 @@ Parameter Name | Description
 `maxDisplayedTags` | `Number`. If set, limits the number of tagged operations displayed to at most this many. The default is to show all operations.
 `operationsSorter` | `Function=(a => a)`. Apply a sort to the operation list of each API. It can be 'alpha' (sort by paths alphanumerically), 'method' (sort by HTTP method) or a function (see Array.prototype.sort() to know how sort function works). Default is the order returned by the server unchanged.
 `showExtensions` | `Boolean=false`. Controls the display of vendor extension (`x-`) fields and values for Operations, Parameters, and Schema.
+`showCommonExtensions` | `Boolean=false`. Controls the display of extensions (`format`, `pattern`, `maxLength` and `minLength`) fields and values for Parameters.
 `tagsSorter` | `Function=(a => a)`. Apply a sort to the tag list of each API. It can be 'alpha' (sort by paths alphanumerically) or a function (see [Array.prototype.sort()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) to learn how to write a sort function). Two tag name strings are passed to the sorter for each pass. Default is the order determined by Swagger-UI.
 
 ##### Network
