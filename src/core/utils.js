@@ -350,7 +350,7 @@ export function extractFileNameFromContentDispositionHeader(value){
   if (responseFilename !== null && responseFilename.length > 1) {
     return responseFilename[1]
   }
-  return null  
+  return null
 }
 
 // PascalCase, aka UpperCamelCase
