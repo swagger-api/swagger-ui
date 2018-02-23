@@ -4,7 +4,7 @@ import { escapeDeepLinkPath } from "core/utils"
 let hasHashBeenParsed = false //TODO this forces code to only run once which may prevent scrolling if page not refreshed
 
 
-export const updateResolved = (ori, { layoutActions, getConfigs }) => (...args) => {
+export const updateJsonSpec = (ori, { layoutActions, getConfigs }) => (...args) => {
   ori(...args)
 
   const isDeepLinkingEnabled = getConfigs().deepLinking
