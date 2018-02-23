@@ -146,7 +146,6 @@ export const securityDefinitions = createSelector(
 
 
 export const findDefinition = ( state, name ) => {
-  // TODO: migrate
   const resolvedRes = state.getIn(["resolvedSubtrees", "definitions", name], null)
   const unresolvedRes = state.getIn(["json", "definitions", name], null)
   return resolvedRes || unresolvedRes || null
@@ -305,7 +304,6 @@ export const parameterWithMeta = (state, pathMethod, paramName, paramIn) => {
 
 // Get the parameter value by parameter name
 export function getParameter(state, pathMethod, name, inType) {
-  // TODO: migrate
   pathMethod = pathMethod || []
   let params = state.getIn(["meta", "paths", ...pathMethod, "parameters"], fromJS([]))
   return params.find( (p) => {
