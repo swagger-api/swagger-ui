@@ -8,9 +8,7 @@ import {
   CLEAR_BY,
 } from "./actions"
 
-import reject from "lodash/reject"
-
-import Im, { fromJS, List } from "immutable"
+import { fromJS, List } from "immutable"
 
 import transformErrors from "./error-transformers/hook"
 

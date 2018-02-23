@@ -42,7 +42,6 @@ export default {
   },
 
   [UPDATE_RESOLVED]: (state, action) => {
-    return state
     return state.setIn(["resolved"], fromJSOrdered(action.payload))
   },
 

@@ -17,7 +17,7 @@ export default class Models extends Component {
     return isOAS3 ? ["components", "schemas"] : ["definitions"]
   }
 
-  getCollapsedContent = (name) => {
+  getCollapsedContent = () => {
     return " "
   }
 
