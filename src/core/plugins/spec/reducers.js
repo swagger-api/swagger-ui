@@ -47,7 +47,7 @@ export default {
 
   [UPDATE_RESOLVED_SUBTREE]: (state, action) => {
     const { value, path } = action.payload
-    return state.setIn(["resolvedSubtrees", ...path], fromJSOrdered(value))
+    return state.setIn(["resolvedSubtrees", ...path], fromJS(value))
   },
 
   [UPDATE_PARAM]: ( state, {payload} ) => {

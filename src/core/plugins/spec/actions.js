@@ -136,6 +136,7 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
 export const requestResolvedSubtree = path => system => {
   const {
     errActions,
+    errSelectors,
     fn: {
       resolveSubtree,
       AST: { getLineNumberForPath }
@@ -157,29 +158,42 @@ export const requestResolvedSubtree = path => system => {
     return
   }
 
-  return resolveSubtree(specSelectors.specJson().toJS(), path)
-    .then(({ spec, errors }) => {
-      errActions.clear({
-        type: "thrown"
-      })
-      if(Array.isArray(errors) && errors.length > 0) {
-        let preparedErrors = errors
-          .map(err => {
-            console.error(err)
-            err.line = err.fullPath ? getLineNumberForPath(specStr, err.fullPath) : null
-            err.path = err.fullPath ? err.fullPath.join(".") : null
-            err.level = "error"
-            err.type = "thrown"
-            err.source = "resolver"
-            Object.defineProperty(err, "message", { enumerable: true, value: err.message })
-            return err
-          })
-        errActions.newThrownErrBatch(preparedErrors)
-      }
+  // temporarily set the subtree to `null`, so that subsequent
+  // requests for the same subtree don't result in a loop of
+  // queueing up requests.
+  //
+  // this essentially functions as a lock on resolving a
+  // particular subtree.
+  specActions.updateResolvedSubtree(path, null)
 
-      return specActions.updateResolvedSubtree(path, spec)
-    })
-    .catch(e => console.error(e))
+  setTimeout(() => {
+    return resolveSubtree(specSelectors.specJson().toJS(), path)
+      .then(({ spec, errors }) => {
+        if(errSelectors.allErrors().size) {
+          errActions.clear({
+            type: "thrown"
+          })
+        }
+        if(Array.isArray(errors) && errors.length > 0) {
+          let preparedErrors = errors
+            .map(err => {
+              console.error(err)
+              err.line = err.fullPath ? getLineNumberForPath(specStr, err.fullPath) : null
+              err.path = err.fullPath ? err.fullPath.join(".") : null
+              err.level = "error"
+              err.type = "thrown"
+              err.source = "resolver"
+              Object.defineProperty(err, "message", { enumerable: true, value: err.message })
+              return err
+            })
+          errActions.newThrownErrBatch(preparedErrors)
+        }
+
+        return specActions.updateResolvedSubtree(path, spec)
+      })
+      .catch(e => console.error(e))
+  }, 0)
+
 }
 
 export function changeParam( path, paramName, paramIn, value, isXml ){
