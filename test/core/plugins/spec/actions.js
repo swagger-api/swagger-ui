@@ -177,6 +177,10 @@ describe("spec plugin - actions", function(){
     })
   })
 
+  describe("requestResolvedSubtree", () => {
+    it("should return a promise ")
+  })
+
   it.skip("should call errActions.newErr, if the fn.execute rejects", function(){
   })
 

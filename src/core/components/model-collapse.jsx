@@ -8,14 +8,17 @@ export default class ModelCollapse extends Component {
     children: PropTypes.any,
     title: PropTypes.element,
     modelName: PropTypes.string,
-    onToggle: PropTypes.func
+    classes: PropTypes.string,
+    onToggle: PropTypes.func,
+    hideSelfOnExpand: PropTypes.bool,
   }
 
   static defaultProps = {
     collapsedContent: "{...}",
     expanded: false,
     title: null,
-    onToggle: () => {}
+    onToggle: () => {},
+    hideSelfOnExpand: false
   }
 
   constructor(props, context) {
@@ -29,17 +32,23 @@ export default class ModelCollapse extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps){
+  componentDidMount() {
+    const { hideSelfOnExpand, expanded, modelName } = this.props
+    if(hideSelfOnExpand && expanded) {
+      // We just mounted pre-expanded, and we won't be going back..
+      // So let's give our parent an `onToggle` call..
+      // Since otherwise it will never be called.
+      this.props.onToggle(modelName, expanded)
+    }
+  }
 
-    if(this.props.expanded!= nextProps.expanded){
+  componentWillReceiveProps(nextProps){
+    if(this.props.expanded !== nextProps.expanded){
         this.setState({expanded: nextProps.expanded})
     }
-
   }
 
   toggleCollapsed=()=>{
-
-
     if(this.props.onToggle){
       this.props.onToggle(this.props.modelName,!this.state.expanded)
     }
@@ -50,9 +59,18 @@ export default class ModelCollapse extends Component {
   }
 
   render () {
-    const {title} = this.props
+    const { title, classes } = this.props
+
+    if(this.state.expanded ) {
+      if(this.props.hideSelfOnExpand) {
+        return <span className={classes || ""}>
+          {this.props.children}
+        </span>
+      }
+    }
+
     return (
-      <span>
+      <span className={classes || ""}>
         { title && <span onClick={this.toggleCollapsed} style={{ "cursor": "pointer" }}>{title}</span> }
         <span onClick={ this.toggleCollapsed } style={{ "cursor": "pointer" }}>
           <span className={ "model-toggle" + ( this.state.expanded ? "" : " collapsed" ) }></span>
