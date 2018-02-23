@@ -116,10 +116,10 @@ export default {
 
   [UPDATE_OPERATION_META_VALUE]: (state, { payload: { path, value, key } }) => {
     // path is a pathMethod tuple... can't change the name now.
-    let operationPath = ["json", "paths", ...path]
+    let operationPath = ["paths", ...path]
     let metaPath = ["meta", "paths", ...path]
 
-    if(!state.getIn(operationPath)) {
+    if(!state.getIn(["json", ...operationPath]) && !state.getIn(["resolved", ...operationPath])) {
       // do nothing if the operation does not exist
       return state
     }

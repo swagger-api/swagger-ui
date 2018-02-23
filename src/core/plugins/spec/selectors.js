@@ -378,7 +378,7 @@ export function operationConsumes(state, pathMethod) {
 export function currentProducesFor(state, pathMethod) {
   pathMethod = pathMethod || []
 
-  const operation = specJsonWithResolvedSubtrees(state).getIn(["meta", "paths", ...pathMethod], null)
+  const operation = specJsonWithResolvedSubtrees(state).getIn([ "paths", ...pathMethod], null)
 
   if(operation === null) {
     // return nothing if the operation does not exist
