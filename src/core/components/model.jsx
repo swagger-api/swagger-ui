@@ -2,6 +2,7 @@ import React from "react"
 import ImmutablePureComponent from "react-immutable-pure-component"
 import ImPropTypes from "react-immutable-proptypes"
 import PropTypes from "prop-types"
+import Loading from "core/../img/rolling-load.svg"
 
 export default class Model extends ImmutablePureComponent {
   static propTypes = {
@@ -47,6 +48,17 @@ export default class Model extends ImmutablePureComponent {
     // If we weren't passed a `schema` but have a ref, grab the schema from the ref
     if ( !schema && $$ref ) {
       schema = this.getRefSchema( name )
+    }
+
+    if(!schema) {
+      return <span className="model model-title">
+              <span className="model-title__text">{ name }</span>
+              <img src={Loading} height={"20px"} width={"20px"} style={{
+                  marginLeft: "1em",
+                  position: "relative",
+                  bottom: "0px"
+                }} />
+            </span>
     }
 
     const deprecated = specSelectors.isOAS3() && schema.get("deprecated")
