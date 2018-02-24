@@ -53,7 +53,7 @@
     "ieee754": "^1.1.8",
     "immutable": "^3.x.x",
     "js-yaml": "^3.5.5",
-    "lodash": "4.17.2",
+    "lodash": "4.17.5",
     "matcher": "^0.1.2",
     "memoizee": "0.4.1",
     "promise-worker": "^1.1.1",
