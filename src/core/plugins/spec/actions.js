@@ -1,8 +1,10 @@
 import YAML from "js-yaml"
+import Im, { fromJS, Map } from "immutable"
 import parseUrl from "url-parse"
 import serializeError from "serialize-error"
-import { Map } from "immutable"
 import isString from "lodash/isString"
+import debounce from "lodash/debounce"
+import set from "lodash/set"
 import { isJSONObject } from "core/utils"
 
 // Actions conform to FSA (flux-standard-actions)
@@ -133,67 +135,79 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
     })
 }
 
-export const requestResolvedSubtree = path => system => {
-  const {
-    errActions,
-    errSelectors,
-    fn: {
-      resolveSubtree,
-      AST: { getLineNumberForPath }
-    },
-    specSelectors,
-    specActions,
-  } = system
+let requestBatch = []
 
-  const specStr = specSelectors.specStr()
+const debResolveSubtrees = debounce(async () => {
+  const system = requestBatch.system // Just a reference to the "latest" system
+    const {
+      errActions,
+      errSelectors,
+      fn: {
+        resolveSubtree,
+        AST: { getLineNumberForPath }
+      },
+      specSelectors,
+      specActions,
+    } = system
 
   if(!resolveSubtree) {
     console.error("Error: Swagger-Client did not provide a `resolveSubtree` method, doing nothing.")
     return
   }
 
-  const currentValue = specSelectors.specResolvedSubtree(path)
+  const specStr = specSelectors.specStr()
 
-  if(currentValue) {
-    return
+  try {
+    var batchResult = await requestBatch.reduce(async (prev, path) => {
+      const { resultMap, specWithCurrentSubtrees } = await prev
+
+      const { errors, spec } = await resolveSubtree(specWithCurrentSubtrees, path)
+
+      if(errSelectors.allErrors().size) {
+        errActions.clear({
+          type: "thrown"
+        })
+      }
+
+      if(Array.isArray(errors) && errors.length > 0) {
+        let preparedErrors = errors
+          .map(err => {
+            err.line = err.fullPath ? getLineNumberForPath(specStr, err.fullPath) : null
+            err.path = err.fullPath ? err.fullPath.join(".") : null
+            err.level = "error"
+            err.type = "thrown"
+            err.source = "resolver"
+            Object.defineProperty(err, "message", { enumerable: true, value: err.message })
+            return err
+          })
+        errActions.newThrownErrBatch(preparedErrors)
+      }
+
+      set(resultMap, path, spec)
+      set(specWithCurrentSubtrees, path, spec)
+
+      return {
+        resultMap,
+        specWithCurrentSubtrees
+      }
+    }, Promise.resolve({
+      resultMap: (specSelectors.specResolvedSubtree([]) || Map()).toJS(),
+      specWithCurrentSubtrees: specSelectors.specJson().toJS()
+    }))
+
+    delete requestBatch.system
+    requestBatch = [] // Clear stack
+  } catch(e) {
+    console.error(e)
   }
 
-  // temporarily set the subtree to `null`, so that subsequent
-  // requests for the same subtree don't result in a loop of
-  // queueing up requests.
-  //
-  // this essentially functions as a lock on resolving a
-  // particular subtree.
-  specActions.updateResolvedSubtree(path, null)
+  specActions.updateResolvedSubtree([], batchResult.resultMap)
+}, 35)
 
-  setTimeout(() => {
-    return resolveSubtree(specSelectors.specJson().toJS(), path)
-      .then(({ spec, errors }) => {
-        if(errSelectors.allErrors().size) {
-          errActions.clear({
-            type: "thrown"
-          })
-        }
-        if(Array.isArray(errors) && errors.length > 0) {
-          let preparedErrors = errors
-            .map(err => {
-              console.error(err)
-              err.line = err.fullPath ? getLineNumberForPath(specStr, err.fullPath) : null
-              err.path = err.fullPath ? err.fullPath.join(".") : null
-              err.level = "error"
-              err.type = "thrown"
-              err.source = "resolver"
-              Object.defineProperty(err, "message", { enumerable: true, value: err.message })
-              return err
-            })
-          errActions.newThrownErrBatch(preparedErrors)
-        }
-
-        return specActions.updateResolvedSubtree(path, spec)
-      })
-      .catch(e => console.error(e))
-  }, 0)
-
+export const requestResolvedSubtree = path => system => {
+  requestBatch.push(path)
+  requestBatch.system = system
+  debResolveSubtrees()
 }
 
 export function changeParam( path, paramName, paramIn, value, isXml ){
