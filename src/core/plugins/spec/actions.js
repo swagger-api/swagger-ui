@@ -1,5 +1,5 @@
 import YAML from "js-yaml"
-import Im, { fromJS, Map } from "immutable"
+import { Map } from "immutable"
 import parseUrl from "url-parse"
 import serializeError from "serialize-error"
 import isString from "lodash/isString"
