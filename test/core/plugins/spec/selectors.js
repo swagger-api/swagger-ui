@@ -24,7 +24,7 @@ describe("spec plugin - selectors", function(){
 
       // Given
       const spec = fromJS({
-        resolved: {
+        json: {
           paths: {
             "/one": {
               get: {
@@ -55,7 +55,7 @@ describe("spec plugin - selectors", function(){
     it("should return { requestContentType, responseContentType } from an operation", function(){
       // Given
       let state = fromJS({
-        resolved: {
+        json: {
           paths: {
             "/one": {
               get: {}
@@ -86,7 +86,7 @@ describe("spec plugin - selectors", function(){
     it("should default to the first `produces` array value if current is not set", function(){
       // Given
       let state = fromJS({
-        resolved: {
+        json: {
           paths: {
             "/one": {
               get: {
@@ -121,7 +121,7 @@ describe("spec plugin - selectors", function(){
     it("should default to `application/json` if a default produces value is not available", function(){
       // Given
       let state = fromJS({
-        resolved: {
+        json: {
           paths: {
             "/one": {
               get: {}
@@ -151,7 +151,7 @@ describe("spec plugin - selectors", function(){
     it("should prioritize consumes value first from an operation", function(){
       // Given
       let state = fromJS({
-        resolved: {
+        json: {
           paths: {
             "/one": {
               get: {
@@ -182,7 +182,7 @@ describe("spec plugin - selectors", function(){
     it("should fallback to multipart/form-data if there is no consumes value but there is a file parameter", function(){
       // Given
       let state = fromJS({
-        resolved: {
+        json: {
           paths: {
             "/one": {
               get: {
@@ -204,7 +204,7 @@ describe("spec plugin - selectors", function(){
     it("should fallback to application/x-www-form-urlencoded if there is no consumes value, no file parameter, but there is a formData parameter", function(){
       // Given
       let state = fromJS({
-        resolved: {
+        json: {
           paths: {
             "/one": {
               get: {
@@ -244,7 +244,7 @@ describe("spec plugin - selectors", function(){
       // Given
       let state = fromJS({
         url: "https://generator.swagger.io/api/swagger.json",
-        resolved: {
+        json: {
           paths: {
             "/one": {
               get: {
