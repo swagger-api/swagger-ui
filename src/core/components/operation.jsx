@@ -4,7 +4,6 @@ import { getList } from "core/utils"
 import { getExtensions, sanitizeUrl } from "core/utils"
 import { Iterable, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
-import Loading from "core/../img/rolling-load.svg"
 
 
 export default class Operation extends PureComponent {
@@ -158,7 +157,7 @@ export default class Operation extends PureComponent {
           <Collapse isOpened={isShown}>
             <div className="opblock-body">
               { operation && operation.size ? null :
-                <img height={"32px"} width={"32px"} src={Loading} className="opblock-loading-animation" />
+                <img height={"32px"} width={"32px"} src={require("core/../img/rolling-load.svg")} className="opblock-loading-animation" />
               }
               { deprecated && <h4 className="opblock-title_normal"> Warning: Deprecated</h4>}
               { description &&
