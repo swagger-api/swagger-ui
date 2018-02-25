@@ -48,7 +48,7 @@ export default class ResponseBody extends React.Component {
         }
 
         if(window.navigator.msSaveOrOpenBlob) {	
-		      bodyEl = <div><a href={ href } onClick={() => window.navigator.msSaveOrOpenBlob(blob, download)}>{ "Download file" }</a></div>			
+		       bodyEl = <div><a href={ href } onClick={() => window.navigator.msSaveOrOpenBlob(blob, download)}>{ "Download file" }</a></div>			
         } else {			
           bodyEl = <div><a href={ href } download={ download }>{ "Download file" }</a></div>
         }
