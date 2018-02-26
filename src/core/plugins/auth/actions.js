@@ -78,11 +78,10 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
   let query = {}
   let headers = {}
 
+  Object.assign(form, {username}, {password})
   if ( passwordType === "basic") {
-    headers.Authorization = "Basic " + btoa(username + ":" + password)
+    headers.Authorization = "Basic " + btoa(clientId + ":" + clientSecret)
   } else {
-    Object.assign(form, {username}, {password})
-
     if ( passwordType === "query") {
       if ( clientId ) {
         query.client_id = clientId
