@@ -177,17 +177,6 @@
 
             @include text_headline();
         }
-
-        .light select
-        {
-            background-position-x: none;
-            -ms-background-position-x: 70px;
-
-            &::-ms-expand
-            {
-                display: none;
-            }
-        }
     }
 
     .opblock-summary-method

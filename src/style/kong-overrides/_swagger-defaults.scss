@@ -31,6 +31,13 @@ select {
 
 .opblock-section-header.light select {
   background: transparent url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTEzLjQxOCA3Ljg1OWMuMjcxLS4yNjguNzA5LS4yNjguOTc4IDAgLjI3LjI2OC4yNzIuNzAxIDAgLjk2OWwtMy45MDggMy44M2MtLjI3LjI2OC0uNzA3LjI2OC0uOTc5IDBsLTMuOTA4LTMuODNjLS4yNy0uMjY3LS4yNy0uNzAxIDAtLjk2OS4yNzEtLjI2OC43MDktLjI2OC45NzggMEwxMCAxMWwzLjQxOC0zLjE0MXoiLz48L3N2Zz4NCg==) right 10px center no-repeat;
+  background-position-x: none;
+  -ms-background-position-x: 70px;
+
+  &::-ms-expand
+  {
+      display: none;
+  }
 }
 
 .code-block {
