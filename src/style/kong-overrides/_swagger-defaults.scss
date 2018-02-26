@@ -1,0 +1,128 @@
+/*  Swagger Overrides
+========================================================================== */
+// Defaults
+h4 {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.btn {
+  color: rgba(0,0,0,.70);
+  font-size: 15px;
+  font-weight: 400;
+  border-radius: 4px !important;
+  border: 1px solid $borderLight; 
+  box-shadow: none;
+  &.try-out__btn {
+    width: 117px;
+    padding: 8px 0;
+  }
+}
+
+select {
+  min-width: 190px;
+  margin-bottom: 1rem;
+  font-weight: 400;
+  border: 1px solid $borderLight;
+  border-radius: 3px;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.opblock-section-header.light select {
+  background: transparent url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTEzLjQxOCA3Ljg1OWMuMjcxLS4yNjguNzA5LS4yNjguOTc4IDAgLjI3LjI2OC4yNzIuNzAxIDAgLjk2OWwtMy45MDggMy44M2MtLjI3LjI2OC0uNzA3LjI2OC0uOTc5IDBsLTMuOTA4LTMuODNjLS4yNy0uMjY3LS4yNy0uNzAxIDAtLjk2OS4yNzEtLjI2OC43MDktLjI2OC45NzggMEwxMCAxMWwzLjQxOC0zLjE0MXoiLz48L3N2Zz4NCg==) right 10px center no-repeat;
+}
+
+.code-block {
+  min-height: 115px;
+  max-width: 45vw;
+  margin: 0;
+  padding: 1rem;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  border-radius: 3px;
+  resize: none;
+  overflow: auto;
+  background: rgba(0,0,0,.1);
+  span {
+    color: #fff !important;
+    font-weight: 500 !important;
+  }
+}
+
+// Response loader
+.loading-container .loading {
+  &:before {
+    border-color: rgba(0,0,0,.5);
+    border-top-color: $borderLight; 
+  }
+  &:after {
+    color: #fff;
+    font-weight: 400;
+  }
+}
+
+.validator-badge {
+  display: none;
+  padding: 1rem;
+}
+
+.information-container {
+  margin: 2rem 0 3rem;
+}
+
+.auth-wrapper {
+  justify-content: flex-start;
+  button.authorize {
+    padding: 8px 1rem;
+    color: #494949;
+    border-color: #C5C5C5;
+    font-size: 15px;
+    background-color: #F7F7F7;
+    span {
+      float: right;
+      padding: 4px 0 0 14px;
+    }
+    svg {
+      fill: #C5C5C5;
+    }
+  }
+}
+
+.swagger-ui .info p, .swagger-ui .info li, .swagger-ui .info table {
+  line-height: 1.4;
+}
+
+.example p {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(0,0,0,.45);
+  margin-bottom: 1rem;
+}
+
+// Exectute buttons
+.col.execute-wrapper {
+  display: flex;
+  width: 60%;
+  margin-left: auto;
+  .btn {
+    width: 125px;
+    padding: 8px 0;
+    &:first-child {
+      margin-right: auto;
+    }
+  }
+
+  @media only screen and (max-width: 800px) {
+    width: 100%;
+    margin: 0 auto;
+    .btn {
+      width: 50%;
+      &:first-child {
+        margin-right: 2rem;
+      }
+    }
+  }
+
+}

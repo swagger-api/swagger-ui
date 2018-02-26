@@ -1,9 +1,9 @@
 .wrapper
 {
     width: 100%;
-    max-width: 1460px;
+    // max-width: 1460px;
     margin: 0 auto;
-    padding: 0 20px;
+    // padding: 0 20px;
 }
 
 .body-param 
@@ -11,65 +11,36 @@
     overflow-x: scroll;
 }
 
-.opblock-tag-section
+.opblock-tag-section 
 {
     display: flex;
     flex-direction: column;
-
-    &.is-open
-    {
-        .opblock-tag
-        {
-            // svg
-            // {
-            //     -moz-transform: rotate(90deg);
-            //          transform: rotate(90deg);
-            // }
-        }
-    }
 }
 
-.opblock-tag
+.opblock-tag 
 {
     display: flex;
     align-items: center;
-
     padding: 10px 20px 10px 10px;
-
     cursor: pointer;
-    transition: all .2s;
-
-    border-bottom: 1px solid rgba($opblock-tag-border-bottom-color, .3);
-
-    &:hover
-    {
-        background: rgba($opblock-tag-background-color-hover,.02);
-    }
 }
 
-@mixin method($color)
-{
-    border-color: $color;
-    background: rgba($color, .1);
+@mixin method($color){
+    // border-color: $color;
+    // background: rgba($color, .1);
 
-    .opblock-summary-method
-    {
+    .opblock-summary-method {
         background: $color;
     }
 
-    .opblock-summary
-    {
+    .opblock-summary {
         border-color: $color;
     }
 
-    .tab-header .tab-item.active h4 span:after
-    {
+    .tab-header .tab-item.active h4 span:after {
         background: $color;
     }
 }
-
-
-
 
 .opblock-tag
 {
@@ -128,16 +99,10 @@
 
 
 
-.opblock
-{
+.opblock {
     margin: 0 0 15px 0;
 
-    border: 1px solid $opblock-border-color;
-    border-radius: 4px;
-    box-shadow: 0 0 3px rgba($opblock-box-shadow-color,.19);
-
-    .tab-header
-    {
+    .tab-header {
         display: flex;
 
         flex: 1;
@@ -181,26 +146,12 @@
         }
     }
 
-
-    &.is-open
-    {
-        .opblock-summary
-        {
-            border-bottom: 1px solid $opblock-isopen-summary-border-bottom-color;
-        }
-    }
-
     .opblock-section-header
     {
         display: flex;
         align-items: center;
 
-        padding: 8px 20px;
-
-        min-height: 50px;
-
-        background: rgba($opblock-isopen-section-header-background-color,.8);
-        box-shadow: 0 1px 2px rgba($opblock-isopen-section-header-box-shadow-color,.1);
+        padding: 10px 20px 0;
 
         label
         {
@@ -311,13 +262,11 @@
         @include text_body();
     }
 
-    .opblock-summary
-    {
+    .opblock-summary{
         display: flex;
         align-items: center;
-
-        padding: 5px;
-
+        border: 1px solid;
+        border-radius: 3px;
         cursor: pointer;
     }
 
@@ -623,10 +572,7 @@
 .scheme-container
 {
     margin: 0 0 20px 0;
-    padding: 30px 0;
-
-    background: $scheme-container-background-color;
-    box-shadow: 0 1px 2px 0 rgba($scheme-container-box-shadow-color,.15);
+    padding: 20px;
 
     .schemes
     {

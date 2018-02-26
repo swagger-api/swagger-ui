@@ -1,7 +1,7 @@
 import scrollTo from "scroll-to-element"
 import { escapeDeepLinkPath } from "core/utils"
 
-const SCROLL_OFFSET = -5
+const SCROLL_OFFSET = -100
 let hasHashBeenParsed = false
 
 

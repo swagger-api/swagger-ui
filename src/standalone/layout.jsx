@@ -1,6 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
 
+// import OnlineValidatorBadge from "../kongComponents/online-validator-badge"
+
 export default class StandaloneLayout extends React.Component {
 
   static propTypes = {
@@ -20,37 +22,33 @@ export default class StandaloneLayout extends React.Component {
     let Row = getComponent("Row")
     let Col = getComponent("Col")
 
-    const Topbar = getComponent("Topbar", true)
-    const BaseLayout = getComponent("BaseLayout", true)
-    const OnlineValidatorBadge = getComponent("onlineValidatorBadge", true)
+    const KongLayout = getComponent("KongLayout", true)
+    const OnlineValidatorBadge = getComponent("KongValidator", true)
 
     const loadingStatus = specSelectors.loadingStatus()
 
     return (
 
       <Container className='swagger-ui'>
-        { Topbar ? <Topbar /> : null }
-        { loadingStatus === "loading" &&
-          <div className="info">
+        {loadingStatus === "loading" &&
+          <div className="info text-center">
             <h4 className="title">Loading...</h4>
           </div>
         }
-        { loadingStatus === "failed" &&
+        {loadingStatus === "failed" &&
           <div className="info">
             <h4 className="title">Failed to load spec.</h4>
           </div>
         }
-        { loadingStatus === "failedConfig" &&
+        {loadingStatus === "failedConfig" &&
           <div className="info" style={{ maxWidth: "880px", marginLeft: "auto", marginRight: "auto", textAlign: "center" }}>
             <h4 className="title">Failed to load config.</h4>
           </div>
         }
-        { !loadingStatus || loadingStatus === "success" && <BaseLayout /> }
-        <Row>
-          <Col>
-            <OnlineValidatorBadge />
-          </Col>
-        </Row>
+        {!loadingStatus || loadingStatus === "success" && <KongLayout />}
+        <div className="validator-badge">
+          <OnlineValidatorBadge />
+        </div>
       </Container>
     )
   }

@@ -1,0 +1,541 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Vitals API",
+    "version": "1.0.0",
+    "title": "Vitals API"
+  },
+  "basePath": "/vitals",
+  "tags": [
+    {
+      "name": "nodes",
+      "description": "Node level stats"
+    },
+    {
+      "name": "cluster",
+      "description": "Cluster level stats"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/vitals": {
+      "get": {
+        "tags": [
+          "vitals"
+        ],
+        "summary": "Get general information about Kong vitals",
+        "description": "",
+        "operationId": "getVitalsInfo",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/VitalsInfo"
+            }
+          }
+        }
+      }
+    },
+    "/cluster": {
+      "get": {
+        "tags": [
+          "cluster"
+        ],
+        "summary": "Get aggregated stats for the cluster",
+        "description": "",
+        "operationId": "getClusterStats",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "stats",
+            "in": "query",
+            "description": "Stats to be returned",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Nodes"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid query params"
+          }
+        }
+      }
+    },
+    "/nodes": {
+      "get": {
+        "tags": [
+          "nodes"
+        ],
+        "summary": "Get individual stats for all nodes",
+        "description": "",
+        "operationId": "getAllNodeStats",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "stats",
+            "in": "query",
+            "description": "Stats to be returned",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Nodes"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid query params"
+          }
+        }
+      }
+    },
+    "/nodes/{nodeUUID}": {
+      "get": {
+        "tags": [
+          "nodes"
+        ],
+        "summary": "Get stats for a specific node by UUID",
+        "description": "",
+        "operationId": "getNodeStatsByUUID",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "nodeUUID",
+            "type": "string",
+            "in": "path",
+            "description": "Node UUID to retrieve stats for",
+            "required": true
+          },
+          {
+            "name": "stats",
+            "in": "query",
+            "description": "Stats to be returned",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Nodes"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid query params"
+          },
+          "404": {
+            "description": "Unable to find requested node UUID"
+          }
+        }
+      }
+    },
+    "/consumers/{consumerUUID}": {
+      "get": {
+        "tags": [
+          "cluster"
+        ],
+        "summary": "Get count of requests for the given consumer across entire cluster",
+        "description": "",
+        "operationId": "getConsumerClusterStats",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "consumerUUID",
+            "type": "string",
+            "in": "path",
+            "description": "Consumer UUID to retrieve stats for",
+            "required": true
+          },
+          {
+            "name": "interval",
+            "type": "string",
+            "in": "query",
+            "description": "Interval length of requested stats",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ConsumerCluster"
+            }
+          },
+          "400": {
+            "description": "Invalid query params"
+          },
+          "404": {
+            "description": "Unable to find requested consumer UUID"
+          }
+        }
+      }
+    },
+    "/consumers/{consumerUUID}/nodes": {
+      "get": {
+        "tags": [
+          "nodes"
+        ],
+        "summary": "Get count of requests for the given consumer on each node",
+        "description": "",
+        "operationId": "getConsumerNodeStats",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "consumerUUID",
+            "type": "string",
+            "in": "path",
+            "description": "Consumer UUID to retrieve stats for",
+            "required": true
+          },
+          {
+            "name": "interval",
+            "type": "string",
+            "in": "query",
+            "description": "Interval length of requested stats",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ConsumerNode"
+            }
+          },
+          "400": {
+            "description": "Invalid query params"
+          },
+          "404": {
+            "description": "Unable to find requested consumer UUID"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ConsumerCluster": {
+      "type": "object",
+      "example": {
+        "meta": {
+          "consumer": {
+            "id": "48892882-401e-45f7-aa00-9972gggebc5a"
+          },
+          "interval": "seconds"
+        },
+        "data": {
+          "65469173-401e-45f7-aa00-9972fffebc5a": {
+            "1509403274": 47,
+            "1509403889": 31
+          }
+        }
+      },
+      "properties": {
+        "meta": {
+          "type": "object",
+          "properties": {
+            "consumer": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "48892882-401e-45f7-aa00-9972gggebc5a"
+                }
+              }
+            },
+            "interval": {
+              "type": "string",
+              "example": "seconds"
+            }
+          }
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "[nodeId]": {
+              "type": "object",
+              "properties": {
+                "[at]": {
+                  "type": "integer",
+                  "example": 47
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "ConsumerNode": {
+      "type": "object",
+      "example": {
+        "meta": {
+          "consumer": {
+            "id": "48892882-401e-45f7-aa00-9972gggebc5a"
+          },
+          "interval": "seconds"
+        },
+        "data": {
+          "65469173-401e-45f7-aa00-9972fffebc5a": {
+            "1509403274": 47,
+            "1509403889": 31
+          },
+          "99969173-401e-45f7-aa00-9972fffeb8fc": {
+            "1509403274": 18,
+            "1509403889": 4
+          }
+        }
+      },
+      "properties": {
+        "meta": {
+          "type": "object",
+          "properties": {
+            "consumer": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "48892882-401e-45f7-aa00-9972gggebc5a"
+                }
+              }
+            },
+            "node": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "65469173-401e-45f7-aa00-9972fffebc5a"
+                }
+              }
+            },
+            "interval": {
+              "type": "string",
+              "example": "seconds"
+            }
+          }
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "[nodeId]": {
+              "type": "object",
+              "properties": {
+                "[at]": {
+                  "type": "integer",
+                  "example": 47
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Nodes": {
+      "type": "object",
+      "example": {
+        "65469173-401e-45f7-aa00-9972fffebc5a": {
+          "1509403274": {
+            "cache": [
+              210,
+              5
+            ],
+            "latency": [
+              0,
+              9
+            ]
+          }
+        }
+      },
+      "properties": {
+        "[nodeId]": {
+          "type": "object",
+          "properties": {
+            "[at]": {
+              "type": "object",
+              "properties": {
+                "cache": {
+                  "type": "array",
+                  "example": [
+                    101,
+                    5
+                  ],
+                  "items": {
+                    "type": "integer",
+                    "enum": [
+                      "hit",
+                      "miss"
+                    ]
+                  }
+                },
+                "latency": {
+                  "type": "array",
+                  "example": [
+                    0,
+                    9
+                  ],
+                  "items": {
+                    "type": "integer",
+                    "enum": [
+                      "min",
+                      "max"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "VitalsInfo": {
+      "type": "object",
+      "example": {
+        "stats": {
+          "cache_datastore_hits_total": {
+            "levels": {
+              "cluster": {
+                "intervals": {
+                  "minutes": {
+                    "retention_period_seconds": 90000
+                  },
+                  "seconds": {
+                    "retention_period_seconds": 3600
+                  }
+                }
+              },
+              "nodes": {
+                "intervals": {
+                  "minutes": {
+                    "retention_period_seconds": 90000
+                  },
+                  "seconds": {
+                    "retention_period_seconds": 3600
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "properties": {
+        "stats": {
+          "type": "object",
+          "properties": {
+            "[stat_label]": {
+              "type": "object",
+              "properties": {
+                "levels": {
+                  "type": "object",
+                  "description": "Vitals data is tracked and aggregated at different levels (per cluster, per node)",
+                  "properties": {
+                    "cluster": {
+                      "type": "object",
+                      "description": "Vitals data available at the cluster level",
+                      "properties": {
+                        "intervals": {
+                          "type": "object",
+                          "description": "Vitals data is available at different intervals (seconds, minutes)",
+                          "properties": {
+                            "minutes": {
+                              "type": "object",
+                              "properties": {
+                                "retention_period_seconds": {
+                                  "type": "integer",
+                                  "description": "Configured retention period (in seconds) for the minutes interval"
+                                }
+                              }
+                            },
+                            "seconds": {
+                              "type": "object",
+                              "properties": {
+                                "retention_period_seconds": {
+                                  "type": "integer",
+                                  "description": "Configured retention period (in seconds) for the seconds interval"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "nodes": {
+                      "type": "object",
+                      "description": "Vitals data available at the node level",
+                      "properties": {
+                        "intervals": {
+                          "type": "object",
+                          "description": "Vitals data is available at different intervals (seconds, minutes)",
+                          "properties": {
+                            "minutes": {
+                              "type": "object",
+                              "properties": {
+                                "retention_period_seconds": {
+                                  "type": "integer",
+                                  "description": "Configured retention period (in seconds) for the minutes interval"
+                                }
+                              }
+                            },
+                            "seconds": {
+                              "type": "object",
+                              "properties": {
+                                "retention_period_seconds": {
+                                  "type": "integer",
+                                  "description": "Configured retention period (in seconds) for the seconds interval"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

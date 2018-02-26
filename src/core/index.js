@@ -59,11 +59,11 @@ module.exports = function SwaggerUI(opts) {
     ],
 
     // Initial state
-    initialState: { },
+    initialState: {},
 
     // Inline Plugin
-    fn: { },
-    components: { },
+    fn: {},
+    components: {},
   }
 
   let queryConfig = parseSearch()
@@ -72,12 +72,12 @@ module.exports = function SwaggerUI(opts) {
   delete opts.domNode
 
   const constructorConfig = deepExtend({}, defaults, opts, queryConfig)
-
   const storeConfigs = {
     system: {
       configs: constructorConfig.configs
     },
     plugins: constructorConfig.presets,
+    explorer: constructorConfig.explorer,
     state: deepExtend({
       layout: {
         layout: constructorConfig.layout,
@@ -90,7 +90,7 @@ module.exports = function SwaggerUI(opts) {
     }, constructorConfig.initialState)
   }
 
-  let inlinePlugin = ()=> {
+  let inlinePlugin = () => {
     return {
       fn: constructorConfig.fn,
       components: constructorConfig.components,
@@ -106,7 +106,7 @@ module.exports = function SwaggerUI(opts) {
   system.initOAuth = system.authActions.configureAuth
 
   const downloadSpec = (fetchedConfig) => {
-    if(typeof constructorConfig !== "object") {
+    if (typeof constructorConfig !== "object") {
       return system
     }
 
@@ -114,7 +114,7 @@ module.exports = function SwaggerUI(opts) {
     let mergedConfig = deepExtend({}, localConfig, constructorConfig, fetchedConfig || {}, queryConfig)
 
     // deep extend mangles domNode, we need to set it manually
-    if(domNode) {
+    if (domNode) {
       mergedConfig.domNode = domNode
     }
 
@@ -131,9 +131,9 @@ module.exports = function SwaggerUI(opts) {
       }
     }
 
-    if(mergedConfig.domNode) {
+    if (mergedConfig.domNode) {
       system.render(mergedConfig.domNode, "App")
-    } else if(mergedConfig.dom_id) {
+    } else if (mergedConfig.dom_id) {
       let domNode = document.querySelector(mergedConfig.dom_id)
       system.render(domNode, "App")
     } else {

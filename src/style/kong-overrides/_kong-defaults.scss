@@ -1,0 +1,58 @@
+/*  Kong Styles
+========================================================================== */
+// Right Panel
+.side-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 45%;
+  height: calc(100% + 66px);
+  background: $darkGry;
+  z-index: -1;
+}
+
+.wrapper {
+  display: flex;
+  max-width: 100%;
+  &.no-gutter {
+    .col {
+      padding: 0;
+    }
+  }
+}
+
+// Default column class
+.col {
+  padding: 0 2rem;
+  width: 55%;
+  &:last-child {
+    width: 45%;
+  }
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+@media only screen and (max-width: 1000px) {
+  .side-panel {display: none;}
+  .wrapper {
+    flex-direction: column;
+  }
+  .col,
+  .col:last-child {
+    width: 100%;
+    padding: 1rem;
+  }
+  .col.end {
+    background: $darkGry;
+  }
+}
