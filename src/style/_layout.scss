@@ -6,11 +6,6 @@
     // padding: 0 20px;
 }
 
-.body-param 
-{
-    overflow-x: scroll;
-}
-
 .opblock-tag-section 
 {
     display: flex;
@@ -320,6 +315,12 @@
         {
             padding: 0 10px 0 0;
         }
+    }
+
+    .parameters .body-param 
+    {
+        overflow-x: scroll;
+        overflow-y: auto;
     }
 }
 
