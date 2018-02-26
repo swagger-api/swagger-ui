@@ -115,7 +115,8 @@
         border: 1px solid #E6E6E6;
         border-radius: 3px;
         margin-bottom: 25px;
-        overflow: auto;
+        overflow-x: scroll;
+        overflow-y: auto;
         .param-content-type {
           display: flex;
           align-items: center;
