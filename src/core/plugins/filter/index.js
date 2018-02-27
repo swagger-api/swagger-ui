@@ -1,9 +1,9 @@
-import OpsFilter from "./OpsFilter"
+import opsFilter from "./opsFilter"
 
 export default function() {
   return {
     fn: {
-      OpsFilter
+      opsFilter
     }
   }
 }

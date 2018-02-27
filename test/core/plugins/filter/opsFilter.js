@@ -1,24 +1,24 @@
 import { Map } from "immutable"
-import OpsFilter from "corePlugins/filter/OpsFilter"
+import opsFilter from "corePlugins/filter/opsFilter"
 import expect from "expect"
 
-describe("OpsFilter", function() {
+describe("opsFilter", function() {
   const taggedOps = Map([["pet"], ["store"], ["user"]])
 
   it("should filter taggedOps by tag name", function () {
-    const filtered = OpsFilter(taggedOps, "sto")
+    const filtered = opsFilter(taggedOps, "sto")
 
     expect(filtered.size).toEqual(1)
   })
 
   it("should return all taggedOps when search phrase is empty", function () {
-    const filtered = OpsFilter(taggedOps, "")
+    const filtered = opsFilter(taggedOps, "")
 
     expect(filtered.size).toEqual(taggedOps.size)
   })
 
   it("should return empty result when there is no match", function () {
-    const filtered = OpsFilter(taggedOps, "NoMatch")
+    const filtered = opsFilter(taggedOps, "NoMatch")
 
     expect(filtered.size).toEqual(0)
   })
