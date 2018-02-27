@@ -5,7 +5,7 @@ export const updateSpec = (ori, {specActions}) => (...args) => {
 
 export const updateJsonSpec = (ori, {specActions}) => (...args) => {
   ori(...args)
-  specActions.resolveSpec(...args)
+  specActions.invalidateResolvedSubtreeCache()
 }
 
 // Log the request ( just for debugging, shouldn't affect prod )
