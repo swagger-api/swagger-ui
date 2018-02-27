@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import formatXml from "xml-but-prettier"
 import lowerCase from "lodash/lowerCase"
 import { extractFileNameFromContentDispositionHeader } from "core/utils"
+import win from "core/window"
 
 export default class ResponseBody extends React.Component {
 
@@ -48,7 +49,7 @@ export default class ResponseBody extends React.Component {
         }
 
         if(window.navigator.msSaveOrOpenBlob) {
-            bodyEl = <div><a href={ href } onClick={() => window.navigator.msSaveOrOpenBlob(blob, download)}>{ "Download file" }</a></div>
+            bodyEl = <div><a href={ href } onClick={() => win.navigator.msSaveOrOpenBlob(blob, download)}>{ "Download file" }</a></div>
         } else {
             bodyEl = <div><a href={ href } download={ download }>{ "Download file" }</a></div>
         }
