@@ -310,4 +310,55 @@ describe("spec plugin - selectors", function(){
     // })
 
   })
+
+
+  describe("specJsonWithResolvedSubtrees", function(){
+
+    it("should return a correctly merged tree", function(){
+      // Given
+      let state = fromJS({
+        json: {
+          definitions: {
+            Asdf: {
+              $ref: "#/some/path",
+              randomKey: "this should be removed b/c siblings of $refs must be removed, per the specification",
+              description: "same for this key"
+            },
+            Fgsfds: {
+              $ref: "#/another/path"
+            },
+            OtherDef: {
+              description: "has no refs"
+            }
+          }
+        },
+        resolvedSubtrees: {
+          definitions: {
+            Asdf: {
+              type: "object",
+              $$ref: "#/some/path"
+            }
+          }
+        }
+      })
+
+      // When
+      let result = specJsonWithResolvedSubtrees(state)
+      // Then
+      expect(result.toJS()).toEqual({
+        definitions: {
+          Asdf: {
+            type: "object",
+            $$ref: "#/some/path"
+          },
+          Fgsfds: {
+            $ref: "#/another/path"
+          },
+          OtherDef: {
+            description: "has no refs"
+          }
+        }
+      })
+    })
+  })
 })

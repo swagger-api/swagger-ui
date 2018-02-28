@@ -46,9 +46,31 @@ export const specResolvedSubtree = (state, path) => {
   return state.getIn(["resolvedSubtrees", ...path], undefined)
 }
 
+const mergerFn = (oldVal, newVal) => {
+  if(newVal.get("$$ref")) {
+    // resolver artifacts indicated that this key was directly resolved
+    // so we should drop the old value entirely
+    return newVal
+  }
+
+  if(Map.isMap(oldVal) && Map.isMap(newVal)) {
+    return Map().mergeWith(
+      mergerFn,
+      oldVal,
+      newVal
+    )
+  }
+
+  return newVal
+}
+
 export const specJsonWithResolvedSubtrees = createSelector(
   state,
-  spec => Map().merge(spec.get("json"), spec.get("resolvedSubtrees"))
+  spec => Map().mergeWith(
+    mergerFn,
+    spec.get("json"),
+    spec.get("resolvedSubtrees")
+  )
 )
 
 // Default Spec ( as an object )
