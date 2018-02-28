@@ -1,7 +1,13 @@
 /* eslint-env mocha */
 import expect from "expect"
 import { fromJS } from "immutable"
-import { parameterValues, contentTypeValues, operationScheme } from "corePlugins/spec/selectors"
+import {
+  parameterValues,
+  contentTypeValues,
+  operationScheme,
+  specJsonWithResolvedSubtrees,
+  operationConsumes
+} from "corePlugins/spec/selectors"
 
 describe("spec plugin - selectors", function(){
 
@@ -238,6 +244,34 @@ describe("spec plugin - selectors", function(){
 
   })
 
+  describe("operationConsumes", function(){
+    it("should return the operationConsumes for an operation", function(){
+      // Given
+      let state = fromJS({
+        json: {
+          paths: {
+            "/one": {
+              get: {
+                consumes: [
+                  "application/xml",
+                  "application/something-else"
+                ]
+              }
+            }
+          }
+        }
+      })
+
+      // When
+      let contentTypes = operationConsumes(state, [ "/one", "get" ])
+      // Then
+      expect(contentTypes.toJS()).toEqual([
+        "application/xml",
+        "application/something-else"
+      ])
+    })
+  })
+
   describe("operationScheme", function(){
 
     it("should return the correct scheme for a remote spec that doesn't specify a scheme", function(){
@@ -276,5 +310,4 @@ describe("spec plugin - selectors", function(){
     // })
 
   })
-
 })

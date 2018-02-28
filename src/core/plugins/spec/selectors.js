@@ -369,7 +369,7 @@ export function contentTypeValues(state, pathMethod) {
 // Get the consumes/produces by path
 export function operationConsumes(state, pathMethod) {
   pathMethod = pathMethod || []
-  return state.getIn(["meta", ...pathMethod, "consumes"], fromJS({}))
+  return specJsonWithResolvedSubtrees(state).getIn(["paths", ...pathMethod, "consumes"], fromJS({}))
 }
 
 // Get the currently selected produces value for an operation
