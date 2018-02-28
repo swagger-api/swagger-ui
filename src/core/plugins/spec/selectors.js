@@ -47,13 +47,13 @@ export const specResolvedSubtree = (state, path) => {
 }
 
 const mergerFn = (oldVal, newVal) => {
-  if(newVal.get("$$ref")) {
-    // resolver artifacts indicated that this key was directly resolved
-    // so we should drop the old value entirely
-    return newVal
-  }
-
   if(Map.isMap(oldVal) && Map.isMap(newVal)) {
+    if(newVal.get("$$ref")) {
+      // resolver artifacts indicated that this key was directly resolved
+      // so we should drop the old value entirely
+      return newVal
+    }
+
     return Map().mergeWith(
       mergerFn,
       oldVal,
