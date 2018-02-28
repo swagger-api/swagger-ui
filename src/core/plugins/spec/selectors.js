@@ -46,9 +46,31 @@ export const specResolvedSubtree = (state, path) => {
   return state.getIn(["resolvedSubtrees", ...path], undefined)
 }
 
+const mergerFn = (oldVal, newVal) => {
+  if(Map.isMap(oldVal) && Map.isMap(newVal)) {
+    if(newVal.get("$$ref")) {
+      // resolver artifacts indicated that this key was directly resolved
+      // so we should drop the old value entirely
+      return newVal
+    }
+
+    return Map().mergeWith(
+      mergerFn,
+      oldVal,
+      newVal
+    )
+  }
+
+  return newVal
+}
+
 export const specJsonWithResolvedSubtrees = createSelector(
   state,
-  spec => Map().merge(spec.get("json"), spec.get("resolvedSubtrees"))
+  spec => Map().mergeWith(
+    mergerFn,
+    spec.get("json"),
+    spec.get("resolvedSubtrees")
+  )
 )
 
 // Default Spec ( as an object )
@@ -369,7 +391,7 @@ export function contentTypeValues(state, pathMethod) {
 // Get the consumes/produces by path
 export function operationConsumes(state, pathMethod) {
   pathMethod = pathMethod || []
-  return state.getIn(["meta", ...pathMethod, "consumes"], fromJS({}))
+  return specJsonWithResolvedSubtrees(state).getIn(["paths", ...pathMethod, "consumes"], fromJS({}))
 }
 
 // Get the currently selected produces value for an operation
