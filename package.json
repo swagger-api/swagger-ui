@@ -90,7 +90,7 @@
     "xml": "1.0.1",
     "xml-but-prettier": "^1.0.1",
     "yaml-js": "0.2.0",
-    "zenscroll": "4.0.0"
+    "zenscroll": "4.0.1"
   },
   "devDependencies": {
     "autoprefixer": "7.1.1",
