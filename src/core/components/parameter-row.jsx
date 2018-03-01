@@ -88,8 +88,8 @@ export default class ParameterRow extends Component {
     let parameter = specSelectors.getParameter(pathMethod, param.get("name"))
     let value = parameter ? parameter.get("value") : ""
 
-    return (
-      <tr style={{display: hidden ? "none" : "table-row"}}>
+    return hidden ? null : (
+      <tr>
         <td className="col parameters-col_name">
           <div className={required ? "parameter__name required" : "parameter__name"}>
             { param.get("name") }
