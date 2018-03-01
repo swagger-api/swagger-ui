@@ -125,8 +125,6 @@ export default class OperationContainer extends PureComponent {
       specPath
     } = this.props
 
-    debugger
-
     if(specPath) {
       return specSelectors.specResolvedSubtree(specPath.toJS()) || Map()
     }
