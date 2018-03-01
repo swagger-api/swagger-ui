@@ -20,7 +20,7 @@ const state = state => {
   return state || Map()
 }
 
-const nullSelector =  createSelector(() => null)
+const nullSelector = createSelector(() => null)
 
 const OAS3NullSelector = onlyOAS3(nullSelector)
 

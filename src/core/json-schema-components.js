@@ -2,6 +2,7 @@ import React, { PureComponent, Component } from "react"
 import PropTypes from "prop-types"
 import { List, fromJS } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
+import DebounceInput from "react-debounce-input"
 //import "less/json-schema-form"
 
 const noop = ()=> {}
@@ -79,10 +80,13 @@ export class JsonSchema_string extends Component {
                      disabled={isDisabled}/>)
     }
     else {
-      return (<Input type={ schema.format === "password" ? "password" : "text" }
+      return (<DebounceInput
+                     type={ schema.format === "password" ? "password" : "text" }
                      className={ errors.length ? "invalid" : ""}
                      title={ errors.length ? errors : ""}
                      value={value}
+                     minLength={0}
+                     debounceTimeout={350}
                      placeholder={description}
                      onChange={ this.onChange }
                      disabled={isDisabled}/>)
