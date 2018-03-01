@@ -166,7 +166,9 @@ const debResolveSubtrees = debounce(async () => {
     var batchResult = await requestBatch.reduce(async (prev, path) => {
       const { resultMap, specWithCurrentSubtrees } = await prev
 
-      const { errors, spec } = await resolveSubtree(specWithCurrentSubtrees, path)
+      const { errors, spec } = await resolveSubtree(specWithCurrentSubtrees, path, {
+        // baseDoc: specSelectors.url()
+      })
 
       if(errSelectors.allErrors().size) {
         errActions.clear({
