@@ -83,11 +83,12 @@ export default class ParameterRow extends Component {
     let isFormData = inType === "formData"
     let isFormDataSupported = "FormData" in win
     let required = param.get("required")
+    let hidden = param.get("hidden")
     let itemType = param.getIn(["items", "type"])
     let parameter = specSelectors.getParameter(pathMethod, param.get("name"))
     let value = parameter ? parameter.get("value") : ""
 
-    return (
+    return hidden ? null : (
       <tr>
         <td className="col parameters-col_name">
           <div className={required ? "parameter__name required" : "parameter__name"}>
