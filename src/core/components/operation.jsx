@@ -156,7 +156,7 @@ export default class Operation extends PureComponent {
 
           <Collapse isOpened={isShown}>
             <div className="opblock-body">
-              { operation && operation.size ? null :
+              { (operation && operation.size) || operation === null ? null :
                 <img height={"32px"} width={"32px"} src={require("core/../img/rolling-load.svg")} className="opblock-loading-animation" />
               }
               { deprecated && <h4 className="opblock-title_normal"> Warning: Deprecated</h4>}
