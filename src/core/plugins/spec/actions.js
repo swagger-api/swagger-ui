@@ -82,7 +82,7 @@ let hasWarnedAboutResolveSpecDeprecation = false
 
 export const resolveSpec = (json, url) => ({specActions, specSelectors, errActions, fn: { fetch, resolve, AST }, getConfigs}) => {
   if(!hasWarnedAboutResolveSpecDeprecation) {
-    console.warn(`specActions.resolveSpec is deprecated since v3.10.0 and will be removed in v4.0.0; use resolveIn instead!`)
+    console.warn(`specActions.resolveSpec is deprecated since v3.10.0 and will be removed in v4.0.0; use requestResolvedSubtree instead!`)
     hasWarnedAboutResolveSpecDeprecation = true
   }
 
@@ -162,12 +162,22 @@ const debResolveSubtrees = debounce(async () => {
 
   const specStr = specSelectors.specStr()
 
+  const {
+    modelPropertyMacro,
+    parameterMacro,
+    requestInterceptor,
+    responseInterceptor
+  } = system.getConfigs()
+
   try {
     var batchResult = await requestBatch.reduce(async (prev, path) => {
       const { resultMap, specWithCurrentSubtrees } = await prev
-
       const { errors, spec } = await resolveSubtree(specWithCurrentSubtrees, path, {
-        baseDoc: specSelectors.url()
+        baseDoc: specSelectors.url(),
+        modelPropertyMacro,
+        parameterMacro,
+        requestInterceptor,
+        responseInterceptor
       })
 
       if(errSelectors.allErrors().size) {
