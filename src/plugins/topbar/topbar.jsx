@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 
 //import "./topbar.less"
 import Logo from "./logo_small.png"
+import {parseSearch, serializeSearch} from "../../core/utils"
 
 export default class Topbar extends React.Component {
 
@@ -41,6 +42,12 @@ export default class Topbar extends React.Component {
     e.preventDefault()
   }
 
+  setSearch = (spec) => {
+    let search = parseSearch()
+    search["urls.primaryName"] = spec.name
+    window.location.search = serializeSearch(search)
+  }
+
   setSelectedUrl = (selectedUrl) => {
     const configs = this.props.getConfigs()
     const urls = configs.urls || []
@@ -52,6 +59,7 @@ export default class Topbar extends React.Component {
           if(spec.url === selectedUrl)
             {
               this.setState({selectedIndex: i})
+              this.setSearch(spec)
             }
         })
       }

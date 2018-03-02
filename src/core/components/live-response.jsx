@@ -53,7 +53,7 @@ export default class LiveResponse extends React.Component {
 
     const curlRequest = showMutatedRequest ? specSelectors.mutatedRequestFor(path, method) : specSelectors.requestFor(path, method)
     const status = response.get("status")
-    const url = response.get("url")
+    const url = curlRequest.get("url")
     const headers = response.get("headers").toJS()
     const notDocumented = response.get("notDocumented")
     const isError = response.get("error")
