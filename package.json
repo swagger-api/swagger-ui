@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.11.0",
+  "version": "3.12.0",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -83,7 +83,7 @@
     "scroll-to-element": "^2.0.0",
     "serialize-error": "2.0.0",
     "shallowequal": "0.2.2",
-    "swagger-client": "^3.5.0",
+    "swagger-client": "^3.5.1",
     "url-parse": "^1.1.8",
     "whatwg-fetch": "0.11.1",
     "worker-loader": "^0.7.1",
@@ -144,6 +144,7 @@
     "standard": "^10.0.2",
     "standard-loader": "^6.0.1",
     "style-loader": "0.18.2",
+    "tachyons-sass": "^4.9.2",
     "url-loader": "0.5.9",
     "webpack": "^2.6.1",
     "webpack-bundle-size-analyzer": "^2.5.0"
