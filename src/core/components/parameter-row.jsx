@@ -28,11 +28,14 @@ export default class ParameterRow extends Component {
     let parameter = specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in"))
     let value = parameter ? parameter.get("value") : ""
 
-    if ( xExampleValue !== undefined && value === undefined ) {
-      this.onChangeWrapper(xExampleValue)
-    } else if ( defaultValue !== undefined && value === undefined ) {
-      this.onChangeWrapper(defaultValue)
+    if( param.get("in") !== "body" ) {
+      if ( xExampleValue !== undefined && value === undefined ) {
+        this.onChangeWrapper(xExampleValue)
+      } else if ( defaultValue !== undefined && value === undefined ) {
+        this.onChangeWrapper(defaultValue)
+      }
     }
+
   }
 
   componentWillReceiveProps(props) {
