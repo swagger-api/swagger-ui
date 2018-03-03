@@ -20,16 +20,16 @@ class OperationsLayout extends React.Component {
 
     const Operations = getComponent("Operations", true)
 
-    return {
+    return (
       <div>
         <Operations />
       </div>
-    }
+    )
   }
 }
 
 // Create the plugin that provides our layout component
-const OperationsLayoutPlugin = function() {
+const OperationsLayoutPlugin = () => {
   return {
     components: {
       OperationsLayout: OperationsLayout
@@ -62,19 +62,19 @@ class AugmentingLayout extends React.Component {
 
     const BaseLayout = getComponent("BaseLayout", true)
 
-    return {
+    return (
       <div>
         <div className="myCustomHeader">
           <h1>I have a custom header above Swagger-UI!</h1>
         </div>
         <BaseLayout />
       </div>
-    }
+    )
   }
 }
 
 // Create the plugin that provides our layout component
-const AugmentingLayoutPlugin = function() {
+const AugmentingLayoutPlugin = () => {
   return {
     components: {
       AugmentingLayout: AugmentingLayout

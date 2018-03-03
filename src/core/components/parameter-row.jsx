@@ -24,7 +24,7 @@ export default class ParameterRow extends Component {
 
     let { specSelectors, pathMethod, param } = props
     let defaultValue = param.get("default")
-    let parameter = specSelectors.getParameter(pathMethod, param.get("name"), param.get("in"))
+    let parameter = specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in"))
     let value = parameter ? parameter.get("value") : ""
     if ( defaultValue !== undefined && value === undefined ) {
       this.onChangeWrapper(defaultValue)
@@ -37,7 +37,7 @@ export default class ParameterRow extends Component {
 
     let example = param.get("example")
     let defaultValue = param.get("default")
-    let parameter = specSelectors.getParameter(pathMethod, param.get("name"), param.get("in"))
+    let parameter = specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in"))
     let enumValue
 
     if(isOAS3()) {
@@ -98,16 +98,16 @@ export default class ParameterRow extends Component {
     const Markdown = getComponent("Markdown")
     const ParameterExt = getComponent("ParameterExt")
 
+    let paramWithMeta = specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in"))
+
     let schema = param.get("schema")
     let type = isOAS3 && isOAS3() ? param.getIn(["schema", "type"]) : param.get("type")
     let isFormData = inType === "formData"
     let isFormDataSupported = "FormData" in win
     let required = param.get("required")
     let itemType = param.getIn(isOAS3 && isOAS3() ? ["schema", "items", "type"] : ["items", "type"])
-    let parameter = specSelectors.getParameter(pathMethod, param.get("name"), param.get("in"))
-    let value = parameter ? parameter.get("value") : ""
+    let value = paramWithMeta ? paramWithMeta.get("value") : ""
     let extensions = getExtensions(param)
-
 
     let paramItems // undefined
     let paramItemsEnum // undefined
@@ -158,7 +158,7 @@ export default class ParameterRow extends Component {
             <Markdown source={
                 "<i>Available values</i>: " + paramItemsEnum.map(function(item) {
                     return item
-                  }).toArray().join(", ")}/> 
+                  }).toArray().join(", ")}/>
             : null
           }
 
@@ -181,6 +181,7 @@ export default class ParameterRow extends Component {
                               required={ required }
                               description={param.get("description") ? `${param.get("name")} - ${param.get("description")}` : `${param.get("name")}`}
                               onChange={ this.onChangeWrapper }
+                              errors={ param.get("errors") }
                               schema={ isOAS3 && isOAS3() ? param.get("schema") : param }/>
           }
 
