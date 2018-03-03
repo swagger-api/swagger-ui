@@ -29,7 +29,7 @@ export default class ParameterRow extends Component {
     let value = parameter ? parameter.get("value") : ""
 
     if( param.get("in") !== "body" ) {
-      if ( xExampleValue !== undefined && value === undefined ) {
+      if ( xExampleValue !== undefined && value === undefined && specSelectors.isSwagger2() ) {
         this.onChangeWrapper(xExampleValue)
       } else if ( defaultValue !== undefined && value === undefined ) {
         this.onChangeWrapper(defaultValue)
