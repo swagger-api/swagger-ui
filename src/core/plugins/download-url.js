@@ -30,7 +30,9 @@ export default function downloadUrlPlugin (toolbox) {
         }
         specActions.updateLoadingStatus("success")
         specActions.updateSpec(res.text)
-        specActions.updateUrl(url)
+        if(specSelectors.url() !== url) {
+          specActions.updateUrl(url)
+        }
       }
 
     },

@@ -1,7 +1,10 @@
 import YAML from "js-yaml"
+import { Map } from "immutable"
 import parseUrl from "url-parse"
 import serializeError from "serialize-error"
 import isString from "lodash/isString"
+import debounce from "lodash/debounce"
+import set from "lodash/set"
 import { isJSONObject } from "core/utils"
 
 // Actions conform to FSA (flux-standard-actions)
@@ -21,6 +24,7 @@ export const CLEAR_REQUEST = "spec_clear_request"
 export const CLEAR_VALIDATE_PARAMS = "spec_clear_validate_param"
 export const UPDATE_OPERATION_META_VALUE = "spec_update_operation_meta_value"
 export const UPDATE_RESOLVED = "spec_update_resolved"
+export const UPDATE_RESOLVED_SUBTREE = "spec_update_resolved_subtree"
 export const SET_SCHEME = "set_scheme"
 
 const toStr = (str) => isString(str) ? str : ""
@@ -74,7 +78,14 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
   return {}
 }
 
+let hasWarnedAboutResolveSpecDeprecation = false
+
 export const resolveSpec = (json, url) => ({specActions, specSelectors, errActions, fn: { fetch, resolve, AST }, getConfigs}) => {
+  if(!hasWarnedAboutResolveSpecDeprecation) {
+    console.warn(`specActions.resolveSpec is deprecated since v3.10.0 and will be removed in v4.0.0; use requestResolvedSubtree instead!`)
+    hasWarnedAboutResolveSpecDeprecation = true
+  }
+
   const {
     modelPropertyMacro,
     parameterMacro,
@@ -124,10 +135,119 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
     })
 }
 
+let requestBatch = []
+
+const debResolveSubtrees = debounce(async () => {
+  const system = requestBatch.system // Just a reference to the "latest" system
+
+  if(!system) {
+    console.error("debResolveSubtrees: don't have a system to operate on, aborting.")
+    return
+  }
+    const {
+      errActions,
+      errSelectors,
+      fn: {
+        resolveSubtree,
+        AST: { getLineNumberForPath }
+      },
+      specSelectors,
+      specActions,
+    } = system
+
+  if(!resolveSubtree) {
+    console.error("Error: Swagger-Client did not provide a `resolveSubtree` method, doing nothing.")
+    return
+  }
+
+  const specStr = specSelectors.specStr()
+
+  const {
+    modelPropertyMacro,
+    parameterMacro,
+    requestInterceptor,
+    responseInterceptor
+  } = system.getConfigs()
+
+  try {
+    var batchResult = await requestBatch.reduce(async (prev, path) => {
+      const { resultMap, specWithCurrentSubtrees } = await prev
+      const { errors, spec } = await resolveSubtree(specWithCurrentSubtrees, path, {
+        baseDoc: specSelectors.url(),
+        modelPropertyMacro,
+        parameterMacro,
+        requestInterceptor,
+        responseInterceptor
+      })
+
+      if(errSelectors.allErrors().size) {
+        errActions.clear({
+          type: "thrown"
+        })
+      }
+
+      if(Array.isArray(errors) && errors.length > 0) {
+        let preparedErrors = errors
+          .map(err => {
+            err.line = err.fullPath ? getLineNumberForPath(specStr, err.fullPath) : null
+            err.path = err.fullPath ? err.fullPath.join(".") : null
+            err.level = "error"
+            err.type = "thrown"
+            err.source = "resolver"
+            Object.defineProperty(err, "message", { enumerable: true, value: err.message })
+            return err
+          })
+        errActions.newThrownErrBatch(preparedErrors)
+      }
+
+      set(resultMap, path, spec)
+      set(specWithCurrentSubtrees, path, spec)
+
+      return {
+        resultMap,
+        specWithCurrentSubtrees
+      }
+    }, Promise.resolve({
+      resultMap: (specSelectors.specResolvedSubtree([]) || Map()).toJS(),
+      specWithCurrentSubtrees: specSelectors.specJson().toJS()
+    }))
+
+    delete requestBatch.system
+    requestBatch = [] // Clear stack
+  } catch(e) {
+    console.error(e)
+  }
+
+  specActions.updateResolvedSubtree([], batchResult.resultMap)
+}, 35)
+
+export const requestResolvedSubtree = path => system => {
+  requestBatch.push(path)
+  requestBatch.system = system
+  debResolveSubtrees()
+}
+
 export function changeParam( path, paramName, paramIn, value, isXml ){
   return {
     type: UPDATE_PARAM,
     payload:{ path, value, paramName, paramIn, isXml }
+  }
+}
+
+export const updateResolvedSubtree = (path, value) => {
+  return {
+    type: UPDATE_RESOLVED_SUBTREE,
+    payload: { path, value }
+  }
+}
+
+export const invalidateResolvedSubtreeCache = () => {
+  return {
+    type: UPDATE_RESOLVED_SUBTREE,
+    payload: {
+      path: [],
+      value: Map()
+    }
   }
 }
 
@@ -251,6 +371,7 @@ export const executeRequest = (req) =>
     // track duration of request
     const startTime = Date.now()
 
+
     return fn.execute(req)
     .then( res => {
       res.duration = Date.now() - startTime
@@ -267,13 +388,22 @@ export const executeRequest = (req) =>
 // I'm using extras as a way to inject properties into the final, `execute` method - It's not great. Anyone have a better idea? @ponelat
 export const execute = ( { path, method, ...extras }={} ) => (system) => {
   let { fn:{fetch}, specSelectors, specActions } = system
-  let spec = specSelectors.spec().toJS()
+  let spec = specSelectors.specJsonWithResolvedSubtrees().toJS()
   let scheme = specSelectors.operationScheme(path, method)
   let { requestContentType, responseContentType } = specSelectors.contentTypeValues([path, method]).toJS()
   let isXml = /xml/i.test(requestContentType)
   let parameters = specSelectors.parameterValues([path, method], isXml).toJS()
 
-  return specActions.executeRequest({fetch, spec, pathName: path, method, parameters, requestContentType, scheme, responseContentType, ...extras })
+  return specActions.executeRequest({
+    ...extras,
+    fetch,
+    spec,
+    pathName: path,
+    method, parameters,
+    requestContentType,
+    scheme,
+    responseContentType
+  })
 }
 
 export function clearResponse (path, method) {
