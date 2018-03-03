@@ -39,9 +39,12 @@ div#header {
 }
 
 div#header_wrap, div.swagger-ui, div#api_info {
-  max-width: 960px;
   min-width: 760px;
   margin: 0 auto;
+}
+
+div#header_wrap, .information-container.wrapper {
+  max-width: 960px;
 }
 
 div#swagger-ui {
@@ -143,7 +146,9 @@ section.schemes.wrapper.block.col-12 {
 .swagger-ui .scheme-container {
   visibility: hidden;
   padding: 0;
-  margin: 0;
+  margin: 0 auto;
+  max-width: 960px;
+  min-width: 820px;
 }
 
 div.info {
@@ -164,14 +169,13 @@ div.info hgroup.main h2.title {
   font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
-div.info div.description div p {
+div.info div.description div.markdown {
   font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   font-size: 40px;
   font-weight: 200;
   text-align: center;
   color: #fff;
-  padding-top: 1.8em;
-  top: 17vmin;
+  top: 27vmin;
   max-width: 960px;
   min-width: 760px;
   width: 100%;
@@ -182,14 +186,25 @@ div.info div.description div p {
 .swagger-ui .btn.authorize {
   border: 0;
   text-transform: uppercase;
+  color: rgb(0, 158, 115);
+  position: fixed;
+  top: 34px;
+  z-index: 9001;
+}
+
+.swagger-ui .btn.authorize span {
+  padding-right: 5px;
 }
 
 div.auth-wrapper {
   visibility: visible;
-  position: fixed;
-  z-index: 9001;
   transition-duration: .25s;
   transition-timing-function: ease-in;
+}
+
+button.btn.modal-btn.auth.authorize.button {
+  position: relative;
+  top: 0.5em;
 }
 
 .swagger-ui div.wrapper .info .title small {
@@ -198,47 +213,6 @@ div.auth-wrapper {
 
 pre.base-url, span.url {
   display: none;
-}
-
-@media screen and (min-width: 1776px) {
-  div.auth-wrapper {
-    top: 34px;
-    right: 32%;
-  }
-}
-
-@media screen and (min-width: 1535px) and (max-width: 1775px) {
-  div.auth-wrapper {
-    top: 34px;
-    right: 29%;
-  }
-}
-
-@media screen and (min-width: 1190px) and (max-width: 1534px) {
-  div.auth-wrapper {
-    top: 34px;
-    right: 23%;
-  }
-}
-
-@media screen and (min-width: 930px) and (max-width: 1189px) {
-  div.auth-wrapper {
-    top: 34px;
-    right: 14%;
-  }
-}
-
-@media screen and (min-width: 351px) and (max-width: 929px) {
-  div.auth-wrapper {
-    top: 86px;
-  }
-}
-
-@media screen and (max-width: 350px) {
-  div.auth-wrapper {
-    top: 65px;
-    left: 10px;
-  }
 }
 
 section.block.col-12.block-desktop.col-12-desktop {
@@ -562,8 +536,17 @@ h4.title {
   text-align: center;
 }
 
-svg.arrow, button.unlocked>svg, button.locked>svg, section.models>h4>svg {
+svg.arrow, section.models>h4>svg {
   fill: #fff;
+}
+
+div.auth-wrapper>button.unlocked>svg,
+div.auth-wrapper>button.locked>svg {
+  fill: rgb(0, 158, 115) !important;
+}
+
+button.unlocked>svg, button.locked>svg {
+  fill: #fff !important;
 }
 
 textarea.curl {
