@@ -3,7 +3,17 @@ import PropTypes from "prop-types"
 import Remarkable from "remarkable"
 import sanitize from "sanitize-html"
 
+// eslint-disable-next-line no-useless-escape
+const isPlainText = (str) => /^[A-Z\s0-9!?\.]+$/gi.test(str)
+
 function Markdown({ source }) {
+    if(isPlainText(source)) {
+      // If the source text is not Markdown,
+      // let's save some time and just render it.
+      return <div className="markdown">
+        {source}
+      </div>
+    }
     const html = new Remarkable({
         html: true,
         typographer: true,
