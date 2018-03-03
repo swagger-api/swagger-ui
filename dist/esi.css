@@ -527,10 +527,6 @@ span.model-toggle {
   left: 3px;
 }
 
-div#swagger-ui>section.swagger-ui.swagger-container>div.wrapper {
-  max-width: 960px;
-}
-
 h4.title {
   margin: 0 auto !important;
   text-align: center;
