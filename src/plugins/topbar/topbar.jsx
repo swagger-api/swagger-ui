@@ -45,7 +45,10 @@ export default class Topbar extends React.Component {
   setSearch = (spec) => {
     let search = parseSearch()
     search["urls.primaryName"] = spec.name
-    window.location.search = serializeSearch(search)
+    const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}`
+    if(window && window.history && window.history.pushState) {
+      window.history.replaceState(null, "", `${newUrl}?${serializeSearch(search)}`)
+    }
   }
 
   setSelectedUrl = (selectedUrl) => {
