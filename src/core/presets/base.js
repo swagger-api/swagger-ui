@@ -10,13 +10,18 @@ import auth from "core/plugins/auth"
 import util from "core/plugins/util"
 import SplitPaneModePlugin from "core/plugins/split-pane-mode"
 import downloadUrlPlugin from "core/plugins/download-url"
+import configsPlugin from "core/plugins/configs"
 import deepLinkingPlugin from "core/plugins/deep-linking"
+import filter from "core/plugins/filter"
+
+import OperationContainer from "core/containers/OperationContainer"
 
 import App from "core/components/app"
 import AuthorizationPopup from "core/components/auth/authorization-popup"
 import AuthorizeBtn from "core/components/auth/authorize-btn"
 import AuthorizeOperationBtn from "core/components/auth/authorize-operation-btn"
 import Auths from "core/components/auth/auths"
+import AuthItem from "core/components/auth/auth-item"
 import AuthError from "core/components/auth/error"
 import ApiKeyAuth from "core/components/auth/api-key-auth"
 import BasicAuth from "core/components/auth/basic-auth"
@@ -26,11 +31,14 @@ import LiveResponse from "core/components/live-response"
 import OnlineValidatorBadge from "core/components/online-validator-badge"
 import Operations from "core/components/operations"
 import Operation from "core/components/operation"
+import OperationExt from "core/components/operation-extensions"
+import OperationExtRow from "core/components/operation-extension-row"
 import HighlightCode from "core/components/highlight-code"
 import Responses from "core/components/responses"
 import Response from "core/components/response"
 import ResponseBody from "core/components/response-body"
 import Parameters from "core/components/parameters"
+import ParameterExt from "core/components/parameter-extension"
 import ParameterRow from "core/components/parameter-row"
 import Execute from "core/components/execute"
 import Headers from "core/components/headers"
@@ -51,8 +59,10 @@ import EnumModel from "core/components/enum-model"
 import ObjectModel from "core/components/object-model"
 import ArrayModel from "core/components/array-model"
 import PrimitiveModel from "core/components/primitive-model"
+import Property from "core/components/property"
 import TryItOutButton from "core/components/try-it-out-button"
 import VersionStamp from "core/components/version-stamp"
+import DeepLink from "core/components/deep-link"
 
 import Markdown from "core/components/providers/markdown"
 
@@ -70,6 +80,7 @@ export default function() {
       authorizeBtn: AuthorizeBtn,
       authorizeOperationBtn: AuthorizeOperationBtn,
       auths: Auths,
+      AuthItem: AuthItem,
       authError: AuthError,
       oauth2: Oauth2,
       apiKeyAuth: ApiKeyAuth,
@@ -104,10 +115,16 @@ export default function() {
       ObjectModel,
       ArrayModel,
       PrimitiveModel,
+      Property,
       TryItOutButton,
       Markdown,
       BaseLayout,
-      VersionStamp
+      VersionStamp,
+      OperationExt,
+      OperationExtRow,
+      ParameterExt,
+      OperationContainer,
+      DeepLink
     }
   }
 
@@ -120,6 +137,7 @@ export default function() {
   }
 
   return [
+    configsPlugin,
     util,
     logs,
     view,
@@ -135,6 +153,7 @@ export default function() {
     ast,
     SplitPaneModePlugin,
     downloadUrlPlugin,
-    deepLinkingPlugin
+    deepLinkingPlugin,
+    filter
   ]
 }

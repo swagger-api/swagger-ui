@@ -7,10 +7,10 @@
 
     transition: all .3s;
 
-    border: 2px solid #888;
+    border: 2px solid $btn-border-color;
     border-radius: 4px;
     background: transparent;
-    box-shadow: 0 1px 2px rgba(#000,.1);
+    box-shadow: 0 1px 2px rgba($btn-box-shadow-color,.1);
 
     @include text_headline();
 
@@ -29,14 +29,14 @@
 
     &:hover
     {
-        box-shadow: 0 0 5px rgba(#000,.3);
+        box-shadow: 0 0 5px rgba($btn-box-shadow-color,.3);
     }
 
     &.cancel
     {
-        border-color: #ff6060;
-
-        @include text_headline(#ff6060);
+        border-color: $btn-cancel-border-color;
+        background-color: $btn-cancel-background-color;
+        @include text_headline($btn-cancel-font-color);
     }
 
     &.authorize
@@ -45,9 +45,9 @@
 
         display: inline;
 
-        color: $_color-post;
-        border-color: $_color-post;
-
+        color: $btn-authorize-font-color;
+        border-color: $btn-authorize-border-color;
+        background-color: $btn-authorize-background-color;
 
         span
         {
@@ -58,39 +58,15 @@
 
         svg
         {
-            fill: $_color-post;
+            fill: $btn-authorize-svg-fill-color;
         }
     }
 
     &.execute
     {
-        animation: swagger-ui-pulse 2s infinite;
-
-        color: #fff;
-        border-color: #4990e2;
-    }
-}
-
-
-@keyframes swagger-ui-pulse
-{
-    0%
-    {
-        color: #fff;
-        background: #4990e2;
-        box-shadow: 0 0 0 0 rgba(#4990e2, .8);
-    }
-    70%
-    {
-        //color: #4990e2;
-        //background: transparent;
-        box-shadow: 0 0 0 5px rgba(#4990e2, 0);
-    }
-    100%
-    {
-        color: #fff;
-        background: #4990e2;
-        box-shadow: 0 0 0 0 rgba(#4990e2, 0);
+        background-color: $btn-execute-background-color-alt;
+        color: $btn-execute-font-color;
+        border-color: $btn-execute-border-color;
     }
 }
 
@@ -155,7 +131,7 @@
     {
         svg
         {
-            fill: #444;
+            fill: $expand-methods-svg-fill-color-hover;
         }
     }
 
@@ -163,7 +139,7 @@
     {
         transition: all .3s;
 
-        fill: #777;
+        fill: $expand-methods-svg-fill-color;
     }
 }
 

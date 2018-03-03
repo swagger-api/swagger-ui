@@ -22,7 +22,7 @@ export default {
     securities.entrySeq().forEach( ([ key, security ]) => {
       let type = security.getIn(["schema", "type"])
 
-      if ( type === "apiKey" ) {
+      if ( type === "apiKey" || type === "http" ) {
         map = map.set(key, security)
       } else if ( type === "basic" ) {
         let username = security.getIn(["value", "username"])
@@ -44,7 +44,7 @@ export default {
     let { auth, token } = payload
     let parsedAuth
 
-    auth.token = token
+    auth.token = Object.assign({}, token)
     parsedAuth = fromJS(auth)
 
     return state.setIn( [ "authorized", parsedAuth.get("name") ], parsedAuth )

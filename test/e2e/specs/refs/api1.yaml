@@ -1,0 +1,32 @@
+openapi: 3.0.0
+info:
+  description: |
+    This is a test to show how model refererence from another file are failing.
+    This file references api2.yaml.  If you load this file first in the browser it fails.
+    However, if you load api2.yaml first, then load this one it will work.
+  version: 1.0.0
+  title: API1 Test
+paths:
+  '/test-api-1':        
+    get:
+      summary: Api 1
+      responses:
+        '200':
+          description: 'api 2 response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestResponse'
+components:
+  schemas:
+    Api1Prop:
+      type: string
+      example: 'api1prop-value'
+
+    TestResponse:
+      type: object
+      properties:
+        api1prop:
+          $ref: '#/components/schemas/Api1Prop'
+        api2prop:
+          $ref: 'api2.yaml#/components/schemas/Api2Prop'

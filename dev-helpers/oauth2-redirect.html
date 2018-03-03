@@ -11,7 +11,11 @@
         var redirectUrl = oauth2.redirectUrl;
         var isValid, qp, arr;
 
-        qp = (window.location.hash || location.search).substring(1);
+        if (/code|token|error/.test(window.location.hash)) {
+            qp = window.location.hash.substring(1);
+        } else {
+            qp = location.search.substring(1);
+        }
 
         arr = qp.split("&")
         arr.forEach(function (v,i,_arr) { _arr[i] = '"' + v.replace('=', '":"') + '"';})
@@ -23,7 +27,10 @@
 
         isValid = qp.state === sentState
 
-        if (oauth2.auth.schema.get("flow") === "accessCode" && !oauth2.auth.code) {
+        if ((
+          oauth2.auth.schema.get("flow") === "accessCode"||
+          oauth2.auth.schema.get("flow") === "authorizationCode"
+        ) && !oauth2.auth.code) {
             if (!isValid) {
                 oauth2.errCb({
                     authId: oauth2.auth.name,
@@ -38,11 +45,18 @@
                 oauth2.auth.code = qp.code;
                 oauth2.callback({auth: oauth2.auth, redirectUrl: redirectUrl});
             } else {
+                let oauthErrorMsg
+                if (qp.error) {
+                    oauthErrorMsg = "["+qp.error+"]: " +
+                        (qp.error_description ? qp.error_description+ ". " : "no accessCode received from the server. ") +
+                        (qp.error_uri ? "More info: "+qp.error_uri : "");
+                }
+
                 oauth2.errCb({
                     authId: oauth2.auth.name,
                     source: "auth",
                     level: "error",
-                    message: "Authorization failed: no accessCode received from the server"
+                    message: oauthErrorMsg || "[Authorization failed]: no accessCode received from the server"
                 });
             }
         } else {

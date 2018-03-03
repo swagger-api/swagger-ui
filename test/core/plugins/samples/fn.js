@@ -1,6 +1,272 @@
-import { createXMLExample } from "corePlugins/samples/fn"
+import { createXMLExample, sampleFromSchema } from "corePlugins/samples/fn"
 import expect from "expect"
 
+describe("sampleFromSchema", function() {
+  it("returns object with no readonly fields for parameter", function () {
+    var definition = {
+      type: "object",
+      properties: {
+        id: {
+          type: "integer"
+        },
+        readOnlyDog: {
+          readOnly: true,
+          type: "string"
+        }
+      },
+      xml: {
+        name: "animals"
+      }
+    }
+
+    var expected = {
+      id: 0
+    }
+
+    expect(sampleFromSchema(definition, { includeReadOnly: false })).toEqual(expected)
+  })
+
+  it("returns object with readonly fields for parameter, with includeReadOnly", function () {
+    var definition = {
+      type: "object",
+      properties: {
+        id: {
+          type: "integer"
+        },
+        readOnlyDog: {
+          readOnly: true,
+          type: "string"
+        }
+      },
+      xml: {
+        name: "animals"
+      }
+    }
+
+    var expected = {
+      id: 0,
+      readOnlyDog: "string"
+    }
+
+    expect(sampleFromSchema(definition, { includeReadOnly: true })).toEqual(expected)
+  })
+
+  it("returns object without writeonly fields for parameter", function () {
+    var definition = {
+      type: "object",
+      properties: {
+        id: {
+          type: "integer"
+        },
+        writeOnlyDog: {
+          writeOnly: true,
+          type: "string"
+        }
+      },
+      xml: {
+        name: "animals"
+      }
+    }
+
+    var expected = {
+      id: 0
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("returns object with writeonly fields for parameter, with includeWriteOnly", function () {
+    var definition = {
+      type: "object",
+      properties: {
+        id: {
+          type: "integer"
+        },
+        writeOnlyDog: {
+          writeOnly: true,
+          type: "string"
+        }
+      },
+      xml: {
+        name: "animals"
+      }
+    }
+
+    var expected = {
+      id: 0,
+      writeOnlyDog: "string"
+    }
+
+    expect(sampleFromSchema(definition, { includeWriteOnly: true })).toEqual(expected)
+  })
+
+  describe("for array type", function() {
+    it("returns array with sample of array type", function() {
+      var definition = {
+        type: "array",
+        items: {
+          type: "integer"
+        }
+      }
+  
+      var expected = [ 0 ]
+  
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+    
+    it("returns array of examples for array that has example", function() {
+      var definition = {
+        type: "array",
+        items: {
+          type: "string"
+        },
+        example: "dog"
+      }
+  
+      var expected = [ "dog" ]
+  
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+
+    it("returns array of examples for array that has examples", function() {
+      var definition = {
+        type: "array",
+        items: {
+          type: "string",          
+        },
+        example: [ "dog", "cat" ]
+      }
+  
+      var expected = [ "dog", "cat" ]
+  
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+    
+    it("returns array of samples for oneOf type", function() {
+      var definition = {
+        type: "array",
+        items: {
+          type: "string",
+          oneOf: [
+            {
+              type: "integer"
+            }
+          ]
+        }
+      }
+  
+      var expected = [ 0 ]
+  
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+
+    it("returns array of samples for oneOf types", function() {
+      var definition = {
+        type: "array",
+        items: {
+          type: "string",
+          oneOf: [
+            {
+              type: "string"
+            },
+            {
+              type: "integer"
+            }
+          ]
+        }
+      }
+  
+      var expected = [ "string", 0 ]
+  
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+
+    it("returns array of samples for oneOf examples", function() {
+      var definition = {
+        type: "array",
+        items: {
+          type: "string",
+          oneOf: [
+            {
+              type: "string",
+              example: "dog"
+            },
+            {
+              type: "integer",
+              example: 1
+            }
+          ]
+        }
+      }
+  
+      var expected = [ "dog", 1 ]
+  
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+    
+    it("returns array of samples for anyOf type", function() {
+      var definition = {
+        type: "array",
+        items: {
+          type: "string",
+          anyOf: [
+            {
+              type: "integer"
+            }
+          ]
+        }
+      }
+  
+      var expected = [ 0 ]
+  
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+
+    it("returns array of samples for anyOf types", function() {
+      var definition = {
+        type: "array",
+        items: {
+          type: "string",
+          anyOf: [
+            {
+              type: "string"
+            },
+            {
+              type: "integer"
+            }
+          ]
+        }
+      }
+  
+      var expected = [ "string", 0 ]
+  
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+
+    it("returns array of samples for anyOf examples", function() {
+      var definition = {
+        type: "array",
+        items: {
+          type: "string",
+          anyOf: [
+            {
+              type: "string",
+              example: "dog"
+            },
+            {
+              type: "integer",
+              example: 1
+            }
+          ]
+        }
+      }
+  
+      var expected = [ "dog", 1 ]
+  
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+  })
+})
 
 describe("createXMLExample", function () {
   var sut = createXMLExample
@@ -552,6 +818,69 @@ describe("createXMLExample", function () {
       }
 
       expect(sut(definition, { includeReadOnly: false })).toEqual(expected)
+    })
+
+    it("returns object with readonly fields for parameter, with includeReadOnly", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<id>0</id>\n\t<dog>string</dog>\n</animals>"
+      var definition = {
+        type: "object",
+        properties: {
+          id: {
+            type: "integer"
+          },
+          dog: {
+            readOnly: true,
+            type: "string"
+          }
+        },
+        xml: {
+          name: "animals"
+        }
+      }
+
+      expect(sut(definition, { includeReadOnly: true })).toEqual(expected)
+    })
+
+    it("returns object without writeonly fields for parameter", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<id>0</id>\n</animals>"
+      var definition = {
+        type: "object",
+        properties: {
+          id: {
+            type: "integer"
+          },
+          dog: {
+            writeOnly: true,
+            type: "string"
+          }
+        },
+        xml: {
+          name: "animals"
+        }
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
+    it("returns object with writeonly fields for parameter, with includeWriteOnly", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<id>0</id>\n\t<dog>string</dog>\n</animals>"
+      var definition = {
+        type: "object",
+        properties: {
+          id: {
+            type: "integer"
+          },
+          dog: {
+            writeOnly: true,
+            type: "string"
+          }
+        },
+        xml: {
+          name: "animals"
+        }
+      }
+
+      expect(sut(definition, { includeWriteOnly: true })).toEqual(expected)
     })
 
     it("returns object with passed property as attribute", function () {

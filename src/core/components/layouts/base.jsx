@@ -8,6 +8,8 @@ export default class BaseLayout extends React.Component {
     errActions: PropTypes.object.isRequired,
     specActions: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
+    oas3Selectors: PropTypes.object.isRequired,
+    oas3Actions: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired
@@ -19,7 +21,14 @@ export default class BaseLayout extends React.Component {
   }
 
   render() {
-    let { specSelectors, specActions, getComponent, layoutSelectors } = this.props
+    let {
+      specSelectors,
+      specActions,
+      getComponent,
+      layoutSelectors,
+      oas3Selectors,
+      oas3Actions
+    } = this.props
 
     let info = specSelectors.info()
     let url = specSelectors.url()
@@ -28,6 +37,7 @@ export default class BaseLayout extends React.Component {
     let securityDefinitions = specSelectors.securityDefinitions()
     let externalDocs = specSelectors.externalDocs()
     let schemes = specSelectors.schemes()
+    let servers = specSelectors.servers()
 
     let Info = getComponent("info")
     let Operations = getComponent("operations", true)
@@ -35,6 +45,7 @@ export default class BaseLayout extends React.Component {
     let AuthorizeBtn = getComponent("authorizeBtn", true)
     let Row = getComponent("Row")
     let Col = getComponent("Col")
+    let Servers = getComponent("Servers")
     let Errors = getComponent("errors", true)
 
     let isLoading = specSelectors.loadingStatus() === "loading"
@@ -50,7 +61,18 @@ export default class BaseLayout extends React.Component {
     const isSpecEmpty = !specSelectors.specStr()
 
     if(isSpecEmpty) {
-      return <h4>No spec provided.</h4>
+      let loadingMessage
+      if(isLoading) {
+        loadingMessage = <div className="loading"></div>
+      } else {
+        loadingMessage = <h4>No API definition provided.</h4>
+      }
+
+      return <div className="swagger-ui">
+        <div className="loading-container">
+          {loadingMessage}
+        </div>
+      </div>
     }
 
     return (
@@ -69,7 +91,10 @@ export default class BaseLayout extends React.Component {
               <div className="scheme-container">
                 <Col className="schemes wrapper" mobile={12}>
                   { schemes && schemes.size ? (
-                    <Schemes schemes={ schemes } specActions={ specActions } />
+                    <Schemes
+                      currentScheme={specSelectors.operationScheme()}
+                      schemes={ schemes }
+                      specActions={ specActions } />
                   ) : null }
 
                   { securityDefinitions ? (
@@ -78,6 +103,23 @@ export default class BaseLayout extends React.Component {
                 </Col>
               </div>
             ) : null }
+
+            { servers && servers.size ? (
+              <div className="global-server-container">
+                <Col className="servers wrapper" mobile={12}>
+                  <span className="servers-title">Server</span>
+                  <Servers
+                    servers={servers}
+                    currentServer={oas3Selectors.selectedServer()}
+                    setSelectedServer={oas3Actions.setSelectedServer}
+                    setServerVariableValue={oas3Actions.setServerVariableValue}
+                    getServerVariable={oas3Selectors.serverVariableValue}
+                    getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
+                    />
+                </Col>
+              </div>
+
+            ) : null}
 
             {
               filter === null || filter === false ? null :

@@ -15,7 +15,7 @@
         bottom: 0;
         left: 0;
 
-        background: rgba(#000,.8);
+        background: rgba($dialog-ux-backdrop-background-color,.8);
     }
 
     .modal-ux
@@ -31,10 +31,10 @@
 
         transform: translate(-50%,-50%);
 
-        border: 1px solid #ebebeb;
+        border: 1px solid $dialog-ux-modal-border-color;
         border-radius: 4px;
-        background: #fff;
-        box-shadow: 0 10px 30px 0 rgba(0,0,0,.20);
+        background: $dialog-ux-modal-background-color;
+        box-shadow: 0 10px 30px 0 rgba($dialog-ux-modal-box-shadow-color,.20);
     }
 
     .modal-ux-content
@@ -50,7 +50,7 @@
 
             margin: 0 0 5px 0;
 
-            color: #41444e;
+            color: $dialog-ux-modal-content-font-color;
 
             @include text_body();
         }
@@ -72,7 +72,7 @@
 
         padding: 12px 0;
 
-        border-bottom: 1px solid #ebebeb;
+        border-bottom: 1px solid $dialog-ux-modal-header-border-bottom-color;
 
         align-items: center;
 
