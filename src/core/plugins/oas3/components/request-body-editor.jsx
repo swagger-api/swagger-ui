@@ -121,7 +121,7 @@ export default class RequestBodyEditor extends PureComponent {
 
             }
             { userDidModify &&
-              <Button className="btn" onClick={() => { this.resetValueToSample(mediaType) }}>Reset</Button>
+              <Button className="btn ml3" onClick={() => { this.resetValueToSample(mediaType) }}>Reset</Button>
             }
           </div>
         </div>

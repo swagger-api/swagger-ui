@@ -144,6 +144,7 @@
     "standard": "^10.0.2",
     "standard-loader": "^6.0.1",
     "style-loader": "0.18.2",
+    "tachyons-sass": "^4.9.2",
     "url-loader": "0.5.9",
     "webpack": "^2.6.1",
     "webpack-bundle-size-analyzer": "^2.5.0"
