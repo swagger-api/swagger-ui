@@ -350,7 +350,7 @@ export function extractFileNameFromContentDispositionHeader(value){
   if (responseFilename !== null && responseFilename.length > 1) {
     return responseFilename[1]
   }
-  return null  
+  return null
 }
 
 // PascalCase, aka UpperCamelCase
@@ -559,7 +559,7 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
     } else if ( type === "array" ) {
       let itemType
 
-      if ( !value.count() ) { return errors }
+      if ( !listCheck || !value.count() ) { return errors }
 
       itemType = paramDetails.getIn(["items", "type"])
 
