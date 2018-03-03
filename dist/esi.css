@@ -183,7 +183,8 @@ div.info div.description div.markdown {
   z-index: -1;
 }
 
-.swagger-ui .btn.authorize {
+.swagger-ui .btn.authorize,
+.swagger-ui .btn.btn-done {
   border: 0;
   text-transform: uppercase;
   color: rgb(0, 158, 115);
@@ -202,7 +203,8 @@ div.auth-wrapper {
   transition-timing-function: ease-in;
 }
 
-button.btn.modal-btn.auth.authorize.button {
+button.btn.modal-btn.auth.authorize.button,
+button.btn.modal-btn.auth.btn-done.button {
   position: relative;
   top: 0.5em;
 }
@@ -466,6 +468,7 @@ td.col.response-col_description {
   padding: 0;
   padding-bottom: 10px;
   border-bottom: 1px #fff solid;
+  width: 100%;
 }
 
 div.responses-inner tr.response:last-child td {
@@ -485,6 +488,7 @@ div.opblock-section-header label {
   font-size: 14.4px !important;
   font-weight: 300 !important;
   border-radius: 0 !important;
+  width: 100% !important;
   font-family: "Roboto Mono", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace !important;
 }
 
@@ -671,4 +675,31 @@ div.auth-container h5 {
 div.table-container {
   color: #fff;
   font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+
+.swagger-ui .btn-group {
+  padding: 0 0 30px 0;
+  min-height: 4em;
+}
+
+.swagger-ui .btn.execute {
+  background-color: #00aeff;
+  border-color: #00aeff;
+}
+
+.swagger-ui .btn.btn-clear {
+  background-color: #b24d4b;
+  border-color: #b24d4b;
+}
+
+td.col.parameters-col_description>div.markdown>p {
+  margin: 0;
+}
+
+td.header-col {
+  vertical-align: top !important;
+}
+
+table.model>tbody>tr:last-child {
+  display: none;
 }
