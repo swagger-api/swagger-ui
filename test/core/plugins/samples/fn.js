@@ -99,6 +99,173 @@ describe("sampleFromSchema", function() {
 
     expect(sampleFromSchema(definition, { includeWriteOnly: true })).toEqual(expected)
   })
+
+  describe("for array type", function() {
+    it("returns array with sample of array type", function() {
+      var definition = {
+        type: "array",
+        items: {
+          type: "integer"
+        }
+      }
+  
+      var expected = [ 0 ]
+  
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+    
+    it("returns array of examples for array that has example", function() {
+      var definition = {
+        type: "array",
+        items: {
+          type: "string"
+        },
+        example: "dog"
+      }
+  
+      var expected = [ "dog" ]
+  
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+
+    it("returns array of examples for array that has examples", function() {
+      var definition = {
+        type: "array",
+        items: {
+          type: "string",          
+        },
+        example: [ "dog", "cat" ]
+      }
+  
+      var expected = [ "dog", "cat" ]
+  
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+    
+    it("returns array of samples for oneOf type", function() {
+      var definition = {
+        type: "array",
+        items: {
+          type: "string",
+          oneOf: [
+            {
+              type: "integer"
+            }
+          ]
+        }
+      }
+  
+      var expected = [ 0 ]
+  
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+
+    it("returns array of samples for oneOf types", function() {
+      var definition = {
+        type: "array",
+        items: {
+          type: "string",
+          oneOf: [
+            {
+              type: "string"
+            },
+            {
+              type: "integer"
+            }
+          ]
+        }
+      }
+  
+      var expected = [ "string", 0 ]
+  
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+
+    it("returns array of samples for oneOf examples", function() {
+      var definition = {
+        type: "array",
+        items: {
+          type: "string",
+          oneOf: [
+            {
+              type: "string",
+              example: "dog"
+            },
+            {
+              type: "integer",
+              example: 1
+            }
+          ]
+        }
+      }
+  
+      var expected = [ "dog", 1 ]
+  
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+    
+    it("returns array of samples for anyOf type", function() {
+      var definition = {
+        type: "array",
+        items: {
+          type: "string",
+          anyOf: [
+            {
+              type: "integer"
+            }
+          ]
+        }
+      }
+  
+      var expected = [ 0 ]
+  
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+
+    it("returns array of samples for anyOf types", function() {
+      var definition = {
+        type: "array",
+        items: {
+          type: "string",
+          anyOf: [
+            {
+              type: "string"
+            },
+            {
+              type: "integer"
+            }
+          ]
+        }
+      }
+  
+      var expected = [ "string", 0 ]
+  
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+
+    it("returns array of samples for anyOf examples", function() {
+      var definition = {
+        type: "array",
+        items: {
+          type: "string",
+          anyOf: [
+            {
+              type: "string",
+              example: "dog"
+            },
+            {
+              type: "integer",
+              example: 1
+            }
+          ]
+        }
+      }
+  
+      var expected = [ "dog", 1 ]
+  
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+  })
 })
 
 describe("createXMLExample", function () {
