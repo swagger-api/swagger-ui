@@ -4,12 +4,11 @@ import {
   NEW_SPEC_ERR,
   NEW_SPEC_ERR_BATCH,
   NEW_AUTH_ERR,
-  CLEAR
+  CLEAR,
+  CLEAR_BY,
 } from "./actions"
 
-import reject from "lodash/reject"
-
-import Im, { fromJS, List } from "immutable"
+import { fromJS, List } from "immutable"
 
 import transformErrors from "./error-transformers/hook"
 
@@ -65,11 +64,34 @@ export default function(system) {
     },
 
     [CLEAR]: (state, { payload }) => {
-      if(!payload) {
-        return
+      if(!payload || !state.get("errors")) {
+        return state
       }
-      // TODO: Rework, to use immutable only, no need for lodash
-      let newErrors = Im.fromJS(reject((state.get("errors") || List()).toJS(), payload))
+
+      let newErrors = state.get("errors")
+        .filter(err => {
+          return err.keySeq().every(k => {
+            const errValue = err.get(k)
+            const filterValue = payload[k]
+
+            if(!filterValue) return true
+
+            return errValue !== filterValue
+          })
+        })
+      return state.merge({
+        errors: newErrors
+      })
+    },
+
+    [CLEAR_BY]: (state, { payload }) => {
+      if(!payload || typeof payload !== "function") {
+        return state
+      }
+      let newErrors = state.get("errors")
+        .filter(err => {
+          return payload(err)
+        })
       return state.merge({
         errors: newErrors
       })

@@ -2,7 +2,7 @@ import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { helpers } from "swagger-client"
-import { Iterable, fromJS } from "immutable"
+import { Iterable, fromJS, Map } from "immutable"
 
 const { opId } = helpers
 
@@ -56,13 +56,13 @@ export default class OperationContainer extends PureComponent {
 
   mapStateToProps(nextState, props) {
     const { op, layoutSelectors, getConfigs } = props
-    const { docExpansion, deepLinking, displayOperationId, displayRequestDuration } = getConfigs()
+    const { docExpansion, deepLinking, displayOperationId, displayRequestDuration, supportedSubmitMethods } = getConfigs()
     const showSummary = layoutSelectors.showSummary()
     const operationId = op.getIn(["operation", "operationId"]) || op.getIn(["operation", "__originalOperationId"]) || opId(op.get("operation"), props.path, props.method) || op.get("id")
     const isShownKey = ["operations", props.tag, operationId]
     const isDeepLinkingEnabled = deepLinking && deepLinking !== "false"
-    const allowTryItOut = typeof props.allowTryItOut === "undefined" ?
-      props.specSelectors.allowTryItOutFor(props.path, props.method) : props.allowTryItOut
+    const allowTryItOut = supportedSubmitMethods.indexOf(props.method) >= 0 && (typeof props.allowTryItOut === "undefined" ?
+      props.specSelectors.allowTryItOutFor(props.path, props.method) : props.allowTryItOut)
     const security = op.getIn(["operation", "security"]) || props.specSelectors.security()
 
     return {
@@ -82,13 +82,24 @@ export default class OperationContainer extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.response !== this.props.response) {
+    const { response, isShown } = nextProps
+    const resolvedSubtree = this.getResolvedSubtree()
+
+    if(response !== this.props.response) {
       this.setState({ executeInProgress: false })
+    }
+
+    if(isShown && resolvedSubtree === undefined) {
+      this.requestResolvedSubtree()
     }
   }
 
   toggleShown =() => {
     let { layoutActions, tag, operationId, isShown } = this.props
+    if(!isShown) {
+      // transitioning from collapsed to expanded
+      this.requestResolvedSubtree()
+    }
     layoutActions.show(["operations", tag, operationId], !isShown)
   }
 
@@ -106,9 +117,40 @@ export default class OperationContainer extends PureComponent {
     this.setState({ executeInProgress: true })
   }
 
+  getResolvedSubtree = () => {
+    const {
+      specSelectors,
+      path,
+      method,
+      specPath
+    } = this.props
+
+    if(specPath) {
+      return specSelectors.specResolvedSubtree(specPath.toJS())
+    }
+
+    return specSelectors.specResolvedSubtree(["paths", path, method])
+  }
+
+  requestResolvedSubtree = () => {
+    const {
+      specActions,
+      path,
+      method,
+      specPath
+    } = this.props
+
+
+    if(specPath) {
+      return specActions.requestResolvedSubtree(specPath.toJS())
+    }
+
+    return specActions.requestResolvedSubtree(["paths", path, method])
+  }
+
   render() {
     let {
-      op,
+      op: unresolvedOp,
       tag,
       path,
       method,
@@ -140,10 +182,14 @@ export default class OperationContainer extends PureComponent {
 
     const Operation = getComponent( "operation" )
 
+    const resolvedSubtree = this.getResolvedSubtree() || Map()
+
     const operationProps = fromJS({
-      op,
+      op: resolvedSubtree,
       tag,
       path,
+      summary: unresolvedOp.getIn(["operation", "summary"]) || "",
+      deprecated: resolvedSubtree.get("deprecated") || unresolvedOp.getIn(["operation", "deprecated"]) || false,
       method,
       security,
       isAuthorized,
