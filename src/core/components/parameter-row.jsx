@@ -24,11 +24,18 @@ export default class ParameterRow extends Component {
 
     let { specSelectors, pathMethod, param } = props
     let defaultValue = param.get("default")
-    let parameter = specSelectors.getParameter(pathMethod, param.get("name"), param.get("in"))
+    let xExampleValue = param.get("x-example")
+    let parameter = specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in"))
     let value = parameter ? parameter.get("value") : ""
-    if ( defaultValue !== undefined && value === undefined ) {
-      this.onChangeWrapper(defaultValue)
+
+    if( param.get("in") !== "body" ) {
+      if ( xExampleValue !== undefined && value === undefined && specSelectors.isSwagger2() ) {
+        this.onChangeWrapper(xExampleValue)
+      } else if ( defaultValue !== undefined && value === undefined ) {
+        this.onChangeWrapper(defaultValue)
+      }
     }
+
   }
 
   componentWillReceiveProps(props) {
@@ -37,7 +44,7 @@ export default class ParameterRow extends Component {
 
     let example = param.get("example")
     let defaultValue = param.get("default")
-    let parameter = specSelectors.getParameter(pathMethod, param.get("name"), param.get("in"))
+    let parameter = specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in"))
     let enumValue
 
     if(isOAS3()) {
@@ -98,16 +105,16 @@ export default class ParameterRow extends Component {
     const Markdown = getComponent("Markdown")
     const ParameterExt = getComponent("ParameterExt")
 
+    let paramWithMeta = specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in"))
+
     let schema = param.get("schema")
     let type = isOAS3 && isOAS3() ? param.getIn(["schema", "type"]) : param.get("type")
     let isFormData = inType === "formData"
     let isFormDataSupported = "FormData" in win
     let required = param.get("required")
     let itemType = param.getIn(isOAS3 && isOAS3() ? ["schema", "items", "type"] : ["items", "type"])
-    let parameter = specSelectors.getParameter(pathMethod, param.get("name"), param.get("in"))
-    let value = parameter ? parameter.get("value") : ""
+    let value = paramWithMeta ? paramWithMeta.get("value") : ""
     let extensions = getExtensions(param)
-
 
     let paramItems // undefined
     let paramItemsEnum // undefined

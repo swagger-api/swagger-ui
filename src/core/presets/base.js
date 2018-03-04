@@ -12,6 +12,7 @@ import SplitPaneModePlugin from "core/plugins/split-pane-mode"
 import downloadUrlPlugin from "core/plugins/download-url"
 import configsPlugin from "core/plugins/configs"
 import deepLinkingPlugin from "core/plugins/deep-linking"
+import filter from "core/plugins/filter"
 
 import OperationContainer from "core/containers/OperationContainer"
 
@@ -154,6 +155,7 @@ export default function() {
     ast,
     SplitPaneModePlugin,
     downloadUrlPlugin,
-    deepLinkingPlugin
+    deepLinkingPlugin,
+    filter
   ]
 }

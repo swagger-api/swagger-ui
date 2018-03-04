@@ -68,6 +68,7 @@ Parameter Name | Description
 `requestInterceptor` | `Function=(a => a)`. MUST be a function.  Function to intercept remote definition, Try-It-Out, and OAuth2 requests.  Accepts one argument requestInterceptor(request) and must return the potentially modified request.
 `responseInterceptor` |`Function=(a => a)`. MUST be a function.  Function to intercept remote definition, Try-It-Out, and OAuth2 responses.  Accepts one argument responseInterceptor(response) and must return the potentially modified response.
 `showMutatedRequest` | `Boolean=true`. If set to `true`, uses the mutated request returned from a requestInterceptor to produce the curl command in the UI, otherwise the request before the requestInterceptor was applied is used.
+`supportedSubmitMethods` | `Array=["get", "put", "post", "delete", "options", "head", "patch", "trace"]`. List of HTTP methods that have the Try it out feature enabled. An empty array disables Try it out for all operations. This does not filter the operations from the display.
 `validatorUrl` | `String="https://online.swagger.io/validator" OR null`. By default, Swagger-UI attempts to validate specs against swagger.io's online validator. You can use this parameter to set a different validator URL, for example for locally deployed validators ([Validator Badge](https://github.com/swagger-api/validator-badge)). Setting it to `null` will disable validation.
 
 ##### Macros
