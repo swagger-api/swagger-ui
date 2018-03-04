@@ -35,7 +35,7 @@ describe("auth plugin - actions", () => {
           host: "host",
           url: "http://specs/file",
         },
-        "https://host/authorize"
+        "http://specs/authorize"
       ],
     ].forEach(([{oas3, server, scheme, host, url}, expectedFetchUrl]) => {
       it("should resolve authorization endpoint against the server URL", () => {
