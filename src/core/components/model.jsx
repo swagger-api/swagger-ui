@@ -49,6 +49,17 @@ export default class Model extends ImmutablePureComponent {
       schema = this.getRefSchema( name )
     }
 
+    if(!schema) {
+      return <span className="model model-title">
+              <span className="model-title__text">{ name }</span>
+              <img src={require("core/../img/rolling-load.svg")} height={"20px"} width={"20px"} style={{
+                  marginLeft: "1em",
+                  position: "relative",
+                  bottom: "0px"
+                }} />
+            </span>
+    }
+
     const deprecated = specSelectors.isOAS3() && schema.get("deprecated")
     isRef = isRef !== undefined ? isRef : !!$$ref
     type = schema && schema.get("type") || type

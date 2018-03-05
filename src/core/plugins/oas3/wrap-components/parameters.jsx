@@ -161,7 +161,10 @@ class Parameters extends Component {
         </div> : "" }
 
         {this.state.callbackVisible ? <div className="callbacks-container opblock-description-wrapper">
-          <Callbacks callbacks={Map(operation.get("callbacks"))} />
+          <Callbacks
+            callbacks={Map(operation.get("callbacks"))}
+            specPath={specPath.slice(0, -1).push("callbacks")}
+          />
         </div> : "" }
         {
           isOAS3() && requestBody && this.state.parametersVisible &&
