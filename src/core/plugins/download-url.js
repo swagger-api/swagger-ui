@@ -12,6 +12,7 @@ export default function downloadUrlPlugin (toolbox) {
       const config = getConfigs()
       url = url || specSelectors.url()
       specActions.updateLoadingStatus("loading")
+      errActions.clear({type: "thrown"})
       fetch({
         url,
         loadSpec: true,
@@ -26,12 +27,38 @@ export default function downloadUrlPlugin (toolbox) {
       function next(res) {
         if(res instanceof Error || res.status >= 400) {
           specActions.updateLoadingStatus("failed")
-          return errActions.newThrownErr( new Error((res.message || res.statusText) + " " + url) )
+          errActions.newThrownErr( new Error((res.message || res.statusText) + " " + url) )
+          // Check if the failure was possibly due to CORS or mixed content
+          if (res instanceof Error) checkPossibleFailReasons()
+          return
         }
         specActions.updateLoadingStatus("success")
         specActions.updateSpec(res.text)
         if(specSelectors.url() !== url) {
           specActions.updateUrl(url)
+        }
+      }
+
+      function checkPossibleFailReasons() {
+        try {
+          let specUrl
+
+          if("URL" in window ) {
+            specUrl = new URL(url)
+          } else {
+            // legacy browser, use <a href> to parse the URL
+            specUrl = document.createElement("a")
+            specUrl.href = url
+          }
+
+          if(specUrl.origin !== window.location.origin) {
+            errActions.newThrownErr( new Error(`Possible cross-origin (CORS) issue? The URL origin (${specUrl.origin}) does not match the page (${window.location.origin}), so the server must return correct 'Access-Control-Allow-*' headers`) )
+          }
+          if(specUrl.protocol !== "https:" && window.location.protocol === "https:") {
+            errActions.newThrownErr( new Error(`Possible mixed-content issue? The page was loaded over https:// but a ${specUrl.protocol}// URL was specified. Check that you are not attempting to load mixed content`) )
+          }
+        } catch (e) {
+          return
         }
       }
 
