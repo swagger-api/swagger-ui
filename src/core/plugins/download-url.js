@@ -29,7 +29,7 @@ export default function downloadUrlPlugin (toolbox) {
           specActions.updateLoadingStatus("failed")
           errActions.newThrownErr( new Error((res.message || res.statusText) + " " + url) )
           // Check if the failure was possibly due to CORS or mixed content
-          if (res instanceof Error) checkPossibleFailReasons()
+          if (!res.status && res instanceof Error) checkPossibleFailReasons()
           return
         }
         specActions.updateLoadingStatus("success")
