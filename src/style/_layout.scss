@@ -586,6 +586,16 @@
     }
 }
 
+.opblock-body
+{
+  .opblock-loading-animation
+  {
+    display: block;
+    margin: 3em;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
 
 .opblock-body pre
 {

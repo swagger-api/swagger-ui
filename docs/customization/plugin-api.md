@@ -2,6 +2,22 @@
 
 A plugin is a function that returns an object - more specifically, the object may contain functions and components that augment and modify Swagger-UI's functionality.
 
+### Note: Semantic Versioning 
+
+Swagger-UI's internal APIs are _not_ part of our public contract, which means that they can change without the major version changing.
+
+If your custom plugins wrap, extend, override, or consume any internal core APIs, we recommend specifying a specific minor version of Swagger-UI to use in your application, because they will _not_ change between patch versions.
+
+If you're installing Swagger-UI via NPM, for example, you can do this by using a tilde:
+
+```js
+{
+  "dependencies": {
+    "swagger-ui": "~3.11.0"
+  }
+}
+```
+
 ### Format
 
 A plugin return value may contain any of these keys, where `stateKey` is a name for a piece of state:

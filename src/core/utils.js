@@ -445,7 +445,7 @@ export const validateDateTime = (val) => {
 
 export const validateGuid = (val) => {
     val = val.toString().toLowerCase()
-    if (!/^[{(]?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}[)}]?$/.test(val)) {
+    if (!/^[{(]?[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}[)}]?$/.test(val)) {
         return "Value must be a Guid"
     }
 }
@@ -559,7 +559,7 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
     } else if ( type === "array" ) {
       let itemType
 
-      if ( !value.count() ) { return errors }
+      if ( !listCheck || !value.count() ) { return errors }
 
       itemType = paramDetails.getIn(["items", "type"])
 
@@ -623,11 +623,17 @@ export const parseSearch = () => {
         continue
       }
       i = params[i].split("=")
-      map[decodeURIComponent(i[0])] = decodeURIComponent(i[1])
+      map[decodeURIComponent(i[0])] = (i[1] && decodeURIComponent(i[1])) || ""
     }
   }
 
   return map
+}
+
+export const serializeSearch = (searchMap) => {
+  return Object.keys(searchMap).map(k => {
+    return encodeURIComponent(k) + "=" + encodeURIComponent(searchMap[k])
+  }).join("&")
 }
 
 export const btoa = (str) => {

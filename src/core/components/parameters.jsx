@@ -101,7 +101,7 @@ export default class Parameters extends Component {
                       specPath={specPath.push(i.toString())}
                       getComponent={ getComponent }
                       getConfigs={ getConfigs }
-                      param={ parameter }
+                      param={ specSelectors.parameterWithMeta(pathMethod, parameter.get("name"), parameter.get("in")) }
                       key={ `${parameter.get( "in" )}.${parameter.get("name")}` }
                       onChange={ this.onChange }
                       onChangeConsumes={this.onChangeConsumesWrapper}

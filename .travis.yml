@@ -34,7 +34,7 @@ deploy:
       node: '6.9'
 after_success:
   - if [ $DOCKER_HUB_USERNAME ]; then
-      docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD;
+      docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD;
 
       if [ ! -z "$TRAVIS_TAG" ]; then
         DOCKER_IMAGE_TAG=$TRAVIS_TAG;
