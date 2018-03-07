@@ -703,3 +703,12 @@ td.header-col {
 table.model>tbody>tr:last-child {
   display: none;
 }
+
+div.opblock-description div.markdown {
+  color: #fff;
+  font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-size: 14.4px;
+  font-weight: 300;
+  line-height: 1.4em;
+  padding: 5px 0 0;
+}
