@@ -24,6 +24,12 @@ describe("Markdown component", function() {
             const el = render(<Markdown source={str} />)
             expect(el.html()).toEqual(`<div class="markdown"><p><img src="http://image.source" title="Image title"></p>\n</div>`)
         })
+      
+        it("allows image elements with https scheme", function() {
+            const str = `![Image alt text](https://image.source "Image title")`
+            const el = render(<Markdown source={str} />)
+            expect(el.html()).toEqual(`<div class="markdown"><p><img src="https://image.source" title="Image title"></p>\n</div>`)
+        })
 
         it("allows heading elements", function() {
             const str = `
@@ -49,6 +55,12 @@ describe("Markdown component", function() {
             const str = `![Image alt text](http://image.source "Image title")`
             const el = render(<OAS3Markdown source={str} />)
             expect(el.html()).toEqual(`<div class="renderedMarkdown"><div><p><img src="http://image.source" title="Image title"></p></div></div>`)
+        })
+
+        it("allows image elements with https scheme", function() {
+            const str = `![Image alt text](https://image.source "Image title")`
+            const el = render(<OAS3Markdown source={str} />)
+            expect(el.html()).toEqual(`<div class="renderedMarkdown"><div><p><img src="https://image.source" title="Image title"></p></div></div>`)
         })
 
         it("allows heading elements", function() {
