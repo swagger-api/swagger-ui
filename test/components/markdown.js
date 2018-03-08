@@ -31,6 +31,12 @@ describe("Markdown component", function() {
             expect(el.html()).toEqual(`<div class="markdown"><p><img src="https://image.source" title="Image title"></p>\n</div>`)
         })
 
+        it("allows image elements with data scheme", function() {
+            const str = `<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==">`
+            const el = render(<Markdown source={str} />)
+            expect(el.html()).toEqual(`<div class="markdown"><p>` + str + `</p>\n</div>`)
+        })
+
         it("allows heading elements", function() {
             const str = `
 # h1
@@ -61,6 +67,12 @@ describe("Markdown component", function() {
             const str = `![Image alt text](https://image.source "Image title")`
             const el = render(<OAS3Markdown source={str} />)
             expect(el.html()).toEqual(`<div class="renderedMarkdown"><div><p><img src="https://image.source" title="Image title"></p></div></div>`)
+        })
+
+        it("allows image elements with data scheme", function() {
+            const str = `<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==">`
+            const el = render(<OAS3Markdown source={str} />)
+            expect(el.html()).toEqual(`<div class="renderedMarkdown"><div>` + str + `</div></div>`)
         })
 
         it("allows heading elements", function() {
