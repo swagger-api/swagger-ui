@@ -46,7 +46,7 @@ export default class ArrayModel extends Component {
             properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propVal={ v } propStyle={ propStyle } />) : null
           }
           {
-            !description ? null :
+            !description ? (properties.size ? <div className="markdown"></div> : null) :
               <Markdown source={ description } />
           }
           <span>
