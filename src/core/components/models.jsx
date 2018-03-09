@@ -54,8 +54,9 @@ export default class Models extends Component {
           definitions.entrySeq().map( ( [ name ])=>{
 
             const schema = specSelectors.specResolvedSubtree([...specPathBase, name])
+            const isShown = layoutSelectors.isShown(["models", name], false)
 
-            if(layoutSelectors.isShown(["models", name], false) && schema === undefined) {
+            if(isShown && schema === undefined) {
               // Firing an action in a container render is not great,
               // but it works for now.
               this.props.specActions.requestResolvedSubtree([...this.getSchemaBasePath(), name])
@@ -83,7 +84,7 @@ export default class Models extends Component {
                 title={title}
                 modelName={name}
                 hideSelfOnExpand={true}
-                expanded={defaultModelsExpandDepth > 1}
+                expanded={isShown || defaultModelsExpandDepth > 1 }
                 >{content}</ModelCollapse>
               </div>
           }).toArray()
