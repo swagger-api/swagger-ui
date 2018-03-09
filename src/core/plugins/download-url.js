@@ -56,7 +56,7 @@ export default function downloadUrlPlugin (toolbox) {
             return
           }
           if(specUrl.origin !== window.location.origin) {
-            errActions.newThrownErr( new Error(`Possible cross-origin (CORS) issue? The URL origin (${specUrl.origin}) does not match the page (${window.location.origin}), so the server must return correct 'Access-Control-Allow-*' headers`) )
+            errActions.newThrownErr( new Error(`Possible cross-origin (CORS) issue? The URL origin (${specUrl.origin}) does not match the page (${window.location.origin}). Check the server returns the correct 'Access-Control-Allow-*' headers`) )
           }
         } catch (e) {
           return
