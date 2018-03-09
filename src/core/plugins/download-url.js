@@ -51,11 +51,12 @@ export default function downloadUrlPlugin (toolbox) {
             specUrl.href = url
           }
 
-          if(specUrl.origin !== window.location.origin) {
-            errActions.newThrownErr( new Error(`Possible cross-origin (CORS) issue? The URL origin (${specUrl.origin}) does not match the page (${window.location.origin}), so the server must return correct 'Access-Control-Allow-*' headers`) )
-          }
           if(specUrl.protocol !== "https:" && window.location.protocol === "https:") {
             errActions.newThrownErr( new Error(`Possible mixed-content issue? The page was loaded over https:// but a ${specUrl.protocol}// URL was specified. Check that you are not attempting to load mixed content`) )
+            return
+          }
+          if(specUrl.origin !== window.location.origin) {
+            errActions.newThrownErr( new Error(`Possible cross-origin (CORS) issue? The URL origin (${specUrl.origin}) does not match the page (${window.location.origin}), so the server must return correct 'Access-Control-Allow-*' headers`) )
           }
         } catch (e) {
           return
