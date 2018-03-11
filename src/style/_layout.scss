@@ -769,3 +769,10 @@ a.nostyle {
     cursor: pointer;
   }
 }
+
+button.copy-to-clipboard {
+    float: right;
+    width: 10px;
+    height: 20px;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='20'><rect fill='blue' x='2' y='5' width='60%' height='50%'/></svg>") center center no-repeat;
+}
