@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import formatXml from "xml-but-prettier"
 import lowerCase from "lodash/lowerCase"
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { extractFileNameFromContentDispositionHeader } from "core/utils"
 import win from "core/window"
 
@@ -103,6 +104,7 @@ export default class ResponseBody extends React.Component {
 
     return ( !bodyEl ? null : <div>
         <h5>Response body</h5>
+        <CopyToClipboard text={ content }><button>C2C</button></CopyToClipboard>        
         { bodyEl }
       </div>
     )
