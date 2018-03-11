@@ -103,8 +103,7 @@ export default class ResponseBody extends React.Component {
     }
 
     return ( !bodyEl ? null : <div>
-        <h5>Response body</h5>
-        <CopyToClipboard text={ content }><button>C2C</button></CopyToClipboard>        
+        <h5>Response body<CopyToClipboard text={ content }><button className="copy-to-clipboard"></button></CopyToClipboard></h5>
         { bodyEl }
       </div>
     )
