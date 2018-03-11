@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import formatXml from "xml-but-prettier"
 import lowerCase from "lodash/lowerCase"
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { CopyToClipboard } from "react-copy-to-clipboard"
 import { extractFileNameFromContentDispositionHeader } from "core/utils"
 import win from "core/window"
 
