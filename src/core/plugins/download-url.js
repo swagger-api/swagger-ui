@@ -12,7 +12,7 @@ export default function downloadUrlPlugin (toolbox) {
       const config = getConfigs()
       url = url || specSelectors.url()
       specActions.updateLoadingStatus("loading")
-      errActions.clear({type: "thrown"})
+      errActions.clear({source: "fetch"})
       fetch({
         url,
         loadSpec: true,
@@ -27,7 +27,7 @@ export default function downloadUrlPlugin (toolbox) {
       function next(res) {
         if(res instanceof Error || res.status >= 400) {
           specActions.updateLoadingStatus("failed")
-          errActions.newThrownErr( new Error((res.message || res.statusText) + " " + url) )
+          errActions.newThrownErr(Object.assign( new Error((res.message || res.statusText) + " " + url), {source: "fetch"}))
           // Check if the failure was possibly due to CORS or mixed content
           if (!res.status && res instanceof Error) checkPossibleFailReasons()
           return
@@ -52,11 +52,11 @@ export default function downloadUrlPlugin (toolbox) {
           }
 
           if(specUrl.protocol !== "https:" && window.location.protocol === "https:") {
-            errActions.newThrownErr( new Error(`Possible mixed-content issue? The page was loaded over https:// but a ${specUrl.protocol}// URL was specified. Check that you are not attempting to load mixed content`) )
+            errActions.newThrownErr(Object.assign( new Error(`Possible mixed-content issue? The page was loaded over https:// but a ${specUrl.protocol}// URL was specified. Check that you are not attempting to load mixed content`), {source: "fetch"}))
             return
           }
           if(specUrl.origin !== window.location.origin) {
-            errActions.newThrownErr( new Error(`Possible cross-origin (CORS) issue? The URL origin (${specUrl.origin}) does not match the page (${window.location.origin}). Check the server returns the correct 'Access-Control-Allow-*' headers`) )
+            errActions.newThrownErr(Object.assign( new Error(`Possible cross-origin (CORS) issue? The URL origin (${specUrl.origin}) does not match the page (${window.location.origin}). Check the server returns the correct 'Access-Control-Allow-*' headers`), {source: "fetch"}))
           }
         } catch (e) {
           return
