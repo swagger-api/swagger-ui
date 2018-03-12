@@ -2,6 +2,7 @@
 
 import { createSelector } from "reselect"
 import { Map } from "immutable"
+import win from "../window"
 
 export default function downloadUrlPlugin (toolbox) {
   let { fn } = toolbox
@@ -43,7 +44,7 @@ export default function downloadUrlPlugin (toolbox) {
         try {
           let specUrl
 
-          if("URL" in window ) {
+          if("URL" in win ) {
             specUrl = new URL(url)
           } else {
             // legacy browser, use <a href> to parse the URL
@@ -51,12 +52,12 @@ export default function downloadUrlPlugin (toolbox) {
             specUrl.href = url
           }
 
-          if(specUrl.protocol !== "https:" && window.location.protocol === "https:") {
+          if(specUrl.protocol !== "https:" && win.location.protocol === "https:") {
             errActions.newThrownErr(Object.assign( new Error(`Possible mixed-content issue? The page was loaded over https:// but a ${specUrl.protocol}// URL was specified. Check that you are not attempting to load mixed content`), {source: "fetch"}))
             return
           }
-          if(specUrl.origin !== window.location.origin) {
-            errActions.newThrownErr(Object.assign( new Error(`Possible cross-origin (CORS) issue? The URL origin (${specUrl.origin}) does not match the page (${window.location.origin}). Check the server returns the correct 'Access-Control-Allow-*' headers`), {source: "fetch"}))
+          if(specUrl.origin !== win.location.origin) {
+            errActions.newThrownErr(Object.assign( new Error(`Possible cross-origin (CORS) issue? The URL origin (${specUrl.origin}) does not match the page (${win.location.origin}). Check the server returns the correct 'Access-Control-Allow-*' headers`), {source: "fetch"}))
           }
         } catch (e) {
           return
