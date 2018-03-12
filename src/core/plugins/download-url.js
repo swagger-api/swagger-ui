@@ -53,11 +53,19 @@ export default function downloadUrlPlugin (toolbox) {
           }
 
           if(specUrl.protocol !== "https:" && win.location.protocol === "https:") {
-            errActions.newThrownErr(Object.assign( new Error(`Possible mixed-content issue? The page was loaded over https:// but a ${specUrl.protocol}// URL was specified. Check that you are not attempting to load mixed content.`), {source: "fetch"}))
+            const error = Object.assign(
+              new Error(`Possible mixed-content issue? The page was loaded over https:// but a ${specUrl.protocol}// URL was specified. Check that you are not attempting to load mixed content.`),
+              {source: "fetch"}
+            )
+            errActions.newThrownErr(error)
             return
           }
           if(specUrl.origin !== win.location.origin) {
-            errActions.newThrownErr(Object.assign( new Error(`Possible cross-origin (CORS) issue? The URL origin (${specUrl.origin}) does not match the page (${win.location.origin}). Check the server returns the correct 'Access-Control-Allow-*' headers.`), {source: "fetch"}))
+            const error = Object.assign(
+              new Error(`Possible cross-origin (CORS) issue? The URL origin (${specUrl.origin}) does not match the page (${win.location.origin}). Check the server returns the correct 'Access-Control-Allow-*' headers.`),
+              {source: "fetch"}
+            )
+            errActions.newThrownErr(error)
           }
         } catch (e) {
           return
