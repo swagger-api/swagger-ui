@@ -46,6 +46,7 @@ const sanitizeOptions = {
         "td": [ "colspan" ],
         "*": [ "class" ]
     },
+    allowedSchemesByTag: { img: [ "http", "https", "data" ] },
     textFilter: function(text) {
         return text.replace(/&quot;/g, "\"")
     }
