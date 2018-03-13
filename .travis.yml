@@ -11,6 +11,11 @@ branches:
   - master
   - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
 install: "npm i && npm update"
+script: >
+  npm run test &&
+  curl -O https://raw.githubusercontent.com/danvk/travis-weigh-in/master/weigh_in.py &&
+  python weigh_in.py dist/swagger-ui-bundle.js &&
+  python weigh_in.py dist/swagger-ui.js
 before_deploy:
   - npm run build
 env:
