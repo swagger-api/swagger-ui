@@ -4,6 +4,9 @@ Thanks for filing an issue 😄 ! Before you submit, please read the following:
 If you're here to report a security issue, please STOP writing an issue and contact us 
 at security@swagger.io instead!
 
+If you're here to ask a question, please STOP writing and contact us via StackOverflow
+https://stackoverflow.com/questions/tagged/swagger-ui
+
 Search open/closed issues before submitting since someone might have asked the same thing before!
 
 Issues on GitHub are only related to problems of Swagger-UI itself. We'll try to offer support
@@ -18,7 +21,8 @@ or anything that violates the specifications.
 <!--- Provide a general summary of the issue in the title above -->
 
 <!--- 
-  If you aren't sure what Swagger-UI version, see this guide: https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/version-detection.md
+  If you aren't sure what Swagger-UI version, see this guide: 
+https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/version-detection.md
 --->
 
 
