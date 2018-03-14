@@ -5,7 +5,7 @@ import ImPropTypes from "react-immutable-proptypes"
 import { sanitizeUrl } from "core/utils"
 
 
-class Path extends React.Component {
+export class InfoBasePath extends React.Component {
   static propTypes = {
     host: PropTypes.string,
     basePath: PropTypes.string
@@ -98,6 +98,7 @@ export default class Info extends React.Component {
     const Markdown = getComponent("Markdown")
     const VersionStamp = getComponent("VersionStamp")
     const InfoUrl = getComponent("InfoUrl")
+    const InfoBasePath = getComponent("InfoBasePath")
 
     return (
       <div className="info">
@@ -105,7 +106,7 @@ export default class Info extends React.Component {
           <h2 className="title" >{ title }
             { version && <VersionStamp version={version}></VersionStamp> }
           </h2>
-          { host || basePath ? <Path host={ host } basePath={ basePath } /> : null }
+          { host || basePath ? <InfoBasePath host={ host } basePath={ basePath } /> : null }
           { url && <InfoUrl url={url} /> }
         </hgroup>
 

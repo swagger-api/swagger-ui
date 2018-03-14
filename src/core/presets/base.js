@@ -46,7 +46,8 @@ import Errors from "core/components/errors"
 import ContentType from "core/components/content-type"
 import Overview from "core/components/overview"
 import Info, {
-  InfoUrl
+  InfoUrl,
+  InfoBasePath
 } from "core/components/info"
 import Footer from "core/components/footer"
 import ParamBody from "core/components/param-body"
@@ -127,7 +128,8 @@ export default function() {
       ParameterExt,
       OperationContainer,
       DeepLink,
-      InfoUrl
+      InfoUrl,
+      InfoBasePath
     }
   }
 
