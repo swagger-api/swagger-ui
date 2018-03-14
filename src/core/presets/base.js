@@ -45,7 +45,10 @@ import Headers from "core/components/headers"
 import Errors from "core/components/errors"
 import ContentType from "core/components/content-type"
 import Overview from "core/components/overview"
-import Info from "core/components/info"
+import Info, {
+  InfoUrl,
+  InfoBasePath
+} from "core/components/info"
 import Footer from "core/components/footer"
 import ParamBody from "core/components/param-body"
 import Curl from "core/components/curl"
@@ -124,7 +127,9 @@ export default function() {
       OperationExtRow,
       ParameterExt,
       OperationContainer,
-      DeepLink
+      DeepLink,
+      InfoUrl,
+      InfoBasePath
     }
   }
 
