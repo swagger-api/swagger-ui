@@ -68,6 +68,13 @@ class License extends React.Component {
   }
 }
 
+export class InfoUrl extends React.PureComponent {
+  render() {
+    const { url } = this.props
+    return <a target="_blank" href={ sanitizeUrl(url) }><span className="url"> { url } </span></a>
+  }
+}
+
 export default class Info extends React.Component {
   static propTypes = {
     info: PropTypes.object,
@@ -90,6 +97,7 @@ export default class Info extends React.Component {
 
     const Markdown = getComponent("Markdown")
     const VersionStamp = getComponent("VersionStamp")
+    const InfoUrl = getComponent("InfoUrl")
 
     return (
       <div className="info">
@@ -98,7 +106,7 @@ export default class Info extends React.Component {
             { version && <VersionStamp version={version}></VersionStamp> }
           </h2>
           { host || basePath ? <Path host={ host } basePath={ basePath } /> : null }
-          { url && <a target="_blank" href={ sanitizeUrl(url) }><span className="url"> { url } </span></a> }
+          { url && <InfoUrl url={url} /> }
         </hgroup>
 
         <div className="description">
