@@ -69,6 +69,10 @@ class License extends React.Component {
 }
 
 export class InfoUrl extends React.PureComponent {
+  static propTypes = {
+    url: PropTypes.string.isRequired
+  }
+
   render() {
     const { url } = this.props
     return <a target="_blank" href={ sanitizeUrl(url) }><span className="url"> { url } </span></a>
