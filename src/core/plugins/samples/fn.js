@@ -29,6 +29,10 @@ export const sampleFromSchema = (schema, config={}) => {
   let { type, example, properties, additionalProperties, items } = objectify(schema)
   let { includeReadOnly, includeWriteOnly } = config
 
+  if(example.$$ref) {
+    delete example.$$ref
+  }
+
   if(example !== undefined)
     return example
 
