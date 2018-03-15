@@ -5,6 +5,7 @@ import System from "core/system"
 import { fromJS } from "immutable"
 import { render } from "enzyme"
 import ViewPlugin from "core/plugins/view/index.js"
+import filterPlugin from "core/plugins/filter/index.js"
 import { connect, Provider } from "react-redux"
 
 describe("bound system", function(){
@@ -262,6 +263,22 @@ describe("bound system", function(){
     })
 
 
+  })
+
+  describe("fn", function() {
+
+    it("should return helper functions", function () {
+      // Given
+      const system = new System({
+        plugins: [
+          filterPlugin
+        ]
+      })
+
+      // When
+      const fn = system.getSystem().fn.opsFilter
+      expect(typeof fn).toEqual("function")
+    })
   })
 
   describe("selectors", function(){

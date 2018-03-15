@@ -1,7 +1,13 @@
 /* eslint-env mocha */
 import expect from "expect"
 import { fromJS } from "immutable"
-import { parameterValues, contentTypeValues, operationScheme } from "corePlugins/spec/selectors"
+import {
+  parameterValues,
+  contentTypeValues,
+  operationScheme,
+  specJsonWithResolvedSubtrees,
+  operationConsumes
+} from "corePlugins/spec/selectors"
 
 describe("spec plugin - selectors", function(){
 
@@ -238,6 +244,34 @@ describe("spec plugin - selectors", function(){
 
   })
 
+  describe("operationConsumes", function(){
+    it("should return the operationConsumes for an operation", function(){
+      // Given
+      let state = fromJS({
+        json: {
+          paths: {
+            "/one": {
+              get: {
+                consumes: [
+                  "application/xml",
+                  "application/something-else"
+                ]
+              }
+            }
+          }
+        }
+      })
+
+      // When
+      let contentTypes = operationConsumes(state, [ "/one", "get" ])
+      // Then
+      expect(contentTypes.toJS()).toEqual([
+        "application/xml",
+        "application/something-else"
+      ])
+    })
+  })
+
   describe("operationScheme", function(){
 
     it("should return the correct scheme for a remote spec that doesn't specify a scheme", function(){
@@ -277,4 +311,54 @@ describe("spec plugin - selectors", function(){
 
   })
 
+
+  describe("specJsonWithResolvedSubtrees", function(){
+
+    it("should return a correctly merged tree", function(){
+      // Given
+      let state = fromJS({
+        json: {
+          definitions: {
+            Asdf: {
+              $ref: "#/some/path",
+              randomKey: "this should be removed b/c siblings of $refs must be removed, per the specification",
+              description: "same for this key"
+            },
+            Fgsfds: {
+              $ref: "#/another/path"
+            },
+            OtherDef: {
+              description: "has no refs"
+            }
+          }
+        },
+        resolvedSubtrees: {
+          definitions: {
+            Asdf: {
+              type: "object",
+              $$ref: "#/some/path"
+            }
+          }
+        }
+      })
+
+      // When
+      let result = specJsonWithResolvedSubtrees(state)
+      // Then
+      expect(result.toJS()).toEqual({
+        definitions: {
+          Asdf: {
+            type: "object",
+            $$ref: "#/some/path"
+          },
+          Fgsfds: {
+            $ref: "#/another/path"
+          },
+          OtherDef: {
+            description: "has no refs"
+          }
+        }
+      })
+    })
+  })
 })
