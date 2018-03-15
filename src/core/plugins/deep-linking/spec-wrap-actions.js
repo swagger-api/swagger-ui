@@ -48,16 +48,16 @@ export const updateJsonSpec = (ori, { layoutActions, getConfigs }) => (...args) 
     }
 
 
-    if(target) {
-      myScroller.to(target)
-      setTimeout(() => {
-        // Backup functionality: if we're still at the top of the document,
-        // scroll on the entire page (not within the Swagger-UI container)
-        if(zenscroll.getY() === 0) {
-          zenscroll.to(target)
-        }
-      }, 50)
-    }
+    // if(target) {
+    //   myScroller.to(target)
+    //   setTimeout(() => {
+    //     // Backup functionality: if we're still at the top of the document,
+    //     // scroll on the entire page (not within the Swagger-UI container)
+    //     if(zenscroll.getY() === 0) {
+    //       zenscroll.to(target)
+    //     }
+    //   }, 50)
+    // }
   }
 
   hasHashBeenParsed = true
