@@ -100,6 +100,7 @@ export default class Info extends React.Component {
     const { url:externalDocsUrl, description:externalDocsDescription } = (externalDocs || fromJS({})).toJS()
 
     const Markdown = getComponent("Markdown")
+    const TruncatableDiv = getComponent("TruncatableDiv")
     const VersionStamp = getComponent("VersionStamp")
     const InfoUrl = getComponent("InfoUrl")
     const InfoBasePath = getComponent("InfoBasePath")
@@ -114,9 +115,9 @@ export default class Info extends React.Component {
           { url && <InfoUrl url={url} /> }
         </hgroup>
 
-        <div className="description">
+        <TruncatableDiv>
           <Markdown source={ description } />
-        </div>
+        </TruncatableDiv>
 
         {
           termsOfService && <div>

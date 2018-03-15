@@ -66,6 +66,7 @@ import Property from "core/components/property"
 import TryItOutButton from "core/components/try-it-out-button"
 import VersionStamp from "core/components/version-stamp"
 import DeepLink from "core/components/deep-link"
+import TruncatableDiv from "core/components/truncatable-div"
 
 import Markdown from "core/components/providers/markdown"
 
@@ -128,6 +129,7 @@ export default function() {
       ParameterExt,
       OperationContainer,
       DeepLink,
+      TruncatableDiv,
       InfoUrl,
       InfoBasePath
     }

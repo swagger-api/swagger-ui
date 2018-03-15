@@ -96,4 +96,34 @@
             }
         }
     }
+
+    .description
+    {
+        background-color: white;
+        padding: 1px 25px;
+        position: relative;
+    }
+
+    .truncatable 
+    {
+        overflow-y: auto;
+    }
+
+    .truncated
+    {
+        overflow-y: hidden;
+    }
+
+    .truncated:before
+    {
+        content: "";
+        position: absolute;
+        z-index: 1;
+        bottom: 0;
+        left: 0;
+        pointer-events: none;
+        background-image: linear-gradient(to bottom, rgba(255,255,255,0), rgba(250,250,250, 1) 90%);
+        width: 100%;
+        height: 2em;
+    }
 }

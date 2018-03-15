@@ -44,7 +44,7 @@ const sanitizeOptions = {
         ...sanitize.defaults.allowedAttributes,
         "img": sanitize.defaults.allowedAttributes.img.concat(["title"]),
         "td": [ "colspan" ],
-        "*": [ "class" ]
+        "*": [ "class", "style" ]
     },
     allowedSchemesByTag: { img: [ "http", "https", "data" ] },
     textFilter: function(text) {
