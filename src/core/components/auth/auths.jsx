@@ -25,9 +25,19 @@ export default class Auths extends React.Component {
 
   submitAuth =(e) => {
     e.preventDefault()
-
     let { authActions } = this.props
     authActions.authorize(this.state)
+    
+    this.updateSpec()        
+  }
+
+  updateSpec() {
+    let { authActions, specActions, getConfigs } = this.props
+    const config = getConfigs()
+    if ( config.updateSpecOnAuthorize ) {
+      authActions.showDefinitions(false)
+      specActions.download()
+    }
   }
 
   logoutClick =(e) => {
@@ -39,6 +49,7 @@ export default class Auths extends React.Component {
     }).toArray()
 
     authActions.logout(auths)
+    this.updateSpec()
   }
 
   close =(e) => {

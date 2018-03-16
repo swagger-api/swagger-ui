@@ -9,7 +9,7 @@ export default class AuthorizationPopup extends React.Component {
   }
 
   render() {
-    let { authSelectors, authActions, getComponent, errSelectors, specSelectors, fn: { AST } } = this.props
+    let { authSelectors, authActions, getComponent, errSelectors, specSelectors, specActions, getConfigs, fn: { AST } } = this.props
     let definitions = authSelectors.shownDefinitions()
     const Auths = getComponent("auths")
 
@@ -38,7 +38,9 @@ export default class AuthorizationPopup extends React.Component {
                                   errSelectors={ errSelectors }
                                   authSelectors={ authSelectors }
                                   authActions={ authActions }
-                                  specSelectors={ specSelectors }/>
+                                  specSelectors={ specSelectors }
+                                  specActions={ specActions }
+                                  getConfigs={ getConfigs } />
                   })
                 }
               </div>
@@ -56,5 +58,7 @@ export default class AuthorizationPopup extends React.Component {
     specSelectors: PropTypes.object.isRequired,
     errSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
+    specActions: PropTypes.object.isRequired,
+    getConfigs: PropTypes.func.isRequired,
   }
 }

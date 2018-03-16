@@ -8,9 +8,21 @@ export default function downloadUrlPlugin (toolbox) {
   let { fn } = toolbox
 
   const actions = {
-    download: (url)=> ({ errActions, specSelectors, specActions, getConfigs }) => {
+    download: (url)=> ({ errActions, specSelectors, specActions, getConfigs, authSelectors }) => {
       let { fetch } = fn
       const config = getConfigs()
+      let headers = {
+        "Accept": "application/json,*/*"
+      }
+      if ( config.sendAuthHeaderOnJsonFetch ) {
+        let authorizedMethods = authSelectors.authorized().map( (val, key) => {
+          return { val: val, key: key }
+        }).toArray()
+        let apiKeyMethods = authorizedMethods.filter(i => i.key === 'api_key')
+        if ( apiKeyMethods.length ) {
+          headers["Authorization"] = apiKeyMethods[0].val.get('value')
+        }
+      }
       url = url || specSelectors.url()
       specActions.updateLoadingStatus("loading")
       errActions.clear({source: "fetch"})
@@ -20,9 +32,7 @@ export default function downloadUrlPlugin (toolbox) {
         requestInterceptor: config.requestInterceptor || (a => a),
         responseInterceptor: config.responseInterceptor || (a => a),
         credentials: "same-origin",
-        headers: {
-          "Accept": "application/json,*/*"
-        }
+        headers: headers
       }).then(next,next)
 
       function next(res) {
