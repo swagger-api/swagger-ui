@@ -37,6 +37,7 @@ module.exports = function SwaggerUI(opts) {
     maxDisplayedTags: null,
     filter: null,
     validatorUrl: "https://online.swagger.io/validator",
+    useQueryConfig: true,
     configs: {},
     custom: {},
     displayOperationId: false,
@@ -78,7 +79,8 @@ module.exports = function SwaggerUI(opts) {
     components: { },
   }
 
-  let queryConfig = parseSearch()
+  const useQueryConfig = "useQueryConfig" in opts ? opts.useQueryConfig : defaults.useQueryConfig
+  const queryConfig = useQueryConfig ? parseSearch() : {}
 
   const domNode = opts.domNode
   delete opts.domNode

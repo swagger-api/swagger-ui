@@ -8,7 +8,7 @@ From lowest to highest precedence:
 - The `swagger-config.yaml` in the project root directory, if it exists, is baked into the application
 - configuration object passed as an argument to Swagger-UI (`SwaggerUI({ ... })`)
 - configuration document fetched from a specified `configUrl`
-- configuration items passed as key/value pairs in the URL query string
+- configuration items passed as key/value pairs in the URL query string (unless `useQueryConfig` is set to false)
 
 
 ### Parameters
@@ -25,6 +25,7 @@ Type notations are formatted like so:
 
 Parameter Name | Description
 --- | ---
+`useQueryConfig` | `Boolean=true`, Whether or not to parse query parameters for configuration values.
 `configUrl` | `String`. URL to fetch external configuration document from.
 `dom_id` |`String`, **REQUIRED** if `domNode` is not provided. The id of a dom element inside which SwaggerUi will put the user interface for swagger.
 `domNode` | `Element`, **REQUIRED** if `dom_id` is not provided. The HTML DOM element inside which SwaggerUi will put the user interface for swagger. Overrides `dom_id`.
