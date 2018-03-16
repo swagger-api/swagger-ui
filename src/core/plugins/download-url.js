@@ -18,9 +18,9 @@ export default function downloadUrlPlugin (toolbox) {
         let authorizedMethods = authSelectors.authorized().map( (val, key) => {
           return { val: val, key: key }
         }).toArray()
-        let apiKeyMethods = authorizedMethods.filter(i => i.key === 'api_key')
+        let apiKeyMethods = authorizedMethods.filter(i => i.key === "api_key")
         if ( apiKeyMethods.length ) {
-          headers["Authorization"] = apiKeyMethods[0].val.get('value')
+          headers["Authorization"] = apiKeyMethods[0].val.get("value")
         }
       }
       url = url || specSelectors.url()
