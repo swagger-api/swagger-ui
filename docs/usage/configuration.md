@@ -81,6 +81,8 @@ Parameter Name | Description
 
 ### Instance methods
 
-`initOAuth` | Provide Swagger-UI with information about your OAuth server - see the OAuth2 documentation for more information.
-`preauthorizeBasic` | Programmatically set values for a Basic authorization scheme.
-`preauthorizeApiKey` | Programmatically set values for an API key authorization scheme.
+Method Name | Description
+--- | ---
+`initOAuth` | `(configObj) => void`. Provide Swagger-UI with information about your OAuth server - see the OAuth2 documentation for more information.
+`preauthorizeBasic` | `(authDefinitionKey, username, password) => action`. Programmatically set values for a Basic authorization scheme.
+`preauthorizeApiKey` | `(authDefinitionKey, apiKeyValue) => action`. Programmatically set values for an API key authorization scheme.
