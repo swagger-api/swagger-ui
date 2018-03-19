@@ -59,6 +59,7 @@ Parameter Name | Description
 `operationsSorter` | `Function=(a => a)`. Apply a sort to the operation list of each API. It can be 'alpha' (sort by paths alphanumerically), 'method' (sort by HTTP method) or a function (see Array.prototype.sort() to know how sort function works). Default is the order returned by the server unchanged.
 `showExtensions` | `Boolean=false`. Controls the display of vendor extension (`x-`) fields and values for Operations, Parameters, and Schema.
 `tagsSorter` | `Function=(a => a)`. Apply a sort to the tag list of each API. It can be 'alpha' (sort by paths alphanumerically) or a function (see [Array.prototype.sort()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) to learn how to write a sort function). Two tag name strings are passed to the sorter for each pass. Default is the order determined by Swagger-UI.
+`onComplete` | `Function=NOOP`. Provides a mechanism to be notified when Swagger-UI has finished rendering a newly provided definition.
 
 ##### Network
 
@@ -77,3 +78,11 @@ Parameter Name | Description
 --- | ---
 `modelPropertyMacro` | `Function`. Function to set default values to each property in model. Accepts one argument modelPropertyMacro(property), property is immutable
 `parameterMacro` | `Function`. Function to set default value to parameters. Accepts two arguments parameterMacro(operation, parameter). Operation and parameter are objects passed for context, both remain immutable
+
+### Instance methods
+
+Method Name | Description
+--- | ---
+`initOAuth` | `(configObj) => void`. Provide Swagger-UI with information about your OAuth server - see the OAuth2 documentation for more information.
+`preauthorizeBasic` | `(authDefinitionKey, username, password) => action`. Programmatically set values for a Basic authorization scheme.
+`preauthorizeApiKey` | `(authDefinitionKey, apiKeyValue) => action`. Programmatically set values for an API key authorization scheme.
