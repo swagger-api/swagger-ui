@@ -52,7 +52,7 @@ export default class ModelExample extends React.Component {
     
     let { defaultModelExpandDepth } = getConfigs()
     const ModelWrapper = getComponent("ModelWrapper")
-    const Example = getComponent("Example")
+    const ExampleWrapper = getComponent("ExampleWrapper")
 
     return <div>
       <ul className="tab">
@@ -65,7 +65,7 @@ export default class ModelExample extends React.Component {
       </ul>
       <div>
         {
-          (isExecute || this.state.activeTab === "example") && <Example
+          (isExecute || this.state.activeTab === "example") && <ExampleWrapper
                                                     getComponent={ getComponent }
                                                     specSelectors={ specSelectors }
                                                     schema={ schema }

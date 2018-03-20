@@ -2,14 +2,13 @@ import React from "react"
 import PropTypes from "prop-types"
 import { getSampleSchema } from "core/utils"
 
-const getExampleComponent = (sampleResponse, examples, HighlightCode) => {
+const getExampleComponent = (sampleResponse, HighlightCode) => {
+    if (!sampleResponse)
+        return null
 
-    if (sampleResponse) {
-        return <div>
-            <HighlightCode className="example" value={sampleResponse} />
-        </div>
-    }
-    return null
+    return <div>
+        <HighlightCode className="example" value={sampleResponse} />
+    </div>
 }
 
 export default class Example extends React.Component {
@@ -36,26 +35,11 @@ export default class Example extends React.Component {
 
         let { isOAS3 } = specSelectors
         const HighlightCode = getComponent("highlightCode")
-        schema = schema.toJS()
-        
-    if (examples && examples.size) {
-        return examples.entrySeq().map(([key, example]) => {
-            let exampleValue = example
-            if (example.toJS) {
-                try {
-                    exampleValue = JSON.stringify(example.toJS(), null, 2)
-                }
-                catch (e) {
-                    exampleValue = String(example)
-                }
-            }
+        const Examples = getComponent("Examples")
 
-            return (<div key={key}>
-                <h5>{key}</h5>
-                <HighlightCode className="example" value={exampleValue} />
-            </div>)
-        }).toArray()
-    }
+        if (examples && examples.size) {
+            return <Examples getComponent={ getComponent } examples={ examples }/>
+        }
 
         var _schema, _contentType, sampleSchemaOptions
         if (isOAS3()) {
@@ -74,23 +58,8 @@ export default class Example extends React.Component {
             }
         }
 
-        const anyOf = isOAS3() ? schema.items.anyOf : null
-        const oneOf = isOAS3() ? schema.items.oneOf : null
-
-        let sampleResponse
-        if (anyOf) {
-            sampleResponse = _schema ?  
-            "anyOf ->\n" + getSampleSchema(_schema, _contentType, sampleSchemaOptions) : null
-        }
-        else if (oneOf) {
-            sampleResponse = _schema ? 
-            "oneOf ->\n" + getSampleSchema(_schema, _contentType, sampleSchemaOptions) : null
-        }
-        else {
-            sampleResponse = _schema ? getSampleSchema(_schema, _contentType, sampleSchemaOptions) : null            
-        }
-        
-        return getExampleComponent(sampleResponse, examples, HighlightCode)
+        var sampleResponse = getSampleSchema(_schema, _contentType, sampleSchemaOptions)
+        return getExampleComponent(sampleResponse, HighlightCode)
     }
 
 }

@@ -56,6 +56,8 @@ import Curl from "core/components/curl"
 import Schemes from "core/components/schemes"
 import ModelCollapse from "core/components/model-collapse"
 import ModelExample from "core/components/model-example"
+import ExampleWrapper from "core/components/example-wrapper"
+import Examples from "core/components/examples"
 import Example from "core/components/example"
 import ModelWrapper from "core/components/model-wrapper"
 import Model from "core/components/model"
@@ -112,7 +114,9 @@ export default function() {
       curl: Curl,
       schemes: Schemes,
       modelExample: ModelExample,
-      Example: Example,
+      ExampleWrapper,
+      Examples,
+      Example,
       ModelWrapper,
       ModelCollapse,
       Model,

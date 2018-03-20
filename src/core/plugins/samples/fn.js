@@ -26,7 +26,7 @@ const primitive = (schema) => {
 
 
 export const sampleFromSchema = (schema, config={}) => {
-  let { type, example, properties, additionalProperties, items, anyOf, oneOf } = objectify(schema)
+  let { type, example, properties, additionalProperties, items } = objectify(schema)
   let { includeReadOnly, includeWriteOnly } = config
 
   if(example && example.$$ref) {
@@ -35,14 +35,6 @@ export const sampleFromSchema = (schema, config={}) => {
 
   if(example !== undefined)
     return example
-    
-  if(anyOf) {
-    return anyOf.map(obj => sampleFromSchema(obj, config))
-  }
-
-  if(oneOf) {
-    return oneOf.map(obj => sampleFromSchema(obj, config))
-  }
 
   if(!type) {
     if(properties) {
