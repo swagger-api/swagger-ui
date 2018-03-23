@@ -81,6 +81,15 @@ export default class OperationContainer extends PureComponent {
     }
   }
 
+  componentDidMount() {
+    const { isShown } = this.props
+    const resolvedSubtree = this.getResolvedSubtree()
+
+    if(isShown && resolvedSubtree === undefined) {
+      this.requestResolvedSubtree()
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     const { response, isShown } = nextProps
     const resolvedSubtree = this.getResolvedSubtree()
