@@ -133,17 +133,15 @@ export default class ParameterRow extends Component {
       paramEnum = param.get("enum")
     }
 
-    if ( paramEnum !== undefined ) {
-      if (paramEnum.size > 0) {
-        isDisplayParamEnum = true
-      }
+    if ( paramEnum !== undefined  && paramEnum.size > 0) {
+      isDisplayParamEnum = true
     }
 
     // Default and Example Value for readonly doc
     if ( param !== undefined ) {
       paramDefaultValue = param.get("default")
       paramExample = param.get("example")
-      if (paramExample == undefined) {
+      if (paramExample === undefined) {
         paramExample = param.get("x-example")
       }
     }
@@ -168,19 +166,19 @@ export default class ParameterRow extends Component {
 
           { (bodyParam || !isExecute) && isDisplayParamEnum ?
             <Markdown source={
-                "<i>Available values</i>: " + paramEnum.map(function(item) {
+                "<i>Available values</i> : " + paramEnum.map(function(item) {
                     return item
                   }).toArray().join(", ")}/>
             : null
           }
 
           { (bodyParam || !isExecute) && paramDefaultValue !== undefined ?
-            <Markdown source={"<i>Default value</i>: " + paramDefaultValue}/>
+            <Markdown source={"<i>Default value</i> : " + paramDefaultValue}/>
             : null
           }
 
           { (bodyParam || !isExecute) && paramExample !== undefined ?
-            <Markdown source={"<i>Example</i>: " + paramExample}/>
+            <Markdown source={"<i>Example</i> : " + paramExample}/>
             : null
           }
 
