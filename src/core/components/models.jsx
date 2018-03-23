@@ -63,7 +63,7 @@ export default class Models extends Component {
 
             const content = <ModelWrapper name={ name }
               expandDepth={ defaultModelsExpandDepth }
-              schema={ schema }
+              schema={ schema  || Im.Map() }
               specPath={Im.List([...specPathBase, name])}
               getComponent={ getComponent }
               specSelectors={ specSelectors }
