@@ -109,7 +109,7 @@ export const semver = createSelector(
 )
 
 export const paths = createSelector(
-	spec,
+	specJsonWithResolvedSubtrees,
 	spec => spec.get("paths")
 )
 

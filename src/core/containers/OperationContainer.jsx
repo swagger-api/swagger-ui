@@ -96,7 +96,8 @@ export default class OperationContainer extends PureComponent {
 
   toggleShown =() => {
     let { layoutActions, tag, operationId, isShown } = this.props
-    if(!isShown) {
+    const resolvedSubtree = this.getResolvedSubtree()
+    if(!isShown && resolvedSubtree === undefined) {
       // transitioning from collapsed to expanded
       this.requestResolvedSubtree()
     }
