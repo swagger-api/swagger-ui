@@ -4,6 +4,7 @@ import expect, { createSpy } from "expect"
 import { shallow } from "enzyme"
 import ModelExample from "components/model-example"
 import ModelComponent from "components/model-wrapper"
+import Example from "components/example"
 
 describe("<ModelExample/>", function(){
   // Given
@@ -16,7 +17,6 @@ describe("<ModelExample/>", function(){
     },
     specSelectors: {},
     schema: {},
-    example: "{\"example\": \"value\"}",
     isExecute: false,
     getConfigs: () => ({
       defaultModelRendering: "model",
@@ -72,7 +72,6 @@ describe("<ModelExample/>", function(){
       expect(modelTab.hasClass("active")).toEqual(false)
 
       expect(wrapper.find("div > div").length).toEqual(1)
-      expect(wrapper.find("div > div").text()).toEqual(props.example)
     })
   })
 

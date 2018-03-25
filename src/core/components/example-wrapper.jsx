@@ -52,7 +52,7 @@ export default class ExampleWrapper extends React.Component {
                     {
                         attribute.map((subschema, key) =>
                             <div key={key}>
-                                <h4>{getModelName(subschema)}</h4>
+                                <h5>{getModelName(subschema)}</h5>
                                 <Example
                                     getComponent={getComponent}
                                     specSelectors={specSelectors}
