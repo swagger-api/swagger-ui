@@ -712,3 +712,12 @@ export const createDeepLinkPath = (str) => typeof str == "string" || str instanc
 export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str) )
 
 export const getExtensions = (defObj) => defObj.filter((v, k) => /^x-/.test(k))
+
+export function getModelNameFromRef(ref) {
+  if (ref.indexOf("#/definitions/") !== -1) {
+    return ref.replace(/^.*#\/definitions\//, "")
+  }
+  if (ref.indexOf("#/components/schemas/") !== -1) {
+    return ref.replace("#/components/schemas/", "")
+  }
+}

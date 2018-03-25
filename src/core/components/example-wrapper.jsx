@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { fromJS } from "immutable"
+import { getModelNameFromRef } from "core/utils"
 
 export default class ExampleWrapper extends React.Component {
     static propTypes = {
@@ -11,6 +12,11 @@ export default class ExampleWrapper extends React.Component {
         contentType: PropTypes.string,
         oas3SchemaForContentType: PropTypes.any,
         responseContentType: PropTypes.string,
+    }
+
+    getTitle = (schema) => {
+        let $$ref = schema && schema.$$ref
+        return $$ref ? getModelNameFromRef($$ref) : null
     }
 
     render() {
@@ -44,30 +50,34 @@ export default class ExampleWrapper extends React.Component {
             if (anyOf) {
                 return (
                     <div>
-                        <div>{ "anyOf ->" }</div>
-                        {anyOf.map((i, k) => <div key={k}><Example
-                            getComponent={getComponent}
-                            specSelectors={specSelectors}
-                            schema={i}
-                            examples={examples}
-                            contentType={contentType}
-                            oas3SchemaForContentType={fromJS(i)}
-                            responseContentType={responseContentType} /></div>)}
+                        <div>{"anyOf ->"}</div>
+                        {anyOf.map((i, k) => <div key={k}>
+                            <div>{this.getTitle(i)}</div>
+                            <Example
+                                getComponent={getComponent}
+                                specSelectors={specSelectors}
+                                schema={i}
+                                examples={examples}
+                                contentType={contentType}
+                                oas3SchemaForContentType={fromJS(i)}
+                                responseContentType={responseContentType} /></div>)}
                     </div>
                 )
             }
             else if (oneOf) {
                 return (
                     <div>
-                        <div>{ "oneOf ->" }</div>
-                        {oneOf.map((i, k) => <div key={k}><Example
-                            getComponent={getComponent}
-                            specSelectors={specSelectors}
-                            schema={i}
-                            examples={examples}
-                            contentType={contentType}
-                            oas3SchemaForContentType={fromJS(i)}
-                            responseContentType={responseContentType} /></div>)}
+                        <div>{"oneOf ->"}</div>
+                        {oneOf.map((i, k) => <div key={k}>
+                            <div>{this.getTitle(i)}</div>
+                            <Example
+                                getComponent={getComponent}
+                                specSelectors={specSelectors}
+                                schema={i}
+                                examples={examples}
+                                contentType={contentType}
+                                oas3SchemaForContentType={fromJS(i)}
+                                responseContentType={responseContentType} /></div>)}
                     </div>
                 )
             }

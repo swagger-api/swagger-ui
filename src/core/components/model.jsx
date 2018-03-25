@@ -2,6 +2,7 @@ import React from "react"
 import ImmutablePureComponent from "react-immutable-pure-component"
 import ImPropTypes from "react-immutable-proptypes"
 import PropTypes from "prop-types"
+import { getModelNameFromRef } from "core/utils"
 
 export default class Model extends ImmutablePureComponent {
   static propTypes = {
@@ -15,16 +16,7 @@ export default class Model extends ImmutablePureComponent {
     expandDepth: PropTypes.number,
     depth: PropTypes.number,
     specPath: ImPropTypes.list.isRequired,
-  }
-
-  getModelName =( ref )=> {
-    if ( ref.indexOf("#/definitions/") !== -1 ) {
-      return ref.replace(/^.*#\/definitions\//, "")
-    }
-    if ( ref.indexOf("#/components/schemas/") !== -1 ) {
-      return ref.replace("#/components/schemas/", "")
-    }
-  }
+  }  
 
   getRefSchema =( model )=> {
     let { specSelectors } = this.props
@@ -42,7 +34,7 @@ export default class Model extends ImmutablePureComponent {
 
     // If we weren't passed a `name` but have a ref, grab the name from the ref
     if ( !name && $$ref ) {
-      name = this.getModelName( $$ref )
+      name = getModelNameFromRef($$ref)
     }
     // If we weren't passed a `schema` but have a ref, grab the schema from the ref
     if ( !schema && $$ref ) {
