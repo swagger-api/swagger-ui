@@ -1,0 +1,12 @@
+.example
+{
+    .small
+    {
+        font-size: 12px;
+        font-weight: normal;
+
+        flex: 1;
+
+        @include text_body();
+    }
+}

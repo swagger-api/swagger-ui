@@ -14,11 +14,6 @@ export default class ExampleWrapper extends React.Component {
         responseContentType: PropTypes.string,
     }
 
-    getTitle = (schema) => {
-        let $$ref = schema && schema.$$ref
-        return $$ref ? getModelNameFromRef($$ref) : null
-    }
-
     render() {
         let {
             getComponent,
@@ -46,40 +41,39 @@ export default class ExampleWrapper extends React.Component {
             anyOf = schema.anyOf
         }
 
-        if (schema) {
+        const getMultipleExamples = (title, attribute) => {
+
+            const getTitle = (schema) => {
+                let $$ref = schema && schema.$$ref
+                return $$ref ? getModelNameFromRef($$ref) : null
+            }
+
+            return (
+                <div>
+                    <div className="small">{title}</div>
+                    {attribute.map((i, k) => <div key={k}>
+                        <h4>{getTitle(i)}</h4>
+                        <Example
+                            getComponent={getComponent}
+                            specSelectors={specSelectors}
+                            schema={i}
+                            examples={examples}
+                            contentType={contentType}
+                            oas3SchemaForContentType={fromJS(i)}
+                            responseContentType={responseContentType} /></div>)}
+                </div>
+            )
+        }
+
+        const getExample = () => {
+            if (!schema)
+                return null
+
             if (anyOf) {
-                return (
-                    <div>
-                        <div>{"anyOf ->"}</div>
-                        {anyOf.map((i, k) => <div key={k}>
-                            <div>{this.getTitle(i)}</div>
-                            <Example
-                                getComponent={getComponent}
-                                specSelectors={specSelectors}
-                                schema={i}
-                                examples={examples}
-                                contentType={contentType}
-                                oas3SchemaForContentType={fromJS(i)}
-                                responseContentType={responseContentType} /></div>)}
-                    </div>
-                )
+                return getMultipleExamples("anyOf:", anyOf)
             }
             else if (oneOf) {
-                return (
-                    <div>
-                        <div>{"oneOf ->"}</div>
-                        {oneOf.map((i, k) => <div key={k}>
-                            <div>{this.getTitle(i)}</div>
-                            <Example
-                                getComponent={getComponent}
-                                specSelectors={specSelectors}
-                                schema={i}
-                                examples={examples}
-                                contentType={contentType}
-                                oas3SchemaForContentType={fromJS(i)}
-                                responseContentType={responseContentType} /></div>)}
-                    </div>
-                )
+                return getMultipleExamples("oneOf:", oneOf)
             }
             else {
                 return <Example
@@ -92,5 +86,7 @@ export default class ExampleWrapper extends React.Component {
                     responseContentType={responseContentType} />
             }
         }
+
+        return (<div className="example">{getExample()}</div>)
     }
 }
