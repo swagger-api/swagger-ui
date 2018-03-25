@@ -13,11 +13,11 @@ export default class Examples extends React.Component {
             examples
         } = this.props
 
-        const HighlightCode = getComponent("highlightCode")
-
         if (!examples || !examples.size) {
             return null
         }
+
+        const HighlightCode = getComponent("highlightCode")
 
         return examples.entrySeq().map(([key, example]) => {
             let exampleValue = example

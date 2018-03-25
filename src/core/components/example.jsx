@@ -33,32 +33,30 @@ export default class Example extends React.Component {
             responseContentType,
         } = this.props
 
-        let { isOAS3 } = specSelectors
-        const HighlightCode = getComponent("highlightCode")
-        const Examples = getComponent("Examples")
-
         if (examples && examples.size) {
-            return <Examples getComponent={ getComponent } examples={ examples }/>
+            const Examples = getComponent("Examples")
+            return <Examples getComponent={getComponent} examples={examples} />
         }
 
-        var _schema, _contentType, sampleSchemaOptions
+        const HighlightCode = getComponent("highlightCode")
+        let { isOAS3 } = specSelectors
+
+        let sampleResponse
         if (isOAS3()) {
-            _schema = oas3SchemaForContentType ? oas3SchemaForContentType.toJS() : null
-            _contentType = responseContentType
-            sampleSchemaOptions = {
-                includeReadOnly: true
-            }
+            sampleResponse = getSampleSchema(oas3SchemaForContentType ? oas3SchemaForContentType.toJS() : null,
+                responseContentType,
+                {
+                    includeReadOnly: true
+                })
         }
         else {
-            _schema = schema
-            _contentType = contentType
-            sampleSchemaOptions = {
-                includeReadOnly: true,
-                includeWriteOnly: true // writeOnly has no filtering effect in swagger 2.0
-            }
+            sampleResponse = getSampleSchema(schema, contentType,
+                {
+                    includeReadOnly: true,
+                    includeWriteOnly: true // writeOnly has no filtering effect in swagger 2.0
+                })
         }
 
-        var sampleResponse = getSampleSchema(_schema, _contentType, sampleSchemaOptions)
         return getExampleComponent(sampleResponse, HighlightCode)
     }
 

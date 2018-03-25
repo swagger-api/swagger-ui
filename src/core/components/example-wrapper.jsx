@@ -25,25 +25,23 @@ export default class ExampleWrapper extends React.Component {
             responseContentType,
         } = this.props
 
-        let { isOAS3 } = specSelectors
-        const Examples = getComponent("Examples")
-        const Example = getComponent("Example")
-
         if (examples && examples.size) {
+            const Examples = getComponent("Examples")
             return <Examples getComponent={getComponent} examples={examples} />
         }
 
+        const Example = getComponent("Example")
+        let { isOAS3 } = specSelectors
         schema = schema.toJS()
 
-        var anyOf, oneOf
+        let anyOf, oneOf
         if (isOAS3()) {
             oneOf = schema.oneOf
             anyOf = schema.anyOf
         }
 
         const getMultipleExamples = (title, attribute) => {
-
-            const getTitle = (schema) => {
+            const getModelName = (schema) => {
                 let $$ref = schema && schema.$$ref
                 return $$ref ? getModelNameFromRef($$ref) : null
             }
@@ -51,16 +49,20 @@ export default class ExampleWrapper extends React.Component {
             return (
                 <div>
                     <div className="small">{title}</div>
-                    {attribute.map((i, k) => <div key={k}>
-                        <h4>{getTitle(i)}</h4>
-                        <Example
-                            getComponent={getComponent}
-                            specSelectors={specSelectors}
-                            schema={i}
-                            examples={examples}
-                            contentType={contentType}
-                            oas3SchemaForContentType={fromJS(i)}
-                            responseContentType={responseContentType} /></div>)}
+                    {
+                        attribute.map((subschema, key) =>
+                            <div key={key}>
+                                <h4>{getModelName(subschema)}</h4>
+                                <Example
+                                    getComponent={getComponent}
+                                    specSelectors={specSelectors}
+                                    schema={subschema}
+                                    examples={examples}
+                                    contentType={contentType}
+                                    oas3SchemaForContentType={fromJS(subschema)}
+                                    responseContentType={responseContentType} />
+                            </div>)
+                    }
                 </div>
             )
         }
@@ -87,6 +89,6 @@ export default class ExampleWrapper extends React.Component {
             }
         }
 
-        return (<div className="example">{getExample()}</div>)
+        return (<div className="example-box">{getExample()}</div>)
     }
 }
