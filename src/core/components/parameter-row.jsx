@@ -106,7 +106,7 @@ export default class ParameterRow extends Component {
     const ParameterExt = getComponent("ParameterExt")
 
     let paramWithMeta = specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in"))
-
+    let format = param.get("format")
     let schema = param.get("schema")
     let type = isOAS3 && isOAS3() ? param.getIn(["schema", "type"]) : param.get("type")
     let isFormData = inType === "formData"
@@ -152,7 +152,11 @@ export default class ParameterRow extends Component {
             { param.get("name") }
             { !required ? null : <span style={{color: "red"}}>&nbsp;*</span> }
           </div>
-          <div className="parameter__type">{ type } { itemType && `[${itemType}]` }</div>
+          <div className="parameter__type">
+            { type }
+            { itemType && `[${itemType}]` }
+            { format && <span className="prop-format">(${format})</span>}
+          </div>
           <div className="parameter__deprecated">
             { isOAS3 && isOAS3() && param.get("deprecated") ? "deprecated": null }
           </div>
