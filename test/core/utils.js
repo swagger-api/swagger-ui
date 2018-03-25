@@ -945,7 +945,7 @@ describe("utils", function() {
   })
 
   describe("getExtensions", function() {
-    const objTest = Map([[ "x-test", "a"], ["format", "b"]])
+    const objTest = Map([[ "x-test", "a"], ["minimum", "b"]])
     it("does not error on empty array", function() {
       const result1 = getExtensions([])
       expect(result1).toEqual([])
@@ -958,7 +958,7 @@ describe("utils", function() {
     })
     it("gets the common keys", function() {
       const result = getCommonExtensions(objTest, true)
-      expect(result).toEqual(Map([[ "format", "b"]]))
+      expect(result).toEqual(Map([[ "minimum", "b"]]))
     })
   })
   
