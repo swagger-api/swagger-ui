@@ -12,6 +12,8 @@ import SplitPaneModePlugin from "core/plugins/split-pane-mode"
 import downloadUrlPlugin from "core/plugins/download-url"
 import configsPlugin from "core/plugins/configs"
 import deepLinkingPlugin from "core/plugins/deep-linking"
+import filter from "core/plugins/filter"
+import onComplete from "core/plugins/on-complete"
 
 import OperationContainer from "core/containers/OperationContainer"
 
@@ -44,7 +46,10 @@ import Headers from "core/components/headers"
 import Errors from "core/components/errors"
 import ContentType from "core/components/content-type"
 import Overview from "core/components/overview"
-import Info from "core/components/info"
+import Info, {
+  InfoUrl,
+  InfoBasePath
+} from "core/components/info"
 import Footer from "core/components/footer"
 import ParamBody from "core/components/param-body"
 import Curl from "core/components/curl"
@@ -123,7 +128,9 @@ export default function() {
       OperationExtRow,
       ParameterExt,
       OperationContainer,
-      DeepLink
+      DeepLink,
+      InfoUrl,
+      InfoBasePath
     }
   }
 
@@ -152,6 +159,8 @@ export default function() {
     ast,
     SplitPaneModePlugin,
     downloadUrlPlugin,
-    deepLinkingPlugin
+    deepLinkingPlugin,
+    filter,
+    onComplete
   ]
 }

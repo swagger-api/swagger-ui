@@ -22,7 +22,7 @@ describe("<LiveResponse/>", function(){
       accept: "application/xml",
       mutated: "header"
     },
-    url: "http://petstore.swagger.io/v2/pet/1"
+    url: "http://mutated.petstore.swagger.io/v2/pet/1"
   })
 
   let requests = {
@@ -79,6 +79,9 @@ describe("<LiveResponse/>", function(){
       const curl = wrapper.find(Curl)
       expect(curl.length).toEqual(1)
       expect(curl.props().request).toBe(requests[test.expected.request])
+
+      const expectedUrl = requests[test.expected.request].get("url")
+      expect(wrapper.find("div.request-url pre").text()).toEqual(expectedUrl)
 
     })
   })

@@ -47,7 +47,7 @@ export default class ParamBody extends PureComponent {
 
   updateValues = (props) => {
     let { specSelectors, pathMethod, param, isExecute, consumesValue="" } = props
-    let parameter = specSelectors ? specSelectors.getParameter(pathMethod, param.get("name"), param.get("in")) : fromJS({})
+    let parameter = specSelectors ? specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in")) : fromJS({})
     let isXml = /xml/i.test(consumesValue)
     let isJson = /json/i.test(consumesValue)
     let paramValue = isXml ? parameter.get("value_xml") : parameter.get("value")
@@ -107,7 +107,7 @@ export default class ParamBody extends PureComponent {
     const HighlightCode = getComponent("highlightCode")
     const ContentType = getComponent("contentType")
     // for domains where specSelectors not passed
-    let parameter = specSelectors ? specSelectors.getParameter(pathMethod, param.get("name"), param.get("in")) : param
+    let parameter = specSelectors ? specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in")) : param
     let errors = parameter.get("errors", List())
     let consumesValue = specSelectors.contentTypeValues(pathMethod).get("requestContentType")
     let consumes = this.props.consumes && this.props.consumes.size ? this.props.consumes : ParamBody.defaultProp.consumes

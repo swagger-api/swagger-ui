@@ -29,6 +29,10 @@ export const sampleFromSchema = (schema, config={}) => {
   let { type, example, properties, additionalProperties, items } = objectify(schema)
   let { includeReadOnly, includeWriteOnly } = config
 
+  if(example && example.$$ref) {
+    delete example.$$ref
+  }
+
   if(example !== undefined)
     return example
 
@@ -69,6 +73,14 @@ export const sampleFromSchema = (schema, config={}) => {
   }
 
   if(type === "array") {
+    if(Array.isArray(items.anyOf)) {
+      return items.anyOf.map(i => sampleFromSchema(i, config))
+    }
+
+    if(Array.isArray(items.oneOf)) {
+      return items.oneOf.map(i => sampleFromSchema(i, config))
+    }
+
     return [ sampleFromSchema(items, config) ]
   }
 
@@ -202,7 +214,9 @@ export const sampleXmlFromSchema = (schema, config={}) => {
           || enumAttrVal || primitive(props[propName])
       } else {
         props[propName].xml.name = props[propName].xml.name || propName
-        props[propName].example = props[propName].example !== undefined ? props[propName].example : example[propName]
+        if(props[propName].example === undefined && example[propName] !== undefined) {
+          props[propName].example = example[propName]
+        }
         let t = sampleXmlFromSchema(props[propName])
         if (Array.isArray(t)) {
           res[displayName] = res[displayName].concat(t)

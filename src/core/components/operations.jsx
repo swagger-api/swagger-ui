@@ -21,7 +21,8 @@ export default class Operations extends React.Component {
     layoutActions: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
     authSelectors: PropTypes.object.isRequired,
-    getConfigs: PropTypes.func.isRequired
+    getConfigs: PropTypes.func.isRequired,
+    fn: PropTypes.func.isRequired
   };
 
   render() {
@@ -30,7 +31,8 @@ export default class Operations extends React.Component {
       getComponent,
       layoutSelectors,
       layoutActions,
-      getConfigs
+      getConfigs,
+      fn
     } = this.props
 
     let taggedOps = specSelectors.taggedOperations()
@@ -52,9 +54,7 @@ export default class Operations extends React.Component {
 
     if (filter) {
       if (filter !== true) {
-        taggedOps = taggedOps.filter((tagObj, tag) => {
-          return tag.indexOf(filter) !== -1
-        })
+        taggedOps = fn.opsFilter(taggedOps, filter)
       }
     }
 
