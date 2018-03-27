@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.13.0",
+  "version": "3.13.1",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -19,9 +19,8 @@
     "build-core": "webpack --config webpack-dist.config.js --colors",
     "build-standalone": "webpack --config webpack-dist-standalone.config.js --colors",
     "predev": "npm install",
-    "dev": "npm-run-all --parallel hot-server open-localhost",
+    "dev": "npm-run-all --parallel hot-server",
     "watch": "webpack --config webpack-watch.config.js --watch --progress",
-    "open-localhost": "node -e 'require(\"open\")(\"http://localhost:3200\")'",
     "hot-server": "webpack-dev-server --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress --content-base dev-helpers/",
     "deps-license": "license-checker --production --csv --out $npm_package_config_deps_check_dir/licenses.csv && license-checker --development --csv --out $npm_package_config_deps_check_dir/licenses-dev.csv",
     "deps-size": "webpack -p --config webpack.check.js --json | webpack-bundle-size-analyzer >| $npm_package_config_deps_check_dir/sizes.txt",
@@ -84,7 +83,7 @@
     "scroll-to-element": "^2.0.0",
     "serialize-error": "2.0.0",
     "shallowequal": "0.2.2",
-    "swagger-client": "^3.5.1",
+    "swagger-client": "^3.5.2",
     "url-parse": "^1.1.8",
     "whatwg-fetch": "0.11.1",
     "worker-loader": "^0.7.1",
