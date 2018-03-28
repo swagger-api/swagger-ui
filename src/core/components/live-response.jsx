@@ -60,7 +60,7 @@ export default class LiveResponse extends React.Component {
     const body = response.get("text")
     const duration = response.get("duration")
     const headersKeys = Object.keys(headers)
-    const contentType = headers["content-type"]
+    const contentType = headers["content-type"] || headers["Content-Type"]
 
     const Curl = getComponent("curl")
     const ResponseBody = getComponent("responseBody")
