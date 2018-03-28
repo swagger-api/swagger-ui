@@ -35,6 +35,10 @@ $color-green: #008000 !default;
 
 $color-primary-hover: #81b10c !default;
 
+$midnight: #1b1636 !default;
+$cyan: #00ffe0 !default;
+$magenta: #ca54ab !default;
+
 // Authorize
 
 $auth-container-border-color: $gray-50 !default;
@@ -92,12 +96,12 @@ $form-checkbox-box-shadow-color: #e8e8e8 !default;
 // Information
 
 $info-code-background-color: $gray-base !default;
-$info-code-font-color: $_color-head !default;
+$info-code-font-color: $magenta !default;
 
-$info-link-font-color: $color-info !default;
+$info-link-font-color: darken($cyan, 14%) !default;
 $info-link-font-color-hover: $info-link-font-color !default;
 
-$info-title-small-background-color: #7d8492 !default;
+$info-title-small-background-color: #00cfb6 !default;
 
 $info-title-small-pre-font-color: $white !default;
 
@@ -202,7 +206,7 @@ $table-parameter-deprecated-font-color: $color-danger !default;
 
 // Topbar
 
-$topbar-background-color: $color-primary !default;
+$topbar-background-color: $midnight !default;
 
 $topbar-link-font-color: $white !default;
 

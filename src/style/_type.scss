@@ -1,14 +1,14 @@
 @mixin text_body($color: $text-body-default-font-color)
 {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 
     color: $color;
 }
 
 @mixin text_code($color: $text-code-default-font-color)
 {
-    font-family: 'Source Code Pro', monospace;
-    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
 
     color: $color;
 }

@@ -2,8 +2,9 @@ select
 {
     font-size: 14px;
     font-weight: bold;
-
-    padding: 5px 40px 5px 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 7px 40px 7px 10px;
 
     border: 2px solid $form-select-border-color;
     border-radius: 4px;

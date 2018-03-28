@@ -41,7 +41,7 @@
             width: 100%;
             margin: 0;
 
-            border: 2px solid $topbar-download-url-wrapper-element-border-color;
+            border: none;
             border-radius: 4px 0 0 4px;
             outline: none;
         }
@@ -80,14 +80,15 @@
 
         .download-url-button
         {
-            font-size: 16px;
+            font-size: 13px;
             font-weight: bold;
-
+            text-transform: uppercase;
+            letter-spacing: 2px;
             padding: 4px 30px;
 
             border: none;
             border-radius: 0 4px 4px 0;
-            background: $topbar-download-url-button-background-color;
+            background: darken($cyan, 12%);
 
             @include text_headline($topbar-download-url-button-font-color);
         }
