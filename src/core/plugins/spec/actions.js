@@ -222,7 +222,6 @@ const debResolveSubtrees = debounce(async () => {
 }, 35)
 
 export const requestResolvedSubtree = path => system => {
-  debugger
   requestBatch.push(path)
   requestBatch.system = system
   debResolveSubtrees()
