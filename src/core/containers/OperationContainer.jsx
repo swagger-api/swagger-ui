@@ -101,7 +101,7 @@ export default class OperationContainer extends PureComponent {
       // transitioning from collapsed to expanded
       this.requestResolvedSubtree()
     }
-    layoutActions.show(["operations", tag, operationId], !isShown)
+    layoutActions.show(["operations", createDeepLinkPath(tag), createDeepLinkPath(operationId)], !isShown)
   }
 
   onTryoutClick =() => {
