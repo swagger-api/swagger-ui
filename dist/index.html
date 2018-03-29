@@ -71,12 +71,61 @@
 <script src="./swagger-ui-standalone-preset.js"> </script>
 <script>
 window.onload = function() {
-  
+
+  // Set environment and docs url prefix
+  var pattern = new RegExp("cx-[a-z0-9]+");
+  var res = pattern.exec(window.location.hostname);
+  var env = res && res.length == 1 ? res[0] : "cx-staging";
+  var docsUrl = "http://static." + env + ".com/docs/swagger/";
+
   // Build a system
   const ui = SwaggerUIBundle({
-    url: "http://petstore.swagger.io/v2/swagger.json",
+
+    urls: [
+      {
+        name: "Auth",
+        url: docsUrl + "auth/api.yaml"
+      },
+      {
+        name: "Core",
+        url: docsUrl + "core/api.yaml"
+      },
+      {
+        name: "ENS V1",
+        url: docsUrl + "ens/apiV1.yaml"
+      },
+      {
+        name: "Entitlements Readonly API",
+        url: docsUrl + "ent/ent.yml"
+      },
+      {
+        name: "Entitlements Grant API",
+        url: docsUrl + "ent/ent-grant-api.yml"
+      },
+      {
+        name: "Playback API",
+        url: docsUrl + "playback-api/playback-api.yaml"
+      },
+      {
+        name: "Playheads",
+        url: docsUrl + "playheads/api.yaml"
+      },
+      {
+        name: "Subscription Processor",
+        url: docsUrl + "subs/openapi.yml"
+      },
+      {
+        name: "Watchhistory",
+        url: docsUrl + "watchhistory/api.yaml"
+      },
+      {
+        name: "Watchlist",
+        url: docsUrl + "watchlist/api.yaml"
+      }
+    ],
     dom_id: '#swagger-ui',
     deepLinking: true,
+    validatorUrl: null,
     presets: [
       SwaggerUIBundle.presets.apis,
       SwaggerUIStandalonePreset
@@ -91,5 +140,4 @@ window.onload = function() {
 }
 </script>
 </body>
-
 </html>
