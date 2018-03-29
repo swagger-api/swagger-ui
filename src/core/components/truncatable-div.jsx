@@ -27,7 +27,7 @@ export default class TruncatableDiv extends Component {
     }
 
     componentDidUpdate() {
-        if (this.state.truncate) this.contents.scrollTop = 0
+        if (this.state.truncate && typeof this.contents != "undefined" ) this.contents.scrollTop = 0
     }
 
     toggleTruncation(event) {
