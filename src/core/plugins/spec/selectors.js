@@ -54,7 +54,7 @@ const mergerFn = (oldVal, newVal) => {
       return newVal
     }
 
-    return Map().mergeWith(
+    return OrderedMap().mergeWith(
       mergerFn,
       oldVal,
       newVal
@@ -66,7 +66,7 @@ const mergerFn = (oldVal, newVal) => {
 
 export const specJsonWithResolvedSubtrees = createSelector(
   state,
-  spec => Map().mergeWith(
+  spec => OrderedMap().mergeWith(
     mergerFn,
     spec.get("json"),
     spec.get("resolvedSubtrees")
@@ -109,7 +109,7 @@ export const semver = createSelector(
 )
 
 export const paths = createSelector(
-	spec,
+	specJsonWithResolvedSubtrees,
 	spec => spec.get("paths")
 )
 
