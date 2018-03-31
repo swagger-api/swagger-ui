@@ -156,6 +156,36 @@ describe("sampleFromSchema", function() {
     expect(sampleFromSchema(definition, { includeWriteOnly: true })).toEqual(expected)
   })
 
+  it("returns object with any $$ref fields that appear to be user-created", function () {
+    var definition = {
+      type: "object",
+      properties: {
+        message: {
+          type: "string"
+        }
+      },
+      example: {
+        $$ref: {
+          value: {
+            message: "Hello, World!"
+          },
+          $$ref: "#/components/examples/WelcomeExample"
+        }
+      },
+      $$ref: "#/components/schemas/Welcome"
+    }
+
+    var expected = {
+      $$ref: {
+        "value": {
+          "message": "Hello, World!"
+        }
+      }
+    }
+
+    expect(sampleFromSchema(definition, { includeWriteOnly: true })).toEqual(expected)
+  })
+
   describe("for array type", function() {
     it("returns array with sample of array type", function() {
       var definition = {
