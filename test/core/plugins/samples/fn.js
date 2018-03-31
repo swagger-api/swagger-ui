@@ -100,6 +100,62 @@ describe("sampleFromSchema", function() {
     expect(sampleFromSchema(definition, { includeWriteOnly: true })).toEqual(expected)
   })
 
+  it("returns object without any $$ref fields at the root schema level", function () {
+    var definition = {
+    type: "object",
+    properties: {
+      message: {
+        type: "string"
+      }
+    },
+    example: {
+      value: {
+        message: "Hello, World!"
+      },
+      $$ref: "#/components/examples/WelcomeExample"
+    },
+    $$ref: "#/components/schemas/Welcome"
+  }
+
+    var expected = {
+      "value": {
+        "message": "Hello, World!"
+      }
+    }
+
+    expect(sampleFromSchema(definition, { includeWriteOnly: true })).toEqual(expected)
+  })
+
+  it("returns object without any $$ref fields at nested schema levels", function () {
+    var definition = {
+      type: "object",
+      properties: {
+        message: {
+          type: "string"
+        }
+      },
+      example: {
+        a: {
+          value: {
+            message: "Hello, World!"
+          },
+          $$ref: "#/components/examples/WelcomeExample"
+        }
+      },
+      $$ref: "#/components/schemas/Welcome"
+    }
+
+    var expected = {
+      a: {
+        "value": {
+          "message": "Hello, World!"
+        }
+      }
+    }
+
+    expect(sampleFromSchema(definition, { includeWriteOnly: true })).toEqual(expected)
+  })
+
   describe("for array type", function() {
     it("returns array with sample of array type", function() {
       var definition = {
@@ -108,12 +164,12 @@ describe("sampleFromSchema", function() {
           type: "integer"
         }
       }
-  
+
       var expected = [ 0 ]
-  
+
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
-    
+
     it("returns array of examples for array that has example", function() {
       var definition = {
         type: "array",
@@ -122,9 +178,9 @@ describe("sampleFromSchema", function() {
         },
         example: "dog"
       }
-  
+
       var expected = [ "dog" ]
-  
+
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
@@ -132,16 +188,16 @@ describe("sampleFromSchema", function() {
       var definition = {
         type: "array",
         items: {
-          type: "string",          
+          type: "string",
         },
         example: [ "dog", "cat" ]
       }
-  
+
       var expected = [ "dog", "cat" ]
-  
+
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
-    
+
     it("returns array of samples for oneOf type", function() {
       var definition = {
         type: "array",
@@ -154,9 +210,9 @@ describe("sampleFromSchema", function() {
           ]
         }
       }
-  
+
       var expected = [ 0 ]
-  
+
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
@@ -175,9 +231,9 @@ describe("sampleFromSchema", function() {
           ]
         }
       }
-  
+
       var expected = [ "string", 0 ]
-  
+
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
@@ -198,12 +254,12 @@ describe("sampleFromSchema", function() {
           ]
         }
       }
-  
+
       var expected = [ "dog", 1 ]
-  
+
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
-    
+
     it("returns array of samples for anyOf type", function() {
       var definition = {
         type: "array",
@@ -216,9 +272,9 @@ describe("sampleFromSchema", function() {
           ]
         }
       }
-  
+
       var expected = [ 0 ]
-  
+
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
@@ -237,9 +293,9 @@ describe("sampleFromSchema", function() {
           ]
         }
       }
-  
+
       var expected = [ "string", 0 ]
-  
+
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
@@ -260,9 +316,9 @@ describe("sampleFromSchema", function() {
           ]
         }
       }
-  
+
       var expected = [ "dog", 1 ]
-  
+
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
   })
