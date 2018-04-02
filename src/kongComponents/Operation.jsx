@@ -39,7 +39,7 @@ export default class Operation extends PureComponent {
     request: null
   }
 
-  render() {
+  render () {
     let {
       response,
       request,
@@ -62,6 +62,7 @@ export default class Operation extends PureComponent {
     let {
       isShown,
       isAuthorized,
+      har,
       jumpToKey,
       path,
       method,
@@ -240,11 +241,11 @@ export default class Operation extends PureComponent {
         <div className="col end">
 
           {executeInProgress ? <div className="loading-container"><div className="loading"></div></div> : null}
-
           {!responses ? null :
             <Responses
               responses={responses}
               request={request}
+              har={har}
               tryItOutResponse={response}
               getComponent={getComponent}
               getConfigs={getConfigs}

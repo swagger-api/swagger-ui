@@ -6,13 +6,13 @@
     // padding: 0 20px;
 }
 
-.opblock-tag-section 
+.opblock-tag-section
 {
     display: flex;
     flex-direction: column;
 }
 
-.opblock-tag 
+.opblock-tag
 {
     display: flex;
     align-items: center;
@@ -174,7 +174,7 @@
             flex: 1;
 
             margin: 0;
-
+            min-height: 25px;
             @include text_headline();
         }
     }
