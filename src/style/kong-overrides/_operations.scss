@@ -5,14 +5,14 @@
     .opblock-tag {
       margin: 0;
       padding: 0;
-      color: rgba(0,0,0,.70);
+      color: rgba(0, 0, 0, .70);
       font-size: 2rem;
       font-weight: 400;
     }
     .opblock-ex-description {
       margin-bottom: 2rem;
       font-size: 15px;
-      color: rgba(0,0,0,.45);
+      color: rgba(0, 0, 0, .45);
     }
   }
   .opblock {
@@ -37,7 +37,7 @@
       height: 36px;
       margin-bottom: 2rem;
       border: 0 !important;
-      background: $lightGry;   
+      background: $lightGry;
       &-method {
         height: 100%;
         line-height: 1.5rem;
@@ -49,7 +49,7 @@
       &-path {
         padding: 0 12px;
         font-size: 14px;
-        color: rgba(0,0,0,.70);
+        color: rgba(0, 0, 0, .70);
         font-family: "Roboto Mono", monospace;
       }
       &-post .opblock-summary-method {
@@ -68,11 +68,11 @@
         margin-left: auto;
       }
     }
-    //Method Parameter Header 
+    //Method Parameter Header
     .opblock-section-header {
       margin-bottom: 1rem;
       padding: 0;
-      border-bottom: 2px solid rgba(0,0,0,.10);
+      border-bottom: 2px solid rgba(0, 0, 0, .10);
       .try-out {
         margin-bottom: 1rem;
       }
@@ -97,7 +97,7 @@
 
       .parameter__in,
       .parameter__extension {
-        color: rgba(0,0,0,0.45);
+        color: rgba(0, 0, 0, 0.45);
         font-weight: 400;
       }
 
@@ -106,7 +106,7 @@
         p {
           margin-bottom: 12px;
           font-size: 15px;
-          color: rgba(0,0,0,.70);
+          color: rgba(0, 0, 0, .70);
         }
       }
 
@@ -128,15 +128,15 @@
         .content-type-wrapper {
           margin-left: auto;
           select {
-            margin-bottom: 0; 
+            margin-bottom: 0;
           }
         }
         .body-param__example {
-          margin-top: 1rem; 
+          margin-top: 1rem;
           font-size: 14px;
           background: $lightGry;
           span {
-            color: rgba(0,0,0,.70) !important;
+            color: rgba(0, 0, 0, .70) !important;
           }
         }
         .body-param__text {
@@ -149,7 +149,7 @@
 
     &.opblock-deprecated {
       button {cursor: none;}
-    }
+      }
 
     // Right Column
     .responses-wrapper {
@@ -159,8 +159,7 @@
       @media only screen and (max-width: 800px) {
         margin-bottom: 40px;
       }
-
-      h4, p, span, select {
+      h4, p, select {
         color: #fff;
         font-weight: 400;
       }
@@ -170,15 +169,15 @@
         opacity: 0;
       }
       .opblock-section-header {
-        border-color: rgba(255,255,255,.1);
-      } 
+        border-color: rgba(255, 255, 255, .1);
+      }
     }
     .responses-inner {
       padding: 0;
       .response {
         margin-bottom: 1rem;
         padding-bottom: 1rem;
-        border-bottom: 1px solid rgba(255,255,255,.1);
+        border-bottom: 1px solid rgba(255, 255, 255, .1);
       }
       .response-content-type {
         padding: 0;
@@ -194,7 +193,74 @@
       background: rgba(0, 0, 0, 0.1);
     }
     .example p {
-      color: rgba(255,255,255,.55)1
+      color: rgba(255, 255, 255, .55)1
     }
   }
+}
+
+/** Code Snippets */
+.tabs-component *,
+.tabs-component *:before,
+.tabs-component *:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.tabs-component {
+  border-radius: 0.2em;
+  background-color: #5C5C5C;
+  margin-bottom: 1em;
+}
+
+.tabs-component-body {
+  padding: 1em;
+}
+
+.tabs-component code, .tabs-component pre{
+  background-color: #5C5C5C;
+}
+
+.tabs-component-tabs {
+  margin-bottom: 5px;
+  align-items: stretch;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.tabs-component-tab {
+  opacity: 0.6;
+  color: #efefefef;
+  font-size: 14px;
+  font-weight: 600;
+  margin-right: 0;
+  list-style: none;
+}
+
+.tabs-component-tab:hover,
+.tabs-component-tab.is-active {
+  color: #fff;
+  opacity: 1;
+}
+
+.tabs-component-tab.is-disabled * {
+  cursor: not-allowed !important;
+}
+
+.tabs-component-tab {
+  margin-right: .5em;
+  transition: transform .3s ease;
+}
+
+.tabs-component-tab-a {
+  align-items: center;
+  color: inherit;
+  display: flex;
+  padding: .75em 1em;
+  text-decoration: none;
+}
+
+.tabs-component-panels {
+  margin: 2em 0;
 }

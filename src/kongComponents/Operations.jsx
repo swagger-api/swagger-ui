@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { createDeepLinkPath, sanitizeUrl } from "core/utils"
+import swagger2har from 'swagger2har'
 
 export default class Operations extends React.Component {
 
@@ -26,9 +27,15 @@ export default class Operations extends React.Component {
     } = this.props
 
     let taggedOps = specSelectors.taggedOperations()
-
     const KongOperationsContainer = getComponent("KongOperationsContainer", true)
     const Markdown = getComponent("Markdown")
+
+    const specStr = specSelectors.specStr()
+    const hars = swagger2har(JSON.parse(specStr))
+    let harsKeyed = {}
+    hars.forEach(har => {
+      harsKeyed[`${har.path}-${har.method.toLowerCase()}`] = har
+    })
 
     let {
       docExpansion,
@@ -97,14 +104,14 @@ export default class Operations extends React.Component {
                   }
 
                 </div>
-
                 {
                   operations.map(op => {
                     const path = op.get("path")
                     const method = op.get("method")
-
+                    const key = `${path}-${method}`
                     return <KongOperationsContainer
-                      key={`${path}-${method}`}
+                      key={key}
+                      har={harsKeyed[key].har || null}
                       op={op}
                       path={path}
                       method={method}

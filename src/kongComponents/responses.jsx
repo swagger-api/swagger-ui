@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { fromJS, Iterable } from "immutable"
 import { defaultStatusCode, getAcceptControllingResponse } from "core/utils"
+import { CodeSnippetWidget } from 'react-apiembed'
 
 import Response from "./response"
 import LiveResponse from "./live-response"
@@ -20,7 +21,8 @@ export default class Responses extends React.Component {
     specSelectors: PropTypes.object.isRequired,
     specActions: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
-    fn: PropTypes.object.isRequired
+    fn: PropTypes.object.isRequired,
+    har: PropTypes.object
   }
 
   static defaultProps = {
@@ -29,7 +31,7 @@ export default class Responses extends React.Component {
     displayRequestDuration: false
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate (nextProps) {
     // BUG: props.tryItOutResponse is always coming back as a new Immutable instance
     let render = this.props.tryItOutResponse !== nextProps.tryItOutResponse
       || this.props.responses !== nextProps.responses
@@ -54,7 +56,7 @@ export default class Responses extends React.Component {
     }
   }
 
-  render() {
+  render () {
     let {
       responses,
       tryItOutResponse,
@@ -62,6 +64,7 @@ export default class Responses extends React.Component {
       getConfigs,
       specSelectors,
       fn,
+      har,
       producesValue,
       displayRequestDuration
     } = this.props
@@ -77,8 +80,8 @@ export default class Responses extends React.Component {
 
     const acceptControllingResponse = isSpecOAS3 ?
       getAcceptControllingResponse(responses) : null
-
-    return (
+    const snippets = getConfigs().kong.languages
+      return (
       <div className="responses-wrapper">
         {
           !tryItOutResponse ? null :
@@ -94,6 +97,12 @@ export default class Responses extends React.Component {
 
         }
         <div className="opblock-section-header light">
+          <h4>Example Request</h4>
+        </div>
+
+        <CodeSnippetWidget har={har} snippets={snippets} />
+
+        <div className="opblock-section-header light">
           <h4>Responses</h4>
           {specSelectors.isOAS3() ? null :
             <ContentType value={producesValue}
@@ -103,7 +112,6 @@ export default class Responses extends React.Component {
           }
         </div>
         <div className="responses-inner">
-
           <div className="responses-table">
             {
               responses.entrySeq().map(([code, response]) => {

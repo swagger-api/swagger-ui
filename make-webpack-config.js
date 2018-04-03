@@ -127,6 +127,7 @@ module.exports = function(rules, options) {
     },
 
     resolve: {
+      symlinks: false,
       modules: [
         path.join(__dirname, "./src"),
         "node_modules"
