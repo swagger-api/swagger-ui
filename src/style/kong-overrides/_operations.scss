@@ -219,6 +219,7 @@
 }
 
 .tabs-component code, .tabs-component pre{
+  font-size: 14px;
   background-color: #5C5C5C;
 }
 
@@ -262,5 +263,11 @@
 }
 
 .tabs-component-panels {
-  margin: 2em 0;
+  margin: 1em 0;
+  @media only screen and (min-width: 1600px) and (max-width: 2200px) {
+    max-width: 650px;
+  }
+  @media only screen and (max-width: 1600px) {
+    max-width: 450px;
+  }
 }
