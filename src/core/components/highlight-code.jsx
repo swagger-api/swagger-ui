@@ -10,6 +10,7 @@ export default class HighlightCode extends Component {
 
   componentDidMount() {
     highlight(this.el)
+    this.setState({ contentsHidden: this.props.value.length > 600 })
   }
 
   componentDidUpdate() {
@@ -20,10 +21,28 @@ export default class HighlightCode extends Component {
     this.el = c
   }
 
+  onToggleSeeFullContents = () => {
+    this.setState({ contentsHidden: !this.state.contentsHidden })
+  }
+
   render () {
     let { value, className } = this.props
+    let contentsHidden = this.state && this.state.contentsHidden
     className = className || ""
 
-    return <pre ref={this.initializeComponent} className={className + " microlight"}>{ value }</pre>
+    return (
+      <div>
+        <pre
+          ref={this.initializeComponent}
+          className={className + " microlight" + (contentsHidden ? ' flat-bottom' : '')}>
+          { contentsHidden ? value.substring(0, 600) : value }
+        </pre>
+        { value.length > 600 &&
+          <div className='see-full-contents' onClick={this.onToggleSeeFullContents}>
+            { contentsHidden ? 'See full contents' : 'Collapse contents'}
+          </div>
+        }
+      </div>
+    )
   }
 }
