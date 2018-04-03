@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { highlight } from "core/utils"
+import { saveAs } from "file-saver"
 
 export default class HighlightCode extends Component {
   static propTypes = {
@@ -25,6 +26,12 @@ export default class HighlightCode extends Component {
     this.setState({ contentsHidden: !this.state.contentsHidden })
   }
 
+  downloadJSON = (value) => {
+    let fileName = 'response'
+    let fileToSave = new Blob([value], {type: 'text/json', name: fileName})
+    saveAs(fileToSave)
+  }
+
   render () {
     let { value, className } = this.props
     let contentsHidden = this.state && this.state.contentsHidden
@@ -40,6 +47,11 @@ export default class HighlightCode extends Component {
         { value.length > 600 &&
           <div className='see-full-contents' onClick={this.onToggleSeeFullContents}>
             { contentsHidden ? 'See full contents' : 'Collapse contents'}
+          </div>
+        }
+        { value.length > 600 &&
+          <div className='see-full-contents' onClick={this.downloadJSON(value)}>
+            {'Download'}
           </div>
         }
       </div>
