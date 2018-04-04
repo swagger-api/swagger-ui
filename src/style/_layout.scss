@@ -563,7 +563,7 @@
         padding: 10px;
 
         border-radius: 4px;
-        background: $response-col-description-inner-markdown-background-color;
+        background: $midnight;
 
         @include text_code($response-col-description-inner-markdown-font-color);
 
@@ -615,7 +615,7 @@
     hyphens: auto;
 
     border-radius: 4px;
-    background: $opblock-body-background-color;
+    background: $midnight;
 
     overflow-wrap: break-word;
     @include text_code($opblock-body-font-color);

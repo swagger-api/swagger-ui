@@ -46,6 +46,7 @@ label
     margin: 0 0 5px 0;
 
     @include text_headline();
+    color: $midnight!important;
 }
 
 
