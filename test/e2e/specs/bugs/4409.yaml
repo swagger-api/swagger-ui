@@ -1,0 +1,24 @@
+openapi: 3.0.0
+servers:
+  - url: 'https://__host__/'
+info:
+  description: Test API
+  version: '1.0'
+  title: Test API
+  contact:
+    name: Sample Person
+    email: Sample.Person@adp.com
+tags:
+  - name: Test API with Schema
+    description: Test API with Schema
+paths:
+  /myApi:
+    get:
+      operationId: some guid
+      responses:
+        '200':
+          description: Returns documents
+      description: Returns documents
+      tags:
+        - Test API with Schema
+      summary: Test API with Schema
