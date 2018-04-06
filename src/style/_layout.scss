@@ -36,6 +36,10 @@
     transition: all .2s;
 
     border-bottom: 1px solid rgba($opblock-tag-border-bottom-color, .3);
+    
+    a {
+        color: darken($cyan, 12%);
+    }
 
     &:hover
     {
@@ -74,7 +78,7 @@
     margin: 0 0 5px 0;
 
     @include text_headline();
-
+    color: $midnight!important;
     &.no-desc
     {
         span
@@ -231,9 +235,10 @@
 
     .opblock-summary-method
     {
-        font-size: 14px;
+        font-size: 13px;
         font-weight: bold;
-
+        text-transform: uppercase;
+        letter-spacing: 2px;
         min-width: 80px;
         padding: 6px 15px;
 
@@ -301,7 +306,7 @@
     .opblock-summary-description
     {
         font-size: 13px;
-
+        
         flex: 1;
 
         @include text_body();
@@ -398,7 +403,7 @@
 
         min-width: 100px;
         min-width: 90px;
-        padding: 0;
+        padding: 0 6px;
 
         cursor: pointer;
 
@@ -414,7 +419,7 @@
             {
                 position: absolute;
                 top: 0;
-                right: 6px;
+                right: -1px;
 
                 width: 1px;
                 height: 100%;
@@ -446,7 +451,6 @@
     h4
     {
         font-size: 12px;
-
         margin: 0 0 5px 0;
 
         @include text_body();
@@ -559,7 +563,7 @@
         padding: 10px;
 
         border-radius: 4px;
-        background: $response-col-description-inner-markdown-background-color;
+        background: $midnight;
 
         @include text_code($response-col-description-inner-markdown-font-color);
 
@@ -611,7 +615,7 @@
     hyphens: auto;
 
     border-radius: 4px;
-    background: $opblock-body-background-color;
+    background: $midnight;
 
     overflow-wrap: break-word;
     @include text_code($opblock-body-font-color);

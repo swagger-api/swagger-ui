@@ -1,18 +1,20 @@
 .btn
 {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
-
+    text-transform: uppercase;
+    letter-spacing: 2px;
     padding: 5px 23px;
 
     transition: all .3s;
 
-    border: 2px solid $btn-border-color;
+    border: 2px solid $midnight;
     border-radius: 4px;
     background: transparent;
     box-shadow: 0 1px 2px rgba($btn-box-shadow-color,.1);
 
     @include text_headline();
+    color: $midnight;
 
     &.btn-sm
     {
@@ -45,8 +47,8 @@
 
         display: inline;
 
-        color: $btn-authorize-font-color;
-        border-color: $btn-authorize-border-color;
+        color: darken($cyan, 12%);
+        border-color: darken($cyan, 12%);
         background-color: $btn-authorize-background-color;
 
         span
@@ -58,7 +60,7 @@
 
         svg
         {
-            fill: $btn-authorize-svg-fill-color;
+            fill: darken($cyan, 12%);
         }
     }
 
@@ -106,7 +108,8 @@
 
     &.unlocked
     {
-        opacity: .4;
+        opacity: .8;
+        fill: $midnight;
     }
 }
 
