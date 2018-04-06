@@ -5,7 +5,7 @@ import { Parser, HtmlRenderer } from "commonmark"
 import { OAS3ComponentWrapFactory } from "../helpers"
 import { sanitizer } from "core/components/providers/markdown"
 
-export const Markdown = ({ source }) => { 
+export const Markdown = ({ source, className }) => {
   if ( source ) {
     const parser = new Parser()
     const writer = new HtmlRenderer()
@@ -19,14 +19,15 @@ export const Markdown = ({ source }) => {
     return (
       <ReactMarkdown
         source={sanitized}
-        className={"renderedMarkdown"}
+        className={className + " markdown renderedMarkdown"}
       />
     )
   }
   return null
 }
 Markdown.propTypes = {
-  source: PropTypes.string
+  source: PropTypes.string,
+  className: PropTypes.string,
 }
 
 export default OAS3ComponentWrapFactory(Markdown)

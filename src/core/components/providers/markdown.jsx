@@ -6,7 +6,7 @@ import sanitize from "sanitize-html"
 // eslint-disable-next-line no-useless-escape
 const isPlainText = (str) => /^[A-Z\s0-9!?\.]+$/gi.test(str)
 
-function Markdown({ source }) {
+function Markdown({ source, className }) {
     if(isPlainText(source)) {
       // If the source text is not Markdown,
       // let's save some time and just render it.
@@ -28,7 +28,7 @@ function Markdown({ source }) {
     }
 
     return (
-        <div className="markdown" dangerouslySetInnerHTML={{ __html: sanitized }}></div>
+        <div className={`${className} markdown`} dangerouslySetInnerHTML={{ __html: sanitized }}></div>
     )
 }
 
