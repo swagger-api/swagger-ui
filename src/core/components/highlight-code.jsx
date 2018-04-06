@@ -29,7 +29,7 @@ export default class HighlightCode extends Component {
   downloadJSON = () => {
     let content = this.props.value
     let fileName = "response"
-    let fileToSave = new Blob([content], {type: 'text/plain'})
+    let fileToSave = new Blob([content], {type: "text/plain"})
     saveAs(fileToSave, fileName)
   }
 
@@ -40,16 +40,16 @@ export default class HighlightCode extends Component {
 
     return (
       <div>
-        <div className='download-contents' onClick={this.downloadJSON}>
+        <div className="download-contents" onClick={this.downloadJSON}>
           {"Download"}
         </div>
         <pre
           ref={this.initializeComponent}
-          className={className + " microlight" + (contentsHidden ? ' flat-bottom' : '')}>
+          className={className + " microlight" + (contentsHidden ? " flat-bottom" : "")}>
           { contentsHidden ? value.substring(0, 600) : value }
         </pre>
         { value.length > 600 &&
-          <div className='see-full-contents' onClick={this.onToggleSeeFullContents}>
+          <div className="see-full-contents" onClick={this.onToggleSeeFullContents}>
             { contentsHidden ? "See full contents" : "Collapse contents"}
           </div>
         }
