@@ -177,11 +177,6 @@ export default class ParameterRow extends Component {
             : null
           }
 
-          { (bodyParam || !isExecute) && paramExample !== undefined ?
-            <Markdown className="parameter__example" source={"<i>Example</i> : " + paramExample}/>
-            : null
-          }
-
           {(isFormData && !isFormDataSupported) && <div>Error: your browser does not support FormData</div>}
 
           { bodyParam || !isExecute ? null
