@@ -1,4 +1,4 @@
-import { objectify, isFunc, normalizeArray } from "core/utils"
+import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
 import XML from "xml"
 import memoizee from "memoizee"
 
@@ -29,12 +29,13 @@ export const sampleFromSchema = (schema, config={}) => {
   let { type, example, properties, additionalProperties, items } = objectify(schema)
   let { includeReadOnly, includeWriteOnly } = config
 
-  if(example && example.$$ref) {
-    delete example.$$ref
+  if(example !== undefined) {
+    return deeplyStripKey(example, "$$ref", (val) => {
+      // do a couple of quick sanity tests to ensure the value
+      // looks like a $$ref that swagger-client generates.
+      return typeof val === "string" && val.indexOf("#") > -1
+    })
   }
-
-  if(example !== undefined)
-    return example
 
   if(!type) {
     if(properties) {
