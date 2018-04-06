@@ -133,7 +133,7 @@ export default class ParameterRow extends Component {
       paramEnum = param.get("enum")
     }
 
-    if ( paramEnum !== undefined  && paramEnum.size > 0) {
+    if ( paramEnum !== undefined && paramEnum.size > 0) {
       isDisplayParamEnum = true
     }
 
@@ -162,7 +162,7 @@ export default class ParameterRow extends Component {
         </td>
 
         <td className="col parameters-col_description">
-          <Markdown source={ param.get("description") }/>
+          { param.get("description") ? <Markdown source={ param.get("description") }/> : null }
 
           { (bodyParam || !isExecute) && isDisplayParamEnum ?
             <Markdown source={
