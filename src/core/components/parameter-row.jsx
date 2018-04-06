@@ -165,7 +165,7 @@ export default class ParameterRow extends Component {
           { param.get("description") ? <Markdown source={ param.get("description") }/> : null }
 
           { (bodyParam || !isExecute) && isDisplayParamEnum ?
-            <Markdown source={
+            <Markdown className="parameter__enum" source={
                 "<i>Available values</i> : " + paramEnum.map(function(item) {
                     return item
                   }).toArray().join(", ")}/>
@@ -173,12 +173,12 @@ export default class ParameterRow extends Component {
           }
 
           { (bodyParam || !isExecute) && paramDefaultValue !== undefined ?
-            <Markdown source={"<i>Default value</i> : " + paramDefaultValue}/>
+            <Markdown className="parameter__default" source={"<i>Default value</i> : " + paramDefaultValue}/>
             : null
           }
 
           { (bodyParam || !isExecute) && paramExample !== undefined ?
-            <Markdown source={"<i>Example</i> : " + paramExample}/>
+            <Markdown className="parameter__example" source={"<i>Example</i> : " + paramExample}/>
             : null
           }
 
