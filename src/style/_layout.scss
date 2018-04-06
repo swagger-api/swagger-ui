@@ -654,6 +654,23 @@
   height: 20px;
 }
 
+.download-contents {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background: #7d8293;
+  padding: 5px 5px 5px;
+  border: 10px solid #41444e;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 600;
+  color: white;
+  font-size: 14px;
+  bottom: 0px;
+}
+
 .scheme-container
 {
     margin: 0 0 20px 0;
