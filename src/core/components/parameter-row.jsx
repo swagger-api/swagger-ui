@@ -107,12 +107,12 @@ export default class ParameterRow extends Component {
 
     let paramWithMeta = specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in"))
 
-    let schema = param.get("schema")
-    let type = isOAS3 && isOAS3() ? param.getIn(["schema", "type"]) : param.get("type")
+    let schema = isOAS3 && isOAS3() ? param.get("schema") : param
+    let type = schema.get("type")
     let isFormData = inType === "formData"
     let isFormDataSupported = "FormData" in win
     let required = param.get("required")
-    let itemType = param.getIn(isOAS3 && isOAS3() ? ["schema", "items", "type"] : ["items", "type"])
+    let itemType = schema.getIn(["items", "type"])
     let value = paramWithMeta ? paramWithMeta.get("value") : ""
     let extensions = getExtensions(param)
 
@@ -123,14 +123,14 @@ export default class ParameterRow extends Component {
     let isDisplayParamEnum = false
 
     if ( param !== undefined ) {
-      paramItems = param.get("items")
+      paramItems = schema.get("items")
     }
 
     if (paramItems !== undefined) {
       paramEnum = paramItems.get("enum")
       paramDefaultValue = paramItems.get("default")
     } else {
-      paramEnum = param.get("enum")
+      paramEnum = schema.get("enum")
     }
 
     if ( paramEnum !== undefined && paramEnum.size > 0) {
@@ -192,7 +192,7 @@ export default class ParameterRow extends Component {
                               description={param.get("description") ? `${param.get("name")} - ${param.get("description")}` : `${param.get("name")}`}
                               onChange={ this.onChangeWrapper }
                               errors={ paramWithMeta.get("errors") }
-                              schema={ isOAS3 && isOAS3() ? param.get("schema") : param }/>
+                              schema={ schema }/>
           }
 
 
