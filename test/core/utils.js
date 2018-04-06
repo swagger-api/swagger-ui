@@ -3,6 +3,8 @@ import expect from "expect"
 import { fromJS, OrderedMap } from "immutable"
 import {
   mapToList,
+  parseSearch,
+  serializeSearch,
   validatePattern,
   validateMinLength,
   validateMaxLength,
@@ -19,7 +21,8 @@ import {
   createDeepLinkPath,
   escapeDeepLinkPath,
   sanitizeUrl,
-  extractFileNameFromContentDispositionHeader
+  extractFileNameFromContentDispositionHeader,
+  deeplyStripKey
 } from "core/utils"
 import win from "core/window"
 
@@ -260,6 +263,9 @@ describe("utils", function() {
       expect(validateGuid("8ce4811e-cec5-4a29-891a-15d1917153c1")).toBeFalsy()
       expect(validateGuid("{8ce4811e-cec5-4a29-891a-15d1917153c1}")).toBeFalsy()
       expect(validateGuid("8CE4811E-CEC5-4A29-891A-15D1917153C1")).toBeFalsy()
+      expect(validateGuid("6ffefd8e-a018-e811-bbf9-60f67727d806")).toBeFalsy()
+      expect(validateGuid("6FFEFD8E-A018-E811-BBF9-60F67727D806")).toBeFalsy()
+      expect(validateGuid("00000000-0000-0000-0000-000000000000")).toBeFalsy()
     })
 
     it("returns a message for invalid input'", function() {
@@ -934,6 +940,100 @@ describe("utils", function() {
     it("escapes a deep link path with an id selector", function() {
       const result = escapeDeepLinkPath("hello#world")
       expect(result).toEqual("hello\\#world")
+    })
+  })
+
+  describe("deeplyStripKey", function() {
+    it("should filter out a specified key", function() {
+      const input = {
+        $$ref: "#/this/is/my/ref",
+        a: {
+          $$ref: "#/this/is/my/other/ref",
+          value: 12345
+        }
+      }
+      const result = deeplyStripKey(input, "$$ref")
+      expect(result).toEqual({
+        a: {
+          value: 12345
+        }
+      })
+    })
+
+    it("should filter out a specified key by predicate", function() {
+      const input = {
+        $$ref: "#/this/is/my/ref",
+        a: {
+          $$ref: "#/keep/this/one",
+          value: 12345
+        }
+      }
+      const result = deeplyStripKey(input, "$$ref", (v) => v !== "#/keep/this/one")
+      expect(result).toEqual({
+        a: {
+          value: 12345,
+          $$ref: "#/keep/this/one"
+        }
+      })
+    })
+
+    it("should only call the predicate when the key matches", function() {
+      const input = {
+        $$ref: "#/this/is/my/ref",
+        a: {
+          $$ref: "#/this/is/my/other/ref",
+          value: 12345
+        }
+      }
+      let count = 0
+
+      const result = deeplyStripKey(input, "$$ref", () => {
+        count++
+        return true
+      })
+      expect(count).toEqual(2)
+    })
+  })
+
+  describe("parse and serialize search", function() {
+    afterEach(function() {
+      win.location.search = ""
+    })
+
+    describe("parsing", function() {
+      it("works with empty search", function() {
+        win.location.search = ""
+        expect(parseSearch()).toEqual({})
+      })
+
+      it("works with only one key", function() {
+        win.location.search = "?foo"
+        expect(parseSearch()).toEqual({foo: ""})
+      })
+
+      it("works with keys and values", function() {
+        win.location.search = "?foo=fooval&bar&baz=bazval"
+        expect(parseSearch()).toEqual({foo: "fooval", bar: "", baz: "bazval"})
+      })
+
+      it("decode url encoded components", function() {
+        win.location.search = "?foo=foo%20bar"
+        expect(parseSearch()).toEqual({foo: "foo bar"})
+      })
+    })
+
+    describe("serializing", function() {
+      it("works with empty map", function() {
+        expect(serializeSearch({})).toEqual("")
+      })
+
+      it("works with multiple keys with and without values", function() {
+        expect(serializeSearch({foo: "", bar: "barval"})).toEqual("foo=&bar=barval")
+      })
+
+      it("encode url components", function() {
+        expect(serializeSearch({foo: "foo bar"})).toEqual("foo=foo%20bar")
+      })
     })
   })
 

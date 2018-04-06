@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { getExtensions } from "core/utils"
 
-const propStyle = { color: "#999", fontStyle: "italic" }
+const propStyle = { color: "#6b6b6b", fontStyle: "italic" }
 
 export default class Primitive extends Component {
   static propTypes = {

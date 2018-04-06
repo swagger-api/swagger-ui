@@ -350,7 +350,7 @@ export function extractFileNameFromContentDispositionHeader(value){
   if (responseFilename !== null && responseFilename.length > 1) {
     return responseFilename[1]
   }
-  return null  
+  return null
 }
 
 // PascalCase, aka UpperCamelCase
@@ -445,7 +445,7 @@ export const validateDateTime = (val) => {
 
 export const validateGuid = (val) => {
     val = val.toString().toLowerCase()
-    if (!/^[{(]?[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}[)}]?$/.test(val)) {
+    if (!/^[{(]?[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}[)}]?$/.test(val)) {
         return "Value must be a Guid"
     }
 }
@@ -559,7 +559,7 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
     } else if ( type === "array" ) {
       let itemType
 
-      if ( !value.count() ) { return errors }
+      if ( !listCheck || !value.count() ) { return errors }
 
       itemType = paramDetails.getIn(["items", "type"])
 
@@ -623,11 +623,17 @@ export const parseSearch = () => {
         continue
       }
       i = params[i].split("=")
-      map[decodeURIComponent(i[0])] = decodeURIComponent(i[1])
+      map[decodeURIComponent(i[0])] = (i[1] && decodeURIComponent(i[1])) || ""
     }
   }
 
   return map
+}
+
+export const serializeSearch = (searchMap) => {
+  return Object.keys(searchMap).map(k => {
+    return encodeURIComponent(k) + "=" + encodeURIComponent(searchMap[k])
+  }).join("&")
 }
 
 export const btoa = (str) => {
@@ -706,3 +712,25 @@ export const createDeepLinkPath = (str) => typeof str == "string" || str instanc
 export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str) )
 
 export const getExtensions = (defObj) => defObj.filter((v, k) => /^x-/.test(k))
+
+// Deeply strips a specific key from an object.
+//
+// `predicate` can be used to discriminate the stripping further,
+// by preserving the key's place in the object based on its value.
+export function deeplyStripKey(input, keyToStrip, predicate = () => true) {
+  if(typeof input !== "object" || Array.isArray(input) || !keyToStrip) {
+    return input
+  }
+
+  const obj = Object.assign({}, input)
+
+  Object.keys(obj).forEach(k => {
+    if(k === keyToStrip && predicate(obj[k], k)) {
+      delete obj[k]
+      return
+    }
+    obj[k] = deeplyStripKey(obj[k], keyToStrip, predicate)
+  })
+
+  return obj
+}
