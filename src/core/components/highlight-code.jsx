@@ -11,7 +11,6 @@ export default class HighlightCode extends Component {
 
   componentDidMount() {
     highlight(this.el)
-    this.setState({ contentsHidden: this.props.value.length > 600 })
   }
 
   componentDidUpdate() {
@@ -20,10 +19,6 @@ export default class HighlightCode extends Component {
 
   initializeComponent = (c) => {
     this.el = c
-  }
-
-  onToggleSeeFullContents = () => {
-    this.setState({ contentsHidden: !this.state.contentsHidden })
   }
 
   downloadJSON = () => {
@@ -35,24 +30,16 @@ export default class HighlightCode extends Component {
 
   render () {
     let { value, className } = this.props
-    let contentsHidden = this.state && this.state.contentsHidden
     className = className || ""
 
     return (
-      <div>
+      <div className="highlight-code">
         <div className="download-contents" onClick={this.downloadJSON}>
           {"Download"}
         </div>
-        <pre
-          ref={this.initializeComponent}
-          className={className + " microlight" + (contentsHidden ? " flat-bottom" : "")}>
-          { contentsHidden ? value.substring(0, 600) : value }
+        <pre ref={this.initializeComponent} className={className + " microlight"}>
+          { value }
         </pre>
-        { value.length > 600 &&
-          <div className="see-full-contents" onClick={this.onToggleSeeFullContents}>
-            { contentsHidden ? "See full contents" : "Collapse contents"}
-          </div>
-        }
       </div>
     )
   }
