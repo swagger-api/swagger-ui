@@ -71,5 +71,77 @@ describe("auth plugin - actions", () => {
         expect(system.fn.fetch.calls[0].arguments[0]).toInclude({url: expectedFetchUrl})
       })
     })
+
+    it("should add additionalQueryStringParams to Swagger 2.0 authorization and token URLs", () => {
+
+      // Given
+      const data = {
+        url: "/authorize?q=1"
+      }
+      const system = {
+        fn: {
+          fetch: createSpy().andReturn(Promise.resolve())
+        },
+        getConfigs: () => ({}),
+        authSelectors: {
+          getConfigs: () => ({
+            additionalQueryStringParams: {
+              myCustomParam: "abc123"
+            }
+          })
+        },
+        specSelectors: {
+          isOAS3: () => false,
+          operationScheme: () => "https",
+          host: () => "http://google.com",
+          url: () => "http://google.com/swagger.json"
+        }
+      }
+
+      // When
+      authorizeRequest(data)(system)
+
+      // Then
+      expect(system.fn.fetch.calls.length).toEqual(1)
+
+      expect(system.fn.fetch.calls[0].arguments[0].url)
+        .toEqual("http://google.com/authorize?q=1&myCustomParam=abc123")
+    })
+
+    it("should add additionalQueryStringParams to OpenAPI 3.0 authorization and token URLs", () => {
+
+      // Given
+      const data = {
+        url: "/authorize?q=1"
+      }
+      const system = {
+        fn: {
+          fetch: createSpy().andReturn(Promise.resolve())
+        },
+        getConfigs: () => ({}),
+        authSelectors: {
+          getConfigs: () => ({
+            additionalQueryStringParams: {
+              myCustomParam: "abc123"
+            }
+          })
+        },
+        oas3Selectors: {
+          selectedServer: () => "http://google.com"
+        },
+        specSelectors: {
+          isOAS3: () => true,
+        }
+      }
+
+      // When
+      authorizeRequest(data)(system)
+
+      // Then
+      expect(system.fn.fetch.calls.length).toEqual(1)
+
+      expect(system.fn.fetch.calls[0].arguments[0].url)
+        .toEqual("http://google.com/authorize?q=1&myCustomParam=abc123")
+    })
   })
 })
