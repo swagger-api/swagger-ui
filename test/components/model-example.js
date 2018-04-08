@@ -7,22 +7,8 @@ import ModelComponent from "components/model-wrapper"
 import Example from "components/example"
 
 describe("<ModelExample/>", function(){
-  // Given
-  let components = {
-    ModelWrapper: ModelComponent
-  }
-  let props = {
-    getComponent: (c) => {
-        return components[c]
-    },
-    specSelectors: {},
-    schema: {},
-    isExecute: false,
-    getConfigs: () => ({
-      defaultModelRendering: "model",
-      defaultModelExpandDepth: 1
-    })
-  }
+  let components, props
+  
   let exampleSelectedTestInputs = [
     { defaultModelRendering: "model", isExecute: true },
     { defaultModelRendering: "example", isExecute: true },
@@ -30,9 +16,30 @@ describe("<ModelExample/>", function(){
     { defaultModelRendering: "othervalue", isExecute: true },
     { defaultModelRendering: "othervalue", isExecute: false }
   ]
+  
   let modelSelectedTestInputs = [
     { defaultModelRendering: "model", isExecute: false }
   ]
+
+  beforeEach(() => {
+    components = {
+      ModelWrapper: ModelComponent
+    }
+    
+    props = {
+      getComponent: (c) => {
+          return components[c]
+      },
+      specSelectors: {},
+      schema: {},
+      example: "{\"example\": \"value\"}",
+      isExecute: false,
+      getConfigs: () => ({
+        defaultModelRendering: "model",
+        defaultModelExpandDepth: 1
+      })
+    }
+  })
 
 
   it("renders model and example tabs", function(){

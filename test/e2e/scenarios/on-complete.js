@@ -4,7 +4,7 @@ describe("onComplete option", function () {
   let mainPage
   beforeEach(function (client, done) {
     mainPage = client
-      .url("localhost:3200")
+      .url("localhost:3230")
       .page.main()
 
     client.waitForElementVisible(".opblock-tag-section", 5000)

@@ -713,6 +713,28 @@ export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str) )
 
 export const getExtensions = (defObj) => defObj.filter((v, k) => /^x-/.test(k))
 
+// Deeply strips a specific key from an object.
+//
+// `predicate` can be used to discriminate the stripping further,
+// by preserving the key's place in the object based on its value.
+export function deeplyStripKey(input, keyToStrip, predicate = () => true) {
+  if(typeof input !== "object" || Array.isArray(input) || !keyToStrip) {
+    return input
+  }
+
+  const obj = Object.assign({}, input)
+
+  Object.keys(obj).forEach(k => {
+    if(k === keyToStrip && predicate(obj[k], k)) {
+      delete obj[k]
+      return
+    }
+    obj[k] = deeplyStripKey(obj[k], keyToStrip, predicate)
+  })
+
+  return obj
+}
+
 export function getModelNameFromRef(ref) {
   if (ref.indexOf("#/definitions/") !== -1) {
     return ref.replace(/^.*#\/definitions\//, "")
