@@ -125,7 +125,7 @@ export default class HttpAuth extends React.Component {
     )
     }
   return <div>
-    <em><b>{name}</b> HTTP authentication: unsupported or missing scheme</em>
+    <em><b>{name}</b> HTTP authentication: unsupported scheme '{scheme}'</em>
   </div>
   }
 }
