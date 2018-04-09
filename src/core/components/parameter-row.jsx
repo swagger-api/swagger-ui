@@ -197,7 +197,7 @@ export default class ParameterRow extends Component {
                                                 getConfigs={ getConfigs }
                                                 isExecute={ isExecute }
                                                 specSelectors={ specSelectors }
-                                                schema={ schema }
+                                                schema={ param.get("schema") }
                                                 example={ bodyParam }/>
               : null
           }
