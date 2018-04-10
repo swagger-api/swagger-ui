@@ -21,7 +21,8 @@ import {
   createDeepLinkPath,
   escapeDeepLinkPath,
   sanitizeUrl,
-  extractFileNameFromContentDispositionHeader
+  extractFileNameFromContentDispositionHeader,
+  deeplyStripKey
 } from "core/utils"
 import win from "core/window"
 
@@ -939,6 +940,58 @@ describe("utils", function() {
     it("escapes a deep link path with an id selector", function() {
       const result = escapeDeepLinkPath("hello#world")
       expect(result).toEqual("hello\\#world")
+    })
+  })
+
+  describe("deeplyStripKey", function() {
+    it("should filter out a specified key", function() {
+      const input = {
+        $$ref: "#/this/is/my/ref",
+        a: {
+          $$ref: "#/this/is/my/other/ref",
+          value: 12345
+        }
+      }
+      const result = deeplyStripKey(input, "$$ref")
+      expect(result).toEqual({
+        a: {
+          value: 12345
+        }
+      })
+    })
+
+    it("should filter out a specified key by predicate", function() {
+      const input = {
+        $$ref: "#/this/is/my/ref",
+        a: {
+          $$ref: "#/keep/this/one",
+          value: 12345
+        }
+      }
+      const result = deeplyStripKey(input, "$$ref", (v) => v !== "#/keep/this/one")
+      expect(result).toEqual({
+        a: {
+          value: 12345,
+          $$ref: "#/keep/this/one"
+        }
+      })
+    })
+
+    it("should only call the predicate when the key matches", function() {
+      const input = {
+        $$ref: "#/this/is/my/ref",
+        a: {
+          $$ref: "#/this/is/my/other/ref",
+          value: 12345
+        }
+      }
+      let count = 0
+
+      const result = deeplyStripKey(input, "$$ref", () => {
+        count++
+        return true
+      })
+      expect(count).toEqual(2)
     })
   })
 

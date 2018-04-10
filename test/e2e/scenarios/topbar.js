@@ -18,7 +18,7 @@ describe("initial render", function () {
 
         beforeEach(function (client, done) {
         mainPage = client
-            .url("localhost:3200")
+            .url("localhost:3230")
             .page.main()
 
         topbar = mainPage.section.topbar
@@ -26,7 +26,7 @@ describe("initial render", function () {
         client.waitForElementVisible(".download-url-input", 10000)
             .pause(5000)
             .clearValue(".download-url-input")
-            .setValue(".download-url-input", "http://localhost:3200/test-specs/petstore.json")
+            .setValue(".download-url-input", "http://localhost:3230/test-specs/petstore.json")
             .click("button.download-url-button")
             .pause(1000)
 

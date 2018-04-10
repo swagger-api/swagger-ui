@@ -21,7 +21,7 @@ components:
   schemas:
     Api2Prop:
       type: string
-      description: this is a api2prop
+      description: this is an api2prop
       example: 'api1prop-value'
 
     TestResponse2:
