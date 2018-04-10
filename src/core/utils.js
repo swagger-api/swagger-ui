@@ -10,7 +10,7 @@ import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins
 import win from "./window"
 import cssEscape from "css.escape"
 
-const DEFAULT_REPONSE_KEY = "default"
+const DEFAULT_RESPONSE_KEY = "default"
 
 export const isImmutable = (maybe) => Im.Iterable.isIterable(maybe)
 
@@ -128,7 +128,7 @@ export function systemThunkMiddleware(getSystem) {
 
 export function defaultStatusCode ( responses ) {
   let codes = responses.keySeq()
-  return codes.contains(DEFAULT_REPONSE_KEY) ? DEFAULT_REPONSE_KEY : codes.filter( key => (key+"")[0] === "2").sort().first()
+  return codes.contains(DEFAULT_RESPONSE_KEY) ? DEFAULT_RESPONSE_KEY : codes.filter( key => (key+"")[0] === "2").sort().first()
 }
 
 
@@ -193,7 +193,7 @@ export function highlight (el) {
     // running through characters and highlighting
     while (prev2 = prev1,
       // escaping if needed (with except for comments)
-      // pervious character will not be therefore
+      // previous character will not be therefore
       // recognized as a token finalize condition
       prev1 = tokenType < 7 && prev1 == "\\" ? 1 : chr
       ) {
