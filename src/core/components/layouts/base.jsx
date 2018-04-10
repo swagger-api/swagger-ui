@@ -39,6 +39,7 @@ export default class BaseLayout extends React.Component {
     let schemes = specSelectors.schemes()
     let servers = specSelectors.servers()
 
+    let SvgAssets = getComponent("SvgAssets")
     let Info = getComponent("info")
     let Operations = getComponent("operations", true)
     let Models = getComponent("Models", true)
@@ -78,6 +79,7 @@ export default class BaseLayout extends React.Component {
     return (
 
       <div className='swagger-ui'>
+          <SvgAssets />
           <div>
             <Errors/>
             <Row className="information-container">
