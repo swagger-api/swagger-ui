@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { highlight } from "core/utils"
-import { saveAs } from "file-saver"
+import saveAs from "js-file-download"
 
 export default class HighlightCode extends Component {
   static propTypes = {
@@ -23,8 +23,7 @@ export default class HighlightCode extends Component {
   }
 
   downloadText = () => {
-    let fileToSave = new Blob([this.props.value], {type: "text/plain"})
-    saveAs(fileToSave, "response")
+    saveAs(this.props.value, "response.txt")
   }
 
   preventYScrollingBeyondElement = (e) => {
