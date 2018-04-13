@@ -26,7 +26,6 @@ export default class ResponseBody extends React.PureComponent {
     }
 
     if(content && content instanceof Blob) {
-      // IE11 safe?
       var reader = new FileReader()
       reader.onload = () => {
         this.setState({
