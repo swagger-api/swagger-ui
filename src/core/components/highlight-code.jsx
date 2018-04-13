@@ -21,7 +21,7 @@ export default class HighlightCode extends Component {
     this.el = c
   }
 
-  downloadJSON = () => {
+  downloadText = () => {
     let fileToSave = new Blob([this.props.value], {type: "text/plain"})
     saveAs(fileToSave, "response")
   }
@@ -50,7 +50,7 @@ export default class HighlightCode extends Component {
 
     return (
       <div className="highlight-code">
-        <div className="download-contents" onClick={this.downloadJSON}>Download</div>
+        <div className="download-contents" onClick={this.downloadText}>Download</div>
         <pre
           ref={this.initializeComponent}
           onWheel={this.preventYScrollingBeyondElement}
