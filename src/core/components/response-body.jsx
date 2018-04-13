@@ -47,7 +47,7 @@ export default class ResponseBody extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    this.updateParsedContent(prevProps)
+    this.updateParsedContent(prevProps.content)
   }
 
   render() {
