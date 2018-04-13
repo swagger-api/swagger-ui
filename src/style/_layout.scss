@@ -629,7 +629,7 @@
 .highlight-code {
   position: relative;
 
-  >.microlight {
+  > .microlight {
     overflow-y: auto;
     max-height: 400px;
   }
@@ -641,6 +641,7 @@
   right: 10px;
   cursor: pointer;
   background: #7d8293;
+  text-align: center;
   padding: 5px;
   border-radius: 4px;
   font-family: 'Titillium Web', sans-serif;
