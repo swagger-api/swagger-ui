@@ -71,6 +71,16 @@ describe("render pet api container", function () {
         client.end()
     })
 
+    it("Testing post /pet api model values", function (client) {
+        apiWrapper.waitForElementVisible("@petOperationPostContainer", 5000)
+            .click("@petOperationPostCollpase")
+            .waitForElementVisible("@petOperationPostCollapseContainer", 5000)
+            .click("a.tablinks[data-name=model]")
+            .assert.containsText("span.model-title > .model-title__text", `Pet`)
+
+        client.end()
+    })
+
     it("render put /pet api container", function (client) {
         apiWrapper.waitForElementVisible("@petOperationPutContainer", 5000)
             .assert.containsText("@petOperationPutTitle", "/pet")
@@ -81,10 +91,10 @@ describe("render pet api container", function () {
             .waitForElementVisible("@petOperationPutExecuteBtn", 1000)
             .click("@petOperationPutTryBtn")
             .assert.cssClassNotPresent("@petOperationPutTryBtn", "cancel")
-            
+
         client.end()
     })
-    
+
     it("Testing put /pet api Mock data", function (client) {
         apiWrapper.waitForElementVisible("@petOperationPutContainer", 5000)
             .click("@petOperationPutCollpase")
@@ -115,7 +125,7 @@ describe("render pet api container", function () {
             .waitForElementVisible("@petOperationGetByTagExecuteBtn", 1000)
             .click("@petOperationGetByTagTryBtn")
             .assert.cssClassNotPresent("@petOperationGetByTagTryBtn", "cancel")
-            
+
         client.end()
     })
 
@@ -138,7 +148,7 @@ describe("render pet api container", function () {
 
         client.end()
     })
-    
+
     it("render get by ID /pet/{petId} api container", function (client) {
         apiWrapper.waitForElementVisible("@petOperationGetByIdContainer", 5000)
             .assert.containsText("@petOperationGetByIdTitle", "/pet/{petId}")
@@ -148,7 +158,7 @@ describe("render pet api container", function () {
             .waitForElementVisible("@petOperationGetByTagExecuteBtn", 1000)
             .click("@petOperationGetByTagTryBtn")
             .assert.cssClassNotPresent("@petOperationGetByTagTryBtn", "cancel")
-            
+
         client.end()
     })
 
@@ -167,7 +177,7 @@ describe("render pet api container", function () {
             .assert.attributeEquals("@petOperationGetByIdParameter", "title", "Value must be an integer")
             .click("@petOperationGetByTagTryBtn")
             .assert.cssClassNotPresent("@petOperationGetByTagTryBtn", "cancel")
-            
+
         client.end()
     })
 
@@ -180,10 +190,10 @@ describe("render pet api container", function () {
             .waitForElementVisible("@petOperationDeleteExecuteBtn", 1000)
             .click("@petOperationDeleteTryBtn")
             .assert.cssClassNotPresent("@petOperationDeleteTryBtn", "cancel")
-            
+
         client.end()
     })
-    
+
     it("Testing delete /pet api Mock data", function (client) {
         apiWrapper.waitForElementVisible("@petOperationDeleteContainer", 3000)
             .click("@petOperationDeleteCollpase")
