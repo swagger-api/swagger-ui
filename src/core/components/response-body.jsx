@@ -20,7 +20,6 @@ export default class ResponseBody extends React.PureComponent {
 
   updateParsedContent = (prevContent) => {
     const { content } = this.props
-    debugger
 
     if(prevContent === content) {
       return
