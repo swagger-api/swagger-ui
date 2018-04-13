@@ -140,16 +140,24 @@ export const authorizeAccessCodeWithBasicAuthentication = ( { auth, redirectUrl 
   return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth, headers})
 }
 
-export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, errActions, oas3Selectors, specSelectors } ) => {
+export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, errActions, oas3Selectors, specSelectors, authSelectors } ) => {
   let { body, query={}, headers={}, name, url, auth } = data
 
-  let fetchUrl
+  let { additionalQueryStringParams } = authSelectors.getConfigs() || {}
+
+  let parsedUrl
 
   if (specSelectors.isOAS3()) {
-    fetchUrl = parseUrl(url, oas3Selectors.selectedServer()).toString()
+    parsedUrl = parseUrl(url, oas3Selectors.selectedServer(), true)
   } else {
-    fetchUrl = parseUrl(url, specSelectors.url()).toString()
+    parsedUrl = parseUrl(url, specSelectors.url(), true)
   }
+
+  if(typeof additionalQueryStringParams === "object") {
+    parsedUrl.query = Object.assign({}, parsedUrl.query, additionalQueryStringParams)
+  }
+
+  const fetchUrl = parsedUrl.toString()
 
   let _headers = Object.assign({
     "Accept":"application/json, text/plain, */*",

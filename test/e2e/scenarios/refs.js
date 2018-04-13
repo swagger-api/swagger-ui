@@ -19,7 +19,7 @@ describe("Remote $ref rendering", function () {
   })
 
   it("renders a remote $ref correctly", function (client) {
-    mainPage.expect.element("#model-TestResponse > span > div > span > span > span.inner-object > table > tbody > tr:nth-child(2) > td:nth-child(2) > span > span > div > div > p").text.to.equal("this is a api2prop")
+    mainPage.expect.element("#model-TestResponse > span > div > span > span > span.inner-object > table > tbody > tr:nth-child(2) > td:nth-child(2) > span > span > div > div > p").text.to.equal("this is an api2prop")
 
     client.end()
   })

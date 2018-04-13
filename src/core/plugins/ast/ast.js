@@ -81,8 +81,8 @@ export function getLineNumberForPath(yaml, path) {
 * YAML or JSON string
 * @param  {array}   path
 * an array of stings that constructs a
-* JSON Path similiar to JSON Pointers(RFC 6901). The difference is, each
-* component of path is an item of the array intead of beinf seperated with
+* JSON Path similar to JSON Pointers(RFC 6901). The difference is, each
+* component of path is an item of the array instead of being separated with
 * slash(/) in a string
 */
 export function positionRangeForPath(yaml, path) {
