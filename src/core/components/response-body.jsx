@@ -5,7 +5,10 @@ import lowerCase from "lodash/lowerCase"
 import { extractFileNameFromContentDispositionHeader } from "core/utils"
 import win from "core/window"
 
-export default class ResponseBody extends React.Component {
+export default class ResponseBody extends React.PureComponent {
+  state = {
+    parsedContent: null
+  }
 
   static propTypes = {
     content: PropTypes.any.isRequired,
@@ -15,8 +18,39 @@ export default class ResponseBody extends React.Component {
     url: PropTypes.string
   }
 
+  updateParsedContent = (prevContent) => {
+    const { content } = this.props
+
+    if(prevContent === content) {
+      return
+    }
+
+    if(content && content instanceof Blob) {
+      var reader = new FileReader()
+      reader.onload = () => {
+        this.setState({
+          parsedContent: reader.result
+        })
+      }
+      reader.readAsText(content)
+    } else {
+      this.setState({
+        parsedContent: content.toString()
+      })
+    }
+  }
+
+  componentDidMount() {
+    this.updateParsedContent(null)
+  }
+
+  componentDidUpdate(prevProps) {
+    this.updateParsedContent(prevProps.content)
+  }
+
   render() {
     let { content, contentType, url, headers={}, getComponent } = this.props
+    const { parsedContent } = this.state
     const HighlightCode = getComponent("highlightCode")
     let body, bodyEl
     url = url || ""
@@ -95,7 +129,22 @@ export default class ResponseBody extends React.Component {
       bodyEl = <HighlightCode downloadable value={ content } />
     } else if ( content.size > 0 ) {
       // We don't know the contentType, but there was some content returned
-      bodyEl = <div>Unknown response type</div>
+      if(parsedContent) {
+        // We were able to squeeze something out of content
+        // in `updateParsedContent`, so let's display it
+        bodyEl = <div>
+          <p className="i">
+            Unrecognized response type; displaying content as text.
+          </p>
+          <HighlightCode downloadable value={ parsedContent } />
+        </div>
+
+      } else {
+        // Give up
+        bodyEl = <p className="i">
+          Unrecognized response type; unable to display.
+        </p>
+      }
     } else {
       // We don't know the contentType and there was no content returned
       bodyEl = null
