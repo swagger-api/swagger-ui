@@ -66,7 +66,7 @@ export default class ResponseBody extends React.Component {
         body = "can't parse JSON.  Raw result:\n\n" + content
       }
 
-      bodyEl = <HighlightCode value={ body } />
+      bodyEl = <HighlightCode downloadable value={ body } />
 
       // XML
     } else if (/xml/i.test(contentType)) {
@@ -74,11 +74,11 @@ export default class ResponseBody extends React.Component {
         textNodesOnSameLine: true,
         indentor: "  "
       })
-      bodyEl = <HighlightCode value={ body } />
+      bodyEl = <HighlightCode downloadable value={ body } />
 
       // HTML or Plain Text
     } else if (lowerCase(contentType) === "text/html" || /text\/plain/.test(contentType)) {
-      bodyEl = <HighlightCode value={ content } />
+      bodyEl = <HighlightCode downloadable value={ content } />
 
       // Image
     } else if (/^image\//i.test(contentType)) {
@@ -92,7 +92,7 @@ export default class ResponseBody extends React.Component {
     } else if (/^audio\//i.test(contentType)) {
       bodyEl = <pre><audio controls><source src={ url } type={ contentType } /></audio></pre>
     } else if (typeof content === "string") {
-      bodyEl = <HighlightCode value={ content } />
+      bodyEl = <HighlightCode downloadable value={ content } />
     } else if ( content.size > 0 ) {
       // We don't know the contentType, but there was some content returned
       bodyEl = <div>Unknown response type</div>

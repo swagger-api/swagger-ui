@@ -6,7 +6,8 @@ import { saveAs } from "file-saver"
 export default class HighlightCode extends Component {
   static propTypes = {
     value: PropTypes.string.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
+    downloadable: PropTypes.bool
   }
 
   componentDidMount() {
@@ -45,12 +46,16 @@ export default class HighlightCode extends Component {
   }
 
   render () {
-    let { value, className } = this.props
+    let { value, className, downloadable } = this.props
     className = className || ""
 
     return (
       <div className="highlight-code">
-        <div className="download-contents" onClick={this.downloadText}>Download</div>
+        { !downloadable ? null :
+          <div className="download-contents" onClick={this.downloadText}>
+            Download
+          </div>
+        }
         <pre
           ref={this.initializeComponent}
           onWheel={this.preventYScrollingBeyondElement}
