@@ -26,6 +26,24 @@ export default class HighlightCode extends Component {
     saveAs(fileToSave, "response")
   }
 
+  preventYScrollingBeyondElement = (e) => {
+    const target = e.target
+
+    var deltaY = e.nativeEvent.deltaY
+    var contentHeight = target.scrollHeight
+    var visibleHeight = target.offsetHeight
+    var scrollTop = target.scrollTop
+
+    const scrollOffset = visibleHeight + scrollTop
+
+    const isScrollingPastTop = scrollTop === 0 && deltaY < 0
+    const isScrollingPastBottom = scrollOffset >= contentHeight && deltaY > 0
+
+    if (isScrollingPastTop || isScrollingPastBottom) {
+      e.preventDefault()
+    }
+  }
+
   render () {
     let { value, className } = this.props
     className = className || ""
@@ -33,7 +51,12 @@ export default class HighlightCode extends Component {
     return (
       <div className="highlight-code">
         <div className="download-contents" onClick={this.downloadJSON}>Download</div>
-        <pre ref={this.initializeComponent} className={className + " microlight"}>{value}</pre>
+        <pre
+          ref={this.initializeComponent}
+          onWheel={this.preventYScrollingBeyondElement}
+          className={className + " microlight"}>
+          {value}
+        </pre>
       </div>
     )
   }
