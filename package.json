@@ -52,6 +52,7 @@
     "getbase": "^2.8.2",
     "ieee754": "^1.1.8",
     "immutable": "^3.x.x",
+    "js-file-download": "^0.4.1",
     "js-yaml": "^3.5.5",
     "lodash": "4.17.5",
     "matcher": "^0.1.2",
