@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.13.0",
+  "version": "3.13.4",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -19,9 +19,8 @@
     "build-core": "webpack --config webpack-dist.config.js --colors",
     "build-standalone": "webpack --config webpack-dist-standalone.config.js --colors",
     "predev": "npm install",
-    "dev": "npm-run-all --parallel hot-server open-localhost",
+    "dev": "npm-run-all --parallel hot-server",
     "watch": "webpack --config webpack-watch.config.js --watch --progress",
-    "open-localhost": "node -e 'require(\"open\")(\"http://localhost:3200\")'",
     "hot-server": "webpack-dev-server --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress --content-base dev-helpers/",
     "deps-license": "license-checker --production --csv --out $npm_package_config_deps_check_dir/licenses.csv && license-checker --development --csv --out $npm_package_config_deps_check_dir/licenses-dev.csv",
     "deps-size": "webpack -p --config webpack.check.js --json | webpack-bundle-size-analyzer >| $npm_package_config_deps_check_dir/sizes.txt",
@@ -37,7 +36,7 @@
     "test-e2e": "sleep 3 && nightwatch test/e2e/scenarios/ --config test/e2e/nightwatch.json",
     "e2e-initial-render": "nightwatch test/e2e/scenarios/ --config test/e2e/nightwatch.json --group initial-render",
     "mock-api": "json-server --watch test/e2e/db.json --port 3204",
-    "hot-e2e-server": "webpack-dev-server --content-base test/e2e/helpers --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress",
+    "hot-e2e-server": "webpack-dev-server --port 3230 --content-base test/e2e/helpers --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress",
     "e2e": "npm-run-all --parallel -r hot-e2e-server mock-api test-e2e"
   },
   "dependencies": {
@@ -53,6 +52,7 @@
     "getbase": "^2.8.2",
     "ieee754": "^1.1.8",
     "immutable": "^3.x.x",
+    "js-file-download": "^0.4.1",
     "js-yaml": "^3.5.5",
     "lodash": "4.17.5",
     "matcher": "^0.1.2",
@@ -85,7 +85,7 @@
     "scroll-to-element": "^2.0.0",
     "serialize-error": "2.0.0",
     "shallowequal": "0.2.2",
-    "swagger-client": "^3.5.1",
+    "swagger-client": "^3.7.0",
     "url-parse": "^1.1.8",
     "whatwg-fetch": "0.11.1",
     "worker-loader": "^0.7.1",

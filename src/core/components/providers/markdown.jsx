@@ -2,11 +2,12 @@ import React from "react"
 import PropTypes from "prop-types"
 import Remarkable from "remarkable"
 import sanitize from "sanitize-html"
+import cx from "classnames"
 
 // eslint-disable-next-line no-useless-escape
 const isPlainText = (str) => /^[A-Z\s0-9!?\.]+$/gi.test(str)
 
-function Markdown({ source }) {
+function Markdown({ source, className = "" }) {
     if(isPlainText(source)) {
       // If the source text is not Markdown,
       // let's save some time and just render it.
@@ -28,12 +29,13 @@ function Markdown({ source }) {
     }
 
     return (
-        <div className="markdown" dangerouslySetInnerHTML={{ __html: sanitized }}></div>
+        <div className={cx(className, "markdown")} dangerouslySetInnerHTML={{ __html: sanitized }}></div>
     )
 }
 
 Markdown.propTypes = {
-    source: PropTypes.string.isRequired
+    source: PropTypes.string.isRequired,
+    className: PropTypes.string.isRequired
 }
 
 export default Markdown

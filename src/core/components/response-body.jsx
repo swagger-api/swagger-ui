@@ -6,7 +6,10 @@ import { CopyToClipboard } from "react-copy-to-clipboard"
 import { extractFileNameFromContentDispositionHeader } from "core/utils"
 import win from "core/window"
 
-export default class ResponseBody extends React.Component {
+export default class ResponseBody extends React.PureComponent {
+  state = {
+    parsedContent: null
+  }
 
   static propTypes = {
     content: PropTypes.any.isRequired,
@@ -16,8 +19,39 @@ export default class ResponseBody extends React.Component {
     url: PropTypes.string
   }
 
+  updateParsedContent = (prevContent) => {
+    const { content } = this.props
+
+    if(prevContent === content) {
+      return
+    }
+
+    if(content && content instanceof Blob) {
+      var reader = new FileReader()
+      reader.onload = () => {
+        this.setState({
+          parsedContent: reader.result
+        })
+      }
+      reader.readAsText(content)
+    } else {
+      this.setState({
+        parsedContent: content.toString()
+      })
+    }
+  }
+
+  componentDidMount() {
+    this.updateParsedContent(null)
+  }
+
+  componentDidUpdate(prevProps) {
+    this.updateParsedContent(prevProps.content)
+  }
+
   render() {
     let { content, contentType, url, headers={}, getComponent } = this.props
+    const { parsedContent } = this.state
     const HighlightCode = getComponent("highlightCode")
     let body, bodyEl
     url = url || ""
@@ -67,7 +101,7 @@ export default class ResponseBody extends React.Component {
         body = "can't parse JSON.  Raw result:\n\n" + content
       }
 
-      bodyEl = <HighlightCode value={ body } />
+      bodyEl = <HighlightCode downloadable value={ body } />
 
       // XML
     } else if (/xml/i.test(contentType)) {
@@ -75,11 +109,11 @@ export default class ResponseBody extends React.Component {
         textNodesOnSameLine: true,
         indentor: "  "
       })
-      bodyEl = <HighlightCode value={ body } />
+      bodyEl = <HighlightCode downloadable value={ body } />
 
       // HTML or Plain Text
     } else if (lowerCase(contentType) === "text/html" || /text\/plain/.test(contentType)) {
-      bodyEl = <HighlightCode value={ content } />
+      bodyEl = <HighlightCode downloadable value={ content } />
 
       // Image
     } else if (/^image\//i.test(contentType)) {
@@ -93,10 +127,25 @@ export default class ResponseBody extends React.Component {
     } else if (/^audio\//i.test(contentType)) {
       bodyEl = <pre><audio controls><source src={ url } type={ contentType } /></audio></pre>
     } else if (typeof content === "string") {
-      bodyEl = <HighlightCode value={ content } />
+      bodyEl = <HighlightCode downloadable value={ content } />
     } else if ( content.size > 0 ) {
       // We don't know the contentType, but there was some content returned
-      bodyEl = <div>Unknown response type</div>
+      if(parsedContent) {
+        // We were able to squeeze something out of content
+        // in `updateParsedContent`, so let's display it
+        bodyEl = <div>
+          <p className="i">
+            Unrecognized response type; displaying content as text.
+          </p>
+          <HighlightCode downloadable value={ parsedContent } />
+        </div>
+
+      } else {
+        // Give up
+        bodyEl = <p className="i">
+          Unrecognized response type; unable to display.
+        </p>
+      }
     } else {
       // We don't know the contentType and there was no content returned
       bodyEl = null
