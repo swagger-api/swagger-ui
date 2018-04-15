@@ -18,7 +18,7 @@ class OperationsLayout extends React.Component {
       getComponent
     } = this.props
 
-    const Operations = getComponent("Operations", true)
+    const Operations = getComponent("operations", true)
 
     return (
       <div>

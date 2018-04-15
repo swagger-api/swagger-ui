@@ -107,42 +107,45 @@ export default class ParameterRow extends Component {
 
     let paramWithMeta = specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in"))
     let format = param.get("format")
-    let schema = param.get("schema")
-    let type = isOAS3 && isOAS3() ? param.getIn(["schema", "type"]) : param.get("type")
+    let schema = isOAS3 && isOAS3() ? param.get("schema") : param
+    let type = schema.get("type")
     let isFormData = inType === "formData"
     let isFormDataSupported = "FormData" in win
     let required = param.get("required")
-    let itemType = param.getIn(isOAS3 && isOAS3() ? ["schema", "items", "type"] : ["items", "type"])
+    let itemType = schema.getIn(["items", "type"])
 
     let value = paramWithMeta ? paramWithMeta.get("value") : ""
     let commonExt = showCommonExtensions ? getCommonExtensions(param) : null
     let extensions = showExtensions ? getExtensions(param) : null
 
     let paramItems // undefined
-    let paramItemsEnum // undefined
-    let isDisplayParamItemsEnum = false
+    let paramEnum // undefined
+    let paramDefaultValue // undefined
+    let paramExample // undefined
+    let isDisplayParamEnum = false
+
     if ( param !== undefined ) {
-      paramItems = param.get("items")
+      paramItems = schema.get("items")
     }
-    if ( paramItems !== undefined ) {
-      paramItemsEnum = param.get("items").get("enum")
+
+    if (paramItems !== undefined) {
+      paramEnum = paramItems.get("enum")
+      paramDefaultValue = paramItems.get("default")
+    } else {
+      paramEnum = schema.get("enum")
     }
-    if ( paramItemsEnum !== undefined ) {
-      if (paramItemsEnum.size > 0) {
-        isDisplayParamItemsEnum = true
-      }
+
+    if ( paramEnum !== undefined && paramEnum.size > 0) {
+      isDisplayParamEnum = true
     }
 
     // Default and Example Value for readonly doc
-    let paramDefaultValue // undefined
-    let paramExample // undefined
     if ( param !== undefined ) {
-      paramDefaultValue = param.get("default")
+      paramDefaultValue = schema.get("default")
       paramExample = param.get("example")
-    }
-
-    if (isDisplayParamItemsEnum) { // if we have an array, default value is in "items"
-      paramDefaultValue = paramItems.get("default")
+      if (paramExample === undefined) {
+        paramExample = param.get("x-example")
+      }
     }
 
     return (
@@ -166,23 +169,18 @@ export default class ParameterRow extends Component {
         </td>
 
         <td className="col parameters-col_description">
-          <Markdown source={ param.get("description") }/>
+          { param.get("description") ? <Markdown source={ param.get("description") }/> : null }
 
-          { (bodyParam || !isExecute) && isDisplayParamItemsEnum ?
-            <Markdown source={
-                "<i>Available values</i>: " + paramItemsEnum.map(function(item) {
+          { (bodyParam || !isExecute) && isDisplayParamEnum ?
+            <Markdown className="parameter__enum" source={
+                "<i>Available values</i> : " + paramEnum.map(function(item) {
                     return item
                   }).toArray().join(", ")}/>
             : null
           }
 
           { (bodyParam || !isExecute) && paramDefaultValue !== undefined ?
-            <Markdown source={"<i>Default value</i>: " + paramDefaultValue}/>
-            : null
-          }
-
-          { (bodyParam || !isExecute) && paramExample !== undefined ?
-            <Markdown source={"<i>Example</i>: " + paramExample}/>
+            <Markdown className="parameter__default" source={"<i>Default value</i> : " + paramDefaultValue}/>
             : null
           }
 
@@ -195,8 +193,8 @@ export default class ParameterRow extends Component {
                               required={ required }
                               description={param.get("description") ? `${param.get("name")} - ${param.get("description")}` : `${param.get("name")}`}
                               onChange={ this.onChangeWrapper }
-                              errors={ param.get("errors") }
-                              schema={ isOAS3 && isOAS3() ? param.get("schema") : param }/>
+                              errors={ paramWithMeta.get("errors") }
+                              schema={ schema }/>
           }
 
 
@@ -206,7 +204,7 @@ export default class ParameterRow extends Component {
                                                 getConfigs={ getConfigs }
                                                 isExecute={ isExecute }
                                                 specSelectors={ specSelectors }
-                                                schema={ schema }
+                                                schema={ param.get("schema") }
                                                 example={ bodyParam }/>
               : null
           }

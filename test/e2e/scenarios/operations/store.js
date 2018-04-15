@@ -3,13 +3,13 @@ describe("render store api container", function(){
     let apiWrapper
     beforeEach( function(client, done){
         mainPage = client
-            .url("localhost:3200")
+            .url("localhost:3230")
             .page.main()
 
         client.waitForElementVisible(".download-url-input", 5000)
             .pause(3000)
             .clearValue(".download-url-input")
-            .setValue(".download-url-input", "http://localhost:3200/test-specs/petstore.json")
+            .setValue(".download-url-input", "http://localhost:3230/test-specs/petstore.json")
             .click("button.download-url-button")
             .pause(1000)
 

@@ -4,12 +4,12 @@ describe("render informationContainer", function () {
     beforeEach(function (client, done) {
         
         mainPage = client
-        .url("localhost:3200")
+        .url("localhost:3230")
         .page.main()
         client.waitForElementVisible(".download-url-input", 5000)
         .pause(5000)
         .clearValue(".download-url-input")
-        .setValue(".download-url-input", "http://localhost:3200/test-specs/petstore.json")
+        .setValue(".download-url-input", "http://localhost:3230/test-specs/petstore.json")
         .click("button.download-url-button")
         .pause(1000)
 
@@ -29,8 +29,8 @@ describe("render informationContainer", function () {
             .assert.containsText("@title", "Swagger Petstore")
             .assert.containsText("@version", "1.0.0")
             .assert.containsText("@baseUrl", "[ Base URL: localhost:3204/ ]")
-            .assert.attributeEquals("@mainUrl", "href", "http://localhost:3200/test-specs/petstore.json")
-            .assert.containsText("@mainUrlContent", "http://localhost:3200/test-specs/petstore.json")
+            .assert.attributeEquals("@mainUrl", "href", "http://localhost:3230/test-specs/petstore.json")
+            .assert.containsText("@mainUrlContent", "http://localhost:3230/test-specs/petstore.json")
             .assert.containsText("@description", "This is a sample server Petstore server. You can find out more about Swagger at http://swagger.io or on irc.freenode.net, #swagger. For this sample, you can use the api key special-key to test the authorization filters.")
             .assert.attributeEquals("@swaggerUrl", "href", "http://swagger.io/")
             .assert.attributeEquals("@swaggerircUrl", "href", "http://swagger.io/irc/")
