@@ -143,6 +143,9 @@ export default class Operation extends PureComponent {
             { displayOperationId && operationId ? <span className="opblock-summary-operation-id">{operationId}</span> : null }
 
             {
+                (!security || !security.count()) ? null : <span className="opblock-summary-operation-id"> {security.get('0').get('evesso').get('0')}</span>
+            }
+            {
               (!security || !security.count()) ? null :
                 <AuthorizeOperationBtn
                   isAuthorized={ isAuthorized }
