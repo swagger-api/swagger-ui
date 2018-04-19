@@ -35,7 +35,7 @@ function Markdown({ source, className = "" }) {
 
 Markdown.propTypes = {
     source: PropTypes.string.isRequired,
-    className: PropTypes.string.isRequired
+    className: PropTypes.string
 }
 
 export default Markdown
