@@ -124,6 +124,45 @@ export default class HttpAuth extends React.Component {
       </div>
     )
     }
+
+    if(scheme === "hmac-sha1") {
+      return (<div>
+        <h4>
+          <code>{ name || schema.get("name") }</code>&nbsp;
+            (http, HMAC SHA-1)
+            <JumpToPath path={[ "securityDefinitions", name ]} />
+          </h4>
+        { value && <h6>Authorized</h6> }
+        <Row>
+          <Markdown source={ schema.get("description") } />
+        </Row>
+        <Row>
+          <label>API-KEY:</label>
+          {
+            value ? <code> ****** </code>
+          : <Col><Input type="text" required="required" name="apiKey" onChange={ this.onChange }/></Col>
+          }
+        </Row>
+        <Row>
+          <label>SECRET-KEY:</label>
+            {
+              value ? <code> ****** </code>
+            : <Col><Input required="required"
+              autoComplete="new-password"
+              name="secretKey"
+              type="password"
+              onChange={ this.onChange }/></Col>
+            }
+        </Row>
+        {
+          errors.valueSeq().map( (error, key) => {
+            return <AuthError error={ error }
+                              key={ key }/>
+          } )
+        }
+      </div>
+      )
+    }
   return <div>
     <em><b>{name}</b> HTTP authentication: unsupported scheme {`'${scheme}'`}</em>
   </div>
