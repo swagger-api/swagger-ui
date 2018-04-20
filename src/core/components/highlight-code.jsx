@@ -36,10 +36,11 @@ export default class HighlightCode extends Component {
 
     const scrollOffset = visibleHeight + scrollTop
 
+    const isElementScrollable = contentHeight > visibleHeight
     const isScrollingPastTop = scrollTop === 0 && deltaY < 0
     const isScrollingPastBottom = scrollOffset >= contentHeight && deltaY > 0
 
-    if (isScrollingPastTop || isScrollingPastBottom) {
+    if (isElementScrollable && (isScrollingPastTop || isScrollingPastBottom)) {
       e.preventDefault()
     }
   }
