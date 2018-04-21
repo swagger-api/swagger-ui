@@ -16,8 +16,14 @@ const Callbacks = (props) => {
     return <div key={callbackName}>
       <h2>{callbackName}</h2>
       { callback.map((pathItem, pathItemName) => {
+        if(pathItemName === "$$ref") {
+          return null
+        }
         return <div key={pathItemName}>
           { pathItem.map((operation, method) => {
+            if(method === "$$ref") {
+              return null
+            }
             let op = fromJS({
               operation
             })
