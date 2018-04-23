@@ -33,7 +33,8 @@ export default class HttpAuth extends React.Component {
     let { onChange } = this.props
     let { value, name } = e.target
 
-    let newValue = this.state.value || {}
+    let newValue = Object.assign({}, this.state.value)
+
     if(name) {
       newValue[name] = value
     } else {
