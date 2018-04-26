@@ -141,13 +141,13 @@ export default class Operation extends PureComponent {
                 </div>
             }
 
-            { displayOperationId && (originalOperationId || operationId) ? <span className="opblock-summary-operation-id">{originalOperationId || operationId}</span> : null } 
+            { displayOperationId && (originalOperationId || operationId) ? <span className="opblock-summary-operation-id">{originalOperationId || operationId}</span> : null }
 
             {
               (!security || !security.count()) ? null :
                 <AuthorizeOperationBtn
                   isAuthorized={ isAuthorized }
-                  scopes={ security.get('0').get('evesso').get('0') }
+                  scopes={ security.get("0").get("evesso").get("0") }
                   onClick={() => {
                     const applicableDefinitions = authSelectors.definitionsForRequirements(security)
                     authActions.showDefinitions(applicableDefinitions)
@@ -165,6 +165,9 @@ export default class Operation extends PureComponent {
               { description &&
                 <div className="opblock-description-wrapper">
                   <div className="opblock-description">
+                    { (!security || !security.count()) ? null :
+                    <span className="obblock-required-scopes">Requires the following scope: { security.get("0").get("evesso").get("0") }</span>
+                    }
                     <Markdown source={ description } />
                   </div>
                 </div>

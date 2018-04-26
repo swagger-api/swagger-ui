@@ -340,11 +340,14 @@ section.models h4 span {
   align-items: center;
 }
 
-.swagger-ui .opblock-description-wrapper p {
+.swagger-ui .opblock-description-wrapper p,
+.swagger-ui .obblock-required-scopes {
   font-size: 14.4px !important;
   font-weight: 300;
   line-height: 1.4em !important;
   padding: 5px 0px;
+  font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  color: #fff;
 }
 
 .swagger-ui .opblock.opblock-get .opblock-summary-method {
