@@ -33,6 +33,7 @@ export const definitionsToAuthorize = onlyOAS3(createSelector(
           definition.get("flows").entrySeq().forEach(([flowKey, flowVal]) => {
             let translatedDef = fromJS({
               flow: flowKey,
+              name: defName,
               authorizationUrl: flowVal.get("authorizationUrl"),
               tokenUrl: flowVal.get("tokenUrl"),
               scopes: flowVal.get("scopes"),
@@ -40,7 +41,7 @@ export const definitionsToAuthorize = onlyOAS3(createSelector(
             })
 
             list = list.push(new Map({
-              [defName]: translatedDef.filter((v) => {
+              [`${defName}__${flowKey}`]: translatedDef.filter((v) => {
                 // filter out unset values, sometimes `authorizationUrl`
                 // and `tokenUrl` come out as `undefined` in the data
                 return v !== undefined

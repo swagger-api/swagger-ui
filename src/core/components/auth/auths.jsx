@@ -99,10 +99,13 @@ export default class Auths extends React.Component {
             {
               definitions.filter( schema => schema.get("type") === "oauth2")
                 .map( (schema, name) =>{
-                  return (<div key={ name }>
+                  const { flow } = schema
+                  const key = [name, flow].join("__").slice(0, -2)
+                  return (<div key={ key }>
                     <Oauth2 authorized={ authorized }
                             schema={ schema }
-                            name={ name } />
+                            authId={ key }
+                            name={ key || schema.get("name") || name } />
                   </div>)
                 }
                 ).toArray()

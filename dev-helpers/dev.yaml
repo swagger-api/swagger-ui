@@ -1,0 +1,81 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Brentertainment OAuth2 Test Server
+  description: >
+    The server does not support CORS (yet?), so you need to take the strange step of disabling Same-Origin Policy in your browser.
+    [Here](https://www.thepolyglotdeveloper.com/2014/08/bypass-cors-errors-testing-apis-locally/) are some instructions.
+  license:
+    name: MIT
+servers:
+  - url: http://brentertainment.com/oauth2/lockdin/
+paths:
+  /resource:
+    get:
+      description: Protected resource
+      security:
+      - oauth2AuthorizationCode: ["resource"]
+      - oauth2Implicit: ["resource"]
+      - oauth2Password: ["resource"]
+      - oauth2ClientCredentials: ["resource"]
+      - oauth2Multiflow: ["resource"]
+      responses:
+        200:
+          description: the only response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+components:
+  securitySchemes:
+    oauth2AuthorizationCode:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: "http://brentertainment.com/oauth2/lockdin/authorize"
+          tokenUrl: "http://brentertainment.com/oauth2/lockdin/token"
+          scopes:
+            resource: our only scope
+    oauth2Implicit:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: "http://brentertainment.com/oauth2/lockdin/authorize"
+          scopes:
+            resource: our only scope
+    oauth2Password:
+      type: oauth2
+      flows:
+        password:
+          tokenUrl: "http://brentertainment.com/oauth2/lockdin/token"
+          scopes:
+            resource: our only scope
+    oauth2ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: "http://brentertainment.com/oauth2/lockdin/token"
+          scopes:
+            resource: our only scope
+    oauth2Multiflow:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: "http://brentertainment.com/oauth2/lockdin/token"
+          scopes:
+            resource: our only scope
+        password:
+          tokenUrl: "http://brentertainment.com/oauth2/lockdin/token"
+          scopes:
+            resource: our only scope
+        implicit:
+          authorizationUrl: "http://brentertainment.com/oauth2/lockdin/authorize"
+          scopes:
+            resource: our only scope
+        authorizationCode:
+          authorizationUrl: "http://brentertainment.com/oauth2/lockdin/authorize"
+          tokenUrl: "http://brentertainment.com/oauth2/lockdin/token"
+          scopes:
+            resource: our only scope

@@ -47,11 +47,11 @@ export default class Oauth2 extends React.Component {
   }
 
   authorize =() => {
-    let { authActions, errActions, getConfigs, authSelectors } = this.props
+    let { authActions, errActions, getConfigs, authSelectors, authId } = this.props
     let configs = getConfigs()
     let authConfigs = authSelectors.getConfigs()
 
-    errActions.clear({authId: name,type: "auth", source: "auth"})
+    errActions.clear({authId: authId ,type: "auth", source: "auth"})
     oauth2Authorize({auth: this.state, authActions, errActions, configs, authConfigs })
   }
 
@@ -79,15 +79,15 @@ export default class Oauth2 extends React.Component {
 
   logout =(e) => {
     e.preventDefault()
-    let { authActions, errActions, name } = this.props
+    let { authActions, errActions, authId } = this.props
 
-    errActions.clear({authId: name, type: "auth", source: "auth"})
-    authActions.logout([ name ])
+    errActions.clear({authId: authId, type: "auth", source: "auth"})
+    authActions.logout([ authId ])
   }
 
   render() {
     let {
-      schema, getComponent, authSelectors, errSelectors, name, specSelectors
+      schema, getComponent, authSelectors, errSelectors, name, authId, specSelectors
     } = this.props
     const Input = getComponent("Input")
     const Row = getComponent("Row")
@@ -107,9 +107,9 @@ export default class Oauth2 extends React.Component {
 
     let flow = schema.get("flow")
     let scopes = schema.get("allowedScopes") || schema.get("scopes")
-    let authorizedAuth = authSelectors.authorized().get(name)
+    let authorizedAuth = authSelectors.authorized().get(authId)
     let isAuthorized = !!authorizedAuth
-    let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
+    let errors = errSelectors.allErrors().filter( err => err.get("authId") === authId)
     let isValid = !errors.filter( err => err.get("source") === "validation").size
     let description = schema.get("description")
 
