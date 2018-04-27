@@ -3,7 +3,6 @@ import PropTypes from "prop-types"
 import { Collapse } from "react-collapse"
 import { presets } from "react-motion"
 import ObjectInspector from "react-object-inspector"
-import Perf from "react-addons-perf"
 
 export default class Debug extends React.Component {
 
@@ -16,7 +15,6 @@ export default class Debug extends React.Component {
       e.preventDefault()
       this.setState({jsonDumpOpen: !this.state.jsonDumpOpen})
     }
-    window.Perf = Perf
   }
 
   plusOrMinus(bool) {
