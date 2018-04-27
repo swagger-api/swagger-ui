@@ -49,6 +49,7 @@ module.exports = function SwaggerUI(opts) {
     defaultModelExpandDepth: 1,
     defaultModelsExpandDepth: 1,
     showExtensions: false,
+    showCommonExtensions: false,
     supportedSubmitMethods: [
       "get",
       "put",
