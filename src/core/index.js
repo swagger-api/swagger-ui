@@ -175,6 +175,7 @@ module.exports = function SwaggerUI(opts) {
 
   if (!configUrl || !system.specActions.getConfigByUrl || system.specActions.getConfigByUrl && !system.specActions.getConfigByUrl({
     url: configUrl,
+    loadRemoteConfig: true,
     requestInterceptor: constructorConfig.requestInterceptor,
     responseInterceptor: constructorConfig.responseInterceptor,
   }, downloadSpec)) {
