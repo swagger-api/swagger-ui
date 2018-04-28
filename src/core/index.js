@@ -173,7 +173,11 @@ module.exports = function SwaggerUI(opts) {
 
   let configUrl = queryConfig.config || constructorConfig.configUrl
 
-  if (!configUrl || !system.specActions.getConfigByUrl || system.specActions.getConfigByUrl && !system.specActions.getConfigByUrl(configUrl, downloadSpec)) {
+  if (!configUrl || !system.specActions.getConfigByUrl || system.specActions.getConfigByUrl && !system.specActions.getConfigByUrl({
+    url: configUrl,
+    requestInterceptor: constructorConfig.requestInterceptor,
+    responseInterceptor: constructorConfig.responseInterceptor,
+  }, downloadSpec)) {
     return downloadSpec()
   }
 
