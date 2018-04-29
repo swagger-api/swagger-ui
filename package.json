@@ -14,7 +14,7 @@
   ],
   "license": "Apache-2.0",
   "scripts": {
-    "build": "yarn build-core && yarn build-bundle && yarn build-standalone",
+    "build": "npm run build-core && npm run build-bundle && npm run build-standalone",
     "build-bundle": "webpack --config webpack-dist-bundle.config.js --colors",
     "build-core": "webpack --config webpack-dist.config.js --colors",
     "build-standalone": "webpack --config webpack-dist-standalone.config.js --colors",
@@ -23,15 +23,15 @@
     "hot-server": "webpack-dev-server --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress --content-base dev-helpers/",
     "deps-license": "license-checker --production --csv --out $npm_package_config_deps_check_dir/licenses.csv && license-checker --development --csv --out $npm_package_config_deps_check_dir/licenses-dev.csv",
     "deps-size": "webpack -p --config webpack.check.js --json | webpack-bundle-size-analyzer >| $npm_package_config_deps_check_dir/sizes.txt",
-    "deps-check": "yarn deps-license && yarn deps-size",
+    "deps-check": "npm run deps-license && npm run deps-size",
     "lint": "eslint --cache --ext '.js,.jsx' src test",
     "lint-errors": "eslint --cache --quiet --ext '.js,.jsx' src test",
     "lint-fix": "eslint --cache --ext '.js,.jsx' src test --fix",
-    "test": "yarn lint-errors && yarn just-test-in-node",
-    "test-in-node": "yarn lint-errors && yarn just-test-in-node",
+    "test": "npm run lint-errors && npm run just-test-in-node",
+    "test-in-node": "npm run lint-errors && npm run just-test-in-node",
     "just-test": "karma start --config karma.conf.js",
     "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test/core test/components test/bugs test/swagger-ui-dist-package test/xss",
-    "just-check-coverage": "nyc yarn just-test-in-node",
+    "just-check-coverage": "nyc npm run just-test-in-node",
     "test-e2e": "sleep 3 && nightwatch test/e2e/scenarios/ --config test/e2e/nightwatch.json",
     "e2e-initial-render": "nightwatch test/e2e/scenarios/ --config test/e2e/nightwatch.json --group initial-render",
     "mock-api": "json-server --watch test/e2e/db.json --port 3204",
@@ -144,7 +144,7 @@
     "webpack-cli": "2.0.4",
     "webpack-dev-server": "2.11.1",
     "worker-loader": "^1.1.1",
-    "yarn-run-all": "^3.1.1"
+    "npm-run-all": "^3.1.1"
   },
   "config": {
     "deps_check_dir": ".deps_check"
@@ -154,7 +154,6 @@
     "last 2 versions",
     "IE 11"
   ],
-  "optionalDependencies": {},
   "nyc": {
     "all": true,
     "include": [
