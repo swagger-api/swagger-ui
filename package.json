@@ -65,7 +65,7 @@
     "react-height": "^3.0.0",
     "react-immutable-proptypes": "2.1.0",
     "react-immutable-pure-component": "^1.1.1",
-    "react-markdown": "^3.3.0",
+    "react-markdown": "^2.5.0",
     "react-motion": "^0.5.2",
     "react-object-inspector": "0.2.1",
     "react-redux": "^5.0.7",
