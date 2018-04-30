@@ -45,7 +45,7 @@
     "commonmark": "^0.28.1",
     "core-js": "^2.5.1",
     "css.escape": "1.5.1",
-    "deep-extend": "^0.5.0",
+    "deep-extend": "^0.5.1",
     "expect": "^1.20.2",
     "getbase": "^3.5.1",
     "ieee754": "^1.1.8",
