@@ -33,9 +33,9 @@ module.exports = function SwaggerUI(opts) {
     url: "",
     urls: null,
     layout: "BaseLayout",
-    docExpansion: "list",
+    docExpansion: "none",
     maxDisplayedTags: null,
-    filter: null,
+    filter: true,
     validatorUrl: "https://online.swagger.io/validator",
     configs: {},
     custom: {},
@@ -49,6 +49,7 @@ module.exports = function SwaggerUI(opts) {
     defaultModelExpandDepth: 1,
     defaultModelsExpandDepth: 1,
     showExtensions: false,
+    tagsSorter: "alpha",
     supportedSubmitMethods: [
       "get",
       "put",
@@ -56,7 +57,6 @@ module.exports = function SwaggerUI(opts) {
       "delete",
       "options",
       "head",
-      "patch",
       "trace"
     ],
 
