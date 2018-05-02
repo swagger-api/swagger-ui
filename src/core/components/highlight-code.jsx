@@ -23,6 +23,7 @@ export default class HighlightCode extends Component {
   }
 
   downloadText = () => {
+    //TODO: improve filename
     saveAs(this.props.value, "response.txt")
   }
 
