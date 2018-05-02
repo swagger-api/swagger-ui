@@ -37,12 +37,12 @@ export default class Schemes extends React.Component {
   }
 
   render() {
-    let { schemes } = this.props
+    let { schemes, currentScheme } = this.props
 
     return (
       <label htmlFor="schemes">
         <span className="schemes-title">Schemes</span>
-        <select onChange={ this.onChange }>
+        <select onChange={ this.onChange } value={currentScheme}>
           { schemes.valueSeq().map(
             ( scheme ) => <option value={ scheme } key={ scheme }>{ scheme }</option>
           ).toArray()}

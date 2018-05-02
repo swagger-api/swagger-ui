@@ -10,7 +10,7 @@ import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins
 import win from "./window"
 import cssEscape from "css.escape"
 
-const DEFAULT_REPONSE_KEY = "default"
+const DEFAULT_RESPONSE_KEY = "default"
 
 export const isImmutable = (maybe) => Im.Iterable.isIterable(maybe)
 
@@ -128,7 +128,7 @@ export function systemThunkMiddleware(getSystem) {
 
 export function defaultStatusCode ( responses ) {
   let codes = responses.keySeq()
-  return codes.contains(DEFAULT_REPONSE_KEY) ? DEFAULT_REPONSE_KEY : codes.filter( key => (key+"")[0] === "2").sort().first()
+  return codes.contains(DEFAULT_RESPONSE_KEY) ? DEFAULT_RESPONSE_KEY : codes.filter( key => (key+"")[0] === "2").sort().first()
 }
 
 
@@ -193,7 +193,7 @@ export function highlight (el) {
     // running through characters and highlighting
     while (prev2 = prev1,
       // escaping if needed (with except for comments)
-      // pervious character will not be therefore
+      // previous character will not be therefore
       // recognized as a token finalize condition
       prev1 = tokenType < 7 && prev1 == "\\" ? 1 : chr
       ) {
@@ -350,7 +350,7 @@ export function extractFileNameFromContentDispositionHeader(value){
   if (responseFilename !== null && responseFilename.length > 1) {
     return responseFilename[1]
   }
-  return null  
+  return null
 }
 
 // PascalCase, aka UpperCamelCase
@@ -559,7 +559,7 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
     } else if ( type === "array" ) {
       let itemType
 
-      if ( !value.count() ) { return errors }
+      if ( !listCheck || !value.count() ) { return errors }
 
       itemType = paramDetails.getIn(["items", "type"])
 
@@ -623,11 +623,17 @@ export const parseSearch = () => {
         continue
       }
       i = params[i].split("=")
-      map[decodeURIComponent(i[0])] = decodeURIComponent(i[1])
+      map[decodeURIComponent(i[0])] = (i[1] && decodeURIComponent(i[1])) || ""
     }
   }
 
   return map
+}
+
+export const serializeSearch = (searchMap) => {
+  return Object.keys(searchMap).map(k => {
+    return encodeURIComponent(k) + "=" + encodeURIComponent(searchMap[k])
+  }).join("&")
 }
 
 export const btoa = (str) => {
@@ -706,3 +712,26 @@ export const createDeepLinkPath = (str) => typeof str == "string" || str instanc
 export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str) )
 
 export const getExtensions = (defObj) => defObj.filter((v, k) => /^x-/.test(k))
+export const getCommonExtensions = (defObj) => defObj.filter((v, k) => /^pattern|maxLength|minLength|maximum|minimum/.test(k))
+
+// Deeply strips a specific key from an object.
+//
+// `predicate` can be used to discriminate the stripping further,
+// by preserving the key's place in the object based on its value.
+export function deeplyStripKey(input, keyToStrip, predicate = () => true) {
+  if(typeof input !== "object" || Array.isArray(input) || !keyToStrip) {
+    return input
+  }
+
+  const obj = Object.assign({}, input)
+
+  Object.keys(obj).forEach(k => {
+    if(k === keyToStrip && predicate(obj[k], k)) {
+      delete obj[k]
+      return
+    }
+    obj[k] = deeplyStripKey(obj[k], keyToStrip, predicate)
+  })
+
+  return obj
+}
