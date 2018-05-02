@@ -118,7 +118,11 @@ export default {
     let operationPath = ["paths", ...path]
     let metaPath = ["meta", "paths", ...path]
 
-    if(!state.getIn(["json", ...operationPath]) && !state.getIn(["resolved", ...operationPath])) {
+    if(
+      !state.getIn(["json", ...operationPath])
+      && !state.getIn(["resolved", ...operationPath])
+      && !state.getIn(["resolvedSubtrees", ...operationPath])
+    ) {
       // do nothing if the operation does not exist
       return state
     }
