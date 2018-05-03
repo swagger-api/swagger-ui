@@ -23,8 +23,7 @@ export default class HighlightCode extends Component {
   }
 
   downloadText = () => {
-    //TODO: improve filename
-    saveAs(this.props.value, "response.txt")
+    saveAs(this.props.value, this.props.downloadable)
   }
 
   preventYScrollingBeyondElement = (e) => {
