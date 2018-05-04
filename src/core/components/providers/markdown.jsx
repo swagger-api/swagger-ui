@@ -55,5 +55,7 @@ export default Markdown
 // }
 
 export function sanitizer(str) {
-  return DomPurify.sanitize(str)
+  return DomPurify.sanitize(str, {
+    ADD_ATTR: ["target"]
+  })
 }
