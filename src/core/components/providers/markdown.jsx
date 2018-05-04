@@ -40,20 +40,6 @@ Markdown.propTypes = {
 
 export default Markdown
 
-// const sanitizeOptions = {
-//     allowedTags: sanitize.defaults.allowedTags.concat([ "h1", "h2", "img", "span" ]),
-//     allowedAttributes: {
-//         ...sanitize.defaults.allowedAttributes,
-//         "img": sanitize.defaults.allowedAttributes.img.concat(["title"]),
-//         "td": [ "colspan" ],
-//         "*": [ "class" ]
-//     },
-//     allowedSchemesByTag: { img: [ "http", "https", "data" ] },
-//     textFilter: function(text) {
-//         return text.replace(/&quot;/g, "\"")
-//     }
-// }
-
 export function sanitizer(str) {
   return DomPurify.sanitize(str, {
     ADD_ATTR: ["target"]
