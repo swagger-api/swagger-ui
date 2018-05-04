@@ -101,7 +101,7 @@ export default class ResponseBody extends React.PureComponent {
         body = "can't parse JSON.  Raw result:\n\n" + content
       }
 
-      bodyEl = <HighlightCode downloadable fileName={ downloadName + ".json" } value={ body } />
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.json`} value={ body } />
 
       // XML
     } else if (/xml/i.test(contentType)) {
@@ -109,11 +109,11 @@ export default class ResponseBody extends React.PureComponent {
         textNodesOnSameLine: true,
         indentor: "  "
       })
-      bodyEl = <HighlightCode downloadable fileName={ downloadName + ".xml" } value={ body } />
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.xml`} value={ body } />
 
       // HTML or Plain Text
     } else if (lowerCase(contentType) === "text/html" || /text\/plain/.test(contentType)) {
-      bodyEl = <HighlightCode downloadable fileName={ downloadName + ".html" } value={ content } />
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.html`} value={ content } />
 
       // Image
     } else if (/^image\//i.test(contentType)) {
@@ -127,7 +127,7 @@ export default class ResponseBody extends React.PureComponent {
     } else if (/^audio\//i.test(contentType)) {
       bodyEl = <pre><audio controls><source src={ url } type={ contentType } /></audio></pre>
     } else if (typeof content === "string") {
-      bodyEl = <HighlightCode downloadable fileName={ downloadName + ".txt" } value={ content } />
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.txt`} value={ content } />
     } else if ( content.size > 0 ) {
       // We don't know the contentType, but there was some content returned
       if(parsedContent) {
@@ -137,7 +137,7 @@ export default class ResponseBody extends React.PureComponent {
           <p className="i">
             Unrecognized response type; displaying content as text.
           </p>
-          <HighlightCode downloadable fileName={ downloadName + ".txt" } value={ parsedContent } />
+          <HighlightCode downloadable fileName={`${downloadName}.txt`} value={ parsedContent } />
         </div>
 
       } else {
