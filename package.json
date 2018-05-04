@@ -119,6 +119,7 @@
     "file-loader": "0.11.2",
     "git-describe": "^4.0.1",
     "imports-loader": "0.7.1",
+    "jsdom": "^11.10.0",
     "json-loader": "0.5.4",
     "json-server": "^0.11.0",
     "karma": "^1.7.0",
