@@ -7,7 +7,8 @@ export default class HighlightCode extends Component {
   static propTypes = {
     value: PropTypes.string.isRequired,
     className: PropTypes.string,
-    downloadable: PropTypes.bool
+    downloadable: PropTypes.bool,
+    fileName: PropTypes.string
   }
 
   componentDidMount() {
@@ -23,7 +24,7 @@ export default class HighlightCode extends Component {
   }
 
   downloadText = () => {
-    saveAs(this.props.value, this.props.downloadable)
+    saveAs(this.props.value, this.props.fileName)
   }
 
   preventYScrollingBeyondElement = (e) => {
