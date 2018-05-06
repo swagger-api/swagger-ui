@@ -152,13 +152,13 @@ section.schemes.wrapper.block.col-12 {
 }
 
 div.info {
-  min-height: 24vmin;
+  min-height: 350px;
 }
 
 div.info hgroup.main h2.title {
   color: #fff;
   text-align: center;
-  top: 17vmin;
+  top: 225px;
   max-width: 960px;
   min-width: 760px;
   width: 100%;
@@ -175,7 +175,7 @@ div.info div.description div.markdown {
   font-weight: 200;
   text-align: center;
   color: #fff;
-  top: 27vmin;
+  top: 325px;
   max-width: 960px;
   min-width: 760px;
   width: 100%;
@@ -292,7 +292,7 @@ section.models h4 span {
 }
 
 .swagger-ui .wrapper {
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 
 .swagger-ui .opblock {
