@@ -1,0 +1,15 @@
+---
+post:
+  description: Book
+  operationId: buy
+  summary: Buy a book
+  tags:
+  - Book
+  consumes:
+  - application/json
+  - application/xml
+  parameters:
+  - name: requestBody
+    in: body
+    description: Buy a Book
+    required: true

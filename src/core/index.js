@@ -49,6 +49,17 @@ module.exports = function SwaggerUI(opts) {
     defaultModelExpandDepth: 1,
     defaultModelsExpandDepth: 1,
     showExtensions: false,
+    showCommonExtensions: false,
+    supportedSubmitMethods: [
+      "get",
+      "put",
+      "post",
+      "delete",
+      "options",
+      "head",
+      "patch",
+      "trace"
+    ],
 
     // Initial set of plugins ( TODO rename this, or refactor - we don't need presets _and_ plugins. Its just there for performance.
     // Instead, we can compile the first plugin ( it can be a collection of plugins ), then batch the rest.
@@ -162,7 +173,12 @@ module.exports = function SwaggerUI(opts) {
 
   let configUrl = queryConfig.config || constructorConfig.configUrl
 
-  if (!configUrl || !system.specActions.getConfigByUrl || system.specActions.getConfigByUrl && !system.specActions.getConfigByUrl(configUrl, downloadSpec)) {
+  if (!configUrl || !system.specActions.getConfigByUrl || system.specActions.getConfigByUrl && !system.specActions.getConfigByUrl({
+    url: configUrl,
+    loadRemoteConfig: true,
+    requestInterceptor: constructorConfig.requestInterceptor,
+    responseInterceptor: constructorConfig.responseInterceptor,
+  }, downloadSpec)) {
     return downloadSpec()
   }
 

@@ -1,3 +1,4 @@
+import parseUrl from "url-parse"
 import win from "core/window"
 import { btoa, buildFormData } from "core/utils"
 
@@ -139,14 +140,24 @@ export const authorizeAccessCodeWithBasicAuthentication = ( { auth, redirectUrl 
   return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth, headers})
 }
 
-export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, errActions, authSelectors } ) => {
+export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, errActions, oas3Selectors, specSelectors, authSelectors } ) => {
   let { body, query={}, headers={}, name, url, auth } = data
-  let { additionalQueryStringParams } = authSelectors.getConfigs() || {}
-  let fetchUrl = url
 
-  for (let key in additionalQueryStringParams) {
-    url += "&" + key + "=" + encodeURIComponent(additionalQueryStringParams[key])
+  let { additionalQueryStringParams } = authSelectors.getConfigs() || {}
+
+  let parsedUrl
+
+  if (specSelectors.isOAS3()) {
+    parsedUrl = parseUrl(url, oas3Selectors.selectedServer(), true)
+  } else {
+    parsedUrl = parseUrl(url, specSelectors.url(), true)
   }
+
+  if(typeof additionalQueryStringParams === "object") {
+    parsedUrl.query = Object.assign({}, parsedUrl.query, additionalQueryStringParams)
+  }
+
+  const fetchUrl = parsedUrl.toString()
 
   let _headers = Object.assign({
     "Accept":"application/json, text/plain, */*",

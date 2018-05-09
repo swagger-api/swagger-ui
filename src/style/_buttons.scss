@@ -64,32 +64,9 @@
 
     &.execute
     {
-        animation: swagger-ui-pulse 2s infinite;
-        will-change: transform;
-        background-color: $btn-execute-background-color;
+        background-color: $btn-execute-background-color-alt;
         color: $btn-execute-font-color;
         border-color: $btn-execute-border-color;
-    }
-}
-
-
-@keyframes swagger-ui-pulse
-{
-    0%
-    {
-        color: $btn-execute-font-color;
-        background: $btn-execute-background-color-alt;
-        box-shadow: 0 0 0 0 rgba($btn-execute-background-color-alt, .8);
-    }
-    70%
-    {
-        box-shadow: 0 0 0 5px rgba($btn-execute-background-color-alt, 0);
-    }
-    100%
-    {
-        color: $btn-execute-font-color;
-        background: $btn-execute-background-color-alt;
-        box-shadow: 0 0 0 0 rgba($btn-execute-background-color-alt, 0);
     }
 }
 

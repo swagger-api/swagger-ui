@@ -5,10 +5,12 @@ import { getExtensions, sanitizeUrl } from "core/utils"
 import { Iterable, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 
+
 export default class Operation extends PureComponent {
   static propTypes = {
     specPath: ImPropTypes.list.isRequired,
     operation: PropTypes.instanceOf(Iterable).isRequired,
+    summary: PropTypes.string,
     response: PropTypes.instanceOf(Iterable),
     request: PropTypes.instanceOf(Iterable),
 
@@ -34,7 +36,8 @@ export default class Operation extends PureComponent {
     operation: null,
     response: null,
     request: null,
-    specPath: List()
+    specPath: List(),
+    summary: ""
   }
 
   render() {
@@ -59,6 +62,8 @@ export default class Operation extends PureComponent {
     let operationProps = this.props.operation
 
     let {
+      summary,
+      deprecated,
       isShown,
       isAuthorized,
       path,
@@ -67,6 +72,7 @@ export default class Operation extends PureComponent {
       tag,
       showSummary,
       operationId,
+      originalOperationId,
       allowTryItOut,
       displayOperationId,
       displayRequestDuration,
@@ -76,14 +82,13 @@ export default class Operation extends PureComponent {
     } = operationProps.toJS()
 
     let {
-      summary,
+      summary: resolvedSummary,
       description,
-      deprecated,
       externalDocs,
       schemes
-    } = op.operation
+    } = op
 
-    let operation = operationProps.getIn(["op", "operation"])
+    let operation = operationProps.getIn(["op"])
     let security = operationProps.get("security")
     let responses = operation.get("responses")
     let produces = operation.get("produces")
@@ -132,11 +137,11 @@ export default class Operation extends PureComponent {
 
             { !showSummary ? null :
                 <div className="opblock-summary-description">
-                  { summary }
+                  { resolvedSummary || summary }
                 </div>
             }
 
-            { displayOperationId && operationId ? <span className="opblock-summary-operation-id">{operationId}</span> : null }
+            { displayOperationId && (originalOperationId || operationId) ? <span className="opblock-summary-operation-id">{originalOperationId || operationId}</span> : null } 
 
             {
               (!security || !security.count()) ? null :
@@ -152,6 +157,9 @@ export default class Operation extends PureComponent {
 
           <Collapse isOpened={isShown}>
             <div className="opblock-body">
+              { (operation && operation.size) || operation === null ? null :
+                <img height={"32px"} width={"32px"} src={require("core/../img/rolling-load.svg")} className="opblock-loading-animation" />
+              }
               { deprecated && <h4 className="opblock-title_normal"> Warning: Deprecated</h4>}
               { description &&
                 <div className="opblock-description-wrapper">
@@ -173,23 +181,25 @@ export default class Operation extends PureComponent {
                 </div> : null
               }
 
-              <Parameters
-                parameters={parameters}
-                specPath={specPath.push("parameters")}
-                operation={operation}
-                onChangeKey={onChangeKey}
-                onTryoutClick = { onTryoutClick }
-                onCancelClick = { onCancelClick }
-                tryItOutEnabled = { tryItOutEnabled }
-                allowTryItOut={allowTryItOut}
+              { !operation || !operation.size ? null :
+                <Parameters
+                  parameters={parameters}
+                  specPath={specPath.push("parameters")}
+                  operation={operation}
+                  onChangeKey={onChangeKey}
+                  onTryoutClick = { onTryoutClick }
+                  onCancelClick = { onCancelClick }
+                  tryItOutEnabled = { tryItOutEnabled }
+                  allowTryItOut={allowTryItOut}
 
-                fn={fn}
-                getComponent={ getComponent }
-                specActions={ specActions }
-                specSelectors={ specSelectors }
-                pathMethod={ [path, method] }
-                getConfigs={ getConfigs }
-              />
+                  fn={fn}
+                  getComponent={ getComponent }
+                  specActions={ specActions }
+                  specSelectors={ specSelectors }
+                  pathMethod={ [path, method] }
+                  getConfigs={ getConfigs }
+                />
+              }
 
               { !tryItOutEnabled ? null :
                 <OperationServers
