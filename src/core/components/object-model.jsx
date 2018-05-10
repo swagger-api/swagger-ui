@@ -78,7 +78,7 @@ export default class ObjectModel extends Component {
             {
               <table className="model"><tbody>
               {
-                !description ? null : <tr style={{ color: "#999", fontStyle: "italic" }}>
+                !description ? null : <tr style={{ color: "#666", fontStyle: "italic" }}>
                     <td>description:</td>
                     <td>
                       <Markdown source={ description } />
