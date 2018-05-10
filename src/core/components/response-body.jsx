@@ -64,9 +64,7 @@ export default class ResponseBody extends React.PureComponent {
       (headers["content-description"] && (/File Transfer/i).test(headers["content-description"]))) {
       // Download
 
-      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-
-      if (!isSafari && "Blob" in window) {
+      if ("Blob" in window) {
         let type = contentType || "text/html"
         let blob = (content instanceof Blob) ? content : new Blob([content], {type: type})
         let href = window.URL.createObjectURL(blob)
