@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { getList } from "core/utils"
-import { getExtensions, sanitizeUrl } from "core/utils"
+import { getExtensions, createDeepLinkPath, sanitizeUrl } from "core/utils"
 import { Iterable, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 
@@ -94,7 +94,7 @@ export default class Operation extends PureComponent {
     let produces = operation.get("produces")
     let parameters = getList(operation, ["parameters"])
     let operationScheme = specSelectors.operationScheme(path, method)
-    let isShownKey = ["operations", tag, operationId]
+    let isShownKey = ["operations", createDeepLinkPath(tag), operationId]
     let extensions = getExtensions(operation)
 
     const Responses = getComponent("responses")
