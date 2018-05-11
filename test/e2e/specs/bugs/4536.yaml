@@ -1,0 +1,9 @@
+swagger: '2.0'
+info:
+  version: 0.0.0
+  title: test
+paths: {}
+
+definitions:
+  ModelName:
+    title: TitleName

@@ -16,19 +16,19 @@ describe("Markdown component", function() {
         it("allows td elements with colspan attrib", function() {
             const str = `<table><tr><td>ABC</td></tr></table>`
             const el = render(<Markdown source={str} />)
-            expect(el.html()).toEqual(`<div class="markdown"><table><tr><td>ABC</td></tr></table></div>`)
+            expect(el.html()).toEqual(`<div class="markdown"><table><tbody><tr><td>ABC</td></tr></tbody></table></div>`)
         })
 
         it("allows image elements", function() {
             const str = `![Image alt text](http://image.source "Image title")`
             const el = render(<Markdown source={str} />)
-            expect(el.html()).toEqual(`<div class="markdown"><p><img src="http://image.source" title="Image title"></p>\n</div>`)
+            expect(el.html()).toEqual(`<div class="markdown"><p><img title="Image title" alt="Image alt text" src="http://image.source"></p>\n</div>`)
         })
-      
+
         it("allows image elements with https scheme", function() {
             const str = `![Image alt text](https://image.source "Image title")`
             const el = render(<Markdown source={str} />)
-            expect(el.html()).toEqual(`<div class="markdown"><p><img src="https://image.source" title="Image title"></p>\n</div>`)
+            expect(el.html()).toEqual(`<div class="markdown"><p><img title="Image title" alt="Image alt text" src="https://image.source"></p>\n</div>`)
         })
 
         it("allows image elements with data scheme", function() {
@@ -52,7 +52,7 @@ describe("Markdown component", function() {
         it("allows links", function() {
             const str = `[Link](https://example.com/)`
             const el = render(<Markdown source={str} />)
-            expect(el.html()).toEqual(`<div class="markdown"><p><a href="https://example.com/" target="_blank">Link</a></p>\n</div>`)
+            expect(el.html()).toEqual(`<div class="markdown"><p><a target="_blank" href="https://example.com/">Link</a></p>\n</div>`)
         })
     })
 
@@ -60,13 +60,13 @@ describe("Markdown component", function() {
         it("allows image elements", function() {
             const str = `![Image alt text](http://image.source "Image title")`
             const el = render(<OAS3Markdown source={str} />)
-            expect(el.html()).toEqual(`<div class="renderedMarkdown"><div><p><img src="http://image.source" title="Image title"></p></div></div>`)
+            expect(el.html()).toEqual(`<div class="renderedMarkdown"><div><p><img title="Image title" alt="Image alt text" src="http://image.source"></p></div></div>`)
         })
 
         it("allows image elements with https scheme", function() {
             const str = `![Image alt text](https://image.source "Image title")`
             const el = render(<OAS3Markdown source={str} />)
-            expect(el.html()).toEqual(`<div class="renderedMarkdown"><div><p><img src="https://image.source" title="Image title"></p></div></div>`)
+            expect(el.html()).toEqual(`<div class="renderedMarkdown"><div><p><img title="Image title" alt="Image alt text" src="https://image.source"></p></div></div>`)
         })
 
         it("allows image elements with data scheme", function() {

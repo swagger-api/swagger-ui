@@ -1,23 +1,14 @@
 import { parseYamlConfig } from "./helpers"
 
-export const downloadConfig = (url) => ({fn: { fetch }, getConfigs}) => {
-  const { requestInterceptor, responseInterceptor } = getConfigs()
-  let req = { url }
-  if(requestInterceptor) {
-    req = requestInterceptor(req)
-  }
+export const downloadConfig = (req) => (system) => {
+  const {fn: { fetch }} = system
+
   return fetch(req)
-    .then(res => {
-      if(res) {
-        return responseInterceptor(res)
-      }
-      return res
-    })
 }
 
-export const getConfigByUrl = (configUrl, cb)=> ({ specActions }) => {
-  if (configUrl) {
-    return specActions.downloadConfig(configUrl).then(next, next)
+export const getConfigByUrl = (req, cb)=> ({ specActions }) => {
+  if (req) {
+    return specActions.downloadConfig(req).then(next, next)
   }
 
   function next(res) {
@@ -25,7 +16,7 @@ export const getConfigByUrl = (configUrl, cb)=> ({ specActions }) => {
       specActions.updateLoadingStatus("failedConfig")
       specActions.updateLoadingStatus("failedConfig")
       specActions.updateUrl("")
-      console.error(res.statusText + " " + configUrl)
+      console.error(res.statusText + " " + req.url)
       cb(null)
     } else {
       cb(parseYamlConfig(res.text))
