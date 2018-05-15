@@ -4,7 +4,7 @@ about: Suggest an new feature or enhancement for this project
 
 ---
 
-## Q&A (please complete the following information)
+### Q&A (please complete the following information)
  - OS: [e.g. macOS]
  - Browser: [e.g. chrome, safari]
  - Version: [e.g. 22]
