@@ -5,7 +5,7 @@ import ImPropTypes from "react-immutable-proptypes"
 import { sanitizeUrl } from "core/utils"
 
 
-class Path extends React.Component {
+export class InfoBasePath extends React.Component {
   static propTypes = {
     host: PropTypes.string,
     basePath: PropTypes.string
@@ -68,6 +68,17 @@ class License extends React.Component {
   }
 }
 
+export class InfoUrl extends React.PureComponent {
+  static propTypes = {
+    url: PropTypes.string.isRequired
+  }
+
+  render() {
+    const { url } = this.props
+    return <a target="_blank" href={ sanitizeUrl(url) }><span className="url"> { url } </span></a>
+  }
+}
+
 export default class Info extends React.Component {
   static propTypes = {
     info: PropTypes.object,
@@ -90,6 +101,8 @@ export default class Info extends React.Component {
 
     const Markdown = getComponent("Markdown")
     const VersionStamp = getComponent("VersionStamp")
+    const InfoUrl = getComponent("InfoUrl")
+    const InfoBasePath = getComponent("InfoBasePath")
 
     return (
       <div className="info">
@@ -97,8 +110,8 @@ export default class Info extends React.Component {
           <h2 className="title" >{ title }
             { version && <VersionStamp version={version}></VersionStamp> }
           </h2>
-          { host || basePath ? <Path host={ host } basePath={ basePath } /> : null }
-          { url && <a target="_blank" href={ sanitizeUrl(url) }><span className="url"> { url } </span></a> }
+          { host || basePath ? <InfoBasePath host={ host } basePath={ basePath } /> : null }
+          { url && <InfoUrl url={url} /> }
         </hgroup>
 
         <div className="description">

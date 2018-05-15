@@ -49,6 +49,7 @@ module.exports = function SwaggerUI(opts) {
     defaultModelExpandDepth: 1,
     defaultModelsExpandDepth: 1,
     showExtensions: false,
+    showCommonExtensions: false,
     supportedSubmitMethods: [
       "get",
       "put",
@@ -172,7 +173,12 @@ module.exports = function SwaggerUI(opts) {
 
   let configUrl = queryConfig.config || constructorConfig.configUrl
 
-  if (!configUrl || !system.specActions.getConfigByUrl || system.specActions.getConfigByUrl && !system.specActions.getConfigByUrl(configUrl, downloadSpec)) {
+  if (!configUrl || !system.specActions.getConfigByUrl || system.specActions.getConfigByUrl && !system.specActions.getConfigByUrl({
+    url: configUrl,
+    loadRemoteConfig: true,
+    requestInterceptor: constructorConfig.requestInterceptor,
+    responseInterceptor: constructorConfig.responseInterceptor,
+  }, downloadSpec)) {
     return downloadSpec()
   }
 

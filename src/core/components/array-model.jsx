@@ -11,6 +11,7 @@ export default class ArrayModel extends Component {
     getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     name: PropTypes.string,
+    displayName: PropTypes.string,
     required: PropTypes.bool,
     expandDepth: PropTypes.number,
     specPath: ImPropTypes.list.isRequired,
@@ -18,10 +19,10 @@ export default class ArrayModel extends Component {
   }
 
   render(){
-    let { getComponent, getConfigs, schema, depth, expandDepth, name, specPath } = this.props
+    let { getComponent, getConfigs, schema, depth, expandDepth, name, displayName, specPath } = this.props
     let description = schema.get("description")
     let items = schema.get("items")
-    let title = schema.get("title") || name
+    let title = schema.get("title") || displayName || name
     let properties = schema.filter( ( v, key) => ["type", "items", "description", "$$ref"].indexOf(key) === -1 )
 
     const Markdown = getComponent("Markdown")
@@ -46,7 +47,7 @@ export default class ArrayModel extends Component {
             properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propVal={ v } propStyle={ propStyle } />) : null
           }
           {
-            !description ? null :
+            !description ? (properties.size ? <div className="markdown"></div> : null) :
               <Markdown source={ description } />
           }
           <span>
