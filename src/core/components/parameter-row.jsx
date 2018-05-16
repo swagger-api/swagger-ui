@@ -68,8 +68,10 @@ export default class ParameterRow extends Component {
       return
     }
 
-    let defaultValue = param.get("default")
-    let xExampleValue = param.get("x-example")
+    let schema = specSelectors.isOAS3() ? param.get("schema", Map({})) : param
+
+    let defaultValue = schema.get("default")
+    let xExampleValue = param.get("x-example") // Swagger 2 only
     let parameter = specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in"))
     let value = parameter ? parameter.get("value") : ""
 
