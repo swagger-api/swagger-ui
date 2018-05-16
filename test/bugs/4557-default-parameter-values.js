@@ -5,7 +5,7 @@ import expect, { createSpy } from "expect"
 import { render } from "enzyme"
 import ParameterRow from "components/parameter-row"
 
-describe.only("bug #4557: default parameter values", function(){
+describe("bug #4557: default parameter values", function(){
   it("should apply a Swagger 2.0 default value", function(){
 
     const paramValue = fromJS({
