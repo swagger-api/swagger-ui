@@ -600,6 +600,10 @@ a, a:visited {
   text-decoration: none;
 }
 
+.markdown > p > a, .markdown > p > a:visited {
+  text-decoration: underline;
+}
+
 .swagger-ui .parameter__name.required {
   font-style: italic;
   font-weight: normal;
