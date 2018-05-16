@@ -22,20 +22,7 @@ export default class ParameterRow extends Component {
   constructor(props, context) {
     super(props, context)
 
-    let { specSelectors, pathMethod, param } = props
-    let defaultValue = param.get("default")
-    let xExampleValue = param.get("x-example")
-    let parameter = specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in"))
-    let value = parameter ? parameter.get("value") : ""
-
-    if( param.get("in") !== "body" ) {
-      if ( xExampleValue !== undefined && value === undefined && specSelectors.isSwagger2() ) {
-        this.onChangeWrapper(xExampleValue)
-      } else if ( defaultValue !== undefined && value === undefined ) {
-        this.onChangeWrapper(defaultValue)
-      }
-    }
-
+    this.setDefaultValue()
   }
 
   componentWillReceiveProps(props) {
@@ -43,7 +30,6 @@ export default class ParameterRow extends Component {
     let { isOAS3 } = specSelectors
 
     let example = param.get("example")
-    let defaultValue = param.get("default")
     let parameter = specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in"))
     let enumValue
 
@@ -61,8 +47,6 @@ export default class ParameterRow extends Component {
       value = paramValue
     } else if ( example !== undefined ) {
       value = example
-    } else if ( defaultValue !== undefined) {
-      value = defaultValue
     } else if ( param.get("required") && enumValue && enumValue.size ) {
       value = enumValue.first()
     }
@@ -75,6 +59,27 @@ export default class ParameterRow extends Component {
   onChangeWrapper = (value) => {
     let { onChange, param } = this.props
     return onChange(param, value)
+  }
+
+  setDefaultValue = () => {
+    let { specSelectors, pathMethod, param } = this.props
+
+    if (param.get("value") !== undefined) {
+      return
+    }
+
+    let defaultValue = param.get("default")
+    let xExampleValue = param.get("x-example")
+    let parameter = specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in"))
+    let value = parameter ? parameter.get("value") : ""
+
+    if( param.get("in") !== "body" ) {
+      if ( xExampleValue !== undefined && value === undefined && specSelectors.isSwagger2() ) {
+        this.onChangeWrapper(xExampleValue)
+      } else if ( defaultValue !== undefined && value === undefined ) {
+        this.onChangeWrapper(defaultValue)
+      }
+    }
   }
 
   render() {
