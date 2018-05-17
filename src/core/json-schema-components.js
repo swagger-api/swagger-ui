@@ -1,6 +1,7 @@
 import React, { PureComponent, Component } from "react"
 import PropTypes from "prop-types"
 import { List, fromJS } from "immutable"
+import cx from "classnames"
 import ImPropTypes from "react-immutable-proptypes"
 import DebounceInput from "react-debounce-input"
 import { getSampleSchema } from "core/utils"
@@ -238,7 +239,8 @@ export class JsonSchema_object extends PureComponent {
   render() {
     let {
       getComponent,
-      value
+      value,
+      errors
     } = this.props
 
     const TextArea = getComponent("TextArea")
@@ -246,7 +248,10 @@ export class JsonSchema_object extends PureComponent {
     return (
       <div className="body-param">
         <TextArea
-          className={"body-param__text"}
+          className={cx("body-param__text", {
+            invalid: errors.size
+          })}
+          title={ errors.size ? errors.join(", ") : ""}
           value={value}
           onChange={ this.handleOnChange }/>
       </div>
