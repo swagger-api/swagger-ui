@@ -10,12 +10,8 @@ html {
 
 body {
   margin:0;
-  background: #111;
   font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-  background-image: url("background.jpg");
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
+  background: #111 url(background.jpg) center/cover fixed;
 }
 
 .swagger-ui .topbar {
