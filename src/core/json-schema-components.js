@@ -216,7 +216,6 @@ export class JsonSchema_object extends PureComponent {
   static defaultProps = JsonSchemaDefaultProps
 
   componentDidMount() {
-    // this.setValueToSample.call(this)
     if(!this.props.value && this.props.schema) {
       this.resetValueToSample()
     }
