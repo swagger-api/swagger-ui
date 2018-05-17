@@ -246,11 +246,9 @@ export class JsonSchema_object extends PureComponent {
     const TextArea = getComponent("TextArea")
 
     return (
-      <div className="body-param">
+      <div>
         <TextArea
-          className={cx("body-param__text", {
-            invalid: errors.size
-          })}
+          className={cx({ invalid: errors.size })}
           title={ errors.size ? errors.join(", ") : ""}
           value={value}
           onChange={ this.handleOnChange }/>
