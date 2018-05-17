@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import { List, fromJS } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 import DebounceInput from "react-debounce-input"
+import { getSampleSchema } from "core/utils"
 //import "less/json-schema-form"
 
 const noop = ()=> {}
@@ -202,5 +203,54 @@ export class JsonSchema_boolean extends Component {
                     allowedValues={ fromJS(schema.enum || ["true", "false"]) }
                     allowEmptyValue={ !this.props.required }
                     onChange={ this.onEnumChange }/>)
+  }
+}
+
+export class JsonSchema_object extends PureComponent {
+  constructor() {
+    super()
+  }
+
+  static propTypes = JsonSchemaPropShape
+  static defaultProps = JsonSchemaDefaultProps
+
+  componentDidMount() {
+    // this.setValueToSample.call(this)
+    if(!this.props.value && this.props.schema) {
+      this.resetValueToSample()
+    }
+  }
+
+  resetValueToSample = () => {
+    this.onChange(getSampleSchema(this.props.schema) )
+  }
+
+  onChange = (value) => {
+    this.props.onChange(value)
+  }
+
+  handleOnChange = e => {
+    const inputValue = e.target.value
+
+    this.onChange(inputValue)
+  }
+
+  render() {
+    let {
+      getComponent,
+      value
+    } = this.props
+
+    const TextArea = getComponent("TextArea")
+
+    return (
+      <div className="body-param">
+        <TextArea
+          className={"body-param__text"}
+          value={value}
+          onChange={ this.handleOnChange }/>
+      </div>
+    )
+
   }
 }
