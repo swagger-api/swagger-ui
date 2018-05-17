@@ -503,9 +503,9 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
     let numberCheck = type === "number" && (value || value === 0)
     let integerCheck = type === "integer" && (value || value === 0)
 
-    let oas3ObjectCheck
+    let oas3ObjectCheck = false
 
-    if(isOAS3 && type === "object") {
+    if(false || isOAS3 && type === "object") {
       if(typeof value === "object") {
         oas3ObjectCheck = true
       } else if(typeof value === "string") {
@@ -517,8 +517,6 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
           return errors
         }
       }
-    } else {
-      oas3ObjectCheck = true // skip
     }
 
     const allChecks = [
