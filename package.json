@@ -56,6 +56,8 @@
     "getbase": "^2.8.2",
     "ieee754": "^1.1.8",
     "immutable": "^3.x.x",
+    "is-html": "^1.1.0",
+    "jquery": "^3.3.1",
     "js-file-download": "^0.4.1",
     "js-yaml": "^3.5.5",
     "lodash": "4.17.5",
