@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import Remarkable from "remarkable"
 import DomPurify from "dompurify"
 import cx from "classnames"
+import manipHtmlStr from "../../plugins/deep-linking/manipHtmlStr.js"
 
 // eslint-disable-next-line no-useless-escape
 const isPlainText = (str) => /^[A-Z\s0-9!?\.]+$/gi.test(str)
@@ -22,7 +23,15 @@ function Markdown({ source, className = "" }) {
         linkify: true,
         linkTarget: "_blank"
     }).render(source)
-    const sanitized = sanitizer(html)
+    var sanitized = sanitizer(html)
+
+    //Create deepLinks
+    sanitized = manipHtmlStr(sanitized, 'a', function(elem) {
+      const href = elem.attributes.href.value
+      if (href[0] === '#') {
+        elem.removeAttribute("target")
+      }
+    })
 
     if ( !source || !html || !sanitized ) {
         return null
