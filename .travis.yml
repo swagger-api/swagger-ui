@@ -37,7 +37,7 @@ after_success:
       docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD;
 
       if [ ! -z "$TRAVIS_TAG" ]; then
-        DOCKER_IMAGE_TAG=$TRAVIS_TAG;
+        DOCKER_IMAGE_TAG=${TRAVIS_TAG#?};
       else
         DOCKER_IMAGE_TAG=unstable;
       fi;
