@@ -30,7 +30,7 @@ Parameter Name | Description
 `domNode` | `Element`, **REQUIRED** if `dom_id` is not provided. The HTML DOM element inside which SwaggerUi will put the user interface for swagger. Overrides `dom_id`.
 `spec` | `Object={}`. A JS object describing the OpenAPI Specification. When used, the `url` parameter will not be parsed. This is useful for testing manually-generated specifications without hosting them.
 `url` | `String`. The url pointing to API definition (normally `swagger.json` or `swagger.yaml`). Will be ignored if `urls` or `spec` is used.
-`urls` | `String`. An array of API definition objects (`{url: "<url>", name: "<name>"}`) used by Topbar plugin. When used and Topbar plugin is enabled, the `url` parameter will not be parsed. Names and URLs must be unique among all items in this array, since they're used as identifiers.
+`urls` | `Array`. An array of API definition objects (`[{url: "<url1>", name: "<name1>"},{url: "<url2>", name: "<name2>"}]`) used by Topbar plugin. When used and Topbar plugin is enabled, the `url` parameter will not be parsed. Names and URLs must be unique among all items in this array, since they're used as identifiers.
 `urls.primaryName` | `String`. When using `urls`, you can use this subparameter. If the value matches the name of a spec provided in `urls`, that spec will be displayed when Swagger-UI loads, instead of defaulting to the first spec in `urls`.
 
 ##### Plugin system
@@ -58,6 +58,7 @@ Parameter Name | Description
 `maxDisplayedTags` | `Number`. If set, limits the number of tagged operations displayed to at most this many. The default is to show all operations.
 `operationsSorter` | `Function=(a => a)`. Apply a sort to the operation list of each API. It can be 'alpha' (sort by paths alphanumerically), 'method' (sort by HTTP method) or a function (see Array.prototype.sort() to know how sort function works). Default is the order returned by the server unchanged.
 `showExtensions` | `Boolean=false`. Controls the display of vendor extension (`x-`) fields and values for Operations, Parameters, and Schema.
+`showCommonExtensions` | `Boolean=false`. Controls the display of extensions (`pattern`, `maxLength`, `minLength`, `maximum`, `minimum`) fields and values for Parameters.
 `tagsSorter` | `Function=(a => a)`. Apply a sort to the tag list of each API. It can be 'alpha' (sort by paths alphanumerically) or a function (see [Array.prototype.sort()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) to learn how to write a sort function). Two tag name strings are passed to the sorter for each pass. Default is the order determined by Swagger-UI.
 `onComplete` | `Function=NOOP`. Provides a mechanism to be notified when Swagger-UI has finished rendering a newly provided definition.
 
@@ -66,8 +67,8 @@ Parameter Name | Description
 Parameter Name | Description
 --- | ---
 `oauth2RedirectUrl` | `String`. OAuth redirect URL.
-`requestInterceptor` | `Function=(a => a)`. MUST be a function.  Function to intercept remote definition, Try-It-Out, and OAuth2 requests.  Accepts one argument requestInterceptor(request) and must return the potentially modified request.
-`responseInterceptor` |`Function=(a => a)`. MUST be a function.  Function to intercept remote definition, Try-It-Out, and OAuth2 responses.  Accepts one argument responseInterceptor(response) and must return the potentially modified response.
+`requestInterceptor` | `Function=(a => a)`. MUST be a function.  Function to intercept remote definition, Try-It-Out, and OAuth2 requests.  Accepts one argument requestInterceptor(request) and must return the modified request, or a Promise that resolves to the modified request.
+`responseInterceptor` |`Function=(a => a)`. MUST be a function.  Function to intercept remote definition, Try-It-Out, and OAuth2 responses.  Accepts one argument responseInterceptor(response) and must return the modified response, or a Promise that resolves to the modified response.
 `showMutatedRequest` | `Boolean=true`. If set to `true`, uses the mutated request returned from a requestInterceptor to produce the curl command in the UI, otherwise the request before the requestInterceptor was applied is used.
 `supportedSubmitMethods` | `Array=["get", "put", "post", "delete", "options", "head", "patch", "trace"]`. List of HTTP methods that have the Try it out feature enabled. An empty array disables Try it out for all operations. This does not filter the operations from the display.
 `validatorUrl` | `String="https://online.swagger.io/validator" OR null`. By default, Swagger-UI attempts to validate specs against swagger.io's online validator. You can use this parameter to set a different validator URL, for example for locally deployed validators ([Validator Badge](https://github.com/swagger-api/validator-badge)). Setting it to `null` will disable validation.

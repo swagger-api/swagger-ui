@@ -1,12 +1,13 @@
 /* eslint-env mocha */
 import React from "react"
+import { List } from "immutable"
 import expect, { createSpy } from "expect"
-import { Select, Input } from "components/layout-utils"
-import { render } from "enzyme"
+import { Select, Input, TextArea } from "components/layout-utils"
+import { mount, render } from "enzyme"
 import * as JsonSchemaComponents from "core/json-schema-components"
 import { JsonSchemaForm } from "core/json-schema-components"
 
-const components = {...JsonSchemaComponents, Select, Input}
+const components = {...JsonSchemaComponents, Select, Input, TextArea}
 
 const getComponentStub = (name) => {
   if(components[name]) return components[name]
@@ -105,6 +106,38 @@ describe("<JsonSchemaForm/>", function(){
       expect(wrapper.find("select").length).toEqual(1)
       expect(wrapper.find("select option").length).toEqual(1)
       expect(wrapper.find("select option").first().text()).toEqual("true")
+    })
+  })
+  describe("objects", function() {
+    it("should render the correct editor for an OAS3 object parameter", function(){
+      let updateQueue = []
+
+      let props = {
+        getComponent: getComponentStub,
+        value: "",
+        onChange: (value) => {
+          updateQueue.push({ value })
+        },
+        keyName: "",
+        fn: {},
+        errors: List(),
+        schema: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              example: "abc123"
+            }
+          }
+        }
+      }
+
+      let wrapper = mount(<JsonSchemaForm {...props}/>)
+
+      updateQueue.forEach(newProps => wrapper.setProps(newProps))
+
+      expect(wrapper.find("textarea").length).toEqual(1)
+      expect(wrapper.find("textarea").text()).toEqual(`{\n  "id": "abc123"\n}`)
     })
   })
   describe("unknown types", function() {
