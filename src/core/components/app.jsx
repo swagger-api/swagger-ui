@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import expScr from "../plugins/deep-linking/expScr.js"
 
 export default class App extends React.Component {
 
@@ -8,6 +9,13 @@ export default class App extends React.Component {
     const layoutName = layoutSelectors.current()
     const Component = getComponent(layoutName, true)
     return Component ? Component : ()=> <h1> No layout defined for &quot;{layoutName}&quot; </h1>
+  }
+
+  componentDidMount() {
+    const sys = this.props
+    window.onhashchange = function() {
+      expScr(sys)
+    }
   }
 
   render() {
@@ -26,3 +34,4 @@ App.propTypes = {
 
 App.defaultProps = {
 }
+ 

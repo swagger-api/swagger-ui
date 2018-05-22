@@ -1,16 +1,14 @@
-import zenscroll from "zenscroll"
+import scrollToElement from "scroll-to-element"
 import { escapeDeepLinkPath } from "core/utils"
 
 let hasHashBeenParsed = false //TODO this forces code to only run once which may prevent scrolling if page not refreshed
 
-
-export const updateJsonSpec = (ori, { layoutActions, getConfigs }) => (...args) => {
-  ori(...args)
-
+export default function({ layoutActions, getConfigs }) {
   const isDeepLinkingEnabled = getConfigs().deepLinking
   if(!isDeepLinkingEnabled || isDeepLinkingEnabled === "false") {
     return
   }
+
   if(window.location.hash && !hasHashBeenParsed ) {
     let hash = window.location.hash.slice(1) // # is first character
 
@@ -28,9 +26,6 @@ export const updateJsonSpec = (ori, { layoutActions, getConfigs }) => (...args) 
 
     let [tag, operationId] = hash.split("/")
 
-    let swaggerUI = document.querySelector(".swagger-ui")
-    let myScroller = zenscroll.createScroller(swaggerUI)
-
     let target
 
     if(tag && operationId) {
@@ -46,17 +41,8 @@ export const updateJsonSpec = (ori, { layoutActions, getConfigs }) => (...args) 
 
       target = document.getElementById(`operations-tag-${escapeDeepLinkPath(tag)}`)
     }
-
-
     if(target) {
-      myScroller.to(target)
-      setTimeout(() => {
-        // Backup functionality: if we're still at the top of the document,
-        // scroll on the entire page (not within the Swagger-UI container)
-        if(zenscroll.getY() === 0) {
-          zenscroll.to(target)
-        }
-      }, 50)
+      scrollToElement(target, {ease: "linear"})
     }
   }
 
