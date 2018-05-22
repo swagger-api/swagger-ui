@@ -11,6 +11,15 @@ branches:
   - master
   - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
 install: "npm i && npm update"
+before_install:
+- | # quickly pass if only documentation is being updated
+    if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
+      TRAVIS_COMMIT_RANGE="FETCH_HEAD...$TRAVIS_BRANCH"
+    fi
+    git diff --name-only $TRAVIS_COMMIT_RANGE | grep -qvE '(\.md$)|(^(docs|examples))/' || {
+      echo "Only docs were updated, stopping build process."
+      exit
+    }
 before_deploy:
   - npm run build
 env:
