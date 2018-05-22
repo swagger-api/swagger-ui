@@ -70,8 +70,10 @@ module.exports = function(rules, options) {
 
     plugins.push(
       new UglifyJsPlugin({
-        mangle: specialOptions.mangle,
-        beautify: !specialOptions.mangle,
+        uglifyOptions: {
+          mangle: specialOptions.mangle,
+          beautify: !specialOptions.mangle,
+        },
         sourceMap: true,
       }),
       new webpack.LoaderOptionsPlugin({
