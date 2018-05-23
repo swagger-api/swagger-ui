@@ -57,15 +57,52 @@
 
       window.ui = ui
 
-      ui.initOAuth({
-        clientId: "your-client-id",
-        clientSecret: "your-client-secret-if-required",
-        realm: "your-realms",
-        appName: "your-app-name",
-        scopeSeparator: " ",
-        additionalQueryStringParams: {}
-      })
-    }
+
+    <symbol viewBox="0 0 24 24" id="jump-to">
+      <path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"/>
+    </symbol>
+
+    <symbol viewBox="0 0 24 24" id="expand">
+      <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/>
+    </symbol>
+
+  </defs>
+</svg>
+
+<div id="swagger-ui"></div>
+
+<script src="./swagger-ui-bundle.js"> </script>
+<script src="./swagger-ui-standalone-preset.js"> </script>
+<script>
+  window.onload = function() {
+    window["SwaggerUIBundle"] = window["swagger-ui-bundle"]
+    window["SwaggerUIStandalonePreset"] = window["swagger-ui-standalone-preset"]
+    // Build a system
+    const ui = SwaggerUIBundle({
+      url: "swagger.json",
+      dom_id: '#swagger-ui',
+      deepLinking: true,
+      presets: [
+        SwaggerUIBundle.presets.apis,
+        SwaggerUIStandalonePreset
+      ],
+      plugins: [
+        SwaggerUIBundle.plugins.DownloadUrl
+      ],
+      layout: "StandaloneLayout"
+    })
+
+    window.ui = ui
+
+    ui.initOAuth({
+      clientId: "your-client-id",
+      clientSecret: "your-client-secret-if-required",
+      realm: "your-realms",
+      appName: "your-app-name",
+      scopeSeparator: " ",
+      additionalQueryStringParams: {}
+    })
+  }
   </script>
 </body>
 
