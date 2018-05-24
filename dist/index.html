@@ -40,10 +40,13 @@
    <div id="header_wrap">
     <a id="logo" href="/"><img alt="CCP Games" height="50" width="75" src="/ui/ccp.png" /><span class="title">ESI</span></a>
     <div id="versions">
-     <div class="version"><span class="available">legacy</span></div>
-     <div class="version"><span class="available">latest</span></div>
-     <div class="version"><span class="available">dev</span></div>
-     <div class="version"><span class="available">meta</span></div>
+     <div class="version"><span class="available version" id="legacy">legacy</span></div>
+     <div class="underscore version"><span class="available version" id="_legacy" title="legacy spec, with inline versioning">📌</span></div>
+     <div class="version"><span class="available version" id="latest">latest</span></div>
+     <div class="underscore version"><span class="available version" id="_latest" title="latest spec, with inline versioning">📌</span></div>
+     <div class="version"><span class="available version" id="dev">dev</span></div>
+     <div class="underscore version"><span class="available version" id="_dev" title="dev spec, with inline versioning">📌</span></div>
+     <div class="version"><span class="available version" id="meta">meta</span></div>
     </div>
     <div id="datasources" style="visibility:hidden">
      <select id="datasource">
@@ -149,7 +152,11 @@
     var swaggerUrl = "/swagger.json";
     baseUrl.innerHTML = "/";
    } else {
-    baseUrl.innerHTML = "/" + selectedVersion;
+    if (selectedVersion.startsWith("_")) {
+     baseUrl.innerHTML = "/";
+    } else {
+     baseUrl.innerHTML = "/" + selectedVersion;
+    }
     var swaggerUrl = "/" + selectedVersion + "/swagger.json";
    }
    if (selectedDatasource) {
@@ -201,19 +208,20 @@
      window.location.href = UpdateQueryString("datasource", this.value);
    });
    datasources.parentElement.removeAttribute("style");
-   var versions = document.querySelectorAll("div.version span")
+   var versions = document.querySelectorAll("span.version");
    for (i = 0; i < versions.length; i++) {
-    if (versions[i].innerHTML == selectedVersion) {
+    if (versions[i].id == selectedVersion) {
      versions[i].classList.add("selected");
      versions[i].classList.remove("available");
     }
     versions[i].addEventListener("click", function (event) {
      for (k = 0; k < event.currentTarget.classList.length; k++) {
       if (event.currentTarget.classList[k] === "selected") {
-       return
+       return;
       } else if (event.currentTarget.classList[k] === "available") {
        event.currentTarget.classList.remove("available");
        event.currentTarget.classList.add("selected");
+       break;
       }
      }
      for (j = 0; j < versions.length; j++) {
@@ -222,13 +230,17 @@
        versions[j].classList.add("available");
       }
      }
-     var newVersion = event.currentTarget.innerText.toLowerCase();
+     var newVersion = event.currentTarget.id;
      if (newVersion == "meta") {
       var newUrl = "/swagger.json";
       baseUrl.innerHTML = "/";
      } else {
+      if (newVersion.startsWith("_")) {
+       baseUrl.innerHTML = "/";
+      } else {
+       baseUrl.innerHTML = "/" + newVersion;
+      }
       var newUrl = "/" + newVersion + "/swagger.json";
-      baseUrl.innerHTML = "/" + newVersion;
      }
      if (selectedDatasource) {
       newUrl += "?datasource=" + selectedDatasource;

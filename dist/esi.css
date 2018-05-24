@@ -83,6 +83,7 @@ div.version span {
   transition-duration: .25s;
   transition-timing-function: ease-in;
   padding-top: 4px;
+  cursor: pointer;
 }
 
 div.version span.available {
@@ -95,6 +96,10 @@ div.version span.available:hover {
 
 div.version span.selected {
   border-top: 1px #6e6e6e solid;
+}
+
+div.underscore.version {
+  padding-left: 0.5em;
 }
 
 div#datasources {
