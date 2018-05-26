@@ -37,7 +37,10 @@
     "e2e-initial-render": "nightwatch test/e2e/scenarios/ --config test/e2e/nightwatch.json --group initial-render",
     "mock-api": "json-server --watch test/e2e/db.json --port 3204",
     "hot-e2e-server": "webpack-dev-server --port 3230 --content-base test/e2e/helpers --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress",
-    "e2e": "npm-run-all --parallel -r hot-e2e-server mock-api test-e2e"
+    "e2e": "npm-run-all --parallel -r hot-e2e-server mock-api test-e2e",
+    "open-static": "node -e 'require(\"open\")(\"http://localhost:3002\")'",
+    "serve-static": "http-server dist/ -i -a 0.0.0.0 -p 3002",
+    "start": "npm-run-all --parallel serve-static open-static"
   },
   "dependencies": {
     "@braintree/sanitize-url": "^2.0.2",
