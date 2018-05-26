@@ -17,6 +17,7 @@ const JsonSchemaPropShape = {
   schema: PropTypes.object,
   errors: ImPropTypes.list,
   required: PropTypes.bool,
+  dispatchInitialValue: PropTypes.bool,
   description: PropTypes.any
 }
 
