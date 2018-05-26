@@ -52,6 +52,7 @@ module.exports = function(rules, options) {
     hot: false,
     separateStylesheets: true,
     minimize: false,
+    mangle: false,
     longTermCaching: false,
     sourcemaps: false,
   }, options._special)
@@ -69,6 +70,10 @@ module.exports = function(rules, options) {
 
     plugins.push(
       new UglifyJsPlugin({
+        uglifyOptions: {
+          mangle: specialOptions.mangle,
+          beautify: !specialOptions.mangle,
+        },
         sourceMap: true,
       }),
       new webpack.LoaderOptionsPlugin({

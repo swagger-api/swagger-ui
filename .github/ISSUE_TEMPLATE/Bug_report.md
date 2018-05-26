@@ -5,23 +5,24 @@ about: Report an issue you're experiencing
 ---
 
 <!---
-Thanks for filing a bug report 😄 ! Before you submit, please read the following:
+  Thanks for filing a bug report! 😄
 
-If you're here to report a security issue, please STOP writing an issue and
-contact us at security@swagger.io instead!
+  Before you submit, please read the following:
 
-Search open/closed issues before submitting!
+  If you're here to report a security issue, please STOP writing an issue and
+  contact us at security@swagger.io instead!
 
-Issues on GitHub are only related to problems of Swagger-UI itself. We'll try
-to offer support here for your use case, but we can't offer help with projects
-that use Swagger-UI indirectly, like Springfox or swagger-node.
+  Search open/closed issues before submitting!
 
-Likewise, we can't accept bugs in the Swagger/OpenAPIspecifications themselves,
-or anything that violates the specifications.
+  Issues on GitHub are only related to problems of Swagger-UI itself. We'll try
+  to offer support here for your use case, but we can't offer help with projects
+  that use Swagger-UI indirectly, like Springfox or swagger-node.
 
+  Likewise, we can't accept bugs in the Swagger/OpenAPI specifications
+  themselves, or anything that violates the specifications.
 -->
 
-## Q&A (please complete the following information)
+### Q&A (please complete the following information)
  - OS: [e.g. macOS]
  - Browser: [e.g. chrome, safari]
  - Version: [e.g. 22]
