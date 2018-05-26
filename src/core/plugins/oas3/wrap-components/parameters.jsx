@@ -186,7 +186,15 @@ class Parameters extends Component {
                 specPath={requestBodySpecPath}
                 requestBody={requestBody}
                 isExecute={isExecute}
-                onChange={(value) => {
+                onChange={(value, path) => {
+                  if(path) {
+                    const lastValue = oas3Selectors.requestBodyValue(...pathMethod)
+                    const usableValue = Map.isMap(lastValue) ? lastValue : Map()
+                    return oas3Actions.setRequestBodyValue({
+                      pathMethod,
+                      value: usableValue.setIn(path, value)
+                    })
+                  }
                   oas3Actions.setRequestBodyValue({ value, pathMethod })
                 }}
                 contentType={oas3Selectors.requestContentType(...pathMethod)}/>
