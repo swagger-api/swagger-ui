@@ -185,6 +185,7 @@ class Parameters extends Component {
               <RequestBody
                 specPath={requestBodySpecPath}
                 requestBody={requestBody}
+                requestBodyValue={oas3Selectors.requestBodyValue(...pathMethod) || Map()}
                 isExecute={isExecute}
                 onChange={(value, path) => {
                   if(path) {
