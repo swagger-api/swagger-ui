@@ -34,6 +34,13 @@ export class JsonSchemaForm extends Component {
   static propTypes = JsonSchemaPropShape
   static defaultProps = JsonSchemaDefaultProps
 
+  componentDidMount() {
+    const { dispatchInitialValue, value, onChange } = this.props
+    if(dispatchInitialValue) {
+      onChange(value)
+    }
+  }
+
   render() {
     let { schema, errors, value, onChange, getComponent, fn } = this.props
 
