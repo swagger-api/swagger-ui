@@ -348,7 +348,9 @@ export const executeRequest = (req) =>
 
       if(isJSONObject(requestBody)) {
         req.requestBody = JSON.parse(requestBody)
-      } else {
+      } else if(requestBody && requestBody.toJS) {
+        req.requestBody = requestBody.toJS()
+      } else{
         req.requestBody = requestBody
       }
     }

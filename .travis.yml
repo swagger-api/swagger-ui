@@ -11,6 +11,15 @@ branches:
   - master
   - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
 install: "npm i && npm update"
+before_install:
+- | # quickly pass if only documentation is being updated
+    if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
+      TRAVIS_COMMIT_RANGE="FETCH_HEAD...$TRAVIS_BRANCH"
+      git diff --name-only $TRAVIS_COMMIT_RANGE | grep -qvE '(\.md$)|(^(docs|examples))/' || {
+        echo "Only docs were updated, stopping build process."
+        exit
+      }
+    fi
 before_deploy:
   - npm run build
 env:
@@ -37,7 +46,7 @@ after_success:
       docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD;
 
       if [ ! -z "$TRAVIS_TAG" ]; then
-        DOCKER_IMAGE_TAG=$TRAVIS_TAG;
+        DOCKER_IMAGE_TAG=${TRAVIS_TAG#?};
       else
         DOCKER_IMAGE_TAG=unstable;
       fi;
