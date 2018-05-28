@@ -55,7 +55,7 @@ fi
 
 # replace `url` with `urls` option if API_URLS is set
 if [[ -n "$API_URLS" ]]; then
-    sed -i "s|url: .*,|urls: $API_URLS,|g" $INDEX_FILE
+    sed -i "s|^\(\s*\)url: .*,|\1urls: $API_URLS,|g" $INDEX_FILE
 fi
 
 # replace the PORT that nginx listens on if PORT is supplied
