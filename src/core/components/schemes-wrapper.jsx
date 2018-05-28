@@ -10,11 +10,10 @@ export default class SchemesWrapper extends React.Component {
   }
 
   render () {
-    let {specActions, specSelectors, getComponent} = this.props
+    const {specActions, specSelectors, getComponent} = this.props
     const currentScheme = specSelectors.operationScheme()
     const schemes = specSelectors.schemes()
     const securityDefinitions = specSelectors.securityDefinitions()
-
 
     const Col = getComponent("Col")
     const AuthorizeBtn = getComponent("authorizeBtn", true)

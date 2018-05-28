@@ -6,25 +6,16 @@ export default class BaseLayout extends React.Component {
   static propTypes = {
     errSelectors: PropTypes.object.isRequired,
     errActions: PropTypes.object.isRequired,
-    specActions: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
     oas3Selectors: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
-    layoutSelectors: PropTypes.object.isRequired,
-    layoutActions: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired
-  }
-
-  onFilterChange =(e) => {
-    let {target: {value}} = e
-    this.props.layoutActions.updateFilter(value)
   }
 
   render() {
     let {
       specSelectors,
       getComponent,
-      layoutSelectors,
       oas3Selectors,
       oas3Actions
     } = this.props
@@ -45,20 +36,14 @@ export default class BaseLayout extends React.Component {
     let Servers = getComponent("Servers")
     let Errors = getComponent("errors", true)
 
-    let isLoading = specSelectors.loadingStatus() === "loading"
-    let isFailed = specSelectors.loadingStatus() === "failed"
-    let filter = layoutSelectors.currentFilter()
-
-    let inputStyle = {}
-    if(isFailed) inputStyle.color = "red"
-    if(isLoading) inputStyle.color = "#aaa"
-
     const SchemesWrapper = getComponent("SchemesWrapper", true)
+    const Filter = getComponent("Filter", true)
 
     const isSpecEmpty = !specSelectors.specStr()
 
     if(isSpecEmpty) {
       let loadingMessage
+      let isLoading = specSelectors.loadingStatus() === "loading"
       if(isLoading) {
         loadingMessage = <div className="loading"></div>
       } else {
@@ -104,14 +89,7 @@ export default class BaseLayout extends React.Component {
 
             ) : null}
 
-            {
-              filter === null || filter === false ? null :
-                <div className="filter-container">
-                  <Col className="filter wrapper" mobile={12}>
-                    <input className="operation-filter-input" placeholder="Filter by tag" type="text" onChange={this.onFilterChange} value={filter === true || filter === "true" ? "" : filter} disabled={isLoading} style={inputStyle} />
-                  </Col>
-                </div>
-            }
+            <Filter/>
 
             <Row>
               <Col mobile={12} desktop={12} >
