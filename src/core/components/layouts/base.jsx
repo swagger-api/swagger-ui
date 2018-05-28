@@ -23,7 +23,6 @@ export default class BaseLayout extends React.Component {
   render() {
     let {
       specSelectors,
-      specActions,
       getComponent,
       layoutSelectors,
       oas3Selectors,
@@ -34,16 +33,13 @@ export default class BaseLayout extends React.Component {
     let url = specSelectors.url()
     let basePath = specSelectors.basePath()
     let host = specSelectors.host()
-    let securityDefinitions = specSelectors.securityDefinitions()
     let externalDocs = specSelectors.externalDocs()
-    let schemes = specSelectors.schemes()
     let servers = specSelectors.servers()
 
     let SvgAssets = getComponent("SvgAssets")
     let Info = getComponent("info")
     let Operations = getComponent("operations", true)
     let Models = getComponent("Models", true)
-    let AuthorizeBtn = getComponent("authorizeBtn", true)
     let Row = getComponent("Row")
     let Col = getComponent("Col")
     let Servers = getComponent("Servers")
@@ -57,7 +53,7 @@ export default class BaseLayout extends React.Component {
     if(isFailed) inputStyle.color = "red"
     if(isLoading) inputStyle.color = "#aaa"
 
-    const Schemes = getComponent("schemes")
+    const SchemesWrapper = getComponent("SchemesWrapper", true)
 
     const isSpecEmpty = !specSelectors.specStr()
 
@@ -89,24 +85,9 @@ export default class BaseLayout extends React.Component {
                 ) : null }
               </Col>
             </Row>
-            { schemes && schemes.size || securityDefinitions ? (
-              <div className="scheme-container">
-                <Col className="schemes wrapper" mobile={12}>
-                  { schemes && schemes.size ? (
-                    <Schemes
-                      currentScheme={specSelectors.operationScheme()}
-                      schemes={ schemes }
-                      specActions={ specActions } />
-                  ) : null }
+            <SchemesWrapper/>
 
-                  { securityDefinitions ? (
-                    <AuthorizeBtn />
-                  ) : null }
-                </Col>
-              </div>
-            ) : null }
-
-            { servers && servers.size ? (
+            {servers && servers.size ? (
               <div className="global-server-container">
                 <Col className="servers wrapper" mobile={12}>
                   <span className="servers-title">Server</span>
