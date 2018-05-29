@@ -13,14 +13,7 @@ export default class BaseLayout extends React.Component {
   }
 
   render() {
-    let {
-      specSelectors,
-      getComponent,
-      oas3Selectors,
-      oas3Actions
-    } = this.props
-
-    let servers = specSelectors.servers()
+    let {specSelectors, getComponent} = this.props
 
     let SvgAssets = getComponent("SvgAssets")
     let InfoWrapper = getComponent("InfoWrapper", true)
@@ -28,7 +21,7 @@ export default class BaseLayout extends React.Component {
     let Models = getComponent("Models", true)
     let Row = getComponent("Row")
     let Col = getComponent("Col")
-    let Servers = getComponent("Servers")
+    let ServersWrapper = getComponent("ServersWrapper", true)
     let Errors = getComponent("errors", true)
 
     const SchemesWrapper = getComponent("SchemesWrapper", true)
@@ -63,24 +56,10 @@ export default class BaseLayout extends React.Component {
                 <InfoWrapper/>
               </Col>
             </Row>
+
             <SchemesWrapper/>
 
-            {servers && servers.size ? (
-              <div className="global-server-container">
-                <Col className="servers wrapper" mobile={12}>
-                  <span className="servers-title">Server</span>
-                  <Servers
-                    servers={servers}
-                    currentServer={oas3Selectors.selectedServer()}
-                    setSelectedServer={oas3Actions.setSelectedServer}
-                    setServerVariableValue={oas3Actions.setServerVariableValue}
-                    getServerVariable={oas3Selectors.serverVariableValue}
-                    getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
-                    />
-                </Col>
-              </div>
-
-            ) : null}
+            <ServersWrapper/>
 
             <Filter/>
 
