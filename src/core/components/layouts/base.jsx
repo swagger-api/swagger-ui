@@ -20,15 +20,10 @@ export default class BaseLayout extends React.Component {
       oas3Actions
     } = this.props
 
-    let info = specSelectors.info()
-    let url = specSelectors.url()
-    let basePath = specSelectors.basePath()
-    let host = specSelectors.host()
-    let externalDocs = specSelectors.externalDocs()
     let servers = specSelectors.servers()
 
     let SvgAssets = getComponent("SvgAssets")
-    let Info = getComponent("info")
+    let InfoWrapper = getComponent("InfoWrapper", true)
     let Operations = getComponent("operations", true)
     let Models = getComponent("Models", true)
     let Row = getComponent("Row")
@@ -65,9 +60,7 @@ export default class BaseLayout extends React.Component {
             <Errors/>
             <Row className="information-container">
               <Col mobile={12}>
-                { info.count() ? (
-                  <Info info={ info } url={ url } host={ host } basePath={ basePath } externalDocs={externalDocs} getComponent={getComponent}/>
-                ) : null }
+                <InfoWrapper/>
               </Col>
             </Row>
             <SchemesWrapper/>
