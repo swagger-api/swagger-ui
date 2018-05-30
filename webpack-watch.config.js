@@ -5,4 +5,9 @@ config.plugins = config.plugins.filter(plugin => {
   return plugin.constructor.name !== "UglifyJsPlugin"
 })
 
+config.module.rules = config.module.rules.filter(rule => {
+  // Disable minification
+  return rule.loader != "webpack-strip-block"
+})
+
 module.exports = config
