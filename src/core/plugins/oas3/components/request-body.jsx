@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { getSampleSchema } from "core/utils"
-import Im, { Map, OrderedMap, List } from "immutable"
+import { Map, OrderedMap } from "immutable"
 
 const RequestBody = ({
   requestBody,
