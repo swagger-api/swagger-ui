@@ -30,7 +30,7 @@ export default class ParameterRow extends Component {
     let { isOAS3 } = specSelectors
 
     let example = param.get("example")
-    let parameter = specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in"))
+    let parameter = specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in")) || param
     let enumValue
 
     if(isOAS3()) {
@@ -156,7 +156,7 @@ export default class ParameterRow extends Component {
     }
 
     return (
-      <tr>
+      <tr className="parameters">
         <td className="col parameters-col_name">
           <div className={required ? "parameter__name required" : "parameter__name"}>
             { param.get("name") }
