@@ -13,7 +13,7 @@ export default class VersionPragmaFilter extends React.PureComponent {
     if(isSwagger2 && isOAS3) {
       return <div className="version-pragma">
         {alsoShow}
-        <div className="version-pragma__message">
+        <div className="version-pragma__message version-pragma__message--ambiguous">
           <div>
             <h3>Unable to render this definition</h3>
             <p><code>swagger</code> and <code>openapi</code> fields cannot be present in the same Swagger or OpenAPI definition. Please remove one of the fields.</p>
@@ -26,7 +26,7 @@ export default class VersionPragmaFilter extends React.PureComponent {
     if(!isSwagger2 && !isOAS3) {
       return <div className="version-pragma">
         {alsoShow}
-        <div className="version-pragma__message">
+        <div className="version-pragma__message version-pragma__message--missing">
           <div>
             <h3>Unable to render this definition</h3>
             <p>The provided definition does not specify a valid version field.</p>
