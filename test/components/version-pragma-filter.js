@@ -30,6 +30,18 @@ describe("<VersionPragmaFilter/>", function(){
     expect(wrapper.find("div").length).toEqual(1)
     expect(wrapper.find("div").text()).toEqual("hello!")
   })
+  it("renders children when a bypass prop is set", function(){
+    // When
+    let wrapper = shallow(
+      <VersionPragmaFilter bypass>
+        hello!
+      </VersionPragmaFilter>
+    )
+
+    // Then
+    expect(wrapper.find("div").length).toEqual(1)
+    expect(wrapper.find("div").text()).toEqual("hello!")
+  })
   it("renders the correct message for an ambiguous-version definition", function(){
     // When
     let wrapper = shallow(

@@ -5,17 +5,23 @@ export default class VersionPragmaFilter extends React.PureComponent {
   static propTypes = {
     isSwagger2: PropTypes.bool.isRequired,
     isOAS3: PropTypes.bool.isRequired,
+    bypass: PropTypes.bool,
     alsoShow: PropTypes.element,
-    children: PropTypes.element,
+    children: PropTypes.any,
   }
 
   static defaultProps = {
     alsoShow: null,
     children: null,
+    bypass: false,
   }
 
   render() {
-    const { isSwagger2, isOAS3, alsoShow } = this.props
+    const { bypass, isSwagger2, isOAS3, alsoShow } = this.props
+
+    if(bypass) {
+      return <div>{ this.props.children }</div>
+    }
 
     if(isSwagger2 && isOAS3) {
       return <div className="version-pragma">
