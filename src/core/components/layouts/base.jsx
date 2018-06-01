@@ -40,6 +40,7 @@ export default class BaseLayout extends React.Component {
     let servers = specSelectors.servers()
 
     let SvgAssets = getComponent("SvgAssets")
+    let VersionPragmaFilter = getComponent("VersionPragmaFilter")
     let Info = getComponent("info")
     let Operations = getComponent("operations", true)
     let Models = getComponent("Models", true)
@@ -48,6 +49,9 @@ export default class BaseLayout extends React.Component {
     let Col = getComponent("Col")
     let Servers = getComponent("Servers")
     let Errors = getComponent("errors", true)
+
+    let isSwagger2 = specSelectors.isSwagger2()
+    let isOAS3 = specSelectors.isOAS3()
 
     let isLoading = specSelectors.loadingStatus() === "loading"
     let isFailed = specSelectors.loadingStatus() === "failed"
@@ -80,7 +84,7 @@ export default class BaseLayout extends React.Component {
 
       <div className='swagger-ui'>
           <SvgAssets />
-          <div>
+          <VersionPragmaFilter isSwagger2={isSwagger2} isOAS3={isOAS3} alsoShow={<Errors/>}>
             <Errors/>
             <Row className="information-container">
               <Col mobile={12}>
@@ -142,7 +146,7 @@ export default class BaseLayout extends React.Component {
                 <Models/>
               </Col>
             </Row>
-          </div>
+          </VersionPragmaFilter>
         </div>
       )
   }
