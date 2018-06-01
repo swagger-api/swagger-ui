@@ -1,12 +1,19 @@
 import React from "react"
-import ImPropTypes from "react-immutable-proptypes"
 import PropTypes from "prop-types"
 
 export default class VersionPragmaFilter extends React.PureComponent {
   static propTypes = {
     isSwagger2: PropTypes.bool.isRequired,
     isOAS3: PropTypes.bool.isRequired,
+    alsoShow: PropTypes.element,
+    children: PropTypes.element,
   }
+
+  static defaultProps = {
+    alsoShow: null,
+    children: null,
+  }
+
   render() {
     const { isSwagger2, isOAS3, alsoShow } = this.props
 

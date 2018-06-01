@@ -5,7 +5,7 @@ import { shallow } from "enzyme"
 import { fromJS, Map } from "immutable"
 import VersionPragmaFilter from "components/version-pragma-filter"
 
-describe.only("<VersionPragmaFilter/>", function(){
+describe("<VersionPragmaFilter/>", function(){
   it("renders children for a Swagger 2 definition", function(){
     // When
     let wrapper = shallow(
