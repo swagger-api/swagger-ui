@@ -10,6 +10,19 @@ export default class VersionPragmaFilter extends React.PureComponent {
   render() {
     const { isSwagger2, isOAS3, alsoShow } = this.props
 
+    if(isSwagger2 && isOAS3) {
+      return <div className="version-pragma">
+        {alsoShow}
+        <div className="version-pragma__message">
+          <div>
+            <h3>Unable to render this definition</h3>
+            <p><code>swagger</code> and <code>openapi</code> fields cannot be present in the same Swagger or OpenAPI definition. Please remove one of the fields.</p>
+            <p>Supported version fields are <code>swagger: {"\"2.0\""}</code> and those that match <code>openapi: 3.0.n</code> (for example, <code>openapi: 3.0.0</code>).</p>
+          </div>
+        </div>
+      </div>
+    }
+
     if(!isSwagger2 && !isOAS3) {
       return <div className="version-pragma">
         {alsoShow}
