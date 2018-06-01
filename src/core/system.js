@@ -15,9 +15,15 @@ const idFn = a => a
 function createStoreWithMiddleware(rootReducer, initialState, getSystem) {
 
   let middlwares = [
-    // createLogger( {
-    //   stateTransformer: state => state && state.toJS()
-    // } ),
+    /* develblock:start */
+    // Measure actions
+    () => next => action => {
+      require("root/src/perf").start("action:"+action.type)
+      const res = next(action)
+      require("root/src/perf").stop("action:"+action.type)
+      return res
+    },
+    /* develblock:end */
     systemThunkMiddleware( getSystem )
   ]
 

@@ -104,6 +104,10 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
 
   let specStr = specSelectors.specStr()
 
+  /* develblock:start */
+  require("root/src/perf").start("resolve")
+  /* develblock:end */
+
   return resolve({
     fetch,
     spec: json,
@@ -131,6 +135,9 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
         errActions.newThrownErrBatch(preparedErrors)
       }
 
+    /* develblock:start */
+    require("root/src/perf").stop("resolve")
+    /* develblock:end */
       return specActions.updateResolved(spec)
     })
 }
