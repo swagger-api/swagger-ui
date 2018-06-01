@@ -15,7 +15,17 @@ let rules = [
       },
       { loader: "babel-loader?retainLines=true" }
     ]
-  }
+  },
+  // This will strip out blocks of code that start with:
+  /* develblock:start */
+  // And end with
+  /* develblock:end */
+  {
+    test: /\.jsx?$/,
+    enforce: "pre",
+    exclude: /(node_modules|\.spec\.js)/,
+    loader: "webpack-strip-block"
+  },
 ]
 rules = rules.concat(styleRules)
 

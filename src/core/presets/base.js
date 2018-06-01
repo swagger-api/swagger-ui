@@ -68,6 +68,7 @@ import Property from "core/components/property"
 import TryItOutButton from "core/components/try-it-out-button"
 import VersionStamp from "core/components/version-stamp"
 import DeepLink from "core/components/deep-link"
+import SvgAssets from "core/components/svg-assets"
 
 import Markdown from "core/components/providers/markdown"
 
@@ -132,7 +133,8 @@ export default function() {
       OperationContainer,
       DeepLink,
       InfoUrl,
-      InfoBasePath
+      InfoBasePath,
+      SvgAssets
     }
   }
 

@@ -9,6 +9,7 @@ export default class ModelWrapper extends Component {
   static propTypes = {
     schema: PropTypes.object.isRequired,
     name: PropTypes.string,
+    displayName: PropTypes.string,
     getComponent: PropTypes.func.isRequired,
     getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,

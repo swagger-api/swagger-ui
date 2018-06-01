@@ -42,7 +42,15 @@ export default {
   },
 
   [UPDATE_RESOLVED]: (state, action) => {
-    return state.setIn(["resolved"], fromJSOrdered(action.payload))
+    /* develblock:start */
+    require("root/src/perf").start("UPDATE_RESOLVED")
+    /* develblock:end */
+    const resolved = fromJSOrdered(action.payload)
+
+    /* develblock:start */
+    require("root/src/perf").stop("UPDATE_RESOLVED")
+    /* develblock:end */
+    return state.setIn(["resolved"], resolved)
   },
 
   [UPDATE_RESOLVED_SUBTREE]: (state, action) => {
@@ -118,7 +126,11 @@ export default {
     let operationPath = ["paths", ...path]
     let metaPath = ["meta", "paths", ...path]
 
-    if(!state.getIn(["json", ...operationPath]) && !state.getIn(["resolved", ...operationPath])) {
+    if(
+      !state.getIn(["json", ...operationPath])
+      && !state.getIn(["resolved", ...operationPath])
+      && !state.getIn(["resolvedSubtrees", ...operationPath])
+    ) {
       // do nothing if the operation does not exist
       return state
     }
