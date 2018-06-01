@@ -31,6 +31,7 @@ import Clear from "core/components/clear"
 import LiveResponse from "core/components/live-response"
 import OnlineValidatorBadge from "core/components/online-validator-badge"
 import Operations from "core/components/operations"
+import OperationTag from "core/components/operation-tag"
 import Operation from "core/components/operation"
 import OperationExt from "core/components/operation-extensions"
 import OperationExtRow from "core/components/operation-extension-row"
@@ -128,6 +129,7 @@ export default function() {
       OperationExt,
       OperationExtRow,
       ParameterExt,
+      OperationTag,
       OperationContainer,
       DeepLink,
       InfoUrl,
