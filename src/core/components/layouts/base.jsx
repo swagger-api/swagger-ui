@@ -17,6 +17,7 @@ export default class BaseLayout extends React.Component {
 
     let SvgAssets = getComponent("SvgAssets")
     let InfoWrapper = getComponent("InfoWrapper", true)
+    let VersionPragmaFilter = getComponent("VersionPragmaFilter")
     let Operations = getComponent("operations", true)
     let Models = getComponent("Models", true)
     let Row = getComponent("Row")
@@ -26,6 +27,8 @@ export default class BaseLayout extends React.Component {
 
     const SchemesWrapper = getComponent("SchemesWrapper", true)
     const Filter = getComponent("Filter", true)
+    let isSwagger2 = specSelectors.isSwagger2()
+    let isOAS3 = specSelectors.isOAS3()
 
     const isSpecEmpty = !specSelectors.specStr()
 
@@ -49,7 +52,7 @@ export default class BaseLayout extends React.Component {
 
       <div className='swagger-ui'>
           <SvgAssets />
-          <div>
+          <VersionPragmaFilter isSwagger2={isSwagger2} isOAS3={isOAS3} alsoShow={<Errors/>}>
             <Errors/>
             <Row className="information-container">
               <Col mobile={12}>
@@ -73,7 +76,7 @@ export default class BaseLayout extends React.Component {
                 <Models/>
               </Col>
             </Row>
-          </div>
+          </VersionPragmaFilter>
         </div>
       )
   }

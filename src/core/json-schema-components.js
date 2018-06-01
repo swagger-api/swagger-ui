@@ -201,7 +201,7 @@ export class JsonSchema_boolean extends Component {
 
   onEnumChange = (val) => this.props.onChange(val)
   render() {
-    let { getComponent, value, errors, schema } = this.props
+    let { getComponent, value, errors, schema, required } = this.props
     errors = errors.toJS ? errors.toJS() : []
 
     const Select = getComponent("Select")
@@ -210,7 +210,7 @@ export class JsonSchema_boolean extends Component {
                     title={ errors.length ? errors : ""}
                     value={ String(value) }
                     allowedValues={ fromJS(schema.enum || ["true", "false"]) }
-                    allowEmptyValue={ !this.props.required }
+                    allowEmptyValue={ !schema.enum || !required }
                     onChange={ this.onEnumChange }/>)
   }
 }
