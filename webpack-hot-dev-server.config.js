@@ -35,7 +35,7 @@ const rules = [
         }
       }
     ]
-  }
+  },
 ]
 
 module.exports = require("./make-webpack-config")(rules, {
