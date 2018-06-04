@@ -54,6 +54,33 @@ export default class ParamBody extends PureComponent {
 
     if ( paramValue !== undefined ) {
       let val = !paramValue && isJson ? "{}" : paramValue
+      
+      let originSchema = parameter.get("schema")
+      if (originSchema && originSchema.get("$$ref")) { 
+        //try to remove those object fields with readOnly is equal to true
+        let refName = originSchema.get("$$ref")
+        if (refName && refName.split("/").length) { 
+          let tokens = refName.split("/")
+          //get model name
+          refName = tokens[tokens.length - 1]
+          //try to get origin model definition
+          let refModel = specSelectors.specJson().get("definitions").get(refName)
+          if (refModel) {
+            let propsMap = refModel.get("properties")
+            if (propsMap) {
+              //convert sample value to JSON object
+              let valueJson = JSON.parse(val)
+              propsMap.keySeq().forEach(k => {
+                if (propsMap.get(k).get("readOnly") == true){
+                  //remove value of readOnly property
+                  delete valueJson[k]
+                }
+              })
+              val = JSON.stringify(valueJson, null, 2)
+            }
+          }
+        }
+      }
       this.setState({ value: val })
       this.onChange(val, {isXml: isXml, isEditBox: isExecute})
     } else {
