@@ -26,6 +26,7 @@
     body {
       margin:0;
       background: #fafafa;
+      min-width: 980px;
     }
   </style>
 </head>
@@ -101,6 +102,161 @@
       additionalQueryStringParams: {}
     })
   }
+
+  var search, errorMsg, ul, li;
+  $(document).ready(function() {
+    setTimeout(function() {
+      search = document.getElementById("searchInput");
+      errorMsg = document.getElementById("errorMsg");
+      search.onkeyup = function() {searchFunction()};
+      $('span.search-reset').on('click', function() {
+        errorMsg.style.display = "none";
+        $('#scrollingNav .sidenav-search input.search').val('').focus();
+        ul = document.getElementById("sidenav");
+        li = ul.getElementsByTagName("li");
+        for (var i = 0; i < li.length; i++) {
+          li[i].style.display = "";
+        }
+      })
+    }, 2500);
+  });
+
+  function searchFunction() {
+    var filter, ul, li, a, i, noneCt = 0;
+    filter = search.value.toUpperCase();
+    ul = document.getElementById("sidenav");
+    li = ul.getElementsByTagName("li");
+    for (i = 0; i < li.length; i++) {
+      a = li[i].getElementsByTagName("a")[0];
+      if (a.innerHTML.toUpperCase().indexOf(filter) > -1)
+          li[i].style.display = "";
+      else {
+        li[i].style.display = "none";
+        noneCt++;
+      }
+    }
+    if (noneCt == li.length) {
+      errorMsg.innerHTML = "No results for \"" + search.value + "\".";
+      errorMsg.style.display = "block";
+    }
+    else
+      errorMsg.style.display = "none";
+  }
+
+  window.onscroll = function() {scrollFunction()};
+
+  function scrollFunction() {
+    var scroll = document.documentElement.scrollTop;
+    if (document.body.scrollTop > 70 || document.documentElement.scrollTop > 70) {
+      document.getElementById("searchBar").style.display = "block";
+    } else {
+      document.getElementById("searchBar").style.display = "none";
+    }
+
+    var scrollTop = $(window).scrollTop();
+    var distance1 = $('#1').offset().top - scrollTop;
+    var distance2 = $('#2').offset().top - scrollTop;
+    var distance3 = $('#3').offset().top - scrollTop;
+    var distance4 = $('#4').offset().top - scrollTop;
+    console.log(distance1, distance2, scrollTop);
+
+    if (scroll < 565) {
+      $(".sidenav li").removeClass("active");
+    }
+    else if (scroll >= 566 && scroll < 621) {
+      $(".sidenav li").removeClass("active");
+      $("#1").addClass("active");
+    }
+    else if (scroll >= 622 && scroll < 680) {
+      $(".sidenav li").removeClass("active");
+      $("#2").addClass("active");
+    }
+    else if (scroll >= 681 && scroll < 739) {
+      $(".sidenav li").removeClass("active");
+      $("#3").addClass("active");
+    }
+    else if (scroll >= 740 && scroll < 798) {
+      $(".sidenav li").removeClass("active");
+      $("#4").addClass("active");
+    }
+    else if (scroll >= 799 && scroll < 857) {
+      $(".sidenav li").removeClass("active");
+      $("#5").addClass("active");
+    }
+    else if (scroll >= 858 && scroll < 916) {
+      $(".sidenav li").removeClass("active");
+      $("#6").addClass("active");
+    }
+    else if (scroll >= 917 && scroll < 975) {
+      $(".sidenav li").removeClass("active");
+      $("#7").addClass("active");
+    }
+    else if (scroll >= 976 && scroll < 1034) {
+      $(".sidenav li").removeClass("active");
+      $("#8").addClass("active");
+    }
+    else if (scroll >= 1035 && scroll < 1093) {
+      $(".sidenav li").removeClass("active");
+      $("#9").addClass("active");
+    }
+    else if (scroll >= 1094 && scroll < 1149) {
+      $(".sidenav li").removeClass("active");
+      $("#10").addClass("active");
+    }
+    else if (scroll >= 1150 && scroll < 1208) {
+      $(".sidenav li").removeClass("active");
+      $("#11").addClass("active");
+    }
+    else if (scroll >= 1209 && scroll < 1267) {
+      $(".sidenav li").removeClass("active");
+      $("#12").addClass("active");
+    }
+    else if (scroll >= 1268 && scroll < 1326) {
+      $(".sidenav li").removeClass("active");
+      $("#13").addClass("active");
+    }
+    else if (scroll >= 1327 && scroll < 1385) {
+      $(".sidenav li").removeClass("active");
+      $("#14").addClass("active");
+    }
+    else if (scroll >= 1386 && scroll < 1441) {
+      $(".sidenav li").removeClass("active");
+      $("#15").addClass("active");
+    }
+    else if (scroll >= 1442 && scroll < 1500) {
+      $(".sidenav li").removeClass("active");
+      $("#16").addClass("active");
+    }
+    else if (scroll >= 1501 && scroll < 1559) {
+      $(".sidenav li").removeClass("active");
+      $("#17").addClass("active");
+    }
+    else if (scroll >= 1560 && scroll < 1618) {
+      $(".sidenav li").removeClass("active");
+      $("#18").addClass("active");
+    }
+    else if (scroll >= 1619 && scroll < 1677) {
+      $(".sidenav li").removeClass("active");
+      $("#19").addClass("active");
+    }
+    else if (scroll >= 1678 && scroll < 1736) {
+      $(".sidenav li").removeClass("active");
+      $("#20").addClass("active");
+    }
+    else if (scroll >= 1737 && scroll < 1795) {
+      $(".sidenav li").removeClass("active");
+      $("#21").addClass("active");
+    }
+    else if (scroll >= 1796 && scroll < 1844) {
+      $(".sidenav li").removeClass("active");
+      $("#22").addClass("active");
+    }
+    else if (scroll >= 1845) {
+      $(".sidenav li").removeClass("active");
+      $("#23").addClass("active");
+    }
+  }
+
 </script>
 </body>
 

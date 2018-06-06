@@ -769,3 +769,141 @@ a.nostyle {
     cursor: pointer;
   }
 }
+
+body {
+    min-width: 980px;
+}
+
+.adjustSidebar {
+    width: 250px;
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #f5f5f5;
+    z-index: 5;
+    height: 100%;
+    list-style-type: none;
+}
+
+#errorMsg {
+    display: none;
+    position: absolute;
+}
+
+.sidenav {
+    width: 250px;
+    position: fixed;
+    margin: 58px 0 0 0;
+    padding: 20px 20px 0 20px;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #f5f5f5;
+    z-index: 10;
+    height: 100%;
+    list-style-type: none;
+}
+
+.sidenav > li.nav-header {
+    margin: 8px 0 8px 0;
+}
+
+.sidenav > li.nav-header > a {
+    padding: 3px 15px;
+    border: 1px solid #e5e5e5;
+    width: auto;
+    font-weight: 700;
+    font-size: 15px;
+    background-color: #ffffff;
+    text-decoration: none;
+    font-family: 'Open Sans', sans-serif;
+    cursor: pointer;
+}
+
+.sidenav > li.is-new a {
+    border-left: #e5e5e5 4px solid;
+    text-decoration: none;
+    font-family: 'Open Sans', sans-serif;
+    cursor: pointer;
+}
+
+.sidenav > li.active > a {
+    position: relative;
+    z-index: 2;
+    background-color: #0088cc;
+    color: #ffffff;
+    cursor: pointer;
+    transition-duration: 0.06s;
+}
+
+.sidenav > li > a {
+    display: block;
+    width: auto;
+    margin: 0;
+    padding: 2px 11px;
+    border: 0;
+    border-left: transparent 4px solid;
+    border-right: transparent 4px solid;
+    font-weight: 400;
+    font-size: 12px;
+}
+
+#backToTop {
+    position: fixed;
+    top: 20px;
+    left: 74px;
+    display: none;
+    z-index: 99;
+    font-size: 15px;
+    border: none;
+    outline: none;
+    background-color: #337ab7;
+    color: white;
+    cursor: pointer;
+    padding: 9px;
+    border-radius: 11px;
+    text-decoration: none;
+}
+
+#backToTop:hover {
+    background-color: #2669a2;
+    transition-duration: 0.20s;
+}
+
+.sidenav-search {
+    top: 7px;
+    left: 0px;
+    position: fixed;
+    padding: 16px 20px 10px 20px;
+    background-color: #F5F5F5;
+    z-index: 11;
+    width: 250px;
+}
+
+.sidenav-search .search {
+    height: 26px;
+    margin: 0;
+    max-width: none;
+    font-size: 12.5px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.search-reset {
+    position: absolute;
+    display: block;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    right: 28px;
+    top: 18px;
+    background-color: #fff;
+}
+
+
+

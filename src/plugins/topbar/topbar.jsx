@@ -3,7 +3,7 @@ import Logo from './arc-logo_white.svg'
 
 const Topbar = () => {
   return (
-    <div className='navbar arc-navbar'>
+    <div className='navbar arc-navbar' id="topofpage">
       <div className='navbar-header'>
         <button
           type='button'
