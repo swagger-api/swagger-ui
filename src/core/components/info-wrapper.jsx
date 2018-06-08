@@ -22,7 +22,7 @@ export default class InfoWrapper extends React.Component {
 
     return (
       <div>
-        {info.count() ? (
+        {info && info.count() ? (
           <Info info={info} url={url} host={host} basePath={basePath} externalDocs={externalDocs}
                 getComponent={getComponent}/>
         ) : null}
