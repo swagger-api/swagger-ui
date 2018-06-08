@@ -317,7 +317,7 @@ describe("bound system", function(){
 
     })
 
-    describe("when selector returns a funtcion", function(){
+    describe("when selector returns a function", function(){
 
       it("should pass the system to that function", function(){
 
