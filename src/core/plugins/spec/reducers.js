@@ -42,15 +42,7 @@ export default {
   },
 
   [UPDATE_RESOLVED]: (state, action) => {
-    /* develblock:start */
-    require("root/src/perf").start("UPDATE_RESOLVED")
-    /* develblock:end */
-    const resolved = fromJSOrdered(action.payload)
-
-    /* develblock:start */
-    require("root/src/perf").stop("UPDATE_RESOLVED")
-    /* develblock:end */
-    return state.setIn(["resolved"], resolved)
+    return state.setIn(["resolved"], fromJSOrdered(action.payload))
   },
 
   [UPDATE_RESOLVED_SUBTREE]: (state, action) => {
