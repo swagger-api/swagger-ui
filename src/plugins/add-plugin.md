@@ -28,7 +28,7 @@ Here is an example of each `type`
 ```js
 // A contrived, but quite full example....
 
-export function SomePlugin( toolbox ) {
+export function SomePlugin(toolbox) {
 
   const UPDATE_SOMETHING = "some_namespace_update_something" // strings just need to be uniuqe... see below
 

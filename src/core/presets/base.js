@@ -31,6 +31,7 @@ import Clear from "core/components/clear"
 import LiveResponse from "core/components/live-response"
 import OnlineValidatorBadge from "core/components/online-validator-badge"
 import Operations from "core/components/operations"
+import OperationTag from "core/components/operation-tag"
 import Operation from "core/components/operation"
 import OperationExt from "core/components/operation-extensions"
 import OperationExtRow from "core/components/operation-extension-row"
@@ -65,6 +66,7 @@ import ArrayModel from "core/components/array-model"
 import PrimitiveModel from "core/components/primitive-model"
 import Property from "core/components/property"
 import TryItOutButton from "core/components/try-it-out-button"
+import VersionPragmaFilter from "core/components/version-pragma-filter"
 import VersionStamp from "core/components/version-stamp"
 import DeepLink from "core/components/deep-link"
 import SvgAssets from "core/components/svg-assets"
@@ -124,10 +126,12 @@ export default function() {
       TryItOutButton,
       Markdown,
       BaseLayout,
+      VersionPragmaFilter,
       VersionStamp,
       OperationExt,
       OperationExtRow,
       ParameterExt,
+      OperationTag,
       OperationContainer,
       DeepLink,
       InfoUrl,
