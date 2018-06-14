@@ -1,7 +1,35 @@
+import { fromJS } from "immutable"
 import { createXMLExample, sampleFromSchema } from "corePlugins/samples/fn"
 import expect from "expect"
 
 describe("sampleFromSchema", function() {
+  it("handles Immutable.js objects for nested schemas", function () {
+    var definition = fromJS({
+      "type": "object",
+      "properties": {
+        "json": {
+          "type": "object",
+          "example": {
+            "a": "string"
+          },
+          "properties": {
+            "a": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    })
+
+    var expected = {
+      json: {
+        a: "string"
+      }
+    }
+
+    expect(sampleFromSchema(definition, { includeReadOnly: false })).toEqual(expected)
+  })
+
   it("returns object with no readonly fields for parameter", function () {
     var definition = {
       type: "object",
