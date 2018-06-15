@@ -16,6 +16,7 @@
     @import 'information';
     @import 'authorize';
     @import 'errors';
+    @import 'sidebar';
     @include text_body();
     @import 'split-pane-mode';
 }

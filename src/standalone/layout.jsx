@@ -1,7 +1,6 @@
-
-
 import React from "react"
 import PropTypes from "prop-types"
+import Sidebar from "../plugins/sidebar/sidebar"
 
 export default class StandaloneLayout extends React.Component {
 
@@ -12,11 +11,26 @@ export default class StandaloneLayout extends React.Component {
     specSelectors: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
-    getComponent: PropTypes.func.isRequired
+    getComponent: PropTypes.func.isRequired,
+    summary: PropTypes.string
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      summary: ""
+    }
   }
 
   render() {
-    let { getComponent, specSelectors, errSelectors } = this.props
+    let {
+      getComponent,
+      specSelectors,
+      errSelectors,
+      layoutSelectors,
+      getConfigs
+    } = this.props
 
     let Container = getComponent("Container")
     let Row = getComponent("Row")
@@ -35,6 +49,11 @@ export default class StandaloneLayout extends React.Component {
 
       <Container className='swagger-ui'>
         { Topbar ? <Topbar /> : null }
+        <Sidebar
+          specSelectors={specSelectors}
+          layoutSelectors={layoutSelectors}
+          getConfigs={getConfigs}
+        />
         { loadingStatus === "loading" &&
           <div className="info">
             <div className="loading-container">

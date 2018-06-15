@@ -27,7 +27,8 @@ export default class BaseLayout extends React.Component {
       getComponent,
       layoutSelectors,
       oas3Selectors,
-      oas3Actions
+      oas3Actions,
+      getConfigs
     } = this.props
 
     let info = specSelectors.info()
@@ -78,43 +79,6 @@ export default class BaseLayout extends React.Component {
     return (
 
       <div className='swagger-ui'>
-        {/* Start of Dor's code */}
-        {/*<a href="#topofpage" id="backToTop">Back to Top</a>*/}
-        <nav id="scrollingNav">
-          <div className="sidenav-search" id="searchBar">
-            <input className="form-control search" type="text" placeholder="Filter search..." id="searchInput"></input>
-            <span className="search-reset">x</span>
-          </div>
-          <div className="adjustSidebar">
-            <ul className="sidenav" id="sidenav">
-              <div id="errorMsg"></div>
-              <li id="1" className="nav-header"><a href="#operations-tag-pet">Pet</a></li>
-              <li id="2" className="is-new"><a href="#operations-pet-addPet">Add a new pet to the store</a></li>
-              <li id="3" className="is-new"><a href="#operations-pet-updatePet">Update an existing pet</a></li>
-              <li id="4" className="is-new"><a href="#operations-pet-findPetsByStatus">Find pet by status</a></li>
-              <li id="5" className="is-new"><a href="#operations-pet-findPetsByTags">Find pet by tags</a></li>
-              <li id="6" className="is-new"><a href="#operations-pet-getPetById">Find pet by ID</a></li>
-              <li id="7" className="is-new"><a href="#operations-pet-updatePetWithForm">Update a pet in the store with form data</a></li>
-              <li id="8" className="is-new"><a href="#operations-pet-deletePet">Delete a pet</a></li>
-              <li id="9" className="is-new"><a href="#operations-pet-uploadFile">Upload an image</a></li>
-              <li id="10" className="nav-header"><a href="#operations-tag-store">Store</a></li>
-              <li id="11" className="is-new"><a href="#operations-store-getInventory">Return pet inventories by status</a></li>
-              <li id="12" className="is-new"><a href="#operations-store-placeOrder">Place an order for a pet</a></li>
-              <li id="13" className="is-new"><a href="#operations-store-getOrderById">Find purchase order by ID</a></li>
-              <li id="14" className="is-new"><a href="#operations-store-deleteOrder">Delete purchase order by ID</a></li>
-              <li id="15" className="nav-header"><a href="#operations-tag-user">User</a></li>
-              <li id="16" className="is-new"><a href="#operations-user-createUser">Create User</a></li>
-              <li id="17" className="is-new"><a href="#operations-user-createUsersWithArrayInput">Create list of users with given input array</a></li>
-              <li id="18" className="is-new"><a href="#operations-user-createUsersWithListInput">Create list of users with given input array</a></li>
-              <li id="19" className="is-new"><a href="#operations-user-loginUser">Log user into the system</a></li>
-              <li id="20" className="is-new"><a href="#operations-user-logoutUser">Log out current logged in user session</a></li>
-              <li id="21" className="is-new"><a href="#operations-user-getUserByName">Get user by username</a></li>
-              <li id="22" className="is-new"><a href="#operations-user-updateUser">Update user</a></li>
-              <li id="23" className="is-new"><a href="#operations-user-deleteUser">Delete user</a></li>
-            </ul>
-          </div>
-        </nav>
-        {/* End of Dor's code */}
           <div style={{marginLeft: "270px"}}>
             <Errors/>
             <Row className="information-container">
