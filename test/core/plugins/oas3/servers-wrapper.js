@@ -4,11 +4,11 @@ import React from "react"
 import expect from "expect"
 import { mount } from "enzyme"
 import { fromJS } from "immutable"
-import ServersWrapper from "core/plugins/oas3/components/servers-wrapper"
+import ServersContainer from "core/plugins/oas3/components/servers-container"
 import Servers from "core/plugins/oas3/components/servers"
 import { Col } from "components/layout-utils"
 
-describe("<ServersWrapper/>", function(){
+describe("<ServersContainer/>", function(){
 
   const components = {
     Servers,
@@ -30,7 +30,7 @@ describe("<ServersWrapper/>", function(){
     getComponent: c => components[c]
   }
 
-  it("renders Servers inside ServersWrapper if servers are provided", function(){
+  it("renders Servers inside ServersContainer if servers are provided", function(){
 
     // Given
     let props = {...mockedProps}
@@ -40,14 +40,14 @@ describe("<ServersWrapper/>", function(){
     props.oas3Selectors.selectedServer = function() {return "http://server1.com"}
 
     // When
-    let wrapper = mount(<ServersWrapper {...props}/>)
+    let wrapper = mount(<ServersContainer {...props}/>)
 
     // Then
     const renderedServers = wrapper.find(Servers)
     expect(renderedServers.length).toEqual(1)
   })
 
-  it("does not render Servers inside ServersWrapper if servers are empty", function(){
+  it("does not render Servers inside ServersContainer if servers are empty", function(){
 
     // Given
     let props = {...mockedProps}
@@ -55,20 +55,20 @@ describe("<ServersWrapper/>", function(){
     props.specSelectors.servers = function() {return fromJS([])}
 
     // When
-    let wrapper = mount(<ServersWrapper {...props}/>)
+    let wrapper = mount(<ServersContainer {...props}/>)
 
     // Then
     const renderedServers = wrapper.find(Servers)
     expect(renderedServers.length).toEqual(0)
   })
 
-  it("does not render Servers inside ServersWrapper if servers are undefined", function(){
+  it("does not render Servers inside ServersContainer if servers are undefined", function(){
 
     // Given
     let props = {...mockedProps}
 
     // When
-    let wrapper = mount(<ServersWrapper {...props}/>)
+    let wrapper = mount(<ServersContainer {...props}/>)
 
     // Then
     const renderedServers = wrapper.find(Servers)

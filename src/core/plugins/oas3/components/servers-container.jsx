@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-export default class ServersWrapper extends React.Component {
+export default class ServersContainer extends React.Component {
 
   static propTypes = {
     specSelectors: PropTypes.object.isRequired,

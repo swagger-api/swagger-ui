@@ -22,7 +22,7 @@ export default class BaseLayout extends React.Component {
     let Models = getComponent("Models", true)
     let Row = getComponent("Row")
     let Col = getComponent("Col")
-    let ServersWrapper = getComponent("ServersWrapper", true)
+    let ServersContainer = getComponent("ServersContainer", true)
     let Errors = getComponent("errors", true)
 
     const SchemesContainer = getComponent("SchemesContainer", true)
@@ -62,7 +62,7 @@ export default class BaseLayout extends React.Component {
 
             <SchemesContainer/>
 
-            <ServersWrapper/>
+            <ServersContainer/>
 
             <Filter/>
 
