@@ -57,7 +57,7 @@ import Filter from "core/components/filter"
 import ParamBody from "core/components/param-body"
 import Curl from "core/components/curl"
 import Schemes from "core/components/schemes"
-import SchemesWrapper from "core/components/schemes-wrapper"
+import SchemesContainer from "core/containers/schemes-container"
 import ModelCollapse from "core/components/model-collapse"
 import ModelExample from "core/components/model-example"
 import ModelWrapper from "core/components/model-wrapper"
@@ -118,7 +118,7 @@ export default function() {
       ParamBody: ParamBody,
       curl: Curl,
       schemes: Schemes,
-      SchemesWrapper,
+      SchemesContainer,
       modelExample: ModelExample,
       ModelWrapper,
       ModelCollapse,

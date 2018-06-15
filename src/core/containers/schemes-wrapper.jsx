@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-export default class SchemesWrapper extends React.Component {
+export default class SchemesContainer extends React.Component {
 
   static propTypes = {
     specActions: PropTypes.object.isRequired,

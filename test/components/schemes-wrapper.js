@@ -4,11 +4,11 @@ import React from "react"
 import expect from "expect"
 import { mount, render } from "enzyme"
 import { fromJS } from "immutable"
-import SchemesWrapper from "components/schemes-wrapper"
+import SchemesContainer from "containers/schemes-container"
 import Schemes from "components/schemes"
 import { Col } from "components/layout-utils"
 
-describe("<SchemesWrapper/>", function(){
+describe("<SchemesContainer/>", function(){
 
   const components = {
     schemes: Schemes,
@@ -43,7 +43,7 @@ describe("<SchemesWrapper/>", function(){
     }
   }
 
-  it("renders Schemes inside SchemesWrapper if schemes are provided", function(){
+  it("renders Schemes inside SchemesContainer if schemes are provided", function(){
 
     // Given
     let props = {...mockedProps}
@@ -52,7 +52,7 @@ describe("<SchemesWrapper/>", function(){
     props.specSelectors.schemes = function() {return fromJS(["http", "https"])}
 
     // When
-    let wrapper = mount(<SchemesWrapper {...props}/>)
+    let wrapper = mount(<SchemesContainer {...props}/>)
 
     // Then
     const renderedSchemes = wrapper.find(Schemes)
@@ -67,7 +67,7 @@ describe("<SchemesWrapper/>", function(){
     props.specSelectors.schemes = function() {return fromJS([])}
 
     // When
-    let wrapper = mount(<SchemesWrapper {...props}/>)
+    let wrapper = mount(<SchemesContainer {...props}/>)
 
     // Then
     const renderedSchemes = wrapper.find(Schemes)
@@ -82,14 +82,14 @@ describe("<SchemesWrapper/>", function(){
     props.specSelectors.schemes = function() {return undefined}
 
     // When
-    let wrapper = mount(<SchemesWrapper {...props}/>)
+    let wrapper = mount(<SchemesContainer {...props}/>)
 
     // Then
     const renderedSchemes = wrapper.find(Schemes)
     expect(renderedSchemes.length).toEqual(0)
   })
 
-  it("renders AuthorizeBtn inside SchemesWrapper if security definition is provided", function(){
+  it("renders AuthorizeBtn inside SchemesContainer if security definition is provided", function(){
 
     // Given
     let props = {...mockedProps}
@@ -97,7 +97,7 @@ describe("<SchemesWrapper/>", function(){
     props.specSelectors.securityDefinitions = function () {return fromJS(twoSecurityDefinitions)}
 
     // When
-    let wrapper = render(<SchemesWrapper {...props}/>)
+    let wrapper = render(<SchemesContainer {...props}/>)
 
     // Then
     const renderedAuthorizeBtn = wrapper.find("span.mocked-button")
@@ -110,7 +110,7 @@ describe("<SchemesWrapper/>", function(){
     let props = {...mockedProps}
 
     // When
-    let wrapper = render(<SchemesWrapper {...props}/>)
+    let wrapper = render(<SchemesContainer {...props}/>)
 
     // Then
     const renderedAuthorizeBtn = wrapper.find("span.mocked-button")

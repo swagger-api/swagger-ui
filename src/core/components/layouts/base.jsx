@@ -25,7 +25,7 @@ export default class BaseLayout extends React.Component {
     let ServersWrapper = getComponent("ServersWrapper", true)
     let Errors = getComponent("errors", true)
 
-    const SchemesWrapper = getComponent("SchemesWrapper", true)
+    const SchemesContainer = getComponent("SchemesContainer", true)
     const Filter = getComponent("Filter", true)
     let isSwagger2 = specSelectors.isSwagger2()
     let isOAS3 = specSelectors.isOAS3()
@@ -60,7 +60,7 @@ export default class BaseLayout extends React.Component {
               </Col>
             </Row>
 
-            <SchemesWrapper/>
+            <SchemesContainer/>
 
             <ServersWrapper/>
 
