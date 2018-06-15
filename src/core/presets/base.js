@@ -51,13 +51,13 @@ import Info, {
   InfoUrl,
   InfoBasePath
 } from "core/components/info"
-import InfoContainer from "containers/info"
+import InfoContainer from "core/containers/info"
 import Footer from "core/components/footer"
 import FilterContainer from "core/containers/filter"
 import ParamBody from "core/components/param-body"
 import Curl from "core/components/curl"
 import Schemes from "core/components/schemes"
-import SchemesContainer from "containers/schemes"
+import SchemesContainer from "core/containers/schemes"
 import ModelCollapse from "core/components/model-collapse"
 import ModelExample from "core/components/model-example"
 import ModelWrapper from "core/components/model-wrapper"
