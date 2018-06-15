@@ -19,6 +19,10 @@
           "src": "src/core/components"
         },
         {
+          "expose": "containers",
+          "src": "src/core/containers"
+        },
+        {
           "expose": "core",
           "src": "src/core"
         },
