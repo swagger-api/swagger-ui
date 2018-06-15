@@ -51,7 +51,7 @@ import Info, {
   InfoUrl,
   InfoBasePath
 } from "core/components/info"
-import InfoWrapper from "core/components/info-wrapper"
+import InfoContainer from "core/containers/info-container"
 import Footer from "core/components/footer"
 import Filter from "core/components/filter"
 import ParamBody from "core/components/param-body"
@@ -98,7 +98,7 @@ export default function() {
       clear: Clear,
       liveResponse: LiveResponse,
       info: Info,
-      InfoWrapper,
+      InfoContainer,
       onlineValidatorBadge: OnlineValidatorBadge,
       operations: Operations,
       operation: Operation,

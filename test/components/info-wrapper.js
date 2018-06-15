@@ -4,9 +4,9 @@ import React from "react"
 import expect from "expect"
 import { mount } from "enzyme"
 import { fromJS } from "immutable"
-import InfoWrapper from "components/info-wrapper"
+import InfoContainer from "containers/info-container"
 
-describe("<InfoWrapper/>", function () {
+describe("<InfoContainer/>", function () {
 
   const components = {
     info: () => <span className="mocked-info"/>
@@ -22,7 +22,7 @@ describe("<InfoWrapper/>", function () {
     getComponent: c => components[c]
   }
 
-  it("renders Info inside InfoWrapper if info is provided", function () {
+  it("renders Info inside InfoContainer if info is provided", function () {
 
     // Given
     let props = {...mockedProps}
@@ -30,14 +30,14 @@ describe("<InfoWrapper/>", function () {
     props.specSelectors.info = function () {return fromJS(["info1", "info2"])}
 
     // When
-    let wrapper = mount(<InfoWrapper {...props}/>)
+    let wrapper = mount(<InfoContainer {...props}/>)
 
     // Then
     const renderedInfo = wrapper.find("span.mocked-info")
     expect(renderedInfo.length).toEqual(1)
   })
 
-  it("does not render Info inside InfoWrapper if no info is provided", function () {
+  it("does not render Info inside InfoContainer if no info is provided", function () {
 
     // Given
     let props = {...mockedProps}
@@ -45,20 +45,20 @@ describe("<InfoWrapper/>", function () {
     props.specSelectors.info = function () {return fromJS([])}
 
     // When
-    let wrapper = mount(<InfoWrapper {...props}/>)
+    let wrapper = mount(<InfoContainer {...props}/>)
 
     // Then
     const renderedInfo = wrapper.find("span.mocked-info")
     expect(renderedInfo.length).toEqual(0)
   })
 
-  it("does not render Info inside InfoWrapper if info is undefined", function () {
+  it("does not render Info inside InfoContainer if info is undefined", function () {
 
     // Given
     let props = {...mockedProps}
 
     // When
-    let wrapper = mount(<InfoWrapper {...props}/>)
+    let wrapper = mount(<InfoContainer {...props}/>)
 
     // Then
     const renderedInfo = wrapper.find("span.mocked-info")

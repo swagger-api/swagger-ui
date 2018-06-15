@@ -16,7 +16,7 @@ export default class BaseLayout extends React.Component {
     let {specSelectors, getComponent} = this.props
 
     let SvgAssets = getComponent("SvgAssets")
-    let InfoWrapper = getComponent("InfoWrapper", true)
+    let InfoContainer = getComponent("InfoContainer", true)
     let VersionPragmaFilter = getComponent("VersionPragmaFilter")
     let Operations = getComponent("operations", true)
     let Models = getComponent("Models", true)
@@ -56,7 +56,7 @@ export default class BaseLayout extends React.Component {
             <Errors/>
             <Row className="information-container">
               <Col mobile={12}>
-                <InfoWrapper/>
+                <InfoContainer/>
               </Col>
             </Row>
 

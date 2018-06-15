@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-export default class InfoWrapper extends React.Component {
+export default class InfoContainer extends React.Component {
 
   static propTypes = {
     specActions: PropTypes.object.isRequired,
