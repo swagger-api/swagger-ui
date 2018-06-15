@@ -53,7 +53,7 @@ import Info, {
 } from "core/components/info"
 import InfoContainer from "containers/info"
 import Footer from "core/components/footer"
-import Filter from "core/components/filter"
+import FilterContainer from "core/containers/filter"
 import ParamBody from "core/components/param-body"
 import Curl from "core/components/curl"
 import Schemes from "core/components/schemes"
@@ -114,7 +114,7 @@ export default function() {
       contentType: ContentType,
       overview: Overview,
       footer: Footer,
-      Filter,
+      FilterContainer,
       ParamBody: ParamBody,
       curl: Curl,
       schemes: Schemes,

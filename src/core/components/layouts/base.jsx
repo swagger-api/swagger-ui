@@ -26,7 +26,7 @@ export default class BaseLayout extends React.Component {
     let Errors = getComponent("errors", true)
 
     const SchemesContainer = getComponent("SchemesContainer", true)
-    const Filter = getComponent("Filter", true)
+    const FilterContainer = getComponent("FilterContainer", true)
     let isSwagger2 = specSelectors.isSwagger2()
     let isOAS3 = specSelectors.isOAS3()
 
@@ -64,7 +64,7 @@ export default class BaseLayout extends React.Component {
 
             <ServersContainer/>
 
-            <Filter/>
+            <FilterContainer/>
 
             <Row>
               <Col mobile={12} desktop={12} >

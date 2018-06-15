@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-export default class Filter extends React.Component {
+export default class FilterContainer extends React.Component {
 
   static propTypes = {
     specSelectors: PropTypes.object.isRequired,
