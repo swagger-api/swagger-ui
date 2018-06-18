@@ -83,6 +83,7 @@
     "scroll-to-element": "^2.0.0",
     "serialize-error": "2.0.0",
     "shallowequal": "0.2.2",
+    "styled-components": "^3.3.2",
     "swagger-client": "^3.5.1",
     "url-parse": "^1.1.8",
     "whatwg-fetch": "0.11.1",

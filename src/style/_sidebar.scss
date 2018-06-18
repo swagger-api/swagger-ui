@@ -81,33 +81,10 @@ body {
     font-size: 12px;
 }
 
-#backToTop {
-    position: fixed;
-    top: 20px;
-    left: 74px;
-    display: none;
-    z-index: 99;
-    font-size: 15px;
-    border: none;
-    outline: none;
-    background-color: #337ab7;
-    color: white;
-    cursor: pointer;
-    padding: 9px;
-    border-radius: 11px;
-    text-decoration: none;
-}
-
-#backToTop:hover {
-    background-color: #2669a2;
-    transition-duration: 0.20s;
-}
-
 .sidenav-search {
     top: 7px;
     left: 0px;
     position: fixed;
-    padding: 16px 20px 10px 20px;
     background-color: #F5F5F5;
     z-index: 11;
     width: 250px;
@@ -115,8 +92,9 @@ body {
 
 .sidenav-search .search {
     height: 26px;
-    margin: 0;
+    margin: 16px 20px 10px 20px;
     max-width: none;
+    width: 207px;
     font-size: 12.5px;
     font-family: 'Open Sans', sans-serif;
 }

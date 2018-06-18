@@ -1,25 +1,56 @@
 import React from 'react'
 import { createDeepLinkPath, sanitizeUrl } from "core/utils"
 import Im from "immutable"
+import styled from 'styled-components';
+
+const SearchBarElement = styled.div`
+  display: ${props => !props.visible ? 'none': ''}
+`;
 
 export default class Sidebar extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      paths: []
-    };
+  constructor(props) {
+    super(props);
+    this.state = {showSearchBar: false}
+    this.searchFunction= this.searchFunction.bind(this);
+    this.resetSearch = this.resetSearch.bind(this);
   }
 
   componentDidMount() {
-    fetch('http://petstore.swagger.io/v2/swagger.json')
-    .then(result => {
-      return result.json()
+    window.addEventListener('scroll', () => {
+      this.setState({showSearchBar: document.documentElement.scrollTop > 55})
     })
-    .then(data => {
-      this.setState({
-        paths: data.tags
-      })
-    })
+  }
+
+  searchFunction() {
+    var errorMsg, filter, li, a, i, noneCt = 0;
+    errorMsg = document.getElementById("errorMsg");
+    filter = document.getElementById("searchInput").value.toUpperCase();
+    li = document.getElementById("sidenav").getElementsByTagName("li");
+    for (i = 0; i < li.length; i++) {
+      a = li[i].getElementsByTagName("a")[0];
+      if (a.innerHTML.toUpperCase().indexOf(filter) > -1)
+          li[i].style.display = "";
+      else {
+        li[i].style.display = "none";
+        noneCt++;
+      }
+    }
+    if (noneCt == li.length) {
+      errorMsg.innerHTML = "No results for \"" + document.getElementById("searchInput").value + "\".";
+      errorMsg.style.display = "block";
+    }
+    else
+      errorMsg.style.display = "none";
+  }
+
+  resetSearch() {
+    var errorMsg, li;
+    document.getElementById("errorMsg").style.display = "none";
+    $('#scrollingNav .sidenav-search input.search').val('').focus();
+    li = document.getElementById("sidenav").getElementsByTagName("li");
+    for (var i = 0; i < li.length; i++) {
+      li[i].style.display = "";
+    }
   }
 
   render() {
@@ -49,17 +80,16 @@ export default class Sidebar extends React.Component {
 
     return (
       <nav id="scrollingNav">
-        <div className="sidenav-search" id="searchBar">
-          <input className="form-control search" type="text" placeholder="Filter search..." id="searchInput"></input>
-          <span className="search-reset">x</span>
-        </div>
+        <SearchBarElement visible={this.state.showSearchBar} className="sidenav-search">
+          <input className="search" type="text" placeholder="Filter search..." onKeyUp={this.searchFunction} id="searchInput"></input>
+          <span className="search-reset" onClick={this.resetSearch}>x</span>
+        </SearchBarElement>
         <div className="adjustSidebar">
           <ul className="sidenav" id="sidenav">
             <div id="errorMsg"></div>
             {
               taggedOps.map((tagObj, tag) => {
                 let operations = tagObj.get("operations")
-                console.log(tag)
                 let headerRef = ["operations-tag", createDeepLinkPath(tag)]
                 return (
                   <div className="header">

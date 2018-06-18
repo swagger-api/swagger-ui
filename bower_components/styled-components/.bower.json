@@ -1,0 +1,14 @@
+{
+  "name": "styled-components",
+  "_cacheHeaders": {
+    "ETag": "W/\"ae76-163c9577c80\"",
+    "Last-Modified": "Mon, 04 Jun 2018 05:49:04 GMT",
+    "Content-Type": "application/javascript; charset=utf-8"
+  },
+  "_release": "e-tag:W/\"ae76-16",
+  "main": "index.js",
+  "_source": "https://unpkg.com/styled-components/dist/styled-components.min.js",
+  "_target": "*",
+  "_originalSource": "https://unpkg.com/styled-components/dist/styled-components.min.js",
+  "_direct": true
+}
