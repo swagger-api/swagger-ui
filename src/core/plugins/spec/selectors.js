@@ -294,34 +294,42 @@ export const allowTryItOutFor = () => {
   return true
 }
 
+export const parameterWithMetaByIdentity = (state, pathMethod, param) => {
+  const opParams = specJsonWithResolvedSubtrees(state).getIn(["paths", ...pathMethod, "parameters"], Map())
+  const metaParams = state.getIn(["meta", "paths", ...pathMethod, "parameters"], Map())
+
+  const mergedParams = opParams.map((currentParam) => {
+    const nameInKeyedMeta = metaParams.get(`${param.get("name")}.${param.get("in")}`)
+    const hashKeyedMeta = metaParams.get(`${param.get("name")}.${param.get("in")}.hash-${param.hashCode()}`)
+    return Map().merge(
+      currentParam,
+      nameInKeyedMeta,
+      hashKeyedMeta
+    )
+  })
+
+  return mergedParams.find(curr => curr.get("in") === param.get("in") && curr.get("name") === param.get("name"), Map())
+}
+
+
+export const parameterWithMeta = (state, pathMethod, paramName, paramIn) => {
+  const opParams = specJsonWithResolvedSubtrees(state).getIn(["paths", ...pathMethod, "parameters"], Map())
+  const currentParam = opParams.find(param => param.get("in") === paramIn && param.get("name") === paramName, Map())
+
+  return parameterWithMetaByIdentity(state, pathMethod, currentParam)
+}
+
 export const operationWithMeta = (state, path, method) => {
   const op = specJsonWithResolvedSubtrees(state).getIn(["paths", path, method], Map())
   const meta = state.getIn(["meta", "paths", path, method], Map())
 
   const mergedParams = op.get("parameters", List()).map((param) => {
-    return Map().merge(
-      param,
-      meta.getIn(["parameters", `${param.get("name")}.${param.get("in")}`])
-    )
+    return parameterWithMetaByIdentity(state, [path, method], param)
   })
 
   return Map()
     .merge(op, meta)
     .set("parameters", mergedParams)
-}
-
-export const parameterWithMeta = (state, pathMethod, paramName, paramIn) => {
-  const opParams = specJsonWithResolvedSubtrees(state).getIn(["paths", ...pathMethod, "parameters"], Map())
-  const metaParams = state.getIn(["meta", "paths", ...pathMethod, "parameters"], Map())
-
-  const mergedParams = opParams.map((param) => {
-    return Map().merge(
-      param,
-      metaParams.get(`${param.get("name")}.${param.get("in")}`)
-    )
-  })
-
-  return mergedParams.find(param => param.get("in") === paramIn && param.get("name") === paramName, Map())
 }
 
 // Get the parameter value by parameter name
