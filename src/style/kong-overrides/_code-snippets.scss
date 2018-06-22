@@ -37,18 +37,18 @@ a.tablinks {
 .model {
   color: white;
   .model-title__text {
-    color: white;
+    color: #ccc;
     font-size: 14px;
   }
 }
 
 .swagger-ui table.model tbody tr td:first-of-type{
-  width: 0 !important;
+  width: 50px !important;
   padding: 0 !important; 
 }
 
 .swagger-ui {
   .prop-type {
-    color: #f8c555 !important;
+    color: #cc99cd !important;
   }
 }
