@@ -47,11 +47,11 @@ class Parameters extends Component {
 
   onChange = ( param, value, isXml ) => {
     let {
-      specActions: { changeParam },
+      specActions: { changeParamByIdentity },
       onChangeKey,
     } = this.props
 
-    changeParam( onChangeKey, param.get("name"), param.get("in"), value, isXml)
+    changeParamByIdentity( onChangeKey, param.get("name"), param.get("in"), value, isXml)
   }
 
   onChangeConsumesWrapper = ( val ) => {
