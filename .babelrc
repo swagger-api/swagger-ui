@@ -41,10 +41,6 @@
         {
           "expose": "less",
           "src": "src/less"
-        },
-        {
-          "expose": "base",
-          "src": "npm:getbase/src/less/base"
         }
       ]
     ]
