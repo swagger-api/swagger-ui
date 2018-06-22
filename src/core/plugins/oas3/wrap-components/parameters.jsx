@@ -47,11 +47,11 @@ class Parameters extends Component {
 
   onChange = ( param, value, isXml ) => {
     let {
-      specActions: { changeParam },
+      specActions: { changeParamByIdentity },
       onChangeKey,
     } = this.props
 
-    changeParam( onChangeKey, param.get("name"), param.get("in"), value, isXml)
+    changeParamByIdentity( onChangeKey, param, value, isXml)
   }
 
   onChangeConsumesWrapper = ( val ) => {
@@ -145,7 +145,8 @@ class Parameters extends Component {
                         getComponent={ getComponent }
                         specPath={specPath.push(i)}
                         getConfigs={ getConfigs }
-                        param={ parameter }
+                        rawParam={ parameter }
+                        param={ specSelectors.parameterWithMetaByIdentity(pathMethod, parameter) }
                         key={ parameter.get( "name" ) }
                         onChange={ this.onChange }
                         onChangeConsumes={this.onChangeConsumesWrapper}

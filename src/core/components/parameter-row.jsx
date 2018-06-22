@@ -9,6 +9,7 @@ export default class ParameterRow extends Component {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
     param: PropTypes.object.isRequired,
+    rawParam: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
     fn: PropTypes.object.isRequired,
     isExecute: PropTypes.bool,
@@ -30,7 +31,7 @@ export default class ParameterRow extends Component {
     let { isOAS3 } = specSelectors
 
     let example = param.get("example")
-    let parameter = specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in")) || param
+    let parameter = specSelectors.parameterWithMetaByIdentity(pathMethod, param) || param
     let enumValue
 
     if(isOAS3()) {
@@ -56,9 +57,9 @@ export default class ParameterRow extends Component {
     }
   }
 
-  onChangeWrapper = (value) => {
-    let { onChange, param } = this.props
-    return onChange(param, value)
+  onChangeWrapper = (value, isXml = false) => {
+    let { onChange, rawParam } = this.props
+    return onChange(rawParam, value, isXml)
   }
 
   setDefaultValue = () => {
@@ -72,7 +73,7 @@ export default class ParameterRow extends Component {
 
     let defaultValue = schema.get("default")
     let xExampleValue = param.get("x-example") // Swagger 2 only
-    let parameter = specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in"))
+    let parameter = specSelectors.parameterWithMetaByIdentity(pathMethod, param)
     let value = parameter ? parameter.get("value") : ""
 
     if( param.get("in") !== "body" ) {
@@ -85,7 +86,7 @@ export default class ParameterRow extends Component {
   }
 
   render() {
-    let {param, onChange, getComponent, getConfigs, isExecute, fn, onChangeConsumes, specSelectors, pathMethod, specPath} = this.props
+    let {param, rawParam, getComponent, getConfigs, isExecute, fn, onChangeConsumes, specSelectors, pathMethod, specPath} = this.props
 
     let { isOAS3 } = specSelectors
 
@@ -101,7 +102,7 @@ export default class ParameterRow extends Component {
                    param={param}
                    consumes={ specSelectors.operationConsumes(pathMethod) }
                    consumesValue={ specSelectors.contentTypeValues(pathMethod).get("requestContentType") }
-                   onChange={onChange}
+                   onChange={this.onChangeWrapper}
                    onChangeConsumes={onChangeConsumes}
                    isExecute={ isExecute }
                    specSelectors={ specSelectors }
@@ -112,7 +113,7 @@ export default class ParameterRow extends Component {
     const Markdown = getComponent("Markdown")
     const ParameterExt = getComponent("ParameterExt")
 
-    let paramWithMeta = specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in"))
+    let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam)
     let format = param.get("format")
     let schema = isOAS3 && isOAS3() ? param.get("schema") : param
     let type = schema.get("type")
