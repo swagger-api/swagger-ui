@@ -145,7 +145,8 @@ class Parameters extends Component {
                         getComponent={ getComponent }
                         specPath={specPath.push(i)}
                         getConfigs={ getConfigs }
-                        param={ parameter }
+                        rawParam={ parameter }
+                        param={ specSelectors.parameterWithMetaByIdentity(pathMethod, parameter) }
                         key={ parameter.get( "name" ) }
                         onChange={ this.onChange }
                         onChangeConsumes={this.onChangeConsumesWrapper}
