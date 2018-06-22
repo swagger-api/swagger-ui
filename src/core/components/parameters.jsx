@@ -40,7 +40,7 @@ export default class Parameters extends Component {
       onChangeKey,
     } = this.props
 
-    changeParamByIdentity( onChangeKey, param.get("name"), param.get("in"), value, isXml)
+    changeParamByIdentity(onChangeKey, param, value, isXml)
   }
 
   onChangeConsumesWrapper = ( val ) => {
