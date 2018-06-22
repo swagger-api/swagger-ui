@@ -141,9 +141,7 @@ module.exports = function(rules, options) {
         "node_modules"
       ],
       extensions: [".web.js", ".js", ".jsx", ".json", ".less"],
-      alias: {
-        base: "getbase/src/less/base",
-      }
+      alias: {}
     },
 
   devtool: specialOptions.sourcemaps ? "nosource-source-map" : false,
