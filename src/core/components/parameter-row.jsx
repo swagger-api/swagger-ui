@@ -57,7 +57,7 @@ export default class ParameterRow extends Component {
     }
   }
 
-  onChangeWrapper = (value, isXml) => {
+  onChangeWrapper = (value, isXml = false) => {
     let { onChange, rawParam } = this.props
     return onChange(rawParam, value, isXml)
   }
