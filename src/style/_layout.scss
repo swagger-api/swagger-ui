@@ -105,9 +105,19 @@
 {
     font-size: 12px;
 
-    padding: 5px 0;
+    float: left;
+    margin-left: 5px;
+    color: green;
 
     @include text_code();
+}
+
+.parameter__type:before {
+    content: "{";
+}
+
+.parameter__type:after {
+    content: "}";
 }
 
 .view-line-link
