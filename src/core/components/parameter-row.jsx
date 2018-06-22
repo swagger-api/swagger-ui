@@ -86,7 +86,7 @@ export default class ParameterRow extends Component {
   }
 
   render() {
-    let {param, getComponent, getConfigs, isExecute, fn, onChangeConsumes, specSelectors, pathMethod, specPath} = this.props
+    let {param, rawParam, getComponent, getConfigs, isExecute, fn, onChangeConsumes, specSelectors, pathMethod, specPath} = this.props
 
     let { isOAS3 } = specSelectors
 
@@ -113,7 +113,7 @@ export default class ParameterRow extends Component {
     const Markdown = getComponent("Markdown")
     const ParameterExt = getComponent("ParameterExt")
 
-    let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, param)
+    let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam)
     let format = param.get("format")
     let schema = isOAS3 && isOAS3() ? param.get("schema") : param
     let type = schema.get("type")
