@@ -47,10 +47,9 @@ export default class ParamBody extends PureComponent {
 
   updateValues = (props) => {
     let { specSelectors, pathMethod, param, isExecute, consumesValue="" } = props
-    let parameter = (specSelectors ? specSelectors.parameterWithMetaByIdentity(pathMethod, param) : fromJS({})) || param
     let isXml = /xml/i.test(consumesValue)
     let isJson = /json/i.test(consumesValue)
-    let paramValue = isXml ? parameter.get("value_xml") : parameter.get("value")
+    let paramValue = isXml ? param.get("value_xml") : param.get("value")
 
     if ( paramValue !== undefined ) {
       let val = !paramValue && isJson ? "{}" : paramValue
@@ -79,7 +78,7 @@ export default class ParamBody extends PureComponent {
     this._onChange(value, isXml)
   }
 
-  _onChange = (val, isXml) => { (this.props.onChange || NOOP)(this.props.param, val, isXml) }
+  _onChange = (val, isXml) => { (this.props.onChange || NOOP)(val, isXml) }
 
   handleOnChange = e => {
     const {consumesValue} = this.props

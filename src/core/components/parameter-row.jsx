@@ -9,6 +9,7 @@ export default class ParameterRow extends Component {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
     param: PropTypes.object.isRequired,
+    rawParam: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
     fn: PropTypes.object.isRequired,
     isExecute: PropTypes.bool,
@@ -56,9 +57,9 @@ export default class ParameterRow extends Component {
     }
   }
 
-  onChangeWrapper = (value) => {
-    let { onChange, param } = this.props
-    return onChange(param, value)
+  onChangeWrapper = (value, isXml) => {
+    let { onChange, rawParam } = this.props
+    return onChange(rawParam, value, isXml)
   }
 
   setDefaultValue = () => {
@@ -101,7 +102,7 @@ export default class ParameterRow extends Component {
                    param={param}
                    consumes={ specSelectors.operationConsumes(pathMethod) }
                    consumesValue={ specSelectors.contentTypeValues(pathMethod).get("requestContentType") }
-                   onChange={onChange}
+                   onChange={this.onChangeWrapper}
                    onChangeConsumes={onChangeConsumes}
                    isExecute={ isExecute }
                    specSelectors={ specSelectors }
