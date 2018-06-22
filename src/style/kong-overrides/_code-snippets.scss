@@ -29,3 +29,25 @@ pre[class*=language-] {
   border-radius: .3em;
   white-space: normal
 }
+
+a.tablinks {
+  color: white
+}
+
+.model {
+  color: white;
+  .model-title__text {
+    color: white;
+  }
+}
+
+.swagger-ui table.model tbody tr td:first-of-type {
+  width: 0;
+  padding: 0;
+}
+
+.swagger-ui {
+  .prop-type {
+    color: #f8c555;
+  }
+}
