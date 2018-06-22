@@ -53,7 +53,7 @@ export default {
   [UPDATE_PARAM]: ( state, {payload} ) => {
     let { path: pathMethod, paramName, paramIn, param, value, isXml } = payload
 
-    let paramKey;
+    let paramKey
 
     // `hashCode` is an Immutable.js Map method
     if(param && param.hashCode && !paramIn && !paramName) {

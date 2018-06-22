@@ -46,7 +46,7 @@ export default class ParamBody extends PureComponent {
   }
 
   updateValues = (props) => {
-    let { specSelectors, pathMethod, param, isExecute, consumesValue="" } = props
+    let { param, isExecute, consumesValue="" } = props
     let isXml = /xml/i.test(consumesValue)
     let isJson = /json/i.test(consumesValue)
     let paramValue = isXml ? param.get("value_xml") : param.get("value")

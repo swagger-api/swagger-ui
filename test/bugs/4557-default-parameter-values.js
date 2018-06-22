@@ -23,7 +23,7 @@ describe("bug #4557: default parameter values", function(){
       },
       fn: {},
       operation: {get: ()=>{}},
-      onChange: createSpy(...args => console.log(args)).andCallThrough(),
+      onChange: createSpy(),
       param: paramValue,
       rawParam: paramValue,
       onChangeConsumes: () => {},
