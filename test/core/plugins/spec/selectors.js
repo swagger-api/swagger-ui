@@ -457,7 +457,7 @@ describe("spec plugin - selectors", function(){
     })
   })
 
-  describe.only("operationWithMeta", function() {
+  describe("operationWithMeta", function() {
     it("should support merging in name+in keyed param metadata", function () {
       const state = fromJS({
         json: {
@@ -547,7 +547,7 @@ describe("spec plugin - selectors", function(){
       })
     })
   })
-  describe.only("parameterWithMeta", function() {
+  describe("parameterWithMeta", function() {
     it("should support merging in name+in keyed param metadata", function () {
       const state = fromJS({
         json: {
@@ -630,7 +630,7 @@ describe("spec plugin - selectors", function(){
     })
 
   })
-  describe.only("parameterWithMetaByIdentity", function() {
+  describe("parameterWithMetaByIdentity", function() {
     it("should support merging in name+in keyed param metadata", function () {
       const bodyParam = fromJS({
         name: "body",
