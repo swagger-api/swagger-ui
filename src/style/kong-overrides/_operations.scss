@@ -110,7 +110,7 @@
         }
       }
 
-      .body-param {
+      .body-param, .model-box {
         background: $lightGry;
         border: 1px solid #E6E6E6;
         border-radius: 3px;
@@ -269,5 +269,9 @@
   }
   @media only screen and (max-width: 1600px) {
     max-width: 450px;
+  }
+
+  .tablinks {
+    color: white;
   }
 }
