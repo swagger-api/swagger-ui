@@ -1,6 +1,7 @@
 
 
 import React from "react"
+import Topbar from "plugins/topbar"
 import PropTypes from "prop-types"
 
 // import OnlineValidatorBadge from "../kongComponents/online-validator-badge"

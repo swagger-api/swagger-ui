@@ -133,6 +133,7 @@ export default function () {
       TryItOutButton,
       Markdown,
       BaseLayout,
+      KongLayout,
       VersionPragmaFilter,
       VersionStamp,
       OperationExt,
