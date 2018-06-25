@@ -72,11 +72,32 @@ module.exports = function SwaggerUI(opts) {
     ],
 
     // Initial state
-    initialState: { },
+    initialState: {},
 
     // Inline Plugin
-    fn: { },
-    components: { },
+    fn: {},
+    components: {},
+    kong: {
+      languages:[
+        {
+          prismLanguage: 'bash',
+          target: 'shell',
+          client: 'curl'
+        },
+        {
+          prismLanguage: 'javascript',
+          target: 'javascript',
+          client: 'xhr'
+        },
+        {
+          prismLanguage: 'python',
+          target: 'python'
+        },{
+          prismLanguage: 'ruby',
+          target: 'ruby'
+        }
+      ]
+    }
   }
 
   let queryConfig = parseSearch()
@@ -85,12 +106,12 @@ module.exports = function SwaggerUI(opts) {
   delete opts.domNode
 
   const constructorConfig = deepExtend({}, defaults, opts, queryConfig)
-
   const storeConfigs = {
     system: {
       configs: constructorConfig.configs
     },
     plugins: constructorConfig.presets,
+    explorer: constructorConfig.explorer,
     state: deepExtend({
       layout: {
         layout: constructorConfig.layout,
@@ -135,7 +156,7 @@ module.exports = function SwaggerUI(opts) {
     let mergedConfig = deepExtend({}, localConfig, constructorConfig, fetchedConfig || {}, queryConfig)
 
     // deep extend mangles domNode, we need to set it manually
-    if(domNode) {
+    if (domNode) {
       mergedConfig.domNode = domNode
     }
 
@@ -153,9 +174,9 @@ module.exports = function SwaggerUI(opts) {
       }
     }
 
-    if(mergedConfig.domNode) {
+    if (mergedConfig.domNode) {
       system.render(mergedConfig.domNode, "App")
-    } else if(mergedConfig.dom_id) {
+    } else if (mergedConfig.dom_id) {
       let domNode = document.querySelector(mergedConfig.dom_id)
       system.render(domNode, "App")
     } else if(mergedConfig.dom_id === null || mergedConfig.domNode === null) {

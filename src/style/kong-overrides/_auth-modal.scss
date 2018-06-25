@@ -1,0 +1,66 @@
+/*  Auth Modal
+========================================================================== */
+.modal-dialog-ux {
+  .modal-ux-header {
+    h3 {
+      font-weight: 400;
+      font-size: 20px;
+      text-transform: capitalize;
+    }
+    svg {
+      fill: #B5B5B5;
+    }
+  }
+  .modal-ux-content {
+    padding: 0;
+    p {
+      margin-bottom: 1rem;
+      font-size: 15px;
+      @extend .black70;
+    }
+    .scope-def {
+      padding: 0;
+    }
+    .auth-block {
+      padding: 1rem;
+      border-radius: 3px;
+      border: 1px solid rgba($black, .08);
+      background: #FAFAFA;
+      h4 {
+        font-size: 1rem;
+        font-weight: 500;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba($black, .08);
+      }
+      h2, p {
+        font-size: 13px;
+        font-weight: 500;
+        margin-bottom: 1rem;
+        @extend .black70;
+      }
+      code {
+        display: block;
+        font-weight: 400;
+        font-size: 14px;
+        font-family: "Roboto Mono", monospace;
+      }
+      .wrapper {
+        flex-direction: column;
+      }
+      .checkbox {
+        margin-bottom: 10px;
+        padding-top: 10px;
+        border-top: 1px solid rgba(0,0,0,.08);
+        border-bottom: 1px solid rgba(0,0,0,.08);
+        &:last-child {
+          border-top: 0;
+        }
+        input[type=checkbox] + label > .item {background-color:#fff;}
+      }
+    }
+    .auth-btn-wrapper {
+      justify-content: left;
+    }
+  }
+}

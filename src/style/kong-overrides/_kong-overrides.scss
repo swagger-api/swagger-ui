@@ -1,0 +1,13 @@
+@import "kong-colors";
+@import "kong-defaults";
+@import "swagger-defaults";
+@import "operations";
+@import "auth-modal";
+
+/*  Animation
+========================================================================== */
+@keyframes fade {
+  to {
+    opacity: 1;
+  }
+}

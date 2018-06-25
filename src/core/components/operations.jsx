@@ -105,8 +105,27 @@ export default class Operations extends React.Component {
             }).toArray()
           }
 
-          { taggedOps.size < 1 ? <h3> No operations defined in spec! </h3> : null }
-        </div>
+                {
+                  operations.map(op => {
+                    const path = op.get("path")
+                    const method = op.get("method")
+
+                    return <OperationContainer
+                      key={`${path}-${method}`}
+                      op={op}
+                      path={path}
+                      method={method}
+                      tag={tag}
+                    />
+                  }).toArray()
+                }
+              </div>
+            )
+          }).toArray()
+        }
+
+        {taggedOps.size < 1 ? <h3> No operations defined in spec! </h3> : null}
+      </div>
     )
   }
 

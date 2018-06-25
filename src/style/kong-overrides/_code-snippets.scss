@@ -1,0 +1,54 @@
+/** https://cdnjs.cloudflare.com/ajax/libs/prism/1.13.0/themes/prism-tomorrow.min.css */
+code[class*=language-],
+pre[class*=language-] {
+  color: #ccc;
+  background: 0 0;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none
+}
+
+pre[class*=language-] {
+  padding: 1em;
+  margin: .5em 0;
+  overflow: auto
+}
+
+:not(pre)>code[class*=language-] {
+  padding: .1em;
+  border-radius: .3em;
+  white-space: normal
+}
+
+a.tablinks {
+  color: white
+}
+
+.model {
+  color: white;
+  .model-title__text {
+    color: #ccc;
+    font-size: 14px;
+  }
+}
+
+.swagger-ui table.model tbody tr td:first-of-type{
+  width: 50px !important;
+  padding: 0 !important; 
+}
+
+.swagger-ui {
+  .prop-type {
+    color: #cc99cd !important;
+  }
+}

@@ -1,3 +1,4 @@
+import KongPreset from "./kong"
 import BasePreset from "./base"
 import OAS3Plugin from "../plugins/oas3"
 
@@ -6,6 +7,7 @@ import OAS3Plugin from "../plugins/oas3"
 export default function PresetApis() {
 
   return [
+    KongPreset,
     BasePreset,
     OAS3Plugin
   ]

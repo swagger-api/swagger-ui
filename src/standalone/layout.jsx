@@ -3,6 +3,8 @@
 import React from "react"
 import PropTypes from "prop-types"
 
+// import OnlineValidatorBadge from "../kongComponents/online-validator-badge"
+
 export default class StandaloneLayout extends React.Component {
 
   static propTypes = {
@@ -23,9 +25,8 @@ export default class StandaloneLayout extends React.Component {
     let Col = getComponent("Col")
     let Errors = getComponent("errors", true)
 
-    const Topbar = getComponent("Topbar", true)
-    const BaseLayout = getComponent("BaseLayout", true)
-    const OnlineValidatorBadge = getComponent("onlineValidatorBadge", true)
+    const KongLayout = getComponent("KongLayout", true)
+    const OnlineValidatorBadge = getComponent("KongValidator", true)
 
     const loadingStatus = specSelectors.loadingStatus()
     const lastErr = errSelectors.lastError()
@@ -42,7 +43,7 @@ export default class StandaloneLayout extends React.Component {
             </div>
           </div>
         }
-        { loadingStatus === "failed" &&
+        {loadingStatus === "failed" &&
           <div className="info">
             <div className="loading-container">
               <h4 className="title">Failed to load API definition.</h4>
@@ -50,7 +51,7 @@ export default class StandaloneLayout extends React.Component {
             </div>
           </div>
         }
-        { loadingStatus === "failedConfig" &&
+        {loadingStatus === "failedConfig" &&
           <div className="info" style={{ maxWidth: "880px", marginLeft: "auto", marginRight: "auto", textAlign: "center" }}>
             <div className="loading-container">
               <h4 className="title">Failed to load remote configuration.</h4>
@@ -58,12 +59,10 @@ export default class StandaloneLayout extends React.Component {
             </div>
           </div>
         }
-        { !loadingStatus || loadingStatus === "success" && <BaseLayout /> }
-        <Row>
-          <Col>
-            <OnlineValidatorBadge />
-          </Col>
-        </Row>
+        {!loadingStatus || loadingStatus === "success" && <KongLayout />}
+        <div className="validator-badge">
+          <OnlineValidatorBadge />
+        </div>
       </Container>
     )
   }

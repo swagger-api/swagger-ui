@@ -26,13 +26,13 @@ export default class BasicAuth extends React.Component {
     }
   }
 
-  getValue () {
+  getValue() {
     let { authorized, name } = this.props
 
     return authorized && authorized.getIn([name, "value"]) || {}
   }
 
-  onChange =(e) => {
+  onChange = (e) => {
     let { onChange } = this.props
     let { value, name } = e.target
 
@@ -51,40 +51,40 @@ export default class BasicAuth extends React.Component {
     const Col = getComponent("Col")
     const AuthError = getComponent("authError")
     const JumpToPath = getComponent("JumpToPath", true)
-    const Markdown = getComponent( "Markdown" )
+    const Markdown = getComponent("Markdown")
     let username = this.getValue().username
-    let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
+    let errors = errSelectors.allErrors().filter(err => err.get("authId") === name)
 
     return (
-      <div>
-        <h4>Basic authorization<JumpToPath path={[ "securityDefinitions", name ]} /></h4>
-        { username && <h6>Authorized</h6> }
+      <div className="auth-block">
+        <h4>Basic authorization<JumpToPath path={["securityDefinitions", name]} /></h4>
+        {username && <h6>Authorized</h6>}
         <Row>
-          <Markdown source={ schema.get("description") } />
+          <Markdown source={schema.get("description")} />
         </Row>
         <Row>
           <label>Username:</label>
           {
-            username ? <code> { username } </code>
-                     : <Col><Input type="text" required="required" name="username" onChange={ this.onChange }/></Col>
+            username ? <code> {username} </code>
+              : <Col><Input type="text" required="required" name="username" onChange={this.onChange} /></Col>
           }
         </Row>
         <Row>
           <label>Password:</label>
-            {
-              username ? <code> ****** </code>
-                       : <Col><Input required="required"
-                                     autoComplete="new-password"
-                                     name="password"
-                                     type="password"
-                                     onChange={ this.onChange }/></Col>
-            }
+          {
+            username ? <code> ****** </code>
+              : <Col><Input required="required"
+                autoComplete="new-password"
+                name="password"
+                type="password"
+                onChange={this.onChange} /></Col>
+          }
         </Row>
         {
-          errors.valueSeq().map( (error, key) => {
-            return <AuthError error={ error }
-                              key={ key }/>
-          } )
+          errors.valueSeq().map((error, key) => {
+            return <AuthError error={error}
+              key={key} />
+          })
         }
       </div>
     )

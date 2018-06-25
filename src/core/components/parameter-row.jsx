@@ -34,7 +34,7 @@ export default class ParameterRow extends Component {
     let parameter = specSelectors.parameterWithMetaByIdentity(pathMethod, param) || param
     let enumValue
 
-    if(isOAS3()) {
+    if (isOAS3()) {
       let schema = param.get("schema") || Map()
       enumValue = schema.get("enum")
     } else {
@@ -44,15 +44,15 @@ export default class ParameterRow extends Component {
 
     let value
 
-    if ( paramValue !== undefined ) {
+    if (paramValue !== undefined) {
       value = paramValue
-    } else if ( example !== undefined ) {
+    } else if (example !== undefined) {
       value = example
     } else if ( param.get("required") && enumValue && enumValue.size ) {
       value = enumValue.first()
     }
 
-    if ( value !== undefined ) {
+    if (value !== undefined) {
       this.onChangeWrapper(value)
     }
   }
@@ -160,8 +160,8 @@ export default class ParameterRow extends Component {
       <tr className="parameters">
         <td className="col parameters-col_name">
           <div className={required ? "parameter__name required" : "parameter__name"}>
-            { param.get("name") }
-            { !required ? null : <span style={{color: "red"}}>&nbsp;*</span> }
+            {param.get("name")}
+            {!required ? null : <span style={{ color: "red" }}>&nbsp;*</span>}
           </div>
           <div className="parameter__type">
             { type }
@@ -169,7 +169,7 @@ export default class ParameterRow extends Component {
             { format && <span className="prop-format">(${format})</span>}
           </div>
           <div className="parameter__deprecated">
-            { isOAS3 && isOAS3() && param.get("deprecated") ? "deprecated": null }
+            {isOAS3 && isOAS3() && param.get("deprecated") ? "deprecated" : null}
           </div>
           <div className="parameter__in">({ param.get("in") })</div>
           { !showCommonExtensions || !commonExt.size ? null : commonExt.map((v, key) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} /> )}
@@ -194,7 +194,7 @@ export default class ParameterRow extends Component {
 
           {(isFormData && !isFormDataSupported) && <div>Error: your browser does not support FormData</div>}
 
-          { bodyParam || !isExecute ? null
+          {bodyParam || !isExecute ? null
             : <JsonSchemaForm fn={fn}
                               getComponent={getComponent}
                               value={ value }

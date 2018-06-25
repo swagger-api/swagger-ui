@@ -1,0 +1,277 @@
+// Operation Container
+.operations-container {
+  .opblock-details {
+    margin-bottom: 24px;
+    .opblock-tag {
+      margin: 0;
+      padding: 0;
+      color: rgba(0, 0, 0, .70);
+      font-size: 2rem;
+      font-weight: 400;
+    }
+    .opblock-ex-description {
+      margin-bottom: 2rem;
+      font-size: 15px;
+      color: rgba(0, 0, 0, .45);
+    }
+  }
+  .opblock {
+    margin-bottom: 80px;
+
+    @media only screen and (max-width: 800px) {
+      margin-bottom: 40px;
+    }
+
+    // Method Summary
+    .opblock-summary-description {
+      display: flex;
+      margin-bottom: 24px;
+      font-size: 20px;
+      font-weight: 500;
+      button {
+        margin-left: auto;
+      }
+    }
+    // Method bar
+    .opblock-summary {
+      height: 36px;
+      margin-bottom: 2rem;
+      border: 0 !important;
+      background: $lightGry;
+      &-method {
+        height: 100%;
+        line-height: 1.5rem;
+        font-weight: 400;
+        border-radius: 3px 0 0 3px;
+        text-shadow: none;
+        font-family: "Roboto Mono", monospace;
+      }
+      &-path {
+        padding: 0 12px;
+        font-size: 14px;
+        color: rgba(0, 0, 0, .70);
+        font-family: "Roboto Mono", monospace;
+      }
+      &-post .opblock-summary-method {
+        background: $methodBlue;
+      }
+      &-put .opblock-summary-method {
+        background: $methodPurple;
+      }
+      &-get .opblock-summary-method {
+        background: $methodGreen;
+      }
+      &-delete .opblock-summary-method {
+        background: $methodRed;
+      }
+      .authorization__btn.unlocked {
+        margin-left: auto;
+      }
+    }
+    //Method Parameter Header
+    .opblock-section-header {
+      margin-bottom: 1rem;
+      padding: 0;
+      border-bottom: 2px solid rgba(0, 0, 0, .10);
+      .try-out {
+        margin-bottom: 1rem;
+      }
+    }
+
+    // Parameter Table
+    .parameters {
+      .wrapper {
+        margin-bottom: 1.25rem;
+      }
+      .parameter__name.required {
+        font-weight: 500;
+        &:after {
+          display: block;
+          content: "Required";
+          padding: 10px 0;
+          font-size: 13px;
+          font-weight: 400;
+          color: #D90000;
+        }
+      }
+
+      .parameter__in,
+      .parameter__extension {
+        color: rgba(0, 0, 0, 0.45);
+        font-weight: 400;
+      }
+
+      .parameters-col_description {
+        min-width: 60%;
+        p {
+          margin-bottom: 12px;
+          font-size: 15px;
+          color: rgba(0, 0, 0, .70);
+        }
+      }
+
+      .body-param, .model-box {
+        background: $lightGry;
+        border: 1px solid #E6E6E6;
+        border-radius: 3px;
+        margin-bottom: 25px;
+        overflow-x: scroll;
+        overflow-y: auto;
+        .param-content-type {
+          display: flex;
+          align-items: center;
+          padding: .5rem .5rem .5rem 1rem;
+          font-size: 13px;
+          font-weight: 500;
+          border-bottom: 1px solid #E6E6E6;
+        }
+        .content-type-wrapper {
+          margin-left: auto;
+          select {
+            margin-bottom: 0;
+          }
+        }
+        .body-param__example {
+          margin-top: 1rem;
+          font-size: 14px;
+          background: $lightGry;
+          span {
+            color: rgba(0, 0, 0, .70) !important;
+          }
+        }
+        .body-param__text {
+          font-size: 14px;
+          background: #fff;
+          resize: none;
+        }
+      }
+    }
+
+    &.opblock-deprecated {
+      button {cursor: none;}
+      }
+
+    // Right Column
+    .responses-wrapper {
+      color: #fff;
+      font-weight: 400;
+      margin-bottom: 80px;
+      @media only screen and (max-width: 800px) {
+        margin-bottom: 40px;
+      }
+      h4, p, select {
+        color: #fff;
+        font-weight: 400;
+      }
+      .response-container {
+        margin-bottom: 2rem;
+        animation: fade .5s ease-in 1 forwards;
+        opacity: 0;
+      }
+      .opblock-section-header {
+        border-color: rgba(255, 255, 255, .1);
+      }
+    }
+    .responses-inner {
+      padding: 0;
+      .response {
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, .1);
+      }
+      .response-content-type {
+        padding: 0;
+      }
+    }
+    .response-code {
+      display: flex;
+      align-items: center;
+      height: 35px;
+      padding: 1rem;
+      font-size: 14px;
+      border-radius: 3px;
+      background: rgba(0, 0, 0, 0.1);
+    }
+    .example p {
+      color: rgba(255, 255, 255, .55)1
+    }
+  }
+}
+
+/** Code Snippets */
+.tabs-component *,
+.tabs-component *:before,
+.tabs-component *:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.tabs-component {
+  border-radius: 0.2em;
+  background-color: #5C5C5C;
+  margin-bottom: 1em;
+}
+
+.tabs-component-body {
+  padding: 1em;
+}
+
+.tabs-component code, .tabs-component pre{
+  font-size: 14px;
+  background-color: #5C5C5C;
+}
+
+.tabs-component-tabs {
+  margin-bottom: 5px;
+  align-items: stretch;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.tabs-component-tab {
+  opacity: 0.6;
+  color: #efefefef;
+  font-size: 14px;
+  font-weight: 600;
+  margin-right: 0;
+  list-style: none;
+}
+
+.tabs-component-tab:hover,
+.tabs-component-tab.is-active {
+  color: #fff;
+  opacity: 1;
+}
+
+.tabs-component-tab.is-disabled * {
+  cursor: not-allowed !important;
+}
+
+.tabs-component-tab {
+  margin-right: .5em;
+  transition: transform .3s ease;
+}
+
+.tabs-component-tab-a {
+  align-items: center;
+  color: inherit;
+  display: flex;
+  padding: .75em 1em;
+  text-decoration: none;
+}
+
+.tabs-component-panels {
+  margin: 1em 0;
+  @media only screen and (min-width: 1600px) and (max-width: 2200px) {
+    max-width: 650px;
+  }
+  @media only screen and (max-width: 1600px) {
+    max-width: 450px;
+  }
+
+  .tablinks {
+    color: white;
+  }
+}
