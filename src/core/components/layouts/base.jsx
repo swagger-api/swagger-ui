@@ -78,7 +78,6 @@ export default class BaseLayout extends React.Component {
             </Row>
           </VersionPragmaFilter>
         </div>
-      </div>
-    )
+      )
   }
 }
