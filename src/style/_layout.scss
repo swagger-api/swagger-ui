@@ -636,6 +636,15 @@
   }
 }
 
+.preview-html{
+    height: 600px;
+    iframe{
+    height: 100%;
+    width: 100%;
+    border: none;
+    }
+}
+
 .download-contents {
   position: absolute;
   bottom: 10px;
