@@ -379,6 +379,46 @@ describe("sampleFromSchema", function() {
 
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
+
+    it("returns null for a null example", function() {
+      var definition = {
+        "type": "object",
+        "properties": {
+          "foo": {
+            "type": "string",
+            "nullable": true,
+            "example": null
+          }
+        }
+      }
+
+      var expected = {
+        foo: null
+      }
+
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+
+    it("returns null for a null object-level example", function() {
+      var definition = {
+        "type": "object",
+        "properties": {
+          "foo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "example": {
+          "foo": null
+        }
+      }
+
+      var expected = {
+        foo: null
+      }
+
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
   })
 })
 
