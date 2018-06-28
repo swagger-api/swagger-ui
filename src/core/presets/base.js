@@ -36,6 +36,7 @@ import Operation from "core/components/operation"
 import OperationExt from "core/components/operation-extensions"
 import OperationExtRow from "core/components/operation-extension-row"
 import HighlightCode from "core/components/highlight-code"
+import PreviewHtml from "core/components/preview-html"
 import Responses from "core/components/responses"
 import Response from "core/components/response"
 import ResponseBody from "core/components/response-body"
@@ -103,6 +104,7 @@ export default function() {
       operations: Operations,
       operation: Operation,
       highlightCode: HighlightCode,
+      previewHtml: PreviewHtml,
       responses: Responses,
       response: Response,
       responseBody: ResponseBody,

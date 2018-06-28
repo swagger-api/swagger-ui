@@ -1,7 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
 import formatXml from "xml-but-prettier"
-import lowerCase from "lodash/lowerCase"
 import { extractFileNameFromContentDispositionHeader } from "core/utils"
 import win from "core/window"
 
@@ -52,6 +51,7 @@ export default class ResponseBody extends React.PureComponent {
     let { content, contentType, url, headers={}, getComponent } = this.props
     const { parsedContent } = this.state
     const HighlightCode = getComponent("highlightCode")
+    const PreviewHtml = getComponent("previewHtml")
     const downloadName = "response_" + new Date().getTime()
     let body, bodyEl
     url = url || ""
@@ -110,8 +110,8 @@ export default class ResponseBody extends React.PureComponent {
       bodyEl = <HighlightCode downloadable fileName={`${downloadName}.xml`} value={ body } />
 
       // HTML or Plain Text
-    } else if (lowerCase(contentType) === "text/html" || /text\/plain/.test(contentType)) {
-      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.html`} value={ content } />
+    } else if (/text\/html/.test(contentType) || /text\/plain/.test(contentType)) {
+      bodyEl = <PreviewHtml downloadable fileName={`${downloadName}.html`} value={ content } />
 
       // Image
     } else if (/^image\//i.test(contentType)) {
