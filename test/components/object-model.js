@@ -1,7 +1,7 @@
 import React from "react"
 import expect from "expect"
 import { shallow } from "enzyme"
-import { fromJS } from "immutable"
+import { fromJS, List } from "immutable"
 import ObjectModel from "components/object-model"
 import ModelExample from "components/model-example"
 import Immutable from "immutable"
@@ -25,6 +25,7 @@ describe("<ObjectModel />", function() {
         }
       },
       isRef : false,
+      specPath: List(),
       schema: Immutable.fromJS(
         {
           "properties": {

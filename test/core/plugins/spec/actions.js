@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 import expect, { createSpy } from "expect"
 import { fromJS } from "immutable"
-import { execute, executeRequest } from "corePlugins/spec/actions"
+import { execute, executeRequest, changeParamByIdentity } from "corePlugins/spec/actions"
 
 describe("spec plugin - actions", function(){
 
@@ -177,7 +177,34 @@ describe("spec plugin - actions", function(){
     })
   })
 
+  describe("requestResolvedSubtree", () => {
+    it("should return a promise ")
+  })
+
   it.skip("should call errActions.newErr, if the fn.execute rejects", function(){
   })
 
+  describe("changeParamByIdentity", function () {
+    it("should map its arguments to a payload", function () {
+      const pathMethod = ["/one", "get"]
+      const param = fromJS({
+        name: "body",
+        in: "body"
+      })
+      const value = "my value"
+      const isXml = false
+
+      const result = changeParamByIdentity(pathMethod, param, value, isXml)
+
+      expect(result).toEqual({
+        type: "spec_update_param",
+        payload: {
+          path: pathMethod,
+          param,
+          value,
+          isXml
+        }
+      })
+    })
+  })
 })

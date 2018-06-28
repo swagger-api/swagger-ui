@@ -3,11 +3,12 @@ import deepExtend from "deep-extend"
 import System from "core/system"
 import win from "core/window"
 import ApisPreset from "core/presets/apis"
+
 import * as AllPlugins from "core/plugins/all"
 import { parseSearch } from "core/utils"
 
-if (process.env.NODE_ENV !== "production") {
-  window.Perf = require("react-addons-perf")
+if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
+  win.Perf = require("react-addons-perf")
 }
 
 // eslint-disable-next-line no-undef
@@ -26,7 +27,7 @@ module.exports = function SwaggerUI(opts) {
 
   const defaults = {
     // Some general settings, that we floated to the top
-    dom_id: null,
+    dom_id: null, // eslint-disable-line camelcase
     domNode: null,
     spec: {},
     url: "",
@@ -46,7 +47,19 @@ module.exports = function SwaggerUI(opts) {
     showMutatedRequest: true,
     defaultModelRendering: "example",
     defaultModelExpandDepth: 1,
+    defaultModelsExpandDepth: 1,
     showExtensions: false,
+    showCommonExtensions: false,
+    supportedSubmitMethods: [
+      "get",
+      "put",
+      "post",
+      "delete",
+      "options",
+      "head",
+      "patch",
+      "trace"
+    ],
 
     // Initial set of plugins ( TODO rename this, or refactor - we don't need presets _and_ plugins. Its just there for performance.
     // Instead, we can compile the first plugin ( it can be a collection of plugins ), then batch the rest.
@@ -111,7 +124,21 @@ module.exports = function SwaggerUI(opts) {
     }, constructorConfig.initialState)
   }
 
-  let inlinePlugin = () => {
+  if(constructorConfig.initialState) {
+    // if the user sets a key as `undefined`, that signals to us that we
+    // should delete the key entirely.
+    // known usage: Swagger-Editor validate plugin tests
+    for (var key in constructorConfig.initialState) {
+      if(
+        constructorConfig.initialState.hasOwnProperty(key)
+        && constructorConfig.initialState[key] === undefined
+      ) {
+        delete storeConfigs.state[key]
+      }
+    }
+  }
+
+  let inlinePlugin = ()=> {
     return {
       fn: constructorConfig.fn,
       components: constructorConfig.components,
@@ -124,13 +151,7 @@ module.exports = function SwaggerUI(opts) {
 
   var system = store.getSystem()
 
-  system.initOAuth = system.authActions.configureAuth
-
   const downloadSpec = (fetchedConfig) => {
-    if (typeof constructorConfig !== "object") {
-      return system
-    }
-
     let localConfig = system.specSelectors.getLocalConfig ? system.specSelectors.getLocalConfig() : {}
     let mergedConfig = deepExtend({}, localConfig, constructorConfig, fetchedConfig || {}, queryConfig)
 
@@ -140,6 +161,7 @@ module.exports = function SwaggerUI(opts) {
     }
 
     store.setConfigs(mergedConfig)
+    system.configsActions.loaded()
 
     if (fetchedConfig !== null) {
       if (!queryConfig.url && typeof mergedConfig.spec === "object" && Object.keys(mergedConfig.spec).length) {
@@ -157,6 +179,9 @@ module.exports = function SwaggerUI(opts) {
     } else if (mergedConfig.dom_id) {
       let domNode = document.querySelector(mergedConfig.dom_id)
       system.render(domNode, "App")
+    } else if(mergedConfig.dom_id === null || mergedConfig.domNode === null) {
+      // do nothing
+      // this is useful for testing that does not need to do any rendering
     } else {
       console.error("Skipped rendering: no `dom_id` or `domNode` was specified")
     }
@@ -164,10 +189,17 @@ module.exports = function SwaggerUI(opts) {
     return system
   }
 
-  let configUrl = queryConfig.config || constructorConfig.configUrl
+  const configUrl = queryConfig.config || constructorConfig.configUrl
 
-  if (!configUrl || !system.specActions.getConfigByUrl || system.specActions.getConfigByUrl && !system.specActions.getConfigByUrl(configUrl, downloadSpec)) {
+  if (!configUrl || !system.specActions || !system.specActions.getConfigByUrl || system.specActions.getConfigByUrl && !system.specActions.getConfigByUrl({
+    url: configUrl,
+    loadRemoteConfig: true,
+    requestInterceptor: constructorConfig.requestInterceptor,
+    responseInterceptor: constructorConfig.responseInterceptor,
+  }, downloadSpec)) {
     return downloadSpec()
+  } else {
+    system.specActions.getConfigByUrl(configUrl, downloadSpec)
   }
 
   return system

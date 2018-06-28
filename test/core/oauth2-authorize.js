@@ -28,7 +28,7 @@ describe("oauth2", function () {
       expect(win.open.calls[0].arguments[0]).toMatch("https://testAuthorizationUrl?response_type=code&redirect_uri=&state=")
     })
 
-    it("should append query paramters to authorizeUrl with query parameters", function() {
+    it("should append query parameters to authorizeUrl with query parameters", function() {
       win.open = createSpy()
       mockSchema.authorizationUrl = "https://testAuthorizationUrl?param=1"
       oauth2Authorize(authConfig)

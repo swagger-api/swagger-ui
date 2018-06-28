@@ -20,6 +20,7 @@ module.exports = require("./make-webpack-config.js")(rules, {
   _special: {
     separateStylesheets: true,
     minimize: true,
+    mangle: true,
     sourcemaps: true,
   },
 

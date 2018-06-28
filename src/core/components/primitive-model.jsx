@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { getExtensions } from "core/utils"
 
-const propStyle = { color: "#999", fontStyle: "italic" }
+const propStyle = { color: "#6b6b6b", fontStyle: "italic" }
 
 export default class Primitive extends Component {
   static propTypes = {
@@ -10,11 +10,12 @@ export default class Primitive extends Component {
     getComponent: PropTypes.func.isRequired,
     getConfigs: PropTypes.func.isRequired,
     name: PropTypes.string,
+    displayName: PropTypes.string,
     depth: PropTypes.number
   }
 
   render(){
-    let { schema, getComponent, getConfigs, name, depth } = this.props
+    let { schema, getComponent, getConfigs, name, displayName, depth } = this.props
 
     const { showExtensions } = getConfigs()
 
@@ -27,7 +28,7 @@ export default class Primitive extends Component {
     let format = schema.get("format")
     let xml = schema.get("xml")
     let enumArray = schema.get("enum")
-    let title = schema.get("title") || name
+    let title = schema.get("title") || displayName || name
     let description = schema.get("description")
     let extensions = getExtensions(schema)
     let properties = schema

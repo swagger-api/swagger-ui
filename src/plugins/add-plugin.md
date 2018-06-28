@@ -6,7 +6,7 @@ Plugins allow you to add
 - `statePlugins`
   - `selectors` - query the state
   - `reducers` - modify the state
-  - `actions` - fire and forget, that will eventually be handled by a reducer. You *can* rely on the result of async actions. But in general its not reccomended
+  - `actions` - fire and forget, that will eventually be handled by a reducer. You *can* rely on the result of async actions. But in general it's not recommended
   - `wrapActions` - replace an action with a wrapped action (useful for hooking into existing `actions`)
 - `components` - React components
 - `fn` - commons functions
@@ -28,7 +28,7 @@ Here is an example of each `type`
 ```js
 // A contrived, but quite full example....
 
-export function SomePlugin( toolbox ) {
+export function SomePlugin(toolbox) {
 
   const UPDATE_SOMETHING = "some_namespace_update_something" // strings just need to be uniuqe... see below
 

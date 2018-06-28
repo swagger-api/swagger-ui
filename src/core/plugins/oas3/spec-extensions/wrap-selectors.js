@@ -20,7 +20,7 @@ const state = state => {
   return state || Map()
 }
 
-const nullSelector =  createSelector(() => null)
+const nullSelector = createSelector(() => null)
 
 const OAS3NullSelector = onlyOAS3(nullSelector)
 
@@ -72,10 +72,10 @@ export const servers = onlyOAS3(createSelector(
 
 export const isOAS3 = (ori, system) => () => {
   const spec = system.getSystem().specSelectors.specJson()
-  return isOAS3Helper(spec)
+  return isOAS3Helper(Map.isMap(spec) ? spec : Map())
 }
 
 export const isSwagger2 = (ori, system) => () => {
   const spec = system.getSystem().specSelectors.specJson()
-  return isSwagger2Helper(spec)
+  return isSwagger2Helper(Map.isMap(spec) ? spec : Map())
 }

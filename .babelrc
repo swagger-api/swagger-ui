@@ -6,16 +6,29 @@
   ],
   "plugins": [
     "transform-runtime",
+    "transform-es2015-constants",
     [
       "module-alias",
       [
+        {
+          "expose": "root",
+          "src": "."
+        },
         {
           "expose": "components",
           "src": "src/core/components"
         },
         {
+          "expose": "containers",
+          "src": "src/core/containers"
+        },
+        {
           "expose": "core",
           "src": "src/core"
+        },
+        {
+          "expose": "plugins",
+          "src": "src/plugins"
         },
         {
           "expose": "img",
@@ -28,10 +41,6 @@
         {
           "expose": "less",
           "src": "src/less"
-        },
-        {
-          "expose": "base",
-          "src": "npm:getbase/src/less/base"
         }
       ]
     ]

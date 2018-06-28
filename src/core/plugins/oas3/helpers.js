@@ -6,7 +6,7 @@ export function isOAS3(jsSpec) {
     return false
   }
 
-  return oasVersion.startsWith("3.0.0")
+  return oasVersion.startsWith("3.0.")
 }
 
 export function isSwagger2(jsSpec) {
@@ -15,7 +15,7 @@ export function isSwagger2(jsSpec) {
     return false
   }
 
-  return swaggerVersion.startsWith("2")
+  return swaggerVersion.startsWith("2.0")
 }
 
 export function OAS3ComponentWrapFactory(Component) {

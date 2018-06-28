@@ -5,9 +5,9 @@ import reducer from "corePlugins/spec/reducers"
 
 describe("spec plugin - reducer", function(){
 
-  describe("update operation value", function() {
-    it("should update the operation at the specified key", () => {
-      const updateOperationValue = reducer["spec_update_operation_value"]
+  describe("update operation meta value", function() {
+    it("should update the operation metadata at the specified key", () => {
+      const updateOperationValue = reducer["spec_update_operation_meta_value"]
 
       const state = fromJS({
         resolved: {
@@ -34,7 +34,15 @@ describe("spec plugin - reducer", function(){
           "paths": {
             "/pet": {
               "post": {
-                "description": "my operation",
+                "description": "my operation"
+              }
+            }
+          }
+        },
+        meta: {
+          paths: {
+            "/pet": {
+              post: {
                 "consumes_value": "application/json"
               }
             }
@@ -46,7 +54,7 @@ describe("spec plugin - reducer", function(){
     })
 
     it("shouldn't throw an error if we try to update the consumes_value of a null operation", () => {
-      const updateOperationValue = reducer["spec_update_operation_value"]
+      const updateOperationValue = reducer["spec_update_operation_meta_value"]
 
       const state = fromJS({
         resolved: {
@@ -119,6 +127,55 @@ describe("spec plugin - reducer", function(){
 
       const response = result.getIn(["responses", path, method]).toJS()
       expect(response).toEqual(expectedResult)
+    })
+  })
+  describe("SPEC_UPDATE_PARAM", function() {
+    it("should store parameter values by name+in", () => {
+      const updateParam = reducer["spec_update_param"]
+
+      const path = "/pet/post"
+      const method = "POST"
+
+      const state = fromJS({})
+      const result = updateParam(state, {
+        payload: {
+          path: [path, method],
+          paramName: "body",
+          paramIn: "body",
+          value: `{ "a": 123 }`,
+          isXml: false
+        }
+      })
+
+      const response = result.getIn(["meta", "paths", path, method, "parameters", "body.body", "value"])
+      expect(response).toEqual(`{ "a": 123 }`)
+    })
+    it("should store parameter values by identity", () => {
+      const updateParam = reducer["spec_update_param"]
+
+      const path = "/pet/post"
+      const method = "POST"
+
+      const param = fromJS({
+        name: "body",
+        in: "body",
+        schema: {
+          type: "string"
+        }
+      })
+
+      const state = fromJS({})
+      const result = updateParam(state, {
+        payload: {
+          param,
+          path: [path, method],
+          value: `{ "a": 123 }`,
+          isXml: false
+        }
+      })
+
+      const value = result.getIn(["meta", "paths", path, method, "parameters", `body.body.hash-${param.hashCode()}`, "value"])
+      expect(value).toEqual(`{ "a": 123 }`)
     })
   })
 })

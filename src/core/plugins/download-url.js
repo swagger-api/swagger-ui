@@ -2,6 +2,7 @@
 
 import { createSelector } from "reselect"
 import { Map } from "immutable"
+import win from "../window"
 
 export default function downloadUrlPlugin (toolbox) {
   let { fn } = toolbox
@@ -12,6 +13,7 @@ export default function downloadUrlPlugin (toolbox) {
       const config = getConfigs()
       url = url || specSelectors.url()
       specActions.updateLoadingStatus("loading")
+      errActions.clear({source: "fetch"})
       fetch({
         url,
         loadSpec: true,
@@ -26,11 +28,48 @@ export default function downloadUrlPlugin (toolbox) {
       function next(res) {
         if(res instanceof Error || res.status >= 400) {
           specActions.updateLoadingStatus("failed")
-          return errActions.newThrownErr( new Error(res.statusText + " " + url) )
+          errActions.newThrownErr(Object.assign( new Error((res.message || res.statusText) + " " + url), {source: "fetch"}))
+          // Check if the failure was possibly due to CORS or mixed content
+          if (!res.status && res instanceof Error) checkPossibleFailReasons()
+          return
         }
         specActions.updateLoadingStatus("success")
         specActions.updateSpec(res.text)
-        specActions.updateUrl(url)
+        if(specSelectors.url() !== url) {
+          specActions.updateUrl(url)
+        }
+      }
+
+      function checkPossibleFailReasons() {
+        try {
+          let specUrl
+
+          if("URL" in win ) {
+            specUrl = new URL(url)
+          } else {
+            // legacy browser, use <a href> to parse the URL
+            specUrl = document.createElement("a")
+            specUrl.href = url
+          }
+
+          if(specUrl.protocol !== "https:" && win.location.protocol === "https:") {
+            const error = Object.assign(
+              new Error(`Possible mixed-content issue? The page was loaded over https:// but a ${specUrl.protocol}// URL was specified. Check that you are not attempting to load mixed content.`),
+              {source: "fetch"}
+            )
+            errActions.newThrownErr(error)
+            return
+          }
+          if(specUrl.origin !== win.location.origin) {
+            const error = Object.assign(
+              new Error(`Possible cross-origin (CORS) issue? The URL origin (${specUrl.origin}) does not match the page (${win.location.origin}). Check the server returns the correct 'Access-Control-Allow-*' headers.`),
+              {source: "fetch"}
+            )
+            errActions.newThrownErr(error)
+          }
+        } catch (e) {
+          return
+        }
       }
 
     },

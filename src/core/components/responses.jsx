@@ -1,6 +1,7 @@
 import React from "react"
-import PropTypes from "prop-types"
 import { fromJS, Iterable } from "immutable"
+import PropTypes from "prop-types"
+import ImPropTypes from "react-immutable-proptypes"
 import { defaultStatusCode, getAcceptControllingResponse } from "core/utils"
 
 export default class Responses extends React.Component {
@@ -17,6 +18,7 @@ export default class Responses extends React.Component {
     specSelectors: PropTypes.object.isRequired,
     specActions: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
+    specPath: ImPropTypes.list.isRequired,
     fn: PropTypes.object.isRequired
   }
 
@@ -60,7 +62,8 @@ export default class Responses extends React.Component {
       specSelectors,
       fn,
       producesValue,
-      displayRequestDuration
+      displayRequestDuration,
+      specPath,
     } = this.props
     let defaultCode = defaultStatusCode( responses )
 
@@ -114,9 +117,11 @@ export default class Responses extends React.Component {
             <tbody>
               {
                 responses.entrySeq().map( ([code, response]) => {
+
                   let className = tryItOutResponse && tryItOutResponse.get("status") == code ? "response_current" : ""
                   return (
                     <Response key={ code }
+                              specPath={specPath.push(code)}
                               isDefault={defaultCode === code}
                               fn={fn}
                               className={ className }

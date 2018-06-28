@@ -84,15 +84,6 @@ table
 
 .parameters-col_description
 {
-    p
-    {
-        font-size: 14px;
-
-        margin: 0;
-
-        @include text_body();
-    }
-
     input[type=text]
     {
         width: 100%;

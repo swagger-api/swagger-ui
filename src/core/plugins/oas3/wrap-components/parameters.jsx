@@ -29,6 +29,7 @@ class Parameters extends Component {
     fn: PropTypes.object.isRequired,
     tryItOutEnabled: PropTypes.bool,
     allowTryItOut: PropTypes.bool,
+    specPath: ImPropTypes.list.isRequired,
     onTryoutClick: PropTypes.func,
     onCancelClick: PropTypes.func,
     onChangeKey: PropTypes.array,
@@ -46,11 +47,11 @@ class Parameters extends Component {
 
   onChange = ( param, value, isXml ) => {
     let {
-      specActions: { changeParam },
+      specActions: { changeParamByIdentity },
       onChangeKey,
     } = this.props
 
-    changeParam( onChangeKey, param.get("name"), param.get("in"), value, isXml)
+    changeParamByIdentity( onChangeKey, param, value, isXml)
   }
 
   onChangeConsumesWrapper = ( val ) => {
@@ -92,6 +93,7 @@ class Parameters extends Component {
       oas3Actions,
       oas3Selectors,
       pathMethod,
+      specPath,
       operation
     } = this.props
 
@@ -105,6 +107,8 @@ class Parameters extends Component {
     const { isOAS3 } = specSelectors
 
     const requestBody = operation.get("requestBody")
+    const requestBodySpecPath = specPath.slice(0, -1).push("requestBody") // remove the "parameters" part
+
     return (
       <div className="opblock-section">
         <div className="opblock-section-header">
@@ -136,11 +140,13 @@ class Parameters extends Component {
                 </thead>
                 <tbody>
                   {
-                    eachMap(parameters, (parameter) => (
+                    eachMap(parameters, (parameter, i) => (
                       <ParameterRow fn={ fn }
                         getComponent={ getComponent }
+                        specPath={specPath.push(i)}
                         getConfigs={ getConfigs }
-                        param={ parameter }
+                        rawParam={ parameter }
+                        param={ specSelectors.parameterWithMetaByIdentity(pathMethod, parameter) }
                         key={ parameter.get( "name" ) }
                         onChange={ this.onChange }
                         onChangeConsumes={this.onChangeConsumesWrapper}
@@ -156,7 +162,10 @@ class Parameters extends Component {
         </div> : "" }
 
         {this.state.callbackVisible ? <div className="callbacks-container opblock-description-wrapper">
-          <Callbacks callbacks={Map(operation.get("callbacks"))} />
+          <Callbacks
+            callbacks={Map(operation.get("callbacks"))}
+            specPath={specPath.slice(0, -1).push("callbacks")}
+          />
         </div> : "" }
         {
           isOAS3() && requestBody && this.state.parametersVisible &&
@@ -175,9 +184,19 @@ class Parameters extends Component {
             </div>
             <div className="opblock-description-wrapper">
               <RequestBody
+                specPath={requestBodySpecPath}
                 requestBody={requestBody}
+                requestBodyValue={oas3Selectors.requestBodyValue(...pathMethod) || Map()}
                 isExecute={isExecute}
-                onChange={(value) => {
+                onChange={(value, path) => {
+                  if(path) {
+                    const lastValue = oas3Selectors.requestBodyValue(...pathMethod)
+                    const usableValue = Map.isMap(lastValue) ? lastValue : Map()
+                    return oas3Actions.setRequestBodyValue({
+                      pathMethod,
+                      value: usableValue.setIn(path, value)
+                    })
+                  }
                   oas3Actions.setRequestBodyValue({ value, pathMethod })
                 }}
                 contentType={oas3Selectors.requestContentType(...pathMethod)}/>
