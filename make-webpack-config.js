@@ -73,6 +73,7 @@ module.exports = function(rules, options) {
         uglifyOptions: {
           mangle: specialOptions.mangle,
           beautify: !specialOptions.mangle,
+          keep_fnames: true
         },
         sourceMap: true,
       }),
