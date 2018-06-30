@@ -74,7 +74,7 @@
     "remarkable": "^1.7.1",
     "reselect": "^3.0.1",
     "serialize-error": "^2.1.0",
-    "swagger-client": "^3.8.5",
+    "swagger-client": "^3.8.7",
     "url-parse": "^1.1.8",
     "xml": "1.0.1",
     "xml-but-prettier": "^1.0.1",
