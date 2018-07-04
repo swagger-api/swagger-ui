@@ -72,7 +72,7 @@
     "redux": "^3.x.x",
     "redux-immutable": "3.0.8",
     "remarkable": "^1.7.1",
-    "reselect": "^3.0.1",
+    "reselect": "^2.5.4",
     "serialize-error": "^2.1.0",
     "swagger-client": "^3.8.7",
     "url-parse": "^1.1.8",
