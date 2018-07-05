@@ -10,7 +10,7 @@ const isSwagger2Shorthand = (version) => isSwagger2(fromJS({
   swagger: version
 }))
 
-describe.only("isOAS3", function () {
+describe("isOAS3", function () {
   it("should recognize valid OAS3 version values", function () {
     expect(isOAS3Shorthand("3.0.0")).toEqual(true)
     expect(isOAS3Shorthand("3.0.1")).toEqual(true)
@@ -39,7 +39,7 @@ describe.only("isOAS3", function () {
   })
 })
 
-describe.only("isSwagger2", function () {
+describe("isSwagger2", function () {
   it("should recognize valid Swagger 2.0 version values", function () {
     expect(isSwagger2Shorthand("2.0")).toEqual(true)
     expect(isSwagger2Shorthand("2.0-rc0")).toEqual(true)
