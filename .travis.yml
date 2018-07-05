@@ -17,8 +17,6 @@ env:
   - DOCKER_IMAGE_NAME=swaggerapi/swagger-ui
 script:
   - npm test
-  - npm run build-bundle
-  - bundlesize
 deploy:
   - provider: npm
     email: apiteam@swagger.io
@@ -56,3 +54,5 @@ after_success:
         docker push $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG;
       fi;
     fi;
+  - npm run build-bundle
+  - bundlesize
