@@ -52,3 +52,4 @@ after_success:
         docker push $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG;
       fi;
     fi;
+  - npm run build-bundle && python node_modules/travis-weigh-in/weigh_in.py dist/swagger-ui-bundle.js

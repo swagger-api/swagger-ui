@@ -130,6 +130,7 @@
     "standard-loader": "^6.0.1",
     "style-loader": "^0.21.0",
     "tachyons-sass": "^4.9.2",
+    "travis-weigh-in": "^1.0.2",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "url-loader": "^1.0.1",
     "webpack": "^3.1.0",
