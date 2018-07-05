@@ -30,7 +30,7 @@
     "lint-fix": "eslint --cache --ext '.js,.jsx' src test --fix",
     "test": "run-s just-test-in-node lint-errors",
     "test-in-node": "run-s lint-errors just-test-in-node",
-    "just-test-in-node": "mocha --require test/setup.js --recursive --compilers js:babel-core/register test/core test/components test/bugs test/swagger-ui-dist-package test/xss",
+    "just-test-in-node": "mocha --require test/setup.js --recursive --compilers js:babel-core/register --require source-map-support test/core test/components test/bugs test/swagger-ui-dist-package test/xss",
     "just-check-coverage": "nyc npm run just-test-in-node",
     "test-e2e": "sleep 3 && nightwatch test/e2e/scenarios/ --config test/e2e/nightwatch.json",
     "e2e-initial-render": "nightwatch test/e2e/scenarios/ --config test/e2e/nightwatch.json --group initial-render",
