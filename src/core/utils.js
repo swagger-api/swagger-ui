@@ -37,7 +37,7 @@ export function objectify (thing) {
   if(!isObject(thing))
     return {}
   if(isImmutable(thing))
-    return thing.toObject()
+    return thing.toJS()
   return thing
 }
 
@@ -742,7 +742,7 @@ export const getCommonExtensions = (defObj) => defObj.filter((v, k) => /^pattern
 // `predicate` can be used to discriminate the stripping further,
 // by preserving the key's place in the object based on its value.
 export function deeplyStripKey(input, keyToStrip, predicate = () => true) {
-  if(typeof input !== "object" || Array.isArray(input) || !keyToStrip) {
+  if(typeof input !== "object" || Array.isArray(input) || input === null || !keyToStrip) {
     return input
   }
 

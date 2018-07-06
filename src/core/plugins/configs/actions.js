@@ -18,3 +18,7 @@ export function toggle(configName) {
     payload: configName,
   }
 }
+
+
+// Hook
+export const loaded = () => () => {}

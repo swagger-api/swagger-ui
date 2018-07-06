@@ -51,12 +51,21 @@ export default {
   },
 
   [UPDATE_PARAM]: ( state, {payload} ) => {
-    let { path: pathMethod, paramName, paramIn, value, isXml } = payload
+    let { path: pathMethod, paramName, paramIn, param, value, isXml } = payload
+
+    let paramKey
+
+    // `hashCode` is an Immutable.js Map method
+    if(param && param.hashCode && !paramIn && !paramName) {
+      paramKey = `${param.get("name")}.${param.get("in")}.hash-${param.hashCode()}`
+    } else {
+      paramKey = `${paramName}.${paramIn}`
+    }
 
     const valueKey = isXml ? "value_xml" : "value"
 
     return state.setIn(
-      ["meta", "paths", ...pathMethod, "parameters", `${paramName}.${paramIn}`, valueKey],
+      ["meta", "paths", ...pathMethod, "parameters", paramKey, valueKey],
       value
     )
   },

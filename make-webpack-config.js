@@ -73,6 +73,7 @@ module.exports = function(rules, options) {
         uglifyOptions: {
           mangle: specialOptions.mangle,
           beautify: !specialOptions.mangle,
+          keep_fnames: true
         },
         sourceMap: true,
       }),
@@ -141,9 +142,7 @@ module.exports = function(rules, options) {
         "node_modules"
       ],
       extensions: [".web.js", ".js", ".jsx", ".json", ".less"],
-      alias: {
-        base: "getbase/src/less/base",
-      }
+      alias: {}
     },
 
   devtool: specialOptions.sourcemaps ? "nosource-source-map" : false,

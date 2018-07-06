@@ -234,6 +234,13 @@ export function changeParam( path, paramName, paramIn, value, isXml ){
   }
 }
 
+export function changeParamByIdentity( pathMethod, param, value, isXml ){
+  return {
+    type: UPDATE_PARAM,
+    payload:{ path: pathMethod, param, value, isXml }
+  }
+}
+
 export const updateResolvedSubtree = (path, value) => {
   return {
     type: UPDATE_RESOLVED_SUBTREE,

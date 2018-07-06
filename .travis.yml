@@ -11,19 +11,12 @@ branches:
   - master
   - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
 install: "npm i && npm update"
-before_install:
-- | # quickly pass if only documentation is being updated
-    if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
-      TRAVIS_COMMIT_RANGE="FETCH_HEAD...$TRAVIS_BRANCH"
-      git diff --name-only $TRAVIS_COMMIT_RANGE | grep -qvE '(\.md$)|(^(docs|examples))/' || {
-        echo "Only docs were updated, stopping build process."
-        exit
-      }
-    fi
 before_deploy:
   - npm run build
 env:
   - DOCKER_IMAGE_NAME=swaggerapi/swagger-ui
+script:
+  - npm test
 deploy:
   - provider: npm
     email: apiteam@swagger.io
@@ -61,3 +54,5 @@ after_success:
         docker push $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG;
       fi;
     fi;
+  - npm run build-bundle
+  - bundlesize
