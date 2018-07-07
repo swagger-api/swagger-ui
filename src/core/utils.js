@@ -628,7 +628,9 @@ export const getSampleSchema = (schema, contentType="", config={}) => {
     return memoizedCreateXMLExample(schema, config)
   }
 
-  return JSON.stringify(memoizedSampleFromSchema(schema, config), null, 2)
+  const res = memoizedSampleFromSchema(schema, config)
+
+  return typeof res === "object" ? JSON.stringify(res, null, 2) : res
 }
 
 export const parseSearch = () => {

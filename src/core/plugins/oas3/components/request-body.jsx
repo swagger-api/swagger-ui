@@ -10,6 +10,7 @@ const RequestBody = ({
   getComponent,
   getConfigs,
   specSelectors,
+  fn,
   contentType,
   isExecute,
   specPath,
@@ -85,6 +86,7 @@ const RequestBody = ({
                       <td className="col parameters-col_description">
                         {isExecute ?
                         <JsonSchemaForm
+                          fn={fn}
                           dispatchInitialValue={!isFile}
                           schema={prop}
                           getComponent={getComponent}
@@ -132,6 +134,7 @@ RequestBody.propTypes = {
   requestBodyValue: ImPropTypes.orderedMap.isRequired,
   getComponent: PropTypes.func.isRequired,
   getConfigs: PropTypes.func.isRequired,
+  fn: PropTypes.object.isRequired,
   specSelectors: PropTypes.object.isRequired,
   contentType: PropTypes.string,
   isExecute: PropTypes.bool.isRequired,
