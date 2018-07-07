@@ -36,7 +36,12 @@ const RequestBody = ({
     return null
   }
 
-  if(contentType === "application/octet-stream") {
+  if(
+    contentType === "application/octet-stream"
+    || contentType.indexOf("image/") === 0
+    || contentType.indexOf("audio/") === 0
+    || contentType.indexOf("video/") === 0
+  ) {
     const Input = getComponent("Input")
 
     if(!isExecute) {
