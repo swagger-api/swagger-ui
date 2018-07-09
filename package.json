@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.17.1",
+  "version": "3.17.3",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -14,7 +14,7 @@
   ],
   "license": "Apache-2.0",
   "scripts": {
-    "build": "npm run build-core && npm run build-bundle && npm run build-standalone",
+    "build": "run-p --aggregate-output build-core build-bundle build-standalone",
     "build-bundle": "webpack --config webpack-dist-bundle.config.js --colors",
     "build-core": "webpack --config webpack-dist.config.js --colors",
     "build-standalone": "webpack --config webpack-dist-standalone.config.js --colors",
@@ -24,19 +24,19 @@
     "hot-server": "webpack-dev-server --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress --content-base dev-helpers/",
     "deps-license": "license-checker --production --csv --out $npm_package_config_deps_check_dir/licenses.csv && license-checker --development --csv --out $npm_package_config_deps_check_dir/licenses-dev.csv",
     "deps-size": "webpack -p --config webpack.check.js --json | webpack-bundle-size-analyzer >| $npm_package_config_deps_check_dir/sizes.txt",
-    "deps-check": "npm run deps-license && npm run deps-size",
+    "deps-check": "run-s deps-license deps-size",
     "lint": "eslint --cache --ext '.js,.jsx' src test",
     "lint-errors": "eslint --cache --quiet --ext '.js,.jsx' src test",
     "lint-fix": "eslint --cache --ext '.js,.jsx' src test --fix",
-    "test": "npm run just-test-in-node && npm run lint-errors",
-    "test-in-node": "npm run lint-errors && npm run just-test-in-node",
-    "just-test-in-node": "mocha --require test/setup.js --recursive --compilers js:babel-core/register test/core test/components test/bugs test/swagger-ui-dist-package test/xss",
+    "test": "run-s just-test-in-node lint-errors",
+    "test-in-node": "run-s lint-errors just-test-in-node",
+    "just-test-in-node": "mocha --require test/setup.js --recursive --compilers js:babel-core/register --require source-map-support test/core test/components test/bugs test/swagger-ui-dist-package test/xss",
     "just-check-coverage": "nyc npm run just-test-in-node",
     "test-e2e": "sleep 3 && nightwatch test/e2e/scenarios/ --config test/e2e/nightwatch.json",
     "e2e-initial-render": "nightwatch test/e2e/scenarios/ --config test/e2e/nightwatch.json --group initial-render",
     "mock-api": "json-server --watch test/e2e/db.json --port 3204",
     "hot-e2e-server": "webpack-dev-server --port 3230 --content-base test/e2e/helpers --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress",
-    "e2e": "npm-run-all --parallel -r hot-e2e-server mock-api test-e2e",
+    "e2e": "run-p -r hot-e2e-server mock-api test-e2e",
     "open-static": "node -e 'require(\"open\")(\"http://localhost:3002\")'",
     "serve-static": "http-server dist/ -i -a 0.0.0.0 -p 3002",
     "start": "npm-run-all --parallel serve-static open-static"
@@ -72,9 +72,9 @@
     "redux": "^3.x.x",
     "redux-immutable": "3.0.8",
     "remarkable": "^1.7.1",
-    "reselect": "^3.0.1",
+    "reselect": "^2.5.4",
     "serialize-error": "^2.1.0",
-    "swagger-client": "^3.8.5",
+    "swagger-client": "^3.8.7",
     "url-parse": "^1.1.8",
     "xml": "1.0.1",
     "xml-but-prettier": "^1.0.1",
@@ -94,13 +94,14 @@
     "babel-preset-react": "^6.23.0",
     "babel-preset-stage-0": "^6.22.0",
     "babel-runtime": "^6.23.0",
+    "bundlesize": "^0.17.0",
     "chromedriver": "^2.38.3",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.11",
     "deepmerge": "^2.1.0",
     "enzyme": "^2.7.1",
     "eslint": "^4.1.1",
-    "eslint-plugin-import": "^2.6.0",
+    "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-mocha": "^4.11.0",
     "eslint-plugin-react": "~7.7.0",
     "expect": "^1.20.2",
@@ -153,5 +154,12 @@
     "include": [
       "**/src/core/plugins/**.js"
     ]
-  }
+  },
+  "bundlesize": [
+    {
+      "path": "./dist/swagger-ui-bundle.js",
+      "maxSize": "1.5 MB",
+      "compression": "none"
+    }
+  ]
 }
