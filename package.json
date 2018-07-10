@@ -158,7 +158,7 @@
   "bundlesize": [
     {
       "path": "./dist/swagger-ui-bundle.js",
-      "maxSize": "1.5 MB",
+      "maxSize": "1 MB",
       "compression": "none"
     }
   ]
