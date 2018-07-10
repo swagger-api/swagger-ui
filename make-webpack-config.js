@@ -71,10 +71,13 @@ module.exports = function(rules, options) {
     plugins.push(
       new UglifyJsPlugin({
         uglifyOptions: {
-          mangle: specialOptions.mangle,
+          mangle: specialOptions.mangle ? {
+            reserved: ["GeneratorFunction"]
+          } : false,
+          compress: specialOptions.mangle,
           beautify: !specialOptions.mangle,
-          keep_fnames: true
         },
+        
         sourceMap: true,
       }),
       new webpack.LoaderOptionsPlugin({
