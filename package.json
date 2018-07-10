@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "@braintree/sanitize-url": "^2.0.2",
+    "@kyleshockey/js-yaml": "^1.0.1",
     "base64-js": "^1.2.0",
     "classnames": "^2.2.5",
     "commonmark": "^0.28.1",
@@ -53,7 +54,6 @@
     "ieee754": "^1.1.8",
     "immutable": "^3.x.x",
     "js-file-download": "^0.4.1",
-    "js-yaml": "^3.5.5",
     "lodash": "^4.17.10",
     "memoizee": "^0.4.12",
     "prop-types": "^15.5.10",

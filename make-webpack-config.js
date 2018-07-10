@@ -145,7 +145,9 @@ module.exports = function(rules, options) {
         "node_modules"
       ],
       extensions: [".web.js", ".js", ".jsx", ".json", ".less"],
-      alias: {}
+      alias: {
+        "js-yaml": "@kyleshockey/js-yaml"
+      }
     },
 
   devtool: specialOptions.sourcemaps ? "nosource-source-map" : false,
