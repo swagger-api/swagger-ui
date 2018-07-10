@@ -1,6 +1,5 @@
 import React from "react"
 import PropTypes from "prop-types"
-import ReactMarkdown from "react-markdown"
 import cx from "classnames"
 import { Parser, HtmlRenderer } from "commonmark"
 import { OAS3ComponentWrapFactory } from "../helpers"
@@ -18,8 +17,10 @@ export const Markdown = ({ source, className = "" }) => {
     }
 
     return (
-      <ReactMarkdown
-        source={sanitized}
+      <div
+        dangerouslySetInnerHTML={{
+          __html: sanitized
+        }}
         className={cx(className, "renderedMarkdown")}
       />
     )

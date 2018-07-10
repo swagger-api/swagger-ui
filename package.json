@@ -65,7 +65,6 @@
     "react-immutable-proptypes": "2.1.0",
     "react-immutable-pure-component": "^1.1.1",
     "react-inspector": "^2.3.0",
-    "react-markdown": "^2.5.0",
     "react-motion": "^0.5.2",
     "react-redux": "^4.x.x",
     "react-split-pane": "^0.1.77",
