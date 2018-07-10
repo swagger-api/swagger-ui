@@ -1,4 +1,4 @@
-# Swagger UI
+# Swagger UI loves Jenkins
 
 [![NPM version](https://badge.fury.io/js/swagger-ui.svg)](http://badge.fury.io/js/swagger-ui)
 
