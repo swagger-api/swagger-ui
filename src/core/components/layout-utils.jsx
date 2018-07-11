@@ -1,6 +1,5 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { Collapse as OriCollapse } from "react-collapse"
 
 function xclass(...args) {
   return args.filter(a => !!a).join(" ").trim()
@@ -243,11 +242,9 @@ export class Collapse extends React.Component {
 
     children = isOpened ? children : null
     return (
-      <OriCollapse isOpened={isOpened}>
-        <NoMargin>
-          {children}
-        </NoMargin>
-      </OriCollapse>
+      <NoMargin>
+        {children}
+      </NoMargin>
     )
   }
 

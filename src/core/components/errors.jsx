@@ -1,7 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { List } from "immutable"
-import { Collapse } from "react-collapse"
 
 export default class Errors extends React.Component {
 
@@ -13,7 +12,9 @@ export default class Errors extends React.Component {
   }
 
   render() {
-    let { editorActions, errSelectors, layoutSelectors, layoutActions } = this.props
+    let { editorActions, errSelectors, layoutSelectors, layoutActions, getComponent } = this.props
+
+    const Collapse = getComponent("Collapse")
 
     if(editorActions && editorActions.jumpToLine) {
       var jumpToLine = editorActions.jumpToLine
