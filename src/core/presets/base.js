@@ -4,7 +4,6 @@ import spec from "core/plugins/spec"
 import view from "core/plugins/view"
 import samples from "core/plugins/samples"
 import logs from "core/plugins/logs"
-import ast from "core/plugins/ast"
 import swaggerJs from "core/plugins/swagger-js"
 import auth from "core/plugins/auth"
 import util from "core/plugins/util"
@@ -51,6 +50,7 @@ import Info, {
   InfoBasePath
 } from "core/components/info"
 import InfoContainer from "core/containers/info"
+import JumpToPath from "core/components/jump-to-path"
 import Footer from "core/components/footer"
 import FilterContainer from "core/containers/filter"
 import ParamBody from "core/components/param-body"
@@ -98,6 +98,7 @@ export default function() {
       liveResponse: LiveResponse,
       info: Info,
       InfoContainer,
+      JumpToPath,
       onlineValidatorBadge: OnlineValidatorBadge,
       operations: Operations,
       operation: Operation,
@@ -167,7 +168,6 @@ export default function() {
     swaggerJs,
     jsonSchemaComponents,
     auth,
-    ast,
     downloadUrlPlugin,
     deepLinkingPlugin,
     filter,

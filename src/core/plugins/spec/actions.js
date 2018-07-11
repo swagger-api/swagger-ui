@@ -80,7 +80,7 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
 
 let hasWarnedAboutResolveSpecDeprecation = false
 
-export const resolveSpec = (json, url) => ({specActions, specSelectors, errActions, fn: { fetch, resolve, AST }, getConfigs}) => {
+export const resolveSpec = (json, url) => ({specActions, specSelectors, errActions, fn: { fetch, resolve, AST = {} }, getConfigs}) => {
   if(!hasWarnedAboutResolveSpecDeprecation) {
     console.warn(`specActions.resolveSpec is deprecated since v3.10.0 and will be removed in v4.0.0; use requestResolvedSubtree instead!`)
     hasWarnedAboutResolveSpecDeprecation = true
@@ -100,7 +100,7 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
     url = specSelectors.url()
   }
 
-  let { getLineNumberForPath } = AST
+  let getLineNumberForPath = AST.getLineNumberForPath ? AST.getLineNumberForPath : () => undefined
 
   let specStr = specSelectors.specStr()
 
@@ -149,7 +149,7 @@ const debResolveSubtrees = debounce(async () => {
       errSelectors,
       fn: {
         resolveSubtree,
-        AST: { getLineNumberForPath }
+        AST = {}
       },
       specSelectors,
       specActions,
@@ -159,6 +159,8 @@ const debResolveSubtrees = debounce(async () => {
     console.error("Error: Swagger-Client did not provide a `resolveSubtree` method, doing nothing.")
     return
   }
+
+  let getLineNumberForPath = AST.getLineNumberForPath ? AST.getLineNumberForPath : () => undefined
 
   const specStr = specSelectors.specStr()
 
