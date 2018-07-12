@@ -30,7 +30,7 @@ export default function curl( request ){
       }
     } else {
       curlified.push( "-d" )
-      curlified.push( JSON.stringify( request.get("body") ).replace(/\\n/g, "") )
+      curlified.push( `'${JSON.stringify( request.get("body") ).replace(/'/g, "'\\''")}'` )
     }
   }
 

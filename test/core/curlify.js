@@ -22,7 +22,7 @@ describe("curlify", function() {
 
         let curlified = curl(Im.fromJS(req))
 
-        expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"Accept: application/json\" -H  \"content-type: application/json\" -d {\"id\":0,\"name\":\"doggie\",\"status\":\"available\"}")
+        expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"Accept: application/json\" -H  \"content-type: application/json\" -d '{\"id\":0,\"name\":\"doggie\",\"status\":\"available\"}'")
     })
 
     it("does not change the case of header in curl", function() {
@@ -78,7 +78,7 @@ describe("curlify", function() {
 
         let curlified = curl(Im.fromJS(req))
 
-        expect(curlified).toEqual("curl -X GET \"http://swaggerhub.com/v1/one?name=john|smith\" -H  \"accept: application/json\" -d {\"description\":\"<b>Test</b>\"}")
+        expect(curlified).toEqual("curl -X GET \"http://swaggerhub.com/v1/one?name=john|smith\" -H  \"accept: application/json\" -d '{\"description\":\"<b>Test</b>\"}'")
     })
 
     it("handles post body with html", function() {
@@ -95,7 +95,7 @@ describe("curlify", function() {
 
         let curlified = curl(Im.fromJS(req))
 
-        expect(curlified).toEqual("curl -X POST \"http://swaggerhub.com/v1/one?name=john|smith\" -H  \"accept: application/json\" -d {\"description\":\"<b>Test</b>\"}")
+        expect(curlified).toEqual("curl -X POST \"http://swaggerhub.com/v1/one?name=john|smith\" -H  \"accept: application/json\" -d '{\"description\":\"<b>Test</b>\"}'")
     })
 
     it("handles post body with special chars", function() {
@@ -110,7 +110,7 @@ describe("curlify", function() {
 
         let curlified = curl(Im.fromJS(req))
 
-        expect(curlified).toEqual("curl -X POST \"http://swaggerhub.com/v1/one?name=john|smith\" -d {\"description\":\"@prefix nif:<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .@prefix itsrdf: <http://www.w3.org/2005/11/its/rdf#> .\"}")
+        expect(curlified).toEqual("curl -X POST \"http://swaggerhub.com/v1/one?name=john|smith\" -d '{\"description\":\"@prefix nif:<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .\\n@prefix itsrdf: <http://www.w3.org/2005/11/its/rdf#> .\"}'")
     })
 
     it("handles delete form with parameters", function() {
@@ -177,7 +177,7 @@ describe("curlify", function() {
 
         let curlified = curl(Im.fromJS(req))
 
-        expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"accept: application/json\" -d {\"id\":10101}")
+        expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"accept: application/json\" -d '{\"id\":10101}'")
     })
 
     it("prints a curl post statement from a string containing a single quote", function() {
@@ -192,7 +192,7 @@ describe("curlify", function() {
 
         let curlified = curl(Im.fromJS(req))
 
-        expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"accept: application/json\" -d \"{\\\"id\\\":\\\"foo'bar\\\"}\"")
+        expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"accept: application/json\" -d '\"{\\\"id\\\":\\\"foo'\\''bar\\\"}\"'")
     })
 
 })
