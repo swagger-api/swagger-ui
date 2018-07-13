@@ -27,20 +27,24 @@ export default class ParameterRow extends Component {
   }
 
   componentWillReceiveProps(props) {
-    let { specSelectors, pathMethod, param } = props
+    let { specSelectors, pathMethod, rawParam } = props
     let { isOAS3 } = specSelectors
 
-    let example = param.get("example")
-    let parameter = specSelectors.parameterWithMetaByIdentity(pathMethod, param) || param
+    let example = rawParam.get("example")
+
+    let parameterWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam)
+    // fallback, if the meta lookup fails
+    parameterWithMeta = parameterWithMeta.isEmpty() ? rawParam : parameterWithMeta
+
     let enumValue
 
     if(isOAS3()) {
-      let schema = param.get("schema") || Map()
+      let schema = rawParam.get("schema") || Map()
       enumValue = schema.get("enum")
     } else {
-      enumValue = parameter ? parameter.get("enum") : undefined
+      enumValue = parameterWithMeta ? parameterWithMeta.get("enum") : undefined
     }
-    let paramValue = parameter ? parameter.get("value") : undefined
+    let paramValue = parameterWithMeta ? parameterWithMeta.get("value") : undefined
 
     let value
 
@@ -48,7 +52,7 @@ export default class ParameterRow extends Component {
       value = paramValue
     } else if ( example !== undefined ) {
       value = example
-    } else if ( param.get("required") && enumValue && enumValue.size ) {
+    } else if ( rawParam.get("required") && enumValue && enumValue.size ) {
       value = enumValue.first()
     }
 
@@ -63,20 +67,20 @@ export default class ParameterRow extends Component {
   }
 
   setDefaultValue = () => {
-    let { specSelectors, pathMethod, param } = this.props
+    let { specSelectors, pathMethod, rawParam } = this.props
 
-    if (param.get("value") !== undefined) {
+    if (rawParam.get("value") !== undefined) {
       return
     }
 
-    let schema = specSelectors.isOAS3() ? param.get("schema", Map({})) : param
+    let schema = specSelectors.isOAS3() ? rawParam.get("schema", Map({})) : rawParam
 
     let defaultValue = schema.get("default")
-    let xExampleValue = param.get("x-example") // Swagger 2 only
-    let parameter = specSelectors.parameterWithMetaByIdentity(pathMethod, param)
+    let xExampleValue = rawParam.get("x-example") // Swagger 2 only
+    let parameter = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam)
     let value = parameter ? parameter.get("value") : ""
 
-    if( param.get("in") !== "body" ) {
+    if( rawParam.get("in") !== "body" ) {
       if ( xExampleValue !== undefined && value === undefined && specSelectors.isSwagger2() ) {
         this.onChangeWrapper(xExampleValue)
       } else if ( defaultValue !== undefined && value === undefined ) {
