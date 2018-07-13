@@ -7,7 +7,13 @@ describe("onComplete option", function () {
       .url("localhost:3230")
       .page.main()
 
-    client.waitForElementVisible(".opblock-tag-section", 5000)
+    client.waitForElementVisible(".download-url-input:not([disabled])", 5000)
+      .pause(80)
+      .clearValue(".download-url-input")
+      .setValue(".download-url-input", "http://localhost:3230/test-specs/petstore.json")
+      .click("button.download-url-button")
+      .pause(1000)
+
     done()
   })
 
