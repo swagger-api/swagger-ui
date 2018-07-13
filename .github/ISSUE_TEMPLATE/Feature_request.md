@@ -4,14 +4,6 @@ about: Suggest an new feature or enhancement for this project
 
 ---
 
-### Q&A (please complete the following information)
- - OS: [e.g. macOS]
- - Browser: [e.g. chrome, safari]
- - Version: [e.g. 22]
- - Method of installation: [e.g. npm, dist assets]
- - Swagger-UI version: [e.g. 3.10.0]
- - Swagger/OpenAPI version: [e.g. Swagger 2.0, OpenAPI 3.0]
-
  ### Content & configuration
 
 Swagger/OpenAPI definition:

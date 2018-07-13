@@ -5,10 +5,10 @@ describe("bug #4374: OAS3 parameters should be visibly validated in Try-It-Out",
             .url("localhost:3230")
             .page.main()
 
-        client.waitForElementVisible(".download-url-input", 10000)
+        client.waitForElementVisible(".download-url-input:not([disabled])", 10000)
             .pause(1000)
             .clearValue(".download-url-input")
-            .setValue(".download-url-input", "http://localhost:3230/test-specs/bugs/4374.yaml")
+            .setValue(".download-url-input", "/test-specs/bugs/4374.yaml")
             .click("button.download-url-button")
             .pause(1000)
 
