@@ -21,18 +21,18 @@ describe("bug: unable to change array input", function () {
       .click("#operations-default-get_test")
       .pause(500)
       .click("button.btn.try-out__btn")
-      .elements('css selector', '.json-schema-form-item', function (result) {
-        this.assert.equal(result.value.length, 2, 'initial number of array item inputs');
+      .elements("css selector", ".json-schema-form-item", function (result) {
+        this.assert.equal(result.value.length, 2, "initial number of array item inputs")
       })
       .click(".json-schema-form-item-add")
-      .elements('css selector', '.json-schema-form-item', function (result) {
-        this.assert.equal(result.value.length, 3, 'number of array item inputs after clicking add');
+      .elements("css selector", ".json-schema-form-item", function (result) {
+        this.assert.equal(result.value.length, 3, "number of array item inputs after clicking add")
       })
       .click(".json-schema-form-item-remove")
       .click(".json-schema-form-item-remove")
       .click(".json-schema-form-item-remove")
-      .elements('css selector', '.json-schema-form-item', function (result) {
-        this.assert.equal(result.value.length, 0, 'number of array item inputs after removing all items');
+      .elements("css selector", ".json-schema-form-item", function (result) {
+        this.assert.equal(result.value.length, 0, "number of array item inputs after removing all items")
       })
       .click(".json-schema-form-item-add")
       .setValue(".json-schema-form-item input", "myValue123")
