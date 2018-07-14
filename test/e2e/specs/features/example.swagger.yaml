@@ -94,7 +94,7 @@ paths:
                       type: string
                     name:
                       type: string
-            x-example:
+            example:
               code: 201
               payload:
               - id: 1
