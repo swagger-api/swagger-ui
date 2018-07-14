@@ -37,7 +37,7 @@ export default class ParameterRow extends Component {
     let enumValue
 
     if(isOAS3()) {
-      let schema = rawParam.get("schema") || Map()
+      let schema = parameterWithMeta.get("schema") || Map()
       enumValue = schema.get("enum")
     } else {
       enumValue = parameterWithMeta ? parameterWithMeta.get("enum") : undefined
@@ -73,8 +73,6 @@ export default class ParameterRow extends Component {
     if (paramWithMeta.get("value") !== undefined) {
       return
     }
-
-    let schema = specSelectors.isOAS3() ? paramWithMeta.get("schema", Map({})) : paramWithMeta
 
     if( paramWithMeta.get("in") !== "body" ) {
       let newValue

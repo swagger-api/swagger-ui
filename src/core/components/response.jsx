@@ -96,7 +96,7 @@ export default class Response extends React.Component {
 
     if(isOAS3()) {
       const mediaType = response.getIn(["content", activeContentType], Map({}))
-      const oas3SchemaForContentType = mediaType.get("schema")
+      const oas3SchemaForContentType = mediaType.get("schema", Map({}))
 
       if(mediaType.get("example") !== undefined) {
         sampleSchema = stringify(mediaType.get("example"))
