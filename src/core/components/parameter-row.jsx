@@ -161,7 +161,7 @@ export default class ParameterRow extends Component {
     }
 
     return (
-      <tr className="parameters">
+      <tr data-param-name={param.get("name")} data-param-in={param.get("in")}>
         <td className="col parameters-col_name">
           <div className={required ? "parameter__name required" : "parameter__name"}>
             { param.get("name") }
