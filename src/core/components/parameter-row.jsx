@@ -78,13 +78,15 @@ export default class ParameterRow extends Component {
       let newValue
 
       if (specSelectors.isSwagger2()) {
-        newValue = paramWithMeta.getIn(["schema", "default"])
-          || paramWithMeta.get("x-example")
+        newValue = paramWithMeta.get("x-example")
+          || paramWithMeta.getIn(["default"])
+          || paramWithMeta.getIn(["schema", "example"])
+          || paramWithMeta.getIn(["schema", "default"])
       } else if (specSelectors.isOAS3()) {
-        newValue = paramWithMeta.get("default")
-          || paramWithMeta.get("example")
+        newValue = paramWithMeta.get("example")
+          || paramWithMeta.getIn(["schema", "example"])
+          || paramWithMeta.getIn(["schema", "default"])
       }
-
       if(newValue !== undefined) {
         this.onChangeWrapper(newValue)
       }
