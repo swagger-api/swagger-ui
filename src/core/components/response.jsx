@@ -3,28 +3,7 @@ import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
 import { fromJS, Seq, Iterable, List, Map } from "immutable"
-import { getSampleSchema, fromJSOrdered } from "core/utils"
-
-const stringify = (thing) => {
-  if(typeof thing === "string") {
-    return thing
-  }
-
-  if (thing.toJS) {
-    thing = thing.toJS()
-  }
-
-  if(typeof thing === "object" && thing !== null) {
-    try {
-      return JSON.stringify(thing, null, 2)
-    }
-    catch (e) {
-      return String(thing)
-    }
-  }
-
-  return thing.toString()
-}
+import { getSampleSchema, fromJSOrdered, stringify } from "core/utils"
 
 const getExampleComponent = ( sampleResponse, examples, HighlightCode ) => {
   if ( examples && examples.size ) {
