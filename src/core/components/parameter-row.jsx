@@ -30,8 +30,6 @@ export default class ParameterRow extends Component {
     let { specSelectors, pathMethod, rawParam } = props
     let { isOAS3 } = specSelectors
 
-    let example = rawParam.get("example")
-
     let parameterWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam)
     // fallback, if the meta lookup fails
     parameterWithMeta = parameterWithMeta.isEmpty() ? rawParam : parameterWithMeta
@@ -39,7 +37,7 @@ export default class ParameterRow extends Component {
     let enumValue
 
     if(isOAS3()) {
-      let schema = rawParam.get("schema") || Map()
+      let schema = parameterWithMeta.get("schema") || Map()
       enumValue = schema.get("enum")
     } else {
       enumValue = parameterWithMeta ? parameterWithMeta.get("enum") : undefined
@@ -50,15 +48,15 @@ export default class ParameterRow extends Component {
 
     if ( paramValue !== undefined ) {
       value = paramValue
-    } else if ( example !== undefined ) {
-      value = example
     } else if ( rawParam.get("required") && enumValue && enumValue.size ) {
       value = enumValue.first()
     }
 
-    if ( value !== undefined ) {
+    if ( value !== undefined && value !== paramValue ) {
       this.onChangeWrapper(value)
     }
+
+    this.setDefaultValue()
   }
 
   onChangeWrapper = (value, isXml = false) => {
@@ -69,22 +67,28 @@ export default class ParameterRow extends Component {
   setDefaultValue = () => {
     let { specSelectors, pathMethod, rawParam } = this.props
 
-    if (rawParam.get("value") !== undefined) {
+    let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam)
+
+
+    if (paramWithMeta.get("value") !== undefined) {
       return
     }
 
-    let schema = specSelectors.isOAS3() ? rawParam.get("schema", Map({})) : rawParam
+    if( paramWithMeta.get("in") !== "body" ) {
+      let newValue
 
-    let defaultValue = schema.get("default")
-    let xExampleValue = rawParam.get("x-example") // Swagger 2 only
-    let parameter = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam)
-    let value = parameter ? parameter.get("value") : ""
-
-    if( rawParam.get("in") !== "body" ) {
-      if ( xExampleValue !== undefined && value === undefined && specSelectors.isSwagger2() ) {
-        this.onChangeWrapper(xExampleValue)
-      } else if ( defaultValue !== undefined && value === undefined ) {
-        this.onChangeWrapper(defaultValue)
+      if (specSelectors.isSwagger2()) {
+        newValue = paramWithMeta.get("x-example")
+          || paramWithMeta.getIn(["default"])
+          || paramWithMeta.getIn(["schema", "example"])
+          || paramWithMeta.getIn(["schema", "default"])
+      } else if (specSelectors.isOAS3()) {
+        newValue = paramWithMeta.get("example")
+          || paramWithMeta.getIn(["schema", "example"])
+          || paramWithMeta.getIn(["schema", "default"])
+      }
+      if(newValue !== undefined) {
+        this.onChangeWrapper(newValue)
       }
     }
   }
@@ -161,7 +165,7 @@ export default class ParameterRow extends Component {
     }
 
     return (
-      <tr className="parameters">
+      <tr data-param-name={param.get("name")} data-param-in={param.get("in")}>
         <td className="col parameters-col_name">
           <div className={required ? "parameter__name required" : "parameter__name"}>
             { param.get("name") }

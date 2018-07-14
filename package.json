@@ -98,6 +98,7 @@
     "chromedriver": "^2.38.3",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.11",
+    "dedent": "^0.7.0",
     "deepmerge": "^2.1.0",
     "enzyme": "^2.7.1",
     "eslint": "^4.1.1",
