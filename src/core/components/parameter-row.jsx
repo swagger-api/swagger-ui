@@ -40,7 +40,7 @@ export default class ParameterRow extends Component {
     } else {
       enumValue = parameter ? parameter.get("enum") : undefined
     }
-    let paramValue = parameter ? parameter.get("value") : undefined
+    let paramValue = param.get("value")
 
     let value
 
