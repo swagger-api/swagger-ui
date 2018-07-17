@@ -109,6 +109,7 @@
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.11",
     "git-describe": "^4.0.1",
+    "http-server": "^0.11.1",
     "imports-loader": "^0.8.0",
     "jsdom": "^11.10.0",
     "json-loader": "^0.5.7",
