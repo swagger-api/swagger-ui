@@ -27,7 +27,7 @@ module.exports = function SwaggerUI(opts) {
 
   const defaults = {
     // Some general settings, that we floated to the top
-    dom_id: null,
+    dom_id: null, // eslint-disable-line camelcase
     domNode: null,
     spec: {},
     url: "",
@@ -131,10 +131,6 @@ module.exports = function SwaggerUI(opts) {
   var system = store.getSystem()
 
   const downloadSpec = (fetchedConfig) => {
-    if(typeof constructorConfig !== "object") {
-      return system
-    }
-
     let localConfig = system.specSelectors.getLocalConfig ? system.specSelectors.getLocalConfig() : {}
     let mergedConfig = deepExtend({}, localConfig, constructorConfig, fetchedConfig || {}, queryConfig)
 
@@ -144,6 +140,7 @@ module.exports = function SwaggerUI(opts) {
     }
 
     store.setConfigs(mergedConfig)
+    system.configsActions.loaded()
 
     if (fetchedConfig !== null) {
       if (!queryConfig.url && typeof mergedConfig.spec === "object" && Object.keys(mergedConfig.spec).length) {
@@ -171,15 +168,17 @@ module.exports = function SwaggerUI(opts) {
     return system
   }
 
-  let configUrl = queryConfig.config || constructorConfig.configUrl
+  const configUrl = queryConfig.config || constructorConfig.configUrl
 
-  if (!configUrl || !system.specActions.getConfigByUrl || system.specActions.getConfigByUrl && !system.specActions.getConfigByUrl({
+  if (!configUrl || !system.specActions || !system.specActions.getConfigByUrl || system.specActions.getConfigByUrl && !system.specActions.getConfigByUrl({
     url: configUrl,
     loadRemoteConfig: true,
     requestInterceptor: constructorConfig.requestInterceptor,
     responseInterceptor: constructorConfig.responseInterceptor,
   }, downloadSpec)) {
     return downloadSpec()
+  } else {
+    system.specActions.getConfigByUrl(configUrl, downloadSpec)
   }
 
   return system

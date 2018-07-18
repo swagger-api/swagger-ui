@@ -6,10 +6,6 @@
   "custom_assertions_path" : "",
   "page_objects_path" : "test/e2e/pages",
   "globals_path" : "",
-  "test_workers" : {
-    "enabled" : true,
-    "workers" : "auto"
-  },
 
   "test_runner" : {
     "type" : "mocha",
@@ -21,7 +17,7 @@
 
   "selenium" : {
     "start_process" : true,
-    "server_path" : "node_modules/selenium-server-standalone-jar/jar/selenium-server-standalone-3.4.0.jar",
+    "server_path" : "node_modules/selenium-server-standalone-jar/jar/selenium-server-standalone-3.12.0.jar",
     "log_path" : "",
     "host" : "127.0.0.1",
     "port" : 4444,

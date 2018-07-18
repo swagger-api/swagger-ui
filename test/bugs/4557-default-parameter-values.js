@@ -18,12 +18,15 @@ describe("bug #4557: default parameter values", function(){
       getComponent: ()=> "div",
       specSelectors: {
         security(){},
-        parameterWithMeta(){ return paramValue },
-        isOAS3(){ return false }
+        parameterWithMetaByIdentity(){ return paramValue },
+        isOAS3(){ return false },
+        isSwagger2(){ return true }
       },
+      fn: {},
       operation: {get: ()=>{}},
       onChange: createSpy(),
       param: paramValue,
+      rawParam: paramValue,
       onChangeConsumes: () => {},
       pathMethod: [],
       getConfigs: () => { return {} },
@@ -32,7 +35,8 @@ describe("bug #4557: default parameter values", function(){
 
     render(<ParameterRow {...props}/>)
 
-    expect(props.onChange).toHaveBeenCalledWith(paramValue, "MyDefaultValue")
+    expect(props.onChange).toHaveBeenCalled()
+    expect(props.onChange).toHaveBeenCalledWith(paramValue, "MyDefaultValue", false)
   })
   it("should apply an OpenAPI 3.0 default value", function(){
 
@@ -48,12 +52,15 @@ describe("bug #4557: default parameter values", function(){
       getComponent: ()=> "div",
       specSelectors: {
         security(){},
-        parameterWithMeta(){ return paramValue },
-        isOAS3(){ return true }
+        parameterWithMetaByIdentity(){ return paramValue },
+        isOAS3(){ return true },
+        isSwagger2() { return false }
       },
+      fn: {},
       operation: {get: ()=>{}},
       onChange: createSpy(),
       param: paramValue,
+      rawParam: paramValue,
       onChangeConsumes: () => {},
       pathMethod: [],
       getConfigs: () => { return {} },
@@ -62,6 +69,7 @@ describe("bug #4557: default parameter values", function(){
 
     render(<ParameterRow {...props}/>)
 
-    expect(props.onChange).toHaveBeenCalledWith(paramValue, "MyDefaultValue")
+    expect(props.onChange).toHaveBeenCalled()
+    expect(props.onChange).toHaveBeenCalledWith(paramValue, "MyDefaultValue", false)
   })
 })

@@ -17,6 +17,7 @@ const JsonSchemaPropShape = {
   schema: PropTypes.object,
   errors: ImPropTypes.list,
   required: PropTypes.bool,
+  dispatchInitialValue: PropTypes.bool,
   description: PropTypes.any
 }
 
@@ -33,6 +34,13 @@ export class JsonSchemaForm extends Component {
 
   static propTypes = JsonSchemaPropShape
   static defaultProps = JsonSchemaDefaultProps
+
+  componentDidMount() {
+    const { dispatchInitialValue, value, onChange } = this.props
+    if(dispatchInitialValue) {
+      onChange(value)
+    }
+  }
 
   render() {
     let { schema, errors, value, onChange, getComponent, fn } = this.props
@@ -103,7 +111,7 @@ export class JsonSchema_array extends PureComponent {
 
   constructor(props, context) {
     super(props, context)
-    this.state = {value: props.value}
+    this.state = { value: valueOrEmptyList(props.value)}
   }
 
   componentWillReceiveProps(props) {
@@ -127,7 +135,7 @@ export class JsonSchema_array extends PureComponent {
 
   addItem = () => {
     this.setState(state => {
-      state.value = state.value || List()
+      state.value = valueOrEmptyList(state.value)
       return {
         value: state.value.push("")
       }
@@ -166,7 +174,7 @@ export class JsonSchema_array extends PureComponent {
 
     return (
       <div>
-        { !value || value.count() < 1 ? null :
+        { !value || !value.count || value.count() < 1 ? null :
           value.map( (item,i) => {
             let schema = Object.assign({}, itemSchema)
             if ( errors.length ) {
@@ -193,7 +201,7 @@ export class JsonSchema_boolean extends Component {
 
   onEnumChange = (val) => this.props.onChange(val)
   render() {
-    let { getComponent, value, errors, schema } = this.props
+    let { getComponent, value, errors, schema, required } = this.props
     errors = errors.toJS ? errors.toJS() : []
 
     const Select = getComponent("Select")
@@ -202,7 +210,7 @@ export class JsonSchema_boolean extends Component {
                     title={ errors.length ? errors : ""}
                     value={ String(value) }
                     allowedValues={ fromJS(schema.enum || ["true", "false"]) }
-                    allowEmptyValue={ !this.props.required }
+                    allowEmptyValue={ !schema.enum || !required }
                     onChange={ this.onEnumChange }/>)
   }
 }
@@ -255,4 +263,8 @@ export class JsonSchema_object extends PureComponent {
     )
 
   }
+}
+
+function valueOrEmptyList(value) {
+  return List.isList(value) ? value : List()
 }

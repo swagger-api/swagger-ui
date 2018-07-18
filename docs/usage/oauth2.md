@@ -3,9 +3,9 @@ You can configure OAuth2 authorization by calling the `initOAuth` method.
 
 Config Name | Description
 --- | ---
-client_id | Default clientId. MUST be a string
-client_secret | Default clientSecret. MUST be a string
-realm | realm query parameter (for oauth1) added to `authorizationUrl` and `tokenUrl` . MUST be a string
+clientId | Default clientId. MUST be a string
+clientSecret | **🚨 Never use this parameter in your production environemnt. It exposes cruicial security information. This feature is intended for dev/test environments only. 🚨** <br>Default clientSecret. MUST be a string
+realm | realm query parameter (for oauth1) added to `authorizationUrl` and `tokenUrl`. MUST be a string
 appName | application name, displayed in authorization popup. MUST be a string
 scopeSeparator | scope separator for passing scopes, encoded before calling, default value is a space (encoded value `%20`). MUST be a string
 additionalQueryStringParams | Additional query parameters added to `authorizationUrl` and `tokenUrl`. MUST be an object
