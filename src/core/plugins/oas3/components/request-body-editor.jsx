@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { fromJS } from "immutable"
-import { getSampleSchema } from "core/utils"
+import { getSampleSchema, stringify } from "core/utils"
 
 const NOOP = Function.prototype
 
@@ -67,9 +67,11 @@ export default class RequestBodyEditor extends PureComponent {
 
   sample = (explicitMediaType) => {
     let { requestBody, mediaType } = this.props
-    let schema = requestBody.getIn(["content", explicitMediaType || mediaType, "schema"]).toJS()
+    let mediaTypeValue = requestBody.getIn(["content", explicitMediaType || mediaType])
+    let schema = mediaTypeValue.get("schema").toJS()
+    let mediaTypeExample = mediaTypeValue.get("example") !== undefined ? stringify(mediaTypeValue.get("example")) : null
 
-    return getSampleSchema(schema, explicitMediaType || mediaType, {
+    return mediaTypeExample || getSampleSchema(schema, explicitMediaType || mediaType, {
       includeWriteOnly: true
     })
   }

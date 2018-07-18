@@ -3,3 +3,4 @@ env:
 rules:
   "react/prop-types": 1 # bah humbug
   "no-unused-vars": 1 # unused vars in tests can be useful for indicating a full signature
+  "no-global-assign": 1

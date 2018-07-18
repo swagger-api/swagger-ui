@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.17.2",
+  "version": "3.17.4",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -30,7 +30,7 @@
     "lint-fix": "eslint --cache --ext '.js,.jsx' src test --fix",
     "test": "run-s just-test-in-node lint-errors",
     "test-in-node": "run-s lint-errors just-test-in-node",
-    "just-test-in-node": "mocha --require test/setup.js --recursive --compilers js:babel-core/register test/core test/components test/bugs test/swagger-ui-dist-package test/xss",
+    "just-test-in-node": "mocha --require test/setup.js --recursive --compilers js:babel-core/register --require source-map-support test/core test/components test/bugs test/swagger-ui-dist-package test/xss",
     "just-check-coverage": "nyc npm run just-test-in-node",
     "test-e2e": "sleep 3 && nightwatch test/e2e/scenarios/ --config test/e2e/nightwatch.json",
     "e2e-initial-render": "nightwatch test/e2e/scenarios/ --config test/e2e/nightwatch.json --group initial-render",
@@ -72,7 +72,7 @@
     "redux": "^3.x.x",
     "redux-immutable": "3.0.8",
     "remarkable": "^1.7.1",
-    "reselect": "^3.0.1",
+    "reselect": "^2.5.4",
     "serialize-error": "^2.1.0",
     "swagger-client": "^3.8.7",
     "url-parse": "^1.1.8",
@@ -94,19 +94,22 @@
     "babel-preset-react": "^6.23.0",
     "babel-preset-stage-0": "^6.22.0",
     "babel-runtime": "^6.23.0",
+    "bundlesize": "^0.17.0",
     "chromedriver": "^2.38.3",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.11",
+    "dedent": "^0.7.0",
     "deepmerge": "^2.1.0",
     "enzyme": "^2.7.1",
     "eslint": "^4.1.1",
-    "eslint-plugin-import": "^2.6.0",
+    "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-mocha": "^4.11.0",
     "eslint-plugin-react": "~7.7.0",
     "expect": "^1.20.2",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.11",
     "git-describe": "^4.0.1",
+    "http-server": "^0.11.1",
     "imports-loader": "^0.8.0",
     "jsdom": "^11.10.0",
     "json-loader": "^0.5.7",
@@ -153,5 +156,12 @@
     "include": [
       "**/src/core/plugins/**.js"
     ]
-  }
+  },
+  "bundlesize": [
+    {
+      "path": "./dist/swagger-ui-bundle.js",
+      "maxSize": "1.5 MB",
+      "compression": "none"
+    }
+  ]
 }

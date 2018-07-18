@@ -24,7 +24,8 @@ import {
   getCommonExtensions,
   sanitizeUrl,
   extractFileNameFromContentDispositionHeader,
-  deeplyStripKey
+  deeplyStripKey,
+  getSampleSchema
 } from "core/utils"
 import win from "core/window"
 
@@ -1186,5 +1187,30 @@ describe("utils", function() {
       expect(sanitizeUrl({})).toEqual("")
     })
   })
+  describe("getSampleSchema", function() {
+    const oriDate = Date
 
+    before(function() {
+      Date = function () {
+        this.toISOString = function () {
+          return "2018-07-07T07:07:05.189Z"
+        }
+      }
+    })
+
+    after(function() {
+      Date = oriDate
+    })
+    
+    it("should not unnecessarily stringify non-object values", function() {
+      // Given
+      const res = getSampleSchema({
+        type: "string",
+        format: "date-time"
+      })
+
+      // Then
+      expect(res).toEqual(new Date().toISOString())
+    })
+  })
 })

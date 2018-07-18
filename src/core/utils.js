@@ -628,7 +628,9 @@ export const getSampleSchema = (schema, contentType="", config={}) => {
     return memoizedCreateXMLExample(schema, config)
   }
 
-  return JSON.stringify(memoizedSampleFromSchema(schema, config), null, 2)
+  const res = memoizedSampleFromSchema(schema, config)
+
+  return typeof res === "object" ? JSON.stringify(res, null, 2) : res
 }
 
 export const parseSearch = () => {
@@ -757,4 +759,25 @@ export function deeplyStripKey(input, keyToStrip, predicate = () => true) {
   })
 
   return obj
+}
+
+export function stringify(thing) {
+  if (typeof thing === "string") {
+    return thing
+  }
+
+  if (thing.toJS) {
+    thing = thing.toJS()
+  }
+
+  if (typeof thing === "object" && thing !== null) {
+    try {
+      return JSON.stringify(thing, null, 2)
+    }
+    catch (e) {
+      return String(thing)
+    }
+  }
+
+  return thing.toString()
 }
