@@ -6,10 +6,6 @@
   "custom_assertions_path" : "",
   "page_objects_path" : "test/e2e/pages",
   "globals_path" : "",
-  "test_workers" : {
-    "enabled" : true,
-    "workers" : "auto"
-  },
 
   "test_runner" : {
     "type" : "mocha",
