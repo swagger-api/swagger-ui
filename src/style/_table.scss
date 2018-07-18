@@ -19,8 +19,7 @@ table
 
                     &:first-of-type
                     {
-                        width: 174px;
-                        padding: 0 0 0 2em;
+                        padding: 0 1em 0 2em;
                     }
                 }
             }
@@ -99,6 +98,7 @@ table
 {
     font-size: 16px;
     font-weight: normal;
+    float: left;
 
     @include text_headline();
 
@@ -127,6 +127,8 @@ table
 {
     font-size: 12px;
     font-style: italic;
+    float: left;
+    margin-left: 5px;
 
     @include text_code($table-parameter-in-font-color);
 }
@@ -135,6 +137,8 @@ table
 {
     font-size: 12px;
     font-style: italic;
+    float: left;
+    margin-left: 5px;
 
     @include text_code($table-parameter-deprecated-font-color);
 }

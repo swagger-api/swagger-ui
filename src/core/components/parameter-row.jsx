@@ -176,10 +176,10 @@ export default class ParameterRow extends Component {
             { itemType && `[${itemType}]` }
             { format && <span className="prop-format">(${format})</span>}
           </div>
+          <div className="parameter__in">({ param.get("in") })</div>
           <div className="parameter__deprecated">
             { isOAS3 && isOAS3() && param.get("deprecated") ? "deprecated": null }
           </div>
-          <div className="parameter__in">({ param.get("in") })</div>
           { !showCommonExtensions || !commonExt.size ? null : commonExt.map((v, key) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} /> )}
           { !showExtensions || !extensions.size ? null : extensions.map((v, key) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} /> )}
         </td>
