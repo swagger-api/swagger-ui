@@ -8,7 +8,8 @@ export default class Errors extends React.Component {
     editorActions: PropTypes.object,
     errSelectors: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
-    layoutActions: PropTypes.object.isRequired
+    layoutActions: PropTypes.object.isRequired,
+    getComponent: PropTypes.func.isRequired,
   }
 
   render() {

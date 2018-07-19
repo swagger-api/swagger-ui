@@ -48,6 +48,7 @@ export default class Debug extends React.Component {
 }
 
 Debug.propTypes = {
-  getState: PropTypes.func.isRequired
+  getState: PropTypes.func.isRequired,
+  getComponent: PropTypes.func.isRequired,
 }
 
