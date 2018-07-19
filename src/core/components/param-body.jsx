@@ -114,7 +114,7 @@ export default class ParamBody extends PureComponent {
     let { value, isEditBox } = this.state
 
     return (
-      <div className="body-param">
+      <div className="body-param" data-param-name={param.get("name")} data-param-in={param.get("in")}>
         {
           isEditBox && isExecute
             ? <TextArea className={ "body-param__text" + ( errors.count() ? " invalid" : "")} value={value} onChange={ this.handleOnChange }/>

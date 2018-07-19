@@ -7,7 +7,7 @@ describe("Remote $ref rendering", function () {
     .url("localhost:3230?defaultModelsExpandDepth=5")
     .page.main()
 
-    client.waitForElementVisible(".download-url-input", 5000)
+    client.waitForElementVisible(".download-url-input:not([disabled])", 5000)
     .pause(2000)
     .clearValue(".download-url-input")
     .setValue(".download-url-input", "http://localhost:3230/test-specs/refs/api1.yaml")

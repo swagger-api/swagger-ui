@@ -52,10 +52,10 @@ export const sampleFromSchema = (schema, config={}) => {
     let props = objectify(properties)
     let obj = {}
     for (var name in props) {
-      if ( props[name].readOnly && !includeReadOnly ) {
+      if ( props[name] && props[name].readOnly && !includeReadOnly ) {
         continue
       }
-      if ( props[name].writeOnly && !includeWriteOnly ) {
+      if ( props[name] && props[name].writeOnly && !includeWriteOnly ) {
         continue
       }
       obj[name] = sampleFromSchema(props[name], config)

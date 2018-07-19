@@ -31,6 +31,9 @@ import OnlineValidatorBadge from "core/components/online-validator-badge"
 import Operations from "core/components/operations"
 import OperationTag from "core/components/operation-tag"
 import Operation from "core/components/operation"
+import OperationSummary from "core/components/operation-summary"
+import OperationSummaryMethod from "core/components/operation-summary-method"
+import OperationSummaryPath from "core/components/operation-summary-path"
 import OperationExt from "core/components/operation-extensions"
 import OperationExtRow from "core/components/operation-extension-row"
 import HighlightCode from "core/components/highlight-code"
@@ -102,6 +105,9 @@ export default function() {
       onlineValidatorBadge: OnlineValidatorBadge,
       operations: Operations,
       operation: Operation,
+      OperationSummary,
+      OperationSummaryMethod,
+      OperationSummaryPath,
       highlightCode: HighlightCode,
       responses: Responses,
       response: Response,

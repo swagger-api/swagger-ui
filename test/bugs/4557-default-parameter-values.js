@@ -19,7 +19,8 @@ describe("bug #4557: default parameter values", function(){
       specSelectors: {
         security(){},
         parameterWithMetaByIdentity(){ return paramValue },
-        isOAS3(){ return false }
+        isOAS3(){ return false },
+        isSwagger2(){ return true }
       },
       fn: {},
       operation: {get: ()=>{}},
@@ -52,7 +53,8 @@ describe("bug #4557: default parameter values", function(){
       specSelectors: {
         security(){},
         parameterWithMetaByIdentity(){ return paramValue },
-        isOAS3(){ return true }
+        isOAS3(){ return true },
+        isSwagger2() { return false }
       },
       fn: {},
       operation: {get: ()=>{}},
