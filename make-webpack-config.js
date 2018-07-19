@@ -71,9 +71,7 @@ module.exports = function(rules, options) {
     plugins.push(
       new UglifyJsPlugin({
         uglifyOptions: {
-          mangle: specialOptions.mangle ? {
-            reserved: ["GeneratorFunction"]
-          } : false,
+          mangle: specialOptions.mangle,
           compress: specialOptions.mangle,
           beautify: !specialOptions.mangle,
         },
