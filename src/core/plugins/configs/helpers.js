@@ -1,4 +1,4 @@
-import YAML from "js-yaml"
+import YAML from "@kyleshockey/js-yaml"
 
 export const parseYamlConfig = (yaml, system) => {
   try {
