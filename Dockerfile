@@ -4,7 +4,7 @@ LABEL maintainer="fehguy"
 
 ENV VERSION "v2.2.10"
 ENV FOLDER "swagger-ui-2.2.10"
-ENV API_URL "http://petstore.swagger.io/v2/swagger.json"
+ENV API_URL "https://petstore.swagger.io/v2/swagger.json"
 ENV API_URLS ""
 ENV API_KEY "**None**"
 ENV OAUTH_CLIENT_ID "**None**"

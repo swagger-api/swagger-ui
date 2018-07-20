@@ -1,4 +1,4 @@
-import YAML from "js-yaml"
+import YAML from "@kyleshockey/js-yaml"
 import { Map } from "immutable"
 import parseUrl from "url-parse"
 import serializeError from "serialize-error"
@@ -80,7 +80,7 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
 
 let hasWarnedAboutResolveSpecDeprecation = false
 
-export const resolveSpec = (json, url) => ({specActions, specSelectors, errActions, fn: { fetch, resolve, AST }, getConfigs}) => {
+export const resolveSpec = (json, url) => ({specActions, specSelectors, errActions, fn: { fetch, resolve, AST = {} }, getConfigs}) => {
   if(!hasWarnedAboutResolveSpecDeprecation) {
     console.warn(`specActions.resolveSpec is deprecated since v3.10.0 and will be removed in v4.0.0; use requestResolvedSubtree instead!`)
     hasWarnedAboutResolveSpecDeprecation = true
@@ -100,7 +100,7 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
     url = specSelectors.url()
   }
 
-  let { getLineNumberForPath } = AST
+  let getLineNumberForPath = AST.getLineNumberForPath ? AST.getLineNumberForPath : () => undefined
 
   let specStr = specSelectors.specStr()
 
@@ -149,7 +149,7 @@ const debResolveSubtrees = debounce(async () => {
       errSelectors,
       fn: {
         resolveSubtree,
-        AST: { getLineNumberForPath }
+        AST = {}
       },
       specSelectors,
       specActions,
@@ -159,6 +159,8 @@ const debResolveSubtrees = debounce(async () => {
     console.error("Error: Swagger-Client did not provide a `resolveSubtree` method, doing nothing.")
     return
   }
+
+  let getLineNumberForPath = AST.getLineNumberForPath ? AST.getLineNumberForPath : () => undefined
 
   const specStr = specSelectors.specStr()
 
@@ -231,6 +233,13 @@ export function changeParam( path, paramName, paramIn, value, isXml ){
   return {
     type: UPDATE_PARAM,
     payload:{ path, value, paramName, paramIn, isXml }
+  }
+}
+
+export function changeParamByIdentity( pathMethod, param, value, isXml ){
+  return {
+    type: UPDATE_PARAM,
+    payload:{ path: pathMethod, param, value, isXml }
   }
 }
 
@@ -348,7 +357,9 @@ export const executeRequest = (req) =>
 
       if(isJSONObject(requestBody)) {
         req.requestBody = JSON.parse(requestBody)
-      } else {
+      } else if(requestBody && requestBody.toJS) {
+        req.requestBody = requestBody.toJS()
+      } else{
         req.requestBody = requestBody
       }
     }

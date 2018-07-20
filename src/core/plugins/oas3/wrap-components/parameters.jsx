@@ -47,11 +47,11 @@ class Parameters extends Component {
 
   onChange = ( param, value, isXml ) => {
     let {
-      specActions: { changeParam },
+      specActions: { changeParamByIdentity },
       onChangeKey,
     } = this.props
 
-    changeParam( onChangeKey, param.get("name"), param.get("in"), value, isXml)
+    changeParamByIdentity( onChangeKey, param, value, isXml)
   }
 
   onChangeConsumesWrapper = ( val ) => {
@@ -145,7 +145,8 @@ class Parameters extends Component {
                         getComponent={ getComponent }
                         specPath={specPath.push(i)}
                         getConfigs={ getConfigs }
-                        param={ parameter }
+                        rawParam={ parameter }
+                        param={ specSelectors.parameterWithMetaByIdentity(pathMethod, parameter) }
                         key={ parameter.get( "name" ) }
                         onChange={ this.onChange }
                         onChangeConsumes={this.onChangeConsumesWrapper}
@@ -185,8 +186,17 @@ class Parameters extends Component {
               <RequestBody
                 specPath={requestBodySpecPath}
                 requestBody={requestBody}
+                requestBodyValue={oas3Selectors.requestBodyValue(...pathMethod) || Map()}
                 isExecute={isExecute}
-                onChange={(value) => {
+                onChange={(value, path) => {
+                  if(path) {
+                    const lastValue = oas3Selectors.requestBodyValue(...pathMethod)
+                    const usableValue = Map.isMap(lastValue) ? lastValue : Map()
+                    return oas3Actions.setRequestBodyValue({
+                      pathMethod,
+                      value: usableValue.setIn(path, value)
+                    })
+                  }
                   oas3Actions.setRequestBodyValue({ value, pathMethod })
                 }}
                 contentType={oas3Selectors.requestContentType(...pathMethod)}/>
