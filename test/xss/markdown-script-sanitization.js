@@ -24,13 +24,13 @@ describe("Markdown Script Sanitization", function() {
     it("sanitizes <script> elements", function() {
       const str = `script <script>alert(1)</script>`
       const el = render(<OAS3Markdown source={str} />)
-      expect(el.html()).toEqual(`<div class="renderedMarkdown"><div><p>script </p></div></div>`)
+      expect(el.html()).toEqual(`<div class="renderedMarkdown"><p>script </p></div>`)
     })
 
     it("sanitizes <img> elements", function() {
       const str = `<img src=x onerror="alert('img-in-description')">`
       const el = render(<OAS3Markdown source={str} />)
-      expect(el.html()).toEqual(`<div class="renderedMarkdown"><div><img src="x"></div></div>`)
+      expect(el.html()).toEqual(`<div class="renderedMarkdown"><p><img src="x"></p></div>`)
     })
   })
 })
