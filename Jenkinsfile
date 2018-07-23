@@ -19,34 +19,37 @@ env.SLACK_DEFAULT_AUTHOR = 'API:Docs'
 env.SLACK_DEFAULT_AUTHOR_LINK = ''
 env.SLACK_DEFAULT_AUTHOR_ICON = ''
 
+def ecr_registry = docker.getECRRegistry()
+def swagger_image = "${ecr_registry}/swagger-ui-builder"
+
 node('docker') {
     try {
         wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
-            stage 'Checkout'
+            stage('Checkout') {
+                checkout scm
 
-            checkout scm
+                env.GIT_COMMIT = git.commit()
+                env.GIT_SHORT_COMMIT = git.short_commit()
+                env.GIT_VERSION = git.version()
+            }
 
-            env.GIT_COMMIT = git.commit()
-            env.GIT_SHORT_COMMIT = git.short_commit()
-            env.GIT_VERSION = git.version()
+            stage('Build') {
+                docker.ecr_login()
+                sh "docker build -t ${swagger_image} ."
 
-            stage 'Build'
+                if (env.BRANCH_NAME == 'master') {
+                    stage('Deploy') {
+                        sh("docker tag ${swagger_image}:${env.GIT_VERSION} ${swagger_image}:latest")
+                        sh("docker push ${swagger_image}:${env.GIT_VERSION}")
+                        sh("docker push ${swagger_image}:latest")
 
-            docker.login()
-            sh "docker build -t sketchfab/swagger-ui-builder:${env.GIT_VERSION} ."
-
-            if (env.BRANCH_NAME == 'master') {
-                stage 'Deploy'
-                sh "docker tag sketchfab/swagger-ui-builder:${env.GIT_VERSION} sketchfab/swagger-ui-builder:latest"
-                sh "docker push sketchfab/swagger-ui-builder:${env.GIT_VERSION}"
-                sh "docker push sketchfab/swagger-ui-builder:latest"
-
-                slack.notify('Docker Image sketchfab/swagger-ui-builder successfully pushed to hub.docker.com', [color: 'success'])
+                        slack.notify("Docker image ${swagger_image} successfully pushed to ECR", [color: 'success'])
+                    }
+                }
             }
         }
-
     } catch (err) {
-        slack.notify('Error when building Docker Image sketchfab/swagger-ui-builder', [color: 'error'])
+        slack.notify('Error when building Docker image ${swagger_image}', [color: 'error'])
         throw err
     }
 }
