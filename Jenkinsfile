@@ -20,7 +20,7 @@ env.SLACK_DEFAULT_AUTHOR_LINK = ''
 env.SLACK_DEFAULT_AUTHOR_ICON = ''
 
 def ecr_registry = docker.getECRRegistry()
-def swagger_image = "${ecr_registry}/swagger-ui-builder"
+def swagger_image = "${ecr_registry}/sketchfab/swagger-ui-builder"
 
 node('docker') {
     try {
@@ -35,7 +35,7 @@ node('docker') {
 
             stage('Build') {
                 docker.ecr_login()
-                sh "docker build -t ${swagger_image} ."
+                sh "docker build -t ${swagger_image}:${env.GIT_VERSION} ."
 
                 if (env.BRANCH_NAME == 'master') {
                     stage('Deploy') {
