@@ -79,6 +79,30 @@ describe("sampleFromSchema", function() {
     expect(sampleFromSchema(definition, { includeReadOnly: true })).toEqual(expected)
   })
 
+  it("returns object without deprecated fields for parameter", function () {
+    var definition = {
+      type: "object",
+      properties: {
+        id: {
+          type: "integer"
+        },
+        deprecatedProperty: {
+          deprecated: true,
+          type: "string"
+        }
+      },
+      xml: {
+        name: "animals"
+      }
+    }
+
+    var expected = {
+      id: 0
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
   it("returns object without writeonly fields for parameter", function () {
     var definition = {
       type: "object",
