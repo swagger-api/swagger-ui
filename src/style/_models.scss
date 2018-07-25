@@ -166,6 +166,7 @@ section.models
     .model-container
     {
         margin: 0 20px 15px;
+        position: relative;
 
         transition: all .5s;
 
@@ -185,6 +186,13 @@ section.models
         &:last-of-type
         {
             margin: 0 20px;
+        }
+
+        .models-jump-to-path {
+          position: absolute;
+          top: 8px;
+          right: 5px;
+          opacity: 0.65;
         }
     }
 

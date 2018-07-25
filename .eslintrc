@@ -13,11 +13,15 @@
     }
   },
 
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
 
   "plugins": [
     "react",
-    "mocha"
+    "mocha",
+    "import"
   ],
 
   "rules": {
@@ -34,6 +38,7 @@
     "no-console": ["error", { allow: ["warn", "error"] }],
     "react/jsx-no-bind": 1,
     "react/display-name": 0,
-    "mocha/no-exclusive-tests": "error"
+    "mocha/no-exclusive-tests": "error",
+    "import/no-extraneous-dependencies": [2]
   }
 }

@@ -10,6 +10,7 @@ const RequestBody = ({
   getComponent,
   getConfigs,
   specSelectors,
+  fn,
   contentType,
   isExecute,
   specPath,
@@ -35,7 +36,12 @@ const RequestBody = ({
     return null
   }
 
-  if(contentType === "application/octet-stream") {
+  if(
+    contentType === "application/octet-stream"
+    || contentType.indexOf("image/") === 0
+    || contentType.indexOf("audio/") === 0
+    || contentType.indexOf("video/") === 0
+  ) {
     const Input = getComponent("Input")
 
     if(!isExecute) {
@@ -85,6 +91,7 @@ const RequestBody = ({
                       <td className="col parameters-col_description">
                         {isExecute ?
                         <JsonSchemaForm
+                          fn={fn}
                           dispatchInitialValue={!isFile}
                           schema={prop}
                           getComponent={getComponent}
@@ -132,6 +139,7 @@ RequestBody.propTypes = {
   requestBodyValue: ImPropTypes.orderedMap.isRequired,
   getComponent: PropTypes.func.isRequired,
   getConfigs: PropTypes.func.isRequired,
+  fn: PropTypes.object.isRequired,
   specSelectors: PropTypes.object.isRequired,
   contentType: PropTypes.string,
   isExecute: PropTypes.bool.isRequired,
