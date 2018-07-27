@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { Map } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
+import toString from "lodash/toString"
 import win from "core/window"
 import { getExtensions, getCommonExtensions } from "core/utils"
 
@@ -53,7 +54,7 @@ export default class ParameterRow extends Component {
     }
 
     if ( value !== undefined && value !== paramValue ) {
-      this.onChangeWrapper(value)
+      this.onChangeWrapper(toString(value))
     }
 
     this.setDefaultValue()
@@ -88,7 +89,7 @@ export default class ParameterRow extends Component {
           || paramWithMeta.getIn(["schema", "default"])
       }
       if(newValue !== undefined) {
-        this.onChangeWrapper(newValue)
+        this.onChangeWrapper(toString(newValue))
       }
     }
   }
