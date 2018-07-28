@@ -1,4 +1,4 @@
-# Swagger UI
+# Swagger UI is completely automated..or not.
 
 [![NPM version](https://badge.fury.io/js/swagger-ui.svg)](http://badge.fury.io/js/swagger-ui)
 
