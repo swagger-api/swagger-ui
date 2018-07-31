@@ -52,6 +52,7 @@
     "dompurify": "^1.0.4",
     "ieee754": "^1.1.8",
     "immutable": "^3.x.x",
+    "is-html": "^1.1.0",
     "js-file-download": "^0.4.1",
     "lodash": "^4.17.10",
     "memoizee": "^0.4.12",

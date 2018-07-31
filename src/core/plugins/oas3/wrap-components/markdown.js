@@ -4,6 +4,7 @@ import cx from "classnames"
 import Remarkable from "remarkable"
 import { OAS3ComponentWrapFactory } from "../helpers"
 import { sanitizer } from "core/components/providers/markdown"
+import modifyHtmlElems from "core/plugins/deep-linking/modifyHtmlElems.js"
 
 const parser = new Remarkable("commonmark")
 
@@ -20,10 +21,27 @@ export const Markdown = ({ source, className = "" }) => {
       trimmed = sanitized.trim()
     }
 
+    let finalHtml
+
+    const hasDeepLinksReady = modifyHtmlElems(trimmed, "a", function(anchor) {
+      const isDeepLink = anchor.includes("href=\"#/")
+      if (isDeepLink) {
+        const removedTrgtBlnk = anchor.replace(" target=\"_blank", "")
+        return removedTrgtBlnk
+      }
+    })
+
+    if (hasDeepLinksReady) {
+      finalHtml = hasDeepLinksReady
+    }
+    else {
+      finalHtml = trimmed
+    }
+
     return (
       <div
         dangerouslySetInnerHTML={{
-          __html: trimmed
+          __html: finalHtml
         }}
         className={cx(className, "renderedMarkdown")}
       />

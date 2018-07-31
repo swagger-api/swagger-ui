@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import Remarkable from "remarkable"
 import DomPurify from "dompurify"
 import cx from "classnames"
+import modifyHtmlElems from "core/plugins/deep-linking/modifyHtmlElems.js"
 
 DomPurify.addHook("beforeSanitizeElements", function (current, ) {
   // Attach safe `rel` values to all elements that contain an `href`,
@@ -34,7 +35,7 @@ function Markdown({ source, className = "" }) {
         linkify: true,
         linkTarget: "_blank"
     })
-    
+
     const html = md.render(source)
     const sanitized = sanitizer(html)
 
@@ -42,8 +43,25 @@ function Markdown({ source, className = "" }) {
         return null
     }
 
+    let finalHtml
+
+    const hasDeepLinksReady = modifyHtmlElems(sanitized, "a", function(anchor) {
+      const isDeepLink = anchor.includes("href=\"#/")
+      if (isDeepLink) {
+        const removedTrgtBlnk = anchor.replace(" target=\"_blank", "")
+        return removedTrgtBlnk
+      }
+    })
+
+    if (hasDeepLinksReady) {
+      finalHtml = hasDeepLinksReady
+    }
+    else {
+      finalHtml = sanitized
+    }
+
     return (
-        <div className={cx(className, "markdown")} dangerouslySetInnerHTML={{ __html: sanitized }}></div>
+        <div className={cx(className, "markdown")} dangerouslySetInnerHTML={{ __html: finalHtml }}></div>
     )
 }
 
