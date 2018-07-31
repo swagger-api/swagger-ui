@@ -3,9 +3,34 @@ import Im from "immutable"
 
 const ADD_PATH_REF_PAIR = "layout_add_path_ref_pair"
 const INITIALIZE_PATH_REF_PAIRS = "layout_initialize_path_ref_pairs"
+const CLICK_DEEP_LINK = "layout_click_deep_link"
 
 
 
+
+
+function scrollTo(path, getScrollParent, getPathRefPairs) {
+  const pathRefPairs = getPathRefPairs()
+  const ref = pathRefPairs.get(path)
+
+  try {
+    const container = getScrollParent(ref)
+    let myScroller = zenscroll.createScroller(container)
+    myScroller.to(ref)
+  } catch(e) {
+    console.error(e) // eslint-disable-line no-console
+  }
+}
+
+
+export const show = (ori) => (...args) => {
+  const havePath = (typeof args[0] === "string")
+  if (havePath) {
+    //Convert path to isShownKey
+    args[0] = isShownKeyFromUrlHashArray(args[0].split("/"))
+  }
+  ori(...args)
+}
 
 
 function isShownKeyFromUrlHashArray(urlHashArray) {
@@ -17,6 +42,45 @@ function isShownKeyFromUrlHashArray(urlHashArray) {
     return ["operations-tag", tag]
   }
   return []
+}
+
+
+const parseDeepLinkHash = (rawHash) => {
+  if(rawHash) {
+    let hash = rawHash.slice(1) // # is first character
+    if(hash[0] === "!") {
+      // Parse UI 2.x shebangs
+      hash = hash.slice(1)
+    }
+    if(hash[0] === "/") {
+      // "/pet/addPet" => "pet/addPet"
+      // makes the split result cleaner
+      // also handles forgotten leading slash
+      hash = hash.slice(1)
+    }
+    return hash
+  }
+}
+
+
+function onDeepLinkClicked(sys, callback) {
+  const deepLinkingEnabled = sys.getConfigs().deepLinking
+  if (deepLinkingEnabled) {
+    window.onhashchange = function() {
+      const { deepLinkAlreadyClicked } = sys.layoutSelectors
+
+      if (!deepLinkAlreadyClicked()) {
+        const { hash } = window.location
+        const { parseDeepLinkHash, scrollTo } = sys.fn
+        const { show, clickDeepLink } = sys.layoutActions
+
+        clickDeepLink()
+
+        const path = parseDeepLinkHash(hash)
+        callback(path, show, scrollTo)
+      }
+    }
+  }
 }
 
 
@@ -43,6 +107,8 @@ function getScrollParent(element, includeHidden) {
 }
 
 
+
+
 function addPathRefPair(pair) {
   return {
     type: ADD_PATH_REF_PAIR,
@@ -58,22 +124,46 @@ function initializePathRefPairs() {
 }
 
 
+//Used to make sure that deepLinking works only once in the document’s life cycle
+function clickDeepLink() {
+  return { type: CLICK_DEEP_LINK }
+}
+
+
 
 
 export default {
+  fn: {
+    parseDeepLinkHash,
+    onDeepLinkClicked,
+    getScrollParent,
+    scrollTo
+  },
   afterLoad(system) {
     const { initializePathRefPairs } = system.layoutActions
+    const { getScrollParent } = system.fn
+    const { getPathRefPairs } = system.layoutSelectors
+
     initializePathRefPairs()
+
+    system.fn.scrollTo = function(path) {
+      scrollTo(path, getScrollParent, getPathRefPairs)
+    }
   },
   statePlugins: {
     layout: {
       actions: {
         addPathRefPair,
+        clickDeepLink,
         initializePathRefPairs
       },
       selectors: {
         getPathRefPairs(state) {
           return state.get("pathRefPairs")
+        },
+        deepLinkAlreadyClicked(state) {
+          const clicked = state.get("deepLinkAlreadyClicked")
+          return (clicked ? true : false)
         },
         isShownKeyFromUrlHashArray
       },
@@ -87,8 +177,12 @@ export default {
         },
         [INITIALIZE_PATH_REF_PAIRS](state) {
           return state.set("pathRefPairs", Im.fromJS({}))
+        },
+        [CLICK_DEEP_LINK](state) {
+          return state.set("deepLinkAlreadyClicked", true)
         }
-      }
+      },
+      wrapActions: { show }      
     }
   }
 }
