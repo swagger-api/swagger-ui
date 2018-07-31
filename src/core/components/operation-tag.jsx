@@ -24,6 +24,18 @@ export default class OperationTag extends React.Component {
     children: PropTypes.element,
   }
 
+  componentDidMount() {
+    const deepLinkingEnabled = this.props.getConfigs().deepLinking
+
+    if (deepLinkingEnabled) {
+      const { addPathRefPair } = this.props.layoutActions
+      const path = this.props.tag
+
+      //Needed for the operation to be scrolled to after its deepLink is clicked
+      addPathRefPair([path, this.ref])
+    }
+  }
+
   render() {
     const {
       tagObj,
@@ -56,7 +68,7 @@ export default class OperationTag extends React.Component {
     let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
 
     return (
-      <div className={showTag ? "opblock-tag-section is-open" : "opblock-tag-section"} >
+      <div ref={(elem) => {this.ref = elem}} className={showTag ? "opblock-tag-section is-open" : "opblock-tag-section"} >
 
         <h4
           onClick={() => layoutActions.show(isShownKey, !showTag)}

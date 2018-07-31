@@ -40,6 +40,19 @@ export default class Operation extends PureComponent {
     summary: ""
   }
 
+  componentDidMount() {
+    const deepLinkingEnabled = this.props.getConfigs().deepLinking
+
+    if (deepLinkingEnabled) {
+      const { addPathRefPair } = this.props.layoutActions
+      const { tag, operationId } = this.props.operation.toJS()
+      const path = tag + "/" + operationId
+
+      //Needed for the operation to be scrolled to after its deepLink is clicked
+      addPathRefPair([path, this.ref])
+    }
+  }
+
   render() {
     let {
       specPath,
@@ -112,7 +125,7 @@ export default class Operation extends PureComponent {
     let onChangeKey = [ path, method ] // Used to add values to _this_ operation ( indexed by path and method )
 
     return (
-        <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={isShownKey.join("-")} >
+        <div ref={(elem) => {this.ref = elem}} className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={isShownKey.join("-")} >
         <OperationSummary operationProps={operationProps} toggleShown={toggleShown} getComponent={getComponent} authActions={authActions} authSelectors={authSelectors} specPath={specPath} />
           <Collapse isOpened={isShown}>
             <div className="opblock-body">
