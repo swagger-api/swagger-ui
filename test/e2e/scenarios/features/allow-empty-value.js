@@ -1,0 +1,258 @@
+describe("feature: allowEmptyValue", function () {
+
+  describe("Swagger 2", function () {
+
+    beforeEach(function (client, done) {
+      client
+        .url("localhost:3230")
+        .page.main()
+
+      client.waitForElementVisible(".download-url-input:not([disabled])", 5000)
+        .clearValue(".download-url-input")
+        .setValue(".download-url-input", "/test-specs/features/allow-empty-value.swagger.yaml")
+        .click("button.download-url-button")
+        .waitForElementVisible(".opblock", 10000)
+
+      done()
+    })
+
+    afterEach(function (client, done) {
+      done()
+    })
+
+    describe("regular parameters", function () {
+      it("should set and unset an integer value", function (client) {
+        const inputSelector = `tr[data-param-name="int"] input`
+
+        client // open try-it-out
+          .click("#operations-default-get_regularParams")
+          .waitForElementVisible("button.btn.try-out__btn", 5000)
+          .click("button.btn.try-out__btn")
+          .pause(200)
+
+        client // set parameter, to ensure an initial value is set
+          .setValue(inputSelector, "123")
+          .click("button.btn.execute.opblock-control__btn")
+          .pause(200)
+
+        client // remove initial value, execute again
+          .setValue(inputSelector, "\u0008\u0008\u0008") // backspaces
+          .pause(200)
+          .click("button.btn.execute.opblock-control__btn")
+          .expect.element("textarea.curl").text
+          .to.contain(`GET "http://localhost:3230/regularParams"`)
+      })
+      it("should set and unset a string value", function (client) {
+        const inputSelector = `tr[data-param-name="str"] input`
+
+        client // open try-it-out
+          .click("#operations-default-get_regularParams")
+          .waitForElementVisible("button.btn.try-out__btn", 5000)
+          .click("button.btn.try-out__btn")
+          .pause(200)
+
+        client // set parameter, to ensure an initial value is set
+          .setValue(inputSelector, "123")
+          .click("button.btn.execute.opblock-control__btn")
+          .pause(200)
+
+        client // remove initial value, execute again
+          .setValue(inputSelector, "\u0008\u0008\u0008") // backspaces
+          .pause(200)
+          .click("button.btn.execute.opblock-control__btn")
+          .expect.element("textarea.curl").text
+          .to.contain(`GET "http://localhost:3230/regularParams"`)
+      })
+      it("should set and unset a number value", function (client) {
+        const inputSelector = `tr[data-param-name="num"] input`
+
+        client // open try-it-out
+          .click("#operations-default-get_regularParams")
+          .waitForElementVisible("button.btn.try-out__btn", 5000)
+          .click("button.btn.try-out__btn")
+          .pause(200)
+
+        client // set parameter, to ensure an initial value is set
+          .setValue(inputSelector, "123")
+          .click("button.btn.execute.opblock-control__btn")
+          .pause(200)
+
+        client // remove initial value, execute again
+          .setValue(inputSelector, "\u0008\u0008\u0008") // backspaces
+          .pause(200)
+          .click("button.btn.execute.opblock-control__btn")
+          .expect.element("textarea.curl").text
+          .to.contain(`GET "http://localhost:3230/regularParams"`)
+      })
+      it("should set and unset a boolean value", function (client) {
+        const inputSelector = `tr[data-param-name="bool"] select`
+
+        client // open try-it-out
+          .click("#operations-default-get_regularParams")
+          .waitForElementVisible("button.btn.try-out__btn", 5000)
+          .click("button.btn.try-out__btn")
+          .pause(200)
+
+        client // set parameter, to ensure an initial value is set
+          .click(`${inputSelector} [value="true"]`)
+          .click("button.btn.execute.opblock-control__btn")
+          .pause(200)
+
+        client // remove initial value, execute again
+          .click(`${inputSelector} [value=""]`)
+          .pause(200)
+          .click("button.btn.execute.opblock-control__btn")
+          .expect.element("textarea.curl").text
+          .to.contain(`GET "http://localhost:3230/regularParams"`)
+      })
+      it("should set and unset an array value", function (client) {
+        const inputSelector = `tr[data-param-name="arr"]`
+
+        client // open try-it-out
+          .click("#operations-default-get_regularParams")
+          .waitForElementVisible("button.btn.try-out__btn", 5000)
+          .click("button.btn.try-out__btn")
+          .pause(200)
+
+        client // set parameter, to ensure an initial value is set
+          .click(`${inputSelector} .json-schema-form-item-add`)
+          .setValue(`${inputSelector} input`, "asdf")
+          .click("button.btn.execute.opblock-control__btn")
+          .pause(200)
+
+        client // remove initial value, execute again
+          .click(`${inputSelector} .json-schema-form-item-remove`)
+          .pause(200)
+          .click("button.btn.execute.opblock-control__btn")
+          .expect.element("textarea.curl").text
+          .to.contain(`GET "http://localhost:3230/regularParams"`)
+      })
+    })
+
+    describe("allowEmptyValue parameters", function () {
+      describe("in normal behavior", function() {
+        it("should set and unset an integer value", function (client) {
+          const inputSelector = `tr[data-param-name="int"] input`
+
+          client // open try-it-out
+            .click("#operations-default-get_emptyValueParams")
+            .waitForElementVisible("button.btn.try-out__btn", 5000)
+            .click("button.btn.try-out__btn")
+            .pause(200)
+
+          client // set parameter, to ensure an initial value is set
+            .setValue(inputSelector, "123")
+            .click("button.btn.execute.opblock-control__btn")
+            .pause(200)
+
+          client // remove initial value, execute again
+            .setValue(inputSelector, "\u0008\u0008\u0008") // backspaces
+            .pause(200)
+            .click("button.btn.execute.opblock-control__btn")
+            .expect.element("textarea.curl").text
+            .to.contain(`GET "http://localhost:3230/emptyValueParams"`)
+        })
+        it("should set and unset a string value", function (client) {
+          const inputSelector = `tr[data-param-name="str"] input`
+
+          client // open try-it-out
+            .click("#operations-default-get_emptyValueParams")
+            .waitForElementVisible("button.btn.try-out__btn", 5000)
+            .click("button.btn.try-out__btn")
+            .pause(200)
+
+          client // set parameter, to ensure an initial value is set
+            .setValue(inputSelector, "123")
+            .click("button.btn.execute.opblock-control__btn")
+            .pause(200)
+
+          client // remove initial value, execute again
+            .setValue(inputSelector, "\u0008\u0008\u0008") // backspaces
+            .pause(200)
+            .click("button.btn.execute.opblock-control__btn")
+            .expect.element("textarea.curl").text
+            .to.contain(`GET "http://localhost:3230/emptyValueParams"`)
+        })
+        it("should set and unset a number value", function (client) {
+          const inputSelector = `tr[data-param-name="num"] input`
+
+          client // open try-it-out
+            .click("#operations-default-get_emptyValueParams")
+            .waitForElementVisible("button.btn.try-out__btn", 5000)
+            .click("button.btn.try-out__btn")
+            .pause(200)
+
+          client // set parameter, to ensure an initial value is set
+            .setValue(inputSelector, "123")
+            .click("button.btn.execute.opblock-control__btn")
+            .pause(200)
+
+          client // remove initial value, execute again
+            .setValue(inputSelector, "\u0008\u0008\u0008") // backspaces
+            .pause(200)
+            .click("button.btn.execute.opblock-control__btn")
+            .expect.element("textarea.curl").text
+            .to.contain(`GET "http://localhost:3230/emptyValueParams"`)
+        })
+        it("should set and unset a boolean value", function (client) {
+          const inputSelector = `tr[data-param-name="bool"] select`
+
+          client // open try-it-out
+            .click("#operations-default-get_emptyValueParams")
+            .waitForElementVisible("button.btn.try-out__btn", 5000)
+            .click("button.btn.try-out__btn")
+            .pause(200)
+
+          client // set parameter, to ensure an initial value is set
+            .click(`${inputSelector} [value="true"]`)
+            .click("button.btn.execute.opblock-control__btn")
+            .pause(200)
+
+          client // remove initial value, execute again
+            .click(`${inputSelector} [value=""]`)
+            .pause(200)
+            .click("button.btn.execute.opblock-control__btn")
+            .expect.element("textarea.curl").text
+            .to.contain(`GET "http://localhost:3230/emptyValueParams"`)
+        })
+        it("should set and unset an array value", function (client) {
+          const inputSelector = `tr[data-param-name="arr"]`
+
+          client // open try-it-out
+            .click("#operations-default-get_emptyValueParams")
+            .waitForElementVisible("button.btn.try-out__btn", 5000)
+            .click("button.btn.try-out__btn")
+            .pause(200)
+
+          client // set parameter, to ensure an initial value is set
+            .click(`${inputSelector} .json-schema-form-item-add`)
+            .setValue(`${inputSelector} input`, "asdf")
+            .click("button.btn.execute.opblock-control__btn")
+            .pause(200)
+
+          client // remove initial value, execute again
+            .click(`${inputSelector} .json-schema-form-item-remove`)
+            .pause(200)
+            .click("button.btn.execute.opblock-control__btn")
+            .expect.element("textarea.curl").text
+            .to.contain(`GET "http://localhost:3230/emptyValueParams"`)
+        })
+      })
+    })
+  })
+  describe("OpenAPI 3.0", function () {
+    beforeEach(function (client, done) {
+      client
+        .url("localhost:3230")
+        .page.main()
+
+      client.waitForElementVisible(".download-url-input:not([disabled])", 5000)
+        .clearValue(".download-url-input")
+        .setValue(".download-url-input", "/test-specs/features/allow-empty-value.openapi.yaml")
+        .click("button.download-url-button")
+        .waitForElementVisible(".opblock", 10000)
+
+      done()
+    })
+  })
+})
