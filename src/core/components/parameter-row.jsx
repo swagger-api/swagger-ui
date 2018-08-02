@@ -61,7 +61,14 @@ export default class ParameterRow extends Component {
 
   onChangeWrapper = (value, isXml = false) => {
     let { onChange, rawParam } = this.props
-    let valueForUpstream = value === "" ? null : value
+    let valueForUpstream
+    
+    // Coerce empty strings and empty Immutable objects to null
+    if(value === "" || value.size === 0) {
+      valueForUpstream = null
+    } else {
+      valueForUpstream = value
+    }
 
     return onChange(rawParam, valueForUpstream, isXml)
   }
