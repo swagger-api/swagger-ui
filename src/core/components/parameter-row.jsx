@@ -61,7 +61,8 @@ export default class ParameterRow extends Component {
 
   onChangeWrapper = (value, isXml = false) => {
     let { onChange, rawParam } = this.props
-    return onChange(rawParam, value, isXml)
+    const valueForUpstream = value === "" ? null : value
+    return onChange(rawParam, valueForUpstream, isXml)
   }
 
   setDefaultValue = () => {
