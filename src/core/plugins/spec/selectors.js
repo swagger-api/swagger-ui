@@ -311,6 +311,12 @@ export const parameterWithMetaByIdentity = (state, pathMethod, param) => {
   return mergedParams.find(curr => curr.get("in") === param.get("in") && curr.get("name") === param.get("name"), OrderedMap())
 }
 
+export const parameterInclusionSettingByIdentity = (state, pathMethod, param) => {
+  const paramKey = `${param.get("name")}.${param.get("in")}.hash-${param.hashCode()}`
+  debugger
+  return state.getIn(["meta", "paths", ...pathMethod, "parameter_inclusions", paramKey], false)
+}
+
 
 export const parameterWithMeta = (state, pathMethod, paramName, paramIn) => {
   const opParams = specJsonWithResolvedSubtrees(state).getIn(["paths", ...pathMethod, "parameters"], OrderedMap())

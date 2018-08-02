@@ -14,6 +14,7 @@ export const UPDATE_SPEC = "spec_update_spec"
 export const UPDATE_URL = "spec_update_url"
 export const UPDATE_JSON = "spec_update_json"
 export const UPDATE_PARAM = "spec_update_param"
+export const UPDATE_EMPTY_PARAM_INCLUSION = "spec_update_empty_param_inclusion"
 export const VALIDATE_PARAMS = "spec_validate_param"
 export const SET_RESPONSE = "spec_set_response"
 export const SET_REQUEST = "spec_set_request"
@@ -230,6 +231,7 @@ export const requestResolvedSubtree = path => system => {
 }
 
 export function changeParam( path, paramName, paramIn, value, isXml ){
+  console.log(value)
   return {
     type: UPDATE_PARAM,
     payload:{ path, value, paramName, paramIn, isXml }
@@ -237,6 +239,7 @@ export function changeParam( path, paramName, paramIn, value, isXml ){
 }
 
 export function changeParamByIdentity( pathMethod, param, value, isXml ){
+  console.log(value)
   return {
     type: UPDATE_PARAM,
     payload:{ path: pathMethod, param, value, isXml }
@@ -266,6 +269,17 @@ export const validateParams = ( payload, isOAS3 ) =>{
     payload:{
       pathMethod: payload,
       isOAS3
+    }
+  }
+}
+
+export const updateEmptyParamInclusionByIdentity = ( pathMethod, param, includeEmptyValue ) =>{
+  return {
+    type: UPDATE_EMPTY_PARAM_INCLUSION,
+    payload:{
+      pathMethod,
+      param,
+      includeEmptyValue
     }
   }
 }

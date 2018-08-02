@@ -12,6 +12,7 @@ import {
   UPDATE_URL,
   UPDATE_JSON,
   UPDATE_PARAM,
+  UPDATE_EMPTY_PARAM_INCLUSION,
   VALIDATE_PARAMS,
   SET_RESPONSE,
   SET_REQUEST,
@@ -67,6 +68,27 @@ export default {
     return state.setIn(
       ["meta", "paths", ...pathMethod, "parameters", paramKey, valueKey],
       value
+    )
+  },
+
+  [UPDATE_EMPTY_PARAM_INCLUSION]: ( state, {payload} ) => {
+    let { pathMethod, param, includeEmptyValue } = payload
+
+    let paramKey
+
+    // `hashCode` is an Immutable.js Map method
+    if(param && param.hashCode) {
+      paramKey = `${param.get("name")}.${param.get("in")}.hash-${param.hashCode()}`
+    }
+
+    if(!paramKey) {
+      console.warn("Warning: UPDATE_EMPTY_PARAM_INCLUSION could not generate a paramKey.")
+      return state
+    }
+
+    return state.setIn(
+      ["meta", "paths", ...pathMethod, "parameter_inclusions", paramKey],
+      includeEmptyValue
     )
   },
 
