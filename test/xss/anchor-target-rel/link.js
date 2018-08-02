@@ -14,7 +14,7 @@ describe("<Link/> Anchor Target Safety", function () {
     getComponent: c => components[c] || dummyComponent
   }
 
-  it("renders regular links with `noreferrer` and `noopener", function () {
+  it("renders regular links with `noreferrer` and `noopener`", function () {
     const props = {
       ...baseProps,
       href: "http://google.com/"
