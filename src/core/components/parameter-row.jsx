@@ -61,13 +61,16 @@ export default class ParameterRow extends Component {
 
   onChangeWrapper = (value, isXml = false) => {
     let { onChange, rawParam } = this.props
-    const valueForUpstream = value === "" ? null : value
+    let valueForUpstream = value === "" ? null : value
+
     return onChange(rawParam, valueForUpstream, isXml)
   }
 
   onChangeIncludeEmpty = (newValue) => {
-    let { specActions, rawParam, pathMethod } = this.props
-    return specActions.updateEmptyParamInclusionByIdentity(pathMethod, rawParam, newValue)
+    let { specActions, param, pathMethod } = this.props
+    const paramName = param.get("name")
+    const paramIn = param.get("in")
+    return specActions.updateEmptyParamInclusion(pathMethod, paramName, paramIn, newValue)
   }
 
   setDefaultValue = () => {
@@ -236,7 +239,7 @@ export default class ParameterRow extends Component {
             !bodyParam && isExecute && !value ? 
             <ParameterIncludeEmpty
               onChange={this.onChangeIncludeEmpty}
-                isIncluded={specSelectors.parameterInclusionSettingByIdentity(pathMethod, rawParam)}
+              isIncluded={specSelectors.parameterInclusionSettingFor(pathMethod, param.get("name"), param.get("in"))}
               param={param} /> 
             : null
           }
