@@ -781,3 +781,11 @@ export function stringify(thing) {
 
   return thing.toString()
 }
+
+export function numberToString(thing) {
+  if(typeof thing === "number") {
+    return thing.toString()
+  }
+
+  return thing
+}
