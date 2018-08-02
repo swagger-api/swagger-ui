@@ -179,26 +179,24 @@ describe("spec plugin - reducer", function(){
     })
   })
   describe("SPEC_UPDATE_EMPTY_PARAM_INCLUSION", function() {
-    it("should store parameter values by identity", () => {
+    it("should store parameter values by name+in", () => {
       const updateParam = reducer["spec_update_empty_param_inclusion"]
 
       const path = "/pet/post"
       const method = "POST"
 
       const state = fromJS({})
-      const param = fromJS({
-        name: "param",
-        in: "query"
-      })
+
       const result = updateParam(state, {
         payload: {
           pathMethod: [path, method],
-          param,
+          paramName: "param",
+          paramIn: "query",
           includeEmptyValue: true
         }
       })
 
-      const response = result.getIn(["meta", "paths", path, method, "parameter_inclusions", "param.query.hash-524345775"])
+      const response = result.getIn(["meta", "paths", path, method, "parameter_inclusions", "param.query"])
       expect(response).toEqual(true)
     })
   })

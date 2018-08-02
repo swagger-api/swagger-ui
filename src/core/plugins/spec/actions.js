@@ -1,5 +1,5 @@
 import YAML from "@kyleshockey/js-yaml"
-import { Map } from "immutable"
+import { Map, fromJS } from "immutable"
 import parseUrl from "url-parse"
 import serializeError from "serialize-error"
 import isString from "lodash/isString"
@@ -273,12 +273,13 @@ export const validateParams = ( payload, isOAS3 ) =>{
   }
 }
 
-export const updateEmptyParamInclusionByIdentity = ( pathMethod, param, includeEmptyValue ) =>{
+export const updateEmptyParamInclusion = ( pathMethod, paramName, paramIn, includeEmptyValue ) =>{
   return {
     type: UPDATE_EMPTY_PARAM_INCLUSION,
     payload:{
       pathMethod,
-      param,
+      paramName,
+      paramIn,
       includeEmptyValue
     }
   }

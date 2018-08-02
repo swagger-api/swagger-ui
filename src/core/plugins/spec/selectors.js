@@ -311,9 +311,8 @@ export const parameterWithMetaByIdentity = (state, pathMethod, param) => {
   return mergedParams.find(curr => curr.get("in") === param.get("in") && curr.get("name") === param.get("name"), OrderedMap())
 }
 
-export const parameterInclusionSettingByIdentity = (state, pathMethod, param) => {
-  const paramKey = `${param.get("name")}.${param.get("in")}.hash-${param.hashCode()}`
-  debugger
+export const parameterInclusionSettingFor = (state, pathMethod, paramName, paramIn) => {
+  const paramKey = `${paramName}.${paramIn}`
   return state.getIn(["meta", "paths", ...pathMethod, "parameter_inclusions", paramKey], false)
 }
 

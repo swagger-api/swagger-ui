@@ -15,7 +15,7 @@ import {
   operationWithMeta,
   parameterWithMeta,
   parameterWithMetaByIdentity,
-  parameterInclusionSettingByIdentity
+  parameterInclusionSettingFor
 } from "../../../../src/core/plugins/spec/selectors"
 
 describe("spec plugin - selectors", function(){
@@ -713,8 +713,8 @@ describe("spec plugin - selectors", function(){
       })
     })
   })
-  describe("parameterInclusionSettingByIdentity", function() {
-    it("should support getting hash-keyed param inclusion settings", function () {
+  describe("parameterInclusionSettingFor", function() {
+    it("should support getting name+in param inclusion settings", function () {
       const param = fromJS({
         name: "param",
         in: "query",
@@ -738,7 +738,7 @@ describe("spec plugin - selectors", function(){
             "/": {
               "get": {
                 "parameter_inclusions": {
-                  [`param.query.hash-${param.hashCode()}`]: true
+                  [`param.query`]: true
                 }
               }
             }
@@ -746,7 +746,7 @@ describe("spec plugin - selectors", function(){
         }
       })
 
-      const result = parameterInclusionSettingByIdentity(state, ["/", "get"], param)
+      const result = parameterInclusionSettingFor(state, ["/", "get"], "param", "query")
 
       expect(result).toEqual(true)
     })

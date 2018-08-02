@@ -72,19 +72,14 @@ export default {
   },
 
   [UPDATE_EMPTY_PARAM_INCLUSION]: ( state, {payload} ) => {
-    let { pathMethod, param, includeEmptyValue } = payload
+    let { pathMethod, paramName, paramIn, includeEmptyValue } = payload
 
-    let paramKey
-
-    // `hashCode` is an Immutable.js Map method
-    if(param && param.hashCode) {
-      paramKey = `${param.get("name")}.${param.get("in")}.hash-${param.hashCode()}`
-    }
-
-    if(!paramKey) {
+    if(!paramName || !paramIn) {
       console.warn("Warning: UPDATE_EMPTY_PARAM_INCLUSION could not generate a paramKey.")
       return state
     }
+
+    const paramKey = `${paramName}.${paramIn}`
 
     return state.setIn(
       ["meta", "paths", ...pathMethod, "parameter_inclusions", paramKey],
