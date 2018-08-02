@@ -65,6 +65,11 @@ export default class ParameterRow extends Component {
     return onChange(rawParam, valueForUpstream, isXml)
   }
 
+  onChangeIncludeEmpty = (newValue) => {
+    let { specActions, rawParam, pathMethod } = this.props
+    return specActions.updateEmptyParamInclusionByIdentity(pathMethod, rawParam, newValue)
+  }
+
   setDefaultValue = () => {
     let { specSelectors, pathMethod, rawParam } = this.props
 
@@ -121,6 +126,7 @@ export default class ParameterRow extends Component {
     const ModelExample = getComponent("modelExample")
     const Markdown = getComponent("Markdown")
     const ParameterExt = getComponent("ParameterExt")
+    const ParameterIncludeEmpty = getComponent("ParameterIncludeEmpty")
 
     let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam)
     let format = param.get("format")
@@ -224,6 +230,15 @@ export default class ParameterRow extends Component {
                                                 schema={ param.get("schema") }
                                                 example={ bodyParam }/>
               : null
+          }
+
+          {
+            !bodyParam && isExecute && !value ? 
+            <ParameterIncludeEmpty
+              onChange={this.onChangeIncludeEmpty}
+                isIncluded={specSelectors.parameterInclusionSettingByIdentity(pathMethod, rawParam)}
+              param={param} /> 
+            : null
           }
 
         </td>
