@@ -3,7 +3,7 @@ import { Map } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import win from "core/window"
-import { getExtensions, getCommonExtensions } from "core/utils"
+import { getExtensions, getCommonExtensions, numberToString } from "core/utils"
 
 export default class ParameterRow extends Component {
   static propTypes = {
@@ -53,7 +53,7 @@ export default class ParameterRow extends Component {
     }
 
     if ( value !== undefined && value !== paramValue ) {
-      this.onChangeWrapper(value)
+      this.onChangeWrapper(numberToString(value))
     }
 
     this.setDefaultValue()
@@ -88,7 +88,7 @@ export default class ParameterRow extends Component {
           || paramWithMeta.getIn(["schema", "default"])
       }
       if(newValue !== undefined) {
-        this.onChangeWrapper(newValue)
+        this.onChangeWrapper(numberToString(newValue))
       }
     }
   }
