@@ -12,7 +12,7 @@ export const updateJsonSpec = (ori, {specActions}) => (...args) => {
 
   // Trigger resolution of any path-level $refs.
   const [json] = args
-  const pathItems = get(json, ["paths"])
+  const pathItems = get(json, ["paths"]) || {}
   const pathItemKeys = Object.keys(pathItems)
 
   pathItemKeys.forEach(k => {
