@@ -342,7 +342,28 @@ export const executeRequest = (req) =>
     let { pathName, method, operation } = req
     let { requestInterceptor, responseInterceptor } = getConfigs()
 
+    
     let op = operation.toJS()
+    
+    // ensure that explicitly-included params are in the request
+
+    if(op && op.parameters && op.parameters.length) {
+      op.parameters
+        .filter(param => param && param.allowEmptyValue === true)
+        .forEach(param => {
+          if (specSelectors.parameterInclusionSettingFor([pathName, method], param.name, param.in)) {
+            req.parameters = req.parameters || {}
+            const paramValue = req.parameters[param.name]
+
+            // if the value is falsy or an empty Immutable iterable...
+            if(!paramValue || (paramValue && paramValue.size === 0)) {
+              // set it to empty string, so Swagger Client will treat it as
+              // present but empty.
+              req.parameters[param.name] = ""
+            }
+          }
+        })
+    }
 
     // if url is relative, parseUrl makes it absolute by inferring from `window.location`
     req.contextUrl = parseUrl(specSelectors.url()).toString()
