@@ -4,13 +4,15 @@ import expect from "expect"
 import { render } from "enzyme"
 import { fromJS } from "immutable"
 import Info, { InfoUrl } from "components/info"
+import { Link } from "components/layout-utils"
 import Markdown from "components/providers/markdown"
 
 describe("<Info/> Anchor Target Safety", function(){
 	const dummyComponent = () => null
 	const components = {
 		Markdown,
-		InfoUrl
+		InfoUrl,
+		Link
 	}
 	const baseProps = {
 		getComponent: c => components[c] || dummyComponent,
