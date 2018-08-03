@@ -1,19 +1,20 @@
 import React from "react"
+import cx from "classnames"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 
-export const ParameterIncludeEmpty = ({ param, isIncluded, onChange }) => {
+export const ParameterIncludeEmpty = ({ param, isIncluded, onChange, isDisabled }) => {
   const onCheckboxChange = e => {
     onChange(e.target.checked)
   }
   if(!param.get("allowEmptyValue")) {
     return null
   }
-  return <div className="parameter__empty_value_toggle pt2 pb3">
-    <input type="checkbox" checked={isIncluded} onChange={onCheckboxChange} />
-    <span>
-      Include empty value in request
-    </span>
+  return <div className={cx("parameter__empty_value_toggle", {
+    "disabled": isDisabled
+  })}>
+    <input type="checkbox" disabled={isDisabled} checked={!isDisabled && isIncluded} onChange={onCheckboxChange} />
+    Send empty value
   </div>
 }
 ParameterIncludeEmpty.propTypes = {

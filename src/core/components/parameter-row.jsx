@@ -236,10 +236,11 @@ export default class ParameterRow extends Component {
           }
 
           {
-            !bodyParam && isExecute && !value ? 
+            !bodyParam && isExecute ? 
             <ParameterIncludeEmpty
               onChange={this.onChangeIncludeEmpty}
               isIncluded={specSelectors.parameterInclusionSettingFor(pathMethod, param.get("name"), param.get("in"))}
+              isDisabled={value && value.size !== 0}
               param={param} /> 
             : null
           }

@@ -139,6 +139,20 @@ table
     @include text_code($table-parameter-deprecated-font-color);
 }
 
+.parameter__empty_value_toggle {
+    font-size: 13px;
+    padding-top: 5px;
+    padding-bottom: 12px;
+
+    input {
+        margin-right: 7px;
+    }
+
+    &.disabled {
+        opacity: 0.7;
+    }
+}
+
 
 .table-container
 {
