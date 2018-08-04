@@ -18,7 +18,10 @@ export const ParameterIncludeEmpty = ({ param, isIncluded, onChange, isDisabled 
   </div>
 }
 ParameterIncludeEmpty.propTypes = {
-  param: ImPropTypes.map.isRequired
+  param: ImPropTypes.map.isRequired,
+  isIncluded: PropTypes.bool.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
 }
 
 export default ParameterIncludeEmpty

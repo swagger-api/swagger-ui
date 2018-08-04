@@ -1,5 +1,5 @@
 import YAML from "@kyleshockey/js-yaml"
-import { Map, fromJS } from "immutable"
+import { Map } from "immutable"
 import parseUrl from "url-parse"
 import serializeError from "serialize-error"
 import isString from "lodash/isString"
@@ -231,7 +231,6 @@ export const requestResolvedSubtree = path => system => {
 }
 
 export function changeParam( path, paramName, paramIn, value, isXml ){
-  console.log(value)
   return {
     type: UPDATE_PARAM,
     payload:{ path, value, paramName, paramIn, isXml }
@@ -239,7 +238,6 @@ export function changeParam( path, paramName, paramIn, value, isXml ){
 }
 
 export function changeParamByIdentity( pathMethod, param, value, isXml ){
-  console.log(value)
   return {
     type: UPDATE_PARAM,
     payload:{ path: pathMethod, param, value, isXml }
