@@ -14,6 +14,7 @@ export const UPDATE_SPEC = "spec_update_spec"
 export const UPDATE_URL = "spec_update_url"
 export const UPDATE_JSON = "spec_update_json"
 export const UPDATE_PARAM = "spec_update_param"
+export const UPDATE_EMPTY_PARAM_INCLUSION = "spec_update_empty_param_inclusion"
 export const VALIDATE_PARAMS = "spec_validate_param"
 export const SET_RESPONSE = "spec_set_response"
 export const SET_REQUEST = "spec_set_request"
@@ -270,6 +271,18 @@ export const validateParams = ( payload, isOAS3 ) =>{
   }
 }
 
+export const updateEmptyParamInclusion = ( pathMethod, paramName, paramIn, includeEmptyValue ) =>{
+  return {
+    type: UPDATE_EMPTY_PARAM_INCLUSION,
+    payload:{
+      pathMethod,
+      paramName,
+      paramIn,
+      includeEmptyValue
+    }
+  }
+}
+
 export function clearValidateParams( payload ){
   return {
     type: CLEAR_VALIDATE_PARAMS,
@@ -327,7 +340,28 @@ export const executeRequest = (req) =>
     let { pathName, method, operation } = req
     let { requestInterceptor, responseInterceptor } = getConfigs()
 
+    
     let op = operation.toJS()
+    
+    // ensure that explicitly-included params are in the request
+
+    if(op && op.parameters && op.parameters.length) {
+      op.parameters
+        .filter(param => param && param.allowEmptyValue === true)
+        .forEach(param => {
+          if (specSelectors.parameterInclusionSettingFor([pathName, method], param.name, param.in)) {
+            req.parameters = req.parameters || {}
+            const paramValue = req.parameters[param.name]
+
+            // if the value is falsy or an empty Immutable iterable...
+            if(!paramValue || (paramValue && paramValue.size === 0)) {
+              // set it to empty string, so Swagger Client will treat it as
+              // present but empty.
+              req.parameters[param.name] = ""
+            }
+          }
+        })
+    }
 
     // if url is relative, parseUrl makes it absolute by inferring from `window.location`
     req.contextUrl = parseUrl(specSelectors.url()).toString()

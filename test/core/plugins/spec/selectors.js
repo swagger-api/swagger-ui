@@ -14,7 +14,8 @@ import Petstore from "./assets/petstore.json"
 import {
   operationWithMeta,
   parameterWithMeta,
-  parameterWithMetaByIdentity
+  parameterWithMetaByIdentity,
+  parameterInclusionSettingFor
 } from "../../../../src/core/plugins/spec/selectors"
 
 describe("spec plugin - selectors", function(){
@@ -710,6 +711,44 @@ describe("spec plugin - selectors", function(){
         in: "body",
         value: "abc123"
       })
+    })
+  })
+  describe("parameterInclusionSettingFor", function() {
+    it("should support getting name+in param inclusion settings", function () {
+      const param = fromJS({
+        name: "param",
+        in: "query",
+        allowEmptyValue: true
+      })
+
+      const state = fromJS({
+        json: {
+          paths: {
+            "/": {
+              "get": {
+                parameters: [
+                  param
+                ]
+              }
+            }
+          }
+        },
+        meta: {
+          paths: {
+            "/": {
+              "get": {
+                "parameter_inclusions": {
+                  [`param.query`]: true
+                }
+              }
+            }
+          }
+        }
+      })
+
+      const result = parameterInclusionSettingFor(state, ["/", "get"], "param", "query")
+
+      expect(result).toEqual(true)
     })
   })
 })

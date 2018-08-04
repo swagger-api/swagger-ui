@@ -15,6 +15,7 @@ export default class ParameterRow extends Component {
     isExecute: PropTypes.bool,
     onChangeConsumes: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
+    specActions: PropTypes.object.isRequired,
     pathMethod: PropTypes.array.isRequired,
     getConfigs: PropTypes.func.isRequired,
     specPath: ImPropTypes.list.isRequired
@@ -61,7 +62,23 @@ export default class ParameterRow extends Component {
 
   onChangeWrapper = (value, isXml = false) => {
     let { onChange, rawParam } = this.props
-    return onChange(rawParam, value, isXml)
+    let valueForUpstream
+    
+    // Coerce empty strings and empty Immutable objects to null
+    if(value === "" || (value && value.size === 0)) {
+      valueForUpstream = null
+    } else {
+      valueForUpstream = value
+    }
+
+    return onChange(rawParam, valueForUpstream, isXml)
+  }
+
+  onChangeIncludeEmpty = (newValue) => {
+    let { specActions, param, pathMethod } = this.props
+    const paramName = param.get("name")
+    const paramIn = param.get("in")
+    return specActions.updateEmptyParamInclusion(pathMethod, paramName, paramIn, newValue)
   }
 
   setDefaultValue = () => {
@@ -120,6 +137,7 @@ export default class ParameterRow extends Component {
     const ModelExample = getComponent("modelExample")
     const Markdown = getComponent("Markdown")
     const ParameterExt = getComponent("ParameterExt")
+    const ParameterIncludeEmpty = getComponent("ParameterIncludeEmpty")
 
     let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam)
     let format = param.get("format")
@@ -223,6 +241,16 @@ export default class ParameterRow extends Component {
                                                 schema={ param.get("schema") }
                                                 example={ bodyParam }/>
               : null
+          }
+
+          {
+            !bodyParam && isExecute ? 
+            <ParameterIncludeEmpty
+              onChange={this.onChangeIncludeEmpty}
+              isIncluded={specSelectors.parameterInclusionSettingFor(pathMethod, param.get("name"), param.get("in"))}
+              isDisabled={value && value.size !== 0}
+              param={param} /> 
+            : null
           }
 
         </td>
