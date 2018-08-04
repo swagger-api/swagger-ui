@@ -52,7 +52,7 @@ describe("Markdown component", function() {
         it("allows links", function() {
             const str = `[Link](https://example.com/)`
             const el = render(<Markdown source={str} />)
-            expect(el.html()).toEqual(`<div class="markdown"><p><a target="_blank" href="https://example.com/">Link</a></p>\n</div>`)
+            expect(el.html()).toEqual(`<div class="markdown"><p><a rel="noopener noreferrer" target="_blank" href="https://example.com/">Link</a></p>\n</div>`)
         })
     })
 
