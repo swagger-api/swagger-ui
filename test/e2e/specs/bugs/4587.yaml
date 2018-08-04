@@ -1,0 +1,126 @@
+---
+swagger: '2.0'
+info:
+  version: 0.0.1
+  title: DDErl REST interface
+  description: RESTful access to IMEM DB and DDErl
+schemes:
+- http
+- https
+securityDefinitions:
+  basicAuth:
+    type: basic
+    description: HTTP Basic Authentication Username:Password
+basePath: "/dderlrest/0.0.1"
+paths:
+  "/sql/":
+    get:
+      tags:
+      - sql
+      security:
+      - basicAuth: []
+      summary: execute sql
+      operationId: execSql
+      description: Prepare and execute SQL statements
+      parameters:
+      - name: x-irest-conn
+        in: header
+        required: false
+        description: ErlImem connection identifier
+        type: string
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+          headers:
+            x-irest-conn:
+              description: ErlImem connection identifier
+              type: string
+        '403':
+          description: Malformed/Invalid
+          schema:
+            "$ref": "#/definitions/ErrorResponse"
+definitions:
+  ErrorResponse:
+    readOnly: true
+    type: object
+    required:
+    - errorCode
+    - errorMessage
+    - errorDetails
+    properties:
+      errorCode:
+        description: Error Code
+        type: number
+        example: 1400
+      errorMessage:
+        description: Error Message
+        type: string
+        example: malformed
+      errorDetails:
+        description: Error Details
+        type: string
+        example: mandatory properties missing or bad type
+  ViewParams:
+    readOnly: true
+    type: array
+    items:
+      type: object
+      required:
+      - typ
+      - value
+      - name
+      properties:
+        name:
+          description: Name
+          type: string
+          example: ":atom_user"
+        value:
+          description: Value
+          type: string
+          example: system
+        typ:
+          description: Datatype
+          type: string
+          enum:
+          - atom
+          - binary
+          - raw
+          - blob
+          - rowid
+          - binstr
+          - clob
+          - nclob
+          - varchar2
+          - nvarchar2
+          - char
+          - nchar
+          - boolean
+          - datetime
+          - decimal
+          - float
+          - fun
+          - integer
+          - ipaddr
+          - list
+          - map
+          - number
+          - pid
+          - ref
+          - string
+          - term
+          - binterm
+          - timestamp
+          - tuple
+          - userid
+          example: atom
+        dir:
+          description: Direction
+          type: string
+          enum:
+          - in
+          - out
+          default: in
