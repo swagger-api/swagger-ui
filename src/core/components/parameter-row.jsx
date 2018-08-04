@@ -65,7 +65,7 @@ export default class ParameterRow extends Component {
     let valueForUpstream
     
     // Coerce empty strings and empty Immutable objects to null
-    if(value === "" || value.size === 0) {
+    if(value === "" || (value && value.size === 0)) {
       valueForUpstream = null
     } else {
       valueForUpstream = value
