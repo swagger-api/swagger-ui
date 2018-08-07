@@ -1,0 +1,51 @@
+swagger: '2.0'
+info:
+  title: test doc
+  description: 'test doc '
+  license:
+    name: Copyright @2018
+  version: 1.0.0
+host: www.example.com
+basePath: /test/API
+tags:
+  - name: devices
+    description: devices
+schemes:
+  - http
+  - https
+consumes:
+  - application/x-www-form-urlencoded
+produces:
+  - application/json
+paths:
+  /zero:
+    post:
+      parameters:
+        - in: query
+          name: one
+          type: string
+          required: true
+          enum: 
+            - 0
+            - 1
+      responses:
+        200:
+          description: 'response'
+          examples: 
+            application/json: {"error":0}
+  /one:
+    post:
+      parameters:
+        - in: query
+          name: one
+          type: string
+          required: true
+          default: 1
+          enum: 
+            - 0
+            - 1
+      responses:
+        200:
+          description: 'response'
+          examples: 
+            application/json: {"error":0}

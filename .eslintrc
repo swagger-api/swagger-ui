@@ -24,6 +24,13 @@
     "import"
   ],
 
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "15.0"
+    }
+  },
+
   "rules": {
     "semi": [2, "never"],
     "strict": 0,
@@ -37,6 +44,7 @@
     "comma-dangle": 0,
     "no-console": ["error", { allow: ["warn", "error"] }],
     "react/jsx-no-bind": 1,
+    "react/jsx-no-target-blank": 2,
     "react/display-name": 0,
     "mocha/no-exclusive-tests": "error",
     "import/no-extraneous-dependencies": [2]

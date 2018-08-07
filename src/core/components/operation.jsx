@@ -99,6 +99,7 @@ export default class Operation extends PureComponent {
     const OperationServers = getComponent( "OperationServers" )
     const OperationExt = getComponent( "OperationExt" )
     const OperationSummary = getComponent( "OperationSummary" )
+    const Link = getComponent( "Link" )
 
     const { showExtensions } = getConfigs()
 
@@ -134,7 +135,7 @@ export default class Operation extends PureComponent {
                     <span className="opblock-external-docs__description">
                       <Markdown source={ externalDocs.description } />
                     </span>
-                    <a target="_blank" className="opblock-external-docs__link" href={ sanitizeUrl(externalDocs.url) }>{ externalDocs.url }</a>
+                    <Link target="_blank" className="opblock-external-docs__link" href={sanitizeUrl(externalDocs.url)}>{externalDocs.url}</Link>
                   </div>
                 </div> : null
               }
