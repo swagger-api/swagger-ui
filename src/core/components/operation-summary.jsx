@@ -53,6 +53,7 @@ export default class OperationSummary extends PureComponent {
     const AuthorizeOperationBtn = getComponent("authorizeOperationBtn")
     const OperationSummaryMethod = getComponent("OperationSummaryMethod")
     const OperationSummaryPath = getComponent("OperationSummaryPath")
+    const JumpToPath = getComponent("JumpToPath", true)
 
     return (
 
@@ -78,6 +79,7 @@ export default class OperationSummary extends PureComponent {
               }}
             />
         }
+        <JumpToPath path={specPath} />{/* TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
       </div>
     )
 
