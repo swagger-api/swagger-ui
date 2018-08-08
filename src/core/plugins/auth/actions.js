@@ -202,11 +202,28 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
   })
   .catch(e => {
     let err = new Error(e)
+    let message = err.message
+    // swagger-js wraps the response (if available) into the e.response property;
+    // investigate to check whether there are more details on why the authorization
+    // request failed (according to RFC 6479).
+    // See also https://github.com/swagger-api/swagger-ui/issues/4048
+    if (e.response && e.response.data) {
+      const errData = e.response.data
+      try {
+        const jsonResponse = typeof errData === "string" ? JSON.parse(errData) : errData
+        if (jsonResponse.error)
+          message += `, error: ${jsonResponse.error}`
+        if (jsonResponse.error_description)
+          message += `, description: ${jsonResponse.error_description}`
+      } catch (jsonError) {
+        // Ignore
+      }
+    }
     errActions.newAuthErr( {
       authId: name,
       level: "error",
       source: "auth",
-      message: err.message
+      message: message
     } )
   })
 }
