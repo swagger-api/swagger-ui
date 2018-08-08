@@ -16,7 +16,7 @@ ENV SWAGGER_JSON "/app/swagger.json"
 ENV PORT 8080
 ENV BASE_URL ""
 
-RUN apk add --update nginx
+RUN apk add --no-cache nginx
 RUN mkdir -p /run/nginx
 
 COPY nginx.conf /etc/nginx/
