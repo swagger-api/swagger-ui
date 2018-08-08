@@ -1,4 +1,4 @@
-FROM alpine:3.5
+FROM alpine:3.8
 
 LABEL maintainer="fehguy"
 
@@ -16,14 +16,14 @@ ENV SWAGGER_JSON "/app/swagger.json"
 ENV PORT 8080
 ENV BASE_URL ""
 
-RUN apk add --update nginx
+RUN apk add --no-cache nginx
 RUN mkdir -p /run/nginx
 
 COPY nginx.conf /etc/nginx/
 
 # copy swagger files to the `/js` folder
-ADD ./dist/* /usr/share/nginx/html/
-ADD ./docker-run.sh /usr/share/nginx/
+COPY ./dist/* /usr/share/nginx/html/
+COPY ./docker-run.sh /usr/share/nginx/
 
 EXPOSE 8080
 
