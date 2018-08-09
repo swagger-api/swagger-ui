@@ -6,7 +6,10 @@
   ],
   "plugins": [
     "transform-runtime",
-    "transform-es2015-constants",
+    "babel-plugin-transform-es2015-constants",
+    ["transform-react-remove-prop-types", {
+      "additionalLibraries": ["react-immutable-proptypes"]
+    }],
     [
       "module-alias",
       [

@@ -41,6 +41,7 @@ export default class Models extends Component {
     const ModelWrapper = getComponent("ModelWrapper")
     const Collapse = getComponent("Collapse")
     const ModelCollapse = getComponent("ModelCollapse")
+    const JumpToPath = getComponent("JumpToPath")
 
     return <section className={ showModels ? "models is-open" : "models"}>
       <h4 onClick={() => layoutActions.show("models", !showModels)}>
@@ -64,11 +65,13 @@ export default class Models extends Component {
               this.props.specActions.requestResolvedSubtree([...this.getSchemaBasePath(), name])
             }
 
+            const specPath = Im.List([...specPathBase, name])
+
             const content = <ModelWrapper name={ name }
               expandDepth={ defaultModelsExpandDepth }
               schema={ schema || Im.Map() }
               displayName={displayName}
-              specPath={Im.List([...specPathBase, name])}
+              specPath={specPath}
               getComponent={ getComponent }
               specSelectors={ specSelectors }
               getConfigs = {getConfigs}
@@ -82,6 +85,7 @@ export default class Models extends Component {
             </span>
 
             return <div id={ `model-${name}` } className="model-container" key={ `models-section-${name}` }>
+              <span className="models-jump-to-path"><JumpToPath specPath={specPath} /></span>
               <ModelCollapse
                 classes="model-box"
                 collapsedContent={this.getCollapsedContent(name)}

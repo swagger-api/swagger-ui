@@ -111,7 +111,7 @@ export class JsonSchema_array extends PureComponent {
 
   constructor(props, context) {
     super(props, context)
-    this.state = {value: props.value}
+    this.state = { value: valueOrEmptyList(props.value)}
   }
 
   componentWillReceiveProps(props) {
@@ -135,7 +135,7 @@ export class JsonSchema_array extends PureComponent {
 
   addItem = () => {
     this.setState(state => {
-      state.value = state.value || List()
+      state.value = valueOrEmptyList(state.value)
       return {
         value: state.value.push("")
       }
@@ -174,7 +174,7 @@ export class JsonSchema_array extends PureComponent {
 
     return (
       <div>
-        { !value || value.count() < 1 ? null :
+        { !value || !value.count || value.count() < 1 ? null :
           value.map( (item,i) => {
             let schema = Object.assign({}, itemSchema)
             if ( errors.length ) {
@@ -263,4 +263,8 @@ export class JsonSchema_object extends PureComponent {
     )
 
   }
+}
+
+function valueOrEmptyList(value) {
+  return List.isList(value) ? value : List()
 }
