@@ -1,7 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { createDeepLinkPath, sanitizeUrl } from "core/utils"
-import swagger2har from 'swagger2har'
+import YAML from "yaml-js"
+import swagger2har from "swagger2har"
 
 export default class Operations extends React.Component {
 
@@ -31,11 +32,37 @@ export default class Operations extends React.Component {
     const Markdown = getComponent("Markdown")
 
     const specStr = specSelectors.specStr()
-    const hars = swagger2har(JSON.parse(specStr))
+    let parsedSpec
+    let hars
     let harsKeyed = {}
-    hars.forEach(har => {
-      harsKeyed[`${har.path}-${har.method.toLowerCase()}`] = har
-    })
+
+    try {
+      parsedSpec = YAML.load(specStr)
+    } catch (error) {
+      try {
+        parsedSpec = JSON.parse(specStr)
+      } catch (jsonError) {
+        parsedSpec = null
+        hars = null
+        harsKeyed = null
+      }
+    }
+
+    if (!parsedSpec.openapi) {
+      try {
+        hars = swagger2har(parsedSpec)
+      } catch (error) {
+        console.trace(error)
+      }
+    }
+
+    if (hars != undefined) {
+      hars.forEach(har => {
+        harsKeyed[`${har.path}-${har.method.toLowerCase()}`] = har
+      })
+    } else {
+      harsKeyed = null
+    }
 
     let {
       docExpansion,
@@ -104,12 +131,12 @@ export default class Operations extends React.Component {
                   }
 
                 </div>
-                {
+                {!harsKeyed ? null :
                   operations.map(op => {
                     const path = op.get("path")
                     const method = op.get("method")
                     const key = `${path}-${method}`
-                    return <KongOperationsContainer
+                     return <KongOperationsContainer
                       key={key}
                       har={harsKeyed[key].har || null}
                       op={op}
@@ -119,6 +146,20 @@ export default class Operations extends React.Component {
                     />
                   }).toArray()
                 }
+                {harsKeyed ? null :
+                  operations.map(op => {
+                    const path = op.get("path")
+                    const method = op.get("method")
+                    const key = `${path}-${method}`
+                     return <KongOperationsContainer
+                      key={key}
+                      op={op}
+                      path={path}
+                      method={method}
+                      tag={tag}
+                    />
+                  }).toArray()
+              }
               </div>
             )
           }).toArray()
