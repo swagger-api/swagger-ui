@@ -240,12 +240,12 @@ section.models h4 span {
   padding-top: 0 !important;
 }
 
-.swagger-ui .opblock-tag-section {
+.opblock-tag-section {
   border-bottom: 1px solid #c1d3dd !important;
   margin: 0 10px;
 }
 
-.swagger-ui .opblock-tag-section:last-of-type {
+div#swagger-ui > section.swagger-ui > div.swagger-ui > div > div.wrapper > section.block > div > span:last-of-type > div.opblock-tag-section {
   border: 0 !important;
 }
 
