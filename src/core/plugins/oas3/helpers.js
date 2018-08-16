@@ -2,20 +2,24 @@ import React from "react"
 
 export function isOAS3(jsSpec) {
   const oasVersion = jsSpec.get("openapi")
-  if(!oasVersion) {
+  if(typeof oasVersion !== "string") {
     return false
   }
 
-  return oasVersion.startsWith("3")
+  // we gate against `3.1` becasue we want to explicitly opt into supporting it
+  // at some point in the future -- KS, 7/2018
+
+  // starts with, but is not `3.0.` exactly
+  return oasVersion.startsWith("3.0.") && oasVersion.length > 4
 }
 
 export function isSwagger2(jsSpec) {
   const swaggerVersion = jsSpec.get("swagger")
-  if(!swaggerVersion) {
+  if(typeof swaggerVersion !== "string") {
     return false
   }
 
-  return swaggerVersion.startsWith("2")
+  return swaggerVersion.startsWith("2.0")
 }
 
 export function OAS3ComponentWrapFactory(Component) {

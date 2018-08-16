@@ -5,7 +5,7 @@ describe("bug #4409: operationId normalization and layout tracking", function ()
             .url("localhost:3230")
             .page.main()
 
-        client.waitForElementVisible(".download-url-input", 5000)
+        client.waitForElementVisible(".download-url-input:not([disabled])", 5000)
             .pause(5000)
             .clearValue(".download-url-input")
             .setValue(".download-url-input", "http://localhost:3230/test-specs/bugs/4409.yaml")

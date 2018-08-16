@@ -25,22 +25,25 @@ export class InfoBasePath extends React.Component {
 
 class Contact extends React.Component {
   static propTypes = {
-    data: PropTypes.object
+    data: PropTypes.object,
+    getComponent: PropTypes.func.isRequired
   }
 
   render(){
-    let { data } = this.props
+    let { data, getComponent } = this.props
     let name = data.get("name") || "the developer"
     let url = data.get("url")
     let email = data.get("email")
 
+    const Link = getComponent("Link")
+
     return (
       <div>
-        { url && <div><a href={ sanitizeUrl(url) } target="_blank">{ name } - Website</a></div> }
+        { url && <div><Link href={ sanitizeUrl(url) } target="_blank">{ name } - Website</Link></div> }
         { email &&
-          <a href={sanitizeUrl(`mailto:${email}`)}>
+          <Link href={sanitizeUrl(`mailto:${email}`)}>
             { url ? `Send email to ${name}` : `Contact ${name}`}
-          </a>
+          </Link>
         }
       </div>
     )
@@ -49,18 +52,23 @@ class Contact extends React.Component {
 
 class License extends React.Component {
   static propTypes = {
-    license: PropTypes.object
+    license: PropTypes.object,
+    getComponent: PropTypes.func.isRequired
+
   }
 
   render(){
-    let { license } = this.props
+    let { license, getComponent } = this.props
+
+    const Link = getComponent("Link")
+  
     let name = license.get("name") || "License"
     let url = license.get("url")
 
     return (
       <div>
         {
-          url ? <a target="_blank" href={ sanitizeUrl(url) }>{ name }</a>
+          url ? <Link target="_blank" href={ sanitizeUrl(url) }>{ name }</Link>
         : <span>{ name }</span>
         }
       </div>
@@ -70,12 +78,17 @@ class License extends React.Component {
 
 export class InfoUrl extends React.PureComponent {
   static propTypes = {
-    url: PropTypes.string.isRequired
+    url: PropTypes.string.isRequired,
+    getComponent: PropTypes.func.isRequired
   }
 
+  
   render() {
-    const { url } = this.props
-    return <a target="_blank" href={ sanitizeUrl(url) }><span className="url"> { url } </span></a>
+    const { url, getComponent } = this.props
+
+    const Link = getComponent("Link")
+
+    return <Link target="_blank" href={ sanitizeUrl(url) }><span className="url"> { url } </span></Link>
   }
 }
 
@@ -100,6 +113,7 @@ export default class Info extends React.Component {
     const { url:externalDocsUrl, description:externalDocsDescription } = (externalDocs || fromJS({})).toJS()
 
     const Markdown = getComponent("Markdown")
+    const Link = getComponent("Link")
     const VersionStamp = getComponent("VersionStamp")
     const InfoUrl = getComponent("InfoUrl")
     const InfoBasePath = getComponent("InfoBasePath")
@@ -111,7 +125,7 @@ export default class Info extends React.Component {
             { version && <VersionStamp version={version}></VersionStamp> }
           </h2>
           { host || basePath ? <InfoBasePath host={ host } basePath={ basePath } /> : null }
-          { url && <InfoUrl url={url} /> }
+          { url && <InfoUrl getComponent={getComponent} url={url} /> }
         </hgroup>
 
         <div className="description">
@@ -120,14 +134,14 @@ export default class Info extends React.Component {
 
         {
           termsOfService && <div>
-            <a target="_blank" href={ sanitizeUrl(termsOfService) }>Terms of service</a>
+            <Link target="_blank" href={ sanitizeUrl(termsOfService) }>Terms of service</Link>
           </div>
         }
 
-        { contact && contact.size ? <Contact data={ contact } /> : null }
-        { license && license.size ? <License license={ license } /> : null }
+        {contact && contact.size ? <Contact getComponent={getComponent} data={ contact } /> : null }
+        {license && license.size ? <License getComponent={getComponent} license={ license } /> : null }
         { externalDocsUrl ?
-            <a target="_blank" href={sanitizeUrl(externalDocsUrl)}>{externalDocsDescription || externalDocsUrl}</a>
+            <Link target="_blank" href={sanitizeUrl(externalDocsUrl)}>{externalDocsDescription || externalDocsUrl}</Link>
         : null }
 
       </div>
