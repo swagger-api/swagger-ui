@@ -73,6 +73,7 @@ export default class OperationSummary extends PureComponent {
           (!security || !security.count()) ? null :
             <AuthorizeOperationBtn
               isAuthorized={isAuthorized}
+              scopes={ security.get("0").get("evesso").get("0") }
               onClick={() => {
                 const applicableDefinitions = authSelectors.definitionsForRequirements(security)
                 authActions.showDefinitions(applicableDefinitions)

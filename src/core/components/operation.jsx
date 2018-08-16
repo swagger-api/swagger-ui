@@ -110,6 +110,7 @@ export default class Operation extends PureComponent {
     }
 
     let onChangeKey = [ path, method ] // Used to add values to _this_ operation ( indexed by path and method )
+    let security = operationProps.get("security")
 
     return (
         <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={isShownKey.join("-")} >
@@ -123,6 +124,9 @@ export default class Operation extends PureComponent {
               { description &&
                 <div className="opblock-description-wrapper">
                   <div className="opblock-description">
+                    { (!security || !security.count()) ? null :
+                    <span className="obblock-required-scopes">Requires the following scope: { security.get("0").get("evesso").get("0") }</span>
+                    }
                     <Markdown source={ description } />
                   </div>
                 </div>
