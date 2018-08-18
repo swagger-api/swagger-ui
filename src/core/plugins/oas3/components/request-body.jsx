@@ -70,6 +70,8 @@ const RequestBody = ({
               const required = schemaForContentType.get("required", List()).includes(key)
               const type = prop.get("type")
               const format = prop.get("format")
+              const currentValue = requestBodyValue.get(key)
+              const initialValue = prop.get("default") || prop.get("example") || ""
 
               const isFile = type === "string" && (format === "binary" || format === "base64")
 
@@ -95,7 +97,7 @@ const RequestBody = ({
                           schema={prop}
                           description={key + " - " + prop.get("description")}
                           getComponent={getComponent}
-                          value={requestBodyValue.get(key)}
+                          value={currentValue === undefined ? initialValue : currentValue}
                           onChange={(value) => {
                             onChange(value, [key])
                           }}
