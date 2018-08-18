@@ -59,8 +59,8 @@ const RequestBody = ({
     || contentType.indexOf("multipart/") === 0))
   {
     const JsonSchemaForm = getComponent("JsonSchemaForm")
-    const HighlightCode = getComponent("highlightCode")
-    const bodyProperties = requestBody.getIn(["content", contentType, "schema", "properties"], OrderedMap())
+    const schemaForContentType = requestBody.getIn(["content", contentType, "schema"], OrderedMap())
+    const bodyProperties = schemaForContentType.getIn([ "properties"], OrderedMap())
     requestBodyValue = Map.isMap(requestBodyValue) ? requestBodyValue : OrderedMap()
 
     return <div className="table-container">
@@ -68,7 +68,7 @@ const RequestBody = ({
         <tbody>
           {
             bodyProperties.map((prop, key) => {
-              const required = prop.get("required")
+              const required = schemaForContentType.get("required", List()).includes(key)
               const type = prop.get("type")
               const format = prop.get("format")
 
