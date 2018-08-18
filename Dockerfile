@@ -19,8 +19,8 @@ ENV BASE_URL ""
 COPY nginx.conf /etc/nginx/
 
 # copy swagger files to the `/js` folder
-ADD ./dist/* /usr/share/nginx/html/
-ADD ./docker-run.sh /usr/share/nginx/
+COPY ./dist/* /usr/share/nginx/html/
+COPY ./docker-run.sh /usr/share/nginx/
 
 EXPOSE 8080
 
