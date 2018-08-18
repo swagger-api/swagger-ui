@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { helpers } from "swagger-client"
 import { Iterable, fromJS, Map } from "immutable"
+import { createDeepLinkPath } from "core/utils"
 
 const { opId } = helpers
 
@@ -59,7 +60,7 @@ export default class OperationContainer extends PureComponent {
     const { docExpansion, deepLinking, displayOperationId, displayRequestDuration, supportedSubmitMethods } = getConfigs()
     const showSummary = layoutSelectors.showSummary()
     const operationId = op.getIn(["operation", "__originalOperationId"]) || op.getIn(["operation", "operationId"]) || opId(op.get("operation"), props.path, props.method) || op.get("id")
-    const isShownKey = ["operations", props.tag, operationId]
+    const isShownKey = ["operations", createDeepLinkPath(props.tag), operationId]
     const isDeepLinkingEnabled = deepLinking && deepLinking !== "false"
     const allowTryItOut = supportedSubmitMethods.indexOf(props.method) >= 0 && (typeof props.allowTryItOut === "undefined" ?
       props.specSelectors.allowTryItOutFor(props.path, props.method) : props.allowTryItOut)
@@ -110,7 +111,7 @@ export default class OperationContainer extends PureComponent {
       // transitioning from collapsed to expanded
       this.requestResolvedSubtree()
     }
-    layoutActions.show(["operations", tag, operationId], !isShown)
+    layoutActions.show(["operations", createDeepLinkPath(tag), operationId], !isShown)
   }
 
   onCancelClick=() => {
