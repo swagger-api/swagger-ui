@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { getSampleSchema } from "core/utils"
-import { Map, OrderedMap } from "immutable"
+import { Map, OrderedMap, List } from "immutable"
 
 const RequestBody = ({
   requestBody,
@@ -59,6 +59,7 @@ const RequestBody = ({
     || contentType.indexOf("multipart/") === 0))
   {
     const JsonSchemaForm = getComponent("JsonSchemaForm")
+    const HighlightCode = getComponent("highlightCode")
     const schemaForContentType = requestBody.getIn(["content", contentType, "schema"], OrderedMap())
     const bodyProperties = schemaForContentType.getIn([ "properties"], OrderedMap())
     requestBodyValue = Map.isMap(requestBodyValue) ? requestBodyValue : OrderedMap()
@@ -68,6 +69,7 @@ const RequestBody = ({
         <tbody>
           {
             bodyProperties.map((prop, key) => {
+              debugger
               const required = schemaForContentType.get("required", List()).includes(key)
               const type = prop.get("type")
               const format = prop.get("format")
@@ -89,18 +91,18 @@ const RequestBody = ({
                         </div>
                       </td>
                       <td className="col parameters-col_description">
-                        {isExecute ?
-                        <JsonSchemaForm
+                        { prop.get("description") }
+                        {isExecute ? <div><JsonSchemaForm
                           fn={fn}
                           dispatchInitialValue={!isFile}
                           schema={prop}
+                          description={key + " - " + prop.get("description")}
                           getComponent={getComponent}
                           value={requestBodyValue.get(key)}
                           onChange={(value) => {
                             onChange(value, [key])
                           }}
-                          />
-                        : <HighlightCode className="example" value={ getSampleSchema(prop) } />}
+                        /></div> : null }
                       </td>
                       </tr>
             })
