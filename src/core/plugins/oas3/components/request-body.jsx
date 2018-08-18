@@ -95,7 +95,7 @@ const RequestBody = ({
                           dispatchInitialValue={!isFile}
                           schema={prop}
                           getComponent={getComponent}
-                          value={requestBodyValue.get(key) || getSampleSchema(prop)}
+                          value={requestBodyValue.get(key)}
                           onChange={(value) => {
                             onChange(value, [key])
                           }}
