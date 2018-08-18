@@ -1,7 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
-import { getSampleSchema } from "core/utils"
 import { Map, OrderedMap, List } from "immutable"
 
 const RequestBody = ({
@@ -59,7 +58,6 @@ const RequestBody = ({
     || contentType.indexOf("multipart/") === 0))
   {
     const JsonSchemaForm = getComponent("JsonSchemaForm")
-    const HighlightCode = getComponent("highlightCode")
     const schemaForContentType = requestBody.getIn(["content", contentType, "schema"], OrderedMap())
     const bodyProperties = schemaForContentType.getIn([ "properties"], OrderedMap())
     requestBodyValue = Map.isMap(requestBodyValue) ? requestBodyValue : OrderedMap()
@@ -69,7 +67,6 @@ const RequestBody = ({
         <tbody>
           {
             bodyProperties.map((prop, key) => {
-              debugger
               const required = schemaForContentType.get("required", List()).includes(key)
               const type = prop.get("type")
               const format = prop.get("format")
