@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 import expect, { createSpy } from "expect"
 import { fromJS } from "immutable"
-import { execute, executeRequest, changeParamByIdentity } from "corePlugins/spec/actions"
+import { execute, executeRequest, changeParamByIdentity, updateEmptyParamInclusion } from "corePlugins/spec/actions"
 
 describe("spec plugin - actions", function(){
 
@@ -203,6 +203,24 @@ describe("spec plugin - actions", function(){
           param,
           value,
           isXml
+        }
+      })
+    })
+  })
+
+  describe("updateEmptyParamInclusion", function () {
+    it("should map its arguments to a payload", function () {
+      const pathMethod = ["/one", "get"]
+
+      const result = updateEmptyParamInclusion(pathMethod, "param", "query", true)
+
+      expect(result).toEqual({
+        type: "spec_update_empty_param_inclusion",
+        payload: {
+          pathMethod,
+          paramName: "param",
+          paramIn: "query",
+          includeEmptyValue: true
         }
       })
     })

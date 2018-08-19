@@ -15,7 +15,6 @@ export default class OperationSummaryPath extends PureComponent{
     let {
       getComponent,
       operationProps,
-      specPath,
     } = this.props
 
 
@@ -29,8 +28,6 @@ export default class OperationSummaryPath extends PureComponent{
     } = operationProps.toJS()
 
     let isShownKey = ["operations", tag, operationId]
-
-    const JumpToPath = getComponent("JumpToPath", true)
     const DeepLink = getComponent( "DeepLink" )
 
     return(
@@ -40,7 +37,6 @@ export default class OperationSummaryPath extends PureComponent{
                   isShown={isShown}
                   path={`${isShownKey.join("/")}`}
                   text={path} />
-                <JumpToPath path={specPath} />{/* TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
               </span>
 
     )

@@ -178,4 +178,26 @@ describe("spec plugin - reducer", function(){
       expect(value).toEqual(`{ "a": 123 }`)
     })
   })
+  describe("SPEC_UPDATE_EMPTY_PARAM_INCLUSION", function() {
+    it("should store parameter values by name+in", () => {
+      const updateParam = reducer["spec_update_empty_param_inclusion"]
+
+      const path = "/pet/post"
+      const method = "POST"
+
+      const state = fromJS({})
+
+      const result = updateParam(state, {
+        payload: {
+          pathMethod: [path, method],
+          paramName: "param",
+          paramIn: "query",
+          includeEmptyValue: true
+        }
+      })
+
+      const response = result.getIn(["meta", "paths", path, method, "parameter_inclusions", "param.query"])
+      expect(response).toEqual(true)
+    })
+  })
 })

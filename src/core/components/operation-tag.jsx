@@ -46,6 +46,7 @@ export default class OperationTag extends React.Component {
     const Collapse = getComponent("Collapse")
     const Markdown = getComponent("Markdown")
     const DeepLink = getComponent("DeepLink")
+    const Link = getComponent("Link")
 
     let tagDescription = tagObj.getIn(["tagDetails", "description"], null)
     let tagExternalDocsDescription = tagObj.getIn(["tagDetails", "externalDocs", "description"])
@@ -78,11 +79,11 @@ export default class OperationTag extends React.Component {
                     { tagExternalDocsDescription }
                       { tagExternalDocsUrl ? ": " : null }
                       { tagExternalDocsUrl ?
-                        <a
+                        <Link
                             href={sanitizeUrl(tagExternalDocsUrl)}
                             onClick={(e) => e.stopPropagation()}
-                            target={"_blank"}
-                            >{tagExternalDocsUrl}</a> : null
+                            target="_blank"
+                            >{tagExternalDocsUrl}</Link> : null
                           }
                   </small>
                 }

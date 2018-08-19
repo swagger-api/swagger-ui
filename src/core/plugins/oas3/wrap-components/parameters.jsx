@@ -90,6 +90,7 @@ class Parameters extends Component {
       getComponent,
       getConfigs,
       specSelectors,
+      specActions,
       oas3Actions,
       oas3Selectors,
       pathMethod,
@@ -151,6 +152,7 @@ class Parameters extends Component {
                         onChange={ this.onChange }
                         onChangeConsumes={this.onChangeConsumesWrapper}
                         specSelectors={ specSelectors }
+                        specActions={ specActions }
                         pathMethod={ pathMethod }
                         isExecute={ isExecute }/>
                     )).toArray()

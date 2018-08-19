@@ -266,26 +266,6 @@
 
         @include text_code();
 
-        .view-line-link
-        {
-            position: relative;
-            top: 2px;
-
-            width: 0;
-            margin: 0;
-
-            cursor: pointer;
-            transition: all .5s;
-        }
-
-        &:hover
-        {
-            .view-line-link
-            {
-                width: 18px;
-                margin: 0 5px;
-            }
-        }
     }
 
     .opblock-summary-path__deprecated
@@ -315,7 +295,30 @@
         padding: 5px;
 
         cursor: pointer;
+
+        .view-line-link
+        {
+            position: relative;
+            top: 2px;
+
+            width: 0;
+            margin: 0;
+
+            cursor: pointer;
+            transition: all .5s;
+        }
+
+        &:hover
+        {
+            .view-line-link
+            {
+                width: 18px;
+                margin: 0 5px;
+            }
+        }
     }
+
+
 
     &.opblock-post
     {
@@ -396,8 +399,7 @@
     {
         font-size: 12px;
 
-        min-width: 100px;
-        min-width: 90px;
+        min-width: 60px;
         padding: 0;
 
         cursor: pointer;
@@ -409,6 +411,7 @@
             position: relative;
 
             padding-left: 0;
+            padding-right: 12px;
 
             &:after
             {
