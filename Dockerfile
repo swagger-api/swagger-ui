@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM nginx:1.15-alpine
 
 LABEL maintainer="fehguy"
 
@@ -15,9 +15,6 @@ ENV OAUTH_ADDITIONAL_PARAMS "**None**"
 ENV SWAGGER_JSON "/app/swagger.json"
 ENV PORT 8080
 ENV BASE_URL ""
-
-RUN apk add --no-cache nginx
-RUN mkdir -p /run/nginx
 
 COPY nginx.conf /etc/nginx/
 
