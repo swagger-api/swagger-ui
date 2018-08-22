@@ -12,6 +12,7 @@ import {
   UPDATE_URL,
   UPDATE_JSON,
   UPDATE_PARAM,
+  UPDATE_EMPTY_PARAM_INCLUSION,
   VALIDATE_PARAMS,
   SET_RESPONSE,
   SET_REQUEST,
@@ -67,6 +68,22 @@ export default {
     return state.setIn(
       ["meta", "paths", ...pathMethod, "parameters", paramKey, valueKey],
       value
+    )
+  },
+
+  [UPDATE_EMPTY_PARAM_INCLUSION]: ( state, {payload} ) => {
+    let { pathMethod, paramName, paramIn, includeEmptyValue } = payload
+
+    if(!paramName || !paramIn) {
+      console.warn("Warning: UPDATE_EMPTY_PARAM_INCLUSION could not generate a paramKey.")
+      return state
+    }
+
+    const paramKey = `${paramName}.${paramIn}`
+
+    return state.setIn(
+      ["meta", "paths", ...pathMethod, "parameter_inclusions", paramKey],
+      includeEmptyValue
     )
   },
 

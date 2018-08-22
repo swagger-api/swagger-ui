@@ -52,6 +52,9 @@ export const sampleFromSchema = (schema, config={}) => {
     let props = objectify(properties)
     let obj = {}
     for (var name in props) {
+      if ( props[name] && props[name].deprecated ) {
+        continue
+      }
       if ( props[name] && props[name].readOnly && !includeReadOnly ) {
         continue
       }

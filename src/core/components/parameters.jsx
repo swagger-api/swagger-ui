@@ -65,7 +65,8 @@ export default class Parameters extends Component {
       fn,
       getComponent,
       getConfigs,
-      specSelectors,
+      specSelectors, 
+      specActions,
       pathMethod
     } = this.props
 
@@ -107,6 +108,7 @@ export default class Parameters extends Component {
                       onChange={ this.onChange }
                       onChangeConsumes={this.onChangeConsumesWrapper}
                       specSelectors={ specSelectors }
+                      specActions={specActions}
                       pathMethod={ pathMethod }
                       isExecute={ isExecute }/>
                   )).toArray()
