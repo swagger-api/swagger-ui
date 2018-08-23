@@ -1,5 +1,6 @@
 import zenscroll from "zenscroll"
-import Im from "immutable"
+import { createDeepLinkPath } from "core/utils"
+import Im, { fromJS } from "immutable"
 
 const ADD_PATH_REF_PAIR = "layout_add_path_ref_pair"
 const INITIALIZE_PATH_REF_PAIRS = "layout_initialize_path_ref_pairs"

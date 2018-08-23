@@ -88,7 +88,7 @@ module.exports = function(rules, options) {
     plugins.push( new webpack.NoEmitOnErrorsPlugin())
 
   } else { // development mode
-    plugins.push(new CopyWebpackPlugin([ { from: "test/e2e/specs", to: "test-specs" } ]))
+    plugins.push(new CopyWebpackPlugin([ { from: "test/e2e-selenium/specs", to: "test-specs" } ]))
   }
 
   plugins.push(
