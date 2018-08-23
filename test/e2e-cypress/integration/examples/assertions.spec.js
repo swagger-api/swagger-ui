@@ -1,36 +1,36 @@
 /// <reference types="Cypress" />
 
-context('Assertions', () => {
+context("Assertions", () => {
   beforeEach(() => {
-    cy.visit('https://example.cypress.io/commands/assertions')
+    cy.visit("https://example.cypress.io/commands/assertions")
   })
 
-  describe('Implicit Assertions', () => {
+  describe("Implicit Assertions", () => {
 
-    it('.should() - make an assertion about the current subject', () => {
+    it(".should() - make an assertion about the current subject", () => {
       // https://on.cypress.io/should
-      cy.get('.assertion-table')
-        .find('tbody tr:last').should('have.class', 'success')
+      cy.get(".assertion-table")
+        .find("tbody tr:last").should("have.class", "success")
     })
 
-    it('.and() - chain multiple assertions together', () => {
+    it(".and() - chain multiple assertions together", () => {
       // https://on.cypress.io/and
-      cy.get('.assertions-link')
-        .should('have.class', 'active')
-        .and('have.attr', 'href')
-        .and('include', 'cypress.io')
+      cy.get(".assertions-link")
+        .should("have.class", "active")
+        .and("have.attr", "href")
+        .and("include", "cypress.io")
     })
   })
 
-  describe('Explicit Assertions', () => {
+  describe("Explicit Assertions", () => {
     // https://on.cypress.io/assertions
-    it('expect - make an assertion about a specified subject', () => {
+    it("expect - make an assertion about a specified subject", () => {
       // We can use Chai's BDD style assertions
       expect(true).to.be.true
 
       // Pass a function to should that can have any number
       // of explicit assertions within it.
-      cy.get('.assertions-p').find('p')
+      cy.get(".assertions-p").find("p")
       .should(($p) => {
         // return an array of texts from all of the p's
         // @ts-ignore TS6133 unused variable
@@ -46,19 +46,19 @@ context('Assertions', () => {
 
         // set this specific subject
         expect(paragraphs).to.deep.eq([
-          'Some text from first p',
-          'More text from second p',
-          'And even more text from third p',
+          "Some text from first p",
+          "More text from second p",
+          "And even more text from third p",
         ])
       })
     })
 
-    it('assert - assert shape of an object', () => {
+    it("assert - assert shape of an object", () => {
       const person = {
-        name: 'Joe',
+        name: "Joe",
         age: 20,
       }
-      assert.isObject(person, 'value is object')
+      assert.isObject(person, "value is object")
     })
   })
 })
