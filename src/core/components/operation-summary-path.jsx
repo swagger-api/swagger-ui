@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { Iterable } from "immutable"
+import { createDeepLinkPath } from "core/utils"
 import ImPropTypes from "react-immutable-proptypes"
 
 export default class OperationSummaryPath extends PureComponent{
@@ -27,7 +28,6 @@ export default class OperationSummaryPath extends PureComponent{
       isDeepLinkingEnabled,
     } = operationProps.toJS()
 
-    let isShownKey = ["operations", tag, operationId]
     const DeepLink = getComponent( "DeepLink" )
 
     return(
@@ -35,7 +35,7 @@ export default class OperationSummaryPath extends PureComponent{
               <DeepLink
                   enabled={isDeepLinkingEnabled}
                   isShown={isShown}
-                  path={`${isShownKey.join("/")}`}
+                  path={createDeepLinkPath(`${tag}/${operationId}`)}
                   text={path} />
               </span>
 
