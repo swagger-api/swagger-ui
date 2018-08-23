@@ -1,18 +1,24 @@
 import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
-import { OrderedMap } from "immutable"
+import { Map, OrderedMap, List } from "immutable"
 
 const RequestBody = ({
   requestBody,
+  requestBodyValue,
   getComponent,
   getConfigs,
   specSelectors,
+  fn,
   contentType,
   isExecute,
   specPath,
   onChange
 }) => {
+  const handleFile = (e) => {
+    onChange(e.target.files[0])
+  }
+
   const Markdown = getComponent("Markdown")
   const ModelExample = getComponent("modelExample")
   const RequestBodyEditor = getComponent("RequestBodyEditor")
@@ -23,8 +29,86 @@ const RequestBody = ({
 
   const mediaTypeValue = requestBodyContent.get(contentType)
 
+  const isObjectContent = mediaTypeValue.getIn(["schema", "type"]) === "object"
+
   if(!mediaTypeValue) {
     return null
+  }
+
+  if(
+    contentType === "application/octet-stream"
+    || contentType.indexOf("image/") === 0
+    || contentType.indexOf("audio/") === 0
+    || contentType.indexOf("video/") === 0
+  ) {
+    const Input = getComponent("Input")
+
+    if(!isExecute) {
+      return <i>
+        Example values are not available for <code>application/octet-stream</code> media types.
+      </i>
+    }
+
+    return <Input type={"file"} onChange={handleFile} />
+  }
+
+  if(
+    isObjectContent &&
+    (contentType === "application/x-www-form-urlencoded"
+    || contentType.indexOf("multipart/") === 0))
+  {
+    const JsonSchemaForm = getComponent("JsonSchemaForm")
+    const schemaForContentType = requestBody.getIn(["content", contentType, "schema"], OrderedMap())
+    const bodyProperties = schemaForContentType.getIn([ "properties"], OrderedMap())
+    requestBodyValue = Map.isMap(requestBodyValue) ? requestBodyValue : OrderedMap()
+
+    return <div className="table-container">
+      <table>
+        <tbody>
+          {
+            bodyProperties.map((prop, key) => {
+              const required = schemaForContentType.get("required", List()).includes(key)
+              const type = prop.get("type")
+              const format = prop.get("format")
+              const currentValue = requestBodyValue.get(key)
+              const initialValue = prop.get("default") || prop.get("example") || ""
+
+              const isFile = type === "string" && (format === "binary" || format === "base64")
+
+              return <tr key={key} className="parameters">
+                <td className="col parameters-col_name">
+                        <div className={required ? "parameter__name required" : "parameter__name"}>
+                          { key }
+                          { !required ? null : <span style={{color: "red"}}>&nbsp;*</span> }
+                        </div>
+                        <div className="parameter__type">
+                          { type }
+                          { format && <span className="prop-format">(${format})</span>}
+                        </div>
+                        <div className="parameter__deprecated">
+                          { prop.get("deprecated") ? "deprecated": null }
+                        </div>
+                      </td>
+                      <td className="col parameters-col_description">
+                        { prop.get("description") }
+                        {isExecute ? <div><JsonSchemaForm
+                          fn={fn}
+                          dispatchInitialValue={!isFile}
+                          schema={prop}
+                          description={key + " - " + prop.get("description")}
+                          getComponent={getComponent}
+                          value={currentValue === undefined ? initialValue : currentValue}
+                          onChange={(value) => {
+                            onChange(value, [key])
+                          }}
+                        /></div> : null }
+                      </td>
+                      </tr>
+            })
+          }
+        </tbody>
+      </table>
+    </div>
   }
 
   return <div>
@@ -53,8 +137,10 @@ const RequestBody = ({
 
 RequestBody.propTypes = {
   requestBody: ImPropTypes.orderedMap.isRequired,
+  requestBodyValue: ImPropTypes.orderedMap.isRequired,
   getComponent: PropTypes.func.isRequired,
   getConfigs: PropTypes.func.isRequired,
+  fn: PropTypes.object.isRequired,
   specSelectors: PropTypes.object.isRequired,
   contentType: PropTypes.string,
   isExecute: PropTypes.bool.isRequired,

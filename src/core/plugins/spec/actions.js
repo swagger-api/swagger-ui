@@ -1,4 +1,4 @@
-import YAML from "js-yaml"
+import YAML from "@kyleshockey/js-yaml"
 import { Map } from "immutable"
 import parseUrl from "url-parse"
 import serializeError from "serialize-error"
@@ -14,6 +14,7 @@ export const UPDATE_SPEC = "spec_update_spec"
 export const UPDATE_URL = "spec_update_url"
 export const UPDATE_JSON = "spec_update_json"
 export const UPDATE_PARAM = "spec_update_param"
+export const UPDATE_EMPTY_PARAM_INCLUSION = "spec_update_empty_param_inclusion"
 export const VALIDATE_PARAMS = "spec_validate_param"
 export const SET_RESPONSE = "spec_set_response"
 export const SET_REQUEST = "spec_set_request"
@@ -80,7 +81,7 @@ export const parseToJson = (str) => ({specActions, specSelectors, errActions}) =
 
 let hasWarnedAboutResolveSpecDeprecation = false
 
-export const resolveSpec = (json, url) => ({specActions, specSelectors, errActions, fn: { fetch, resolve, AST }, getConfigs}) => {
+export const resolveSpec = (json, url) => ({specActions, specSelectors, errActions, fn: { fetch, resolve, AST = {} }, getConfigs}) => {
   if(!hasWarnedAboutResolveSpecDeprecation) {
     console.warn(`specActions.resolveSpec is deprecated since v3.10.0 and will be removed in v4.0.0; use requestResolvedSubtree instead!`)
     hasWarnedAboutResolveSpecDeprecation = true
@@ -100,7 +101,7 @@ export const resolveSpec = (json, url) => ({specActions, specSelectors, errActio
     url = specSelectors.url()
   }
 
-  let { getLineNumberForPath } = AST
+  let getLineNumberForPath = AST.getLineNumberForPath ? AST.getLineNumberForPath : () => undefined
 
   let specStr = specSelectors.specStr()
 
@@ -149,7 +150,7 @@ const debResolveSubtrees = debounce(async () => {
       errSelectors,
       fn: {
         resolveSubtree,
-        AST: { getLineNumberForPath }
+        AST = {}
       },
       specSelectors,
       specActions,
@@ -159,6 +160,8 @@ const debResolveSubtrees = debounce(async () => {
     console.error("Error: Swagger-Client did not provide a `resolveSubtree` method, doing nothing.")
     return
   }
+
+  let getLineNumberForPath = AST.getLineNumberForPath ? AST.getLineNumberForPath : () => undefined
 
   const specStr = specSelectors.specStr()
 
@@ -234,6 +237,13 @@ export function changeParam( path, paramName, paramIn, value, isXml ){
   }
 }
 
+export function changeParamByIdentity( pathMethod, param, value, isXml ){
+  return {
+    type: UPDATE_PARAM,
+    payload:{ path: pathMethod, param, value, isXml }
+  }
+}
+
 export const updateResolvedSubtree = (path, value) => {
   return {
     type: UPDATE_RESOLVED_SUBTREE,
@@ -257,6 +267,18 @@ export const validateParams = ( payload, isOAS3 ) =>{
     payload:{
       pathMethod: payload,
       isOAS3
+    }
+  }
+}
+
+export const updateEmptyParamInclusion = ( pathMethod, paramName, paramIn, includeEmptyValue ) =>{
+  return {
+    type: UPDATE_EMPTY_PARAM_INCLUSION,
+    payload:{
+      pathMethod,
+      paramName,
+      paramIn,
+      includeEmptyValue
     }
   }
 }
@@ -318,7 +340,28 @@ export const executeRequest = (req) =>
     let { pathName, method, operation } = req
     let { requestInterceptor, responseInterceptor } = getConfigs()
 
+    
     let op = operation.toJS()
+    
+    // ensure that explicitly-included params are in the request
+
+    if(op && op.parameters && op.parameters.length) {
+      op.parameters
+        .filter(param => param && param.allowEmptyValue === true)
+        .forEach(param => {
+          if (specSelectors.parameterInclusionSettingFor([pathName, method], param.name, param.in)) {
+            req.parameters = req.parameters || {}
+            const paramValue = req.parameters[param.name]
+
+            // if the value is falsy or an empty Immutable iterable...
+            if(!paramValue || (paramValue && paramValue.size === 0)) {
+              // set it to empty string, so Swagger Client will treat it as
+              // present but empty.
+              req.parameters[param.name] = ""
+            }
+          }
+        })
+    }
 
     // if url is relative, parseUrl makes it absolute by inferring from `window.location`
     req.contextUrl = parseUrl(specSelectors.url()).toString()
@@ -348,7 +391,9 @@ export const executeRequest = (req) =>
 
       if(isJSONObject(requestBody)) {
         req.requestBody = JSON.parse(requestBody)
-      } else {
+      } else if(requestBody && requestBody.toJS) {
+        req.requestBody = requestBody.toJS()
+      } else{
         req.requestBody = requestBody
       }
     }

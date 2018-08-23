@@ -37,7 +37,7 @@ export function objectify (thing) {
   if(!isObject(thing))
     return {}
   if(isImmutable(thing))
-    return thing.toObject()
+    return thing.toJS()
   return thing
 }
 
@@ -503,7 +503,30 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
     let numberCheck = type === "number" && (value || value === 0)
     let integerCheck = type === "integer" && (value || value === 0)
 
-    if ( required && !(stringCheck || arrayCheck || listCheck || fileCheck || booleanCheck || numberCheck || integerCheck) ) {
+    let oas3ObjectCheck = false
+
+    if(false || isOAS3 && type === "object") {
+      if(typeof value === "object") {
+        oas3ObjectCheck = true
+      } else if(typeof value === "string") {
+        try {
+          JSON.parse(value)
+          oas3ObjectCheck = true
+        } catch(e) {
+          errors.push("Parameter string value must be valid JSON")
+          return errors
+        }
+      }
+    }
+
+    const allChecks = [
+      stringCheck, arrayCheck, listCheck, fileCheck, booleanCheck,
+      numberCheck, integerCheck, oas3ObjectCheck
+    ]
+
+    const passedAnyCheck = allChecks.some(v => !!v)
+
+    if ( required && !passedAnyCheck ) {
       errors.push("Required field is not provided")
       return errors
     }
@@ -605,7 +628,9 @@ export const getSampleSchema = (schema, contentType="", config={}) => {
     return memoizedCreateXMLExample(schema, config)
   }
 
-  return JSON.stringify(memoizedSampleFromSchema(schema, config), null, 2)
+  const res = memoizedSampleFromSchema(schema, config)
+
+  return typeof res === "object" ? JSON.stringify(res, null, 2) : res
 }
 
 export const parseSearch = () => {
@@ -719,7 +744,7 @@ export const getCommonExtensions = (defObj) => defObj.filter((v, k) => /^pattern
 // `predicate` can be used to discriminate the stripping further,
 // by preserving the key's place in the object based on its value.
 export function deeplyStripKey(input, keyToStrip, predicate = () => true) {
-  if(typeof input !== "object" || Array.isArray(input) || !keyToStrip) {
+  if(typeof input !== "object" || Array.isArray(input) || input === null || !keyToStrip) {
     return input
   }
 
@@ -734,4 +759,33 @@ export function deeplyStripKey(input, keyToStrip, predicate = () => true) {
   })
 
   return obj
+}
+
+export function stringify(thing) {
+  if (typeof thing === "string") {
+    return thing
+  }
+
+  if (thing.toJS) {
+    thing = thing.toJS()
+  }
+
+  if (typeof thing === "object" && thing !== null) {
+    try {
+      return JSON.stringify(thing, null, 2)
+    }
+    catch (e) {
+      return String(thing)
+    }
+  }
+
+  return thing.toString()
+}
+
+export function numberToString(thing) {
+  if(typeof thing === "number") {
+    return thing.toString()
+  }
+
+  return thing
 }

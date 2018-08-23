@@ -1,6 +1,5 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { Collapse as OriCollapse } from "react-collapse"
 
 function xclass(...args) {
   return args.filter(a => !!a).join(" ").trim()
@@ -197,7 +196,7 @@ export class Select extends React.Component {
 export class Link extends React.Component {
 
   render() {
-    return <a {...this.props} className={xclass(this.props.className, "link")}/>
+    return <a {...this.props} rel="noopener noreferrer" className={xclass(this.props.className, "link")}/>
   }
 
 }
@@ -243,11 +242,9 @@ export class Collapse extends React.Component {
 
     children = isOpened ? children : null
     return (
-      <OriCollapse isOpened={isOpened}>
-        <NoMargin>
-          {children}
-        </NoMargin>
-      </OriCollapse>
+      <NoMargin>
+        {children}
+      </NoMargin>
     )
   }
 

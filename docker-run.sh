@@ -38,10 +38,10 @@ fi
 if [[ -f $SWAGGER_JSON ]]; then
   cp -s $SWAGGER_JSON $NGINX_ROOT
   REL_PATH="./$(basename $SWAGGER_JSON)"
-  sed -i "s|http://petstore.swagger.io/v2/swagger.json|$REL_PATH|g" $INDEX_FILE
+  sed -i "s|https://petstore.swagger.io/v2/swagger.json|$REL_PATH|g" $INDEX_FILE
   sed -i "s|http://example.com/api|$REL_PATH|g" $INDEX_FILE
 else
-  sed -i "s|http://petstore.swagger.io/v2/swagger.json|$API_URL|g" $INDEX_FILE
+  sed -i "s|https://petstore.swagger.io/v2/swagger.json|$API_URL|g" $INDEX_FILE
   sed -i "s|http://example.com/api|$API_URL|g" $INDEX_FILE
 fi
 
@@ -55,11 +55,11 @@ fi
 
 # replace `url` with `urls` option if API_URLS is set
 if [[ -n "$API_URLS" ]]; then
-    sed -i "s|url: .*,|urls: $API_URLS,|g" $INDEX_FILE
+    sed -i "s|^\(\s*\)url: .*,|\1urls: $API_URLS,|g" $INDEX_FILE
 fi
 
 # replace the PORT that nginx listens on if PORT is supplied
-if [[ -n "${PORT}" ]]; then 
+if [[ -n "${PORT}" ]]; then
     sed -i "s|8080|${PORT}|g" /etc/nginx/nginx.conf
 fi
 

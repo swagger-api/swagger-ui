@@ -52,7 +52,7 @@ describe("Markdown component", function() {
         it("allows links", function() {
             const str = `[Link](https://example.com/)`
             const el = render(<Markdown source={str} />)
-            expect(el.html()).toEqual(`<div class="markdown"><p><a target="_blank" href="https://example.com/">Link</a></p>\n</div>`)
+            expect(el.html()).toEqual(`<div class="markdown"><p><a rel="noopener noreferrer" target="_blank" href="https://example.com/">Link</a></p>\n</div>`)
         })
     })
 
@@ -60,19 +60,19 @@ describe("Markdown component", function() {
         it("allows image elements", function() {
             const str = `![Image alt text](http://image.source "Image title")`
             const el = render(<OAS3Markdown source={str} />)
-            expect(el.html()).toEqual(`<div class="renderedMarkdown"><div><p><img title="Image title" alt="Image alt text" src="http://image.source"></p></div></div>`)
+            expect(el.html()).toEqual(`<div class="renderedMarkdown"><p><img title="Image title" alt="Image alt text" src="http://image.source"></p></div>`)
         })
 
         it("allows image elements with https scheme", function() {
             const str = `![Image alt text](https://image.source "Image title")`
             const el = render(<OAS3Markdown source={str} />)
-            expect(el.html()).toEqual(`<div class="renderedMarkdown"><div><p><img title="Image title" alt="Image alt text" src="https://image.source"></p></div></div>`)
+            expect(el.html()).toEqual(`<div class="renderedMarkdown"><p><img title="Image title" alt="Image alt text" src="https://image.source"></p></div>`)
         })
 
         it("allows image elements with data scheme", function() {
             const str = `<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==">`
             const el = render(<OAS3Markdown source={str} />)
-            expect(el.html()).toEqual(`<div class="renderedMarkdown"><div>` + str + `</div></div>`)
+            expect(el.html()).toEqual(`<div class="renderedMarkdown"><p>` + str + `</p></div>`)
         })
 
         it("allows heading elements", function() {
@@ -84,7 +84,7 @@ describe("Markdown component", function() {
 ##### h5
 ###### h6`
             const el = render(<OAS3Markdown source={str} />)
-            expect(el.html()).toEqual(`<div class="renderedMarkdown"><div><h1>h1</h1>\n<h2>h2</h2>\n<h3>h3</h3>\n<h4>h4</h4>\n<h5>h5</h5>\n<h6>h6</h6></div></div>`)
+            expect(el.html()).toEqual(`<div class="renderedMarkdown"><h1>h1</h1>\n<h2>h2</h2>\n<h3>h3</h3>\n<h4>h4</h4>\n<h5>h5</h5>\n<h6>h6</h6></div>`)
         })
     })
 })

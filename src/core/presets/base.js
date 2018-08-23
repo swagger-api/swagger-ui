@@ -4,11 +4,9 @@ import spec from "core/plugins/spec"
 import view from "core/plugins/view"
 import samples from "core/plugins/samples"
 import logs from "core/plugins/logs"
-import ast from "core/plugins/ast"
 import swaggerJs from "core/plugins/swagger-js"
 import auth from "core/plugins/auth"
 import util from "core/plugins/util"
-import SplitPaneModePlugin from "core/plugins/split-pane-mode"
 import downloadUrlPlugin from "core/plugins/download-url"
 import configsPlugin from "core/plugins/configs"
 import deepLinkingPlugin from "core/plugins/deep-linking"
@@ -31,7 +29,11 @@ import Clear from "core/components/clear"
 import LiveResponse from "core/components/live-response"
 import OnlineValidatorBadge from "core/components/online-validator-badge"
 import Operations from "core/components/operations"
+import OperationTag from "core/components/operation-tag"
 import Operation from "core/components/operation"
+import OperationSummary from "core/components/operation-summary"
+import OperationSummaryMethod from "core/components/operation-summary-method"
+import OperationSummaryPath from "core/components/operation-summary-path"
 import OperationExt from "core/components/operation-extensions"
 import OperationExtRow from "core/components/operation-extension-row"
 import HighlightCode from "core/components/highlight-code"
@@ -40,6 +42,7 @@ import Response from "core/components/response"
 import ResponseBody from "core/components/response-body"
 import Parameters from "core/components/parameters"
 import ParameterExt from "core/components/parameter-extension"
+import ParameterIncludeEmpty from "core/components/parameter-include-empty"
 import ParameterRow from "core/components/parameter-row"
 import Execute from "core/components/execute"
 import Headers from "core/components/headers"
@@ -50,10 +53,14 @@ import Info, {
   InfoUrl,
   InfoBasePath
 } from "core/components/info"
+import InfoContainer from "core/containers/info"
+import JumpToPath from "core/components/jump-to-path"
 import Footer from "core/components/footer"
+import FilterContainer from "core/containers/filter"
 import ParamBody from "core/components/param-body"
 import Curl from "core/components/curl"
 import Schemes from "core/components/schemes"
+import SchemesContainer from "core/containers/schemes"
 import ModelCollapse from "core/components/model-collapse"
 import ModelExample from "core/components/model-example"
 import ModelWrapper from "core/components/model-wrapper"
@@ -65,6 +72,7 @@ import ArrayModel from "core/components/array-model"
 import PrimitiveModel from "core/components/primitive-model"
 import Property from "core/components/property"
 import TryItOutButton from "core/components/try-it-out-button"
+import VersionPragmaFilter from "core/components/version-pragma-filter"
 import VersionStamp from "core/components/version-stamp"
 import DeepLink from "core/components/deep-link"
 import SvgAssets from "core/components/svg-assets"
@@ -93,9 +101,14 @@ export default function() {
       clear: Clear,
       liveResponse: LiveResponse,
       info: Info,
+      InfoContainer,
+      JumpToPath,
       onlineValidatorBadge: OnlineValidatorBadge,
       operations: Operations,
       operation: Operation,
+      OperationSummary,
+      OperationSummaryMethod,
+      OperationSummaryPath,
       highlightCode: HighlightCode,
       responses: Responses,
       response: Response,
@@ -108,9 +121,11 @@ export default function() {
       contentType: ContentType,
       overview: Overview,
       footer: Footer,
+      FilterContainer,
       ParamBody: ParamBody,
       curl: Curl,
       schemes: Schemes,
+      SchemesContainer,
       modelExample: ModelExample,
       ModelWrapper,
       ModelCollapse,
@@ -124,10 +139,13 @@ export default function() {
       TryItOutButton,
       Markdown,
       BaseLayout,
+      VersionPragmaFilter,
       VersionStamp,
       OperationExt,
       OperationExtRow,
       ParameterExt,
+      ParameterIncludeEmpty,
+      OperationTag,
       OperationContainer,
       DeepLink,
       InfoUrl,
@@ -158,8 +176,6 @@ export default function() {
     swaggerJs,
     jsonSchemaComponents,
     auth,
-    ast,
-    SplitPaneModePlugin,
     downloadUrlPlugin,
     deepLinkingPlugin,
     filter,

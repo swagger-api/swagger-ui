@@ -11,6 +11,12 @@ import {
 } from "corePlugins/spec/selectors"
 
 import Petstore from "./assets/petstore.json"
+import {
+  operationWithMeta,
+  parameterWithMeta,
+  parameterWithMetaByIdentity,
+  parameterInclusionSettingFor
+} from "../../../../src/core/plugins/spec/selectors"
 
 describe("spec plugin - selectors", function(){
 
@@ -449,6 +455,300 @@ describe("spec plugin - selectors", function(){
       ]
       expect(state.getIn(["json", "paths"]).keySeq().toJS()).toEqual(correctOrder)
       expect(result.getIn(["paths"]).keySeq().toJS()).toEqual(correctOrder)
+    })
+  })
+
+  describe("operationWithMeta", function() {
+    it("should support merging in name+in keyed param metadata", function () {
+      const state = fromJS({
+        json: {
+          paths: {
+            "/": {
+              "get": {
+                parameters: [
+                  {
+                    name: "body",
+                    in: "body"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        meta: {
+          paths: {
+            "/": {
+              "get": {
+                parameters: {
+                  "body.body": {
+                    value: "abc123"
+                  }
+                }
+              }
+            }
+          }
+        }
+      })
+
+      const result = operationWithMeta(state, "/", "get")
+
+      expect(result.toJS()).toEqual({
+        parameters: [
+          {
+            name: "body",
+            in: "body",
+            value: "abc123"
+          }
+        ]
+      })
+    })
+    it("should support merging in hash-keyed param metadata", function () {
+      const bodyParam = fromJS({
+        name: "body",
+        in: "body"
+      })
+
+      const state = fromJS({
+        json: {
+          paths: {
+            "/": {
+              "get": {
+                parameters: [
+                  bodyParam
+                ]
+              }
+            }
+          }
+        },
+        meta: {
+          paths: {
+            "/": {
+              "get": {
+                parameters: {
+                  [`body.body.hash-${bodyParam.hashCode()}`]: {
+                    value: "abc123"
+                  }
+                }
+              }
+            }
+          }
+        }
+      })
+
+      const result = operationWithMeta(state, "/", "get")
+
+      expect(result.toJS()).toEqual({
+        parameters: [
+          {
+            name: "body",
+            in: "body",
+            value: "abc123"
+          }
+        ]
+      })
+    })
+  })
+  describe("parameterWithMeta", function() {
+    it("should support merging in name+in keyed param metadata", function () {
+      const state = fromJS({
+        json: {
+          paths: {
+            "/": {
+              "get": {
+                parameters: [
+                  {
+                    name: "body",
+                    in: "body"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        meta: {
+          paths: {
+            "/": {
+              "get": {
+                parameters: {
+                  "body.body": {
+                    value: "abc123"
+                  }
+                }
+              }
+            }
+          }
+        }
+      })
+
+      const result = parameterWithMeta(state, ["/", "get"], "body", "body")
+
+      expect(result.toJS()).toEqual({
+        name: "body",
+        in: "body",
+        value: "abc123"
+      })
+    })
+    it("should give best-effort when encountering hash-keyed param metadata", function () {
+      const bodyParam = fromJS({
+        name: "body",
+        in: "body"
+      })
+
+      const state = fromJS({
+        json: {
+          paths: {
+            "/": {
+              "get": {
+                parameters: [
+                  bodyParam
+                ]
+              }
+            }
+          }
+        },
+        meta: {
+          paths: {
+            "/": {
+              "get": {
+                parameters: {
+                  [`body.body.hash-${bodyParam.hashCode()}`]: {
+                    value: "abc123"
+                  }
+                }
+              }
+            }
+          }
+        }
+      })
+
+      const result = parameterWithMeta(state, ["/", "get"], "body", "body")
+
+      expect(result.toJS()).toEqual({
+        name: "body",
+        in: "body",
+        value: "abc123"
+      })
+    })
+
+  })
+  describe("parameterWithMetaByIdentity", function() {
+    it("should support merging in name+in keyed param metadata", function () {
+      const bodyParam = fromJS({
+        name: "body",
+        in: "body"
+      })
+
+      const state = fromJS({
+        json: {
+          paths: {
+            "/": {
+              "get": {
+                parameters: [bodyParam]
+              }
+            }
+          }
+        },
+        meta: {
+          paths: {
+            "/": {
+              "get": {
+                parameters: {
+                  "body.body": {
+                    value: "abc123"
+                  }
+                }
+              }
+            }
+          }
+        }
+      })
+
+      const result = parameterWithMetaByIdentity(state, ["/", "get"], bodyParam)
+
+      expect(result.toJS()).toEqual({
+        name: "body",
+        in: "body",
+        value: "abc123"
+      })
+    })
+    it("should support merging in hash-keyed param metadata", function () {
+      const bodyParam = fromJS({
+        name: "body",
+        in: "body"
+      })
+
+      const state = fromJS({
+        json: {
+          paths: {
+            "/": {
+              "get": {
+                parameters: [
+                  bodyParam
+                ]
+              }
+            }
+          }
+        },
+        meta: {
+          paths: {
+            "/": {
+              "get": {
+                parameters: {
+                  [`body.body.hash-${bodyParam.hashCode()}`]: {
+                    value: "abc123"
+                  }
+                }
+              }
+            }
+          }
+        }
+      })
+
+      const result = parameterWithMetaByIdentity(state, ["/", "get"], bodyParam)
+
+      expect(result.toJS()).toEqual({
+        name: "body",
+        in: "body",
+        value: "abc123"
+      })
+    })
+  })
+  describe("parameterInclusionSettingFor", function() {
+    it("should support getting name+in param inclusion settings", function () {
+      const param = fromJS({
+        name: "param",
+        in: "query",
+        allowEmptyValue: true
+      })
+
+      const state = fromJS({
+        json: {
+          paths: {
+            "/": {
+              "get": {
+                parameters: [
+                  param
+                ]
+              }
+            }
+          }
+        },
+        meta: {
+          paths: {
+            "/": {
+              "get": {
+                "parameter_inclusions": {
+                  [`param.query`]: true
+                }
+              }
+            }
+          }
+        }
+      })
+
+      const result = parameterInclusionSettingFor(state, ["/", "get"], "param", "query")
+
+      expect(result).toEqual(true)
     })
   })
 })

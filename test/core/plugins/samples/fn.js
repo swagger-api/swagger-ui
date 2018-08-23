@@ -1,7 +1,35 @@
+import { fromJS } from "immutable"
 import { createXMLExample, sampleFromSchema } from "corePlugins/samples/fn"
 import expect from "expect"
 
 describe("sampleFromSchema", function() {
+  it("handles Immutable.js objects for nested schemas", function () {
+    var definition = fromJS({
+      "type": "object",
+      "properties": {
+        "json": {
+          "type": "object",
+          "example": {
+            "a": "string"
+          },
+          "properties": {
+            "a": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    })
+
+    var expected = {
+      json: {
+        a: "string"
+      }
+    }
+
+    expect(sampleFromSchema(definition, { includeReadOnly: false })).toEqual(expected)
+  })
+
   it("returns object with no readonly fields for parameter", function () {
     var definition = {
       type: "object",
@@ -49,6 +77,30 @@ describe("sampleFromSchema", function() {
     }
 
     expect(sampleFromSchema(definition, { includeReadOnly: true })).toEqual(expected)
+  })
+
+  it("returns object without deprecated fields for parameter", function () {
+    var definition = {
+      type: "object",
+      properties: {
+        id: {
+          type: "integer"
+        },
+        deprecatedProperty: {
+          deprecated: true,
+          type: "string"
+        }
+      },
+      xml: {
+        name: "animals"
+      }
+    }
+
+    var expected = {
+      id: 0
+    }
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
   it("returns object without writeonly fields for parameter", function () {
@@ -348,6 +400,46 @@ describe("sampleFromSchema", function() {
       }
 
       var expected = [ "dog", 1 ]
+
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+
+    it("returns null for a null example", function() {
+      var definition = {
+        "type": "object",
+        "properties": {
+          "foo": {
+            "type": "string",
+            "nullable": true,
+            "example": null
+          }
+        }
+      }
+
+      var expected = {
+        foo: null
+      }
+
+      expect(sampleFromSchema(definition)).toEqual(expected)
+    })
+
+    it("returns null for a null object-level example", function() {
+      var definition = {
+        "type": "object",
+        "properties": {
+          "foo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "example": {
+          "foo": null
+        }
+      }
+
+      var expected = {
+        foo: null
+      }
 
       expect(sampleFromSchema(definition)).toEqual(expected)
     })

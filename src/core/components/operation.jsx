@@ -62,34 +62,26 @@ export default class Operation extends PureComponent {
     let operationProps = this.props.operation
 
     let {
-      summary,
       deprecated,
       isShown,
-      isAuthorized,
       path,
       method,
       op,
       tag,
-      showSummary,
       operationId,
-      originalOperationId,
       allowTryItOut,
-      displayOperationId,
       displayRequestDuration,
-      isDeepLinkingEnabled,
       tryItOutEnabled,
       executeInProgress
     } = operationProps.toJS()
 
     let {
-      summary: resolvedSummary,
       description,
       externalDocs,
       schemes
     } = op
 
     let operation = operationProps.getIn(["op"])
-    let security = operationProps.get("security")
     let responses = operation.get("responses")
     let produces = operation.get("produces")
     let parameters = getList(operation, ["parameters"])
@@ -101,14 +93,13 @@ export default class Operation extends PureComponent {
     const Parameters = getComponent( "parameters" )
     const Execute = getComponent( "execute" )
     const Clear = getComponent( "clear" )
-    const AuthorizeOperationBtn = getComponent( "authorizeOperationBtn" )
-    const JumpToPath = getComponent("JumpToPath", true)
     const Collapse = getComponent( "Collapse" )
     const Markdown = getComponent( "Markdown" )
     const Schemes = getComponent( "schemes" )
     const OperationServers = getComponent( "OperationServers" )
     const OperationExt = getComponent( "OperationExt" )
-    const DeepLink = getComponent( "DeepLink" )
+    const OperationSummary = getComponent( "OperationSummary" )
+    const Link = getComponent( "Link" )
 
     const { showExtensions } = getConfigs()
 
@@ -122,39 +113,7 @@ export default class Operation extends PureComponent {
 
     return (
         <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={createDeepLinkPath(isShownKey.join("-"))} >
-          <div className={`opblock-summary opblock-summary-${method}`} onClick={toggleShown} >
-            {/*TODO: convert this into a component, that can be wrapped
-              and pulled in with getComponent */}
-              <span className="opblock-summary-method">{method.toUpperCase()}</span>
-              <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } >
-              <DeepLink
-                  enabled={isDeepLinkingEnabled}
-                  isShown={isShown}
-                  path={`${isShownKey.join("/")}`}
-                  text={path} />
-                <JumpToPath path={specPath} /> {/*TODO: use wrapComponents here, swagger-ui doesn't care about jumpToPath */}
-              </span>
-
-            { !showSummary ? null :
-                <div className="opblock-summary-description">
-                  { resolvedSummary || summary }
-                </div>
-            }
-
-            { displayOperationId && (originalOperationId || operationId) ? <span className="opblock-summary-operation-id">{originalOperationId || operationId}</span> : null } 
-
-            {
-              (!security || !security.count()) ? null :
-                <AuthorizeOperationBtn
-                  isAuthorized={ isAuthorized }
-                  onClick={() => {
-                    const applicableDefinitions = authSelectors.definitionsForRequirements(security)
-                    authActions.showDefinitions(applicableDefinitions)
-                  }}
-                />
-            }
-          </div>
-
+        <OperationSummary operationProps={operationProps} toggleShown={toggleShown} getComponent={getComponent} authActions={authActions} authSelectors={authSelectors} specPath={specPath} />
           <Collapse isOpened={isShown}>
             <div className="opblock-body">
               { (operation && operation.size) || operation === null ? null :
@@ -176,7 +135,7 @@ export default class Operation extends PureComponent {
                     <span className="opblock-external-docs__description">
                       <Markdown source={ externalDocs.description } />
                     </span>
-                    <a target="_blank" className="opblock-external-docs__link" href={ sanitizeUrl(externalDocs.url) }>{ externalDocs.url }</a>
+                    <Link target="_blank" className="opblock-external-docs__link" href={sanitizeUrl(externalDocs.url)}>{externalDocs.url}</Link>
                   </div>
                 </div> : null
               }

@@ -12,6 +12,7 @@ import {
   UPDATE_URL,
   UPDATE_JSON,
   UPDATE_PARAM,
+  UPDATE_EMPTY_PARAM_INCLUSION,
   VALIDATE_PARAMS,
   SET_RESPONSE,
   SET_REQUEST,
@@ -51,13 +52,38 @@ export default {
   },
 
   [UPDATE_PARAM]: ( state, {payload} ) => {
-    let { path: pathMethod, paramName, paramIn, value, isXml } = payload
+    let { path: pathMethod, paramName, paramIn, param, value, isXml } = payload
+
+    let paramKey
+
+    // `hashCode` is an Immutable.js Map method
+    if(param && param.hashCode && !paramIn && !paramName) {
+      paramKey = `${param.get("name")}.${param.get("in")}.hash-${param.hashCode()}`
+    } else {
+      paramKey = `${paramName}.${paramIn}`
+    }
 
     const valueKey = isXml ? "value_xml" : "value"
 
     return state.setIn(
-      ["meta", "paths", ...pathMethod, "parameters", `${paramName}.${paramIn}`, valueKey],
+      ["meta", "paths", ...pathMethod, "parameters", paramKey, valueKey],
       value
+    )
+  },
+
+  [UPDATE_EMPTY_PARAM_INCLUSION]: ( state, {payload} ) => {
+    let { pathMethod, paramName, paramIn, includeEmptyValue } = payload
+
+    if(!paramName || !paramIn) {
+      console.warn("Warning: UPDATE_EMPTY_PARAM_INCLUSION could not generate a paramKey.")
+      return state
+    }
+
+    const paramKey = `${paramName}.${paramIn}`
+
+    return state.setIn(
+      ["meta", "paths", ...pathMethod, "parameter_inclusions", paramKey],
+      includeEmptyValue
     )
   },
 
