@@ -71,6 +71,19 @@ describe("Deep linking feature", () => {
           .should("exist")
       })
     })
+
+    describe("regular Operation with `docExpansion: none` enabled", function() {
+      it("should expand a tag", () => {
+        cy.visit(`${baseUrl}&docExpansion=none#/myTag`)
+          .get(`.opblock-tag-section.is-open`)
+          .should("exist")
+      })
+      it("should expand an operation", () => {
+        cy.visit(`${baseUrl}&docExpansion=none#/myTag/myOperation`)
+          .get(`.opblock-tag-section.is-open`)
+          .should("exist")
+      })
+    })
   })
   describe("in OpenAPI 3", () => {
     const baseUrl = "/?deepLinking=true&url=/documents/features/deep-linking.swagger.yaml"
@@ -141,6 +154,19 @@ describe("Deep linking feature", () => {
         cy.visit(`${baseUrl}${correctFragment}`)
           .reload()
           .get(`${elementToGet}.is-open`)
+          .should("exist")
+      })
+    })
+
+    describe("regular Operation with `docExpansion: none` enabled", function () {
+      it("should expand a tag", () => {
+        cy.visit(`${baseUrl}&docExpansion=none#/myTag`)
+          .get(`.opblock-tag-section.is-open`)
+          .should("exist")
+      })
+      it("should expand an operation", () => {
+        cy.visit(`${baseUrl}&docExpansion=none#/myTag/myOperation`)
+          .get(`.opblock-tag-section.is-open`)
           .should("exist")
       })
     })
