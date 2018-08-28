@@ -77,6 +77,13 @@ export const parseDeepLinkHash = (rawHash) => ({ layoutActions, layoutSelectors,
 
     const isShownKey = layoutSelectors.isShownKeyFromUrlHashArray(hashArray)
 
+    const [type, tagId] = isShownKey
+
+    if(type === "operations") {
+      // we're going to show an operation, so we need to expand the tag as well
+      layoutActions.show(layoutSelectors.isShownKeyFromUrlHashArray([tagId]))
+    }
+
     layoutActions.show(isShownKey, true) // TODO: 'show' operation tag
     layoutActions.scrollTo(isShownKey)
   }
