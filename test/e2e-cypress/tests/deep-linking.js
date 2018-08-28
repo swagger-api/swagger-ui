@@ -76,12 +76,12 @@ describe("Deep linking feature", () => {
       it("should expand a tag", () => {
         cy.visit(`${baseUrl}&docExpansion=none#/myTag`)
           .get(`.opblock-tag-section.is-open`)
-          .should("exist")
+          .should("have.length", 1)
       })
       it("should expand an operation", () => {
         cy.visit(`${baseUrl}&docExpansion=none#/myTag/myOperation`)
-          .get(`.opblock-tag-section.is-open`)
-          .should("exist")
+          .get(`.opblock.is-open`)
+          .should("have.length", 1)
       })
     })
   })
@@ -162,12 +162,12 @@ describe("Deep linking feature", () => {
       it("should expand a tag", () => {
         cy.visit(`${baseUrl}&docExpansion=none#/myTag`)
           .get(`.opblock-tag-section.is-open`)
-          .should("exist")
+          .should("have.length", 1)
       })
       it("should expand an operation", () => {
         cy.visit(`${baseUrl}&docExpansion=none#/myTag/myOperation`)
-          .get(`.opblock-tag-section.is-open`)
-          .should("exist")
+          .get(`.opblock.is-open`)
+          .should("have.length", 1)
       })
     })
   })
