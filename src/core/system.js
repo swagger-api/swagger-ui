@@ -33,7 +33,7 @@ function createStoreWithMiddleware(rootReducer, initialState, getSystem) {
 
   const composeEnhancers = win.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
   
-  const store = createStore(rootPersistReducer, initialState, composeEnhancers(
+  const store = createStore(rootReducer, initialState, composeEnhancers(
     applyMiddleware( ...middlwares )
   ))
   persistStore(store)
