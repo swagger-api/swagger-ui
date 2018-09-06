@@ -1,5 +1,7 @@
 import React from "react"
 import { createStore, applyMiddleware, bindActionCreators, compose } from "redux"
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage' // localStorage for web
 import Im, { fromJS, Map } from "immutable"
 import deepExtend from "deep-extend"
 import { combineReducers } from "redux-immutable"
@@ -10,6 +12,12 @@ import win from "core/window"
 import { systemThunkMiddleware, isFn, objMap, objReduce, isObject, isArray, isFunc } from "core/utils"
 
 const idFn = a => a
+
+const rootPersistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['authorized']
+}
 
 // Apply middleware that gets sandwitched between `dispatch` and the reducer function(s)
 function createStoreWithMiddleware(rootReducer, initialState, getSystem) {
@@ -22,10 +30,13 @@ function createStoreWithMiddleware(rootReducer, initialState, getSystem) {
   ]
 
   const composeEnhancers = win.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-
-  return createStore(rootReducer, initialState, composeEnhancers(
+  const rootPersistReducer = persistReducer(rootPersistConfig, rootReducer)
+  
+  const store = createStore(rootPersistReducer, initialState, composeEnhancers(
     applyMiddleware( ...middlwares )
   ))
+  persistStore(store)
+  return store;
 }
 
 export default class Store {
