@@ -1,8 +1,8 @@
 import React from "react"
 import { createStore, applyMiddleware, bindActionCreators, compose } from "redux"
-import { persistStore, persistReducer } from 'redux-persist'
-import immutableTransform from 'redux-persist-transform-immutable'
-import storage from 'redux-persist/lib/storage' // localStorage for web
+import { persistStore, persistReducer } from "redux-persist"
+import immutableTransform from "redux-persist-transform-immutable"
+import storage from "redux-persist/lib/storage" // localStorage for web
 import Im, { fromJS, Map } from "immutable"
 import deepExtend from "deep-extend"
 import { combineReducers } from "redux-immutable"
@@ -16,9 +16,9 @@ const idFn = a => a
 
 const rootPersistConfig = {
   transforms: [immutableTransform()],
-  key: 'root',
+  key: "root",
   storage,
-  whitelist: ['authorized']
+  whitelist: ["authorized"]
 }
 
 // Apply middleware that gets sandwitched between `dispatch` and the reducer function(s)
@@ -37,7 +37,7 @@ function createStoreWithMiddleware(rootReducer, initialState, getSystem) {
     applyMiddleware( ...middlwares )
   ))
   persistStore(store)
-  return store;
+  return store
 }
 
 export default class Store {
@@ -439,9 +439,9 @@ function allReducers(reducerSystem) {
     return idFn
   }
 
-  const reducer = combineReducers(reducers);
+  const reducer = combineReducers(reducers)
   const persistingReducer = persistReducer(rootPersistConfig, reducer)
-  return persistingReducer;
+  return persistingReducer
 }
 
 function makeReducer(reducerObj) {
