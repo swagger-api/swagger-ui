@@ -1,6 +1,7 @@
 import React from "react"
 import { createStore, applyMiddleware, bindActionCreators, compose } from "redux"
-import { persistStore, persistReducer } from 'redux-persist-immutable'
+import { persistStore, persistReducer } from 'redux-persist'
+import immutableTransform from 'redux-persist-transform-immutable'
 import storage from 'redux-persist/lib/storage' // localStorage for web
 import Im, { fromJS, Map } from "immutable"
 import deepExtend from "deep-extend"
@@ -14,6 +15,7 @@ import { systemThunkMiddleware, isFn, objMap, objReduce, isObject, isArray, isFu
 const idFn = a => a
 
 const rootPersistConfig = {
+  transforms: [immutableTransform()],
   key: 'root',
   storage,
   whitelist: ['authorized']
