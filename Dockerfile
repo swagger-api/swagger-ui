@@ -1,7 +1,7 @@
 FROM node:10-alpine as builder
 WORKDIR /src
 ADD . /src
-RUN npm install && npm run build
+RUN apk --update add git && npm install && npm run build
 
 
 FROM nginx:1.15-alpine
