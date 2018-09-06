@@ -1,6 +1,6 @@
 import React from "react"
 import { createStore, applyMiddleware, bindActionCreators, compose } from "redux"
-import { persistStore, persistReducer } from 'redux-persist'
+import { persistStore, persistReducer } from 'redux-persist-immutable'
 import storage from 'redux-persist/lib/storage' // localStorage for web
 import Im, { fromJS, Map } from "immutable"
 import deepExtend from "deep-extend"
