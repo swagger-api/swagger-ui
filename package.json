@@ -70,7 +70,7 @@
     "react-redux": "^4.x.x",
     "redux": "^3.x.x",
     "redux-immutable": "3.0.8",
-    "redux-persist": "5.10.0",
+    "redux-persist-immutable": "5.10.0",
     "remarkable": "^1.7.1",
     "reselect": "^2.5.4",
     "serialize-error": "^2.1.0",
