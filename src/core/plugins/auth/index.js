@@ -7,7 +7,7 @@ import * as actions from "./actions"
 import * as selectors from "./selectors"
 import * as specWrapActionReplacements from "./spec-wrap-actions"
 
-const objectify = (obj, [k, v]) => ({ ...obj, [k]: v });
+const objectify = (obj, [k, v]) => ({ ...obj, [k]: v })
 
 const persistConfig = {
   transforms: [immutableTransform()],
