@@ -1,7 +1,18 @@
+import { persistReducer } from "redux-persist"
+import immutableTransform from "redux-persist-transform-immutable"
+import storage from "redux-persist/lib/storage" // localStorage for web
+
 import reducers from "./reducers"
 import * as actions from "./actions"
 import * as selectors from "./selectors"
 import * as specWrapActionReplacements from "./spec-wrap-actions"
+
+
+const persistConfig = {
+  transforms: [immutableTransform()],
+  key: "root",
+  storage
+}
 
 export default function() {
   return {
@@ -13,7 +24,7 @@ export default function() {
     },
     statePlugins: {
       auth: {
-        reducers,
+        reducers: persistReducer(persistConfig, reducers),
         actions,
         selectors
       },
