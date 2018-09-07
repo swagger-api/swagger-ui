@@ -1,0 +1,12 @@
+openapi: "3.0.0"
+
+paths:
+  /some/route:
+    post:
+      description: This should be visible
+      tags:
+        - Some
+      requestBody: {}
+      responses:
+        '200':
+          description: Description
