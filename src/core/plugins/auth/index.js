@@ -1,19 +1,7 @@
-import { persistReducer } from "redux-persist"
-import immutableTransform from "redux-persist-transform-immutable"
-import storage from "redux-persist/lib/storage" // localStorage for web
-
 import reducers from "./reducers"
 import * as actions from "./actions"
 import * as selectors from "./selectors"
 import * as specWrapActionReplacements from "./spec-wrap-actions"
-
-const objectify = (obj, [k, v]) => ({ ...obj, [k]: v })
-
-const persistConfig = {
-  transforms: [immutableTransform()],
-  key: "root",
-  storage
-}
 
 export default function() {
   return {
@@ -25,9 +13,7 @@ export default function() {
     },
     statePlugins: {
       auth: {
-        reducers: Object.entries(reducers).map(
-          ([actionType, reducer]) => [actionType, persistReducer(persistConfig, reducer)]
-        ).reduce(objectify, {}),
+        reducers,
         actions,
         selectors
       },
