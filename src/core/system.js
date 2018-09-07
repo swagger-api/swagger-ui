@@ -36,7 +36,6 @@ function createStoreWithMiddleware(rootReducer, initialState, getSystem) {
   const store = createStore(rootReducer, initialState, composeEnhancers(
     applyMiddleware( ...middlwares )
   ))
-  persistStore(store)
   return store
 }
 
@@ -67,6 +66,9 @@ export default class Store {
 
     // Bootstrap plugins
     this.register(this.plugins)
+    
+    // Start persisting keys
+    persistStore(this.store)
   }
 
   getStore() {
