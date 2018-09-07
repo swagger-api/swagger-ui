@@ -59,7 +59,7 @@ export default class Models extends Component {
             const rawSchema = specSelectors.specJson().getIn(fullPath, Im.Map())
             const displayName = schema.get("title") || rawSchema.get("title") || name
 
-            if(layoutSelectors.isShown(["models", name], false) && schema === undefined) {
+            if(layoutSelectors.isShown(["models", name], false) && (schema.size === 0 && rawSchema.size > 0)) {
               // Firing an action in a container render is not great,
               // but it works for now.
               this.props.specActions.requestResolvedSubtree([...this.getSchemaBasePath(), name])
