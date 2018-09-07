@@ -27,7 +27,7 @@ export default function() {
       auth: {
         reducers: Object.entries(reducers).map(
           ([actionType, reducer]) => [actionType, persistReducer(persistConfig, reducer)]
-        ).reduce(objectify, {});
+        ).reduce(objectify, {}),
         actions,
         selectors
       },
