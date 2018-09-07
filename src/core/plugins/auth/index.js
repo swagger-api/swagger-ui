@@ -7,6 +7,7 @@ import * as actions from "./actions"
 import * as selectors from "./selectors"
 import * as specWrapActionReplacements from "./spec-wrap-actions"
 
+const objectify = (obj, [k, v]) => ({ ...obj, [k]: v });
 
 const persistConfig = {
   transforms: [immutableTransform()],
@@ -24,7 +25,9 @@ export default function() {
     },
     statePlugins: {
       auth: {
-        reducers: persistReducer(persistConfig, reducers),
+        reducers: Object.entries(reducers).map(
+          ([actionType, reducer]) => [actionType, persistReducer(persistConfig, reducer)]
+        ).reduce(objectify, {});
         actions,
         selectors
       },
