@@ -29,11 +29,11 @@ const RequestBody = ({
 
   const mediaTypeValue = requestBodyContent.get(contentType)
 
-  const isObjectContent = mediaTypeValue.getIn(["schema", "type"]) === "object"
-
   if(!mediaTypeValue) {
     return null
   }
+
+  const isObjectContent = mediaTypeValue.getIn(["schema", "type"]) === "object"
 
   if(
     contentType === "application/octet-stream"

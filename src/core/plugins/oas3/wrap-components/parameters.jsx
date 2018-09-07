@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import Im, { Map } from "immutable"
+import Im, { Map, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 import { OAS3ComponentWrapFactory } from "../helpers"
 
@@ -177,7 +177,7 @@ class Parameters extends Component {
               <label>
                 <ContentType
                   value={oas3Selectors.requestContentType(...pathMethod)}
-                  contentTypes={ requestBody.get("content").keySeq() }
+                  contentTypes={ requestBody.get("content", List()).keySeq() }
                   onChange={(value) => {
                     oas3Actions.setRequestContentType({ value, pathMethod })
                   }}
