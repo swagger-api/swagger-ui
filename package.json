@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.18.2",
+  "version": "3.18.3",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -8,7 +8,7 @@
     "Anna Bodnia <anna.bodnia@gmail.com>",
     "Buu Nguyen <buunguyen@gmail.com>",
     "Josh Ponelat <jponelat@gmail.com>",
-    "Kyle Shockey <kyleshockey1@gmail.com>",
+    "Kyle Shockey <kyleshockey@gmail.com>",
     "Robert Barnwell <robert@robertismy.name>",
     "Sahar Jafari <shr.jafari@gmail.com>"
   ],
@@ -73,7 +73,7 @@
     "remarkable": "^1.7.1",
     "reselect": "^2.5.4",
     "serialize-error": "^2.1.0",
-    "swagger-client": "^3.8.15",
+    "swagger-client": "^3.8.19",
     "url-parse": "^1.1.8",
     "xml": "1.0.1",
     "xml-but-prettier": "^1.0.1",
