@@ -86,7 +86,7 @@ describe("Deep linking feature", () => {
     })
   })
   describe("in OpenAPI 3", () => {
-    const baseUrl = "/?deepLinking=true&url=/documents/features/deep-linking.swagger.yaml"
+    const baseUrl = "/?deepLinking=true&url=/documents/features/deep-linking.openapi.yaml"
     beforeEach(() => {
       cy.visit(baseUrl)
     })
