@@ -1,5 +1,8 @@
 import React from "react"
 import { createStore, applyMiddleware, bindActionCreators, compose } from "redux"
+import { persistStore, persistReducer } from "redux-persist"
+import immutableTransform from "redux-persist-transform-immutable"	
+import storage from "redux-persist/lib/storage" // localStorage for web
 import Im, { fromJS, Map } from "immutable"
 import deepExtend from "deep-extend"
 import { combineReducers } from "redux-immutable"
@@ -22,10 +25,11 @@ function createStoreWithMiddleware(rootReducer, initialState, getSystem) {
   ]
 
   const composeEnhancers = win.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-
-  return createStore(rootReducer, initialState, composeEnhancers(
+  
+  const store = createStore(rootReducer, initialState, composeEnhancers(
     applyMiddleware( ...middlwares )
   ))
+  return store
 }
 
 export default class Store {
@@ -55,6 +59,9 @@ export default class Store {
 
     // Bootstrap plugins
     this.register(this.plugins)
+    
+    // Start persisting keys
+    persistStore(this.store)
   }
 
   getStore() {
@@ -417,6 +424,12 @@ function buildReducer(states) {
   return allReducers(reducerObj)
 }
 
+const rootPersistConfig = {	
+  transforms: [immutableTransform()],	
+  key: "auth",	
+  storage,
+}
+
 function allReducers(reducerSystem) {
   let reducers = Object.keys(reducerSystem).reduce((obj, key) => {
     obj[key] = makeReducer(reducerSystem[key])
@@ -427,7 +440,7 @@ function allReducers(reducerSystem) {
     return idFn
   }
 
-  return combineReducers(reducers)
+  return persistReducer(rootPersistConfig, combineReducers(reducers))
 }
 
 function makeReducer(reducerObj) {
