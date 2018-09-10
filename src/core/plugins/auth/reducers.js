@@ -36,7 +36,7 @@ export default {
         map = map.setIn([key, "schema"], security.get("schema"))
       }
     })
-
+    localStorage.setItem("authorized", JSON.stringify(map.toJS()))
     return state.set( "authorized", map )
   },
 
@@ -57,6 +57,7 @@ export default {
         })
       })
 
+    localStorage.setItem("authorized", JSON.stringify(map.toJS()))
     return state.set("authorized", result)
   },
 
