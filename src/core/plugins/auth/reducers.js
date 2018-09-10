@@ -57,7 +57,7 @@ export default {
         })
       })
 
-    localStorage.setItem("authorized", JSON.stringify(map.toJS()))
+    localStorage.setItem("authorized", JSON.stringify(result.toJS()))
     return state.set("authorized", result)
   },
 
