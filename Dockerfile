@@ -1,3 +1,9 @@
+FROM node:10-alpine as builder
+WORKDIR /src
+ADD . /src
+RUN apk --update add git python make g++ && npm install && npm run build
+
+
 FROM nginx:1.15-alpine
 
 LABEL maintainer="fehguy"
@@ -19,7 +25,7 @@ ENV BASE_URL ""
 COPY nginx.conf /etc/nginx/
 
 # copy swagger files to the `/js` folder
-COPY ./dist/* /usr/share/nginx/html/
+COPY --from=builder /src/dist/* /usr/share/nginx/html/
 COPY ./docker-run.sh /usr/share/nginx/
 
 EXPOSE 8080
