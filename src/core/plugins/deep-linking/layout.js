@@ -1,5 +1,6 @@
 import { setHash } from "./helpers"
 import zenscroll from "zenscroll"
+import { createDeepLinkPath } from "core/utils"
 import Im, { fromJS } from "immutable"
 
 const SCROLL_TO = "layout_scroll_to"
@@ -31,9 +32,9 @@ export const show = (ori, { getConfigs, layoutSelectors }) => (...args) => {
     }
 
     if (urlHashArray.length === 2) {
-      setHash(`/${type}/${assetName}`)
+      setHash(createDeepLinkPath(`/${type}/${assetName}`))
     } else if (urlHashArray.length === 1) {
-      setHash(`/${type}`)
+      setHash(createDeepLinkPath(`/${type}`))
     }
 
   } catch (e) {
@@ -72,7 +73,16 @@ export const parseDeepLinkHash = (rawHash) => ({ layoutActions, layoutSelectors,
       hash = hash.slice(1)
     }
 
-    const isShownKey = layoutSelectors.isShownKeyFromUrlHashArray(hash.split("/"))
+    const hashArray = hash.split("/").map(val => (val || "").replace(/_/g, " "))
+
+    const isShownKey = layoutSelectors.isShownKeyFromUrlHashArray(hashArray)
+
+    const [type, tagId] = isShownKey
+
+    if(type === "operations") {
+      // we're going to show an operation, so we need to expand the tag as well
+      layoutActions.show(layoutSelectors.isShownKeyFromUrlHashArray([tagId]))
+    }
 
     layoutActions.show(isShownKey, true) // TODO: 'show' operation tag
     layoutActions.scrollTo(isShownKey)
