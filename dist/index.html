@@ -50,7 +50,16 @@
         plugins: [
           SwaggerUIBundle.plugins.DownloadUrl
         ],
-        layout: "StandaloneLayout"
+        layout: "StandaloneLayout",
+        onComplete: () => {                                                                                 
+          const authorized = JSON.parse(localStorage.getItem('authorized') || {});                        
+          Object.keys(authorized).forEach((tokenName) => {                                                
+            const token = authorized[tokenName];                                                          
+            if(token.schema.type === "apiKey") {                                                          
+              ui.preauthorizeApiKey(tokenName, token.value)                                               
+            }                                                                                             
+          })                                                                                              
+        }
       })
 
       window.ui = ui
