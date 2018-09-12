@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import Im from "immutable"
+import Im, { Map } from "immutable"
 import PropTypes from "prop-types"
 
 export default class Models extends Component {
@@ -55,8 +55,13 @@ export default class Models extends Component {
           definitions.entrySeq().map(([name])=>{
 
             const fullPath = [...specPathBase, name]
-            const schema = specSelectors.specResolvedSubtree(fullPath)|| Im.Map()
-            const rawSchema = specSelectors.specJson().getIn(fullPath, Im.Map())
+
+            const schemaValue = specSelectors.specResolvedSubtree(fullPath)
+            const rawSchemaValue = specSelectors.specJson().getIn(fullPath)
+
+            const schema = Map.isMap(schemaValue) ? schemaValue : Im.Map()
+            const rawSchema = Map.isMap(rawSchemaValue) ? rawSchemaValue : Im.Map()
+            
             const displayName = schema.get("title") || rawSchema.get("title") || name
 
             if(layoutSelectors.isShown(["models", name], false) && (schema.size === 0 && rawSchema.size > 0)) {
