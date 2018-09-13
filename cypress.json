@@ -6,5 +6,6 @@
   "screenshotsFolder": "test/e2e-cypress/screenshots",
   "supportFile": "test/e2e-cypress/support/index.js",
   "videosFolder": "test/e2e-cypress/videos",
-  "baseUrl": "http://localhost:3230/"
+  "baseUrl": "http://localhost:3230/",
+  "video": false
 }
