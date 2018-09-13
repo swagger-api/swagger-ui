@@ -22,6 +22,8 @@ COPY nginx.conf /etc/nginx/
 COPY ./dist/* /usr/share/nginx/html/
 COPY ./docker-run.sh /usr/share/nginx/
 
+RUN chmod +x /usr/share/nginx/docker-run.sh
+
 EXPOSE 8080
 
 CMD ["sh", "/usr/share/nginx/docker-run.sh"]
