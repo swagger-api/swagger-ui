@@ -8,8 +8,8 @@
     "commitMessage": "release: v%s",
     "tagName": "v%s",
     "push": false,
-    "beforeStartCommand": "run-s test:unit test:webpack lint",
-    "afterReleaseCommand": "echo GIT_TAG=v${version} > release/.version"
+    "beforeStartCommand": "npm run test",
+    "afterReleaseCommand": "export GIT_TAG=v${version} && echo GIT_TAG=v${version} > release/.version"
   },
   "github": {
     "release": true,
