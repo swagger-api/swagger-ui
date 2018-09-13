@@ -8,7 +8,7 @@
     "commitMessage": "release: v%s",
     "tagName": "v%s",
     "push": false,
-    "beforeStartCommand": "npm run test",
+    "beforeStartCommand": "npm run test && git status && git diff",
     "afterReleaseCommand": "export GIT_TAG=v${version} && echo GIT_TAG=v${version} > release/.version"
   },
   "github": {
