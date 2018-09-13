@@ -126,6 +126,7 @@
     "postcss-loader": "^2.1.5",
     "raw-loader": "0.5.1",
     "react-test-renderer": "^15.5.4",
+    "release-it": "^7.6.1",
     "rimraf": "^2.6.0",
     "sass-loader": "^7.0.1",
     "selenium-server-standalone-jar": "3.12.0",
