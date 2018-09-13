@@ -1,5 +1,3 @@
-import repeat from "lodash/repeat"
-
 describe("#4867: callback parameter rendering", () => {
   it("should render parameters correctly", () => {
     cy
