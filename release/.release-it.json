@@ -2,13 +2,12 @@
   "safeBump": false,
   "beforeChangelogCommand": "./release/check-for-breaking-changes.sh ${latestVersion} ${version}",
   "changelogCommand": "./release/get-changelog.sh",
-  "buildCommand": "npm run build",
+  "buildCommand": "npm update swagger-client && npm run test && npm run build",
   "increment": "conventional:angular",
   "src": {
     "commitMessage": "release: v%s",
     "tagName": "v%s",
     "push": false,
-    "beforeStartCommand": "npm run test",
     "afterReleaseCommand": "export GIT_TAG=v${version} && echo GIT_TAG=v${version} > release/.version"
   },
   "github": {
