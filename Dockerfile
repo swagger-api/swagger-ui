@@ -15,6 +15,7 @@ ENV OAUTH_ADDITIONAL_PARAMS "**None**"
 ENV SWAGGER_JSON "/app/swagger.json"
 ENV PORT 8080
 ENV BASE_URL ""
+ENV CONFIG_URL ""
 
 COPY nginx.conf /etc/nginx/
 
