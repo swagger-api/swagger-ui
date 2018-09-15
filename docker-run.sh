@@ -58,6 +58,11 @@ if [[ -n "$API_URLS" ]]; then
     sed -i "s|^\(\s*\)url: .*,|\1urls: $API_URLS,|g" $INDEX_FILE
 fi
 
+if [[ -n "$CONFIG_URL" ]]; then
+    sed -i "s|^\(\s*\)url: .*,|\1configUrl: '$CONFIG_URL',|g" $INDEX_FILE
+    sed -i "s|^\(\s*\)urls: .*,|\1configUrl: '$CONFIG_URL',|g" $INDEX_FILE
+fi
+
 # replace the PORT that nginx listens on if PORT is supplied
 if [[ -n "${PORT}" ]]; then
     sed -i "s|8080|${PORT}|g" /etc/nginx/nginx.conf
