@@ -31,7 +31,7 @@ export default class ParameterRow extends Component {
     let { specSelectors, pathMethod, rawParam } = props
     let { isOAS3 } = specSelectors
 
-    let parameterWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam)
+    let parameterWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || new Map()
     // fallback, if the meta lookup fails
     parameterWithMeta = parameterWithMeta.isEmpty() ? rawParam : parameterWithMeta
 
@@ -87,7 +87,7 @@ export default class ParameterRow extends Component {
     let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam)
 
 
-    if (paramWithMeta.get("value") !== undefined) {
+    if (!paramWithMeta || paramWithMeta.get("value") !== undefined) {
       return
     }
 
@@ -116,6 +116,10 @@ export default class ParameterRow extends Component {
     let { isOAS3 } = specSelectors
 
     const { showExtensions, showCommonExtensions } = getConfigs()
+
+    if(!param) {
+      param = rawParam
+    }
 
     // const onChangeWrapper = (value) => onChange(param, value)
     const JsonSchemaForm = getComponent("JsonSchemaForm")

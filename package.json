@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.18.3",
+  "version": "3.19.0",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -14,6 +14,7 @@
   ],
   "license": "Apache-2.0",
   "scripts": {
+    "automated-release": "release-it --config ./release/.release-it.json",
     "build": "run-p --aggregate-output build-core build-bundle build-standalone",
     "build-bundle": "webpack --config webpack-dist-bundle.config.js --colors",
     "build-core": "webpack --config webpack-dist.config.js --colors",
@@ -73,7 +74,7 @@
     "remarkable": "^1.7.1",
     "reselect": "^2.5.4",
     "serialize-error": "^2.1.0",
-    "swagger-client": "^3.8.19",
+    "swagger-client": "^3.8.21",
     "url-parse": "^1.1.8",
     "xml": "1.0.1",
     "xml-but-prettier": "^1.0.1",
@@ -126,6 +127,7 @@
     "postcss-loader": "^2.1.5",
     "raw-loader": "0.5.1",
     "react-test-renderer": "^15.5.4",
+    "release-it": "^7.6.1",
     "rimraf": "^2.6.0",
     "sass-loader": "^7.0.1",
     "selenium-server-standalone-jar": "3.12.0",

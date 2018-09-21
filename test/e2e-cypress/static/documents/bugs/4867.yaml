@@ -1,0 +1,24 @@
+openapi: 3.0.1
+info:
+   title: test
+   version: "0.1"
+paths:
+  /test:
+    post:
+      operationId: myOp
+      responses:
+        default:
+          description: ok
+      callbacks:
+        subscription:
+          http://$request.query.url:
+            post:
+              description: myCallback
+              parameters:
+              - name: myParam
+                in: query
+                schema:
+                  type: string
+              responses:
+                default:
+                  description: ok
