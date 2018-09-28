@@ -15,16 +15,17 @@ Some distinct identifiers to Swagger-UI 3.X:
 - The API version appears as a badge next to its title.
 - If there are schemes or authorizations, they'd appear in a bar above the operations.
 - Try it out functionality is not enabled by default.
-- All the response codes in the operations appear at after the parameters.
+- All the response codes in the operations appear after the parameters.
 - There's a models section after the operations.
 
 If you've determined this is the version you have, to find the exact version:
+- If running in dev mode, visit http://localhost:3200/version.txt to see the Swagger-UI version; if dist is deployed in a web server at host:80/swagger-ui then visit host:80/swagger-ui/version.txt (Swagger UI 3.19.1 or later)
 - Open your browser's web console (changes between browsers)
 - Type `JSON.stringify(versions)` in the console and execute the call.
 - The result should look similar to `swaggerUi : Object { version: "3.1.6", gitRevision: "g786cd47", gitDirty: true, … }`.
-- The version taken from that example would be `3.1.6`.
+- The version taken from that example would be `3.19.1`.
 
-Note: This functionality was added in 3.0.8. If you're unable to execute it, you're likely to use an older version, and in that case the first step would be to upgrade.
+Note: The `versions` functionality was added in 3.0.8. If you're unable to execute it, you're likely to use an older version, and in that case the first step would be to upgrade. Similarly, versions.txt was added in 3.19.1
 
 
 # Swagger-UI 2.X and under
