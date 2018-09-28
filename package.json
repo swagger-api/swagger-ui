@@ -19,6 +19,7 @@
     "build-bundle": "webpack --config webpack-dist-bundle.config.js --colors",
     "build-core": "webpack --config webpack-dist.config.js --colors",
     "build-standalone": "webpack --config webpack-dist-standalone.config.js --colors",
+    "postbuild": "node postbuild.js",
     "predev": "npm install",
     "dev": "npm-run-all --parallel hot-server",
     "watch": "webpack --config webpack-watch.config.js --watch --progress",
