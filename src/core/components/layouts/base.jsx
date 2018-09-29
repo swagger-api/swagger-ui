@@ -60,9 +60,10 @@ export default class BaseLayout extends React.Component {
               </Col>
             </Row>
 
-            <SchemesContainer/>
+            <SchemesContainer>
+              <ServersContainer/>
+            </SchemesContainer>
 
-            <ServersContainer/>
 
             <FilterContainer/>
 
