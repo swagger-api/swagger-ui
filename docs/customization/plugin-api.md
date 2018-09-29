@@ -68,7 +68,7 @@ There is no dependency management built into the plugin system, so if you create
 
 ### Interfaces
 
-##### Actions
+#### Actions
 
 ```javascript
 const MyActionPlugin = () => {
@@ -102,7 +102,7 @@ This action creator function will be exposed to container components as `example
 
 For more information about the concept of actions in Redux, see the [Redux Actions documentation](http://redux.js.org/docs/basics/Actions.html).
 
-##### Reducers
+#### Reducers
 
 Reducers take a state (which is an [Immutable.js map](https://facebook.github.io/immutable-js/docs/#/Map)) and an action, and return a new state.
 
@@ -126,7 +126,7 @@ const MyReducerPlugin = function(system) {
 }
 ```
 
-##### Selectors
+#### Selectors
 
 Selectors reach into their namespace's state to retrieve or derive data from the state.
 
@@ -172,7 +172,7 @@ Once a selector has been defined, you can use it anywhere that you can get a sys
 system.exampleSelectors.myFavoriteColor() // gets `favColor` in state for you
 ```
 
-##### Components
+#### Components
 
 You can provide a map of components to be integrated into the system.
 
@@ -214,7 +214,7 @@ const NeverShowInfoPlugin = function(system) {
 }
 ```
 
-##### Wrap-Actions
+#### Wrap-Actions
 
 Wrap Actions allow you to override the behavior of an action in the system.
 
@@ -262,7 +262,7 @@ const MyWrapActionPlugin = function(system) {
 }
 ```
 
-##### Wrap-Selectors
+#### Wrap-Selectors
 
 Wrap Selectors allow you to override the behavior of a selector in the system.
 
@@ -307,7 +307,7 @@ const MyWrapSelectorsPlugin = function(system) {
 }
 ```
 
-##### Wrap-Components
+#### Wrap-Components
 
 Wrap Components allow you to override a component registered within the system.
 
@@ -381,7 +381,7 @@ const MyWrapComponentPlugin = function(system) {
 }
 ```
 
-##### `rootInjects`
+#### `rootInjects`
 
 The `rootInjects` interface allows you to inject values at the top level of the system.
 
@@ -398,7 +398,7 @@ const MyRootInjectsPlugin = function(system) {
 }
 ```
 
-##### `afterLoad`
+#### `afterLoad`
 
 The `afterLoad` plugin method allows you to get a reference to the system after your plugin has been registered.
 
@@ -431,7 +431,7 @@ const MyMethodProvidingPlugin = function() {
 }
 ```
 
-##### fn
+#### fn
 
 The fn interface allows you to add helper functions to the system for use elsewhere.
 

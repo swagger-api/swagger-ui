@@ -1,6 +1,9 @@
 import React from "react"
+import URL from "url-parse"
+
 import PropTypes from "prop-types"
 import { sanitizeUrl } from "core/utils"
+import win from "core/window"
 
 export default class OnlineValidatorBadge extends React.Component {
     static propTypes = {
@@ -11,20 +14,28 @@ export default class OnlineValidatorBadge extends React.Component {
 
     constructor(props, context) {
         super(props, context)
-        let { specSelectors, getConfigs } = props
+        let { getConfigs } = props
         let { validatorUrl } = getConfigs()
         this.state = {
-            url: specSelectors.url(),
+            url: this.getDefinitionUrl(),
             validatorUrl: validatorUrl === undefined ? "https://online.swagger.io/validator" : validatorUrl
         }
     }
 
+    getDefinitionUrl = () => {
+      // TODO: test this behavior by stubbing `window.location` in an Enzyme/JSDom env
+      let { specSelectors } = this.props
+
+      const urlObject = new URL(specSelectors.url(), win.location)
+      return urlObject.toString()
+    }
+
     componentWillReceiveProps(nextProps) {
-        let { specSelectors, getConfigs } = nextProps
+        let { getConfigs } = nextProps
         let { validatorUrl } = getConfigs()
 
         this.setState({
-            url: specSelectors.url(),
+            url: this.getDefinitionUrl(),
             validatorUrl: validatorUrl === undefined ? "https://online.swagger.io/validator" : validatorUrl
         })
     }
@@ -43,8 +54,8 @@ export default class OnlineValidatorBadge extends React.Component {
         }
 
         return (<span style={{ float: "right"}}>
-                <a target="_blank" href={`${ sanitizedValidatorUrl }/debug?url=${ this.state.url }`}>
-                    <ValidatorImage src={`${ sanitizedValidatorUrl }?url=${ this.state.url }`} alt="Online validator badge"/>
+                <a target="_blank" rel="noopener noreferrer" href={`${ sanitizedValidatorUrl }/debug?url=${ encodeURIComponent(this.state.url) }`}>
+                    <ValidatorImage src={`${ sanitizedValidatorUrl }?url=${ encodeURIComponent(this.state.url) }`} alt="Online validator badge"/>
                 </a>
             </span>)
     }
@@ -101,7 +112,7 @@ class ValidatorImage extends React.Component {
     if (this.state.error) {
       return <img alt={"Error"} />
     } else if (!this.state.loaded) {
-      return <img alt= {"Loading..."} />
+      return null
     }
     return <img src={this.props.src} alt={this.props.alt} />
   }

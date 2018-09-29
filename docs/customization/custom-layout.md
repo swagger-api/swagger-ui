@@ -18,7 +18,7 @@ class OperationsLayout extends React.Component {
       getComponent
     } = this.props
 
-    const Operations = getComponent("Operations", true)
+    const Operations = getComponent("operations", true)
 
     return (
       <div>
@@ -40,7 +40,7 @@ const OperationsLayoutPlugin = () => {
 // Provide the plugin to Swagger-UI, and select OperationsLayout
 // as the layout for Swagger-UI
 SwaggerUI({
-  url: "http://petstore.swagger.io/v2/swagger.json",
+  url: "https://petstore.swagger.io/v2/swagger.json",
   plugins: [ OperationsLayoutPlugin ],
   layout: "OperationsLayout"
 })
@@ -85,7 +85,7 @@ const AugmentingLayoutPlugin = () => {
 // Provide the plugin to Swagger-UI, and select AugmentingLayout
 // as the layout for Swagger-UI
 SwaggerUI({
-  url: "http://petstore.swagger.io/v2/swagger.json",
+  url: "https://petstore.swagger.io/v2/swagger.json",
   plugins: [ AugmentingLayoutPlugin ],
   layout: "AugmentingLayout"
 })

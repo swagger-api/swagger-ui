@@ -1,32 +1,39 @@
 import React from "react"
 import PropTypes from "prop-types"
-import ReactMarkdown from "react-markdown"
-import { Parser, HtmlRenderer } from "commonmark"
+import cx from "classnames"
+import Remarkable from "remarkable"
 import { OAS3ComponentWrapFactory } from "../helpers"
 import { sanitizer } from "core/components/providers/markdown"
 
-export const Markdown = ({ source }) => { 
+const parser = new Remarkable("commonmark")
+
+parser.set({ linkTarget: "_blank" })
+
+export const Markdown = ({ source, className = "" }) => {
   if ( source ) {
-    const parser = new Parser()
-    const writer = new HtmlRenderer()
-    const html = writer.render(parser.parse(source || ""))
+    const html = parser.render(source)
     const sanitized = sanitizer(html)
 
-    if ( !source || !html || !sanitized ) {
-        return null
+    let trimmed
+
+    if(typeof sanitized === "string") {
+      trimmed = sanitized.trim()
     }
 
     return (
-      <ReactMarkdown
-        source={sanitized}
-        className={"renderedMarkdown"}
+      <div
+        dangerouslySetInnerHTML={{
+          __html: trimmed
+        }}
+        className={cx(className, "renderedMarkdown")}
       />
     )
   }
   return null
 }
 Markdown.propTypes = {
-  source: PropTypes.string
+  source: PropTypes.string,
+  className: PropTypes.string,
 }
 
 export default OAS3ComponentWrapFactory(Markdown)
