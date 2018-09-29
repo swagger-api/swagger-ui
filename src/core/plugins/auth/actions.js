@@ -84,19 +84,31 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
   } else {
     Object.assign(form, {username}, {password})
 
-    if ( passwordType === "query") {
-      if ( clientId ) {
-        query.client_id = clientId
-      }
-      if ( clientSecret ) {
-        query.client_secret = clientSecret
-      }
-    } else {
-      headers.Authorization = "Basic " + btoa(clientId + ":" + clientSecret)
+    switch ( passwordType ) {
+      case "query":
+        setClientIdAndSecret(query, clientId, clientSecret)
+        break
+
+      case "request-body":
+        setClientIdAndSecret(form, clientId, clientSecret)
+        break
+
+      default:
+        headers.Authorization = "Basic " + btoa(clientId + ":" + clientSecret)
     }
   }
 
   return authActions.authorizeRequest({ body: buildFormData(form), url: schema.get("tokenUrl"), name, headers, query, auth})
+}
+
+function setClientIdAndSecret(target, clientId, clientSecret) {
+  if ( clientId ) {
+    Object.assign(target, {client_id: clientId})
+  }
+
+  if ( clientSecret ) {
+    Object.assign(target, {client_secret: clientSecret})
+  }
 }
 
 export const authorizeApplication = ( auth ) => ( { authActions } ) => {
