@@ -7,6 +7,7 @@ export default class SchemesContainer extends React.Component {
     specActions: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
+    children: PropTypes.any
   }
 
   render () {

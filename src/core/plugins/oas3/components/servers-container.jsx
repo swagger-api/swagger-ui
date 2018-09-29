@@ -15,7 +15,6 @@ export default class ServersContainer extends React.Component {
 
     const servers = specSelectors.servers()
 
-    const Col = getComponent("Col")
     const Servers = getComponent("Servers")
 
     return servers && servers.size ? (
