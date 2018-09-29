@@ -24,6 +24,7 @@ export default class SchemesContainer extends React.Component {
         {schemes && schemes.size || securityDefinitions ? (
           <div className="scheme-container">
             <Col className="schemes wrapper" mobile={12}>
+              {this.props.children}
               {schemes && schemes.size ? (
                 <Schemes
                   currentScheme={currentScheme}
