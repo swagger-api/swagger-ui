@@ -6,6 +6,8 @@ export default class AuthorizeBtnContainer extends React.Component {
   static propTypes = {
     specActions: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
+    authActions: PropTypes.object.isRequired,
+    authSelectors: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired
   }
 
