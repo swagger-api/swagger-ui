@@ -88,32 +88,4 @@ describe("<SchemesContainer/>", function(){
     const renderedSchemes = wrapper.find(Schemes)
     expect(renderedSchemes.length).toEqual(0)
   })
-
-  it("renders AuthorizeBtn inside SchemesContainer if security definition is provided", function(){
-
-    // Given
-    let props = {...mockedProps}
-    props.specSelectors = {...mockedProps.specSelectors}
-    props.specSelectors.securityDefinitions = function () {return fromJS(twoSecurityDefinitions)}
-
-    // When
-    let wrapper = render(<SchemesContainer {...props}/>)
-
-    // Then
-    const renderedAuthorizeBtn = wrapper.find("span.mocked-button")
-    expect(renderedAuthorizeBtn.length).toEqual(1)
-  })
-
-  it("does not render AuthorizeBtn if security definition is not provided", function(){
-
-    // Given
-    let props = {...mockedProps}
-
-    // When
-    let wrapper = render(<SchemesContainer {...props}/>)
-
-    // Then
-    const renderedAuthorizeBtn = wrapper.find("span.mocked-button")
-    expect(renderedAuthorizeBtn.length).toEqual(0)
-  })
 })
