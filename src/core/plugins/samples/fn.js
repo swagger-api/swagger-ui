@@ -232,10 +232,10 @@ export const sampleXmlFromSchema = (schema, config={}) => {
       }
     }
 
-    if (additionalProperties === true) {
-      res[displayName].push({additionalProp: "Anything can be here"})
-    } else if (additionalProperties) {
-      res[displayName].push({additionalProp: primitive(additionalProperties)})
+    if (additionalProperties) {
+      value = additionalProperties === true || !Object.getOwnPropertyNames(additionalProperties).length ? "Anything can be here" : primitive(additionalProperties)
+      value = (additionalProperties.xml || xml || {}).CDATA ? {_cdata: value} : value
+      res[displayName].push({additionalProp: value})
     }
 
     if (_attr) {
@@ -257,7 +257,7 @@ export const sampleXmlFromSchema = (schema, config={}) => {
     value = primitive(schema)
   }
 
-  res[displayName] = _attr ? [{_attr: _attr}, value] : value
+  res[displayName] = _attr ? xml.CDATA ? {_attr: _attr, _cdata: value} : [{_attr: _attr}, value] : value
 
   return res
 }
