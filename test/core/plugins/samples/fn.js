@@ -883,27 +883,26 @@ describe("createXMLExample", function () {
       expect(sut(definition)).toEqual(expected)
     })
 
-  it("returns array with example values  with wrapped=true", function () {
-    var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<animal>1</animal>\n\t<animal>2</animal>\n</animals>"
-    var definition = {
-      type: "array",
-      items: {
-        type: "string",
+    it("returns array with example values  with wrapped=true", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<animal>1</animal>\n\t<animal>2</animal>\n</animals>"
+      var definition = {
+        type: "array",
+        items: {
+          type: "string",
+          xml: {
+            name: "animal"
+          }
+        },
+        "example": [ "1", "2" ],
         xml: {
-          name: "animal"
+          wrapped: true,
+          name: "animals"
         }
-      },
-      "example": [ "1", "2" ],
-      xml: {
-        wrapped: true,
-        name: "animals"
       }
-    }
 
-    expect(sut(definition)).toEqual(expected)
+      expect(sut(definition)).toEqual(expected)
+    })
   })
-
-})
 
   describe("object", function () {
     it("returns object with 2 properties", function () {
