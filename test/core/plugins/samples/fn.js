@@ -539,6 +539,19 @@ describe("createXMLExample", function () {
       expect(sut(definition)).toEqual(expected)
     })
 
+    it("returns value wrapped by `CDATA` when passing {CDATA: true}", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<notagname><![CDATA[foo&bar 1<2]]></notagname>"
+      var definition = {
+        type: "string",
+        example: "foo&bar 1<2",
+        xml: {
+          CDATA: true
+        }
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
     it("sets first enum if provided", function () {
       var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<newtagname>one</newtagname>"
       var definition = {
@@ -894,6 +907,27 @@ describe("createXMLExample", function () {
           }
         },
         "example": [ "1", "2" ],
+        xml: {
+          wrapped: true,
+          name: "animals"
+        }
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
+    it("returns array with example values wrapped by `CDATA` when passing {CDATA: true}", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<animal><![CDATA[foo&bar]]></animal>\n\t<animal><![CDATA[1<2]]></animal>\n</animals>"
+      var definition = {
+        type: "array",
+        items: {
+          type: "string",
+          xml: {
+            CDATA: true,
+            name: "animal"
+          }
+        },
+        "example": [ "foo&bar", "1<2" ],
         xml: {
           wrapped: true,
           name: "animals"
@@ -1292,6 +1326,92 @@ describe("createXMLExample", function () {
       var definition = {
         additionalProperties: {
           type: "string"
+        },
+        xml: {
+          name: "animals"
+        }
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
+    it("returns object with example value wrapped by `CDATA` when passing {CDATA: true}", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<bob>\n\t<foo><![CDATA[&bar]]></foo>\n\t<bar><![CDATA[<2]]></bar>\n</bob>"
+      var definition = {
+        type: "object",
+        properties: {
+          foo: {
+            type: "string",
+            xml: {
+              CDATA: true
+            }
+          },
+          bar:{
+            type: "string",
+            xml: {
+              CDATA: true
+            }
+          }
+        },
+        xml: {
+          name: "bob"
+        },
+        example: {
+          foo: "&bar",
+          bar: "<2"
+        }
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
+    it("returns object with 2 properties those values wrapped by `CDATA` when passing {CDATA: true}", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<bob>\n\t<foo><![CDATA[string]]></foo>\n\t<bar><![CDATA[string]]></bar>\n</bob>"
+      var definition = {
+        properties: {
+          foo: {
+            type: "string",
+            xml: {
+              CDATA: true
+            }
+          },
+          bar: {
+            type: "string",
+            xml: {
+              CDATA: true
+            }
+          }
+        },
+        xml: {
+          name: "bob"
+        }
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
+    it("returns object with additional props equals `true` and those values wrapped by `CDATA` when the defs passing {CDATA: true}", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<additionalProp><![CDATA[Anything can be here]]></additionalProp>\n</animals>"
+      var definition = {
+        additionalProperties: true,
+        xml: {
+          name: "animals",
+          wrapped: true,
+          CDATA: true
+        }
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
+    it("returns object with additional props those values wrapped by `CDATA` when passing {CDATA: true}", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<additionalProp><![CDATA[string]]></additionalProp>\n</animals>"
+      var definition = {
+        additionalProperties: {
+          type: "string",
+          xml: {
+            CDATA: true
+          }
         },
         xml: {
           name: "animals"
