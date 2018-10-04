@@ -315,8 +315,9 @@ function combinePlugins(plugins, toolbox) {
     return assignDeep({}, plugins)
   }
 
-  if(isFunc(plugins))
+  if(isFunc(plugins)) {
     return combinePlugins(plugins(toolbox), toolbox)
+  }
 
   if(isArray(plugins)) {
     return plugins
