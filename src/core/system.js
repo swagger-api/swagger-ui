@@ -4,6 +4,7 @@ import Im, { fromJS, Map } from "immutable"
 import deepExtend from "deep-extend"
 import { combineReducers } from "redux-immutable"
 import serializeError from "serialize-error"
+import assignDeep from "@kyleshockey/object-assign-deep"
 import { NEW_THROWN_ERR } from "corePlugins/err/actions"
 import win from "core/window"
 
@@ -310,8 +311,9 @@ export default class Store {
 }
 
 function combinePlugins(plugins, toolbox) {
-  if(isObject(plugins) && !isArray(plugins))
-    return plugins
+  if(isObject(plugins) && !isArray(plugins)) {
+    return assignDeep({}, plugins)
+  }
 
   if(isFunc(plugins))
     return combinePlugins(plugins(toolbox), toolbox)
