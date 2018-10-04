@@ -48,3 +48,11 @@ paths:
             application/json:
               schema:
                 type: object
+  /utf16fragments:
+    put:
+      operationId: "пошел"
+      tags: ["шеллы"]
+      summary: an operation
+      responses:
+        "200":
+          description: ok

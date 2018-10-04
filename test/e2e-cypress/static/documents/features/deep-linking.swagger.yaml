@@ -28,6 +28,10 @@ paths:
   /noOperationId:
     put:
       tags: ["tagTwo"]
+  /utf16fragments:
+    put:
+      operationId: "пошел"
+      tags: ["шеллы"]
       summary: an operation
       responses:
         "200":
