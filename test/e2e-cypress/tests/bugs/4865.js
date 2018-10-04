@@ -1,5 +1,3 @@
-import repeat from "lodash/repeat"
-
 describe("#4865: multiple invocations + OAS3 plugin", () => {
   it("control: should render the OAS3 badge correctly", () => {
     // This is a sanity check to make sure the badge is present.
