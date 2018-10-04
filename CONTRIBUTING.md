@@ -10,6 +10,14 @@ We love contributions from our community of users! This document explains our gu
 3. Run `npm run dev`. `localhost:3200` should open automatically.
 4. You're ready to go!
 
+#### Use your own specification files
+
+To render your own `swagger.json` files in `localhost:3200`, you should place them inside the `dev-helpers` folder. After that, access to the server providing the file name as url parameter:
+
+`http://localhost:3200?url=swagger.json`
+
+Also, you could access to `http://localhost:3200` and write your file name (Ex: `./swagger.json`) in the explore input.
+
 #### Branching model
 
 Feature branches should be prefixed with `ft/`.
