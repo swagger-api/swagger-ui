@@ -26,6 +26,10 @@ export const definitionsToAuthorize = onlyOAS3(createSelector(
       // that look like Swagger2 definitions.
       let list = List()
 
+      if(!definitions) {
+        return list
+      }
+
       definitions.entrySeq().forEach( ([ defName, definition ]) => {
         const type = definition.get("type")
 

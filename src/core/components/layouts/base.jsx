@@ -26,6 +26,7 @@ export default class BaseLayout extends React.Component {
     let Errors = getComponent("errors", true)
 
     const SchemesContainer = getComponent("SchemesContainer", true)
+    const AuthorizeBtnContainer = getComponent("AuthorizeBtnContainer", true)
     const FilterContainer = getComponent("FilterContainer", true)
     let isSwagger2 = specSelectors.isSwagger2()
     let isOAS3 = specSelectors.isOAS3()
@@ -60,9 +61,15 @@ export default class BaseLayout extends React.Component {
               </Col>
             </Row>
 
-            <SchemesContainer/>
-
-            <ServersContainer/>
+            <div>
+              <div className="scheme-container">
+                <Col className="schemes wrapper" mobile={12}>
+                  <ServersContainer />
+                  <SchemesContainer />
+                  <AuthorizeBtnContainer />
+                </Col>
+              </div>
+            </div>
 
             <FilterContainer/>
 
