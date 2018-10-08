@@ -84,19 +84,31 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
   } else {
     Object.assign(form, {username}, {password})
 
-    if ( passwordType === "query") {
-      if ( clientId ) {
-        query.client_id = clientId
-      }
-      if ( clientSecret ) {
-        query.client_secret = clientSecret
-      }
-    } else {
-      headers.Authorization = "Basic " + btoa(clientId + ":" + clientSecret)
+    switch ( passwordType ) {
+      case "query":
+        setClientIdAndSecret(query, clientId, clientSecret)
+        break
+
+      case "request-body":
+        setClientIdAndSecret(form, clientId, clientSecret)
+        break
+
+      default:
+        headers.Authorization = "Basic " + btoa(clientId + ":" + clientSecret)
     }
   }
 
   return authActions.authorizeRequest({ body: buildFormData(form), url: schema.get("tokenUrl"), name, headers, query, auth})
+}
+
+function setClientIdAndSecret(target, clientId, clientSecret) {
+  if ( clientId ) {
+    Object.assign(target, {client_id: clientId})
+  }
+
+  if ( clientSecret ) {
+    Object.assign(target, {client_secret: clientSecret})
+  }
 }
 
 export const authorizeApplication = ( auth ) => ( { authActions } ) => {
@@ -202,11 +214,28 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
   })
   .catch(e => {
     let err = new Error(e)
+    let message = err.message
+    // swagger-js wraps the response (if available) into the e.response property;
+    // investigate to check whether there are more details on why the authorization
+    // request failed (according to RFC 6479).
+    // See also https://github.com/swagger-api/swagger-ui/issues/4048
+    if (e.response && e.response.data) {
+      const errData = e.response.data
+      try {
+        const jsonResponse = typeof errData === "string" ? JSON.parse(errData) : errData
+        if (jsonResponse.error)
+          message += `, error: ${jsonResponse.error}`
+        if (jsonResponse.error_description)
+          message += `, description: ${jsonResponse.error_description}`
+      } catch (jsonError) {
+        // Ignore
+      }
+    }
     errActions.newAuthErr( {
       authId: name,
       level: "error",
       source: "auth",
-      message: err.message
+      message: message
     } )
   })
 }

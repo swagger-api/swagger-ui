@@ -190,4 +190,58 @@ describe("wrapComponents", () => {
     expect(children.eq(0).text()).toEqual("Original component")
     expect(children.eq(1).text()).toEqual("WOW much data")
   })
+
+  it("should wrap correctly when building a system twice", function(){
+
+    // Given
+
+    const pluginOne = {
+      statePlugins: {
+        doge: {
+          selectors: {
+            wow: () => () => {
+              return "WOW much data"
+            }
+          }
+        }
+      },
+      components: {
+        wow: () => <div>Original component</div>
+      }
+    }
+
+    const pluginTwo = {
+      // Wrap the component and use the system
+      wrapComponents: {
+        wow: (OriginalComponent, system) => (props) => {
+          return <container>
+            <OriginalComponent {...props}></OriginalComponent>
+            <div>{system.dogeSelectors.wow()}</div>
+          </container>
+        }
+      }
+    }
+
+    const bothPlugins = () => [pluginOne, pluginTwo]
+
+    new System({
+      plugins: bothPlugins
+    })
+
+    const secondSystem = new System({
+      plugins: bothPlugins
+    })
+
+    // Then
+    var Component = secondSystem.getSystem().getComponents("wow")
+    const wrapper = render(<Component name="Normal" />)
+
+    const container = wrapper.children().first()
+    expect(container[0].name).toEqual("container")
+
+    const children = container.children()
+    expect(children.length).toEqual(2)
+    expect(children.eq(0).text()).toEqual("Original component")
+    expect(children.eq(1).text()).toEqual("WOW much data")
+  })
 })

@@ -1,0 +1,19 @@
+swagger: "2.0"
+
+paths:
+  /:
+    get:
+      operationId: "myOperation"
+      tags: ["myTag"]
+      summary: an operation
+      responses:
+        "200":
+          description: ok
+  /withSpaces:
+    post:
+      operationId: "my Operation"
+      tags: ["my Tag"]
+      summary: an operation
+      responses:
+        "200":
+          description: ok

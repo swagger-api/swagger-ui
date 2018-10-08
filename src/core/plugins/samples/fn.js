@@ -29,6 +29,7 @@ export const sampleFromSchema = (schema, config={}) => {
   let { type, example, properties, additionalProperties, items } = objectify(schema)
   let { includeReadOnly, includeWriteOnly } = config
 
+
   if(example !== undefined) {
     return deeplyStripKey(example, "$$ref", (val) => {
       // do a couple of quick sanity tests to ensure the value
@@ -51,10 +52,13 @@ export const sampleFromSchema = (schema, config={}) => {
     let props = objectify(properties)
     let obj = {}
     for (var name in props) {
-      if ( props[name].readOnly && !includeReadOnly ) {
+      if ( props[name] && props[name].deprecated ) {
         continue
       }
-      if ( props[name].writeOnly && !includeWriteOnly ) {
+      if ( props[name] && props[name].readOnly && !includeReadOnly ) {
+        continue
+      }
+      if ( props[name] && props[name].writeOnly && !includeWriteOnly ) {
         continue
       }
       obj[name] = sampleFromSchema(props[name], config)

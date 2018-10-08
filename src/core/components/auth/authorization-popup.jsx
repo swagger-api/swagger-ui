@@ -9,7 +9,7 @@ export default class AuthorizationPopup extends React.Component {
   }
 
   render() {
-    let { authSelectors, authActions, getComponent, errSelectors, specSelectors, specActions, getConfigs, fn: { AST } } = this.props
+    let { authSelectors, authActions, getComponent, errSelectors, specSelectors, specActions, getConfigs, fn: { AST = {} } } = this.props
     let definitions = authSelectors.shownDefinitions()
     const Auths = getComponent("auths")
 

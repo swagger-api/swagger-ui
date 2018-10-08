@@ -6,6 +6,10 @@
   ],
   "plugins": [
     "transform-runtime",
+    "babel-plugin-transform-es2015-constants",
+    ["transform-react-remove-prop-types", {
+      "additionalLibraries": ["react-immutable-proptypes"]
+    }],
     [
       "module-alias",
       [
@@ -16,6 +20,10 @@
         {
           "expose": "components",
           "src": "src/core/components"
+        },
+        {
+          "expose": "containers",
+          "src": "src/core/containers"
         },
         {
           "expose": "core",
@@ -36,10 +44,6 @@
         {
           "expose": "less",
           "src": "src/less"
-        },
-        {
-          "expose": "base",
-          "src": "npm:getbase/src/less/base"
         }
       ]
     ]
