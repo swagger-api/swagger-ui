@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.19.2",
+  "version": "3.19.3",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -48,6 +48,7 @@
   "dependencies": {
     "@braintree/sanitize-url": "^2.0.2",
     "@kyleshockey/js-yaml": "^1.0.1",
+    "@kyleshockey/object-assign-deep": "^0.4.2",
     "base64-js": "^1.2.0",
     "classnames": "^2.2.5",
     "core-js": "^2.5.1",
