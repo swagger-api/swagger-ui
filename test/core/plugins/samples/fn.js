@@ -545,7 +545,7 @@ describe("createXMLExample", function () {
         type: "string",
         example: "foo&bar 1<2",
         xml: {
-          'x-cdata': true
+          "x-cdata": true
         }
       }
 
@@ -923,7 +923,7 @@ describe("createXMLExample", function () {
         items: {
           type: "string",
           xml: {
-            'x-cdata': true,
+            "x-cdata": true,
             name: "animal"
           }
         },
@@ -1343,13 +1343,13 @@ describe("createXMLExample", function () {
           foo: {
             type: "string",
             xml: {
-              'x-cdata': true
+              "x-cdata": true
             }
           },
           bar:{
             type: "string",
             xml: {
-              'x-cdata': true
+              "x-cdata": true
             }
           }
         },
@@ -1372,13 +1372,13 @@ describe("createXMLExample", function () {
           foo: {
             type: "string",
             xml: {
-              'x-cdata': true
+              "x-cdata": true
             }
           },
           bar: {
             type: "string",
             xml: {
-              'x-cdata': true
+              "x-cdata": true
             }
           }
         },
@@ -1397,7 +1397,7 @@ describe("createXMLExample", function () {
         xml: {
           name: "animals",
           wrapped: true,
-          'x-cdata': true
+          "x-cdata": true
         }
       }
 
@@ -1410,7 +1410,7 @@ describe("createXMLExample", function () {
         additionalProperties: {
           type: "string",
           xml: {
-            'x-cdata': true
+            "x-cdata": true
           }
         },
         xml: {

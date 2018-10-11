@@ -234,7 +234,7 @@ export const sampleXmlFromSchema = (schema, config={}) => {
 
     if (additionalProperties) {
       value = additionalProperties === true || !Object.getOwnPropertyNames(additionalProperties).length ? "Anything can be here" : primitive(additionalProperties)
-      value = (additionalProperties.xml || xml || {})['x-cdata'] ? {_cdata: value} : value
+      value = (additionalProperties.xml || xml || {})["x-cdata"] ? {_cdata: value} : value
       res[displayName].push({additionalProp: value})
     }
 
@@ -257,7 +257,7 @@ export const sampleXmlFromSchema = (schema, config={}) => {
     value = primitive(schema)
   }
 
-  res[displayName] = _attr ? xml['x-cdata'] ? {_attr: _attr, _cdata: value} : [{_attr: _attr}, value] : value
+  res[displayName] = _attr ? xml["x-cdata"] ? {_attr: _attr, _cdata: value} : [{_attr: _attr}, value] : value
 
   return res
 }
