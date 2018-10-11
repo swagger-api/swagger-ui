@@ -539,13 +539,13 @@ describe("createXMLExample", function () {
       expect(sut(definition)).toEqual(expected)
     })
 
-    it("returns value wrapped by `CDATA` when passing {CDATA: true}", function () {
+    it("returns value wrapped by `CDATA` when passing {'x-cdata': true}", function () {
       var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<notagname><![CDATA[foo&bar 1<2]]></notagname>"
       var definition = {
         type: "string",
         example: "foo&bar 1<2",
         xml: {
-          CDATA: true
+          'x-cdata': true
         }
       }
 
@@ -916,14 +916,14 @@ describe("createXMLExample", function () {
       expect(sut(definition)).toEqual(expected)
     })
 
-    it("returns array with example values wrapped by `CDATA` when passing {CDATA: true}", function () {
+    it("returns array with example values wrapped by `CDATA` when passing {'x-cdata': true}", function () {
       var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<animal><![CDATA[foo&bar]]></animal>\n\t<animal><![CDATA[1<2]]></animal>\n</animals>"
       var definition = {
         type: "array",
         items: {
           type: "string",
           xml: {
-            CDATA: true,
+            'x-cdata': true,
             name: "animal"
           }
         },
@@ -1335,7 +1335,7 @@ describe("createXMLExample", function () {
       expect(sut(definition)).toEqual(expected)
     })
 
-    it("returns object with example value wrapped by `CDATA` when passing {CDATA: true}", function () {
+    it("returns object with example value wrapped by `CDATA` when passing {'x-cdata': true}", function () {
       var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<bob>\n\t<foo><![CDATA[&bar]]></foo>\n\t<bar><![CDATA[<2]]></bar>\n</bob>"
       var definition = {
         type: "object",
@@ -1343,13 +1343,13 @@ describe("createXMLExample", function () {
           foo: {
             type: "string",
             xml: {
-              CDATA: true
+              'x-cdata': true
             }
           },
           bar:{
             type: "string",
             xml: {
-              CDATA: true
+              'x-cdata': true
             }
           }
         },
@@ -1365,20 +1365,20 @@ describe("createXMLExample", function () {
       expect(sut(definition)).toEqual(expected)
     })
 
-    it("returns object with 2 properties those values wrapped by `CDATA` when passing {CDATA: true}", function () {
+    it("returns object with 2 properties those values wrapped by `CDATA` when passing {'x-cdata': true}", function () {
       var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<bob>\n\t<foo><![CDATA[string]]></foo>\n\t<bar><![CDATA[string]]></bar>\n</bob>"
       var definition = {
         properties: {
           foo: {
             type: "string",
             xml: {
-              CDATA: true
+              'x-cdata': true
             }
           },
           bar: {
             type: "string",
             xml: {
-              CDATA: true
+              'x-cdata': true
             }
           }
         },
@@ -1390,27 +1390,27 @@ describe("createXMLExample", function () {
       expect(sut(definition)).toEqual(expected)
     })
 
-    it("returns object with additional props equals `true` and those values wrapped by `CDATA` when the defs passing {CDATA: true}", function () {
+    it("returns object with additional props equals `true` and those values wrapped by `CDATA` when the defs passing {'x-cdata': true}", function () {
       var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<additionalProp><![CDATA[Anything can be here]]></additionalProp>\n</animals>"
       var definition = {
         additionalProperties: true,
         xml: {
           name: "animals",
           wrapped: true,
-          CDATA: true
+          'x-cdata': true
         }
       }
 
       expect(sut(definition)).toEqual(expected)
     })
 
-    it("returns object with additional props those values wrapped by `CDATA` when passing {CDATA: true}", function () {
+    it("returns object with additional props those values wrapped by `CDATA` when passing {'x-cdata': true}", function () {
       var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<additionalProp><![CDATA[string]]></additionalProp>\n</animals>"
       var definition = {
         additionalProperties: {
           type: "string",
           xml: {
-            CDATA: true
+            'x-cdata': true
           }
         },
         xml: {
