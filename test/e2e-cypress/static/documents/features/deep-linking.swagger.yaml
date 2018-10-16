@@ -17,6 +17,14 @@ paths:
       responses:
         "200":
           description: ok
+  /withUnderscores:
+    patch:
+      operationId: "underscore_Operation"
+      tags: ["underscore_Tag"]
+      summary: an operation
+      responses:
+        "200":
+          description: ok
   /noOperationId:
     put:
       tags: ["tagTwo"]

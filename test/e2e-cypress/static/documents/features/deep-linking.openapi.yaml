@@ -25,6 +25,18 @@ paths:
             application/json:
               schema:
                 type: object
+  /withUnderscores:
+    patch:
+      operationId: "underscore_Operation"
+      tags: ["underscore_Tag"]
+      summary: an operation
+      responses:
+        '200':
+          description: a pet to be returned
+          content: 
+            application/json:
+              schema:
+                type: object
   /noOperationId:
     put:
       tags: ["tagTwo"]
