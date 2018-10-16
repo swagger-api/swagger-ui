@@ -42,6 +42,7 @@ describe("Deep linking feature", () => {
       const elementToGet = ".opblock-post"
       const correctElementId = "operations-my_Tag-my_Operation"
       const correctFragment = "#/my%20Tag/my%20Operation"
+      const legacyFragment = "#/my_Tag/my_Operation"
 
       it("should generate a correct element ID", () => {
         cy.get(elementToGet)
@@ -66,6 +67,13 @@ describe("Deep linking feature", () => {
 
       it("should expand the operation when reloaded", () => {
         cy.visit(`${baseUrl}${correctFragment}`)
+          .reload()
+          .get(`${elementToGet}.is-open`)
+          .should("exist")
+      })
+
+      it("should expand the operation when reloaded and provided the legacy fragment", () => {
+        cy.visit(`${baseUrl}${legacyFragment}`)
           .reload()
           .get(`${elementToGet}.is-open`)
           .should("exist")
@@ -196,6 +204,7 @@ describe("Deep linking feature", () => {
       const elementToGet = ".opblock-post"
       const correctElementId = "operations-my_Tag-my_Operation"
       const correctFragment = "#/my%20Tag/my%20Operation"
+      const legacyFragment = "#/my_Tag/my_Operation"
 
       it("should generate a correct element ID", () => {
         cy.get(elementToGet)
@@ -220,6 +229,13 @@ describe("Deep linking feature", () => {
 
       it("should expand the operation when reloaded", () => {
         cy.visit(`${baseUrl}${correctFragment}`)
+          .reload()
+          .get(`${elementToGet}.is-open`)
+          .should("exist")
+      })
+
+      it("should expand the operation when reloaded and provided the legacy fragment", () => {
+        cy.visit(`${baseUrl}${legacyFragment}`)
           .reload()
           .get(`${elementToGet}.is-open`)
           .should("exist")
