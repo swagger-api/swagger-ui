@@ -41,7 +41,7 @@ describe("Deep linking feature", () => {
     describe("Operation with whitespace in tag+id", () => {
       const elementToGet = ".opblock-post"
       const correctElementId = "operations-my_Tag-my_Operation"
-      const correctFragment = "#/my_Tag/my_Operation"
+      const correctFragment = "#/my%20Tag/my%20Operation"
 
       it("should generate a correct element ID", () => {
         cy.get(elementToGet)
@@ -195,7 +195,7 @@ describe("Deep linking feature", () => {
     describe("Operation with whitespace in tag+id", () => {
       const elementToGet = ".opblock-post"
       const correctElementId = "operations-my_Tag-my_Operation"
-      const correctFragment = "#/my_Tag/my_Operation"
+      const correctFragment = "#/my%20Tag/my%20Operation"
 
       it("should generate a correct element ID", () => {
         cy.get(elementToGet)
