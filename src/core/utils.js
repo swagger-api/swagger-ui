@@ -747,8 +747,10 @@ export function getAcceptControllingResponse(responses) {
   return suitable2xxResponse || suitableDefaultResponse
 }
 
-export const createDeepLinkPath = (str) => typeof str == "string" || str instanceof String ? str.trim().replace(/\s/g, "_") : ""
-export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str) )
+// suitable for use in URL fragments
+export const createDeepLinkPath = (str) => typeof str == "string" || str instanceof String ? str.trim().replace(/\s/g, "%20") : ""
+// suitable for use in CSS classes and ids
+export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str).replace(/%20/g, "_") )
 
 export const getExtensions = (defObj) => defObj.filter((v, k) => /^x-/.test(k))
 export const getCommonExtensions = (defObj) => defObj.filter((v, k) => /^pattern|maxLength|minLength|maximum|minimum/.test(k))
