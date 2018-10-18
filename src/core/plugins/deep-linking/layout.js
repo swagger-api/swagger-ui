@@ -73,7 +73,7 @@ export const parseDeepLinkHash = (rawHash) => ({ layoutActions, layoutSelectors,
       hash = hash.slice(1)
     }
 
-    const hashArray = hash.split("/").map(val => (val || "").replace(/%20/g, " "))
+    const hashArray = hash.split("/").map(val => (val || ""))
 
     const isShownKey = layoutSelectors.isShownKeyFromUrlHashArray(hashArray)
 
