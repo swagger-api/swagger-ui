@@ -78,9 +78,7 @@ describe("Deep linking feature", () => {
   })
   describe("in OpenAPI 3", () => {
     const openAPI3BaseUrl = "/?deepLinking=true&url=/documents/features/deep-linking.openapi.yaml"
-    beforeEach(() => {
-      cy.visit(baseUrl)
-    })
+
     describe("regular Operation", () => {
       BaseDeeplinkTestFactory({
         baseUrl: openAPI3BaseUrl,
@@ -181,12 +179,11 @@ function BaseDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, corr
       .should("have.attr", "href", correctHref)
       .click()
       .window()
-      .should("have.deep.property", "location.hash", correctHref)
+      .should("have.deep.property", "location.hash", correctFragment)
   })
 
   it("should expand the operation when reloaded", () => {
     cy.visit(`${baseUrl}${correctFragment}`)
-      .reload()
       .get(`${elementToGet}.is-open`)
       .should("exist")
   })
