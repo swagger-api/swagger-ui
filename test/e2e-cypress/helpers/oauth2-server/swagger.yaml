@@ -1,0 +1,34 @@
+swagger: "2.0"
+host: localhost:3231
+paths:
+  /password:
+    get:
+      summary: OAuth2 Password
+      security: 
+      - oauthPassword: []
+      responses:
+        200:
+          description: OK
+          schema:
+            type: string
+  /application:
+    get:
+      summary: OAuth2 Application
+      security: 
+      - oauthApplication: []
+      responses:
+        200:
+          description: OK
+          schema:
+            type: string
+securityDefinitions:
+  oauthPassword:
+    type: oauth2
+    flow: password
+    tokenUrl: http://localhost:3231/oauth/token
+    scopes:
+      myScope: a scope
+  oauthApplication:
+    type: oauth2
+    flow: application
+    tokenUrl: http://localhost:3231/oauth/token
