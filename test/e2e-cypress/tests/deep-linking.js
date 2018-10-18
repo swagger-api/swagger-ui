@@ -114,6 +114,41 @@ describe("Deep linking feature", () => {
       })
     })
 
+    describe("Operation with UTF-16 characters", () => {
+      const elementToGet = ".opblock-head"
+      const correctElementId = "operations-шеллы-пошел"
+      const correctFragment = "#/%D1%88%D0%B5%D0%BB%D0%BB%D1%8B/%D0%BF%D0%BE%D1%88%D0%B5%D0%BB"
+      const correctHref = "#/шеллы/пошел"
+
+      it("should generate a correct element ID", () => {
+        cy.get(elementToGet)
+          .should("have.id", correctElementId)
+      })
+
+      it("should add the correct element fragment to the URL when expanded", () => {
+        cy.get(elementToGet)
+          .click()
+          .window()
+          .should("have.deep.property", "location.hash", correctFragment)
+      })
+
+      it("should provide an anchor link that has the correct fragment as href", () => {
+        cy.get(elementToGet)
+          .find("a")
+          .should("have.attr", "href", correctHref)
+          .click()
+          .should("have.attr", "href", correctHref) // should be valid after expanding
+
+      })
+
+      it("should expand the operation when reloaded", () => {
+        cy.visit(`${baseUrl}${correctFragment}`)
+          .reload()
+          .get(`${elementToGet}.is-open`)
+          .should("exist")
+      })
+    })
+
     describe("Operation with no operationId", () => {
       const elementToGet = ".opblock-put"
       const correctElementId = "operations-tagTwo-put_noOperationId"
@@ -265,6 +300,41 @@ describe("Deep linking feature", () => {
           .should("have.attr", "href", correctFragment)
           .click()
           .should("have.attr", "href", correctFragment) // should be valid after expanding
+
+      })
+
+      it("should expand the operation when reloaded", () => {
+        cy.visit(`${baseUrl}${correctFragment}`)
+          .reload()
+          .get(`${elementToGet}.is-open`)
+          .should("exist")
+      })
+    })
+
+    describe("Operation with UTF-16 characters", () => {
+      const elementToGet = ".opblock-head"
+      const correctElementId = "operations-шеллы-пошел"
+      const correctFragment = "#/%D1%88%D0%B5%D0%BB%D0%BB%D1%8B/%D0%BF%D0%BE%D1%88%D0%B5%D0%BB"
+      const correctHref = "#/шеллы/пошел"
+
+      it("should generate a correct element ID", () => {
+        cy.get(elementToGet)
+          .should("have.id", correctElementId)
+      })
+
+      it("should add the correct element fragment to the URL when expanded", () => {
+        cy.get(elementToGet)
+          .click()
+          .window()
+          .should("have.deep.property", "location.hash", correctFragment)
+      })
+
+      it("should provide an anchor link that has the correct fragment as href", () => {
+        cy.get(elementToGet)
+          .find("a")
+          .should("have.attr", "href", correctHref)
+          .click()
+          .should("have.attr", "href", correctHref) // should be valid after expanding
 
       })
 

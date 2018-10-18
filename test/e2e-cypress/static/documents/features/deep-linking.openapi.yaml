@@ -25,6 +25,14 @@ paths:
             application/json:
               schema:
                 type: object
+  /utf16fragments:
+    head:
+      operationId: "пошел"
+      tags: ["шеллы"]
+      summary: an operation
+      responses:
+        "200":
+          description: ok
   /withUnderscores:
     patch:
       operationId: "underscore_Operation"

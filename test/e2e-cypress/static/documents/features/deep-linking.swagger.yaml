@@ -17,6 +17,10 @@ paths:
       responses:
         "200":
           description: ok
+  /utf16fragments:
+    head:
+      operationId: "пошел"
+      tags: ["шеллы"]
   /withUnderscores:
     patch:
       operationId: "underscore_Operation"
@@ -28,7 +32,3 @@ paths:
   /noOperationId:
     put:
       tags: ["tagTwo"]
-      summary: an operation
-      responses:
-        "200":
-          description: ok
