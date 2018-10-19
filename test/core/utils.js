@@ -109,6 +109,18 @@ describe("utils", function() {
       let expectedResult = "filename.jpg"
       expect(extractFileNameFromContentDispositionHeader(cdHeader)).toEqual(expectedResult)
     })
+    
+    it("should extract quoted filename in utf-8", function(){
+      let cdHeader = "attachment; filename*=UTF-8''\"%D1%84%D0%B0%D0%B9%D0%BB.txt\""
+      let expectedResult = "файл.txt"
+      expect(extractFileNameFromContentDispositionHeader(cdHeader)).toEqual(expectedResult)
+    })
+    
+    it("should extract filename in utf-8", function(){
+      let cdHeader = "attachment; filename*=utf-8'ru'%D1%84%D0%B0%D0%B9%D0%BB.txt"
+      let expectedResult = "файл.txt"
+      expect(extractFileNameFromContentDispositionHeader(cdHeader)).toEqual(expectedResult)
+    })
 
     it("should not extract filename and return null", function(){
       let cdHeader = "attachment; no file name provided"

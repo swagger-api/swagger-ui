@@ -343,13 +343,27 @@ export function mapToList(map, keyNames="key", collectedKeys=Im.Map()) {
 }
 
 export function extractFileNameFromContentDispositionHeader(value){
-  let responseFilename = /filename="([^;]*);?"/i.exec(value)
-  if (responseFilename === null) {
-    responseFilename = /filename=([^;]*);?/i.exec(value)
-  }
+  let patterns = [
+    /filename\*=[^']+'\w*'"([^"]+)";?/i,
+    /filename\*=[^']+'\w*'([^;]+);?/i,
+    /filename="([^;]*);?"/i,
+    /filename=([^;]*);?/i
+  ]
+  
+  let responseFilename
+  patterns.some(regex => {
+    responseFilename = regex.exec(value)
+    return responseFilename !== null
+  })
+    
   if (responseFilename !== null && responseFilename.length > 1) {
-    return responseFilename[1]
+    try {
+      return decodeURIComponent(responseFilename[1])
+    } catch(e) {
+      console.error(e)
+    }
   }
+
   return null
 }
 
