@@ -77,12 +77,11 @@ export const parseDeepLinkHash = (rawHash) => ({ layoutActions, layoutSelectors,
 
     const isShownKey = layoutSelectors.isShownKeyFromUrlHashArray(hashArray)
 
-    const [type, tagId, maybeOperationId] = isShownKey
+    const [type, tagId = "", maybeOperationId = ""] = isShownKey
 
     if(type === "operations") {
       // we're going to show an operation, so we need to expand the tag as well
       const tagIsShownKey = layoutSelectors.isShownKeyFromUrlHashArray([tagId])
-      layoutActions.show(tagIsShownKey)
 
       // If an `_` is present, trigger the legacy escaping behavior to be safe
       // TODO: remove this in v4.0, it is deprecated
@@ -90,9 +89,9 @@ export const parseDeepLinkHash = (rawHash) => ({ layoutActions, layoutSelectors,
         console.warn("Warning: escaping deep link whitespace with `_` will be unsupported in v4.0, use `%20` instead.")
         layoutActions.show(tagIsShownKey.map(val => val.replace(/_/g, " ")), true)
       }
-    }
 
-    layoutActions.show(isShownKey, true)
+      layoutActions.show(tagIsShownKey, true)
+    }
 
     // If an `_` is present, trigger the legacy escaping behavior to be safe
     // TODO: remove this in v4.0, it is deprecated
@@ -100,6 +99,8 @@ export const parseDeepLinkHash = (rawHash) => ({ layoutActions, layoutSelectors,
       console.warn("Warning: escaping deep link whitespace with `_` will be unsupported in v4.0, use `%20` instead.")
       layoutActions.show(isShownKey.map(val => val.replace(/_/g, " ")), true)
     }
+
+    layoutActions.show(isShownKey, true)
 
     // Scroll to the newly expanded entity
     layoutActions.scrollTo(isShownKey)

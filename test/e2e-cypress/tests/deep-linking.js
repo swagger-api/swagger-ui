@@ -14,12 +14,13 @@ describe("Deep linking feature", () => {
 
     describe("Operation with whitespace in tag+id", () => {
       const elementToGet = ".opblock-post"
+      const correctFragment = "#/my%20Tag/my%20Operation"
       
       BaseDeeplinkTestFactory({
         baseUrl: swagger2BaseUrl,
         elementToGet,
         correctElementId: "operations-my_Tag-my_Operation",
-        correctFragment: "#/my%20Tag/my%20Operation",
+        correctFragment,
         correctHref: "#/my%20Tag/my%20Operation"
       })
 
@@ -30,6 +31,13 @@ describe("Deep linking feature", () => {
           .reload()
           .get(`${elementToGet}.is-open`)
           .should("exist")
+      })
+
+      it.skip("should rewrite to the correct fragment when provided the legacy fragment", () => {
+        cy.visit(`${swagger2BaseUrl}${legacyFragment}`)
+          .reload()
+          .window()
+          .should("have.deep.property", "location.hash", correctFragment)
       })
     })
 
@@ -91,14 +99,13 @@ describe("Deep linking feature", () => {
 
     describe("Operation with whitespace in tag+id", () => {
       const elementToGet = ".opblock-post"
-      const correctElementId = "operations-my_Tag-my_Operation"
       const correctFragment = "#/my%20Tag/my%20Operation"
       
       BaseDeeplinkTestFactory({
         baseUrl: openAPI3BaseUrl,
         elementToGet: ".opblock-post",
         correctElementId: "operations-my_Tag-my_Operation",
-        correctFragment: "#/my%20Tag/my%20Operation",
+        correctFragment,
         correctHref: "#/my%20Tag/my%20Operation"
       })
       
@@ -109,6 +116,14 @@ describe("Deep linking feature", () => {
           .reload()
           .get(`${elementToGet}.is-open`)
           .should("exist")
+      })
+
+
+      it.skip("should rewrite to the correct fragment when provided the legacy fragment", () => {
+        cy.visit(`${openAPI3BaseUrl}${legacyFragment}`)
+          .reload()
+          .window()
+          .should("have.deep.property", "location.hash", correctFragment)
       })
     })
 
@@ -186,5 +201,13 @@ function BaseDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, corr
     cy.visit(`${baseUrl}${correctFragment}`)
       .get(`${elementToGet}.is-open`)
       .should("exist")
+  })
+
+  it("should retain the correct fragment when reloaded", () => {
+    cy.visit(`${baseUrl}${correctFragment}`)
+      .reload()
+      .should("exist")
+      .window()
+      .should("have.deep.property", "location.hash", correctFragment)
   })
 }
