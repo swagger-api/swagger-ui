@@ -14,12 +14,13 @@ describe("Deep linking feature", () => {
 
     describe("Operation with whitespace in tag+id", () => {
       const elementToGet = ".opblock-post"
+      const correctFragment = "#/my%20Tag/my%20Operation"
       
       BaseDeeplinkTestFactory({
         baseUrl: swagger2BaseUrl,
         elementToGet,
         correctElementId: "operations-my_Tag-my_Operation",
-        correctFragment: "#/my%20Tag/my%20Operation",
+        correctFragment,
         correctHref: "#/my%20Tag/my%20Operation"
       })
 
@@ -31,6 +32,13 @@ describe("Deep linking feature", () => {
           .get(`${elementToGet}.is-open`)
           .should("exist")
       })
+
+      it("should rewrite to the correct fragment when provided the legacy fragment", () => {
+        cy.visit(`${swagger2BaseUrl}${legacyFragment}`)
+          .reload()
+          .window()
+          .should("have.deep.property", "location.hash", correctFragment)
+    })
     })
 
     describe("Operation with underscores in tag+id", () => {
@@ -91,14 +99,14 @@ describe("Deep linking feature", () => {
 
     describe("Operation with whitespace in tag+id", () => {
       const elementToGet = ".opblock-post"
-      const correctElementId = "operations-my_Tag-my_Operation"
       const correctFragment = "#/my%20Tag/my%20Operation"
+      
       
       BaseDeeplinkTestFactory({
         baseUrl: openAPI3BaseUrl,
         elementToGet: ".opblock-post",
         correctElementId: "operations-my_Tag-my_Operation",
-        correctFragment: "#/my%20Tag/my%20Operation",
+        correctFragment,
         correctHref: "#/my%20Tag/my%20Operation"
       })
       
@@ -109,6 +117,14 @@ describe("Deep linking feature", () => {
           .reload()
           .get(`${elementToGet}.is-open`)
           .should("exist")
+      })
+
+
+      it("should rewrite to the correct fragment when provided the legacy fragment", () => {
+        cy.visit(`${openAPI3BaseUrl}${legacyFragment}`)
+          .reload()
+          .window()
+          .should("have.deep.property", "location.hash", correctFragment)
       })
     })
 
