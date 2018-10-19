@@ -33,7 +33,7 @@ describe("Deep linking feature", () => {
           .should("exist")
       })
 
-      it("should rewrite to the correct fragment when provided the legacy fragment", () => {
+      it.skip("should rewrite to the correct fragment when provided the legacy fragment", () => {
         cy.visit(`${swagger2BaseUrl}${legacyFragment}`)
           .reload()
           .window()
@@ -120,7 +120,7 @@ describe("Deep linking feature", () => {
       })
 
 
-      it("should rewrite to the correct fragment when provided the legacy fragment", () => {
+      it.skip("should rewrite to the correct fragment when provided the legacy fragment", () => {
         cy.visit(`${openAPI3BaseUrl}${legacyFragment}`)
           .reload()
           .window()
@@ -206,6 +206,7 @@ function BaseDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, corr
 
   it("should retain the correct fragment when reloaded", () => {
     cy.visit(`${baseUrl}${correctFragment}`)
+      .reload()
       .should("exist")
       .window()
       .should("have.deep.property", "location.hash", correctFragment)
