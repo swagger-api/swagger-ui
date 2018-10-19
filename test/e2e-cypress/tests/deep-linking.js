@@ -100,7 +100,6 @@ describe("Deep linking feature", () => {
     describe("Operation with whitespace in tag+id", () => {
       const elementToGet = ".opblock-post"
       const correctFragment = "#/my%20Tag/my%20Operation"
-
       
       BaseDeeplinkTestFactory({
         baseUrl: openAPI3BaseUrl,
