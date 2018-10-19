@@ -38,7 +38,7 @@ describe("Deep linking feature", () => {
           .reload()
           .window()
           .should("have.deep.property", "location.hash", correctFragment)
-    })
+      })
     })
 
     describe("Operation with underscores in tag+id", () => {
@@ -100,7 +100,7 @@ describe("Deep linking feature", () => {
     describe("Operation with whitespace in tag+id", () => {
       const elementToGet = ".opblock-post"
       const correctFragment = "#/my%20Tag/my%20Operation"
-      
+
       
       BaseDeeplinkTestFactory({
         baseUrl: openAPI3BaseUrl,
@@ -202,5 +202,12 @@ function BaseDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, corr
     cy.visit(`${baseUrl}${correctFragment}`)
       .get(`${elementToGet}.is-open`)
       .should("exist")
+  })
+
+  it("should retain the correct fragment when reloaded", () => {
+    cy.visit(`${baseUrl}${correctFragment}`)
+      .should("exist")
+      .window()
+      .should("have.deep.property", "location.hash", correctFragment)
   })
 }
