@@ -20,8 +20,10 @@ COPY ./docker/nginx.conf /etc/nginx/
 # copy swagger files to the `/js` folder
 COPY ./dist/* /usr/share/nginx/html/
 COPY ./docker/run.sh /usr/share/nginx/
+COPY ./docker/configurator.js /usr/share/nginx/
 
 RUN chmod +x /usr/share/nginx/run.sh
+RUN apk add nodejs
 
 EXPOSE 8080
 
