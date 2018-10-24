@@ -4,6 +4,8 @@
 
 FROM nginx:1.15-alpine
 
+RUN apk add nodejs
+
 LABEL maintainer="fehguy"
 
 ENV API_KEY "**None**"
@@ -24,7 +26,6 @@ COPY ./docker/run.sh /usr/share/nginx/
 COPY ./docker/configurator /usr/share/nginx/configurator
 
 RUN chmod +x /usr/share/nginx/run.sh
-RUN apk add nodejs
 
 EXPOSE 8080
 
