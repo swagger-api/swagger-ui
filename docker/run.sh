@@ -5,7 +5,7 @@ BASE_URL=${BASE_URL:-/}
 NGINX_ROOT=/usr/share/nginx/html
 INDEX_FILE=$NGINX_ROOT/index.html
 
-node /usr/share/nginx/configurator.js $INDEX_FILE
+node /usr/share/nginx/configurator $INDEX_FILE
 
 replace_in_index () {
   if [ "$1" != "**None**" ]; then
@@ -41,27 +41,6 @@ if [[ -f $SWAGGER_JSON ]]; then
   REL_PATH="./$(basename $SWAGGER_JSON)"
   sed -i "s|https://petstore.swagger.io/v2/swagger.json|$REL_PATH|g" $INDEX_FILE
   sed -i "s|http://example.com/api|$REL_PATH|g" $INDEX_FILE
-else
-  sed -i "s|https://petstore.swagger.io/v2/swagger.json|$API_URL|g" $INDEX_FILE
-  sed -i "s|http://example.com/api|$API_URL|g" $INDEX_FILE
-fi
-
-if [[ -n "$VALIDATOR_URL" ]]; then
-  sed -i "s|.*validatorUrl:.*$||g" $INDEX_FILE
-  TMP_VU="$VALIDATOR_URL"
-  [[ "$VALIDATOR_URL" != "null" && "$VALIDATOR_URL" != "undefined" ]] && TMP_VU="\"${VALIDATOR_URL}\""
-  sed -i "s|\(url: .*,\)|\1\n    validatorUrl: ${TMP_VU},|g" $INDEX_FILE
-  unset TMP_VU
-fi
-
-# replace `url` with `urls` option if API_URLS is set
-if [[ -n "$API_URLS" ]]; then
-    sed -i "s|^\(\s*\)url: .*,|\1urls: $API_URLS,|g" $INDEX_FILE
-fi
-
-if [[ -n "$CONFIG_URL" ]]; then
-    sed -i "s|^\(\s*\)url: .*,|\1configUrl: '$CONFIG_URL',|g" $INDEX_FILE
-    sed -i "s|^\(\s*\)urls: .*,|\1configUrl: '$CONFIG_URL',|g" $INDEX_FILE
 fi
 
 # replace the PORT that nginx listens on if PORT is supplied
