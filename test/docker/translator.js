@@ -2,7 +2,7 @@ const expect = require("expect")
 const translator = require("../../docker/configurator/translator")
 const dedent = require("dedent")
 
-describe.only("docker: env translator", function() {
+describe("docker: env translator", function() {
   it("should generate an empty baseline config", function() {
     const input = {}
 
