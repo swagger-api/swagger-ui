@@ -83,7 +83,7 @@ Type notations are formatted like so:
 ##### Core
 
 Parameter name | Docker variable | Description
---- | ---
+--- | --- | -----
 <a name="configUrl"></a>`configUrl` | `CONFIG_URL` |  `String`. URL to fetch external configuration document from.
 <a name="dom_id"></a>`dom_id` | `DOM_ID` |`String`, **REQUIRED** if `domNode` is not provided. The id of a dom element inside which SwaggerUi will put the user interface for swagger.
 <a name="domNode"></a>`domNode` | _Unavailable_ | `Element`, **REQUIRED** if `dom_id` is not provided. The HTML DOM element inside which SwaggerUi will put the user interface for swagger. Overrides `dom_id`.
@@ -97,7 +97,7 @@ Parameter name | Docker variable | Description
 Read more about the plugin system in the [Customization documentation](/docs/customization/overview.md).
 
 Parameter name | Docker variable | Description
---- | ---
+--- | --- | -----
 <a name="layout"></a>`layout` | _Unavailable_ | `String="BaseLayout"`. The name of a component available via the plugin system to use as the top-level layout for Swagger-UI.
 <a name="plugins"></a>`plugins` | _Unavailable_ | `Array=[]`. An array of plugin functions to use in Swagger-UI.
 <a name="presets"></a>`presets` | _Unavailable_ | `Array=[SwaggerUI.presets.ApisPreset]`. An array of presets to use in Swagger-UI. Usually, you'll want to include `ApisPreset` if you use this option.
@@ -105,7 +105,7 @@ Parameter name | Docker variable | Description
 ##### Display
 
 Parameter name | Docker variable | Description
---- | ---
+--- | --- | -----
 <a name="deepLinking"></a>`deepLinking` | `DEEP_LINKING` | `Boolean=false`. If set to `true`, enables deep linking for tags and operations. See the [Deep Linking documentation](/docs/usage/deep-linking.md) for more information.
 <a name="displayOperationId"></a>`displayOperationId` | `` | `Boolean=false`. Controls the display of operationId in operations list. The default is `false`.
 <a name="defaultModelsExpandDepth"></a>`defaultModelsExpandDepth` | `DEFAULT_MODELS_EXPAND_DEPTH` | `Number=1`. The default expansion depth for models (set to -1 completely hide the models).
@@ -124,7 +124,7 @@ Parameter name | Docker variable | Description
 ##### Network
 
 Parameter name | Docker variable | Description
---- | ---
+--- | --- | -----
 <a name="oauth2RedirectUrl"></a>`oauth2RedirectUrl` | _Unavailable_ | `String`. OAuth redirect URL.
 <a name="requestInteceptor"></a>`requestInterceptor` | _Unavailable_ | `Function=(a => a)`. MUST be a function.  Function to intercept remote definition, Try-It-Out, and OAuth2 requests.  Accepts one argument requestInterceptor(request) and must return the modified request, or a Promise that resolves to the modified request.
 <a name="responseInterceptor"></a>`responseInterceptor` | _Unavailable_ | `Function=(a => a)`. MUST be a function.  Function to intercept remote definition, Try-It-Out, and OAuth2 responses.  Accepts one argument responseInterceptor(response) and must return the modified response, or a Promise that resolves to the modified response.
@@ -135,14 +135,14 @@ Parameter name | Docker variable | Description
 ##### Macros
 
 Parameter name | Docker variable | Description
---- | ---
+--- | --- | -----
 <a name="modelPropertyMacro"></a>`modelPropertyMacro` | _Unavailable_ | `Function`. Function to set default values to each property in model. Accepts one argument modelPropertyMacro(property), property is immutable
 <a name="parameterMacro"></a>`parameterMacro` | _Unavailable_ | `Function`. Function to set default value to parameters. Accepts two arguments parameterMacro(operation, parameter). Operation and parameter are objects passed for context, both remain immutable
 
 ### Instance methods
 
 Parameter name | Docker variable | Description
---- | ---
+--- | --- | -----
 <a name="initOAuth"></a>`initOAuth` | _Unavailable_ | `(configObj) => void`. Provide Swagger-UI with information about your OAuth server - see the OAuth2 documentation for more information.
 <a name="preauthorizeBasic"></a>`preauthorizeBasic` | _Unavailable_ | `(authDefinitionKey, username, password) => action`. Programmatically set values for a Basic authorization scheme.
 <a name="preauthorizeApiKey"></a>`preauthorizeApiKey` | _Unavailable_ | `(authDefinitionKey, apiKeyValue) => action`. Programmatically set values for an API key authorization scheme.
