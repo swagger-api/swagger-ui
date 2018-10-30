@@ -3,7 +3,6 @@ import PropTypes from "prop-types"
 import { List, fromJS } from "immutable"
 import cx from "classnames"
 import ImPropTypes from "react-immutable-proptypes"
-import DebounceInput from "react-debounce-input"
 import { getSampleSchema } from "core/utils"
 //import "less/json-schema-form"
 
@@ -72,8 +71,8 @@ export class JsonSchema_string extends Component {
 
     if ( enumValue ) {
       const Select = getComponent("Select")
-      return (<Select className={ errors.length ? "invalid" : ""}
-                      title={ errors.length ? errors : ""}
+      return (<Select className={ errors.length ? "invalid" : "" }
+                      title={ errors.length ? errors : "" }
                       allowedValues={ enumValue }
                       value={ value }
                       allowEmptyValue={ !required }
@@ -87,19 +86,18 @@ export class JsonSchema_string extends Component {
                      className={ errors.length ? "invalid" : ""}
                      title={ errors.length ? errors : ""}
                      onChange={ this.onChange }
-                     disabled={isDisabled}/>)
+                     disabled={ isDisabled }/>)
     }
     else {
-      return (<DebounceInput
+      return (<Input
                      type={ schema.format === "password" ? "password" : "text" }
                      className={ errors.length ? "invalid" : ""}
                      title={ errors.length ? errors : ""}
-                     value={value}
-                     minLength={0}
-                     debounceTimeout={350}
-                     placeholder={description}
+                     value={ value }
+                     minLength={ 0 }
+                     placeholder={ description }
                      onChange={ this.onChange }
-                     disabled={isDisabled}/>)
+                     disabled={ isDisabled }/>)
     }
   }
 }
