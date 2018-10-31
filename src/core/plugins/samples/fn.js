@@ -1,5 +1,5 @@
 import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
-import XML from "xml"
+import XML from "@kyleshockey/xml"
 import memoizee from "memoizee"
 
 const primitives = {
