@@ -28,13 +28,6 @@ if [ "${BASE_URL}" ]; then
 fi
 
 replace_in_index myApiKeyXXXX123456789 $API_KEY
-replace_or_delete_in_index your-client-id $OAUTH_CLIENT_ID
-replace_or_delete_in_index your-client-secret-if-required $OAUTH_CLIENT_SECRET
-replace_or_delete_in_index your-realms $OAUTH_REALM
-replace_or_delete_in_index your-app-name $OAUTH_APP_NAME
-if [ "$OAUTH_ADDITIONAL_PARAMS" != "**None**" ]; then
-    replace_in_index "additionalQueryStringParams: {}" "additionalQueryStringParams: {$OAUTH_ADDITIONAL_PARAMS}"
-fi
 
 if [[ -f $SWAGGER_JSON ]]; then
   cp -s $SWAGGER_JSON $NGINX_ROOT

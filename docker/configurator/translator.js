@@ -55,6 +55,10 @@ function objectToKeyValueString(env, { injectBaseConfig = false, schema = config
     
     if(!varSchema) return
 
+    if(varSchema.onFound) {
+      varSchema.onFound()
+    }
+
     const storageContents = valueStorage[varSchema.name]
 
     if(storageContents) {
