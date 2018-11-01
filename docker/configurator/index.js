@@ -24,6 +24,6 @@ fs.writeFileSync(targetPath, `${beforeStartMarkerContent}
         ${indent(translator(process.env, { injectBaseConfig: true }), 8, 2)}
       })
       
-      ${indent(oauthBlockBuilder(process.env), 6)}
+      ${indent(oauthBlockBuilder(process.env), 6, 2)}
       ${END_MARKER}
 ${afterEndMarkerContent}`)
