@@ -49,6 +49,7 @@
     "@braintree/sanitize-url": "^2.0.2",
     "@kyleshockey/js-yaml": "^1.0.1",
     "@kyleshockey/object-assign-deep": "^0.4.2",
+    "@kyleshockey/xml": "^1.0.2",
     "base64-js": "^1.2.0",
     "classnames": "^2.2.5",
     "core-js": "^2.5.1",
@@ -77,8 +78,6 @@
     "serialize-error": "^2.1.0",
     "swagger-client": "^3.8.21",
     "url-parse": "^1.1.8",
-    "webpack-dev-server": "^2.11.1",
-    "xml": "1.0.1",
     "xml-but-prettier": "^1.0.1",
     "zenscroll": "^4.0.2"
   },
@@ -142,6 +141,7 @@
     "webpack": "^3.1.0",
     "webpack-bundle-size-analyzer": "^2.5.0",
     "webpack-cli": "^2.0.4",
+    "webpack-dev-server": "^2.11.1",
     "worker-loader": "^1.1.1"
   },
   "config": {
