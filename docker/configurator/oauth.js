@@ -30,9 +30,14 @@ const  oauthBlockSchema = {
 }
 
 module.exports = function oauthBlockBuilder(env) {
+  const translatorResult = translator(env, { schema: oauthBlockSchema })
 
-  return (
-`ui.initOAuth({
-${indent( translator(env, { schema: oauthBlockSchema}), 2)}
+  if(translatorResult) {
+    return (
+      `ui.initOAuth({
+${indent(translatorResult, 2)}
 })`)
+  }
+
+  return ``
 }
