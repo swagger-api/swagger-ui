@@ -2,7 +2,8 @@ const fs = require("fs")
 const path = require("path")
 
 const translator = require("./translator")
-const configSchema = require("./variables")
+const oauthBlockBuilder = require("./oauth")
+const indent = require("./helpers").indent
 
 const START_MARKER = "// Begin Swagger UI call region"
 const END_MARKER = "// End Swagger UI call region"
@@ -22,19 +23,7 @@ fs.writeFileSync(targetPath, `${beforeStartMarkerContent}
       const ui = SwaggerUIBundle({
         ${indent(translator(process.env, { injectBaseConfig: true }), 8, 2)}
       })
+      
+      ${indent(oauthBlockBuilder(process.env), 6)}
       ${END_MARKER}
 ${afterEndMarkerContent}`)
-
-function indent(str, len, fromLine) {
-
-  return str
-    .split("\n")
-    .map((line, i) => {
-      if(i + 1 >= fromLine) {
-        return `${Array(len + 1).join(" ")}${line}`
-      } else {
-        return line
-      }
-    })
-    .join("\n")
-}
