@@ -47,7 +47,7 @@ Parameter name | Docker variable | Description
 Parameter name | Docker variable | Description
 --- | --- | -----
 <a name="deepLinking"></a>`deepLinking` | `DEEP_LINKING` | `Boolean=false`. If set to `true`, enables deep linking for tags and operations. See the [Deep Linking documentation](/docs/usage/deep-linking.md) for more information.
-<a name="displayOperationId"></a>`displayOperationId` | `` | `Boolean=false`. Controls the display of operationId in operations list. The default is `false`.
+<a name="displayOperationId"></a>`displayOperationId` | `DISPLAY_OPERATION_ID` | `Boolean=false`. Controls the display of operationId in operations list. The default is `false`.
 <a name="defaultModelsExpandDepth"></a>`defaultModelsExpandDepth` | `DEFAULT_MODELS_EXPAND_DEPTH` | `Number=1`. The default expansion depth for models (set to -1 completely hide the models).
 <a name="defaultModelExpandDepth"></a>`defaultModelExpandDepth` | `DEFAULT_MODEL_EXPAND_DEPTH` | `Number=1`. The default expansion depth for the model on the model-example section.
 <a name="defaultModelRendering"></a>`defaultModelRendering` | `DEFAULT_MODEL_RENDERING` | `String=["example"*, "model"]`. Controls how the model is shown when the API is first rendered. (The user can always switch the rendering for a given model by clicking the 'Model' and 'Example Value' links.)
