@@ -14,7 +14,8 @@ describe("docker: env translator - oauth block", function() {
       OAUTH_CLIENT_SECRET: `mySecret`,
       OAUTH_REALM: `myRealm`,
       OAUTH_APP_NAME: `myAppName`,
-      OAUTH_ADDITIONAL_PARAMS: `{ "a": 1234, "b": "stuff" }`
+      OAUTH_SCOPE_SEPARATOR: "%21",
+      OAUTH_ADDITIONAL_PARAMS: `{ "a": 1234, "b": "stuff" }`,
     }
 
     expect(oauthBlockBuilder(input)).toEqual(dedent(`
@@ -23,6 +24,7 @@ describe("docker: env translator - oauth block", function() {
       clientSecret: "mySecret",
       realm: "myRealm",
       appName: "myAppName",
+      scopeSeparator: "%21",
       additionalQueryStringParams: { "a": 1234, "b": "stuff" },
     })`))
   })

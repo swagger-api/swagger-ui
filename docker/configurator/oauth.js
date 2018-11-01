@@ -20,6 +20,10 @@ const  oauthBlockSchema = {
     type: "string",
     name: "appName"
   },
+  OAUTH_SCOPE_SEPARATOR: {
+    type: "string",
+    name: "scopeSeparator"
+  },
   OAUTH_ADDITIONAL_PARAMS: {
     type: "object",
     name: "additionalQueryStringParams"
