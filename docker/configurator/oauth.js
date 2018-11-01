@@ -1,5 +1,4 @@
 const translator = require("./translator")
-const dedent = require("dedent")
 const indent = require("./helpers").indent
 
 const  oauthBlockSchema = {
