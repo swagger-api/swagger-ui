@@ -9,11 +9,6 @@ RUN apk add nodejs
 LABEL maintainer="fehguy"
 
 ENV API_KEY "**None**"
-ENV OAUTH_CLIENT_ID "**None**"
-ENV OAUTH_CLIENT_SECRET "**None**"
-ENV OAUTH_REALM "**None**"
-ENV OAUTH_APP_NAME "**None**"
-ENV OAUTH_ADDITIONAL_PARAMS "**None**"
 ENV SWAGGER_JSON "/app/swagger.json"
 ENV PORT 8080
 ENV BASE_URL ""
