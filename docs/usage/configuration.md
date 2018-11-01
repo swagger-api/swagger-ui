@@ -81,9 +81,11 @@ Parameter name | Docker variable | Description
 
 ### Instance methods
 
-Parameter name | Docker variable | Description
+**💡 Take note! These are methods, not parameters**. 
+
+Method name | Docker variable | Description
 --- | --- | -----
-<a name="initOAuth"></a>`initOAuth` | _Unavailable_ | `(configObj) => void`. Provide Swagger-UI with information about your OAuth server - see the OAuth2 documentation for more information.
+<a name="initOAuth"></a>`initOAuth` | [_See `oauth2.md`_](./oauth2.md) | `(configObj) => void`. Provide Swagger-UI with information about your OAuth server - see the OAuth2 documentation for more information.
 <a name="preauthorizeBasic"></a>`preauthorizeBasic` | _Unavailable_ | `(authDefinitionKey, username, password) => action`. Programmatically set values for a Basic authorization scheme.
 <a name="preauthorizeApiKey"></a>`preauthorizeApiKey` | _Unavailable_ | `(authDefinitionKey, apiKeyValue) => action`. Programmatically set values for an API key authorization scheme.
 
