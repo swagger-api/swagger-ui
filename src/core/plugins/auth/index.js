@@ -2,6 +2,8 @@ import reducers from "./reducers"
 import * as actions from "./actions"
 import * as selectors from "./selectors"
 import * as specWrapActionReplacements from "./spec-wrap-actions"
+import * as authWrapActions from "./auth-wrap-actions"
+
 
 export default function() {
   return {
@@ -15,7 +17,8 @@ export default function() {
       auth: {
         reducers,
         actions,
-        selectors
+        selectors,
+        wrapActions: authWrapActions
       },
       spec: {
         wrapActions: specWrapActionReplacements

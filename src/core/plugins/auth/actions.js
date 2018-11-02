@@ -9,6 +9,7 @@ export const PRE_AUTHORIZE_OAUTH2 = "pre_authorize_oauth2"
 export const AUTHORIZE_OAUTH2 = "authorize_oauth2"
 export const VALIDATE = "validate"
 export const CONFIGURE_AUTH = "configure_auth"
+export const TOGGLE_AUTH_BUTTON = "toggle_auth_button"
 
 const scopeSeparator = " "
 
@@ -231,6 +232,13 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
 export function configureAuth(payload) {
   return {
     type: CONFIGURE_AUTH,
+    payload: payload
+  }
+}
+
+export function toggleAuthButton(payload) {
+  return {
+    type: TOGGLE_AUTH_BUTTON,
     payload: payload
   }
 }

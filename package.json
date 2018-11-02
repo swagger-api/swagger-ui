@@ -55,6 +55,7 @@
     "js-file-download": "^0.4.1",
     "lodash": "^4.17.10",
     "memoizee": "^0.4.12",
+    "platform": "^1.3.5",
     "prop-types": "^15.5.10",
     "react": "^15.6.2",
     "react-addons-perf": "^15.4.0",
