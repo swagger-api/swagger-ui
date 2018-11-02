@@ -6,7 +6,8 @@ import {
   AUTHORIZE,
   AUTHORIZE_OAUTH2,
   LOGOUT,
-  CONFIGURE_AUTH
+  CONFIGURE_AUTH,
+  TOGGLE_AUTH_BUTTON
 } from "./actions"
 
 export default {
@@ -62,5 +63,9 @@ export default {
 
   [CONFIGURE_AUTH]: (state, { payload } ) =>{
     return state.set("configs", payload)
+  },
+
+  [TOGGLE_AUTH_BUTTON]: (state) =>{
+    return state.set("toggleAuthButton", true)
   }
 }
