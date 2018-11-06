@@ -83,6 +83,28 @@ This will serve Swagger UI at `/swagger` instead of `/`.
 
 For more information on controlling Swagger UI through the Docker image, see the Docker section of the [Configuration documentation](docs/usage/configuration.md#docker).
 
+#### Proxying a Backend
+
+The docker container allows you to configure `nginx` to proxy requests to a
+backend. This can be used to solve CORS issues.
+
+You can provide an nginx `location` by adding it in a file. For instance,
+suppose your `v1` backend is in `http://10.0.0.3:8080`, your file will
+look like this:
+
+```
+    location /v1/ {
+        proxy_pass http://10.0.0.3:8080/;
+    }
+```
+
+It can be loaded with the following command. Note that the file is
+locally saved as `/proxy.conf`.
+
+```
+docker run -p 80:8080 -v /proxy.conf:/var/proxy.conf -e ADDITIONAL_NGINX_LOCATIONS_FILE=/var/proxy.conf swaggerapi/swagger-ui
+```
+
 ### unpkg
 
 You can embed Swagger-UI's code directly in your HTML by using unpkg's interface:

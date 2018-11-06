@@ -41,4 +41,9 @@ if [[ -n "${PORT}" ]]; then
     sed -i "s|8080|${PORT}|g" /etc/nginx/nginx.conf
 fi
 
+if [ -n "${ADDITIONAL_NGINX_LOCATIONS_FILE}" ]; then
+    awk "/# Additional nginx locations/ { system(\"cat ${ADDITIONAL_NGINX_LOCATIONS_FILE}\"); } { print }" /etc/nginx/nginx.conf > /etc/nginx/nginx.conf.new
+    mv /etc/nginx/nginx.conf.new /etc/nginx/nginx.conf
+fi
+
 exec nginx -g 'daemon off;'
