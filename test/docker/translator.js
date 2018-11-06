@@ -32,6 +32,65 @@ describe("docker: env translator", function() {
       expect(onFoundSpy.calls.length).toEqual(1)
 
     })
+
+    it("should use a regular value over a legacy one, regardless of order", function () {
+      const schema = {
+        MY_THING: {
+          type: "string",
+          name: "myThing"
+        },
+        MY_OTHER_THING: {
+          type: "string",
+          name: "myThing",
+          legacy: true
+        }
+      }
+
+      // Regular value provided first
+      expect(translator({
+        MY_THING: "hey",
+        MY_OTHER_THING: "hello"
+      }, {
+        schema
+      })).toEqual(`myThing: "hey",`)
+
+      // Legacy value provided first
+      expect(translator({
+        MY_OTHER_THING: "hello",
+        MY_THING: "hey"
+      }, {
+        schema
+      })).toEqual(`myThing: "hey",`)
+    })
+
+    it("should use a legacy value over a base one, regardless of order", function () {
+      const schema = {
+        MY_THING: {
+          type: "string",
+          name: "myThing",
+          legacy: true
+        }
+      }
+
+      const baseConfig = {
+        myThing: {
+          value: "base",
+          schema: {
+            type: "string",
+            base: true
+          }
+        }
+      }
+
+      // Regular value provided first
+      expect(translator({
+        MY_THING: "legacy"
+      }, {
+        injectBaseConfig: true,
+        schema,
+        baseConfig
+      })).toEqual(`myThing: "legacy",`)
+    })
   })
   describe("Swagger UI configuration", function() {
     it("should generate a base config including the base content", function () {
@@ -135,6 +194,30 @@ describe("docker: env translator", function() {
       expect(translator(input)).toEqual(dedent(`
       url: "/swagger.json",
       urls: ["/one", "/two"],`
+      ).trim())
+    })
+
+
+    it("should pick up legacy variables when using base config", function () {
+      const input = {
+        API_URL: "/swagger.json",
+        API_URLS: `["/one", "/two"]`,
+      }
+
+      expect(translator(input, { injectBaseConfig: true })).toEqual(dedent(`
+      "dom_id": "#swagger-ui",
+      deepLinking: true,
+      presets: [
+        SwaggerUIBundle.presets.apis,
+        SwaggerUIStandalonePreset
+      ],
+      plugins: [
+        SwaggerUIBundle.plugins.DownloadUrl
+      ],
+      layout: "StandaloneLayout",
+      url: "/swagger.json",
+      urls: ["/one", "/two"],`
+
       ).trim())
     })
 

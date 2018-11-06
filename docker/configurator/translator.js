@@ -1,46 +1,52 @@
 // Converts an object of environment variables into a Swagger UI config object
 const configSchema = require("./variables")
 
-const baseConfig = {
+const defaultBaseConfig = {
   url: {
     value: "https://petstore.swagger.io/v2/swagger.json",
     schema: {
-      type: "string"
+      type: "string",
+      base: true
     }
   },
   dom_id: {
     value: "#swagger-ui",
     schema: {
-      type: "string"
+      type: "string",
+      base: true
     }
   },
   deepLinking: {
     value: "true",
     schema: {
-      type: "boolean"
+      type: "boolean",
+      base: true
     }
   },
   presets: {
     value: `[\n  SwaggerUIBundle.presets.apis,\n  SwaggerUIStandalonePreset\n]`,
     schema: {
-      type: "array"
+      type: "array",
+      base: true
     }
   },
   plugins: {
     value: `[\n  SwaggerUIBundle.plugins.DownloadUrl\n]`,
     schema: {
-      type: "array"
+      type: "array",
+      base: true
     }
   },
   layout: {
     value: "StandaloneLayout",
     schema: {
-      type: "string"
+      type: "string",
+      base: true
     }
   }
 }
 
-function objectToKeyValueString(env, { injectBaseConfig = false, schema = configSchema } = {}) {
+function objectToKeyValueString(env, { injectBaseConfig = false, schema = configSchema, baseConfig = defaultBaseConfig } = {}) {
   let valueStorage = injectBaseConfig ? Object.assign({}, baseConfig) : {}
   const keys = Object.keys(env)
 
@@ -62,8 +68,9 @@ function objectToKeyValueString(env, { injectBaseConfig = false, schema = config
     const storageContents = valueStorage[varSchema.name]
 
     if(storageContents) {
-      if(varSchema.legacy === true) {
+      if (varSchema.legacy === true && !storageContents.schema.base) {
         // If we're looking at a legacy var, it should lose out to any already-set value
+        // except for base values
         return
       }
       delete valueStorage[varSchema.name]
