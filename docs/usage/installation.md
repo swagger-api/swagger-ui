@@ -81,7 +81,7 @@ docker run -p 80:8080 -e BASE_URL=/swagger -e SWAGGER_JSON=/foo/swagger.json -v 
 
 This will serve Swagger UI at `/swagger` instead of `/`.
 
-For more information on controlling Swagger UI through the Docker image, see the Docker section of the [Configuration documentation](docs/usage/configuration.md#docker).
+For more information on controlling Swagger UI through the Docker image, see the Docker section of the [Configuration documentation](configuration.md#docker).
 
 ### unpkg
 
