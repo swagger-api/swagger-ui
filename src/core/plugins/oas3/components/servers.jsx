@@ -110,7 +110,7 @@ export default class Servers extends React.Component {
               <option
                 value={ server.get("url") }
                 key={ server.get("url") }>
-                { server.get("url") }
+                { server.get("url") } { server.get("description") ? "("+server.get("description")+")" : "" }
               </option>
             ).toArray()}
           </select>
