@@ -69,10 +69,6 @@ export default class Topbar extends React.Component {
     }
   }
 
-  componentWillMount() {
-
-  }
-
   componentDidMount() {
     const configs = this.props.getConfigs()
     const urls = configs.urls || []
@@ -89,12 +85,6 @@ export default class Topbar extends React.Component {
             }
         })
       }
-    }
-
-
-
-    if(urls && urls.length) {
-
     }
   }
 
