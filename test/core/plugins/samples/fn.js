@@ -238,6 +238,28 @@ describe("sampleFromSchema", function() {
     expect(sampleFromSchema(definition, { includeWriteOnly: true })).toEqual(expected)
   })
 
+  it("returns example value for date-time property", function() {
+    var definition = {
+      type: "string",
+      format: "date-time"
+    }
+
+    var expected = new Date().toISOString()
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("returns example value for date property", function() {
+    var definition = {
+      type: "string",
+      format: "date"
+    }
+
+    var expected = new Date().toISOString().substring(0, 10)
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
   describe("for array type", function() {
     it("returns array with sample of array type", function() {
       var definition = {
