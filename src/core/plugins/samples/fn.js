@@ -6,6 +6,7 @@ const primitives = {
   "string": () => "string",
   "string_email": () => "user@example.com",
   "string_date-time": () => new Date().toISOString(),
+  "string_date": () => new Date().toISOString().substring(0, 10),
   "number": () => 0,
   "number_float": () => 0.0,
   "integer": () => 0,
