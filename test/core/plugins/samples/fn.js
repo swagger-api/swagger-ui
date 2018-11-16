@@ -244,9 +244,12 @@ describe("sampleFromSchema", function() {
       format: "date-time"
     }
 
-    var expected = new Date().toISOString()
+    // 0-20 chops off milliseconds
+    // necessary because test latency can cause failures
+    // it would be better to mock Date globally and expect a string - KS 11/18
+    var expected = new Date().toISOString().substring(0, 20)
 
-    expect(sampleFromSchema(definition)).toEqual(expected)
+    expect(sampleFromSchema(definition)).toInclude(expected)
   })
 
   it("returns example value for date property", function() {
