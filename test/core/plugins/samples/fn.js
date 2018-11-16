@@ -260,6 +260,50 @@ describe("sampleFromSchema", function() {
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
+  it("returns a UUID for a string with format=uuid", function() {
+    var definition = {
+      type: "string",
+      format: "uuid"
+    }
+
+    var expected = "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("returns a hostname for a string with format=hostname", function() {
+    var definition = {
+      type: "string",
+      format: "hostname"
+    }
+
+    var expected = "example.com"
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("returns an IPv4 address for a string with format=ipv4", function() {
+    var definition = {
+      type: "string",
+      format: "ipv4"
+    }
+
+    var expected = "198.51.100.42"
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
+  it("returns an IPv6 address for a string with format=ipv6", function() {
+    var definition = {
+      type: "string",
+      format: "ipv6"
+    }
+
+    var expected = "2001:0db8:5b96:0000:0000:426f:8e17:642a"
+
+    expect(sampleFromSchema(definition)).toEqual(expected)
+  })
+
   describe("for array type", function() {
     it("returns array with sample of array type", function() {
       var definition = {
