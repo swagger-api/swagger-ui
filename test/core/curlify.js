@@ -214,4 +214,5 @@ describe("curlify", function() {
 
         expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"accept: application/json\" -d \"{\\\"id\\\":\\\"foo'bar\\\"}\"")
     })
+
 })
