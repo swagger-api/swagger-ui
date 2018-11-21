@@ -1,174 +1,213 @@
 describe("Deep linking feature", () => {
   describe("in Swagger 2", () => {
-    const baseUrl = "/?deepLinking=true&url=/documents/features/deep-linking.swagger.yaml"
-    beforeEach(() => {
-      cy.visit(baseUrl)
-    })
+    const swagger2BaseUrl = "/?deepLinking=true&url=/documents/features/deep-linking.swagger.yaml"
+
     describe("regular Operation", () => {
-      const elementToGet = ".opblock-get"
-      const correctElementId = "operations-myTag-myOperation"
-      const correctFragment = "#/myTag/myOperation"
-
-      it("should generate a correct element ID", () => {
-        cy.get(elementToGet)
-          .should("have.id", correctElementId)
-      })
-
-      it("should add the correct element fragment to the URL when expanded", () => {
-        cy.get(elementToGet)
-          .click()
-          .window()
-          .should("have.deep.property", "location.hash", correctFragment)
-      })
-
-      it("should provide an anchor link that has the correct fragment as href", () => {
-        cy.get(elementToGet)
-          .find("a")
-          .should("have.attr", "href", correctFragment)
-          .click()
-          .window()
-          .should("have.deep.property", "location.hash", correctFragment)
-      })
-
-      it("should expand the operation when reloaded", () => {
-        cy.visit(`${baseUrl}${correctFragment}`)
-          .reload()
-          .get(`${elementToGet}.is-open`)
-          .should("exist")
+      BaseDeeplinkTestFactory({
+        baseUrl: swagger2BaseUrl,
+        elementToGet: ".opblock-get",
+        correctElementId: "operations-myTag-myOperation",
+        correctFragment: "#/myTag/myOperation",
+        correctHref: "#/myTag/myOperation"
       })
     })
 
     describe("Operation with whitespace in tag+id", () => {
       const elementToGet = ".opblock-post"
-      const correctElementId = "operations-my_Tag-my_Operation"
-      const correctFragment = "#/my_Tag/my_Operation"
-
-      it("should generate a correct element ID", () => {
-        cy.get(elementToGet)
-          .should("have.id", correctElementId)
+      const correctFragment = "#/my%20Tag/my%20Operation"
+      
+      BaseDeeplinkTestFactory({
+        baseUrl: swagger2BaseUrl,
+        elementToGet,
+        correctElementId: "operations-my_Tag-my_Operation",
+        correctFragment,
+        correctHref: "#/my%20Tag/my%20Operation"
       })
 
-      it("should add the correct element fragment to the URL when expanded", () => {
-        cy.get(elementToGet)
-          .click()
-          .window()
-          .should("have.deep.property", "location.hash", correctFragment)
-      })
+      const legacyFragment = "#/my_Tag/my_Operation"
 
-      it("should provide an anchor link that has the correct fragment as href", () => {
-        cy.get(elementToGet)
-          .find("a")
-          .should("have.attr", "href", correctFragment)
-          .click()
-          .should("have.attr", "href", correctFragment) // should be valid after expanding
-
-      })
-
-      it("should expand the operation when reloaded", () => {
-        cy.visit(`${baseUrl}${correctFragment}`)
+      it("should expand the operation when reloaded and provided the legacy fragment", () => {
+        cy.visit(`${swagger2BaseUrl}${legacyFragment}`)
           .reload()
           .get(`${elementToGet}.is-open`)
           .should("exist")
+      })
+
+      it.skip("should rewrite to the correct fragment when provided the legacy fragment", () => {
+        cy.visit(`${swagger2BaseUrl}${legacyFragment}`)
+          .reload()
+          .window()
+          .should("have.deep.property", "location.hash", correctFragment)
+      })
+    })
+
+    describe("Operation with underscores in tag+id", () => {
+      BaseDeeplinkTestFactory({
+        baseUrl: swagger2BaseUrl,
+        elementToGet: ".opblock-patch",
+        correctElementId: "operations-underscore_Tag-underscore_Operation",
+        correctFragment: "#/underscore_Tag/underscore_Operation",
+        correctHref: "#/underscore_Tag/underscore_Operation"
+      })
+    })
+
+    describe("Operation with UTF-16 characters", () => {
+      BaseDeeplinkTestFactory({
+        baseUrl: swagger2BaseUrl,
+        elementToGet: ".opblock-head",
+        correctElementId: "operations-шеллы-пошел",
+        correctFragment: "#/%D1%88%D0%B5%D0%BB%D0%BB%D1%8B/%D0%BF%D0%BE%D1%88%D0%B5%D0%BB",
+        correctHref: "#/шеллы/пошел"
+      })
+    })
+
+    describe("Operation with no operationId", () => {
+      BaseDeeplinkTestFactory({
+        baseUrl: swagger2BaseUrl,
+        elementToGet: ".opblock-put",
+        correctElementId: "operations-tagTwo-put_noOperationId",
+        correctFragment: "#/tagTwo/put_noOperationId",
+        correctHref: "#/tagTwo/put_noOperationId"
       })
     })
 
     describe("regular Operation with `docExpansion: none` enabled", function() {
       it("should expand a tag", () => {
-        cy.visit(`${baseUrl}&docExpansion=none#/myTag`)
+        cy.visit(`${swagger2BaseUrl}&docExpansion=none#/myTag`)
           .get(`.opblock-tag-section.is-open`)
           .should("have.length", 1)
       })
       it("should expand an operation", () => {
-        cy.visit(`${baseUrl}&docExpansion=none#/myTag/myOperation`)
+        cy.visit(`${swagger2BaseUrl}&docExpansion=none#/myTag/myOperation`)
           .get(`.opblock.is-open`)
           .should("have.length", 1)
       })
     })
   })
   describe("in OpenAPI 3", () => {
-    const baseUrl = "/?deepLinking=true&url=/documents/features/deep-linking.openapi.yaml"
-    beforeEach(() => {
-      cy.visit(baseUrl)
-    })
+    const openAPI3BaseUrl = "/?deepLinking=true&url=/documents/features/deep-linking.openapi.yaml"
+
     describe("regular Operation", () => {
-      const elementToGet = ".opblock-get"
-      const correctElementId = "operations-myTag-myOperation"
-      const correctFragment = "#/myTag/myOperation"
-
-      it("should generate a correct element ID", () => {
-        cy.get(elementToGet)
-          .should("have.id", correctElementId)
-      })
-
-      it("should add the correct element fragment to the URL when expanded", () => {
-        cy.get(elementToGet)
-          .click()
-          .window()
-          .should("have.deep.property", "location.hash", correctFragment)
-      })
-
-      it("should provide an anchor link that has the correct fragment as href", () => {
-        cy.get(elementToGet)
-          .find("a")
-          .should("have.attr", "href", correctFragment)
-          .click()
-          .window()
-          .should("have.deep.property", "location.hash", correctFragment)
-      })
-
-      it("should expand the operation when reloaded", () => {
-        cy.visit(`${baseUrl}${correctFragment}`)
-          .reload()
-          .get(`${elementToGet}.is-open`)
-          .should("exist")
+      BaseDeeplinkTestFactory({
+        baseUrl: openAPI3BaseUrl,
+        elementToGet: ".opblock-get",
+        correctElementId: "operations-myTag-myOperation",
+        correctFragment: "#/myTag/myOperation",
+        correctHref: "#/myTag/myOperation"
       })
     })
 
     describe("Operation with whitespace in tag+id", () => {
       const elementToGet = ".opblock-post"
-      const correctElementId = "operations-my_Tag-my_Operation"
-      const correctFragment = "#/my_Tag/my_Operation"
-
-      it("should generate a correct element ID", () => {
-        cy.get(elementToGet)
-          .should("have.id", correctElementId)
+      const correctFragment = "#/my%20Tag/my%20Operation"
+      
+      BaseDeeplinkTestFactory({
+        baseUrl: openAPI3BaseUrl,
+        elementToGet: ".opblock-post",
+        correctElementId: "operations-my_Tag-my_Operation",
+        correctFragment,
+        correctHref: "#/my%20Tag/my%20Operation"
       })
+      
+      const legacyFragment = "#/my_Tag/my_Operation"
 
-      it("should add the correct element fragment to the URL when expanded", () => {
-        cy.get(elementToGet)
-          .click()
-          .window()
-          .should("have.deep.property", "location.hash", correctFragment)
-      })
-
-      it("should provide an anchor link that has the correct fragment as href", () => {
-        cy.get(elementToGet)
-          .find("a")
-          .should("have.attr", "href", correctFragment)
-          .click()
-          .should("have.attr", "href", correctFragment) // should be valid after expanding
-
-      })
-
-      it("should expand the operation when reloaded", () => {
-        cy.visit(`${baseUrl}${correctFragment}`)
+      it("should expand the operation when reloaded and provided the legacy fragment", () => {
+        cy.visit(`${openAPI3BaseUrl}${legacyFragment}`)
           .reload()
           .get(`${elementToGet}.is-open`)
           .should("exist")
+      })
+
+
+      it.skip("should rewrite to the correct fragment when provided the legacy fragment", () => {
+        cy.visit(`${openAPI3BaseUrl}${legacyFragment}`)
+          .reload()
+          .window()
+          .should("have.deep.property", "location.hash", correctFragment)
+      })
+    })
+
+    describe("Operation with underscores in tag+id", () => {
+      BaseDeeplinkTestFactory({
+        baseUrl: openAPI3BaseUrl,
+        elementToGet: ".opblock-patch",
+        correctElementId: "operations-underscore_Tag-underscore_Operation",
+        correctFragment: "#/underscore_Tag/underscore_Operation",
+        correctHref: "#/underscore_Tag/underscore_Operation"
+      })
+    })
+
+    describe("Operation with UTF-16 characters", () => {
+      BaseDeeplinkTestFactory({
+        baseUrl: openAPI3BaseUrl,
+        elementToGet: ".opblock-head",
+        correctElementId: "operations-шеллы-пошел",
+        correctFragment: "#/%D1%88%D0%B5%D0%BB%D0%BB%D1%8B/%D0%BF%D0%BE%D1%88%D0%B5%D0%BB",
+        correctHref: "#/шеллы/пошел"
+      })
+    })
+
+    describe("Operation with no operationId", () => {
+      BaseDeeplinkTestFactory({
+        baseUrl: openAPI3BaseUrl,
+        elementToGet: ".opblock-put",
+        correctElementId: "operations-tagTwo-put_noOperationId",
+        correctFragment: "#/tagTwo/put_noOperationId",
+        correctHref: "#/tagTwo/put_noOperationId"
       })
     })
 
     describe("regular Operation with `docExpansion: none` enabled", function () {
       it("should expand a tag", () => {
-        cy.visit(`${baseUrl}&docExpansion=none#/myTag`)
+        cy.visit(`${openAPI3BaseUrl}&docExpansion=none#/myTag`)
           .get(`.opblock-tag-section.is-open`)
           .should("have.length", 1)
       })
       it("should expand an operation", () => {
-        cy.visit(`${baseUrl}&docExpansion=none#/myTag/myOperation`)
+        cy.visit(`${openAPI3BaseUrl}&docExpansion=none#/myTag/myOperation`)
           .get(`.opblock.is-open`)
           .should("have.length", 1)
       })
     })
   })
 })
+
+function BaseDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, correctFragment, correctHref }) {
+  it("should generate a correct element ID", () => {
+    cy.visit(baseUrl)
+      .get(elementToGet)
+      .should("have.id", correctElementId)
+  })
+
+  it("should add the correct element fragment to the URL when expanded", () => {
+    cy.visit(baseUrl)
+      .get(elementToGet)
+      .click()
+      .window()
+      .should("have.deep.property", "location.hash", correctFragment)
+  })
+
+  it("should provide an anchor link that has the correct fragment as href", () => {
+    cy.visit(baseUrl)
+      .get(elementToGet)
+      .find("a")
+      .should("have.attr", "href", correctHref)
+      .click()
+      .window()
+      .should("have.deep.property", "location.hash", correctFragment)
+  })
+
+  it("should expand the operation when reloaded", () => {
+    cy.visit(`${baseUrl}${correctFragment}`)
+      .get(`${elementToGet}.is-open`)
+      .should("exist")
+  })
+
+  it("should retain the correct fragment when reloaded", () => {
+    cy.visit(`${baseUrl}${correctFragment}`)
+      .reload()
+      .should("exist")
+      .window()
+      .should("have.deep.property", "location.hash", correctFragment)
+  })
+}

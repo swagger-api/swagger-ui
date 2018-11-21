@@ -343,13 +343,27 @@ export function mapToList(map, keyNames="key", collectedKeys=Im.Map()) {
 }
 
 export function extractFileNameFromContentDispositionHeader(value){
-  let responseFilename = /filename="([^;]*);?"/i.exec(value)
-  if (responseFilename === null) {
-    responseFilename = /filename=([^;]*);?/i.exec(value)
-  }
+  let patterns = [
+    /filename\*=[^']+'\w*'"([^"]+)";?/i,
+    /filename\*=[^']+'\w*'([^;]+);?/i,
+    /filename="([^;]*);?"/i,
+    /filename=([^;]*);?/i
+  ]
+  
+  let responseFilename
+  patterns.some(regex => {
+    responseFilename = regex.exec(value)
+    return responseFilename !== null
+  })
+    
   if (responseFilename !== null && responseFilename.length > 1) {
-    return responseFilename[1]
+    try {
+      return decodeURIComponent(responseFilename[1])
+    } catch(e) {
+      console.error(e)
+    }
   }
+
   return null
 }
 
@@ -733,8 +747,10 @@ export function getAcceptControllingResponse(responses) {
   return suitable2xxResponse || suitableDefaultResponse
 }
 
-export const createDeepLinkPath = (str) => typeof str == "string" || str instanceof String ? str.trim().replace(/\s/g, "_") : ""
-export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str) )
+// suitable for use in URL fragments
+export const createDeepLinkPath = (str) => typeof str == "string" || str instanceof String ? str.trim().replace(/\s/g, "%20") : ""
+// suitable for use in CSS classes and ids
+export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str).replace(/%20/g, "_") )
 
 export const getExtensions = (defObj) => defObj.filter((v, k) => /^x-/.test(k))
 export const getCommonExtensions = (defObj) => defObj.filter((v, k) => /^pattern|maxLength|minLength|maximum|minimum/.test(k))
