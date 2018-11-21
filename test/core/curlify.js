@@ -166,7 +166,7 @@ describe("curlify", function() {
     it("should print a curl without form data type if type is unknown", function() {
       var file = new win.File()
       file.name = "file.txt"
-      file.type = ''
+      file.type = ""
 
       var req = {
         url: "http://example.com",
