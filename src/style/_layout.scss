@@ -11,18 +11,6 @@
 {
     display: flex;
     flex-direction: column;
-
-    &.is-open
-    {
-        .opblock-tag
-        {
-            // svg
-            // {
-            //     -moz-transform: rotate(90deg);
-            //          transform: rotate(90deg);
-            // }
-        }
-    }
 }
 
 .opblock-tag
