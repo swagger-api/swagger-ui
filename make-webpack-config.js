@@ -148,11 +148,13 @@ module.exports = function(rules, options) {
       }
     },
 
-  devtool: specialOptions.sourcemaps ? "nosource-source-map" : false,
+    devtool: specialOptions.sourcemaps ? "nosource-source-map" : false,
 
     plugins,
 
   }, options)
+
+  completeConfig.plugins = plugins.concat(options.plugins || [])
 
   return completeConfig
 }

@@ -1,5 +1,6 @@
 const path = require("path")
 const styleRules = require("./webpack.dist-style.config.js")
+const LicenseWebpackPlugin = require('license-webpack-plugin').LicenseWebpackPlugin;
 
 let rules = [
   { test: /\.(worker\.js)(\?.*)?$/,
@@ -23,6 +24,10 @@ module.exports = require("./make-webpack-config.js")(rules, {
     mangle: true,
     sourcemaps: true,
   },
+
+  plugins: [
+    new LicenseWebpackPlugin()
+  ],
 
   entry: {
     "swagger-ui-bundle": [
