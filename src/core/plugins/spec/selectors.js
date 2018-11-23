@@ -425,7 +425,7 @@ export function currentProducesFor(state, pathMethod) {
 
 }
 
-// Get the currently selected produces value for an operation
+// Get the produces options for an operation
 export function producesOptionsFor(state, pathMethod) {
   pathMethod = pathMethod || []
 

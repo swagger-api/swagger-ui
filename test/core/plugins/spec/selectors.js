@@ -753,7 +753,7 @@ describe("spec plugin - selectors", function(){
     })
   })
   describe("producesOptionsFor", function() {
-    it("should return an operation consumes value", function () {
+    it("should return an operation produces value", function () {
       const state = fromJS({
         json: {
           paths: {
@@ -777,7 +777,7 @@ describe("spec plugin - selectors", function(){
         "operation/two",
       ])
     })
-    it("should return a path item consumes value", function () {
+    it("should return a path item produces value", function () {
       const state = fromJS({
         json: {
           paths: {
@@ -801,7 +801,7 @@ describe("spec plugin - selectors", function(){
         "path-item/two",
       ])
     })
-    it("should return a global consumes value", function () {
+    it("should return a global produces value", function () {
       const state = fromJS({
         json: {
           produces: [
