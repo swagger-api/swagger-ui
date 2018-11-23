@@ -9,18 +9,9 @@ paths:
       operationId: "findPetsByStatus"
       parameters:
       - name: "status"
-        in: "query"
-        description: "Status values that need to be considered for filter"
-        required: true
-        type: "array"
-        items:
-          type: "string"
-          enum:
-          - "available"
-          - "pending"
-          - "sold"
-          default: "available"
-        collectionFormat: "multi"
+        in: "body"
+        schema:
+          type: string
       responses:
         200:
           description: ok

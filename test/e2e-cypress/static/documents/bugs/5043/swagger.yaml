@@ -17,6 +17,8 @@ produces:
   - text/csv
 consumes:
   - application/json
+  - application/xml
+  - text/csv
 schemes:
 - "https"
 - "http"
