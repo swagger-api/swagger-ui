@@ -244,9 +244,12 @@ describe("sampleFromSchema", function() {
       format: "date-time"
     }
 
-    var expected = new Date().toISOString()
+    // 0-20 chops off milliseconds
+    // necessary because test latency can cause failures
+    // it would be better to mock Date globally and expect a string - KS 11/18
+    var expected = new Date().toISOString().substring(0, 20)
 
-    expect(sampleFromSchema(definition)).toEqual(expected)
+    expect(sampleFromSchema(definition)).toInclude(expected)
   })
 
   it("returns example value for date property", function() {
@@ -949,25 +952,62 @@ describe("createXMLExample", function () {
       expect(sut(definition)).toEqual(expected)
     })
 
-  it("returns array with example values  with wrapped=true", function () {
-    var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<animal>1</animal>\n\t<animal>2</animal>\n</animals>"
-    var definition = {
-      type: "array",
-      items: {
-        type: "string",
+    it("returns array with example values  with wrapped=true", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<animal>1</animal>\n\t<animal>2</animal>\n</animals>"
+      var definition = {
+        type: "array",
+        items: {
+          type: "string",
+          xml: {
+            name: "animal"
+          }
+        },
+        "example": [ "1", "2" ],
         xml: {
-          name: "animal"
+          wrapped: true,
+          name: "animals"
         }
-      },
-      "example": [ "1", "2" ],
-      xml: {
-        wrapped: true,
-        name: "animals"
       }
-    }
 
-    expect(sut(definition)).toEqual(expected)
-  })
+      expect(sut(definition)).toEqual(expected)
+    })
+
+    it("returns array of objects with example values  with wrapped=true", function () {
+      var expected = `<?xml version="1.0" encoding="UTF-8"?>\n<users>\n\t<user>\n\t\t<id>1</id>\n\t\t<name>Arthur Dent</name>\n\t</user>\n\t<user>\n\t\t<id>2</id>\n\t\t<name>Ford Prefect</name>\n\t</user>\n</users>`
+      var definition = {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "name": {
+              "type": "string"
+            }
+          },
+          "xml": {
+            "name": "user"
+          }
+        },
+        "xml": {
+          "name": "users",
+          "wrapped": true
+        },
+        "example": [
+          {
+            "id": 1,
+            "name": "Arthur Dent"
+          },
+          {
+            "id": 2,
+            "name": "Ford Prefect"
+          }
+        ]
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
 
 })
 
