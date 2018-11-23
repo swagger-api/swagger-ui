@@ -83,19 +83,19 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
     headers.Authorization = "Basic " + btoa(username + ":" + password)
   } else {
     Object.assign(form, {username}, {password})
+  }
 
-    switch ( passwordType ) {
-      case "query":
-        setClientIdAndSecret(query, clientId, clientSecret)
-        break
+  switch (passwordType) {
+    case "query":
+      setClientIdAndSecret(query, clientId, clientSecret)
+      break
 
-      case "request-body":
-        setClientIdAndSecret(form, clientId, clientSecret)
-        break
+    case "request-body":
+      setClientIdAndSecret(form, clientId, clientSecret)
+      break
 
-      default:
-        headers.Authorization = "Basic " + btoa(clientId + ":" + clientSecret)
-    }
+    default:
+      headers.Authorization = "Basic " + btoa(clientId + ":" + clientSecret)
   }
 
   return authActions.authorizeRequest({ body: buildFormData(form), url: schema.get("tokenUrl"), name, headers, query, auth})
