@@ -129,7 +129,7 @@ export default class ParameterRow extends Component {
       : <ParamBody getComponent={getComponent}
                    fn={fn}
                    param={param}
-                   consumes={ specSelectors.operationConsumes(pathMethod) }
+                   consumes={ specSelectors.consumesOptionsFor(pathMethod) }
                    consumesValue={ specSelectors.contentTypeValues(pathMethod).get("requestContentType") }
                    onChange={this.onChangeWrapper}
                    onChangeConsumes={onChangeConsumes}
