@@ -1,0 +1,17 @@
+---
+paths:
+  findByStatus:
+    get:
+      tags:
+      - "pet"
+      summary: "Finds Pets by status"
+      description: "Multiple status values can be provided with comma separated strings"
+      operationId: "findPetsByStatus"
+      parameters:
+      - name: "status"
+        in: "body"
+        schema:
+          type: string
+      responses:
+        200:
+          description: ok
