@@ -163,6 +163,26 @@ describe("curlify", function() {
         expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"content-type: multipart/form-data\" -F \"id=123\" -F \"file=@file.txt;type=text/plain\"")
     })
 
+    it("should print a curl without form data type if type is unknown", function() {
+      var file = new win.File()
+      file.name = "file.txt"
+      file.type = ""
+
+      var req = {
+        url: "http://example.com",
+        method: "POST",
+        headers: { "content-type": "multipart/form-data" },
+        body: {
+          id: "123",
+          file
+        }
+      }
+
+      let curlified = curl(Im.fromJS(req))
+
+      expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"content-type: multipart/form-data\" -F \"id=123\" -F \"file=@file.txt\"")
+    })
+
     it("prints a curl post statement from an object", function() {
         var req = {
             url: "http://example.com",
