@@ -58,7 +58,7 @@ describe("OAuth2 Password flow", function() {
       .its("request")
       .its("headers")
       .its("authorization")
-      .should("not.be.empty")
+      .should("equal", "Basic YXBwbGljYXRpb246c2VjcmV0")
 
       .get(".live-responses-table .response-col_status")
       .contains("200")
