@@ -25,10 +25,8 @@ securityDefinitions:
   oauthPassword:
     type: oauth2
     flow: password
-    tokenUrl: http://localhost:3231/oauth/token
-    scopes:
-      myScope: a scope
+    tokenUrl: /oauth/token
   oauthApplication:
     type: oauth2
     flow: application
-    tokenUrl: http://localhost:3231/oauth/token
+    tokenUrl: /oauth/token
