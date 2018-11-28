@@ -182,7 +182,7 @@ export default class Oauth2 extends React.Component {
         }
 
         {
-          ( flow === APPLICATION || flow === ACCESS_CODE || flow === PASSWORD && <Row>
+          ( (flow === APPLICATION || flow === ACCESS_CODE || flow === PASSWORD) && <Row>
             <label htmlFor="client_secret">client_secret:</label>
             {
               isAuthorized ? <code> ****** </code>
