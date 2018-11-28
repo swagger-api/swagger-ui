@@ -82,10 +82,6 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
   let headers = {}
 
   switch (passwordType) {
-    case "query":
-      setClientIdAndSecret(query, clientId, clientSecret)
-      break
-
     case "request-body":
       setClientIdAndSecret(form, clientId, clientSecret)
       break

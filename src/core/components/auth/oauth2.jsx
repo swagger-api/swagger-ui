@@ -157,7 +157,6 @@ export default class Oauth2 extends React.Component {
                       <select id="password_type" data-name="passwordType" onChange={ this.onInputChange }>
                         <option value="basic">Authorization header</option>
                         <option value="request-body">Request body</option>
-                        <option value="query">Query string (insecure!)</option>
                       </select>
                     </Col>
                 }
