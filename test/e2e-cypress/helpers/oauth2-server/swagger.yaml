@@ -30,3 +30,7 @@ securityDefinitions:
     type: oauth2
     flow: application
     tokenUrl: /oauth/token
+  oauthImplicit:
+    type: oauth2
+    flow: implicit
+    authorizationUrl: /oauth/token

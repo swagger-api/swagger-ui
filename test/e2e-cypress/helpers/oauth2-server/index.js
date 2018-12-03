@@ -17,7 +17,7 @@ app.use(bodyParser.json())
 
 app.oauth = oauthserver({
   model: require("./model.js"),
-  grants: ["password", "client_credentials"],
+  grants: ["password", "client_credentials", "implicit"],
   debug: true
 })
 
