@@ -23,9 +23,9 @@ app.oauth = oauthserver({
 
 app.all("/oauth/token", app.oauth.grant())
 
-app.get('/swagger.yaml', function (req, res) {
-  res.sendFile(path.join(__dirname, "swagger.yaml"));
-});
+app.get("/swagger.yaml", function (req, res) {
+  res.sendFile(path.join(__dirname, "swagger.yaml"))
+})
 
 app.get("*", app.oauth.authorise(), function (req, res) {
   res.send("Secret secrets are no fun, secret secrets hurt someone.")
