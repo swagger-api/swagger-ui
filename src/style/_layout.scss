@@ -186,7 +186,7 @@
         background: rgba($opblock-isopen-section-header-background-color,.8);
         box-shadow: 0 1px 2px rgba($opblock-isopen-section-header-box-shadow-color,.1);
 
-        label
+        >label
         {
             font-size: 12px;
             font-weight: bold;
@@ -199,7 +199,7 @@
 
             @include text_headline();
 
-            span
+            >span
             {
                 padding: 0 10px 0 0;
             }
