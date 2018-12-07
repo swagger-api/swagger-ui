@@ -1,5 +1,3 @@
-import repeat from "lodash/repeat"
-
 describe("SWOS-63: Schema/Model section labeling", () => {
   it("should render `Schemas` for OpenAPI 3", () => {
     cy
