@@ -37,6 +37,7 @@ module.exports = function SwaggerUI(opts) {
     maxDisplayedTags: null,
     filter: null,
     validatorUrl: "https://online.swagger.io/validator",
+    oauth2RedirectUrl: `${window.location.protocol}//${window.location.host}/oauth2-redirect.html`,
     configs: {},
     custom: {},
     displayOperationId: false,
