@@ -37,6 +37,7 @@ export default class Models extends Component {
 
     let showModels = layoutSelectors.isShown("models", defaultModelsExpandDepth > 0 && docExpansion !== "none")
     const specPathBase = this.getSchemaBasePath()
+    const isOAS3 = specSelectors.isOAS3()
 
     const ModelWrapper = getComponent("ModelWrapper")
     const Collapse = getComponent("Collapse")
@@ -45,7 +46,7 @@ export default class Models extends Component {
 
     return <section className={ showModels ? "models is-open" : "models"}>
       <h4 onClick={() => layoutActions.show("models", !showModels)}>
-        <span>Models</span>
+        <span>{isOAS3 ? "Schemas" : "Models" }</span>
         <svg width="20" height="20">
           <use xlinkHref={showModels ? "#large-arrow-down" : "#large-arrow"} />
         </svg>
