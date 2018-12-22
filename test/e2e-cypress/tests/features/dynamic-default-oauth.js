@@ -1,7 +1,5 @@
 describe("dynamic default oauth2RedirectUrl", () => {
-  it("should render the OAS3 badge correctly", () => {
-    // This is a sanity check to make sure the badge is present.
-    // If this is failing, it's probably not related to #4865.
+  it("should compute an oauth2RedirectUrl based on the browser's location at runtime", () => {
     cy.visit("/")
       .window()
       .then(win => win.ui.getConfigs())
