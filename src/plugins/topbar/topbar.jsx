@@ -74,7 +74,7 @@ export default class Topbar extends React.Component {
     const urls = configs.urls || []
 
     if(urls && urls.length) {
-      this.loadSpec(urls[this.state.selectedIndex].url)
+      var targetIndex = this.state.selectedIndex
       let primaryName = configs["urls.primaryName"]
       if(primaryName)
       {
@@ -82,9 +82,12 @@ export default class Topbar extends React.Component {
           if(spec.name === primaryName)
             {
               this.setState({selectedIndex: i})
+              targetIndex = i
             }
         })
       }
+
+      this.loadSpec(urls[targetIndex].url)
     }
   }
 
