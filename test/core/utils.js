@@ -109,6 +109,18 @@ describe("utils", function() {
       let expectedResult = "filename.jpg"
       expect(extractFileNameFromContentDispositionHeader(cdHeader)).toEqual(expectedResult)
     })
+    
+    it("should extract quoted filename in utf-8", function(){
+      let cdHeader = "attachment; filename*=UTF-8''\"%D1%84%D0%B0%D0%B9%D0%BB.txt\""
+      let expectedResult = "файл.txt"
+      expect(extractFileNameFromContentDispositionHeader(cdHeader)).toEqual(expectedResult)
+    })
+    
+    it("should extract filename in utf-8", function(){
+      let cdHeader = "attachment; filename*=utf-8'ru'%D1%84%D0%B0%D0%B9%D0%BB.txt"
+      let expectedResult = "файл.txt"
+      expect(extractFileNameFromContentDispositionHeader(cdHeader)).toEqual(expectedResult)
+    })
 
     it("should not extract filename and return null", function(){
       let cdHeader = "attachment; no file name provided"
@@ -991,12 +1003,12 @@ describe("utils", function() {
   describe("createDeepLinkPath", function() {
     it("creates a deep link path replacing spaces with underscores", function() {
       const result = createDeepLinkPath("tag id with spaces")
-      expect(result).toEqual("tag_id_with_spaces")
+      expect(result).toEqual("tag%20id%20with%20spaces")
     })
 
     it("trims input when creating a deep link path", function() {
       let result = createDeepLinkPath("  spaces before and after    ")
-      expect(result).toEqual("spaces_before_and_after")
+      expect(result).toEqual("spaces%20before%20and%20after")
 
       result = createDeepLinkPath("  ")
       expect(result).toEqual("")
@@ -1035,6 +1047,16 @@ describe("utils", function() {
     it("escapes a deep link path with an id selector", function() {
       const result = escapeDeepLinkPath("hello#world")
       expect(result).toEqual("hello\\#world")
+    })
+
+    it("escapes a deep link path with a space", function() {
+      const result = escapeDeepLinkPath("hello world")
+      expect(result).toEqual("hello_world")
+    })
+
+    it("escapes a deep link path with a percent-encoded space", function() {
+      const result = escapeDeepLinkPath("hello%20world")
+      expect(result).toEqual("hello_world")
     })
   })
 

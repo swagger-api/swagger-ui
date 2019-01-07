@@ -1,13 +1,25 @@
 import Swagger from "swagger-client"
 
-module.exports = function({ configs }) {
+module.exports = function({ configs, getConfigs }) {
   return {
     fn: {
       fetch: Swagger.makeHttp(configs.preFetch, configs.postFetch),
       buildRequest: Swagger.buildRequest,
       execute: Swagger.execute,
       resolve: Swagger.resolve,
-      resolveSubtree: Swagger.resolveSubtree,
+      resolveSubtree: (obj, path, opts, ...rest) => {
+        if(opts === undefined) {
+          const freshConfigs = getConfigs()
+          opts = {
+            modelPropertyMacro: freshConfigs.modelPropertyMacro,
+            parameterMacro: freshConfigs.parameterMacro,
+            requestInterceptor: freshConfigs.requestInterceptor,
+            responseInterceptor: freshConfigs.responseInterceptor
+          }
+        }
+
+        return Swagger.resolveSubtree(obj, path, opts, ...rest)
+      },
       serializeRes: Swagger.serializeRes,
       opId: Swagger.helpers.opId
     }
