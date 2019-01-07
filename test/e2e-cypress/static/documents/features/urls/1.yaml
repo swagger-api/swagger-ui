@@ -1,0 +1,12 @@
+swagger: "2.0"
+
+info:
+  title: One
+
+paths:
+  /:
+    get:
+      summary: an operation
+      responses:
+        "200":
+          description: OK
