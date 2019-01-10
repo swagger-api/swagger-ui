@@ -52,7 +52,6 @@ export default class OperationTag extends React.Component {
     let tagExternalDocsDescription = tagObj.getIn(["tagDetails", "externalDocs", "description"])
     let tagExternalDocsUrl = tagObj.getIn(["tagDetails", "externalDocs", "url"])
 
-    // let isShownKey = ["operations-tag", createDeepLinkPath(tag)]
     let isShownKey = ["operations-tag", tag]
     let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
 
