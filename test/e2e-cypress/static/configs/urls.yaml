@@ -1,0 +1,5 @@
+urls:
+- name: One
+  url: /documents/features/urls/1.yaml
+- name: Two
+  url: /documents/features/urls/2.yaml
