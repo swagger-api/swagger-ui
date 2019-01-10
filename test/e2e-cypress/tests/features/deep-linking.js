@@ -3,7 +3,7 @@ describe("Deep linking feature", () => {
     const swagger2BaseUrl = "/?deepLinking=true&url=/documents/features/deep-linking.swagger.yaml"
 
     describe("regular Operation", () => {
-      BaseDeeplinkTestFactory({
+      OperationDeeplinkTestFactory({
         baseUrl: swagger2BaseUrl,
         elementToGet: ".opblock-get",
         correctElementId: "operations-myTag-myOperation",
@@ -16,7 +16,7 @@ describe("Deep linking feature", () => {
       const elementToGet = ".opblock-post"
       const correctFragment = "#/my%20Tag/my%20Operation"
       
-      BaseDeeplinkTestFactory({
+      OperationDeeplinkTestFactory({
         baseUrl: swagger2BaseUrl,
         elementToGet,
         correctElementId: "operations-my_Tag-my_Operation",
@@ -42,7 +42,7 @@ describe("Deep linking feature", () => {
     })
 
     describe("Operation with underscores in tag+id", () => {
-      BaseDeeplinkTestFactory({
+      OperationDeeplinkTestFactory({
         baseUrl: swagger2BaseUrl,
         elementToGet: ".opblock-patch",
         correctElementId: "operations-underscore_Tag-underscore_Operation",
@@ -52,7 +52,7 @@ describe("Deep linking feature", () => {
     })
 
     describe("Operation with UTF-16 characters", () => {
-      BaseDeeplinkTestFactory({
+      OperationDeeplinkTestFactory({
         baseUrl: swagger2BaseUrl,
         elementToGet: ".opblock-head",
         correctElementId: "operations-шеллы-пошел",
@@ -62,7 +62,7 @@ describe("Deep linking feature", () => {
     })
 
     describe("Operation with no operationId", () => {
-      BaseDeeplinkTestFactory({
+      OperationDeeplinkTestFactory({
         baseUrl: swagger2BaseUrl,
         elementToGet: ".opblock-put",
         correctElementId: "operations-tagTwo-put_noOperationId",
@@ -72,7 +72,7 @@ describe("Deep linking feature", () => {
     })
 
     describe("regular Tag", () => {
-      BaseDeeplinkTestFactory({
+      TagDeeplinkTestFactory({
         isTagCase: true,
         baseUrl: swagger2BaseUrl,
         elementToGet: `.opblock-tag[data-tag="myTag"][data-is-open="true"]`,
@@ -83,7 +83,7 @@ describe("Deep linking feature", () => {
     })
 
     describe("Tag with whitespace", () => {
-      BaseDeeplinkTestFactory({
+      TagDeeplinkTestFactory({
         isTagCase: true,
         baseUrl: swagger2BaseUrl,
         elementToGet: `.opblock-tag[data-tag="my Tag"][data-is-open="true"]`,
@@ -97,7 +97,7 @@ describe("Deep linking feature", () => {
     const openAPI3BaseUrl = "/?deepLinking=true&url=/documents/features/deep-linking.openapi.yaml"
 
     describe("regular Operation", () => {
-      BaseDeeplinkTestFactory({
+      OperationDeeplinkTestFactory({
         baseUrl: openAPI3BaseUrl,
         elementToGet: ".opblock-get",
         correctElementId: "operations-myTag-myOperation",
@@ -110,7 +110,7 @@ describe("Deep linking feature", () => {
       const elementToGet = ".opblock-post"
       const correctFragment = "#/my%20Tag/my%20Operation"
       
-      BaseDeeplinkTestFactory({
+      OperationDeeplinkTestFactory({
         baseUrl: openAPI3BaseUrl,
         elementToGet: ".opblock-post",
         correctElementId: "operations-my_Tag-my_Operation",
@@ -137,7 +137,7 @@ describe("Deep linking feature", () => {
     })
 
     describe("Operation with underscores in tag+id", () => {
-      BaseDeeplinkTestFactory({
+      OperationDeeplinkTestFactory({
         baseUrl: openAPI3BaseUrl,
         elementToGet: ".opblock-patch",
         correctElementId: "operations-underscore_Tag-underscore_Operation",
@@ -147,7 +147,7 @@ describe("Deep linking feature", () => {
     })
 
     describe("Operation with UTF-16 characters", () => {
-      BaseDeeplinkTestFactory({
+      OperationDeeplinkTestFactory({
         baseUrl: openAPI3BaseUrl,
         elementToGet: ".opblock-head",
         correctElementId: "operations-шеллы-пошел",
@@ -157,7 +157,7 @@ describe("Deep linking feature", () => {
     })
 
     describe("Operation with no operationId", () => {
-      BaseDeeplinkTestFactory({
+      OperationDeeplinkTestFactory({
         baseUrl: openAPI3BaseUrl,
         elementToGet: ".opblock-put",
         correctElementId: "operations-tagTwo-put_noOperationId",
@@ -165,10 +165,32 @@ describe("Deep linking feature", () => {
         correctHref: "#/tagTwo/put_noOperationId"
       })
     })
+
+    describe("regular Tag", () => {
+      TagDeeplinkTestFactory({
+        isTagCase: true,
+        baseUrl: openAPI3BaseUrl,
+        elementToGet: `.opblock-tag[data-tag="myTag"][data-is-open="true"]`,
+        correctElementId: "operations-tag-myTag",
+        correctFragment: "#/myTag",
+        correctHref: "#/myTag"
+      })
+    })
+
+    describe("Tag with whitespace", () => {
+      TagDeeplinkTestFactory({
+        isTagCase: true,
+        baseUrl: openAPI3BaseUrl,
+        elementToGet: `.opblock-tag[data-tag="my Tag"][data-is-open="true"]`,
+        correctElementId: "operations-tag-my_Tag",
+        correctFragment: "#/my%20Tag",
+        correctHref: "#/my%20Tag"
+      })
+    })
   })
 })
 
-function OperationDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, correctFragment, correctHref, isTagCase = false }) {  
+function OperationDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, correctFragment, correctHref }) {  
   it("should generate a correct element ID", () => {
     cy.visit(baseUrl)
       .get(elementToGet)
@@ -193,7 +215,7 @@ function OperationDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId,
       .should("have.deep.property", "location.hash", correctFragment)
   })
 
-  it("should expand the content when reloaded", () => {
+  it("should expand the operation when reloaded", () => {
     cy.visit(`${baseUrl}${correctFragment}`)
       .get(`${elementToGet}.is-open`)
       .should("exist")
@@ -243,7 +265,7 @@ function TagDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, corre
       .should("have.attr", "href", correctHref)
   })
 
-  it("should expand the content when reloaded", () => {
+  it("should expand the tag when reloaded", () => {
     cy.visit(`${baseUrl}${correctFragment}`)
       .get(`${elementToGet}[data-is-open="true"]`)
       .should("exist")
