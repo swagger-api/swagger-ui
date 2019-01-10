@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import Im from "immutable"
-import { createDeepLinkPath, sanitizeUrl } from "core/utils"
+import { createDeepLinkPath, escapeDeepLinkPath, sanitizeUrl } from "core/utils"
 
 export default class OperationTag extends React.Component {
 
@@ -52,7 +52,7 @@ export default class OperationTag extends React.Component {
     let tagExternalDocsDescription = tagObj.getIn(["tagDetails", "externalDocs", "description"])
     let tagExternalDocsUrl = tagObj.getIn(["tagDetails", "externalDocs", "url"])
 
-    let isShownKey = ["operations-tag", createDeepLinkPath(tag)]
+    let isShownKey = ["operations-tag", tag]
     let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
 
     return (
@@ -61,11 +61,14 @@ export default class OperationTag extends React.Component {
         <h4
           onClick={() => layoutActions.show(isShownKey, !showTag)}
           className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag" }
-          id={isShownKey.join("-")}>
+          id={isShownKey.map(v => escapeDeepLinkPath(v)).join("-")}
+          data-tag={tag}
+          data-is-open={showTag}
+          >
           <DeepLink
             enabled={isDeepLinkingEnabled}
             isShown={showTag}
-            path={tag}
+            path={createDeepLinkPath(tag)}
             text={tag} />
           { !tagDescription ? <small></small> :
             <small>
