@@ -71,16 +71,25 @@ describe("Deep linking feature", () => {
       })
     })
 
-    describe("regular Operation with `docExpansion: none` enabled", function() {
-      it("should expand a tag", () => {
-        cy.visit(`${swagger2BaseUrl}&docExpansion=none#/myTag`)
-          .get(`.opblock-tag-section.is-open`)
-          .should("have.length", 1)
+    describe("regular Tag", () => {
+      BaseDeeplinkTestFactory({
+        isTagCase: true,
+        baseUrl: swagger2BaseUrl,
+        elementToGet: `.opblock-tag[data-tag="myTag"][data-is-open="true"]`,
+        correctElementId: "operations-tag-myTag",
+        correctFragment: "#/myTag",
+        correctHref: "#/myTag"
       })
-      it("should expand an operation", () => {
-        cy.visit(`${swagger2BaseUrl}&docExpansion=none#/myTag/myOperation`)
-          .get(`.opblock.is-open`)
-          .should("have.length", 1)
+    })
+
+    describe("Tag with whitespace", () => {
+      BaseDeeplinkTestFactory({
+        isTagCase: true,
+        baseUrl: swagger2BaseUrl,
+        elementToGet: `.opblock-tag[data-tag="my Tag"][data-is-open="true"]`,
+        correctElementId: "operations-tag-my_Tag",
+        correctFragment: "#/my%20Tag",
+        correctHref: "#/my%20Tag"
       })
     })
   })
@@ -156,23 +165,10 @@ describe("Deep linking feature", () => {
         correctHref: "#/tagTwo/put_noOperationId"
       })
     })
-
-    describe("regular Operation with `docExpansion: none` enabled", function () {
-      it("should expand a tag", () => {
-        cy.visit(`${openAPI3BaseUrl}&docExpansion=none#/myTag`)
-          .get(`.opblock-tag-section.is-open`)
-          .should("have.length", 1)
-      })
-      it("should expand an operation", () => {
-        cy.visit(`${openAPI3BaseUrl}&docExpansion=none#/myTag/myOperation`)
-          .get(`.opblock.is-open`)
-          .should("have.length", 1)
-      })
-    })
   })
 })
 
-function BaseDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, correctFragment, correctHref }) {
+function OperationDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, correctFragment, correctHref, isTagCase = false }) {  
   it("should generate a correct element ID", () => {
     cy.visit(baseUrl)
       .get(elementToGet)
@@ -197,7 +193,7 @@ function BaseDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, corr
       .should("have.deep.property", "location.hash", correctFragment)
   })
 
-  it("should expand the operation when reloaded", () => {
+  it("should expand the content when reloaded", () => {
     cy.visit(`${baseUrl}${correctFragment}`)
       .get(`${elementToGet}.is-open`)
       .should("exist")
@@ -209,5 +205,61 @@ function BaseDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, corr
       .should("exist")
       .window()
       .should("have.deep.property", "location.hash", correctFragment)
+  })
+
+  it("should expand a tag with docExpansion disabled", () => {
+    cy.visit(`${baseUrl}&docExpansion=none${correctFragment}`)
+      .get(`.opblock-tag-section.is-open`)
+      .should("have.length", 1)
+  })
+
+  it("should expand an operation with docExpansion disabled", () => {
+    cy.visit(`${baseUrl}&docExpansion=none${correctFragment}`)
+      .get(`.opblock.is-open`)
+      .should("have.length", 1)
+  })
+}
+
+function TagDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, correctFragment, correctHref, isTagCase = false }) {
+  it("should generate a correct element ID", () => {
+    cy.visit(baseUrl)
+      .get(elementToGet)
+      .should("have.id", correctElementId)
+  })
+
+  it("should add the correct element fragment to the URL when expanded", () => {
+    cy.visit(baseUrl)
+      .get(elementToGet)
+      .click()
+      .click() // tags need two clicks because they're expanded by default
+      .window()
+      .should("have.deep.property", "location.hash", correctFragment)
+  })
+
+  it("should provide an anchor link that has the correct fragment as href", () => {
+    cy.visit(baseUrl)
+      .get(elementToGet)
+      .find("a")
+      .should("have.attr", "href", correctHref)
+  })
+
+  it("should expand the content when reloaded", () => {
+    cy.visit(`${baseUrl}${correctFragment}`)
+      .get(`${elementToGet}[data-is-open="true"]`)
+      .should("exist")
+  })
+
+  it("should retain the correct fragment when reloaded", () => {
+    cy.visit(`${baseUrl}${correctFragment}`)
+      .reload()
+      .should("exist")
+      .window()
+      .should("have.deep.property", "location.hash", correctFragment)
+  })
+
+  it("should expand a tag with docExpansion disabled", () => {
+    cy.visit(`${baseUrl}&docExpansion=none${correctFragment}`)
+      .get(`.opblock-tag-section.is-open`)
+      .should("have.length", 1)
   })
 }
