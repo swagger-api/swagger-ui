@@ -104,7 +104,7 @@ const RequestBody = ({
                         </div>
                       </td>
                       <td className="col parameters-col_description">
-                        { description }
+                        <Markdown source={ description }></Markdown>
                         {isExecute ? <div><JsonSchemaForm
                           fn={fn}
                           dispatchInitialValue={!isFile}
