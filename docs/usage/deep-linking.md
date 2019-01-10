@@ -4,7 +4,7 @@ Swagger-UI allows you to deeply link into tags and operations within a spec. Whe
 
 ## Usage
 
-👉🏼 Add `deepLinking: true` to your Swagger-UI configuration to enable this functionality.
+👉🏼 Add `deepLinking: true` to your Swagger-UI configuration to enable this functionality. This is demonstrated in [`dist/index.html`](https://github.com/swagger-api/swagger-ui/blob/master/dist/index.html).
 
 When you expand a tag or operation, Swagger-UI will automatically update its URL fragment with a deep link to the item.
 Conversely, when you collapse a tag or operation, Swagger-UI will clear the URL fragment.
