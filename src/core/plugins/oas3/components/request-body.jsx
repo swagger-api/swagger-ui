@@ -67,6 +67,9 @@ const RequestBody = ({
     requestBodyValue = Map.isMap(requestBodyValue) ? requestBodyValue : OrderedMap()
 
     return <div className="table-container">
+      { requestBodyDescription &&
+        <Markdown source={requestBodyDescription} />
+      }
       <table>
         <tbody>
           {
