@@ -37,7 +37,7 @@ export default class Headers extends React.Component {
                 return null
               }
               
-              const description = header.get("description");
+              const description = header.get("description")
               const type = header.getIn(["schema"]) ? header.getIn(["schema", "type"]) : header.getIn(["type"])
               const schemaExample = header.getIn(["schema", "example"])
 
