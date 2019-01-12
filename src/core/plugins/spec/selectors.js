@@ -175,7 +175,10 @@ export const findDefinition = ( state, name ) => {
 
 export const definitions = createSelector(
   spec,
-  spec => spec.get("definitions") || Map()
+  spec => {
+    const res = spec.get("definitions")
+    return Map.isMap(res) ? res : Map()
+  }
 )
 
 export const basePath = createSelector(
