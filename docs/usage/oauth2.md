@@ -4,7 +4,7 @@ You can configure OAuth2 authorization by calling the `initOAuth` method.
 Property name | Docker variable |  Description
 --- | --- | ------
 clientId | `OAUTH_CLIENT_ID` | Default clientId. MUST be a string
-clientSecret | `OAUTH_CLIENT_SECRET` | **🚨 Never use this parameter in your production environemnt. It exposes cruicial security information. This feature is intended for dev/test environments only. 🚨** <br>Default clientSecret. MUST be a string
+clientSecret | `OAUTH_CLIENT_SECRET` | **🚨 Never use this parameter in your production environment. It exposes cruicial security information. This feature is intended for dev/test environments only. 🚨** <br>Default clientSecret. MUST be a string
 realm | `OAUTH_REALM` |realm query parameter (for oauth1) added to `authorizationUrl` and `tokenUrl`. MUST be a string
 appName | `OAUTH_APP_NAME` |application name, displayed in authorization popup. MUST be a string
 scopeSeparator | `OAUTH_SCOPE_SEPARATOR` |scope separator for passing scopes, encoded before calling, default value is a space (encoded value `%20`). MUST be a string
