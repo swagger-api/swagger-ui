@@ -25,7 +25,9 @@ import {
   sanitizeUrl,
   extractFileNameFromContentDispositionHeader,
   deeplyStripKey,
-  getSampleSchema
+  getSampleSchema,
+  paramToIdentifier,
+  paramToValue,
 } from "core/utils"
 import win from "core/window"
 
@@ -1209,6 +1211,7 @@ describe("utils", function() {
       expect(sanitizeUrl({})).toEqual("")
     })
   })
+
   describe("getSampleSchema", function() {
     const oriDate = Date
 
@@ -1233,6 +1236,146 @@ describe("utils", function() {
 
       // Then
       expect(res).toEqual(new Date().toISOString())
+    })
+  })
+
+  describe("paramToIdentifier", function() {
+    it("should convert an Immutable parameter map to an identifier", () => {
+      const param = fromJS({
+        name: "id",
+        in: "query"
+      })
+      const res = paramToIdentifier(param)
+
+      expect(res).toEqual("query.id.hash-606199662")
+    })
+    it("should convert an Immutable parameter map to a set of identifiers", () => {
+      const param = fromJS({
+        name: "id",
+        in: "query"
+      })
+      const res = paramToIdentifier(param, { returnAll: true })
+
+      expect(res).toEqual([
+        "query.id.hash-606199662",
+        "query.id",
+        "id"
+      ])
+    })
+
+    it("should convert an unhashable Immutable parameter map to an identifier", () => {
+      const param = fromJS({
+        name: "id",
+        in: "query"
+      })
+
+      param.hashCode = null
+
+      const res = paramToIdentifier(param)
+
+      expect(res).toEqual("query.id")
+    })
+
+    it("should convert an unhashable Immutable parameter map to a set of identifiers", () => {
+      const param = fromJS({
+        name: "id",
+        in: "query"
+      })
+
+      param.hashCode = null
+
+      const res = paramToIdentifier(param, { returnAll: true })
+
+      expect(res).toEqual([
+        "query.id",
+        "id"
+      ])
+    })
+
+    it("should convert an Immutable parameter map lacking an `in` value to an identifier", () => {
+      const param = fromJS({
+        name: "id"
+      })
+
+      const res = paramToIdentifier(param)
+
+      expect(res).toEqual("id")
+    })
+
+    it("should convert an Immutable parameter map lacking an `in` value to an identifier", () => {
+      const param = fromJS({
+        name: "id"
+      })
+
+      const res = paramToIdentifier(param, { returnAll: true })
+
+      expect(res).toEqual(["id"])
+    })
+
+    it("should throw gracefully when given a non-Immutable parameter input", () => {
+      const param = {
+        name: "id"
+      }
+
+      let error = null
+      let res = null
+
+      try {
+        const res = paramToIdentifier(param)
+      } catch(e) {
+        error = e
+      } 
+
+      expect(error).toBeA(Error)
+      expect(error.message).toInclude("received a non-Im.Map parameter as input")
+      expect(res).toEqual(null)
+    })
+  })
+
+  describe("paramToValue", function() {
+    it("should identify a hash-keyed value", () => {
+      const param = fromJS({
+        name: "id",
+        in: "query"
+      })
+
+      const paramValues = {
+        "query.id.hash-606199662": "asdf"
+      }
+
+      const res = paramToValue(param, paramValues)
+
+      expect(res).toEqual("asdf")
+    })
+
+    it("should identify a in+name value", () => {
+      const param = fromJS({
+        name: "id",
+        in: "query"
+      })
+
+      const paramValues = {
+        "query.id": "asdf"
+      }
+
+      const res = paramToValue(param, paramValues)
+
+      expect(res).toEqual("asdf")
+    })
+
+    it("should identify a name value", () => {
+      const param = fromJS({
+        name: "id",
+        in: "query"
+      })
+
+      const paramValues = {
+        "id": "asdf"
+      }
+
+      const res = paramToValue(param, paramValues)
+
+      expect(res).toEqual("asdf")
     })
   })
 })

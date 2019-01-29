@@ -1,10 +1,11 @@
 import { fromJS, List } from "immutable"
-import { fromJSOrdered, validateParam } from "core/utils"
+import { fromJSOrdered, validateParam, paramToValue } from "core/utils"
 import win from "../../window"
 
 // selector-in-reducer is suboptimal, but `operationWithMeta` is more of a helper
 import {
-  operationWithMeta
+  specJsonWithResolvedSubtrees,
+  parameterValues,
 } from "./selectors"
 
 import {
@@ -25,6 +26,7 @@ import {
   CLEAR_VALIDATE_PARAMS,
   SET_SCHEME
 } from "./actions"
+import { paramToIdentifier } from "../../utils"
 
 export default {
 
@@ -52,16 +54,9 @@ export default {
   },
 
   [UPDATE_PARAM]: ( state, {payload} ) => {
-    let { path: pathMethod, paramName, paramIn, param, value, isXml } = payload
+    let { path: pathMethod, param, value, isXml } = payload
 
-    let paramKey
-
-    // `hashCode` is an Immutable.js Map method
-    if(param && param.hashCode && !paramIn && !paramName) {
-      paramKey = `${param.get("name")}.${param.get("in")}.hash-${param.hashCode()}`
-    } else {
-      paramKey = `${paramName}.${paramIn}`
-    }
+    let paramKey = paramToIdentifier(param)
 
     const valueKey = isXml ? "value_xml" : "value"
 
@@ -79,7 +74,7 @@ export default {
       return state
     }
 
-    const paramKey = `${paramName}.${paramIn}`
+    const paramKey = `${paramIn}.${paramName}`
 
     return state.setIn(
       ["meta", "paths", ...pathMethod, "parameter_inclusions", paramKey],
@@ -91,12 +86,14 @@ export default {
     let meta = state.getIn( [ "meta", "paths", ...pathMethod ], fromJS({}) )
     let isXml = /xml/i.test(meta.get("consumes_value"))
 
-    const op = operationWithMeta(state, ...pathMethod)
+    const op = specJsonWithResolvedSubtrees(state).getIn(["paths", ...pathMethod])
+    const paramValues = parameterValues(state, pathMethod).toJS()
 
     return state.updateIn(["meta", "paths", ...pathMethod, "parameters"], fromJS({}), paramMeta => {
       return op.get("parameters", List()).reduce((res, param) => {
-        const errors = validateParam(param, isXml, isOAS3)
-        return res.setIn([`${param.get("name")}.${param.get("in")}`, "errors"], fromJS(errors))
+        const value = paramToValue(param, paramValues)
+        const errors = validateParam(param, value, isXml, isOAS3)
+        return res.setIn([paramToIdentifier(param), "errors"], fromJS(errors))
       }, paramMeta)
     })
   },
