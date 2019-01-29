@@ -484,7 +484,7 @@ export const validatePattern = (val, rxPattern) => {
 }
 
 // validation of parameters before execute
-export const validateParam = (param, value, isXml, isOAS3 = false) => {
+export const validateParam = (param, value, isXml, isOAS3 = false, { bypassRequiredCheck = false } = {}) => {
   let errors = []
   let required = param.get("required")
 
@@ -538,7 +538,7 @@ export const validateParam = (param, value, isXml, isOAS3 = false) => {
 
     const passedAnyCheck = allChecks.some(v => !!v)
 
-    if ( required && !passedAnyCheck ) {
+    if (required && !passedAnyCheck && !bypassRequiredCheck ) {
       errors.push("Required field is not provided")
       return errors
     }

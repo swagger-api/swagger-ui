@@ -6,6 +6,7 @@ import win from "../../window"
 import {
   specJsonWithResolvedSubtrees,
   parameterValues,
+  parameterInclusionSettingFor,
 } from "./selectors"
 
 import {
@@ -92,7 +93,10 @@ export default {
     return state.updateIn(["meta", "paths", ...pathMethod, "parameters"], fromJS({}), paramMeta => {
       return op.get("parameters", List()).reduce((res, param) => {
         const value = paramToValue(param, paramValues)
-        const errors = validateParam(param, value, isXml, isOAS3)
+        const isEmptyValueIncluded = parameterInclusionSettingFor(state, pathMethod, param.get("name"), param.get("in"))
+        const errors = validateParam(param, value, isXml, isOAS3, {
+          bypassRequiredCheck: isEmptyValueIncluded
+        })
         return res.setIn([paramToIdentifier(param), "errors"], fromJS(errors))
       }, paramMeta)
     })
