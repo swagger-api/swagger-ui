@@ -130,7 +130,7 @@ describe("spec plugin - reducer", function(){
     })
   })
   describe("SPEC_UPDATE_PARAM", function() {
-    it("should store parameter values by name+in", () => {
+    it("should store parameter values by {in}.{name}", () => {
       const updateParam = reducer["spec_update_param"]
 
       const path = "/pet/post"
@@ -140,14 +140,14 @@ describe("spec plugin - reducer", function(){
       const result = updateParam(state, {
         payload: {
           path: [path, method],
-          paramName: "body",
+          paramName: "myBody",
           paramIn: "body",
           value: `{ "a": 123 }`,
           isXml: false
         }
       })
 
-      const response = result.getIn(["meta", "paths", path, method, "parameters", "body.body", "value"])
+      const response = result.getIn(["meta", "paths", path, method, "parameters", "body.myBody", "value"])
       expect(response).toEqual(`{ "a": 123 }`)
     })
     it("should store parameter values by identity", () => {
@@ -157,7 +157,7 @@ describe("spec plugin - reducer", function(){
       const method = "POST"
 
       const param = fromJS({
-        name: "body",
+        name: "myBody",
         in: "body",
         schema: {
           type: "string"
@@ -174,12 +174,12 @@ describe("spec plugin - reducer", function(){
         }
       })
 
-      const value = result.getIn(["meta", "paths", path, method, "parameters", `body.body.hash-${param.hashCode()}`, "value"])
+      const value = result.getIn(["meta", "paths", path, method, "parameters", `body.myBody.hash-${param.hashCode()}`, "value"])
       expect(value).toEqual(`{ "a": 123 }`)
     })
   })
   describe("SPEC_UPDATE_EMPTY_PARAM_INCLUSION", function() {
-    it("should store parameter values by name+in", () => {
+    it("should store parameter values by {in}.{name}", () => {
       const updateParam = reducer["spec_update_empty_param_inclusion"]
 
       const path = "/pet/post"
@@ -196,7 +196,7 @@ describe("spec plugin - reducer", function(){
         }
       })
 
-      const response = result.getIn(["meta", "paths", path, method, "parameter_inclusions", "param.query"])
+      const response = result.getIn(["meta", "paths", path, method, "parameter_inclusions", "query.param"])
       expect(response).toEqual(true)
     })
   })

@@ -5,7 +5,7 @@ import serializeError from "serialize-error"
 import isString from "lodash/isString"
 import debounce from "lodash/debounce"
 import set from "lodash/set"
-import { isJSONObject } from "core/utils"
+import { isJSONObject, paramToValue } from "core/utils"
 
 // Actions conform to FSA (flux-standard-actions)
 // {type: string,payload: Any|Error, meta: obj, error: bool}
@@ -345,19 +345,19 @@ export const executeRequest = (req) =>
     
     // ensure that explicitly-included params are in the request
 
-    if(op && op.parameters && op.parameters.length) {
-      op.parameters
-        .filter(param => param && param.allowEmptyValue === true)
+    if (operation && operation.get("parameters")) {
+      operation.get("parameters")
+        .filter(param => param && param.get("allowEmptyValue") === true)
         .forEach(param => {
-          if (specSelectors.parameterInclusionSettingFor([pathName, method], param.name, param.in)) {
+          if (specSelectors.parameterInclusionSettingFor([pathName, method], param.get("name"), param.get("in"))) {
             req.parameters = req.parameters || {}
-            const paramValue = req.parameters[param.name]
+            const paramValue = paramToValue(param, req.parameters)
 
             // if the value is falsy or an empty Immutable iterable...
             if(!paramValue || (paramValue && paramValue.size === 0)) {
               // set it to empty string, so Swagger Client will treat it as
               // present but empty.
-              req.parameters[param.name] = ""
+              req.parameters[param.get("name")] = ""
             }
           }
         })
