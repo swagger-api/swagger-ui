@@ -484,7 +484,7 @@ export const validatePattern = (val, rxPattern) => {
 }
 
 // validation of parameters before execute
-export const validateParam = (param, value, isXml, isOAS3 = false, { bypassRequiredCheck = false } = {}) => {
+export const validateParam = (param, value, { isXml = false, isOAS3 = false, bypassRequiredCheck = false } = {}) => {
   let errors = []
   let required = param.get("required")
 

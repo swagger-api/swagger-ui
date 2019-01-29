@@ -349,7 +349,7 @@ describe("utils", function() {
     
     const assertValidateParam = (param, value, expectedError) => {
       // Swagger 2.0 version
-      result = validateParam( fromJS(param), fromJS(value), false )
+      result = validateParam( fromJS(param), fromJS(value))
       expect( result ).toEqual( expectedError )
       
       // OAS3 version, using `schema` sub-object
@@ -360,13 +360,17 @@ describe("utils", function() {
           required: undefined
         }
       }
-      result = validateParam( fromJS(oas3Param), fromJS(value), false, true )
+      result = validateParam( fromJS(oas3Param), fromJS(value), {
+        isOAS3: true
+      })
       expect( result ).toEqual( expectedError )
     }
     
     const assertValidateOas3Param = (param, value, expectedError) => {
       // for cases where you _only_ want to try OAS3
-      result = validateParam( fromJS(param), value, false, true )
+      result = validateParam(fromJS(param), value, {
+        isOAS3: true
+      })
       expect( result ).toEqual( expectedError )
     }
     

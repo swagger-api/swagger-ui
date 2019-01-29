@@ -94,8 +94,10 @@ export default {
       return op.get("parameters", List()).reduce((res, param) => {
         const value = paramToValue(param, paramValues)
         const isEmptyValueIncluded = parameterInclusionSettingFor(state, pathMethod, param.get("name"), param.get("in"))
-        const errors = validateParam(param, value, isXml, isOAS3, {
-          bypassRequiredCheck: isEmptyValueIncluded
+        const errors = validateParam(param, value, {
+          bypassRequiredCheck: isEmptyValueIncluded,
+          isXml,
+          isOAS3,
         })
         return res.setIn([paramToIdentifier(param), "errors"], fromJS(errors))
       }, paramMeta)
