@@ -157,7 +157,7 @@ describe("spec plugin - reducer", function(){
       const method = "POST"
 
       const param = fromJS({
-        name: "body",
+        name: "myBody",
         in: "body",
         schema: {
           type: "string"
@@ -174,7 +174,7 @@ describe("spec plugin - reducer", function(){
         }
       })
 
-      const value = result.getIn(["meta", "paths", path, method, "parameters", `body.body.hash-${param.hashCode()}`, "value"])
+      const value = result.getIn(["meta", "paths", path, method, "parameters", `body.myBody.hash-${param.hashCode()}`, "value"])
       expect(value).toEqual(`{ "a": 123 }`)
     })
   })
