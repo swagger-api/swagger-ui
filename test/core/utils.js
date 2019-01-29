@@ -381,7 +381,9 @@ describe("utils", function() {
         required: true
       })
       value = ""
-      result = validateParam( param, value, false, true )
+      result = validateParam( param, value, {
+        isOAS3: true
+      } )
       expect( result ).toEqual( [] )
     })
     

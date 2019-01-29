@@ -84,9 +84,6 @@ export default {
   },
 
   [VALIDATE_PARAMS]: ( state, { payload: { pathMethod, isOAS3 } } ) => {
-    let meta = state.getIn( [ "meta", "paths", ...pathMethod ], fromJS({}) )
-    let isXml = /xml/i.test(meta.get("consumes_value"))
-
     const op = specJsonWithResolvedSubtrees(state).getIn(["paths", ...pathMethod])
     const paramValues = parameterValues(state, pathMethod).toJS()
 
@@ -96,7 +93,6 @@ export default {
         const isEmptyValueIncluded = parameterInclusionSettingFor(state, pathMethod, param.get("name"), param.get("in"))
         const errors = validateParam(param, value, {
           bypassRequiredCheck: isEmptyValueIncluded,
-          isXml,
           isOAS3,
         })
         return res.setIn([paramToIdentifier(param), "errors"], fromJS(errors))
