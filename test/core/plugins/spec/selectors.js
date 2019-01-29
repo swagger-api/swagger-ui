@@ -752,7 +752,7 @@ describe("spec plugin - selectors", function(){
     })
   })
   describe("parameterInclusionSettingFor", function() {
-    it("should support getting name+in param inclusion settings", function () {
+    it("should support getting {in}.{name} param inclusion settings", function () {
       const param = fromJS({
         name: "param",
         in: "query",
@@ -776,7 +776,7 @@ describe("spec plugin - selectors", function(){
             "/": {
               "get": {
                 "parameter_inclusions": {
-                  [`param.query`]: true
+                  [`query.param`]: true
                 }
               }
             }

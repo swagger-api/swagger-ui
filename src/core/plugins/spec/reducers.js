@@ -54,9 +54,9 @@ export default {
   },
 
   [UPDATE_PARAM]: ( state, {payload} ) => {
-    let { path: pathMethod, param, value, isXml } = payload
+    let { path: pathMethod, paramName, paramIn, param, value, isXml } = payload
 
-    let paramKey = paramToIdentifier(param)
+    let paramKey = param ? paramToIdentifier(param) : `${paramIn}.${paramName}`
 
     const valueKey = isXml ? "value_xml" : "value"
 
