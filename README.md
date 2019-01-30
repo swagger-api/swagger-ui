@@ -67,6 +67,7 @@ To help with the migration, here are the currently known issues with 3.X. This l
 - Support for `collectionFormat` is partial.
 - l10n (translations) is not implemented.
 - Relative path support for external files is not implemented.
+- There are compatibility [issues](https://github.com/swagger-api/swagger-ui/labels/epic%3A%20usage%20in%20react%4016) with React 16.x.
 
 ## Security contact
 
