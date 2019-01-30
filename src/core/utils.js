@@ -484,9 +484,8 @@ export const validatePattern = (val, rxPattern) => {
 }
 
 // validation of parameters before execute
-export const validateParam = (param, isXml, isOAS3 = false) => {
+export const validateParam = (param, value, { isOAS3 = false, bypassRequiredCheck = false } = {}) => {
   let errors = []
-  let value = isXml && param.get("in") === "body" ? param.get("value_xml") : param.get("value")
   let required = param.get("required")
 
   let paramDetails = isOAS3 ? param.get("schema") : param
@@ -500,7 +499,6 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
   let maxLength = paramDetails.get("maxLength")
   let minLength = paramDetails.get("minLength")
   let pattern = paramDetails.get("pattern")
-
 
   /*
     If the parameter is required OR the parameter has a value (meaning optional, but filled in)
@@ -540,7 +538,7 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
 
     const passedAnyCheck = allChecks.some(v => !!v)
 
-    if ( required && !passedAnyCheck ) {
+    if (required && !passedAnyCheck && !bypassRequiredCheck ) {
       errors.push("Required field is not provided")
       return errors
     }
@@ -804,4 +802,44 @@ export function numberToString(thing) {
   }
 
   return thing
+}
+
+export function paramToIdentifier(param, { returnAll = false, allowHashes = true } = {}) {
+  if(!Im.Map.isMap(param)) {
+    throw new Error("paramToIdentifier: received a non-Im.Map parameter as input")
+  }
+  const paramName = param.get("name")
+  const paramIn = param.get("in")
+  
+  let generatedIdentifiers = []
+
+  // Generate identifiers in order of most to least specificity
+
+  if (param && param.hashCode && paramIn && paramName && allowHashes) {
+    generatedIdentifiers.push(`${paramIn}.${paramName}.hash-${param.hashCode()}`)
+  }
+  
+  if(paramIn && paramName) {
+    generatedIdentifiers.push(`${paramIn}.${paramName}`)
+  }
+
+  generatedIdentifiers.push(paramName)
+
+  // Return the most preferred identifier, or all if requested
+
+  return returnAll ? generatedIdentifiers : (generatedIdentifiers[0] || "")
+}
+
+export function paramToValue(param, paramValues) {
+  const allIdentifiers = paramToIdentifier(param, { returnAll: true })
+
+  // Map identifiers to values in the provided value hash, filter undefined values,
+  // and return the first value found
+  const values = allIdentifiers
+    .map(id => {
+      return paramValues[id]
+    })
+    .filter(value => value !== undefined)
+
+  return values[0]
 }

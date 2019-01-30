@@ -497,7 +497,7 @@ describe("spec plugin - selectors", function(){
   })
 
   describe("operationWithMeta", function() {
-    it("should support merging in name+in keyed param metadata", function () {
+    it("should support merging in {in}.{name} keyed param metadata", function () {
       const state = fromJS({
         json: {
           paths: {
@@ -505,7 +505,7 @@ describe("spec plugin - selectors", function(){
               "get": {
                 parameters: [
                   {
-                    name: "body",
+                    name: "myBody",
                     in: "body"
                   }
                 ]
@@ -518,7 +518,7 @@ describe("spec plugin - selectors", function(){
             "/": {
               "get": {
                 parameters: {
-                  "body.body": {
+                  "body.myBody": {
                     value: "abc123"
                   }
                 }
@@ -533,7 +533,7 @@ describe("spec plugin - selectors", function(){
       expect(result.toJS()).toEqual({
         parameters: [
           {
-            name: "body",
+            name: "myBody",
             in: "body",
             value: "abc123"
           }
@@ -542,7 +542,7 @@ describe("spec plugin - selectors", function(){
     })
     it("should support merging in hash-keyed param metadata", function () {
       const bodyParam = fromJS({
-        name: "body",
+        name: "myBody",
         in: "body"
       })
 
@@ -563,7 +563,7 @@ describe("spec plugin - selectors", function(){
             "/": {
               "get": {
                 parameters: {
-                  [`body.body.hash-${bodyParam.hashCode()}`]: {
+                  [`body.myBody.hash-${bodyParam.hashCode()}`]: {
                     value: "abc123"
                   }
                 }
@@ -578,7 +578,7 @@ describe("spec plugin - selectors", function(){
       expect(result.toJS()).toEqual({
         parameters: [
           {
-            name: "body",
+            name: "myBody",
             in: "body",
             value: "abc123"
           }
@@ -587,7 +587,7 @@ describe("spec plugin - selectors", function(){
     })
   })
   describe("parameterWithMeta", function() {
-    it("should support merging in name+in keyed param metadata", function () {
+    it("should support merging in {in}.{name} keyed param metadata", function () {
       const state = fromJS({
         json: {
           paths: {
@@ -595,7 +595,7 @@ describe("spec plugin - selectors", function(){
               "get": {
                 parameters: [
                   {
-                    name: "body",
+                    name: "myBody",
                     in: "body"
                   }
                 ]
@@ -608,7 +608,7 @@ describe("spec plugin - selectors", function(){
             "/": {
               "get": {
                 parameters: {
-                  "body.body": {
+                  "body.myBody": {
                     value: "abc123"
                   }
                 }
@@ -618,17 +618,17 @@ describe("spec plugin - selectors", function(){
         }
       })
 
-      const result = parameterWithMeta(state, ["/", "get"], "body", "body")
+      const result = parameterWithMeta(state, ["/", "get"], "myBody", "body")
 
       expect(result.toJS()).toEqual({
-        name: "body",
+        name: "myBody",
         in: "body",
         value: "abc123"
       })
     })
     it("should give best-effort when encountering hash-keyed param metadata", function () {
       const bodyParam = fromJS({
-        name: "body",
+        name: "myBody",
         in: "body"
       })
 
@@ -649,7 +649,7 @@ describe("spec plugin - selectors", function(){
             "/": {
               "get": {
                 parameters: {
-                  [`body.body.hash-${bodyParam.hashCode()}`]: {
+                  [`body.myBody.hash-${bodyParam.hashCode()}`]: {
                     value: "abc123"
                   }
                 }
@@ -659,10 +659,10 @@ describe("spec plugin - selectors", function(){
         }
       })
 
-      const result = parameterWithMeta(state, ["/", "get"], "body", "body")
+      const result = parameterWithMeta(state, ["/", "get"], "myBody", "body")
 
       expect(result.toJS()).toEqual({
-        name: "body",
+        name: "myBody",
         in: "body",
         value: "abc123"
       })
@@ -670,9 +670,9 @@ describe("spec plugin - selectors", function(){
 
   })
   describe("parameterWithMetaByIdentity", function() {
-    it("should support merging in name+in keyed param metadata", function () {
+    it("should support merging in {in}.{name} keyed param metadata", function () {
       const bodyParam = fromJS({
-        name: "body",
+        name: "myBody",
         in: "body"
       })
 
@@ -691,7 +691,7 @@ describe("spec plugin - selectors", function(){
             "/": {
               "get": {
                 parameters: {
-                  "body.body": {
+                  "body.myBody": {
                     value: "abc123"
                   }
                 }
@@ -704,14 +704,14 @@ describe("spec plugin - selectors", function(){
       const result = parameterWithMetaByIdentity(state, ["/", "get"], bodyParam)
 
       expect(result.toJS()).toEqual({
-        name: "body",
+        name: "myBody",
         in: "body",
         value: "abc123"
       })
     })
     it("should support merging in hash-keyed param metadata", function () {
       const bodyParam = fromJS({
-        name: "body",
+        name: "myBody",
         in: "body"
       })
 
@@ -732,7 +732,7 @@ describe("spec plugin - selectors", function(){
             "/": {
               "get": {
                 parameters: {
-                  [`body.body.hash-${bodyParam.hashCode()}`]: {
+                  [`body.myBody.hash-${bodyParam.hashCode()}`]: {
                     value: "abc123"
                   }
                 }
@@ -745,14 +745,14 @@ describe("spec plugin - selectors", function(){
       const result = parameterWithMetaByIdentity(state, ["/", "get"], bodyParam)
 
       expect(result.toJS()).toEqual({
-        name: "body",
+        name: "myBody",
         in: "body",
         value: "abc123"
       })
     })
   })
   describe("parameterInclusionSettingFor", function() {
-    it("should support getting name+in param inclusion settings", function () {
+    it("should support getting {in}.{name} param inclusion settings", function () {
       const param = fromJS({
         name: "param",
         in: "query",
@@ -776,7 +776,7 @@ describe("spec plugin - selectors", function(){
             "/": {
               "get": {
                 "parameter_inclusions": {
-                  [`param.query`]: true
+                  [`query.param`]: true
                 }
               }
             }
