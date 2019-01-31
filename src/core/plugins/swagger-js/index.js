@@ -1,9 +1,11 @@
 import Swagger from "swagger-client"
 
 module.exports = function({ configs, getConfigs }) {
+  const fetch = Swagger.makeHttp(configs.preFetch, configs.postFetch)
+
   return {
     fn: {
-      fetch: Swagger.makeHttp(configs.preFetch, configs.postFetch),
+      fetch: fetch,
       buildRequest: Swagger.buildRequest,
       execute: Swagger.execute,
       resolve: Swagger.resolve,
@@ -22,6 +24,16 @@ module.exports = function({ configs, getConfigs }) {
       },
       serializeRes: Swagger.serializeRes,
       opId: Swagger.helpers.opId
-    }
+    },
+    statePlugins: {
+      configs: {
+        wrapActions: {
+          loaded: (ori, system) => (...args) => {
+            ori(...args)
+            fetch.withCredentials = !!system.getConfigs().withCredentials
+          }
+        }
+      }
+    },
   }
 }
