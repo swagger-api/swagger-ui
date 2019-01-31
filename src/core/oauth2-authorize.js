@@ -6,9 +6,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   let flow = schema.get("flow")
   let query = []
   let authorizationUrl = schema.get("authorizationUrl")
-  let responseTypeFound = authorizationUrl ?
-    authorizationUrl.indexOf('?response_type=') > 0 || authorizationUrl.indexOf('&response_type') > 0 :
-    false;
+  let responseTypeFound = authorizationUrl ? authorizationUrl.indexOf("?response_type=") > 0 || authorizationUrl.indexOf("&response_type") > 0 : false
 
   switch (flow) {
     case "password":
