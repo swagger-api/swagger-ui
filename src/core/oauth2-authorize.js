@@ -5,6 +5,8 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   let { schema, scopes, name, clientId } = auth
   let flow = schema.get("flow")
   let query = []
+  let authorizationUrl = schema.get("authorizationUrl")
+  let responseTypeFound = authorizationUrl ? authorizationUrl.indexOf("?response_type=") > 0 || authorizationUrl.indexOf("&response_type") > 0 : false
 
   switch (flow) {
     case "password":
@@ -16,11 +18,15 @@ export default function authorize ( { auth, authActions, errActions, configs, au
       return
 
     case "accessCode":
-      query.push("response_type=code")
+      if (!responseTypeFound) {
+        query.push("response_type=code")
+      }
       break
 
     case "implicit":
-      query.push("response_type=token")
+      if (!responseTypeFound) {
+        query.push("response_type=token")
+      }
       break
 
     case "clientCredentials":
@@ -30,7 +36,9 @@ export default function authorize ( { auth, authActions, errActions, configs, au
 
     case "authorizationCode":
       // OAS3
-      query.push("response_type=code")
+      if (!responseTypeFound) {
+        query.push("response_type=code")
+      }
       break
   }
 
@@ -74,7 +82,6 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     }
   }
 
-  let authorizationUrl = schema.get("authorizationUrl")
   let url = [authorizationUrl, query.join("&")].join(authorizationUrl.indexOf("?") === -1 ? "?" : "&")
 
   // pass action authorizeOauth2 and authentication data through window
