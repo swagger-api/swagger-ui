@@ -13,7 +13,7 @@ ENV SWAGGER_JSON "/app/swagger.json"
 ENV PORT 8080
 ENV BASE_URL ""
 
-COPY ./docker/nginx.conf /etc/nginx/
+COPY ./docker/nginx.conf ./docker/cors.conf /etc/nginx/
 
 # copy swagger files to the `/js` folder
 COPY ./dist/* /usr/share/nginx/html/
