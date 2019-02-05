@@ -4,7 +4,7 @@
 
 FROM nginx:1.15-alpine
 
-RUN apk add nodejs
+RUN apk add nodejs --no-cache
 
 LABEL maintainer="fehguy"
 
