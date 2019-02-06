@@ -1175,5 +1175,44 @@ describe("spec plugin - selectors", function(){
         }
       })
     })
+    it("should gracefully handle a non-array global tags entry", function () {
+      const system = {
+        getConfigs: () => ({})
+      }
+      const state = fromJS({
+        json: {
+          tags: "asdf",
+          paths: {
+            "/": {
+              "get": {
+                produces: [],
+                tags: ["myTag"],
+                description: "my operation",
+                consumes: [
+                  "operation/one",
+                  "operation/two",
+                ]
+              }
+            }
+          }
+        }
+      })
+
+      const result = taggedOperations(state)(system)
+
+      const op = state.getIn(["json", "paths", "/", "get"]).toJS()
+
+      expect(result.toJS()).toEqual({
+        myTag: {
+          tagDetails: undefined,
+          operations: [{
+            id: "get-/",
+            method: "get",
+            path: "/",
+            operation: op
+          }]
+        }
+      })
+    })
   })
 })
