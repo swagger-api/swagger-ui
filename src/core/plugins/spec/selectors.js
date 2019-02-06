@@ -225,7 +225,7 @@ export const operationsWithRootInherited = createSelector(
 
 export const tags = createSelector(
   spec,
-  json => json.get("tags", List())
+  json => json.get("tags", List()).filter(tag => Map.isMap(tag))
 )
 
 export const tagDetails = (state, tag) => {
