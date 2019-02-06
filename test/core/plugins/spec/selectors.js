@@ -9,18 +9,15 @@ import {
   operationScheme,
   specJsonWithResolvedSubtrees,
   producesOptionsFor,
-} from "corePlugins/spec/selectors"
-
-import Petstore from "./assets/petstore.json"
-import {
   operationWithMeta,
   parameterWithMeta,
   parameterWithMetaByIdentity,
   parameterInclusionSettingFor,
-  consumesOptionsFor
-} from "../../../../src/core/plugins/spec/selectors"
+  consumesOptionsFor,
+  taggedOperations
+} from "corePlugins/spec/selectors"
 
-describe("spec plugin - selectors", function(){
+import Petstore from "./assets/petstore.json"
 
   describe("definitions", function(){
     it("should return definitions by default", function(){
