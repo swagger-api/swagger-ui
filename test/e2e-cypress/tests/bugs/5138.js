@@ -1,4 +1,4 @@
-describe("SWOS-63: Schema/Model labeling", () => {
+describe("#5138: unwanted `url`/`urls` interactions", () => {
   it("should stably render the first `urls` entry", () => {
     cy
       .visit("/pages/5138/")
