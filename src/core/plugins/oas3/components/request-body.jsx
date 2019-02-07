@@ -89,13 +89,13 @@ const RequestBody = ({
                 })
               }
 
-              if (typeof initialValue !== "string") {
+              if (typeof initialValue !== "string" && type === "object") {
                 initialValue = stringify(initialValue)
               }
 
               const isFile = type === "string" && (format === "binary" || format === "base64")
 
-              return <tr key={key} className="parameters">
+              return <tr key={key} className="parameters" data-property-name={key}>
                 <td className="col parameters-col_name">
                         <div className={required ? "parameter__name required" : "parameter__name"}>
                           { key }
