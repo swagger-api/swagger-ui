@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { Map, OrderedMap, List } from "immutable"
-import { getCommonExtensions, getSampleSchema } from "core/utils"
+import { getCommonExtensions, getSampleSchema, stringify } from "core/utils"
 
 const RequestBody = ({
   requestBody,
@@ -83,10 +83,14 @@ const RequestBody = ({
               
               let initialValue = prop.get("default") || prop.get("example") || ""
 
-              if(initialValue === "" && type === "object") {
+              if (initialValue === "" && type === "object") {
                 initialValue = getSampleSchema(prop, false, {
                   includeWriteOnly: true
                 })
+              }
+
+              if (typeof initialValue !== "string") {
+                initialValue = stringify(initialValue)
               }
 
               const isFile = type === "string" && (format === "binary" || format === "base64")
