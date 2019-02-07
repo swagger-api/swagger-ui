@@ -35,6 +35,8 @@ function Markdown({ source, className = "" }) {
         linkTarget: "_blank"
     })
     
+    md.core.ruler.disable(["replacements", "smartquotes"])
+
     const html = md.render(source)
     const sanitized = sanitizer(html)
 
