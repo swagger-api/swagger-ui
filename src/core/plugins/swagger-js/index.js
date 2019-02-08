@@ -1,11 +1,10 @@
 import Swagger from "swagger-client"
+import * as configsWrapActions from "./configs-wrap-actions"
 
 module.exports = function({ configs, getConfigs }) {
-  const fetch = Swagger.makeHttp(configs.preFetch, configs.postFetch)
-
   return {
     fn: {
-      fetch: fetch,
+      fetch: Swagger.makeHttp(configs.preFetch, configs.postFetch),
       buildRequest: Swagger.buildRequest,
       execute: Swagger.execute,
       resolve: Swagger.resolve,
@@ -27,12 +26,7 @@ module.exports = function({ configs, getConfigs }) {
     },
     statePlugins: {
       configs: {
-        wrapActions: {
-          loaded: (ori, system) => (...args) => {
-            ori(...args)
-            fetch.withCredentials = !!system.getConfigs().withCredentials
-          }
-        }
+        wrapActions: configsWrapActions
       }
     },
   }
