@@ -1,7 +1,7 @@
 export function transform(errors) {
   return errors
     .map(err => {
-      if(err.get("type") === "schema") {
+      if (err.get("type") === "structural") {
         return err.set("message", removeSubstring(err.get("message"), "instance\\."))
       } else {
         return err
