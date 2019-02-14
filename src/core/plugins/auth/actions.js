@@ -168,7 +168,8 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
 
   let _headers = Object.assign({
     "Accept":"application/json, text/plain, */*",
-    "Content-Type": "application/x-www-form-urlencoded"
+    "Content-Type": "application/x-www-form-urlencoded",
+    "X-Requested-With": "XMLHttpRequest"
   }, headers)
 
   fn.fetch({
