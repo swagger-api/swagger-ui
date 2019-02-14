@@ -30,7 +30,8 @@ const RequestBody = ({
   const requestBodyContent = (requestBody && requestBody.get("content")) || new OrderedMap()
   contentType = contentType || requestBodyContent.keySeq().first()
 
-  const mediaTypeValue = requestBodyContent.get(contentType)
+  const mediaTypeValue = requestBodyContent.get(contentType, OrderedMap())
+  const schemaForMediaType = mediaTypeValue.get("schema", OrderedMap())
 
   if(!mediaTypeValue) {
     return null
@@ -55,15 +56,17 @@ const RequestBody = ({
     return <Input type={"file"} onChange={handleFile} />
   }
 
-  if(
+  if (
     isObjectContent &&
-    (contentType === "application/x-www-form-urlencoded"
-    || contentType.indexOf("multipart/") === 0))
-  {
+    (
+      contentType === "application/x-www-form-urlencoded" ||
+      contentType.indexOf("multipart/") === 0
+    ) &&
+    schemaForMediaType.get("properties", OrderedMap()).size > 0
+  ) {
     const JsonSchemaForm = getComponent("JsonSchemaForm")
     const ParameterExt = getComponent("ParameterExt")
-    const schemaForContentType = requestBody.getIn(["content", contentType, "schema"], OrderedMap())
-    const bodyProperties = schemaForContentType.getIn([ "properties"], OrderedMap())
+    const bodyProperties = schemaForMediaType.get("properties", OrderedMap())
     requestBodyValue = Map.isMap(requestBodyValue) ? requestBodyValue : OrderedMap()
 
     return <div className="table-container">
@@ -75,7 +78,7 @@ const RequestBody = ({
           {
             bodyProperties.map((prop, key) => {
               let commonExt = showCommonExtensions ? getCommonExtensions(prop) : null
-              const required = schemaForContentType.get("required", List()).includes(key)
+              const required = schemaForMediaType.get("required", List()).includes(key)
               const type = prop.get("type")
               const format = prop.get("format")
               const description = prop.get("description")
