@@ -1,4 +1,4 @@
-# Swagger UI
+# <img src="https://raw.githubusercontent.com/swagger-api/swagger.io/wordpress/images/assets/SWU-logo-clr.png" height="80">
 
 [![NPM version](https://badge.fury.io/js/swagger-ui.svg)](http://badge.fury.io/js/swagger-ui)
 
@@ -10,7 +10,7 @@
 This repository publishes to two different NPM modules:
 
 * [swagger-ui](https://www.npmjs.com/package/swagger-ui) is a traditional npm module intended for use in single-page applications that are capable of resolving dependencies (via Webpack, Browserify, etc).
-* [swagger-ui-dist](https://www.npmjs.com/package/swagger-ui-dist) is a dependency-free module that includes everything you need to serve Swagger-UI in a server-side project, or a single-page application that can't resolve npm module dependencies.
+* [swagger-ui-dist](https://www.npmjs.com/package/swagger-ui-dist) is a dependency-free module that includes everything you need to serve Swagger UI in a server-side project, or a single-page application that can't resolve npm module dependencies.
 
 We strongly suggest that you use `swagger-ui` instead of `swagger-ui-dist` if you're building a single-page application, since `swagger-ui-dist` is significantly larger.
 
@@ -67,6 +67,7 @@ To help with the migration, here are the currently known issues with 3.X. This l
 - Support for `collectionFormat` is partial.
 - l10n (translations) is not implemented.
 - Relative path support for external files is not implemented.
+- There are compatibility [issues](https://github.com/swagger-api/swagger-ui/labels/epic%3A%20usage%20in%20react%4016) with React 16.x.
 
 ## Security contact
 
@@ -74,7 +75,7 @@ Please disclose any security-related issues or vulnerabilities by emailing [secu
 
 ## License
 
-Copyright 2018 SmartBear Software
+Copyright 2019 SmartBear Software
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -85,3 +86,4 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+

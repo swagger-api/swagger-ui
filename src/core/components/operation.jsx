@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { getList } from "core/utils"
-import { getExtensions, sanitizeUrl, createDeepLinkPath } from "core/utils"
+import { getExtensions, sanitizeUrl, escapeDeepLinkPath } from "core/utils"
 import { Iterable, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 
@@ -83,7 +83,6 @@ export default class Operation extends PureComponent {
 
     let operation = operationProps.getIn(["op"])
     let responses = operation.get("responses")
-    let produces = operation.get("produces")
     let parameters = getList(operation, ["parameters"])
     let operationScheme = specSelectors.operationScheme(path, method)
     let isShownKey = ["operations", tag, operationId]
@@ -112,7 +111,7 @@ export default class Operation extends PureComponent {
     let onChangeKey = [ path, method ] // Used to add values to _this_ operation ( indexed by path and method )
 
     return (
-        <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={createDeepLinkPath(isShownKey.join("-"))} >
+        <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={escapeDeepLinkPath(isShownKey.join("-"))} >
         <OperationSummary operationProps={operationProps} toggleShown={toggleShown} getComponent={getComponent} authActions={authActions} authSelectors={authSelectors} specPath={specPath} />
           <Collapse isOpened={isShown}>
             <div className="opblock-body">
@@ -216,7 +215,7 @@ export default class Operation extends PureComponent {
                     specSelectors={ specSelectors }
                     oas3Actions={oas3Actions}
                     specActions={ specActions }
-                    produces={ produces }
+                    produces={specSelectors.producesOptionsFor([path, method]) }
                     producesValue={ specSelectors.currentProducesFor([path, method]) }
                     specPath={specPath.push("responses")}
                     path={ path }

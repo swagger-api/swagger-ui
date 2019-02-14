@@ -37,6 +37,7 @@ module.exports = function SwaggerUI(opts) {
     maxDisplayedTags: null,
     filter: null,
     validatorUrl: "https://online.swagger.io/validator",
+    oauth2RedirectUrl: `${window.location.protocol}//${window.location.host}/oauth2-redirect.html`,
     configs: {},
     custom: {},
     displayOperationId: false,
@@ -147,7 +148,7 @@ module.exports = function SwaggerUI(opts) {
         system.specActions.updateUrl("")
         system.specActions.updateLoadingStatus("success")
         system.specActions.updateSpec(JSON.stringify(mergedConfig.spec))
-      } else if (system.specActions.download && mergedConfig.url) {
+      } else if (system.specActions.download && mergedConfig.url && !mergedConfig.urls) {
         system.specActions.updateUrl(mergedConfig.url)
         system.specActions.download(mergedConfig.url)
       }
