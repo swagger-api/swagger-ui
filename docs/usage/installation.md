@@ -18,6 +18,8 @@ SwaggerUI({
 })
 ```
 
+See the [Webpack Getting Started](../samples/webpack-getting-started) sample for details.
+
 In contrast, **`swagger-ui-dist`** is meant for server-side projects that need assets to serve to clients. The module, when imported, includes an `absolutePath` helper function that returns the absolute filesystem path to where the `swagger-ui-dist` module is installed.
 
 _Note: we suggest using `swagger-ui` when your tooling makes it possible, as `swagger-ui-dist`
