@@ -37,13 +37,15 @@ export default class OperationSummaryPath extends PureComponent{
     const DeepLink = getComponent( "DeepLink" )
 
     return(
-      <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } onCopyCapture={this.onCopyCapture}>
-              <DeepLink
-                  enabled={isDeepLinkingEnabled}
-                  isShown={isShown}
-                  path={createDeepLinkPath(`${tag}/${operationId}`)}
-                  text={path.replace(/\//g, "\u200b/")} />
-              </span>
+      <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } 
+        onCopyCapture={this.onCopyCapture}
+        data-path={path}>
+        <DeepLink
+            enabled={isDeepLinkingEnabled}
+            isShown={isShown}
+            path={createDeepLinkPath(`${tag}/${operationId}`)}
+            text={path.replace(/\//g, "\u200b/")} />
+      </span>
 
     )
   }

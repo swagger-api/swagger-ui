@@ -7,8 +7,8 @@ describe("#4867: callback parameter rendering", () => {
       .contains("Callbacks")
       .click()
 
-      .get(".callbacks-container")
-      .contains("http://$request.query.url")
+      .get(".callbacks-container .opblock-summary-path")
+      .should("have.attr", "data-path", "http://$request.query.url")
       .click()
 
       .get(".parameters-container")
