@@ -12,6 +12,12 @@ export default class OperationSummaryPath extends PureComponent{
     getComponent: PropTypes.func.isRequired,
   }
 
+  onCopyCapture = (e) => {
+    // strips injected zero-width spaces (`\u200b`) from copied content
+    e.clipboardData.setData("text/plain", this.props.operationProps.get("path"))
+    e.preventDefault()
+  }
+
   render(){
     let {
       getComponent,
@@ -31,12 +37,12 @@ export default class OperationSummaryPath extends PureComponent{
     const DeepLink = getComponent( "DeepLink" )
 
     return(
-      <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } >
+      <span className={ deprecated ? "opblock-summary-path__deprecated" : "opblock-summary-path" } onCopyCapture={this.onCopyCapture}>
               <DeepLink
                   enabled={isDeepLinkingEnabled}
                   isShown={isShown}
                   path={createDeepLinkPath(`${tag}/${operationId}`)}
-                  text={path} />
+                  text={path.replace(/\//g, "\u200b/")} />
               </span>
 
     )

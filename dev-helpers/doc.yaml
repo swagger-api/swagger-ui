@@ -1,0 +1,9 @@
+openapi: "3.0.0"
+
+paths:
+ /pet/with/a/really/long/made/up/path/that/keeps/going/and/going/and/when/will/it/ever/stop/nobody/knows/:
+    post:
+      tags:
+        - pet
+      summary: M:Microsoft.SomeNamespace.Some.Really.Long.Namespace.SomeController.MethodName(System.String,System.String,System.String,System.String,Newtonsoft.Json.Linq.JToken) 
+      description: ''
