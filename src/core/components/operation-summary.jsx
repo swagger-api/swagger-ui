@@ -63,7 +63,7 @@ export default class OperationSummary extends PureComponent {
 
         {!showSummary ? null :
           <div className="opblock-summary-description">
-            {resolvedSummary || summary}
+            {(resolvedSummary || summary).toString()}
           </div>
         }
 
