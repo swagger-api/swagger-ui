@@ -18,6 +18,6 @@ export class SwaggerUI extends React.Component {
   }
   
   render() {
-    return this.SwaggerUIComponent
+    return <this.SwaggerUIComponent />
   }
 }
