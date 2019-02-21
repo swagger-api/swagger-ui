@@ -15,6 +15,8 @@ export class SwaggerUI extends React.Component {
 
     this.system = ui
     this.SwaggerUIComponent = ui.getComponent("App", "root")
+
+    this.forceUpdate()
   }
   
   render() {
