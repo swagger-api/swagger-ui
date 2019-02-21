@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "react": {
+      "$remove": true
+    },
+    "react-dom": {
+      "$remove": true
+    }
+  },
+  "peerDependencies": {
+    "react": ">=15.6.2",
+    "react-dom": ">=15.6.2"
+  },
+  "scripts": {
+    "$remove": true
+  },
+  "devDependencies": {
+    "$remove": true
+  },
+  "bundlesize": {
+    "$remove": true
+  },
+  "nyc": {
+    "$remove": true
+  },
+  "browserslist": {
+    "$remove": true
+  }
+}
