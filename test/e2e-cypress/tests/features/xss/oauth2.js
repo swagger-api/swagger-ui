@@ -15,7 +15,7 @@ describe("XSS: OAuth2 authorizationUrl sanitization", () => {
           .wait(100)
           .then(() => {
             console.log(args)
-            expect(args[0]).to.match(/^about\:blank/) 
+            expect(args[0]).to.match(/^about:blank/) 
           })
 
       })
