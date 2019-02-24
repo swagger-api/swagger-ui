@@ -8,10 +8,17 @@ paths:
   /pet:
     get:
       tags:
-        - pet
+        - default
       summary: 
-        $ref: 
-      operationId: addPet
+        whatever: 123 
+      operationId: objectSummary
+      responses:
+        '405':
+          description: Invalid input
+    post:
+      tags:
+        - default
+      operationId: noSummary
       responses:
         '405':
           description: Invalid input
