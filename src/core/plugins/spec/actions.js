@@ -225,6 +225,16 @@ const debResolveSubtrees = debounce(async () => {
 }, 35)
 
 export const requestResolvedSubtree = path => system => {
+  // poor-man's array comparison
+  // if this ever inadequate, this should be rewritten to use Im.List
+  const isPathAlreadyBatched = requestBatch
+    .map(arr => arr.join("@@"))
+    .indexOf(path.join("@@")) > -1
+  
+  if(isPathAlreadyBatched) {
+    return
+  }
+
   requestBatch.push(path)
   requestBatch.system = system
   debResolveSubtrees()
