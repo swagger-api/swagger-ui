@@ -1,5 +1,5 @@
 import YAML from "@kyleshockey/js-yaml"
-import { Map } from "immutable"
+import { Map, List } from "immutable"
 import parseUrl from "url-parse"
 import serializeError from "serialize-error"
 import isString from "lodash/isString"
@@ -184,8 +184,11 @@ const debResolveSubtrees = debounce(async () => {
       })
 
       if(errSelectors.allErrors().size) {
-        errActions.clear({
-          type: "thrown"
+        errActions.clearBy(err => {
+          // keep if...
+          return err.get("type") !== "thrown" // it's not a thrown error
+            || err.get("source") !== "resolver" // it's not a resolver error
+            || !err.get("fullPath").every((key, i) => key === path[i] || path[i] === undefined) // it's not within the path we're resolving
         })
       }
 
