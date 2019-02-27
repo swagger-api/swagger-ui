@@ -14,6 +14,7 @@ export default class Operation extends PureComponent {
     response: PropTypes.instanceOf(Iterable),
     request: PropTypes.instanceOf(Iterable),
 
+    id: PropTypes.string,
     toggleShown: PropTypes.func.isRequired,
     onTryoutClick: PropTypes.func.isRequired,
     onCancelClick: PropTypes.func.isRequired,
