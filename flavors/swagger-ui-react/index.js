@@ -11,6 +11,7 @@ export default class SwaggerUI extends React.Component {
   
   componentDidMount() {
     const ui = swaggerUIConstructor({
+      spec: this.props.spec,
       url: this.props.url,
       requestInterceptor: this.requestInterceptor,
       responseInterceptor: this.responseInterceptor,
@@ -31,10 +32,21 @@ export default class SwaggerUI extends React.Component {
     if(this.props.url !== prevProps.url) {
       // flush current content
       this.system.specActions.updateSpec("")
-      // update the internal URL
-      this.system.specActions.updateUrl(this.props.url)
-      // trigger remote definition fetch
-      this.system.specActions.download(this.props.url)
+
+      if(this.props.url) {
+        // update the internal URL
+        this.system.specActions.updateUrl(this.props.url)
+        // trigger remote definition fetch
+        this.system.specActions.download(this.props.url) 
+      }
+    }
+
+    if(this.props.spec !== prevProps.spec && this.props.spec) {
+      if(typeof this.props.spec === "object") {
+        this.system.specActions.updateSpec(JSON.stringify(this.props.spec))
+      } else {
+        this.system.specActions.updateSpec(this.props.spec)
+      }
     }
   }
 
@@ -60,6 +72,10 @@ export default class SwaggerUI extends React.Component {
 }
 
 SwaggerUI.propTypes = {
+  spec: PropTypes.oneOf([
+    PropTypes.string,
+    PropTypes.object,
+  ]),
   url: PropTypes.string,
   requestInterceptor: PropTypes.func,
   responseInterceptor: PropTypes.func,

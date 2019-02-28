@@ -29,9 +29,17 @@ export default AppComponent = () => <SwaggerUI url="https://petstore.swagger.io/
 
 ### Configuration
 
+##### `spec`: PropTypes.object
+
+An OpenAPI document respresented as a JavaScript object, JSON string, or YAML string for Swagger UI to display.
+
+⚠️ Don't use this in conjunction with `url` - unpredictable behavior may occur.
+
 ##### `url`: PropTypes.string
 
 Remote URL to an OpenAPI document that Swagger UI will fetch, parse, and display.
+
+⚠️ Don't use this in conjunction with `spec` - unpredictable behavior may occur.
 
 ##### `requestInterceptor`: PropTypes.func
 
