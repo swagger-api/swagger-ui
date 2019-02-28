@@ -64,7 +64,6 @@ export default class Operation extends PureComponent {
     let {
       deprecated,
       isShown,
-      isShownKey,
       path,
       method,
       op,
