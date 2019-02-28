@@ -35,14 +35,14 @@ Remote URL to an OpenAPI document that Swagger UI will fetch, parse, and display
 
 ##### `requestInterceptor`: PropTypes.func
 
-`req => req` or `req => Promise<req>`.
+> `req => req` or `req => Promise<req>`.
 
 A function that accepts a request object, and returns either a request object
 or a Promise that resolves to a request object.
 
 ##### `responseInterceptor`: PropTypes.func
 
-`res => res` or `res => Promise<res>`.
+> `res => res` or `res => Promise<res>`.
 
 A function that accepts a response object, and returns either a response object
 or a Promise that resolves to a response object.
