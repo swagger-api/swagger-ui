@@ -29,7 +29,10 @@ export default AppComponent = () => <SwaggerUI url="https://petstore.swagger.io/
 
 ### Configuration
 
-TODO
+##### `url`: PropTypes.string
+
+Remote URL to an OpenAPI document that Swagger UI will fetch, parse, and display.
+
 
 ### Limitations
 
@@ -37,6 +40,10 @@ TODO
 * Custom plugins are not officially supported.
 * OAuth redirection handling is not supported.
 * Topbar/Standalone mode is not supported.
+
+### Notes
+
+* The `package.json` in the same folder as this README is _not_ the manifest that should be used for releases - another manifest is generated at build-time and can be found in `./dist/`.
 
 ---
 

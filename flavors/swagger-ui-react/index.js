@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 import swaggerUIConstructor from "./swagger-ui"
 
 export class SwaggerUI extends React.Component {
@@ -11,7 +12,6 @@ export class SwaggerUI extends React.Component {
   componentDidMount() {
     const ui = swaggerUIConstructor({
       url: this.props.url,
-      displayOperationId: this.props.displayOperationId
     })
 
     this.system = ui
@@ -25,8 +25,17 @@ export class SwaggerUI extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(this.props.displayOperationId !== prevProps.displayOperationId) {
-      this.system.getConfigs().displayOperationId = this.props.displayOperationId  // XXX: this is bad
+    if(this.props.url !== prevProps.url) {
+      // flush current content
+      this.system.specActions.updateSpec("")
+      // update the internal URL
+      this.system.specActions.updateUrl(this.props.url)
+      // trigger remote definition fetch
+      this.system.specActions.download(this.props.url)
     }
   }
+}
+
+SwaggerUI.propTypes = {
+  url: PropTypes.string,
 }
