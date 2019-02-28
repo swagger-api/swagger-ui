@@ -12,6 +12,8 @@ export default class SwaggerUI extends React.Component {
   componentDidMount() {
     const ui = swaggerUIConstructor({
       url: this.props.url,
+      requestInterceptor: this.requestInterceptor,
+      responseInterceptor: this.responseInterceptor,
     })
 
     this.system = ui
@@ -34,8 +36,24 @@ export default class SwaggerUI extends React.Component {
       this.system.specActions.download(this.props.url)
     }
   }
+
+  requestInterceptor = (req) => {
+    if (typeof this.props.requestInterceptor === "function") {
+      return this.props.requestInterceptor(req)
+    }
+    return req
+  }
+
+  responseInterceptor = (res) => {
+    if (typeof this.props.responseInterceptor === "function") {
+      return this.props.responseInterceptor(res)
+    }
+    return res
+  }
 }
 
 SwaggerUI.propTypes = {
   url: PropTypes.string,
+  requestInterceptor: PropTypes.func,
+  responseInterceptor: PropTypes.func,
 }
