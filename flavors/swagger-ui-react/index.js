@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import swaggerUIConstructor from "./swagger-ui"
 
-export class SwaggerUI extends React.Component {
+export default class SwaggerUI extends React.Component {
   constructor (props) {
     super(props)
     this.SwaggerUIComponent = null
