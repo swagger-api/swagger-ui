@@ -14,6 +14,7 @@ export default class SwaggerUI extends React.Component {
       url: this.props.url,
       requestInterceptor: this.requestInterceptor,
       responseInterceptor: this.responseInterceptor,
+      onComplete: this.onComplete,
     })
 
     this.system = ui
@@ -50,10 +51,17 @@ export default class SwaggerUI extends React.Component {
     }
     return res
   }
+
+  onComplete = () => {
+    if (typeof this.props.onComplete === "function") {
+      return this.props.onComplete()
+    }
+  }
 }
 
 SwaggerUI.propTypes = {
   url: PropTypes.string,
   requestInterceptor: PropTypes.func,
   responseInterceptor: PropTypes.func,
+  onComplete: PropTypes.func,
 }

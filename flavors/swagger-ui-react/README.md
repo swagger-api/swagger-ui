@@ -47,6 +47,10 @@ or a Promise that resolves to a request object.
 A function that accepts a response object, and returns either a response object
 or a Promise that resolves to a response object.
 
+##### `onComplete`: PropTypes.func
+
+A callback function that is triggered when Swagger-UI finishes rendering an OpenAPI document.
+
 ### Limitations
 
 * Not all configuration bindings are available.
