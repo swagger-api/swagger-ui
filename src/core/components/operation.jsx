@@ -15,7 +15,6 @@ export default class Operation extends PureComponent {
     request: PropTypes.instanceOf(Iterable),
 
     toggleShown: PropTypes.func.isRequired,
-    isShownKey: PropTypes.array,
     onTryoutClick: PropTypes.func.isRequired,
     onCancelClick: PropTypes.func.isRequired,
     onExecute: PropTypes.func.isRequired,
@@ -87,7 +86,7 @@ export default class Operation extends PureComponent {
     let responses = operation.get("responses")
     let parameters = getList(operation, ["parameters"])
     let operationScheme = specSelectors.operationScheme(path, method)
-    isShownKey = isShownKey || ["operations", tag, operationId]
+    let isShownKey = ["operations", tag, operationId]
     let extensions = getExtensions(operation)
 
     const Responses = getComponent("responses")
