@@ -10,7 +10,7 @@ It has a few distinctions from the mainstream version of Swagger UI:
 
 Versions of this module mirror the version of Swagger UI included in the distribution.
 
-### Quick start
+## Quick start
 
 Install `swagger-ui-react`:
 
@@ -27,46 +27,46 @@ import "swagger-ui-react/swagger-ui.css"
 export default AppComponent = () => <SwaggerUI url="https://petstore.swagger.io/v2/swagger.json" />
 ```
 
-### Configuration
+## Configuration
 
-##### `spec`: PropTypes.object
+#### `spec`: PropTypes.object
 
 An OpenAPI document respresented as a JavaScript object, JSON string, or YAML string for Swagger UI to display.
 
 ⚠️ Don't use this in conjunction with `url` - unpredictable behavior may occur.
 
-##### `url`: PropTypes.string
+#### `url`: PropTypes.string
 
 Remote URL to an OpenAPI document that Swagger UI will fetch, parse, and display.
 
 ⚠️ Don't use this in conjunction with `spec` - unpredictable behavior may occur.
 
-##### `requestInterceptor`: PropTypes.func
+#### `onComplete`: PropTypes.func
+
+A callback function that is triggered when Swagger-UI finishes rendering an OpenAPI document.
+
+#### `requestInterceptor`: PropTypes.func
 
 > `req => req` or `req => Promise<req>`.
 
 A function that accepts a request object, and returns either a request object
 or a Promise that resolves to a request object.
 
-##### `responseInterceptor`: PropTypes.func
+#### `responseInterceptor`: PropTypes.func
 
 > `res => res` or `res => Promise<res>`.
 
 A function that accepts a response object, and returns either a response object
 or a Promise that resolves to a response object.
 
-##### `onComplete`: PropTypes.func
-
-A callback function that is triggered when Swagger-UI finishes rendering an OpenAPI document.
-
-### Limitations
+## Limitations
 
 * Not all configuration bindings are available.
 * Custom plugins are not officially supported.
 * OAuth redirection handling is not supported.
 * Topbar/Standalone mode is not supported.
 
-### Notes
+## Notes
 
 * The `package.json` in the same folder as this README is _not_ the manifest that should be used for releases - another manifest is generated at build-time and can be found in `./dist/`.
 
