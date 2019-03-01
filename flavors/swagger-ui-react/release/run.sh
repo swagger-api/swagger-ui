@@ -19,7 +19,7 @@ cp ../README.md ../dist
 # Run the release from the dist folder
 cd ../dist
 
-if [ "$PUBLISH_FLAVOR_REACT" = "true" ] || [ "$TRAVIS" = "true" ] ; then
+if [ "$PUBLISH_FLAVOR_REACT" = "true" ] ; then
   npm publish .
 else
   npm pack .

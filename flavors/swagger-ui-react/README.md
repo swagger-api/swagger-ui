@@ -4,9 +4,9 @@
 
 `swagger-ui-react` is a flavor of Swagger UI suitable for use in React applications.
 
-It has a few distinctions from the mainstream version of Swagger UI:
+It has a few differences from the main version of Swagger UI:
+* Declares `react` and `react-dom` as peerDependencies instead of production dependencies
 * Exports a component instead of a constructor function
-* Declares `react` and `react-dom` as peerDependencies
 
 Versions of this module mirror the version of Swagger UI included in the distribution.
 
@@ -24,10 +24,12 @@ Use it in your React application:
 import SwaggerUI from "swagger-ui-react"
 import "swagger-ui-react/swagger-ui.css"
 
-export default AppComponent = () => <SwaggerUI url="https://petstore.swagger.io/v2/swagger.json" />
+export default App = () => <SwaggerUI url="https://petstore.swagger.io/v2/swagger.json" />
 ```
 
-## Configuration
+## Props
+
+These props map to [Swagger UI configuration options](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md) of the same name.
 
 #### `spec`: PropTypes.object
 
@@ -62,9 +64,9 @@ or a Promise that resolves to a response object.
 ## Limitations
 
 * Not all configuration bindings are available.
-* Custom plugins are not officially supported.
 * OAuth redirection handling is not supported.
 * Topbar/Standalone mode is not supported.
+* Custom plugins are not supported.
 
 ## Notes
 
