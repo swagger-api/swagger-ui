@@ -16,7 +16,7 @@ export default class StandaloneLayout extends React.Component {
   }
 
   render() {
-    let { getComponent, specSelectors, errSelectors } = this.props
+    let { getComponent } = this.props
 
     let Container = getComponent("Container")
     let Row = getComponent("Row")
