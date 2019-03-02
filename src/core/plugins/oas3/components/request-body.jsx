@@ -28,12 +28,12 @@ const RequestBody = ({
 
   const requestBodyDescription = (requestBody && requestBody.get("description")) || null
   const requestBodyContent = (requestBody && requestBody.get("content")) || new OrderedMap()
-  contentType = contentType || requestBodyContent.keySeq().first()
+  contentType = contentType || requestBodyContent.keySeq().first() || ""
 
   const mediaTypeValue = requestBodyContent.get(contentType, OrderedMap())
   const schemaForMediaType = mediaTypeValue.get("schema", OrderedMap())
 
-  if(!mediaTypeValue) {
+  if(!mediaTypeValue.size) {
     return null
   }
 
