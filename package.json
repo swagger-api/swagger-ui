@@ -83,6 +83,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^8.4.1",
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.23.1",
     "babel-eslint": "^7.1.1",
     "babel-loader": "^7.1.0",
@@ -118,6 +119,7 @@
     "imports-loader": "^0.8.0",
     "jsdom": "^11.10.0",
     "json-loader": "^0.5.7",
+    "json-merger": "^1.1.0",
     "json-server": "^0.12.2",
     "less": "^3.0.2",
     "license-checker": "^19.0.0",
