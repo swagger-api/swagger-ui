@@ -68,6 +68,8 @@ or a Promise that resolves to a response object.
 * Topbar/Standalone mode is not supported.
 * Custom plugins are not supported.
 
+We intend to address these limitations based on user demand, so please open an issue or pull request if you have a specific request.
+
 ## Notes
 
 * The `package.json` in the same folder as this README is _not_ the manifest that should be used for releases - another manifest is generated at build-time and can be found in `./dist/`.
