@@ -66,7 +66,7 @@ export default class SwaggerUI extends React.Component {
 
   onComplete = () => {
     if (typeof this.props.onComplete === "function") {
-      return this.props.onComplete()
+      return this.props.onComplete(this.system)
     }
   }
 }
