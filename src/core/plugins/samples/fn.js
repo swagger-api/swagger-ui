@@ -1,6 +1,7 @@
 import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
 import XML from "@kyleshockey/xml"
 import memoizee from "memoizee"
+import deepAssign from "@kyleshockey/object-assign-deep"
 
 const primitives = {
   "string": () => "string",
@@ -120,7 +121,7 @@ export const inferSchema = (thing) => {
 
 
 export const sampleXmlFromSchema = (schema, config={}) => {
-  let objectifySchema = objectify(schema)
+  let objectifySchema = deepAssign({}, objectify(schema))
   let { type, properties, additionalProperties, items, example } = objectifySchema
   let { includeReadOnly, includeWriteOnly } = config
   let defaultValue = objectifySchema.default

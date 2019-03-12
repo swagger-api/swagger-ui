@@ -2,6 +2,7 @@ import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { Iterable, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
+import toString from "lodash/toString"
 
 
 export default class OperationSummary extends PureComponent {
@@ -63,7 +64,7 @@ export default class OperationSummary extends PureComponent {
 
         {!showSummary ? null :
           <div className="opblock-summary-description">
-            {resolvedSummary || summary}
+            {toString(resolvedSummary || summary)}
           </div>
         }
 

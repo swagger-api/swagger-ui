@@ -1,3 +1,4 @@
+const startOAuthServer = require("../helpers/oauth2-server")
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins
 //
@@ -12,6 +13,7 @@
 // the project's config changing)
 
 module.exports = (on, config) => {
+  startOAuthServer()
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
 }

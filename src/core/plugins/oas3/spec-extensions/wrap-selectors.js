@@ -46,7 +46,10 @@ const spec = state => {
 
 export const definitions = onlyOAS3(createSelector(
   spec,
-  spec => spec.getIn(["components", "schemas"]) || Map()
+  spec => {
+    const res = spec.getIn(["components", "schemas"])
+    return Map.isMap(res) ? res : Map()
+  }
 ))
 
 export const hasHost = onlyOAS3((state) => {

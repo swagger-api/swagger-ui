@@ -1,6 +1,6 @@
 .topbar
 {
-    padding: 8px 0;
+    padding: 10px 0;
 
     background-color: $topbar-background-color;
     .topbar-wrapper
@@ -54,6 +54,7 @@
             width: 100%;
             max-width: 600px;
             margin: 0;
+            color: #f0f0f0;
             span
             {
                 font-size: 16px;

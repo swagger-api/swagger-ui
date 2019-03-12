@@ -482,7 +482,7 @@ module.exports = {
     },
     /* Model Container */
     modelWrapper: {
-      selector: "div.swagger-ui > div:nth-child(2) > div:nth-child(6)",
+      selector: "div.swagger-ui > div:nth-child(2) > div:nth-child(5)",
       elements: {
         modelContainer: {
           selector: ".swagger-ui .models"
