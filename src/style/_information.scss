@@ -32,6 +32,20 @@
         @include text_code($info-code-font-color);
     }
 
+    pre
+    {
+        padding: 3px 8px 6px;
+
+        border-radius: 4px;
+        background: rgba($info-code-background-color,.05);
+
+        code
+        {
+            padding: 0;
+            background: none;
+        }
+    }
+
     a
     {
         font-size: 14px;
