@@ -102,6 +102,7 @@
             pre
             {
                 margin: 0;
+                padding: 0;
 
                 @include text_headline($info-title-small-pre-font-color);
             }
