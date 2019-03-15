@@ -45,7 +45,11 @@ Remote URL to an OpenAPI document that Swagger UI will fetch, parse, and display
 
 #### `onComplete`: PropTypes.func
 
+> `(system) => void`
+
 A callback function that is triggered when Swagger-UI finishes rendering an OpenAPI document.
+
+Swagger UI's `system` object is passed as an argument.
 
 #### `requestInterceptor`: PropTypes.func
 
