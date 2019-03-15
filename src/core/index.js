@@ -8,7 +8,7 @@ import * as AllPlugins from "core/plugins/all"
 import { parseSearch } from "core/utils"
 
 if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
-  win.Perf = require("react-addons-perf")
+  win.Perf = require("react-dom/lib/ReactPerf")
 }
 
 // eslint-disable-next-line no-undef
