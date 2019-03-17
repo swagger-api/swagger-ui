@@ -65,6 +65,12 @@ or a Promise that resolves to a request object.
 A function that accepts a response object, and returns either a response object
 or a Promise that resolves to a response object.
 
+#### `initalDocExpansion`: PropTypes.oneOf(['list', 'full', 'none'])
+
+Controls the default expansion setting for the operations and tags. It can be 'list' (expands only the tags), 'full' (expands the tags and operations) or 'none' (expands nothing). The default value is 'list'.
+
+⚠️ This prop is only applied on mount, subsequent changes to this prop will not be applied. 
+
 ## Limitations
 
 * Not all configuration bindings are available.
