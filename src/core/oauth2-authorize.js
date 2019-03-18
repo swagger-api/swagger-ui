@@ -1,7 +1,8 @@
+import parseUrl from "url-parse"
 import win from "core/window"
 import { btoa, sanitizeUrl } from "core/utils"
 
-export default function authorize ( { auth, authActions, errActions, configs, authConfigs={} } ) {
+export default function authorize ( { auth, authActions, errActions, configs, authConfigs={}, currentServer } ) {
   let { schema, scopes, name, clientId } = auth
   let flow = schema.get("flow")
   let query = []
@@ -75,7 +76,11 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   }
 
   const authorizationUrl = schema.get("authorizationUrl")
-  const sanitizedAuthorizationUrl = sanitizeUrl(authorizationUrl)
+  let sanitizedAuthorizationUrl = parseUrl(
+    sanitizeUrl(authorizationUrl),
+    currentServer,
+    true
+  ).toString()
   let url = [sanitizedAuthorizationUrl, query.join("&")].join(authorizationUrl.indexOf("?") === -1 ? "?" : "&")
 
   // pass action authorizeOauth2 and authentication data through window

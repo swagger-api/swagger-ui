@@ -53,7 +53,8 @@ describe("auth plugin - actions", () => {
             getConfigs: () => ({})
           },
           oas3Selectors: {
-            selectedServer: () => server
+            selectedServer: () => server,
+            serverEffectiveValue: () => server
           },
           specSelectors: {
             isOAS3: () => oas3,
@@ -127,7 +128,9 @@ describe("auth plugin - actions", () => {
           })
         },
         oas3Selectors: {
-          selectedServer: () => "http://google.com"
+          selectedServer: () => "http://google.com",
+          serverEffectiveValue: (server) => server
+
         },
         specSelectors: {
           isOAS3: () => true,
