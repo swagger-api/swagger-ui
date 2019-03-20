@@ -1,12 +1,10 @@
 import reduce from "lodash/reduce"
 import * as NotOfType from "./transformers/not-of-type"
 import * as ParameterOneOf from "./transformers/parameter-oneof"
-import * as StripInstance from "./transformers/strip-instance"
 
 const errorTransformers = [
   NotOfType,
-  ParameterOneOf,
-  StripInstance
+  ParameterOneOf
 ]
 
 export default function transformErrors (errors, system) {

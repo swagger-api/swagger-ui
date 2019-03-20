@@ -245,10 +245,9 @@
 
 
         display: flex;
-        flex: 0 3 auto;
         align-items: center;
 
-        word-break: break-all;
+        word-break: break-word;
 
         padding: 0 10px;
 
@@ -270,7 +269,9 @@
     {
         font-size: 13px;
 
-        flex: 1;
+        flex: 1 1 auto;
+
+        word-break: break-word;
 
         @include text_body();
     }
