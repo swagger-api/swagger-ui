@@ -1,7 +1,9 @@
 import win from "core/window"
 import { btoa, buildFormData } from "core/utils"
+import * as url from "url"
 
 export const SHOW_AUTH_POPUP = "show_popup"
+export const RECEIVE_OTP = "receive_otp"
 export const AUTHORIZE = "authorize"
 export const LOGOUT = "logout"
 export const PRE_AUTHORIZE_OAUTH2 = "pre_authorize_oauth2"
@@ -14,6 +16,13 @@ const scopeSeparator = " "
 export function showDefinitions(payload) {
   return {
     type: SHOW_AUTH_POPUP,
+    payload: payload
+  }
+}
+
+export function receiveOtp(payload) {
+  return {
+    type: RECEIVE_OTP,
     payload: payload
   }
 }
@@ -191,7 +200,7 @@ export function configureAuth(payload) {
   }
 }
 
-export const authorizeToken = ( auth ) => ( { fn, authActions, errActions } ) => {
+export const authorizeBasicToken = ( auth ) => ( { fn, authActions, errActions } ) => {
   let { schema, name, username, password } = auth
   let query = {}
   let headers = {
@@ -247,6 +256,133 @@ export const authorizeToken = ( auth ) => ( { fn, authActions, errActions } ) =>
     // by general failed to fetch error due to missing CORS header from rowdy
     // for error responses
     err.message = 'Unauthorized. Please check your username and password.'
+
+    errActions.newAuthErr( {
+      authId: name,
+      level: "error:",
+      source: "auth",
+      message: err.message
+    } )
+  })
+}
+
+export const sendOtp = ( auth ) => ( { fn, authActions, errActions } ) => {
+  authActions.receiveOtp(false)
+
+  let { schema, name, email } = auth
+
+  let fetchUrl = url.resolve(schema.get("tokenUrl"), "/request_login_email")
+  let body = JSON.stringify({ email })
+
+  let headers = {
+    "Accept":"application/json, text/plain, */*",
+    "Content-Type": "application/json"
+  }
+
+  fn.fetch({
+    url: fetchUrl,
+    method: "post",
+    headers,
+    body
+  })
+  .then(function (response) {
+    let response_data = JSON.parse(response.data)
+    let error = response_data && ( response_data.error || "" )
+    let parseError = response_data && ( response_data.parseError || "" )
+
+    if ( !response.ok ) {
+      errActions.newAuthErr( {
+        authId: name,
+        level: "error",
+        source: "auth",
+        message: response.statusText
+      } )
+      return
+    }
+
+    if ( error || parseError ) {
+      errActions.newAuthErr({
+        authId: name,
+        level: "error",
+        source: "auth",
+        message: JSON.stringify(response_data)
+      })
+      return
+    }
+
+    authActions.receiveOtp(true)
+  })
+  .catch(e => {
+    let err = new Error(e)
+    err.message = "Error sending OTP. " + e.response.body.message
+
+    errActions.newAuthErr( {
+      authId: name,
+      level: "error:",
+      source: "auth",
+      message: err.message
+    } )
+  })
+}
+
+export const authorizeOtpToken = ( auth ) => ( { fn, authActions, errActions } ) => {
+  authActions.receiveOtp(false)
+
+  let { schema, name, email, otp } = auth
+
+  let fetchUrl = url.resolve(schema.get("tokenUrl"), "/get_token")
+
+  let query = {
+    service: schema.get("service"),
+    expiry: schema.get("tokenExpiry")
+  }
+
+  let body = JSON.stringify({ email, otp })
+
+  let headers = {
+    "Accept":"application/json, text/plain, */*",
+    "Content-Type": "application/json"
+  }
+
+  fn.fetch({
+    url: fetchUrl,
+    method: "post",
+    headers,
+    query,
+    body
+  })
+  .then(function (response) {
+    let response_data = JSON.parse(response.data)
+    let error = response_data && ( response_data.error || "" )
+    let parseError = response_data && ( response_data.parseError || "" )
+
+    if ( !response.ok ) {
+      errActions.newAuthErr( {
+        authId: name,
+        level: "error",
+        source: "auth",
+        message: response.statusText
+      } )
+      return
+    }
+
+    if ( error || parseError ) {
+      errActions.newAuthErr({
+        authId: name,
+        level: "error",
+        source: "auth",
+        message: JSON.stringify(response_data)
+      })
+      return
+    }
+
+    auth.token = response_data.token
+    auth.email = email
+    authActions.authorize({ auth })
+  })
+  .catch(e => {
+    let err = new Error(e)
+    err.message = "Unauthorized. " + e.response.body.message
 
     errActions.newAuthErr( {
       authId: name,

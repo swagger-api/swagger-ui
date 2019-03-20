@@ -3,6 +3,7 @@ import { btoa } from "core/utils"
 
 import {
   SHOW_AUTH_POPUP,
+  RECEIVE_OTP,
   AUTHORIZE,
   AUTHORIZE_OAUTH2,
   LOGOUT,
@@ -12,6 +13,10 @@ import {
 export default {
   [SHOW_AUTH_POPUP]: (state, { payload } ) =>{
     return state.set( "showDefinitions", payload )
+  },
+
+  [RECEIVE_OTP]: (state, { payload } ) =>{
+    return state.setIn( [ "authorized", "otpSent" ], payload )
   },
 
   [AUTHORIZE]: (state, { payload } ) =>{
@@ -42,6 +47,9 @@ export default {
 
           let username = security.get("username")
           map = map.setIn([name, "username"], username)
+
+          let email = security.get("email")
+          map = map.setIn([name, "email"], email)
         }
       } else if ( type === "basic" ) {
         let username = security.getIn(["value", "username"])

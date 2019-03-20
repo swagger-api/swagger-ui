@@ -47,6 +47,7 @@ export default class Auths extends React.Component {
     const ApiKeyAuth = getComponent("apiKeyAuth")
     const BasicAuth = getComponent("basicAuth")
     const BasicJwtAuth = getComponent("basicJwtAuth", true)
+    const OtpJwtAuth = getComponent("otpJwtAuth", true)
     const Oauth2 = getComponent("oauth2", true)
     const Button = getComponent("Button")
 
@@ -58,7 +59,8 @@ export default class Auths extends React.Component {
 
     let nonOauthDefinitions = definitions.filter( schema => schema.get("type") !== "oauth2" && !(schema.get("type") === "apiKey" && schema.get("tokenUrl")))
     let oauthDefinitions = definitions.filter( schema => schema.get("type") === "oauth2")
-    let basicJwtDefinitions = definitions.filter( schema => schema.get("type") === "apiKey" && schema.get("tokenUrl"))
+    let basicJwtDefinitions = definitions.filter( schema => schema.get("type") === "apiKey" && schema.get("tokenUrl") && !schema.get("otp"))
+    let otpJwtDefinitions = definitions.filter( schema => schema.get("type") === "apiKey" && schema.get("tokenUrl") && schema.get("otp"))
 
     return (
       <div className="auth-container">
@@ -71,20 +73,20 @@ export default class Auths extends React.Component {
 
                 switch(type) {
                   case "apiKey": authEl = <ApiKeyAuth key={ name }
+                                                      schema={ schema }
+                                                      name={ name }
+                                                      errSelectors={ errSelectors }
+                                                      authorized={ authorized }
+                                                      getComponent={ getComponent }
+                                                      onChange={ this.onAuthChange } />
+                    break
+                  case "basic": authEl = <BasicAuth key={ name }
                                                     schema={ schema }
                                                     name={ name }
                                                     errSelectors={ errSelectors }
                                                     authorized={ authorized }
                                                     getComponent={ getComponent }
                                                     onChange={ this.onAuthChange } />
-                    break
-                  case "basic": authEl = <BasicAuth key={ name }
-                                                  schema={ schema }
-                                                  name={ name }
-                                                  errSelectors={ errSelectors }
-                                                  authorized={ authorized }
-                                                  getComponent={ getComponent }
-                                                  onChange={ this.onAuthChange } />
                     break
                   default: authEl = <div key={ name }>Unknown security definition type { type }</div>
                 }
@@ -111,8 +113,7 @@ export default class Auths extends React.Component {
             <p>API requires the following scopes. Select which ones you want to grant to Swagger UI.</p>
           </div>
             {
-              definitions.filter( schema => schema.get("type") === "oauth2")
-                .map( (schema, name) =>{
+              oauthDefinitions.map( (schema, name) =>{
                   return (<div key={ name }>
                     <Oauth2 authorized={ authorized }
                             schema={ schema }
@@ -127,12 +128,26 @@ export default class Auths extends React.Component {
         {
           basicJwtDefinitions && basicJwtDefinitions.size ? <div>
             {
-              definitions.filter( schema => schema.get("type") === "apiKey" && schema.get("tokenUrl"))
-                .map( (schema, name) =>{
+              basicJwtDefinitions.map( (schema, name) =>{
                   return (<div key={ name }>
                     <BasicJwtAuth authorized={ authorized }
                                   schema={ schema }
                                   name={ name } />
+                  </div>)
+                }
+                ).toArray()
+            }
+          </div> : null
+        }
+
+        {
+          otpJwtDefinitions && otpJwtDefinitions.size ? <div>
+            {
+              otpJwtDefinitions.map( (schema, name) =>{
+                  return (<div key={ name }>
+                    <OtpJwtAuth authorized={ authorized }
+                                schema={ schema }
+                                name={ name } />
                   </div>)
                 }
                 ).toArray()

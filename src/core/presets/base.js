@@ -20,6 +20,7 @@ import AuthError from "core/components/auth/error"
 import ApiKeyAuth from "core/components/auth/api-key-auth"
 import BasicAuth from "core/components/auth/basic-auth"
 import BasicJwtAuth from "core/components/auth/basic-jwt-auth"
+import OtpJwtAuth from "core/components/auth/otp-jwt-auth"
 import Oauth2 from "core/components/auth/oauth2"
 import Clear from "core/components/clear"
 import LiveResponse from "core/components/live-response"
@@ -68,6 +69,7 @@ export default function() {
       apiKeyAuth: ApiKeyAuth,
       basicAuth: BasicAuth,
       basicJwtAuth: BasicJwtAuth,
+      otpJwtAuth: OtpJwtAuth,
       clear: Clear,
       liveResponse: LiveResponse,
       info: Info,
