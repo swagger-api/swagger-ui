@@ -30,7 +30,7 @@ export default class BasicJwtAuth extends React.Component {
     let { authActions, errActions, name } = this.props
 
     errActions.clear({ authId: name,type: "auth", source: "auth" })
-    authActions.authorizeToken(this.state)
+    authActions.authorizeBasicToken(this.state)
   }
 
   onChange =(e) => {
