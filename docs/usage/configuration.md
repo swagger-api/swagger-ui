@@ -71,6 +71,7 @@ Parameter name | Docker variable | Description
 <a name="showMutatedRequest"></a>`showMutatedRequest` | `SHOW_MUTATED_REQUEST` | `Boolean=true`. If set to `true`, uses the mutated request returned from a requestInterceptor to produce the curl command in the UI, otherwise the request before the requestInterceptor was applied is used.
 <a name="supportedSubmitMethods"></a>`supportedSubmitMethods` | `SUPPORTED_SUBMIT_METHODS` | `Array=["get", "put", "post", "delete", "options", "head", "patch", "trace"]`. List of HTTP methods that have the Try it out feature enabled. An empty array disables Try it out for all operations. This does not filter the operations from the display.
 <a name="validatorUrl"></a>`validatorUrl` | `VALIDATOR_URL` | `String="https://online.swagger.io/validator" OR null`. By default, Swagger-UI attempts to validate specs against swagger.io's online validator. You can use this parameter to set a different validator URL, for example for locally deployed validators ([Validator Badge](https://github.com/swagger-api/validator-badge)). Setting it to `null` will disable validation.
+<a name="withCredentials"></a>`withCredentials` | `WITH_CREDENTIALS` | `Boolean=false` If set to `true`, enables passing credentials, [as defined in the Fetch standard](https://fetch.spec.whatwg.org/#credentials), in CORS requests that are sent by the browser. Note that Swagger UI cannot currently set cookies cross-domain (see [swagger-js#1163](https://github.com/swagger-api/swagger-js/issues/1163)) - as a result, you will have to rely on browser-supplied cookies (which this setting enables sending) that Swagger UI cannot control.
 
 ##### Macros
 
@@ -81,7 +82,7 @@ Parameter name | Docker variable | Description
 
 ### Instance methods
 
-**💡 Take note! These are methods, not parameters**. 
+**💡 Take note! These are methods, not parameters**.
 
 Method name | Docker variable | Description
 --- | --- | -----
@@ -91,7 +92,7 @@ Method name | Docker variable | Description
 
 ### Docker
 
-If you're using the Docker image, you can also control most of these options with environment variables. Each parameter has its environment variable name noted, if available. 
+If you're using the Docker image, you can also control most of these options with environment variables. Each parameter has its environment variable name noted, if available.
 
 Below are the general guidelines for using the environment variable interface.
 

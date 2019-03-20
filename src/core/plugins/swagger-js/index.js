@@ -1,4 +1,5 @@
 import Swagger from "swagger-client"
+import * as configsWrapActions from "./configs-wrap-actions"
 
 module.exports = function({ configs, getConfigs }) {
   return {
@@ -22,6 +23,11 @@ module.exports = function({ configs, getConfigs }) {
       },
       serializeRes: Swagger.serializeRes,
       opId: Swagger.helpers.opId
-    }
+    },
+    statePlugins: {
+      configs: {
+        wrapActions: configsWrapActions
+      }
+    },
   }
 }
