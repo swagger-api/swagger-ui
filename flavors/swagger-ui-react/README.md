@@ -69,7 +69,7 @@ or a Promise that resolves to a response object.
 
 Controls the default expansion setting for the operations and tags. It can be 'list' (expands only the tags), 'full' (expands the tags and operations) or 'none' (expands nothing). The default value is 'list'.
 
-⚠️ This prop is only applied on mount, subsequent changes to this prop will not be applied. 
+⚠️ This prop is only applied once on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. 
 
 ## Limitations
 
