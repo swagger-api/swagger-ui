@@ -1,4 +1,8 @@
 export const loaded = (ori, system) => (...args) => {
   ori(...args)
-  system.fn.fetch.withCredentials = !!system.getConfigs().withCredentials
+  const withCredentialsSetting = system.getConfigs().withCredentials
+  
+  if(withCredentialsSetting) {
+    system.fn.fetch.withCredentials = true
+  }
 }
