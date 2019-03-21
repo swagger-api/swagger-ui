@@ -76,11 +76,17 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   }
 
   const authorizationUrl = schema.get("authorizationUrl")
-  let sanitizedAuthorizationUrl = parseUrl(
-    sanitizeUrl(authorizationUrl),
-    currentServer,
-    true
-  ).toString()
+  let sanitizedAuthorizationUrl
+  if (currentServer) {
+    // OpenAPI 3
+    sanitizedAuthorizationUrl = parseUrl(
+      sanitizeUrl(authorizationUrl),
+      currentServer,
+      true
+    ).toString()
+  } else {
+    sanitizedAuthorizationUrl = sanitizeUrl(authorizationUrl)
+  }
   let url = [sanitizedAuthorizationUrl, query.join("&")].join(authorizationUrl.indexOf("?") === -1 ? "?" : "&")
 
   // pass action authorizeOauth2 and authentication data through window
