@@ -86,6 +86,10 @@ const standardVariables = {
   VALIDATOR_URL: {
     type: "string",
     name: "validatorUrl"
+  },
+  WITH_CREDENTIALS: {
+    type: "boolean",
+    name: "withCredentials",
   }
 }
 
