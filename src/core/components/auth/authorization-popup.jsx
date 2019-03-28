@@ -3,9 +3,9 @@ import PropTypes from "prop-types"
 
 export default class AuthorizationPopup extends React.Component {
   close =() => {
-    let { authActions, errActions, name } = this.props
+    let { authActions, errActions } = this.props
 
-    errActions.clear({ authId: name })
+    errActions.clear({ type: "auth" })
     authActions.receiveOtp(false)
     authActions.showDefinitions(false)
   }
@@ -52,7 +52,6 @@ export default class AuthorizationPopup extends React.Component {
   }
 
   static propTypes = {
-    name: PropTypes.string,
     fn: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
     authSelectors: PropTypes.object.isRequired,

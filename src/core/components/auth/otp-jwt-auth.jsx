@@ -18,12 +18,13 @@ export default class OtpJwtAuth extends React.Component {
     let { name, schema, authorized } = this.props
     let auth = authorized && authorized.get(name)
     let email = auth && auth.get("email") || ""
+    let otp = auth && auth.get("otp") || ""
 
     this.state = {
       name,
       schema,
       email,
-      otp: ""
+      otp
     }
   }
 
@@ -55,6 +56,7 @@ export default class OtpJwtAuth extends React.Component {
     e.preventDefault()
     let { authActions, errActions, name } = this.props
 
+    this.setState({ email: "", otp: ""})
     errActions.clear({ authId: name })
     authActions.logout([ name ])
   }
@@ -76,27 +78,27 @@ export default class OtpJwtAuth extends React.Component {
       <div>
         <Row>
           <label htmlFor="jwt_email">Email:</label>
-          {
-            isAuthorized ? <code> { this.state.email } </code>
-                         : <Col><Input id="jwt_email"
-                                       type="email"
-                                       value={this.state.email}
-                                       required="required"
-                                       data-name="email"
-                                       onChange={ this.onChange }/></Col>
-          }
+          <Col>
+            <Input id="jwt_email"
+                   type="email"
+                   value={this.state.email}
+                   required="required"
+                   data-name="email"
+                   onChange={ this.onChange }
+                   disabled={ isAuthorized } />
+          </Col>
         </Row>
         <Row>
           <label htmlFor="jwt_otp">OTP:</label>
-          {
-            isAuthorized ? <code> ****** </code>
-                         : <Col><Input id="jwt_otp"
-                                       type="text"
-                                       value={this.state.otp}
-                                       required="required"
-                                       data-name="otp"
-                                       onChange={ this.onChange }/></Col>
-          }
+          <Col>
+            <Input id="jwt_otp"
+                   type="text"
+                   value={this.state.otp}
+                   required="required"
+                   data-name="otp"
+                   onChange={ this.onChange }
+                   disabled={ isAuthorized } />
+          </Col>
         </Row>
         <div className="auth-msg-wrapper">
           {
