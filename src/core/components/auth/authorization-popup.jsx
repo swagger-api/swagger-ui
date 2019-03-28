@@ -3,8 +3,10 @@ import PropTypes from "prop-types"
 
 export default class AuthorizationPopup extends React.Component {
   close =() => {
-    let { authActions } = this.props
+    let { authActions, errActions, name } = this.props
 
+    errActions.clear({ authId: name })
+    authActions.receiveOtp(false)
     authActions.showDefinitions(false)
   }
 
@@ -20,7 +22,7 @@ export default class AuthorizationPopup extends React.Component {
           <div className="modal-dialog-ux">
             <div className="modal-ux-inner">
               <div className="modal-ux-header">
-                <h3>Authorizations</h3>
+                <h3>Authorization</h3>
                 <button type="button" className="close-modal" onClick={ this.close }>
                   <svg width="20" height="20">
                     <use xlinkHref="#close" />
@@ -50,11 +52,13 @@ export default class AuthorizationPopup extends React.Component {
   }
 
   static propTypes = {
+    name: PropTypes.string,
     fn: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
     authSelectors: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
     errSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
+    errActions: PropTypes.object.isRequired,
   }
 }

@@ -259,8 +259,8 @@ export const authorizeBasicToken = ( auth ) => ( { fn, authActions, errActions }
 
     errActions.newAuthErr( {
       authId: name,
-      level: "error:",
-      source: "auth",
+      level: "",
+      source: "",
       message: err.message
     } )
   })
@@ -271,7 +271,7 @@ export const sendOtp = ( auth ) => ( { fn, authActions, errActions } ) => {
 
   let { schema, name, email } = auth
 
-  let fetchUrl = url.resolve(schema.get("tokenUrl"), "/request_login_email")
+  let fetchUrl = url.resolve(schema.get("tokenUrl"), "/otps/")
   let body = JSON.stringify({ email })
 
   let headers = {
@@ -293,8 +293,8 @@ export const sendOtp = ( auth ) => ( { fn, authActions, errActions } ) => {
     if ( !response.ok ) {
       errActions.newAuthErr( {
         authId: name,
-        level: "error",
-        source: "auth",
+        level: "",
+        source: "",
         message: response.statusText
       } )
       return
@@ -318,8 +318,8 @@ export const sendOtp = ( auth ) => ( { fn, authActions, errActions } ) => {
 
     errActions.newAuthErr( {
       authId: name,
-      level: "error:",
-      source: "auth",
+      level: "",
+      source: "",
       message: err.message
     } )
   })
@@ -330,7 +330,7 @@ export const authorizeOtpToken = ( auth ) => ( { fn, authActions, errActions } )
 
   let { schema, name, email, otp } = auth
 
-  let fetchUrl = url.resolve(schema.get("tokenUrl"), "/get_token")
+  let fetchUrl = url.resolve(schema.get("tokenUrl"), "/tokens/")
 
   let query = {
     service: schema.get("service"),
@@ -386,8 +386,8 @@ export const authorizeOtpToken = ( auth ) => ( { fn, authActions, errActions } )
 
     errActions.newAuthErr( {
       authId: name,
-      level: "error:",
-      source: "auth",
+      level: "",
+      source: "",
       message: err.message
     } )
   })

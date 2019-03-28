@@ -78,12 +78,21 @@
 	margin-left: 20px;
 	margin-right: 20px;
 }
-.swagger-ui .auth-container input[type=email] {
-	min-width: 230px;
+.swagger-ui .dialog-ux .modal-ux {
+	max-width: 400px;
+}
+.swagger-ui .auth-container input {
+	width: 100%;
+}
+.swagger-ui .auth-container .wrapper {
+  padding: 10px 0;
+}
+.swagger-ui .auth-container .auth-msg-wrapper {
+	min-height: 48px;
 }
 .swagger-ui .btn.send-otp {
 	line-height: 1;
-	margin-right: 10px;
+	margin-right: 20px;
 }
 .swagger-ui .btn:hover {
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
