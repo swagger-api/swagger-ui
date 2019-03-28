@@ -31,14 +31,14 @@ export default class OtpJwtAuth extends React.Component {
     let { authActions, errActions, name } = this.props
 
     this.setState({ otp: ""})
-    errActions.clear({ authId: name, type: "auth", source: "auth" })
+    errActions.clear({ authId: name })
     authActions.sendOtp(this.state)
   }
 
   authorize = () => {
     let { authActions, errActions, name } = this.props
 
-    errActions.clear({ authId: name, type: "auth", source: "auth" })
+    errActions.clear({ authId: name })
     authActions.authorizeOtpToken(this.state)
   }
 
@@ -55,7 +55,7 @@ export default class OtpJwtAuth extends React.Component {
     e.preventDefault()
     let { authActions, errActions, name } = this.props
 
-    errActions.clear({ authId: name, type: "auth", source: "auth" })
+    errActions.clear({ authId: name })
     authActions.logout([ name ])
   }
 
@@ -98,19 +98,20 @@ export default class OtpJwtAuth extends React.Component {
                                        onChange={ this.onChange }/></Col>
           }
         </Row>
-        {
-          errors.valueSeq().map( (error, key) => {
-            return <AuthError error={ error }
-                              key={ key }/>
-          } )
-        }
-        {
-          isOtpSent ? <div className="info" style={{ backgroundColor: "#eeffee", color: "green", margin: "1em" }}>
-                        <b style={{ textTransform: "capitalize", marginRight: "1em"}} >Auth Info: </b>
-                        <span>OTP sent. Please check your email inbox.</span>
-                      </div>
-                    : null
-        }
+        <div className="auth-msg-wrapper">
+          {
+            errors.valueSeq().map( (error, key) => {
+              return <AuthError error={ error }
+                                key={ key }/>
+            } )
+          }
+          {
+            isOtpSent ? <div className="info" style={{ backgroundColor: "#eeffee", color: "green" }}>
+                          <span>OTP sent. Please check your email inbox.</span>
+                        </div>
+                      : null
+          }
+        </div>
         <div className="auth-btn-wrapper">
         { isAuthorized ? <Button className="btn modal-btn auth authorize" onClick={ this.logout }>Logout</Button>
                        : <div>
