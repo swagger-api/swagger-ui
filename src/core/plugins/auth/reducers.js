@@ -50,6 +50,9 @@ export default {
 
           let email = security.get("email")
           map = map.setIn([name, "email"], email)
+
+          let otp = security.get("otp")
+          map = map.setIn([name, "otp"], otp)
         }
       } else if ( type === "basic" ) {
         let username = security.getIn(["value", "username"])
