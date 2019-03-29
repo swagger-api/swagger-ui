@@ -97,3 +97,8 @@
 .swagger-ui .btn:hover {
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
+.swagger-ui .topbar .download-url-wrapper,
+.swagger-ui .info .title small,
+.swagger-ui .info .base-url + a {
+	display: none;
+}
