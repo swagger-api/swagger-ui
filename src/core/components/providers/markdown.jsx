@@ -30,11 +30,10 @@ function Markdown({ source, className = "" }) {
     const md = new Remarkable({
         html: true,
         typographer: true,
-        breaks: true,
         linkify: true,
         linkTarget: "_blank"
     })
-    
+
     md.core.ruler.disable(["replacements", "smartquotes"])
 
     const html = md.render(source)
