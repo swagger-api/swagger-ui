@@ -184,8 +184,11 @@ const debResolveSubtrees = debounce(async () => {
       })
 
       if(errSelectors.allErrors().size) {
-        errActions.clear({
-          type: "thrown"
+        errActions.clearBy(err => {
+          // keep if...
+          return err.get("type") !== "thrown" // it's not a thrown error
+            || err.get("source") !== "resolver" // it's not a resolver error
+            || !err.get("fullPath").every((key, i) => key === path[i] || path[i] === undefined) // it's not within the path we're resolving
         })
       }
 
@@ -225,6 +228,16 @@ const debResolveSubtrees = debounce(async () => {
 }, 35)
 
 export const requestResolvedSubtree = path => system => {
+  // poor-man's array comparison
+  // if this ever inadequate, this should be rewritten to use Im.List
+  const isPathAlreadyBatched = requestBatch
+    .map(arr => arr.join("@@"))
+    .indexOf(path.join("@@")) > -1
+  
+  if(isPathAlreadyBatched) {
+    return
+  }
+
   requestBatch.push(path)
   requestBatch.system = system
   debResolveSubtrees()

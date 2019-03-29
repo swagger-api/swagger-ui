@@ -72,7 +72,9 @@ module.exports = function(rules, options) {
       new UglifyJsPlugin({
         uglifyOptions: {
           mangle: specialOptions.mangle,
-          compress: specialOptions.mangle,
+          compress: specialOptions.mangle ? {
+            dead_code: true
+          } : false,
           beautify: !specialOptions.mangle,
         },
         
