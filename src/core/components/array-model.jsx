@@ -36,7 +36,7 @@ export default class ArrayModel extends Component {
       </span>
 
     /*
-    Note: we set `name={null}` in <Model> below because we don't want
+    Note: we set `name` and `displayName` to `null` in <Model> below because we don't want
     the name of the current Model passed (and displayed) as the name of the array element Model
     */
 
@@ -56,6 +56,7 @@ export default class ArrayModel extends Component {
               getConfigs={ getConfigs }
               specPath={specPath.push("items")}
               name={null}
+              displayName={null}
               schema={ items }
               required={ false }
               depth={ depth + 1 }
