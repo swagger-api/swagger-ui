@@ -63,6 +63,7 @@
     "memoizee": "^0.4.12",
     "prop-types": "^15.5.10",
     "react": "^15.6.2",
+    "react-copy-to-clipboard": "5.0.1",
     "react-debounce-input": "^3.2.0",
     "react-dom": "^15.6.2",
     "react-immutable-proptypes": "2.1.0",
