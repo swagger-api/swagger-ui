@@ -2,7 +2,6 @@ import React from "react"
 import PropTypes from "prop-types"
 import formatXml from "xml-but-prettier"
 import toLower from "lodash/toLower"
-import { CopyToClipboard } from "react-copy-to-clipboard"
 import { extractFileNameFromContentDispositionHeader } from "core/utils"
 import win from "core/window"
 
@@ -100,7 +99,7 @@ export default class ResponseBody extends React.PureComponent {
         body = "can't parse JSON.  Raw result:\n\n" + content
       }
 
-      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.json`} value={ body } />
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.json`} value={ body } canCopy />
 
       // XML
     } else if (/xml/i.test(contentType)) {
@@ -108,11 +107,11 @@ export default class ResponseBody extends React.PureComponent {
         textNodesOnSameLine: true,
         indentor: "  "
       })
-      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.xml`} value={ body } />
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.xml`} value={ body } canCopy />
 
       // HTML or Plain Text
     } else if (toLower(contentType) === "text/html" || /text\/plain/.test(contentType)) {
-      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.html`} value={ content } />
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.html`} value={ content } canCopy />
 
       // Image
     } else if (/^image\//i.test(contentType)) {
@@ -151,7 +150,7 @@ export default class ResponseBody extends React.PureComponent {
     }
 
     return ( !bodyEl ? null : <div>
-        <h5>Response body<CopyToClipboard text={ content }><button className="copy-to-clipboard"/></CopyToClipboard></h5>
+        <h5>Response body</h5>
         { bodyEl }
       </div>
     )

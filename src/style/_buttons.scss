@@ -154,3 +154,23 @@ button
         @include invalidFormElement();
     }
 }
+
+.copy-to-clipboard
+{
+  position: absolute;
+  bottom: 10px;
+  right: 100px;
+  width: 30px;
+  height: 30px;
+  background: #7d8293;
+  border-radius: 4px;
+  border: none;
+
+  button
+  {
+    padding-left: 25px;
+    border: none;
+    height: 25px;
+    background: url("../img/clipboard.svg") center center no-repeat;
+  }
+}
