@@ -16,6 +16,7 @@ export default class SwaggerUI extends React.Component {
       requestInterceptor: this.requestInterceptor,
       responseInterceptor: this.responseInterceptor,
       onComplete: this.onComplete,
+      docExpansion: this.props.docExpansion,
     })
 
     this.system = ui
@@ -80,4 +81,5 @@ SwaggerUI.propTypes = {
   requestInterceptor: PropTypes.func,
   responseInterceptor: PropTypes.func,
   onComplete: PropTypes.func,
+  docExpansion: PropTypes.oneOf(['list', 'full', 'none']),
 }
