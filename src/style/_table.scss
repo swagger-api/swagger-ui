@@ -23,6 +23,19 @@ table
                         padding: 0 0 0 2em;
                     }
                 }
+                +td
+                {
+                    padding: 0;
+                    border-left: 1px solid #333;
+
+                    vertical-align: top;
+
+                    &:first-of-type
+                    {
+                        width: 174px;
+                        padding: 0 0 0 2em;
+                    }
+                }
             }
         }
     }

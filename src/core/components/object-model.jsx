@@ -68,10 +68,8 @@ export default class ObjectModel extends Component {
         modelName={name}
         title={titleEl}
         onToggle = {onToggle}
-        expanded={ expanded ? true : depth <= expandDepth }
+        expanded={ true }
         collapsedContent={ collapsedContent }>
-
-         <span className="brace-open object">{ braceOpen }</span>
           {
             !isRef ? null : <JumpToPathSection />
           }
@@ -202,7 +200,6 @@ export default class ObjectModel extends Component {
               </tbody></table>
           }
         </span>
-        <span className="brace-close">{ braceClose }</span>
       </ModelCollapse>
     </span>
   }

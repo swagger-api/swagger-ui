@@ -5,6 +5,23 @@
 
     @include text_code();
 
+    span,
+    td
+    {
+        padding-top: 10px !important;
+        +td {
+          padding-left: 10px !important;
+          border-left: 1px solid #333;
+        }
+
+    }
+    tr:not(:last-of-type) td {
+      border-bottom: 1px solid #333;
+    }
+    tr:last-of-type td {
+      border-bottom: none;
+    }
+
     .deprecated
     {
         span,
@@ -206,7 +223,7 @@ section.models
 .model-box
 {
     padding: 10px;
-    display: inline-block;
+    // display: inline-block;
 
     border-radius: 4px;
     background: rgba($section-models-model-box-background-color,.1);
