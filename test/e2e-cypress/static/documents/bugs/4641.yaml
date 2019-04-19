@@ -1,0 +1,34 @@
+openapi: 3.0.0
+info:
+  title: Demo API
+  description: First test
+  termsOfService: 'http://demo.io/terms-of-service/'
+  contact:
+    name: Demo Support
+    email: support@demo.io
+  version: 1.0.0
+servers:
+  - url: 'https://httpstat.us/'
+
+paths:
+  /200:
+    get:
+      summary: Returns a 200
+      tags:
+        - 200
+      security:
+        - api_key: []
+      responses:
+        '200':
+          description: A 200
+          content:
+            application/text:
+              schema:
+                type: string
+
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
