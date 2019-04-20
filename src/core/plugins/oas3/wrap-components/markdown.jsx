@@ -10,6 +10,10 @@ parser.block.ruler.enable(["table"])
 parser.set({ linkTarget: "_blank" })
 
 export const Markdown = ({ source, className = "" }) => {
+  if(typeof source !== "string") {
+    return null
+  }
+  
   if ( source ) {
     const html = parser.render(source)
     const sanitized = sanitizer(html)

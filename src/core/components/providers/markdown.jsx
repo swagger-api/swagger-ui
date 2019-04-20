@@ -19,6 +19,10 @@ DomPurify.addHook("beforeSanitizeElements", function (current, ) {
 const isPlainText = (str) => /^[A-Z\s0-9!?\.]+$/gi.test(str)
 
 function Markdown({ source, className = "" }) {
+    if (typeof source !== "string") {
+      return null
+    }
+
     if(isPlainText(source)) {
       // If the source text is not Markdown,
       // let's save some time and just render it.
