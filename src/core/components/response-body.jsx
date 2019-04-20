@@ -125,7 +125,7 @@ export default class ResponseBody extends React.PureComponent {
     } else if (/^audio\//i.test(contentType)) {
       bodyEl = <pre><audio controls><source src={ url } type={ contentType } /></audio></pre>
     } else if (typeof content === "string") {
-      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.txt`} value={ content } />
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.txt`} value={ content } canCopy />
     } else if ( content.size > 0 ) {
       // We don't know the contentType, but there was some content returned
       if(parsedContent) {
@@ -135,7 +135,7 @@ export default class ResponseBody extends React.PureComponent {
           <p className="i">
             Unrecognized response type; displaying content as text.
           </p>
-          <HighlightCode downloadable fileName={`${downloadName}.txt`} value={ parsedContent } />
+          <HighlightCode downloadable fileName={`${downloadName}.txt`} value={ parsedContent } canCopy />
         </div>
 
       } else {
