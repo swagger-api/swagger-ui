@@ -1,4 +1,14 @@
 describe("#4641: The Logout button in Authorize popup not clearing API Key", () => {
+  beforeEach(() => {
+    cy.server()
+    cy
+      .route({
+        url: "/4641*",
+        response: "OK",
+      })
+      .as("request")
+  })
+
   it("should include the given api key in requests", () => {
     cy
       .visit("/?url=/documents/bugs/4641.yaml")
@@ -16,9 +26,9 @@ describe("#4641: The Logout button in Authorize popup not clearing API Key", () 
       .click()
       .get(".execute-wrapper > .btn") // excecute request
       .click()
-      .wait(2000) // wait for response
-      .get(".curl")
-      .should("contain", "api_key: my_api_key")
+      .get("@request")
+      .its("request.headers.api_key")
+      .should("equal", "my_api_key")
   })
 
   it("should not remember the previous auth value when you logout and reauthorise", () => {
@@ -42,8 +52,8 @@ describe("#4641: The Logout button in Authorize popup not clearing API Key", () 
       .click()
       .get(".execute-wrapper > .btn") // excecute request
       .click()
-      .wait(2000) // wait for response
-      .get(".curl")
-      .should("not.contain", "api_key: my_api_key")
+      .get("@request")
+      .its("request.headers")
+      .should("not.to.have.property", "api_key")
   })
 })

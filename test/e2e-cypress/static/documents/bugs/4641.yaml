@@ -7,15 +7,11 @@ info:
     name: Demo Support
     email: support@demo.io
   version: 1.0.0
-servers:
-  - url: 'https://httpstat.us/'
 
 paths:
-  /200:
+  /4641:
     get:
       summary: Returns a 200
-      tags:
-        - 200
       security:
         - api_key: []
       responses:
