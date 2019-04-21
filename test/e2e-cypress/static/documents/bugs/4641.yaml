@@ -9,11 +9,24 @@ info:
   version: 1.0.0
 
 paths:
-  /4641:
+  /4641_1:
     get:
       summary: Returns a 200
       security:
-        - api_key: []
+        - api_key_1: []
+      responses:
+        '200':
+          description: A 200
+          content:
+            application/text:
+              schema:
+                type: string
+  /4641_2:
+    get:
+      summary: Returns a 200
+      security:
+        - api_key_1: []
+        - api_key_2: []
       responses:
         '200':
           description: A 200
@@ -24,7 +37,11 @@ paths:
 
 components:
   securitySchemes:
-    api_key:
+    api_key_1:
       type: apiKey
-      name: api_key
+      name: api_key_1
+      in: header
+    api_key_2:
+      type: apiKey
+      name: api_key_2
       in: header
