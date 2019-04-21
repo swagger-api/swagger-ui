@@ -1,3 +1,29 @@
+const clickTryItOutAndExecute = () => {
+  return cy
+    .get(".opblock-summary")
+    .click()
+    .get(".try-out > .btn") // expand "try it out"
+    .click()
+    .get(".execute-wrapper > .btn") // excecute request
+    .click()
+}
+
+const fillInApiKeyAndAuthorise = apiKey => () => {
+  return cy
+    .get("section>input") // type api key into input
+    .type(apiKey)
+    .get(".auth-btn-wrapper > .authorize") // authorise button
+    .click()
+}
+
+const clickLogoutAndReauthorise = () => {
+  return cy
+    .get(".auth-btn-wrapper button:nth-child(1)") // logout button
+    .click()
+    .get(".auth-btn-wrapper > .authorize") // authorise button
+    .click()
+}
+
 describe("#4641: The Logout button in Authorize popup not clearing API Key", () => {
   beforeEach(() => {
     cy.server()
@@ -15,28 +41,16 @@ describe("#4641: The Logout button in Authorize popup not clearing API Key", () 
       .get("button.btn.authorize") // open authorize popup
       .click()
       .get(".modal-ux-content > :nth-child(1)") // only deal with api_key_1 for this test
-      .within(() => {
-        cy
-          .get("section>input") // type api key into input
-          .type("my_api_key")
-          .get(".auth-btn-wrapper > .authorize") // authorise button
-          .click()
-      })
+      .within(fillInApiKeyAndAuthorise("my_api_key"))
       .get(".close-modal") // close authorise popup button
       .click()
       .get("#operations-default-get_4641_1") // expand the route details
-      .within(() => {
-        cy
-          .get(".opblock-summary")
-          .click()
-          .get(".try-out > .btn") // expand "try it out"
-          .click()
-          .get(".execute-wrapper > .btn") // excecute request
-          .click()
-      })
+      .within(clickTryItOutAndExecute)
       .get("@request")
-      .its("request.headers.api_key_1")
-      .should("equal", "my_api_key")
+      .its("request")
+      .should(request => {
+        expect(request.headers).to.have.property("api_key_1", "my_api_key")
+      })
   })
 
   it("should not remember the previous auth value when you logout and reauthorise", () => {
@@ -45,32 +59,18 @@ describe("#4641: The Logout button in Authorize popup not clearing API Key", () 
       .get("button.btn.authorize") // open authorize popup
       .click()
       .get(".modal-ux-content > :nth-child(1)") // only deal with api_key_1 for this test
-      .within(() => {
-        cy
-          .get("section>input") // type api key into input
-          .type("my_api_key")
-          .get(".auth-btn-wrapper > .authorize") // authorise button
-          .click()
-          .get(".auth-btn-wrapper button:nth-child(1)") // logout button
-          .click()
-          .get(".auth-btn-wrapper > .authorize") // authorise button
-          .click()
-      })
+      .within(fillInApiKeyAndAuthorise("my_api_key"))
+      .get(".modal-ux-content > :nth-child(1)") // only deal with api_key_1 for this test
+      .within(clickLogoutAndReauthorise)
       .get(".close-modal") // close authorise popup button
       .click()
       .get("#operations-default-get_4641_1") // expand the route details
-      .within(() => {
-        cy
-          .get(".opblock-summary")
-          .click()
-          .get(".try-out > .btn") // expand "try it out"
-          .click()
-          .get(".execute-wrapper > .btn") // excecute request
-          .click()
-      })
+      .within(clickTryItOutAndExecute)
       .get("@request")
-      .its("request.headers")
-      .should("not.to.have.property", "api_key_1")
+      .its("request")
+      .should(request => {
+        expect(request.headers).not.to.have.property("api_key_1")
+      })
   })
 
   it("should not only forget the value of the auth the user logged out from", () => {
@@ -79,46 +79,20 @@ describe("#4641: The Logout button in Authorize popup not clearing API Key", () 
       .get("button.btn.authorize") // open authorize popup
       .click()
       .get(".modal-ux-content > :nth-child(1)") // deal with api_key_1
-      .within(() => {
-        cy
-          .get("section>input") // type api key into input
-          .type("my_api_key")
-          .get(".auth-btn-wrapper > .authorize") // authorise button
-          .click()
-      })
+      .within(fillInApiKeyAndAuthorise("my_api_key"))
       .get(".modal-ux-content > :nth-child(2)") // deal with api_key_2
-      .within(() => {
-        cy
-          .get("section>input") // type api key into input
-          .type("my_second_api_key")
-          .get(".auth-btn-wrapper > .authorize") // authorise button
-          .click()
-      })
+      .within(fillInApiKeyAndAuthorise("my_second_api_key"))
       .get(".modal-ux-content > :nth-child(1)") // deal with api_key_1 again
-      .within(() => {
-        cy
-          .get(".auth-btn-wrapper button:nth-child(1)") // logout button
-          .click()
-          .get(".auth-btn-wrapper > .authorize") // authorise button
-          .click()
-      })
+      .within(clickLogoutAndReauthorise)
       .get(".close-modal") // close authorise popup button
       .click()
       .get("#operations-default-get_4641_2") // expand the route details
-      .within(() => {
-        cy
-          .get(".opblock-summary")
-          .click()
-          .get(".try-out > .btn") // expand "try it out"
-          .click()
-          .get(".execute-wrapper > .btn") // excecute request
-          .click()
-      })
+      .within(clickTryItOutAndExecute)
       .get("@request")
-      .its("request.headers")
-      .should(headers => {
-        expect(headers).not.to.have.property("api_key_1")
-        expect(headers).to.have.property("api_key_2", "my_second_api_key")
+      .its("request")
+      .should(request => {
+        expect(request.headers).not.to.have.property("api_key_1")
+        expect(request.headers).to.have.property("api_key_2", "my_second_api_key")
       })
   })
 })
