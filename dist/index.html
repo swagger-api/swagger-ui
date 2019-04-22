@@ -39,7 +39,7 @@
     window.onload = function() {
       // Begin Swagger UI call region
       const ui = SwaggerUIBundle({
-        url: "https://petstore.swagger.io/v2/swagger.json",
+        url: "swagger.json",
         dom_id: '#swagger-ui',
         deepLinking: true,
         presets: [
@@ -49,7 +49,10 @@
         plugins: [
           SwaggerUIBundle.plugins.DownloadUrl
         ],
-        layout: "StandaloneLayout"
+        validatorUrl: null,
+        layout: "StandaloneLayout",
+        docExpansion: "none",
+        filter: true
       })
       // End Swagger UI call region
 

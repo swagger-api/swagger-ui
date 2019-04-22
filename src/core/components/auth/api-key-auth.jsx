@@ -1,5 +1,5 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from "react";
+import PropTypes from "prop-types";
 
 export default class ApiKeyAuth extends React.Component {
   static propTypes = {
@@ -9,77 +9,82 @@ export default class ApiKeyAuth extends React.Component {
     schema: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func
-  }
+  };
 
   constructor(props, context) {
-    super(props, context)
-    let { name, schema } = this.props
-    let value = this.getValue()
+    super(props, context);
+    let { name, schema } = this.props;
+    let value = this.getValue();
 
     this.state = {
       name: name,
       schema: schema,
       value: value
-    }
+    };
   }
 
-  getValue () {
-    let { name, authorized } = this.props
+  getValue() {
+    let { name, authorized } = this.props;
 
-    return authorized && authorized.getIn([name, "value"])
+    return authorized && authorized.getIn([name, "value"]);
   }
 
-  onChange =(e) => {
-    let { onChange } = this.props
-    let value = e.target.value
-    let newState = Object.assign({}, this.state, { value: value })
+  onChange = e => {
+    let { onChange } = this.props;
+    let value = e.target.value;
+    let newState = Object.assign({}, this.state, { value: value });
 
-    this.setState(newState)
-    onChange(newState)
-  }
+    this.setState(newState);
+    onChange(newState);
+  };
 
   render() {
-    let { schema, getComponent, errSelectors, name } = this.props
-    const Input = getComponent("Input")
-    const Row = getComponent("Row")
-    const Col = getComponent("Col")
-    const AuthError = getComponent("authError")
-    const Markdown = getComponent( "Markdown" )
-    const JumpToPath = getComponent("JumpToPath", true)
-    let value = this.getValue()
-    let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
+    let { schema, getComponent, errSelectors, name } = this.props;
+    const Input = getComponent("Input");
+    const Row = getComponent("Row");
+    const Col = getComponent("Col");
+    const AuthError = getComponent("authError");
+    const Markdown = getComponent("Markdown");
+    const JumpToPath = getComponent("JumpToPath", true);
+    let value = this.getValue();
+    let errors = errSelectors
+      .allErrors()
+      .filter(err => err.get("authId") === name);
 
     return (
       <div>
         <h4>
-          <code>{ name || schema.get("name") }</code>&nbsp;
-          (apiKey)
-          <JumpToPath path={[ "securityDefinitions", name ]} />
+          <code>{name || schema.get("name")}</code>&nbsp; (apiKey)
+          <JumpToPath path={["securityDefinitions", name]} />
         </h4>
-        { value && <h6>Authorized</h6>}
+        {value && <h6>Authorized</h6>}
         <Row>
-          <Markdown source={ schema.get("description") } />
+          <Markdown source={schema.get("description")} />
         </Row>
         <Row>
-          <p>Name: <code>{ schema.get("name") }</code></p>
+          <p>
+            Name: <code>{schema.get("name")}</code>
+          </p>
         </Row>
         <Row>
-          <p>In: <code>{ schema.get("in") }</code></p>
+          <p>
+            In: <code>{schema.get("in")}</code>
+          </p>
         </Row>
         <Row>
           <label>Value:</label>
-          {
-            value ? <code> ****** </code>
-                  : <Col><Input type="text" onChange={ this.onChange }/></Col>
-          }
+          {value ? (
+            <code> ****** </code>
+          ) : (
+            <Col>
+              <Input type="text" id="input-key" onChange={this.onChange} />
+            </Col>
+          )}
         </Row>
-        {
-          errors.valueSeq().map( (error, key) => {
-            return <AuthError error={ error }
-                              key={ key }/>
-          } )
-        }
+        {errors.valueSeq().map((error, key) => {
+          return <AuthError error={error} key={key} />;
+        })}
       </div>
-    )
+    );
   }
 }
