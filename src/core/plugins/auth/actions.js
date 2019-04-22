@@ -1,6 +1,7 @@
 import win from "core/window"
 import { btoa, buildFormData } from "core/utils"
 import * as url from "url"
+import urljoin from "url-join"
 
 export const SHOW_AUTH_POPUP = "show_popup"
 export const RECEIVE_OTP = "receive_otp"
@@ -271,7 +272,7 @@ export const sendOtp = ( auth ) => ( { fn, authActions, errActions } ) => {
 
   let { schema, name, email } = auth
 
-  let fetchUrl = url.resolve(schema.get("tokenUrl"), "otps")
+  let fetchUrl = urljoin(schema.get("tokenUrl"), "/otps")
   let body = JSON.stringify({ email })
 
   let headers = {
@@ -330,7 +331,7 @@ export const authorizeOtpToken = ( auth ) => ( { fn, authActions, errActions } )
 
   let { schema, name, email, otp } = auth
 
-  let fetchUrl = url.resolve(schema.get("tokenUrl"), "tokens")
+  let fetchUrl = urljoin(schema.get("tokenUrl"), "/tokens")
 
   let query = {
     service: schema.get("service"),
