@@ -40,7 +40,10 @@ export default class AuthorizationPopup extends React.Component {
                 </button>
               </div>
               <div className="modal-ux-content">
-                <UsernamePassword authActions={authActions} />
+                <UsernamePassword
+                  authActions={authActions}
+                  snackbar="simple-snackbar"
+                />
                 {definitions.valueSeq().map((definition, key) => {
                   return (
                     <Auths

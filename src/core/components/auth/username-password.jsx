@@ -2,6 +2,7 @@ import React from "react";
 
 export default class UsernamePassword extends React.Component {
   state = {
+    errorMessage: "",
     username: "admin",
     updateUsername: e => {
       this.setState({
@@ -27,30 +28,47 @@ export default class UsernamePassword extends React.Component {
         })
       })
         .then(response => response.json())
-        .then(json => {
-          document.getElementById("input-key").value = `bearer ${
-            json.login.userToken
-          }`;
-          let { authActions } = this.props;
-          authActions.authorize({
-            jwt: {
-              name: "jwt",
-              schema: {
-                type: "apiKey",
-                description:
-                  'Authentication JWT. <br> Sample: bearer "userToken" <br> Get userToken in api POST /login. <p>',
-                in: "header",
-                name: "Authorization"
-              },
-              value: document.getElementById("input-key").value
+        .then(
+          json => {
+            try {
+              if (json.error) {
+                this.setState({ errorMessage: json.error.description });
+              } else {
+                document.getElementById("input-key").value = `bearer ${
+                  json.login.userToken
+                }`;
+                let { authActions } = this.props;
+                authActions.authorize({
+                  jwt: {
+                    name: "jwt",
+                    schema: {
+                      type: "apiKey",
+                      description:
+                        'Authentication JWT. <br> Sample: bearer "userToken" <br> Get userToken in api POST /login. <p>',
+                      in: "header",
+                      name: "Authorization"
+                    },
+                    value: document.getElementById("input-key").value
+                  }
+                });
+                this.setState({ errorMessage: "" });
+              }
+            } catch (error) {
+              console.log(error);
+              this.setState({ errorMessage: "An error has occurred!" });
             }
-          });
-        });
+          },
+          error => {
+            console.log(error);
+            this.setState({ errorMessage: "An error has occurred!" });
+          }
+        );
     }
   };
 
   render() {
     const {
+      errorMessage,
       login,
       username,
       updateUsername,
@@ -69,10 +87,10 @@ export default class UsernamePassword extends React.Component {
         <h4>Username and Password</h4>
         <div className="markdown">
           <p>
-            This authentication mode will perform a POST for the api with the
-            login information (username and password), if it succeeds in
-            executing the request successfully, it will collocate in the input
-            jwt below the token.
+            The authentication scheme consists in performing a POST to the Login
+            URI with the provided credentials (username and password). If the
+            requests succeeds, the returned userToken must be sent in the
+            Authorization header for all requests.
           </p>
         </div>
         <div
@@ -121,6 +139,17 @@ export default class UsernamePassword extends React.Component {
             Login
           </button>
         </div>
+        {errorMessage !== "" ? (
+          <div
+            style={{
+              color: "red",
+              fontSize: "12px",
+              paddingTop: "5px"
+            }}
+          >
+            {errorMessage}
+          </div>
+        ) : null}
       </div>
     );
   }
