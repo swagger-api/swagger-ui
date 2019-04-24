@@ -37,11 +37,11 @@ var commonRules = [
   { test: /\.(txt|yaml)(\?.*)?$/,
     loader: "raw-loader" },
   { test: /\.(png|jpg|jpeg|gif|svg)(\?.*)?$/,
-    loader: "url-loader?limit=10000" },
+    loader: "url-loader" },
   { test: /\.(woff|woff2)(\?.*)?$/,
     loader: "url-loader?limit=100000" },
   { test: /\.(ttf|eot)(\?.*)?$/,
-    loader: "file-loader" },
+    loader: "file-loader" }
 ]
 
 module.exports = function(rules, options) {
@@ -72,8 +72,12 @@ module.exports = function(rules, options) {
       new UglifyJsPlugin({
         uglifyOptions: {
           mangle: specialOptions.mangle,
+          compress: specialOptions.mangle ? {
+            dead_code: true
+          } : false,
           beautify: !specialOptions.mangle,
         },
+        
         sourceMap: true,
       }),
       new webpack.LoaderOptionsPlugin({
@@ -86,7 +90,7 @@ module.exports = function(rules, options) {
     plugins.push( new webpack.NoEmitOnErrorsPlugin())
 
   } else { // development mode
-    plugins.push(new CopyWebpackPlugin([ { from: "test/e2e/specs", to: "test-specs" } ]))
+    plugins.push(new CopyWebpackPlugin([ { from: "test/e2e-selenium/specs", to: "test-specs" } ]))
   }
 
   plugins.push(
@@ -142,7 +146,7 @@ module.exports = function(rules, options) {
       ],
       extensions: [".web.js", ".js", ".jsx", ".json", ".less"],
       alias: {
-        base: "getbase/src/less/base",
+        "js-yaml": "@kyleshockey/js-yaml"
       }
     },
 

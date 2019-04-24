@@ -1,11 +1,17 @@
 import { objectify, isFunc, normalizeArray, deeplyStripKey } from "core/utils"
-import XML from "xml"
+import XML from "@kyleshockey/xml"
 import memoizee from "memoizee"
+import deepAssign from "@kyleshockey/object-assign-deep"
 
 const primitives = {
   "string": () => "string",
   "string_email": () => "user@example.com",
   "string_date-time": () => new Date().toISOString(),
+  "string_date": () => new Date().toISOString().substring(0, 10),
+  "string_uuid": () => "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "string_hostname": () => "example.com",
+  "string_ipv4": () => "198.51.100.42",
+  "string_ipv6": () => "2001:0db8:5b96:0000:0000:426f:8e17:642a",
   "number": () => 0,
   "number_float": () => 0.0,
   "integer": () => 0,
@@ -29,6 +35,7 @@ export const sampleFromSchema = (schema, config={}) => {
   let { type, example, properties, additionalProperties, items } = objectify(schema)
   let { includeReadOnly, includeWriteOnly } = config
 
+
   if(example !== undefined) {
     return deeplyStripKey(example, "$$ref", (val) => {
       // do a couple of quick sanity tests to ensure the value
@@ -51,10 +58,13 @@ export const sampleFromSchema = (schema, config={}) => {
     let props = objectify(properties)
     let obj = {}
     for (var name in props) {
-      if ( props[name].readOnly && !includeReadOnly ) {
+      if ( props[name] && props[name].deprecated ) {
         continue
       }
-      if ( props[name].writeOnly && !includeWriteOnly ) {
+      if ( props[name] && props[name].readOnly && !includeReadOnly ) {
+        continue
+      }
+      if ( props[name] && props[name].writeOnly && !includeWriteOnly ) {
         continue
       }
       obj[name] = sampleFromSchema(props[name], config)
@@ -111,7 +121,7 @@ export const inferSchema = (thing) => {
 
 
 export const sampleXmlFromSchema = (schema, config={}) => {
-  let objectifySchema = objectify(schema)
+  let objectifySchema = deepAssign({}, objectify(schema))
   let { type, properties, additionalProperties, items, example } = objectifySchema
   let { includeReadOnly, includeWriteOnly } = config
   let defaultValue = objectifySchema.default

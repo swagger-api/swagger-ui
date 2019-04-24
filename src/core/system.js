@@ -4,6 +4,7 @@ import Im, { fromJS, Map } from "immutable"
 import deepExtend from "deep-extend"
 import { combineReducers } from "redux-immutable"
 import serializeError from "serialize-error"
+import assignDeep from "@kyleshockey/object-assign-deep"
 import { NEW_THROWN_ERR } from "corePlugins/err/actions"
 import win from "core/window"
 
@@ -15,15 +16,9 @@ const idFn = a => a
 function createStoreWithMiddleware(rootReducer, initialState, getSystem) {
 
   let middlwares = [
-    /* develblock:start */
-    // Measure actions
-    () => next => action => {
-      require("root/src/perf").start("action:"+action.type)
-      const res = next(action)
-      require("root/src/perf").stop("action:"+action.type)
-      return res
-    },
-    /* develblock:end */
+    // createLogger( {
+    //   stateTransformer: state => state && state.toJS()
+    // } ),
     systemThunkMiddleware( getSystem )
   ]
 
@@ -316,11 +311,13 @@ export default class Store {
 }
 
 function combinePlugins(plugins, toolbox) {
-  if(isObject(plugins) && !isArray(plugins))
-    return plugins
+  if(isObject(plugins) && !isArray(plugins)) {
+    return assignDeep({}, plugins)
+  }
 
-  if(isFunc(plugins))
+  if(isFunc(plugins)) {
     return combinePlugins(plugins(toolbox), toolbox)
+  }
 
   if(isArray(plugins)) {
     return plugins

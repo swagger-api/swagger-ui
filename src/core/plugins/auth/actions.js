@@ -74,29 +74,36 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
   let { schema, name, username, password, passwordType, clientId, clientSecret } = auth
   let form = {
     grant_type: "password",
-    scope: auth.scopes.join(scopeSeparator)
+    scope: auth.scopes.join(scopeSeparator),
+    username,
+    password
   }
   let query = {}
   let headers = {}
 
-  if ( passwordType === "basic") {
-    headers.Authorization = "Basic " + btoa(username + ":" + password)
-  } else {
-    Object.assign(form, {username}, {password})
+  switch (passwordType) {
+    case "request-body":
+      setClientIdAndSecret(form, clientId, clientSecret)
+      break
 
-    if ( passwordType === "query") {
-      if ( clientId ) {
-        query.client_id = clientId
-      }
-      if ( clientSecret ) {
-        query.client_secret = clientSecret
-      }
-    } else {
+    case "basic":
       headers.Authorization = "Basic " + btoa(clientId + ":" + clientSecret)
-    }
+      break
+    default:
+      console.warn(`Warning: invalid passwordType ${passwordType} was passed, not including client id and secret`)
   }
 
   return authActions.authorizeRequest({ body: buildFormData(form), url: schema.get("tokenUrl"), name, headers, query, auth})
+}
+
+function setClientIdAndSecret(target, clientId, clientSecret) {
+  if ( clientId ) {
+    Object.assign(target, {client_id: clientId})
+  }
+
+  if ( clientSecret ) {
+    Object.assign(target, {client_secret: clientSecret})
+  }
 }
 
 export const authorizeApplication = ( auth ) => ( { authActions } ) => {
@@ -161,7 +168,8 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
 
   let _headers = Object.assign({
     "Accept":"application/json, text/plain, */*",
-    "Content-Type": "application/x-www-form-urlencoded"
+    "Content-Type": "application/x-www-form-urlencoded",
+    "X-Requested-With": "XMLHttpRequest"
   }, headers)
 
   fn.fetch({
@@ -202,11 +210,28 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
   })
   .catch(e => {
     let err = new Error(e)
+    let message = err.message
+    // swagger-js wraps the response (if available) into the e.response property;
+    // investigate to check whether there are more details on why the authorization
+    // request failed (according to RFC 6479).
+    // See also https://github.com/swagger-api/swagger-ui/issues/4048
+    if (e.response && e.response.data) {
+      const errData = e.response.data
+      try {
+        const jsonResponse = typeof errData === "string" ? JSON.parse(errData) : errData
+        if (jsonResponse.error)
+          message += `, error: ${jsonResponse.error}`
+        if (jsonResponse.error_description)
+          message += `, description: ${jsonResponse.error_description}`
+      } catch (jsonError) {
+        // Ignore
+      }
+    }
     errActions.newAuthErr( {
       authId: name,
       level: "error",
       source: "auth",
-      message: err.message
+      message: message
     } )
   })
 }

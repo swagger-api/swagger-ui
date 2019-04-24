@@ -3,17 +3,19 @@ import { Map } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import win from "core/window"
-import { getExtensions, getCommonExtensions } from "core/utils"
+import { getExtensions, getCommonExtensions, numberToString } from "core/utils"
 
 export default class ParameterRow extends Component {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
     param: PropTypes.object.isRequired,
+    rawParam: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
     fn: PropTypes.object.isRequired,
     isExecute: PropTypes.bool,
     onChangeConsumes: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
+    specActions: PropTypes.object.isRequired,
     pathMethod: PropTypes.array.isRequired,
     getConfigs: PropTypes.func.isRequired,
     specPath: ImPropTypes.list.isRequired
@@ -26,70 +28,98 @@ export default class ParameterRow extends Component {
   }
 
   componentWillReceiveProps(props) {
-    let { specSelectors, pathMethod, param } = props
+    let { specSelectors, pathMethod, rawParam } = props
     let { isOAS3 } = specSelectors
 
-    let example = param.get("example")
-    let parameter = specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in")) || param
+    let parameterWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || new Map()
+    // fallback, if the meta lookup fails
+    parameterWithMeta = parameterWithMeta.isEmpty() ? rawParam : parameterWithMeta
+
     let enumValue
 
     if(isOAS3()) {
-      let schema = param.get("schema") || Map()
+      let schema = parameterWithMeta.get("schema") || Map()
       enumValue = schema.get("enum")
     } else {
-      enumValue = parameter ? parameter.get("enum") : undefined
+      enumValue = parameterWithMeta ? parameterWithMeta.get("enum") : undefined
     }
-    let paramValue = parameter ? parameter.get("value") : undefined
+    let paramValue = parameterWithMeta ? parameterWithMeta.get("value") : undefined
 
     let value
 
     if ( paramValue !== undefined ) {
       value = paramValue
-    } else if ( example !== undefined ) {
-      value = example
-    } else if ( param.get("required") && enumValue && enumValue.size ) {
+    } else if ( rawParam.get("required") && enumValue && enumValue.size ) {
       value = enumValue.first()
     }
 
-    if ( value !== undefined ) {
-      this.onChangeWrapper(value)
+    if ( value !== undefined && value !== paramValue ) {
+      this.onChangeWrapper(numberToString(value))
     }
+
+    this.setDefaultValue()
   }
 
-  onChangeWrapper = (value) => {
-    let { onChange, param } = this.props
-    return onChange(param, value)
+  onChangeWrapper = (value, isXml = false) => {
+    let { onChange, rawParam } = this.props
+    let valueForUpstream
+    
+    // Coerce empty strings and empty Immutable objects to null
+    if(value === "" || (value && value.size === 0)) {
+      valueForUpstream = null
+    } else {
+      valueForUpstream = value
+    }
+
+    return onChange(rawParam, valueForUpstream, isXml)
+  }
+
+  onChangeIncludeEmpty = (newValue) => {
+    let { specActions, param, pathMethod } = this.props
+    const paramName = param.get("name")
+    const paramIn = param.get("in")
+    return specActions.updateEmptyParamInclusion(pathMethod, paramName, paramIn, newValue)
   }
 
   setDefaultValue = () => {
-    let { specSelectors, pathMethod, param } = this.props
+    let { specSelectors, pathMethod, rawParam } = this.props
 
-    if (param.get("value") !== undefined) {
+    let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam)
+
+
+    if (!paramWithMeta || paramWithMeta.get("value") !== undefined) {
       return
     }
 
-    let schema = specSelectors.isOAS3() ? param.get("schema", Map({})) : param
+    if( paramWithMeta.get("in") !== "body" ) {
+      let newValue
 
-    let defaultValue = schema.get("default")
-    let xExampleValue = param.get("x-example") // Swagger 2 only
-    let parameter = specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in"))
-    let value = parameter ? parameter.get("value") : ""
-
-    if( param.get("in") !== "body" ) {
-      if ( xExampleValue !== undefined && value === undefined && specSelectors.isSwagger2() ) {
-        this.onChangeWrapper(xExampleValue)
-      } else if ( defaultValue !== undefined && value === undefined ) {
-        this.onChangeWrapper(defaultValue)
+      if (specSelectors.isSwagger2()) {
+        newValue = paramWithMeta.get("x-example")
+          || paramWithMeta.getIn(["default"])
+          || paramWithMeta.getIn(["schema", "example"])
+          || paramWithMeta.getIn(["schema", "default"])
+      } else if (specSelectors.isOAS3()) {
+        newValue = paramWithMeta.get("example")
+          || paramWithMeta.getIn(["schema", "example"])
+          || paramWithMeta.getIn(["schema", "default"])
+      }
+      if(newValue !== undefined) {
+        this.onChangeWrapper(numberToString(newValue))
       }
     }
   }
 
   render() {
-    let {param, onChange, getComponent, getConfigs, isExecute, fn, onChangeConsumes, specSelectors, pathMethod, specPath} = this.props
+    let {param, rawParam, getComponent, getConfigs, isExecute, fn, onChangeConsumes, specSelectors, pathMethod, specPath} = this.props
 
     let { isOAS3 } = specSelectors
 
     const { showExtensions, showCommonExtensions } = getConfigs()
+
+    if(!param) {
+      param = rawParam
+    }
 
     // const onChangeWrapper = (value) => onChange(param, value)
     const JsonSchemaForm = getComponent("JsonSchemaForm")
@@ -99,9 +129,9 @@ export default class ParameterRow extends Component {
       : <ParamBody getComponent={getComponent}
                    fn={fn}
                    param={param}
-                   consumes={ specSelectors.operationConsumes(pathMethod) }
+                   consumes={ specSelectors.consumesOptionsFor(pathMethod) }
                    consumesValue={ specSelectors.contentTypeValues(pathMethod).get("requestContentType") }
-                   onChange={onChange}
+                   onChange={this.onChangeWrapper}
                    onChangeConsumes={onChangeConsumes}
                    isExecute={ isExecute }
                    specSelectors={ specSelectors }
@@ -111,8 +141,9 @@ export default class ParameterRow extends Component {
     const ModelExample = getComponent("modelExample")
     const Markdown = getComponent("Markdown")
     const ParameterExt = getComponent("ParameterExt")
+    const ParameterIncludeEmpty = getComponent("ParameterIncludeEmpty")
 
-    let paramWithMeta = specSelectors.parameterWithMeta(pathMethod, param.get("name"), param.get("in"))
+    let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam)
     let format = param.get("format")
     let schema = isOAS3 && isOAS3() ? param.get("schema") : param
     let type = schema.get("type")
@@ -156,7 +187,7 @@ export default class ParameterRow extends Component {
     }
 
     return (
-      <tr className="parameters">
+      <tr data-param-name={param.get("name")} data-param-in={param.get("in")}>
         <td className="col parameters-col_name">
           <div className={required ? "parameter__name required" : "parameter__name"}>
             { param.get("name") }
@@ -214,6 +245,16 @@ export default class ParameterRow extends Component {
                                                 schema={ param.get("schema") }
                                                 example={ bodyParam }/>
               : null
+          }
+
+          {
+            !bodyParam && isExecute ? 
+            <ParameterIncludeEmpty
+              onChange={this.onChangeIncludeEmpty}
+              isIncluded={specSelectors.parameterInclusionSettingFor(pathMethod, param.get("name"), param.get("in"))}
+              isDisabled={value && value.size !== 0}
+              param={param} /> 
+            : null
           }
 
         </td>

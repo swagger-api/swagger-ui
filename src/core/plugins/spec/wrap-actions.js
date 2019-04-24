@@ -12,7 +12,7 @@ export const updateJsonSpec = (ori, {specActions}) => (...args) => {
 
   // Trigger resolution of any path-level $refs.
   const [json] = args
-  const pathItems = get(json, ["paths"])
+  const pathItems = get(json, ["paths"]) || {}
   const pathItemKeys = Object.keys(pathItems)
 
   pathItemKeys.forEach(k => {
@@ -22,6 +22,9 @@ export const updateJsonSpec = (ori, {specActions}) => (...args) => {
       specActions.requestResolvedSubtree(["paths", k])
     }
   })
+
+  // Trigger resolution of any securitySchemes-level $refs.
+  specActions.requestResolvedSubtree(["components", "securitySchemes"])
 }
 
 // Log the request ( just for debugging, shouldn't affect prod )

@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import Im, { Map } from "immutable"
+import Im, { Map, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 import { OAS3ComponentWrapFactory } from "../helpers"
 
@@ -47,11 +47,11 @@ class Parameters extends Component {
 
   onChange = ( param, value, isXml ) => {
     let {
-      specActions: { changeParam },
+      specActions: { changeParamByIdentity },
       onChangeKey,
     } = this.props
 
-    changeParam( onChangeKey, param.get("name"), param.get("in"), value, isXml)
+    changeParamByIdentity( onChangeKey, param, value, isXml)
   }
 
   onChangeConsumesWrapper = ( val ) => {
@@ -90,6 +90,7 @@ class Parameters extends Component {
       getComponent,
       getConfigs,
       specSelectors,
+      specActions,
       oas3Actions,
       oas3Selectors,
       pathMethod,
@@ -145,11 +146,13 @@ class Parameters extends Component {
                         getComponent={ getComponent }
                         specPath={specPath.push(i)}
                         getConfigs={ getConfigs }
-                        param={ parameter }
+                        rawParam={ parameter }
+                        param={ specSelectors.parameterWithMetaByIdentity(pathMethod, parameter) }
                         key={ parameter.get( "name" ) }
                         onChange={ this.onChange }
                         onChangeConsumes={this.onChangeConsumesWrapper}
                         specSelectors={ specSelectors }
+                        specActions={ specActions }
                         pathMethod={ pathMethod }
                         isExecute={ isExecute }/>
                     )).toArray()
@@ -168,13 +171,13 @@ class Parameters extends Component {
         </div> : "" }
         {
           isOAS3() && requestBody && this.state.parametersVisible &&
-          <div className="opblock-section">
+          <div className="opblock-section opblock-section-request-body">
             <div className="opblock-section-header">
               <h4 className={`opblock-title parameter__name ${requestBody.get("required") && "required"}`}>Request body</h4>
               <label>
                 <ContentType
                   value={oas3Selectors.requestContentType(...pathMethod)}
-                  contentTypes={ requestBody.get("content").keySeq() }
+                  contentTypes={ requestBody.get("content", List()).keySeq() }
                   onChange={(value) => {
                     oas3Actions.setRequestContentType({ value, pathMethod })
                   }}

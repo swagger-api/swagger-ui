@@ -1,0 +1,13 @@
+swagger: "2.0"
+
+paths:
+  /:
+    get:
+      description: wow
+
+definitions:
+  MyModel:
+    type: object
+    properties:
+      a: 
+        type: string

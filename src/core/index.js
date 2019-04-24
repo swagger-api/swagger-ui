@@ -8,7 +8,7 @@ import * as AllPlugins from "core/plugins/all"
 import { parseSearch } from "core/utils"
 
 if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
-  win.Perf = require("react-addons-perf")
+  win.Perf = require("react-dom/lib/ReactPerf")
 }
 
 // eslint-disable-next-line no-undef
@@ -37,6 +37,7 @@ module.exports = function SwaggerUI(opts) {
     maxDisplayedTags: null,
     filter: null,
     validatorUrl: "https://online.swagger.io/validator",
+    oauth2RedirectUrl: `${window.location.protocol}//${window.location.host}/oauth2-redirect.html`,
     configs: {},
     custom: {},
     displayOperationId: false,
@@ -50,6 +51,7 @@ module.exports = function SwaggerUI(opts) {
     defaultModelsExpandDepth: 1,
     showExtensions: false,
     showCommonExtensions: false,
+    withCredentials: undefined,
     supportedSubmitMethods: [
       "get",
       "put",
@@ -147,7 +149,7 @@ module.exports = function SwaggerUI(opts) {
         system.specActions.updateUrl("")
         system.specActions.updateLoadingStatus("success")
         system.specActions.updateSpec(JSON.stringify(mergedConfig.spec))
-      } else if (system.specActions.download && mergedConfig.url) {
+      } else if (system.specActions.download && mergedConfig.url && !mergedConfig.urls) {
         system.specActions.updateUrl(mergedConfig.url)
         system.specActions.download(mergedConfig.url)
       }
