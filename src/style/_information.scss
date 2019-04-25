@@ -1,10 +1,10 @@
 .info
 {
-    margin: 50px 0;
+    margin: 0 0 20px 0;
 
     hgroup.main
     {
-        margin: 0 0 20px 0;
+        margin: 0 0 10px 0;
         a
         {
             font-size: 12px;
@@ -42,6 +42,11 @@
     > div
     {
         margin: 0 0 5px 0;
+
+        &.description
+        {
+            margin-bottom: 20px;
+        }
     }
 
     .base-url
@@ -49,16 +54,13 @@
         font-size: 12px;
         font-weight: 300 !important;
 
-        margin: 0;
-
         @include text_code();
     }
 
     .title
     {
         font-size: 36px;
-
-        margin: 0;
+        margin-bottom: 10px;
 
         @include text_body();
 
