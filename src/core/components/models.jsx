@@ -46,7 +46,7 @@ export default class Models extends Component {
 
     return <section className={ showModels ? "models is-open" : "models"}>
       <div onClick={() => layoutActions.show("models", !showModels)}>
-        <span><h4>{isOAS3 ? "Schemas" : "Models" }</h4></span>
+        <h4>{isOAS3 ? "Schemas" : "Models" }</h4>
         <svg width="20" height="20">
           <use xlinkHref={showModels ? "#large-arrow-down" : "#large-arrow"} />
         </svg>
