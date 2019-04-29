@@ -343,13 +343,27 @@ export function mapToList(map, keyNames="key", collectedKeys=Im.Map()) {
 }
 
 export function extractFileNameFromContentDispositionHeader(value){
-  let responseFilename = /filename="([^;]*);?"/i.exec(value)
-  if (responseFilename === null) {
-    responseFilename = /filename=([^;]*);?/i.exec(value)
-  }
+  let patterns = [
+    /filename\*=[^']+'\w*'"([^"]+)";?/i,
+    /filename\*=[^']+'\w*'([^;]+);?/i,
+    /filename="([^;]*);?"/i,
+    /filename=([^;]*);?/i
+  ]
+  
+  let responseFilename
+  patterns.some(regex => {
+    responseFilename = regex.exec(value)
+    return responseFilename !== null
+  })
+    
   if (responseFilename !== null && responseFilename.length > 1) {
-    return responseFilename[1]
+    try {
+      return decodeURIComponent(responseFilename[1])
+    } catch(e) {
+      console.error(e)
+    }
   }
+
   return null
 }
 
@@ -470,9 +484,8 @@ export const validatePattern = (val, rxPattern) => {
 }
 
 // validation of parameters before execute
-export const validateParam = (param, isXml, isOAS3 = false) => {
+export const validateParam = (param, value, { isOAS3 = false, bypassRequiredCheck = false } = {}) => {
   let errors = []
-  let value = isXml && param.get("in") === "body" ? param.get("value_xml") : param.get("value")
   let required = param.get("required")
 
   let paramDetails = isOAS3 ? param.get("schema") : param
@@ -486,7 +499,6 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
   let maxLength = paramDetails.get("maxLength")
   let minLength = paramDetails.get("minLength")
   let pattern = paramDetails.get("pattern")
-
 
   /*
     If the parameter is required OR the parameter has a value (meaning optional, but filled in)
@@ -526,7 +538,7 @@ export const validateParam = (param, isXml, isOAS3 = false) => {
 
     const passedAnyCheck = allChecks.some(v => !!v)
 
-    if ( required && !passedAnyCheck ) {
+    if (required && !passedAnyCheck && !bypassRequiredCheck ) {
       errors.push("Required field is not provided")
       return errors
     }
@@ -620,7 +632,7 @@ export const getSampleSchema = (schema, contentType="", config={}) => {
         let match = schema.$$ref.match(/\S*\/(\S+)$/)
         schema.xml.name = match[1]
       } else if (schema.type || schema.items || schema.properties || schema.additionalProperties) {
-        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!-- XML example cannot be generated -->"
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!-- XML example cannot be generated; root element name is undefined -->"
       } else {
         return null
       }
@@ -733,8 +745,10 @@ export function getAcceptControllingResponse(responses) {
   return suitable2xxResponse || suitableDefaultResponse
 }
 
-export const createDeepLinkPath = (str) => typeof str == "string" || str instanceof String ? str.trim().replace(/\s/g, "_") : ""
-export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str) )
+// suitable for use in URL fragments
+export const createDeepLinkPath = (str) => typeof str == "string" || str instanceof String ? str.trim().replace(/\s/g, "%20") : ""
+// suitable for use in CSS classes and ids
+export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str).replace(/%20/g, "_") )
 
 export const getExtensions = (defObj) => defObj.filter((v, k) => /^x-/.test(k))
 export const getCommonExtensions = (defObj) => defObj.filter((v, k) => /^pattern|maxLength|minLength|maximum|minimum/.test(k))
@@ -788,4 +802,44 @@ export function numberToString(thing) {
   }
 
   return thing
+}
+
+export function paramToIdentifier(param, { returnAll = false, allowHashes = true } = {}) {
+  if(!Im.Map.isMap(param)) {
+    throw new Error("paramToIdentifier: received a non-Im.Map parameter as input")
+  }
+  const paramName = param.get("name")
+  const paramIn = param.get("in")
+  
+  let generatedIdentifiers = []
+
+  // Generate identifiers in order of most to least specificity
+
+  if (param && param.hashCode && paramIn && paramName && allowHashes) {
+    generatedIdentifiers.push(`${paramIn}.${paramName}.hash-${param.hashCode()}`)
+  }
+  
+  if(paramIn && paramName) {
+    generatedIdentifiers.push(`${paramIn}.${paramName}`)
+  }
+
+  generatedIdentifiers.push(paramName)
+
+  // Return the most preferred identifier, or all if requested
+
+  return returnAll ? generatedIdentifiers : (generatedIdentifiers[0] || "")
+}
+
+export function paramToValue(param, paramValues) {
+  const allIdentifiers = paramToIdentifier(param, { returnAll: true })
+
+  // Map identifiers to values in the provided value hash, filter undefined values,
+  // and return the first value found
+  const values = allIdentifiers
+    .map(id => {
+      return paramValues[id]
+    })
+    .filter(value => value !== undefined)
+
+  return values[0]
 }

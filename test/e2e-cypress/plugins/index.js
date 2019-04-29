@@ -1,3 +1,4 @@
+const startOAuthServer = require("../helpers/oauth2-server")
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins
 //
@@ -13,6 +14,7 @@
 
 const { addMatchImageSnapshotPlugin } = require("cypress-image-snapshot/plugin")
 
-module.exports = on => {
+module.exports = (on, config) => {
   addMatchImageSnapshotPlugin(on)
+  startOAuthServer()
 }

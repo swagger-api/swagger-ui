@@ -23,7 +23,7 @@ export default function curl( request ){
       for( let [ k,v ] of request.get("body").entrySeq()) {
         curlified.push( "-F" )
         if (v instanceof win.File) {
-          curlified.push( `"${k}=@${v.name};type=${v.type}"` )
+          curlified.push( `"${k}=@${v.name}${v.type ? `;type=${v.type}` : ""}"` )
         } else {
           curlified.push( `"${k}=${v}"` )
         }

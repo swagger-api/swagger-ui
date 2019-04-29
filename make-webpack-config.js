@@ -37,7 +37,7 @@ var commonRules = [
   { test: /\.(txt|yaml)(\?.*)?$/,
     loader: "raw-loader" },
   { test: /\.(png|jpg|jpeg|gif|svg)(\?.*)?$/,
-    loader: "url-loader?limit=10000" },
+    loader: "url-loader" },
   { test: /\.(woff|woff2)(\?.*)?$/,
     loader: "url-loader?limit=100000" },
   { test: /\.(ttf|eot)(\?.*)?$/,
@@ -72,7 +72,9 @@ module.exports = function(rules, options) {
       new UglifyJsPlugin({
         uglifyOptions: {
           mangle: specialOptions.mangle,
-          compress: specialOptions.mangle,
+          compress: specialOptions.mangle ? {
+            dead_code: true
+          } : false,
           beautify: !specialOptions.mangle,
         },
         

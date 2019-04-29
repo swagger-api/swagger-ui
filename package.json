@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.19.2",
+  "version": "3.22.1",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -31,7 +31,7 @@
     "lint-fix": "eslint --cache --ext '.js,.jsx' src test --fix",
     "test": "run-s just-test-in-node e2e-cypress lint-errors",
     "test-in-node": "run-s lint-errors just-test-in-node",
-    "just-test-in-node": "mocha --require test/setup.js --recursive --compilers js:babel-core/register --require source-map-support test/core test/components test/bugs test/swagger-ui-dist-package test/xss",
+    "just-test-in-node": "mocha --require test/setup.js --recursive --compilers js:babel-core/register --require source-map-support test/core test/components test/bugs test/docker test/swagger-ui-dist-package test/xss",
     "just-check-coverage": "nyc npm run just-test-in-node",
     "test-e2e-cypress": "cypress run",
     "test-e2e-selenium": "sleep 3 && nightwatch test/e2e-selenium/scenarios/ --config test/e2e-selenium/nightwatch.json",
@@ -48,6 +48,8 @@
   "dependencies": {
     "@braintree/sanitize-url": "^2.0.2",
     "@kyleshockey/js-yaml": "^1.0.1",
+    "@kyleshockey/object-assign-deep": "^0.4.2",
+    "@kyleshockey/xml": "^1.0.2",
     "base64-js": "^1.2.0",
     "classnames": "^2.2.5",
     "core-js": "^2.5.1",
@@ -57,11 +59,10 @@
     "ieee754": "^1.1.8",
     "immutable": "^3.x.x",
     "js-file-download": "^0.4.1",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.11",
     "memoizee": "^0.4.12",
     "prop-types": "^15.5.10",
     "react": "^15.6.2",
-    "react-addons-perf": "^15.4.0",
     "react-debounce-input": "^3.2.0",
     "react-dom": "^15.6.2",
     "react-immutable-proptypes": "2.1.0",
@@ -74,14 +75,14 @@
     "remarkable": "^1.7.1",
     "reselect": "^2.5.4",
     "serialize-error": "^2.1.0",
-    "swagger-client": "^3.8.21",
-    "url-parse": "^1.1.8",
-    "xml": "1.0.1",
+    "swagger-client": "^3.8.25",
+    "url-parse": "^1.4.3",
     "xml-but-prettier": "^1.0.1",
     "zenscroll": "^4.0.2"
   },
   "devDependencies": {
     "autoprefixer": "^8.4.1",
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.23.1",
     "babel-eslint": "^7.1.1",
     "babel-loader": "^7.1.0",
@@ -94,11 +95,13 @@
     "babel-preset-react": "^6.23.0",
     "babel-preset-stage-0": "^6.22.0",
     "babel-runtime": "^6.23.0",
+    "body-parser": "^1.18.3",
     "bundlesize": "^0.17.0",
     "chromedriver": "^2.38.3",
     "copy-webpack-plugin": "^4.0.1",
+    "cors": "^2.8.4",
     "css-loader": "^0.28.11",
-    "cypress": "^3.1.0",
+    "cypress": "^3.1.5",
     "cypress-image-snapshot": "^2.2.1",
     "dedent": "^0.7.0",
     "deepmerge": "^2.1.0",
@@ -108,6 +111,7 @@
     "eslint-plugin-mocha": "^4.11.0",
     "eslint-plugin-react": "^7.10.0",
     "expect": "^1.20.2",
+    "express": "^4.16.4",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.11",
     "git-describe": "^4.0.1",
@@ -115,6 +119,7 @@
     "imports-loader": "^0.8.0",
     "jsdom": "^11.10.0",
     "json-loader": "^0.5.7",
+    "json-merger": "^1.1.0",
     "json-server": "^0.12.2",
     "less": "^3.0.2",
     "license-checker": "^19.0.0",
@@ -124,6 +129,7 @@
     "npm-run-all": "^4.1.2",
     "null-loader": "0.1.1",
     "nyc": "^11.3.0",
+    "oauth2-server": "^2.4.1",
     "open": "0.0.5",
     "postcss-loader": "^2.1.5",
     "raw-loader": "0.5.1",
@@ -141,6 +147,7 @@
     "webpack": "^3.1.0",
     "webpack-bundle-size-analyzer": "^2.5.0",
     "webpack-cli": "^2.0.4",
+    "webpack-dev-server": "^2.11.1",
     "worker-loader": "^1.1.1"
   },
   "config": {
@@ -151,9 +158,6 @@
     "last 2 versions",
     "IE 11"
   ],
-  "optionalDependencies": {
-    "webpack-dev-server": "^2.11.1"
-  },
   "nyc": {
     "all": true,
     "include": [

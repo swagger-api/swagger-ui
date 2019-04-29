@@ -32,9 +32,9 @@ export const show = (ori, { getConfigs, layoutSelectors }) => (...args) => {
     }
 
     if (urlHashArray.length === 2) {
-      setHash(createDeepLinkPath(`/${type}/${assetName}`))
+      setHash(createDeepLinkPath(`/${encodeURIComponent(type)}/${encodeURIComponent(assetName)}`))
     } else if (urlHashArray.length === 1) {
-      setHash(createDeepLinkPath(`/${type}`))
+      setHash(createDeepLinkPath(`/${encodeURIComponent(type)}`))
     }
 
   } catch (e) {
@@ -73,18 +73,36 @@ export const parseDeepLinkHash = (rawHash) => ({ layoutActions, layoutSelectors,
       hash = hash.slice(1)
     }
 
-    const hashArray = hash.split("/").map(val => (val || "").replace(/_/g, " "))
+    const hashArray = hash.split("/").map(val => (val || ""))
 
     const isShownKey = layoutSelectors.isShownKeyFromUrlHashArray(hashArray)
 
-    const [type, tagId] = isShownKey
+    const [type, tagId = "", maybeOperationId = ""] = isShownKey
 
     if(type === "operations") {
       // we're going to show an operation, so we need to expand the tag as well
-      layoutActions.show(layoutSelectors.isShownKeyFromUrlHashArray([tagId]))
+      const tagIsShownKey = layoutSelectors.isShownKeyFromUrlHashArray([tagId])
+
+      // If an `_` is present, trigger the legacy escaping behavior to be safe
+      // TODO: remove this in v4.0, it is deprecated
+      if(tagId.indexOf("_") > -1) {
+        console.warn("Warning: escaping deep link whitespace with `_` will be unsupported in v4.0, use `%20` instead.")
+        layoutActions.show(tagIsShownKey.map(val => val.replace(/_/g, " ")), true)
+      }
+
+      layoutActions.show(tagIsShownKey, true)
     }
 
-    layoutActions.show(isShownKey, true) // TODO: 'show' operation tag
+    // If an `_` is present, trigger the legacy escaping behavior to be safe
+    // TODO: remove this in v4.0, it is deprecated
+    if (tagId.indexOf("_") > -1 || maybeOperationId.indexOf("_") > -1) {
+      console.warn("Warning: escaping deep link whitespace with `_` will be unsupported in v4.0, use `%20` instead.")
+      layoutActions.show(isShownKey.map(val => val.replace(/_/g, " ")), true)
+    }
+
+    layoutActions.show(isShownKey, true)
+
+    // Scroll to the newly expanded entity
     layoutActions.scrollTo(isShownKey)
   }
 }

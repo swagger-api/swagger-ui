@@ -1,4 +1,5 @@
 {
+  "use": "pkg.version",
   "safeBump": false,
   "beforeChangelogCommand": "./release/check-for-breaking-changes.sh ${latestVersion} ${version}",
   "changelogCommand": "./release/get-changelog.sh",

@@ -1,0 +1,10 @@
+---
+swagger: '2.0'
+info:
+  title: Foobar Service
+  description: '<br><p>Example of a simple GET request via curl with bearer HTTP Authentication:</p><pre>curl
+    -X GET "https://foobar.com/stuff" -H "Accept: application/json" -H "Authorization:
+    Bearer abc123.xyz.789"</pre>'
+  version: '2.0'
+paths: {}
+

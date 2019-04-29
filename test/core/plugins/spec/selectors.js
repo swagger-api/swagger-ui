@@ -3,22 +3,85 @@ import expect from "expect"
 import { fromJS } from "immutable"
 import { fromJSOrdered } from "core/utils"
 import {
+  definitions,
   parameterValues,
   contentTypeValues,
   operationScheme,
   specJsonWithResolvedSubtrees,
-  operationConsumes
-} from "corePlugins/spec/selectors"
-
-import Petstore from "./assets/petstore.json"
-import {
+  producesOptionsFor,
   operationWithMeta,
   parameterWithMeta,
   parameterWithMetaByIdentity,
-  parameterInclusionSettingFor
-} from "../../../../src/core/plugins/spec/selectors"
+  parameterInclusionSettingFor,
+  consumesOptionsFor,
+  taggedOperations
+} from "corePlugins/spec/selectors"
 
-describe("spec plugin - selectors", function(){
+import Petstore from "./assets/petstore.json"
+
+  describe("definitions", function(){
+    it("should return definitions by default", function(){
+
+      // Given
+      const spec = fromJS({
+        json: {
+          swagger: "2.0",
+          definitions: {
+            a: {
+              type: "string"
+            },
+            b: {
+              type: "string"
+            }
+          }
+        }
+      })
+
+      // When
+      let res = definitions(spec)
+
+      // Then
+      expect(res.toJS()).toEqual({
+        a: {
+          type: "string"
+        },
+        b: {
+          type: "string"
+        }
+      })
+    })
+    it("should return an empty Map when missing definitions", function(){
+
+      // Given
+      const spec = fromJS({
+        json: {
+          swagger: "2.0"
+        }
+      })
+
+      // When
+      let res = definitions(spec)
+
+      // Then
+      expect(res.toJS()).toEqual({})
+    })
+    it("should return an empty Map when given non-object definitions", function(){
+
+      // Given
+      const spec = fromJS({
+        json: {
+          swagger: "2.0",
+          definitions: "..."
+        }
+      })
+
+      // When
+      let res = definitions(spec)
+
+      // Then
+      expect(res.toJS()).toEqual({})
+    })
+  })
 
   describe("parameterValue", function(){
 
@@ -253,34 +316,6 @@ describe("spec plugin - selectors", function(){
 
   })
 
-  describe("operationConsumes", function(){
-    it("should return the operationConsumes for an operation", function(){
-      // Given
-      let state = fromJS({
-        json: {
-          paths: {
-            "/one": {
-              get: {
-                consumes: [
-                  "application/xml",
-                  "application/something-else"
-                ]
-              }
-            }
-          }
-        }
-      })
-
-      // When
-      let contentTypes = operationConsumes(state, [ "/one", "get" ])
-      // Then
-      expect(contentTypes.toJS()).toEqual([
-        "application/xml",
-        "application/something-else"
-      ])
-    })
-  })
-
   describe("operationScheme", function(){
 
     it("should return the correct scheme for a remote spec that doesn't specify a scheme", function(){
@@ -459,7 +494,7 @@ describe("spec plugin - selectors", function(){
   })
 
   describe("operationWithMeta", function() {
-    it("should support merging in name+in keyed param metadata", function () {
+    it("should support merging in {in}.{name} keyed param metadata", function () {
       const state = fromJS({
         json: {
           paths: {
@@ -467,7 +502,7 @@ describe("spec plugin - selectors", function(){
               "get": {
                 parameters: [
                   {
-                    name: "body",
+                    name: "myBody",
                     in: "body"
                   }
                 ]
@@ -480,7 +515,7 @@ describe("spec plugin - selectors", function(){
             "/": {
               "get": {
                 parameters: {
-                  "body.body": {
+                  "body.myBody": {
                     value: "abc123"
                   }
                 }
@@ -495,7 +530,7 @@ describe("spec plugin - selectors", function(){
       expect(result.toJS()).toEqual({
         parameters: [
           {
-            name: "body",
+            name: "myBody",
             in: "body",
             value: "abc123"
           }
@@ -504,7 +539,7 @@ describe("spec plugin - selectors", function(){
     })
     it("should support merging in hash-keyed param metadata", function () {
       const bodyParam = fromJS({
-        name: "body",
+        name: "myBody",
         in: "body"
       })
 
@@ -525,7 +560,7 @@ describe("spec plugin - selectors", function(){
             "/": {
               "get": {
                 parameters: {
-                  [`body.body.hash-${bodyParam.hashCode()}`]: {
+                  [`body.myBody.hash-${bodyParam.hashCode()}`]: {
                     value: "abc123"
                   }
                 }
@@ -540,7 +575,7 @@ describe("spec plugin - selectors", function(){
       expect(result.toJS()).toEqual({
         parameters: [
           {
-            name: "body",
+            name: "myBody",
             in: "body",
             value: "abc123"
           }
@@ -549,7 +584,7 @@ describe("spec plugin - selectors", function(){
     })
   })
   describe("parameterWithMeta", function() {
-    it("should support merging in name+in keyed param metadata", function () {
+    it("should support merging in {in}.{name} keyed param metadata", function () {
       const state = fromJS({
         json: {
           paths: {
@@ -557,7 +592,7 @@ describe("spec plugin - selectors", function(){
               "get": {
                 parameters: [
                   {
-                    name: "body",
+                    name: "myBody",
                     in: "body"
                   }
                 ]
@@ -570,7 +605,7 @@ describe("spec plugin - selectors", function(){
             "/": {
               "get": {
                 parameters: {
-                  "body.body": {
+                  "body.myBody": {
                     value: "abc123"
                   }
                 }
@@ -580,17 +615,17 @@ describe("spec plugin - selectors", function(){
         }
       })
 
-      const result = parameterWithMeta(state, ["/", "get"], "body", "body")
+      const result = parameterWithMeta(state, ["/", "get"], "myBody", "body")
 
       expect(result.toJS()).toEqual({
-        name: "body",
+        name: "myBody",
         in: "body",
         value: "abc123"
       })
     })
     it("should give best-effort when encountering hash-keyed param metadata", function () {
       const bodyParam = fromJS({
-        name: "body",
+        name: "myBody",
         in: "body"
       })
 
@@ -611,7 +646,7 @@ describe("spec plugin - selectors", function(){
             "/": {
               "get": {
                 parameters: {
-                  [`body.body.hash-${bodyParam.hashCode()}`]: {
+                  [`body.myBody.hash-${bodyParam.hashCode()}`]: {
                     value: "abc123"
                   }
                 }
@@ -621,10 +656,10 @@ describe("spec plugin - selectors", function(){
         }
       })
 
-      const result = parameterWithMeta(state, ["/", "get"], "body", "body")
+      const result = parameterWithMeta(state, ["/", "get"], "myBody", "body")
 
       expect(result.toJS()).toEqual({
-        name: "body",
+        name: "myBody",
         in: "body",
         value: "abc123"
       })
@@ -632,9 +667,9 @@ describe("spec plugin - selectors", function(){
 
   })
   describe("parameterWithMetaByIdentity", function() {
-    it("should support merging in name+in keyed param metadata", function () {
+    it("should support merging in {in}.{name} keyed param metadata", function () {
       const bodyParam = fromJS({
-        name: "body",
+        name: "myBody",
         in: "body"
       })
 
@@ -653,7 +688,7 @@ describe("spec plugin - selectors", function(){
             "/": {
               "get": {
                 parameters: {
-                  "body.body": {
+                  "body.myBody": {
                     value: "abc123"
                   }
                 }
@@ -666,14 +701,14 @@ describe("spec plugin - selectors", function(){
       const result = parameterWithMetaByIdentity(state, ["/", "get"], bodyParam)
 
       expect(result.toJS()).toEqual({
-        name: "body",
+        name: "myBody",
         in: "body",
         value: "abc123"
       })
     })
     it("should support merging in hash-keyed param metadata", function () {
       const bodyParam = fromJS({
-        name: "body",
+        name: "myBody",
         in: "body"
       })
 
@@ -694,7 +729,7 @@ describe("spec plugin - selectors", function(){
             "/": {
               "get": {
                 parameters: {
-                  [`body.body.hash-${bodyParam.hashCode()}`]: {
+                  [`body.myBody.hash-${bodyParam.hashCode()}`]: {
                     value: "abc123"
                   }
                 }
@@ -707,14 +742,14 @@ describe("spec plugin - selectors", function(){
       const result = parameterWithMetaByIdentity(state, ["/", "get"], bodyParam)
 
       expect(result.toJS()).toEqual({
-        name: "body",
+        name: "myBody",
         in: "body",
         value: "abc123"
       })
     })
   })
   describe("parameterInclusionSettingFor", function() {
-    it("should support getting name+in param inclusion settings", function () {
+    it("should support getting {in}.{name} param inclusion settings", function () {
       const param = fromJS({
         name: "param",
         in: "query",
@@ -738,7 +773,7 @@ describe("spec plugin - selectors", function(){
             "/": {
               "get": {
                 "parameter_inclusions": {
-                  [`param.query`]: true
+                  [`query.param`]: true
                 }
               }
             }
@@ -751,4 +786,429 @@ describe("spec plugin - selectors", function(){
       expect(result).toEqual(true)
     })
   })
-})
+  describe("producesOptionsFor", function() {
+    it("should return an operation produces value", function () {
+      const state = fromJS({
+        json: {
+          paths: {
+            "/": {
+              "get": {
+                description: "my operation",
+                produces: [
+                  "operation/one",
+                  "operation/two",
+                ]
+              }
+            }
+          }
+        }
+      })
+
+      const result = producesOptionsFor(state, ["/", "get"])
+
+      expect(result.toJS()).toEqual([
+        "operation/one",
+        "operation/two",
+      ])
+    })
+    it("should return a path item produces value", function () {
+      const state = fromJS({
+        json: {
+          paths: {
+            "/": {
+              "get": {
+                description: "my operation",
+                produces: [
+                  "path-item/one",
+                  "path-item/two",
+                ]
+              }
+            }
+          }
+        }
+      })
+
+      const result = producesOptionsFor(state, ["/", "get"])
+
+      expect(result.toJS()).toEqual([
+        "path-item/one",
+        "path-item/two",
+      ])
+    })
+    it("should return a global produces value", function () {
+      const state = fromJS({
+        json: {
+          produces: [
+            "global/one",
+            "global/two",
+          ],
+          paths: {
+            "/": {
+              "get": {
+                description: "my operation"
+              }
+            }
+          }
+        }
+      })
+
+      const result = producesOptionsFor(state, ["/", "get"])
+
+      expect(result.toJS()).toEqual([
+        "global/one",
+        "global/two",
+      ])
+    })
+    it("should favor an operation produces value over a path-item value", function () {
+      const state = fromJS({
+        json: {
+          paths: {
+            "/": {
+              produces: [
+                "path-item/one",
+                "path-item/two",
+              ],
+              "get": {
+                description: "my operation",
+                produces: [
+                  "operation/one",
+                  "operation/two",
+                ]
+              }
+            }
+          }
+        }
+      })
+
+      const result = producesOptionsFor(state, ["/", "get"])
+
+      expect(result.toJS()).toEqual([
+        "operation/one",
+        "operation/two",
+      ])
+    })
+    it("should favor a path-item produces value over a global value", function () {
+      const state = fromJS({
+        json: {
+          produces: [
+            "global/one",
+            "global/two",
+          ],
+          paths: {
+            "/": {
+              produces: [
+                "path-item/one",
+                "path-item/two",
+              ],
+              "get": {
+                description: "my operation"
+              }
+            }
+          }
+        }
+      })
+
+      const result = producesOptionsFor(state, ["/", "get"])
+
+      expect(result.toJS()).toEqual([
+        "path-item/one",
+        "path-item/two",
+      ])
+    })
+  })
+  describe("consumesOptionsFor", function() {
+    it("should return an operation consumes value", function () {
+      const state = fromJS({
+        json: {
+          paths: {
+            "/": {
+              "get": {
+                description: "my operation",
+                consumes: [
+                  "operation/one",
+                  "operation/two",
+                ]
+              }
+            }
+          }
+        }
+      })
+
+      const result = consumesOptionsFor(state, ["/", "get"])
+
+      expect(result.toJS()).toEqual([
+        "operation/one",
+        "operation/two",
+      ])
+    })
+    it("should return a path item consumes value", function () {
+      const state = fromJS({
+        json: {
+          paths: {
+            "/": {
+              "get": {
+                description: "my operation",
+                consumes: [
+                  "path-item/one",
+                  "path-item/two",
+                ]
+              }
+            }
+          }
+        }
+      })
+
+      const result = consumesOptionsFor(state, ["/", "get"])
+
+      expect(result.toJS()).toEqual([
+        "path-item/one",
+        "path-item/two",
+      ])
+    })
+    it("should return a global consumes value", function () {
+      const state = fromJS({
+        json: {
+          consumes: [
+            "global/one",
+            "global/two",
+          ],
+          paths: {
+            "/": {
+              "get": {
+                description: "my operation"
+              }
+            }
+          }
+        }
+      })
+
+      const result = consumesOptionsFor(state, ["/", "get"])
+
+      expect(result.toJS()).toEqual([
+        "global/one",
+        "global/two",
+      ])
+    })
+    it("should favor an operation consumes value over a path-item value", function () {
+      const state = fromJS({
+        json: {
+          paths: {
+            "/": {
+              consumes: [
+                "path-item/one",
+                "path-item/two",
+              ],
+              "get": {
+                description: "my operation",
+                consumes: [
+                  "operation/one",
+                  "operation/two",
+                ]
+              }
+            }
+          }
+        }
+      })
+
+      const result = consumesOptionsFor(state, ["/", "get"])
+
+      expect(result.toJS()).toEqual([
+        "operation/one",
+        "operation/two",
+      ])
+    })
+    it("should favor a path-item consumes value over a global value", function () {
+      const state = fromJS({
+        json: {
+          consumes: [
+            "global/one",
+            "global/two",
+          ],
+          paths: {
+            "/": {
+              consumes: [
+                "path-item/one",
+                "path-item/two",
+              ],
+              "get": {
+                description: "my operation"
+              }
+            }
+          }
+        }
+      })
+
+      const result = consumesOptionsFor(state, ["/", "get"])
+
+      expect(result.toJS()).toEqual([
+        "path-item/one",
+        "path-item/two",
+      ])
+    })
+  })
+  describe("taggedOperations", function () {
+    it("should return a List of ad-hoc tagged operations", function () {
+      const system = {
+        getConfigs: () => ({})
+      }
+      const state = fromJS({
+        json: {
+          // tags: [
+          //   "myTag"
+          // ],
+          paths: {
+            "/": {
+              "get": {
+                produces: [],
+                tags: ["myTag"],
+                description: "my operation",
+                consumes: [
+                  "operation/one",
+                  "operation/two",
+                ]
+              }
+            }
+          }
+        }
+      })
+
+      const result = taggedOperations(state)(system)
+
+      const op = state.getIn(["json", "paths", "/", "get"]).toJS()
+
+      expect(result.toJS()).toEqual({
+        myTag: {
+          tagDetails: undefined,
+          operations: [{
+            id: "get-/",
+            method: "get",
+            path: "/",
+            operation: op
+          }]
+        }
+      })
+    })
+    it("should return a List of defined tagged operations", function () {
+      const system = {
+        getConfigs: () => ({})
+      }
+      const state = fromJS({
+        json: {
+          tags: [
+            {
+              name: "myTag"
+            }
+          ],
+          paths: {
+            "/": {
+              "get": {
+                produces: [],
+                tags: ["myTag"],
+                description: "my operation",
+                consumes: [
+                  "operation/one",
+                  "operation/two",
+                ]
+              }
+            }
+          }
+        }
+      })
+
+      const result = taggedOperations(state)(system)
+
+      const op = state.getIn(["json", "paths", "/", "get"]).toJS()
+
+      expect(result.toJS()).toEqual({
+        myTag: {
+          tagDetails: {
+            name: "myTag"
+          },
+          operations: [{
+            id: "get-/",
+            method: "get",
+            path: "/",
+            operation: op
+          }]
+        }
+      })
+    })
+    it("should gracefully handle a malformed global tags array", function () {
+      const system = {
+        getConfigs: () => ({})
+      }
+      const state = fromJS({
+        json: {
+          tags: [null],
+          paths: {
+            "/": {
+              "get": {
+                produces: [],
+                tags: ["myTag"],
+                description: "my operation",
+                consumes: [
+                  "operation/one",
+                  "operation/two",
+                ]
+              }
+            }
+          }
+        }
+      })
+
+      const result = taggedOperations(state)(system)
+
+      const op = state.getIn(["json", "paths", "/", "get"]).toJS()
+
+      expect(result.toJS()).toEqual({
+        myTag: {
+          tagDetails: undefined,
+          operations: [{
+            id: "get-/",
+            method: "get",
+            path: "/",
+            operation: op
+          }]
+        }
+      })
+    })
+    it("should gracefully handle a non-array global tags entry", function () {
+      const system = {
+        getConfigs: () => ({})
+      }
+      const state = fromJS({
+        json: {
+          tags: "asdf",
+          paths: {
+            "/": {
+              "get": {
+                produces: [],
+                tags: ["myTag"],
+                description: "my operation",
+                consumes: [
+                  "operation/one",
+                  "operation/two",
+                ]
+              }
+            }
+          }
+        }
+      })
+
+      const result = taggedOperations(state)(system)
+
+      const op = state.getIn(["json", "paths", "/", "get"]).toJS()
+
+      expect(result.toJS()).toEqual({
+        myTag: {
+          tagDetails: undefined,
+          operations: [{
+            id: "get-/",
+            method: "get",
+            path: "/",
+            operation: op
+          }]
+        }
+      })
+    })
+  })
