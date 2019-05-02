@@ -349,13 +349,13 @@ export function extractFileNameFromContentDispositionHeader(value){
     /filename="([^;]*);?"/i,
     /filename=([^;]*);?/i
   ]
-  
+
   let responseFilename
   patterns.some(regex => {
     responseFilename = regex.exec(value)
     return responseFilename !== null
   })
-    
+
   if (responseFilename !== null && responseFilename.length > 1) {
     try {
       return decodeURIComponent(responseFilename[1])
@@ -722,6 +722,17 @@ export function sanitizeUrl(url) {
   return braintreeSanitizeUrl(url)
 }
 
+export function isAbsoluteUrl(url) {
+  return url.match(/^(?:[a-z]+:)?\/\//i) // Matches http://, HTTP://, https://, ftp://, //example.com,
+}
+
+export function buildUrl(url="", selectedServer="") {
+  if(!url) return ""
+  if(isAbsoluteUrl(url)) return url
+  if(!url.startsWith("/")) url = "/" + url // Add '/' to start of relative URL, if missing
+  return selectedServer ? selectedServer.replace(/\/$/, "") + url : url // Remove '/' from server, if present
+}
+
 export function getAcceptControllingResponse(responses) {
   if(!Im.OrderedMap.isOrderedMap(responses)) {
     // wrong type!
@@ -810,7 +821,7 @@ export function paramToIdentifier(param, { returnAll = false, allowHashes = true
   }
   const paramName = param.get("name")
   const paramIn = param.get("in")
-  
+
   let generatedIdentifiers = []
 
   // Generate identifiers in order of most to least specificity
@@ -818,7 +829,7 @@ export function paramToIdentifier(param, { returnAll = false, allowHashes = true
   if (param && param.hashCode && paramIn && paramName && allowHashes) {
     generatedIdentifiers.push(`${paramIn}.${paramName}.hash-${param.hashCode()}`)
   }
-  
+
   if(paramIn && paramName) {
     generatedIdentifiers.push(`${paramIn}.${paramName}`)
   }

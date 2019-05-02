@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { getList } from "core/utils"
-import { getExtensions, sanitizeUrl, escapeDeepLinkPath } from "core/utils"
+import { getExtensions, sanitizeUrl, escapeDeepLinkPath, buildUrl } from "core/utils"
 import { Iterable, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 
@@ -81,6 +81,7 @@ export default class Operation extends PureComponent {
       schemes
     } = op
 
+    const externalDocsUrl = externalDocs ? buildUrl(externalDocs.url, oas3Selectors.selectedServer()) : ""
     let operation = operationProps.getIn(["op"])
     let responses = operation.get("responses")
     let parameters = getList(operation, ["parameters"])
@@ -127,14 +128,14 @@ export default class Operation extends PureComponent {
                 </div>
               }
               {
-                externalDocs && externalDocs.url ?
+                externalDocsUrl ?
                 <div className="opblock-external-docs-wrapper">
                   <h4 className="opblock-title_normal">Find more details</h4>
                   <div className="opblock-external-docs">
                     <span className="opblock-external-docs__description">
                       <Markdown source={ externalDocs.description } />
                     </span>
-                    <Link target="_blank" className="opblock-external-docs__link" href={sanitizeUrl(externalDocs.url)}>{externalDocs.url}</Link>
+                    <Link target="_blank" className="opblock-external-docs__link" href={sanitizeUrl(externalDocsUrl)}>{externalDocsUrl}</Link>
                   </div>
                 </div> : null
               }
