@@ -1,10 +1,10 @@
 .info
 {
-    margin: 0 0 1.25em 0;
+    margin: 0 0 2rem 0;
 
     hgroup.main
     {
-        margin: 0 0 .625em 0;
+        margin: 0 0 1rem 0;
         a
         {
             font-size: 12px;
@@ -45,7 +45,7 @@
 
         &.description
         {
-            margin-bottom: 1.25em;
+            margin-bottom: 2em;
         }
     }
 
@@ -60,7 +60,7 @@
     .title
     {
         font-size: 36px;
-        margin-bottom: .625em;
+        margin-bottom: 1rem;
 
         @include text_body();
 
