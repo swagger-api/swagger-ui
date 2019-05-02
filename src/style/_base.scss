@@ -1,6 +1,5 @@
-html, body 
-{
-  font-size: 62.5%;
+input {
+  font-size: 1.6em;
 }
 
 h1, h2, h3, h4, h5, h6, p, pre, label
@@ -9,4 +8,3 @@ h1, h2, h3, h4, h5, h6, p, pre, label
   padding: 0;
   @include text_body();
 }
-
