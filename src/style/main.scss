@@ -1,9 +1,14 @@
+html {
+    font-size: 62.5%;
+}
+
 .swagger-ui
 {
     @import '~tachyons-sass/tachyons.scss';
     @import 'mixins';
     @import 'variables';
     @import 'type';
+    @import 'base';
     @import 'layout';
     @import 'buttons';
     @import 'form';

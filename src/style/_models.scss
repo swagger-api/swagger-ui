@@ -102,39 +102,39 @@
 
 section.models
 {
-    margin: 30px 0;
-
-    border: 1px solid rgba($section-models-border-color, .3);
-    border-radius: 4px;
+    margin-bottom: 20px;
 
     &.is-open
     {
         padding: 0 0 20px;
-        h4
+        > div:first-child
         {
-            margin: 0 0 5px 0;
-
-            border-bottom: 1px solid rgba($section-models-isopen-h4-border-bottom-color, .3);
+            border: none;
         }
     }
-    h4
+    > div:first-child
     {
-        font-size: 16px;
+        font-size: 24px;
 
         display: flex;
         align-items: center;
+        justify-content: space-between;
 
         margin: 0;
-        padding: 10px 20px 10px 10px;
+        padding: 1.5rem 0;
 
         cursor: pointer;
         transition: all .2s;
+
+        border-bottom: 1px solid rgba($section-models-border-color, .3);
 
         @include text_headline($section-models-h4-font-color);
 
         svg
         {
             transition: all .4s;
+
+            margin-right: .5rem;
         }
 
         span
@@ -165,7 +165,7 @@ section.models
 
     .model-container
     {
-        margin: 0 20px 15px;
+        margin: 1.5rem 0;
         position: relative;
 
         transition: all .5s;
@@ -180,12 +180,12 @@ section.models
 
         &:first-of-type
         {
-            margin: 20px;
+            margin-top: 0;
         }
 
         &:last-of-type
         {
-            margin: 0 20px;
+            margin-bottom: 0;
         }
 
         .models-jump-to-path {

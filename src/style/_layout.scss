@@ -13,24 +13,6 @@
     flex-direction: column;
 }
 
-.opblock-tag
-{
-    display: flex;
-    align-items: center;
-
-    padding: 10px 20px 10px 10px;
-
-    cursor: pointer;
-    transition: all .2s;
-
-    border-bottom: 1px solid rgba($opblock-tag-border-bottom-color, .3);
-
-    &:hover
-    {
-        background: rgba($opblock-tag-background-color-hover,.02);
-    }
-}
-
 @mixin method($color)
 {
     border-color: $color;
@@ -57,9 +39,22 @@
 
 .opblock-tag
 {
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+    transition: all .2s;
+
     font-size: 24px;
 
-    margin: 0 0 5px 0;
+    padding: 1.5rem 0;
+
+    border-bottom: 1px solid rgba($opblock-tag-border-bottom-color, .3);
+
+    &:hover
+    {
+        background: rgba($opblock-tag-background-color-hover,.02);
+    }
 
     @include text_headline();
 
@@ -114,7 +109,7 @@
 
 .opblock
 {
-    margin: 0 0 15px 0;
+    margin: 0 0 1rem 0;
 
     border: 1px solid $opblock-border-color;
     border-radius: 4px;
@@ -218,14 +213,16 @@
     }
 
     .opblock-summary-method
-    {
+    {   
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
         font-size: 14px;
         font-weight: bold;
 
-        min-width: 80px;
-        padding: 6px 15px;
-
-        text-align: center;
+        height: 3rem;
+        min-width: 8rem;
 
         border-radius: 3px;
         background: $opblock-summary-method-background-color;
@@ -647,8 +644,8 @@
 
 .scheme-container
 {
-    margin: 0 0 20px 0;
-    padding: 30px 0;
+    margin: 0 0 .5rem 0;
+    padding: 2rem 0;
 
     background: $scheme-container-background-color;
     box-shadow: 0 1px 2px 0 rgba($scheme-container-box-shadow-color,.15);

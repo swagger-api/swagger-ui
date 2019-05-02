@@ -1,8 +1,10 @@
 .topbar
 {
-    padding: 10px 0;
+    padding: 1rem 0;
+    margin: 0 0 2rem 0;
 
     background-color: $topbar-background-color;
+
     .topbar-wrapper
     {
         display: flex;
