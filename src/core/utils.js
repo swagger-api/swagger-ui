@@ -728,9 +728,11 @@ export function isAbsoluteUrl(url) {
 
 export function buildUrl(url="", selectedServer="") {
   if(!url) return ""
-  if(isAbsoluteUrl(url)) return url
-  if(!url.startsWith("/")) url = "/" + url // Add '/' to start of relative URL, if missing
-  return selectedServer ? selectedServer.replace(/\/$/, "") + url : url // Remove '/' from server, if present
+  if(isAbsoluteUrl(url) || !selectedServer) return url
+
+  const selectedServerObj = new URL(selectedServer)
+  if(url.startsWith("/")) return `${selectedServerObj.protocol}${selectedServerObj.host}${url}`
+  return selectedServer + url
 }
 
 export function getAcceptControllingResponse(responses) {
