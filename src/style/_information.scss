@@ -1,24 +1,24 @@
 .info
 {
-    margin: 0 0 2rem 0;
+  margin: 0 0 2rem 0;
 
     hgroup.main
     {
-        margin: 0 0 1rem 0;
+      margin: 0 0 1rem 0;
         a
         {
-            font-size: 12px;
+          font-size: 12px;
         }
     }
-    pre 
+    pre
     {
-        font-size: 14px;
+      font-size: 14px;
     }
     p, li, table
     {
-        font-size: 14px;
 
-        @include text_body();
+
+        @include regular_text();
     }
 
     h1, h2, h3, h4, h5
@@ -32,7 +32,7 @@
 
         transition: all .4s;
 
-        @include text_body($info-link-font-color);
+        @include regular_text($info-link-font-color);
 
         &:hover
         {
@@ -45,24 +45,23 @@
 
         &.description
         {
-            margin-bottom: 2em;
+          margin-bottom: 2em;
         }
     }
 
     .base-url
     {
-        font-size: 12px;
-        font-weight: 300 !important;
 
-        @include text_code();
+        @include regular_text();
     }
 
     .title
     {
-        font-size: 36px;
-        margin-bottom: 1rem;
+      font-size: 36px;
+      margin-bottom: 1rem;
 
-        @include text_body();
+        @include text_title();
+
 
         small
         {
@@ -85,8 +84,7 @@
             {
                 margin: 0;
                 padding: 0;
-
-                @include text_headline($info-title-small-pre-font-color);
+                @include regular_text($info-title-small-pre-font-color,$info-title-small-pre-font-size);
             }
         }
     }
