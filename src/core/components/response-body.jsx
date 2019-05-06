@@ -54,8 +54,11 @@ export default class ResponseBody extends React.Component {
       headers["Content-Description"] && (/File Transfer/i).test(headers["Content-Description"]) ||
       headers["content-description"] && (/File Transfer/i).test(headers["content-description"])) {
 
-      // let contentLength = headers["content-length"] || headers["Content-Length"]
-      // if ( !(+contentLength) ) return null
+      let contentLength = headers["content-length"] || headers["Content-Length"]
+      let transferEncoding = headers["transfer-encoding"] || headers["Transfer-Encoding"]
+      // Valid if either Content-Length has integer, or if Transfer-Encoding is set
+      // https://greenbytes.de/tech/webdav/rfc2616.html#rfc.section.4.4
+      if (!(+contentLength) && !transferEncoding) return null
 
       const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
