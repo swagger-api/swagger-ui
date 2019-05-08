@@ -1,18 +1,18 @@
 .info
 {
-  margin: 0 0 2rem 0;
+    margin: 0 0 2rem 0;
 
     hgroup.main
     {
-      margin: 0 0 1rem 0;
+        margin: 0 0 1rem 0;
         a
         {
-          font-size: 12px;
+            @include regular_text($color: $info-link-font-color);
         }
     }
     pre
     {
-      font-size: 14px;
+        font-size: 14px;
     }
     p, li, table
     {
@@ -28,11 +28,10 @@
 
     a
     {
-        font-size: 14px;
 
         transition: all .4s;
 
-        @include regular_text($info-link-font-color);
+        @include regular_text($color: $info-link-font-color);
 
         &:hover
         {
@@ -45,7 +44,7 @@
 
         &.description
         {
-          margin-bottom: 2em;
+            margin-bottom: 2em;
         }
     }
 
@@ -57,8 +56,8 @@
 
     .title
     {
-      font-size: 36px;
-      margin-bottom: 1rem;
+        font-size: 36px;
+        margin-bottom: 1rem;
 
         @include text_title();
 

@@ -45,7 +45,6 @@
     cursor: pointer;
     transition: all .2s;
 
-    font-size: 24px;
 
     padding: 1.5rem 0;
 
@@ -112,7 +111,7 @@
 
 .opblock
 {
-  margin: 0 0 1rem 0;
+    margin: 0 0 1rem 0;
 
     border: 1px solid $opblock-border-color;
     border-radius: 4px;
@@ -645,8 +644,8 @@
 
 .scheme-container
 {
-  margin: 0 0 .5rem 0;
-  padding: 2rem 0;
+    margin: 0 0 .5rem 0;
+    padding: 2rem 0;
 
     background: $scheme-container-background-color;
     box-shadow: 0 1px 2px 0 rgba($scheme-container-box-shadow-color,.15);
