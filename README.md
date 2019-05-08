@@ -68,6 +68,7 @@ To help with the migration, here are the currently known issues with 3.X. This l
 - Support for `collectionFormat` is partial.
 - l10n (translations) is not implemented.
 - Relative path support for external files is not implemented.
+- Multiple instances of the Swagger UI may cause accessibility issues due to duplicated ID refs
 
 ## Security contact
 
