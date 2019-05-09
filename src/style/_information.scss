@@ -16,9 +16,7 @@
     }
     p, li, table
     {
-
-
-        @include regular_text();
+        @include regular_text($size: 1.4em);
     }
 
     h1, h2, h3, h4, h5
@@ -26,12 +24,12 @@
         @include text_body();
     }
 
-    a
+    div > a, .info__extdocs.link
     {
 
         transition: all .4s;
 
-        @include regular_text($color: $info-link-font-color);
+        @include regular_text($color: $info-link-font-color,$size:1.4em);
 
         &:hover
         {
