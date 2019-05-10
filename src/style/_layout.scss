@@ -59,7 +59,7 @@
 {
     margin: 0 0 5px 0;
 
-    h4
+    a.nostyle
     {
       @include text_title($size: $opblock-tag-h4-font-size);
     }
@@ -79,13 +79,11 @@
 
     small
     {
-        font-weight: normal;
-
         flex: 1;
 
         padding: 0 10px;
 
-        @include text_title($size: $opblock-tag-small-font-size);
+        @include regular-text($size: $opblock-tag-small-font-size);
     }
 }
 
