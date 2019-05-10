@@ -29,7 +29,7 @@
 
         transition: all .4s;
 
-        @include regular_text($color: $info-link-font-color,$size:1.4em);
+        @include regular_text($color: $info-link-font-color);
 
         &:hover
         {

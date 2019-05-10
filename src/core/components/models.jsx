@@ -62,6 +62,7 @@ export default class Models extends Component {
 
             const schema = Map.isMap(schemaValue) ? schemaValue : Im.Map()
             const rawSchema = Map.isMap(rawSchemaValue) ? rawSchemaValue : Im.Map()
+
             const displayName = schema.get("title") || rawSchema.get("title") || name
 
             if(layoutSelectors.isShown(["models", name], false) && (schema.size === 0 && rawSchema.size > 0)) {
