@@ -58,20 +58,20 @@ export default class OperationTag extends React.Component {
     return (
       <div className={showTag ? "opblock-tag-section is-open" : "opblock-tag-section"} >
 
-        <div
+        <h4
           onClick={() => layoutActions.show(isShownKey, !showTag)}
           className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag" }
           id={isShownKey.map(v => escapeDeepLinkPath(v)).join("-")}
           data-tag={tag}
           data-is-open={showTag}
           >
-          <h4>
+          <div>
             <DeepLink
               enabled={isDeepLinkingEnabled}
               isShown={showTag}
               path={createDeepLinkPath(tag)}
               text={tag} />
-          </h4>
+          </div>
           { !tagDescription ? <small></small> :
             <small>
                 <Markdown source={tagDescription} />
@@ -103,7 +103,7 @@ export default class OperationTag extends React.Component {
                 <use href={showTag ? "#large-arrow-down" : "#large-arrow"} xlinkHref={showTag ? "#large-arrow-down" : "#large-arrow"} />
               </svg>
             </button>
-        </div>
+        </h4>
 
         <Collapse isOpened={showTag}>
           {children}

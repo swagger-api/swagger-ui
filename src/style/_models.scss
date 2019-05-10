@@ -102,26 +102,31 @@
 
 section.models
 {
-    margin-bottom: 20px;
+    margin: 30px 0;
+
+    border: 1px solid rgba($section-models-border-color, .3);
+    border-radius: 4px;
 
     &.is-open
     {
         padding: 0 0 20px;
-        > div:first-child
+        h4
         {
-            border: none;
+            margin: 0 0 5px 0;
+
+            border-bottom: 1px solid rgba($section-models-isopen-h4-border-bottom-color, .3);
         }
     }
-    > div:first-child
+    h4
     {
-        font-size: 24px;
+        font-size: 16px;
 
         display: flex;
         align-items: center;
         justify-content: space-between;
 
         margin: 0;
-        padding: 1.5rem 0;
+        padding: 10px 20px 10px 10px;
 
         cursor: pointer;
         transition: all .2s;
@@ -165,7 +170,7 @@ section.models
 
     .model-container
     {
-        margin: 1.5rem 0;
+        margin: 0 20px 15px;
         position: relative;
 
         transition: all .5s;
@@ -180,12 +185,12 @@ section.models
 
         &:first-of-type
         {
-            margin-top: 0;
+            margin: 20px;
         }
 
         &:last-of-type
         {
-            margin-bottom: 0;
+            margin: 0 20px;
         }
 
         .models-jump-to-path {

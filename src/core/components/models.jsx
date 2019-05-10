@@ -45,12 +45,12 @@ export default class Models extends Component {
     const JumpToPath = getComponent("JumpToPath")
 
     return <section className={ showModels ? "models is-open" : "models"}>
-      <div onClick={() => layoutActions.show("models", !showModels)}>
-        <h4>{isOAS3 ? "Schemas" : "Models" }</h4>
+      <h4 onClick={() => layoutActions.show("models", !showModels)}>
+        <span>{isOAS3 ? "Schemas" : "Models" }</span>
         <svg width="20" height="20">
           <use xlinkHref={showModels ? "#large-arrow-down" : "#large-arrow"} />
         </svg>
-      </div>
+      </h4>
       <Collapse isOpened={showModels}>
         {
           definitions.entrySeq().map(([name])=>{
@@ -62,7 +62,7 @@ export default class Models extends Component {
 
             const schema = Map.isMap(schemaValue) ? schemaValue : Im.Map()
             const rawSchema = Map.isMap(rawSchemaValue) ? rawSchemaValue : Im.Map()
-            
+
             const displayName = schema.get("title") || rawSchema.get("title") || name
 
             if(layoutSelectors.isShown(["models", name], false) && (schema.size === 0 && rawSchema.size > 0)) {
