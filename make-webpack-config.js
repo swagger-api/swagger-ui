@@ -81,6 +81,7 @@ module.exports = function(rules, options) {
           } : false,
           beautify: !specialOptions.mangle,
         },
+
         sourceMap: true,
       }),
       new webpack.LoaderOptionsPlugin({
