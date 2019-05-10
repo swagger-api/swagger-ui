@@ -216,12 +216,11 @@
 
     .opblock-summary-method
     {
-        display: flex;
-        justify-content: center;
-        align-items: center;
 
         min-width: 80px;
         padding: 6px 15px;
+
+        text-align: center;
 
         border-radius: 3px;
         background: $opblock-summary-method-background-color;

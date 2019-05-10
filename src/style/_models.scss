@@ -123,15 +123,12 @@ section.models
 
         display: flex;
         align-items: center;
-        justify-content: space-between;
 
         margin: 0;
         padding: 10px 20px 10px 10px;
 
         cursor: pointer;
         transition: all .2s;
-
-        border-bottom: 1px solid rgba($section-models-border-color, .3);
 
         @include text_headline($section-models-h4-font-color);
 
