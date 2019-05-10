@@ -24,7 +24,7 @@
         @include text_body();
     }
 
-    div > a, .info__extdocs.link
+    div > a, a.info__extdocs.link
     {
 
         transition: all .4s;
@@ -39,11 +39,6 @@
     > div
     {
         margin: 0 0 5px 0;
-
-        &.description
-        {
-            margin-bottom: 2em;
-        }
     }
 
     .base-url
@@ -59,7 +54,6 @@
         margin: 0;
 
         @include text_title();
-
 
         small
         {
@@ -82,6 +76,7 @@
             {
                 margin: 0;
                 padding: 0;
+
                 @include regular_text($info-title-small-pre-font-color,$info-title-small-pre-font-size);
             }
         }

@@ -65,13 +65,11 @@ export default class OperationTag extends React.Component {
           data-tag={tag}
           data-is-open={showTag}
           >
-          <div>
-            <DeepLink
-              enabled={isDeepLinkingEnabled}
-              isShown={showTag}
-              path={createDeepLinkPath(tag)}
-              text={tag} />
-          </div>
+          <DeepLink
+            enabled={isDeepLinkingEnabled}
+            isShown={showTag}
+            path={createDeepLinkPath(tag)}
+            text={tag} />
           { !tagDescription ? <small></small> :
             <small>
                 <Markdown source={tagDescription} />
