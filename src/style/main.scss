@@ -1,10 +1,10 @@
-html {
-    font-size: 62.5%;
-}
+
 @import 'fonts';
 
 .swagger-ui
 {
+
+    font-size: 62.5%;
     @import '~tachyons-sass/tachyons.scss';
     @import 'mixins';
     @import 'variables';
