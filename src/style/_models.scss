@@ -102,28 +102,30 @@
 
 section.models
 {
-    margin-bottom: 20px;
+    margin: 30px 0;
+
+    border: 1px solid rgba($section-models-border-color, .3);
+    border-radius: 4px;
 
     &.is-open
     {
         padding: 0 0 20px;
         h4
         {
-            border: none;
+            margin: 0 0 5px 0;
+
+            border-bottom: 1px solid rgba($section-models-isopen-h4-border-bottom-color, .3);
         }
     }
     h4
     {
-        font-size: 24px;
+        font-size: 16px;
 
         display: flex;
         align-items: center;
-        justify-content: space-between;
 
         cursor: pointer;
         transition: all .2s;
-
-        border-bottom: 1px solid rgba($section-models-border-color, .3);
 
         @include text_headline($section-models-h4-font-color);
 
@@ -178,12 +180,12 @@ section.models
 
         &:first-of-type
         {
-            margin-top: 0;
+            margin: 20px;
         }
 
         &:last-of-type
         {
-            margin-bottom: 0;
+            margin: 0 20px;
         }
 
         .models-jump-to-path {

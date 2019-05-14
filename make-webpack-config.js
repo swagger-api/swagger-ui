@@ -39,7 +39,11 @@ var commonRules = [
   { test: /\.(png|jpg|jpeg|gif|svg)(\?.*)?$/,
     loader: "url-loader" },
   { test: /\.(woff|woff2)(\?.*)?$/,
-    loader: "url-loader?limit=100000" },
+    loader: "file-loader?limit=100000",
+    options: {
+      name: "[name].[ext]"
+    }
+  },
   { test: /\.(ttf|eot)(\?.*)?$/,
     loader: "file-loader" }
 ]
@@ -77,7 +81,7 @@ module.exports = function(rules, options) {
           } : false,
           beautify: !specialOptions.mangle,
         },
-        
+
         sourceMap: true,
       }),
       new webpack.LoaderOptionsPlugin({

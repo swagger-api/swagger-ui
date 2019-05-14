@@ -13,6 +13,24 @@
     flex-direction: column;
 }
 
+.opblock-tag
+{
+    display: flex;
+    align-items: center;
+
+    padding: 10px 20px 10px 10px;
+
+    cursor: pointer;
+    transition: all .2s;
+
+    border-bottom: 1px solid rgba($opblock-tag-border-bottom-color, .3);
+
+    &:hover
+    {
+        background: rgba($opblock-tag-background-color-hover,.02);
+    }
+}
+
 @mixin method($color)
 {
     border-color: $color;
@@ -45,18 +63,14 @@
     cursor: pointer;
     transition: all .2s;
 
-    font-size: 24px;
-
     padding: 1.5em 0;
 
     border-bottom: 1px solid rgba($opblock-tag-border-bottom-color, .3);
 
-    &:hover
+    a.nostyle
     {
-        background: rgba($opblock-tag-background-color-hover,.02);
+      @include text_title($size: $opblock-tag-h4-font-size);
     }
-
-    @include text_headline();
 
     &.no-desc
     {
@@ -73,14 +87,11 @@
 
     small
     {
-        font-size: 14px;
-        font-weight: normal;
-
         flex: 1;
 
         padding: 0 10px;
 
-        @include text_body();
+        @include regular-text($size: $opblock-tag-small-font-size);
     }
 }
 
@@ -202,24 +213,20 @@
 
         h4
         {
-            font-size: 14px;
 
             flex: 1;
 
             margin: 0;
 
-            @include text_headline();
+            @include text_title($size: $opblock-section-header-h4-font-size);
         }
     }
 
     .opblock-summary-method
-    {   
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    {
 
-        font-size: 14px;
-        font-weight: bold;
+        min-width: 80px;
+        padding: 6px 15px;
 
         height: 3em;
         min-width: 8em;
@@ -228,7 +235,7 @@
         background: $opblock-summary-method-background-color;
         text-shadow: 0 1px 0 rgba($opblock-summary-method-text-shadow-color,.1);
 
-        @include text_headline($opblock-summary-method-font-color);
+        @include special-text();
     }
 
     .opblock-summary-path,
@@ -248,7 +255,7 @@
 
         padding: 0 10px;
 
-        @include text_code();
+        @include special-text($size: $opblock-summary-path-font-size)
 
     }
 
@@ -270,7 +277,7 @@
 
         word-break: break-word;
 
-        @include text_body();
+        @include text_title($size: $opblock-summary-description-font-size);
     }
 
     .opblock-summary
