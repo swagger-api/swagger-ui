@@ -107,21 +107,18 @@ section.models
     &.is-open
     {
         padding: 0 0 20px;
-        > div:first-child
+        h4
         {
             border: none;
         }
     }
-    > div:first-child
+    h4
     {
         font-size: 24px;
 
         display: flex;
         align-items: center;
         justify-content: space-between;
-
-        margin: 0;
-        padding: 1.5rem 0;
 
         cursor: pointer;
         transition: all .2s;
@@ -134,12 +131,13 @@ section.models
         {
             transition: all .4s;
 
-            margin-right: .5rem;
+            margin-right: .5em;
         }
 
         span
         {
             flex: 1;
+            margin: 1.5em 0;
         }
 
         &:hover
@@ -165,7 +163,7 @@ section.models
 
     .model-container
     {
-        margin: 1.5rem 0;
+        margin: 1.5em 0;
         position: relative;
 
         transition: all .5s;
