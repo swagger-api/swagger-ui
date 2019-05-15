@@ -38,17 +38,17 @@ var commonRules = [
     loader: "raw-loader" },
   { test: /\.(png|jpg|jpeg|gif|svg)(\?.*)?$/,
     loader: "url-loader" },
-  { test: /\.(woff|woff2)(\?.*)?$/,
-    loader: "file-loader?limit=100000",
-    options: {
-      name: "[name].[ext]",
-      outputPath: process.env.NODE_ENV === "production" ? "/fonts/" : "./",
-      publicPath: process.env.NODE_ENV === "production" ? path.join(__dirname, "dist", "fonts") : "./"
-    }
-  },
   { test: /\.(ttf|eot)(\?.*)?$/,
     loader: "file-loader" }
 ]
+
+const fontRule = {
+  test: /\.(woff|woff2)(\?.*)?$/,
+  loader: "file-loader?limit=100000",
+  options: {
+    name: "[name].[ext]"
+  }
+}
 
 module.exports = function(rules, options) {
 
@@ -94,9 +94,17 @@ module.exports = function(rules, options) {
     )
 
     plugins.push( new webpack.NoEmitOnErrorsPlugin())
+    
+    commonRules.push(deepExtend(fontRule, {
+      options: {
+        outputPath: "/fonts",
+        publicPath: path.join(__dirname, "dist", "fonts")
+      }
+    }))
 
   } else { // development mode
     plugins.push(new CopyWebpackPlugin([ { from: "test/e2e-selenium/specs", to: "test-specs" } ]))
+    commonRules.push(fontRule)
   }
 
   plugins.push(
