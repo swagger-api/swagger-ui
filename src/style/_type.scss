@@ -34,9 +34,9 @@
     color: $color;
 }
 
-@mixin special-text($color: $special-text-font-color, $size: $special-text-font-size)
+@mixin special-text($color: $alt-text-font-color, $size: $alt-text-font-size)
 {
-    font-family: $special-text-font-family;
+    font-family: $alt-text-font-family;
     font-size: $size;
     color: $color;
 }
