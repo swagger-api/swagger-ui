@@ -37,16 +37,14 @@ var commonRules = [
   { test: /\.(txt|yaml)(\?.*)?$/,
     loader: "raw-loader" },
   { test: /\.(png|jpg|jpeg|gif|svg)(\?.*)?$/,
-    loader: "url-loader" },
-  { test: /\.(ttf|eot)(\?.*)?$/,
-    loader: "file-loader" }
+    loader: "url-loader" }
 ]
 
 const fontRule = {
-  test: /\.(woff|woff2)(\?.*)?$/,
-  loader: "file-loader?limit=100000",
+  test: /\.(woff|woff2|ttf|eot)(\?.*)?$/,
+  loader: "file-loader",
   options: {
-    name: "[name].[ext]"
+    name: "[name].[ext]?[hash]"
   }
 }
 
