@@ -9,6 +9,8 @@ import eq from "lodash/eq"
 import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins/samples/fn"
 import win from "./window"
 import cssEscape from "css.escape"
+import uuid4 from "uuid4"
+import { crypto, hextob64u } from "jsrsasign"
 
 const DEFAULT_RESPONSE_KEY = "default"
 
@@ -842,4 +844,16 @@ export function paramToValue(param, paramValues) {
     .filter(value => value !== undefined)
 
   return values[0]
+}
+
+export function random() {
+  return uuid4().replace(/-/g, "")
+}
+
+export function hashString(value, alg) {
+    return crypto.Util.hashString(value, alg)
+}
+
+export function hexToBase64Url(value) {
+    return hextob64u(value)
 }

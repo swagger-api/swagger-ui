@@ -59,6 +59,7 @@
     "ieee754": "^1.1.8",
     "immutable": "^3.x.x",
     "js-file-download": "^0.4.1",
+    "jsrsasign": "^8.0.12",
     "lodash": "^4.17.11",
     "memoizee": "^0.4.12",
     "prop-types": "^15.5.10",
@@ -77,6 +78,7 @@
     "serialize-error": "^2.1.0",
     "swagger-client": "^3.8.25",
     "url-parse": "^1.4.3",
+    "uuid4": "^1.1.4",
     "xml-but-prettier": "^1.0.1",
     "zenscroll": "^4.0.2"
   },
