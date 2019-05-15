@@ -135,7 +135,7 @@ $form-checkbox-box-shadow-color: $color-concrete-gray !default;
 
 // Markdown
 $markdown-pre-font-color: $color-black !default;
-$info-code-background-color: rgba($color-black,.05) !default;
+$info-code-background-color: rgba($color-black,.05) !default; // make markdown prefix?
 $info-code-font-color: $color-electric-violet !default;
 //TODO: add general code font color
 
@@ -158,7 +158,7 @@ $opblock-border-color--open: lighten(#000,80%);
 $opblock-tag-border-bottom-color: $color-bright-gray !default;
 $opblock-tag-background-color-hover: $color-black !default;
 
-$opblock-tab-header-tab-item-active-h4-span-after-background-color: $color-gray-400 !default;
+$opblock-tab-header-tab-item-active-h4-span-after-background-color: $color-gray-400 !default; // rename this var?
 
 $opblock-isopen-summary-border-bottom-color: $color-black !default;
 
