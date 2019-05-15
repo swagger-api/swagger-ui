@@ -33,22 +33,21 @@
 
 @mixin method($color)
 {
-    border-color: $color;
-    background: rgba($color, .1);
+    border-color: mix($color, $color_white, 8%);
+    background: mix($color, $color_white, 8%);
 
     .opblock-summary-method
     {
         background: $color;
     }
 
-    .opblock-summary
-    {
-        border-color: $color;
-    }
-
     .tab-header .tab-item.active h4 span:after
     {
         background: $color;
+    }
+
+    textarea:not(:focus) {
+        background: mix($color, $color_white, 8%);
     }
 }
 
@@ -118,7 +117,6 @@
 
     border: 1px solid $opblock-border-color;
     border-radius: 4px;
-    box-shadow: 0 0 3px rgba($opblock-box-shadow-color,.19);
 
     .tab-header
     {
@@ -162,15 +160,6 @@
                     }
                 }
             }
-        }
-    }
-
-
-    &.is-open
-    {
-        .opblock-summary
-        {
-            border-bottom: 1px solid $opblock-isopen-summary-border-bottom-color;
         }
     }
 
@@ -346,8 +335,6 @@
 
     &.opblock-deprecated
     {
-        opacity: .6;
-
         @include method($_color-disabled);
     }
 
@@ -359,6 +346,12 @@
         {
             padding: 0 10px 0 0;
         }
+    }
+
+    &.is-open
+    {
+        background-color: $opblock-background-color--open;
+        border-color: $opblock-border-color--open;
     }
 }
 
@@ -566,7 +559,7 @@
             @include text_code($response-col-description-inner-markdown-link-font-color);
             text-decoration: underline;
             &:hover {
-                color: $response-col-description-inner-markdown-link-font-color-hover;
+                color: $response-col-description-inner-markdown-link-font-color--hover;
             }
         }
 
@@ -633,13 +626,13 @@
   bottom: 10px;
   right: 10px;
   cursor: pointer;
-  background: #7d8293;
+  background: $download-contents-background-color;
   text-align: center;
   padding: 5px;
   border-radius: 4px;
   font-family: sans-serif;
   font-weight: 600;
-  color: white;
+  color: $download-contents-font-color;
   font-size: 14px;
   height: 30px;
   width: 75px;

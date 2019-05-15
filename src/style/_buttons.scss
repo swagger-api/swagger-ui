@@ -6,11 +6,11 @@
     padding: 5px 23px;
 
     transition: all .3s;
-
-    border: 2px solid $btn-border-color;
+    border-width: 2px;
+    border-style: solid;
+    border-color: $btn-border-color;
     border-radius: 4px;
-    background: transparent;
-    box-shadow: 0 1px 2px rgba($btn-box-shadow-color,.1);
+    background: $btn-background-color;
 
     @include text_headline();
 
@@ -29,14 +29,7 @@
 
     &:hover
     {
-        box-shadow: 0 0 5px rgba($btn-box-shadow-color,.3);
-    }
-
-    &.cancel
-    {
-        border-color: $btn-cancel-border-color;
-        background-color: $btn-cancel-background-color;
-        @include text_headline($btn-cancel-font-color);
+        border-color: $btn-border-color--hover;
     }
 
     &.authorize
@@ -56,17 +49,51 @@
             padding: 4px 20px 0 0;
         }
 
-        svg
+        &.unlocked
         {
-            fill: $btn-authorize-svg-fill-color;
+            fill: $btn-authorize-svg-fill-color--unlocked;
+        }
+
+        &.locked
+        {
+            fill: $btn-authorize-svg-fill-color--locked;
         }
     }
 
     &.execute
     {
-        background-color: $btn-execute-background-color-alt;
+        background-color: $btn-execute-background-color;
         color: $btn-execute-font-color;
         border-color: $btn-execute-border-color;
+
+        &:hover
+        {
+            background-color: $btn-execute-background-color--hover;
+            border-color: $btn-execute-border-color--hover;
+        }
+    }
+    &.btn-clear 
+    {
+        background-color: $btn-clear-background-color;
+        color: $btn-clear-font-color;
+        border-color: $btn-clear-border-color;
+
+        &:hover
+        {
+            background-color: $btn-clear-background-color--hover;
+            border-color: $btn-clear-border-color--hover;
+        }
+    }
+    &.try-out__btn {
+        background-color: $btn-try-out-background-color;
+        color: $btn-try-out-font-color;
+        border-color: $btn-try-out-border-color;
+
+        &:hover
+        {
+            background-color: $btn-try-out-background-color--hover;
+            border-color: $btn-try-out-border-color--hover;
+        }
     }
 }
 
@@ -101,12 +128,12 @@
 
     &.locked
     {
-        opacity: 1;
+        fill: $btn-icon-authorize-svg-fill-color--unlocked;
     }
 
     &.unlocked
     {
-        opacity: .4;
+        fill: $btn-icon-authorize-svg-fill-color--locked;
     }
 }
 

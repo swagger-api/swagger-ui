@@ -3,8 +3,8 @@
     margin: 1em auto;
   }
   pre {
-    color: black;
-    font-weight: normal;
+    color: $markdown-pre-font-color;
+    font-weight: normalpo;
     white-space: pre-wrap;
     background: none;
     padding: 0px;
@@ -15,7 +15,7 @@
     padding: 5px 7px;
 
     border-radius: 4px;
-    background: rgba($info-code-background-color,.05);
+    background: $info-code-background-color;
 
     @include text_code($info-code-font-color);
   }

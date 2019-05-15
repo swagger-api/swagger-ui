@@ -238,7 +238,7 @@ section.models
 
     margin-right: 1em;
 
-    @include text_headline($_color-delete);
+    @include text_headline($model-deprecated-warning-font-color);
 }
 
 
