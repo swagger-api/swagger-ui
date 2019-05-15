@@ -225,8 +225,8 @@
     .opblock-summary-method
     {
 
-        min-width: 80px;
-        padding: 6px 15px;
+        min-width: 8em;
+        padding: .6em 1.5em;
 
         height: 3em;
         min-width: 8em;
@@ -235,7 +235,14 @@
         background: $opblock-summary-method-background-color;
         text-shadow: 0 1px 0 rgba($opblock-summary-method-text-shadow-color,.1);
 
-        @include special-text();
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        > span {
+            @include special-text();
+        }
+
     }
 
     .opblock-summary-path,
