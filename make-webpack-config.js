@@ -41,7 +41,9 @@ var commonRules = [
   { test: /\.(woff|woff2)(\?.*)?$/,
     loader: "file-loader?limit=100000",
     options: {
-      name: "[name].[ext]"
+      name: "[name].[ext]",
+      outputPath: process.env.NODE_ENV === "production" ? "/fonts/" : "./",
+      publicPath: process.env.NODE_ENV === "production" ? path.join(__dirname, "dist", "fonts") : "./"
     }
   },
   { test: /\.(ttf|eot)(\?.*)?$/,

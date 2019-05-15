@@ -15,7 +15,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "automated-release": "release-it --config ./release/.release-it.json",
-    "build": "run-p --aggregate-output build-core build-bundle build-standalone",
+    "build": "NODE_ENV=production run-p --aggregate-output build-core build-bundle build-standalone",
     "build-bundle": "webpack --config webpack-dist-bundle.config.js --colors",
     "build-core": "webpack --config webpack-dist.config.js --colors",
     "build-standalone": "webpack --config webpack-dist-standalone.config.js --colors",
