@@ -226,7 +226,7 @@
         background: $opblock-summary-method-background-color;
         text-shadow: 0 1px 0 rgba($opblock-summary-method-text-shadow-color,.1);
 
-        @include special-text();
+        @include alt-text();
     }
 
     .opblock-summary-path,
@@ -246,7 +246,7 @@
 
         padding: 0 10px;
 
-        @include special-text($size: $opblock-summary-path-font-size)
+        @include alt-text($size: $opblock-summary-path-font-size)
 
     }
 
