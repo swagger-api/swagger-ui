@@ -150,7 +150,7 @@ section.models
 
     .model-container
     {
-        margin: 1.5em 0;
+        margin: 1em 0;
         position: relative;
 
         transition: all .5s;
@@ -161,6 +161,10 @@ section.models
         &:hover
         {
             background: rgba($section-models-model-container-background-color,.07);
+        }
+
+        &:first-of-type {
+            margin-top: 1.5em;
         }
 
         .models-jump-to-path {
@@ -180,7 +184,7 @@ section.models
 
 .model-box
 {
-    padding: 10px;
+    padding: .5rem;
     display: inline-block;
 
     border-radius: 4px;

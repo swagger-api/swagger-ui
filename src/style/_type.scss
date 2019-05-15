@@ -27,14 +27,14 @@
     color: $color;
 }
 
-@mixin regular-text($color: $regular-text-font-color, $size: $regular-text-font-size)
+@mixin regular_text($color: $regular-text-font-color, $size: $regular-text-font-size)
 {
     font-family: $regular-text-font-family;
     font-size: $size;
     color: $color;
 }
 
-@mixin special-text($color: $alt-text-font-color, $size: $alt-text-font-size)
+@mixin special_text($color: $alt-text-font-color, $size: $alt-text-font-size)
 {
     font-family: $alt-text-font-family;
     font-size: $size;
@@ -43,5 +43,6 @@
 
 h1, h2, h3, h4, h5, h6, p, pre, label {
     margin: 0;
-    padding: 0
+    padding: 0;
+    font-size: 100%;
 }

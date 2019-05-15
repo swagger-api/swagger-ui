@@ -14,14 +14,10 @@
     {
         font-size: 14px;
     }
+    
     p, li, table
     {
         @include regular_text($size: 1.4em);
-    }
-
-    h1, h2, h3, h4, h5
-    {
-        @include text_body();
     }
 
     div > a, a.info__extdocs.link
@@ -38,7 +34,11 @@
     }
     > div
     {
-        margin: 0 0 5px 0;
+        margin: 0 0 .5em 0;
+
+        &.description {
+            margin: 0 0 2em 0;
+        }
     }
 
     .base-url
@@ -52,7 +52,9 @@
     {
         margin-bottom: 1em;
 
-        @include text_title();
+        > span {
+            @include text_title();
+        }
 
         small
         {
