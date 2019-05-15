@@ -224,7 +224,7 @@
         align-items: center;
 
         > span {
-            @include special-text();
+            @include alt-text();
         }
 
     }
@@ -246,7 +246,7 @@
 
         padding: 0 10px;
 
-        @include special-text($size: $opblock-summary-path-font-size)
+        @include alt-text($size: $opblock-summary-path-font-size)
 
     }
 
