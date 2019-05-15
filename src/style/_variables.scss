@@ -148,6 +148,8 @@ $info-title-small-background-color: $color-waterloo-gray !default;
 
 $info-title-small-pre-font-color: $color-white !default;
 
+$info-title-small-pre-font-size: 1.2em;
+
 // Layout
 
 $opblock-border-color: $color-black !default;
@@ -156,7 +158,9 @@ $opblock-background-color--open: $color-white;
 $opblock-border-color--open: lighten(#000,80%);
 
 $opblock-tag-border-bottom-color: $color-bright-gray !default;
-$opblock-tag-background-color-hover: $color-black !default;
+$opblock-tag-background-color-hover: $color-black !default; // change to --hover
+$opblock-tag-h4-font-size: 2em;
+$opblock-tag-small-font-size: 1.4em;
 
 $opblock-tab-header-tab-item-active-h4-span-after-background-color: $color-gray-400 !default; // rename this var?
 
@@ -168,6 +172,11 @@ $opblock-isopen-section-header-box-shadow-color: $color-black !default;
 $opblock-summary-method-background-color: $color-black !default;
 $opblock-summary-method-font-color: $color-white !default;
 $opblock-summary-method-text-shadow-color: $color-black !default;
+
+$opblock-summary-description-font-size: 1.3em;
+$opblock-summary-path-font-size: 1.3em;
+
+$opblock-section-header-h4-font-size: 2em;
 
 $operational-filter-input-border-color: $color-geyser-blue !default;
 
@@ -269,3 +278,29 @@ $topbar-download-url-button-font-color: $color-white !default;
 $text-body-default-font-color: $color-mine-shaft !default;
 $text-code-default-font-color: $color-mine-shaft !default;
 $text-headline-default-font-color: $color-mine-shaft !default;
+
+// Fonts
+$alt-text-font-family:'Roboto-Medium';
+$alt-text-font-color: $color-mine-shaft !default;
+$alt-text-font-weight: 500;
+$alt-text-font-size: 1.4em;
+
+$regular-text-font-family:'Roboto-Regular';
+$regular-text-font-color: $color-mine-shaft !default;
+$regular-text-font-weight: 400;
+$regular-text-font-size: 1.4em;
+
+$bold-text-font-family:'Roboto-Bold';
+$bold-text-font-color: $color-mine-shaft !default;
+$bold-text-font-weight: 400;
+$bold-text-font-size: 1.4em;
+
+$title-text-font-family:'Roboto-Light';
+$title-text-font-color: $color-mine-shaft !default;
+$title-text-font-weight: 300;
+$title-text-font-size: 2.8em;
+
+$code-default-font-family:'Roboto-Mono';
+$code-default-font-color: $color-mine-shaft !default;
+$code-default-font-weight: 300;
+$code-default-font-size: 12px;
