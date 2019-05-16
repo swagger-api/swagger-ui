@@ -117,6 +117,8 @@ $info-title-small-background-color: $waterloo-gray !default;
 
 $info-title-small-pre-font-color: $white !default;
 
+$info-title-small-pre-font-size: 1.2em;
+
 // Layout
 
 $opblock-border-color: $black !default;
@@ -124,6 +126,8 @@ $opblock-box-shadow-color: $black !default;
 
 $opblock-tag-border-bottom-color: $bright-gray !default;
 $opblock-tag-background-color-hover: $black !default;
+$opblock-tag-h4-font-size: 2em;
+$opblock-tag-small-font-size: 1.4em;
 
 $opblock-tab-header-tab-item-active-h4-span-after-background-color: $gray-400 !default;
 
@@ -135,6 +139,11 @@ $opblock-isopen-section-header-box-shadow-color: $black !default;
 $opblock-summary-method-background-color: $black !default;
 $opblock-summary-method-font-color: $white !default;
 $opblock-summary-method-text-shadow-color: $black !default;
+
+$opblock-summary-description-font-size: 1.3em;
+$opblock-summary-path-font-size: 1.3em;
+
+$opblock-section-header-h4-font-size: 2em;
 
 $operational-filter-input-border-color: $geyser-blue !default;
 
@@ -232,3 +241,29 @@ $topbar-download-url-button-font-color: $white !default;
 $text-body-default-font-color: $bright-gray !default;
 $text-code-default-font-color: $bright-gray !default;
 $text-headline-default-font-color: $bright-gray !default;
+
+// Fonts
+$alt-text-font-family:'Roboto-Medium', sans-serif;
+$alt-text-font-color: $bright-gray !default;
+$alt-text-font-weight: 500;
+$alt-text-font-size: 1.4em;
+
+$regular-text-font-family:'Roboto-Regular', sans-serif;
+$regular-text-font-color: $bright-gray !default;
+$regular-text-font-weight: 400;
+$regular-text-font-size: 1.4em;
+
+$bold-text-font-family:'Roboto-Bold', sans-serif;
+$bold-text-font-color: $bright-gray !default;
+$bold-text-font-weight: 400;
+$bold-text-font-size: 1.4em;
+
+$title-text-font-family:'Roboto-Light', sans-serif;
+$title-text-font-color: $bright-gray !default;
+$title-text-font-weight: 300;
+$title-text-font-size: 2.8em;
+
+$code-default-font-family:'Roboto-Mono', monospace;
+$code-default-font-color: $bright-gray !default;
+$code-default-font-weight: 300;
+$code-default-font-size: 12px;

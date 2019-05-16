@@ -37,12 +37,16 @@ var commonRules = [
   { test: /\.(txt|yaml)(\?.*)?$/,
     loader: "raw-loader" },
   { test: /\.(png|jpg|jpeg|gif|svg)(\?.*)?$/,
-    loader: "url-loader" },
-  { test: /\.(woff|woff2)(\?.*)?$/,
-    loader: "url-loader?limit=100000" },
-  { test: /\.(ttf|eot)(\?.*)?$/,
-    loader: "file-loader" }
+    loader: "url-loader" }
 ]
+
+const fontRule = {
+  test: /\.(woff|woff2|ttf|eot)(\?.*)?$/,
+  loader: "file-loader",
+  options: {
+    name: "[name].[ext]?[hash]"
+  }
+}
 
 module.exports = function(rules, options) {
 
@@ -77,7 +81,7 @@ module.exports = function(rules, options) {
           } : false,
           beautify: !specialOptions.mangle,
         },
-        
+
         sourceMap: true,
       }),
       new webpack.LoaderOptionsPlugin({
@@ -88,9 +92,17 @@ module.exports = function(rules, options) {
     )
 
     plugins.push( new webpack.NoEmitOnErrorsPlugin())
+    
+    commonRules.push(deepExtend(fontRule, {
+      options: {
+        outputPath: "/fonts",
+        publicPath: "./fonts"
+      }
+    }))
 
   } else { // development mode
     plugins.push(new CopyWebpackPlugin([ { from: "test/e2e-selenium/specs", to: "test-specs" } ]))
+    commonRules.push(fontRule)
   }
 
   plugins.push(
