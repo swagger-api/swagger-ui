@@ -42,7 +42,14 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-        url = ( (new RegExp(/remodeling\.com/).test(location.hostname)) ? window.location.protocol+"//docs.remodeling.com/api/v1" : window.location.protocol+"//docs.remodeling.com/api/v2" );
+        url = window.location.protocol+"//docs.remodeling.com/api/"
+        if (new RegExp(/mortgageabc\.com/).test(location.hostname)){
+          url += "v2"
+        }
+        else
+        {
+          url += ( new RegExp(/v1/).test(location.pathname)) ? "v1" : "r_v2";
+        }
       }
 
       hljs.configure({
