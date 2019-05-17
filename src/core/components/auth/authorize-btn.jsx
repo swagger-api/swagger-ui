@@ -1,6 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
 
+import { Button } from "components/layout-utils"
+
 export default class AuthorizeBtn extends React.Component {
   static propTypes = {
     onClick: PropTypes.func,
@@ -17,12 +19,18 @@ export default class AuthorizeBtn extends React.Component {
 
     return (
       <div className="auth-wrapper">
-        <button className={`sui-btn sui-btn--secondary authorize ${isAuthorized ? "locked" : "unlocked"}`} onClick={onClick}>
+        <Button
+          className={`sui-btn sui-btn--secondary authorize ${isAuthorized ? "locked" : "unlocked"}`}
+          onClick={onClick}
+        >
           <span>Authorize</span>
           <svg className="sui-btn__icon" width="15" height="15">
-            <use href={ isAuthorized ? "#locked" : "#unlocked" } xlinkHref={ isAuthorized ? "#locked" : "#unlocked" } />
+            <use
+              href={ isAuthorized ? "#locked" : "#unlocked" }
+              xlinkHref={ isAuthorized ? "#locked" : "#unlocked" }
+            />
           </svg>
-        </button>
+        </Button>
       { showPopup && <AuthorizationPopup /> }
       </div>
     )
