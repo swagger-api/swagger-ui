@@ -243,27 +243,27 @@ $text-code-default-font-color: $bright-gray !default;
 $text-headline-default-font-color: $bright-gray !default;
 
 // Fonts
-$alt-text-font-family:'Roboto-Medium';
+$alt-text-font-family:'Roboto-Medium', sans-serif;
 $alt-text-font-color: $bright-gray !default;
 $alt-text-font-weight: 500;
 $alt-text-font-size: 1.4em;
 
-$regular-text-font-family:'Roboto-Regular';
+$regular-text-font-family:'Roboto-Regular', sans-serif;
 $regular-text-font-color: $bright-gray !default;
 $regular-text-font-weight: 400;
 $regular-text-font-size: 1.4em;
 
-$bold-text-font-family:'Roboto-Bold';
+$bold-text-font-family:'Roboto-Bold', sans-serif;
 $bold-text-font-color: $bright-gray !default;
 $bold-text-font-weight: 400;
 $bold-text-font-size: 1.4em;
 
-$title-text-font-family:'Roboto-Light';
+$title-text-font-family:'Roboto-Light', sans-serif;
 $title-text-font-color: $bright-gray !default;
 $title-text-font-weight: 300;
 $title-text-font-size: 2.8em;
 
-$code-default-font-family:'Roboto-Mono';
+$code-default-font-family:'Roboto-Mono', monospace;
 $code-default-font-color: $bright-gray !default;
 $code-default-font-weight: 300;
-$code-default-font-size: 1.2em;
+$code-default-font-size: 12px;

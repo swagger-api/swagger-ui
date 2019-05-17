@@ -96,7 +96,7 @@ module.exports = function(rules, options) {
     commonRules.push(deepExtend(fontRule, {
       options: {
         outputPath: "/fonts",
-        publicPath: path.join(__dirname, "dist", "fonts")
+        publicPath: "./fonts"
       }
     }))
 
