@@ -5,6 +5,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   let { schema, scopes, name, clientId } = auth
   let flow = schema.get("flow")
   let query = []
+  let isCode = false
 
   switch (flow) {
     case "password":
@@ -31,27 +32,8 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     case "authorizationCode":
       // OAS3
       query.push("response_type=code")
+      isCode = true
       break
-
-    case "authorizationCodeWithPkce": {
-      query.push("response_type=code")
-
-      // as per the PKCE spec, the Code Verifier must have a minumum length of 43 characters
-      // and random() produces a value that has a length of 32 characters
-      // source: https://tools.ietf.org/html/rfc7636#section-4.1
-      const codeVerifier = random() + random() + random()
-      const hash = hashString(codeVerifier, "SHA256")
-      const codeChallenge = hexToBase64Url(hash)
-
-      query.push("code_challenge=" + codeChallenge)
-      query.push("code_challenge_method=S256")
-
-      // storing the Code Verifier so it can be sent to the token endpoint
-      // when exchanging the Authorization Code for an Access Token
-      auth.codeVerifier = codeVerifier
-
-      break
-    }
   }
 
   if (typeof clientId === "string") {
@@ -84,6 +66,22 @@ export default function authorize ( { auth, authActions, errActions, configs, au
 
   if (typeof authConfigs.realm !== "undefined") {
     query.push("realm=" + encodeURIComponent(authConfigs.realm))
+  }
+
+  if (isCode && authConfigs.usePkce) {
+      // as per the PKCE spec, the Code Verifier must have a minumum length of 43 characters
+      // and random() produces a value that has a length of 32 characters
+      // source: https://tools.ietf.org/html/rfc7636#section-4.1
+      const codeVerifier = random() + random() + random()
+      const hash = hashString(codeVerifier, "SHA256")
+      const codeChallenge = hexToBase64Url(hash)
+
+      query.push("code_challenge=" + codeChallenge)
+      query.push("code_challenge_method=S256")
+
+      // storing the Code Verifier so it can be sent to the token endpoint
+      // when exchanging the Authorization Code for an Access Token
+      auth.codeVerifier = codeVerifier
   }
 
   let { additionalQueryStringParams } = authConfigs

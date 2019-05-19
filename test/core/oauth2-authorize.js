@@ -36,12 +36,14 @@ describe("oauth2", function () {
       expect(win.open.calls[0].arguments[0]).toMatch("https://testAuthorizationUrl?param=1&response_type=code&redirect_uri=&state=")
     })
 
-    it("should send PKCE code_challenge when using authorizationCode flow", function () {
+    it("should send PKCE code_challenge when using authorizationCode flow with usePkce enabled", function () {
       win.open = createSpy()
-      mockSchema.flow = "authorizationCodeWithPkce"
+      mockSchema.flow = "authorizationCode"
 
       const expectedCodeChallenge = "mock_code_challenge"
       utils.hexToBase64Url = createSpy().andReturn(expectedCodeChallenge)
+
+      authConfig.authConfigs.usePkce = true
 
       oauth2Authorize(authConfig)
       expect(win.open.calls.length).toEqual(1)
