@@ -50,6 +50,8 @@ $color-danger: $color-guardsman-red !default;
 $color-primary--hover: $color-mantis-green !default;
 $color-secondary--hover: $color-gray-500 !default;
 
+$color-type--default: $color-mine-shaft !default;
+
 $_color-post: $color-green-haze !default;
 $_color-get: $color-dodger-blue !default;
 $_color-put: $color-mango-tango !default;
@@ -247,34 +249,32 @@ $topbar-download-url-button-font-color: $color-white !default;
 
 // Type
 
-$default-text-font-color: $color-mine-shaft !default;
-
-$code-text-font-color: $default-text-font-color !default;
-$headline-text-font-color: $default-text-font-color !default;
+$code-text-font-color: $color-type--default !default;
+$headline-text-font-color: $color-type--default !default;
 $link-text-font-color: $color-primary !default; 
 
 // Fonts
 $alt-text-font-family:'Roboto-Medium';
-$alt-text-font-color: $default-text-font-color !default;
+$alt-text-font-color: $color-type--default !default;
 $alt-text-font-weight: 500;
 $alt-text-font-size: 1.4em;
 
 $regular-text-font-family:'Roboto-Regular';
-$regular-text-font-color: $default-text-font-color !default;
+$regular-text-font-color: $color-type--default !default;
 $regular-text-font-weight: 400;
 $regular-text-font-size: 1.4em;
 
 $bold-text-font-family:'Roboto-Bold';
-$bold-text-font-color: $default-text-font-color !default;
+$bold-text-font-color: $color-type--default !default;
 $bold-text-font-weight: 400;
 $bold-text-font-size: 1.4em;
 
 $title-text-font-family:'Roboto-Light';
-$title-text-font-color: $default-text-font-color !default;
+$title-text-font-color: $color-type--default !default;
 $title-text-font-weight: 300;
 $title-text-font-size: 2.8em;
 
 $code-default-font-family:'Roboto-Mono';
-$code-default-font-color: $default-text-font-color !default;
+$code-default-font-color: $color-type--default !default;
 $code-default-font-weight: 300;
 $code-default-font-size: 12px;
