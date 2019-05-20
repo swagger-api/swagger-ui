@@ -1,15 +1,20 @@
 
 .sui-btn
 {
-    border-radius: 4px;
-    flex: 1;
-    display: flex;
     height: 30px;
+    border-radius: 4px;
+
+    display: flex;
+    flex: 1;
     justify-content: center;
     align-items: center;
-    text-transform: uppercase;
+    
     font-size: 14px;
+    text-transform: uppercase;
+    
     padding: 0 20px;
+    
+    transition: all .3s;
 
     > * {
         margin-right: 5px;
