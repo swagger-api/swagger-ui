@@ -35,8 +35,8 @@ export default class XPane extends React.Component {
                                     url={url}/>
                             : null
         }
-        <Button onClick={showEditorAction}>{showEditor ? "Hide" : "Show"} Editor</Button>
-        <Button onClick={specActions.formatIntoYaml}>Format contents</Button>
+        <Button onClick={showEditorAction}><span>{showEditor ? "Hide" : "Show"} Editor</span></Button>
+        <Button onClick={specActions.formatIntoYaml}><span>Format contents</span></Button>
 
         <Row>
 

@@ -129,7 +129,7 @@ export default class Topbar extends React.Component {
     else {
       formOnSubmit = this.downloadUrl
       control.push(<input className="download-url-input" type="text" onChange={ this.onUrlChange } value={this.state.url} disabled={isLoading} style={inputStyle} />)
-      control.push(<Button className="download-url-button" onClick={ this.downloadUrl }>Explore</Button>)
+      control.push(<Button className="sui-btn sui-btn--primary download-url-button" onClick={ this.downloadUrl }><span>Explore</span></Button>)
     }
 
     return (

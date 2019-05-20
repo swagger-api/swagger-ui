@@ -17,7 +17,7 @@ export default class Clear extends Component {
         className="sui-btn sui-btn--secondary sui-btn-group__btn opblock-control__btn"
         onClick={ this.onClick }
       >
-        Clear
+        <span>Clear</span>
       </Button>
     )
   }

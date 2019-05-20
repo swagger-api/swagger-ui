@@ -83,10 +83,10 @@ export default class Auths extends React.Component {
             <div className="auth-btn-wrapper sui-btn-wrapper">
               {
                 nonOauthDefinitions.size === authorizedAuth.size
-                  ? <Button className="sui-btn sui-btn--tertiary-lt modal-btn auth" onClick={ this.logoutClick } >Logout</Button>
-                  : <Button type="submit" className="sui-btn sui-btn--primary modal-btn auth authorize">Authorize</Button>
+                  ? <Button className="sui-btn sui-btn--tertiary-lt modal-btn auth" onClick={ this.logoutClick } ><span>Logout</span></Button>
+                  : <Button type="submit" className="sui-btn sui-btn--primary modal-btn auth authorize"><span>Authorize</span></Button>
               }
-              <Button className="sui-btn sui-btn--secondary modal-btn auth btn-done" onClick={ this.close }>Close</Button>
+              <Button className="sui-btn sui-btn--secondary modal-btn auth btn-done" onClick={ this.close }><span>Close</span></Button>
             </div>
           </form>
         }

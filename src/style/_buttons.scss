@@ -1,7 +1,7 @@
 
 .sui-btn
 {
-    height: 30px;
+    height: 3em;
     border-radius: 4px;
 
     display: flex;
@@ -9,10 +9,9 @@
     justify-content: center;
     align-items: center;
     
-    font-size: 14px;
     text-transform: uppercase;
     
-    padding: 0 20px;
+    padding: 0 2em;
     
     transition: all .3s;
 
@@ -23,13 +22,20 @@
             margin-right: 0;
         }
     }
+
+    > span {
+        font-size: 1.4em;
+    }
 }
 
 .sui-btn--sm 
 {
     height: auto;
-    font-size: 13px;
-    padding: 5px 10px;
+    padding: .5em 1em;
+
+    > span {
+        font-size: 13px;
+    }
 }
 
 .sui-btn--primary
@@ -84,7 +90,7 @@
     {
         &:first-child
         {
-            margin-right: 20px;
+            margin-right: 2em;
         }
 
         &:last-child
