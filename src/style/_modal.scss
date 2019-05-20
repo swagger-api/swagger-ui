@@ -15,7 +15,7 @@
         bottom: 0;
         left: 0;
 
-        background: rgba($dialog-ux-backdrop-background-color,.8);
+        background: $dialog-ux-backdrop-background-color;
     }
 
     .modal-ux
@@ -34,7 +34,6 @@
         border: 1px solid $dialog-ux-modal-border-color;
         border-radius: 4px;
         background: $dialog-ux-modal-background-color;
-        box-shadow: 0 10px 30px 0 rgba($dialog-ux-modal-box-shadow-color,.20);
     }
 
     .modal-ux-content
@@ -49,8 +48,6 @@
             font-size: 12px;
 
             margin: 0 0 5px 0;
-
-            color: $dialog-ux-modal-content-font-color;
 
             @include text_body();
         }
@@ -78,6 +75,7 @@
 
         .close-modal
         {
+            color: $dialog-ux-modal-close-button-font-color;
             padding: 0 10px;
 
             border: none;

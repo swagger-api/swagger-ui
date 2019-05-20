@@ -16,7 +16,11 @@
     }
     p, li, table
     {
-        @include regular_text($size: 1.4em);
+        @include regular_text();
+
+        a {
+            @include inline-link-text();
+        }
     }
 
     h1, h2, h3, h4, h5

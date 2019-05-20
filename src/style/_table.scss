@@ -74,8 +74,6 @@ table
 
                 text-align: left;
 
-                border-bottom: 1px solid rgba($table-thead-td-border-bottom-color, .2);
-
                 @include text_body();
             }
         }
@@ -117,7 +115,7 @@ table
 
             content: 'required';
 
-            color: rgba($table-parameter-name-required-font-color, .6);
+            color: $table-parameter-name-required-font-color;
         }
     }
 }
@@ -128,7 +126,7 @@ table
     font-size: 12px;
     font-style: italic;
 
-    @include text_code($table-parameter-in-font-color);
+    @include text_code();
 }
 
 .parameter__deprecated
