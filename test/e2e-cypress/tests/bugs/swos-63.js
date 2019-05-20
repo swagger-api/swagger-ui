@@ -3,14 +3,14 @@ describe("SWOS-63: Schema/Model labeling", () => {
     it("should render `Schemas` for OpenAPI 3", () => {
       cy
         .visit("/?url=/documents/petstore-expanded.openapi.yaml")
-        .get("section.models > h4")
-        .contains("Schemas")
+        .get("section.models > h4 > span")
+        .contains("schemas")
     })
     it("should render `Models` for OpenAPI 2", () => {
       cy
         .visit("/?url=/documents/petstore.swagger.yaml")
-        .get("section.models > h4")
-        .contains("Models")
+        .get("section.models > h4 > span")
+        .contains("models")
     })
   })
   describe("ModelExample within Operation", () => {

@@ -3,7 +3,7 @@
     width: 100%;
     max-width: 1460px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 2em;
     box-sizing: border-box;
 }
 
@@ -11,24 +11,6 @@
 {
     display: flex;
     flex-direction: column;
-}
-
-.opblock-tag
-{
-    display: flex;
-    align-items: center;
-
-    padding: 10px 20px 10px 10px;
-
-    cursor: pointer;
-    transition: all .2s;
-
-    border-bottom: 1px solid $color-iron-gray;
-
-    &:hover
-    {
-        background: $opblock-tag-background-color--hover;
-    }
 }
 
 @mixin method($color, $color--light: mix($color, $color_white, 8%))
@@ -56,12 +38,22 @@
     }
 }
 
-
-
-
 .opblock-tag
 {
-    margin: 0 0 5px 0;
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+    transition: all .2s;
+
+    padding: 1.5em 0;
+
+    border-bottom: 1px solid $color-iron-gray;
+
+    &:hover
+    {
+        background: $opblock-tag-background-color--hover;
+    }
 
     a.nostyle
     {
@@ -120,7 +112,7 @@
 
 .opblock
 {
-    margin: 0 0 15px 0;
+    margin: 0 0 1em 0;
 
     border: 1px solid $opblock-border-color;
     border-radius: 4px;
@@ -213,15 +205,23 @@
     .opblock-summary-method
     {
 
-        min-width: 80px;
-        padding: 6px 15px;
+        min-width: 8em;
+        padding: .6em 1.5em;
 
-        text-align: center;
+        height: 3em;
+        min-width: 8em;
 
         border-radius: 3px;
         background: $opblock-summary-method-background-color;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-        @include alt-text($color: $opblock-summary-method-font-color);
+        > span {
+            @include alt-text($color: $opblock-summary-method-font-color);
+        }
+
     }
 
     .opblock-summary-path,
@@ -271,7 +271,7 @@
         display: flex;
         align-items: center;
 
-        padding: 5px;
+        padding: .5em;
 
         cursor: pointer;
 
@@ -619,8 +619,8 @@
 
 .scheme-container
 {
-    margin: 0 0 20px 0;
-    padding: 30px 0;
+    margin: 0 0 .5em 0;
+    padding: 2em 0;
 
     background: $scheme-container-background-color;
     border-bottom: 1px solid $scheme-container-border-color;

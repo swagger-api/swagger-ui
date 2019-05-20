@@ -144,6 +144,8 @@ $info-title-small-pre-font-color: $color-white !default;
 
 $info-title-small-pre-font-size: 1.2em;
 
+$info-title-small-pre-font-size: 1.2em;
+
 // Layout
 
 $opblock-border-color: $color-black !default;
@@ -151,7 +153,7 @@ $opblock-border-color: $color-black !default;
 $opblock-background-color--open: $color-white;
 $opblock-border-color--open: $color-iron-gray;
 
-$opblock-tag-border-bottom-color: $color-iron-gray !default;
+// $opblock-tag-border-bottom-color: $color-iron-gray !default;
 $opblock-tag-background-color--hover: rgba($color-black,.02) !default;
 $opblock-tag-h4-font-size: 2em;
 $opblock-tag-small-font-size: 1.4em;
@@ -161,6 +163,10 @@ $opblock-header-tab-title-background-color--active: $color-primary !default;
 $opblock-summary-method-background-color: $color-black !default;
 $opblock-summary-method-font-color: $color-white !default;
 
+$opblock-summary-description-font-size: 1.3em;
+$opblock-summary-path-font-size: 1.3em;
+
+$opblock-section-header-h4-font-size: 2em;
 $opblock-summary-description-font-size: 1.3em;
 $opblock-summary-path-font-size: 1.3em;
 
@@ -254,27 +260,27 @@ $headline-text-font-color: $color-type--default !default;
 $link-text-font-color: $color-primary !default; 
 
 // Fonts
-$alt-text-font-family:'Roboto-Medium';
+$alt-text-font-family:'Roboto-Medium', sans-serif;
 $alt-text-font-color: $color-type--default !default;
 $alt-text-font-weight: 500;
 $alt-text-font-size: 1.4em;
 
-$regular-text-font-family:'Roboto-Regular';
+$regular-text-font-family:'Roboto-Regular', sans-serif;
 $regular-text-font-color: $color-type--default !default;
 $regular-text-font-weight: 400;
 $regular-text-font-size: 1.4em;
 
-$bold-text-font-family:'Roboto-Bold';
+$bold-text-font-family:'Roboto-Bold', sans-serif;
 $bold-text-font-color: $color-type--default !default;
 $bold-text-font-weight: 400;
 $bold-text-font-size: 1.4em;
 
-$title-text-font-family:'Roboto-Light';
+$title-text-font-family:'Roboto-Light', sans-serif;
 $title-text-font-color: $color-type--default !default;
 $title-text-font-weight: 300;
 $title-text-font-size: 2.8em;
 
-$code-default-font-family:'Roboto-Mono';
+$code-default-font-family:'Roboto-Mono', monospace;
 $code-default-font-color: $color-type--default !default;
 $code-default-font-weight: 300;
 $code-default-font-size: 12px;
