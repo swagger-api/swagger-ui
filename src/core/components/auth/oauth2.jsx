@@ -231,7 +231,7 @@ export default class Oauth2 extends React.Component {
                               key={ key }/>
           } )
         }
-        <div className="auth-btn-wrapper">
+        <div className="auth-btn-wrapper sui-btn-wrapper">
         { isValid &&
           ( 
             isAuthorized 

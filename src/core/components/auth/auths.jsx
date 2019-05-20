@@ -80,7 +80,7 @@ export default class Auths extends React.Component {
                   />
               }).toArray()
             }
-            <div className="auth-btn-wrapper">
+            <div className="auth-btn-wrapper sui-btn-wrapper">
               {
                 nonOauthDefinitions.size === authorizedAuth.size
                   ? <Button className="sui-btn sui-btn--tertiary-lt modal-btn auth" onClick={ this.logoutClick } >Logout</Button>
