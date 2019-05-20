@@ -48,7 +48,7 @@
 
     padding: 1.5em 0;
 
-    border-bottom: 1px solid $color-iron-gray;
+    border-bottom: 1px solid $opblock-tag-border-bottom-color;
 
     &:hover
     {
@@ -213,7 +213,7 @@
 
         border-radius: 3px;
         background: $opblock-summary-method-background-color;
-        
+
         display: flex;
         justify-content: center;
         align-items: center;

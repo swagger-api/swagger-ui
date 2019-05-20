@@ -129,9 +129,8 @@ $form-checkbox-border-color: $color-silver !default;
 
 // Markdown
 $markdown-pre-font-color: $color-black !default;
-$info-code-background-color: rgba($color-black,.05) !default; // make markdown prefix?
-$info-code-font-color: $color-electric-violet !default;
-//TODO: add general code font color
+$markdown-code-background-color: rgba($color-black,.05) !default;
+$markdown-code-font-color: $color-electric-violet !default;
 
 // Information
 
@@ -153,7 +152,7 @@ $opblock-border-color: $color-black !default;
 $opblock-background-color--open: $color-white;
 $opblock-border-color--open: $color-iron-gray;
 
-// $opblock-tag-border-bottom-color: $color-iron-gray !default;
+$opblock-tag-border-bottom-color: $color-iron-gray !default;
 $opblock-tag-background-color--hover: rgba($color-black,.02) !default;
 $opblock-tag-h4-font-size: 2em;
 $opblock-tag-small-font-size: 1.4em;
