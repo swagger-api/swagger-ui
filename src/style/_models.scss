@@ -102,30 +102,20 @@
 
 section.models
 {
-    margin: 30px 0;
-
-    border: 1px solid rgba($section-models-border-color, .3);
+    padding: 1.5em 0;
     border-radius: 4px;
 
-    &.is-open
+    &:hover
     {
-        padding: 0 0 20px;
-        h4
-        {
-            margin: 0 0 5px 0;
-
-            border-bottom: 1px solid rgba($section-models-isopen-h4-border-bottom-color, .3);
-        }
+        background: rgba($section-models-h4-background-color-hover,.02);
     }
+
     h4
     {
         font-size: 16px;
 
         display: flex;
         align-items: center;
-
-        margin: 0;
-        padding: 10px 20px 10px 10px;
 
         cursor: pointer;
         transition: all .2s;
@@ -140,11 +130,6 @@ section.models
         span
         {
             flex: 1;
-        }
-
-        &:hover
-        {
-            background: rgba($section-models-h4-background-color-hover,.02);
         }
     }
 
@@ -165,7 +150,7 @@ section.models
 
     .model-container
     {
-        margin: 0 20px 15px;
+        margin: 1em 0;
         position: relative;
 
         transition: all .5s;
@@ -178,14 +163,8 @@ section.models
             background: rgba($section-models-model-container-background-color,.07);
         }
 
-        &:first-of-type
-        {
-            margin: 20px;
-        }
-
-        &:last-of-type
-        {
-            margin: 0 20px;
+        &:first-of-type {
+            margin-top: 1.5em;
         }
 
         .models-jump-to-path {
@@ -205,7 +184,7 @@ section.models
 
 .model-box
 {
-    padding: 10px;
+    padding: .5rem;
     display: inline-block;
 
     border-radius: 4px;
