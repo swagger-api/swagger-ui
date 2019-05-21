@@ -68,7 +68,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     query.push("realm=" + encodeURIComponent(authConfigs.realm))
   }
 
-  if (isCode && authConfigs.usePkce) {
+  if (isCode && authConfigs.usePkceWithAuthorizationCodeGrant) {
       // as per the PKCE spec, the Code Verifier must have a minumum length of 43 characters
       // and random() produces a value that has a length of 32 characters
       // source: https://tools.ietf.org/html/rfc7636#section-4.1

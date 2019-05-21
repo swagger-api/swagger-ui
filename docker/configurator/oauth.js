@@ -29,7 +29,7 @@ const oauthBlockSchema = {
   },
   OAUTH_USE_PKCE: {
     type: "boolean",
-    name: "usePkce"
+    name: "usePkceWithAuthorizationCodeGrant"
   }
 }
 

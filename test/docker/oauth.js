@@ -34,7 +34,7 @@ describe("docker: env translator - oauth block", function() {
       appName: "",
       scopeSeparator: "",
       additionalQueryStringParams: undefined,
-      usePkce: false,
+      usePkceWithAuthorizationCodeGrant: false,
     })`))
   })
 
@@ -57,7 +57,7 @@ describe("docker: env translator - oauth block", function() {
       appName: "myAppName",
       scopeSeparator: "%21",
       additionalQueryStringParams: { "a": 1234, "b": "stuff" },
-      usePkce: true,
+      usePkceWithAuthorizationCodeGrant: true,
     })`))
   })
 })
