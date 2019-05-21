@@ -96,7 +96,7 @@
     "babel-preset-stage-0": "^6.22.0",
     "babel-runtime": "^6.23.0",
     "body-parser": "^1.18.3",
-    "bundlesize": "^0.17.0",
+    "bundlesize": "^0.17.2",
     "chromedriver": "^2.38.3",
     "copy-webpack-plugin": "^4.0.1",
     "cors": "^2.8.4",
