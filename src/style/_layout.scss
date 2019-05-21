@@ -140,7 +140,7 @@
                     span
                     {
                         position: relative;
-                        color: $opblock-header-tab-title-background-color--active;
+                        color: $opblock-header-tab-title-font-color--active;
 
 
                         &:after
@@ -781,7 +781,7 @@ a.nostyle {
     }
 
     code {
-      background-color: #dedede;
+      background-color: $version-pragma-message-code-background-color;
       padding: 4px 4px 2px;
       white-space: pre;
     }
