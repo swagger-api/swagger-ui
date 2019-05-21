@@ -27,7 +27,7 @@
     color: $color;
 }
 
-@mixin regular-text($color: $regular-text-font-color, $size: $regular-text-font-size)
+@mixin regular_text($color: $regular-text-font-color, $size: $regular-text-font-size)
 {
     font-family: $regular-text-font-family;
     font-size: $size;

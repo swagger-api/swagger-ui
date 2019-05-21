@@ -6,17 +6,22 @@
 
     justify-content: center;
 
-    .btn-done {
+    .btn-done
+    {
       margin-right: 1em;
     }
-}
 
-.auth-wrapper
-{
-    display: flex;
+    button
+    {
+        &:first-of-type
+        {
+            margin-right: 2em;
+        }
 
-    flex: 1;
-    justify-content: flex-end;
+        &:last-of-type
+        {
+            margin-right: 0;
+        }
 
     .authorize
     {
@@ -87,4 +92,12 @@
 .scope-def
 {
     padding: 0 0 20px 0;
+}
+
+button.authorize
+{
+    svg
+    {
+        fill: #fff
+    }
 }

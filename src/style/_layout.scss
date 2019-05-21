@@ -297,6 +297,22 @@
         }
     }
 
+    
+
+    .authorization__btn
+    {
+        &.locked
+        {
+            opacity: 1;
+        }
+
+        &.unlocked
+        {
+            opacity: .4;
+        }
+    }
+
+
 
 
     &.opblock-post
@@ -441,7 +457,7 @@
 {
     padding: 20px;
 
-    text-align: right;
+    display: flex;
 
     .btn
     {
@@ -628,7 +644,8 @@
     .schemes
     {
         display: flex;
-        align-items: flex-end;
+        align-items: center;
+        justify-content: space-between;
 
          > label
         {

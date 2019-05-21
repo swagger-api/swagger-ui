@@ -1,6 +1,8 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 
+import { Button } from "components/layout-utils"
+
 export default class Execute extends Component {
 
   static propTypes = {
@@ -29,9 +31,12 @@ export default class Execute extends Component {
 
   render(){
     return (
-        <button className="btn execute opblock-control__btn" onClick={ this.onClick }>
+        <Button
+          className="sui-btn sui-btn--primary sui-btn-group__btn execute opblock-control__btn"
+          onClick={ this.onClick }
+        >
           Execute
-        </button>
+        </Button>
     )
   }
 }

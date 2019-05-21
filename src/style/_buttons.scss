@@ -1,111 +1,101 @@
-.btn
+
+.sui-btn
 {
-    font-size: 14px;
-    font-weight: bold;
-
-    padding: 5px 23px;
-
-    transition: all .3s;
-    border-width: 2px;
-    border-style: solid;
-    border-color: $btn-border-color;
     border-radius: 4px;
-    background: $btn-background-color;
+    flex: 1;
+    display: flex;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    font-size: 14px;
+    padding: 0 20px;
 
-    @include text_headline();
+    > * {
+        margin-right: 5px;
 
-    &.btn-sm
-    {
-        font-size: 12px;
-        padding: 4px 23px;
-    }
-
-    &[disabled]
-    {
-        cursor: not-allowed;
-
-        opacity: .3;
-    }
-
-    &:hover
-    {
-        border-color: $btn-border-color--hover;
-    }
-
-    &.authorize
-    {
-        line-height: 1;
-
-        display: inline;
-
-        color: $btn-authorize-font-color;
-        border-color: $btn-authorize-border-color;
-        background-color: $btn-authorize-background-color;
-
-        span
-        {
-            float: left;
-
-            padding: 4px 20px 0 0;
-        }
-
-        &.unlocked
-        {
-            fill: $btn-authorize-svg-fill-color--unlocked;
-        }
-
-        &.locked
-        {
-            fill: $btn-authorize-svg-fill-color--locked;
-        }
-    }
-
-    &.execute
-    {
-        background-color: $btn-execute-background-color;
-        color: $btn-execute-font-color;
-        border-color: $btn-execute-border-color;
-
-        &:hover
-        {
-            background-color: $btn-execute-background-color--hover;
-            border-color: $btn-execute-border-color--hover;
-        }
-    }
-    &.btn-clear 
-    {
-        background-color: $btn-clear-background-color;
-        color: $btn-clear-font-color;
-        border-color: $btn-clear-border-color;
-
-        &:hover
-        {
-            background-color: $btn-clear-background-color--hover;
-            border-color: $btn-clear-border-color--hover;
-        }
-    }
-    &.try-out__btn {
-        background-color: $btn-try-out-background-color;
-        color: $btn-try-out-font-color;
-        border-color: $btn-try-out-border-color;
-
-        &:hover
-        {
-            background-color: $btn-try-out-background-color--hover;
-            border-color: $btn-try-out-border-color--hover;
+        &:last-child {
+            margin-right: 0;
         }
     }
 }
 
-.btn-group
+.sui-btn--sm 
+{
+    height: auto;
+    font-size: 13px;
+    padding: 5px 10px;
+}
+
+.sui-btn--primary
+{
+    border: none;
+    background: $color-primary;
+    color: #fff;
+
+    &:hover
+    {
+        background: alter-hue($color-primary)
+    }
+}
+
+.sui-btn--secondary
+{
+    border: none;
+    background: $color-secondary;
+    color: #fff;
+
+    &:hover
+    {
+        background: alter-hue($color-secondary)
+    }
+}
+
+.sui-btn--tertiary-lt
+{
+    background: transparent;
+    border: 1px solid $color-secondary;
+    color: $color-secondary;
+}
+
+.sui-btn--tertiary-dk
+{
+    background: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+}
+
+.sui-btn-transparent
+{
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+.sui-btn-wrapper
+{
+    .button
+    {
+        &:first-child
+        {
+            margin-right: 20px;
+        }
+
+        &:last-child
+        {
+            margin-right: 0;
+        }
+    }
+}
+
+.sui-btn-group
 {
     display: flex;
 
-    padding: 30px;
-
-    .btn
+    .sui-btn-group__btn
     {
-        flex: 1;
+        border-radius: 0;
 
         &:first-child
         {
@@ -119,63 +109,11 @@
     }
 }
 
-.authorization__btn
-{
-    padding: 0 10px;
-
-    border: none;
-    background: none;
-
-    &.locked
-    {
-        fill: $btn-icon-authorize-svg-fill-color--unlocked;
-    }
-
-    &.unlocked
-    {
-        fill: $btn-icon-authorize-svg-fill-color--locked;
-    }
-}
-
-.expand-methods,
-.expand-operation
-{
-    border: none;
-    background: none;
-    padding-right: 0;
-
-    svg
-    {
-        width: 20px;
-        height: 20px;
-    }
-}
-
-.expand-methods
-{
-    padding: 0 10px;
-
-    &:hover
-    {
-        svg
-        {
-            fill: $expand-methods-svg-fill-color-hover;
-        }
-    }
-
-    svg
-    {
-        transition: all .3s;
-
-        fill: $expand-methods-svg-fill-color;
-    }
-}
-
-
 button
 {
     cursor: pointer;
     outline: none;
+    font-family: $alt-text-font-family;
 
     &.invalid
     {
