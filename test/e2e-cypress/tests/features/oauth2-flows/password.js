@@ -30,7 +30,7 @@ describe("OAuth2 Password flow", function() {
       .clear()
       .type("secret")
 
-      .get("div.modal-ux-content > div:nth-child(1) > div > div:nth-child(2) > div > div.auth-btn-wrapper > button.sui-btn.modal-btn.auth.authorize")
+      .get("div.modal-ux-content > div:nth-child(1) > div > div:nth-child(2) > div > div.auth-btn-wrapper > button.sui-btn.modal-btn.authorize")
       .click()
 
       .get("button.close-modal")
@@ -87,7 +87,7 @@ describe("OAuth2 Password flow", function() {
       .clear()
       .type("secret")
 
-      .get("div.modal-ux-content > div:nth-child(1) > div > div:nth-child(2) > div > div.auth-btn-wrapper > button.sui-btn.modal-btn.auth.authorize")
+      .get("div.modal-ux-content > div:nth-child(1) > div > div:nth-child(2) > div > div.auth-btn-wrapper > button.sui-btn.modal-btn.authorize")
       .click()
 
       .get("button.close-modal")
