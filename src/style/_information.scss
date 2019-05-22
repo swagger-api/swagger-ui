@@ -18,6 +18,10 @@
     p, li, table
     {
         @include regular_text($size: 1.4em);
+
+        a {
+            @include inline-link-text();
+        }
     }
 
     div > a, a.info__extdocs.link
@@ -29,7 +33,7 @@
 
         &:hover
         {
-            color: darken($info-link-font-color-hover, 15%);
+            color: $info-link-font-color--hover;
         }
     }
     > div

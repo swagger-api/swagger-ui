@@ -1,269 +1,275 @@
 // Base Colours
-$black: #000;
-$white: #fff;
-$gray-50: lighten($black, 92%); //ebebeb
-$gray-200: lighten($black, 62.75%); // #a0a0a0
-$gray-300: lighten($black, 56.5%); // #909090
-$gray-400: lighten($black, 50%); // #808080
-$gray-500: lighten($black, 43.75%); // #707070
-$gray-600: lighten($black, 37.5%); // #606060
-$gray-650: lighten($black, 33.3%); // #555555
-$gray-700: lighten($black, 31.25%); // #505050
-$gray-800: lighten($black, 25%); // #404040
-$gray-900: lighten($black, 18.75%); // #303030
 
-$cod-gray: #1b1b1b;
-$bright-gray: #3b4151;
-$mako-gray: #41444e;
-$waterloo-gray: #7d8492;
-$alto-gray: #d9d9d9;
-$mercury-gray: #e4e4e4;
-$concrete-gray: #e8e8e8;
-$alabaster: #f7f7f7;
-$apple-green: #62a03f;
-$green-haze: #009d77;
-$japanese-laurel: #008000;
-$persian-green: #00a0a7;
-$geyser-blue: #d8dde7;
-$dodger-blue: #1391ff;
-$endeavour-blue: #005dae;
-$scampi-purple: #55a;
-$electric-violet: #7300e5;
-$persian-red: #cf3030;
-$mango-tango: #e97500;
+$color-black: #000;
+$color-white: #fff;
+$color-cod-gray: #1b1b1b;
+$color-mine-shaft: #333333;
+$color-waterloo-gray: #7d8492;
+$color-bright-silver: #c8c8c8;
+$color-silver: #cbcbcb;
+$color-alto-gray: #d7d7d7;
+$color-iron-gray: #d9d9db;
+$color-mercury-gray: #e4e4e4;
+$color-wild-sand: #f5f5f5;
+$color-alabaster: #fafafa;
+$color-mantis-green: #57c534;
+$color-apple-green: #62a03f;
+$color-vida-loca: #49a32b;
+$color-green-haze: #009d77;
+$color-japanese-laurel: #008000;
+$color-persian-green: #00a0a7;
+$color-havelock-blue: #4990e2;
+$color-dodger-blue: #1391ff;
+$color-endeavour-blue: #005dae;
+$color-governor-bay: #4234c5;
+$color-electric-violet: #7300e5;
+$color-berry-red: #990000;
+$color-guardsman-red: #bb0000;
+$color-persian-red: #cf3030;
+$color-coral: #ff6060;
+$color-mango-tango: #e97500;
+$color-soft-peach: #f9f2f4;
+
+$color-gray-50: lighten($color-black, 92%); //ebebeb
+$color-gray-150: lighten($color-black, 70%); // #b3b3b3
+$color-gray-200: lighten($color-black, 62.75%); // #a0a0a0
+$color-gray-300: lighten($color-black, 56.5%); // #909090
+$color-gray-400: lighten($color-black, 50%); // #808080
+$color-gray-500: lighten($color-black, 43.75%); // #707070
+$color-gray-650: lighten($color-black, 33.3%); // #555555
+$color-gray-800: lighten($color-black, 25%); // #404040
 
 // Theme
 
-$color-primary: #89bf04 !default;
-$color-secondary: #9012fe !default;
-$color-info: #4990e2 !default;
-$color-warning: #ff6060 !default;
-$color-danger: #f00 !default;
+$color-primary: $color-vida-loca !default;
+$color-secondary: $color-mine-shaft !default;
+$color-info: $color-havelock-blue !default;
+$color-warning: $color-coral !default;
+$color-danger: $color-guardsman-red !default;
 
-$color-primary-hover: lighten($color-primary, .5%) !default;
+$color-primary--hover: $color-mantis-green !default;
+$color-secondary--hover: $color-gray-500 !default;
 
-$_color-post: $green-haze !default;
-$_color-get: $dodger-blue !default;
-$_color-put: $mango-tango !default;
-$_color-delete: $persian-red !default;
-$_color-head: $electric-violet !default;
-$_color-patch: $persian-green !default;
-$_color-disabled: $mercury-gray !default;
-$_color-options: $endeavour-blue !default;
+$color-type: $color-mine-shaft !default;
+
+$_color-post: $color-green-haze !default;
+$_color-get: $color-dodger-blue !default;
+$_color-put: $color-mango-tango !default;
+$_color-delete: $color-persian-red !default;
+$_color-head: $color-electric-violet !default;
+$_color-patch: $color-persian-green !default;
+$_color-disabled: $color-mercury-gray !default;
+$_color-options: $color-endeavour-blue !default;
+
+$_color-disabled--light: $color-alabaster !default;
 
 // Authorize
 
-$auth-container-border-color: $gray-50 !default;
+$auth-container-border-color: $color-alto-gray !default;
+$auth-container-code-background-color: $color-soft-peach !default;
+$auth-container-code-font-color: $color-berry-red !default;
 
 // Buttons
 
 $btn-background-color: transparent !default;
-$btn-border-color: $gray-400 !default;
-$btn-font-color: inherit !default;
-$btn-box-shadow-color: $black !default;
+$btn-border-color: $color-gray-150 !default;
+$btn-border-color--hover: $color-mine-shaft !default;
 
-$btn-authorize-background-color: transparent !default;
-$btn-authorize-border-color: $_color-post !default;
-$btn-authorize-font-color: $_color-post !default;
-$btn-authorize-svg-fill-color: $_color-post !default;
+$btn-authorize-background-color: $color-mine-shaft !default;
+$btn-authorize-border-color: $color-mine-shaft !default;
+$btn-authorize-font-color: $color-white !default;
 
-$btn-cancel-background-color: transparent !default;
-$btn-cancel-border-color: $color-warning !default;
-$btn-cancel-font-color: $color-warning !default;
+$btn-authorize-svg-fill-color--unlocked: $color-gray-150 !default;
+$btn-authorize-svg-fill-color--locked: $color-primary !default;
 
-$btn-execute-background-color: transparent !default;
-$btn-execute-border-color: $color-info !default;
-$btn-execute-font-color: $white !default;
-$btn-execute-background-color-alt: $color-info !default;
+$btn-icon-authorize-svg-fill-color--locked: $color-gray-400 !default;
+$btn-icon-authorize-svg-fill-color--unlocked: $color-primary !default;
 
-$expand-methods-svg-fill-color: $gray-500 !default;
-$expand-methods-svg-fill-color-hover: $gray-800 !default;
+$btn-execute-background-color: $color-primary !default;
+$btn-execute-border-color: $color-primary !default;
+$btn-execute-font-color: $color-white !default;
+
+$btn-execute-background-color--hover: $color-primary--hover !default;
+$btn-execute-border-color--hover: $color-primary--hover !default;
+
+$btn-clear-background-color: $color-secondary !default;
+$btn-clear-border-color: $color-secondary !default;
+$btn-clear-font-color: $color-white !default;
+
+$btn-clear-background-color--hover: $color-secondary--hover !default;
+$btn-clear-border-color--hover: $color-secondary--hover !default;
+
+$btn-try-out-background-color: $color-primary !default;
+$btn-try-out-border-color: $color-primary !default;
+$btn-try-out-font-color: $color-white !default;
+
+$btn-try-out-background-color--hover: $color-primary--hover !default;
+$btn-try-out-border-color--hover: $color-primary--hover !default; 
+
+$expand-methods-svg-fill-color: $color-gray-500 !default;
+$expand-methods-svg-fill-color-hover: $color-gray-800 !default; 
 
 // Errors
 
-$errors-wrapper-background-color: $_color-delete !default;
-$errors-wrapper-border-color: $_color-delete !default;
+$errors-wrapper-background-color: rgba($color-danger, .1) !default;
+$errors-wrapper-border-color: $color-danger !default;
 
-$errors-wrapper-errors-small-font-color: $gray-600 !default;
+$errors-wrapper-errors-small-font-color: $color-mine-shaft !default;
 
 // Form
 
-$form-select-background-color: $alabaster !default;
-$form-select-border-color: $mako-gray !default;
-$form-select-box-shadow-color: $black !default;
+$form-select-background-color: transparent !default;
+$form-select-border-color: $color-bright-silver !default;
 
-$form-input-border-color: $alto-gray !default;
-$form-input-background-color: $white !default;
+$form-input-border-color: $color-bright-silver !default;
+$form-input-background-color: transparent !default;
 
-$form-textarea-background-color: $white !default;
-$form-textarea-focus-border-color: $_color-get !default;
+$form-checkbox-label-font-color: $color-mine-shaft !default;
+$form-checkbox-border-color: $color-silver !default;
 
-$form-textarea-curl-background-color: $mako-gray !default;
-$form-textarea-curl-font-color: $white !default;
-
-$form-checkbox-label-font-color: $gray-900 !default;
-$form-checkbox-background-color: $concrete-gray !default;
-$form-checkbox-box-shadow-color: $concrete-gray !default;
+// Markdown
+$markdown-pre-font-color: $color-black !default;
+$markdown-code-background-color: rgba($color-black,.05) !default;
+$markdown-code-font-color: $color-electric-violet !default;
 
 // Information
 
-$info-code-background-color: $black !default;
-$info-code-font-color: $_color-head !default;
+$info-link-font-color: $color-primary !default;
+$info-link-font-color--hover: darken($info-link-font-color, 15%) !default;
 
-$info-link-font-color: $color-info !default;
-$info-link-font-color-hover: $info-link-font-color !default;
+$info-title-small-background-color: $color-waterloo-gray !default;
 
-$info-title-small-background-color: $waterloo-gray !default;
-
-$info-title-small-pre-font-color: $white !default;
+$info-title-small-pre-font-color: $color-white !default;
 
 $info-title-small-pre-font-size: 1.2em;
 
 // Layout
 
-$opblock-border-color: $black !default;
-$opblock-box-shadow-color: $black !default;
+$opblock-border-color: $color-black !default;
 
-$opblock-tag-border-bottom-color: $bright-gray !default;
-$opblock-tag-background-color-hover: $black !default;
+$opblock-background-color--open: $color-white !default;
+$opblock-border-color--open: $color-iron-gray !default;
+
+$opblock-tag-border-bottom-color: $color-iron-gray !default;
+$opblock-tag-background-color--hover: rgba($color-black,.02) !default;
 $opblock-tag-h4-font-size: 2em;
 $opblock-tag-small-font-size: 1.4em;
 
-$opblock-tab-header-tab-item-active-h4-span-after-background-color: $gray-400 !default;
+$opblock-header-tab-title-font-color--active: $color-primary !default;
+$opblock-header-tab-title-background-color--active: $color-primary !default;
 
-$opblock-isopen-summary-border-bottom-color: $black !default;
-
-$opblock-isopen-section-header-background-color: $white !default;
-$opblock-isopen-section-header-box-shadow-color: $black !default;
-
-$opblock-summary-method-background-color: $black !default;
-$opblock-summary-method-font-color: $white !default;
-$opblock-summary-method-text-shadow-color: $black !default;
+$opblock-summary-method-background-color: $color-black !default;
+$opblock-summary-method-font-color: $color-white !default;
 
 $opblock-summary-description-font-size: 1.3em;
 $opblock-summary-path-font-size: 1.3em;
 
 $opblock-section-header-h4-font-size: 2em;
 
-$operational-filter-input-border-color: $geyser-blue !default;
+$operational-filter-input-border-color: $color-bright-silver !default;
 
-$tab-list-item-first-background-color: $black !default;
+$response-col-status-undocumented-font-color: $color-gray-300 !default;
 
-$response-col-status-undocumented-font-color: $gray-300 !default;
+$response-col-links-font-color: $color-gray-300 !default;
 
-$response-col-links-font-color: $gray-300 !default;
-
-$response-col-description-inner-markdown-font-color: $white !default;
-$response-col-description-inner-markdown-background-color: $mako-gray !default;
+$response-col-description-inner-markdown-font-color: $color-white !default;
 
 $response-col-description-inner-markdown-link-font-color: $color-primary !default;
-$response-col-description-inner-markdown-link-font-color-hover: $color-primary-hover !default;
+$response-col-description-inner-markdown-link-font-color--hover: $color-primary--hover !default;
 
-$opblock-body-background-color: $mako-gray !default;
-$opblock-body-font-color: $white !default;
+$download-contents-background-color: $color-waterloo-gray !default;
+$download-contents-font-color: $color-white !default;
 
-$scheme-container-background-color: $white !default;
-$scheme-container-box-shadow-color: $black !default;
+$scheme-container-background-color: $color-white !default;
+$scheme-container-border-color: $color-iron-gray !default;
 
-$server-container-background-color: $white !default;
-$server-container-box-shadow-color: $black !default;
+$loading-container-before-border-color: rgba($color-gray-650, .1) !default;
+$loading-container-before-border-top-color: rgba($color-black, .6) !default;
 
-$server-container-computed-url-code-font-color: $gray-400 !default;
+$response-content-type-controls-accept-header-select-border-color: $color-japanese-laurel !default;
+$response-content-type-controls-accept-header-small-font-color: $color-japanese-laurel !default;
 
-$loading-container-before-border-color: $gray-650 !default;
-$loading-container-before-border-top-color: $black !default;
-
-$response-content-type-controls-accept-header-select-border-color: $japanese-laurel !default;
-$response-content-type-controls-accept-header-small-font-color: $japanese-laurel !default;
+$version-pragma-message-code-background-color: $color-mercury-gray !default;
 
 // Modal
 
-$dialog-ux-backdrop-background-color: $black !default;
+$dialog-ux-backdrop-background-color: rgba($color-black,.8) !default;
 
 
-$dialog-ux-modal-background-color: $white !default;
-$dialog-ux-modal-border-color: $gray-50 !default;
-$dialog-ux-modal-box-shadow-color: $black !default;
+$dialog-ux-modal-background-color: $color-white !default;
+$dialog-ux-modal-border-color: $color-gray-50 !default;
 
-$dialog-ux-modal-content-font-color: $mako-gray !default;
-
-$dialog-ux-modal-header-border-bottom-color: $gray-50 !default;
+$dialog-ux-modal-header-border-bottom-color: $color-gray-50 !default;
+$dialog-ux-modal-close-button-font-color: $color-gray-650 !default;
 
 // Models
 
-$model-deprecated-font-color: $gray-200 !default;
+$model-deprecated-font-color: lighten($color-mine-shaft, 30%) !default;
+$model-deprecated-warning-font-color: $color-danger !default;
 
-$model-hint-font-color: $gray-50 !default;
-$model-hint-background-color: $black !default;
+$model-hint-font-color: $color-gray-50 !default;
+$model-hint-background-color: rgba($color-black, .7) !default;
 
-$section-models-border-color: $bright-gray !default;
+$section-models-border-color: $color-iron-gray !default;
 
-$section-models-isopen-h4-border-bottom-color: $section-models-border-color !default;
+$section-models-h4-background-color--hover: rgba($color-black,.02) !default;
 
-$section-models-h4-font-color: $gray-600 !default;
-$section-models-h4-background-color-hover: $black !default;
+$section-models-model-container-background-color: $color-alabaster !default;
 
-$section-models-h5-font-color: $gray-500 !default;
+$section-models-model-box-background-color: rgba($color-black, .1) !default;
 
-$section-models-model-container-background-color: $black !default;
+$prop-type-font-color: $color-governor-bay !default;
 
-$section-models-model-box-background-color: $black !default;
-
-$section-models-model-title-font-color: $gray-700 !default;
-
-$prop-type-font-color: $scampi-purple !default;
-
-$prop-format-font-color: $gray-600 !default;
+$prop-format-font-color: $color-mine-shaft !default;
 
 // Tables
 
-$table-thead-td-border-bottom-color: $bright-gray !default;
-
 $table-parameter-name-required-font-color: $color-danger !default;
-
-$table-parameter-in-font-color: $gray-400 !default;
 
 $table-parameter-deprecated-font-color: $color-danger !default;
 
 // Topbar
 
-$topbar-background-color: $cod-gray !default;
+$topbar-background-color: $color-cod-gray !default;
 
-$topbar-link-font-color: $white !default;
+$topbar-link-font-color: $color-white !default;
 
-$topbar-download-url-wrapper-element-border-color: $apple-green !default;
+$topbar-download-url-wrapper-element-border-color: $color-apple-green !default;
+$topbar-download-url-wrapper-element-background-color: $color-white !default;
 
-$topbar-download-url-button-background-color: $apple-green !default;
-$topbar-download-url-button-font-color: $white !default;
+$topbar-download-url-input-background-color: $color-white !default;
+$topbar-download-url-button-background-color: $color-apple-green !default;
+$topbar-download-url-button-font-color: $color-white !default;
+$topbar-download-url-label-font-color: $color-wild-sand !default;
 
 // Type
 
-$text-body-default-font-color: $bright-gray !default;
-$text-code-default-font-color: $bright-gray !default;
-$text-headline-default-font-color: $bright-gray !default;
+$code-text-font-color: $color-type !default;
+$headline-text-font-color: $color-type !default;
+$link-text-font-color: $color-primary !default; 
 
 // Fonts
 $alt-text-font-family:'Roboto-Medium', sans-serif;
-$alt-text-font-color: $bright-gray !default;
+$alt-text-font-color: $color-type !default;
 $alt-text-font-weight: 500;
 $alt-text-font-size: 1.4em;
 
 $regular-text-font-family:'Roboto-Regular', sans-serif;
-$regular-text-font-color: $bright-gray !default;
+$regular-text-font-color: $color-type !default;
 $regular-text-font-weight: 400;
 $regular-text-font-size: 1.4em;
 
 $bold-text-font-family:'Roboto-Bold', sans-serif;
-$bold-text-font-color: $bright-gray !default;
+$bold-text-font-color: $color-type !default;
 $bold-text-font-weight: 400;
 $bold-text-font-size: 1.4em;
 
 $title-text-font-family:'Roboto-Light', sans-serif;
-$title-text-font-color: $bright-gray !default;
+$title-text-font-color: $color-type !default;
 $title-text-font-weight: 300;
 $title-text-font-size: 2.8em;
 
 $code-default-font-family:'Roboto-Mono', monospace;
-$code-default-font-color: $bright-gray !default;
+$code-default-font-color: $color-type !default;
 $code-default-font-weight: 300;
 $code-default-font-size: 12px;

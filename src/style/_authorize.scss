@@ -44,6 +44,12 @@
         margin: 5px 0 15px 0 !important;
     }
 
+    code
+    {
+        color: $auth-container-code-font-color;
+        background: $auth-container-code-background-color;
+    }
+
     .wrapper
     {
         margin: 0;

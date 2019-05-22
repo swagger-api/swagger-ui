@@ -4,6 +4,7 @@ import { getList } from "core/utils"
 import { getExtensions, sanitizeUrl, escapeDeepLinkPath } from "core/utils"
 import { Iterable, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
+import cx from "classnames"
 
 
 export default class Operation extends PureComponent {
@@ -110,8 +111,15 @@ export default class Operation extends PureComponent {
 
     let onChangeKey = [ path, method ] // Used to add values to _this_ operation ( indexed by path and method )
 
+    const operationType = deprecated ? "deprecated" : method
+
     return (
-        <div className={deprecated ? "opblock opblock-deprecated" : isShown ? `opblock opblock-${method} is-open` : `opblock opblock-${method}`} id={escapeDeepLinkPath(isShownKey.join("-"))} >
+        <div 
+          className={cx(`opblock opblock-${operationType}`, { 
+            "is-open": isShown 
+          })} 
+          id={escapeDeepLinkPath(isShownKey.join("-"))} 
+        >
         <OperationSummary operationProps={operationProps} toggleShown={toggleShown} getComponent={getComponent} authActions={authActions} authSelectors={authSelectors} specPath={specPath} />
           <Collapse isOpened={isShown}>
             <div className="opblock-body">
