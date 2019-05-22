@@ -50,7 +50,7 @@ $color-danger: $color-guardsman-red !default;
 $color-primary--hover: $color-mantis-green !default;
 $color-secondary--hover: $color-gray-500 !default;
 
-$color-type--default: $color-mine-shaft !default;
+$color-type: $color-mine-shaft !default;
 
 $_color-post: $color-green-haze !default;
 $_color-get: $color-dodger-blue !default;
@@ -66,8 +66,8 @@ $_color-disabled--light: $color-alabaster !default;
 // Authorize
 
 $auth-container-border-color: $color-alto-gray !default;
-$auth-conatiner-code-background-color: $color-soft-peach !default;
-$auth-conatiner-code-font-color: $color-berry-red !default;
+$auth-container-code-background-color: $color-soft-peach !default;
+$auth-container-code-font-color: $color-berry-red !default;
 
 // Buttons
 
@@ -244,32 +244,32 @@ $topbar-download-url-label-font-color: $color-wild-sand !default;
 
 // Type
 
-$code-text-font-color: $color-type--default !default;
-$headline-text-font-color: $color-type--default !default;
+$code-text-font-color: $color-type !default;
+$headline-text-font-color: $color-type !default;
 $link-text-font-color: $color-primary !default; 
 
 // Fonts
 $alt-text-font-family:'Roboto-Medium', sans-serif;
-$alt-text-font-color: $color-type--default !default;
+$alt-text-font-color: $color-type !default;
 $alt-text-font-weight: 500;
 $alt-text-font-size: 1.4em;
 
 $regular-text-font-family:'Roboto-Regular', sans-serif;
-$regular-text-font-color: $color-type--default !default;
+$regular-text-font-color: $color-type !default;
 $regular-text-font-weight: 400;
 $regular-text-font-size: 1.4em;
 
 $bold-text-font-family:'Roboto-Bold', sans-serif;
-$bold-text-font-color: $color-type--default !default;
+$bold-text-font-color: $color-type !default;
 $bold-text-font-weight: 400;
 $bold-text-font-size: 1.4em;
 
 $title-text-font-family:'Roboto-Light', sans-serif;
-$title-text-font-color: $color-type--default !default;
+$title-text-font-color: $color-type !default;
 $title-text-font-weight: 300;
 $title-text-font-size: 2.8em;
 
 $code-default-font-family:'Roboto-Mono', monospace;
-$code-default-font-color: $color-type--default !default;
+$code-default-font-color: $color-type !default;
 $code-default-font-weight: 300;
 $code-default-font-size: 12px;
