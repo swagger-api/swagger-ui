@@ -10,7 +10,7 @@ describe("OAuth2 Password flow", function() {
   it("should make a password flow Authorization header request", () => {
     cy
       .visit("/?url=http://localhost:3231/swagger.yaml")
-      .get(".sui-btn.authorize")
+      .get(".sui-btn.sui-btn--authorize")
       .click()
 
       .get("#oauth_username")
@@ -30,7 +30,7 @@ describe("OAuth2 Password flow", function() {
       .clear()
       .type("secret")
 
-      .get("div.modal-ux-content > div:nth-child(1) > div > div:nth-child(2) > div > div.auth-btn-wrapper > button.sui-btn.modal-btn.auth.authorize.button")
+      .get("div.modal-ux-content > div:nth-child(1) > div > div:nth-child(2) > div > div.auth-btn-wrapper > button.sui-btn.modal-btn.auth.authorize")
       .click()
 
       .get("button.close-modal")
@@ -67,7 +67,7 @@ describe("OAuth2 Password flow", function() {
   it("should make a Password flow request-body request", () => {
     cy
       .visit("/?url=http://localhost:3231/swagger.yaml")
-      .get(".sui-btn.authorize")
+      .get(".sui-btn.sui-btn--authorize")
       .click()
 
       .get("#oauth_username")
@@ -87,7 +87,7 @@ describe("OAuth2 Password flow", function() {
       .clear()
       .type("secret")
 
-      .get("div.modal-ux-content > div:nth-child(1) > div > div:nth-child(2) > div > div.auth-btn-wrapper > button.sui-btn.modal-btn.auth.authorize.button")
+      .get("div.modal-ux-content > div:nth-child(1) > div > div:nth-child(2) > div > div.auth-btn-wrapper > button.sui-btn.modal-btn.auth.authorize")
       .click()
 
       .get("button.close-modal")

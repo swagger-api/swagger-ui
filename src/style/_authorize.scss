@@ -6,9 +6,18 @@
 
     justify-content: center;
 
-    .btn-done
+    button
     {
-      margin-right: 1em;
+        &:first-of-type
+        {
+            margin-right: 2em;
+        }
+
+        &:last-of-type
+        {
+            margin-right: 0;
+        }
+
     }
 }
 
@@ -71,7 +80,7 @@
     padding: 0 0 20px 0;
 }
 
-button.authorize
+.sui-btn--authorize
 {
     svg
     {

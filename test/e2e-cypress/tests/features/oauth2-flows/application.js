@@ -10,7 +10,7 @@ describe("OAuth2 Application flow", function() {
   it("should make an application flow Authorization header request", () => {
     cy
       .visit("/?url=http://localhost:3231/swagger.yaml")
-      .get(".sui-btn.authorize")
+      .get(".sui-btn.sui-btn--authorize")
       .click()
 
       .get("div.modal-ux-content > div:nth-child(2)").within(() => {
@@ -22,7 +22,7 @@ describe("OAuth2 Application flow", function() {
           .clear()
           .type("topSecret")
 
-          .get("button.sui-btn.modal-btn.auth.authorize.button")
+          .get("button.sui-btn.modal-btn.auth.authorize")
           .click()
       })
 
