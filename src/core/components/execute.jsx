@@ -32,7 +32,8 @@ export default class Execute extends Component {
   render(){
     return (
         <Button
-          className="sui-btn sui-btn--primary sui-btn-group__btn execute opblock-control__btn"
+          className="sui-btn-group__btn execute opblock-control__btn"
+          mod="primary"
           onClick={ this.onClick }
         >
           <span>Execute</span>

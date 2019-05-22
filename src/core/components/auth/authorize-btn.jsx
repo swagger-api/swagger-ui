@@ -20,7 +20,8 @@ export default class AuthorizeBtn extends React.Component {
     return (
       <div className="auth-wrapper">
         <Button
-          className={`sui-btn sui-btn--secondary authorize ${isAuthorized ? "locked" : "unlocked"}`}
+          className={`authorize ${isAuthorized ? "locked" : "unlocked"}`}
+          mod="secondary"
           onClick={onClick}
         >
           <span>Authorize</span>

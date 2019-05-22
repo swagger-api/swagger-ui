@@ -23,6 +23,7 @@ export default class AuthorizeOperationBtn extends React.Component {
 
     return (
       <Button
+        unstyled
         className={`sui-btn-transparent authorization__btn ${isAuthorized ? "locked" : "unlocked"} `}
         aria-label={`authorization button ${isAuthorized ? "locked" : "unlocked"}`}
         onClick={this.onClick}

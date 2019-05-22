@@ -107,17 +107,27 @@ Row.propTypes = {
 export class Button extends React.Component {
 
   static propTypes = {
-    className: PropTypes.string
+    className: PropTypes.string,
+    unstyled: PropTypes.bool,
+    mod: PropTypes.string
   }
 
   static defaultProps = {
-    className: ""
+    className: "",
+    unstyled: false,
+    mod: "primary"
   }
+
+  defaultClasses = () => !this.props.unstyled ? `sui-btn sui-btn--${this.props.mod}` : ""
 
   render() {
-    return <button {...this.props} className={xclass(this.props.className, "button")} />
+    return (
+      <button
+        {...this.props}
+        className={xclass(this.props.className, this.defaultClasses())}    
+      />
+    )
   }
-
 }
 
 

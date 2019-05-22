@@ -119,15 +119,16 @@ export default class RequestBodyEditor extends PureComponent {
               !isExecute
                 ? null
                 : <Button
-                    className={`sui-btn sui-btn--secondary body-param__example-edit ${isEditBox ? "cancel" : "edit"}`}
+                    mod="tertiary-lt"
+                    className={isEditBox ? "cancel body-param__example-edit" : "edit body-param__example-edit"}
                     onClick={this.toggleIsEditBox}
                   >
-                    <span>{isEditBox ? "Cancel" : "Edit"}</span>
+                    <span>{ isEditBox ? "Cancel" : "Edit"}</span>
                   </Button>
             }
             { userDidModify &&
               <Button
-                className="sui-btn sui-btn--secondary ml3"
+                mod="secondary"
                 onClick={() => { this.resetValueToSample(mediaType) }}
               >
                 <span>Reset</span>

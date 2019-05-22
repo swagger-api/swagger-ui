@@ -14,7 +14,8 @@ export default class Clear extends Component {
   render(){
     return (
       <Button
-        className="sui-btn sui-btn--secondary sui-btn-group__btn opblock-control__btn"
+        className="sui-btn-group__btn opblock-control__btn"
+        mod="secondary"
         onClick={ this.onClick }
       >
         <span>Clear</span>
