@@ -120,7 +120,6 @@ export default class RequestBodyEditor extends PureComponent {
                 ? null
                 : <Button
                     mod="tertiary-lt"
-                    className={isEditBox ? "cancel body-param__example-edit" : "edit body-param__example-edit"}
                     onClick={this.toggleIsEditBox}
                   >
                     <span>{ isEditBox ? "Cancel" : "Edit"}</span>

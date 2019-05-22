@@ -86,7 +86,7 @@ export default class Auths extends React.Component {
                   ? <Button className="modal-btn auth" mod="tertiary-lt" onClick={ this.logoutClick } ><span>Logout</span></Button>
                   : <Button type="submit" className="modal-btn auth authorize" mod="primary"><span>Authorize</span></Button>
               }
-              <Button className="modal-btn auth btn-done" mod="secondary" onClick={ this.close }><span>Close</span></Button>
+              <Button className="modal-btn auth" mod="secondary" onClick={ this.close }><span>Close</span></Button>
             </div>
           </form>
         }

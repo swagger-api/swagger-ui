@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
+import cx from "classnames"
 import { getList } from "core/utils"
 import { getExtensions, sanitizeUrl, escapeDeepLinkPath } from "core/utils"
 import { Iterable, List } from "immutable"
@@ -183,7 +184,11 @@ export default class Operation extends PureComponent {
                   </div> : null
               }
 
-            <div className={(!tryItOutEnabled || !response || !allowTryItOut) ? "execute-wrapper" : "execute-wrapper sui-btn-group"}>
+            <div
+              className={cx("execute-wrapper", {
+                "sui-btn-group": (!tryItOutEnabled || !response || !allowTryItOut)
+              })}
+            >
               { !tryItOutEnabled || !allowTryItOut ? null :
 
                   <Execute

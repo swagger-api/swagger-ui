@@ -25,11 +25,11 @@ export default class AuthorizeOperationBtn extends React.Component {
     return (
       <Button
         unstyled
-        className={cx("sui-btn-transparent", "authorization__btn", {
+        className={cx("sui-btn-transparent authorization__btn", {
           "locked": isAuthorized,
           "unlocked": !isAuthorized
         })}
-        aria-label={cx("authorization", "button", {
+        aria-label={cx("authorization button", {
           "locked": isAuthorized,
           "unlocked": !isAuthorized
         })}

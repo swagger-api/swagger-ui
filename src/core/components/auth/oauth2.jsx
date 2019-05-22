@@ -239,7 +239,7 @@ export default class Oauth2 extends React.Component {
               : <Button className="modal-btn auth authorize" mod="primary" onClick={ this.authorize }><span>Authorize</span></Button>
           )
         }
-          <Button className="modal-btn auth btn-done" mod="secondary" onClick={ this.close }><span>Close</span></Button>
+          <Button className="modal-btn auth" mod="secondary" onClick={ this.close }><span>Close</span></Button>
         </div>
 
       </div>

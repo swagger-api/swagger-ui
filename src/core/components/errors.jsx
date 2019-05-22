@@ -41,7 +41,7 @@ export default class Errors extends React.Component {
         <hgroup className="error">
           <h4 className="errors__title">Errors</h4>
           <Button
-            className="sui-btn sui-btn--secondary errors__clear-btn"
+            mod="secondary"
             onClick={ toggleVisibility }
           >
             <span>{ isVisible ? "Hide" : "Show" }</span>

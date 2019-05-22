@@ -97,6 +97,7 @@ export default class OperationTag extends React.Component {
             className="sui-btn-transparent expand-operation"
             title={showTag ? "Collapse operation": "Expand operation"}
             onClick={() => layoutActions.show(isShownKey, !showTag)}
+            unstyled
           >
             <svg className="arrow" width="20" height="20">
               <use
