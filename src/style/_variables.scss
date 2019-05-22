@@ -252,7 +252,7 @@ $topbar-download-url-input-background-color: $color-white !default;
 $topbar-download-url-button-background-color: $color-apple-green !default;
 $topbar-download-url-button-font-color: $color-white !default;
 
-// Type
+// // Type
 
 $code-text-font-color: $color-type--default !default;
 $headline-text-font-color: $color-type--default !default;
@@ -266,10 +266,26 @@ $alt-text-font-size: 1.4em;
 
 $regular-text-font-family:'Roboto-Regular', sans-serif;
 $regular-text-font-color: $color-type--default !default;
-$regular-text-font-weight: 400;
-$regular-text-font-size: 1.4em;
 
+$bold-text-font-weight: 500;
+$regular-text-font-weight: 400;
+$light-text-font-weight: 300;
+
+$xxs-text-font-size: 1em;
+$xs-text-font-size: 1.2em;
+$sm-text-font-size: 1.3em;
+$md-text-font-size: 1.4em;
+$lg-text-font-size: 1.6em;
+$xl-text-font-size: 2em;
+$xxl-text-font-size: 2.8em;
+
+$md-icon-font-size: 1.5em;
+
+$light-text-font-family:'Roboto-Light', sans-serif;
+$regular-text-font-family:'Roboto-Regular', sans-serif;
+$medium-text-font-family:'Roboto-Medium', sans-serif;
 $bold-text-font-family:'Roboto-Bold', sans-serif;
+
 $bold-text-font-color: $color-type--default !default;
 $bold-text-font-weight: 400;
 $bold-text-font-size: 1.4em;
@@ -283,3 +299,6 @@ $code-default-font-family:'Roboto-Mono', monospace;
 $code-default-font-color: $color-type--default !default;
 $code-default-font-weight: 300;
 $code-default-font-size: 12px;
+$mono-text-font-family:'Roboto-Mono', monospace;
+
+$default-grey-font-color: $color-type--default !default;

@@ -1,6 +1,6 @@
 .markdown, .renderedMarkdown {
   p, pre {
-    margin: 1em auto;
+    margin: 10px auto;
   }
   pre {
     color: $markdown-pre-font-color;
@@ -11,13 +11,11 @@
   }
 
   code {
-    font-size: 14px;
     padding: 5px 7px;
-
     border-radius: 4px;
     background: $markdown-code-background-color;
 
-    @include text_code($markdown-code-font-color);
+    @include text_code($color: $markdown-code-font-color, $size: 100%);
   }
 
   pre > code {

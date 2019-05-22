@@ -45,21 +45,18 @@
 
         p
         {
-            font-size: 12px;
 
             margin: 0 0 5px 0;
 
-            @include text_body();
+            @include regular_text($size: $xs-text-font-size);
         }
 
         h4
         {
-            font-size: 18px;
             font-weight: 600;
 
             margin: 15px 0 0 0;
-
-            @include text_headline();
+            @include text_title($size: $xl-text-font-size);
         }
     }
 
@@ -87,14 +84,12 @@
 
         h3
         {
-            font-size: 20px;
             font-weight: 600;
-
             margin: 0;
             padding: 0 20px;
 
             flex: 1;
-            @include text_headline();
+            @include text_headline($size: $xl-text-font-size);
         }
     }
 }

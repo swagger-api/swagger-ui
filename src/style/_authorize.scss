@@ -23,9 +23,10 @@
             margin-right: 0;
         }
 
-    .authorize
-    {
-        padding-right: 2em;
+        .authorize
+        {
+            padding-right: 2em;
+        }
     }
 }
 
@@ -69,8 +70,6 @@
 
     .errors
     {
-        font-size: 12px;
-
         padding: 10px;
 
         border-radius: 4px;
@@ -83,9 +82,7 @@
 {
     h2
     {
-        font-size: 14px;
-
-        @include text_headline();
+        @include text_headline($size: 1.4em);
     }
 }
 

@@ -79,20 +79,28 @@ export default class OperationTag extends React.Component {
             <div>
               { !tagExternalDocsDescription ? null :
                 <small>
+                  <span className="opblock-tag__info-link">
                     { tagExternalDocsDescription }
-                      { tagExternalDocsUrl ? ": " : null }
-                      { tagExternalDocsUrl ?
-                        <Link
-                            href={sanitizeUrl(tagExternalDocsUrl)}
-                            onClick={(e) => e.stopPropagation()}
-                            target="_blank"
-                            >{tagExternalDocsUrl}</Link> : null
-                          }
-                  </small>
-                }
+                    { tagExternalDocsUrl ? ": " : null }
+                    { 
+                      tagExternalDocsUrl
+                          ? <Link
+                              href={sanitizeUrl(tagExternalDocsUrl)}
+                              onClick={(e) => e.stopPropagation()}
+                              target="_blank"
+                            >
+                        
+                              {tagExternalDocsUrl}
+                            </Link>
+                          : null
+                    }
+                  </span>
+                </small>
+              }
             </div>
 
           <Button
+            unstyled
             className="sui-btn-transparent expand-operation"
             title={showTag ? "Collapse operation": "Expand operation"}
             onClick={() => layoutActions.show(isShownKey, !showTag)}
