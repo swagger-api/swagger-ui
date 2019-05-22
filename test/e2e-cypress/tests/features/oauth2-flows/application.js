@@ -22,7 +22,7 @@ describe("OAuth2 Application flow", function() {
           .clear()
           .type("topSecret")
 
-          .get("button.sui-btn.modal-btn.authorize")
+          .get("button.sui-btn--primary")
           .click()
       })
 
