@@ -1,16 +1,16 @@
 describe("SWOS-63: Schema/Model labeling", () => {
   describe("SchemaS/Models section", () => {
-    it("should render `schemas` for OpenAPI 3", () => {
+    it("should render `Schemas` for OpenAPI 3", () => {
       cy
         .visit("/?url=/documents/petstore-expanded.openapi.yaml")
         .get("section.models > h4 > span")
-        .contains("schemas")
+        .contains("Schemas")
     })
-    it("should render `models` for OpenAPI 2", () => {
+    it("should render `Models` for OpenAPI 2", () => {
       cy
         .visit("/?url=/documents/petstore.swagger.yaml")
         .get("section.models > h4 > span")
-        .contains("models")
+        .contains("Models")
     })
   })
   describe("ModelExample within Operation", () => {
