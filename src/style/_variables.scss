@@ -10,8 +10,8 @@ $color-silver: #cbcbcb;
 $color-alto-gray: #d7d7d7;
 $color-iron-gray: #d9d9db;
 $color-mercury-gray: #e4e4e4;
-$color-alabaster: #fafafa;
 $color-wild-sand: #f5f5f5;
+$color-alabaster: #fafafa;
 $color-mantis-green: #57c534;
 $color-apple-green: #62a03f;
 $color-vida-loca: #49a32b;
@@ -50,7 +50,7 @@ $color-danger: $color-guardsman-red !default;
 $color-primary--hover: $color-mantis-green !default;
 $color-secondary--hover: $color-gray-500 !default;
 
-$color-type--default: $color-mine-shaft !default;
+$color-type: $color-mine-shaft !default;
 
 $_color-post: $color-green-haze !default;
 $_color-get: $color-dodger-blue !default;
@@ -66,8 +66,8 @@ $_color-disabled--light: $color-alabaster !default;
 // Authorize
 
 $auth-container-border-color: $color-alto-gray !default;
-$auth-conatiner-code-background-color: $color-soft-peach !default;
-$auth-conatiner-code-font-color: $color-berry-red !default;
+$auth-container-code-background-color: $color-soft-peach !default;
+$auth-container-code-font-color: $color-berry-red !default;
 
 // Buttons
 
@@ -143,20 +143,19 @@ $info-title-small-pre-font-color: $color-white !default;
 
 $info-title-small-pre-font-size: 1.2em;
 
-$info-title-small-pre-font-size: 1.2em;
-
 // Layout
 
 $opblock-border-color: $color-black !default;
 
-$opblock-background-color--open: $color-white;
-$opblock-border-color--open: $color-iron-gray;
+$opblock-background-color--open: $color-white !default;
+$opblock-border-color--open: $color-iron-gray !default;
 
 $opblock-tag-border-bottom-color: $color-iron-gray !default;
 $opblock-tag-background-color--hover: rgba($color-black,.02) !default;
 $opblock-tag-h4-font-size: 2em;
 $opblock-tag-small-font-size: 1.4em;
 
+$opblock-header-tab-title-font-color--active: $color-primary !default;
 $opblock-header-tab-title-background-color--active: $color-primary !default;
 
 $opblock-summary-method-background-color: $color-black !default;
@@ -168,8 +167,6 @@ $opblock-summary-path-font-size: 1.3em;
 $opblock-section-header-h4-font-size: 2em;
 $opblock-summary-description-font-size: 1.3em;
 $opblock-summary-path-font-size: 1.3em;
-
-$opblock-section-header-h4-font-size: 2em;
 
 $operational-filter-input-border-color: $color-bright-silver !default;
 
@@ -188,16 +185,13 @@ $download-contents-font-color: $color-white !default;
 $scheme-container-background-color: $color-white !default;
 $scheme-container-border-color: $color-iron-gray !default;
 
-$server-container-background-color: $color-white !default;
-$server-container-box-shadow-color: $color-black !default;
-
-$server-container-computed-url-code-font-color: $color-gray-400 !default;
-
 $loading-container-before-border-color: rgba($color-gray-650, .1) !default;
 $loading-container-before-border-top-color: rgba($color-black, .6) !default;
 
 $response-content-type-controls-accept-header-select-border-color: $color-japanese-laurel !default;
 $response-content-type-controls-accept-header-small-font-color: $color-japanese-laurel !default;
+
+$version-pragma-message-code-background-color: $color-mercury-gray !default;
 
 // Modal
 
@@ -220,11 +214,7 @@ $model-hint-background-color: rgba($color-black, .7) !default;
 
 $section-models-border-color: $color-iron-gray !default;
 
-$section-models-isopen-h4-border-bottom-color: rgba($section-models-border-color, .3) !default;
-
 $section-models-h4-background-color--hover: rgba($color-black,.02) !default;
-
-$section-models-h5-font-color: $color-gray-500 !default;
 
 $section-models-model-container-background-color: $color-alabaster !default;
 
@@ -247,27 +237,30 @@ $topbar-background-color: $color-cod-gray !default;
 $topbar-link-font-color: $color-white !default;
 
 $topbar-download-url-wrapper-element-border-color: $color-apple-green !default;
+$topbar-download-url-wrapper-element-background-color: $color-white !default;
 
 $topbar-download-url-input-background-color: $color-white !default;
 $topbar-download-url-button-background-color: $color-apple-green !default;
 $topbar-download-url-button-font-color: $color-white !default;
+$topbar-download-url-label-font-color: $color-wild-sand !default;
 
 // // Type
 
-$code-text-font-color: $color-type--default !default;
-$headline-text-font-color: $color-type--default !default;
+$code-text-font-color:  !default;
+$headline-text-font-color: $color-type !default;
 $link-text-font-color: $color-primary !default; 
 
 // Fonts
 $alt-text-font-family:'Roboto-Medium', sans-serif;
-$alt-text-font-color: $color-type--default !default;
+$alt-text-font-color: $color-type !default;
 $alt-text-font-weight: 500;
 $alt-text-font-size: 1.4em;
 
 $regular-text-font-family:'Roboto-Regular', sans-serif;
-$regular-text-font-color: $color-type--default !default;
+$regular-text-font-color: $color-type !default;
 
-$bold-text-font-weight: 500;
+$bold-text-font-weight: 700;
+$medium-text-font-weight: 500;
 $regular-text-font-weight: 400;
 $light-text-font-weight: 300;
 
@@ -286,19 +279,19 @@ $regular-text-font-family:'Roboto-Regular', sans-serif;
 $medium-text-font-family:'Roboto-Medium', sans-serif;
 $bold-text-font-family:'Roboto-Bold', sans-serif;
 
-$bold-text-font-color: $color-type--default !default;
+$bold-text-font-color: $color-type !default;
 $bold-text-font-weight: 400;
 $bold-text-font-size: 1.4em;
 
 $title-text-font-family:'Roboto-Light', sans-serif;
-$title-text-font-color: $color-type--default !default;
+$title-text-font-color: $color-type !default;
 $title-text-font-weight: 300;
 $title-text-font-size: 2.8em;
 
 $code-default-font-family:'Roboto-Mono', monospace;
-$code-default-font-color: $color-type--default !default;
+$code-default-font-color: $color-type !default;
 $code-default-font-weight: 300;
 $code-default-font-size: 12px;
 $mono-text-font-family:'Roboto-Mono', monospace;
 
-$default-grey-font-color: $color-type--default !default;
+$color-type--default: $color-type !default;

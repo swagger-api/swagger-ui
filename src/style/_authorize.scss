@@ -6,11 +6,6 @@
 
     justify-content: center;
 
-    .btn-done
-    {
-      margin-right: 1em;
-    }
-
     button
     {
         &:first-of-type
@@ -23,10 +18,6 @@
             margin-right: 0;
         }
 
-        .authorize
-        {
-            padding-right: 2em;
-        }
     }
 }
 
@@ -52,8 +43,8 @@
 
     code
     {
-        color: $auth-conatiner-code-font-color;
-        background: $auth-conatiner-code-background-color;
+        color: $auth-container-code-font-color;
+        background: $auth-container-code-background-color;
     }
 
     .wrapper
@@ -89,12 +80,4 @@
 .scope-def
 {
     padding: 0 0 20px 0;
-}
-
-button.authorize
-{
-    svg
-    {
-        fill: #fff
-    }
 }

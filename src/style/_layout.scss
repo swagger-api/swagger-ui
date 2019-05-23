@@ -78,15 +78,18 @@
         flex: 1;
         padding: 0 10px;
 
-        .markdown {
-            @include regular-text($family: $light-text-font-family);
+        .markdown
+        {
+            @include light_text($size: 1.4em);
         }
 
-        .opblock-tag__info-link {
-            @include regular-text($family: $regular-text-font-family);
+        .opblock-tag__info-link
+        {
+            @include regular-text();
         }
 
-        a {
+        a
+        {
             @include inline-link-text();
         }
     }
@@ -144,7 +147,7 @@
                     span
                     {
                         position: relative;
-                        color: $opblock-header-tab-title-background-color--active;
+                        color: $opblock-header-tab-title-font-color--active;
 
 
                         &:after
@@ -220,8 +223,9 @@
         justify-content: center;
         align-items: center;
 
-        > span {
-            @include alt-text($color: $opblock-summary-method-font-color, $weight: 500);
+        > span
+        {
+            @include medium_text($color: $opblock-summary-method-font-color, $weight: 500);
         }
 
     }
@@ -238,8 +242,9 @@
         word-break: break-word;
 
         padding: 0 10px;
-        a.nostyle > span {
-            @include alt_text($size: $sm-text-font-size, $weight: 500)
+        a.nostyle > span
+        {
+            @include medium_text($size: $sm-text-font-size, $weight: 500)
 
         }
 
@@ -269,7 +274,7 @@
         display: flex;
         align-items: center;
 
-        padding: .5em;
+        padding: .5em 1em .5em .5em;
 
         cursor: pointer;
 
@@ -771,13 +776,15 @@ a.nostyle {
     line-height: 1.5em;
     padding: 0px .6em;
 
-    > div {
+    > div
+    {
       max-width: 55ch;
       flex: 1;
     }
 
-    code {
-      background-color: #dedede;
+    code
+    {
+      background-color: $version-pragma-message-code-background-color;
       padding: 4px 4px 2px;
       white-space: pre;
     }

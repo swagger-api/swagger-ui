@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
+import cx from "classnames"
 import { getList } from "core/utils"
 import { getExtensions, sanitizeUrl, escapeDeepLinkPath } from "core/utils"
 import { Iterable, List } from "immutable"
@@ -110,8 +111,15 @@ export default class Operation extends PureComponent {
 
     let onChangeKey = [ path, method ] // Used to add values to _this_ operation ( indexed by path and method )
 
+    const operationType = deprecated ? "deprecated" : method
+
     return (
-        <div className={(deprecated ? "opblock opblock-deprecated" : `opblock opblock-${method}`) + (isShown ? ` is-open` : "")} id={escapeDeepLinkPath(isShownKey.join("-"))} >
+        <div 
+          className={cx(`opblock opblock-${operationType}`, { 
+            "is-open": isShown 
+          })} 
+          id={escapeDeepLinkPath(isShownKey.join("-"))} 
+        >
         <OperationSummary operationProps={operationProps} toggleShown={toggleShown} getComponent={getComponent} authActions={authActions} authSelectors={authSelectors} specPath={specPath} />
           <Collapse isOpened={isShown}>
             <div className="opblock-body">
@@ -183,7 +191,11 @@ export default class Operation extends PureComponent {
                   </div> : null
               }
 
-            <div className={(!tryItOutEnabled || !response || !allowTryItOut) ? "execute-wrapper" : "execute-wrapper sui-btn-group"}>
+            <div
+              className={cx("execute-wrapper", {
+                "sui-btn-group": (!tryItOutEnabled || !response || !allowTryItOut)
+              })}
+            >
               { !tryItOutEnabled || !allowTryItOut ? null :
 
                   <Execute

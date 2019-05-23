@@ -1,15 +1,19 @@
 
 .sui-btn
 {
+    height: 3em;
     border-radius: 4px;
-    flex: 1;
+
     display: flex;
-    height: 30px;
+    flex: 1;
     justify-content: center;
     align-items: center;
+    
     text-transform: uppercase;
-    font-size: 14px;
-    padding: 0 20px;
+    
+    padding: 0 2em;
+    
+    transition: all .3s;
 
     > * {
         margin-right: 5px;
@@ -18,13 +22,20 @@
             margin-right: 0;
         }
     }
+
+    > span {
+        font-size: 1.4em;
+    }
 }
 
 .sui-btn--sm 
 {
     height: auto;
-    font-size: 13px;
-    padding: 5px 10px;
+    padding: .5em 1em;
+
+    > span {
+        font-size: 13px;
+    }
 }
 
 .sui-btn--primary
@@ -73,13 +84,22 @@
     margin: 0;
 }
 
+.sui-btn--authorize
+{
+    svg
+    {
+        fill: #fff
+    }
+}
+
+
 .sui-btn-wrapper
 {
-    .button
+    button
     {
         &:first-child
         {
-            margin-right: 20px;
+            margin-right: 2em;
         }
 
         &:last-child
@@ -93,7 +113,7 @@
 {
     display: flex;
 
-    .sui-btn-group__btn
+    button
     {
         border-radius: 0;
 
@@ -113,7 +133,7 @@ button
 {
     cursor: pointer;
     outline: none;
-    font-family: $alt-text-font-family;
+    font-family: $medium_text-font-family;
 
     &.invalid
     {

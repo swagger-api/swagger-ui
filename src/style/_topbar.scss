@@ -57,7 +57,7 @@
             width: 100%;
             max-width: 600px;
             margin: 0;
-            color: #f0f0f0;
+            color: $topbar-download-url-label-font-color;
             span
             {
                 font-size: $lg-text-font-size;
@@ -78,12 +78,15 @@
                 border: 2px solid $topbar-download-url-wrapper-element-border-color;
                 outline: none;
                 box-shadow: none;
+                background: $topbar-download-url-wrapper-element-background-color;
             }
         }
 
 
         .download-url-button
         {
+            height: auto;
+            
             font-weight: bold;
             height: auto;
 

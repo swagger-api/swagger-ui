@@ -10,7 +10,7 @@ describe("OAuth2 Application flow", function() {
   it("should make an application flow Authorization header request", () => {
     cy
       .visit("/?url=http://localhost:3231/swagger.yaml")
-      .get(".btn.authorize")
+      .get(".sui-btn.sui-btn--authorize")
       .click()
 
       .get("div.modal-ux-content > div:nth-child(2)").within(() => {
@@ -22,7 +22,7 @@ describe("OAuth2 Application flow", function() {
           .clear()
           .type("topSecret")
 
-          .get("button.btn.modal-btn.auth.authorize.button")
+          .get("button.sui-btn--primary")
           .click()
       })
 
@@ -32,10 +32,10 @@ describe("OAuth2 Application flow", function() {
       .get("#operations-default-get_application")
       .click()
 
-      .get(".btn.try-out__btn")
+      .get(".sui-btn.try-out__btn")
       .click()
 
-      .get(".btn.execute")
+      .get(".sui-btn.execute")
       .click()
 
     cy.get("@tokenRequest")

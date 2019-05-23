@@ -127,10 +127,11 @@ export default class ParamBody extends PureComponent {
               ? null
               : <div className="body-param-edit">
                   <Button
-                    className={`sui-btn sui-btn--tertiary-lt sui-btn--sm body-param__example-edit ${isEditBox ? "disregard" : "edit"}`}
+                    className="sui-btn--sm"
+                    mod="tertiary-lt"
                     onClick={this.toggleIsEditBox}
                   >
-                    { isEditBox ? "Disregard" : "Edit"}
+                    <span>{ isEditBox ? "Disregard" : "Edit"}</span>
                   </Button>
                 </div>
           }

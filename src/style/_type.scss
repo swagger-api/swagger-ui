@@ -1,4 +1,5 @@
-@mixin text_body($color: $default-grey-font-color, $weight: $regular-text-font-weight, $size: $md-text-font-size)
+// text-regular
+@mixin text_body($color: $color-type--default, $weight: $regular-text-font-weight, $size: $md-text-font-size)
 {
     font-family: $regular-text-font-family;
     font-size: $size;
@@ -6,7 +7,8 @@
     color: $color;
 }
 
-@mixin text_title($color: $default-grey-font-color, $size: $xxl-text-font-size)
+// text-light
+@mixin text_title($color: $color-type--default, $size: $xxl-text-font-size)
 {
     font-family: $light-text-font-family;
     font-size: $size;
@@ -14,43 +16,21 @@
     color: $color;
 }
 
-@mixin text_code($color: $default-grey-font-color, $size: $sm-text-font-size)
+@mixin text_code($color: $color-type--default, $size: $sm-text-font-size)
 {
   font-family: $mono-text-font-family;
   font-size: $size;
   color: $color;
 }
 
-@mixin text_headline($color: $default-grey-font-color, $size: $lg-text-font-size)
+@mixin text_headline($color: $color-type--default, $size: $lg-text-font-size)
 {
     font-family: $regular-text-font-family;
     font-size: $size;
     color: $color;
 }
 
-@mixin light_text($color: $default-grey-font-color, $size: $md-text-font-size) {
-    font-family: $light-text-font-family;
-    font-weight: 300;
-    font-size: $size;
-    color: $color;
-}
-
-@mixin regular_text($color: $default-grey-font-color, $size: $md-text-font-size, $family: $regular-text-font-family)
-{
-    font-family: $family;
-    font-size: $size;
-    color: $color;
-}
-
-@mixin bold_text($color: $default-grey-font-color, $size: $md-text-font-size)
-{
-    font-family: $bold-text-font-family;
-    font-weight: 700;
-    font-size: $size;
-    color: $color;
-}
-
-@mixin alt_text($color: $default-grey-font-color, $size: $md-text-font-size, $weight: $bold-text-font-weight)
+@mixin alt_text($color: $color-type--default, $size: $md-text-font-size, $weight: $bold-text-font-weight)
 {
     font-family: $medium-text-font-family;
     font-size: $size;
@@ -58,7 +38,50 @@
     color: $color;
 }
 
-@mixin label_text($color: $default-grey-font-color, $size: $sm-text-font-size)
+
+
+@mixin light_text($color: $color-type--default, $size: $md-text-font-size, $weight: $light-text-font-weight) {
+    font-family: $light-text-font-family;
+    font-size: $size;
+    font-weight: $weight;
+    color: $color;
+}
+
+@mixin regular_text($color: $color-type--default, $size: $md-text-font-size, $weight: $regular-text-font-weight)
+{
+    font-family: $regular-text-font-family;
+    font-size: $size;
+    font-weight: $weight;
+    color: $color;
+}
+
+@mixin medium_text($color: $color-type--default, $size: $md-text-font-size, $weight: $medium-text-font-weight)
+{
+    font-family: $medium-text-font-family;
+    font-size: $size;
+    font-weight: $weight;
+    color: $color;
+}
+
+@mixin bold_text($color: $color-type--default, $size: $md-text-font-size, $weight: $bold-text-font-weight)
+{
+    font-family: $bold-text-font-family;
+    font-size: $size;
+    font-weight: $weight;
+    color: $color;
+}
+
+
+@mixin mono_text($color: $color-type--default, $size: $sm-text-font-size, $weight: $regular-text-font-weight)
+{
+  font-family: $mono-text-font-family;
+  font-size: $size;
+  color: $color;
+}
+
+
+
+@mixin label_text($color: $color-type--default, $size: $sm-text-font-size)
 {
     font-family: $light-text-font-family;
     font-weight: 300;

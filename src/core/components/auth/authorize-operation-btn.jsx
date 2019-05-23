@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import cx from "classnames"
 
 import { Button } from "components/layout-utils"
 
@@ -23,8 +24,15 @@ export default class AuthorizeOperationBtn extends React.Component {
 
     return (
       <Button
-        className={`sui-btn-transparent authorization__btn ${isAuthorized ? "locked" : "unlocked"} `}
-        aria-label={`authorization button ${isAuthorized ? "locked" : "unlocked"}`}
+        unstyled
+        className={cx("sui-btn-transparent authorization__btn", {
+          "locked": isAuthorized,
+          "unlocked": !isAuthorized
+        })}
+        aria-label={cx("authorization button", {
+          "locked": isAuthorized,
+          "unlocked": !isAuthorized
+        })}
         onClick={this.onClick}
       >
         <svg width="20" height="20">

@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import cx from "classnames"
 
 import { Button } from "components/layout-utils"
 
@@ -20,7 +21,11 @@ export default class AuthorizeBtn extends React.Component {
     return (
       <div className="auth-wrapper">
         <Button
-          className={`sui-btn sui-btn--secondary authorize ${isAuthorized ? "locked" : "unlocked"}`}
+          className={cx("sui-btn--authorize", { 
+            "locked": isAuthorized,
+            "unlocked": !isAuthorized
+          })}
+          mod="secondary"
           onClick={onClick}
         >
           <span>Authorize</span>
