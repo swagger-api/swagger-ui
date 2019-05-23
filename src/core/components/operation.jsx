@@ -5,7 +5,6 @@ import { getList } from "core/utils"
 import { getExtensions, sanitizeUrl, escapeDeepLinkPath } from "core/utils"
 import { Iterable, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
-import cx from "classnames"
 
 
 export default class Operation extends PureComponent {
