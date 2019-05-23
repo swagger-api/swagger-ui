@@ -59,7 +59,7 @@ module.exports = {
           selector: "select option"
         },
         btnAuthorize: {
-          selector: "button.authorize"
+          selector: "button.sui-btn--authorize"
         },
         authorizationModal: {
           selector: ".dialog-ux"

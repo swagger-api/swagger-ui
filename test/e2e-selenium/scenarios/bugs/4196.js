@@ -19,7 +19,7 @@ describe("bug #4196: HTTP basic auth credential retention", function () {
     })
     it("should display the most recent auth data across modal close/opens", function (client) {
         client.waitForElementVisible(".opblock-tag-section", 10000)
-            .click("button.btn.authorize") // Open modal
+            .click("button.sui-btn.sui-btn--authorize") // Open modal
             .waitForElementVisible("section>input", 5000)
             .setValue("section>input", "aaa") // Set user
             .waitForElementVisible(`section>input[type="password"]`, 5000)
@@ -28,7 +28,7 @@ describe("bug #4196: HTTP basic auth credential retention", function () {
             .assert.containsText("div.wrapper:nth-child(4)>code", "aaa")
             .click(".auth-btn-wrapper button:nth-child(2)") // Close modal
             .pause(50)
-            .click("button.btn.authorize") // Open modal
+            .click("button.sui-btn.sui-btn--authorize") // Open modal
             .pause(50)
             .click(".auth-btn-wrapper button:nth-child(1)") // Logout
             .waitForElementVisible("section>input", 5000)

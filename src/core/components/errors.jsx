@@ -16,6 +16,7 @@ export default class Errors extends React.Component {
     let { editorActions, errSelectors, layoutSelectors, layoutActions, getComponent } = this.props
 
     const Collapse = getComponent("Collapse")
+    const Button = getComponent("Button")
 
     if(editorActions && editorActions.jumpToLine) {
       var jumpToLine = editorActions.jumpToLine
@@ -39,7 +40,12 @@ export default class Errors extends React.Component {
       <pre className="errors-wrapper">
         <hgroup className="error">
           <h4 className="errors__title">Errors</h4>
-          <button className="btn errors__clear-btn" onClick={ toggleVisibility }>{ isVisible ? "Hide" : "Show" }</button>
+          <Button
+            mod="secondary"
+            onClick={ toggleVisibility }
+          >
+            <span>{ isVisible ? "Hide" : "Show" }</span>
+          </Button>
         </hgroup>
         <Collapse isOpened={ isVisible } animated >
           <div className="errors">
