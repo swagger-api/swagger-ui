@@ -246,15 +246,9 @@ $topbar-download-url-label-font-color: $color-wild-sand !default;
 
 // // Type
 
-$code-text-font-color:  !default;
+$code-text-font-color: $color-type !default;
 $headline-text-font-color: $color-type !default;
 $link-text-font-color: $color-primary !default; 
-
-// Fonts
-$alt-text-font-family:'Roboto-Medium', sans-serif;
-$alt-text-font-color: $color-type !default;
-$alt-text-font-weight: 500;
-$alt-text-font-size: 1.4em;
 
 $regular-text-font-family:'Roboto-Regular', sans-serif;
 $regular-text-font-color: $color-type !default;
@@ -278,20 +272,6 @@ $light-text-font-family:'Roboto-Light', sans-serif;
 $regular-text-font-family:'Roboto-Regular', sans-serif;
 $medium-text-font-family:'Roboto-Medium', sans-serif;
 $bold-text-font-family:'Roboto-Bold', sans-serif;
-
-$bold-text-font-color: $color-type !default;
-$bold-text-font-weight: 400;
-$bold-text-font-size: 1.4em;
-
-$title-text-font-family:'Roboto-Light', sans-serif;
-$title-text-font-color: $color-type !default;
-$title-text-font-weight: 300;
-$title-text-font-size: 2.8em;
-
-$code-default-font-family:'Roboto-Mono', monospace;
-$code-default-font-color: $color-type !default;
-$code-default-font-weight: 300;
-$code-default-font-size: 12px;
 $mono-text-font-family:'Roboto-Mono', monospace;
 
 $color-type--default: $color-type !default;
