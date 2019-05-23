@@ -6,22 +6,18 @@
 
     justify-content: center;
 
-    .btn-done {
-      margin-right: 1em;
-    }
-}
-
-.auth-wrapper
-{
-    display: flex;
-
-    flex: 1;
-    justify-content: flex-end;
-
-    .authorize
+    button
     {
-        padding-right: 20px;
-        margin-right: 10px;
+        &:first-of-type
+        {
+            margin-right: 2em;
+        }
+
+        &:last-of-type
+        {
+            margin-right: 0;
+        }
+
     }
 }
 

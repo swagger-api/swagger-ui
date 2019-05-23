@@ -281,7 +281,7 @@
         display: flex;
         align-items: center;
 
-        padding: 5px;
+        padding: .5em 1em .5em .5em;
 
         cursor: pointer;
 
@@ -306,6 +306,22 @@
             }
         }
     }
+
+    
+
+    .authorization__btn
+    {
+        &.locked
+        {
+            opacity: 1;
+        }
+
+        &.unlocked
+        {
+            opacity: .4;
+        }
+    }
+
 
 
 
@@ -463,14 +479,7 @@
 .execute-wrapper
 {
     padding: 20px;
-
-    text-align: right;
-
-    .btn
-    {
-        width: 100%;
-        padding: 8px 40px;
-    }
+    display: flex;
 }
 
 .body-param-options
@@ -656,7 +665,8 @@
     .schemes
     {
         display: flex;
-        align-items: flex-end;
+        align-items: center;
+        justify-content: space-between;
 
          > label
         {

@@ -8,9 +8,9 @@ describe("XSS: OAuth2 authorizationUrl sanitization", () => {
           args = callArgs
         }).as("windowOpen")
 
-        cy.get(".authorize")
+        cy.get(".sui-btn--authorize")
           .click()
-          .get(".modal-btn.authorize")
+          .get(".auth-container .sui-btn--primary")
           .click()
           .wait(100)
           .then(() => {

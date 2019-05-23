@@ -1,84 +1,121 @@
-.btn
+
+.sui-btn
 {
-    font-size: 14px;
-    font-weight: bold;
+    height: 3em;
+    border-radius: 4px;
 
-    padding: 5px 23px;
-
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    
+    text-transform: uppercase;
+    
+    padding: 0 2em;
+    
     transition: all .3s;
 
-    border: 2px solid $btn-border-color;
-    border-radius: 4px;
-    background: transparent;
-    box-shadow: 0 1px 2px rgba($btn-box-shadow-color,.1);
+    > * {
+        margin-right: 5px;
 
-    @include text_headline();
-
-    &.btn-sm
-    {
-        font-size: 12px;
-        padding: 4px 23px;
-    }
-
-    &[disabled]
-    {
-        cursor: not-allowed;
-
-        opacity: .3;
-    }
-
-    &:hover
-    {
-        box-shadow: 0 0 5px rgba($btn-box-shadow-color,.3);
-    }
-
-    &.cancel
-    {
-        border-color: $btn-cancel-border-color;
-        background-color: $btn-cancel-background-color;
-        @include text_headline($btn-cancel-font-color);
-    }
-
-    &.authorize
-    {
-        line-height: 1;
-
-        display: inline;
-
-        color: $btn-authorize-font-color;
-        border-color: $btn-authorize-border-color;
-        background-color: $btn-authorize-background-color;
-
-        span
-        {
-            float: left;
-
-            padding: 4px 20px 0 0;
-        }
-
-        svg
-        {
-            fill: $btn-authorize-svg-fill-color;
+        &:last-child {
+            margin-right: 0;
         }
     }
 
-    &.execute
-    {
-        background-color: $btn-execute-background-color-alt;
-        color: $btn-execute-font-color;
-        border-color: $btn-execute-border-color;
+    > span {
+        font-size: 1.4em;
     }
 }
 
-.btn-group
+.sui-btn--sm 
+{
+    height: auto;
+    padding: .5em 1em;
+
+    > span {
+        font-size: 13px;
+    }
+}
+
+.sui-btn--primary
+{
+    border: none;
+    background: $color-primary;
+    color: #fff;
+
+    &:hover
+    {
+        background: alter-hue($color-primary)
+    }
+}
+
+.sui-btn--secondary
+{
+    border: none;
+    background: $color-secondary;
+    color: #fff;
+
+    &:hover
+    {
+        background: alter-hue($color-secondary)
+    }
+}
+
+.sui-btn--tertiary-lt
+{
+    background: transparent;
+    border: 1px solid $color-secondary;
+    color: $color-secondary;
+}
+
+.sui-btn--tertiary-dk
+{
+    background: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+}
+
+.sui-btn-transparent
+{
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+.sui-btn--authorize
+{
+    svg
+    {
+        fill: #fff
+    }
+}
+
+
+.sui-btn-wrapper
+{
+    button
+    {
+        &:first-child
+        {
+            margin-right: 2em;
+        }
+
+        &:last-child
+        {
+            margin-right: 0;
+        }
+    }
+}
+
+.sui-btn-group
 {
     display: flex;
 
-    padding: 30px;
-
-    .btn
+    button
     {
-        flex: 1;
+        border-radius: 0;
 
         &:first-child
         {
@@ -92,62 +129,17 @@
     }
 }
 
-.authorization__btn
+
+.sui-btn-group--tryitout
 {
-    padding: 0 10px;
-
-    border: none;
-    background: none;
-
-    &.locked
-    {
-        opacity: 1;
-    }
-
-    &.unlocked
-    {
-        opacity: .4;
-    }
+    padding: 20px;
 }
-
-.expand-methods,
-.expand-operation
-{
-    border: none;
-    background: none;
-
-    svg
-    {
-        width: 20px;
-        height: 20px;
-    }
-}
-
-.expand-methods
-{
-    padding: 0 10px;
-
-    &:hover
-    {
-        svg
-        {
-            fill: $expand-methods-svg-fill-color-hover;
-        }
-    }
-
-    svg
-    {
-        transition: all .3s;
-
-        fill: $expand-methods-svg-fill-color;
-    }
-}
-
 
 button
 {
     cursor: pointer;
     outline: none;
+    font-family: $alt-text-font-family;
 
     &.invalid
     {
