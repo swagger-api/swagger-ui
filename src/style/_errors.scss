@@ -5,9 +5,9 @@
 
     animation: scaleUp .5s;
 
-    border: 2px solid $_color-delete;
+    border: 2px solid $errors-wrapper-border-color;
     border-radius: 4px;
-    background: rgba($_color-delete, .1);
+    background: $errors-wrapper-background-color;
 
     .error-wrapper
     {

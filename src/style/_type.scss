@@ -14,20 +14,20 @@
     color: $color;
 }
 
-@mixin text_code($color: $text-code-default-font-color)
+@mixin text_code($color: $code-text-font-color)
 {
   font-family: $code-default-font-family;
   font-size: $code-default-font-size;
-  color: $code-default-font-color;
+  color: $color;
 }
 
-@mixin text_headline($color: $text-headline-default-font-color)
+@mixin text_headline($color: $headline-text-font-color)
 {
     font-family: sans-serif;
     color: $color;
 }
 
-@mixin regular_text($color: $regular-text-font-color, $size: $regular-text-font-size)
+@mixin regular-text($color: $regular-text-font-color, $size: $regular-text-font-size)
 {
     font-family: $regular-text-font-family;
     font-size: $size;
@@ -38,6 +38,12 @@
 {
     font-family: $alt-text-font-family;
     font-size: $size;
+    color: $color;
+}
+
+@mixin inline-link-text($color: $link-text-font-color)
+{
+    font-size: inherit;
     color: $color;
 }
 

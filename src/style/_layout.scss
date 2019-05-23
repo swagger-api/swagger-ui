@@ -13,24 +13,28 @@
     flex-direction: column;
 }
 
-@mixin method($color)
+@mixin method($color, $color--light: mix($color, $color_white, 8%))
 {
-    border-color: $color;
-    background: rgba($color, .1);
+    border-color: $color--light;
+    background: $color--light;
 
     .opblock-summary-method
     {
         background: $color;
     }
 
-    .opblock-summary
-    {
-        border-color: $color;
+    .tabitem.active {
+        background: $color--light;
     }
 
-    .tab-header .tab-item.active h4 span:after
-    {
-        background: $color;
+    // This just gives a general idea of where the colors go. The components targeted will need to be refactored. 
+    .body-param, 
+    .highlight-code, 
+    .model-box, 
+    .headers, 
+    .curl, 
+    pre {
+        background: $color--light;
     }
 }
 
@@ -44,11 +48,11 @@
 
     padding: 1.5em 0;
 
-    border-bottom: 1px solid rgba($opblock-tag-border-bottom-color, .3);
+    border-bottom: 1px solid $opblock-tag-border-bottom-color;
 
     &:hover
     {
-        background: rgba($opblock-tag-background-color-hover,.02);
+        background: $opblock-tag-background-color--hover;
     }
 
     a.nostyle
@@ -76,6 +80,10 @@
         padding: 0 10px;
 
         @include regular-text($size: $opblock-tag-small-font-size);
+
+        a {
+            @include inline-link-text();
+        }
     }
 }
 
@@ -108,7 +116,6 @@
 
     border: 1px solid $opblock-border-color;
     border-radius: 4px;
-    box-shadow: 0 0 3px rgba($opblock-box-shadow-color,.19);
 
     .tab-header
     {
@@ -133,6 +140,7 @@
                     span
                     {
                         position: relative;
+                        color: $opblock-header-tab-title-font-color--active;
 
 
                         &:after
@@ -147,20 +155,11 @@
                             content: '';
                             transform: translateX(-50%);
 
-                            background: $opblock-tab-header-tab-item-active-h4-span-after-background-color;
+                            background: $opblock-header-tab-title-background-color--active;
                         }
                     }
                 }
             }
-        }
-    }
-
-
-    &.is-open
-    {
-        .opblock-summary
-        {
-            border-bottom: 1px solid $opblock-isopen-summary-border-bottom-color;
         }
     }
 
@@ -172,9 +171,6 @@
         padding: 8px 20px;
 
         min-height: 50px;
-
-        background: rgba($opblock-isopen-section-header-background-color,.8);
-        box-shadow: 0 1px 2px rgba($opblock-isopen-section-header-box-shadow-color,.1);
 
         >label
         {
@@ -217,14 +213,13 @@
 
         border-radius: 3px;
         background: $opblock-summary-method-background-color;
-        text-shadow: 0 1px 0 rgba($opblock-summary-method-text-shadow-color,.1);
 
         display: flex;
         justify-content: center;
         align-items: center;
 
         > span {
-            @include alt-text();
+            @include alt-text($color: $opblock-summary-method-font-color);
         }
 
     }
@@ -357,9 +352,7 @@
 
     &.opblock-deprecated
     {
-        opacity: .6;
-
-        @include method($_color-disabled);
+        @include method($_color-disabled, $_color-disabled--light);
     }
 
     .opblock-schemes
@@ -370,6 +363,12 @@
         {
             padding: 0 10px 0 0;
         }
+    }
+
+    &.is-open
+    {
+        background-color: $opblock-background-color--open;
+        border-color: $opblock-border-color--open;
     }
 }
 
@@ -382,6 +381,8 @@
         padding: 10px 10px;
 
         border: 2px solid $operational-filter-input-border-color;
+
+        @include regular-text();
     }
 }
 
@@ -412,25 +413,6 @@
 
             padding-left: 0;
             padding-right: 12px;
-
-            &:after
-            {
-                position: absolute;
-                top: 0;
-                right: 6px;
-
-                width: 1px;
-                height: 100%;
-
-                content: '';
-
-                background: rgba($tab-list-item-first-background-color,.2);
-            }
-        }
-
-        &.active
-        {
-            font-weight: bold;
         }
     }
 }
@@ -562,7 +544,6 @@
         padding: 10px;
 
         border-radius: 4px;
-        background: $response-col-description-inner-markdown-background-color;
 
         @include text_code($response-col-description-inner-markdown-font-color);
 
@@ -577,7 +558,7 @@
             @include text_code($response-col-description-inner-markdown-link-font-color);
             text-decoration: underline;
             &:hover {
-                color: $response-col-description-inner-markdown-link-font-color-hover;
+                color: $response-col-description-inner-markdown-link-font-color--hover;
             }
         }
 
@@ -591,6 +572,7 @@
 
 .opblock-body
 {
+
   .opblock-loading-animation
   {
     display: block;
@@ -614,14 +596,9 @@
     hyphens: auto;
 
     border-radius: 4px;
-    background: $opblock-body-background-color;
 
     overflow-wrap: break-word;
-    @include text_code($opblock-body-font-color);
-    span
-    {
-        color: $opblock-body-font-color !important;
-    }
+    @include text_code();
 
     .headerline
     {
@@ -644,13 +621,13 @@
   bottom: 10px;
   right: 10px;
   cursor: pointer;
-  background: #7d8293;
+  background: $download-contents-background-color;
   text-align: center;
   padding: 5px;
   border-radius: 4px;
   font-family: sans-serif;
   font-weight: 600;
-  color: white;
+  color: $download-contents-font-color;
   font-size: 14px;
   height: 30px;
   width: 75px;
@@ -662,7 +639,7 @@
     padding: 2em 0;
 
     background: $scheme-container-background-color;
-    box-shadow: 0 1px 2px 0 rgba($scheme-container-box-shadow-color,.15);
+    border-bottom: 1px solid $scheme-container-border-color;
 
     .schemes
     {
@@ -739,8 +716,8 @@
             animation: rotation 1s infinite linear, opacity .5s;
 
             opacity: 1;
-            border: 2px solid rgba($loading-container-before-border-color, .1);
-            border-top-color: rgba($loading-container-before-border-top-color, .6);
+            border: 2px solid $loading-container-before-border-color;
+            border-top-color: $loading-container-before-border-top-color;
             border-radius: 100%;
 
             backface-visibility: hidden;
@@ -821,7 +798,7 @@ a.nostyle {
     }
 
     code {
-      background-color: #dedede;
+      background-color: $version-pragma-message-code-background-color;
       padding: 4px 4px 2px;
       white-space: pre;
     }

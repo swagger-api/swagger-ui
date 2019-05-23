@@ -90,7 +90,7 @@
 
         color: $model-hint-font-color;
         border-radius: 4px;
-        background: rgba($model-hint-background-color,.7);
+        background: $model-hint-background-color;
     }
 
     p
@@ -105,13 +105,12 @@ section.models
     padding: 1.5em 0;
     border-radius: 4px;
 
-    &:hover
-    {
-        background: rgba($section-models-h4-background-color-hover,.02);
-    }
-
     h4
     {
+        &:hover {
+            background: $section-models-h4-background-color--hover;
+        }
+        
         font-size: 16px;
 
         display: flex;
@@ -120,7 +119,7 @@ section.models
         cursor: pointer;
         transition: all .2s;
 
-        @include text_headline($section-models-h4-font-color);
+        @include text_headline();
 
         svg
         {
@@ -139,7 +138,7 @@ section.models
 
         margin: 0 0 10px 0;
 
-        @include text_headline($section-models-h5-font-color);
+        @include text_headline();
     }
 
     .model-jump-to-path
@@ -156,12 +155,7 @@ section.models
         transition: all .5s;
 
         border-radius: 4px;
-        background: rgba($section-models-model-container-background-color,.05);
-
-        &:hover
-        {
-            background: rgba($section-models-model-container-background-color,.07);
-        }
+        background: $section-models-model-container-background-color;
 
         &:first-of-type {
             margin-top: 1.5em;
@@ -188,7 +182,7 @@ section.models
     display: inline-block;
 
     border-radius: 4px;
-    background: rgba($section-models-model-box-background-color,.1);
+    background: $section-models-model-box-background-color;
 
     .model-jump-to-path
     {
@@ -207,7 +201,7 @@ section.models
 {
     font-size: 16px;
 
-    @include text_headline($section-models-model-title-font-color);
+    @include text_headline();
 }
 
 .model-deprecated-warning
@@ -217,7 +211,7 @@ section.models
 
     margin-right: 1em;
 
-    @include text_headline($_color-delete);
+    @include text_headline($model-deprecated-warning-font-color);
 }
 
 
