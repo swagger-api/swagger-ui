@@ -38,16 +38,6 @@
   color: $color;
 }
 
-
-
-@mixin label_text($color: $color-type--default, $size: $sm-text-font-size)
-{
-    font-family: $light-text-font-family;
-    font-weight: 300;
-    font-size: $size;
-    color: $color;
-}
-
 @mixin inline-link-text($color: $link-text-font-color)
 {
     font-size: inherit;

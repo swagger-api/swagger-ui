@@ -38,7 +38,7 @@ label
     margin: 0 0 .5em 0;
 
     > span {
-        @include label_text();
+        @include light_text($size: $sm-text-font-size);
     }
 }
 

@@ -4,7 +4,7 @@
     {
 
         margin: -20px 15px 0 0;
-        @include label_text();
+        @include light_text($size: $sm-text-font-size);
 
         select
         {
