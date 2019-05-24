@@ -528,17 +528,17 @@
 
         border-radius: 4px;
 
-        @include mono_text($response-col-description-inner-markdown-font-color);
+        @include mono_text($color: $response-col-description-inner-markdown-font-color);
 
         p
         {
             margin: 0;
-            @include mono_text($response-col-description-inner-markdown-font-color);
+            @include mono_text($color: $response-col-description-inner-markdown-font-color);
         }
 
         a
         {
-            @include mono_text($response-col-description-inner-markdown-link-font-color);
+            @include mono_text($color: $response-col-description-inner-markdown-link-font-color);
             text-decoration: underline;
             &:hover {
                 color: $response-col-description-inner-markdown-link-font-color--hover;
@@ -547,7 +547,7 @@
 
         th
         {
-            @include mono_text($response-col-description-inner-markdown-font-color);
+            @include mono_text($color: $response-col-description-inner-markdown-font-color);
             border-bottom: 1px solid $response-col-description-inner-markdown-font-color;
         }
     }
