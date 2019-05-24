@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import Im from "immutable"
+import cx from "classnames"
 import { createDeepLinkPath, escapeDeepLinkPath, sanitizeUrl } from "core/utils"
 
 export default class OperationTag extends React.Component {
@@ -47,6 +48,7 @@ export default class OperationTag extends React.Component {
     const Markdown = getComponent("Markdown")
     const DeepLink = getComponent("DeepLink")
     const Link = getComponent("Link")
+    const Button = getComponent("Button")
 
     let tagDescription = tagObj.getIn(["tagDetails", "description"], null)
     let tagExternalDocsDescription = tagObj.getIn(["tagDetails", "externalDocs", "description"])
@@ -56,8 +58,7 @@ export default class OperationTag extends React.Component {
     let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
 
     return (
-      <div className={showTag ? "opblock-tag-section is-open" : "opblock-tag-section"} >
-
+      <div className={cx("opblock-tag-section", { "is-open": showTag })}>
         <div
           onClick={() => layoutActions.show(isShownKey, !showTag)}
           className={!tagDescription ? "opblock-tag no-desc" : "opblock-tag" }
@@ -92,15 +93,19 @@ export default class OperationTag extends React.Component {
                 }
             </div>
 
-            <button
-              className="expand-operation"
-              title={showTag ? "Collapse operation": "Expand operation"}
-              onClick={() => layoutActions.show(isShownKey, !showTag)}>
-
-              <svg className="arrow" width="20" height="20">
-                <use href={showTag ? "#large-arrow-down" : "#large-arrow"} xlinkHref={showTag ? "#large-arrow-down" : "#large-arrow"} />
-              </svg>
-            </button>
+          <Button
+            className="sui-btn-transparent expand-operation"
+            title={showTag ? "Collapse operation": "Expand operation"}
+            onClick={() => layoutActions.show(isShownKey, !showTag)}
+            unstyled
+          >
+            <svg className="arrow" width="20" height="20">
+              <use
+                href={showTag ? "#large-arrow-down" : "#large-arrow"}
+                xlinkHref={showTag ? "#large-arrow-down" : "#large-arrow"}
+              />
+            </svg>
+          </Button>
         </div>
 
         <Collapse isOpened={showTag}>
