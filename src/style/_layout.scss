@@ -80,7 +80,7 @@
 
         .markdown
         {
-            @include light_text($size: 1.4em);
+            @include light_text($size: $md-text-font-size);
         }
 
         .opblock-tag__info-link
@@ -225,7 +225,7 @@
 
         > span
         {
-            @include medium_text($color: $opblock-summary-method-font-color, $weight: 500);
+            @include medium_text($color: $opblock-summary-method-font-color);
         }
 
     }
@@ -244,7 +244,7 @@
         padding: 0 10px;
         a.nostyle > span
         {
-            @include medium_text($size: $sm-text-font-size, $weight: 500)
+            @include medium_text($size: $sm-text-font-size)
 
         }
 

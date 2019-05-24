@@ -198,7 +198,7 @@ section.models
 .model-title
 {
 
-    @include medium_text($size: 1.6em, $weight: 500);
+    @include medium_text($size: $lg-text-font-size);
 }
 
 .model-deprecated-warning
