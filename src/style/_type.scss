@@ -1,9 +1,4 @@
 
-@mixin text_body($color: $color-type--default, $weight: $regular-text-font-weight, $size: $md-text-font-size)
-{
-    @include regular_text($color: $color, $weight: $weight, $size: $size)
-}
-
 @mixin text_title($color: $color-type--default, $size: $xxl-text-font-size)
 {
     @include light_text($color: $color, $size: $size);
