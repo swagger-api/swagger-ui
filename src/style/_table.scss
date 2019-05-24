@@ -35,7 +35,7 @@ table
 
             vertical-align: middle;
 
-            @include text_code();
+            @include mono_text();
         }
     }
 
@@ -121,14 +121,14 @@ table
 {
     font-style: italic;
 
-    @include text_code();
+    @include mono_text();
 }
 
 .parameter__deprecated
 {
     font-style: italic;
 
-    @include text_code($table-parameter-deprecated-font-color);
+    @include mono_text($table-parameter-deprecated-font-color);
 }
 
 .parameter__empty_value_toggle {

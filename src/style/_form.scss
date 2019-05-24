@@ -107,7 +107,7 @@ textarea
     border-radius: 4px;
     outline: none;
 
-    @include text_code();
+    @include mono_text();
 
     &.curl
     {
@@ -120,7 +120,7 @@ textarea
 
         border-radius: 4px;
 
-        @include text_code();
+        @include mono_text();
     }
 }
 
@@ -145,7 +145,7 @@ textarea
 
         margin: 0 !important;
 
-        @include text_code();
+        @include mono_text();
     }
 
     input[type=checkbox]

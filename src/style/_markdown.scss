@@ -15,7 +15,7 @@
     border-radius: 4px;
     background: $markdown-code-background-color;
 
-    @include text_code($color: $markdown-code-font-color, $size: 100%);
+    @include mono_text($color: $markdown-code-font-color, $size: 100%);
   }
 
   pre > code {

@@ -45,7 +45,7 @@
       code {
         display: inline-block;
         padding: 4px;
-        @include text_code($size: $lg-text-font-size);
+        @include mono_text($size: $lg-text-font-size);
         margin: 0 1em;
       }
     }

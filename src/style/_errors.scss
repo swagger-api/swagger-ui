@@ -20,7 +20,7 @@
         {
             margin: 0;
 
-            @include text_code($size: $md-text-font-size);
+            @include mono_text($size: $md-text-font-size);
         }
 
         small

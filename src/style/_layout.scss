@@ -100,7 +100,7 @@
 
     padding: 5px 0;
 
-    @include text_code();
+    @include mono_text();
 }
 
 .view-line-link
@@ -498,7 +498,7 @@
     .response-undocumented
     {
 
-        @include text_code($color: $response-col-status-undocumented-font-color, $size: 1.1em);
+        @include mono_text($color: $response-col-status-undocumented-font-color, $size: 1.1em);
     }
 }
 
@@ -511,7 +511,7 @@
     .response-undocumented
     {
 
-        @include text_code($color: $response-col-links-font-color, $size: 1.1em);
+        @include mono_text($color: $response-col-links-font-color, $size: 1.1em);
     }
 }
 
@@ -528,17 +528,17 @@
 
         border-radius: 4px;
 
-        @include text_code($response-col-description-inner-markdown-font-color);
+        @include mono_text($response-col-description-inner-markdown-font-color);
 
         p
         {
             margin: 0;
-            @include text_code($response-col-description-inner-markdown-font-color);
+            @include mono_text($response-col-description-inner-markdown-font-color);
         }
 
         a
         {
-            @include text_code($response-col-description-inner-markdown-link-font-color);
+            @include mono_text($response-col-description-inner-markdown-link-font-color);
             text-decoration: underline;
             &:hover {
                 color: $response-col-description-inner-markdown-link-font-color--hover;
@@ -580,7 +580,7 @@
     border-radius: 4px;
 
     overflow-wrap: break-word;
-    @include text_code();
+    @include mono_text();
 
     .headerline
     {

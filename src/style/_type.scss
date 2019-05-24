@@ -9,10 +9,6 @@
     @include light_text($color: $color, $size: $size);
 }
 
-@mixin text_code($color: $color-type--default, $size: $sm-text-font-size)
-{
-    @include mono_text($color: $color, $size: $size)
-}
 
 @mixin text_headline($color: $color-type--default, $size: $lg-text-font-size)
 {
