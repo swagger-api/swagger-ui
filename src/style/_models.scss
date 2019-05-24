@@ -128,7 +128,7 @@ section.models
         span
         {
             flex: 1;
-            @include text_title($size: $xl-text-font-size);
+            @include light_text($size: $xl-text-font-size);
         }
     }
 

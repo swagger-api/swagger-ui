@@ -57,7 +57,7 @@
 
     a.nostyle
     {
-      @include text_title($size: $opblock-tag-h4-font-size);
+      @include light_text($size: $opblock-tag-h4-font-size);
     }
 
     &.no-desc
@@ -203,7 +203,7 @@
 
             margin: 0;
 
-            @include text_title($size: $xl-text-font-size);
+            @include light_text($size: $xl-text-font-size);
         }
     }
 
