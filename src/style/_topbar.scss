@@ -23,7 +23,7 @@
 
         text-decoration: none;
 
-        @include regular_text($topbar-link-font-color);
+        @include regular_text($color: $topbar-link-font-color);
 
         span
         {

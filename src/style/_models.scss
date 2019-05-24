@@ -207,7 +207,7 @@ section.models
 
     margin-right: 1em;
 
-    @include regular_text($model-deprecated-warning-font-color);
+    @include regular_text($color: $model-deprecated-warning-font-color);
 }
 
 

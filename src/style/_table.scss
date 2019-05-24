@@ -128,7 +128,7 @@ table
 {
     font-style: italic;
 
-    @include mono_text($table-parameter-deprecated-font-color);
+    @include mono_text($color: $table-parameter-deprecated-font-color);
 }
 
 .parameter__empty_value_toggle {

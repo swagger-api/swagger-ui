@@ -77,7 +77,7 @@
                 margin: 0;
                 padding: 0;
 
-                @include regular_text($info-title-small-pre-font-color, $info-title-small-pre-font-size);
+                @include regular_text($color: $color-white, $size: $xs-text-font-size);
             }
         }
     }
