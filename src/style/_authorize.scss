@@ -73,7 +73,7 @@
 {
     h2
     {
-        @include text_headline($size: 1.4em);
+        @include regular_text()
     }
 }
 

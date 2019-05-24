@@ -136,7 +136,7 @@ section.models
     {
         margin: 0 0 10px 0;
 
-        @include text_headline();
+        @include regular_text();
     }
 
     .model-jump-to-path
@@ -207,7 +207,7 @@ section.models
 
     margin-right: 1em;
 
-    @include text_headline($model-deprecated-warning-font-color);
+    @include regular_text($model-deprecated-warning-font-color);
 }
 
 

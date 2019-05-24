@@ -406,7 +406,7 @@
 
         cursor: pointer;
 
-        @include text_headline($size: $sm-text-font-size);
+        @include regular_text($size: $sm-text-font-size);
 
         &:first-of-type
         {
@@ -675,7 +675,7 @@
             transform: translate(-50%,-50%);
             text-transform: uppercase;
 
-            @include text_headline($size: 1em);
+            @include regular_text($size: 1em);
         }
 
         &:before
@@ -739,7 +739,7 @@ section
 {
     h3
     {
-        @include text_headline();
+        @include regular_text();
     }
 }
 

@@ -9,12 +9,6 @@
     @include light_text($color: $color, $size: $size);
 }
 
-
-@mixin text_headline($color: $color-type--default, $size: $lg-text-font-size)
-{
-    @include regular_text($color: $color, $size: $size)
-}
-
 @mixin light_text($color: $color-type--default, $size: $md-text-font-size, $weight: $light-text-font-weight) {
     font-family: $light-text-font-family;
     font-size: $size;

@@ -89,7 +89,7 @@
             padding: 0 20px;
 
             flex: 1;
-            @include text_headline($size: $xl-text-font-size);
+            @include regular_text($size: $xl-text-font-size);
         }
     }
 }
