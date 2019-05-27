@@ -18,6 +18,7 @@ export default class FilterContainer extends React.Component {
   render () {
     const {specSelectors, layoutSelectors, getComponent} = this.props
     const Col = getComponent("Col")
+    const Input = getComponent("Input")
 
     const isLoading = specSelectors.loadingStatus() === "loading"
     const isFailed = specSelectors.loadingStatus() === "failed"
@@ -32,7 +33,7 @@ export default class FilterContainer extends React.Component {
         {filter === null || filter === false ? null :
           <div className="filter-container">
             <Col className="filter wrapper" mobile={12}>
-              <input className="operation-filter-input" placeholder="Filter by tag" type="text"
+              <Input className="operation-filter-input" placeholder="Filter by tag" type="text"
                      onChange={this.onFilterChange} value={filter === true || filter === "true" ? "" : filter}
                      disabled={isLoading} style={inputStyle}/>
             </Col>
