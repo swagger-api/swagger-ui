@@ -50,15 +50,18 @@ input[type=email],
 input[type=file],
 textarea
 {
-    min-width: 100px;
-    margin: 5px 0;
-    padding: 8px 10px;
+    display: flex;
+    flex: 1;
+    min-width: 6.25rem;
+    padding: .5rem .625rem;
+    height: 1.875rem;
+    font-size: 1.3em;
 
     border: 1px solid $form-input-border-color;
     border-radius: 4px;
     background: $form-input-background-color;
     @media (max-width: 768px) {
-      max-width: 175px;
+      max-width: 10.9375rem;
     }
 
 
@@ -66,6 +69,10 @@ textarea
     {
         @include invalidFormElement();
     }
+}
+
+input[type=file] {
+    padding: .375rem .375rem;
 }
 
 @keyframes shake
@@ -166,7 +173,7 @@ textarea
 
             cursor: pointer;
 
-            border-radius: 1px;
+            border-radius: 2px;
             border: 1px solid $form-checkbox-border-color;
 
             flex: none;
