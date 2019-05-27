@@ -192,8 +192,9 @@ export default class Operation extends PureComponent {
               }
 
             <div
-              className={cx("execute-wrapper", {
-                "sui-btn-group": (!tryItOutEnabled || !response || !allowTryItOut)
+              className={cx({
+                "execute-wrapper": (!tryItOutEnabled || !response || !allowTryItOut),
+                "sui-btn-group sui-btn-group--tryitout": (tryItOutEnabled && response && allowTryItOut)
               })}
             >
               { !tryItOutEnabled || !allowTryItOut ? null :
