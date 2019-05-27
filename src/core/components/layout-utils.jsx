@@ -133,24 +133,7 @@ export class Button extends React.Component {
 
 export const TextArea = (props) => <textarea {...props} />
 
-export class Input extends React.Component {
-  static propTypes = {
-    className: PropTypes.string
-  }
-
-  static defaultProps = {
-    className: ""
-  }
-
-  render() {
-    return (
-      <input
-        {...this.props}
-        className={xclass(this.props.className, "sui-input")}
-      />
-    )
-  }
-}
+export const Input = (props) => <input {...props} />
 
 export class Select extends React.Component {
   static propTypes = {
