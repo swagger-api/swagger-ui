@@ -6,15 +6,15 @@ export default class DropDown extends PureComponent {
   static propTypes = {
     id: PropTypes.string,
     className: PropTypes.string,
+    disbaled: PropTypes.bool,
     children: PropTypes.node.isRequired
   }
 
   classHandler = (className) => cx(className, {[`${className}--${this.props.className}`] : this.props.className})
   
   render() {
-    const { id, children } = this.props
+    const { id, children, disbaled } = this.props
     const isOpen = true
-    const isDisabled = false
 
     return (
 			<div id={id} className={this.classHandler("dropdown")}>
@@ -23,7 +23,7 @@ export default class DropDown extends PureComponent {
           role="button"
           aria-haspopup={true}
           aria-expanded={isOpen}
-          aria-disabled={isDisabled}
+          aria-disabled={disbaled}
         >
           I am a dropdown
         </button>
