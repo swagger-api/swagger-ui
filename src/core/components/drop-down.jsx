@@ -3,37 +3,53 @@ import PropTypes from "prop-types"
 import cx from "classnames"
 
 export default class DropDown extends PureComponent {
+
   static propTypes = {
     id: PropTypes.string,
-    className: PropTypes.string,
+    mod: PropTypes.string,
     disbaled: PropTypes.bool,
     children: PropTypes.node.isRequired
   }
 
-  classHandler = (className) => cx(className, {[`${className}--${this.props.className}`] : this.props.className})
-  
   render() {
-    const { id, children, disbaled } = this.props
+    const { id, disbaled } = this.props
     const isOpen = true
 
+    const children = React.Children.map(this.props.children, (child, index) => {
+      // get active value here
+      return React.cloneElement(child, {
+        // pass down props here
+      })
+    })
+
     return (
-			<div id={id} className={this.classHandler("dropdown")}>
+			<div id={id} className={cx("sui-dropdown", {[`sui-dropdown--${this.props.mod}`] : this.props.mod})}>
         <button
-          className={this.classHandler("dropdown__button")}
+          className="sui-dropdown__button"
           role="button"
           aria-haspopup={true}
           aria-expanded={isOpen}
           aria-disabled={disbaled}
         >
-          I am a dropdown
+          I am a dropdown [arrow]
         </button>
-        <div
-          className={this.classHandler("dropdown__menu")}
+        <ul
+          className="sui-dropdown__menu"
           role="menu"
         >
-          {children}
-        </div>
+        {children}
+        </ul>
       </div>
 			)
   }
+}
+
+
+export const DropDownItem = () => {
+    
+  return (
+    <li className="sui-dropdown__menu__item">
+      <div role="menuitem">I am a dropdown item</div>
+    </li>
+  )
 }
