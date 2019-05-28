@@ -111,10 +111,10 @@ section.models
         &:hover {
             background: $section-models-h4-background-color--hover;
         }
-        
 
         display: flex;
         align-items: center;
+        justify-content: space-between;
 
         cursor: pointer;
         transition: all .2s;
@@ -127,7 +127,6 @@ section.models
         
         span
         {
-            flex: 1;
             @include light_text($size: $xl-text-font-size);
         }
     }
