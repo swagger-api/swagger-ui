@@ -57,7 +57,7 @@
 
     a.nostyle
     {
-      @include text_title($size: $opblock-tag-h4-font-size);
+      @include light_text($size: $opblock-tag-h4-font-size);
     }
 
     &.no-desc
@@ -76,12 +76,20 @@
     small
     {
         flex: 1;
-
         padding: 0 10px;
 
-        @include regular-text($size: $opblock-tag-small-font-size);
+        .markdown
+        {
+            @include light_text($size: $md-text-font-size);
+        }
 
-        a {
+        .opblock-tag__info-link
+        {
+            @include regular-text();
+        }
+
+        a
+        {
             @include inline-link-text();
         }
     }
@@ -89,11 +97,10 @@
 
 .parameter__type
 {
-    font-size: 12px;
 
     padding: 5px 0;
 
-    @include text_code();
+    @include mono_text();
 }
 
 .view-line-link
@@ -172,10 +179,8 @@
 
         min-height: 50px;
 
-        >label
+        > label
         {
-            font-size: 12px;
-            font-weight: bold;
 
             display: flex;
             align-items: center;
@@ -183,10 +188,10 @@
             margin: 0;
             margin-left: auto;
 
-            @include text_headline();
-
-            >span
+            
+            > span
             {
+                @include light_text($size: $sm-text-font-size);
                 padding: 0 10px 0 0;
             }
         }
@@ -198,7 +203,7 @@
 
             margin: 0;
 
-            @include text_title($size: $opblock-section-header-h4-font-size);
+            @include light_text($size: $xl-text-font-size);
         }
     }
 
@@ -218,8 +223,9 @@
         justify-content: center;
         align-items: center;
 
-        > span {
-            @include alt-text($color: $opblock-summary-method-font-color);
+        > span
+        {
+            @include medium_text($color: $opblock-summary-method-font-color);
         }
 
     }
@@ -228,10 +234,6 @@
     .opblock-summary-operation-id,
     .opblock-summary-path__deprecated
     {
-        font-size: 16px;
-        @media (max-width: 768px) {
-          font-size: 12px;
-        }
 
 
         display: flex;
@@ -240,8 +242,11 @@
         word-break: break-word;
 
         padding: 0 10px;
+        a.nostyle > span
+        {
+            @include medium_text($size: $sm-text-font-size)
 
-        @include alt-text($size: $opblock-summary-path-font-size)
+        }
 
     }
 
@@ -252,18 +257,16 @@
 
     .opblock-summary-operation-id
     {
-        font-size: 14px;
+        font-size: $md-text-font-size;
     }
 
     .opblock-summary-description
     {
-        font-size: 13px;
-
         flex: 1 1 auto;
 
         word-break: break-word;
 
-        @include text_title($size: $opblock-summary-description-font-size);
+        @include light_text($size: $sm-text-font-size);
     }
 
     .opblock-summary
@@ -398,14 +401,12 @@
 
     li
     {
-        font-size: 12px;
-
         min-width: 60px;
         padding: 0;
 
         cursor: pointer;
 
-        @include text_headline();
+        @include regular_text($size: $sm-text-font-size);
 
         &:first-of-type
         {
@@ -426,24 +427,21 @@
     margin: 0 0 5px 0;
     padding: 15px 20px;
 
-    @include text_body();
+    @include regular_text();
 
     h4
     {
-        font-size: 12px;
 
         margin: 0 0 5px 0;
 
-        @include text_body();
+        @include regular_text();
     }
 
     p
     {
-        font-size: 14px;
 
-        margin: 0;
 
-        @include text_body();
+        @include regular_text();
     }
 }
 
@@ -486,25 +484,21 @@
     h5,
     h4
     {
-        font-size: 12px;
-
         margin: 10px 0 5px 0;
 
-        @include text_body();
+        @include regular_text();
     }
 }
 
 .response-col_status
 {
-    font-size: 14px;
 
-    @include text_body();
+    @include regular_text();
 
     .response-undocumented
     {
-        font-size: 11px;
 
-        @include text_code($response-col-status-undocumented-font-color);
+        @include mono_text($color: $response-col-status-undocumented-font-color, $size: 1.1em);
     }
 }
 
@@ -512,15 +506,12 @@
 {
     padding-left: 2em;
     max-width: 40em;
-    font-size: 14px;
-
-    @include text_body();
+    @include regular_text();
 
     .response-undocumented
     {
-        font-size: 11px;
 
-        @include text_code($response-col-links-font-color);
+        @include mono_text($color: $response-col-links-font-color, $size: 1.1em);
     }
 }
 
@@ -528,7 +519,6 @@
 {
     div.markdown, div.renderedMarkdown
     {
-        font-size: 12px;
         font-style: italic;
 
         display: block;
@@ -538,17 +528,17 @@
 
         border-radius: 4px;
 
-        @include text_code($response-col-description-inner-markdown-font-color);
+        @include mono_text($color: $response-col-description-inner-markdown-font-color);
 
         p
         {
             margin: 0;
-            @include text_code($response-col-description-inner-markdown-font-color);
+            @include mono_text($color: $response-col-description-inner-markdown-font-color);
         }
 
         a
         {
-            @include text_code($response-col-description-inner-markdown-link-font-color);
+            @include mono_text($color: $response-col-description-inner-markdown-link-font-color);
             text-decoration: underline;
             &:hover {
                 color: $response-col-description-inner-markdown-link-font-color--hover;
@@ -557,7 +547,7 @@
 
         th
         {
-            @include text_code($response-col-description-inner-markdown-font-color);
+            @include mono_text($color: $response-col-description-inner-markdown-font-color);
             border-bottom: 1px solid $response-col-description-inner-markdown-font-color;
         }
     }
@@ -577,7 +567,6 @@
 
 .opblock-body pre
 {
-    font-size: 12px;
 
     margin: 0;
     padding: 10px;
@@ -591,7 +580,7 @@
     border-radius: 4px;
 
     overflow-wrap: break-word;
-    @include text_code();
+    @include mono_text();
 
     .headerline
     {
@@ -621,7 +610,7 @@
   font-family: sans-serif;
   font-weight: 600;
   color: $download-contents-font-color;
-  font-size: 14px;
+  font-size: $md-text-font-size;
   height: 30px;
   width: 75px;
 }
@@ -642,15 +631,12 @@
 
          > label
         {
-            font-size: 12px;
             font-weight: bold;
 
             display: flex;
             flex-direction: column;
 
             margin: -20px 15px 0 0;
-
-            @include text_headline();
 
             select
             {
@@ -679,7 +665,6 @@
 
         &:after
         {
-            font-size: 10px;
             font-weight: bold;
 
             position: absolute;
@@ -690,7 +675,7 @@
             transform: translate(-50%,-50%);
             text-transform: uppercase;
 
-            @include text_headline();
+            @include regular_text($size: 1em);
         }
 
         &:before
@@ -754,7 +739,7 @@ section
 {
     h3
     {
-        @include text_headline();
+        @include regular_text();
     }
 }
 
@@ -782,15 +767,16 @@ a.nostyle {
     font-size: 1.2em;
     text-align: center;
     line-height: 1.5em;
-
     padding: 0px .6em;
 
-    > div {
+    > div
+    {
       max-width: 55ch;
       flex: 1;
     }
 
-    code {
+    code
+    {
       background-color: $version-pragma-message-code-background-color;
       padding: 4px 4px 2px;
       white-space: pre;
