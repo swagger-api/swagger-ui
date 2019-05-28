@@ -19,7 +19,7 @@ export default class Models extends Component {
   }
 
   getCollapsedContent = () => {
-    return " "
+    return ""
   }
 
   handleToggle = (name, isExpanded) => {
