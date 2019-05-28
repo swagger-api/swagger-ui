@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import Im, { Map } from "immutable"
 import PropTypes from "prop-types"
+import cx from "classnames"
 
 export default class Models extends Component {
   static propTypes = {
