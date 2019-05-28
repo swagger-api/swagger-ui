@@ -84,12 +84,16 @@
     margin: 0;
 }
 
-.sui-btn--authorize
-{
-    svg
-    {
-        fill: #fff
-    }
+
+.sui-btn-transparent__icon--unlocked {
+    color: $color-secondary;
+    opacity: .5;
+    font-size: .9375rem;
+}
+
+.sui-btn-transparent__icon--locked {
+    color: $color-primary;
+    font-size: .9375rem;
 }
 
 .sui-btn--authorize__icon--unlocked {
