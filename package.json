@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.22.1",
+  "version": "3.22.2",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -96,7 +96,7 @@
     "babel-preset-stage-0": "^6.22.0",
     "babel-runtime": "^6.23.0",
     "body-parser": "^1.18.3",
-    "bundlesize": "^0.17.0",
+    "bundlesize": "^0.17.2",
     "chromedriver": "^2.38.3",
     "copy-webpack-plugin": "^4.0.1",
     "cors": "^2.8.4",
@@ -124,7 +124,7 @@
     "license-checker": "^19.0.0",
     "mocha": "^5.1.1",
     "nightwatch": "^0.9.16",
-    "node-sass": "^4.5.0",
+    "node-sass": "^4.12.0",
     "npm-run-all": "^4.1.2",
     "null-loader": "0.1.1",
     "nyc": "^11.3.0",
@@ -143,10 +143,10 @@
     "tachyons-sass": "^4.9.2",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "url-loader": "^1.0.1",
-    "webpack": "^3.1.0",
+    "webpack": "^3.12.0",
     "webpack-bundle-size-analyzer": "^2.5.0",
     "webpack-cli": "^2.0.4",
-    "webpack-dev-server": "^2.11.1",
+    "webpack-dev-server": "^2.11.5",
     "worker-loader": "^1.1.1"
   },
   "config": {
