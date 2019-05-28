@@ -1,6 +1,5 @@
 import React from "react"
 import PropTypes from "prop-types"
-import omit from "lodash/omit"
 
 function xclass(...args) {
   return args.filter(a => !!a).join(" ").trim()
@@ -119,15 +118,15 @@ export class Button extends React.Component {
     mod: "primary"
   }
 
-  filterProps = () => omit(this.props, ["unstyled", "mod"])
-
-  defaultClasses = () => !this.props.unstyled ? `sui-btn sui-btn--${this.props.mod}` : ""
+  defaultClasses = ({ unstyled, mod }) => !unstyled ? `sui-btn sui-btn--${mod}` : ""
 
   render() {
+    const { unstyled, mod, className, ...props } = this.props
+    
     return (
       <button
-        {...this.filterProps()}
-        className={xclass(this.props.className, this.defaultClasses())}    
+        {...props}
+        className={xclass(className, this.defaultClasses({ unstyled, mod }))}    
       />
     )
   }
