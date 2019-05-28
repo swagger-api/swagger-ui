@@ -118,13 +118,15 @@ export class Button extends React.Component {
     mod: "primary"
   }
 
-  defaultClasses = () => !this.props.unstyled ? `sui-btn sui-btn--${this.props.mod}` : ""
+  defaultClasses = ({ unstyled, mod }) => !unstyled ? `sui-btn sui-btn--${mod}` : ""
 
   render() {
+    const { unstyled, mod, className, ...props } = this.props
+    
     return (
       <button
-        {...this.props}
-        className={xclass(this.props.className, this.defaultClasses())}    
+        {...props}
+        className={xclass(className, this.defaultClasses({ unstyled, mod }))}    
       />
     )
   }
