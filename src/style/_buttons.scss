@@ -24,7 +24,7 @@
     }
 
     > span {
-        font-size: 1.4em;
+        font-size: $md-text-font-size;
     }
 }
 
@@ -139,7 +139,7 @@ button
 {
     cursor: pointer;
     outline: none;
-    font-family: $alt-text-font-family;
+    font-family: $medium_text-font-family;
 
     &.invalid
     {

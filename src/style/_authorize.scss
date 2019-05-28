@@ -61,13 +61,11 @@
 
     .errors
     {
-        font-size: 12px;
-
         padding: 10px;
 
         border-radius: 4px;
 
-        @include text_code();
+        @include mono_text();
     }
 }
 
@@ -75,9 +73,7 @@
 {
     h2
     {
-        font-size: 14px;
-
-        @include text_headline();
+        @include regular_text()
     }
 }
 
