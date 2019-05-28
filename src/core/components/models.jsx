@@ -43,13 +43,17 @@ export default class Models extends Component {
     const Collapse = getComponent("Collapse")
     const ModelCollapse = getComponent("ModelCollapse")
     const JumpToPath = getComponent("JumpToPath")
+    const Icon = getComponent("Icon")
 
     return <section className={ showModels ? "models is-open" : "models"}>
       <h4 onClick={() => layoutActions.show("models", !showModels)}>
         <span>{isOAS3 ? "Schemas" : "Models" }</span>
-        <svg width="20" height="20">
-          <use xlinkHref={showModels ? "#large-arrow-down" : "#large-arrow"} />
-        </svg>
+        <Icon
+          icon={cx({
+            "angle-down-light": showModels,
+            "angle-up-light": !showModels,
+          })}
+        />
       </h4>
       <Collapse isOpened={showModels}>
         {
