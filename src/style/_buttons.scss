@@ -92,6 +92,14 @@
     }
 }
 
+.sui-btn--authorize__icon--unlocked {
+    opacity: .7;
+    color: #fff;
+}
+
+.sui-btn--authorize__icon--locked {
+    color: $color-primary;
+}
 
 .sui-btn-wrapper
 {
