@@ -55,7 +55,7 @@ textarea
     min-width: 6.25rem;
     padding: .5rem .625rem;
     height: 1.875rem;
-    font-size: 1.3em;
+    font-size: $sm-text-font-size;
 
     border: 1px solid $form-input-border-color;
     border-radius: 4px;
