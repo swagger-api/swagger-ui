@@ -6,6 +6,8 @@ export default class DropDown extends PureComponent {
 
   static propTypes = {
     id: PropTypes.string,
+    label: PropTypes.string,
+    displayLabel: PropTypes.string,
     mod: PropTypes.string,
     disbaled: PropTypes.bool,
     children: PropTypes.node.isRequired
@@ -38,14 +40,38 @@ export default class DropDown extends PureComponent {
     switch (e.key)
     {
       case "ArrowUp":
+        // if closed - open
+        // else - move focus to prev item
+        break
       case "ArrowDown":
+        // if closed - open
+        // else - move focus to next item
+        break
       case "Enter":
+      case " ":
         this.openDropdown()
+        // if closed - open
+        // else - select item and close
         break
       case "Escape":
         this.closeDropdown()
+        break
+      case "Home":
+        // if open - move to start of list
+        break
+      case "End":
+        // if open - move to end of list
+        break
     }
   }
+
+  displayLabel = () => (this.props.label && this.props.displayLabel)
+    ? <lable>{this.props.label}</lable>
+    : null
+
+  labelAttr = (el) => this.props.label
+    ? this.props.label + " " + el
+    : null
 
   render() {
     const { id, disbaled } = this.props
@@ -63,8 +89,10 @@ export default class DropDown extends PureComponent {
         id={id}
         className={cx("sui-dropdown", { [`sui-dropdown--expanded`] : expanded }, { [`sui-dropdown--${this.props.mod}`] : this.props.mod })}
       >
+        {this.displayLabel()}
         <button
           className="sui-dropdown__button"
+          aria-label={this.labelAttr("Select")}
           aria-haspopup={"listbox"}
           aria-expanded={expanded}
           aria-disabled={disbaled}
@@ -78,6 +106,7 @@ export default class DropDown extends PureComponent {
           className="sui-dropdown__menu"
           role="listbox"
           tabIndex="-1"
+          aria-label={this.labelAttr("Options")}
         >
         {children}
         </ul>
