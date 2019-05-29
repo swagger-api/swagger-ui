@@ -1,0 +1,22 @@
+.sui-dropdown {
+	position: relative;
+	display: inline-block;
+
+	&__menu {
+		display: none;
+		position: absolute;
+		z-index: 1;
+		margin: 0;
+
+		&__item {
+			display: block;
+		}
+	}
+}
+
+.sui-dropdown--expanded {
+
+	.sui-dropdown__menu {
+		display: block;
+	}
+}
