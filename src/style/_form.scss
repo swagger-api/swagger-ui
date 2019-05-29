@@ -1,7 +1,5 @@
 select
 {
-    font-size: 14px;
-    font-weight: bold;
 
     padding: 5px 40px 5px 10px;
 
@@ -10,7 +8,7 @@ select
     background: $form-select-background-color url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+ICAgIDxwYXRoIGQ9Ik0xMy40MTggNy44NTljLjI3MS0uMjY4LjcwOS0uMjY4Ljk3OCAwIC4yNy4yNjguMjcyLjcwMSAwIC45NjlsLTMuOTA4IDMuODNjLS4yNy4yNjgtLjcwNy4yNjgtLjk3OSAwbC0zLjkwOC0zLjgzYy0uMjctLjI2Ny0uMjctLjcwMSAwLS45NjkuMjcxLS4yNjguNzA5LS4yNjguOTc4IDBMMTAgMTFsMy40MTgtMy4xNDF6Ii8+PC9zdmc+) right 10px center no-repeat;
     background-size: 20px;
 
-    @include text_headline();
+    @include medium_text();
     appearance: none;
 
     &[multiple]
@@ -37,12 +35,11 @@ select
 
 label
 {
-    font-size: 12px;
-    font-weight: bold;
+    margin: 0 0 .5em 0;
 
-    margin: 0 0 5px 0;
-
-    @include text_headline();
+    > span {
+        @include light_text($size: $sm-text-font-size);
+    }
 }
 
 
@@ -101,7 +98,6 @@ textarea
 
 textarea
 {
-    font-size: 12px;
 
     width: 100%;
     min-height: 280px;
@@ -111,11 +107,10 @@ textarea
     border-radius: 4px;
     outline: none;
 
-    @include text_code();
+    @include mono_text();
 
     &.curl
     {
-        font-size: 12px;
 
         min-height: 100px;
         margin: 0;
@@ -125,7 +120,7 @@ textarea
 
         border-radius: 4px;
 
-        @include text_code();
+        @include mono_text();
     }
 }
 
@@ -150,7 +145,7 @@ textarea
 
         margin: 0 !important;
 
-        @include text_code();
+        @include mono_text();
     }
 
     input[type=checkbox]

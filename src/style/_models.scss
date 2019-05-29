@@ -1,9 +1,11 @@
 .model
 {
-    font-size: 12px;
     font-weight: 300;
 
-    @include text_code();
+    td
+    { 
+        @include mono_text();
+    }
 
     .deprecated
     {
@@ -19,11 +21,10 @@
     }
     &-toggle
     {
-        font-size: 10px;
+        font-size: $xs-text-font-size;
 
         position: relative;
         top: 6px;
-
         display: inline-block;
 
         margin: auto .3em;
@@ -111,7 +112,6 @@ section.models
             background: $section-models-h4-background-color--hover;
         }
         
-        font-size: 16px;
 
         display: flex;
         align-items: center;
@@ -119,26 +119,24 @@ section.models
         cursor: pointer;
         transition: all .2s;
 
-        @include text_headline();
-
+        
         svg
         {
             transition: all .4s;
         }
-
+        
         span
         {
             flex: 1;
+            @include light_text($size: $xl-text-font-size);
         }
     }
 
     h5
     {
-        font-size: 16px;
-
         margin: 0 0 10px 0;
 
-        @include text_headline();
+        @include regular_text();
     }
 
     .model-jump-to-path
@@ -199,19 +197,17 @@ section.models
 
 .model-title
 {
-    font-size: 16px;
 
-    @include text_headline();
+    @include medium_text($size: $lg-text-font-size);
 }
 
 .model-deprecated-warning
 {
-    font-size: 16px;
     font-weight: 600;
 
     margin-right: 1em;
 
-    @include text_headline($model-deprecated-warning-font-color);
+    @include regular_text($color: $model-deprecated-warning-font-color);
 }
 
 

@@ -31,12 +31,11 @@ table
     {
         td
         {
-            font-size: 12px;
             font-weight: 300;
 
             vertical-align: middle;
 
-            @include text_code();
+            @include mono_text();
         }
     }
 
@@ -67,14 +66,13 @@ table
             th,
             td
             {
-                font-size: 12px;
                 font-weight: bold;
 
                 padding: 12px 0;
 
                 text-align: left;
 
-                @include text_body();
+                @include regular_text($size: $xs-text-font-size);
             }
         }
     }
@@ -91,29 +89,27 @@ table
     select {
         border-width: 1px;
     }
+
+    div.markdown {
+        @include light_text()
+    }
 }
 
 .parameter__name
 {
-    font-size: 16px;
-    font-weight: normal;
+    @include bold_text();
 
-    @include text_headline();
-
-    &.required
+    .parameter__name
     {
-        font-weight: bold;
 
         &:after
         {
-            font-size: 10px;
 
             position: relative;
             top: -6px;
 
             padding: 5px;
 
-            content: 'required';
 
             color: $table-parameter-name-required-font-color;
         }
@@ -123,22 +119,20 @@ table
 .parameter__in,
 .parameter__extension
 {
-    font-size: 12px;
     font-style: italic;
 
-    @include text_code();
+    @include mono_text();
 }
 
 .parameter__deprecated
 {
-    font-size: 12px;
     font-style: italic;
 
-    @include text_code($table-parameter-deprecated-font-color);
+    @include mono_text($color: $table-parameter-deprecated-font-color);
 }
 
 .parameter__empty_value_toggle {
-    font-size: 13px;
+    font-size: $sm-text-font-size;
     padding-top: 5px;
     padding-bottom: 12px;
 

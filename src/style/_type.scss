@@ -1,44 +1,41 @@
-@mixin text_body($color: $regular-text-font-color,$weight: $regular-text-font-weight, $size: $regular-text-font-size)
-{
-    font-family: sans-serif;
+
+@mixin light_text($color: $color-type--default, $size: $md-text-font-size, $weight: $light-text-font-weight) {
+    font-family: $light-text-font-family;
     font-size: $size;
     font-weight: $weight;
     color: $color;
 }
 
-@mixin text_title($color: $title-text-font-color, $size: $title-text-font-size)
-{
-    font-family: $title-text-font-family;
-    font-size: $size;
-    font-weight: $title-text-font-weight;
-    color: $color;
-}
-
-@mixin text_code($color: $code-text-font-color)
-{
-  font-family: $code-default-font-family;
-  font-size: $code-default-font-size;
-  color: $color;
-}
-
-@mixin text_headline($color: $headline-text-font-color)
-{
-    font-family: sans-serif;
-    color: $color;
-}
-
-@mixin regular-text($color: $regular-text-font-color, $size: $regular-text-font-size)
+@mixin regular_text($color: $color-type--default, $size: $md-text-font-size, $weight: $regular-text-font-weight)
 {
     font-family: $regular-text-font-family;
     font-size: $size;
+    font-weight: $weight;
     color: $color;
 }
 
-@mixin alt-text($color: $alt-text-font-color, $size: $alt-text-font-size)
+@mixin medium_text($color: $color-type--default, $size: $md-text-font-size, $weight: $medium-text-font-weight)
 {
-    font-family: $alt-text-font-family;
+    font-family: $medium-text-font-family;
     font-size: $size;
+    font-weight: $weight;
     color: $color;
+}
+
+@mixin bold_text($color: $color-type--default, $size: $md-text-font-size, $weight: $bold-text-font-weight)
+{
+    font-family: $bold-text-font-family;
+    font-size: $size;
+    font-weight: $weight;
+    color: $color;
+}
+
+
+@mixin mono_text($color: $color-type--default, $size: $sm-text-font-size, $weight: $regular-text-font-weight)
+{
+  font-family: $mono-text-font-family;
+  font-size: $size;
+  color: $color;
 }
 
 @mixin inline-link-text($color: $link-text-font-color)
@@ -47,7 +44,7 @@
     color: $color;
 }
 
-h1, h2, h3, h4, h5, h6, p, pre, label {
+h1, h2, h3, h4, h5, h6, p, pre, label, small {
     margin: 0;
     padding: 0;
     font-size: 100%;
