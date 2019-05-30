@@ -21,7 +21,7 @@
     }
     &-toggle
     {
-        font-size: 1.25rem;
+        font-size: $xs-text-font-size;
 
         position: relative;
         display: inline-block;
@@ -113,6 +113,7 @@ section.models
         
         span
         {
+            flex: 1;
             @include light_text($size: $xl-text-font-size);
         }
     }
