@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react"
+import React, { Component, PureComponent } from "react"
 import PropTypes from "prop-types"
 import cx from "classnames"
 
@@ -18,6 +18,14 @@ export default class DropDown extends PureComponent {
 
     this.state = {
       expanded: false
+    }
+    this.optionRef = (el) => this.child = el
+  }
+
+  componentDidUpdate() {
+    if(this.state.expanded) {
+      console.log(this.child)
+      this.child.setFocus()
     }
   }
 
@@ -80,9 +88,12 @@ export default class DropDown extends PureComponent {
     const children = React.Children.map(this.props.children, (child, index) => {
       // get active value here
       return React.cloneElement(child, {
+        ref: this.optionRef,
         // pass down props here
       })
     })
+
+    // console.log(this.refsCollection)
 
     return (
       <div
@@ -109,6 +120,7 @@ export default class DropDown extends PureComponent {
           aria-label={this.labelAttr("Options")}
         >
         {children}
+        {/* <DropDownItem ref={(instance) => this.child = instance}></DropDownItem> */}
         </ul>
       </div>
 			)
@@ -116,11 +128,27 @@ export default class DropDown extends PureComponent {
 }
 
 
-export const DropDownItem = () => {
+export class DropDownItem extends Component {
+
+  constructor(){
+    super()
+
+    this.setRef = (instance) => this.item = instance
+  }
+
+  setFocus=()=>{
+    this.item.focus()
+  }
+
+  onFocus = () => {
+    console.log("Bingo")
+  }
     
-  return (
-    <li className="sui-dropdown__menu__item">
-      <div role="option">I am a dropdown item</div>
-    </li>
-  )
+  render () {
+    return (
+      <li onFocus={this.onFocus} role="option" className="sui-dropdown__menu__item">
+        <button ref={(instance) => this.item = instance}>TEST</button>
+      </li>
+    )
+  }
 }

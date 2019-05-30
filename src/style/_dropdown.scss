@@ -10,6 +10,13 @@
 
 		&__item {
 			display: block;
+			
+			button {
+				color: green;
+				&:focus {
+					color: red;
+				}
+			}
 		}
 	}
 }
