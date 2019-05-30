@@ -84,14 +84,19 @@ table
 
 .parameters-col_description
 {
-    input[type=text]
+    input[type=text], input[type=file]
     {
         width: 100%;
-        max-width: 340px;
+        max-width: 21.25rem;
     }
 
     select {
         border-width: 1px;
+    }
+
+    div.markdown {
+        @include light_text();
+        margin-bottom: .5em;
     }
 }
 

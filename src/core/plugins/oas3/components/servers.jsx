@@ -2,6 +2,7 @@ import React from "react"
 import { OrderedMap } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
+import { Input } from "components/layout-utils"
 
 export default class Servers extends React.Component {
 
@@ -144,12 +145,12 @@ export default class Servers extends React.Component {
                               </option>
                             })}
                           </select> :
-                          <input
+                          <Input
                             type={"text"}
                             value={getServerVariable(currentServer, name) || ""}
                             onChange={this.onServerVariableValueChange}
                             data-variable={name}
-                            ></input>
+                            />
                         }
                       </td>
                     </tr>

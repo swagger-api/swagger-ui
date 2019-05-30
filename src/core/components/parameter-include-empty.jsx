@@ -2,6 +2,7 @@ import React from "react"
 import cx from "classnames"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
+import { Input } from "components/layout-utils"
 
 export const ParameterIncludeEmpty = ({ param, isIncluded, onChange, isDisabled }) => {
   const onCheckboxChange = e => {
@@ -13,7 +14,7 @@ export const ParameterIncludeEmpty = ({ param, isIncluded, onChange, isDisabled 
   return <div className={cx("parameter__empty_value_toggle", {
     "disabled": isDisabled
   })}>
-    <input type="checkbox" disabled={isDisabled} checked={!isDisabled && isIncluded} onChange={onCheckboxChange} />
+    <Input type="checkbox" disabled={isDisabled} checked={!isDisabled && isIncluded} onChange={onCheckboxChange} />
     Send empty value
   </div>
 }
