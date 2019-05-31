@@ -126,11 +126,11 @@ $browser-context: 16;
     @return $pixels / $context * 1em;
 }
 
-@function alter-hue($color) {
+@function alter-hue($color, $degree: 10%) {
     @if (lightness($color) > 50) {
-      @return darken($color, 10%);
+      @return darken($color, $degree);
     } @else {
-      @return lighten($color, 10%);
+      @return lighten($color, $degree);
     }
   }
 
