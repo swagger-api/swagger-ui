@@ -229,7 +229,7 @@ export default class DropDown extends PureComponent {
         })}
       >
         <button
-          className="sui-dropdown__button"
+          className={`${className}__button`}
           aria-haspopup={"listbox"}
           aria-expanded={expanded}
           aria-disabled={disbaled}
@@ -243,7 +243,7 @@ export default class DropDown extends PureComponent {
           </svg>
         </button>
         <ul
-          className="sui-dropdown__menu"
+          className={`${className}__menu`}
           role="listbox"
           tabIndex="-1"
         >
