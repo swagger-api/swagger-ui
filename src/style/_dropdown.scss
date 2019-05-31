@@ -1,6 +1,7 @@
 .sui-dropdown {
 	position: relative;
 	display: inline-block;
+	width: 120px;
 
 	&__menu {
 		display: none;
@@ -12,18 +13,70 @@
 			display: block;
 			
 			a {
-				color: green;
-				&:focus {
-					color: red;
-				}
+				outline: none;
+				@include alt-text($size: 13px)
 			}
 		}
 	}
+}
+
+.sui-dropdown--schemes {
+	width: 120px;
 }
 
 .sui-dropdown--expanded {
 
 	.sui-dropdown__menu {
 		display: block;
+		list-style: none;
+		width: 100%;
+		padding: 0;
+		margin: 1px 0;
+
+		li {
+			margin: 0;
+			padding: 0 15px;
+			width: 100%;
+			height: 30px;
+			display: flex;
+			align-items: center;
+			border: 1px solid $color-bright-silver;
+			border-top: none;
+			background: $color-white;
+			cursor: pointer;
+
+			&:hover {
+				background: alter-hue($color-white, 5%)
+			}
+
+			&:first-child {
+				border-radius: 4px 4px 0 0;
+				border-top: 1px solid $color-bright-silver;
+			}
+
+			&:last-child {
+				border-radius: 0 0 4px 4px;
+				border-top: none;
+			}
+		}
+	}
+}
+
+.sui-dropdown__button {
+	height: 30px;
+	border-radius: 4px;
+	border: 1px solid $color-bright-silver;
+	background: transparent;
+	padding: 0 5px 0 15px;
+	display: flex;
+	width: 100%;
+	align-items: center;
+	justify-content: space-between;
+
+	> * {
+
+		&:first-of-type {
+			margin-right: .5em;
+		}
 	}
 }

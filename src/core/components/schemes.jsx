@@ -1,5 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { DropDown, DropDownItem } from "components/layout-utils"
+
 
 export default class Schemes extends React.Component {
 
@@ -42,11 +44,14 @@ export default class Schemes extends React.Component {
     return (
       <label htmlFor="schemes">
         <span className="schemes-title">Schemes</span>
-        <select onChange={ this.onChange } value={currentScheme}>
-          { schemes.valueSeq().map(
-            ( scheme ) => <option value={ scheme } key={ scheme }>{ scheme }</option>
-          ).toArray()}
-        </select>
+        <DropDown className="sui-dropdown--schemes">
+          <DropDownItem selected>
+            HTTPS
+          </DropDownItem>
+          <DropDownItem>
+            HTTP
+          </DropDownItem>
+        </DropDown>
       </label>
     )
   }

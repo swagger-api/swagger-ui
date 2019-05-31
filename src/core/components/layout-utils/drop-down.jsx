@@ -241,7 +241,10 @@ export default class DropDown extends PureComponent {
           onKeyDown={this.onKeyPress}
           ref={this.setButtonRef}
         >
-          {this.buttonContent()}
+          <span>{this.buttonContent()}</span>
+          <svg width="10" height="10">
+            <use xlinkHref={"#large-arrow-down"} />
+          </svg>
         </button>
         <ul
           className="sui-dropdown__menu"
@@ -291,13 +294,13 @@ export class DropDownItem extends Component {
       <li
         role="option"
         className="sui-dropdown__menu__item"
+        onClick={this.onClick}
       >
         <a 
           tabIndex="0"
           ref={this.setRef}
           onKeyPress={this.onKeyPress}
           onKeyDown={this.onKeyPress}
-          onClick={this.onClick}
         >
           {children}
         </a>
