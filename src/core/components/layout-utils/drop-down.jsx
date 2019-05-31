@@ -150,9 +150,11 @@ export default class DropDown extends PureComponent {
 
     switch (e.key)
     {
+      case "Up":
       case "ArrowUp":
         this.openDropdown()
         break
+      case "Down":
       case "ArrowDown":
         this.openDropdown()
         break
@@ -168,9 +170,11 @@ export default class DropDown extends PureComponent {
 
     switch (e.key)
     {
+      case "Up":
       case "ArrowUp":
         this.moveUp()
         break
+      case "Down":
       case "ArrowDown":
         this.moveDown()
         break
@@ -178,6 +182,7 @@ export default class DropDown extends PureComponent {
       case " ":
         this.closeDropdown(key)
         break
+      case "Esc":
       case "Escape":
         this.closeDropdown()
         break
