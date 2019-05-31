@@ -6,10 +6,8 @@ export default class DropDown extends PureComponent {
 
   static propTypes = {
     id: PropTypes.string,
-    label: PropTypes.string,
     value: PropTypes.string,
     placeholder: PropTypes.string,
-    displayLabel: PropTypes.string,
     mod: PropTypes.string,
     disbaled: PropTypes.bool,
     onChange: PropTypes.func,
@@ -192,14 +190,6 @@ export default class DropDown extends PureComponent {
     }
   }
 
-  displayLabel = () => (this.props.label && this.props.displayLabel)
-    ? <lable>{this.props.label}</lable>
-    : null
-
-  labelAttr = (el) => this.props.label
-    ? this.props.label + " " + el
-    : null
-
   buttonContent = () => { 
     const { selectedKey } = this.state
     const { placeholder } = this.props
@@ -229,10 +219,8 @@ export default class DropDown extends PureComponent {
         id={id}
         className={cx("sui-dropdown", { [`sui-dropdown--expanded`] : expanded }, { [`sui-dropdown--${this.props.mod}`] : this.props.mod })}
       >
-        {this.displayLabel()}
         <button
           className="sui-dropdown__button"
-          aria-label={this.labelAttr("Select")}
           aria-haspopup={"listbox"}
           aria-expanded={expanded}
           aria-disabled={disbaled}
@@ -250,7 +238,6 @@ export default class DropDown extends PureComponent {
           className="sui-dropdown__menu"
           role="listbox"
           tabIndex="-1"
-          aria-label={this.labelAttr("Options")}
         >
         {children} 
         </ul>

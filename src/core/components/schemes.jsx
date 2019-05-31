@@ -10,7 +10,7 @@ export default class Schemes extends React.Component {
     schemes: PropTypes.object.isRequired,
     currentScheme: PropTypes.string.isRequired,
     path: PropTypes.string,
-    method: PropTypes.string,
+    method: PropTypes.string
   }
 
   componentWillMount() {
@@ -28,8 +28,8 @@ export default class Schemes extends React.Component {
     }
   }
 
-  onChange =( e ) => {
-    this.setScheme( e.target.value )
+  onChange = ( value ) => {
+    this.setScheme( value )
   }
 
   setScheme = ( value ) => {
@@ -44,13 +44,10 @@ export default class Schemes extends React.Component {
     return (
       <label htmlFor="schemes">
         <span className="schemes-title">Schemes</span>
-        <DropDown className="sui-dropdown--schemes">
-          <DropDownItem selected>
-            HTTPS
-          </DropDownItem>
-          <DropDownItem>
-            HTTP
-          </DropDownItem>
+        <DropDown displayLable={true} label="Schemes" mod="schemes" onChange={ this.onChange } value={currentScheme}>
+          { schemes.valueSeq().map(
+            ( scheme ) => <DropDownItem value={ scheme } key={ scheme }>{ scheme }</DropDownItem>
+          )}
         </DropDown>
       </label>
     )
