@@ -230,7 +230,7 @@ export default class DropDown extends PureComponent {
           onKeyDown={this.onKeyPress}
           ref={this.setButtonRef}
         >
-          {this.getSelectedChildContext()}
+          <span>{this.getSelectedChildContext()}</span>
           <svg width="10" height="10">
           <use xlinkHref={"#large-arrow-down"} />
         </svg>
