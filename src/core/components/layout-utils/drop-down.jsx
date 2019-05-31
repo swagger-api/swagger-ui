@@ -231,6 +231,9 @@ export default class DropDown extends PureComponent {
           ref={this.setButtonRef}
         >
           {this.getSelectedChildContext()}
+          <svg width="10" height="10">
+          <use xlinkHref={"#large-arrow-down"} />
+        </svg>
         </button>
         <ul
           className="sui-dropdown__menu"
