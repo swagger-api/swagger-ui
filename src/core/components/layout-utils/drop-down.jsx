@@ -200,8 +200,9 @@ export default class DropDown extends PureComponent {
   }
   
   render() {
-    const { id, disbaled } = this.props
+    const { id, disbaled, mod } = this.props
     const { expanded } = this.state
+    const className = "sui-dropdown"
 
     const children = React.Children.map(this.props.children, (child, i) => {
       const ref = this.setChildRef(i, child.ref)
@@ -217,7 +218,10 @@ export default class DropDown extends PureComponent {
     return (
       <div
         id={id}
-        className={cx("sui-dropdown", { [`sui-dropdown--expanded`] : expanded }, { [`sui-dropdown--${this.props.mod}`] : this.props.mod })}
+        className={cx(className, { 
+          [`${className}--expanded`] : expanded ,
+          [`${className}--${mod}`] : mod 
+        })}
       >
         <button
           className="sui-dropdown__button"
@@ -251,7 +255,7 @@ export class DropDownItem extends Component {
 
   static propTypes = {
     id: PropTypes.string,
-    className: PropTypes.string,
+    mod: PropTypes.string,
     value: PropTypes.string,
     optionKey: PropTypes.any,
     onSelect: PropTypes.func,
@@ -275,12 +279,16 @@ export class DropDownItem extends Component {
   onKeyPress = (e) => this.props.onKeyPress(e, this.props.optionKey)
     
   render () {
-    const { children } = this.props
-    // todo: add ID & class
+    const { children, id, mod } = this.props
+    const className = "sui-dropdown__menu__item"
+    
     return (
       <li
+        id={id}
         role="option"
-        className="sui-dropdown__menu__item"
+        className={cx(className, {
+          [`${className}--${mod}`] : mod
+        })}
         onClick={this.onClick}
       >
         <a 
