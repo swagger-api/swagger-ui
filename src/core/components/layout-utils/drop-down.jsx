@@ -280,13 +280,13 @@ export class DropDownItem extends Component {
       <li
         role="option"
         className="sui-dropdown__menu__item"
+        onClick={this.onClick}
       >
         <a 
           tabIndex="0"
           ref={this.setRef}
           onKeyPress={this.onKeyPress}
           onKeyDown={this.onKeyPress}
-          onClick={this.onClick}
         >
           {children}
         </a>
