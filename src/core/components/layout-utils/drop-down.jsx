@@ -234,7 +234,6 @@ export default class DropDown extends PureComponent {
           aria-expanded={expanded}
           aria-disabled={disbaled}
           onClick={this.onClick}
-          onKeyPress={this.onKeyPress}
           onKeyDown={this.onKeyPress}
           ref={this.setButtonRef}
         >
@@ -299,7 +298,6 @@ export class DropDownItem extends Component {
         <a 
           tabIndex="0"
           ref={this.setRef}
-          onKeyPress={this.onKeyPress}
           onKeyDown={this.onKeyPress}
         >
           {children}
