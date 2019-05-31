@@ -12,6 +12,7 @@ export default class DropDown extends PureComponent {
     displayLabel: PropTypes.string,
     mod: PropTypes.string,
     disbaled: PropTypes.bool,
+    onChange: PropTypes.func,
     children: PropTypes.node.isRequired
   }
 
@@ -84,8 +85,14 @@ export default class DropDown extends PureComponent {
   })
 
   closeDropdown = (key) => {
+    const hasSelected = key || key === 0 
+
+    if(hasSelected && this.props.onChange) {
+      this.props.onChange(this.childRefCollection[key].getValue())
+    }
+
     this.setState((state) => { 
-      const selectedKey = key || key === 0
+      const selectedKey = hasSelected
         ? key
         : state.selectedKey
 
@@ -198,7 +205,7 @@ export default class DropDown extends PureComponent {
     const { placeholder } = this.props
 
     return this.childRefCollection[selectedKey]
-      ? this.childRefCollection[selectedKey].getChildren()
+      ? this.childRefCollection[selectedKey].getContent()
       : placeholder
   }
   
@@ -255,6 +262,7 @@ export class DropDownItem extends Component {
   static propTypes = {
     id: PropTypes.string,
     className: PropTypes.string,
+    value: PropTypes.string,
     optionKey: PropTypes.any,
     onSelect: PropTypes.func,
     onKeyPress: PropTypes.func,
@@ -268,7 +276,9 @@ export class DropDownItem extends Component {
 
   setFocus = () => this.anchorRef.focus()
 
-  getChildren = () => this.props.children
+  getContent = () => this.props.children
+
+  getValue = () => this.props.value
 
   onClick = () => this.props.onSelect(this.props.optionKey)
 
