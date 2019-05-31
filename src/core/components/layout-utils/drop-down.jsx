@@ -16,59 +16,139 @@ export default class DropDown extends PureComponent {
   constructor(props) {
     super(props)
 
+    let selectedKey = null
+    this.setButtonRef = (instance) => this.buttonRef = instance
+    this.childCount = React.Children.count(this.props.children) - 1
+    this.childRefCollection = {}
+    this.setChildRefCollection = {}
+
+    React.Children.forEach(this.props.children, (child, i) => {
+      if(child.props.selected)
+        selectedKey = i
+      this.setChildRefCollection[i] = (instance) => { 
+        return this.childRefCollection[i] = instance
+      }
+    })
+
     this.state = {
-      expanded: false
+      expanded: false,
+      activeKey: null,
+      selectedKey
     }
-    this.optionRef = (el) => this.child = el
   }
+
+  componentDidMount() {
+    document.addEventListener("click", this.handleClickOutside, true)
+  }
+
+  componentWillUnmount() {
+      document.removeEventListener("click", this.handleClickOutside, true)
+  }
+
+  handleClickOutside = (e) => {
+
+    if (!this.buttonRef.contains(e.target)) {
+        this.setState({
+          expanded: false
+        })
+    }
+}
 
   componentDidUpdate() {
-    if(this.state.expanded) {
-      console.log(this.child)
-      this.child.setFocus()
+    const { activeKey, expanded } = this.state
+
+    if(expanded) {
+      this.setFocusChild(activeKey)
     }
   }
 
-  onClick = () => {
-    this.setState((state) => ({ expanded: !state.expanded }))
-  }
+  setfocus = () => this.buttonRef.focus()
 
-  openDropdown = () => {
-    this.setState(() => ({ expanded: true }))
-    // set focus to first item/selected item
-  }
+  setFocusChild = (key) => this.childRefCollection[key].setFocus()
+
+  openDropdown = () => this.setState((state) => {
+    const activeKey = state.selectedKey || 0
+
+    return { 
+      expanded: true,
+      activeKey 
+    }  
+  })
 
   closeDropdown = () => {
     this.setState(() => ({ expanded: false }))
-    // set focus to button
+    this.setfocus()
+  }
+
+  moveUp = () => this.setState((state) => {
+    const activeKey = state.activeKey === 0
+      ? state.activeKey
+      : state.activeKey - 1
+
+    return { activeKey }
+  })
+
+  moveDown = () => this.setState((state) => {
+    const activeKey = state.activeKey === this.childCount
+      ? state.activeKey
+      : state.activeKey + 1
+
+    return { activeKey }
+  })
+  moveStart = () => this.setState({ activeKey: 0 })
+
+  moveEnd = () => this.setState({ activeKey: this.childCount })
+
+  onClick = () => {
+    const { expanded } = this.state
+
+    if(expanded) {
+      return this.closeDropdown()
+    }
+    this.openDropdown()
   }
 
   onKeyPress = (e) => {
     e.preventDefault()
+
     switch (e.key)
     {
       case "ArrowUp":
-        // if closed - open
-        // else - move focus to prev item
+        this.openDropdown()
         break
       case "ArrowDown":
-        // if closed - open
-        // else - move focus to next item
+        this.openDropdown()
         break
       case "Enter":
       case " ":
         this.openDropdown()
-        // if closed - open
-        // else - select item and close
+        break
+    }
+  }
+
+  onKeyPressChild = (e) => {
+    e.preventDefault()
+
+    switch (e.key)
+    {
+      case "ArrowUp":
+        this.moveUp()
+        break
+      case "ArrowDown":
+        this.moveDown()
+        break
+      case "Enter":
+      case " ":
+        // select and close
         break
       case "Escape":
         this.closeDropdown()
         break
       case "Home":
-        // if open - move to start of list
+        this.moveStart()
         break
       case "End":
-        // if open - move to end of list
+        this.moveEnd()
         break
     }
   }
@@ -81,19 +161,30 @@ export default class DropDown extends PureComponent {
     ? this.props.label + " " + el
     : null
 
+  setChildRef = (key, originalRef) => {
+    return ((...args) => {
+      this.setChildRefCollection[key](args[0])
+
+      if (originalRef) {
+        originalRef.apply(null, args)
+      }
+    })
+  }
+  
   render() {
     const { id, disbaled } = this.props
     const { expanded } = this.state
 
-    const children = React.Children.map(this.props.children, (child, index) => {
-      // get active value here
+    const children = React.Children.map(this.props.children, (child, i) => {
+      const ref = this.setChildRef(i, child.ref)
+      const selected = i === this.state.selectedKey
+
       return React.cloneElement(child, {
-        ref: this.optionRef,
-        // pass down props here
+        ref,
+        onKeyPress: this.onKeyPressChild,
+        selected
       })
     })
-
-    // console.log(this.refsCollection)
 
     return (
       <div
@@ -110,6 +201,7 @@ export default class DropDown extends PureComponent {
           onClick={this.onClick}
           onKeyPress={this.onKeyPress}
           onKeyDown={this.onKeyPress}
+          ref={this.setButtonRef}
         >
           I am a dropdown [arrow]
         </button>
@@ -119,8 +211,7 @@ export default class DropDown extends PureComponent {
           tabIndex="-1"
           aria-label={this.labelAttr("Options")}
         >
-        {children}
-        {/* <DropDownItem ref={(instance) => this.child = instance}></DropDownItem> */}
+        {children} 
         </ul>
       </div>
 			)
@@ -130,24 +221,38 @@ export default class DropDown extends PureComponent {
 
 export class DropDownItem extends Component {
 
-  constructor(){
+  static propTypes = {
+    id: PropTypes.string,
+    className: PropTypes.string,
+    onClick: PropTypes.func,
+    onKeyPress: PropTypes.func,
+    selected: PropTypes.bool,
+    children: PropTypes.node.isRequired
+  }
+
+  constructor() {
     super()
-
-    this.setRef = (instance) => this.item = instance
+    this.setRef = (instance) => this.anchorRef = instance
   }
 
-  setFocus=()=>{
-    this.item.focus()
-  }
-
-  onFocus = () => {
-    console.log("Bingo")
-  }
+  setFocus = () => this.anchorRef.focus()
     
   render () {
+    const { onKeyPress, children } = this.props
+    
     return (
-      <li onFocus={this.onFocus} role="option" className="sui-dropdown__menu__item">
-        <button ref={(instance) => this.item = instance}>TEST</button>
+      <li
+        role="option"
+        className="sui-dropdown__menu__item"
+      >
+        <a 
+          tabIndex="0"
+          ref={this.setRef}
+          onKeyPress={onKeyPress}
+          onKeyDown={onKeyPress}
+        >
+          {children}
+        </a>
       </li>
     )
   }
