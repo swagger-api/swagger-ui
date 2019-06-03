@@ -1,18 +1,19 @@
 import React from "react"
 import PropTypes from "prop-types"
-import swaggerUIConstructor from "./swagger-ui"
-
+import swaggerUIConstructor, {presets} from "./swagger-ui"
 export default class SwaggerUI extends React.Component {
   constructor (props) {
     super(props)
     this.SwaggerUIComponent = null
     this.system = null
   }
-  
+
   componentDidMount() {
     const ui = swaggerUIConstructor({
       spec: this.props.spec,
       url: this.props.url,
+      defaultModelsExpandDepth: this.props.defaultModelsExpandDepth,
+      presets: [presets.apis,...this.props.presets],
       requestInterceptor: this.requestInterceptor,
       responseInterceptor: this.responseInterceptor,
       onComplete: this.onComplete,
@@ -71,6 +72,11 @@ export default class SwaggerUI extends React.Component {
     }
   }
 }
+SwaggerUI.defaultProps = {
+  docExpansion: "list",
+  defaultModelsExpandDepth: 1,
+  presets: []
+}
 
 SwaggerUI.propTypes = {
   spec: PropTypes.oneOf([
@@ -78,8 +84,10 @@ SwaggerUI.propTypes = {
     PropTypes.object,
   ]),
   url: PropTypes.string,
+  defaultModelsExpandDepth: PropTypes.number,
   requestInterceptor: PropTypes.func,
   responseInterceptor: PropTypes.func,
   onComplete: PropTypes.func,
   docExpansion: PropTypes.oneOf(['list', 'full', 'none']),
+  presets: PropTypes.arrayOf(PropTypes.func),
 }
