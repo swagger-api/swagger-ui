@@ -21,6 +21,7 @@ export default class Operations extends React.Component {
     authActions: PropTypes.object.isRequired,
     authSelectors: PropTypes.object.isRequired,
     getConfigs: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
     fn: PropTypes.func.isRequired
   };
 
@@ -31,6 +32,7 @@ export default class Operations extends React.Component {
       layoutSelectors,
       layoutActions,
       getConfigs,
+      translate,
       fn
     } = this.props
 
@@ -68,7 +70,8 @@ export default class Operations extends React.Component {
                   layoutSelectors={layoutSelectors}
                   layoutActions={layoutActions}
                   getConfigs={getConfigs}
-                  getComponent={getComponent}>
+                  getComponent={getComponent}
+                  translate={translate}>
                   {
                     operations.map( op => {
                       const path = op.get("path")
@@ -105,7 +108,7 @@ export default class Operations extends React.Component {
             }).toArray()
           }
 
-          { taggedOps.size < 1 ? <h3> No operations defined in spec! </h3> : null }
+          { taggedOps.size < 1 ? <h3>{translate("operations.noDefined")}</h3> : null }
         </div>
     )
   }

@@ -29,6 +29,7 @@ export default class Operation extends PureComponent {
     oas3Selectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
+    translate: PropTypes.func.isRequired,
     fn: PropTypes.object.isRequired
   }
 
@@ -49,6 +50,7 @@ export default class Operation extends PureComponent {
       onTryoutClick,
       onCancelClick,
       onExecute,
+      translate,
       fn,
       getComponent,
       getConfigs,
@@ -118,7 +120,7 @@ export default class Operation extends PureComponent {
               { (operation && operation.size) || operation === null ? null :
                 <img height={"32px"} width={"32px"} src={require("core/../img/rolling-load.svg")} className="opblock-loading-animation" />
               }
-              { deprecated && <h4 className="opblock-title_normal"> Warning: Deprecated</h4>}
+              { deprecated && <h4 className="opblock-title_normal">{translate("operations.deprecated")}</h4>}
               { description &&
                 <div className="opblock-description-wrapper">
                   <div className="opblock-description">
@@ -129,7 +131,7 @@ export default class Operation extends PureComponent {
               {
                 externalDocs && externalDocs.url ?
                 <div className="opblock-external-docs-wrapper">
-                  <h4 className="opblock-title_normal">Find more details</h4>
+                  <h4 className="opblock-title_normal">{translate("operations.moreDetails")}</h4>
                   <div className="opblock-external-docs">
                     <span className="opblock-external-docs__description">
                       <Markdown source={ externalDocs.description } />
@@ -156,6 +158,7 @@ export default class Operation extends PureComponent {
                   specSelectors={ specSelectors }
                   pathMethod={ [path, method] }
                   getConfigs={ getConfigs }
+                  translate={ translate }
                 />
               }
 
@@ -171,6 +174,7 @@ export default class Operation extends PureComponent {
                   setServerVariableValue={oas3Actions.setServerVariableValue}
                   getServerVariable={oas3Selectors.serverVariableValue}
                   getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
+                  translate={translate}
                 />
               }
 
@@ -192,14 +196,16 @@ export default class Operation extends PureComponent {
                     specSelectors={ specSelectors }
                     path={ path }
                     method={ method }
-                    onExecute={ onExecute } />
+                    onExecute={ onExecute }
+                    title={ translate("execute") } />
               }
 
               { (!tryItOutEnabled || !response || !allowTryItOut) ? null :
                   <Clear
                     specActions={ specActions }
                     path={ path }
-                    method={ method }/>
+                    method={ method }
+                    title={ translate("clear") }/>
               }
             </div>
 
@@ -221,11 +227,12 @@ export default class Operation extends PureComponent {
                     path={ path }
                     method={ method }
                     displayRequestDuration={ displayRequestDuration }
-                    fn={fn} />
+                    fn={fn}
+                    translate={translate} />
               }
 
               { !showExtensions || !extensions.size ? null :
-                <OperationExt extensions={ extensions } getComponent={ getComponent } />
+                <OperationExt extensions={ extensions } getComponent={ getComponent } translate={ translate } />
               }
             </div>
           </Collapse>

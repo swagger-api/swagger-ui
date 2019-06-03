@@ -9,11 +9,12 @@ export default class BaseLayout extends React.Component {
     specSelectors: PropTypes.object.isRequired,
     oas3Selectors: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
-    getComponent: PropTypes.func.isRequired
+    getComponent: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired
   }
 
   render() {
-    let {errSelectors, specSelectors, getComponent} = this.props
+    let {errSelectors, specSelectors, getComponent, translate} = this.props
 
     let SvgAssets = getComponent("SvgAssets")
     let InfoContainer = getComponent("InfoContainer", true)
@@ -36,7 +37,7 @@ export default class BaseLayout extends React.Component {
     const loadingStatus = specSelectors.loadingStatus()
 
     let loadingMessage = null
-  
+
     if(loadingStatus === "loading") {
       loadingMessage = <div className="info">
         <div className="loading-container">
@@ -48,7 +49,7 @@ export default class BaseLayout extends React.Component {
     if(loadingStatus === "failed") {
       loadingMessage = <div className="info">
         <div className="loading-container">
-          <h4 className="title">Failed to load API definition.</h4>
+          <h4 className="title">{translate("errors.loadDefinition")}</h4>
           <Errors />
         </div>
       </div>
@@ -59,14 +60,14 @@ export default class BaseLayout extends React.Component {
       const lastErrMsg = lastErr ? lastErr.get("message") : ""
       loadingMessage = <div className="info" style={{ maxWidth: "880px", marginLeft: "auto", marginRight: "auto", textAlign: "center" }}>
         <div className="loading-container">
-          <h4 className="title">Failed to load remote configuration.</h4>
+          <h4 className="title">{translate("errors.loadRemoteConfig")}</h4>
           <p>{lastErrMsg}</p>
         </div>
       </div>
     }
 
     if(!loadingMessage && isSpecEmpty) {
-      loadingMessage = <h4>No API definition provided.</h4>
+      loadingMessage = <h4>{translate("errors.noDefinition")}</h4>
     }
 
     if(loadingMessage) {
@@ -88,7 +89,7 @@ export default class BaseLayout extends React.Component {
 
       <div className='swagger-ui'>
           <SvgAssets />
-          <VersionPragmaFilter isSwagger2={isSwagger2} isOAS3={isOAS3} alsoShow={<Errors/>}>
+          <VersionPragmaFilter isSwagger2={isSwagger2} isOAS3={isOAS3} alsoShow={<Errors/>} translate={translate}>
             <Errors/>
             <Row className="information-container">
               <Col mobile={12}>

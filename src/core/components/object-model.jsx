@@ -19,12 +19,13 @@ export default class ObjectModel extends Component {
     isRef: PropTypes.bool,
     expandDepth: PropTypes.number,
     depth: PropTypes.number,
-    specPath: ImPropTypes.list.isRequired
+    specPath: ImPropTypes.list.isRequired,
+    translate: PropTypes.func.isRequired
   }
 
   render(){
     let { schema, name, displayName, isRef, getComponent, getConfigs, depth, onToggle, expanded, specPath, ...otherProps } = this.props
-    let { specSelectors,expandDepth } = otherProps
+    let { specSelectors,expandDepth,translate } = otherProps
     const { isOAS3 } = specSelectors
 
     if(!schema) {
@@ -48,7 +49,7 @@ export default class ObjectModel extends Component {
       return <span className="model-jump-to-path"><JumpToPath specPath={specPath} /></span>
     }
     const collapsedContent = (<span>
-        <span>{ braceOpen }</span>...<span>{ braceClose }</span>
+        <span>{ braceOpen }</span>{"..."}<span>{ braceClose }</span>
         {
           isRef ? <JumpToPathSection /> : ""
         }
@@ -80,7 +81,7 @@ export default class ObjectModel extends Component {
               <table className="model"><tbody>
               {
                 !description ? null : <tr style={{ color: "#666", fontWeight: "normal" }}>
-                    <td style={{ fontWeight: "bold" }}>description:</td>
+                    <td style={{ fontWeight: "bold" }}>{translate("models.description")}</td>
                     <td>
                       <Markdown source={ description } />
                     </td>
@@ -98,7 +99,7 @@ export default class ObjectModel extends Component {
 
                       return (<tr key={key} className={isDeprecated && "deprecated"}>
                         <td style={ propertyStyle }>
-                          { key }{ isRequired && <span style={{ color: "red" }}>*</span> }
+                          { key }{ isRequired && <span style={{ color: "red" }}>{"*"}</span> }
                         </td>
                         <td style={{ verticalAlign: "top" }}>
                           <Model key={ `object-${name}-${key}_${value}` } { ...otherProps }

@@ -15,7 +15,8 @@ export default class ArrayModel extends Component {
     required: PropTypes.bool,
     expandDepth: PropTypes.number,
     specPath: ImPropTypes.list.isRequired,
-    depth: PropTypes.number
+    depth: PropTypes.number,
+    translate: PropTypes.func.isRequired
   }
 
   render(){
@@ -42,7 +43,7 @@ export default class ArrayModel extends Component {
 
     return <span className="model">
       <ModelCollapse title={titleEl} expanded={ depth <= expandDepth } collapsedContent="[...]">
-        [
+        {"["}
           {
             properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propVal={ v } propStyle={ propStyle } />) : null
           }
@@ -61,7 +62,7 @@ export default class ArrayModel extends Component {
               depth={ depth + 1 }
             />
           </span>
-        ]
+        {"]"}
       </ModelCollapse>
     </span>
   }

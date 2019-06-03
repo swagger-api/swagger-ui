@@ -8,7 +8,8 @@ export default class HighlightCode extends Component {
     value: PropTypes.string.isRequired,
     className: PropTypes.string,
     downloadable: PropTypes.bool,
-    fileName: PropTypes.string
+    fileName: PropTypes.string,
+    downloadTitle: PropTypes.string
   }
 
   componentDidMount() {
@@ -47,14 +48,14 @@ export default class HighlightCode extends Component {
   }
 
   render () {
-    let { value, className, downloadable } = this.props
+    let { value, className, downloadable, downloadTitle } = this.props
     className = className || ""
 
     return (
       <div className="highlight-code">
         { !downloadable ? null :
           <div className="download-contents" onClick={this.downloadText}>
-            Download
+            {downloadTitle}
           </div>
         }
         <pre

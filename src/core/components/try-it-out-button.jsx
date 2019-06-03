@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 export default class TryItOutButton extends React.Component {
 
   static propTypes = {
+    translate: PropTypes.func.isRequired,
     onTryoutClick: PropTypes.func,
     onCancelClick: PropTypes.func,
     enabled: PropTypes.bool, // Try it out is enabled, ie: the user has access to the form
@@ -16,13 +17,13 @@ export default class TryItOutButton extends React.Component {
   };
 
   render() {
-    const { onTryoutClick, onCancelClick, enabled } = this.props
+    const { translate, onTryoutClick, onCancelClick, enabled } = this.props
 
     return (
       <div className="try-out">
         {
-          enabled ? <button className="btn try-out__btn cancel" onClick={ onCancelClick }>Cancel</button>
-                  : <button className="btn try-out__btn" onClick={ onTryoutClick }>Try it out </button>
+          enabled ? <button className="btn try-out__btn cancel" onClick={ onCancelClick }>{translate("cancel")}</button>
+                  : <button className="btn try-out__btn" onClick={ onTryoutClick }>{translate("tryItOut")}</button>
         }
       </div>
     )

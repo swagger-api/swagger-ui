@@ -6,11 +6,12 @@ export default class SchemesContainer extends React.Component {
   static propTypes = {
     specActions: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
-    getComponent: PropTypes.func.isRequired
+    getComponent: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   }
 
   render () {
-    const {specActions, specSelectors, getComponent} = this.props
+    const {specActions, specSelectors, getComponent, translate} = this.props
 
     const currentScheme = specSelectors.operationScheme()
     const schemes = specSelectors.schemes()
@@ -24,6 +25,7 @@ export default class SchemesContainer extends React.Component {
           currentScheme={currentScheme}
           schemes={schemes}
           specActions={specActions}
+          title={translate("schemes.schemes")}
         />
       ) : null
   }

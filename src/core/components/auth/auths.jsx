@@ -8,7 +8,8 @@ export default class Auths extends React.Component {
     getComponent: PropTypes.func.isRequired,
     authSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
-    specSelectors: PropTypes.object.isRequired
+    specSelectors: PropTypes.object.isRequired,
+    translate: PropTypes.object.isRequired
   }
 
   constructor(props, context) {
@@ -49,7 +50,7 @@ export default class Auths extends React.Component {
   }
 
   render() {
-    let { definitions, getComponent, authSelectors, errSelectors } = this.props
+    let { definitions, getComponent, authSelectors, errSelectors, translate } = this.props
     const AuthItem = getComponent("AuthItem")
     const Oauth2 = getComponent("oauth2", true)
     const Button = getComponent("Button")
@@ -77,15 +78,16 @@ export default class Auths extends React.Component {
                   onAuthChange={this.onAuthChange}
                   authorized={authorized}
                   errSelectors={errSelectors}
+                  translate={translate}
                   />
               }).toArray()
             }
             <div className="auth-btn-wrapper">
               {
-                nonOauthDefinitions.size === authorizedAuth.size ? <Button className="btn modal-btn auth" onClick={ this.logoutClick }>Logout</Button>
-              : <Button type="submit" className="btn modal-btn auth authorize">Authorize</Button>
+                nonOauthDefinitions.size === authorizedAuth.size ? <Button className="btn modal-btn auth" onClick={ this.logoutClick }>{translate("auth.logout")}</Button>
+              : <Button type="submit" className="btn modal-btn auth authorize">{translate("auth.authorize")}</Button>
               }
-              <Button className="btn modal-btn auth btn-done" onClick={ this.close }>Close</Button>
+              <Button className="btn modal-btn auth btn-done" onClick={ this.close }>{translate("close")}</Button>
             </div>
           </form>
         }
@@ -93,8 +95,8 @@ export default class Auths extends React.Component {
         {
           oauthDefinitions && oauthDefinitions.size ? <div>
           <div className="scope-def">
-            <p>Scopes are used to grant an application different levels of access to data on behalf of the end user. Each API may declare one or more scopes.</p>
-            <p>API requires the following scopes. Select which ones you want to grant to Swagger UI.</p>
+            <p>{translate("auth.scopesDescription")}</p>
+            <p>{translate("auth.scopesDescription2")}</p>
           </div>
             {
               definitions.filter( schema => schema.get("type") === "oauth2")

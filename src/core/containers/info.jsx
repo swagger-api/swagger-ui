@@ -7,10 +7,11 @@ export default class InfoContainer extends React.Component {
     specActions: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   }
 
   render () {
-    const {specSelectors, getComponent} = this.props
+    const {specSelectors, getComponent, translate} = this.props
 
     const info = specSelectors.info()
     const url = specSelectors.url()
@@ -24,7 +25,7 @@ export default class InfoContainer extends React.Component {
       <div>
         {info && info.count() ? (
           <Info info={info} url={url} host={host} basePath={basePath} externalDocs={externalDocs}
-                getComponent={getComponent}/>
+                getComponent={getComponent} translate={translate} />
         ) : null}
       </div>
     )

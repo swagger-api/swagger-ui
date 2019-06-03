@@ -8,7 +8,8 @@ export default class ApiKeyAuth extends React.Component {
     errSelectors: PropTypes.object.isRequired,
     schema: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    translate: PropTypes.func.isRequired
   }
 
   constructor(props, context) {
@@ -39,7 +40,7 @@ export default class ApiKeyAuth extends React.Component {
   }
 
   render() {
-    let { schema, getComponent, errSelectors, name } = this.props
+    let { schema, getComponent, errSelectors, name, translate } = this.props
     const Input = getComponent("Input")
     const Row = getComponent("Row")
     const Col = getComponent("Col")
@@ -53,23 +54,23 @@ export default class ApiKeyAuth extends React.Component {
       <div>
         <h4>
           <code>{ name || schema.get("name") }</code>&nbsp;
-          (apiKey)
+          {"("}{translate("auth.apiKey.title")}{")"}
           <JumpToPath path={[ "securityDefinitions", name ]} />
         </h4>
-        { value && <h6>Authorized</h6>}
+        { value && <h6>{translate("auth.authorized")}</h6>}
         <Row>
           <Markdown source={ schema.get("description") } />
         </Row>
         <Row>
-          <p>Name: <code>{ schema.get("name") }</code></p>
+          <p>{translate("auth.apiKey.name")} <code>{ schema.get("name") }</code></p>
         </Row>
         <Row>
-          <p>In: <code>{ schema.get("in") }</code></p>
+          <p>{translate("auth.apiKey.in")} <code>{ schema.get("in") }</code></p>
         </Row>
         <Row>
-          <label>Value:</label>
+          <label>{translate("auth.apiKey.value")}</label>
           {
-            value ? <code> ****** </code>
+            value ? <code> {translate("auth.hidden")} </code>
                   : <Col><Input type="text" onChange={ this.onChange }/></Col>
           }
         </Row>

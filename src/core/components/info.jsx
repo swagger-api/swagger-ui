@@ -8,15 +8,16 @@ import { sanitizeUrl } from "core/utils"
 export class InfoBasePath extends React.Component {
   static propTypes = {
     host: PropTypes.string,
-    basePath: PropTypes.string
+    basePath: PropTypes.string,
+    translate: PropTypes.func.isRequired
   }
 
   render() {
-    let { host, basePath } = this.props
+    let { host, basePath, translate } = this.props
 
     return (
       <pre className="base-url">
-        [ Base URL: {host}{basePath} ]
+        {"["} { translate("info.baseUrl") } {host}{basePath} {"]"}
       </pre>
     )
   }
@@ -26,12 +27,13 @@ export class InfoBasePath extends React.Component {
 class Contact extends React.Component {
   static propTypes = {
     data: PropTypes.object,
-    getComponent: PropTypes.func.isRequired
+    getComponent: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   }
 
   render(){
-    let { data, getComponent } = this.props
-    let name = data.get("name") || "the developer"
+    let { data, getComponent, translate } = this.props
+    let name = data.get("name") || translate("info.developer")
     let url = data.get("url")
     let email = data.get("email")
 
@@ -39,10 +41,10 @@ class Contact extends React.Component {
 
     return (
       <div className="info__contact">
-        { url && <div><Link href={ sanitizeUrl(url) } target="_blank">{ name } - Website</Link></div> }
+        { url && <div><Link href={ sanitizeUrl(url) } target="_blank">{ translate("info.website", { name }) }</Link></div> }
         { email &&
           <Link href={sanitizeUrl(`mailto:${email}`)}>
-            { url ? `Send email to ${name}` : `Contact ${name}`}
+            { url ? translate("info.sendEmail", { name }) : translate("info.contact", { name }) }
           </Link>
         }
       </div>
@@ -61,7 +63,7 @@ class License extends React.Component {
     let { license, getComponent } = this.props
 
     const Link = getComponent("Link")
-  
+
     let name = license.get("name") || "License"
     let url = license.get("url")
 
@@ -82,7 +84,7 @@ export class InfoUrl extends React.PureComponent {
     getComponent: PropTypes.func.isRequired
   }
 
-  
+
   render() {
     const { url, getComponent } = this.props
 
@@ -100,10 +102,11 @@ export default class Info extends React.Component {
     basePath: PropTypes.string,
     externalDocs: ImPropTypes.map,
     getComponent: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   }
 
   render() {
-    let { info, url, host, basePath, getComponent, externalDocs } = this.props
+    let { info, url, host, basePath, getComponent, externalDocs, translate } = this.props
     let version = info.get("version")
     let description = info.get("description")
     let title = info.get("title")
@@ -122,9 +125,9 @@ export default class Info extends React.Component {
       <div className="info">
         <hgroup className="main">
           <h2 className="title" >{ title }
-            { version && <VersionStamp version={version}></VersionStamp> }
+            { version && <VersionStamp version={version} translate={translate}></VersionStamp> }
           </h2>
-          { host || basePath ? <InfoBasePath host={ host } basePath={ basePath } /> : null }
+          { host || basePath ? <InfoBasePath host={ host } basePath={ basePath } translate={ translate } /> : null }
           { url && <InfoUrl getComponent={getComponent} url={url} /> }
         </hgroup>
 
@@ -134,12 +137,12 @@ export default class Info extends React.Component {
 
         {
           termsOfService && <div className="info__tos">
-            <Link target="_blank" href={ sanitizeUrl(termsOfService) }>Terms of service</Link>
+            <Link target="_blank" href={ sanitizeUrl(termsOfService) }>{ translate("info.termsOfService") }</Link>
           </div>
         }
 
-        {contact && contact.size ? <Contact getComponent={getComponent} data={ contact } /> : null }
-        {license && license.size ? <License getComponent={getComponent} license={ license } /> : null }
+        {contact && contact.size ? <Contact getComponent={getComponent} translate={translate} data={ contact } /> : null }
+        {license && license.size ? <License getComponent={getComponent} translate={translate} license={ license } /> : null }
         { externalDocsUrl ?
             <Link className="info__extdocs" target="_blank" href={sanitizeUrl(externalDocsUrl)}>{externalDocsDescription || externalDocsUrl}</Link>
         : null }

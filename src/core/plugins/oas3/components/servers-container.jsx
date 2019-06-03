@@ -8,10 +8,11 @@ export default class ServersContainer extends React.Component {
     oas3Selectors: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   }
 
   render () {
-    const {specSelectors, oas3Selectors, oas3Actions, getComponent} = this.props
+    const {specSelectors, oas3Selectors, oas3Actions, getComponent, translate} = this.props
 
     const servers = specSelectors.servers()
 
@@ -19,7 +20,7 @@ export default class ServersContainer extends React.Component {
 
     return servers && servers.size ? (
       <div>
-        <span className="servers-title">Servers</span>
+        <span className="servers-title">{translate("servers.title")}</span>
         <Servers
           servers={servers}
           currentServer={oas3Selectors.selectedServer()}
@@ -27,6 +28,7 @@ export default class ServersContainer extends React.Component {
           setServerVariableValue={oas3Actions.setServerVariableValue}
           getServerVariable={oas3Selectors.serverVariableValue}
           getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
+          translate={translate}
         />
       </div> ) : null
   }

@@ -7,6 +7,8 @@ export default class App extends React.Component {
     let { getComponent, layoutSelectors } = this.props
     const layoutName = layoutSelectors.current()
     const Component = getComponent(layoutName, true)
+
+    // eslint-disable-next-line react/jsx-no-literals
     return Component ? Component : ()=> <h1> No layout defined for &quot;{layoutName}&quot; </h1>
   }
 

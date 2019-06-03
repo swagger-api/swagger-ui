@@ -9,7 +9,8 @@ export default class Models extends Component {
     specActions: PropTypes.object.isRequired,
     layoutSelectors: PropTypes.object,
     layoutActions: PropTypes.object,
-    getConfigs: PropTypes.func.isRequired
+    getConfigs: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired
   }
 
   getSchemaBasePath = () => {
@@ -30,7 +31,7 @@ export default class Models extends Component {
   }
 
   render(){
-    let { specSelectors, getComponent, layoutSelectors, layoutActions, getConfigs } = this.props
+    let { specSelectors, getComponent, layoutSelectors, layoutActions, getConfigs, translate } = this.props
     let definitions = specSelectors.definitions()
     let { docExpansion, defaultModelsExpandDepth } = getConfigs()
     if (!definitions.size || defaultModelsExpandDepth < 0) return null
@@ -46,7 +47,7 @@ export default class Models extends Component {
 
     return <section className={ showModels ? "models is-open" : "models"}>
       <h4 onClick={() => layoutActions.show("models", !showModels)}>
-        <span>{isOAS3 ? "Schemas" : "Models" }</span>
+        <span>{translate(isOAS3 ? "models.schemas" : "models.models")}</span>
         <svg width="20" height="20">
           <use xlinkHref={showModels ? "#large-arrow-down" : "#large-arrow"} />
         </svg>
@@ -83,7 +84,8 @@ export default class Models extends Component {
               specSelectors={ specSelectors }
               getConfigs = {getConfigs}
               layoutSelectors = {layoutSelectors}
-              layoutActions = {layoutActions}/>
+              layoutActions = {layoutActions}
+              translate = {translate} />
 
             const title = <span className="model-box">
               <span className="model model-title">

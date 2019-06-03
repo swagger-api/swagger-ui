@@ -7,7 +7,8 @@ export default class BasicAuth extends React.Component {
     authorized: PropTypes.object,
     getComponent: PropTypes.func.isRequired,
     schema: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired
   }
 
   constructor(props, context) {
@@ -45,7 +46,7 @@ export default class BasicAuth extends React.Component {
   }
 
   render() {
-    let { schema, getComponent, name, errSelectors } = this.props
+    let { schema, getComponent, name, errSelectors, translate } = this.props
     const Input = getComponent("Input")
     const Row = getComponent("Row")
     const Col = getComponent("Col")
@@ -57,22 +58,22 @@ export default class BasicAuth extends React.Component {
 
     return (
       <div>
-        <h4>Basic authorization<JumpToPath path={[ "securityDefinitions", name ]} /></h4>
-        { username && <h6>Authorized</h6> }
+        <h4>{translate("auth.basic.title")}<JumpToPath path={[ "securityDefinitions", name ]} /></h4>
+        { username && <h6>{translate("auth.authorized")}</h6> }
         <Row>
           <Markdown source={ schema.get("description") } />
         </Row>
         <Row>
-          <label>Username:</label>
+          <label>{translate("auth.basic.username")}</label>
           {
             username ? <code> { username } </code>
                      : <Col><Input type="text" required="required" name="username" onChange={ this.onChange }/></Col>
           }
         </Row>
         <Row>
-          <label>Password:</label>
+          <label>{translate("auth.basic.password")}</label>
             {
-              username ? <code> ****** </code>
+              username ? <code> {translate("auth.hidden")} </code>
                        : <Col><Input required="required"
                                      autoComplete="new-password"
                                      name="password"

@@ -18,7 +18,8 @@ export default class ParameterRow extends Component {
     specActions: PropTypes.object.isRequired,
     pathMethod: PropTypes.array.isRequired,
     getConfigs: PropTypes.func.isRequired,
-    specPath: ImPropTypes.list.isRequired
+    specPath: ImPropTypes.list.isRequired,
+    translate: ImPropTypes.list.isRequired
   }
 
   constructor(props, context) {
@@ -63,7 +64,7 @@ export default class ParameterRow extends Component {
   onChangeWrapper = (value, isXml = false) => {
     let { onChange, rawParam } = this.props
     let valueForUpstream
-    
+
     // Coerce empty strings and empty Immutable objects to null
     if(value === "" || (value && value.size === 0)) {
       valueForUpstream = null
@@ -111,7 +112,7 @@ export default class ParameterRow extends Component {
   }
 
   render() {
-    let {param, rawParam, getComponent, getConfigs, isExecute, fn, onChangeConsumes, specSelectors, pathMethod, specPath} = this.props
+    let {param, rawParam, getComponent, getConfigs, isExecute, fn, onChangeConsumes, specSelectors, pathMethod, specPath, translate} = this.props
 
     let { isOAS3 } = specSelectors
 
@@ -136,6 +137,7 @@ export default class ParameterRow extends Component {
                    isExecute={ isExecute }
                    specSelectors={ specSelectors }
                    pathMethod={ pathMethod }
+                   translate={ translate }
       />
 
     const ModelExample = getComponent("modelExample")
@@ -191,17 +193,19 @@ export default class ParameterRow extends Component {
         <td className="col parameters-col_name">
           <div className={required ? "parameter__name required" : "parameter__name"}>
             { param.get("name") }
-            { !required ? null : <span style={{color: "red"}}>&nbsp;*</span> }
+            { required ? // eslint-disable-next-line react/jsx-no-literals
+              <span style={{color: "red"}}>&nbsp;*</span>
+              : null }
           </div>
           <div className="parameter__type">
             { type }
             { itemType && `[${itemType}]` }
-            { format && <span className="prop-format">(${format})</span>}
+            { format && <span className="prop-format">{"($"}{format}{")"}</span>}
           </div>
           <div className="parameter__deprecated">
-            { isOAS3 && isOAS3() && param.get("deprecated") ? "deprecated": null }
+            { isOAS3 && isOAS3() && param.get("deprecated") ? translate("parameters.deprecated") : null }
           </div>
-          <div className="parameter__in">({ param.get("in") })</div>
+          <div className="parameter__in">{"("}{ param.get("in") }{")"}</div>
           { !showCommonExtensions || !commonExt.size ? null : commonExt.map((v, key) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} /> )}
           { !showExtensions || !extensions.size ? null : extensions.map((v, key) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} /> )}
         </td>
@@ -211,18 +215,18 @@ export default class ParameterRow extends Component {
 
           { (bodyParam || !isExecute) && isDisplayParamEnum ?
             <Markdown className="parameter__enum" source={
-                "<i>Available values</i> : " + paramEnum.map(function(item) {
+                "<i>" + translate("parameters.availableValues") + "</i> " + paramEnum.map(function(item) {
                     return item
                   }).toArray().join(", ")}/>
             : null
           }
 
           { (bodyParam || !isExecute) && paramDefaultValue !== undefined ?
-            <Markdown className="parameter__default" source={"<i>Default value</i> : " + paramDefaultValue}/>
+            <Markdown className="parameter__default" source={"<i>" + translate("parameters.defaultValue") + "</i> " + paramDefaultValue}/>
             : null
           }
 
-          {(isFormData && !isFormDataSupported) && <div>Error: your browser does not support FormData</div>}
+          {(isFormData && !isFormDataSupported) && <div>{translate("parameters.formDataUnsupported")}</div>}
 
           { bodyParam || !isExecute ? null
             : <JsonSchemaForm fn={fn}
@@ -232,7 +236,8 @@ export default class ParameterRow extends Component {
                               description={param.get("description") ? `${param.get("name")} - ${param.get("description")}` : `${param.get("name")}`}
                               onChange={ this.onChangeWrapper }
                               errors={ paramWithMeta.get("errors") }
-                              schema={ schema }/>
+                              schema={ schema }
+                              translate={ translate } />
           }
 
 
@@ -243,17 +248,19 @@ export default class ParameterRow extends Component {
                                                 isExecute={ isExecute }
                                                 specSelectors={ specSelectors }
                                                 schema={ param.get("schema") }
-                                                example={ bodyParam }/>
+                                                example={ bodyParam }
+                                                translate={ translate } />
               : null
           }
 
           {
-            !bodyParam && isExecute ? 
+            !bodyParam && isExecute ?
             <ParameterIncludeEmpty
               onChange={this.onChangeIncludeEmpty}
               isIncluded={specSelectors.parameterInclusionSettingFor(pathMethod, param.get("name"), param.get("in"))}
               isDisabled={value && value.size !== 0}
-              param={param} /> 
+              param={param}
+              title={translate("parameters.sendEmptyValue")} />
             : null
           }
 

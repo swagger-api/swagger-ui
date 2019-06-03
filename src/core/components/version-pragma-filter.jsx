@@ -8,6 +8,7 @@ export default class VersionPragmaFilter extends React.PureComponent {
     bypass: PropTypes.bool,
     alsoShow: PropTypes.element,
     children: PropTypes.any,
+    translate: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -17,7 +18,7 @@ export default class VersionPragmaFilter extends React.PureComponent {
   }
 
   render() {
-    const { bypass, isSwagger2, isOAS3, alsoShow } = this.props
+    const { bypass, isSwagger2, isOAS3, alsoShow, translate } = this.props
 
     if(bypass) {
       return <div>{ this.props.children }</div>
@@ -28,9 +29,23 @@ export default class VersionPragmaFilter extends React.PureComponent {
         {alsoShow}
         <div className="version-pragma__message version-pragma__message--ambiguous">
           <div>
-            <h3>Unable to render this definition</h3>
-            <p><code>swagger</code> and <code>openapi</code> fields cannot be present in the same Swagger or OpenAPI definition. Please remove one of the fields.</p>
-            <p>Supported version fields are <code>swagger: {"\"2.0\""}</code> and those that match <code>openapi: 3.0.n</code> (for example, <code>openapi: 3.0.0</code>).</p>
+            <h3>{translate("versionPragma.header")}</h3>
+            <p>
+              {translate("versionPragma.conflict.1")}
+              <code>{"swagger"}</code>
+              {translate("versionPragma.conflict.2")}
+              <code>{"openapi"}</code>
+              {translate("versionPragma.conflict.3")}
+            </p>
+            <p>
+              {translate("versionPragma.supported.1")}
+              <code>{"swagger:"} {"\"2.0\""}</code>
+              {translate("versionPragma.supported.2")}
+              <code>{"openapi: 3.0.n"}</code>
+              {translate("versionPragma.supported.3")}
+              <code>{"openapi: 3.0.0"}</code>
+              {translate("versionPragma.supported.4")}
+            </p>
           </div>
         </div>
       </div>
@@ -41,9 +56,19 @@ export default class VersionPragmaFilter extends React.PureComponent {
         {alsoShow}
         <div className="version-pragma__message version-pragma__message--missing">
           <div>
-            <h3>Unable to render this definition</h3>
-            <p>The provided definition does not specify a valid version field.</p>
-            <p>Please indicate a valid Swagger or OpenAPI version field. Supported version fields are <code>swagger: {"\"2.0\""}</code> and those that match <code>openapi: 3.0.n</code> (for example, <code>openapi: 3.0.0</code>).</p>
+            <h3>{translate("versionPragma.header")}</h3>
+            <p>{translate("versionPragma.noValidVersion")}</p>
+            <p>
+              {translate("versionPragma.needValid")}
+              {" "}
+              {translate("versionPragma.supported.1")}
+              <code>{"swagger:"} {"\"2.0\""}</code>
+              {translate("versionPragma.supported.2")}
+              <code>{"openapi: 3.0.n"}</code>
+              {translate("versionPragma.supported.3")}
+              <code>{"openapi: 3.0.0"}</code>
+              {translate("versionPragma.supported.4")}
+            </p>
           </div>
         </div>
       </div>

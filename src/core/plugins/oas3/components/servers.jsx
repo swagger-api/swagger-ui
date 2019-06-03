@@ -11,7 +11,8 @@ export default class Servers extends React.Component {
     setSelectedServer: PropTypes.func.isRequired,
     setServerVariableValue: PropTypes.func.isRequired,
     getServerVariable: PropTypes.func.isRequired,
-    getEffectiveServerValue: PropTypes.func.isRequired
+    getEffectiveServerValue: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired
   }
 
   componentDidMount() {
@@ -91,7 +92,8 @@ export default class Servers extends React.Component {
     let { servers,
       currentServer,
       getServerVariable,
-      getEffectiveServerValue
+      getEffectiveServerValue,
+      translate
     } = this.props
 
 
@@ -120,12 +122,12 @@ export default class Servers extends React.Component {
           <div>
 
             <div className={"computed-url"}>
-              Computed URL:
+              {translate("servers.computedUrl")}
               <code>
                 {getEffectiveServerValue(currentServer)}
               </code>
             </div>
-            <h4>Server variables</h4>
+            <h4>{translate("servers.variables")}</h4>
             <table>
               <tbody>
                 {

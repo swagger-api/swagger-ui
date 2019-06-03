@@ -3,7 +3,7 @@ import cx from "classnames"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 
-export const ParameterIncludeEmpty = ({ param, isIncluded, onChange, isDisabled }) => {
+export const ParameterIncludeEmpty = ({ param, isIncluded, onChange, isDisabled, title }) => {
   const onCheckboxChange = e => {
     onChange(e.target.checked)
   }
@@ -14,7 +14,7 @@ export const ParameterIncludeEmpty = ({ param, isIncluded, onChange, isDisabled 
     "disabled": isDisabled
   })}>
     <input type="checkbox" disabled={isDisabled} checked={!isDisabled && isIncluded} onChange={onCheckboxChange} />
-    Send empty value
+    {title}
   </div>
 }
 ParameterIncludeEmpty.propTypes = {
@@ -22,6 +22,7 @@ ParameterIncludeEmpty.propTypes = {
   isIncluded: PropTypes.bool.isRequired,
   isDisabled: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
 }
 
 export default ParameterIncludeEmpty

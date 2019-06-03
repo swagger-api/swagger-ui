@@ -9,7 +9,7 @@ export default class AuthorizationPopup extends React.Component {
   }
 
   render() {
-    let { authSelectors, authActions, getComponent, errSelectors, specSelectors, fn: { AST = {} } } = this.props
+    let { authSelectors, authActions, getComponent, errSelectors, specSelectors, translate, fn: { AST = {} } } = this.props
     let definitions = authSelectors.shownDefinitions()
     const Auths = getComponent("auths")
 
@@ -20,7 +20,7 @@ export default class AuthorizationPopup extends React.Component {
           <div className="modal-dialog-ux">
             <div className="modal-ux-inner">
               <div className="modal-ux-header">
-                <h3>Available authorizations</h3>
+                <h3>{translate("auth.availableAuthorizations")}</h3>
                 <button type="button" className="close-modal" onClick={ this.close }>
                   <svg width="20" height="20">
                     <use href="#close" xlinkHref="#close" />
@@ -38,7 +38,8 @@ export default class AuthorizationPopup extends React.Component {
                                   errSelectors={ errSelectors }
                                   authSelectors={ authSelectors }
                                   authActions={ authActions }
-                                  specSelectors={ specSelectors }/>
+                                  specSelectors={ specSelectors }
+                                  translate={ translate }/>
                   })
                 }
               </div>
@@ -56,5 +57,6 @@ export default class AuthorizationPopup extends React.Component {
     specSelectors: PropTypes.object.isRequired,
     errSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
+    translate: PropTypes.func.isRequired,
   }
 }

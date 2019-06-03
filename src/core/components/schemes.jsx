@@ -7,6 +7,7 @@ export default class Schemes extends React.Component {
     specActions: PropTypes.object.isRequired,
     schemes: PropTypes.object.isRequired,
     currentScheme: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     path: PropTypes.string,
     method: PropTypes.string,
   }
@@ -37,11 +38,11 @@ export default class Schemes extends React.Component {
   }
 
   render() {
-    let { schemes, currentScheme } = this.props
+    let { title, schemes, currentScheme } = this.props
 
     return (
       <label htmlFor="schemes">
-        <span className="schemes-title">Schemes</span>
+        <span className="schemes-title">{title}</span>
         <select onChange={ this.onChange } value={currentScheme}>
           { schemes.valueSeq().map(
             ( scheme ) => <option value={ scheme } key={ scheme }>{ scheme }</option>

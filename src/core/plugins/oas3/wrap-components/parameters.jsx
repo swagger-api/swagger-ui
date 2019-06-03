@@ -33,7 +33,8 @@ class Parameters extends Component {
     onTryoutClick: PropTypes.func,
     onCancelClick: PropTypes.func,
     onChangeKey: PropTypes.array,
-    pathMethod: PropTypes.array.isRequired
+    pathMethod: PropTypes.array.isRequired,
+    translate: PropTypes.func.isRequired
   }
 
 
@@ -95,7 +96,8 @@ class Parameters extends Component {
       oas3Selectors,
       pathMethod,
       specPath,
-      operation
+      operation,
+      translate
     } = this.props
 
     const ParameterRow = getComponent("parameterRow")
@@ -115,28 +117,28 @@ class Parameters extends Component {
         <div className="opblock-section-header">
           <div className="tab-header">
             <div onClick={() => this.toggleTab("parameters")} className={`tab-item ${this.state.parametersVisible && "active"}`}>
-              <h4 className="opblock-title"><span>Parameters</span></h4>
+              <h4 className="opblock-title"><span>{translate("parameters.title")}</span></h4>
             </div>
             { operation.get("callbacks") ?
               (
                 <div onClick={() => this.toggleTab("callbacks")} className={`tab-item ${this.state.callbackVisible && "active"}`}>
-                  <h4 className="opblock-title"><span>Callbacks</span></h4>
+                  <h4 className="opblock-title"><span>{translate("callbacks.title")}</span></h4>
                 </div>
               ) : null
             }
           </div>
             { allowTryItOut ? (
-              <TryItOutButton enabled={ tryItOutEnabled } onCancelClick={ onCancelClick } onTryoutClick={ onTryoutClick } />
+              <TryItOutButton enabled={ tryItOutEnabled } onCancelClick={ onCancelClick } onTryoutClick={ onTryoutClick } translate={ translate } />
             ) : null }
         </div>
         {this.state.parametersVisible ? <div className="parameters-container">
-          { !parameters.count() ? <div className="opblock-description-wrapper"><p>No parameters</p></div> :
+          { !parameters.count() ? <div className="opblock-description-wrapper"><p>{translate("parameters.no")}</p></div> :
             <div className="table-container">
               <table className="parameters">
                 <thead>
                   <tr>
-                    <th className="col col_header parameters-col_name">Name</th>
-                    <th className="col col_header parameters-col_description">Description</th>
+                    <th className="col col_header parameters-col_name">{translate("parameters.name")}</th>
+                    <th className="col col_header parameters-col_description">{translate("parameters.description")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -154,7 +156,8 @@ class Parameters extends Component {
                         specSelectors={ specSelectors }
                         specActions={ specActions }
                         pathMethod={ pathMethod }
-                        isExecute={ isExecute }/>
+                        isExecute={ isExecute }
+                        translate={ translate } />
                     )).toArray()
                   }
                 </tbody>
@@ -167,13 +170,14 @@ class Parameters extends Component {
           <Callbacks
             callbacks={Map(operation.get("callbacks"))}
             specPath={specPath.slice(0, -1).push("callbacks")}
+            translate={translate}
           />
         </div> : "" }
         {
           isOAS3() && requestBody && this.state.parametersVisible &&
           <div className="opblock-section opblock-section-request-body">
             <div className="opblock-section-header">
-              <h4 className={`opblock-title parameter__name ${requestBody.get("required") && "required"}`}>Request body</h4>
+              <h4 className={`opblock-title parameter__name ${requestBody.get("required") && "required"}`}>{translate("request.body")}</h4>
               <label>
                 <ContentType
                   value={oas3Selectors.requestContentType(...pathMethod)}
@@ -201,7 +205,8 @@ class Parameters extends Component {
                   }
                   oas3Actions.setRequestBodyValue({ value, pathMethod })
                 }}
-                contentType={oas3Selectors.requestContentType(...pathMethod)}/>
+                contentType={oas3Selectors.requestContentType(...pathMethod)}
+                translate={translate} />
             </div>
           </div>
         }

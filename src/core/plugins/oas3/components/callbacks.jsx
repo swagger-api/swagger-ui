@@ -4,12 +4,12 @@ import ImPropTypes from "react-immutable-proptypes"
 import { fromJS } from "immutable"
 
 const Callbacks = (props) => {
-  let { callbacks, getComponent, specPath } = props
+  let { callbacks, getComponent, specPath, translate } = props
   // const Markdown = getComponent("Markdown")
   const OperationContainer = getComponent("OperationContainer", true)
 
   if(!callbacks) {
-    return <span>No callbacks</span>
+    return <span>{translate("callbacks.no")}</span>
   }
 
   let callbackElements = callbacks.map((callback, callbackName) => {
@@ -51,6 +51,7 @@ Callbacks.propTypes = {
   getComponent: PropTypes.func.isRequired,
   callbacks: ImPropTypes.iterable.isRequired,
   specPath: ImPropTypes.list.isRequired,
+  translate: PropTypes.func.isRequired,
 }
 
 export default Callbacks

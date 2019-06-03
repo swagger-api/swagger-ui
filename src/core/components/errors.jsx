@@ -10,10 +10,11 @@ export default class Errors extends React.Component {
     layoutSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
   }
 
   render() {
-    let { editorActions, errSelectors, layoutSelectors, layoutActions, getComponent } = this.props
+    let { editorActions, errSelectors, layoutSelectors, layoutActions, getComponent, translate } = this.props
 
     const Collapse = getComponent("Collapse")
 
@@ -38,8 +39,8 @@ export default class Errors extends React.Component {
     return (
       <pre className="errors-wrapper">
         <hgroup className="error">
-          <h4 className="errors__title">Errors</h4>
-          <button className="btn errors__clear-btn" onClick={ toggleVisibility }>{ isVisible ? "Hide" : "Show" }</button>
+          <h4 className="errors__title">{translate("errors.header")}</h4>
+          <button className="btn errors__clear-btn" onClick={ toggleVisibility }>{ isVisible ? translate("hide") : translate("show") }</button>
         </hgroup>
         <Collapse isOpened={ isVisible } animated >
           <div className="errors">
@@ -59,7 +60,7 @@ export default class Errors extends React.Component {
     }
 }
 
-const ThrownErrorItem = ( { error, jumpToLine } ) => {
+const ThrownErrorItem = ( { error, jumpToLine, translate } ) => {
   if(!error) {
     return null
   }
@@ -71,12 +72,12 @@ const ThrownErrorItem = ( { error, jumpToLine } ) => {
         <div>
           <h4>{ (error.get("source") && error.get("level")) ?
             toTitleCase(error.get("source")) + " " + error.get("level") : "" }
-          { error.get("path") ? <small> at {error.get("path")}</small>: null }</h4>
+          { error.get("path") ? <small> {translate("errors.atPath", { path: error.get("path") })}</small>: null }</h4>
           <span style={{ whiteSpace: "pre-line", "maxWidth": "100%" }}>
             { error.get("message") }
           </span>
           <div style={{ "text-decoration": "underline", "cursor": "pointer" }}>
-            { errorLine && jumpToLine ? <a onClick={jumpToLine.bind(null, errorLine)}>Jump to line { errorLine }</a> : null }
+            { errorLine && jumpToLine ? <a onClick={jumpToLine.bind(null, errorLine)}>{translate("errors.jumpToLine", { line: errorLine })}</a> : null }
           </div>
         </div>
       }
@@ -84,17 +85,17 @@ const ThrownErrorItem = ( { error, jumpToLine } ) => {
     )
   }
 
-const SpecErrorItem = ( { error, jumpToLine } ) => {
+const SpecErrorItem = ( { error, jumpToLine, translate } ) => {
   let locationMessage = null
 
   if(error.get("path")) {
     if(List.isList(error.get("path"))) {
-      locationMessage = <small>at { error.get("path").join(".") }</small>
+      locationMessage = <small>{translate("errors.atPath", { path: error.get("path").join(".") })}</small>
     } else {
-      locationMessage = <small>at { error.get("path") }</small>
+      locationMessage = <small>{translate("errors.atPath", { path: error.get("path") })}</small>
     }
   } else if(error.get("line") && !jumpToLine) {
-    locationMessage = <small>on line { error.get("line") }</small>
+    locationMessage = <small>{translate("errors.onLine", { line: error.get("line") })}</small>
   }
 
   return (
@@ -105,7 +106,7 @@ const SpecErrorItem = ( { error, jumpToLine } ) => {
           <span style={{ whiteSpace: "pre-line"}}>{ error.get("message") }</span>
           <div style={{ "text-decoration": "underline", "cursor": "pointer" }}>
             { jumpToLine ? (
-              <a onClick={jumpToLine.bind(null, error.get("line"))}>Jump to line { error.get("line") }</a>
+              <a onClick={jumpToLine.bind(null, error.get("line"))}>{translate("errors.jumpToLine", { line: error.get("line") })}</a>
             ) : null }
           </div>
         </div>
@@ -123,7 +124,8 @@ function toTitleCase(str) {
 
 ThrownErrorItem.propTypes = {
   error: PropTypes.object.isRequired,
-  jumpToLine: PropTypes.func
+  jumpToLine: PropTypes.func,
+  translate: PropTypes.func.isRequired
 }
 
 ThrownErrorItem.defaultProps = {
@@ -132,5 +134,6 @@ ThrownErrorItem.defaultProps = {
 
 SpecErrorItem.propTypes = {
   error: PropTypes.object.isRequired,
-  jumpToLine: PropTypes.func
+  jumpToLine: PropTypes.func,
+  translate: PropTypes.func.isRequired
 }

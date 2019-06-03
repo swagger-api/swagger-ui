@@ -19,7 +19,8 @@ export default class Responses extends React.Component {
     specActions: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
     specPath: ImPropTypes.list.isRequired,
-    fn: PropTypes.object.isRequired
+    fn: PropTypes.object.isRequired,
+    translate: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -64,6 +65,7 @@ export default class Responses extends React.Component {
       producesValue,
       displayRequestDuration,
       specPath,
+      translate,
     } = this.props
     let defaultCode = defaultStatusCode( responses )
 
@@ -81,9 +83,9 @@ export default class Responses extends React.Component {
     return (
       <div className="responses-wrapper">
         <div className="opblock-section-header">
-          <h4>Responses</h4>
+          <h4>{translate("response.responses")}</h4>
             { specSelectors.isOAS3() ? null : <label>
-              <span>Response content type</span>
+              <span>{translate("response.contentType")}</span>
               <ContentType value={producesValue}
                          onChange={this.onChangeProducesWrapper}
                          contentTypes={produces}
@@ -100,8 +102,9 @@ export default class Responses extends React.Component {
                                                 specSelectors={ specSelectors }
                                                 path={ this.props.path }
                                                 method={ this.props.method }
-                                                displayRequestDuration={ displayRequestDuration } />
-                                  <h4>Responses</h4>
+                                                displayRequestDuration={ displayRequestDuration }
+                                                translate={translate} />
+                                  <h4>{translate("response.responses")}</h4>
                                 </div>
 
           }
@@ -109,9 +112,9 @@ export default class Responses extends React.Component {
           <table className="responses-table">
             <thead>
               <tr className="responses-header">
-                <td className="col col_header response-col_status">Code</td>
-                <td className="col col_header response-col_description">Description</td>
-                { specSelectors.isOAS3() ? <td className="col col_header response-col_links">Links</td> : null }
+                <td className="col col_header response-col_status">{translate("response.code")}</td>
+                <td className="col col_header response-col_description">{translate("response.description")}</td>
+                { specSelectors.isOAS3() ? <td className="col col_header response-col_links">{translate("response.links")}</td> : null }
               </tr>
             </thead>
             <tbody>
@@ -132,7 +135,8 @@ export default class Responses extends React.Component {
                               onContentTypeChange={this.onResponseContentTypeChange}
                               contentType={ producesValue }
                               getConfigs={ getConfigs }
-                              getComponent={ getComponent }/>
+                              getComponent={ getComponent }
+                              translate={ translate } />
                     )
                 }).toArray()
               }

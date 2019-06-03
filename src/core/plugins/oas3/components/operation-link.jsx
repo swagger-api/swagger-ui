@@ -4,7 +4,7 @@ import ImPropTypes from "react-immutable-proptypes"
 
 class OperationLink extends Component {
   render() {
-    const { link, name, getComponent } = this.props
+    const { link, name, getComponent, translate } = this.props
 
     const Markdown = getComponent("Markdown")
 
@@ -18,8 +18,8 @@ class OperationLink extends Component {
         { description ? <Markdown source={description}></Markdown> : null }
       </div>
       <pre>
-        Operation `{targetOp}`<br /><br />
-        Parameters {padString(0, JSON.stringify(parameters, null, 2)) || "{}"}<br />
+        {translate("operations.linkTitle", { name: targetOp })}<br /><br />
+        {translate("operations.linkParameters", { parameters: padString(0, JSON.stringify(parameters, null, 2)) || "{}" })}<br />
       </pre>
     </div>
   }
@@ -37,7 +37,8 @@ function padString(n, string) {
 OperationLink.propTypes = {
   getComponent: PropTypes.func.isRequired,
   link: ImPropTypes.orderedMap.isRequired,
-  name: PropTypes.String
+  name: PropTypes.String,
+  translate: PropTypes.func.isRequired
 }
 
 export default OperationLink

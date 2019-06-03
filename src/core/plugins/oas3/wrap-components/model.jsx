@@ -10,18 +10,19 @@ class ModelComponent extends Component {
     getComponent: PropTypes.func.isRequired,
     getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
-    expandDepth: PropTypes.number
+    expandDepth: PropTypes.number,
+    translate: PropTypes.func.isRequired
   }
 
   render(){
-    let { getConfigs, schema } = this.props
+    let { getConfigs, schema, translate } = this.props
     let classes = ["model-box"]
     let isDeprecated = schema.get("deprecated") === true
     let message = null
 
     if(isDeprecated) {
       classes.push("deprecated")
-      message = <span className="model-deprecated-warning">Deprecated:</span>
+      message = <span className="model-deprecated-warning">{translate("models.deprecated")}</span>
     }
 
     return <div className={classes.join(" ")}>

@@ -19,14 +19,14 @@ export default class Overview extends React.Component {
   }
 
   render() {
-    let { specSelectors, layoutSelectors, layoutActions, getComponent } = this.props
+    let { specSelectors, layoutSelectors, layoutActions, getComponent, translate } = this.props
     let taggedOps = specSelectors.taggedOperations()
 
     const Collapse = getComponent("Collapse")
 
     return (
         <div>
-          <h4 className="overview-title">Overview</h4>
+          <h4 className="overview-title">{translate("xpane.overview")}</h4>
 
           {
             taggedOps.map( (tagObj, tag) => {
@@ -57,7 +57,8 @@ export default class Overview extends React.Component {
                                               showOpId={showOpId}
                                               showOpIdPrefix={showOpIdPrefix}
                                               href={`#operation-${showOpId}`}
-                                              onClick={layoutActions.show} />
+                                              onClick={layoutActions.show}
+                                              translate={translate} />
                       }).toArray()
                     }
                   </Collapse>
@@ -67,7 +68,7 @@ export default class Overview extends React.Component {
             }).toArray()
           }
 
-          { taggedOps.size < 1 && <h3> No operations defined in spec! </h3> }
+          { taggedOps.size < 1 && <h3> {translate("operations.noDefined")} </h3> }
         </div>
     )
   }
@@ -78,7 +79,8 @@ Overview.propTypes = {
   layoutSelectors: PropTypes.object.isRequired,
   specSelectors: PropTypes.object.isRequired,
   layoutActions: PropTypes.object.isRequired,
-  getComponent: PropTypes.func.isRequired
+  getComponent: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 export class OperationLink extends React.Component {
@@ -115,5 +117,5 @@ OperationLink.propTypes = {
   method: PropTypes.string.isRequired,
   shown: PropTypes.bool.isRequired,
   showOpId: PropTypes.string.isRequired,
-  showOpIdPrefix: PropTypes.string.isRequired
+  showOpIdPrefix: PropTypes.string.isRequired,
 }

@@ -10,9 +10,11 @@ export default class Clear extends Component {
   }
 
   render(){
+    let { title } = this.props
+
     return (
       <button className="btn btn-clear opblock-control__btn" onClick={ this.onClick }>
-        Clear
+        {title}
       </button>
     )
   }
@@ -21,5 +23,6 @@ export default class Clear extends Component {
     specActions: PropTypes.object.isRequired,
     path: PropTypes.string.isRequired,
     method: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
   }
 }

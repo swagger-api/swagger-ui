@@ -5,6 +5,7 @@
       {
         "devDependencies": false
       }
-    ]
+    ],
+    "react/jsx-no-literals": 1
   }
 }

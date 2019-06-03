@@ -16,7 +16,8 @@ export default class OperationServers extends React.Component {
     getEffectiveServerValue: PropTypes.func.isRequired,
 
     // utils
-    getComponent: PropTypes.func.isRequired
+    getComponent: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired
   }
 
   setSelectedServer = (server) => {
@@ -66,7 +67,8 @@ export default class OperationServers extends React.Component {
       pathServers,
 
       // util
-      getComponent
+      getComponent,
+      translate
     } = this.props
 
     if(!operationServers && !pathServers) {
@@ -76,17 +78,17 @@ export default class OperationServers extends React.Component {
     const Servers = getComponent("Servers")
 
     const serversToDisplay = operationServers || pathServers
-    const displaying = operationServers ? "operation" : "path"
+    const displaying = translate(`servers.ofLevel.${operationServers ? "operation" : "path"}`)
 
     return <div className="opblock-section operation-servers">
       <div className="opblock-section-header">
         <div className="tab-header">
-          <h4 className="opblock-title">Servers</h4>
+          <h4 className="opblock-title">{translate("servers.title")}</h4>
         </div>
       </div>
       <div className="opblock-description-wrapper">
         <h4 className="message">
-          These {displaying}-level options override the global server options.
+          {translate("servers.override", { level: displaying })}
         </h4>
         <Servers
           servers={serversToDisplay}

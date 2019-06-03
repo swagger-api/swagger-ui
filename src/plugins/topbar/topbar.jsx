@@ -97,7 +97,7 @@ export default class Topbar extends React.Component {
   }
 
   render() {
-    let { getComponent, specSelectors, getConfigs } = this.props
+    let { getComponent, specSelectors, getConfigs, translate } = this.props
     const Button = getComponent("Button")
     const Link = getComponent("Link")
 
@@ -119,7 +119,7 @@ export default class Topbar extends React.Component {
       })
 
       control.push(
-        <label className="select-label" htmlFor="select"><span>Select a definition</span>
+        <label className="select-label" htmlFor="select"><span>{translate("definitions.select")}</span>
           <select id="select" disabled={isLoading} onChange={ this.onUrlSelect } value={urls[this.state.selectedIndex].url}>
             {rows}
           </select>
@@ -129,7 +129,7 @@ export default class Topbar extends React.Component {
     else {
       formOnSubmit = this.downloadUrl
       control.push(<input className="download-url-input" type="text" onChange={ this.onUrlChange } value={this.state.url} disabled={isLoading} style={inputStyle} />)
-      control.push(<Button className="download-url-button" onClick={ this.downloadUrl }>Explore</Button>)
+      control.push(<Button className="download-url-button" onClick={ this.downloadUrl }>{translate("explore")}</Button>)
     }
 
     return (
@@ -153,5 +153,6 @@ Topbar.propTypes = {
   specSelectors: PropTypes.object.isRequired,
   specActions: PropTypes.object.isRequired,
   getComponent: PropTypes.func.isRequired,
-  getConfigs: PropTypes.func.isRequired
+  getConfigs: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }

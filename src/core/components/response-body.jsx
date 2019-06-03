@@ -14,6 +14,7 @@ export default class ResponseBody extends React.PureComponent {
     content: PropTypes.any.isRequired,
     contentType: PropTypes.string,
     getComponent: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
     headers: PropTypes.object,
     url: PropTypes.string
   }
@@ -49,7 +50,7 @@ export default class ResponseBody extends React.PureComponent {
   }
 
   render() {
-    let { content, contentType, url, headers={}, getComponent } = this.props
+    let { content, contentType, url, headers={}, getComponent, translate } = this.props
     const { parsedContent } = this.state
     const HighlightCode = getComponent("highlightCode")
     const downloadName = "response_" + new Date().getTime()
@@ -82,12 +83,12 @@ export default class ResponseBody extends React.PureComponent {
         }
 
         if(win.navigator && win.navigator.msSaveOrOpenBlob) {
-            bodyEl = <div><a href={ href } onClick={() => win.navigator.msSaveOrOpenBlob(blob, download)}>{ "Download file" }</a></div>
+            bodyEl = <div><a href={ href } onClick={() => win.navigator.msSaveOrOpenBlob(blob, download)}>{ translate("downloadFile") }</a></div>
         } else {
-            bodyEl = <div><a href={ href } download={ download }>{ "Download file" }</a></div>
+            bodyEl = <div><a href={ href } download={ download }>{ translate("downloadFile") }</a></div>
         }
       } else {
-        bodyEl = <pre>Download headers detected but your browser does not support downloading binary via XHR (Blob).</pre>
+        bodyEl = <pre>{ translate("response.blobUnsupported") }</pre>
       }
 
       // Anything else (CORS)
@@ -99,7 +100,7 @@ export default class ResponseBody extends React.PureComponent {
         body = "can't parse JSON.  Raw result:\n\n" + content
       }
 
-      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.json`} value={ body } />
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.json`} value={ body } downloadTitle={ translate("download") } />
 
       // XML
     } else if (/xml/i.test(contentType)) {
@@ -107,11 +108,11 @@ export default class ResponseBody extends React.PureComponent {
         textNodesOnSameLine: true,
         indentor: "  "
       })
-      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.xml`} value={ body } />
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.xml`} value={ body } downloadTitle={ translate("download") } />
 
       // HTML or Plain Text
     } else if (toLower(contentType) === "text/html" || /text\/plain/.test(contentType)) {
-      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.html`} value={ content } />
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.html`} value={ content } downloadTitle={ translate("download") } />
 
       // Image
     } else if (/^image\//i.test(contentType)) {
@@ -125,7 +126,7 @@ export default class ResponseBody extends React.PureComponent {
     } else if (/^audio\//i.test(contentType)) {
       bodyEl = <pre><audio controls><source src={ url } type={ contentType } /></audio></pre>
     } else if (typeof content === "string") {
-      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.txt`} value={ content } />
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.txt`} value={ content } downloadTitle={ translate("download") } />
     } else if ( content.size > 0 ) {
       // We don't know the contentType, but there was some content returned
       if(parsedContent) {
@@ -133,15 +134,15 @@ export default class ResponseBody extends React.PureComponent {
         // in `updateParsedContent`, so let's display it
         bodyEl = <div>
           <p className="i">
-            Unrecognized response type; displaying content as text.
+            { translate("response.displayingAsText") }
           </p>
-          <HighlightCode downloadable fileName={`${downloadName}.txt`} value={ parsedContent } />
+          <HighlightCode downloadable fileName={`${downloadName}.txt`} value={ parsedContent } downloadTitle={ translate("download") } />
         </div>
 
       } else {
         // Give up
         bodyEl = <p className="i">
-          Unrecognized response type; unable to display.
+          { translate("response.unableToDisplay") }
         </p>
       }
     } else {
@@ -150,7 +151,7 @@ export default class ResponseBody extends React.PureComponent {
     }
 
     return ( !bodyEl ? null : <div>
-        <h5>Response body</h5>
+        <h5>{ translate("response.body") }</h5>
         { bodyEl }
       </div>
     )

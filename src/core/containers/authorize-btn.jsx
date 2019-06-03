@@ -8,12 +8,13 @@ export default class AuthorizeBtnContainer extends React.Component {
     specSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
     authSelectors: PropTypes.object.isRequired,
-    getComponent: PropTypes.func.isRequired
+    getComponent: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired
   }
 
   render () {
-    const { authActions, authSelectors, specSelectors, getComponent} = this.props
-    
+    const { authActions, authSelectors, specSelectors, getComponent, translate } = this.props
+
     const securityDefinitions = specSelectors.securityDefinitions()
     const authorizableDefinitions = authSelectors.definitionsToAuthorize()
 
@@ -25,6 +26,7 @@ export default class AuthorizeBtnContainer extends React.Component {
         isAuthorized={!!authSelectors.authorized().size}
         showPopup={!!authSelectors.shownDefinitions()}
         getComponent={getComponent}
+        title={translate("auth.authorize")}
       />
     ) : null
   }

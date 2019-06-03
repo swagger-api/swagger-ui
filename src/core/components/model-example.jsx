@@ -11,6 +11,7 @@ export default class ModelExample extends React.Component {
     isExecute: PropTypes.bool,
     getConfigs: PropTypes.func.isRequired,
     specPath: ImPropTypes.list.isRequired,
+    translate: PropTypes.func.isRequired,
   }
 
   constructor(props, context) {
@@ -40,7 +41,7 @@ export default class ModelExample extends React.Component {
   }
 
   render() {
-    let { getComponent, specSelectors, schema, example, isExecute, getConfigs, specPath } = this.props
+    let { getComponent, specSelectors, schema, example, isExecute, getConfigs, specPath, translate } = this.props
     let { defaultModelExpandDepth } = getConfigs()
     const ModelWrapper = getComponent("ModelWrapper")
 
@@ -49,11 +50,11 @@ export default class ModelExample extends React.Component {
     return <div>
       <ul className="tab">
         <li className={ "tabitem" + ( this.state.activeTab === "example" ? " active" : "") }>
-          <a className="tablinks" data-name="example" onClick={ this.activeTab }>{isExecute ? "Edit Value" : "Example Value"}</a>
+          <a className="tablinks" data-name="example" onClick={ this.activeTab }>{translate(isExecute ? "editValue" : "models.exampleValue")}</a>
         </li>
         { schema ? <li className={ "tabitem" + ( this.state.activeTab === "model" ? " active" : "") }>
           <a className={ "tablinks" + ( isExecute ? " inactive" : "" )} data-name="model" onClick={ this.activeTab }>
-            {isOAS3 ? "Schema" : "Model" }
+            {translate(isOAS3 ? "models.schema" : "models.model")}
           </a>
         </li> : null }
       </ul>
@@ -67,7 +68,8 @@ export default class ModelExample extends React.Component {
                                                      getConfigs={ getConfigs }
                                                      specSelectors={ specSelectors }
                                                      expandDepth={ defaultModelExpandDepth }
-                                                     specPath={specPath} />
+                                                     specPath={specPath}
+                                                     translate={translate} />
 
 
         }

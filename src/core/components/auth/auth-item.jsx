@@ -7,7 +7,8 @@ export default class Auths extends React.Component {
     schema: ImPropTypes.orderedMap.isRequired,
     name: PropTypes.string.isRequired,
     onAuthChange: PropTypes.func.isRequired,
-    authorized: ImPropTypes.orderedMap.isRequired
+    authorized: ImPropTypes.orderedMap.isRequired,
+    translate: PropTypes.func.isRequired
   }
 
   render() {
@@ -17,7 +18,8 @@ export default class Auths extends React.Component {
       getComponent,
       onAuthChange,
       authorized,
-      errSelectors
+      errSelectors,
+      translate
     } = this.props
     const ApiKeyAuth = getComponent("apiKeyAuth")
     const BasicAuth = getComponent("basicAuth")
@@ -33,7 +35,8 @@ export default class Auths extends React.Component {
                                         errSelectors={ errSelectors }
                                         authorized={ authorized }
                                         getComponent={ getComponent }
-                                        onChange={ onAuthChange } />
+                                        onChange={ onAuthChange }
+                                        translate={ translate } />
         break
       case "basic": authEl = <BasicAuth key={ name }
                                       schema={ schema }
@@ -41,9 +44,10 @@ export default class Auths extends React.Component {
                                       errSelectors={ errSelectors }
                                       authorized={ authorized }
                                       getComponent={ getComponent }
-                                      onChange={ onAuthChange } />
+                                      onChange={ onAuthChange }
+                                      translate={ translate } />
         break
-      default: authEl = <div key={ name }>Unknown security definition type { type }</div>
+      default: authEl = <div key={ name }>{translate("auth.unknownType", { type })}</div>
     }
 
     return (<div key={`${name}-jump`}>

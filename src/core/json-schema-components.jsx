@@ -14,6 +14,7 @@ const JsonSchemaPropShape = {
   onChange: PropTypes.func,
   keyName: PropTypes.any,
   fn: PropTypes.object.isRequired,
+  translate: PropTypes.func.isRequired,
   schema: PropTypes.object,
   errors: ImPropTypes.list,
   required: PropTypes.bool,
@@ -43,7 +44,7 @@ export class JsonSchemaForm extends Component {
   }
 
   render() {
-    let { schema, errors, value, onChange, getComponent, fn } = this.props
+    let { schema, errors, value, onChange, getComponent, fn, translate } = this.props
 
     if(schema.toJS)
       schema = schema.toJS()
@@ -51,7 +52,7 @@ export class JsonSchemaForm extends Component {
     let { type, format="" } = schema
 
     let Comp = (format ? getComponent(`JsonSchema_${type}_${format}`) : getComponent(`JsonSchema_${type}`)) || getComponent("JsonSchema_string")
-    return <Comp { ...this.props } errors={errors} fn={fn} getComponent={getComponent} value={value} onChange={onChange} schema={schema}/>
+    return <Comp { ...this.props } errors={errors} fn={fn} getComponent={getComponent} value={value} onChange={onChange} schema={schema} translate={translate} />
   }
 
 }
@@ -149,7 +150,7 @@ export class JsonSchema_array extends PureComponent {
   }
 
   render() {
-    let { getComponent, required, schema, errors, fn } = this.props
+    let { getComponent, required, schema, errors, fn, translate } = this.props
 
     errors = errors.toJS ? errors.toJS() : []
 
@@ -184,12 +185,12 @@ export class JsonSchema_array extends PureComponent {
           return (
             <div key={i} className="json-schema-form-item">
               <JsonSchemaForm fn={fn} getComponent={getComponent} value={item} onChange={(val) => this.onItemChange(val, i)} schema={schema} />
-              <Button className="btn btn-sm json-schema-form-item-remove" onClick={()=> this.removeItem(i)} > - </Button>
+              <Button className="btn btn-sm json-schema-form-item-remove" onClick={()=> this.removeItem(i)} >{" - "}</Button>
             </div>
             )
           }).toArray()
         }
-        <Button className={`btn btn-sm json-schema-form-item-add ${errors.length ? "invalid" : null}`} onClick={this.addItem}> Add item </Button>
+        <Button className={`btn btn-sm json-schema-form-item-add ${errors.length ? "invalid" : null}`} onClick={this.addItem}> {translate("addItem")} </Button>
       </div>
     )
   }

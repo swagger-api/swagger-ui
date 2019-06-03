@@ -20,6 +20,7 @@ export default class OperationTag extends React.Component {
 
     getConfigs: PropTypes.func.isRequired,
     getComponent: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
 
     children: PropTypes.element,
   }
@@ -34,6 +35,7 @@ export default class OperationTag extends React.Component {
       layoutActions,
       getConfigs,
       getComponent,
+      translate,
     } = this.props
 
     let {
@@ -94,7 +96,7 @@ export default class OperationTag extends React.Component {
 
             <button
               className="expand-operation"
-              title={showTag ? "Collapse operation": "Expand operation"}
+              title={translate(showTag ? "operations.collapse" : "operations.expand")}
               onClick={() => layoutActions.show(isShownKey, !showTag)}>
 
               <svg className="arrow" width="20" height="20">

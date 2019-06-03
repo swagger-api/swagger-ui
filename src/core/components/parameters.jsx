@@ -22,6 +22,7 @@ export default class Parameters extends Component {
     pathMethod: PropTypes.array.isRequired,
     getConfigs: PropTypes.func.isRequired,
     specPath: ImPropTypes.list.isRequired,
+    translate: ImPropTypes.list.isRequired,
   }
 
 
@@ -65,9 +66,10 @@ export default class Parameters extends Component {
       fn,
       getComponent,
       getConfigs,
-      specSelectors, 
+      specSelectors,
       specActions,
-      pathMethod
+      pathMethod,
+      translate
     } = this.props
 
     const ParameterRow = getComponent("parameterRow")
@@ -79,19 +81,19 @@ export default class Parameters extends Component {
       <div className="opblock-section">
         <div className="opblock-section-header">
           <div className="tab-header">
-            <h4 className="opblock-title">Parameters</h4>
+            <h4 className="opblock-title">{translate("parameters.title")}</h4>
           </div>
             { allowTryItOut ? (
-              <TryItOutButton enabled={ tryItOutEnabled } onCancelClick={ onCancelClick } onTryoutClick={ onTryoutClick } />
+              <TryItOutButton enabled={ tryItOutEnabled } onCancelClick={ onCancelClick } onTryoutClick={ onTryoutClick } translate={ translate } />
             ) : null }
         </div>
-        { !parameters.count() ? <div className="opblock-description-wrapper"><p>No parameters</p></div> :
+        { !parameters.count() ? <div className="opblock-description-wrapper"><p>{translate("parameters.no")}</p></div> :
           <div className="table-container">
             <table className="parameters">
               <thead>
                 <tr>
-                  <th className="col col_header parameters-col_name">Name</th>
-                  <th className="col col_header parameters-col_description">Description</th>
+                  <th className="col col_header parameters-col_name">{translate("parameters.name")}</th>
+                  <th className="col col_header parameters-col_description">{translate("parameters.description")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -110,7 +112,8 @@ export default class Parameters extends Component {
                       specSelectors={ specSelectors }
                       specActions={specActions}
                       pathMethod={ pathMethod }
-                      isExecute={ isExecute }/>
+                      isExecute={ isExecute }
+                      translate={ translate } />
                   )).toArray()
                 }
               </tbody>

@@ -8,7 +8,8 @@ export default class HttpAuth extends React.Component {
     errSelectors: PropTypes.object.isRequired,
     schema: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    translate: PropTypes.func.isRequired
   }
 
   constructor(props, context) {
@@ -46,7 +47,7 @@ export default class HttpAuth extends React.Component {
   }
 
   render() {
-    let { schema, getComponent, errSelectors, name } = this.props
+    let { schema, getComponent, errSelectors, name, translate } = this.props
     const Input = getComponent("Input")
     const Row = getComponent("Row")
     const Col = getComponent("Col")
@@ -63,24 +64,24 @@ export default class HttpAuth extends React.Component {
       return <div>
         <h4>
           <code>{ name || schema.get("name") }</code>&nbsp;
-            (http, Basic)
+            {"("}{translate("auth.basic.scheme")}{")"}
             <JumpToPath path={[ "securityDefinitions", name ]} />
           </h4>
-        { username && <h6>Authorized</h6> }
+        { username && <h6>{translate("auth.authorized")}</h6> }
         <Row>
           <Markdown source={ schema.get("description") } />
         </Row>
         <Row>
-          <label>Username:</label>
+          <label>{translate("auth.basic.username")}</label>
           {
             username ? <code> { username } </code>
                      : <Col><Input type="text" required="required" name="username" onChange={ this.onChange }/></Col>
           }
         </Row>
         <Row>
-          <label>Password:</label>
+          <label>{translate("auth.basic.password")}</label>
             {
-              username ? <code> ****** </code>
+              username ? <code> {translate("auth.hidden")} </code>
                        : <Col><Input required="required"
                                      autoComplete="new-password"
                                      name="password"
@@ -102,17 +103,17 @@ export default class HttpAuth extends React.Component {
         <div>
           <h4>
             <code>{ name || schema.get("name") }</code>&nbsp;
-              (http, Bearer)
+              {"("}{translate("auth.bearer.scheme")}{")"}
               <JumpToPath path={[ "securityDefinitions", name ]} />
             </h4>
-            { value && <h6>Authorized</h6>}
+            { value && <h6>{translate("auth.authorized")}</h6>}
             <Row>
               <Markdown source={ schema.get("description") } />
             </Row>
             <Row>
-              <label>Value:</label>
+              <label>{translate("auth.bearer.value")}</label>
               {
-                value ? <code> ****** </code>
+                value ? <code> {translate("auth.hidden")} </code>
               : <Col><Input type="text" onChange={ this.onChange }/></Col>
           }
         </Row>
@@ -126,7 +127,7 @@ export default class HttpAuth extends React.Component {
     )
     }
   return <div>
-    <em><b>{name}</b> HTTP authentication: unsupported scheme {`'${scheme}'`}</em>
+    <em>{translate("auth.unsupportedScheme.1", { scheme })}<b>{name}</b>{translate("auth.unsupportedScheme.2", { scheme })}</em>
   </div>
   }
 }

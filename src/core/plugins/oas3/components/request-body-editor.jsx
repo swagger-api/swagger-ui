@@ -14,6 +14,7 @@ export default class RequestBodyEditor extends PureComponent {
     getComponent: PropTypes.func.isRequired,
     isExecute: PropTypes.bool,
     specSelectors: PropTypes.object.isRequired,
+    translate: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -97,6 +98,7 @@ export default class RequestBodyEditor extends PureComponent {
       isExecute,
       getComponent,
       mediaType,
+      translate,
     } = this.props
 
     const Button = getComponent("Button")
@@ -118,12 +120,12 @@ export default class RequestBodyEditor extends PureComponent {
             {
               !isExecute ? null
                          : <Button className={isEditBox ? "btn cancel body-param__example-edit" : "btn edit body-param__example-edit"}
-                                   onClick={this.toggleIsEditBox}>{ isEditBox ? "Cancel" : "Edit"}
+                                   onClick={this.toggleIsEditBox}>{ translate(isEditBox ? "cancel" : "edit")}
                            </Button>
 
             }
             { userDidModify &&
-              <Button className="btn ml3" onClick={() => { this.resetValueToSample(mediaType) }}>Reset</Button>
+              <Button className="btn ml3" onClick={() => { this.resetValueToSample(mediaType) }}>{translate("reset")}</Button>
             }
           </div>
         </div>

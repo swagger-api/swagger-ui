@@ -15,6 +15,7 @@ export default class ParamBody extends PureComponent {
     consumesValue: PropTypes.string,
     fn: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
+    translate: PropTypes.func.isRequired,
     isExecute: PropTypes.bool,
     specSelectors: PropTypes.object.isRequired,
     pathMethod: PropTypes.array.isRequired
@@ -99,6 +100,7 @@ export default class ParamBody extends PureComponent {
       pathMethod,
 
       getComponent,
+      translate,
     } = this.props
 
     const Button = getComponent("Button")
@@ -126,12 +128,12 @@ export default class ParamBody extends PureComponent {
             !isExecute ? null
                        : <div className="body-param-edit">
                         <Button className={isEditBox ? "btn cancel body-param__example-edit" : "btn edit body-param__example-edit"}
-                                 onClick={this.toggleIsEditBox}>{ isEditBox ? "Cancel" : "Edit"}
+                                 onClick={this.toggleIsEditBox}>{translate(isEditBox ? "cancel" : "edit")}
                          </Button>
                          </div>
           }
           <label htmlFor="">
-            <span>Parameter content type</span>
+            <span>{translate("parameters.contentType")}</span>
             <ContentType value={ consumesValue } contentTypes={ consumes } onChange={onChangeConsumes} className="body-param-content-type" />
           </label>
         </div>

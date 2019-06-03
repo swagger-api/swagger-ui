@@ -9,6 +9,7 @@ export default class Execute extends Component {
     operation: PropTypes.object.isRequired,
     path: PropTypes.string.isRequired,
     method: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     onExecute: PropTypes.func
   }
 
@@ -28,9 +29,11 @@ export default class Execute extends Component {
   onChangeProducesWrapper = ( val ) => this.props.specActions.changeProducesValue([this.props.path, this.props.method], val)
 
   render(){
+    let { title } = this.props
+
     return (
         <button className="btn execute opblock-control__btn" onClick={ this.onClick }>
-          Execute
+          {title}
         </button>
     )
   }

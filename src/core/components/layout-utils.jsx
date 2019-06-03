@@ -182,7 +182,7 @@ export class Select extends React.Component {
 
     return (
       <select className={this.props.className} multiple={ multiple } value={ value } onChange={ this.onChange } >
-        { allowEmptyValue ? <option value="">--</option> : null }
+        { allowEmptyValue ? <option value="">{"--"}</option> : null }
         {
           allowedValues.map(function (item, key) {
             return <option key={ key } value={ String(item) }>{ String(item) }</option>

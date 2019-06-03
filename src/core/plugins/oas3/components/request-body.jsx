@@ -14,7 +14,8 @@ const RequestBody = ({
   contentType,
   isExecute,
   specPath,
-  onChange
+  onChange,
+  translate
 }) => {
   const handleFile = (e) => {
     onChange(e.target.files[0])
@@ -49,7 +50,7 @@ const RequestBody = ({
 
     if(!isExecute) {
       return <i>
-        Example values are not available for <code>application/octet-stream</code> media types.
+        {translate("examples.unavailable.1")}<code>{"application/octet-stream"}</code>{translate("examples.unavailable.2")}
       </i>
     }
 
@@ -83,7 +84,7 @@ const RequestBody = ({
               const format = prop.get("format")
               const description = prop.get("description")
               const currentValue = requestBodyValue.get(key)
-              
+
               let initialValue = prop.get("default") || prop.get("example") || ""
 
               if (initialValue === "" && type === "object") {
@@ -102,15 +103,15 @@ const RequestBody = ({
                 <td className="col parameters-col_name">
                         <div className={required ? "parameter__name required" : "parameter__name"}>
                           { key }
-                          { !required ? null : <span style={{color: "red"}}>&nbsp;*</span> }
+                          { !required ? null : <span style={{color: "red"}}>&nbsp;{"*"}</span> }
                         </div>
                         <div className="parameter__type">
                           { type }
-                          { format && <span className="prop-format">(${format})</span>}
+                          { format && <span className="prop-format">{"($"}{format}{")"}</span>}
                           {!showCommonExtensions || !commonExt.size ? null : commonExt.map((v, key) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} />)}
                         </div>
                         <div className="parameter__deprecated">
-                          { prop.get("deprecated") ? "deprecated": null }
+                          { prop.get("deprecated") ? translate("parameters.deprecated"): null }
                         </div>
                       </td>
                       <td className="col parameters-col_description">
@@ -125,6 +126,7 @@ const RequestBody = ({
                           onChange={(value) => {
                             onChange(value, [key])
                           }}
+                          translate={translate}
                         /></div> : null }
                       </td>
                       </tr>
@@ -143,6 +145,7 @@ const RequestBody = ({
       getComponent={ getComponent }
       getConfigs={ getConfigs }
       specSelectors={ specSelectors }
+      translate={ translate }
       expandDepth={1}
       isExecute={isExecute}
       schema={mediaTypeValue.get("schema")}
@@ -154,6 +157,7 @@ const RequestBody = ({
         getComponent={getComponent}
         isExecute={isExecute}
         specSelectors={specSelectors}
+        translate={translate}
         />}
       />
   </div>
@@ -169,7 +173,8 @@ RequestBody.propTypes = {
   contentType: PropTypes.string,
   isExecute: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
-  specPath: PropTypes.array.isRequired
+  specPath: PropTypes.array.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 export default RequestBody

@@ -41,6 +41,7 @@ export default class Response extends React.Component {
     getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     specPath: ImPropTypes.list.isRequired,
+    translate: PropTypes.func.isRequired,
     fn: PropTypes.object.isRequired,
     contentType: PropTypes.string,
     controlsAcceptHeader: PropTypes.bool,
@@ -67,6 +68,7 @@ export default class Response extends React.Component {
       response,
       className,
       specPath,
+      translate,
       fn,
       getComponent,
       getConfigs,
@@ -146,7 +148,9 @@ export default class Response extends React.Component {
                   contentTypes={ response.get("content") ? response.get("content").keySeq() : Seq() }
                   onChange={this._onContentTypeChange}
                   />
-                { controlsAcceptHeader ? <small>Controls <code>Accept</code> header.</small> : null }
+                { controlsAcceptHeader ? (
+                  <small>{translate("response.controlsAcceptHeader.1")}<code>{"Accept"}</code>{translate("response.controlsAcceptHeader.2")}</small>
+                ) : null }
             </div>
              : null }
 
@@ -157,13 +161,16 @@ export default class Response extends React.Component {
               getConfigs={ getConfigs }
               specSelectors={ specSelectors }
               schema={ fromJSOrdered(schema) }
-              example={ example }/>
+              example={ example }
+              translate={ translate }
+            />
           ) : null}
 
           { headers ? (
             <Headers
               headers={ headers }
               getComponent={ getComponent }
+              translate={ translate }
             />
           ) : null}
 
@@ -172,9 +179,9 @@ export default class Response extends React.Component {
         {specSelectors.isOAS3() ? <td className="col response-col_links">
           { links ?
             links.toSeq().map((link, key) => {
-              return <OperationLink key={key} name={key} link={ link } getComponent={getComponent}/>
+              return <OperationLink key={key} name={key} link={ link } getComponent={getComponent} translate={translate} />
             })
-          : <i>No links</i>}
+          : <i>{translate("response.noLinks")}</i>}
         </td> : null}
       </tr>
     )

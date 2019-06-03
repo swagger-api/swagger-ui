@@ -9,7 +9,8 @@ export default class OnlineValidatorBadge extends React.Component {
     static propTypes = {
       getComponent: PropTypes.func.isRequired,
       getConfigs: PropTypes.func.isRequired,
-      specSelectors: PropTypes.object.isRequired
+      specSelectors: PropTypes.object.isRequired,
+      translate: PropTypes.func.isRequired
     }
 
     constructor(props, context) {
@@ -41,7 +42,7 @@ export default class OnlineValidatorBadge extends React.Component {
     }
 
     render() {
-        let { getConfigs } = this.props
+        let { getConfigs, translate } = this.props
         let { spec } = getConfigs()
 
         let sanitizedValidatorUrl = sanitizeUrl(this.state.validatorUrl)
@@ -55,7 +56,11 @@ export default class OnlineValidatorBadge extends React.Component {
 
         return (<span style={{ float: "right"}}>
                 <a target="_blank" rel="noopener noreferrer" href={`${ sanitizedValidatorUrl }/debug?url=${ encodeURIComponent(this.state.url) }`}>
-                    <ValidatorImage src={`${ sanitizedValidatorUrl }?url=${ encodeURIComponent(this.state.url) }`} alt="Online validator badge"/>
+                    <ValidatorImage
+                      src={`${ sanitizedValidatorUrl }?url=${ encodeURIComponent(this.state.url) }`}
+                      alt={translate("validator.title")}
+                      errorAlt={translate("validator.error")}
+                    />
                 </a>
             </span>)
     }
@@ -65,7 +70,8 @@ export default class OnlineValidatorBadge extends React.Component {
 class ValidatorImage extends React.Component {
   static propTypes = {
     src: PropTypes.string,
-    alt: PropTypes.string
+    alt: PropTypes.string,
+    errorAlt: PropTypes.string
   }
 
   constructor(props) {
@@ -110,7 +116,7 @@ class ValidatorImage extends React.Component {
 
   render() {
     if (this.state.error) {
-      return <img alt={"Error"} />
+      return <img alt={this.props.errorAlt} />
     } else if (!this.state.loaded) {
       return null
     }

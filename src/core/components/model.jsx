@@ -16,6 +16,7 @@ export default class Model extends ImmutablePureComponent {
     expandDepth: PropTypes.number,
     depth: PropTypes.number,
     specPath: ImPropTypes.list.isRequired,
+    translate: PropTypes.func.isRequired,
   }
 
   getModelName =( ref )=> {
@@ -34,7 +35,7 @@ export default class Model extends ImmutablePureComponent {
   }
 
   render () {
-    let { getComponent, getConfigs, specSelectors, schema, required, name, isRef, specPath, displayName } = this.props
+    let { getComponent, getConfigs, specSelectors, schema, required, name, isRef, specPath, displayName, translate } = this.props
     const ObjectModel = getComponent("ObjectModel")
     const ArrayModel = getComponent("ArrayModel")
     const PrimitiveModel = getComponent("PrimitiveModel")
@@ -74,7 +75,8 @@ export default class Model extends ImmutablePureComponent {
           schema={ schema }
           name={ name }
           deprecated={deprecated}
-          isRef={ isRef } />
+          isRef={ isRef }
+          translate={ translate } />
       case "array":
         return <ArrayModel
           className="array" { ...this.props }
@@ -82,7 +84,8 @@ export default class Model extends ImmutablePureComponent {
           schema={ schema }
           name={ name }
           deprecated={deprecated}
-          required={ required } />
+          required={ required }
+          translate={ translate } />
       case "string":
       case "number":
       case "integer":
@@ -95,7 +98,8 @@ export default class Model extends ImmutablePureComponent {
           schema={ schema }
           name={ name }
           deprecated={deprecated}
-          required={ required }/>
+          required={ required }
+          translate={ translate } />
     }
   }
 }

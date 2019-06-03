@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 export default class XPane extends React.Component {
 
   render() {
-    let { getComponent, specSelectors, specActions, layoutSelectors, layoutActions } = this.props
+    let { getComponent, specSelectors, specActions, layoutSelectors, layoutActions, translate } = this.props
     let info = specSelectors.info()
     let url = specSelectors.url()
     let showEditor = layoutSelectors.isShown("editor")
@@ -35,8 +35,8 @@ export default class XPane extends React.Component {
                                     url={url}/>
                             : null
         }
-        <Button onClick={showEditorAction}>{showEditor ? "Hide" : "Show"} Editor</Button>
-        <Button onClick={specActions.formatIntoYaml}>Format contents</Button>
+        <Button onClick={showEditorAction}>{showEditor ? translate("xpane.hideEditor") : translate("xpane.showEditor")}</Button>
+        <Button onClick={specActions.formatIntoYaml}>{translate("xpane.format")}</Button>
 
         <Row>
 
@@ -67,7 +67,8 @@ XPane.propTypes = {
   specSelectors: PropTypes.object.isRequired,
   specActions: PropTypes.object.isRequired,
   layoutSelectors: PropTypes.object.isRequired,
-  layoutActions: PropTypes.object.isRequired
+  layoutActions: PropTypes.object.isRequired,
+  translate: PropTypes.object.isRequired
 }
 
 
