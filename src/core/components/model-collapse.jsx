@@ -1,5 +1,8 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
+import cx from "classnames"
+
+import { Icon } from "components/layout-utils"
 
 export default class ModelCollapse extends Component {
   static propTypes = {
@@ -73,9 +76,14 @@ export default class ModelCollapse extends Component {
       <span className={classes || ""}>
         { title && <span onClick={this.toggleCollapsed} style={{ "cursor": "pointer" }}>{title}</span> }
         <span onClick={ this.toggleCollapsed } style={{ "cursor": "pointer" }}>
-          <span className={ "model-toggle" + ( this.state.expanded ? "" : " collapsed" ) }></span>
+          <Icon
+            icon="angle-right-light"
+            className={cx("model-toggle", {
+              "collapsed": !this.state.expanded
+            })}
+          />
         </span>
-        { this.state.expanded ? this.props.children :this.state.collapsedContent }
+        { this.state.expanded ? this.props.children : this.state.collapsedContent }
       </span>
     )
   }

@@ -132,6 +132,15 @@ export class Button extends React.Component {
   }
 }
 
+export const Icon = ({ icon, className, ...props }) => (
+  <span {...props} className={`${className} icon icon-${icon}`}/>
+)
+
+Icon.propTypes = {
+  icon: PropTypes.string.isRequired,
+  className: PropTypes.string,
+}
+
 
 export const TextArea = (props) => <textarea {...props} />
 
