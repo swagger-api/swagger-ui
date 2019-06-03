@@ -1,7 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import swaggerUIConstructor from "./swagger-ui"
-
+import swaggerUIConstructor, {presets} from "./swagger-ui"
 export default class SwaggerUI extends React.Component {
   constructor (props) {
     super(props)
@@ -14,6 +13,8 @@ export default class SwaggerUI extends React.Component {
       plugins: this.props.plugins,
       spec: this.props.spec,
       url: this.props.url,
+      defaultModelsExpandDepth: this.props.defaultModelsExpandDepth,
+      presets: [presets.apis,...this.props.presets],
       requestInterceptor: this.requestInterceptor,
       responseInterceptor: this.responseInterceptor,
       onComplete: this.onComplete,
@@ -83,6 +84,7 @@ SwaggerUI.propTypes = {
     PropTypes.object,
   ]),
   url: PropTypes.string,
+  defaultModelsExpandDepth: PropTypes.number,
   requestInterceptor: PropTypes.func,
   responseInterceptor: PropTypes.func,
   onComplete: PropTypes.func,
@@ -90,12 +92,16 @@ SwaggerUI.propTypes = {
   supportedSubmitMethods: PropTypes.arrayOf(
     PropTypes.oneOf(['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'])
     ),
-  defaultModelExpandDepth: PropTypes.number,
   plugins: PropTypes.arrayOf(PropTypes.object),
   displayOperationId: PropTypes.bool,
   showMutatedRequest: PropTypes.bool,
+  defaultModelExpandDepth: PropTypes.number,
+  presets: PropTypes.arrayOf(PropTypes.func),
 }
 
 SwaggerUI.defaultProps = {
   supportedSubmitMethods: ['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'],
+  docExpansion: "list",
+  defaultModelsExpandDepth: 1,
+  presets: []
 }
