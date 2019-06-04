@@ -84,14 +84,30 @@
     margin: 0;
 }
 
-.sui-btn--authorize
-{
-    svg
-    {
-        fill: #fff
-    }
+.expand-operation__icon {
+    font-size: 1.25rem;
+    color: $color-secondary;
 }
 
+.sui-btn-transparent__icon--unlocked {
+    color: $color-secondary;
+    opacity: .5;
+    font-size: .9375rem;
+}
+
+.sui-btn-transparent__icon--locked {
+    color: $color-primary;
+    font-size: .9375rem;
+}
+
+.sui-btn--authorize__icon--unlocked {
+    opacity: .7;
+    color: #fff;
+}
+
+.sui-btn--authorize__icon--locked {
+    color: $color-primary;
+}
 
 .sui-btn-wrapper
 {

@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import cx from "classnames"
 
-import { Button } from "components/layout-utils"
+import { Button, Icon } from "components/layout-utils"
 
 export default class AuthorizeBtn extends React.Component {
   static propTypes = {
@@ -14,7 +14,6 @@ export default class AuthorizeBtn extends React.Component {
 
   render() {
     let { isAuthorized, showPopup, onClick, getComponent } = this.props
-
     //must be moved out of button component
     const AuthorizationPopup = getComponent("authorizationPopup", true)
 
@@ -29,12 +28,16 @@ export default class AuthorizeBtn extends React.Component {
           onClick={onClick}
         >
           <span>Authorize</span>
-          <svg className="sui-btn__icon" width="15" height="15">
-            <use
-              href={ isAuthorized ? "#locked" : "#unlocked" }
-              xlinkHref={ isAuthorized ? "#locked" : "#unlocked" }
-            />
-          </svg>
+          <Icon
+            icon={cx({
+              "shield-alt-regular": !isAuthorized,
+              "shield-check-regular": isAuthorized,
+            })}
+            className={cx({
+              "sui-btn--authorize__icon--unlocked": !isAuthorized,
+              "sui-btn--authorize__icon--locked": isAuthorized
+            })}
+          />
         </Button>
       { showPopup && <AuthorizationPopup /> }
       </div>
