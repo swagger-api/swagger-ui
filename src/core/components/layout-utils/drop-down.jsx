@@ -156,16 +156,16 @@ export default class DropDown extends PureComponent {
     {
       case "Up":
       case "ArrowUp":
-        this.moveItemFocus(activeKey === this.childCount
-          ? activeKey
-          : activeKey + 1)
-        break
-      case "Down":
-      case "ArrowDown":
         this.moveItemFocus(activeKey === 0
           ? activeKey
           : activeKey - 1)
         break
+      case "Down":
+      case "ArrowDown":
+        this.moveItemFocus(activeKey === this.childCount
+          ? activeKey
+          : activeKey + 1)
+          break
       case "Enter":
       case " ":
         this.closeDropdown(key)
