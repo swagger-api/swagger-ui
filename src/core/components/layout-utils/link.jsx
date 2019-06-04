@@ -1,13 +1,13 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { xclass } from "core/utils"
+import cx from "classnames"
 
 export default class Link extends React.Component {
 
   render() {
-    return <a {...this.props} rel="noopener noreferrer" className={xclass(this.props.className, "link")}/>
+    return <a {...this.props} rel="noopener noreferrer" className={cx(this.props.className, "link")}/>
   }
-
+  
 }
 
 Link.propTypes = {

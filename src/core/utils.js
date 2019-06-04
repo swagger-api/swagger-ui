@@ -843,7 +843,3 @@ export function paramToValue(param, paramValues) {
 
   return values[0]
 }
-
-export function xclass(...args) {
-  return args.filter(a => !!a).join(" ").trim()
-}

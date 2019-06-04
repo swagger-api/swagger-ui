@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { xclass } from "core/utils"
+import cx from "classnames"
 
 export default class Container extends React.Component {
   render() {
@@ -12,7 +12,7 @@ export default class Container extends React.Component {
 
     let containerClass = "swagger-container" + (full ? "-full" : "")
     return (
-      <section {...rest} className={xclass(rest.className, containerClass)}/>
+      <section {...rest} className={cx(rest.className, containerClass)}/>
     )
   }
 }

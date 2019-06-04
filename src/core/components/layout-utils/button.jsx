@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { xclass } from "core/utils"
+import cx from "classnames"
 
 export default class Button extends React.Component {
 
@@ -22,7 +22,7 @@ export default class Button extends React.Component {
     return (
       <button
         {...this.props}
-        className={xclass(this.props.className, this.defaultClasses())}    
+        className={cx(this.props.className, this.defaultClasses())}
       />
     )
   }

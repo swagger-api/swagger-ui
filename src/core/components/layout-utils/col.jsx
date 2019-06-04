@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { xclass } from "core/utils"
+import cx from "classnames"
 
 const DEVICES = {
   "mobile": "",
@@ -49,7 +49,7 @@ export default class Col extends React.Component {
       }
     }
 
-    let classes = xclass(rest.className, ...classesAr)
+    let classes = cx(rest.className, classesAr.join(" "))
 
     return (
       <section {...rest} style={{display: hide ? "none": null}} className={classes}/>
