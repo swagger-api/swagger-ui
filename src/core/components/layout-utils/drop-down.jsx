@@ -102,25 +102,7 @@ export default class DropDown extends PureComponent {
     this.setFocus()
   }
 
-  moveUp = () => this.setState((state) => {
-    const activeKey = state.activeKey === 0
-      ? state.activeKey
-      : state.activeKey - 1
-
-    return { activeKey }
-  })
-
-  moveDown = () => this.setState((state) => {
-    const activeKey = state.activeKey === this.childCount
-      ? state.activeKey
-      : state.activeKey + 1
-
-    return { activeKey }
-  })
-
-  moveStart = () => this.setState({ activeKey: 0 })
-
-  moveEnd = () => this.setState({ activeKey: this.childCount })
+  moveItemFocus = (key) => this.setState({ activeKey: key })
 
   onClickDoc = (e) => {
     const clickedChild = Object.values(this.childRefCollection).find((ref) => 
@@ -168,15 +150,21 @@ export default class DropDown extends PureComponent {
   onKeyPressChild = (e, key) => {
     e.preventDefault()
 
+    const { activeKey } = this.state
+
     switch (e.key)
     {
       case "Up":
       case "ArrowUp":
-        this.moveUp()
+        this.moveItemFocus(activeKey === this.childCount
+          ? activeKey
+          : activeKey + 1)
         break
       case "Down":
       case "ArrowDown":
-        this.moveDown()
+        this.moveItemFocus(activeKey === 0
+          ? activeKey
+          : activeKey - 1)
         break
       case "Enter":
       case " ":
@@ -187,10 +175,10 @@ export default class DropDown extends PureComponent {
         this.closeDropdown()
         break
       case "Home":
-        this.moveStart()
+        this.moveItemFocus(0)
         break
       case "End":
-        this.moveEnd()
+        this.moveItemFocus(this.childCount)
         break
     }
   }
