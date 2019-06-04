@@ -165,6 +165,8 @@ $opblock-summary-description-font-size: 1.3em;
 $opblock-summary-path-font-size: 1.3em;
 
 $opblock-section-header-h4-font-size: 2em;
+$opblock-summary-description-font-size: 1.3em;
+$opblock-summary-path-font-size: 1.3em;
 
 $operational-filter-input-border-color: $color-bright-silver !default;
 
@@ -248,28 +250,28 @@ $code-text-font-color: $color-type !default;
 $headline-text-font-color: $color-type !default;
 $link-text-font-color: $color-primary !default; 
 
-// Fonts
-$alt-text-font-family:'Roboto-Medium', sans-serif;
-$alt-text-font-color: $color-type !default;
-$alt-text-font-weight: 500;
-$alt-text-font-size: 1.4em;
-
 $regular-text-font-family:'Roboto-Regular', sans-serif;
 $regular-text-font-color: $color-type !default;
+
+$bold-text-font-weight: 700;
+$medium-text-font-weight: 500;
 $regular-text-font-weight: 400;
-$regular-text-font-size: 1.4em;
+$light-text-font-weight: 300;
 
+$xxs-text-font-size: 1em;
+$xs-text-font-size: 1.2em;
+$sm-text-font-size: 1.3em;
+$md-text-font-size: 1.4em;
+$lg-text-font-size: 1.6em;
+$xl-text-font-size: 2em;
+$xxl-text-font-size: 2.8em;
+
+$md-icon-font-size: 1.5em;
+
+$light-text-font-family:'Roboto-Light', sans-serif;
+$regular-text-font-family:'Roboto-Regular', sans-serif;
+$medium-text-font-family:'Roboto-Medium', sans-serif;
 $bold-text-font-family:'Roboto-Bold', sans-serif;
-$bold-text-font-color: $color-type !default;
-$bold-text-font-weight: 400;
-$bold-text-font-size: 1.4em;
+$mono-text-font-family:'Roboto-Mono', monospace;
 
-$title-text-font-family:'Roboto-Light', sans-serif;
-$title-text-font-color: $color-type !default;
-$title-text-font-weight: 300;
-$title-text-font-size: 2.8em;
-
-$code-default-font-family:'Roboto-Mono', monospace;
-$code-default-font-color: $color-type !default;
-$code-default-font-weight: 300;
-$code-default-font-size: 12px;
+$color-type--default: $color-type !default;

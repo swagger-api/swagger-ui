@@ -14,7 +14,7 @@
 			
 			a {
 				outline: none;
-				@include alt-text($size: 13px)
+				@include mono_text($size: 13px)
 			}
 		}
 	}

@@ -16,13 +16,15 @@ export default class Button extends React.Component {
     mod: "primary"
   }
 
-  defaultClasses = () => !this.props.unstyled ? `sui-btn sui-btn--${this.props.mod}` : ""
+  defaultClasses = ({ unstyled, mod }) => !unstyled ? `sui-btn sui-btn--${mod}` : ""
 
   render() {
+    const { unstyled, mod, className, ...props } = this.props
+
     return (
       <button
-        {...this.props}
-        className={cx(this.props.className, this.defaultClasses())}
+        {...props}
+        className={cx(className, this.defaultClasses({ unstyled, mod }))}
       />
     )
   }
