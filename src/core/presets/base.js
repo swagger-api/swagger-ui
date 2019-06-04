@@ -3,6 +3,7 @@ import layout from "core/plugins/layout"
 import spec from "core/plugins/spec"
 import view from "core/plugins/view"
 import samples from "core/plugins/samples"
+import curlify from "core/plugins/curlify"
 import logs from "core/plugins/logs"
 import swaggerJs from "core/plugins/swagger-js"
 import auth from "core/plugins/auth"
@@ -173,6 +174,7 @@ export default function() {
     err,
     layout,
     samples,
+    curlify,
     coreComponents,
     formComponents,
     swaggerJs,
