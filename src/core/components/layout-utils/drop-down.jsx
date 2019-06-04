@@ -106,7 +106,7 @@ export default class DropDown extends PureComponent {
 
   onClickDoc = (e) => {
     const clickedChild = Object.values(this.childRefCollection).find((ref) => 
-      ref.anchorRef.contains(e.target)
+      ref.listItemRef.contains(e.target)
     )
 
     if (!this.buttonRef.contains(e.target) && !clickedChild) {
@@ -212,7 +212,7 @@ export default class DropDown extends PureComponent {
       <div
         id={id}
         className={cx(className, { 
-          [`${className}--expanded`] : expanded ,
+          [`${className}--expanded`] : expanded,
           [`${className}--${mod}`] : mod 
         })}
       >
@@ -257,10 +257,10 @@ export class DropDownItem extends Component {
 
   constructor() {
     super()
-    this.setRef = (instance) => this.anchorRef = instance
+    this.setRef = (instance) => this.listItemRef = instance
   }
 
-  setFocus = () => this.anchorRef.focus()
+  setFocus = () => this.listItemRef.focus()
 
   getContent = () => this.props.children
 
@@ -281,15 +281,14 @@ export class DropDownItem extends Component {
         className={cx(className, {
           [`${className}--${mod}`] : mod
         })}
+        ref={this.setRef}
+        tabIndex="0"
         onClick={this.onClick}
+        onKeyDown={this.onKeyPress}
       >
-        <a 
-          tabIndex="0"
-          ref={this.setRef}
-          onKeyDown={this.onKeyPress}
-        >
+        <div>
           {children}
-        </a>
+        </div>
       </li>
     )
   }

@@ -1,52 +1,64 @@
 .sui-dropdown {
+	background: $color-white;
 	position: relative;
 	display: inline-block;
-	width: 120px;
+	min-width: 11em;
 
-	&__menu {
-		display: none;
-		position: absolute;
-		z-index: 1;
-		margin: 0;
+	&__button {
+		height: 3em;
+		border-radius: .4em;
+		border: 1px solid $color-bright-silver;
+		background: inherit;
+		padding: 0 .5em 0 1.5em;
+		display: flex;
+		width: 100%;
+		align-items: center;
+		justify-content: space-between;
+	
+		> * {
+	
+			&:first-of-type {
+				margin-right: .5em;
 
-		&__item {
-			display: block;
-			
-			a {
-				outline: none;
-				@include mono_text($size: 13px)
+				@include medium_text($size: $md-text-font-size);
 			}
 		}
 	}
-}
 
-.sui-dropdown--schemes {
-	width: 120px;
+	&__menu {
+		display: none;
+	}
 }
 
 .sui-dropdown--expanded {
 
 	.sui-dropdown__menu {
+		background: inherit;
+		position: absolute;
 		display: block;
 		list-style: none;
 		width: 100%;
 		padding: 0;
-		margin: 1px 0;
+		margin: .1em 0;
 
-		li {
+		&__item {
 			margin: 0;
-			padding: 0 15px;
+			padding: 0 1.5em;
 			width: 100%;
-			height: 30px;
+			height: 3em;
 			display: flex;
 			align-items: center;
 			border: 1px solid $color-bright-silver;
 			border-top: none;
-			background: $color-white;
 			cursor: pointer;
 
-			&:hover {
-				background: alter-hue($color-white, 5%)
+			div {
+				@include medium_text($size: $md-text-font-size);
+			}
+
+			&:hover, &:focus {
+				background: alter-hue($color-white, 5%);
+				outline: none;
 			}
 
 			&:first-child {
@@ -62,21 +74,6 @@
 	}
 }
 
-.sui-dropdown__button {
-	height: 30px;
-	border-radius: 4px;
-	border: 1px solid $color-bright-silver;
-	background: transparent;
-	padding: 0 5px 0 15px;
-	display: flex;
-	width: 100%;
-	align-items: center;
-	justify-content: space-between;
-
-	> * {
-
-		&:first-of-type {
-			margin-right: .5em;
-		}
-	}
+.sui-dropdown--schemes {
+	text-transform: uppercase;
 }
