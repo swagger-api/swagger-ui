@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import cx from "classnames"
 
-import { Button } from "components/layout-utils"
+import { Button, Icon } from "components/layout-utils"
 
 export default class AuthorizeOperationBtn extends React.Component {
   static propTypes = {
@@ -35,12 +35,16 @@ export default class AuthorizeOperationBtn extends React.Component {
         })}
         onClick={this.onClick}
       >
-        <svg width="20" height="20">
-          <use
-            href={ isAuthorized ? "#locked" : "#unlocked" }
-            xlinkHref={ isAuthorized ? "#locked" : "#unlocked" }
-          />
-        </svg>
+        <Icon
+          icon={cx({
+            "shield-alt-regular": !isAuthorized,
+            "shield-check-regular": isAuthorized,
+          })}
+          className={cx({
+            "sui-btn-transparent__icon--unlocked": !isAuthorized,
+            "sui-btn-transparent__icon--locked": isAuthorized
+          })}
+        />
       </Button>
     )
   }
