@@ -191,22 +191,22 @@ export default class DropDown extends PureComponent {
       ? this.childRefCollection[selectedKey].getContent()
       : placeholder
   }
+
+  children = () => React.Children.map(this.props.children, (child, i) => {
+    const ref = this.setChildRef(i, child.ref)
+
+    return React.cloneElement(child, {
+      ref,
+      optionKey: i,
+      onKeyPress: this.onKeyPressChild,
+      onSelect: this.onClickChild
+    })
+  })
   
   render() {
     const { id, disbaled, mod } = this.props
     const { expanded } = this.state
     const className = "sui-dropdown"
-
-    const children = React.Children.map(this.props.children, (child, i) => {
-      const ref = this.setChildRef(i, child.ref)
-
-      return React.cloneElement(child, {
-        ref,
-        optionKey: i,
-        onKeyPress: this.onKeyPressChild,
-        onSelect: this.onClickChild
-      })
-    })
 
     return (
       <div
@@ -235,7 +235,7 @@ export default class DropDown extends PureComponent {
           role="listbox"
           tabIndex="-1"
         >
-        {children} 
+        {this.children()} 
         </ul>
       </div>
 			)

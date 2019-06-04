@@ -75,5 +75,7 @@
 }
 
 .sui-dropdown--schemes {
-	text-transform: uppercase;
+	* {
+		text-transform: uppercase;
+	}
 }
