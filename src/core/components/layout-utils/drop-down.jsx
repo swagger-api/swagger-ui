@@ -5,16 +5,6 @@ import cx from "classnames"
 import { Icon } from "components/layout-utils"
 
 
-function childrenOf(...types) {
-  let fieldType = PropTypes.shape({
-      type: PropTypes.oneOf(types),
-  });
-
-  return PropTypes.oneOfType([
-      fieldType,
-      PropTypes.arrayOf(fieldType),
-  ]);
-}
 export default class DropDown extends PureComponent {
 
   static propTypes = {
@@ -22,7 +12,7 @@ export default class DropDown extends PureComponent {
     value: PropTypes.string,
     placeholder: PropTypes.string,
     mod: PropTypes.string,
-    disbaled: PropTypes.bool,
+    disabled: PropTypes.bool,
     onChange: PropTypes.func,
     children: PropTypes.node.isRequired
   }
@@ -219,9 +209,11 @@ export default class DropDown extends PureComponent {
       onSelect: this.onClickChild
     })
   })
+
+  noChildrenItem = () => <DropDownItem mod="disabled">No options available</DropDownItem>
   
   render() {
-    const { id, disbaled, mod } = this.props
+    const { id, disabled, mod } = this.props
     const { expanded } = this.state
     const className = "sui-dropdown"
     const buttonIcon = expanded ? "angle-up-light" : "angle-down-light"
@@ -238,10 +230,11 @@ export default class DropDown extends PureComponent {
           className={`${className}__button`}
           aria-haspopup={"listbox"}
           aria-expanded={expanded}
-          aria-disabled={disbaled}
+          aria-disabled={disabled}
           onClick={this.onClick}
           onKeyDown={this.onKeyPress}
           ref={this.setButtonRef}
+          disabled={disabled}
         >
           <span>{this.buttonContent()}</span>
           <Icon icon={buttonIcon}/>
@@ -251,7 +244,7 @@ export default class DropDown extends PureComponent {
           role="listbox"
           tabIndex="-1"
         >
-        {this.children()} 
+        {this.children() || this.noChildrenItem()} 
         </ul>
       </div>
 			)
@@ -282,9 +275,21 @@ export class DropDownItem extends Component {
 
   getValue = () => this.props.value
 
-  onClick = () => this.props.onSelect(this.props.optionKey)
+  onClick = () => {
+    const { onSelect, optionKey } = this.props
+    
+    if(onSelect) { 
+      onSelect(optionKey)
+    }
+  }
 
-  onKeyPress = (e) => this.props.onKeyPress(e, this.props.optionKey)
+  onKeyPress = (e) => {
+    const { onKeyPress, optionKey } = this.props
+    
+    if(onKeyPress) { 
+      onKeyPress(e, optionKey)
+    }
+  }
     
   render () {
     const { children, id, mod } = this.props

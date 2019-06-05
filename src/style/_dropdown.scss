@@ -36,14 +36,16 @@
 		position: absolute;
 		display: block;
 		list-style: none;
-		width: 100%;
+		width: fit-content;
+		min-width: 100%;
 		padding: 0;
 		margin: .1em 0;
 
 		&__item {
 			margin: 0;
 			padding: 0 1.5em;
-			width: 100%;
+			width: max-content;
+			min-width: 100%;
 			height: 3em;
 			display: flex;
 			align-items: center;
@@ -55,19 +57,26 @@
 				@include medium_text($size: $md-text-font-size);
 			}
 
-			&:hover, &:focus {
-				background: alter-hue($color-white, 5%);
+			&:not(.sui-dropdown__menu__item--disabled) {
+
+				&:hover, &:focus {
+					background: alter-hue($color-white, 5%);
+				}
+			}
+
+			&:focus {
 				outline: none;
 			}
 
 			&:first-child {
-				border-radius: 4px 4px 0 0;
+				border-top-left-radius: 4px;
+				border-top-right-radius: 4px;
 				border-top: 1px solid $color-bright-silver;
 			}
 
 			&:last-child {
-				border-radius: 0 0 4px 4px;
-				border-top: none;
+				border-bottom-left-radius: 4px;
+				border-bottom-right-radius: 4px;
 			}
 		}
 	}
