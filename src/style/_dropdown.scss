@@ -15,12 +15,11 @@
 		align-items: center;
 		justify-content: space-between;
 	
-		> * {
-	
+		span {
+			@include medium_text($size: $md-text-font-size);
+
 			&:first-of-type {
 				margin-right: .5em;
-
-				@include medium_text($size: $md-text-font-size);
 			}
 		}
 	}

@@ -2,6 +2,8 @@ import React, { Component, PureComponent } from "react"
 import PropTypes from "prop-types"
 import cx from "classnames"
 
+import { Icon } from "components/layout-utils"
+
 export default class DropDown extends PureComponent {
 
   static propTypes = {
@@ -207,6 +209,7 @@ export default class DropDown extends PureComponent {
     const { id, disbaled, mod } = this.props
     const { expanded } = this.state
     const className = "sui-dropdown"
+    const buttonIcon = expanded ? "angle-up-light" : "angle-down-light"
 
     return (
       <div
@@ -226,9 +229,7 @@ export default class DropDown extends PureComponent {
           ref={this.setButtonRef}
         >
           <span>{this.buttonContent()}</span>
-          <svg width="10" height="10">
-            <use xlinkHref={"#large-arrow-down"} />
-          </svg>
+          <Icon icon={buttonIcon}/>
         </button>
         <ul
           className={`${className}__menu`}
