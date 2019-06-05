@@ -4,6 +4,17 @@ import cx from "classnames"
 
 import { Icon } from "components/layout-utils"
 
+
+function childrenOf(...types) {
+  let fieldType = PropTypes.shape({
+      type: PropTypes.oneOf(types),
+  });
+
+  return PropTypes.oneOfType([
+      fieldType,
+      PropTypes.arrayOf(fieldType),
+  ]);
+}
 export default class DropDown extends PureComponent {
 
   static propTypes = {
@@ -25,7 +36,7 @@ export default class DropDown extends PureComponent {
 
     let selectedKey = null
     this.setButtonRef = (instance) => this.buttonRef = instance
-    this.childCount = React.Children.count(this.props.children) - 1
+    this.childCount = Math.max(0, React.Children.count(this.props.children) - 1)
     this.childRefCollection = {}
     this.setChildRefCollection = {}
 
@@ -52,8 +63,8 @@ export default class DropDown extends PureComponent {
   componentDidUpdate() {
     const { activeKey, expanded } = this.state
 
-    if(expanded) {
-      this.setFocusChild(activeKey)
+    if(expanded && this.childCount) {
+      return this.setFocusChild(activeKey)
     }
   }
 
@@ -145,6 +156,10 @@ export default class DropDown extends PureComponent {
       case "Enter":
       case " ":
         this.openDropdown()
+        break
+      case "Esc":
+      case "Escape":
+        this.closeDropdown()
         break
     }
   }
