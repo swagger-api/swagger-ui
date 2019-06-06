@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { sanitizeUrl } from "core/utils"
 
-export class TermsOfService extends React.Component {
+export default class TermsOfService extends React.Component {
   static propTypes = {
     termsOfService: PropTypes.string.isRequired,
     getComponent: PropTypes.func.isRequired

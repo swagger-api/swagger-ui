@@ -5,6 +5,7 @@ import ImPropTypes from "react-immutable-proptypes"
 
 import { sanitizeUrl } from "core/utils"
 import { Contact, License } from "components/info"
+import { Contact, License, TermsOfService } from "components/info"
 
 export default class Info extends React.Component {
   static propTypes = {
@@ -51,11 +52,8 @@ export default class Info extends React.Component {
           <Markdown source={ description } />
         </div>
 
-        {
-          termsOfService && <div className="info__tos">
-            <Link target="_blank" href={ sanitizeUrl(termsOfService) }>Terms of service</Link>
           </div>
-        }
+          { !!termsOfService && <TermsOfService getComponent={getComponent} termsOfService={termsOfService} /> }
           { !!showContact && <Contact getComponent={getComponent} data={ contact } /> }
           { !!showLicense && <License getComponent={getComponent} license={ license } /> }
           { 
