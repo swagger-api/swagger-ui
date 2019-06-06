@@ -6,6 +6,7 @@ import ImPropTypes from "react-immutable-proptypes"
 import { sanitizeUrl } from "core/utils"
 import { Contact, License } from "components/info"
 import { Contact, License, TermsOfService } from "components/info"
+import { Contact, License, TermsOfService, ExternalDocsUrl } from "components/info"
 
 export default class Info extends React.Component {
   static propTypes = {
@@ -54,18 +55,9 @@ export default class Info extends React.Component {
 
           </div>
           { !!termsOfService && <TermsOfService getComponent={getComponent} termsOfService={termsOfService} /> }
-          { !!showContact && <Contact getComponent={getComponent} data={ contact } /> }
-          { !!showLicense && <License getComponent={getComponent} license={ license } /> }
-          { 
-            !!externalDocsUrl 
-              &&  <Link
-                    className="info__extdocs"
-                    target="_blank"
-                    href={sanitizeUrl(externalDocsUrl)}
-                  >
-                    {externalDocsDescription || externalDocsUrl}
-                  </Link>
-          }
+          { !!showContact && <Contact getComponent={getComponent} data={contact} /> }
+          { !!showLicense && <License getComponent={getComponent} license={license} /> }
+          { !!externalDocsUrl && <ExternalDocsUrl getComponent={getComponent} url={externalDocsUrl} description={externalDocsDescription} /> }             
       </div>
     )
   }
