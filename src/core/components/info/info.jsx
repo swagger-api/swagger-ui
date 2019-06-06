@@ -2,10 +2,9 @@ import React from "react"
 import PropTypes from "prop-types"
 import { fromJS } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
+import cx from "classnames"
 
 import { sanitizeUrl } from "core/utils"
-import { Contact, License } from "components/info"
-import { Contact, License, TermsOfService } from "components/info"
 import { Contact, License, TermsOfService, ExternalDocsUrl } from "components/info"
 
 export default class Info extends React.Component {
@@ -21,6 +20,12 @@ export default class Info extends React.Component {
     getComponent: PropTypes.func.isRequired,
   }
 
+  state = {
+    expanded: true
+  }
+
+  toggleInfo = () => this.setState({ expanded: !this.state.expanded })
+  
   render() {
     const { info, url, host, basePath, getComponent, externalDocs } = this.props
     const version = info.get("version")
@@ -28,13 +33,18 @@ export default class Info extends React.Component {
     const title = info.get("title")
     const contact = info.get("contact")
     const license = info.get("license")
+    const termsOfService = info.get("termsOfService")
+
     const { url:externalDocsUrl, description:externalDocsDescription } = (externalDocs || fromJS({})).toJS()
 
     const Markdown = getComponent("Markdown")
-    const Link = getComponent("Link")
     const VersionStamp = getComponent("VersionStamp")
     const InfoUrl = getComponent("InfoUrl")
     const InfoBasePath = getComponent("InfoBasePath")
+    const Collapse = getComponent("Collapse")
+    const Button = getComponent("Button")
+    const Icon = getComponent("Icon")
+
     const showVersion = !!version && !!this.state.expanded
     const showInfoBasePath = (!!host || !!basePath) && !!this.state.expanded
     const showInfoUrl = !!url && !!this.state.expanded
@@ -51,18 +61,24 @@ export default class Info extends React.Component {
           { showInfoBasePath && <InfoBasePath host={ host } basePath={ basePath } /> }
           { showInfoUrl && <InfoUrl getComponent={getComponent} url={url} /> }
         </hgroup>
-
-        <div className="description">
-          <Markdown source={ description } />
-        </div>
-
+        <Button unstyled onClick={this.toggleInfo} className="sui-btn-transparent collapsable-info__icon">
+          <Icon
+            icon={cx({
+              "angle-down-light": this.state.expanded,
+              "angle-up-light": !this.state.expanded
+            })}
+          />
+        </Button>
+        <Collapse isOpened={this.state.expanded} animated={true} >
+          <div className="description">
+            <Markdown source={ description } />
           </div>
           { !!termsOfService && <TermsOfService getComponent={getComponent} termsOfService={termsOfService} /> }
           { !!showContact && <Contact getComponent={getComponent} data={contact} /> }
           { !!showLicense && <License getComponent={getComponent} license={license} /> }
           { !!externalDocsUrl && <ExternalDocsUrl getComponent={getComponent} url={externalDocsUrl} description={externalDocsDescription} /> }             
+        </Collapse>
       </div>
     )
   }
-
 }
