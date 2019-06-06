@@ -50,7 +50,7 @@ import Headers from "core/components/headers"
 import Errors from "core/components/errors"
 import ContentType from "core/components/content-type"
 import Overview from "core/components/overview"
-import Info, {
+import { Info,
   InfoUrl,
   InfoBasePath
 } from "core/components/info"
