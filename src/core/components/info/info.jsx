@@ -17,13 +17,12 @@ export default class Info extends React.Component {
   }
 
   render() {
-    let { info, url, host, basePath, getComponent, externalDocs } = this.props
-    let version = info.get("version")
-    let description = info.get("description")
-    let title = info.get("title")
-    let termsOfService = info.get("termsOfService")
-    let contact = info.get("contact")
-    let license = info.get("license")
+    const { info, url, host, basePath, getComponent, externalDocs } = this.props
+    const version = info.get("version")
+    const description = info.get("description")
+    const title = info.get("title")
+    const contact = info.get("contact")
+    const license = info.get("license")
     const { url:externalDocsUrl, description:externalDocsDescription } = (externalDocs || fromJS({})).toJS()
 
     const Markdown = getComponent("Markdown")
