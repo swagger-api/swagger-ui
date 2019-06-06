@@ -4,7 +4,6 @@ import { fromJS } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
 
-import { sanitizeUrl } from "core/utils"
 import { Contact, License, TermsOfService, ExternalDocsUrl } from "components/info"
 
 export default class Info extends React.Component {
