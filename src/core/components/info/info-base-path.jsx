@@ -11,9 +11,11 @@ export default class InfoBasePath extends React.Component {
     const { host, basePath } = this.props
 
     return (
-      <pre className="base-url">
-        [ Base URL: {host}{basePath} ]
-      </pre>
+      <div className="base-url">
+        <pre>
+          [ Base URL: {host}{basePath} ]
+        </pre>
+      </div>
     )
   }
 }

@@ -2,20 +2,12 @@
 {
     margin: 0 0 2em 0;
 
-    hgroup.main
-    {
-        margin: 0 0 1em 0;
-        a
-        {
-            @include regular_text($color: $info-link-font-color);
-        }
-    }
-    
     p, li, table
     {
-        @include regular_text($size: 1.4em);
+        @include regular_text();
 
-        a {
+        a 
+        {
             @include inline-link-text();
         }
     }
@@ -35,50 +27,90 @@
     > div
     {
         margin: 0 0 .5em 0;
-
-        &.description {
-            margin: 0 0 2em 0;
-        }
     }
 
     .base-url
     {
-        margin: 0;
+        margin: 0 0 1em 0;
 
-        @include regular_text();
+        pre 
+        {
+            @include regular_text();
+        }
+    }
+}
+
+
+.info__header
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    
+    hgroup
+    {
+        margin: 0 0 1em 0;
+        a
+        {
+            @include regular_text($color: $info-link-font-color);
+        }
+    }
+}
+
+.info__header__icon
+{
+    font-size: $xl-text-font-size;
+}
+
+.info__header__title
+{
+    margin-bottom: 2em;
+    
+    > span
+    {
+        display: block;
+        margin-bottom: .625rem;
+        @include light_text($size: $xxl-text-font-size);
     }
 
-    .title
+    small
     {
-        margin-bottom: 1em;
+        display: inline-block;
+        
+        padding: .3em .5em;
 
-        > span {
-            @include light_text();
+        border-radius: 3px;
+        background: $info-title-small-background-color;
+
+        pre
+        {
+            margin: 0;
+            padding: 0;
+
+            @include regular_text($color: $color-white, $size: $xs-text-font-size);
+        }
+    }
+}
+
+.info__description
+{
+    margin: 0 0 2em 0;
+}
+
+.info__menu
+{
+    display: flex;
+
+    > div {
+        padding: 0 2em;
+        border-right: 1px solid $color-primary;
+
+        &:first-child {
+            padding-left: 0;
         }
 
-        small
-        {
-
-            position: relative;
-            top: -5px;
-
-            display: inline-block;
-
-            margin: 0 0 0 5px;
-            padding: 2px 4px;
-
-            vertical-align: super;
-
-            border-radius: 57px;
-            background: $info-title-small-background-color;
-
-            pre
-            {
-                margin: 0;
-                padding: 0;
-
-                @include regular_text($color: $color-white, $size: $xs-text-font-size);
-            }
+        &:last-child {
+            border: none;
         }
     }
 }

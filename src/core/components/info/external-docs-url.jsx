@@ -6,13 +6,14 @@ const ExternalDocsUrl = ({ description, url, getComponent }) => {
   const Link = getComponent("Link")
 
   return (
-    <Link
-      className="info__extdocs"
-      target="_blank"
-      href={sanitizeUrl(url)}
-    >
-      {description || url}
-    </Link>
+    <div className="info__extdocs">
+      <Link
+        target="_blank"
+        href={sanitizeUrl(url)}
+      >
+        {description || url}
+      </Link>
+    </div>
   )
 }
 

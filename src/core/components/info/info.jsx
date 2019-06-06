@@ -52,30 +52,34 @@ export default class Info extends React.Component {
 
     return (
       <div className="info">
-        <hgroup className="main">
-          <h2 className="title" >
-            <span>{ title }</span>
-            { showVersion && <VersionStamp version={version}></VersionStamp> }
-          </h2>
-          { showInfoBasePath && <InfoBasePath host={ host } basePath={ basePath } /> }
-          { showInfoUrl && <InfoUrl getComponent={getComponent} url={url} /> }
-        </hgroup>
-        <Button unstyled onClick={this.toggleInfo} className="sui-btn-transparent collapsable-info__icon">
-          <Icon
-            icon={cx({
-              "angle-down-light": this.state.expanded,
-              "angle-up-light": !this.state.expanded
-            })}
-          />
-        </Button>
+        <div className="info__header">
+          <hgroup>
+            <h2 className="info__header__title" >
+              <span>{ title }</span>
+              { showVersion && <VersionStamp version={version}></VersionStamp> }
+            </h2>
+            { showInfoBasePath && <InfoBasePath host={ host } basePath={ basePath } /> }
+            { showInfoUrl && <InfoUrl getComponent={getComponent} url={url} /> }
+          </hgroup>
+          <Button unstyled onClick={this.toggleInfo} className="sui-btn-transparent info__header__icon">
+            <Icon
+              icon={cx({
+                "angle-down-light": this.state.expanded,
+                "angle-up-light": !this.state.expanded
+              })}
+            />
+          </Button>
+        </div>
         <Collapse isOpened={this.state.expanded} animated={true} >
-          <div className="description">
+          <div className="info__description">
             <Markdown source={ description } />
           </div>
-          { !!termsOfService && <TermsOfService getComponent={getComponent} termsOfService={termsOfService} /> }
-          { !!showContact && <Contact getComponent={getComponent} data={contact} /> }
-          { !!showLicense && <License getComponent={getComponent} license={license} /> }
-          { !!externalDocsUrl && <ExternalDocsUrl getComponent={getComponent} url={externalDocsUrl} description={externalDocsDescription} /> }             
+          <div className="info__menu">
+            { !!termsOfService && <TermsOfService getComponent={getComponent} termsOfService={termsOfService} /> }
+            { !!showContact && <Contact getComponent={getComponent} data={contact} /> }
+            { !!showLicense && <License getComponent={getComponent} license={license} /> }
+            { !!externalDocsUrl && <ExternalDocsUrl getComponent={getComponent} url={externalDocsUrl} description={externalDocsDescription} /> }             
+          </div>
         </Collapse>
       </div>
     )
