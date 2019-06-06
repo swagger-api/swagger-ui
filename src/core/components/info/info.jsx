@@ -11,6 +11,9 @@ import { Contact, License, TermsOfService, ExternalDocsUrl } from "components/in
 export default class Info extends React.Component {
   static propTypes = {
     info: PropTypes.object,
+    title: PropTypes.any,
+    description: PropTypes.any,
+    version: PropTypes.any,
     url: PropTypes.string,
     host: PropTypes.string,
     basePath: PropTypes.string,
