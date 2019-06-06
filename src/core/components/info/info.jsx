@@ -30,16 +30,21 @@ export default class Info extends React.Component {
     const VersionStamp = getComponent("VersionStamp")
     const InfoUrl = getComponent("InfoUrl")
     const InfoBasePath = getComponent("InfoBasePath")
+    const showVersion = !!version && !!this.state.expanded
+    const showInfoBasePath = (!!host || !!basePath) && !!this.state.expanded
+    const showInfoUrl = !!url && !!this.state.expanded
+    const showContact = !!contact && !!contact.size
+    const showLicense = !!license && !!license.size
 
     return (
       <div className="info">
         <hgroup className="main">
           <h2 className="title" >
             <span>{ title }</span>
-            { version && <VersionStamp version={version}></VersionStamp> }
+            { showVersion && <VersionStamp version={version}></VersionStamp> }
           </h2>
-          { host || basePath ? <InfoBasePath host={ host } basePath={ basePath } /> : null }
-          { url && <InfoUrl getComponent={getComponent} url={url} /> }
+          { showInfoBasePath && <InfoBasePath host={ host } basePath={ basePath } /> }
+          { showInfoUrl && <InfoUrl getComponent={getComponent} url={url} /> }
         </hgroup>
 
         <div className="description">
@@ -51,13 +56,18 @@ export default class Info extends React.Component {
             <Link target="_blank" href={ sanitizeUrl(termsOfService) }>Terms of service</Link>
           </div>
         }
-
-        {contact && contact.size ? <Contact getComponent={getComponent} data={ contact } /> : null }
-        {license && license.size ? <License getComponent={getComponent} license={ license } /> : null }
-        { externalDocsUrl ?
-            <Link className="info__extdocs" target="_blank" href={sanitizeUrl(externalDocsUrl)}>{externalDocsDescription || externalDocsUrl}</Link>
-        : null }
-
+          { !!showContact && <Contact getComponent={getComponent} data={ contact } /> }
+          { !!showLicense && <License getComponent={getComponent} license={ license } /> }
+          { 
+            !!externalDocsUrl 
+              &&  <Link
+                    className="info__extdocs"
+                    target="_blank"
+                    href={sanitizeUrl(externalDocsUrl)}
+                  >
+                    {externalDocsDescription || externalDocsUrl}
+                  </Link>
+          }
       </div>
     )
   }
