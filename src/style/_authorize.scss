@@ -1,16 +1,17 @@
 .auth-btn-wrapper
 {
     display: flex;
+    justify-content: flex-end;
 
     padding: 10px 0;
 
-    justify-content: center;
-
     button
     {
+        flex-grow: 0;
+
         &:first-of-type
         {
-            margin-right: 2em;
+            margin-right: .5em;
         }
 
         &:last-of-type
@@ -34,7 +35,7 @@
         padding: 10px 20px;
 
         border: 0;
-    }
+    } 
 
     h4
     {
@@ -67,17 +68,21 @@
 
         @include mono_text();
     }
-}
 
-.scopes
-{
-    h2
+    .scope-def
     {
-        @include regular_text()
-    }
-}
+        padding: 0 0 20px 0;
 
-.scope-def
-{
-    padding: 0 0 20px 0;
+        p {
+            @include light_text($size: $md-text-font-size);
+        }
+    }
+
+    .scopes
+    {
+        h2
+        {
+            @include regular_text()
+        }
+    }
 }

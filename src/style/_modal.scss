@@ -1,4 +1,4 @@
-.dialog-ux
+.sui-modal
 {
     position: fixed;
     z-index: 9999;
@@ -7,7 +7,7 @@
     bottom: 0;
     left: 0;
 
-    .backdrop-ux
+    .sui-modal__backdrop
     {
         position: fixed;
         top: 0;
@@ -15,10 +15,10 @@
         bottom: 0;
         left: 0;
 
-        background: $dialog-ux-backdrop-background-color;
+        background: $sui-modal-backdrop-background-color;
     }
 
-    .modal-ux
+    .sui-modal__card
     {
         position: absolute;
         z-index: 9999;
@@ -31,48 +31,45 @@
 
         transform: translate(-50%,-50%);
 
-        border: 1px solid $dialog-ux-modal-border-color;
+        border: 1px solid $sui-modal-border-color;
         border-radius: 4px;
-        background: $dialog-ux-modal-background-color;
+        background: $sui-modal-background-color;
     }
 
-    .modal-ux-content
+    .sui-modal__content
     {
         overflow-y: auto;
 
         max-height: 540px;
         padding: 20px;
 
-        p
+        p, h5
         {
 
             margin: 0 0 5px 0;
 
-            @include regular_text($size: $xs-text-font-size);
+            @include light_text($size: $sm-text-font-size);
         }
 
         h4
         {
-            font-weight: 600;
-
-            margin: 15px 0 0 0;
-            @include light_text($size: $xl-text-font-size);
+            @include bold_text($size: $xl-text-font-size);
         }
     }
 
-    .modal-ux-header
+    .sui-modal__header
     {
         display: flex;
 
         padding: 12px 0;
 
-        border-bottom: 1px solid $dialog-ux-modal-header-border-bottom-color;
+        border-bottom: 1px solid $sui-modal-header-border-bottom-color;
 
         align-items: center;
 
-        .close-modal
+        .sui-modal__close
         {
-            color: $dialog-ux-modal-close-button-font-color;
+            color: $sui-modal-close-button-font-color;
             padding: 0 10px;
 
             border: none;
@@ -84,12 +81,11 @@
 
         h3
         {
-            font-weight: 600;
             margin: 0;
-            padding: 0 20px;
+            // padding: 0 20px;
 
             flex: 1;
-            @include regular_text($size: $xl-text-font-size);
+            @include bold_text($size: 1.8em);
         }
     }
 }

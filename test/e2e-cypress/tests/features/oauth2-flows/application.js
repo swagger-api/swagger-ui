@@ -13,7 +13,7 @@ describe("OAuth2 Application flow", function() {
       .get(".sui-btn.sui-btn--authorize")
       .click()
 
-      .get("div.modal-ux-content > div:nth-child(2)").within(() => {
+      .get("div.sui-modal__content > div:nth-child(2)").within(() => {
         cy.get("#client_id")
           .clear()
           .type("confidentialApplication")
@@ -26,7 +26,7 @@ describe("OAuth2 Application flow", function() {
           .click()
       })
 
-    cy.get("button.close-modal")
+    cy.get("button.sui-modal__close")
       .click()
 
       .get("#operations-default-get_application")

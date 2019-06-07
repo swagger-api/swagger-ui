@@ -62,7 +62,7 @@ module.exports = {
           selector: "button.sui-btn--authorize"
         },
         authorizationModal: {
-          selector: ".dialog-ux"
+          selector: ".sui-modal"
         },
         appName: {
           selector: ".auth-container h5"
