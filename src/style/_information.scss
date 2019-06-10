@@ -2,6 +2,11 @@
 {
     margin: 0 0 2em 0;
 
+    &--collapsed
+    {
+        margin-bottom: 0;
+    }
+
     p, li, table
     {
         @include regular_text();
@@ -24,11 +29,7 @@
             color: $info-link-font-color--hover;
         }
     }
-    > div
-    {
-        margin: 0 0 .5em 0;
-    }
-
+   
     .base-url
     {
         margin: 0 0 1em 0;
@@ -49,7 +50,6 @@
     
     hgroup
     {
-        margin: 0 0 1em 0;
         a
         {
             @include regular_text($color: $info-link-font-color);

@@ -51,7 +51,7 @@ export default class Info extends React.Component {
     const showLicense = !!license && !!license.size
 
     return (
-      <div className="info">
+      <div className={cx("info", { "info--collapsed": !this.state.expanded })}>
         <div className="info__header">
           <hgroup>
             <h2 className="info__header__title" >
