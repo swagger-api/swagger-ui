@@ -28,6 +28,7 @@
 
     .auth__row {
         padding: 0 0 1.2em 0;
+        display: flex;
     }
 
     .auth__row--form {
@@ -58,6 +59,10 @@
     {
         color: $auth-container-code-font-color;
         background: $auth-container-code-background-color;
+
+        &::before, &::after {
+            content: "\00a0";
+        }
     }
 
     input[type=text],
@@ -78,7 +83,7 @@
 
             b {
                 text-transform: "capitalize";
-                
+
                 @include mono_text($color: $color-danger);
             }
         }
