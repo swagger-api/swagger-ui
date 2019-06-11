@@ -20,7 +20,11 @@ describe("OAuth2 Password flow", function() {
       .type("password")
 
       .get("#password_type")
-      .select("basic")
+      .click()
+
+      .get("#password_type > ul")
+      .contains("Authorization header")
+      .click()
 
       .get("#client_id")
       .clear()
@@ -77,7 +81,11 @@ describe("OAuth2 Password flow", function() {
       .type("password")
 
       .get("#password_type")
-      .select("request-body")
+      .click()
+
+      .get("#password_type > ul")
+      .contains("Request body")
+      .click()
 
       .get("#client_id")
       .clear()
