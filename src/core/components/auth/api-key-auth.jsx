@@ -41,8 +41,6 @@ export default class ApiKeyAuth extends React.Component {
   render() {
     let { schema, getComponent, errSelectors, name } = this.props
     const Input = getComponent("Input")
-    const Row = getComponent("Row")
-    const Col = getComponent("Col")
     const AuthError = getComponent("authError")
     const Markdown = getComponent( "Markdown" )
     const JumpToPath = getComponent("JumpToPath", true)
@@ -51,29 +49,40 @@ export default class ApiKeyAuth extends React.Component {
 
     return (
       <div>
-        <h4>
-          <code>{ name || schema.get("name") }</code>&nbsp;
-          (apiKey)
-          <JumpToPath path={[ "securityDefinitions", name ]} />
-        </h4>
-        { value && <h6>Authorized</h6>}
-        <Row>
+        <div className="auth__header">
+          <h4>
+            <code>{ name || schema.get("name") }</code>&nbsp;
+            (apiKey)
+            <JumpToPath path={[ "securityDefinitions", name ]} />
+          </h4>
+        </div>
+
+        { value && <div className="auth__row">
+            <h6>Authorized</h6>
+          </div>
+        }
+
+        <div className="auth__row">
           <Markdown source={ schema.get("description") } />
-        </Row>
-        <Row>
+        </div>
+
+        <div className="auth__row">
           <p>Name: <code>{ schema.get("name") }</code></p>
-        </Row>
-        <Row>
+        </div>
+
+        <div className="auth__row">
           <p>In: <code>{ schema.get("in") }</code></p>
-        </Row>
-        <Row>
-          <label>Value:</label>
+        </div>
+
+        <div className="auth__row--form">
+          <label><span>Value:</span></label>
           {
             value ? <code> ****** </code>
-                  : <Col><Input type="text" onChange={ this.onChange }/></Col>
+                  : <Input type="text" onChange={ this.onChange }/>
           }
-        </Row>
-        {
+        </div>
+
+        { 
           errors.valueSeq().map( (error, key) => {
             return <AuthError error={ error }
                               key={ key }/>

@@ -14,6 +14,7 @@ export default class DropDown extends PureComponent {
     mod: PropTypes.string,
     disabled: PropTypes.bool,
     onChange: PropTypes.func,
+    dataName: PropTypes.string,
     children: PropTypes.node.isRequired
   }
 
@@ -48,6 +49,10 @@ export default class DropDown extends PureComponent {
 
   componentDidMount() {
     document.addEventListener("click", this.onClickDoc, true)
+
+    if(this.props.value != null){
+      this.forceUpdate()
+    }
   }
 
   componentDidUpdate() {
@@ -86,10 +91,19 @@ export default class DropDown extends PureComponent {
   })
 
   closeDropdown = (key) => {
+    const { dataName, onChange } = this.props
     const hasSelected = key || key === 0 
 
-    if(hasSelected && this.props.onChange) {
-      this.props.onChange(this.childRefCollection[key].getValue())
+    if(hasSelected && onChange) {
+      const e = {
+        value: this.childRefCollection[key].getValue()
+      }
+
+      if(dataName) {
+        e.name = dataName
+      }
+
+      onChange(e)
     }
 
     this.setState((state) => { 
@@ -213,7 +227,7 @@ export default class DropDown extends PureComponent {
   noChildrenItem = () => <DropDownItem mod="disabled">No options available</DropDownItem>
   
   render() {
-    const { id, disabled, mod } = this.props
+    const { id, disabled, mod, dataName } = this.props
     const { expanded } = this.state
     const className = "sui-dropdown"
     const buttonIcon = expanded ? "angle-up-light" : "angle-down-light"
@@ -235,6 +249,7 @@ export default class DropDown extends PureComponent {
           onKeyDown={this.onKeyPress}
           ref={this.setButtonRef}
           disabled={disabled}
+          data-name={dataName}
         >
           <span>{this.buttonContent()}</span>
           <Icon icon={buttonIcon}/>

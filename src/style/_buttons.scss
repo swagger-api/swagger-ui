@@ -111,12 +111,13 @@
 
 .sui-btn-wrapper
 {
+    display: flex;
+    justify-content: flex-end;
+
     button
     {
-        &:first-child
-        {
-            margin-right: 2em;
-        }
+        flex-grow: 0;
+        margin-right: .5em;
 
         &:last-child
         {

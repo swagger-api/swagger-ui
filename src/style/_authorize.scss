@@ -1,45 +1,57 @@
-.auth-btn-wrapper
-{
-    display: flex;
-    justify-content: flex-end;
-
-    padding: 10px 0;
-
-    button
-    {
-        flex-grow: 0;
-
-        &:first-of-type
-        {
-            margin-right: .5em;
-        }
-
-        &:last-of-type
-        {
-            margin-right: 0;
-        }
-
-    }
-}
-
 .auth-container
 {
-    margin: 0 0 10px 0;
-    padding: 10px 20px;
+    padding: 1.2em 2em 2em 2em;
 
     border-bottom: 1px solid $auth-container-border-color;
 
     &:last-of-type
     {
-        margin: 0;
-        padding: 10px 20px;
-
         border: 0;
     } 
 
-    h4
+    .auth__description
     {
-        margin: 5px 0 15px 0 !important;
+        padding: 0 0 2.4em 0;
+
+        div {
+            padding: 0 0 1.2em 0;
+            
+            p {
+                @include light_text($size: $md-text-font-size);
+            }
+        }
+    }
+
+    .auth__header {
+        padding: 0 0 2em 0;
+    }
+
+    .auth__row {
+        padding: 0 0 1.2em 0;
+    }
+
+    .auth__row--form {
+        padding: 0 0 1.2em 0;
+        display: flex;
+        align-items: center;
+        width: fit-content;
+    
+        > label {
+            margin: 0 .5em 0 0;
+            min-width: 7em;
+
+            > span {
+                @include light_text($size: $sm-text-font-size);
+            }
+        }
+    }
+
+    .auth__row--scopes
+    {
+        &.auth__row--form > label {
+            align-self: flex-start;
+            margin-top: .3em;
+        }
     }
 
     code
@@ -48,41 +60,33 @@
         background: $auth-container-code-background-color;
     }
 
-    .wrapper
-    {
-        margin: 0;
-        padding: 0;
-    }
-
     input[type=text],
     input[type=password]
     {
         min-width: 230px;
     }
 
-    .errors
+    .auth__error
     {
-        padding: 10px;
-
         border-radius: 4px;
+        margin: 0 0 1.2em 0;
+        padding: .5em;
+        background-color: lighten($color-danger, 60%);
 
-        @include mono_text();
-    }
+        &__title {
+            margin-right: 1em;
 
-    .scope-def
-    {
-        padding: 0 0 20px 0;
-
-        p {
-            @include light_text($size: $md-text-font-size);
+            b {
+                text-transform: "capitalize";
+                
+                @include mono_text($color: $color-danger);
+            }
         }
-    }
+        &__message {
 
-    .scopes
-    {
-        h2
-        {
-            @include regular_text()
+            span {
+                @include mono_text($color: $color-danger);
+            }
         }
     }
 }

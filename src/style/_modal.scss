@@ -28,6 +28,7 @@
         width: 100%;
         min-width: 300px;
         max-width: 650px;
+        max-height: 75em;
 
         transform: translate(-50%,-50%);
 
@@ -40,20 +41,18 @@
     {
         overflow-y: auto;
 
-        max-height: 540px;
-        padding: 20px;
-
-        p, h5
+        p, h5, h6, .markdown
         {
-
-            margin: 0 0 5px 0;
-
             @include light_text($size: $sm-text-font-size);
         }
 
         h4
         {
-            @include bold_text($size: $xl-text-font-size);
+            @include bold_text($size: 1.8em);
+        }
+
+        input {
+            @include medium_text();
         }
     }
 
@@ -61,7 +60,7 @@
     {
         display: flex;
 
-        padding: 12px 0;
+        padding: 2em 2em 1.2em 2em;
 
         border-bottom: 1px solid $sui-modal-header-border-bottom-color;
 
@@ -69,9 +68,8 @@
 
         .sui-modal__close
         {
-            color: $sui-modal-close-button-font-color;
-            padding: 0 10px;
-
+            color: $color-secondary;
+            font-size: $md-icon-font-size;
             border: none;
             background: none;
 
@@ -81,9 +79,6 @@
 
         h3
         {
-            margin: 0;
-            // padding: 0 20px;
-
             flex: 1;
             @include bold_text($size: 1.8em);
         }

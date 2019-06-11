@@ -16,7 +16,7 @@
 		justify-content: space-between;
 	
 		span {
-			@include medium_text($size: $md-text-font-size);
+			@include medium_text();
 
 			&:first-of-type {
 				margin-right: .5em;
@@ -54,7 +54,7 @@
 			cursor: pointer;
 
 			div {
-				@include medium_text($size: $md-text-font-size);
+				@include medium_text();
 			}
 
 			&:not(.sui-dropdown__menu__item--disabled) {

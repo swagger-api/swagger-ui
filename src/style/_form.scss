@@ -50,7 +50,6 @@ input[type=email],
 input[type=file],
 textarea
 {
-    display: flex;
     flex: 1;
     min-width: 6.25rem;
     padding: .5rem .625rem;
@@ -68,6 +67,10 @@ textarea
     &.invalid
     {
         @include invalidFormElement();
+    }
+
+    &:focus {
+        outline: none
     }
 }
 
@@ -131,11 +134,8 @@ textarea
     }
 }
 
-
 .checkbox
 {
-    padding: .5em 0 1em;
-
     transition: opacity .5s;
 
     color: $form-checkbox-label-font-color;
@@ -143,16 +143,14 @@ textarea
     label
     {
         display: flex;
-    }
 
-    p
-    {
-        font-weight: normal !important;
-        font-style: italic;
+        .text {
+            padding: .5em 0 0 0;
 
-        margin: 0 !important;
-
-        @include mono_text();
+            p {
+                @include regular_text($size: $sm-text-font-size);
+            }
+        }
     }
 
     input[type=checkbox]

@@ -28,7 +28,7 @@ export default class Schemes extends React.Component {
     }
   }
 
-  onChange = ( value ) => {
+  onChange = ({value}) => {
     this.setScheme( value )
   }
 
@@ -44,7 +44,7 @@ export default class Schemes extends React.Component {
     return (
       <label htmlFor="schemes">
         <span className="schemes-title">Schemes</span>
-        <DropDown displayLable={true} label="Schemes" mod="schemes" onChange={ this.onChange } value={currentScheme}>
+        <DropDown mod="schemes" onChange={ this.onChange } value={currentScheme}>
           { schemes.valueSeq().map(
             ( scheme ) => <DropDownItem value={ scheme } key={ scheme }>{ scheme }</DropDownItem>
           )}
