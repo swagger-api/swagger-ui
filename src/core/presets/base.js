@@ -33,6 +33,9 @@ import Operations from "core/components/operations"
 import OperationTag from "core/components/operation-tag"
 import Operation from "core/components/operation"
 import OperationSummary from "core/components/operation-summary"
+import OperationActions from "core/components/operation-actions"
+import OperationDesc from "core/components/operation-description"
+import ExternalDocsDesc from "core/components/external-docs-description"
 import OperationSummaryMethod from "core/components/operation-summary-method"
 import OperationSummaryPath from "core/components/operation-summary-path"
 import OperationExt from "core/components/operation-extensions"
@@ -109,6 +112,9 @@ export default function() {
       operations: Operations,
       operation: Operation,
       OperationSummary,
+      OperationDesc,
+      OperationActions,
+      ExternalDocsDesc,
       OperationSummaryMethod,
       OperationSummaryPath,
       highlightCode: HighlightCode,
