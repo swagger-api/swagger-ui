@@ -42,9 +42,8 @@ export default class Operation extends PureComponent {
   }
 
   render() {
-    let {
+    const {
       specPath,
-      response,
       request,
       toggleShown,
       onTryoutClick,
@@ -60,9 +59,11 @@ export default class Operation extends PureComponent {
       oas3Actions,
       oas3Selectors
     } = this.props
-    let operationProps = this.props.operation
 
-    let {
+    let { response } = this.props
+    const operationProps = this.props.operation
+
+    const {
       deprecated,
       isShown,
       path,
@@ -76,18 +77,18 @@ export default class Operation extends PureComponent {
       executeInProgress
     } = operationProps.toJS()
 
-    let {
+    const {
       description,
       externalDocs,
       schemes
     } = op
 
-    let operation = operationProps.getIn(["op"])
-    let responses = operation.get("responses")
-    let parameters = getList(operation, ["parameters"])
-    let operationScheme = specSelectors.operationScheme(path, method)
-    let isShownKey = ["operations", tag, operationId]
-    let extensions = getExtensions(operation)
+    const operation = operationProps.getIn(["op"])
+    const responses = operation.get("responses")
+    const parameters = getList(operation, ["parameters"])
+    const operationScheme = specSelectors.operationScheme(path, method)
+    const isShownKey = ["operations", tag, operationId]
+    const extensions = getExtensions(operation)
 
     const Responses = getComponent("responses")
     const Parameters = getComponent( "parameters" )
@@ -105,11 +106,11 @@ export default class Operation extends PureComponent {
 
     // Merge in Live Response
     if(responses && response && response.size > 0) {
-      let notDocumented = !responses.get(String(response.get("status"))) && !responses.get("default")
+      const notDocumented = !responses.get(String(response.get("status"))) && !responses.get("default")
       response = response.set("notDocumented", notDocumented)
     }
 
-    let onChangeKey = [ path, method ] // Used to add values to _this_ operation ( indexed by path and method )
+    const onChangeKey = [ path, method ] // Used to add values to _this_ operation ( indexed by path and method )
 
     const operationType = deprecated ? "deprecated" : method
 
