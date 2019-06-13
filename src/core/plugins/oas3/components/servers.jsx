@@ -105,17 +105,17 @@ export default class Servers extends React.Component {
     return (
       <div className="servers">
         <label htmlFor="servers">
-          <select onChange={ this.onServerChange }>
+          <DropDown onChange={ this.onServerChange } >
             { servers.valueSeq().map(
               ( server ) =>
-              <option
+              <DropDownItem
                 value={ server.get("url") }
                 key={ server.get("url") }>
                 { server.get("url") }
                 { server.get("description") && ` - ${server.get("description")}` }
-              </option>
+              </DropDownItem>
             ).toArray()}
-          </select>
+          </DropDown>
         </label>
         { shouldShowVariableUI ?
           <div>
