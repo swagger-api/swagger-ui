@@ -119,13 +119,6 @@ export default class Servers extends React.Component {
         </label>
         { shouldShowVariableUI ?
           <div>
-
-            <div className={"computed-url"}>
-              Computed URL:
-              <code>
-                {getEffectiveServerValue(currentServer)}
-              </code>
-            </div>
             <h4>Server variables</h4>
             <table>
               <tbody>
@@ -158,6 +151,16 @@ export default class Servers extends React.Component {
                 }
               </tbody>
             </table>
+            <div className="computed-url">
+              <label htmlFor="computed-url">
+                <div>
+                  <span>Computed URL:</span>
+                  <code className="computed-url__code">
+                    {getEffectiveServerValue(currentServer)}
+                  </code>
+                </div>
+              </label>
+            </div>
           </div>: null
         }
       </div>

@@ -40,13 +40,16 @@
     }
 
     .computed-url {
-      margin: 2em 0;
+
+      span:first-child {
+        display: block;
+        @include light_text($size: $sm-text-font-size);
+      }
 
       code {
-        display: inline-block;
-        padding: 4px;
-        @include mono_text($size: $lg-text-font-size);
-        margin: 0 1em;
+        display: block;
+        padding: 4px 0;
+        @include mono_text($size: $sm-text-font-size, $color: $color-primary );
       }
     }
 }
