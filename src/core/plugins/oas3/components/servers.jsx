@@ -125,25 +125,31 @@ export default class Servers extends React.Component {
                 {
                   currentServerVariableDefs.map((val, name) => {
                     return <tr key={name}>
-                      <td>{name}</td>
                       <td>
                         { val.get("enum") ?
-                          <select data-variable={name} onChange={this.onServerVariableValueChange}>
-                            {val.get("enum").map(enumValue => {
-                              return <option
-                                selected={enumValue === getServerVariable(currentServer, name)}
-                                key={enumValue}
-                                value={enumValue}>
-                                {enumValue}
-                              </option>
-                            })}
-                          </select> :
-                          <Input
-                            type={"text"}
-                            value={getServerVariable(currentServer, name) || ""}
-                            onChange={this.onServerVariableValueChange}
-                            data-variable={name}
+                          <label htmlFor={name}>
+                            <span className="server-variable-title">{name}</span>
+                            <DropDown label={name} data-variable={name} onChange={this.onServerVariableValueChange}>
+                              {val.get("enum").map(enumValue => {
+                                return <DropDownItem
+                                  selected={enumValue === getServerVariable(currentServer, name)}
+                                  key={enumValue}
+                                  value={enumValue}>
+                                  {enumValue}
+                                </DropDownItem>
+
+                              })}
+                            </DropDown>
+                          </label> :
+                          <label>
+                            <span>{name}</span>
+                            <Input
+                              type={"text"}
+                              value={getServerVariable(currentServer, name) || ""}
+                              onChange={this.onServerVariableValueChange}
+                              data-variable={name}
                             />
+                          </label>
                         }
                       </td>
                     </tr>
