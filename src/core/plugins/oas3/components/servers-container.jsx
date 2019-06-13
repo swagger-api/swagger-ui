@@ -21,6 +21,7 @@ export default class ServersContainer extends React.Component {
       <div>
         <Servers
           servers={servers}
+          getComponent={getComponent}
           currentServer={oas3Selectors.selectedServer()}
           setSelectedServer={oas3Actions.setSelectedServer}
           setServerVariableValue={oas3Actions.setServerVariableValue}

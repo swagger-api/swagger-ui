@@ -2,7 +2,6 @@ import React from "react"
 import { OrderedMap } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
-import { Input, DropDown, DropDownItem } from "components/layout-utils"
 
 export default class Servers extends React.Component {
 
@@ -10,6 +9,7 @@ export default class Servers extends React.Component {
     servers: ImPropTypes.list.isRequired,
     currentServer: PropTypes.string.isRequired,
     setSelectedServer: PropTypes.func.isRequired,
+    getComponent: PropTypes.func.isRequired,
     setServerVariableValue: PropTypes.func.isRequired,
     getServerVariable: PropTypes.func.isRequired,
     getEffectiveServerValue: PropTypes.func.isRequired
@@ -90,8 +90,13 @@ export default class Servers extends React.Component {
     let { servers,
       currentServer,
       getServerVariable,
-      getEffectiveServerValue
+      getEffectiveServerValue,
+      getComponent
     } = this.props
+
+    const ServerVariables = getComponent("ServerVariables")
+    const DropDown = getComponent("DropDown")
+    const DropDownItem = getComponent("DropDownItem")
 
 
     let currentServerDefinition = servers.find(v => v.get("url") === currentServer) || OrderedMap()
@@ -116,57 +121,16 @@ export default class Servers extends React.Component {
             ).toArray()}
           </DropDown>
         </label>
-        { shouldShowVariableUI ?
-          <div>
-            <h4>Server variables</h4>
-            <table>
-              <tbody>
-                {
-                  currentServerVariableDefs.map((val, name) => {
-                    return <tr key={name}>
-                      <td>
-                        { val.get("enum") ?
-                          <label htmlFor={name}>
-                            <span className="server-variable-title">{name}</span>
-                            <DropDown label={name} data-variable={name} onChange={this.onServerVariableValueChange}>
-                              {val.get("enum").map(enumValue => {
-                                return <DropDownItem
-                                  selected={enumValue === getServerVariable(currentServer, name)}
-                                  key={enumValue}
-                                  value={enumValue}>
-                                  {enumValue}
-                                </DropDownItem>
-
-                              })}
-                            </DropDown>
-                          </label> :
-                          <label>
-                            <span>{name}</span>
-                            <Input
-                              type={"text"}
-                              value={getServerVariable(currentServer, name) || ""}
-                              onChange={this.onServerVariableValueChange}
-                              data-variable={name}
-                            />
-                          </label>
-                        }
-                      </td>
-                    </tr>
-                  })
-                }
-              </tbody>
-            </table>
-            <div className="computed-url">
-              <label htmlFor="computed-url">
-                <div>
-                  <span>Computed URL:</span>
-                  <code className="computed-url__code">
-                    {getEffectiveServerValue(currentServer)}
-                  </code>
-                </div>
-              </label>
-            </div>
-          </div>: null
+        { 
+          shouldShowVariableUI &&
+            <ServerVariables
+              getComponent={getComponent}
+              serverVariableDefs={currentServerVariableDefs}
+              currentServer={currentServer}
+              getServerVariable={getServerVariable}
+              onChange={this.onServerVariableValueChange}
+              getEffectiveServerValue={getEffectiveServerValue}
+            />
         }
       </div>
     )
