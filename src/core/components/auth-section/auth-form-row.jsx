@@ -2,32 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import cx from "classnames"
 
-export const AuthHeader = ({children}) => {
-	return (
-		<div className="auth__header">
-			<h4>{children}</h4>
-		</div>
-	)
-}
-
-AuthHeader.propTypes = {
-  children: PropTypes.node
-}
-
-export const AuthRow = ({children}) => {
-	
-	return (
-		<div className="auth__row">
-			{children}
-		</div>
-	)
-}
-
-AuthRow.propTypes = {
-  children: PropTypes.node
-}
-
-export const AuthFormRow = ({label, htmlFor, mod, children}) => {
+const AuthFormRow = ({label, htmlFor, mod, children}) => {
 
 	return (
 		<div className={cx("auth__row--form", {
@@ -48,3 +23,5 @@ AuthFormRow.propTypes = {
 	mod: PropTypes.string,
   children: PropTypes.node
 }
+
+export default AuthFormRow

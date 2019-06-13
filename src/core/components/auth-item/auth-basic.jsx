@@ -74,20 +74,20 @@ export default class BasicAuth extends React.Component {
         {
           username
           ? <div>
-              <AuthFormRow label="Username:" htmlFor="basic-auth-username">
-                <Input id="basic-auth-username" type="text" required="required" name="username" onChange={ this.onChange }/>
-              </AuthFormRow>
-              <AuthFormRow label="Password:" htmlFor="basic-auth-password">
-                <Input id="basic-auth-password" type="password" required="required" name="password" autoComplete="new-password" onChange={ this.onChange }/>
-              </AuthFormRow>
-            </div>
-          : <div>
               <AuthRow>
                 <p>Username: <code>{ username }</code></p>
               </AuthRow>
               <AuthRow>
                 <p>Password: <code>******</code></p>
               </AuthRow>
+            </div>
+          : <div>
+              <AuthFormRow label="Username:" htmlFor="basic-auth-username">
+                <Input id="basic-auth-username" type="text" required="required" name="username" onChange={ this.onChange }/>
+              </AuthFormRow>
+              <AuthFormRow label="Password:" htmlFor="basic-auth-password">
+                <Input id="basic-auth-password" type="password" required="required" name="password" autoComplete="new-password" onChange={ this.onChange }/>
+              </AuthFormRow>
             </div>
         }
 

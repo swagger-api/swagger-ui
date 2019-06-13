@@ -49,7 +49,7 @@ export default class DropDown extends PureComponent {
   componentDidMount() {
     document.addEventListener("click", this.onClickDoc, true)
 
-    if(this.props.value != null){
+    if(this.props.value !== null){
       this.forceUpdate()
     }
   }

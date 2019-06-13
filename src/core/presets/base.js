@@ -16,19 +16,29 @@ import onComplete from "core/plugins/on-complete"
 import OperationContainer from "core/containers/OperationContainer"
 
 import App from "core/components/app"
-import AuthorizationPopup from "core/components/auth/authorization-popup"
-import AuthorizeBtn from "core/components/auth/authorize-btn"
 import AuthorizeBtnContainer from "core/containers/authorize-btn"
-import AuthorizeOperationBtn from "core/components/auth/authorize-operation-btn"
-import Auths from "core/components/auth/auths"
-import AuthItem from "core/components/auth/auth-item"
-import AuthError from "core/components/auth/error"
-import { AuthHeader, AuthRow, AuthFormRow } from "core/components/auth/auth-layout-utils"
-import ApiKeyAuth from "core/components/auth/api-key-auth"
-import BasicAuth from "core/components/auth/basic-auth"
-import Oauth2 from "core/components/auth/oauth2"
-import Oauth2FormData from "core/components/auth/oauth2-form-data"
-import Oauth2Form from "core/components/auth/oauth2-form"
+import { 
+  AuthorizeBtn, 
+  AuthorizeOperationBtn, 
+  AuthorizationPopup
+} from "core/components/auth"
+import { 
+  Auths,
+  AuthHeader,
+  AuthRow,
+  AuthFormRow,
+  AuthError
+} from "core/components/auth-section"
+import { 
+  AuthItem,
+  ApiKeyAuth,
+  BasicAuth
+} from "core/components/auth-item"
+import {
+  Oauth2,
+  Oauth2Form,
+  Oauth2FormData
+} from "core/components/oauth2-item"
 import Clear from "core/components/clear"
 import LiveResponse from "core/components/live-response"
 import OnlineValidatorBadge from "core/components/online-validator-badge"
