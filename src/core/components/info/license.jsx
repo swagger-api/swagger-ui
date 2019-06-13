@@ -10,8 +10,9 @@ const License = ({ license, getComponent }) => {
   return (
     <div className="info__license">
       {
-        url ? <Link target="_blank" href={ sanitizeUrl(url) }>{ name }</Link>
-      : <span>{ name }</span>
+        url 
+          ? <Link target="_blank" href={ sanitizeUrl(url) }>{ name }</Link>
+          : <span>{ name }</span>
       }
     </div>
   )

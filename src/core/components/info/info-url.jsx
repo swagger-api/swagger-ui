@@ -14,6 +14,10 @@ export default class InfoUrl extends React.PureComponent {
 
     const Link = getComponent("Link")
 
-    return (<Link target="_blank" href={ sanitizeUrl(url) }><span className="url"> { url } </span></Link>)
+    return (
+      <Link target="_blank" href={ sanitizeUrl(url) }>
+        <span className="url"> { url } </span>
+      </Link>
+    )
   }
 }

@@ -19,7 +19,7 @@
 
     label > span {
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: .5em;
       text-transform: capitalize;
     }
 
@@ -37,7 +37,7 @@
 
       code {
         display: block;
-        padding: 4px 0;
+        padding: .25rem 0;
         @include mono_text($size: $sm-text-font-size, $color: $color-primary );
       }
     }
