@@ -48,6 +48,9 @@ export default class BasicAuth extends React.Component {
     let { schema, getComponent, name, errSelectors } = this.props
     const Input = getComponent("Input")
     const AuthError = getComponent("authError")
+    const AuthHeader = getComponent("AuthHeader")
+    const AuthRow = getComponent("AuthRow")
+    const AuthFormRow = getComponent("AuthFormRow")
     const JumpToPath = getComponent("JumpToPath", true)
     const Markdown = getComponent( "Markdown" )
     let username = this.getValue().username
@@ -55,38 +58,38 @@ export default class BasicAuth extends React.Component {
 
     return (
       <div>
-        <div className="auth__header">
-          <h4>Basic authorization<JumpToPath path={[ "securityDefinitions", name ]} /></h4>
-        </div>
+        <AuthHeader>
+          Basic authorization<JumpToPath path={[ "securityDefinitions", name ]} />
+        </AuthHeader>
 
-        { username && <div className="auth__row">
+        { username && <AuthRow>
             <h6>Authorized</h6>
-          </div>
+          </AuthRow>
         }
 
-        <div className="auth__row">
+        <AuthRow>
           <Markdown source={ schema.get("description") } />
-        </div>
+        </AuthRow>
 
-        <div className="auth__row--form">
-          <label><span>Username:</span></label>
-          {
-            username ? <code> { username } </code>
-                     : <Input type="text" required="required" name="username" onChange={ this.onChange }/>
-          }
-        </div>
-
-        <div className="auth__row--form">
-          <label><span>Password:</span></label>
-          {
-            username ? <code> ****** </code>
-                      : <Input required="required"
-                                    autoComplete="new-password"
-                                    name="password"
-                                    type="password"
-                                    onChange={ this.onChange }/>
-          }
-        </div>
+        {
+          username
+          ? <div>
+              <AuthFormRow label="Username:" htmlFor="basic-auth-username">
+                <Input id="basic-auth-username" type="text" required="required" name="username" onChange={ this.onChange }/>
+              </AuthFormRow>
+              <AuthFormRow label="Password:" htmlFor="basic-auth-password">
+                <Input id="basic-auth-password" type="password" required="required" name="password" autoComplete="new-password" onChange={ this.onChange }/>
+              </AuthFormRow>
+            </div>
+          : <div>
+              <AuthRow>
+                <p>Username: <code>{ username }</code></p>
+              </AuthRow>
+              <AuthRow>
+                <p>Password: <code>******</code></p>
+              </AuthRow>
+            </div>
+        }
 
         {
           errors.valueSeq().map( (error, key) => {
