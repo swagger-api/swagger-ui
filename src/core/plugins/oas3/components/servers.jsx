@@ -104,7 +104,7 @@ export default class Servers extends React.Component {
       <div className="servers">
         <label htmlFor="servers">
           <span className="servers-title">Server</span>
-          <DropDown onChange={ this.onServerChange } >
+          <DropDown onChange={ this.onServerChange } value={ currentServer } >
             { servers.valueSeq().map(
               ( server ) =>
               <DropDownItem
