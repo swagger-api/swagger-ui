@@ -3,12 +3,10 @@
      > label
     {
 
-        margin: -20px 15px 0 0;
-        @include light_text($size: $sm-text-font-size);
 
-        select
+        .sui-dropdown
         {
-            min-width: 130px;
+            min-width: 13em;
             max-width: 100%;
         }
     }
@@ -55,12 +53,16 @@
 }
 
 .servers-title {
-    font-size: $xs-text-font-size;
-    font-weight: bold;
+    @include light_text($size: $sm-text-font-size);
 }
 
 .operation-servers {
   h4.message {
     margin-bottom: 2em;
   }
+}
+
+label > span {
+  display: block;
+  margin-bottom: 5px;
 }
