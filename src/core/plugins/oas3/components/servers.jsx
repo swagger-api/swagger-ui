@@ -2,7 +2,7 @@ import React from "react"
 import { OrderedMap } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
-import { Input } from "components/layout-utils"
+import { Input, DropDown, DropDownItem } from "components/layout-utils"
 
 export default class Servers extends React.Component {
 
@@ -105,6 +105,7 @@ export default class Servers extends React.Component {
     return (
       <div className="servers">
         <label htmlFor="servers">
+          <span className="servers-title">Server</span>
           <DropDown onChange={ this.onServerChange } >
             { servers.valueSeq().map(
               ( server ) =>
