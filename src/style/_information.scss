@@ -57,6 +57,15 @@
     }
 }
 
+.info__version-stamp {
+    display: flex;
+    margin-top: 1em;
+
+    > * {
+        margin-right: .5em;
+    }
+}
+
 .info__header__icon
 {
     font-size: $xl-text-font-size;
