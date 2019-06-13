@@ -70,7 +70,7 @@ export default class Oauth2 extends React.Component {
 
   onInputChange =(e) => {
     const value = e.value || e.target.value
-    const name = e.name || e.target.dataset.name
+    const name = e["data-name"] || e.target.dataset.name
 
     let state = {
       [name]: value
@@ -91,13 +91,14 @@ export default class Oauth2 extends React.Component {
     let {
       schema, getComponent, authSelectors, errSelectors, name, specSelectors
     } = this.props
-    const Input = getComponent("Input")
     const Button = getComponent("Button")
     const AuthError = getComponent("authError")
+    const AuthHeader = getComponent("AuthHeader")
+    const AuthRow = getComponent("AuthRow")
     const JumpToPath = getComponent("JumpToPath", true)
     const Markdown = getComponent( "Markdown" )
-    const DropDown = getComponent("DropDown")
-    const DropDownItem = getComponent("DropDownItem")
+    const Oauth2Form = getComponent("Oauth2Form")
+    const Oauth2FormData = getComponent("Oauth2FormData")
 
     const { isOAS3 } = specSelectors
 
@@ -115,127 +116,74 @@ export default class Oauth2 extends React.Component {
     let isValid = !errors.filter( err => err.get("source") === "validation").size
     let description = schema.get("description")
 
+    const showAuthURL = flow === IMPLICIT || flow === ACCESS_CODE
+    const showTokenURL = flow === PASSWORD || flow === ACCESS_CODE || flow === APPLICATION
+    const showBasicCreds = !(flow !== PASSWORD)
+    const showClientID = (!isAuthorized || isAuthorized && this.state.clientId)
+      && (flow === APPLICATION || flow === IMPLICIT || flow === ACCESS_CODE || flow === PASSWORD)
+    const showClientSecret = (flow === APPLICATION || flow === ACCESS_CODE || flow === PASSWORD)
+    const showScopes = scopes && scopes.size 
+
     return (
       <div>
-        <div className="auth__header">
-          <h4>{name} (OAuth2, { schema.get("flow") }) <JumpToPath path={[ "securityDefinitions", name ]} /></h4>
-        </div>
+        <AuthHeader>
+          {name} (OAuth2, { schema.get("flow") }) <JumpToPath path={[ "securityDefinitions", name ]} />
+        </AuthHeader>
 
         { !this.state.appName 
           ? null 
-          : <div className="auth__row">
+          : <AuthRow>
               <h5>Application: { this.state.appName } </h5>
-            </div> 
+            </AuthRow> 
         }
 
-        { description && <div className="auth__row">
+        { description && <AuthRow>
             <Markdown source={description} />
-          </div> 
+          </AuthRow> 
         }
 
-        { isAuthorized && <div className="auth__row">
+        { isAuthorized && <AuthRow>
             <h6>Authorized</h6>
-          </div> }
+          </AuthRow> }
 
-        { ( flow === IMPLICIT || flow === ACCESS_CODE ) && <div className="auth__row">
+        { showAuthURL && <AuthRow>
           <p>Authorization URL: <code>{ schema.get("authorizationUrl") }</code></p>
-          </div>
+          </AuthRow>
         }
 
-        { ( flow === PASSWORD || flow === ACCESS_CODE || flow === APPLICATION ) && <div className="auth__row">
-            <p>Token URL:<code> { schema.get("tokenUrl") }</code></p>
-          </div>
+        { showTokenURL && <AuthRow>
+            <p>Token URL: <code> { schema.get("tokenUrl") }</code></p>
+          </AuthRow>
         }
+        <AuthRow> 
+          <p className="flow">Flow: <code>{ flow }</code></p>
+        </AuthRow>
 
-        <div className="auth__row">
-          <p className="flow">Flow: <code>{ schema.get("flow") }</code></p>
-        </div>
-
-        { flow !== PASSWORD
-            ? null
-            : <div>
-                <div className="auth__row--form">
-                  <label htmlFor="oauth_username"><span>Username:</span></label>
-                  {
-                    isAuthorized ? <code> { this.state.username } </code>
-                      : <Input id="oauth_username" type="text" data-name="username" onChange={ this.onInputChange }/>
-                  }
-                </div>
-                <div className="auth__row--form">
-                  <label htmlFor="oauth_password"><span>Password:</span></label>
-                  {
-                    isAuthorized ? <code> ****** </code>
-                      : <Input id="oauth_password" type="password" data-name="password" onChange={ this.onInputChange }/>
-                  }
-                </div>
-                <div className="auth__row--form">
-                  <label htmlFor="password_type"><span>Client credentials location:</span></label>
-                  {
-                    isAuthorized ? <code> { this.state.passwordType } </code>
-                      : <DropDown id="password_type" onChange={ this.onInputChange } value="basic" dataName="passwordType">
-                          <DropDownItem value="basic">Authorization header</DropDownItem>
-                          <DropDownItem value="request-body">Request body</DropDownItem>
-                        </DropDown>
-                  }
-                </div>
-              </div>
-        }
-        { ( flow === APPLICATION || flow === IMPLICIT || flow === ACCESS_CODE || flow === PASSWORD ) &&
-          ( !isAuthorized || isAuthorized && this.state.clientId) && <div className="auth__row--form">
-            <label htmlFor="client_id"><span>client_id:</span></label>
-            {
-              isAuthorized ? <code> ****** </code>
-                           : <Input id="client_id"
-                                      type="text"
-                                      required={ flow === PASSWORD }
-                                      value={ this.state.clientId }
-                                      data-name="clientId"
-                                      onChange={ this.onInputChange }/>
-            }
-          </div>
-        }
-
-        { ( (flow === APPLICATION || flow === ACCESS_CODE || flow === PASSWORD) && <div className="auth__row--form">
-            <label htmlFor="client_secret"><span>client_secret:</span></label>
-            {
-              isAuthorized ? <code> ****** </code>
-                           : <Input id="client_secret"
-                                      value={ this.state.clientSecret }
-                                      type="text"
-                                      data-name="clientSecret"
-                                      onChange={ this.onInputChange }/>
-            }
-
-          </div>
-        )}
-
-        { !isAuthorized && scopes && scopes.size 
-          ? <div className="auth__row--form auth__row--scopes">
-              <label><span>Scopes:</span></label>
-              <div>
-                { scopes.map((description, name) => {
-                  return (
-                    <div key={ name }>
-                      <div className="checkbox">
-                        <Input data-value={ name }
-                              id={`${name}-${flow}-checkbox-${this.state.name}`}
-                              disabled={ isAuthorized }
-                              type="checkbox"
-                              onChange={ this.onScopeChange }/>
-                            <label htmlFor={`${name}-${flow}-checkbox-${this.state.name}`}>
-                              <span className="item"></span>
-                              <div className="text">
-                                <p className="name">{name}</p>
-                                <p className="description">{description}</p>
-                              </div>
-                            </label>
-                      </div>
-                    </div>
-                  )
-                  }).toArray()
-                }
-              </div>
-            </div> : null
+        {
+          isAuthorized
+          ? <Oauth2FormData
+              getComponent={getComponent}
+              showBasicCreds={showBasicCreds}
+              showClientID={showClientID}
+              showClientSecret={showClientSecret}
+              username={this.state.username}
+              passwordType={this.state.passwordType}
+            />
+          : <Oauth2Form
+              getComponent={getComponent}
+              showBasicCreds={showBasicCreds}
+              showClientID={showClientID}
+              showClientSecret={showClientSecret}
+              showScopes={showScopes}
+              clientId={this.state.clientId}
+              clientIdRequired={flow === PASSWORD}
+              clientSecret={this.state.clientSecret}
+              scopes={scopes}
+              scopeName={this.state.name}
+              flow={flow}
+              onInputChange={this.onInputChange}
+              onScopeChange={this.onScopeChange}
+            />
         }
           
         { 
