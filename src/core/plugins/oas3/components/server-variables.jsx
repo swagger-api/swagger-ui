@@ -67,11 +67,11 @@ export default class ServerVariables extends PureComponent {
             )
           })
         }
-        <div className="computed-url">
-          <label htmlFor="computed-url">
+        <div className="servers__computed-url">
+          <label htmlFor="servers__computed-url">
             <div>
               <span>Computed URL:</span>
-              <code className="computed-url__code">
+              <code>
                 {getEffectiveServerValue(currentServer)}
               </code>
             </div>

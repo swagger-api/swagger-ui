@@ -3,7 +3,7 @@
     .servers__control
     {
       display: block;
-      margin-top: 1.5em;
+      margin-top: 2em;
     }
 
      > label
@@ -27,9 +27,8 @@
       padding-bottom: 2em;
     }
 
-    .computed-url {
-
-      margin-top: 1.5em;
+    .servers__computed-url {
+      margin-top: 2em;
 
       span:first-child {
         display: block;
@@ -43,11 +42,8 @@
       }
     }
 }
-
-.servers-title {
-    @include light_text($size: $sm-text-font-size);
-}
-
+// Feel like this belongs in opblock SASS
+// Leaving it here for the moment.
 .operation-servers {
   h4.message {
     margin-bottom: 2em;
