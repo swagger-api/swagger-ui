@@ -1,8 +1,14 @@
 .servers
 {
+    .servers__control
+    {
+      display: block;
+      margin-top: 1.5em;
+    }
+
      > label
     {
-
+        margin-top: 0;
 
         .sui-dropdown
         {
@@ -11,33 +17,19 @@
         }
     }
 
+    label > span {
+      display: block;
+      margin-bottom: 5px;
+      text-transform: capitalize;
+    }
+
     h4.message {
       padding-bottom: 2em;
     }
 
-    table {
-        tr {
-            width: 30em;
-        }
-        td {
-            display: inline-block;
-            max-width: 15em;
-            vertical-align: middle;
-            padding-top: 10px;
-            padding-bottom: 10px;
-
-            &:first-of-type {
-              padding-right: 2em;
-            }
-
-            input {
-                width: 100%;
-                height: 100%;
-            }
-        }
-    }
-
     .computed-url {
+
+      margin-top: 1.5em;
 
       span:first-child {
         display: block;
@@ -60,9 +52,4 @@
   h4.message {
     margin-bottom: 2em;
   }
-}
-
-label > span {
-  display: block;
-  margin-bottom: 5px;
 }

@@ -28,28 +28,32 @@ export default class ServerVariables extends PureComponent {
     
     return (
       <div>
-        <h4>Server variables</h4>
-        <table>
-          <tbody>
-            {
-              serverVariableDefs.map((val, name) => {
-                return <tr key={name}>
-                  <td>
-                    { val.get("enum") ?
-                      <label htmlFor={name}>
+        {
+          serverVariableDefs.map((val, name) => {
+            return (
+                <div key={name}>
+                { 
+                  val.get("enum") 
+                    ? <label className="servers__control" htmlFor={name}>
                         <span className="server-variable-title">{name}</span>
-                        <DropDown label={name} data-variable={name} onChange={onChange} value={getServerVariable(currentServer, name)}>
-                          {val.get("enum").map(enumValue => {
-                            return <DropDownItem
-                              key={enumValue}
-                              value={enumValue}>
-                              {enumValue}
-                            </DropDownItem>
-
-                          })}
+                        <DropDown
+                          label={name}
+                          data-variable={name}
+                          onChange={onChange}
+                          value={getServerVariable(currentServer, name)}
+                        >
+                          {
+                            val.get("enum").map(enumValue => (
+                              <DropDownItem
+                                key={enumValue}
+                                value={enumValue}>
+                                {enumValue}
+                              </DropDownItem>
+                            )
+                          )}
                         </DropDown>
-                      </label> :
-                      <label>
+                      </label>
+                    : <label className="servers__control">
                         <span>{name}</span>
                         <Input
                           type={"text"}
@@ -57,14 +61,12 @@ export default class ServerVariables extends PureComponent {
                           onChange={onChange}
                           data-variable={name}
                         />
-                      </label>
-                    }
-                  </td>
-                </tr>
-              })
-            }
-          </tbody>
-        </table>
+                      </label>  
+                }
+              </div>
+            )
+          })
+        }
         <div className="computed-url">
           <label htmlFor="computed-url">
             <div>
