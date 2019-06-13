@@ -89,7 +89,10 @@ export default class DropDown extends PureComponent {
     const hasSelected = key || key === 0 
 
     if(hasSelected && this.props.onChange) {
-      this.props.onChange(this.childRefCollection[key].getValue())
+      this.props.onChange({
+        ...this.props,
+        value: this.childRefCollection[key].getValue()
+      })
     }
 
     this.setState((state) => { 

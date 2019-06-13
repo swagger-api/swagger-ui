@@ -58,20 +58,18 @@ export default class Servers extends React.Component {
     }
   }
 
-  onServerChange =( e ) => {
-    this.setServer( e.target.value )
-
-    // set default variable values
+  onServerChange =( target ) => {
+    this.setServer( target.value )
   }
 
-  onServerVariableValueChange = ( e ) => {
-    let {
+  onServerVariableValueChange = ( target ) => {
+    const {
       setServerVariableValue,
       currentServer
     } = this.props
 
-    let variableName = e.target.getAttribute("data-variable")
-    let newVariableValue = e.target.value
+    const variableName = target["data-variable"]
+    const newVariableValue = target.value
 
     if(typeof setServerVariableValue === "function") {
       setServerVariableValue({
