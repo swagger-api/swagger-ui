@@ -42,6 +42,9 @@ export default class ApiKeyAuth extends React.Component {
     let { schema, getComponent, errSelectors, name } = this.props
     const Input = getComponent("Input")
     const AuthError = getComponent("authError")
+    const AuthHeader = getComponent("AuthHeader")
+    const AuthRow = getComponent("AuthRow")
+    const AuthFormRow = getComponent("AuthFormRow")
     const Markdown = getComponent( "Markdown" )
     const JumpToPath = getComponent("JumpToPath", true)
     let value = this.getValue()
@@ -49,38 +52,38 @@ export default class ApiKeyAuth extends React.Component {
 
     return (
       <div>
-        <div className="auth__header">
-          <h4>
-            <code>{ name || schema.get("name") }</code>&nbsp;
-            (apiKey)
-            <JumpToPath path={[ "securityDefinitions", name ]} />
-          </h4>
-        </div>
+        <AuthHeader>
+          <code>{ name || schema.get("name") }</code>&nbsp;
+          (apiKey)
+          <JumpToPath path={[ "securityDefinitions", name ]} />
+        </AuthHeader>
 
-        { value && <div className="auth__row">
+        { value && <AuthRow>
             <h6>Authorized</h6>
-          </div>
+          </AuthRow>
         }
 
-        <div className="auth__row">
+        <AuthRow>
           <Markdown source={ schema.get("description") } />
-        </div>
+        </AuthRow>
 
-        <div className="auth__row">
+        <AuthRow>
           <p>Name: <code>{ schema.get("name") }</code></p>
-        </div>
+        </AuthRow>
 
-        <div className="auth__row">
+        <AuthRow>
           <p>In: <code>{ schema.get("in") }</code></p>
-        </div>
+        </AuthRow>
 
-        <div className="auth__row--form">
-          <label><span>Value:</span></label>
-          {
-            value ? <code> ****** </code>
-                  : <Input type="text" onChange={ this.onChange }/>
-          }
-        </div>
+        
+        { value
+          ? <AuthRow>
+              <p>Value: <code>******</code></p>
+            </AuthRow>
+          : <AuthFormRow label="Value:" htmlFor="api-key-value">
+              <Input id="api-key-value" type="text" onChange={ this.onChange }/>
+            </AuthFormRow>
+        }
 
         { 
           errors.valueSeq().map( (error, key) => {

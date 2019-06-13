@@ -23,9 +23,12 @@ import AuthorizeOperationBtn from "core/components/auth/authorize-operation-btn"
 import Auths from "core/components/auth/auths"
 import AuthItem from "core/components/auth/auth-item"
 import AuthError from "core/components/auth/error"
+import { AuthHeader, AuthRow, AuthFormRow } from "core/components/auth/auth-layout-utils"
 import ApiKeyAuth from "core/components/auth/api-key-auth"
 import BasicAuth from "core/components/auth/basic-auth"
 import Oauth2 from "core/components/auth/oauth2"
+import Oauth2FormData from "core/components/auth/oauth2-form-data"
+import Oauth2Form from "core/components/auth/oauth2-form"
 import Clear from "core/components/clear"
 import LiveResponse from "core/components/live-response"
 import OnlineValidatorBadge from "core/components/online-validator-badge"
@@ -96,6 +99,11 @@ export default function() {
       authorizeOperationBtn: AuthorizeOperationBtn,
       auths: Auths,
       AuthItem: AuthItem,
+      AuthHeader,
+      AuthRow,
+      AuthFormRow,
+      Oauth2Form,
+      Oauth2FormData,
       authError: AuthError,
       oauth2: Oauth2,
       apiKeyAuth: ApiKeyAuth,
