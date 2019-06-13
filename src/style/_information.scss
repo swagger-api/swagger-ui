@@ -1,6 +1,6 @@
 .info
 {
-    margin: 0 0 2em 0;
+    margin: 2em 0 0 0;
 
     &--collapsed
     {
@@ -40,8 +40,6 @@
    
     .base-url
     {
-        margin: 0 0 1em 0;
-
         pre 
         {
             @include regular_text();
@@ -80,13 +78,10 @@
 }
 
 .info__header__title
-{
-    margin-bottom: 2em;
-    
-    > span
+{    
+    span:first-child
     {
         display: block;
-        margin-bottom: .625rem;
         @include light_text($size: $xxl-text-font-size);
     }
 
@@ -111,12 +106,13 @@
 
 .info__description
 {
-    margin: 0 0 2em 0;
+    margin: 1em 0 0 0;
 }
 
 .info__menu
 {
     display: flex;
+    margin-top: 2em;
 
     > div {
         padding: 0 2em;

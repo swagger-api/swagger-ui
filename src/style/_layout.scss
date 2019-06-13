@@ -617,8 +617,8 @@
 
 .scheme-container
 {
-    margin: 0 0 .5em 0;
-    padding: 2em 0;
+    margin: 2em 0 0 0;
+    padding: 0 0 2em 0;
 
     background: $scheme-container-background-color;
     border-bottom: 1px solid $scheme-container-border-color;
@@ -626,7 +626,7 @@
     .schemes
     {
         display: flex;
-        align-items: center;
+        align-items: flex-end;
         justify-content: space-between;
 
          > label
@@ -635,8 +635,6 @@
 
             display: flex;
             flex-direction: column;
-
-            margin: -20px 15px 0 0;
 
             select
             {
