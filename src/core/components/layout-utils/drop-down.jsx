@@ -31,9 +31,6 @@ export default class DropDown extends PureComponent {
     this.setChildRefCollection = {}
 
     React.Children.forEach(this.props.children, (child, i) => {
-      if(child.props.value === props.value) {
-        selectedKey = i
-      }
       this.setChildRefCollection[i] = (instance) => { 
         return this.childRefCollection[i] = instance
       }
@@ -71,6 +68,8 @@ export default class DropDown extends PureComponent {
       }
     })
   }
+
+  initialSelect = (selectedKey) => this.setState({ selectedKey })
 
   setFocus = () => this.buttonRef.focus()
 
@@ -116,9 +115,9 @@ export default class DropDown extends PureComponent {
     )
 
     if (!this.buttonRef.contains(e.target) && !clickedChild) {
-        this.setState({
-          expanded: false
-        })
+      this.setState({
+        expanded: false
+      })
     }
   }
 
@@ -207,6 +206,8 @@ export default class DropDown extends PureComponent {
     const ref = this.setChildRef(i, child.ref)
 
     return React.cloneElement(child, {
+      selected: child.props.value === this.props.value,
+      initialSelect: this.initialSelect,
       ref,
       optionKey: i,
       onKeyPress: this.onKeyPressChild,
@@ -285,6 +286,21 @@ export class DropDownItem extends Component {
     if(onSelect) { 
       onSelect(optionKey)
     }
+  }
+
+  selectKey = () => {
+    const { selected, initialSelect, optionKey } = this.props
+    if (selected) {
+      initialSelect(optionKey)
+    }
+  }
+
+  componentDidUpdate = () => {
+    this.selectKey()
+  }
+
+  componentDidMount = () => {
+    this.selectKey()
   }
 
   onKeyPress = (e) => {
