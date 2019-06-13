@@ -264,6 +264,8 @@ export class DropDownItem extends Component {
     mod: PropTypes.string,
     value: PropTypes.string,
     optionKey: PropTypes.any,
+    selected: PropTypes.bool,
+    initialSelect: PropTypes.func,
     onSelect: PropTypes.func,
     onKeyPress: PropTypes.func,
     children: PropTypes.node.isRequired
