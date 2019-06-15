@@ -129,6 +129,7 @@ export default class DropDown extends PureComponent {
     }
     this.openDropdown()
   }
+  
 
   onClickChild = (key) => this.closeDropdown(key)
 
@@ -265,6 +266,8 @@ export class DropDownItem extends Component {
     mod: PropTypes.string,
     value: PropTypes.string,
     optionKey: PropTypes.any,
+    selected: PropTypes.bool,
+    initialSelect: PropTypes.func,
     onSelect: PropTypes.func,
     onKeyPress: PropTypes.func,
     children: PropTypes.node.isRequired
