@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import { sanitizeUrl } from "core/utils"
 
 const License = ({ license, getComponent }) => {
-  const name = license.get("name") || "License"
+  const name = license.get("name", "License")
   const url = license.get("url")
   const Link = getComponent("Link")
 
