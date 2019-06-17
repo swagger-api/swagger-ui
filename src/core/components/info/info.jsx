@@ -1,6 +1,5 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { fromJS } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
 
