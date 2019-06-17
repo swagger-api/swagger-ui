@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { sanitizeUrl } from "core/utils"
 
-const ExternalDocsUrl = ({ description, url, getComponent }) => {
+const InfoExternalDocsUrl = ({ description, url, getComponent }) => {
   const Link = getComponent("Link")
 
   return (
@@ -17,10 +17,10 @@ const ExternalDocsUrl = ({ description, url, getComponent }) => {
   )
 }
 
-ExternalDocsUrl.propTypes = {
+InfoExternalDocsUrl.propTypes = {
   description: PropTypes.string,
   url: PropTypes.string,
   getComponent: PropTypes.func
 }
 
-export default ExternalDocsUrl
+export default InfoExternalDocsUrl

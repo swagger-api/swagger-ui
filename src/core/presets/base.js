@@ -50,9 +50,14 @@ import Headers from "core/components/headers"
 import Errors from "core/components/errors"
 import ContentType from "core/components/content-type"
 import Overview from "core/components/overview"
-import { Info,
+import { 
+  Info,
   InfoUrl,
-  InfoBasePath
+  InfoBasePath,
+  InfoTermsOfService,
+  InfoContact,
+  InfoExternalDocsUrl,
+  InfoLicense
 } from "core/components/info"
 import InfoContainer from "core/containers/info"
 import JumpToPath from "core/components/jump-to-path"
@@ -152,6 +157,10 @@ export default function() {
       DeepLink,
       InfoUrl,
       InfoBasePath,
+      InfoTermsOfService,
+      InfoContact,
+      InfoExternalDocsUrl,
+      InfoLicense,
       SvgAssets
     }
   }

@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { sanitizeUrl } from "core/utils"
 
-const TermsOfService = ({ termsOfService, getComponent }) => {
+const InfoTermsOfService = ({ termsOfService, getComponent }) => {
   const Link = getComponent("Link")
     
   return (
@@ -12,9 +12,9 @@ const TermsOfService = ({ termsOfService, getComponent }) => {
   )
 }
 
-TermsOfService.propTypes = {
+InfoTermsOfService.propTypes = {
   termsOfService: PropTypes.string.isRequired,
   getComponent: PropTypes.func.isRequired
 }
 
-export default TermsOfService
+export default InfoTermsOfService

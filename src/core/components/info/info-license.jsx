@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { sanitizeUrl } from "core/utils"
 
-const License = ({ license, getComponent }) => {
+const InfoLicense = ({ license, getComponent }) => {
   const name = license.get("name") || "License"
   const url = license.get("url")
   const Link = getComponent("Link")
@@ -18,9 +18,9 @@ const License = ({ license, getComponent }) => {
   )
 }
 
-License.propTypes = {
+InfoLicense.propTypes = {
   license: PropTypes.object,
   getComponent: PropTypes.func.isRequired
 }
 
-export default License
+export default InfoLicense
