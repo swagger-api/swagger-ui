@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import { sanitizeUrl } from "core/utils"
 
 const InfoContact = ({ data, getComponent }) => {
-  const name = data.get("name") || "the developer"
+  const name = data.get("name", "the developer")
   const url = data.get("url")
   const email = data.get("email")
   const Link = getComponent("Link")
