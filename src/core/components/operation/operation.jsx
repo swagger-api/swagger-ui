@@ -97,8 +97,7 @@ export default class Operation extends PureComponent {
     const OperationServers = getComponent( "OperationServers" )
     const OperationExt = getComponent( "OperationExt" )
     const OperationSummary = getComponent( "OperationSummary" )
-    const ExternalDocsDesc = getComponent( "ExternalDocsDesc" )
-    const OperationDesc = getComponent( "OperationDesc" )
+    const OperationHeader = getComponent( "OperationHeader" )
     const OperationActions = getComponent("OperationActions")
     
     const { showExtensions } = getConfigs()
@@ -113,10 +112,7 @@ export default class Operation extends PureComponent {
 
     const operationType = deprecated ? "deprecated" : method
 
-    const showOpDesc = !!description
-    const showExtDocsDesc = !!externalDocs && !!externalDocs.url
     const showParams = !!operation && !!operation.size
-    const showLoader = !showParams
     const showOpServers = !!tryItOutEnabled
     const showSchemes = !!tryItOutEnabled && !!allowTryItOut && !!schemes && !!schemes.size
     const showResponses = !!responses
@@ -139,31 +135,13 @@ export default class Operation extends PureComponent {
         />
         <Collapse isOpened={isShown}>
           <div className="opblock-body">
-            { 
-              showLoader &&
-                <img
-                  height={"32px"}
-                  width={"32px"}
-                  src={require("core/../img/rolling-load.svg")}
-                  className="opblock-loading-animation"
-                />
-            }
-            { !!deprecated && <h4 className="opblock-title_normal"> Warning: Deprecated</h4> }
-            { 
-              showOpDesc &&
-                <OperationDesc
-                  description={ description }
-                  getComponent={ getComponent }
-                />
-            }
-            {
-              showExtDocsDesc &&
-                <ExternalDocsDesc
-                  externalDocs={ externalDocs }
-                  getComponent={ getComponent }
-                />
-            }
-
+            <OperationHeader
+              description={description}
+              getComponent={getComponent}
+              externalDocs={externalDocs}
+              deprecated={!!deprecated}
+              isLoading={!operation && !operation.size}
+            />
             { 
               showParams &&
                 <Parameters
