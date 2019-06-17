@@ -4,8 +4,6 @@ import { fromJS } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
 
-import { Contact, License, TermsOfService, ExternalDocsUrl } from "components/info"
-
 export default class Info extends React.Component {
   static propTypes = {
     info: PropTypes.object,
@@ -43,6 +41,10 @@ export default class Info extends React.Component {
     const Collapse = getComponent("Collapse")
     const Button = getComponent("Button")
     const Icon = getComponent("Icon")
+    const InfoContact = getComponent("InfoContact")
+    const InfoLicense = getComponent("InfoLicense")
+    const InfoTermsOfService = getComponent("InfoTermsOfService")
+    const InfoExternalDocsUrl = getComponent("InfoExternalDocsUrl")
 
     const showVersion = !!version && !!this.state.expanded
     const showInfoBasePath = (!!host || !!basePath) 
@@ -88,10 +90,10 @@ export default class Info extends React.Component {
           {
             showMenu &&
               <div className="info__menu">
-                { !!termsOfService && <TermsOfService getComponent={getComponent} termsOfService={termsOfService} /> }
-                { !!showContact && <Contact getComponent={getComponent} data={contact} /> }
-                { !!showLicense && <License getComponent={getComponent} license={license} /> }
-                { !!externalDocsUrl && <ExternalDocsUrl getComponent={getComponent} url={externalDocsUrl} description={externalDocsDescription} /> }             
+                { !!termsOfService && <InfoTermsOfService getComponent={getComponent} termsOfService={termsOfService} /> }
+                { !!showContact && <InfoContact getComponent={getComponent} data={contact} /> }
+                { !!showLicense && <InfoLicense getComponent={getComponent} license={license} /> }
+                { !!externalDocsUrl && <InfoExternalDocsUrl getComponent={getComponent} url={externalDocsUrl} description={externalDocsDescription} /> }             
               </div>
           }
         </Collapse>
