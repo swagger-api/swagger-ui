@@ -46,14 +46,14 @@ export default class Info extends React.Component {
     const InfoTermsOfService = getComponent("InfoTermsOfService")
     const InfoExternalDocsUrl = getComponent("InfoExternalDocsUrl")
 
-    const showVersion = !!version && !!this.state.expanded
-    const showInfoBasePath = (!!host || !!basePath) 
+    const showVersion = !!(version && this.state.expanded)
+    const showInfoBasePath = !!(host || basePath) 
     const showInfoUrl = !!url
     const showInfoBase = !!this.state.expanded
-    const showContact = !!contact && !!contact.size
-    const showLicense = !!license && !!license.size
+    const showContact = !!(contact && contact.size)
+    const showLicense = !!(license && license.size)
     const showDescription = !!description
-    const showMenu = !!termsOfService || !!showContact || !!showLicense || !!externalDocsUrl
+    const showMenu = !!(termsOfService || showContact || showLicense || externalDocsUrl)
 
     return (
       <div className={cx("info", { "info--collapsed": !this.state.expanded })}>
