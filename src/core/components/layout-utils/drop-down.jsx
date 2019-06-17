@@ -261,8 +261,6 @@ export class DropDownItem extends Component {
 
   static propTypes = {
     id: PropTypes.string,
-    selected: PropTypes.bool.isRequired, 
-    initialSelect: PropTypes.func.isRequired,
     mod: PropTypes.string,
     value: PropTypes.string,
     optionKey: PropTypes.any,
