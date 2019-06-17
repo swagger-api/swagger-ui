@@ -7,7 +7,7 @@ const InfoUrl = ({ url, getComponent }) => {
   
   return (
     <Link target="_blank" href={ sanitizeUrl(url) }>
-      <span className="url"> { url } </span>
+      <span className="info__url"> { url } </span>
     </Link>
   )
 }
