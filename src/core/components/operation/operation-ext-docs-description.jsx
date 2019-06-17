@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { sanitizeUrl } from "core/utils"
 
-const ExternalDocsDesc = ({ externalDocs, getComponent }) => {
+const OperationExtDocsDesc = ({ externalDocs, getComponent }) => {
   const Markdown = getComponent("Markdown")
   const Link = getComponent("Link")
 
@@ -25,9 +25,9 @@ const ExternalDocsDesc = ({ externalDocs, getComponent }) => {
   )
 }
 
-ExternalDocsDesc.propTypes = {
+OperationExtDocsDesc.propTypes = {
   getComponent: PropTypes.func.isRequired,
   externalDocs: PropTypes.object.isRequired
 }
 
-export default ExternalDocsDesc
+export default OperationExtDocsDesc

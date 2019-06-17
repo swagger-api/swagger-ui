@@ -19,7 +19,7 @@ export default class OperationHeader extends PureComponent {
       isLoading,
     } = this.props
 
-    const ExternalDocsDesc = getComponent( "ExternalDocsDesc" )
+    const OperationExtDocsDesc = getComponent( "OperationExtDocsDesc" )
     const OperationDesc = getComponent( "OperationDesc" )
 
     const showOpDesc = !!description
@@ -52,7 +52,7 @@ export default class OperationHeader extends PureComponent {
         }
         {
           showExtDocsDesc &&
-            <ExternalDocsDesc
+            <OperationExtDocsDesc
               externalDocs={ externalDocs }
               getComponent={ getComponent }
             />
