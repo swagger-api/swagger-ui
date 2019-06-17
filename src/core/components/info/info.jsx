@@ -31,8 +31,8 @@ export default class Info extends React.Component {
     const contact = info.get("contact")
     const license = info.get("license")
     const termsOfService = info.get("termsOfService")
-
-    const { url:externalDocsUrl, description:externalDocsDescription } = (externalDocs || fromJS({})).toJS()
+    const externalDocsUrl = externalDocs.get("url")
+    const externalDocsDescription = externalDocs.get("description")
 
     const Markdown = getComponent("Markdown")
     const VersionStamp = getComponent("VersionStamp")
