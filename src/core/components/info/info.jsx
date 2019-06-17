@@ -64,7 +64,7 @@ export default class Info extends React.Component {
             </h2>
             {
               showInfoBase &&
-                <div className="info-base">
+                <div className="info__base">
                   { showInfoBasePath && <InfoBasePath host={ host } basePath={ basePath } /> }
                   { showInfoUrl && <InfoUrl getComponent={getComponent} url={url} /> }
                 </div>
