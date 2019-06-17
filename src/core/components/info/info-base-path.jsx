@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 
 const InfoBasePath = ({ host, basePath }) => (
-  <div className="base-url">
+  <div className="info__baseurl">
     <pre>
       [ Base URL: {host}{basePath} ]
     </pre>
