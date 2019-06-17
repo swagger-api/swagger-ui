@@ -27,7 +27,7 @@ function Markdown({ source, className = "" }) {
       // If the source text is not Markdown,
       // let's save some time and just render it.
       return <div className="markdown">
-        {source}
+        <p>{source}</p>
       </div>
     }
 
