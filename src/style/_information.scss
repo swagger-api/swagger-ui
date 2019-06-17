@@ -107,6 +107,10 @@
 .info__description
 {
     margin: 1em 0 0 0;
+
+    div.markdown {
+        @include regular_text()
+    }
 }
 
 .info__menu
