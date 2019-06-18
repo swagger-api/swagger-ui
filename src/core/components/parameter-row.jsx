@@ -262,14 +262,10 @@ export default class ParameterRow extends Component {
           {
             isOAS3 && isExecute && param.get("examples") ? (
               <section className="parameter-controls">
-                <div className="parameter-controls__title">
-                  Example values
-                </div>
                 <Examples
                   examples={param.get("examples")}
                   onSelect={val => this.onChangeWrapper(val)}
                   getComponent={getComponent}
-                  showTitle={false}
                   defaultToFirstExample={true}
                 />
               </section>
