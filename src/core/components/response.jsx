@@ -4,9 +4,10 @@ import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
 import { fromJS, Seq, Iterable, List, Map } from "immutable"
 import { getSampleSchema, fromJSOrdered, stringify } from "core/utils"
+import ExamplesSelect from "./examples-select"
 
 const getExampleComponent = ( sampleResponse, HighlightCode ) => {
-  if ( sampleResponse ) { return <div>
+  if ( sampleResponse !== undefined ) { return <div>
       <HighlightCode className="example" value={ sampleResponse } />
     </div>
   }
@@ -18,7 +19,8 @@ export default class Response extends React.Component {
     super(props, context)
 
     this.state = {
-      responseContentType: ""
+      responseContentType: "",
+      activeExamplesKey: null,
     }
   }
 
@@ -50,6 +52,17 @@ export default class Response extends React.Component {
     })
   }
 
+  getTargetExamplesKey = () => {
+    const { response, contentType } = this.props
+
+    const activeContentType = this.state.responseContentType || contentType
+    const activeMediaType = response.getIn(["content", activeContentType], Map({}))
+    const examplesForMediaType = activeMediaType.get("examples", null)
+
+    const firstExamplesKey = examplesForMediaType.keySeq().first()
+    return this.state.activeExamplesKey || firstExamplesKey
+  }
+
   render() {
     let {
       code,
@@ -76,29 +89,44 @@ export default class Response extends React.Component {
     const OperationLink = getComponent("operationLink")
     const ContentType = getComponent("contentType")
 
+
     var sampleResponse
-    var sampleSchema
     var schema, specPathWithPossibleSchema
 
     const activeContentType = this.state.responseContentType || contentType
+    const activeMediaType = response.getIn(["content", activeContentType], Map({}))
+    const examplesForMediaType = activeMediaType.get("examples", null)
 
+    // Goal: find a schema value for `schema`
     if(isOAS3()) {
-      const mediaType = response.getIn(["content", activeContentType], Map({}))
-      const oas3SchemaForContentType = mediaType.get("schema", Map({}))
+      const oas3SchemaForContentType = activeMediaType.get("schema", Map({}))
 
-      if(mediaType.get("example") !== undefined) {
-        sampleSchema = stringify(mediaType.get("example"))
-      } else {
-        sampleSchema = getSampleSchema(oas3SchemaForContentType.toJS(), this.state.responseContentType, {
-          includeReadOnly: true
-        })
-      }
-      sampleResponse = oas3SchemaForContentType ? sampleSchema : null
       schema = oas3SchemaForContentType ? inferSchema(oas3SchemaForContentType.toJS()) : null
       specPathWithPossibleSchema = oas3SchemaForContentType ? List(["content", this.state.responseContentType, "schema"]) : specPath
     } else {
       schema = inferSchema(response.toJS()) // TODO: don't convert back and forth. Lets just stick with immutable for inferSchema
       specPathWithPossibleSchema = response.has("schema") ? specPath.push("schema") : specPath
+    }
+
+    // Goal: find an example value for `sampleResponse`
+    if(isOAS3()) {
+      const oas3SchemaForContentType = activeMediaType.get("schema", Map({}))
+
+      if(examplesForMediaType) {
+        debugger // eslint-disable-line
+        const targetExamplesKey = this.getTargetExamplesKey()
+        const targetExample = examplesForMediaType.get(targetExamplesKey)
+        sampleResponse = stringify(targetExample.get("value"))
+      } else if(activeMediaType.get("example") !== undefined) {
+        // use the example key's value
+        sampleResponse = stringify(activeMediaType.get("example"))
+      } else {
+        // use an example value generated based on the schema
+        sampleResponse = getSampleSchema(oas3SchemaForContentType.toJS(), this.state.responseContentType, {
+          includeReadOnly: true
+        })
+      }
+    } else {
       sampleResponse = schema ? getSampleSchema(schema, activeContentType, {
         includeReadOnly: true,
         includeWriteOnly: true // writeOnly has no filtering effect in swagger 2.0
@@ -130,6 +158,14 @@ export default class Response extends React.Component {
                 { controlsAcceptHeader ? <small>Controls <code>Accept</code> header.</small> : null }
             </div>
              : null }
+
+          { isOAS3 && examplesForMediaType ?
+            <ExamplesSelect
+              examples={examplesForMediaType}
+              currentValue={examplesForMediaType.getIn([this.getTargetExamplesKey(), "value"])}
+              onSelect={(v, key) => this.setState({ activeExamplesKey: key })}>
+            </ExamplesSelect>
+          : null}
 
           { example ? (
             <ModelExample
