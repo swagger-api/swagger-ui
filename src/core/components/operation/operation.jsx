@@ -1,7 +1,6 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import cx from "classnames"
-import { getList } from "core/utils"
 import { getExtensions, escapeDeepLinkPath } from "core/utils"
 import { Iterable, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
@@ -85,20 +84,15 @@ export default class Operation extends PureComponent {
 
     const operation = operationProps.getIn(["op"])
     const responses = operation.get("responses")
-    const parameters = getList(operation, ["parameters"])
-    const operationScheme = specSelectors.operationScheme(path, method)
     const isShownKey = ["operations", tag, operationId]
     const extensions = getExtensions(operation)
 
     const Responses = getComponent("responses")
-    const Parameters = getComponent( "parameters" )
     const Collapse = getComponent( "Collapse" )
-    const Schemes = getComponent( "schemes" )
-    const OperationServers = getComponent( "OperationServers" )
     const OperationExt = getComponent( "OperationExt" )
     const OperationSummary = getComponent( "OperationSummary" )
     const OperationHeader = getComponent( "OperationHeader" )
-    const OperationActions = getComponent("OperationActions")
+    const OperationControls = getComponent( "OperationControls" )
     
     const { showExtensions } = getConfigs()
     
@@ -108,13 +102,7 @@ export default class Operation extends PureComponent {
       response = response.set("notDocumented", notDocumented)
     }
 
-    const onChangeKey = [ path, method ] // Used to add values to _this_ operation ( indexed by path and method )
-
     const operationType = deprecated ? "deprecated" : method
-
-    const showParams = !!operation && !!operation.size
-    const showOpServers = !!tryItOutEnabled
-    const showSchemes = !!tryItOutEnabled && !!allowTryItOut && !!schemes && !!schemes.size
     const showResponses = !!responses
     const showOpExtensions = !!showExtensions && !!extensions.size
 
@@ -142,65 +130,25 @@ export default class Operation extends PureComponent {
               deprecated={!!deprecated}
               isLoading={!operation && !operation.size}
             />
-            { 
-              showParams &&
-                <Parameters
-                  parameters={parameters}
-                  specPath={specPath.push("parameters")}
-                  operation={operation}
-                  onChangeKey={onChangeKey}
-                  onTryoutClick = { onTryoutClick }
-                  onCancelClick = { onCancelClick }
-                  tryItOutEnabled = { tryItOutEnabled }
-                  allowTryItOut={allowTryItOut}
-                  fn={fn}
-                  getComponent={ getComponent }
-                  specActions={ specActions }
-                  specSelectors={ specSelectors }
-                  pathMethod={ [path, method] }
-                  getConfigs={ getConfigs }
-                />                  
-            }
-
-            { 
-              showOpServers &&
-                <OperationServers
-                  getComponent={getComponent}
-                  path={path}
-                  method={method}
-                  operationServers={operation.get("servers")}
-                  pathServers={specSelectors.paths().getIn([path, "servers"])}
-                  getSelectedServer={oas3Selectors.selectedServer}
-                  setSelectedServer={oas3Actions.setSelectedServer}
-                  setServerVariableValue={oas3Actions.setServerVariableValue}
-                  getServerVariable={oas3Selectors.serverVariableValue}
-                  getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
-                />
-            }
-
-            {
-              showSchemes && 
-                <div className="opblock-schemes">
-                  <Schemes 
-                    schemes={ schemes }
-                    path={ path }
-                    method={ method }
-                    specActions={ specActions }
-                    currentScheme={ operationScheme }
-                  />
-                </div>
-            }
-
-            <OperationActions 
-              operation={ operation }
-              specActions={ specActions }
-              specSelectors={ specSelectors }
-              getComponent={ getComponent }
-              path={ path }
-              method={ method }
-              onExecute={ onExecute }
-              showExecuteBtn={ !!tryItOutEnabled && !!allowTryItOut }
-              showClearBtn={ !!tryItOutEnabled && !!allowTryItOut && !!response }
+            <OperationControls
+              response={response}
+              onTryoutClick={onTryoutClick}
+              onCancelClick={onCancelClick}
+              onExecute={onExecute}
+              oas3Selectors={oas3Selectors}
+              getComponent={getComponent}
+              operation={operation}
+              fn={fn}
+              specActions={specActions}
+              oas3Actions={oas3Actions}
+              specSelectors={specSelectors}
+              specPath={specPath}
+              getConfigs={getConfigs}
+              schemes={schemes}
+              allowTryItOut={allowTryItOut}
+              tryItOutEnabled={tryItOutEnabled}
+              path={path}
+              method={method}
             />
 
             { !!executeInProgress && <div className="loading-container"><div className="loading"></div></div> }
