@@ -1,18 +1,29 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
+import Im, { Map, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
-import Im from "immutable"
 
 // More readable, just iterate over maps, only
 const eachMap = (iterable, fn) => iterable.valueSeq().filter(Im.Map.isMap).map(fn)
 
 export default class Parameters extends Component {
 
+  constructor(props) {
+   super(props)
+   this.state = {
+     callbackVisible: false,
+     parametersVisible: true
+   }
+ }
+
   static propTypes = {
     parameters: ImPropTypes.list.isRequired,
+    operation: PropTypes.object.isRequired,
     specActions: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
+    oas3Actions: PropTypes.object.isRequired,
+    oas3Selectors: PropTypes.object.isRequired,
     fn: PropTypes.object.isRequired,
     tryItOutEnabled: PropTypes.bool,
     allowTryItOut: PropTypes.bool,
@@ -52,6 +63,20 @@ export default class Parameters extends Component {
     changeConsumesValue(onChangeKey, val)
   }
 
+  toggleTab = (tab) => {
+    if(tab === "parameters"){
+      return this.setState({
+        parametersVisible: true,
+        callbackVisible: false
+      })
+    }else if(tab === "callbacks"){
+      return this.setState({
+        callbackVisible: true,
+        parametersVisible: false
+      })
+    }
+  }
+
   render(){
 
     let {
@@ -67,24 +92,48 @@ export default class Parameters extends Component {
       getConfigs,
       specSelectors, 
       specActions,
-      pathMethod
+      pathMethod,
+      oas3Actions,
+      oas3Selectors,
+      operation
     } = this.props
 
     const ParameterRow = getComponent("parameterRow")
     const TryItOutButton = getComponent("TryItOutButton")
+    const ContentType = getComponent("contentType")
+    const Callbacks = getComponent("Callbacks", true)
+    const RequestBody = getComponent("RequestBody", true)
 
     const isExecute = tryItOutEnabled && allowTryItOut
+    const isOAS3 = specSelectors.isOAS3()
 
+    const requestBody = operation.get("requestBody")
     return (
       <div className="opblock-section">
         <div className="opblock-section-header">
+          { isOAS3 ? (
           <div className="tab-header">
+              <div onClick={() => this.toggleTab("parameters")} className={`tab-item ${this.state.parametersVisible && "active"}`}>
+                <h4 className="opblock-title"><span>Parameters</span></h4>
+              </div>
+              { operation.get("callbacks") ?
+                (
+                  <div onClick={() => this.toggleTab("callbacks")} className={`tab-item ${this.state.callbackVisible && "active"}`}>
+                    <h4 className="opblock-title"><span>Callbacks</span></h4>
+                  </div>
+                ) : null
+              }
+            </div>
+          ) : (
+            <div className="tab-header">
             <h4 className="opblock-title">Parameters</h4>
           </div>
+          )}
             { allowTryItOut ? (
               <TryItOutButton enabled={ tryItOutEnabled } onCancelClick={ onCancelClick } onTryoutClick={ onTryoutClick } />
             ) : null }
         </div>
+        {this.state.parametersVisible ? <div className="parameters-container">
         { !parameters.count() ? <div className="opblock-description-wrapper"><p>No parameters</p></div> :
           <div className="table-container">
             <table className="parameters">
@@ -115,6 +164,50 @@ export default class Parameters extends Component {
                 }
               </tbody>
             </table>
+          </div>
+        }
+        </div> : null }
+
+        {this.state.callbackVisible ? <div className="callbacks-container opblock-description-wrapper">
+          <Callbacks
+            callbacks={Map(operation.get("callbacks"))}
+            specPath={specPath.slice(0, -1).push("callbacks")}
+          />
+        </div> : null }
+        {
+          isOAS3 && requestBody && this.state.parametersVisible &&
+          <div className="opblock-section opblock-section-request-body">
+            <div className="opblock-section-header">
+              <h4 className={`opblock-title parameter__name ${requestBody.get("required") && "required"}`}>Request body</h4>
+              <label>
+                <ContentType
+                  value={oas3Selectors.requestContentType(...pathMethod)}
+                  contentTypes={ requestBody.get("content", List()).keySeq() }
+                  onChange={(value) => {
+                    oas3Actions.setRequestContentType({ value, pathMethod })
+                  }}
+                  className="body-param-content-type" />
+              </label>
+            </div>
+            <div className="opblock-description-wrapper">
+              <RequestBody
+                specPath={specPath.slice(0, -1).push("requestBody")}
+                requestBody={requestBody}
+                requestBodyValue={oas3Selectors.requestBodyValue(...pathMethod) || Map()}
+                isExecute={isExecute}
+                onChange={(value, path) => {
+                  if(path) {
+                    const lastValue = oas3Selectors.requestBodyValue(...pathMethod)
+                    const usableValue = Map.isMap(lastValue) ? lastValue : Map()
+                    return oas3Actions.setRequestBodyValue({
+                      pathMethod,
+                      value: usableValue.setIn(path, value)
+                    })
+                  }
+                  oas3Actions.setRequestBodyValue({ value, pathMethod })
+                }}
+                contentType={oas3Selectors.requestContentType(...pathMethod)}/>
+            </div>
           </div>
         }
       </div>
