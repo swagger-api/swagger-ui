@@ -2,7 +2,6 @@ import React from "react"
 import { OrderedMap } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
-import { Input } from "components/layout-utils"
 
 export default class Servers extends React.Component {
 
@@ -10,6 +9,7 @@ export default class Servers extends React.Component {
     servers: ImPropTypes.list.isRequired,
     currentServer: PropTypes.string.isRequired,
     setSelectedServer: PropTypes.func.isRequired,
+    getComponent: PropTypes.func.isRequired,
     setServerVariableValue: PropTypes.func.isRequired,
     getServerVariable: PropTypes.func.isRequired,
     getEffectiveServerValue: PropTypes.func.isRequired
@@ -58,20 +58,18 @@ export default class Servers extends React.Component {
     }
   }
 
-  onServerChange =( e ) => {
-    this.setServer( e.target.value )
-
-    // set default variable values
+  onServerChange =( target ) => {
+    this.setServer( target.value )
   }
 
-  onServerVariableValueChange = ( e ) => {
-    let {
+  onServerVariableValueChange = ( target ) => {
+    const {
       setServerVariableValue,
       currentServer
     } = this.props
 
-    let variableName = e.target.getAttribute("data-variable")
-    let newVariableValue = e.target.value
+    const variableName = target["data-variable"]
+    const newVariableValue = target.value
 
     if(typeof setServerVariableValue === "function") {
       setServerVariableValue({
@@ -92,8 +90,13 @@ export default class Servers extends React.Component {
     let { servers,
       currentServer,
       getServerVariable,
-      getEffectiveServerValue
+      getEffectiveServerValue,
+      getComponent
     } = this.props
+
+    const ServerVariables = getComponent("ServerVariables")
+    const DropDown = getComponent("DropDown")
+    const DropDownItem = getComponent("DropDownItem")
 
 
     let currentServerDefinition = servers.find(v => v.get("url") === currentServer) || OrderedMap()
@@ -104,61 +107,30 @@ export default class Servers extends React.Component {
 
     return (
       <div className="servers">
-        <label htmlFor="servers">
-          <select onChange={ this.onServerChange }>
+        <label className="servers__control" htmlFor="servers">
+          <span>Server</span>
+          <DropDown onChange={ this.onServerChange } value={ currentServer } >
             { servers.valueSeq().map(
               ( server ) =>
-              <option
+              <DropDownItem
                 value={ server.get("url") }
                 key={ server.get("url") }>
                 { server.get("url") }
                 { server.get("description") && ` - ${server.get("description")}` }
-              </option>
+              </DropDownItem>
             ).toArray()}
-          </select>
+          </DropDown>
         </label>
-        { shouldShowVariableUI ?
-          <div>
-
-            <div className={"computed-url"}>
-              Computed URL:
-              <code>
-                {getEffectiveServerValue(currentServer)}
-              </code>
-            </div>
-            <h4>Server variables</h4>
-            <table>
-              <tbody>
-                {
-                  currentServerVariableDefs.map((val, name) => {
-                    return <tr key={name}>
-                      <td>{name}</td>
-                      <td>
-                        { val.get("enum") ?
-                          <select data-variable={name} onChange={this.onServerVariableValueChange}>
-                            {val.get("enum").map(enumValue => {
-                              return <option
-                                selected={enumValue === getServerVariable(currentServer, name)}
-                                key={enumValue}
-                                value={enumValue}>
-                                {enumValue}
-                              </option>
-                            })}
-                          </select> :
-                          <Input
-                            type={"text"}
-                            value={getServerVariable(currentServer, name) || ""}
-                            onChange={this.onServerVariableValueChange}
-                            data-variable={name}
-                            />
-                        }
-                      </td>
-                    </tr>
-                  })
-                }
-              </tbody>
-            </table>
-          </div>: null
+        { 
+          shouldShowVariableUI &&
+            <ServerVariables
+              getComponent={getComponent}
+              serverVariableDefs={currentServerVariableDefs}
+              currentServer={currentServer}
+              getServerVariable={getServerVariable}
+              onChange={this.onServerVariableValueChange}
+              getEffectiveServerValue={getEffectiveServerValue}
+            />
         }
       </div>
     )

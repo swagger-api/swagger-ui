@@ -1,21 +1,18 @@
 .info
 {
-    margin: 0 0 2em 0;
+    margin: 2em 0 0 0;
 
-    hgroup.main
+    &--collapsed
     {
-        margin: 0 0 1em 0;
-        a
-        {
-            @include regular_text($color: $info-link-font-color);
-        }
+        margin-bottom: 0;
     }
-    
+
     p, li, table
     {
-        @include regular_text($size: 1.4em);
+        @include regular_text();
 
-        a {
+        a 
+        {
             @include inline-link-text();
         }
     }
@@ -32,53 +29,101 @@
             color: $info-link-font-color--hover;
         }
     }
-    > div
-    {
-        margin: 0 0 .5em 0;
 
-        &.description {
-            margin: 0 0 2em 0;
-        }
+    .info__url {
+        margin: 0 2em 0 0;
     }
 
-    .base-url
-    {
-        margin: 0;
-
-        @include regular_text();
+    .info__base {
+        margin-top: 2em;
     }
-
-    .title
+   
+    .info__baseurl
     {
-        margin-bottom: 1em;
-
-        > span {
-            @include light_text($size: $xxl-text-font-size);
-        }
-
-        small
+        pre 
         {
+            @include regular_text();
+        }
+    }
+}
 
-            position: relative;
-            top: -5px;
 
-            display: inline-block;
+.info__header
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    
+    hgroup
+    {
+        a
+        {
+            @include regular_text($color: $info-link-font-color);
+        }
+    }
+}
 
-            margin: 0 0 0 5px;
-            padding: 2px 4px;
+.info__version-stamp {
+    display: flex;
+    margin-top: 1em;
 
-            vertical-align: super;
+    > * {
+        margin-right: .5em;
+    }
+}
 
-            border-radius: 57px;
-            background: $info-title-small-background-color;
+.info__header__icon
+{
+    font-size: $xl-text-font-size;
+}
 
-            pre
-            {
-                margin: 0;
-                padding: 0;
+.info__header__title
+{    
+    span:first-child
+    {
+        display: block;
+        @include light_text($size: $xxl-text-font-size);
+    }
 
-                @include regular_text($color: $color-white, $size: $xs-text-font-size);
-            }
+    small
+    {
+        display: inline-block;
+        
+        padding: .3em .5em;
+
+        border-radius: 3px;
+        background: $info-title-small-background-color;
+
+        pre
+        {
+            margin: 0;
+            padding: 0;
+
+            @include regular_text($color: $color-white, $size: $xs-text-font-size);
+        }
+    }
+}
+
+.info__description
+{
+    margin: 1em 0 0 0;
+}
+
+.info__menu
+{
+    display: flex;
+    margin-top: 2em;
+
+    > div {
+        padding: 0 2em;
+        border-right: 1px solid $color-primary;
+
+        &:first-child {
+            padding-left: 0;
+        }
+
+        &:last-child {
+            border: none;
         }
     }
 }

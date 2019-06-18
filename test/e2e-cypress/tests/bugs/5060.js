@@ -2,7 +2,7 @@ describe("#5060: unwanted smart quotes in rendered Markdown", () => {
   it("should not convert regular quotes to smart quotes", () => {
     cy
       .visit("/?url=/documents/bugs/5060.yaml")
-      .get("div.description")
+      .get("div.info__description")
       .should($el => {
         const text = $el.get(0).textContent
         expect(text).to.include(`Example of a simple GET request via curl with bearer HTTP Authentication`)
