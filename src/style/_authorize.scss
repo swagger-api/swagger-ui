@@ -59,6 +59,7 @@
     {
         color: $auth-container-code-font-color;
         background: $auth-container-code-background-color;
+        border-radius: 3px;
 
         &::before, &::after {
             content: "\00a0";
