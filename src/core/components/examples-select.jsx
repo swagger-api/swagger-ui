@@ -12,6 +12,7 @@ export default class ExamplesSelect extends React.PureComponent {
     examples: ImPropTypes.map.isRequired,
     onSelect: PropTypes.func,
     currentValue: PropTypes.any.isRequired,
+    selectMessage: PropTypes.string,
   }
 
   static defaultProps = {
@@ -23,6 +24,7 @@ export default class ExamplesSelect extends React.PureComponent {
         ...args
       ),
     currentValue: null,
+    selectMessage: "Select an example...",
   }
 
   _onSelectChange = e => {
@@ -36,7 +38,7 @@ export default class ExamplesSelect extends React.PureComponent {
   }
 
   render() {
-    const { examples, currentValue } = this.props
+    const { examples, currentValue, selectMessage } = this.props
 
     const isCurrentValueAnExampleValue = examples.some(
       example => example.get("value") === currentValue
@@ -47,7 +49,7 @@ export default class ExamplesSelect extends React.PureComponent {
     return (
       <select onChange={this._onSelectChange} value={currentValue}>
         {!isCurrentValueAnExampleValue ? (
-          <option selected>Select an example...</option>
+          <option selected>{selectMessage}</option>
         ) : null}
         {examples
           .map((example, exampleName) => {

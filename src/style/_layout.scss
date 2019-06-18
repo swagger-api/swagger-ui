@@ -98,6 +98,36 @@
     @include text_code();
 }
 
+.parameter-controls {
+    margin-top: 0.75em;
+
+    &__title {
+        display: block;
+        font-size: 0.7em;
+        margin-bottom: 0.2em;
+        margin-left: 0.2em;
+    }
+}
+
+.examples {
+    &__title {
+        display: block;
+        font-size: 1.1em;
+        font-weight: bold;
+        margin-bottom: 0.75em;
+    }
+
+    &__section {
+        margin-top: 1.5em;
+    }
+    &__section-header {
+        font-weight: bold;
+        font-size: .9em;
+        margin-bottom: .5em;
+        // color: #555;
+    }
+}
+
 .view-line-link
 {
     position: relative;

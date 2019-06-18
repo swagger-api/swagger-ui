@@ -5,6 +5,8 @@ import ImPropTypes from "react-immutable-proptypes"
 import win from "core/window"
 import { getExtensions, getCommonExtensions, numberToString } from "core/utils"
 
+import Examples from "./examples"
+
 export default class ParameterRow extends Component {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
@@ -29,7 +31,7 @@ export default class ParameterRow extends Component {
 
   componentWillReceiveProps(props) {
     let { specSelectors, pathMethod, rawParam } = props
-    let { isOAS3 } = specSelectors
+    let isOAS3 = specSelectors.isOAS3()
 
     let parameterWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || new Map()
     // fallback, if the meta lookup fails
@@ -37,7 +39,7 @@ export default class ParameterRow extends Component {
 
     let enumValue
 
-    if(isOAS3()) {
+    if(isOAS3) {
       let schema = parameterWithMeta.get("schema") || Map()
       enumValue = schema.get("enum")
     } else {
@@ -113,7 +115,7 @@ export default class ParameterRow extends Component {
   render() {
     let {param, rawParam, getComponent, getConfigs, isExecute, fn, onChangeConsumes, specSelectors, pathMethod, specPath} = this.props
 
-    let { isOAS3 } = specSelectors
+    let isOAS3 = specSelectors.isOAS3()
 
     const { showExtensions, showCommonExtensions } = getConfigs()
 
@@ -145,7 +147,7 @@ export default class ParameterRow extends Component {
 
     let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam)
     let format = param.get("format")
-    let schema = isOAS3 && isOAS3() ? param.get("schema") : param
+    let schema = isOAS3 ? param.get("schema") : param
     let type = schema.get("type")
     let isFormData = inType === "formData"
     let isFormDataSupported = "FormData" in win
@@ -199,7 +201,7 @@ export default class ParameterRow extends Component {
             { format && <span className="prop-format">(${format})</span>}
           </div>
           <div className="parameter__deprecated">
-            { isOAS3 && isOAS3() && param.get("deprecated") ? "deprecated": null }
+            { isOAS3 && param.get("deprecated") ? "deprecated": null }
           </div>
           <div className="parameter__in">({ param.get("in") })</div>
           { !showCommonExtensions || !commonExt.size ? null : commonExt.map((v, key) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} /> )}
@@ -257,6 +259,33 @@ export default class ParameterRow extends Component {
             : null
           }
 
+          {
+            isOAS3 && isExecute && param.get("examples") ? (
+              <section className="parameter-controls">
+                <div className="parameter-controls__title">
+                  Example values
+                </div>
+                <Examples
+                  examples={param.get("examples")}
+                  onSelect={val => this.onChangeWrapper(val)}
+                  getComponent={getComponent}
+                  showTitle={false}
+                  defaultToFirstExample={true}
+                />
+              </section>
+            ) : null
+          }
+
+          {
+            isOAS3 && !isExecute && param.get("examples") ? (
+              <Examples
+                examples={param.get("examples")}
+                getComponent={getComponent}
+                defaultToFirstExample={true}
+              />
+            ) : null
+          }
+
         </td>
 
       </tr>
@@ -265,3 +294,4 @@ export default class ParameterRow extends Component {
   }
 
 }
+
