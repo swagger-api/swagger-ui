@@ -146,26 +146,44 @@ export default class Response extends React.Component {
             <Markdown source={ response.get( "description" ) } />
           </div>
 
-          { isOAS3 ?
-            <div className={cx("response-content-type", {
-              "controls-accept-header": controlsAcceptHeader
-            })}>
-              <ContentType
-                  value={this.state.responseContentType}
-                  contentTypes={ response.get("content") ? response.get("content").keySeq() : Seq() }
-                  onChange={this._onContentTypeChange}
+          {
+            isOAS3 ? (
+              <section className="response-controls">
+                <div
+                  className={cx("response-control-media-type", {
+                    "response-control-media-type--accept-controller": controlsAcceptHeader
+                  })}
+                >
+                  <small className="response-control-media-type__title">Media type</small>
+                  <ContentType
+                    value={this.state.responseContentType}
+                    contentTypes={
+                      response.get("content") ? response.get("content").keySeq() : Seq()
+                    }
+                    onChange={this._onContentTypeChange}
                   />
-                { controlsAcceptHeader ? <small>Controls <code>Accept</code> header.</small> : null }
-            </div>
-             : null }
-
-          { isOAS3 && examplesForMediaType ?
-            <ExamplesSelect
-              examples={examplesForMediaType}
-              currentValue={examplesForMediaType.getIn([this.getTargetExamplesKey(), "value"])}
-              onSelect={(v, key) => this.setState({ activeExamplesKey: key })}>
-            </ExamplesSelect>
-          : null}
+                  {controlsAcceptHeader ? (
+                    <small className="response-control-media-type__accept-message">
+                      Controls <code>Accept</code> header.
+                    </small>
+                  ) : null}
+                </div>
+                {examplesForMediaType ? (
+                  <div className="response-control-examples">
+                    <small className="response-control-examples__title">Examples</small>
+                    <ExamplesSelect
+                      examples={examplesForMediaType}
+                      currentValue={examplesForMediaType.getIn([
+                        this.getTargetExamplesKey(),
+                        "value"
+                      ])}
+                      onSelect={(v, key) => this.setState({ activeExamplesKey: key })}
+                    />
+                  </div>
+                ) : null}
+              </section>
+            ) : null
+          }
 
           { example ? (
             <ModelExample

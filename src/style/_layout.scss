@@ -744,19 +744,38 @@
     }
 }
 
-.response-content-type {
-  padding-top: 1em;
+.response-controls {
+    padding-top: 1em;
+    display: flex;
+}
 
-  &.controls-accept-header {
-    select {
-      border-color: $response-content-type-controls-accept-header-select-border-color;
+.response-control-media-type {
+    margin-right: 1em;
+
+    &--accept-controller {
+        select {
+            border-color: $response-content-type-controls-accept-header-select-border-color;
+        }
     }
 
-    small {
-      color: $response-content-type-controls-accept-header-small-font-color;
-      font-size: .7em;
+    &__accept-message {
+        color: $response-content-type-controls-accept-header-small-font-color;
+        font-size: .7em;
     }
-  }
+
+    &__title {
+        display: block;
+        margin-bottom: 0.2em;
+        font-size: .7em;
+    }
+}
+
+.response-control-examples {
+    &__title {
+        display: block;
+        margin-bottom: 0.2em;
+        font-size: .7em;
+    }
 }
 
 @keyframes blinker
