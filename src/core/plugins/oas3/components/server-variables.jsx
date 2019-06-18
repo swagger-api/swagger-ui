@@ -1,8 +1,8 @@
-import React, { PureComponent } from "react"
+import React, { Component } from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 
-export default class ServerVariables extends PureComponent {
+export default class ServerVariables extends Component {
   static propTypes = {
     getComponent: PropTypes.func.isRequired,
     currentServer: ImPropTypes.string.isRequired,
