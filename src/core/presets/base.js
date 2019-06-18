@@ -24,8 +24,6 @@ import {
 } from "core/components/auth"
 import { 
   Auths,
-  AuthHeader,
-  AuthRow,
   AuthFormRow,
   AuthError
 } from "core/components/auth-section"
@@ -114,8 +112,6 @@ export default function() {
       authorizeOperationBtn: AuthorizeOperationBtn,
       auths: Auths,
       AuthItem: AuthItem,
-      AuthHeader,
-      AuthRow,
       AuthFormRow,
       Oauth2Form,
       Oauth2FormData,

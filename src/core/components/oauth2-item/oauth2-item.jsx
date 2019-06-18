@@ -93,8 +93,6 @@ export default class Oauth2 extends React.Component {
     } = this.props
     const Button = getComponent("Button")
     const AuthError = getComponent("authError")
-    const AuthHeader = getComponent("AuthHeader")
-    const AuthRow = getComponent("AuthRow")
     const JumpToPath = getComponent("JumpToPath", true)
     const Markdown = getComponent( "Markdown" )
     const Oauth2Form = getComponent("Oauth2Form")
@@ -126,43 +124,44 @@ export default class Oauth2 extends React.Component {
 
     return (
       <div>
-        <AuthHeader>
-          {name} (OAuth2, { schema.get("flow") }) <JumpToPath path={[ "securityDefinitions", name ]} />
-        </AuthHeader>
+        <div className="auth__header">
+          <h4>
+            {name} (OAuth2, { schema.get("flow") }) <JumpToPath path={[ "securityDefinitions", name ]} />
+          </h4>
+        </div>
 
         { !this.state.appName 
           ? null 
-          : <AuthRow>
+          : <div className="auth__row">
               <h5>Application: { this.state.appName } </h5>
-            </AuthRow> 
+            </div> 
         }
 
-        { description && <AuthRow>
+        { description && <div className="auth__row">
             <Markdown source={description} />
-          </AuthRow> 
+          </div> 
         }
 
-        { isAuthorized && <AuthRow>
+        { isAuthorized && <div className="auth__row">
             <h6>Authorized</h6>
-          </AuthRow> }
+          </div> }
 
-        { showAuthURL && <AuthRow>
+        { showAuthURL && <div className="auth__row">
           <p>Authorization URL: <code>{ schema.get("authorizationUrl") }</code></p>
-          </AuthRow>
+          </div>
         }
 
-        { showTokenURL && <AuthRow>
+        { showTokenURL && <div className="auth__row">
             <p>Token URL: <code> { schema.get("tokenUrl") }</code></p>
-          </AuthRow>
+          </div>
         }
-        <AuthRow> 
+        <div className="auth__row"> 
           <p className="flow">Flow: <code>{ flow }</code></p>
-        </AuthRow>
+        </div>
 
         {
           isAuthorized
           ? <Oauth2FormData
-              getComponent={getComponent}
               showBasicCreds={showBasicCreds}
               showClientID={showClientID}
               showClientSecret={showClientSecret}

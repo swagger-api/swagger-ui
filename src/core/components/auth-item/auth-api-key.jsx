@@ -42,8 +42,6 @@ export default class ApiKeyAuth extends React.Component {
     let { schema, getComponent, errSelectors, name } = this.props
     const Input = getComponent("Input")
     const AuthError = getComponent("authError")
-    const AuthHeader = getComponent("AuthHeader")
-    const AuthRow = getComponent("AuthRow")
     const AuthFormRow = getComponent("AuthFormRow")
     const Markdown = getComponent( "Markdown" )
     const JumpToPath = getComponent("JumpToPath", true)
@@ -52,34 +50,36 @@ export default class ApiKeyAuth extends React.Component {
 
     return (
       <div>
-        <AuthHeader>
-          <code>{ name || schema.get("name") }</code>&nbsp;
-          (apiKey)
-          <JumpToPath path={[ "securityDefinitions", name ]} />
-        </AuthHeader>
+        <div className="auth__header">
+          <h4>
+            <code>{ name || schema.get("name") }</code>&nbsp;
+            (apiKey)
+            <JumpToPath path={[ "securityDefinitions", name ]} />
+          </h4>
+        </div>
 
-        { value && <AuthRow>
+        { value && <div className="auth__row">
             <h6>Authorized</h6>
-          </AuthRow>
+          </div>
         }
 
-        <AuthRow>
+        <div className="auth__row">
           <Markdown source={ schema.get("description") } />
-        </AuthRow>
+        </div>
 
-        <AuthRow>
+        <div className="auth__row">
           <p>Name: <code>{ schema.get("name") }</code></p>
-        </AuthRow>
+        </div>
 
-        <AuthRow>
+        <div className="auth__row">
           <p>In: <code>{ schema.get("in") }</code></p>
-        </AuthRow>
+        </div>
 
         
         { value
-          ? <AuthRow>
+          ? <div className="auth__row">
               <p>Value: <code>******</code></p>
-            </AuthRow>
+            </div>
           : <AuthFormRow label="Value:" htmlFor="api-key-value">
               <Input id="api-key-value" type="text" onChange={ this.onChange }/>
             </AuthFormRow>

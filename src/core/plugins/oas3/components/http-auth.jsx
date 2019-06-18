@@ -85,8 +85,6 @@ export default class HttpAuth extends React.Component {
 }
 
 const HttpAuthBasic = ({getComponent, name, schema, value, errors, onChange}) => {
-  const AuthHeader = getComponent("AuthHeader")
-  const AuthRow = getComponent("AuthRow")
   const AuthFormRow = getComponent("AuthFormRow")
   const AuthError = getComponent("authError")
   const Markdown = getComponent( "Markdown" )
@@ -97,30 +95,32 @@ const HttpAuthBasic = ({getComponent, name, schema, value, errors, onChange}) =>
 
   return (
     <div>
-      <AuthHeader>
-        <code>{ name || schema.get("name") }</code>&nbsp;
+      <div className="auth__header">
+        <h4>
+          <code>{ name || schema.get("name") }</code>&nbsp;
           (http, Basic)
           <JumpToPath path={[ "securityDefinitions", name ]} />
-        </AuthHeader>
+        </h4>
+      </div>
 
-      { username && <AuthRow>
+      { username && <div className="auth__row">
           <h6>Authorized</h6>
-        </AuthRow> 
+        </div> 
       }
 
-      <AuthRow>
+      <div className="auth__row">
         <Markdown source={ schema.get("description") } />
-      </AuthRow>
+      </div>
 
       {
         username
         ? <div>
-            <AuthRow>
+            <div className="auth__row">
               <p>Username: <code>{ username }</code></p>
-            </AuthRow>
-            <AuthRow>
+            </div>
+            <div className="auth__row">
               <p>Password: <code>******</code></p>
-            </AuthRow>
+            </div>
           </div>
         : <div>
             <AuthFormRow label="Username:" htmlFor="basic-html-auth-username">
@@ -152,8 +152,6 @@ HttpAuthBasic.propTypes = {
 }
 
 const HttpAuthBearer = ({getComponent, name, schema, value, errors, onChange}) => {
-  const AuthHeader = getComponent("AuthHeader")
-  const AuthRow = getComponent("AuthRow")
   const AuthFormRow = getComponent("AuthFormRow")
   const AuthError = getComponent("authError")
   const Markdown = getComponent( "Markdown" )
@@ -162,25 +160,27 @@ const HttpAuthBearer = ({getComponent, name, schema, value, errors, onChange}) =
 
   return (
     <div>
-      <AuthHeader>
-        <code>{ name || schema.get("name") }</code>&nbsp;
+      <div className="auth__header">
+        <h4>
+          <code>{ name || schema.get("name") }</code>&nbsp;
           (http, Bearer)
           <JumpToPath path={[ "securityDefinitions", name ]} />
-      </AuthHeader>
+        </h4>
+      </div>
 
-      { value && <AuthRow>
+      { value && <div className="auth__row">
           <h6>Authorized</h6>
-        </AuthRow>
+        </div>
       }
 
-      <AuthRow>
+      <div className="auth__row">
         <Markdown source={ schema.get("description") } />
-      </AuthRow>
+      </div>
 
       { value
-        ? <AuthRow>
+        ? <div className="auth__row">
             <p>Value: <code>******</code></p>
-          </AuthRow>
+          </div>
         : <AuthFormRow label="Username:" htmlFor="bearer-html-auth-value">
             <Input id="bearer-html-auth-value" type="text" onChange={ onChange }/>
           </AuthFormRow>
