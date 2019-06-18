@@ -105,6 +105,12 @@
     color: #fff;
 }
 
+.sui-btn--authorize:hover {
+    .sui-btn--authorize__icon--unlocked {
+        opacity: 1;
+    }
+}
+
 .sui-btn--authorize__icon--locked {
     color: $color-primary;
 }
