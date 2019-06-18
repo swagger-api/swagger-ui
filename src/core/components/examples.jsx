@@ -1,7 +1,11 @@
+/**
+ * @prettier
+ */
 import React from "react"
 import { Map } from "immutable"
 import { stringify } from "core/utils"
 
+import Example from "./example"
 import ExamplesSelect from "./examples-select"
 
 export default class Examples extends React.PureComponent {
@@ -12,16 +16,16 @@ export default class Examples extends React.PureComponent {
     super()
 
     this.state = {
-      activeExamplesKey: null
+      activeExamplesKey: null,
     }
   }
 
   _onSelect = (v, key) => {
     this.setState({
-      activeExamplesKey: key
+      activeExamplesKey: key,
     })
 
-    if(typeof this.props.onSelect === "function") {
+    if (typeof this.props.onSelect === "function") {
       this.props.onSelect(v, key)
     }
   }
@@ -31,7 +35,7 @@ export default class Examples extends React.PureComponent {
 
     const currentExample = examples.get(this.state.activeExamplesKey)
 
-    if(!defaultToFirstExample) {
+    if (!defaultToFirstExample) {
       return currentExample || Map({})
     }
 
@@ -42,8 +46,8 @@ export default class Examples extends React.PureComponent {
 
   componentDidMount() {
     const { onSelect, examples, defaultToFirstExample } = this.props
-    if(defaultToFirstExample) {
-      if(typeof onSelect === "function") {
+    if (defaultToFirstExample) {
+      if (typeof onSelect === "function") {
         const firstExample = this.getCurrentExample()
         const firstExampleKey = examples.keyOf(firstExample)
         this.props.onSelect(
@@ -54,34 +58,35 @@ export default class Examples extends React.PureComponent {
     }
   }
   render() {
-    const { examples, getComponent, showTitle } = this.props
+    const {
+      examples,
+      getComponent,
+      showTitle,
+      omitControls,
+      omitValue,
+    } = this.props
 
     const Markdown = getComponent("Markdown")
     const HighlightCode = getComponent("highlightCode")
 
     const currentExample = this.getCurrentExample()
 
-    return <div className="examples">
-      { showTitle ? (
-        <div className="examples__title">
-          Examples
-        </div>
-      ) : null}
-      <ExamplesSelect
-        examples={examples}
-        currentValue={currentExample.get("value")}
-        onSelect={this._onSelect}
-      />
-      { currentExample.get("description") ? (<section className="examples__section">
-        <div className="examples__section-header">Example Description</div>
-        <p>
-          <Markdown source={currentExample.get("description")} />
-        </p>
-      </section>) : null}
-      { currentExample.has("value") ? (<section className="examples__section">
-        <div className="examples__section-header">Example Value</div>
-        <HighlightCode value={stringify(currentExample.get("value"))} />
-      </section>) : null}
-    </div>
+    return (
+      <div className="examples">
+        {showTitle ? <div className="examples__title">Examples</div> : null}
+        {!omitControls ? (
+          <ExamplesSelect
+            examples={examples}
+            currentValue={currentExample.get("value")}
+            onSelect={this._onSelect}
+          />
+        ) : null}
+        <Example
+          example={currentExample}
+          omitValue={omitValue}
+          getComponent={getComponent}
+        />
+      </div>
+    )
   }
 }

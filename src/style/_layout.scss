@@ -128,6 +128,18 @@
     }
 }
 
+.example {
+    &__section {
+        margin-top: 1.5em;
+    }
+    &__section-header {
+        font-weight: bold;
+        font-size: .9em;
+        margin-bottom: .5em;
+        // color: #555;
+    }
+}
+
 .view-line-link
 {
     position: relative;

@@ -4,6 +4,8 @@ import ImPropTypes from "react-immutable-proptypes"
 import cx from "classnames"
 import { fromJS, Seq, Iterable, List, Map } from "immutable"
 import { getSampleSchema, fromJSOrdered, stringify } from "core/utils"
+
+import Example from "./example"
 import ExamplesSelect from "./examples-select"
 
 const getExampleComponent = ( sampleResponse, HighlightCode ) => {
@@ -189,6 +191,14 @@ export default class Response extends React.Component {
                 </div>
               ) : null}
             </section>
+          ) : null}
+
+          { isOAS3 && examplesForMediaType ? (
+              <Example
+                example={examplesForMediaType.get(this.getTargetExamplesKey())}
+                getComponent={getComponent}
+                omitValue={true}
+              />
           ) : null}
 
           { example ? (
