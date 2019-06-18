@@ -176,12 +176,19 @@ export class Select extends React.Component {
     onChange && onChange(value)
   }
 
+  componentWillReceiveProps(nextProps) {
+    // TODO: this puts us in a weird area btwn un/controlled selection... review
+    if(nextProps.value !== this.props.value) {
+      this.setState({ value: nextProps.value })
+    }
+  }
+
   render(){
     let { allowedValues, multiple, allowEmptyValue } = this.props
     let value = this.state.value.toJS ? this.state.value.toJS() : this.state.value
 
     return (
-      <select className={this.props.className} multiple={ multiple } value={ value } onChange={ this.onChange } >
+      <select className={this.props.className} multiple={ multiple } value={ String(value) } onChange={ this.onChange } >
         { allowEmptyValue ? <option value="">--</option> : null }
         {
           allowedValues.map(function (item, key) {
