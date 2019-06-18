@@ -2,7 +2,7 @@
  * @prettier
  */
 import React from "react"
-import { Map } from "immutable"
+import { Map, List } from "immutable"
 import { stringify } from "core/utils"
 
 import Example from "./example"
@@ -20,13 +20,21 @@ export default class Examples extends React.PureComponent {
     }
   }
 
-  _onSelect = (v, key) => {
+  _onSelect = (value, key) => {
     this.setState({
       activeExamplesKey: key,
     })
 
+    var valueForUpstream
+
+    if(List.isList(value)) {
+      valueForUpstream = value
+    } else {
+      valueForUpstream = stringify(value)
+    }
+
     if (typeof this.props.onSelect === "function") {
-      this.props.onSelect(v, key)
+      this.props.onSelect(valueForUpstream, key)
     }
   }
 
@@ -50,10 +58,9 @@ export default class Examples extends React.PureComponent {
       if (typeof onSelect === "function") {
         const firstExample = this.getCurrentExample()
         const firstExampleKey = examples.keyOf(firstExample)
-        this.props.onSelect(
-          stringify(firstExample.get("value")),
-          firstExampleKey
-        )
+        const value = firstExample.get("value")
+
+        this._onSelect(value, firstExampleKey)
       }
     }
   }

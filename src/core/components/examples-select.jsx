@@ -33,7 +33,7 @@ export default class ExamplesSelect extends React.PureComponent {
       const element = e.target.selectedOptions[0]
       const key = element.getAttribute("data-key")
       const value = this.props.examples.getIn([key, "value"])
-      this.props.onSelect(value && value.toJS ? value.toJS() : value, key)
+      this.props.onSelect(value, key)
     }
   }
 
