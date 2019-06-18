@@ -51,7 +51,6 @@ export default class HttpAuth extends React.Component {
     const scheme = (schema.get("scheme") || "").toLowerCase()
     const value = this.getValue()
     const errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
-    const username = value ? value.get("username") : null
 
     if(scheme === "basic") {
       return (
@@ -59,7 +58,7 @@ export default class HttpAuth extends React.Component {
           getComponent={getComponent}
           name={name}
           schema={schema}
-          username={username}
+          value={value}
           errors={errors} 
           onChange={this.onChange}/>
       )
@@ -85,7 +84,7 @@ export default class HttpAuth extends React.Component {
   }
 }
 
-const HttpAuthBasic = ({getComponent, name, schema, username, errors, onChange}) => {
+const HttpAuthBasic = ({getComponent, name, schema, value, errors, onChange}) => {
   const AuthHeader = getComponent("AuthHeader")
   const AuthRow = getComponent("AuthRow")
   const AuthFormRow = getComponent("AuthFormRow")
@@ -93,6 +92,8 @@ const HttpAuthBasic = ({getComponent, name, schema, username, errors, onChange})
   const Markdown = getComponent( "Markdown" )
   const JumpToPath = getComponent("JumpToPath", true)
   const Input = getComponent("Input")
+
+  const username = value ? value.get("username") : null
 
   return (
     <div>
@@ -145,7 +146,7 @@ HttpAuthBasic.propTypes = {
   getComponent: PropTypes.func.isRequired,
   name: PropTypes.string,
   schema: PropTypes.object,
-  username: PropTypes.string,
+  value: PropTypes.string,
   errors: PropTypes.object,
   onChange: PropTypes.func
 }
