@@ -1,8 +1,15 @@
 .servers
 {
-    .servers__control
+    label {
+      display: block; 
+    }  
+
+    > label.servers__control
     {
-      display: block;
+      margin-top: 0;
+    }
+
+    > div label.servers__control {
       margin-top: 2em;
     }
 
