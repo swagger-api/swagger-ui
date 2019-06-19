@@ -165,6 +165,7 @@ const RequestBody = ({
             examples={examplesForMediaType}
             currentKey={activeExamplesKey}
             onSelect={handleExamplesSelect}
+            omitValue={true}
             getComponent={getComponent}
           />
         </div>
