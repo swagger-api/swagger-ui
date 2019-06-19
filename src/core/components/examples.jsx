@@ -2,79 +2,68 @@
  * @prettier
  */
 import React from "react"
-import { Map, List } from "immutable"
-import { stringify } from "core/utils"
+import { Map } from "immutable"
+import PropTypes from "prop-types"
+import ImPropTypes from "react-immutable-proptypes"
 
 import Example from "./example"
 import ExamplesSelect from "./examples-select"
 
 export default class Examples extends React.PureComponent {
+  static propTypes = {
+    examples: ImPropTypes.map,
+    currentExampleKey: PropTypes.string,
+    onSelect: PropTypes.func,
+    getComponent: PropTypes.func.isRequired,
+    showTitle: PropTypes.bool,
+    omitControls: PropTypes.bool,
+    omitValue: PropTypes.bool,
+  }
+
   static defaultProps = {
     showTitle: true,
   }
-  constructor() {
-    super()
 
-    this.state = {
-      activeExamplesKey: null,
-    }
-  }
-
-  _onSelect = (value, key) => {
-    this.setState({
-      activeExamplesKey: key,
-    })
-
-    var valueForUpstream
-
-    if(List.isList(value)) {
-      valueForUpstream = value
-    } else {
-      valueForUpstream = stringify(value)
-    }
-
+  _onSelect = (key, { isSyntheticChange = false } = {}) => {
     if (typeof this.props.onSelect === "function") {
-      this.props.onSelect(valueForUpstream, key)
+      this.props.onSelect(key, {
+        isSyntheticChange,
+      })
     }
   }
 
   getCurrentExample = () => {
-    const { examples, defaultToFirstExample } = this.props
+    const { examples, currentExampleKey } = this.props
 
-    const currentExample = examples.get(this.state.activeExamplesKey)
-
-    if (!defaultToFirstExample) {
-      return currentExample || Map({})
-    }
+    const currentExamplePerProps = examples.get(currentExampleKey)
 
     const firstExamplesKey = examples.keySeq().first()
     const firstExample = examples.get(firstExamplesKey)
-    return currentExample || firstExample || Map({})
+
+    return currentExamplePerProps || firstExample || Map({})
   }
 
   componentDidMount() {
-    const { onSelect, examples, defaultToFirstExample } = this.props
-    if (defaultToFirstExample) {
-      if (typeof onSelect === "function") {
-        const firstExample = this.getCurrentExample()
-        const firstExampleKey = examples.keyOf(firstExample)
-        const value = firstExample.get("value")
+    const { onSelect, examples } = this.props
 
-        this._onSelect(value, firstExampleKey)
-      }
+    if (typeof onSelect === "function") {
+      const firstExample = this.getCurrentExample()
+      const firstExampleKey = examples.keyOf(firstExample)
+
+      this._onSelect(firstExampleKey, {
+        isSyntheticChange: true,
+      })
     }
   }
   render() {
     const {
       examples,
+      currentExampleKey,
       getComponent,
       showTitle,
       omitControls,
       omitValue,
     } = this.props
-
-    const Markdown = getComponent("Markdown")
-    const HighlightCode = getComponent("highlightCode")
 
     const currentExample = this.getCurrentExample()
 
@@ -84,7 +73,7 @@ export default class Examples extends React.PureComponent {
         {!omitControls ? (
           <ExamplesSelect
             examples={examples}
-            currentValue={currentExample.get("value")}
+            currentExampleKey={currentExampleKey}
             onSelect={this._onSelect}
           />
         ) : null}

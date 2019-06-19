@@ -90,7 +90,7 @@ export default class Parameters extends Component {
       fn,
       getComponent,
       getConfigs,
-      specSelectors, 
+      specSelectors,
       specActions,
       pathMethod,
       oas3Actions,
@@ -158,6 +158,8 @@ export default class Parameters extends Component {
                       onChangeConsumes={this.onChangeConsumesWrapper}
                       specSelectors={ specSelectors }
                       specActions={specActions}
+                      oas3Actions={oas3Actions}
+                      oas3Selectors={oas3Selectors}
                       pathMethod={ pathMethod }
                       isExecute={ isExecute }/>
                   )).toArray()

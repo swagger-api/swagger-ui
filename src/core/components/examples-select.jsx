@@ -11,7 +11,7 @@ export default class ExamplesSelect extends React.PureComponent {
   static propTypes = {
     examples: ImPropTypes.map.isRequired,
     onSelect: PropTypes.func,
-    currentValue: PropTypes.any.isRequired,
+    currentExampleKey: PropTypes.string,
     selectMessage: PropTypes.string,
   }
 
@@ -23,32 +23,26 @@ export default class ExamplesSelect extends React.PureComponent {
         `DEBUG: ExamplesSelect was not given an onSelect callback`,
         ...args
       ),
-    currentValue: null,
+    currentExampleKey: null,
     selectMessage: "Select an example...",
   }
 
   _onSelectChange = e => {
-    debugger // eslint-disable-line
     if (typeof this.props.onSelect === "function") {
       const element = e.target.selectedOptions[0]
-      const key = element.getAttribute("data-key")
-      const value = this.props.examples.getIn([key, "value"])
-      this.props.onSelect(value, key)
+      const key = element.getAttribute("value")
+      this.props.onSelect(key)
     }
   }
 
   render() {
-    const { examples, currentValue, selectMessage } = this.props
+    const { examples, currentExampleKey, selectMessage } = this.props
 
-    const isCurrentValueAnExampleValue = examples.some(
-      example => example.get("value") === currentValue
-    )
-
-    debugger //eslint-disable-line
+    const isCurrentKeyAnExample = examples.has(currentExampleKey)
 
     return (
-      <select onChange={this._onSelectChange} value={currentValue}>
-        {!isCurrentValueAnExampleValue ? (
+      <select onChange={this._onSelectChange} value={currentExampleKey}>
+        {!isCurrentKeyAnExample ? (
           <option selected>{selectMessage}</option>
         ) : null}
         {examples
@@ -57,7 +51,7 @@ export default class ExamplesSelect extends React.PureComponent {
               <option
                 key={exampleName} // for React
                 data-key={exampleName} // for _onSelectChange
-                value={example.get("value")} // for matching to select's `value`
+                value={exampleName} // for matching to select's `value`
               >
                 {example.get("summary") || exampleName}
               </option>

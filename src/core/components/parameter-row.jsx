@@ -1,9 +1,9 @@
 import React, { Component } from "react"
-import { Map } from "immutable"
+import { Map, List } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import win from "core/window"
-import { getExtensions, getCommonExtensions, numberToString } from "core/utils"
+import { getExtensions, getCommonExtensions, numberToString, stringify } from "core/utils"
 
 import Examples from "./examples"
 
@@ -76,6 +76,30 @@ export default class ParameterRow extends Component {
     return onChange(rawParam, valueForUpstream, isXml)
   }
 
+  _onExampleSelect = (key, { isSyntheticChange } = {}) => {
+    const { rawParam } = this.props
+    this.props.oas3Actions.setActiveExamplesMember({
+      name: key,
+      pathMethod: this.props.pathMethod,
+      contextType: "parameters",
+      contextName: this.props.specPath.last()
+    })
+
+    if(!isSyntheticChange) {
+      const value = rawParam.getIn([
+        "examples",
+        key,
+        "value"
+      ])
+
+      
+
+      this.onChangeWrapper(
+        List.isList(value) ? value : stringify(value)
+      )
+    }
+  }
+
   onChangeIncludeEmpty = (newValue) => {
     let { specActions, param, pathMethod } = this.props
     const paramName = param.get("name")
@@ -84,10 +108,11 @@ export default class ParameterRow extends Component {
   }
 
   setDefaultValue = () => {
-    let { specSelectors, pathMethod, rawParam } = this.props
+    let { specSelectors, pathMethod, rawParam, oas3Selectors, specPath } = this.props
 
     let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam)
-
+    
+    const parameterIndex = specPath.last()
 
     if (!paramWithMeta || paramWithMeta.get("value") !== undefined) {
       return
@@ -102,18 +127,22 @@ export default class ParameterRow extends Component {
           || paramWithMeta.getIn(["schema", "example"])
           || paramWithMeta.getIn(["schema", "default"])
       } else if (specSelectors.isOAS3()) {
-        newValue = paramWithMeta.get("example")
+        const currentExampleKey = oas3Selectors.activeExamplesMember(...pathMethod, "parameters", parameterIndex)
+        newValue = paramWithMeta.getIn(["examples", currentExampleKey, "value"])
+          || paramWithMeta.get("example")
           || paramWithMeta.getIn(["schema", "example"])
           || paramWithMeta.getIn(["schema", "default"])
       }
       if(newValue !== undefined) {
-        this.onChangeWrapper(numberToString(newValue))
+        this.onChangeWrapper(
+          List.isList(newValue) ? newValue : stringify(newValue)
+        )
       }
     }
   }
 
   render() {
-    let {param, rawParam, getComponent, getConfigs, isExecute, fn, onChangeConsumes, specSelectors, pathMethod, specPath} = this.props
+    let {param, rawParam, getComponent, getConfigs, isExecute, fn, onChangeConsumes, specSelectors, pathMethod, specPath, oas3Selectors} = this.props
 
     let isOAS3 = specSelectors.isOAS3()
 
@@ -153,6 +182,8 @@ export default class ParameterRow extends Component {
     let isFormDataSupported = "FormData" in win
     let required = param.get("required")
     let itemType = schema.getIn(["items", "type"])
+
+    const parameterIndex = specPath.last()
 
     let value = paramWithMeta ? paramWithMeta.get("value") : ""
     let commonExt = showCommonExtensions ? getCommonExtensions(param) : null
@@ -264,9 +295,10 @@ export default class ParameterRow extends Component {
               <section className="parameter-controls">
                 <Examples
                   examples={param.get("examples")}
-                  onSelect={val => this.onChangeWrapper(val)}
+                  onSelect={this._onExampleSelect}
                   getComponent={getComponent}
                   defaultToFirstExample={true}
+                  currentExampleKey={oas3Selectors.activeExamplesMember(...pathMethod, "parameters", parameterIndex)}
                 />
               </section>
             ) : null
@@ -276,8 +308,10 @@ export default class ParameterRow extends Component {
             isOAS3 && !isExecute && param.get("examples") ? (
               <Examples
                 examples={param.get("examples")}
+                onSelect={this._onExampleSelect}
                 getComponent={getComponent}
                 defaultToFirstExample={true}
+                currentExampleKey={oas3Selectors.activeExamplesMember(...pathMethod, "parameters", parameterIndex)}
               />
             ) : null
           }

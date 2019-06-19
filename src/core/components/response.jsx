@@ -22,7 +22,6 @@ export default class Response extends React.Component {
 
     this.state = {
       responseContentType: "",
-      activeExamplesKey: null,
     }
   }
 
@@ -55,18 +54,20 @@ export default class Response extends React.Component {
   }
 
   getTargetExamplesKey = () => {
-    const { response, contentType } = this.props
+    const { response, contentType, activeExamplesKey } = this.props
 
     const activeContentType = this.state.responseContentType || contentType
     const activeMediaType = response.getIn(["content", activeContentType], Map({}))
     const examplesForMediaType = activeMediaType.get("examples", null)
 
     const firstExamplesKey = examplesForMediaType.keySeq().first()
-    return this.state.activeExamplesKey || firstExamplesKey
+    return activeExamplesKey || firstExamplesKey
   }
 
   render() {
     let {
+      path,
+      method,
       code,
       response,
       className,
@@ -76,7 +77,8 @@ export default class Response extends React.Component {
       getConfigs,
       specSelectors,
       contentType,
-      controlsAcceptHeader
+      controlsAcceptHeader,
+      oas3Actions,
     } = this.props
 
     let { inferSchema } = fn
@@ -117,7 +119,7 @@ export default class Response extends React.Component {
       if(examplesForMediaType) {
         debugger // eslint-disable-line
         const targetExamplesKey = this.getTargetExamplesKey()
-        const targetExample = examplesForMediaType.get(targetExamplesKey)
+        const targetExample = examplesForMediaType.get(targetExamplesKey, Map({}))
         sampleResponse = stringify(targetExample.get("value"))
       } else if(activeMediaType.get("example") !== undefined) {
         // use the example key's value
@@ -180,12 +182,14 @@ export default class Response extends React.Component {
                   </small>
                   <ExamplesSelect
                     examples={examplesForMediaType}
-                    currentValue={examplesForMediaType.getIn([
-                      this.getTargetExamplesKey(),
-                      "value"
-                    ])}
-                    onSelect={(v, key) =>
-                      this.setState({ activeExamplesKey: key })
+                    currentExampleKey={this.getTargetExamplesKey()}
+                    onSelect={key =>
+                      oas3Actions.setActiveExamplesMember({
+                        name: key,
+                        pathMethod: [path, method],
+                        contextType: "responses",
+                        contextName: code
+                      })
                     }
                   />
                 </div>
@@ -195,7 +199,7 @@ export default class Response extends React.Component {
 
           { isOAS3 && examplesForMediaType ? (
               <Example
-                example={examplesForMediaType.get(this.getTargetExamplesKey())}
+                example={examplesForMediaType.get(this.getTargetExamplesKey(), Map({}))}
                 getComponent={getComponent}
                 omitValue={true}
               />
