@@ -31,9 +31,6 @@ export default class DropDown extends PureComponent {
     this.setChildRefCollection = {}
 
     React.Children.forEach(this.props.children, (child, i) => {
-      if(child.props.value === props.value) {
-        selectedKey = i
-      }
       this.setChildRefCollection[i] = (instance) => { 
         return this.childRefCollection[i] = instance
       }
@@ -72,6 +69,8 @@ export default class DropDown extends PureComponent {
     })
   }
 
+  initialSelect = (selectedKey) => this.setState({ selectedKey })
+
   setFocus = () => this.buttonRef.focus()
 
   setFocusChild = (key) => this.childRefCollection[key].setFocus()
@@ -89,7 +88,10 @@ export default class DropDown extends PureComponent {
     const hasSelected = key || key === 0 
 
     if(hasSelected && this.props.onChange) {
-      this.props.onChange(this.childRefCollection[key].getValue())
+      this.props.onChange({
+        ...this.props,
+        value: this.childRefCollection[key].getValue()
+      })
     }
 
     this.setState((state) => { 
@@ -113,9 +115,9 @@ export default class DropDown extends PureComponent {
     )
 
     if (!this.buttonRef.contains(e.target) && !clickedChild) {
-        this.setState({
-          expanded: false
-        })
+      this.setState({
+        expanded: false
+      })
     }
   }
 
@@ -127,6 +129,7 @@ export default class DropDown extends PureComponent {
     }
     this.openDropdown()
   }
+  
 
   onClickChild = (key) => this.closeDropdown(key)
 
@@ -203,6 +206,8 @@ export default class DropDown extends PureComponent {
     const ref = this.setChildRef(i, child.ref)
 
     return React.cloneElement(child, {
+      selected: child.props.value === this.props.value,
+      initialSelect: this.initialSelect,
       ref,
       optionKey: i,
       onKeyPress: this.onKeyPressChild,
@@ -259,6 +264,8 @@ export class DropDownItem extends Component {
     mod: PropTypes.string,
     value: PropTypes.string,
     optionKey: PropTypes.any,
+    selected: PropTypes.bool,
+    initialSelect: PropTypes.func,
     onSelect: PropTypes.func,
     onKeyPress: PropTypes.func,
     children: PropTypes.node.isRequired
@@ -281,6 +288,21 @@ export class DropDownItem extends Component {
     if(onSelect) { 
       onSelect(optionKey)
     }
+  }
+
+  selectKey = () => {
+    const { selected, initialSelect, optionKey } = this.props
+    if (selected) {
+      initialSelect(optionKey)
+    }
+  }
+
+  componentDidUpdate = () => {
+    this.selectKey()
+  }
+
+  componentDidMount = () => {
+    this.selectKey()
   }
 
   onKeyPress = (e) => {

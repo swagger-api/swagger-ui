@@ -35,8 +35,6 @@ select
 
 label
 {
-    margin: 0 0 .5em 0;
-
     > span {
         @include light_text($size: $sm-text-font-size);
     }

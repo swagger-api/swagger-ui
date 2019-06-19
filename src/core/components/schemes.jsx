@@ -28,7 +28,7 @@ export default class Schemes extends React.Component {
     }
   }
 
-  onChange = ( value ) => {
+  onChange = ({value}) => {
     this.setScheme( value )
   }
 
