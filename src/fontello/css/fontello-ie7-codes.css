@@ -1,9 +1,0 @@
-
-.icon-cancel { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe800;&nbsp;'); }
-.icon-shield-check-regular { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8ac;&nbsp;'); }
-.icon-level-down-regular { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8ad;&nbsp;'); }
-.icon-clone-light { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8ae;&nbsp;'); }
-.icon-angle-down-light { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8af;&nbsp;'); }
-.icon-shield-alt-regular { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8b0;&nbsp;'); }
-.icon-angle-up-light { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8b1;&nbsp;'); }
-.icon-angle-right-light { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe8b2;&nbsp;'); }
