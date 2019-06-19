@@ -1,0 +1,53 @@
+@font-face {
+  font-family: 'fontello';
+  src: url('data:application/octet-stream;base64,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') format('woff');
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'fontello';
+    src: url('../font/fontello.svg?75391195#fontello') format('svg');
+  }
+}
+*/
+ 
+ [class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "fontello";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+     
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+ 
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+.icon-cancel:before { content: '\e800'; } /* '' */
+.icon-shield-check-regular:before { content: '\e8ac'; } /* '' */
+.icon-level-down-regular:before { content: '\e8ad'; } /* '' */
+.icon-clone-light:before { content: '\e8ae'; } /* '' */
+.icon-angle-down-light:before { content: '\e8af'; } /* '' */
+.icon-shield-alt-regular:before { content: '\e8b0'; } /* '' */
+.icon-angle-up-light:before { content: '\e8b1'; } /* '' */
+.icon-angle-right-light:before { content: '\e8b2'; } /* '' */
