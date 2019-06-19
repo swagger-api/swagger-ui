@@ -9,7 +9,6 @@
 
     p, li, table
     {
-        @include regular_text();
 
         a 
         {
@@ -112,11 +111,13 @@
 .info__menu
 {
     display: flex;
+    flex-wrap: wrap;
     margin-top: 2em;
 
     > div {
         padding: 0 2em;
         border-right: 1px solid $color-primary;
+        margin
 
         &:first-child {
             padding-left: 0;
