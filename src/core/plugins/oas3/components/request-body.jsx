@@ -4,6 +4,8 @@ import ImPropTypes from "react-immutable-proptypes"
 import { Map, OrderedMap, List } from "immutable"
 import { getCommonExtensions, getSampleSchema, stringify } from "core/utils"
 
+import Examples from "core/components/examples"
+
 const RequestBody = ({
   requestBody,
   requestBodyValue,
@@ -14,7 +16,9 @@ const RequestBody = ({
   contentType,
   isExecute,
   specPath,
-  onChange
+  onChange,
+  activeExamplesKey,
+  updateActiveExamplesKey,
 }) => {
   const handleFile = (e) => {
     onChange(e.target.files[0])
@@ -23,6 +27,7 @@ const RequestBody = ({
   const Markdown = getComponent("Markdown")
   const ModelExample = getComponent("modelExample")
   const RequestBodyEditor = getComponent("RequestBodyEditor")
+  const HighlightCode = getComponent("highlightCode")
 
   const { showCommonExtensions } = getConfigs()
 
@@ -32,6 +37,11 @@ const RequestBody = ({
 
   const mediaTypeValue = requestBodyContent.get(contentType, OrderedMap())
   const schemaForMediaType = mediaTypeValue.get("schema", OrderedMap())
+  const examplesForMediaType = mediaTypeValue.get("examples", OrderedMap())
+
+  const handleExamplesSelect = (key, { isSyntheticChange }) => {
+    updateActiveExamplesKey(key)
+  }
 
   if(!mediaTypeValue.size) {
     return null
@@ -83,7 +93,7 @@ const RequestBody = ({
               const format = prop.get("format")
               const description = prop.get("description")
               const currentValue = requestBodyValue.get(key)
-              
+
               let initialValue = prop.get("default") || prop.get("example") || ""
 
               if (initialValue === "" && type === "object") {
@@ -139,23 +149,39 @@ const RequestBody = ({
     { requestBodyDescription &&
       <Markdown source={requestBodyDescription} />
     }
-    <ModelExample
-      getComponent={ getComponent }
-      getConfigs={ getConfigs }
-      specSelectors={ specSelectors }
-      expandDepth={1}
-      isExecute={isExecute}
-      schema={mediaTypeValue.get("schema")}
-      specPath={specPath.push("content", contentType)}
-      example={<RequestBodyEditor
-        requestBody={requestBody}
-        onChange={onChange}
-        mediaType={contentType}
-        getComponent={getComponent}
-        isExecute={isExecute}
-        specSelectors={specSelectors}
-        />}
-      />
+    {
+      isExecute ? (
+        <div>
+          <RequestBodyEditor
+            requestBody={requestBody}
+            onChange={onChange}
+            mediaType={contentType}
+            getComponent={getComponent}
+            isExecute={isExecute}
+            specSelectors={specSelectors}
+            activeExamplesKey={activeExamplesKey}
+          />
+          <Examples
+            examples={examplesForMediaType}
+            currentKey={activeExamplesKey}
+            onSelect={handleExamplesSelect}
+            getComponent={getComponent}
+          />
+        </div>
+      ) : (
+        <ModelExample
+          getComponent={ getComponent }
+          getConfigs={ getConfigs }
+          specSelectors={ specSelectors }
+          expandDepth={1}
+          isExecute={isExecute}
+          schema={mediaTypeValue.get("schema")}
+          specPath={specPath.push("content", contentType)}
+          example={<HighlightCode className="body-param__example"
+                               value={ stringify(requestBodyValue) }/>}
+          />
+      )
+    }
   </div>
 }
 

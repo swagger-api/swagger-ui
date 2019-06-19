@@ -197,6 +197,21 @@ export default class Parameters extends Component {
                 requestBody={requestBody}
                 requestBodyValue={oas3Selectors.requestBodyValue(...pathMethod) || Map()}
                 isExecute={isExecute}
+                activeExamplesKey={oas3Selectors.activeExamplesMember(
+                  ...pathMethod,
+                  "requestBody",
+                  "requestBody"
+                )}
+                updateActiveExamplesKey={key => {
+                  debugger // eslint-disable-line
+                  this.props.oas3Actions.setActiveExamplesMember({
+                    name: key,
+                    pathMethod: this.props.pathMethod,
+                    contextType: "requestBody",
+                    contextName: "requestBody"
+                  })
+                }
+                }
                 onChange={(value, path) => {
                   if(path) {
                     const lastValue = oas3Selectors.requestBodyValue(...pathMethod)

@@ -298,7 +298,7 @@ export default class ParameterRow extends Component {
                   onSelect={this._onExampleSelect}
                   getComponent={getComponent}
                   defaultToFirstExample={true}
-                  currentExampleKey={oas3Selectors.activeExamplesMember(...pathMethod, "parameters", parameterIndex)}
+                  currentKey={oas3Selectors.activeExamplesMember(...pathMethod, "parameters", parameterIndex)}
                 />
               </section>
             ) : null
@@ -311,7 +311,7 @@ export default class ParameterRow extends Component {
                 onSelect={this._onExampleSelect}
                 getComponent={getComponent}
                 defaultToFirstExample={true}
-                currentExampleKey={oas3Selectors.activeExamplesMember(...pathMethod, "parameters", parameterIndex)}
+                currentKey={oas3Selectors.activeExamplesMember(...pathMethod, "parameters", parameterIndex)}
               />
             ) : null
           }

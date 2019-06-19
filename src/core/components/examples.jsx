@@ -12,7 +12,7 @@ import ExamplesSelect from "./examples-select"
 export default class Examples extends React.PureComponent {
   static propTypes = {
     examples: ImPropTypes.map,
-    currentExampleKey: PropTypes.string,
+    currentKey: PropTypes.string,
     onSelect: PropTypes.func,
     getComponent: PropTypes.func.isRequired,
     showTitle: PropTypes.bool,
@@ -33,9 +33,9 @@ export default class Examples extends React.PureComponent {
   }
 
   getCurrentExample = () => {
-    const { examples, currentExampleKey } = this.props
+    const { examples, currentKey } = this.props
 
-    const currentExamplePerProps = examples.get(currentExampleKey)
+    const currentExamplePerProps = examples.get(currentKey)
 
     const firstExamplesKey = examples.keySeq().first()
     const firstExample = examples.get(firstExamplesKey)
@@ -58,7 +58,7 @@ export default class Examples extends React.PureComponent {
   render() {
     const {
       examples,
-      currentExampleKey,
+      currentKey,
       getComponent,
       showTitle,
       omitControls,
@@ -73,7 +73,7 @@ export default class Examples extends React.PureComponent {
         {!omitControls ? (
           <ExamplesSelect
             examples={examples}
-            currentExampleKey={currentExampleKey}
+            currentExampleKey={currentKey}
             onSelect={this._onSelect}
           />
         ) : null}

@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
-import { fromJS } from "immutable"
+import { fromJS, List } from "immutable"
 import { getSampleSchema, stringify } from "core/utils"
 
 const NOOP = Function.prototype
@@ -12,7 +12,6 @@ export default class RequestBodyEditor extends PureComponent {
     mediaType: PropTypes.string.isRequired,
     onChange: PropTypes.func,
     getComponent: PropTypes.func.isRequired,
-    isExecute: PropTypes.bool,
     specSelectors: PropTypes.object.isRequired,
   };
 
@@ -26,8 +25,6 @@ export default class RequestBodyEditor extends PureComponent {
     super(props, context)
 
     this.state = {
-      isEditBox: false,
-      userDidModify: false,
       value: ""
     }
   }
@@ -41,12 +38,6 @@ export default class RequestBodyEditor extends PureComponent {
       // media type was changed
       this.setValueToSample(nextProps.mediaType)
     }
-
-    if(!this.props.isExecute && nextProps.isExecute) {
-      // we just entered execute mode,
-      // so enable editing for convenience
-      this.setState({ isEditBox: true })
-    }
   }
 
   componentDidUpdate(prevProps) {
@@ -57,21 +48,25 @@ export default class RequestBodyEditor extends PureComponent {
   }
 
   setValueToSample = (explicitMediaType) => {
-    this.onChange(this.sample(explicitMediaType))
+    this.onChange(this.getSample(explicitMediaType))
   }
 
   resetValueToSample = (explicitMediaType) => {
-    this.setState({ userDidModify: false })
     this.setValueToSample(explicitMediaType)
   }
 
-  sample = (explicitMediaType) => {
-    let { requestBody, mediaType } = this.props
+  getSample = (explicitMediaType) => {
+    let { requestBody, mediaType, activeExamplesKey } = this.props
     let mediaTypeValue = requestBody.getIn(["content", explicitMediaType || mediaType])
     let schema = mediaTypeValue.get("schema").toJS()
     let mediaTypeExample = mediaTypeValue.get("example") !== undefined ? stringify(mediaTypeValue.get("example")) : null
+    let activeExamplesValue = mediaTypeValue.getIn(
+      ["examples", activeExamplesKey, "value"]
+    )
 
-    return mediaTypeExample || getSampleSchema(schema, explicitMediaType || mediaType, {
+    activeExamplesValue = List.isList(activeExamplesValue) ? activeExamplesValue : stringify(activeExamplesValue)
+
+    return activeExamplesValue || mediaTypeExample || getSampleSchema(schema, explicitMediaType || mediaType, {
       includeWriteOnly: true
     })
   }
@@ -86,45 +81,36 @@ export default class RequestBodyEditor extends PureComponent {
     const isJson = /json/i.test(mediaType)
     const inputValue = isJson ? e.target.value.trim() : e.target.value
 
-    this.setState({ userDidModify: true })
     this.onChange(inputValue)
   }
 
-  toggleIsEditBox = () => this.setState( state => ({isEditBox: !state.isEditBox}))
-
   render() {
     let {
-      isExecute,
       getComponent,
       mediaType,
     } = this.props
 
     const Button = getComponent("Button")
     const TextArea = getComponent("TextArea")
-    const HighlightCode = getComponent("highlightCode")
 
-    let { value, isEditBox, userDidModify } = this.state
+    let { value } = this.state
 
     return (
       <div className="body-param">
-        {
-          isEditBox && isExecute
-            ? <TextArea className={"body-param__text"} value={value} onChange={ this.handleOnChange }/>
-            : (value && <HighlightCode className="body-param__example"
-                               value={ value }/>)
-        }
+        <TextArea
+          className={"body-param__text"}
+          value={value}
+          onChange={ this.handleOnChange }
+        />
         <div className="body-param-options">
           <div className="body-param-edit">
-            {
-              !isExecute ? null
-                         : <Button className={isEditBox ? "btn cancel body-param__example-edit" : "btn edit body-param__example-edit"}
-                                   onClick={this.toggleIsEditBox}>{ isEditBox ? "Cancel" : "Edit"}
-                           </Button>
-
-            }
-            { userDidModify &&
-              <Button className="btn ml3" onClick={() => { this.resetValueToSample(mediaType) }}>Reset</Button>
-            }
+            <Button
+              className="btn"
+              disabled={value === this.getSample()}
+              onClick={() => { this.resetValueToSample(mediaType) }}
+            >
+              Set value to example
+            </Button>
           </div>
         </div>
 
