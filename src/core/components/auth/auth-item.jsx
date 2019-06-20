@@ -43,7 +43,9 @@ export default class Auths extends React.Component {
                                       getComponent={ getComponent }
                                       onChange={ onAuthChange } />
         break
-      default: authEl = <div key={ name }>Unknown security definition type { type }</div>
+      default: authEl = <div className="auth_row" key={ name }>
+        <p>Unknown security definition type { type }</p>
+      </div>
     }
 
     return (<div key={`${name}-jump`}>

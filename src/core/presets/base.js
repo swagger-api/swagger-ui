@@ -20,23 +20,17 @@ import AuthorizeBtnContainer from "core/containers/authorize-btn"
 import { 
   AuthorizeBtn, 
   AuthorizeOperationBtn, 
-  AuthorizationPopup
-} from "core/components/auth"
-import { 
+  AuthorizationPopup,
   Auths,
   AuthFormRow,
-  AuthError
-} from "core/components/auth-section"
-import { 
+  AuthError,
   AuthItem,
   ApiKeyAuth,
-  BasicAuth
-} from "core/components/auth-item"
-import {
+  BasicAuth,
   Oauth2,
   Oauth2Form,
   Oauth2FormData
-} from "core/components/oauth2-item"
+} from "core/components/auth"
 import Clear from "core/components/clear"
 import LiveResponse from "core/components/live-response"
 import OnlineValidatorBadge from "core/components/online-validator-badge"

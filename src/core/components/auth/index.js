@@ -1,4 +1,13 @@
 export { default as AuthorizeBtn } from "./auth-btn"
 export { default as AuthorizeOperationBtn } from "./auth-operation-btn"
 export { default as AuthorizationPopup } from "./auth-popup"
+export { default as Auths } from "./auth-section"
+export { default as AuthFormRow } from "./auth-form-row"
+export { default as AuthError } from "./auth-error"
+export { default as ApiKeyAuth } from "./auth-api-key"
+export { default as BasicAuth } from "./auth-basic"
+export { default as AuthItem } from "./auth-item"
+export { default as Oauth2 } from "./auth-oauth2"
+export { default as Oauth2Form } from "./auth-oauth2-form"
+export { default as Oauth2FormData } from "./auth-oauth2-data"
 
