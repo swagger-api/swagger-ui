@@ -1,6 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
 
+import { Button } from "components/layout-utils"
+
 export default class TryItOutButton extends React.Component {
 
   static propTypes = {
@@ -21,8 +23,21 @@ export default class TryItOutButton extends React.Component {
     return (
       <div className="try-out">
         {
-          enabled ? <button className="btn try-out__btn cancel" onClick={ onCancelClick }>Cancel</button>
-                  : <button className="btn try-out__btn" onClick={ onTryoutClick }>Try it out </button>
+          enabled 
+            ? <Button
+                className="try-out__btn cancel"
+                mod="secondary"
+                onClick={ onCancelClick }
+              >
+                <span>Cancel</span>
+              </Button>
+            : <Button
+                className="try-out__btn"
+                mod="primary"
+                onClick={ onTryoutClick }
+              >
+                <span>Try it out</span>
+              </Button>
         }
       </div>
     )

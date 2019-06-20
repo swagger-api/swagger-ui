@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import Im, { Map } from "immutable"
 import PropTypes from "prop-types"
+import cx from "classnames"
 
 export default class Models extends Component {
   static propTypes = {
@@ -18,7 +19,7 @@ export default class Models extends Component {
   }
 
   getCollapsedContent = () => {
-    return " "
+    return ""
   }
 
   handleToggle = (name, isExpanded) => {
@@ -43,13 +44,17 @@ export default class Models extends Component {
     const Collapse = getComponent("Collapse")
     const ModelCollapse = getComponent("ModelCollapse")
     const JumpToPath = getComponent("JumpToPath")
+    const Icon = getComponent("Icon")
 
     return <section className={ showModels ? "models is-open" : "models"}>
       <h4 onClick={() => layoutActions.show("models", !showModels)}>
         <span>{isOAS3 ? "Schemas" : "Models" }</span>
-        <svg width="20" height="20">
-          <use xlinkHref={showModels ? "#large-arrow-down" : "#large-arrow"} />
-        </svg>
+        <Icon
+          icon={cx({
+            "angle-down-light": showModels,
+            "angle-up-light": !showModels,
+          })}
+        />
       </h4>
       <Collapse isOpened={showModels}>
         {
@@ -62,10 +67,11 @@ export default class Models extends Component {
 
             const schema = Map.isMap(schemaValue) ? schemaValue : Im.Map()
             const rawSchema = Map.isMap(rawSchemaValue) ? rawSchemaValue : Im.Map()
-            
-            const displayName = schema.get("title") || rawSchema.get("title") || name
 
-            if(layoutSelectors.isShown(["models", name], false) && (schema.size === 0 && rawSchema.size > 0)) {
+            const displayName = schema.get("title") || rawSchema.get("title") || name
+            const isShown = layoutSelectors.isShown( ["models", name], false )
+
+            if( isShown && (schema.size === 0 && rawSchema.size > 0) ) {
               // Firing an action in a container render is not great,
               // but it works for now.
               this.props.specActions.requestResolvedSubtree([...this.getSchemaBasePath(), name])
@@ -100,7 +106,7 @@ export default class Models extends Component {
                 displayName={displayName}
                 modelName={name}
                 hideSelfOnExpand={true}
-                expanded={defaultModelsExpandDepth > 1}
+                expanded={ defaultModelsExpandDepth > 0 && isShown }
                 >{content}</ModelCollapse>
               </div>
           }).toArray()
