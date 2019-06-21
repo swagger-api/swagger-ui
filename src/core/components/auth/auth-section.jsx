@@ -4,7 +4,9 @@ import ImPropTypes from "react-immutable-proptypes"
 
 export default class Auths extends React.Component {
   static propTypes = {
-    definitions: PropTypes.object.isRequired,
+    errSelectors: PropTypes.object.isRequired,
+    definition: ImPropTypes.map.isRequired,
+    name: PropTypes.string.isRequired,
     getComponent: PropTypes.func.isRequired,
     authSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
@@ -33,12 +35,9 @@ export default class Auths extends React.Component {
   logoutClick =(e) => {
     e.preventDefault()
 
-    let { authActions, definitions } = this.props
-    let auths = definitions.map( (val, key) => {
-      return key
-    }).toArray()
+    let { authActions, name } = this.props
 
-    authActions.logout(auths)
+    authActions.logout([name])
   }
 
   close =(e) => {
@@ -49,82 +48,50 @@ export default class Auths extends React.Component {
   }
 
   render() {
-    let { definitions, getComponent, authSelectors, errSelectors } = this.props
+    let { definition, name, getComponent, authSelectors, errSelectors } = this.props
     const AuthItem = getComponent("AuthItem")
     const Oauth2 = getComponent("oauth2", true)
     const AuthBtnGroup = getComponent("AuthBtnGroup")
 
-    let authorized = authSelectors.authorized()
+    let authorizedAuth = authSelectors.authorized()
+    let isAuthorized = !!authorizedAuth.get(name)
 
-    let authorizedAuth = definitions.filter( (definition, key) => {
-      return !!authorized.get(key)
-    })
-
-    let nonOauthDefinitions = definitions.filter( schema => schema.get("type") !== "oauth2")
-    let oauthDefinitions = definitions.filter( schema => schema.get("type") === "oauth2")
+    let isOauthDefinition = definition.get("type") === "oauth2"
 
     return (
       <div className="auth-container">
         {
-          !!nonOauthDefinitions.size && <form onSubmit={ this.submitAuth }>
-            {
-              nonOauthDefinitions.map( (schema, name) => {
-                return <AuthItem
-                  key={name}
-                  schema={schema}
-                  name={name}
-                  getComponent={getComponent}
-                  onAuthChange={this.onAuthChange}
-                  authorized={authorized}
-                  errSelectors={errSelectors}
-                  />
-              }).toArray()
-            }
+          !isOauthDefinition && <div>
+            <AuthItem
+                schema={definition}
+                name={name}
+                getComponent={getComponent}
+                onAuthChange={this.onAuthChange}
+                authorized={authorizedAuth}
+                errSelectors={errSelectors}
+                />
             
             <AuthBtnGroup
               getComponent={getComponent}
-              authorized={nonOauthDefinitions.size === authorizedAuth.size}
+              authorized={isAuthorized}
               logoutClick={this.logoutClick}
               authorizeClick={this.submitAuth}
               closeClick={this.close}
             />
-          </form>
+          </div>
         }
 
         {
-          oauthDefinitions && oauthDefinitions.size ? <div>
-          <div className="auth__description">
-            <div>
-              <p>Scopes are used to grant an application different levels of access to data on behalf of the end user. Each API may declare one or more scopes.</p>
-            </div>
-            <div>
-              <p>API requires the following scopes. Select which ones you want to grant to Swagger UI.</p>
-            </div>
-          </div>
-            {
-              definitions.filter( schema => schema.get("type") === "oauth2")
-                .map( (schema, name) =>{
-                  return (<div key={ name }>
-                    <Oauth2 authorized={ authorized }
-                            schema={ schema }
-                            name={ name } />
-                  </div>)
-                }
-                ).toArray()
-            }
+          isOauthDefinition ? <div>
+            <Oauth2 authorized={ authorizedAuth }
+                    schema={ definition }
+                    name={ name } />
           </div> : null
         }
 
       </div>
     )
   }
-
-  static propTypes = {
-    errSelectors: PropTypes.object.isRequired,
-    getComponent: PropTypes.func.isRequired,
-    authSelectors: PropTypes.object.isRequired,
-    specSelectors: PropTypes.object.isRequired,
-    authActions: PropTypes.object.isRequired,
-    definitions: ImPropTypes.iterable.isRequired
-  }
 }
+
+

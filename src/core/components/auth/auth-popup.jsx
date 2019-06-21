@@ -22,8 +22,9 @@ export default class AuthorizationPopup extends React.Component {
       {
         definitions.valueSeq().map(( definition, key ) => {
           return <Auths key={ key }
-                        AST={AST}
-                        definitions={ definition }
+                        AST={ AST }
+                        name={ definition.keySeq().first() }
+                        definition={ definition.first() }
                         getComponent={ getComponent }
                         errSelectors={ errSelectors }
                         authSelectors={ authSelectors }

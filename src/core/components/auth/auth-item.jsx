@@ -4,6 +4,8 @@ import ImPropTypes from "react-immutable-proptypes"
 
 export default class Auths extends React.Component {
   static propTypes = {
+    errSelectors: PropTypes.object.isRequired,
+    getComponent: PropTypes.func.isRequired,
     schema: ImPropTypes.orderedMap.isRequired,
     name: PropTypes.string.isRequired,
     onAuthChange: PropTypes.func.isRequired,
@@ -51,14 +53,5 @@ export default class Auths extends React.Component {
     return (<div key={`${name}-jump`}>
       { authEl }
     </div>)
-  }
-
-  static propTypes = {
-    errSelectors: PropTypes.object.isRequired,
-    getComponent: PropTypes.func.isRequired,
-    authSelectors: PropTypes.object.isRequired,
-    specSelectors: PropTypes.object.isRequired,
-    authActions: PropTypes.object.isRequired,
-    definitions: ImPropTypes.iterable.isRequired
   }
 }
