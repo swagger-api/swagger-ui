@@ -54,15 +54,18 @@ input[type=email],
 input[type=file],
 textarea
 {
-    min-width: 100px;
-    margin: 5px 0;
-    padding: 8px 10px;
+    display: flex;
+    flex: 1;
+    min-width: 6.25rem;
+    padding: .5rem .625rem;
+    height: 1.875rem;
+    font-size: $sm-text-font-size;
 
     border: 1px solid $form-input-border-color;
     border-radius: 4px;
     background: $form-input-background-color;
     @media (max-width: 768px) {
-      max-width: 175px;
+      max-width: 10.9375rem;
     }
 
 
@@ -70,6 +73,10 @@ textarea
     {
         @include invalidFormElement();
     }
+}
+
+input[type=file] {
+    padding: .375rem .375rem;
 }
 
 @keyframes shake
@@ -105,8 +112,8 @@ textarea
     font-size: 12px;
 
     width: 100%;
-    min-height: 280px;
-    padding: 10px;
+    min-height: 17.5rem;
+    padding: .625rem;
 
     border: none;
     border-radius: 4px;
@@ -124,9 +131,9 @@ textarea
     {
         font-size: 12px;
 
-        min-height: 100px;
+        min-height: 6.25rem;
         margin: 0;
-        padding: 10px;
+        padding: .625rem;
 
         resize: none;
 
@@ -140,7 +147,7 @@ textarea
 
 .checkbox
 {
-    padding: 5px 0 10px;
+    padding: .5em 0 1em;
 
     transition: opacity .5s;
 
@@ -168,20 +175,19 @@ textarea
         & + label > .item
         {
             position: relative;
-            top: 3px;
+            top: .3em;
 
             display: inline-block;
 
-            width: 16px;
-            height: 16px;
-            margin: 0 8px 0 0;
-            padding: 5px;
+            width: 1.6em;
+            height: 1.6em;
+            margin: 0 .8em 0 0;
+            padding: .5em;
 
             cursor: pointer;
 
-            border-radius: 1px;
-            background: $form-checkbox-background-color;
-            box-shadow: 0 0 0 2px $form-checkbox-box-shadow-color;
+            border-radius: 2px;
+            border: 1px solid $form-checkbox-border-color;
 
             flex: none;
 
