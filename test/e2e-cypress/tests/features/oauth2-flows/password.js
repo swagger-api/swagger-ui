@@ -10,7 +10,7 @@ describe("OAuth2 Password flow", function() {
   it("should make a password flow Authorization header request", () => {
     cy
       .visit("/?url=http://localhost:3231/swagger.yaml")
-      .get(".btn.authorize")
+      .get(".sui-btn.sui-btn--authorize")
       .click()
 
       .get("#oauth_username")
@@ -30,7 +30,7 @@ describe("OAuth2 Password flow", function() {
       .clear()
       .type("secret")
 
-      .get("div.modal-ux-content > div:nth-child(1) > div > div:nth-child(2) > div > div.auth-btn-wrapper > button.btn.modal-btn.auth.authorize.button")
+      .get("div.modal-ux-content > div:nth-child(1) > div > div:nth-child(2) > div > div.auth-btn-wrapper > button.sui-btn--primary")
       .click()
 
       .get("button.close-modal")
@@ -39,10 +39,10 @@ describe("OAuth2 Password flow", function() {
       .get("#operations-default-get_password")
       .click()
 
-      .get(".btn.try-out__btn")
+      .get(".sui-btn.try-out__btn")
       .click()
 
-      .get(".btn.execute")
+      .get(".sui-btn.execute")
       .click()
 
     cy.get("@tokenRequest")
@@ -67,7 +67,7 @@ describe("OAuth2 Password flow", function() {
   it("should make a Password flow request-body request", () => {
     cy
       .visit("/?url=http://localhost:3231/swagger.yaml")
-      .get(".btn.authorize")
+      .get(".sui-btn.sui-btn--authorize")
       .click()
 
       .get("#oauth_username")
@@ -87,7 +87,7 @@ describe("OAuth2 Password flow", function() {
       .clear()
       .type("secret")
 
-      .get("div.modal-ux-content > div:nth-child(1) > div > div:nth-child(2) > div > div.auth-btn-wrapper > button.btn.modal-btn.auth.authorize.button")
+      .get("div.modal-ux-content > div:nth-child(1) > div > div:nth-child(2) > div > div.auth-btn-wrapper > button.sui-btn--primary")
       .click()
 
       .get("button.close-modal")
@@ -96,10 +96,10 @@ describe("OAuth2 Password flow", function() {
       .get("#operations-default-get_password")
       .click()
 
-      .get(".btn.try-out__btn")
+      .get(".sui-btn.try-out__btn")
       .click()
 
-      .get(".btn.execute")
+      .get(".sui-btn.execute")
       .click()
 
     cy.get("@tokenRequest")

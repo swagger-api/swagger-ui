@@ -126,6 +126,14 @@ $browser-context: 16;
     @return $pixels / $context * 1em;
 }
 
+@function alter-hue($color) {
+    @if (lightness($color) > 50) {
+      @return darken($color, 10%);
+    } @else {
+      @return lighten($color, 10%);
+    }
+  }
+
 @mixin maxHeight($height)
 {
     @media (max-height: $height)

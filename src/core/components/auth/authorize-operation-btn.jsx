@@ -1,11 +1,14 @@
 import React from "react"
 import PropTypes from "prop-types"
+import cx from "classnames"
+
+import { Button } from "components/layout-utils"
 
 export default class AuthorizeOperationBtn extends React.Component {
-    static propTypes = {
-      isAuthorized: PropTypes.bool.isRequired,
-      onClick: PropTypes.func
-    }
+  static propTypes = {
+    isAuthorized: PropTypes.bool.isRequired,
+    onClick: PropTypes.func
+  }
 
   onClick =(e) => {
     e.stopPropagation()
@@ -20,14 +23,25 @@ export default class AuthorizeOperationBtn extends React.Component {
     let { isAuthorized } = this.props
 
     return (
-      <button className={isAuthorized ? "authorization__btn locked" : "authorization__btn unlocked"}
-        aria-label={isAuthorized ? "authorization button locked" : "authorization button unlocked"}
-        onClick={this.onClick}>
+      <Button
+        unstyled
+        className={cx("sui-btn-transparent authorization__btn", {
+          "locked": isAuthorized,
+          "unlocked": !isAuthorized
+        })}
+        aria-label={cx("authorization button", {
+          "locked": isAuthorized,
+          "unlocked": !isAuthorized
+        })}
+        onClick={this.onClick}
+      >
         <svg width="20" height="20">
-          <use href={ isAuthorized ? "#locked" : "#unlocked" } xlinkHref={ isAuthorized ? "#locked" : "#unlocked" } />
+          <use
+            href={ isAuthorized ? "#locked" : "#unlocked" }
+            xlinkHref={ isAuthorized ? "#locked" : "#unlocked" }
+          />
         </svg>
-      </button>
-
+      </Button>
     )
   }
 }

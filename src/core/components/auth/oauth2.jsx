@@ -231,13 +231,15 @@ export default class Oauth2 extends React.Component {
                               key={ key }/>
           } )
         }
-        <div className="auth-btn-wrapper">
+        <div className="auth-btn-wrapper sui-btn-wrapper">
         { isValid &&
-          ( isAuthorized ? <Button className="btn modal-btn auth authorize" onClick={ this.logout }>Logout</Button>
-        : <Button className="btn modal-btn auth authorize" onClick={ this.authorize }>Authorize</Button>
+          ( 
+            isAuthorized 
+              ? <Button className="modal-btn" mod="tertiary-lt" onClick={ this.logout }><span>Logout</span></Button>
+              : <Button className="modal-btn" mod="primary" onClick={ this.authorize }><span>Authorize</span></Button>
           )
         }
-          <Button className="btn modal-btn auth btn-done" onClick={ this.close }>Close</Button>
+          <Button className="modal-btn" mod="secondary" onClick={ this.close }><span>Close</span></Button>
         </div>
 
       </div>
