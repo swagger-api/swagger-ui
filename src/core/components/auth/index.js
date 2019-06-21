@@ -10,4 +10,5 @@ export { default as AuthItem } from "./auth-item"
 export { default as Oauth2 } from "./auth-oauth2"
 export { default as Oauth2Form } from "./auth-oauth2-form"
 export { default as Oauth2FormData } from "./auth-oauth2-data"
+export { default as AuthBtnGroup } from "./auth-btn-group"
 

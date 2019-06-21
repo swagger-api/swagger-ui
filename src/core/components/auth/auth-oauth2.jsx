@@ -91,7 +91,7 @@ export default class Oauth2 extends React.Component {
     let {
       schema, getComponent, authSelectors, errSelectors, name, specSelectors
     } = this.props
-    const Button = getComponent("Button")
+    const AuthBtnGroup = getComponent("AuthBtnGroup")
     const AuthError = getComponent("authError")
     const JumpToPath = getComponent("JumpToPath", true)
     const Markdown = getComponent( "Markdown" )
@@ -111,7 +111,7 @@ export default class Oauth2 extends React.Component {
     let authorizedAuth = authSelectors.authorized().get(name)
     let isAuthorized = !!authorizedAuth
     let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
-    let isValid = !errors.filter( err => err.get("source") === "validation").size
+    let inValid = errors.filter( err => err.get("source") === "validation").size
     let description = schema.get("description")
 
     const showAuthURL = flow === IMPLICIT || flow === ACCESS_CODE
@@ -192,16 +192,14 @@ export default class Oauth2 extends React.Component {
           } )
         }
 
-        <div className="auth-btn-wrapper sui-btn-wrapper">
-        { isValid &&
-          ( 
-            isAuthorized 
-              ? <Button className="modal-btn" mod="tertiary-lt" onClick={ this.logout }><span>Logout</span></Button>
-              : <Button className="modal-btn" mod="primary" onClick={ this.authorize }><span>Authorize</span></Button>
-          )
-        }
-          <Button className="modal-btn" mod="secondary" onClick={ this.close }><span>Close</span></Button>
-        </div>
+        <AuthBtnGroup
+          getComponent={getComponent}
+          authorized={isAuthorized}
+          inValid={inValid}
+          logoutClick={this.logout}
+          authorizeClick={this.authorize}
+          closeClick={this.close}
+        />
 
       </div>
     )
