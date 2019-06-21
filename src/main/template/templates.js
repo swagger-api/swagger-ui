@@ -141,13 +141,13 @@ templates['main'] = template({"1":function(container,depth0,helpers,partials,dat
     + ((stack1 = (helpers.sanitize || (depth0 && depth0.sanitize) || alias2).call(alias1,((stack1 = (depth0 != null ? depth0.externalDocs : depth0)) != null ? stack1.description : stack1),{"name":"sanitize","hash":{},"data":data})) != null ? stack1 : "")
     + "</p>\n  <a href=\""
     + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,((stack1 = (depth0 != null ? depth0.externalDocs : depth0)) != null ? stack1.url : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
-    + "\" target=\"_blank\">"
+    + "\" target=\"_blank\" rel=\"noopener noreferrer\">"
     + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,((stack1 = (depth0 != null ? depth0.externalDocs : depth0)) != null ? stack1.url : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
     + "</a>\n";
 },"4":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return "<div class=\"info_tos\"><a target=\"_blank\" href=\""
+  return "<div class=\"info_tos\"><a target=\"_blank\" rel=\"noopener noreferrer\" href=\""
     + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || helpers.helperMissing).call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.termsOfServiceUrl : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
     + "\" data-sw-translate>Terms of service</a></div>";
 },"6":function(container,depth0,helpers,partials,data) {
@@ -159,7 +159,7 @@ templates['main'] = template({"1":function(container,depth0,helpers,partials,dat
 },"8":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
 
-  return "<div class='info_url' data-sw-translate>See more at <a href=\""
+  return "<div class='info_url' data-sw-translate>See more at <a target=\"_blank\" rel=\"noopener noreferrer\" href=\""
     + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.url : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
     + "\">"
     + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.contact : stack1)) != null ? stack1.url : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
@@ -175,7 +175,7 @@ templates['main'] = template({"1":function(container,depth0,helpers,partials,dat
 },"12":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
 
-  return "<div class='info_license'><a target=\"_blank\" href='"
+  return "<div class='info_license'><a target=\"_blank\" rel=\"noopener noreferrer\" href='"
     + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.license : stack1)) != null ? stack1.url : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
     + "'>"
     + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,((stack1 = ((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.license : stack1)) != null ? stack1.name : stack1),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
@@ -189,7 +189,7 @@ templates['main'] = template({"1":function(container,depth0,helpers,partials,dat
 },"16":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing;
 
-  return "    <span style=\"float:right\"><a target=\"_blank\" href=\""
+  return "    <span style=\"float:right\"><a target=\"_blank\" rel=\"noopener noreferrer\" href=\""
     + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,(depth0 != null ? depth0.validatorUrl : depth0),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
     + "/debug?url="
     + ((stack1 = (helpers.escape || (depth0 && depth0.escape) || alias2).call(alias1,(depth0 != null ? depth0.url : depth0),{"name":"escape","hash":{},"data":data})) != null ? stack1 : "")
