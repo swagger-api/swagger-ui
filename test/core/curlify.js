@@ -61,7 +61,7 @@ describe("curlify", function() {
 
         let curlified = curl(Im.fromJS(req))
 
-        expect(curlified).toEqual("curl -X GET \"http://swaggerhub.com/v1/one?name=john|smith\" -H  \"authorization: Basic Zm9vOmJhcg==\"")
+        expect(curlified).toEqual("curl -X GET \"http://swaggerhub.com/v1/one?name=john|smith\" -u foo")
     })
 
     it("prints a curl statement with html", function() {

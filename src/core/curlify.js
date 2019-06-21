@@ -1,4 +1,5 @@
 import win from "./window"
+import { atob } from "core/utils"
 
 export default function curl( request ){
   let curlified = []
@@ -8,12 +9,35 @@ export default function curl( request ){
   curlified.push( "-X", request.get("method") )
   curlified.push( `"${request.get("url")}"`)
 
+
+  function getBasicAuthUser(authHeader) {
+    if (authHeader.startsWith("Basic ")) {
+      let b64Decoded = atob(authHeader.substr(6))
+      let colonIdx = b64Decoded.indexOf(":")
+      if (colonIdx < 0) {
+        return undefined
+      }
+      return b64Decoded.substr(0, colonIdx)
+    }
+  }
+
+  let user = ""
   if ( headers && headers.size ) {
     for( let p of request.get("headers").entries() ){
       let [ h,v ] = p
+      if (h == "authorization") {
+        user = getBasicAuthUser(v)
+      }
+    }
+    for( let p of request.get("headers").entries() ){
+      let [ h,v ] = p
       type = v
-      curlified.push( "-H " )
-      curlified.push( `"${h}: ${v}"` )
+      if (h == "authorization" && user) {
+        curlified.push("-u", user)
+      } else {
+        curlified.push( "-H " )
+        curlified.push( `"${h}: ${v}"` )
+      }
     }
   }
 

@@ -685,6 +685,10 @@ export const btoa = (str) => {
   return buffer.toString("base64")
 }
 
+export const atob = (str) => {
+  return new Buffer(str, "base64").toString()
+}
+
 export const sorters = {
   operationsSorter: {
     alpha: (a, b) => a.get("path").localeCompare(b.get("path")),
