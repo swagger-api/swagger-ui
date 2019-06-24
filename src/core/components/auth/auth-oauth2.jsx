@@ -5,7 +5,7 @@ import oauth2Authorize from "core/oauth2-authorize"
 export default class Oauth2 extends React.Component {
   static propTypes = {
     name: PropTypes.string,
-    authorized: PropTypes.object,
+    authorizedData: PropTypes.object,
     getComponent: PropTypes.func.isRequired,
     schema: PropTypes.object.isRequired,
     authSelectors: PropTypes.object.isRequired,
@@ -18,8 +18,8 @@ export default class Oauth2 extends React.Component {
 
   constructor(props, context) {
     super(props, context)
-    let { name, schema, authorized, authSelectors } = this.props
-    let auth = authorized && authorized.get(name)
+    let { name, schema, authorizedData, authSelectors } = this.props
+    let auth = authorizedData && authorizedData.get(name)
     let authConfigs = authSelectors.getConfigs() || {}
     let username = auth && auth.get("username") || ""
     let clientId = auth && auth.get("clientId") || authConfigs.clientId || ""
@@ -88,13 +88,18 @@ export default class Oauth2 extends React.Component {
   }
 
   render() {
-    let {
-      schema, getComponent, authSelectors, errSelectors, name, specSelectors
+    const {
+      schema,
+      getComponent,
+      errSelectors,
+      name,
+      specSelectors,
+      authorizedData
     } = this.props
+
     const AuthBtnGroup = getComponent("AuthBtnGroup")
     const AuthError = getComponent("authError")
-    const JumpToPath = getComponent("JumpToPath", true)
-    const Markdown = getComponent( "Markdown" )
+    const AuthOauth2Info = getComponent("AuthOauth2Info")
     const Oauth2Form = getComponent("Oauth2Form")
     const Oauth2FormData = getComponent("Oauth2FormData")
 
@@ -108,15 +113,14 @@ export default class Oauth2 extends React.Component {
 
     let flow = schema.get("flow")
     let scopes = schema.get("allowedScopes") || schema.get("scopes")
-    let authorizedAuth = authSelectors.authorized().get(name)
+    let authorizedAuth = authorizedData.get(name)
     let isAuthorized = !!authorizedAuth
     let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
     let inValid = errors.filter( err => err.get("source") === "validation").size
-    let description = schema.get("description")
 
     const showAuthURL = flow === IMPLICIT || flow === ACCESS_CODE
     const showTokenURL = flow === PASSWORD || flow === ACCESS_CODE || flow === APPLICATION
-    const showBasicCreds = !(flow !== PASSWORD)
+    const showBasicCreds = (flow === PASSWORD)
     const showClientID = (!isAuthorized || isAuthorized && this.state.clientId)
       && (flow === APPLICATION || flow === IMPLICIT || flow === ACCESS_CODE || flow === PASSWORD)
     const showClientSecret = (flow === APPLICATION || flow === ACCESS_CODE || flow === PASSWORD)
@@ -124,49 +128,15 @@ export default class Oauth2 extends React.Component {
 
     return (
       <div>
-        <div className="auth__description">
-            <div>
-              <p>Scopes are used to grant an application different levels of access to data on behalf of the end user. Each API may declare one or more scopes.</p>
-            </div>
-            <div>
-              <p>API requires the following scopes. Select which ones you want to grant to Swagger UI.</p>
-            </div>
-          </div>
-          
-        <div className="auth__header">
-          <h4>
-            {name} (OAuth2, { schema.get("flow") }) <JumpToPath path={[ "securityDefinitions", name ]} />
-          </h4>
-        </div>
-
-        { !this.state.appName 
-          ? null 
-          : <div className="auth__row">
-              <h5>Application: { this.state.appName } </h5>
-            </div> 
-        }
-
-        { description && <div className="auth__row">
-            <Markdown source={description} />
-          </div> 
-        }
-
-        { isAuthorized && <div className="auth__row">
-            <h6>Authorized</h6>
-          </div> }
-
-        { showAuthURL && <div className="auth__row">
-          <p>Authorization URL: <code>{ schema.get("authorizationUrl") }</code></p>
-          </div>
-        }
-
-        { showTokenURL && <div className="auth__row">
-            <p>Token URL: <code> { schema.get("tokenUrl") }</code></p>
-          </div>
-        }
-        <div className="auth__row"> 
-          <p className="flow">Flow: <code>{ flow }</code></p>
-        </div>
+        <AuthOauth2Info
+          getComponent={getComponent}
+          name={name}
+          schema={schema}
+          appName={this.state.appName}
+          isAuthorized={isAuthorized}
+          showAuthURL={showAuthURL}
+          showTokenURL={showTokenURL}
+        />
 
         {
           isAuthorized
@@ -203,7 +173,7 @@ export default class Oauth2 extends React.Component {
 
         <AuthBtnGroup
           getComponent={getComponent}
-          authorized={isAuthorized}
+          isAuthorized={isAuthorized}
           inValid={inValid}
           logoutClick={this.logout}
           authorizeClick={this.authorize}

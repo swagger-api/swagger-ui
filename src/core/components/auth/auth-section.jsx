@@ -53,8 +53,8 @@ export default class Auths extends React.Component {
     const Oauth2 = getComponent("oauth2", true)
     const AuthBtnGroup = getComponent("AuthBtnGroup")
 
-    let authorizedAuth = authSelectors.authorized()
-    let isAuthorized = !!authorizedAuth.get(name)
+    let authorizedData = authSelectors.authorized()
+    let isAuthorized = !!authorizedData.get(name)
 
     let isOauthDefinition = definition.get("type") === "oauth2"
 
@@ -63,17 +63,17 @@ export default class Auths extends React.Component {
         {
           !isOauthDefinition && <div>
             <AuthItem
-                schema={definition}
-                name={name}
-                getComponent={getComponent}
-                onAuthChange={this.onAuthChange}
-                authorized={authorizedAuth}
-                errSelectors={errSelectors}
-                />
+              schema={definition}
+              name={name}
+              getComponent={getComponent}
+              onAuthChange={this.onAuthChange}
+              authorizedData={authorizedData}
+              errSelectors={errSelectors}
+            />
             
             <AuthBtnGroup
               getComponent={getComponent}
-              authorized={isAuthorized}
+              isAuthorized={isAuthorized}
               logoutClick={this.logoutClick}
               authorizeClick={this.submitAuth}
               closeClick={this.close}
@@ -83,7 +83,7 @@ export default class Auths extends React.Component {
 
         {
           isOauthDefinition ? <div>
-            <Oauth2 authorized={ authorizedAuth }
+            <Oauth2 authorizedData={ authorizedData }
                     schema={ definition }
                     name={ name } />
           </div> : null

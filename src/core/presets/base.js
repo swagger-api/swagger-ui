@@ -29,6 +29,7 @@ import {
   ApiKeyAuth,
   BasicAuth,
   Oauth2,
+  AuthOauth2Info,
   Oauth2Form,
   Oauth2FormData
 } from "core/components/auth"
@@ -109,6 +110,7 @@ export default function() {
       AuthItem: AuthItem,
       AuthBtnGroup,
       AuthFormRow,
+      AuthOauth2Info,
       Oauth2Form,
       Oauth2FormData,
       authError: AuthError,

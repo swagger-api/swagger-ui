@@ -1,13 +1,13 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-const AuthBtnGroup = ({ getComponent, authorized, inValid, logoutClick, authorizeClick, closeClick }) => {
+const AuthBtnGroup = ({ getComponent, isAuthorized, inValid, logoutClick, authorizeClick, closeClick }) => {
 	const Button = getComponent("Button")
 
 	return (
 		<div className="auth-btn-wrapper sui-btn-wrapper">
 			{ !inValid && (
-					authorized
+					isAuthorized
 						? <Button className="modal-btn" mod="tertiary-lt" onClick={ logoutClick } >
 								<span>Logout</span>
 							</Button>
@@ -25,7 +25,7 @@ const AuthBtnGroup = ({ getComponent, authorized, inValid, logoutClick, authoriz
 
 AuthBtnGroup.propTypes = {
 	getComponent: PropTypes.func.isRequired,
-	authorized: PropTypes.bool.isRequired,
+	isAuthorized: PropTypes.bool.isRequired,
 	inValid: PropTypes.bool,
 	logoutClick: PropTypes.func.isRequired,
 	authorizeClick: PropTypes.func,

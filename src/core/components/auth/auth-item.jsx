@@ -9,7 +9,7 @@ export default class Auths extends React.Component {
     schema: ImPropTypes.orderedMap.isRequired,
     name: PropTypes.string.isRequired,
     onAuthChange: PropTypes.func.isRequired,
-    authorized: ImPropTypes.orderedMap.isRequired
+    authorizedData: ImPropTypes.orderedMap.isRequired
   }
 
   render() {
@@ -18,7 +18,7 @@ export default class Auths extends React.Component {
       name,
       getComponent,
       onAuthChange,
-      authorized,
+      authorizedData,
       errSelectors
     } = this.props
     const ApiKeyAuth = getComponent("apiKeyAuth")
@@ -29,23 +29,23 @@ export default class Auths extends React.Component {
     const type = schema.get("type")
 
     switch(type) {
-      case "apiKey": authEl = <ApiKeyAuth key={ name }
+      case "apiKey": authEl = <ApiKeyAuth
                                         schema={ schema }
                                         name={ name }
                                         errSelectors={ errSelectors }
-                                        authorized={ authorized }
+                                        authorized={ authorizedData }
                                         getComponent={ getComponent }
                                         onChange={ onAuthChange } />
         break
-      case "basic": authEl = <BasicAuth key={ name }
+      case "basic": authEl = <BasicAuth
                                       schema={ schema }
                                       name={ name }
                                       errSelectors={ errSelectors }
-                                      authorized={ authorized }
+                                      authorized={ authorizedData }
                                       getComponent={ getComponent }
                                       onChange={ onAuthChange } />
         break
-      default: authEl = <div className="auth_row" key={ name }>
+      default: authEl = <div className="auth_row">
         <p>Unknown security definition type { type }</p>
       </div>
     }
