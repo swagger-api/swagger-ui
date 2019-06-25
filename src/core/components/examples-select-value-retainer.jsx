@@ -26,6 +26,8 @@ import ExamplesSelect from "./examples-select"
 //
 // TL;DR: this is not our usual approach, but the choice was made consciously.
 
+// Note that `currentNamespace` isn't currently used anywhere!
+
 export default class ExamplesSelectValueRetainer extends React.PureComponent {
   static propTypes = {
     examples: ImPropTypes.map,

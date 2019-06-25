@@ -158,7 +158,6 @@ const RequestBody = ({
             onSelect={handleExamplesSelect}
             updateValue={onChange}
             defaultToFirstExample={true}
-            currentNamespace={contentType}
             getComponent={getComponent}
           />
       ) : null
