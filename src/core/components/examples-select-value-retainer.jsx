@@ -34,11 +34,13 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
     getComponent: PropTypes.func.isRequired,
     currentUserInputValue: PropTypes.any,
     currentKey: PropTypes.string,
+    currentNamespace: PropTypes.string,
     // (also proxies props for Examples)
   }
 
   static defaultProps = {
     examples: Map({}),
+    currentNamespace: "__DEFAULT__NAMESPACE__",
     onSelect: (...args) =>
       console.log(
         "ExamplesSelectValueRetainer: no `onSelect` function was provided",
@@ -60,12 +62,32 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
       // user edited: last value that came from the world around us, and didn't
       // match the current example's value
       // internal: last value that came from user selecting an Example
-      lastUserEditedValue: this.props.currentUserInputValue,
-      lastDownstreamValue: valueFromExample,
-      isModifiedValueSelected:
-        valueFromExample !== undefined &&
-        this.props.currentUserInputValue !== valueFromExample,
+      [props.currentNamespace]: Map({
+        lastUserEditedValue: this.props.currentUserInputValue,
+        lastDownstreamValue: valueFromExample,
+        isModifiedValueSelected:
+          // valueFromExample !== undefined &&
+          this.props.currentUserInputValue !== valueFromExample,
+      }),
     }
+  }
+
+  _getStateForCurrentNamespace = () => {
+    const { currentNamespace } = this.props
+
+    return (this.state[currentNamespace] || Map()).toJS()
+  }
+
+  _setStateForCurrentNamespace = obj => {
+    const { currentNamespace } = this.props
+
+    return this._setStateForNamespace(currentNamespace, obj)
+  }
+
+  _setStateForNamespace = (namespace, obj) => {
+    return this.setState({
+      [namespace]: (this.state[namespace] || Map()).merge(obj),
+    })
   }
 
   _isCurrentUserInputSameAsExampleValue = () => {
@@ -92,13 +114,13 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
 
   _onExamplesSelect = (key, { isSyntheticChange } = {}, ...otherArgs) => {
     const { onSelect, updateValue, currentUserInputValue } = this.props
-    const { lastUserEditedValue } = this.state
+    const { lastUserEditedValue } = this._getStateForCurrentNamespace()
 
     const valueFromExample = this._getValueForExample(key)
 
     if (key === "__MODIFIED__VALUE__") {
       updateValue(lastUserEditedValue)
-      return this.setState({
+      return this._setStateForCurrentNamespace({
         isModifiedValueSelected: true,
       })
     }
@@ -107,7 +129,7 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
       onSelect(key, { isSyntheticChange }, ...otherArgs)
     }
 
-    this.setState({
+    this._setStateForCurrentNamespace({
       lastDownstreamValue: valueFromExample,
       isModifiedValueSelected:
         isSyntheticChange &&
@@ -128,12 +150,15 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
 
     const { currentUserInputValue: newValue } = nextProps
 
-    const lastUserEditedValue = this.state.lastUserEditedValue
-    const lastDownstreamValue = this.state.lastDownstreamValue
+    const {
+      lastUserEditedValue,
+      lastDownstreamValue,
+    } = this._getStateForCurrentNamespace()
 
     const valueFromExample = this._getValueForExample(
       nextProps.currentKey,
-      nextProps)
+      nextProps
+    )
 
     if (
       newValue !== this.props.currentUserInputValue && // value has changed
@@ -141,7 +166,7 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
       newValue !== lastDownstreamValue && // value isn't what we've seen on the other side
       newValue !== valueFromExample // value isn't the example's value
     ) {
-      this.setState({
+      this._setStateForNamespace(nextProps.currentNamespace, {
         lastUserEditedValue: nextProps.currentUserInputValue,
         isModifiedValueSelected: newValue !== valueFromExample,
       })
@@ -149,12 +174,16 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
   }
 
   render() {
-    const { currentUserInputValue, examples, currentKey } = this.props
+    const {
+      currentUserInputValue,
+      examples,
+      currentKey,
+    } = this.props
     const {
       lastDownstreamValue,
       lastUserEditedValue,
       isModifiedValueSelected,
-    } = this.state
+    } = this._getStateForCurrentNamespace()
 
     return (
       <div>
