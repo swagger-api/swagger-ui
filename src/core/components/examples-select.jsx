@@ -12,7 +12,8 @@ export default class ExamplesSelect extends React.PureComponent {
     examples: ImPropTypes.map.isRequired,
     onSelect: PropTypes.func,
     currentExampleKey: PropTypes.string,
-    selectMessage: PropTypes.string,
+    isModifiedValueAvailable: PropTypes.bool,
+    isValueModified: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -24,33 +25,52 @@ export default class ExamplesSelect extends React.PureComponent {
         ...args
       ),
     currentExampleKey: null,
-    selectMessage: "Select an example...",
   }
 
-  _onSelectChange = e => {
+  _onSelect = (key, { isSyntheticChange = false } = {}) => {
+    if (typeof this.props.onSelect === "function") {
+      this.props.onSelect(key, {
+        isSyntheticChange,
+      })
+    }
+  }
+
+  _onDomSelect = e => {
     if (typeof this.props.onSelect === "function") {
       const element = e.target.selectedOptions[0]
       const key = element.getAttribute("value")
-      this.props.onSelect(key)
+
+      this._onSelect(key, {
+        isSyntheticChange: false,
+      })
     }
   }
 
   render() {
-    const { examples, currentExampleKey, selectMessage } = this.props
-
-    const isCurrentKeyAnExample = examples.has(currentExampleKey)
+    const {
+      examples,
+      currentExampleKey,
+      isValueModified,
+      isModifiedValueAvailable,
+    } = this.props
 
     return (
-      <select onChange={this._onSelectChange} value={currentExampleKey}>
-        {!isCurrentKeyAnExample ? (
-          <option selected>{selectMessage}</option>
+      <select
+        onChange={this._onDomSelect}
+        value={
+          isModifiedValueAvailable && isValueModified
+            ? "__MODIFIED__VALUE__"
+            : currentExampleKey
+        }
+      >
+        {isModifiedValueAvailable ? (
+          <option value="__MODIFIED__VALUE__">[Modified value]</option>
         ) : null}
         {examples
           .map((example, exampleName) => {
             return (
               <option
                 key={exampleName} // for React
-                data-key={exampleName} // for _onSelectChange
                 value={exampleName} // for matching to select's `value`
               >
                 {example.get("summary") || exampleName}
