@@ -175,13 +175,6 @@ const RequestBody = ({
             specSelectors={specSelectors}
             activeExamplesKey={activeExamplesKey}
           />
-          <Examples
-            examples={examplesForMediaType}
-            currentKey={activeExamplesKey}
-            onSelect={handleExamplesSelect}
-            omitValue={true}
-            getComponent={getComponent}
-          />
         </div>
       ) : (
         <ModelExample
