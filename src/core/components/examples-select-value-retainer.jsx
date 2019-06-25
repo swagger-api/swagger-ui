@@ -133,7 +133,7 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
       lastDownstreamValue: valueFromExample,
       isModifiedValueSelected:
         isSyntheticChange &&
-        currentUserInputValue &&
+        !!currentUserInputValue &&
         currentUserInputValue !== valueFromExample,
     })
 
@@ -192,8 +192,7 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
           currentExampleKey={currentKey}
           onSelect={this._onExamplesSelect}
           isModifiedValueAvailable={
-            lastUserEditedValue !== undefined &&
-            lastUserEditedValue !== lastDownstreamValue
+            !!lastUserEditedValue && lastUserEditedValue !== lastDownstreamValue
           }
           isValueModified={
             currentUserInputValue !== undefined && isModifiedValueSelected
