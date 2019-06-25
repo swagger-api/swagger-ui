@@ -195,7 +195,7 @@ export default class Parameters extends Component {
               <RequestBody
                 specPath={specPath.slice(0, -1).push("requestBody")}
                 requestBody={requestBody}
-                requestBodyValue={oas3Selectors.requestBodyValue(...pathMethod) || Map()}
+                requestBodyValue={oas3Selectors.requestBodyValue(...pathMethod)}
                 isExecute={isExecute}
                 activeExamplesKey={oas3Selectors.activeExamplesMember(
                   ...pathMethod,
