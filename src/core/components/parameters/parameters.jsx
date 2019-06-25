@@ -200,15 +200,14 @@ export default class Parameters extends Component {
                 activeExamplesKey={oas3Selectors.activeExamplesMember(
                   ...pathMethod,
                   "requestBody",
-                  "requestBody"
+                  oas3Selectors.requestContentType(...pathMethod)
                 )}
                 updateActiveExamplesKey={key => {
-                  debugger // eslint-disable-line
                   this.props.oas3Actions.setActiveExamplesMember({
                     name: key,
                     pathMethod: this.props.pathMethod,
                     contextType: "requestBody",
-                    contextName: "requestBody"
+                    contextName: oas3Selectors.requestContentType(...pathMethod)
                   })
                 }
                 }
