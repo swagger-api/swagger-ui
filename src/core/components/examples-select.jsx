@@ -47,16 +47,15 @@ export default class ExamplesSelect extends React.PureComponent {
   }
 
   getCurrentExample = () => {
-    const { examples, currentKey } = this.props
+    const { examples, currentExampleKey } = this.props
 
-    const currentExamplePerProps = examples.get(currentKey)
+    const currentExamplePerProps = examples.get(currentExampleKey)
 
     const firstExamplesKey = examples.keySeq().first()
     const firstExample = examples.get(firstExamplesKey)
 
     return currentExamplePerProps || firstExample || Map({})
   }
-
 
   componentDidMount() {
     // this is the not-so-great part of ExamplesSelect... here we're
@@ -68,7 +67,21 @@ export default class ExamplesSelect extends React.PureComponent {
     const { onSelect, examples } = this.props
 
     if (typeof onSelect === "function") {
-      const firstExample = this.getCurrentExample()
+      const firstExample = examples.first()
+      const firstExampleKey = examples.keyOf(firstExample)
+
+      this._onSelect(firstExampleKey, {
+        isSyntheticChange: true,
+      })
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { currentExampleKey, examples } = nextProps
+    if (examples !== this.props.examples && !examples.has(currentExampleKey)) {
+      // examples have changed from under us, and the currentExampleKey is no longer
+      // valid.
+      const firstExample = examples.first()
       const firstExampleKey = examples.keyOf(firstExample)
 
       this._onSelect(firstExampleKey, {

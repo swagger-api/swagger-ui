@@ -176,11 +176,7 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
   }
 
   render() {
-    const {
-      currentUserInputValue,
-      examples,
-      currentKey,
-    } = this.props
+    const { currentUserInputValue, examples, currentKey } = this.props
     const {
       lastDownstreamValue,
       lastUserEditedValue,
