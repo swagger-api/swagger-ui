@@ -6,6 +6,36 @@ import { getCommonExtensions, getSampleSchema, stringify } from "core/utils"
 
 import ExamplesSelectValueRetainer from "core/components/examples-select-value-retainer"
 
+function getDefaultRequestBodyValue(requestBody, mediaType, activeExamplesKey) {
+  let mediaTypeValue = requestBody.getIn(["content", mediaType])
+  let schema = mediaTypeValue.get("schema").toJS()
+  let example =
+    mediaTypeValue.get("example") !== undefined
+      ? stringify(mediaTypeValue.get("example"))
+      : null
+  let currentExamplesValue = mediaTypeValue.getIn([
+    "examples",
+    activeExamplesKey,
+    "value"
+  ])
+
+  if (mediaTypeValue.get("examples")) {
+    // the media type DOES have examples
+    return stringify(currentExamplesValue) || ""
+  } else {
+    // the media type DOES NOT have examples
+    return stringify(
+      example ||
+        getSampleSchema(schema, mediaType, {
+          includeWriteOnly: true
+        }) ||
+        ""
+    )
+  }
+}
+
+
+
 const RequestBody = ({
   requestBody,
   requestBodyValue,
@@ -168,6 +198,11 @@ const RequestBody = ({
           <RequestBodyEditor
             requestBody={requestBody}
             value={requestBodyValue}
+            defaultValue={getDefaultRequestBodyValue(
+              requestBody,
+              contentType,
+              activeExamplesKey,
+            )}
             onChange={onChange}
             mediaType={contentType}
             getComponent={getComponent}
@@ -185,9 +220,17 @@ const RequestBody = ({
           isExecute={isExecute}
           schema={mediaTypeValue.get("schema")}
           specPath={specPath.push("content", contentType)}
-          example={<HighlightCode className="body-param__example"
-                               value={ stringify(requestBodyValue) }/>}
-          />
+          example={
+            <HighlightCode
+              className="body-param__example"
+              value={stringify(requestBodyValue) || getDefaultRequestBodyValue(
+                requestBody,
+                contentType,
+                activeExamplesKey,
+              )}
+            />
+          }
+        />
       )
     }
   </div>

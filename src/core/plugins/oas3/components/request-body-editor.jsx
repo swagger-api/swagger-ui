@@ -11,6 +11,7 @@ export default class RequestBodyEditor extends PureComponent {
     onChange: PropTypes.func,
     getComponent: PropTypes.func.isRequired,
     value: PropTypes.string,
+    defaultValue: PropTypes.string,
   };
 
   static defaultProps = {
@@ -22,13 +23,23 @@ export default class RequestBodyEditor extends PureComponent {
     super(props, context)
 
     this.state = {
-      value: props.value
+      value: props.value || props.defaultValue
     }
 
     // this is the glue that makes sure our initial value gets set as the
     // current request body value
     // TODO: achieve this in a selector instead
     props.onChange(props.value)
+  }
+
+  applyDefaultValue = (nextProps) => {
+    const { onChange, defaultValue } = (nextProps ? nextProps : this.props)
+
+    this.setState({
+      value: defaultValue
+    })
+
+    return onChange(defaultValue)
   }
 
   onChange = (value) => {
@@ -40,7 +51,9 @@ export default class RequestBodyEditor extends PureComponent {
     const isJson = /json/i.test(mediaType)
     const inputValue = isJson ? e.target.value.trim() : e.target.value
 
-    this.onChange(inputValue)
+    this.setState({
+      value: inputValue,
+    }, () => this.onChange(inputValue))
   }
 
   componentWillReceiveProps(nextProps) {
@@ -52,6 +65,14 @@ export default class RequestBodyEditor extends PureComponent {
       this.setState({
         value: nextProps.value
       })
+    }
+
+    
+
+    if(!nextProps.value && nextProps.defaultValue && !!this.state.value) {
+      // if new value is falsy, we have a default, AND the falsy value didn't
+      // come from us originally
+      this.applyDefaultValue(nextProps)
     }
   }
 
