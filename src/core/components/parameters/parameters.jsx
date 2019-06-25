@@ -200,14 +200,14 @@ export default class Parameters extends Component {
                 activeExamplesKey={oas3Selectors.activeExamplesMember(
                   ...pathMethod,
                   "requestBody",
-                  oas3Selectors.requestContentType(...pathMethod)
+                  "requestBody" // RBs are currently not stored per-mediaType
                 )}
                 updateActiveExamplesKey={key => {
                   this.props.oas3Actions.setActiveExamplesMember({
                     name: key,
                     pathMethod: this.props.pathMethod,
                     contextType: "requestBody",
-                    contextName: oas3Selectors.requestContentType(...pathMethod)
+                    contextName: "requestBody" // RBs are currently not stored per-mediaType
                   })
                 }
                 }
