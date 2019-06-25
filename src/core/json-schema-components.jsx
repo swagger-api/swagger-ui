@@ -43,7 +43,7 @@ export class JsonSchemaForm extends Component {
   }
 
   render() {
-    let { schema, errors, value, onChange, getComponent, fn } = this.props
+    let { schema, errors, value, onChange, getComponent, fn, disabled } = this.props
 
     if(schema.toJS)
       schema = schema.toJS()
@@ -51,7 +51,7 @@ export class JsonSchemaForm extends Component {
     let { type, format="" } = schema
 
     let Comp = (format ? getComponent(`JsonSchema_${type}_${format}`) : getComponent(`JsonSchema_${type}`)) || getComponent("JsonSchema_string")
-    return <Comp { ...this.props } errors={errors} fn={fn} getComponent={getComponent} value={value} onChange={onChange} schema={schema}/>
+    return <Comp { ...this.props } errors={errors} fn={fn} getComponent={getComponent} value={value} onChange={onChange} schema={schema} disabled={disabled}/>
   }
 
 }
@@ -65,7 +65,7 @@ export class JsonSchema_string extends Component {
   }
   onEnumChange = (val) => this.props.onChange(val)
   render() {
-    let { getComponent, value, schema, errors, required, description } = this.props
+    let { getComponent, value, schema, errors, required, description, disabled } = this.props
     let enumValue = schema["enum"]
 
     errors = errors.toJS ? errors.toJS() : []
@@ -80,7 +80,7 @@ export class JsonSchema_string extends Component {
                       onChange={ this.onEnumChange }/>)
     }
 
-    const isDisabled = schema["in"] === "formData" && !("FormData" in window)
+    const isDisabled = disabled || (schema["in"] === "formData" && !("FormData" in window))
     const Input = getComponent("Input")
     if (schema["type"] === "file") {
       return (<Input type="file"
