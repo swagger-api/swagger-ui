@@ -1,6 +1,5 @@
 semi: false
 trailingComma: es5
 endOfLine: lf
-singleQuote: true
 requirePragma: true
 insertPragma: true
