@@ -87,6 +87,7 @@ export default class ExamplesSelect extends React.PureComponent {
 
     return (
       <select
+        className="examples-control"
         onChange={this._onDomSelect}
         value={
           isModifiedValueAvailable && isValueModified
