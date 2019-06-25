@@ -4,7 +4,7 @@ import ImPropTypes from "react-immutable-proptypes"
 import { Map, OrderedMap, List } from "immutable"
 import { getCommonExtensions, getSampleSchema, stringify } from "core/utils"
 
-import Examples from "core/components/examples"
+import ExamplesSelectValueRetainer from "core/components/examples-select-value-retainer"
 
 const RequestBody = ({
   requestBody,
@@ -148,6 +148,19 @@ const RequestBody = ({
   return <div>
     { requestBodyDescription &&
       <Markdown source={requestBodyDescription} />
+    }
+    {
+      examplesForMediaType ? (
+        <ExamplesSelectValueRetainer
+            examples={examplesForMediaType}
+            currentKey={activeExamplesKey}
+            currentUserInputValue={requestBodyValue}
+            onSelect={handleExamplesSelect}
+            updateValue={onChange}
+            defaultToFirstExample={true}
+            getComponent={getComponent}
+          />
+      ) : null
     }
     {
       isExecute ? (

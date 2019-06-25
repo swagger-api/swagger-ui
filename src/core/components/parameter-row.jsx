@@ -257,7 +257,23 @@ export default class ParameterRow extends Component {
 
           {(isFormData && !isFormDataSupported) && <div>Error: your browser does not support FormData</div>}
 
-          { bodyParam || !isExecute ? null
+          {
+            isOAS3 && param.get("examples") ? (
+              <section className="parameter-controls">
+                <ExamplesSelectValueRetainer
+                  examples={param.get("examples")}
+                  onSelect={this._onExampleSelect}
+                  updateValue={this.onChangeWrapper}
+                  getComponent={getComponent}
+                  defaultToFirstExample={true}
+                  currentKey={oas3Selectors.activeExamplesMember(...pathMethod, "parameters", this.getParamKey())}
+                  currentUserInputValue={value}
+                />
+              </section>
+            ) : null
+          }
+
+          { bodyParam ? null
             : <JsonSchemaForm fn={fn}
                               getComponent={getComponent}
                               value={ value }
