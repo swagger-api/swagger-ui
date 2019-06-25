@@ -27,7 +27,6 @@ export const requestBodyValue = onlyOAS3((state, path, method) => {
 )
 
 export const activeExamplesMember = onlyOAS3((state, path, method, type, name) => {
-  console.log([path, method, type, name], state.toJS())
     return state.getIn(["examples", path, method, type, name, "activeExample"]) || null
   }
 )
