@@ -7,21 +7,28 @@ const NOOP = Function.prototype
 export default class RequestBodyEditor extends PureComponent {
 
   static propTypes = {
-    requestBody: PropTypes.object.isRequired,
     mediaType: PropTypes.string.isRequired,
     onChange: PropTypes.func,
     getComponent: PropTypes.func.isRequired,
-    specSelectors: PropTypes.object.isRequired,
+    value: PropTypes.string,
   };
 
   static defaultProps = {
     mediaType: "application/json",
-    requestBody: fromJS({}),
     onChange: NOOP,
   };
 
   constructor(props, context) {
     super(props, context)
+
+    this.state = {
+      value: props.value
+    }
+
+    // this is the glue that makes sure our initial value gets set as the
+    // current request body value
+    // TODO: achieve this in a selector instead
+    props.onChange(props.value)
   }
 
   onChange = (value) => {
@@ -36,11 +43,26 @@ export default class RequestBodyEditor extends PureComponent {
     this.onChange(inputValue)
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(
+      this.props.value !== nextProps.value &&
+      nextProps.value !== this.state.value
+    ) {
+
+      this.setState({
+        value: nextProps.value
+      })
+    }
+  }
+
   render() {
     let {
-      getComponent,
-      value,
+      getComponent
     } = this.props
+
+    let {
+      value
+    } = this.state
 
     const TextArea = getComponent("TextArea")
 
