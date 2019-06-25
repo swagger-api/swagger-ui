@@ -56,8 +56,6 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
 
     const valueFromExample = this._getCurrentExampleValue()
 
-    debugger // eslint-disable-line
-
     this.state = {
       // user edited: last value that came from the world around us, and didn't
       // match the current example's value
@@ -98,8 +96,6 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
 
     const valueFromExample = this._getValueForExample(key)
 
-    debugger // eslint-disable-line
-
     if (key === "__MODIFIED__VALUE__") {
       updateValue(lastUserEditedValue)
       return this.setState({
@@ -127,19 +123,6 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
     }
   }
 
-  _handleExamplesChanges = nextProps => {
-    const valueFromExample = this._getValueForExample(
-      this.props.currentKey,
-      nextProps
-    )
-
-    // if(valueFromExample) {
-
-    // } else {
-
-    // }
-  }
-
   componentWillReceiveProps(nextProps) {
     // update `lastUserEditedValue` as new currentUserInput values come in
 
@@ -148,13 +131,9 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
     const lastUserEditedValue = this.state.lastUserEditedValue
     const lastDownstreamValue = this.state.lastDownstreamValue
 
-    const valueFromExample = this._getValueForExample(nextProps) // ???
-
-    if (this.props.examples !== nextProps.examples) {
-      return this._handleExamplesChanges(nextProps)
-    }
-
-    debugger // eslint-disable-line
+    const valueFromExample = this._getValueForExample(
+      nextProps.currentKey,
+      nextProps)
 
     if (
       newValue !== this.props.currentUserInputValue && // value has changed
