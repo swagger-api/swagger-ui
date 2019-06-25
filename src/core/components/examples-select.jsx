@@ -46,6 +46,37 @@ export default class ExamplesSelect extends React.PureComponent {
     }
   }
 
+  getCurrentExample = () => {
+    const { examples, currentKey } = this.props
+
+    const currentExamplePerProps = examples.get(currentKey)
+
+    const firstExamplesKey = examples.keySeq().first()
+    const firstExample = examples.get(firstExamplesKey)
+
+    return currentExamplePerProps || firstExample || Map({})
+  }
+
+
+  componentDidMount() {
+    // this is the not-so-great part of ExamplesSelect... here we're
+    // artificially kicking off an onSelect event in order to set a default
+    // value in state. the consumer has the option to avoid this by checking
+    // `isSyntheticEvent`, but we should really be doing this in a selector.
+    // TODO: clean this up
+    // FIXME: should this only trigger if `currentExamplesKey` is nullish?
+    const { onSelect, examples } = this.props
+
+    if (typeof onSelect === "function") {
+      const firstExample = this.getCurrentExample()
+      const firstExampleKey = examples.keyOf(firstExample)
+
+      this._onSelect(firstExampleKey, {
+        isSyntheticChange: true,
+      })
+    }
+  }
+
   render() {
     const {
       examples,
