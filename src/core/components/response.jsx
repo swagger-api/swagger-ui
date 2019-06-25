@@ -117,7 +117,6 @@ export default class Response extends React.Component {
       const oas3SchemaForContentType = activeMediaType.get("schema", Map({}))
 
       if(examplesForMediaType) {
-        debugger // eslint-disable-line
         const targetExamplesKey = this.getTargetExamplesKey()
         const targetExample = examplesForMediaType.get(targetExamplesKey, Map({}))
         sampleResponse = stringify(targetExample.get("value"))
