@@ -6,10 +6,12 @@ import React from "react"
 import { stringify } from "core/utils"
 
 export default function Example(props) {
-  const { example, omitValue, getComponent } = props
+  const { example, showValue, getComponent } = props
 
   const Markdown = getComponent("Markdown")
   const HighlightCode = getComponent("highlightCode")
+
+  if(!example) return null
 
   return (
     <div className="example">
@@ -21,7 +23,7 @@ export default function Example(props) {
           </p>
         </section>
       ) : null}
-      {!omitValue && example.has("value") ? (
+      {showValue && example.has("value") ? (
         <section className="example__section">
           <div className="example__section-header">Example Value</div>
           <HighlightCode value={stringify(example.get("value"))} />
