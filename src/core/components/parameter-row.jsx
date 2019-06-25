@@ -82,7 +82,7 @@ export default class ParameterRow extends Component {
       name: key,
       pathMethod: this.props.pathMethod,
       contextType: "parameters",
-      contextName: this.props.specPath.last()
+      contextName: this.getParamKey()
     })
 
     if(!isSyntheticChange) {
@@ -127,7 +127,7 @@ export default class ParameterRow extends Component {
           || paramWithMeta.getIn(["schema", "example"])
           || paramWithMeta.getIn(["schema", "default"])
       } else if (specSelectors.isOAS3()) {
-        const currentExampleKey = oas3Selectors.activeExamplesMember(...pathMethod, "parameters", parameterIndex)
+        const currentExampleKey = oas3Selectors.activeExamplesMember(...pathMethod, "parameters", this.getParamKey())
         newValue = paramWithMeta.getIn(["examples", currentExampleKey, "value"])
           || paramWithMeta.get("example")
           || paramWithMeta.getIn(["schema", "example"])
@@ -139,6 +139,12 @@ export default class ParameterRow extends Component {
         )
       }
     }
+  }
+
+  getParamKey() {
+    const { param } = this.props
+
+    return `${param.get("name")}-${param.get("in")}`
   }
 
   render() {
@@ -182,8 +188,6 @@ export default class ParameterRow extends Component {
     let isFormDataSupported = "FormData" in win
     let required = param.get("required")
     let itemType = schema.getIn(["items", "type"])
-
-    const parameterIndex = specPath.last()
 
     let value = paramWithMeta ? paramWithMeta.get("value") : ""
     let commonExt = showCommonExtensions ? getCommonExtensions(param) : null
