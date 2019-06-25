@@ -167,6 +167,7 @@ const RequestBody = ({
         <div>
           <RequestBodyEditor
             requestBody={requestBody}
+            value={requestBodyValue}
             onChange={onChange}
             mediaType={contentType}
             getComponent={getComponent}
