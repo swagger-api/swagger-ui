@@ -9,7 +9,7 @@ export default class AuthorizationPopup extends React.Component {
     authActions.showDefinitions(false)
   }
 
-  onAuthChange =(auth) => {
+  onAuthChange = (auth) => {
     let { name } = auth
 
     this.setState({ [name]: auth })
@@ -34,28 +34,48 @@ export default class AuthorizationPopup extends React.Component {
   }
 
   render() {
-    let { authSelectors, getComponent, errSelectors } = this.props
-    let definitions = authSelectors.shownDefinitions()
+    const { authSelectors, getComponent, errSelectors } = this.props
     const Auths = getComponent("auths")
+    const Oauth2 = getComponent("oauth2", true)
     const Modal = getComponent("Modal")
+
+    const authSchemas = authSelectors.shownDefinitions()
+    const authorizedData = authSelectors.authorized()
 
     return (
       <Modal
         onDismiss={this.close}
         title="Available authorizations"
       >
+
       {
-        definitions.valueSeq().map(( definition, key ) => {
-          return <Auths key={ key }
-                    name={ definition.keySeq().first() }
-                    definition={ definition.first() }
-                    getComponent={ getComponent }
-                    errSelectors={ errSelectors }
-                    authSelectors={ authSelectors }
-                    authorize={this.authorize}
-                    logout={this.logout}
-                    closeModal={this.close}
-                  />
+        authSchemas.map(( schema, key ) => {
+          const name = schema.keySeq().first()
+          schema = schema.first()
+          const isOauth2Definition = schema.get("type") === "oauth2"
+
+          return (
+            <div className="auth-container" key={ key }>
+              { 
+                isOauth2Definition
+                  ? <Oauth2 
+                      authorizedData={ authorizedData }
+                      schema={ schema }
+                      name={ name } 
+                    />
+                  : <Auths
+                      name={ name }
+                      definition={ schema }
+                      getComponent={ getComponent }
+                      errSelectors={ errSelectors }
+                      authSelectors={ authSelectors }
+                      authorize={this.authorize}
+                      logout={this.logout}
+                      closeModal={this.close}
+                    />
+              }
+            </div>
+          )
         })
       }
       </Modal>
