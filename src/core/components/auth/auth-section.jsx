@@ -8,9 +8,10 @@ export default class Auths extends React.Component {
     definition: ImPropTypes.map.isRequired,
     name: PropTypes.string.isRequired,
     getComponent: PropTypes.func.isRequired,
-    authSelectors: PropTypes.object.isRequired,
-    authActions: PropTypes.object.isRequired,
-    specSelectors: PropTypes.object.isRequired
+    authorize: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
+    closeModal: PropTypes.func.isRequired,
+    authSelectors: PropTypes.object.isRequired
   }
 
   constructor(props, context) {
@@ -19,32 +20,31 @@ export default class Auths extends React.Component {
     this.state = {}
   }
 
-  onAuthChange =(auth) => {
+  onAuthChange = (auth) => {
     let { name } = auth
 
     this.setState({ [name]: auth })
   }
 
-  authorizeClick =(e) => {
+  authorizeClick = (e) => {
     e.preventDefault()
-
-    let { authActions, name } = this.props
-    authActions.authorize(this.state[name])
+    let { authorize, name } = this.props
+    
+    authorize(name, this.state[name])
   }
 
-  logoutClick =(e) => {
+  logoutClick = (e) => {
     e.preventDefault()
+    let { logout, name } = this.props
 
-    let { authActions, name } = this.props
-
-    authActions.logout(name)
+    logout(name)
   }
 
-  close =(e) => {
+  closeClick = (e) => {
     e.preventDefault()
-    let { authActions } = this.props
+    let { closeModal } = this.props
 
-    authActions.showDefinitions(false)
+    closeModal()
   }
 
   render() {

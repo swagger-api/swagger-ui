@@ -41,7 +41,7 @@ export default {
     return state.setIn( [ "authorized", parsedAuth.get("name") ], parsedAuth )
   },
 
-  [LOGOUT]: (state, { payload } ) =>{
+  [LOGOUT]: (state, { payload }) => {
     const result = state.get("authorized").delete(payload)
 
     return state.set("authorized", result)

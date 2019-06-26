@@ -2,14 +2,39 @@ import React from "react"
 import PropTypes from "prop-types"
 
 export default class AuthorizationPopup extends React.Component {
-  close =() => {
+
+  close = () => {
     let { authActions } = this.props
 
     authActions.showDefinitions(false)
   }
 
+  onAuthChange =(auth) => {
+    let { name } = auth
+
+    this.setState({ [name]: auth })
+  }
+
+  authorize = (name, formData, schema) => {
+    const { authActions } = this.props
+    const data = { 
+      name,
+      ...formData,
+      // schema,
+    }
+
+    authActions.authorize(data)
+  }
+
+  logout = (name) => {
+
+    let { authActions } = this.props
+
+    authActions.logout(name)
+  }
+
   render() {
-    let { authSelectors, authActions, getComponent, errSelectors, specSelectors, fn: { AST = {} } } = this.props
+    let { authSelectors, getComponent, errSelectors } = this.props
     let definitions = authSelectors.shownDefinitions()
     const Auths = getComponent("auths")
     const Modal = getComponent("Modal")
@@ -22,14 +47,15 @@ export default class AuthorizationPopup extends React.Component {
       {
         definitions.valueSeq().map(( definition, key ) => {
           return <Auths key={ key }
-                        AST={ AST }
-                        name={ definition.keySeq().first() }
-                        definition={ definition.first() }
-                        getComponent={ getComponent }
-                        errSelectors={ errSelectors }
-                        authSelectors={ authSelectors }
-                        authActions={ authActions }
-                        specSelectors={ specSelectors }/>
+                    name={ definition.keySeq().first() }
+                    definition={ definition.first() }
+                    getComponent={ getComponent }
+                    errSelectors={ errSelectors }
+                    authSelectors={ authSelectors }
+                    authorize={this.authorize}
+                    logout={this.logout}
+                    closeModal={this.close}
+                  />
         })
       }
       </Modal>
@@ -37,7 +63,6 @@ export default class AuthorizationPopup extends React.Component {
   }
 
   static propTypes = {
-    fn: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
     authSelectors: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
