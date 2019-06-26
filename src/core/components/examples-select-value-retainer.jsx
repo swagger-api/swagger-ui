@@ -170,7 +170,11 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
     )
 
     const exampleMatchingNewValue = examples.find(
-      example => stringifyUnlessList(example.get("value")) === newValue
+      example =>
+        example.get("value") === newValue ||
+        // sometimes data is stored as a string (e.g. in Request Bodies), so
+        // let's check against a stringified version of our example too
+        stringify(example.get("value")) === newValue
     )
 
     if (exampleMatchingNewValue) {
