@@ -2,9 +2,11 @@
  * @prettier
  */
 import React from "react"
-import { Map } from "immutable"
+import { Map, List } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
+
+import { stringify } from "core/utils"
 
 import ExamplesSelect from "./examples-select"
 
@@ -27,6 +29,9 @@ import ExamplesSelect from "./examples-select"
 // TL;DR: this is not our usual approach, but the choice was made consciously.
 
 // Note that `currentNamespace` isn't currently used anywhere!
+
+const stringifyUnlessList = input =>
+  List.isList(input) ? input : stringify(input)
 
 export default class ExamplesSelectValueRetainer extends React.PureComponent {
   static propTypes = {
@@ -104,7 +109,9 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
     // props are accepted so that this can be used in componentWillReceiveProps,
     // which has access to `nextProps`
     const { examples } = props || this.props
-    return (examples || Map({})).getIn([exampleKey, "value"])
+    return stringifyUnlessList(
+      (examples || Map({})).getIn([exampleKey, "value"])
+    )
   }
 
   _getCurrentExampleValue = props => {
@@ -121,7 +128,7 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
     const valueFromExample = this._getValueForExample(key)
 
     if (key === "__MODIFIED__VALUE__") {
-      updateValue(lastUserEditedValue)
+      updateValue(stringifyUnlessList(lastUserEditedValue))
       return this._setStateForCurrentNamespace({
         isModifiedValueSelected: true,
       })
@@ -143,7 +150,7 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
     if (isSyntheticChange) return
 
     if (typeof updateValue === "function") {
-      updateValue(valueFromExample)
+      updateValue(stringifyUnlessList(valueFromExample))
     }
   }
 
