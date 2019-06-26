@@ -59,13 +59,13 @@ export default class AuthorizationPopup extends React.Component {
               { 
                 isOauth2Definition
                   ? <Oauth2 
-                      authorizedData={ authorizedData }
                       schema={ schema }
-                      name={ name } 
+                      name={ name }
+                      authorizedData={ authorizedData }
                     />
                   : <Auths
                       name={ name }
-                      definition={ schema }
+                      schema={ schema }
                       getComponent={ getComponent }
                       errSelectors={ errSelectors }
                       authSelectors={ authSelectors }

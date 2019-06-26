@@ -5,7 +5,7 @@ import ImPropTypes from "react-immutable-proptypes"
 export default class Auths extends React.Component {
   static propTypes = {
     errSelectors: PropTypes.object.isRequired,
-    definition: ImPropTypes.map.isRequired,
+    schema: ImPropTypes.map.isRequired,
     name: PropTypes.string.isRequired,
     getComponent: PropTypes.func.isRequired,
     authorize: PropTypes.func.isRequired,
@@ -48,30 +48,55 @@ export default class Auths extends React.Component {
   }
 
   render() {
-    let { definition, name, getComponent, authSelectors, errSelectors } = this.props
-    const AuthItem = getComponent("AuthItem")
+    let { schema, name, getComponent, authSelectors, errSelectors } = this.props
+    const ApiKeyAuth = getComponent("apiKeyAuth")
+    const BasicAuth = getComponent("basicAuth")
     const AuthBtnGroup = getComponent("AuthBtnGroup")
 
     let authorizedData = authSelectors.authorized()
     let isAuthorized = !!authorizedData.get(name)
 
+    let auth
+
+    const type = schema.get("type")
+
+    switch(type) {
+      case "apiKey": 
+        auth = <ApiKeyAuth
+          schema={ schema }
+          name={ name }
+          errSelectors={ errSelectors }
+          authorized={ authorizedData }
+          getComponent={ getComponent }
+          onChange={ this.onAuthChange }
+        />
+        break
+      case "basic": 
+        auth = <BasicAuth
+          schema={ schema }
+          name={ name }
+          errSelectors={ errSelectors }
+          authorized={ authorizedData }
+          getComponent={ getComponent }
+          onChange={ this.onAuthChange }
+        />
+        break
+      default: 
+        auth = <div className="auth_row">
+          <p>Unknown security definition type { type }</p>
+        </div>
+    }
+
     return (
       <div>
-        <AuthItem
-          schema={definition}
-          name={name}
-          getComponent={getComponent}
-          onAuthChange={this.onAuthChange}
-          authorizedData={authorizedData}
-          errSelectors={errSelectors}
-        />
+        { auth }
         
         <AuthBtnGroup
           getComponent={getComponent}
           isAuthorized={isAuthorized}
           logoutClick={this.logoutClick}
           authorizeClick={this.authorizeClick}
-          closeClick={this.close}
+          closeClick={this.closeClick}
         />
       </div>
     )
