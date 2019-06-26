@@ -37,7 +37,7 @@ export default class Auths extends React.Component {
 
     let { authActions, name } = this.props
 
-    authActions.logout([name])
+    authActions.logout(name)
   }
 
   close =(e) => {

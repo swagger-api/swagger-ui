@@ -42,11 +42,7 @@ export default {
   },
 
   [LOGOUT]: (state, { payload } ) =>{
-    let result = state.get("authorized").withMutations((authorized) => {
-        payload.forEach((auth) => {
-          authorized.delete(auth)
-        })
-      })
+    const result = state.get("authorized").delete(payload)
 
     return state.set("authorized", result)
   },
