@@ -14,30 +14,21 @@ export default {
     return state.set( "showDefinitions", payload )
   },
 
-  [AUTHORIZE]: (state, { payload } ) =>{
-    let securities = fromJS(payload)
-    let map = state.get("authorized") || Map()
+  [AUTHORIZE]: (state, { payload }) => {
+    let parsedAuth = fromJS(payload)
+    let type = parsedAuth.getIn(["schema", "type"])
 
-    // refactor withMutations
-    securities.entrySeq().forEach( ([ key, security ]) => {
-      let type = security.getIn(["schema", "type"])
+    if (type === "basic") {
+      let username = parsedAuth.getIn(["value", "username"])
+      let password = parsedAuth.getIn(["value", "password"])
 
-      if ( type === "apiKey" || type === "http" ) {
-        map = map.set(key, security)
-      } else if ( type === "basic" ) {
-        let username = security.getIn(["value", "username"])
-        let password = security.getIn(["value", "password"])
+      parsedAuth = parsedAuth.setIn("value", Map({
+        username,
+        "header": "Basic " + btoa(username + ":" + password)
+      }))
+    }
 
-        map = map.setIn([key, "value"], {
-          username: username,
-          header: "Basic " + btoa(username + ":" + password)
-        })
-
-        map = map.setIn([key, "schema"], security.get("schema"))
-      }
-    })
-
-    return state.set( "authorized", map )
+    return state.setIn(["authorized", parsedAuth.get("name")], parsedAuth)
   },
 
   [AUTHORIZE_OAUTH2]: (state, { payload } ) =>{

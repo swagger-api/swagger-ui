@@ -25,11 +25,11 @@ export default class Auths extends React.Component {
     this.setState({ [name]: auth })
   }
 
-  submitAuth =(e) => {
+  authorizeClick =(e) => {
     e.preventDefault()
 
-    let { authActions } = this.props
-    authActions.authorize(this.state)
+    let { authActions, name } = this.props
+    authActions.authorize(this.state[name])
   }
 
   logoutClick =(e) => {
@@ -75,7 +75,7 @@ export default class Auths extends React.Component {
               getComponent={getComponent}
               isAuthorized={isAuthorized}
               logoutClick={this.logoutClick}
-              authorizeClick={this.submitAuth}
+              authorizeClick={this.authorizeClick}
               closeClick={this.close}
             />
           </div>
