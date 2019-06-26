@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { fromJS } from "immutable"
+import { stringify } from "core/utils"
 
 const NOOP = Function.prototype
 
@@ -23,7 +24,7 @@ export default class RequestBodyEditor extends PureComponent {
     super(props, context)
 
     this.state = {
-      value: props.value || props.defaultValue
+      value: stringify(props.value) || props.defaultValue
     }
 
     // this is the glue that makes sure our initial value gets set as the
@@ -43,13 +44,13 @@ export default class RequestBodyEditor extends PureComponent {
   }
 
   onChange = (value) => {
-    this.props.onChange(value)
+    this.props.onChange(stringify(value))
   }
 
   onDomChange = e => {
     const { mediaType } = this.props
     const isJson = /json/i.test(mediaType)
-    const inputValue = isJson ? e.target.value.trim() : e.target.value
+    const inputValue = e.target.value
 
     this.setState({
       value: inputValue,
@@ -63,7 +64,7 @@ export default class RequestBodyEditor extends PureComponent {
     ) {
 
       this.setState({
-        value: nextProps.value
+        value: stringify(nextProps.value)
       })
     }
 
