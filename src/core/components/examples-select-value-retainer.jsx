@@ -157,27 +157,34 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     // update `lastUserEditedValue` as new currentUserInput values come in
 
-    const { currentUserInputValue: newValue } = nextProps
+    const { currentUserInputValue: newValue, examples, onSelect } = nextProps
 
     const {
       lastUserEditedValue,
       lastDownstreamValue,
     } = this._getStateForCurrentNamespace()
 
-    const valueFromExample = this._getValueForExample(
+    const valueFromCurrentExample = this._getValueForExample(
       nextProps.currentKey,
       nextProps
     )
 
-    if (
+    const exampleMatchingNewValue = examples.find(
+      example => stringifyUnlessList(example.get("value")) === newValue
+    )
+
+    if (exampleMatchingNewValue) {
+      onSelect(examples.keyOf(exampleMatchingNewValue), {
+        isSyntheticChange: true,
+      })
+    } else if (
       newValue !== this.props.currentUserInputValue && // value has changed
       newValue !== lastUserEditedValue && // value isn't already tracked
-      newValue !== lastDownstreamValue && // value isn't what we've seen on the other side
-      newValue !== valueFromExample // value isn't the example's value
+      newValue !== lastDownstreamValue // value isn't what we've seen on the other side
     ) {
       this._setStateForNamespace(nextProps.currentNamespace, {
         lastUserEditedValue: nextProps.currentUserInputValue,
-        isModifiedValueSelected: newValue !== valueFromExample,
+        isModifiedValueSelected: newValue !== valueFromCurrentExample,
       })
     }
   }
@@ -200,7 +207,9 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
             !!lastUserEditedValue && lastUserEditedValue !== lastDownstreamValue
           }
           isValueModified={
-            currentUserInputValue !== undefined && isModifiedValueSelected
+            currentUserInputValue !== undefined &&
+            isModifiedValueSelected &&
+            currentUserInputValue !== this._getCurrentExampleValue()
           }
         />
       </div>
