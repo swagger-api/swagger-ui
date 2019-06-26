@@ -173,7 +173,7 @@ export class JsonSchema_array extends PureComponent {
     }
 
     return (
-      <div>
+      <div className="json-schema-array">
         { !value || !value.count || value.count() < 1 ? null :
           value.map( (item,i) => {
             let schema = Object.assign({}, itemSchema)
