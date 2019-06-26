@@ -105,7 +105,7 @@ export default class ExamplesSelect extends React.PureComponent {
         value={
           isModifiedValueAvailable && isValueModified
             ? "__MODIFIED__VALUE__"
-            : currentExampleKey
+            : (currentExampleKey || "")
         }
       >
         {isModifiedValueAvailable ? (
