@@ -82,7 +82,7 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
   _getStateForCurrentNamespace = () => {
     const { currentNamespace } = this.props
 
-    return (this.state[currentNamespace] || Map()).toJS()
+    return (this.state[currentNamespace] || Map()).toObject()
   }
 
   _setStateForCurrentNamespace = obj => {
