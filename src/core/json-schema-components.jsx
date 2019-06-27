@@ -223,16 +223,6 @@ export class JsonSchema_object extends PureComponent {
   static propTypes = JsonSchemaPropShape
   static defaultProps = JsonSchemaDefaultProps
 
-  componentDidMount() {
-    if(!this.props.value && this.props.schema) {
-      this.resetValueToSample()
-    }
-  }
-
-  resetValueToSample = () => {
-    this.onChange(getSampleSchema(this.props.schema) )
-  }
-
   onChange = (value) => {
     this.props.onChange(value)
   }
