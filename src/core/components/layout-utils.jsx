@@ -132,7 +132,8 @@ export class Select extends React.Component {
     onChange: PropTypes.func,
     multiple: PropTypes.bool,
     allowEmptyValue: PropTypes.bool,
-    className: PropTypes.string
+    className: PropTypes.string,
+    disabled: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -184,11 +185,11 @@ export class Select extends React.Component {
   }
 
   render(){
-    let { allowedValues, multiple, allowEmptyValue } = this.props
+    let { allowedValues, multiple, allowEmptyValue, disabled } = this.props
     let value = this.state.value.toJS ? this.state.value.toJS() : this.state.value
 
     return (
-      <select className={this.props.className} multiple={ multiple } value={ String(value) } onChange={ this.onChange } >
+      <select className={this.props.className} multiple={ multiple } value={ String(value) } onChange={ this.onChange } disabled={disabled} >
         { allowEmptyValue ? <option value="">--</option> : null }
         {
           allowedValues.map(function (item, key) {

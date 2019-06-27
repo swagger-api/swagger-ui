@@ -18,7 +18,8 @@ const JsonSchemaPropShape = {
   errors: ImPropTypes.list,
   required: PropTypes.bool,
   dispatchInitialValue: PropTypes.bool,
-  description: PropTypes.any
+  description: PropTypes.any,
+  disabled: PropTypes.bool,
 }
 
 const JsonSchemaDefaultProps = {
@@ -149,7 +150,7 @@ export class JsonSchema_array extends PureComponent {
   }
 
   render() {
-    let { getComponent, required, schema, errors, fn } = this.props
+    let { getComponent, required, schema, errors, fn, disabled } = this.props
 
     errors = errors.toJS ? errors.toJS() : []
 
@@ -167,6 +168,7 @@ export class JsonSchema_array extends PureComponent {
                       title={ errors.length ? errors : ""}
                       multiple={ true }
                       value={ value }
+                      disabled={disabled}
                       allowedValues={ enumValue }
                       allowEmptyValue={ !required }
                       onChange={ this.onEnumChange }/>)
@@ -183,13 +185,32 @@ export class JsonSchema_array extends PureComponent {
             }
           return (
             <div key={i} className="json-schema-form-item">
-              <JsonSchemaForm fn={fn} getComponent={getComponent} value={item} onChange={(val) => this.onItemChange(val, i)} schema={schema} />
-              <Button className="btn btn-sm json-schema-form-item-remove" onClick={()=> this.removeItem(i)} > - </Button>
+              <JsonSchemaForm 
+                fn={fn}
+                getComponent={getComponent}
+                value={item}
+                onChange={(val) => this.onItemChange(val, i)}
+                schema={schema}
+                disabled={disabled}
+              />
+              { !disabled ? (
+                <Button
+                  className="btn btn-sm json-schema-form-item-remove"
+                  onClick={()=> this.removeItem(i)}
+                > - </Button>
+              ) : null }
             </div>
             )
           }).toArray()
         }
-        <Button className={`btn btn-sm json-schema-form-item-add ${errors.length ? "invalid" : null}`} onClick={this.addItem}> Add item </Button>
+        { !disabled ? (
+          <Button
+            className={`btn btn-sm json-schema-form-item-add ${errors.length ? "invalid" : null}`}
+            onClick={this.addItem}
+          >
+            Add item
+          </Button>
+        ) : null }
       </div>
     )
   }
@@ -201,7 +222,7 @@ export class JsonSchema_boolean extends Component {
 
   onEnumChange = (val) => this.props.onChange(val)
   render() {
-    let { getComponent, value, errors, schema, required } = this.props
+    let { getComponent, value, errors, schema, required, disabled } = this.props
     errors = errors.toJS ? errors.toJS() : []
 
     const Select = getComponent("Select")
@@ -209,6 +230,7 @@ export class JsonSchema_boolean extends Component {
     return (<Select className={ errors.length ? "invalid" : ""}
                     title={ errors.length ? errors : ""}
                     value={ String(value) }
+                    disabled={disabled}
                     allowedValues={ fromJS(schema.enum || ["true", "false"]) }
                     allowEmptyValue={ !schema.enum || !required }
                     onChange={ this.onEnumChange }/>)
@@ -237,7 +259,8 @@ export class JsonSchema_object extends PureComponent {
     let {
       getComponent,
       value,
-      errors
+      errors,
+      disabled
     } = this.props
 
     const TextArea = getComponent("TextArea")
@@ -248,6 +271,7 @@ export class JsonSchema_object extends PureComponent {
           className={cx({ invalid: errors.size })}
           title={ errors.size ? errors.join(", ") : ""}
           value={value}
+          disabled={disabled}
           onChange={ this.handleOnChange }/>
       </div>
     )
