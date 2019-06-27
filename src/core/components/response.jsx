@@ -82,7 +82,7 @@ export default class Response extends React.Component {
     } = this.props
 
     let { inferSchema } = fn
-    let { isOAS3 } = specSelectors
+    let isOAS3 = specSelectors.isOAS3()
 
     let headers = response.get("headers")
     let links = response.get("links")
@@ -102,7 +102,7 @@ export default class Response extends React.Component {
     const examplesForMediaType = activeMediaType.get("examples", null)
 
     // Goal: find a schema value for `schema`
-    if(isOAS3()) {
+    if(isOAS3) {
       const oas3SchemaForContentType = activeMediaType.get("schema", Map({}))
 
       schema = oas3SchemaForContentType ? inferSchema(oas3SchemaForContentType.toJS()) : null
@@ -113,7 +113,7 @@ export default class Response extends React.Component {
     }
 
     // Goal: find an example value for `sampleResponse`
-    if(isOAS3()) {
+    if(isOAS3) {
       const oas3SchemaForContentType = activeMediaType.get("schema", Map({}))
 
       if(examplesForMediaType) {
@@ -223,7 +223,7 @@ export default class Response extends React.Component {
 
 
         </td>
-        {specSelectors.isOAS3() ? <td className="col response-col_links">
+        {isOAS3 ? <td className="col response-col_links">
           { links ?
             links.toSeq().map((link, key) => {
               return <OperationLink key={key} name={key} link={ link } getComponent={getComponent}/>
