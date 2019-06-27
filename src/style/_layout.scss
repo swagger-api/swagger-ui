@@ -446,9 +446,9 @@
 
     p
     {
-        font-size: 14px;
+        font-size: 12px;
 
-        margin: 0;
+        margin: 0 !important;
 
         @include text_body();
     }
@@ -635,14 +635,13 @@
   cursor: pointer;
   background: #7d8293;
   text-align: center;
-  padding: 5px;
+  padding: 0 5px;
   border-radius: 4px;
   font-family: sans-serif;
   font-weight: 600;
   color: white;
   font-size: 14px;
-  height: 30px;
-  width: 75px;
+  line-height: 30px;
 }
 
 .scheme-container
