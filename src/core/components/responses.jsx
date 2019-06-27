@@ -29,17 +29,20 @@ export default class Responses extends React.Component {
     displayRequestDuration: false
   }
 
-  shouldComponentUpdate(nextProps) {
-    // BUG: props.tryItOutResponse is always coming back as a new Immutable instance
-    let render = this.props.tryItOutResponse !== nextProps.tryItOutResponse
-    || this.props.responses !== nextProps.responses
-    || this.props.produces !== nextProps.produces
-    || this.props.producesValue !== nextProps.producesValue
-    || this.props.displayRequestDuration !== nextProps.displayRequestDuration
-    || this.props.path !== nextProps.path
-    || this.props.method !== nextProps.method
-    return render
-  }
+  // These performance-enhancing checks were disabled as part of Multiple Examples
+  // because they were causing data-consistency issues
+  //
+  // shouldComponentUpdate(nextProps) {
+  //   // BUG: props.tryItOutResponse is always coming back as a new Immutable instance
+  //   let render = this.props.tryItOutResponse !== nextProps.tryItOutResponse
+  //   || this.props.responses !== nextProps.responses
+  //   || this.props.produces !== nextProps.produces
+  //   || this.props.producesValue !== nextProps.producesValue
+  //   || this.props.displayRequestDuration !== nextProps.displayRequestDuration
+  //   || this.props.path !== nextProps.path
+  //   || this.props.method !== nextProps.method
+  //   return render
+  // }
 
 	onChangeProducesWrapper = ( val ) => this.props.specActions.changeProducesValue([this.props.path, this.props.method], val)
 
