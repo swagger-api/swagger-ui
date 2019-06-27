@@ -121,6 +121,10 @@
     }
 }
 
+.examples-control {
+    margin-bottom: .75em;
+}
+
 .example {
     &__section {
         margin-top: 1.5em;
@@ -409,12 +413,14 @@
     }
 }
 
+.model-example {
+    margin-top: 1em;
+}
 
 .tab
 {
     display: flex;
 
-    margin: 20px 0 10px 0;
     padding: 0;
 
     list-style: none;

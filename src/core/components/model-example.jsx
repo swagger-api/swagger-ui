@@ -46,7 +46,7 @@ export default class ModelExample extends React.Component {
 
     let isOAS3 = specSelectors.isOAS3()
 
-    return <div>
+    return <div className="model-example">
       <ul className="tab">
         <li className={ "tabitem" + ( this.state.activeTab === "example" ? " active" : "") }>
           <a className="tablinks" data-name="example" onClick={ this.activeTab }>{isExecute ? "Edit Value" : "Example Value"}</a>
