@@ -193,6 +193,7 @@ export default class Response extends React.Component {
                         contextName: code
                       })
                     }
+                    showLabels={false}
                   />
                 </div>
               ) : null}
@@ -213,7 +214,7 @@ export default class Response extends React.Component {
               getComponent={ getComponent }
               getConfigs={ getConfigs }
               specSelectors={ specSelectors }
-              schema={ schema }
+              schema={ fromJSOrdered(schema) }
               example={ example }/>
           ) : null }
 

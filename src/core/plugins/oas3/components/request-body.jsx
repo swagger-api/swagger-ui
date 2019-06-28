@@ -5,6 +5,7 @@ import { Map, OrderedMap, List } from "immutable"
 import { getCommonExtensions, getSampleSchema, stringify } from "core/utils"
 
 import ExamplesSelectValueRetainer from "core/components/examples-select-value-retainer"
+import Example from "core/components/example"
 
 function getDefaultRequestBodyValue(requestBody, mediaType, activeExamplesKey) {
   let mediaTypeValue = requestBody.getIn(["content", mediaType])
@@ -232,6 +233,14 @@ const RequestBody = ({
           }
         />
       )
+    }
+    {
+       examplesForMediaType ? (
+        <Example
+          example={examplesForMediaType.get(activeExamplesKey)}
+          getComponent={getComponent}
+        />
+      ) : null
     }
   </div>
 }
