@@ -9,7 +9,10 @@ import Example from "./example"
 import ExamplesSelect from "./examples-select"
 
 const getExampleComponent = ( sampleResponse, HighlightCode ) => {
-  if ( sampleResponse !== undefined ) { return <div>
+  if (
+    sampleResponse !== undefined &&
+    sampleResponse !== null
+  ) { return <div>
       <HighlightCode className="example" value={ sampleResponse } />
     </div>
   }
@@ -108,7 +111,7 @@ export default class Response extends React.Component {
       schema = oas3SchemaForContentType ? inferSchema(oas3SchemaForContentType.toJS()) : null
       specPathWithPossibleSchema = oas3SchemaForContentType ? List(["content", this.state.responseContentType, "schema"]) : specPath
     } else {
-      schema = inferSchema(response.toJS()) // TODO: don't convert back and forth. Lets just stick with immutable for inferSchema
+      schema = response.get("schema")
       specPathWithPossibleSchema = response.has("schema") ? specPath.push("schema") : specPath
     }
 
@@ -130,7 +133,7 @@ export default class Response extends React.Component {
         })
       }
     } else {
-      sampleResponse = schema ? getSampleSchema(schema, activeContentType, {
+      sampleResponse = schema ? getSampleSchema(schema.toJS(), activeContentType, {
         includeReadOnly: true,
         includeWriteOnly: true // writeOnly has no filtering effect in swagger 2.0
        }) : null
@@ -204,15 +207,15 @@ export default class Response extends React.Component {
               />
           ) : null}
 
-          { example ? (
+          { example || schema ? (
             <ModelExample
               specPath={specPathWithPossibleSchema}
               getComponent={ getComponent }
               getConfigs={ getConfigs }
               specSelectors={ specSelectors }
-              schema={ fromJSOrdered(schema) }
+              schema={ schema }
               example={ example }/>
-          ) : null}
+          ) : null }
 
           { headers ? (
             <Headers
