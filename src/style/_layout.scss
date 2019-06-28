@@ -121,8 +121,14 @@
     }
 }
 
-.examples-control {
+.examples-select {
     margin-bottom: .75em;
+
+    &__section-label {
+        font-weight: bold;
+        font-size: .9rem;
+        margin-right: .5rem;
+    }
 }
 
 .example {

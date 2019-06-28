@@ -14,6 +14,7 @@ export default class ExamplesSelect extends React.PureComponent {
     currentExampleKey: PropTypes.string,
     isModifiedValueAvailable: PropTypes.bool,
     isValueModified: PropTypes.bool,
+    showLabels: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -25,6 +26,7 @@ export default class ExamplesSelect extends React.PureComponent {
         ...args
       ),
     currentExampleKey: null,
+    showLabels: true,
   }
 
   _onSelect = (key, { isSyntheticChange = false } = {}) => {
@@ -96,34 +98,41 @@ export default class ExamplesSelect extends React.PureComponent {
       currentExampleKey,
       isValueModified,
       isModifiedValueAvailable,
+      showLabels,
     } = this.props
 
     return (
-      <select
-        className="examples-control"
-        onChange={this._onDomSelect}
-        value={
-          isModifiedValueAvailable && isValueModified
-            ? "__MODIFIED__VALUE__"
-            : (currentExampleKey || "")
+      <div className="examples-select">
+        {
+          showLabels ? (
+            <span className="examples-select__section-label">Examples: </span>
+          ) : null
         }
-      >
-        {isModifiedValueAvailable ? (
-          <option value="__MODIFIED__VALUE__">[Modified value]</option>
-        ) : null}
-        {examples
-          .map((example, exampleName) => {
-            return (
-              <option
-                key={exampleName} // for React
-                value={exampleName} // for matching to select's `value`
-              >
-                {example.get("summary") || exampleName}
-              </option>
-            )
-          })
-          .valueSeq()}
-      </select>
+        <select
+          onChange={this._onDomSelect}
+          value={
+            isModifiedValueAvailable && isValueModified
+              ? "__MODIFIED__VALUE__"
+              : currentExampleKey || ""
+          }
+        >
+          {isModifiedValueAvailable ? (
+            <option value="__MODIFIED__VALUE__">[Modified value]</option>
+          ) : null}
+          {examples
+            .map((example, exampleName) => {
+              return (
+                <option
+                  key={exampleName} // for React
+                  value={exampleName} // for matching to select's `value`
+                >
+                  {example.get("summary") || exampleName}
+                </option>
+              )
+            })
+            .valueSeq()}
+        </select>
+      </div>
     )
   }
 }

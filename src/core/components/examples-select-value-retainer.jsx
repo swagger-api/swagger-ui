@@ -202,21 +202,19 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
     } = this._getStateForCurrentNamespace()
 
     return (
-      <div>
-        <ExamplesSelect
-          examples={examples}
-          currentExampleKey={currentKey}
-          onSelect={this._onExamplesSelect}
-          isModifiedValueAvailable={
-            !!lastUserEditedValue && lastUserEditedValue !== lastDownstreamValue
-          }
-          isValueModified={
-            currentUserInputValue !== undefined &&
-            isModifiedValueSelected &&
-            currentUserInputValue !== this._getCurrentExampleValue()
-          }
-        />
-      </div>
+      <ExamplesSelect
+        examples={examples}
+        currentExampleKey={currentKey}
+        onSelect={this._onExamplesSelect}
+        isModifiedValueAvailable={
+          !!lastUserEditedValue && lastUserEditedValue !== lastDownstreamValue
+        }
+        isValueModified={
+          currentUserInputValue !== undefined &&
+          isModifiedValueSelected &&
+          currentUserInputValue !== this._getCurrentExampleValue()
+        }
+      />
     )
   }
 }
