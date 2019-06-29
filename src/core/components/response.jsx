@@ -200,14 +200,6 @@ export default class Response extends React.Component {
             </section>
           ) : null}
 
-          { isOAS3 && examplesForMediaType ? (
-              <Example
-                example={examplesForMediaType.get(this.getTargetExamplesKey(), Map({}))}
-                getComponent={getComponent}
-                omitValue={true}
-              />
-          ) : null}
-
           { example || schema ? (
             <ModelExample
               specPath={specPathWithPossibleSchema}
@@ -218,13 +210,20 @@ export default class Response extends React.Component {
               example={ example }/>
           ) : null }
 
+          { isOAS3 && examplesForMediaType ? (
+              <Example
+                example={examplesForMediaType.get(this.getTargetExamplesKey(), Map({}))}
+                getComponent={getComponent}
+                omitValue={true}
+              />
+          ) : null}
+
           { headers ? (
             <Headers
               headers={ headers }
               getComponent={ getComponent }
             />
           ) : null}
-
 
         </td>
         {isOAS3 ? <td className="col response-col_links">
