@@ -615,38 +615,38 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           summary: "A wonderful kitten's info",
         },
       })
-      describe("in a Response", () => {
-        ResponsePrimitiveTestCases({
-          operationDomId: "#operations-default-post_Object",
-          exampleA: {
-            key: "ObjectExampleA",
-            value: JSON.stringify(
-              {
-                firstName: "Kyle",
-                lastName: "Shockey",
-                email: "kyle.shockey@smartbear.com",
-              },
-              null,
-              2
-            ),
-            summary: "A user's contact info",
-          },
-          exampleB: {
-            key: "ObjectExampleB",
-            value: JSON.stringify(
-              {
-                name: "Abbey",
-                type: "kitten",
-                color: "calico",
-                gender: "female",
-                age: "11 weeks",
-              },
-              null,
-              2
-            ),
-            summary: "A wonderful kitten's info",
-          },
-        })
+    })
+    describe("in a Response", () => {
+      ResponsePrimitiveTestCases({
+        operationDomId: "#operations-default-post_Object",
+        exampleA: {
+          key: "ObjectExampleA",
+          value: JSON.stringify(
+            {
+              firstName: "Kyle",
+              lastName: "Shockey",
+              email: "kyle.shockey@smartbear.com",
+            },
+            null,
+            2
+          ),
+          summary: "A user's contact info",
+        },
+        exampleB: {
+          key: "ObjectExampleB",
+          value: JSON.stringify(
+            {
+              name: "Abbey",
+              type: "kitten",
+              color: "calico",
+              gender: "female",
+              age: "11 weeks",
+            },
+            null,
+            2
+          ),
+          summary: "A wonderful kitten's info",
+        },
       })
     })
   })
