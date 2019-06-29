@@ -152,7 +152,7 @@ export default class Response extends React.Component {
             <Markdown source={ response.get( "description" ) } />
           </div>
 
-          {isOAS3 ? (
+          {isOAS3 && response.get("content") ? (
             <section className="response-controls">
               <div
                 className={cx("response-control-media-type", {

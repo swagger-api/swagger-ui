@@ -96,7 +96,7 @@ export default class ParameterRow extends Component {
   setDefaultValue = () => {
     let { specSelectors, pathMethod, rawParam, oas3Selectors, specPath } = this.props
 
-    let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam)
+    let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || Map()
     
     const parameterIndex = specPath.last()
 
@@ -129,6 +129,8 @@ export default class ParameterRow extends Component {
 
   getParamKey() {
     const { param } = this.props
+    
+    if(!param) return null
 
     return `${param.get("name")}-${param.get("in")}`
   }
@@ -143,6 +145,8 @@ export default class ParameterRow extends Component {
     if(!param) {
       param = rawParam
     }
+
+    if(!rawParam) return null
 
     // const onChangeWrapper = (value) => onChange(param, value)
     const JsonSchemaForm = getComponent("JsonSchemaForm")
@@ -166,7 +170,7 @@ export default class ParameterRow extends Component {
     const ParameterExt = getComponent("ParameterExt")
     const ParameterIncludeEmpty = getComponent("ParameterIncludeEmpty")
 
-    let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam)
+    let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || Map()
     let format = param.get("format")
     let schema = isOAS3 ? param.get("schema") : param
     let type = schema.get("type")
