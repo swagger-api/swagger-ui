@@ -15,7 +15,7 @@ export default class ModelExample extends React.Component {
 
   constructor(props, context) {
     super(props, context)
-    let { getConfigs, isExecute, example } = this.props
+    let { getConfigs, isExecute } = this.props
     let { defaultModelRendering } = getConfigs()
 
     let activeTab = defaultModelRendering
@@ -28,9 +28,6 @@ export default class ModelExample extends React.Component {
       activeTab = "example"
     }
 
-    if(!example) {
-      activeTab = "model"
-    }
     this.state = {
       activeTab: activeTab
     }
@@ -44,11 +41,11 @@ export default class ModelExample extends React.Component {
     })
   }
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(nextProps) {
     if (
-      props.isExecute &&
-      props.isExecute !== this.props.isExecute &&
-      !!this.props.example
+      nextProps.isExecute &&
+      !this.props.isExecute &&
+      this.props.example
     ) {
       this.setState({ activeTab: "example" })
     }
