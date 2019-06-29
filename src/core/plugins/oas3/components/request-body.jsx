@@ -4,9 +4,6 @@ import ImPropTypes from "react-immutable-proptypes"
 import { Map, OrderedMap, List } from "immutable"
 import { getCommonExtensions, getSampleSchema, stringify } from "core/utils"
 
-import ExamplesSelectValueRetainer from "core/components/examples-select-value-retainer"
-import Example from "core/components/example"
-
 function getDefaultRequestBodyValue(requestBody, mediaType, activeExamplesKey) {
   let mediaTypeValue = requestBody.getIn(["content", mediaType])
   let schema = mediaTypeValue.get("schema").toJS()
@@ -59,6 +56,8 @@ const RequestBody = ({
   const ModelExample = getComponent("modelExample")
   const RequestBodyEditor = getComponent("RequestBodyEditor")
   const HighlightCode = getComponent("highlightCode")
+  const ExamplesSelectValueRetainer = getComponent("ExamplesSelectValueRetainer")
+  const Example = getComponent("Example")
 
   const { showCommonExtensions } = getConfigs()
 

@@ -5,9 +5,6 @@ import cx from "classnames"
 import { fromJS, Seq, Iterable, List, Map } from "immutable"
 import { getSampleSchema, fromJSOrdered, stringify } from "core/utils"
 
-import Example from "./example"
-import ExamplesSelect from "./examples-select"
-
 const getExampleComponent = ( sampleResponse, HighlightCode ) => {
   if (
     sampleResponse !== undefined &&
@@ -99,6 +96,8 @@ export default class Response extends React.Component {
     const Markdown = getComponent( "Markdown" )
     const OperationLink = getComponent("operationLink")
     const ContentType = getComponent("contentType")
+    const ExamplesSelect = getComponent("ExamplesSelect")
+    const Example = getComponent("Example")
 
 
     var sampleResponse

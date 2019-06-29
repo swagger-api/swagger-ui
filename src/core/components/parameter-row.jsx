@@ -5,9 +5,6 @@ import ImPropTypes from "react-immutable-proptypes"
 import win from "core/window"
 import { getExtensions, getCommonExtensions, numberToString, stringify } from "core/utils"
 
-import ExamplesSelectValueRetainer from "./examples-select-value-retainer"
-import Example from "./example"
-
 export default class ParameterRow extends Component {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
@@ -169,6 +166,8 @@ export default class ParameterRow extends Component {
     const Markdown = getComponent("Markdown")
     const ParameterExt = getComponent("ParameterExt")
     const ParameterIncludeEmpty = getComponent("ParameterIncludeEmpty")
+    const ExamplesSelectValueRetainer = getComponent("ExamplesSelectValueRetainer")
+    const Example = getComponent("Example")
 
     let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || Map()
     let format = param.get("format")

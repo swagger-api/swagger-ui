@@ -25,6 +25,9 @@ import AuthItem from "core/components/auth/auth-item"
 import AuthError from "core/components/auth/error"
 import ApiKeyAuth from "core/components/auth/api-key-auth"
 import BasicAuth from "core/components/auth/basic-auth"
+import Example from "core/components/example"
+import ExamplesSelect from "core/components/examples-select"
+import ExamplesSelectValueRetainer from "core/components/examples-select-value-retainer"
 import Oauth2 from "core/components/auth/oauth2"
 import Clear from "core/components/clear"
 import LiveResponse from "core/components/live-response"
@@ -152,7 +155,10 @@ export default function() {
       DeepLink,
       InfoUrl,
       InfoBasePath,
-      SvgAssets
+      SvgAssets,
+      Example,
+      ExamplesSelect,
+      ExamplesSelectValueRetainer,
     }
   }
 

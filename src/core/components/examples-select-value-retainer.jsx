@@ -8,8 +8,6 @@ import ImPropTypes from "react-immutable-proptypes"
 
 import { stringify } from "core/utils"
 
-import ExamplesSelect from "./examples-select"
-
 // This stateful component lets us avoid writing competing values (user
 // modifications vs example values) into global state, and the mess that comes
 // with that: tracking which of the two values are currently used for
@@ -196,12 +194,14 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
   }
 
   render() {
-    const { currentUserInputValue, examples, currentKey } = this.props
+    const { currentUserInputValue, examples, currentKey, getComponent } = this.props
     const {
       lastDownstreamValue,
       lastUserEditedValue,
       isModifiedValueSelected,
     } = this._getStateForCurrentNamespace()
+
+    const ExamplesSelect = getComponent("ExamplesSelect")
 
     return (
       <ExamplesSelect
