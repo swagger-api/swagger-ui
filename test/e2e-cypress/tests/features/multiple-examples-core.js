@@ -128,7 +128,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .get("#operations-default-post_Boolean")
           .click()
           // Assert on the initial dropdown value
-          .get("table.parameters select.examples-select")
+          .get("table.parameters .examples-select > select")
           .find(":selected")
           .should("have.text", "The truth will set you free")
           // Assert on the initial JsonSchemaForm value
@@ -154,7 +154,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .get("#operations-default-post_Boolean")
           .click()
           // Set the dropdown value, then assert on it
-          .get("table.parameters select.examples-select")
+          .get("table.parameters .examples-select > select")
           .select("BooleanExampleB")
           .find(":selected")
           .should("have.text", "Friends don't lie to friends")
@@ -186,7 +186,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .find(":selected")
           .should("have.text", "false")
           // Assert on the dropdown value
-          .get("table.parameters select.examples-select")
+          .get("table.parameters .examples-select > select")
           .find(":selected")
           .should("have.text", "Friends don't lie to friends")
           // Execute
@@ -222,7 +222,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .get("#operations-default-post_Boolean")
           .click()
           // Assert on the initial dropdown value
-          .get(".responses-wrapper select.examples-select")
+          .get(".responses-wrapper .examples-select > select")
           .find(":selected")
           .should("have.text", "The truth will set you free")
           // Assert on the example value
@@ -237,7 +237,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .get("#operations-default-post_Boolean")
           .click()
           // Set the dropdown value, then assert on it
-          .get(".responses-wrapper select.examples-select")
+          .get(".responses-wrapper .examples-select > select")
           .select("BooleanExampleB")
           .find(":selected")
           .should("have.text", "Friends don't lie to friends")
@@ -264,7 +264,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
               "c",
             ])
           })
-          .get(".parameters-col_description .examples-select")
+          .get(".parameters-col_description .examples-select > select")
           .find(":selected")
           .should("have.text", "A lowly array of strings")
       })
@@ -275,7 +275,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           )
           .get("#operations-default-post_Array")
           .click()
-          .get(".parameters-col_description .examples-select")
+          .get(".parameters-col_description .examples-select > select")
           .select("ArrayExampleB")
           .get(".json-schema-form-item > input")
           .then(inputs => {
@@ -286,7 +286,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
               "4",
             ])
           })
-          .get(".parameters-col_description .examples-select")
+          .get(".parameters-col_description .examples-select > select")
           .find(":selected")
           .should("have.text", "A lowly array of numbers")
       })
@@ -297,7 +297,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           )
           .get("#operations-default-post_Array")
           .click()
-          .get(".parameters-col_description .examples-select")
+          .get(".parameters-col_description .examples-select > select")
           .select("ArrayExampleB")
           // Add a new item
           .get(".json-schema-form-item > input")
@@ -312,7 +312,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .click()
           .get(".try-out__btn")
           .click()
-          .get(".parameters-col_description .examples-select")
+          .get(".parameters-col_description .examples-select > select")
           .select("ArrayExampleB")
           // Add a new item
           .get(".json-schema-form-item-add")
@@ -330,7 +330,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
               "5",
             ])
           })
-          .get(".parameters-col_description .examples-select")
+          .get(".parameters-col_description .examples-select > select")
           .find(":selected")
           .should("have.text", "[Modified value]")
       })
@@ -344,7 +344,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .click()
           .get(".try-out__btn")
           .click()
-          .get(".parameters-col_description .examples-select")
+          .get(".parameters-col_description .examples-select > select")
           .select("ArrayExampleB")
           // Add a new item
           .get(".json-schema-form-item-add")
@@ -352,7 +352,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .get(".json-schema-form-item:last-of-type > input")
           .type("5")
           // Reset to an example
-          .get(".parameters-col_description .examples-select")
+          .get(".parameters-col_description .examples-select > select")
           .select("ArrayExampleB")
           // Assert against the input fields
           .get(".json-schema-form-item > input")
@@ -364,11 +364,11 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
               "4",
             ])
           })
-          .get(".parameters-col_description .examples-select")
+          .get(".parameters-col_description .examples-select > select")
           .find(":selected")
           .should("have.text", "A lowly array of numbers")
           // Return to the modified value
-          .get(".parameters-col_description .examples-select")
+          .get(".parameters-col_description .examples-select > select")
           .select("__MODIFIED__VALUE__")
           // Assert that our modified value is back
           .get(".json-schema-form-item > input")
@@ -381,7 +381,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
               "5",
             ])
           })
-          .get(".parameters-col_description .examples-select")
+          .get(".parameters-col_description .examples-select > select")
           .find(":selected")
           .should("have.text", "[Modified value]")
       })
@@ -398,7 +398,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .get(".opblock-section-request-body .highlight-code")
           .should("have.text", JSON.stringify(["a", "b", "c"], null, 2))
           // Check dropdown value
-          .get(".opblock-section-request-body .examples-select")
+          .get(".opblock-section-request-body .examples-select > select")
           .find(":selected")
           .should("have.text", "A lowly array of strings")
           // Switch to Try-It-Out
@@ -408,7 +408,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .get(".opblock-section-request-body textarea")
           .should("have.value", JSON.stringify(["a", "b", "c"], null, 2))
           // Check dropdown value
-          .get(".opblock-section-request-body .examples-select")
+          .get(".opblock-section-request-body .examples-select > select")
           .find(":selected")
           .should("have.text", "A lowly array of strings")
       })
@@ -419,11 +419,11 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           )
           .get("#operations-default-post_Array")
           .click()
-          .get(".opblock-section-request-body .examples-select")
+          .get(".opblock-section-request-body .examples-select > select")
           .select("ArrayExampleB")
           .get(".opblock-section-request-body .highlight-code")
           .should("have.text", JSON.stringify([1, 2, 3, 4], null, 2))
-          .get(".opblock-section-request-body .examples-select")
+          .get(".opblock-section-request-body .examples-select > select")
           .find(":selected")
           .should("have.text", "A lowly array of numbers")
           // Switch to Try-It-Out
@@ -433,7 +433,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .get(".opblock-section-request-body textarea")
           .should("have.text", JSON.stringify([1, 2, 3, 4], null, 2))
           // Check dropdown value
-          .get(".opblock-section-request-body .examples-select")
+          .get(".opblock-section-request-body .examples-select > select")
           .find(":selected")
           .should("have.text", "A lowly array of numbers")
       })
@@ -448,13 +448,13 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .get(".try-out__btn")
           .click()
           // Choose the second example
-          .get(".opblock-section-request-body .examples-select")
+          .get(".opblock-section-request-body .examples-select > select")
           .select("ArrayExampleB")
           // Change the value
           .get(".opblock-section-request-body textarea")
           .type(`{leftarrow}{leftarrow},{enter}  5`)
           // Check that [Modified value] is displayed in dropdown
-          .get(".opblock-section-request-body .examples-select")
+          .get(".opblock-section-request-body .examples-select > select")
           .find(":selected")
           .should("have.text", "[Modified value]")
           // Check textarea value
@@ -473,30 +473,30 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .get(".try-out__btn")
           .click()
           // Choose the second example as the example to start with
-          .get(".opblock-section-request-body .examples-select")
+          .get(".opblock-section-request-body .examples-select > select")
           .select("ArrayExampleB")
           // Change the value
           .get(".opblock-section-request-body textarea")
           .type(`{leftarrow}{leftarrow},{enter}  5`)
           // Check that [Modified value] is displayed in dropdown
-          .get(".opblock-section-request-body .examples-select")
+          .get(".opblock-section-request-body .examples-select > select")
           .find(":selected")
           .should("have.text", "[Modified value]")
           // Check textarea value
           .get(".opblock-section-request-body textarea")
           .should("have.text", JSON.stringify([1, 2, 3, 4, 5], null, 2))
           // Choose the second example
-          .get(".opblock-section-request-body .examples-select")
+          .get(".opblock-section-request-body .examples-select > select")
           .select("ArrayExampleB")
           // Check that the example is displayed in dropdown
-          .get(".opblock-section-request-body .examples-select")
+          .get(".opblock-section-request-body .examples-select > select")
           .find(":selected")
           .should("have.text", "A lowly array of numbers")
           // Check textarea value
           .get(".opblock-section-request-body textarea")
           .should("have.text", JSON.stringify([1, 2, 3, 4], null, 2))
           // Switch back to the modified value
-          .get(".opblock-section-request-body .examples-select")
+          .get(".opblock-section-request-body .examples-select > select")
           .select("__MODIFIED__VALUE__")
           // Check textarea value
           .get(".opblock-section-request-body textarea")
@@ -512,7 +512,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .get("#operations-default-post_Array")
           .click()
           // Assert on the initial dropdown value
-          .get(".responses-wrapper select.examples-select")
+          .get(".responses-wrapper .examples-select > select")
           .find(":selected")
           .should("have.text", "A lowly array of strings")
           // Assert on the example value
@@ -527,7 +527,7 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .get("#operations-default-post_Array")
           .click()
           // Set the dropdown value, then assert on it
-          .get(".responses-wrapper select.examples-select")
+          .get(".responses-wrapper .examples-select > select")
           .select("ArrayExampleB")
           .find(":selected")
           .should("have.text", "A lowly array of numbers")
@@ -718,7 +718,7 @@ function ParameterPrimitiveTestCases({
       .get(operationDomId)
       .click()
       // Choose the second example
-      .get("table.parameters select.examples-select")
+      .get("table.parameters .examples-select > select")
       .select(exampleB.key)
       // Assert on the static docs value
       .get(
@@ -761,7 +761,7 @@ function ParameterPrimitiveTestCases({
       .clear()
       .type(customUserInput)
       // Assert on the active select menu item
-      .get("table.parameters select.examples-select")
+      .get("table.parameters .examples-select > select")
       .find(":selected")
       .should("have.text", "[Modified value]")
       // Execute the operation
@@ -790,7 +790,7 @@ function ParameterPrimitiveTestCases({
       .clear()
       .type(customUserInput)
       // Select the first example
-      .get("table.parameters select.examples-select")
+      .get("table.parameters .examples-select > select")
       .select(exampleA.key)
       // Execute the operation
       .get(".execute")
@@ -803,7 +803,7 @@ function ParameterPrimitiveTestCases({
           : `?message=${escape(exampleA.value)}`
       )
       // Select the modified value
-      .get("table.parameters select.examples-select")
+      .get("table.parameters .examples-select > select")
       .select("__MODIFIED__VALUE__")
       // Execute the operation
       .get(".execute")
@@ -873,7 +873,7 @@ function RequestBodyPrimitiveTestCases({
       .get(operationDomId)
       .click()
       // Choose the second example
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .select(exampleB.key)
       // Assert on the static docs value
       .get(`.opblock-section-request-body .microlight`)
@@ -903,7 +903,7 @@ function RequestBodyPrimitiveTestCases({
       .get(".try-out__btn")
       .click()
       // Choose the second example
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .select(exampleB.key)
       // Assert on the Try-It-Out value
       .get(`.opblock-section-request-body textarea`)
@@ -942,7 +942,7 @@ function RequestBodyPrimitiveTestCases({
       .clear()
       .type(customUserInput)
       // Assert on the dropdown value
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
       .should("have.text", "[Modified value]")
       // Modify the value again, going back to the example value
@@ -950,7 +950,7 @@ function RequestBodyPrimitiveTestCases({
       .clear()
       .type(exampleA.value)
       // Assert on the dropdown value returning to the example value
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
       .should("have.text", exampleA.summary)
   })
@@ -962,7 +962,7 @@ function RequestBodyPrimitiveTestCases({
       .get(operationDomId)
       .click()
       // Choose the second example
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .select(exampleB.key)
       // Change the media type
       .get(".opblock-section-request-body .content-type")
@@ -1025,18 +1025,18 @@ function RequestBodyPrimitiveTestCases({
       .get(`.opblock-section-request-body .microlight`)
       .should("have.text", exampleA.value)
       // Assert on the dropdown value
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
       .should("have.text", exampleA.summary)
 
       // Choose exampleB
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .select(exampleB.key)
       // Assert on the static docs value
       .get(`.opblock-section-request-body .microlight`)
       .should("have.text", exampleB.value)
       // Assert on the dropdown value
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
       .should("have.text", exampleB.summary)
 
@@ -1047,18 +1047,18 @@ function RequestBodyPrimitiveTestCases({
       .get(`.opblock-section-request-body .microlight`)
       .should("have.text", exampleB.value)
       // Assert that the dropdown value didn't change
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
       .should("have.text", exampleB.summary)
 
       // Choose exampleA
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .select(exampleA.key)
       // Assert on the static docs value
       .get(`.opblock-section-request-body .microlight`)
       .should("have.text", exampleA.value)
       // Assert on the dropdown value
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
       .should("have.text", exampleA.summary)
   })
@@ -1079,18 +1079,18 @@ function RequestBodyPrimitiveTestCases({
       .get(`.opblock-section-request-body textarea`)
       .should("have.text", exampleA.value)
       // Assert on the dropdown value
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
       .should("have.text", exampleA.summary)
 
       // Choose exampleB
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .select(exampleB.key)
       // Assert on the static docs value
       .get(`.opblock-section-request-body textarea`)
       .should("have.text", exampleB.value)
       // Assert on the dropdown value
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
       .should("have.text", exampleB.summary)
 
@@ -1101,18 +1101,18 @@ function RequestBodyPrimitiveTestCases({
       .get(`.opblock-section-request-body textarea`)
       .should("have.text", exampleB.value)
       // Assert that the dropdown value didn't change
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
       .should("have.text", exampleB.summary)
 
       // Choose exampleA
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .select(exampleA.key)
       // Assert on the static docs value
       .get(`.opblock-section-request-body textarea`)
       .should("have.text", exampleA.value)
       // Assert on the dropdown value
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
       .should("have.text", exampleA.summary)
   })
@@ -1133,7 +1133,7 @@ function RequestBodyPrimitiveTestCases({
       .get(`.opblock-section-request-body textarea`)
       .should("have.text", exampleA.value)
       // Assert on the dropdown value
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
       .should("have.text", exampleA.summary)
 
@@ -1142,7 +1142,7 @@ function RequestBodyPrimitiveTestCases({
       .clear()
       .type(customUserInput)
       // Assert on the dropdown value
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
       .should("have.text", "[Modified value]")
       // Fire the operation
@@ -1156,13 +1156,13 @@ function RequestBodyPrimitiveTestCases({
       )
 
       // Choose exampleB
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .select(exampleB.key)
       // Assert on the static docs value
       .get(`.opblock-section-request-body textarea`)
       .should("have.text", exampleB.value)
       // Assert on the dropdown value
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
       .should("have.text", exampleB.summary)
       // Fire the operation
@@ -1174,7 +1174,7 @@ function RequestBodyPrimitiveTestCases({
       .contains(`-d "${exampleB.serializedValue || exampleB.value}"`)
 
       // Ensure the modified value is still accessible
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .contains("[Modified value]")
 
       // Change the media type to text/plain
@@ -1184,7 +1184,7 @@ function RequestBodyPrimitiveTestCases({
       .get(`.opblock-section-request-body textarea`)
       .should("have.text", exampleB.value)
       // Assert that the dropdown value didn't change
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
       .should("have.text", exampleB.summary)
       // Fire the operation
@@ -1196,17 +1196,17 @@ function RequestBodyPrimitiveTestCases({
       .contains(`-d "${exampleB.serializedValue || exampleB.value}"`)
 
       // Ensure the modified value is still accessible
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .contains("[Modified value]")
 
       // Choose exampleA
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .select(exampleA.key)
       // Assert on the static docs value
       .get(`.opblock-section-request-body textarea`)
       .should("have.text", exampleA.value)
       // Assert on the dropdown value
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
       .should("have.text", exampleA.summary)
       // Fire the operation
@@ -1218,13 +1218,13 @@ function RequestBodyPrimitiveTestCases({
       .contains(`-d "${exampleA.serializedValue || exampleA.value}"`)
 
       // Ensure the modified value is still the same value
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .select("__MODIFIED__VALUE__")
       // Assert on the static docs value
       .get(`.opblock-section-request-body textarea`)
       .should("have.text", customUserInput.replace(/{{}/g, "{"))
       // Assert on the dropdown value
-      .get(".opblock-section-request-body select.examples-select")
+      .get(".opblock-section-request-body .examples-select > select")
       .find(":selected")
       .should("have.text", "[Modified value]")
       // Fire the operation
@@ -1255,7 +1255,7 @@ function ResponsePrimitiveTestCases({
       .get(".responses-wrapper")
       .within(() => {
         cy
-          .get(".examples-select")
+          .get(".examples-select > select")
           .find(":selected")
           .should("have.text", exampleA.summary)
           .get(".microlight")
@@ -1270,7 +1270,7 @@ function ResponsePrimitiveTestCases({
       .get(".responses-wrapper")
       .within(() => {
         cy
-          .get(".examples-select")
+          .get(".examples-select > select")
           .select(exampleB.key)
           .find(":selected")
           .should("have.text", exampleB.summary)
@@ -1288,7 +1288,7 @@ function ResponsePrimitiveTestCases({
       .within(() => {
         cy
           // Change examples
-          .get(".examples-select")
+          .get(".examples-select > select")
           .select(exampleB.key)
           // Assert against dropdown value
           .find(":selected")
@@ -1301,7 +1301,7 @@ function ResponsePrimitiveTestCases({
           .get(".content-type")
           .select("text/plain+other")
           // Assert against dropdown value
-          .get(".examples-select")
+          .get(".examples-select > select")
           .find(":selected")
           .should("have.text", exampleB.summary)
           // Assert against example value
@@ -1323,7 +1323,7 @@ function ResponsePrimitiveTestCases({
             .get(".content-type")
             .select("text/plain+other")
             // Change examples
-            .get(".examples-select")
+            .get(".examples-select > select")
             .select(exampleC.key)
             // Assert against dropdown value
             .find(":selected")
@@ -1336,7 +1336,7 @@ function ResponsePrimitiveTestCases({
             .get(".content-type")
             .select("text/plain")
             // Assert against dropdown value
-            .get(".examples-select")
+            .get(".examples-select > select")
             .find(":selected")
             .should("have.text", exampleA.summary)
             // Assert against example value
