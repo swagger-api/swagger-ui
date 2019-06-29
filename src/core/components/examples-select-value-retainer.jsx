@@ -49,12 +49,12 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
     examples: Map({}),
     currentNamespace: "__DEFAULT__NAMESPACE__",
     onSelect: (...args) =>
-      console.log(
+      console.log( // eslint-disable-line no-console
         "ExamplesSelectValueRetainer: no `onSelect` function was provided",
         ...args
       ),
     updateValue: (...args) =>
-      console.log(
+      console.log( // eslint-disable-line no-console
         "ExamplesSelectValueRetainer: no `updateValue` function was provided",
         ...args
       ),

@@ -20,7 +20,7 @@ export default class ExamplesSelect extends React.PureComponent {
   static defaultProps = {
     examples: Im.Map({}),
     onSelect: (...args) =>
-      console.log(
+      console.log( // eslint-disable-line no-console
         // FIXME: remove before merging to master...
         `DEBUG: ExamplesSelect was not given an onSelect callback`,
         ...args

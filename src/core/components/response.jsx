@@ -29,15 +29,19 @@ export default class Response extends React.Component {
   }
 
   static propTypes = {
+    path: PropTypes.string.isRequired,
+    method: PropTypes.string.isRequired,
     code: PropTypes.string.isRequired,
     response: PropTypes.instanceOf(Iterable),
     className: PropTypes.string,
     getComponent: PropTypes.func.isRequired,
     getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
+    oas3Actions: PropTypes.object.isRequired,
     specPath: ImPropTypes.list.isRequired,
     fn: PropTypes.object.isRequired,
     contentType: PropTypes.string,
+    activeExamplesKey: PropTypes.string,
     controlsAcceptHeader: PropTypes.bool,
     onContentTypeChange: PropTypes.func
   }

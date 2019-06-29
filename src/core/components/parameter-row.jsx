@@ -21,7 +21,9 @@ export default class ParameterRow extends Component {
     specActions: PropTypes.object.isRequired,
     pathMethod: PropTypes.array.isRequired,
     getConfigs: PropTypes.func.isRequired,
-    specPath: ImPropTypes.list.isRequired
+    specPath: ImPropTypes.list.isRequired,
+    oas3Actions: PropTypes.object.isRequired,
+    oas3Selectors: PropTypes.object.isRequired,
   }
 
   constructor(props, context) {
@@ -94,11 +96,9 @@ export default class ParameterRow extends Component {
   }
 
   setDefaultValue = () => {
-    let { specSelectors, pathMethod, rawParam, oas3Selectors, specPath } = this.props
+    let { specSelectors, pathMethod, rawParam, oas3Selectors } = this.props
 
     let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || Map()
-    
-    const parameterIndex = specPath.last()
 
     if (!paramWithMeta || paramWithMeta.get("value") !== undefined) {
       return

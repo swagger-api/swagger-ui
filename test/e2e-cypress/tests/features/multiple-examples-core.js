@@ -666,7 +666,7 @@ function ParameterPrimitiveTestCases({
       .visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
       .get(operationDomId)
       .click()
-      .get(`tr[data-param-name=\"${parameterName}\"]`)
+      .get(`tr[data-param-name="${parameterName}"]`)
       .find(".examples-select option")
       .should("have.length", exampleC ? 3 : 2)
       // Ensure the relevant input is disabled

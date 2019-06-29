@@ -70,7 +70,7 @@ const RequestBody = ({
   const schemaForMediaType = mediaTypeValue.get("schema", OrderedMap())
   const examplesForMediaType = mediaTypeValue.get("examples", OrderedMap())
 
-  const handleExamplesSelect = (key, { isSyntheticChange }) => {
+  const handleExamplesSelect = (key /*, { isSyntheticChange } */) => {
     updateActiveExamplesKey(key)
   }
 
@@ -250,7 +250,9 @@ RequestBody.propTypes = {
   contentType: PropTypes.string,
   isExecute: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
-  specPath: PropTypes.array.isRequired
+  specPath: PropTypes.array.isRequired,
+  activeExamplesKey: PropTypes.string,
+  updateActiveExamplesKey: PropTypes.func,
 }
 
 export default RequestBody

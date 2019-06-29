@@ -3,6 +3,8 @@
  */
 
 import React from "react"
+import PropTypes from "prop-types"
+import ImPropTypes from "react-immutable-proptypes"
 import { stringify } from "core/utils"
 
 export default function Example(props) {
@@ -31,4 +33,10 @@ export default function Example(props) {
       ) : null}
     </div>
   )
+}
+
+Example.propTypes = {
+  example: ImPropTypes.map.isRequired,
+  showValue: PropTypes.bool,
+  getComponent: PropTypes.func.isRequired,
 }
