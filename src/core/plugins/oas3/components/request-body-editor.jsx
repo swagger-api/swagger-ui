@@ -1,6 +1,5 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
-import { fromJS } from "immutable"
 import { stringify } from "core/utils"
 
 const NOOP = Function.prototype
@@ -8,7 +7,6 @@ const NOOP = Function.prototype
 export default class RequestBodyEditor extends PureComponent {
 
   static propTypes = {
-    mediaType: PropTypes.string.isRequired,
     onChange: PropTypes.func,
     getComponent: PropTypes.func.isRequired,
     value: PropTypes.string,
@@ -16,7 +14,6 @@ export default class RequestBodyEditor extends PureComponent {
   };
 
   static defaultProps = {
-    mediaType: "application/json",
     onChange: NOOP,
   };
 
@@ -48,8 +45,6 @@ export default class RequestBodyEditor extends PureComponent {
   }
 
   onDomChange = e => {
-    const { mediaType } = this.props
-    const isJson = /json/i.test(mediaType)
     const inputValue = e.target.value
 
     this.setState({

@@ -197,7 +197,6 @@ const RequestBody = ({
       isExecute ? (
         <div>
           <RequestBodyEditor
-            requestBody={requestBody}
             value={requestBodyValue}
             defaultValue={getDefaultRequestBodyValue(
               requestBody,
@@ -205,11 +204,7 @@ const RequestBody = ({
               activeExamplesKey,
             )}
             onChange={onChange}
-            mediaType={contentType}
             getComponent={getComponent}
-            isExecute={isExecute}
-            specSelectors={specSelectors}
-            activeExamplesKey={activeExamplesKey}
           />
         </div>
       ) : (
