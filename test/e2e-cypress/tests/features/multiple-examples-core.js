@@ -121,10 +121,9 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
   describe("/Boolean", () => {
     describe("in a parameter", () => {
       it("should render and apply the first example and value by default", () => {
-        cy
-          .visit(
-            "/?url=/documents/features/multiple-examples-core.openapi.yaml"
-          )
+        cy.visit(
+          "/?url=/documents/features/multiple-examples-core.openapi.yaml"
+        )
           .get("#operations-default-post_Boolean")
           .click()
           // Assert on the initial dropdown value
@@ -147,10 +146,9 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .contains(`?message=true`)
       })
       it("should render and apply the second value when chosen", () => {
-        cy
-          .visit(
-            "/?url=/documents/features/multiple-examples-core.openapi.yaml"
-          )
+        cy.visit(
+          "/?url=/documents/features/multiple-examples-core.openapi.yaml"
+        )
           .get("#operations-default-post_Boolean")
           .click()
           // Set the dropdown value, then assert on it
@@ -172,10 +170,9 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .contains(`?message=false`)
       })
       it("should track value changes against valid examples", () => {
-        cy
-          .visit(
-            "/?url=/documents/features/multiple-examples-core.openapi.yaml"
-          )
+        cy.visit(
+          "/?url=/documents/features/multiple-examples-core.openapi.yaml"
+        )
           .get("#operations-default-post_Boolean")
           .click()
           .get(".try-out__btn")
@@ -215,10 +212,9 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
     })
     describe("in a Response", () => {
       it("should render and apply the first example and value by default", () => {
-        cy
-          .visit(
-            "/?url=/documents/features/multiple-examples-core.openapi.yaml"
-          )
+        cy.visit(
+          "/?url=/documents/features/multiple-examples-core.openapi.yaml"
+        )
           .get("#operations-default-post_Boolean")
           .click()
           // Assert on the initial dropdown value
@@ -230,10 +226,9 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .should("have.text", "true")
       })
       it("should render and apply the second value when chosen", () => {
-        cy
-          .visit(
-            "/?url=/documents/features/multiple-examples-core.openapi.yaml"
-          )
+        cy.visit(
+          "/?url=/documents/features/multiple-examples-core.openapi.yaml"
+        )
           .get("#operations-default-post_Boolean")
           .click()
           // Set the dropdown value, then assert on it
@@ -250,10 +245,9 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
   describe("/Array", () => {
     describe("in a Parameter", () => {
       it("should have the first example's array entries by default", () => {
-        cy
-          .visit(
-            "/?url=/documents/features/multiple-examples-core.openapi.yaml"
-          )
+        cy.visit(
+          "/?url=/documents/features/multiple-examples-core.openapi.yaml"
+        )
           .get("#operations-default-post_Array")
           .click()
           .get(".json-schema-form-item > input")
@@ -269,10 +263,9 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .should("have.text", "A lowly array of strings")
       })
       it("should switch to the second array's entries via dropdown", () => {
-        cy
-          .visit(
-            "/?url=/documents/features/multiple-examples-core.openapi.yaml"
-          )
+        cy.visit(
+          "/?url=/documents/features/multiple-examples-core.openapi.yaml"
+        )
           .get("#operations-default-post_Array")
           .click()
           .get(".parameters-col_description .examples-select > select")
@@ -291,10 +284,9 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .should("have.text", "A lowly array of numbers")
       })
       it("should not allow modification of values in static mode", () => {
-        cy
-          .visit(
-            "/?url=/documents/features/multiple-examples-core.openapi.yaml"
-          )
+        cy.visit(
+          "/?url=/documents/features/multiple-examples-core.openapi.yaml"
+        )
           .get("#operations-default-post_Array")
           .click()
           .get(".parameters-col_description .examples-select > select")
@@ -304,10 +296,9 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .should("have.attr", "disabled")
       })
       it("should allow modification of values in Try-It-Out", () => {
-        cy
-          .visit(
-            "/?url=/documents/features/multiple-examples-core.openapi.yaml"
-          )
+        cy.visit(
+          "/?url=/documents/features/multiple-examples-core.openapi.yaml"
+        )
           .get("#operations-default-post_Array")
           .click()
           .get(".try-out__btn")
@@ -336,10 +327,9 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
       })
 
       it("should retain a modified value, and support returning to it", () => {
-        cy
-          .visit(
-            "/?url=/documents/features/multiple-examples-core.openapi.yaml"
-          )
+        cy.visit(
+          "/?url=/documents/features/multiple-examples-core.openapi.yaml"
+        )
           .get("#operations-default-post_Array")
           .click()
           .get(".try-out__btn")
@@ -388,10 +378,9 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
     })
     describe("in a Request Body", () => {
       it("should have the first example's array entries by default", () => {
-        cy
-          .visit(
-            "/?url=/documents/features/multiple-examples-core.openapi.yaml"
-          )
+        cy.visit(
+          "/?url=/documents/features/multiple-examples-core.openapi.yaml"
+        )
           .get("#operations-default-post_Array")
           .click()
           // Check HighlightCode value
@@ -413,10 +402,9 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .should("have.text", "A lowly array of strings")
       })
       it("should switch to the second array's entries via dropdown", () => {
-        cy
-          .visit(
-            "/?url=/documents/features/multiple-examples-core.openapi.yaml"
-          )
+        cy.visit(
+          "/?url=/documents/features/multiple-examples-core.openapi.yaml"
+        )
           .get("#operations-default-post_Array")
           .click()
           .get(".opblock-section-request-body .examples-select > select")
@@ -438,10 +426,9 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .should("have.text", "A lowly array of numbers")
       })
       it("should allow modification of values", () => {
-        cy
-          .visit(
-            "/?url=/documents/features/multiple-examples-core.openapi.yaml"
-          )
+        cy.visit(
+          "/?url=/documents/features/multiple-examples-core.openapi.yaml"
+        )
           .get("#operations-default-post_Array")
           .click()
           // Switch to Try-It-Out
@@ -463,10 +450,9 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
       })
 
       it("should retain a modified value, and support returning to it", () => {
-        cy
-          .visit(
-            "/?url=/documents/features/multiple-examples-core.openapi.yaml"
-          )
+        cy.visit(
+          "/?url=/documents/features/multiple-examples-core.openapi.yaml"
+        )
           .get("#operations-default-post_Array")
           .click()
           // Switch to Try-It-Out
@@ -505,10 +491,9 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
     })
     describe("in a Response", () => {
       it("should render and apply the first example and value by default", () => {
-        cy
-          .visit(
-            "/?url=/documents/features/multiple-examples-core.openapi.yaml"
-          )
+        cy.visit(
+          "/?url=/documents/features/multiple-examples-core.openapi.yaml"
+        )
           .get("#operations-default-post_Array")
           .click()
           // Assert on the initial dropdown value
@@ -520,10 +505,9 @@ describe("OpenAPI 3.0 Multiple Examples - core features", () => {
           .should("have.text", JSON.stringify(["a", "b", "c"], null, 2))
       })
       it("should render and apply the second value when chosen", () => {
-        cy
-          .visit(
-            "/?url=/documents/features/multiple-examples-core.openapi.yaml"
-          )
+        cy.visit(
+          "/?url=/documents/features/multiple-examples-core.openapi.yaml"
+        )
           .get("#operations-default-post_Array")
           .click()
           // Set the dropdown value, then assert on it
@@ -662,8 +646,7 @@ function ParameterPrimitiveTestCases({
   customExpectedUrlSubstring,
 }) {
   it("should render examples options without Modified Value by default", () => {
-    cy
-      .visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
+    cy.visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
       .get(operationDomId)
       .click()
       .get(`tr[data-param-name="${parameterName}"]`)
@@ -683,8 +666,7 @@ function ParameterPrimitiveTestCases({
   })
 
   it("should set default static and Try-It-Out values based on the first member", () => {
-    cy
-      .visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
+    cy.visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
       // Expand the operation
       .get(operationDomId)
       .click()
@@ -712,8 +694,7 @@ function ParameterPrimitiveTestCases({
   })
 
   it("should set static and Try-It-Out values based on the second member", () => {
-    cy
-      .visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
+    cy.visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
       // Expand the operation
       .get(operationDomId)
       .click()
@@ -746,8 +727,7 @@ function ParameterPrimitiveTestCases({
   })
 
   it("should handle user-entered values correctly", () => {
-    cy
-      .visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
+    cy.visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
       // Expand the operation
       .get(operationDomId)
       .click()
@@ -775,8 +755,7 @@ function ParameterPrimitiveTestCases({
   })
 
   it("should retain user-entered values correctly", () => {
-    cy
-      .visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
+    cy.visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
       // Expand the operation
       .get(operationDomId)
       .click()
@@ -827,8 +806,7 @@ function RequestBodyPrimitiveTestCases({
   secondaryMediaType = "text/plain+other",
 }) {
   it("should render examples options without Modified Value by default", () => {
-    cy
-      .visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
+    cy.visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
       .get(operationDomId)
       .click()
       .get(`.opblock-section-request-body`)
@@ -843,8 +821,7 @@ function RequestBodyPrimitiveTestCases({
   })
 
   it("should set default static and Try-It-Out values based on the first member", () => {
-    cy
-      .visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
+    cy.visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
       // Expand the operation
       .get(operationDomId)
       .click()
@@ -867,8 +844,7 @@ function RequestBodyPrimitiveTestCases({
   })
 
   it("should set default static and Try-It-Out values based on choosing the second member in static mode", () => {
-    cy
-      .visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
+    cy.visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
       // Expand the operation
       .get(operationDomId)
       .click()
@@ -894,8 +870,7 @@ function RequestBodyPrimitiveTestCases({
   })
 
   it("should set default static and Try-It-Out values based on choosing the second member in Try-It-Out mode", () => {
-    cy
-      .visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
+    cy.visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
       // Expand the operation
       .get(operationDomId)
       .click()
@@ -924,8 +899,7 @@ function RequestBodyPrimitiveTestCases({
   })
 
   it("should return the dropdown entry for an example when manually returning to its value", () => {
-    cy
-      .visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
+    cy.visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
       // Expand the operation
       .get(operationDomId)
       .click()
@@ -956,8 +930,7 @@ function RequestBodyPrimitiveTestCases({
   })
 
   it("should retain choosing a member in static docs when changing the media type", () => {
-    cy
-      .visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
+    cy.visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
       // Expand the operation
       .get(operationDomId)
       .click()
@@ -986,8 +959,7 @@ function RequestBodyPrimitiveTestCases({
   })
 
   it("should use the first example for the media type when changing the media type without prior interactions with the value", () => {
-    cy
-      .visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
+    cy.visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
       // Expand the operation
       .get(operationDomId)
       .click()
@@ -1013,8 +985,7 @@ function RequestBodyPrimitiveTestCases({
   })
 
   it("static mode toggling: mediaType -> example -> mediaType -> example", () => {
-    cy
-      .visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
+    cy.visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
       // Expand the operation
       .get(operationDomId)
       .click()
@@ -1064,8 +1035,7 @@ function RequestBodyPrimitiveTestCases({
   })
 
   it("Try-It-Out toggling: mediaType -> example -> mediaType -> example", () => {
-    cy
-      .visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
+    cy.visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
       // Expand the operation
       .get(operationDomId)
       .click()
@@ -1118,8 +1088,7 @@ function RequestBodyPrimitiveTestCases({
   })
 
   it("Try-It-Out toggling and execution with modified values: mediaType -> modified value -> example -> mediaType -> example", () => {
-    cy
-      .visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
+    cy.visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
       // Expand the operation
       .get(operationDomId)
       .click()
@@ -1248,14 +1217,12 @@ function ResponsePrimitiveTestCases({
   exampleC, // { value, key, summary }
 }) {
   it("should render the first example by default", () => {
-    cy
-      .visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
+    cy.visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
       .get(operationDomId)
       .click()
       .get(".responses-wrapper")
       .within(() => {
-        cy
-          .get(".examples-select > select")
+        cy.get(".examples-select > select")
           .find(":selected")
           .should("have.text", exampleA.summary)
           .get(".microlight")
@@ -1263,14 +1230,12 @@ function ResponsePrimitiveTestCases({
       })
   })
   it("should render the second example", () => {
-    cy
-      .visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
+    cy.visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
       .get(operationDomId)
       .click()
       .get(".responses-wrapper")
       .within(() => {
-        cy
-          .get(".examples-select > select")
+        cy.get(".examples-select > select")
           .select(exampleB.key)
           .find(":selected")
           .should("have.text", exampleB.summary)
@@ -1280,8 +1245,7 @@ function ResponsePrimitiveTestCases({
   })
 
   it("should retain an example choice across media types if they share the same example", () => {
-    cy
-      .visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
+    cy.visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
       .get(operationDomId)
       .click()
       .get(".responses-wrapper")
@@ -1312,8 +1276,7 @@ function ResponsePrimitiveTestCases({
   ;(exampleC ? it : it.skip)(
     "should reset to the first example if the new media type lacks the current example",
     () => {
-      cy
-        .visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
+      cy.visit("/?url=/documents/features/multiple-examples-core.openapi.yaml")
         .get(operationDomId)
         .click()
         .get(".responses-wrapper")
