@@ -26,6 +26,11 @@ export const requestBodyValue = onlyOAS3((state, path, method) => {
   }
 )
 
+export const activeExamplesMember = onlyOAS3((state, path, method, type, name) => {
+    return state.getIn(["examples", path, method, type, name, "activeExample"]) || null
+  }
+)
+
 export const requestContentType = onlyOAS3((state, path, method) => {
     return state.getIn(["requestData", path, method, "requestContentType"]) || null
   }
