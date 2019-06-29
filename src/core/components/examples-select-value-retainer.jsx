@@ -92,8 +92,10 @@ export default class ExamplesSelectValueRetainer extends React.PureComponent {
   }
 
   _setStateForNamespace = (namespace, obj) => {
+    const oldStateForNamespace = this.state[namespace] || Map()
+    const newStateForNamespace = oldStateForNamespace.mergeDeep(obj)
     return this.setState({
-      [namespace]: (this.state[namespace] || Map()).merge(obj),
+      [namespace]: newStateForNamespace,
     })
   }
 
