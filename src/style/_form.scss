@@ -88,6 +88,11 @@ select[disabled] {
     border-color: #888;
 }
 
+textarea[disabled] {
+    background-color: #41444e;
+    color: #fff;
+}
+
 @keyframes shake
 {
     10%,
