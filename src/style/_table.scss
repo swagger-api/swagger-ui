@@ -84,6 +84,8 @@ table
 
 .parameters-col_description
 {
+    width: 99%; // forces other columns to shrink to their content widths
+    margin-bottom: 2em;
     input[type=text]
     {
         width: 100%;
@@ -99,6 +101,10 @@ table
 {
     font-size: 16px;
     font-weight: normal;
+
+    // hack to give breathing room to the name column
+    // TODO: refactor all of this to flexbox
+    margin-right: .75em;
 
     @include text_headline();
 
@@ -157,4 +163,13 @@ table
 .table-container
 {
     padding: 20px;
+}
+
+
+.response-col_description {
+    width: 99%; // forces other columns to shrink to their content widths
+}
+
+.response-col_links {
+    min-width: 6em;
 }

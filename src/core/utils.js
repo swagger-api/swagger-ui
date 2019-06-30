@@ -782,7 +782,7 @@ export function stringify(thing) {
     return thing
   }
 
-  if (thing.toJS) {
+  if (thing && thing.toJS) {
     thing = thing.toJS()
   }
 
@@ -793,6 +793,10 @@ export function stringify(thing) {
     catch (e) {
       return String(thing)
     }
+  }
+
+  if(thing === null || thing === undefined) {
+    return ""
   }
 
   return thing.toString()
