@@ -150,7 +150,11 @@ module.exports = function(rules, options) {
       }
     },
 
-  devtool: specialOptions.sourcemaps ? "nosource-source-map" : false,
+  devtool: specialOptions.sourcemaps ? (
+    // If we're mangling, size is a concern -- so use trace-only sourcemaps
+    // Otherwise, provide heavy souremaps suitable for development
+    specialOptions.minimize ? "nosource-source-map" : "cheap-module-source-map"
+  ): false,
 
     plugins,
 

@@ -41,8 +41,8 @@ const rules = [
 module.exports = require("./make-webpack-config")(rules, {
   _special: {
     separateStylesheets: false,
+    sourcemaps: true,
   },
-	devtool: "eval-source-map",
   entry: {
     "swagger-ui-bundle": [
       "./src/polyfills",
