@@ -4,7 +4,7 @@ exemptLabels: []
 lockLabel: "closed-by-bot: lock"
 setLockReason: false
 only: issues
-lockComment: >
+lockComment: |
   Locking due to inactivity.
   
   This is done to avoid resurrecting old issues and bumping long threads with new, possibly unrelated content.
