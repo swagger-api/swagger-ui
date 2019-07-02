@@ -51,55 +51,59 @@ export default class Auths extends React.Component {
     let { schema, name, getComponent, authSelectors, errSelectors } = this.props
     const ApiKeyAuth = getComponent("apiKeyAuth")
     const BasicAuth = getComponent("basicAuth")
+    const AuthHttp = getComponent("authHttp")
     const AuthBtnGroup = getComponent("AuthBtnGroup")
 
-    let authorizedData = authSelectors.authorized()
-    let isAuthorized = !!authorizedData.get(name)
-
+    const authorizedData = authSelectors.authorized()
+    const isAuthorized = !!authorizedData.get(name)
+    const type = schema.get("type")
     let auth
 
-    const type = schema.get("type")
-
-    switch(type) {
-      case "apiKey": 
-        auth = <ApiKeyAuth
-          schema={ schema }
-          name={ name }
-          errSelectors={ errSelectors }
-          authorized={ authorizedData }
-          getComponent={ getComponent }
-          onChange={ this.onAuthChange }
-        />
-        break
-      case "basic": 
-        auth = <BasicAuth
-          schema={ schema }
-          name={ name }
-          errSelectors={ errSelectors }
-          authorized={ authorizedData }
-          getComponent={ getComponent }
-          onChange={ this.onAuthChange }
-        />
-        break
-      default: 
-        auth = <div className="auth_row">
-          <p>Unknown security definition type { type }</p>
-        </div>
+    if(type === "apiKey") {
+      auth = <ApiKeyAuth
+        schema={ schema }
+        name={ name }
+        errSelectors={ errSelectors }
+        authorized={ authorizedData }
+        getComponent={ getComponent }
+        onChange={ this.onAuthChange }
+      />
+    }
+    if(type === "basic") {
+      auth = <BasicAuth
+        schema={ schema }
+        name={ name }
+        errSelectors={ errSelectors }
+        authorized={ authorizedData }
+        getComponent={ getComponent }
+        onChange={ this.onAuthChange }
+      />
+    }
+    if(type === "http") {
+      auth = <AuthHttp
+        schema={ schema }
+        name={ name }
+        errSelectors={ errSelectors }
+        authorized={ authorizedData }
+        getComponent={ getComponent }
+        onChange={ this.onAuthChange }
+      />
     }
 
-    return (
-      <div>
-        { auth }
-        
-        <AuthBtnGroup
-          getComponent={getComponent}
-          isAuthorized={isAuthorized}
-          logoutClick={this.logoutClick}
-          authorizeClick={this.authorizeClick}
-          closeClick={this.closeClick}
-        />
-      </div>
-    )
+    return auth
+      ? <div>
+          { auth }
+          <AuthBtnGroup
+            getComponent={getComponent}
+            isAuthorized={isAuthorized}
+            logoutClick={this.logoutClick}
+            authorizeClick={this.authorizeClick}
+            closeClick={this.closeClick}
+          />
+        </div>
+      : <div className="auth_row">
+          <p>Unknown security definition type { type }</p>
+        </div>
   }
 }
 
