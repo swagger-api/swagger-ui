@@ -98,6 +98,51 @@
     @include text_code();
 }
 
+.parameter-controls {
+    margin-top: 0.75em;
+}
+
+.examples {
+    &__title {
+        display: block;
+        font-size: 1.1em;
+        font-weight: bold;
+        margin-bottom: 0.75em;
+    }
+
+    &__section {
+        margin-top: 1.5em;
+    }
+    &__section-header {
+        font-weight: bold;
+        font-size: .9rem;
+        margin-bottom: .5rem;
+        // color: #555;
+    }
+}
+
+.examples-select {
+    margin-bottom: .75em;
+
+    &__section-label {
+        font-weight: bold;
+        font-size: .9rem;
+        margin-right: .5rem;
+    }
+}
+
+.example {
+    &__section {
+        margin-top: 1.5em;
+    }
+    &__section-header {
+        font-weight: bold;
+        font-size: .9rem;
+        margin-bottom: .5rem;
+        // color: #555;
+    }
+}
+
 .view-line-link
 {
     position: relative;
@@ -374,12 +419,14 @@
     }
 }
 
+.model-example {
+    margin-top: 1em;
+}
 
 .tab
 {
     display: flex;
 
-    margin: 20px 0 10px 0;
     padding: 0;
 
     list-style: none;
@@ -535,46 +582,6 @@
         font-size: 11px;
 
         @include text_code($response-col-links-font-color);
-    }
-}
-
-.response-col_description__inner
-{
-    div.markdown, div.renderedMarkdown
-    {
-        font-size: 12px;
-        font-style: italic;
-
-        display: block;
-
-        margin: 0;
-        padding: 10px;
-
-        border-radius: 4px;
-        background: $response-col-description-inner-markdown-background-color;
-
-        @include text_code($response-col-description-inner-markdown-font-color);
-
-        p
-        {
-            margin: 0;
-            @include text_code($response-col-description-inner-markdown-font-color);
-        }
-
-        a
-        {
-            @include text_code($response-col-description-inner-markdown-link-font-color);
-            text-decoration: underline;
-            &:hover {
-                color: $response-col-description-inner-markdown-link-font-color-hover;
-            }
-        }
-
-        th
-        {
-            @include text_code($response-col-description-inner-markdown-font-color);
-            border-bottom: 1px solid $response-col-description-inner-markdown-font-color;
-        }
     }
 }
 
@@ -744,19 +751,38 @@
     }
 }
 
-.response-content-type {
-  padding-top: 1em;
+.response-controls {
+    padding-top: 1em;
+    display: flex;
+}
 
-  &.controls-accept-header {
-    select {
-      border-color: $response-content-type-controls-accept-header-select-border-color;
+.response-control-media-type {
+    margin-right: 1em;
+
+    &--accept-controller {
+        select {
+            border-color: $response-content-type-controls-accept-header-select-border-color;
+        }
     }
 
-    small {
-      color: $response-content-type-controls-accept-header-small-font-color;
-      font-size: .7em;
+    &__accept-message {
+        color: $response-content-type-controls-accept-header-small-font-color;
+        font-size: .7em;
     }
-  }
+
+    &__title {
+        display: block;
+        margin-bottom: 0.2em;
+        font-size: .7em;
+    }
+}
+
+.response-control-examples {
+    &__title {
+        display: block;
+        margin-bottom: 0.2em;
+        font-size: .7em;
+    }
 }
 
 @keyframes blinker

@@ -2,12 +2,11 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 import Im, { Map, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
-import { OAS3ComponentWrapFactory } from "../helpers"
 
 // More readable, just iterate over maps, only
 const eachMap = (iterable, fn) => iterable.valueSeq().filter(Im.Map.isMap).map(fn)
 
-class Parameters extends Component {
+export default class Parameters extends Component {
 
   constructor(props) {
    super(props)
@@ -19,21 +18,21 @@ class Parameters extends Component {
 
   static propTypes = {
     parameters: ImPropTypes.list.isRequired,
-    specActions: PropTypes.object.isRequired,
     operation: PropTypes.object.isRequired,
+    specActions: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
-    getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
     oas3Selectors: PropTypes.object.isRequired,
     fn: PropTypes.object.isRequired,
     tryItOutEnabled: PropTypes.bool,
     allowTryItOut: PropTypes.bool,
-    specPath: ImPropTypes.list.isRequired,
     onTryoutClick: PropTypes.func,
     onCancelClick: PropTypes.func,
     onChangeKey: PropTypes.array,
-    pathMethod: PropTypes.array.isRequired
+    pathMethod: PropTypes.array.isRequired,
+    getConfigs: PropTypes.func.isRequired,
+    specPath: ImPropTypes.list.isRequired,
   }
 
 
@@ -43,6 +42,7 @@ class Parameters extends Component {
     tryItOutEnabled: false,
     allowTryItOut: true,
     onChangeKey: [],
+    specPath: [],
   }
 
   onChange = ( param, value, isXml ) => {
@@ -51,7 +51,7 @@ class Parameters extends Component {
       onChangeKey,
     } = this.props
 
-    changeParamByIdentity( onChangeKey, param, value, isXml)
+    changeParamByIdentity(onChangeKey, param, value, isXml)
   }
 
   onChangeConsumesWrapper = ( val ) => {
@@ -85,16 +85,16 @@ class Parameters extends Component {
       parameters,
       allowTryItOut,
       tryItOutEnabled,
+      specPath,
 
       fn,
       getComponent,
       getConfigs,
       specSelectors,
       specActions,
+      pathMethod,
       oas3Actions,
       oas3Selectors,
-      pathMethod,
-      specPath,
       operation
     } = this.props
 
@@ -105,72 +105,79 @@ class Parameters extends Component {
     const RequestBody = getComponent("RequestBody", true)
 
     const isExecute = tryItOutEnabled && allowTryItOut
-    const { isOAS3 } = specSelectors
+    const isOAS3 = specSelectors.isOAS3()
 
     const requestBody = operation.get("requestBody")
-    const requestBodySpecPath = specPath.slice(0, -1).push("requestBody") // remove the "parameters" part
-
     return (
       <div className="opblock-section">
         <div className="opblock-section-header">
+          { isOAS3 ? (
           <div className="tab-header">
-            <div onClick={() => this.toggleTab("parameters")} className={`tab-item ${this.state.parametersVisible && "active"}`}>
-              <h4 className="opblock-title"><span>Parameters</span></h4>
+              <div onClick={() => this.toggleTab("parameters")} className={`tab-item ${this.state.parametersVisible && "active"}`}>
+                <h4 className="opblock-title"><span>Parameters</span></h4>
+              </div>
+              { operation.get("callbacks") ?
+                (
+                  <div onClick={() => this.toggleTab("callbacks")} className={`tab-item ${this.state.callbackVisible && "active"}`}>
+                    <h4 className="opblock-title"><span>Callbacks</span></h4>
+                  </div>
+                ) : null
+              }
             </div>
-            { operation.get("callbacks") ?
-              (
-                <div onClick={() => this.toggleTab("callbacks")} className={`tab-item ${this.state.callbackVisible && "active"}`}>
-                  <h4 className="opblock-title"><span>Callbacks</span></h4>
-                </div>
-              ) : null
-            }
+          ) : (
+            <div className="tab-header">
+            <h4 className="opblock-title">Parameters</h4>
           </div>
+          )}
             { allowTryItOut ? (
               <TryItOutButton enabled={ tryItOutEnabled } onCancelClick={ onCancelClick } onTryoutClick={ onTryoutClick } />
             ) : null }
         </div>
         {this.state.parametersVisible ? <div className="parameters-container">
-          { !parameters.count() ? <div className="opblock-description-wrapper"><p>No parameters</p></div> :
-            <div className="table-container">
-              <table className="parameters">
-                <thead>
-                  <tr>
-                    <th className="col col_header parameters-col_name">Name</th>
-                    <th className="col col_header parameters-col_description">Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    eachMap(parameters, (parameter, i) => (
-                      <ParameterRow fn={ fn }
-                        getComponent={ getComponent }
-                        specPath={specPath.push(i)}
-                        getConfigs={ getConfigs }
-                        rawParam={ parameter }
-                        param={ specSelectors.parameterWithMetaByIdentity(pathMethod, parameter) }
-                        key={ parameter.get( "name" ) }
-                        onChange={ this.onChange }
-                        onChangeConsumes={this.onChangeConsumesWrapper}
-                        specSelectors={ specSelectors }
-                        specActions={ specActions }
-                        pathMethod={ pathMethod }
-                        isExecute={ isExecute }/>
-                    )).toArray()
-                  }
-                </tbody>
-              </table>
-            </div>
-          }
-        </div> : "" }
+        { !parameters.count() ? <div className="opblock-description-wrapper"><p>No parameters</p></div> :
+          <div className="table-container">
+            <table className="parameters">
+              <thead>
+                <tr>
+                  <th className="col col_header parameters-col_name">Name</th>
+                  <th className="col col_header parameters-col_description">Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  eachMap(parameters, (parameter, i) => (
+                    <ParameterRow
+                      fn={ fn }
+                      specPath={specPath.push(i.toString())}
+                      getComponent={ getComponent }
+                      getConfigs={ getConfigs }
+                      rawParam={ parameter }
+                      param={ specSelectors.parameterWithMetaByIdentity(pathMethod, parameter) }
+                      key={ `${parameter.get( "in" )}.${parameter.get("name")}` }
+                      onChange={ this.onChange }
+                      onChangeConsumes={this.onChangeConsumesWrapper}
+                      specSelectors={ specSelectors }
+                      specActions={specActions}
+                      oas3Actions={oas3Actions}
+                      oas3Selectors={oas3Selectors}
+                      pathMethod={ pathMethod }
+                      isExecute={ isExecute }/>
+                  )).toArray()
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+        </div> : null }
 
         {this.state.callbackVisible ? <div className="callbacks-container opblock-description-wrapper">
           <Callbacks
             callbacks={Map(operation.get("callbacks"))}
             specPath={specPath.slice(0, -1).push("callbacks")}
           />
-        </div> : "" }
+        </div> : null }
         {
-          isOAS3() && requestBody && this.state.parametersVisible &&
+          isOAS3 && requestBody && this.state.parametersVisible &&
           <div className="opblock-section opblock-section-request-body">
             <div className="opblock-section-header">
               <h4 className={`opblock-title parameter__name ${requestBody.get("required") && "required"}`}>Request body</h4>
@@ -186,10 +193,24 @@ class Parameters extends Component {
             </div>
             <div className="opblock-description-wrapper">
               <RequestBody
-                specPath={requestBodySpecPath}
+                specPath={specPath.slice(0, -1).push("requestBody")}
                 requestBody={requestBody}
-                requestBodyValue={oas3Selectors.requestBodyValue(...pathMethod) || Map()}
+                requestBodyValue={oas3Selectors.requestBodyValue(...pathMethod)}
                 isExecute={isExecute}
+                activeExamplesKey={oas3Selectors.activeExamplesMember(
+                  ...pathMethod,
+                  "requestBody",
+                  "requestBody" // RBs are currently not stored per-mediaType
+                )}
+                updateActiveExamplesKey={key => {
+                  this.props.oas3Actions.setActiveExamplesMember({
+                    name: key,
+                    pathMethod: this.props.pathMethod,
+                    contextType: "requestBody",
+                    contextName: "requestBody" // RBs are currently not stored per-mediaType
+                  })
+                }
+                }
                 onChange={(value, path) => {
                   if(path) {
                     const lastValue = oas3Selectors.requestBodyValue(...pathMethod)
@@ -209,6 +230,3 @@ class Parameters extends Component {
     )
   }
 }
-
-
-export default OAS3ComponentWrapFactory(Parameters)
