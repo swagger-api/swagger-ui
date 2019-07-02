@@ -5,7 +5,6 @@ export default class ApiKeyAuth extends React.Component {
   static propTypes = {
     authorized: PropTypes.object,
     getComponent: PropTypes.func.isRequired,
-    errSelectors: PropTypes.object.isRequired,
     schema: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func
@@ -33,26 +32,25 @@ export default class ApiKeyAuth extends React.Component {
     let { onChange } = this.props
     let value = e.target.value
     let newState = Object.assign({}, this.state, { value: value })
-
+    
     this.setState(newState)
     onChange(newState)
   }
 
   render() {
-    let { schema, getComponent, errSelectors, name } = this.props
+    let { schema, getComponent, name } = this.props
     const Input = getComponent("Input")
-    const AuthError = getComponent("authError")
     const AuthFormRow = getComponent("AuthFormRow")
     const Markdown = getComponent( "Markdown" )
     const JumpToPath = getComponent("JumpToPath", true)
+    
     let value = this.getValue()
-    let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
 
     return (
       <div>
         <div className="auth__header">
           <h4>
-            <code>{ name || schema.get("name") }</code>&nbsp;
+            <code>{ name }</code>&nbsp;
             (apiKey)
             <JumpToPath path={[ "securityDefinitions", name ]} />
           </h4>
@@ -83,13 +81,6 @@ export default class ApiKeyAuth extends React.Component {
           : <AuthFormRow label="Value:" htmlFor="api-key-value">
               <Input id="api-key-value" type="text" onChange={ this.onChange }/>
             </AuthFormRow>
-        }
-
-        { 
-          errors.valueSeq().map( (error, key) => {
-            return <AuthError error={ error }
-                              key={ key }/>
-          } )
         }
       </div>
     )

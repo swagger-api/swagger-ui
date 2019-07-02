@@ -14,22 +14,21 @@ export default class BasicAuth extends React.Component {
     super(props, context)
     let { schema, name } = this.props
 
-    let value = this.getValue()
-    let username = value.username
+    const username = this.getAuthorizedUsername()
 
     this.state = {
       name: name,
       schema: schema,
-      value: !username ? {} : {
-        username: username
+      value: {
+        username
       }
     }
   }
 
-  getValue () {
+  getAuthorizedUsername () {
     let { authorized, name } = this.props
 
-    return authorized && authorized.getIn([name, "value"]) || {}
+    return authorized && authorized.getIn([name, "value", "username"])
   }
 
   onChange =(e) => {
@@ -45,14 +44,12 @@ export default class BasicAuth extends React.Component {
   }
 
   render() {
-    let { schema, getComponent, name, errSelectors } = this.props
+    let { schema, getComponent, name } = this.props
     const Input = getComponent("Input")
-    const AuthError = getComponent("authError")
     const AuthFormRow = getComponent("AuthFormRow")
     const JumpToPath = getComponent("JumpToPath", true)
     const Markdown = getComponent( "Markdown" )
-    let username = this.getValue().username
-    let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
+    let username = this.getAuthorizedUsername()
 
     return (
       <div>
@@ -90,23 +87,15 @@ export default class BasicAuth extends React.Component {
               </AuthFormRow>
             </div>
         }
-
-        {
-          errors.valueSeq().map( (error, key) => {
-            return <AuthError error={ error }
-                              key={ key }/>
-          } )
-        }
       </div>
     )
   }
 
   static propTypes = {
     name: PropTypes.string.isRequired,
-    errSelectors: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
     onChange: PropTypes.func,
     schema: ImPropTypes.map,
     authorized: ImPropTypes.map
-  }
+  } // TODO: get rid of two proptypes
 }

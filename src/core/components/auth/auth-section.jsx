@@ -4,9 +4,9 @@ import ImPropTypes from "react-immutable-proptypes"
 
 export default class Auths extends React.Component {
   static propTypes = {
-    errSelectors: PropTypes.object.isRequired,
     schema: ImPropTypes.map.isRequired,
     name: PropTypes.string.isRequired,
+    errors: ImPropTypes.list.isRequired,
     getComponent: PropTypes.func.isRequired,
     authorize: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
@@ -21,38 +21,39 @@ export default class Auths extends React.Component {
   }
 
   onAuthChange = (auth) => {
-    let { name } = auth
+    const { name } = this.props
 
     this.setState({ [name]: auth })
   }
 
   authorizeClick = (e) => {
     e.preventDefault()
-    let { authorize, name } = this.props
+    const { authorize, name } = this.props
     
     authorize(name, this.state[name])
   }
 
   logoutClick = (e) => {
     e.preventDefault()
-    let { logout, name } = this.props
+    const { logout, name } = this.props
 
     logout(name)
   }
 
   closeClick = (e) => {
     e.preventDefault()
-    let { closeModal } = this.props
+    const { closeModal } = this.props
 
     closeModal()
   }
 
   render() {
-    let { schema, name, getComponent, authSelectors, errSelectors } = this.props
+    const { schema, name, getComponent, authSelectors, errors } = this.props
     const ApiKeyAuth = getComponent("apiKeyAuth")
     const BasicAuth = getComponent("basicAuth")
     const AuthHttp = getComponent("authHttp")
     const AuthBtnGroup = getComponent("AuthBtnGroup")
+    const AuthError = getComponent("authError")
 
     const authorizedData = authSelectors.authorized()
     const isAuthorized = !!authorizedData.get(name)
@@ -63,7 +64,6 @@ export default class Auths extends React.Component {
       auth = <ApiKeyAuth
         schema={ schema }
         name={ name }
-        errSelectors={ errSelectors }
         authorized={ authorizedData }
         getComponent={ getComponent }
         onChange={ this.onAuthChange }
@@ -73,7 +73,6 @@ export default class Auths extends React.Component {
       auth = <BasicAuth
         schema={ schema }
         name={ name }
-        errSelectors={ errSelectors }
         authorized={ authorizedData }
         getComponent={ getComponent }
         onChange={ this.onAuthChange }
@@ -83,7 +82,6 @@ export default class Auths extends React.Component {
       auth = <AuthHttp
         schema={ schema }
         name={ name }
-        errSelectors={ errSelectors }
         authorized={ authorizedData }
         getComponent={ getComponent }
         onChange={ this.onAuthChange }
@@ -93,6 +91,14 @@ export default class Auths extends React.Component {
     return auth
       ? <div>
           { auth }
+
+          {
+            errors.valueSeq().map( (error, key) => {
+              return <AuthError error={ error }
+                                key={ key }/>
+            })
+          }
+
           <AuthBtnGroup
             getComponent={getComponent}
             isAuthorized={isAuthorized}

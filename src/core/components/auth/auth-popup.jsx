@@ -9,12 +9,6 @@ export default class AuthorizationPopup extends React.Component {
     authActions.showDefinitions(false)
   }
 
-  onAuthChange = (auth) => {
-    let { name } = auth
-
-    this.setState({ [name]: auth })
-  }
-
   authorize = (name, formData, schema) => {
     const { authActions } = this.props
     const data = { 
@@ -41,6 +35,7 @@ export default class AuthorizationPopup extends React.Component {
 
     const authSchemas = authSelectors.shownDefinitions()
     const authorizedData = authSelectors.authorized()
+    const errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
 
     return (
       <Modal
@@ -62,12 +57,13 @@ export default class AuthorizationPopup extends React.Component {
                       schema={ schema }
                       name={ name }
                       authorizedData={ authorizedData }
+                      errors={ errors }
                     />
                   : <Auths
                       name={ name }
                       schema={ schema }
                       getComponent={ getComponent }
-                      errSelectors={ errSelectors }
+                      errors={ errors }
                       authSelectors={ authSelectors }
                       authorize={this.authorize}
                       logout={this.logout}

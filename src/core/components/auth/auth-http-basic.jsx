@@ -1,9 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-const AuthHttpBasic = ({getComponent, name, schema, value, errors, onChange}) => {
+const AuthHttpBasic = ({getComponent, name, schema, value, onChange}) => {
   const AuthFormRow = getComponent("AuthFormRow")
-  const AuthError = getComponent("authError")
   const Markdown = getComponent( "Markdown" )
   const JumpToPath = getComponent("JumpToPath", true)
   const Input = getComponent("Input")
@@ -48,13 +47,6 @@ const AuthHttpBasic = ({getComponent, name, schema, value, errors, onChange}) =>
             </AuthFormRow>
           </div>
       }
-      
-      {
-        errors.valueSeq().map( (error, key) => {
-          return <AuthError error={ error }
-                            key={ key }/>
-        } )
-      }
     </div>
   )
 }
@@ -64,7 +56,6 @@ AuthHttpBasic.propTypes = {
   name: PropTypes.string,
   schema: PropTypes.object,
   value: PropTypes.string,
-  errors: PropTypes.object,
   onChange: PropTypes.func
 }
 

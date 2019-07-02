@@ -1,9 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-const AuthHttpBearer = ({getComponent, name, schema, value, errors, onChange}) => {
+const AuthHttpBearer = ({getComponent, name, schema, value, onChange}) => {
   const AuthFormRow = getComponent("AuthFormRow")
-  const AuthError = getComponent("authError")
   const Markdown = getComponent( "Markdown" )
   const JumpToPath = getComponent("JumpToPath", true)
   const Input = getComponent("Input")
@@ -35,13 +34,6 @@ const AuthHttpBearer = ({getComponent, name, schema, value, errors, onChange}) =
             <Input id="bearer-html-auth-value" type="text" onChange={ onChange }/>
           </AuthFormRow>
       }
-
-      {
-        errors.valueSeq().map( (error, key) => {
-          return <AuthError error={ error }
-            key={ key }/>
-        } )
-      }
     </div>
   )
 }
@@ -51,7 +43,6 @@ AuthHttpBearer.propTypes = {
   name: PropTypes.string,
   schema: PropTypes.object,
   value: PropTypes.string,
-  errors: PropTypes.object,
   onChange: PropTypes.func
 }
 

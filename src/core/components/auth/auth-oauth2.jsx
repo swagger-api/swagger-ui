@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import ImPropTypes from "react-immutable-proptypes"
 import oauth2Authorize from "core/oauth2-authorize"
 
 export default class Oauth2 extends React.Component {
@@ -10,7 +11,7 @@ export default class Oauth2 extends React.Component {
     schema: PropTypes.object.isRequired,
     authSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
-    errSelectors: PropTypes.object.isRequired,
+    errors: ImPropTypes.list.isRequired,
     specSelectors: PropTypes.object.isRequired,
     errActions: PropTypes.object.isRequired,
     getConfigs: PropTypes.any
@@ -91,7 +92,7 @@ export default class Oauth2 extends React.Component {
     const {
       schema,
       getComponent,
-      errSelectors,
+      errors,
       name,
       specSelectors,
       authorizedData
@@ -115,7 +116,6 @@ export default class Oauth2 extends React.Component {
     let scopes = schema.get("allowedScopes") || schema.get("scopes")
     let authorizedAuth = authorizedData.get(name)
     let isAuthorized = !!authorizedAuth
-    let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
     let inValid = errors.filter( err => err.get("source") === "validation").size
 
     const showAuthURL = flow === IMPLICIT || flow === ACCESS_CODE

@@ -5,7 +5,6 @@ export default class AuthHttp extends React.Component {
   static propTypes = {
     authorized: PropTypes.object,
     getComponent: PropTypes.func.isRequired,
-    errSelectors: PropTypes.object.isRequired,
     schema: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func
@@ -46,14 +45,13 @@ export default class AuthHttp extends React.Component {
   }
 
   render() {
-		const { schema, getComponent, errSelectors, name } = this.props
+		const { schema, getComponent, name } = this.props
 		
 		const AuthHttpBasic = getComponent("authHttpBasic")
 		const AuthHttpBearer = getComponent("authHttpBearer")
 
     const scheme = (schema.get("scheme") || "").toLowerCase()
     const value = this.getValue()
-		const errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
 		
 
     if(scheme === "basic") {
@@ -63,7 +61,6 @@ export default class AuthHttp extends React.Component {
           name={name}
           schema={schema}
           value={value}
-          errors={errors} 
           onChange={this.onChange}/>
       )
     }
@@ -75,7 +72,6 @@ export default class AuthHttp extends React.Component {
           name={name}
           schema={schema}
           value={value}
-          errors={errors} 
           onChange={this.onChange}/>
       )
     }
