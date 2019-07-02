@@ -1,85 +1,54 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-export default class AuthHttp extends React.Component {
-  static propTypes = {
-    authorized: PropTypes.object,
-    getComponent: PropTypes.func.isRequired,
-    schema: PropTypes.object.isRequired,
-    name: PropTypes.string.isRequired,
-    onChange: PropTypes.func
+const AuthHttp = ({ schema, getComponent, name, onChange, isAuthorized, authorizedUsername }) => {
+  
+  const AuthHttpBasic = getComponent("authHttpBasic")
+  const AuthHttpBearer = getComponent("authHttpBearer")
+
+  const scheme = (schema.get("scheme") || "").toLowerCase()
+  
+
+  if(scheme === "basic") {
+    return (
+      <AuthHttpBasic
+        getComponent={getComponent}
+        name={name}
+        schema={schema}
+        onChange={onChange}
+        isAuthorized={isAuthorized}
+        authorizedUsername={authorizedUsername}
+      />
+    )
   }
 
-  constructor(props, context) {
-    super(props, context)
-    let { name, schema } = this.props
-    let value = this.getValue()
-
-    this.state = {
-      name: name,
-      schema: schema,
-      value: value
-    }
+  if(scheme === "bearer") {
+    return (
+      <AuthHttpBearer
+        getComponent={getComponent}
+        name={name}
+        schema={schema}
+        onChange={onChange}
+        isAuthorized={isAuthorized}
+      />
+    )
   }
-
-  getValue () {
-    let { name, authorized } = this.props
-
-    return authorized && authorized.getIn([name, "value"])
-  }
-
-  onChange =(e) => {
-    let { onChange } = this.props
-    let { value, name } = e.target
-
-    let newValue = Object.assign({}, this.state.value)
-
-    if(name) {
-      newValue[name] = value
-    } else {
-      newValue = value
-    }
-
-    this.setState({ value: newValue }, () => onChange(this.state))
-
-  }
-
-  render() {
-		const { schema, getComponent, name } = this.props
-		
-		const AuthHttpBasic = getComponent("authHttpBasic")
-		const AuthHttpBearer = getComponent("authHttpBearer")
-
-    const scheme = (schema.get("scheme") || "").toLowerCase()
-    const value = this.getValue()
-		
-
-    if(scheme === "basic") {
-      return (
-        <AuthHttpBasic
-          getComponent={getComponent}
-          name={name}
-          schema={schema}
-          value={value}
-          onChange={this.onChange}/>
-      )
-    }
-
-    if(scheme === "bearer") {
-      return (
-        <AuthHttpBearer
-          getComponent={getComponent}
-          name={name}
-          schema={schema}
-          value={value}
-          onChange={this.onChange}/>
-      )
-    }
 
   return (
     <div>
       <em><b>{name}</b> HTTP authentication: unsupported scheme {`'${scheme}'`}</em>
     </div>
-   )
-  }
+    )
+
 }
+
+AuthHttp.propTypes = {
+  isAuthorized: PropTypes.bool.isRequired,
+  authorizedUsername: PropTypes.string.isRequired,
+  getComponent: PropTypes.func.isRequired,
+  schema: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func
+}
+
+export default AuthHttp

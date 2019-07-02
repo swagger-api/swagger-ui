@@ -6,9 +6,9 @@ import oauth2Authorize from "core/oauth2-authorize"
 export default class Oauth2 extends React.Component {
   static propTypes = {
     name: PropTypes.string,
-    authorizedData: PropTypes.object,
+    authorizedData: ImPropTypes.map.isRequired,
     getComponent: PropTypes.func.isRequired,
-    schema: PropTypes.object.isRequired,
+    schema: ImPropTypes.map.isRequired,
     authSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
     errors: ImPropTypes.list.isRequired,

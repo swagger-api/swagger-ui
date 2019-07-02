@@ -9,15 +9,16 @@ export default class AuthorizationPopup extends React.Component {
     authActions.showDefinitions(false)
   }
 
-  authorize = (name, formData, schema) => {
+  authorize = (name, value, schema) => {
     const { authActions } = this.props
-    const data = { 
-      name,
-      ...formData,
-      // schema,
-    }
 
-    authActions.authorize(data)
+    if(value) {   
+      authActions.authorize({ 
+        name,
+        value,
+        schema,
+      })
+    }
   }
 
   logout = (name) => {
@@ -28,7 +29,7 @@ export default class AuthorizationPopup extends React.Component {
   }
 
   render() {
-    const { authSelectors, getComponent, errSelectors } = this.props
+    const { authSelectors, getComponent, errSelectors, specSelectors } = this.props
     const Auths = getComponent("auths")
     const Oauth2 = getComponent("oauth2", true)
     const Modal = getComponent("Modal")
@@ -36,6 +37,7 @@ export default class AuthorizationPopup extends React.Component {
     const authSchemas = authSelectors.shownDefinitions()
     const authorizedData = authSelectors.authorized()
     const errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
+    const isOAS3 = specSelectors.isOAS3()
 
     return (
       <Modal
@@ -64,10 +66,11 @@ export default class AuthorizationPopup extends React.Component {
                       schema={ schema }
                       getComponent={ getComponent }
                       errors={ errors }
-                      authSelectors={ authSelectors }
-                      authorize={this.authorize}
-                      logout={this.logout}
-                      closeModal={this.close}
+                      authorizedData={ authorizedData }
+                      authorize={ this.authorize }
+                      logout={ this.logout }
+                      closeModal={ this.close }
+                      isOAS3={ isOAS3 }
                     />
               }
             </div>

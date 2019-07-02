@@ -11,26 +11,38 @@ export default class Auths extends React.Component {
     authorize: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
     closeModal: PropTypes.func.isRequired,
-    authSelectors: PropTypes.object.isRequired
+    authorizedData: ImPropTypes.map.isRequired,
+    isOAS3: PropTypes.bool.isRequired,
   }
 
   constructor(props, context) {
     super(props, context)
 
-    this.state = {}
+    const value = props.authorizedData.get("value")
+
+    this.state = {
+      value: value
+    }
   }
 
-  onAuthChange = (auth) => {
-    const { name } = this.props
+  onAuthChange = (e) => {
+    const { value, name } = e.target
+    let newValue = Object.assign({}, this.state.value)
 
-    this.setState({ [name]: auth })
+    if(name) {
+      newValue[name] = value
+    } else {
+      newValue = value
+    }
+
+    this.setState({ value: newValue })
   }
 
   authorizeClick = (e) => {
     e.preventDefault()
-    const { authorize, name } = this.props
+    const { authorize, name, schema } = this.props
     
-    authorize(name, this.state[name])
+    authorize(name, this.state.value, schema)
   }
 
   logoutClick = (e) => {
@@ -38,6 +50,7 @@ export default class Auths extends React.Component {
     const { logout, name } = this.props
 
     logout(name)
+    this.setState({ value: null })
   }
 
   closeClick = (e) => {
@@ -48,15 +61,15 @@ export default class Auths extends React.Component {
   }
 
   render() {
-    const { schema, name, getComponent, authSelectors, errors } = this.props
+    const { schema, name, getComponent, authorizedData, errors, isOAS3 } = this.props
     const ApiKeyAuth = getComponent("apiKeyAuth")
     const BasicAuth = getComponent("basicAuth")
     const AuthHttp = getComponent("authHttp")
     const AuthBtnGroup = getComponent("AuthBtnGroup")
     const AuthError = getComponent("authError")
 
-    const authorizedData = authSelectors.authorized()
     const isAuthorized = !!authorizedData.get(name)
+    const authorizedUsername = authorizedData.getIn([name, "value", "username"])
     const type = schema.get("type")
     let auth
 
@@ -64,7 +77,7 @@ export default class Auths extends React.Component {
       auth = <ApiKeyAuth
         schema={ schema }
         name={ name }
-        authorized={ authorizedData }
+        isAuthorized={ isAuthorized }
         getComponent={ getComponent }
         onChange={ this.onAuthChange }
       />
@@ -73,16 +86,18 @@ export default class Auths extends React.Component {
       auth = <BasicAuth
         schema={ schema }
         name={ name }
-        authorized={ authorizedData }
+        isAuthorized={ isAuthorized }
+        authorizedUsername={ authorizedUsername }
         getComponent={ getComponent }
         onChange={ this.onAuthChange }
       />
     }
-    if(type === "http") {
+    if(type === "http" && isOAS3) {
       auth = <AuthHttp
         schema={ schema }
         name={ name }
-        authorized={ authorizedData }
+        isAuthorized={ isAuthorized }
+        authorizedUsername={ authorizedUsername }
         getComponent={ getComponent }
         onChange={ this.onAuthChange }
       />
