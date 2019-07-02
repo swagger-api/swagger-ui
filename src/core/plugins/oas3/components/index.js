@@ -5,12 +5,10 @@ import Servers from "./servers"
 import ServersContainer from "./servers-container"
 import ServerVariables from "./server-variables"
 import RequestBodyEditor from "./request-body-editor"
-import HttpAuth from "./http-auth"
 import OperationServers from "./operation-servers"
 
 export default {
   Callbacks,
-  HttpAuth,
   RequestBody,
   Servers,
   ServerVariables,
