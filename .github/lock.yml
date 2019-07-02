@@ -1,7 +1,7 @@
 daysUntilLock: 365
 skipCreatedBefore: 2017-03-29 # initial release of Swagger UI 3.0.0
 exemptLabels: []
-lockLabel: "locked-by-bot: lock"
+lockLabel: "locked-by: lock-bot"
 setLockReason: false
 only: issues
 lockComment: false
