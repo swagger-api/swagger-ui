@@ -1,4 +1,4 @@
-// Base Colours
+  // Base Colours
 $black: #000;
 $white: #fff;
 $gray-50: lighten($black, 92%); //ebebeb
@@ -42,14 +42,14 @@ $color-danger: #f00 !default;
 
 $color-primary-hover: lighten($color-primary, .5%) !default;
 
-$_color-post: $green-haze !default;
-$_color-get: $dodger-blue !default;
-$_color-put: $mango-tango !default;
-$_color-delete: $persian-red !default;
-$_color-head: $electric-violet !default;
-$_color-patch: $persian-green !default;
-$_color-disabled: $mercury-gray !default;
-$_color-options: $endeavour-blue !default;
+$_color-post: #49cc90 !default;
+$_color-get: #61affe !default;		
+$_color-put: #fca130 !default;		
+$_color-delete: #f93e3e !default;		
+$_color-head: #9012fe !default;		
+$_color-patch: #50e3c2 !default;		
+$_color-disabled: #ebebeb !default;		
+$_color-options: #0d5aa7 !default;
 
 // Authorize
 
