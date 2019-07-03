@@ -18,7 +18,9 @@ export default class Auths extends React.Component {
   constructor(props, context) {
     super(props, context)
 
-    const value = props.authorizedData.get("value")
+    const { authorizedData } = this.props
+
+    const value = authorizedData && authorizedData.get("value")
 
     this.state = {
       value: value
@@ -68,8 +70,8 @@ export default class Auths extends React.Component {
     const AuthBtnGroup = getComponent("AuthBtnGroup")
     const AuthError = getComponent("authError")
 
-    const isAuthorized = !!authorizedData.get(name)
-    const authorizedUsername = authorizedData.getIn([name, "value", "username"])
+    const isAuthorized = !!authorizedData
+    const authorizedUsername = authorizedData && authorizedData.getIn(["value", "username"])
     const type = schema.get("type")
     let auth
 
@@ -107,12 +109,10 @@ export default class Auths extends React.Component {
       ? <div>
           { auth }
 
-          {
-            errors.valueSeq().map( (error, key) => {
+          { errors.valueSeq().map( (error, key) => {
               return <AuthError error={ error }
                                 key={ key }/>
-            })
-          }
+            }) }
 
           <AuthBtnGroup
             getComponent={getComponent}

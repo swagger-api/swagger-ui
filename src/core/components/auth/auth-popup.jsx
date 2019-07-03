@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import oauth2Authorize from "core/oauth2-authorize"
 
 export default class AuthorizationPopup extends React.Component {
 
@@ -21,8 +22,37 @@ export default class AuthorizationPopup extends React.Component {
     }
   }
 
-  logout = (name) => {
+  oauth2Authorize = (name, value, schema) => {
+    const { authActions, errActions, getConfigs, authSelectors } = this.props
+    const configs = getConfigs()
+    const authConfigs = authSelectors.getConfigs()
 
+    this.clearAuthErrors(name)
+
+    oauth2Authorize({
+      auth: {
+        name,
+        value,
+        schema
+      },
+      authActions,
+      errActions,
+      configs,
+      authConfigs
+    })
+  }
+
+  clearAuthErrors = (name) => {
+    const { errActions } = this.props
+
+    errActions.clear({
+      authId: name,
+      type: "auth", 
+      source: "auth"
+    })
+  } 
+
+  logout = (name) => {
     let { authActions } = this.props
 
     authActions.logout(name)
@@ -31,12 +61,11 @@ export default class AuthorizationPopup extends React.Component {
   render() {
     const { authSelectors, getComponent, errSelectors, specSelectors } = this.props
     const Auths = getComponent("auths")
-    const Oauth2 = getComponent("oauth2", true)
+    const Oauth2 = getComponent("oauth2")
     const Modal = getComponent("Modal")
 
     const authSchemas = authSelectors.shownDefinitions()
-    const authorizedData = authSelectors.authorized()
-    const errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
+    const configs = authSelectors.getConfigs() || {}
     const isOAS3 = specSelectors.isOAS3()
 
     return (
@@ -50,16 +79,25 @@ export default class AuthorizationPopup extends React.Component {
           const name = schema.keySeq().first()
           schema = schema.first()
           const isOauth2Definition = schema.get("type") === "oauth2"
+          const errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
+          const authorizedData = authSelectors.authorized().get(name)
 
           return (
             <div className="auth-container" key={ key }>
               { 
                 isOauth2Definition
                   ? <Oauth2 
-                      schema={ schema }
                       name={ name }
+                      schema={ schema }
                       authorizedData={ authorizedData }
+                      configs={ configs }
                       errors={ errors }
+                      getComponent={ getComponent }
+                      authorize={ this.oauth2Authorize }
+                      logout={ this.logout }
+                      clearErrors={ this.clearAuthErrors }
+                      closeModal={ this.close }
+                      isOAS3={ isOAS3 }
                     />
                   : <Auths
                       name={ name }
@@ -87,5 +125,7 @@ export default class AuthorizationPopup extends React.Component {
     specSelectors: PropTypes.object.isRequired,
     errSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
+    errActions: PropTypes.objects.isRequired,
+    getConfigs: PropTypes.objects.isRequired
   }
 }
