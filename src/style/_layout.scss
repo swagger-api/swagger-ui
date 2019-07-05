@@ -582,6 +582,11 @@
 
 .opblock-body
 {
+  .markdown
+  {
+    @include regular-text()
+  }
+
   .opblock-loading-animation
   {
     display: block;
