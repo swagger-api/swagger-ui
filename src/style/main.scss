@@ -1,9 +1,12 @@
 
 @import 'fonts';
 
+:root {
+    font-size: var(--root-font-size, 62.5%);
+}
+
 section.swagger-ui
 {
-    font-size: 62.5%;
     @import '~tachyons-sass/tachyons.scss';
     @import 'mixins';
     @import 'variables';
