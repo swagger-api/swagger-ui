@@ -37,7 +37,7 @@
     "test-e2e-selenium": "sleep 3 && nightwatch test/e2e-selenium/scenarios/ --config test/e2e-selenium/nightwatch.json",
     "e2e-initial-render": "nightwatch test/e2e-selenium/scenarios/ --config test/e2e-selenium/nightwatch.json --group initial-render",
     "mock-api": "json-server --watch test/e2e-selenium/db.json --port 3204",
-    "hot-e2e-cypress-server": "webpack-dev-server --port 3230 --content-base test/e2e-cypress/static --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress",
+    "hot-e2e-cypress-server": "webpack-dev-server --port 3230 --content-base test/e2e-cypress/static --host 0.0.0.0 --config webpack-hot-dev-server.config.js",
     "hot-e2e-selenium-server": "webpack-dev-server --port 3230 --content-base test/e2e-selenium/helpers --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress",
     "e2e-cypress": "run-p -r hot-e2e-cypress-server mock-api test-e2e-cypress",
     "e2e-selenium": "run-p -r hot-e2e-selenium-server mock-api test-e2e-selenium",
