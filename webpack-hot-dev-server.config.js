@@ -1,4 +1,4 @@
-const path = require("path")
+const styleRules = require("./webpack-dist-style.config.js")
 
 const rules = [
   { test: /\.(worker\.js)(\?.*)?$/,
@@ -12,44 +12,23 @@ const rules = [
       { loader: "babel-loader?retainLines=true" }
     ]
   },
-  { test: /\.(css)(\?.*)?$/,
-    use: [
-      "style-loader",
-      "css-loader",
-      "postcss-loader"
-    ]
-  },
-  { test: /\.(scss)(\?.*)?$/,
-    use: [
-      "style-loader",
-      "css-loader",
-      {
-        loader: "postcss-loader",
-        options: { sourceMap: true }
-      },
-      { loader: "sass-loader",
-        options: {
-          outputStyle: "expanded",
-          sourceMap: true,
-          sourceMapContents: "true"
-        }
-      }
-    ]
-  }
+  ...styleRules
 ]
 
 module.exports = require("./make-webpack-config")(rules, {
   _special: {
-    separateStylesheets: false,
+    separateStylesheets: true,
     sourcemaps: true,
   },
   entry: {
+    "swagger-ui": [
+      "./src/style/main.scss"
+    ],
     "swagger-ui-bundle": [
       "./src/polyfills",
       "./src/core/index.js"
     ],
     "swagger-ui-standalone-preset": [
-      "./src/style/main.scss",
       "./src/polyfills",
       "./src/standalone/index.js",
     ]
