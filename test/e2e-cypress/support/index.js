@@ -25,3 +25,11 @@ import "./commands"
 Cypress.on("window:before:load", win => {
   win.fetch = null
 })
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+  console.log(err)
+  util.inspect(err)
+  console.log(JSON.stringify(err, null, 2))
+  
+  throw err
+})
