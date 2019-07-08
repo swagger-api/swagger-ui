@@ -1,5 +1,5 @@
 const path = require("path")
-const styleRules = require("./webpack.dist-style.config.js")
+const styleRules = require("./webpack-dist-style.config.js")
 
 let rules = [
   { test: /\.(worker\.js)(\?.*)?$/,
