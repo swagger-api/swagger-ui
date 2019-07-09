@@ -1,7 +1,7 @@
 const path = require("path")
 const fs = require("fs")
 const nodeModules = fs.readdirSync("node_modules").filter(function(x) { return x !== ".bin" })
-const styleRules = require("./webpack.dist-style.config.js")
+const styleRules = require("./webpack-dist-style.config.js")
 
 let rules = [
   { test: /\.(worker\.js)(\?.*)?$/,
