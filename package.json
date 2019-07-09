@@ -129,7 +129,7 @@
     "null-loader": "0.1.1",
     "nyc": "^11.3.0",
     "oauth2-server": "^2.4.1",
-    "open": "0.0.5",
+    "open": "6.0.0",
     "postcss-loader": "^2.1.5",
     "prettier": "^1.18.2",
     "raw-loader": "0.5.1",
