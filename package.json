@@ -31,7 +31,7 @@
     "lint-fix": "eslint --cache --ext '.js,.jsx' src test --fix",
     "test": "run-s just-test-in-node e2e-cypress lint-errors",
     "test-in-node": "run-s lint-errors just-test-in-node",
-    "just-test-in-node": "mocha --require test/setup.js --recursive --compilers js:babel-core/register --require source-map-support test/core test/components test/bugs test/docker test/swagger-ui-dist-package test/xss",
+    "just-test-in-node": "mocha --require test/setup.js --recursive --compilers js:@babel/register --require source-map-support test/core test/components test/bugs test/docker test/swagger-ui-dist-package test/xss",
     "just-check-coverage": "nyc npm run just-test-in-node",
     "test-e2e-cypress": "cypress run",
     "test-e2e-selenium": "sleep 3 && nightwatch test/e2e-selenium/scenarios/ --config test/e2e-selenium/nightwatch.json",
@@ -81,20 +81,22 @@
     "zenscroll": "^4.0.2"
   },
   "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.5.0",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.0.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.0.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.5.0",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.4.4",
+    "@babel/runtime-corejs2": "^7.0.0",
     "autoprefixer": "^8.4.1",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.23.1",
-    "babel-eslint": "^7.1.1",
-    "babel-loader": "^7.1.0",
-    "babel-plugin-module-alias": "^1.6.0",
-    "babel-plugin-transform-es2015-constants": "^6.1.4",
+    "babel-eslint": "^9.0.0",
+    "babel-loader": "^8.0.0",
+    "babel-plugin-module-resolver": "^3.2.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.13",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-es2015": "^6.22.0",
-    "babel-preset-es2015-ie": "^6.6.2",
-    "babel-preset-react": "^6.23.0",
-    "babel-preset-stage-0": "^6.22.0",
-    "babel-runtime": "^6.23.0",
     "body-parser": "^1.18.3",
     "bundlesize": "^0.17.2",
     "chromedriver": "^2.38.3",
@@ -153,11 +155,6 @@
   "config": {
     "deps_check_dir": ".deps_check"
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "IE 11"
-  ],
   "nyc": {
     "all": true,
     "include": [
