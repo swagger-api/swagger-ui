@@ -1,4 +1,11 @@
-.swagger-ui
+
+@import 'fonts';
+
+:root {
+    font-size: var(--root-font-size, 62.5%);
+}
+
+section.swagger-ui
 {
     @import '~tachyons-sass/tachyons.scss';
     @import 'mixins';
@@ -15,7 +22,6 @@
     @import 'information';
     @import 'authorize';
     @import 'errors';
-    @include text_body();
     @import 'split-pane-mode';
     @import 'markdown';
 }

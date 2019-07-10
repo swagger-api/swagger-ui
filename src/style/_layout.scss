@@ -57,11 +57,12 @@
 
 .opblock-tag
 {
-    font-size: 24px;
-
     margin: 0 0 5px 0;
 
-    @include text_headline();
+    a.nostyle
+    {
+      @include text_title($size: $opblock-tag-h4-font-size);
+    }
 
     &.no-desc
     {
@@ -78,14 +79,11 @@
 
     small
     {
-        font-size: 14px;
-        font-weight: normal;
-
         flex: 1;
 
         padding: 0 10px;
 
-        @include text_body();
+        @include regular-text($size: $opblock-tag-small-font-size);
     }
 }
 
@@ -252,20 +250,17 @@
 
         h4
         {
-            font-size: 14px;
 
             flex: 1;
 
             margin: 0;
 
-            @include text_headline();
+            @include text_title($size: $opblock-section-header-h4-font-size);
         }
     }
 
     .opblock-summary-method
     {
-        font-size: 14px;
-        font-weight: bold;
 
         min-width: 80px;
         padding: 6px 15px;
@@ -276,7 +271,7 @@
         background: $opblock-summary-method-background-color;
         text-shadow: 0 1px 0 rgba($opblock-summary-method-text-shadow-color,.1);
 
-        @include text_headline($opblock-summary-method-font-color);
+        @include alt-text();
     }
 
     .opblock-summary-path,
@@ -296,7 +291,7 @@
 
         padding: 0 10px;
 
-        @include text_code();
+        @include alt-text($size: $opblock-summary-path-font-size)
 
     }
 
@@ -318,7 +313,7 @@
 
         word-break: break-word;
 
-        @include text_body();
+        @include text_title($size: $opblock-summary-description-font-size);
     }
 
     .opblock-summary
@@ -587,6 +582,11 @@
 
 .opblock-body
 {
+  .markdown
+  {
+    @include regular-text()
+  }
+
   .opblock-loading-animation
   {
     display: block;

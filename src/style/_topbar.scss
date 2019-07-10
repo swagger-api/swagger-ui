@@ -3,6 +3,7 @@
     padding: 10px 0;
 
     background-color: $topbar-background-color;
+
     .topbar-wrapper
     {
         display: flex;
@@ -44,6 +45,7 @@
             border: 2px solid $topbar-download-url-wrapper-element-border-color;
             border-radius: 4px 0 0 4px;
             outline: none;
+            @include regular_text();
         }
 
         .select-label
