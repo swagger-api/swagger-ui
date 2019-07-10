@@ -1,11 +1,13 @@
-import deepExtend from "deep-extend"
+// This file uses CommonJS require/exports syntax in order to 
 
-import System from "core/system"
-import win from "core/window"
-import ApisPreset from "core/presets/apis"
+const deepExtend = require("deep-extend")
 
-import * as AllPlugins from "core/plugins/all"
-import { parseSearch } from "core/utils"
+const System = require("core/system").default
+const ApisPreset = require("core/presets/apis").default
+const AllPlugins = require("core/plugins/all").default
+const { parseSearch } = require("core/utils")
+const win = require("core/window")
+
 
 if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
   win.Perf = require("react-dom/lib/ReactPerf")

@@ -12,7 +12,6 @@
             "not dead",
           ]
         },
-        "modules": false,
         "useBuiltIns": "entry",
         "corejs": "2"
       }
@@ -20,6 +19,7 @@
     "@babel/preset-react"
   ],
   "plugins": [
+    "@babel/plugin-transform-modules-commonjs",
     ["@babel/plugin-transform-runtime", {
       "corejs": "2"
     }],
