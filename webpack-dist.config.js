@@ -23,13 +23,14 @@ module.exports = require("./make-webpack-config.js")(rules, {
   _special: {
     separateStylesheets: true,
     minimize: true,
+    // mangle: true, // TODO: enable
     sourcemaps: true,
   },
 
   entry: {
     "swagger-ui": [
       "./src/style/main.scss",
-      "./src/polyfills",
+      "./src/polyfills", // TODO: remove?
       "./src/core/index.js"
     ]
   },
