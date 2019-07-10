@@ -1,4 +1,6 @@
-// This file uses CommonJS require/exports syntax in order to 
+// This file uses CommonJS require/exports syntax in order to export the SwaggerUI
+// function directly, instead of `{ default: fn SwaggerUI }`, which Babel would
+// generate if we used ESM syntax.
 
 const deepExtend = require("deep-extend")
 
