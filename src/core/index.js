@@ -1,15 +1,10 @@
-// This file uses CommonJS require/exports syntax in order to export the SwaggerUI
-// function directly, instead of `{ default: fn SwaggerUI }`, which Babel would
-// generate if we used ESM syntax.
+import deepExtend from "deep-extend"
 
-const deepExtend = require("deep-extend")
-
-const System = require("core/system").default
-const ApisPreset = require("core/presets/apis").default
-const AllPlugins = require("core/plugins/all").default
-const { parseSearch } = require("core/utils")
-const win = require("core/window")
-
+import System from "./system"
+import ApisPreset from "./presets/apis"
+import AllPlugins from "./plugins/all"
+import { parseSearch } from "./utils"
+import win from "./window"
 
 if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
   win.Perf = require("react-dom/lib/ReactPerf")
@@ -18,7 +13,7 @@ if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
 // eslint-disable-next-line no-undef
 const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION, HOSTNAME, BUILD_TIME } = buildInfo
 
-module.exports = function SwaggerUI(opts) {
+export default function SwaggerUI(opts) {
 
   win.versions = win.versions || {}
   win.versions.swaggerUi = {
@@ -191,9 +186,9 @@ module.exports = function SwaggerUI(opts) {
 }
 
 // Add presets
-module.exports.presets = {
+SwaggerUI.presets = {
   apis: ApisPreset,
 }
 
 // All Plugins
-module.exports.plugins = AllPlugins
+SwaggerUI.plugins = AllPlugins
