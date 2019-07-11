@@ -3,6 +3,7 @@
  */
 
 // NOTE: this config *does not* inherit from `_config-builder`.
+// It is also used in the dev config.
 
 import path from "path"
 import ExtractTextPlugin from "extract-text-webpack-plugin"
