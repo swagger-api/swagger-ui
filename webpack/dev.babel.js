@@ -5,7 +5,7 @@
 import path from "path"
 import { HotModuleReplacementPlugin } from "webpack"
 import configBuilder from "./_config-builder"
-import styleConfig from "./style.babel"
+import styleConfig from "./stylesheets.babel"
 
 const devConfig = configBuilder(
   {
