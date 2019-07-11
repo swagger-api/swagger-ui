@@ -10,13 +10,17 @@ export default class SwaggerUI extends React.Component {
   }
   
   componentDidMount() {
+    const {
+      requestInterceptor,
+      responseInterceptor,
+      onComplete,
+      ...otherProps
+    } = this.props;
     const ui = swaggerUIConstructor({
-      spec: this.props.spec,
-      url: this.props.url,
       requestInterceptor: this.requestInterceptor,
       responseInterceptor: this.responseInterceptor,
       onComplete: this.onComplete,
-      docExpansion: this.props.docExpansion,
+      ...this.otherProps
     })
 
     this.system = ui
