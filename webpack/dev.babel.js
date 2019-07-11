@@ -15,6 +15,7 @@ const devConfig = configBuilder(
     includeDependencies: true,
   },
   {
+    mode: "development",
     entry: {
       "swagger-ui-bundle": [
         "./src/polyfills.js", // TODO: remove?

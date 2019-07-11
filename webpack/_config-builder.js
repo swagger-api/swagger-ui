@@ -44,10 +44,9 @@ const baseRules = [
 
 export default function buildConfig(
   {
-    // hot = false, // TODO: implement
-    minimize = false,
-    mangle = false,
-    sourcemaps = false,
+    minimize = true,
+    mangle = true,
+    sourcemaps = true,
     includeDependencies = true,
   },
   customConfig
@@ -95,6 +94,8 @@ export default function buildConfig(
   const completeConfig = deepExtend(
     {},
     {
+      mode: "production",
+      
       entry: {},
 
       output: {
