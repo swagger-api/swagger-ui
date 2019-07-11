@@ -140,7 +140,7 @@
     "selenium-server-standalone-jar": "3.12.0",
     "standard": "^11.0.1",
     "tachyons-sass": "^4.9.2",
-    "uglifyjs-webpack-plugin": "^2.1.3",
+    "terser-webpack-plugin": "^1.3.0",
     "url-loader": "^2.0.1",
     "webpack": "^4.35.3",
     "webpack-bundle-size-analyzer": "^2.5.0",

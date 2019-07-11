@@ -28,6 +28,10 @@ const devConfig = configBuilder(
       "swagger-ui": "./src/style/main.scss",
     },
 
+    performance: {
+      hints: false
+    },
+
     output: {
       library: "[name]",
       filename: "[name].js",

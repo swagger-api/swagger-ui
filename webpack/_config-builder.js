@@ -7,7 +7,7 @@ import os from "os"
 import fs from "fs"
 import deepExtend from "deep-extend"
 import webpack from "webpack"
-import UglifyJsPlugin from "uglifyjs-webpack-plugin"
+import TerserPlugin from "terser-webpack-plugin"
 
 import { getRepoInfo } from "./_helpers"
 import pkg from "../package.json"
@@ -64,28 +64,6 @@ export default function buildConfig(
       }),
     }),
   ]
-
-  if (minimize) {
-    plugins.push(
-      new UglifyJsPlugin({
-        uglifyOptions: {
-          mangle: !!mangle,
-          compress: mangle
-            ? {
-                dead_code: true,
-              }
-            : false,
-          beautify: !mangle,
-        },
-        sourceMap: !!sourcemaps,
-      }),
-      new webpack.LoaderOptionsPlugin({
-        options: {
-          context: projectBasePath,
-        },
-      })
-    )
-  }
 
   const completeConfig = deepExtend(
     {},
@@ -153,6 +131,19 @@ export default function buildConfig(
         hints: "error",
         maxEntrypointSize: 1024000,
         maxAssetSize: 1024000,
+      },
+
+      optimization: {
+        minimize: !!minimize,
+        minimizer: [
+          compiler =>
+            new TerserPlugin({
+              cache: true,
+              terserOptions: {
+                mangle: !!mangle,
+              },
+            }).apply(compiler)
+        ],
       },
     },
     customConfig
