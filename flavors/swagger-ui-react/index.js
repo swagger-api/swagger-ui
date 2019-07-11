@@ -20,7 +20,7 @@ export default class SwaggerUI extends React.Component {
       requestInterceptor: this.requestInterceptor,
       responseInterceptor: this.responseInterceptor,
       onComplete: this.onComplete,
-      ...this.otherProps
+      ...otherProps
     })
 
     this.system = ui
