@@ -8,22 +8,10 @@
 import path from "path"
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
 import IgnoreAssetsPlugin from "ignore-assets-webpack-plugin"
+import OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin"
 
 export default {
   mode: "production",
-
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        styles: {
-          name: "styles",
-          test: /\.css$/,
-          chunks: "all",
-          enforce: true,
-        },
-      },
-    },
-  },
 
   entry: {
     "swagger-ui": "./src/style/main.scss",
@@ -32,11 +20,7 @@ export default {
   module: {
     rules: [
       {
-        test: /\.(css)(\?.*)?$/,
-        use: ["css-loader", "postcss-loader"],
-      },
-      {
-        test: /\.(scss)(\?.*)?$/,
+        test: [/\.(scss)(\?.*)?$/],
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -47,7 +31,13 @@ export default {
           },
           {
             loader: "postcss-loader",
-            options: { sourceMap: true },
+            options: {
+              sourceMap: true,
+              plugins: loader => [
+                require("cssnano")(),
+                require("autoprefixer")(),
+              ],
+            },
           },
           {
             loader: "sass-loader",
@@ -78,5 +68,18 @@ export default {
   output: {
     path: path.join(__dirname, "../", "dist"),
     publicPath: "/dist",
+  },
+
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        styles: {
+          name: "styles",
+          test: /\.css$/,
+          chunks: "all",
+          enforce: true,
+        },
+      },
+    },
   },
 }

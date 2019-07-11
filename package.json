@@ -130,6 +130,7 @@
     "nyc": "^11.3.0",
     "oauth2-server": "^2.4.1",
     "open": "6.0.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
     "prettier": "^1.18.2",
     "raw-loader": "3.0.0",
