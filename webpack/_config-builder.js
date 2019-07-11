@@ -124,7 +124,7 @@ export default function buildConfig(
       devtool: sourcemaps
         ? minimize
           ? "nosource-source-map"
-          : "cheap-module-source-map"
+          : "module-source-map"
         : false,
 
       performance: {
@@ -139,6 +139,7 @@ export default function buildConfig(
           compiler =>
             new TerserPlugin({
               cache: true,
+              sourceMap: sourcemaps,
               terserOptions: {
                 mangle: !!mangle,
               },
