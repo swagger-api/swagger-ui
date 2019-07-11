@@ -148,6 +148,12 @@ export default function buildConfig(
           ? "nosource-source-map"
           : "cheap-module-source-map"
         : false,
+
+      performance: {
+        hints: "error",
+        maxEntrypointSize: 1024000,
+        maxAssetSize: 1024000,
+      },
     },
     customConfig
   )
