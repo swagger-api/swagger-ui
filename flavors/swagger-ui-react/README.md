@@ -31,9 +31,11 @@ export default App = () => <SwaggerUI url="https://petstore.swagger.io/v2/swagge
 
 These props map to [Swagger UI configuration options](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md) of the same name.
 
+Not all the configuration options are described here. See [Swagger UI configuration options](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md) for the full set.
+
 #### `spec`: PropTypes.object
 
-An OpenAPI document respresented as a JavaScript object, JSON string, or YAML string for Swagger UI to display.
+An OpenAPI document represented as a JavaScript object, JSON string, or YAML string for Swagger UI to display.
 
 ⚠️ Don't use this in conjunction with `url` - unpredictable behavior may occur.
 
@@ -73,7 +75,7 @@ Controls the default expansion setting for the operations and tags. It can be 'l
 
 ## Limitations
 
-* Not all configuration bindings are available.
+* Not all configuration bindings have been tested.
 * Some props are only applied on mount, and cannot be updated reliably.
 * OAuth redirection handling is not supported.
 * Topbar/Standalone mode is not supported.
