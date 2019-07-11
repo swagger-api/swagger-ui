@@ -55,9 +55,6 @@ export default function buildConfig(
 
   var plugins = [
     new webpack.DefinePlugin({
-      "process.env": {
-        NODE_ENV: minimize ? JSON.stringify("production") : null,
-      },
       buildInfo: JSON.stringify({
         PACKAGE_VERSION: pkg.version,
         GIT_COMMIT: gitInfo.hash,
@@ -86,8 +83,7 @@ export default function buildConfig(
         options: {
           context: projectBasePath,
         },
-      }),
-      new webpack.NoEmitOnErrorsPlugin()
+      })
     )
   }
 
@@ -95,7 +91,7 @@ export default function buildConfig(
     {},
     {
       mode: "production",
-      
+
       entry: {},
 
       output: {
