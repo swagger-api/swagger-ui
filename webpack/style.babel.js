@@ -6,9 +6,25 @@
 // It is also used in the dev config.
 
 import path from "path"
-import ExtractTextPlugin from "extract-text-webpack-plugin"
+import MiniCssExtractPlugin from "mini-css-extract-plugin"
+import IgnoreAssetsPlugin from "ignore-assets-webpack-plugin"
 
 export default {
+  mode: "production",
+
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        styles: {
+          name: "styles",
+          test: /\.css$/,
+          chunks: "all",
+          enforce: true,
+        },
+      },
+    },
+  },
+
   entry: {
     "swagger-ui": "./src/style/main.scss",
   },
@@ -17,43 +33,44 @@ export default {
     rules: [
       {
         test: /\.(css)(\?.*)?$/,
-        use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: ["css-loader", "postcss-loader"],
-        }),
+        use: ["css-loader", "postcss-loader"],
       },
       {
         test: /\.(scss)(\?.*)?$/,
-        use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: [
-            {
-              loader: "css-loader",
-              options: { minimize: true, sourceMap: true },
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          {
+            loader: "css-loader",
+            options: { sourceMap: true },
+          },
+          {
+            loader: "postcss-loader",
+            options: { sourceMap: true },
+          },
+          {
+            loader: "sass-loader",
+            options: {
+              outputStyle: "expanded",
+              sourceMap: true,
+              sourceMapContents: "true",
             },
-            {
-              loader: "postcss-loader",
-              options: { sourceMap: true },
-            },
-            {
-              loader: "sass-loader",
-              options: {
-                outputStyle: "expanded",
-                sourceMap: true,
-                sourceMapContents: "true",
-              },
-            },
-          ],
-        }),
+          },
+        ],
       },
     ],
   },
 
   plugins: [
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
       filename: "[name].css",
-      allChunks: true
-    })
+    }),
+    new IgnoreAssetsPlugin({
+      // This is a hack to avoid a Webpack/MiniCssExtractPlugin bug, for more
+      // info see https://github.com/webpack-contrib/mini-css-extract-plugin/issues/151
+      ignore: ["swagger-ui.js", "swagger-ui.js.map"],
+    }),
   ],
 
   devtool: "source-map",
@@ -61,6 +78,5 @@ export default {
   output: {
     path: path.join(__dirname, "../", "dist"),
     publicPath: "/dist",
-    filename: "[name].css",
   },
 }
