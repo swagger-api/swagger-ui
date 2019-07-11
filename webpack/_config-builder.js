@@ -27,6 +27,7 @@ const baseRules = [
     loader: "babel-loader",
     options: {
       retainLines: true,
+      cacheDirectory: true,
     },
   },
   { test: /\.(txt|yaml)$/, loader: "raw-loader" },
