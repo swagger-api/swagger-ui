@@ -126,7 +126,6 @@
     "nightwatch": "^0.9.16",
     "node-sass": "^4.12.0",
     "npm-run-all": "^4.1.2",
-    "null-loader": "3.0.0",
     "nyc": "^11.3.0",
     "oauth2-server": "^2.4.1",
     "open": "6.0.0",
@@ -139,7 +138,6 @@
     "sass-loader": "^7.1.0",
     "selenium-server-standalone-jar": "3.12.0",
     "standard": "^11.0.1",
-    "standard-loader": "^7.0.0",
     "style-loader": "^0.23.1",
     "tachyons-sass": "^4.9.2",
     "uglifyjs-webpack-plugin": "^1.2.5",
@@ -147,8 +145,7 @@
     "webpack": "^4.35.3",
     "webpack-bundle-size-analyzer": "^2.5.0",
     "webpack-cli": "^2.1.5",
-    "webpack-dev-server": "^3.7.2",
-    "worker-loader": "^2.0.0"
+    "webpack-dev-server": "^3.7.2"
   },
   "config": {
     "deps_check_dir": ".deps_check"
