@@ -7,7 +7,6 @@ describe("render pet api container", function () {
             .page.main()
 
         client.waitForElementVisible(".download-url-input:not([disabled])", 5000)
-            .pause(5000)
             .clearValue(".download-url-input")
             .setValue(".download-url-input", "http://localhost:3230/test-specs/petstore.json")
             .click("button.download-url-button")
@@ -95,7 +94,7 @@ describe("render pet api container", function () {
         client.end()
     })
 
-    it("Testing put /pet api Mock data", function (client) {
+    it.only("Testing put /pet api Mock data", function (client) {
         apiWrapper.waitForElementVisible("@petOperationPutContainer", 5000)
             .click("@petOperationPutCollpase")
             .waitForElementVisible("@petOperationPutCollapseContainer", 3000)
