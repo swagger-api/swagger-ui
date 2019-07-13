@@ -23,6 +23,7 @@
       "corejs": "2"
     }],
     "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-optional-chaining",
     ["transform-react-remove-prop-types", {
       "additionalLibraries": ["react-immutable-proptypes"]
     }],
