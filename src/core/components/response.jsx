@@ -10,7 +10,7 @@ const getExampleComponent = ( sampleResponse, HighlightCode ) => {
     sampleResponse !== undefined &&
     sampleResponse !== null
   ) { return <div>
-      <HighlightCode className="example" value={ sampleResponse } />
+      <HighlightCode className="example" value={ stringify(sampleResponse) } />
     </div>
   }
   return null
@@ -138,6 +138,7 @@ export default class Response extends React.Component {
     } else {
       if(response.getIn(["examples", activeContentType])) {
         sampleResponse = response.getIn(["examples", activeContentType])
+        debugger
       } else {
         sampleResponse = schema ? getSampleSchema(
           schema.toJS(), 
