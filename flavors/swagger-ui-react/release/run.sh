@@ -6,7 +6,7 @@ set -ex
 # Parameter Expansion: http://stackoverflow.com/questions/6393551/what-is-the-meaning-of-0-in-a-bash-script
 cd "${0%/*}"
 
-mkdir ../dist
+mkdir -p ../dist
 
 # Copy UI's dist files to our directory
 cp ../../../dist/swagger-ui.js ../dist
