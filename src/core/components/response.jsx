@@ -138,7 +138,6 @@ export default class Response extends React.Component {
     } else {
       if(response.getIn(["examples", activeContentType])) {
         sampleResponse = response.getIn(["examples", activeContentType])
-        debugger
       } else {
         sampleResponse = schema ? getSampleSchema(
           schema.toJS(), 
