@@ -1,5 +1,8 @@
 # Deploy `swagger-ui-react` to npm.
 
+# https://www.peterbe.com/plog/set-ex
+set -ex
+
 # Parameter Expansion: http://stackoverflow.com/questions/6393551/what-is-the-meaning-of-0-in-a-bash-script
 cd "${0%/*}"
 
