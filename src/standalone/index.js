@@ -4,7 +4,7 @@ import ConfigsPlugin from "corePlugins/configs"
 
 // the Standalone preset
 
-let preset = [
+export default [
   TopbarPlugin,
   ConfigsPlugin,
   () => {
@@ -13,5 +13,3 @@ let preset = [
     }
   }
 ]
-
-module.exports = preset

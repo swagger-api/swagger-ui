@@ -1,3 +1,5 @@
+import fs from "fs"
+
 // ***********************************************************
 // This example support/index.js is processed and
 // loaded automatically before your test files.
@@ -24,4 +26,12 @@ import "./commands"
 // see https://github.com/cypress-io/cypress/issues/95
 Cypress.on("window:before:load", win => {
   win.fetch = null
+})
+
+Cypress.on("uncaught:exception", (err, runnable) => {
+  console.log(err)
+  console.log(JSON.stringify(err, null, 2))
+  fs.writeFileSync(require("path").normalize(__dirname, "./error.log"), JSON.stringify(err, null, 2))
+
+  throw err
 })
