@@ -35,5 +35,7 @@
       "enabled": false
     }
   ],
-  "commitMessageTopic": "{{depName}}"
+  "commitMessageTopic": "{{depName}}",
+  "ignorePaths": ["swagger-ui-dist-package/package.json"],
+  "prConcurrentLimit": 10
 }
