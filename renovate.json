@@ -18,12 +18,6 @@
     },
     {
       "depTypeList": [
-        "dependencies"
-      ],
-      "semanticCommitType": "fix"
-    },
-    {
-      "depTypeList": [
         "devDependencies"
       ],
       "rangeStrategy": "update-lockfile",
