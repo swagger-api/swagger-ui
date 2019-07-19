@@ -35,9 +35,9 @@
       "enabled": false
     }
   ],
-  "commitMessage": "{{{commitMessagePrefix}}} {{{commitMessageTopic}}}{{{commitMessageExtra}}} {{{commitMessageSuffix}}}"
+  "commitMessage": "{{{commitMessagePrefix}}} {{{commitMessageTopic}}}{{{commitMessageExtra}}} {{{commitMessageSuffix}}}",
   "commitMessageTopic": "{{depName}}",
-  "commitMessageExtra": "{{#if isMajor}} v{{{newMajor}}}{{else}}{{#if isSingleVersion}}@{{{toVersion}}}{{else}}@{{{newValue}}}{{/if}}{{/if}}"
+  "commitMessageExtra": "{{#if isMajor}} v{{{newMajor}}}{{else}}{{#if isSingleVersion}}@{{{toVersion}}}{{else}}@{{{newValue}}}{{/if}}{{/if}}",
   "ignorePaths": ["swagger-ui-dist-package/package.json"],
   "prConcurrentLimit": 10
 }
