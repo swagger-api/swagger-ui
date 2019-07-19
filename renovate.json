@@ -20,6 +20,10 @@
         "peerDependencies"
       ],
       "rangeStrategy": "widen"
+    },
+    {
+      "packagePatterns": ["^react"],
+      "enabled": false
     }
   ],
   "semanticCommitType": "housekeeping"
