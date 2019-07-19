@@ -186,7 +186,7 @@ export class Select extends React.Component {
 
   render(){
     let { allowedValues, multiple, allowEmptyValue, disabled } = this.props
-    let value = this.state.value.toJS ? this.state.value.toJS() : this.state.value
+    let value = this.state.value?.toJS?.() || this.state.value
 
     return (
       <select className={this.props.className} multiple={ multiple } value={value} onChange={ this.onChange } disabled={disabled} >
