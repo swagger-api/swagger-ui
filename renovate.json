@@ -1,6 +1,26 @@
 {
   "extends": [
-    "config:base",
-    ":autodetectPinVersions"
-  ]
+    "config:base"
+  ],
+  "packageRules": [
+    {
+      "packagePatterns": [
+        "*"
+      ],
+      "rangeStrategy": "replace"
+    },
+    {
+      "depTypeList": [
+        "devDependencies"
+      ],
+      "rangeStrategy": "update-lockfile"
+    },
+    {
+      "depTypeList": [
+        "peerDependencies"
+      ],
+      "rangeStrategy": "widen"
+    }
+  ],
+  "semanticCommitType": "housekeeping"
 }
