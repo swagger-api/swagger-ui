@@ -1,17 +1,17 @@
-# Detecting your Swagger-UI version
+# Detecting your Swagger UI version
 
-At times, you're going to need to know which version of Swagger-UI you use.
+At times, you're going to need to know which version of Swagger UI you use.
 
-The first step would be to detect which major version you currently use, as the method of detecting the version has changed. If your Swagger-UI has been heavily modified and you cannot detect from the look and feel which major version you use, you'd have to try both methods to get the exact version.
+The first step would be to detect which major version you currently use, as the method of detecting the version has changed. If your Swagger UI has been heavily modified and you cannot detect from the look and feel which major version you use, you'd have to try both methods to get the exact version.
 
 To help you visually detect which version you're using, we've included supporting images.
 
 
-# Swagger-UI 3.X
+# Swagger UI 3.x
 
-![Swagger-UI 3](/docs/images/swagger-ui3.png)
+![Swagger UI 3](/docs/images/swagger-ui3.png)
 
-Some distinct identifiers to Swagger-UI 3.X:
+Some distinct identifiers to Swagger UI 3.x:
 - The API version appears as a badge next to its title.
 - If there are schemes or authorizations, they'd appear in a bar above the operations.
 - Try it out functionality is not enabled by default.
@@ -27,11 +27,11 @@ If you've determined this is the version you have, to find the exact version:
 Note: This functionality was added in 3.0.8. If you're unable to execute it, you're likely to use an older version, and in that case the first step would be to upgrade.
 
 
-# Swagger-UI 2.X and under
+# Swagger UI 2.x and under
 
-![Swagger-UI 2](/docs/images/swagger-ui2.png)
+![Swagger UI 2](/docs/images/swagger-ui2.png)
 
-Some distinct identifiers to Swagger-UI 3.X:
+Some distinct identifiers to Swagger UI 3.x:
 - The API version appears at the bottom of the page.
 - Schemes are not rendered.
 - Authorization, if rendered, will appear next to the navigation bar.
@@ -42,7 +42,7 @@ Some distinct identifiers to Swagger-UI 3.X:
 If you've determined this is the version you have, to find the exact version:
 - Navigate to the sources of the UI. Either on your disk or via the view page source functionality in your browser.
 - Find an open the `swagger-ui.js`
-- At the top of the page, there would be a comment containing the exact version of swagger-ui. This example shows version `2.2.9`:
+- At the top of the page, there would be a comment containing the exact version of Swagger UI. This example shows version `2.2.9`:
 
 ```
 /**
