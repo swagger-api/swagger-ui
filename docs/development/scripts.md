@@ -6,11 +6,11 @@ Any of the scripts below can be run by typing `npm run <script name>` in the pro
 Script name | Description
 --- | ---
 `dev` | Spawn a hot-reloading dev server on port 3200.
-`deps-check` | Generate a size and licensing report on Swagger-UI's dependencies.
+`deps-check` | Generate a size and licensing report on Swagger UI's dependencies.
 `lint` | Report ESLint style errors and warnings.
 `lint-errors` | Report ESLint style errors, without warnings.
 `lint-fix` | Attempt to fix style errors automatically.
-`watch` | Rebuild the core files in `/dist` when the source code changes. Useful for `npm link` with Swagger-Editor.
+`watch` | Rebuild the core files in `/dist` when the source code changes. Useful for `npm link` with Swagger Editor.
 
 ### Building
 Script name | Description

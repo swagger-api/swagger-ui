@@ -1,5 +1,5 @@
-# OAuth2 configuration
-You can configure OAuth2 authorization by calling the `initOAuth` method.
+# OAuth 2.0 configuration
+You can configure OAuth 2.0 authorization by calling the `initOAuth` method.
 
 Property name | Docker variable |  Description
 --- | --- | ------
