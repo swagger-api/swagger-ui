@@ -94,7 +94,7 @@ describe("render pet api container", function () {
         client.end()
     })
 
-    it.only("Testing put /pet api Mock data", function (client) {
+    it("Testing put /pet api Mock data", function (client) {
         apiWrapper.waitForElementVisible("@petOperationPutContainer", 5000)
             .click("@petOperationPutCollpase")
             .waitForElementVisible("@petOperationPutCollapseContainer", 3000)
