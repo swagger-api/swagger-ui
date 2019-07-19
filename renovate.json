@@ -7,24 +7,32 @@
       "packagePatterns": [
         "*"
       ],
-      "rangeStrategy": "replace"
+      "rangeStrategy": "replace",
+      "semanticCommitType": "housekeeping"
+    },
+    {
+      "depTypeList": [
+        "dependencies"
+      ],
+      "semanticCommitType": "fix"
     },
     {
       "depTypeList": [
         "devDependencies"
       ],
-      "rangeStrategy": "update-lockfile"
+      "rangeStrategy": "update-lockfile",
+      "semanticCommitScope": "dev-deps"
     },
     {
       "depTypeList": [
         "peerDependencies"
       ],
-      "rangeStrategy": "widen"
+      "rangeStrategy": "widen",
+      "semanticCommitScope": "peer-deps"
     },
     {
       "packagePatterns": ["^react"],
       "enabled": false
     }
-  ],
-  "semanticCommitType": "housekeeping"
+  ]
 }
