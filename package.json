@@ -138,7 +138,7 @@
     "prettier": "^1.18.2",
     "raw-loader": "3.0.0",
     "react-test-renderer": "^15.5.4",
-    "release-it": "^11.0.0",
+    "release-it": "^12.3.3",
     "rimraf": "^2.6.0",
     "sass-loader": "^7.1.0",
     "selenium-server-standalone-jar": "3.12.0",
