@@ -34,5 +34,6 @@
       "packagePatterns": ["^react"],
       "enabled": false
     }
-  ]
+  ],
+  "commitMessageTopic": "{{depName}}"
 }
