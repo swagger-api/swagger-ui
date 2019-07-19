@@ -25,8 +25,8 @@ Type notations are formatted like so:
 Parameter name | Docker variable | Description
 --- | --- | -----
 <a name="configUrl"></a>`configUrl` | `CONFIG_URL` |  `String`. URL to fetch external configuration document from.
-<a name="dom_id"></a>`dom_id` | `DOM_ID` |`String`, **REQUIRED** if `domNode` is not provided. The ID of a DOM element inside which Swagger UI will put its user interface.
-<a name="domNode"></a>`domNode` | _Unavailable_ | `Element`, **REQUIRED** if `dom_id` is not provided. The HTML DOM element inside which Swagger UI will put its user interface. Overrides `dom_id`.
+<a name="dom_id"></a>`dom_id` | `DOM_ID` |`String`, **REQUIRED** if `domNode` is not provided. The ID of a DOM element inside which `SwaggerUI` will put its user interface.
+<a name="domNode"></a>`domNode` | _Unavailable_ | `Element`, **REQUIRED** if `dom_id` is not provided. The HTML DOM element inside which `SwaggerUI` will put its user interface. Overrides `dom_id`.
 <a name="spec"></a>`spec` | `SPEC` | `Object={}`. A JavaScript object describing the OpenAPI definition. When used, the `url` parameter will not be parsed. This is useful for testing manually-generated definitions without hosting them.
 <a name="url"></a>`url` | `URL` | `String`. The URL pointing to API definition (normally `swagger.json` or `swagger.yaml`). Will be ignored if `urls` or `spec` is used.
 <a name="urls"></a>`urls` | `URLS` | `Array`. An array of API definition objects (`[{url: "<url1>", name: "<name1>"},{url: "<url2>", name: "<name2>"}]`) used by Topbar plugin. When used and Topbar plugin is enabled, the `url` parameter will not be parsed. Names and URLs must be unique among all items in this array, since they're used as identifiers.
