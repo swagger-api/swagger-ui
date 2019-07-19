@@ -751,7 +751,9 @@ export const createDeepLinkPath = (str) => typeof str == "string" || str instanc
 export const escapeDeepLinkPath = (str) => cssEscape( createDeepLinkPath(str).replace(/%20/g, "_") )
 
 export const getExtensions = (defObj) => defObj.filter((v, k) => /^x-/.test(k))
-export const getCommonExtensions = (defObj) => defObj.filter((v, k) => /^pattern|maxLength|minLength|maximum|minimum/.test(k))
+export const getCommonExtensions = (defObj) => defObj.filter((v, k) =>
+  /^pattern|maxLength|minLength|maximum|minimum|exclusiveMinimum|exclusiveMaximum|multipleOf|nullable|uniqueItems|minProperties|maxProperties/.test(k)
+)
 
 // Deeply strips a specific key from an object.
 //
