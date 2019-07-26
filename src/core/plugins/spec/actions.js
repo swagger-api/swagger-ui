@@ -419,10 +419,14 @@ export const executeRequest = (req) =>
     let requestInterceptorWrapper = function(r) {
       let mutatedRequest = requestInterceptor.apply(this, [r])
 
-      Promise.resolve(mutatedRequest).then(resolvedMutatedRequest => {
-        let parsedMutatedRequest = Object.assign({}, resolvedMutatedRequest)
-        specActions.setMutatedRequest(req.pathName, req.method, parsedMutatedRequest)
-      })
+      if (mutatedRequest !== undefined) {
+        Promise.resolve(mutatedRequest).then(resolvedMutatedRequest => {
+          let parsedMutatedRequest = Object.assign({}, resolvedMutatedRequest)
+          specActions.setMutatedRequest(req.pathName, req.method, parsedMutatedRequest)
+        })
+      } else {
+        specActions.setMutatedRequest(req.pathName, req.method, {})
+      }
       return mutatedRequest
     }
 
