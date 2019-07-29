@@ -1,11 +1,10 @@
 import deepExtend from "deep-extend"
 
-import System from "core/system"
-import win from "core/window"
-import ApisPreset from "core/presets/apis"
-
-import * as AllPlugins from "core/plugins/all"
-import { parseSearch } from "core/utils"
+import System from "./system"
+import ApisPreset from "./presets/apis"
+import AllPlugins from "./plugins/all"
+import { parseSearch } from "./utils"
+import win from "./window"
 
 if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
   win.Perf = require("react-dom/lib/ReactPerf")
@@ -14,7 +13,7 @@ if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
 // eslint-disable-next-line no-undef
 const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION, HOSTNAME, BUILD_TIME } = buildInfo
 
-module.exports = function SwaggerUI(opts) {
+export default function SwaggerUI(opts) {
 
   win.versions = win.versions || {}
   win.versions.swaggerUi = {
@@ -187,9 +186,9 @@ module.exports = function SwaggerUI(opts) {
 }
 
 // Add presets
-module.exports.presets = {
+SwaggerUI.presets = {
   apis: ApisPreset,
 }
 
 // All Plugins
-module.exports.plugins = AllPlugins
+SwaggerUI.plugins = AllPlugins

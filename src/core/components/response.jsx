@@ -10,7 +10,7 @@ const getExampleComponent = ( sampleResponse, HighlightCode ) => {
     sampleResponse !== undefined &&
     sampleResponse !== null
   ) { return <div>
-      <HighlightCode className="example" value={ sampleResponse } />
+      <HighlightCode className="example" value={ stringify(sampleResponse) } />
     </div>
   }
   return null
@@ -136,10 +136,18 @@ export default class Response extends React.Component {
         })
       }
     } else {
-      sampleResponse = schema ? getSampleSchema(schema.toJS(), activeContentType, {
-        includeReadOnly: true,
-        includeWriteOnly: true // writeOnly has no filtering effect in swagger 2.0
-       }) : null
+      if(response.getIn(["examples", activeContentType])) {
+        sampleResponse = response.getIn(["examples", activeContentType])
+      } else {
+        sampleResponse = schema ? getSampleSchema(
+          schema.toJS(), 
+          activeContentType, 
+          {
+            includeReadOnly: true,
+            includeWriteOnly: true // writeOnly has no filtering effect in swagger 2.0
+          }
+        ) : null
+      }
     }
 
     let example = getExampleComponent( sampleResponse, HighlightCode )

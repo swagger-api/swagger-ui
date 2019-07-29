@@ -1,51 +1,46 @@
 {
   "presets": [
-    "es2015",
-    "react",
-    "stage-0"
+    [
+      "@babel/env",
+      {
+        "targets": {
+          "browsers": [
+            /* benefit of C/S/FF/Edge only? */
+            "> 1%",
+            "last 2 versions",
+            "Firefox ESR",
+            "not dead",
+          ]
+        },
+        "useBuiltIns": "entry",
+        "corejs": "2"
+      }
+    ],
+    "@babel/preset-react"
   ],
   "plugins": [
-    "transform-runtime",
-    "babel-plugin-transform-es2015-constants",
+    ["@babel/plugin-transform-runtime", {
+      "corejs": "2"
+    }],
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-optional-chaining",
     ["transform-react-remove-prop-types", {
       "additionalLibraries": ["react-immutable-proptypes"]
     }],
     [
-      "module-alias",
-      [
-        {
-          "expose": "root",
-          "src": "."
-        },
-        {
-          "expose": "components",
-          "src": "src/core/components"
-        },
-        {
-          "expose": "containers",
-          "src": "src/core/containers"
-        },
-        {
-          "expose": "core",
-          "src": "src/core"
-        },
-        {
-          "expose": "plugins",
-          "src": "src/plugins"
-        },
-        {
-          "expose": "img",
-          "src": "src/img"
-        },
-        {
-          "expose": "corePlugins",
-          "src": "src/core/plugins"
-        },
-        {
-          "expose": "less",
-          "src": "src/less"
+      "babel-plugin-module-resolver",
+      {
+        "alias": {
+          "root": ".",
+          "components": "./src/core/components",
+          "containers": "./src/core/containers",
+          "core": "./src/core",
+          "plugins": "./src/plugins",
+          "img": "./src/img",
+          "corePlugins": "./src/core/plugins",
+          "less": "./src/less",
         }
-      ]
+      }
     ]
   ]
 }

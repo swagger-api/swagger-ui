@@ -6,7 +6,6 @@ describe("bug #4445: callback-via-$ref rendering", function () {
             .page.main()
 
         client.waitForElementVisible(".download-url-input:not([disabled])", 5000)
-            .pause(5000)
             .clearValue(".download-url-input")
             .setValue(".download-url-input", "http://localhost:3230/test-specs/bugs/4445.yaml")
             .click("button.download-url-button")
