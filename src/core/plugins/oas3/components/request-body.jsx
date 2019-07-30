@@ -67,7 +67,7 @@ const RequestBody = ({
 
   const mediaTypeValue = requestBodyContent.get(contentType, OrderedMap())
   const schemaForMediaType = mediaTypeValue.get("schema", OrderedMap())
-  const examplesForMediaType = mediaTypeValue.get("examples", OrderedMap())
+  const examplesForMediaType = mediaTypeValue.get("examples", null)
 
   const handleExamplesSelect = (key /*, { isSyntheticChange } */) => {
     updateActiveExamplesKey(key)
