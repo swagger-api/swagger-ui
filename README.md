@@ -9,7 +9,7 @@
 
 ![monthly npm installs](https://img.shields.io/npm/dm/swagger-ui.svg?label=npm%20downloads)
 ![total docker pulls](https://img.shields.io/docker/pulls/swaggerapi/swagger-ui.svg)
-![monthly packagist installs](https://img.shields.io/packagist/dm/swagger-api/swagger-ui.svg)
+![monthly packagist installs](https://img.shields.io/packagist/dm/swagger-api/swagger-ui.svg?label=packagist%20installs)
 ![gzip size](https://img.shields.io/bundlephobia/minzip/swagger-ui.svg?label=gzip%20size)
 
 </p>
