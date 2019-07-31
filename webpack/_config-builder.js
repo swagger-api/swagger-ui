@@ -96,6 +96,7 @@ export default function buildConfig(
         ? {
             // json-react-schema/deeper depends on buffertools, which fails.
             buffertools: true,
+            esprima: true,
           }
         : (context, request, cb) => {
             // webpack injects some stuff into the resulting file,
@@ -114,9 +115,6 @@ export default function buildConfig(
       resolve: {
         modules: [path.join(projectBasePath, "./src"), "node_modules"],
         extensions: [".web.js", ".js", ".jsx", ".json", ".less"],
-        alias: {
-          "js-yaml": "@kyleshockey/js-yaml", // TODO: fix??
-        },
       },
 
       // If we're mangling, size is a concern -- so use trace-only sourcemaps
