@@ -18,6 +18,7 @@ export default class Responses extends React.Component {
     specSelectors: PropTypes.object.isRequired,
     specActions: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
+    oas3Selectors: PropTypes.object.isRequired,
     specPath: ImPropTypes.list.isRequired,
     fn: PropTypes.object.isRequired
   }
@@ -28,17 +29,20 @@ export default class Responses extends React.Component {
     displayRequestDuration: false
   }
 
-  shouldComponentUpdate(nextProps) {
-    // BUG: props.tryItOutResponse is always coming back as a new Immutable instance
-    let render = this.props.tryItOutResponse !== nextProps.tryItOutResponse
-    || this.props.responses !== nextProps.responses
-    || this.props.produces !== nextProps.produces
-    || this.props.producesValue !== nextProps.producesValue
-    || this.props.displayRequestDuration !== nextProps.displayRequestDuration
-    || this.props.path !== nextProps.path
-    || this.props.method !== nextProps.method
-    return render
-  }
+  // These performance-enhancing checks were disabled as part of Multiple Examples
+  // because they were causing data-consistency issues
+  //
+  // shouldComponentUpdate(nextProps) {
+  //   // BUG: props.tryItOutResponse is always coming back as a new Immutable instance
+  //   let render = this.props.tryItOutResponse !== nextProps.tryItOutResponse
+  //   || this.props.responses !== nextProps.responses
+  //   || this.props.produces !== nextProps.produces
+  //   || this.props.producesValue !== nextProps.producesValue
+  //   || this.props.displayRequestDuration !== nextProps.displayRequestDuration
+  //   || this.props.path !== nextProps.path
+  //   || this.props.method !== nextProps.method
+  //   return render
+  // }
 
 	onChangeProducesWrapper = ( val ) => this.props.specActions.changeProducesValue([this.props.path, this.props.method], val)
 
@@ -64,6 +68,10 @@ export default class Responses extends React.Component {
       producesValue,
       displayRequestDuration,
       specPath,
+      path,
+      method,
+      oas3Selectors,
+      oas3Actions,
     } = this.props
     let defaultCode = defaultStatusCode( responses )
 
@@ -121,6 +129,8 @@ export default class Responses extends React.Component {
                   let className = tryItOutResponse && tryItOutResponse.get("status") == code ? "response_current" : ""
                   return (
                     <Response key={ code }
+                              path={path}
+                              method={method}
                               specPath={specPath.push(code)}
                               isDefault={defaultCode === code}
                               fn={fn}
@@ -132,6 +142,13 @@ export default class Responses extends React.Component {
                               onContentTypeChange={this.onResponseContentTypeChange}
                               contentType={ producesValue }
                               getConfigs={ getConfigs }
+                              activeExamplesKey={oas3Selectors.activeExamplesMember(
+                                path,
+                                method,
+                                "responses",
+                                code
+                              )}
+                              oas3Actions={oas3Actions}
                               getComponent={ getComponent }/>
                     )
                 }).toArray()

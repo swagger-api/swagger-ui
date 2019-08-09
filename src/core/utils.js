@@ -632,7 +632,7 @@ export const getSampleSchema = (schema, contentType="", config={}) => {
         let match = schema.$$ref.match(/\S*\/(\S+)$/)
         schema.xml.name = match[1]
       } else if (schema.type || schema.items || schema.properties || schema.additionalProperties) {
-        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!-- XML example cannot be generated -->"
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!-- XML example cannot be generated; root element name is undefined -->"
       } else {
         return null
       }
@@ -780,7 +780,7 @@ export function stringify(thing) {
     return thing
   }
 
-  if (thing.toJS) {
+  if (thing && thing.toJS) {
     thing = thing.toJS()
   }
 
@@ -791,6 +791,10 @@ export function stringify(thing) {
     catch (e) {
       return String(thing)
     }
+  }
+
+  if(thing === null || thing === undefined) {
+    return ""
   }
 
   return thing.toString()

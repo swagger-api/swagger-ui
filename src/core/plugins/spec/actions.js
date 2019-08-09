@@ -1,4 +1,4 @@
-import YAML from "@kyleshockey/js-yaml"
+import YAML from "js-yaml"
 import { Map } from "immutable"
 import parseUrl from "url-parse"
 import serializeError from "serialize-error"
