@@ -12,7 +12,8 @@ export default class Parameters extends Component {
    super(props)
    this.state = {
      callbackVisible: false,
-     parametersVisible: true
+     parametersVisible: true,
+     alternativeSchemaSelections: {}
    }
  }
 
@@ -33,6 +34,7 @@ export default class Parameters extends Component {
     pathMethod: PropTypes.array.isRequired,
     getConfigs: PropTypes.func.isRequired,
     specPath: ImPropTypes.list.isRequired,
+    alternativeSchemaSelections: PropTypes.object,
   }
 
 
@@ -197,6 +199,7 @@ export default class Parameters extends Component {
                 requestBody={requestBody}
                 requestBodyValue={oas3Selectors.requestBodyValue(...pathMethod)}
                 isExecute={isExecute}
+                alternativeSchemaSelections= {this.state.alternativeSchemaSelections || {}}
                 activeExamplesKey={oas3Selectors.activeExamplesMember(
                   ...pathMethod,
                   "requestBody",
@@ -221,6 +224,9 @@ export default class Parameters extends Component {
                     })
                   }
                   oas3Actions.setRequestBodyValue({ value, pathMethod })
+                }}
+                onAlternativeSchemaChange= {(alternativeSchemaSelections) => { 
+                  this.setState({alternativeSchemaSelections: alternativeSchemaSelections})
                 }}
                 contentType={oas3Selectors.requestContentType(...pathMethod)}/>
             </div>

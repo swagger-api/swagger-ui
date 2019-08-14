@@ -67,6 +67,7 @@ import Schemes from "core/components/schemes"
 import SchemesContainer from "core/containers/schemes"
 import ModelCollapse from "core/components/model-collapse"
 import ModelExample from "core/components/model-example"
+import AlternativeSchemaSelect from "core/components/alternative-schema-select"
 import ModelWrapper from "core/components/model-wrapper"
 import Model from "core/components/model"
 import Models from "core/components/models"
@@ -132,6 +133,7 @@ export default function() {
       schemes: Schemes,
       SchemesContainer,
       modelExample: ModelExample,
+      alternativeSchemaSelect: AlternativeSchemaSelect,
       ModelWrapper,
       ModelCollapse,
       Model,

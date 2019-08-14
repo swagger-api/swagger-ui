@@ -785,6 +785,14 @@
     }
 }
 
+.response-control-alternative-examples {
+    font-size: 12px;
+    &__title {
+        display: block;
+        margin-bottom: 0.2em;
+    }
+}
+
 @keyframes blinker
 {
     50%

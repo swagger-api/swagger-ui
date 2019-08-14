@@ -22,6 +22,7 @@ export default class Response extends React.Component {
 
     this.state = {
       responseContentType: "",
+      alternativeSchemaSelections: {}
     }
   }
 
@@ -40,7 +41,8 @@ export default class Response extends React.Component {
     contentType: PropTypes.string,
     activeExamplesKey: PropTypes.string,
     controlsAcceptHeader: PropTypes.bool,
-    onContentTypeChange: PropTypes.func
+    onContentTypeChange: PropTypes.func,
+    alternativeSchemaSelections: PropTypes.object
   }
 
   static defaultProps = {
@@ -55,6 +57,10 @@ export default class Response extends React.Component {
       value: value,
       controlsAcceptHeader
     })
+  }
+
+  _onAlternativeSchemaChanged = (alternativeSchemaSelections) =>{
+    this.setState({alternativeSchemaSelections: alternativeSchemaSelections})
   }
 
   getTargetExamplesKey = () => {
@@ -84,6 +90,8 @@ export default class Response extends React.Component {
       controlsAcceptHeader,
       oas3Actions,
     } = this.props
+
+    const { showAlternativeSchemaExample } = getConfigs()
 
     let { inferSchema } = fn
     let isOAS3 = specSelectors.isOAS3()
@@ -131,8 +139,11 @@ export default class Response extends React.Component {
         sampleResponse = stringify(activeMediaType.get("example"))
       } else {
         // use an example value generated based on the schema
+        var alternativeSchemas = showAlternativeSchemaExample === true ? [] : undefined
         sampleResponse = getSampleSchema(oas3SchemaForContentType.toJS(), this.state.responseContentType, {
-          includeReadOnly: true
+          includeReadOnly: true,
+          alternativeSchemas: alternativeSchemas,
+          alternativeSchemaSelections: this.state.alternativeSchemaSelections || {}
         })
       }
     } else {
@@ -218,6 +229,8 @@ export default class Response extends React.Component {
               getConfigs={ getConfigs }
               specSelectors={ specSelectors }
               schema={ fromJSOrdered(schema) }
+              alternativeSchemas= { alternativeSchemas }
+              onChange = { this._onAlternativeSchemaChanged }
               example={ example }/>
           ) : null }
 

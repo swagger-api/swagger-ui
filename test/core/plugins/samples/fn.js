@@ -512,7 +512,130 @@ describe("sampleFromSchema", function() {
 
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
-  })
+  }),
+
+  describe("alternative schema (oneOf/anyOf)", function() {
+    var definition = {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "options": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "shipping": {
+                  "type": "string",
+                  "enum": [
+                    "FAST",
+                    "STANDARD"
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "remarks": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+
+    it("returns first `oneOf` item as example", function() {
+      
+      var expected = {
+        "address": "string",
+        "options": {
+          "remarks": "string"
+        }
+      }
+
+      var alternativeSchemas= []
+
+      var result = sampleFromSchema(definition, {alternativeSchemas: alternativeSchemas, alternativeSchemaSelections: {'#/options': 1} });
+      expect(result).toEqual(expected)
+    })
+
+    it("extracts `oneOf` options", function() {
+      
+      var expected =  [
+        {
+          "selectedIndex": 1,
+          "key": "#/options",
+          "options": {
+            "#0": "#1: Element",
+            "#1": "#2: Element"
+          },
+          "type": "one of"
+        }
+      ]
+      
+      var alternativeSchemas= []
+
+      sampleFromSchema(definition, {alternativeSchemas: alternativeSchemas, alternativeSchemaSelections: {'#/options': 1} });
+      expect(alternativeSchemas).toEqual(expected)
+    })
+
+    it("extracts `oneOf` options and adapted selection ", function() {
+      
+      var expected = [
+        {
+          "selectedIndex": 0,
+          "key": "#/options",
+          "options": {
+            "#0": "#1: Element",
+            "#1": "#2: Element"
+          },
+          "type": "one of"
+        }
+      ]
+
+      var alternativeSchemas= []
+
+      sampleFromSchema(definition, {alternativeSchemas: alternativeSchemas, alternativeSchemaSelections: {'#/options': 99999} });
+      expect(alternativeSchemas).toEqual(expected)
+    })
+
+    it("extracts `oneOf` options and select first element ", function() {
+      
+      var expected = [
+        {
+          "selectedIndex": 0,
+          "key": "#/options",
+          "options": {
+            "#0": "#1: Element",
+            "#1": "#2: Element"
+          },
+          "type": "one of"
+        }
+      ]
+
+      var alternativeSchemas= []
+
+      sampleFromSchema(definition, {alternativeSchemas: alternativeSchemas, alternativeSchemaSelections:{} });
+      expect(alternativeSchemas).toEqual(expected)
+    })
+
+    it("returns example without and alternative schema as undefined ()", function() {
+    
+      var expected = {
+        "address": "string",
+        "options": undefined
+      }
+
+      let result = sampleFromSchema(definition);
+      expect(result).toEqual(expected)
+    }
+    )}
+  )
+
 })
 
 describe("createXMLExample", function () {
