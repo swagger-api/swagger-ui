@@ -13,6 +13,7 @@ export default class ModelExample extends React.Component {
     specPath: ImPropTypes.list.isRequired,
     alternativeSchemas: PropTypes.object,
     onSelectedAlternativeOptionChanged: PropTypes.func,
+    onChange: PropTypes.func,
   }
 
   constructor(props, context) {

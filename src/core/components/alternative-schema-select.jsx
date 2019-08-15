@@ -26,7 +26,7 @@ export default class AlternativeSchemaSelect extends Component {
     var { alternativeSchemaSelections } = this.state
 
     onSelectionChanged( (e.target.dataset.name === "MANUAL" ? alternativeSchemaSelections :{}))
-    this.setState({isManualMode: e.target.dataset.name === "MANUAL"});
+    this.setState({isManualMode: e.target.dataset.name === "MANUAL"})
   }
 
   oneOfChange(e, id) {
@@ -76,7 +76,7 @@ export default class AlternativeSchemaSelect extends Component {
     }
     return (
       <div>
-        <ul className="response-control-alternative-examples tab">Example Value with:&nbsp;&nbsp;
+        <ul className="response-control-alternative-examples tab">Example Value with:
               <li className={"tabitem" + (isManualMode ? "" : " active")}>
             <a className="tablinks" data-name="FIRST" onClick={this.onModeChange} >first `oneOf` item</a>
           </li>

@@ -559,7 +559,7 @@ describe("sampleFromSchema", function() {
 
       var alternativeSchemas= []
 
-      var result = sampleFromSchema(definition, {alternativeSchemas: alternativeSchemas, alternativeSchemaSelections: {'#/options': 1} });
+      var result = sampleFromSchema(definition, {alternativeSchemas: alternativeSchemas, alternativeSchemaSelections: {"#/options": 1} })
       expect(result).toEqual(expected)
     })
 
@@ -579,7 +579,7 @@ describe("sampleFromSchema", function() {
       
       var alternativeSchemas= []
 
-      sampleFromSchema(definition, {alternativeSchemas: alternativeSchemas, alternativeSchemaSelections: {'#/options': 1} });
+      sampleFromSchema(definition, {alternativeSchemas: alternativeSchemas, alternativeSchemaSelections: {"#/options": 1} })
       expect(alternativeSchemas).toEqual(expected)
     })
 
@@ -599,7 +599,7 @@ describe("sampleFromSchema", function() {
 
       var alternativeSchemas= []
 
-      sampleFromSchema(definition, {alternativeSchemas: alternativeSchemas, alternativeSchemaSelections: {'#/options': 99999} });
+      sampleFromSchema(definition, {alternativeSchemas: alternativeSchemas, alternativeSchemaSelections: {"#/options": 99999} })
       expect(alternativeSchemas).toEqual(expected)
     })
 
@@ -619,7 +619,7 @@ describe("sampleFromSchema", function() {
 
       var alternativeSchemas= []
 
-      sampleFromSchema(definition, {alternativeSchemas: alternativeSchemas, alternativeSchemaSelections:{} });
+      sampleFromSchema(definition, {alternativeSchemas: alternativeSchemas, alternativeSchemaSelections:{} })
       expect(alternativeSchemas).toEqual(expected)
     })
 
@@ -630,7 +630,7 @@ describe("sampleFromSchema", function() {
         "options": undefined
       }
 
-      let result = sampleFromSchema(definition);
+      let result = sampleFromSchema(definition)
       expect(result).toEqual(expected)
     }
     )}

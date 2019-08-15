@@ -263,6 +263,8 @@ RequestBody.propTypes = {
   specPath: PropTypes.array.isRequired,
   activeExamplesKey: PropTypes.string,
   updateActiveExamplesKey: PropTypes.func,
+  alternativeSchemaSelections: PropTypes.object,
+  onAlternativeSchemaChange: PropTypes.func,
 }
 
 export default RequestBody

@@ -30,7 +30,32 @@ const primitive = (schema) => {
   return "Unknown Type: " + schema.type
 }
 
-export const sampleFromSchema = (schema, config={}, path='#') => {
+const extractAlternativeSchema = (oneOfSchema, config, path, type) => {
+  if ( Array.isArray(oneOfSchema) && oneOfSchema.length > 0) {
+    
+    let { alternativeSchemas, alternativeSchemaSelections } = config
+
+    let index = 0
+    let options = {}
+
+    oneOfSchema.map(valueObj => {
+      var optionTitle = valueObj.title ? valueObj.title : "Element"
+      options["#" + index++] = "#" + index + ": " + optionTitle
+      return true
+    })
+
+    let selectedIndex = alternativeSchemaSelections[path] || 0
+    if ( selectedIndex >= oneOfSchema.length || selectedIndex < -1) {
+      selectedIndex = 0
+    }
+    alternativeSchemas.push({ key: path, options: options, selectedIndex: selectedIndex, type})
+
+    return selectedIndex >-1 ? oneOfSchema[selectedIndex] : undefined
+  }
+  return
+}
+
+export const sampleFromSchema = (schema, config={}, path="#") => {
   let { type, example, properties, additionalProperties, items, oneOf, anyOf } = objectify(schema)
   let { includeReadOnly, includeWriteOnly, alternativeSchemas } = config
 
@@ -48,9 +73,11 @@ export const sampleFromSchema = (schema, config={}, path='#') => {
     } else if(items) {
       type = "array"
     } else if( alternativeSchemas && oneOf )  {
-      return sampleFromAlternativeSchema(oneOf, config, path, 'one of')
+      var oneOfSchema = extractAlternativeSchema(oneOf, config, path, "one of")
+      return oneOfSchema ? sampleFromSchema(oneOfSchema, config, path) : undefined
     } else if( alternativeSchemas && anyOf )  {
-      return sampleFromAlternativeSchema(anyOf, config, path, 'any of')
+      var anyOfSchema = extractAlternativeSchema(anyOf, config, path, "any of")
+      return anyOfSchema ? sampleFromSchema(anyOfSchema, config, path) : undefined
     } else {
       return
     }
@@ -108,31 +135,6 @@ export const sampleFromSchema = (schema, config={}, path='#') => {
   }
 
   return primitive(schema)
-}
-
-const sampleFromAlternativeSchema = (oneOfSchema, config, path, type) => {
-  if ( Array.isArray(oneOfSchema) && oneOfSchema.length > 0) {
-    
-    let { alternativeSchemas, alternativeSchemaSelections } = config
-
-    let index = 0
-    let options = {}
-
-    oneOfSchema.map(valueObj => {
-      var optionTitle = valueObj.title ? valueObj.title : 'Element'
-      options['#' + index++] = '#' + index + ': ' + optionTitle
-      return true;
-    })
-
-    let selectedIndex = alternativeSchemaSelections[path] || 0
-    if ( selectedIndex >= oneOfSchema.length || selectedIndex < -1) {
-      selectedIndex = 0
-    }
-    alternativeSchemas.push({ key: path, options: options, selectedIndex: selectedIndex, type})
-
-    return selectedIndex >-1 ? sampleFromSchema(oneOfSchema[selectedIndex], config, path) : undefined
-  }
-  return
 }
 
 export const inferSchema = (thing) => {
