@@ -52,5 +52,16 @@ export function getParameterSchema(parameter, { isOAS3 }) {
 
   // If we've reached here, the parameter is OpenAPI 3.0
 
+  if (parameter.get("content")) {
+    const parameterContentMediaTypes = parameter
+      .get("content", Im.Map())
+      .keySeq()
+
+    return parameter.getIn(
+      ["content", parameterContentMediaTypes.first(), "schema"],
+      Im.Map()
+    )
+  }
+
   return parameter.get("schema", Im.Map())
 }
