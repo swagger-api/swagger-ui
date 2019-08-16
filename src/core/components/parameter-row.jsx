@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import win from "core/window"
 import { getExtensions, getCommonExtensions, numberToString, stringify } from "core/utils"
+import { getParameterSchema } from "core/openapi-helpers"
 
 export default class ParameterRow extends Component {
   static propTypes = {
@@ -40,7 +41,7 @@ export default class ParameterRow extends Component {
     let enumValue
 
     if(isOAS3) {
-      let schema = parameterWithMeta.get("schema") || Map()
+      let schema = getParameterSchema(parameterWithMeta, { isOAS3 })
       enumValue = schema.get("enum")
     } else {
       enumValue = parameterWithMeta ? parameterWithMeta.get("enum") : undefined
@@ -171,7 +172,7 @@ export default class ParameterRow extends Component {
 
     let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || Map()
     let format = param.get("format")
-    let schema = isOAS3 ? param.get("schema") : param
+    let schema = getParameterSchema(param, { isOAS3 })
     let type = schema.get("type")
     let isFormData = inType === "formData"
     let isFormDataSupported = "FormData" in win
@@ -285,7 +286,7 @@ export default class ParameterRow extends Component {
                                                 getConfigs={ getConfigs }
                                                 isExecute={ isExecute }
                                                 specSelectors={ specSelectors }
-                                                schema={ param.get("schema") }
+                                                schema={ schema }
                                                 example={ bodyParam }/>
               : null
           }
