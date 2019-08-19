@@ -88,6 +88,7 @@ export default class ParamBody extends PureComponent {
   }
 
   toggleIsEditBox = () => this.setState( state => ({isEditBox: !state.isEditBox}))
+  clearForm = () => this.setState({value: ""})
 
   render() {
     let {
@@ -111,7 +112,7 @@ export default class ParamBody extends PureComponent {
     let consumes = this.props.consumes && this.props.consumes.size ? this.props.consumes : ParamBody.defaultProp.consumes
 
     let { value, isEditBox } = this.state
-
+    
     return (
       <div className="body-param" data-param-name={param.get("name")} data-param-in={param.get("in")}>
         {
@@ -127,6 +128,12 @@ export default class ParamBody extends PureComponent {
                         <Button className={isEditBox ? "btn cancel body-param__example-edit" : "btn edit body-param__example-edit"}
                                  onClick={this.toggleIsEditBox}>{ isEditBox ? "Cancel" : "Edit"}
                          </Button>
+                         {
+                           !isEditBox ? null
+                                    : <Button className="btn clear body-param__examile-edit"
+                                        onClick={this.clearForm}> {"ClearForm"}
+                                      </Button>
+                         }
                          </div>
           }
           <label htmlFor="">
