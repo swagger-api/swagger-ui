@@ -20,7 +20,7 @@ const swagger2SchemaKeys = Im.Set(
   "minItems",
   "uniqueItems",
   "enum",
-  "multipleOf",
+  "multipleOf"
 )
 
 /**
@@ -37,7 +37,7 @@ const swagger2SchemaKeys = Im.Set(
  * or OpenAPI 3.0 definition
  * @return {Immutable.Map} The desired schema
  */
-export function getParameterSchema(parameter, { isOAS3 }) {
+export default function getParameterSchema(parameter, { isOAS3 }) {
   // Return empty Map if `parameter` isn't a Map
   if (!Im.Map.isMap(parameter)) return Im.Map()
 

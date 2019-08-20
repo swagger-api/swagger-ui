@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import win from "core/window"
 import { getExtensions, getCommonExtensions, numberToString, stringify } from "core/utils"
-import { getParameterSchema } from "core/openapi-helpers"
+import getParameterSchema from "core/helpers/get-parameter-schema"
 
 export default class ParameterRow extends Component {
   static propTypes = {
