@@ -103,23 +103,22 @@ export default class ParameterRow extends Component {
     }
 
     if( paramWithMeta.get("in") !== "body" ) {
-      let newValue
+      let initialValue
 
       if (specSelectors.isSwagger2()) {
-        newValue = paramWithMeta.get("x-example")
-          || paramWithMeta.getIn(["default"])
+        initialValue = paramWithMeta.get("x-example")
           || paramWithMeta.getIn(["schema", "example"])
           || paramWithMeta.getIn(["schema", "default"])
       } else if (specSelectors.isOAS3()) {
         const currentExampleKey = oas3Selectors.activeExamplesMember(...pathMethod, "parameters", this.getParamKey())
-        newValue = paramWithMeta.getIn(["examples", currentExampleKey, "value"])
+        initialValue = paramWithMeta.getIn(["examples", currentExampleKey, "value"])
           || paramWithMeta.get("example")
           || paramWithMeta.getIn(["schema", "example"])
           || paramWithMeta.getIn(["schema", "default"])
       }
-      if(newValue !== undefined) {
+      if(initialValue !== undefined) {
         this.onChangeWrapper(
-          List.isList(newValue) ? newValue : stringify(newValue)
+          List.isList(initialValue) ? initialValue : stringify(initialValue)
         )
       }
     }
