@@ -96,7 +96,7 @@ export default class ParameterRow extends Component {
   setDefaultValue = () => {
     let { specSelectors, pathMethod, rawParam, oas3Selectors } = this.props
 
-    let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || Map()
+    const paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || Map()
 
     if (!paramWithMeta || paramWithMeta.get("value") !== undefined) {
       return
