@@ -20,7 +20,7 @@ const swagger2SchemaKeys = Im.Set(
   "minItems",
   "uniqueItems",
   "enum",
-  "multipleOf"
+  "multipleOf",
 )
 
 /**
