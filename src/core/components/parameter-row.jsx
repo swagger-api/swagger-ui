@@ -65,7 +65,7 @@ export default class ParameterRow extends Component {
   onChangeWrapper = (value, isXml = false) => {
     let { onChange, rawParam } = this.props
     let valueForUpstream
-    
+
     // Coerce empty strings and empty Immutable objects to null
     if(value === "" || (value && value.size === 0)) {
       valueForUpstream = null
@@ -126,7 +126,7 @@ export default class ParameterRow extends Component {
 
   getParamKey() {
     const { param } = this.props
-    
+
     if(!param) return null
 
     return `${param.get("name")}-${param.get("in")}`
@@ -214,7 +214,7 @@ export default class ParameterRow extends Component {
 
     return (
       <tr data-param-name={param.get("name")} data-param-in={param.get("in")}>
-        <td className="col parameters-col_name">
+        <td className="parameters-col_name">
           <div className={required ? "parameter__name required" : "parameter__name"}>
             { param.get("name") }
             { !required ? null : <span style={{color: "red"}}>&nbsp;*</span> }
@@ -232,7 +232,7 @@ export default class ParameterRow extends Component {
           { !showExtensions || !extensions.size ? null : extensions.map((v, key) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} /> )}
         </td>
 
-        <td className="col parameters-col_description">
+        <td className="parameters-col_description">
           { param.get("description") ? <Markdown source={ param.get("description") }/> : null }
 
           { (bodyParam || !isExecute) && isDisplayParamEnum ?
@@ -291,12 +291,12 @@ export default class ParameterRow extends Component {
           }
 
           {
-            !bodyParam && isExecute ? 
+            !bodyParam && isExecute ?
             <ParameterIncludeEmpty
               onChange={this.onChangeIncludeEmpty}
               isIncluded={specSelectors.parameterInclusionSettingFor(pathMethod, param.get("name"), param.get("in"))}
               isDisabled={value && value.size !== 0}
-              param={param} /> 
+              param={param} />
             : null
           }
 
