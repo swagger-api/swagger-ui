@@ -125,7 +125,7 @@
     "json-server": "^0.15.0",
     "less": "^3.9.0",
     "license-checker": "^19.0.0",
-    "mini-css-extract-plugin": "^0.7.0",
+    "mini-css-extract-plugin": "^0.8.0",
     "mocha": "^5.1.1",
     "nightwatch": "^1.1.13",
     "node-sass": "^4.12.0",
