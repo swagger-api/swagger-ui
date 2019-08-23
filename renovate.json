@@ -36,5 +36,5 @@
     }
   ],
   "ignorePaths": ["swagger-ui-dist-package/package.json"],
-  "prConcurrentLimit": 10
+  "prConcurrentLimit": 3
 }
