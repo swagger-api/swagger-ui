@@ -533,7 +533,7 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
     let oas3ObjectCheck = false
 
     if(false || isOAS3 && type === "object") {
-      if(typeof value === "object") {
+      if(typeof value === "object" && value !== null) {
         oas3ObjectCheck = true
       } else if(typeof value === "string") {
         try {
