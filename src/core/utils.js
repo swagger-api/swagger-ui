@@ -21,6 +21,7 @@ import eq from "lodash/eq"
 import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins/samples/fn"
 import win from "./window"
 import cssEscape from "css.escape"
+import getParameterSchema from "../helpers/get-parameter-schema";
 
 const DEFAULT_RESPONSE_KEY = "default"
 
@@ -500,7 +501,9 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
   let errors = []
   let required = param.get("required")
 
-  let paramDetails = isOAS3 ? param.get("schema") : param
+  let paramDetails = getParameterSchema(param, { isOAS3 })
+
+  debugger
 
   if(!paramDetails) return errors
 
