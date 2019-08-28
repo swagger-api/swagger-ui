@@ -436,9 +436,12 @@ export const executeRequest = (req) =>
       specActions.setResponse(req.pathName, req.method, res)
     } )
     .catch(
-      err => specActions.setResponse(req.pathName, req.method, {
-        error: true, err: serializeError(err)
-      })
+      err => {
+        console.error(err)
+        specActions.setResponse(req.pathName, req.method, {
+          error: true, err: serializeError(err)
+        })
+      }
     )
   }
 
