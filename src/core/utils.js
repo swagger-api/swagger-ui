@@ -21,7 +21,7 @@ import eq from "lodash/eq"
 import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins/samples/fn"
 import win from "./window"
 import cssEscape from "css.escape"
-import getParameterSchema from "../helpers/get-parameter-schema";
+import getParameterSchema from "../helpers/get-parameter-schema"
 
 const DEFAULT_RESPONSE_KEY = "default"
 
