@@ -159,7 +159,7 @@ export default class Servers extends React.Component {
                 {
                   currentServerVariableDefs.map((val, name) => {
                     return <tr key={name}>
-                      <td>{name}</td>
+                      <td style={{verticalAlign: "top", marginTop: "10px"}}>{name}</td>
                       <td>
                         { val.get("enum") ?
                           <select data-variable={name} onChange={this.onServerVariableValueChange}>
