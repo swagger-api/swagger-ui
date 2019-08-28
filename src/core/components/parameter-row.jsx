@@ -3,8 +3,8 @@ import { Map, List } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import win from "core/window"
-import { getExtensions, getCommonExtensions, numberToString, stringify } from "core/utils"
-import getParameterSchema from "core/helpers/get-parameter-schema"
+import { getSampleSchema, getExtensions, getCommonExtensions, numberToString, stringify } from "core/utils"
+import getParameterSchema from "../../helpers/get-parameter-schema.js"
 
 export default class ParameterRow extends Component {
   static propTypes = {
@@ -98,27 +98,62 @@ export default class ParameterRow extends Component {
 
     const paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || Map()
 
+    const schema = getParameterSchema(paramWithMeta, { isOAS3: specSelectors.isOAS3() })
+
+    const parameterMediaType = paramWithMeta
+      .get("content", Map())
+      .keySeq()
+      .first()
+    
+    const generatedSampleValue = getSampleSchema(schema.toJS(), parameterMediaType, {
+      includeWriteOnly: true
+    })
+
     if (!paramWithMeta || paramWithMeta.get("value") !== undefined) {
       return
     }
 
     if( paramWithMeta.get("in") !== "body" ) {
       let initialValue
+      
+      debugger
+
+      //// Find an initial value
 
       if (specSelectors.isSwagger2()) {
         initialValue = paramWithMeta.get("x-example")
           || paramWithMeta.getIn(["schema", "example"])
-          || paramWithMeta.getIn(["schema", "default"])
+          || schema.getIn(["default"])
       } else if (specSelectors.isOAS3()) {
         const currentExampleKey = oas3Selectors.activeExamplesMember(...pathMethod, "parameters", this.getParamKey())
         initialValue = paramWithMeta.getIn(["examples", currentExampleKey, "value"])
+          || paramWithMeta.getIn(["content", parameterMediaType, "example"])
           || paramWithMeta.get("example")
-          || paramWithMeta.getIn(["schema", "example"])
-          || paramWithMeta.getIn(["schema", "default"])
+          || schema.get("example")
+          || schema.get("default")
       }
+
+      //// Process the initial value
+
+      if(initialValue !== undefined && !List.isList(initialValue)) {
+        // Stringify if it isn't a List
+        initialValue = stringify(initialValue)
+      }
+
+      //// Dispatch the initial value
+
       if(initialValue !== undefined) {
+        this.onChangeWrapper(initialValue)
+      } else if(schema.get("type") === "object" && generatedSampleValue) {
+        // Object parameters get special treatment.. if the user doesn't set any
+        // default or example values, we'll provide initial values generated from
+        // the schema.
         this.onChangeWrapper(
-          List.isList(initialValue) ? initialValue : stringify(initialValue)
+          List.isList(generatedSampleValue) ? (
+            generatedSampleValue
+          ) : (
+            stringify(generatedSampleValue)
+          )
         )
       }
     }
