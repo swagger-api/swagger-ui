@@ -115,8 +115,6 @@ export default class ParameterRow extends Component {
 
     if( paramWithMeta.get("in") !== "body" ) {
       let initialValue
-      
-      debugger
 
       //// Find an initial value
 
