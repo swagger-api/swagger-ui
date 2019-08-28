@@ -142,10 +142,16 @@ export default class ParameterRow extends Component {
 
       if(initialValue !== undefined) {
         this.onChangeWrapper(initialValue)
-      } else if(schema.get("type") === "object" && generatedSampleValue) {
+      } else if(
+        schema.get("type") === "object" 
+        && generatedSampleValue 
+        && !paramWithMeta.get("examples")
+      ) {
         // Object parameters get special treatment.. if the user doesn't set any
         // default or example values, we'll provide initial values generated from
         // the schema.
+        // However, if `examples` exist for the parameter, we won't do anything,
+        // so that the appropriate `examples` logic can take over.
         this.onChangeWrapper(
           List.isList(generatedSampleValue) ? (
             generatedSampleValue
