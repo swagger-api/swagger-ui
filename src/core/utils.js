@@ -503,8 +503,6 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
 
   let paramDetails = getParameterSchema(param, { isOAS3 })
 
-  debugger
-
   if(!paramDetails) return errors
 
   let maximum = paramDetails.get("maximum")
