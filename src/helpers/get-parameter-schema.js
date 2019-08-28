@@ -4,7 +4,7 @@
 
 import Im from "immutable"
 
-const swagger2SchemaKeys = Im.Set(
+const swagger2SchemaKeys = Im.Set.of(
   "type",
   "format",
   "items",
@@ -37,13 +37,13 @@ const swagger2SchemaKeys = Im.Set(
  * or OpenAPI 3.0 definition
  * @return {Immutable.Map} The desired schema
  */
-export default function getParameterSchema(parameter, { isOAS3 }) {
+export default function getParameterSchema(parameter, { isOAS3 } = {}) {
   // Return empty Map if `parameter` isn't a Map
   if (!Im.Map.isMap(parameter)) return Im.Map()
 
   if (!isOAS3) {
     // Swagger 2.0
-    if (parameter.get("type") === "body") {
+    if (parameter.get("in") === "body") {
       return parameter.get("schema", Im.Map())
     } else {
       return parameter.filter((v, k) => swagger2SchemaKeys.includes(k))
@@ -54,7 +54,7 @@ export default function getParameterSchema(parameter, { isOAS3 }) {
 
   if (parameter.get("content")) {
     const parameterContentMediaTypes = parameter
-      .get("content", Im.Map())
+      .get("content", Im.Map({}))
       .keySeq()
 
     return parameter.getIn(
