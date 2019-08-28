@@ -2,6 +2,7 @@ import React from "react"
 import { OrderedMap } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
+import Markdown from "react-remarkable"
 
 export default class Servers extends React.Component {
 
@@ -23,6 +24,7 @@ export default class Servers extends React.Component {
 
     //fire 'change' event to set default 'value' of select
     this.setServer(servers.first().get("url"))
+    this.localInputChange = false
   }
 
   componentWillReceiveProps(nextProps) {
@@ -32,21 +34,33 @@ export default class Servers extends React.Component {
       getServerVariable
     } = this.props
 
-    if(this.props.currentServer !== nextProps.currentServer) {
+    const nextServerDefinition = nextProps.servers.find(v => v.get("url") === nextProps.currentServer) || OrderedMap()
+    const nextServerVariableDefs = nextServerDefinition.get("variables") || OrderedMap()
+
+    nextServerVariableDefs.map((val, key) => {
+      const currentDefaultValue = getServerVariable(this.props.currentServer, key)
+      const nextDefaultValue = val.get("default")
+
+      if (currentDefaultValue !== nextDefaultValue) {
+        this.shouldUpdateForm = true
+      }
+    })
+
+    if( (this.props.currentServer !== nextProps.currentServer) || this.shouldUpdateForm) {
       // Server has changed, we may need to set default values
-      let currentServerDefinition = servers
+      const currentServerDefinition = servers
         .find(v => v.get("url") === nextProps.currentServer)
 
       if(!currentServerDefinition) {
         return this.setServer(servers.first().get("url"))
       }
 
-      let currentServerVariableDefs = currentServerDefinition.get("variables") || OrderedMap()
-
-      currentServerVariableDefs.map((val, key) => {
-        let currentValue = getServerVariable(nextProps.currentServer, key)
-        // only set the default value if the user hasn't set one yet
-        if(!currentValue) {
+      nextServerVariableDefs.map((val, key) => {
+        const currentValue = getServerVariable(nextProps.currentServer, key)
+        const currentDefaultValue = getServerVariable(this.props.currentServer, key)
+        const nextDefaultValue = val.get("default")
+        // only set the default value if the user hasn't set one yet or if the change comes from default value change through props
+        if(((currentDefaultValue !== nextDefaultValue) && !this.localInputChange) || !currentValue) {
           setServerVariableValue({
             server: nextProps.currentServer,
             key,
@@ -54,6 +68,14 @@ export default class Servers extends React.Component {
           })
         }
       })
+
+      //Once update is made, reset values of the update triggers back to false
+      if (this.shouldUpdateForm) {
+        this.shouldUpdateForm = false
+      }
+      if (this.localInputChange) {
+        this.localInputChange = false
+      }
     }
   }
 
@@ -64,6 +86,8 @@ export default class Servers extends React.Component {
   }
 
   onServerVariableValueChange = ( e ) => {
+    this.localInputChange = true //Trigger to let UI know change is coming from input field
+
     let {
       setServerVariableValue,
       currentServer
@@ -104,17 +128,21 @@ export default class Servers extends React.Component {
     return (
       <div className="servers">
         <label htmlFor="servers">
-          <select onChange={ this.onServerChange }>
+          <select onChange={ this.onServerChange } value={currentServer}>
             { servers.valueSeq().map(
               ( server ) =>
               <option
                 value={ server.get("url") }
                 key={ server.get("url") }>
                 { server.get("url") }
-                { server.get("description") && ` - ${server.get("description")}` }
               </option>
             ).toArray()}
           </select>
+          {
+            currentServerDefinition.get("description") && <div className={"servers-ui-description"}>
+                <Markdown source={currentServerDefinition.get("description")} />
+              </div>
+          }
         </label>
         { shouldShowVariableUI ?
           <div>
@@ -150,6 +178,11 @@ export default class Servers extends React.Component {
                             onChange={this.onServerVariableValueChange}
                             data-variable={name}
                             ></input>
+                        }
+                        {
+                          val.get("description") && <div>
+                              <Markdown source={val.get("description")} />
+                            </div>
                         }
                       </td>
                     </tr>
