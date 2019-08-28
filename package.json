@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.23.3",
+  "version": "3.23.6",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -73,11 +73,11 @@
     "react-motion": "^0.5.2",
     "react-redux": "^4.x.x",
     "redux": "^3.x.x",
-    "redux-immutable": "3.0.8",
+    "redux-immutable": "3.1.0",
     "remarkable": "^1.7.4",
     "reselect": "^2.5.4",
     "serialize-error": "^2.1.0",
-    "swagger-client": "^3.9.1",
+    "swagger-client": "^3.9.3",
     "url-parse": "^1.4.7",
     "xml-but-prettier": "^1.0.1",
     "zenscroll": "^4.0.2"
@@ -125,7 +125,7 @@
     "json-server": "^0.15.0",
     "less": "^3.9.0",
     "license-checker": "^19.0.0",
-    "mini-css-extract-plugin": "^0.7.0",
+    "mini-css-extract-plugin": "^0.8.0",
     "mocha": "^5.1.1",
     "nightwatch": "^1.1.13",
     "node-sass": "^4.12.0",

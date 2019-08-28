@@ -21,7 +21,11 @@
         "devDependencies"
       ],
       "rangeStrategy": "update-lockfile",
-      "semanticCommitScope": "dev-deps"
+      "semanticCommitScope": "dev-deps",
+      "automerge": true,
+      "major": {
+        "automerge": false
+      }
     },
     {
       "depTypeList": [
