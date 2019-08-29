@@ -118,6 +118,11 @@ section.models
     border: 1px solid rgba($section-models-border-color, .3);
     border-radius: 4px;
 
+    .pointer
+    {
+        cursor: pointer;
+    }
+
     &.is-open
     {
         padding: 0 0 20px;
