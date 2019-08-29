@@ -417,6 +417,16 @@
 
         border: 2px solid $operational-filter-input-border-color;
     }
+
+    .failed
+    {
+        color: red;
+    }
+
+    .loading
+    {
+        color: #aaa;
+    }
 }
 
 .model-example {
