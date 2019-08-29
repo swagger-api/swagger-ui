@@ -245,6 +245,13 @@ section.models
     font-size: 16px;
 
     @include text_headline($section-models-model-title-font-color);
+
+    img
+    {
+        margin-left: 1em;
+        position: relative;
+        bottom: 0px;
+    }
 }
 
 .model-deprecated-warning

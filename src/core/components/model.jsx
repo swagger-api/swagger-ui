@@ -53,11 +53,7 @@ export default class Model extends ImmutablePureComponent {
     if(!schema) {
       return <span className="model model-title">
               <span className="model-title__text">{ displayName || name }</span>
-              <img src={require("core/../img/rolling-load.svg")} height={"20px"} width={"20px"} style={{
-                  marginLeft: "1em",
-                  position: "relative",
-                  bottom: "0px"
-                }} />
+              <img src={require("core/../img/rolling-load.svg")} height={"20px"} width={"20px"} />
             </span>
     }
 
