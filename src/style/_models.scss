@@ -110,6 +110,55 @@
     }
 }
 
+table.model
+{
+    tr
+    {
+        &.description
+        {
+            color: #666;
+            font-weight: normal;
+            
+            td:first-child
+            {
+                font-weight: bold;
+            }
+        }
+
+        &.property-row
+        {
+            &.required td:first-child
+            {
+                font-weight: bold;
+            }
+
+            td
+            {
+                vertical-align: top;
+
+                &:first-child
+                {
+                    padding-right: 0.2em;
+                }
+            }
+
+            .star
+            {
+                color: red;
+            }
+        }
+
+        &.extension
+        {
+            color: #777;
+
+            td:last-child
+            {
+                vertical-align: top;
+            }
+        }
+    }
+}
 
 section.models
 {
