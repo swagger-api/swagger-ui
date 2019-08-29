@@ -118,6 +118,11 @@ table
     {
         font-weight: bold;
 
+        span
+        {
+            color: red;
+        }
+
         &:after
         {
             font-size: 10px;
