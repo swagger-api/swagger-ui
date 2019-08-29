@@ -65,7 +65,19 @@
 
         border-radius: 4px;
 
+        background-color: #ffeeee;
+
+        color: red;
+        
+        margin: 1em;
+
         @include text_code();
+
+        b
+        {
+            text-transform: capitalize;
+            margin-right: 1em;
+        }
     }
 }
 
