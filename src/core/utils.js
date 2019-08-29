@@ -530,18 +530,23 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
 
     let oas3ObjectCheck = false
 
-    if(false || isOAS3 && type === "object") {
+    if(isOAS3 && type === "object") {
       if(typeof value === "object" && value !== null) {
         oas3ObjectCheck = true
       } else if(typeof value === "string") {
-        try {
-          JSON.parse(value)
-          oas3ObjectCheck = true
-        } catch(e) {
-          errors.push("Parameter string value must be valid JSON")
-          return errors
-        }
+        oas3ObjectCheck = true
       }
+      // Disabled because `validateParam` doesn't consider the MediaType of the 
+      // `Parameter.content` hint correctly.
+      // } else if(typeof value === "string") {
+      //   try {
+      //     JSON.parse(value)
+      //     oas3ObjectCheck = true
+      //   } catch(e) {
+      //     errors.push("Parameter string value must be valid JSON")
+      //     return errors
+      //   }
+      // }
     }
 
     const allChecks = [
