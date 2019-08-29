@@ -553,6 +553,11 @@
 
         @include text_body();
     }
+
+    .curl
+    {
+        white-space: normal;
+    }
 }
 
 .response-col_status
