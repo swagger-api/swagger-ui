@@ -97,6 +97,17 @@
     {
         margin: 0 0 1em 0;
     }
+
+    .property
+    {
+        color: #999;
+        font-style: italic;
+
+        &.primitive
+        {
+             color: #6b6b6b;
+        }
+    }
 }
 
 
