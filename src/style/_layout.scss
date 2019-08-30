@@ -417,7 +417,10 @@
 
         border: 2px solid $operational-filter-input-border-color;
     }
+}
 
+.filter, .download-url-wrapper
+{
     .failed
     {
         color: red;
