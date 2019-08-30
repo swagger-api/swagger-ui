@@ -89,7 +89,7 @@ Method name | Docker variable | Description
 --- | --- | -----
 <a name="initOAuth"></a>`initOAuth` | [_See `oauth2.md`_](./oauth2.md) | `(configObj) => void`. Provide Swagger UI with information about your OAuth server - see the [OAuth 2.0 documentation](./oauth2.md) for more information.
 <a name="preauthorizeBasic"></a>`preauthorizeBasic` | _Unavailable_ | `(authDefinitionKey, username, password) => action`. Programmatically set values for a Basic authorization scheme.
-<a name="preauthorizeApiKey"></a>`preauthorizeApiKey` | _Unavailable_ | `(authDefinitionKey, apiKeyValue) => action`. Programmatically set values for an API key authorization scheme.
+<a name="preauthorizeApiKey"></a>`preauthorizeApiKey` | _Unavailable_ | `(authDefinitionKey, apiKeyValue) => action`. Programmatically set values for an API key or Bearer authorization scheme. In case of OpenAPI 3.0 Bearer scheme, `apiKeyValue` must contain just the token itself without the `Bearer` prefix.
 
 ### Docker
 
