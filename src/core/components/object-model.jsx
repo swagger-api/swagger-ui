@@ -92,17 +92,17 @@ export default class ObjectModel extends Component {
                       let isDeprecated = isOAS3() && value.get("deprecated")
                       let isRequired = List.isList(requiredProperties) && requiredProperties.contains(key)
 
-                      let classNames = ["property-row"];
+                      let classNames = ["property-row"]
 
                       if (isDeprecated) {
-                        classNames.push("deprecated");
+                        classNames.push("deprecated")
                       }
 
                       if (isRequired) {
-                        classNames.push("required");
+                        classNames.push("required")
                       }
 
-                      return (<tr key={key} className={classNames.join(' ')}>
+                      return (<tr key={key} className={classNames.join(" ")}>
                         <td>
                           { key }{ isRequired && <span className="star">*</span> }
                         </td>

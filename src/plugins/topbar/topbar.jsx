@@ -104,9 +104,9 @@ export default class Topbar extends React.Component {
     let isLoading = specSelectors.loadingStatus() === "loading"
     let isFailed = specSelectors.loadingStatus() === "failed"
 
-    const classNames = ["download-url-input"];
-    if (isFailed) classNames.push("failed");
-    if (isLoading) classNames.push("loading");
+    const classNames = ["download-url-input"]
+    if (isFailed) classNames.push("failed")
+    if (isLoading) classNames.push("loading")
     
     const { urls } = getConfigs()
     let control = []
@@ -128,7 +128,7 @@ export default class Topbar extends React.Component {
     }
     else {
       formOnSubmit = this.downloadUrl
-      control.push(<input className={classNames.join(' ')} type="text" onChange={ this.onUrlChange } value={this.state.url} disabled={isLoading} />)
+      control.push(<input className={classNames.join(" ")} type="text" onChange={ this.onUrlChange } value={this.state.url} disabled={isLoading} />)
       control.push(<Button className="download-url-button" onClick={ this.downloadUrl }>Explore</Button>)
     }
 

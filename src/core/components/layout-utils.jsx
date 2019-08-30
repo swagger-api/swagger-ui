@@ -74,7 +74,7 @@ export class Col extends React.Component {
     }
 
     if (hide) {
-      classes.push("hidden");
+      classesAr.push("hidden")
     }
 
     let classes = xclass(rest.className, ...classesAr)
