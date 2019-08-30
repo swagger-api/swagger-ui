@@ -899,3 +899,13 @@ a.nostyle {
     }
   }
 }
+
+.opblock-link
+{
+    font-weight: normal;
+
+    &.shown
+    {
+        font-weight: bold;
+    }
+}
