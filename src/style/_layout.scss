@@ -601,6 +601,16 @@
 
         @include text_code($response-col-links-font-color);
     }
+
+    .operation-link
+    {
+        margin-bottom: 1.5em;
+
+        .description
+        {
+            margin-bottom: 0.5em;
+        }
+    }
 }
 
 .opblock-body

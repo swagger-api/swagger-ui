@@ -12,8 +12,8 @@ class OperationLink extends Component {
     let parameters = link.get("parameters") && link.get("parameters").toJS()
     let description = link.get("description")
 
-    return <div style={{ marginBottom: "1.5em" }}>
-      <div style={{ marginBottom: ".5em" }}>
+    return <div className="operation-link">
+      <div className="description">
         <b><code>{name}</code></b>
         { description ? <Markdown source={description}></Markdown> : null }
       </div>
