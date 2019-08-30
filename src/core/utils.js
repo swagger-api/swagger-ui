@@ -233,15 +233,15 @@ export function highlight (el) {
           // (some types are highlighted similarly)
           el[appendChild](
             node = _document.createElement("span")
-          ).setAttribute("style", [
+          ).setAttribute("class", [
             // 0: not formatted
-            "color: #555; font-weight: bold;",
+            "token-not-formatted",
             // 1: keywords
             "",
             // 2: punctuation
             "",
             // 3: strings and regexps
-            "color: #555;",
+            "token-string",
             // 4: comments
             ""
           ][

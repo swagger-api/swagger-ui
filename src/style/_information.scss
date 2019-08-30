@@ -86,6 +86,11 @@
 
             border-radius: 57px;
             background: $info-title-small-background-color;
+            
+            &.version-stamp
+            {
+                background-color: #89bf04;
+            }
 
             pre
             {

@@ -872,11 +872,6 @@ a.nostyle {
   }
 }
 
-.version-stamp
-{
-    background-color: #89bf04;
-}
-
 .fallback
 {
     padding: 1em;
@@ -916,6 +911,20 @@ a.nostyle {
 
     &.shown
     {
+        font-weight: bold;
+    }
+}
+
+span
+{
+    &.token-string
+    {
+        color: #555;
+    }
+
+    &.token-not-formatted
+    {
+        color: #555; 
         font-weight: bold;
     }
 }
