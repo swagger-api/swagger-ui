@@ -412,15 +412,15 @@ describe("utils", function() {
       })
       assertValidateOas3Param(param, value, [])
       
-      // invalid object-as-string
-      param = {
-        required: true,
-        schema: {
-          type: "object"
-        }
-      }
-      value = "{{}"
-      assertValidateOas3Param(param, value, ["Parameter string value must be valid JSON"])
+      // // invalid object-as-string
+      // param = {
+      //   required: true,
+      //   schema: {
+      //     type: "object"
+      //   }
+      // }
+      // value = "{{}"
+      // assertValidateOas3Param(param, value, ["Parameter string value must be valid JSON"])
       
       // missing when required
       param = {
@@ -456,14 +456,14 @@ describe("utils", function() {
       })
       assertValidateOas3Param(param, value, [])
       
-      // invalid object-as-string
-      param = {
-        schema: {
-          type: "object"
-        }
-      }
-      value = "{{}"
-      assertValidateOas3Param(param, value, ["Parameter string value must be valid JSON"])
+      // // invalid object-as-string
+      // param = {
+      //   schema: {
+      //     type: "object"
+      //   }
+      // }
+      // value = "{{}"
+      // assertValidateOas3Param(param, value, ["Parameter string value must be valid JSON"])
       
       // missing when not required
       param = {
