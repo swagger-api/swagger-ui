@@ -2,11 +2,11 @@ import React from "react"
 import { OrderedMap } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
-import Markdown from "react-remarkable"
 
 export default class Servers extends React.Component {
 
   static propTypes = {
+    getComponent: PropTypes.func.isRequired,
     servers: ImPropTypes.list.isRequired,
     currentServer: PropTypes.string.isRequired,
     setSelectedServer: PropTypes.func.isRequired,
@@ -115,9 +115,11 @@ export default class Servers extends React.Component {
     let { servers,
       currentServer,
       getServerVariable,
-      getEffectiveServerValue
+      getEffectiveServerValue,
+      getComponent,
     } = this.props
 
+    const Markdown = getComponent("Markdown")
 
     let currentServerDefinition = servers.find(v => v.get("url") === currentServer) || OrderedMap()
 
