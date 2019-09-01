@@ -4,6 +4,7 @@ import { List, fromJS } from "immutable"
 import cx from "classnames"
 import ImPropTypes from "react-immutable-proptypes"
 import DebounceInput from "react-debounce-input"
+import { stringify } from "core/utils"
 //import "less/json-schema-form"
 
 const noop = ()=> {}
@@ -269,7 +270,7 @@ export class JsonSchema_object extends PureComponent {
         <TextArea
           className={cx({ invalid: errors.size })}
           title={ errors.size ? errors.join(", ") : ""}
-          value={value}
+          value={stringify(value)}
           disabled={disabled}
           onChange={ this.handleOnChange }/>
       </div>

@@ -1,3 +1,15 @@
+/* 
+  ATTENTION! This file (but not the functions within) is deprecated.
+
+  You should probably add a new file to `./helpers/` instead of adding a new
+  function here.
+
+  One-function-per-file is a better pattern than what we have here.
+
+  If you're refactoring something in here, feel free to break it out to a file
+  in `./helpers` if you have the time.
+*/
+
 import Im from "immutable"
 import { sanitizeUrl as braintreeSanitizeUrl } from "@braintree/sanitize-url"
 import camelCase from "lodash/camelCase"
@@ -9,6 +21,7 @@ import eq from "lodash/eq"
 import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins/samples/fn"
 import win from "./window"
 import cssEscape from "css.escape"
+import getParameterSchema from "../helpers/get-parameter-schema"
 
 const DEFAULT_RESPONSE_KEY = "default"
 
@@ -488,7 +501,7 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
   let errors = []
   let required = param.get("required")
 
-  let paramDetails = isOAS3 ? param.get("schema") : param
+  let paramDetails = getParameterSchema(param, { isOAS3 })
 
   if(!paramDetails) return errors
 
@@ -517,18 +530,23 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
 
     let oas3ObjectCheck = false
 
-    if(false || isOAS3 && type === "object") {
-      if(typeof value === "object") {
+    if(isOAS3 && type === "object") {
+      if(typeof value === "object" && value !== null) {
         oas3ObjectCheck = true
       } else if(typeof value === "string") {
-        try {
-          JSON.parse(value)
-          oas3ObjectCheck = true
-        } catch(e) {
-          errors.push("Parameter string value must be valid JSON")
-          return errors
-        }
+        oas3ObjectCheck = true
       }
+      // Disabled because `validateParam` doesn't consider the MediaType of the 
+      // `Parameter.content` hint correctly.
+      // } else if(typeof value === "string") {
+      //   try {
+      //     JSON.parse(value)
+      //     oas3ObjectCheck = true
+      //   } catch(e) {
+      //     errors.push("Parameter string value must be valid JSON")
+      //     return errors
+      //   }
+      // }
     }
 
     const allChecks = [
