@@ -498,6 +498,7 @@ export const validatePattern = (val, rxPattern) => {
 
 // validation of parameters before execute
 export const validateParam = (param, value, { isOAS3 = false, bypassRequiredCheck = false } = {}) => {
+  
   let errors = []
   let required = param.get("required")
 
@@ -527,31 +528,23 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
     let booleanCheck = type === "boolean" && (value || value === false)
     let numberCheck = type === "number" && (value || value === 0)
     let integerCheck = type === "integer" && (value || value === 0)
+    let objectCheck = type === "object" && typeof value === "object" && value !== null
+    let objectStringCheck = type === "object" && typeof value === "string" && value
 
-    let oas3ObjectCheck = false
-
-    if(isOAS3 && type === "object") {
-      if(typeof value === "object" && value !== null) {
-        oas3ObjectCheck = true
-      } else if(typeof value === "string") {
-        oas3ObjectCheck = true
-      }
-      // Disabled because `validateParam` doesn't consider the MediaType of the 
-      // `Parameter.content` hint correctly.
-      // } else if(typeof value === "string") {
-      //   try {
-      //     JSON.parse(value)
-      //     oas3ObjectCheck = true
-      //   } catch(e) {
-      //     errors.push("Parameter string value must be valid JSON")
-      //     return errors
-      //   }
-      // }
-    }
+    // if(type === "object" && typeof value === "string") {
+    //   // Disabled because `validateParam` doesn't consider the MediaType of the 
+    //   // `Parameter.content` hint correctly.
+    //   try {
+    //     JSON.parse(value)
+    //   } catch(e) {
+    //     errors.push("Parameter string value must be valid JSON")
+    //     return errors
+    //   }
+    // }
 
     const allChecks = [
       stringCheck, arrayCheck, listCheck, fileCheck, booleanCheck,
-      numberCheck, integerCheck, oas3ObjectCheck
+      numberCheck, integerCheck, objectCheck, objectStringCheck,
     ]
 
     const passedAnyCheck = allChecks.some(v => !!v)
