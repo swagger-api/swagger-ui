@@ -21,11 +21,11 @@ describe("<OnlineValidatorBadge/>", function () {
 
     // Then
     expect(wrapper.find("a").props().href).toEqual(
-      "https://online.swagger.io/validator/debug?url=swagger.json"
+      "https://validator.swagger.io/validator/debug?url=swagger.json"
     )
     expect(wrapper.find("ValidatorImage").length).toEqual(1)
     expect(wrapper.find("ValidatorImage").props().src).toEqual(
-      "https://online.swagger.io/validator?url=swagger.json"
+      "https://validator.swagger.io/validator?url=swagger.json"
     )
   })
   it("should encode a definition URL correctly", function () {
@@ -43,11 +43,11 @@ describe("<OnlineValidatorBadge/>", function () {
 
     // Then
     expect(wrapper.find("a").props().href).toEqual(
-      "https://online.swagger.io/validator/debug?url=http%3A%2F%2Fgoogle.com%2Fswagger.json"
+      "https://validator.swagger.io/validator/debug?url=http%3A%2F%2Fgoogle.com%2Fswagger.json"
     )
     expect(wrapper.find("ValidatorImage").length).toEqual(1)
     expect(wrapper.find("ValidatorImage").props().src).toEqual(
-      "https://online.swagger.io/validator?url=http%3A%2F%2Fgoogle.com%2Fswagger.json"
+      "https://validator.swagger.io/validator?url=http%3A%2F%2Fgoogle.com%2Fswagger.json"
     )
   })
   it.skip("should resolve a definition URL against the browser's location", function () {
@@ -67,11 +67,11 @@ describe("<OnlineValidatorBadge/>", function () {
 
     // Then
     expect(wrapper.find("a").props().href).toEqual(
-      "https://online.swagger.io/validator/debug?url=http%3A%2F%2Fgoogle.com%2Fswagger.json"
+      "https://validator.swagger.io/validator/debug?url=http%3A%2F%2Fgoogle.com%2Fswagger.json"
     )
     expect(wrapper.find("ValidatorImage").length).toEqual(1)
     expect(wrapper.find("ValidatorImage").props().src).toEqual(
-      "https://online.swagger.io/validator?url=http%3A%2F%2Fgoogle.com%2Fswagger.json"
+      "https://validator.swagger.io/validator?url=http%3A%2F%2Fgoogle.com%2Fswagger.json"
     )
   })
   // should resolve a definition URL against the browser's location
