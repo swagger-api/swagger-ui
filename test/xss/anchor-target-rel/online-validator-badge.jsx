@@ -23,7 +23,7 @@ describe("<OnlineValidatorBadge/> Anchor Target Safety", function () {
 
     // Then
     expect(anchor.props().href).toEqual(
-      "https://online.swagger.io/validator/debug?url=swagger.json"
+      "https://validator.swagger.io/validator/debug?url=swagger.json"
     )
     expect(anchor.props().target).toEqual("_blank")
     expect(anchor.props().rel || "").toInclude("noopener")
