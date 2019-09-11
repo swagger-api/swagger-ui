@@ -78,6 +78,7 @@ export class JsonSchema_string extends Component {
                       allowedValues={ enumValue }
                       value={ value }
                       allowEmptyValue={ !required }
+                      disabled={disabled}
                       onChange={ this.onEnumChange }/>)
     }
 
