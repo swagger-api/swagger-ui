@@ -152,8 +152,6 @@ export default class Response extends React.Component {
 
     let example = getExampleComponent( sampleResponse, HighlightCode )
 
-    console.log(sampleResponse, example)
-
     return (
       <tr className={ "response " + ( className || "") } data-code={code}>
         <td className="response-col_status">
