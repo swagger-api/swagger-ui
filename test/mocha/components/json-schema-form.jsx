@@ -40,6 +40,27 @@ describe("<JsonSchemaForm/>", function(){
       expect(wrapper.find("select option").eq(2).text()).toEqual("two")
     })
 
+    it("should render a string enum as disabled when JsonSchemaForm is disabled", function(){
+
+      let props = {
+        getComponent: getComponentStub,
+        value: "",
+        onChange: () => {},
+        keyName: "",
+        fn: {},
+        schema: {
+          type: "string",
+          enum: ["one", "two"]
+        },
+        disabled: true
+      }
+
+      let wrapper = render(<JsonSchemaForm {...props}/>)
+
+      expect(wrapper.find("select").attr("disabled")).toEqual("disabled")
+    })
+
+
     it("should render the correct options for a required string enum parameter", function(){
 
       let props = {
