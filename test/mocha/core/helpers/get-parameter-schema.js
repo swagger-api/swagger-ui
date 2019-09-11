@@ -4,7 +4,7 @@
 
 import expect from "expect"
 import Im, { fromJS } from "immutable"
-import getParameterSchema from "../../../src/helpers/get-parameter-schema"
+import getParameterSchema from "../../../../src/helpers/get-parameter-schema"
 
 describe("getParameterSchema", () => {
   it("should return an empty Map when given no parameters", () => {

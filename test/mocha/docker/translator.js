@@ -1,5 +1,5 @@
 const expect = require("expect")
-const translator = require("../../docker/configurator/translator")
+const translator = require("../../../docker/configurator/translator")
 const dedent = require("dedent")
 
 describe("docker: env translator", function() {
