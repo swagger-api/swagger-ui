@@ -29,7 +29,9 @@ describe("<ModelExample/>", function(){
       getComponent: (c) => {
           return components[c]
       },
-      specSelectors: {},
+      specSelectors: {
+        isOAS3: () => false
+      },
       schema: {},
       example: "{\"example\": \"value\"}",
       isExecute: false,

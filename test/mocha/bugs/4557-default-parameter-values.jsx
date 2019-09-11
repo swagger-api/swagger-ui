@@ -56,6 +56,9 @@ describe("bug #4557: default parameter values", function(){
         isOAS3(){ return true },
         isSwagger2() { return false }
       },
+      oas3Selectors: {
+        activeExamplesMember: () => null
+      },
       fn: {},
       operation: {get: ()=>{}},
       onChange: createSpy(),
