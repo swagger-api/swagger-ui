@@ -3,7 +3,7 @@ import React from "react"
 import expect from "expect"
 import { render } from "enzyme"
 import Markdown from "components/providers/markdown"
-import { Markdown as OAS3Markdown } from "corePlugins/oas3/wrap-components/markdown.js"
+import { Markdown as OAS3Markdown } from "corePlugins/oas3/wrap-components/markdown.jsx"
 
 describe("Markdown Script Sanitization", function() {
   describe("Swagger 2.0", function() {
