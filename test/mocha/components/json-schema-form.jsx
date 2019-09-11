@@ -163,7 +163,7 @@ describe("<JsonSchemaForm/>", function(){
 
       let props = {
         getComponent: getComponentStub,
-        value: "",
+        value: `{\n  "id": "abc123"\n}`,
         onChange: (value) => {
           updateQueue.push({ value })
         },

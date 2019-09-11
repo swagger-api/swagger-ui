@@ -30,7 +30,7 @@
     "lint-fix": "eslint --cache --ext '.js,.jsx' src test --fix",
     "test": "run-s just-test-in-node e2e-cypress lint-errors",
     "test-in-node": "run-s lint-errors just-test-in-node",
-    "just-test-in-node": "mocha --require test/setup.js --recursive --compilers js:@babel/register --require source-map-support test/core test/components test/bugs test/docker test/swagger-ui-dist-package test/xss",
+    "just-test-in-node": "mocha --require test/mocha/setup.js --recursive --compilers js:@babel/register --require source-map-support 'test/mocha/**/*.{js,jsx}'",
     "test-e2e-cypress": "cypress run",
     "test-e2e-selenium": "sleep 3 && nightwatch test/e2e-selenium/scenarios/ --config test/e2e-selenium/nightwatch.json",
     "e2e-initial-render": "nightwatch test/e2e-selenium/scenarios/ --config test/e2e-selenium/nightwatch.json --group initial-render",

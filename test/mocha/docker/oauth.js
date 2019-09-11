@@ -1,5 +1,5 @@
 const expect = require("expect")
-const oauthBlockBuilder = require("../../docker/configurator/oauth")
+const oauthBlockBuilder = require("../../../docker/configurator/oauth")
 const dedent = require("dedent")
 
 describe("docker: env translator - oauth block", function() {

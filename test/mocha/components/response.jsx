@@ -1,7 +1,7 @@
 import React from "react"
 import expect from "expect"
 import { shallow } from "enzyme"
-import { fromJS } from "immutable"
+import { fromJS, List } from "immutable"
 import Response from "components/response"
 import ModelExample from "components/model-example"
 import { inferSchema } from "corePlugins/samples/fn"
@@ -28,7 +28,9 @@ describe("<Response />", function() {
         },
         contentType: "application/json",
         className: "for-test",
+        specPath: List(),
         response: fromJS({
+            schema: {
             type: "object",
             properties: {
                 // Note reverse order: c, b, a
@@ -42,6 +44,7 @@ describe("<Response />", function() {
                     type: "string"
                 }
             }
+        }
         }),
         code: "200"
     }
