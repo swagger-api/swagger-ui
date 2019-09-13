@@ -416,8 +416,8 @@ export const executeRequest = (req) =>
 
     specActions.setRequest(req.pathName, req.method, parsedRequest)
 
-    let requestInterceptorWrapper = function(r) {
-      let mutatedRequest = requestInterceptor.apply(this, [r])
+    let requestInterceptorWrapper = async function(r) {
+      let mutatedRequest = await requestInterceptor.apply(this, [r])
       let parsedMutatedRequest = Object.assign({}, mutatedRequest)
       specActions.setMutatedRequest(req.pathName, req.method, parsedMutatedRequest)
       return mutatedRequest
