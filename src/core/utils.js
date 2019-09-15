@@ -523,7 +523,7 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
     // These checks should evaluate to true if there is a parameter
     let stringCheck = type === "string" && value
     let arrayCheck = type === "array" && Array.isArray(value) && value.length
-    let listCheck = type === "array" && Im.List.isList(value) && value.count()
+    let arrayListCheck = type === "array" && Im.List.isList(value) && value.count()
     let fileCheck = type === "file" && value instanceof win.File
     let booleanCheck = type === "boolean" && (value || value === false)
     let numberCheck = type === "number" && (value || value === 0)
@@ -543,7 +543,7 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
     // }
 
     const allChecks = [
-      stringCheck, arrayCheck, listCheck, fileCheck, booleanCheck,
+      stringCheck, arrayCheck, arrayListCheck, fileCheck, booleanCheck,
       numberCheck, integerCheck, objectCheck, objectStringCheck,
     ]
 
@@ -605,7 +605,7 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
     } else if ( type === "array" ) {
       let itemType
 
-      if ( !listCheck || !value.count() ) { return errors }
+      if ( !arrayListCheck || !value.count() ) { return errors }
 
       itemType = paramDetails.getIn(["items", "type"])
 
