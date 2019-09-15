@@ -602,6 +602,14 @@ describe("utils", function() {
       }
       value = []
       assertValidateParam(param, value, ["Required field is not provided"])
+
+      // invalid (empty) array, represented as a string
+      param = {
+        required: true,
+        type: "array"
+      }
+      value = ""
+      assertValidateParam(param, value, ["Required field is not provided"])
       
       // invalid (not an array)
       param = {
@@ -628,6 +636,14 @@ describe("utils", function() {
         type: "array"
       }
       value = [1]
+      assertValidateParam(param, value, [])
+
+      // valid array, with no 'type' for items, represented as a string
+      param = {
+        required: true,
+        type: "array"
+      }
+      value = "[1]"
       assertValidateParam(param, value, [])
       
       // valid array, items match type
