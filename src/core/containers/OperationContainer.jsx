@@ -25,6 +25,8 @@ export default class OperationContainer extends PureComponent {
     isShown: PropTypes.bool.isRequired,
     jumpToKey: PropTypes.string.isRequired,
     allowTryItOut: PropTypes.bool,
+    onTryoutClick: PropTypes.func,
+    onCancelClick: PropTypes.func,
     displayOperationId: PropTypes.bool,
     isAuthorized: PropTypes.bool,
     displayRequestDuration: PropTypes.bool,
@@ -56,12 +58,17 @@ export default class OperationContainer extends PureComponent {
 
   mapStateToProps(nextState, props) {
     const { op, layoutSelectors, getConfigs } = props
-    const { docExpansion, deepLinking, displayOperationId, displayRequestDuration, supportedSubmitMethods } = getConfigs()
+    const configs = getConfigs()
+    const { docExpansion, deepLinking, displayOperationId, displayRequestDuration, supportedSubmitMethods } = configs
+
     const showSummary = layoutSelectors.showSummary()
     const operationId = op.getIn(["operation", "__originalOperationId"]) || op.getIn(["operation", "operationId"]) || opId(op.get("operation"), props.path, props.method) || op.get("id")
     const isShownKey = ["operations", props.tag, operationId]
     const isDeepLinkingEnabled = deepLinking && deepLinking !== "false"
-    const allowTryItOut = supportedSubmitMethods.indexOf(props.method) >= 0 && (typeof props.allowTryItOut === "undefined" ?
+    const allowTryItOut = configs.hasOwnProperty("allowTryItOut") ? 
+      configs.allowTryItOut 
+      : 
+      supportedSubmitMethods.indexOf(props.method) >= 0 && (typeof props.allowTryItOut === "undefined" ?
       props.specSelectors.allowTryItOutFor(props.path, props.method) : props.allowTryItOut)
     const security = op.getIn(["operation", "security"]) || props.specSelectors.security()
 
@@ -77,7 +84,9 @@ export default class OperationContainer extends PureComponent {
       isShown: layoutSelectors.isShown(isShownKey, docExpansion === "full" ),
       jumpToKey: `paths.${props.path}.${props.method}`,
       response: props.specSelectors.responseFor(props.path, props.method),
-      request: props.specSelectors.requestFor(props.path, props.method)
+      request: props.specSelectors.requestFor(props.path, props.method),
+      onTryoutClick: configs.onTryoutClick,
+      onCancelClick: configs.onCancelClick,
     }
   }
 
@@ -114,13 +123,22 @@ export default class OperationContainer extends PureComponent {
   }
 
   onCancelClick=() => {
+    let { onCancelClick } = this.props
     this.setState({tryItOutEnabled: !this.state.tryItOutEnabled})
+
+    if (typeof onCancelClick === "function") {
+      onCancelClick()
+    }
   }
 
   onTryoutClick =() => {
-    let { specActions, path, method } = this.props
+    let { specActions, path, method, onTryoutClick } = this.props
     this.setState({tryItOutEnabled: !this.state.tryItOutEnabled})
     specActions.clearValidateParams([path, method])
+
+    if (typeof onTryoutClick === "function") {
+      onTryoutClick()
+    }
   }
 
   onExecute = () => {

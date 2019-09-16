@@ -176,6 +176,9 @@ export default function SwaggerUI(opts) {
     loadRemoteConfig: true,
     requestInterceptor: constructorConfig.requestInterceptor,
     responseInterceptor: constructorConfig.responseInterceptor,
+    allowTryItOut: constructorConfig.allowTryItOut,
+    onTryoutClick: constructorConfig.onTryoutClick,
+    onCancelClick: constructorConfig.onCancelClick,
   }, downloadSpec)) {
     return downloadSpec()
   } else {

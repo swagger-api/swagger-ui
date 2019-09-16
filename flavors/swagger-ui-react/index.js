@@ -15,6 +15,9 @@ export default class SwaggerUI extends React.Component {
       url: this.props.url,
       requestInterceptor: this.requestInterceptor,
       responseInterceptor: this.responseInterceptor,
+      allowTryItOut: this.props.allowTryItOut,
+      onTryoutClick: this.onTryoutClick,
+      onCancelClick: this.onCancelClick,
       onComplete: this.onComplete,
       docExpansion: this.props.docExpansion,
     })
@@ -51,6 +54,18 @@ export default class SwaggerUI extends React.Component {
     }
   }
 
+  onTryoutClick = () => {
+    if (typeof this.props.onTryoutClick === "function") {
+      return this.props.onTryoutClick()
+    }
+  }
+  
+  onCancelClick = () => {
+    if (typeof this.props.onCancelClick === "function") {
+      return this.props.onCancelClick()
+    }
+  }
+
   requestInterceptor = (req) => {
     if (typeof this.props.requestInterceptor === "function") {
       return this.props.requestInterceptor(req)
@@ -78,8 +93,11 @@ SwaggerUI.propTypes = {
     PropTypes.object,
   ]),
   url: PropTypes.string,
+  allowTryItOut: PropTypes.bool,
+  onTryoutClick: PropTypes.func,
+  onCancelClick: PropTypes.func,
   requestInterceptor: PropTypes.func,
   responseInterceptor: PropTypes.func,
   onComplete: PropTypes.func,
-  docExpansion: PropTypes.oneOf(['list', 'full', 'none']),
+  docExpansion: PropTypes.oneOf(["list", "full", "none"]),
 }
