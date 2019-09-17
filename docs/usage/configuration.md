@@ -46,6 +46,7 @@ Parameter name | Docker variable | Description
 
 Parameter name | Docker variable | Description
 --- | --- | -----
+<a name="allowTryItOut"></a>`allowTryItOut` | _Unavailable_ | `Boolean=true`. If set to `false`, hides all the `try it out` button for all operations.
 <a name="deepLinking"></a>`deepLinking` | `DEEP_LINKING` | `Boolean=false`. If set to `true`, enables deep linking for tags and operations. See the [Deep Linking documentation](/docs/usage/deep-linking.md) for more information.
 <a name="displayOperationId"></a>`displayOperationId` | `DISPLAY_OPERATION_ID` | `Boolean=false`. Controls the display of operationId in operations list. The default is `false`.
 <a name="defaultModelsExpandDepth"></a>`defaultModelsExpandDepth` | `DEFAULT_MODELS_EXPAND_DEPTH` | `Number=1`. The default expansion depth for models (set to -1 completely hide the models).
@@ -59,7 +60,9 @@ Parameter name | Docker variable | Description
 <a name="showExtensions"></a>`showExtensions` | `SHOW_EXTENSIONS` | `Boolean=false`. Controls the display of vendor extension (`x-`) fields and values for Operations, Parameters, and Schema.
 <a name="showCommonExtensions"></a>`showCommonExtensions` | `SHOW_COMMON_EXTENSIONS` | `Boolean=false`. Controls the display of extensions (`pattern`, `maxLength`, `minLength`, `maximum`, `minimum`) fields and values for Parameters.
 <a name="tagSorter"></a>`tagsSorter` | _Unavailable_ | `Function=(a => a)`. Apply a sort to the tag list of each API. It can be 'alpha' (sort by paths alphanumerically) or a function (see [Array.prototype.sort()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) to learn how to write a sort function). Two tag name strings are passed to the sorter for each pass. Default is the order determined by Swagger UI.
+<a name="onCancelClick"></a>`onCancelClick` | _Unavailable_ | `Function=NOOP`. Provides a mechanism to be notified when `cancel` button is clicked.
 <a name="onComplete"></a>`onComplete` | _Unavailable_ | `Function=NOOP`. Provides a mechanism to be notified when Swagger UI has finished rendering a newly provided definition.
+<a name="onTryoutClick"></a>`onTryoutClick` | _Unavailable_ | `Function=NOOP`. Provides a mechanism to be notified when `try it out` button is clicked.
 
 ##### Network
 
