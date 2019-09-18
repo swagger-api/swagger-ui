@@ -1,6 +1,6 @@
 describe("XSS: OAuth2 authorizationUrl sanitization", () => {
   it("should filter out a javascript URL", () => {
-    cy.visit("/?url=/documents/xss/oauth2.yaml")
+    cy.visit("/?url=/documents/security/xss-oauth2.yaml")
       .window()
       .then(win => {
         let args = null
