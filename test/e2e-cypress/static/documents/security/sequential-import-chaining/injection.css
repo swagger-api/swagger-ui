@@ -1,0 +1,7 @@
+* {
+  color: red !important; /* for humans */
+}
+
+h4 {
+  display: none; /* for machines, used to trace whether this sheet is applied */
+}

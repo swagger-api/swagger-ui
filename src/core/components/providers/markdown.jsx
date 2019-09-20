@@ -51,6 +51,7 @@ export default Markdown
 
 export function sanitizer(str) {
   return DomPurify.sanitize(str, {
-    ADD_ATTR: ["target"]
+    ADD_ATTR: ["target"],
+    FORBID_TAGS: ["style"],
   })
 }
