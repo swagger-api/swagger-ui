@@ -67,17 +67,26 @@ export const sampleFromSchema = (schema, config={}, path="#") => {
     })
   }
 
-  if(!type) {
-    if(properties) {
+  var alternativeSchemaProps
+
+  if (alternativeSchemas && (oneOf || anyOf) ) {
+    var alternativeSchema
+    if (oneOf) {
+      alternativeSchema = extractAlternativeSchema(oneOf, config, path, "one of")
+    } else if (anyOf) {
+      alternativeSchema = extractAlternativeSchema(anyOf, config, path, "any of")
+    }
+    if (alternativeSchema && alternativeSchema.properties) {
       type = "object"
-    } else if(items) {
+      alternativeSchemaProps =  alternativeSchema.properties
+    }
+  } 
+
+  if (!type) {
+    if (properties) {
+      type = "object"
+    } else if (items) {
       type = "array"
-    } else if( alternativeSchemas && oneOf )  {
-      var oneOfSchema = extractAlternativeSchema(oneOf, config, path, "one of")
-      return oneOfSchema ? sampleFromSchema(oneOfSchema, config, path) : undefined
-    } else if( alternativeSchemas && anyOf )  {
-      var anyOfSchema = extractAlternativeSchema(anyOf, config, path, "any of")
-      return anyOfSchema ? sampleFromSchema(anyOfSchema, config, path) : undefined
     } else {
       return
     }
@@ -85,6 +94,11 @@ export const sampleFromSchema = (schema, config={}, path="#") => {
 
   if(type === "object") {
     let props = objectify(properties)
+
+    if (alternativeSchemaProps) {
+      props = Object.assign(alternativeSchemaProps, props)
+    }
+
     let obj = {}
     for (var name in props) {
       if ( props[name] && props[name].deprecated ) {
