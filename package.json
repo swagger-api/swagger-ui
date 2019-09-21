@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.23.6",
+  "version": "3.23.11",
   "main": "dist/swagger-ui.js",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
@@ -30,7 +30,7 @@
     "lint-fix": "eslint --cache --ext '.js,.jsx' src test --fix",
     "test": "run-s just-test-in-node e2e-cypress lint-errors",
     "test-in-node": "run-s lint-errors just-test-in-node",
-    "just-test-in-node": "mocha --require test/setup.js --recursive --compilers js:@babel/register --require source-map-support test/core test/components test/bugs test/docker test/swagger-ui-dist-package test/xss",
+    "just-test-in-node": "mocha --require test/mocha/setup.js --recursive --compilers js:@babel/register --require source-map-support 'test/mocha/**/*.{js,jsx}'",
     "test-e2e-cypress": "cypress run",
     "test-e2e-selenium": "sleep 3 && nightwatch test/e2e-selenium/scenarios/ --config test/e2e-selenium/nightwatch.json",
     "e2e-initial-render": "nightwatch test/e2e-selenium/scenarios/ --config test/e2e-selenium/nightwatch.json --group initial-render",
@@ -77,7 +77,7 @@
     "remarkable": "^1.7.4",
     "reselect": "^2.5.4",
     "serialize-error": "^2.1.0",
-    "swagger-client": "^3.9.3",
+    "swagger-client": "^3.9.4",
     "url-parse": "^1.4.7",
     "xml-but-prettier": "^1.0.1",
     "zenscroll": "^4.0.2"
