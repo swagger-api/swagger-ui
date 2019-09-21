@@ -1,3 +1,15 @@
+/* 
+  ATTENTION! This file (but not the functions within) is deprecated.
+
+  You should probably add a new file to `./helpers/` instead of adding a new
+  function here.
+
+  One-function-per-file is a better pattern than what we have here.
+
+  If you're refactoring something in here, feel free to break it out to a file
+  in `./helpers` if you have the time.
+*/
+
 import Im from "immutable"
 import { sanitizeUrl as braintreeSanitizeUrl } from "@braintree/sanitize-url"
 import camelCase from "lodash/camelCase"
@@ -9,6 +21,7 @@ import eq from "lodash/eq"
 import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins/samples/fn"
 import win from "./window"
 import cssEscape from "css.escape"
+import getParameterSchema from "../helpers/get-parameter-schema"
 
 const DEFAULT_RESPONSE_KEY = "default"
 
@@ -485,10 +498,11 @@ export const validatePattern = (val, rxPattern) => {
 
 // validation of parameters before execute
 export const validateParam = (param, value, { isOAS3 = false, bypassRequiredCheck = false } = {}) => {
+  
   let errors = []
   let required = param.get("required")
 
-  let paramDetails = isOAS3 ? param.get("schema") : param
+  let paramDetails = getParameterSchema(param, { isOAS3 })
 
   if(!paramDetails) return errors
 
@@ -509,31 +523,29 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
     // These checks should evaluate to true if there is a parameter
     let stringCheck = type === "string" && value
     let arrayCheck = type === "array" && Array.isArray(value) && value.length
-    let listCheck = type === "array" && Im.List.isList(value) && value.count()
+    let arrayListCheck = type === "array" && Im.List.isList(value) && value.count()
+    let arrayStringCheck = type === "array" && typeof value === "string" && value
     let fileCheck = type === "file" && value instanceof win.File
     let booleanCheck = type === "boolean" && (value || value === false)
     let numberCheck = type === "number" && (value || value === 0)
     let integerCheck = type === "integer" && (value || value === 0)
+    let objectCheck = type === "object" && typeof value === "object" && value !== null
+    let objectStringCheck = type === "object" && typeof value === "string" && value
 
-    let oas3ObjectCheck = false
-
-    if(false || isOAS3 && type === "object") {
-      if(typeof value === "object") {
-        oas3ObjectCheck = true
-      } else if(typeof value === "string") {
-        try {
-          JSON.parse(value)
-          oas3ObjectCheck = true
-        } catch(e) {
-          errors.push("Parameter string value must be valid JSON")
-          return errors
-        }
-      }
-    }
+    // if(type === "object" && typeof value === "string") {
+    //   // Disabled because `validateParam` doesn't consider the MediaType of the 
+    //   // `Parameter.content` hint correctly.
+    //   try {
+    //     JSON.parse(value)
+    //   } catch(e) {
+    //     errors.push("Parameter string value must be valid JSON")
+    //     return errors
+    //   }
+    // }
 
     const allChecks = [
-      stringCheck, arrayCheck, listCheck, fileCheck, booleanCheck,
-      numberCheck, integerCheck, oas3ObjectCheck
+      stringCheck, arrayCheck, arrayListCheck, arrayStringCheck, fileCheck, 
+      booleanCheck, numberCheck, integerCheck, objectCheck, objectStringCheck,
     ]
 
     const passedAnyCheck = allChecks.some(v => !!v)
@@ -594,7 +606,7 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
     } else if ( type === "array" ) {
       let itemType
 
-      if ( !listCheck || !value.count() ) { return errors }
+      if ( !arrayListCheck || !value.count() ) { return errors }
 
       itemType = paramDetails.getIn(["items", "type"])
 

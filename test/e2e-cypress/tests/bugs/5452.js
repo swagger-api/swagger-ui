@@ -8,6 +8,8 @@ describe("#5452: <Select /> crashing in Parameters", function() {
       cy.visit("http://localhost:3230/?url=/documents/bugs/5452/openapi.yaml")
         .get("#operations-default-get_endpoint")
         .click()
+        .get(".try-out__btn")
+        .click()
         .get(".parameters > tbody > tr > .parameters-col_description > select")
         .select("")
         .get(".parameters > tbody > tr > .parameters-col_description > select")
@@ -21,6 +23,8 @@ describe("#5452: <Select /> crashing in Parameters", function() {
     it("should not result in a render error", function() {
       cy.visit("http://localhost:3230/?url=/documents/bugs/5452/swagger.yaml")
         .get("#operations-default-get_endpoint")
+        .click()
+        .get(".try-out__btn")
         .click()
         .get(".parameters > tbody > tr > .parameters-col_description > select")
         .select("")

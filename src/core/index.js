@@ -35,7 +35,7 @@ export default function SwaggerUI(opts) {
     docExpansion: "list",
     maxDisplayedTags: null,
     filter: null,
-    validatorUrl: "https://online.swagger.io/validator",
+    validatorUrl: "https://validator.swagger.io/validator",
     oauth2RedirectUrl: `${window.location.protocol}//${window.location.host}/oauth2-redirect.html`,
     configs: {},
     custom: {},
