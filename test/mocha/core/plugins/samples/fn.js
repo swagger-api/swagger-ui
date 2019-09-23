@@ -571,8 +571,8 @@ describe("sampleFromSchema", function() {
           "selectedIndex": 1,
           "key": "#/options",
           "options": {
-            "#0": "#1: Element",
-            "#1": "#2: Element"
+            "#0": "#1: Item",
+            "#1": "#2: Item"
           },
           "type": "one of"
         }
@@ -592,8 +592,8 @@ describe("sampleFromSchema", function() {
           "selectedIndex": 0,
           "key": "#/options",
           "options": {
-            "#0": "#1: Element",
-            "#1": "#2: Element"
+            "#0": "#1: Item",
+            "#1": "#2: Item"
           },
           "type": "one of"
         }
@@ -612,8 +612,8 @@ describe("sampleFromSchema", function() {
           "selectedIndex": 0,
           "key": "#/options",
           "options": {
-            "#0": "#1: Element",
-            "#1": "#2: Element"
+            "#0": "#1: Item",
+            "#1": "#2: Item"
           },
           "type": "one of"
         }
@@ -690,8 +690,8 @@ describe("sampleFromSchema", function() {
           "selectedIndex": 1,
           "key": "#",
           "options": {
-            "#0": "#1: Element",
-            "#1": "#2: Element"
+            "#0": "#1: Item",
+            "#1": "#2: Item"
           },
           "type": "one of"
         }
@@ -710,8 +710,8 @@ describe("sampleFromSchema", function() {
           "selectedIndex": 0,
           "key": "#",
           "options": {
-            "#0": "#1: Element",
-            "#1": "#2: Element"
+            "#0": "#1: Item",
+            "#1": "#2: Item"
           },
           "type": "one of"
         }
@@ -730,8 +730,8 @@ describe("sampleFromSchema", function() {
           "selectedIndex": 0,
           "key": "#",
           "options": {
-            "#0": "#1: Element",
-            "#1": "#2: Element"
+            "#0": "#1: Item",
+            "#1": "#2: Item"
           },
           "type": "one of"
         }
