@@ -39,7 +39,7 @@ const extractAlternativeSchema = (oneOfSchema, config, path, type) => {
     let options = {}
 
     oneOfSchema.map(valueObj => {
-      var optionTitle = valueObj.title ? valueObj.title : "Element"
+      var optionTitle = valueObj.title ? valueObj.title : "Item"
       options["#" + index++] = "#" + index + ": " + optionTitle
       return true
     })
