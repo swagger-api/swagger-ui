@@ -67,18 +67,18 @@ export const sampleFromSchema = (schema, config={}, path="#") => {
     })
   }
 
-  var alternativeSchemaProps
-
-  if (alternativeSchemas && (oneOf || anyOf) ) {
-    var alternativeSchema
+  if (alternativeSchemas) {
     if (oneOf) {
-      alternativeSchema = extractAlternativeSchema(oneOf, config, path, "one of")
-    } else if (anyOf) {
-      alternativeSchema = extractAlternativeSchema(anyOf, config, path, "any of")
+      var alternativeSchema = extractAlternativeSchema(oneOf, config, path, "one of")
+      if (alternativeSchema) {
+        properties = Object.assign({}, schema.properties, alternativeSchema.properties)
+      }
     }
-    if (alternativeSchema && alternativeSchema.properties) {
-      type = "object"
-      alternativeSchemaProps =  alternativeSchema.properties
+    if (anyOf) {
+      var alternativeSchema = extractAlternativeSchema(anyOf, config, path, "any of")
+      if (alternativeSchema) {
+        properties = Object.assign({}, schema.properties, alternativeSchema.properties)
+      }
     }
   } 
 
@@ -94,10 +94,6 @@ export const sampleFromSchema = (schema, config={}, path="#") => {
 
   if(type === "object") {
     let props = objectify(properties)
-
-    if (alternativeSchemaProps) {
-      props = Object.assign(alternativeSchemaProps, props)
-    }
 
     let obj = {}
     for (var name in props) {
