@@ -34,10 +34,10 @@ const extractDiscriminatorMappingValues = (discriminator) => {
   var discriminatorMappingValues
   if (discriminator && discriminator.propertyName && discriminator.mapping){
     discriminatorMappingValues ={}
-    Object.keys(discriminator.mapping).map(function(key, index) {
+    Object.keys(discriminator.mapping).map(function(key) {
       var mappingKey = discriminator.mapping[key]
       if(mappingKey){
-        var mappingName = mappingKey.split('#')
+        var mappingName = mappingKey.split("#")
         discriminatorMappingValues[mappingName[mappingName.length-1]] = key
       }
     })
@@ -59,7 +59,7 @@ const extractAlternativeSchema = (oneOfSchema, config, path, type, discriminator
       if (valueObj.title){
         options["#" + index++] = "#" + index + ": " + valueObj.title 
       } else if (valueObj.$$ref){
-        options["#" + index++] = "#" + index + ": " + valueObj.$$ref.split("/").pop(-1);
+        options["#" + index++] = "#" + index + ": " + valueObj.$$ref.split("/").pop(-1)
       } else if (valueObj.properties){
         let attr = Object.keys(valueObj.properties)
         options["#" + index++] = "#" + index + ": Item" + (attr.length == 1 ? "(" + attr[0] + ")": attr.length > 1 ? "(" + attr[0] + ", ...)": "" )
@@ -69,11 +69,11 @@ const extractAlternativeSchema = (oneOfSchema, config, path, type, discriminator
       
       if (discriminatorMappingValues && valueObj.properties && valueObj.$$ref){
         var discriminatorProperty = valueObj.properties[discriminator.propertyName]
-        if (discriminatorProperty && !discriminatorProperty['example']) {
-          var mappingNane =  valueObj.$$ref.split('#')
+        if (discriminatorProperty && !discriminatorProperty["example"]) {
+          var mappingNane =  valueObj.$$ref.split("#")
           var example = discriminatorMappingValues[mappingNane[mappingNane.length-1]]
           if(example){
-            discriminatorProperty['example'] = example
+            discriminatorProperty["example"] = example
           }
         }
       }
@@ -105,15 +105,15 @@ export const sampleFromSchema = (schema, config={}, path="#") => {
 
   if (alternativeSchemas && !items) {
     if (oneOf) {
-      var alternativeSchema = extractAlternativeSchema(oneOf, config, path, "one of", discriminator)
-      if (alternativeSchema) {
-        properties = Object.assign({}, schema.properties, alternativeSchema.properties)
+      let oneOfSchema = extractAlternativeSchema(oneOf, config, path, "one of", discriminator)
+      if (oneOfSchema) {
+        properties = Object.assign({}, schema.properties, oneOfSchema.properties)
       }
     }
     if (anyOf) {
-      var alternativeSchema = extractAlternativeSchema(anyOf, config, path, "any of", discriminator)
-      if (alternativeSchema) {
-        properties = Object.assign({}, schema.properties, alternativeSchema.properties)
+      let anyOfSchema = extractAlternativeSchema(anyOf, config, path, "any of", discriminator)
+      if (anyOfSchema) {
+        properties = Object.assign({}, schema.properties, anyOfSchema.properties)
       }
     }
   } 
