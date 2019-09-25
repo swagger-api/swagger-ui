@@ -30,17 +30,44 @@ const primitive = (schema) => {
   return "Unknown Type: " + schema.type
 }
 
-const extractAlternativeSchema = (oneOfSchema, config, path, type) => {
+const extractDiscriminatorMappingValues = (discriminator) => {
+  var discriminatorMappingValues
+  if (discriminator && discriminator.propertyName && discriminator.mapping){
+    discriminatorMappingValues ={}
+    Object.keys(discriminator.mapping).map(function(key, index) {
+      var mappingKey = discriminator.mapping[key]
+      if(mappingKey){
+        var mappingName = mappingKey.split('#')
+        discriminatorMappingValues[mappingName[mappingName.length-1]] = key
+      }
+    })
+  }
+  return discriminatorMappingValues
+}
+
+const extractAlternativeSchema = (oneOfSchema, config, path, type, discriminator) => {
   if ( Array.isArray(oneOfSchema) && oneOfSchema.length > 0) {
     
     let { alternativeSchemas, alternativeSchemaSelections } = config
 
     let index = 0
     let options = {}
+    let discriminatorMappingValues = extractDiscriminatorMappingValues(discriminator)
 
     oneOfSchema.map(valueObj => {
       var optionTitle = valueObj.title ? valueObj.title : "Item"
       options["#" + index++] = "#" + index + ": " + optionTitle
+
+      if (discriminatorMappingValues && valueObj.properties && valueObj.$$ref){
+        var discriminatorProperty = valueObj.properties[discriminator.propertyName]
+        if (!discriminatorProperty.example) {
+          var mappingNane =  valueObj.$$ref.split('#')
+          var example = discriminatorMappingValues[mappingNane[mappingNane.length-1]]
+          if(example){
+            discriminatorProperty['example'] = example
+          }
+        }
+      }
       return true
     })
 
@@ -56,7 +83,7 @@ const extractAlternativeSchema = (oneOfSchema, config, path, type) => {
 }
 
 export const sampleFromSchema = (schema, config={}, path="#") => {
-  let { type, example, properties, additionalProperties, items, oneOf, anyOf } = objectify(schema)
+  let { type, example, properties, additionalProperties, items, oneOf, anyOf, discriminator } = objectify(schema)
   let { includeReadOnly, includeWriteOnly, alternativeSchemas } = config
 
   if(example !== undefined) {
@@ -69,13 +96,13 @@ export const sampleFromSchema = (schema, config={}, path="#") => {
 
   if (alternativeSchemas) {
     if (oneOf) {
-      var alternativeSchema = extractAlternativeSchema(oneOf, config, path, "one of")
+      var alternativeSchema = extractAlternativeSchema(oneOf, config, path, "one of", discriminator)
       if (alternativeSchema) {
         properties = Object.assign({}, schema.properties, alternativeSchema.properties)
       }
     }
     if (anyOf) {
-      var alternativeSchema = extractAlternativeSchema(anyOf, config, path, "any of")
+      var alternativeSchema = extractAlternativeSchema(anyOf, config, path, "any of", discriminator)
       if (alternativeSchema) {
         properties = Object.assign({}, schema.properties, alternativeSchema.properties)
       }
