@@ -540,6 +540,9 @@ describe("sampleFromSchema", function() {
               "properties": {
                 "remarks": {
                   "type": "string"
+                },
+                "comment": {
+                  "type": "string"
                 }
               }
             }
@@ -553,7 +556,8 @@ describe("sampleFromSchema", function() {
       var expected = {
         "address": "string",
         "options": {
-          "remarks": "string"
+          "remarks": "string",
+          "comment": "string"
         }
       }
 
@@ -571,8 +575,8 @@ describe("sampleFromSchema", function() {
           "selectedIndex": 1,
           "key": "#/options",
           "options": {
-            "#0": "#1: Item",
-            "#1": "#2: Item"
+            "#0": "#1: Item(shipping)",
+            "#1": "#2: Item(remarks, ...)"
           },
           "type": "one of"
         }
@@ -592,8 +596,8 @@ describe("sampleFromSchema", function() {
           "selectedIndex": 0,
           "key": "#/options",
           "options": {
-            "#0": "#1: Item",
-            "#1": "#2: Item"
+            "#0": "#1: Item(shipping)",
+            "#1": "#2: Item(remarks, ...)"
           },
           "type": "one of"
         }
@@ -612,8 +616,8 @@ describe("sampleFromSchema", function() {
           "selectedIndex": 0,
           "key": "#/options",
           "options": {
-            "#0": "#1: Item",
-            "#1": "#2: Item"
+            "#0": "#1: Item(shipping)",
+            "#1": "#2: Item(remarks, ...)"
           },
           "type": "one of"
         }
@@ -661,6 +665,7 @@ describe("sampleFromSchema", function() {
         },
         {
           "type": "object",
+          "title": "My Title",
           "properties": {
             "remarks": {
               "type": "string"
@@ -690,8 +695,8 @@ describe("sampleFromSchema", function() {
           "selectedIndex": 1,
           "key": "#",
           "options": {
-            "#0": "#1: Item",
-            "#1": "#2: Item"
+            "#0": "#1: Item(shipping)",
+            "#1": "#2: My Title"
           },
           "type": "one of"
         }
@@ -710,8 +715,8 @@ describe("sampleFromSchema", function() {
           "selectedIndex": 0,
           "key": "#",
           "options": {
-            "#0": "#1: Item",
-            "#1": "#2: Item"
+            "#0": "#1: Item(shipping)",
+            "#1": "#2: My Title"
           },
           "type": "one of"
         }
@@ -730,8 +735,8 @@ describe("sampleFromSchema", function() {
           "selectedIndex": 0,
           "key": "#",
           "options": {
-            "#0": "#1: Item",
-            "#1": "#2: Item"
+            "#0": "#1: Item(shipping)",
+            "#1": "#2: My Title"
           },
           "type": "one of"
         }
@@ -858,8 +863,70 @@ describe("sampleFromSchema", function() {
       expect(result).toEqual(expected)
     })
   })
-})
 
+  describe("alternative schema (oneOf) of array type", function() {
+    var definition = {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "emailAddress": {
+            "type": "string"
+          }
+        },
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "shipping": {
+                "type": "string",
+                "enum": [
+                  "FAST",
+                  "STANDARD"
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "remarks": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      }
+    }
+  
+    it("returns first `oneOf` item with objectType A", function() {
+      
+      var expected = [{
+        "emailAddress": "string",
+        "shipping":  "FAST"
+      }]
+  
+      var alternativeSchemas= []
+  
+      var result = sampleFromSchema(definition, {alternativeSchemas: alternativeSchemas, alternativeSchemaSelections: {"#": 0} })
+      expect(result).toEqual(expected)
+    })
+
+    it("returns second `oneOf` item with objectType B", function() {
+      
+      var expected = [{
+        "emailAddress": "string",
+        "remarks":  "string"
+      }]
+  
+      var alternativeSchemas= []
+  
+      var result = sampleFromSchema(definition, {alternativeSchemas: alternativeSchemas, alternativeSchemaSelections: {"#[]": 1} })
+      expect(result).toEqual(expected)
+    })
+  })
+
+})
 
 describe("createXMLExample", function () {
   var sut = createXMLExample
