@@ -17,6 +17,7 @@ export default class SwaggerUI extends React.Component {
       responseInterceptor: this.responseInterceptor,
       onComplete: this.onComplete,
       docExpansion: this.props.docExpansion,
+      showMutatedRequest: typeof this.props.showMutatedRequest === "boolean" ? this.props.showMutatedRequest : true,
     })
 
     this.system = ui
@@ -82,4 +83,5 @@ SwaggerUI.propTypes = {
   responseInterceptor: PropTypes.func,
   onComplete: PropTypes.func,
   docExpansion: PropTypes.oneOf(['list', 'full', 'none']),
+  showMutatedRequest: PropTypes.bool
 }
