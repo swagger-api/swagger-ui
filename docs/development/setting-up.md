@@ -11,7 +11,7 @@ Swagger UI includes a development server that provides hot module reloading and 
 
 ### Steps
 
-1. `git clone git@github.com:swagger-api/swagger-ui.git`
+1. `git clone https://github.com/swagger-api/swagger-ui.git`
 2. `cd swagger-ui`
 3. `npm install`
 4. `npm run dev`
