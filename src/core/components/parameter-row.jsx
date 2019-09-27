@@ -129,6 +129,7 @@ export default class ParameterRow extends Component {
           || paramWithMeta.get("example")
           || schema.get("example")
           || schema.get("default")
+          || paramWithMeta.get("default") // ensures support for `parameterMacro`
       }
 
       //// Process the initial value
@@ -245,6 +246,9 @@ export default class ParameterRow extends Component {
     // Default and Example Value for readonly doc
     if ( param !== undefined ) {
       paramDefaultValue = schema.get("default")
+      if (paramDefaultValue === undefined) {
+        paramDefaultValue = param.get("default")
+      }
       paramExample = param.get("example")
       if (paramExample === undefined) {
         paramExample = param.get("x-example")

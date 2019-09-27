@@ -96,6 +96,7 @@ export default class Oauth2 extends React.Component {
     const AuthError = getComponent("authError")
     const JumpToPath = getComponent("JumpToPath", true)
     const Markdown = getComponent( "Markdown" )
+    const InitializedInput = getComponent("InitializedInput")
 
     const { isOAS3 } = specSelectors
 
@@ -170,10 +171,10 @@ export default class Oauth2 extends React.Component {
             {
               isAuthorized ? <code> ****** </code>
                            : <Col tablet={10} desktop={10}>
-                               <input id="client_id"
+                               <InitializedInput id="client_id"
                                       type="text"
                                       required={ flow === PASSWORD }
-                                      value={ this.state.clientId }
+                                      initialValue={ this.state.clientId }
                                       data-name="clientId"
                                       onChange={ this.onInputChange }/>
                              </Col>
@@ -187,8 +188,8 @@ export default class Oauth2 extends React.Component {
             {
               isAuthorized ? <code> ****** </code>
                            : <Col tablet={10} desktop={10}>
-                               <input id="client_secret"
-                                      value={ this.state.clientSecret }
+                               <InitializedInput id="client_secret"
+                                      initialValue={ this.state.clientSecret }
                                       type="text"
                                       data-name="clientSecret"
                                       onChange={ this.onInputChange }/>
