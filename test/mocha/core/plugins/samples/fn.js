@@ -542,7 +542,12 @@ describe("sampleFromSchema", function() {
                   "type": "string"
                 },
                 "comment": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "My comment"
+                },
+                "count": {
+                  "type": "integer",
+                  "example": 99
                 }
               }
             }
@@ -557,7 +562,8 @@ describe("sampleFromSchema", function() {
         "address": "string",
         "options": {
           "remarks": "string",
-          "comment": "string"
+          "comment": "My comment",
+          "count": 99
         }
       }
 
@@ -575,8 +581,8 @@ describe("sampleFromSchema", function() {
           "selectedIndex": 1,
           "key": "#/options",
           "options": {
-            "#0": "#1: Item(shipping)",
-            "#1": "#2: Item(remarks, ...)"
+            "#0": "#1: Item (shipping)",
+            "#1": "#2: Item (remarks, ...)"
           },
           "type": "one of"
         }
@@ -596,8 +602,8 @@ describe("sampleFromSchema", function() {
           "selectedIndex": 0,
           "key": "#/options",
           "options": {
-            "#0": "#1: Item(shipping)",
-            "#1": "#2: Item(remarks, ...)"
+            "#0": "#1: Item (shipping)",
+            "#1": "#2: Item (remarks, ...)"
           },
           "type": "one of"
         }
@@ -616,8 +622,8 @@ describe("sampleFromSchema", function() {
           "selectedIndex": 0,
           "key": "#/options",
           "options": {
-            "#0": "#1: Item(shipping)",
-            "#1": "#2: Item(remarks, ...)"
+            "#0": "#1: Item (shipping)",
+            "#1": "#2: Item (remarks, ...)"
           },
           "type": "one of"
         }
@@ -641,6 +647,62 @@ describe("sampleFromSchema", function() {
     }
     )}
   )
+  
+  describe("alternative schema (oneOf/anyOf) attribute", function() {
+    var definition = {
+      
+      "oneOf": [
+        {
+          "type": "string",
+          "example": "first"
+        },
+        {
+          "type": "integer",
+          "example": 99
+        }
+      ]
+    }
+
+    it("returns first `oneOf` attribute as example", function() {
+      
+      var expected = "first"
+      var alternativeSchemas= []
+
+      var result = sampleFromSchema(definition, {alternativeSchemas: alternativeSchemas, alternativeSchemaSelections: {"#": 0} })
+      expect(result).toEqual(expected)
+    })
+
+    it("returns second `oneOf` attribute as example", function() {
+      
+      var expected = 99
+      var alternativeSchemas= []
+
+      var result = sampleFromSchema(definition, {alternativeSchemas: alternativeSchemas, alternativeSchemaSelections: {"#": 1} })
+      expect(result).toEqual(expected)
+    })
+
+    it("extracts `oneOf` options", function() {
+      
+      var expected =  [
+        {
+          "selectedIndex": 1,
+          "key": "#",
+          "options": {
+            "#0": "#1: Item",
+            "#1": "#2: Item"
+          },
+          "type": "one of"
+        }
+      ]
+      
+      var alternativeSchemas= []
+      var alternativeSchemaSelections= {"#": 1}
+
+      sampleFromSchema(definition, {alternativeSchemas: alternativeSchemas, alternativeSchemaSelections: alternativeSchemaSelections })
+      expect(alternativeSchemas).toEqual(expected)
+    })
+
+  })
 
   describe("alternative schema on object level (oneOf/anyOf)", function() {
     var definition = {
@@ -695,7 +757,7 @@ describe("sampleFromSchema", function() {
           "selectedIndex": 1,
           "key": "#",
           "options": {
-            "#0": "#1: Item(shipping)",
+            "#0": "#1: Item (shipping, ...)",
             "#1": "#2: My Title"
           },
           "type": "one of"
@@ -715,7 +777,7 @@ describe("sampleFromSchema", function() {
           "selectedIndex": 0,
           "key": "#",
           "options": {
-            "#0": "#1: Item(shipping)",
+            "#0": "#1: Item (shipping, ...)",
             "#1": "#2: My Title"
           },
           "type": "one of"
@@ -735,7 +797,7 @@ describe("sampleFromSchema", function() {
           "selectedIndex": 0,
           "key": "#",
           "options": {
-            "#0": "#1: Item(shipping)",
+            "#0": "#1: Item (shipping, ...)",
             "#1": "#2: My Title"
           },
           "type": "one of"

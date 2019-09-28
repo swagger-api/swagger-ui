@@ -45,6 +45,19 @@ const extractDiscriminatorMappingValues = (discriminator) => {
   return discriminatorMappingValues
 }
 
+const evaluateOptionName = (valueObj) => {
+  if (valueObj.title){
+    return valueObj.title 
+  } else if (valueObj.$$ref){
+    return valueObj.$$ref.split("/").pop(-1)
+  } else if (valueObj.properties){
+    let attr = Object.keys(valueObj.properties)
+    return "Item " + (attr.length == 1 ? "(" + attr[0] + ")": attr.length > 1 ? "(" + attr[0] + ", ...)": "" )
+  } else {
+    return "Item" 
+  }
+}
+
 const extractAlternativeSchema = (oneOfSchema, config, path, type, discriminator) => {
   if ( Array.isArray(oneOfSchema) && oneOfSchema.length > 0) {
     
@@ -55,17 +68,7 @@ const extractAlternativeSchema = (oneOfSchema, config, path, type, discriminator
     let discriminatorMappingValues = extractDiscriminatorMappingValues(discriminator)
 
     oneOfSchema.map(valueObj => {
-
-      if (valueObj.title){
-        options["#" + index++] = "#" + index + ": " + valueObj.title 
-      } else if (valueObj.$$ref){
-        options["#" + index++] = "#" + index + ": " + valueObj.$$ref.split("/").pop(-1)
-      } else if (valueObj.properties){
-        let attr = Object.keys(valueObj.properties)
-        options["#" + index++] = "#" + index + ": Item" + (attr.length == 1 ? "(" + attr[0] + ")": attr.length > 1 ? "(" + attr[0] + ", ...)": "" )
-      } else {
-        options["#" + index++] = "#" + index + ": Item " 
-      }
+      options["#" + index++] = "#" + index + ": " + evaluateOptionName(valueObj) 
       
       if (discriminatorMappingValues && valueObj.properties && valueObj.$$ref){
         var discriminatorProperty = valueObj.properties[discriminator.propertyName]
@@ -106,15 +109,21 @@ export const sampleFromSchema = (schema, config={}, path="#") => {
   if (alternativeSchemas && !items) {
     if (oneOf) {
       let oneOfSchema = extractAlternativeSchema(oneOf, config, path, "one of", discriminator)
-      if (oneOfSchema) {
-        properties = Object.assign({}, schema.properties, oneOfSchema.properties)
-      }
+      oneOfSchema = Object.assign({}, schema, oneOfSchema)
+      if (schema.properties) {
+        Object.assign(oneOfSchema.properties, schema.properties)
+      } 
+      delete oneOfSchema.oneOf
+      return sampleFromSchema(oneOfSchema, config, path);
     }
     if (anyOf) {
       let anyOfSchema = extractAlternativeSchema(anyOf, config, path, "any of", discriminator)
-      if (anyOfSchema) {
-        properties = Object.assign({}, schema.properties, anyOfSchema.properties)
-      }
+      anyOfSchema = Object.assign({}, schema, anyOfSchema)
+      if (schema.properties) {
+        Object.assign(anyOfSchema.properties, schema.properties)
+      } 
+      delete anyOfSchema.anyOf
+      return sampleFromSchema(anyOfSchema, config, path);
     }
   } 
 
