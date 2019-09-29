@@ -988,6 +988,60 @@ describe("sampleFromSchema", function() {
     })
   })
 
+  describe("alternative schema (anyOf) of array type", function() {
+    var definition = {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "object",
+            "properties": {
+              "shipping": {
+                "type": "string",
+                "enum": [
+                  "FAST",
+                  "STANDARD"
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "remarks": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      }
+    }
+  
+    it("returns all `anyOf` items", function() {
+      
+      var expected = [
+        {"shipping": "FAST"},
+        {"remarks": "string"}
+      ]
+  
+      var alternativeSchemas= []
+  
+      var result = sampleFromSchema(definition, {alternativeSchemas: alternativeSchemas, alternativeSchemaSelections: {"#": 0} })
+      expect(result).toEqual(expected)
+    })
+
+    it("alternativeSchemaSelections shows allItems", function() {
+      
+      var expected = []
+  
+      var alternativeSchemas= []
+  
+      sampleFromSchema(definition, {alternativeSchemas: alternativeSchemas, alternativeSchemaSelections: {"#": 0} })
+      expect(alternativeSchemas).toEqual(expected)
+    })
+
+  })
+
 })
 
 describe("createXMLExample", function () {
