@@ -114,7 +114,7 @@ export const sampleFromSchema = (schema, config={}, path="#") => {
         Object.assign(oneOfSchema.properties, schema.properties)
       } 
       delete oneOfSchema.oneOf
-      return sampleFromSchema(oneOfSchema, config, path);
+      return sampleFromSchema(oneOfSchema, config, path)
     }
     if (anyOf) {
       let anyOfSchema = extractAlternativeSchema(anyOf, config, path, "any of", discriminator)
@@ -123,7 +123,7 @@ export const sampleFromSchema = (schema, config={}, path="#") => {
         Object.assign(anyOfSchema.properties, schema.properties)
       } 
       delete anyOfSchema.anyOf
-      return sampleFromSchema(anyOfSchema, config, path);
+      return sampleFromSchema(anyOfSchema, config, path)
     }
   } 
 
