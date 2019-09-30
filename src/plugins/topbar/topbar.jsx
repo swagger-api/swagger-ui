@@ -13,8 +13,15 @@ export default class Topbar extends React.Component {
 
   constructor(props, context) {
     super(props, context)
-    this.state = { url: props.specSelectors.url(), selectedIndex: 0 }
+    console.log(props);
+    this.state = { url: props.specSelectors.url(), selectedIndex: 0, selectedVersionIndex: 0, availableVersions: []}
   }
+
+  // static getDerivedStateFromProps(props, state) {
+  //   return {
+  //     urls: props.getConfigs() ? props.getConfigs().url : null
+  //   }
+  // }
 
   componentWillReceiveProps(nextProps) {
     this.setState({ url: nextProps.specSelectors.url() })
@@ -25,20 +32,36 @@ export default class Topbar extends React.Component {
     this.setState({url: value})
   }
 
-  loadSpec = (url) => {
-    this.props.specActions.updateUrl(url)
-    this.props.specActions.download(url)
+  loadSpec = (url, versionIndex) => {
+    const config = this.props.getConfigs()
+    let urlIndex = config.urls.map(i => i.url).indexOf(url)
+    let availableVersions = config.urls[urlIndex].versions
+    let replaced = url.replace("{version}", availableVersions[versionIndex])
+
+    this.props.specActions.updateUrl(replaced)
+    this.props.specActions.download(replaced)
   }
 
   onUrlSelect =(e)=> {
     let url = e.target.value || e.target.href
-    this.loadSpec(url)
+    this.loadSpec(url, 0)
     this.setSelectedUrl(url)
     e.preventDefault()
   }
 
+  onVersionSelect = (e)=> {
+    let selectedVersion = e.target.value
+    const { urls } = this.props.getConfigs()
+
+    var newVersionIndex = this.getAvailableVersions(this.state.selectedIndex).indexOf(selectedVersion)
+    this.setState({selectedVersionIndex: newVersionIndex}, function() {
+      console.log("the selected index was, ", newVersionIndex)
+      this.loadSpec(urls[this.state.selectedIndex].url, newVersionIndex);
+    })
+  }
+
   downloadUrl = (e) => {
-    this.loadSpec(this.state.url)
+    this.loadSpec(this.state.url, this.state.selectedVersionIndex)
     e.preventDefault()
   }
 
@@ -69,9 +92,16 @@ export default class Topbar extends React.Component {
     }
   }
 
+  getAvailableVersions = (index) => {
+    const configs = this.props.getConfigs()
+    let availableVersions = configs.urls[index].versions
+    return availableVersions;
+  }
+
   componentDidMount() {
     const configs = this.props.getConfigs()
     const urls = configs.urls || []
+    this.setState({availableVersions: this.getAvailableVersions(0)})
 
     if(urls && urls.length) {
       var targetIndex = this.state.selectedIndex
@@ -87,7 +117,7 @@ export default class Topbar extends React.Component {
         })
       }
 
-      this.loadSpec(urls[targetIndex].url)
+      this.loadSpec(urls[targetIndex].url, 0)
     }
   }
 
@@ -114,14 +144,27 @@ export default class Topbar extends React.Component {
 
     if(urls) {
       let rows = []
+      
       urls.forEach((link, i) => {
         rows.push(<option key={i} value={link.url}>{link.name}</option>)
       })
+      
+      let versions = []
+
+      urls[this.state.selectedIndex].versions.forEach((version, index) => {
+        versions.push(<option key={index} value={version}>{version}</option>)
+      });
 
       control.push(
-        <label className="select-label" htmlFor="select"><span>Select a definition</span>
-          <select id="select" disabled={isLoading} onChange={ this.onUrlSelect } value={urls[this.state.selectedIndex].url}>
+        <label className="select-label" htmlFor="select">
+          <span>API</span>
+          <select id="select-url" disabled={isLoading} onChange={ this.onUrlSelect } value={urls[this.state.selectedIndex].url}>
             {rows}
+          </select>
+
+          <span>Version</span>
+          <select id="select-version" disabled={isLoading} onChange={ this.onVersionSelect } value={this.state.availableVersions[this.state.selectedVersionIndex]}>
+            {versions}
           </select>
         </label>
       )
