@@ -17,12 +17,6 @@ export default class Topbar extends React.Component {
     this.state = { url: props.specSelectors.url(), selectedIndex: 0, selectedVersionIndex: 0, availableVersions: []}
   }
 
-  // static getDerivedStateFromProps(props, state) {
-  //   return {
-  //     urls: props.getConfigs() ? props.getConfigs().url : null
-  //   }
-  // }
-
   componentWillReceiveProps(nextProps) {
     this.setState({ url: nextProps.specSelectors.url() })
   }
