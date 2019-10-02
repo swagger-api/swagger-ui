@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@babel/runtime-corejs2": "^7.5.5",
-    "@braintree/sanitize-url": "^2.0.2",
+    "@braintree/sanitize-url": "^3.0.0",
     "@kyleshockey/object-assign-deep": "^0.4.2",
     "@kyleshockey/xml": "^1.0.2",
     "base64-js": "^1.2.0",
@@ -56,7 +56,7 @@
     "core-js": "^2.5.1",
     "css.escape": "1.5.1",
     "deep-extend": "0.6.0",
-    "dompurify": "^1.0.11",
+    "dompurify": "^2.0.0",
     "ieee754": "^1.1.13",
     "immutable": "^3.x.x",
     "js-file-download": "^0.4.1",
