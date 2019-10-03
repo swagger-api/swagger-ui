@@ -65,7 +65,7 @@ Parameter name | Docker variable | Description
 
 Parameter name | Docker variable | Description
 --- | --- | -----
-<a name="oauth2RedirectUrl"></a>`oauth2RedirectUrl` | _Unavailable_ | `String`. OAuth redirect URL.
+<a name="oauth2RedirectUrl"></a>`oauth2RedirectUrl` | `OAUTH2_REDIRECT_URL` | `String`. OAuth redirect URL.
 <a name="requestInterceptor"></a>`requestInterceptor` | _Unavailable_ | `Function=(a => a)`. MUST be a function.  Function to intercept remote definition, "Try it out", and OAuth 2.0 requests.  Accepts one argument requestInterceptor(request) and must return the modified request, or a Promise that resolves to the modified request.
 <a name="responseInterceptor"></a>`responseInterceptor` | _Unavailable_ | `Function=(a => a)`. MUST be a function.  Function to intercept remote definition, "Try it out", and OAuth 2.0 responses.  Accepts one argument responseInterceptor(response) and must return the modified response, or a Promise that resolves to the modified response.
 <a name="showMutatedRequest"></a>`showMutatedRequest` | `SHOW_MUTATED_REQUEST` | `Boolean=true`. If set to `true`, uses the mutated request returned from a requestInterceptor to produce the curl command in the UI, otherwise the request before the requestInterceptor was applied is used.
