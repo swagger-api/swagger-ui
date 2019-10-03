@@ -1,10 +1,12 @@
 import { fromJS, List } from "immutable"
-import { fromJSOrdered, validateParam } from "core/utils"
+import { fromJSOrdered, validateParam, paramToValue } from "core/utils"
 import win from "../../window"
 
 // selector-in-reducer is suboptimal, but `operationWithMeta` is more of a helper
 import {
-  operationWithMeta
+  specJsonWithResolvedSubtrees,
+  parameterValues,
+  parameterInclusionSettingFor,
 } from "./selectors"
 
 import {
@@ -12,6 +14,7 @@ import {
   UPDATE_URL,
   UPDATE_JSON,
   UPDATE_PARAM,
+  UPDATE_EMPTY_PARAM_INCLUSION,
   VALIDATE_PARAMS,
   SET_RESPONSE,
   SET_REQUEST,
@@ -24,6 +27,7 @@ import {
   CLEAR_VALIDATE_PARAMS,
   SET_SCHEME
 } from "./actions"
+import { paramToIdentifier } from "../../utils"
 
 export default {
 
@@ -51,26 +55,47 @@ export default {
   },
 
   [UPDATE_PARAM]: ( state, {payload} ) => {
-    let { path: pathMethod, paramName, paramIn, value, isXml } = payload
+    let { path: pathMethod, paramName, paramIn, param, value, isXml } = payload
+
+    let paramKey = param ? paramToIdentifier(param) : `${paramIn}.${paramName}`
 
     const valueKey = isXml ? "value_xml" : "value"
 
     return state.setIn(
-      ["meta", "paths", ...pathMethod, "parameters", `${paramName}.${paramIn}`, valueKey],
+      ["meta", "paths", ...pathMethod, "parameters", paramKey, valueKey],
       value
     )
   },
 
-  [VALIDATE_PARAMS]: ( state, { payload: { pathMethod, isOAS3 } } ) => {
-    let meta = state.getIn( [ "meta", "paths", ...pathMethod ], fromJS({}) )
-    let isXml = /xml/i.test(meta.get("consumes_value"))
+  [UPDATE_EMPTY_PARAM_INCLUSION]: ( state, {payload} ) => {
+    let { pathMethod, paramName, paramIn, includeEmptyValue } = payload
 
-    const op = operationWithMeta(state, ...pathMethod)
+    if(!paramName || !paramIn) {
+      console.warn("Warning: UPDATE_EMPTY_PARAM_INCLUSION could not generate a paramKey.")
+      return state
+    }
+
+    const paramKey = `${paramIn}.${paramName}`
+
+    return state.setIn(
+      ["meta", "paths", ...pathMethod, "parameter_inclusions", paramKey],
+      includeEmptyValue
+    )
+  },
+
+  [VALIDATE_PARAMS]: ( state, { payload: { pathMethod, isOAS3 } } ) => {
+    const op = specJsonWithResolvedSubtrees(state).getIn(["paths", ...pathMethod])
+    const paramValues = parameterValues(state, pathMethod).toJS()
 
     return state.updateIn(["meta", "paths", ...pathMethod, "parameters"], fromJS({}), paramMeta => {
       return op.get("parameters", List()).reduce((res, param) => {
-        const errors = validateParam(param, isXml, isOAS3)
-        return res.setIn([`${param.get("name")}.${param.get("in")}`, "errors"], fromJS(errors))
+        const value = paramToValue(param, paramValues)
+        const isEmptyValueIncluded = parameterInclusionSettingFor(state, pathMethod, param.get("name"), param.get("in"))
+        const errors = validateParam(param, value, {
+          bypassRequiredCheck: isEmptyValueIncluded,
+          isOAS3,
+        })
+        return res.setIn([paramToIdentifier(param), "errors"], fromJS(errors))
       }, paramMeta)
     })
   },
@@ -118,7 +143,11 @@ export default {
     let operationPath = ["paths", ...path]
     let metaPath = ["meta", "paths", ...path]
 
-    if(!state.getIn(["json", ...operationPath]) && !state.getIn(["resolved", ...operationPath])) {
+    if(
+      !state.getIn(["json", ...operationPath])
+      && !state.getIn(["resolved", ...operationPath])
+      && !state.getIn(["resolvedSubtrees", ...operationPath])
+    ) {
       // do nothing if the operation does not exist
       return state
     }

@@ -1,9 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { Collapse } from "react-collapse"
 import { presets } from "react-motion"
-import ObjectInspector from "react-object-inspector"
-import Perf from "react-addons-perf"
+import ObjectInspector from "react-inspector"
 
 export default class Debug extends React.Component {
 
@@ -16,7 +14,6 @@ export default class Debug extends React.Component {
       e.preventDefault()
       this.setState({jsonDumpOpen: !this.state.jsonDumpOpen})
     }
-    window.Perf = Perf
   }
 
   plusOrMinus(bool) {
@@ -25,9 +22,11 @@ export default class Debug extends React.Component {
 
   render() {
 
-    let { getState } = this.props
+    let { getState, getComponent } = this.props
 
     window.props = this.props
+
+    const Collapse = getComponent("Collapse")
 
     return (
       <div className="info">
@@ -47,6 +46,6 @@ export default class Debug extends React.Component {
 }
 
 Debug.propTypes = {
-  getState: PropTypes.func.isRequired
+  getState: PropTypes.func.isRequired,
+  getComponent: PropTypes.func.isRequired,
 }
-

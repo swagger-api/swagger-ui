@@ -2,7 +2,7 @@ import React, { cloneElement } from "react"
 import PropTypes from "prop-types"
 
 //import "./topbar.less"
-import Logo from "./logo_small.png"
+import Logo from "./logo_small.svg"
 import {parseSearch, serializeSearch} from "../../core/utils"
 
 export default class Topbar extends React.Component {
@@ -69,11 +69,12 @@ export default class Topbar extends React.Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const configs = this.props.getConfigs()
     const urls = configs.urls || []
 
     if(urls && urls.length) {
+      var targetIndex = this.state.selectedIndex
       let primaryName = configs["urls.primaryName"]
       if(primaryName)
       {
@@ -81,17 +82,12 @@ export default class Topbar extends React.Component {
           if(spec.name === primaryName)
             {
               this.setState({selectedIndex: i})
+              targetIndex = i
             }
         })
       }
-    }
-  }
 
-  componentDidMount() {
-    const urls = this.props.getConfigs().urls || []
-
-    if(urls && urls.length) {
-      this.loadSpec(urls[this.state.selectedIndex].url)
+      this.loadSpec(urls[targetIndex].url)
     }
   }
 
@@ -123,7 +119,7 @@ export default class Topbar extends React.Component {
       })
 
       control.push(
-        <label className="select-label" htmlFor="select"><span>Select a spec</span>
+        <label className="select-label" htmlFor="select"><span>Select a definition</span>
           <select id="select" disabled={isLoading} onChange={ this.onUrlSelect } value={urls[this.state.selectedIndex].url}>
             {rows}
           </select>
@@ -140,9 +136,8 @@ export default class Topbar extends React.Component {
       <div className="topbar">
         <div className="wrapper">
           <div className="topbar-wrapper">
-            <Link href="#">
-              <img height="30" width="30" src={ Logo } alt="Swagger UI"/>
-              <span>swagger</span>
+            <Link>
+              <img height="40" src={ Logo } alt="Swagger UI"/>
             </Link>
             <form className="download-url-wrapper" onSubmit={formOnSubmit}>
               {control.map((el, i) => cloneElement(el, { key: i }))}

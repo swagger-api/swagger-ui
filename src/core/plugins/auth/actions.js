@@ -1,3 +1,4 @@
+import parseUrl from "url-parse"
 import win from "core/window"
 import { btoa, buildFormData } from "core/utils"
 
@@ -80,18 +81,29 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
   let query = {}
   let headers = {}
 
-  if ( passwordType === "basic") {
-    headers.Authorization = "Basic " + btoa(clientId + ":" + clientSecret)
-  } else {
-    if ( clientId ) {
-      Object.assign(form, {"client_id": clientId})
-    }
-    if ( clientSecret ) {
-      Object.assign(form, {"client_secret": clientSecret})
-    }
+  switch (passwordType) {
+    case "request-body":
+      setClientIdAndSecret(form, clientId, clientSecret)
+      break
+
+    case "basic":
+      headers.Authorization = "Basic " + btoa(clientId + ":" + clientSecret)
+      break
+    default:
+      console.warn(`Warning: invalid passwordType ${passwordType} was passed, not including client id and secret`)
   }
 
   return authActions.authorizeRequest({ body: buildFormData(form), url: schema.get("tokenUrl"), name, headers, query, auth})
+}
+
+function setClientIdAndSecret(target, clientId, clientSecret) {
+  if ( clientId ) {
+    Object.assign(target, {client_id: clientId})
+  }
+
+  if ( clientSecret ) {
+    Object.assign(target, {client_secret: clientSecret})
+  }
 }
 
 export const authorizeApplication = ( auth ) => ( { authActions } ) => {
@@ -135,18 +147,29 @@ export const authorizeAccessCodeWithBasicAuthentication = ( { auth, redirectUrl 
   return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth, headers})
 }
 
-export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, errActions, authSelectors } ) => {
+export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, errActions, oas3Selectors, specSelectors, authSelectors } ) => {
   let { body, query={}, headers={}, name, url, auth } = data
-  let { additionalQueryStringParams } = authSelectors.getConfigs() || {}
-  let fetchUrl = url
 
-  for (let key in additionalQueryStringParams) {
-    url += "&" + key + "=" + encodeURIComponent(additionalQueryStringParams[key])
+  let { additionalQueryStringParams } = authSelectors.getConfigs() || {}
+
+  let parsedUrl
+
+  if (specSelectors.isOAS3()) {
+    parsedUrl = parseUrl(url, oas3Selectors.selectedServer(), true)
+  } else {
+    parsedUrl = parseUrl(url, specSelectors.url(), true)
   }
+
+  if(typeof additionalQueryStringParams === "object") {
+    parsedUrl.query = Object.assign({}, parsedUrl.query, additionalQueryStringParams)
+  }
+
+  const fetchUrl = parsedUrl.toString()
 
   let _headers = Object.assign({
     "Accept":"application/json, text/plain, */*",
-    "Content-Type": "application/x-www-form-urlencoded"
+    "Content-Type": "application/x-www-form-urlencoded",
+    "X-Requested-With": "XMLHttpRequest"
   }, headers)
 
   fn.fetch({
@@ -187,11 +210,28 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
   })
   .catch(e => {
     let err = new Error(e)
+    let message = err.message
+    // swagger-js wraps the response (if available) into the e.response property;
+    // investigate to check whether there are more details on why the authorization
+    // request failed (according to RFC 6479).
+    // See also https://github.com/swagger-api/swagger-ui/issues/4048
+    if (e.response && e.response.data) {
+      const errData = e.response.data
+      try {
+        const jsonResponse = typeof errData === "string" ? JSON.parse(errData) : errData
+        if (jsonResponse.error)
+          message += `, error: ${jsonResponse.error}`
+        if (jsonResponse.error_description)
+          message += `, description: ${jsonResponse.error_description}`
+      } catch (jsonError) {
+        // Ignore
+      }
+    }
     errActions.newAuthErr( {
       authId: name,
       level: "error",
       source: "auth",
-      message: err.message
+      message: message
     } )
   })
 }

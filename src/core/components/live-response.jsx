@@ -60,7 +60,7 @@ export default class LiveResponse extends React.Component {
     const body = response.get("text")
     const duration = response.get("duration")
     const headersKeys = Object.keys(headers)
-    const contentType = headers["content-type"]
+    const contentType = headers["content-type"] || headers["Content-Type"]
 
     const Curl = getComponent("curl")
     const ResponseBody = getComponent("responseBody")
@@ -80,16 +80,16 @@ export default class LiveResponse extends React.Component {
           </div>
         }
         <h4>Server response</h4>
-        <table className="responses-table">
+        <table className="responses-table live-responses-table">
           <thead>
           <tr className="responses-header">
-            <td className="col col_header response-col_status">Code</td>
-            <td className="col col_header response-col_description">Details</td>
+            <td className="col_header response-col_status">Code</td>
+            <td className="col_header response-col_description">Details</td>
           </tr>
           </thead>
           <tbody>
             <tr className="response">
-              <td className="col response-col_status">
+              <td className="response-col_status">
                 { status }
                 {
                   notDocumented ? <div className="response-undocumented">
@@ -98,7 +98,7 @@ export default class LiveResponse extends React.Component {
                                 : null
                 }
               </td>
-              <td className="col response-col_description">
+              <td className="response-col_description">
                 {
                   isError ? <span>
                               {`${response.get("name")}: ${response.get("message")}`}

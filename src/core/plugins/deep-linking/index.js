@@ -1,18 +1,24 @@
-// import reducers from "./reducers"
-// import * as actions from "./actions"
-// import * as selectors from "./selectors"
-import * as specWrapActions from "./spec-wrap-actions"
-import * as layoutWrapActions from "./layout-wrap-actions"
+import layout from "./layout"
+import OperationWrapper from "./operation-wrapper"
+import OperationTagWrapper from "./operation-tag-wrapper"
 
 export default function() {
-  return {
+  return [layout, {
     statePlugins: {
-      spec: {
-        wrapActions: specWrapActions
-      },
-      layout: {
-        wrapActions: layoutWrapActions
+      configs: {
+        wrapActions: {
+          loaded: (ori, system) => (...args) => {
+            ori(...args)
+            // location.hash was an UTF-16 String, here is required UTF-8
+            const hash = decodeURIComponent(window.location.hash)
+            system.layoutActions.parseDeepLinkHash(hash)
+          }
+        }
       }
-    }
-  }
+    },
+    wrapComponents: {
+      operation: OperationWrapper,
+      OperationTag: OperationTagWrapper,
+    },
+  }]
 }

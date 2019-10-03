@@ -1,0 +1,28 @@
+{
+  "scripts": {
+    "beforeBump": [
+      "./release/check-for-breaking-changes.sh ${latestVersion} ${version}",
+      "npm update swagger-client",
+      "npm test"
+    ],
+    "beforeStage": ["npm run build"],
+    "afterRelease": "export GIT_TAG=v${version} && echo GIT_TAG=v${version} > release/.version"
+  },
+  "git": {
+    "requireUpstream": false,
+    "changelog": "./release/get-changelog.sh",
+    "commitMessage": "release: v${version}",
+    "tagName": "v${version}",
+    "push": false
+  },
+  "github": {
+    "release": true,
+    "releaseName": "Swagger UI %s Released!",
+    "draft": true
+  },
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "preset": "angular"
+    }
+  }
+}

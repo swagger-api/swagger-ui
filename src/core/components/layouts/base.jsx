@@ -6,68 +6,70 @@ export default class BaseLayout extends React.Component {
   static propTypes = {
     errSelectors: PropTypes.object.isRequired,
     errActions: PropTypes.object.isRequired,
-    specActions: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
     oas3Selectors: PropTypes.object.isRequired,
     oas3Actions: PropTypes.object.isRequired,
-    layoutSelectors: PropTypes.object.isRequired,
-    layoutActions: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired
   }
 
-  onFilterChange =(e) => {
-    let {target: {value}} = e
-    this.props.layoutActions.updateFilter(value)
-  }
-
   render() {
-    let {
-      specSelectors,
-      specActions,
-      getComponent,
-      layoutSelectors,
-      oas3Selectors,
-      oas3Actions
-    } = this.props
+    let {errSelectors, specSelectors, getComponent} = this.props
 
-    let info = specSelectors.info()
-    let url = specSelectors.url()
-    let basePath = specSelectors.basePath()
-    let host = specSelectors.host()
-    let securityDefinitions = specSelectors.securityDefinitions()
-    let externalDocs = specSelectors.externalDocs()
-    let schemes = specSelectors.schemes()
-    let servers = specSelectors.servers()
-
-    let Info = getComponent("info")
+    let SvgAssets = getComponent("SvgAssets")
+    let InfoContainer = getComponent("InfoContainer", true)
+    let VersionPragmaFilter = getComponent("VersionPragmaFilter")
     let Operations = getComponent("operations", true)
     let Models = getComponent("Models", true)
-    let AuthorizeBtn = getComponent("authorizeBtn", true)
     let Row = getComponent("Row")
     let Col = getComponent("Col")
-    let Servers = getComponent("Servers")
     let Errors = getComponent("errors", true)
 
-    let isLoading = specSelectors.loadingStatus() === "loading"
-    let isFailed = specSelectors.loadingStatus() === "failed"
-    let filter = layoutSelectors.currentFilter()
-
-    let inputStyle = {}
-    if(isFailed) inputStyle.color = "red"
-    if(isLoading) inputStyle.color = "#aaa"
-
-    const Schemes = getComponent("schemes")
+    const ServersContainer = getComponent("ServersContainer", true)
+    const SchemesContainer = getComponent("SchemesContainer", true)
+    const AuthorizeBtnContainer = getComponent("AuthorizeBtnContainer", true)
+    const FilterContainer = getComponent("FilterContainer", true)
+    let isSwagger2 = specSelectors.isSwagger2()
+    let isOAS3 = specSelectors.isOAS3()
 
     const isSpecEmpty = !specSelectors.specStr()
 
-    if(isSpecEmpty) {
-      let loadingMessage
-      if(isLoading) {
-        loadingMessage = <div className="loading"></div>
-      } else {
-        loadingMessage = <h4>No API definition provided.</h4>
-      }
+    const loadingStatus = specSelectors.loadingStatus()
 
+    let loadingMessage = null
+  
+    if(loadingStatus === "loading") {
+      loadingMessage = <div className="info">
+        <div className="loading-container">
+          <div className="loading"></div>
+        </div>
+      </div>
+    }
+
+    if(loadingStatus === "failed") {
+      loadingMessage = <div className="info">
+        <div className="loading-container">
+          <h4 className="title">Failed to load API definition.</h4>
+          <Errors />
+        </div>
+      </div>
+    }
+
+    if (loadingStatus === "failedConfig") {
+      const lastErr = errSelectors.lastError()
+      const lastErrMsg = lastErr ? lastErr.get("message") : ""
+      loadingMessage = <div className="info" style={{ maxWidth: "880px", marginLeft: "auto", marginRight: "auto", textAlign: "center" }}>
+        <div className="loading-container">
+          <h4 className="title">Failed to load remote configuration.</h4>
+          <p>{lastErrMsg}</p>
+        </div>
+      </div>
+    }
+
+    if(!loadingMessage && isSpecEmpty) {
+      loadingMessage = <h4>No API definition provided.</h4>
+    }
+
+    if(loadingMessage) {
       return <div className="swagger-ui">
         <div className="loading-container">
           {loadingMessage}
@@ -75,60 +77,36 @@ export default class BaseLayout extends React.Component {
       </div>
     }
 
+    const servers = specSelectors.servers()
+    const schemes = specSelectors.schemes()
+
+    const hasServers = servers && servers.size
+    const hasSchemes = schemes && schemes.size
+    const hasSecurityDefinitions = !!specSelectors.securityDefinitions()
+
     return (
 
       <div className='swagger-ui'>
-          <div>
+          <SvgAssets />
+          <VersionPragmaFilter isSwagger2={isSwagger2} isOAS3={isOAS3} alsoShow={<Errors/>}>
             <Errors/>
             <Row className="information-container">
               <Col mobile={12}>
-                { info.count() ? (
-                  <Info info={ info } url={ url } host={ host } basePath={ basePath } externalDocs={externalDocs} getComponent={getComponent}/>
-                ) : null }
+                <InfoContainer/>
               </Col>
             </Row>
-            { schemes && schemes.size || securityDefinitions ? (
+
+            {hasServers || hasSchemes || hasSecurityDefinitions ? (
               <div className="scheme-container">
                 <Col className="schemes wrapper" mobile={12}>
-                  { schemes && schemes.size ? (
-                    <Schemes
-                      currentScheme={specSelectors.operationScheme()}
-                      schemes={ schemes }
-                      specActions={ specActions } />
-                  ) : null }
-
-                  { securityDefinitions ? (
-                    <AuthorizeBtn />
-                  ) : null }
+                  {hasServers ? (<ServersContainer />) : null}
+                  {hasSchemes ? (<SchemesContainer />) : null}
+                  {hasSecurityDefinitions ? (<AuthorizeBtnContainer />) : null}
                 </Col>
               </div>
-            ) : null }
-
-            { servers && servers.size ? (
-              <div className="global-server-container">
-                <Col className="servers wrapper" mobile={12}>
-                  <span className="servers-title">Server</span>
-                  <Servers
-                    servers={servers}
-                    currentServer={oas3Selectors.selectedServer()}
-                    setSelectedServer={oas3Actions.setSelectedServer}
-                    setServerVariableValue={oas3Actions.setServerVariableValue}
-                    getServerVariable={oas3Selectors.serverVariableValue}
-                    getEffectiveServerValue={oas3Selectors.serverEffectiveValue}
-                    />
-                </Col>
-              </div>
-
             ) : null}
 
-            {
-              filter === null || filter === false ? null :
-                <div className="filter-container">
-                  <Col className="filter wrapper" mobile={12}>
-                    <input className="operation-filter-input" placeholder="Filter by tag" type="text" onChange={this.onFilterChange} value={filter === true || filter === "true" ? "" : filter} disabled={isLoading} style={inputStyle} />
-                  </Col>
-                </div>
-            }
+            <FilterContainer/>
 
             <Row>
               <Col mobile={12} desktop={12} >
@@ -140,7 +118,7 @@ export default class BaseLayout extends React.Component {
                 <Models/>
               </Col>
             </Row>
-          </div>
+          </VersionPragmaFilter>
         </div>
       )
   }

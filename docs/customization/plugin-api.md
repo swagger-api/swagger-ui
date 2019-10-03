@@ -1,14 +1,14 @@
 # Plugins
 
-A plugin is a function that returns an object - more specifically, the object may contain functions and components that augment and modify Swagger-UI's functionality.
+A plugin is a function that returns an object - more specifically, the object may contain functions and components that augment and modify Swagger UI's functionality.
 
 ### Note: Semantic Versioning 
 
-Swagger-UI's internal APIs are _not_ part of our public contract, which means that they can change without the major version changing.
+Swagger UI's internal APIs are _not_ part of our public contract, which means that they can change without the major version changing.
 
-If your custom plugins wrap, extend, override, or consume any internal core APIs, we recommend specifying a specific minor version of Swagger-UI to use in your application, because they will _not_ change between patch versions.
+If your custom plugins wrap, extend, override, or consume any internal core APIs, we recommend specifying a specific minor version of Swagger UI to use in your application, because they will _not_ change between patch versions.
 
-If you're installing Swagger-UI via NPM, for example, you can do this by using a tilde:
+If you're installing Swagger UI via NPM, for example, you can do this by using a tilde:
 
 ```js
 {
@@ -68,7 +68,7 @@ There is no dependency management built into the plugin system, so if you create
 
 ### Interfaces
 
-##### Actions
+#### Actions
 
 ```javascript
 const MyActionPlugin = () => {
@@ -96,13 +96,13 @@ Once an action has been defined, you can use it anywhere that you can get a syst
 system.exampleActions.updateFavoriteColor("blue")
 ```
 
-The Action interface enables the creation of new Redux action creators within a piece of state in the Swagger-UI system.
+The Action interface enables the creation of new Redux action creators within a piece of state in the Swagger UI system.
 
 This action creator function will be exposed to container components as `exampleActions.updateFavoriteColor`. When this action creator is called, the return value (which should be a [Flux Standard Action](https://github.com/acdlite/flux-standard-action)) will be passed to the `example` reducer, which we'll define in the next section.
 
 For more information about the concept of actions in Redux, see the [Redux Actions documentation](http://redux.js.org/docs/basics/Actions.html).
 
-##### Reducers
+#### Reducers
 
 Reducers take a state (which is an [Immutable.js map](https://facebook.github.io/immutable-js/docs/#/Map)) and an action, and return a new state.
 
@@ -126,7 +126,7 @@ const MyReducerPlugin = function(system) {
 }
 ```
 
-##### Selectors
+#### Selectors
 
 Selectors reach into their namespace's state to retrieve or derive data from the state.
 
@@ -172,7 +172,7 @@ Once a selector has been defined, you can use it anywhere that you can get a sys
 system.exampleSelectors.myFavoriteColor() // gets `favColor` in state for you
 ```
 
-##### Components
+#### Components
 
 You can provide a map of components to be integrated into the system.
 
@@ -214,7 +214,7 @@ const NeverShowInfoPlugin = function(system) {
 }
 ```
 
-##### Wrap-Actions
+#### Wrap-Actions
 
 Wrap Actions allow you to override the behavior of an action in the system.
 
@@ -225,7 +225,7 @@ A Wrap Action's first argument is `oriAction`, which is the action being wrapped
 This mechanism is useful for conditionally overriding built-in behaviors, or listening to actions.
 
 ```javascript
-// FYI: in an actual Swagger-UI, `updateSpec` is already defined in the core code
+// FYI: in an actual Swagger UI, `updateSpec` is already defined in the core code
 // it's just here for clarity on what's behind the scenes
 const MySpecPlugin = function(system) {
   return {
@@ -251,9 +251,9 @@ const MyWrapActionPlugin = function(system) {
       spec: {
         wrapActions: {
           updateSpec: (oriAction, system) => (str) => {
-            // here, you can hand the value to some function that exists outside of Swagger-UI
+            // here, you can hand the value to some function that exists outside of Swagger UI
             console.log("Here is my API definition", str)
-            return oriAction(str) // don't forget! otherwise, Swagger-UI won't update
+            return oriAction(str) // don't forget! otherwise, Swagger UI won't update
           }
         }
       }
@@ -262,7 +262,7 @@ const MyWrapActionPlugin = function(system) {
 }
 ```
 
-##### Wrap-Selectors
+#### Wrap-Selectors
 
 Wrap Selectors allow you to override the behavior of a selector in the system.
 
@@ -273,7 +273,7 @@ This interface is useful for controlling what data flows into components. We use
 ```javascript
 import { createSelector } from 'reselect'
 
-// FYI: in an actual Swagger-UI, the `url` spec selector is already defined
+// FYI: in an actual Swagger UI, the `url` spec selector is already defined
 // it's just here for clarity on what's behind the scenes
 const MySpecPlugin = function(system) {
   return {
@@ -307,7 +307,7 @@ const MyWrapSelectorsPlugin = function(system) {
 }
 ```
 
-##### Wrap-Components
+#### Wrap-Components
 
 Wrap Components allow you to override a component registered within the system.
 
@@ -381,7 +381,7 @@ const MyWrapComponentPlugin = function(system) {
 }
 ```
 
-##### `rootInjects`
+#### `rootInjects`
 
 The `rootInjects` interface allows you to inject values at the top level of the system.
 
@@ -398,7 +398,7 @@ const MyRootInjectsPlugin = function(system) {
 }
 ```
 
-##### `afterLoad`
+#### `afterLoad`
 
 The `afterLoad` plugin method allows you to get a reference to the system after your plugin has been registered.
 
@@ -431,7 +431,7 @@ const MyMethodProvidingPlugin = function() {
 }
 ```
 
-##### fn
+#### fn
 
 The fn interface allows you to add helper functions to the system for use elsewhere.
 

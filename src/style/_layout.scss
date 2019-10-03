@@ -11,18 +11,6 @@
 {
     display: flex;
     flex-direction: column;
-
-    &.is-open
-    {
-        .opblock-tag
-        {
-            // svg
-            // {
-            //     -moz-transform: rotate(90deg);
-            //          transform: rotate(90deg);
-            // }
-        }
-    }
 }
 
 .opblock-tag
@@ -108,6 +96,51 @@
     padding: 5px 0;
 
     @include text_code();
+}
+
+.parameter-controls {
+    margin-top: 0.75em;
+}
+
+.examples {
+    &__title {
+        display: block;
+        font-size: 1.1em;
+        font-weight: bold;
+        margin-bottom: 0.75em;
+    }
+
+    &__section {
+        margin-top: 1.5em;
+    }
+    &__section-header {
+        font-weight: bold;
+        font-size: .9rem;
+        margin-bottom: .5rem;
+        // color: #555;
+    }
+}
+
+.examples-select {
+    margin-bottom: .75em;
+
+    &__section-label {
+        font-weight: bold;
+        font-size: .9rem;
+        margin-right: .5rem;
+    }
+}
+
+.example {
+    &__section {
+        margin-top: 1.5em;
+    }
+    &__section-header {
+        font-weight: bold;
+        font-size: .9rem;
+        margin-bottom: .5rem;
+        // color: #555;
+    }
 }
 
 .view-line-link
@@ -198,7 +231,7 @@
         background: rgba($opblock-isopen-section-header-background-color,.8);
         box-shadow: 0 1px 2px rgba($opblock-isopen-section-header-box-shadow-color,.1);
 
-        label
+        >label
         {
             font-size: 12px;
             font-weight: bold;
@@ -211,7 +244,7 @@
 
             @include text_headline();
 
-            span
+            >span
             {
                 padding: 0 10px 0 0;
             }
@@ -257,14 +290,45 @@
 
 
         display: flex;
-        flex: 0 3 auto;
         align-items: center;
 
-        word-break: break-all;
+        word-break: break-word;
 
         padding: 0 10px;
 
         @include text_code();
+
+    }
+
+    .opblock-summary-path__deprecated
+    {
+        text-decoration: line-through;
+    }
+
+    .opblock-summary-operation-id
+    {
+        font-size: 14px;
+    }
+
+    .opblock-summary-description
+    {
+        font-size: 13px;
+
+        flex: 1 1 auto;
+
+        word-break: break-word;
+
+        @include text_body();
+    }
+
+    .opblock-summary
+    {
+        display: flex;
+        align-items: center;
+
+        padding: 5px;
+
+        cursor: pointer;
 
         .view-line-link
         {
@@ -288,34 +352,7 @@
         }
     }
 
-    .opblock-summary-path__deprecated
-    {
-        text-decoration: line-through;
-    }
 
-    .opblock-summary-operation-id
-    {
-        font-size: 14px;
-    }
-
-    .opblock-summary-description
-    {
-        font-size: 13px;
-
-        flex: 1;
-
-        @include text_body();
-    }
-
-    .opblock-summary
-    {
-        display: flex;
-        align-items: center;
-
-        padding: 5px;
-
-        cursor: pointer;
-    }
 
     &.opblock-post
     {
@@ -382,12 +419,14 @@
     }
 }
 
+.model-example {
+    margin-top: 1em;
+}
 
 .tab
 {
     display: flex;
 
-    margin: 20px 0 10px 0;
     padding: 0;
 
     list-style: none;
@@ -396,8 +435,7 @@
     {
         font-size: 12px;
 
-        min-width: 100px;
-        min-width: 90px;
+        min-width: 60px;
         padding: 0;
 
         cursor: pointer;
@@ -409,6 +447,7 @@
             position: relative;
 
             padding-left: 0;
+            padding-right: 12px;
 
             &:after
             {
@@ -546,46 +585,6 @@
     }
 }
 
-.response-col_description__inner
-{
-    div.markdown, div.renderedMarkdown
-    {
-        font-size: 12px;
-        font-style: italic;
-
-        display: block;
-
-        margin: 0;
-        padding: 10px;
-
-        border-radius: 4px;
-        background: $response-col-description-inner-markdown-background-color;
-
-        @include text_code($response-col-description-inner-markdown-font-color);
-
-        p
-        {
-            margin: 0;
-            @include text_code($response-col-description-inner-markdown-font-color);
-        }
-
-        a
-        {
-            @include text_code($response-col-description-inner-markdown-link-font-color);
-            text-decoration: underline;
-            &:hover {
-                color: $response-col-description-inner-markdown-link-font-color-hover;
-            }
-        }
-
-        th
-        {
-            @include text_code($response-col-description-inner-markdown-font-color);
-            border-bottom: 1px solid $response-col-description-inner-markdown-font-color;
-        }
-    }
-}
-
 .opblock-body
 {
   .opblock-loading-animation
@@ -626,6 +625,33 @@
     }
 }
 
+.highlight-code {
+  position: relative;
+
+  > .microlight {
+    overflow-y: auto;
+    max-height: 400px;
+    min-height: 6em;
+  }
+}
+
+.download-contents {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  cursor: pointer;
+  background: #7d8293;
+  text-align: center;
+  padding: 5px;
+  border-radius: 4px;
+  font-family: sans-serif;
+  font-weight: 600;
+  color: white;
+  font-size: 14px;
+  height: 30px;
+  width: 75px;
+}
+
 .scheme-container
 {
     margin: 0 0 20px 0;
@@ -637,7 +663,7 @@
     .schemes
     {
         display: flex;
-        align-items: center;
+        align-items: flex-end;
 
          > label
         {
@@ -725,19 +751,38 @@
     }
 }
 
-.response-content-type {
-  padding-top: 1em;
+.response-controls {
+    padding-top: 1em;
+    display: flex;
+}
 
-  &.controls-accept-header {
-    select {
-      border-color: $response-content-type-controls-accept-header-select-border-color;
+.response-control-media-type {
+    margin-right: 1em;
+
+    &--accept-controller {
+        select {
+            border-color: $response-content-type-controls-accept-header-select-border-color;
+        }
     }
 
-    small {
-      color: $response-content-type-controls-accept-header-small-font-color;
-      font-size: .7em;
+    &__accept-message {
+        color: $response-content-type-controls-accept-header-small-font-color;
+        font-size: .7em;
     }
-  }
+
+    &__title {
+        display: block;
+        margin-bottom: 0.2em;
+        font-size: .7em;
+    }
+}
+
+.response-control-examples {
+    &__title {
+        display: block;
+        margin-bottom: 0.2em;
+        font-size: .7em;
+    }
 }
 
 @keyframes blinker
@@ -767,5 +812,32 @@ a.nostyle {
     text-decoration: inherit;
     color: inherit;
     cursor: pointer;
+  }
+}
+
+.version-pragma {
+  height: 100%;
+  padding: 5em 0px;
+
+  &__message {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    font-size: 1.2em;
+    text-align: center;
+    line-height: 1.5em;
+
+    padding: 0px .6em;
+
+    > div {
+      max-width: 55ch;
+      flex: 1;
+    }
+
+    code {
+      background-color: #dedede;
+      padding: 4px 4px 2px;
+      white-space: pre;
+    }
   }
 }
