@@ -2,7 +2,7 @@
 import expect, { createSpy } from "expect"
 import win from "core/window"
 import oauth2Authorize from "core/oauth2-authorize"
-import jsrsasign from "jsrsasign"
+import * as utils from "core/utils"
 
 describe("oauth2", function () {
 
@@ -36,12 +36,15 @@ describe("oauth2", function () {
       expect(win.open.calls[0].arguments[0]).toMatch("https://testAuthorizationUrl?param=1&response_type=code&redirect_uri=&state=")
     })
 
-    it("should send PKCE code_challenge when using authorizationCode flow with usePkceWithAuthorizationCodeGrant enabled", function () {
+    it("should send code_challenge when using authorizationCode flow with usePkceWithAuthorizationCodeGrant enabled", function () {
       win.open = createSpy()
       mockSchema.flow = "authorizationCode"
 
+      const expectedCodeVerifier = "mock_code_verifier"
       const expectedCodeChallenge = "mock_code_challenge"
-      jsrsasign.hextob64u = createSpy().andReturn(expectedCodeChallenge)
+      
+      utils.generateCodeVerifier = createSpy().andReturn(expectedCodeVerifier)
+      utils.createCodeChallenge = createSpy().andReturn(expectedCodeChallenge)
 
       authConfig.authConfigs.usePkceWithAuthorizationCodeGrant = true
 
@@ -51,9 +54,9 @@ describe("oauth2", function () {
       const actualUrl = new URLSearchParams(win.open.calls[0].arguments[0])
       expect(actualUrl.get("code_challenge")).toBe(expectedCodeChallenge)
       expect(actualUrl.get("code_challenge_method")).toBe("S256")
-      // the code_verifier needs to have a minimum length of 43
-      // source: https://tools.ietf.org/html/rfc7636#section-4.1
-      expect(authConfig.auth.codeVerifier.length).toBeGreaterThanOrEqualTo(43)
-    })
+
+      expect(utils.createCodeChallenge.calls.length).toEqual(1)
+      expect(utils.createCodeChallenge.calls[0].arguments[0]).toBe(expectedCodeVerifier)
+    })    
   })
 })

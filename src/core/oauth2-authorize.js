@@ -1,7 +1,5 @@
 import win from "core/window"
-import { btoa, sanitizeUrl } from "core/utils"
-import { hextob64u } from "jsrsasign"
-import crypto from "crypto"
+import { btoa, sanitizeUrl, generateCodeVerifier, createCodeChallenge } from "core/utils"
 
 export default function authorize ( { auth, authActions, errActions, configs, authConfigs={} } ) {
   let { schema, scopes, name, clientId } = auth
@@ -113,19 +111,4 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   }
 
   win.open(url)
-}
-
-// adapted from https://auth0.com/docs/flows/guides/auth-code-pkce/includes/create-code-verifier
-function generateCodeVerifier() {
-  return crypto.randomBytes(32)
-    .toString("base64")
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=/g, "")
-}
-
-function createCodeChallenge(codeVerifier) {
-  const sha256 = crypto.createHash("sha256")
-  sha256.update(codeVerifier)
-  return hextob64u(sha256.digest("hex"))
 }

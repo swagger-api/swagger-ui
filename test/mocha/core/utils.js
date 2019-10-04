@@ -28,6 +28,8 @@ import {
   getSampleSchema,
   paramToIdentifier,
   paramToValue,
+  generateCodeVerifier,
+  createCodeChallenge,
 } from "core/utils"
 import win from "core/window"
 
@@ -1400,6 +1402,24 @@ describe("utils", function() {
       const res = paramToValue(param, paramValues)
       
       expect(res).toEqual("asdf")
+    })
+  })
+
+  describe("generateCodeVerifier", function() {
+    it("should generate a value of at least 43 characters", () => {
+      const codeVerifier = generateCodeVerifier()
+
+      // Source: https://tools.ietf.org/html/rfc7636#section-4.1
+      expect(codeVerifier.length).toBeGreaterThanOrEqualTo(43)
+    })
+  })
+
+  describe("createCodeChallenge", function() {
+    it("should hash the input using SHA256 and output the base64 url encoded value", () => {
+      const codeVerifier = "cY8OJ9MKvZ7hxQeIyRYD7KFmKA5znSFJ2rELysvy2UI"
+      const expectedCodeChallenge = "LD9lx2p2PbvGkojuJy7-Elex7RnckzmqR7oIXjd4u84"
+
+      expect(createCodeChallenge(codeVerifier)).toBe(expectedCodeChallenge)
     })
   })
 })

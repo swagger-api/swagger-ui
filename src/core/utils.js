@@ -22,6 +22,8 @@ import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins
 import win from "./window"
 import cssEscape from "css.escape"
 import getParameterSchema from "../helpers/get-parameter-schema"
+import crypto from "crypto"
+import { hextob64u } from "jsrsasign"
 
 const DEFAULT_RESPONSE_KEY = "default"
 
@@ -858,4 +860,20 @@ export function paramToValue(param, paramValues) {
     .filter(value => value !== undefined)
 
   return values[0]
+}
+
+// adapted from https://auth0.com/docs/flows/guides/auth-code-pkce/includes/create-code-verifier
+export function generateCodeVerifier() {
+  return hextob64u(
+    crypto.randomBytes(32)
+          .toString("hex")
+  )
+}
+
+export function createCodeChallenge(codeVerifier) {
+  return hextob64u(
+    crypto.createHash("sha256")
+          .update(codeVerifier, "utf8")
+          .digest("hex")
+  )
 }
