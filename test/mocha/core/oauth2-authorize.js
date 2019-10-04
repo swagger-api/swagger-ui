@@ -69,6 +69,10 @@ describe("oauth2", function () {
 
       expect(utils.createCodeChallenge.calls.length).toEqual(1)
       expect(utils.createCodeChallenge.calls[0].arguments[0]).toBe(expectedCodeVerifier)
+
+      // The code_verifier should be stored to be able to send in
+      // on the TokenUrl call
+      expect(authConfig.auth.codeVerifier).toBe(expectedCodeVerifier)
     })    
   })
 })
