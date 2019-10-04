@@ -80,7 +80,6 @@
     "serialize-error": "^2.1.0",
     "swagger-client": "^3.9.4",
     "url-parse": "^1.4.7",
-    "uuid4": "^1.1.4",
     "xml-but-prettier": "^1.0.1",
     "zenscroll": "^4.0.2"
   },

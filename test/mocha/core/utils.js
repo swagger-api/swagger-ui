@@ -1403,13 +1403,4 @@ describe("utils", function() {
       expect(res).toEqual("asdf")
     })
   })
-
-  describe("random", function () {
-    const pattern = /^[0-9a-f]{8}[0-9a-f]{4}4[0-9a-f]{3}[89ab][0-9a-f]{3}[0-9a-f]{12}$/
-
-    it("should return a valid RFC4122 v4 guid", () => {
-      const rnd = random()
-      expect(rnd).toMatch(pattern)
-    })
-  })
 })

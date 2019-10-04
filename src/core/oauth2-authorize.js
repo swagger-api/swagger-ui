@@ -1,11 +1,10 @@
 import win from "core/window"
-import { btoa, sanitizeUrl, random, hashString, hexToBase64Url } from "core/utils"
+import { btoa, sanitizeUrl, hashString, hexToBase64Url } from "core/utils"
 
 export default function authorize ( { auth, authActions, errActions, configs, authConfigs={} } ) {
   let { schema, scopes, name, clientId } = auth
   let flow = schema.get("flow")
   let query = []
-  let isCode = false
 
   switch (flow) {
     case "password":
@@ -32,7 +31,6 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     case "authorizationCode":
       // OAS3
       query.push("response_type=code")
-      isCode = true
       break
   }
 
@@ -68,11 +66,8 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     query.push("realm=" + encodeURIComponent(authConfigs.realm))
   }
 
-  if (isCode && authConfigs.usePkceWithAuthorizationCodeGrant) {
-      // as per the PKCE spec, the Code Verifier must have a minumum length of 43 characters
-      // and random() produces a value that has a length of 32 characters
-      // source: https://tools.ietf.org/html/rfc7636#section-4.1
-      const codeVerifier = random() + random() + random()
+  if (flow === "authorizationCode" && authConfigs.usePkceWithAuthorizationCodeGrant) {
+      const codeVerifier = generateCodeVerifier()
       const hash = hashString(codeVerifier, "SHA256")
       const codeChallenge = hexToBase64Url(hash)
 
@@ -117,4 +112,13 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   }
 
   win.open(url)
+}
+
+// adapted from https://auth0.com/docs/flows/guides/auth-code-pkce/includes/create-code-verifier
+function generateCodeVerifier() {
+  return crypto.randomBytes(32)
+    .toString("base64")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=/g, "")
 }
