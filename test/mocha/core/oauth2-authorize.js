@@ -20,6 +20,18 @@ describe("oauth2", function () {
   }
 
   describe("authorize redirect", function () {
+    let initialGenerateCodeVerifier,
+        initialCreateCodeChallenge
+
+    beforeEach(() => {
+      initialGenerateCodeVerifier = utils.generateCodeVerifier
+      initialCreateCodeChallenge = utils.createCodeChallenge
+    })
+
+    afterEach(() => {
+      utils.generateCodeVerifier = initialGenerateCodeVerifier
+      utils.createCodeChallenge = initialCreateCodeChallenge
+    })
 
     it("should build authorize url", function() {
       win.open = createSpy()
