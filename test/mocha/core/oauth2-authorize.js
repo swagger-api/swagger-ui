@@ -51,9 +51,9 @@ describe("oauth2", function () {
       const actualUrl = new URLSearchParams(win.open.calls[0].arguments[0])
       expect(actualUrl.get("code_challenge")).toBe(expectedCodeChallenge)
       expect(actualUrl.get("code_challenge_method")).toBe("S256")
-      // at this point, the Code Verifier should be set on the auth object
-      // for when we need to exchange the Authorization Code
-      expect(authConfig.auth.codeVerifier.length).toBeGreaterThan(43)
+      // the code_verifier needs to have a minimum length of 43
+      // source: https://tools.ietf.org/html/rfc7636#section-4.1
+      expect(authConfig.auth.codeVerifier.length).toBeGreaterThanOrEqualTo(43)
     })
   })
 })
