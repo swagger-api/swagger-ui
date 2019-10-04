@@ -1,5 +1,6 @@
 import win from "core/window"
-import { btoa, sanitizeUrl, hashString, hexToBase64Url } from "core/utils"
+import { btoa, sanitizeUrl } from "core/utils"
+import { hextob64u } from "jsrsasign"
 
 export default function authorize ( { auth, authActions, errActions, configs, authConfigs={} } ) {
   let { schema, scopes, name, clientId } = auth
@@ -68,8 +69,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
 
   if (flow === "authorizationCode" && authConfigs.usePkceWithAuthorizationCodeGrant) {
       const codeVerifier = generateCodeVerifier()
-      const hash = hashString(codeVerifier, "SHA256")
-      const codeChallenge = hexToBase64Url(hash)
+      const codeChallenge = hextob64u(crypto.Util.hashString(codeVerifier, "SHA256"))
 
       query.push("code_challenge=" + codeChallenge)
       query.push("code_challenge_method=S256")
