@@ -2,7 +2,7 @@
 import expect, { createSpy } from "expect"
 import win from "core/window"
 import oauth2Authorize from "core/oauth2-authorize"
-import * as utils from "core/utils"
+import jsrsasign from "jsrsasign"
 
 describe("oauth2", function () {
 
@@ -41,7 +41,7 @@ describe("oauth2", function () {
       mockSchema.flow = "authorizationCode"
 
       const expectedCodeChallenge = "mock_code_challenge"
-      utils.hexToBase64Url = createSpy().andReturn(expectedCodeChallenge)
+      jsrsasign.hextob64u = createSpy().andReturn(expectedCodeChallenge)
 
       authConfig.authConfigs.usePkceWithAuthorizationCodeGrant = true
 
