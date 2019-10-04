@@ -28,7 +28,6 @@ import {
   getSampleSchema,
   paramToIdentifier,
   paramToValue,
-  random,
 } from "core/utils"
 import win from "core/window"
 
