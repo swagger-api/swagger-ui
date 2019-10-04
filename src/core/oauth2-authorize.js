@@ -127,5 +127,5 @@ function generateCodeVerifier() {
 function createCodeChallenge(codeVerifier) {
   const sha256 = crypto.createHash("sha256")
   sha256.update(codeVerifier)
-  return hextob64u(sha256.digest())
+  return hextob64u(sha256.digest("hex"))
 }
