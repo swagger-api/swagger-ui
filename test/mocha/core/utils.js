@@ -1416,7 +1416,12 @@ describe("utils", function() {
 
   describe("createCodeChallenge", function() {
     it("should hash the input using SHA256 and output the base64 url encoded value", () => {
+      // The `codeVerifier` has been randomly generated
       const codeVerifier = "cY8OJ9MKvZ7hxQeIyRYD7KFmKA5znSFJ2rELysvy2UI"
+
+      // This value is the `codeVerifier` hashed using SHA256, which has been
+      // encoded using base64 url format.
+      // Source: https://tools.ietf.org/html/rfc7636#section-4.2
       const expectedCodeChallenge = "LD9lx2p2PbvGkojuJy7-Elex7RnckzmqR7oIXjd4u84"
 
       expect(createCodeChallenge(codeVerifier)).toBe(expectedCodeChallenge)
