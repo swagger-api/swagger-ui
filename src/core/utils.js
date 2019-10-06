@@ -23,7 +23,6 @@ import win from "./window"
 import cssEscape from "css.escape"
 import getParameterSchema from "../helpers/get-parameter-schema"
 import crypto from "crypto"
-import { hextob64u } from "jsrsasign"
 
 const DEFAULT_RESPONSE_KEY = "default"
 
@@ -864,16 +863,23 @@ export function paramToValue(param, paramValues) {
 
 // adapted from https://auth0.com/docs/flows/guides/auth-code-pkce/includes/create-code-verifier
 export function generateCodeVerifier() {
-  return hextob64u(
+  return toBase64UrlEncoded(
     crypto.randomBytes(32)
-          .toString("hex")
+    .toString("base64")
   )
 }
 
 export function createCodeChallenge(codeVerifier) {
-  return hextob64u(
+  return toBase64UrlEncoded(
     crypto.createHash("sha256")
-          .update(codeVerifier, "utf8")
-          .digest("hex")
+    .update(codeVerifier, "ascii")
+    .digest("base64")
   )
+}
+
+function toBase64UrlEncoded(str) {
+  return str
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=/g, "")
 }
