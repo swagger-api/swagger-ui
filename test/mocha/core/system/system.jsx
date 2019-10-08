@@ -916,8 +916,8 @@ describe("bound system", function(){
     describe("components", function() {
       it("should catch errors thrown inside of React Component Class render methods", function() {
         // Given
-        // eslint-disable-next-line react/require-render-return
         class BrokenComponent extends React.Component {
+          // eslint-disable-next-line react/require-render-return
           render() {
             throw new Error("This component is broken")
           }
@@ -943,8 +943,8 @@ describe("bound system", function(){
 
       it("should catch errors thrown inside of pure component render methods", function() {
         // Given
-        // eslint-disable-next-line react/require-render-return
         class BrokenComponent extends PureComponent {
+          // eslint-disable-next-line react/require-render-return
           render() {
             throw new Error("This component is broken")
           }
@@ -994,8 +994,8 @@ describe("bound system", function(){
 
       it("should catch errors thrown inside of container components", function() {
         // Given
-        // eslint-disable-next-line react/require-render-return
         class BrokenComponent extends React.Component {
+          // eslint-disable-next-line react/require-render-return
           render() {
             throw new Error("This component is broken")
           }

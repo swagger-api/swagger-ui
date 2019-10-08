@@ -22,6 +22,7 @@ import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins
 import win from "./window"
 import cssEscape from "css.escape"
 import getParameterSchema from "../helpers/get-parameter-schema"
+import crypto from "crypto"
 
 const DEFAULT_RESPONSE_KEY = "default"
 
@@ -858,4 +859,27 @@ export function paramToValue(param, paramValues) {
     .filter(value => value !== undefined)
 
   return values[0]
+}
+
+// adapted from https://auth0.com/docs/flows/guides/auth-code-pkce/includes/create-code-verifier
+export function generateCodeVerifier() {
+  return toBase64UrlEncoded(
+    crypto.randomBytes(32)
+    .toString("base64")
+  )
+}
+
+export function createCodeChallenge(codeVerifier) {
+  return toBase64UrlEncoded(
+    crypto.createHash("sha256")
+    .update(codeVerifier, "ascii")
+    .digest("base64")
+  )
+}
+
+function toBase64UrlEncoded(str) {
+  return str
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=/g, "")
 }

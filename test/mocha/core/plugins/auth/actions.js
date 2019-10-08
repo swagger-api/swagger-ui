@@ -1,6 +1,9 @@
 /* eslint-env mocha */
 import expect, { createSpy } from "expect"
-import { authorizeRequest } from "corePlugins/auth/actions"
+import {
+  authorizeRequest,
+  authorizeAccessCodeWithFormParams,
+} from "corePlugins/auth/actions"
 
 describe("auth plugin - actions", () => {
 
@@ -142,6 +145,31 @@ describe("auth plugin - actions", () => {
 
       expect(system.fn.fetch.calls[0].arguments[0].url)
         .toEqual("http://google.com/authorize?q=1&myCustomParam=abc123")
+    })
+  })
+
+  describe("tokenRequest", function() {
+    it("should send the code verifier when set", () => {
+      const data = { 
+        auth: {
+          schema: {
+            get: () => "http://tokenUrl"
+          },
+          codeVerifier: "mock_code_verifier"
+        }, 
+        redirectUrl: "http://google.com"
+      }
+
+      const authActions = {
+        authorizeRequest: createSpy()
+      }
+
+      authorizeAccessCodeWithFormParams(data)({ authActions })
+
+      expect(authActions.authorizeRequest.calls.length).toEqual(1)
+      const actualArgument = authActions.authorizeRequest.calls[0].arguments[0]
+      expect(actualArgument.body).toContain("code_verifier=" + data.auth.codeVerifier)
+      expect(actualArgument.body).toContain("grant_type=authorization_code")
     })
   })
 })
