@@ -412,15 +412,15 @@ describe("utils", function() {
       })
       assertValidateOas3Param(param, value, [])
       
-      // // invalid object-as-string
-      // param = {
-      //   required: true,
-      //   schema: {
-      //     type: "object"
-      //   }
-      // }
-      // value = "{{}"
-      // assertValidateOas3Param(param, value, ["Parameter string value must be valid JSON"])
+      // invalid object-as-string
+      param = {
+        required: true,
+        schema: {
+          type: "object"
+        }
+      }
+      value = "{{}"
+      assertValidateOas3Param(param, value, ["Parameter string value must be valid JSON"])
       
       // missing when required
       param = {
@@ -456,14 +456,14 @@ describe("utils", function() {
       })
       assertValidateOas3Param(param, value, [])
       
-      // // invalid object-as-string
-      // param = {
-      //   schema: {
-      //     type: "object"
-      //   }
-      // }
-      // value = "{{}"
-      // assertValidateOas3Param(param, value, ["Parameter string value must be valid JSON"])
+      // invalid object-as-string
+      param = {
+        schema: {
+          type: "object"
+        }
+      }
+      value = "{{}"
+      assertValidateOas3Param(param, value, ["Parameter string value must be valid JSON"])
       
       // missing when not required
       param = {
@@ -501,6 +501,108 @@ describe("utils", function() {
       }
       value = "test string"
       assertValidateParam(param, value, [])
+    })
+    
+    it("handles OAS3 `Parameter.content`", function() {
+      // invalid string
+      param = {
+        content: {
+          "text/plain": {
+            schema: {
+              required: true,
+              type: "string"
+            }
+          }
+        }
+      }
+      value = ""
+      assertValidateOas3Param(param, value, ["Required field is not provided"])
+      
+      // valid string
+      param = {
+        content: {
+          "text/plain": {
+            schema: {
+              required: true,
+              type: "string"
+            }
+          }
+        }
+      }
+      value = "test string"
+      assertValidateOas3Param(param, value, [])
+
+      
+      // invalid (empty) JSON string
+      param = {
+        content: {
+          "application/json": {
+            schema: {
+              required: true,
+              type: "object"
+            }
+          }
+        }
+      }
+      value = ""
+      assertValidateOas3Param(param, value, ["Required field is not provided"])
+
+      // invalid (malformed) JSON string
+      param = {
+        content: {
+          "application/json": {
+            schema: {
+              required: true,
+              type: "object"
+            }
+          }
+        }
+      }
+      value = "{{}"
+      assertValidateOas3Param(param, value, ["Parameter string value must be valid JSON"])
+
+            
+      // valid (empty object) JSON string
+      param = {
+        content: {
+          "application/json": {
+            schema: {
+              required: true,
+              type: "object"
+            }
+          }
+        }
+      }
+      value = "{}"
+      assertValidateOas3Param(param, value, [])
+            
+      // valid (empty object) JSON object
+      param = {
+        content: {
+          "application/json": {
+            schema: {
+              required: true,
+              type: "object"
+            }
+          }
+        }
+      }
+      value = {}
+      assertValidateOas3Param(param, value, [])
+            
+      // should skip JSON validation for non-JSON media types
+      param = {
+        content: {
+          "application/definitely-not-json": {
+            schema: {
+              required: true,
+              type: "object"
+            }
+          }
+        }
+      }
+      value = "{{}"
+      assertValidateOas3Param(param, value, [])
     })
     
     it("validates required strings with min and max length", function() {
