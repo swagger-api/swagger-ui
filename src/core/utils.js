@@ -501,12 +501,14 @@ export const validatePattern = (val, rxPattern) => {
 export const validateParam = (param, value, { isOAS3 = false, bypassRequiredCheck = false } = {}) => {
   
   let errors = []
-  let required = param.get("required")
 
-  let paramDetails = getParameterSchema(param, { isOAS3 })
+  let paramRequired = param.get("required")
+
+  let { schema: paramDetails, parameterContentMediaType } = getParameterSchema(param, { isOAS3 })
 
   if(!paramDetails) return errors
 
+  let required = paramDetails.get("required")
   let maximum = paramDetails.get("maximum")
   let minimum = paramDetails.get("minimum")
   let type = paramDetails.get("type")
@@ -520,7 +522,7 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
     then we should do our validation routine.
     Only bother validating the parameter if the type was specified.
   */
-  if ( type && (required || value) ) {
+  if ( type && (paramRequired || required || value) ) {
     // These checks should evaluate to true if there is a parameter
     let stringCheck = type === "string" && value
     let arrayCheck = type === "array" && Array.isArray(value) && value.length
@@ -533,17 +535,6 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
     let objectCheck = type === "object" && typeof value === "object" && value !== null
     let objectStringCheck = type === "object" && typeof value === "string" && value
 
-    // if(type === "object" && typeof value === "string") {
-    //   // Disabled because `validateParam` doesn't consider the MediaType of the 
-    //   // `Parameter.content` hint correctly.
-    //   try {
-    //     JSON.parse(value)
-    //   } catch(e) {
-    //     errors.push("Parameter string value must be valid JSON")
-    //     return errors
-    //   }
-    // }
-
     const allChecks = [
       stringCheck, arrayCheck, arrayListCheck, arrayStringCheck, fileCheck, 
       booleanCheck, numberCheck, integerCheck, objectCheck, objectStringCheck,
@@ -551,9 +542,23 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
 
     const passedAnyCheck = allChecks.some(v => !!v)
 
-    if (required && !passedAnyCheck && !bypassRequiredCheck ) {
+    if ((paramRequired || required) && !passedAnyCheck && !bypassRequiredCheck ) {
       errors.push("Required field is not provided")
       return errors
+    }
+
+    if (
+      type === "object" &&
+      typeof value === "string" &&
+      (parameterContentMediaType === null ||
+        parameterContentMediaType === "application/json")
+    ) {
+      try {
+        JSON.parse(value)
+      } catch (e) {
+        errors.push("Parameter string value must be valid JSON")
+        return errors
+      }
     }
 
     if (pattern) {
