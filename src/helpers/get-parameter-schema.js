@@ -24,6 +24,12 @@ const swagger2SchemaKeys = Im.Set.of(
 )
 
 /**
+ * @typedef {Object} ParameterSchemaDescriptor
+ * @property {Immutable.Map} schema - the parameter schema
+ * @property {string|null} parameterContentMediaType - the effective media type, for `content`-based OpenAPI 3.0 Parameters, or `null` otherwise
+ */
+
+/**
  * Get the effective schema value for a parameter, or an empty Immutable.Map if
  * no suitable schema can be found.
  *
@@ -35,18 +41,29 @@ const swagger2SchemaKeys = Im.Set.of(
  * @param {object} config
  * @param {boolean} config.isOAS3 Whether the parameter is from an OpenAPI 2.0
  * or OpenAPI 3.0 definition
- * @return {Immutable.Map} The desired schema
+ * @return {ParameterSchemaDescriptor} Information about the parameter schema
  */
 export default function getParameterSchema(parameter, { isOAS3 } = {}) {
   // Return empty Map if `parameter` isn't a Map
-  if (!Im.Map.isMap(parameter)) return Im.Map()
+  if (!Im.Map.isMap(parameter)) {
+    return {
+      schema: Im.Map(),
+      parameterContentMediaType: null,
+    }
+  }
 
   if (!isOAS3) {
     // Swagger 2.0
     if (parameter.get("in") === "body") {
-      return parameter.get("schema", Im.Map())
+      return {
+        schema: parameter.get("schema", Im.Map()),
+        parameterContentMediaType: null,
+      }
     } else {
-      return parameter.filter((v, k) => swagger2SchemaKeys.includes(k))
+      return {
+        schema: parameter.filter((v, k) => swagger2SchemaKeys.includes(k)),
+        parameterContentMediaType: null,
+      }
     }
   }
 
@@ -57,11 +74,19 @@ export default function getParameterSchema(parameter, { isOAS3 } = {}) {
       .get("content", Im.Map({}))
       .keySeq()
 
-    return parameter.getIn(
-      ["content", parameterContentMediaTypes.first(), "schema"],
-      Im.Map()
-    )
+    const parameterContentMediaType = parameterContentMediaTypes.first()
+
+    return {
+      schema: parameter.getIn(
+        ["content", parameterContentMediaType, "schema"],
+        Im.Map()
+      ),
+      parameterContentMediaType,
+    }
   }
 
-  return parameter.get("schema", Im.Map())
+  return {
+    schema: parameter.get("schema", Im.Map()),
+    parameterContentMediaType: null,
+  }
 }
