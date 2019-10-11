@@ -502,7 +502,7 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
   let errors = []
   let required = param.get("required")
 
-  let paramDetails = getParameterSchema(param, { isOAS3 })
+  let { schema: paramDetails } = getParameterSchema(param, { isOAS3 })
 
   if(!paramDetails) return errors
 
