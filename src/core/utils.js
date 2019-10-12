@@ -22,7 +22,9 @@ import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins
 import win from "./window"
 import cssEscape from "css.escape"
 import getParameterSchema from "../helpers/get-parameter-schema"
-import crypto from "crypto"
+import randomBytes from "randombytes"
+import shaJs from "sha.js"
+
 
 const DEFAULT_RESPONSE_KEY = "default"
 
@@ -868,21 +870,20 @@ export function paramToValue(param, paramValues) {
 
 // adapted from https://auth0.com/docs/flows/guides/auth-code-pkce/includes/create-code-verifier
 export function generateCodeVerifier() {
-  return toBase64UrlEncoded(
-    crypto.randomBytes(32)
-    .toString("base64")
+  return b64toB64UrlEncoded(
+    randomBytes(32).toString("base64")
   )
 }
 
 export function createCodeChallenge(codeVerifier) {
-  return toBase64UrlEncoded(
-    crypto.createHash("sha256")
-    .update(codeVerifier, "ascii")
-    .digest("base64")
-  )
+  return b64toB64UrlEncoded(
+      shaJs("sha256")
+      .update(codeVerifier)
+      .digest("base64")
+    )
 }
 
-function toBase64UrlEncoded(str) {
+function b64toB64UrlEncoded(str) {
   return str
     .replace(/\+/g, "-")
     .replace(/\//g, "_")
