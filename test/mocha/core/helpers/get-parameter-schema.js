@@ -3,20 +3,22 @@
  */
 
 import expect from "expect"
-import Im, { fromJS } from "immutable"
+import { fromJS } from "immutable"
 import getParameterSchema from "../../../../src/helpers/get-parameter-schema"
 
 describe("getParameterSchema", () => {
   it("should return an empty Map when given no parameters", () => {
     const result = getParameterSchema()
 
-    expect(result).toEqual(fromJS({}))
+    expect(result.schema.toJS()).toEqual({})
+    expect(result.parameterContentMediaType).toEqual(null)
   })
 
   it("should return an empty Map when given an empty Map", () => {
     const result = getParameterSchema(fromJS({}))
 
-    expect(result).toEqual(fromJS({}))
+    expect(result.schema.toJS()).toEqual({})
+    expect(result.parameterContentMediaType).toEqual(null)
   })
 
   it("should return a schema for a Swagger 2.0 query parameter", () => {
@@ -34,12 +36,13 @@ describe("getParameterSchema", () => {
       })
     )
 
-    expect(result.toJS()).toEqual({
+    expect(result.schema.toJS()).toEqual({
       type: "array",
       items: {
         type: "string",
       },
     })
+    expect(result.parameterContentMediaType).toEqual(null)
   })
 
   it("should return a schema for a Swagger 2.0 body parameter", () => {
@@ -58,12 +61,13 @@ describe("getParameterSchema", () => {
       })
     )
 
-    expect(result.toJS()).toEqual({
+    expect(result.schema.toJS()).toEqual({
       type: "array",
       items: {
         type: "string",
       },
     })
+    expect(result.parameterContentMediaType).toEqual(null)
   })
 
   it("should return a schema for an OpenAPI 3.0 query parameter", () => {
@@ -87,12 +91,13 @@ describe("getParameterSchema", () => {
       }
     )
 
-    expect(result.toJS()).toEqual({
+    expect(result.schema.toJS()).toEqual({
       type: "array",
       items: {
         type: "string",
       },
     })
+    expect(result.parameterContentMediaType).toEqual(null)
   })
 
   it("should return a schema for an OpenAPI 3.0 query parameter with `content`", () => {
@@ -126,7 +131,7 @@ describe("getParameterSchema", () => {
       }
     )
 
-    expect(result.toJS()).toEqual({
+    expect(result.schema.toJS()).toEqual({
       type: "object",
       required: ["lat", "long"],
       properties: {
@@ -138,5 +143,6 @@ describe("getParameterSchema", () => {
         },
       },
     })
+    expect(result.parameterContentMediaType).toEqual(`application/json`)
   })
 })

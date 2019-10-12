@@ -1,7 +1,8 @@
 {
   "name": "swagger-ui",
-  "version": "3.23.11",
+  "version": "3.24.0",
   "main": "dist/swagger-ui.js",
+  "homepage": "https://github.com/swagger-api/swagger-ui",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
   "contributors": [
     "(in alphabetical order)",
@@ -64,6 +65,7 @@
     "lodash": "^4.17.15",
     "memoizee": "^0.4.12",
     "prop-types": "^15.7.2",
+    "randombytes": "^2.1.0",
     "react": "^15.6.2",
     "react-debounce-input": "^3.2.0",
     "react-dom": "^15.6.2",
@@ -77,7 +79,8 @@
     "remarkable": "^1.7.4",
     "reselect": "^2.5.4",
     "serialize-error": "^2.1.0",
-    "swagger-client": "^3.9.4",
+    "sha.js": "^2.4.11",
+    "swagger-client": "^3.9.5",
     "url-parse": "^1.4.7",
     "xml-but-prettier": "^1.0.1",
     "zenscroll": "^4.0.2"

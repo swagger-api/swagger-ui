@@ -28,6 +28,8 @@ import {
   getSampleSchema,
   paramToIdentifier,
   paramToValue,
+  generateCodeVerifier,
+  createCodeChallenge,
 } from "core/utils"
 import win from "core/window"
 
@@ -412,15 +414,15 @@ describe("utils", function() {
       })
       assertValidateOas3Param(param, value, [])
       
-      // // invalid object-as-string
-      // param = {
-      //   required: true,
-      //   schema: {
-      //     type: "object"
-      //   }
-      // }
-      // value = "{{}"
-      // assertValidateOas3Param(param, value, ["Parameter string value must be valid JSON"])
+      // invalid object-as-string
+      param = {
+        required: true,
+        schema: {
+          type: "object"
+        }
+      }
+      value = "{{}"
+      assertValidateOas3Param(param, value, ["Parameter string value must be valid JSON"])
       
       // missing when required
       param = {
@@ -456,14 +458,14 @@ describe("utils", function() {
       })
       assertValidateOas3Param(param, value, [])
       
-      // // invalid object-as-string
-      // param = {
-      //   schema: {
-      //     type: "object"
-      //   }
-      // }
-      // value = "{{}"
-      // assertValidateOas3Param(param, value, ["Parameter string value must be valid JSON"])
+      // invalid object-as-string
+      param = {
+        schema: {
+          type: "object"
+        }
+      }
+      value = "{{}"
+      assertValidateOas3Param(param, value, ["Parameter string value must be valid JSON"])
       
       // missing when not required
       param = {
@@ -501,6 +503,108 @@ describe("utils", function() {
       }
       value = "test string"
       assertValidateParam(param, value, [])
+    })
+    
+    it("handles OAS3 `Parameter.content`", function() {
+      // invalid string
+      param = {
+        content: {
+          "text/plain": {
+            schema: {
+              required: true,
+              type: "string"
+            }
+          }
+        }
+      }
+      value = ""
+      assertValidateOas3Param(param, value, ["Required field is not provided"])
+      
+      // valid string
+      param = {
+        content: {
+          "text/plain": {
+            schema: {
+              required: true,
+              type: "string"
+            }
+          }
+        }
+      }
+      value = "test string"
+      assertValidateOas3Param(param, value, [])
+
+      
+      // invalid (empty) JSON string
+      param = {
+        content: {
+          "application/json": {
+            schema: {
+              required: true,
+              type: "object"
+            }
+          }
+        }
+      }
+      value = ""
+      assertValidateOas3Param(param, value, ["Required field is not provided"])
+
+      // invalid (malformed) JSON string
+      param = {
+        content: {
+          "application/json": {
+            schema: {
+              required: true,
+              type: "object"
+            }
+          }
+        }
+      }
+      value = "{{}"
+      assertValidateOas3Param(param, value, ["Parameter string value must be valid JSON"])
+
+            
+      // valid (empty object) JSON string
+      param = {
+        content: {
+          "application/json": {
+            schema: {
+              required: true,
+              type: "object"
+            }
+          }
+        }
+      }
+      value = "{}"
+      assertValidateOas3Param(param, value, [])
+            
+      // valid (empty object) JSON object
+      param = {
+        content: {
+          "application/json": {
+            schema: {
+              required: true,
+              type: "object"
+            }
+          }
+        }
+      }
+      value = {}
+      assertValidateOas3Param(param, value, [])
+            
+      // should skip JSON validation for non-JSON media types
+      param = {
+        content: {
+          "application/definitely-not-json": {
+            schema: {
+              required: true,
+              type: "object"
+            }
+          }
+        }
+      }
+      value = "{{}"
+      assertValidateOas3Param(param, value, [])
     })
     
     it("validates required strings with min and max length", function() {
@@ -1400,6 +1504,29 @@ describe("utils", function() {
       const res = paramToValue(param, paramValues)
       
       expect(res).toEqual("asdf")
+    })
+  })
+
+  describe("generateCodeVerifier", function() {
+    it("should generate a value of at least 43 characters", () => {
+      const codeVerifier = generateCodeVerifier()
+
+      // Source: https://tools.ietf.org/html/rfc7636#section-4.1
+      expect(codeVerifier.length).toBeGreaterThanOrEqualTo(43)
+    })
+  })
+
+  describe("createCodeChallenge", function() {
+    it("should hash the input using SHA256 and output the base64 url encoded value", () => {
+      // The `codeVerifier` has been randomly generated
+      const codeVerifier = "cY8OJ9MKvZ7hxQeIyRYD7KFmKA5znSFJ2rELysvy2UI"
+
+      // This value is the `codeVerifier` hashed using SHA256, which has been
+      // encoded using base64 url format.
+      // Source: https://tools.ietf.org/html/rfc7636#section-4.2
+      const expectedCodeChallenge = "LD9lx2p2PbvGkojuJy7-Elex7RnckzmqR7oIXjd4u84"
+
+      expect(createCodeChallenge(codeVerifier)).toBe(expectedCodeChallenge)
     })
   })
 })
