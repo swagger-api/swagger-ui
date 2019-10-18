@@ -104,7 +104,7 @@ export default class ParameterRow extends Component {
       .get("content", Map())
       .keySeq()
       .first()
-    
+
     const generatedSampleValue = getSampleSchema(schema.toJS(), parameterMediaType, {
       includeWriteOnly: true
     })
@@ -119,17 +119,21 @@ export default class ParameterRow extends Component {
       //// Find an initial value
 
       if (specSelectors.isSwagger2()) {
-        initialValue = paramWithMeta.get("x-example")
-          || paramWithMeta.getIn(["schema", "example"])
-          || schema.getIn(["default"])
+        initialValue = [
+          paramWithMeta.get("x-example"),
+          paramWithMeta.getIn(["schema", "example"]),
+          schema.getIn(["default"])
+        ].find(v => v !== undefined)
       } else if (specSelectors.isOAS3()) {
         const currentExampleKey = oas3Selectors.activeExamplesMember(...pathMethod, "parameters", this.getParamKey())
-        initialValue = paramWithMeta.getIn(["examples", currentExampleKey, "value"])
-          || paramWithMeta.getIn(["content", parameterMediaType, "example"])
-          || paramWithMeta.get("example")
-          || schema.get("example")
-          || schema.get("default")
-          || paramWithMeta.get("default") // ensures support for `parameterMacro`
+        initialValue = [
+          paramWithMeta.getIn(["examples", currentExampleKey, "value"]),
+          paramWithMeta.getIn(["content", parameterMediaType, "example"]),
+          paramWithMeta.get("example"),
+          schema.get("example"),
+          schema.get("default"),
+          paramWithMeta.get("default") // ensures support for `parameterMacro`
+        ].find(v => v !== undefined)
       }
 
       //// Process the initial value
@@ -144,8 +148,8 @@ export default class ParameterRow extends Component {
       if(initialValue !== undefined) {
         this.onChangeWrapper(initialValue)
       } else if(
-        schema.get("type") === "object" 
-        && generatedSampleValue 
+        schema.get("type") === "object"
+        && generatedSampleValue
         && !paramWithMeta.get("examples")
       ) {
         // Object parameters get special treatment.. if the user doesn't set any
