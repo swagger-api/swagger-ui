@@ -596,7 +596,8 @@
   }
 }
 
-.opblock-body pre.microlight
+.opblock-body pre.microlight,
+.opblock-body .request-url > pre
 {
     font-size: 12px;
 
