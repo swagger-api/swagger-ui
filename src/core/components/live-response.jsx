@@ -5,7 +5,7 @@ import { Iterable } from "immutable"
 
 const Headers = ( { headers } )=>{
   return (
-    <div>
+    <div className="response-headers">
       <h5>Response headers</h5>
       <pre>{headers}</pre>
     </div>)
@@ -16,7 +16,7 @@ Headers.propTypes = {
 
 const Duration = ( { duration } ) => {
   return (
-    <div>
+    <div className="request-duration">
       <h5>Request duration</h5>
       <pre>{duration} ms</pre>
     </div>
