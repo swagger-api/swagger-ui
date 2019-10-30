@@ -225,6 +225,8 @@ export default class ParameterRow extends Component {
 
     let paramItems // undefined
     let paramEnum // undefined
+    let paramMinimumValue // undefined
+    let paramMaximumValue // undefined
     let paramDefaultValue // undefined
     let paramExample // undefined
     let isDisplayParamEnum = false
@@ -246,6 +248,14 @@ export default class ParameterRow extends Component {
 
     // Default and Example Value for readonly doc
     if ( param !== undefined ) {
+      paramMinimumValue = schema.get("minimum")
+      if (paramMinimumValue === undefined) {
+        paramMinimumValue = param.get("minimum")
+      }
+      paramMaximumValue = schema.get("maximum")
+      if (paramMaximumValue === undefined) {
+        paramMaximumValue = param.get("maximum")
+      }
       paramDefaultValue = schema.get("default")
       if (paramDefaultValue === undefined) {
         paramDefaultValue = param.get("default")
@@ -284,6 +294,16 @@ export default class ParameterRow extends Component {
                 "<i>Available values</i> : " + paramEnum.map(function(item) {
                     return item
                   }).toArray().join(", ")}/>
+            : null
+          }
+
+          { (bodyParam || !isExecute) && paramMinimumValue !== undefined ?
+            <Markdown className="parameter__minimum" source={"<i>Minimum value</i> : " + paramMinimumValue}/>
+            : null
+          }
+
+          { (bodyParam || !isExecute) && paramMaximumValue !== undefined ?
+            <Markdown className="parameter__maximum" source={"<i>Maximum value</i> : " + paramMaximumValue}/>
             : null
           }
 
