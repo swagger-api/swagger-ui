@@ -74,7 +74,7 @@ export default class LiveResponse extends React.Component {
         { curlRequest && <Curl request={ curlRequest }/> }
         { url && <div>
             <h4>Request URL</h4>
-            <div>
+            <div className="request-url">
               <pre className="microlight">{url}</pre>
             </div>
           </div>

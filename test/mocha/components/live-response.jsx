@@ -43,8 +43,11 @@ describe("<LiveResponse/>", function(){
       let response = fromJSOrdered({
         status: 200,
         url: "http://petstore.swagger.io/v2/pet/1",
-        headers: {},
+        headers: {
+          "content-type": "application/xml"
+        },
         text: "<response/>",
+        duration: 50
       })
 
       let mutatedRequestForSpy = createSpy().andReturn(mutatedRequest)
@@ -81,8 +84,20 @@ describe("<LiveResponse/>", function(){
       expect(curl.props().request).toBe(requests[test.expected.request])
 
       const expectedUrl = requests[test.expected.request].get("url")
-      expect(wrapper.find("div.request-url pre").text()).toEqual(expectedUrl)
+      expect(wrapper.find("div.request-url pre.microlight").text()).toEqual(expectedUrl)
 
+      let duration = wrapper.find("Duration")
+      expect(duration.length).toEqual(1)
+      expect(duration.props().duration).toEqual(50)
+      expect(duration.html())
+        .toEqual("<div><h5>Request duration</h5><pre class=\"microlight\">50 ms</pre></div>")
+
+      let responseHeaders = wrapper.find("Headers")
+      expect(duration.length).toEqual(1)
+      expect(responseHeaders.props().headers.length).toEqual(1)
+      expect(responseHeaders.props().headers[0].key).toEqual("content-type")
+      expect(responseHeaders.html())
+        .toEqual("<div><h5>Response headers</h5><pre class=\"microlight\"><span class=\"headerline\"> content-type: application/xml </span></pre></div>")
     })
   })
 })
