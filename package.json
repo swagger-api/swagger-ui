@@ -74,7 +74,7 @@
     "react-inspector": "^2.3.0",
     "react-motion": "^0.5.2",
     "react-redux": "^4.x.x",
-    "redux": "^3.x.x",
+    "redux": "^4.0.0",
     "redux-immutable": "3.1.0",
     "remarkable": "^1.7.4",
     "reselect": "^2.5.4",
