@@ -54,7 +54,7 @@
     "@kyleshockey/xml": "^1.0.2",
     "base64-js": "^1.2.0",
     "classnames": "^2.2.6",
-    "core-js": "^2.5.1",
+    "core-js": "^3.0.0",
     "css.escape": "1.5.1",
     "deep-extend": "0.6.0",
     "dompurify": "^2.0.7",
