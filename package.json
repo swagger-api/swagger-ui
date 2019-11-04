@@ -57,7 +57,7 @@
     "core-js": "^2.5.1",
     "css.escape": "1.5.1",
     "deep-extend": "0.6.0",
-    "dompurify": "^2.0.0",
+    "dompurify": "^2.0.7",
     "ieee754": "^1.1.13",
     "immutable": "^3.x.x",
     "js-file-download": "^0.4.1",
