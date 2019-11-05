@@ -9,6 +9,7 @@
     "afterRelease": "export GIT_TAG=v${version} && echo GIT_TAG=v${version} > release/.version"
   },
   "git": {
+    "requireUpstream": false,
     "changelog": "./release/get-changelog.sh",
     "commitMessage": "release: v${version}",
     "tagName": "v${version}",

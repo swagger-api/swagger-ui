@@ -109,7 +109,7 @@ export default class Response extends React.Component {
 
     // Goal: find a schema value for `schema`
     if(isOAS3) {
-      const oas3SchemaForContentType = activeMediaType.get("schema", Map({}))
+      const oas3SchemaForContentType = activeMediaType.get("schema")
 
       schema = oas3SchemaForContentType ? inferSchema(oas3SchemaForContentType.toJS()) : null
       specPathWithPossibleSchema = oas3SchemaForContentType ? List(["content", this.state.responseContentType, "schema"]) : specPath
@@ -140,8 +140,8 @@ export default class Response extends React.Component {
         sampleResponse = response.getIn(["examples", activeContentType])
       } else {
         sampleResponse = schema ? getSampleSchema(
-          schema.toJS(), 
-          activeContentType, 
+          schema.toJS(),
+          activeContentType,
           {
             includeReadOnly: true,
             includeWriteOnly: true // writeOnly has no filtering effect in swagger 2.0
@@ -154,10 +154,10 @@ export default class Response extends React.Component {
 
     return (
       <tr className={ "response " + ( className || "") } data-code={code}>
-        <td className="col response-col_status">
+        <td className="response-col_status">
           { code }
         </td>
-        <td className="col response-col_description">
+        <td className="response-col_description">
 
           <div className="response-col_description__inner">
             <Markdown source={ response.get( "description" ) } />
@@ -237,7 +237,7 @@ export default class Response extends React.Component {
           ) : null}
 
         </td>
-        {isOAS3 ? <td className="col response-col_links">
+        {isOAS3 ? <td className="response-col_links">
           { links ?
             links.toSeq().map((link, key) => {
               return <OperationLink key={key} name={key} link={ link } getComponent={getComponent}/>

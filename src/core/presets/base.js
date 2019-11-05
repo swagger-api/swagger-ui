@@ -53,6 +53,7 @@ import Headers from "core/components/headers"
 import Errors from "core/components/errors"
 import ContentType from "core/components/content-type"
 import Overview from "core/components/overview"
+import InitializedInput from "core/components/initialized-input"
 import Info, {
   InfoUrl,
   InfoBasePath
@@ -105,6 +106,7 @@ export default function() {
       basicAuth: BasicAuth,
       clear: Clear,
       liveResponse: LiveResponse,
+      InitializedInput,
       info: Info,
       InfoContainer,
       JumpToPath,
