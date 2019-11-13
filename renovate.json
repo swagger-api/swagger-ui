@@ -21,7 +21,11 @@
         "devDependencies"
       ],
       "rangeStrategy": "update-lockfile",
-      "semanticCommitScope": "dev-deps"
+      "semanticCommitScope": "dev-deps",
+      "automerge": true,
+      "major": {
+        "automerge": false
+      }
     },
     {
       "depTypeList": [
@@ -36,5 +40,5 @@
     }
   ],
   "ignorePaths": ["swagger-ui-dist-package/package.json"],
-  "prConcurrentLimit": 10
+  "prConcurrentLimit": 3
 }
