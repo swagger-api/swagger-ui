@@ -4,6 +4,7 @@ import System from "./system"
 import ApisPreset from "./presets/apis"
 import AllPlugins from "./plugins/all"
 import { parseSearch } from "./utils"
+import {initHistory} from 'core/ls-actions'
 import win from "./window"
 
 if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
@@ -81,7 +82,7 @@ export default function SwaggerUI(opts) {
   }
 
   let queryConfig = parseSearch()
-
+  initHistory()
   const domNode = opts.domNode
   delete opts.domNode
 

@@ -6,6 +6,7 @@ import isString from "lodash/isString"
 import debounce from "lodash/debounce"
 import set from "lodash/set"
 import { isJSONObject, paramToValue } from "core/utils"
+import { addHistory } from 'core/ls-actions'
 
 // Actions conform to FSA (flux-standard-actions)
 // {type: string,payload: Any|Error, meta: obj, error: bool}
@@ -429,15 +430,49 @@ export const executeRequest = (req) =>
     // track duration of request
     const startTime = Date.now()
 
+  
 
     return fn.execute(req)
     .then( res => {
       res.duration = Date.now() - startTime
+ 
+
+      addHistory({
+        operationId: req.operationId,
+        pathName: req.pathName,
+        parameterValues: req.parameters,
+        duration: res.duration,
+        response:buildRespObj(res),
+        error: false
+      })
+
       specActions.setResponse(req.pathName, req.method, res)
     } )
     .catch(
       err => {
         console.error(err)
+        var serializedError = serializeError(err)
+
+        var response = {}
+        if (serializedError.response) {
+          response = serializedError.response
+        } else {
+          response = serializedError
+        }
+  
+        response = buildRespObj(response)
+
+
+
+        addHistory({
+          operationId: req.operationId,
+          pathName: req.pathName,          
+          parameterValues: req.parameters,
+          duration: Date.now() - startTime,
+          response:response,
+          error: true
+        })
+
         specActions.setResponse(req.pathName, req.method, {
           error: true, err: serializeError(err)
         })
@@ -485,5 +520,15 @@ export function setScheme (scheme, path, method) {
   return {
     type: SET_SCHEME,
     payload: { scheme, path, method }
+  }
+}
+
+function buildRespObj(res) {
+  return {
+    ok: res.ok || false,
+    status: res.status || 'err',
+    statusText: res.statusText || 'error',
+    respBody: res.text,
+    contentType: res.headers['content-type']
   }
 }

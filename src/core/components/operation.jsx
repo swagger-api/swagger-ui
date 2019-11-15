@@ -4,9 +4,15 @@ import { getList } from "core/utils"
 import { getExtensions, sanitizeUrl, escapeDeepLinkPath } from "core/utils"
 import { Iterable, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
+import { inMemoryHistory } from 'core/ls-actions'
 
 
 export default class Operation extends PureComponent {
+
+  constructor(props) {
+    super(props);    
+    this.loadValuesFromLocalStorage = this.loadValuesFromLocalStorage.bind(this)
+  }
   static propTypes = {
     specPath: ImPropTypes.list.isRequired,
     operation: PropTypes.instanceOf(Iterable).isRequired,
@@ -39,6 +45,33 @@ export default class Operation extends PureComponent {
     specPath: List(),
     summary: ""
   }
+
+  loadValuesFromLocalStorage = (jsParams) => {
+    let { specActions: { changeParamByIdentity },onTryoutClick} = this.props
+    let {path, method, allowTryItOut,tryItOutEnabled} = this.props.operation.toJS()
+    var onChangeKey = [path, method]
+    let operation =  this.props.operation.getIn(["op"])
+    if(allowTryItOut && !tryItOutEnabled) {
+      onTryoutClick()
+    }
+    
+    let parameters = getList(operation, ["parameters"])
+    if (!parameters || !parameters.count() ||!jsParams) return parameters
+
+    parameters = parameters.map((x) => {
+      var name = x.get('name')
+      var inLocation = x.get('in')
+      var fullName = inLocation + '.' + name
+      var newVal = jsParams[fullName]
+
+      changeParamByIdentity(onChangeKey, x, newVal, false)
+
+      return x
+    })
+  
+    return parameters
+  }
+
 
   render() {
     let {
@@ -99,6 +132,7 @@ export default class Operation extends PureComponent {
     const OperationExt = getComponent( "OperationExt" )
     const OperationSummary = getComponent( "OperationSummary" )
     const Link = getComponent( "Link" )
+    const HistoryBoxes = getComponent("HistoryBoxes")
 
     const { showExtensions } = getConfigs()
 
@@ -204,6 +238,8 @@ export default class Operation extends PureComponent {
                     method={ method }/>
               }
             </div>
+
+            <HistoryBoxes hst={inMemoryHistory} loadValuesFromLocalStorage={this.loadValuesFromLocalStorage} operationId={operationId} response={response} />
 
             {executeInProgress ? <div className="loading-container"><div className="loading"></div></div> : null}
 
