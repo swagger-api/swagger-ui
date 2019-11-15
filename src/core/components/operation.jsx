@@ -4,13 +4,13 @@ import { getList } from "core/utils"
 import { getExtensions, sanitizeUrl, escapeDeepLinkPath } from "core/utils"
 import { Iterable, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
-import { inMemoryHistory } from 'core/ls-actions'
+import { inMemoryHistory } from "core/ls-actions"
 
 
 export default class Operation extends PureComponent {
 
   constructor(props) {
-    super(props);    
+    super(props)
     this.loadValuesFromLocalStorage = this.loadValuesFromLocalStorage.bind(this)
   }
   static propTypes = {
@@ -59,9 +59,9 @@ export default class Operation extends PureComponent {
     if (!parameters || !parameters.count() ||!jsParams) return parameters
 
     parameters = parameters.map((x) => {
-      var name = x.get('name')
-      var inLocation = x.get('in')
-      var fullName = inLocation + '.' + name
+      var name = x.get("name")
+      var inLocation = x.get("in")
+      var fullName = inLocation + "." + name
       var newVal = jsParams[fullName]
 
       changeParamByIdentity(onChangeKey, x, newVal, false)

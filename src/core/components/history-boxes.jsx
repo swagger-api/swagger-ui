@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
-import { timeAgo } from 'core/utils'
+import { timeAgo } from "core/utils"
 
 export default class HistoryBoxes extends PureComponent {
     static propTypes = {
@@ -37,14 +37,14 @@ export default class HistoryBoxes extends PureComponent {
         var hstDivs = hstDivsFiltered.map((lsdata, index) => {
             var res = lsdata.response
             var status= res.status
-            var iconColor = 'green'
+            var iconColor = "green"
 
-            if (!status || status > 299 || status === 'err') {
-                iconColor = 'red'
+            if (!status || status > 299 || status === "err") {
+                iconColor = "red"
             }
 
-            return <span key={index} className={iconColor +' hst-box'} onClick={() => this.boxClick(lsdata)}>
-                <div className='timeAgoPopup'>
+            return <span key={index} className={iconColor +" hst-box"} onClick={() => this.boxClick(lsdata)}>
+                <div className="timeAgoPopup">
                     <span className="timeago" title={lsdata.dateAdded}>{lsdata.dateAdded}</span> | <span>{lsdata.duration}ms</span> | <span>{status}</span>
                 </div>
             </span>

@@ -53,6 +53,7 @@ describe("render pet api container", function () {
     it("Testing post /pet api Mock data", function (client) {
         apiWrapper.waitForElementVisible("@petOperationPostContainer", 5000)
             .click("@petOperationPostCollpase")
+            .assert.cssClassNotPresent("@petOperationPostHistoryDiv", "hst-box")
             .waitForElementVisible("@petOperationPostCollapseContainer", 5000)
             .click("@petOperationPostTryBtn")
             .waitForElementVisible("@petOperationPostExecuteBtn", 1000)
@@ -64,6 +65,7 @@ describe("render pet api container", function () {
             .assert.containsText("@petOperationPostTagID", "0")
             .assert.containsText("@petOperationPostTagName", "\"string\"")
             .assert.containsText("@petOperationPostStatus", "\"available\"")
+            .assert.containsText("@petOperationPostHistoryDiv", "hst-box")
             .click("@petOperationPostTryBtn")
             .assert.cssClassNotPresent("@petOperationPostTryBtn", "cancel")
 

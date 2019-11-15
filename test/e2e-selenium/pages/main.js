@@ -112,6 +112,9 @@ module.exports = {
         petOperationPostTryBtn: {
           selector: "div#operations-pet-addPet button.try-out__btn"
         },
+        petOperationPostHistoryDiv: {
+          selector: "div#operations-pet-addPet detailsHistoryList"
+        },
         petOperationPostTryText: {
           selector: "div#operations-pet-addPet textarea.body-param__text"
         },

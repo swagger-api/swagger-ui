@@ -6,7 +6,7 @@ import isString from "lodash/isString"
 import debounce from "lodash/debounce"
 import set from "lodash/set"
 import { isJSONObject, paramToValue } from "core/utils"
-import { addHistory } from 'core/ls-actions'
+import { addHistory } from "core/ls-actions"
 
 // Actions conform to FSA (flux-standard-actions)
 // {type: string,payload: Any|Error, meta: obj, error: bool}
@@ -526,9 +526,9 @@ export function setScheme (scheme, path, method) {
 function buildRespObj(res) {
   return {
     ok: res.ok || false,
-    status: res.status || 'err',
-    statusText: res.statusText || 'error',
+    status: res.status || "err",
+    statusText: res.statusText || "error",
     respBody: res.text,
-    contentType: res.headers['content-type']
+    contentType: res.headers["content-type"]
   }
 }

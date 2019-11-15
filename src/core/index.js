@@ -4,7 +4,7 @@ import System from "./system"
 import ApisPreset from "./presets/apis"
 import AllPlugins from "./plugins/all"
 import { parseSearch } from "./utils"
-import {initHistory} from 'core/ls-actions'
+import {initHistory} from "core/ls-actions"
 import win from "./window"
 
 if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {

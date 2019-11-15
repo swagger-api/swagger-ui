@@ -3,15 +3,13 @@
 export var inMemoryHistory = []
 
 export function initHistory() {
-    var hst = window.localStorage.getItem('xhrHistory')
+    var hst = window.localStorage.getItem("xhrHistory")
     
     if (!hst) {
-      window.localStorage.setItem('xhrHistory', '[]')
+      window.localStorage.setItem("xhrHistory", "[]")
     }else {
       inMemoryHistory = JSON.parse(hst)
     }
-     
-
   }
   
   export function addHistory(saveToHistory) {
@@ -26,7 +24,7 @@ export function initHistory() {
     inMemoryHistory.unshift(saveToHistory) //add history to start of array
   
     try {
-      window.localStorage.setItem('xhrHistory', JSON.stringify(inMemoryHistory))
+      window.localStorage.setItem("xhrHistory", JSON.stringify(inMemoryHistory))
     }
     catch (e) {
       removeTwoHistoryItems(inMemoryHistory)
@@ -34,17 +32,9 @@ export function initHistory() {
   }
   
   export function clearXhrHistory() {
-    window.localStorage.setItem('xhrHistory', '[]')
+    window.localStorage.setItem("xhrHistory", "[]")
     inMemoryHistory= []
-  }
-  
-  //ensure we dont submit duplicate requests
-  function isItTheSameReq(saveToHistory, theLastReq) {
-    if (!theLastReq) return false
-    if (saveToHistory.parameters === theLastReq.parameters && saveToHistory.routeId === theLastReq.routeId) return true
-    return false
-  }
-  
+  } 
   
   function removeTwoHistoryItems(hst) {
     hst.splice(hst.length - 1, 2)
