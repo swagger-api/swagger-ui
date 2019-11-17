@@ -1,0 +1,59 @@
+.detailsHistoryList {
+    position: relative;
+    background: #41444e;
+    border-radius: 15px;
+    padding: 12px 12px 0;
+    margin: 5px 20px;
+    -webkit-box-shadow: inset 0 -1px 1px hsla(0,0%,100%,.3);
+    box-shadow: inset 0 -1px 1px hsla(0,0%,100%,.3);
+    display: block;
+    zoom:1}
+
+.detailsHistoryList .hst-box {
+    cursor: pointer;
+    list-style: none;
+    position: relative;
+    top: -6px;
+    width: 20px;
+    text-decoration: none;
+    height: 23px;
+    margin-left: 3px;
+    margin-top: 3px;
+    display: inline-block
+}
+
+.detailsHistoryList .hst-box .timeAgoPopup {
+    position: absolute;
+    top: -1.8em;
+    visibility: hidden;
+    padding: .1em .5em;
+    white-space: nowrap;
+    color: #ebebeb;
+    border-radius: 4px;
+    background: rgba(0,0,0,.9);
+    z-index: 3
+}
+
+.detailsHistoryList .hst-box:hover {
+    height: 26px;
+    margin-top: 0
+}
+
+.detailsHistoryList .hst-box:hover .timeAgoPopup {
+    visibility: visible
+}
+
+.detailsHistoryList .green {
+    background-color: #5cb85c
+}
+
+.detailsHistoryList .red {
+    background-color: #d9534f
+}
+
+.histBoxesTitle {
+    font-size: 12px;
+    margin: 0 0 5px 20px;
+    font-family: Arial,Times New Roman,Georgia,Serif;
+    color: #3b4151;
+}
