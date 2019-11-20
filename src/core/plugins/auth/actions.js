@@ -93,7 +93,7 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
       console.warn(`Warning: invalid passwordType ${passwordType} was passed, not including client id and secret`)
   }
 
-  return authActions.authorizeRequest({ body: buildFormData(form), url: schema.get("tokenUrl"), name, headers, query, auth})
+  return authActions.authorizeRequest({form, url: schema.get("tokenUrl"), name, headers, query, auth})
 }
 
 function setClientIdAndSecret(target, clientId, clientSecret) {
@@ -116,7 +116,7 @@ export const authorizeApplication = ( auth ) => ( { authActions } ) => {
     scope: scopes.join(scopeSeparator)
   }
 
-  return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth, headers })
+  return authActions.authorizeRequest({form, name, url: schema.get("tokenUrl"), auth, headers })
 }
 
 export const authorizeAccessCodeWithFormParams = ( { auth, redirectUrl } ) => ( { authActions } ) => {
@@ -130,7 +130,7 @@ export const authorizeAccessCodeWithFormParams = ( { auth, redirectUrl } ) => ( 
     code_verifier: codeVerifier
   }
 
-  return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth})
+  return authActions.authorizeRequest({form, name, url: schema.get("tokenUrl"), auth})
 }
 
 export const authorizeAccessCodeWithBasicAuthentication = ( { auth, redirectUrl } ) => ( { authActions } ) => {
@@ -145,13 +145,13 @@ export const authorizeAccessCodeWithBasicAuthentication = ( { auth, redirectUrl 
     redirect_uri: redirectUrl
   }
 
-  return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth, headers})
+  return authActions.authorizeRequest({form, name, url: schema.get("tokenUrl"), auth, headers})
 }
 
 export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, errActions, oas3Selectors, specSelectors, authSelectors } ) => {
-  let { body, query={}, headers={}, name, url, auth } = data
+  let { form, query={}, headers={}, name, url, auth } = data
 
-  let { additionalQueryStringParams } = authSelectors.getConfigs() || {}
+  let { additionalQueryStringParams, additionalFormParams } = authSelectors.getConfigs() || {}
 
   let parsedUrl
 
@@ -163,6 +163,10 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
 
   if(typeof additionalQueryStringParams === "object") {
     parsedUrl.query = Object.assign({}, parsedUrl.query, additionalQueryStringParams)
+  }
+
+  if(typeof additionalFormParams === "object") {
+    form = Object.assign({}, form, additionalFormParams);
   }
 
   const fetchUrl = parsedUrl.toString()
@@ -178,7 +182,7 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
     method: "post",
     headers: _headers,
     query: query,
-    body: body,
+    body: buildFormData(form),
     requestInterceptor: getConfigs().requestInterceptor,
     responseInterceptor: getConfigs().responseInterceptor
   })
