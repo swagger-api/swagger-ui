@@ -150,13 +150,13 @@ describe("auth plugin - actions", () => {
 
   describe("tokenRequest", function() {
     it("should send the code verifier when set", () => {
-      const data = { 
+      const data = {
         auth: {
           schema: {
             get: () => "http://tokenUrl"
           },
           codeVerifier: "mock_code_verifier"
-        }, 
+        },
         redirectUrl: "http://google.com"
       }
 
@@ -168,8 +168,8 @@ describe("auth plugin - actions", () => {
 
       expect(authActions.authorizeRequest.calls.length).toEqual(1)
       const actualArgument = authActions.authorizeRequest.calls[0].arguments[0]
-      expect(actualArgument.body).toContain("code_verifier=" + data.auth.codeVerifier)
-      expect(actualArgument.body).toContain("grant_type=authorization_code")
+      expect(actualArgument.form.code_verifier).toEqual(data.auth.codeVerifier)
+      expect(actualArgument.form.grant_type).toEqual("authorization_code")
     })
   })
 })
