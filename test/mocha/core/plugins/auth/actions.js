@@ -171,5 +171,37 @@ describe("auth plugin - actions", () => {
       expect(actualArgument.form.code_verifier).toEqual(data.auth.codeVerifier)
       expect(actualArgument.form.grant_type).toEqual("authorization_code")
     })
+
+    it("should send additional form params within request body", () => {
+      const additionalFormParams = new Map()
+      additionalFormParams.set("audience", "test")
+
+      const schema = new Map()
+      schema.set("additionalFormParams", additionalFormParams)
+
+      const data = {
+        form: {
+          grant_type: "authorization_code",
+          code: "123",
+          client_id: "client_1",
+          redirect_uri: "http://example.com"
+        },
+        auth: {
+          schema
+        },
+        redirectUrl: "http://example.com"
+      }
+
+      const authActions = {
+        authorizeRequest: createSpy()
+      }
+
+      authorizeAccessCodeWithFormParams(data)({ authActions })
+
+      expect(authActions.authorizeRequest.calls.length).toEqual(1)
+      const actualArgument = authActions.authorizeRequest.calls[0].arguments[0]
+      expect(actualArgument.form.grant_type).toEqual("authorization_code")
+      expect(actualArgument.form.audience).toEqual("test")
+    })
   })
 })
