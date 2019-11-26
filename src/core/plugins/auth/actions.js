@@ -17,7 +17,10 @@ function formWithAdditionalFormParams(form, additionalFormParams) {
     return form
   }
 
-  return Object.assign({}, form, Object.fromEntries(additionalFormParams))
+  return Object.assign(
+    {},
+    form,
+    ...Array.from(additionalFormParams, ([k, v]) => ({[k]: v})))
 }
 
 export function showDefinitions(payload) {
