@@ -6,7 +6,7 @@ replicaCount: 1
 
 
 images:
-  app: kubevoacr.azurecr.io/swagger-ui-vanoord:v3.24.3-7-g9bee9fbf
+  app: kubevoacr.azurecr.io/swagger-ui-vanoord:v1.0.0
   pullPolicy: IfNotPresent
 
 nameOverride: ""
