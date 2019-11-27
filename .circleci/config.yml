@@ -16,6 +16,10 @@ jobs:
             export TAG=$(git describe --tags)
             if [[ "$CIRCLE_BRANCH" == "master" || ! -z "$CIRCLE_TAG" ]]; then
                 echo "tag = $TAG"
+                docker login \
+                    $CONTAINER_REGISTRY \
+                    -u $CONTAINER_REGISTRY_USERNAME \
+                    -p $CONTAINER_REGISTRY_PASSWORD
                 docker tag swagger-ui-vanoord ${CONTAINER_REGISTRY}/swagger-ui-vanoord:${TAG}
                 docker push $CONTAINER_REGISTRY/swagger-ui-vanoord:${TAG}
             fi
