@@ -1,0 +1,30 @@
+[
+    {
+        "url": "https://metis.data-dev.vanoord.com/api/v1/docs/openapi.yml",
+        "name": "METIS"
+    },
+    {
+        "url": "https://activitylog.data.vanoord.com/api/v1/docs/openapi.yml",
+        "name": "ActivityLog"
+    },
+    {
+        "url": "https://ais.data.vanoord.com/api/v1/docs/openapi.yml",
+        "name": "AIS"
+    },
+    {
+        "url": "https://geotech.data.vanoord.com/api/v1/docs/openapi.yml",
+        "name": "GeoTech"
+    },
+    {
+        "url": "https://titan.data.vanoord.com/api/v1/docs/openapi.yml",
+        "name": "TITAN"
+    },
+    {
+        "url": "https://vessellog.data.vanoord.com/api/v1/docs/openapi.yml",
+        "name": "Vessellog"
+    },
+    {
+        "url": "https://wosi.data.vanoord.com/api/v1/docs/openapi.yml",
+        "name": "WOSI"
+    }
+]
