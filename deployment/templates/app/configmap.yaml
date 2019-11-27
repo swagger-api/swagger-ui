@@ -5,5 +5,5 @@ metadata:
   labels:
     app: swagger-ui
 data:
-  URLS: "[ { url: \"https://metis.data-dev.vanoord.com/api/v1/docs/openapi.yml\", name: \"METIS\" } ]"
+  URLS: "[ { url: \"https://metis.data-dev.vanoord.com/api/v1/docs/openapi.yml\", name: \"METIS\" }, { url: \"https://ais.data.vanoord.com/api/v1/docs/openapi.yml\", name: \"AIS\" }, { url: \"https://geotech.data.vanoord.com/api/v1/docs/openapi.yml\", name: \"GeoTech\" } , { url: \"https://activitylog.data.vanoord.com/api/v1/docs/openapi.yml\", name: \"ActivityLog\" } ]"
   
