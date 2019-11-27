@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: swagger-ui-vanoord-service
+spec:
+  type: ClusterIP
+  ports:
+   - name: swagger
+     port: 8080
+  selector:
+   app: swagger-ui
+   tier: backend

@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swagger-ui-vanoord-app
+spec:
+  selector:
+    matchLabels:
+      app: swagger-ui
+      tier: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: swagger-ui
+        tier: backend
+    spec:
+      containers:
+        - name: swagger-ui-vanoord-app
+          image: {{.Values.images.app}}
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "512Mi"
+            limits:
+              cpu: "300m"
+              memory: "1024Mi"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: URLS
+              valueFrom:
+                configMapKeyRef:
+                  name: swagger-ui-vanoord-config
+                  key: URLS

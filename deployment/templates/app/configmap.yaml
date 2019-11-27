@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: swagger-ui-vanoord-config
+  labels:
+    app: swagger-ui
+data:
+  URLS: "[ { url: \"https://metis.data-dev.vanoord.com/api/v1/docs/openapi.yml\", name: \"METIS\" } ]"
+  

@@ -1,0 +1,44 @@
+# Default values for Swagger UI.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+
+images:
+  app: kubevoacr.azurecr.io/swagger-ui-vanoord:v3.24.3-7-g9bee9fbf
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  proddomain: data.vanoord.com
+  devdomain: data-dev.vanoord.com
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+  #prod: true
+
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
