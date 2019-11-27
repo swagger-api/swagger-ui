@@ -9,7 +9,7 @@ RUN apk --no-cache add nodejs
 LABEL maintainer="fehguy"
 
 ENV API_KEY "**None**"
-ENV SWAGGER_JSON "/app/swagger.json"
+ENV URLS="[ { url: \"https://metis.data-dev.vanoord.com/api/v1/docs/openapi.yml\", name: \"METIS\" } ]"
 ENV PORT 8080
 ENV BASE_URL ""
 
