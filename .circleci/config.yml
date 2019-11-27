@@ -1,0 +1,33 @@
+version: 2
+jobs:
+  build:
+    machine: true
+    steps:
+      - checkout
+
+      - run:
+          name: Build image
+          command: | 
+            docker build -t swagger-ui-vanoord .
+
+      - run:
+          name: Push image if commit is tagged or if branch is master
+          command: |
+            export TAG=$(git describe --tags)
+            if [[ "$CIRCLE_BRANCH" == "master" || ! -z "$CIRCLE_TAG" ]]; then
+                echo "tag = $TAG"
+                docker tag swagger-ui-vanoord ${CONTAINER_REGISTRY}/swagger-ui-vanoord:${TAG}
+                docker push $CONTAINER_REGISTRY/swagger-ui-vanoord:${TAG}
+            fi
+  
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build:
+          context: vanoord
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              only: /.*/
