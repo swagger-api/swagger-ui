@@ -2,7 +2,6 @@ import React, { cloneElement } from "react"
 import PropTypes from "prop-types"
 
 //import "./topbar.less"
-import Logo from "./logo_small.svg"
 import {parseSearch, serializeSearch} from "../../core/utils"
 
 export default class Topbar extends React.Component {
@@ -119,7 +118,7 @@ export default class Topbar extends React.Component {
       })
 
       control.push(
-        <label className="select-label" htmlFor="select"><span>Select a definition</span>
+        <label className="select-label" htmlFor="select">
           <select id="select" disabled={isLoading} onChange={ this.onUrlSelect } value={urls[this.state.selectedIndex].url}>
             {rows}
           </select>
@@ -137,11 +136,13 @@ export default class Topbar extends React.Component {
         <div className="wrapper">
           <div className="topbar-wrapper">
             <Link>
-              <img height="40" src={ Logo } alt="Swagger UI"/>
+	      <div className="logo"></div>
             </Link>
-            <form className="download-url-wrapper" onSubmit={formOnSubmit}>
-              {control.map((el, i) => cloneElement(el, { key: i }))}
-            </form>
+	    <div className="topbar-form">
+              <form className="download-url-wrapper" onSubmit={formOnSubmit}>
+		{control.map((el, i) => cloneElement(el, { key: i }))}
+              </form>
+	    </div>
           </div>
         </div>
       </div>

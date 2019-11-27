@@ -212,13 +212,14 @@ $table-parameter-deprecated-font-color: $color-danger !default;
 
 // Topbar
 
-$topbar-background-color: $cod-gray !default;
+$topbar-background-color: $white !default;
 
 $topbar-link-font-color: $white !default;
 
-$topbar-download-url-wrapper-element-border-color: $apple-green !default;
+$topbar-download-url-label-color: #253a79 !default;
+$topbar-download-url-wrapper-element-border-color: #253a79 !default;
 
-$topbar-download-url-button-background-color: $apple-green !default;
+$topbar-download-url-button-background-color: #253a79 !default;
 $topbar-download-url-button-font-color: $white !default;
 
 // Type
