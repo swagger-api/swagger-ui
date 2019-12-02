@@ -6,7 +6,9 @@ Fork of Swagger UI app to display OpenAPI / Swagger API spec files as React webs
 
 You can add the API spec of your own app to the drop-down menu in two steps:
 
-1. Add a link to the JSON config file: [deployment/configfiles/config.json](deployment/configfiles/config.json)
+1. Add a link to the JSON config file: [deployment/configfiles/config_urls.json](./deployment/configfiles/config_urls.json)
 2. Deploy new configuration to Kubernetes using Helm:
 
-> helm upgragde metis deployment/
+   ```bash
+   >> helm upgragde metis deployment/
+   ```
