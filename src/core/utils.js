@@ -1,4 +1,4 @@
-/* 
+/*
   ATTENTION! This file (but not the functions within) is deprecated.
 
   You should probably add a new file to `./helpers/` instead of adding a new
@@ -365,13 +365,13 @@ export function extractFileNameFromContentDispositionHeader(value){
     /filename="([^;]*);?"/i,
     /filename=([^;]*);?/i
   ]
-  
+
   let responseFilename
   patterns.some(regex => {
     responseFilename = regex.exec(value)
     return responseFilename !== null
   })
-    
+
   if (responseFilename !== null && responseFilename.length > 1) {
     try {
       return decodeURIComponent(responseFilename[1])
@@ -501,7 +501,7 @@ export const validatePattern = (val, rxPattern) => {
 
 // validation of parameters before execute
 export const validateParam = (param, value, { isOAS3 = false, bypassRequiredCheck = false } = {}) => {
-  
+
   let errors = []
 
   let paramRequired = param.get("required")
@@ -538,7 +538,7 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
     let objectStringCheck = type === "object" && typeof value === "string" && value
 
     const allChecks = [
-      stringCheck, arrayCheck, arrayListCheck, arrayStringCheck, fileCheck, 
+      stringCheck, arrayCheck, arrayListCheck, arrayStringCheck, fileCheck,
       booleanCheck, numberCheck, integerCheck, objectCheck, objectStringCheck,
     ]
 
@@ -834,7 +834,7 @@ export function paramToIdentifier(param, { returnAll = false, allowHashes = true
   }
   const paramName = param.get("name")
   const paramIn = param.get("in")
-  
+
   let generatedIdentifiers = []
 
   // Generate identifiers in order of most to least specificity
@@ -842,7 +842,7 @@ export function paramToIdentifier(param, { returnAll = false, allowHashes = true
   if (param && param.hashCode && paramIn && paramName && allowHashes) {
     generatedIdentifiers.push(`${paramIn}.${paramName}.hash-${param.hashCode()}`)
   }
-  
+
   if(paramIn && paramName) {
     generatedIdentifiers.push(`${paramIn}.${paramName}`)
   }
@@ -888,4 +888,31 @@ function b64toB64UrlEncoded(str) {
     .replace(/\+/g, "-")
     .replace(/\//g, "_")
     .replace(/=/g, "")
+}
+
+
+
+const LOCAL_AUTH_KEY = "SWAGGER_AUTH_STORE"
+export function getAuthStore(){
+  return JSON.parse(localStorage.getItem(LOCAL_AUTH_KEY))
+}
+export function setAuthStore(value){
+  localStorage.setItem(LOCAL_AUTH_KEY,JSON.stringify(value))
+}
+
+export function setAuth(auth){
+  const store = getAuthStore() || {}
+  Object.keys(auth).forEach(key=>{
+    store[key] = auth[key]
+  })
+
+  setAuthStore(store)
+}
+
+export function removeAuth(keys){
+  const store = getAuthStore() || {}
+  keys.forEach(key=>{
+    delete store[key]
+  })
+  setAuthStore(store)
 }

@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { getAuthStore } from "../utils"
 
 export default class AuthorizeBtnContainer extends React.Component {
 
@@ -11,9 +12,28 @@ export default class AuthorizeBtnContainer extends React.Component {
     getComponent: PropTypes.func.isRequired
   }
 
+  componentDidMount() {
+    const { authSelectors } = this.props
+    const definitions = authSelectors.definitionsToAuthorize()
+    if(definitions && definitions.size){
+      const state = {}
+      const store = getAuthStore() || {}
+      const { authActions } = this.props
+      definitions.forEach(([array]) => {
+        const [k] = array
+        if(store[k]){
+          state[k] = store[k]
+        }
+      })
+      if(Object.keys(state)){
+        authActions.authorize(state)
+      }
+    }
+  }
+
   render () {
     const { authActions, authSelectors, specSelectors, getComponent} = this.props
-    
+
     const securityDefinitions = specSelectors.securityDefinitions()
     const authorizableDefinitions = authSelectors.definitionsToAuthorize()
 

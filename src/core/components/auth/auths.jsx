@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
+import { setAuth, removeAuth } from "../../utils"
 
 export default class Auths extends React.Component {
   static propTypes = {
@@ -28,6 +29,7 @@ export default class Auths extends React.Component {
 
     let { authActions } = this.props
     authActions.authorize(this.state)
+    setAuth(this.state)
   }
 
   logoutClick =(e) => {
@@ -39,6 +41,7 @@ export default class Auths extends React.Component {
     }).toArray()
 
     authActions.logout(auths)
+    removeAuth(auths)
   }
 
   close =(e) => {

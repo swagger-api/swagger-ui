@@ -1,6 +1,7 @@
 node_modules
 .idea
 .vscode
+.history
 .deps_check
 .DS_Store
 .nyc_output
