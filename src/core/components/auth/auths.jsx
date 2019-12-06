@@ -8,7 +8,8 @@ export default class Auths extends React.Component {
     getComponent: PropTypes.func.isRequired,
     authSelectors: PropTypes.object.isRequired,
     authActions: PropTypes.object.isRequired,
-    specSelectors: PropTypes.object.isRequired
+    specSelectors: PropTypes.object.isRequired,
+    getConfigs: PropTypes.func.isRequired
   }
 
   constructor(props, context) {
@@ -26,19 +27,22 @@ export default class Auths extends React.Component {
   submitAuth =(e) => {
     e.preventDefault()
 
-    let { authActions } = this.props
-    authActions.authorize(this.state)
+    let { authActions, getConfigs } = this.props
+    let configs = getConfigs()
+
+    authActions.authorize({ auth: this.state, configs })
   }
 
   logoutClick =(e) => {
     e.preventDefault()
 
-    let { authActions, definitions } = this.props
+    let { authActions, definitions, getConfigs } = this.props
     let auths = definitions.map( (val, key) => {
       return key
     }).toArray()
+    let configs = getConfigs()
 
-    authActions.logout(auths)
+    authActions.logout({ auths, configs })
   }
 
   close =(e) => {
