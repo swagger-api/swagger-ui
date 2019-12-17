@@ -29,3 +29,5 @@ RUN chmod +x /usr/share/nginx/run.sh && \
 EXPOSE 8080
 
 CMD ["sh", "/usr/share/nginx/run.sh"]
+
+#STUFF
