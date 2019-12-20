@@ -4,6 +4,10 @@
         "name": "METIS"
     },
     {
+        "url": "https://ais48.data-dev.vanoord.com/api/v1/docs/openapi.yml",
+        "name": "GeoTech"
+    },
+    {
         "url": "https://geotech.data.vanoord.com/api/v1/docs/openapi.yml",
         "name": "GeoTech"
     }
