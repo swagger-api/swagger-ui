@@ -88,7 +88,7 @@ For more information on controlling Swagger UI through the Docker image, see the
 You can embed Swagger UI's code directly in your HTML by using unpkg's interface:
 
 ```html
-<script src="//unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
+<script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
 <!-- `SwaggerUIBundle` is now available on the page -->
 ```
 
