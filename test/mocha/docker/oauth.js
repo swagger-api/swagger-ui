@@ -23,7 +23,12 @@ describe("docker: env translator - oauth block", function() {
       OAUTH_APP_NAME: ``,
       OAUTH_SCOPE_SEPARATOR: "",
       OAUTH_ADDITIONAL_PARAMS: ``,
-      OAUTH_USE_PKCE: false
+      OAUTH_USE_PKCE: false,
+      OAUTH_DEFAULT_SCOPE: `[]`,
+      OAUTH_HIDE_CLIENT_ID: false,
+      OAUTH_HIDE_CLIENT_SECRET: false,
+      OAUTH_HIDE_SCOPE: false,
+      OAUTH_HIDE_INFO: false
     }
 
     expect(oauthBlockBuilder(input)).toEqual(dedent(`
@@ -35,6 +40,11 @@ describe("docker: env translator - oauth block", function() {
       scopeSeparator: "",
       additionalQueryStringParams: undefined,
       usePkceWithAuthorizationCodeGrant: false,
+      defaultScope: [],
+      hideClientId: false,
+      hideClientSecret: false,
+      hideScope: false,
+      hideInfo: false,
     })`))
   })
 
@@ -46,7 +56,12 @@ describe("docker: env translator - oauth block", function() {
       OAUTH_APP_NAME: `myAppName`,
       OAUTH_SCOPE_SEPARATOR: "%21",
       OAUTH_ADDITIONAL_PARAMS: `{ "a": 1234, "b": "stuff" }`,
-      OAUTH_USE_PKCE: true
+      OAUTH_USE_PKCE: true,
+      OAUTH_DEFAULT_SCOPE: `["openid", "profile"]`,
+      OAUTH_HIDE_CLIENT_ID: true,
+      OAUTH_HIDE_CLIENT_SECRET: true,
+      OAUTH_HIDE_SCOPE: true,
+      OAUTH_HIDE_INFO: true,
     }
 
     expect(oauthBlockBuilder(input)).toEqual(dedent(`
@@ -58,6 +73,11 @@ describe("docker: env translator - oauth block", function() {
       scopeSeparator: "%21",
       additionalQueryStringParams: { "a": 1234, "b": "stuff" },
       usePkceWithAuthorizationCodeGrant: true,
+      defaultScope: ["openid", "profile"],
+      hideClientId: true,
+      hideClientSecret: true,
+      hideScope: true,
+      hideInfo: true,
     })`))
   })
 })
