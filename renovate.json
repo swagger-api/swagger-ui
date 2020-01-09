@@ -1,0 +1,44 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "packageRules": [
+    {
+      "managers": ["npm"],
+      "commitMessage": "{{{commitMessagePrefix}}} {{{commitMessageTopic}}}{{{commitMessageExtra}}} {{{commitMessageSuffix}}}",
+      "commitMessageTopic": "{{depName}}",
+      "commitMessageExtra": "{{#if isMajor}} v{{{newMajor}}}{{else}}{{#if isSingleVersion}}@{{{toVersion}}}{{else}}@{{{newValue}}}{{/if}}{{/if}}"
+    },
+    {
+      "packagePatterns": [
+        "*"
+      ],
+      "rangeStrategy": "replace",
+      "semanticCommitType": "housekeeping"
+    },
+    {
+      "depTypeList": [
+        "devDependencies"
+      ],
+      "rangeStrategy": "update-lockfile",
+      "semanticCommitScope": "dev-deps",
+      "automerge": true,
+      "major": {
+        "automerge": false
+      }
+    },
+    {
+      "depTypeList": [
+        "peerDependencies"
+      ],
+      "rangeStrategy": "widen",
+      "semanticCommitScope": "peer-deps"
+    },
+    {
+      "packagePatterns": ["^react"],
+      "enabled": false
+    }
+  ],
+  "ignorePaths": ["swagger-ui-dist-package/package.json"],
+  "prConcurrentLimit": 3
+}

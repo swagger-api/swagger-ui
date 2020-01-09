@@ -1,4 +1,4 @@
-import YAML from "@kyleshockey/js-yaml"
+import YAML from "js-yaml"
 import { Map } from "immutable"
 import parseUrl from "url-parse"
 import serializeError from "serialize-error"
@@ -436,9 +436,12 @@ export const executeRequest = (req) =>
       specActions.setResponse(req.pathName, req.method, res)
     } )
     .catch(
-      err => specActions.setResponse(req.pathName, req.method, {
-        error: true, err: serializeError(err)
-      })
+      err => {
+        console.error(err)
+        specActions.setResponse(req.pathName, req.method, {
+          error: true, err: serializeError(err)
+        })
+      }
     )
   }
 
