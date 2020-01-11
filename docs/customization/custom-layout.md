@@ -1,8 +1,8 @@
 # Creating a custom layout
 
-**Layouts** are a special type of component that Swagger-UI uses as the root component for the entire application. You can define custom layouts in order to have high-level control over what ends up on the page.
+**Layouts** are a special type of component that Swagger UI uses as the root component for the entire application. You can define custom layouts in order to have high-level control over what ends up on the page.
 
-By default, Swagger-UI uses `BaseLayout`, which is built into the application. You can specify a different layout to be used by passing the layout's name as the `layout` parameter to Swagger-UI. Be sure to provide your custom layout as a component to Swagger-UI.
+By default, Swagger UI uses `BaseLayout`, which is built into the application. You can specify a different layout to be used by passing the layout's name as the `layout` parameter to Swagger UI. Be sure to provide your custom layout as a component to Swagger UI.
 
 <br>
 

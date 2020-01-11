@@ -1,24 +1,19 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
-import { fromJS } from "immutable"
-import { getSampleSchema, stringify } from "core/utils"
+import { stringify } from "core/utils"
 
 const NOOP = Function.prototype
 
 export default class RequestBodyEditor extends PureComponent {
 
   static propTypes = {
-    requestBody: PropTypes.object.isRequired,
-    mediaType: PropTypes.string.isRequired,
     onChange: PropTypes.func,
     getComponent: PropTypes.func.isRequired,
-    isExecute: PropTypes.bool,
-    specSelectors: PropTypes.object.isRequired,
+    value: PropTypes.string,
+    defaultValue: PropTypes.string,
   };
 
   static defaultProps = {
-    mediaType: "application/json",
-    requestBody: fromJS({}),
     onChange: NOOP,
   };
 
@@ -26,108 +21,75 @@ export default class RequestBodyEditor extends PureComponent {
     super(props, context)
 
     this.state = {
-      isEditBox: false,
-      userDidModify: false,
-      value: ""
-    }
-  }
-
-  componentDidMount() {
-    this.setValueToSample.call(this)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if(this.props.mediaType !== nextProps.mediaType) {
-      // media type was changed
-      this.setValueToSample(nextProps.mediaType)
+      value: stringify(props.value) || props.defaultValue
     }
 
-    if(!this.props.isExecute && nextProps.isExecute) {
-      // we just entered execute mode,
-      // so enable editing for convenience
-      this.setState({ isEditBox: true })
-    }
+    // this is the glue that makes sure our initial value gets set as the
+    // current request body value
+    // TODO: achieve this in a selector instead
+    props.onChange(props.value)
   }
 
-  componentDidUpdate(prevProps) {
-    if(this.props.requestBody !== prevProps.requestBody) {
-      // force recalc of value if the request body definition has changed
-      this.setValueToSample(this.props.mediaType)
-    }
-  }
+  applyDefaultValue = (nextProps) => {
+    const { onChange, defaultValue } = (nextProps ? nextProps : this.props)
 
-  setValueToSample = (explicitMediaType) => {
-    this.onChange(this.sample(explicitMediaType))
-  }
-
-  resetValueToSample = (explicitMediaType) => {
-    this.setState({ userDidModify: false })
-    this.setValueToSample(explicitMediaType)
-  }
-
-  sample = (explicitMediaType) => {
-    let { requestBody, mediaType } = this.props
-    let mediaTypeValue = requestBody.getIn(["content", explicitMediaType || mediaType])
-    let schema = mediaTypeValue.get("schema").toJS()
-    let mediaTypeExample = mediaTypeValue.get("example") !== undefined ? stringify(mediaTypeValue.get("example")) : null
-
-    return mediaTypeExample || getSampleSchema(schema, explicitMediaType || mediaType, {
-      includeWriteOnly: true
+    this.setState({
+      value: defaultValue
     })
+
+    return onChange(defaultValue)
   }
 
   onChange = (value) => {
-    this.setState({value})
-    this.props.onChange(value)
+    this.props.onChange(stringify(value))
   }
 
-  handleOnChange = e => {
-    const { mediaType } = this.props
-    const isJson = /json/i.test(mediaType)
-    const inputValue = isJson ? e.target.value.trim() : e.target.value
+  onDomChange = e => {
+    const inputValue = e.target.value
 
-    this.setState({ userDidModify: true })
-    this.onChange(inputValue)
+    this.setState({
+      value: inputValue,
+    }, () => this.onChange(inputValue))
   }
 
-  toggleIsEditBox = () => this.setState( state => ({isEditBox: !state.isEditBox}))
+  componentWillReceiveProps(nextProps) {
+    if(
+      this.props.value !== nextProps.value &&
+      nextProps.value !== this.state.value
+    ) {
+
+      this.setState({
+        value: stringify(nextProps.value)
+      })
+    }
+
+    
+
+    if(!nextProps.value && nextProps.defaultValue && !!this.state.value) {
+      // if new value is falsy, we have a default, AND the falsy value didn't
+      // come from us originally
+      this.applyDefaultValue(nextProps)
+    }
+  }
 
   render() {
     let {
-      isExecute,
-      getComponent,
-      mediaType,
+      getComponent
     } = this.props
 
-    const Button = getComponent("Button")
-    const TextArea = getComponent("TextArea")
-    const HighlightCode = getComponent("highlightCode")
+    let {
+      value
+    } = this.state
 
-    let { value, isEditBox, userDidModify } = this.state
+    const TextArea = getComponent("TextArea")
 
     return (
       <div className="body-param">
-        {
-          isEditBox && isExecute
-            ? <TextArea className={"body-param__text"} value={value} onChange={ this.handleOnChange }/>
-            : (value && <HighlightCode className="body-param__example"
-                               value={ value }/>)
-        }
-        <div className="body-param-options">
-          <div className="body-param-edit">
-            {
-              !isExecute ? null
-                         : <Button className={isEditBox ? "btn cancel body-param__example-edit" : "btn edit body-param__example-edit"}
-                                   onClick={this.toggleIsEditBox}>{ isEditBox ? "Cancel" : "Edit"}
-                           </Button>
-
-            }
-            { userDidModify &&
-              <Button className="btn ml3" onClick={() => { this.resetValueToSample(mediaType) }}>Reset</Button>
-            }
-          </div>
-        </div>
-
+        <TextArea
+          className={"body-param__text"}
+          value={value}
+          onChange={ this.onDomChange }
+        />
       </div>
     )
 

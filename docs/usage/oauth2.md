@@ -1,5 +1,5 @@
-# OAuth2 configuration
-You can configure OAuth2 authorization by calling the `initOAuth` method.
+# OAuth 2.0 configuration
+You can configure OAuth 2.0 authorization by calling the `initOAuth` method.
 
 Property name | Docker variable |  Description
 --- | --- | ------
@@ -10,6 +10,7 @@ appName | `OAUTH_APP_NAME` |application name, displayed in authorization popup. 
 scopeSeparator | `OAUTH_SCOPE_SEPARATOR` |scope separator for passing scopes, encoded before calling, default value is a space (encoded value `%20`). MUST be a string
 additionalQueryStringParams | `OAUTH_ADDITIONAL_PARAMS` |Additional query parameters added to `authorizationUrl` and `tokenUrl`. MUST be an object
 useBasicAuthenticationWithAccessCodeGrant | _Unavailable_ |Only activated for the `accessCode` flow.  During the `authorization_code` request to the `tokenUrl`, pass the [Client Password](https://tools.ietf.org/html/rfc6749#section-2.3.1) using the HTTP Basic Authentication scheme (`Authorization` header with `Basic base64encode(client_id + client_secret)`).  The default is `false`
+usePkceWithAuthorizationCodeGrant | `OAUTH_USE_PKCE` | Only applies to `authorizatonCode` flows. [Proof Key for Code Exchange](https://tools.ietf.org/html/rfc7636) brings enhanced security for OAuth public clients. The default is `false`
 
 ```javascript
 const ui = SwaggerUI({...})
@@ -21,6 +22,7 @@ ui.initOAuth({
     realm: "your-realms",
     appName: "your-app-name",
     scopeSeparator: " ",
-    additionalQueryStringParams: {test: "hello"}
+    additionalQueryStringParams: {test: "hello"},
+    usePkceWithAuthorizationCodeGrant: true
   })
 ```
