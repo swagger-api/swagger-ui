@@ -1,5 +1,6 @@
 import { fromJS, Map } from "immutable"
 import { btoa } from "core/utils"
+import { saveAuthorization, deleteAuthorization } from "../../../helpers/storage-authorization"
 
 import {
   SHOW_AUTH_POPUP,
@@ -15,26 +16,31 @@ export default {
   },
 
   [AUTHORIZE]: (state, { payload } ) =>{
-    let securities = fromJS(payload)
+    let { auth, configs } = payload
+    let securities = fromJS(auth)
     let map = state.get("authorized") || Map()
 
     // refactor withMutations
     securities.entrySeq().forEach( ([ key, security ]) => {
       let type = security.getIn(["schema", "type"])
+      let authorizationValue = security.getIn(["value"]) || ""
 
       if ( type === "apiKey" || type === "http" ) {
         map = map.set(key, security)
       } else if ( type === "basic" ) {
         let username = security.getIn(["value", "username"])
         let password = security.getIn(["value", "password"])
+        authorizationValue = "Basic " + btoa(username + ":" + password)
 
         map = map.setIn([key, "value"], {
           username: username,
-          header: "Basic " + btoa(username + ":" + password)
+          header: authorizationValue
         })
 
         map = map.setIn([key, "schema"], security.get("schema"))
       }
+
+      saveAuthorization(configs, key, authorizationValue)
     })
 
     return state.set( "authorized", map )
@@ -51,9 +57,12 @@ export default {
   },
 
   [LOGOUT]: (state, { payload } ) =>{
+    let { auths, configs } = payload
+
     let result = state.get("authorized").withMutations((authorized) => {
-        payload.forEach((auth) => {
+        auths.forEach((auth) => {
           authorized.delete(auth)
+          deleteAuthorization(configs, auth)
         })
       })
 

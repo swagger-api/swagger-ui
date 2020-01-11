@@ -90,6 +90,10 @@ const standardVariables = {
   WITH_CREDENTIALS: {
     type: "boolean",
     name: "withCredentials",
+  },
+  SAVE_AUTHORIZATION: {
+    type: "boolean",
+    name: "saveAuthorization"
   }
 }
 
