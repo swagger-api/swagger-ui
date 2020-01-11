@@ -87,7 +87,7 @@ export default class ResponseBody extends React.PureComponent {
             bodyEl = <div><a href={ href } download={ download }>{ "Download file" }</a></div>
         }
       } else {
-        bodyEl = <pre>Download headers detected but your browser does not support downloading binary via XHR (Blob).</pre>
+        bodyEl = <pre className="microlight">Download headers detected but your browser does not support downloading binary via XHR (Blob).</pre>
       }
 
       // Anything else (CORS)
@@ -123,7 +123,7 @@ export default class ResponseBody extends React.PureComponent {
 
       // Audio
     } else if (/^audio\//i.test(contentType)) {
-      bodyEl = <pre><audio controls><source src={ url } type={ contentType } /></audio></pre>
+      bodyEl = <pre className="microlight"><audio controls><source src={ url } type={ contentType } /></audio></pre>
     } else if (typeof content === "string") {
       bodyEl = <HighlightCode downloadable fileName={`${downloadName}.txt`} value={ content } />
     } else if ( content.size > 0 ) {

@@ -41,7 +41,7 @@ export default class ParameterRow extends Component {
     let enumValue
 
     if(isOAS3) {
-      let schema = getParameterSchema(parameterWithMeta, { isOAS3 })
+      let { schema } = getParameterSchema(parameterWithMeta, { isOAS3 })
       enumValue = schema.get("enum")
     } else {
       enumValue = parameterWithMeta ? parameterWithMeta.get("enum") : undefined
@@ -98,7 +98,7 @@ export default class ParameterRow extends Component {
 
     const paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || Map()
 
-    const schema = getParameterSchema(paramWithMeta, { isOAS3: specSelectors.isOAS3() })
+    const { schema } = getParameterSchema(paramWithMeta, { isOAS3: specSelectors.isOAS3() })
 
     const parameterMediaType = paramWithMeta
       .get("content", Map())
@@ -129,6 +129,7 @@ export default class ParameterRow extends Component {
           || paramWithMeta.get("example")
           || schema.get("example")
           || schema.get("default")
+          || paramWithMeta.get("default") // ensures support for `parameterMacro`
       }
 
       //// Process the initial value
@@ -208,9 +209,10 @@ export default class ParameterRow extends Component {
     const ExamplesSelectValueRetainer = getComponent("ExamplesSelectValueRetainer")
     const Example = getComponent("Example")
 
+    let { schema } = getParameterSchema(param, { isOAS3 })
     let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || Map()
+
     let format = param.get("format")
-    let schema = getParameterSchema(param, { isOAS3 })
     let type = schema.get("type")
     let isFormData = inType === "formData"
     let isFormDataSupported = "FormData" in win
@@ -245,6 +247,9 @@ export default class ParameterRow extends Component {
     // Default and Example Value for readonly doc
     if ( param !== undefined ) {
       paramDefaultValue = schema.get("default")
+      if (paramDefaultValue === undefined) {
+        paramDefaultValue = param.get("default")
+      }
       paramExample = param.get("example")
       if (paramExample === undefined) {
         paramExample = param.get("x-example")

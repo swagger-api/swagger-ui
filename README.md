@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/swagger-api/swagger.io/wordpress/images/assets/SWU-logo-clr.png" height="80">
+# <img src="https://raw.githubusercontent.com/swagger-api/swagger.io/wordpress/images/assets/SWU-logo-clr.png" width="300">
 
 [![NPM version](https://badge.fury.io/js/swagger-ui.svg)](http://badge.fury.io/js/swagger-ui)
 [![Build Status](https://jenkins.swagger.io/view/OSS%20-%20JavaScript/job/oss-swagger-ui-master/badge/icon?subject=jenkins%20build)](https://jenkins.swagger.io/view/OSS%20-%20JavaScript/job/oss-swagger-ui-master/)
@@ -60,7 +60,7 @@ Swagger UI Version | Release Date | OpenAPI Spec compatibility | Notes
 ##### Integration Tests
 
 You will need JDK of version 7 or higher as instructed here
-http://nightwatchjs.org/gettingstarted#selenium-server-setup
+https://nightwatchjs.org/gettingstarted/#selenium-server-setup
 
 Integration tests can be run locally with `npm run e2e` - be sure you aren't running a dev server when testing!
 
@@ -80,18 +80,3 @@ To help with the migration, here are the currently known issues with 3.X. This l
 ## Security contact
 
 Please disclose any security-related issues or vulnerabilities by emailing [security@swagger.io](mailto:security@swagger.io), instead of using the public issue tracker.
-
-## License
-
-Copyright 2019 SmartBear Software
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at [apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
