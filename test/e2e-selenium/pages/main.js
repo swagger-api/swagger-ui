@@ -85,13 +85,13 @@ module.exports = {
       }
     },
     apiWrapper: {
-      selector: "div.swagger-ui > div:nth-child(2) > div:nth-child(5) > section > div",
+      selector: "div.swagger-ui > div:nth-child(2) > div:nth-child(4) > section > div",
       elements: {
         petAPIWrapper: {
-          selector: "div.swagger-ui div:nth-child(5) > section > div > span:nth-child(1) > div"
+          selector: "div.swagger-ui div:nth-child(4) > section > div > span:nth-child(1) > div"
         },
         petAPIWrapperBar: {
-          selector: "div.swagger-ui div:nth-child(5) > section > div > span:nth-child(1) > div .opblock-tag"
+          selector: "div.swagger-ui div:nth-child(4) > section > div > span:nth-child(1) > div .opblock-tag"
         },
 
         /**
@@ -319,10 +319,10 @@ module.exports = {
          * ***********Store************
          */
         storeAPIWrapper: {
-          selector: "div.swagger-ui div:nth-child(5) > section > div > span:nth-child(2) > div"
+          selector: "div.swagger-ui div:nth-child(4) > section > div > span:nth-child(2) > div"
         },
         storeAPIWrapperBar: {
-          selector: "div.swagger-ui div:nth-child(5) > section > div > span:nth-child(2) > div .opblock-tag"
+          selector: "div.swagger-ui div:nth-child(4) > section > div > span:nth-child(2) > div .opblock-tag"
         },
         /**
          * Get /store/inventory
@@ -418,10 +418,10 @@ module.exports = {
          * *********User**************
          */
         userAPIWrapper: {
-          selector: "div.swagger-ui div:nth-child(5) > section > div > span:nth-child(3) > div"
+          selector: "div.swagger-ui div:nth-child(4) > section > div > span:nth-child(3) > div"
         },
         userAPIWrapperBar: {
-          selector: "div.swagger-ui div:nth-child(5) > section > div > span:nth-child(3) > div .opblock-tag"
+          selector: "div.swagger-ui div:nth-child(4) > section > div > span:nth-child(3) > div .opblock-tag"
         },
         /**
          * Put /user/login
