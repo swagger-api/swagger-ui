@@ -26,7 +26,7 @@ ui.initOAuth({
     scopeSeparator: " ",
     scopes: "openid profile",
     additionalQueryStringParams: {test: "hello"},
-    additionalFormParams: {audience: "me"}
+    additionalFormParams: {audience: "me"},
     usePkceWithAuthorizationCodeGrant: true
   })
 ```
