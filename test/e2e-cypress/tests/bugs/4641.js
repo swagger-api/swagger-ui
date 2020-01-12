@@ -73,7 +73,7 @@ describe("#4641: The Logout button in Authorize popup not clearing API Key", () 
       })
   })
 
-  it("should not only forget the value of the auth the user logged out from", () => {
+  it("should only forget the value of the auth the user logged out from", () => {
     cy
       .visit("/?url=/documents/bugs/4641.yaml")
       .get("button.btn.authorize") // open authorize popup
