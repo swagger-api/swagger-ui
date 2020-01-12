@@ -24,7 +24,7 @@ ui.initOAuth({
     appName: "your-app-name",
     scopeSeparator: " ",
     additionalQueryStringParams: {test: "hello"},
-    additionalFormParams: {audience: "me"}
+    additionalFormParams: {audience: "me"},
     usePkceWithAuthorizationCodeGrant: true
   })
 ```
