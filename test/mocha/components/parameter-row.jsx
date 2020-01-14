@@ -20,7 +20,7 @@ describe("<ParameterRow/>", () => {
     getConfigs: () => ({})
   })
 
-  it("Can render Swagger 2 parameter type", () => {
+  it("Can render Swagger 2 parameter type with format", () => {
     const param = fromJS({
       name: "petUuid",
       in: "path",
@@ -36,7 +36,22 @@ describe("<ParameterRow/>", () => {
     expect(wrapper.find(".parameter__type").text()).toEqual("string($uuid)")
   })
 
-  it("Can render OAS3 parameter type", () => {
+  it("Can render Swagger 2 parameter type with format", () => {
+    const param = fromJS({
+      name: "petId",
+      in: "path",
+      description: "ID that identifies a pet",
+      type: "string"
+    })
+
+    const props = createProps({ param, isOAS3: false })
+    const wrapper = render(<ParameterRow {...props}/>)
+
+    expect(wrapper.find(".parameter__type").length).toEqual(1)
+    expect(wrapper.find(".parameter__type").text()).toEqual("string")
+  })
+
+  it("Can render OAS3 parameter type with format", () => {
     const param = fromJS({
       name: "petUuid",
       in: "path",
@@ -52,5 +67,22 @@ describe("<ParameterRow/>", () => {
 
     expect(wrapper.find(".parameter__type").length).toEqual(1)
     expect(wrapper.find(".parameter__type").text()).toEqual("string($uuid)")
+  })
+
+  it("Can render OAS3 parameter type without format", () => {
+    const param = fromJS({
+      name: "petId",
+      in: "path",
+      description: "ID that identifies a pet",
+      schema: {
+        type: "string"
+      }
+    })
+
+    const props = createProps({ param, isOAS3: true })
+    const wrapper = render(<ParameterRow {...props}/>)
+
+    expect(wrapper.find(".parameter__type").length).toEqual(1)
+    expect(wrapper.find(".parameter__type").text()).toEqual("string")
   })
 })
