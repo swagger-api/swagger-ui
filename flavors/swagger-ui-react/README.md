@@ -77,6 +77,12 @@ The default expansion depth for models (set to -1 completely hide the models).
 
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
+#### `displayOperationId`: PropTypes.bool
+
+Controls the display of operationId in operations list. The default is false.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
 #### `plugins`: PropTypes.arrayOf(PropTypes.object),
 
 An array of objects that augment and modify Swagger UI's functionality. See Swagger UI's [Plugin API](https://github.com/swagger-api/swagger-ui/blob/master/docs/customization/plugin-api.md) for more details.

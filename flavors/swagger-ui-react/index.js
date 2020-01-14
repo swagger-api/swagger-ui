@@ -19,6 +19,7 @@ export default class SwaggerUI extends React.Component {
       onComplete: this.onComplete,
       docExpansion: this.props.docExpansion,
       defaultModelExpandDepth: this.props.defaultModelExpandDepth,
+      displayOperationId: this.props.displayOperationId,
     })
 
     this.system = ui
@@ -86,4 +87,5 @@ SwaggerUI.propTypes = {
   docExpansion: PropTypes.oneOf(['list', 'full', 'none']),
   defaultModelExpandDepth: PropTypes.number,
   plugins: PropTypes.arrayOf(PropTypes.object),
+  displayOperationId: PropTypes.bool,
 }
