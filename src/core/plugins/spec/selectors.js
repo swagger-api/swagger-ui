@@ -1,6 +1,7 @@
 import { createSelector } from "reselect"
 import { sorters } from "core/utils"
 import { fromJS, Set, Map, OrderedMap, List } from "immutable"
+import { paramToIdentifier } from "../../utils"
 
 const DEFAULT_TAG = "default"
 
@@ -175,7 +176,10 @@ export const findDefinition = ( state, name ) => {
 
 export const definitions = createSelector(
   spec,
-  spec => spec.get("definitions") || Map()
+  spec => {
+    const res = spec.get("definitions")
+    return Map.isMap(res) ? res : Map()
+  }
 )
 
 export const basePath = createSelector(
@@ -221,7 +225,10 @@ export const operationsWithRootInherited = createSelector(
 
 export const tags = createSelector(
   spec,
-  json => json.get("tags", List())
+  json => {
+    const tags = json.get("tags", List())
+    return List.isList(tags) ? tags.filter(tag => Map.isMap(tag)) : List()
+  }
 )
 
 export const tagDetails = (state, tag) => {
@@ -299,11 +306,11 @@ export const parameterWithMetaByIdentity = (state, pathMethod, param) => {
   const metaParams = state.getIn(["meta", "paths", ...pathMethod, "parameters"], OrderedMap())
 
   const mergedParams = opParams.map((currentParam) => {
-    const nameInKeyedMeta = metaParams.get(`${param.get("name")}.${param.get("in")}`)
-    const hashKeyedMeta = metaParams.get(`${param.get("name")}.${param.get("in")}.hash-${param.hashCode()}`)
+    const inNameKeyedMeta = metaParams.get(`${param.get("in")}.${param.get("name")}`)
+    const hashKeyedMeta = metaParams.get(`${param.get("in")}.${param.get("name")}.hash-${param.hashCode()}`)
     return OrderedMap().merge(
       currentParam,
-      nameInKeyedMeta,
+      inNameKeyedMeta,
       hashKeyedMeta
     )
   })
@@ -312,7 +319,7 @@ export const parameterWithMetaByIdentity = (state, pathMethod, param) => {
 }
 
 export const parameterInclusionSettingFor = (state, pathMethod, paramName, paramIn) => {
-  const paramKey = `${paramName}.${paramIn}`
+  const paramKey = `${paramIn}.${paramName}`
   return state.getIn(["meta", "paths", ...pathMethod, "parameter_inclusions", paramKey], false)
 }
 
@@ -361,7 +368,7 @@ export function parameterValues(state, pathMethod, isXml) {
   let paramValues = operationWithMeta(state, ...pathMethod).get("parameters", List())
   return paramValues.reduce( (hash, p) => {
     let value = isXml && p.get("in") === "body" ? p.get("value_xml") : p.get("value")
-    return hash.set(`${p.get("in")}.${p.get("name")}`, value)
+    return hash.set(paramToIdentifier(p, { allowHashes: false }), value)
   }, fromJS({}))
 }
 
@@ -401,12 +408,6 @@ export function contentTypeValues(state, pathMethod) {
   })
 }
 
-// Get the consumes/produces by path
-export function operationConsumes(state, pathMethod) {
-  pathMethod = pathMethod || []
-  return specJsonWithResolvedSubtrees(state).getIn(["paths", ...pathMethod, "consumes"], fromJS({}))
-}
-
 // Get the currently selected produces value for an operation
 export function currentProducesFor(state, pathMethod) {
   pathMethod = pathMethod || []
@@ -423,6 +424,48 @@ export function currentProducesFor(state, pathMethod) {
 
   return currentProducesValue || firstProducesArrayItem || "application/json"
 
+}
+
+// Get the produces options for an operation
+export function producesOptionsFor(state, pathMethod) {
+  pathMethod = pathMethod || []
+
+  const spec = specJsonWithResolvedSubtrees(state)
+  const operation = spec.getIn([ "paths", ...pathMethod], null)
+
+  if(operation === null) {
+    // return nothing if the operation does not exist
+    return
+  }
+
+  const [path] = pathMethod
+
+  const operationProduces = operation.get("produces", null)
+  const pathItemProduces = spec.getIn(["paths", path, "produces"], null)
+  const globalProduces = spec.getIn(["produces"], null)
+
+  return operationProduces || pathItemProduces || globalProduces
+}
+
+// Get the consumes options for an operation
+export function consumesOptionsFor(state, pathMethod) {
+  pathMethod = pathMethod || []
+
+  const spec = specJsonWithResolvedSubtrees(state)
+  const operation = spec.getIn(["paths", ...pathMethod], null)
+
+  if (operation === null) {
+    // return nothing if the operation does not exist
+    return
+  }
+
+  const [path] = pathMethod
+
+  const operationConsumes = operation.get("consumes", null)
+  const pathItemConsumes = spec.getIn(["paths", path, "consumes"], null)
+  const globalConsumes = spec.getIn(["consumes"], null)
+
+  return operationConsumes || pathItemConsumes || globalConsumes
 }
 
 export const operationScheme = ( state, path, method ) => {

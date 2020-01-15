@@ -18,7 +18,7 @@ export default class OnlineValidatorBadge extends React.Component {
         let { validatorUrl } = getConfigs()
         this.state = {
             url: this.getDefinitionUrl(),
-            validatorUrl: validatorUrl === undefined ? "https://online.swagger.io/validator" : validatorUrl
+            validatorUrl: validatorUrl === undefined ? "https://validator.swagger.io/validator" : validatorUrl
         }
     }
 
@@ -36,7 +36,7 @@ export default class OnlineValidatorBadge extends React.Component {
 
         this.setState({
             url: this.getDefinitionUrl(),
-            validatorUrl: validatorUrl === undefined ? "https://online.swagger.io/validator" : validatorUrl
+            validatorUrl: validatorUrl === undefined ? "https://validator.swagger.io/validator" : validatorUrl
         })
     }
 

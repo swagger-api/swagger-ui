@@ -22,6 +22,9 @@ export const updateJsonSpec = (ori, {specActions}) => (...args) => {
       specActions.requestResolvedSubtree(["paths", k])
     }
   })
+
+  // Trigger resolution of any securitySchemes-level $refs.
+  specActions.requestResolvedSubtree(["components", "securitySchemes"])
 }
 
 // Log the request ( just for debugging, shouldn't affect prod )

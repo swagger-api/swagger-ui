@@ -38,7 +38,7 @@ class Contact extends React.Component {
     const Link = getComponent("Link")
 
     return (
-      <div>
+      <div className="info__contact">
         { url && <div><Link href={ sanitizeUrl(url) } target="_blank">{ name } - Website</Link></div> }
         { email &&
           <Link href={sanitizeUrl(`mailto:${email}`)}>
@@ -66,7 +66,7 @@ class License extends React.Component {
     let url = license.get("url")
 
     return (
-      <div>
+      <div className="info__license">
         {
           url ? <Link target="_blank" href={ sanitizeUrl(url) }>{ name }</Link>
         : <span>{ name }</span>
@@ -133,7 +133,7 @@ export default class Info extends React.Component {
         </div>
 
         {
-          termsOfService && <div>
+          termsOfService && <div className="info__tos">
             <Link target="_blank" href={ sanitizeUrl(termsOfService) }>Terms of service</Link>
           </div>
         }
@@ -141,7 +141,7 @@ export default class Info extends React.Component {
         {contact && contact.size ? <Contact getComponent={getComponent} data={ contact } /> : null }
         {license && license.size ? <License getComponent={getComponent} license={ license } /> : null }
         { externalDocsUrl ?
-            <Link target="_blank" href={sanitizeUrl(externalDocsUrl)}>{externalDocsDescription || externalDocsUrl}</Link>
+            <Link className="info__extdocs" target="_blank" href={sanitizeUrl(externalDocsUrl)}>{externalDocsDescription || externalDocsUrl}</Link>
         : null }
 
       </div>

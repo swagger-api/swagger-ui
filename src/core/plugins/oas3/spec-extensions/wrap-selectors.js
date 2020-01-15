@@ -1,4 +1,5 @@
 import { createSelector } from "reselect"
+import { specJsonWithResolvedSubtrees } from "../../spec/selectors"
 import { Map } from "immutable"
 import { isOAS3 as isOAS3Helper, isSwagger2 as isSwagger2Helper } from "../helpers"
 
@@ -45,7 +46,10 @@ const spec = state => {
 
 export const definitions = onlyOAS3(createSelector(
   spec,
-  spec => spec.getIn(["components", "schemas"]) || Map()
+  spec => {
+    const res = spec.getIn(["components", "schemas"])
+    return Map.isMap(res) ? res : Map()
+  }
 ))
 
 export const hasHost = onlyOAS3((state) => {
@@ -53,7 +57,7 @@ export const hasHost = onlyOAS3((state) => {
 })
 
 export const securityDefinitions = onlyOAS3(createSelector(
-  spec,
+  specJsonWithResolvedSubtrees,
   spec => spec.getIn(["components", "securitySchemes"]) || null
 ))
 
