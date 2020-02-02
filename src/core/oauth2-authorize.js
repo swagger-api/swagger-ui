@@ -1,5 +1,5 @@
 import win from "core/window"
-import { btoa } from "core/utils"
+import { btoa, sanitizeUrl, generateCodeVerifier, createCodeChallenge } from "core/utils"
 
 export default function authorize ( { auth, authActions, errActions, configs, authConfigs={} } ) {
   let { schema, scopes, name, clientId } = auth
@@ -66,6 +66,18 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     query.push("realm=" + encodeURIComponent(authConfigs.realm))
   }
 
+  if (flow === "authorizationCode" && authConfigs.usePkceWithAuthorizationCodeGrant) {
+      const codeVerifier = generateCodeVerifier()
+      const codeChallenge = createCodeChallenge(codeVerifier)
+
+      query.push("code_challenge=" + codeChallenge)
+      query.push("code_challenge_method=S256")
+
+      // storing the Code Verifier so it can be sent to the token endpoint
+      // when exchanging the Authorization Code for an Access Token
+      auth.codeVerifier = codeVerifier
+  }
+
   let { additionalQueryStringParams } = authConfigs
 
   for (let key in additionalQueryStringParams) {
@@ -74,8 +86,9 @@ export default function authorize ( { auth, authActions, errActions, configs, au
     }
   }
 
-  let authorizationUrl = schema.get("authorizationUrl")
-  let url = [authorizationUrl, query.join("&")].join(authorizationUrl.indexOf("?") === -1 ? "?" : "&")
+  const authorizationUrl = schema.get("authorizationUrl")
+  const sanitizedAuthorizationUrl = sanitizeUrl(authorizationUrl)
+  let url = [sanitizedAuthorizationUrl, query.join("&")].join(authorizationUrl.indexOf("?") === -1 ? "?" : "&")
 
   // pass action authorizeOauth2 and authentication data through window
   // to authorize with oauth2

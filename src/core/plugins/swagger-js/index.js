@@ -1,6 +1,7 @@
 import Swagger from "swagger-client"
+import * as configsWrapActions from "./configs-wrap-actions"
 
-module.exports = function({ configs, getConfigs }) {
+export default function({ configs, getConfigs }) {
   return {
     fn: {
       fetch: Swagger.makeHttp(configs.preFetch, configs.postFetch),
@@ -22,6 +23,11 @@ module.exports = function({ configs, getConfigs }) {
       },
       serializeRes: Swagger.serializeRes,
       opId: Swagger.helpers.opId
-    }
+    },
+    statePlugins: {
+      configs: {
+        wrapActions: configsWrapActions
+      }
+    },
   }
 }

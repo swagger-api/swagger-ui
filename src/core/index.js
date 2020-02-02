@@ -1,20 +1,19 @@
 import deepExtend from "deep-extend"
 
-import System from "core/system"
-import win from "core/window"
-import ApisPreset from "core/presets/apis"
-
-import * as AllPlugins from "core/plugins/all"
-import { parseSearch } from "core/utils"
+import System from "./system"
+import ApisPreset from "./presets/apis"
+import AllPlugins from "./plugins/all"
+import { parseSearch } from "./utils"
+import win from "./window"
 
 if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
-  win.Perf = require("react-addons-perf")
+  win.Perf = require("react-dom/lib/ReactPerf")
 }
 
 // eslint-disable-next-line no-undef
 const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION, HOSTNAME, BUILD_TIME } = buildInfo
 
-module.exports = function SwaggerUI(opts) {
+export default function SwaggerUI(opts) {
 
   win.versions = win.versions || {}
   win.versions.swaggerUi = {
@@ -36,7 +35,8 @@ module.exports = function SwaggerUI(opts) {
     docExpansion: "list",
     maxDisplayedTags: null,
     filter: null,
-    validatorUrl: "https://online.swagger.io/validator",
+    validatorUrl: "https://validator.swagger.io/validator",
+    oauth2RedirectUrl: `${window.location.protocol}//${window.location.host}/oauth2-redirect.html`,
     configs: {},
     custom: {},
     displayOperationId: false,
@@ -50,6 +50,7 @@ module.exports = function SwaggerUI(opts) {
     defaultModelsExpandDepth: 1,
     showExtensions: false,
     showCommonExtensions: false,
+    withCredentials: undefined,
     supportedSubmitMethods: [
       "get",
       "put",
@@ -147,7 +148,7 @@ module.exports = function SwaggerUI(opts) {
         system.specActions.updateUrl("")
         system.specActions.updateLoadingStatus("success")
         system.specActions.updateSpec(JSON.stringify(mergedConfig.spec))
-      } else if (system.specActions.download && mergedConfig.url) {
+      } else if (system.specActions.download && mergedConfig.url && !mergedConfig.urls) {
         system.specActions.updateUrl(mergedConfig.url)
         system.specActions.download(mergedConfig.url)
       }
@@ -185,9 +186,9 @@ module.exports = function SwaggerUI(opts) {
 }
 
 // Add presets
-module.exports.presets = {
+SwaggerUI.presets = {
   apis: ApisPreset,
 }
 
 // All Plugins
-module.exports.plugins = AllPlugins
+SwaggerUI.plugins = AllPlugins

@@ -1,0 +1,15 @@
+daysUntilLock: 365
+skipCreatedBefore: 2017-03-29 # initial release of Swagger UI 3.0.0
+exemptLabels: []
+lockLabel: "locked-by: lock-bot"
+setLockReason: false
+only: issues
+lockComment: false
+# lockComment: |
+#   Locking due to inactivity.
+  
+#   This is done to avoid resurrecting old issues and bumping long threads with new, possibly unrelated content.
+  
+#   If you think you're experiencing something similar to what you've found here: please [open a new issue](https://github.com/swagger-api/swagger-ui/issues/new/choose), follow the template, and reference this issue in your report.
+  
+#   Thanks!
