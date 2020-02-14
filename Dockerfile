@@ -10,7 +10,7 @@ LABEL maintainer="fehguy"
 
 ENV API_KEY "**None**"
 ENV SWAGGER_JSON "/app/swagger.json"
-ENV PORT 8080
+ENV PORT 80
 ENV BASE_URL ""
 
 COPY ./docker/nginx.conf ./docker/cors.conf /etc/nginx/
@@ -26,6 +26,6 @@ RUN chmod +x /usr/share/nginx/run.sh && \
     chmod -R a+rw /var && \
     chmod -R a+rw /var/run
 
-EXPOSE 8080
+EXPOSE 80
 
 CMD ["sh", "/usr/share/nginx/run.sh"]
