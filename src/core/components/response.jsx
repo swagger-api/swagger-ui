@@ -218,7 +218,8 @@ export default class Response extends React.Component {
               getConfigs={ getConfigs }
               specSelectors={ specSelectors }
               schema={ fromJSOrdered(schema) }
-              example={ example }/>
+              example={ example }
+              includeReadOnly={ true }/>
           ) : null }
 
           { isOAS3 && examplesForMediaType ? (

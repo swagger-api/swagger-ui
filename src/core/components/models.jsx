@@ -83,7 +83,9 @@ export default class Models extends Component {
               specSelectors={ specSelectors }
               getConfigs = {getConfigs}
               layoutSelectors = {layoutSelectors}
-              layoutActions = {layoutActions}/>
+              layoutActions = {layoutActions}
+              includeReadOnly = {true}
+              includeWriteOnly = {true}/>
 
             const title = <span className="model-box">
               <span className="model model-title">
