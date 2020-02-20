@@ -5,6 +5,7 @@ import ImPropTypes from "react-immutable-proptypes"
 
 const braceOpen = "{"
 const braceClose = "}"
+const propStyle = { color: "#6b6b6b", fontStyle: "italic" }
 
 export default class ObjectModel extends Component {
   static propTypes = {
@@ -38,11 +39,14 @@ export default class ObjectModel extends Component {
     let additionalProperties = schema.get("additionalProperties")
     let title = schema.get("title") || displayName || name
     let requiredProperties = schema.get("required")
+    let infoProperties = schema
+      .filter( ( v, key) => ["nullable"].indexOf(key) !== -1 )
 
     const JumpToPath = getComponent("JumpToPath", true)
     const Markdown = getComponent("Markdown")
     const Model = getComponent("Model")
     const ModelCollapse = getComponent("ModelCollapse")
+    const Property = getComponent("Property")
 
     const JumpToPathSection = () => {
       return <span className="model-jump-to-path"><JumpToPath specPath={specPath} /></span>
@@ -204,6 +208,9 @@ export default class ObjectModel extends Component {
         </span>
         <span className="brace-close">{ braceClose }</span>
       </ModelCollapse>
+      {
+        infoProperties.size ? infoProperties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propVal={ v } propStyle={ propStyle } />) : null
+      }
     </span>
   }
 }
