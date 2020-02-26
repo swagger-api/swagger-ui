@@ -40,6 +40,10 @@ export default class RequestBodyEditor extends PureComponent {
     return onChange(defaultValue)
   }
 
+  onBlur = e => {
+    this.onChange(this.state.value)
+  }
+
   onChange = (value) => {
     this.props.onChange(stringify(value))
   }
@@ -49,7 +53,7 @@ export default class RequestBodyEditor extends PureComponent {
 
     this.setState({
       value: inputValue,
-    }, () => this.onChange(inputValue))
+    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -89,6 +93,7 @@ export default class RequestBodyEditor extends PureComponent {
           className={"body-param__text"}
           value={value}
           onChange={ this.onDomChange }
+          onBlur={ this.onBlur }
         />
       </div>
     )
