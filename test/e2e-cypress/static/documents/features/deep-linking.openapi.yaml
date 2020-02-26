@@ -1,0 +1,58 @@
+openapi: "3.0.0"
+
+paths:
+  /:
+    get:
+      operationId: "myOperation"
+      tags: ["myTag"]
+      summary: an operation
+      responses:
+        '200':
+          description: a pet to be returned
+          content: 
+            application/json:
+              schema:
+                type: object
+  /withSpaces:
+    post:
+      operationId: "my Operation"
+      tags: ["my Tag"]
+      summary: an operation
+      responses:
+        '200':
+          description: a pet to be returned
+          content: 
+            application/json:
+              schema:
+                type: object
+  /utf16fragments:
+    head:
+      operationId: "пошел"
+      tags: ["шеллы"]
+      summary: an operation
+      responses:
+        "200":
+          description: ok
+  /withUnderscores:
+    patch:
+      operationId: "underscore_Operation"
+      tags: ["underscore_Tag"]
+      summary: an operation
+      responses:
+        '200':
+          description: a pet to be returned
+          content: 
+            application/json:
+              schema:
+                type: object
+  /noOperationId:
+    put:
+      tags: ["tagTwo"]
+      summary: some operations are anonymous...
+      responses:
+        '200':
+          description: a pet to be returned
+          content: 
+            application/json:
+              schema:
+                type: object

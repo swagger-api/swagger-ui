@@ -1,0 +1,220 @@
+select
+{
+    font-size: 14px;
+    font-weight: bold;
+
+    padding: 5px 40px 5px 10px;
+
+    border: 2px solid $form-select-border-color;
+    border-radius: 4px;
+    background: $form-select-background-color url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+ICAgIDxwYXRoIGQ9Ik0xMy40MTggNy44NTljLjI3MS0uMjY4LjcwOS0uMjY4Ljk3OCAwIC4yNy4yNjguMjcyLjcwMSAwIC45NjlsLTMuOTA4IDMuODNjLS4yNy4yNjgtLjcwNy4yNjgtLjk3OSAwbC0zLjkwOC0zLjgzYy0uMjctLjI2Ny0uMjctLjcwMSAwLS45NjkuMjcxLS4yNjguNzA5LS4yNjguOTc4IDBMMTAgMTFsMy40MTgtMy4xNDF6Ii8+PC9zdmc+) right 10px center no-repeat;
+    background-size: 20px;
+    box-shadow: 0 1px 2px 0 rgba($form-select-box-shadow-color, .25);
+
+    @include text_headline();
+    appearance: none;
+
+    &[multiple]
+    {
+        margin: 5px 0;
+        padding: 5px;
+
+        background: $form-select-background-color;
+    }
+
+    &.invalid {
+        @include invalidFormElement();
+    }
+}
+
+.opblock-body select
+{
+    min-width: 230px;
+    @media (max-width: 768px)
+    {
+        min-width: 180px;
+    }
+}
+
+label
+{
+    font-size: 12px;
+    font-weight: bold;
+
+    margin: 0 0 5px 0;
+
+    @include text_headline();
+}
+
+
+input[type=text],
+input[type=password],
+input[type=search],
+input[type=email],
+input[type=file],
+textarea
+{
+    min-width: 100px;
+    margin: 5px 0;
+    padding: 8px 10px;
+
+    border: 1px solid $form-input-border-color;
+    border-radius: 4px;
+    background: $form-input-background-color;
+    @media (max-width: 768px) {
+      max-width: 175px;
+    }
+
+
+    &.invalid
+    {
+        @include invalidFormElement();
+    }
+
+}
+
+input,
+textarea,
+select {
+    &[disabled] {
+        // opacity: 0.85;
+        background-color: #fafafa;
+        color: #888;
+        cursor: not-allowed;
+    }
+}
+
+select[disabled] {
+    border-color: #888;
+}
+
+textarea[disabled] {
+    background-color: #41444e;
+    color: #fff;
+}
+
+@keyframes shake
+{
+    10%,
+    90%
+    {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80%
+    {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70%
+    {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60%
+    {
+        transform: translate3d(4px, 0, 0);
+    }
+}
+
+textarea
+{
+    font-size: 12px;
+
+    width: 100%;
+    min-height: 280px;
+    padding: 10px;
+
+    border: none;
+    border-radius: 4px;
+    outline: none;
+    background: rgba($form-textarea-background-color,.8);
+
+    @include text_code();
+
+    &:focus
+    {
+        border: 2px solid $form-textarea-focus-border-color;
+    }
+
+    &.curl
+    {
+        font-size: 12px;
+
+        min-height: 100px;
+        margin: 0;
+        padding: 10px;
+
+        resize: none;
+
+        border-radius: 4px;
+        background: $form-textarea-curl-background-color;
+
+        @include text_code($form-textarea-curl-font-color);
+    }
+}
+
+
+.checkbox
+{
+    padding: 5px 0 10px;
+
+    transition: opacity .5s;
+
+    color: $form-checkbox-label-font-color;
+
+    label
+    {
+        display: flex;
+    }
+
+    p
+    {
+        font-weight: normal !important;
+        font-style: italic;
+
+        margin: 0 !important;
+
+        @include text_code();
+    }
+
+    input[type=checkbox]
+    {
+        display: none;
+
+        & + label > .item
+        {
+            position: relative;
+            top: 3px;
+
+            display: inline-block;
+
+            width: 16px;
+            height: 16px;
+            margin: 0 8px 0 0;
+            padding: 5px;
+
+            cursor: pointer;
+
+            border-radius: 1px;
+            background: $form-checkbox-background-color;
+            box-shadow: 0 0 0 2px $form-checkbox-box-shadow-color;
+
+            flex: none;
+
+            &:active
+            {
+                transform: scale(.9);
+            }
+        }
+
+        &:checked + label > .item
+        {
+            background: $form-checkbox-background-color url(data:image/svg+xml,%0A%3Csvg%20width%3D%2210px%22%20height%3D%228px%22%20viewBox%3D%223%207%2010%208%22%20version%3D%221.1%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%3E%0A%20%20%20%20%3C%21--%20Generator%3A%20Sketch%2042%20%2836781%29%20-%20http%3A//www.bohemiancoding.com/sketch%20--%3E%0A%20%20%20%20%3Cdesc%3ECreated%20with%20Sketch.%3C/desc%3E%0A%20%20%20%20%3Cdefs%3E%3C/defs%3E%0A%20%20%20%20%3Cpolygon%20id%3D%22Rectangle-34%22%20stroke%3D%22none%22%20fill%3D%22%2341474E%22%20fill-rule%3D%22evenodd%22%20points%3D%226.33333333%2015%203%2011.6666667%204.33333333%2010.3333333%206.33333333%2012.3333333%2011.6666667%207%2013%208.33333333%22%3E%3C/polygon%3E%0A%3C/svg%3E) center center no-repeat;
+        }
+    }
+}

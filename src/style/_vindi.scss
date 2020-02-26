@@ -1,0 +1,214 @@
+&.swagger-container {
+    width: 100%;
+    background-color: white;
+    .response-col_status{
+        min-width: 100px;
+    }
+    .info {
+        margin: 0;
+        margin-top: 4%;
+        h2{
+          color: black;
+          font-size: 2em;
+        }
+
+        hgroup.main a {
+            color: #333;
+            font-size: 1em;
+        }
+        p{
+          font-size: 1em;
+        }
+    }
+
+    section .auth-container {
+        h4 {
+            text-align: center;
+            margin: 15px;
+            color: #ff6060;
+        }
+        h3 {
+          text-align: center;
+          margin: 15px;
+        }
+        .wrapper{
+          text-align: center;
+        }
+
+        input {
+            width: 80%;
+            margin: auto;
+            display: block;
+        }
+    }
+
+    .body-param-options{
+      .btn.clear{
+        padding: 5px 34px;
+        margin-left: 15px;
+      }
+    }
+
+    .scheme-container{
+        padding: 0px;
+        margin: 0px;
+        box-shadow: none;
+    }
+    .footer{
+      width: 80%;
+      margin: auto;
+      h2{
+        font-size: 1.3em;
+        padding: 10px 0 10px 0;
+        color: black;
+      }
+      p {
+        color: #333333;
+        text-align: justify;
+      }
+      .url{
+        color:#999;
+        margin-top: 3%;
+      }
+    }
+
+    .custom-top-bar {
+        background-color: #092234;
+
+        .logo {
+            width: 80%;
+            margin: auto;
+            position: relative;
+            height: 60px;
+
+            img {
+                width: 100px;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+            }
+        }
+    }
+    .wrapper{
+        padding: 0px;
+        margin-top: 1%;
+    }
+
+    .swagger-ui {
+      width: 80%;
+      margin: auto;
+      .opblock{
+        margin-top: 10px;
+      }
+      .auth-wrapper{
+        .btn{
+          &.locked{
+            color: #49cc90;
+            border-color: #49cc90;
+            svg{
+              fill: #49cc90;
+            }
+          }
+          color: #2C448E;
+          border-color: #2C448E;
+          svg{
+            fill: #2C448E;
+          }
+        }
+      }
+      .authorization__btn.locked{
+        svg{
+          fill: #49cc90;
+        }
+      }
+      .auth-btn-wrapper{
+        .btn{
+          color: #2C448E;
+          border-color: #2C448E;
+          &.btn-done{
+            color: #3b4151;
+            border-color: grey;
+          }
+          &.logout{
+            color: #ff6060;
+            border-color: #ff6060;
+          }
+        }
+      }
+
+      .try-out{
+        .btn.try-out__btn{
+          &.cancel{
+            border-color: #ff6060;
+            color:#ff6060;
+          }
+          color: #2C448E;
+          border-color: #2C448E;
+        }
+      }
+
+      .execute-wrapper{
+        text-align: center;
+        .execute{
+          background-color: #2C448E;
+          border-color: #2C448E;
+          width: 15%;
+          padding: 0px;
+          line-height: 3;
+          .has-errors{
+            width: 100%;
+          }
+        }
+      }
+      .opblock-body{
+        .btn-group{
+          width: 35%;
+          margin: auto;
+          .btn{
+            padding: 10px;
+            &.execute{
+              background-color: #2C448E;
+              border-color: #2C448E;
+              margin-right: 20px;
+            }
+          }
+          
+        }
+      }
+      .opblock-tag-section{
+        h4{
+          small{
+            :hover{
+              color: black;
+            }
+          }
+
+          a{
+            color: #999999;
+            :hover{
+              color: #999999;
+            }
+
+          }
+          color: #999999;
+          font-size: 20px;
+          padding: 5px 10px;
+          margin: 0px;
+
+          font-weight: 700;
+          small{
+            font-size: 20px;
+            font-weight: 700;
+            color: #999999;
+            p{
+              margin: 10px 0px;
+            }
+          }
+        }
+      }
+
+
+    }
+}
+

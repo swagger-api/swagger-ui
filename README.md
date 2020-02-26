@@ -3,6 +3,8 @@ Este repositório é usado para gerar e publicar a interface web da API Vindi.
 
 URL pública temporária: [https://vindi.github.io/api-docs/dist](https://vindi.github.io/api-docs/dist/)
 
+OBS: O repositório é um fork do projeto [swagger-ui](https://github.com/swagger-api/swagger-ui).
+
 ## Instalação
 
 1. Instale o [nvm](https://github.com/nvm-sh/nvm).
@@ -15,6 +17,6 @@ URL pública temporária: [https://vindi.github.io/api-docs/dist](https://vindi.
 Todas as alterações devem ser realizadas no diretório `src` e compiladas com o comando `build`:
 
 ```
-npm run-script build
+npm run build
 ```
 As páginas e assets serão gerados no diretório `dist` do projeto e deverão ser enviadas ao controle de versão.

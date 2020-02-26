@@ -1,0 +1,24 @@
+openapi: 3.0.0
+servers: []
+info:
+  description: sdf
+  version: "1.0.0"
+  title: Swagger Petstore
+paths:
+  /pet:
+    get:
+      tags:
+        - default
+      summary: 
+        whatever: 123 
+      operationId: objectSummary
+      responses:
+        '405':
+          description: Invalid input
+    post:
+      tags:
+        - default
+      operationId: noSummary
+      responses:
+        '405':
+          description: Invalid input

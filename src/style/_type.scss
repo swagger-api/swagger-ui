@@ -1,0 +1,21 @@
+@mixin text_body($color: $text-body-default-font-color)
+{
+    font-family: sans-serif;
+
+    color: $color;
+}
+
+@mixin text_code($color: $text-code-default-font-color)
+{
+    font-family: monospace;
+    font-weight: 600;
+
+    color: $color;
+}
+
+@mixin text_headline($color: $text-headline-default-font-color)
+{
+    font-family: sans-serif;
+
+    color: $color;
+}
