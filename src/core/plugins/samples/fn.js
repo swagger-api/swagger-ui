@@ -20,6 +20,10 @@ const primitives = {
 
 const primitive = (schema) => {
   schema = objectify(schema)
+  if (schema.hasOwnProperty("default")) { // Need to accept empty string values as present
+    return schema["default"]
+  }
+
   let { type, format } = schema
 
   let fn = primitives[`${type}_${format}`] || primitives[type]
