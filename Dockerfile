@@ -12,6 +12,8 @@ ENV API_KEY "**None**"
 ENV SWAGGER_JSON "/app/swagger.json"
 ENV PORT 8080
 ENV BASE_URL ""
+# For Containers running on Windows machine Swagger doc link can be changed by setting the below environment variable
+# ENV API_URL "https://mycustomswaggerdoc.com/swagger.json"
 
 COPY ./docker/nginx.conf ./docker/cors.conf /etc/nginx/
 
