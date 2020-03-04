@@ -36,7 +36,7 @@ describe("<ParameterRow/>", () => {
     expect(wrapper.find(".parameter__type").text()).toEqual("string($uuid)")
   })
 
-  it("Can render Swagger 2 parameter type with format", () => {
+  it("Can render Swagger 2 parameter type without format", () => {
     const param = fromJS({
       name: "petId",
       in: "path",
