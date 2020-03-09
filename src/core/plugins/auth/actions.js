@@ -74,28 +74,23 @@ export const authorizePassword = ( auth ) => ( { authActions } ) => {
   let { schema, name, username, password, passwordType, clientId, clientSecret } = auth
   let form = {
     grant_type: "password",
-    scope: auth.scopes.join(scopeSeparator)
+    scope: auth.scopes.join(scopeSeparator),
+    username,
+    password
   }
   let query = {}
   let headers = {}
 
-  if ( passwordType === "basic") {
-    headers.Authorization = "Basic " + btoa(username + ":" + password)
-  } else {
-    Object.assign(form, {username}, {password})
+  switch (passwordType) {
+    case "request-body":
+      setClientIdAndSecret(form, clientId, clientSecret)
+      break
 
-    switch ( passwordType ) {
-      case "query":
-        setClientIdAndSecret(query, clientId, clientSecret)
-        break
-
-      case "request-body":
-        setClientIdAndSecret(form, clientId, clientSecret)
-        break
-
-      default:
-        headers.Authorization = "Basic " + btoa(clientId + ":" + clientSecret)
-    }
+    case "basic":
+      headers.Authorization = "Basic " + btoa(clientId + ":" + clientSecret)
+      break
+    default:
+      console.warn(`Warning: invalid passwordType ${passwordType} was passed, not including client id and secret`)
   }
 
   return authActions.authorizeRequest({ body: buildFormData(form), url: schema.get("tokenUrl"), name, headers, query, auth})
@@ -125,13 +120,14 @@ export const authorizeApplication = ( auth ) => ( { authActions } ) => {
 }
 
 export const authorizeAccessCodeWithFormParams = ( { auth, redirectUrl } ) => ( { authActions } ) => {
-  let { schema, name, clientId, clientSecret } = auth
+  let { schema, name, clientId, clientSecret, codeVerifier } = auth
   let form = {
     grant_type: "authorization_code",
     code: auth.code,
     client_id: clientId,
     client_secret: clientSecret,
-    redirect_uri: redirectUrl
+    redirect_uri: redirectUrl,
+    code_verifier: codeVerifier
   }
 
   return authActions.authorizeRequest({body: buildFormData(form), name, url: schema.get("tokenUrl"), auth})
@@ -173,7 +169,8 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
 
   let _headers = Object.assign({
     "Accept":"application/json, text/plain, */*",
-    "Content-Type": "application/x-www-form-urlencoded"
+    "Content-Type": "application/x-www-form-urlencoded",
+    "X-Requested-With": "XMLHttpRequest"
   }, headers)
 
   fn.fetch({

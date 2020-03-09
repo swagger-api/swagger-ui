@@ -1,11 +1,11 @@
-import YAML from "@kyleshockey/js-yaml"
+import YAML from "js-yaml"
 import { Map } from "immutable"
 import parseUrl from "url-parse"
 import serializeError from "serialize-error"
 import isString from "lodash/isString"
 import debounce from "lodash/debounce"
 import set from "lodash/set"
-import { isJSONObject } from "core/utils"
+import { isJSONObject, paramToValue } from "core/utils"
 
 // Actions conform to FSA (flux-standard-actions)
 // {type: string,payload: Any|Error, meta: obj, error: bool}
@@ -184,8 +184,11 @@ const debResolveSubtrees = debounce(async () => {
       })
 
       if(errSelectors.allErrors().size) {
-        errActions.clear({
-          type: "thrown"
+        errActions.clearBy(err => {
+          // keep if...
+          return err.get("type") !== "thrown" // it's not a thrown error
+            || err.get("source") !== "resolver" // it's not a resolver error
+            || !err.get("fullPath").every((key, i) => key === path[i] || path[i] === undefined) // it's not within the path we're resolving
         })
       }
 
@@ -225,6 +228,16 @@ const debResolveSubtrees = debounce(async () => {
 }, 35)
 
 export const requestResolvedSubtree = path => system => {
+  // poor-man's array comparison
+  // if this ever inadequate, this should be rewritten to use Im.List
+  const isPathAlreadyBatched = requestBatch
+    .map(arr => arr.join("@@"))
+    .indexOf(path.join("@@")) > -1
+  
+  if(isPathAlreadyBatched) {
+    return
+  }
+
   requestBatch.push(path)
   requestBatch.system = system
   debResolveSubtrees()
@@ -345,19 +358,19 @@ export const executeRequest = (req) =>
     
     // ensure that explicitly-included params are in the request
 
-    if(op && op.parameters && op.parameters.length) {
-      op.parameters
-        .filter(param => param && param.allowEmptyValue === true)
+    if (operation && operation.get("parameters")) {
+      operation.get("parameters")
+        .filter(param => param && param.get("allowEmptyValue") === true)
         .forEach(param => {
-          if (specSelectors.parameterInclusionSettingFor([pathName, method], param.name, param.in)) {
+          if (specSelectors.parameterInclusionSettingFor([pathName, method], param.get("name"), param.get("in"))) {
             req.parameters = req.parameters || {}
-            const paramValue = req.parameters[param.name]
+            const paramValue = paramToValue(param, req.parameters)
 
             // if the value is falsy or an empty Immutable iterable...
             if(!paramValue || (paramValue && paramValue.size === 0)) {
               // set it to empty string, so Swagger Client will treat it as
               // present but empty.
-              req.parameters[param.name] = ""
+              req.parameters[param.get("name")] = ""
             }
           }
         })
@@ -423,9 +436,12 @@ export const executeRequest = (req) =>
       specActions.setResponse(req.pathName, req.method, res)
     } )
     .catch(
-      err => specActions.setResponse(req.pathName, req.method, {
-        error: true, err: serializeError(err)
-      })
+      err => {
+        console.error(err)
+        specActions.setResponse(req.pathName, req.method, {
+          error: true, err: serializeError(err)
+        })
+      }
     )
   }
 
