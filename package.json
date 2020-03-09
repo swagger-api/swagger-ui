@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "@babel/runtime-corejs2": "^7.5.5",
-    "@braintree/sanitize-url": "^3.0.0",
+    "@braintree/sanitize-url": "^4.0.0",
     "@kyleshockey/object-assign-deep": "^0.4.2",
     "@kyleshockey/xml": "^1.0.2",
     "base64-js": "^1.2.0",
