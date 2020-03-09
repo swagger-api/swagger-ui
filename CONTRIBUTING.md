@@ -10,13 +10,15 @@ We love contributions from our community of users! This document explains our gu
 3. Run `npm run dev`. `localhost:3200` should open automatically.
 4. You're ready to go!
 
-#### Use your own specification files
+#### Using your own API documents in development
 
-To render your own `swagger.json` files in `localhost:3200`, you should place them inside the `dev-helpers` folder. After that, access to the server providing the file name as url parameter:
+To render your own OpenAPI documents in development mode (`localhost:3200`), you should place them inside the `dev-helpers` folder, and then load the development server with your file name as the `url` parameter, e.g.:
 
-`http://localhost:3200?url=swagger.json`
+`http://localhost:3200?url=openapi.yaml`
 
-Also, you could access to `http://localhost:3200` and write your file name (Ex: `./swagger.json`) in the explore input.
+Alternatively, you could provide your file name (Ex: `./openapi.yaml`) in the explore input, but you'll need to redo this each time the development server reloads the page.
+
+Either way, be sure you don't accidentally commit the files you put in `dev-helpers`!
 
 #### Branching model
 
