@@ -220,7 +220,7 @@ export default class ParameterRow extends Component {
     let itemType = schema.getIn(["items", "type"])
 
     let value = paramWithMeta ? paramWithMeta.get("value") : ""
-    let commonExt = showCommonExtensions ? getCommonExtensions(param) : null
+    let commonExt = showCommonExtensions ? getCommonExtensions(schema) : null
     let extensions = showExtensions ? getExtensions(param) : null
 
     let paramItems // undefined
