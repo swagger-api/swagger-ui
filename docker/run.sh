@@ -24,7 +24,7 @@ replace_or_delete_in_index () {
 }
 
 if [ "${BASE_URL}" ]; then
-  sed -i "s|location .* {|location $BASE_URL {|g" /etc/nginx/nginx.conf
+  sed -i "s|location / {|location $BASE_URL {|g" /etc/nginx/nginx.conf
 fi
 
 replace_in_index myApiKeyXXXX123456789 $API_KEY
@@ -40,5 +40,7 @@ fi
 if [[ -n "${PORT}" ]]; then
     sed -i "s|8080|${PORT}|g" /etc/nginx/nginx.conf
 fi
+
+find $NGINX_ROOT -type f -regex ".*\.\(html\|js\|css\)" -exec sh -c "gzip < {} > {}.gz" \;
 
 exec nginx -g 'daemon off;'

@@ -13,6 +13,8 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: http://petstore.swagger.io/api
+security:
+  - Petstore: []
 paths:
   /pets:
     get:
@@ -153,3 +155,12 @@ components:
           format: int32
         message:
           type: string
+  securitySchemes:
+    Petstore:
+      type: oauth2
+      flows: 
+        implicit:
+          authorizationUrl: https://example.com/api/oauth/dialog
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets

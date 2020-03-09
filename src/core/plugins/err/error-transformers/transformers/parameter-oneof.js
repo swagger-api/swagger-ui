@@ -38,7 +38,7 @@ function createTailoredParameterError(err, jsSpec) {
       message,
       path: err.get("path") + ".in",
       type: "spec",
-      source: "schema",
+      source: "structural",
       level: "error"
     })
   }
@@ -49,7 +49,7 @@ function createTailoredParameterError(err, jsSpec) {
       message,
       path: err.get("path") + ".collectionFormat",
       type: "spec",
-      source: "schema",
+      source: "structural",
       level: "error"
     })
   }

@@ -2,5 +2,6 @@ env:
   mocha: true
 rules:
   "react/prop-types": 1 # bah humbug
+  "react/require-render-return": 1
   "no-unused-vars": 1 # unused vars in tests can be useful for indicating a full signature
   "no-global-assign": 1

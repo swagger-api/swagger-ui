@@ -1,0 +1,37 @@
+swagger: "2.0"
+info:
+  title: test
+  version: 1.0.0
+paths:
+  /foo1:
+    get:
+      summary: Response without a schema
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successful response
+          examples:
+            application/json:
+              foo: custom value
+  /foo2:
+    get:
+      summary: Response with schema
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Foo'
+          examples:
+            application/json:
+              foo: custom value
+
+definitions:
+  Foo:
+    type: object
+    properties:
+      foo:
+        type: string
+        example: bar

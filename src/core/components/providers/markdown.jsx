@@ -15,16 +15,9 @@ DomPurify.addHook("beforeSanitizeElements", function (current, ) {
   return current
 })
 
-// eslint-disable-next-line no-useless-escape
-const isPlainText = (str) => /^[A-Z\s0-9!?\.]+$/gi.test(str)
-
 function Markdown({ source, className = "" }) {
-    if(isPlainText(source)) {
-      // If the source text is not Markdown,
-      // let's save some time and just render it.
-      return <div className="markdown">
-        {source}
-      </div>
+    if (typeof source !== "string") {
+      return null
     }
 
     const md = new Remarkable({
@@ -35,6 +28,8 @@ function Markdown({ source, className = "" }) {
         linkTarget: "_blank"
     })
     
+    md.core.ruler.disable(["replacements", "smartquotes"])
+
     const html = md.render(source)
     const sanitized = sanitizer(html)
 
@@ -56,6 +51,7 @@ export default Markdown
 
 export function sanitizer(str) {
   return DomPurify.sanitize(str, {
-    ADD_ATTR: ["target"]
+    ADD_ATTR: ["target"],
+    FORBID_TAGS: ["style"],
   })
 }
