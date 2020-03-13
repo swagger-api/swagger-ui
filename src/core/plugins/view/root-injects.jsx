@@ -109,7 +109,11 @@ export const getComponent = (getSystem, getStore, getComponents, componentName, 
   let component = getComponents(componentName)
 
   if(!component) {
-    getSystem().log.warn("Could not find component", componentName)
+    if (process.env.NODE_ENV !== "production") {
+      // In the json schema rendering code, we optimistically query our system for a number of components.
+      // If the component doesn't exist, these warnings get thrown (in non-production mode).
+      getSystem().log.warn("Could not find component", componentName)
+    }
     return null
   }
 
