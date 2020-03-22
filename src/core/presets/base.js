@@ -25,6 +25,9 @@ import AuthItem from "core/components/auth/auth-item"
 import AuthError from "core/components/auth/error"
 import ApiKeyAuth from "core/components/auth/api-key-auth"
 import BasicAuth from "core/components/auth/basic-auth"
+import Example from "core/components/example"
+import ExamplesSelect from "core/components/examples-select"
+import ExamplesSelectValueRetainer from "core/components/examples-select-value-retainer"
 import Oauth2 from "core/components/auth/oauth2"
 import Clear from "core/components/clear"
 import LiveResponse from "core/components/live-response"
@@ -41,7 +44,7 @@ import HighlightCode from "core/components/highlight-code"
 import Responses from "core/components/responses"
 import Response from "core/components/response"
 import ResponseBody from "core/components/response-body"
-import Parameters from "core/components/parameters"
+import { Parameters } from "core/components/parameters"
 import ParameterExt from "core/components/parameter-extension"
 import ParameterIncludeEmpty from "core/components/parameter-include-empty"
 import ParameterRow from "core/components/parameter-row"
@@ -50,6 +53,7 @@ import Headers from "core/components/headers"
 import Errors from "core/components/errors"
 import ContentType from "core/components/content-type"
 import Overview from "core/components/overview"
+import InitializedInput from "core/components/initialized-input"
 import Info, {
   InfoUrl,
   InfoBasePath
@@ -102,6 +106,7 @@ export default function() {
       basicAuth: BasicAuth,
       clear: Clear,
       liveResponse: LiveResponse,
+      InitializedInput,
       info: Info,
       InfoContainer,
       JumpToPath,
@@ -152,7 +157,10 @@ export default function() {
       DeepLink,
       InfoUrl,
       InfoBasePath,
-      SvgAssets
+      SvgAssets,
+      Example,
+      ExamplesSelect,
+      ExamplesSelectValueRetainer,
     }
   }
 
