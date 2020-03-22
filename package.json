@@ -119,7 +119,7 @@
     "express": "^4.17.1",
     "file-loader": "^4.1.0",
     "git-describe": "^4.0.4",
-    "http-server": "^0.11.1",
+    "http-server": "^0.12.0",
     "ignore-assets-webpack-plugin": "^2.0.1",
     "imports-loader": "^0.8.0",
     "jsdom": "^11.10.0",
