@@ -10,7 +10,8 @@ const Wrapper = (Ori, system) => class OperationWrapper extends React.Component 
   onLoad = (ref) => {
     const { operation } = this.props
     const { tag, operationId } = operation.toObject()
-    const isShownKey = ["operations", tag, operationId]
+    let { isShownKey } = operation.toObject()
+    isShownKey = isShownKey || ["operations", tag, operationId]
     system.layoutActions.readyToScroll(isShownKey, ref)
   }
 
