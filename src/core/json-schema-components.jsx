@@ -4,7 +4,7 @@ import { List, fromJS } from "immutable"
 import cx from "classnames"
 import ImPropTypes from "react-immutable-proptypes"
 import DebounceInput from "react-debounce-input"
-import { getSampleSchema } from "core/utils"
+import { stringify } from "core/utils"
 //import "less/json-schema-form"
 
 const noop = ()=> {}
@@ -18,7 +18,8 @@ const JsonSchemaPropShape = {
   errors: ImPropTypes.list,
   required: PropTypes.bool,
   dispatchInitialValue: PropTypes.bool,
-  description: PropTypes.any
+  description: PropTypes.any,
+  disabled: PropTypes.bool,
 }
 
 const JsonSchemaDefaultProps = {
@@ -43,7 +44,7 @@ export class JsonSchemaForm extends Component {
   }
 
   render() {
-    let { schema, errors, value, onChange, getComponent, fn } = this.props
+    let { schema, errors, value, onChange, getComponent, fn, disabled } = this.props
 
     if(schema.toJS)
       schema = schema.toJS()
@@ -51,7 +52,7 @@ export class JsonSchemaForm extends Component {
     let { type, format="" } = schema
 
     let Comp = (format ? getComponent(`JsonSchema_${type}_${format}`) : getComponent(`JsonSchema_${type}`)) || getComponent("JsonSchema_string")
-    return <Comp { ...this.props } errors={errors} fn={fn} getComponent={getComponent} value={value} onChange={onChange} schema={schema}/>
+    return <Comp { ...this.props } errors={errors} fn={fn} getComponent={getComponent} value={value} onChange={onChange} schema={schema} disabled={disabled}/>
   }
 
 }
@@ -65,7 +66,7 @@ export class JsonSchema_string extends Component {
   }
   onEnumChange = (val) => this.props.onChange(val)
   render() {
-    let { getComponent, value, schema, errors, required, description } = this.props
+    let { getComponent, value, schema, errors, required, description, disabled } = this.props
     let enumValue = schema["enum"]
 
     errors = errors.toJS ? errors.toJS() : []
@@ -77,10 +78,11 @@ export class JsonSchema_string extends Component {
                       allowedValues={ enumValue }
                       value={ value }
                       allowEmptyValue={ !required }
+                      disabled={disabled}
                       onChange={ this.onEnumChange }/>)
     }
 
-    const isDisabled = schema["in"] === "formData" && !("FormData" in window)
+    const isDisabled = disabled || (schema["in"] === "formData" && !("FormData" in window))
     const Input = getComponent("Input")
     if (schema["type"] === "file") {
       return (<Input type="file"
@@ -149,7 +151,7 @@ export class JsonSchema_array extends PureComponent {
   }
 
   render() {
-    let { getComponent, required, schema, errors, fn } = this.props
+    let { getComponent, required, schema, errors, fn, disabled } = this.props
 
     errors = errors.toJS ? errors.toJS() : []
 
@@ -167,13 +169,14 @@ export class JsonSchema_array extends PureComponent {
                       title={ errors.length ? errors : ""}
                       multiple={ true }
                       value={ value }
+                      disabled={disabled}
                       allowedValues={ enumValue }
                       allowEmptyValue={ !required }
                       onChange={ this.onEnumChange }/>)
     }
 
     return (
-      <div>
+      <div className="json-schema-array">
         { !value || !value.count || value.count() < 1 ? null :
           value.map( (item,i) => {
             let schema = Object.assign({}, itemSchema)
@@ -183,13 +186,32 @@ export class JsonSchema_array extends PureComponent {
             }
           return (
             <div key={i} className="json-schema-form-item">
-              <JsonSchemaForm fn={fn} getComponent={getComponent} value={item} onChange={(val) => this.onItemChange(val, i)} schema={schema} />
-              <Button className="btn btn-sm json-schema-form-item-remove" onClick={()=> this.removeItem(i)} > - </Button>
+              <JsonSchemaForm 
+                fn={fn}
+                getComponent={getComponent}
+                value={item}
+                onChange={(val) => this.onItemChange(val, i)}
+                schema={schema}
+                disabled={disabled}
+              />
+              { !disabled ? (
+                <Button
+                  className="btn btn-sm json-schema-form-item-remove"
+                  onClick={()=> this.removeItem(i)}
+                > - </Button>
+              ) : null }
             </div>
             )
           }).toArray()
         }
-        <Button className={`btn btn-sm json-schema-form-item-add ${errors.length ? "invalid" : null}`} onClick={this.addItem}> Add item </Button>
+        { !disabled ? (
+          <Button
+            className={`btn btn-sm json-schema-form-item-add ${errors.length ? "invalid" : null}`}
+            onClick={this.addItem}
+          >
+            Add item
+          </Button>
+        ) : null }
       </div>
     )
   }
@@ -201,7 +223,7 @@ export class JsonSchema_boolean extends Component {
 
   onEnumChange = (val) => this.props.onChange(val)
   render() {
-    let { getComponent, value, errors, schema, required } = this.props
+    let { getComponent, value, errors, schema, required, disabled } = this.props
     errors = errors.toJS ? errors.toJS() : []
 
     const Select = getComponent("Select")
@@ -209,6 +231,7 @@ export class JsonSchema_boolean extends Component {
     return (<Select className={ errors.length ? "invalid" : ""}
                     title={ errors.length ? errors : ""}
                     value={ String(value) }
+                    disabled={disabled}
                     allowedValues={ fromJS(schema.enum || ["true", "false"]) }
                     allowEmptyValue={ !schema.enum || !required }
                     onChange={ this.onEnumChange }/>)
@@ -222,16 +245,6 @@ export class JsonSchema_object extends PureComponent {
 
   static propTypes = JsonSchemaPropShape
   static defaultProps = JsonSchemaDefaultProps
-
-  componentDidMount() {
-    if(!this.props.value && this.props.schema) {
-      this.resetValueToSample()
-    }
-  }
-
-  resetValueToSample = () => {
-    this.onChange(getSampleSchema(this.props.schema) )
-  }
 
   onChange = (value) => {
     this.props.onChange(value)
@@ -247,7 +260,8 @@ export class JsonSchema_object extends PureComponent {
     let {
       getComponent,
       value,
-      errors
+      errors,
+      disabled
     } = this.props
 
     const TextArea = getComponent("TextArea")
@@ -257,7 +271,8 @@ export class JsonSchema_object extends PureComponent {
         <TextArea
           className={cx({ invalid: errors.size })}
           title={ errors.size ? errors.join(", ") : ""}
-          value={value}
+          value={stringify(value)}
+          disabled={disabled}
           onChange={ this.handleOnChange }/>
       </div>
     )

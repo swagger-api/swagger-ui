@@ -24,7 +24,6 @@ describe("initial render", function () {
         topbar = mainPage.section.topbar
 
         client.waitForElementVisible(".download-url-input:not([disabled])", 10000)
-            .pause(5000)
             .clearValue(".download-url-input")
             .setValue(".download-url-input", "http://localhost:3230/test-specs/petstore.json")
             .click("button.download-url-button")
