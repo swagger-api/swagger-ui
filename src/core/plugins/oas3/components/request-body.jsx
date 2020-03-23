@@ -147,7 +147,7 @@ const RequestBody = ({
                         <div className="parameter__type">
                           { type }
                           { format && <span className="prop-format">(${format})</span>}
-                          {!showCommonExtensions || !commonExt.size ? null : commonExt.map((v, key) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} />)}
+                          {!showCommonExtensions || !commonExt.size ? null : commonExt.entrySeq().map(([key, v]) => <ParameterExt key={`${key}-${v}`} xKey={key} xVal={v} />)}
                         </div>
                         <div className="parameter__deprecated">
                           { prop.get("deprecated") ? "deprecated": null }
