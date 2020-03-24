@@ -73,8 +73,7 @@ export default class BasicAuth extends React.Component {
           <label>Password:</label>
             {
               username ? <code> ****** </code>
-                       : <Col><Input required="required"
-                                     autoComplete="new-password"
+                       : <Col><Input autoComplete="new-password"
                                      name="password"
                                      type="password"
                                      onChange={ this.onChange }/></Col>
