@@ -173,8 +173,7 @@ export class Select extends React.Component {
     }
 
     this.setState({value: value})
-
-    onChange && onChange(value)
+  
   }
 
   componentWillReceiveProps(nextProps) {
