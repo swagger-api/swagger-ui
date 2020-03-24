@@ -101,18 +101,19 @@ const wrapRender = (component) => {
 }
 
 
-export const getComponent = (getSystem, getStore, getComponents, componentName, container) => {
+export const getComponent = (getSystem, getStore, getComponents, componentName, container, config) => {
 
   if(typeof componentName !== "string")
     throw new TypeError("Need a string, to fetch a component. Was given a " + typeof componentName)
 
+    // getComponent has a config object as a third, optional parameter
+    // using the config object requires the presence of the second parameter, container
+    // e.g. getComponent("JsonSchema_string_whatever", false, { failSilently: true })
   let component = getComponents(componentName)
 
   if(!component) {
-    if (process.env.NODE_ENV !== "production") {
-      // In the json schema rendering code, we optimistically query our system for a number of components.
-      // If the component doesn't exist, these warnings get thrown (in non-production mode).
-      getSystem().log.warn("Could not find component", componentName)
+    if (!(config && config.failSilently)) {
+      getSystem().log.warn("Could not find component:", componentName, " | config:", config)
     }
     return null
   }

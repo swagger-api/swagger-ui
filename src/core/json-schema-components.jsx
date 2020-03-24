@@ -50,8 +50,9 @@ export class JsonSchemaForm extends Component {
       schema = schema.toJS()
 
     let { type, format="" } = schema
-
-    let Comp = (format ? getComponent(`JsonSchema_${type}_${format}`) : getComponent(`JsonSchema_${type}`)) || getComponent("JsonSchema_string")
+    // In the json schema rendering code, we optimistically query our system for a number of components.
+    // If the component doesn't exist, we optionally suppress these warnings.
+    let Comp = (format ? getComponent(`JsonSchema_${type}_${format}`, false, { failSilently: true }) : getComponent(`JsonSchema_${type}`, false, { failSilently: true })) || getComponent("JsonSchema_string", false, { failSilently: true })
     return <Comp { ...this.props } errors={errors} fn={fn} getComponent={getComponent} value={value} onChange={onChange} schema={schema} disabled={disabled}/>
   }
 
