@@ -56,12 +56,12 @@ export default {
     parsedAuth = fromJS(auth)
 
     let map = state.get("authorized") || Map()
-    map = map.setIn(["authorized", parsedAuth.get("name")], parsedAuth)
+    map = map.set(parsedAuth.get("name"), parsedAuth)
 
     if(state.get("preserveAuthorization")) {
       localStorage.setItem("authorized", JSON.stringify(map.toJS()))
-    }   
-
+    }
+    
     return state.set( "authorized", map )
   },
 
