@@ -112,7 +112,7 @@ export const getComponent = (getSystem, getStore, getComponents, componentName, 
   let component = getComponents(componentName)
 
   if(!component) {
-    if (!(config && config.failSilently)) {
+    if (!config.failSilently) {
       getSystem().log.warn("Could not find component:", componentName, " | config:", config)
     }
     return null
