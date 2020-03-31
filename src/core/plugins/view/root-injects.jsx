@@ -113,7 +113,7 @@ export const getComponent = (getSystem, getStore, getComponents, componentName, 
 
   if(!component) {
     if (!config.failSilently) {
-      getSystem().log.warn("Could not find component:", componentName, " | config:", config)
+      getSystem().log.warn("Could not find component:", componentName)
     }
     return null
   }
