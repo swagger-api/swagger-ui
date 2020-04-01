@@ -170,7 +170,7 @@ export class JsonSchema_array extends PureComponent {
     let enumValue = itemSchema["enum"]
     let value = this.state.value
 
-    if ( enumValue ) {
+    if ( enumValue && itemSchema["uniqueItems"]) {
       const Select = getComponent("Select")
       return (<Select className={ errors.length ? "invalid" : ""}
                       title={ errors.length ? errors : ""}
@@ -193,7 +193,7 @@ export class JsonSchema_array extends PureComponent {
             }
           return (
             <div key={i} className="json-schema-form-item">
-              <JsonSchemaForm 
+              <JsonSchemaForm
                 fn={fn}
                 getComponent={getComponent}
                 value={item}
