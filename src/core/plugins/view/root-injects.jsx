@@ -100,6 +100,7 @@ const wrapRender = (component) => {
   return target
 }
 
+
 export const getComponent = (getSystem, getStore, getComponents, componentName, container, config = {}) => {
 
   if(typeof componentName !== "string")

@@ -53,10 +53,12 @@ export class JsonSchemaForm extends Component {
     // In the json schema rendering code, we optimistically query our system for a number of components.
     // If the component doesn't exist, we optionally suppress these warnings.
     let getComponentSilently = (name) => getComponent(name, false, { failSilently: true })
+
     let Comp = (format ? 
       getComponentSilently(`JsonSchema_${type}_${format}`) :
       getComponentSilently(`JsonSchema_${type}`)) ||
       getComponentSilently("JsonSchema_string")
+
     return <Comp { ...this.props } errors={errors} fn={fn} getComponent={getComponent} value={value} onChange={onChange} schema={schema} disabled={disabled}/>
   }
 
