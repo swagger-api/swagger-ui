@@ -101,15 +101,20 @@ const wrapRender = (component) => {
 }
 
 
-export const getComponent = (getSystem, getStore, getComponents, componentName, container) => {
+export const getComponent = (getSystem, getStore, getComponents, componentName, container, config = {}) => {
 
   if(typeof componentName !== "string")
     throw new TypeError("Need a string, to fetch a component. Was given a " + typeof componentName)
 
+    // getComponent has a config object as a third, optional parameter
+    // using the config object requires the presence of the second parameter, container
+    // e.g. getComponent("JsonSchema_string_whatever", false, { failSilently: true })
   let component = getComponents(componentName)
 
   if(!component) {
-    getSystem().log.warn("Could not find component", componentName)
+    if (!config.failSilently) {
+      getSystem().log.warn("Could not find component:", componentName)
+    }
     return null
   }
 
