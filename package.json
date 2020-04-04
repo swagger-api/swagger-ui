@@ -107,7 +107,7 @@
     "copy-webpack-plugin": "^5.1.1",
     "cors": "^2.8.5",
     "css-loader": "^3.1.0",
-    "cypress": "^3.4.1",
+    "cypress": "^4.3.0",
     "dedent": "^0.7.0",
     "deepmerge": "^2.1.0",
     "enzyme": "^2.7.1",
