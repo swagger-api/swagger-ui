@@ -1,5 +1,25 @@
-.swagger-ui
-{
+.theme-brightness-light {
+  body {
+    --input-bg: #f7f7f7;
+    --bg-inverse: rgba(255, 255, 255, .8);
+  }
+}
+
+.theme-brightness-dark {
+  body {
+    --input-bg: #111;
+    --bg-inverse: rgba(0, 0, 0, .8);
+  }
+}
+
+body,
+.swagger-ui {
+  background: var(--bg-main)!important;
+  color: var(--text-color)!important;
+}
+
+// .swagger-ui
+// {
     @import '~tachyons-sass/tachyons.scss';
     @import 'mixins';
     @import 'variables';
@@ -15,7 +35,11 @@
     @import 'information';
     @import 'authorize';
     @import 'errors';
-    @include text_body();
+    .swagger-ui {
+      @include text_body();
+    }
     @import 'split-pane-mode';
     @import 'markdown';
-}
+// }
+
+@import '../../node_modules/css-theming/src/scss/css-theming';

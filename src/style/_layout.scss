@@ -33,22 +33,23 @@
 
 @mixin method($color)
 {
-    border-color: $color;
-    background: rgba($color, .1);
+    $base-color: var(--#{$color});
+    border-color: $base-color;
+    background: rgba(var(--#{$color}-rgb), .1);
 
     .opblock-summary-method
     {
-        background: $color;
+        background: $base-color;
     }
 
     .opblock-summary
     {
-        border-color: $color;
+        border-color: $base-color;
     }
 
     .tab-header .tab-item.active h4 span:after
     {
-        background: $color;
+        background: $base-color;
     }
 }
 
@@ -228,7 +229,7 @@
 
         min-height: 50px;
 
-        background: rgba($opblock-isopen-section-header-background-color,.8);
+        background: var(--bg-inverse);
         box-shadow: 0 1px 2px rgba($opblock-isopen-section-header-box-shadow-color,.1);
 
         >label
@@ -356,44 +357,44 @@
 
     &.opblock-post
     {
-        @include method($_color-post);
+        @include method("post");
     }
 
     &.opblock-put
     {
-        @include method($_color-put);
+        @include method("put");
     }
 
     &.opblock-delete
     {
-        @include method($_color-delete);
+        @include method("delete");
     }
 
     &.opblock-get
     {
-        @include method($_color-get);
+        @include method("get");
     }
 
     &.opblock-patch
     {
-        @include method($_color-patch);
+        @include method("patch");
     }
 
     &.opblock-head
     {
-        @include method($_color-head);
+        @include method("head");
     }
 
     &.opblock-options
     {
-        @include method($_color-options);
+        @include method("options");
     }
 
     &.opblock-deprecated
     {
         opacity: .6;
 
-        @include method($_color-disabled);
+        @include method("disabled");
     }
 
     .opblock-schemes

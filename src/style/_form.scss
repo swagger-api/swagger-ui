@@ -61,6 +61,7 @@ textarea
     border: 1px solid $form-input-border-color;
     border-radius: 4px;
     background: $form-input-background-color;
+    color: var(--text-color);
     @media (max-width: 768px) {
       max-width: 175px;
     }
@@ -77,9 +78,9 @@ input,
 textarea,
 select {
     &[disabled] {
-        // opacity: 0.85;
-        background-color: #fafafa;
-        color: #888;
+        opacity: 0.85;
+        // background-color: #fafafa;
+        // color: #888;
         cursor: not-allowed;
     }
 }
@@ -132,7 +133,7 @@ textarea
     border: none;
     border-radius: 4px;
     outline: none;
-    background: rgba($form-textarea-background-color,.8);
+    background: var(--bg-inverse);
 
     @include text_code();
 

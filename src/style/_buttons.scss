@@ -108,6 +108,11 @@
     {
         opacity: .4;
     }
+
+    svg
+    {
+        fill: var(--text-color);
+    }
 }
 
 .expand-methods,
@@ -120,6 +125,7 @@
     {
         width: 20px;
         height: 20px;
+        fill: var(--text-color);
     }
 }
 

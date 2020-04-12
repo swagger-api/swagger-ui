@@ -10,7 +10,7 @@
             font-size: 12px;
         }
     }
-    pre 
+    pre
     {
         font-size: 14px;
     }
@@ -36,7 +36,7 @@
 
         &:hover
         {
-            color: darken($info-link-font-color-hover, 15%);
+            color: $info-link-font-color-darken;
         }
     }
     > div
