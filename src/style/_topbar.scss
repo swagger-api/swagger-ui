@@ -93,4 +93,9 @@
             @include text_headline($topbar-download-url-button-font-color);
         }
     }
+
+    .toggle-theme-button
+    {
+        margin-right: 10px;
+    }
 }

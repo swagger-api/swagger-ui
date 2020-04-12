@@ -4,8 +4,10 @@ import PropTypes from "prop-types"
 //import "./topbar.less"
 import Logo from "./logo_small.svg"
 import {parseSearch, serializeSearch} from "../../core/utils"
+import { getCurrentTheme, ThemeStorage } from "css-theming"
 
 export default class Topbar extends React.Component {
+  _themeStorage = new ThemeStorage("swagger-ui-theme", "default");
 
   static propTypes = {
     layoutActions: PropTypes.object.isRequired
@@ -70,6 +72,8 @@ export default class Topbar extends React.Component {
   }
 
   componentDidMount() {
+    this._themeStorage.initializeTheming()
+
     const configs = this.props.getConfigs()
     const urls = configs.urls || []
 
@@ -94,6 +98,15 @@ export default class Topbar extends React.Component {
   onFilterChange =(e) => {
     let {target: {value}} = e
     this.props.layoutActions.updateFilter(value)
+  }
+
+  onDarkToggle = () => {
+    const current = getCurrentTheme()
+    let targetTheme = "default-dark"
+    if (current.name === "default-dark") {
+      targetTheme = "default"
+    }
+    this._themeStorage.setThemeName(targetTheme)
   }
 
   render() {
@@ -139,6 +152,7 @@ export default class Topbar extends React.Component {
             <Link>
               <img height="40" src={ Logo } alt="Swagger UI"/>
             </Link>
+            <Button className="toggle-theme-button" onClick={ this.onDarkToggle }>Toggle Theme</Button>
             <form className="download-url-wrapper" onSubmit={formOnSubmit}>
               {control.map((el, i) => cloneElement(el, { key: i }))}
             </form>
