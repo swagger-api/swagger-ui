@@ -212,7 +212,7 @@ export default class ParameterRow extends Component {
     let { schema } = getParameterSchema(param, { isOAS3 })
     let paramWithMeta = specSelectors.parameterWithMetaByIdentity(pathMethod, rawParam) || Map()
 
-    let format = param.get("format")
+    let format = schema.get("format")
     let type = schema.get("type")
     let isFormData = inType === "formData"
     let isFormDataSupported = "FormData" in win
@@ -364,4 +364,3 @@ export default class ParameterRow extends Component {
   }
 
 }
-

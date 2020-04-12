@@ -83,13 +83,17 @@ This will serve Swagger UI at `/swagger` instead of `/`.
 
 For more information on controlling Swagger UI through the Docker image, see the Docker section of the [Configuration documentation](configuration.md#docker).
 
-### unpkg
+### unpkg 
 
 You can embed Swagger UI's code directly in your HTML by using unpkg's interface:
 
 ```html
-<script src="//unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
+<script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
 <!-- `SwaggerUIBundle` is now available on the page -->
 ```
 
 See [unpkg's main page](https://unpkg.com/) for more information on how to use unpkg.
+
+### Static files without HTTP or HTML
+
+Once swagger-ui has successfully generated the `/dist` directory, you can copy this to your own file system and host from there. 

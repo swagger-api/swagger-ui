@@ -114,7 +114,7 @@ export default class ObjectModel extends Component {
               }
               {
                 // empty row befor extensions...
-                !showExtensions ? null : <tr>&nbsp;</tr>
+                !showExtensions ? null : <tr><td>&nbsp;</td></tr>
               }
               {
                 !showExtensions ? null :

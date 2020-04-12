@@ -190,7 +190,7 @@ export default class Oauth2 extends React.Component {
                            : <Col tablet={10} desktop={10}>
                                <InitializedInput id="client_secret"
                                       initialValue={ this.state.clientSecret }
-                                      type="text"
+                                      type="password"
                                       data-name="clientSecret"
                                       onChange={ this.onInputChange }/>
                              </Col>
