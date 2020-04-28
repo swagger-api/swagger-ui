@@ -18,6 +18,7 @@
   "host": "petstore.swagger.io",
   "basePath": "/v2",
   "schemes": [
+    "https",
     "http"
   ],
   "tags": [
