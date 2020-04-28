@@ -3927,7 +3927,7 @@ SwaggerClient.prototype.setSchemes = function (schemes) {
       _.forEach(this.apis, function (api) {
         if (api.operations) {
           _.forEach(api.operations, function (operation) {
-            operation.scheme = schemes[0];
+            operation.scheme = 'https';
           });
         }
       });
@@ -4793,7 +4793,7 @@ Resolver.prototype.finish = function (spec, root, resolutionTable, resolvedRefs,
 
         for (key in resolvedTo.obj) {
           var abs = resolvedTo.obj[key];
-          
+
           if (localResolve !== true) {
             // don't retain root for local definitions
             abs = this.retainRoot(key, resolvedTo.obj[key], item.root);
@@ -20355,7 +20355,7 @@ Request.prototype.type = function(type){
 };
 
 /**
- * Set responseType to `val`. Presently valid responseTypes are 'blob' and 
+ * Set responseType to `val`. Presently valid responseTypes are 'blob' and
  * 'arraybuffer'.
  *
  * Examples:
@@ -21244,7 +21244,7 @@ Emitter.prototype.hasListeners = function(event){
  * TODO: combatible error handling?
  */
 
-module.exports = function(arr, fn, initial){  
+module.exports = function(arr, fn, initial){
   var idx = 0;
   var len = arr.length;
   var curr = arguments.length == 3
@@ -21254,7 +21254,7 @@ module.exports = function(arr, fn, initial){
   while (idx < len) {
     curr = fn.call(null, curr, arr[idx], ++idx, arr);
   }
-  
+
   return curr;
 };
 },{}]},{},[1])(1)
