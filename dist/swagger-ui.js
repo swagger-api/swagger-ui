@@ -3927,7 +3927,7 @@ SwaggerClient.prototype.setSchemes = function (schemes) {
       _.forEach(this.apis, function (api) {
         if (api.operations) {
           _.forEach(api.operations, function (operation) {
-            operation.scheme = 'https';
+            operation.scheme = schemes[0];
           });
         }
       });
