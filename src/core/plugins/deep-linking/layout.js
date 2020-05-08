@@ -93,6 +93,12 @@ export const parseDeepLinkHash = (rawHash) => ({ layoutActions, layoutSelectors,
       layoutActions.show(tagIsShownKey, true)
     }
 
+    if(type === "models" && tagId) {
+      // we're going to show a model, so we need to expand the models as well
+      const tagIsShownKey = layoutSelectors.isShownKeyFromUrlHashArray([type])
+      layoutActions.show(tagIsShownKey, true)
+    }
+
     // If an `_` is present, trigger the legacy escaping behavior to be safe
     // TODO: remove this in v4.0, it is deprecated
     if (tagId.indexOf("_") > -1 || maybeOperationId.indexOf("_") > -1) {
@@ -173,22 +179,30 @@ export default {
           return state.get("scrollToKey")
         },
         isShownKeyFromUrlHashArray(state, urlHashArray) {
-          const [tag, operationId] = urlHashArray
+          const [firstPart, secondPart] = urlHashArray
           // We only put operations in the URL
-          if(operationId) {
-            return ["operations", tag, operationId]
-          } else if (tag) {
-            return ["operations-tag", tag]
+          if(firstPart === "models" && secondPart) {
+            return [firstPart, secondPart]
+          } else if (firstPart === "models") {
+            return [firstPart]
+          } else if(secondPart) {
+            return ["operations", firstPart, secondPart]
+          } else if (firstPart) {
+            return ["operations-tag", firstPart]
           }
           return []
         },
         urlHashArrayFromIsShownKey(state, isShownKey) {
-          let [type, tag, operationId] = isShownKey
+          let [type, firstPart, secondPart] = isShownKey
           // We only put operations in the URL
-          if(type == "operations") {
-            return [tag, operationId]
+          if(type === "models" && firstPart) {
+            return [type, firstPart]
+          } else if (type === "models") {
+            return [type]
+          } else if(type == "operations") {
+            return [firstPart, secondPart]
           } else if (type == "operations-tag") {
-            return [tag]
+            return [firstPart]
           }
           return []
         },

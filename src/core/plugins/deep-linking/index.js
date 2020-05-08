@@ -1,6 +1,8 @@
 import layout from "./layout"
 import OperationWrapper from "./operation-wrapper"
 import OperationTagWrapper from "./operation-tag-wrapper"
+import ModelsWrapper from "./models-wrapper"
+import ModelCollapseWrapper from "./model-collapse-wrapper"
 
 export default function() {
   return [layout, {
@@ -19,6 +21,8 @@ export default function() {
     wrapComponents: {
       operation: OperationWrapper,
       OperationTag: OperationTagWrapper,
+      Models: ModelsWrapper,
+      ModelCollapse: ModelCollapseWrapper,
     },
   }]
 }
