@@ -47,6 +47,7 @@ export class JsonSchemaForm extends Component {
     let { schema, errors, value, onChange, getComponent, fn, disabled } = this.props
     const format = schema && schema.get ? schema.get("format") : null
     const type = schema && schema.get ? schema.get("type") : null
+
     let getComponentSilently = (name) => getComponent(name, false, { failSilently: true })
     let Comp = type ? format ?
       getComponentSilently(`JsonSchema_${type}_${format}`) :
@@ -63,7 +64,7 @@ export class JsonSchema_string extends Component {
   static propTypes = JsonSchemaPropShape
   static defaultProps = JsonSchemaDefaultProps
   onChange = (e) => {
-    const value = this.props.schema && this.props.schema["type"] === "file" ? e.target.files[0] : e.target.value
+    const value = this.props.schema && this.props.schema.get("type") === "file" ? e.target.files[0] : e.target.value
     this.props.onChange(value, this.props.keyName)
   }
   onEnumChange = (val) => this.props.onChange(val)
@@ -92,23 +93,27 @@ export class JsonSchema_string extends Component {
     const isDisabled = disabled || (schemaIn && schemaIn === "formData" && !("FormData" in window))
     const Input = getComponent("Input")
     if (type && type === "file") {
-      return (<Input type="file"
-                     className={ errors.length ? "invalid" : ""}
-                     title={ errors.length ? errors : ""}
-                     onChange={ this.onChange }
-                     disabled={isDisabled}/>)
+      return (
+        <Input type="file"
+          className={errors.length ? "invalid" : ""}
+          title={errors.length ? errors : ""}
+          onChange={this.onChange}
+          disabled={isDisabled} />
+      )
     }
     else {
-      return (<DebounceInput
-                     type={ format && format === "password" ? "password" : "text" }
-                     className={ errors.length ? "invalid" : ""}
-                     title={ errors.length ? errors : ""}
-                     value={value}
-                     minLength={0}
-                     debounceTimeout={350}
-                     placeholder={description}
-                     onChange={ this.onChange }
-                     disabled={isDisabled}/>)
+      return (
+        <DebounceInput
+          type={format && format === "password" ? "password" : "text"}
+          className={errors.length ? "invalid" : ""}
+          title={errors.length ? errors : ""}
+          value={value}
+          minLength={0}
+          debounceTimeout={350}
+          placeholder={description}
+          onChange={this.onChange}
+          disabled={isDisabled} />
+      )
     }
   }
 }
@@ -170,6 +175,7 @@ export class JsonSchema_array extends PureComponent {
     const schemaItemsSchema = schema.getIn(["items", "schema"])
     let ArrayItemsComponent
     let isArrayItemText = false
+    let isArrayItemFile = schemaItemsType === "file" ? true : false
     if (schemaItemsType && schemaItemsFormat) {
       ArrayItemsComponent = getComponent(`JsonSchema_${schemaItemsType}_${schemaItemsFormat}`)
     } else if (schemaItemsType === "boolean" || schemaItemsType === "array" || schemaItemsType === "object") {
@@ -177,7 +183,7 @@ export class JsonSchema_array extends PureComponent {
     }
     // if ArrayItemsComponent not assigned or does not exist,
     // use default schemaItemsType === "string" & JsonSchemaArrayItemText component
-    if (!ArrayItemsComponent) {
+    if (!ArrayItemsComponent && !isArrayItemFile) {
       isArrayItemText = true
     }
 
@@ -205,22 +211,30 @@ export class JsonSchema_array extends PureComponent {
             return (
               <div key={i} className="json-schema-form-item">
                 {
-                  isArrayItemText ?
-                    <JsonSchemaArrayItemText
-                      value={item}
-                      onChange={(val) => this.onItemChange(val, i)}
-                      disabled={disabled}
-                      errors={errors}
+                  isArrayItemFile ?
+                    <JsonSchemaArrayItemFile
+                    value={item}
+                    onChange={(val)=> this.onItemChange(val, i)}
+                    disabled={disabled}
+                    errors={errors}
+                    getComponent={getComponent}
                     />
-                    : <ArrayItemsComponent {...this.props}
-                      value={item}
-                      onChange={(val) => this.onItemChange(val, i)}
-                      disabled={disabled}
-                      errors={errors}
-                      schema={schemaItemsSchema}
-                      getComponent={getComponent}
-                      fn={fn}
-                    />
+                    : isArrayItemText ?
+                      <JsonSchemaArrayItemText
+                        value={item}
+                        onChange={(val) => this.onItemChange(val, i)}
+                        disabled={disabled}
+                        errors={errors}
+                      />
+                      : <ArrayItemsComponent {...this.props}
+                        value={item}
+                        onChange={(val) => this.onItemChange(val, i)}
+                        disabled={disabled}
+                        errors={errors}
+                        schema={schemaItemsSchema}
+                        getComponent={getComponent}
+                        fn={fn}
+                      />
                 }
                 {!disabled ? (
                   <Button
@@ -272,6 +286,28 @@ export class JsonSchemaArrayItemText extends Component {
       placeholder={description}
       onChange={this.onChange}
       disabled={disabled} />)
+  }
+}
+
+export class JsonSchemaArrayItemFile extends Component {
+  static propTypes = JsonSchemaPropShape
+  static defaultProps = JsonSchemaDefaultProps
+
+  onFileChange = (e) => {
+    const value = e.target.files[0]
+    this.props.onChange(value, this.props.keyName)
+  }
+
+  render() {
+    let { getComponent, errors, disabled } = this.props
+    const Input = getComponent("Input")
+    const isDisabled = disabled || !("FormData" in window)
+
+    return (<Input type="file"
+      className={errors.length ? "invalid" : ""}
+      title={errors.length ? errors : ""}
+      onChange={this.onFileChange}
+      disabled={isDisabled} />)
   }
 }
 
