@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.25.1",
+  "version": "3.25.2",
   "main": "dist/swagger-ui.js",
   "homepage": "https://github.com/swagger-api/swagger-ui",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
@@ -39,6 +39,8 @@
     "hot-e2e-cypress-server": "webpack-dev-server --config webpack/dev-e2e.babel.js --content-base test/e2e-cypress/static",
     "hot-e2e-selenium-server": "webpack-dev-server --config webpack/dev-e2e.babel.js --content-base test/e2e-selenium/static",
     "e2e-cypress": "run-p -r hot-e2e-cypress-server mock-api test-e2e-cypress",
+    "dev-test-e2e-cypress-open": "cypress open",
+    "dev-e2e-cypress": "run-p -r hot-e2e-cypress-server mock-api dev-e2e-cypress-open",
     "e2e-selenium": "run-p -r hot-e2e-selenium-server mock-api test-e2e-selenium",
     "open-static": "node -e \"require('open')('http://localhost:3002')\"",
     "security-audit": "run-s -sc security-audit:all security-audit:prod",
@@ -80,7 +82,7 @@
     "reselect": "^4.0.0",
     "serialize-error": "^2.1.0",
     "sha.js": "^2.4.11",
-    "swagger-client": "^3.10.1",
+    "swagger-client": "^3.10.2",
     "url-parse": "^1.4.7",
     "xml-but-prettier": "^1.0.1",
     "zenscroll": "^4.0.2"
