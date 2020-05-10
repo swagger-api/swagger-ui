@@ -1,23 +1,23 @@
 import React from "react"
 import { PropTypes } from "prop-types"
 
-const Wrapper = (Ori, system) => class ModelCollapseWrapper extends React.Component {
+const Wrapper = (Ori, system) => class ModelContainerWrapper extends React.Component {
 
   static propTypes = {
-    modelName: PropTypes.object.isRequired,
+    name: PropTypes.object.isRequired,
   }
 
   onLoad = (ref) => {
-    const { modelName } = this.props
-    const isShownKey = ["models", modelName]
+    const { name } = this.props
+    const isShownKey = ["models", name]
     system.layoutActions.readyToScroll(isShownKey, ref)
   }
 
   render() {
     return (
-      <span ref={this.onLoad}>
+      <div ref={this.onLoad}>
         <Ori {...this.props} />
-      </span>
+      </div>
     )
   }
 }

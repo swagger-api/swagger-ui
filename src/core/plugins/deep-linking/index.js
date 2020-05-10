@@ -2,7 +2,7 @@ import layout from "./layout"
 import OperationWrapper from "./operation-wrapper"
 import OperationTagWrapper from "./operation-tag-wrapper"
 import ModelsWrapper from "./models-wrapper"
-import ModelCollapseWrapper from "./model-collapse-wrapper"
+import ModelContainerWrapper from "./model-container-wrapper"
 
 export default function() {
   return [layout, {
@@ -22,7 +22,7 @@ export default function() {
       operation: OperationWrapper,
       OperationTag: OperationTagWrapper,
       Models: ModelsWrapper,
-      ModelCollapse: ModelCollapseWrapper,
+      ModelContainer: ModelContainerWrapper,
     },
   }]
 }

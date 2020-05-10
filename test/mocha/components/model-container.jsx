@@ -3,14 +3,14 @@ import React from "react"
 import expect, { createSpy } from "expect"
 import { shallow } from "enzyme"
 import { fromJS, Map } from "immutable"
-import Models from "components/models"
-import ModelCollpase from "components/model-collapse"
+import ModelContainer from "components/model-container"
+import ModelCollapse from "components/model-collapse"
 import ModelComponent from "components/model-wrapper"
 
-describe("<Models/>", function(){
+describe("<ModelContainer/>", function(){
   // Given
   let components = {
-    Collapse: ModelCollpase,
+    ModelCollapse: ModelCollapse,
     ModelWrapper: ModelComponent
   }
   let props = {
@@ -32,8 +32,8 @@ describe("<Models/>", function(){
       isShown: createSpy()
     },
     layoutActions: {},
+    specActions: {},
     getConfigs: () => ({
-      docExpansion: "list",
       defaultModelsExpandDepth: 0
     })
   }
@@ -41,14 +41,11 @@ describe("<Models/>", function(){
 
   it("passes defaultModelsExpandDepth to ModelWrapper", function(){
     // When
-    let wrapper = shallow(<Models {...props}/>)
+    let wrapper = shallow(<ModelContainer {...props}/>)
 
     // Then should render tabs
     expect(wrapper.find("ModelCollapse").length).toEqual(1)
     expect(wrapper.find("ModelWrapper").length).toBeGreaterThan(0)
-    wrapper.find("ModelComponent").forEach((modelWrapper) => {
-      expect(modelWrapper.props().expandDepth).toBe(0)
-    })
+    expect(wrapper.find("ModelWrapper").props().expandDepth).toBe(0)
   })
-
 })

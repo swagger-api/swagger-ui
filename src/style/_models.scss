@@ -109,12 +109,19 @@ section.models
 
     &.is-open
     {
-        padding: 0 0 20px;
         h4
         {
             margin: 0 0 5px 0;
 
             border-bottom: 1px solid rgba($section-models-isopen-h4-border-bottom-color, .3);
+        }
+        &> div > *:first-child
+        {
+          margin-top: 20px;
+        }
+        &> div > *:last-child
+        {
+          margin-bottom: 20px;
         }
     }
     h4
@@ -176,16 +183,6 @@ section.models
         &:hover
         {
             background: rgba($section-models-model-container-background-color,.07);
-        }
-
-        &:first-of-type
-        {
-            margin: 20px;
-        }
-
-        &:last-of-type
-        {
-            margin: 0 20px;
         }
 
         .models-jump-to-path {

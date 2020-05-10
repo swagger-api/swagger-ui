@@ -92,6 +92,17 @@ describe("Deep linking feature", () => {
         correctHref: "#/my%20Tag"
       })
     })
+
+    describe("regular Model ", () => {
+      ModelDeeplinkTestFactory({
+        isTagCase: false,
+        baseUrl: swagger2BaseUrl,
+        elementToGet: `.model-container[data-name="MyModel"]`,
+        correctElementId: "model-MyModel",
+        correctFragment: "#/models/MyModel",
+        correctHref: "#/models/MyModel"
+      })
+    })
   })
   describe("in OpenAPI 3", () => {
     const openAPI3BaseUrl = "/?deepLinking=true&url=/documents/features/deep-linking.openapi.yaml"
@@ -187,10 +198,21 @@ describe("Deep linking feature", () => {
         correctHref: "#/my%20Tag"
       })
     })
+
+    describe("regular Model ", () => {
+      ModelDeeplinkTestFactory({
+        isTagCase: false,
+        baseUrl: openAPI3BaseUrl,
+        elementToGet: `.model-container[data-name="MyModel"]`,
+        correctElementId: "model-MyModel",
+        correctFragment: "#/models/MyModel",
+        correctHref: "#/models/MyModel"
+      })
+    })
   })
 })
 
-function OperationDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, correctFragment, correctHref }) {  
+function OperationDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, correctFragment, correctHref }) {
   it("should generate a correct element ID", () => {
     cy.visit(baseUrl)
       .get(elementToGet)
@@ -282,6 +304,59 @@ function TagDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, corre
   it("should expand a tag with docExpansion disabled", () => {
     cy.visit(`${baseUrl}&docExpansion=none${correctFragment}`)
       .get(`.opblock-tag-section.is-open`)
+      .should("have.length", 1)
+  })
+}
+
+function ModelDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, correctFragment, correctHref }) {
+  it("should generate a correct element ID", () => {
+    cy.visit(baseUrl)
+      .get(elementToGet)
+      .should("have.id", correctElementId)
+  })
+
+  it("should add the correct element fragment to the URL when expanded", () => {
+    cy.visit(baseUrl)
+      .get(elementToGet + ">.model-box")// only the collapsible part is clickable
+      .click()
+      .window()
+      .should("have.deep.property", "location.hash", correctFragment)
+  })
+
+  // todo implement anchor
+  // it("should provide an anchor link that has the correct fragment as href", () => {
+  //   cy.visit(baseUrl)
+  //     .get(elementToGet)
+  //     .find("a")
+  //     .should("have.attr", "href", correctHref)
+  //     .click()
+  //     .window()
+  //     .should("have.deep.property", "location.hash", correctFragment)
+  // })
+
+  it("should expand the operation when reloaded", () => {
+    cy.visit(`${baseUrl}${correctFragment}`)
+      .get(`${elementToGet}[data-is-open="true"]`)
+      .should("exist")
+  })
+
+  it("should retain the correct fragment when reloaded", () => {
+    cy.visit(`${baseUrl}${correctFragment}`)
+      .reload()
+      .should("exist")
+      .window()
+      .should("have.deep.property", "location.hash", correctFragment)
+  })
+
+  it("should expand the models section with docExpansion disabled", () => {
+    cy.visit(`${baseUrl}&docExpansion=none${correctFragment}`)
+      .get(`.models.is-open`)
+      .should("have.length", 1)
+  })
+
+  it("should expand a model with docExpansion disabled", () => {
+    cy.visit(`${baseUrl}&docExpansion=none${correctFragment}`)
+      .get(`${elementToGet}[data-is-open="true"]`)
       .should("have.length", 1)
   })
 }

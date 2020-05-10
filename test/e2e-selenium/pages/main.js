@@ -491,40 +491,40 @@ module.exports = {
           selector: ".swagger-ui .models h4"
         },
         orderModel: {
-          selector: "section.models div.model-container:nth-child(1)"
+          selector: "section.models div#model-Order"
         },
         orderModelCallapse: {
-          selector: "section.models div.model-container:nth-child(1) span.model-toggle"
+          selector: "section.models div#model-Order span.model-toggle"
         },
         categoryModel: {
-          selector: "section.models div.model-container:nth-child(2)"
+          selector: "section.models div#model-Category"
         },
         categoryModelCallapse: {
-          selector: "section.models div.model-container:nth-child(2) span.model-toggle"
+          selector: "section.models div#model-Category span.model-toggle"
         },
         userModel: {
-          selector: "section.models div.model-container:nth-child(3)"
+          selector: "section.models div#model-User"
         },
         userModelCallapse: {
-          selector: "section.models div.model-container:nth-child(3) span.model-toggle"
+          selector: "section.models div#model-User span.model-toggle"
         },
         tagModel: {
-          selector: "section.models div.model-container:nth-child(4)"
+          selector: "section.models div#model-Tag"
         },
         tagModelCallapse: {
-          selector: "section.models div.model-container:nth-child(4) span.model-toggle"
+          selector: "section.models div#model-Tag span.model-toggle"
         },
         petModel: {
-          selector: "section.models div.model-container:nth-child(5)"
+          selector: "section.models div#model-Pet"
         },
         petModelCallapse: {
-          selector: "section.models div.model-container:nth-child(5) span.model-toggle"
+          selector: "section.models div#model-Pet span.model-toggle"
         },
         apiResponseModel: {
-          selector: "section.models div.model-container:nth-child(6)"
+          selector: "section.models div#model-ApiResponse"
         },
         apiResponseModelCallapse: {
-          selector: "section.models div.model-container:nth-child(6) span.model-toggle"
+          selector: "section.models div#model-ApiResponse span.model-toggle"
         },
       }
     }
