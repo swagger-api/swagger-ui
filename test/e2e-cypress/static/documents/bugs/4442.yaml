@@ -1,0 +1,41 @@
+openapi: "3.0.0"
+
+
+paths:
+  /:
+    get:
+      parameters:
+        - name: users
+          in: query
+          description: List of users to query for
+          content:
+            application/json:
+              example:
+              - userId: 1
+                currency: USD
+              - userId: 2
+                currency: CAD
+              schema:
+                $ref: "#/components/schemas/UserArray"
+      responses:
+        200:
+          description: OK!
+components:
+  schemas:
+
+    UserArray:
+      type: array
+      items:
+        $ref: "#/components/schemas/User"
+
+    User:
+      type: object
+      required:
+        - userId
+        - currency
+      properties:
+        userId:
+          type: integer
+          format: int32
+        currency:
+          type: string

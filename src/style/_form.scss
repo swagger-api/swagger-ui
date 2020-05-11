@@ -70,6 +70,27 @@ textarea
     {
         @include invalidFormElement();
     }
+
+}
+
+input,
+textarea,
+select {
+    &[disabled] {
+        // opacity: 0.85;
+        background-color: #fafafa;
+        color: #888;
+        cursor: not-allowed;
+    }
+}
+
+select[disabled] {
+    border-color: #888;
+}
+
+textarea[disabled] {
+    background-color: #41444e;
+    color: #fff;
 }
 
 @keyframes shake

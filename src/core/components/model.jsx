@@ -5,7 +5,7 @@ import PropTypes from "prop-types"
 
 export default class Model extends ImmutablePureComponent {
   static propTypes = {
-    schema: ImPropTypes.orderedMap.isRequired,
+    schema: ImPropTypes.map.isRequired,
     getComponent: PropTypes.func.isRequired,
     getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
@@ -23,7 +23,7 @@ export default class Model extends ImmutablePureComponent {
       return ref.replace(/^.*#\/definitions\//, "")
     }
     if ( ref.indexOf("#/components/schemas/") !== -1 ) {
-      return ref.replace("#/components/schemas/", "")
+      return ref.replace(/^.*#\/components\/schemas\//, "")
     }
   }
 
