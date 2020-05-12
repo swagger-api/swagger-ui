@@ -215,4 +215,20 @@ describe("curlify", function() {
         expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"accept: application/json\" -d \"{\\\"id\\\":\\\"foo'bar\\\"}\"")
     })
 
+  it("prints a curl post statement with a password hidden", function() {
+    var req = {
+      url: "http://example.com",
+      method: "POST",
+      headers: {
+        accept: "text/plain",
+        "content-type": "application/x-www-form-urlencoded"
+      },
+      body: "username=foo&password=hidden"
+    }
+
+    let curlified = curl(Im.fromJS(req))
+
+    expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"accept: text/plain\" -H  \"content-type: application/x-www-form-urlencoded\" -d \"username=foo&password=******\"")
+  })
+
 })

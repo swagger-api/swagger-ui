@@ -28,6 +28,23 @@ export default function curl( request ){
           curlified.push( `"${k}=${v}"` )
         }
       }
+    } else if (type === "application/x-www-form-urlencoded" && request.get("method") === "POST") {
+      curlified.push("-d")
+      let formDataParams = []
+      let pairs = request.get("body").split("&")
+      for (let i = 0; i < pairs.length; i++) {
+        if(!pairs[i])
+          continue
+        let pair = pairs[i].split("=")
+        let k = pair[0]
+        let v = pair[1]
+        if (k.toLowerCase() !== "password") {
+          formDataParams.push(`${k}=${v}`)
+        } else {
+          formDataParams.push(`${k}=******`)
+        }
+      }
+      curlified.push(`"${formDataParams.join("&")}"`)
     } else {
       curlified.push( "-d" )
       curlified.push( JSON.stringify( request.get("body") ).replace(/\\n/g, "") )
