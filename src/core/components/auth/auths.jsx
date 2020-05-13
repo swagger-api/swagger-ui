@@ -38,6 +38,11 @@ export default class Auths extends React.Component {
       return key
     }).toArray()
 
+    this.setState(auths.reduce((prev, auth) => {
+      prev[auth] = ""
+      return prev
+    }, {}))
+
     authActions.logout(auths)
   }
 

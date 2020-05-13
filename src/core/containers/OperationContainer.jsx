@@ -118,9 +118,7 @@ export default class OperationContainer extends PureComponent {
   }
 
   onTryoutClick =() => {
-    let { specActions, path, method } = this.props
     this.setState({tryItOutEnabled: !this.state.tryItOutEnabled})
-    specActions.clearValidateParams([path, method])
   }
 
   onExecute = () => {
