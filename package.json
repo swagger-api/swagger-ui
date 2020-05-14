@@ -39,7 +39,7 @@
     "hot-e2e-cypress-server": "webpack-dev-server --config webpack/dev-e2e.babel.js --content-base test/e2e-cypress/static",
     "hot-e2e-selenium-server": "webpack-dev-server --config webpack/dev-e2e.babel.js --content-base test/e2e-selenium/static",
     "e2e-cypress": "run-p -r hot-e2e-cypress-server mock-api test-e2e-cypress",
-    "dev-test-e2e-cypress-open": "cypress open",
+    "dev-e2e-cypress-open": "cypress open",
     "dev-e2e-cypress": "run-p -r hot-e2e-cypress-server mock-api dev-e2e-cypress-open",
     "e2e-selenium": "run-p -r hot-e2e-selenium-server mock-api test-e2e-selenium",
     "open-static": "node -e \"require('open')('http://localhost:3002')\"",
