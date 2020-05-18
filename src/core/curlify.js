@@ -47,6 +47,9 @@ export default function curl( request ){
       curlified.push( "-d" )
       curlified.push( JSON.stringify( request.get("body") ).replace(/\\n/g, "") )
     }
+  } else if(!request.get("body") && request.get("method") === "POST") {
+    curlified.push( "-d" )
+    curlified.push( "''" )
   }
 
   return curlified.join( " " )
