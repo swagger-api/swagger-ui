@@ -33,7 +33,7 @@ describe("curlify", function() {
 
       let curlified = curl(Im.fromJS(req))
 
-      expect(curlified).toEqual("curl -X POST \"http://example.com\" -d ''")
+      expect(curlified).toEqual("curl -X POST \"http://example.com\" -d \"\"")
     })
 
     it("does not change the case of header in curl", function() {
@@ -47,7 +47,7 @@ describe("curlify", function() {
 
         let curlified = curl(Im.fromJS(req))
 
-        expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"conTenT Type: application/Moar\" -d ''")
+        expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"conTenT Type: application/Moar\" -d \"\"")
     })
 
     it("prints a curl statement with an array of query params", function() {

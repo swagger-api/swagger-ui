@@ -49,7 +49,7 @@ export default function curl( request ){
     }
   } else if(!request.get("body") && request.get("method") === "POST") {
     curlified.push( "-d" )
-    curlified.push( "''" )
+    curlified.push( '""' )
   }
 
   return curlified.join( " " )
