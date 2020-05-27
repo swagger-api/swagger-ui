@@ -25,12 +25,16 @@ export default class Oauth2 extends React.Component {
     let clientId = auth && auth.get("clientId") || authConfigs.clientId || ""
     let clientSecret = auth && auth.get("clientSecret") || authConfigs.clientSecret || ""
     let passwordType = auth && auth.get("passwordType") || "basic"
+    let scopes = auth && auth.get("scopes") || authConfigs.scopes || []
+    if (typeof scopes === "string") {
+      scopes = scopes.split(authConfigs.scopeSeparator || " ")
+    }
 
     this.state = {
       appName: authConfigs.appName,
       name: name,
       schema: schema,
-      scopes: [],
+      scopes: scopes,
       clientId: clientId,
       clientSecret: clientSecret,
       username: username,
@@ -209,6 +213,7 @@ export default class Oauth2 extends React.Component {
                     <Input data-value={ name }
                           id={`${name}-${flow}-checkbox-${this.state.name}`}
                            disabled={ isAuthorized }
+                           checked={ this.state.scopes.includes(name) }
                            type="checkbox"
                            onChange={ this.onScopeChange }/>
                          <label htmlFor={`${name}-${flow}-checkbox-${this.state.name}`}>

@@ -45,6 +45,8 @@ describe("Render scheme", function () {
         .assert.containsText("@authorizationUrl", "http://petstore.swagger.io/oauth/dialog")
         .assert.containsText("@flow", "implicit")
         .assert.value("@inputClientID", "your-client-id")
+        schemeContainer.expect.element("@readPetsScope").to.be.selected
+        schemeContainer.expect.element("@writePetsScope").to.not.be.selected
 
         client.end()
     })

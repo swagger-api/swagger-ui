@@ -70,6 +70,12 @@ module.exports = {
         authorizationUrl: {
           selector: ".auth-container code"
         },
+        readPetsScope: {
+          selector: "input[data-value='read:pets']"
+        },
+        writePetsScope: {
+          selector: "input[data-value='write:pets']"
+        },
         flow: {
           selector: ".flow code"
         },
