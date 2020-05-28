@@ -18,6 +18,7 @@ import _memoize from "lodash/memoize"
 import find from "lodash/find"
 import some from "lodash/some"
 import eq from "lodash/eq"
+import isFunction from "lodash/isFunction"
 import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins/samples/fn"
 import win from "./window"
 import cssEscape from "css.escape"
@@ -80,10 +81,13 @@ export function fromJSOrdered(js) {
   if (Array.isArray(js)) {
     return Im.Seq(js).map(fromJSOrdered).toList()
   }
-  if (js.entries) {
+  if (isFunction(js.entries)) {
     // handle multipart/form-data
     const objWithHashedKeys = createObjWithHashedKeys(js)
     return Im.OrderedMap(objWithHashedKeys).map(fromJSOrdered)
+  }
+  if (js.entries && !isFunction(js.entries)) {
+    return Im.OrderedMap(js.entries).map(fromJSOrdered)
   }
   return Im.OrderedMap(js).map(fromJSOrdered)
 }

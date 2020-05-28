@@ -48,8 +48,8 @@ describe("#4641: The Logout button in Authorize popup not clearing API Key", () 
       .within(clickTryItOutAndExecute)
       .get("@request")
       .its("request")
-      .should(request => {
-        expect(request.headers).to.have.property("api_key_1", "my_api_key")
+      .then((req) => {
+        expect(req.headers, "request headers").to.have.property("api_key_1", "my_api_key")
       })
   })
 
@@ -68,8 +68,8 @@ describe("#4641: The Logout button in Authorize popup not clearing API Key", () 
       .within(clickTryItOutAndExecute)
       .get("@request")
       .its("request")
-      .should(request => {
-        expect(request.headers).not.to.have.property("api_key_1")
+      .then((req) => {
+        expect(req.headers, "request headers").not.to.have.property("api_key_1")
       })
   })
 
@@ -90,9 +90,9 @@ describe("#4641: The Logout button in Authorize popup not clearing API Key", () 
       .within(clickTryItOutAndExecute)
       .get("@request")
       .its("request")
-      .should(request => {
-        expect(request.headers).not.to.have.property("api_key_1")
-        expect(request.headers).to.have.property("api_key_2", "my_second_api_key")
+      .then((req) => {
+        expect(req.headers, "request headers").not.to.have.property("api_key_1")
+        expect(req.headers, "request headers").to.have.property("api_key_2", "my_second_api_key")
       })
   })
 })

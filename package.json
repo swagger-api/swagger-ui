@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.25.3",
+  "version": "3.25.4",
   "main": "dist/swagger-ui.js",
   "homepage": "https://github.com/swagger-api/swagger-ui",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
@@ -82,7 +82,7 @@
     "reselect": "^4.0.0",
     "serialize-error": "^2.1.0",
     "sha.js": "^2.4.11",
-    "swagger-client": "^3.10.3",
+    "swagger-client": "^3.10.4",
     "url-parse": "^1.4.7",
     "xml-but-prettier": "^1.0.1",
     "zenscroll": "^4.0.2"
