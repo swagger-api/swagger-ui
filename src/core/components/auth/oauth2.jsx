@@ -81,6 +81,16 @@ export default class Oauth2 extends React.Component {
     this.setState(state)
   }
 
+  selectScopes =(e) => {
+    if (e.target.dataset.all) {
+      this.setState({
+        scopes: Array.from((this.props.schema.get("allowedScopes") || this.props.schema.get("scopes")).keys())
+      })
+    } else {
+      this.setState({ scopes: [] })
+    }
+  }
+
   logout =(e) => {
     e.preventDefault()
     let { authActions, errActions, name } = this.props
@@ -205,7 +215,11 @@ export default class Oauth2 extends React.Component {
 
         {
           !isAuthorized && scopes && scopes.size ? <div className="scopes">
-            <h2>Scopes:</h2>
+            <h2>
+              Scopes:
+              <a onClick={this.selectScopes} data-all={true}>select all</a>
+              <a onClick={this.selectScopes}>select none</a>
+            </h2>
             { scopes.map((description, name) => {
               return (
                 <Row key={ name }>
