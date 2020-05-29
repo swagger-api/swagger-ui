@@ -18,6 +18,7 @@ import _memoize from "lodash/memoize"
 import find from "lodash/find"
 import some from "lodash/some"
 import eq from "lodash/eq"
+import isFunction from "lodash/isFunction"
 import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins/samples/fn"
 import win from "./window"
 import cssEscape from "css.escape"
@@ -80,7 +81,7 @@ export function fromJSOrdered(js) {
   if (Array.isArray(js)) {
     return Im.Seq(js).map(fromJSOrdered).toList()
   }
-  if (js.entries) {
+  if (isFunction(js.entries)) {
     // handle multipart/form-data
     const objWithHashedKeys = createObjWithHashedKeys(js)
     return Im.OrderedMap(objWithHashedKeys).map(fromJSOrdered)
@@ -93,11 +94,21 @@ export function fromJSOrdered(js) {
  * Append a hashIdx and counter to the key name, if multiple exists
  * if single, key name = <original>
  * if multiple, key name = <original><hashIdx><count>
+ * @example <caption>single entry for vegetable</caption>
+ * fdObj.entries.vegtables: "carrot"
+ * // returns newObj.vegetables : "carrot"
+ * @example <caption>multiple entries for fruits[]</caption>
+ * fdObj.entries.fruits[]: "apple"
+ * // returns newObj.fruits[]_**[]1 : "apple"
+ * fdObj.entries.fruits[]: "banana"
+ * // returns newObj.fruits[]_**[]2 : "banana"
+ * fdObj.entries.fruits[]: "grape"
+ * // returns newObj.fruits[]_**[]3 : "grape"
  * @param {FormData} fdObj - a FormData object
  * @return {Object} - a plain object
  */
 export function createObjWithHashedKeys (fdObj) {
-  if (!fdObj.entries) {
+  if (!isFunction(fdObj.entries)) {
     return fdObj // not a FormData object with iterable
   }
   const newObj = {}
