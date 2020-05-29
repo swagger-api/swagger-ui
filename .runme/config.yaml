@@ -1,0 +1,10 @@
+version: 1.0
+publish: app
+services:
+  app:
+    build:
+      type: dockerfile
+      config: ./Dockerfile
+    ports:
+    - container: 8080
+      public: 80
