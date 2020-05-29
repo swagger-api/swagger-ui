@@ -23,8 +23,7 @@ COPY ./docker/configurator /usr/share/nginx/configurator
 RUN chmod +x /usr/share/nginx/run.sh && \
     chmod -R a+rw /usr/share/nginx && \
     chmod -R a+rw /etc/nginx && \
-    chmod -R a+rw /var && \
-    chmod -R a+rw /var/run
+    chmod -R a+rw /var
 
 EXPOSE 8080
 
