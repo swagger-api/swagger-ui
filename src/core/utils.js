@@ -86,9 +86,6 @@ export function fromJSOrdered(js) {
     const objWithHashedKeys = createObjWithHashedKeys(js)
     return Im.OrderedMap(objWithHashedKeys).map(fromJSOrdered)
   }
-  if (js.entries && !isFunction(js.entries)) {
-    return Im.OrderedMap(js.entries).map(fromJSOrdered)
-  }
   return Im.OrderedMap(js).map(fromJSOrdered)
 }
 
@@ -97,11 +94,21 @@ export function fromJSOrdered(js) {
  * Append a hashIdx and counter to the key name, if multiple exists
  * if single, key name = <original>
  * if multiple, key name = <original><hashIdx><count>
+ * @example <caption>single entry for vegetable</caption>
+ * fdObj.entries.vegtables: "carrot"
+ * // returns newObj.vegetables : "carrot"
+ * @example <caption>multiple entries for fruits[]</caption>
+ * fdObj.entries.fruits[]: "apple"
+ * // returns newObj.fruits[]_**[]1 : "apple"
+ * fdObj.entries.fruits[]: "banana"
+ * // returns newObj.fruits[]_**[]2 : "banana"
+ * fdObj.entries.fruits[]: "grape"
+ * // returns newObj.fruits[]_**[]3 : "grape"
  * @param {FormData} fdObj - a FormData object
  * @return {Object} - a plain object
  */
 export function createObjWithHashedKeys (fdObj) {
-  if (!fdObj.entries) {
+  if (!isFunction(fdObj.entries)) {
     return fdObj // not a FormData object with iterable
   }
   const newObj = {}
