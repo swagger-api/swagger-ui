@@ -1,10 +1,8 @@
 const clickTryItOutAndExecute = () => {
   return cy
-    .get(".opblock-summary")
+    .get(".btn.try-out__btn") // expand "try it out"
     .click()
-    .get(".try-out > .btn") // expand "try it out"
-    .click()
-    .get(".execute-wrapper > .btn") // excecute request
+    .get(".btn.execute") // execute request
     .click()
 }
 
@@ -44,7 +42,8 @@ describe("#4641: The Logout button in Authorize popup not clearing API Key", () 
       .within(fillInApiKeyAndAuthorise("my_api_key"))
       .get(".close-modal") // close authorise popup button
       .click()
-      .get("#operations-default-get_4641_1") // expand the route details
+      .get("#operations-default-get_4641_1") // expand the route details onClick
+      .click()
       .within(clickTryItOutAndExecute)
       .get("@request")
       .its("request")
@@ -64,7 +63,8 @@ describe("#4641: The Logout button in Authorize popup not clearing API Key", () 
       .within(clickLogoutAndReauthorise)
       .get(".close-modal") // close authorise popup button
       .click()
-      .get("#operations-default-get_4641_1") // expand the route details
+      .get("#operations-default-get_4641_1") // expand the route details onClick
+      .click()
       .within(clickTryItOutAndExecute)
       .get("@request")
       .its("request")
@@ -86,7 +86,8 @@ describe("#4641: The Logout button in Authorize popup not clearing API Key", () 
       .within(clickLogoutAndReauthorise)
       .get(".close-modal") // close authorise popup button
       .click()
-      .get("#operations-default-get_4641_2") // expand the route details
+      .get("#operations-default-get_4641_2") // expand the route details onClick
+      .click()
       .within(clickTryItOutAndExecute)
       .get("@request")
       .its("request")
