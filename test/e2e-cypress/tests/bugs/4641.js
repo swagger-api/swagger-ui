@@ -45,7 +45,7 @@ describe("#4641: The Logout button in Authorize popup not clearing API Key", () 
       .get("#operations-default-get_4641_1") // expand the route details onClick
       .click()
       .within(clickTryItOutAndExecute)
-      .get("@request")
+      .wait("@request")
       .its("request")
       .then((req) => {
         expect(req.headers, "request headers").to.have.property("api_key_1", "my_api_key")
@@ -66,7 +66,7 @@ describe("#4641: The Logout button in Authorize popup not clearing API Key", () 
       .get("#operations-default-get_4641_1") // expand the route details onClick
       .click()
       .within(clickTryItOutAndExecute)
-      .get("@request")
+      .wait("@request")
       .its("request")
       .then((req) => {
         expect(req.headers, "request headers").not.to.have.property("api_key_1")
@@ -89,7 +89,7 @@ describe("#4641: The Logout button in Authorize popup not clearing API Key", () 
       .get("#operations-default-get_4641_2") // expand the route details onClick
       .click()
       .within(clickTryItOutAndExecute)
-      .get("@request")
+      .wait("@request")
       .its("request")
       .then((req) => {
         expect(req.headers, "request headers").not.to.have.property("api_key_1")
