@@ -78,7 +78,7 @@
     "react-redux": "^4.x.x",
     "redux": "^3.x.x",
     "redux-immutable": "3.1.0",
-    "remarkable": "^1.7.4",
+    "remarkable": "^2.0.1",
     "reselect": "^4.0.0",
     "serialize-error": "^2.1.0",
     "sha.js": "^2.4.11",
