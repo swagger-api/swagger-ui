@@ -154,8 +154,8 @@
     "url-loader": "^2.1.0",
     "webpack": "^4.39.0",
     "webpack-bundle-size-analyzer": "^2.5.0",
-    "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.7.2"
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0"
   },
   "config": {
     "deps_check_dir": ".deps_check"
