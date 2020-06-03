@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
-import Remarkable from "remarkable"
+import { Remarkable } from "remarkable"
+import { linkify } from "remarkable/linkify"
 import DomPurify from "dompurify"
 import cx from "classnames"
 
@@ -16,35 +17,34 @@ DomPurify.addHook("beforeSanitizeElements", function (current, ) {
 })
 
 function Markdown({ source, className = "" }) {
-    if (typeof source !== "string") {
-      return null
-    }
+  if (typeof source !== "string") {
+    return null
+  }
 
-    const md = new Remarkable({
-        html: true,
-        typographer: true,
-        breaks: true,
-        linkify: true,
-        linkTarget: "_blank"
-    })
-    
-    md.core.ruler.disable(["replacements", "smartquotes"])
+  const md = new Remarkable({
+    html: true,
+    typographer: true,
+    breaks: true,
+    linkTarget: "_blank"
+  }).use(linkify)
 
-    const html = md.render(source)
-    const sanitized = sanitizer(html)
+  md.core.ruler.disable(["replacements", "smartquotes"])
 
-    if ( !source || !html || !sanitized ) {
-        return null
-    }
+  const html = md.render(source)
+  const sanitized = sanitizer(html)
 
-    return (
-        <div className={cx(className, "markdown")} dangerouslySetInnerHTML={{ __html: sanitized }}></div>
-    )
+  if (!source || !html || !sanitized) {
+    return null
+  }
+
+  return (
+    <div className={cx(className, "markdown")} dangerouslySetInnerHTML={{ __html: sanitized }}></div>
+  )
 }
 
 Markdown.propTypes = {
-    source: PropTypes.string.isRequired,
-    className: PropTypes.string
+  source: PropTypes.string.isRequired,
+  className: PropTypes.string
 }
 
 export default Markdown
