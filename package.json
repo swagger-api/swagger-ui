@@ -112,7 +112,7 @@
     "cypress": "^3.8.3",
     "dedent": "^0.7.0",
     "deepmerge": "^4.0.0",
-    "enzyme": "^2.7.1",
+    "enzyme": "^3.0.0",
     "eslint": "^4.1.1",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-mocha": "^4.11.0",
