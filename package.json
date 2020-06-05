@@ -98,7 +98,7 @@
     "@babel/preset-react": "^7.10.1",
     "@babel/register": "^7.10.1",
     "@release-it/conventional-changelog": "^1.1.0",
-    "autoprefixer": "^8.4.1",
+    "autoprefixer": "^9.0.0",
     "babel-eslint": "^9.0.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-module-resolver": "^3.2.0",
