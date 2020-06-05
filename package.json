@@ -106,7 +106,7 @@
     "body-parser": "^1.19.0",
     "bundlesize": "^0.18.0",
     "chromedriver": "^80.0.2",
-    "copy-webpack-plugin": "^5.1.1",
+    "copy-webpack-plugin": "^6.0.0",
     "cors": "^2.8.5",
     "css-loader": "^3.5.3",
     "cypress": "^3.8.3",
