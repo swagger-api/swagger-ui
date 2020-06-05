@@ -101,7 +101,7 @@
     "autoprefixer": "^9.0.0",
     "babel-eslint": "^10.0.0",
     "babel-loader": "^8.1.0",
-    "babel-plugin-module-resolver": "^3.2.0",
+    "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.13",
     "body-parser": "^1.19.0",
     "bundlesize": "^0.18.0",
