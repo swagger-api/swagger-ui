@@ -124,7 +124,7 @@
     "http-server": "^0.12.3",
     "ignore-assets-webpack-plugin": "^2.0.1",
     "imports-loader": "^0.8.0",
-    "jsdom": "^11.10.0",
+    "jsdom": "^16.0.0",
     "json-loader": "^0.5.7",
     "json-merger": "^1.1.2",
     "json-server": "^0.15.0",
