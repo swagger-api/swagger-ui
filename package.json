@@ -144,7 +144,7 @@
     "raw-loader": "^4.0.0",
     "react-test-renderer": "^15.5.4",
     "release-it": "^12.4.3",
-    "rimraf": "^2.7.1",
+    "rimraf": "^3.0.0",
     "sass-loader": "^7.1.0",
     "selenium-server-standalone-jar": "^3.141.5",
     "source-map-support": "^0.5.19",
