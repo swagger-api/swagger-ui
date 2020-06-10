@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import cx from "classnames"
-import Remarkable from "remarkable"
+import { Remarkable } from "remarkable"
 import { OAS3ComponentWrapFactory } from "../helpers"
 import { sanitizer } from "core/components/providers/markdown"
 

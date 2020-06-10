@@ -156,7 +156,8 @@ export const authorizeRequest = ( data ) => ( { fn, getConfigs, authActions, err
   let parsedUrl
 
   if (specSelectors.isOAS3()) {
-    parsedUrl = parseUrl(url, oas3Selectors.selectedServer(), true)
+    const server = oas3Selectors.selectedServer()
+    parsedUrl = parseUrl(url, oas3Selectors.serverEffectiveValue({ server }), true)
   } else {
     parsedUrl = parseUrl(url, specSelectors.url(), true)
   }

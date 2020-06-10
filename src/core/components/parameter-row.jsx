@@ -3,7 +3,7 @@ import { Map, List } from "immutable"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import win from "core/window"
-import { getSampleSchema, getExtensions, getCommonExtensions, numberToString, stringify } from "core/utils"
+import { getSampleSchema, getExtensions, getCommonExtensions, numberToString, stringify, isEmptyValue } from "core/utils"
 import getParameterSchema from "../../helpers/get-parameter-schema.js"
 
 export default class ParameterRow extends Component {
@@ -336,12 +336,11 @@ export default class ParameterRow extends Component {
           }
 
           {
-            !bodyParam && isExecute ?
+            !bodyParam && isExecute && param.get("allowEmptyValue") ?
             <ParameterIncludeEmpty
               onChange={this.onChangeIncludeEmpty}
               isIncluded={specSelectors.parameterInclusionSettingFor(pathMethod, param.get("name"), param.get("in"))}
-              isDisabled={value && value.size !== 0}
-              param={param} />
+              isDisabled={!isEmptyValue(value)} />
             : null
           }
 
