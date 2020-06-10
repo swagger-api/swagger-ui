@@ -30,6 +30,26 @@ const oauthBlockSchema = {
   OAUTH_USE_PKCE: {
     type: "boolean",
     name: "usePkceWithAuthorizationCodeGrant"
+  },
+  OAUTH_DEFAULT_SCOPE: {
+    type: "array",
+    name: "defaultScope"
+  },
+  OAUTH_HIDE_CLIENT_ID: {
+    type: "boolean",
+    name: "hideClientId"
+  },
+  OAUTH_HIDE_CLIENT_SECRET: {
+    type: "boolean",
+    name: "hideClientSecret"
+  },
+  OAUTH_HIDE_SCOPE: {
+    type: "boolean",
+    name: "hideScope"
+  },
+  OAUTH_HIDE_INFO: {
+    type: "boolean",
+    name: "hideInfo"
   }
 }
 

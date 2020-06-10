@@ -10,8 +10,12 @@ appName | `OAUTH_APP_NAME` |application name, displayed in authorization popup. 
 scopeSeparator | `OAUTH_SCOPE_SEPARATOR` |scope separator for passing scopes, encoded before calling, default value is a space (encoded value `%20`). MUST be a string
 additionalQueryStringParams | `OAUTH_ADDITIONAL_PARAMS` |Additional query parameters added to `authorizationUrl` and `tokenUrl`. MUST be an object
 useBasicAuthenticationWithAccessCodeGrant | _Unavailable_ |Only activated for the `accessCode` flow.  During the `authorization_code` request to the `tokenUrl`, pass the [Client Password](https://tools.ietf.org/html/rfc6749#section-2.3.1) using the HTTP Basic Authentication scheme (`Authorization` header with `Basic base64encode(client_id + client_secret)`).  The default is `false`
-usePkceWithAuthorizationCodeGrant | `OAUTH_USE_PKCE` | Only applies to `authorizatonCode` flows. [Proof Key for Code Exchange](https://tools.ietf.org/html/rfc7636) brings enhanced security for OAuth public clients. The default is `false`
-
+usePkceWithAuthorizationCodeGrant | `OAUTH_USE_PKCE` | Only applies to `authorizatonCode` (or `accessCode`) flows. [Proof Key for Code Exchange](https://tools.ietf.org/html/rfc7636) brings enhanced security for OAuth public clients. The default is `false`
+defaultScope | `OAUTH_DEFAULT_SCOPE` | Pre-check scope if found in the security definition, default: `['openid']`. MUST be an array
+hideClientId | `OAUTH_HIDE_CLIENT_ID` | Hide the "client id" field, default `false`. MUST be a boolean
+hideClientSecret | `OAUTH_HIDE_CLIENT_SECRET` | Hide the "client secret" field, default `false`. MUST be a boolean
+hideScope | `OAUTH_HIDE_SCOPE` | Hide the "scope" selector, default `false`. MUST be a boolean
+hideInfo | `OAUTH_HIDE_INFO` | Hide the "OAuth2 information" paragraph, default `false`. MUST be a boolean
 ```javascript
 const ui = SwaggerUI({...})
 
@@ -23,6 +27,11 @@ ui.initOAuth({
     appName: "your-app-name",
     scopeSeparator: " ",
     additionalQueryStringParams: {test: "hello"},
-    usePkceWithAuthorizationCodeGrant: true
+    usePkceWithAuthorizationCodeGrant: true,
+    defaultScope: ["openid"],
+    hideClientSecret: false,
+    hideClientId: false,
+    hideScope: false,
+    hideInfo: false
   })
 ```
