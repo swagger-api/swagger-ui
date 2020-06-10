@@ -38,6 +38,12 @@ table
 
             @include text_code();
         }
+
+        .header-example 
+        {
+            color: #999; 
+            font-style: italic;
+        }
     }
 
     tbody
@@ -111,6 +117,11 @@ table
     &.required
     {
         font-weight: bold;
+
+        span
+        {
+            color: red;
+        }
 
         &:after
         {

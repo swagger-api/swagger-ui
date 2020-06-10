@@ -79,8 +79,8 @@ export default class ObjectModel extends Component {
             {
               <table className="model"><tbody>
               {
-                !description ? null : <tr style={{ color: "#666", fontWeight: "normal" }}>
-                    <td style={{ fontWeight: "bold" }}>description:</td>
+                !description ? null : <tr className="description">
+                    <td>description:</td>
                     <td>
                       <Markdown source={ description } />
                     </td>
@@ -91,16 +91,22 @@ export default class ObjectModel extends Component {
                     ([key, value]) => {
                       let isDeprecated = isOAS3() && value.get("deprecated")
                       let isRequired = List.isList(requiredProperties) && requiredProperties.contains(key)
-                      let propertyStyle = { verticalAlign: "top", paddingRight: "0.2em" }
-                      if ( isRequired ) {
-                        propertyStyle.fontWeight = "bold"
+
+                      let classNames = ["property-row"]
+
+                      if (isDeprecated) {
+                        classNames.push("deprecated")
                       }
 
-                      return (<tr key={key} className={isDeprecated && "deprecated"}>
-                        <td style={ propertyStyle }>
-                          { key }{ isRequired && <span style={{ color: "red" }}>*</span> }
+                      if (isRequired) {
+                        classNames.push("required")
+                      }
+
+                      return (<tr key={key} className={classNames.join(" ")}>
+                        <td>
+                          { key }{ isRequired && <span className="star">*</span> }
                         </td>
-                        <td style={{ verticalAlign: "top" }}>
+                        <td>
                           <Model key={ `object-${name}-${key}_${value}` } { ...otherProps }
                                  required={ isRequired }
                                  getComponent={ getComponent }
@@ -126,11 +132,11 @@ export default class ObjectModel extends Component {
 
                       const normalizedValue = !value ? null : value.toJS ? value.toJS() : value
 
-                      return (<tr key={key} style={{ color: "#777" }}>
+                      return (<tr key={key} className="extension">
                         <td>
                           { key }
                         </td>
-                        <td style={{ verticalAlign: "top" }}>
+                        <td>
                           { JSON.stringify(normalizedValue) }
                         </td>
                       </tr>)
