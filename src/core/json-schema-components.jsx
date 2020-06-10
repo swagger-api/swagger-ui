@@ -175,7 +175,7 @@ export class JsonSchema_array extends PureComponent {
     const schemaItemsSchema = schema.getIn(["items", "schema"])
     let ArrayItemsComponent
     let isArrayItemText = false
-    let isArrayItemFile = schemaItemsType === "file" ? true : false
+    let isArrayItemFile = (schemaItemsType === "file" || (schemaItemsType === "string" && schemaItemsFormat === "binary")) ? true : false
     if (schemaItemsType && schemaItemsFormat) {
       ArrayItemsComponent = getComponent(`JsonSchema_${schemaItemsType}_${schemaItemsFormat}`)
     } else if (schemaItemsType === "boolean" || schemaItemsType === "array" || schemaItemsType === "object") {

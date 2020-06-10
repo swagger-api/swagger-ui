@@ -76,6 +76,15 @@
         font-size: 14px;
 
         @include text_headline();
+
+        a
+        {
+          font-size: 12px;
+          color: $auth-select-all-none-link-font-color;
+          cursor: pointer;
+          padding-left: 10px;
+          text-decoration: underline;
+        }
     }
 }
 
