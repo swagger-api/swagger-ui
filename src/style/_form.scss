@@ -46,7 +46,12 @@ label
     @include text_headline();
 }
 
-input {
+input[type=text],
+input[type=password],
+input[type=search],
+input[type=email],
+input[type=file]
+{
     @media (max-width: 768px) {
       max-width: 175px;
     }
