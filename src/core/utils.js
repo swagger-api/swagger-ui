@@ -800,6 +800,15 @@ export function sanitizeUrl(url) {
   return braintreeSanitizeUrl(url)
 }
 
+
+export function requiresValidationURL(uri) {
+  if (!uri || uri.indexOf("localhost") >= 0 || uri.indexOf("127.0.0.1") >= 0 || uri === "none") {
+    return false
+  }
+  return true
+}
+
+
 export function getAcceptControllingResponse(responses) {
   if(!Im.OrderedMap.isOrderedMap(responses)) {
     // wrong type!

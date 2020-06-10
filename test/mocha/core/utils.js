@@ -23,6 +23,7 @@ import {
   getExtensions,
   getCommonExtensions,
   sanitizeUrl,
+  requiresValidationURL,
   extractFileNameFromContentDispositionHeader,
   deeplyStripKey,
   getSampleSchema,
@@ -1339,7 +1340,52 @@ describe("utils", function() {
       expect(sanitizeUrl({})).toEqual("")
     })
   })
-  
+
+  describe("requiresValidationURL", function() {
+    it("Should tell us if we require a ValidationURL", function() {
+      const res = requiresValidationURL("https://example.com")
+
+      expect(res).toBe(true)
+    })
+
+    it(".. and localhost is not", function() {
+      const res = requiresValidationURL("http://localhost")
+
+      expect(res).toBe(false)
+    })
+
+    it(".. and neither does 127.0.0.1", function() {
+      const res = requiresValidationURL("http://127.0.0.1")
+
+      expect(res).toBe(false)
+    })
+
+    it(".. even without the proto", function() {
+      const res = requiresValidationURL("127.0.0.1")
+
+      expect(res).toBe(false)
+    })
+
+    it(".. and also not with 'none'", function() {
+      const res = requiresValidationURL("none")
+
+      expect(res).toBe(false)
+    })
+
+    it(".. and also not with 'none'", function() {
+      const res = requiresValidationURL("none")
+
+      expect(res).toBe(false)
+    })
+
+    it(".. and also not with ''", function() {
+      const res = requiresValidationURL("")
+
+      expect(res).toBe(false)
+    })
+
+  })
+
   describe("getSampleSchema", function() {
     const oriDate = Date
     
