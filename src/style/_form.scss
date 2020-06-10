@@ -46,6 +46,12 @@ label
     @include text_headline();
 }
 
+input {
+    @media (max-width: 768px) {
+      max-width: 175px;
+    }
+}
+
 
 input[type=text],
 input[type=password],
@@ -61,9 +67,6 @@ textarea
     border: 1px solid $form-input-border-color;
     border-radius: 4px;
     background: $form-input-background-color;
-    @media (max-width: 768px) {
-      max-width: 175px;
-    }
 
 
     &.invalid
