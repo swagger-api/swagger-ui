@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 
-const propStyle = { color: "#999", fontStyle: "italic" }
+const propClass = "property"
 
 export default class ArrayModel extends Component {
   static propTypes = {
@@ -44,7 +44,7 @@ export default class ArrayModel extends Component {
       <ModelCollapse title={titleEl} expanded={ depth <= expandDepth } collapsedContent="[...]">
         [
           {
-            properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propVal={ v } propStyle={ propStyle } />) : null
+            properties.size ? properties.entrySeq().map( ( [ key, v ] ) => <Property key={`${key}-${v}`} propKey={ key } propVal={ v } propClass={ propClass } />) : null
           }
           {
             !description ? (properties.size ? <div className="markdown"></div> : null) :

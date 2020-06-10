@@ -8,15 +8,18 @@ export default class SwaggerUI extends React.Component {
     this.SwaggerUIComponent = null
     this.system = null
   }
-  
+
   componentDidMount() {
     const ui = swaggerUIConstructor({
+      plugins: this.props.plugins,
       spec: this.props.spec,
       url: this.props.url,
       requestInterceptor: this.requestInterceptor,
       responseInterceptor: this.responseInterceptor,
       onComplete: this.onComplete,
       docExpansion: this.props.docExpansion,
+      supportedSubmitMethods: this.props.supportedSubmitMethods,
+      defaultModelExpandDepth: this.props.defaultModelExpandDepth,
     })
 
     this.system = ui
@@ -24,7 +27,7 @@ export default class SwaggerUI extends React.Component {
 
     this.forceUpdate()
   }
-  
+
   render() {
     return this.SwaggerUIComponent ? <this.SwaggerUIComponent /> : null
   }
@@ -38,7 +41,7 @@ export default class SwaggerUI extends React.Component {
         // update the internal URL
         this.system.specActions.updateUrl(this.props.url)
         // trigger remote definition fetch
-        this.system.specActions.download(this.props.url) 
+        this.system.specActions.download(this.props.url)
       }
     }
 
@@ -82,4 +85,13 @@ SwaggerUI.propTypes = {
   responseInterceptor: PropTypes.func,
   onComplete: PropTypes.func,
   docExpansion: PropTypes.oneOf(['list', 'full', 'none']),
+  supportedSubmitMethods: PropTypes.arrayOf(
+    PropTypes.oneOf(['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'])
+  ),
+  defaultModelExpandDepth: PropTypes.number,
+  plugins: PropTypes.arrayOf(PropTypes.object),
+}
+
+SwaggerUI.defaultProps = {
+  supportedSubmitMethods: ['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'],
 }

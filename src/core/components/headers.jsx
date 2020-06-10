@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import Im from "immutable"
 
-const propStyle = { color: "#999", fontStyle: "italic" }
+const propClass = "header-example"
 
 export default class Headers extends React.Component {
   static propTypes = {
@@ -46,7 +46,7 @@ export default class Headers extends React.Component {
                 <td className="header-col">{
                   !description ? null : <Markdown source={ description } />
                 }</td>
-                <td className="header-col">{ type } { schemaExample ? <Property propKey={ "Example" } propVal={ schemaExample } propStyle={ propStyle } /> : null }</td>
+                <td className="header-col">{ type } { schemaExample ? <Property propKey={ "Example" } propVal={ schemaExample } propClass={ propClass } /> : null }</td>
               </tr>)
             }).toArray()
           }
