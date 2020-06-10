@@ -1,5 +1,5 @@
 import { fromJS, Map } from "immutable"
-import { btoa } from "core/utils"
+import { btoa, isFunc } from "core/utils"
 
 import {
   SHOW_AUTH_POPUP,
@@ -20,6 +20,9 @@ export default {
 
     // refactor withMutations
     securities.entrySeq().forEach( ([ key, security ]) => {
+      if (!isFunc(security.getIn)) {
+        return state.set("authorized", map)
+      }
       let type = security.getIn(["schema", "type"])
 
       if ( type === "apiKey" || type === "http" ) {

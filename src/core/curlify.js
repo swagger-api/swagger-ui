@@ -33,7 +33,7 @@ export default function curl( request ){
 
   if ( request.get("body") ){
 
-    if(type === "multipart/form-data" && request.get("method") === "POST") {
+    if(type === "multipart/form-data" && ["POST", "PUT", "PATCH"].includes(request.get("method"))) {
       for( let [ k,v ] of request.get("body").entrySeq()) {
         let extractedKey = extractKey(k)
         curlified.push( "-F" )
@@ -47,6 +47,9 @@ export default function curl( request ){
       curlified.push( "-d" )
       curlified.push( JSON.stringify( request.get("body") ).replace(/\\n/g, "") )
     }
+  } else if(!request.get("body") && request.get("method") === "POST") {
+    curlified.push( "-d" )
+    curlified.push( "\"\"" )
   }
 
   return curlified.join( " " )
