@@ -47,7 +47,7 @@
 
             content: '';
 
-            background: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M10%206L8.59%207.41%2013.17%2012l-4.58%204.59L10%2018l6-6z%22/%3E%0A%3C/svg%3E%0A) center center no-repeat;
+            background: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>') center no-repeat;
             background-size: 100%;
         }
     }
@@ -97,8 +97,68 @@
     {
         margin: 0 0 1em 0;
     }
+
+    .property
+    {
+        color: #999;
+        font-style: italic;
+
+        &.primitive
+        {
+             color: #6b6b6b;
+        }
+    }
 }
 
+table.model
+{
+    tr
+    {
+        &.description
+        {
+            color: #666;
+            font-weight: normal;
+            
+            td:first-child
+            {
+                font-weight: bold;
+            }
+        }
+
+        &.property-row
+        {
+            &.required td:first-child
+            {
+                font-weight: bold;
+            }
+
+            td
+            {
+                vertical-align: top;
+
+                &:first-child
+                {
+                    padding-right: 0.2em;
+                }
+            }
+
+            .star
+            {
+                color: red;
+            }
+        }
+
+        &.extension
+        {
+            color: #777;
+
+            td:last-child
+            {
+                vertical-align: top;
+            }
+        }
+    }
+}
 
 section.models
 {
@@ -106,6 +166,11 @@ section.models
 
     border: 1px solid rgba($section-models-border-color, .3);
     border-radius: 4px;
+
+    .pointer
+    {
+        cursor: pointer;
+    }
 
     &.is-open
     {
@@ -229,6 +294,13 @@ section.models
     font-size: 16px;
 
     @include text_headline($section-models-model-title-font-color);
+
+    img
+    {
+        margin-left: 1em;
+        position: relative;
+        bottom: 0px;
+    }
 }
 
 .model-deprecated-warning

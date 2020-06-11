@@ -83,6 +83,12 @@ An array of objects that augment and modify Swagger UI's functionality. See Swag
 
 ⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
 
+#### `supportedSubmitMethods`: PropTypes.arrayOf(PropTypes.oneOf(['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace']))
+
+HTTP methods that have the Try it out feature enabled. An empty array disables Try it out for all operations. This does not filter the operations from the display.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
 ## Limitations
 
 * Not all configuration bindings are available.
