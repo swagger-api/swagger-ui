@@ -9,14 +9,15 @@ const parser = new Remarkable("commonmark")
 parser.block.ruler.enable(["table"])
 parser.set({ linkTarget: "_blank" })
 
-export const Markdown = ({ source, className = "" }) => {
+export const Markdown = ({ source, className = "", getConfigs }) => {
   if(typeof source !== "string") {
     return null
   }
-  
+
   if ( source ) {
+    const { useUnsafeMarkdown } = getConfigs()
     const html = parser.render(source)
-    const sanitized = sanitizer(html)
+    const sanitized = sanitizer(html, { useUnsafeMarkdown })
 
     let trimmed
 
@@ -38,6 +39,11 @@ export const Markdown = ({ source, className = "" }) => {
 Markdown.propTypes = {
   source: PropTypes.string,
   className: PropTypes.string,
+  getConfigs: PropTypes.func,
+}
+
+Markdown.defaultProps = {
+  getConfigs: () => ({ useUnsafeMarkdown: false }),
 }
 
 export default OAS3ComponentWrapFactory(Markdown)

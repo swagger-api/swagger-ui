@@ -10,7 +10,7 @@ import { stringify } from "core/utils"
 export default function Example(props) {
   const { example, showValue, getComponent } = props
 
-  const Markdown = getComponent("Markdown")
+  const Markdown = getComponent("Markdown", true)
   const HighlightCode = getComponent("highlightCode")
 
   if(!example) return null

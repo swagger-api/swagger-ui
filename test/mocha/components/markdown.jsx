@@ -7,10 +7,18 @@ import { Markdown as OAS3Markdown } from "corePlugins/oas3/wrap-components/markd
 
 describe("Markdown component", function() {
     describe("Swagger 2.0", function() {
-        it("allows span elements with class attrib", function() {
-            const str = `<span class="method">ONE</span>`
-            const el = render(<Markdown source={str} />)
-            expect(el.html()).toEqual(`<div class="markdown"><p><span class="method">ONE</span></p>\n</div>`)
+        it("allows elements with class, style and data-* attribs", function() {
+            const getConfigs = () => ({ useUnsafeMarkdown: true })
+            const str = `<span class="method" style="border-width: 1px" data-attr="value">ONE</span>`
+            const el = render(<Markdown source={str} getConfigs={getConfigs} />)
+            expect(el.html()).toEqual(`<div class="markdown"><p><span data-attr="value" style="border-width: 1px" class="method">ONE</span></p>\n</div>`)
+        })
+
+        it("strips class, style and data-* attribs from elements", function() {
+            const getConfigs = () => ({ useUnsafeMarkdown: false })
+            const str = `<span class="method" style="border-width: 1px" data-attr="value">ONE</span>`
+            const el = render(<Markdown source={str} getConfigs={getConfigs} />)
+            expect(el.html()).toEqual(`<div class="markdown"><p><span>ONE</span></p>\n</div>`)
         })
 
         it("allows td elements with colspan attrib", function() {
@@ -57,6 +65,20 @@ describe("Markdown component", function() {
     })
 
     describe("OAS 3", function() {
+      it("allows elements with class, style and data-* attribs", function() {
+            const getConfigs = () => ({ useUnsafeMarkdown: true })
+            const str = `<span class="method" style="border-width: 1px" data-attr="value">ONE</span>`
+            const el = render(<OAS3Markdown source={str} getConfigs={getConfigs} />)
+            expect(el.html()).toEqual(`<div class="renderedMarkdown"><p><span data-attr="value" style="border-width: 1px" class="method">ONE</span></p></div>`)
+        })
+
+        it("strips class, style and data-* attribs from elements", function() {
+            const getConfigs = () => ({ useUnsafeMarkdown: false })
+            const str = `<span class="method" style="border-width: 1px" data-attr="value">ONE</span>`
+            const el = render(<OAS3Markdown source={str} getConfigs={getConfigs} />)
+            expect(el.html()).toEqual(`<div class="renderedMarkdown"><p><span>ONE</span></p></div>`)
+        })
+
         it("allows image elements", function() {
             const str = `![Image alt text](http://image.source "Image title")`
             const el = render(<OAS3Markdown source={str} />)

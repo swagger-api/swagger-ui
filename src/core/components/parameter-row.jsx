@@ -102,7 +102,7 @@ export default class ParameterRow extends Component {
       .get("content", Map())
       .keySeq()
       .first()
-    
+
     // getSampleSchema could return null
     const generatedSampleValue = schema ? getSampleSchema(schema.toJS(), parameterMediaType, {
       includeWriteOnly: true
@@ -144,7 +144,7 @@ export default class ParameterRow extends Component {
         this.onChangeWrapper(initialValue)
       } else if(
         schema && schema.get("type") === "object"
-        && generatedSampleValue 
+        && generatedSampleValue
         && !paramWithMeta.get("examples")
       ) {
         // Object parameters get special treatment.. if the user doesn't set any
@@ -202,7 +202,7 @@ export default class ParameterRow extends Component {
       />
 
     const ModelExample = getComponent("modelExample")
-    const Markdown = getComponent("Markdown")
+    const Markdown = getComponent("Markdown", true)
     const ParameterExt = getComponent("ParameterExt")
     const ParameterIncludeEmpty = getComponent("ParameterIncludeEmpty")
     const ExamplesSelectValueRetainer = getComponent("ExamplesSelectValueRetainer")

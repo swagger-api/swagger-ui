@@ -16,7 +16,7 @@ DomPurify.addHook("beforeSanitizeElements", function (current, ) {
   return current
 })
 
-function Markdown({ source, className = "" }) {
+function Markdown({ source, className = "", getConfigs }) {
   if (typeof source !== "string") {
     return null
   }
@@ -30,8 +30,9 @@ function Markdown({ source, className = "" }) {
 
   md.core.ruler.disable(["replacements", "smartquotes"])
 
+  const { useUnsafeMarkdown } = getConfigs()
   const html = md.render(source)
-  const sanitized = sanitizer(html)
+  const sanitized = sanitizer(html, { useUnsafeMarkdown })
 
   if (!source || !html || !sanitized) {
     return null
@@ -44,14 +45,30 @@ function Markdown({ source, className = "" }) {
 
 Markdown.propTypes = {
   source: PropTypes.string.isRequired,
-  className: PropTypes.string
+  className: PropTypes.string,
+  getConfigs: PropTypes.func,
+}
+
+Markdown.defaultProps = {
+  getConfigs: () => ({ useUnsafeMarkdown: false }),
 }
 
 export default Markdown
 
-export function sanitizer(str) {
+export function sanitizer(str, { useUnsafeMarkdown = false } = {}) {
+  const ALLOW_DATA_ATTR = useUnsafeMarkdown
+  const FORBID_ATTR = useUnsafeMarkdown ? [] : ["style", "class"]
+
+  if (useUnsafeMarkdown && !sanitizer.hasWarnedAboutDeprecation) {
+    console.warn(`useUnsafeMarkdown display configuration parameter is deprecated since >3.26.0 and will be removed in v4.0.0.`)
+    sanitizer.hasWarnedAboutDeprecation = true
+  }
+
   return DomPurify.sanitize(str, {
     ADD_ATTR: ["target"],
     FORBID_TAGS: ["style"],
+    ALLOW_DATA_ATTR,
+    FORBID_ATTR,
   })
 }
+sanitizer.hasWarnedAboutDeprecation = false

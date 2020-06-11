@@ -14,7 +14,7 @@ export default class Headers extends React.Component {
     let { headers, getComponent } = this.props
 
     const Property = getComponent("Property")
-    const Markdown = getComponent("Markdown")
+    const Markdown = getComponent("Markdown", true)
 
     if ( !headers || !headers.size )
       return null
@@ -36,7 +36,7 @@ export default class Headers extends React.Component {
               if(!Im.Map.isMap(header)) {
                 return null
               }
-              
+
               const description = header.get("description")
               const type = header.getIn(["schema"]) ? header.getIn(["schema", "type"]) : header.getIn(["type"])
               const schemaExample = header.getIn(["schema", "example"])

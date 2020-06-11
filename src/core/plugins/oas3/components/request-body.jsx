@@ -54,7 +54,7 @@ const RequestBody = ({
     onChange(e.target.files[0])
   }
 
-  const Markdown = getComponent("Markdown")
+  const Markdown = getComponent("Markdown", true)
   const ModelExample = getComponent("modelExample")
   const RequestBodyEditor = getComponent("RequestBodyEditor")
   const HighlightCode = getComponent("highlightCode")

@@ -34,7 +34,7 @@ export default class Primitive extends Component {
     let properties = schema
       .filter( ( v, key) => ["enum", "type", "format", "description", "$$ref"].indexOf(key) === -1 )
       .filterNot( (v, key) => extensions.has(key) )
-    const Markdown = getComponent("Markdown")
+    const Markdown = getComponent("Markdown", true)
     const EnumModel = getComponent("EnumModel")
     const Property = getComponent("Property")
 

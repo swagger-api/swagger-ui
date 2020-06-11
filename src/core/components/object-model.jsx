@@ -40,7 +40,7 @@ export default class ObjectModel extends Component {
     let requiredProperties = schema.get("required")
 
     const JumpToPath = getComponent("JumpToPath", true)
-    const Markdown = getComponent("Markdown")
+    const Markdown = getComponent("Markdown", true)
     const Model = getComponent("Model")
     const ModelCollapse = getComponent("ModelCollapse")
 
