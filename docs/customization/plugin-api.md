@@ -214,6 +214,13 @@ const NeverShowInfoPlugin = function(system) {
 }
 ```
 
+You can use `config.failSilently` if you don't want a warning when a component doesn't exist in the system.
+
+Be mindful of `getComponent` arguments order. In the example below, the boolean `false` refers to presence of a container, and the 3rd argument is the config object used to suppress the missing component warning.
+```javascript
+const thisVariableWillBeNull = getComponent("not_real", false, { failSilently: true })
+```
+
 #### Wrap-Actions
 
 Wrap Actions allow you to override the behavior of an action in the system.
