@@ -109,7 +109,7 @@ export default class Oauth2 extends React.Component {
     const Button = getComponent("Button")
     const AuthError = getComponent("authError")
     const JumpToPath = getComponent("JumpToPath", true)
-    const Markdown = getComponent( "Markdown" )
+    const Markdown = getComponent("Markdown", true)
     const InitializedInput = getComponent("InitializedInput")
 
     const { isOAS3 } = specSelectors

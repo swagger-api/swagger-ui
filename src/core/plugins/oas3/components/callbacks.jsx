@@ -5,7 +5,7 @@ import { fromJS } from "immutable"
 
 const Callbacks = (props) => {
   let { callbacks, getComponent, specPath } = props
-  // const Markdown = getComponent("Markdown")
+  // const Markdown = getComponent("Markdown", true)
   const OperationContainer = getComponent("OperationContainer", true)
 
   if(!callbacks) {

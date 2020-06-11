@@ -59,6 +59,7 @@ Parameter name | Docker variable | Description
 <a name="showExtensions"></a>`showExtensions` | `SHOW_EXTENSIONS` | `Boolean=false`. Controls the display of vendor extension (`x-`) fields and values for Operations, Parameters, and Schema.
 <a name="showCommonExtensions"></a>`showCommonExtensions` | `SHOW_COMMON_EXTENSIONS` | `Boolean=false`. Controls the display of extensions (`pattern`, `maxLength`, `minLength`, `maximum`, `minimum`) fields and values for Parameters.
 <a name="tagSorter"></a>`tagsSorter` | _Unavailable_ | `Function=(a => a)`. Apply a sort to the tag list of each API. It can be 'alpha' (sort by paths alphanumerically) or a function (see [Array.prototype.sort()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) to learn how to write a sort function). Two tag name strings are passed to the sorter for each pass. Default is the order determined by Swagger UI.
+<a name="useUnsafeMarkdown"></a>`useUnsafeMarkdown` | `USE_UNSAFE_MARKDOWN` | `Boolean=false`. When enabled, sanitizer will leave `style`, `class` and `data-*` attributes untouched on all HTML Elements declared inside markdown strings. This parameter is **Deprecated** and will be removed in `4.0.0`.
 <a name="onComplete"></a>`onComplete` | _Unavailable_ | `Function=NOOP`. Provides a mechanism to be notified when Swagger UI has finished rendering a newly provided definition.
 
 ##### Network

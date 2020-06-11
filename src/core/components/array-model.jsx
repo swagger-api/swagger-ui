@@ -25,7 +25,7 @@ export default class ArrayModel extends Component {
     let title = schema.get("title") || displayName || name
     let properties = schema.filter( ( v, key) => ["type", "items", "description", "$$ref"].indexOf(key) === -1 )
 
-    const Markdown = getComponent("Markdown")
+    const Markdown = getComponent("Markdown", true)
     const ModelCollapse = getComponent("ModelCollapse")
     const Model = getComponent("Model")
     const Property = getComponent("Property")
