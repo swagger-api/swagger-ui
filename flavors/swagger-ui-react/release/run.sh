@@ -1,9 +1,12 @@
 # Deploy `swagger-ui-react` to npm.
 
+# https://www.peterbe.com/plog/set-ex
+set -ex
+
 # Parameter Expansion: http://stackoverflow.com/questions/6393551/what-is-the-meaning-of-0-in-a-bash-script
 cd "${0%/*}"
 
-mkdir ../dist
+mkdir -p ../dist
 
 # Copy UI's dist files to our directory
 cp ../../../dist/swagger-ui.js ../dist
@@ -13,7 +16,7 @@ cp ../../../dist/swagger-ui.css ../dist
 node create-manifest.js > ../dist/package.json
 
 # Transpile our top-level component
-../../../node_modules/.bin/babel ../index.js > ../dist/index.js
+../../../node_modules/.bin/babel --config-file ../../../.babelrc ../index.js > ../dist/index.js
 
 # Copy our README into the dist folder for npm
 cp ../README.md ../dist

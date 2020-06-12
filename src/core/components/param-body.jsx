@@ -82,9 +82,8 @@ export default class ParamBody extends PureComponent {
 
   handleOnChange = e => {
     const {consumesValue} = this.props
-    const isJson = /json/i.test(consumesValue)
     const isXml = /xml/i.test(consumesValue)
-    const inputValue = isJson ? e.target.value.trim() : e.target.value
+    const inputValue = e.target.value
     this.onChange(inputValue, {isXml})
   }
 

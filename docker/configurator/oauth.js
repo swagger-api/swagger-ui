@@ -1,7 +1,7 @@
 const translator = require("./translator")
 const indent = require("./helpers").indent
 
-const  oauthBlockSchema = {
+const oauthBlockSchema = {
   OAUTH_CLIENT_ID: {
     type: "string",
     name: "clientId"
@@ -23,9 +23,17 @@ const  oauthBlockSchema = {
     type: "string",
     name: "scopeSeparator"
   },
+  OAUTH_SCOPES: {
+    type: "string",
+    name: "scopes"
+  },
   OAUTH_ADDITIONAL_PARAMS: {
     type: "object",
     name: "additionalQueryStringParams"
+  },
+  OAUTH_USE_PKCE: {
+    type: "boolean",
+    name: "usePkceWithAuthorizationCodeGrant"
   }
 }
 
