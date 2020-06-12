@@ -20,6 +20,7 @@ export default class SwaggerUI extends React.Component {
       docExpansion: this.props.docExpansion,
       supportedSubmitMethods: this.props.supportedSubmitMethods,
       defaultModelExpandDepth: this.props.defaultModelExpandDepth,
+      displayOperationId: this.props.displayOperationId,
     })
 
     this.system = ui
@@ -90,6 +91,7 @@ SwaggerUI.propTypes = {
   ),
   defaultModelExpandDepth: PropTypes.number,
   plugins: PropTypes.arrayOf(PropTypes.object),
+  displayOperationId: PropTypes.bool,
 }
 
 SwaggerUI.defaultProps = {
