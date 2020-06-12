@@ -65,7 +65,7 @@ https://nightwatchjs.org/gettingstarted/#selenium-server-setup
 Integration tests can be run locally with `npm run e2e` - be sure you aren't running a dev server when testing!
 
 ### Browser support
-Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE11.
+Swagger UI works in the latest versions of Chrome, Safari, Firefox, and Edge.
 
 ### Known Issues
 

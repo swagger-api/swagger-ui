@@ -57,7 +57,7 @@ export default class BaseLayout extends React.Component {
     if (loadingStatus === "failedConfig") {
       const lastErr = errSelectors.lastError()
       const lastErrMsg = lastErr ? lastErr.get("message") : ""
-      loadingMessage = <div className="info" style={{ maxWidth: "880px", marginLeft: "auto", marginRight: "auto", textAlign: "center" }}>
+      loadingMessage = <div className="info failed-config">
         <div className="loading-container">
           <h4 className="title">Failed to load remote configuration.</h4>
           <p>{lastErrMsg}</p>
