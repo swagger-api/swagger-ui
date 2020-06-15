@@ -14,6 +14,18 @@ describe("auth plugin - actions", () => {
         {
           oas3: true,
           server: "https://host/resource",
+          effectiveServer: "https://host/resource",
+          scheme: "http",
+          host: null,
+          url: "http://specs/file",
+        },
+        "https://host/authorize"
+      ],
+      [
+        {
+          oas3: true,
+          server: "https://{selected_host}/resource",
+          effectiveServer: "https://host/resource",
           scheme: "http",
           host: null,
           url: "http://specs/file",
@@ -24,6 +36,7 @@ describe("auth plugin - actions", () => {
         {
           oas3: false,
           server: null,
+          effectiveServer: null,
           scheme: "https",
           host: undefined,
           url: "https://specs/file",
@@ -34,13 +47,14 @@ describe("auth plugin - actions", () => {
         {
           oas3: false,
           server: null,
+          effectiveServer: null,
           scheme: "https",
           host: "host",
           url: "http://specs/file",
         },
         "http://specs/authorize"
       ],
-    ].forEach(([{oas3, server, scheme, host, url}, expectedFetchUrl]) => {
+    ].forEach(([{oas3, server, effectiveServer, scheme, host, url}, expectedFetchUrl]) => {
       it("should resolve authorization endpoint against the server URL", () => {
 
         // Given
@@ -56,7 +70,8 @@ describe("auth plugin - actions", () => {
             getConfigs: () => ({})
           },
           oas3Selectors: {
-            selectedServer: () => server
+            selectedServer: () => server,
+            serverEffectiveValue: () => effectiveServer || server
           },
           specSelectors: {
             isOAS3: () => oas3,
@@ -130,7 +145,8 @@ describe("auth plugin - actions", () => {
           })
         },
         oas3Selectors: {
-          selectedServer: () => "http://google.com"
+          selectedServer: () => "http://google.com",
+          serverEffectiveValue: () => "http://google.com"
         },
         specSelectors: {
           isOAS3: () => true,
@@ -150,13 +166,13 @@ describe("auth plugin - actions", () => {
 
   describe("tokenRequest", function() {
     it("should send the code verifier when set", () => {
-      const data = { 
+      const data = {
         auth: {
           schema: {
             get: () => "http://tokenUrl"
           },
           codeVerifier: "mock_code_verifier"
-        }, 
+        },
         redirectUrl: "http://google.com"
       }
 
