@@ -20,7 +20,7 @@
     "css-loader": "^2.1.0",
     "json-loader": "^0.5.7",
     "style-loader": "^0.23.1",
-    "swagger-ui": "^3.20.7",
+    "swagger-ui": "^3.23.11",
     "yaml-loader": "^0.5.0"
   }
 }
