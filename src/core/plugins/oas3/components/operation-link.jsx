@@ -6,14 +6,14 @@ class OperationLink extends Component {
   render() {
     const { link, name, getComponent } = this.props
 
-    const Markdown = getComponent("Markdown")
+    const Markdown = getComponent("Markdown", true)
 
     let targetOp = link.get("operationId") || link.get("operationRef")
     let parameters = link.get("parameters") && link.get("parameters").toJS()
     let description = link.get("description")
 
-    return <div style={{ marginBottom: "1.5em" }}>
-      <div style={{ marginBottom: ".5em" }}>
+    return <div className="operation-link">
+      <div className="description">
         <b><code>{name}</code></b>
         { description ? <Markdown source={description}></Markdown> : null }
       </div>

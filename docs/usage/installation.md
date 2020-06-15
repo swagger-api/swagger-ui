@@ -18,6 +18,8 @@ SwaggerUI({
 })
 ```
 
+See the [Webpack Getting Started](../samples/webpack-getting-started) sample for details.
+
 In contrast, **`swagger-ui-dist`** is meant for server-side projects that need assets to serve to clients. The module, when imported, includes an `absolutePath` helper function that returns the absolute filesystem path to where the `swagger-ui-dist` module is installed.
 
 _Note: we suggest using `swagger-ui` when your tooling makes it possible, as `swagger-ui-dist`
@@ -83,7 +85,7 @@ This will serve Swagger UI at `/swagger` instead of `/`.
 
 For more information on controlling Swagger UI through the Docker image, see the Docker section of the [Configuration documentation](configuration.md#docker).
 
-### unpkg
+### unpkg 
 
 You can embed Swagger UI's code directly in your HTML by using unpkg's interface:
 
@@ -93,3 +95,7 @@ You can embed Swagger UI's code directly in your HTML by using unpkg's interface
 ```
 
 See [unpkg's main page](https://unpkg.com/) for more information on how to use unpkg.
+
+### Static files without HTTP or HTML
+
+Once swagger-ui has successfully generated the `/dist` directory, you can copy this to your own file system and host from there. 

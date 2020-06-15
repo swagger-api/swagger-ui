@@ -5,7 +5,7 @@ import PropTypes from "prop-types"
 
 export default class Model extends ImmutablePureComponent {
   static propTypes = {
-    schema: ImPropTypes.orderedMap.isRequired,
+    schema: ImPropTypes.map.isRequired,
     getComponent: PropTypes.func.isRequired,
     getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
@@ -56,11 +56,7 @@ export default class Model extends ImmutablePureComponent {
     if(!schema) {
       return <span className="model model-title">
               <span className="model-title__text">{ displayName || name }</span>
-              <img src={require("core/../img/rolling-load.svg")} height={"20px"} width={"20px"} style={{
-                  marginLeft: "1em",
-                  position: "relative",
-                  bottom: "0px"
-                }} />
+              <img src={require("core/../img/rolling-load.svg")} height={"20px"} width={"20px"} />
             </span>
     }
 
