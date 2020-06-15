@@ -3,7 +3,6 @@
     @import '~tachyons-sass/tachyons.scss';
     @import 'mixins';
     @import 'variables';
-    @import 'colors';
     @import 'type';
     @import 'layout';
     @import 'buttons';
@@ -18,4 +17,5 @@
     @import 'errors';
     @include text_body();
     @import 'split-pane-mode';
+    @import 'markdown';
 }

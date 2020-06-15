@@ -45,7 +45,11 @@ Remote URL to an OpenAPI document that Swagger UI will fetch, parse, and display
 
 #### `onComplete`: PropTypes.func
 
+> `(system) => void`
+
 A callback function that is triggered when Swagger-UI finishes rendering an OpenAPI document.
+
+Swagger UI's `system` object is passed as an argument.
 
 #### `requestInterceptor`: PropTypes.func
 
@@ -61,9 +65,40 @@ or a Promise that resolves to a request object.
 A function that accepts a response object, and returns either a response object
 or a Promise that resolves to a response object.
 
+#### `docExpansion`: PropTypes.oneOf(['list', 'full', 'none'])
+
+Controls the default expansion setting for the operations and tags. It can be 'list' (expands only the tags), 'full' (expands the tags and operations) or 'none' (expands nothing). The default value is 'list'.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
+#### `defaultModelExpandDepth`: PropTypes.number
+
+The default expansion depth for models (set to -1 completely hide the models).
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
+#### `displayOperationId`: PropTypes.bool
+
+Controls the display of operationId in operations list. The default is false.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
+#### `plugins`: PropTypes.arrayOf(PropTypes.object),
+
+An array of objects that augment and modify Swagger UI's functionality. See Swagger UI's [Plugin API](https://github.com/swagger-api/swagger-ui/blob/master/docs/customization/plugin-api.md) for more details.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
+#### `supportedSubmitMethods`: PropTypes.arrayOf(PropTypes.oneOf(['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace']))
+
+HTTP methods that have the Try it out feature enabled. An empty array disables Try it out for all operations. This does not filter the operations from the display.
+
+⚠️ This prop is currently only applied once, on mount. Changes to this prop's value will not be propagated to the underlying Swagger UI instance. A future version of this module will remove this limitation, and the change will not be considered a breaking change.
+
 ## Limitations
 
 * Not all configuration bindings are available.
+* Some props are only applied on mount, and cannot be updated reliably.
 * OAuth redirection handling is not supported.
 * Topbar/Standalone mode is not supported.
 * Custom plugins are not supported.

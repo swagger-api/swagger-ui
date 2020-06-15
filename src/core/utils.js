@@ -1,3 +1,15 @@
+/* 
+  ATTENTION! This file (but not the functions within) is deprecated.
+
+  You should probably add a new file to `./helpers/` instead of adding a new
+  function here.
+
+  One-function-per-file is a better pattern than what we have here.
+
+  If you're refactoring something in here, feel free to break it out to a file
+  in `./helpers` if you have the time.
+*/
+
 import Im from "immutable"
 import { sanitizeUrl as braintreeSanitizeUrl } from "@braintree/sanitize-url"
 import camelCase from "lodash/camelCase"
@@ -6,9 +18,14 @@ import _memoize from "lodash/memoize"
 import find from "lodash/find"
 import some from "lodash/some"
 import eq from "lodash/eq"
+import isFunction from "lodash/isFunction"
 import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins/samples/fn"
 import win from "./window"
 import cssEscape from "css.escape"
+import getParameterSchema from "../helpers/get-parameter-schema"
+import randomBytes from "randombytes"
+import shaJs from "sha.js"
+
 
 const DEFAULT_RESPONSE_KEY = "default"
 
@@ -51,17 +68,74 @@ export function arrayify (thing) {
   return normalizeArray(thing)
 }
 
-export function fromJSOrdered (js) {
-  if(isImmutable(js))
+export function fromJSOrdered(js) {
+  if (isImmutable(js)) {
     return js // Can't do much here
-
-  if (js instanceof win.File)
+  }
+  if (js instanceof win.File) {
     return js
+  }
+  if (!isObject(js)) {
+    return js
+  }
+  if (Array.isArray(js)) {
+    return Im.Seq(js).map(fromJSOrdered).toList()
+  }
+  if (isFunction(js.entries)) {
+    // handle multipart/form-data
+    const objWithHashedKeys = createObjWithHashedKeys(js)
+    return Im.OrderedMap(objWithHashedKeys).map(fromJSOrdered)
+  }
+  return Im.OrderedMap(js).map(fromJSOrdered)
+}
 
-  return !isObject(js) ? js :
-    Array.isArray(js) ?
-      Im.Seq(js).map(fromJSOrdered).toList() :
-      Im.OrderedMap(js).map(fromJSOrdered)
+/**
+ * Convert a FormData object into plain object
+ * Append a hashIdx and counter to the key name, if multiple exists
+ * if single, key name = <original>
+ * if multiple, key name = <original><hashIdx><count>
+ * @example <caption>single entry for vegetable</caption>
+ * fdObj.entries.vegtables: "carrot"
+ * // returns newObj.vegetables : "carrot"
+ * @example <caption>multiple entries for fruits[]</caption>
+ * fdObj.entries.fruits[]: "apple"
+ * // returns newObj.fruits[]_**[]1 : "apple"
+ * fdObj.entries.fruits[]: "banana"
+ * // returns newObj.fruits[]_**[]2 : "banana"
+ * fdObj.entries.fruits[]: "grape"
+ * // returns newObj.fruits[]_**[]3 : "grape"
+ * @param {FormData} fdObj - a FormData object
+ * @return {Object} - a plain object
+ */
+export function createObjWithHashedKeys (fdObj) {
+  if (!isFunction(fdObj.entries)) {
+    return fdObj // not a FormData object with iterable
+  }
+  const newObj = {}
+  const hashIdx = "_**[]" // our internal identifier
+  const trackKeys = {}
+  for (let pair of fdObj.entries()) {
+    if (!newObj[pair[0]] && !(trackKeys[pair[0]] && trackKeys[pair[0]].containsMultiple)) {
+      newObj[pair[0]] = pair[1] // first key name: no hash required
+    } else {
+      if (!trackKeys[pair[0]]) {
+        // initiate tracking key for multiple
+        trackKeys[pair[0]] = {
+          containsMultiple: true,
+          length: 1
+        }
+        // "reassign" first pair to matching hashed format for multiple
+        let hashedKeyFirst = `${pair[0]}${hashIdx}${trackKeys[pair[0]].length}`
+        newObj[hashedKeyFirst] = newObj[pair[0]]
+        // remove non-hashed key of multiple
+        delete newObj[pair[0]] // first
+      }
+      trackKeys[pair[0]].length += 1
+      let hashedKeyCurrent = `${pair[0]}${hashIdx}${trackKeys[pair[0]].length}`
+      newObj[hashedKeyCurrent] = pair[1]
+    } 
+  }
+  return newObj
 }
 
 export function bindToState(obj, state) {
@@ -233,15 +307,15 @@ export function highlight (el) {
           // (some types are highlighted similarly)
           el[appendChild](
             node = _document.createElement("span")
-          ).setAttribute("style", [
+          ).setAttribute("class", [
             // 0: not formatted
-            "color: #555; font-weight: bold;",
+            "token-not-formatted",
             // 1: keywords
             "",
             // 2: punctuation
             "",
             // 3: strings and regexps
-            "color: #555;",
+            "token-string",
             // 4: comments
             ""
           ][
@@ -485,13 +559,16 @@ export const validatePattern = (val, rxPattern) => {
 
 // validation of parameters before execute
 export const validateParam = (param, value, { isOAS3 = false, bypassRequiredCheck = false } = {}) => {
+  
   let errors = []
-  let required = param.get("required")
 
-  let paramDetails = isOAS3 ? param.get("schema") : param
+  let paramRequired = param.get("required")
+
+  let { schema: paramDetails, parameterContentMediaType } = getParameterSchema(param, { isOAS3 })
 
   if(!paramDetails) return errors
 
+  let required = paramDetails.get("required")
   let maximum = paramDetails.get("maximum")
   let minimum = paramDetails.get("minimum")
   let type = paramDetails.get("type")
@@ -505,42 +582,43 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
     then we should do our validation routine.
     Only bother validating the parameter if the type was specified.
   */
-  if ( type && (required || value) ) {
+  if ( type && (paramRequired || required || value) ) {
     // These checks should evaluate to true if there is a parameter
     let stringCheck = type === "string" && value
     let arrayCheck = type === "array" && Array.isArray(value) && value.length
-    let listCheck = type === "array" && Im.List.isList(value) && value.count()
+    let arrayListCheck = type === "array" && Im.List.isList(value) && value.count()
+    let arrayStringCheck = type === "array" && typeof value === "string" && value
     let fileCheck = type === "file" && value instanceof win.File
     let booleanCheck = type === "boolean" && (value || value === false)
     let numberCheck = type === "number" && (value || value === 0)
     let integerCheck = type === "integer" && (value || value === 0)
-
-    let oas3ObjectCheck = false
-
-    if(false || isOAS3 && type === "object") {
-      if(typeof value === "object") {
-        oas3ObjectCheck = true
-      } else if(typeof value === "string") {
-        try {
-          JSON.parse(value)
-          oas3ObjectCheck = true
-        } catch(e) {
-          errors.push("Parameter string value must be valid JSON")
-          return errors
-        }
-      }
-    }
+    let objectCheck = type === "object" && typeof value === "object" && value !== null
+    let objectStringCheck = type === "object" && typeof value === "string" && value
 
     const allChecks = [
-      stringCheck, arrayCheck, listCheck, fileCheck, booleanCheck,
-      numberCheck, integerCheck, oas3ObjectCheck
+      stringCheck, arrayCheck, arrayListCheck, arrayStringCheck, fileCheck, 
+      booleanCheck, numberCheck, integerCheck, objectCheck, objectStringCheck,
     ]
 
     const passedAnyCheck = allChecks.some(v => !!v)
 
-    if (required && !passedAnyCheck && !bypassRequiredCheck ) {
+    if ((paramRequired || required) && !passedAnyCheck && !bypassRequiredCheck ) {
       errors.push("Required field is not provided")
       return errors
+    }
+
+    if (
+      type === "object" &&
+      typeof value === "string" &&
+      (parameterContentMediaType === null ||
+        parameterContentMediaType === "application/json")
+    ) {
+      try {
+        JSON.parse(value)
+      } catch (e) {
+        errors.push("Parameter string value must be valid JSON")
+        return errors
+      }
     }
 
     if (pattern) {
@@ -594,7 +672,7 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
     } else if ( type === "array" ) {
       let itemType
 
-      if ( !listCheck || !value.count() ) { return errors }
+      if ( !arrayListCheck || !value.count() ) { return errors }
 
       itemType = paramDetails.getIn(["items", "type"])
 
@@ -632,7 +710,7 @@ export const getSampleSchema = (schema, contentType="", config={}) => {
         let match = schema.$$ref.match(/\S*\/(\S+)$/)
         schema.xml.name = match[1]
       } else if (schema.type || schema.items || schema.properties || schema.additionalProperties) {
-        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!-- XML example cannot be generated -->"
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!-- XML example cannot be generated; root element name is undefined -->"
       } else {
         return null
       }
@@ -722,6 +800,15 @@ export function sanitizeUrl(url) {
   return braintreeSanitizeUrl(url)
 }
 
+
+export function requiresValidationURL(uri) {
+  if (!uri || uri.indexOf("localhost") >= 0 || uri.indexOf("127.0.0.1") >= 0 || uri === "none") {
+    return false
+  }
+  return true
+}
+
+
 export function getAcceptControllingResponse(responses) {
   if(!Im.OrderedMap.isOrderedMap(responses)) {
     // wrong type!
@@ -780,7 +867,7 @@ export function stringify(thing) {
     return thing
   }
 
-  if (thing.toJS) {
+  if (thing && thing.toJS) {
     thing = thing.toJS()
   }
 
@@ -791,6 +878,10 @@ export function stringify(thing) {
     catch (e) {
       return String(thing)
     }
+  }
+
+  if(thing === null || thing === undefined) {
+    return ""
   }
 
   return thing.toString()
@@ -842,4 +933,38 @@ export function paramToValue(param, paramValues) {
     .filter(value => value !== undefined)
 
   return values[0]
+}
+
+// adapted from https://auth0.com/docs/flows/guides/auth-code-pkce/includes/create-code-verifier
+export function generateCodeVerifier() {
+  return b64toB64UrlEncoded(
+    randomBytes(32).toString("base64")
+  )
+}
+
+export function createCodeChallenge(codeVerifier) {
+  return b64toB64UrlEncoded(
+      shaJs("sha256")
+      .update(codeVerifier)
+      .digest("base64")
+    )
+}
+
+function b64toB64UrlEncoded(str) {
+  return str
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=/g, "")
+}
+
+export const isEmptyValue = (value) => {
+  if (!value) {
+    return true
+  }
+
+  if (isImmutable(value) && value.isEmpty()) {
+    return true
+  }
+
+  return false
 }

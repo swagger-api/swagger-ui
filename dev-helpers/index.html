@@ -62,7 +62,9 @@
         realm: "your-realms",
         appName: "your-app-name",
         scopeSeparator: " ",
-        additionalQueryStringParams: {}
+        scopes: "openid profile email phone address",
+        additionalQueryStringParams: {},
+        usePkceWithAuthorizationCodeGrant: false
       })
     }
   </script>

@@ -71,8 +71,9 @@ export default class Models extends Component {
             const rawSchema = Map.isMap(rawSchemaValue) ? rawSchemaValue : Im.Map()
 
             const displayName = schema.get("title") || rawSchema.get("title") || name
+            const isShown = layoutSelectors.isShown( ["models", name], false )
 
-            if(layoutSelectors.isShown(["models", name], false) && (schema.size === 0 && rawSchema.size > 0)) {
+            if( isShown && (schema.size === 0 && rawSchema.size > 0) ) {
               // Firing an action in a container render is not great,
               // but it works for now.
               this.props.specActions.requestResolvedSubtree([...this.getSchemaBasePath(), name])
@@ -108,7 +109,7 @@ export default class Models extends Component {
                 displayName={displayName}
                 modelName={name}
                 hideSelfOnExpand={true}
-                expanded={defaultModelsExpandDepth > 1}
+                expanded={ defaultModelsExpandDepth > 0 && isShown }
                 >{content}</ModelCollapse>
               </div>
           }).toArray()
