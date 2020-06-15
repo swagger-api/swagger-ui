@@ -73,10 +73,14 @@ export class Col extends React.Component {
       }
     }
 
+    if (hide) {
+      classesAr.push("hidden")
+    }
+
     let classes = xclass(rest.className, ...classesAr)
 
     return (
-      <section {...rest} style={{display: hide ? "none": null}} className={classes}/>
+      <section {...rest} className={classes}/>
     )
   }
 
@@ -186,7 +190,7 @@ export class Select extends React.Component {
 
   render(){
     let { allowedValues, multiple, allowEmptyValue, disabled } = this.props
-    let value = this.state.value.toJS ? this.state.value.toJS() : this.state.value
+    let value = this.state.value?.toJS?.() || this.state.value
 
     return (
       <select className={this.props.className} multiple={ multiple } value={value} onChange={ this.onChange } disabled={disabled} >
@@ -213,7 +217,7 @@ Link.propTypes = {
   className: PropTypes.string
 }
 
-const NoMargin = ({children}) => <div style={{height: "auto", border: "none", margin: 0, padding: 0}}> {children} </div>
+const NoMargin = ({children}) => <div className="no-margin"> {children} </div>
 
 NoMargin.propTypes = {
   children: PropTypes.node

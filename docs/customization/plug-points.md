@@ -1,16 +1,16 @@
 # Plug points
 
-Swagger-UI exposes most of its internal logic through the plugin system.
+Swagger UI exposes most of its internal logic through the plugin system.
 
 Often, it is beneficial to override the core internals to achieve custom behavior.
 
 ### Note: Semantic Versioning
 
-Swagger-UI's internal APIs are _not_ part of our public contract, which means that they can change without the major version changing.
+Swagger UI's internal APIs are _not_ part of our public contract, which means that they can change without the major version changing.
 
-If your custom plugins wrap, extend, override, or consume any internal core APIs, we recommend specifying a specific minor version of Swagger-UI to use in your application, because they will _not_ change between patch versions.
+If your custom plugins wrap, extend, override, or consume any internal core APIs, we recommend specifying a specific minor version of Swagger UI to use in your application, because they will _not_ change between patch versions.
 
-If you're installing Swagger-UI via NPM, for example, you can do this by using a tilde:
+If you're installing Swagger UI via NPM, for example, you can do this by using a tilde:
 
 ```js
 {

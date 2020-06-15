@@ -49,7 +49,7 @@
       plugins: [
         SwaggerUIBundle.plugins.DownloadUrl
       ],
-      layout: "StandaloneLayout",
+      layout: SwaggerUIStandalonePreset ? "StandaloneLayout" : "BaseLayout",
       onComplete: () => {
         if(window.completeCount) {
           window.completeCount++
