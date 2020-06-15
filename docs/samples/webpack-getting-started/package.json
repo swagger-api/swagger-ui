@@ -21,6 +21,6 @@
     "json-loader": "^0.5.7",
     "style-loader": "^0.23.1",
     "swagger-ui": "^3.20.7",
-    "yaml-loader": "^0.5.0"
+    "yaml-loader": "^0.6.0"
   }
 }
