@@ -237,6 +237,7 @@ const RequestBody = ({
               )}
             />
           }
+          includeWriteOnly={true}
         />
       )
     }

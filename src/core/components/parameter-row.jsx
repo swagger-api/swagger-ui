@@ -105,6 +105,7 @@ export default class ParameterRow extends Component {
 
     // getSampleSchema could return null
     const generatedSampleValue = schema ? getSampleSchema(schema.toJS(), parameterMediaType, {
+
       includeWriteOnly: true
     }) : null
 
@@ -331,7 +332,8 @@ export default class ParameterRow extends Component {
                                                 isExecute={ isExecute }
                                                 specSelectors={ specSelectors }
                                                 schema={ schema }
-                                                example={ bodyParam }/>
+                                                example={ bodyParam }
+                                                includeWriteOnly={ true }/>
               : null
           }
 
