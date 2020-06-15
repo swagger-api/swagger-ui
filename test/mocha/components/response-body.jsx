@@ -2,7 +2,6 @@ import React from "react"
 import expect from "expect"
 import { shallow } from "enzyme"
 import ResponseBody from "components/response-body"
-import { inferSchema } from "corePlugins/samples/fn"
 
 describe("<ResponseBody />", function() {
     const highlightCodeComponent = () => null
@@ -32,5 +31,13 @@ describe("<ResponseBody />", function() {
         const wrapper = shallow(<ResponseBody {...props}/>)
         console.warn(wrapper.debug())
         expect(wrapper.find("highlightCodeComponent").length).toEqual(0)
+    })
+
+    it("should render a copyable highlightCodeComponent for text types", function() {
+      props.contentType = "text/plain"
+      props.content = "test text"
+      const wrapper = shallow(<ResponseBody {...props}/>)
+      console.warn(wrapper.debug())
+      expect(wrapper.find("highlightCodeComponent[canCopy]").length).toEqual(1)
     })
 })

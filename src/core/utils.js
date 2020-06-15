@@ -18,6 +18,7 @@ import _memoize from "lodash/memoize"
 import find from "lodash/find"
 import some from "lodash/some"
 import eq from "lodash/eq"
+import isFunction from "lodash/isFunction"
 import { memoizedSampleFromSchema, memoizedCreateXMLExample } from "core/plugins/samples/fn"
 import win from "./window"
 import cssEscape from "css.escape"
@@ -67,17 +68,74 @@ export function arrayify (thing) {
   return normalizeArray(thing)
 }
 
-export function fromJSOrdered (js) {
-  if(isImmutable(js))
+export function fromJSOrdered(js) {
+  if (isImmutable(js)) {
     return js // Can't do much here
-
-  if (js instanceof win.File)
+  }
+  if (js instanceof win.File) {
     return js
+  }
+  if (!isObject(js)) {
+    return js
+  }
+  if (Array.isArray(js)) {
+    return Im.Seq(js).map(fromJSOrdered).toList()
+  }
+  if (isFunction(js.entries)) {
+    // handle multipart/form-data
+    const objWithHashedKeys = createObjWithHashedKeys(js)
+    return Im.OrderedMap(objWithHashedKeys).map(fromJSOrdered)
+  }
+  return Im.OrderedMap(js).map(fromJSOrdered)
+}
 
-  return !isObject(js) ? js :
-    Array.isArray(js) ?
-      Im.Seq(js).map(fromJSOrdered).toList() :
-      Im.OrderedMap(js).map(fromJSOrdered)
+/**
+ * Convert a FormData object into plain object
+ * Append a hashIdx and counter to the key name, if multiple exists
+ * if single, key name = <original>
+ * if multiple, key name = <original><hashIdx><count>
+ * @example <caption>single entry for vegetable</caption>
+ * fdObj.entries.vegtables: "carrot"
+ * // returns newObj.vegetables : "carrot"
+ * @example <caption>multiple entries for fruits[]</caption>
+ * fdObj.entries.fruits[]: "apple"
+ * // returns newObj.fruits[]_**[]1 : "apple"
+ * fdObj.entries.fruits[]: "banana"
+ * // returns newObj.fruits[]_**[]2 : "banana"
+ * fdObj.entries.fruits[]: "grape"
+ * // returns newObj.fruits[]_**[]3 : "grape"
+ * @param {FormData} fdObj - a FormData object
+ * @return {Object} - a plain object
+ */
+export function createObjWithHashedKeys (fdObj) {
+  if (!isFunction(fdObj.entries)) {
+    return fdObj // not a FormData object with iterable
+  }
+  const newObj = {}
+  const hashIdx = "_**[]" // our internal identifier
+  const trackKeys = {}
+  for (let pair of fdObj.entries()) {
+    if (!newObj[pair[0]] && !(trackKeys[pair[0]] && trackKeys[pair[0]].containsMultiple)) {
+      newObj[pair[0]] = pair[1] // first key name: no hash required
+    } else {
+      if (!trackKeys[pair[0]]) {
+        // initiate tracking key for multiple
+        trackKeys[pair[0]] = {
+          containsMultiple: true,
+          length: 1
+        }
+        // "reassign" first pair to matching hashed format for multiple
+        let hashedKeyFirst = `${pair[0]}${hashIdx}${trackKeys[pair[0]].length}`
+        newObj[hashedKeyFirst] = newObj[pair[0]]
+        // remove non-hashed key of multiple
+        delete newObj[pair[0]] // first
+      }
+      trackKeys[pair[0]].length += 1
+      let hashedKeyCurrent = `${pair[0]}${hashIdx}${trackKeys[pair[0]].length}`
+      newObj[hashedKeyCurrent] = pair[1]
+    } 
+  }
+  return newObj
 }
 
 export function bindToState(obj, state) {
@@ -249,15 +307,15 @@ export function highlight (el) {
           // (some types are highlighted similarly)
           el[appendChild](
             node = _document.createElement("span")
-          ).setAttribute("style", [
+          ).setAttribute("class", [
             // 0: not formatted
-            "color: #555; font-weight: bold;",
+            "token-not-formatted",
             // 1: keywords
             "",
             // 2: punctuation
             "",
             // 3: strings and regexps
-            "color: #555;",
+            "token-string",
             // 4: comments
             ""
           ][
@@ -742,6 +800,15 @@ export function sanitizeUrl(url) {
   return braintreeSanitizeUrl(url)
 }
 
+
+export function requiresValidationURL(uri) {
+  if (!uri || uri.indexOf("localhost") >= 0 || uri.indexOf("127.0.0.1") >= 0 || uri === "none") {
+    return false
+  }
+  return true
+}
+
+
 export function getAcceptControllingResponse(responses) {
   if(!Im.OrderedMap.isOrderedMap(responses)) {
     // wrong type!
@@ -888,4 +955,16 @@ function b64toB64UrlEncoded(str) {
     .replace(/\+/g, "-")
     .replace(/\//g, "_")
     .replace(/=/g, "")
+}
+
+export const isEmptyValue = (value) => {
+  if (!value) {
+    return true
+  }
+
+  if (isImmutable(value) && value.isEmpty()) {
+    return true
+  }
+
+  return false
 }

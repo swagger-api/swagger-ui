@@ -51,7 +51,7 @@ export default class BasicAuth extends React.Component {
     const Col = getComponent("Col")
     const AuthError = getComponent("authError")
     const JumpToPath = getComponent("JumpToPath", true)
-    const Markdown = getComponent( "Markdown" )
+    const Markdown = getComponent("Markdown", true)
     let username = this.getValue().username
     let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
 
@@ -73,8 +73,7 @@ export default class BasicAuth extends React.Component {
           <label>Password:</label>
             {
               username ? <code> ****** </code>
-                       : <Col><Input required="required"
-                                     autoComplete="new-password"
+                       : <Col><Input autoComplete="new-password"
                                      name="password"
                                      type="password"
                                      onChange={ this.onChange }/></Col>

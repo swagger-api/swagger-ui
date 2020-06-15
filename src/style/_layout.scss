@@ -419,6 +419,19 @@
     }
 }
 
+.filter, .download-url-wrapper
+{
+    .failed
+    {
+        color: red;
+    }
+
+    .loading
+    {
+        color: #aaa;
+    }
+}
+
 .model-example {
     margin-top: 1em;
 }
@@ -553,6 +566,11 @@
 
         @include text_body();
     }
+
+    .curl
+    {
+        white-space: normal;
+    }
 }
 
 .response-col_status
@@ -582,6 +600,16 @@
         font-size: 11px;
 
         @include text_code($response-col-links-font-color);
+    }
+
+    .operation-link
+    {
+        margin-bottom: 1.5em;
+
+        .description
+        {
+            margin-bottom: 0.5em;
+        }
     }
 }
 
@@ -793,6 +821,35 @@
     }
 }
 
+.hidden
+{
+    display: none;
+}
+
+.no-margin
+{
+    height: auto;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.float-right
+{
+    float: right;
+}
+
+img.full-width
+{
+    width: 100%;
+}
+
+.svg-assets
+{
+    position: absolute;
+    width: 0;
+    height: 0;
+}
 
 section
 {
@@ -813,6 +870,12 @@ a.nostyle {
     color: inherit;
     cursor: pointer;
   }
+}
+
+.fallback
+{
+    padding: 1em;
+    color: #aaa;
 }
 
 .version-pragma {
@@ -840,4 +903,28 @@ a.nostyle {
       white-space: pre;
     }
   }
+}
+
+.opblock-link
+{
+    font-weight: normal;
+
+    &.shown
+    {
+        font-weight: bold;
+    }
+}
+
+span
+{
+    &.token-string
+    {
+        color: #555;
+    }
+
+    &.token-not-formatted
+    {
+        color: #555; 
+        font-weight: bold;
+    }
 }
