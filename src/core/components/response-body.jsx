@@ -99,7 +99,7 @@ export default class ResponseBody extends React.PureComponent {
         body = "can't parse JSON.  Raw result:\n\n" + content
       }
 
-      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.json`} value={ body } />
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.json`} value={ body } canCopy />
 
       // XML
     } else if (/xml/i.test(contentType)) {
@@ -107,25 +107,25 @@ export default class ResponseBody extends React.PureComponent {
         textNodesOnSameLine: true,
         indentor: "  "
       })
-      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.xml`} value={ body } />
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.xml`} value={ body } canCopy />
 
       // HTML or Plain Text
     } else if (toLower(contentType) === "text/html" || /text\/plain/.test(contentType)) {
-      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.html`} value={ content } />
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.html`} value={ content } canCopy />
 
       // Image
     } else if (/^image\//i.test(contentType)) {
       if(contentType.includes("svg")) {
         bodyEl = <div> { content } </div>
       } else {
-        bodyEl = <img style={{ maxWidth: "100%" }} src={ window.URL.createObjectURL(content) } />
+        bodyEl = <img className="full-width" src={ window.URL.createObjectURL(content) } />
       }
 
       // Audio
     } else if (/^audio\//i.test(contentType)) {
       bodyEl = <pre className="microlight"><audio controls><source src={ url } type={ contentType } /></audio></pre>
     } else if (typeof content === "string") {
-      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.txt`} value={ content } />
+      bodyEl = <HighlightCode downloadable fileName={`${downloadName}.txt`} value={ content } canCopy />
     } else if ( content.size > 0 ) {
       // We don't know the contentType, but there was some content returned
       if(parsedContent) {
@@ -135,7 +135,7 @@ export default class ResponseBody extends React.PureComponent {
           <p className="i">
             Unrecognized response type; displaying content as text.
           </p>
-          <HighlightCode downloadable fileName={`${downloadName}.txt`} value={ parsedContent } />
+          <HighlightCode downloadable fileName={`${downloadName}.txt`} value={ parsedContent } canCopy />
         </div>
 
       } else {

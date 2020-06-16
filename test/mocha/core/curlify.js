@@ -25,6 +25,17 @@ describe("curlify", function() {
         expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"Accept: application/json\" -H  \"content-type: application/json\" -d {\"id\":0,\"name\":\"doggie\",\"status\":\"available\"}")
     })
 
+    it("does add a empty data param if no request body given", function() {
+      var req = {
+        url: "http://example.com",
+        method: "POST",
+      }
+
+      let curlified = curl(Im.fromJS(req))
+
+      expect(curlified).toEqual("curl -X POST \"http://example.com\" -d \"\"")
+    })
+
     it("does not change the case of header in curl", function() {
         var req = {
             url: "http://example.com",
@@ -36,7 +47,7 @@ describe("curlify", function() {
 
         let curlified = curl(Im.fromJS(req))
 
-        expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"conTenT Type: application/Moar\"")
+        expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"conTenT Type: application/Moar\" -d \"\"")
     })
 
     it("prints a curl statement with an array of query params", function() {
@@ -141,6 +152,26 @@ describe("curlify", function() {
         let curlified = curl(Im.fromJS(req))
 
         expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"content-type: multipart/form-data\" -F \"id=123\" -F \"name=Sahar\"")
+    })
+
+    it("should print a curl with formData that extracts array representation with hashIdx", function() {
+        // Note: hashIdx = `_**[]${counter}`
+        // Usage of hashIdx is an internal SwaggerUI method to convert formData array into something curlify can handle
+        const req = {
+            url: "http://example.com",
+            method: "POST",
+            headers: { "content-type": "multipart/form-data" },
+            body: {
+                id: "123",
+                "fruits[]_**[]1": "apple",
+                "fruits[]_**[]2": "banana",
+                "fruits[]_**[]3": "grape"
+            }
+        }
+
+        let curlified = curl(Im.fromJS(req))
+
+        expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"content-type: multipart/form-data\" -F \"id=123\" -F \"fruits[]=apple\" -F \"fruits[]=banana\" -F \"fruits[]=grape\"")
     })
 
     it("should print a curl with formData and file", function() {

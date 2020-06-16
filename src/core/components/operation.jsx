@@ -93,7 +93,7 @@ export default class Operation extends PureComponent {
     const Execute = getComponent( "execute" )
     const Clear = getComponent( "clear" )
     const Collapse = getComponent( "Collapse" )
-    const Markdown = getComponent( "Markdown" )
+    const Markdown = getComponent("Markdown", true)
     const Schemes = getComponent( "schemes" )
     const OperationServers = getComponent( "OperationServers" )
     const OperationExt = getComponent( "OperationExt" )
