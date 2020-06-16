@@ -38,7 +38,7 @@ class Contact extends React.Component {
     const Link = getComponent("Link")
 
     return (
-      <div>
+      <div className="info__contact">
         { url && <div><Link href={ sanitizeUrl(url) } target="_blank">{ name } - Website</Link></div> }
         { email &&
           <Link href={sanitizeUrl(`mailto:${email}`)}>
@@ -61,12 +61,12 @@ class License extends React.Component {
     let { license, getComponent } = this.props
 
     const Link = getComponent("Link")
-  
+
     let name = license.get("name") || "License"
     let url = license.get("url")
 
     return (
-      <div>
+      <div className="info__license">
         {
           url ? <Link target="_blank" href={ sanitizeUrl(url) }>{ name }</Link>
         : <span>{ name }</span>
@@ -82,7 +82,7 @@ export class InfoUrl extends React.PureComponent {
     getComponent: PropTypes.func.isRequired
   }
 
-  
+
   render() {
     const { url, getComponent } = this.props
 
@@ -112,7 +112,7 @@ export default class Info extends React.Component {
     let license = info.get("license")
     const { url:externalDocsUrl, description:externalDocsDescription } = (externalDocs || fromJS({})).toJS()
 
-    const Markdown = getComponent("Markdown")
+    const Markdown = getComponent("Markdown", true)
     const Link = getComponent("Link")
     const VersionStamp = getComponent("VersionStamp")
     const InfoUrl = getComponent("InfoUrl")
@@ -133,7 +133,7 @@ export default class Info extends React.Component {
         </div>
 
         {
-          termsOfService && <div>
+          termsOfService && <div className="info__tos">
             <Link target="_blank" href={ sanitizeUrl(termsOfService) }>Terms of service</Link>
           </div>
         }
@@ -141,7 +141,7 @@ export default class Info extends React.Component {
         {contact && contact.size ? <Contact getComponent={getComponent} data={ contact } /> : null }
         {license && license.size ? <License getComponent={getComponent} license={ license } /> : null }
         { externalDocsUrl ?
-            <Link target="_blank" href={sanitizeUrl(externalDocsUrl)}>{externalDocsDescription || externalDocsUrl}</Link>
+            <Link className="info__extdocs" target="_blank" href={sanitizeUrl(externalDocsUrl)}>{externalDocsDescription || externalDocsUrl}</Link>
         : null }
 
       </div>

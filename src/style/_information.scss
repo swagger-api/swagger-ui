@@ -1,9 +1,14 @@
-
-
-
 .info
 {
     margin: 50px 0;
+
+    &.failed-config
+    { 
+        max-width: 880px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center
+    }
 
     hgroup.main
     {
@@ -12,6 +17,10 @@
         {
             font-size: 12px;
         }
+    }
+    pre 
+    {
+        font-size: 14px;
     }
     p, li, table
     {
@@ -23,16 +32,6 @@
     h1, h2, h3, h4, h5
     {
         @include text_body();
-    }
-
-    code
-    {
-        padding: 3px 5px;
-
-        border-radius: 4px;
-        background: rgba($info-code-background-color,.05);
-
-        @include text_code($info-code-font-color);
     }
 
     a
@@ -87,10 +86,16 @@
 
             border-radius: 57px;
             background: $info-title-small-background-color;
+            
+            &.version-stamp
+            {
+                background-color: #89bf04;
+            }
 
             pre
             {
                 margin: 0;
+                padding: 0;
 
                 @include text_headline($info-title-small-pre-font-color);
             }

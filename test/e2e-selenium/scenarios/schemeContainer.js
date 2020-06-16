@@ -10,7 +10,6 @@ describe("Render scheme", function () {
         schemeContainer = mainPage.section.schemeContainer
 
         client.waitForElementVisible(".download-url-input:not([disabled])", 5000)
-        .pause(5000)
         .clearValue(".download-url-input")
         .setValue(".download-url-input", "http://localhost:3230/test-specs/petstore.json")
         .click("button.download-url-button")
@@ -46,6 +45,16 @@ describe("Render scheme", function () {
         .assert.containsText("@authorizationUrl", "http://petstore.swagger.io/oauth/dialog")
         .assert.containsText("@flow", "implicit")
         .assert.value("@inputClientID", "your-client-id")
+        schemeContainer.expect.element("@readPetsScope").to.be.selected
+        schemeContainer.expect.element("@writePetsScope").to.not.be.selected
+
+        schemeContainer.click("@selectAllScopes")
+        schemeContainer.expect.element("@readPetsScope").to.be.selected
+        schemeContainer.expect.element("@writePetsScope").to.be.selected
+
+        schemeContainer.click("@selectNoneScopes")
+        schemeContainer.expect.element("@readPetsScope").to.not.be.selected
+        schemeContainer.expect.element("@writePetsScope").to.not.be.selected
 
         client.end()
     })

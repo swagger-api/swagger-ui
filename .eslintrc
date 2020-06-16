@@ -34,3 +34,4 @@ rules:
   react/display-name: 0
   mocha/no-exclusive-tests: 2
   import/no-extraneous-dependencies: 2
+  react/jsx-filename-extension: 2

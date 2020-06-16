@@ -29,6 +29,13 @@ export default class Models extends Component {
     }
   }
 
+  onLoad = (ref) => {
+    if (ref) {
+      const name = ref.getAttribute("data-name")
+      this.props.layoutActions.readyToScroll(["models", name], ref)
+    }
+  }
+
   render(){
     let { specSelectors, getComponent, layoutSelectors, layoutActions, getConfigs } = this.props
     let definitions = specSelectors.definitions()
@@ -37,6 +44,7 @@ export default class Models extends Component {
 
     let showModels = layoutSelectors.isShown("models", defaultModelsExpandDepth > 0 && docExpansion !== "none")
     const specPathBase = this.getSchemaBasePath()
+    const isOAS3 = specSelectors.isOAS3()
 
     const ModelWrapper = getComponent("ModelWrapper")
     const Collapse = getComponent("Collapse")
@@ -45,7 +53,7 @@ export default class Models extends Component {
 
     return <section className={ showModels ? "models is-open" : "models"}>
       <h4 onClick={() => layoutActions.show("models", !showModels)}>
-        <span>Models</span>
+        <span>{isOAS3 ? "Schemas" : "Models" }</span>
         <svg width="20" height="20">
           <use xlinkHref={showModels ? "#large-arrow-down" : "#large-arrow"} />
         </svg>
@@ -61,10 +69,11 @@ export default class Models extends Component {
 
             const schema = Map.isMap(schemaValue) ? schemaValue : Im.Map()
             const rawSchema = Map.isMap(rawSchemaValue) ? rawSchemaValue : Im.Map()
-            
-            const displayName = schema.get("title") || rawSchema.get("title") || name
 
-            if(layoutSelectors.isShown(["models", name], false) && (schema.size === 0 && rawSchema.size > 0)) {
+            const displayName = schema.get("title") || rawSchema.get("title") || name
+            const isShown = layoutSelectors.isShown( ["models", name], false )
+
+            if( isShown && (schema.size === 0 && rawSchema.size > 0) ) {
               // Firing an action in a container render is not great,
               // but it works for now.
               this.props.specActions.requestResolvedSubtree([...this.getSchemaBasePath(), name])
@@ -81,7 +90,9 @@ export default class Models extends Component {
               specSelectors={ specSelectors }
               getConfigs = {getConfigs}
               layoutSelectors = {layoutSelectors}
-              layoutActions = {layoutActions}/>
+              layoutActions = {layoutActions}
+              includeReadOnly = {true}
+              includeWriteOnly = {true}/>
 
             const title = <span className="model-box">
               <span className="model model-title">
@@ -89,7 +100,8 @@ export default class Models extends Component {
               </span>
             </span>
 
-            return <div id={ `model-${name}` } className="model-container" key={ `models-section-${name}` }>
+            return <div id={ `model-${name}` } className="model-container" key={ `models-section-${name}` }
+                    data-name={name} ref={this.onLoad} >
               <span className="models-jump-to-path"><JumpToPath specPath={specPath} /></span>
               <ModelCollapse
                 classes="model-box"
@@ -99,7 +111,7 @@ export default class Models extends Component {
                 displayName={displayName}
                 modelName={name}
                 hideSelfOnExpand={true}
-                expanded={defaultModelsExpandDepth > 1}
+                expanded={ defaultModelsExpandDepth > 0 && isShown }
                 >{content}</ModelCollapse>
               </div>
           }).toArray()

@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { OAS3ComponentWrapFactory } from "../helpers"
-import { Model } from "core/components/model"
+import Model from "core/components/model"
 
 class ModelComponent extends Component {
   static propTypes = {
@@ -10,7 +10,9 @@ class ModelComponent extends Component {
     getComponent: PropTypes.func.isRequired,
     getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
-    expandDepth: PropTypes.number
+    expandDepth: PropTypes.number,
+    includeReadOnly: PropTypes.bool,
+    includeWriteOnly: PropTypes.bool,
   }
 
   render(){

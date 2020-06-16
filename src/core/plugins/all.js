@@ -2,6 +2,8 @@ import { pascalCaseFilename } from "core/utils"
 
 const request = require.context(".", true, /\.jsx?$/)
 
+const allPlugins = {}
+
 request.keys().forEach( function( key ){
   if( key === "./index.js" ) {
     return
@@ -13,5 +15,7 @@ request.keys().forEach( function( key ){
   // }
 
   let mod = request(key)
-  module.exports[pascalCaseFilename(key)] = mod.default ? mod.default : mod
+  allPlugins[pascalCaseFilename(key)] = mod.default ? mod.default : mod
 })
+
+export default allPlugins

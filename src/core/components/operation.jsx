@@ -83,7 +83,6 @@ export default class Operation extends PureComponent {
 
     let operation = operationProps.getIn(["op"])
     let responses = operation.get("responses")
-    let produces = operation.get("produces")
     let parameters = getList(operation, ["parameters"])
     let operationScheme = specSelectors.operationScheme(path, method)
     let isShownKey = ["operations", tag, operationId]
@@ -94,7 +93,7 @@ export default class Operation extends PureComponent {
     const Execute = getComponent( "execute" )
     const Clear = getComponent( "clear" )
     const Collapse = getComponent( "Collapse" )
-    const Markdown = getComponent( "Markdown" )
+    const Markdown = getComponent("Markdown", true)
     const Schemes = getComponent( "schemes" )
     const OperationServers = getComponent( "OperationServers" )
     const OperationExt = getComponent( "OperationExt" )
@@ -157,6 +156,8 @@ export default class Operation extends PureComponent {
                   specSelectors={ specSelectors }
                   pathMethod={ [path, method] }
                   getConfigs={ getConfigs }
+                  oas3Actions={ oas3Actions }
+                  oas3Selectors={ oas3Selectors }
                 />
               }
 
@@ -215,8 +216,9 @@ export default class Operation extends PureComponent {
                     getConfigs={ getConfigs }
                     specSelectors={ specSelectors }
                     oas3Actions={oas3Actions}
+                    oas3Selectors={oas3Selectors}
                     specActions={ specActions }
-                    produces={ produces }
+                    produces={specSelectors.producesOptionsFor([path, method]) }
                     producesValue={ specSelectors.currentProducesFor([path, method]) }
                     specPath={specPath.push("responses")}
                     path={ path }

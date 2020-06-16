@@ -2,13 +2,15 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { highlight } from "core/utils"
 import saveAs from "js-file-download"
+import { CopyToClipboard } from "react-copy-to-clipboard"
 
 export default class HighlightCode extends Component {
   static propTypes = {
     value: PropTypes.string.isRequired,
     className: PropTypes.string,
     downloadable: PropTypes.bool,
-    fileName: PropTypes.string
+    fileName: PropTypes.string,
+    canCopy: PropTypes.bool
   }
 
   componentDidMount() {
@@ -47,7 +49,7 @@ export default class HighlightCode extends Component {
   }
 
   render () {
-    let { value, className, downloadable } = this.props
+    let { value, className, downloadable, canCopy } = this.props
     className = className || ""
 
     return (
@@ -57,6 +59,13 @@ export default class HighlightCode extends Component {
             Download
           </div>
         }
+
+        { !canCopy ? null :
+          <div className="copy-to-clipboard">
+            <CopyToClipboard text={value}><button/></CopyToClipboard>
+          </div>
+        }
+
         <pre
           ref={this.initializeComponent}
           onWheel={this.preventYScrollingBeyondElement}

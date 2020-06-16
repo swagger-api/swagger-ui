@@ -15,8 +15,8 @@ export default class AuthError extends React.Component {
     let source = error.get("source")
 
     return (
-      <div className="errors" style={{ backgroundColor: "#ffeeee", color: "red", margin: "1em" }}>
-        <b style={{ textTransform: "capitalize", marginRight: "1em"}} >{ source } { level }</b>
+      <div className="errors">
+        <b>{ source } { level }</b>
         <span>{ message }</span>
       </div>
     )
