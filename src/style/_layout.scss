@@ -98,6 +98,51 @@
     @include text_code();
 }
 
+.parameter-controls {
+    margin-top: 0.75em;
+}
+
+.examples {
+    &__title {
+        display: block;
+        font-size: 1.1em;
+        font-weight: bold;
+        margin-bottom: 0.75em;
+    }
+
+    &__section {
+        margin-top: 1.5em;
+    }
+    &__section-header {
+        font-weight: bold;
+        font-size: .9rem;
+        margin-bottom: .5rem;
+        // color: #555;
+    }
+}
+
+.examples-select {
+    margin-bottom: .75em;
+
+    &__section-label {
+        font-weight: bold;
+        font-size: .9rem;
+        margin-right: .5rem;
+    }
+}
+
+.example {
+    &__section {
+        margin-top: 1.5em;
+    }
+    &__section-header {
+        font-weight: bold;
+        font-size: .9rem;
+        margin-bottom: .5rem;
+        // color: #555;
+    }
+}
+
 .view-line-link
 {
     position: relative;
@@ -374,12 +419,27 @@
     }
 }
 
+.filter, .download-url-wrapper
+{
+    .failed
+    {
+        color: red;
+    }
+
+    .loading
+    {
+        color: #aaa;
+    }
+}
+
+.model-example {
+    margin-top: 1em;
+}
 
 .tab
 {
     display: flex;
 
-    margin: 20px 0 10px 0;
     padding: 0;
 
     list-style: none;
@@ -506,6 +566,11 @@
 
         @include text_body();
     }
+
+    .curl
+    {
+        white-space: normal;
+    }
 }
 
 .response-col_status
@@ -536,44 +601,14 @@
 
         @include text_code($response-col-links-font-color);
     }
-}
 
-.response-col_description__inner
-{
-    div.markdown, div.renderedMarkdown
+    .operation-link
     {
-        font-size: 12px;
-        font-style: italic;
+        margin-bottom: 1.5em;
 
-        display: block;
-
-        margin: 0;
-        padding: 10px;
-
-        border-radius: 4px;
-        background: $response-col-description-inner-markdown-background-color;
-
-        @include text_code($response-col-description-inner-markdown-font-color);
-
-        p
+        .description
         {
-            margin: 0;
-            @include text_code($response-col-description-inner-markdown-font-color);
-        }
-
-        a
-        {
-            @include text_code($response-col-description-inner-markdown-link-font-color);
-            text-decoration: underline;
-            &:hover {
-                color: $response-col-description-inner-markdown-link-font-color-hover;
-            }
-        }
-
-        th
-        {
-            @include text_code($response-col-description-inner-markdown-font-color);
-            border-bottom: 1px solid $response-col-description-inner-markdown-font-color;
+            margin-bottom: 0.5em;
         }
     }
 }
@@ -589,7 +624,7 @@
   }
 }
 
-.opblock-body pre
+.opblock-body pre.microlight
 {
     font-size: 12px;
 
@@ -744,19 +779,38 @@
     }
 }
 
-.response-content-type {
-  padding-top: 1em;
+.response-controls {
+    padding-top: 1em;
+    display: flex;
+}
 
-  &.controls-accept-header {
-    select {
-      border-color: $response-content-type-controls-accept-header-select-border-color;
+.response-control-media-type {
+    margin-right: 1em;
+
+    &--accept-controller {
+        select {
+            border-color: $response-content-type-controls-accept-header-select-border-color;
+        }
     }
 
-    small {
-      color: $response-content-type-controls-accept-header-small-font-color;
-      font-size: .7em;
+    &__accept-message {
+        color: $response-content-type-controls-accept-header-small-font-color;
+        font-size: .7em;
     }
-  }
+
+    &__title {
+        display: block;
+        margin-bottom: 0.2em;
+        font-size: .7em;
+    }
+}
+
+.response-control-examples {
+    &__title {
+        display: block;
+        margin-bottom: 0.2em;
+        font-size: .7em;
+    }
 }
 
 @keyframes blinker
@@ -767,6 +821,35 @@
     }
 }
 
+.hidden
+{
+    display: none;
+}
+
+.no-margin
+{
+    height: auto;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.float-right
+{
+    float: right;
+}
+
+img.full-width
+{
+    width: 100%;
+}
+
+.svg-assets
+{
+    position: absolute;
+    width: 0;
+    height: 0;
+}
 
 section
 {
@@ -787,6 +870,12 @@ a.nostyle {
     color: inherit;
     cursor: pointer;
   }
+}
+
+.fallback
+{
+    padding: 1em;
+    color: #aaa;
 }
 
 .version-pragma {
@@ -814,4 +903,28 @@ a.nostyle {
       white-space: pre;
     }
   }
+}
+
+.opblock-link
+{
+    font-weight: normal;
+
+    &.shown
+    {
+        font-weight: bold;
+    }
+}
+
+span
+{
+    &.token-string
+    {
+        color: #555;
+    }
+
+    &.token-not-formatted
+    {
+        color: #555; 
+        font-weight: bold;
+    }
 }

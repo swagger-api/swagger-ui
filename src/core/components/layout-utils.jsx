@@ -73,10 +73,14 @@ export class Col extends React.Component {
       }
     }
 
+    if (hide) {
+      classesAr.push("hidden")
+    }
+
     let classes = xclass(rest.className, ...classesAr)
 
     return (
-      <section {...rest} style={{display: hide ? "none": null}} className={classes}/>
+      <section {...rest} className={classes}/>
     )
   }
 
@@ -132,7 +136,8 @@ export class Select extends React.Component {
     onChange: PropTypes.func,
     multiple: PropTypes.bool,
     allowEmptyValue: PropTypes.bool,
-    className: PropTypes.string
+    className: PropTypes.string,
+    disabled: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -176,12 +181,19 @@ export class Select extends React.Component {
     onChange && onChange(value)
   }
 
+  componentWillReceiveProps(nextProps) {
+    // TODO: this puts us in a weird area btwn un/controlled selection... review
+    if(nextProps.value !== this.props.value) {
+      this.setState({ value: nextProps.value })
+    }
+  }
+
   render(){
-    let { allowedValues, multiple, allowEmptyValue } = this.props
-    let value = this.state.value.toJS ? this.state.value.toJS() : this.state.value
+    let { allowedValues, multiple, allowEmptyValue, disabled } = this.props
+    let value = this.state.value?.toJS?.() || this.state.value
 
     return (
-      <select className={this.props.className} multiple={ multiple } value={ value } onChange={ this.onChange } >
+      <select className={this.props.className} multiple={ multiple } value={value} onChange={ this.onChange } disabled={disabled} >
         { allowEmptyValue ? <option value="">--</option> : null }
         {
           allowedValues.map(function (item, key) {
@@ -205,7 +217,7 @@ Link.propTypes = {
   className: PropTypes.string
 }
 
-const NoMargin = ({children}) => <div style={{height: "auto", border: "none", margin: 0, padding: 0}}> {children} </div>
+const NoMargin = ({children}) => <div className="no-margin"> {children} </div>
 
 NoMargin.propTypes = {
   children: PropTypes.node

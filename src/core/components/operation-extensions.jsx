@@ -13,8 +13,8 @@ export const OperationExt = ({ extensions, getComponent }) => {
           <table>
             <thead>
               <tr>
-                <td className="col col_header">Field</td>
-                <td className="col col_header">Value</td>
+                <td className="col_header">Field</td>
+                <td className="col_header">Value</td>
               </tr>
             </thead>
             <tbody>

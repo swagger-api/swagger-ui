@@ -2,7 +2,7 @@
 # We don't declare them here — take a look at our docs.
 # https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md
 
-FROM nginx:1.15-alpine
+FROM nginx:1.19-alpine
 
 RUN apk --no-cache add nodejs
 
@@ -12,6 +12,7 @@ ENV API_KEY "**None**"
 ENV SWAGGER_JSON "/app/swagger.json"
 ENV PORT 8080
 ENV BASE_URL ""
+ENV SWAGGER_JSON_URL ""
 
 COPY ./docker/nginx.conf ./docker/cors.conf /etc/nginx/
 
@@ -20,7 +21,11 @@ COPY ./dist/* /usr/share/nginx/html/
 COPY ./docker/run.sh /usr/share/nginx/
 COPY ./docker/configurator /usr/share/nginx/configurator
 
-RUN chmod +x /usr/share/nginx/run.sh
+RUN chmod +x /usr/share/nginx/run.sh && \
+    chmod -R a+rw /usr/share/nginx && \
+    chmod -R a+rw /etc/nginx && \
+    chmod -R a+rw /var && \
+    chmod -R a+rw /var/run
 
 EXPOSE 8080
 

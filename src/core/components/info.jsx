@@ -61,7 +61,7 @@ class License extends React.Component {
     let { license, getComponent } = this.props
 
     const Link = getComponent("Link")
-  
+
     let name = license.get("name") || "License"
     let url = license.get("url")
 
@@ -82,7 +82,7 @@ export class InfoUrl extends React.PureComponent {
     getComponent: PropTypes.func.isRequired
   }
 
-  
+
   render() {
     const { url, getComponent } = this.props
 
@@ -112,7 +112,7 @@ export default class Info extends React.Component {
     let license = info.get("license")
     const { url:externalDocsUrl, description:externalDocsDescription } = (externalDocs || fromJS({})).toJS()
 
-    const Markdown = getComponent("Markdown")
+    const Markdown = getComponent("Markdown", true)
     const Link = getComponent("Link")
     const VersionStamp = getComponent("VersionStamp")
     const InfoUrl = getComponent("InfoUrl")
