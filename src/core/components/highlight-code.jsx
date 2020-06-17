@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import { highlight } from "core/utils"
+import {SyntaxHighlighter, styles} from "core/syntax-highlighting"
 import saveAs from "js-file-download"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 
@@ -11,18 +11,6 @@ export default class HighlightCode extends Component {
     downloadable: PropTypes.bool,
     fileName: PropTypes.string,
     canCopy: PropTypes.bool
-  }
-
-  componentDidMount() {
-    highlight(this.el)
-  }
-
-  componentDidUpdate() {
-    highlight(this.el)
-  }
-
-  initializeComponent = (c) => {
-    this.el = c
   }
 
   downloadText = () => {
@@ -66,12 +54,13 @@ export default class HighlightCode extends Component {
           </div>
         }
 
-        <pre
-          ref={this.initializeComponent}
+        <SyntaxHighlighter
+          className={className + " microlight"}
           onWheel={this.preventYScrollingBeyondElement}
-          className={className + " microlight"}>
+          style={styles.agate}
+          >
           {value}
-        </pre>
+        </SyntaxHighlighter>
       </div>
     )
   }

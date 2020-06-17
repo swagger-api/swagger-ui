@@ -1,15 +1,16 @@
 import React from "react"
 import PropTypes from "prop-types"
 import curlify from "core/curlify"
+import {copyToClipboard} from "core/copy-to-clipboard"
+import {SyntaxHighlighter, styles} from "core/syntax-highlighting"
 
 export default class Curl extends React.Component {
   static propTypes = {
     request: PropTypes.object.isRequired
   }
 
-  handleFocus(e) {
-    e.target.select()
-    document.execCommand("copy")
+  copy(curlCommand) {
+    return () => copyToClipboard(curlCommand)
   }
 
   render() {
@@ -18,9 +19,9 @@ export default class Curl extends React.Component {
 
     return (
       <div>
-        <h4>Curl</h4>
-        <div className="copy-paste">
-          <textarea onFocus={this.handleFocus} readOnly={true} className="curl" value={curl}></textarea>
+        <h4>Curl <i onClick={this.copy(curl)}>(copyCommand)</i></h4>
+        <div>
+          <SyntaxHighlighter language="bash" className="curl" style={styles.agate}>{curl}</SyntaxHighlighter>
         </div>
       </div>
     )
