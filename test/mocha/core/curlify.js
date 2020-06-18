@@ -200,13 +200,13 @@ describe("curlify", function() {
       file.type = ""
 
       var req = {
-          url: "http://example.com",
-          method: "POST",
-          headers: { "content-type": "multipart/form-data" },
-          body: {
-              id: "123",
-              file
-          }
+        url: "http://example.com",
+        method: "POST",
+        headers: { "content-type": "multipart/form-data" },
+        body: {
+          id: "123",
+          file
+        }
       }
 
       let curlified = curl(Im.fromJS(req))
