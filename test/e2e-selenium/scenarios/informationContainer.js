@@ -1,47 +1,78 @@
-describe("render informationContainer", function () {
-    let mainPage
-    let informationContainer
-    beforeEach(function (client, done) {
-        
-        mainPage = client
-        .url("localhost:3230")
-        .page.main()
-        client.waitForElementVisible(".download-url-input:not([disabled])", 5000)
-        .clearValue(".download-url-input")
-        .setValue(".download-url-input", "http://localhost:3230/test-specs/petstore.json")
-        .click("button.download-url-button")
-        .pause(1000)
+describe("Render Model Wrapper", function () {
+  let modelWrapper, mainPage
 
-        informationContainer = mainPage.section.informationContainer
-        
-        done()
-    })
+  beforeEach(function (client, done) {
+    mainPage = client
+      .url("localhost:3230")
+      .page.main()
+    client.waitForElementVisible(".download-url-input:not([disabled])", 5000)
+      .clearValue(".download-url-input")
+      .setValue(".download-url-input", "http://localhost:3230/test-specs/petstore.json")
+      .click("button.download-url-button")
+      .pause(1000)
 
-    it("renders section", function (client) {
-        mainPage.expect.section("@informationContainer").to.be.visible.before(5000)
+    modelWrapper = mainPage.section.modelWrapper
 
-        client.end()
-    })
+    done()
+  })
+  afterEach(function (client, done) {
+    done()
+  })
+  it("Render model wrapper", function (client) {
+    mainPage.expect.section("@modelWrapper").to.be.visible.before(5000)
 
-    it("renders content", function (client) {
-        informationContainer.waitForElementVisible("@title", 5000)
-            .assert.containsText("@title", "Swagger Petstore")
-            .assert.containsText("@version", "1.0.0")
-            .assert.containsText("@baseUrl", "[ Base URL: localhost:3204/ ]")
-            .assert.attributeEquals("@mainUrl", "href", "http://localhost:3230/test-specs/petstore.json")
-            .assert.containsText("@mainUrlContent", "http://localhost:3230/test-specs/petstore.json")
-            .assert.containsText("@description", "This is a sample server Petstore server. You can find out more about Swagger at http://swagger.io or on irc.freenode.net, #swagger. For this sample, you can use the api key special-key to test the authorization filters.")
-            .assert.attributeEquals("@swaggerUrl", "href", "http://swagger.io/")
-            .assert.attributeEquals("@swaggerircUrl", "href", "http://swagger.io/irc/")
-            .assert.attributeEquals("@termsLink", "href", "http://swagger.io/terms/")
-            .assert.containsText("@termsLink", "Terms of service")
-            .assert.attributeEquals("@contactDevLink", "href", "mailto:apiteam@swagger.io")
-            .assert.containsText("@contactDevLink", "Contact the developer")
-            .assert.attributeEquals("@contactDevLink", "href", "mailto:apiteam@swagger.io")
-            .assert.containsText("@contactDevLink", "Contact the developer")
-            .assert.attributeEquals("@aboutSwaggerLink", "href", "http://swagger.io/")
-            .assert.containsText("@aboutSwaggerLink", "Find out more about Swagger")
-            
-        client.end()
-    })
+    client.end()
+  })
+
+  it("Render model wrapper collapse", function (client) {
+    modelWrapper.waitForElementVisible("@modelContainer", 5000)
+      .click("@modelCollapse")
+      .assert.cssClassNotPresent("@modelContainer", "is-open")
+
+    client.end()
+  })
+
+  it("Testing order model", function (client) {
+    modelWrapper.waitForElementVisible("@orderModel")
+      .click("@orderModelCallapse")
+      .assert.cssClassNotPresent("@orderModelCallapse", "callapsed")
+
+    client.end()
+  })
+
+  it("Testing category model", function (client) {
+    modelWrapper.waitForElementVisible("@categoryModel")
+      .click("@categoryModelCallapse")
+      .assert.cssClassNotPresent("@categoryModelCallapse", "callapsed")
+
+    client.end()
+  })
+  it("Testing user model", function (client) {
+    modelWrapper.waitForElementVisible("@userModel")
+      .click("@userModelCallapse")
+      .assert.cssClassNotPresent("@userModelCallapse", "callapsed")
+
+    client.end()
+  })
+  it("Testing tag model", function (client) {
+    modelWrapper.waitForElementVisible("@tagModel")
+      .click("@tagModelCallapse")
+      .assert.cssClassNotPresent("@tagModelCallapse", "callapsed")
+
+    client.end()
+  })
+  it("Testing pet model", function (client) {
+    modelWrapper.waitForElementVisible("@petModel")
+      .click("@petModelCallapse")
+      .assert.cssClassNotPresent("@petModelCallapse", "callapsed")
+
+    client.end()
+  })
+  it("Testing apiResponse model", function (client) {
+    modelWrapper.waitForElementVisible("@apiResponseModel")
+      .click("@apiResponseModelCallapse")
+      .assert.cssClassNotPresent("@apiResponseModelCallapse", "callapsed")
+
+    client.end()
+  })
 })
