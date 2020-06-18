@@ -266,7 +266,7 @@ describe("curlify", function() {
                     }
                 }
 
-                const curlified = curl(Im.fromJS(req))
+                let curlified = curl(Im.fromJS(req))
 
                 expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"x-custom-name: multipart/form-data\" -H  \"content-type: multipart/form-data\" -F \"id=123\" -F \"file=@file.txt;type=text/plain\"")
             })
