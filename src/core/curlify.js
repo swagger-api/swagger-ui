@@ -27,11 +27,7 @@ export default function curl( request ){
       let [ h,v ] = p
       curlified.push( "-H " )
       curlified.push( `"${h}: ${v}"` )
-      if (isMultipartFormDataRequest) {
-        break
-      } else {
-        isMultipartFormDataRequest = /^content-type$/i.test(h) && /^multipart\/form-data$/i.test(v)
-      }
+      isMultipartFormDataRequest = isMultipartFormDataRequest || /^content-type$/i.test(h) && /^multipart\/form-data$/i.test(v)
     }
   }
 
