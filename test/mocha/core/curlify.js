@@ -246,4 +246,77 @@ describe("curlify", function() {
         expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"accept: application/json\" -d \"{\\\"id\\\":\\\"foo'bar\\\"}\"")
     })
 
+    context("given multiple entries with file", function() {
+        context("and with leading custom header", function() {
+            it("should print a proper curl -F", function() {
+                let file = new win.File()
+                file.name = "file.txt"
+                file.type = "text/plain"
+
+                let req = {
+                    url: "http://example.com",
+                    method: "POST",
+                    headers: {
+                        "x-custom-name": "multipart/form-data",
+                        "content-type": "multipart/form-data"
+                    },
+                    body: {
+                        id: "123",
+                        file
+                    }
+                }
+
+                let curlified = curl(Im.fromJS(req))
+
+                expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"x-custom-name: multipart/form-data\" -H  \"content-type: multipart/form-data\" -F \"id=123\" -F \"file=@file.txt;type=text/plain\"")
+            })
+        })
+
+        context("and with trailing custom header; e.g. from requestInterceptor appending req.headers", function() {
+            it("should print a proper curl -F", function() {
+                let file = new win.File()
+                file.name = "file.txt"
+                file.type = "text/plain"
+
+                let req = {
+                    url: "http://example.com",
+                    method: "POST",
+                    headers: {
+                        "content-type": "multipart/form-data",
+                        "x-custom-name": "any-value"
+                    },
+                    body: {
+                        id: "123",
+                        file
+                    }
+                }
+
+                let curlified = curl(Im.fromJS(req))
+
+                expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"content-type: multipart/form-data\" -H  \"x-custom-name: any-value\" -F \"id=123\" -F \"file=@file.txt;type=text/plain\"")
+            })
+        })
+    })
+
+    context("POST when header value is 'multipart/form-data' but header name is not 'content-type'", function() {
+        it("shoud print a proper curl as -d <data>", function() {
+            let file = new win.File()
+            file.name = "file.txt"
+            file.type = "text/plain"
+
+            let req = {
+                url: "http://example.com",
+                method: "POST",
+                headers: { "x-custom-name": "multipart/form-data" },
+                body: {
+                    id: "123",
+                    file
+                }
+            }
+
+            let curlified = curl(Im.fromJS(req))
+
+            expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"x-custom-name: multipart/form-data\" -d {\"id\":\"123\",\"file\":{\"name\":\"file.txt\",\"type\":\"text/plain\"}}")
+        })
+    })
 })

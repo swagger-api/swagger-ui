@@ -16,7 +16,7 @@ const extractKey = (k) => {
 
 export default function curl( request ){
   let curlified = []
-  let type = ""
+  let isMultipartFormDataRequest = false
   let headers = request.get("headers")
   curlified.push( "curl" )
   curlified.push( "-X", request.get("method") )
@@ -25,15 +25,14 @@ export default function curl( request ){
   if ( headers && headers.size ) {
     for( let p of request.get("headers").entries() ){
       let [ h,v ] = p
-      type = v
       curlified.push( "-H " )
       curlified.push( `"${h}: ${v}"` )
+      isMultipartFormDataRequest = isMultipartFormDataRequest || /^content-type$/i.test(h) && /^multipart\/form-data$/i.test(v)
     }
   }
 
   if ( request.get("body") ){
-
-    if(type === "multipart/form-data" && ["POST", "PUT", "PATCH"].includes(request.get("method"))) {
+    if (isMultipartFormDataRequest && ["POST", "PUT", "PATCH"].includes(request.get("method"))) {
       for( let [ k,v ] of request.get("body").entrySeq()) {
         let extractedKey = extractKey(k)
         curlified.push( "-F" )
