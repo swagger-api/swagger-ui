@@ -26,14 +26,14 @@ describe("curlify", function() {
     })
 
     it("does add a empty data param if no request body given", function() {
-        var req = {
-            url: "http://example.com",
-            method: "POST",
-        }
+      var req = {
+        url: "http://example.com",
+        method: "POST",
+      }
 
-        let curlified = curl(Im.fromJS(req))
+      let curlified = curl(Im.fromJS(req))
 
-        expect(curlified).toEqual("curl -X POST \"http://example.com\" -d \"\"")
+      expect(curlified).toEqual("curl -X POST \"http://example.com\" -d \"\"")
     })
 
     it("does not change the case of header in curl", function() {
@@ -115,7 +115,7 @@ describe("curlify", function() {
             method: "POST",
             body: {
                 description: "@prefix nif:<http://persistence.uni-leipzig.org/nlp2rdf/ontologies/nif-core#> .\n" +
-                    "@prefix itsrdf: <http://www.w3.org/2005/11/its/rdf#> ."
+                "@prefix itsrdf: <http://www.w3.org/2005/11/its/rdf#> ."
             }
         }
 
@@ -144,8 +144,8 @@ describe("curlify", function() {
             method: "POST",
             headers: { "content-type": "multipart/form-data" },
             body: {
-                id: "123",
-                name: "Sahar"
+              id: "123",
+              name: "Sahar"
             }
         }
 
@@ -184,8 +184,8 @@ describe("curlify", function() {
             method: "POST",
             headers: { "content-type": "multipart/form-data" },
             body: {
-                id: "123",
-                file
+              id: "123",
+              file
             }
         }
 
@@ -195,23 +195,23 @@ describe("curlify", function() {
     })
 
     it("should print a curl without form data type if type is unknown", function() {
-        var file = new win.File()
-        file.name = "file.txt"
-        file.type = ""
+      var file = new win.File()
+      file.name = "file.txt"
+      file.type = ""
 
-        var req = {
-            url: "http://example.com",
-            method: "POST",
-            headers: { "content-type": "multipart/form-data" },
-            body: {
-                id: "123",
-                file
-            }
-        }
+      var req = {
+          url: "http://example.com",
+          method: "POST",
+          headers: { "content-type": "multipart/form-data" },
+          body: {
+              id: "123",
+              file
+          }
+      }
 
-        let curlified = curl(Im.fromJS(req))
+      let curlified = curl(Im.fromJS(req))
 
-        expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"content-type: multipart/form-data\" -F \"id=123\" -F \"file=@file.txt\"")
+      expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"content-type: multipart/form-data\" -F \"id=123\" -F \"file=@file.txt\"")
     })
 
     it("prints a curl post statement from an object", function() {
