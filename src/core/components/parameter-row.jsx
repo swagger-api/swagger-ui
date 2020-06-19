@@ -191,6 +191,7 @@ export default class ParameterRow extends Component {
     let inType = param.get("in")
     let bodyParam = inType !== "body" ? null
       : <ParamBody getComponent={getComponent}
+                   getConfigs={ getConfigs }
                    fn={fn}
                    param={param}
                    consumes={ specSelectors.consumesOptionsFor(pathMethod) }
