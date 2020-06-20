@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
+import Im from "immutable"
 
 export default class ModelCollapse extends Component {
   static propTypes = {
@@ -11,6 +12,8 @@ export default class ModelCollapse extends Component {
     classes: PropTypes.string,
     onToggle: PropTypes.func,
     hideSelfOnExpand: PropTypes.bool,
+    layoutActions: PropTypes.object,
+    layoutSelectors: PropTypes.object.isRequired
   }
 
   static defaultProps = {
@@ -58,6 +61,16 @@ export default class ModelCollapse extends Component {
     })
   }
 
+  onLoad = (ref) => {
+    if(ref) {
+      const name = this.props.modelName
+      const scrollToKey = this.props.layoutSelectors.getScrollToKey()
+
+      if( Im.is(scrollToKey, Im.fromJS(["models", name])) ) this.toggleCollapsed()
+      this.props.layoutActions.readyToScroll(["models", name], ref.parentElement)
+    }
+  }
+
   render () {
     const { title, classes } = this.props
 
@@ -71,8 +84,8 @@ export default class ModelCollapse extends Component {
 
     return (
       <span className={classes || ""}>
-        { title && <span onClick={this.toggleCollapsed} style={{ "cursor": "pointer" }}>{title}</span> }
-        <span onClick={ this.toggleCollapsed } style={{ "cursor": "pointer" }}>
+        { title && <span onClick={this.toggleCollapsed} className="pointer">{title}</span> }
+        <span onClick={ this.toggleCollapsed } className="pointer">
           <span className={ "model-toggle" + ( this.state.expanded ? "" : " collapsed" ) }></span>
         </span>
         { this.state.expanded ? this.props.children :this.state.collapsedContent }

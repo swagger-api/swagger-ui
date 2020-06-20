@@ -54,7 +54,7 @@ const RequestBody = ({
     onChange(e.target.files[0])
   }
 
-  const Markdown = getComponent("Markdown")
+  const Markdown = getComponent("Markdown", true)
   const ModelExample = getComponent("modelExample")
   const RequestBodyEditor = getComponent("RequestBodyEditor")
   const HighlightCode = getComponent("highlightCode")
@@ -145,7 +145,7 @@ const RequestBody = ({
                 <td className="parameters-col_name">
                         <div className={required ? "parameter__name required" : "parameter__name"}>
                           { key }
-                          { !required ? null : <span style={{color: "red"}}>&nbsp;*</span> }
+                          { !required ? null : <span>&nbsp;*</span> }
                         </div>
                         <div className="parameter__type">
                           { type }
@@ -237,6 +237,7 @@ const RequestBody = ({
               )}
             />
           }
+          includeWriteOnly={true}
         />
       )
     }

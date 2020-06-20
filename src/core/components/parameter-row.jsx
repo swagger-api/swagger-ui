@@ -102,9 +102,10 @@ export default class ParameterRow extends Component {
       .get("content", Map())
       .keySeq()
       .first()
-    
+
     // getSampleSchema could return null
     const generatedSampleValue = schema ? getSampleSchema(schema.toJS(), parameterMediaType, {
+
       includeWriteOnly: true
     }) : null
 
@@ -144,7 +145,7 @@ export default class ParameterRow extends Component {
         this.onChangeWrapper(initialValue)
       } else if(
         schema && schema.get("type") === "object"
-        && generatedSampleValue 
+        && generatedSampleValue
         && !paramWithMeta.get("examples")
       ) {
         // Object parameters get special treatment.. if the user doesn't set any
@@ -202,7 +203,7 @@ export default class ParameterRow extends Component {
       />
 
     const ModelExample = getComponent("modelExample")
-    const Markdown = getComponent("Markdown")
+    const Markdown = getComponent("Markdown", true)
     const ParameterExt = getComponent("ParameterExt")
     const ParameterIncludeEmpty = getComponent("ParameterIncludeEmpty")
     const ExamplesSelectValueRetainer = getComponent("ExamplesSelectValueRetainer")
@@ -262,7 +263,7 @@ export default class ParameterRow extends Component {
         <td className="parameters-col_name">
           <div className={required ? "parameter__name required" : "parameter__name"}>
             { param.get("name") }
-            { !required ? null : <span style={{color: "red"}}>&nbsp;*</span> }
+            { !required ? null : <span>&nbsp;*</span> }
           </div>
           <div className="parameter__type">
             { type }
@@ -290,6 +291,11 @@ export default class ParameterRow extends Component {
 
           { (bodyParam || !isExecute) && paramDefaultValue !== undefined ?
             <Markdown className="parameter__default" source={"<i>Default value</i> : " + paramDefaultValue}/>
+            : null
+          }
+
+          { (bodyParam || !isExecute) && paramExample !== undefined ?
+            <Markdown source={"<i>Example</i> : " + paramExample}/>
             : null
           }
 
@@ -331,7 +337,8 @@ export default class ParameterRow extends Component {
                                                 isExecute={ isExecute }
                                                 specSelectors={ specSelectors }
                                                 schema={ schema }
-                                                example={ bodyParam }/>
+                                                example={ bodyParam }
+                                                includeWriteOnly={ true }/>
               : null
           }
 

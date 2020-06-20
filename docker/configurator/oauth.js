@@ -23,6 +23,10 @@ const oauthBlockSchema = {
     type: "string",
     name: "scopeSeparator"
   },
+  OAUTH_SCOPES: {
+    type: "string",
+    name: "scopes"
+  },
   OAUTH_ADDITIONAL_PARAMS: {
     type: "object",
     name: "additionalQueryStringParams"
