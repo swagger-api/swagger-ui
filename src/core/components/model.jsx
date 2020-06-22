@@ -16,6 +16,8 @@ export default class Model extends ImmutablePureComponent {
     expandDepth: PropTypes.number,
     depth: PropTypes.number,
     specPath: ImPropTypes.list.isRequired,
+    includeReadOnly: PropTypes.bool,
+    includeWriteOnly: PropTypes.bool,
   }
 
   getModelName =( ref )=> {
@@ -34,7 +36,8 @@ export default class Model extends ImmutablePureComponent {
   }
 
   render () {
-    let { getComponent, getConfigs, specSelectors, schema, required, name, isRef, specPath, displayName } = this.props
+    let { getComponent, getConfigs, specSelectors, schema, required, name, isRef, specPath, displayName,
+      includeReadOnly, includeWriteOnly} = this.props
     const ObjectModel = getComponent("ObjectModel")
     const ArrayModel = getComponent("ArrayModel")
     const PrimitiveModel = getComponent("PrimitiveModel")
@@ -53,11 +56,7 @@ export default class Model extends ImmutablePureComponent {
     if(!schema) {
       return <span className="model model-title">
               <span className="model-title__text">{ displayName || name }</span>
-              <img src={require("core/../img/rolling-load.svg")} height={"20px"} width={"20px"} style={{
-                  marginLeft: "1em",
-                  position: "relative",
-                  bottom: "0px"
-                }} />
+              <img src={require("core/../img/rolling-load.svg")} height={"20px"} width={"20px"} />
             </span>
     }
 
@@ -74,7 +73,9 @@ export default class Model extends ImmutablePureComponent {
           schema={ schema }
           name={ name }
           deprecated={deprecated}
-          isRef={ isRef } />
+          isRef={ isRef }
+          includeReadOnly = {includeReadOnly}
+          includeWriteOnly = {includeWriteOnly}/>
       case "array":
         return <ArrayModel
           className="array" { ...this.props }
@@ -82,7 +83,9 @@ export default class Model extends ImmutablePureComponent {
           schema={ schema }
           name={ name }
           deprecated={deprecated}
-          required={ required } />
+          required={ required }
+          includeReadOnly = {includeReadOnly}
+          includeWriteOnly = {includeWriteOnly}/>
       case "string":
       case "number":
       case "integer":

@@ -11,6 +11,8 @@ export default class ModelExample extends React.Component {
     isExecute: PropTypes.bool,
     getConfigs: PropTypes.func.isRequired,
     specPath: ImPropTypes.list.isRequired,
+    includeReadOnly: PropTypes.bool,
+    includeWriteOnly: PropTypes.bool,
   }
 
   constructor(props, context) {
@@ -52,7 +54,7 @@ export default class ModelExample extends React.Component {
   }
 
   render() {
-    let { getComponent, specSelectors, schema, example, isExecute, getConfigs, specPath } = this.props
+    let { getComponent, specSelectors, schema, example, isExecute, getConfigs, specPath, includeReadOnly, includeWriteOnly } = this.props
     let { defaultModelExpandDepth } = getConfigs()
     const ModelWrapper = getComponent("ModelWrapper")
     const HighlightCode = getComponent("highlightCode")
@@ -84,7 +86,9 @@ export default class ModelExample extends React.Component {
                                                      getConfigs={ getConfigs }
                                                      specSelectors={ specSelectors }
                                                      expandDepth={ defaultModelExpandDepth }
-                                                     specPath={specPath} />
+                                                     specPath={specPath}
+                                                     includeReadOnly = {includeReadOnly}
+                                                     includeWriteOnly = {includeWriteOnly}/>
 
 
         }

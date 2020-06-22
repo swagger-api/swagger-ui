@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 import React from "react"
-import { List } from "immutable"
+import Immutable, { List } from "immutable"
 import expect, { createSpy } from "expect"
 import { Select, Input, TextArea } from "components/layout-utils"
 import { mount, render } from "enzyme"
@@ -25,10 +25,10 @@ describe("<JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {},
-        schema: {
+        schema: Immutable.fromJS({
           type: "string",
           enum: ["one", "two"]
-        }
+        })
       }
 
       let wrapper = render(<JsonSchemaForm {...props}/>)
@@ -48,10 +48,10 @@ describe("<JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {},
-        schema: {
+        schema: Immutable.fromJS({
           type: "string",
           enum: ["one", "two"]
-        },
+        }),
         disabled: true
       }
 
@@ -70,10 +70,10 @@ describe("<JsonSchemaForm/>", function(){
         keyName: "",
         fn: {},
         required: true,
-        schema: {
+        schema: Immutable.fromJS({
           type: "string",
           enum: ["one", "two"]
-        }
+        })
       }
 
       let wrapper = render(<JsonSchemaForm {...props}/>)
@@ -93,9 +93,9 @@ describe("<JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {},
-        schema: {
+        schema: Immutable.fromJS({
           type: "boolean"
-        }
+        })
       }
 
       let wrapper = render(<JsonSchemaForm {...props}/>)
@@ -116,10 +116,10 @@ describe("<JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {},
-        schema: {
+        schema: Immutable.fromJS({
           type: "boolean",
           enum: ["true"]
-        }
+        })
       }
 
       let wrapper = render(<JsonSchemaForm {...props}/>)
@@ -139,10 +139,10 @@ describe("<JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {},
-        schema: {
+        schema: Immutable.fromJS({
           type: "boolean",
           required: true
-        }
+        })
       }
 
       let wrapper = render(<JsonSchemaForm {...props}/>)
@@ -164,10 +164,10 @@ describe("<JsonSchemaForm/>", function(){
         keyName: "",
         fn: {},
         required: true,
-        schema: {
+        schema: Immutable.fromJS({
           type: "boolean",
           enum: ["true"]
-        }
+        })
       }
 
       let wrapper = render(<JsonSchemaForm {...props}/>)
@@ -191,7 +191,7 @@ describe("<JsonSchemaForm/>", function(){
         keyName: "",
         fn: {},
         errors: List(),
-        schema: {
+        schema: Immutable.fromJS({
           type: "object",
           properties: {
             id: {
@@ -199,7 +199,7 @@ describe("<JsonSchemaForm/>", function(){
               example: "abc123"
             }
           }
-        }
+        })
       }
 
       let wrapper = mount(<JsonSchemaForm {...props}/>)
@@ -219,9 +219,9 @@ describe("<JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {},
-        schema: {
+        schema: Immutable.fromJS({
           type: "NotARealType"
-        }
+        })
       }
 
 
@@ -240,10 +240,10 @@ describe("<JsonSchemaForm/>", function(){
         onChange: () => {},
         keyName: "",
         fn: {},
-        schema: {
+        schema: Immutable.fromJS({
           type: "NotARealType",
           format: "NotARealFormat"
-        }
+        })
       }
 
 
