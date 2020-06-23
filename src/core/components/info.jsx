@@ -116,7 +116,7 @@ export default class Info extends React.Component {
     let { url:externalDocsUrl, description:externalDocsDescription } = (externalDocs || fromJS({})).toJS()
     externalDocsUrl = buildUrl( externalDocs.url, selectedServer )
 
-    const Markdown = getComponent("Markdown")
+    const Markdown = getComponent("Markdown", true)
     const Link = getComponent("Link")
     const VersionStamp = getComponent("VersionStamp")
     const InfoUrl = getComponent("InfoUrl")

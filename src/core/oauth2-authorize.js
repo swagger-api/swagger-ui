@@ -1,5 +1,5 @@
 import win from "core/window"
-import { btoa, sanitizeUrl } from "core/utils"
+import { btoa, sanitizeUrl, generateCodeVerifier, createCodeChallenge } from "core/utils"
 
 export default function authorize ( { auth, authActions, errActions, configs, authConfigs={} } ) {
   let { schema, scopes, name, clientId } = auth
@@ -64,6 +64,18 @@ export default function authorize ( { auth, authActions, errActions, configs, au
 
   if (typeof authConfigs.realm !== "undefined") {
     query.push("realm=" + encodeURIComponent(authConfigs.realm))
+  }
+
+  if (flow === "authorizationCode" && authConfigs.usePkceWithAuthorizationCodeGrant) {
+      const codeVerifier = generateCodeVerifier()
+      const codeChallenge = createCodeChallenge(codeVerifier)
+
+      query.push("code_challenge=" + codeChallenge)
+      query.push("code_challenge_method=S256")
+
+      // storing the Code Verifier so it can be sent to the token endpoint
+      // when exchanging the Authorization Code for an Access Token
+      auth.codeVerifier = codeVerifier
   }
 
   let { additionalQueryStringParams } = authConfigs
