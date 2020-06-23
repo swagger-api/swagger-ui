@@ -6,7 +6,7 @@ import win from "core/window"
 describe("curlify", function () {
 
   it("prints a curl statement with custom content-type", function () {
-    var req = {
+    let req = {
       url: "http://example.com",
       method: "POST",
       body: {
@@ -26,7 +26,7 @@ describe("curlify", function () {
   })
 
   it("does add a empty data param if no request body given", function () {
-    var req = {
+    let req = {
       url: "http://example.com",
       method: "POST",
     }
@@ -37,7 +37,7 @@ describe("curlify", function () {
   })
 
   it("does not change the case of header in curl", function () {
-    var req = {
+    let req = {
       url: "http://example.com",
       method: "POST",
       headers: {
@@ -51,7 +51,7 @@ describe("curlify", function () {
   })
 
   it("prints a curl statement with an array of query params", function () {
-    var req = {
+    let req = {
       url: "http://swaggerhub.com/v1/one?name=john|smith",
       method: "GET"
     }
@@ -62,7 +62,7 @@ describe("curlify", function () {
   })
 
   it("prints a curl statement with an array of query params and auth", function () {
-    var req = {
+    let req = {
       url: "http://swaggerhub.com/v1/one?name=john|smith",
       method: "GET",
       headers: {
@@ -76,7 +76,7 @@ describe("curlify", function () {
   })
 
   it("prints a curl statement with html", function () {
-    var req = {
+    let req = {
       url: "http://swaggerhub.com/v1/one?name=john|smith",
       method: "GET",
       headers: {
@@ -93,7 +93,7 @@ describe("curlify", function () {
   })
 
   it("handles post body with html", function () {
-    var req = {
+    let req = {
       url: "http://swaggerhub.com/v1/one?name=john|smith",
       method: "POST",
       headers: {
@@ -110,7 +110,7 @@ describe("curlify", function () {
   })
 
   it("handles post body with special chars", function () {
-    var req = {
+    let req = {
       url: "http://swaggerhub.com/v1/one?name=john|smith",
       method: "POST",
       body: {
@@ -125,7 +125,7 @@ describe("curlify", function () {
   })
 
   it("handles delete form with parameters", function () {
-    var req = {
+    let req = {
       url: "http://example.com",
       method: "DELETE",
       headers: {
@@ -139,7 +139,7 @@ describe("curlify", function () {
   })
 
   it("should print a curl with formData", function () {
-    var req = {
+    let req = {
       url: "http://example.com",
       method: "POST",
       headers: { "content-type": "multipart/form-data" },
@@ -175,11 +175,11 @@ describe("curlify", function () {
   })
 
   it("should print a curl with formData and file", function () {
-    var file = new win.File()
+    let file = new win.File()
     file.name = "file.txt"
     file.type = "text/plain"
 
-    var req = {
+    let req = {
       url: "http://example.com",
       method: "POST",
       headers: { "content-type": "multipart/form-data" },
@@ -195,11 +195,11 @@ describe("curlify", function () {
   })
 
   it("should print a curl without form data type if type is unknown", function () {
-    var file = new win.File()
+    let file = new win.File()
     file.name = "file.txt"
     file.type = ""
 
-    var req = {
+    let req = {
       url: "http://example.com",
       method: "POST",
       headers: { "content-type": "multipart/form-data" },
@@ -215,7 +215,7 @@ describe("curlify", function () {
   })
 
   it("prints a curl post statement from an object", function () {
-    var req = {
+    let req = {
       url: "http://example.com",
       method: "POST",
       headers: {
@@ -232,7 +232,7 @@ describe("curlify", function () {
   })
 
   it("prints a curl post statement from a string containing a single quote", function () {
-    var req = {
+    let req = {
       url: "http://example.com",
       method: "POST",
       headers: {
