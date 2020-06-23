@@ -1,0 +1,17 @@
+openapi: 3.0.2
+info:
+  title: test
+  description: Nullable object in model property
+  version: '1.0'
+paths: {}
+components:
+  schemas:
+    SomeObject:
+      type: object
+      properties:
+        meta:
+          type: object
+          properties:
+            tag:
+              type:  string
+          nullable: true
