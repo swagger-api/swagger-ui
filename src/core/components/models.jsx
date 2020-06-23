@@ -29,6 +29,13 @@ export default class Models extends Component {
     }
   }
 
+  onLoad = (ref) => {
+    if (ref) {
+      const name = ref.getAttribute("data-name")
+      this.props.layoutActions.readyToScroll(["models", name], ref)
+    }
+  }
+
   render(){
     let { specSelectors, getComponent, layoutSelectors, layoutActions, getConfigs } = this.props
     let definitions = specSelectors.definitions()
@@ -83,7 +90,9 @@ export default class Models extends Component {
               specSelectors={ specSelectors }
               getConfigs = {getConfigs}
               layoutSelectors = {layoutSelectors}
-              layoutActions = {layoutActions}/>
+              layoutActions = {layoutActions}
+              includeReadOnly = {true}
+              includeWriteOnly = {true}/>
 
             const title = <span className="model-box">
               <span className="model model-title">
@@ -91,7 +100,8 @@ export default class Models extends Component {
               </span>
             </span>
 
-            return <div id={ `model-${name}` } className="model-container" key={ `models-section-${name}` }>
+            return <div id={ `model-${name}` } className="model-container" key={ `models-section-${name}` }
+                    data-name={name} ref={this.onLoad} >
               <span className="models-jump-to-path"><JumpToPath specPath={specPath} /></span>
               <ModelCollapse
                 classes="model-box"

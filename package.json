@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.26.0",
+  "version": "3.27.0",
   "main": "dist/swagger-ui.js",
   "homepage": "https://github.com/swagger-api/swagger-ui",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
@@ -69,6 +69,7 @@
     "prop-types": "^15.7.2",
     "randombytes": "^2.1.0",
     "react": "^15.6.2",
+    "react-copy-to-clipboard": "5.0.1",
     "react-debounce-input": "^3.2.0",
     "react-dom": "^15.6.2",
     "react-immutable-proptypes": "2.1.0",
@@ -82,7 +83,7 @@
     "reselect": "^4.0.0",
     "serialize-error": "^2.1.0",
     "sha.js": "^2.4.11",
-    "swagger-client": "^3.10.6",
+    "swagger-client": "^3.10.8",
     "url-parse": "^1.4.7",
     "xml-but-prettier": "^1.0.1",
     "zenscroll": "^4.0.2"

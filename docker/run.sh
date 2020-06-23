@@ -24,7 +24,7 @@ replace_or_delete_in_index () {
   fi
 }
 
-if [ "${BASE_URL}" ]; then
+if [[ "${BASE_URL}" != "/" ]]; then
   sed -i "s|location / {|location $BASE_URL {|g" $NGINX_CONF
 fi
 
@@ -36,14 +36,20 @@ if [ "$SWAGGER_JSON_URL" ]; then
 fi
 
 if [[ -f "$SWAGGER_JSON" ]]; then
-  cp -s "$SWAGGER_JSON" "$NGINX_ROOT"
   REL_PATH="./$(basename $SWAGGER_JSON)"
 
   if [[ -z "$SWAGGER_ROOT" ]]; then
     SWAGGER_ROOT="$(dirname $SWAGGER_JSON)"
   fi
 
-  sed -i "s|#SWAGGER_ROOT|root $SWAGGER_ROOT;|g" $NGINX_CONF
+  if [[ "$BASE_URL" != "/" ]]
+  then
+    BASE_URL=$(echo $BASE_URL | sed 's/\/$//')
+    sed -i \
+      "s|#SWAGGER_ROOT|rewrite ^$BASE_URL(/.*)$ \$1 break;\n        #SWAGGER_ROOT|" \
+      $NGINX_CONF
+  fi
+  sed -i "s|#SWAGGER_ROOT|root $SWAGGER_ROOT/;|g" $NGINX_CONF
 
   sed -i "s|https://petstore.swagger.io/v2/swagger.json|$REL_PATH|g" $INDEX_FILE
   sed -i "s|http://example.com/api|$REL_PATH|g" $INDEX_FILE

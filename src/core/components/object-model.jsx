@@ -20,12 +20,14 @@ export default class ObjectModel extends Component {
     isRef: PropTypes.bool,
     expandDepth: PropTypes.number,
     depth: PropTypes.number,
-    specPath: ImPropTypes.list.isRequired
+    specPath: ImPropTypes.list.isRequired,
+    includeReadOnly: PropTypes.bool,
+    includeWriteOnly: PropTypes.bool,
   }
 
   render(){
     let { schema, name, displayName, isRef, getComponent, getConfigs, depth, onToggle, expanded, specPath, ...otherProps } = this.props
-    let { specSelectors,expandDepth } = otherProps
+    let { specSelectors,expandDepth, includeReadOnly, includeWriteOnly} = otherProps
     const { isOAS3 } = specSelectors
 
     if(!schema) {
@@ -91,7 +93,12 @@ export default class ObjectModel extends Component {
                   </tr>
               }
               {
-                !(properties && properties.size) ? null : properties.entrySeq().map(
+                !(properties && properties.size) ? null : properties.entrySeq().filter(
+                    ([, value]) => {
+                      return (!value.get("readOnly") || includeReadOnly) &&
+                        (!value.get("writeOnly") || includeWriteOnly)
+                    }
+                ).map(
                     ([key, value]) => {
                       let isDeprecated = isOAS3() && value.get("deprecated")
                       let isRequired = List.isList(requiredProperties) && requiredProperties.contains(key)

@@ -15,7 +15,9 @@ export default class ArrayModel extends Component {
     required: PropTypes.bool,
     expandDepth: PropTypes.number,
     specPath: ImPropTypes.list.isRequired,
-    depth: PropTypes.number
+    depth: PropTypes.number,
+    includeReadOnly: PropTypes.bool,
+    includeWriteOnly: PropTypes.bool,
   }
 
   render(){
