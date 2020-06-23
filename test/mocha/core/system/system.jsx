@@ -34,7 +34,7 @@ describe("bound system", function(){
       })
 
       // When
-      var action = system.getSystem().joshActions.simple(1)
+      let action = system.getSystem().joshActions.simple(1)
       expect(action).toEqual({
         type: "newSimple"
       })
@@ -65,7 +65,7 @@ describe("bound system", function(){
       })
 
       // When
-      var action = system.getSystem().joshActions.simple(1)
+      let action = system.getSystem().joshActions.simple(1)
       expect(action).toEqual({
         type: "newSimple",
         oriActionResult: { type: "simple" },
@@ -123,7 +123,7 @@ describe("bound system", function(){
       })
 
       // When
-      var action = system.getSystem().kyleActions.simple(1)
+      let action = system.getSystem().kyleActions.simple(1)
       expect(action).toEqual({
         type: "simple",
         firstWrap: true,
@@ -178,7 +178,7 @@ describe("bound system", function(){
       })
 
       // When
-      var action = system.getSystem().kyleActions.simple(1)
+      let action = system.getSystem().kyleActions.simple(1)
       expect(action.type).toEqual("one-two-three")
 
     })
@@ -257,7 +257,7 @@ describe("bound system", function(){
       })
 
       // When
-      var action = system.getSystem().kyleActions.simple(1)
+      let action = system.getSystem().kyleActions.simple(1)
       expect(action.type).toEqual("called")
 
     })
@@ -307,7 +307,7 @@ describe("bound system", function(){
       })
 
       // When
-      var res = system.getSystem().joshSelectors.simple(1)
+      let res = system.getSystem().joshSelectors.simple(1)
       expect(res).toEqual({
         state: fromJS({
           one: 1
@@ -340,7 +340,7 @@ describe("bound system", function(){
         })
 
         // When
-        var res = system.getSystem().joshSelectors.advanced(1)
+        let res = system.getSystem().joshSelectors.advanced(1)
         expect(res).toEqual("hi")
 
       })
@@ -380,7 +380,7 @@ describe("bound system", function(){
         })
 
         // When
-        var res = system.getSystem().dogeSelectors.wow(1)
+        let res = system.getSystem().dogeSelectors.wow(1)
         expect(res).toEqual("original wrapper")
 
       })
@@ -479,7 +479,7 @@ describe("bound system", function(){
       })
 
       // When
-      var Component = system.getSystem().getComponent("test")
+      let Component = system.getSystem().getComponent("test")
       const renderedComponent = render(<Component name="Test" />)
       expect(renderedComponent.text()).toEqual("Test component")
     })
@@ -525,7 +525,7 @@ describe("bound system", function(){
       })
 
       // When
-      var Component = system.getSystem().getComponent("ContainerComponent", true)
+      let Component = system.getSystem().getComponent("ContainerComponent", true)
       const renderedComponent = render(
         <Provider store={system.getStore()}>
           <Component fromOwnProps="and this came from my own props" />
@@ -578,7 +578,7 @@ describe("bound system", function(){
       })
 
       // When
-      var Component = system.getSystem().getComponent("ContainerComponent", true)
+      let Component = system.getSystem().getComponent("ContainerComponent", true)
       const renderedComponent = render(
         <Provider store={system.getStore()}>
           <Component fromOwnProps="and this came from my own props" />
@@ -613,7 +613,7 @@ describe("bound system", function(){
       })
 
       // When
-      var res = system.getSystem().wow()
+      let res = system.getSystem().wow()
       expect(res).toEqual("so selective")
     })
     it("should call a preset plugin's `afterLoad` method after the plugin is loaded", function() {
@@ -640,7 +640,7 @@ describe("bound system", function(){
       })
 
       // When
-      var res = system.getSystem().wow()
+      let res = system.getSystem().wow()
       expect(res).toEqual("so selective")
     })
     it("should call a function preset plugin's `afterLoad` method after the plugin is loaded", function() {
@@ -669,7 +669,7 @@ describe("bound system", function(){
       })
 
       // When
-      var res = system.getSystem().wow()
+      let res = system.getSystem().wow()
       expect(res).toEqual("so selective")
     })
     it("should call a registered plugin's `afterLoad` method after the plugin is loaded", function() {
@@ -696,7 +696,7 @@ describe("bound system", function(){
       system.register([MyPlugin])
 
       // When
-      var res = system.getSystem().wow()
+      let res = system.getSystem().wow()
       expect(res).toEqual("so selective")
     })
   })
@@ -726,7 +726,7 @@ describe("bound system", function(){
       })
 
       // When
-      var res = system.getSystem().wow()
+      let res = system.getSystem().wow()
       expect(res).toEqual("so selective")
     })
   })
@@ -757,7 +757,7 @@ describe("bound system", function(){
       // When
       expect(function() {
         system.register([ThrowyPlugin])
-        // var resSystem = system.getSystem()
+        // let resSystem = system.getSystem()
       }).toNotThrow()
     })
 
@@ -934,7 +934,7 @@ describe("bound system", function(){
         })
 
         // When
-        var Component = system.getSystem().getComponent("BrokenComponent")
+        let Component = system.getSystem().getComponent("BrokenComponent")
         const renderedComponent = render(<Component />)
 
         // Then
@@ -962,7 +962,7 @@ describe("bound system", function(){
         })
 
         // When
-        var Component = system.getSystem().getComponent("BrokenComponent")
+        let Component = system.getSystem().getComponent("BrokenComponent")
         const renderedComponent = render(<Component />)
 
         // Then
@@ -985,7 +985,7 @@ describe("bound system", function(){
         })
 
         // When
-        var Component = system.getSystem().getComponent("BrokenComponent")
+        let Component = system.getSystem().getComponent("BrokenComponent")
         const renderedComponent = render(<Component />)
 
         // Then
@@ -1013,7 +1013,7 @@ describe("bound system", function(){
         })
 
         // When
-        var Component = system.getSystem().getComponent("BrokenComponent", true)
+        let Component = system.getSystem().getComponent("BrokenComponent", true)
         const renderedComponent = render(
           <Provider store={system.getStore()}>
             <Component />
