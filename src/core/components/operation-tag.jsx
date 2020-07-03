@@ -51,8 +51,8 @@ export default class OperationTag extends React.Component {
 
     let tagDescription = tagObj.getIn(["tagDetails", "description"], null)
     let tagExternalDocsDescription = tagObj.getIn(["tagDetails", "externalDocs", "description"])
-    let tagExternalDocsUrl = tagObj.getIn(["tagDetails", "externalDocs", "url"])
-    tagExternalDocsUrl = buildUrl( tagExternalDocsUrl, oas3Selectors.selectedServer() )
+    let rawTagExternalDocsUrl = tagObj.getIn(["tagDetails", "externalDocs", "url"])
+    let tagExternalDocsUrl = buildUrl( rawTagExternalDocsUrl, oas3Selectors.selectedServer() )
 
     let isShownKey = ["operations-tag", tag]
     let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")
