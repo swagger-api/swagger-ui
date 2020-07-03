@@ -110,7 +110,7 @@ export default class Info extends React.Component {
     let version = info.get("version")
     let description = info.get("description")
     let title = info.get("title")
-    let termsOfService = buildUrl(info.get("termsOfService"), selectedServer)
+    let termsOfServiceUrl = buildUrl(info.get("termsOfService"), selectedServer)
     let contact = info.get("contact")
     let license = info.get("license")
     let { url:externalDocsUrl, description:externalDocsDescription } = (externalDocs || fromJS({})).toJS()
@@ -138,7 +138,7 @@ export default class Info extends React.Component {
 
         {
           termsOfService && <div className="info__tos">
-            <Link target="_blank" href={ sanitizeUrl(termsOfService) }>Terms of service</Link>
+            <Link target="_blank" href={ sanitizeUrl(termsOfServiceUrl) }>Terms of service</Link>
           </div>
         }
 
