@@ -113,8 +113,9 @@ export default class Info extends React.Component {
     let termsOfServiceUrl = buildUrl(info.get("termsOfService"), selectedServer)
     let contact = info.get("contact")
     let license = info.get("license")
-    let { url:externalDocsUrl, description:externalDocsDescription } = (externalDocs || fromJS({})).toJS()
-    externalDocsUrl = buildUrl( externalDocs.url, selectedServer )
+    let rawExternalDocsUrl = externalDocs.get("url")
+    let externalDocsUrl = buildUrl( rawExternalDocsUrl, selectedServer )
+    let externalDocsDescription = externalDocs.get("description")
 
     const Markdown = getComponent("Markdown", true)
     const Link = getComponent("Link")
