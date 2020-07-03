@@ -13,7 +13,8 @@ export default class ModelCollapse extends Component {
     onToggle: PropTypes.func,
     hideSelfOnExpand: PropTypes.bool,
     layoutActions: PropTypes.object,
-    layoutSelectors: PropTypes.object.isRequired
+    layoutSelectors: PropTypes.object.isRequired,
+    specPath: PropTypes.object,
   }
 
   static defaultProps = {
@@ -21,7 +22,8 @@ export default class ModelCollapse extends Component {
     expanded: false,
     title: null,
     onToggle: () => {},
-    hideSelfOnExpand: false
+    hideSelfOnExpand: false,
+    specPath: Im.List([]),
   }
 
   constructor(props, context) {
@@ -63,11 +65,10 @@ export default class ModelCollapse extends Component {
 
   onLoad = (ref) => {
     if(ref) {
-      const name = this.props.modelName
       const scrollToKey = this.props.layoutSelectors.getScrollToKey()
 
-      if( Im.is(scrollToKey, Im.fromJS(["models", name])) ) this.toggleCollapsed()
-      this.props.layoutActions.readyToScroll(["models", name], ref.parentElement)
+      if( Im.is(scrollToKey, this.props.specPath) ) this.toggleCollapsed()
+      this.props.layoutActions.readyToScroll(this.props.specPath, ref.parentElement)
     }
   }
 

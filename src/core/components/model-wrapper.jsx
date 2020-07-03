@@ -10,6 +10,8 @@ export default class ModelWrapper extends Component {
     schema: PropTypes.object.isRequired,
     name: PropTypes.string,
     displayName: PropTypes.string,
+    fullPath: PropTypes.object,
+    specPath: PropTypes.object,
     getComponent: PropTypes.func.isRequired,
     getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
@@ -20,30 +22,30 @@ export default class ModelWrapper extends Component {
     includeWriteOnly: PropTypes.bool,
   }
 
-  getSchemaBasePath = () => {
-    const isOAS3 = this.props.specSelectors.isOAS3()
-    return isOAS3 ? ["components", "schemas"] : ["definitions"]
-  }
-
   onToggle = (name,isShown) => {
     // If this prop is present, we'll have deepLinking for it
     if(this.props.layoutActions) {
-      this.props.layoutActions.show([...this.getSchemaBasePath(), name],isShown)
+      this.props.layoutActions.show(this.props.fullPath, isShown)
     }
   }
 
   render(){
     let { getComponent, getConfigs } = this.props
     const Model = getComponent("Model")
+    const LazyResolver = getComponent("LazyResolver", true)
 
     let expanded
     if(this.props.layoutSelectors) {
       // If this is prop is present, we'll have deepLinking for it
-      expanded = this.props.layoutSelectors.isShown(["models",this.props.name])
+      expanded = this.props.layoutSelectors.isShown(this.props.fullPath)
     }
 
     return <div className="model-box">
-      <Model { ...this.props } getConfigs={ getConfigs } expanded={expanded} depth={ 1 } onToggle={ this.onToggle } expandDepth={ this.props.expandDepth || 0 }/>
+      <LazyResolver
+        specPath={this.props.specPath}
+        shouldResolve={expanded}
+        Comp={({ resolvedObj }) => (
+          <Model {...this.props} schema={resolvedObj ||this.props.schema} getConfigs={getConfigs} expanded={expanded} depth={1} onToggle={this.onToggle} expandDepth={this.props.expandDepth || 0} />)} />
     </div>
   }
 }
