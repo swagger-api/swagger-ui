@@ -1,13 +1,17 @@
-import SwaggerClient from "swagger-client"
+import resolve from "swagger-client/es/resolver"
+import { execute, buildRequest } from "swagger-client/es/execute"
+import Http, { makeHttp, serializeRes } from "swagger-client/es/http"
+import resolveSubtree from "swagger-client/es/subtree-resolver"
+import { opId } from "swagger-client/es/helpers"
 import * as configsWrapActions from "./configs-wrap-actions"
 
 export default function({ configs, getConfigs }) {
   return {
     fn: {
-      fetch: SwaggerClient.makeHttp(configs.preFetch, configs.postFetch),
-      buildRequest: SwaggerClient.buildRequest,
-      execute: SwaggerClient.execute,
-      resolve: SwaggerClient.resolve,
+      fetch: makeHttp(Http, configs.preFetch, configs.postFetch),
+      buildRequest,
+      execute,
+      resolve,
       resolveSubtree: (obj, path, opts, ...rest) => {
         if(opts === undefined) {
           const freshConfigs = getConfigs()
@@ -19,10 +23,10 @@ export default function({ configs, getConfigs }) {
           }
         }
 
-        return SwaggerClient.resolveSubtree(obj, path, opts, ...rest)
+        return resolveSubtree(obj, path, opts, ...rest)
       },
-      serializeRes: SwaggerClient.serializeRes,
-      opId: SwaggerClient.helpers.opId
+      serializeRes,
+      opId
     },
     statePlugins: {
       configs: {
