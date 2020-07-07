@@ -59,7 +59,7 @@ export default class Models extends Component {
     const JumpToPath = getComponent("JumpToPath")
 
     return <section className={ showModels ? "models is-open" : "models"} ref={this.onLoadModels}>
-      <h4 onClick={() => layoutActions.show("models", !showModels)}>
+      <h4 onClick={() => layoutActions.show(specPathBase, !showModels)}>
         <span>{isOAS3 ? "Schemas" : "Models" }</span>
         <svg width="20" height="20">
           <use xlinkHref={showModels ? "#large-arrow-down" : "#large-arrow"} />
