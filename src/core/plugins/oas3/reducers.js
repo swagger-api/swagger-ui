@@ -1,7 +1,6 @@
 import {
   UPDATE_SELECTED_SERVER,
   UPDATE_REQUEST_BODY_VALUE,
-  UPDATE_REQUEST_BODY_INCLUSION,
   UPDATE_ACTIVE_EXAMPLES_MEMBER,
   UPDATE_REQUEST_CONTENT_TYPE,
   UPDATE_SERVER_VARIABLE_VALUE,
@@ -16,10 +15,6 @@ export default {
   [UPDATE_REQUEST_BODY_VALUE]: (state, { payload: { value, pathMethod } } ) =>{
     let [path, method] = pathMethod
     return state.setIn( [ "requestData", path, method, "bodyValue" ], value)
-  },
-  [UPDATE_REQUEST_BODY_INCLUSION]: (state, { payload: { value, pathMethod, name } } ) =>{
-    let [path, method] = pathMethod
-    return state.setIn( [ "requestData", path, method, "bodyInclusion", name ], value)
   },
   [UPDATE_ACTIVE_EXAMPLES_MEMBER]: (state, { payload: { name, pathMethod, contextType, contextName } } ) =>{
     let [path, method] = pathMethod
