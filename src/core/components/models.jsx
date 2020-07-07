@@ -84,7 +84,7 @@ export default class Models extends Component {
             if( isShown && (schema.size === 0 && rawSchema.size > 0) ) {
               // Firing an action in a container render is not great,
               // but it works for now.
-              this.props.specActions.requestResolvedSubtree([...this.getSchemaBasePath(), name])
+              this.props.specActions.requestResolvedSubtree(fullPath)
             }
 
             const content = <ModelWrapper name={ name }
