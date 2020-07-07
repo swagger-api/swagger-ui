@@ -1,4 +1,4 @@
-import { OrderedMap, Map } from "immutable"
+import { OrderedMap } from "immutable"
 import { isOAS3 as isOAS3Helper } from "./helpers"
 
 
@@ -23,11 +23,6 @@ export const selectedServer = onlyOAS3((state, namespace) => {
 
 export const requestBodyValue = onlyOAS3((state, path, method) => {
     return state.getIn(["requestData", path, method, "bodyValue"]) || null
-  }
-)
-
-export const requestBodyInclusionSetting = onlyOAS3((state, path, method) => {
-    return state.getIn(["requestData", path, method, "bodyInclusion"]) || Map()
   }
 )
 

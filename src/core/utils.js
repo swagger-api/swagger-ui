@@ -956,15 +956,3 @@ function b64toB64UrlEncoded(str) {
     .replace(/\//g, "_")
     .replace(/=/g, "")
 }
-
-export const isEmptyValue = (value) => {
-  if (!value) {
-    return true
-  }
-
-  if (isImmutable(value) && value.isEmpty()) {
-    return true
-  }
-
-  return false
-}
