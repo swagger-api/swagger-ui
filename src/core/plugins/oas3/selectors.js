@@ -22,7 +22,9 @@ export const selectedServer = onlyOAS3((state, namespace) => {
 )
 
 export const requestBodyValue = onlyOAS3((state, path, method) => {
-    return state.getIn(["requestData", path, method, "bodyValue"]) || null
+    let requestContentType = state.getIn(["requestData", path, method, "requestContentType"])
+
+    return state.getIn(["requestData", path, method, requestContentType, "bodyValue"]) || null
   }
 )
 

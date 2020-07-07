@@ -14,7 +14,9 @@ export default {
   },
   [UPDATE_REQUEST_BODY_VALUE]: (state, { payload: { value, pathMethod } } ) =>{
     let [path, method] = pathMethod
-    return state.setIn( [ "requestData", path, method, "bodyValue" ], value)
+    let requestContentType = state.getIn([ "requestData", path, method, "requestContentType"])
+
+    return state.setIn( [ "requestData", path, method, requestContentType, "bodyValue" ], value)
   },
   [UPDATE_ACTIVE_EXAMPLES_MEMBER]: (state, { payload: { name, pathMethod, contextType, contextName } } ) =>{
     let [path, method] = pathMethod
