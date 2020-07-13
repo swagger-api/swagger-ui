@@ -48,7 +48,6 @@ export default class Models extends Component {
     let { docExpansion, defaultModelsExpandDepth } = getConfigs()
     if (!definitions.size || defaultModelsExpandDepth < 0) return null
 
-    // let showModels = layoutSelectors.isShown("models", defaultModelsExpandDepth > 0 && docExpansion !== "none")
     const specPathBase = this.getSchemaBasePath()
     let showModels = layoutSelectors.isShown(specPathBase, defaultModelsExpandDepth > 0 && docExpansion !== "none")
     const isOAS3 = specSelectors.isOAS3()
