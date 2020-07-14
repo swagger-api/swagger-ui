@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
+import ImPropTypes from "react-immutable-proptypes"
 import Im from "immutable"
 
 export default class ModelCollapse extends Component {
@@ -14,7 +15,7 @@ export default class ModelCollapse extends Component {
     hideSelfOnExpand: PropTypes.bool,
     layoutActions: PropTypes.object,
     layoutSelectors: PropTypes.object.isRequired,
-    specPath: PropTypes.object,
+    specPath: ImPropTypes.list.isRequired,
   }
 
   static defaultProps = {

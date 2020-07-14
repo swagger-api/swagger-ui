@@ -1,17 +1,15 @@
 import React, { Component, } from "react"
 import PropTypes from "prop-types"
-//import layoutActions from "actions/layout"
-
+import ImPropTypes from "react-immutable-proptypes"
 
 export default class ModelWrapper extends Component {
-
 
   static propTypes = {
     schema: PropTypes.object.isRequired,
     name: PropTypes.string,
     displayName: PropTypes.string,
-    fullPath: PropTypes.object,
-    specPath: PropTypes.object,
+    fullPath: PropTypes.array.isRequired,
+    specPath: ImPropTypes.list.isRequired,
     getComponent: PropTypes.func.isRequired,
     getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
