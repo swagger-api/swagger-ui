@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import { Map, OrderedMap, List } from "immutable"
-import { getCommonExtensions, getSampleSchema, stringify } from "core/utils"
+import { getCommonExtensions, getSampleSchema, stringify, isEmptyValue } from "core/utils"
 
 function getDefaultRequestBodyValue(requestBody, mediaType, activeExamplesKey) {
   let mediaTypeValue = requestBody.getIn(["content", mediaType])
@@ -37,6 +37,7 @@ function getDefaultRequestBodyValue(requestBody, mediaType, activeExamplesKey) {
 const RequestBody = ({
   requestBody,
   requestBodyValue,
+  requestBodyInclusionSetting,
   getComponent,
   getConfigs,
   specSelectors,
@@ -45,6 +46,7 @@ const RequestBody = ({
   isExecute,
   specPath,
   onChange,
+  onChangeIncludeEmpty,
   activeExamplesKey,
   updateActiveExamplesKey,
 }) => {
@@ -58,6 +60,7 @@ const RequestBody = ({
   const HighlightCode = getComponent("highlightCode")
   const ExamplesSelectValueRetainer = getComponent("ExamplesSelectValueRetainer")
   const Example = getComponent("Example")
+  const ParameterIncludeEmpty = getComponent("ParameterIncludeEmpty")
 
   const { showCommonExtensions } = getConfigs()
 
@@ -155,17 +158,26 @@ const RequestBody = ({
                       </td>
                       <td className="parameters-col_description">
                         <Markdown source={ description }></Markdown>
-                        {isExecute ? <div><JsonSchemaForm
-                          fn={fn}
-                          dispatchInitialValue={!isFile}
-                          schema={prop}
-                          description={key}
-                          getComponent={getComponent}
-                          value={currentValue === undefined ? initialValue : currentValue}
-                          onChange={(value) => {
-                            onChange(value, [key])
-                          }}
-                        /></div> : null }
+                        {isExecute ? <div>
+                          <JsonSchemaForm
+                            fn={fn}
+                            dispatchInitialValue={!isFile}
+                            schema={prop}
+                            description={key}
+                            getComponent={getComponent}
+                            value={currentValue === undefined ? initialValue : currentValue}
+                            onChange={(value) => {
+                              onChange(value, [key])
+                            }}
+                          />
+                          {required ? null : (
+                            <ParameterIncludeEmpty
+                              onChange={(value) => onChangeIncludeEmpty(key, value)}
+                              isIncluded={requestBodyInclusionSetting.get(key)}
+                              isDisabled={!isEmptyValue(currentValue)}
+                            />
+                          )}
+                        </div> : null }
                       </td>
                       </tr>
             })
@@ -243,6 +255,7 @@ const RequestBody = ({
 RequestBody.propTypes = {
   requestBody: ImPropTypes.orderedMap.isRequired,
   requestBodyValue: ImPropTypes.orderedMap.isRequired,
+  requestBodyInclusionSetting: ImPropTypes.Map.isRequired,
   getComponent: PropTypes.func.isRequired,
   getConfigs: PropTypes.func.isRequired,
   fn: PropTypes.object.isRequired,
@@ -250,6 +263,7 @@ RequestBody.propTypes = {
   contentType: PropTypes.string,
   isExecute: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
+  onChangeIncludeEmpty: PropTypes.func.isRequired,
   specPath: PropTypes.array.isRequired,
   activeExamplesKey: PropTypes.string,
   updateActiveExamplesKey: PropTypes.func,
