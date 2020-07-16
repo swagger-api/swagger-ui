@@ -22,7 +22,7 @@ export default class ParameterIncludeEmpty extends Component {
 
   componentDidMount() {
     const { isIncludedOptions, onChange } = this.props
-    const { shouldDispatchInit, defaultValue, key } = isIncludedOptions
+    const { shouldDispatchInit, defaultValue } = isIncludedOptions
     if (shouldDispatchInit) {
       onChange(defaultValue)
     }
