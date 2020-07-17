@@ -1,28 +1,18 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import { highlight } from "core/utils"
+import {SyntaxHighlighter, getStyle} from "core/syntax-highlighting"
+import get from "lodash/get"
 import saveAs from "js-file-download"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 
 export default class HighlightCode extends Component {
   static propTypes = {
     value: PropTypes.string.isRequired,
+    getConfigs: PropTypes.func.isRequired,
     className: PropTypes.string,
     downloadable: PropTypes.bool,
     fileName: PropTypes.string,
     canCopy: PropTypes.bool
-  }
-
-  componentDidMount() {
-    highlight(this.el)
-  }
-
-  componentDidUpdate() {
-    highlight(this.el)
-  }
-
-  initializeComponent = (c) => {
-    this.el = c
   }
 
   downloadText = () => {
@@ -49,8 +39,21 @@ export default class HighlightCode extends Component {
   }
 
   render () {
-    let { value, className, downloadable, canCopy } = this.props
+    let { value, className, downloadable, getConfigs, canCopy } = this.props
+
+    const config = getConfigs ? getConfigs() : {syntaxHighlight: {activated: true, theme: "agate"}}
+
     className = className || ""
+
+    const codeBlock = get(config, "syntaxHighlight.activated")
+      ? <SyntaxHighlighter
+          className={className + " microlight"}
+          onWheel={this.preventYScrollingBeyondElement}
+          style={getStyle(get(config, "syntaxHighlight.theme"))}
+          >
+          {value}
+        </SyntaxHighlighter>
+      : <pre onWheel={this.preventYScrollingBeyondElement} className={className + " microlight"}>{value}</pre>
 
     return (
       <div className="highlight-code">
@@ -66,12 +69,7 @@ export default class HighlightCode extends Component {
           </div>
         }
 
-        <pre
-          ref={this.initializeComponent}
-          onWheel={this.preventYScrollingBeyondElement}
-          className={className + " microlight"}>
-          {value}
-        </pre>
+        { codeBlock }
       </div>
     )
   }

@@ -74,9 +74,9 @@ describe("OpenAPI 3.0 Allow Empty Values in Request Body", () => {
       .get(".execute.opblock-control__btn")
       .click()
       // cURL component
-      .get(".responses-wrapper .copy-paste")
+      .get(".responses-wrapper .curl-command")
       .should("exist")
-      .get(".responses-wrapper .copy-paste textarea")
+      .get(".responses-wrapper .curl-command span")
       .should("contains.text", "tags=&status=")
   })
 
@@ -101,9 +101,9 @@ describe("OpenAPI 3.0 Allow Empty Values in Request Body", () => {
       .get(".execute.opblock-control__btn")
       .click()
       // cURL component
-      .get(".responses-wrapper .copy-paste")
+      .get(".responses-wrapper .curl-command")
       .should("exist")
-      .get(".responses-wrapper .copy-paste textarea")
+      .get(".responses-wrapper .curl-command span")
       .should("contains.text", "&status=")
       .should("not.contains.text", "tags=")
   })
@@ -131,9 +131,9 @@ describe("OpenAPI 3.0 Allow Empty Values in Request Body", () => {
       .get(".execute.opblock-control__btn")
       .click()
       // cURL component
-      .get(".responses-wrapper .copy-paste")
+      .get(".responses-wrapper .curl-command")
       .should("exist")
-      .get(".responses-wrapper .copy-paste textarea")
+      .get(".responses-wrapper .curl-command span")
       .should("not.contains.text", "tags=")
       .should("not.contains.text", "status=")
   })
