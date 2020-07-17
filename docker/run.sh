@@ -36,6 +36,7 @@ if [ "$SWAGGER_JSON_URL" ]; then
 fi
 
 if [[ -f "$SWAGGER_JSON" ]]; then
+  cp -s "$SWAGGER_JSON" "$NGINX_ROOT"
   REL_PATH="./$(basename $SWAGGER_JSON)"
 
   if [[ -z "$SWAGGER_ROOT" ]]; then

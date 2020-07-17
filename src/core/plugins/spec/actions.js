@@ -406,7 +406,19 @@ export const executeRequest = (req) =>
       if(isJSONObject(requestBody)) {
         req.requestBody = JSON.parse(requestBody)
       } else if(requestBody && requestBody.toJS) {
-        req.requestBody = requestBody.filter((value, key) => !isEmptyValue(value) || requestBodyInclusionSetting.get(key)).toJS()
+        req.requestBody = requestBody
+          .map(
+            (val) => {
+              if (Map.isMap(val)) {
+                return val.get("value")
+              }
+              return val
+            }
+          )
+          .filter(
+            (value, key) => !isEmptyValue(value) || requestBodyInclusionSetting.get(key)
+          )
+          .toJS()
       } else{
         req.requestBody = requestBody
       }
