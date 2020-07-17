@@ -38,6 +38,7 @@ const RequestBody = ({
   requestBody,
   requestBodyValue,
   requestBodyInclusionSetting,
+  requestBodyErrors,
   getComponent,
   getConfigs,
   specSelectors,
@@ -88,6 +89,7 @@ const RequestBody = ({
   const handleExamplesSelect = (key /*, { isSyntheticChange } */) => {
     updateActiveExamplesKey(key)
   }
+  requestBodyErrors = List.isList(requestBodyErrors) ? requestBodyErrors : List()
 
   if(!mediaTypeValue.size) {
     return null
@@ -138,7 +140,8 @@ const RequestBody = ({
               const type = prop.get("type")
               const format = prop.get("format")
               const description = prop.get("description")
-              const currentValue = requestBodyValue.get(key)
+              const currentValue = requestBodyValue.getIn([key, "value"])
+              const currentErrors = requestBodyValue.getIn([key, "errors"]) || requestBodyErrors
 
               let initialValue = prop.get("default") || prop.get("example") || ""
 
@@ -179,6 +182,8 @@ const RequestBody = ({
                             description={key}
                             getComponent={getComponent}
                             value={currentValue === undefined ? initialValue : currentValue}
+                            required = { required }
+                            errors = { currentErrors }
                             onChange={(value) => {
                               onChange(value, [key])
                             }}
@@ -223,6 +228,7 @@ const RequestBody = ({
         <div>
           <RequestBodyEditor
             value={requestBodyValue}
+            errors={requestBodyErrors}
             defaultValue={getDefaultRequestBodyValue(
               requestBody,
               contentType,
@@ -270,6 +276,7 @@ RequestBody.propTypes = {
   requestBody: ImPropTypes.orderedMap.isRequired,
   requestBodyValue: ImPropTypes.orderedMap.isRequired,
   requestBodyInclusionSetting: ImPropTypes.Map.isRequired,
+  requestBodyErrors: ImPropTypes.list.isRequired,
   getComponent: PropTypes.func.isRequired,
   getConfigs: PropTypes.func.isRequired,
   fn: PropTypes.object.isRequired,

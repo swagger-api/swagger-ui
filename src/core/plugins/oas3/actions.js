@@ -8,6 +8,8 @@ export const UPDATE_ACTIVE_EXAMPLES_MEMBER = "oas3_set_active_examples_member"
 export const UPDATE_REQUEST_CONTENT_TYPE = "oas3_set_request_content_type"
 export const UPDATE_RESPONSE_CONTENT_TYPE = "oas3_set_response_content_type"
 export const UPDATE_SERVER_VARIABLE_VALUE = "oas3_set_server_variable_value"
+export const SET_REQUEST_BODY_VALIDATE_ERROR = "oas3_set_request_body_validate_error"
+export const CLEAR_REQUEST_BODY_VALIDATE_ERROR = "oas3_clear_request_body_validate_error"
 
 export function setSelectedServer (selectedServerUrl, namespace) {
   return {
@@ -55,5 +57,26 @@ export function setServerVariableValue ({ server, namespace, key, val }) {
   return {
     type: UPDATE_SERVER_VARIABLE_VALUE,
     payload: { server, namespace, key, val }
+  }
+}
+
+export const setRequestBodyValidateError = ({ path, method, validationErrors }) => {
+  return {
+    type: SET_REQUEST_BODY_VALIDATE_ERROR,
+    payload: { path, method, validationErrors }
+  }
+}
+
+export const clearRequestBodyValidateError = ({ path, method }) => {
+  return {
+    type: CLEAR_REQUEST_BODY_VALIDATE_ERROR,
+    payload: { path, method }
+  }
+}
+
+export const initRequestBodyValidateError = ({ pathMethod } ) => {
+  return {
+    type: CLEAR_REQUEST_BODY_VALIDATE_ERROR,
+    payload: { path: pathMethod[0], method: pathMethod[1] }
   }
 }
