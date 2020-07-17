@@ -53,6 +53,19 @@ const RequestBody = ({
   const handleFile = (e) => {
     onChange(e.target.files[0])
   }
+  const setIsIncludedOptions = (key) => {
+    let options = {
+      key,
+      shouldDispatchInit: false,
+      defaultValue: true
+    }
+    let currentInclusion = requestBodyInclusionSetting.get(key, "no value")
+    if (currentInclusion === "no value") {
+      options.shouldDispatchInit = true
+      // future: can get/set defaultValue from a config setting
+    }
+    return options
+  }
 
   const Markdown = getComponent("Markdown", true)
   const ModelExample = getComponent("modelExample")
@@ -173,7 +186,8 @@ const RequestBody = ({
                           {required ? null : (
                             <ParameterIncludeEmpty
                               onChange={(value) => onChangeIncludeEmpty(key, value)}
-                              isIncluded={requestBodyInclusionSetting.get(key)}
+                              isIncluded={requestBodyInclusionSetting.get(key) || false}
+                              isIncludedOptions={setIsIncludedOptions(key)}
                               isDisabled={!isEmptyValue(currentValue)}
                             />
                           )}
