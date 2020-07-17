@@ -23,7 +23,7 @@ describe("OpenAPI 3.0 Validation for Required Request Body and Request Body Fiel
         .get(".opblock-body .opblock-section .opblock-section-request-body .parameters:nth-child(1) > .parameters-col_description input")
         .should("have.class", "invalid")
         // cURL component should not exist
-        .get(".responses-wrapper .copy-paste")
+        .get(".responses-wrapper .curl-command")
         .should("not.exist")
     })
     it("on execute, if value exists, should NOT render class 'invalid' and SHOULD render cURL component", () => {
@@ -43,7 +43,7 @@ describe("OpenAPI 3.0 Validation for Required Request Body and Request Body Fiel
         .click()
         .should("not.have.class", "invalid")
         // cURL component should exist
-        .get(".responses-wrapper .copy-paste")
+        .get(".responses-wrapper .curl-command")
         .should("exist")
     })
   })
@@ -69,7 +69,7 @@ describe("OpenAPI 3.0 Validation for Required Request Body and Request Body Fiel
         .get(".opblock-body .opblock-section .opblock-section-request-body .body-param textarea")
         .should("have.class", "invalid")
         // cURL component should not exist
-        .get(".responses-wrapper .copy-paste")
+        .get(".responses-wrapper .curl-command")
         .should("not.exist")
     })
     it("on execute, if value exists, even if just single space, should NOT render class 'invalid' and SHOULD render cURL component that contains the single space", () => {
@@ -91,10 +91,10 @@ describe("OpenAPI 3.0 Validation for Required Request Body and Request Body Fiel
         .get(".opblock-body .opblock-section .opblock-section-request-body .body-param textarea")
         .should("not.have.class", "invalid")
         // cURL component should exist
-        .get(".responses-wrapper .copy-paste")
+        .get(".responses-wrapper .curl-command")
         .should("exist")
-        .get(".responses-wrapper .copy-paste textarea")
-        .should("contains.text", "-d \" \"")
+        .get(".responses-wrapper .curl-command span")
+        .should("contains.text", "\" \"")
     })
   })
 
@@ -125,7 +125,7 @@ describe("OpenAPI 3.0 Validation for Required Request Body and Request Body Fiel
         .get(".opblock-body .opblock-section .opblock-section-request-body .parameters:nth-child(2) > .parameters-col_description input")
         .should("have.class", "invalid")
         // cURL component should not exist
-        .get(".responses-wrapper .copy-paste")
+        .get(".responses-wrapper .curl-command")
         .should("not.exist")
     })
     it("on execute, if all values exist, even if array exists but is empty, should NOT render class 'invalid' and SHOULD render cURL component", () => {
@@ -152,7 +152,7 @@ describe("OpenAPI 3.0 Validation for Required Request Body and Request Body Fiel
         .should("have.value", "")
         .should("not.have.class", "invalid")
         // cURL component should exist
-        .get(".responses-wrapper .copy-paste")
+        .get(".responses-wrapper .curl-command")
         .should("exist")
     })
   })
