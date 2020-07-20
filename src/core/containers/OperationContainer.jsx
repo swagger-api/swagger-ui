@@ -1,10 +1,8 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
-import { helpers } from "swagger-client"
+import { opId } from "swagger-client/es/helpers"
 import { Iterable, fromJS, Map } from "immutable"
-
-const { opId } = helpers
 
 export default class OperationContainer extends PureComponent {
   constructor(props, context) {

@@ -187,6 +187,7 @@ export default class Parameters extends Component {
                   contentTypes={ requestBody.get("content", List()).keySeq() }
                   onChange={(value) => {
                     oas3Actions.setRequestContentType({ value, pathMethod })
+                    oas3Actions.initRequestBodyValidateError({ pathMethod })
                   }}
                   className="body-param-content-type" />
               </label>
@@ -197,6 +198,7 @@ export default class Parameters extends Component {
                 requestBody={requestBody}
                 requestBodyValue={oas3Selectors.requestBodyValue(...pathMethod)}
                 requestBodyInclusionSetting={oas3Selectors.requestBodyInclusionSetting(...pathMethod)}
+                requestBodyErrors={oas3Selectors.requestBodyErrors(...pathMethod)}
                 isExecute={isExecute}
                 activeExamplesKey={oas3Selectors.activeExamplesMember(
                   ...pathMethod,

@@ -115,6 +115,12 @@ export default function buildConfig(
       resolve: {
         modules: [path.join(projectBasePath, "./src"), "node_modules"],
         extensions: [".web.js", ".js", ".jsx", ".json", ".less"],
+        // these aliases make sure that we don't bundle same libraries twice
+        // when the versions of these libraries diverge between swagger-js and swagger-ui
+        alias: {
+          "@babel/runtime-corejs2": path.resolve(__dirname, '..', 'node_modules/@babel/runtime-corejs2'),
+          "js-yaml": path.resolve(__dirname, '..', 'node_modules/js-yaml')
+        },
       },
 
       // If we're mangling, size is a concern -- so use trace-only sourcemaps
@@ -127,8 +133,8 @@ export default function buildConfig(
 
       performance: {
         hints: "error",
-        maxEntrypointSize: 1024000,
-        maxAssetSize: 1024000,
+        maxEntrypointSize: 1073152, // 1048 KiB,
+        maxAssetSize: 1073152,
       },
 
       optimization: {

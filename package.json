@@ -1,6 +1,6 @@
 {
   "name": "swagger-ui",
-  "version": "3.28.0",
+  "version": "3.30.0",
   "main": "dist/swagger-ui.js",
   "homepage": "https://github.com/swagger-api/swagger-ui",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
@@ -50,7 +50,7 @@
     "start": "npm-run-all --parallel serve-static open-static"
   },
   "dependencies": {
-    "@babel/runtime-corejs2": "^7.5.5",
+    "@babel/runtime-corejs2": "^7.10.4",
     "@braintree/sanitize-url": "^4.0.0",
     "@kyleshockey/object-assign-deep": "^0.4.2",
     "@kyleshockey/xml": "^1.0.2",
@@ -77,13 +77,14 @@
     "react-inspector": "^2.3.0",
     "react-motion": "^0.5.2",
     "react-redux": "^4.x.x",
+    "react-syntax-highlighter": "=12.2.1",
     "redux": "^3.x.x",
     "redux-immutable": "3.1.0",
     "remarkable": "^2.0.1",
     "reselect": "^4.0.0",
     "serialize-error": "^2.1.0",
     "sha.js": "^2.4.11",
-    "swagger-client": "=3.10.9",
+    "swagger-client": "=3.10.12",
     "url-parse": "^1.4.7",
     "xml-but-prettier": "^1.0.1",
     "zenscroll": "^4.0.2"
