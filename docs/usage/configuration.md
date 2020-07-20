@@ -61,6 +61,9 @@ Parameter name | Docker variable | Description
 <a name="tagSorter"></a>`tagsSorter` | _Unavailable_ | `Function=(a => a)`. Apply a sort to the tag list of each API. It can be 'alpha' (sort by paths alphanumerically) or a function (see [Array.prototype.sort()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) to learn how to write a sort function). Two tag name strings are passed to the sorter for each pass. Default is the order determined by Swagger UI.
 <a name="useUnsafeMarkdown"></a>`useUnsafeMarkdown` | `USE_UNSAFE_MARKDOWN` | `Boolean=false`. When enabled, sanitizer will leave `style`, `class` and `data-*` attributes untouched on all HTML Elements declared inside markdown strings. This parameter is **Deprecated** and will be removed in `4.0.0`.
 <a name="onComplete"></a>`onComplete` | _Unavailable_ | `Function=NOOP`. Provides a mechanism to be notified when Swagger UI has finished rendering a newly provided definition.
+<a name="syntaxHighlight"></a>`syntaxHighlight` | _Unavailable_ | Set to false to deactivate syntax highlighting of payloads and curl command, can be otherwise an object with `activate` and `theme` properties.
+<a name="syntaxHighlight.activate"></a>`syntaxHighlight.activate` | _Unavailable_ | `Boolean=true`. Whether the syntax highlight should be activated or not.
+<a name="syntaxHighlight.theme"></a>`syntaxHighlight.theme` | _Unavailable_ | `String=["agate"*, "arta", "monokai", "nord", "obsidian", "tomorrow-night]`. [Highlight.js](https://highlightjs.org/static/demo/) syntax coloring theme to use. (only these 6 styles are available).
 
 ##### Network
 
