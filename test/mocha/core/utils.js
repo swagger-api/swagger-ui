@@ -24,6 +24,7 @@ import {
   getCommonExtensions,
   sanitizeUrl,
   isAbsoluteUrl,
+  buildUrl,
   requiresValidationURL,
   extractFileNameFromContentDispositionHeader,
   deeplyStripKey,
@@ -1357,6 +1358,15 @@ describe("utils", function() {
     it("check if url is not absolute", function() {
       expect(!!isAbsoluteUrl("/relative-path")).toEqual(false)
       expect(!!isAbsoluteUrl("/trailing-slash-relative-path/")).toEqual(false)
+    })
+  })
+
+  describe("buildUrl", function() {
+    it("check if url is absolute", function() {
+      expect(buildUrl("/relative-path-with-leading-slash", "http://example.com")).toBe("http://example.com/relative-path-with-leading-slash")
+      expect(buildUrl("relative-path-with-no-leading-slash", "https://example.com")).toBe("https://example.com/relative-path-with-no-leading-slash")
+      expect(buildUrl("", "https://example.com")).toBe("")
+      expect(buildUrl("https://absolute-url-example.com/path", "")).toBe("https://absolute-url-example.com/path")
     })
   })
 
