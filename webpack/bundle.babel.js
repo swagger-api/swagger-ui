@@ -31,7 +31,9 @@ const result = configBuilder(
         // display full duplicates information? (Default: `false`)
         verbose: false,
       }),
-      new LodashModuleReplacementPlugin(),
+      new LodashModuleReplacementPlugin({
+        "memoizing": true
+      }),
       new WebpackBundleSizeAnalyzerPlugin("log.bundle-sizes.swagger-ui.txt"),
     ]
   }
