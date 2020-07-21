@@ -319,4 +319,17 @@ describe("curlify", function () {
       expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"x-custom-name: multipart/form-data\" -d {\"id\":\"123\",\"file\":{\"name\":\"file.txt\",\"type\":\"text/plain\"}}")
     })
   })
+
+  it("should escape dollar signs in headers and request body", function () {
+    let req = {
+      url: "http://example.com",
+      method: "POST",
+      headers: { "X-DOLLAR": "token/123$" },
+      body: "CREATE ($props)"
+    }
+
+    let curlified = curl(Im.fromJS(req))
+
+    expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"X-DOLLAR: token/123\\$\" -d \"CREATE (\\$props)\"")
+  })
 })
