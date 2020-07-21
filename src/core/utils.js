@@ -658,6 +658,7 @@ export function requiresValidationURL(uri) {
   return true
 }
 
+
 export function getAcceptControllingResponse(responses) {
   if(!Im.OrderedMap.isOrderedMap(responses)) {
     // wrong type!
@@ -758,7 +759,7 @@ export function paramToIdentifier(param, { returnAll = false, allowHashes = true
   if (param && param.hashCode && paramIn && paramName && allowHashes) {
     generatedIdentifiers.push(`${paramIn}.${paramName}.hash-${param.hashCode()}`)
   }
-
+  
   if(paramIn && paramName) {
     generatedIdentifiers.push(`${paramIn}.${paramName}`)
   }

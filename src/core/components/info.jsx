@@ -1,9 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { fromJS } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 import { sanitizeUrl, buildUrl } from "core/utils"
-
 
 
 export class InfoBasePath extends React.Component {
