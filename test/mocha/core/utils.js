@@ -1362,11 +1362,16 @@ describe("utils", function() {
   })
 
   describe("buildUrl", function() {
-    it("check if url is absolute", function() {
-      expect(buildUrl("/relative-path-with-leading-slash", "http://example.com")).toBe("http://example.com/relative-path-with-leading-slash")
-      expect(buildUrl("relative-path-with-no-leading-slash", "https://example.com")).toBe("https://example.com/relative-path-with-no-leading-slash")
-      expect(buildUrl("", "https://example.com")).toBe("")
-      expect(buildUrl("https://absolute-url-example.com/path", "")).toBe("https://absolute-url-example.com/path")
+    it("build url from server and url provided", function() {
+
+      expect(buildUrl("/relative-url-1", "http://example.com/path")).toBe("http://example.com/relative-url-1")
+      expect(buildUrl("relative-url-2", "http://example.com/path")).toBe("http://example.com/relative-url-2")
+
+      expect(buildUrl("/relative-url-3", "http://example.com/base-path/")).toBe("http://example.com/relative-url-3")
+      expect(buildUrl("relative-url-4", "http://example.com/base-path/")).toBe("http://example.com/base-path/relative-url-4")
+
+      expect(buildUrl("/relative-url-5", "http://example.com/base-path/path")).toBe("http://example.com/relative-url-5")
+      expect(buildUrl("relative-url-6", "http://example.com/base-path/path")).toBe("http://example.com/base-path/relative-url-6")
     })
   })
 
