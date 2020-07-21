@@ -646,11 +646,9 @@ export function isAbsoluteUrl(url) {
 
 export function buildUrl(url="", selectedServer="") {
   if(!url) return ""
-  if(isAbsoluteUrl(url) || !selectedServer) return url
+  if(isAbsoluteUrl(url) || !isAbsoluteUrl(selectedServer)) return url
 
-  const selectedServerObj = new URL(selectedServer)
-  if(url.startsWith("/")) return `${selectedServerObj.protocol}${selectedServerObj.host}${url}`
-  return selectedServer + url
+  return new URL(url, selectedServer).href
 }
 
 export function requiresValidationURL(uri) {
