@@ -1,6 +1,8 @@
 function makeWindow() {
   var win = {
-    location: {},
+    location: {
+      href: "https://app.swaggerhub.com/apis/smartbear/petstore/1.0.0##/pet/addPet"
+    },
     history: {},
     open: () => {},
     close: () => {},
@@ -13,7 +15,7 @@ function makeWindow() {
 
   try {
     win = window
-    var props = ["File", "Blob", "FormData"]
+    var props = ["File", "Blob", "FormData", "location"]
     for (var prop of props) {
       if (prop in window) {
         win[prop] = window[prop]

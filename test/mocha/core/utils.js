@@ -1362,16 +1362,28 @@ describe("utils", function() {
   })
 
   describe("buildUrl", function() {
-    it("build url from server and url provided", function() {
+    it("build url from server with a path", function() {
+      expect(buildUrl("relative-url", "http://example.com/path")).toBe("http://example.com/relative-url")
+      expect(buildUrl("/relative-url", "http://example.com/path")).toBe("http://example.com/relative-url")
+    })
 
-      expect(buildUrl("/relative-url-1", "http://example.com/path")).toBe("http://example.com/relative-url-1")
-      expect(buildUrl("relative-url-2", "http://example.com/path")).toBe("http://example.com/relative-url-2")
+    it("build url from server with a base-path", function() {
+      expect(buildUrl("relative-url", "http://example.com/base-path/")).toBe("http://example.com/base-path/relative-url")
+      expect(buildUrl("/relative-url", "http://example.com/base-path/")).toBe("http://example.com/relative-url")
 
-      expect(buildUrl("/relative-url-3", "http://example.com/base-path/")).toBe("http://example.com/relative-url-3")
-      expect(buildUrl("relative-url-4", "http://example.com/base-path/")).toBe("http://example.com/base-path/relative-url-4")
+    })
 
-      expect(buildUrl("/relative-url-5", "http://example.com/base-path/path")).toBe("http://example.com/relative-url-5")
-      expect(buildUrl("relative-url-6", "http://example.com/base-path/path")).toBe("http://example.com/base-path/relative-url-6")
+    it("build url from server with level of paths", function() {
+      expect(buildUrl("relative-url", "http://example.com/base-path/level-1/level-2/level-3")).toBe("http://example.com/base-path/level-1/level-2/relative-url")
+      expect(buildUrl("/relative-url", "http://example.com/base-path/level-1/level-2/level-3")).toBe("http://example.com/relative-url")
+      expect(buildUrl("../relative-url", "http://example.com/base-path/level-1/level-2/level-3")).toBe("http://example.com/base-path/level-1/relative-url")
+    })
+
+    it("build url from server with relative url", function() {
+      expect(buildUrl("relative-url", "server-path/")).toBe("https://app.swaggerhub.com/apis/smartbear/petstore/server-path/relative-url")
+      expect(buildUrl("/relative-url", "server-path/")).toBe("https://app.swaggerhub.com/relative-url")
+      expect(buildUrl("relative-url", "/server-path/")).toBe("https://app.swaggerhub.com/server-path/relative-url")
+      expect(buildUrl("/relative-url", "/server-path/")).toBe("https://app.swaggerhub.com/relative-url")
     })
   })
 
