@@ -28,7 +28,6 @@ const baseRules = [
     options: {
       retainLines: true,
       cacheDirectory: true,
-      plugins: ["lodash"]
     },
   },
   { test: /\.(txt|yaml)$/, loader: "raw-loader" },
