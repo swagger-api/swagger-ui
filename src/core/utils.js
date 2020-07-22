@@ -645,10 +645,9 @@ export function isAbsoluteUrl(url) {
 }
 
 export function buildUrl(url="", selectedServer="") {
-  if(!url) return ""
-  if(isAbsoluteUrl(url) || !isAbsoluteUrl(selectedServer)) return url
-
-  return new URL(url, selectedServer).href
+  const baseUrl = isAbsoluteUrl(selectedServer) ? selectedServer
+    : new URL(selectedServer, win.location.href).href
+  return new URL(url, baseUrl).href
 }
 
 export function requiresValidationURL(uri) {
@@ -759,7 +758,7 @@ export function paramToIdentifier(param, { returnAll = false, allowHashes = true
   if (param && param.hashCode && paramIn && paramName && allowHashes) {
     generatedIdentifiers.push(`${paramIn}.${paramName}.hash-${param.hashCode()}`)
   }
-  
+
   if(paramIn && paramName) {
     generatedIdentifiers.push(`${paramIn}.${paramName}`)
   }
