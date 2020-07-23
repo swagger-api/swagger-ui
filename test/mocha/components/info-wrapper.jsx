@@ -17,7 +17,10 @@ describe("<InfoContainer/>", function () {
       url () {},
       basePath () {},
       host () {},
-      externalDocs () {}
+      externalDocs () {},
+    },
+    oas3Selectors: {
+      selectedServer () {},
     },
     getComponent: c => components[c]
   }

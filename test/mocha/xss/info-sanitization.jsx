@@ -18,7 +18,8 @@ describe("<Info/> Sanitization", function(){
 			description: "Description *with* <script>Markdown</script>"
 		}),
 		host: "example.test",
-		basePath: "/api"
+		basePath: "/api",
+		selectedServer: "https://example.test",
 	}
 
 	it("renders sanitized .title content", function(){
