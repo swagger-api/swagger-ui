@@ -111,9 +111,9 @@ export default class Info extends React.Component {
     let termsOfServiceUrl = buildUrl(info.get("termsOfService"), selectedServer)
     let contact = info.get("contact")
     let license = info.get("license")
-    let rawExternalDocsUrl = externalDocs.get("url")
+    let rawExternalDocsUrl = externalDocs && externalDocs.get("url")
     let externalDocsUrl = buildUrl( rawExternalDocsUrl, selectedServer )
-    let externalDocsDescription = externalDocs.get("description")
+    let externalDocsDescription = externalDocs && externalDocs.get("description")
 
     const Markdown = getComponent("Markdown", true)
     const Link = getComponent("Link")
@@ -136,14 +136,14 @@ export default class Info extends React.Component {
         </div>
 
         {
-          termsOfService && <div className="info__tos">
+          termsOfServiceUrl && <div className="info__tos">
             <Link target="_blank" href={ sanitizeUrl(termsOfServiceUrl) }>Terms of service</Link>
           </div>
         }
 
         {contact && contact.size ? <Contact getComponent={getComponent} data={ contact } selectedServer={selectedServer} /> : null }
         {license && license.size ? <License getComponent={getComponent} license={ license } selectedServer={selectedServer} /> : null }
-        { externalDocsUrl ?
+        { externalDocs ?
             <Link className="info__extdocs" target="_blank" href={sanitizeUrl(externalDocsUrl)}>{externalDocsDescription || externalDocsUrl}</Link>
         : null }
 
