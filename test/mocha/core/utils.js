@@ -1380,10 +1380,10 @@ describe("utils", function() {
     })
 
     it("build url from server with relative url", function() {
-      expect(buildUrl("relative-url", "server-path/")).toBe("https://app.swaggerhub.com/apis/smartbear/petstore/server-path/relative-url")
-      expect(buildUrl("/relative-url", "server-path/")).toBe("https://app.swaggerhub.com/relative-url")
-      expect(buildUrl("relative-url", "/server-path/")).toBe("https://app.swaggerhub.com/server-path/relative-url")
-      expect(buildUrl("/relative-url", "/server-path/")).toBe("https://app.swaggerhub.com/relative-url")
+      expect(buildUrl("relative-url", "server-path/")).toBe("https://example.com/apis/swagger-api/petstore/1.0.0/server-path/relative-url")
+      expect(buildUrl("/relative-url", "server-path/")).toBe("https://example.com/relative-url")
+      expect(buildUrl("relative-url", "/server-path/")).toBe("https://example.com/server-path/relative-url")
+      expect(buildUrl("/relative-url", "/server-path/")).toBe("https://example.com/relative-url")
     })
   })
 
