@@ -1,7 +1,7 @@
 function makeWindow() {
   var win = {
     location: {
-      href: "https://example.com/apis/swagger-api/petstore/1.0.0#/pet/addPet"
+      // href: "https://example.com/apis/swagger-api/petstore/1.0.0#/pet/addPet"
     },
     history: {},
     open: () => {},
