@@ -645,8 +645,12 @@ export function isAbsoluteUrl(url) {
 }
 
 export function buildUrl(url="", selectedServer="") {
+  if(!url) return
+  if(isAbsoluteUrl(url)) return url 
+
   const baseUrl = isAbsoluteUrl(selectedServer) ? selectedServer
     : new URL(selectedServer, win.location.href).href
+
   return new URL(url, baseUrl).href
 }
 
