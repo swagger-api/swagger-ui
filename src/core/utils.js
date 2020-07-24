@@ -380,13 +380,13 @@ export const validateGuid = (val) => {
 
 export const validateMaxLength = (val, max) => {
   if (val.length > max) {
-      return `Value must be no longer than ${max} character${max !== 1 ? 's' : ''}`
+      return `Value must be no longer than ${max} character${max !== 1 ? "s" : ""}`
   }
 }
 
 export const validateMinLength = (val, min) => {
   if (val.length < min) {
-      return `Value must be at least ${min} character${min !== 1 ? 's' : ''}`
+      return `Value must be at least ${min} character${min !== 1 ? "s" : ""}`
   }
 }
 
