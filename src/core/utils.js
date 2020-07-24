@@ -325,13 +325,13 @@ export const propChecker = (props, nextProps, objectList=[], ignoreList=[]) => {
 
 export const validateMaximum = ( val, max ) => {
   if (val > max) {
-    return "Value must be less than Maximum"
+    return `Value must be less than ${max}`
   }
 }
 
 export const validateMinimum = ( val, min ) => {
   if (val < min) {
-    return "Value must be greater than Minimum"
+    return `Value must be greater than ${min}`
   }
 }
 
@@ -380,13 +380,13 @@ export const validateGuid = (val) => {
 
 export const validateMaxLength = (val, max) => {
   if (val.length > max) {
-      return "Value must be less than MaxLength"
+      return `Value must be no longer than ${max} character${max !== 1 ? 's' : ''}`
   }
 }
 
 export const validateMinLength = (val, min) => {
   if (val.length < min) {
-      return "Value must be greater than MinLength"
+      return `Value must be at least ${min} character${min !== 1 ? 's' : ''}`
   }
 }
 
