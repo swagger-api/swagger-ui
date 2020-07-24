@@ -1,8 +1,6 @@
 function makeWindow() {
   var win = {
-    location: {
-      // href: "https://example.com/apis/swagger-api/petstore/1.0.0#/pet/addPet"
-    },
+    location: {},
     history: {},
     open: () => {},
     close: () => {},
@@ -15,7 +13,7 @@ function makeWindow() {
 
   try {
     win = window
-    var props = ["File", "Blob", "FormData", "location"]
+    var props = ["File", "Blob", "FormData"]
     for (var prop of props) {
       if (prop in window) {
         win[prop] = window[prop]
