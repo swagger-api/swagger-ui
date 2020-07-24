@@ -22,6 +22,8 @@ export default class OperationTag extends React.Component {
     getConfigs: PropTypes.func.isRequired,
     getComponent: PropTypes.func.isRequired,
 
+    specUrl: PropTypes.string.isRequired,
+
     children: PropTypes.element,
   }
 
@@ -35,6 +37,7 @@ export default class OperationTag extends React.Component {
       layoutActions,
       getConfigs,
       getComponent,
+      specUrl,
     } = this.props
 
     let {
@@ -51,8 +54,8 @@ export default class OperationTag extends React.Component {
 
     let tagDescription = tagObj.getIn(["tagDetails", "description"], null)
     let tagExternalDocsDescription = tagObj.getIn(["tagDetails", "externalDocs", "description"])
-    let rawTagExternalDocsUrl = tagObj.getIn(["tagDetails", "externalDocs", "url"])
-    let tagExternalDocsUrl = buildUrl( rawTagExternalDocsUrl, oas3Selectors.selectedServer() )
+    let rawTagExternalDocsUrl = tagObj.getIn(["tagDetails", "externalDocs", "url"])    
+    let tagExternalDocsUrl = buildUrl( rawTagExternalDocsUrl, specUrl, {selectedServer: oas3Selectors.selectedServer()} )
 
     let isShownKey = ["operations-tag", tag]
     let showTag = layoutSelectors.isShown(isShownKey, docExpansion === "full" || docExpansion === "list")

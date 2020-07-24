@@ -26,13 +26,14 @@ class Contact extends React.Component {
   static propTypes = {
     data: PropTypes.object,
     getComponent: PropTypes.func.isRequired,
+    specSelectors: PropTypes.object.isRequired,
     selectedServer: PropTypes.string,
   }
 
   render(){
-    let { data, getComponent, selectedServer } = this.props
+    let { data, getComponent, selectedServer, url: specUrl} = this.props
     let name = data.get("name") || "the developer"
-    let url = buildUrl(data.get("url"), selectedServer)
+    let url = buildUrl(data.get("url"), specUrl, {selectedServer})
     let email = data.get("email")
 
     const Link = getComponent("Link")
@@ -54,15 +55,16 @@ class License extends React.Component {
   static propTypes = {
     license: PropTypes.object,
     getComponent: PropTypes.func.isRequired,
+    specSelectors: PropTypes.object.isRequired,
     selectedServer: PropTypes.string,
   }
 
   render(){
-    let { license, getComponent, selectedServer } = this.props
+    let { license, getComponent, selectedServer, url: specUrl } = this.props
 
     const Link = getComponent("Link")
-    let name = license.get("name") || "License"
-    let url = buildUrl(license.get("url"), selectedServer)
+    let name = license.get("name") || "License"  
+    let url = buildUrl(license.get("url"), specUrl, {selectedServer})
 
     return (
       <div className="info__license">
@@ -104,15 +106,15 @@ export default class Info extends React.Component {
   }
 
   render() {
-    let { info, url, host, basePath, getComponent, externalDocs, selectedServer } = this.props
+    let { info, url, host, basePath, getComponent, externalDocs, selectedServer, url: specUrl } = this.props
     let version = info.get("version")
     let description = info.get("description")
     let title = info.get("title")
-    let termsOfServiceUrl = buildUrl(info.get("termsOfService"), selectedServer)
+    let termsOfServiceUrl = buildUrl(info.get("termsOfService"), specUrl, {selectedServer})
     let contact = info.get("contact")
     let license = info.get("license")
     let rawExternalDocsUrl = externalDocs && externalDocs.get("url")
-    let externalDocsUrl = buildUrl( rawExternalDocsUrl, selectedServer )
+    let externalDocsUrl = buildUrl(rawExternalDocsUrl, specUrl, {selectedServer})
     let externalDocsDescription = externalDocs && externalDocs.get("description")
 
     const Markdown = getComponent("Markdown", true)
@@ -141,8 +143,8 @@ export default class Info extends React.Component {
           </div>
         }
 
-        {contact && contact.size ? <Contact getComponent={getComponent} data={ contact } selectedServer={selectedServer} /> : null }
-        {license && license.size ? <License getComponent={getComponent} license={ license } selectedServer={selectedServer} /> : null }
+        {contact && contact.size ? <Contact getComponent={getComponent} data={ contact } selectedServer={selectedServer} url={url} /> : null }
+        {license && license.size ? <License getComponent={getComponent} license={ license } selectedServer={selectedServer} url={url}/> : null }
         { externalDocs ?
             <Link className="info__extdocs" target="_blank" href={sanitizeUrl(externalDocsUrl)}>{externalDocsDescription || externalDocsUrl}</Link>
         : null }

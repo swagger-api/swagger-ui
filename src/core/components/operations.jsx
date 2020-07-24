@@ -71,7 +71,8 @@ export default class Operations extends React.Component {
                   layoutSelectors={layoutSelectors}
                   layoutActions={layoutActions}
                   getConfigs={getConfigs}
-                  getComponent={getComponent}>
+                  getComponent={getComponent}
+                  specUrl={specSelectors.url()}>
                   {
                     operations.map( op => {
                       const path = op.get("path")

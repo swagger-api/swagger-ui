@@ -81,7 +81,7 @@ export default class Operation extends PureComponent {
       schemes
     } = op
 
-    const externalDocsUrl = externalDocs ? buildUrl(externalDocs.url, oas3Selectors.selectedServer()) : ""
+    const externalDocsUrl = externalDocs ? buildUrl(externalDocs.url, specSelectors.url(), { selectedServer: oas3Selectors.selectedServer() }) : ""
     let operation = operationProps.getIn(["op"])
     let responses = operation.get("responses")
     let parameters = getList(operation, ["parameters"])

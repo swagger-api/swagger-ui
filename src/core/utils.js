@@ -644,13 +644,19 @@ export function isAbsoluteUrl(url) {
   return url.match(/^(?:[a-z]+:)?\/\//i) // Matches http://, HTTP://, https://, ftp://, //example.com,
 }
 
-export function buildUrl(url="", selectedServer="") {
+export function buildBaseUrl(selectedServer, specUrl) {
+  if(!selectedServer) return specUrl
+  if(isAbsoluteUrl(selectedServer)) return selectedServer
+  
+  return new URL(selectedServer, specUrl).href    
+}
+
+export function buildUrl(url, specUrl, { selectedServer="" } = {}) {  
+  console.log(url, specUrl, selectedServer)
   if(!url) return
-  if(isAbsoluteUrl(url)) return url 
+  if(isAbsoluteUrl(url)) return url
 
-  const baseUrl = isAbsoluteUrl(selectedServer) ? selectedServer
-    : new URL(selectedServer, win.location.href).href
-
+  const baseUrl = buildBaseUrl(selectedServer, specUrl)
   return new URL(url, baseUrl).href
 }
 
