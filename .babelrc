@@ -9,7 +9,7 @@
             "> 1%",
             "last 2 versions",
             "Firefox ESR",
-            "not dead",
+            "not dead"
           ]
         },
         "useBuiltIns": "entry",
@@ -20,7 +20,9 @@
   ],
   "plugins": [
     ["@babel/plugin-transform-runtime", {
-      "corejs": "2"
+      "corejs": "2",
+      "absoluteRuntime": false,
+      "version": "7.10.4"
     }],
     "@babel/plugin-proposal-class-properties",
     "@babel/plugin-proposal-optional-chaining",
@@ -38,7 +40,7 @@
           "plugins": "./src/plugins",
           "img": "./src/img",
           "corePlugins": "./src/core/plugins",
-          "less": "./src/less",
+          "less": "./src/less"
         }
       }
     ]

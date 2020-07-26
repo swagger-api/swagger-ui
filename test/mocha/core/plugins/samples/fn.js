@@ -4,7 +4,7 @@ import expect from "expect"
 
 describe("sampleFromSchema", function() {
   it("handles Immutable.js objects for nested schemas", function () {
-    var definition = fromJS({
+    let definition = fromJS({
       "type": "object",
       "properties": {
         "json": {
@@ -21,7 +21,7 @@ describe("sampleFromSchema", function() {
       }
     })
 
-    var expected = {
+    let expected = {
       json: {
         a: "string"
       }
@@ -31,7 +31,7 @@ describe("sampleFromSchema", function() {
   })
 
   it("returns object with no readonly fields for parameter", function () {
-    var definition = {
+    let definition = {
       type: "object",
       properties: {
         id: {
@@ -47,7 +47,7 @@ describe("sampleFromSchema", function() {
       }
     }
 
-    var expected = {
+    let expected = {
       id: 0
     }
 
@@ -55,7 +55,7 @@ describe("sampleFromSchema", function() {
   })
 
   it("returns object with readonly fields for parameter, with includeReadOnly", function () {
-    var definition = {
+    let definition = {
       type: "object",
       properties: {
         id: {
@@ -71,7 +71,7 @@ describe("sampleFromSchema", function() {
       }
     }
 
-    var expected = {
+    let expected = {
       id: 0,
       readOnlyDog: "string"
     }
@@ -80,7 +80,7 @@ describe("sampleFromSchema", function() {
   })
 
   it("returns object without deprecated fields for parameter", function () {
-    var definition = {
+    let definition = {
       type: "object",
       properties: {
         id: {
@@ -96,7 +96,7 @@ describe("sampleFromSchema", function() {
       }
     }
 
-    var expected = {
+    let expected = {
       id: 0
     }
 
@@ -104,7 +104,7 @@ describe("sampleFromSchema", function() {
   })
 
   it("returns object without writeonly fields for parameter", function () {
-    var definition = {
+    let definition = {
       type: "object",
       properties: {
         id: {
@@ -120,7 +120,7 @@ describe("sampleFromSchema", function() {
       }
     }
 
-    var expected = {
+    let expected = {
       id: 0
     }
 
@@ -128,7 +128,7 @@ describe("sampleFromSchema", function() {
   })
 
   it("returns object with writeonly fields for parameter, with includeWriteOnly", function () {
-    var definition = {
+    let definition = {
       type: "object",
       properties: {
         id: {
@@ -144,7 +144,7 @@ describe("sampleFromSchema", function() {
       }
     }
 
-    var expected = {
+    let expected = {
       id: 0,
       writeOnlyDog: "string"
     }
@@ -153,7 +153,7 @@ describe("sampleFromSchema", function() {
   })
 
   it("returns object without any $$ref fields at the root schema level", function () {
-    var definition = {
+    let definition = {
     type: "object",
     properties: {
       message: {
@@ -169,7 +169,7 @@ describe("sampleFromSchema", function() {
     $$ref: "#/components/schemas/Welcome"
   }
 
-    var expected = {
+    let expected = {
       "value": {
         "message": "Hello, World!"
       }
@@ -179,7 +179,7 @@ describe("sampleFromSchema", function() {
   })
 
   it("returns object without any $$ref fields at nested schema levels", function () {
-    var definition = {
+    let definition = {
       type: "object",
       properties: {
         message: {
@@ -197,7 +197,7 @@ describe("sampleFromSchema", function() {
       $$ref: "#/components/schemas/Welcome"
     }
 
-    var expected = {
+    let expected = {
       a: {
         "value": {
           "message": "Hello, World!"
@@ -209,7 +209,7 @@ describe("sampleFromSchema", function() {
   })
 
   it("returns object with any $$ref fields that appear to be user-created", function () {
-    var definition = {
+    let definition = {
       type: "object",
       properties: {
         message: {
@@ -227,7 +227,7 @@ describe("sampleFromSchema", function() {
       $$ref: "#/components/schemas/Welcome"
     }
 
-    var expected = {
+    let expected = {
       $$ref: {
         "value": {
           "message": "Hello, World!"
@@ -239,7 +239,7 @@ describe("sampleFromSchema", function() {
   })
 
   it("returns example value for date-time property", function() {
-    var definition = {
+    let definition = {
       type: "string",
       format: "date-time"
     }
@@ -247,82 +247,82 @@ describe("sampleFromSchema", function() {
     // 0-20 chops off milliseconds
     // necessary because test latency can cause failures
     // it would be better to mock Date globally and expect a string - KS 11/18
-    var expected = new Date().toISOString().substring(0, 20)
+    let expected = new Date().toISOString().substring(0, 20)
 
     expect(sampleFromSchema(definition)).toInclude(expected)
   })
 
   it("returns example value for date property", function() {
-    var definition = {
+    let definition = {
       type: "string",
       format: "date"
     }
 
-    var expected = new Date().toISOString().substring(0, 10)
+    let expected = new Date().toISOString().substring(0, 10)
 
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
   it("returns a UUID for a string with format=uuid", function() {
-    var definition = {
+    let definition = {
       type: "string",
       format: "uuid"
     }
 
-    var expected = "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    let expected = "3fa85f64-5717-4562-b3fc-2c963f66afa6"
 
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
   it("returns a hostname for a string with format=hostname", function() {
-    var definition = {
+    let definition = {
       type: "string",
       format: "hostname"
     }
 
-    var expected = "example.com"
+    let expected = "example.com"
 
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
   it("returns an IPv4 address for a string with format=ipv4", function() {
-    var definition = {
+    let definition = {
       type: "string",
       format: "ipv4"
     }
 
-    var expected = "198.51.100.42"
+    let expected = "198.51.100.42"
 
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
   it("returns an IPv6 address for a string with format=ipv6", function() {
-    var definition = {
+    let definition = {
       type: "string",
       format: "ipv6"
     }
 
-    var expected = "2001:0db8:5b96:0000:0000:426f:8e17:642a"
+    let expected = "2001:0db8:5b96:0000:0000:426f:8e17:642a"
 
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
   describe("for array type", function() {
     it("returns array with sample of array type", function() {
-      var definition = {
+      let definition = {
         type: "array",
         items: {
           type: "integer"
         }
       }
 
-      var expected = [ 0 ]
+      let expected = [ 0 ]
 
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
     it("returns array of examples for array that has example", function() {
-      var definition = {
+      let definition = {
         type: "array",
         items: {
           type: "string"
@@ -330,13 +330,13 @@ describe("sampleFromSchema", function() {
         example: "dog"
       }
 
-      var expected = [ "dog" ]
+      let expected = [ "dog" ]
 
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
     it("returns array of examples for array that has examples", function() {
-      var definition = {
+      let definition = {
         type: "array",
         items: {
           type: "string",
@@ -344,13 +344,13 @@ describe("sampleFromSchema", function() {
         example: [ "dog", "cat" ]
       }
 
-      var expected = [ "dog", "cat" ]
+      let expected = [ "dog", "cat" ]
 
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
     it("returns array of samples for oneOf type", function() {
-      var definition = {
+      let definition = {
         type: "array",
         items: {
           type: "string",
@@ -362,13 +362,13 @@ describe("sampleFromSchema", function() {
         }
       }
 
-      var expected = [ 0 ]
+      let expected = [ 0 ]
 
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
     it("returns array of samples for oneOf types", function() {
-      var definition = {
+      let definition = {
         type: "array",
         items: {
           type: "string",
@@ -383,13 +383,13 @@ describe("sampleFromSchema", function() {
         }
       }
 
-      var expected = [ "string", 0 ]
+      let expected = [ "string", 0 ]
 
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
     it("returns array of samples for oneOf examples", function() {
-      var definition = {
+      let definition = {
         type: "array",
         items: {
           type: "string",
@@ -406,13 +406,13 @@ describe("sampleFromSchema", function() {
         }
       }
 
-      var expected = [ "dog", 1 ]
+      let expected = [ "dog", 1 ]
 
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
     it("returns array of samples for anyOf type", function() {
-      var definition = {
+      let definition = {
         type: "array",
         items: {
           type: "string",
@@ -424,13 +424,13 @@ describe("sampleFromSchema", function() {
         }
       }
 
-      var expected = [ 0 ]
+      let expected = [ 0 ]
 
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
     it("returns array of samples for anyOf types", function() {
-      var definition = {
+      let definition = {
         type: "array",
         items: {
           type: "string",
@@ -445,13 +445,13 @@ describe("sampleFromSchema", function() {
         }
       }
 
-      var expected = [ "string", 0 ]
+      let expected = [ "string", 0 ]
 
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
     it("returns array of samples for anyOf examples", function() {
-      var definition = {
+      let definition = {
         type: "array",
         items: {
           type: "string",
@@ -468,13 +468,13 @@ describe("sampleFromSchema", function() {
         }
       }
 
-      var expected = [ "dog", 1 ]
+      let expected = [ "dog", 1 ]
 
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
     it("returns null for a null example", function() {
-      var definition = {
+      let definition = {
         "type": "object",
         "properties": {
           "foo": {
@@ -485,7 +485,7 @@ describe("sampleFromSchema", function() {
         }
       }
 
-      var expected = {
+      let expected = {
         foo: null
       }
 
@@ -493,7 +493,7 @@ describe("sampleFromSchema", function() {
     })
 
     it("returns null for a null object-level example", function() {
-      var definition = {
+      let definition = {
         "type": "object",
         "properties": {
           "foo": {
@@ -506,7 +506,7 @@ describe("sampleFromSchema", function() {
         }
       }
 
-      var expected = {
+      let expected = {
         foo: null
       }
 
@@ -1045,10 +1045,10 @@ describe("sampleFromSchema", function() {
 })
 
 describe("createXMLExample", function () {
-  var sut = createXMLExample
+  let sut = createXMLExample
   describe("simple types with xml property", function () {
     it("returns tag <newtagname>string</newtagname> when passing type string and xml:{name: \"newtagname\"}", function () {
-      var definition = {
+      let definition = {
         type: "string",
         xml: {
           name: "newtagname"
@@ -1059,7 +1059,7 @@ describe("createXMLExample", function () {
     })
 
     it("returns tag <test:newtagname>string</test:newtagname> when passing type string and xml:{name: \"newtagname\", prefix:\"test\"}", function () {
-      var definition = {
+      let definition = {
         type: "string",
         xml: {
           name: "newtagname",
@@ -1071,7 +1071,7 @@ describe("createXMLExample", function () {
     })
 
     it("returns tag <test:tagname xmlns:sample=\"http://swagger.io/schema/sample\">string</test:tagname> when passing type string and xml:{\"namespace\": \"http://swagger.io/schema/sample\", \"prefix\": \"sample\"}", function () {
-      var definition = {
+      let definition = {
         type: "string",
         xml: {
           namespace: "http://swagger.io/schema/sample",
@@ -1084,7 +1084,7 @@ describe("createXMLExample", function () {
     })
 
     it("returns tag <test:tagname >string</test:tagname> when passing type string and xml:{\"namespace\": \"http://swagger.io/schema/sample\"}", function () {
-      var definition = {
+      let definition = {
         type: "string",
         xml: {
           namespace: "http://swagger.io/schema/sample",
@@ -1096,8 +1096,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns tag <newtagname>test</newtagname> when passing default value", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<newtagname>test</newtagname>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<newtagname>test</newtagname>"
+      let definition = {
         type: "string",
         "default": "test",
         xml: {
@@ -1109,8 +1109,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns default value when enum provided", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<newtagname>one</newtagname>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<newtagname>one</newtagname>"
+      let definition = {
         type: "string",
         "default": "one",
         "enum": ["two", "one"],
@@ -1123,8 +1123,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns example value when provided", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<newtagname>two</newtagname>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<newtagname>two</newtagname>"
+      let definition = {
         type: "string",
         "default": "one",
         "example": "two",
@@ -1138,8 +1138,8 @@ describe("createXMLExample", function () {
     })
 
     it("sets first enum if provided", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<newtagname>one</newtagname>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<newtagname>one</newtagname>"
+      let definition = {
         type: "string",
         "enum": ["one", "two"],
         xml: {
@@ -1153,8 +1153,8 @@ describe("createXMLExample", function () {
 
   describe("array", function () {
     it("returns tag <tagname>string</tagname> when passing string items", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<tagname>string</tagname>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<tagname>string</tagname>"
+      let definition = {
         type: "array",
         items: {
           type: "string"
@@ -1168,8 +1168,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns tag <animal>string</animal> when passing string items with name", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animal>string</animal>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animal>string</animal>"
+      let definition = {
         type: "array",
         items: {
           type: "string",
@@ -1186,8 +1186,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns tag <animals><animal>string</animal></animals> when passing string items with name", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<animal>string</animal>\n</animals>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<animal>string</animal>\n</animals>"
+      let definition = {
         type: "array",
         items: {
           type: "string",
@@ -1205,8 +1205,8 @@ describe("createXMLExample", function () {
     })
 
     it("return correct nested wrapped array", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<aliens>\n\t<dog>string</dog>\n</aliens>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<aliens>\n\t<dog>string</dog>\n</aliens>"
+      let definition = {
         type: "array",
         items: {
           type: "array",
@@ -1227,8 +1227,8 @@ describe("createXMLExample", function () {
     })
 
     it("return correct nested wrapped array with xml", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<aliens>\n\t<dogs>\n\t\t<dog>string</dog>\n\t</dogs>\n</aliens>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<aliens>\n\t<dogs>\n\t\t<dog>string</dog>\n\t</dogs>\n</aliens>"
+      let definition = {
         type: "array",
         items: {
           type: "array",
@@ -1253,8 +1253,8 @@ describe("createXMLExample", function () {
     })
 
     it("adds namespace to array", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<dog xmlns=\"test\">string</dog>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<dog xmlns=\"test\">string</dog>"
+      let definition = {
         type: "array",
         items: {
           type: "string",
@@ -1273,8 +1273,8 @@ describe("createXMLExample", function () {
     })
 
     it("adds prefix to array", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<test:dog>string</test:dog>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<test:dog>string</test:dog>"
+      let definition = {
         type: "array",
         items: {
           type: "string",
@@ -1293,8 +1293,8 @@ describe("createXMLExample", function () {
     })
 
     it("adds prefix to array with no xml in items", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<test:dog>string</test:dog>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<test:dog>string</test:dog>"
+      let definition = {
         type: "array",
         items: {
           type: "string"
@@ -1309,8 +1309,8 @@ describe("createXMLExample", function () {
     })
 
     it("adds namespace to array with no xml in items", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<dog xmlns=\"test\">string</dog>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<dog xmlns=\"test\">string</dog>"
+      let definition = {
         type: "array",
         items: {
           type: "string"
@@ -1325,8 +1325,8 @@ describe("createXMLExample", function () {
     })
 
     it("adds namespace to array with wrapped", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<aliens xmlns=\"test\">\n\t<dog>string</dog>\n</aliens>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<aliens xmlns=\"test\">\n\t<dog>string</dog>\n</aliens>"
+      let definition = {
         type: "array",
         items: {
           type: "string",
@@ -1345,8 +1345,8 @@ describe("createXMLExample", function () {
     })
 
     it("adds prefix to array with wrapped", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<test:aliens>\n\t<dog>string</dog>\n</test:aliens>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<test:aliens>\n\t<dog>string</dog>\n</test:aliens>"
+      let definition = {
         type: "array",
         items: {
           type: "string",
@@ -1365,8 +1365,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns wrapped array when type is not passed", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<animal>string</animal>\n</animals>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<animal>string</animal>\n</animals>"
+      let definition = {
         items: {
           type: "string",
           xml: {
@@ -1383,8 +1383,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns array with default values", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animal>one</animal>\n<animal>two</animal>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animal>one</animal>\n<animal>two</animal>"
+      let definition = {
         items: {
           type: "string",
           xml: {
@@ -1401,8 +1401,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns array with default values with wrapped=true", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<animal>one</animal>\n\t<animal>two</animal>\n</animals>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<animal>one</animal>\n\t<animal>two</animal>\n</animals>"
+      let definition = {
         items: {
           type: "string",
           xml: {
@@ -1420,8 +1420,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns array with default values", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animal>one</animal>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animal>one</animal>"
+      let definition = {
         items: {
           type: "string",
           "enum": ["one", "two"],
@@ -1438,8 +1438,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns array with default values with wrapped=true", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<animal>1</animal>\n\t<animal>2</animal>\n</animals>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<animal>1</animal>\n\t<animal>2</animal>\n</animals>"
+      let definition = {
         items: {
           "enum": ["one", "two"],
           type: "string",
@@ -1458,8 +1458,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns array with example values  with ", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<animal>1</animal>\n\t<animal>2</animal>\n</animals>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<animal>1</animal>\n\t<animal>2</animal>\n</animals>"
+      let definition = {
         type: "object",
         properties: {
           "animal": {
@@ -1482,8 +1482,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns array with example values  with wrapped=true", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<animal>1</animal>\n\t<animal>2</animal>\n</animals>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<animal>1</animal>\n\t<animal>2</animal>\n</animals>"
+      let definition = {
         type: "array",
         items: {
           type: "string",
@@ -1502,8 +1502,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns array of objects with example values  with wrapped=true", function () {
-      var expected = `<?xml version="1.0" encoding="UTF-8"?>\n<users>\n\t<user>\n\t\t<id>1</id>\n\t\t<name>Arthur Dent</name>\n\t</user>\n\t<user>\n\t\t<id>2</id>\n\t\t<name>Ford Prefect</name>\n\t</user>\n</users>`
-      var definition = {
+      let expected = `<?xml version="1.0" encoding="UTF-8"?>\n<users>\n\t<user>\n\t\t<id>1</id>\n\t\t<name>Arthur Dent</name>\n\t</user>\n\t<user>\n\t\t<id>2</id>\n\t\t<name>Ford Prefect</name>\n\t</user>\n</users>`
+      let definition = {
         "type": "array",
         "items": {
           "type": "object",
@@ -1542,8 +1542,8 @@ describe("createXMLExample", function () {
 
   describe("object", function () {
     it("returns object with 2 properties", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<aliens>\n\t<alien>string</alien>\n\t<dog>0</dog>\n</aliens>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<aliens>\n\t<alien>string</alien>\n\t<dog>0</dog>\n</aliens>"
+      let definition = {
         type: "object",
         properties: {
           alien: {
@@ -1562,8 +1562,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns object with integer property and array property", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<aliens>string</aliens>\n\t<dog>0</dog>\n</animals>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<aliens>string</aliens>\n\t<dog>0</dog>\n</animals>"
+      let definition = {
         type: "object",
         properties: {
           aliens: {
@@ -1585,8 +1585,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns nested objects", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<aliens>\n\t\t<alien>string</alien>\n\t</aliens>\n\t<dog>string</dog>\n</animals>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<aliens>\n\t\t<alien>string</alien>\n\t</aliens>\n\t<dog>string</dog>\n</animals>"
+      let definition = {
         type: "object",
         properties: {
           aliens: {
@@ -1613,8 +1613,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns object with no readonly fields for parameter", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<id>0</id>\n</animals>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<id>0</id>\n</animals>"
+      let definition = {
         type: "object",
         properties: {
           id: {
@@ -1634,8 +1634,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns object with readonly fields for parameter, with includeReadOnly", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<id>0</id>\n\t<dog>string</dog>\n</animals>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<id>0</id>\n\t<dog>string</dog>\n</animals>"
+      let definition = {
         type: "object",
         properties: {
           id: {
@@ -1655,8 +1655,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns object without writeonly fields for parameter", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<id>0</id>\n</animals>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<id>0</id>\n</animals>"
+      let definition = {
         type: "object",
         properties: {
           id: {
@@ -1676,8 +1676,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns object with writeonly fields for parameter, with includeWriteOnly", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<id>0</id>\n\t<dog>string</dog>\n</animals>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<id>0</id>\n\t<dog>string</dog>\n</animals>"
+      let definition = {
         type: "object",
         properties: {
           id: {
@@ -1697,8 +1697,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns object with passed property as attribute", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals id=\"0\">\n\t<dog>string</dog>\n</animals>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals id=\"0\">\n\t<dog>string</dog>\n</animals>"
+      let definition = {
         type: "object",
         properties: {
           id: {
@@ -1720,8 +1720,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns object with passed property as attribute with custom name", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals test=\"0\">\n\t<dog>string</dog>\n</animals>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals test=\"0\">\n\t<dog>string</dog>\n</animals>"
+      let definition = {
         type: "object",
         properties: {
           id: {
@@ -1744,8 +1744,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns object with example values in attribute", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<user id=\"42\">\n\t<role>admin</role>\n</user>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<user id=\"42\">\n\t<role>admin</role>\n</user>"
+      let definition = {
         type: "object",
         properties: {
           id: {
@@ -1771,8 +1771,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns object with enum values in attribute", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<user id=\"one\">\n\t<role>string</role>\n</user>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<user id=\"one\">\n\t<role>string</role>\n</user>"
+      let definition = {
         type: "object",
         properties: {
           id: {
@@ -1795,8 +1795,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns object with default values in attribute", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<user id=\"one\">\n\t<role>string</role>\n</user>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<user id=\"one\">\n\t<role>string</role>\n</user>"
+      let definition = {
         type: "object",
         properties: {
           id: {
@@ -1819,8 +1819,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns object with default values in attribute", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<user id=\"one\">\n\t<role>string</role>\n</user>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<user id=\"one\">\n\t<role>string</role>\n</user>"
+      let definition = {
         type: "object",
         properties: {
           id: {
@@ -1843,8 +1843,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns object with example value", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<user>\n\t<id>42</id>\n\t<role>admin</role>\n</user>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<user>\n\t<id>42</id>\n\t<role>admin</role>\n</user>"
+      let definition = {
         type: "object",
         properties: {
           id: {
@@ -1867,8 +1867,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns object with additional props", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<dog>string</dog>\n\t<additionalProp>string</additionalProp>\n</animals>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<dog>string</dog>\n\t<additionalProp>string</additionalProp>\n</animals>"
+      let definition = {
         type: "object",
         properties: {
           dog: {
@@ -1887,8 +1887,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns object with additional props =true", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<dog>string</dog>\n\t<additionalProp>Anything can be here</additionalProp>\n</animals>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<dog>string</dog>\n\t<additionalProp>Anything can be here</additionalProp>\n</animals>"
+      let definition = {
         type: "object",
         properties: {
           dog: {
@@ -1905,8 +1905,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns object with 2 properties with no type passed but properties", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<aliens>\n\t<alien>string</alien>\n\t<dog>0</dog>\n</aliens>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<aliens>\n\t<alien>string</alien>\n\t<dog>0</dog>\n</aliens>"
+      let definition = {
         properties: {
           alien: {
             type: "string"
@@ -1924,8 +1924,8 @@ describe("createXMLExample", function () {
     })
 
     it("returns object with additional props with no type passed", function () {
-      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<additionalProp>string</additionalProp>\n</animals>"
-      var definition = {
+      let expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<additionalProp>string</additionalProp>\n</animals>"
+      let definition = {
         additionalProperties: {
           type: "string"
         },

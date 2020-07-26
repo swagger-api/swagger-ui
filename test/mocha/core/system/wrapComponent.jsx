@@ -28,7 +28,7 @@ describe("wrapComponents", () => {
       })
 
       // When
-      var Component = system.getSystem().getComponents("wow")
+      let Component = system.getSystem().getComponents("wow")
       const wrapper = render(<Component name="Normal" />)
 
       const container = wrapper.children().first()
@@ -73,7 +73,7 @@ describe("wrapComponents", () => {
       })
 
       // When
-      var Component = system.getSystem().getComponents("wow")
+      let Component = system.getSystem().getComponents("wow")
       const wrapper = render(<Component name="Normal" />)
 
       const container = wrapper.children().first()
@@ -125,7 +125,7 @@ describe("wrapComponents", () => {
     })
 
     // Then
-    var Component = mySystem.getSystem().getComponents("wow")
+    let Component = mySystem.getSystem().getComponents("wow")
     const wrapper = render(<Component name="Normal" />)
 
     const container = wrapper.children().first()
@@ -179,7 +179,7 @@ describe("wrapComponents", () => {
     ])
 
     // Then
-    var Component = mySystem.getSystem().getComponents("wow")
+    let Component = mySystem.getSystem().getComponents("wow")
     const wrapper = render(<Component name="Normal" />)
 
     const container = wrapper.children().first()
@@ -233,7 +233,7 @@ describe("wrapComponents", () => {
     })
 
     // Then
-    var Component = secondSystem.getSystem().getComponents("wow")
+    let Component = secondSystem.getSystem().getComponents("wow")
     const wrapper = render(<Component name="Normal" />)
 
     const container = wrapper.children().first()

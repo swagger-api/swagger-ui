@@ -79,6 +79,11 @@ export default function SwaggerUI(opts) {
     // Inline Plugin
     fn: { },
     components: { },
+
+    syntaxHighlight: {
+      activated: true,
+      theme: "agate"
+    }
   }
 
   let queryConfig = parseSearch()

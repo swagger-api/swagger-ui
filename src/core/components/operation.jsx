@@ -93,7 +93,7 @@ export default class Operation extends PureComponent {
     const Execute = getComponent( "execute" )
     const Clear = getComponent( "clear" )
     const Collapse = getComponent( "Collapse" )
-    const Markdown = getComponent( "Markdown" )
+    const Markdown = getComponent("Markdown", true)
     const Schemes = getComponent( "schemes" )
     const OperationServers = getComponent( "OperationServers" )
     const OperationExt = getComponent( "OperationExt" )
@@ -192,6 +192,8 @@ export default class Operation extends PureComponent {
                     operation={ operation }
                     specActions={ specActions }
                     specSelectors={ specSelectors }
+                    oas3Selectors={ oas3Selectors }
+                    oas3Actions={ oas3Actions }
                     path={ path }
                     method={ method }
                     onExecute={ onExecute } />

@@ -51,7 +51,7 @@ export default class BasicAuth extends React.Component {
     const Col = getComponent("Col")
     const AuthError = getComponent("authError")
     const JumpToPath = getComponent("JumpToPath", true)
-    const Markdown = getComponent( "Markdown" )
+    const Markdown = getComponent("Markdown", true)
     let username = this.getValue().username
     let errors = errSelectors.allErrors().filter( err => err.get("authId") === name)
 

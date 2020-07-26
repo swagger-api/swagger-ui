@@ -5,12 +5,12 @@ import cx from "classnames"
 import { fromJS, Seq, Iterable, List, Map } from "immutable"
 import { getSampleSchema, fromJSOrdered, stringify } from "core/utils"
 
-const getExampleComponent = ( sampleResponse, HighlightCode ) => {
+const getExampleComponent = ( sampleResponse, HighlightCode, getConfigs ) => {
   if (
     sampleResponse !== undefined &&
     sampleResponse !== null
   ) { return <div>
-      <HighlightCode className="example" value={ stringify(sampleResponse) } />
+      <HighlightCode className="example" getConfigs={ getConfigs } value={ stringify(sampleResponse) } />
     </div>
   }
   return null
@@ -101,7 +101,7 @@ export default class Response extends React.Component {
     const Headers = getComponent("headers")
     const HighlightCode = getComponent("highlightCode")
     const ModelExample = getComponent("modelExample")
-    const Markdown = getComponent( "Markdown" )
+    const Markdown = getComponent("Markdown", true)
     const OperationLink = getComponent("operationLink")
     const ContentType = getComponent("contentType")
     const ExamplesSelect = getComponent("ExamplesSelect")
@@ -161,7 +161,7 @@ export default class Response extends React.Component {
       }
     }
 
-    let example = getExampleComponent( sampleResponse, HighlightCode )
+    let example = getExampleComponent( sampleResponse, HighlightCode, getConfigs )
 
     return (
       <tr className={ "response " + ( className || "") } data-code={code}>
@@ -229,9 +229,11 @@ export default class Response extends React.Component {
               getConfigs={ getConfigs }
               specSelectors={ specSelectors }
               schema={ fromJSOrdered(schema) }
+              example={ example }
+              includeReadOnly={ true }
               alternativeSchemas= { alternativeSchemas }
-              onChange = { this._onAlternativeSchemaChanged }
-              example={ example }/>
+              onChange = { this._onAlternativeSchemaChanged }/>
+
           ) : null }
 
           { isOAS3 && examplesForMediaType ? (

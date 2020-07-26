@@ -71,7 +71,7 @@ export default class LiveResponse extends React.Component {
 
     return (
       <div>
-        { curlRequest && <Curl request={ curlRequest }/> }
+        { curlRequest && <Curl request={ curlRequest } getConfigs={ getConfigs } /> }
         { url && <div>
             <h4>Request URL</h4>
             <div className="request-url">
@@ -110,6 +110,7 @@ export default class LiveResponse extends React.Component {
                                        contentType={ contentType }
                                        url={ url }
                                        headers={ headers }
+                                       getConfigs={ getConfigs }
                                        getComponent={ getComponent }/>
                        : null
                 }
