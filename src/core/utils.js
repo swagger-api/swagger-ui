@@ -1,4 +1,4 @@
-/*
+/* 
   ATTENTION! This file (but not the functions within) is deprecated.
 
   You should probably add a new file to `./helpers/` instead of adding a new
@@ -133,7 +133,7 @@ export function createObjWithHashedKeys (fdObj) {
       trackKeys[pair[0]].length += 1
       let hashedKeyCurrent = `${pair[0]}${hashIdx}${trackKeys[pair[0]].length}`
       newObj[hashedKeyCurrent] = pair[1]
-    }
+    } 
   }
   return newObj
 }
@@ -263,13 +263,13 @@ export function extractFileNameFromContentDispositionHeader(value){
     /filename="([^;]*);?"/i,
     /filename=([^;]*);?/i
   ]
-
+  
   let responseFilename
   patterns.some(regex => {
     responseFilename = regex.exec(value)
     return responseFilename !== null
   })
-
+    
   if (responseFilename !== null && responseFilename.length > 1) {
     try {
       return decodeURIComponent(responseFilename[1])
@@ -656,8 +656,7 @@ export function buildBaseUrl(selectedServer, specUrl) {
   return new URL(selectedServer, specUrl).href    
 }
 
-export function buildUrl(url, specUrl, { selectedServer="" } = {}) {
-  console.log(url, specUrl, selectedServer)
+export function buildUrl(url, specUrl, { selectedServer="" } = {}) {  
   if(!url) return
   if(isAbsoluteUrl(url)) return url
 
@@ -765,7 +764,7 @@ export function paramToIdentifier(param, { returnAll = false, allowHashes = true
   }
   const paramName = param.get("name")
   const paramIn = param.get("in")
-
+  
   let generatedIdentifiers = []
 
   // Generate identifiers in order of most to least specificity
@@ -773,7 +772,7 @@ export function paramToIdentifier(param, { returnAll = false, allowHashes = true
   if (param && param.hashCode && paramIn && paramName && allowHashes) {
     generatedIdentifiers.push(`${paramIn}.${paramName}.hash-${param.hashCode()}`)
   }
-
+  
   if(paramIn && paramName) {
     generatedIdentifiers.push(`${paramIn}.${paramName}`)
   }
