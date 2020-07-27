@@ -28,6 +28,7 @@ class Contact extends React.Component {
     getComponent: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     selectedServer: PropTypes.string,
+    url: PropTypes.string.isRequired,
   }
 
   render(){
@@ -57,6 +58,7 @@ class License extends React.Component {
     getComponent: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
     selectedServer: PropTypes.string,
+    url: PropTypes.string.isRequired,
   }
 
   render(){
