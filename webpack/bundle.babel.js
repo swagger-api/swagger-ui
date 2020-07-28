@@ -4,7 +4,6 @@
 
 import configBuilder from "./_config-builder"
 import { DuplicatesPlugin } from "inspectpack/plugin"
-import LodashModuleReplacementPlugin from "lodash-webpack-plugin"
 import { WebpackBundleSizeAnalyzerPlugin } from "webpack-bundle-size-analyzer"
 
 const result = configBuilder(
@@ -31,7 +30,6 @@ const result = configBuilder(
         // display full duplicates information? (Default: `false`)
         verbose: false,
       }),
-      new LodashModuleReplacementPlugin(),
       new WebpackBundleSizeAnalyzerPlugin("log.bundle-sizes.swagger-ui.txt"),
     ]
   }
