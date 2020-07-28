@@ -121,6 +121,7 @@
     "eslint-plugin-import": "^2.21.1",
     "eslint-plugin-mocha": "^6.3.0",
     "eslint-plugin-react": "^7.20.0",
+    "esm": "=3.2.25",
     "expect": "^1.20.2",
     "express": "^4.17.1",
     "file-loader": "^6.0.0",
