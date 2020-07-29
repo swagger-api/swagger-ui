@@ -135,32 +135,28 @@ describe("utils", function() {
   })
   
   describe("validateMaximum", function() {
-    let errorMessage = "Value must be less than Maximum"
-    
     it("doesn't return for valid input", function() {
       expect(validateMaximum(9, 10)).toBeFalsy()
       expect(validateMaximum(19, 20)).toBeFalsy()
     })
     
     it("returns a message for invalid input", function() {
-      expect(validateMaximum(1, 0)).toEqual(errorMessage)
-      expect(validateMaximum(10, 9)).toEqual(errorMessage)
-      expect(validateMaximum(20, 19)).toEqual(errorMessage)
+      expect(validateMaximum(1, 0)).toEqual("Value must be less than 0")
+      expect(validateMaximum(10, 9)).toEqual("Value must be less than 9")
+      expect(validateMaximum(20, 19)).toEqual("Value must be less than 19")
     })
   })
   
   describe("validateMinimum", function() {
-    let errorMessage = "Value must be greater than Minimum"
-    
     it("doesn't return for valid input", function() {
       expect(validateMinimum(2, 1)).toBeFalsy()
       expect(validateMinimum(20, 10)).toBeFalsy()
     })
     
     it("returns a message for invalid input", function() {
-      expect(validateMinimum(-1, 0)).toEqual(errorMessage)
-      expect(validateMinimum(1, 2)).toEqual(errorMessage)
-      expect(validateMinimum(10, 20)).toEqual(errorMessage)
+      expect(validateMinimum(-1, 0)).toEqual("Value must be greater than 0")
+      expect(validateMinimum(1, 2)).toEqual("Value must be greater than 2")
+      expect(validateMinimum(10, 20)).toEqual("Value must be greater than 20")
     })
   })
   
@@ -295,31 +291,28 @@ describe("utils", function() {
   })
   
   describe("validateMaxLength", function() {
-    let errorMessage = "Value must be less than MaxLength"
-    
-    it("doesn't return for valid guid", function() {
+    it("doesn't return for valid input", function() {
       expect(validateMaxLength("a", 1)).toBeFalsy()
       expect(validateMaxLength("abc", 5)).toBeFalsy()
     })
     
     it("returns a message for invalid input'", function() {
-      expect(validateMaxLength("abc", 0)).toEqual(errorMessage)
-      expect(validateMaxLength("abc", 1)).toEqual(errorMessage)
-      expect(validateMaxLength("abc", 2)).toEqual(errorMessage)
+      expect(validateMaxLength("abc", 0)).toEqual("Value must be no longer than 0 characters")
+      expect(validateMaxLength("abc", 1)).toEqual("Value must be no longer than 1 character")
+      expect(validateMaxLength("abc", 2)).toEqual("Value must be no longer than 2 characters")
     })
   })
   
   describe("validateMinLength", function() {
-    let errorMessage = "Value must be greater than MinLength"
-    
-    it("doesn't return for valid guid", function() {
+    it("doesn't return for valid input", function() {
       expect(validateMinLength("a", 1)).toBeFalsy()
       expect(validateMinLength("abc", 2)).toBeFalsy()
     })
     
     it("returns a message for invalid input'", function() {
-      expect(validateMinLength("abc", 5)).toEqual(errorMessage)
-      expect(validateMinLength("abc", 8)).toEqual(errorMessage)
+      expect(validateMinLength("", 1)).toEqual("Value must be at least 1 character")
+      expect(validateMinLength("abc", 5)).toEqual("Value must be at least 5 characters")
+      expect(validateMinLength("abc", 8)).toEqual("Value must be at least 8 characters")
     })
   })
   
@@ -616,7 +609,7 @@ describe("utils", function() {
         maxLength: 5
       }
       value = "test string"
-      assertValidateParam(param, value, ["Value must be less than MaxLength"])
+      assertValidateParam(param, value, ["Value must be no longer than 5 characters"])
       
       // invalid string with max length 0
       param = {
@@ -625,7 +618,7 @@ describe("utils", function() {
         maxLength: 0
       }
       value = "test string"
-      assertValidateParam(param, value, ["Value must be less than MaxLength"])
+      assertValidateParam(param, value, ["Value must be no longer than 0 characters"])
       
       // invalid string with min length
       param = {
@@ -634,7 +627,7 @@ describe("utils", function() {
         minLength: 50
       }
       value = "test string"
-      assertValidateParam(param, value, ["Value must be greater than MinLength"])
+      assertValidateParam(param, value, ["Value must be at least 50 characters"])
     })
     
     it("validates optional strings", function() {
@@ -908,7 +901,7 @@ describe("utils", function() {
         maximum: 0
       }
       value = 1
-      assertValidateParam(param, value, ["Value must be less than Maximum"])
+      assertValidateParam(param, value, ["Value must be less than 0"])
       
       // invalid number with minimum:0
       param = {
@@ -917,7 +910,7 @@ describe("utils", function() {
         minimum: 0
       }
       value = -10
-      assertValidateParam(param, value, ["Value must be greater than Minimum"])
+      assertValidateParam(param, value, ["Value must be greater than 0"])
     })
     
     it("validates optional numbers", function() {
