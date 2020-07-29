@@ -84,7 +84,6 @@ SwaggerUI.propTypes = {
     PropTypes.object,
   ]),
   url: PropTypes.string,
-  defaultModelsExpandDepth: PropTypes.number,
   requestInterceptor: PropTypes.func,
   responseInterceptor: PropTypes.func,
   onComplete: PropTypes.func,
