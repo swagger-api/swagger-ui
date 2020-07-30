@@ -29,8 +29,7 @@ export default class ModelWrapper extends Component {
 
   render(){
     let { getComponent, getConfigs } = this.props
-    const Model = getComponent("Model")
-    const LazyResolver = getComponent("LazyResolver", true)
+    const Model = getComponent("Model")  
 
     let expanded
     if(this.props.layoutSelectors) {
@@ -39,11 +38,7 @@ export default class ModelWrapper extends Component {
     }
 
     return <div className="model-box">
-      <LazyResolver
-        specPath={this.props.specPath}
-        shouldResolve={expanded}
-        Comp={({ resolvedObj }) => (
-          <Model {...this.props} schema={resolvedObj ||this.props.schema} getConfigs={getConfigs} expanded={expanded} depth={1} onToggle={this.onToggle} expandDepth={this.props.expandDepth || 0} />)} />
+      <Model { ...this.props } getConfigs={ getConfigs } expanded={expanded} depth={ 1 } onToggle={ this.onToggle } expandDepth={ this.props.expandDepth || 0 }/>
     </div>
   }
 }
