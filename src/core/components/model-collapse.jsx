@@ -64,7 +64,7 @@ export default class ModelCollapse extends Component {
     })
   }
 
-  onLoad = (ref) => {
+  onLoad = (ref) => {    
     if(ref) {
       const scrollToKey = this.props.layoutSelectors.getScrollToKey()
 
@@ -85,7 +85,7 @@ export default class ModelCollapse extends Component {
     }
 
     return (
-      <span className={classes || ""}>
+      <span className={classes || ''} ref={this.onLoad}>
         { title && <span onClick={this.toggleCollapsed} className="pointer">{title}</span> }
         <span onClick={ this.toggleCollapsed } className="pointer">
           <span className={ "model-toggle" + ( this.state.expanded ? "" : " collapsed" ) }></span>
