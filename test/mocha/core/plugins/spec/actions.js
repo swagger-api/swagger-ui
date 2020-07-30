@@ -97,7 +97,7 @@ describe("spec plugin - actions", function(){
       // Given
       let configs = {
         requestInterceptor: createSpy(),
-        responseInterceptor: createSpy(),
+        responseInterceptor: createSpy()
       }
       const system = {
         fn: {
@@ -147,8 +147,8 @@ describe("spec plugin - actions", function(){
     it("should pass requestInterceptor/responseInterceptor with new Promise to fn.execute", async () => {
       // Given
       let configs = {
-        requestInterceptor: createSpy(),
-        responseInterceptor: createSpy().andReturn(new Promise((resolve) => resolve())),
+        requestInterceptor: createSpy().andReturn(new Promise((resolve) => resolve())),
+        responseInterceptor: createSpy()
       }
       const system = {
         fn: {
