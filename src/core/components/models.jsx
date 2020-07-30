@@ -118,6 +118,7 @@ export default class Models extends Component {
                 modelName={name}
                 specPath={specPath}
                 layoutSelectors={layoutSelectors}
+                layoutActions={layoutActions}
                 hideSelfOnExpand={true}
                 expanded={ defaultModelsExpandDepth > 0 && isShown }
                 >{content}</ModelCollapse>
