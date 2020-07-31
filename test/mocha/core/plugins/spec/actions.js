@@ -125,7 +125,7 @@ describe("spec plugin - actions", function(){
         method: "GET",
         operation: fromJS({operationId: "getOne"})
       })
-      let res = executeFn(system)
+      await executeFn(system)
 
       // Then
       expect(system.fn.execute.calls.length).toEqual(1)
@@ -137,57 +137,6 @@ describe("spec plugin - actions", function(){
       expect(system.specActions.setRequest.calls.length).toEqual(1)
 
 
-      let wrappedRequestInterceptor = system.fn.execute.calls[0].arguments[0].requestInterceptor
-      await wrappedRequestInterceptor(system.fn.execute.calls[0].arguments[0])
-      expect(configs.requestInterceptor.calls.length).toEqual(1)
-      expect(system.specActions.setMutatedRequest.calls.length).toEqual(1)
-      expect(system.specActions.setRequest.calls.length).toEqual(1)
-    })
-
-    it("should pass requestInterceptor/responseInterceptor with new Promise to fn.execute", async () => {
-      // Given
-      let configs = {
-        requestInterceptor: createSpy().andReturn(new Promise((resolve) => resolve())),
-        responseInterceptor: createSpy()
-      }
-      const system = {
-        fn: {
-          buildRequest: createSpy(),
-          execute: createSpy().andReturn(Promise.resolve())
-        },
-        specActions: {
-          executeRequest: createSpy(),
-          setMutatedRequest: createSpy(),
-          setRequest: createSpy(),
-          setResponse: createSpy()
-        },
-        specSelectors: {
-          spec: () => fromJS({}),
-          parameterValues: () => fromJS({}),
-          contentTypeValues: () => fromJS({}),
-          url: () => fromJS({}),
-          isOAS3: () => false
-        },
-        getConfigs: () => configs
-      }
-      // When
-      let executeFn = executeRequest({
-        pathName: "/one",
-        method: "GET",
-        operation: fromJS({ operationId: "getOne" })
-      })
-      let res = executeFn(system)
-  
-      // Then
-      expect(system.fn.execute.calls.length).toEqual(1)
-      expect(system.fn.execute.calls[0].arguments[0]).toIncludeKey("requestInterceptor")
-      expect(system.fn.execute.calls[0].arguments[0]).toInclude({
-        responseInterceptor: configs.responseInterceptor
-      })
-      expect(system.specActions.setMutatedRequest.calls.length).toEqual(0)
-      expect(system.specActions.setRequest.calls.length).toEqual(1)
-  
-  
       let wrappedRequestInterceptor = system.fn.execute.calls[0].arguments[0].requestInterceptor
       await wrappedRequestInterceptor(system.fn.execute.calls[0].arguments[0])
       expect(configs.requestInterceptor.calls.length).toEqual(1)
