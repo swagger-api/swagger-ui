@@ -57,4 +57,26 @@ describe("OpenAPI 3.0 Multiple Servers", () => {
       .get(".responses-wrapper .request-url")
       .should("contains.text", "/test-url-1")
   })
+  it("should render and execute for server '/test-url-switch-1' after changing api defintion", () => {
+    cy.visit(
+      "/?url=/documents/features/oas3-multiple-servers.yaml"
+    )
+      .get(".scheme-container .schemes .servers label > select")
+      .select("/test-url-2")
+    cy.visit(
+      "/?url=/documents/features/oas3-multiple-servers-switch.yaml"
+    )
+      .get(".scheme-container .schemes .servers label > select")
+      .select("/test-url-switch-2")
+      .get("#operations-default-get_")
+      .click()
+      // Expand Try It Out
+      .get(".try-out__btn")
+      .click()
+      // Execute
+      .get(".execute.opblock-control__btn")
+      .click()
+      .get(".responses-wrapper .request-url")
+      .should("contains.text", "/test-url-switch-2")
+  })
 })
