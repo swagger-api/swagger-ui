@@ -1,0 +1,16 @@
+openapi: 3.0.2
+servers:
+  - url: /test-url-1
+  - url: /test-url-2
+info:
+  title: multi-server test
+  version: 0.0.1
+  description: |-
+    a simple test to select different servers
+paths:
+  /:
+    get:
+      summary: an operation
+      responses:
+        "200":
+          description: OK
