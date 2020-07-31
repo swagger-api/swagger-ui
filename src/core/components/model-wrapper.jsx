@@ -29,7 +29,7 @@ export default class ModelWrapper extends Component {
 
   render(){
     let { getComponent, getConfigs } = this.props
-    const Model = getComponent("Model")  
+    const Model = getComponent("Model")
 
     let expanded
     if(this.props.layoutSelectors) {
