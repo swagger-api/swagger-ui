@@ -1,15 +1,15 @@
 import React, { Component, } from "react"
 import PropTypes from "prop-types"
-//import layoutActions from "actions/layout"
-
+import ImPropTypes from "react-immutable-proptypes"
 
 export default class ModelWrapper extends Component {
-
 
   static propTypes = {
     schema: PropTypes.object.isRequired,
     name: PropTypes.string,
     displayName: PropTypes.string,
+    fullPath: PropTypes.array.isRequired,
+    specPath: ImPropTypes.list.isRequired,
     getComponent: PropTypes.func.isRequired,
     getConfigs: PropTypes.func.isRequired,
     specSelectors: PropTypes.object.isRequired,
@@ -20,15 +20,10 @@ export default class ModelWrapper extends Component {
     includeWriteOnly: PropTypes.bool,
   }
 
-  getSchemaBasePath = () => {
-    const isOAS3 = this.props.specSelectors.isOAS3()
-    return isOAS3 ? ["components", "schemas"] : ["definitions"]
-  }
-
   onToggle = (name,isShown) => {
     // If this prop is present, we'll have deepLinking for it
     if(this.props.layoutActions) {
-      this.props.layoutActions.show([...this.getSchemaBasePath(), name],isShown)
+      this.props.layoutActions.show(this.props.fullPath, isShown)
     }
   }
 
@@ -39,7 +34,7 @@ export default class ModelWrapper extends Component {
     let expanded
     if(this.props.layoutSelectors) {
       // If this is prop is present, we'll have deepLinking for it
-      expanded = this.props.layoutSelectors.isShown(["models",this.props.name])
+      expanded = this.props.layoutSelectors.isShown(this.props.fullPath)
     }
 
     return <div className="model-box">
