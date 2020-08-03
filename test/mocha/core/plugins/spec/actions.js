@@ -93,7 +93,7 @@ describe("spec plugin - actions", function(){
       })
     })
 
-    it("should pass requestInterceptor/responseInterceptor to fn.execute", function(){
+    it("should pass requestInterceptor/responseInterceptor to fn.execute", async () => {
       // Given
       let configs = {
         requestInterceptor: createSpy(),
@@ -107,7 +107,8 @@ describe("spec plugin - actions", function(){
         specActions: {
           executeRequest: createSpy(),
           setMutatedRequest: createSpy(),
-          setRequest: createSpy()
+          setRequest: createSpy(),
+          setResponse: createSpy()
         },
         specSelectors: {
           spec: () => fromJS({}),
@@ -124,7 +125,7 @@ describe("spec plugin - actions", function(){
         method: "GET",
         operation: fromJS({operationId: "getOne"})
       })
-      let res = executeFn(system)
+      await executeFn(system)
 
       // Then
       expect(system.fn.execute.calls.length).toEqual(1)
@@ -137,7 +138,7 @@ describe("spec plugin - actions", function(){
 
 
       let wrappedRequestInterceptor = system.fn.execute.calls[0].arguments[0].requestInterceptor
-      wrappedRequestInterceptor(system.fn.execute.calls[0].arguments[0])
+      await wrappedRequestInterceptor(system.fn.execute.calls[0].arguments[0])
       expect(configs.requestInterceptor.calls.length).toEqual(1)
       expect(system.specActions.setMutatedRequest.calls.length).toEqual(1)
       expect(system.specActions.setRequest.calls.length).toEqual(1)
