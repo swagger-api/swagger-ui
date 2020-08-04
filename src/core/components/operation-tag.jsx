@@ -2,7 +2,8 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
 import Im from "immutable"
-import { createDeepLinkPath, escapeDeepLinkPath, sanitizeUrl, buildUrl } from "core/utils"
+import { createDeepLinkPath, escapeDeepLinkPath, sanitizeUrl } from "core/utils"
+import { buildUrl } from "core/utils/url"
 
 export default class OperationTag extends React.Component {
 

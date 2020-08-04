@@ -1,7 +1,8 @@
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
 import { getList } from "core/utils"
-import { getExtensions, sanitizeUrl, escapeDeepLinkPath, buildUrl } from "core/utils"
+import { getExtensions, sanitizeUrl, escapeDeepLinkPath } from "core/utils"
+import { buildUrl } from "core/utils/url"
 import { Iterable, List } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 

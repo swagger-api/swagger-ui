@@ -22,10 +22,7 @@ import {
   escapeDeepLinkPath,
   getExtensions,
   getCommonExtensions,
-  sanitizeUrl,
-  isAbsoluteUrl,
-  buildBaseUrl,
-  buildUrl,
+  sanitizeUrl,  
   requiresValidationURL,
   extractFileNameFromContentDispositionHeader,
   deeplyStripKey,
@@ -35,6 +32,13 @@ import {
   generateCodeVerifier,
   createCodeChallenge,
 } from "core/utils"
+
+import { 
+  isAbsoluteUrl,
+  buildBaseUrl,
+  buildUrl,
+} from "core/utils/url"
+
 import win from "core/window"
 
 describe("utils", function() {

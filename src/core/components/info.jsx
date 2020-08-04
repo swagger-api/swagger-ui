@@ -1,7 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
 import ImPropTypes from "react-immutable-proptypes"
-import { sanitizeUrl, buildUrl } from "core/utils"
+import { sanitizeUrl } from "core/utils"
+import { buildUrl } from "core/utils/url"
 
 
 export class InfoBasePath extends React.Component {
