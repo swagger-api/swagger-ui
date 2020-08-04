@@ -22,7 +22,7 @@ import {
   escapeDeepLinkPath,
   getExtensions,
   getCommonExtensions,
-  sanitizeUrl,  
+  sanitizeUrl,
   requiresValidationURL,
   extractFileNameFromContentDispositionHeader,
   deeplyStripKey,
