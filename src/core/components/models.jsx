@@ -23,16 +23,22 @@ export default class Models extends Component {
 
   handleToggle = (name, isExpanded) => {
     const { layoutActions } = this.props
-    layoutActions.show(["models", name], isExpanded)
+    layoutActions.show([...this.getSchemaBasePath(), name], isExpanded)
     if(isExpanded) {
       this.props.specActions.requestResolvedSubtree([...this.getSchemaBasePath(), name])
     }
   }
 
-  onLoad = (ref) => {
+  onLoadModels = (ref) => {
+    if (ref) {
+      this.props.layoutActions.readyToScroll(this.getSchemaBasePath(), ref)
+    }
+  }
+
+  onLoadModel = (ref) => {
     if (ref) {
       const name = ref.getAttribute("data-name")
-      this.props.layoutActions.readyToScroll(["models", name], ref)
+      this.props.layoutActions.readyToScroll([...this.getSchemaBasePath(), name], ref)
     }
   }
 
@@ -42,8 +48,8 @@ export default class Models extends Component {
     let { docExpansion, defaultModelsExpandDepth } = getConfigs()
     if (!definitions.size || defaultModelsExpandDepth < 0) return null
 
-    let showModels = layoutSelectors.isShown("models", defaultModelsExpandDepth > 0 && docExpansion !== "none")
     const specPathBase = this.getSchemaBasePath()
+    let showModels = layoutSelectors.isShown(specPathBase, defaultModelsExpandDepth > 0 && docExpansion !== "none")
     const isOAS3 = specSelectors.isOAS3()
 
     const ModelWrapper = getComponent("ModelWrapper")
@@ -51,8 +57,8 @@ export default class Models extends Component {
     const ModelCollapse = getComponent("ModelCollapse")
     const JumpToPath = getComponent("JumpToPath")
 
-    return <section className={ showModels ? "models is-open" : "models"}>
-      <h4 onClick={() => layoutActions.show("models", !showModels)}>
+    return <section className={ showModels ? "models is-open" : "models"} ref={this.onLoadModels}>
+      <h4 onClick={() => layoutActions.show(specPathBase, !showModels)}>
         <span>{isOAS3 ? "Schemas" : "Models" }</span>
         <svg width="20" height="20">
           <use xlinkHref={showModels ? "#large-arrow-down" : "#large-arrow"} />
@@ -63,6 +69,7 @@ export default class Models extends Component {
           definitions.entrySeq().map(([name])=>{
 
             const fullPath = [...specPathBase, name]
+            const specPath = Im.List(fullPath)
 
             const schemaValue = specSelectors.specResolvedSubtree(fullPath)
             const rawSchemaValue = specSelectors.specJson().getIn(fullPath)
@@ -71,20 +78,19 @@ export default class Models extends Component {
             const rawSchema = Map.isMap(rawSchemaValue) ? rawSchemaValue : Im.Map()
 
             const displayName = schema.get("title") || rawSchema.get("title") || name
-            const isShown = layoutSelectors.isShown( ["models", name], false )
+            const isShown = layoutSelectors.isShown(fullPath, false)
 
             if( isShown && (schema.size === 0 && rawSchema.size > 0) ) {
               // Firing an action in a container render is not great,
               // but it works for now.
-              this.props.specActions.requestResolvedSubtree([...this.getSchemaBasePath(), name])
+              this.props.specActions.requestResolvedSubtree(fullPath)
             }
-
-            const specPath = Im.List([...specPathBase, name])
 
             const content = <ModelWrapper name={ name }
               expandDepth={ defaultModelsExpandDepth }
               schema={ schema || Im.Map() }
               displayName={displayName}
+              fullPath={fullPath}
               specPath={specPath}
               getComponent={ getComponent }
               specSelectors={ specSelectors }
@@ -101,7 +107,7 @@ export default class Models extends Component {
             </span>
 
             return <div id={ `model-${name}` } className="model-container" key={ `models-section-${name}` }
-                    data-name={name} ref={this.onLoad} >
+                    data-name={name} ref={this.onLoadModel} >
               <span className="models-jump-to-path"><JumpToPath specPath={specPath} /></span>
               <ModelCollapse
                 classes="model-box"
@@ -110,6 +116,9 @@ export default class Models extends Component {
                 title={title}
                 displayName={displayName}
                 modelName={name}
+                specPath={specPath}
+                layoutSelectors={layoutSelectors}
+                layoutActions={layoutActions}
                 hideSelfOnExpand={true}
                 expanded={ defaultModelsExpandDepth > 0 && isShown }
                 >{content}</ModelCollapse>

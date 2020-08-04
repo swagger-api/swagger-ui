@@ -16,7 +16,7 @@ cp ../../../dist/swagger-ui.css ../dist
 node create-manifest.js > ../dist/package.json
 
 # Transpile our top-level component
-../../../node_modules/.bin/babel --config-file ../../../.babelrc ../index.js > ../dist/index.js
+../../../node_modules/.bin/babel --config-file ../../../babel.config.json ../index.js > ../dist/index.js
 
 # Copy our README into the dist folder for npm
 cp ../README.md ../dist

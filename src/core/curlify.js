@@ -26,7 +26,7 @@ export default function curl( request ){
     for( let p of request.get("headers").entries() ){
       let [ h,v ] = p
       curlified.push( "-H " )
-      curlified.push( `"${h}: ${v}"` )
+      curlified.push( `"${h}: ${v.replace("$", "\\$")}"` )
       isMultipartFormDataRequest = isMultipartFormDataRequest || /^content-type$/i.test(h) && /^multipart\/form-data$/i.test(v)
     }
   }
@@ -44,7 +44,7 @@ export default function curl( request ){
       }
     } else {
       curlified.push( "-d" )
-      curlified.push( JSON.stringify( request.get("body") ).replace(/\\n/g, "") )
+      curlified.push( JSON.stringify( request.get("body") ).replace(/\\n/g, "").replace("$", "\\$") )
     }
   } else if(!request.get("body") && request.get("method") === "POST") {
     curlified.push( "-d" )
