@@ -399,7 +399,7 @@ export const validatePattern = (val, rxPattern) => {
 
 // validation of parameters before execute
 export const validateParam = (param, value, { isOAS3 = false, bypassRequiredCheck = false } = {}) => {
-  
+
   let errors = []
 
   let paramRequired = param.get("required")
@@ -436,7 +436,7 @@ export const validateParam = (param, value, { isOAS3 = false, bypassRequiredChec
     let objectStringCheck = type === "object" && typeof value === "string" && value
 
     const allChecks = [
-      stringCheck, arrayCheck, arrayListCheck, arrayStringCheck, fileCheck, 
+      stringCheck, arrayCheck, arrayListCheck, arrayStringCheck, fileCheck,
       booleanCheck, numberCheck, integerCheck, objectCheck, objectStringCheck,
     ]
 
@@ -639,7 +639,6 @@ export function sanitizeUrl(url) {
 
   return braintreeSanitizeUrl(url)
 }
-
 
 export function requiresValidationURL(uri) {
   if (!uri || uri.indexOf("localhost") >= 0 || uri.indexOf("127.0.0.1") >= 0 || uri === "none") {
