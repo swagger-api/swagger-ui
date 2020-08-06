@@ -3,8 +3,10 @@
  */
 
 import configBuilder from "./_config-builder"
+import path from "path"
 import { DuplicatesPlugin } from "inspectpack/plugin"
 import { WebpackBundleSizeAnalyzerPlugin } from "webpack-bundle-size-analyzer"
+import { StatsWriterPlugin } from "webpack-stats-plugin"
 
 const result = configBuilder(
   {
@@ -16,12 +18,13 @@ const result = configBuilder(
   {
     entry: {
       "swagger-ui-bundle": [
-        "./src/polyfills.js", // TODO: remove?
-        "./src/core/index.js",
+        // "./src/polyfills.js", // TODO: remove?
+        "./src/index.js",
       ],
     },
     output: {
       library: "SwaggerUIBundle",
+      // libraryTarget: "commonjs2",
     },
     plugins: [
       new DuplicatesPlugin({
@@ -31,6 +34,10 @@ const result = configBuilder(
         verbose: false,
       }),
       new WebpackBundleSizeAnalyzerPlugin("log.bundle-sizes.swagger-ui.txt"),
+      new StatsWriterPlugin({
+        filename: path.join("log.bundle-stats.swagger-ui.json"),
+        fields: null,
+      }),
     ]
   }
 )
