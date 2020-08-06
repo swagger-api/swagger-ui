@@ -332,4 +332,17 @@ describe("curlify", function () {
 
     expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"X-DOLLAR: token/123\\$\" -d \"CREATE (\\$props)\"")
   })
+
+  it("should include curlOptions from the request in the curl", function () {
+    let req = {
+      url: "http://example.com",
+      method: "GET",
+      headers: { "X-DOLLAR": "token/123$" },
+      curlOptions: ["-g"]
+    }
+
+    let curlified = curl(Im.fromJS(req))
+
+    expect(curlified).toEqual("curl -g -X GET \"http://example.com\" -H  \"X-DOLLAR: token/123\\$\"")
+  })
 })
