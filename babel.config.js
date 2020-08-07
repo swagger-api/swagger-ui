@@ -13,7 +13,8 @@ module.exports = {
             "forceAllTransforms": false,
             "ignoreBrowserslistConfig": true
           }
-        ]
+        ],
+        "@babel/preset-react",
       ],
       "plugins": [
         [
