@@ -1,7 +1,7 @@
 {
   "name": "swagger-ui",
   "version": "3.31.1",
-  "main": "lib/src/core/index.js",
+  "main": "lib/src/core/commonjs.js",
   "module": "es/src/core/index.js",
   "homepage": "https://github.com/swagger-api/swagger-ui",
   "repository": "git@github.com:swagger-api/swagger-ui.git",
