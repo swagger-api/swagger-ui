@@ -1,3 +1,3 @@
 recursive: true
-require: ['esm','@babel/register','source-map-support', 'test/mocha/setup.js']
+require: ['esm','@babel/register','source-map-support', 'test/mocha/setup.js', 'mocha-yaml-loader']
 # spec: 'test/mocha/**/*.{js,jsx}'
