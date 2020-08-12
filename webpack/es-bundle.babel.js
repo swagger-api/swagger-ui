@@ -34,10 +34,10 @@ const result = configBuilder(
         verbose: false,
       }),
       new WebpackBundleSizeAnalyzerPlugin("log.es-bundle-sizes.swagger-ui.txt"),
-      new StatsWriterPlugin({
-        filename: path.join("log.es-bundle-stats.swagger-ui.json"),
-        fields: null,
-      }),
+      // new StatsWriterPlugin({
+      //   filename: path.join("log.es-bundle-stats.swagger-ui.json"),
+      //   fields: null,
+      // }),
     ]
   }
 )
