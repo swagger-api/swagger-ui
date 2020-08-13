@@ -37,7 +37,7 @@
     "just-test-in-node": "cross-env BABEL_ENV=test mocha \"test/mocha/**/*.{js,jsx}\"",
     "test-e2e-cypress": "cypress run",
     "test-e2e-selenium": "sleep 3 && nightwatch test/e2e-selenium/scenarios/ --config test/e2e-selenium/nightwatch.json",
-    "test:artifact": "run-s test:artifact:umd:bundle test:artifact:es:bundle test:artifact:es:bundle:core",
+    "test:artifact": "run-s test:artifact:es:bundle test:artifact:es:bundle:core",
     "test:artifact:umd:bundle": "npm run build-bundle && cross-env BABEL_ENV=commonjs jest --config ./config/jest/jest.artifact-umd-bundle.config.js",
     "test:artifact:es:bundle": "npm run build:es:bundle && cross-env BABEL_ENV=commonjs jest --config ./config/jest/jest.artifact-es-bundle.config.js",
     "test:artifact:es:bundle:core": "npm run build:es:bundle:core && cross-env BABEL_ENV=commonjs jest --config ./config/jest/jest.artifact-es-bundle-core.config.js",
