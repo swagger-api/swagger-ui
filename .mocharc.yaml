@@ -1,4 +1,2 @@
 recursive: true
-require: ['esm','@babel/register','source-map-support', 'test/mocha/setup.js', 'mocha-yaml-loader']
-exclude: ['test/mocha/build-artifacts/**.js']
-# spec: 'test/mocha/**/*.{js,jsx}'
+require: ['esm','@babel/register','source-map-support', 'test/mocha/setup.js']
