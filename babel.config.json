@@ -7,7 +7,6 @@
           {
             "targets": {
               "browsers": [
-                /* benefit of C/S/FF/Edge only? */
                 "> 1%",
                 "last 2 versions",
                 "Firefox ESR",
