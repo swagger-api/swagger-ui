@@ -22,8 +22,6 @@
     "build-core": "webpack --colors --config webpack/core.babel.js",
     "build-standalone": "webpack --colors --config webpack/standalone.babel.js",
     "build-stylesheets": "webpack --colors --config webpack/stylesheets.babel.js",
-    "build:core:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
-    "build:core:es": "cross-env BABEL_ENV=es babel src --out-dir es",
     "build:es:bundle": "webpack --colors --config webpack/es-bundle.babel.js",
     "build:es:bundle:core": "webpack --colors --config webpack/es-bundle-core.babel.js",
     "predev": "npm install",
