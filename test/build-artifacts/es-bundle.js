@@ -1,8 +1,8 @@
-import expect from "expect"
-import SwaggerUI from "../../dist/swagger-ui-es-bundle"
+import expect from 'expect';
+import SwaggerUI from '../../dist/swagger-ui-es-bundle';
 
-describe("webpack browser es-bundle build", () => {
-  it("should export a function for es-bundle", () => {
-    expect(SwaggerUI).toBeA(Function)
-  })
-})
+describe('webpack browser es-bundle build', () => {
+  it('should export a function for es-bundle', () => {
+    expect(SwaggerUI).toBeA(Function);
+  });
+});
