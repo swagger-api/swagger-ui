@@ -2,11 +2,18 @@
  * @prettier
  */
 
+/** Dev Note: 
+ * StatsWriterPlugin is disabled by default; uncomment to enable
+ * when enabled, rebuilding the bundle will cause error for assetSizeLimit,
+ * which we want to keep out of CI/CD
+ * post build, cli command: npx webpack-bundle-analyzer <path>
+ */ 
+
 import configBuilder from "./_config-builder"
-import path from "path"
 import { DuplicatesPlugin } from "inspectpack/plugin"
 import { WebpackBundleSizeAnalyzerPlugin } from "webpack-bundle-size-analyzer"
-import { StatsWriterPlugin } from "webpack-stats-plugin"
+// import path from "path"
+// import { StatsWriterPlugin } from "webpack-stats-plugin"
 
 const result = configBuilder(
   {
@@ -18,7 +25,6 @@ const result = configBuilder(
   {
     entry: {
       "swagger-ui-es-bundle": [
-        // "./src/polyfills.js", // TODO: remove?
         "./src/index.js",
       ],
     },
