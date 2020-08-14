@@ -20,6 +20,7 @@ const result = configBuilder(
     },
 
     output: {
+      globalObject: "this",
       library: "SwaggerUICore",
     },
   }
