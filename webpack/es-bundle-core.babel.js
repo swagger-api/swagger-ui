@@ -2,7 +2,7 @@
  * @prettier
  */
 
-/** Dev Note: 
+ /** Dev Note: 
  * StatsWriterPlugin is disabled by default; uncomment to enable
  * when enabled, rebuilding the bundle will cause error for assetSizeLimit,
  * which we want to keep out of CI/CD
@@ -20,16 +20,17 @@ const result = configBuilder(
     minimize: true,
     mangle: true,
     sourcemaps: true,
-    includeDependencies: true,
+    includeDependencies: false,
   },
   {
     entry: {
-      "swagger-ui-bundle": [
+      "swagger-ui-es-bundle-core": [
         "./src/index.js",
       ],
     },
     output: {
       library: "SwaggerUIBundle",
+      libraryTarget: "commonjs2",
     },
     plugins: [
       new DuplicatesPlugin({
@@ -38,9 +39,9 @@ const result = configBuilder(
         // display full duplicates information? (Default: `false`)
         verbose: false,
       }),
-      new WebpackBundleSizeAnalyzerPlugin("log.bundle-sizes.swagger-ui.txt"),
+      new WebpackBundleSizeAnalyzerPlugin("log.es-bundle-core-sizes.swagger-ui.txt"),
       // new StatsWriterPlugin({
-      //   filename: path.join("log.bundle-stats.swagger-ui.json"),
+      //   filename: path.join("log.es-bundle-core-stats.swagger-ui.json"),
       //   fields: null,
       // }),
     ]

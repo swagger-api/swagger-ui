@@ -1,3 +1,2 @@
 recursive: true
 require: ['esm','@babel/register','source-map-support', 'test/mocha/setup.js']
-# spec: 'test/mocha/**/*.{js,jsx}'
