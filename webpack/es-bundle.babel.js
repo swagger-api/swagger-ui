@@ -24,13 +24,13 @@ const result = configBuilder(
   },
   {
     entry: {
-      "swagger-ui-bundle": [
+      "swagger-ui-es-bundle": [
         "./src/index.js",
       ],
     },
     output: {
-      globalObject: "this",
       library: "SwaggerUIBundle",
+      libraryTarget: "commonjs2",
     },
     plugins: [
       new DuplicatesPlugin({
@@ -39,9 +39,9 @@ const result = configBuilder(
         // display full duplicates information? (Default: `false`)
         verbose: false,
       }),
-      new WebpackBundleSizeAnalyzerPlugin("log.bundle-sizes.swagger-ui.txt"),
+      new WebpackBundleSizeAnalyzerPlugin("log.es-bundle-sizes.swagger-ui.txt"),
       // new StatsWriterPlugin({
-      //   filename: path.join("log.bundle-stats.swagger-ui.json"),
+      //   filename: path.join("log.es-bundle-stats.swagger-ui.json"),
       //   fields: null,
       // }),
     ]
