@@ -58,6 +58,10 @@ describe("<ObjectModel />", function() {
       ...props,
       schema: props.schema.set("nullable", true)
     }
+    const propsMinMaxProperties = {
+      ...props,
+      schema: props.schema.set("minProperties", 1).set("maxProperties", 5)
+    }
 
     it("renders a collapsible header", function(){
       const wrapper = shallow(<ObjectModel {...props}/>)
@@ -86,5 +90,21 @@ describe("<ObjectModel />", function() {
       expect(renderProperties.length).toEqual(1)
       expect(renderProperties.get(0).props.propKey).toEqual("nullable")
       expect(renderProperties.get(0).props.propVal).toEqual(true)
+    })
+
+    it("doesn't render `minProperties` and `maxProperties` if they are absent", function() {
+      const wrapper = shallow(<ObjectModel {...props}/>)
+      const renderProperties = wrapper.find(Property)
+      expect(renderProperties.length).toEqual(0)
+    })
+
+    it("renders `minProperties` and `maxProperties` if they are defined", function() {
+      const wrapper = shallow(<ObjectModel {...propsMinMaxProperties}/>)
+      const renderProperties = wrapper.find(Property)
+      expect(renderProperties.length).toEqual(2)
+      expect(renderProperties.get(0).props.propKey).toEqual("minProperties")
+      expect(renderProperties.get(0).props.propVal).toEqual(1)
+      expect(renderProperties.get(1).props.propKey).toEqual("maxProperties")
+      expect(renderProperties.get(1).props.propVal).toEqual(5)
     })
 })

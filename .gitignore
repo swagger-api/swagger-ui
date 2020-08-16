@@ -11,9 +11,12 @@ selenium-debug.log
 chromedriver.log
 test/e2e/db.json
 docs/_book
-dist/log*
 
+# dist
 flavors/**/dist/*
+/lib
+/es
+dist/log*
 
 # Cypress
 test/e2e-cypress/screenshots

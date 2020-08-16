@@ -32,6 +32,13 @@ import {
   generateCodeVerifier,
   createCodeChallenge,
 } from "core/utils"
+
+import { 
+  isAbsoluteUrl,
+  buildBaseUrl,
+  buildUrl,
+} from "core/utils/url"
+
 import win from "core/window"
 
 describe("utils", function() {
@@ -135,32 +142,28 @@ describe("utils", function() {
   })
   
   describe("validateMaximum", function() {
-    let errorMessage = "Value must be less than Maximum"
-    
     it("doesn't return for valid input", function() {
       expect(validateMaximum(9, 10)).toBeFalsy()
       expect(validateMaximum(19, 20)).toBeFalsy()
     })
     
     it("returns a message for invalid input", function() {
-      expect(validateMaximum(1, 0)).toEqual(errorMessage)
-      expect(validateMaximum(10, 9)).toEqual(errorMessage)
-      expect(validateMaximum(20, 19)).toEqual(errorMessage)
+      expect(validateMaximum(1, 0)).toEqual("Value must be less than 0")
+      expect(validateMaximum(10, 9)).toEqual("Value must be less than 9")
+      expect(validateMaximum(20, 19)).toEqual("Value must be less than 19")
     })
   })
   
   describe("validateMinimum", function() {
-    let errorMessage = "Value must be greater than Minimum"
-    
     it("doesn't return for valid input", function() {
       expect(validateMinimum(2, 1)).toBeFalsy()
       expect(validateMinimum(20, 10)).toBeFalsy()
     })
     
     it("returns a message for invalid input", function() {
-      expect(validateMinimum(-1, 0)).toEqual(errorMessage)
-      expect(validateMinimum(1, 2)).toEqual(errorMessage)
-      expect(validateMinimum(10, 20)).toEqual(errorMessage)
+      expect(validateMinimum(-1, 0)).toEqual("Value must be greater than 0")
+      expect(validateMinimum(1, 2)).toEqual("Value must be greater than 2")
+      expect(validateMinimum(10, 20)).toEqual("Value must be greater than 20")
     })
   })
   
@@ -295,31 +298,28 @@ describe("utils", function() {
   })
   
   describe("validateMaxLength", function() {
-    let errorMessage = "Value must be less than MaxLength"
-    
-    it("doesn't return for valid guid", function() {
+    it("doesn't return for valid input", function() {
       expect(validateMaxLength("a", 1)).toBeFalsy()
       expect(validateMaxLength("abc", 5)).toBeFalsy()
     })
     
     it("returns a message for invalid input'", function() {
-      expect(validateMaxLength("abc", 0)).toEqual(errorMessage)
-      expect(validateMaxLength("abc", 1)).toEqual(errorMessage)
-      expect(validateMaxLength("abc", 2)).toEqual(errorMessage)
+      expect(validateMaxLength("abc", 0)).toEqual("Value must be no longer than 0 characters")
+      expect(validateMaxLength("abc", 1)).toEqual("Value must be no longer than 1 character")
+      expect(validateMaxLength("abc", 2)).toEqual("Value must be no longer than 2 characters")
     })
   })
   
   describe("validateMinLength", function() {
-    let errorMessage = "Value must be greater than MinLength"
-    
-    it("doesn't return for valid guid", function() {
+    it("doesn't return for valid input", function() {
       expect(validateMinLength("a", 1)).toBeFalsy()
       expect(validateMinLength("abc", 2)).toBeFalsy()
     })
     
     it("returns a message for invalid input'", function() {
-      expect(validateMinLength("abc", 5)).toEqual(errorMessage)
-      expect(validateMinLength("abc", 8)).toEqual(errorMessage)
+      expect(validateMinLength("", 1)).toEqual("Value must be at least 1 character")
+      expect(validateMinLength("abc", 5)).toEqual("Value must be at least 5 characters")
+      expect(validateMinLength("abc", 8)).toEqual("Value must be at least 8 characters")
     })
   })
   
@@ -616,7 +616,7 @@ describe("utils", function() {
         maxLength: 5
       }
       value = "test string"
-      assertValidateParam(param, value, ["Value must be less than MaxLength"])
+      assertValidateParam(param, value, ["Value must be no longer than 5 characters"])
       
       // invalid string with max length 0
       param = {
@@ -625,7 +625,7 @@ describe("utils", function() {
         maxLength: 0
       }
       value = "test string"
-      assertValidateParam(param, value, ["Value must be less than MaxLength"])
+      assertValidateParam(param, value, ["Value must be no longer than 0 characters"])
       
       // invalid string with min length
       param = {
@@ -634,7 +634,7 @@ describe("utils", function() {
         minLength: 50
       }
       value = "test string"
-      assertValidateParam(param, value, ["Value must be greater than MinLength"])
+      assertValidateParam(param, value, ["Value must be at least 50 characters"])
     })
     
     it("validates optional strings", function() {
@@ -908,7 +908,7 @@ describe("utils", function() {
         maximum: 0
       }
       value = 1
-      assertValidateParam(param, value, ["Value must be less than Maximum"])
+      assertValidateParam(param, value, ["Value must be less than 0"])
       
       // invalid number with minimum:0
       param = {
@@ -917,7 +917,7 @@ describe("utils", function() {
         minimum: 0
       }
       value = -10
-      assertValidateParam(param, value, ["Value must be greater than Minimum"])
+      assertValidateParam(param, value, ["Value must be greater than 0"])
     })
     
     it("validates optional numbers", function() {
@@ -1341,6 +1341,92 @@ describe("utils", function() {
     })
   })
 
+  describe("isAbsoluteUrl", function() {
+
+    it("check if url is absolute", function() {
+      expect(!!isAbsoluteUrl("http://example.com")).toEqual(true)
+      expect(!!isAbsoluteUrl("https://secure-example.com")).toEqual(true)
+      expect(!!isAbsoluteUrl("HTTP://uppercase-example.com")).toEqual(true)
+      expect(!!isAbsoluteUrl("HTTP://uppercase-secure-example.com")).toEqual(true)
+      expect(!!isAbsoluteUrl("http://trailing-slash.com/")).toEqual(true)
+      expect(!!isAbsoluteUrl("ftp://file-transfer-protocol.com")).toEqual(true)
+      expect(!!isAbsoluteUrl("//no-protocol.com")).toEqual(true)
+    })
+
+    it("check if url is not absolute", function() {
+      expect(!!isAbsoluteUrl("/url-relative-to-host/base-path/path")).toEqual(false)
+      expect(!!isAbsoluteUrl("url-relative-to-base/base-path/path")).toEqual(false)      
+    })
+  })
+
+  describe("buildBaseUrl", function() {
+    const specUrl = "https://petstore.swagger.io/v2/swagger.json"
+    
+    const noServerSelected = ""
+    const absoluteServerUrl = "https://server-example.com/base-path/path"
+    const serverUrlRelativeToBase = "server-example/base-path/path"
+    const serverUrlRelativeToHost = "/server-example/base-path/path"
+
+    it("build base url with no server selected", function() {
+      expect(buildBaseUrl(noServerSelected, specUrl)).toBe("https://petstore.swagger.io/v2/swagger.json")
+    })
+
+    it("build base url from absolute server url", function() {
+      expect(buildBaseUrl(absoluteServerUrl, specUrl)).toBe("https://server-example.com/base-path/path")
+    })
+
+    it("build base url from relative server url", function() {
+      expect(buildBaseUrl(serverUrlRelativeToBase, specUrl)).toBe("https://petstore.swagger.io/v2/server-example/base-path/path")
+      expect(buildBaseUrl(serverUrlRelativeToHost, specUrl)).toBe("https://petstore.swagger.io/server-example/base-path/path")
+    })
+  })
+
+  describe("buildUrl", function() {
+    const specUrl = "https://petstore.swagger.io/v2/swagger.json"
+    
+    const noUrl = ""
+    const absoluteUrl = "https://example.com/base-path/path"
+    const urlRelativeToBase = "relative-url/base-path/path"
+    const urlRelativeToHost = "/relative-url/base-path/path"
+
+    const noServerSelected = ""
+    const absoluteServerUrl = "https://server-example.com/base-path/path"
+    const serverUrlRelativeToBase = "server-example/base-path/path"
+    const serverUrlRelativeToHost = "/server-example/base-path/path"
+    
+    it("build no url", function() {
+      expect(buildUrl(noUrl, specUrl, { selectedServer: absoluteServerUrl })).toBe(undefined)
+      expect(buildUrl(noUrl, specUrl, { selectedServer: serverUrlRelativeToBase })).toBe(undefined)
+      expect(buildUrl(noUrl, specUrl, { selectedServer: serverUrlRelativeToHost })).toBe(undefined)
+    })
+
+    it("build absolute url", function() {
+      expect(buildUrl(absoluteUrl, specUrl, { selectedServer: absoluteServerUrl })).toBe("https://example.com/base-path/path")
+      expect(buildUrl(absoluteUrl, specUrl, { selectedServer: serverUrlRelativeToBase })).toBe("https://example.com/base-path/path")
+      expect(buildUrl(absoluteUrl, specUrl, { selectedServer: serverUrlRelativeToHost })).toBe("https://example.com/base-path/path")
+    })
+
+    it("build relative url with no server selected", function() {
+      expect(buildUrl(urlRelativeToBase, specUrl, { selectedServer: noServerSelected })).toBe("https://petstore.swagger.io/v2/relative-url/base-path/path")
+      expect(buildUrl(urlRelativeToHost, specUrl, { selectedServer: noServerSelected })).toBe("https://petstore.swagger.io/relative-url/base-path/path")
+    })
+
+    it("build relative url with absolute server url", function() {
+      expect(buildUrl(urlRelativeToBase, specUrl, { selectedServer: absoluteServerUrl })).toBe("https://server-example.com/base-path/relative-url/base-path/path")
+      expect(buildUrl(urlRelativeToHost, specUrl, { selectedServer: absoluteServerUrl })).toBe("https://server-example.com/relative-url/base-path/path")
+    })
+
+    it("build relative url with server url relative to base", function() {
+      expect(buildUrl(urlRelativeToBase, specUrl, { selectedServer: serverUrlRelativeToBase })).toBe("https://petstore.swagger.io/v2/server-example/base-path/relative-url/base-path/path")
+      expect(buildUrl(urlRelativeToHost, specUrl, { selectedServer: serverUrlRelativeToBase })).toBe("https://petstore.swagger.io/relative-url/base-path/path")
+    })
+
+    it("build relative url with server url relative to host", function() {
+      expect(buildUrl(urlRelativeToBase, specUrl, { selectedServer: serverUrlRelativeToHost })).toBe("https://petstore.swagger.io/server-example/base-path/relative-url/base-path/path")
+      expect(buildUrl(urlRelativeToHost, specUrl, { selectedServer: serverUrlRelativeToHost })).toBe("https://petstore.swagger.io/relative-url/base-path/path")
+    })
+  })
+  
   describe("requiresValidationURL", function() {
     it("Should tell us if we require a ValidationURL", function() {
       const res = requiresValidationURL("https://example.com")

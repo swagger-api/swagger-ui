@@ -1,5 +1,5 @@
 const { JSDOM } = require("jsdom")
-const win = require("core/window")
+const win = require("../../src/core/window")
 
 const jsdom = new JSDOM("<!doctype html><html><body></body></html>")
 const { window } = jsdom
