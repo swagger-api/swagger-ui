@@ -1,4 +1,3 @@
-const expect = require("expect")
 const translator = require("../../../docker/configurator/translator")
 const dedent = require("dedent")
 
@@ -15,7 +14,7 @@ describe("docker: env translator", function() {
         MY_THING: "hey"
       }
 
-      const onFoundSpy = expect.createSpy()
+      const onFoundSpy = jest.fn()
 
       const schema = {
         MY_THING: {
@@ -29,7 +28,7 @@ describe("docker: env translator", function() {
         schema
       })
       expect(res).toEqual(`myThing: "hey",`)
-      expect(onFoundSpy.calls.length).toEqual(1)
+      expect(onFoundSpy.mock.calls.length).toEqual(1)
 
     })
 

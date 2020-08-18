@@ -2,8 +2,7 @@
  * @prettier
  */
 
-import expect from "expect"
-import { fromJS } from "immutable"
+import { fromJS } from "immutable";
 import getParameterSchema from "../../../../src/helpers/get-parameter-schema"
 
 describe("getParameterSchema", () => {

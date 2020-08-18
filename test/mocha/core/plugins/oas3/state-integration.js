@@ -1,4 +1,3 @@
-import expect from "expect"
 import { fromJS, OrderedMap } from "immutable"
 
 import {

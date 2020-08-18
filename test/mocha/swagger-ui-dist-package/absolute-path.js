@@ -1,6 +1,5 @@
 /* eslint-env mocha */
-import expect from "expect"
-import path from "path"
+import path from "path";
 import getAbsoluteFSPath from "../../../swagger-ui-dist-package/absolute-path"
 
 describe("swagger-ui-dist", function(){

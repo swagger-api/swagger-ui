@@ -1,6 +1,5 @@
 import { fromJS } from "immutable"
 import { createXMLExample, sampleFromSchema } from "corePlugins/samples/fn"
-import expect from "expect"
 
 describe("sampleFromSchema", function() {
   it("handles Immutable.js objects for nested schemas", function () {
@@ -249,7 +248,7 @@ describe("sampleFromSchema", function() {
     // it would be better to mock Date globally and expect a string - KS 11/18
     let expected = new Date().toISOString().substring(0, 20)
 
-    expect(sampleFromSchema(definition)).toInclude(expected)
+    expect(sampleFromSchema(definition)).toContain(expected)
   })
 
   it("returns example value for date property", function() {

@@ -1,6 +1,5 @@
 /* eslint-env mocha */
-import expect from "expect"
-import { fromJS } from "immutable"
+import { fromJS } from "immutable";
 import { definitionsToAuthorize, definitionsForRequirements } from "corePlugins/auth/selectors"
 
 describe("auth plugin - selectors", () => {

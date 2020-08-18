@@ -1,6 +1,5 @@
 /* eslint-env mocha */
-import expect, { createSpy } from "expect"
-import { execute } from "corePlugins/auth/spec-wrap-actions"
+import { execute } from "corePlugins/auth/spec-wrap-actions";
 
 describe("spec plugin - actions", function(){
 
@@ -10,18 +9,20 @@ describe("spec plugin - actions", function(){
       // Given
       const system = {
         authSelectors: {
-          authorized: createSpy().andReturn({some: "security"})
+          authorized: jest.fn().mockImplementation(() => ({
+            some: "security"
+          }))
         }
       }
-      const oriExecute = createSpy()
+      const oriExecute = jest.fn()
 
       // When
       let executeFn = execute(oriExecute, system)
       executeFn({})
 
       // Then
-      expect(oriExecute.calls.length).toEqual(1)
-      expect(oriExecute.calls[0].arguments[0]).toEqual({
+      expect(oriExecute.mock.calls.length).toEqual(1)
+      expect(oriExecute.mock.calls[0][0]).toEqual({
         extras: {
           security: {
             some: "security"

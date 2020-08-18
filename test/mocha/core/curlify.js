@@ -1,4 +1,3 @@
-import expect from "expect"
 import Im from "immutable"
 import curl from "core/curlify"
 import win from "core/window"

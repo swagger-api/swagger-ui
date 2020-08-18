@@ -1,6 +1,5 @@
 import { Map } from "immutable"
 import opsFilter from "corePlugins/filter/opsFilter"
-import expect from "expect"
 
 describe("opsFilter", function() {
   const taggedOps = Map([["pet"], ["store"], ["user"]])

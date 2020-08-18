@@ -1,9 +1,5 @@
 /* eslint-env mocha */
-import expect, { createSpy } from "expect"
-import {
-  authorizeRequest,
-  authorizeAccessCodeWithFormParams,
-} from "corePlugins/auth/actions"
+import { authorizeRequest, authorizeAccessCodeWithFormParams } from "corePlugins/auth/actions";
 
 describe("auth plugin - actions", () => {
 
@@ -63,7 +59,7 @@ describe("auth plugin - actions", () => {
         }
         const system = {
           fn: {
-            fetch: createSpy().andReturn(Promise.resolve())
+            fetch: jest.fn().mockImplementation(() => Promise.resolve())
           },
           getConfigs: () => ({}),
           authSelectors: {
@@ -86,7 +82,7 @@ describe("auth plugin - actions", () => {
 
         // Then
         expect(system.fn.fetch.calls.length).toEqual(1)
-        expect(system.fn.fetch.calls[0].arguments[0]).toInclude({url: expectedFetchUrl})
+        expect(system.fn.fetch.calls[0].arguments[0]).toContain({url: expectedFetchUrl})
       })
     })
 
@@ -98,7 +94,7 @@ describe("auth plugin - actions", () => {
       }
       const system = {
         fn: {
-          fetch: createSpy().andReturn(Promise.resolve())
+          fetch: jest.fn().mockImplementation(() => Promise.resolve())
         },
         getConfigs: () => ({}),
         authSelectors: {
@@ -134,7 +130,7 @@ describe("auth plugin - actions", () => {
       }
       const system = {
         fn: {
-          fetch: createSpy().andReturn(Promise.resolve())
+          fetch: jest.fn().mockImplementation(() => Promise.resolve())
         },
         getConfigs: () => ({}),
         authSelectors: {
@@ -177,7 +173,7 @@ describe("auth plugin - actions", () => {
       }
 
       const authActions = {
-        authorizeRequest: createSpy()
+        authorizeRequest: jest.fn()
       }
 
       authorizeAccessCodeWithFormParams(data)({ authActions })

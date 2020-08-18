@@ -1,6 +1,5 @@
 /* eslint-env mocha */
-import expect, { createSpy } from "expect"
-import { fromJS } from "immutable"
+import { fromJS } from "immutable";
 import { execute, executeRequest, changeParamByIdentity, updateEmptyParamInclusion } from "corePlugins/spec/actions"
 
 describe("spec plugin - actions", function(){
@@ -14,7 +13,7 @@ describe("spec plugin - actions", function(){
           fetch: 1
         },
         specActions: {
-          executeRequest: createSpy()
+          executeRequest: jest.fn()
         },
         specSelectors: {
           spec: () => fromJS({spec: 1}),
@@ -49,7 +48,7 @@ describe("spec plugin - actions", function(){
       const system = {
         fn: {},
         specActions: {
-          executeRequest: createSpy()
+          executeRequest: jest.fn()
         },
         specSelectors: {
           spec: () => fromJS({}),
@@ -63,7 +62,7 @@ describe("spec plugin - actions", function(){
       executeFn(system)
 
       // Then
-      expect(system.specActions.executeRequest.calls[0].arguments[0]).toInclude({hi: "hello"})
+      expect(system.specActions.executeRequest.calls[0].arguments[0]).toContain({hi: "hello"})
     })
 
   })
@@ -74,10 +73,10 @@ describe("spec plugin - actions", function(){
 
       const system = {
         fn: {
-          execute: createSpy().andReturn(Promise.resolve())
+          execute: jest.fn().mockImplementation(() => Promise.resolve())
         },
         specActions: {
-          setResponse: createSpy()
+          setResponse: jest.fn()
         }
       }
 
@@ -86,7 +85,7 @@ describe("spec plugin - actions", function(){
       let res = executeFn(system)
 
       // Then
-      expect(res).toBeA(Promise)
+      expect(res).toBeInstanceOf(Promise)
       expect(system.fn.execute.calls.length).toEqual(1)
       expect(system.fn.execute.calls[0].arguments[0]).toEqual({
         one: 1
@@ -96,19 +95,19 @@ describe("spec plugin - actions", function(){
     it("should pass requestInterceptor/responseInterceptor to fn.execute", async () => {
       // Given
       let configs = {
-        requestInterceptor: createSpy(),
-        responseInterceptor: createSpy()
+        requestInterceptor: jest.fn(),
+        responseInterceptor: jest.fn()
       }
       const system = {
         fn: {
-          buildRequest: createSpy(),
-          execute: createSpy().andReturn(Promise.resolve())
+          buildRequest: jest.fn(),
+          execute: jest.fn().mockImplementation(() => Promise.resolve())
         },
         specActions: {
-          executeRequest: createSpy(),
-          setMutatedRequest: createSpy(),
-          setRequest: createSpy(),
-          setResponse: createSpy()
+          executeRequest: jest.fn(),
+          setMutatedRequest: jest.fn(),
+          setRequest: jest.fn(),
+          setResponse: jest.fn()
         },
         specSelectors: {
           spec: () => fromJS({}),
@@ -129,8 +128,8 @@ describe("spec plugin - actions", function(){
 
       // Then
       expect(system.fn.execute.calls.length).toEqual(1)
-      expect(system.fn.execute.calls[0].arguments[0]).toIncludeKey("requestInterceptor")
-      expect(system.fn.execute.calls[0].arguments[0]).toInclude({
+      expect(Object.keys(system.fn.execute.calls[0].arguments[0])).toContain("requestInterceptor")
+      expect(system.fn.execute.calls[0].arguments[0]).toContain({
         responseInterceptor: configs.responseInterceptor
       })
       expect(system.specActions.setMutatedRequest.calls.length).toEqual(0)
@@ -150,13 +149,13 @@ describe("spec plugin - actions", function(){
     const response = {serverResponse: true}
     const system = {
       fn: {
-        execute: createSpy().andReturn(Promise.resolve(response))
+        execute: jest.fn().mockImplementation(() => Promise.resolve(response))
       },
       specActions: {
-        setResponse: createSpy()
+        setResponse: jest.fn()
       },
       errActions: {
-        newSpecErr: createSpy()
+        newSpecErr: jest.fn()
       }
     }
 

@@ -1,6 +1,5 @@
 import { fromJS } from "immutable"
 import { isOAS3, isSwagger2 } from "corePlugins/oas3/helpers"
-import expect from "expect"
 
 const isOAS3Shorthand = (version) => isOAS3(fromJS({
   openapi: version

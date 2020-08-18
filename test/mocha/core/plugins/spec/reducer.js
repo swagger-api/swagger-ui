@@ -1,6 +1,5 @@
 /* eslint-env mocha */
-import expect from "expect"
-import { fromJS } from "immutable"
+import { fromJS } from "immutable";
 import reducer from "corePlugins/spec/reducers"
 
 describe("spec plugin - reducer", function(){

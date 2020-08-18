@@ -1,6 +1,9 @@
 const { JSDOM } = require("jsdom")
 const win = require("../../src/core/window")
 
+// import JSDOM from "jsdom"
+// import win from "../../src/core/window"
+
 const jsdom = new JSDOM("<!doctype html><html><body></body></html>")
 const { window } = jsdom
 

@@ -1,4 +1,3 @@
-const expect = require("expect")
 const oauthBlockBuilder = require("../../../docker/configurator/oauth")
 const dedent = require("dedent")
 

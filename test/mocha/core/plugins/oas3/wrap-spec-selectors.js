@@ -1,6 +1,5 @@
 /* eslint-env mocha */
-import expect, { createSpy } from "expect"
-import { Map, fromJS } from "immutable"
+import { Map, fromJS } from "immutable";
 import {
   definitions
 } from "corePlugins/oas3/spec-extensions/wrap-selectors"

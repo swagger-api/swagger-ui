@@ -1,6 +1,5 @@
 /* eslint-env mocha */
-import expect from "expect"
-import { Map, fromJS, OrderedMap } from "immutable"
+import { Map, fromJS, OrderedMap } from "immutable";
 import {
   mapToList,
   parseSearch,
@@ -338,10 +337,10 @@ describe("utils", function() {
     })
     
     it("fails gracefully when an invalid regex value is passed", function() {
-      expect(() => validatePattern("aValue", "---")).toNotThrow()
-      expect(() => validatePattern("aValue", 1234)).toNotThrow()
-      expect(() => validatePattern("aValue", null)).toNotThrow()
-      expect(() => validatePattern("aValue", [])).toNotThrow()
+      expect(() => validatePattern("aValue", "---")).not.toThrow()
+      expect(() => validatePattern("aValue", 1234)).not.toThrow()
+      expect(() => validatePattern("aValue", null)).not.toThrow()
+      expect(() => validatePattern("aValue", [])).not.toThrow()
     })
   })
   
@@ -1586,8 +1585,8 @@ describe("utils", function() {
         error = e
       } 
       
-      expect(error).toBeA(Error)
-      expect(error.message).toInclude("received a non-Im.Map parameter as input")
+      expect(error).toBeInstanceOf(Error)
+      expect(error.message).toContain("received a non-Im.Map parameter as input")
       expect(res).toEqual(null)
     })
   })
@@ -1644,7 +1643,7 @@ describe("utils", function() {
       const codeVerifier = generateCodeVerifier()
 
       // Source: https://tools.ietf.org/html/rfc7636#section-4.1
-      expect(codeVerifier.length).toBeGreaterThanOrEqualTo(43)
+      expect(codeVerifier.length).toBeGreaterThanOrEqual(43)
     })
   })
 
