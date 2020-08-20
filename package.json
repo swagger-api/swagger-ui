@@ -160,7 +160,7 @@
     "react-test-renderer": "^15.5.4",
     "release-it": "=13.6.5",
     "rimraf": "^3.0.0",
-    "sass-loader": "^7.1.0",
+    "sass-loader": "^9.0.0",
     "selenium-server-standalone-jar": "^3.141.5",
     "source-map-support": "^0.5.19",
     "standard": "^11.0.1",
