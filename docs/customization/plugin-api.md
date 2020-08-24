@@ -4,7 +4,7 @@ A plugin is a function that returns an object - more specifically, the object ma
 
 ### Note: Semantic Versioning 
 
-Swagger UI's internal APIs are _not_ part of our public contract, which means that they can change without the major version changing.
+Swagger UI's internal APIs are _not_ part of our public contract, which means that they can change without the major version change.
 
 If your custom plugins wrap, extend, override, or consume any internal core APIs, we recommend specifying a specific minor version of Swagger UI to use in your application, because they will _not_ change between patch versions.
 
@@ -104,7 +104,7 @@ For more information about the concept of actions in Redux, see the [Redux Actio
 
 #### Reducers
 
-Reducers take a state (which is an [Immutable.js map](https://facebook.github.io/immutable-js/docs/#/Map)) and an action, and return a new state.
+Reducers take a state (which is an [Immutable.js map](https://facebook.github.io/immutable-js/docs/#/Map)) and an action, then returns a new state.
 
 Reducers must be provided to the system under the name of the action type that they handle, in this case, `EXAMPLE_SET_FAV_COLOR`.
 
@@ -130,7 +130,7 @@ const MyReducerPlugin = function(system) {
 
 Selectors reach into their namespace's state to retrieve or derive data from the state.
 
-They're an easy way to keep logic in one place, and is preferred over passing state data directly into components.
+They're an easy way to keep logic in one place, and are preferred over passing state data directly into components.
 
 
 ```javascript

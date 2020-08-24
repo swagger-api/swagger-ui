@@ -9,7 +9,7 @@ Swagger UI allows you to deeply link into tags and operations within a spec. Whe
 When you expand a tag or operation, Swagger UI will automatically update its URL fragment with a deep link to the item.
 Conversely, when you collapse a tag or operation, Swagger UI will clear the URL fragment.
 
-You can also right-click a tag name or operation path in order to copy a link to that tag or operation.
+You can also right-click a tag name or operation path to copy a link to that tag or operation.
 
 #### Fragment format
 
@@ -19,7 +19,7 @@ The fragment is formatted in one of two ways:
 - `#/{tagName}/{operationId}`, to trigger the focus of a specific operation within a tag
 
 `operationId` is the explicit operationId provided in the spec, if one exists.
-Otherwise, Swagger UI generates an implicit operationId by combining the operation's path and method, and escaping non-alphanumeric characters.
+Otherwise, Swagger UI generates an implicit operationId by combining the operation's path and method, while escaping non-alphanumeric characters.
 
 ## FAQ
 
