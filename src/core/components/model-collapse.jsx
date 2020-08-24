@@ -65,7 +65,7 @@ export default class ModelCollapse extends Component {
   }
 
   onLoad = (ref) => {
-    if(ref) {
+    if (ref && this.props.layoutSelectors) {
       const scrollToKey = this.props.layoutSelectors.getScrollToKey()
 
       if( Im.is(scrollToKey, this.props.specPath) ) this.toggleCollapsed()

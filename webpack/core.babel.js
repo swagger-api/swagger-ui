@@ -14,12 +14,13 @@ const result = configBuilder(
   {
     entry: {
       "swagger-ui": [
-        "./src/polyfills.js", // TODO: remove?
-        "./src/core/index.js",
+        // "./src/polyfills.js", // TODO: remove?
+        "./src/index.js",
       ],
     },
 
     output: {
+      globalObject: "this",
       library: "SwaggerUICore",
     },
   }

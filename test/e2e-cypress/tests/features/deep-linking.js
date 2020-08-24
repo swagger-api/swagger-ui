@@ -201,8 +201,9 @@ function OperationDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId,
     cy.visit(baseUrl)
       .get(elementToGet)
       .click()
-      .window()
-      .should("have.deep.property", "location.hash", correctFragment)
+    cy.location().should((loc) => {
+      expect(loc.hash).to.eq(correctFragment)
+    })
   })
 
   it("should provide an anchor link that has the correct fragment as href", () => {
@@ -211,8 +212,9 @@ function OperationDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId,
       .find("a")
       .should("have.attr", "href", correctHref)
       .click()
-      .window()
-      .should("have.deep.property", "location.hash", correctFragment)
+    cy.location().should((loc) => {
+      expect(loc.hash).to.eq(correctFragment)
+    })
   })
 
   it("should expand the operation when reloaded", () => {
@@ -225,8 +227,9 @@ function OperationDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId,
     cy.visit(`${baseUrl}${correctFragment}`)
       .reload()
       .should("exist")
-      .window()
-      .should("have.deep.property", "location.hash", correctFragment)
+    cy.location().should((loc) => {
+      expect(loc.hash).to.eq(correctFragment)
+    })
   })
 
   it("should expand a tag with docExpansion disabled", () => {
@@ -254,8 +257,9 @@ function TagDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, corre
       .get(elementToGet)
       .click()
       .click() // tags need two clicks because they're expanded by default
-      .window()
-      .should("have.deep.property", "location.hash", correctFragment)
+    cy.location().should((loc) => {
+      expect(loc.hash).to.eq(correctFragment)
+    })
   })
 
   it("should provide an anchor link that has the correct fragment as href", () => {
@@ -275,8 +279,9 @@ function TagDeeplinkTestFactory({ baseUrl, elementToGet, correctElementId, corre
     cy.visit(`${baseUrl}${correctFragment}`)
       .reload()
       .should("exist")
-      .window()
-      .should("have.deep.property", "location.hash", correctFragment)
+    cy.location().should((loc) => {
+      expect(loc.hash).to.eq(correctFragment)
+    })
   })
 
   it("should expand a tag with docExpansion disabled", () => {
