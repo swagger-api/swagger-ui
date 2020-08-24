@@ -12,7 +12,7 @@ From lowest to highest precedence:
 
 ### Parameters
 
-Parameters with dots in their names are single strings used to organize subordinate parameters and are not indicative of a nested structure.
+Parameters with dots in their names are single strings used to organize subordinate parameters, and are not indicative of a nested structure.
 
 For readability, parameters are grouped by category and sorted alphabetically.
 

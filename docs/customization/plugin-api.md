@@ -104,7 +104,7 @@ For more information about the concept of actions in Redux, see the [Redux Actio
 
 #### Reducers
 
-Reducers take a state (which is an [Immutable.js map](https://facebook.github.io/immutable-js/docs/#/Map)) and an action and return a new state.
+Reducers take a state (which is an [Immutable.js map](https://facebook.github.io/immutable-js/docs/#/Map)) and an action, then returns a new state.
 
 Reducers must be provided to the system under the name of the action type that they handle, in this case, `EXAMPLE_SET_FAV_COLOR`.
 
@@ -130,7 +130,7 @@ const MyReducerPlugin = function(system) {
 
 Selectors reach into their namespace's state to retrieve or derive data from the state.
 
-They're an easy way to keep logic in one place and are preferred over passing state data directly into components.
+They're an easy way to keep logic in one place, and are preferred over passing state data directly into components.
 
 
 ```javascript
@@ -147,7 +147,7 @@ const MySelectorPlugin = function(system) {
 }
 ```
 
-You can also use the Reselect library to memoize your selectors, which is recommended for any selectors that will see heavy use since Reselect automatically memoizes selector calls for you:
+You can also use the Reselect library to memoize your selectors, which is recommended for any selectors that will see heavy use, since Reselect automatically memoizes selector calls for you:
 
 ```javascript
 import { createSelector } from "reselect"
@@ -223,7 +223,7 @@ const thisVariableWillBeNull = getComponent("not_real", false, { failSilently: t
 
 #### Wrap-Actions
 
-Wrap Actions allow you to override the behavior of the action in the system.
+Wrap Actions allow you to override the behavior of an action in the system.
 
 They are function factories with the signature `(oriAction, system) => (...args) => result`.
 

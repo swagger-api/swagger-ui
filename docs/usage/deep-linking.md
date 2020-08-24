@@ -19,7 +19,7 @@ The fragment is formatted in one of two ways:
 - `#/{tagName}/{operationId}`, to trigger the focus of a specific operation within a tag
 
 `operationId` is the explicit operationId provided in the spec, if one exists.
-Otherwise, Swagger UI generates an implicit operationId by combining the operation's path and method and escaping non-alphanumeric characters.
+Otherwise, Swagger UI generates an implicit operationId by combining the operation's path and method, while escaping non-alphanumeric characters.
 
 ## FAQ
 
