@@ -3,7 +3,7 @@ import win from "core/window";
 import oauth2Authorize from "core/oauth2-authorize"
 import * as utils from "core/utils"
 
-describe("oauth2", function () {
+describe("oauth2", () => {
 
   let mockSchema = {
     flow: "accessCode",
@@ -18,8 +18,12 @@ describe("oauth2", function () {
     authConfigs: {}
   }
 
-  describe("authorize redirect", function () {
-    it("should build authorize url", function() {
+  beforeEach(() => {
+    win.open = jest.fn()
+  })
+
+  describe("authorize redirect", () => {
+    it("should build authorize url", () => {
       const windowOpenSpy = jest.spyOn(win, "open")
       oauth2Authorize(authConfig)
       expect(windowOpenSpy.mock.calls.length).toEqual(1)
@@ -28,7 +32,7 @@ describe("oauth2", function () {
       windowOpenSpy.mockReset()
     })
 
-    it("should append query parameters to authorizeUrl with query parameters", function() {
+    it("should append query parameters to authorizeUrl with query parameters", () => {
       const windowOpenSpy = jest.spyOn(win, "open")
       mockSchema.authorizationUrl = "https://testAuthorizationUrl?param=1"
       oauth2Authorize(authConfig)
@@ -38,7 +42,7 @@ describe("oauth2", function () {
       windowOpenSpy.mockReset()
     })
 
-    it("should send code_challenge when using authorizationCode flow with usePkceWithAuthorizationCodeGrant enabled", function () {
+    it("should send code_challenge when using authorizationCode flow with usePkceWithAuthorizationCodeGrant enabled", () => {
       const windowOpenSpy = jest.spyOn(win, "open")
       mockSchema.flow = "authorizationCode"
 
@@ -51,9 +55,9 @@ describe("oauth2", function () {
       authConfig.authConfigs.usePkceWithAuthorizationCodeGrant = true
 
       oauth2Authorize(authConfig)
-      expect(win.open.calls.length).toEqual(1)
+      expect(win.open.mock.calls.length).toEqual(1)
 
-      const actualUrl = new URLSearchParams(win.open.calls[0].arguments[0])
+      const actualUrl = new URLSearchParams(win.open.mock.calls[0][0])
       expect(actualUrl.get("code_challenge")).toBe(expectedCodeChallenge)
       expect(actualUrl.get("code_challenge_method")).toBe("S256")
 
