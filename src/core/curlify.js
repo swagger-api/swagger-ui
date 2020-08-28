@@ -1,4 +1,5 @@
 import win from "./window"
+import { Map } from "immutable"
 
 /**
  * if duplicate key name existed from FormData entries,
@@ -44,7 +45,21 @@ export default function curl( request ){
       }
     } else {
       curlified.push( "-d" )
-      curlified.push( JSON.stringify( request.get("body") ).replace(/\\n/g, "").replace("$", "\\$") )
+      let reqBody = request.get("body")
+      if (!Map.isMap(reqBody)) {
+        curlified.push( JSON.stringify( request.get("body") ).replace(/\\n/g, "").replace("$", "\\$") )
+      } else {
+        let curlifyToJoin = []
+        for (let [k, v] of request.get("body").entrySeq()) {
+          let extractedKey = extractKey(k)
+          if (v instanceof win.File) {
+            curlifyToJoin.push(`"${extractedKey}":{"name":"${v.name}"${v.type ? `,"type":"${v.type}"` : ""}}`)
+          } else {
+            curlifyToJoin.push(`"${extractedKey}":${JSON.stringify(v).replace(/\\n/g, "").replace("$", "\\$")}`)
+          }
+        }
+        curlified.push(`{${curlifyToJoin.join()}}`)
+      }
     }
   } else if(!request.get("body") && request.get("method") === "POST") {
     curlified.push( "-d" )
