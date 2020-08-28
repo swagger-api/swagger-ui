@@ -174,9 +174,9 @@ describe("curlify", function () {
   })
 
   it("should print a curl with formData and file", function () {
-    let file = new win.File()
-    file.name = "file.txt"
-    file.type = "text/plain"
+    let file = new win.File([""], "file.txt", { type: "text/plain" })
+    // file.name = "file.txt"
+    // file.type = "text/plain"
 
     let req = {
       url: "http://example.com",
@@ -194,9 +194,9 @@ describe("curlify", function () {
   })
 
   it("should print a curl without form data type if type is unknown", function () {
-    let file = new win.File()
-    file.name = "file.txt"
-    file.type = ""
+    let file = new win.File([""], "file.txt", { type: "" })
+    // file.name = "file.txt"
+    // file.type = ""
 
     let req = {
       url: "http://example.com",
@@ -245,12 +245,12 @@ describe("curlify", function () {
     expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"accept: application/json\" -d \"{\\\"id\\\":\\\"foo'bar\\\"}\"")
   })
 
-  context("given multiple entries with file", function () {
-    context("and with leading custom header", function () {
+  describe("given multiple entries with file", function () {
+    describe("and with leading custom header", function () {
       it("should print a proper curl -F", function () {
-        let file = new win.File()
-        file.name = "file.txt"
-        file.type = "text/plain"
+        let file = new win.File([""], "file.txt", { type: "text/plain" })
+        // file.name = "file.txt"
+        // file.type = "text/plain"
 
         let req = {
           url: "http://example.com",
@@ -271,11 +271,11 @@ describe("curlify", function () {
       })
     })
 
-    context("and with trailing custom header; e.g. from requestInterceptor appending req.headers", function () {
+    describe("and with trailing custom header; e.g. from requestInterceptor appending req.headers", function () {
       it("should print a proper curl -F", function () {
-        let file = new win.File()
-        file.name = "file.txt"
-        file.type = "text/plain"
+        let file = new win.File([""], "file.txt", { type: "text/plain" })
+        // file.name = "file.txt"
+        // file.type = "text/plain"
 
         let req = {
           url: "http://example.com",
@@ -297,11 +297,11 @@ describe("curlify", function () {
     })
   })
 
-  context("POST when header value is 'multipart/form-data' but header name is not 'content-type'", function () {
-    it("shoud print a proper curl as -d <data>", function () {
-      let file = new win.File()
-      file.name = "file.txt"
-      file.type = "text/plain"
+  describe("POST when header value is 'multipart/form-data' but header name is not 'content-type'", function () {
+    it("shoud print a proper curl as -d <data>, when file type is provided", function () {
+      let file = new win.File([""], "file.txt", { type: "text/plain" })
+      // file.name = "file.txt"
+      // file.type = "text/plain"
 
       let req = {
         url: "http://example.com",
@@ -316,6 +316,26 @@ describe("curlify", function () {
       let curlified = curl(Im.fromJS(req))
 
       expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"x-custom-name: multipart/form-data\" -d {\"id\":\"123\",\"file\":{\"name\":\"file.txt\",\"type\":\"text/plain\"}}")
+    })
+
+    it("shoud print a proper curl as -d <data>, no file type provided", function () {
+      let file = new win.File([""], "file.txt")
+      // file.name = "file.txt"
+      // file.type = "text/plain"
+
+      let req = {
+        url: "http://example.com",
+        method: "POST",
+        headers: { "x-custom-name": "multipart/form-data" },
+        body: {
+          id: "123",
+          file
+        }
+      }
+
+      let curlified = curl(Im.fromJS(req))
+
+      expect(curlified).toEqual("curl -X POST \"http://example.com\" -H  \"x-custom-name: multipart/form-data\" -d {\"id\":\"123\",\"file\":{\"name\":\"file.txt\"}}")
     })
   })
 
