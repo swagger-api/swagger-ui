@@ -1,7 +1,7 @@
 import { fromJS } from "immutable"
 import { createXMLExample, sampleFromSchema } from "corePlugins/samples/fn"
 
-describe("sampleFromSchema", function() {
+describe("sampleFromSchema", () => {
   it("handles Immutable.js objects for nested schemas", function () {
     let definition = fromJS({
       "type": "object",
@@ -237,7 +237,7 @@ describe("sampleFromSchema", function() {
     expect(sampleFromSchema(definition, { includeWriteOnly: true })).toEqual(expected)
   })
 
-  it("returns example value for date-time property", function() {
+  it("returns example value for date-time property", () => {
     let definition = {
       type: "string",
       format: "date-time"
@@ -251,7 +251,7 @@ describe("sampleFromSchema", function() {
     expect(sampleFromSchema(definition)).toContain(expected)
   })
 
-  it("returns example value for date property", function() {
+  it("returns example value for date property", () => {
     let definition = {
       type: "string",
       format: "date"
@@ -262,7 +262,7 @@ describe("sampleFromSchema", function() {
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
-  it("returns a UUID for a string with format=uuid", function() {
+  it("returns a UUID for a string with format=uuid", () => {
     let definition = {
       type: "string",
       format: "uuid"
@@ -273,7 +273,7 @@ describe("sampleFromSchema", function() {
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
-  it("returns a hostname for a string with format=hostname", function() {
+  it("returns a hostname for a string with format=hostname", () => {
     let definition = {
       type: "string",
       format: "hostname"
@@ -284,7 +284,7 @@ describe("sampleFromSchema", function() {
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
-  it("returns an IPv4 address for a string with format=ipv4", function() {
+  it("returns an IPv4 address for a string with format=ipv4", () => {
     let definition = {
       type: "string",
       format: "ipv4"
@@ -295,7 +295,7 @@ describe("sampleFromSchema", function() {
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
-  it("returns an IPv6 address for a string with format=ipv6", function() {
+  it("returns an IPv6 address for a string with format=ipv6", () => {
     let definition = {
       type: "string",
       format: "ipv6"
@@ -306,8 +306,8 @@ describe("sampleFromSchema", function() {
     expect(sampleFromSchema(definition)).toEqual(expected)
   })
 
-  describe("for array type", function() {
-    it("returns array with sample of array type", function() {
+  describe("for array type", () => {
+    it("returns array with sample of array type", () => {
       let definition = {
         type: "array",
         items: {
@@ -320,7 +320,7 @@ describe("sampleFromSchema", function() {
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
-    it("returns array of examples for array that has example", function() {
+    it("returns string for example for array that has example of type string", () => {
       let definition = {
         type: "array",
         items: {
@@ -329,12 +329,12 @@ describe("sampleFromSchema", function() {
         example: "dog"
       }
 
-      let expected = [ "dog" ]
+      let expected = "dog"
 
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
-    it("returns array of examples for array that has examples", function() {
+    it("returns array of examples for array that has examples", () => {
       let definition = {
         type: "array",
         items: {
@@ -348,7 +348,7 @@ describe("sampleFromSchema", function() {
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
-    it("returns array of samples for oneOf type", function() {
+    it("returns array of samples for oneOf type", () => {
       let definition = {
         type: "array",
         items: {
@@ -366,7 +366,7 @@ describe("sampleFromSchema", function() {
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
-    it("returns array of samples for oneOf types", function() {
+    it("returns array of samples for oneOf types", () => {
       let definition = {
         type: "array",
         items: {
@@ -387,7 +387,7 @@ describe("sampleFromSchema", function() {
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
-    it("returns array of samples for oneOf examples", function() {
+    it("returns array of samples for oneOf examples", () => {
       let definition = {
         type: "array",
         items: {
@@ -410,7 +410,7 @@ describe("sampleFromSchema", function() {
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
-    it("returns array of samples for anyOf type", function() {
+    it("returns array of samples for anyOf type", () => {
       let definition = {
         type: "array",
         items: {
@@ -428,7 +428,7 @@ describe("sampleFromSchema", function() {
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
-    it("returns array of samples for anyOf types", function() {
+    it("returns array of samples for anyOf types", () => {
       let definition = {
         type: "array",
         items: {
@@ -449,7 +449,7 @@ describe("sampleFromSchema", function() {
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
-    it("returns array of samples for anyOf examples", function() {
+    it("returns array of samples for anyOf examples", () => {
       let definition = {
         type: "array",
         items: {
@@ -472,7 +472,7 @@ describe("sampleFromSchema", function() {
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
-    it("returns null for a null example", function() {
+    it("returns null for a null example", () => {
       let definition = {
         "type": "object",
         "properties": {
@@ -491,7 +491,7 @@ describe("sampleFromSchema", function() {
       expect(sampleFromSchema(definition)).toEqual(expected)
     })
 
-    it("returns null for a null object-level example", function() {
+    it("returns null for a null object-level example", () => {
       let definition = {
         "type": "object",
         "properties": {
