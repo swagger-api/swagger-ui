@@ -27,7 +27,7 @@ describe("spec plugin - actions", function(){
       executeFn(system)
 
       // Then
-      expect(system.specActions.executeRequest.calls[0].arguments[0]).toEqual({
+      expect(system.specActions.executeRequest.calls[0][0]).toEqual({
         fetch: 1,
         method: "get",
         pathName: "/one",
@@ -62,7 +62,7 @@ describe("spec plugin - actions", function(){
       executeFn(system)
 
       // Then
-      expect(system.specActions.executeRequest.calls[0].arguments[0]).toContain({hi: "hello"})
+      expect(system.specActions.executeRequest.calls[0][0]).toContain({hi: "hello"})
     })
 
   })
@@ -86,8 +86,8 @@ describe("spec plugin - actions", function(){
 
       // Then
       expect(res).toBeInstanceOf(Promise)
-      expect(system.fn.execute.calls.length).toEqual(1)
-      expect(system.fn.execute.calls[0].arguments[0]).toEqual({
+      expect(system.fn.execute.mock.calls.length).toEqual(1)
+      expect(system.fn.execute.mock.calls[0][0]).toEqual({
         one: 1
       })
     })
@@ -127,20 +127,20 @@ describe("spec plugin - actions", function(){
       await executeFn(system)
 
       // Then
-      expect(system.fn.execute.calls.length).toEqual(1)
-      expect(Object.keys(system.fn.execute.calls[0].arguments[0])).toContain("requestInterceptor")
-      expect(system.fn.execute.calls[0].arguments[0]).toContain({
+      expect(system.fn.execute.mock.calls.length).toEqual(1)
+      expect(Object.keys(system.fn.execute.mock.calls[0][0])).toContain("requestInterceptor")
+      expect(system.fn.execute.mock.calls[0][0]).toEqual(expect.objectContaining({
         responseInterceptor: configs.responseInterceptor
-      })
-      expect(system.specActions.setMutatedRequest.calls.length).toEqual(0)
-      expect(system.specActions.setRequest.calls.length).toEqual(1)
+      }))
+      expect(system.specActions.setMutatedRequest.mock.calls.length).toEqual(0)
+      expect(system.specActions.setRequest.mock.calls.length).toEqual(1)
 
 
-      let wrappedRequestInterceptor = system.fn.execute.calls[0].arguments[0].requestInterceptor
-      await wrappedRequestInterceptor(system.fn.execute.calls[0].arguments[0])
-      expect(configs.requestInterceptor.calls.length).toEqual(1)
-      expect(system.specActions.setMutatedRequest.calls.length).toEqual(1)
-      expect(system.specActions.setRequest.calls.length).toEqual(1)
+      let wrappedRequestInterceptor = system.fn.execute.mock.calls[0][0].requestInterceptor
+      await wrappedRequestInterceptor(system.fn.execute.mock.calls[0][0])
+      expect(configs.requestInterceptor.mock.calls.length).toEqual(1)
+      expect(system.specActions.setMutatedRequest.mock.calls.length).toEqual(1)
+      expect(system.specActions.setRequest.mock.calls.length).toEqual(1)
     })
   })
 
@@ -177,8 +177,9 @@ describe("spec plugin - actions", function(){
     })
   })
 
-  describe("requestResolvedSubtree", () => {
-    it("should return a promise ")
+  describe.skip("requestResolvedSubtree", () => {
+    it("should return a promise ", function() {
+    })
   })
 
   it.skip("should call errActions.newErr, if the fn.execute rejects", function(){
