@@ -81,8 +81,8 @@ describe("auth plugin - actions", () => {
         authorizeRequest(data)(system)
 
         // Then
-        expect(system.fn.fetch.calls.length).toEqual(1)
-        expect(system.fn.fetch.calls[0].arguments[0]).toContain({url: expectedFetchUrl})
+        expect(system.fn.fetch.mock.calls.length).toEqual(1)
+        expect(system.fn.fetch.mock.calls[0][0]).toEqual(expect.objectContaining({url: expectedFetchUrl}))
       })
     })
 
@@ -116,9 +116,9 @@ describe("auth plugin - actions", () => {
       authorizeRequest(data)(system)
 
       // Then
-      expect(system.fn.fetch.calls.length).toEqual(1)
+      expect(system.fn.fetch.mock.calls.length).toEqual(1)
 
-      expect(system.fn.fetch.calls[0].arguments[0].url)
+      expect(system.fn.fetch.mock.calls[0][0].url)
         .toEqual("http://google.com/authorize?q=1&myCustomParam=abc123")
     })
 
@@ -153,9 +153,9 @@ describe("auth plugin - actions", () => {
       authorizeRequest(data)(system)
 
       // Then
-      expect(system.fn.fetch.calls.length).toEqual(1)
+      expect(system.fn.fetch.mock.calls.length).toEqual(1)
 
-      expect(system.fn.fetch.calls[0].arguments[0].url)
+      expect(system.fn.fetch.mock.calls[0][0].url)
         .toEqual("http://google.com/authorize?q=1&myCustomParam=abc123")
     })
   })
@@ -178,8 +178,8 @@ describe("auth plugin - actions", () => {
 
       authorizeAccessCodeWithFormParams(data)({ authActions })
 
-      expect(authActions.authorizeRequest.calls.length).toEqual(1)
-      const actualArgument = authActions.authorizeRequest.calls[0].arguments[0]
+      expect(authActions.authorizeRequest.mock.calls.length).toEqual(1)
+      const actualArgument = authActions.authorizeRequest.mock.calls[0][0]
       expect(actualArgument.body).toContain("code_verifier=" + data.auth.codeVerifier)
       expect(actualArgument.body).toContain("grant_type=authorization_code")
     })
