@@ -1,11 +1,4 @@
-const { JSDOM } = require("jsdom")
-const win = require("../../src/core/window")
-
-// import JSDOM from "jsdom"
-// import win from "../../src/core/window"
-
-const jsdom = new JSDOM("<!doctype html><html><body></body></html>")
-const { window } = jsdom
+import win from "../../src/core/window"
 
 function copyProps(src, target) {
   const props = Object.getOwnPropertyNames(src)
