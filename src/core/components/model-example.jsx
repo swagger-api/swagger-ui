@@ -13,6 +13,9 @@ export default class ModelExample extends React.Component {
     specPath: ImPropTypes.list.isRequired,
     includeReadOnly: PropTypes.bool,
     includeWriteOnly: PropTypes.bool,
+    alternativeSchemas: PropTypes.object,
+    onSelectedAlternativeOptionChanged: PropTypes.func,
+    onChange: PropTypes.func,
   }
 
   constructor(props, context) {
@@ -54,10 +57,11 @@ export default class ModelExample extends React.Component {
   }
 
   render() {
-    let { getComponent, specSelectors, schema, example, isExecute, getConfigs, specPath, includeReadOnly, includeWriteOnly } = this.props
+    let { getComponent, specSelectors, schema, example, isExecute, getConfigs, specPath, includeReadOnly, includeWriteOnly, alternativeSchemas, onChange } = this.props
     let { defaultModelExpandDepth } = getConfigs()
     const ModelWrapper = getComponent("ModelWrapper")
     const HighlightCode = getComponent("highlightCode")
+    const AlternativeSchemaSelect = getComponent("alternativeSchemaSelect")
 
     let isOAS3 = specSelectors.isOAS3()
 
@@ -78,6 +82,14 @@ export default class ModelExample extends React.Component {
             example ? example : (
               <HighlightCode value="(no example available)" />
             )
+          ) : null
+        }
+        {
+          this.state.activeTab === "example" && alternativeSchemas && onChange ? (
+              <AlternativeSchemaSelect
+                alternativeSchemas = {alternativeSchemas}
+                onSelectionChanged = {onChange}
+              />
           ) : null
         }
         {

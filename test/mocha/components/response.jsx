@@ -16,6 +16,7 @@ describe("<Response />", function () {
     operationLink: dummyComponent,
     contentType: dummyComponent
   }
+  
   const props = {
     getComponent: c => components[c],
     specSelectors: {
@@ -29,6 +30,7 @@ describe("<Response />", function () {
     contentType: "application/json",
     className: "for-test",
     specPath: List(),
+    getConfigs: function(){ return {showAlternativeSchemaExample: undefined}},
     response: fromJS({
       schema: {
         type: "object",

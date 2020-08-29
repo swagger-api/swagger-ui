@@ -4,7 +4,7 @@ import ImPropTypes from "react-immutable-proptypes"
 import { Map, OrderedMap, List } from "immutable"
 import { getCommonExtensions, getSampleSchema, stringify, isEmptyValue } from "core/utils"
 
-function getDefaultRequestBodyValue(requestBody, mediaType, activeExamplesKey) {
+function getDefaultRequestBodyValue(requestBody, mediaType, activeExamplesKey, alternativeSchemas, alternativeSchemaSelections) {
   let mediaTypeValue = requestBody.getIn(["content", mediaType])
   let schema = mediaTypeValue.get("schema").toJS()
   let example =
@@ -25,7 +25,9 @@ function getDefaultRequestBodyValue(requestBody, mediaType, activeExamplesKey) {
     return stringify(
       example ||
         getSampleSchema(schema, mediaType, {
-          includeWriteOnly: true
+          includeWriteOnly: true,
+          alternativeSchemas: alternativeSchemas,
+          alternativeSchemaSelections: alternativeSchemaSelections
         }) ||
         ""
     )
@@ -50,6 +52,8 @@ const RequestBody = ({
   onChangeIncludeEmpty,
   activeExamplesKey,
   updateActiveExamplesKey,
+  alternativeSchemaSelections,
+  onAlternativeSchemaChange,
 }) => {
   const handleFile = (e) => {
     onChange(e.target.files[0])
@@ -76,7 +80,7 @@ const RequestBody = ({
   const Example = getComponent("Example")
   const ParameterIncludeEmpty = getComponent("ParameterIncludeEmpty")
 
-  const { showCommonExtensions } = getConfigs()
+  const { showCommonExtensions, showAlternativeSchemaExample } = getConfigs()
 
   const requestBodyDescription = (requestBody && requestBody.get("description")) || null
   const requestBodyContent = (requestBody && requestBody.get("content")) || new OrderedMap()
@@ -206,6 +210,8 @@ const RequestBody = ({
     </div>
   }
 
+  var alternativeSchemas = showAlternativeSchemaExample === true ? [] : undefined
+
   return <div>
     { requestBodyDescription &&
       <Markdown source={requestBodyDescription} />
@@ -239,6 +245,7 @@ const RequestBody = ({
           />
         </div>
       ) : (
+        
         <ModelExample
           getComponent={ getComponent }
           getConfigs={ getConfigs }
@@ -247,6 +254,8 @@ const RequestBody = ({
           isExecute={isExecute}
           schema={mediaTypeValue.get("schema")}
           specPath={specPath.push("content", contentType)}
+          alternativeSchemas= { alternativeSchemas }
+          onChange= { onAlternativeSchemaChange }
           example={
             <HighlightCode
               className="body-param__example"
@@ -254,6 +263,8 @@ const RequestBody = ({
                 requestBody,
                 contentType,
                 activeExamplesKey,
+                alternativeSchemas, 
+                alternativeSchemaSelections
               )}
             />
           }
@@ -288,6 +299,8 @@ RequestBody.propTypes = {
   specPath: PropTypes.array.isRequired,
   activeExamplesKey: PropTypes.string,
   updateActiveExamplesKey: PropTypes.func,
+  alternativeSchemaSelections: PropTypes.object,
+  onAlternativeSchemaChange: PropTypes.func,
 }
 
 export default RequestBody

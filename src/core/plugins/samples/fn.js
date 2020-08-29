@@ -30,11 +30,73 @@ const primitive = (schema) => {
   return "Unknown Type: " + schema.type
 }
 
+const extractDiscriminatorMappingValues = (discriminator) => {
+  var discriminatorMappingValues
+  if (discriminator && discriminator.propertyName && discriminator.mapping){
+    discriminatorMappingValues ={}
+    Object.keys(discriminator.mapping).map(function(key) {
+      var mappingKey = discriminator.mapping[key]
+      if(mappingKey){
+        var mappingName = mappingKey.split("#")
+        discriminatorMappingValues[mappingName[mappingName.length-1]] = key
+      }
+    })
+  }
+  return discriminatorMappingValues
+}
 
-export const sampleFromSchema = (schema, config={}) => {
-  let { type, example, properties, additionalProperties, items } = objectify(schema)
-  let { includeReadOnly, includeWriteOnly } = config
+const evaluateOptionName = (valueObj) => {
+  if (valueObj.title){
+    return valueObj.title 
+  } else if (valueObj.$$ref){
+    return valueObj.$$ref.split("/").pop(-1)
+  } else if (valueObj.properties){
+    let attr = Object.keys(valueObj.properties)
+    return "Item " + (attr.length == 1 ? "(" + attr[0] + ")": attr.length > 1 ? "(" + attr[0] + ", ...)": "" )
+  } else {
+    return "Item" 
+  }
+}
 
+const extractAlternativeSchema = (oneOfSchema, config, path, type, discriminator) => {
+  if ( Array.isArray(oneOfSchema) && oneOfSchema.length > 0) {
+    
+    let { alternativeSchemas, alternativeSchemaSelections } = config
+
+    let index = 0
+    let options = {}
+    let discriminatorMappingValues = extractDiscriminatorMappingValues(discriminator)
+
+    oneOfSchema.map(valueObj => {
+      options["#" + index++] = "#" + index + ": " + evaluateOptionName(valueObj) 
+      
+      if (discriminatorMappingValues && valueObj.properties && valueObj.$$ref){
+        var discriminatorProperty = valueObj.properties[discriminator.propertyName]
+        if (discriminatorProperty && !discriminatorProperty["example"]) {
+          var mappingNane =  valueObj.$$ref.split("#")
+          var example = discriminatorMappingValues[mappingNane[mappingNane.length-1]]
+          if(example){
+            discriminatorProperty["example"] = example
+          }
+        }
+      }
+      return true
+    })
+
+    let selectedIndex = alternativeSchemaSelections[path] || 0
+    if ( selectedIndex >= oneOfSchema.length || selectedIndex < -1) {
+      selectedIndex = 0
+    }
+    alternativeSchemas.push({ key: path, options: options, selectedIndex: selectedIndex, type})
+
+    return selectedIndex >-1 ? oneOfSchema[selectedIndex] : undefined
+  }
+  return
+}
+
+export const sampleFromSchema = (schema, config={}, path="#") => {
+  let { type, example, properties, additionalProperties, items, oneOf, anyOf, discriminator } = objectify(schema)
+  let { includeReadOnly, includeWriteOnly, alternativeSchemas } = config
 
   if(example !== undefined) {
     return deeplyStripKey(example, "$$ref", (val) => {
@@ -44,10 +106,31 @@ export const sampleFromSchema = (schema, config={}) => {
     })
   }
 
-  if(!type) {
-    if(properties) {
+  if (alternativeSchemas && !items) {
+    if (oneOf) {
+      let oneOfSchema = extractAlternativeSchema(oneOf, config, path, "one of", discriminator)
+      oneOfSchema = Object.assign({}, schema, oneOfSchema)
+      if (schema.properties) {
+        Object.assign(oneOfSchema.properties, schema.properties)
+      } 
+      delete oneOfSchema.oneOf
+      return sampleFromSchema(oneOfSchema, config, path)
+    }
+    if (anyOf) {
+      let anyOfSchema = extractAlternativeSchema(anyOf, config, path, "any of", discriminator)
+      anyOfSchema = Object.assign({}, schema, anyOfSchema)
+      if (schema.properties) {
+        Object.assign(anyOfSchema.properties, schema.properties)
+      } 
+      delete anyOfSchema.anyOf
+      return sampleFromSchema(anyOfSchema, config, path)
+    }
+  } 
+
+  if (!type) {
+    if (properties) {
       type = "object"
-    } else if(items) {
+    } else if (items) {
       type = "array"
     } else {
       return
@@ -56,6 +139,7 @@ export const sampleFromSchema = (schema, config={}) => {
 
   if(type === "object") {
     let props = objectify(properties)
+
     let obj = {}
     for (var name in props) {
       if ( props[name] && props[name].deprecated ) {
@@ -67,7 +151,7 @@ export const sampleFromSchema = (schema, config={}) => {
       if ( props[name] && props[name].writeOnly && !includeWriteOnly ) {
         continue
       }
-      obj[name] = sampleFromSchema(props[name], config)
+      obj[name] = sampleFromSchema(props[name], config, path + "/" + name)
     }
 
     if ( additionalProperties === true ) {
@@ -85,14 +169,14 @@ export const sampleFromSchema = (schema, config={}) => {
 
   if(type === "array") {
     if(Array.isArray(items.anyOf)) {
-      return items.anyOf.map(i => sampleFromSchema(i, config))
+      return items.anyOf.map(i => sampleFromSchema(i, config, path + "[]"))
     }
 
-    if(Array.isArray(items.oneOf)) {
-      return items.oneOf.map(i => sampleFromSchema(i, config))
+    if(Array.isArray(items.oneOf) && !alternativeSchemas) {
+      return items.oneOf.map(i => sampleFromSchema(i, config, path + "[]"))
     }
 
-    return [ sampleFromSchema(items, config) ]
+    return [ sampleFromSchema(items, config, path + "[]") ]
   }
 
   if(schema["enum"]) {
