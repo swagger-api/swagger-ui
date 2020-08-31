@@ -73,7 +73,7 @@ describe("spec plugin - actions", function(){
 
       const system = {
         fn: {
-          execute: jest.fn().mockImplementation(() => Promise.resolve())
+          execute: jest.fn().mockImplementation(() => Promise.resolve({}))
         },
         specActions: {
           setResponse: jest.fn()
@@ -101,7 +101,7 @@ describe("spec plugin - actions", function(){
       const system = {
         fn: {
           buildRequest: jest.fn(),
-          execute: jest.fn().mockImplementation(() => Promise.resolve())
+          execute: jest.fn().mockImplementation(() => Promise.resolve({}))
         },
         specActions: {
           executeRequest: jest.fn(),
